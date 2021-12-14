@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+// make type classname
+require_once(__DIR__ . "/../igk_framework.php");
+
+
+$builder = new PHPScriptBuilder();
+

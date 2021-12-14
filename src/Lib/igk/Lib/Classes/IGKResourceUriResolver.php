@@ -1,0 +1,261 @@
+<?php
+// @file: IGKResourceUriResolver.php
+// @author: C.A.D. BONDJE DOUE
+// @description: 
+// @copyright: igkdev © 2021
+// @license: Microsoft MIT License. For more information read license.txt
+// @company: IGKDEV
+// @mail: bondje.doue@igkdev.com
+// @url: https://www.igkdev.com
+
+use IGK\Helper\IO;
+
+use function igk_resources_gets as __;
+
+class IGKResourceUriResolver{
+    private $environment;
+    private static $sm_instance;
+    var $fulluri;
+    ///<summary></summary>
+    private function __construct(){
+        $this->fulluri=0;
+        $this->prepareEnvironment();
+    }
+    ///<summary></summary>
+    public static function getInstance(){
+        if(self::$sm_instance == null){
+            self::$sm_instance=new IGKResourceUriResolver();
+        }
+        return self::$sm_instance;
+    }
+    ///<summary>utility use to bind javascript resources
+    public function prepareEnvironment(){
+        $this->environment=array(
+            IGK_LIB_DIR."/cgi-bin"=>(object)array(
+                "name"=>"cgi-bin",
+                "ini_chain"=>function($n, $rp){
+                        $chain=igk_html_uri(IGK_RES_FOLDER."/_cgi_/".$n);
+                        $o=igk_io_basedir($chain);
+                        $dir=dirname($o);
+                        if(!file_exists($o)){
+                            IO::CreateDir($dir);
+                            igk_io_symlink($rp, $o);
+                        }
+                        else{
+                            if(!is_link($o)){
+                                igk_die(__("res failed shortcut"));
+                            }
+                        }
+                        if(!file_exists($file=$dir."/.htaccess")){
+                            igk_io_w2file($file, igk_io_read_allfile(IGK_LIB_DIR."/Inc/default.cgi.htaccess"));
+                        }
+                        return $chain;
+                    }
+            ),
+            IGK_LIB_DIR=>"_lib_",
+            igk_get_module_dir()=>"_mod_",
+            igk_io_projectdir()=>"_prj_",
+            igk_get_packages_dir()=>"_pkg_",
+            igk_io_cachedir()=>"_chs_"
+        );
+        krsort($this->environment, SORT_REGULAR);
+        $_access=implode("\n", ["allow from all", "AddType text/javascript js", "AddEncoding deflate js", "<IfModule mod_headers.c>", "Header set Cache-Control \"max-age=31536000\"", "</IfModule>", ]);
+        if(!file_exists($c=igk_io_basedir()."/assets/_chs_/dist/js/.htaccess")){
+            igk_io_w2file($c, $_access);
+        }
+        if(!file_exists($c=igk_io_basedir()."/assets/dist/js/.htaccess")){
+            igk_io_w2file($c, $_access);
+        }
+    }
+    ///<summary>resolve existing file to asset resources</summary>
+    public function resolve($uri, $options=null, $generate=1){
+        static $appData=null;
+        if(empty($uri))
+            return null;
+        $fulluri=$this->fulluri || igk_is_ajx_demand();
+        $tab=$this->environment;
+        $chainRes=function($rp, $j, $n, & $chain) use ($generate){
+            $chain=igk_html_uri(IGK_RES_FOLDER."/".$j."/".$n);
+            $o=igk_io_basedir($chain);
+            if($generate){
+                if(!file_exists($o) && !is_link($o)){
+                    $odir=dirname($o);
+                    if(IO::CreateDir($odir)){
+                        if(!file_exists($o) && !($outlink=igk_io_symlink($rp, $o))){
+                            igk_ilog(__("Failed to create symbolic link - 2 - ")." ".$rp. '==$gt; '. $o. " ? ".is_link($o)." = ".$outlink);
+                            return null;
+                        }
+                        igk_hook("generateLink", $gt=array("outdir"=>$odir, "link"=>$rp));
+                    }
+                    else{
+                        igk_ilog("failed to create dir:".$odir);
+                        return null;
+                    }
+                }
+            }
+        };
+        $createlink=function($target, $cibling) use ($generate){
+            if(file_exists($cibling) && !$generate){
+                return 1;
+            }
+            $outlink=1;
+            if(!file_exists($cibling) && !($outlink=igk_io_symlink($target, $cibling))){
+                igk_die(__("Failed to create symbolic link -1- {0} ==&gt; {1}", $target, igk_realpath($target), $cibling));
+            }
+            igk_hook("generateLink", array(
+            "source"=>$target,
+            "outdir"=>dirname($cibling),
+            "link"=>$cibling
+        ));
+            return $outlink;
+        };
+        $buri=explode("?", $uri);
+        $uri=$buri[0];
+        $query="";
+        if(count($buri) > 1){
+            $query="?".implode("?", array_slice($buri, 1));
+        }
+        $bdir=igk_io_basedir();
+        if(igk_io_is_subdir($bdir, $uri)){
+            $n_uri=igk_html_get_system_uri($uri, $options).$query;
+            return $n_uri;
+        }
+        if(IO::IsRealAbsolutePath($uri)){
+            $rp=igk_realpath($uri);
+            if(!igk_io_is_subdir($bdir, $rp)){
+                $acpath=igk_io_access_path($rp);
+                if(!igk_io_is_subdir($bdir, $uri)){
+                    $rp=$acpath;
+                }
+                $v_found=false;
+                foreach($tab as $i=>$j){
+                    if(strstr($rp, $i)){
+                        $chain="";
+                        $chainRes($rp, $j, substr($rp, strlen($i) + 1), $chain, $generate);
+                        $v_found=true;
+                    }
+                    else{
+                        if(($s=realpath($i)) && ($s != $i)){
+                            $i=$s;
+                        }
+                        if(igk_io_is_subdir($i, $rp)){
+                            $s=$j;
+                            $n=substr($rp, strlen($i) + 1);
+                            $v_found=true;
+                            if(is_object($s)){
+                                $b=$s->{                                'ini_chain'};
+                                $chain=$b($n, $rp);
+                            }
+                            else{
+                                $chain="";
+                                $chainRes($j, $n, $chain, $generate);
+                            }
+                        }
+                    }
+                    if($v_found){
+                        if($fulluri)
+                            return igk_io_baseuri($chain).$query;
+                        return igk_io_currentrelativeuri($chain, $options).$query;
+                    }
+                }
+                $gs_uri=igk_html_get_system_uri($uri, $options);
+                if($gs_uri){
+                    $gs_uri=preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
+                    $chain=igk_html_uri(IGK_RES_FOLDER."/".$gs_uri);
+                    $o=igk_io_basedir($chain);
+                    $outlink=null;
+                    if(!file_exists($o) && IO::CreateDir(dirname($o))){
+                        if(!$createlink($uri, $o)){
+                            igk_debug_wln("failed to create link", $o);
+                            igk_wln("one dom");
+                        }
+                        else{
+                            if(!is_link($o)){
+                                igk_debug_wln("link not create:".$o);
+                            }
+                        }
+                    }
+                    if($fulluri){
+                        $outlink=igk_io_baseuri($chain);
+                    }
+                    else{
+                        $outlink=igk_io_currentrelativeuri($chain, $options);
+                    }
+                    return $outlink.$query;
+                }
+            }
+        }
+        if($appData === null){
+            $i=1;
+            if(!strstr(IGK_LIB_DIR, igk_html_uri(igk_io_applicationdir())))
+                $i=0;
+            $appData=$i;
+        }
+        if(!$appData && strpos($ln=igk_html_uri($uri), IGK_LIB_DIR) === 0){
+            return igk_io_libdiruri($rp, $options).$query;
+        }
+        if(($v=igk_ajx_link($uri)) == null){
+            $v=igk_html_get_system_uri($uri, $options);
+        }
+        return $v.$query;
+    }
+    ///<summary>Represente resolveFullUri function</summary>
+    ///<param name="uri"></param>
+    public function resolveFullUri($uri){
+        $data=$this->resolve($uri);
+        while(strpos($data, "../") === 0){
+            $data=substr($data, 3);
+        }
+        return igk_io_baseuri()."/".$data;
+    }
+    ///<summary>resolveOnly  file</summary>
+    ///<param name="file"></param>
+    ///<param name="notresolved" ref="true"></param>
+    public function resolveOnly($file, & $notresolved=0){
+        $fulluri=$this->fulluri || igk_is_ajx_demand();
+        $notresolved=0;
+        $bdir=igk_html_uri(igk_io_basedir());
+        $rp=igk_html_uri($file);
+        $options=null;
+        $uri="";
+        if(!igk_io_is_subdir($bdir, $rp)){
+            $tab=$this->environment;
+            $v_brpath=igk_io_baserelativepath($rp);
+            foreach($tab as $i=>$j){
+                if(igk_io_is_subdir($i, $rp)){
+                    $s=$j;
+                    $n=substr($rp, strlen($i) + 1);
+                    if(is_object($s)){
+                        $b=$s->{                        'ini_chain'};
+                        $chain=$b($n, $rp);
+                    }
+                    else{
+                        $chain=igk_html_uri(IGK_RES_FOLDER."/".$j."/".$n);
+                        $o=igk_io_basedir($chain);
+                    }
+                    if($fulluri)
+                        return igk_io_baseuri($chain);
+                    return igk_io_currentrelativeuri($chain, null);
+                }
+            }
+            $gs_uri=igk_html_get_system_uri($uri, $options);
+            if($gs_uri){
+                $gs_uri=preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
+                $chain=igk_html_uri(IGK_RES_FOLDER."/".$gs_uri);
+                $o=igk_io_basedir($chain);
+                $outlink=null;
+                if($fulluri){
+                    $outlink=igk_io_baseuri($chain);
+                }
+                else{
+                    $outlink=igk_io_currentrelativeuri($chain, $options);
+                }
+                return $outlink;
+            }
+        }
+        $notresolved=1;
+        if(($v=igk_ajx_link($rp)) == null)
+            $v=igk_html_get_system_uri($rp, $options);
+        return $v;
+    }
+}

@@ -1,0 +1,37 @@
+<?php
+//
+// file: index.php
+// description: balafon entry point
+// create: {{ @date }}
+// license: {{ @license }}
+// author: {{ @author }}
+//
+if (!version_compare(PHP_VERSION, "7.0", ">=")){
+    die("mandory version required. 7.0<=");
+}
+
+// | init definition 
+$apppath = realpath(__DIR__."/../");
+define("IGK_APP_DIR", $apppath."/application");
+define("IGK_SESS_DIR", $apppath."/sesstemp");
+define("IGK_PROJECT_DIR", IGK_APP_DIR."/Projects"); 
+
+// | load core framework 
+if (!(function(){
+    if (defined("IGK_FRAMEWORK")){
+        return true;
+    }
+    if (file_exists(func_get_arg(0))){
+        require_once(func_get_arg(0));
+        return true;
+    } 
+})(IGK_APP_DIR."/Lib/igk/igk_framework.php")){
+    die("library not found");
+}
+
+try{ 
+    igk_sys_render_index(__FILE__);
+}
+catch(Exception $ex){
+    igk_ilog("Error: ".$ex->getMessage()); 
+}

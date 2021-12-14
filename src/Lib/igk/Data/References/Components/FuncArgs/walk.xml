@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<walk><attr name="tagname" require="1"></attr><attr name="items" require="1"></attr><attr name="callback" require="1"></attr></walk>

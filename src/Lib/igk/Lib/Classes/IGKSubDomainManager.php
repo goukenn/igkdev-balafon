@@ -1,0 +1,309 @@
+<?php
+
+///<summary>subdomain manager</summary>
+
+use IGK\Helper\IO;
+
+/**
+* subdomain manager
+*/
+final class IGKSubDomainManager extends IGKObject{
+    private static $sm_instance;
+    private static $sm_isSubDomain;
+    private static $sm_subDomainName;
+    ///<summary></summary>
+    /**
+    * 
+    */
+    private function __construct(){}
+    ///<summary></summary>
+    ///<param name="domain"></param>
+    ///<param name="servername"></param>
+    /**
+    * 
+    * @param mixed $domain
+    * @param mixed $servername
+    */
+    public static function AcceptDomain($domain, $servername){
+        if(IGKValidator::IsIpAddress($domain) && IGKValidator::IsIpAddress($servername)){
+            return false;
+        }
+        $x1=igk_io_path_ext($domain);
+        $x2=igk_io_path_ext($servername);
+        if($x1 == $x2){
+            $x1=igk_io_basenamewithoutext($domain);
+            $x2=igk_io_basenamewithoutext($servername);
+            if(preg_match("/\.".$x1."$/i", $x2)){
+                return true;
+            }
+        }
+        return false;
+    }
+    ///<summary>get the domain controller or return false</summary>
+    /**
+    * get the domain controller or return false
+    */
+    public function checkDomain($uri=null, & $row=null){
+        if(igk_is_atomic()){
+            return false;
+        }
+        $subdomain=igk_io_subdomain_uri_name($uri);
+        $t=$this->getRegList();
+        if(!empty($subdomain)){
+            $s=$subdomain;
+            if (is_callable($t)){
+                igk_die("Rgister list is a callable");
+            }
+
+            if(isset($t[$s])){
+                $c=$t[$s];
+                $row=$c->row;
+                return $c->ctrl;
+            }
+            $row=null;
+            $domctrl=igk_getctrl(IGK_SUBDOMAINNAME_CTRL);
+            if(!$domctrl){
+                igk_die("domain controller not found + single application ".igk_sys_getconfig("force_single_controller_app"));
+            }
+            $c=$domctrl->getDomainCtrl($s, $row);
+            if(($c !== null)){
+                if(!$this->reg_domain($s, $c, $row))
+                    igk_die("/!\\ Fatal can't register function");
+                return $c;
+            }
+        }
+        return false;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public function Clear(){
+        igk_environment()->{IGK_ENV_SESS_DOM_LIST} = null; 
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public function domainList(){
+        if (is_array($t=$this->getRegList()))
+            return array_keys($t);
+        return null;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public static function GetBaseDomain(){
+        $f=self::GetBaseDomainConfile();
+        $d="";
+        if(file_exists($f)){
+            $d= IO::ReadAllText($f);
+        }
+        if(empty($d))
+            $d=IGK_DOMAIN;
+        return $d;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    protected static function GetBaseDomainConfile(){
+        return igk_io_sys_datadir()."/domain.conf";
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public static function getInstance(){
+        if(self::$sm_instance == null){
+            $k=new IGKSubDomainManager();
+            self::$sm_instance=$k;
+        }
+        return self::$sm_instance;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public function getRegList(){
+        if (!($c = igk_environment()->get(IGK_ENV_SESS_DOM_LIST)))
+            $c = [];
+        return $c;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public static function GetSubDomain(){
+        $srv=igk_server_name();
+        if(preg_match("/^(www\.)/i", $srv)){
+            $srv=substr($srv, 4);
+        }
+        if(!empty($srv)){
+            $d=self::GetBaseDomain();
+            if(preg_match("/(\.".$d."$)/i", $srv)){
+                $srv=substr($srv, 0, strlen($srv) - strlen($d)-1);
+            }
+            else
+                $srv="";
+        }
+        return $srv;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public static function GetSubDomainName(){
+        return self::$sm_subDomainName;
+    }
+    ///<summary>init domain server</summary>
+    /**
+    * init domain server
+    */
+    public static function Init(){
+        self::$sm_isSubDomain=false;
+        self::$sm_subDomainName=false;
+        $srv=igk_sys_srv_domain_name();
+        $domain=self::GetBaseDomain();
+        $rdomain=null;
+        if(($srv !== "localhost") && !IGKValidator::IsIPAddress($srv) && ($srv !== $domain) && (preg_match("/(www)?\.".$domain."$/i", $srv) || self::AcceptDomain($domain, $srv))){
+            $rdomain=defined("IGK_COOKIE_DOMAIN") ? igk_const("IGK_COOKIE_DOMAIN") : self::Resolv($domain);
+            ini_set("session.cookie_domain", ".".$rdomain);
+            self::$sm_isSubDomain=true;
+            self::$sm_subDomainName=self::GetSubDomain();
+        }
+        else{
+            $rdomain=$srv;
+            $_path="/";
+            if(IGKValidator::IsIPAddress($srv)){}
+            else{
+                if(igk_server_request_onlocal_server())
+                    $srv="localhost";
+                else
+                    $srv=".".$srv;
+            }
+            if(!empty($bdir=igk_io_rootbasedir())){
+                $_path=$bdir;
+            }
+            ini_set("session.cookie_domain", ($srv == "localhost") ? null: $srv);
+            ini_set("session.cookie_path", $_path);
+        }
+    }
+    ///<summary></summary>
+    ///<param name="n"></param>
+    ///<param name="ctrl"></param>
+    /**
+    * 
+    * @param mixed $n
+    * @param mixed $ctrl
+    */
+    public static function IsControl($n, $ctrl){
+        $t=self::getInstance()->getRegList();
+        return isset($t[$n]) && ($t[$n]->ctrl === $ctrl);
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public static function IsSubDomain(){
+        return self::$sm_isSubDomain;
+    }
+    ///<summary></summary>
+    /**
+    * 
+    */
+    protected function onDomainChanged(){
+        $this->Clear();
+    }
+    ///<summary></summary>
+    ///<param name="n"></param>
+    ///<param name="ctrl"></param>
+    ///<param name="row" default="null"></param>
+    /**
+    * 
+    * @param mixed $n
+    * @param mixed $ctrl
+    * @param mixed $row the default value is null
+    */
+    public function reg_domain($n, $ctrl, $row=null){
+        if(empty($n) || !igk_reflection_class_implement($ctrl, IIGKUriActionRegistrableController::class)){
+            return false;
+        } 
+        $t=$this->getRegList();
+        if(!isset($t[$n])){
+            $t[$n]=(object)array("ctrl"=>$ctrl, "row"=>$row);
+            $this->updateRegList($t);
+            return true;
+        }
+        return false;
+    }
+    ///<summary>resole domain to match server name</summary>
+    /**
+    * resole domain to match server name
+    */
+    public static function Resolv($domain){
+        $servername=igk_server_name();
+        $ex1=igk_io_path_ext($domain);
+        $ex2=igk_io_path_ext($servername);
+        if($ex1 == $ex2)
+            return $domain;
+        $x1=igk_io_basenamewithoutext($domain);
+        $x2=igk_io_basenamewithoutext($servername);
+        if(preg_match("/\.".$x1."$/i", $x2))
+            return $x1.".".$ex2;
+        return $domain;
+    }
+    ///<summary></summary>
+    ///<param name="domain" default="IGK_DOMAIN"></param>
+    /**
+    * 
+    * @param mixed $domain the default value is IGK_DOMAIN
+    */
+    public static function SetBaseDomain($domain=IGK_DOMAIN){
+        $f=self::GetBaseDomainConfile();
+        igk_io_w2file($f, $domain, true);
+    }
+    ///<summary></summary>
+    ///<param name="ctrl"></param>
+    ///<param name="bDomain" default="IGK_DOMAIN"></param>
+    /**
+    * 
+    * @param mixed $ctrl
+    * @param mixed $bDomain the default value is IGK_DOMAIN
+    */
+    public static function StoreBaseDomain($ctrl, $bDomain=IGK_DOMAIN){
+        $f=self::GetBaseDomainConfile();
+        igk_io_w2file($f, $bDomain, true);
+    }
+    ///<summary></summary>
+    ///<param name="t"></param>
+    /**
+    * 
+    * @param mixed $t
+    */
+    private function updateRegList($t){
+        igk_environment()->{IGK_ENV_SESS_DOM_LIST} = $t; 
+    }
+
+    public static function SubDomainUriName($uri){
+        $domain=igk_io_domain_uri_name($uri);
+        $bdom=self::GetBaseDomain();
+        $s="";
+        if(($domain === $bdom) || IGKValidator::IsIpAddress($domain) || ($domain == "localhost")){
+            return $s;
+        }
+        $tab=array();
+        if(preg_match_all(IGK_SUBDOMAIN_URI_NAME_REGEX, trim($domain), $tab))
+            $s=igk_getv($tab["name"], 0);
+        return $s;
+    }
+    public static function DomainUriName($uri=null){
+        $domain=$uri == null ? igk_io_baseuri(): $uri;
+        $domain=preg_replace_callback("#((http(s)?://)?(www\.)?){0,1}#i", function($tmatch){
+            return "";
+        }
+        , $domain);
+        return igk_getv(explode("/", $domain), 0);
+    }
+}

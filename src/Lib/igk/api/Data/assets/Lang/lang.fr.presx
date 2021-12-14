@@ -1,0 +1,3 @@
+<?php
+
+$l["help.api.mysql.who_use"] = "determine quel controller est en charge de la tables suivante";

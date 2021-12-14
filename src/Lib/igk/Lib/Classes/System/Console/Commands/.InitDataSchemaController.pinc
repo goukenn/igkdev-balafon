@@ -1,0 +1,11 @@
+<?php
+namespace IGK\System\Console\Commands;
+
+use IGKNonVisibleControllerBase;
+
+/**
+ * basic system controller to initialize system controller
+ * @package IGK\System\Console\Commands
+ */
+class InitDataSchemaController extends IGKNonVisibleControllerBase{
+}

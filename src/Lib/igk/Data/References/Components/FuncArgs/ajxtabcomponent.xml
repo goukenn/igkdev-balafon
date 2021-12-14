@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ajxtabcomponent><attr name="host" require="1"></attr><attr name="name" require="1"></attr></ajxtabcomponent>

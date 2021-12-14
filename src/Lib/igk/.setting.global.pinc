@@ -1,0 +1,79 @@
+<?php
+// @file: .setting.global.pinc
+// @author: C.A.D. BONDJE DOUE
+// @description:
+// @copyright: igkdev © 2020
+// @license: Microsoft MIT License. For more information read license.txt
+// @company: IGKDEV
+// @mail: bondje.doue@igkdev.com
+// @url: https://www.igkdev.com
+
+use function igk_resources_gets as __;
+
+return [
+'BootStrap.Enabled'=>0,
+'BootStrap.JsEnabled'=>0,
+'JQuery.Enabled'=>"1",
+'admin_login'=>"admin",
+'allow_article_config'=>"1",
+'allow_log'=>"0",
+'allow_debugging'=>"0",
+'app_default_controller_tag_name'=>"div",
+'cache_file_time'=>"3600",
+'company_name'=>"igkdev",
+'copyright'=>"IGKDEV &copy; 2011-2021 all righs reserved",
+'default_dataadapter'=>"MYSQL",
+'db_name'=>"igkdev",
+'db_pwd'=>"",
+'db_prefix'=>"tbigk_",
+'db_server'=>"localhost",
+'db_user'=>"root",
+'db_port'=>"3306",
+'db_auto_creae'=>0,
+'db_driver'=>"nodb",
+'db_default_column_id'=>"clId",
+'error_debug'=>"0",
+'default_lang'=>"fr",
+'mail_admin'=>"administrator@igkdev.com",
+'mail_contact'=>"info@igkdev.com",
+'mail_port'=>"25",
+'mail_server'=>"relay.skynet.be",
+'mail_portal'=>"https://mail.ovh.net/roundcube?_user=",
+'menuHostCtl'=>"",
+'globaltheme'=>"default",
+'menu_defaultPage'=>"default",
+'meta_copyright'=>"igkdev@igkdev.com",
+'meta_description'=>"default pae description",
+'meta_enctype'=>"text/html; charset=uf-8",
+'meta_keywords'=>"igkdev, .NET Developper, PHP, HTML5,WB DEV",
+'meta_title'=>"igkdev.be",
+'powered_messae'=>"",
+'show_debug'=>"0",
+'show_powered'=>"1",
+'default_controller'=>"igk_default",
+'website_adminmail'=>"bondje.doue@igkdev.com",
+'website_domain'=>"igkdev.com",
+'mail_noreply'=>"no-reply@igkdev.com",
+'website_prefix'=>"igk",
+'website_title'=>"IGKDEV",
+'php_run_scrit'=>"",
+'python_run_scrit'=>"",
+'ob_buffer_padding_length'=>0,
+'max_script_execution_time'=>0,
+'date_time_zone'=>"Europe/Brussels",
+'default_author'=>null,
+'help_uri'=>null,
+// default configuration port
+'configuration_port'=>8080,
+'force_secure_redirection'=>0,
+'secure_port'=>443,
+'force_single_controller_app'=>0,
+'site_dir'=>"/sites",
+'sitemap_xsl'=>"",
+'phpmyadmin_uri'=>"//localhot/phpmyadmin",
+'datetime_format'=>"d/m/Y Hi:s",
+// default lang support
+'support_lang'=>['fr','en','nl'],
+"display_errors"=>0,
+"error_reporting"
+];

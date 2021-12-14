@@ -1,0 +1,80 @@
+<?php
+// @file: viewfuncs.phtml
+// @author: C.A.D. BONDJE DOUE
+// @description: 
+// @copyright: igkdev © 2021
+// @license: Microsoft MIT License. For more information read license.txt
+// @company: IGKDEV
+// @mail: bondje.doue@igkdev.com
+// @url: https://www.igkdev.com
+
+/**
+ * @var HtmlNode$t 
+ */
+ 
+use IGK\Resources\R;
+use function igk_resources_gets as __;
+ 
+igk_google_addfont($doc, "Roboto");
+$doc->setHeaderColor("#0064FF");
+
+// igk_wln_e($this, $doc->id);
+
+
+$t->clearChilds();
+$t->Content=null;
+$t["class"]="google-Roboto";
+$n=$t->addDiv();
+$r=$n->addDiv()->setStyle("padding-left:0px; padding-right:0px; margin-left:0px; margin-right:0px;overflow:hidden; background-color:#0064ff; color:#fefefe");
+$h1=$r->addDiv()->setStyle("margin-left:-10px; margin-right:-10px; position:relative;")->setClass("igk-col-lg-12-2 fith presentation")->addContainer()->addSingleRowCol();
+$ct=$h1->addDiv()->setClass("dispb no-decoration");
+$ct->add("span")->setClass("dispib posr")->setStyle("left:0px; top:4px;")->Content=igk_web_get_config("company_name");
+$ct->addDiv()->setClass("igk-title-4")->Content=$ctrl->ServiceName;
+$r->addDiv()->setClass("igk-col-lg-12-10 .ibox");
+
+$t->addDiv()->addContainer()->addSingleRowCol()->addDiv()->Content=$ctrl->getServiceDescription();
+$n=$t->addWebMasterNode()->container()->row()->col()->div();
+$ul=$n->add("ul");
+$ul->addLi()->Content= __("Location : {0}", $ctrl->getDeclaredFileName());
+$t->div()->container()->row()->col("fitw")->div()->notifyhost();
+if ($functions = $ctrl->getExposedServiceFunction()){
+$t->div()->container()->row()->col("fitw")->div()->article($ctrl, $ctrl->getParentArticle("list.functions.template"), 
+$functions);
+}
+else {
+    $t->div()->container()->singleRowCol()->Content = __("No methods provided");
+}
+
+
+
+
+// $ac->addABtn($ctrl->getServiceUri()."/wsdl/1?r=1")->Content=R::ngets("btn.srv.genWSDL");
+//$row->addCol()->addDiv()->addABtn($ctrl->getServiceUri()."/clearwsdl_cache")->Content=R::ngets("btn.clearWSDLCache");
+$t->div()->container()->row()->col()->div()->actionBar(function($a){
+    $a->abtn($this->getRootUri())->svg_use("back")->Content = __("back"); 
+    if (igk_is_conf_connected()){
+        $a->abtn($this->getServiceUri("refresh_wsdl"))->Content = __("Generate WSDL");
+        $a->abtn($this->getServiceUri("clearwsdl_cache"))->Content= __("Clear WSDLCache");
+        $a->abtn($this->getServiceUri("cachewsl"))
+        ->bindClass([
+            "igk-active"=> $this->getConfigs()->clServiceDisableWSDLCache
+            ])
+            ->Content = __("Disable WSDL cache");
+        
+        if ($__api__ = igk_getctrl("api")){
+        if($this->getUseDataSchema()){
+            $a->addABtn(igk_getctrl("api")->getAppUri("datadb/ctrl_gen_schema/".$this->Name))->Content=R::ngets("btn.srv.genXmlDataSchema");
+        }
+        $a->addABtn($__api__->getAppUri("ctrl/initDb/".$this->Name))->Content=R::ngets("btn.srv.InitDb");
+        $a->addABtn($__api__->getAppUri("ctrl/resetDb/".$this->Name))->Content=R::ngets("btn.srv.resetDb");
+        }
+    }
+
+    });
+
+
+if (false){
+
+
+}
+$t->div()->container()->addSingleRowCol()->addDiv()->addIGKCopyright();

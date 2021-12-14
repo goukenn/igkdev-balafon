@@ -1,0 +1,92 @@
+<?php
+// @file: IGKMedia.php
+// @author: C.A.D. BONDJE DOUE
+// @description: 
+// @copyright: igkdev © 2021
+// @license: Microsoft MIT License. For more information read license.txt
+// @company: IGKDEV
+// @mail: bondje.doue@igkdev.com
+// @url: https://www.igkdev.com
+
+final class IGKMedia implements ArrayAccess{
+    use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
+    const CUSTOM_COLOR=0x1;
+    const DEFAULT_THEME=0x2;
+    const FILES_THEME=0x5;
+    const FONT_THEME=0x3;
+    const MEDIA_ID=0x0;
+    const PROPERTIES_THEME=0x4;
+    private $_;
+    ///<summary>.ctr media </summary>
+    public function __construct($type, $name){
+        $this->_=array();
+    }
+    ///<summary></summary>
+    ///<param name="n"></param>
+    ///<return refout="true"></return>
+    public function & __get($n){
+        $o=null;
+        if(method_exists($this, "get".$n)){
+            $o=call_user_func(array($this, "get".$n), array_slice(func_get_args(), 1));
+        }
+        return $o;
+    }
+    ///<summary></summary>
+    ///<param name="n"></param>
+    ///<param name="v"></param>
+    public function __set($n, $v){    }
+    ///<summary></summary>
+    public function __sleep(){
+        if(empty($this->_)){
+            return array();
+        }
+        return array("\0".__CLASS__."\0_");
+    }
+    ///<summary>get media definition</summary>
+    public function getCssDef($theme, $minfile=true, $themeexport=false, $doc=null){
+        $o="";
+        $tv="";
+        $lineseparator=$minfile ? "": IGK_LF;
+        $def=$this->getDef();
+        if($def){
+            foreach($def as $k=>$v){
+                $kv=trim(igk_css_treat($theme, $v, null));
+                if(!empty($kv)){
+                    $o .= $k."{".$kv."}".$lineseparator;
+                    $tv=1;
+                }
+            }
+        }
+        return $o;
+    }
+    ///<summary></summary>
+    ///<return refout="true"></return>
+    public function & getDef(){
+        return $this->getFlag(self::DEFAULT_THEME);
+    }
+    ///<summary></summary>
+    ///<param name="n"></param>
+    ///<return refout="true">get flags</return>
+    private function & getFlag($n){
+        $g=null;
+        if(isset($this->_[$n])){
+            $g=& $this->_[$n];
+        }
+        return $g;
+    }
+    ///<summary></summary>
+    public function getId(){
+        return $this->getFlag(self::MEDIA_ID);
+    }
+    ///<summary>get if this media storage is empty</summary>
+    public function isEmpty(){
+        return count($this->_) == 0;
+    }
+    ///<summary></summary>
+    ///<param name="n"></param>
+    ///<param name="v"></param>
+    private function setFlag($n, $v){
+        $this->_[$n]=$v;
+        return $this;
+    }
+}

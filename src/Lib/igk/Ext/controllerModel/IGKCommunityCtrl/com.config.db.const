@@ -1,0 +1,5 @@
+<?php
+// Balafon : generated db constants file
+// date: 2021-11-09 13:40:42
+abstract class IGKCommunityLinkDbConstants{
+}

@@ -1,0 +1,60 @@
+<?php
+
+return <<<EOF
+#{$const('IGK_PLATEFORM_NAME')} primary htaccess file
+#installing from {$server_n}
+#rootdir {$root_dir}
+#SetEnv PHP_VER 5_4
+Options -Indexes
+ErrorDocument 404 {$error_404}
+ErrorDocument 403 {$error_403}
+
+# Use UTF-8 encoding for anything served as text/plain or text/html
+AddDefaultCharset utf-8
+#<IfModule mod_mime.c>
+    # Force UTF-8 for certain file types
+    # AddCharset utf-8 .css .js .json .vtt .nex .webapp .xml
+#</IfModule>
+
+
+#not encapsuled if directive not working on some server : test on apache 2.4.23
+#encapsuled if directive working on apache 2.4+
+#<If "%{HTTP_USER_AGENT} =~ /Chrome/ && %{HTTP_REFERER} =~ /(.)+/">
+	# #cause error 
+	# AddType text/plain .json 	 
+#</If>
+
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin: "*"
+    Header set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+    Header set Access-Control-Allow-Headers: "Content-Type,IGK-FROM,IGK-X-REQUESTED-WITH"
+	#Header set X-Frame-Options DENY
+	#Header set X-Frame-Options "ALLOW-FROM {$domain}"
+	Header set X-Frame-Options SAMEORIGIN
+	#Header always set X-Frame-Options SAMEORIGIN
+
+	#force security default
+	Header always set Strict-Transport-Security "max-age=15768300; includeSubDomains; preload"
+	Header set X-XSS-Protection "1; mode=block"
+	Header set X-Content-Type-Options nosniff
+	Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
+
+
+	#lighthouse require header for SEO 100%
+	Header set Content-Security-Policy "connect-src 'self'"
+	
+</IfModule>
+
+#if web server support RewriteEngine the redirect file to igk_redirection.php?__c=901. this __c will support
+#post value redirection
+#note: because of ovh server when RewriteRule operate REQUEST_FILENAME is prefixe by redirect:
+<IfModule rewrite_module>
+RewriteEngine On
+SetEnv IGK_REWRITE_MOD 1 
+# force for single point access 
+RewriteCond "%{REQUEST_FILENAME}" !-f
+RewriteCond "%{REQUEST_FILENAME}" !-d
+RewriteRule ^(/)?(.+)(/)?$  "index.php?__c=906" [QSA,L]
+</IfModule>
+EOF;

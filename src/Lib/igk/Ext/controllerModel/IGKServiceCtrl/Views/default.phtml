@@ -1,0 +1,30 @@
+<?php
+
+use IGK\Resources\R;
+
+use function igk_resources_gets as __; 
+ 
+//services default pages
+$t->clearChilds();
+$services = $params["services"];
+igk_google_addfont($doc,"Roboto", 400);
+$t->setClass("google-Roboto");
+//header
+$dv = $t->addDiv()->setClass("header");
+$dv->addHeaderBar("Services");
+
+$bar = $t->addActionBar();
+
+$t->div()->container()->section()
+->quaote()->h2()->Content= __("List of services");
+//$body
+$dv = $t->addDiv()->setClass("content");
+$row = $dv->addContainer()->addRow();
+if (igk_count($services) <=0){
+	$row->addCol()->addColViewBox()->Content = __("No services found");
+}
+else{
+
+	$row->addCol("igk-col-3-3")->article($ctrl, $ctrl->getParentArticle("services.list.template"), $ctrl->getServices());
+}
+$t->addDiv()->setClass("footer")->addContainer()->addSingleRowCol()->addDiv()->addIGKCopyRight();
