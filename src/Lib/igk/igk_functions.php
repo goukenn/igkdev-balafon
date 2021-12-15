@@ -13,7 +13,7 @@ use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlItemBase;
-use IGK\System\Html\Dom\HtmlNoTagNodeItem;
+use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\Dom\IGKXmlNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\Dom\IGKHtmlTextNode;
@@ -2219,9 +2219,8 @@ function igk_createnode_with_package($args = null)
 /**
  * Represente igk_createnotagnode function
  */
-function igk_createnotagnode()
-{
-    return new HtmlNoTagNodeItem();
+function igk_createnotagnode(){
+    return new HtmlNoTagNode();
 }
 ///<summary>create an object by keys</summary>
 /**
@@ -2425,7 +2424,7 @@ function igk_css_ajx_bind_file($f)
         return array();
     });
     if (!igk_get_env(__FUNCTION__)) {
-        $vsystheme = igk_app()->Doc->getSysTheme();
+        $vsystheme = igk_app()->getDoc()->getSysTheme();
         igk_css_bind_sys_global_files($vsystheme);
         igk_css_load_theme($vsystheme);
         igk_set_env(__FUNCTION__, 1);
@@ -2450,7 +2449,7 @@ function igk_css_append($name, $value)
     $igk = igk_app();
     if ($igk === null)
         return;
-    $igk->Doc->Theme->Append[$name] = $value;
+    $igk->getDoc()->Theme->Append[$name] = $value;
 }
 ///<summary></summary>
 ///<param name="dir"></param>
@@ -2482,7 +2481,7 @@ function igk_css_balafon_index($dir)
         igk_ilog(__FUNCTION__ . " : application not initialise " . igk_server()->REQUEST_URI);
         igk_exit();
     }
-    $doc = igk_get_last_rendered_document() ?? igk_app()->Doc;
+    $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
 
     $doc_id = igk_app()->settings->CurrentDocumentIndex;
     if ($doc) {
@@ -2550,7 +2549,7 @@ function igk_css_bind_file($ctrl, $f, $theme = null)
         return;
     }
     require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
-    $doc = igk_get_last_rendered_document() ?? igk_app()->Doc;
+    $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
     if (defined("IGK_FORCSS")) {
         if ($theme == null) {
             $key = "sys://css/IncludedFiled";
@@ -2616,7 +2615,7 @@ function igk_css_bind_file($ctrl, $f, $theme = null)
  */
 function igk_css_bind_sys_global_files($theme = null, $bindfile = 1)
 {
-    $theme = $theme ?? igk_app()->Doc->getSysTheme() ?? igk_die("can't bind global files");
+    $theme = $theme ?? igk_app()->getDoc()->getSysTheme() ?? igk_die("can't bind global files");
     $tab = igk_get_env(IGK_ENV_CSS_GLOBAL_CONF_FILES) ?? array();
     $cfile = igk_css_get_theme_files($theme);
     foreach ($tab as $d => $s) {
@@ -2815,7 +2814,7 @@ function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
  */
 function igk_css_get_cl($key)
 {
-    $theme = igk_app()->Doc->SysTheme;
+    $theme = igk_app()->getDoc()->SysTheme;
     return igk_getv($theme->cl, $key);
 }
 ///<summary></summary>
@@ -2849,7 +2848,7 @@ function igk_css_get_color_value($clname, &$tab = null)
         if (defined("IGK_FORCSS")) {
             $doc = igk_get_last_rendered_document();
         }
-        $theme = ($doc ?? igk_app()->Doc)->Theme;
+        $theme = ($doc ?? igk_app()->getDoc())->Theme;
         if ($theme)
             $colors = &$theme->def->getCl();
     }
@@ -2948,10 +2947,9 @@ function igk_css_get_from()
  * 
  */
 function igk_css_get_map_selector()
-{
-    $igk = igk_app();
-    $selector = array();
-    foreach ($igk->Doc->SysTheme->def->getAttributes() as $k => $v) {
+{ 
+    $selector = array(); 
+    foreach (igk_app()->getDoc()->SysTheme->def->getAttributes() as $k => $v) {
         $tab = explode(',', $k);
         if (empty($v))
             continue;
@@ -2961,7 +2959,7 @@ function igk_css_get_map_selector()
             }
         }
     }
-    foreach ($igk->Doc->Theme->def->getAttributes() as $k => $v) {
+    foreach (igk_app()->getDoc()->Theme->def->getAttributes() as $k => $v) {
         $tab = explode(',', $k);
         if (empty($v))
             continue;
@@ -2982,7 +2980,7 @@ function igk_css_get_media($id)
     $igk = igk_app();
     if ($igk === null)
         return;
-    return $igk->Doc->Theme->get_media($id);
+    return $igk->getDoc()->Theme->get_media($id);
 }
 ///<summary></summary>
 ///<param name="propname"></param>
@@ -3018,16 +3016,16 @@ function igk_css_get_style($classname)
     $igk = igk_app();
     if ($igk === null)
         return;
-    $b = $igk->Doc->Theme[$classname];
+    $b = $igk->getDoc()->Theme[$classname];
     if ($b == null) {
         igk_ilog("/!\\ style not found : " . $classname);
-        $b = $igk->Doc->SysTheme[$classname];
+        $b = $igk->getDoc()->SysTheme[$classname];
         if ($b) {
-            $o = igk_css_treat($igk->Doc->SysTheme, $b);
+            $o = igk_css_treat($igk->getDoc()->SysTheme, $b);
             return $o;
         }
     } else {
-        $o = igk_css_treat($igk->Doc->Theme, $b);
+        $o = igk_css_treat($igk->getDoc()->Theme, $b);
         return $o;
     }
     return IGK_STR_EMPTY;
@@ -3087,7 +3085,7 @@ function igk_css_get_sys_media($id)
     $igk = igk_app();
     if ($igk === null)
         return;
-    return $igk->Doc->SysTheme->get_media($id);
+    return $igk->getDoc()->SysTheme->get_media($id);
 }
 ///<summary></summary>
 ///<param name="theme"></param>
@@ -3118,7 +3116,7 @@ function igk_css_getbasedef($minfile = false, $themeexport = false)
     $igk = igk_app();
     $o = IGK_STR_EMPTY;
     $srh = array();
-    $doc = $igk->Doc;
+    $doc = $igk->getDoc();
     $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
     $data = array();
     $data[] = array("name" => "systheme", "theme" => $doc->SysTheme);
@@ -3169,7 +3167,7 @@ function igk_css_getbgcl($v, $doc = null)
 {
     if (empty($v))
         return null;
-    $doc = $doc ?? igk_app()->Doc;
+    $doc = $doc ?? igk_app()->getDoc();
     $theme = $doc->Theme;
     $systheme = $doc->SysTheme;
     $h = igk_css_treat($theme, $v, $systheme);
@@ -3213,7 +3211,7 @@ function igk_css_getfcl($v, $doc = null)
 {
     if (empty($v))
         return null;
-    $doc = $doc ? $doc : igk_app()->Doc;
+    $doc = $doc ? $doc : igk_app()->getDoc();
     $theme = $doc->Theme;
     $systheme = $doc->SysTheme;
     $h = igk_css_treat($theme, $v, $systheme);
@@ -3235,16 +3233,14 @@ function igk_css_getfont($v)
         return null;
     return "font-family: \"" . $v . "\";";
 }
-///<summary></summary>
+///<summary>get document theme media</summary>
 ///<param name="id"></param>
 /**
- * 
+ * get document theme media
  * @param mixed $id 
  */
-function igk_css_getmedia($id)
-{
-    $igk = igk_app();
-    return $igk->Doc->Theme->get_media($id);
+function igk_css_getmedia($id){
+    return igk_app()->getDoc()->Theme->get_media($id);
 }
 ///<summary></summary>
 /**
@@ -3339,7 +3335,7 @@ function igk_css_is_webknowncolor($cl, $theme = null)
     if (preg_match("/#([0-9a-f]{3}|[0-9a-f]{6})$/i", $cl)) {
         return 1;
     }
-    $tcl = $theme == null ? igk_app()->Doc->SysTheme->cl : $theme;
+    $tcl = $theme == null ? igk_app()->getDoc()->SysTheme->cl : $theme;
     if (igk_css_get_color_value($cl, $tcl) != $cl)
         return 1;
     if (igk_get_env("igk_css_render_balafon_style")) {
@@ -3369,7 +3365,7 @@ function igk_css_load_theme($th = null)
     }
     if (!$r)
         return;
-    $th = $th ? $th : igk_app()->Doc->SysTheme;
+    $th = $th ? $th : igk_app()->getDoc()->SysTheme;
     $t = array();
     $t["cl"] = &$th->def->getCl();
     $t["prop"] = &$th->def->getParams();
@@ -3436,7 +3432,7 @@ function igk_css_reg_font_package($fontname, $file, $document = null, $format = 
     }
     igk_die(__FUNCTION__ . ": register glyhicons: not implement");
     $igk = igk_app();
-    $doc = $document == null ? $igk->Doc : $document;
+    $doc = $document == null ? $igk->getDoc() : $document;
     $ft = $doc->Theme->Font;
     $r = igk_getv($ft, $fontname);
     if (($r == null) || !is_object($r)) {
@@ -3540,7 +3536,7 @@ function igk_css_reg_mediaclass($th, $classname, $defaultvalue, $override = true
 function igk_css_reg_reset($theme = null)
 {
     $igk = igk_app();
-    $theme = $theme ?? $igk->Doc->SysTheme;
+    $theme = $theme ?? $igk->getDoc()->SysTheme;
     if ($theme) {
         $def = $theme->def;
         $def->resetParams();
@@ -3554,8 +3550,7 @@ function igk_css_reg_svg_symbol_files($file)
 {
     if (!file_exists($file))
         return;
-    $igk = igk_app();
-    $s = $igk->Doc->SysTheme->def->regSymbol($file);
+    igk_app()->getDoc()->getSysTheme()->def->regSymbol($file);
 }
 ///<summary></summary>
 ///<param name="classname"></param>
@@ -3572,7 +3567,7 @@ function igk_css_regclass($classname, $defaultvalue, $override = true)
     $igk = igk_app();
     if (($igk === null) || !IGKApp::IsInit())
         return;
-    igk_css_reg_mediaclass($igk->Doc->Theme, $classname, $defaultvalue, $override);
+    igk_css_reg_mediaclass($igk->getDoc()->Theme, $classname, $defaultvalue, $override);
 }
 ///<summary>register color to current theme</summary>
 /**
@@ -3585,9 +3580,9 @@ function igk_css_regcolor($clname, $value, $global = 0, $override = true)
         return;
     }
     if (defined("IGK_FORCSS"))
-        $doc = igk_get_last_rendered_document() ?? $igk->Doc;
+        $doc = igk_get_last_rendered_document() ?? $igk->getDoc();
     else
-        $doc = $igk->Doc;
+        $doc = $igk->getDoc();
     if ($global || (igk_get_env("sys://globalcolor") == 1)) {
         IGKGlobalColor::getInstance()->setGlobalColor($clname, $value);
     } else {
@@ -3627,7 +3622,7 @@ function igk_css_regmedia($mediaExpression)
     $igk = igk_app();
     if ($igk === null)
         return;
-    return $igk->Doc->Theme->reg_media($mediaExpression);
+    return $igk->getDoc()->Theme->reg_media($mediaExpression);
 }
 ///<summary></summary>
 ///<param name="picname"></param>
@@ -3690,7 +3685,7 @@ function igk_css_render_style($tab, $doc = null)
 {
     if (defined("IGK_FORCSS"))
         return "";
-    $doc = $doc ?? igk_app()->Doc ?? igk_die("can't render css style");
+    $doc = $doc ?? igk_app()->getDoc() ?? igk_die("can't render css style");
     $systheme = $doc->SysTheme;
     $th = $doc->Theme;
     igk_css_bind_sys_global_files();
@@ -3790,7 +3785,7 @@ function igk_css_treat($theme, $v, $systheme = null, $doc = null)
  */
 function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $doc = null)
 {
-    $doc = $doc ?? igk_app()->Doc;
+    $doc = $doc ?? igk_app()->getDoc();
     if ($doc == null) {
         igk_wln_e("can't treat bracket\n" . igk_show_trace());
     }
@@ -4308,11 +4303,11 @@ function igk_css_treatcolor(&$colors, $value, $defined = false)
 function igk_css_treatstyle($value, $theme = null, $systheme = null)
 {
     $igk = igk_app();
-    $theme = $theme ? $theme : $igk->Doc->Theme;
-    if (empty($value) || !$igk || ($igk->Doc == null))
+    $theme = $theme ? $theme : $igk->getDoc()->Theme;
+    if (empty($value) || !$theme)
         return $value;
     if ($systheme === null) {
-        $systheme = $igk->Doc->getSysTheme();
+        $systheme = $igk->getDoc()->getSysTheme();
     }
     return igk_css_treat_gtheme($theme, $systheme, $value);
 }
@@ -4452,7 +4447,7 @@ function igk_ctrl_bind_css_file($ctrl, $file = null, $temp = 0)
     $f = $file ?? $ctrl->getPrimaryCssFile();
     if (file_exists($f) && !igk_is_ajx_demand()) {
         if (!defined("IGK_FORCSS")) {
-            $doc = $ctrl->CurrentDoc ?? $ctrl->Doc ?? igk_app()->Doc;
+            $doc = $ctrl->getCurrentDoc() ?? igk_app()->getDoc();
             igk_css_reg_global_style_file($f, $doc->Theme, $ctrl, $temp);
         } else {
             igk_css_bind_file($ctrl, $f);
@@ -8063,7 +8058,7 @@ function igk_doc_enable_mobile_app($doc)
  */
 function igk_doc_is_global($doc)
 {
-    return igk_app()->Doc === $doc;
+    return igk_app()->getDoc() === $doc;
 }
 ///<summary> load temporary script to tempScriptListener</summary>
 ///<param name="doc" > the document where to load</param>
@@ -8909,7 +8904,7 @@ function igk_frame_confirm($ctrl, $id, $title = null, $closeuri = ".", $target =
 {
     $frame = igk_getctrl(IGK_FRAME_CTRL)->createFrame($id, $ctrl, $closeuri, $reloadcallback);
     if ($target === null)
-        $target = igk_app()->Doc->body;
+        $target = igk_app()->getDoc()->body;
     igk_html_add($frame, $target);
     $frame->Title = ($title == null) ? __(IGK_CONFIRM_TITLE) : $title;
     $d = $frame->BoxContent;
@@ -8977,7 +8972,7 @@ function igk_frame_new($ctrl, $id, $closeuri = ".", $target = null, $reloadcallb
 {
     $frm = igk_getctrl(IGK_FRAME_CTRL)->createFrame($id, $ctrl, $closeuri, $reloadcallback);
     if ($target === null)
-        $target = igk_app()->Doc->body;
+        $target = igk_app()->getDoc()->body;
     igk_html_add($frm, $target);
     $frm->Script->Content = new IGKFrameScript($frm, "confirm");
     return $frm;
@@ -9300,7 +9295,7 @@ function igk_get_attrib_raw_context($n_context)
  */
 function igk_get_balafonjs_src()
 {
-    if ($doc = igk_app()->Doc) {
+    if ($doc = igk_app()->getDoc()) {
         $o = igk_sys_balafon_js($doc);
         return $o;
     }
@@ -11169,8 +11164,7 @@ function igk_get_view_args()
 /**
  * Represente igk_get_viewfile function
  */
-function igk_get_viewfile()
-{
+function igk_get_viewfile(){
     return igk_environment()->last("viewFileCaches");
 }
 ///<summary></summary>
@@ -11192,8 +11186,7 @@ function igk_get_viewparam($param)
  * 
  * @param mixed $uri 
  */
-function igk_get_web_content($uri)
-{
+function igk_get_web_content($uri){
     igk_die("not implement ", __FUNCTION__);
 }
 ///<summary>get web page content utility</summary>
@@ -11210,7 +11203,7 @@ function igk_get_webpagecontent()
             return $c->page_content;
         else {
             $igk = igk_app();
-            return $igk->Doc->bodycontent;
+            return $igk->getDoc()->bodycontent;
         }
     }
 }
@@ -13198,7 +13191,7 @@ function igk_html_frame($ctrl, $name, $closeuri = null, $target = null, $reloadc
 {
     $frame = igk_getctrl(IGK_FRAME_CTRL)->createFrame($name, $ctrl, $closeuri, $reloadcallback);
     if ($target === null)
-        $target = igk_app()->Doc->body;
+        $target = igk_app()->getDoc()->body;
     $frame->add($target);
     return $frame;
 }
@@ -14215,7 +14208,7 @@ function igk_html_resolv_img_uri($path)
  */
 function igk_html_rm($item, $dispose = false)
 {
-    return HtmlUtils::RemoveItem($item);
+    return $item->remove();
 }
 ///<summary>remove base uri</summary>
 /**
@@ -16811,6 +16804,8 @@ function igk_io_resolv($ctrl, $uri, $view = '')
  */
 function igk_io_resolvpath($file, $sourcedir, &$resolved = false): string
 {
+    die("not implement: ".__FUNCTION__);
+
     if (empty(strstr($file, $sourcedir))) {
         $tsourcedir = [$sourcedir];
         while (!$resolved && ($sourcedir = array_pop($tsourcedir))) {
@@ -17817,7 +17812,7 @@ function igk_js_enable_tinymce($target, $elements = null, $op = null, $doc = nul
     if (!($mce = igk_require_module("tinymce", null, true, 0))) {
         return;
     }
-    $mce->initdoc($doc ?? igk_app()->Doc);
+    $mce->initdoc($doc ?? igk_app()->getDoc());
     $element_txt = 'null';
     if ($elements) {
         if (is_array($elements)) {
@@ -18793,22 +18788,22 @@ function igk_load_classes($tab = [])
  */
 function igk_load_env_files($dirname, $tab = [IGK_INC_FOLDER, IGK_PROJECTS_FOLDER])
 {
-    igk_debug_wln("load environment : " . $dirname);
+    // igk_debug_wln("load environment : " . $dirname);
     $t_files = array();
     igk_hook("sys://event/cachelibreload", array(null, (object)array("files" => &$t_files)));
     $tab = $tab == null ? array(IGK_INC_FOLDER, IGK_PROJECTS_FOLDER) : $tab;
-    foreach ($tab as $s) {
-        $dir = $s;
-        if (empty($dir)) {
-            igk_wln(igk_show_trace());
-            igk_wln_e("enr:");
-        }
+    $bckdir = getcwd();
+    chdir($dirname); 
+
+    while (($s = array_shift($tab)) !== null) {
+        $dir = $s;        
         if (!is_dir($s))
             $dir = $dirname . "/" . $s;
-        $g_files = igk_loadcontroller($dir);
+        $g_files = igk_loadlib($dir);
         if (is_array($g_files))
             $t_files = array_merge($t_files, $g_files);
     }
+    chdir($bckdir);
     return $t_files;
 }
 ///<summary></summary>
@@ -18817,16 +18812,14 @@ function igk_load_env_files($dirname, $tab = [IGK_INC_FOLDER, IGK_PROJECTS_FOLDE
  * 
  * @param mixed $dirname 
  */
-function igk_loadcontroller($dirname)
-{
-    $files = igk_loadlib($dirname, ".php");
-    return $files;
+function igk_loadcontroller($dirname){
+    return igk_loadlib($dirname, ".php");
 }
 ///<summary>used to load library files</summary>
 /**
  * used to load library files
  */
-function igk_loadlib($dir, $ext = "php", $excludedir = null)
+function igk_loadlib($dir, $ext = ".php", $excludedir = null)
 {
     $IGK_ENV = igk_environment();
     $sdir = is_dir($dir) ? $dir : igk_io_dir(igk_realpath($dir));
@@ -18838,6 +18831,7 @@ function igk_loadlib($dir, $ext = "php", $excludedir = null)
     $files = array();
     $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
     $excludedir = $excludedir ?? array_merge(igk_get_env($excluded_key) ?? [], igk_default_ignore_lib());
+    $ln  = strlen($ext);
     if (!$excludedir)
         $excludedir = array();
     $m = &$excludedir;
@@ -18862,24 +18856,25 @@ function igk_loadlib($dir, $ext = "php", $excludedir = null)
             if (($fdir == ".") || ($fdir == "..") || isset($excludedir[$fdir]))
                 continue;
             $file = $dir . DIRECTORY_SEPARATOR . $fdir;
-            if (is_dir($file)) {
-                if (isset($excludedir[$file]) || ($fdir[0] == ".")) {
-                    $excludedir[$file] = 1;
-                    continue;
+                if (is_dir($file)) {
+                    if (isset($excludedir[$file]) || ($fdir[0] == ".")) {
+                        $excludedir[$file] = 1;
+                        continue;
+                    }
+                    $dirs[] = $file;
+                } 
+            else {
+                    if (strstr($file, "." . IGK_DEFAULT_VIEW_EXT) || !strpos($file, $ext, -$ln))
+                        continue;
+                    include_once($file);
+                    $files[] = igk_html_uri($file);
                 }
-                $dirs[] = $file;
-            } else {
-                if (strstr($file, "." . IGK_DEFAULT_VIEW_EXT) || !IGKString::EndWith($file, $ext))
-                    continue;
-                include_once($file);
-                $files[] = igk_html_uri($file);
-            }
         }
         closedir($hdir);
         if (count($dirs) > 1) {
             sort($dirs);
         }
-    }
+    } 
     return $files;
 }
 ///<summary></summary>
@@ -21100,7 +21095,7 @@ function igk_register_autoload_class(callable $func = null, $priority = 10)
     }
     if ($autoloading === null) {
         spl_autoload_register(function ($n) use ($k, &$sort, &$reg_func) {
-            igk_is_debug() && igk_ilog("try load " . $n . " : " . igk_sys_request_time());
+            // igk_is_debug() && igk_ilog("try load " . $n . " : " . igk_sys_request_time());
             if ($reg_func) {
                 $b = igk_get_env($k);
                 if ($b) {
@@ -24464,18 +24459,16 @@ function igk_svg_bindfile($name, $file)
 {
     $_vkey = "sys://svg/file";
     $source = igk_environment()->{IGK_SVG_REGNODE_KEY};
-    if ($source) {
-        $f = $source->getParam($_vkey, function () {
-            return array();
-        });
-        if (!file_exists($cf = igk_io_resolvpath($file, igk_io_basedir()))) {
-            if (!igk_sys_env_production()) {
-                igk_debug_wln_e("not resolved  ", $file, $cf);
-                throw new IGKException("something bad happend. svg file to bind not resolved " . $file . " " . $cf);
-            }
-            return;
-        }
-        $f[$name] = $cf;
+    if ($source && file_exists($file)) {
+        $f = $source->getParam($_vkey) ?? [];        
+        // if (!file_exists($cf = igk_io_resolvpath($file, igk_io_basedir()))) {
+        //     if (!igk_sys_env_production()) {
+        //         igk_debug_wln_e("not resolved  ", $file, $cf);
+        //         throw new IGKException("something bad happend. svg file to bind not resolved " . $file . " " . $cf);
+        //     }
+        //     return;
+        // }
+        $f[$name] = $file;
         $source->setParam($_vkey, $f);
     }
 }
@@ -24558,7 +24551,7 @@ function igk_svg_get_regicons()
 function igk_svg_register($doc, $name, $file)
 {
     $v_svg_reg_key = "sys://node/svg_regnode";
-    $b = $doc ? $doc->body : null;
+    $b = $doc ? $doc->getBody() : null;
     $_newfc = function () {
         $n = igk_createnode("div")->setClass("igk-svg-lst")->setStyle("display:none;");
         $n->addOnRenderCallback(igk_create_node_callback('igk_svg_callable_list', (object)array("node" => $n)));
@@ -24580,7 +24573,7 @@ function igk_svg_register($doc, $name, $file)
         }
         return null;
     }
-    $n = $doc->body->addNodeCallback("svgregister", function () use ($_newfc) {
+    $n = $doc->getBody()->addNodeCallback("svgregister", function () use ($_newfc) {
         $n = igk_environment()->{IGK_SVG_REGNODE_KEY}
             ?? $_newfc() ?? igk_die("svg node not created");
         igk_environment()->{IGK_SVG_REGNODE_KEY} = $n;
@@ -24655,7 +24648,7 @@ function igk_svg_use($name, $context = null)
         }
     }
     if ($c === null) {
-        igk_svg_register_icons(igk_app()->Doc, $name);
+        igk_svg_register_icons(igk_app()->getDoc(), $name);
         $c = igk_environment()->{IGK_SVG_REGNODE_KEY}
             ?? igk_die("failed to used svg registrating node");
         (function () {
@@ -24664,7 +24657,7 @@ function igk_svg_use($name, $context = null)
             return $n;
         })();
     } else {
-        igk_svg_register_icons(igk_app()->Doc, $name);
+        igk_svg_register_icons(igk_app()->getDoc(), $name);
     }
     $n = igk_createnode("div");
     $n["class"] = "igk-svg-lst-i";
@@ -25039,7 +25032,7 @@ function igk_sys_config_view($file)
             igk_ctrl_render_doc($c, "wizeinstall", $t);
             igk_exit();
         }
-        $doc = $igk->Doc;
+        $doc = $igk->getDoc();
         $cnf = igk_getconfigwebpagectrl();
         if ($cnf) {
             $cnf->View();
@@ -25875,7 +25868,7 @@ function igk_sys_is_page($page)
  */
 function igk_sys_is_rootdocument($document)
 {
-    return $document && (igk_app()->Doc === $document);
+    return $document && (igk_app()->getDoc() === $document);
 }
 ///<summary> get if the current rendering system is on subdomain context.</summary>
 /**
@@ -26106,30 +26099,31 @@ function igk_sys_reg_action($name, $callback)
  */
 function igk_sys_reg_autoloadlib($dir, $ns)
 {
-    if (!$dir || !is_dir($dir))
-        return false;
-    $k = igk_get_env("sys://autoloading/libs", array());
-    if (isset($k[$dir]))
-        return false;
-    $k[$dir] = 1;
-    igk_set_env("sys://autoloading/libs", $k);
-    $reg = function ($n) use ($dir, $ns) {
-        $n = trim($n);
-        $entryNS = trim($ns);
-        if (empty($entryNS) || (strpos($n, $entryNS) === 0)) {
-            if (!empty($entryNS)) {
-                $n = substr($n, strlen($entryNS));
-                $n = ltrim($n, "\\");
-            }
-            if (!empty($n) && file_exists($file = igk_io_combine($dir, $n . ".php"))) {
-                include_once($file);
-                return 1;
-            }
-        }
-        return false;
-    };
-    igk_register_autoload_class($reg);
-    true;
+    die(__FUNCTION__." obselete");
+    // if (!$dir || !is_dir($dir))
+    //     return false;
+    // $k = igk_get_env("sys://autoloading/libs", array());
+    // if (isset($k[$dir]))
+    //     return false;
+    // $k[$dir] = 1;
+    // igk_set_env("sys://autoloading/libs", $k);
+    // $reg = function ($n) use ($dir, $ns) {
+    //     $n = trim($n);
+    //     $entryNS = trim($ns);
+    //     if (empty($entryNS) || (strpos($n, $entryNS) === 0)) {
+    //         if (!empty($entryNS)) {
+    //             $n = substr($n, strlen($entryNS));
+    //             $n = ltrim($n, "\\");
+    //         }
+    //         if (!empty($n) && file_exists($file = igk_io_combine($dir, $n . ".php"))) {
+    //             include_once($file);
+    //             return 1;
+    //         }
+    //     }
+    //     return false;
+    // };
+    // igk_register_autoload_class($reg);
+    // true;
 }
 ///<summary>register component display name</summary>
 /**

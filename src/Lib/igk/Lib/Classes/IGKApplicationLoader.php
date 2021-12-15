@@ -2,13 +2,16 @@
 
 require_once __DIR__."/interfaces.php"; 
 require_once __DIR__."/Helper/StringUtility.php";
+require_once __DIR__."/Helper/IO.php";
 require_once __DIR__."/System/IO/Path.php";
+require_once __DIR__."/System/IO/FileWriter.php";
 require_once __DIR__."/IGKObject.php";
 require_once __DIR__."/IGKServer.php";
 require_once __DIR__."/Cache/CommonCache.php";
 require_once __DIR__."/Controllers/RootControllerBase.php";
 // require_once __DIR__."/System/Html/Dom/HtmlItemAttribute.php";
 
+use IGK\Helper\IO;
 use IGK\System\IO\Path as IGKPath; 
 use IGK\helper\StringUtility;
 
@@ -131,7 +134,9 @@ class IGKApplicationLoader{
         if (!defined("IGK_MODULE_DIR")) { 
             define("IGK_MODULE_DIR", IGK_APP_DIR."/".IGK_MODULE_FOLDER);
         }
-
+        if(defined('IGK_SESS_DIR') && IO::CreateDir(IGK_SESS_DIR)){
+            ini_set("session.save_path", IGK_SESS_DIR);
+        }
         // + | Initialize environment 
         self::$sm_instance =  new self();
         $v_loader = self::$sm_instance;
@@ -230,9 +235,8 @@ class IGKApplicationLoader{
 
 
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKMedia.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/System/Html/Dom/IGKHtmlItemBase.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/System/Html/Dom/IGKHtmlNoTagNodeItem.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/System/Html/Dom/IGKHtmlNoTagNodeItem.php";
+        // require_once IGK_LIB_DIR."/Lib/Classes/System/Html/Dom/HtmlItemBase.php"; 
+        // require_once IGK_LIB_DIR."/Lib/Classes/System/Html/Dom/HtmlNoTagNode.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlChildElementCollections.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKXmlChilds.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlAHref.php";

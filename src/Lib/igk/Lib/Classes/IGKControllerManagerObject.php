@@ -814,7 +814,7 @@ final class IGKControllerManagerObject extends IGKObject {
             $this->m_tbcontrollers=array();
             $this->m_tbviewcontrollers=array();
         }
-        igk_loadcontroller($dir);
+        igk_loadlib($dir);
         $classes=get_declared_classes();
         foreach($classes as $v){
             if(isset($tab[$v])){

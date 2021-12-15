@@ -338,7 +338,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     ///<summary></summary>
     public function View(){
         $t=$this->TargetNode;
-        $doc=igk_app()->Doc;
+        $doc=igk_app()->getDoc();
         $menu_ctrl=igk_getctrl(IGK_MENU_CTRL);
         if(!$menu_ctrl || !$this->getIsVisible()){
             igk_html_rm($t);

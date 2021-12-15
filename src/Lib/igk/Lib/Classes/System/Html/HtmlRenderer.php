@@ -47,7 +47,7 @@ class HtmlRenderer{
     */
     public static function RenderDocument($doc=null, $refreshDefault=1, $ctrl=null){ 
         $igk= igk_app(); 
-        $doc=$doc ?? $igk->Doc;
+        $doc= $doc ?? $igk->getDoc();
         if(!$igk->ConfigMode && $igk->Configs->allow_auto_cache_page){
             $ctrl=igk_getctrl("cache");
             if($ctrl){
@@ -58,17 +58,19 @@ class HtmlRenderer{
             if($refreshDefault){
                 $ctrl=$ctrl ?? igk_get_defaultwebpagectrl();
                 if($ctrl && (igk_environment()->get(IGK_KEY_FORCEVIEW) !== 1)){
-                    if(!igk_environment()->get("sys://tempdata")){
-                        igk_environment()->set("sys://tempdata", 1);
+                    if(!igk_environment()->get($key = "sys://tempdata")){
+                        igk_environment()->set($key, 1);
                     }
-                    if(!igk_environment()->get(IGK_ENV_PAGEFOLDER_CHANGED_KEY)){
+                    if(!igk_environment()->get(IGK_ENV_PAGEFOLDER_CHANGED_KEY)){ 
+                        $ctrl->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
+                        // gourou d'etranglement
                         $ctrl->View();
                     }
                 }
             } 
             // -------------------
             // + | Render document
-            // -------------------
+            // -------------------  
             (new \IGK\System\Http\WebResponse($doc))->output();            
         
         }

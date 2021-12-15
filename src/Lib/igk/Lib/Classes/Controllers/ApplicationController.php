@@ -521,7 +521,7 @@ EOF;
     * get the application current document
     */
     public function getCurrentDoc(){
-        return $this->AppDocument;
+        return $this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? $this->getAppDocument();
     }
     ///<summary></summary>
     /**
@@ -623,10 +623,10 @@ EOF;
         $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY);
         if($doc === null){
             if(igk_sys_is_subdomain() && ($this->App->SubDomainCtrl === $this)){
-                $doc=$this->AppDocument;
+                $doc=$this->getAppDocument();
             }
             else{
-                $doc=igk_app()->Doc;
+                $doc=igk_app()->getDoc();
             }
             $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
         }
@@ -961,7 +961,7 @@ EOF;
  
         $d= $doc ?? $this->getAppDocument(true);
         // $d= $doc ?? $this->getDoc();// true);
-        if($d === igk_app()->Doc){
+        if($d === igk_app()->getDoc()){
             igk_die("/!\\ app document match the global document. That is not allowed");
         } 
         $wt = igk_app()->getConfigs()->get("website_title", igk_server()->SERVER_NAME);
@@ -1162,7 +1162,7 @@ EOF;
         $v_context="app";
         if($this->RegisterToViewMecanism && !$this->IsActive()){
             $v_context="docview";
-            $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->Doc;
+            $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc();
             if($doc !== null){ 
                 $doc->body->getBodyBox()->clearChilds()->add($this->getTargetNode());
             }

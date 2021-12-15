@@ -26,14 +26,14 @@ class HtmlHookNode extends HtmlNode{
         return null;
     }
     ///<summary></summary>
-    public function getIsRenderTagName(){
+    public function getCanRenderTag(){
         return false;
     }
     ///<summary></summary>
     ///<param name="options" default="null"></param>
     public function render($options=null){
         ob_start();
-        igk_hook($this->eventType);
+        igk_hook($this->eventType, ["object"=>$this, "options"=>$options]);
         $s=ob_get_contents();
         ob_end_clean();
         return $s;

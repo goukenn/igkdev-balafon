@@ -96,7 +96,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess {
         $tv=0;
         $s="";
         if($systheme===null){
-            $systheme = igk_app()->Doc->getSysTheme();
+            $systheme = igk_app()->getDoc()->getSysTheme();
         }
         $s=$def->getSymbols();
         if(is_array($s)){
@@ -432,7 +432,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess {
     public function get_css_def($minfile=false, $themeexport=false, $doc=null){
         $el=$minfile ? IGK_STR_EMPTY: IGK_LF;
         $is_root=false;
-        $doc = $doc ?? igk_app()->Doc;
+        $doc = $doc ?? igk_app()->getDoc();
         
         $systheme = $doc->SysTheme;
         $is_root = $this === $systheme;

@@ -40,7 +40,7 @@ final class IGKJQueryController extends IGKConfigCtrlBase
 			$this->__bindJquery($a);
 	}
 	private function _loadInfo(){
-		if ($doc = igk_app()->doc)
+		if ($doc = igk_app()->getDoc())
 			$this->__bindJquery($doc);//this->App->Doc);
 	}
 	public function __bindJquery($doc){

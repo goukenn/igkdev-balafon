@@ -8,9 +8,8 @@ use IGK\Cache\SystemFileCache as IGKSysCache;
 ///<summary> manage application system</summary>
 class IGKAppSystem{
 
-    public static function InitEnv(string $dirname){
-      
-        header("Content-Type: text/html"); 
+    public static function InitEnv(string $dirname){    
+   
         if(!is_dir($dirname))
             return -9;
         $Rfile=$dirname."/".IGK_RES_FOLDER."/R.class.php";
@@ -19,9 +18,7 @@ class IGKAppSystem{
         if(defined("IGK_INIT") && IGK_INIT){
             return; 
         }
-        if(defined('IGK_SESS_DIR') && IO::CreateDir(IGK_SESS_DIR)){
-            ini_set("session.save_path", IGK_SESS_DIR);
-        }
+      
         $path = Path::getInstance();
         $project_dir=igk_io_projectdir();
         $app_dir=igk_io_applicationdir();
@@ -34,12 +31,12 @@ class IGKAppSystem{
             }
             if(file_exists($Rfile))
                 include_once($Rfile);
-            if(1 || !IGKSysCache::LoadCacheLibFiles()){
-                $t_files=igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", igk_io_projectdir()));
-                // $t_files=igk_load_env_files($dirname, array(igk_io_projectdir()));
+            if(!IGKSysCache::LoadCacheLibFiles()){
+                $t_files=igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", igk_io_projectdir()));                
                 igk_reglib($t_files);
                 IGKSysCache::CacheLibFiles(true); 
             }
+            
             IGKSubDomainManager::Init();
             !defined('IGK_INIT') && define('IGK_INIT', 1);
             return;
@@ -100,8 +97,8 @@ class IGKAppSystem{
         igk_io_save_file_as_utf8($app_dir. "/".IGK_CACHE_FOLDER."/.htaccess", "deny from all");
         // load library folder 
         igk_load_env_files(IGK_LIB_DIR);
-        igk_loadcontroller($app_dir. "/".IGK_INC_FOLDER);
-        igk_loadcontroller($project_dir);
+        igk_loadlib($app_dir. "/".IGK_INC_FOLDER);
+        igk_loadlib($project_dir);
         igk_io_save_file_as_utf8($confFILE, "1", false);
         $ips=igk_server_name();
         igk_io_save_file_as_utf8($path->getDataDir()."/domain.conf", !IGKValidator::IsIPAddress($ips) ? $ips: IGK_DOMAIN, true);

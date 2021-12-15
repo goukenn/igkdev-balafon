@@ -845,7 +845,7 @@ EOF;
             return;
         $v_menu=$this->m_customMenu[$name];
         $frm=igk_getctrl(IGK_FRAME_CTRL)->createFrame("theme_editMenu_frame", $this);
-        igk_app()->Doc->getBody()->add($frm);
+        igk_app()->getDoc()->getBody()->add($frm);
         $frm->Title=__("title.EditMenu", $name);
         $d=$frm->Box;
         $frm->ClearChilds();

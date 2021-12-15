@@ -1367,7 +1367,7 @@ function igk_str_format($data){
 * @param mixed $mode the default value is IGK_DEFAULT_FOLDER_MASK
 */
 function igk_io_createdir($dirname, $mode=IGK_DEFAULT_FOLDER_MASK){
-    return FileWriter::CreateDir($dirname, $mode);   
+    return IO::CreateDir($dirname , $mode);
 }
 
 

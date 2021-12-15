@@ -186,7 +186,7 @@ final class IGKConfigCtrl extends BaseController implements IConfigController
                     "clDomain" => $app->Configs->website_domain
                 ));
                 $d = igk_get_document('sys://mail/notification');
-                if ($d === igk_app()->Doc) {
+                if ($d === igk_app()->getDoc()) {
                     igk_die("notification is equal to global document ");
                 }
                 $opt = igk_xml_create_render_option();
@@ -541,7 +541,7 @@ final class IGKConfigCtrl extends BaseController implements IConfigController
                 $v->SetupCtrl($param);
             }
         }
-        igk_app()->Doc->Theme->save();
+        igk_app()->getDoc()->Theme->save();
         igk_notifyctrl()->addMsgr("msg.runCtrlConfigComplete");
     }
     ///<summary></summary>

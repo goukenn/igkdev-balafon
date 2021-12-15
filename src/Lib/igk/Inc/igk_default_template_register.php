@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\HtmlUtils;
+
 function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattrib){
 	 $attrname = $attr;
 	 while(strlen($attrname)>0 && ($attrname[0]=="*"))
@@ -19,7 +21,7 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
 		$v = @eval($s);
         $setattrib($attrname, $v);
         return null;
-    })(IGKHtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, null));
     return null;
 }
 
@@ -31,7 +33,7 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
 		$v = igk_template_get_piped_value($rv, $context);
         $setattrib($attrname, $v);
         return null;
-    })(IGKHtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, null));
     return null;
 }
 
@@ -51,7 +53,7 @@ igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context
         return eval((function(){
             if (func_num_args()==1)
             return "return ".func_get_arg(0).";"; 
-        })(IGKHtmlUtils::GetAttributeValue($script, $context)));
+        })(HtmlUtils::GetAttributeValue($script, $context)));
     })($v);
     $reader->setInfos(["skipcontent"=>1, "attribute"=>$attr, "context-data"=>$g, "context"=>"expression", "operation"=>"loop", "for"=>$reader->getName()]);
     return null;
@@ -71,7 +73,7 @@ igk_reg_template_bindingattributes("*classes", function($n, $attr, $v, $context,
                 $setattrib("class", implode(" ", $tab));
         }
         return null;
-    })(IGKHtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, null));
 
 	$n->setInfos(["attribute"=>$attr, "context-data"=>$g, "context"=>"bind-expression", "operation"=>"loop", "for"=>$n->getName()]);
 
@@ -85,7 +87,7 @@ igk_reg_template_bindingattributes("*href", function($n, $attr, $v, $context, $s
 		$v = @eval($s);
         $setattrib("href", $v);
         return null;
-    })(IGKHtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, null));
     return null;
 });
 
@@ -106,7 +108,7 @@ igk_reg_template_bindingattributes("*visible", function($readerInfo, $attr, $v, 
 		$setattrib("igk:isvisible", $_v);
 
         return null;
-    })(IGKHtmlUtils::GetAttributeValue($v, $context));
+    })(HtmlUtils::GetAttributeValue($v, $context));
     return null;
 });
 

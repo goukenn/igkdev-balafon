@@ -20,7 +20,7 @@ final class XmlProcessor extends XmlNode{
         return false;
     }
     ///<summary></summary>
-    public function getIsRenderTagName(){
+    public function getCanRenderTag(){
         return false;
     }
     ///<summary></summary>

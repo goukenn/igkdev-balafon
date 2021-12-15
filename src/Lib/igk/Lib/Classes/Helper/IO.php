@@ -3,6 +3,7 @@ namespace IGK\Helper;
 
 use Exception;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\IO\FileWriter;
 use IGKException;
 
 use function igk_resources_gets as __;
@@ -145,8 +146,8 @@ class IO{
     * @param mixed $dirname
     * @param mixed $mode the default value is IGK_DEFAULT_FOLDER_MASK
     */
-    public static function CreateDir($dirname, $mode=IGK_DEFAULT_FOLDER_MASK){               
-        return igk_io_createdir($dirname, $mode);
+    public static function CreateDir($dirname, $mode=IGK_DEFAULT_FOLDER_MASK){ 
+        return FileWriter::CreateDir($dirname, $mode);   
     }
     ///<summary> Create a directory recursivily</summary>
     ///<dir>directory to create</dir>
@@ -472,12 +473,12 @@ class IO{
     * @param mixed $match
     * @param mixed $recursive the default value is false
     * @param mixed * $excludedir the default value is null
+    * @param callable $callback callback called* $excludedir the default value is null
     */
-    public static function GetFiles($dir, $match, $recursive=false, & $excludedir=null){
-        igk_ilog("get file : ".$dir. " \n ".json_encode($match));
-        igk_trace();
-        exit;
-        
+    public static function GetFiles($dir, $match, $recursive=false, & $excludedir=null, ?callable $callback=null){
+     
+        igk_ilog("get file :".$dir);
+
         if(is_dir($dir) === false)
             return null;
         $v_out=array();
@@ -513,6 +514,7 @@ class IO{
                         continue;
                     }
                     $v_out[]=$f;
+                    $callback && $callback($f);
                 }
                 else{
                     if(is_dir($f) && !$fc($f, $r, $excludedir) && $recursive){

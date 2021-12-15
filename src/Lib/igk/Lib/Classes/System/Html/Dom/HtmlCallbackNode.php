@@ -24,7 +24,7 @@ final class HtmlCallbackNode extends HtmlNode{
         parent::__construct('igk:callbacknode');
     }
     ///<summary></summary>
-    public function getIsRenderTagName(){
+    public function getCanRenderTag(){
         return false;
     }
     ///<summary></summary>

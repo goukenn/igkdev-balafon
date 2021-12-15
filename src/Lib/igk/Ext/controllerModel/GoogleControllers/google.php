@@ -525,7 +525,7 @@ function igk_html_node_googlemapgeo($loc, $apikey = null)
     $iframe["onerror"] = "event.target.innerHTML ='---failed to load map---';";
     return $n;
 }
-igk_sys_reg_autoloadlib(dirname(__FILE__) . "/Lib/Classes", "IGK\Core\Ext\Google");
+// igk_sys_reg_autoloadlib(dirname(__FILE__) . "/Lib/Classes", "IGK\Core\Ext\Google");
 //+ define("GOOGLE_GEO_APPKEY", "");
 
 

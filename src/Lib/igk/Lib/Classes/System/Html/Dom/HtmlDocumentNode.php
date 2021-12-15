@@ -65,7 +65,8 @@ class HtmlDocumentNode extends HtmlItemBase{
             $attr = " lang=\"".$this->m_lang."\"";
         }
         if (igk_environment()->is("DEV")){
-            $attr .= " document_id=\"".$this->getId()."\"";
+            if ($id = $this->getId())
+                $attr .= " document_id=\"".$id."\"";
         }
         $s .= "<html{$attr}>"; 
         $s .= HtmlRenderer::Render($this->m_head, $options);

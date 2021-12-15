@@ -1,10 +1,10 @@
 <?php
 namespace IGK\System\Html\Dom; 
-///<summary>Represente class: IGKHtmlNoTagNodeItem</summary>
+///<summary>Represente class: IGKHtmlNoTagNode</summary>
 /**
 * no definition 
 */
-class HtmlNoTagNodeItem extends HtmlNode{
+class HtmlNoTagNode extends HtmlNode{
     ///<summary></summary>
     /**
     * 

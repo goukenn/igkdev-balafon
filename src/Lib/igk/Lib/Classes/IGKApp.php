@@ -109,6 +109,9 @@ class IGKApp extends IGKObject
         // init environment
         //
         IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());
+
+        // igk_wln_e(get_included_files(), "duddration ". igk_sys_request_time());
+
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);
@@ -135,8 +138,7 @@ class IGKApp extends IGKObject
         // + | HOOK application initilize
         // + |
         igk_hook(IGKEvents::HOOK_INIT_APP, [self::$sm_instance]);
-     
-         
+        
         if ($render) {
             // render document
             HtmlRenderer::RenderDocument(self::$sm_instance->getDoc());

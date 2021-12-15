@@ -13,10 +13,11 @@ use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlANode;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\Dom\HtmlNoTagNodeItem;
+use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\Dom\IGKXmlNode;
 use IGK\System\Html\Dom\HtmlNodeBase;
+use IGK\System\Html\XML\XmlNode;
 
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php");
 
@@ -57,7 +58,7 @@ function igk_file_content($file)
  * 
  * @param mixed $hook 
  * @param mixed $args 
- * @return HtmlNoTagNodeItem 
+ * @return HtmlNoTagNode 
  */
 function igk_html_node_yield($hook, ...$args)
 {
@@ -112,7 +113,7 @@ function igk_html_node_xmlnode($tag)
  * call hook to render content on node 
  * @param mixed $hook 
  * @param mixed $args 
- * @return HtmlNoTagNodeItem 
+ * @return HtmlNoTagNode 
  */
 function igk_html_node_hook($hook, ...$args)
 {
@@ -884,7 +885,7 @@ function &igk_html_node_blocknode()
 {
     $n = igk_createXmlNode("igk-block-viewitem");
     $n->setCallback("getIsVisible", "return \$this->HasChilds ;");
-    $n->setCallback("getIsRenderTagName", "return false;");
+    $n->setCallback('getCanRenderTag', "return false;");
     return $n;
 }
 function igk_html_node_submit($name = null, $value = null, $type = "submit")
@@ -1132,7 +1133,7 @@ function igk_html_node_dialog_circle_waiter()
 function igk_html_node_author_community()
 {
     $n = igk_createnode("div");
-    $n->setClass("com-host")->addCommunityLinks([
+    $n->setClass("com-host")->CommunityLinks([
         "linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",
         "twitter" => "https://twitter.com/@IGKDEV",
         "facebook" => "https://facebook.com/IGKDEV",
@@ -1183,7 +1184,7 @@ function igk_html_node_clonenode(HtmlItemBase $node)
         igk_die("Can't clone node . {{node}} not valid");
     $n = igk_createnode("igk-clone-node");
     $n->setParam("self::targetnode", $node);
-    $n->setCallback("getIsRenderTagName", "return false;");
+    $n->setCallback('getCanRenderTag', "return false;");
     $n->setCallback("getTargetNode", "return \$this->getParam('self::targetnode'); ");
     $n->setCallback("getIsVisible", "\$v =  \$this->getTargetNode() && \$this->getTargetNode()->IsVisible; return \$v;");
     $n->setCallback("GetRenderingChildren", "return array(\$this->getTargetNode()); ");
@@ -1311,7 +1312,7 @@ function igk_html_node_component($listener, $typename, $regName, $unregister = 0
 function igk_html_node_conditionalnode($conditioncallback)
 {
     $n = igk_createnode(__FUNCTION__);
-    $n->setCallback("getIsRenderTagName", "return false;");
+    $n->setCallback('getCanRenderTag', "return false;");
     $n->setCallback("getIsVisible", "igk_html_visibleConditionalNode");
     return $n;
 }
@@ -2012,7 +2013,7 @@ function igk_html_node_igkgloballangselector()
     $sl = $dv->add("select")->setId("lang")->setClass("-igk-control -igk-form-control -clselect");
     $gt = igk_app()->Configs->default_lang;
     $uri = igk_ctrl_get_cmd_uri(igk_sys_ctrl(), "changeLang_ajx");
-    $sl["onchange"] = " ns_igk.ajx.get('{$uri}/'+this.value, null, ns_igk.ajx.fn.replace_or_append_to_body); return false;";
+    $sl["onchange"] = " if (window.ns_igk){ ns_igk.ajx.get('{$uri}/'+this.value, null, ns_igk.ajx.fn.replace_or_append_to_body); } return false;";
     $sl->setCallback('AcceptRender', igk_io_get_script(IGK_LIB_DIR . "/Inc/html/globallang_accept_render.pinc"));
     return $dv;
 }
@@ -2178,7 +2179,7 @@ function igk_html_node_jsclonenode($node)
     $n = igk_createnode("igk-js-clone-node");
     $n["igk-js-cn"] = new IGKValueListener($n, 'getTargetId');
     $n->setParam("self::targetnode", $node);
-    $n->setCallback("getIsRenderTagName", "return true;");
+    $n->setCallback('getCanRenderTag', "return true;");
     $n->setCallback("getTargetId", "return \$this->getParam('self::targetnode'); ");
     return $n;
 }
@@ -2283,7 +2284,7 @@ function igk_html_node_label($for = null, $key = null)
 function igk_html_node_labelinput($id, $text, $type = "text", $value = null, $attributes = null, $require = false, $description = null)
 {
     $o = igk_createnotagnode(); //igk:label-input");
-    $o->setCallback("getIsRenderTagName", "return false;");
+    $o->setCallback('getCanRenderTag', "return false;");
     $o->setCallback("getinput", "return \$this->input;");
 
     $i = $o->add("label");
@@ -2544,7 +2545,7 @@ function igk_html_node_newsletterregistration($uri, $type = "email", $ajx = 1)
  */
 function igk_html_node_notagnode()
 {
-    $n = new HtmlNoTagNodeItem();
+    $n = new HtmlNoTagNode();
     return $n;
 }
 ///<summary>shortcut to create ObData node with noTag to display</summary>
@@ -2947,8 +2948,7 @@ function igk_html_node_row()
     $n->setClass("igk-row");
     $n->setCallback(
         "addCell",
-        implode("\n", [
-            "igk_trace(); exit;",
+        implode("\n", [ 
             "\$d = \$this->addDiv();",
             "\$d->setClass(\"igk-row-cell\");",
             "return \$d;"
@@ -3653,7 +3653,7 @@ function igk_html_node_webglgamesurface($listener = null)
 function igk_html_node_webmasternode()
 {
     $n = igk_createnode("webmaster-node");
-    $n->setCallback("getIsRenderTagName", "return false;");
+    $n->setCallback('getCanRenderTag', "return false;");
     $n->setCallback("getIsVisible", "igk_html_callback_is_webmaster");
     return $n;
 }
@@ -4053,10 +4053,12 @@ function igk_html_node_tableheader($headers, $filter = null)
     }
     return $tr;
 }
-
-function igk_html_node_dataschema()
-{
-    $n = new IGKXmlNode("dataschemas");
+/**
+ * create data schema
+ * @return XmlNode 
+ */
+function igk_html_node_dataschema(){
+    $n = new XmlNode(IGK_SCHEMA_TAGNAME);
     return $n;
 }
 
@@ -4272,7 +4274,7 @@ function igk_html_node_include_js($file)
  */
 function igk_htlm_node_cdata($value = null)
 {
-    $v = (new IGKXmlNode("!CDATA"));
+    $v = (new XmlNode("!CDATA"));
     $v->setContent($value);
     return $v;
 }

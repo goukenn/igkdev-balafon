@@ -61,7 +61,7 @@ final class IGKJS_HorizontalPane extends IGKObject
 		$this->m_pageNode["igk-control-type"]="igk-pane";
 		$this->m_pageNode->setClass("igk-pane rotation");
 		//global register theme to document directry if this object is created
-		igk_app()->Doc->Theme->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__)."/Styles/default.pcss");
+		igk_app()->getDoc()->Theme->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__)."/Styles/default.pcss");
 
 	}
 	public function addPage($attribute=null)

@@ -225,7 +225,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute{
             else
                 $out .= " ";
             if(self::IsCssChild($v)){
-                $out .= self::GetParentClass(igk_app()->Doc->Theme, $v);
+                $out .= self::GetParentClass(igk_app()->getDoc()->Theme, $v);
             }
             else
                 $out .= $v;

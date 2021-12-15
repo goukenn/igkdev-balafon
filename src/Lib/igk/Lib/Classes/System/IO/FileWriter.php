@@ -6,6 +6,10 @@ use IGKApp;
 use IGKAppContext;
 use IGKException;
 
+/**
+ * file writer helper. to store file
+ * @package IGK\System\IO
+ */
 class FileWriter{
 
     /**

@@ -374,31 +374,50 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     * special function add a node as a callback. if name defined return the name or create and add it with the callback
     */
     public function addNodeCallback($name, $callback, $host=null){
-        if(empty($name)){
-            igk_die("name must be set");
+
+        $host= $host ?? $this;
+        $c = $host->getParam(IGK_NAMED_NODE_PARAM) ?? array();
+
+        if ($n = igk_getv($c, $name)){
+            return $n;
         }
-        //+ change the node callback behaviour - store the setting in session
-        $host=$host ?? $this;
-        $c=$host->getParam(IGK_NAMED_NODE_PARAM, array());
-        $f = null;
-        if(isset($c[$name])){
-            // get setting
-            $f = $c[$name];
-            // igk_html_add($f, $this);
-            // return $f;
-        }
-        $h = $callback($this);
-        if($h){
-            if (method_exists($h, "getSetting"))
-                $c[$name]= $h->getSetting();
-            else {
-                $c[$name] = (object)[];
-            }
-            $h->setParam(IGK_NAMED_ID_PARAM, $name);
+
+        if ($h = $callback($host)){
+            $host->add($h);
+            $c[$name] = $h;
             $host->setParam(IGK_NAMED_NODE_PARAM, $c);
-            return $h;
+            return $c;
         }
         return null;
+
+
+        igk_die("not implement ". __METHOD__);
+
+        // if(empty($name)){
+        //     igk_die("name must be set");
+        // }
+        // //+ change the node callback behaviour - store the setting in session
+        // $host=$host ?? $this;
+        // $c=$host->getParam(IGK_NAMED_NODE_PARAM, array());
+        // $f = null;
+        // if(isset($c[$name])){
+        //     // get setting
+        //     $f = $c[$name];
+        //     $this->add($f); 
+        //     return $f;
+        // }
+        // $h = $callback($this);
+        // if($h){
+        //     if (method_exists($h, "getSetting"))
+        //         $c[$name]= $h->getSetting();
+        //     else {
+        //         $c[$name] = (object)[];
+        //     }
+        //     $h->setParam(IGK_NAMED_ID_PARAM, $name);
+        //     $host->setParam(IGK_NAMED_NODE_PARAM, $c);
+        //     return $h;
+        // }
+        // return null;
     }
         ///<param name="o" ref="true"></param>
     /**
@@ -849,9 +868,10 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
         }
         if(is_array($args))
             $args=(object)$args; 
-        return static::Load($content, $args);
+        return $this->load($content, $args);        
     }
-     ///<summary></summary>
+    
+    ///<summary></summary>
     ///<param name="flag"></param>
     /**
     * 

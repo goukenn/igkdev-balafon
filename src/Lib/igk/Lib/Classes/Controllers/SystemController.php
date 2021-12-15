@@ -151,7 +151,7 @@ final class SystemController extends NonVisibleControllerBase{
             $file=$this->m_fontList->fonts[$n];
             $target=igk_io_currentrelativepath(IGK_RES_FOLDER."/Fonts/".basename($file));
             copy($file, $target);
-            igk_app()->Doc->Theme->addFont($n, igk_io_dir(igk_io_basepath($target)));
+            igk_app()->getDoc()->Theme->addFont($n, igk_io_dir(igk_io_basepath($target)));
             igk_notifyctrl()->addMsgr("msg.fontinstalled");
             return true;
         }

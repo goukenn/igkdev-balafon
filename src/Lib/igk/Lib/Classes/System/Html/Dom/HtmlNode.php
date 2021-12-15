@@ -165,4 +165,13 @@ class HtmlNode extends HtmlItemBase{
         $this->m_attributes[$key] = $value;
         return $this;
     }
+
+    public function getCanRenderTag()
+    {
+        if ($this->iscallback(__FUNCTION__)){
+            $this->evalCallback(__FUNCTION__, $output);
+            return $output;
+        }
+        return parent::getCanRenderTag();
+    }
 }

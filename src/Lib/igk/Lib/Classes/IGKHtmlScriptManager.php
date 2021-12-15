@@ -1,5 +1,9 @@
 <?php
 ///<summary>Represente class: IGKHtmlScriptManager</summary>
+
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\Dom\HtmlScriptNode;
+
 /**
 * Represente IGKHtmlScriptManager class
 */
@@ -11,6 +15,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     const SCRIPT_ITEM_MANAGER=5;
     const TEMPORARY_SCRIPT=6;
     private $_f;
+    private $m_scripts = [];
     ///<summary></summary>
     ///<param name="owner"></param>
     /** 
@@ -18,6 +23,25 @@ final class IGKHtmlScriptManager extends IGKObject {
     */
     public function __construct(){
         $this->_f=new IGKFv(); 
+        igk_reg_hook(IGKEvents::HOOK_HTML_HEAD, function($e){
+            if ($e->args["options"]->Document->getScriptManager() === $this)
+            {
+                $src = "";
+                foreach($this->m_scripts as $file=>$v){
+                    $u = "";
+                    $attr = "";
+                    if (file_exists($file)){
+                        $u = IGKResourceUriResolver::getInstance()->resolve($file);
+                    } else {
+                        $u = $file;
+                    }
+                    $src .= '<script type="text/javascript" language="javascript" src="'.$u.'"';
+                    $src .= $attr;
+                    $src.="></script>";
+                }                
+                echo $src;
+            }
+        });
     }
     ///<summary>display value</summary>
     /**
@@ -35,68 +59,21 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param string $tag 'priv'| or any tag to identify associate script
     */
     public function addScript($file, $canbeMerged=true, $tag='priv'){  
-        // igk_trace();
-        // igk_wln_e(__METHOD__, $file.":".igk_sys_request_time());
-        // return;
 
-        $local=false;
-        $fname=true;
-        $f=$file;
-        if(!IGKValidator::IsUri($file)){
-            $fname=false;
-            $f=$file;
-            if(file_exists($f)){
-                $file=igk_html_uri(igk_realpath($f));
-                $local=true;
-            }
-            else{
-                $local=false;
-            }
+        if (!($s = igk_getv($this->m_scripts, $file))){
+            $item = new HtmlScriptNode();
+            $s = compact("canbeMerged", "tag", "item");
+            $this->m_scripts[$file] = $s;
         }
-        $tasc=$this->getAssoc();
-        if(isset($tasc[$file])){
-            return $tasc[$file];
-        }
-        $g=!$fname && !$local;
-        $tasc[$file]=[
-            "merge"=>$canbeMerged ? 1: 2,
-            "tag"=>$tag
-        ];
-        $this->_f->updateFlag(self::JSMAN_ASSOC_TABLE_FLAG, $tasc);
-        return $tasc[$file];
-    }
-    ///<summary>current script to new document</summary>
-    /**
-    * current script to new document
-    */
-    public function bindScriptTo($document){
-        if($document == null)
-            return;
-        $tasc=$this->getAssoc();
-        if($tasc) foreach($tasc as $k=>$v){
-            list($t, $m) = igk_array_fill(explode(";", $v), 2);
-            $document->addScript($k, $t, $m);
-        }
-    }
+        return $s["item"];
+ 
+    } 
     ///<summary>clear loaded script</summary>
     /**
     * clear loaded script
     */
     public function Clear($tag=null){
-        if($tag == null){
-            $this->m_assocTable=array();
-            $this->m_node->ClearChilds();
-            return;
-        }
-        $t=array();
-        foreach($this->m_assocTable as $k=>$v){
-            if($v->tag == $tag){
-                igk_html_rm($v);
-                continue;
-            }
-            $t[$k]=$v;
-        }
-        $this->m_assocTable=$t;
+        
     }
     ///<summary></summary>
     /**
@@ -110,11 +87,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * 
     */
     public function getAssoc(){
-        if(($i=$this->getFlag(self::JSMAN_ASSOC_TABLE_FLAG)) == null){
-            $i=new IGKHtmlScriptAssocInfo();
-            $this->_f->setFlag(self::JSMAN_ASSOC_TABLE_FLAG, $i); 
-        }
-        return $i;
+       
     }    
     ///<summary></summary>
     ///<param name="n"></param>

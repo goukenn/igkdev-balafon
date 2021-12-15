@@ -123,9 +123,9 @@ abstract class PageControllerBase extends ControllerTypeBase implements ILibaryC
         if(igk_get_env($k)){
             return;        }
         igk_set_env($k, 1);
-        igk_register_autoload_class(function(){
-            return call_user_func_array(array($this, "auto_load_class"), func_get_args());
-        });
+        // igk_register_autoload_class(function(){
+        //     return call_user_func_array(array($this, "auto_load_class"), func_get_args());
+        // });
     }
     ///<summary></summary>
     ///<param name="v"></param>

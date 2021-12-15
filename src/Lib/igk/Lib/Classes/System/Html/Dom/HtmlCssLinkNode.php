@@ -62,10 +62,7 @@ class HtmlCssLinkNode extends HtmlNode{
     public function getCache(){
         return $this->ln->cache;
     }
-    ///<summary></summary>
-    public function getIsRenderTagName(){
-        return false;
-    }
+     
     ///<summary></summary>
     public function getlink(){
         return $this->ln->link;

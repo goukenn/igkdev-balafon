@@ -107,7 +107,7 @@ final class IGKBootstrapCtrl extends IGKConfigCtrlBase
 					$this->__bindBootstrap($v);
 			}
 		}
-		if($doc = igk_app()->doc)
+		if($doc = igk_app()->getDoc())
 			$this->__bindBootstrap($doc);
 	}
 

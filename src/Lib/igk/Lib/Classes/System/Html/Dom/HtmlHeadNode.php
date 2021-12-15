@@ -39,16 +39,22 @@ class HtmlHeadNode extends HtmlItemBase{
         $v=parent::__getRenderingChildren($options);
         $t=array(
             HtmlHeadBaseUriNode::getItem(),
-            HtmlFaviconNode::getItem()
+            HtmlFaviconNode::getItem(), 
         );
-        if($options->Document){
+        $is_document = isset($options->Document);
+        if($is_document){
             if($meta=$options->Document->getMetas()){
                 $t[]=$meta;
             }
         }
+        if ($is_document){
+            $t[] = HtmlCoreJSScriptsNode::getItem();
+        }
+
         if(is_array($v))
-            $t=array_merge($t, $v);
-        $t[]=new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, $options);
+        $t=array_merge($t, $v);        
+        // to load extra item on 
+        $t[] =new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, $options);
         return $t;
     }
 }

@@ -237,8 +237,7 @@ abstract class BaseController extends RootControllerBase {
             // $t->div(); // (new HtmlNode("quote")); // ->div()->Content = "Marto";
 
             // $s = $t->render();
-            // echo "\n\nfinish: ".$s;
-            // exit;
+            // echo "\n\nfinish: ".$s; 
 
             if(!empty($out)){
                 $t->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->Content=$out;
@@ -726,7 +725,7 @@ abstract class BaseController extends RootControllerBase {
         else{
             $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY);
             if(!$doc){
-                $doc=$this->getApp()->Doc;
+                $doc= igk_app()->getDoc();
             }
             $t["doc"]=$doc;
         }

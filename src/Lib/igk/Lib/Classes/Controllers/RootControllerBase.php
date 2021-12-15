@@ -202,6 +202,13 @@ abstract class RootControllerBase extends IGKObject{
     public function getArticlesDir(){  
         return igk_io_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
     }
+        ///<summary></summary>
+    /**
+    * 
+    */
+    public function getScriptsDir(){
+        return $this->getDeclaredDir()."/".IGK_SCRIPT_FOLDER;
+    }
     ///<summary></summary>
     /**
     * 

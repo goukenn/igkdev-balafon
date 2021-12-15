@@ -37,11 +37,13 @@ class WebResponse extends RequestResponse{
         }
     }
     public function output(){
-    
+ 
         ob_start();
         $cache = is_object($this->node) &&  igk_is_class_instance_of($this->node, IGKHtmlDoc::class);
         $this->render();
-        $s = ob_get_clean();  
+        $s = ob_get_clean();
+     
+
         $zip = 0 && igk_server()->accepts(["gzip"]);
         if ($cache){ 
             // ----------------------------------------------------------------

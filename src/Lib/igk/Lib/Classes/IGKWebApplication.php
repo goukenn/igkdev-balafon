@@ -36,7 +36,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/IGKObject.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKAttribute.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKSystemUriActionPatternInfo.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/IGKEvents.php'); 
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKEvents.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKAppSystem.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/IO.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/IO/FileWriter.php');
@@ -62,7 +62,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlComponentNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKCtrlZone.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKDbUtility.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/Cache/SystemFileCache.php'); 
+        require_once(IGK_LIB_CLASSES_DIR . '/Cache/SystemFileCache.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKSubDomainManager.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKValidator.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKAppContext.php');
@@ -78,7 +78,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/Resources/R.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ControllerExtension.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlUtils.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlContext.php'); 
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlContext.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKObjectGetProperties.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlDocumentNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKHtmlDoc.php');
@@ -93,16 +93,16 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/IGKFv.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/GlobalScriptManagerHostNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlItemAttribute.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlCssLinkNode.php');       
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlCssLinkNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlCssClassValueAttribute.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Http/Request.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Resources/IGKLangResDictionary.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/ControllerConfigurationData.php');        
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/ControllerConfigurationData.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlReader.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlReaderDocument.php');
         require_once(IGK_LIB_CLASSES_DIR . '/XML/XMLNodeType.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlReaderBindingInfo.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlOptions.php'); 
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlOptions.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Http/Response.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Http/RequestResponse.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Http/WebResponse.php');
@@ -111,39 +111,39 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlFaviconNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlHookNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKOb.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Database/DataAdapterBase.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Controllers/RootControllerBase.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Controllers/BaseController.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Configuration/Controllers/IConfigController.php');
-        
-        require_once(IGK_LIB_CLASSES_DIR. '/Controllers/PageControllerBase.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Controllers/ILibaryController.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Cache/CommonCache.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlDocumentNode.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/IGKObjectGetProperties.php');  
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Http/RequestHandler.php'); 
-        require_once(IGK_LIB_CLASSES_DIR. '/IGKCaches.php'); 
-        require_once(IGK_LIB_CLASSES_DIR. '/IGKViewActionsConstants.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Controllers/NotificationController.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/IGKNotifyStorage.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlSingleNodeViewerNode.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlNotificationItemNode.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/HtmlMetaManager.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/IGKRawDataBinding.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/Controllers/SystemController.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/IGKValueListener.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlANode.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlAHref.php');
-        require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlStyleValueAttribute.php'); 
-        
-require_once(IGK_LIB_CLASSES_DIR. '/Controllers/BaseController.php');
-require_once(IGK_LIB_CLASSES_DIR. '/Controllers/RootControllerBase.php');
-require_once(IGK_LIB_CLASSES_DIR. '/System/Configuration/Controllers/IConfigController.php'); 
-require_once(IGK_LIB_CLASSES_DIR. '/Controllers/PageControllerBase.php');
-require_once(IGK_LIB_CLASSES_DIR. '/Controllers/ILibaryController.php'); 
-require_once(IGK_LIB_CLASSES_DIR. '/System/Html/Dom/HtmlDocumentNode.php');
-require_once(IGK_LIB_CLASSES_DIR. '/IGKObjectGetProperties.php'); 
-require_once(IGK_LIB_CLASSES_DIR. '/System/Http/Response.php');  
+        require_once(IGK_LIB_CLASSES_DIR . '/Database/DataAdapterBase.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/RootControllerBase.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/BaseController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IConfigController.php');
+
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/PageControllerBase.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ILibaryController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Cache/CommonCache.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlDocumentNode.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKObjectGetProperties.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Http/RequestHandler.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKCaches.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKViewActionsConstants.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/NotificationController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKNotifyStorage.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlSingleNodeViewerNode.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlNotificationItemNode.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlMetaManager.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKRawDataBinding.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/SystemController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKValueListener.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlANode.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlAHref.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlStyleValueAttribute.php');
+
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/BaseController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/RootControllerBase.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IConfigController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/PageControllerBase.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ILibaryController.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlDocumentNode.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKObjectGetProperties.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Http/Response.php');
 
         require_once IGK_LIB_DIR . "/igk_request_handle.php";
 
@@ -283,8 +283,9 @@ require_once(IGK_LIB_CLASSES_DIR. '/System/Http/Response.php');
             // + | ------------------------------------------------------------
             // + | start engine index
             // + | ------------------------------------------------------------
+            // 0.031s
+            // igk_wln(get_included_files(), "duration ". igk_sys_request_time());
             IGKApp::StartEngine($this, $render);
-            echo "engine start:";
         } catch (Exception $ex) {
             echo "Error: " . $ex->getMessage();
         }

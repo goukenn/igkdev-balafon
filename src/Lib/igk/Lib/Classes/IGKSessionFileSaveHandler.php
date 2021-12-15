@@ -72,7 +72,6 @@ class IGKSessionFileSaveHandler{
     ///<param name="data"></param>
     public function write($id, $data){
         $f=$this->_getFile($id);
-        igk_io_w2file($f, $data);
-        return true;
+        return igk_io_w2file($f, $data);
     }
 }

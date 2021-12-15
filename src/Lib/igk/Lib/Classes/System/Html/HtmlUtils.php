@@ -427,12 +427,12 @@ abstract class HtmlUtils
     /**
      * 
      * @param mixed $item
+     * @deprecated direct remove self remove item with the remove method
      */
     public static function RemoveItem($item)
-    {
-        $p = null;
+    {  
         if (($item != null) && (($p = $item->getParentNode()) != null)) {
-            if ($p->remove($item) == false) {
+            if ($item->remove() === false){            
                 igk_debug_wln("/!\\ Failed to remove an item");
                 return false;
             }
@@ -565,26 +565,26 @@ abstract class HtmlUtils
         }
         $c = null;
         $f = IGKString::Format(IGK_HTML_CLASS_NODE_FORMAT, $name);
-        if (class_exists($f) && !igk_reflection_class_isabstract($f) && igk_reflection_class_extends($f, $class)) {
-            $p = igk_sys_reflect_class($f);
-            $tb = array();
-            if (is_array($args))
-                $tb = $args;
-            $initiator[$name] = [
-                "type" => "class", "callback" => [$p, "newInstance"], "class" => $f, "count" => 1, "invoke" => function ($inf, $tb) {
-                    $f = $inf["class"];
-                    $c = $inf["callback"];
-                    $o = call_user_func_array($c, $tb);
-                    if ($o)
-                        $c = $o;
-                    else {
-                        $c = new $f();
-                    }
-                    return $c;
-                }
-            ];
-            $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $tb]);
-        } else {
+        // if (class_exists($f) && !igk_reflection_class_isabstract($f) && igk_reflection_class_extends($f, $class)) {
+        //     $p = igk_sys_reflect_class($f);
+        //     $tb = array();
+        //     if (is_array($args))
+        //         $tb = $args;
+        //     $initiator[$name] = [
+        //         "type" => "class", "callback" => [$p, "newInstance"], "class" => $f, "count" => 1, "invoke" => function ($inf, $tb) {
+        //             $f = $inf["class"];
+        //             $c = $inf["callback"];
+        //             $o = call_user_func_array($c, $tb);
+        //             if ($o)
+        //                 $c = $o;
+        //             else {
+        //                 $c = new $f();
+        //             }
+        //             return $c;
+        //         }
+        //     ];
+        //     $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $tb]);
+        // } else {
             if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
                 $s = new ReflectionFunction($fc);
                 $v_rp = $s->getNumberOfRequiredParameters();
@@ -626,7 +626,7 @@ abstract class HtmlUtils
                 ];
                 $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $args]);
             }
-        }
+        
         return $c;
     }
 

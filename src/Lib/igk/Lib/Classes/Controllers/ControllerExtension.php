@@ -427,15 +427,17 @@ abstract class ControllerExtension{
         }
     }
     public static function register_autoload(BaseController $ctrl){
-        $k="sys://autoloading/".igk_base_uri_name($ctrl->getDeclaredDir());
-        if(igk_get_env($k))
-            return;
-        igk_set_env($k, 1);
-        $fc = function(){            
-            return BaseController::Invoke($this, "auto_load_class", func_get_args());
-        };
-        $fc = $fc->bindTo($ctrl);
-        igk_register_autoload_class($fc);
+        die(__METHOD__ . " not implement ");
+
+        // $k="sys://autoloading/".igk_base_uri_name($ctrl->getDeclaredDir());
+        // if(igk_get_env($k))
+        //     return;
+        // igk_set_env($k, 1);
+        // $fc = function(){            
+        //     return BaseController::Invoke($this, "auto_load_class", func_get_args());
+        // };
+        // $fc = $fc->bindTo($ctrl);
+        // igk_register_autoload_class($fc);
     }
     public static function ns(BaseController $ctrl, $path){
         $cl = $path;
