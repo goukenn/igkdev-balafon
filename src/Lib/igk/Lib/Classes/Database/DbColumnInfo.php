@@ -1,9 +1,13 @@
 <?php
 
+namespace IGK\Database;
 
-///<summary>Represente class: IGKDbColumnInfo</summary>
+use IGKObject;
+use IGKSysUtil;
+
+///<summary>Represente class: DbColumnInfo</summary>
 /**
-* Represente IGKDbColumnInfo class
+* Represente DbColumnInfo class
 */
 final class DbColumnInfo extends IGKObject {
     /**
@@ -197,7 +201,7 @@ final class DbColumnInfo extends IGKObject {
         return $c;
     }
     public static function CreateWithRelation($attribs, $tb, $ctrl, & $tbrelation=null){
-        $cl = new IGKDbColumnInfo(igk_to_array($attribs));
+        $cl = new DbColumnInfo(igk_to_array($attribs));
         if (!empty($cl->clLinkType)){
             $cl->clLinkType = IGKSysUtil::GetTableName( $cl->clLinkType, $ctrl );
         }
@@ -237,7 +241,7 @@ final class DbColumnInfo extends IGKObject {
     * display value
     */
     public function __toString(){
-        return "IGKDbColumnInfo[".$this->clName."]";
+        return "DbColumnInfo[".$this->clName."]";
     }
     ///get association info array
     /**
@@ -266,14 +270,14 @@ final class DbColumnInfo extends IGKObject {
     * 
     */
     public static function GetColumnInfo(){
-        return get_class_vars("IGKDbColumnInfo");
+        return get_class_vars("DbColumnInfo");
     }
     ///<summary></summary>
     /**
     * 
     */
     public static function NewEntryInfo(){
-        return new IGKDbColumnInfo(array(
+        return new DbColumnInfo(array(
             IGK_FD_NAME=>IGK_FD_ID,
             IGK_FD_TYPE=>"Int",
             "clAutoIncrement"=>true
@@ -286,5 +290,27 @@ final class DbColumnInfo extends IGKObject {
      */
     public function IsUnsigned(){
         return preg_match("/u((big)?int)/i", $this->clType);
+    }
+
+    ///<summary> get row default value</summary>
+    /**
+     * 
+     * @param DbColumnInfo $v 
+     * @return int|string 
+     */
+    public static function GetRowDefaultValue(DbColumnInfo $v){
+        if ($v->clNotNull) {
+            switch (strtolower($v->clType)) {
+                case "int":
+                case "float":
+                    if (empty($v->clDefault))
+                        return 0;
+                    break;
+            }
+            if ($v->clDefault === null) {
+                return "";
+            }
+        }
+        return $v->clDefault;    
     }
 }

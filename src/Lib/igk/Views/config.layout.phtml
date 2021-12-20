@@ -9,6 +9,8 @@
 // @url: https://www.igkdev.com
 
 use function igk_resources_gets as __;
+
+igk_require_module(igk\Google::class);
  
 igk_google_addfont($doc, "Roboto"); 
 igk_google_addfont($doc, "Material+Icons", "400"); 
@@ -25,7 +27,11 @@ $doc->getMetas()->keywords = "balafon, configs, configspage";
 $confframe=$ctrl->getConfigFrame(); 
 ($cl=$t["class"]) && $cl->clear();
 $t["class"]="igk-cnf-page";
-$h=$t->addDiv()->setClass("header");
+$t["style"] = "width: 100%; margin-top:42px;";
+$t->div()->setStyle("z-index: 10; top:0px; position:fixed; width:inherit; height: 32px; max-width: inherit; background-color: #984451;");
+
+// CNF header 
+$h = $t->div()->setClass("igk-cnf-header header");
 $navbtn=$h->addToggleButton();
 $navbtn->Target="#android-menu";
 $navbtn->setClass("igk-sm-only igk-xsm-only floatr");
@@ -41,6 +47,7 @@ $android_menu["igk-data-menu-binding"]="#igk-cnf-menu";
 $h->addDiv()->setClass("floatr alignb")->Content= __("Welcome, {0}", igk_app()->Configs->admin_login);
 $h->addClearBoth();
 
-$t->addDiv()->add($confframe);
+$t->div()->setClass("igk-cnf-section section")->add($confframe);
 $t->addClearBoth();
+
 $t->addDiv()->setClass("igk-cnf-footer")->addContainer()->addRow()->addCol("igk-col-3-3")->addDiv()->Content=IGK_COPYRIGHT;

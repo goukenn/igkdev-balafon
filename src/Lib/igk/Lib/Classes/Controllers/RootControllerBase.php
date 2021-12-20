@@ -5,6 +5,7 @@ namespace IGK\Controllers;
 use Closure;
 use IGKApp;
 use IGKObject;
+use IGKType;
 use ReflectionFunction;
 
 ///<summary>represent a root controller entry</summary>
@@ -75,7 +76,7 @@ abstract class RootControllerBase extends IGKObject{
 			$fc = $fc->bindTo(null, static::class);
 			$ref = (new ReflectionFunction($fc));		
 			if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
-				if (($t == self::class) || is_subclass_of($t->getName(), self::class)){
+				if (($t == self::class) || is_subclass_of(IGKType::GetName($t), self::class)){
 					array_unshift($arguments, $c);
 				}
 			}
@@ -107,7 +108,13 @@ abstract class RootControllerBase extends IGKObject{
 	/** @return mixed  */
 	public function getApp(){ return IGKApp::getInstance(); }
 
-
+    /**
+     * return system document
+     * @return mixed 
+     */
+    public function getDoc(){
+        return $this->getApp()->getDoc();
+    }
 
 	 ///<summary>getfull uri</summary>
     /**
@@ -151,7 +158,8 @@ abstract class RootControllerBase extends IGKObject{
     * get the article binding content with name. of the target controller
     */
     public function getArticleBindingContentW($name, $targetCtrlName){
-        return $this->getArticleBindingContent($name, igk_db_select_all(igk_getctrl($targetCtrlName)));
+        die(__METHOD__.": Not implement");
+        //return $this->getArticleBindingContent($name, igk_db_select_all(igk_getctrl($targetCtrlName)));
     }
     ///<summary>get article content</summary>
     ///<param name="name" > name of the article</param>
@@ -215,5 +223,23 @@ abstract class RootControllerBase extends IGKObject{
     */
     public function getBaseUri(){
         return $this->getEnvParam("fulluri") ?? $this->getAppUri($this->currentView);
+    }
+
+    protected function initComplete(){        
+    }
+
+   
+    /***
+     * create controller an 
+     */
+    public static function CreateInstanceAndInit($n, callable $init){
+        if (!class_exists($n, false) || !is_subclass_of($n, self::class)){
+            return null;
+        }
+        $o = new $n();
+        if ($init($o, $n)){
+            $o->InitComplete();
+        }
+        return $o;
     }
 }

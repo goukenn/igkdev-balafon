@@ -2,6 +2,9 @@
 /*
 controller to load inistialization script on document
 */
+
+use IGK\System\Html\Dom\HtmlNode;
+
 abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_script;
@@ -38,11 +41,10 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 			$this->m_script->Content  ="";
 			$v = $this->getArticleContent("default.js");
 			$this->m_script->Content =$v;
-			igk_html_add($this->m_script, $this->App->doc->body,10000);
+			igk_app()->getDoc()->getBody()->add($this->m_script);
 		}
 		else {
-			igk_html_rm($this->m_script);
+			$this->m_script->remove();
 		}
 	}
-}
-?>
+} 

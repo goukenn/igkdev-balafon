@@ -1,6 +1,11 @@
 <?php
 //controller code class declaration
 //file is a part of the controller tab list
+
+use IGK\Resources\R;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\Dom\HtmlNotificationItemNode;
+
 abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_viewZone;
@@ -42,7 +47,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		$obj = igk_get_robj();
 		$enode = $this->validate_form();
-		$t = new IGKHtmlNotificationItemNode($this->TargetNode, "send mail");
+		$t = new HtmlNotificationItemNode($this->TargetNode, "send mail");
 		if ($enode->ChildCount == 0)
 		{//no error found
 
@@ -110,7 +115,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$frm = $div->addForm();
 		$frm["action"]= $this->getUri("send_mail");
 		$frm["class"]= "igk_contact_mailform";
-		igk_html_add($this->Error,  $frm);
+		$frm->add($this->Error);
 		$this->buildContactForm($frm);
 		$frm->addDiv(array("class"=>"contact_requested_field"))->Content = R::ngets("msg.requestedfield");
 		$frm->addInput("btn_send", "submit", R::ngets("btn.sendmail"));

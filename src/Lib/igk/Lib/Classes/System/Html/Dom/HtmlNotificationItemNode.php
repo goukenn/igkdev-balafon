@@ -1,5 +1,5 @@
 <?php
-// @file: IGKHtmlNotificationItemNode.php
+// @file: HtmlNotificationItemNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
@@ -18,10 +18,10 @@ final class HtmlNotificationItemNode extends HtmlNode{
         if(!$this->IsVisible || !$this->HasChilds)
             return false;
         if($this->m_autohided){
-            igk_html_add($this->m_script, $this);
+            $this->add($this->m_script);
         }
         else{
-            igk_html_rm($this->m_script);
+            $this->m_script->remove();
         }
         return true;
     }

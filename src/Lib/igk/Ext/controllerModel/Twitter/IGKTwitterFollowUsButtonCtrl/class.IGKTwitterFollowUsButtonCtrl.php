@@ -5,6 +5,10 @@ create: 13-07-14
 author: cad BONDJE DOUE
 license : licence.txt
 */
+
+use IGK\Controllers\ExtraControllerProperty;
+use IGK\Resources\R;
+
 abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_script;
@@ -13,11 +17,11 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 	public static function GetAdditionalConfigInfo()
 	{
 	 return array(
-		"clUri"=> new IGKAdditionCtrlInfo("text", "https://twitter.com/"),
-		"clShowDataCount"=> new IGKAdditionCtrlInfo("select",
+		"clUri"=> new ExtraControllerProperty("text", "https://twitter.com/"),
+		"clShowDataCount"=> new ExtraControllerProperty("select",
 		array("true"=>"true", "false"=>"false"),
 		"false"),
-		"clButtonSize"=>new IGKAdditionCtrlInfo("select",
+		"clButtonSize"=>new ExtraControllerProperty("select",
 		array("medium"=>"medium", "large"=>"large"),
 		"medium"),
 		);

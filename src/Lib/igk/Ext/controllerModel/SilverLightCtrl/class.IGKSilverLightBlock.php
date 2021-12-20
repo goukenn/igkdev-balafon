@@ -1,5 +1,8 @@
 <?php
 
+use IGK\Controllers\ExtraControllerProperty;
+use IGK\System\Html\HtmlReader;
+
 abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
@@ -7,9 +10,9 @@ abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBa
 	public static function GetAdditionalConfigInfo()
 	{
 		return array(
-			"clXabUri" => new IGKAdditionCtrlInfo("text", "file.xap"),
-			"clPrimaryWidth" => new IGKAdditionCtrlInfo("text", "400px"),
-			"clPrimaryHeight" => new IGKAdditionCtrlInfo("text", "300px")
+			"clXabUri" => new ExtraControllerProperty("text", "file.xap"),
+			"clPrimaryWidth" => new ExtraControllerProperty("text", "400px"),
+			"clPrimaryHeight" => new ExtraControllerProperty("text", "300px")
 		);
 	}
 	public function getCanAddChild()

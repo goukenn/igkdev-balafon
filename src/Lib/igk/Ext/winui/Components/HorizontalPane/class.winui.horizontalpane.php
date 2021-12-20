@@ -68,7 +68,7 @@ final class IGKJS_HorizontalPane extends IGKObject
 	{
 		$p = new IGKJS_HorizontalPage();
 		if ($attribute)
-			$p->AppendAttributes($attribute);
+			$p->setAttributes($attribute);
 		$this->m_pageNode->add($p);
 		return $p;
 	}
@@ -527,10 +527,10 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 		$u = igk_app()->Session->User;
 		switch($t){
 			case "infobox":
-				return !$this->HasPage && (IGKApp::getInstance()->IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage")));
+				return !$this->HasPage && (IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage")));
 
 			case "option":
-				return (igk_app()->IsSupportVIewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth('sys://designpage')) )&& ($this->Folder != null);
+				return (IGKViewMode::IsSupportVIewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth('sys://designpage')) )&& ($this->Folder != null);
 
 		}
 		return false;
@@ -546,7 +546,7 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 			igk_html_bind_target(null, $p, $e->innerHtml(), (object)array("file"=>$file));
 			$p->setFile($file);
  
-			if (IGKApp::getInstance()->IsSupportViewMode(IGKViewMode::WEBMASTER)){
+			if (IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER)){
 			$c = igk_html_article_options(null, $p, $file);
 			if ($c){
 				$uri = $this->m_manager->getController()->getUri("dropFile&n=".base64_encode($file), $this->m_manager);
@@ -565,7 +565,7 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 		//$u = igk_app()->Session->User;
 		$u = igk_app()->Session->User;
 
-		$v = IGKApp::getInstance()->IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage"));
+		$v = IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage"));
 		if ($v)
 		{
 			if ($p){

@@ -1,5 +1,6 @@
 <?php
 
+use IGK\Database\DbQueryResult;
 use IGK\Helper\MacrosHelper;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
@@ -20,6 +21,8 @@ Usergroups::registerMacro("getUserGroups", function(int $uid){
             [ Groups::table() =>QueryBuilder::LeftJoin(Groups::column("clId")." = clGroup_Id")]
         ]
     ]);  
+
+    
     return $c ? $c->getRows() : null;
 });
 

@@ -2,7 +2,7 @@
 
 namespace IGK\System\Database;
 
-use IGKDbColumnInfo;
+use IGK\Database\DbColumnInfo;
 
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "after"];
@@ -16,7 +16,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         foreach($childs as $c){
-            $cl = IGKDbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
+            $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
             $this->columns[]=$cl; 
         } 
         // TODO: To remove

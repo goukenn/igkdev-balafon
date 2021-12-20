@@ -9,6 +9,9 @@
 // @url: https://www.igkdev.com
 
 ///<summary>Represente class: TabUriListener</summary>
+
+use IGK\Resources\R;
+
 /**
 * Represente TabUriListener class
 */

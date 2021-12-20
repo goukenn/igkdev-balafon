@@ -50,36 +50,42 @@ class HtmlCoreJSScriptsNode extends HtmlNode{
         return $sb;
     }
     public static function GetCoreScriptContent(){
-        $s = "";
+        $out = "";
         $exclude_dir = [];
         $resolver = IGKResourceUriResolver::getInstance();
         $tab = [
             [IGK_LIB_DIR."/".IGK_SCRIPT_FOLDER, "igk"],
             [IGK_LIB_DIR."/Ext", "sys"],
         ];
+        $d =rtrim(explode("?", igk_server()->REQUEST_URI)[0], "/");
+        $rq = count(array_filter(explode("/", $d)))."/:"; 
+        // echo "log : ".$rq . " bbbb:".$d;
+
         while($q = array_shift($tab)){
             $dir = $q[0];
             $tag = $q[1];
-        $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($dir);
+        $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq.$dir);
 
         if (file_exists($cache_path)){
             ob_start();
             include($cache_path);
-            $s .= ob_get_contents();
+            $out .= ob_get_contents();
             ob_end_clean();
         }
         else {
-            $files = IO::GetFiles($dir, "/\.js$/", true, $exclude_dir, function($f) use ($resolver, & $s, $tag){            
-                $u = $resolver->resolve($f);
-                $s.="<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\" ";
+            $s = "";
+            IO::GetFiles($dir, "/\.js$/", true, $exclude_dir, function($f) use ($resolver, & $s, $tag){            
+                $u = $resolver->resolve($f)."?v=".IGK_VERSION;
+                $s.="<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
                 if ($tag != "igk"){
                     $s.= " defer";
                 }
-                $s.=" $tag ></script>";
+                $s.=" ></script>";
             });
             IO::WriteToFile($cache_path, $s);
+            $out .= $s;
         }
     }
-        return $s;
+        return $out;
     }
 }

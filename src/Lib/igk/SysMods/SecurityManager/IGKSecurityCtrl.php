@@ -9,10 +9,13 @@
 // @url: https://www.igkdev.com
 
 ///<summary>represent a controller to manage security</summary>
+
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
+
 /**
 * represent a controller to manage security
 */
-class IGKSecurityCtrl extends IGKConfigCtrlBase{
+class IGKSecurityCtrl extends ConfigControllerBase{
     ///<summary></summary>
     /**
     * 

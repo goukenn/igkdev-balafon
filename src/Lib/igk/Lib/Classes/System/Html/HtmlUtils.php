@@ -20,6 +20,11 @@ use function igk_resources_gets as __;
 abstract class HtmlUtils
 {
     private static $gRendering;
+    /**
+     * 
+     * @param array|\IIGKArrayObject $n  item to convert
+     * @return array 
+     */
     public static function ToArray($n){
         if (is_array($n))
             return $n;
@@ -67,7 +72,7 @@ abstract class HtmlUtils
                 "src" => R::GetImgUri($imgname),
                 "alt" => __($desc)
             ));
-            $a->AppendAttributes($attribs);
+            $a->setAttributes($attribs);
             return (object)$t;
         }
         return null;
@@ -82,7 +87,7 @@ abstract class HtmlUtils
         $a = $target->add("a", array("class" => "igk-btn igk-btn-lnk", "href" => $uri));
         $a->Content = is_string($langkey) ? __($langkey) : $langkey;
         if (is_array($attributes)) {
-            $a->AppendAttributes($attributes);
+            $a->setAttributes($attributes);
         }
         return $a;
     }
@@ -95,31 +100,12 @@ abstract class HtmlUtils
 
             $a = $target->addImgLnk($uri, $imgname, $width, $height, $desc);
             if ($attribs)
-                $a->AppendAttributes($attribs);
+                $a->setAttributes($attribs);
             return $a;
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
-    ///<param name="target"></param>
-    ///<param name="index" default="null"></param>
-    /**
-     * 
-     * @param mixed $item
-     * @param mixed $target
-     * @param mixed $index the default value is null
-     */
-    public static function AddItem($item, $target, $index = null)
-    {
-
-        if (($item == null) || ($target == null))
-            return false;
-        if ($item->getParentNode() === $target)
-            return true;
-        self::RemoveItem($item);
-        return $target->add($item, null, $index);
-    }
+     
     ///<summary></summary>
     ///<param name="tr"></param>
     ///<param name="targetid" default="null"></param>
@@ -400,7 +386,7 @@ abstract class HtmlUtils
      */
     public static function nInput($id, $value = null, $type = "text")
     {
-        $btn = igk_createnode("input")->AppendAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
+        $btn = igk_createnode("input")->setAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
         switch (strtolower($btn["type"])) {
             case "button":
             case "submit":
@@ -420,7 +406,7 @@ abstract class HtmlUtils
      */
     public static function nTextArea($id, $value)
     {
-        return igk_createnode("textarea")->AppendAttributes(array("id" => $id, "name" => $id, "value" => $value));
+        return igk_createnode("textarea")->setAttributes(array("id" => $id, "name" => $id, "value" => $value));
     }
     ///<summary></summary>
     ///<param name="item"></param>

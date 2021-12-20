@@ -2,6 +2,7 @@
 
 namespace IGK\System\Database;
 
+use IGK\System\Html\Dom\HtmlCommentNode;
 use IGKDbSchemas;
 use IGKException;
 use IGKHtmlCommentItem;
@@ -24,7 +25,7 @@ abstract class SchemaMigrationItemBase{
     public function load($node){  
         $this->m_raw = igk_get_robjs($this->fill_properties, 0, $node->getAttributes()->to_array());
         $tab = array_filter($node->getChilds()->to_array(), function($v){
-            return !($v instanceof IGKHtmlCommentItem);
+            return !($v instanceof HtmlCommentNode);
         }); 
         $this->loadChilds($tab);
         return $this;

@@ -6,6 +6,7 @@ use IGK\System\Console\Logger;
 use IGKNumber;
 use ZipArchive;
 use IGK\Resources\R;
+use IGK\System\Number;
 
 // require_once (IGK_LIB_DIR."/Lib/Classes/Resources/R.php");
 
@@ -45,7 +46,7 @@ class ZipProjectCommand extends AppExecCommand{
         // if ($zip->open($path, ZIPARCHIVE::CREATE))
         // { 
         //     igk_zip_dir($g, $zip,  $prjname, "/(\/temp)|\.(vscode|git(ignore)?|gkds|DS_Store)$/");
-        //     $manifest = igk_createxmlnode("manifest");
+        //     $manifest = igk_create_xmlnode("manifest");
         //     $manifest["xmlns"] = "https://schema.igkdev.com/project";
         //     $manifest["appName"] = IGK_PLATEFORM_NAME."/".$prjname;
         //     $manifest->add("version")->Content = $ctrl->Configs->get("version", "1.0");// IGK_VERSION;

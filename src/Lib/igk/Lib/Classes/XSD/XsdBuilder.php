@@ -45,7 +45,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         return $g;
     }
     public function __construct(){
-        $this->m_node = igk_createxmlnode("xs:schema");
+        $this->m_node = igk_create_xmlnode("xs:schema");
         $this->m_node["xmlns:xs"] = self::SCHEMA;
     } 
     /**

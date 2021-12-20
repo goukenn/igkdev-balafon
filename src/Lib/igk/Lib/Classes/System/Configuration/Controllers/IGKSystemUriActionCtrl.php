@@ -11,10 +11,12 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Models\Systemuri;
+use IGK\System\Html\HtmlRenderer;
 use IGKSystemUriActionPatternInfo;
 use IIGKUriActionListener;
 
-final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriActionListener{
+final class IGKSystemUriActionCtrl extends ConfigControllerBase implements IIGKUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
     private static $sm_actions, $sm_routes;
@@ -128,6 +130,10 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
     private static function InitActionList($ctrl){
+        igk_die("init action");
+        if (defined("IGK_NO_WEB")){
+            return;
+        }
         self::$sm_actions=array();
         self::$sm_actions["^/config(.php)?$"]=$ctrl->getUri("gotoconfig");
         $conf_ctrl=igk_getconfigwebpagectrl();
@@ -159,6 +165,7 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
         foreach(self::$sm_actions as $k=>$v){
             $route[$k]=$v;
         }
+        // igk_wln_e(__FILE__.":".__LINE__, get_class($ctrl));
         $e=$ctrl->getDbEntries();
         if($e && ($e->RowCount > 0)){
             foreach($e->Rows as $k=>$v){
@@ -173,12 +180,9 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
         }
         return self::$sm_actions;
     }
-    ///<summary></summary>
-    protected function InitComplete(){
-        parent::InitComplete();
-        if(!defined("IGK_NO_WEB") || (constant("IGK_NO_WEB") != 1)){
-            self::InitActionList($this);
-        }
+   
+    public function getDbEntries(){
+        return []; 
     }
     ///<summary></summary>
     public function invoke_action(){
@@ -222,8 +226,7 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
         igk_app()->getControllerManager()->InvokePattern($pattern);
         $this->setEnvParam("targetctrl", null);
         if($render){
-            igk_render_doc();
-            igk_exit();
+            HtmlRenderer::RenderDocument();
         }
     }
     ///<summary></summary>
@@ -277,8 +280,7 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
     ///<param name="key"></param>
     public function invokeUri($key){
         igk_app()->getControllerManager()->InvokeUri($this->getSystemUri($key));
-        igk_render_doc();
-        igk_exit();
+        HtmlRenderer::RenderDocument(); 
     }
     ///<summary></summary>
     ///<param name="pattern"></param>
@@ -292,7 +294,7 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
         $app->getControllerManager()->InvokeUri($v_uri);
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, null);
         if($render){
-            igk_render_doc();
+            HtmlRenderer::RenderDocument();
             igk_exit();
         }
     }
@@ -388,7 +390,7 @@ final class IGKSystemUriActionCtrl extends IGKConfigCtrlBase implements IIGKUriA
             return;
         }
         $c=$this->TargetNode;
-        igk_html_add($c, $this->ConfigNode);
+        $this->ConfigNode->add($c);
         $c=$c->ClearChilds()->addPanelBox();
         igk_html_add_title($c, "title.SystemUriView");
         $c->addHSep();

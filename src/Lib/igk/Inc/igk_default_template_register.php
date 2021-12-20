@@ -10,13 +10,20 @@
 
 use IGK\System\Html\HtmlUtils;
 
+// +| definition of extra template depend on eval function 
+
+
+if (in_array('eval', explode(',', ini_get('disable_functions')))){
+    return;
+}
+ 
+
 function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattrib){
 	 $attrname = $attr;
 	 while(strlen($attrname)>0 && ($attrname[0]=="*"))
 		$attrname = substr($attrname, 1);
 	 $g=(function($rv) use ($n, $context, $setattrib, $attrname){
-        extract($tab = (array)$context);
-  
+        extract($tab = (array)$context);  
 		$s = "return ".$rv.";";
 		$v = @eval($s);
         $setattrib($attrname, $v);
@@ -49,8 +56,8 @@ function igk_template_get_piped_value($rv, $context){
 
 igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context, $setattrib){
     $g=(function($script) use ($context){
-        extract(igk_to_array($context));      
-        return eval((function(){
+        extract(igk_to_array($context));  
+        return @eval((function(){
             if (func_num_args()==1)
             return "return ".func_get_arg(0).";"; 
         })(HtmlUtils::GetAttributeValue($script, $context)));

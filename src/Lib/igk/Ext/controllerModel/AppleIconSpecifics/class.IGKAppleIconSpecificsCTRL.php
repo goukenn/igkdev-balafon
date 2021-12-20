@@ -9,6 +9,9 @@
 // @url: https://www.igkdev.com
 
 ///<summary>Represente class: IGKAppleIconCtrl</summary>
+
+use IGK\Controllers\ExtraControllerProperty;
+
 /**
 * Represente IGKAppleIconCtrl class
 */
@@ -20,7 +23,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     public static function GetAdditionalConfigInfo(){
         return array(
             "clAppleIconUri"=>igk_createAdditionalConfigInfo(array("clRequire"=>1)),
-            "clAppleTouchIconType"=>new IGKAdditionCtrlInfo("select",
+            "clAppleTouchIconType"=>new ExtraControllerProperty("select",
             array(
                 "apple-touch-icon"=>"apple-touch-icon",
                 "apple-touch-icon-precomposed"=>"apple-touch-icon-precomposed"

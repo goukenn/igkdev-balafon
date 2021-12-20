@@ -56,7 +56,7 @@ class ZipWpPluginCommand extends AppExecCommand{
         if ($zip->open($path, ZIPARCHIVE::CREATE))
         { 
             igk_zip_dir($sourcepath, $zip,  null, $rgx );
-            $manifest = igk_createxmlnode("manifest");
+            $manifest = igk_create_xmlnode("manifest");
             $manifest["xmlns"] = "https://schema.igkdev.com/wp/plugin";
             $manifest["appName"] = $prjname;            
             $manifest->add("author")->Content = $author;

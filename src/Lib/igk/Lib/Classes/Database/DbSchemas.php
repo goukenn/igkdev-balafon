@@ -1,6 +1,13 @@
 <?php
 namespace IGK\Database;
 
+use IGK\Controllers\BaseController;
+use IGK\System\Html\HtmlReader;
+use IGKException;
+use stdClass;
+use function igk_resources_gets as __ ;
+
+
 ///<summary> schema constant </summary>
 /**
  * 
@@ -16,6 +23,12 @@ abstract class DbSchemas{
     const RELATIONS_TAG = "Relations";
     const RELATION_TAG = "Relation";
 
+
+    /**
+     * loaded schema
+     * @var array
+     */
+    static $sm_schemas = [];
 
     public static function LoadRelations($schema, $data){
         $n = $schema->add(self::RELATIONS_TAG);
@@ -42,4 +55,103 @@ abstract class DbSchemas{
     {
         die("not allowed");
     }
+
+    public static function LoadSchema($file, $ctrl = null, $resolvname = true){
+        
+        if (!file_exists($file)) {
+            return null;
+        }
+        $data = igk_getv(self::$sm_schemas, $file);
+        if (!$data){
+            $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname);
+             
+            
+            self::$sm_schemas[$file] = ["controller"=>$ctrl, "definition"=>$data];
+        }else {            
+            $data = $data["definition"];
+        }
+        return $data;
+    }
+    /**
+     * get schema definition from node
+     * @param mixed $d 
+     * @param mixed $ctrl 
+     * @param bool $resolvname 
+     * @return object 
+     * @throws IGKException 
+     */
+    public static function GetDefinition($d, $ctrl=null, $resolvname=true){
+        $tables = array();
+        $migrations = [];
+        $relations = [];
+        $output = null;
+        if ($d) {
+            $n = igk_getv($d->getElementsByTagName(IGK_SCHEMA_TAGNAME), 0);
+            if ($n) {
+                $output = igk_db_load_data_schema_array($n, $tables, $relations, $migrations, $ctrl, $resolvname);
+            }
+        }
+        
+        return (object)$output;
+    }
+    /**
+     * create db row
+     * @return stdClass|null 
+     */
+    public static function CreateRow($tablename, $ctrl, $dataobj = null){  
+        $g = $ctrl->getDataTableDefinition($tablename);
+        if ($g){
+            $inf = $g["tableRowReference"];              
+            return self::CreateObjFromInfo($inf, $dataobj);
+        }
+    }
+    /**
+     * create object from info Key refererence
+     */
+    public static function CreateObjFromInfo($tb, $dataobj=null){
+        if ($tb) {
+            $obj = igk_createobj();
+            foreach ($tb as $k => $v) {
+                $obj->$k = DbColumnInfo::GetRowDefaultValue($v);   
+            }
+            if ($dataobj != null) {
+                if (is_array($dataobj))
+                    $dataobj = (object)$dataobj;
+                // igk_db_copy_row($obj, $dataobj);
+
+                foreach ($obj as $k => $v) {
+                    if (isset($dataobj->$k)) {
+                        $obj->$k = $dataobj->$k;
+                    } else { 
+                        $obj->$k = null;
+                    }
+                }
+            }
+            return $obj;
+        }
+        return null;
+    }
+
+    public static function InitData(BaseController $ctrl, $dataschema, $adapter){
+        $r = $dataschema;
+        if (!is_object($r)) {
+            throw new IGKException("dataschema not an object");
+        }
+        $tb = $r->Data;
+        $etb = $r->Entries;
+        $no_error = 1;
+        $adapter->beginInitDb($ctrl);
+        foreach ($tb as $k => $v) {
+            $n = igk_db_get_table_name($k, $ctrl);
+            $data = igk_getv($etb, $n);
+            igk_hook(IGK_NOTIFICATION_INITTABLE, [$ctrl, $n, &$data]);
+            if (!$adapter->createTable($n, igk_getv($v, 'ColumnInfo'), $data, igk_getv($v, 'Description'), $adapter->DbName)) {
+                igk_push_env("db_init_schema", __("failed to create [0]", $n));
+                $no_error = 0;
+            }
+        }
+        $adapter->endInitDb();
+        return $no_error;
+    }
+   
 }

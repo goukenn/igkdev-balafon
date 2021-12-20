@@ -4,13 +4,14 @@
 // desc: install site
 //
 
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Installers\InstallerUtils;
 use IGK\System\Installers\InstallSite;
 
 use function igk_resources_gets as __;
 
 
-class IGKInstallSiteConfig extends IGKConfigCtrlBase
+class IGKInstallSiteConfig extends ConfigControllerBase
 {
 	public function install($folder = null, $packagefolder = null)
 	{

@@ -14,8 +14,8 @@ class IGKObject {
     * @param mixed $key
     */
     public function __get($key){
-        if(method_exists($this, "get".$key)){ 
-            return call_user_func(array($this, "get".$key), array_slice(func_get_args(), 1));
+        if(method_exists($this, $fc = "get".ucfirst($key))){ 
+            return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
         }
         return null;
     }

@@ -157,7 +157,7 @@ function igk_api_get_table_definition($api, $row, $table_n, $mysql, $tinfo=null,
     foreach($tt->Rows as $v){
         $cl=igk_api_get_columninfo($row, $v, $table_n, $mysql);
         if($tinfo)
-            $tinfo[$v->Field]=new IGKDbColumnInfo($cl->Attributes->to_array());
+            $tinfo[$v->Field]=new DbColumnInfo($cl->Attributes->to_array());
     }
     if($entries && $count > 0){
         $n=$entries->addXmlNode("Rows")->setAttribute("For", $table_n);
@@ -326,7 +326,7 @@ function igk_api_mysql_ctrl_gen_schema($api, $ctrlname){
         igk_ilog("'admin must be connected in order to generate data schema");
         return 0;
     }
-    $rep=igk_createxmlnode(IGK_SCHEMA_TAGNAME);
+    $rep=igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
     $rep["Date"]=date('Y-m-d');
     $rep["Version"]="1.0";
     $n=igk_html_node_noTagNode();
@@ -378,7 +378,7 @@ function igk_api_mysql_extract($api, $tbname){
     }
     switch($q["fmt"]){
         case "xml":
-        $n=igk_createxmlnode("Rows");
+        $n=igk_create_xmlnode("Rows");
         $n["For"]=$tbname;
         $tnames=array();
         foreach($r->Columns as $col){
@@ -433,7 +433,7 @@ function igk_api_mysql_extract($api, $tbname){
 */
 function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
     $ctrl=$api->App->getControllerManager()->getControllers();
-    $rep=igk_createxmlnode(IGK_SCHEMA_TAGNAME);
+    $rep=igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
     $uri=igk_getv(igk_getv(igk_get_ns(), "ns"), "igk");
     $rep->setAttribute("xmlns:igk", $uri);
     $msg=$rep->add("warning-message");
@@ -514,7 +514,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
 * @param mixed $param the default value is null
 */
 function igk_api_mysql_get_data_schema($api, $render=1, $param=null){
-    $rep=igk_createxmlnode(IGK_SCHEMA_TAGNAME);
+    $rep=igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
     $rep["Date"]=date('Y-m-d');
     $rep["Version"]="1.0";
     $mysql=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
@@ -537,7 +537,7 @@ function igk_api_mysql_get_data_schema($api, $render=1, $param=null){
                 $tt=$mysql->sendQuery("SHOW FULL COLUMNS FROM `".$table_n."`;");
                 foreach($tt->Rows as $v){
                     $cl=igk_api_get_columninfo($row, $v, $table_n, $mysql);                   
-                    $tinfo[$v->Field]=new IGKDbColumnInfo($cl->Attributes->to_array());
+                    $tinfo[$v->Field]=new DbColumnInfo($cl->Attributes->to_array());
                 }
                 $tables[$table_n]=(object)array("tinfo"=>$tinfo, 'ctrl'=>"sys://mysql_db");
             }
@@ -746,7 +746,7 @@ function igk_api_mysql_get_table_definition($api, $row, $table_n, $mysql, $tinfo
         
         
 		if ($tinfo && $cl){
-            $tinfo[$v->Field] =new IGKDbColumnInfo( $cl->Attributes->to_array());
+            $tinfo[$v->Field] =new DbColumnInfo( $cl->Attributes->to_array());
         }
 
         if (!empty($v->Extra)){

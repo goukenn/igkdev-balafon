@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\ILibaryController;
+use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGK\System\IO\File\WsdlFile;
 use function igk_resources_gets as __;
@@ -83,9 +84,9 @@ abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase 
         $this->regSystemVars(null);
         $this->regSystemVars(array("services"=>$this->getServices()));
         $bck=$this->TargetNode;
-        $this->TargetNode=$t;
+        $this->setTargetNode($t);
         $this->_include_file_on_context($f);
-        $this->TargetNode=$bck;
+        $this->setTargetNode($bck);
         $doc->body->getBodyBox()->add($t);
         $doc->renderAJX();
         $u=igk_io_fullBaseRequestUri();
@@ -244,7 +245,7 @@ EOF;
                 }
                 $r=$table->addTr();
                 $r->addTd()->Content=$nn;
-                $r->addTd()->Content= ($type = $v->getType()) ? $type->getName() : "mixed";
+                $r->addTd()->Content= ($type = $v->getType()) ? IGKType::GetName($type) : "mixed";
                 $v=igk_getv($jdata, $nn);
                
                 $r->addTd()->Content=($v) ? igk_getv($v, $lg): IGK_HTML_SPACE;
@@ -332,7 +333,7 @@ EOF;
         $info = new ReflectionMethod($this, $m);
         $ctype = "";
         if ($rtype = $info->getReturnType()){
-            $ctype = ": <span class=\"rtype\">".$rtype->getName()."<span>";
+            $ctype = ": <span class=\"rtype\">".IGKType::GetName($rtype)."<span>";
         }
         $content = $m.$ctype;
         if(igk_is_conf_connected()){
@@ -367,7 +368,7 @@ EOF;
             return;
         $sc=ob_get_contents();
         if(!strstr($sc, 'SOAP-ENV:Envelope')){
-            $r=igk_createXMLNode("response");
+            $r=igk_create_xmlnode("response");
             $r->addXmlNode("error")->Content="Failed to execute ".$_SERVER["HTTP_SOAPACTION"];
             $t=$r->addXmlNode("info");
             $t->addXmlNode("post_max_size")->Content=ini_get("post_max_size");

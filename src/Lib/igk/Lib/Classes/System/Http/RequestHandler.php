@@ -7,7 +7,11 @@ use IGK\Resources\R;
 use IGKApp;
 use IGKApplicationBase;
 use IGKException;
-use IGKString;
+use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Html\HtmlRenderer;
+
+use function igk_resources_gets as __;
+
 
 /**
  * base request handle
@@ -97,6 +101,7 @@ class RequestHandler
             $args = igk_getquery_args($u);
             $arg = igk_io_arg_from($f);
             $ctrl = igk_getctrl($c, false) ?? igk_template_create_ctrl($c);
+            // igk_wln_e(__FILE__.":".__LINE__, "controller: ".$c, $ctrl, session_id());
             if (!$ctrl) {
                 return null;
             }
@@ -152,7 +157,10 @@ class RequestHandler
      */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
-        !defined("IGK_REDIRECTION") && define("IGK_REDIRECTION", 1);
+        if (defined('IGK_REDIRECTION')){
+            die("already call redirection");
+        }
+        define("IGK_REDIRECTION", 1);
        
         IGKApp::StartEngine($application, 0);
 
@@ -172,26 +180,29 @@ class RequestHandler
         extract($args);
         // igk_wln_e("base jumpe", $defctrl);
         $app = igk_app();
-        $code = igk_getv($_REQUEST, "__c", 902);
+        // $code = igk_getv($_REQUEST, "__c", 902);
+        $code = igk_getv($_REQUEST, "__c", 901);
         $query = $server_info->{'REQUEST_URI'};
         $redirect = $server_info->{'REDIRECT_URL'};
         $redirect_status = $server_info->{'REDIRECT_STATUS'};
         $r = $server_info->{'REDIRECT_REQUEST_METHOD'};
         igk_sys_handle_res($query);
+
+        // igk_html_pre($_SERVER);
+        // exit;
         switch ($code) {
             case 901:
+                // default redirect request handle
+                // binding site pam 
                 if ($redirect == "/sitemap.xml") {
-                    include(dirname(__FILE__) . "/igk_sitemap.php");
+                    igk_bind_sitemap(["ctrl"=>$defctrl, "c"=>"sitemap"]);
                     igk_exit();
                 }
                 /// TASK: handle query option on system command
-
-                $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/\/(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";
-                $c = preg_match_all($rx, $redirect, $ctab);
-                if ($c > 0) {
-                    igk_getctrl(IGK_SYSACTION_CTRL)->invokePageAction($ctab["type"][0], $ctab["ctrl"][0], $ctab["function"][0], $ctab["args"][0]);
-                    return;
+                if ($this->handle_cmd_action($redirect)){
+                    igk_exit();
                 }
+                
                 break;
             case 904:
                 header("Status: 404");
@@ -234,7 +245,7 @@ class RequestHandler
                 $_REQUEST["l"] = $lang;
                 $_REQUEST["from_error"] = true;
                 $app->ControllerManager->InvokeUri();
-                igk_render_doc();
+                HtmlRenderer::RenderDocument();
                 igk_exit();
             }
         } catch (\Exception $ex) {
@@ -244,7 +255,7 @@ class RequestHandler
             if (is_dir($dir)) {
                 chdir($dir);
                 R::ChangeLang($lang);
-                $IGK_APP_DIR = $dir;
+                !defined('IGK_APP_DIR') && define('IGK_APP_DIR', $dir);
                 igk_wln_e("dir : ::: ", $dir, "page " . $page);
                 include("index.php");
                 igk_exit();
@@ -285,6 +296,19 @@ class RequestHandler
             }
         } catch (Exception $ex) {
             igk_show_error_doc();
+        }
+    }
+
+    ///<summary>handle command application command action</summary>
+    /**
+     * handle command application command action
+     */
+    public function handle_cmd_action(string $redirect){
+        $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/(\/)?(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";
+        $c = preg_match_all($rx, $redirect, $ctab);
+        if ($c > 0) {
+            igk_getctrl(IGK_SYSACTION_CTRL)->invokePageAction($ctab["type"][0], $ctab["ctrl"][0], $ctab["function"][0], $ctab["args"][0]);
+            return true;
         }
     }
 }

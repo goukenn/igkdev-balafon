@@ -340,7 +340,7 @@ $command = [
                 Logger::print("already initialized");
                 return;
             }          
-            $init_data = igk_createxmlnode("balafon");
+            $init_data = igk_create_xmlnode("balafon");
             $config = new IGK\System\Console\AppConfigs();
             $config->author = igk_environment()->balafon_author;
    

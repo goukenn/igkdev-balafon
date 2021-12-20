@@ -1,14 +1,14 @@
 <?php
 
 use IGK\Resources\R;
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
 
 use function igk_resources_gets as __;
 
 /*
 boot strap structure controller
 */
-final class IGKJQueryController extends IGKConfigCtrlBase
+final class IGKJQueryController extends ConfigControllerBase
 {
 	public function getName(){
 		return "jquery";
@@ -87,7 +87,7 @@ final class IGKJQueryController extends IGKConfigCtrlBase
 			return;
 		}
 		$c = $this->TargetNode;
-		igk_html_add($c, $this->ConfigNode);
+		$this->ConfigNode->add($c);
 		$c->ClearChilds();
 		$box = $c->addPanelBox();
 

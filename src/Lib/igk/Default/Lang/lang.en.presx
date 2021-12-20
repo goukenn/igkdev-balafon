@@ -286,7 +286,7 @@ $l["menu.about.igkdev"]="About IGKDEV";
 $l["menu.account"]="Account";
 $l["menu.admin"]="Admin";
 $l["menu.article"]="Articles";
-$l["menu.articleconfig"]="Articles and Controllers";
+$l["menu.articleconfig"]="Controller and articles";
 $l["menu.assets"]="Assets";
 $l["menu.authorisations"]="Authorisations";
 $l["menu.backgroundsetting"]="Background";
@@ -556,3 +556,5 @@ $l["dbName"] = "Name";
 
 $l["menu.installsite"] = "Install Site";
 $l["menu.session"] = "Session";
+
+$l["msg.nocontroller.for.menu"] = "no controller setup for main menu.";

@@ -1,13 +1,16 @@
 <?php
 //controller code class declaration
 //file is a part of the controller tab list
+
+use IGK\Controllers\ExtraControllerProperty;
+
 abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	public function getName(){return get_class($this);}
 
 	public static function GetAdditionalConfigInfo()
 	{
-		return array("clAllowMenuNavigation"=>new IGKAdditionCtrlInfo("bool", true));
+		return array("clAllowMenuNavigation"=>new ExtraControllerProperty("bool", true));
 	}
 	public static function SetAdditionalConfigInfo(& $tab)
 	{

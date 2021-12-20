@@ -43,11 +43,11 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase {
 	public function getDataTableInfo()
 	{
 		return array(
-			new IGKDbColumnInfo(array(IGK_FD_NAME=>IGK_FD_ID, IGK_FD_TYPE=>"Int","clAutoIncrement"=>true,IGK_FD_TYPELEN=>10, "clIsUnique"=>true, "clIsPrimary"=>true)),
-			new IGKDbColumnInfo(array(IGK_FD_NAME=>"clCommunity_Id", IGK_FD_TYPE=>"Int", "clIsUnique"=>true, "clLinkType"=>"tbigk_community"  )),
-			new IGKDbColumnInfo(array(IGK_FD_NAME=>"clLink", IGK_FD_TYPE=>"Text", "clDescription"=>"Url to community")),
-			new IGKDbColumnInfo(array(IGK_FD_NAME=>"clImageKey", IGK_FD_TYPE=>"VarChar", IGK_FD_TYPELEN=>30)),
-			new IGKDbColumnInfo(array(IGK_FD_NAME=>"clAvailable", IGK_FD_TYPE=>"Int", "clNotNull"=>1))
+			new DbColumnInfo(array(IGK_FD_NAME=>IGK_FD_ID, IGK_FD_TYPE=>"Int","clAutoIncrement"=>true,IGK_FD_TYPELEN=>10, "clIsUnique"=>true, "clIsPrimary"=>true)),
+			new DbColumnInfo(array(IGK_FD_NAME=>"clCommunity_Id", IGK_FD_TYPE=>"Int", "clIsUnique"=>true, "clLinkType"=>"tbigk_community"  )),
+			new DbColumnInfo(array(IGK_FD_NAME=>"clLink", IGK_FD_TYPE=>"Text", "clDescription"=>"Url to community")),
+			new DbColumnInfo(array(IGK_FD_NAME=>"clImageKey", IGK_FD_TYPE=>"VarChar", IGK_FD_TYPELEN=>30)),
+			new DbColumnInfo(array(IGK_FD_NAME=>"clAvailable", IGK_FD_TYPE=>"Int", "clNotNull"=>1))
 			);
 	}
 	public static function initDb($force =false){

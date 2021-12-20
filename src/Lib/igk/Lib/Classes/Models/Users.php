@@ -1,17 +1,14 @@
 <?php 
 namespace IGK\Models;
 
-use IGK\Helper\Utility;
-use IGKUsersController;
+use IGK\Helper\Utility; 
 
 /** 
  */
 class Users extends ModelBase {
 	/** 
 	 */
-	protected $table = "%prefix%users";
-
-	protected $controller = IGKUsersController::class;
+	protected $table = "%prefix%users"; 
 
 	protected $display = "clLogin";
 

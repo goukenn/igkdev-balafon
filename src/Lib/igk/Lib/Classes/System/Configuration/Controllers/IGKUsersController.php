@@ -3,16 +3,16 @@
 namespace  IGK\System\Configuration\Controllers;
 
 use IGK\Controllers\PageControllerBase;
+use IGK\Helper\SysUtils;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder;
-use IGK\System\Html\Dom\IGKHtmlDoc;
+use IGK\System\Html\Dom\IGKHtmlMailDoc;
+use IGK\System\Html\HtmlUtils;
 use IGKDbUtility;
 use IGKEvents;
-use IGKHtmlMailDoc;
-use HtmlUtils;
+use IGKHtmlDoc; 
 use IGKIterator;
-use IGKSystemHelper;
 use IGKSysUtil;
 use IGKValidator;
 
@@ -22,7 +22,7 @@ use function igk_resources_gets as __;
 /**
 * class used to register global user in system
 */
-class IGKUsersController extends IGKConfigCtrlBase {
+class IGKUsersController extends ConfigControllerBase {
     const IGK_DB="Db";
     ///<summary></summary>
     /**
@@ -36,7 +36,7 @@ class IGKUsersController extends IGKConfigCtrlBase {
     * 
     */
     public function begin_pwd_reset(){
-        $doc= new IGKHtmlDoc();
+        $doc= new IGKHtmlDoc("reset_pwd");
         $domain=igk_app()->Configs->website_domain;
         $doc->Title=__("title.welcome_1", $domain);
         $mbox=$doc->body->getBodyBox()->setClass("igk-register");
@@ -788,19 +788,21 @@ class IGKUsersController extends IGKConfigCtrlBase {
 
         $t->ClearChilds();
         $t=$t->addPanelBox();
-        igk_html_add_title($t, "title.users");
-        $t->addHSep();
-        $t->addPanelBox()->addDiv()->article($this, "users");
-        $t->addHSep();
+        igk_html_add_title($t, __("System's Users"));
+        
+        $t->addPanelBox()->addDiv()->setClass("article-host")->article($this, "users");
+        
         $frm=$t->addForm();
         $frm->addNotifyHost("sys://uc/auf");
       
-        $this->uc_options($frm);
+        $r= Users::select();//  igk_db_table_select_where($this->getDataTableName(), null, $this);
+        $r && $this->uc_options($frm);
         $table=$frm->addDiv()->setClass("igk-table-host overflow-x-a")->addTable();
-        $this->uc_options($frm);
+     
         $table["class"]="igk-table igk-table-striped igk-users-list";
-        $r=igk_db_table_select_where($this->getDataTableName(), null, $this);
-        if($r){
+        if($r){ 
+
+            $this->uc_options($frm);
             $tr=$table->addTr();
             $tr->add("th")->addSpace();
             $tr->add("th")->Content=__("lb.clFirstName");
@@ -817,13 +819,11 @@ class IGKUsersController extends IGKConfigCtrlBase {
             $selected=igk_getr("v", 1);
             $perpage=20;
             $max=$perpage;
-            $count=$r->RowCount;
-            $epagination=$max < $count;
-            $it=new IGKIterator($r->Rows);
-            $it->setRewindStart($perpage * ($selected - 1));
+            $count= count($r);
+            $epagination=$max < $count; 
             igk_get_builder_engine(null, $table);
             $grpuri=$this->getUri("lstgrp&id=");
-            foreach($it as  $v){
+            foreach($r as  $v){
                 $edit_uri=$this->getUri('u_edit&id='.$v->clId);
                 $lock_uri=$this->getUri('u_block&id='.$v->clId);
                 $tr=$table->addTr();
@@ -852,6 +852,8 @@ class IGKUsersController extends IGKConfigCtrlBase {
                 $frm->addDiv()->addAJXPaginationView(igk_io_currenturi().'/'.$this->getUri("view&v="), $count, $perpage, $selected, "^.igk-cnf-content");
             }
             
+        } else {
+            $frm->div()->Content = "No User Found";
         }
         
         if(igk_app()->Session->URI_AJX_CONTEXT){
@@ -863,8 +865,7 @@ class IGKUsersController extends IGKConfigCtrlBase {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__))){
             igk_ilog("call on uri demand");
             return 0;
-        }
-        $helper = IGKSystemHelper::getInstance();
+        } 
         $condition = [IGK_FD_ID=>$userid];
         $i = false;
         $msg = ["msg"=>__("failed to change user's password"), "type"=>"igk-danger"];
@@ -883,7 +884,7 @@ class IGKUsersController extends IGKConfigCtrlBase {
                 igk_ilog("User's ".$userid. " password changed");
             }
         } 
-        $helper->Notify($msg["msg"], $msg["type"]);
+        SysUtils::Notify($msg["msg"], $msg["type"]);
         return $i;
     }
     public function changePassword(int $id=null){
@@ -900,8 +901,7 @@ class IGKUsersController extends IGKConfigCtrlBase {
         $rid = $this->Db->selectSingleRow($tb , $condition);
         if (!$rid){
             igk_die("user not found", 403);
-        }
-        $helper = IGKSystemHelper::getInstance();
+        } 
 
         if (igk_server()->method("POST")){
             if (!igk_valid_cref(1)){ 
@@ -919,12 +919,12 @@ class IGKUsersController extends IGKConfigCtrlBase {
                     igk_ilog("User's ".$id. " password changed");
                 } 
             } 
-            $helper->Notify($m["msg"], $m["type"]);
+            SysUtils::Notify($m["msg"], $m["type"]);
             igk_ajx_panel_dialog_close();
             if (igk_is_ajx_demand()){
                 igk_exit();
             }
-            $helper->exitOnAJX();
+            SysUtils::exitOnAJX();
         }
 
         $form = igk_createnode("form");

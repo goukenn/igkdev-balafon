@@ -4,12 +4,10 @@
 // licence: IGKDEV - Balafon @ 2019
 // desc: mysql data adapter
 // file: igk_mysql_db.php
-
-use IGK\Controllers\BaseController;
-use IGK\System\Database\MySQL\DataAdapterBase;
-use IGK\System\Database\MySQL\IGKMySQLQueryResult;
-use IGK\System\Database\NoDbConnection;
-use \IGK\System\Database\MySQL\IGKMySQLDataCtrl;
+ 
+use IGK\Database\DbQueryDriver; 
+use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+ 
 
 
 if(!extension_loaded("mysql") && (!extension_loaded("mysqli"))){
@@ -21,8 +19,8 @@ if(!function_exists("mysqli_connect")){
     igk_exit();
 }
 
-require_once(__DIR__."/Lib/Classes/System/Database/MySQL/DataAdapter.php");
-require_once(__DIR__."/Lib/Classes/System/Database/MySQL/IGKMySQLDataCtrl.php");
+require_once(__DIR__."/DataAdapter.php");
+require_once(__DIR__."/Controllers/MySQLDataController.php");
 
 ///<summary></summary>
 ///<param name="srv"></param>
@@ -35,12 +33,14 @@ require_once(__DIR__."/Lib/Classes/System/Database/MySQL/IGKMySQLDataCtrl.php");
 * @param mixed $pwd
 */
 function igk_db_connect($srv, $dbu=null, $pwd=null, $options=null){
-    /**
-     * @var object|resource $b resource type
-     */
+ 
     if(empty($srv))
         return false;
     $g=DbQueryDriver::GetFunc("connect") ?? igk_die("not connect found for !!!! ".DbQueryDriver::$Config["system"]);
+
+    /**
+     * @var object|resource $b resource type
+     */
     $b = null;
     if(DbQueryDriver::Is("MySQLI")){
         try{
@@ -403,4 +403,10 @@ DbQueryDriver::Init(function(& $conf){
     $t["lastid"]="mysqli_insert_id";
     $conf[$n]["func"]=$t;
 });
-igk_sys_regSysController(IGKMySQLDataCtrl::class);
+// igk_sys_regSysController(IGKMySQLDataCtrl::CURRENT_VIEW);
+
+require_once __DIR__ ."/Controllers/DbConfigController.php";
+
+igk_sys_regsyscontroller(\IGK\System\Database\MySQL\Controllers\DbConfigController::class);
+
+ConfigControllerRegistry::Register(\IGK\System\Database\MySQL\Controllers\DbConfigController::class, IGK_MYSQL_DB_CTRL);

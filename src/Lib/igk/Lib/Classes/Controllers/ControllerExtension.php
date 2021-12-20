@@ -13,6 +13,7 @@ use IGK\System\Http\RouteActionHandler;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 use DbQueryResult;
+use IGK\Database\DbSchemas;
 use IGKResourceUriResolver;
 use SQLQueryUtils;
 use Throwable;
@@ -250,7 +251,7 @@ abstract class ControllerExtension{
 
         $rgx = "/^[0-9]{8}_[0-9]{4}_(?P<name>(".IGK_IDENTIFIER_PATTERN."))/i";
         //get all seed class and run theme
-        $dir = $ctrl->getSourceClassDir()."/Database/Migrations";
+        $dir = $ctrl->getClassesDir()."/Database/Migrations";
         $runbatch = 1;
         if (!$tab = igk_io_getfiles($dir, "/\.php/")){
             return 0;
@@ -323,7 +324,7 @@ abstract class ControllerExtension{
     }
     public static function InitDataBaseModel(BaseController $ctrl, $force=false){
       
-        $c = $ctrl->getSourceClassDir()."/Models/";
+        $c = $ctrl->getClassesDir()."/Models/";
         $tb = $ctrl->getDataTableInfo();
         $ns = igk_db_get_table_name("%prefix%", $ctrl);
 
@@ -356,7 +357,7 @@ abstract class ControllerExtension{
 
     public static function InitDataInitialization(BaseController $ctrl, $force=false){
         //init database models
-        $c = $ctrl->getSourceClassDir()."/Database/InitData.php";
+        $c = $ctrl->getClassesDir()."/Database/InitData.php";
         if ($force || !file_exists($c)){
         $ns = $ctrl::ns("Database");
         $builder = new PHPScriptBuilder();
@@ -376,7 +377,7 @@ abstract class ControllerExtension{
     public static function InitDataSeeder(BaseController $ctrl, $force=false){
         //init database models
        // $force = 1;
-        $c = $ctrl->getSourceClassDir()."/Database/Seeds/DataBaseSeeder.php";
+        $c = $ctrl->getClassesDir()."/Database/Seeds/DataBaseSeeder.php";
         if ($force || !file_exists($c)){
 
             $ns = $ctrl::ns("Database/Seeds");
@@ -401,7 +402,7 @@ abstract class ControllerExtension{
     public static function InitDataFactory(BaseController $ctrl, $force=false){
         //init database models
    
-        $c = $ctrl->getSourceClassDir()."/Database/Factories/FactoryBase.php";
+        $c = $ctrl->getClassesDir()."/Database/Factories/FactoryBase.php";
         if ($force || !file_exists($c)){
 
             $ns = $ctrl::ns("Database/Factories");
@@ -427,7 +428,7 @@ abstract class ControllerExtension{
         }
     }
     public static function register_autoload(BaseController $ctrl){
-        die(__METHOD__ . " not implement ");
+        // die(__METHOD__ . " - not implement - ");
 
         // $k="sys://autoloading/".igk_base_uri_name($ctrl->getDeclaredDir());
         // if(igk_get_env($k))
@@ -454,18 +455,13 @@ abstract class ControllerExtension{
      * @return string|string[]|null 
      */
     public static function resolvClass(BaseController $ctrl, $path){
-        $cl = $ctrl::ns($path);
-
-       //  if ($path == "Database/InitData"){
-           
-        // }
-
+        $cl = $ctrl::ns($path); 
         $ctrl::register_autoload();    
         if (class_exists($cl)){
             return $cl;
         }
-       
-        igk_wln_e("sample .... {$path} {$cl} ". get_class($ctrl));
+        /// TODO: resolv class 
+        // igk_wln_e(__METHOD__. " : resolvClass failed  {$path} {$cl} ". get_class($ctrl));
         return null;
     }
     public static function getAutoresetParam(BaseController $ctrl, $name, $default=null){
@@ -480,7 +476,7 @@ abstract class ControllerExtension{
         $gc = 0;
         $extends = implode("\\", array_filter([$ns, "Models\\ModelBase"]));
 
-        $c = $ctrl->getSourceClassDir()."/Models/";
+        $c = $ctrl->getClassesDir()."/Models/";
         if( ($name!="ModelBase") && file_exists($c."/ModelBase.php")){
             $uses[] =  implode("\\", array_filter([$ns, "Models\\ModelBase"]));
             $gc = 1;
@@ -926,5 +922,93 @@ abstract class ControllerExtension{
     
         return $ctrl->getConfigs()->storeConfig();
     }
+    
+    /**
+     * get database schema file
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function getDataSchemaFile(BaseController $ctrl){ 
+        $d = $ctrl->getDataDir()."/".IGK_SCHEMA_FILENAME; 
+        return $d;
+    }
 
+    /**
+     * laod database from schema
+     * @param BaseController $ctrl 
+     * @return null|object 
+     * @throws IGKException 
+     */
+    public static function loadDataFromSchemas(BaseController $ctrl){
+        return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl);
+    }
+    /**
+     * get data table definition
+     */
+    public static function getDataTableDefinition(BaseController $ctrl, $tablename){
+        if ($ctrl->getUseDataSchema()){
+            if ($schema = self::loadDataFromSchemas($ctrl)){
+                if (isset($schema->tables[$tablename])){
+                    $info = & $schema->tables[$tablename];
+                    if (!isset($info["tableRowReference"])){
+                        //
+                        // + | update data with table's row model reference info
+                        //
+                        $info["tableRowReference"] = igk_array_object_refkey( igk_getv($info, "ColumnInfo"), IGK_FD_NAME);
+                    }
+                    return $info;
+                }
+            }  
+        }else {
+           if ($ctrl->getDataTableName()==$tablename){
+                $clinfo = $ctrl->getDataTableInfo();
+                $cinfo = [
+                    "ColumnInfo"=> $clinfo ,
+                    "tableRowReference"=>  igk_array_object_refkey( $clinfo, IGK_FD_NAME)
+                ];
+                return $cinfo; 
+           }
+        }
+    }
+
+     ///<summary></summary>
+    /**
+    * 
+    */
+    public static function getCanInitDb(BaseController $controller){
+        if(defined('IGK_DB_GRANT_CAN_INIT') || igk_is_cmd())
+            return true;
+        return igk_is_conf_connected();
+    }
+
+    public static function loadDataAndNewEntriesFromSchemas(BaseController $controller){
+        $obj=(object)array(
+            "Data"=>null,
+            "Entries"=>null,
+            "Relations"=>null,
+            "RelationsDef"=>null,
+            "Migrations"=>null,
+            "Version"=>1
+        );
+        if ($data = self::loadDataFromSchemas($controller)){
+ 
+
+            $obj->Data = [];
+            $obj->Relations = $data->tbrelations;
+            $obj->RelationsDef = $data->relations;
+            $obj->Migration = $data->migrations;
+
+            foreach($data->tables as $n=>$t){
+                if ($c = igk_getv($t, "Entries")){
+                    $obj->Entries[$n]=  $c;
+                }
+                $obj->Data[$n] = $t;
+            }
+            
+        }
+        // igk_html_pre($obj);
+        // igk_wln_e(__FILE__.":".__LINE__, $controller::name(""));
+        return $obj;
+    }
+ 
 }

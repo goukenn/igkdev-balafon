@@ -637,7 +637,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
     public function request(){
         $u=igk_getr("u");
         $pwd=igk_getr("pwd");
-        $node = igk_createxmlnode("response");
+        $node = igk_create_xmlnode("response");
         $this->ConfigCtrl->logout(false, true);
         if(!$this->ConfigCtrl->IsConnected){
             $this->ConfigCtrl->connect($u, $pwd, false);

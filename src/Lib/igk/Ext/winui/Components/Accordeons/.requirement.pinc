@@ -5,7 +5,7 @@
 //               it purpose is to be included in direct access stand alone script
 defined("IGK_LIB_DIR") || die ("not allowed"); 
 
-if (!IGKSysCache::LoadCacheLibFiles())
+if (!\IGKSysCache::LoadCacheLibFiles())
 {
 	igk_exit();
 }

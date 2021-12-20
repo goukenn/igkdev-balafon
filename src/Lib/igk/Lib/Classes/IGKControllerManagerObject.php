@@ -5,10 +5,16 @@
 
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
+use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\Cache\SystemFileCache as IGKSysCache;
+use IGK\Controllers\RootControllerBase;
+use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+use IGK\System\Configuration\Controllers\IGKSystemUriActionCtrl;
+use IGK\System\Drawing\Color;
+
 use function igk_resources_gets as __;
 
 
@@ -23,9 +29,11 @@ final class IGKControllerManagerObject extends IGKObject {
 
     private $m_tbcontrollers;
     private $m_initEvent;
-    private $m_register;
-    // private $m_registeredCtrl;
+    private $m_register; 
     private $m_tbviewcontrollers; 
+    /**     
+     * @var IGKControllerManagerObject controller instance
+     */
     private static $sm_instance;
     ///<summary></summary>
     /**
@@ -58,10 +66,12 @@ final class IGKControllerManagerObject extends IGKObject {
             }
         }
         $n  = $classname; 
-        if (class_exists($n) && is_subclass_of($n, BaseController::class)){         
-            $o=new $n();
-            $this->m_tbcontrollers[$n] = $o;
-            // $this->Register($n, $o);
+        if (class_exists($n) && is_subclass_of($n, BaseController::class)){ 
+            $o = RootControllerBase::CreateInstanceAndInit($n, function($o, $n){                
+                $this->{$o->getName()} = $o;
+                $this->m_tbcontrollers[$n] = $o;  
+                return true;               
+            });                    
             return $o;
         } else { 
             if (igk_environment()->is("DEV")){
@@ -114,6 +124,13 @@ final class IGKControllerManagerObject extends IGKObject {
                 $this->m_tbcontrollers[$key]=$value;
             }
         }
+    }
+    /**
+     * get registrated keys
+     * @return int[]|string[] 
+     */
+    public function getInitControllerKeys(){
+        return array_keys($this->m_tbcontrollers);
     }
     ///<summary>display value</summary>
     /**
@@ -375,13 +392,19 @@ final class IGKControllerManagerObject extends IGKObject {
         }
         return null;
     }
-    ///<summary>Return the array of controller</summary>
+    ///<summary>get array of initialized controller</summary>
     ///<return refout="true"></return>
     /**
-    * Return the array of controller
+    * get array of initialized controller
     * @return mixed|array controller list 
     */
-    public function & getControllers(){
+    public function getControllers(){
+        return array_unique(array_values($this->m_tbcontrollers));
+    }   
+    /**
+     * get controller reference
+     */
+    public function & getControllerRef(){
         return $this->m_tbcontrollers;
     }
     ///<summary>get the current instance manager</summary>
@@ -975,7 +998,7 @@ final class IGKControllerManagerObject extends IGKObject {
             }
             if($throwex && ($v === null)){   
                 $msg  = __("Controller [{0}] not found", $ctrlname);
-                igk_environment()->is("DEV") && igk_wln_e($ctrlname, $msg);
+                igk_environment()->is("DEV") && igk_wln_e($ctrlname, $msg, igk_ob_get_func("igk_trace"));
                 igk_die($msg);
             }
             return $v;
@@ -988,7 +1011,7 @@ final class IGKControllerManagerObject extends IGKObject {
         return null;
     }
 
-    public static function InitController($ctrlname){   
+    public static function InitController($ctrlname){        
         $n= self::GetSystemController($ctrlname); // igk_sys_get_controller($ctrlname);
         if (($n===null) && class_exists($ctrlname)){
             $n = $ctrlname;
@@ -1003,15 +1026,29 @@ final class IGKControllerManagerObject extends IGKObject {
     }
 
     public static function GetSystemController($n){
-        static $resolv_ctrl;
+        
         $b= igk_environment()->get("sys://app/controllers");
         if($b && $n){
             if ($g = igk_getv($b, $n))
                 return $g; 
         }
+        $g = self::GetRegisteryController();
+
+        return igk_getv(self::GetRegisteryController(), $n);
+    }
+    public static function GetRegisteryController(){
+        $g = ConfigControllerRegistry::GetResolvController(); 
+        return $g;
+    }
+    /**
+     * get .controller.pinc registrated
+     * @return mixed 
+     */
+    public static function GetResolvController(){
+        static $resolv_ctrl;
         if ($resolv_ctrl === null){
             $resolv_ctrl = include(IGK_LIB_DIR."/.controller.pinc");
         }
-        return igk_getv($resolv_ctrl, $n);
+        return $resolv_ctrl;
     }
 }

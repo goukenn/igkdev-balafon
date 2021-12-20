@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 
+use IGK\Helper\SysUtils;
 use IGK\System\Html\XML\XmlNode;
 
 final class HtmlReaderDocument extends XmlNode{
@@ -23,7 +24,7 @@ final class HtmlReaderDocument extends XmlNode{
     }
     ///<summary> copy the current node to destination</summary>
     public function CopyTo($target){
-        $t=($c=$this->Childs) ? HtmlUtils::ToArray($c): null;
+        $t=($c=$this->Childs) ? SysUtils::ToArray($c): null;
         $this->__rm_childs(__FUNCTION__);
         if($t) foreach($t as $k){
             if($k == null)

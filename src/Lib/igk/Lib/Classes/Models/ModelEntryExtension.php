@@ -1,10 +1,9 @@
 <?php
 namespace IGK\Models;
  
-use IGK\System\Database\QueryBuilder; 
-use IGKException as Exception;
-use HtmlUtils;
-use DbQueryResult;
+use IGK\System\Database\QueryBuilder;  
+use IGK\Database\DbQueryResult;
+use IGKException;
 
 use function igk_resources_gets as __;
 use function PHPUnit\Framework\callback;
@@ -94,10 +93,19 @@ abstract class ModelEntryExtension{
     public static function rollback(ModelBase $model){
         return $model->getDataAdapter()->rollback();
     }
-  
     
-    public static function select_all(ModelBase $model, $conditions=null, $options=null){ 
-      //   igk_wln_e(get_class($model), $conditions, $options ,func_num_args(), func_get_args());
+    /**
+     * 
+     * @param ModelBase $model 
+     * @return array 
+     * @throws Exception 
+     */
+    public static function select(ModelBase $model, $conditions=null, $options=null)
+    {
+        return self::select_all($model, $conditions, $options);
+    }
+    
+    public static function select_all(ModelBase $model, $conditions=null, $options=null){  
 
         $tab = [];
         $driver = $model->getDataAdapter(); 

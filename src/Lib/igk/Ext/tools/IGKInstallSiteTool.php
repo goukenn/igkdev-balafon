@@ -44,7 +44,7 @@ class IGKInstallSiteTool extends ToolControllerBase{
     */
     public function install(){
         $g=igk_getr("dir");
-        $result = igk_createxmlnode("response");
+        $result = igk_create_xmlnode("response");
 
         if(empty($g) || !IO::CreateDir($g)){
 

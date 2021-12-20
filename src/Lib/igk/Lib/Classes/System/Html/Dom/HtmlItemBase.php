@@ -5,6 +5,9 @@ namespace IGK\System\Html\Dom;
 use ArrayAccess;
 use Closure;
 use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
+use IGK\System\Html\HtmlAttributeArray;
+use IGK\System\Html\HtmlChildArray;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
@@ -21,10 +24,10 @@ use IGKObject;
 abstract class HtmlItemBase extends IGKObject implements ArrayAccess
 {
     use  ArrayAccessSelfTrait;
-    static $BasicMethod = array(
-        "AcceptRender"=>"__AcceptRender",
-        "RenderComplete"=>"__RenderComplete"
-    );
+    // static $BasicMethod = array(
+    //     "AcceptRender"=>"__AcceptRender",
+    //     "RenderComplete"=>"__RenderComplete"
+    // );
     const EVENTS=0xa1;
     const ACTIVATE=1;
     const ATTRIBS=2;
@@ -36,11 +39,19 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
 
     protected $tagname;
 
-    protected $content = "";
+    protected $content = null;
 
-    protected $m_childs = [];
+    /**
+     * 
+     * @var HtmlChildArray
+     */
+    protected $m_childs;
 
-    protected $m_attributes = [];
+    /**
+     * 
+     * @var HtmlAttributeArray
+     */
+    protected $m_attributes;
 
     protected $m_callexclude = [];
 
@@ -50,10 +61,8 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
      */
     protected $m_parent;  
 
-
-
-
     static $sm_macros;
+
     public static function RegisterMacros($name, $class){
         if (empty($name)){
             throw new IGKException("name not defined");
@@ -108,7 +117,12 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
        }
     }
 
-     ///<summary></summary>
+    public function __construct()
+    {
+        $this->m_attributes = new HtmlAttributeArray();
+        $this->m_childs = $this->getCanAddChilds() ?  new HtmlChildArray() : null;
+    }
+    ///<summary></summary>
     /**
     * 
     */
@@ -153,6 +167,24 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
             $s=1;
         return $s;
     }
+
+    ///<summary>set is visible and maintain chain</summary>
+    /**
+    * set is visible and maintain chain
+    */
+    public function setIsVisible($value){
+        $value=igk_getbool($value);
+        if($value === true){
+            $this->setFlag(IGK_ISVISIBLE_FLAG, null);
+        }
+        else{
+            $this->setFlag(IGK_ISVISIBLE_FLAG, true);
+        }
+        return $this;
+    }
+    /**
+     * @return array|\IIGKArrayObject return list of children
+     */
     public function getChilds(){
         return $this->m_childs;
     }
@@ -160,17 +192,27 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     /**
     *  get if this node accept rendering. and initialeze it
     */
-    protected function __AcceptRender($opt=null){
+    protected function __AcceptRender($options =null){
         $s=$this->getIsVisible();
         return $s;
     }
+    /**
+     * get array of rendering children
+     * @param mixed $options 
+     * @return array 
+     */
     protected function __getRenderingChildren($options=null){
-        return $this->m_childs;
+        return $this->m_childs ?  $this->m_childs->to_array() : [];
     }
     public function getAttributes()
     {
         return $this->m_attributes;
     }
+    /**
+     * 
+     * @param mixed $options 
+     * @return array 
+     */
     public function getRenderedChilds($options=null)
     {
         return $this->__getRenderingChildren($options);
@@ -182,9 +224,9 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
      * 
      * @param mixed $item
      */
-    public function setAttributes(array $item)
+    public function setAttributes(?array $item = null)
     {
-        if (is_array($item) || is_object($item)) {
+        if (is_array($item)) {
             foreach ($item as $k => $v) {
                 $this[$k] =  HtmlUtils::GetValue($v);
             }
@@ -233,7 +275,7 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     {
         static $closeTags;
         if ($closeTags === null){
-            $closeTags = ["input", "head", "script","style", "div", "form"];
+            $closeTags = ["html", "body", "ul", "li", "ol", "pre", "code", "videos", "audio", "head", "script","style", "div", "form"];
         }
         return in_array($this->tagname, $closeTags); // ["input", "head", "script","style", "div"]);
     }
@@ -258,6 +300,10 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     public function getTagName()
     {
         return $this->tagname;
+    }
+
+    public function getChildCount(){
+        return $this->getChilds()->count();
     }
     /**
      * get if accept renderer
@@ -324,10 +370,9 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     protected function _Add($n)
     {
         if ($this->getCanAddChilds() && $n && ($n !== $this)) {
-            if ($n->m_parent){ 
+            if ($n->m_parent){  
                 $n->remove();
-            }
-            // igk_wln("add item .. . ". get_class($n)."<br />");
+            } 
             $this->m_childs[] = $n;
             $n->m_parent = $this;
             return true;
@@ -339,9 +384,9 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
         if (is_string($n)) {
             igk_html_push_node_parent($this);
             $n = static::CreateWebNode($n, $attributes, $args);
-            igk_html_pop_node_parent();
+            igk_html_pop_node_parent(); 
         }
-        if ($this->_Add($n) !== false) {
+        if ($n && (igk_html_is_skipped() || ($this->_Add($n) !== false))) {
             return $n;
         }
         return $this;
@@ -382,11 +427,10 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
             return $n;
         }
 
-        if ($h = $callback($host)){
-            $host->add($h);
+        if (($h = $callback($host)) && $host->add($h)){            
             $c[$name] = $h;
             $host->setParam(IGK_NAMED_NODE_PARAM, $c);
-            return $c;
+            return $h;
         }
         return null;
 
@@ -573,7 +617,9 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     public function getIGKNodeTypeName(){
         return $this->getFlag(IGK_NODETYPENAME_FLAG) ?? get_class($this);
     }
-
+    public function getInnerHtml(){
+        return HtmlRenderer::GetInnerHtml($this);
+    }
     ///<summary></summary>
     /**
     * 
@@ -599,7 +645,7 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     {
         if ($name==="set"){
             igk_trace();
-            exit;
+            igk_exit();
         }
         if (in_array($name, $this->m_callexclude)) {
             return 0;
@@ -614,12 +660,12 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
                 return $o;
             }
         }
-        if(isset(self::$BasicMethod[$name])){
-            $f=self::$BasicMethod[$name];
-            if(method_exists($this, $f)){
-                return call_user_func_array(array($this, $f), $arguments);
-            }
-        }
+        // if(isset(self::$BasicMethod[$name])){
+        //     $f=self::$BasicMethod[$name];
+        //     if(method_exists($this, $f)){
+        //         return call_user_func_array(array($this, $f), $arguments);
+        //     }
+        // }
         if ($this->getCanAddChilds()) {
             if (strpos($name, IGK_ADD_PREFIX) === 0) {
                 $k = substr($name, 3);
@@ -716,10 +762,20 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     public function getNodeCreationArgs(){
         return $this->getTempFlag("creationargs");
     }
-    public static function CreateWebNode($n, $attributes=null, $indexOfArgs= null){
-        if ($n= HtmlUtils::CreateHtmlComponent($n, $indexOfArgs)){
-            if ($attributes)
+    /**
+     * 
+     * @param mixed $n 
+     * @param mixed $attributes 
+     * @param mixed $indexOrArgs 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function CreateWebNode($n, $attributes=null, $indexOrArgs= null){
+        if ($n= HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)){
+            if ($attributes){ 
+                
                 $n->setAttributes($attributes);
+            }
         }
         return $n;
     }
@@ -758,12 +814,12 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
 
     public function clearChilds()
     {
-        $this->m_childs = [];
+        $this->m_childs->clear();
         return $this;
     }
     public function clearAttributes()
     {
-        $this->m_attributes = [];
+        $this->m_attributes->clear();
         return $this;
     }
     public function clear()
@@ -772,11 +828,17 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
         $this->clearAttributes();
     }
     public function remove(){
+        if (func_num_args()>0){
+            igk_die("remove element not allow extra args.");
+        }
         if ($this->m_parent){
-            if (is_array($this->m_parent->m_childs)){
+            if (is_array($this->m_parent->m_childs)){                
                 if (false !== ($index = array_search($this, $this->m_parent->m_childs))){
                     unset($this->m_parent->m_childs[$index]);
                 }
+            }
+            else { 
+                $this->m_parent->m_childs->remove($this);
             }
             $this->m_parent = null;
         }
@@ -848,12 +910,7 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
             return true;
         }
         return false;
-    } 
-    public function getElementsByTagName($tag){
-        return [];
-    }
-
-
+    }  
     ///<summary> load file content .xphtml </summary>
     /**
     *  load file content .xphtml
@@ -981,7 +1038,7 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
         $opt=$options ?? igk_xml_create_render_option();
         $opt->Context="xml";
         if(igk_getv($opt, 'xmldefinition') == 1){
-            $xml=igk_create_xmlprocessor("xml");
+            $xml= new \IGK\System\Html\XML\XmlProcessor("xml");
             $xml["version"]=igk_getv($opt, "version") ?? "1.0";
             $xml["encoding"]=igk_getv($opt, "encoding") ?? "utf8";
             $xml->renderAJX();
@@ -1069,5 +1126,109 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
         if(strtolower($this->tagName) == strtolower($tag))
             return true;
         return $this->_p_isClosedTag($tag);
+    }
+    ///<summary></summary>
+    ///<param name="id"></param>
+    /**
+     * 
+     * @param mixed $id
+     */
+    public function getElementById($id)
+    {
+        $c = $this->getChilds()->to_array();
+        if ($c == null) {
+            return null;
+        }
+        $tab = array();
+        $s = strtolower($id);
+        $q = $this; 
+        $itab = array($q);
+        while ($q = array_pop($itab)) {
+            if (strtolower($q["id"]) == $s) {
+                $tab[] = $q;
+                continue;
+            }
+            if ($q->getChilds() ===null){
+                igk_wln_e("is null ", get_class($q));
+            }
+            if ($c = $q->getChilds()->to_array()) {
+                foreach ($c as $k) {
+                    array_push($itab, $k);
+                }
+            }
+        }
+        if (count($tab) == 1)
+            return $tab[0];
+        return $tab;
+    }
+      ///<summary></summary>
+    ///<param name="name"></param>
+    ///<return refout="true"></return>
+    /**
+    * 
+    * @param mixed $name
+    * @return mixed|array list of element by tagname not implement
+    */
+    public function getElementsByTagName($name){
+        // igk_trace();
+        // $name = "menuname";
+        $tab=array();
+        $s=strtolower($name);
+        $c= $this->getChilds();
+        $ctab = [$this];
+
+        while( $q = array_shift($ctab)){
+            $c= $q->getChilds();
+            if (!$c)
+             continue;
+            $c_c = $c->to_array();
+            if($s == "*"){
+                // select all node
+                $tab = array_merge($tab, $c_c);
+                foreach($c_c as $t){
+                    $p = $t->getChilds();
+                    if ($p){
+                        $ctab = array_merge($ctab, $p->to_array());
+                    }
+                }
+            }
+            else {
+                foreach($c_c as $t){
+                    if(strtolower($t->getTagName()) == $s){
+                        $tab[]=$t;
+                    }
+                    $p = $t->getChilds();
+                    if ($p){
+                        $ctab = array_merge($ctab, $p->to_array());
+                    }
+                }
+            }
+        }
+        // igk_wln_e("result ", $name, $tab,$tab[0]->render());
+        return $tab;
+
+
+        // if($c){  
+        //     $c = $c->to_array();       
+        //     if($name == "*"){
+        //         $tab=array_merge($tab, $c);
+        //         foreach($c as $k){
+        //             $c=$k->getElementsByTagName($s);
+        //             if(is_array($c) && (count($c) > 0))
+        //                 $tab=array_merge($tab, $c);
+        //         }
+        //     }
+        //     else{
+        //         foreach($c as $k){
+        //             if(strtolower($k->TagName) == $s){
+        //                 $tab[]=$k;
+        //             }
+        //             $c=$k->getElementsByTagName($s);
+        //             if(is_array($c) && (count($c) > 0))
+        //                 $tab=array_merge($tab, $c);
+        //         }
+        //     }
+        // }
+        // return $tab;
     }
 }

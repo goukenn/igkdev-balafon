@@ -7,13 +7,16 @@
 // @company: IGKDEV
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
+
 use function igk_resources_gets as __;
 
 ///<summary>Represente class: IGKConsoleToolManager</summary>
 /**
 * Represente IGKConsoleToolManager class
 */
-final class IGKConsoleToolManager extends IGKConfigCtrlBase{
+final class IGKConsoleToolManager extends ConfigControllerBase{
     ///<summary></summary>
     /**
     * 

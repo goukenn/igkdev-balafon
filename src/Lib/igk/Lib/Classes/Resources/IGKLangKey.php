@@ -2,16 +2,17 @@
 
 namespace IGK\Resources;
 
-use HtmlUtils;
+use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\IHtmlGetValue;
 use IGKViewMode;
-use IIGKHtmlGetValue;
+
 use function igk_resources_gets as __;
 
 ///<summary>represent a language key entries. it support IIGKHtmlGetValue for getting and setting the values</summary>
 /**
 * represent a language key entries. it support IIGKHtmlGetValue for getting and setting the values
 */
-final class IGKLangKey implements IIGKHtmlGetValue {
+final class IGKLangKey implements IHtmlGetValue {
     var $args;
     var $def;
     var $key;
@@ -51,7 +52,7 @@ final class IGKLangKey implements IIGKHtmlGetValue {
         if($this->args != null){
             $s=self::GetValueKeys($s, $this->args);
         }
-        if($s == strtolower($this->key) && igk_app()->IsSupportViewMode(IGKViewMode::WEBMASTER)){
+        if($s == strtolower($this->key) && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER)){
             $v_langctrl=igk_getctrl(IGK_LANG_CTRL);
             if(!igk_get_env("::".__METHOD__)){
                 $vs=igk_createnode("script");

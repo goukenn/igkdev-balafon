@@ -5,6 +5,10 @@
 
 ///<summary></summary>
 ///<param name="prefix" default="'tmp'"></param>
+
+use IGK\Helper\IO;
+use IGK\Resources\R;
+
 /**
 * 
 * @param mixed $prefix the default value is 'tmp'
@@ -44,7 +48,14 @@ function igk_template_create($n){
 * create and init application template controller
 */
 function igk_template_create_ctrl($n){
-    $tc=igk_template_mananer_ctrl();
+    return null;
+    /// 
+    /// TODO: Template manager
+    ///
+    $tc = igk_template_mananer_ctrl();
+
+    igk_wln_e("template is : ", $tc);
+    
     igk_assert_die(($tc == null) && !igk_sys_env_production(),
     ["code"=>1201,
     "message"=>"TemplateManager: controller [{$n}] not found or session data not valid. Failed to create [{$n}]",
@@ -205,6 +216,7 @@ function igk_template_load_ns($ns){
 */
 function igk_template_mananer_ctrl(){
     $n=igk_template_class_uri();
+    igk_wln("uri : ", $n);
     return igk_getctrl($n, false);
 }
 ///<summary></summary>
@@ -283,9 +295,12 @@ function igk_view_render_if_visible($ctrl){
 
 
 include_once(dirname(__FILE__)."/Views/uri.listener.pinc");
-igk_reg_initenv_callback("igk_template_init_env");
-spl_autoload_register(function($n){
-    if(preg_match(IGK_IS_NS_IDENTIFIER_REGEX, $n)){        
-        igk_template_load_ns(str_replace("\\", ".", dirname($n)));
-    }
-});
+
+// igk_reg_initenv_callback("igk_template_init_env");
+
+
+// spl_autoload_register(function($n){
+//     if(preg_match(IGK_IS_NS_IDENTIFIER_REGEX, $n)){        
+//         igk_template_load_ns(str_replace("\\", ".", dirname($n)));
+//     }
+// });

@@ -8,14 +8,15 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 ///<summary>represent google's font configuration layer</summary>
 /**
 * represent google's font configuration layer
 */
-final class IGKGoogleFontConfiguration extends IGKConfigCtrlBase{
+final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     ///<summary></summary>
     /**
     * 
@@ -60,7 +61,7 @@ final class IGKGoogleFontConfiguration extends IGKConfigCtrlBase{
     */
     public function initConfigMenu(){
         return array(
-            (new IGKMenuItem($this->ConfigPage,
+            (new MenuItem($this->ConfigPage,
             $this->ConfigPage,
             $this->getUri("showConfig")))->setGroup($this->ConfigGroup)
         );
@@ -97,7 +98,7 @@ final class IGKGoogleFontConfiguration extends IGKConfigCtrlBase{
         $cnf=$this->ConfigNode;
         $box=$cnf->addPanelBox();
         igk_css_reg_global_tempfile(dirname(__FILE__)."/Styles/google.font.css");
-        $box->addctrlview("fontsettings", $this, ['fontlist'=>$this->getfontlist()]);
+        $box->ctrlview("fontsettings", $this, ['fontlist'=>$this->getfontlist()]);
     }
 	public function resave(){
 		igk_google_store_setting();

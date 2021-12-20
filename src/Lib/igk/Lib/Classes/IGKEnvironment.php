@@ -9,6 +9,8 @@ use function igk_getv as getv;
 ///<summary>use to manage Server Environment</summary>
 /**
 * use to manage Server Environment
+* @property string $subdomainctrl current subdomain controller
+* @property string $basectrl base controller
 */
 final class IGKEnvironment implements \ArrayAccess{
     private static $sm_instance;
@@ -238,9 +240,9 @@ final class IGKEnvironment implements \ArrayAccess{
     ///<return refout="true"></return>
     /**
     * 
-    * @return *
+    * @return IGKEvenrionment environment instance
     */
-    public static function & getInstance(){
+    public static function getInstance(){
         !($c= self::$sm_instance) && ($c = self::$sm_instance=new IGKEnvironment());
         return $c;
     }

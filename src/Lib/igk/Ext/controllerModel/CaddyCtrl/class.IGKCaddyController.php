@@ -1,6 +1,8 @@
 <?php
 
 use IGK\Resources\R;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\HtmlUtils;
 
 final class IGKCaddyInfo
 {
@@ -264,7 +266,7 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		$this->caddy_render();
 		$script =  HtmlNode::CreateWebNode("script");
 		$script->Content = "console.log(igk.getParentScript().innerHTML); ";
-		igk_html_add($script , $t);
+		$t->add($script);
 		$t->renderAJX();
 	}
 	public function caddy_remove()

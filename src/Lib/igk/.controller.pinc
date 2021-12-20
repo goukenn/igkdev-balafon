@@ -1,19 +1,27 @@
 <?php
+// ---------------------
 // controller name cache
+// order have importance
+// --------------------- 
 
 return [
+    IGK_SYSDB_CTRL => \IGK\Controllers\SysDbController::class,
     IGK_SYSACTION_CTRL=>\IGK\System\Configuration\Controllers\IGKSystemUriActionCtrl::class,
-    IGK_CONF_CTRL=>\IGK\System\Configuration\Controllers\IGKConfigCtrl::class,
-    IGK_SHARED_CONTENT_CTRL=>\IGK\System\Configuration\Controllers\IGKSharedContentHtmlItemCtrl::class,
+    IGK_CONF_CTRL=>\IGK\System\Configuration\Controllers\ConfigureController::class,
+    // IGK_SHARED_CONTENT_CTRL=>\IGK\Controllers\SharedContentHtmlItemController::class,
     IGK_SYS_CTRL=>\IGK\Controllers\SystemController::class,
+    IGK_SESSION_CTRL => \IGK\Controllers\SessionController::class,
     IGK_PIC_RES_CTRL=>\IGK\System\Configuration\Controllers\IGKPICRESCtrl::class, 
-    IGK_SUBDOMAINNAME_CTRL=>\IGK\System\Configuration\Controllers\IGKSubDomainCtrl::class,
-    IGK_MENU_CTRL => \IGK\System\Configuration\Controllers\IGKMenuCtrl::class,
-    IGK_COMPONENT_MANAGER_CTRL=> \IGK\Controllers\ComponentManagerController::class, 
-    IGK_CSVLANGUAGE_CTRL=> \IGK\System\Configuration\Controllers\IGKCSVLanguageManagerCtrl::class,
-    IGK_DEBUG_CTRL=>\IGK\Controllers\IGKDebugCtrl::class,
+    IGK_SUBDOMAINNAME_CTRL=>\IGK\System\Configuration\Controllers\SubDomainController::class,
+    IGK_MENU_CTRL => \IGK\System\Configuration\Controllers\MenuController::class,
+    IGK_COMPONENT_MANAGER_CTRL=> \IGK\Controllers\ComponentManagerController::class,     
+    IGK_DEBUG_CTRL=>\IGK\Controllers\DebugController::class,
     IGK_USER_CTRL=>\IGK\System\Configuration\Controllers\IGKUsersController::class,
     IGK_PIC_RES_CTRL=>\IGK\System\Configuration\Controllers\IGKPicResController::class,
-    IGK_PALETTE_CTRL=>\IGK\Controllers\IGKPaletteController::class,
+    IGK_PALETTE_CTRL=>\IGK\Controllers\PaletteController::class,
     IGK_NOTIFICATION_CTRL=>\IGK\Controllers\NotificationController::class,
+    IGK_CA_CTRL => \IGK\System\Configuration\Controllers\ControllerAndArticlesController::class,
+    IGK_FRAME_CTRL=> \IGK\Controllers\FrameDialogController::class,
+    IGK\Controllers\UserGroupController::class=>IGK\Controllers\UserGroupController::class,
+    // IGK_MYSQL_DB_CTRL=>\IGK\System\Database\MySQL\Controllers\DbConfigController::class,
 ];

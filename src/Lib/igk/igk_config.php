@@ -11,7 +11,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     return;
 
 
-    use IGK\System\Html\Dom\IGKHtmlItemBase;
 
 
     //+ |----------------------------------------------------------- 
@@ -166,6 +165,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define('IGK_CONNEXION_FRAME', 193);
     define('IGK_XML_CREATOR_NODE_RESULT', 194); 
     define('IGK_LAST_EVAL_LINE', 195); 
+    define('IGK_XML_CREATOR_SKIP_ADD', 196); 
     
     define("IGK_ENV_SESS_DOM_LIST", 0x201);
     define("IGK_CUSTOM_CTRL_PARAM", 0x400);
@@ -307,8 +307,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_NOTIFICATION_USER_CHANGED", 0x0034);
     // define("IGK_NS_PARAM_KEY", 0x0022);
     // define("IGK_SESS_UNKCOLOR_KEY", 0x002D);
-    // define("IGK_SVG_REGNODE_KEY", 0x000E);
-    // define("IGK_XML_CREATOR_PARENT_KEY", 0x002F);
+    // define("IGK_SVG_REGNODE_KEY", 0x000E); 
     // define("IGK_XML_HTML_TEMPLATE_PARENT_KEY", 0x0025);
     // define('IGK_ENV_DB_INIT_CTRL', "sys://db_init_table/ctrl");
     define("IGK_TODAY", date("Y-m-d"));
@@ -510,7 +509,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //    define("IGK_COMPONENT_REG_FUNC_KEY", "sys://components/functions");
     //    define("IGK_CURRENT_DOC_PARAM_KEY", "sys://current_document");
     define("IGK_COLUMN_TAGNAME", "Column");
-    define("IGK_HTML_ITEMBASE_CLASS", IGKHtmlItemBase::class);
+    define("IGK_HTML_ITEMBASE_CLASS", \IGK\System\Html\Dom\HtmlItemBase::class);
     define("IGK_CONFIG_MODE", "Configs");
     define("IGK_CONFIG_PAGEFOLDER", "Configs");
     define("IGK_CONFIG_ROUTE", "/Configs");
@@ -588,8 +587,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_HTML_BINDING_EVAL_CONTEXT", "igk:evaluation_context");
      
     // define("IGK_VIEW_OPTIONS", 0xa002);
-    //    define("IGK_CTRL_VIEW_CONTEXT_PARAM_KEY", "sys://view/context");
-    //    define("IGK_XML_CREATOR_PARENT_KEY", "sys://xml/create_node/parent");
+    //    define("IGK_CTRL_VIEW_CONTEXT_PARAM_KEY", "sys://view/context"); 
     define("IGK_STYLE_FOLDER", "Styles");
     define("IGK_ARTICLES_FOLDER", "Articles");
     define("IGK_VIEW_FOLDER", "Views");
@@ -649,8 +647,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_SESSION_CTRL", "c_sc");
     define("IGK_ERROR_CTRL", "c_er");
     define("IGK_THEME_CTRL", "c_th");
-    define("IGK_FILE_MAN_CTRL", "c_fm");
-    define("IGK_CSVLANGUAGE_CTRL", "c_lg");
+    define("IGK_FILE_MAN_CTRL", "c_fm"); 
     define("IGK_PALETTE_CTRL", "c_pl");
     define("IGK_USERVARS_CTRL", "c_uv");
     define("IGK_CA_CTRL", "c_ac");

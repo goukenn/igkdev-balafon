@@ -8,9 +8,10 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
-use IGK\System\Html\Dom\IGKHtmlItemBase;
 use IGK\System\Html\Dom\XmlNode;
+use IGK\System\Html\HtmlExpressionAttribute;
 
 class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     use IGK\System\Polyfill\ArrayAccessSelfTrait;
@@ -67,7 +68,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
                     else{
                         $g=igk_getv($attr, $key);
                         if(($g == null) || !is_object($g)){
-                            $g=new IGKHtmlClassValueAttribute($this);
+                            $g=new HtmlCssClassValueAttribute($this);
                             $attr[$key]=$g;
                         }
                         $g->add($value);
@@ -125,7 +126,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     protected function _iterator_current(){
         $o=$this->_f->getFlag(self::ITERATOR);
         $a=$this->getActivateAttribs();
-        $v_out=isset($a[$o->it_key]) ? IGKHtmlActiveAttrib::getInstance(): $o->it_vtab[$o->it_key];
+        $v_out=isset($a[$o->it_key]) ? HtmlActiveAttrib::getInstance(): $o->it_vtab[$o->it_key];
         return $v_out;
     }
     ///<summary></summary>
@@ -209,7 +210,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
                 if($value === null)
                     unset($g[$key]);
                 else
-                    $g[$key]=new IGKHtmlExpressionAttribute($value);
+                    $g[$key]=new HtmlExpressionAttribute($value);
                 $this->_f->updateFlag(self::ATTRIBS, $g);
             }
             return;

@@ -12,6 +12,7 @@ namespace IGK\Controllers;
 
 use IGK\Resources\R;
 use HtmlReader;
+use IGK\System\Http\JsonResponse;
 use IGKResourceUriResolver;
 
 /**
@@ -89,15 +90,24 @@ final class SystemController extends NonVisibleControllerBase{
     public function changeLang_ajx($lang=null){
         $doc=igk_get_last_rendered_document();
         if($doc !== null){
+            $old = igk_app()->session->lang;
             R::ChangeLang($lang);
             $u=igk_sys_srv_referer();
+            $new = igk_app()->session->lang;
             if($u){
                 $u=igk_getv(explode("?", $u), 0);
                 if(!igk_io_invoke_uri($u, 0)){
                     igk_ilog_assert(!igk_sys_env_production(), "Failed to invoke uri - ".$u);
                 }
+                $doc->renderAJX();
+            } else {
+                igk_do_response(new JsonResponse([
+                    "old"=>$old,
+                    "new"=>$new,
+                    "success"=>$new != $old
+                ]));
+                igk_exit();
             }
-            $doc->renderAJX();
         }
         else{
             igk_ilog("last rendered is null". igk_app()->settings->CurrentDocumentIndex);

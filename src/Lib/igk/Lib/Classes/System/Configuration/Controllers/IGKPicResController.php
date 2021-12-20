@@ -16,8 +16,10 @@ use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\Helper\IO as IGKIO;
+use function igk_resources_gets as __;
 
-final class IGKPicResController extends IGKConfigCtrlBase{
+
+final class IGKPicResController extends ConfigControllerBase{
     const DATAFILE="Data/upload.csv";
     const KEY_FILES="sys://ctrl/allpics";
     const PICRES_FLAG=1;

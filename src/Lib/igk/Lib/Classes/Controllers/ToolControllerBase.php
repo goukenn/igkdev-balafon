@@ -51,8 +51,8 @@ abstract class ToolControllerBase extends BaseController{
     ///<summary></summary>
     ///<param name="ownernode"></param>
     public function showTool($ownernode){
-        igk_html_add($this->TargetNode, $ownernode);
-        $t=$this->TargetNode;
+        $t=$this->getTargetNode();
+        $ownernode->add($t);
         $t["class"]="dispib alignc alignt";
         $t["style"]="min-width: 96px; min-height:72px;";
         $t->ClearChilds();

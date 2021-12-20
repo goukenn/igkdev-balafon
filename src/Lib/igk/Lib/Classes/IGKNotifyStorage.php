@@ -8,6 +8,9 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use function igk_resources_gets as __;
+
+
 class IGKNotifyStorage{
     private $m_name, $tab;
     var $autohide;

@@ -731,6 +731,11 @@ class SQLGrammar
                 if (empty($k)) {
                     die("key is null or empty");
                 }
+                if (!is_object($v)){
+                    igk_trace();
+                    var_dump($tableInfo);
+                    igk_wln_e(__FILE__.":".__LINE__,  $v);
+                }
                 if ($v->clIsPrimary && $filter) {
                     continue;
                 }

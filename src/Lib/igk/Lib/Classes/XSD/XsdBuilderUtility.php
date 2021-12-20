@@ -2,8 +2,8 @@
 
 namespace IGK\XSD;
 
-use IGKHtmlItem;
-use IGKHtmlItemBase;
+use IGK\System\Html\Dom\HtmlItemBase;
+
 
 abstract class XsdBuilderUtility
 {
@@ -33,7 +33,7 @@ abstract class XsdBuilderUtility
                 }
                 continue;
             }
-            if (is_object($v) && $v instanceof IGKHtmlItemBase) {
+            if (is_object($v) && $v instanceof HtmlItemBase) {
                 $s->add($v);
                 continue;
             }

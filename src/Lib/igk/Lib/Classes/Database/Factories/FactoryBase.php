@@ -4,7 +4,7 @@
 // @date: 20211106 11:36:51
 namespace IGK\Database\Factories;
 
-use IGKSysDbController;
+use SysDbController;
 use IGK\System\Database\Factories\FactoryBase as Factory;
 
 ///<summary>Factory base</summary>

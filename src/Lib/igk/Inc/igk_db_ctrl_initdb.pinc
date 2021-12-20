@@ -25,7 +25,7 @@ else{
         // + | Check Init 
         $c = new ReflectionMethod($cl, "Init");
         if ($type = $c->getParameters()[0]->getType()){
-            $call = $type->getName()==get_class($controller);
+            $call = IGKType::GetName($type)==get_class($controller);
         }
         $call && $cl::Init($controller);
     } 

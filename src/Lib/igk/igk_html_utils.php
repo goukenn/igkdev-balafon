@@ -4,6 +4,7 @@
 
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
+use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 
 use function igk_resources_gets as __;
 
@@ -220,7 +221,7 @@ function igk_html_build_form($t, $data, $defaultTarget="li"){
                 $a["checked"]="true";
             }
             if($args){
-                $a->AppendAttributes($args);
+                $a->setAttributes($args);
             }
             break;
             case "hidden":
@@ -230,7 +231,7 @@ function igk_html_build_form($t, $data, $defaultTarget="li"){
             $a=$li->addInput($id, $type);
             $a["type"]=strtolower($type);
             if($args){
-                $a->AppendAttributes($args);
+                $a->setAttributes($args);
             }
             break;
         }
@@ -238,7 +239,7 @@ function igk_html_build_form($t, $data, $defaultTarget="li"){
         $a["name"]=$id;
         $args=igk_getv($k, 3);
         if($args != null){
-            $a->AppendAttributes($args);
+            $a->setAttributes($args);
         }
     }
 }
@@ -433,14 +434,23 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
 ///@attributes array of  [allowEmpty, valuekey, displaykey]
 ///@attr is html attributes
 /**
-*/
+ * 
+ * @param mixed|HtmlItemBase $target 
+ * @param string $name 
+ * @param array $tab 
+ * @param string $selectattributes 
+ * @param mixed $selectedvalue 
+ * @param array $attr attribute to bind to select
+ * @return HtmlSelectNode
+ * @throws IGKException 
+ */
 function igk_html_build_select($target, $name, $tab, $selectattributes=null, $selectedvalue=null, $attr=null){
-    $sel=$target->addSelect($name);
+    $sel = $target->addSelect($name);
     if($selectedvalue == null){
         $selectedvalue=igk_getr($name, null);
     }
     igk_html_build_select_option($sel, $tab, $selectattributes, $selectedvalue);
-    $sel->AppendAttributes($attr);
+    $attr && $sel->setAttributes($attr);
     return $sel;
 }
 ///<summary></summary>
@@ -751,7 +761,7 @@ function igk_html_form_select_data($data, $callback){
 */
 function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){
     $o="";
-    $clprop = new  IGKHtmlClassValueAttribute();
+    $clprop = new HtmlCssClassValueAttribute();
     $get_attr_key = function($v){
         $key = null;
         foreach(["attrs", "attribs","attributes"] as $m){
@@ -1446,7 +1456,7 @@ function igk_html_render_template($node)
     $option = igk_createobj([
         "Context" => "template",
         "Indent" => true,
-        "Engine" => new IGK\System\Templates\TemplateEngine()
+        "Engine" => new \IGK\System\Templates\TemplateEngine()
     ]);
     echo igk_html_render_node($node, $option);
 }

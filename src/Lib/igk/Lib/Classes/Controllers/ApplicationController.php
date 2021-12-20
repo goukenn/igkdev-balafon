@@ -979,8 +979,7 @@ EOF;
         $this->setCurrentView($view, true); 
         $bbox->add($this->TargetNode); 
         if($render){
-            HtmlRenderer::RenderDocument($d, 0, $this);
-            //igk_render_doc($d, 0, $this);
+            HtmlRenderer::RenderDocument($d, 0, $this); 
         }
     }
     ///<summary></summary>

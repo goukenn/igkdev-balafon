@@ -8,7 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-final class HtmlUri extends IGKObject implements IIGKHtmlGetValue{
+final class HtmlUri extends IGKObject implements IHtmlGetValue{
     private $m_v;
     ///<summary></summary>
     public function __construct(){    }

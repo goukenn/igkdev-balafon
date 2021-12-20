@@ -1,9 +1,9 @@
 <?php
 namespace IGK\System\Database\MySQL;
-
-use DbSingleValueResult;  
+ 
 use IGK\Database\DbQueryResult;
-use IGKQueryRowObj;
+use IGK\Database\DbSingleValueResult;  
+use IGK\Database\DbQueryRowObj;
 use IGKSorter;
 use IIGKQueryResult;
 
@@ -174,7 +174,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
                 }
 
             }
-            $obj=  IGKQueryRowObj::Create($t);
+            $obj=  DbQueryRowObj::Create($t);
             if($callback && !$callback($obj)){
                 continue;
             }

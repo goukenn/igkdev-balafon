@@ -21,21 +21,17 @@ class IGKWinUI_paneView extends IGKWinUIControl
 		$this->m_script->Content = "igk.winui.paneview.init();";
 	}
 
-	protected function innerHtml(& $xmloption = null){
-		igk_html_add($this->m_script,$this);
-		if (isset($this->m_loadUri)){
-			$this->m_script->Content = <<<EOF
-			igk.gui.paneview.loadfromUri( igk.getParentScript(),"{$this->m_loadUri}");
+	protected function __getRenderingChildren($options = null)
+	{
+		$this->m_script->Content = <<<EOF
+igk.gui.paneview.loadfromUri( igk.getParentScript(),"{$this->m_loadUri}");
 EOF;
-		}
-		else{
-			$this->m_script->Content = "igk.winui.paneview.init();";
-		}
-		$o  = parent::innerHtml($xmloption);
-		igk_html_rm($this->m_script);
-		return $o;
-
+		return [
+			$this->m_script
+		];
 	}
+
+	 
 	public function getloadUri(){return $this->m_loadUri;}
 	public function setloadUri($value){$this->m_loadUri = $value; }
 
@@ -59,7 +55,7 @@ class IGKWinUI_paneViewitem extends HtmlNode
 	public function addBlock($attributes=null)
 	{
 		$t = $this->m_link->Add("div", array("class"=>"pane-view-block"));
-		$t->appendAttributes($attributes);
+		$t->setAttributes($attributes);
 		return $t;
 	}
 	protected function _AddChild($item,$index=null)

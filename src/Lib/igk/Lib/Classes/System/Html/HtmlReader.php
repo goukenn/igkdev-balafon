@@ -13,8 +13,7 @@ require_once IGK_LIB_DIR ."/igk_html_utils.php";
 use Exception; 
 use IGK\System\Html\Dom\IGKHtmlCommentNode;
 use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\Dom\HtmlTextNode;
-use IGK\System\Html\Dom\XmlNode;
+use IGK\System\Html\Dom\HtmlTextNode; 
 use IGK\System\Html\Dom\IGKHtmlDoctype;
 use IGK\System\Html\Dom\IGKHtmlProcessInstructionNode;
 use IGK\System\XML\XMLExpressionAttribute;
@@ -23,6 +22,7 @@ use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Html\Dom\HtmlDoctype;
 use IGK\System\Html\Dom\HtmlProcessInstructionNode;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\XML\XmlNode;
 use IGK\XML\XMLNodeType;
 use IGKObject;
 use function igk_resources_gets as __;
@@ -70,7 +70,8 @@ final class HtmlReader extends IGKObject{
         }
         $gnode=$cnode->getParentNode();
         if($gnode && !empty($engine)){
-            $gnode->remove($cnode);
+            $cnode->remove();
+            // $gnode->remove($cnode);
             $v=igk_createnotagnode();
             $v->addText($engine);
             $gnode->add($v);
@@ -191,14 +192,14 @@ final class HtmlReader extends IGKObject{
                     break;
                     case "!":
                     $start=$offset;
-                    igk_html_skip_comment($text, $offset);
                     //+ Skip comment
 
                     if(($pp=strpos($text, "-->", $offset)) !== null){
                         $offset=$pp + 3;
                     }
                     $intag=0;
-                    break;default: $offset++;
+                    break;
+                    default: $offset++;
                     $name=$read_name($text, $ln, $offset);
                     if(empty($name)){
                         igk_wln_e(__FILE__.":".__LINE__, "start tag is not a valid start tag", igk_html_wtag("textarea", $v.substr($text, $offset, 10)."...\n-----------\n".$text), "name is empty : offset : ".$offset. " tag  : ".$tag. " level: ".$level);
@@ -372,7 +373,7 @@ final class HtmlReader extends IGKObject{
     ///<param name="tab_doc"></param>
     ///<param name="pargs"></param>
     private static function _BuildNode($reader, $cnode, $name, $tab_doc, $pargs){
-        if((self::$sm_openertype == "XML") || (isset($reader->context) && ($reader->context == IGKHtmlContext::XML))){
+        if((self::$sm_openertype == "XML") || (isset($reader->context) && ($reader->context == HtmlContext::XML))){
             $n=self::CreateNode($name, $pargs);
             if($cnode){
                 $cnode->add($n);
@@ -1007,7 +1008,10 @@ final class HtmlReader extends IGKObject{
                 try {
                     $hfile=fopen($file, "r");
                 }
-                catch(Exception $ex){                }
+                catch(Exception $ex){ 
+                    // +| failed to open for some reason 
+                    igk_ilog($ex->getMessage());
+                }
                 if($hfile){
                     $text=fread($hfile, $size);
                     fclose($hfile);

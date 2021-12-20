@@ -10,13 +10,20 @@ use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGKEnvironment;
+use IGKEvents;
 use IGKFv;
 use IGKServer;
+use IIGKDataController;
 use ReflectionClass;
 use function igk_resources_gets as __;
 
-
-abstract class BaseController extends RootControllerBase {
+/**
+ * @package IGK\Controllers
+ * @method static bool getCanInitDb() check if this controller entry can init database
+ * @method static bool initDb() macros method. init controller database
+ * @method static string name(string path) macros method. get resolved key name
+ */
+abstract class BaseController extends RootControllerBase implements IIGKDataController {
 
     const CHILDS_FLAG=5;
     const CURRENT_VIEW= IGK_CURRENT_CTRL_VIEW;
@@ -31,10 +38,19 @@ abstract class BaseController extends RootControllerBase {
     const VISIBILITY_FLAG=2;
     const WEBPARENT_FLAG=1;
 
-    private static $sm_sysController;
+    /**
+     * 
+     * @var mixed
+     */
+
+    private static $sm_sysController = [];
   
 
     public function __construct(){        
+    }
+    public function __debugInfo()
+    {
+        return [];
     }
     protected function getActionHandler($name, $params=null){
         if (($name!= IGK_DEFAULT_VIEW) && preg_match("/".IGK_DEFAULT_VIEW."$/",$name)){
@@ -244,7 +260,7 @@ abstract class BaseController extends RootControllerBase {
             }
             if ($response && (is_object($response) || is_array($response))){
                 // + | Bind response
-                igk_do_response($response);
+                \IGK\System\Http\Response::HandleResponse($response);
                 igk_exit();
             }
         }
@@ -541,9 +557,8 @@ abstract class BaseController extends RootControllerBase {
             $extension=$e;
         if(empty($view))
             $view=IGK_DEFAULT_VIEW;
-        $f=igk_html_uri($this->getCtrlFile(IGK_VIEW_FOLDER."/".$view));
-        $f=rtrim($f, "/");
-        $ext=$extension; 
+        $f=igk_html_uri(rtrim($this->getViewDir()."/".$view, '/'));        
+        $ext=$extension;  
         if(is_dir($f)){
 				//window allow same file in folder
 				if (file_exists($cf = $f."/".IGK_DEFAULT_VIEW_FILE)){
@@ -658,11 +673,11 @@ abstract class BaseController extends RootControllerBase {
             $t=$this->getTargetNode();
             $bck=$targetNode && ($targetNode !== $t) ? $t: null;
             if($bck)
-                $this->TargetNode=$targetNode;
+                $this->setTargetNode($targetNode);
             $this->regSystemVars($args, $options);
             $this->View(); 
             if($bck)
-                $this->TargetNode=$bck;
+                $this->getTargetNode($bck);
         }
     }
 
@@ -810,14 +825,14 @@ abstract class BaseController extends RootControllerBase {
         $key= "ctrl/backupnode";
         $g=$this->getParam($key);
         if($g){
-            $this->TargetNode=$g;
+            $this->setTargetNode($g);
         }
         $bck=$this->TargetNode;
         $this->setParam($key, $bck);
         $v_view=$this->CurrentView;
-        $this->TargetNode=$target;
+        $this->setTargetNode($target);
         $this->getView($view, $forcecreation, $args);
-        $this->TargetNode=$bck;
+        $this->setTargetNode($bck);
         $this->resetCurrentView($v_view);
         $this->setParam($key, null);
     }
@@ -853,6 +868,101 @@ abstract class BaseController extends RootControllerBase {
             $this->_initView();
             $this->_include_file_on_context($f);
             $this->regSystemVars(null);
+      
         }
+    }
+
+       ///<summary></summary>
+    /**
+    * 
+    */
+    public function getCurrentPageFolder(){
+        return igk_app()->getCurrentPageFolder();
+    }
+
+    use ControllerUriTrait;
+
+   
+    ///<summary>view complete.</summary>
+    /**
+    * view complete.
+    */
+    protected function _onViewComplete(){
+        if((($x=$this->getFlag(self::REG_VIEW_CHILD)) != null) && is_array($x)){
+            foreach($x as $v){
+                $m=$v->func;
+                $v->ctrl->Invoke($m, $this);
+            }
+        }
+        // igk_invoke_session_event(IGKEvents::VIEWCOMPLETE, array($this, null));
+        igk_hook(IGKEvents::VIEWCOMPLETE, array("ctrl"=>$this));
+    }
+
+      ///<summary>include view on contex</summary>
+    /**
+    * include view on contex
+    */
+    protected function _include_view_file($view, $args=null){
+        $v_file=file_exists($view) ? $view: $this->getViewFile($view);
+        if(file_exists($v_file) === true){           
+            $d=null;
+            if($args !== null){
+                $d=$this->getSystemVars();
+                $this->regSystemVars(null);
+                $this->regSystemVars($args);
+            }
+            $this->_include_file_on_context($v_file);
+            if($d)
+                $this->regSystemVars($d);
+        }
+    }
+
+    ///<summary> get default data adapter name</summary>
+    /**
+    * get default data adapter name
+    */
+    public function getDataAdapterName(){
+        return igk_sys_getconfig("default_dataadapter", IGK_MYSQL_DATAADAPTER);
+    }
+
+     ///<summary></summary>
+    /**
+    * return controller table info
+    */
+    public function getDataTableInfo(){
+        if($this->getUseDataSchema()){
+            $tb= igk_getv($this->loadDataFromSchemas(), "tables");
+            return $tb;
+        }
+    }
+    public function getDataTableName()
+    {
+        // override this to handle management of a spécific table 
+    }
+
+     ///<summary></summary>
+    ///<param name="className"></param>
+    /**
+    * 
+    * @param mixed $className
+    */
+    public static function RegSysController($className){
+        if(self::$sm_sysController == null)
+            self::$sm_sysController=array();
+        if(class_exists($className)){
+            self::$sm_sysController[$className]=$className;
+        }
+    }
+
+    ///<summary></summary>
+    /**
+    * 
+    */
+    protected function getUseDataSchema(){
+        return !self::IsSysController(get_class($this)) && igk_getv($this->getConfigs(), "clDataSchema");
+    }
+    public function setTargetNode($node){
+        $this->setEnvParam(IGK_CTRL_TG_NODE, $node);
+        return $this;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
 
 use function igk_resources_gets as __;
 
-final class IGKGoogleConfigurationSetting extends IGKConfigCtrlBase{
+final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	const API_KEY = "google.ApiKey";
 
 	public function getConfigPage(){return "google.sdk";}
@@ -12,7 +12,7 @@ final class IGKGoogleConfigurationSetting extends IGKConfigCtrlBase{
 	public function getName(){return "com.igkdev.googleapi"; }
 	public function initConfigMenu(){
 		return array(
-			(new IGKMenuItem($this->ConfigPage, $this->ConfigPage, $this->getUri("showConfig")))->setGroup($this->ConfigGroup),
+			(new MenuItem($this->ConfigPage, $this->ConfigPage, $this->getUri("showConfig")))->setGroup($this->ConfigGroup),
 		);
 	}
 	protected function getConfigFile()

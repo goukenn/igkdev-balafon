@@ -58,7 +58,7 @@ class HtmlDocumentNode extends HtmlItemBase{
         if ($options==null){
             $options = HtmlRenderer::CreateRenderOptions();
         }
-        $options->Document = $this;
+        $options->Document = $this; 
         $s = "<!DOCTYPE html >\n";
         $attr = "";
         if (!empty($this->m_lang)){
@@ -70,7 +70,7 @@ class HtmlDocumentNode extends HtmlItemBase{
         }
         $s .= "<html{$attr}>"; 
         $s .= HtmlRenderer::Render($this->m_head, $options);
-        $s .= HtmlRenderer::Render($this->m_body, $options);
+        $s .= HtmlRenderer::Render($this->m_body, $options);   
         $s .= "</html>";
         return $s;
     }

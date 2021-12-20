@@ -1,5 +1,5 @@
 <?php
-// @file: IGKHtmlExpressionAttribute.php
+// @file: HtmlExpressionAttribute.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
@@ -9,9 +9,9 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 
-use IIGKHtmlGetValue;
 
-class HtmlExpressionAttribute implements IIGKHtmlGetValue{
+
+class HtmlExpressionAttribute implements IHtmlGetValue{
     private $m_v;
     ///<summary></summary>
     ///<param name="v"></param>

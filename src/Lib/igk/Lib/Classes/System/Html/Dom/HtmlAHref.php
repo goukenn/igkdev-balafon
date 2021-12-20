@@ -8,12 +8,13 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
  namespace IGK\System\Html\Dom;
- 
+
+use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
-use IIGKHtmlGetValue;
 
-class HtmlAHref extends IGKObject implements IIGKHtmlGetValue{
+
+class HtmlAHref extends IGKObject implements IHtmlGetValue{
     const OWNER=2;
     const URI=1;
     private $_;

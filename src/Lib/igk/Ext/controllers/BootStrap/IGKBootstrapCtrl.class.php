@@ -1,15 +1,17 @@
 <?php
 
+use IGK\Helper\IO;
 use IGK\Resources\R;
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
+use IGK\System\Html\HtmlRenderer;
 
 use function igk_resources_gets as __;
 /*
 boot strap structure controller
 */
-final class IGKBootstrapCtrl extends IGKConfigCtrlBase
+final class IGKBootstrapCtrl extends ConfigControllerBase
 {
 	public function getName(){
 		return __CLASS__;
@@ -124,7 +126,7 @@ final class IGKBootstrapCtrl extends IGKConfigCtrlBase
 		}
 		$c = $this->TargetNode;
 		$c->ClearChilds();
-		igk_html_add($c, $this->ConfigNode);
+		$this->ConfigNode->add($c);
 
 		$box = $c->addPanelBox();
 
@@ -249,8 +251,7 @@ EOF;
 		$doc = $app->getDoc();
 		$doc->body->add(new HtmlSingleNodeViewerNode($sc));
 		if (igk_is_ajx_demand()){
-			igk_render_doc($doc);
-			igk_exit();
+			HtmlRenderer::RenderDocument($doc);
 		}
 	}
 

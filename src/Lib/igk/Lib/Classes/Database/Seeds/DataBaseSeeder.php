@@ -4,7 +4,7 @@
 // @date: 20211106 11:36:51
 namespace IGK\Database\Seeds;
 
-use IGKSysDbController;
+use SysDbController;
 use IGK\System\Database\Seeds\SeederBase;
 
 class DataBaseSeeder extends SeederBase{

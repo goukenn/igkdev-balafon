@@ -1,11 +1,11 @@
 <?php
 
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
 
 use function igk_resources_gets as __;
 
 ///<summary>Module configuration controller</summary>
-class ModuleConfigController extends IGKConfigCtrlBase{
+class ModuleConfigController extends ConfigControllerBase{
     
     
     public function getConfigPage(){

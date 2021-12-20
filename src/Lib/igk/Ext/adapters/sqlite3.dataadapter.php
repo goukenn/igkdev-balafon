@@ -10,7 +10,7 @@
 
 use IGK\Database\DbQueryDriver;
 use IGK\Database\SQLDataAdapter;
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
@@ -659,7 +659,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         switch($fmt){
             case 'xml':
             default:
-            $rep=igk_createxmlnode(IGK_SCHEMA_TAGNAME);
+            $rep=igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
             $rep["Date"]=date('Y-m-d');
             $rep["Version"]=$this->getDatabaseVersion();
             $rep["Name"]=basename($this->getDatabaseFileName());
@@ -785,7 +785,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
                             $cl["clLinkTypeColumn"]=igk_getv($fi, "clLinkTypeColumn");
                         }
                     }
-                    $tinfo[$fi->clName]=new IGKDbColumnInfo((array)$fi);
+                    $tinfo[$fi->clName]=new DbColumnInfo((array)$fi);
                     $fields[]=$fi;
                     $tables[$table_n]=(object)array("tinfo"=>$tinfo, 'ctrl'=>"sys://mysql_db");
                 }
@@ -1001,7 +1001,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
 /**
 * Represente IGKSQl3DbConfigCtrl class
 */
-class IGKSQl3DbConfigCtrl extends IGKConfigCtrlBase{
+class IGKSQl3DbConfigCtrl extends ConfigControllerBase{
     ///<summary></summary>
     /**
     * 

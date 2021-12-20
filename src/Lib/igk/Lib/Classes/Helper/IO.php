@@ -350,8 +350,19 @@ class IO{
     /**
     * tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur
     */
-    public static function GetDir($dir){
-        return igk_io_dir($dir);
+    public static function GetDir($dir, $separator=DIRECTORY_SEPARATOR){
+        $d=$separator;     
+        $out=IGK_STR_EMPTY;
+        if(ord($d) == 92){
+            $out=preg_replace("/\//", '\\', $dir);
+            $out=str_replace("\\", "\\", $out);
+        }
+        else{
+            $d="/[\\\\]/";
+            $out=preg_replace($d, '/', $dir);
+            $out=str_replace("//", "/", $out);
+        }
+        return $out; 
     }
     ///<summary></summary>
     ///<param name="folder"></param>

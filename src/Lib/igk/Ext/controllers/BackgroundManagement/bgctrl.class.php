@@ -4,7 +4,7 @@
 //
 //BACKGROUND IMAGE ADORATOR
 //
-// final class IGKBackgroundImgCtrl extends IGKConfigCtrlBase
+// final class IGKBackgroundImgCtrl extends ConfigControllerBase
 // {
 		// private $m_imglist;
 		// private $m_configTargetNode;
@@ -43,7 +43,7 @@
 		// }
 		// protected function initTargetNode()
 		// {
-			// $this->m_configTargetNode =  igk_createnode("div")->AppendAttributes(array("class"=>strtolower($this->getName())));
+			// $this->m_configTargetNode =  igk_createnode("div")->setAttributes(array("class"=>strtolower($this->getName())));
 			// return igk_createnode("div");
 		// }
 
@@ -55,8 +55,7 @@
 		// {
 				// $this->m_configTargetNode->ClearChilds();
 				// $this->ConfigNode->ClearChilds();
-				// HtmlUtils::AddItem($this->m_configTargetNode, $this->ConfigNode);
-				// $d = $this->m_configTargetNode;
+			 	// $d = $this->m_configTargetNode;
 				// igk_html_add_title($d, "title.BackgroundAdoratorSetting");
 				// $d->addHSep();
 				// $frm = $d->addForm();
@@ -126,8 +125,7 @@
 			// }
 
 			// $c["class"]="web_background_img posab zback loc_t loc_l fith fitw";
-
-			// HtmlUtils::AddItem($c, $this->App->Doc->body);
+ 
 			// //default picture
 			// $c->add("div", 	array("class"=>"front posab loc_t loc_l fitw fith"));//->Content = "nbsp;";
 

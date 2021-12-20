@@ -17,6 +17,21 @@ abstract class DataAdapterBase extends IGKObject {
     protected $m_name;
     private $m_relations;
 
+    public static function GetAdapter($controllerOrAdpaterName, $throwException = false){
+        $n = IGK_STR_EMPTY;
+        if (is_string($controllerOrAdpaterName)) {
+            if (empty($controllerOrAdpaterName)) {
+                return null;
+            }
+            $n = $controllerOrAdpaterName;
+        } else if (is_object($controllerOrAdpaterName)) {
+            if ($controllerOrAdpaterName instanceof self)
+                return $controllerOrAdpaterName;
+            if (igk_is_controller($controllerOrAdpaterName))
+                $n = $controllerOrAdpaterName->getDataAdapterName();
+        } 
+        return self::CreateDataAdapter($n, $throwException);
+    }
     public function pushRelations($table, $columninfo){
         
         if (!isset($this->m_relations->relations[$table])){
@@ -177,16 +192,18 @@ abstract class DataAdapterBase extends IGKObject {
         $n=IGK_STR_EMPTY;
         $key=IGK_STR_EMPTY;
         $db_adapter = igk_environment()->db_adapters;
+      
          if(is_string($ctrl)){
             $key=strtoupper($ctrl);
-            $n="IGK".$ctrl."DataAdapter";
+            if (!($n = igk_getv($db_adapter, $ctrl))){
+                $n="IGK".$ctrl."DataAdapter";
+            }  
         }
         else{
             $key=strtoupper($ctrl->getDataAdapterName());
             $n="IGK".$key."DataAdapter";
         } 
-        if(!$newAdapter && isset($adapt[$key])){
-            
+        if(!$newAdapter && isset($adapt[$key])){            
             return $adapt[$key];
         } 
         if (isset($db_adapter[$n])){
@@ -194,7 +211,7 @@ abstract class DataAdapterBase extends IGKObject {
         }
       //igk_wln_e("adapter : ".$ctrl, $db_adapter, $n, $key);
    
-        if(class_exists($n) && !igk_reflection_class_isabstract($n)){
+        if(!igk_reflection_class_isabstract($n)){
             $out=igk_create_adapter_from_classname($n);
             if($out){
                 $adapt[$key]=$out;
@@ -216,6 +233,20 @@ abstract class DataAdapterBase extends IGKObject {
             igk_die("DataAdapter: ".$ctrl. " not found. Driver class expected : ".$n);
         }
         return null;
+    }
+
+    /**
+     * 
+     * @param mixed $list 
+     * @return void 
+     */
+    public static function Register($list){
+        $adapts = & igk_environment()->createArray("db_adapters");
+        foreach($list as $k=>$v){
+            if (class_exists($v)){
+                $adapts[$k] = $v;
+            }
+        } 
     }
     ///<summary></summary>
     /**
@@ -362,7 +393,7 @@ abstract class DataAdapterBase extends IGKObject {
                     $t=array();
                     preg_match_all($n, $v, $t);
                     $s=$t["name"][0];
-                    if(!igk_reflection_class_isabstract($v) && igk_reflection_class_extends($v, "IGKDataAdapter")){
+                    if(is_subclass_of($v, \IGK\DataBase\DataAdapter::class)){
                         self::$sm_regAdapter[strtoupper($s)]=new $v();
                         $m .= $v.IGK_LF;
                     }
@@ -410,6 +441,7 @@ abstract class DataAdapterBase extends IGKObject {
     * 
     */
     public static function ResetDataAdapter(){
+        igk_environment()->set("sys://dataadapter", null);
         self::$sm_regAdapter=array();
         self::LoadAdapter();
     }

@@ -24,7 +24,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function __construct(){
         $this->_f=new IGKFv(); 
         igk_reg_hook(IGKEvents::HOOK_HTML_HEAD, function($e){
-            if ($e->args["options"]->Document->getScriptManager() === $this)
+            if (isset($e->args["options"]) && $e->args["options"]->Document->getScriptManager() === $this)
             {
                 $src = "";
                 foreach($this->m_scripts as $file=>$v){
@@ -118,22 +118,22 @@ final class IGKHtmlScriptManager extends IGKObject {
     */
     public function getMergedContent($zip=0, & $files=null){
         // igk_wln_e("merge content");
-        $tasc=$this->getAssoc();
-        $o="";
-        if($tasc){
-            $resolver=IGKResourceUriResolver::getInstance();
-            foreach($tasc->to_array() as $k=>$v){
-                if(!file_exists($k) || !preg_match("/\.js$/", basename($k)))
-                    continue;
-                $u=$resolver->resolve($k, null, 0);
-                $o .= IGK_START_COMMENT."+F:  ". $u."".IGK_END_COMMENT.IGK_LF;
-                $g=utf8_decode(igk_io_read_allfile($k));
-                if($zip)
-                    $g=igk_js_minify($g);
-                $o .= $g.IGK_LF;
-            }
-        }
-        return (object)(array("data"=>$o));
+        // $tasc=$this->getAssoc();
+        // $o="";
+        // if($tasc){
+        //     $resolver=IGKResourceUriResolver::getInstance();
+        //     foreach($tasc->to_array() as $k=>$v){
+        //         if(!file_exists($k) || !preg_match("/\.js$/", basename($k)))
+        //             continue;
+        //         $u=$resolver->resolve($k, null, 0);
+        //         $o .= IGK_START_COMMENT."+F:  ". $u."".IGK_END_COMMENT.IGK_LF;
+        //         $g=utf8_decode(igk_io_read_allfile($k));
+        //         if($zip)
+        //             $g=igk_js_minify($g);
+        //         $o .= $g.IGK_LF;
+        //     }
+        // }
+        // return (object)(array("data"=>$o));
     }
     ///<summary></summary>
     /**
@@ -149,12 +149,14 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param mixed $tab the default value is null
     */
     public function getNonMergedContent($tab=null){
-        $nonMerged=$tab == null ? $this->getMergedContent()->notMerged: $tab->notMerged;
-        $o="";
-        foreach($nonMerged as $v){
-            $o .= $v->render(null);
-        }
-        return $o;
+        throw new Exception("Not implement = ".__METHOD__);
+
+        // $nonMerged=$tab == null ? $this->getMergedContent()->notMerged: $tab->notMerged;
+        // $o="";
+        // foreach($nonMerged as $v){
+        //     $o .= $v->render(null);
+        // }
+        // return $o;
     }
     ///<summary></summary>
     ///<param name="file"></param>
@@ -199,7 +201,7 @@ final class IGKHtmlScriptManager extends IGKObject {
 
         // TODO : RENDER SCRIPTS
         return "<!-- render script -->";        
-
+/*
         $g="";
         $_appv = igk_app()->settings->version;
         $count = 0;
@@ -231,7 +233,7 @@ final class IGKHtmlScriptManager extends IGKObject {
                 $bjs_uri = dirname($js_uri);
                 IGKResourceUriResolver::getInstance()->resolve($bjs_uri);
             } 
-            // $c=igk_createxmlnode("script");
+            // $c=igk_create_xmlnode("script");
             // $c["type"]="text/javascript";
             // $c["language"]="javascript";
             // $c["src"]= new IGKHtmlRelativeUriValueAttribute($js_uri);
@@ -241,7 +243,7 @@ final class IGKHtmlScriptManager extends IGKObject {
                 if(empty($src)){
                     igk_wln_e("balafon.js core code is empty;");
                 }else {
-                    $c=igk_createxmlnode("script");
+                    $c=igk_create_xmlnode("script");
                     $c["type"]="text/balafon-javascript";
                     $c["language"]="javascript";         
                     $c->Content = implode("", ["//<![CDATA[", 
@@ -325,5 +327,6 @@ final class IGKHtmlScriptManager extends IGKObject {
                 igk_wl($ds);
             }
         }
+        */
     }
 }

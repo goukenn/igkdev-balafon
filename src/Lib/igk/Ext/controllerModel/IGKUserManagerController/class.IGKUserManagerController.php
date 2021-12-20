@@ -17,13 +17,13 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	 
 	protected function getDefaultDataTableInfo(){//get default data tbale infor
 		return array(
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>11, "clIsUnique"=>true, "clIsPrimary"=>true, "clAutoIncrement"=>true)),
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clLogin", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60, "clIsUnique"=>true,"clDescription"=>"email for login")),
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clPwd", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>40,"clDescription"=>"password")),
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clAvailable", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>1 ,"clDefault"=>1,"clDescription"=>"0=not available, 1=available, 2=blocked or other reason")),
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clFirstName", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60,"clDescription"=>"the first name")),
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clLastName", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60, "clDescription"=>"the last name")),
-		new IGKDbColumnInfo(array(IGK_FD_NAME=>"clDescription", IGK_FD_TYPE=>"Text", "clDescription"=>"description that mark is user"))
+		new DbColumnInfo(array(IGK_FD_NAME=>"clId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>11, "clIsUnique"=>true, "clIsPrimary"=>true, "clAutoIncrement"=>true)),
+		new DbColumnInfo(array(IGK_FD_NAME=>"clLogin", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60, "clIsUnique"=>true,"clDescription"=>"email for login")),
+		new DbColumnInfo(array(IGK_FD_NAME=>"clPwd", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>40,"clDescription"=>"password")),
+		new DbColumnInfo(array(IGK_FD_NAME=>"clAvailable", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>1 ,"clDefault"=>1,"clDescription"=>"0=not available, 1=available, 2=blocked or other reason")),
+		new DbColumnInfo(array(IGK_FD_NAME=>"clFirstName", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60,"clDescription"=>"the first name")),
+		new DbColumnInfo(array(IGK_FD_NAME=>"clLastName", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60, "clDescription"=>"the last name")),
+		new DbColumnInfo(array(IGK_FD_NAME=>"clDescription", IGK_FD_TYPE=>"Text", "clDescription"=>"description that mark is user"))
 		);
 	}
 	public function initDataEntry($dbman, $tbname=null)

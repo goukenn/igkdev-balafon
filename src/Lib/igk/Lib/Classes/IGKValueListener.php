@@ -8,9 +8,10 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\HtmlUtils;
 
-final class IGKValueListener extends IGKObject implements IIGKHtmlGetValue{
+final class IGKValueListener extends IGKObject implements IHtmlGetValue{
     private $m_attr, $m_owner;
     ///<summary></summary>
     ///<param name="owner"></param>

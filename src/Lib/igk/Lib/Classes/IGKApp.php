@@ -2,7 +2,10 @@
 
 ///<summary> core application engine </summary>
 
+use IGK\Controllers\BaseController;
+use IGK\Helper\IO;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Http\RequestHandler;
 use IGK\System\IO\Path;
 
 class IGKApp extends IGKObject
@@ -39,6 +42,80 @@ class IGKApp extends IGKObject
     public function getSettings(){
         return $this->m_settings;
     }
+    ///<summary>get environment base controller</summary>
+    /**
+    * get environment base controller
+    * @return BaseController|null base controller
+    */
+    public function getBaseCurrentCtrl(){
+        return igk_environment()->basectrl;
+    }
+     ///<summary>change environment base controller</summary>
+    ///<param name="v"></param>
+    /**
+    * change environment base controller
+    * @param mixed $v
+    */
+    public function setBaseCurrentCtrl(?BaseController $v){
+		igk_environment()->basectrl =  $v; 
+        return $this;
+    }
+    ///<summary>view mode setting - require session</summary>
+    /**
+    * view mode setting - require session
+    */
+    public function getViewMode(){
+
+		if (!isset($this->m_settings->{IGK_VIEW_MODE_FLAG}))
+			return IGKViewMode::VISITOR;
+        return $this->m_settings->{IGK_VIEW_MODE_FLAG};// $this->_f[IGK_VIEW_MODE_FLAG];
+    }
+     ///<summary></summary>
+    ///<param name="v"></param>
+    /**
+    * 
+    * @param mixed $v
+    */
+    public function setViewMode($v){
+        $m = $this->getViewMode();
+        if($m === $v)
+            return;
+		if ($v ==  IGKViewMode::VISITOR)
+			$v = null;
+		$this->m_settings->{IGK_VIEW_MODE_FLAG} = $v; 
+        igk_hook(IGKEvents::HOOK_VIEW_MODE_CHANGED, [$this, $v]);
+    }
+   
+     ///<summary>get api current page folder</summary>
+    /**
+    * get api current page folder
+    */
+    public function getCurrentPageFolder(){
+        $_is_phar=defined("IGK_PHAR_CONTEXT");
+        if($_is_phar){
+            $buri=igk_io_baseuri();
+            $fulluri=igk_getv(explode("?", igk_io_fullrequesturi()), 0);
+            if($buri != $fulluri){
+                $ba=igk_io_dir(substr(igk_str_rm_last($fulluri, '/'), strlen($buri) + 1));
+                if((strlen($ba) > 0) && is_dir(igk_io_basedir($ba))){
+                    return $ba;
+                }
+            }
+        }
+        else{
+            if(defined("IGK_CURRENT_PAGEFOLDER")){
+                return IGK_CURRENT_PAGEFOLDER;
+            }
+            $cdir=IO::GetCurrentDir();
+            $bdir=IO::GetBaseDir();
+            if($cdir != $bdir)
+                return IO::GetChildRelativePath($bdir, $cdir);
+        }
+        return IGK_HOME_PAGEFOLDER;
+    }
+    public function getCurrentPage(){
+        return igk_getv(igk_getctrl(IGK_MENU_CTRL), 'CurrentPage', 'home');
+    }
     public function getSession(){
         static $sm_session=null;
         if($sm_session === null){
@@ -60,6 +137,11 @@ class IGKApp extends IGKObject
         }
         return $sm_session;
     }
+    /**
+     * get controller manager instance 
+     * @return IGKControllerManagerObject controller manager
+     * @throws IGKException 
+     */
     public function getControllerManager(){
         return IGKControllerManagerObject::getInstance();
     }
@@ -138,11 +220,8 @@ class IGKApp extends IGKObject
         // + | HOOK application initilize
         // + |
         igk_hook(IGKEvents::HOOK_INIT_APP, [self::$sm_instance]);
-        
-        if ($render) {
-            // render document
-            HtmlRenderer::RenderDocument(self::$sm_instance->getDoc());
-        }
+
+       
     }
 
     /**

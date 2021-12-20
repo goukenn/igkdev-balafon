@@ -7,6 +7,7 @@ use IGK\System\Html\Dom\HtmlItemBase;
 class XmlNode extends HtmlItemBase{
     public function __construct($tagname=null)
     {
+        parent::__construct();
         if ($tagname)
             $this->tagname = $tagname;
     }

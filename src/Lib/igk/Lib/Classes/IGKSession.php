@@ -216,16 +216,8 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     /**
     * 
     */
-    public function getCRef(){
-        $key= self::SESS_CREF_KEY;
-        // $cref= $this->getParam($key) ?? (function(){
-        // $cref= igk_getv($this->getForm(), 'cref') ?? (function(){
-        $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){
-            if (igk_server()->REQUEST_URI != "/Configs"){
-                igk_ilog("regenerate the cref : ");
-                igk_trace();
-                igk_exit();
-            }
+    public function getCRef(){ 
+        $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){            
             return $this->generateCref();
         })();
         return $cref;

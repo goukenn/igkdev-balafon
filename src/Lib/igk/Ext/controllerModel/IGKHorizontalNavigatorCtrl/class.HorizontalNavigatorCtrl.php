@@ -6,6 +6,9 @@ Description: control that will host every article and navigate thru them by conf
 */
 //controller code class declaration
 //file is a part of the controller tab list
+
+use IGK\Controllers\ExtraControllerProperty;
+
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
 	public function getName(){return get_class($this);}
 
@@ -34,12 +37,12 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	public static function GetAdditionalConfigInfo()
 	{
 		return array(
-		"clShowBullet"=> new IGKAdditionCtrlInfo("bool", true),
-		"clanim_NAV_ANIMFREQUENCY"=> new IGKAdditionCtrlInfo("text", 20),
-		"clanim_NAV_ANIMDURATION"=> new IGKAdditionCtrlInfo("text", 1000),
-		"clanim_NAV_AUTOANIMATE"=> new IGKAdditionCtrlInfo("bool", true),
-		"clanim_NAV_AUTOPERIOD"=> new IGKAdditionCtrlInfo("text", 10000),
-		"clanim_NAV_ANIMTYPE"=> new IGKAdditionCtrlInfo("select",
+		"clShowBullet"=> new ExtraControllerProperty("bool", true),
+		"clanim_NAV_ANIMFREQUENCY"=> new ExtraControllerProperty("text", 20),
+		"clanim_NAV_ANIMDURATION"=> new ExtraControllerProperty("text", 1000),
+		"clanim_NAV_AUTOANIMATE"=> new ExtraControllerProperty("bool", true),
+		"clanim_NAV_AUTOPERIOD"=> new ExtraControllerProperty("text", 10000),
+		"clanim_NAV_ANIMTYPE"=> new ExtraControllerProperty("select",
 		array("translation"=>"translation", "rotation"=>"rotation", "fade"=>"fade"),
 		"translation")
 		);

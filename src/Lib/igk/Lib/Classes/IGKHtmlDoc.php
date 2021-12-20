@@ -281,7 +281,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         }
         $ln=$this->__addStyle($v_t->targetNode, $file);
         igk_set_env("sys://temp/css", $v_t);
-        igk_html_add($v_t, $this->m_head);
+        $this->m_head->add($v_t);
         return $ln;
     }
     ///<summary>clear component list</summary>
@@ -356,7 +356,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     }
 
     private function _initializedocument(){
-
+        die(__("Not implement : {0}", __METHOD__) );
     }
      ///<summary>file : relative path to file according to system base dir</summary>
     /**
@@ -403,5 +403,30 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     public function setBaseUri($baseuri){
         $this->m_baseuri = $baseuri;
         return $this;
+    }
+
+    ///<summary></summary>
+    ///<param name="name"></param>
+    ///<return refout="true"></return>
+    /**
+    * 
+    * @param mixed $name
+    * @return mixed|array
+    */
+    public function getElementsByTagName($name){
+        $n=strtolower($name);
+        $tab=array();
+        if($n == "head"){
+            $tab []=$this->m_head;
+            return $tab;
+        }
+        if($n == "body"){
+            $tab []=$this->m_body;
+            return $tab;
+        }
+        $tab1=$this->m_head->getElementsByTagName($name);
+        $tab2=$this->m_body->getElementsByTagName($name);
+        $h=array_merge($tab1, $tab2);
+        return $h;
     }
 }

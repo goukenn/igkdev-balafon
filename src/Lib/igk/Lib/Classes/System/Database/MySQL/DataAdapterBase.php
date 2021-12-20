@@ -9,8 +9,7 @@ use IGK\Database\DbQueryDriver;
 use IGK\Database\SQLDataAdapter;  
 use IGK\System\Exceptions\NotImplementException;
 
-echo "load .... ";
-exit;
+ 
 ///<summary>Represente class: DataAdapterBase</summary>
 /**
 * Represente DataAdapterBase class
@@ -265,7 +264,7 @@ abstract class DataAdapterBase extends SQLDataAdapter{
     * 
     */
     public function dropAllRelations(){
-        return IGKMySQLDataCtrl::DropAllRelations($this, $this->m_dbname);
+        return MySQLDataController::DropAllRelations($this, $this->m_dbname);
     }
     ///<summary></summary>
     ///<param name="tbname"></param>
@@ -275,7 +274,7 @@ abstract class DataAdapterBase extends SQLDataAdapter{
     */
     public function dropTable($tbname){
         if($this->m_dbManager != null)
-            return IGKMySQLDataCtrl::DropTable($this, $tbname, $this->DbName);
+            return MySQLDataController::DropTable($this, $tbname, $this->DbName);
         return null;
     }
     ///<summary></summary>
@@ -291,7 +290,7 @@ abstract class DataAdapterBase extends SQLDataAdapter{
     * 
     */
     public function getAllRelations(){
-        return IGKMySQLDataCtrl::GetAllRelations($this, $this->m_dbname);
+        return MySQLDataController::GetAllRelations($this, $this->m_dbname);
     }
     ///<summary></summary>
     ///<param name="s"></param>
@@ -301,7 +300,7 @@ abstract class DataAdapterBase extends SQLDataAdapter{
     */
     public function getConstraint_Index($s){
         if($this->m_dbManager != null)
-            return IGKMySQLDataCtrl::GetConstraint_Index($this, $s, $this->DbName);
+            return MySQLDataController::GetConstraint_Index($this, $s, $this->DbName);
         return null;
     }
     ///<summary></summary>

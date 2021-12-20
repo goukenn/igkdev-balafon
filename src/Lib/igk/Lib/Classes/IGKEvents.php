@@ -25,6 +25,11 @@ class IGKEvents extends IGKObject
     const USER_PWD_CHANGED = "user pwd changed";
     const HOOK_MODEL_INIT = "db_init_model_macros";
     const HOOK_AUTLOAD_CLASS = "sys_autoload_class";
+    const HOOK_VIEW_MODE_CHANGED = "config_view_mode_changed";
+    const HOOK_CONFIG_CTRL = "config_get_configs";
+    const HOOK_DEBUGGER_VIEW = "debugger_view";
+
+
     const VIEWCOMPLETE = 0x1;
     private $m_methods;
     private $m_name;

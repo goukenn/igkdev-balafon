@@ -8,7 +8,8 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotInjectableTypeException;
 use IGK\System\Exceptions\RequireArgumentException;
 use IGK\System\Http\Request;
-use IGKActionBase;
+use IGKActionBase; 
+use IGKType;
 use ReflectionFunction;
 
 /**
@@ -22,6 +23,12 @@ class Dispatcher implements IActionProcessor{
         "float"=>"(([0-9]+)\.[0-9]+)|([0-9]+)(\.[0-9]+)?"
     ];
 
+    ///<sumary>.ctr</summary>
+    /**
+     * 
+     * @param null|IGKActionBase $host 
+     * @return void 
+     */
     public function __construct(?IGKActionBase $host){
         $this->host = $host;
     } 
@@ -34,16 +41,17 @@ class Dispatcher implements IActionProcessor{
                 $cl = null; 
                 $required =  $g->getNumberOfRequiredParameters();
  
+                $cl = $g->getParameters()[0]->getType(); 
                 // | try to inject parameter
                 if (( $required >= 1) && 
                 ($parameters = $g->getParameters()) && 
                 ($cl = $parameters[0]->getType()) && 
-                ($cl->getName() ===  Request::class)){
+                (IGKType::GetName($cl) ===  Request::class)){
                     $req =  Request::getInstance();
                     $req->setParam($args);
                     $args = [$req]; 
                     for($i = 1; $i < count($parameters); $i++){
-                        if (($p = $parameters[$i]->getType()) && (class_exists( $type = $p->getName()))){
+                        if (($p = $parameters[$i]->getType()) && (class_exists( $type = IGKType::GetName($p)))){
                             
                             $c = new $type();
                             $args[] = $c;
@@ -60,14 +68,14 @@ class Dispatcher implements IActionProcessor{
                                 throw new RequireArgumentException($required, count($args));
                             }                             
                         }
-                        if (($p = $parameters[$i]->getType()) && (class_exists( $type = $p->getName()))){
+                        if (($p = $parameters[$i]->getType()) && (class_exists( $type = IGKType::GetName($p)))){
                             
                             $c = new $type();
                             $args[$i] = $c;
                             continue;
                         } else { 
                             if ($p){
-                                $tname =$p->getName();
+                                $tname = IGKType::GetName($p);
                                 $v = igk_getv($args, $i);
                                 // igk_wln("type : ", $tname);
                                 if ($tname == "array"){

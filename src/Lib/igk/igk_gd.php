@@ -7,10 +7,8 @@ use IGK\System\Drawing\Color;
 use IGK\System\Drawing\Colorf;
 use IGK\System\Drawing\Rectanglef;
 
-if(!extension_loaded("gd")){
-    if(!ini_get("enable_dl") || !function_exists("dl") || !@dl("gd.so")){
-        return;
-    }
+if(!extension_loaded("gd")){   
+    return;
 }
 define("IGK_GD_SUPPORT", 1);
 ?><?php

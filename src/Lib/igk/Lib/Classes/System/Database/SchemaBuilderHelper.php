@@ -6,7 +6,7 @@
 namespace IGK\System\DataBase;
 
 use Exception;
-use IGKDbColumnInfo;
+use DbColumnInfo;
 
 class SchemaBuilderHelper{
     protected $_output;
@@ -14,7 +14,7 @@ class SchemaBuilderHelper{
 
     protected function _addcolumnAttributes($attributes, $node=null){
         $node = $node ?? $this->_output;
-        $c = new IGKDbColumnInfo($attributes);
+        $c = new DbColumnInfo($attributes);
         $m = $node->add("Column");
         foreach($c as $k=>$v){
             $m[$k] = $v;

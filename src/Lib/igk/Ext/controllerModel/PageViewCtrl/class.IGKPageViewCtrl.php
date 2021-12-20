@@ -53,7 +53,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		//maintain the view
 		$t = $targetnode? $targetnode: $this->TargetNode;
-		igk_html_add($this->m_viewZone,$t);
+		$t->add($this->m_viewZone);
 
 		if ($this->hasChild)
 		{
@@ -61,7 +61,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 			{
 				if ($v->isVisible)
 				{
-					igk_html_add($v->TargetNode, $this->m_viewZone);
+					$this->m_viewZone->add($v->TargetNode);
 					$v->View();
 				}
 				else {

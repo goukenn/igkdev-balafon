@@ -1,13 +1,12 @@
 <?php
 namespace IGK\Controllers;
 
-use IGK\Controllers\IGKNonVisibleControllerBase; 
 
 // ///<summary>component manager controller</summary>
 // /**
 // * component manager controller
 // */
-final class ComponentManagerController extends IGKNonVisibleControllerBase{
+final class ComponentManagerController extends NonVisibleControllerBase{
 
     ///<summary> Dispose all component</summary>
     /**

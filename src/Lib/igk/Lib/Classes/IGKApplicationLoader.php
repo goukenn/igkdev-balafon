@@ -200,8 +200,7 @@ class IGKApplicationLoader{
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKRawDataBinding.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKValueListener.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKNotifyStorage.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/IGKCaches.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/IGKAppModule.php";
+        // require_once IGK_LIB_DIR."/Lib/Classes/IGKCaches.php"; 
         // require_once IGK_LIB_DIR."/Lib/Classes/System/IO/FileSystem.php";
 
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKOwnViewCtrl.php";
@@ -219,7 +218,7 @@ class IGKApplicationLoader{
         // //+ |
         // //+ | configuration controllers
         // //+ |
-        // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKConfigCtrlBase.php";
+        // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/ConfigControllerBase.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKConfigCtrl.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKMenuCtrl.php"; 
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKSystemUriActionCtrl.php";         
@@ -244,10 +243,9 @@ class IGKApplicationLoader{
 
 
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlContext.php"; 
-        // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlItemAttribute.php"; 
+        // require_once IGK_LIB_DIR."/Lib/Classes/HtmlItemAttribute.php"; 
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlAttribs.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlClassValueAttribute.php";
-        // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlItemAttribute.php";
+        // require_once IGK_LIB_DIR."/Lib/Classes/HtmlCssClassValueAttribute.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlScriptAssocInfo.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlOptions.php"; 
         // require_once IGK_LIB_DIR."/Lib/Classes/IGKHtmlRelativeUriValueAttribute.php";

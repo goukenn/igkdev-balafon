@@ -3,7 +3,7 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlItemBase;
-use IIGKHtmlGetValue;
+
 use ReflectionMethod;
 
 /**
@@ -24,7 +24,10 @@ class HtmlRenderer{
             "Cache"=>igk_sys_cache_require(),
             "CacheUri"=>0,
             "CacheUriLevel"=>0,
-            "setnoAttribEscape"=>null
+            "setnoAttribEscape"=>null,
+            "Tab"=>[],
+            "Chain"=>1,
+            "TextOnly"=>false
         ];
         if($o->Cache){
             $o->CacheUri=base64_decode(igk_sys_cache_uri());
@@ -34,11 +37,11 @@ class HtmlRenderer{
     }
     public static function GetValue($o, $options=null){
    
-        if ($o instanceof IIGKHtmlGetValue){  
+        if ($o instanceof IHtmlGetValue){  
             return $o->getValue($options);
         }
         if ($o instanceof HtmlItemBase){
-            return $o->render();
+            return $o->render($options);
         }
     }
      ///<summary>force to render global html document</summary>
@@ -101,8 +104,7 @@ class HtmlRenderer{
         $s = "";
         $reflect = [];
         // $renderer = null; //igk_getv($options, "renderer") ?? new HtmlRenderer();
-        // $engine = null; //igk_getv($options, "engine");
-       
+        // $engine = null; //igk_getv($options, "engine"); 
 
         while(($q = array_pop($tab)) && !$options->Stop){
             $tag = null;
@@ -158,7 +160,7 @@ class HtmlRenderer{
                 }
                 if((count($childs) > 0)){
                     $options->Depth++;
-                    array_push($tab, $q);   
+                    array_push($tab, $q); 
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
                     // foreach($childs as $k){
@@ -222,7 +224,10 @@ class HtmlRenderer{
 
 
         if ($item->getHasAttributes()) {
-            $attrs = $item->getAttributes();
+            if (is_array($item->getAttributes())){
+                igk_wln_e("is array", get_class($item));
+            }
+            $attrs = $item->getAttributes()->to_array();
             if (!empty($out)) {
                 $out .= " ";
             }
@@ -248,7 +253,7 @@ class HtmlRenderer{
                     if (is_array($v)) {
                         igk_wln_e("/!\\ don't send array as attribute: ", $k, $v);
                     }
-                    if ($v_is_obj && ($v instanceof IIGKHtmlGetValue)) {
+                    if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                         if (!empty($cv = $v->getValue())){
                             $out .= $k . "=\"" . $cv . "\" ";
                         }
@@ -328,5 +333,24 @@ class HtmlRenderer{
         }
         unset($options->setnoAttribEscape);
         return "\"".$v."\"";
+    }
+
+    public static function GetInnerHtml(HtmlItemBase $item, $options =null){
+        $s = "";
+        $content = $item->getContent();
+        if (!empty($content)){
+            if (is_object($content)){
+                $s .= HtmlRenderer::GetValue($content, $options);
+            }else{
+                $s .= $content;
+            }
+        }
+        $childs = $item->getRenderedChilds($options);  
+        if (count($childs)>0){
+            foreach($childs as $k){
+                $s.= self::Render($k, $options);
+            }
+        }
+        return $s;
     }
 }

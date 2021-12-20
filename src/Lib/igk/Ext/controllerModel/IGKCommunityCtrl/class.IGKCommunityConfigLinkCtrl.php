@@ -1,13 +1,16 @@
 <?php
 
-use function igk_resources_gets as __; 
+use function igk_resources_gets as __;
+
+use IGK\Models\Community;
 use IGK\Resources\R;
-use IGK\System\Configuration\Controllers\IGKConfigCtrlBase;
+use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\Html\HtmlUtils;
 
 //-------------------------------------------------
 ///community default manager
 //-------------------------------------------------
-final class IGKCommunityLink extends IGKConfigCtrlBase
+final class IGKCommunityLink extends ConfigControllerBase
 { 
 
 	public function getConfigPage()
@@ -35,12 +38,12 @@ final class IGKCommunityLink extends IGKConfigCtrlBase
 		$this->View();
 	}
 	private function _getCommunityID($n){
-		$c = igk_db_select($this, "tbigk_community", array("clName"=>$n));
+		$c = Community::select(["clName"=>$n]); //  igk_db_select($this, "tbigk_community", array("clName"=>$n));
 
-		if($c->RowCount == 1)
-			return $c->getRowAtIndex(0)->clId;
-		if (igk_db_insert($this, "tbigk_community", array("clName"=>$n), null, true)){
+		if(igk_count($c) == 1)
+			return $c[0]->clId;
 
+		if ( Community::insert(["clName"=>$n], null, true)){
 			return igk_db_last_id($this, false);
 		}
 		return -1;
@@ -69,12 +72,14 @@ final class IGKCommunityLink extends IGKConfigCtrlBase
 		
 		//model part
 		if ($e==0){
-			if (igk_db_select($this, $tb, array("clCommunity_Id"=>$comid))->RowCount>0){
-				unset($cc->clId);
-				$e = !igk_db_update($this, $tb, $cc, array("clCommunity_Id"=>$comid)) ? 0x8:0;
-			}else{
-				$e = !igk_db_insert(IGK_MYSQL_DATAADAPTER,$tb, $cc) ? 0x4:0;
-			}
+			Community::insertIfNotExists(array("clCommunity_Id"=>$comid));
+
+			// if (igk_db_select($this, $tb, array("clCommunity_Id"=>$comid))->RowCount>0){
+			// 	unset($cc->clId);
+			// 	$e = !igk_db_update($this, $tb, $cc, array("clCommunity_Id"=>$comid)) ? 0x8:0;
+			// }else{
+			// 	$e = !igk_db_insert(IGK_MYSQL_DATAADAPTER,$tb, $cc) ? 0x4:0;
+			// }
 		}
 
 		//view part
@@ -146,10 +151,6 @@ final class IGKCommunityLink extends IGKConfigCtrlBase
 	public function getCommunityTable()
 	{
 		$ctrl = igk_db_sys_ctrl("community");
-
-
-
-
 		if ($ctrl)
 			return $ctrl->getDataTableName();
 		return null;
@@ -209,7 +210,10 @@ final class IGKCommunityLink extends IGKConfigCtrlBase
 				$lb = $li->add("label");
 
 
-				$n = igk_db_select($this,"tbigk_community", array("clId"=>$k->clCommunity_Id))->getRowAtIndex(0)->clName;
+				if(!($n = Community::select(array("clId"=>$k->clCommunity_Id))))
+					continue;
+
+				$n[0]->clName;
 				$lb["for"] = $n.".clLink";
 				$lb->Content = $n;
 

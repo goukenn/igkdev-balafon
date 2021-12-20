@@ -4,14 +4,26 @@ namespace IGK\Models;
 use ArrayAccess;
 use Closure;
 use Exception;
+use IGK\Controllers\SysDbController;
+use IGK\Database\DbSchemas;
 use IGK\Helper\Utility;
 use IGKEvents;
 use IGKException;
 use IGKSystemController;
 use IGKSysUtil;
 use ReflectionClass;
-use IGKSysDbController; 
 
+/**
+ * model base
+ * @package IGK\Models
+ * @method static ModelBase create() - create a row entries
+ * @method static object|null insertIfNotExists(array condition) macros:Insert if condition not meet.
+ * @method static object|null insert() macros function - DefaultModelEntryExtension
+ * @method static array|null select(?array $condition=null) macros function - DefaultModelEntryExtension
+ * @method static array|null select_all($condition=null) macros function  
+ * @method static bool drop() macros function drop table 
+ * @method static bool delete($condition) macros function delete table's entries
+ */
 abstract class ModelBase implements ArrayAccess{
 
     static $macros;
@@ -106,13 +118,24 @@ abstract class ModelBase implements ArrayAccess{
         return $this->display;
     }
     
+    /**
+     * create dummy row
+     * @return object|null dummy raw 
+     */
+    protected function createRow(){
+        $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
+        return DbSchemas::CreateRow($this->getTable(), $ctrl);  
+    }
     
 
     public function __construct($raw=null)
     {
-        $this->raw = igk_db_create_row($this->getTable());
+        $this->raw = $this->createRow();
         if (!$this->raw ){  
-            die("failed to create db row: ".$this->getTable());
+            igk_trace();
+            igk_wln(__FILE__.":".__LINE__, "raw is null", get_class($this), $this->controller, $this->getTable());
+            igk_wln_e(igk_app()->getControllerManager()->getInitControllerKeys());
+            die("Failed to create dbrow: ".$this->getTable());
         }
         if ($raw){
             foreach($raw as $k=>$v){
@@ -171,13 +194,15 @@ abstract class ModelBase implements ArrayAccess{
         return IGKSysUtil::GetTableName($this->table, $this->getController()); 
     }
     public function getTableInfo(){
-        return igk_db_getdatatableinfokey($this->getTable());
+        $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
+        $r =  $ctrl::getDataTableDefinition($this->getTable()); 
+        return igk_getv($r, "ColumnInfo");
     }
     public function getController(){ 
         return igk_getctrl($this->controller, false);
     }
     public static function GetSystemDataAdapter(){
-        return igk_get_data_adapter(igk_getctrl(IGKSystemController::class)); 
+        return igk_get_data_adapter(igk_getctrl(SysDbController::class)); 
     }
     public function getDataAdapter(){
         if ($this->controller)
@@ -259,6 +284,7 @@ abstract class ModelBase implements ArrayAccess{
             igk_hook(IGKEvents::HOOK_MODEL_INIT, []);
 
         } 
+
         $_instance_class = igk_environment()->createClassInstance(static::class);
         $_instance_class->is_mock = 1;
 

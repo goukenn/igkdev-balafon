@@ -1,10 +1,18 @@
 <?php
 
 namespace IGK\System\Library;
-
+use IGK\System\Database\MySQL\DataAdapter as MySQLDataAdapter;
 class mysql extends \IGKLibraryBase{
     public function init():bool{
+        if (!extension_loaded("mysqli")){
+            return false;
+        }
+        require_once IGK_LIB_CLASSES_DIR."/System/Database/MySQL/igk_mysql_db.php";
+        
         // initialize function
+        \IGK\Database\DataAdapterBase::Register( [
+            IGK_MYSQL_DATAADAPTER=> MySQLDataAdapter::class
+        ]);
         return true;
     }
 }

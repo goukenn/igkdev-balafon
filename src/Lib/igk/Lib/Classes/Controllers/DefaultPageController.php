@@ -10,6 +10,10 @@
 
 namespace IGK\Controllers;
 
+use IGK\System\Html\XML\XmlNode;
+use IGKHtmlRelativeUriValueAttribute;
+use IGKSystemUriActionPatternInfo;
+use IGKViewMode;
 use IIGKUriActionRegistrableController;
 use IIGKWebPageController;
 
@@ -133,7 +137,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
                         ob_clean();
                         igk_html_output(404);
                         header("HTTP/1.0 404 Not Found");
-                        $r=new IGKXmlNode("result_evaluation_uri");
+                        $r=new XmlNode("result_evaluation_uri");
                         $r->add("error")->Content="IGK_ERR_FUNCNOTAVAILABLE";
                         $r->add("msg")->Content="Function not available ";
                         $r->add("function")->Content=$c;
@@ -345,7 +349,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             return;
         }
         else if($this->getEnvParam("from") == null){
-            igk_html_add($t, $doc->body->addBodyBox()->ClearChilds());
+            $doc->body->addBodyBox()->ClearChilds()->add($t);
         }
         $menu_ctrl->setParentView($this->menu_content);
         $this->doc->Title=$this->m_Title ? $this->m_Title: igk_app()->Configs->website_title. $this->getExtraTitle();

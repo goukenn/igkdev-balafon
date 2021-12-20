@@ -3,7 +3,7 @@
 namespace IGK\System\Http;
 
 use Exception;
-use IGKCssParserException;
+use CssParserException;
 use IGKHtmlDoc;
 use ReflectionException;
 
@@ -26,7 +26,7 @@ class DocumentRequestResponse extends RequestResponse{
      * @return mixed 
      * @throws Exception 
      * @throws ReflectionException 
-     * @throws IGKCssParserException 
+     * @throws CssParserException 
      */
     public function render(){
         return $this->response->render();

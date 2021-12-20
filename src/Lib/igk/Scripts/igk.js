@@ -18514,6 +18514,12 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			},
 			init_confirm_frame: function (p, uri, ajxcontext) {
 				var frm = igk.getParentByTagName(p, 'form');
+				if (!frm){
+					console.debug($igk(p).getParentByTagName('form'));
+					console.debug(p);
+					console.error("parent form not found");
+					return;
+				}
 				var r = frm.getAttribute("igk-confirmframe-response-target"); // get response id	
 				if (r != null) {
 					m_targetResponse = document.getElementById(r);
@@ -24769,11 +24775,10 @@ igk.system.createNS("igk.system", {
 // igk-svg-lst-i: svg list item
 //---------------------------------------------------------------------------
 (function () {
-	var m_item = {};
-
+	var m_item = {};  
 	// svg list view item 
 	function __init_svg_i() {
-		var n = this.getAttribute("igk:svg-name");
+		var n = this.getAttribute("igk:svg-name"); 
 		if (m_item[n]) {
 			// replace 
 			var g = $igk(m_item[n]).clone();
@@ -24789,7 +24794,6 @@ igk.system.createNS("igk.system", {
 		}
 	};
 	function __initlist() {
-
 		for (var i = 0; i < this.o.childNodes.length; i++) {
 			var j = this.o.childNodes[i];
 			if (j.tagName)
@@ -24798,8 +24802,7 @@ igk.system.createNS("igk.system", {
 		this.remove();
 	};
 	// svg list init svg list
-	function __init_svg_l() {
-
+	function __init_svg_l() { 
 		igk.dom.body().select(".igk-svg-lst").each_all(__initlist);
 		// var s = igk.dom.body().add("style");
 		// s.o["type"]="text/css";
@@ -24809,9 +24812,9 @@ igk.system.createNS("igk.system", {
 	}
 
 	igk.ready(__init_svg_l);
-
+ 
 	igk.winui.initClassControl("igk-svg-lst", function () {
-
+		console.debug("svg list detect");
 		__initlist.apply(this);
 
 	});

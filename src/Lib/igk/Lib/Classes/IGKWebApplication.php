@@ -2,9 +2,7 @@
 
 use IGK\System\Http\RequestHandler;
 use IGK\Helper\StringUtility;
-
-
-
+use IGK\System\Html\HtmlRenderer;
 
 class IGKWebApplication extends IGKApplicationBase
 {
@@ -45,7 +43,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/RootControllerBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/BaseController.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IConfigController.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IGKConfigCtrlBase.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/ConfigControllerBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Database/DbQueryDriver.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ControllerTypeBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/NonAtomicTypeBase.php');
@@ -74,7 +72,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/IGKControllerManagerObject.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKSession.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IGKSystemUriActionCtrl.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IGKMenuCtrl.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/MenuController.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Resources/R.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ControllerExtension.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlUtils.php');
@@ -146,6 +144,8 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/System/Http/Response.php');
 
         require_once IGK_LIB_DIR . "/igk_request_handle.php";
+
+
 
         // backup index file 
         $_redirectArgs = ["igk_index_file" => $file];
@@ -246,7 +246,7 @@ class IGKWebApplication extends IGKApplicationBase
                 // $_SERVER["REQUEST_URI"]=$dir."/".IGK_CONFIG_PAGEFOLDER."{$rq_path}";
                 unset($_SERVER["PHP_SELF"]); //=$dir."/".IGK_CONFIG_PAGEFOLDER."/DTA";
                 IGKServer::getInstance()->prepareServerInfo();
-                IGKApp::StartEngine($this, 0);
+                $this->runEngine(false);
                 if (file_exists(IGK_APP_DIR . "/Data/no_config")) {
                     igk_set_header("403");
                     igk_navto(igk_io_baseuri());
@@ -280,14 +280,22 @@ class IGKWebApplication extends IGKApplicationBase
             igk_exit();
         }
         try {
-            // + | ------------------------------------------------------------
-            // + | start engine index
-            // + | ------------------------------------------------------------
-            // 0.031s
-            // igk_wln(get_included_files(), "duration ". igk_sys_request_time());
-            IGKApp::StartEngine($this, $render);
+            $this->runEngine($render);        
         } catch (Exception $ex) {
             echo "Error: " . $ex->getMessage();
+        }
+    }
+    private function runEngine($render=true){
+        // + | ------------------------------------------------------------
+        // + | start engine index
+        // + | ------------------------------------------------------------
+        // 0.031s 
+        IGKApp::StartEngine($this);
+            // + | Dfault Handle 
+        RequestHandler::getInstance()->handle_ctrl_request_uri();
+        if ($render) {
+            // render document
+            HtmlRenderer::RenderDocument(igk_app()->getDoc());
         }
     }
 

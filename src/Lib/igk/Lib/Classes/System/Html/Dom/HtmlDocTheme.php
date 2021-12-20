@@ -305,7 +305,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess {
     private function add($style){
         $tc=$this->m_tc ?? array();
         if(is_string($style) && !empty($style)){
-            $n=igk_createxmlnode($style);
+            $n=igk_create_xmlnode($style);
             array_push($tc, $n);
             return $n;
         }

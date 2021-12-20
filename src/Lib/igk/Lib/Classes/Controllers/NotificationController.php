@@ -310,14 +310,15 @@ EOF;
     }
     ///<summary>Render notification controller</summary>
     public function View(){
+        $t = $this->getTargetNode();
         if(!$this->HasMsg){
-            igk_html_rm($this->TargetNode);
+            $t->remove();
         }
         else{
-            $this->TargetNode->setIndex(-10000);
+            $t->setIndex(-10000);
             $host=$this->NotifyHost;
             if($host !== null){
-                igk_html_add($this->TargetNode, $host);
+                $host->add($t);                
             }
         }
     }

@@ -4,8 +4,8 @@ namespace IGK\System\Database\MySQL;
 
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
-use IGK\System\Database\NoDbConnection;
-use DbQueryDriver; 
+use IGK\System\Database\NoDbConnection; 
+use IGK\Database\DbQueryDriver;
 use IGK\Database\DbQueryResult;
 
 use function igk_getv as getv;

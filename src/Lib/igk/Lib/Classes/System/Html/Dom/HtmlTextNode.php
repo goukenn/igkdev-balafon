@@ -2,7 +2,7 @@
 
 namespace IGK\System\Html\Dom;
 
-use IGK\System\XML\XMLNodeType;
+use IGK\XML\XMLNodeType;
 
 /**
  * reprensent text done
@@ -16,6 +16,7 @@ class HtmlTextNode extends HtmlItemBase{
     }
     ///<summary>.ctr</summary>
     public function __construct($content=""){
+        parent::__construct();
         $this->content = $content;
     }
     public function render($options=null){

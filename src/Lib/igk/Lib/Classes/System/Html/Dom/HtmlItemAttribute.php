@@ -1,5 +1,5 @@
 <?php
-// @file: IGKHtmlItemAttribute.php
+// @file: HtmlItemAttribute.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
@@ -10,11 +10,12 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
-use IIGKHtmlGetValue;
 
-class HtmlItemAttribute extends IGKObject implements IIGKHtmlGetValue{
+
+abstract class HtmlItemAttribute extends IGKObject implements IHtmlGetValue{
     ///<summary></summary>
     ///<param name="option" default="null"></param>
-    public function getValue($option=null){    }
+    abstract function getValue($option=null);
 }

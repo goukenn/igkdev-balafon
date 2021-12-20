@@ -57,13 +57,13 @@ final class R extends IGKObject {
         if(igk_get_env($key="flag:".__FUNCTION__))
             return;
         igk_set_env($key, 1);
-        $v_lang=$app->session->lang;
-        $v_langc=igk_getctrl(IGK_CSVLANGUAGE_CTRL);
-        if($lang && !$v_langc->support($lang)){
+        $v_lang=$app->session->lang; 
+        $tab = array_filter(explode("|", R::GetSupportLangRegex()));
+        if($lang && !in_array($lang, $tab)){
             $lang=igk_app()->Configs->default_lang;
         }
         $r=false;
-        if(($v_lang != $lang) && $v_langc->support($lang)){
+        if(($v_lang != $lang) && in_array($lang, $tab)){
             $app->session->lang=$lang;
             $v->m_langloaded=false;
             self::LoadLang();
@@ -178,18 +178,14 @@ final class R extends IGKObject {
     /**
     * get string expression
     */
-    public static function gets($key){
+    public static function gets(string $key){
         if(igk_current_context() == IGKAppContext::initializing){ 
             if (igk_environment()->get("app_type") == IGKAppType::balafon){            
                 return Logger::Resources($key);
             }
             return $key;
         }
-        $i=self::getInstance();
-        if(is_array($key)){
-            igk_trace();
-            igk_wln_e(__METHOD__." Keys is array");
-        }
+        $i=self::getInstance();    
         $t=strtolower($key);
         if(isset($i->langRes[$t])){
             $s=$i->langRes[$t];
@@ -242,8 +238,6 @@ final class R extends IGKObject {
             return implode("|", $r);
         }
         return $r; 
-
-        // return igk_getctrl(IGK_CSVLANGUAGE_CTRL)->getLangRegex() ?? igk_app()->Configs->default_lang;
     }
     ///<summary></summary>
     /**

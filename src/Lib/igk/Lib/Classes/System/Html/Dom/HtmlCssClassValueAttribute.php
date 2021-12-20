@@ -1,5 +1,5 @@
 <?php
-// @file: IGKHtmlClassValueAttribute.php
+// @file: HtmlCssClassValueAttribute.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021

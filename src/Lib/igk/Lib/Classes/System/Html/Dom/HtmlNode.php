@@ -2,9 +2,35 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
 
 class HtmlNode extends HtmlItemBase{
+    ///<summary></summary>
+    ///<param name="eventObj"></param>
+    ///<return refout="true"></return>
+    /**
+    * bind event property.
+    * ->on(string $type) : return HtmlEventProperty\
+    * ->on(string $type, mixed $value): return chain HtmlNode 
+    * @param mixed $eventObj event name
+    * @return HtmlNode|HtmlEvenProperty depend of number of argument. 
+    */
+    public function on($eventObj){
+        $c=$this->getFlag(self::EVENTS) ?? array();
+        if(isset($c[$eventObj])){
+            $b=$c[$eventObj];
+            return $b;
+        }
+        $b= HtmlEventProperty::CreateEventProperty($eventObj);
+        $c[$eventObj]=$b;
+        $this->setFlag(self::EVENTS, $c);
+        if(func_num_args() > 1){
+            $b->content=func_get_args()[1];
+            return $this;
+        }
+        return $b;
+    }
      ///<summary>set the class combination of this item</summary>
     /**
      * set the class combination of this item
@@ -36,7 +62,7 @@ class HtmlNode extends HtmlItemBase{
      */
     public function getChildCount()
     {
-        return igk_count($this->Childs);
+        return $this->getChilds()->count();
     }
     public function setAssertClass($condition, $value)
     {
@@ -56,6 +82,7 @@ class HtmlNode extends HtmlItemBase{
         return $this;
     }
     public function __construct($tagname=null){
+        parent::__construct();
         if ($tagname !==null)
             $this->tagname = $tagname;
     }
@@ -147,7 +174,7 @@ class HtmlNode extends HtmlItemBase{
     * @param mixed $key
     * @param mixed $value
     */
-    function offsetSetExpression($key, $value):void{
+    function offsetSetExpression($key, $value){
         if(preg_match("/^@igk:expression/", $key)){
             if((($g=$this->getAttributes()) !==null) || (($g = $this->_initattribs())!==null))
 			{
@@ -157,9 +184,9 @@ class HtmlNode extends HtmlItemBase{
                     $g[$key]=new HtmlExpressionAttribute($value);
 				$this->_f->updateFlag(self::ATTRIBS, $g);
             }
-            return;
+            return $this;
         }
-        $this->Set($key, $value);
+        return $this->Set($key, $value);
     }
     public function Set($key, $value){
         $this->m_attributes[$key] = $value;

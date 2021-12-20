@@ -11,9 +11,9 @@
 namespace IGK\Database;
 
 use IGKObject;
-use IIGKHtmlGetValue;
 
-class DbExpression extends IGKObject implements IIGKHtmlGetValue{
+
+class DbExpression extends IGKObject implements IHtmlGetValue{
     protected $m_v;
     ///<summary></summary>
     ///<param name="value"></param>

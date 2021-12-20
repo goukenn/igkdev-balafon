@@ -206,16 +206,15 @@ igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH."[
         break;
     }
     igk_exit();
-});
+}); 
+
 igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
-    
+ 
     if(defined("IGK_FORCSS"))
         return;   
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
     defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1);  
-    if ($ref = igk_server()->HTTP_REFERER){
-        igk_set_session_redirection($ref);
-    }
+   
 
     // $d="/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css.php";
     // + | change to application directory   
@@ -230,7 +229,7 @@ igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", fu
     }
     igk_exit();
 }
-, 0);
+, 1); // change here 0 to 1.
 igk_sys_reg_uri("^/!/lib/(:path+)[%q%]", function($path, $version=null){
     if(is_array($path))
         $path=IGK_LIB_DIR."/".implode("/", $path);

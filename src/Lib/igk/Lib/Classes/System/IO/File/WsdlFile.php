@@ -1,11 +1,9 @@
 <?php
 namespace IGK\System\IO\File;
 
-use IGKHtmlItem;
 use IGK\Helper\IO as IGKIO;
-use IGKObject;
-use IGKXmlNode;
-use ReflectionClass;
+use IGK\System\Html\Dom\HtmlNode;
+use IGKObject; 
 use ReflectionMethod;
 
 // author: C.A.D. BONDJE DOUE
@@ -40,7 +38,7 @@ class WsdlFile extends IGKObject {
     public function __construct($name, $uri, $attributes=null){
         $this->m_uri=$uri;
         $this->m_attributes=$attributes;
-        // $this->m_def=new IGKXMLNode("definitions");
+        // $this->m_def=new XmlNode("definitions");
         $this->m_def=new HtmlNode("definitions");
         $this->m_def["name"]=$name;
         $this->m_def["targetNamespace"]=$this->TargetNS;
@@ -323,7 +321,7 @@ class WsdlFile extends IGKObject {
         $tlist="i4|f4|b";
         $v_match="/_(?P<type>(".$tlist."))$/";
         foreach($funclist as $n){
-            $m=new ReflectionMethod($cl, $n);
+            $m=new \ReflectionMethod($cl, $n);
             if($m->isPublic() && !$m->isStatic() && !$m->isConstructor()){
                 $i=array();
                 foreach($m->getParameters() as $p){
@@ -331,6 +329,7 @@ class WsdlFile extends IGKObject {
                     if(preg_match_all($v_match, $p->name, $tab)){
                         $v_rt=$this->getXSDType($tab["type"][0]);
                     } else if ($_ctype = $p->getType()){
+                        
                         $v_rt  = $this->getXSDType(igk_getv($_subtolocal, $_ctype->getName()), $v_rt);
                     } 
                     $i[$p->name]=$v_rt;

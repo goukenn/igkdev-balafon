@@ -4,7 +4,7 @@
 namespace IGK\Database;
 
 use IGK\Controllers\BaseController;
-use IGKSysDbController;
+use SysDbController;
 use IGK\System\Database\InitBase;
 
 class InitData extends InitBase{

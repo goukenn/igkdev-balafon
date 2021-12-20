@@ -38,6 +38,10 @@ interface IIGKController{
     * 
     */
     function getName();
+
+}
+
+interface IIGKNodeController extends IIGKController{
     ///<summary></summary>
     /**
     * 
@@ -48,15 +52,10 @@ interface IIGKController{
     * 
     */
     function getTargetNodeId();
-    ///<summary></summary>
-    /**
-    * 
-    */
-    function initMenu();
-    ///<summary></summary>
-    /**
-    * 
-    */
+   
+}
+
+interface IIGKViewController{    
     function View();
 }
 ///<summary>Represente interface: IIGKControllerInitListener</summary>
@@ -379,19 +378,7 @@ interface IIGKHtmlCookieItem{
     */
     function setCookieId($v);
 }
-///<summary>Represente interface: IIGKHtmlGetValue</summary>
-/**
-* Represente IIGKHtmlGetValue interface
-*/
-interface IIGKHtmlGetValue {
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
-    /**
-    * 
-    * @param mixed $options the default value is null
-    */
-    function getValue($options=null);
-}
+
 ///<summary>Represente interface: IIGKHtmlLoadContent</summary>
 /**
 * Represente IIGKHtmlLoadContent interface
@@ -807,11 +794,18 @@ interface IIGKWebController extends IIGKController {
     */
     function unregChildController($ctrl);
 }
+interface IIGKGetValue{
+    /**
+     * return a value
+     * @return mixed 
+     */
+    function getValue();
+}
 ///<summary>Represente interface: IIGKQueryConditionalExpression</summary>
 /**
 * Represente IIGKQueryConditionalExpression interface
 */
-interface IIGKQueryConditionalExpression extends IIGKHtmlGetValue {
+interface IIGKQueryConditionalExpression extends IIGKGetValue {
     ///<summary></summary>
     ///<param name="expression"></param>
     ///<param name="operator" default="AND"></param>

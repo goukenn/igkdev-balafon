@@ -22,15 +22,15 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
     */
     protected function _showChild($targetnode=null){
         $t=$targetnode ? $targetnode: $this->TargetNode;
-        igk_html_add($this->m_viewZone, $t, 1000);
+        $t->add($this->m_viewZone);
         if($this->hasChild){
             foreach($this->getChilds() as  $v){
-                if($v->isVisible){
-                    igk_html_add($v->TargetNode, $this->m_viewZone);
+                if($v->getIsVisible()){                    
+                    $this->m_viewZone->add($v->getTargetNode());
                     $v->View();
                 }
                 else{
-                    igk_html_rm($v->TargetNode);
+                    $v->getTargetNode()->remove();
                 }
             }
         }

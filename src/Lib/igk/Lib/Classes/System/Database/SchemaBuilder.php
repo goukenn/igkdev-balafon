@@ -11,7 +11,7 @@ class SchemaBuilder{
     private $_output;
     private $_migrations;
     public function __construct(){
-        $this->_output = igk_createxmlnode(IGK_SCHEMA_TAGNAME);
+        $this->_output = igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
     }
     public function render($options=null){
         return $this->_output->render($options);

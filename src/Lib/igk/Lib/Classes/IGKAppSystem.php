@@ -32,7 +32,7 @@ class IGKAppSystem{
             if(file_exists($Rfile))
                 include_once($Rfile);
             if(!IGKSysCache::LoadCacheLibFiles()){
-                $t_files=igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", igk_io_projectdir()));                
+                $t_files= self::_LoadEnvFiles(); 
                 igk_reglib($t_files);
                 IGKSysCache::CacheLibFiles(true); 
             }
@@ -96,9 +96,11 @@ class IGKAppSystem{
         IO::CreateDir($app_dir."/".IGK_CACHE_FOLDER, 0775);
         igk_io_save_file_as_utf8($app_dir. "/".IGK_CACHE_FOLDER."/.htaccess", "deny from all");
         // load library folder 
-        igk_load_env_files(IGK_LIB_DIR);
-        igk_loadlib($app_dir. "/".IGK_INC_FOLDER);
-        igk_loadlib($project_dir);
+        // igk_load_env_files(IGK_LIB_DIR);
+        // igk_loadlib($app_dir. "/".IGK_INC_FOLDER);
+        // igk_loadlib($project_dir);
+        self::_LoadEnvFiles();
+
         igk_io_save_file_as_utf8($confFILE, "1", false);
         $ips=igk_server_name();
         igk_io_save_file_as_utf8($path->getDataDir()."/domain.conf", !IGKValidator::IsIPAddress($ips) ? $ips: IGK_DOMAIN, true);
@@ -115,6 +117,9 @@ class IGKAppSystem{
         igk_raise_initenv_callback();
         igk_environment()->set(IGKEnvironment::INIT_APP, null);
         IGKSubDomainManager::Init();
+    }
+    private static function _LoadEnvFiles(){
+        return igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", "SysMods", igk_io_projectdir()));
     }
     private function __construct()
     {

@@ -61,8 +61,8 @@ class MakeModuleCommand extends AppCommand{
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.js"] = Utility::TouchFileCallback("// default entry script \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.bjs"] = Utility::TouchFileCallback("// default entry to be merge script \n"); 
 
-            $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_CTRL_CONF_FILE] = Utility::TouchFileCallback(igk_createxmlnode(IGK_CNF_TAG)->render()); 
-            $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_SCHEMA_FILENAME] = Utility::TouchFileCallback(igk_createxmlnode(IGK_SCHEMA_TAGNAME)->render()); 
+            $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_CTRL_CONF_FILE] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_CNF_TAG)->render()); 
+            $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_SCHEMA_FILENAME] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_SCHEMA_TAGNAME)->render()); 
             $bind[$dir."/global.php"] = function($file, $command, $name){              
                 $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
                 $e_ns = str_replace("/", "\\", $name);

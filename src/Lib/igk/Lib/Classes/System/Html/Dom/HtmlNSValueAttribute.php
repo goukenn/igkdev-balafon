@@ -10,10 +10,10 @@
 
 namespace IGK\System\Html\Dom;
 
-use IIGKHtmlGetValue;
+
 
 ///<summary>namespace value attribute</summary>
-final class HtmlNSValueAttribute implements IIGKHtmlGetValue{
+final class HtmlNSValueAttribute implements IHtmlGetValue{
     private $m_n, $m_ns;
     ///<summary></summary>
     ///<param name="n"></param>
