@@ -4,7 +4,7 @@
 //author: C.A.D. BONDJE DOUE
 //update:24/01/2018
 
-include_once(IGK_LIB_DIR."/View/subdomain.fc.pinc");
+include_once(dirname(IGK\Helper\View::File())."/subdomain.fc.pinc");
 $tab=igk_get_all_uri_page_ctrl();
 igk_notifyctrl()->setNotifyHost($t->addDiv());
 $dv=$t->addDiv();

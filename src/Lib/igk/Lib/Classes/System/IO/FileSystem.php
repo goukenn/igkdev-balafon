@@ -1,9 +1,10 @@
-<?php
-
+<?php 
 namespace IGK\System\IO;
 
 use IGK\System\Exceptions\ArgumentNotValidException; 
 
+igk_trace();
+die("load dfaile ---- ");
 /**
  * file system helper 
  */
@@ -12,7 +13,8 @@ class FileSystem{
      * 
      * @var string base path of the file system
      */
-    public string $path; 
+    public $path; 
+
     public function __construct(string $dir){
         if (!file_exists($dir)){
             throw new ArgumentNotValidException("dir");

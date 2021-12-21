@@ -2227,7 +2227,7 @@ function igk_createnode_with_package($args = null)
  * Represente igk_createnotagnode function
  */
 function igk_createnotagnode(){
-    return new HtmlNoTagNode();
+    return new \IGK\System\Html\Dom\HtmlNoTagNode();
 }
 ///<summary>create an object by keys</summary>
 /**

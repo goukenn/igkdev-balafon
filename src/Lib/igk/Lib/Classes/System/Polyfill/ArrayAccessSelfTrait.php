@@ -1,6 +1,9 @@
 <?php
 
 namespace IGK\System\Polyfill;
+igk_wln_e(get_included_files())
+;
+exit;
 
 trait ArrayAccessSelfTrait{
     function offsetSet(mixed $n, mixed $v):void{

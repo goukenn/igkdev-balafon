@@ -1,5 +1,5 @@
 <?php 
-
+ 
 namespace IGK\System\IO;
 
 use IGK\System\Exceptions\ArgumentNotValidException; 
