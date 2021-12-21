@@ -22,7 +22,7 @@ final class IGKHtmlCalcItem extends HtmlNode
 
 	}
 	public function initView(){
-		$this->ClearChilds();
+		$this->clearChilds();
 		//model de vuew
 		$frm = $this->addForm();
 		$dv = $frm->addDiv();

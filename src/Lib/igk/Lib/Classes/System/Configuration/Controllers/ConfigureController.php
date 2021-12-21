@@ -3,6 +3,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Helper\IO;
 use IGK\System\Html\HtmlReader;
@@ -96,7 +97,7 @@ final class ConfigureController extends BaseController implements IConfigControl
 
         $this->setEnvParam("conf://initPageConfig", 1);
         $bbox = $app->Doc->body->getBodyBox();
-        $bbox->ClearChilds();
+        $bbox->clearChilds();
         switch ($app->CurrentPageFolder) {
             case IGK_CONFIG_PAGEFOLDER:
                 $app->Doc->body["class"] = "-igk-client-page +igk-cnf-body +google-Roboto";
@@ -214,7 +215,7 @@ final class ConfigureController extends BaseController implements IConfigControl
                 $opt = igk_xml_create_render_option();
                 $opt->Context = "mail";
                 $opt->NoStoreRendering = 1;
-                $d->body->ClearChilds()->add($message);
+                $d->body->clearChilds()->add($message);
                 if (!igk_mail_sendmail($to, "no-reply@" . igk_app()->Configs->website_domain, __("title.mail.adminnotifyconnexion_1", $app->Configs->website_domain), $d->render($opt), null)) {
                     igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
                 }
@@ -819,17 +820,7 @@ EOF;
         if ($redirect) {
             igk_navto("./");
         }
-    }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    public function forceview()
-    {
-        igk_getctrl(IGK_SESSION_CTRL)->forceview();
-    }
-    ///<summary></summary>
-
+    }  
     ///<summary></summary>
     /**
      * 
@@ -981,7 +972,7 @@ EOF;
      */
     public function getphpinfo()
     {
-        $cnf = $this->getConfigNode()->ClearChilds();
+        $cnf = $this->getConfigNode()->clearChilds();
         IGKOb::Start();
         phpinfo();
         $b = IGKOb::Content();
@@ -1013,14 +1004,7 @@ EOF;
         }
         return $uri;
     }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    public function getRegisterToViewMecanism()
-    {
-        return true;
-    }
+     
     ///<summary></summary>
     /**
      * 
@@ -1122,10 +1106,9 @@ EOF;
         $igk_framename = IGK_FRAMEWORK;
         $igk_version = IGK_VERSION;
         $doc = igk_app()->getDoc();
-
-        igk_google_addfont($doc, "Roboto");
-
-
+        if (function_exists('igk_google_addfont')){
+            igk_google_addfont($doc, "Roboto");
+        }
         if ($bmc = igk_require_module("igk/BMC", null, 0, 0)) {
 
             $bmc->initdoc($doc);  
@@ -1180,7 +1163,7 @@ EOF;
         //     $d["class"]="posab";
         // }
         $frm = $bfrm->addForm()->setAttributes(array("class" => "connexion_frame"));
-        $frm->ClearChilds();
+        $frm->clearChilds();
         $frm->addObData(
             function () {
                 igk_html_form_init();
@@ -1329,15 +1312,13 @@ EOF;
             */
         public function IsFunctionExposed($f)
         {
-            $v = false;
-            if (method_exists(get_Class($this), $f)) {
-                $b = new ReflectionMethod(get_class($this), $f);
-                $v = $b->isPublic();
+            if (igk_is_conf_connected()){
+                return ControllerExtension::IsFunctionExposed($this, $f);
             }
-            if ($v && igk_is_conf_connected()) {
-                return $v;
-            }
-            return $v || (strtolower($f) == "connecttoconfig");
+            return in_array(strtolower($f),[
+                'connecttoconfig'
+            ]);
+           
         }
 
         ///<summary></summary>
@@ -1376,14 +1357,14 @@ EOF;
             */
         protected function onConfigUserChanged()
         {
-            igk_notification_push_event(IGK_CONF_USER_CHANGE_EVENT, $this);
+            igk_hook(IGK_CONF_USER_CHANGE_EVENT, ["ctrl"=>$this]);
         }
         ///<summary></summary>
         ///<param name="msg"></param>
         /**
-            * 
-            * @param mixed $msg
-            */
+        * 
+        * @param mixed $msg
+        */
         public function onHandleSessionEvent($msg)
         {
             switch ($msg) {
@@ -1819,7 +1800,7 @@ EOF;
             $menuctrl = igk_getctrl(IGK_MENU_CTRL);
             $app = igk_app();
             $bbox = $app->getDoc()->getBody()->getBodyBox();
-            $bbox->ClearChilds();
+            $bbox->clearChilds();
 
 
             switch ($app->CurrentPageFolder) {
@@ -1832,7 +1813,7 @@ EOF;
                     return;
             }
 
-            $t->ClearChilds();
+            $t->clearChilds();
             if ($this->getIsAvailable()) {
                 if (igk_agent_isie() && igk_agent_ieversion() < 7) {
                     $this->__NoIE6supportView();

@@ -209,10 +209,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
-    ///<summary></summary>
-    public function getRegisterToViewMecanism(){
-        return true;
-    }
+    
     ///<summary></summary>
     public function getRegUriAction(){
         $primary=$this->getBasicUriPattern();
@@ -339,17 +336,17 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     public function setPageName($value){
         $this->m_pageview=$value;
     }
-    ///<summary></summary>
+    ///<summary>default page render view</summary>
     public function View(){
         $t=$this->TargetNode;
         $doc=igk_app()->getDoc();
         $menu_ctrl=igk_getctrl(IGK_MENU_CTRL);
         if(!$menu_ctrl || !$this->getIsVisible()){
-            igk_html_rm($t);
+            $t->remove();
             return;
         }
         else if($this->getEnvParam("from") == null){
-            $doc->body->addBodyBox()->ClearChilds()->add($t);
+            $doc->body->addBodyBox()->clearChilds()->add($t);
         }
         $menu_ctrl->setParentView($this->menu_content);
         $this->doc->Title=$this->m_Title ? $this->m_Title: igk_app()->Configs->website_title. $this->getExtraTitle();
@@ -361,10 +358,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             $view=igk_getr("v", $view);
         }
         $this->m_init=true;
-        $this->_renderViewFile($view);
-        if(!$this->ShowChildFlag){
-            $this->_showChild(null);
-        }
+        $this->_renderViewFile($view);         
         $this->_onViewComplete();
     }
 }

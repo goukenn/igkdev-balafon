@@ -482,18 +482,8 @@ final class DbConfigController extends ConfigControllerBase {
                     $tr->addTd()->addLi()->add("a", array("href"=>$this->getUri("selectdb&n=".$v))) 
                     ->Content=$v;
                     $tr->addTd()->space(); // addLi()->add("a", array("href"=>$this->getUri("editdb&n=".$v)))->add("img", array(
-                    //     "width"=>"16px",
-                    //     "height"=>"16px",
-                    //     "src"=>R::GetImgUri("edit_16x16"),
-                    //     "alt"=>__("tip.editdatabase")
-                    // ));
                     $tr->addTd()->space(); 
-                    // addLi()->add("a", array("href"=>$this->getUri("dropdb&n=".$v)))->add("img", array(
-                    //     "width"=>"16px",
-                    //     "height"=>"16px",
-                    //     "src"=>R::GetImgUri("drop_16x16"),
-                    //     "alt"=>__("tip.dropdatabase")
-                    // ));
+                    
                 }
             }
         }
@@ -1419,7 +1409,7 @@ final class DbConfigController extends ConfigControllerBase {
     */
     public function db_insert_db_entry_frame_ajx(){
         $frame=igk_html_frame($this, __FUNCTION__);
-        $frame->ClearChilds();
+        $frame->clearChilds();
         $frame->Title=__("title.db.insertnewentry");
         $d=$frame->BoxContent;
         $frm=$d->addForm();
@@ -1529,7 +1519,7 @@ final class DbConfigController extends ConfigControllerBase {
         $r=$mysql->selectAll($tb);
         $frame=igk_html_frame($this, "db_view_entries", "./#igkdb_tablelist");
         $frame->Title=__("title.db_viewtableentries_1", $tb);
-        $frame->ClearChilds();
+        $frame->clearChilds();
         $div=$frame->BoxContent->addDiv();
         $div["class"]="igk-db-tableentries";
         $title=$div->addDiv();
@@ -1993,23 +1983,12 @@ final class DbConfigController extends ConfigControllerBase {
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
-    ///<param name="f"></param>
-    /**
-    * 
-    * @param mixed $f
-    */
-    public function IsFunctionExposed($f){
-        return igk_is_conf_connected();
-    }
+    
     ///<summary>public function expose system init db . must be conf connected</summary>
     /**
     * public function expose system init db . must be conf connected
     */
-    function pinitSDb($nav=true){
-
-        // igk_debug(true);
-        // igk_environment()->querydebug = 1;
+    function pinitSDb($nav=true){ 
         if(!igk_is_conf_connected()){
             igk_set_header(403);
             igk_navtocurrent();
@@ -2208,7 +2187,7 @@ final class DbConfigController extends ConfigControllerBase {
 
         $c=$this->TargetNode;
         $this->ConfigNode->add($c); 
-        $c=$c->ClearChilds()->addPanelBox();
+        $c=$c->clearChilds()->addPanelBox();
         igk_html_title($c, __("Configure MySQL Database"));
         $c->addNotifyHost();
         $h=$c->addRow();

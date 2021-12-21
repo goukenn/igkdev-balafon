@@ -2,9 +2,10 @@
 namespace IGK\System\Html\Dom;
  
 
-///</summary>used in ajx context to pass the controller node that will be replaced on client side</summary>
+///</summary>used in ajx context. Replace controller view</summary>
 /**
-*/
+ * used in ajx context. Replace controller view
+ */
 final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     private $m_ctrls;
     ///<summary></summary>
@@ -12,7 +13,7 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * 
     */
     public function __construct(){
-        parent::__construct("igk:replace-ctrl");
+        parent::__construct("igk:replace-ctrl-2");
         $this->m_ctrls=array();
     }
     ///<summary></summary>

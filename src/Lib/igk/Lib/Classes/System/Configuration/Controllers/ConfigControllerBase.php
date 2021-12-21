@@ -35,6 +35,8 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return parent::getDataDir();
     }
+
+  
     ///<summary></summary>
     ///<param name="node"></param>
     ///<param name="title"></param>
@@ -147,8 +149,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     * 
     * @param mixed $funcName
     */
-    public function IsFunctionExposed($funcName){
-        return igk_is_conf_connected();
+    protected function IsFunctionExposed(string $function){
+        if (!igk_is_conf_connected()){
+            return false;
+        }
+        return true; // parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $function]);
     }
     ///<summary>base show Configuration of the controller</summary>
     /**

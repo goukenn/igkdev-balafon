@@ -164,7 +164,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		}
 		$table = $this->getCommunityTable();
 		// $c->add($this->ConfigNode);
-		$c = $c->ClearChilds()->addPanelBox();
+		$c = $c->clearChilds()->addPanelBox();
 		igk_html_add_title($c->addDiv(),"title.configure.community");
 		if ($table == null){
 			$c->addDiv()->setClass("igk-danger")->Content = R::ngets("msg.community.addrequired");

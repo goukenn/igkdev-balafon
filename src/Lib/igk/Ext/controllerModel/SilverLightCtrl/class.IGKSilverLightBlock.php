@@ -47,7 +47,7 @@ abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBa
 </object>
 OEF
 		);
-		$this->TargetNode->ClearChilds();
+		$this->TargetNode->clearChilds();
 		$this->TargetNode->Add($t);
 		if (!$this->IsVisible) {
 			igk_html_rm($this->TargetNode);

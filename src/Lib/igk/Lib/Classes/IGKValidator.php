@@ -109,7 +109,7 @@ final class IGKValidator extends IGKObject {
     */
     public static function Init(){
         $e=self::getInstance();
-        $e->sm_enode->ClearChilds();
+        $e->sm_enode->clearChilds();
         $e->sm_cibling=array();
         return $e->sm_enode;
     }
@@ -221,7 +221,7 @@ final class IGKValidator extends IGKObject {
     */
     public static function Validate($o, $fields, & $error){
         $g=self::getInstance()->sm_enode;
-        $g->ClearChilds();
+        $g->clearChilds();
         $e=false;
         if(is_array($fields)){
             foreach($fields as $k=>$v){

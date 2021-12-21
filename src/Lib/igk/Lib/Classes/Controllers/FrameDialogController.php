@@ -125,7 +125,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
                 return $v_dial;
         }
         $v_dial=new HtmlDialogFrameNode($this, $id, $owner, $reloadcallback);
-        $v_dial->ClearChilds();
+        $v_dial->clearChilds();
         $cluri=null;
         if($closeuri){
             $cluri="&closeuri=".urlencode($closeuri);

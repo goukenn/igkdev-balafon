@@ -35,10 +35,10 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 		return $dv;
 	}
 	public function ClearChilds(){
-		$this->m_content->ClearChilds();
+		$this->m_content->clearChilds();
 	}
 	public function initDemo($t){
-		$this->ClearChilds();
+		$this->clearChilds();
 		$this->addPage(igk_createnode("div")->setContent("page1"));
 		$this->addPage(igk_createnode("div")->setContent("page2"));
 		$this->addPage(igk_createnode("div")->setContent("page3"));

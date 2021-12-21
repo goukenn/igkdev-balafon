@@ -20,7 +20,7 @@ else{
     $controller->initDbFromSchemas();
     $controller->initDbConstantFiles();
     $controller::InitDataBaseModel($force);
-    if ($cl = $controller::resolvClass("Database/InitData")){ 
+    if ($cl = $controller::resolvClass(Database\InitData::class)){ 
         $call = true;
         // + | Check Init 
         $c = new ReflectionMethod($cl, "Init");

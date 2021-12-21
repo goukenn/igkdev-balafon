@@ -281,7 +281,7 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	//render the current caddy to user
 	public function caddy_render(){
 		$t = $this->TargetNode;
-		$t->ClearChilds();
+		$t->clearChilds();
 		$t = $t->addDiv();
 
 		$tab = $t->add("table");

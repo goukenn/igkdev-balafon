@@ -87,7 +87,7 @@ if ($d)
 	{
 	   $s =  $k->innerHTML;
 	   $uri = $k["uri"];
-	   $k->ClearChilds();
+	   $k->clearChilds();
 	   //$k->Add("a", array("href"=>$this->getUri("navigate&n=".base64_encode($s))))->Content = $s;
 	   $ctrl_name = strtolower("kms_".$s."ctrl");
 	   if ( ($uri==null) &&  ( ($ctrl = igk_getctrl($ctrl_name, false)) !=null) && ($ctrl->webParentCtrl!=null) && ($ctrl->webParentCtrl->Name == "kms_defaultctrl"))

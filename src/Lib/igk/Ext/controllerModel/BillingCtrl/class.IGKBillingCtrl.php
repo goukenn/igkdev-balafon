@@ -1,18 +1,14 @@
 <?php
 
 use IGK\Controllers\NonAtomicTypeBase;
+use IGK\Database\DbColumnInfo;
+use igk\PDF as PDFModule;
+
 abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_billingDetails;
 
-	protected function getDBConfigFile()
-	{
-		return igk_io_getdbconf_file(dirname(__FILE__));
-	}
-	protected function getConfigFile()
-	{
-		return igk_io_getconf_file(dirname(__FILE__));
-	}
+	
 	protected function InitComplete()
 	{
 		parent::InitComplete();
@@ -59,9 +55,9 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 		$u = $this->app->Session->User;
 		if ($u == null)return;
 
-		$pdf = new IGKPDF();
-
-		$pdf->render();
+		/// TODO : Render PDF Document
+		// $pdf = PDFModule::CreateDocument();
+		// $pdf->render();
 		igk_exit();
 	}
 }

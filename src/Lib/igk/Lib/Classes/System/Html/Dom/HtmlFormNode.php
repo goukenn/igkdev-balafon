@@ -111,7 +111,7 @@ final class HtmlFormNode extends HtmlNode {
     * 
     */
     public function ClearChilds(){
-        $this->bodydiv->ClearChilds();
+        $this->bodydiv->clearChilds();
     }
     ///<summary></summary>
     /**

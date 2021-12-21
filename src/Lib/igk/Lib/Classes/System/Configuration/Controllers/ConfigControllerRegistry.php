@@ -2,11 +2,47 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGKControllerManagerObject;
 use IGKEvents;
+use IGK\Controllers\IRegisterOnInitController;
+use IGKEnvironment;
 
 class ConfigControllerRegistry{
     const LOADED_CONFIG_CTRL = "config_controllers";
+    private static $sm_regComplete;
+
+ 
+
+    ///<summary>RegisterInitComplete . if Ctrl is not null add it to base controller list</summary>
+    ///<param name="ctrl">if null return the count number of the registrated controller. else register the controller to iniList</param>
+    /**
+    * RegisterInitComplete . if Ctrl is not null add it to base controller list
+    * @param mixed $ctrl if null return the count number of the registrated controller. else register the controller to iniList
+    */
+    public static function RegisterInitComplete($ctrl=null){
+        if(self::$sm_regComplete === null)
+            self::$sm_regComplete=array();
+        $register = $ctrl && in_array(IRegisterOnInitController::class,  class_implements($ctrl, false));
+     
+        if(($ctrl !== null) && (!$register || $ctrl->getCanRegisterOnInit())){
+            self::$sm_regComplete[]=$ctrl;
+        }
+        return igk_count(self::$sm_regComplete);
+    }
+
+     ///<summary></summary>
+    /**
+    * 
+    */
+    public static function InvokeRegisterComplete(){
+        if(self::$sm_regComplete){
+            foreach(self::$sm_regComplete as  $v){ 
+               $v->InitComplete();
+            }
+        }
+        self::$sm_regComplete=null;
+    }
     /**
      * register configuration class
      * @param string $class 

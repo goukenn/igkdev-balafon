@@ -48,7 +48,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
     */
     public function View(){
         $t=$this->TargetNode;
-        $t->ClearChilds();
+        $t->clearChilds();
         $lnk=igk_getv($this->Configs, "clGoogleMapUrl", "http://www.google.fr");
         $s=<<<EOF
 <iframe class="noborder googlemap_map" src="{$lnk}"></iframe>
@@ -118,7 +118,7 @@ final class IGKHtmlGoogleMapNodeItem extends HtmlNode{
     * 
     */
     public function initView(){
-        $this->ClearChilds();
+        $this->clearChilds();
         $key=$this->getKey();
         $t=$this->getType();
         $q=$this->Location;

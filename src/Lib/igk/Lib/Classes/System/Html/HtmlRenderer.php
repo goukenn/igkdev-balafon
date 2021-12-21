@@ -15,7 +15,7 @@ class HtmlRenderer{
         $o = (object)[
             "Indent"=>true,
             "Stop"=>0,
-            "Context"=>"XML",
+            "Context"=>HtmlContext::Html,
             "Depth"=>0,
             "Document"=>null,
             "BodyOnly"=>0,
@@ -66,8 +66,13 @@ class HtmlRenderer{
                     }
                     if(!igk_environment()->get(IGK_ENV_PAGEFOLDER_CHANGED_KEY)){ 
                         $ctrl->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
+                        $ctrl->setEnvParam('render_context', 'docview');                       
                         // gourou d'etranglement
-                        $ctrl->View();
+                        $bbox = $doc->getBody()->getBodyBox()->clearChilds();
+                        if ($t = $ctrl->getTargetNode()){
+                            $bbox->add($t);
+                            $ctrl->View();
+                        }
                     }
                 }
             } 
@@ -225,7 +230,7 @@ class HtmlRenderer{
 
         if ($item->getHasAttributes()) {
             if (is_array($item->getAttributes())){
-                igk_wln_e("is array", get_class($item));
+                igk_wln_e("attributes is an is array", get_class($item));
             }
             $attrs = $item->getAttributes()->to_array();
             if (!empty($out)) {

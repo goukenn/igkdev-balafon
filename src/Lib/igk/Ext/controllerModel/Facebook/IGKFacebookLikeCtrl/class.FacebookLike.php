@@ -35,7 +35,7 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 	{
 
 		extract($this->getSystemVars());
-		$t->ClearChilds();
+		$t->clearChilds();
 		$c = $t->Add("div");
 $c->Content = <<<EOF
 <iframe src="http://www.facebook.com/plugins/like.php?href={$this->Configs->clFacebookUri}&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
@@ -53,7 +53,7 @@ implements IIGKHtmlUriItem
 	public function setUri($v) { $this->m_uri = $v; return $this;}
 
 	public function View(){
-		$this->ClearChilds();
+		$this->clearChilds();
         //$uri = $this->m_uri;
 		$c = $this->Add("div");
 // $c->Content = <<<EOF

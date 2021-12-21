@@ -17,7 +17,7 @@ class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
     ///<param name="t"></param>
     ///<param name="global" default="false"></param>
     public function __construct($obj, $t, $global=false){
-        if(($obj == null) || !igk_reflection_class_implement($obj, 'IIGKHtmlGetValue'))
+        if(($obj == null) || !igk_reflection_class_implement($obj, IHtmlGetValue::class))
             igk_die("PostFrameCommand");
         $this->m_obj=$obj;
         $this->m_t=$t;

@@ -31,7 +31,7 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	}
 
 	public function initView(){
-		$this->ClearChilds();
+		$this->clearChilds();
 
 		$r = $this->addRow();
 		$dv = $r->addCol()->addDiv();

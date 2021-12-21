@@ -46,7 +46,7 @@ class ResetDbCommand extends AppExecCommand{
                 }
             }
             Logger::print("-"); 
-            if (1 && $seed){
+            if ($seed){
                 $fc = $command->exec;
                 $fc($command, $ctrl);
             }

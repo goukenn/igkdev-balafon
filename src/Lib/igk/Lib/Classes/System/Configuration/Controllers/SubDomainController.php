@@ -56,13 +56,16 @@ final class SubDomainController extends ConfigControllerBase{
             }
             if(igk_is_ajx_demand())
                 igk_ajx_toast($info["msg"], $info["type"]);
+            // replace
             $s=$this->getConfigNode();
             $this->View();
-            $s->add($this->getTargetNode());
+            $s->add($this->getTargetNode()); 
+
             igk_ajx_replace_node($s, "#igk-cnf-content");
             igk_ajx_replace_uri(igk_io_baseuri()."/Configs/#!p=".$this->getConfigPage());
             igk_ajx_panel_dialog_close();
             igk_resetr();
+            
         }
         $dv=igk_createnode();
         $frm=$dv->addForm();
@@ -139,7 +142,7 @@ final class SubDomainController extends ConfigControllerBase{
         if(igk_qr_confirm()){
             $msg=__("Domain dropped");
             $type="igk-success";
-            if(Subdomains::drop(array(IGK_FD_ID=>$id))){
+            if(Subdomains::delete(array(IGK_FD_ID=>$id))){
                 igk_notification_push_event("sys://domain/changed", $this);
                 IGKSubDomainManager::getInstance()->Clear();
                 $this->__init_domain();

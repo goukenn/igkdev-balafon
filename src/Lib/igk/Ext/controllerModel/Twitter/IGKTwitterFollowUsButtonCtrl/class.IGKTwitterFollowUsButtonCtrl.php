@@ -49,7 +49,7 @@ EOF
 		if ($this->getIsVisible())
 		{
 			extract($this->getSystemVars());
-			$t->ClearChilds();
+			$t->clearChilds();
 			$show_count = igk_parsebool(igk_getv($this->Configs,"clShowDataCount", false));
 
 			$t->add("a", array(

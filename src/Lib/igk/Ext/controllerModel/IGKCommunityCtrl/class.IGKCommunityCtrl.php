@@ -72,7 +72,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase {
 			return;
 			// igk_wln(__METHOD__." is visible?" .$this->IsVisible);
 
-			// $this->TargetNode->ClearChilds();
+			// $this->TargetNode->clearChilds();
 			// extract($this->getSystemVars());
 
 			// $ul = $t->addDiv()->add("ul");

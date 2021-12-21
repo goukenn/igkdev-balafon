@@ -25,14 +25,9 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     */
     public function addNode($n, $tag=null){
         $this->m_nodes[]=$n;
+        return $this;
     }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getCanAddChild(){
-        return false;
-    }
+    
     ///<summary></summary>
     /**
     * 
@@ -60,5 +55,9 @@ final class HtmlAJXReplacementNode extends HtmlNode{
                 $so .= $v->render($o);
         }
         return $so;
+    }
+    protected function __getRenderingChildren($options = null)
+    {
+        return $this->m_nodes;
     }
 }

@@ -16592,7 +16592,7 @@ igk.ctrl.bindAttribManager("igk-js-fix-loc-scroll-width", function () {
 		return this;
 	}
 	var s = this.getAttribute("igk-js-fix-loc-scroll-width");
-	if (s == 1 && (this.getComputedStyle("position") == "fixed")) {
+	if ((s == 1) && (this.getComputedStyle("position") == "fixed")) {
 
 		var v_fm = new _fixManager(this);
 	}

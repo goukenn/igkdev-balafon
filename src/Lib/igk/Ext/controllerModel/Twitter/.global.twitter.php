@@ -4,7 +4,7 @@ function igk_html_node_twitterFollowUs($id, $showcount=0){
 	//followus
 	//<a class="twitter-timeline" href="https://twitter.com/IGKDEV?ref_src=twsrc%5Etfw">Tweets by IGKDEV</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 	//<a href="https://twitter.com/IGKDEV?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @IGKDEV</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-	$n = igk_createXmlNode("a");
+	$n = igk_create_xmlnode("a");
 	$n["class"]="twitter-follow-button";
 	$n["data-show-count"]=$showcount?"true":"false";
 	$n["href"] = "https://twitter.com/".$id;
@@ -31,7 +31,7 @@ EOF
 ///<summary>twitter time line zone</summary>
 function igk_html_node_twitterTimeLine($id, $theme=null, $color=null){
 	//<a class="twitter-timeline" data-theme="dark" data-link-color="#E81C4F" href="https://twitter.com/IGKDEV?ref_src=twsrc%5Etfw">Tweets by IGKDEV</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-	$n = igk_createXmlNode("a");
+	$n = igk_create_xmlnode("a");
 	$n["class"]="twitter-timeline";
 	$n["href"] = "https://twitter.com/".$id."?ref_src=twsrc%5Etfw";
 	$n["data-theme"] = $theme;//"https://twitter.com/".$id;

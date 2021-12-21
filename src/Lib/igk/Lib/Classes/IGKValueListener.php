@@ -11,6 +11,10 @@
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\HtmlUtils;
 
+/**
+ * represent a value helper
+ * @package 
+ */
 final class IGKValueListener extends IGKObject implements IHtmlGetValue{
     private $m_attr, $m_owner;
     ///<summary></summary>

@@ -12,7 +12,7 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\Cache\SystemFileCache as IGKSysCache;
 use IGK\Controllers\RootControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
-use IGK\System\Configuration\Controllers\IGKSystemUriActionCtrl;
+use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Drawing\Color;
 
 use function igk_resources_gets as __;
@@ -29,8 +29,7 @@ final class IGKControllerManagerObject extends IGKObject {
 
     private $m_tbcontrollers;
     private $m_initEvent;
-    private $m_register; 
-    private $m_tbviewcontrollers; 
+    private $m_register;  
     /**     
      * @var IGKControllerManagerObject controller instance
      */
@@ -43,8 +42,7 @@ final class IGKControllerManagerObject extends IGKObject {
         if(func_num_args()>0){
             igk_die("argument not allowed");
         }
-        $this->m_tbcontrollers=array(); 
-        $this->m_tbviewcontrollers=array();
+        $this->m_tbcontrollers=array();   
         $this->m_initEvent=0;
     }
     /**
@@ -178,29 +176,8 @@ final class IGKControllerManagerObject extends IGKObject {
     */
     private function _initController($ctrl){
         $this->registerController($ctrl, true);
-    }
-    
-    ///<summary></summary>
-    /**
-    * 
-    */
-    private function _initviewMecanism(){
-        $this->m_tbviewcontrollers=array();
-        $c=igk_get_defaultwebpagectrl();
-        $tab=array_keys($this->m_tbcontrollers);
-        foreach($tab as $k){
-            $v=$this->m_tbcontrollers[$k];
-            if($v){
-                if(igk_is_class_incomplete($v)){
-                    unset($this->m_tbcontrollers[$k]);
-                    continue;
-                }
-                $this->registerToViewMecanism($v);
-            }
-        }
-        if($c)
-            $this->registerToViewMecanism($c);
-    }
+    } 
+     
     ///<summary></summary>
     ///<param name="ctrl"></param>
     ///<param name="regname" default="null"></param>
@@ -323,13 +300,7 @@ final class IGKControllerManagerObject extends IGKObject {
     public function Count(){
         return count($this->m_tbcontrollers);
     }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function defaultpagechanged(){
-        $this->_initviewMecanism();
-    }
+     
     ///<summary></summary>
     ///<param name="ctrl"></param>
     /**
@@ -413,12 +384,12 @@ final class IGKControllerManagerObject extends IGKObject {
     */
     public static function getInstance( ){
         if (func_num_args()>0){
-            igk_die("not allowed ".__METHOD__);
-        } 
+            igk_die("argument count not allowed ".__METHOD__);
+        }  
         if(self::$sm_instance === null){ 
 			self::$sm_instance = new self();
-            igk_reg_hook(IGKEvents::HOOK_INIT_APP, function(){
-                self::$sm_instance->InitControllers(igk_app());
+            igk_reg_hook(IGKEvents::HOOK_INIT_APP, function($e){                
+                self::$sm_instance->InitControllers($e->args[0]);
             }); 
         }  
         return self::$sm_instance;
@@ -449,21 +420,31 @@ final class IGKControllerManagerObject extends IGKObject {
         $tab=$this->getControllers();
         $out=array();
         if(igk_count($tab) > 0){
-            $tab_k=array_keys($tab);
-            igk_usort($tab_k, "igk_key_sort");
-            foreach($tab_k as $k){
-                $v=$tab[$k];
+            // igk_wln("try....", __FILE__.":".__LINE__, $tab);
+            // $tab_k=array_keys($tab);
+            // igk_usort($tab_k, "igk_key_sort");
+            foreach($tab as $v){
+                // $v=$tab[$k];
+                // if (get_class($v) == "igk_default"){
+                //     echo "stop here ";
+                //     $modify = $v->getCanModify();
+                //     echo "modify ".$modify; 
+                // }
+
                 if(get_class($v) === __PHP_Incomplete_Class::class){
-                    unset($tab[$k]);
+                    // unset($tab[$k]);
                     continue;
                 }
-                if(IGKControllerManagerObject::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) || !$v->canModify)
+                if(IGKControllerManagerObject::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) || !$v->getCanModify())
                     continue;
-                if($callbackfilter && !$callbackfilter($v))
+                if($callbackfilter && !$callbackfilter($v)){
+                    igk_wln("failed to implement");
                     continue;
+                }
                 $out[]=$v;
+                
             }
-        }
+        } 
         return $out;
     }
     ///<summary>init all controller</summary>
@@ -474,13 +455,16 @@ final class IGKControllerManagerObject extends IGKObject {
         if (func_num_args()>1){
             igk_die("init controller with extra argument not allowed");
         }
+        if (igk_env_count(__METHOD__)>1){
+            igk_wln_e(__METHOD__, "only allowed one");
+        }
         $_init_callback=function() {
             // + | hook global controller init complete
-            igk_hook("on_controller_init_complete", [$this]);
+            igk_hook(IGKEvents::HOOK_CONTROLLER_INIT_COMPLETE, [$this]);
             $this->onInitComplete();
         };
         if(igk_is_singlecore_app()){
-            $this->_initController(new IGKSystemUriActionCtrl());
+            $this->registerController( new SystemUriActionController());
             $c=igk_sys_getconfig("default_controller");
             if(empty($c) || !class_exists($c, false)){
                 igk_die("no controller found to be a single application");
@@ -496,7 +480,7 @@ final class IGKControllerManagerObject extends IGKObject {
         $fc=self::FileCtrlCache();
         if(!$no_cache){
             // $sf = ['IGKMySQLDataCtrl'=> \IGK\System\Database\MySQL\IGKMySQLDataCtrl::class];
-            if(file_exists($fc)){
+            if(0 && file_exists($fc)){
                 // igk_ilog("load controller from cache: ".$fc);
                 $caches = include($fc);
                 foreach($caches as $m){
@@ -534,29 +518,40 @@ final class IGKControllerManagerObject extends IGKObject {
             $sfc="GetCanCreateFrameworkInstance";
             $tempty=array();
             $m = "";
-            foreach(get_declared_classes() as $k=>$v){
+            $tab = self::GetRegisteryController();
+            $declared = array_merge(
+                array_combine($keys=get_declared_classes(), $keys), 
+                $tab);
+
+
+            $loaded = [];
+            foreach($declared as $k=>$v){
+                if (isset($loaded[$v]))
+                    continue;                
                 if(is_subclass_of($v, NonAtomicTypeBase::class)){
                     continue;
                 } 
                 if(is_subclass_of($v, BaseController::class)){
+
                     $v_rc=igk_sys_reflect_class($v);
                     if($v_rc->isAbstract() || (method_exists($v, $sfc) && !call_user_func_array(array($v, $sfc), $tempty)))
                         continue;
                     if (($_vctrl =  $v_rc->getConstructor()) && $_vctrl->isPrivate())
                         continue;
+                    $loaded[$v] = 1;
                     $t = new $v();
                     $this->_registerCtrl($t);
-                    BaseController::RegisterInitComplete($t);
+                    ConfigControllerRegistry::RegisterInitComplete($t);
                     $m .= "'".$t->getCacheInfo()."',".IGK_LF; 
                 }
-            }
+            }  
             if(!$no_cache){
-                igk_io_w2file($fc, PHPScriptBuilderUtility::GetArrayReturn($m, $fc), true);
-                /// TODO : STORE CACHE INFO
-                // IGKSysCache::Init_CachedHook();
+               igk_io_w2file($fc, PHPScriptBuilderUtility::GetArrayReturn($m, $fc), true);
             }
         }
         $_init_callback();
+        // $ctrls = $this->getControllers();
+        // igk_wln_e(__FILE__.":".__LINE__,  $ctrls);
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
@@ -752,14 +747,17 @@ final class IGKControllerManagerObject extends IGKObject {
         else if(is_object($controller) && igk_reflection_class_extends(get_class($controller), BaseController::class)){
             $dir=dirname($controller->getDeclaredFileName());
         }
-        $o=igk_io_basepath(igk_io_currentrelativepath(IGK_INC_FOLDER));
-        $dir=igk_io_basepath($dir);
+        $o  =  igk_io_basepath(IO::GetDir(IGK_LIB_DIR."/".IGK_INC_FOLDER));
+        $dir=  igk_io_basepath($dir);
         $i=0;
-        while((strlen($dir) > 0) && !preg_match("/^(\.|\/|\\\\)$/", $dir)){
+        while($o && (strlen($dir) > 0) && !preg_match("/^(\.|\/|\\\\)$/", $dir)){
             if($dir === $o){
                 return true;
             }
             $dir=dirname($dir);
+            if (($dir == "..")|| ($dir ==".")){
+                return false;
+            }
         }
         return false;
     }
@@ -791,10 +789,9 @@ final class IGKControllerManagerObject extends IGKObject {
     * raise init complete event
     */
     private function onInitComplete(){
-        BaseController::InvokeRegisterComplete();
+        ConfigControllerRegistry::InvokeRegisterComplete();
         if(defined('IGK_NO_WEB'))
-            return;
-        $this->_initviewMecanism();
+            return; 
         if(!$this->m_initEvent){
             $this->m_initEvent=1;
             igk_hook("sys://event/defaultpagechanged", array($this, "defaultpagechanged"));
@@ -814,17 +811,9 @@ final class IGKControllerManagerObject extends IGKObject {
      */
     public function registerController($controller, $initComplete = true){
         $this->_registerCtrl($controller);
-        $initComplete && BaseController::RegisterInitComplete($controller);
+        $initComplete && ConfigControllerRegistry::RegisterInitComplete($controller);
     }
-    ///<summary>register controller to view mecanism</summary>
-    /**
-    * register controller to view mecanism
-    */
-    public function registerToViewMecanism($ctrl){
-        if($ctrl && $ctrl->getRegisterToViewMecanism()){
-            $this->m_tbviewcontrollers[$ctrl->getName()]=$ctrl;
-        }
-    }
+     
     ///<summary>reload controller table list</summary>
     /**
     * reload controller table list
@@ -834,8 +823,7 @@ final class IGKControllerManagerObject extends IGKObject {
         $dir=igk_io_projectdir();
         //$g=$this->m_tbcontrollers;
         if($initCtrl){
-            $this->m_tbcontrollers=array();
-            $this->m_tbviewcontrollers=array();
+            $this->m_tbcontrollers=array(); 
         }
         igk_loadlib($dir);
         $classes=get_declared_classes();
@@ -927,18 +915,7 @@ final class IGKControllerManagerObject extends IGKObject {
         igk_io_w2file($fc, igk_cache_array_content($m, $fc), true);
         IGKSysCache::Init_CachedHook();
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    /**
-    * 
-    * @param mixed $ctrl
-    */
-    public function unregisterToViewMecanism($ctrl){
-        $s=$ctrl->Name;
-        if(isset($this->m_tbviewcontrollers[$s])){
-            unset($this->m_tbviewcontrollers[$s]);
-        }
-    }
+     
     ///<summary></summary>
     ///<param name="forceview"></param>
     /**
@@ -1017,7 +994,7 @@ final class IGKControllerManagerObject extends IGKObject {
             $n = $ctrlname;
         }     
         if(!empty($n) && class_exists($n)){
-            if ($man=igk_app()->getControllermanager()){   
+            if ($man= self::$sm_instance){                 
                 $o = $man->getControllerInstance($n);
                 return $o;
             }

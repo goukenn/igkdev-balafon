@@ -6,7 +6,8 @@ namespace IGK\System\Database\MySQL;
 use Exception;
 use IGKException; 
 use IGK\Database\DbQueryDriver;
-use IGK\Database\SQLDataAdapter;  
+use IGK\Database\SQLDataAdapter;
+use IGK\System\Database\MySQL\Controllers\MySQLDataController;
 use IGK\System\Exceptions\NotImplementException;
 
  

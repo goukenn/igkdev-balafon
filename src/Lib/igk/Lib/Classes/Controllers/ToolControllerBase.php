@@ -16,6 +16,7 @@ use function igk_resources_gets as __;
 
 
 abstract class ToolControllerBase extends BaseController{
+    static $sm_tools = [];
     ///<summary></summary>
     public function doAction(){    }
     ///<summary></summary>
@@ -35,18 +36,18 @@ abstract class ToolControllerBase extends BaseController{
     public function hideTool($ownernode){
         igk_html_rm($this->TargetNode);
         $t=$this->TargetNode;
-        $t->ClearChilds();
+        $t->clearChilds();
     }
     ///<summary></summary>
     protected function InitComplete(){
         parent::InitComplete();
         if($this->getIsAvailable()){
-            igk_getctrl(IGKToolsCtrl::class)->RegisterTool($this);
+            self::$sm_tools[get_class($this)] = $this;
         }
     }
     ///<summary></summary>
     public function refreshToolView(){
-        igk_getctrl(IGKToolsCtrl::class)->View();
+        igk_getctrl(self::class)->View();
     }
     ///<summary></summary>
     ///<param name="ownernode"></param>
@@ -55,7 +56,7 @@ abstract class ToolControllerBase extends BaseController{
         $ownernode->add($t);
         $t["class"]="dispib alignc alignt";
         $t["style"]="min-width: 96px; min-height:72px;";
-        $t->ClearChilds();
+        $t->clearChilds();
         $d=$t->addDiv();
         $a=$d->add("a", array(
             "class"=>"alignc dispib",

@@ -1,9 +1,9 @@
 <?php
 namespace IGK\System\Html;
 
-///<summary>Represente interface: IIGKHtmlGetValue</summary>
+///<summary>Represente interface: IHtmlGetValue</summary>
 /**
-* Represente IIGKHtmlGetValue interface
+* Represente IHtmlGetValue interface
 */
 interface IHtmlGetValue {
     ///<summary></summary>

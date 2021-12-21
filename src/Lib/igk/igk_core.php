@@ -209,55 +209,7 @@ function igk_getpv($array, $key, $default = null)
  */
 function igk_auto_load_class($name, $entryNS, $classdir, &$refile = null)
 {
-    $key = IGKEnvironment::AUTO_LOAD_CLASS;
-    $cl = igk_environment()->get($key) ?? [];
-    if (!isset($cl[$classdir])) {
-        IGKApplicationLoader::getInstance()->Load(function ($n) use (&$refile) {
-            igk_wln_e("tru mpad ");
-        });
-        $cl[$classdir] = compact("name", "entryNS", "refile");
-        igk_environment()->set($key, $cl);
-    }
-    // static $bindfile = null;
-    // if ($bindfile === null){
-    //     $bindfile = function(){
-    //         include_once(func_get_arg(0));
-    //     };
-    // } 
-    // if(empty($entryNS) || (strpos($name, $entryNS) === 0)){
-    //     $n = $name;
-    //     if(!empty($entryNS)){
-    //         $n=substr($name, strlen($entryNS));
-    //         while((strlen($n) > 0) && ($n[0] == "\\")){
-    //             $n=substr($n, 1);
-    //         }
-    //     }
-    //     if (!is_array($classdir)){
-    //         $classdir = [$classdir];
-    //     }
-    //     // | use to fit class path entry namespace
-    //     $gdir = 0;
-
-    //     while($tdir = array_shift($classdir)){
-    //         if($gdir){  
-    //             $tdir = dirname($tdir);
-    //         }
-    //         if(file_exists($file=igk_io_dir($tdir."/".$n.".php"))){            
-    //             $bindfile($file);            
-    //             $refile = $file;
-    //             igk_hook(IGKEvents::HOOK_AUTLOAD_CLASS, [
-    //                 $name,
-    //                 $file
-    //             ]);
-    //             return 1;
-    //         } 
-    //         // if (igk_is_debug()){
-    //         //     igk_ilog(__FUNCTION__." : file not found ".$file);
-    //         // } 
-    //         $gdir = 1; 
-    //     } 
-    // }
-    // return 0;
+    return IGKApplicationLoader::getInstance()->registerLoading($name, $entryNS, $classdir, $refile);   
 }
 function igk_io_get_script($f, $args = null)
 {

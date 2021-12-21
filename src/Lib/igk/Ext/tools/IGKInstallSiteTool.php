@@ -20,7 +20,7 @@ class IGKInstallSiteTool extends ToolControllerBase{
     public function doAction(){
         $frame=igk_html_frame($this, "tool.installsite");
         $d=$frame->getBoxContent();
-        $d->ClearChilds();
+        $d->clearChilds();
         $d["class"]="google-Roboto";
         $frm=$d->addForm();
         $frm["action"]=$this->getUri("install");

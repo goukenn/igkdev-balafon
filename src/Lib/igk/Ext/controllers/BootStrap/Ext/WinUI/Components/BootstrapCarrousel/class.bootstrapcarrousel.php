@@ -10,7 +10,7 @@ final class IGKHtmlBootstrapCarouselItem extends HtmlNode
 		$this["data-ride"] = "carousel";
 	}
 	public function initDemo($t){
-		$this->ClearChilds();
+		$this->clearChilds();
 		$this->setId("car");
 		$ol = $this->add("ol");
 		$ol["class"] = "carousel-indicator";

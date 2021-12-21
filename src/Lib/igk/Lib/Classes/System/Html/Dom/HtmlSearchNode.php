@@ -105,7 +105,7 @@ final class HtmlSearchNode extends HtmlNode {
         $search=$this->m_search;
         if(!$frm || empty($uri)){
             return;}
-        $frm->ClearChilds();
+        $frm->clearChilds();
         $frm["action"]=$uri;
         $frm["id"]="search_item";
         $frm["method"]=new IGKValueListener($this, "Method");

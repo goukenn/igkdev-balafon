@@ -808,7 +808,7 @@ EOF;
         $frame = igk_html_frame($this, "theme_menu_add_menu_frame");
         $frame->Title = __("title.Menu");
         $d = $frame->BoxContent;
-        $d->ClearChilds();
+        $d->clearChilds();
         $frm = $d->addForm();
         $frm["action"] = $this->getUri("menu_add_menu");
         $div = $frm->addDiv();
@@ -927,7 +927,7 @@ EOF;
         igk_app()->getDoc()->getBody()->add($frm);
         $frm->Title = __("title.EditMenu", $name);
         $d = $frm->Box;
-        $frm->ClearChilds();
+        $frm->clearChilds();
         $frm = $d->addForm();
         $frm["action"] = $this->getUri("save_menu");
         $div = $frm->addDiv();
@@ -1067,7 +1067,7 @@ EOF;
             return;
         extract($t);
         $clIndex = igk_getsv($clIndex, 0);
-        $this->val->ClearChilds();
+        $this->val->clearChilds();
         if (IGKValidator::IsStringNullOrEmpty($clName))
             $this->val->add("Name is null or empty");
         if (isset($this->m_customMenu[IGK_FD_NAME])) {
@@ -1374,13 +1374,13 @@ EOF;
                 $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);
             }
             igk_html_rm($t);
-            $t->ClearChilds();
+            $t->clearChilds();
         } else {
             if (igk_sys_ischanged(self::MENU_CHANGE_KEY, $this->m_menuChangedState)) {
                 $this->_LoadMenu();
             }
             $this->ConfigNode->add($t);
-            $t->ClearChilds();
+            $t->clearChilds();
             $box = $t->addPanelBox();
             $box->addSectionTitle(4)->Content = __("Menu");
             $this->MenuConfig($box->addDiv());

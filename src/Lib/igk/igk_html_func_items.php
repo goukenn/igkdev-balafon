@@ -508,7 +508,7 @@ function igk_html_node_abtn($uri = "#")
 function igk_html_node_aclearsandreload()
 {
     $ctrl = igk_getctrl(IGK_SESSION_CTRL);
-    $n = igk_create_xmlnode('a');
+    $n = igk_createnode('a');
     $n["class"] = "igk-btn";
     $n["href"] = $ctrl ? $ctrl->getUri("ClearS") . "&r=" . base64_encode(igk_io_currentUri()) : null;
     $n->Content = __("Clear session and reload");
@@ -886,7 +886,7 @@ function igk_html_node_bindcontent($content, $entries, $ctrl = null)
 /**
  * function igk_html_node_blocknode
  */
-function &igk_html_node_blocknode()
+function igk_html_node_blocknode()
 {
     $n = igk_create_xmlnode("igk-block-viewitem");
     $n->setCallback("getIsVisible", "return \$this->HasChilds ;");
@@ -2063,7 +2063,7 @@ function igk_html_node_igksitemap()
  */
 function igk_html_node_imagenode()
 {
-    $n = igk_create_xmlnode("img");
+    $n = igk_createnode("img");
     return $n;
 }
 ///<summary>function igk_html_node_imglnk</summary>
@@ -2071,8 +2071,8 @@ function igk_html_node_imagenode()
  * function igk_html_node_imglnk
  */
 function igk_html_node_imglnk()
-{
-    $n = igk_createnode();
+{ 
+    $n = igk_createnode("div");
     $n->img = $n->addImg();
     $n->setCallback("getAlt", "return \$this->img['alt'];");
     $n->setCallback("setAlt", "\$this->img['alt'] = \$value;");
@@ -2089,7 +2089,7 @@ function igk_html_node_innerimg()
 }
 function igk_html_node_resimg($name, $desc = "", $width = 16, $height = 16)
 {
-    $n = igk_create_xmlnode("img");
+    $n = new HtmlNode("img");
     $n->setAttributes(array(
         "width" => $width,
         "height" => $height,
@@ -2528,7 +2528,7 @@ function igk_html_node_mstitle($key)
  */
 function igk_html_node_navigationlink($target)
 {
-    $n = igk_create_xmlnode("a");
+    $n = igk_createnode("a");
     $n->setAttribute("igk-nav-link", $target);
     return $n;
 }
@@ -2567,7 +2567,7 @@ function igk_html_node_notagnode()
  */
 function igk_html_node_notagobdata($content)
 {
-    return igk_html_node_ObData($content, IGK_HTML_NOTAG_ELEMENT);
+    return igk_html_node_obdata($content, IGK_HTML_NOTAG_ELEMENT);
 }
 ///<summary>used to add notification node</summary>
 /**
@@ -4500,7 +4500,15 @@ function igk_html_node_view_code(string $file, int $startLine, int $endLine)
     return $n;
 }
 
-
+function igk_html_node_memoryusageinfo(){
+    return new \IGK\System\Html\Dom\HtmlMemoryUsageInfoNode();
+}
+function igk_html_node_space(){
+    return new \IGK\System\Html\Dom\HtmlSpaceNode();
+}
+function igk_html_node_img(){
+    return new \IGK\System\Html\Dom\HtmlImgNode();
+}
 //---------------------------------------------------------------------------------
 // + | form tag extension
 //---------------------------------------------------------------------------------
@@ -4510,3 +4518,4 @@ Factory::form("cref", function () {
     }
     return $f;
 });
+

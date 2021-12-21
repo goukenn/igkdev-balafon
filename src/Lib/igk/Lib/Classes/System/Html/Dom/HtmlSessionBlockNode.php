@@ -9,34 +9,41 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
 
+use IGK\Controllers\SessionController;
 use IGK\Resources\R;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKServer;
 use IGKViewMode;
+use function igk_resources_gets as __;
 
-final class HtmlSessionBlockNode extends HtmlCtrlNodeItemBase{
-    private $m_owner;
+
+final class HtmlSessionBlockNode extends HtmlCtrlNode{
+ 
+    public function getIsVisible()
+    {
+        return IGKServer::IsLocal() || igk_environment()->is("DEV");
+    }
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){
-        if(!$o || !$o->Document){
+    protected function __AcceptRender($o=null){ 
+        if(!$this->getIsVisible() || !$o || !$o->Document){
             return false;
         }
         $key=".@".get_class($this)."/rendered";
-        if(isset($o->{        $key}) && $o->{        $key}){
+        if(isset($o->{$key}) && $o->{$key}){
             return false;
         }
-        $o->{        $key}=1;
+        $o->{$key}=1;
         if(igk_xml_is_mailoptions($o) || igk_xml_is_cachingrequired($o))
             return false;
-        $this->ClearChilds();
+        $this->clearChilds();
         $v=$this->__buildview();
         $t=$this;
         $t->addNodeCallback("mem_usage", function($t){
-            return $t->addMemoryUsageInfoNode();
+            return $t->memoryusageinfo();
         });
         $t->addJSReadyScript('igk.ctrl.sessionblock.init');
-        return $this->getIsVisible();
+        return true;
     }
     ///<summary></summary>
     private function __buildview(){
@@ -44,7 +51,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNodeItemBase{
         $t=$this;
         $t->addObData(function() use ($t, $cnf_){
             $cnf_view=igk_is_conf_connected();
-            igk_google_addfont(igk_app()->doc, "Roboto");
+            // igk_google_addfont(igk_app()->doc, "Roboto");
             $_owner=igk_getctrl(IGK_SESSION_CTRL);
             $t["class"]="debugzone igk-session-block google-Roboto";
             $t->setIndex(10000);
@@ -67,7 +74,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNodeItemBase{
             }
             if($cnf_view)
                 $ul->addLi()->add("a", array("href"=>$cnf_->getUri('logout')))->setClass($v_btn_class)->Content=__("Logout");
-            if(igk_app()->CurrentPageFolder != "Configs"){
+            if(igk_app()->getCurrentPageFolder() != "Configs"){
                 $ul->addLi()->add("a", array("href"=>new IGKHtmlRelativeUriValueAttribute("/Configs")))->setClass($v_btn_class)->Content=__("Configure");
             }
             $ul->addLi()->add("a", array("href"=>new IGKHtmlRelativeUriValueAttribute(IGK_BASE_DIR."/")))->setClass($v_btn_class)->Content=__("Homepage");
@@ -93,7 +100,8 @@ final class HtmlSessionBlockNode extends HtmlCtrlNodeItemBase{
                     $v($this, $_owner);
                 }
             }
-            if(!$cnf_view && ($this->CurrentPageFolder != IGK_CONFIG_PAGEFOLDER)){
+            $current_page = igk_app()->getCurrentPageFolder();
+            if(!$cnf_view && ($current_page != IGK_CONFIG_PAGEFOLDER)){
                 $logindiv=$t->add("div");
                 $logindiv->setCallback("getIsVisible", igk_create_expression_callback("return igk_app()->CurrentPageFolder !== IGK_CONFIG_PAGEFOLDER;", null));
                 $frm=$logindiv->addForm();
@@ -140,15 +148,15 @@ final class HtmlSessionBlockNode extends HtmlCtrlNodeItemBase{
         , IGK_HTML_NOTAG_ELEMENT);
     }
     ///<summary></summary>
-    public function __construct(){
-        parent::__construct("div");
+    public function __construct(SessionController $controller){
+        parent::__construct($controller, "div");
     }
     ///<summary></summary>
     public function onAppExit(){
         $app=igk_app();
         if(igk_is_ajx_demand() && $this->IsVisible && $app->Session->getRedirectTask('modview')){
             $this->renderAJX();
-            $app->Session->{            "modeview"}=null;
+            $app->Session->{"modeview"}=null;
         }
     }
 }

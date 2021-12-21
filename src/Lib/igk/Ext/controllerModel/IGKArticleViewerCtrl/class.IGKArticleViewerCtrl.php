@@ -15,7 +15,7 @@ abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 	public function View(){
 		$t = $this->TargetNode;
-		$t->ClearChilds();
+		$t->clearChilds();
 		if ($this->isVisible)
 		{
 			$o = $this->getAllArticlesByCurrentLang();

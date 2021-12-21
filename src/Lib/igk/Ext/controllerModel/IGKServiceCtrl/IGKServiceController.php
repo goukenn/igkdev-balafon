@@ -447,7 +447,7 @@ EOF;
         $doc=igk_get_document("sys:://document/services");
         $doc->Title="!Error - ".$this->getServiceName();
         $bbox=$doc->body->getBodyBox();
-        $bbox->ClearChilds();
+        $bbox->clearChilds();
         $doc->renderAJX();
     }
     ///<summary>Represente SetAdditionalConfigInfo function</summary>

@@ -11,15 +11,22 @@ use ReflectionFunction;
 ///<summary>represent a root controller entry</summary>
 /**
  * represent a root controller entry
- * @method macroKeys from default extension 
- * @method initDb from default extension 
- * @method getDb from default extension 
- * @method resetDb from default extension 
- * @method getMacro from default extension 
+ * @method static macroKeys() macros: get registrated macros key
+ * @method static initDb() macros: init Controller database
+ * @method static getDb() macros: get data adapter
+ * @method static resetDb() from default extension 
+ * @method static object getMacro() from default extension 
+ * @method static mixed invokeMacro($name, $args) . from context force macros invocation if method is present.
  */
 abstract class RootControllerBase extends IGKObject{
 	static $macros;
 
+    public function __construct(){        
+    }
+    public function __debugInfo()
+    {
+        return [];
+    }
     /**
      * controller auto load class entry
      * @param mixed $n 
@@ -27,8 +34,7 @@ abstract class RootControllerBase extends IGKObject{
      */
     protected function auto_load_class($n){        
         $entryNS=$this->getEntryNameSpace() ?? "";
-        $classdir = $this->getClassesDir();        
-
+        $classdir = $this->getClassesDir();
         if (defined('IGK_TEST_INIT')){
             $classdir = [
                 $classdir, $this->getTestClassesDir()
@@ -49,6 +55,11 @@ abstract class RootControllerBase extends IGKObject{
 
     public static function __callStatic($name, $arguments)
 	{
+        $c = null; 
+        $v_macro  = 0;
+
+        
+
 		if (self::$macros===null){
 			self::$macros = [
 				"macrosKeys"=>function(){
@@ -68,8 +79,14 @@ abstract class RootControllerBase extends IGKObject{
 				}
 			];
 		} 
-		
-		$c = igk_getctrl(static::class); 
+		$v_macro = 0;
+        if ($name == "invokeMacros"){
+            $c = $arguments[1];
+            $name = $arguments[0];
+            $v_macro = 1;
+            $arguments = array_slice($arguments, 2) ?? [];
+        }
+		$c = $c ? $c : igk_getctrl(static::class); 
 		
 		if (isset(self::$macros[$name])){
 			$fc = Closure::fromCallable(self::$macros[$name]);
@@ -85,19 +102,12 @@ abstract class RootControllerBase extends IGKObject{
 		
 		//if ($name == "getComponentsDir"){
 			// method is probably protected
-		if (!igk_environment()->{static::class.'/bypass_method'} && method_exists($c, $name)){
+		if (!$v_macro && !igk_environment()->{static::class.'/bypass_method'} && method_exists($c, $name)){
 			//invoke in controller context
 			return $c::Invoke($c, $name, $arguments);
-		}
-		// if (igk_is_debug()){
-		// 	igk_trace();
-		// 	igk_wln_e("try to call envo ", static::class, parent::class, get_called_class());
-		// }
-		// 	igk_wln("cmethod ", method_exists($c, $name));
-		// 	igk_wln_e("ok");
-		// }
+		}	
+        // + | invoke controller extension method
 		array_unshift($arguments, $c); 
-
 		return ControllerExtension::$name(...$arguments); 
 	}
 	public function __call($name, $argument){

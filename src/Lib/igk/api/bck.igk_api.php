@@ -113,7 +113,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                 },
             
             "loadsyncdata"=>function($cmd, $args) use ($_api){
-                    igk_debuggerview()->ClearChilds();
+                    igk_debuggerview()->clearChilds();
                     $rep=igk_createnode("reponse");
                     $c=igk_getr("data");
                     $login=igk_getr("login");
@@ -142,7 +142,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
             "help"=>function() use (& $_data){
                     $doc=igk_get_document(__FUNCTION__);
                     $doc->Title="Api - MYSQL ";
-                    $bbox=$doc->body->addBodyBox()->ClearChilds();
+                    $bbox=$doc->body->addBodyBox()->clearChilds();
                     $b=$bbox->addDiv();
                     $b->addSectionTitle()->Content="Command list";
                     $b=$bbox->addDiv()->addContainer()->addRow();

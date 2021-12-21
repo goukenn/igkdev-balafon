@@ -240,34 +240,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     * @param mixed $obj
     */
     public function Unregister($obj){
-		return;
-		///TODO : unregister component
-        // if(($obj == null) || (igk_count($this->m_objs) == 0)){
-        //     return;}
-        // $r=$this->getId($obj);
-        // if(empty($r))
-        //     return;
-        // $t=array();
-        // $rf=0;
-        // $setting=$this->getSettings();
-        // foreach($setting->objs as $k=>$v){
-        //     if($obj === $v){
-        //         $rf=1;
-        //         continue;
-        //     }
-        //     $t[]=$v;
-        // }
-        // if($rf == 1){
-        //     $clname=get_class($obj);
-        //     if($clname != IGKHtmlMemoryUsageInfoNodeItem::class){
-        //         $gr=igk_get_env("info:dispose", 1);
-        //         $gr++;
-        //         igk_set_env("info:dispose", $gr);
-        //     }
-        //     $setting->objs=$t;
-        //     unset($setting->ids[$r]);
-        //     unset($setting->uris[$r]);
-        //     $obj->unsetParam(__CLASS__.":id");
-        // }
+		return; 
     }
 }

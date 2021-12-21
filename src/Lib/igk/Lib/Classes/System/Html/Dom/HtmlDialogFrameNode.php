@@ -79,7 +79,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
     ///<summary></summary>
     public function ClearChilds(){
-        $this->m_BoxContent->ClearChilds();
+        $this->m_BoxContent->clearChilds();
         return $this;
     }
     ///<summary></summary>

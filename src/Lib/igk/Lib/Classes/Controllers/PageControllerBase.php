@@ -12,7 +12,8 @@ namespace IGK\Controllers;
 
 use IGK\Controllers\ILibaryController;
 use IGKCtrlTypeBase;
-use IGKSession; 
+use IGKSession;
+use IIGKUriActionRegistrableController;
 use ReflectionClass;
 
 
@@ -20,7 +21,9 @@ use ReflectionClass;
  * 
  * @package IGK\Controllers
  */
-abstract class PageControllerBase extends ControllerTypeBase implements ILibaryController{
+abstract class PageControllerBase extends ControllerTypeBase
+ 
+implements IIGKUriActionRegistrableController, ILibaryController{
 
     const PAGE_CONSTANT=IGKSession::BASE_SESS_PARAM + 0xA0;
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
@@ -117,16 +120,16 @@ abstract class PageControllerBase extends ControllerTypeBase implements ILibaryC
         $c=$this->getAppUri();
         igk_navto($c);
     }
-    ///<summary></summary>
-    protected final function register_autoload(){
-        $k="sys://autoloading/".igk_base_uri_name($this->getDeclaredDir());
-        if(igk_get_env($k)){
-            return;        }
-        igk_set_env($k, 1);
-        // igk_register_autoload_class(function(){
-        //     return call_user_func_array(array($this, "auto_load_class"), func_get_args());
-        // });
-    }
+    // ///<summary></summary>
+    // protected final function register_autoload(){
+    //     $k="sys://autoloading/".igk_base_uri_name($this->getDeclaredDir());
+    //     if(igk_get_env($k)){
+    //         return;        }
+    //     igk_set_env($k, 1);
+    //     // igk_register_autoload_class(function(){
+    //     //     return call_user_func_array(array($this, "auto_load_class"), func_get_args());
+    //     // });
+    // }
     ///<summary></summary>
     ///<param name="v"></param>
     public function set_output($v){
@@ -164,5 +167,13 @@ abstract class PageControllerBase extends ControllerTypeBase implements ILibaryC
         $uri=$this->getAppUri();
         igk_navto($uri);
         igk_exit();
+    }
+
+    ///<summary> get a application document. getDoc return the global document </summary>
+    /**
+    *  get a application document. getDoc return the global document
+    */
+    protected function getAppDocument($newdoc=false){
+        return igk_get_document($this::name("app_document"), $newdoc);
     }
 }

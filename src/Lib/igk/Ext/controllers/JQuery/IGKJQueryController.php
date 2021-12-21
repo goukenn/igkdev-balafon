@@ -54,8 +54,11 @@ final class IGKJQueryController extends ConfigControllerBase
 				$f=null;
 				}
 		}
-
-		if ($this->IsEnabled)
+		if (empty($f)){
+			return;
+		}
+		$body = $doc->getBody();
+		if (!empty($f) && $this->IsEnabled)
 		{
 
 			// $f = $this->getCDNUri();
@@ -66,13 +69,14 @@ final class IGKJQueryController extends ConfigControllerBase
 				// $f =  igk_io_baseDir("/Lib/jquery/jquery.min.js");
 				// if (file_exists($f))
 				// {
-					$doc->Body->appendScript($f, false,  -100);
+					$body->appendScript($f, false,  -100);
 					// return;
 				// }
 
 			// }
-		}else
-			$doc->Body->removeScript($f);
+		}else{
+			$body->removeScript($f);
+		}
 
 	}
 
@@ -88,7 +92,7 @@ final class IGKJQueryController extends ConfigControllerBase
 		}
 		$c = $this->TargetNode;
 		$this->ConfigNode->add($c);
-		$c->ClearChilds();
+		$c->clearChilds();
 		$box = $c->addPanelBox();
 
 		igk_html_add_title($box, "title.ConfigJQuery");

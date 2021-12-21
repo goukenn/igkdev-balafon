@@ -10,7 +10,10 @@ use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKGooglePackage as IGKGooglePackage;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use function igk_resources_gets as __;
-
+if(defined ('GOOGLE_MODULE')){
+    return ;
+} else {
+define('GOOGLE_MODULE', 1);
 
 define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
 define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
@@ -448,7 +451,7 @@ function igk_html_node_googlecirclewaiter()
  */
 function igk_html_node_googlefollowusbutton($id, $height = 15, $rel = "author", $annotation = "none")
 {
-    $n = igk_createXmlNode("g:follow");
+    $n = igk_create_xmlnode("g:follow");
     $n["class"] = "g-follow";
     $n["href"] = "https://plus.google.com/" . $id;
     $n["rel"] = $rel;
@@ -712,4 +715,5 @@ function igk_html_node_googleOth2Button($url, $gclient)
     ]);
     $n["href"] = $gclient->authinfo()->authorization_endpoint . "?" . $q;
     return $n;
+}
 }

@@ -53,8 +53,8 @@
 		// }
 		// private function __viewConfig()
 		// {
-				// $this->m_configTargetNode->ClearChilds();
-				// $this->ConfigNode->ClearChilds();
+				// $this->m_configTargetNode->clearChilds();
+				// $this->ConfigNode->clearChilds();
 			 	// $d = $this->m_configTargetNode;
 				// igk_html_add_title($d, "title.BackgroundAdoratorSetting");
 				// $d->addHSep();
@@ -116,7 +116,7 @@
 		// public function View()
 		// {
 			// $c = $this->TargetNode;
-			// $c->ClearChilds();
+			// $c->clearChilds();
 			// if (!$this->getIsVisible())
 			// {
 

@@ -32,7 +32,7 @@ class IGKHtmlBootStrapGridCell extends HtmlNode
 		$this->m_vcontent->Content  = $value;
 	}
 	public function ClearChilds(){
-		return $this->m_vcontent->ClearChilds();
+		return $this->m_vcontent->clearChilds();
 	}
 	public function add($n, $b=null, $s=null){
 

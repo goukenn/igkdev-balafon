@@ -29,6 +29,11 @@ class IGKApp extends IGKObject
     }
     private function __construct()
     {
+        $this->m_controllerManager = $this->createControllerManager();
+    }
+
+    private function createControllerManager(){
+        return IGKControllerManagerObject::getInstance();
     }
 
     public function __toString()
@@ -143,7 +148,7 @@ class IGKApp extends IGKObject
      * @throws IGKException 
      */
     public function getControllerManager(){
-        return IGKControllerManagerObject::getInstance();
+        return $this->m_controllerManager; 
     }
     ///<summary>application configuration data</summary>
     /**

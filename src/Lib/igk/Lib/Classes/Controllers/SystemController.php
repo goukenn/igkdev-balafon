@@ -10,8 +10,9 @@
 
 namespace IGK\Controllers;
 
-use IGK\Resources\R;
-use HtmlReader;
+use IGK\Resources\R; 
+use IGK\System\Html\HtmlReader;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\JsonResponse;
 use IGKResourceUriResolver;
 
@@ -94,12 +95,12 @@ final class SystemController extends NonVisibleControllerBase{
             R::ChangeLang($lang);
             $u=igk_sys_srv_referer();
             $new = igk_app()->session->lang;
-            if($u){
+            if($u){         
                 $u=igk_getv(explode("?", $u), 0);
                 if(!igk_io_invoke_uri($u, 0)){
                     igk_ilog_assert(!igk_sys_env_production(), "Failed to invoke uri - ".$u);
-                }
-                $doc->renderAJX();
+                }  
+                HtmlRenderer::RenderDocument($doc, 1, null);
             } else {
                 igk_do_response(new JsonResponse([
                     "old"=>$old,
@@ -124,8 +125,7 @@ final class SystemController extends NonVisibleControllerBase{
         }
         igk_app()->Configs->globaltheme=$name;
         igk_save_config();
-        igk_app()->bindCtrlStyle();
-        $doc=igk_get_last_rendered_document();
+        igk_app()->bindCtrlStyle(); 
         igk_css_render_balafon_style();
         igk_exit();
     }

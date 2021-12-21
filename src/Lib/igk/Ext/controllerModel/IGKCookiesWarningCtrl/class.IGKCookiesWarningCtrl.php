@@ -16,7 +16,7 @@ abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBas
 	{
 		if (!isset($_COOKIE["igk-app-cookieswarning-inform"]) && $this->IsVisible)
 		{
-			$this->TargetNode->ClearChilds();
+			$this->TargetNode->clearChilds();
 			$t = $this->TargetNode;
 			$t->add("span")->Content = R::ngets("msg.cookies.requirement");
 			$d = $t->add("div", array("class"=>"btn_close"));

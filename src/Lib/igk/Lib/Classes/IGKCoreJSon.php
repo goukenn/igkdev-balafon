@@ -26,7 +26,7 @@ final class IGKCoreJSon extends IGKObject
         $h = self::GetExpression($expression, $strict);
         if (is_int($h) && ($h <= 0))
             return null;
-        return igk_count($h) == 1 && is_object($m = igk_getv($h, 0)) ? $m : $h;
+        return (igk_count($h) == 1) && is_object($m = igk_getv($h, 0)) ? $m : $h;
     }
     public static function GetExpression($exp, $strict = true)
     {

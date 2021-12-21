@@ -37,7 +37,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 			 {
 			 $this->setTargetNode($t);
 
-			 $t->ClearChilds();
+			 $t->clearChilds();
 			//view article
 			//---------------------------------
 			$this->_showViewFile();

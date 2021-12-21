@@ -125,7 +125,7 @@ final class IGKBootstrapCtrl extends ConfigControllerBase
 			return;
 		}
 		$c = $this->TargetNode;
-		$c->ClearChilds();
+		$c->clearChilds();
 		$this->ConfigNode->add($c);
 
 		$box = $c->addPanelBox();

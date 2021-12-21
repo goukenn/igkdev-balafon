@@ -14,10 +14,18 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 use DbQueryResult;
 use IGK\Database\DbSchemas;
+use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+use IGKApplicationLoader;
+use IGKEnvironment;
 use IGKResourceUriResolver;
+use ReflectionMethod;
 use SQLQueryUtils;
 use Throwable;
 
+///<summary>controller macros extension</summary>
+/**
+ * controller macros extension
+ */
 abstract class ControllerExtension{
     /**
      * extends to get the base controller from class
@@ -429,6 +437,14 @@ abstract class ControllerExtension{
     }
     public static function register_autoload(BaseController $ctrl){
         // die(__METHOD__ . " - not implement - ");
+        $ns = $ctrl->getEntryNameSpace();
+        $cldir = $ctrl->getClassesDir();
+        if (defined('IGK_TEST_INIT')){
+            $cldir = [
+                $cldir, $ctrl->getTestClassesDir()
+            ];
+        }  
+        IGKApplicationLoader::getInstance()->registerLoading($ns, $cldir);
 
         // $k="sys://autoloading/".igk_base_uri_name($ctrl->getDeclaredDir());
         // if(igk_get_env($k))
@@ -438,6 +454,7 @@ abstract class ControllerExtension{
         //     return BaseController::Invoke($this, "auto_load_class", func_get_args());
         // };
         // $fc = $fc->bindTo($ctrl);
+        // IGKApplicationLoader::getInstance()->Load($fc);
         // igk_register_autoload_class($fc);
     }
     public static function ns(BaseController $ctrl, $path){
@@ -452,16 +469,14 @@ abstract class ControllerExtension{
      * resolv class from controller entry namespace
      * @param BaseController $ctrl 
      * @param mixed $path 
-     * @return string|string[]|null 
+     * @return string|null return the resolved class path
      */
     public static function resolvClass(BaseController $ctrl, $path){
         $cl = $ctrl::ns($path); 
-        $ctrl::register_autoload();    
-        if (class_exists($cl)){
+        $ctrl::register_autoload();  
+        if (class_exists($cl, false) || IGKApplicationLoader::TryLoad($cl)){
             return $cl;
         }
-        /// TODO: resolv class 
-        // igk_wln_e(__METHOD__. " : resolvClass failed  {$path} {$cl} ". get_class($ctrl));
         return null;
     }
     public static function getAutoresetParam(BaseController $ctrl, $name, $default=null){
@@ -470,12 +485,10 @@ abstract class ControllerExtension{
         return $d;
     }
     private static function GetModelDefaultSourceDeclaration($name, $table, $v, $ctrl){
-        $ns =  self::ns($ctrl, "");
- 
+        $ns =  self::ns($ctrl, ""); 
         $uses = [];
         $gc = 0;
         $extends = implode("\\", array_filter([$ns, "Models\\ModelBase"]));
-
         $c = $ctrl->getClassesDir()."/Models/";
         if( ($name!="ModelBase") && file_exists($c."/ModelBase.php")){
             $uses[] =  implode("\\", array_filter([$ns, "Models\\ModelBase"]));
@@ -1011,4 +1024,37 @@ abstract class ControllerExtension{
         return $obj;
     }
  
+
+    public static function getIsVisible(BaseController $controller){
+        return !igk_environment()->isInArray(IGKEnvironment::NOT_VISIBLE_CTRL, get_class($controller));
+    }
+    
+    /**
+     * check if a function is exposed
+     * @param BaseController $controller 
+     * @param string $function 
+     * @return bool 
+     */
+    public static function IsFunctionExposed(BaseController $controller, string $function): bool{
+        if (($function == __FUNCTION__) || !method_exists($controller, $function))
+            return false;
+        $refmethod = new ReflectionMethod($controller, $function);
+        return $refmethod->isPublic() && ($refmethod->getDeclaringClass()->name == get_class($controller));
+    }
+
+    ///<summary>get the application current document</summary>
+    /**
+    * get the application current document
+    */
+    public static function getCurrentDoc(BaseController $controller){      
+        return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? $controller->getAppDocument();
+    }
+
+    /**
+     * project used controller
+     * @return void 
+     */
+    public static function getCanModify(BaseController $controller){
+        return !empty(strstr( $controller->getDeclaredDir(), igk_io_projectdir()));
+    }
 }

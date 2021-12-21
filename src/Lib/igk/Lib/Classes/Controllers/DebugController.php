@@ -30,7 +30,7 @@ final class DebugController extends BaseController{
     }
     ///<summary></summary>
     public function ClearDebug(){
-        $this->m_topdiv->ClearChilds();
+        $this->m_topdiv->clearChilds();
     }
     ///<summary></summary>
     public function getDebuggerView(){

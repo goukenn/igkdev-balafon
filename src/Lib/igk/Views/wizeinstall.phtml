@@ -85,7 +85,7 @@ $doc->Title= __("Balafon installation wizard - [{0}]", igk_getv($_SERVER, "SERVE
 $doc->Favicon=new IGKHtmlRelativeUriValueAttribute("Lib/igk/Default/R/Img/balafon.ico");
 $doc->Theme->addTempFile(dirname(__FILE__)."/../Styles/wizeinstall.pcss");
 $bbox = $doc->body->getBodyBox();
-$bbox->ClearChilds();
+$bbox->clearChilds();
 $t=$bbox->div();
 $t["class"]="+igk-app-wizei +google-Roboto fit";
 $t["style"]="background-color: #222;";

@@ -24,7 +24,7 @@ final class IGKHtmlBootstrapToolTipItem extends HtmlNode
 
 	public function initDemo($t)
 	{
-		$this->ClearChilds();
+		$this->clearChilds();
 		$this["title"] = "Demonstration";
 		$this->Content = "pass over this ";
 		$this->setDataPlacement("right");
@@ -62,7 +62,7 @@ final class IGKHtmlBootstrapPopoverItem extends HtmlNode
 
 	public function initDemo($t)
 	{
-		$this->ClearChilds();
+		$this->clearChilds();
 		//$this["title"] ="demonstration";
 		$this->Content = "pass over this";
 		$this["data-original-title"]  = "the title";

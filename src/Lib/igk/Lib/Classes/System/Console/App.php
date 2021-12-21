@@ -28,7 +28,7 @@ igk_load_class(\IGKDbUtility::class);
 igk_load_class(\IGK\System\Configuration\ConfigUtils::class);
 igk_load_class(\IGKCSVDataAdapter::class);
 require_once(IGK_LIB_CLASSES_DIR."/IGKXmlChilds.php");
-require_once(IGK_LIB_CLASSES_DIR."/System/Database/MySQL/IGKMySQLDataCtrl.php");
+require_once(IGK_LIB_CLASSES_DIR."/System/Database/MySQL/Controllers/IGKMySQLDataCtrl.php");
  
 ///<summary>represent Balafon CLI console Application</summary>
 class App{

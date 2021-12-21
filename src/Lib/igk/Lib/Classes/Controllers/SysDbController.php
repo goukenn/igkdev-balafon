@@ -9,9 +9,8 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\Controllers;
-
-use IGK\Database\DbColumnInfo;
-use IGK\System\Database\MySQL\MySQLDataController;
+ 
+use IGK\System\Database\MySQL\Controllers\MySQLDataController; 
 use IGKApp;
 use IGKControllerManagerObject;
 
@@ -35,6 +34,9 @@ final class SysDbController extends NonVisibleControllerBase{
     ///<summary>Represente getEntryNamespace function</summary>
     protected function getEntryNamespace(){
         return rtrim(IGK::class, "\\");
+    }
+    public function getClassesDir(){
+        return IGK_LIB_CLASSES_DIR;
     }
     ///<summary></summary>
     ///<param name="name"></param>

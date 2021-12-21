@@ -23,7 +23,7 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function View(){
 		extract($this->getSystemVars());
 		$t = $this->TargetNode;
-		$t->ClearChilds();
+		$t->clearChilds();
 		$igkmenuctrl = igk_getv($controllers, "igkmenuctrl");
 		if ($igkmenuctrl)
 			$igkmenuctrl->setParentView($t);

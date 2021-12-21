@@ -61,7 +61,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	//----------------------------------------
 	//@@@ parent view control
 	public function View(){
-		$this->TargetNode->ClearChilds();
+		$this->TargetNode->clearChilds();
 		$c = new IGKJS_horizontalPane($this->TargetNode);
 		$this->buildPage($c);
 		$c->ShowBullet = true;

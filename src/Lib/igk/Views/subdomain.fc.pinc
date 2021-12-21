@@ -27,7 +27,7 @@ function igk_subdomain_fc_inflate($tab, $t, $data=null, $mode=1){
     $dv=$t->addDiv();
     $i=$dv->addSLabelInput("clName", "text", $data ? $data->clName: null);
     igk_html_set_ToolTip($i, R::ngets("tip.domain.name"));
-    $dv->addDiv()->setContent(IGK_HTML_SPACE);
+    $dv->div()->space();//()->setContent(IGK_HTML_SPACE);
     $dv->addLabel('clCtrl')->Content=R::gets("Controller");
     $sl=$dv->add("select");
     $sl->setId("clCtrl");

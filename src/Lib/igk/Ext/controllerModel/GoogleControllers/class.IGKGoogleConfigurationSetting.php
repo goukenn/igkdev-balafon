@@ -1,6 +1,7 @@
 <?php
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 

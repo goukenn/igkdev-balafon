@@ -1,6 +1,7 @@
 <?php
 
 use IGK\Controllers\NonVisibleControllerBase;
+use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNode;
 
 class IGKProcessDocument extends NonVisibleControllerBase

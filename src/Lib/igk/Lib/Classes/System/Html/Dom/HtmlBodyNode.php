@@ -12,6 +12,27 @@ use IGKEvents;
 class HtmlBodyNode extends HtmlNode{
     protected $tagname = "body";
     private $m_bodybox;
+    private $m_bodyMainScript;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->m_bodyMainScript = new HtmlBodyMainScript();
+    }
+    // ///<summary></summary>
+    // ///<param name="id"></param>
+    // ///<param name="n"></param>
+    // public function addScriptNode($id, $n){
+    //     return $this->m_bodyMainScript->addScriptNode($id, $n);
+    // }
+    public function removeScript($scriptFile){
+        return $this->m_bodyMainScript->removeScript($scriptFile);
+    }
+    public function appendScript($id, $scriptFile){
+        igk_trace();
+        igk_wln_e(__FILE__.":".__LINE__, func_get_args());
+        return $this->m_bodyMainScript->addScript($id, $scriptFile);
+    }
+     
     public function getBodyBox(){
         if ($this->m_bodybox ===null){
             $this->m_bodybox = new HtmlBodyBoxNode();
@@ -29,7 +50,7 @@ class HtmlBodyNode extends HtmlNode{
             $c[] = $this->m_bodybox;
         }        
         $c = array_merge($c,  parent::__getRenderingChildren($options));
-        $c[] = HtmlBodyMainScript::getItem();
+        $c[] = $this->m_bodyMainScript;  
         $c[] = new HtmlHookNode(IGKEvents::HOOK_HTML_BODY, [
             "options"=>$options,
             "body"=>$this

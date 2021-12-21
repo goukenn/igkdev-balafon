@@ -95,7 +95,7 @@ final class IGKHtmlVideoNode extends HtmlNode
 	private function _buildObject()
 	{
 		$t = $this->m_ObjectNode;
-		$t->ClearChilds();
+		$t->clearChilds();
 		$t["data"] = igk_count($this->m_sources) > 0 ? $this->m_sources[0]->Src : null;
 		$t["width"] = $this["width"];
 		$t["height"] = $this["height"];

@@ -73,7 +73,7 @@ final class IGKJS_HorizontalPane extends IGKObject
 		return $p;
 	}
 	public function Clear(){
-		$this->m_pageNode->ClearChilds();
+		$this->m_pageNode->clearChilds();
 	}
 	public function flush()
 	{
@@ -312,7 +312,7 @@ $pane->renderAJX();
 				$frame = igk_html_frame($this, "nav_options_frame");
 				$frame->Title = R::ngets("title.options");
 				$d = $frame->BoxContent ;
-				$d->ClearChilds();
+				$d->clearChilds();
 				$frm = $d->addForm();
 				$frm["action"] = $this->getController()->getUri("update_nav_options", $this);
 				$frm["igk-js-ajx-form"] = "1";
@@ -629,7 +629,7 @@ return true;
 		}
 		else{
 
-			$data = igk_createXmlNode("horizontal-pane-data");// HtmlNode::CreateWebNode("horizontal-pane-data");
+			$data = igk_create_xmlnode("horizontal-pane-data");// HtmlNode::CreateWebNode("horizontal-pane-data");
 			$dir = $this->Folder;
 			$p = $this->Pattern;
 			if (IO::CreateDir($dir)){

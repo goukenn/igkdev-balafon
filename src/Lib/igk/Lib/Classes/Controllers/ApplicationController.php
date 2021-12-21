@@ -68,7 +68,7 @@ abstract class ApplicationController extends  PageControllerBase{
     //     }
     //     else{
     //         $bbox=$doc->body->getBodyBox();
-    //         $bbox->ClearChilds();
+    //         $bbox->clearChilds();
     //         $t=$bbox;
     //         $t->addContainer()->addCol()->addDiv()->setClass("igk-fsl-4")->Content=R::ngets("title.about");
     //         $ct=$t->addDiv()->addContainer();
@@ -224,9 +224,9 @@ abstract class ApplicationController extends  PageControllerBase{
         }
         $doc->Title=$this->AppTitle;
         if($clear)
-            $doc->body->ClearChilds();
+            $doc->body->clearChilds();
         else
-            $doc->body->getBodyBox()->ClearChilds();
+            $doc->body->getBodyBox()->clearChilds();
 
         return $doc;
     }
@@ -326,7 +326,7 @@ abstract class ApplicationController extends  PageControllerBase{
         $doc = $this->getAppDocument();
         $doc->Title=R::ngets("title.app_2", "Functions ".igk_getv($this->Configs, IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
         $d= $bodybox=$doc->body->getBodyBox();
-        $d->ClearChilds();
+        $d->clearChilds();
         $m=$d->addDiv()->addDiv()->addContainer();
         $r=$m->addRow();
         $cl=get_class($this);
@@ -393,7 +393,7 @@ abstract class ApplicationController extends  PageControllerBase{
         return <<<EOF
 <?php
 use IGK\\Resources\\R;
-\$t->ClearChilds();
+\$t->clearChilds();
 \$t->addDiv()->addSectionTitle(4)->Content = R::ngets("Title.App_1", \$this->AppTitle);
 \$t->inflate(igk_io_dir(\$dir."/".\$fname));
 EOF;
@@ -405,13 +405,7 @@ EOF;
     protected function getAllowViewDirectAccess(){
         return 0;
     }
-    ///<summary> get a application document. getDoc return the global document </summary>
-    /**
-    *  get a application document. getDoc return the global document
-    */
-    protected function getAppDocument($newdoc=false){
-        return igk_get_document($this::name("app_document"), $newdoc);
-    }
+  
     ///<summary></summary>
     /**
     * 
@@ -516,13 +510,7 @@ EOF;
     public function getcanAddChild(){
         return false;
     }
-    ///<summary>get the application current document</summary>
-    /**
-    * get the application current document
-    */
-    public function getCurrentDoc(){
-        return $this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? $this->getAppDocument();
-    }
+    
     ///<summary></summary>
     /**
     * 
@@ -563,10 +551,10 @@ EOF;
     /**
     * 
     */
-    public function getIsVisible(){
-        $v=$this->RegisterToViewMecanism;
-        $c=$v || (!$this->getAppNotActive() && $this->IsActive());
-        return $c;
+    public function getIsVisible(){ 
+        $c= (!$this->getAppNotActive() && $this->IsActive());
+        $g =  parent::__callStatic("invokeMacros", ["getIsVisible", $this]);
+        return $g;
     }
     ///<summary> application by default not allowed global action</summary>
     public function getNoGlobalAction(){
@@ -579,14 +567,7 @@ EOF;
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
-    ///<summary>can be invoked in platform's view mecanism</summary>
-    /**
-    * can be invoked in platform's view mecanism
-    */
-    public function getRegisterToViewMecanism(){
-        $f=igk_app()->Session->PageFolder;
-        return ($this === igk_get_defaultwebpagectrl()) && ($f == IGK_HOME_PAGEFOLDER);
-    }
+    
     ///<summary>get sub application app uri </summary>
     /**
     * get sub application app uri
@@ -679,8 +660,7 @@ EOF;
         $this->regSystemVars(null);
         if(empty($param))
         $param=array();
-        if(empty($c) && ($this->RegisterToViewMecanism || $viewdefault)){
-            
+        if(empty($c) &&  $viewdefault){            
             $this->renderDefaultDoc(igk_conf_get($this->Configs, "/default/document", 'default'));
             igk_exit();
         }
@@ -723,7 +703,7 @@ EOF;
                 }
                 else{
                     $doc->getBody()->getBodyBox()->clearChilds()->add($tn);                    
-                    $doc->output(); 
+                    HtmlRenderer::RenderDocument($doc, 0, $this);
                 }
             }            
             igk_exit();
@@ -842,7 +822,7 @@ EOF
             if(preg_match("#^/!@#", igk_io_request_uri()))
                 return false;
         }
-        return $this->RegisterToViewMecanism;
+        return $this->IsActive(); 
     }
     ///<summary></summary>
     /**
@@ -1158,28 +1138,28 @@ EOF;
     * 
     */
     public function View(){
-        $v_context="app";
-        if($this->RegisterToViewMecanism && !$this->IsActive()){
-            $v_context="docview";
-            $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc();
-            if($doc !== null){ 
-                $doc->body->getBodyBox()->clearChilds()->add($this->getTargetNode());
-            }
-            else{
-                igk_ilog(implode(",", ["Session probably destroyed. Document is null",
-                "session time out ". ini_get('session.gc_maxlifetime')]));
-                igk_die("/!\\ Session kill");
-            }
-        }
-        $this->setEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY, $v_context);
-        try { 
+        // $v_context="app";
+        // if( !$this->IsActive()){
+        //     $v_context="docview";
+        //     $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc();
+        //     if($doc !== null){ 
+        //         $doc->body->getBodyBox()->clearChilds()->add($this->getTargetNode());
+        //     }
+        //     else{
+        //         igk_ilog(implode(",", ["Session probably destroyed. Document is null",
+        //         "session time out ". ini_get('session.gc_maxlifetime')]));
+        //         igk_die("/!\\ Session kill");
+        //     }
+        // }
+        // $this->setEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY, $v_context);
+       // try { 
             parent::View();
-        }
-        catch(\Exception $ex){
-            ob_clean();
-            throw new IGKException("ERROR : ".$ex->getMessage(), $ex->getCode(), $ex);    
-        }finally{
-            $this->setEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY, null);
-        }
+        // }
+        // catch(\Exception $ex){
+        //     ob_clean();
+        //     throw new IGKException("ERROR : ".$ex->getMessage(), $ex->getCode(), $ex);    
+        // }finally{
+        //     $this->setEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY, null);
+        // }
     }
 }

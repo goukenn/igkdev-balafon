@@ -241,7 +241,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         $v_func=function(){
             $this->setup_document();
         };
-        igk_hook(IGK_CONF_USER_CHANGE_EVENT, $v_cevent);
+        // igk_hook(IGK_CONF_USER_CHANGE_EVENT, $v_cevent);
         igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, $v_func, 0);
     }
 

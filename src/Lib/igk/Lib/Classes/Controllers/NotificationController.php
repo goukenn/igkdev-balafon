@@ -244,7 +244,7 @@ EOF;
     ///<param name="args" default="null"></param>
     public function pageFolderChanged($sender=null, $args=null){
         if($this->HasMsg){
-            $this->TargetNode->ClearChilds();
+            $this->TargetNode->clearChilds();
             $this->View();
         }
     }

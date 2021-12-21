@@ -17,7 +17,7 @@ abstract class IGKNavigationMenuBarCtrl extends \IGK\Controllers\ControllerTypeB
 	public function View(){
 		if ($this->IsVisible)
 		{
-			$this->TargetNode->ClearChilds();
+			$this->TargetNode->clearChilds();
 			extract($this->getSystemVars());
 			$ul =$t->add("ul");
 			$v_dummy =  HtmlNode::CreateWebNode("dummy");

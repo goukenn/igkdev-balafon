@@ -25,7 +25,7 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ parent view control
 	public function View(){
 		$t = $this->TargetNode;
-		$t->ClearChilds();
+		$t->clearChilds();
 		$frm = $t->addForm();
 		$frm["action"] = $this->getUri("connect");
 		$frm->addSLabelInput("clLogin", "lb.login", "text");

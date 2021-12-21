@@ -6,7 +6,7 @@
 
 return [
     IGK_SYSDB_CTRL => \IGK\Controllers\SysDbController::class,
-    IGK_SYSACTION_CTRL=>\IGK\System\Configuration\Controllers\IGKSystemUriActionCtrl::class,
+    IGK_SYSACTION_CTRL=>\IGK\System\Configuration\Controllers\SystemUriActionController::class,
     IGK_CONF_CTRL=>\IGK\System\Configuration\Controllers\ConfigureController::class,
     // IGK_SHARED_CONTENT_CTRL=>\IGK\Controllers\SharedContentHtmlItemController::class,
     IGK_SYS_CTRL=>\IGK\Controllers\SystemController::class,
@@ -16,8 +16,8 @@ return [
     IGK_MENU_CTRL => \IGK\System\Configuration\Controllers\MenuController::class,
     IGK_COMPONENT_MANAGER_CTRL=> \IGK\Controllers\ComponentManagerController::class,     
     IGK_DEBUG_CTRL=>\IGK\Controllers\DebugController::class,
-    IGK_USER_CTRL=>\IGK\System\Configuration\Controllers\IGKUsersController::class,
-    IGK_PIC_RES_CTRL=>\IGK\System\Configuration\Controllers\IGKPicResController::class,
+    IGK_USER_CTRL=>\IGK\System\Configuration\Controllers\UsersConfigurationController::class,
+    IGK_PIC_RES_CTRL=>\IGK\System\Configuration\Controllers\PicResConfigurationController::class,
     IGK_PALETTE_CTRL=>\IGK\Controllers\PaletteController::class,
     IGK_NOTIFICATION_CTRL=>\IGK\Controllers\NotificationController::class,
     IGK_CA_CTRL => \IGK\System\Configuration\Controllers\ControllerAndArticlesController::class,

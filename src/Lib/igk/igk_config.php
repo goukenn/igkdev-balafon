@@ -266,11 +266,9 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_COMPONENT_ID_KEY", 0x001D);
     // define("IGK_COMPONENT_REG_FUNC_KEY", 0x0023);
     // define("IGK_COMP_NOT_FOUND_EVENT", 0x0027);
-    // define("IGK_CONF_PAGEFOLDER_CHANGED_EVENT", 0x002A);
-    // define("IGK_CONF_USER_CHANGE_EVENT", 0x0028);
+    // define("IGK_CONF_PAGEFOLDER_CHANGED_EVENT", 0x002A); 
     define("IGK_CSS_DEFAULT_STYLE_FUNC_KEY", 'sys://css/function/defaultStyle');
     // define("IGK_CTRL_TABLE_INFO_KEY", 0x001A);
-    // define("IGK_CTRL_VIEW_CONTEXT_PARAM_KEY", 0x002E);
     // define("IGK_CURRENT_DOC_PARAM_KEY", 0x0024);
     // define("IGK_DOC_CONF_ID", 0x0037);
     // define("IGK_DOC_ERROR_ID", 0x0036); 
@@ -541,8 +539,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //    define("IGK_DROP_CTRL_EVENT", "sys://ctrl/ondrop");
     define("IGK_FORCEVIEW_EVENT", "sys://notify/forceview");
     //    define("IGK_COMP_NOT_FOUND_EVENT", "sys://component/notfound");
-    //    define("IGK_CONF_USER_CHANGE_EVENT", "sys://event/config_user_changed");
-    //    define("IGK_NODE_DISPOSED_EVENT", "sys://node/disposed");
+     //    define("IGK_NODE_DISPOSED_EVENT", "sys://node/disposed");
     //    define("IGK_CONF_PAGEFOLDER_CHANGED_EVENT", "sys://event/folderchanged");
     //    define("IGK_NAMED_NODE_PARAM", "sys://node/namedchilds");
     //    define("IGK_NAMED_ID_PARAM", "sys://node/namedchilds/id");
@@ -554,9 +551,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //    define("IGK_SESS_UNKCOLOR_KEY", "sys://session/theme/UnknownColor");
     define('IGK_HTML_EMAIL_PATTERN', "[0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*@(.)+\.([a-zA-Z]{2,})");
     define('IGK_HTML_PHONE_PATTERN', "[0-9]{6,14}");
-    define("IGK_WEB_CONTEXT", "html");
-    define("IGK_MAIL_CONTEXT", "mail");
-    define("IGK_AJX_CONTEXT", "ajx");
+   
     define("IGK_FD_ID", IGK_FIELD_PREFIX . "Id");
     define("IGK_FD_NAME", IGK_FIELD_PREFIX . "Name");
     define("IGK_FD_DESC", IGK_FIELD_PREFIX . "Description");
@@ -586,8 +581,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_CTRL_BASE", IGK\Controllers\BaseController::class);
     define("IGK_HTML_BINDING_EVAL_CONTEXT", "igk:evaluation_context");
      
-    // define("IGK_VIEW_OPTIONS", 0xa002);
-    //    define("IGK_CTRL_VIEW_CONTEXT_PARAM_KEY", "sys://view/context"); 
+    // define("IGK_VIEW_OPTIONS", 0xa002); 
     define("IGK_STYLE_FOLDER", "Styles");
     define("IGK_ARTICLES_FOLDER", "Articles");
     define("IGK_VIEW_FOLDER", "Views");

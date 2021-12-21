@@ -36,6 +36,10 @@ class IGKApplicationLoader{
     private $path;
 
 
+    /**
+     * load callable
+     */
+    private $callables = [];
   
     private function __constrct(){
     }
@@ -44,39 +48,74 @@ class IGKApplicationLoader{
      * @param mixed $callable 
      * @return void 
      */
-    public function Load($callable){
-
+    public function Load($callable, $priority = 20){
+        $this->callables[] = compact("callable", "priority");
+        $this->sorted = 1;
+    }
+    public function registerLoading($entryNS, $classdir, $priority= 20, & $refile = null){
+        $key = IGKEnvironment::AUTO_LOAD_CLASS;
+        $cl = & igk_environment()->createArray($key);
+        if (!isset($cl[$classdir])) {
+            $this->Load(function ($n) use ($classdir, & $refile) {
+                $g = self::_TryLoadClasses([$n], $classdir,false);                
+                return $g;
+            }, $priority);
+            $cl[$classdir] = compact("entryNS", "refile");
+            // igk_environment()->set($key, $cl);
+        }
+    }
+  
+    private function _sort_priority($a, $b){
+        $x = $a['priority'];
+        $y = $b['priority'];
+        return $x==$y? 0 : $y - $x / abs($y-$x);
     }
     private function _auto_load($n){
-        
-        if (self::LoadClass($n)){
-            return 1;
+        if ($this->callables){
+            if ($this->sorted){
+                usort($this->callables, [$this, '_sort_priority']);
+                $this->sorted = false;
+            }
+            foreach($this->callables as $c){
+                $fc = $c["callable"];
+                if ($fc($n)){
+                    return 1;
+                }
+            }
         }
-        echo ( "try to load load ".  $n);
-        exit;
+        return self::LoadClass($n);
     }
-
+    /**
+     * try load class name
+     * @param string $classname 
+     * @return int 
+     */
+    public static function TryLoad(string $classname){
+        return self::getInstance()->_auto_load($classname);
+    }
     public static function LoadClasses($classnames =[]){
         if (is_string($classnames)){
             $classnames = [$classnames];
         }
         $path = self::getInstance()->path; 
-      
+        return self::_TryLoadClasses($classnames, $path->getClassDir(), true);
+    }
+
+    private static function _TryLoadClasses(array $classnames, $path, $throw=false){      
         
         list($major, $minor) = explode(".", PHP_VERSION);
         $resolv_class =  [$major.".".$minor, $major, ""];
-        $cdir = $path->getClassDir(); // IGKPathUtils::get IGK_LIB_DIR."/".IGK_LIB_FOLDER."/".IGK_CLASSES_FOLDER;
-        
-    
+        $cdir = $path; 
+        $is_core  = self::getInstance()->path->getClassDir() == $path;
 
         while( ($classname = array_shift($classnames)) !==null){
             // echo "load : ".$classname."<br />\n";
             // load class method
-            if (!class_exists($classname, false) && !trait_exists($classname, false) ){
+            if (!class_exists($classname, false) && !trait_exists($classname, false) && !interface_exists($classname, false)){
                 // igk_ilog("tryload:".$classname);
                 $n = $classname; 
                 $f = StringUtility::Uri($n);
-                if (strpos($f, "IGK/")===0){
+                if ((strpos($f, "IGK/")===0) && $is_core){
                     $f = substr($f, 4); 
                 } 
                 foreach($resolv_class as $version){
@@ -88,14 +127,18 @@ class IGKApplicationLoader{
                         if(!class_exists($n, false) && !interface_exists($n, false)
                         && !trait_exists($n, false)
                             ){
-                            igk_die("file {$cf} loaded but not content class|interface|trait {$n} definition", 1, 500);
-                        }
-                        break;                    
+                                if ($throw){
+                                    igk_trace();
+                                    igk_die("file {$cf} loaded but not content class|interface|trait {$n} definition", 1, 500);
+                                }
+                        } else {
+                            return true;
+                        }          
                     }  
                 }  
             } 
         }
-        return true;
+        return false;
     }
     public static function LoadClass($classname){
         return self::LoadClasses([$classname]);
@@ -222,7 +265,6 @@ class IGKApplicationLoader{
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKConfigCtrl.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKMenuCtrl.php"; 
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKSystemUriActionCtrl.php";         
-        // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKUsersController.php";
         // require_once IGK_LIB_DIR."/Lib/Classes/System/Configuration/Controllers/IGKPicResController.php";
 
 

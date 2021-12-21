@@ -155,7 +155,7 @@ final class IGKCaches{
 
         $cache = $fs->getCacheFilePath($file);
         
-        if (1 || $fs->cacheExpired($file)){
+        if ($fs->cacheExpired($file)){
             // + |-----------------------------------------------
             // + | Compile the target 
             // + |-----------------------------------------------

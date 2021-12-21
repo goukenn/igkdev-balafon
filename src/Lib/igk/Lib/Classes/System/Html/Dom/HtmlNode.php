@@ -40,6 +40,16 @@ class HtmlNode extends HtmlItemBase{
         $this["class"] = $value;
         return $this;
     }
+    public function clearClass(){
+       
+        $this["class"] = null;
+         
+        return $this;
+    }
+
+    public function clear(){
+        return $this;
+    }
     ///<summary></summary>
     ///<param name="value"></param>
     /**

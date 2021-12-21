@@ -190,7 +190,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
             include(IGK_LIB_DIR."/.igk.fc.call.inc");
         }
         $doc=igk_get_document($this, true);
-        $doc->body->addBodyBox()->ClearChilds()->add($n);
+        $doc->body->addBodyBox()->clearChilds()->add($n);
         $doc->renderAJX();
         igk_exit();
         return 1;
@@ -384,7 +384,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     igk_exit();
                 },
             "loadsyncdata"=>function($cmd, $args) use ($_api){
-                    igk_debuggerview()->ClearChilds();
+                    igk_debuggerview()->clearChilds();
                     $rep=igk_createnode("reponse");
                     if(igk_server_request_onlocal_server()){
                         $c=igk_getv($args, 0);
@@ -499,7 +499,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     $doc=igk_get_document($_api);
                     $doc->Title="Api - MYSQL ";
                     igk_google_addfont($doc, "Roboto");
-                    $bbox=$doc->body->addBodyBox()->ClearChilds();
+                    $bbox=$doc->body->addBodyBox()->clearChilds();
                     $bbox["class"]="google-Roboto";
                     
                     $b=$bbox->addDiv();

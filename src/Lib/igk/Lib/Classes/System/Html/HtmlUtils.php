@@ -97,7 +97,6 @@ abstract class HtmlUtils
     public static function AddImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
         if (is_object($target)) {
-
             $a = $target->addImgLnk($uri, $imgname, $width, $height, $desc);
             if ($attribs)
                 $a->setAttributes($attribs);
@@ -120,7 +119,7 @@ abstract class HtmlUtils
             $targetid = ",'#$targetid'";
         $li = $tr->add("th", array("class" => "box_16x16"))->li();
         $i = $li->input(null, "checkbox")->setAttributes([
-            "onchange" => "ns_igk.html.ctrl.checkbox.toggle(this, ns_igk.getParentByTagName(this, 'table'), this.checked, true $targetid);"
+            "onchange" => "javascript: ns_igk.html.ctrl.checkbox.toggle(this, ns_igk.getParentByTagName(this, 'table'), this.checked, true $targetid);"
         ]);
         return $i;
     }

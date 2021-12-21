@@ -5,3 +5,14 @@ $l["Password"] = "Watchwoord";
 $l["Login"] = "Login";
 $l["err.page.5404"]="/!\\ SubDomain Configuratie";
 $l["msg.page.5404_1"]="<div>Administratie ontkennen <b> {0} </b><br /></div>";
+
+
+$l["enum.sizeunit.mb"]="Mb";
+$l["enum.sizeunit.kb"]="Kb";
+$l["enum.sizeunit.Tb"]="Tb";
+$l["enum.sizeunit.Gb"]="Gb";
+$l["tip.password"] = "Watchwoord";
+$l["tip.login"] = "Log in";
+$l["Login or password not correct"] = "Onjuiste gebruikersnaam of wachtwoord";
+
+$l["btn.connect"] = "Verbonden";

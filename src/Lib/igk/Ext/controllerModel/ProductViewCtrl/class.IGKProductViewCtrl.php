@@ -23,7 +23,7 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function View()
 	{
 		extract($this->getSystemVars());
-		$t->ClearChilds();
+		$t->clearChilds();
 		$frm = $t->addDiv()->addForm();
 		$frm["action"]="";
 		$lb = $frm->add("label");

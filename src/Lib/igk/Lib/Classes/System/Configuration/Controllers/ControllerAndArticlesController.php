@@ -508,7 +508,7 @@ EOF;
             return null;
         }
         $d=igk_createnode("div");
-        $d->ClearChilds();
+        $d->clearChilds();
         $frm=$d->addForm();
         $frm["action"]=$this->getUri("ca_add_article");
         $frm->addSLabelInput(IGK_FD_NAME);
@@ -551,7 +551,7 @@ EOF;
         }
         $frame=igk_html_frame($this, $frameid);
         $frame->Title=__("title.AddController");
-        $frame->BoxContent->ClearChilds();
+        $frame->BoxContent->clearChilds();
         $frm=$frame->BoxContent->addForm();
         $frm["action"]=$this->getUri("ca_add_ctrl");
         $nid=$this->TargetNode["id"];
@@ -590,7 +590,7 @@ EOF;
             $p["class"]="igk-ctrl-additionnal-properties";
             $this->setParam("ca:view_frame", $p);
         }
-        $p->ClearChilds();
+        $p->clearChilds();
         igk_html_add($p, $ul);
         $this->_ca_add_adapter($ul->addLi(), "clDataAdapterName", IGK_MYSQL_DATAADAPTER);
         $li=$ul->addLi();
@@ -645,7 +645,7 @@ EOF;
     public function ca_add_view_frame(){
         $frame=igk_createnode("div");
         $d=$frame;
-        $d->ClearChilds();
+        $d->clearChilds();
         $frm=$d->addForm();
         $frm["action"]=$this->getUri("add_view");
         $frm->addSLabelInput(IGK_FD_NAME);
@@ -931,7 +931,7 @@ EOF;
         if($force || file_exists($f)){
             $articleid=$this->_getarticleid();
             $frame=igk_html_frame($this, "frame_edit_article", $ajx == 1 ? null: "#".$articleid);
-            $frame->ClearChilds();
+            $frame->clearChilds();
             $frame->Title=__("title.editarticle_1", basename($f));
             $str=IO::ReadAllText($f);
             $d=$frame->BoxContent;
@@ -1039,7 +1039,7 @@ EOF;
         if(file_exists($f)){
             $articleid=$this->_getarticleid();
             $frame=igk_html_frame($this, "frame_edit_article", $ajx == 1 ? null: "#".$articleid);
-            $frame->ClearChilds();
+            $frame->clearChilds();
             $frame->Title=__("title.editarticlewtiny_1", basename($f));
             $str=IO::ReadAllText($f);
             $d=$frame->BoxContent;
@@ -1068,7 +1068,7 @@ EOF;
         $f=igk_io_dir($ctrl->getDeclaredFileName());
         if(file_exists($f)){
             $frame=igk_createnode("div");
-            $frame->ClearChilds();
+            $frame->clearChilds();
             $frame->Title=__("title.editctrl", basename($f));
             $str=null;
             if(!$oldcontent)
@@ -1105,7 +1105,7 @@ EOF;
         $frame->Title=__("title.editctrlaticles_1", $ctrl->Name);
         $frame->CloseUri=$this->getUri("unreg_view_frame");
         $c=$frame->BoxContent;
-        $c->ClearChilds();
+        $c->clearChilds();
         $d=$c->addDiv();
         $this->_buildViewArticle($d, $ctrl);
         $t=$frame->IsRegister;
@@ -1198,7 +1198,7 @@ EOF;
         $frame=igk_html_frame($this, "add_edit_db_frame", $table ? $this->getUri("ca_edit_db_close_frame&db_tbr=".$table): null);
         $frame->Title=__("title.editdbArticle", $ctrl);
         $d=$frame->BoxContent;
-        $d->ClearChilds();
+        $d->clearChilds();
         $frm=$d->addForm();
         $frm["action"]=$this->getUri("ca_update_dbdata");
         $div=$frm->addDiv();
@@ -1239,7 +1239,7 @@ EOF;
         $f=igk_io_dir($ctrl->getViewDir()."/".$n);
         if(file_exists($f)){
             $frame=igk_html_frame($this, "frame_edit_view", "#".$this->_getviewid());
-            $frame->ClearChilds();
+            $frame->clearChilds();
             $frame->Title=__("title.editview_1", basename($f));
             $str=null;
             if(!$oldcontent)
@@ -1275,7 +1275,7 @@ EOF;
         $p=$this->getParam("ca:view_frame");
         $n=igk_getr("n");
         if($p != null){
-            $p->ClearChilds();
+            $p->clearChilds();
             $this->_buildAdditionalInfo($n, $p);
             $p->renderAJX();
         }
@@ -1404,7 +1404,7 @@ EOF;
     public function ca_selectedCtrlChanged(){
         $t=$this->getParam("ctrl:ca_tabInfo");
         if($t != null)
-            $t->ClearChilds();
+            $t->clearChilds();
         $this->setParam("ctrl:ca_tabInfo", null);
     }
     ///<summary></summary>
@@ -1739,7 +1739,7 @@ EOF;
     public function TabViewPage($n, $list, $content){
         $g=$this->getParam(__CLASS__."://tabselected", 1);
         $i=1;
-        $content->ClearChilds();
+        $content->clearChilds();
         foreach($list->getElementsByTagName("li") as $k){
             if($i == $g){
                 $k->setClass("+igk-active");
@@ -1844,14 +1844,14 @@ EOF;
         $t=$this->TargetNode;
         if($this->getIsVisible()){
             $this->ConfigNode->add($t);
-            $t=$t->ClearChilds()->addPanelBox();
+            $t=$t->clearChilds()->addPanelBox();
             igk_html_add_title($t, "Controller & Articles");
             $t->addReplaceUri();
             $b=$t->addDiv();
             igk_html_article($this, "controller_and_article", $b);
             $dv=$t->addDiv()->setClass("gc-v");
             $v_tabc=$dv->addComponent($this, HtmlComponents::AJXTabControl, "tab", 1);
-            $v_tabc->ClearChilds();
+            $v_tabc->clearChilds();
             $g=$this->getParam(__CLASS__."://tabselected", 1);
             $h=array("controller");
             foreach($h as $k=>$v){
@@ -1862,7 +1862,7 @@ EOF;
             $v_tabc->select(0);
         }
         else{
-            $this->TargetNode->ClearChilds();
+            $this->TargetNode->clearChilds();
             igk_html_rm($this->TargetNode);
         }
     }

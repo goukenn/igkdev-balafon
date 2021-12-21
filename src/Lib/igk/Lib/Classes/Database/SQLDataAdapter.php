@@ -3,6 +3,7 @@
 namespace IGK\Database;
  
 use IGK\System\Database\SQLGrammar;
+use IGK\System\Html\IHtmlGetValue;
 use IGKException;
 use IGKSysUtil;
 
@@ -271,7 +272,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         return null;
     }
     public function getObjValue($value){
-        if(igk_reflection_class_implement($value, IIGKHtmlGetValue::class)){
+        if(igk_reflection_class_implement($value, IHtmlGetValue::class)){
             return $value->getValue(
                 (object)[
                     "grammar"=>null,

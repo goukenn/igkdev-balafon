@@ -4,9 +4,14 @@ use IGK\Controllers\ToolControllerBase;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
+use IGK\XML\XMLNodeType;
 
 class IGKHtmlToScriptTool extends ToolControllerBase
 {
+	protected function InitComplete()
+	{
+		parent::InitComplete();
+	}
 	public function getImageUri(){
 		$uri = igk_html_resolv_img_uri(igk_io_baseDir("Lib/igk/Default/R/Img/pics_48x48/tool_c2script.jpeg"));
 		return $uri;
@@ -134,7 +139,7 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		//$frame = igk_add_new_frame($ctrl, $id, $closeuri, $target);
 		$frame->Title = R::ngets("title.frameConvertHTMLToScript");
 		$d = $frame->getBoxContent();
-		$d->ClearChilds();
+		$d->clearChilds();
 
 		$frame->Form = $d->addForm();
 		$frame->Form["action"] = $this->getUri("convert");

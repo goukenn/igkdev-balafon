@@ -8,9 +8,9 @@ use IGKViewMode;
 
 use function igk_resources_gets as __;
 
-///<summary>represent a language key entries. it support IIGKHtmlGetValue for getting and setting the values</summary>
+///<summary>represent a language key entries. it support IHtmlGetValue for getting and setting the values</summary>
 /**
-* represent a language key entries. it support IIGKHtmlGetValue for getting and setting the values
+* represent a language key entries. it support IHtmlGetValue for getting and setting the values
 */
 final class IGKLangKey implements IHtmlGetValue {
     var $args;

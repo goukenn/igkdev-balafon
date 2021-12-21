@@ -14,7 +14,15 @@
 
 namespace IGK\System\Html;
 
-final class HtmlContext{
+/**
+ * represent rendering context constant;
+ * @package IGK\System\Html
+ */
+abstract class HtmlContext{
     const Html="Html";
     const XML="XML";
+    const AJX = "ajx";
+    const Mail = "mail";
+    protected function __construct(){        
+    }
 }

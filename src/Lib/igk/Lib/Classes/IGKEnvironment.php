@@ -5,14 +5,14 @@ use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Helper\IO ;
 use function igk_getv as getv;
-
+require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
 ///<summary>use to manage Server Environment</summary>
 /**
 * use to manage Server Environment
 * @property string $subdomainctrl current subdomain controller
 * @property string $basectrl base controller
 */
-final class IGKEnvironment implements \ArrayAccess{
+final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAccess{
     private static $sm_instance;
     /**
      * environment properties
@@ -449,8 +449,9 @@ final class IGKEnvironment implements \ArrayAccess{
             return igk_getv($c, 0);
         }
     }
+    ////<summary>get instance of create array </summary>
      /**
-     * create array to the key 
+     * get instance of create array 
      * @param mixed $key 
      * @return mixed 
      */
@@ -459,7 +460,23 @@ final class IGKEnvironment implements \ArrayAccess{
         if (!$c){
             $c = [];
             $this->m_envs[$key] = & $c;
-        } 
+        } else {
+            if (!is_array($c)){
+                die(__("Present value is not registrated as an array:[{0}]."));
+            }
+
+        }
         return $c;
+    }
+
+    /**
+     * check if a value is present in array. registrated in invironment
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return bool 
+     */
+    public function isInArray($key, $value){
+        $c = $this->createArray($key);
+        return in_array($value, $c);
     }
 }

@@ -275,7 +275,7 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     {
         static $closeTags;
         if ($closeTags === null){
-            $closeTags = ["html", "body", "ul", "li", "ol", "pre", "code", "videos", "audio", "head", "script","style", "div", "form"];
+            $closeTags = explode("|", "html|body|ul|li|ol|pre|code|videos|audio|head|script|style|div|form|tr|td|th|table");
         }
         return in_array($this->tagname, $closeTags); // ["input", "head", "script","style", "div"]);
     }
@@ -699,6 +699,8 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
                 die("'try to call : ".__METHOD__ . " ".$name);
             }
             if (strpos($name, "set")===0){
+                igk_trace();
+                igk_wln("tag: " , $this->getTagName());
                 die("'try to call : ".__METHOD__ . " ".$name);
             }
             if (method_exists($this, $fc = "get".ucfirst($name))){

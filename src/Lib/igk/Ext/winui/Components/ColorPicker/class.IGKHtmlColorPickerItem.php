@@ -69,7 +69,7 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 
 	}
 	public function initView(){
-		$this->ClearChilds();
+		$this->clearChilds();
 		$d = $this->addDiv()->setClass("dispib");
 		$c = $d->addDiv();
 		$uri = $this->m_ctrl->getDataDir()."/R/Img/bg-circ.png";

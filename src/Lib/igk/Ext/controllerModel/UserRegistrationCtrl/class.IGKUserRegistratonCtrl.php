@@ -43,7 +43,7 @@ igk_io_save_file_as_utf8($this->_getViewFile("confirmation_mail"), <<<EOF
 EOF
 );
 		igk_io_save_file_as_utf8($this->_getViewFile("subscribeform"), <<<EOF
-		\$this->TargetNode->ClearChilds();
+		\$this->TargetNode->clearChilds();
  igk_html_article(\$this , "default", \$this->TargetNode);
 
  \$e = \$this->getParam("subscribe:error");

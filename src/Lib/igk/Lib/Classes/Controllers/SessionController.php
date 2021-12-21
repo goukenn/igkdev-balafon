@@ -18,11 +18,14 @@ use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
+use IGKEvents;
 
 final class SessionController extends BaseController{
     ///<summary></summary>
     private function _viewTarget(){
-        $this->getTargetNode()->ClearChilds();
+        $this->getTargetNode()->clearChilds();
+    }
+    public function __construct(){ 
     }
     ///<summary></summary>
     public function changeviewmode(){
@@ -74,6 +77,11 @@ final class SessionController extends BaseController{
         }
         igk_navto_referer();
     }
+
+    // protected function IsFunctionExposed($funcname){     
+    //     $g = parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $funcname]);        
+    //     return $g;
+    // }
     ///<summary> clear session and navigate</summary>
     public function ClearS($navigate=true){
         $id=session_id();
@@ -116,15 +124,10 @@ final class SessionController extends BaseController{
         $this->View();
     }
     ///<summary>call system force view on session controller</summary>
-    public function forceview(){
-        $doc=igk_app()->getDoc();
-        if(!$doc)
-            return;
-        igk_set_env(IGK_KEY_FORCEVIEW, 1);
-        // $doc->setup_document();
-        // igk_app()->ViewControllers(1);
-        igk_notification_push_event(IGK_FORCEVIEW_EVENT, $this);
-        igk_set_env(IGK_KEY_VIEW_FORCED, 1);
+    public function forceview(){ 
+        if ($doc=igk_app()->getDoc()){
+            igk_hook(IGKEvents::HOOK_FORCE_VIEW, [$this]);
+        }
     }
     ///<summary></summary>
     public function getIsVisible(){
@@ -136,16 +139,12 @@ final class SessionController extends BaseController{
     public function getName(){
         return IGK_SESSION_CTRL;
     }
-    ///<summary>determine if this controller need to register to view mecanism</summary>
-    public function getRegisterToViewMecanism(){
-        return true;
-    }
+    
     ///<summary></summary>
-    protected function InitComplete(){
+    protected function InitComplete(){ 
         parent::InitComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
-            return;
-        $app=igk_app();
+            return; 
         $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
         $rs=igk_getv($_COOKIE, $n);
         if(!empty($rs)){
@@ -167,10 +166,16 @@ final class SessionController extends BaseController{
             }
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
+    
+        igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){
+            $options = $e->args["options"];
+            echo $this->getTargetNode()->render($options); 
+        });
     }
+    
     ///<summary></summary>
     protected function initTargetNode(){
-        return  new HtmlSessionBlockNode();
+        return  new HtmlSessionBlockNode($this);
     }
     ///<summary></summary>
     public function invmodule(){
@@ -273,17 +278,5 @@ final class SessionController extends BaseController{
     public function update_setting(){
         $this->View();
     }
-    ///<summary></summary>
-    public function View(){
-        $t=$this->TargetNode;
-        if($t){
-            if($t && $this->IsVisible){
-                igk_html_add($t, $this->doc->body);
-                $this->_viewTarget();
-            }
-            else{
-                igk_html_rm($t);
-            }
-        }
-    }
+   
 }

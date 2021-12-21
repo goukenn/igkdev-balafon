@@ -1,5 +1,5 @@
 <?php
-namespace IGK\System\Database\MySQL;
+namespace IGK\System\Database\MySQL\Controllers;
 
 ///<summary>Represente class: IGKMySQLDataCtrl</summary>
 
@@ -282,16 +282,7 @@ class MySQLDataController extends BaseController{
     public function getIsVisible(){
         return false;
     }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function InitComplete(){
-        $info=null;
-        $v_name=null;
-        $v_info=null;
-        $this->m_dictionary=igk_db_get_table_def($this->DataAdpaterName);
-    } 
+     
     ///<summary></summary>
     ///<param name="adapt"></param>
     ///<param name="dbname"></param>

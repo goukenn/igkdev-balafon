@@ -92,8 +92,8 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     * 
     */
     public function ClearChilds(){
-        $this->m_tablist->ClearChilds();
-        $this->m_tabcontent->ClearChilds();
+        $this->m_tablist->clearChilds();
+        $this->m_tabcontent->clearChilds();
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -108,7 +108,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
             $s->Dispose();
         }
         $buri=igk_register_temp_uri(__CLASS__);
-        $this->ClearChilds();
+        $this->clearChilds();
         $this->addTabPage("page1", $buri."/showpage/1", true);
         $this->addTabPage("page2", $buri."/showpage/2", false);
         $this->addTabPage("page3", $buri."/showpage/4", false);
@@ -116,7 +116,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         $this->m_tabcontent->Content=igk_ob_get_func(array($this, "showpage"), array($i));
         $t->addDiv()->Content="Code Sample";
         $t->addDiv()->addCode()->setAttribute("igk-code", "php")->Content=<<<EOF
-\$this->ClearChilds();
+\$this->clearChilds();
 \$this->addTabPage("page1", \$this->getComponentUri("showpage/1"), true);
 \$this->addTabPage("page2", \$this->getComponentUri("showpage/2"), false);
 \$this->addTabPage("page3", \$this->getComponentUri("showpage/4"), false);

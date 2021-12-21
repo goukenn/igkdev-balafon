@@ -42,7 +42,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     protected function __RenderComplete($o=null){
         /// TODO: Render Complete notificiation
 
-        $this->ClearChilds();
+        $this->clearChilds();
         if($this->m_owner->TargetNode === $this){
             $this->m_owner->setNotifyHost(null);
         }

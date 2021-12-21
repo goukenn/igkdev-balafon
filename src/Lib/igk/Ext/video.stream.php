@@ -78,7 +78,7 @@ class VideoStream
                 $c_end = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $c_end;
             }
             $c_end = ($c_end > $this->end) ? $this->end : $c_end;
-            if ($c_start > $c_end || $c_start > $this->size - 1 || $c_end >= $this->size) {
+            if ($c_start > $c_end || ($c_start > $this->size - 1) || $c_end >= $this->size) {
                 header('HTTP/1.1 416 Requested Range Not Satisfiable');
                 header("Content-Range: bytes $this->start-$this->end/$this->size");
                 igk_exit();

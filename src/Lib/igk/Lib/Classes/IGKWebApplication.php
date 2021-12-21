@@ -71,7 +71,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKControllerManagerObject.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKSession.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IGKSystemUriActionCtrl.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/SystemUriActionController.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/MenuController.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Resources/R.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ControllerExtension.php');

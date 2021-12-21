@@ -28,8 +28,11 @@ class IGKEvents extends IGKObject
     const HOOK_VIEW_MODE_CHANGED = "config_view_mode_changed";
     const HOOK_CONFIG_CTRL = "config_get_configs";
     const HOOK_DEBUGGER_VIEW = "debugger_view";
+    const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
+    const HOOK_FORCE_VIEW = "doc_force_view";
 
 
+    
     const VIEWCOMPLETE = 0x1;
     private $m_methods;
     private $m_name;

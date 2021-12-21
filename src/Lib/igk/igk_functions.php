@@ -401,7 +401,7 @@ function igk_alert($msg)
 {
     $frame = igk_html_frame(igk_getctrl(IGK_FRAME_CTRL), "alert_frame");
     $frame->Title = __("title.alert");
-    $frame->BoxContent->ClearChilds();
+    $frame->BoxContent->clearChilds();
     $frm = $frame->BoxContent->addForm();
     $frm->addDiv()->Content = $msg;
 }
@@ -422,7 +422,7 @@ function igk_android_onrenderdoc($args)
         $m = new HtmlSingleNodeViewerNode($js);
         $doc->body->add($m);
     } else {
-        if ($options->Context == IGK_WEB_CONTEXT) {
+        if ($options->Context == HtmlContext::Html) {
             $sm = $doc->getMetas();
             if ($sm) {
                 $meta = $sm->getMetaById("_page_viewport");
@@ -4445,6 +4445,11 @@ function igk_ctrl_bind_css_file($ctrl, $file = null, $temp = 0)
     $f = $file ?? $ctrl->getPrimaryCssFile();
     if (file_exists($f) && !igk_is_ajx_demand()) {
         if (!defined("IGK_FORCSS")) {
+            if (get_class($ctrl) == "IGKApplicationManager"){
+                igk_trace();
+                session_destroy();
+                igk_exit();
+            }
             $doc = $ctrl->getCurrentDoc() ?? igk_app()->getDoc();
             igk_css_reg_global_style_file($f, $doc->Theme, $ctrl, $temp);
         } else {
@@ -8768,7 +8773,7 @@ function igk_frame_add_confirm($ctrl, $id, $uri = null, $closeuri = ".", $title 
     $frame->closeMethodUri = $uri;
     $frame->callbackMethod = "igk_frame_close_frame_callback";
     $d = $frame->BoxContent;
-    $d->ClearChilds();
+    $d->clearChilds();
     $igk = igk_app();
     $frame->Form = $d->addForm();
     $frame->Form["action"] = $frame->closeUri;
@@ -8874,7 +8879,7 @@ function igk_frame_confirm($ctrl, $id, $title = null, $closeuri = ".", $target =
     $target->add($frame);    
     $frame->Title = ($title == null) ? __(IGK_CONFIRM_TITLE) : $title;
     $d = $frame->BoxContent;
-    $d->ClearChilds();
+    $d->clearChilds();
     $igk = $ctrl->App;
     $frame->Form = $d->addForm();
     $frame->Form["action"] = $frame->closeUri;
@@ -12189,7 +12194,7 @@ function igk_html_bindentry($ctrl, $entries, $tabinfo, &$o, &$c)
     }
     $s = $c->getinnerHtml(null);
     $o[] = $s;
-    $c->ClearChilds();
+    $c->clearChilds();
 }
 ///<summary>return array of data binding node info</summary>
 /**
@@ -13175,7 +13180,7 @@ function igk_html_frame_ex($ctrl, $id, $title, $uri, &$form, $closed = false)
 {
     $frame = igk_html_frame($ctrl, $id);
     $div = $frame->BoxContent;
-    $div->ClearChilds();
+    $div->clearChilds();
     $frame->Title = $title;
     $frm = $div->addForm();
     $frm["action"] = $uri;
@@ -13381,7 +13386,7 @@ function igk_html_get_system_uri($link, $option = null)
             } else {
                 $s = $link;
             }
-            if ($option && ($option->Context == IGK_WEB_CONTEXT) && $option->Cache) {
+            if ($option && ($option->Context == HtmlContext::Html) && $option->Cache) {
                 $src = $s;
                 return igk_html_uri($s);
             }
@@ -14422,7 +14427,7 @@ function igk_html_treatbinding($info, $row, $ctrl = null, $artcontext = null)
                 $info->Index++;
                 if ($bindchild) {
                     $m = igk_html_get_inner_heararchi($k, "expression");
-                    $k->ClearChilds();
+                    $k->clearChilds();
                     $m = str_replace("\"", "__''__", $m);
                     $m = igk_html_treatbinding_evaldata($m, $row, $ctrl, $artcontext);
                     $m = str_replace("__''__", "\"", $m);
@@ -17286,7 +17291,7 @@ function igk_io_view_root_entry_uri($ctrl, $fname = "")
  */
 function igk_is_ajx_demand()
 {
-    $t = !(igk_get_env(IGK_ENV_NO_AJX_TEST) == 1) && (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") || (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"));
+    $t = igk_environment()->isAJXDemand || !(igk_get_env(IGK_ENV_NO_AJX_TEST) == 1) && (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") || (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"));
     return $t;
 }
 ///<summary>Represente igk_is_ajx_form_request function</summary>
@@ -18476,6 +18481,7 @@ function igk_load_classes($tab = [])
                 if (file_exists($cf = igk_html_uri($cdir . "/" . $f . "{$version}.php")) || (!empty($version) && file_exists($cf = igk_html_uri($cdir . "/{$version}/" . $f . "php")))) {
                     require_once($cf);
                     if (!class_exists($n, false) && !interface_exists($n, false) && !trait_exists($n, false)) {
+                        igk_trace();
                         igk_die("file {$cf} loaded but not content class|interface|trait {$n} definition", 1, 500);
                     }
                     break;
@@ -21107,7 +21113,7 @@ function igk_render_node($node, $doc, $render = 1)
     }
     $bbox = $doc->Body->getBodyBox();
     if (!igk_get_env("sys://doc/no_clear")) {
-        $bbox->ClearChilds();
+        $bbox->clearChilds();
     }
     $bbox->add($node);
     if ($render)
@@ -26220,7 +26226,7 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
         case 503:
             igk_set_header(403);
             $doc->Title = "Forbiden - " . igk_getv($_SERVER, "REDIRECT_STATUS", igk_getr("code")) . " ";
-            $bbox = $doc->body->getBodyBox()->ClearChilds();
+            $bbox = $doc->body->getBodyBox()->clearChilds();
             $bbox->setClass("err-" . $code);
             get_class($bbox->addHeaderBar("Forbiden"));
             $bbox->addDiv()->addSectionTitle()->setClass("igk-danger")->Content = "/!\\ Forbiden";
@@ -28206,25 +28212,7 @@ function igk_xml_create_readinfo(&$inf)
  */
 function igk_xml_create_render_option()
 {
-    $o = igk_createobj(array(
-        "Indent" => 0,
-        "Document" => null,
-        "Context" => IGK_WEB_CONTEXT,
-        "BodyOnly" => 0,
-        "Attachement" => 0,
-        "StandAlone" => 0,
-        "Cache" => igk_sys_cache_require(),
-        "CacheUri" => 0,
-        "CacheUriLevel" => 0,
-        "Depth" => 0,
-        "Stop" => 0,
-        "setnoAttribEscape" => null
-    ));
-    if ($o->Cache) {
-        $o->CacheUri = base64_decode(igk_sys_cache_uri());
-        $o->CacheUriLevel = explode("/", $o->CacheUri);
-    }
-    return $o;
+    return HtmlRenderer::CreateRenderOptions(); 
 }
 ///<summary></summary>
 /**
@@ -28280,7 +28268,7 @@ function igk_xml_initialize($option, $tab)
  */
 function igk_xml_is_cachingrequired($options = null)
 {
-    return $options && ($options->Context == IGK_WEB_CONTEXT) && $options->Cache;
+    return $options && ($options->Context ==  HtmlContext::Html) && $options->Cache;
 }
 ///<summary>is mail option</summary>
 ///<param name="options"></param>

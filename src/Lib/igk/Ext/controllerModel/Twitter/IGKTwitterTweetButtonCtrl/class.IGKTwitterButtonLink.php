@@ -35,7 +35,7 @@ abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerType
 	{
 
 		extract($this->getSystemVars());
-		$t->ClearChilds();
+		$t->clearChilds();
 		$c = $t->Add("div");
 		$tweet = R::ngets("lb.tweet");
 		$l = R::GetCurrentLang();
