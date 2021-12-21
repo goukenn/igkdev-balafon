@@ -14,6 +14,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     public function __construct(){
         parent::__construct("igk:replace-ctrl");
         $this->m_nodes=array();
+        $this["type"] = "node";
     }
     ///<summary></summary>
     ///<param name="n"></param>

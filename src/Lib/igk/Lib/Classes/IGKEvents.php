@@ -30,7 +30,7 @@ class IGKEvents extends IGKObject
     const HOOK_DEBUGGER_VIEW = "debugger_view";
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
     const HOOK_FORCE_VIEW = "doc_force_view";
-
+    const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
 
     
     const VIEWCOMPLETE = 0x1;
@@ -273,7 +273,11 @@ class IGKEvents extends IGKObject
                 });
                 $tab->changed = 0;
             }
-            $cargs = array((object)array("args" => $args, "handle" => 0, "lastoutput" => null, "output" => $def ? $def->output : null));
+            $cargs = array((object)array("args" => $args, 
+            "hook"=>$name,
+            "handle" => 0, 
+            "lastoutput" => null, 
+            "output" => $def ? $def->output : null));
             $count = 0;
             foreach ($list as $v) {
                 if (!is_callable($v->callback)) {

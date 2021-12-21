@@ -642,4 +642,19 @@ abstract class HtmlUtils
         $g=str_replace(IGK_LIB_DIR, "%lib%", $g);
         $vsystheme->def->setFiles($g);
     }
+
+
+    public static function SkipAdd($value=1){
+        if ($p = igk_html_parent_node()){
+            igk_environment()->set(IGK_XML_CREATOR_SKIP_ADD, $value? $p : $value);
+        }
+    }
+    public static function IsSkipped($autoreset){
+        $p = igk_html_parent_node();     
+        $o = igk_environment()->get(IGK_XML_CREATOR_SKIP_ADD);    
+        if (($o === $p) && $autoreset){
+            igk_html_skip_add(null); 
+        }
+        return $o != null;
+    }
 }

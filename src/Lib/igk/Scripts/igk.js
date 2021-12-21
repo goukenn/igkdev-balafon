@@ -1604,7 +1604,8 @@ Name:balafon.js
 
 
 		function __preload() {
-			var v_timg = node.getElementsByTagName("igk-img");
+			var v_timg = node.getElementsByTagName("igk-img"); 
+
 			if (!v_timg || (v_timg.length <= 0)) {
 				return;
 			}
@@ -24813,8 +24814,7 @@ igk.system.createNS("igk.system", {
 
 	igk.ready(__init_svg_l);
  
-	igk.winui.initClassControl("igk-svg-lst", function () {
-		console.debug("svg list detect");
+	igk.winui.initClassControl("igk-svg-lst", function () {		 
 		__initlist.apply(this);
 
 	});

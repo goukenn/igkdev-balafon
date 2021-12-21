@@ -10,6 +10,8 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\DefaultPageController;
+use IGK\Controllers\PageControllerBase;
 use IGK\Database\DbColumnDataType;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
@@ -305,15 +307,16 @@ final class ControllerAndArticlesController extends ConfigControllerBase{
     ///<summary></summary>
     ///<param name="ctrl"></param>
     ///<param name="target"></param>
-    private function _view_ctrl_info($ctrl, $target){
+    protected function _view_ctrl_info($ctrl, $target){
         if($ctrl == null)
             return;
         $p=$target->addDiv();
         $p["class"]="igk-cnf-ctrl-info";
-        $p->addDiv(array("class"=>"igk-cnf-selected-ctrl"))->Content=$this->SelectedController;
-        $p->addDiv()->Content=__("Q.ISWEBPAGECTRL_1", igk_parsebools(igk_reflection_class_extends(get_class($ctrl), IGKDefaultPageController::class)));
-        $p->addDiv()->Content=__("lb.CtrlType"). " : ". igk_sys_ctrl_type($ctrl);
-        $p->addDiv()->Content=__("lb.Location_1", $ctrl->getDeclaredDir());
+        $p->div()->setAttributes(array("class"=>"igk-cnf-selected-ctrl"))->
+        span_label(__("Name : ") , $ctrl->getName());
+        $p->div()->Content=__("Q.ISWEBPAGECTRL_1", ($ctrl instanceof PageControllerBase));
+        $p->div()->Content=__("lb.CtrlType"). " : ". igk_sys_ctrl_type($ctrl);
+        $p->div()->Content=__("lb.Location_1", $ctrl->getDeclaredDir());
         $p->addBr();
         if(method_exists($ctrl, "getAppUri")){
             $dv=$p->addDiv();
@@ -1451,8 +1454,7 @@ EOF;
             $frm->panel()->div()->Content=__("/!\\ Not Implement");
             break;
         }
-        $n->renderAJX(); 
-        igk_exit();
+        $n->renderAJX();  
     }
     ///<summary></summary>
     public function ca_update_articlewtiny_f(){

@@ -348,6 +348,8 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
             $o=null;
             if(!$this->evalCallback("set".$key, $o, array("value"=>$value))){
                 $this->$key=$value;
+                // igk_trace();
+                // igk_wln_e("failed to set ". get_class($this), $key, $value);
             }
         }
         // if ($n ==="__callback"){
@@ -381,12 +383,14 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     }
     public function add($n, $attributes=null, $args=null)
     {
+        $skip = false;
         if (is_string($n)) {
             igk_html_push_node_parent($this);
             $n = static::CreateWebNode($n, $attributes, $args);
+            $skip = igk_html_is_skipped();
             igk_html_pop_node_parent(); 
         }
-        if ($n && (igk_html_is_skipped() || ($this->_Add($n) !== false))) {
+        if ($n && ($skip || ($this->_Add($n) !== false))) {
             return $n;
         }
         return $this;
@@ -422,11 +426,9 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
 
         $host= $host ?? $this;
         $c = $host->getParam(IGK_NAMED_NODE_PARAM) ?? array();
-
         if ($n = igk_getv($c, $name)){
             return $n;
         }
-
         if (($h = $callback($host)) && $host->add($h)){            
             $c[$name] = $h;
             $host->setParam(IGK_NAMED_NODE_PARAM, $c);

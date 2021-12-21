@@ -2072,10 +2072,38 @@ function igk_html_node_imagenode()
  */
 function igk_html_node_imglnk()
 { 
-    $n = igk_createnode("div");
-    $n->img = $n->addImg();
-    $n->setCallback("getAlt", "return \$this->img['alt'];");
-    $n->setCallback("setAlt", "\$this->img['alt'] = \$value;");
+    return new \IGK\System\Html\Dom\HtmlImgLnkNode(...func_get_args());
+    // igk_wln_e(__FILE__.":".__LINE__, func_get_args());
+    // $n = igk_createnode("div");
+    // $n->img = $n->addImg();
+    // $n->setCallback("getAlt", "return \$this->img['alt'];");
+    // $n->setCallback("setAlt", "\$this->img['alt'] = \$value;");
+    // return $n;
+}
+function igk_html_node_span_label($title, $text){
+    $skip = false;
+    if ($n = igk_html_parent_node()){            
+        $skip = true;
+    }else{
+        $n = igk_html_node_notagnode();        
+    }
+    $h = $n->add("div");
+    $h["class"] = "igk-span-label";
+    $h->add("label")->Content = $title;
+    $h->add("span")->Content = $text; 
+    $skip && igk_html_skip_add();
+    return $skip ? null: $n;
+}
+
+/**
+ * help create a select node
+ * @param mixed $id 
+ * @return HtmlNode 
+ */
+function igk_html_node_select($id=null){
+    $n = new HtmlNode("select");
+    $n->setId($id);
+    $n["title"] = $id;
     return $n;
 }
 ///<summary>function igk_html_node_innerimg</summary>
@@ -2084,7 +2112,7 @@ function igk_html_node_imglnk()
  */
 function igk_html_node_innerimg()
 {
-    $n = new HtmlNode("igk-img");
+    $n = new IGK\System\Html\Dom\HtmlImgNode();
     return $n;
 }
 function igk_html_node_resimg($name, $desc = "", $width = 16, $height = 16)
@@ -2221,13 +2249,16 @@ function igk_html_node_jslogger()
     $n["class"] = "igk-winui-js-logger";
     return $n;
 }
+function igk_html_node_script(){
+    return new IGK\System\html\Dom\HtmlScriptNode();
+}
 ///<summary>used to call ready invoke</summary>
 /**
  * used to call ready invoke
  */
 function igk_html_node_jsreadyscript($script)
 {
-    $n = igk_createnode("script");
+    $n = igk_html_node_script();
     $n->Content = "if (window.ns_igk)ns_igk.readyinvoke('{$script}');";
     return $n;
 }

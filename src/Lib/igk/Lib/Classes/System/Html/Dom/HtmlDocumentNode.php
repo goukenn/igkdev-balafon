@@ -11,6 +11,10 @@ class HtmlDocumentNode extends HtmlItemBase{
     protected $m_lang = "fr";
     protected $m_id;
 
+    /**
+     * define name spaces
+     */
+    protected $namespaces;
     public function getId(){
         return $this->m_id;
     }
@@ -59,10 +63,16 @@ class HtmlDocumentNode extends HtmlItemBase{
             $options = HtmlRenderer::CreateRenderOptions();
         }
         $options->Document = $this; 
-        $s = "<!DOCTYPE html >\n";
+        $s = "<!DOCTYPE html ";
+     
+        $s.= ">\n";
         $attr = "";
         if (!empty($this->m_lang)){
             $attr = " lang=\"".$this->m_lang."\"";
+        }
+        if ($this->namespaces){
+            foreach($this->namespaces as $k=>$v)
+                $attr.= " ".$k."=".HtmlRenderer::GetStringAttribute($v, $options);
         }
         if (igk_environment()->is("DEV")){
             if ($id = $this->getId())

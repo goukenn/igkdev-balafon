@@ -53,7 +53,13 @@ function igk_environment()
  */
 function igk_exit($close = 1, $clean_buffer = 0)
 {
-    // igk_trace();
+    if (igk_environment()->isAJXDemand){
+        if (igk_environment()->is("DEV")){
+            igk_trace();
+            igk_wln("<div style='position:fixed; z-index: 1000; top:0; left:0: background-color:red; color:#fdfdfd'>call igk_exit not allowed in : inAJXDemand Flag context.</div>");
+
+        }
+    }
     if ($close && !empty(session_id())) {
         igk_hook(IGKEvents::ON_BEFORE_EXIT, array(igk_app(), null));
         session_write_close();
@@ -372,7 +378,7 @@ function igk_io_applicationdir()
  */
 function igk_is_cmd()
 {
-    return igk_environment()->get("sys://func/" . __FUNCTION__) || (isset($_SERVER["argv"]) && !isset($_SERVER["SERVER_PROTOCOL"]));
+    return ((isset($_SERVER["argv"]) && !isset($_SERVER["SERVER_PROTOCOL"]))) || igk_environment()->get("sys://func/" . __FUNCTION__);
 }
 function igk_set_cmd($v = 1)
 {

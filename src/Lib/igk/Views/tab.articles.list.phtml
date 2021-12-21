@@ -10,7 +10,8 @@
 
 use function igk_resources_gets as __;
 use IGK\Resources\R;
-
+use IGK\System\Html\Dom\HtmlSearchNode;
+use IGK\Helper\StringUtility as IGKString;
 
 ($s_ctrl == null) && igk_die("selected controller not found");
 $div=$t;

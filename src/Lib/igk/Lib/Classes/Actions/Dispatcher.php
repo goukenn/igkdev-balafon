@@ -41,7 +41,7 @@ class Dispatcher implements IActionProcessor{
                 $cl = null; 
                 $required =  $g->getNumberOfRequiredParameters();
  
-                $cl = $g->getParameters()[0]->getType(); 
+             
                 // | try to inject parameter
                 if (( $required >= 1) && 
                 ($parameters = $g->getParameters()) && 

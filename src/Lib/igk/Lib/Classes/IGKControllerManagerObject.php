@@ -456,7 +456,10 @@ final class IGKControllerManagerObject extends IGKObject {
             igk_die("init controller with extra argument not allowed");
         }
         if (igk_env_count(__METHOD__)>1){
-            igk_wln_e(__METHOD__, "only allowed one");
+            /// TODO: avoid init controller twice
+            /// case in bafon command --project:list
+            ///
+            igk_wln_e(__METHOD__, "Int countroller twice : only allowed one. ");
         }
         $_init_callback=function() {
             // + | hook global controller init complete

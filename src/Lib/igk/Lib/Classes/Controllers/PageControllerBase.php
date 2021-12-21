@@ -10,8 +10,7 @@
 
 namespace IGK\Controllers;
 
-use IGK\Controllers\ILibaryController;
-use IGKCtrlTypeBase;
+use IGK\Controllers\ILibaryController; 
 use IGKSession;
 use IIGKUriActionRegistrableController;
 use ReflectionClass;

@@ -67,21 +67,28 @@ class SvgRenderer{
         }
         return false;
     }
-    public static function AcceptRenderList($options){
-         
-        if (igk_getv($options, "Document") && !self::$sm_renderList){
-            igk_reg_hook(IGKEvents::HOOK_HTML_BODY, [self::class, "RenderList"]);
-            $options->Document->setTempFlag("svg:list", []);
-            self::$sm_renderList = true;
-        }        
+    public static function AcceptRenderList($options){ 
+        if (!self::$sm_renderList){
+            if (igk_getv($options, "Document")){
+                igk_reg_hook(IGKEvents::HOOK_HTML_BODY, [self::class, "RenderList"]);           
+                $options->Document->setTempFlag("svg:list", []);
+                self::$sm_renderList = true;
+            } else if (igk_is_ajx_demand()){
+                igk_reg_hook(IGKEvents::HOOK_AJX_END_RESPONSE, [self::class, "RenderList"]); 
+                self::$sm_renderList = true;
+            }
+        }
+
     }
     public static function RenderList($e){
-        $options = $e->args["options"];        
+        $options = igk_getv($e->args, "options"); 
+              
         if ($list =  self::$RegisterPath){
-            echo "<!-- SVG LIST -->";
+            if (igk_environment()->is("DEV"))
+                echo "<!-- SVG LIST -->";
             $n = igk_createnode("div");
             $n["class"] = "igk-svg-lst";
-            // $n["style"] = "display:none";
+            $n["style"] = "display:none";
             $n->host(function() use ($list){
                 foreach($list as $k=>$v){
                     echo "<".$k.">";
@@ -89,52 +96,20 @@ class SvgRenderer{
                     echo "</".$k.">";
                 }
             });
+            
             echo $n->render($options);
+            if (igk_environment()->is("DEV"))
+                echo "<!-- END:SVG LIST -->";
         }
         // clear the registrated path
         self::$RegisterPath = [];
     }
     public static function RegisterIcon($name, $context=null){
-        return self::svg_new_icons($name);
+        return self::svgNewIcons($name);
     }
-    private static function svg_new_icons($name){
+    private static function svgNewIcons($name){
         $n = new SvgListIconNode($name);                
         return $n;
     }
 
-    /*
-$c = igk_environment()->{IGK_SVG_REGNODE_KEY};
-    if ($p = igk_environment()->get("svg_icons_resolver")) {
-        if ($m = $p->resolve($name)) {
-            $n = igk_createnode("div");
-            $n["class"] = "igk-svg-lst-i";
-            $n["igk:svg-name"] = $name;
-            $n->setCallback("AcceptRender", $m);
-            return $n;
-        }
-    }
-    if ($c === null) {
-        igk_svg_register_icons(igk_app()->getDoc(), $name);
-        $c = igk_environment()->{IGK_SVG_REGNODE_KEY}
-            ?? igk_die("failed to used svg registrating node");
-        (function () {
-            $n = igk_createnode("div");
-            igk_set_env("sys://node/svg_regnode", $n);
-            return $n;
-        })();
-    } else {
-        igk_svg_register_icons(igk_app()->getDoc(), $name);
-    }
-    $n = igk_createnode("div");
-    $n["class"] = "igk-svg-lst-i";
-    $n["igk:svg-name"] = $name;
-    igk_svg_bind_name($name, $context);
-    $fc = "igk_svg_use_callback";
-    if (!igk_get_env(__FUNCTION__)) {
-        $n->setCallback("AcceptRender", $fc);
-        igk_set_env(__FUNCTION__, 1);
-    }
-    igk_set_env($fc, null);
-    return $n;
-    */
 }

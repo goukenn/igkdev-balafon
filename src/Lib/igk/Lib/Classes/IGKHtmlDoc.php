@@ -4,6 +4,7 @@ use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocumentNode;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\HtmlMetaManager;
 use IGK\System\Html\HtmlUtils;
@@ -19,6 +20,11 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     private $m_baseuri;
     private static $sm_theme;
     private static $sm_scriptManager;
+
+    protected $namespaces = [
+        "xmlns"=>"http://www.w3.org/1999/xhtml",
+        "xmlns:igk"=> HtmlNode::HTML_NAMESPACE
+    ];
 
     const IGK_DOC_FAVICON_FLAG=self::IGK_DOC_TYPE_FLAG + 3;
     const IGK_DOC_LINKMANAGER_FLAG=self::IGK_DOC_TYPE_FLAG + 2;

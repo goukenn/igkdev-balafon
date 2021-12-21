@@ -9,6 +9,8 @@
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\ControllerTypeBase;
+use IGK\Helper\IO;
 
 final class IGKControllerTypeManager{
     static $tabManager;
@@ -17,9 +19,11 @@ final class IGKControllerTypeManager{
         if(self::$tabManager == null){
             $tab=array();
             $exp="/^(IGK){0,1}(?P<name>[\w_-]+)(Ctrl|Controller)$/i";
+            $cl = ControllerTypeBase::class;
             foreach(get_declared_classes() as $v){
-                if(igk_reflection_class_extends($v, "IGKCtrlTypeBase") && igk_reflection_class_isabstract($v) && preg_match($exp, $v)){
-                    preg_match_all($exp, $v, $t);
+                $n = basename(IO::GetDir($v));              
+                if(igk_reflection_class_extends($v, $cl) && igk_reflection_class_isabstract($v) && preg_match($exp, $n)){
+                    preg_match_all($exp, $n, $t);
                     $tab[$t["name"][0]]=$v;
                 }
             }

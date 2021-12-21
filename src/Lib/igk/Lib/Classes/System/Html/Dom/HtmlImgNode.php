@@ -9,9 +9,15 @@ class HtmlImgNode extends HtmlNode{
     /**
     * 
     */
-    public function __construct(){
-        parent::__construct("igk:img");
-    }     
+    public function __construct($src=null){
+        parent::__construct("igk-img");
+        $this["src"] = $src; 
+        $this["xmlns:igk"] = self::HTML_NAMESPACE;
+    } 
+    public function setSrc($source){
+        $this["src"] = $source;
+        return $this;
+    }
     public function closeTag()
     {
         return true;

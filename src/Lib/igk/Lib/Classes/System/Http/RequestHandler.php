@@ -9,6 +9,7 @@ use IGKApplicationBase;
 use IGKException;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\HtmlRenderer;
+use IGKEvents;
 
 use function igk_resources_gets as __;
 
@@ -116,6 +117,7 @@ class RequestHandler
             }
             if (($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)) {
                 $v_isajx = igk_is_ajx_demand() || IGKString::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
+                igk_environment()->isAJXDemand = $v_isajx;
                 $app->Session->URI_AJX_CONTEXT = $v_isajx;
                 $fd = null;
                 if (($fd = $ctrl->getConstantFile()) && file_exists($fd))
@@ -137,6 +139,8 @@ class RequestHandler
                 igk_environment()->set(IGK_ENV_INVOKE_ARGS, null);
                 igk_environment()->set(IGK_ENV_REQUEST_METHOD, null);
                 if ($defaultBehaviour && $v_isajx) {
+                    igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
+                    igk_environment()->isAJXDemand = null;
                     igk_exit();
                 }
                 $app->Session->URI_AJX_CONTEXT = 0;

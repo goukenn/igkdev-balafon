@@ -19,11 +19,17 @@ use function igk_resources_gets as __;
 require_once(__DIR__ . "/../igk_framework.php");
 require_once(IGK_LIB_CLASSES_DIR."/Resources/R.php");
 require_once(IGK_LIB_CLASSES_DIR."/System/Console/App.php");
+require_once(IGK_LIB_CLASSES_DIR."/System/Console/BalafonApplication.php");
 require_once(IGK_LIB_CLASSES_DIR."/System/Console/Logger.php");
 require_once(IGK_LIB_CLASSES_DIR."/System/Console/ConsoleLogger.php");
+require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationFactory.php");
+
+IGKApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
+
+$app = IGKApplicationLoader::Boot("balafon");
+
 
  
-
 //--------------------------------------------------------
 // + define basics balafon command
 //
@@ -212,12 +218,12 @@ $command = [
     }, __("initialize system database"), "db"],
     "--controller:list" => [function ($v, $command) {
         $command->exec = function ($command, $pattern = ".+") {
-
+            Logger::print("");
             $c = igk_app()->getControllerManager()->getControllers();
             $t = [];
             foreach ($c as $m) {
                 if (preg_match("#" . $pattern . "#", $cl = get_class($m))) {
-                    $t[] =$command->app::gets(App::BLUE, $cl)."\r\t\t\t".$m->getDeclaredDir();
+                    $t[] =$command->app::gets(App::YELLOW, $cl)."\r\n\t\t\t".$m->getDeclaredDir();
                 }
             }
             sort($t, SORT_FLAG_CASE | SORT_STRING);
@@ -408,7 +414,10 @@ if (in_array("--debug", $argv)){
 //--------------------------------------------------------------------------------
 // | Run the application
 // |
-$status = IGK\System\Console\App::Run($command);
+$app->command = $command;
+// | run application
+$status = $app->run(__FILE__, false);
+
 
 //--------------------------------------------------------------------------------
 // | finish with status code

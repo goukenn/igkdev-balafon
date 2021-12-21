@@ -37,7 +37,7 @@ use function igk_resources_gets as __;
  * @method static buri() macros function
  * @method static cache_dir() macros function
  * @method static checkUser() macros function
- * @method static classdir() macros function
+ * @method static string classdir() macros function
  * @method static configDir() macros function
  * @method static configFile() macros function
  * @method static ctrl() macros function
@@ -83,7 +83,7 @@ use function igk_resources_gets as __;
  * @method static string name(?string path) macros function
  * @method static notifyKey() macros function
  * @method static string ns(string $path) macros function
- * @method static register_autoload() macros function
+ * @method static void register_autoload() macros function register macros function
  * @method static resolvClass() macros function
  * @method static resolv_table_name() macros function
  * @method static seed() macros function

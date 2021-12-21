@@ -7,6 +7,7 @@ require_once __DIR__ . "/System/IO/Path.php";
 require_once __DIR__ . "/System/IO/FileWriter.php";
 require_once __DIR__ . "/IGKObject.php";
 require_once __DIR__ . "/IGKServer.php";
+
 require_once __DIR__ . "/Cache/CommonCache.php";
 require_once __DIR__ . "/Controllers/RootControllerBase.php";
 // require_once __DIR__."/System/Html/Dom/HtmlItemAttribute.php";
@@ -169,7 +170,6 @@ class IGKApplicationLoader
      */
     public static function Boot($type = "web")
     {
-
         // + protect w
         $srv = IGKServer::getInstance();
         $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
@@ -206,6 +206,16 @@ class IGKApplicationLoader
         $v_loader = self::$sm_instance;
         $v_loader->path = IGKPath::getInstance();
         spl_autoload_register([$v_loader, '_auto_load']);
+
+        $package_dir = $v_loader->path->getPackagesDir();
+
+        /**
+         * allow auto loading 
+         */
+        if (file_exists( $package_dir."/composer.json")){
+            require_once( $package_dir."/vendor/autoload.php");
+        } 
+
 
         // + | Load traits according to version
 

@@ -21,6 +21,7 @@ use IGK\System\IO\Path;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Cache\SystemFileCache as IGKSysCache;
+use IGK\Controllers\ControllerTypeBase;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbExpression;
@@ -13615,7 +13616,7 @@ function igk_html_loading_frame($t)
 {
     $uri = R::GetImgUri("waitcursor");
     if ($uri)
-        $t->addDiv(array("class" => "dispib"))->addBalafonJS()->Content = "igk.media.webplayer.init(this.parentNode,'{$uri}');";
+        $t->div()->setAttributes(array("class" => "dispib"))->addBalafonJS()->Content = "igk.media.webplayer.init(this.parentNode,'{$uri}');";
 }
 ///<summary></summary>
 ///<param name="tagname"></param>
@@ -13674,14 +13675,10 @@ function igk_html_parent_node()
  * skip creation adding 
  */
 function igk_html_skip_add($value=1){
-    igk_environment()->set(IGK_XML_CREATOR_SKIP_ADD, $value);
+    HtmlUtils::SkipAdd($value);    
 }
 function igk_html_is_skipped($autoreset=true){
-    $o = igk_environment()->get(IGK_XML_CREATOR_SKIP_ADD);
-    if ($o && $autoreset){
-        igk_html_skip_add(null); 
-    }
-    return $o;
+    return HtmlUtils::IsSkipped($autoreset);
 }
 ///<summary>Represente igk_html_parent_result function</summary>
 ///<param name="r"></param>
@@ -17289,10 +17286,8 @@ function igk_io_view_root_entry_uri($ctrl, $fname = "")
 /**
  * get if is ajx demand
  */
-function igk_is_ajx_demand()
-{
-    $t = igk_environment()->isAJXDemand || !(igk_get_env(IGK_ENV_NO_AJX_TEST) == 1) && (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") || (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"));
-    return $t;
+function igk_is_ajx_demand(){
+    return !(igk_get_env(IGK_ENV_NO_AJX_TEST) == 1) && (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") || (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"));
 }
 ///<summary>Represente igk_is_ajx_form_request function</summary>
 /**
@@ -20093,7 +20088,7 @@ function igk_reflection_class_exists($name)
 {
     if (!class_exists($name, false)) {
         igk_trace();
-        igk_die("class dd [{$name}] doesn't exists");
+        igk_die("class [{$name}] doesn't exists");
     }
     return $name;
 }
@@ -24346,22 +24341,6 @@ function igk_svg_use($name, $context = null)
 {
     return \IGK\System\Html\SVG\SvgRenderer::RegisterIcon($name, $context);    
 }
-///<summary>use svg callback rendering</summary>
-///<param name="o"></param>
-///<param name="options" default="null"></param>
-/**
- * use svg callback rendering
- * @param mixed $o 
- * @param mixed $options 
- */
-function igk_svg_use_callback($o, $options = null)
-{
-    if ((igk_is_ajx_demand() && !igk_get_env(__FUNCTION__)) || ($options && $options->Document)) {
-        igk_svg_render_ajx($options);
-        igk_set_env(__FUNCTION__, 1);
-    }
-    return 1;
-}
 ///<summary>create uri system pattern info</summary>
 /**
  * create uri system pattern info
@@ -24780,7 +24759,7 @@ function igk_sys_ctrl()
 function igk_sys_ctrl_type($ctrl)
 {
     $s = get_class($ctrl);
-    if (igk_reflection_class_extends($s, "ControllerTypeBase")) {
+    if ($ctrl instanceof ControllerTypeBase) {
         $t = class_parents($s);
         $ht = IGKControllerTypeManager::GetControllerTypes();
         $ht = igk_array_key_value_toggle($ht);

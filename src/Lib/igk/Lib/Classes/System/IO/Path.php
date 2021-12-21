@@ -49,7 +49,9 @@ class Path{
     private function __construct(){
         $this->prepareData();
     }
-    
+    public function getPackagesDir(){
+        return $this->package_dir;
+    }
     /**
      * 
      * @return string 

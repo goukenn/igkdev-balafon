@@ -12,14 +12,21 @@ namespace IGK\System\Html;
 
 use IGKObject;
 
+/**
+ * manage document meta
+ * @package IGK\System\Html
+ */
 final class HtmlMetaManager extends IGKObject{
     const ATTR_CONTENT="content";
+    // + | IE tools charset must be specified first
+    const META_CHARSET = 0;
     const META_AUTHOR=0x1;
     const META_CONTENT_TYPE=self::META_AUTHOR + 0x4;
     const META_COPYRIGHT=self::META_AUTHOR + 0x1;
     const META_DESC=self::META_AUTHOR + 0x2;
-    const META_GENERATOR=self::META_AUTHOR + 0x5;
     const META_KEYWORDS=self::META_AUTHOR + 0x3;
+    const META_GENERATOR=self::META_AUTHOR + 0x5;
+    const META_VIEWPORT=self::META_AUTHOR + 0x6;
     private $m_metas;
     ///<summary>ownerDoc is used to initialize data</summary>
     public function __construct(){
@@ -59,6 +66,7 @@ final class HtmlMetaManager extends IGKObject{
         $pmetas=null;
         $cnf=igk_app()->configs;
         $this->m_metas=array();
+        $this->m_metas[self::META_CHARSET]= ["charset"=>"utf-8"];
         $this->m_metas[self::META_AUTHOR]=array("name"=>"author", self::ATTR_CONTENT=>IGK_AUTHOR);
         $this->m_metas[self::META_COPYRIGHT]=array(
             "name"=>"copyright",
@@ -72,14 +80,19 @@ final class HtmlMetaManager extends IGKObject{
             "name"=>"Keywords",
             self::ATTR_CONTENT=>$cnf->meta_keywords
         );
-        $this->m_metas[self::META_CONTENT_TYPE]=array(
-            "http-equiv"=>"Content-Type",
-            self::ATTR_CONTENT=>$cnf->meta_enctype
-        );
+        // $this->m_metas[self::META_CONTENT_TYPE]=array(
+        //     "http-equiv"=>"Content-Type",
+        //     self::ATTR_CONTENT=>$cnf->meta_enctype
+        // );
         $this->m_metas[self::META_GENERATOR]=array(
             "name"=>"generator",
             self::ATTR_CONTENT=>igk_app_version()
         );
+        $this->m_metas[self::META_VIEWPORT]=array(
+            "name"=>"viewport",
+            self::ATTR_CONTENT=> "width=device-width, inital-scale=1"
+        );
+
         igk_reg_hook("html_meta", function(){
             igk_trace();
             igk_wln("render content type :::::");

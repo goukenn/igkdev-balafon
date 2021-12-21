@@ -553,7 +553,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $frame->Title=__("title.picture_1", igk_getr("name"));
         $c=$frame->BoxContent;
         $c->clearChilds();
-        $c->addDiv(array("class"=>"alignc"))->add("img", array("src"=>$this->getUri("viewpic&name=".igk_getr("name"))));
+        $c->div()->setAttributes(array("class"=>"alignc"))->add("img", array("src"=>$this->getUri("viewpic&name=".igk_getr("name"))));
         $c->addDiv()->Content="image definition";
         $frame->renderAJX();
     }

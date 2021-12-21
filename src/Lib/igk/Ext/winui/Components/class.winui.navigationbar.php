@@ -73,7 +73,7 @@ EOF;
 	public function init()
 	{
 
-$p_content = $this->TargetNode->addDiv(array("class"=>"kms-page-content" ));
+$p_content = $this->TargetNode->div()->setAttributes(array("class"=>"kms-page-content" ));
 
 $v_d =  HtmlNode::CreateWebNode("div");
 $v_d["style"] = "overflow:hidden";

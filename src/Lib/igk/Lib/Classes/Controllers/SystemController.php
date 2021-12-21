@@ -40,7 +40,7 @@ final class SystemController extends NonVisibleControllerBase{
             foreach($this->m_fontList->fonts as $k=>$v){
                 $f=igk_io_dir($this->getFontDir()."/".basename($v));
                 $uri=$this->getUri("installfont_ajx");
-                $cdiv=$div->addDiv(array(
+                $cdiv=$div->div()->setAttributes(array(
                     "style"=>"font-family: '".$k."';",
                     "class"=>"igk-list-item",
                     "igk-js-click"=>IGK_STR_EMPTY,

@@ -3,7 +3,7 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlItemBase;
-
+use IGKException;
 use ReflectionMethod;
 
 /**
@@ -185,6 +185,10 @@ class HtmlRenderer{
             }
             $options->Depth = max(0, $options->Depth -1);
         }
+
+        
+
+
         return $s;
     }
 
@@ -291,11 +295,11 @@ class HtmlRenderer{
         return rtrim($out);
     }
 
-     ///<summary></summary>
+    ///<summary>get attribute string</summary>
     ///<param name="v"></param>
     ///<param name="options"></param>
     /**
-    * 
+    * get attribute string
     * @param mixed $v
     * @param mixed $options
     */
@@ -339,7 +343,14 @@ class HtmlRenderer{
         unset($options->setnoAttribEscape);
         return "\"".$v."\"";
     }
-
+    ///<summary>get node item inner content</summary>
+    /**
+     * get node item inner content
+     * @param HtmlItemBase $item 
+     * @param mixed $options 
+     * @return string 
+     * @throws IGKException 
+     */
     public static function GetInnerHtml(HtmlItemBase $item, $options =null){
         $s = "";
         $content = $item->getContent();

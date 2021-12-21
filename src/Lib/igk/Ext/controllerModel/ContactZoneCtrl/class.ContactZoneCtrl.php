@@ -104,8 +104,8 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$t = $this->TargetNode;
 		$t->clearChilds();
 		$this->_showViewFile();
-		$t->Add("noscript", array("class"=>"hidden"))->addDiv(array("id"=>"igkdev-nocontact", "class"=>""))->Content = IGK_HTML_SPACE;
-		$c = $t->addDiv(array("class"=>"igk-page-content nowrap"));
+		$t->Add("noscript", array("class"=>"hidden"))->div()->setAttributes(array("id"=>"igkdev-nocontact", "class"=>""))->Content = IGK_HTML_SPACE;
+		$c = $t->div()->setAttributes(array("class"=>"igk-page-content nowrap"));
 		$div = $c->addDiv();
 		$div["id"]= "igk-contact-info-node";
 		$div["class"]= "igk-contact-info-node";
@@ -117,7 +117,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$frm["class"]= "igk_contact_mailform";
 		$frm->add($this->Error);
 		$this->buildContactForm($frm);
-		$frm->addDiv(array("class"=>"contact_requested_field"))->Content = R::ngets("msg.requestedfield");
+		$frm->div()->setAttributes(array("class"=>"contact_requested_field"))->Content = R::ngets("msg.requestedfield");
 		$frm->addInput("btn_send", "submit", R::ngets("btn.sendmail"));
 
 

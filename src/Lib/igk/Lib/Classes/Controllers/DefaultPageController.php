@@ -1,5 +1,5 @@
 <?php
-// @file: IGKDefaultPageController.php
+// @file: DefaultPageController.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021

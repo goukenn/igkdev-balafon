@@ -13,7 +13,8 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * 
     */
     public function __construct(){
-        parent::__construct("igk:replace-ctrl-2");
+        parent::__construct("igk:replace-ctrl");
+        $this["type"] = "controlller";
         $this->m_ctrls=array();
     }
     ///<summary></summary>

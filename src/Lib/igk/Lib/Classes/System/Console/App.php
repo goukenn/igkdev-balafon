@@ -15,20 +15,20 @@ use IGKXmlNode;
 use stdClass;
 use Throwable;
 
-igk_load_class(\IGKHtmlChildElementCollections::class);
-igk_load_class(\HtmlUtils::class);
-igk_load_class(\DbQueryDriver::class);
-igk_load_class(\IGKDataAdapter::class);
-igk_load_class(SQLDataAdapter::class); 
-igk_load_class(\IGK\System\Database\MySQL\DataAdapterBase::class);
-igk_load_class(\IGK\System\Console\AppCommand::class);
-igk_load_class(\IGK\System\Console\AppExecCommand::class);
-igk_load_class(\IGK\System\Configuration\XPathConfig::class);
-igk_load_class(\IGKDbUtility::class);
-igk_load_class(\IGK\System\Configuration\ConfigUtils::class);
-igk_load_class(\IGKCSVDataAdapter::class);
-require_once(IGK_LIB_CLASSES_DIR."/IGKXmlChilds.php");
-require_once(IGK_LIB_CLASSES_DIR."/System/Database/MySQL/Controllers/IGKMySQLDataCtrl.php");
+// igk_load_class(\IGKHtmlChildElementCollections::class);
+// igk_load_class(\HtmlUtils::class);
+// igk_load_class(\IGK\Database\DbQueryDriver::class);
+// igk_load_class(\IGKDataAdapter::class);
+// igk_load_class(\SQLDataAdapter::class ); 
+// igk_load_class(\IGK\System\Database\MySQL\DataAdapterBase::class);
+// igk_load_class(\IGK\System\Console\AppCommand::class);
+// igk_load_class(\IGK\System\Console\AppExecCommand::class);
+// igk_load_class(\IGK\System\Configuration\XPathConfig::class);
+// igk_load_class(\IGKDbUtility::class);
+// igk_load_class(\IGK\System\Configuration\ConfigUtils::class);
+// igk_load_class(\IGKCSVDataAdapter::class);
+// require_once(IGK_LIB_CLASSES_DIR."/IGKXmlChilds.php");
+// require_once(IGK_LIB_CLASSES_DIR."/System/Database/MySQL/Controllers/IGKMySQLDataCtrl.php");
  
 ///<summary>represent Balafon CLI console Application</summary>
 class App{
@@ -78,6 +78,7 @@ class App{
         if ($basePath === null){
             $basePath = getcwd();
         }
+  
         $wdir = sys_get_temp_dir()."/balafon";
         IO::CreateDir($wdir);
         igk_environment()->set("app_type", IGKAppType::balafon);
@@ -269,7 +270,7 @@ class App{
         }
         igk_loadlib(dirname(__FILE__)."/Commands");
         date_default_timezone_set('Europe/Brussels');
-        IGKApp::InitSingle(); 
+        // IGKApp::InitSingle(); 
         if (defined('IGK_DOCUMENT_ROOT'))
             igk_server()->IGK_DOCUMENT_ROOT = realpath(constant('IGK_DOCUMENT_ROOT')); 
         igk_hook("console::app_boot", $this); 

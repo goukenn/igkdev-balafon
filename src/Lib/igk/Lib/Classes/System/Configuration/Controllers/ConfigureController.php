@@ -246,7 +246,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $v_subdiv = $c->addDiv();
         foreach ($b->Childs as  $v) {
             $v_d = $v_subdiv->addDiv();
-            $t = $v_d->addDiv(array("class" => "table table-stripped config-menu-title"));
+            $t = $v_d->div()->setAttributes(array("class" => "table table-stripped config-menu-title"));
             $t->Content = $v->TagName;
         }
     }

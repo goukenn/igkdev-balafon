@@ -484,6 +484,9 @@ abstract class ControllerExtension{
             $ctrl->setParam($name, null);
         return $d;
     }
+    public static function getDisplayName(BaseController $ctrl){
+        return $ctrl->getConfigs()->get("clDisplayName", get_class($ctrl));
+    }
     private static function GetModelDefaultSourceDeclaration($name, $table, $v, $ctrl){
         $ns =  self::ns($ctrl, ""); 
         $uses = [];

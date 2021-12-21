@@ -6,6 +6,7 @@ use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
 
 class HtmlNode extends HtmlItemBase{
+    const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
     ///<summary></summary>
     ///<param name="eventObj"></param>
     ///<return refout="true"></return>
@@ -87,8 +88,7 @@ class HtmlNode extends HtmlItemBase{
      */
     public function setId($id)
     {
-        $this["id"] =
-            $this["name"] = $id;
+        $this["id"] = $this["name"] = $id;
         return $this;
     }
     public function __construct($tagname=null){

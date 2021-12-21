@@ -40,18 +40,24 @@ final class SubDomainController extends ConfigControllerBase{
     }
     ///<summary></summary>
     public function dom_add_db_domain_ajx(){
-        if(igk_qr_confirm() && igk_server()->method("POST") && igk_valid_cref(1)){
+        //igk_wln("is ajx demand ". igk_is_ajx_demand());
+        if (!igk_is_ajx_demand()){
+            $uri = igk_server()->REQUEST_URI;
+            $uri = explode("?", $uri)[0];
+            igk_navto($uri);
+        }
+        if( igk_qr_confirm() && igk_server()->method("POST") && igk_valid_cref(1)){
             $obj=igk_get_robj();
             igk_getctrl(IGK_CONF_CTRL)->setSelectedConfigCtrl($this);
             $info=["type"=>"igk-success", "msg"=>__("updated")];
             $r=0;
-            if(($r= Subdomains::createIfNotExists($obj))){
+            if( !empty($obj->clName) && ($r= Subdomains::createIfNotExists($obj))){
                 igk_notifyctrl(__FUNCTION__)->addSuccessr(__("mgs.dataupdated"));
                 $this->__init_domain();
             }
             else{
                 igk_notifyctrl(__FUNCTION__)->addErrorr("err.error_append_1", igk_debuggerview()->getMessage(). " code:".$r);
-                $info["type"]="danger";
+                $info["type"]="igk-danger";
                 $info["msg"]=__("failed to add subdomain");
             }
             if(igk_is_ajx_demand())
@@ -64,8 +70,7 @@ final class SubDomainController extends ConfigControllerBase{
             igk_ajx_replace_node($s, "#igk-cnf-content");
             igk_ajx_replace_uri(igk_io_baseuri()."/Configs/#!p=".$this->getConfigPage());
             igk_ajx_panel_dialog_close();
-            igk_resetr();
-            
+            igk_resetr(); 
         }
         $dv=igk_createnode();
         $frm=$dv->addForm();
@@ -74,8 +79,7 @@ final class SubDomainController extends ConfigControllerBase{
         igk_include_view($this, $frm, "subdomain.add.form", array("func"=>__FUNCTION__));
         $frm->addConfirm(1);
         igk_html_form_initfield($frm);
-        igk_ajx_panel_dialog(__("Add domain"), $dv);
-        igk_exit();
+        igk_ajx_panel_dialog(__("Add domain"), $dv); 
     }
     ///<summary></summary>
     public function dom_add_db_edit_domain_ajx(){
@@ -155,7 +159,7 @@ final class SubDomainController extends ConfigControllerBase{
             igk_ajx_replace_uri(igk_io_baseuri()."/Configs/#!p=".$this->getConfigPage());
             igk_ajx_toast($msg, $type);
             igk_notifyctrl()->bind($msg, $type);
-            igk_exit();
+            return;
         }
         $d = igk_createnode("div");
         $d->Content = __("remove this subdomain ? ");
@@ -182,17 +186,19 @@ final class SubDomainController extends ConfigControllerBase{
             return;
         $ad=igk_get_data_adapter($this);
         $t="success";
-        $msg["success"]=__("Table clear");
+        $table= Subdomains::table();
+        $msg["success"]=__("Table {0} cleared", $table);
         $msg["danger"]=__("Table not found");
         $e=0;
         if($ad->connect()){
-            if(!($e=$ad->clearTable($this->getDataTableName()))){
+            if(!($e=$ad->clearTable($table))){
                 $t="danger";
             }
             $ad->close();
         }
         if(igk_is_ajx_demand()){
-            igk_ajx_toast($msg[$t], $t);
+            igk_ajx_toast($msg[$t], "igk-".$t);
+            $this->_updateview(); 
         }
         else{
             $_not=igk_notifyctrl();
@@ -216,18 +222,17 @@ final class SubDomainController extends ConfigControllerBase{
             }
             else{
                 igk_notifyctrl("domain/dbz")->addErrorr("err.error_append_1", igk_debuggerview()->getMessage());
-            }
-            igk_wln("is visible : ".$this->getIsVisible());
+            } 
             $this->View();
             igk_ajx_replace_ctrl_view($this);
             igk_ajx_panel_dialog_close();
-            igk_flush_data();
-            igk_exit();
+           
         }
         else{
-            $data=igk_db_table_select_where($this->getDataTableName(), array(IGK_FD_ID=>igk_getr('i')), $this)->getRowAtIndex(0);
+            $data= Subdomains::select_single_row([IGK_FD_ID=>igk_getr('i')]);
             if($data == null){
-                return;            }
+                return;           
+            }
             $dv=igk_createnode();
             $frm=$dv->addForm();
             $frm["action"]=$this->getUri(__FUNCTION__);

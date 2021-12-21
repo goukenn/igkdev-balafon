@@ -23,46 +23,52 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
     {
         return IGKServer::IsLocal() || igk_environment()->is("DEV");
     }
+    
     ///<summary></summary>
     ///<param name="o" default="null"></param>
     protected function __AcceptRender($o=null){ 
-        if(!$this->getIsVisible() || !$o || !$o->Document){
-            return false;
-        }
-        $key=".@".get_class($this)."/rendered";
-        if(isset($o->{$key}) && $o->{$key}){
-            return false;
-        }
-        $o->{$key}=1;
-        if(igk_xml_is_mailoptions($o) || igk_xml_is_cachingrequired($o))
-            return false;
-        $this->clearChilds();
-        $v=$this->__buildview();
-        $t=$this;
-        $t->addNodeCallback("mem_usage", function($t){
-            return $t->memoryusageinfo();
-        });
-        $t->addJSReadyScript('igk.ctrl.sessionblock.init');
+        return true;
+
+        // if(!$this->getIsVisible() || !$o || !$o->Document){
+        //     return false;
+        // }
+        // $key=".@".get_class($this)."/rendered";
+        // if(isset($o->{$key}) && $o->{$key}){
+        //     return false;
+        // }
+        // $o->{$key}=1;
+        // if(igk_xml_is_mailoptions($o) || igk_xml_is_cachingrequired($o))
+        //     return false;
+        // $this->clearChilds();
+
+
+
+        // $v=$this->__buildview();
+        // $t=$this;
+        // $t->addNodeCallback("mem_usage", function($t){
+        //     return $t->memoryusageinfo();
+        // });
+        // $t->addJSReadyScript('igk.ctrl.sessionblock.init');
         return true;
     }
     ///<summary></summary>
-    private function __buildview(){
-        $cnf_=igk_getctrl(IGK_CONF_CTRL);
-        $t=$this;
-        $t->addObData(function() use ($t, $cnf_){
+    private function __buildview($t){
+        $t->addObData(function(){
+            $cnf_=igk_getctrl(IGK_CONF_CTRL);
             $cnf_view=igk_is_conf_connected();
-            // igk_google_addfont(igk_app()->doc, "Roboto");
             $_owner=igk_getctrl(IGK_SESSION_CTRL);
+            $t = igk_createnode("div");
             $t["class"]="debugzone igk-session-block google-Roboto";
             $t->setIndex(10000);
             $d=igk_createnode("div");
+        
+
             $d->addSectionTitle(4)->Content=__("Debug Panel");
             $ul=$d->add("ul");
             $ul->setClass("debug-panel google-Roboto");
             $v_btn_class="btn btn-default igk-btn igk-btn-default";
             if(!igk_get_env("sys://error")){
-                $ul["class"]="btn-group action-group";
-                $ul["style"]="max-width: 300px";
+                $ul["class"]="btn-group action-group"; 
                 $ul->addLi()->add("a", array("href"=>$_owner->getUri("forceview")))->setClass($v_btn_class)->Content=__("ForceView");
                 $ul->addLi()->addAClearSAndReload()->clearClass()->setClass($v_btn_class)->Content=__("ClearSession");
                 if(igk_server_is_local() && ($sess_ctrl=igk_getctrl(IGK_SESSION_CTRL, false))){
@@ -143,13 +149,17 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 }
                 $t->addDiv()->setClass("igk-cleartab");
             }
-            $d->renderAJX();
+            echo $d->render();
         }
         , IGK_HTML_NOTAG_ELEMENT);
     }
+    private $callback_mem;
     ///<summary></summary>
     public function __construct(SessionController $controller){
         parent::__construct($controller, "div");
+        $this->callback_mem = $this->addNodeCallback("mem_usage", function($t){
+            return $t->memoryusageinfo();
+        });
     }
     ///<summary></summary>
     public function onAppExit(){
@@ -158,5 +168,18 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $this->renderAJX();
             $app->Session->{"modeview"}=null;
         }
+    }
+
+    protected function __getRenderingChildren($options = null)
+    { 
+        // $v = parent::__getRenderingChildren();
+        $n = new HtmlNode("div");
+        $this->__buildview($n);
+        $v =[
+            $n,
+            $this->callback_mem,
+            igk_html_node_jsreadyscript('igk.ctrl.sessionblock.init'),
+        ];  
+        return $v;
     }
 }
