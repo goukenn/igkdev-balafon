@@ -85,7 +85,7 @@ if ($d)
 {
 	foreach($d as $k)
 	{
-	   $s =  $k->innerHTML;
+	   $s =  $k->getInnerHtml();
 	   $uri = $k["uri"];
 	   $k->clearChilds();
 	   //$k->Add("a", array("href"=>$this->getUri("navigate&n=".base64_encode($s))))->Content = $s;

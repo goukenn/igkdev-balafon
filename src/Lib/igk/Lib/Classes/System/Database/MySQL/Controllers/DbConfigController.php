@@ -649,6 +649,7 @@ final class DbConfigController extends ConfigControllerBase {
         $pan=$zdiv->addPanelBox();
         $pan->h3()->Content = __("Mysql Database Configuration");
         $pan->div()->p()->article(null, "help/mysql.db.config.help");
+ 
 
         $frm=$pan->addForm();
         $frm->setStyle("max-width:300px;");

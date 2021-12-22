@@ -20,8 +20,7 @@ abstract class AppExecCommand extends AppCommand{
                     Logger::print("\n");
                     return $h;
                 }
-                DbCommand::Init($command);
-                igk_hook("init_app", [IGKControllerManagerObject::getInstance()]);
+                DbCommand::Init($command); 
                 $fc = $this->handle;
                 $args = func_get_args();
                 return $fc(...$args);

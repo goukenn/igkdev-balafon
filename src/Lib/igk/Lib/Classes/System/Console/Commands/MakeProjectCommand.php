@@ -10,17 +10,18 @@
 
 ///<summary>Represente namespace: IGK\System\Console\Commands</summary>
 namespace IGK\System\Console\Commands;
-
-use \ApplicationController;
+ 
+use IGK\Controllers\ControllerInitListener;
 use \IGKControllerManagerObject;
-use IGK\System\Console\App;
-use IGK\System\Console\AppCommand;
+use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\SchemaBuilder;
-use IGK\System\IO\File\PHPScriptBuilder;
-use IGKCtrlInitListener;
+use IGK\System\IO\File\PHPScriptBuilder; 
 use IGK\Helper\IO as IGKIO;
+use IGK\Helper\IO;
+
+use function igk_resources_gets as __;
 use stdClass;
 ///<summary>Represente class: MakeProjectCommand</summary>
 class MakeProjectCommand extends AppExecCommand{
@@ -43,9 +44,13 @@ class MakeProjectCommand extends AppExecCommand{
             Logger::danger("Create Project in temporary folder is not allowed. please setup your environment");
             return false;
         }
-        Logger::info("make project ...".$name);
+        $dir = igk_io_projectdir()."/".$name;
+        Logger::info(__("Make project ... {0} ", igk_io_projectdir()."/".$name));
+     
+        // IO::RmDir($dir); 
+        
         $author=$command->app->getConfigs()->get("author", IGK_AUTHOR);
-        $type=igk_getv($command->options, "--type", ApplicationController::class);
+        $type=igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
         $e_ns=igk_getv($command->options, "--entryNamespace", null);
         $desc=igk_getv($command->options, "--desc", null);
         $configs=igk_getv($command->options, "--configs", null);
@@ -54,7 +59,7 @@ class MakeProjectCommand extends AppExecCommand{
         $pname=basename(igk_io_dir($ns));
         $clname=ucfirst($pname)."Controller";
         $dir=igk_io_projectdir()."/{$pname}";
-        igk_init_controller(new IGKCtrlInitListener($dir, 'appsystem'));
+        igk_init_controller(new ControllerInitListener($dir, 'appsystem'));
         $defs="";
         if(!empty($e_ns)){
             $e_ns=str_replace("\\\\", "\\", igk_str_ns($e_ns));
@@ -151,9 +156,8 @@ EOF;
                 $c($n, $command);
             }
         }
-        register_shutdown_function(function(){
-            IGKControllerManagerObject::ClearCache(null, true);
-        });
+    
+        IGKControllerManagerObject::ClearCache(null, true);
         Logger::info("output: ".$dir);
         Logger::success("done\n");
     }

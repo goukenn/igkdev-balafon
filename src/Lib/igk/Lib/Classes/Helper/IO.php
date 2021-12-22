@@ -3,6 +3,7 @@ namespace IGK\Helper;
 
 use Exception;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\Resources\R;
 use IGK\System\IO\FileWriter;
 use IGKException;
 
@@ -13,6 +14,29 @@ use function igk_resources_gets as __;
  * @package IGK\Helper
  */
 class IO{
+    
+    public static function GetArticleInDir($dir, $name){
+        if ($dir == null) {
+            $dir = IGK_LIB_DIR . "/" . IGK_ARTICLES_FOLDER;
+        }
+        $f = $dir . "/" . $name;
+        if (file_exists($f))
+            return $f;
+        $s = IGK_ARTICLE_TEMPLATE_REGEX;
+        if (preg_match($s, $name)) {
+            return igk_io_dir($dir . "/" . $name);
+        }
+        $lang = R::GetCurrentLang();
+        foreach (["." . $lang, ""] as $lg) {
+            foreach (["phtml", 'html'] as $v) {
+                $f = igk_io_dir($dir . "/{$name}{$lg}.{$v}");
+                if (file_exists($f))
+                    return $f;
+            }
+        }
+        $ext = igk_get_article_ext();
+        return igk_io_dir($dir . "/" . $name . $ext);
+    }
     /**
      * collapse string path
      * @param mixed $str 

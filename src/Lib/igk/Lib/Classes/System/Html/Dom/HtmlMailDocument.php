@@ -86,7 +86,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $s=new HtmlStyleNode();        
         $s->Content=$this->m_theme->get_css_def(true);
         if($this->m_doc != null){
-            $out .= "<head>".$this->m_doc->head->innerHTML($options);
+            $out .= "<head>".$this->m_doc->head->getInnerHtml()($options);
             $out .= $s->render($options)."</head>";
             $out .= $this->m_doc->body->render($options);
         }
@@ -122,7 +122,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $s .= "<html ";
         $s .= trim($this->getAttributeString($p));
         $s .= ">";
-        $s .= $this->innerHTML($p);
+        $s .= $this->getInnerHtml()($p);
         $s .= "</html>";
         return $s;
     }

@@ -106,9 +106,8 @@ class IGKApplicationLoader
     {
         if (is_string($classnames)) {
             $classnames = [$classnames];
-        }
-        $path = self::getInstance()->path;
-        return self::_TryLoadClasses($classnames, $path->getClassDir(), true);
+        }        
+        return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, true);
     }
 
     private static function _TryLoadClasses(array $classnames, $path, $throw = false)
@@ -117,7 +116,7 @@ class IGKApplicationLoader
         list($major, $minor) = explode(".", PHP_VERSION);
         $resolv_class =  [$major . "." . $minor, $major, ""];
         $cdir = $path;
-        $is_core  = self::getInstance()->path->getClassDir() == $path;
+        $is_core  = IGK_LIB_CLASSES_DIR == $path;
         $result = true;
         while ($result &&  ($classname = array_shift($classnames)) !== null) {
             // echo "load : ".$classname."<br />\n";
@@ -172,6 +171,16 @@ class IGKApplicationLoader
     {
         // + protect w
         $srv = IGKServer::getInstance();
+        // + | Initialize environment 
+        self::$sm_instance =  new self();
+        $v_loader = self::$sm_instance;
+        
+        spl_autoload_register([$v_loader, '_auto_load']);
+
+        $app = IGKApplicationFactory::Create($type);
+
+        $app->bootstrap();
+
         $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
         // -----------------------------------------------------------------------
         // + mandatory constants
@@ -201,14 +210,10 @@ class IGKApplicationLoader
         if (defined('IGK_SESS_DIR') && IO::CreateDir(IGK_SESS_DIR)) {
             ini_set("session.save_path", IGK_SESS_DIR);
         }
-        // + | Initialize environment 
-        self::$sm_instance =  new self();
-        $v_loader = self::$sm_instance;
+    
         $v_loader->path = IGKPath::getInstance();
-        spl_autoload_register([$v_loader, '_auto_load']);
 
         $package_dir = $v_loader->path->getPackagesDir();
-
         /**
          * allow auto loading 
          */
@@ -375,7 +380,7 @@ class IGKApplicationLoader
 
         // class_alias(IGK\System\Html\Dom\IGKHtmlDiv::class, "IGKHtmlDiv");
         // create application depending of application type 
-        $app = IGKApplicationFactory::Create($type);
+       
 
         // $app->libary('session');
         // $app->libary('mysql');

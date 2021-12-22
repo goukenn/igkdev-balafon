@@ -771,7 +771,7 @@ EOF;
             $c->_[$n]=$this->getName();
         }
         else{
-            igk_assert_die(!igk_get_env("sys://reloadingCtrl"), "Application identifier is not valid or already register. #".$n);
+            igk_assert_die(!igk_get_env("sys://reloadingCtrl"), "Application identifier is not valid or already register. [".$n."]");
         }
         $this->register_action();
         if(!isset(self::$INIT)){

@@ -13,7 +13,7 @@ abstract class IGKApplicationFactory{
     /**
      * create Application
      * @param string $type 
-     * @return null|object 
+     * @return null|object|IIGKApplication 
      */
     public static function Create(string $type){
         if (isset(self::$sm_factory[$type])){

@@ -743,7 +743,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     public function getCurrentView()
     {
-        return $this->getFlag(self::CURRENT_VIEW, IGK_DEFAULT_VIEW);
+        return $this->getEnvParam(self::CURRENT_VIEW, IGK_DEFAULT_VIEW);
     }
     ///<summary>set the current view</summary>
     ///<param name="options">extra option to pass to view</param>
@@ -756,7 +756,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
         $cview = $this->getCurrentView();
         if ($cview != $view) {
-            $this->setFlag(self::CURRENT_VIEW, $view);
+            $this->setEnvParam(self::CURRENT_VIEW, $view);
         }
 
         if ($reload) {

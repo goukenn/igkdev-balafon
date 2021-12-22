@@ -21,7 +21,7 @@ class IGKWinUI_framebox extends HtmlNode
 		$out .="<div ";
 		$out .= $this->getAttributeString();
 		$out .= ">";
-		$out .= $this->innerHTML($options);
+		$out .= $this->getInnerHtml()($options);
 		$this->m_script =  HtmlNode::CreateWebNode("script");
 		$this->m_script->Content = "igk.winui.framebox.initSingle(igk.getParentScript(), ".(($this->closeUri)?"'". $this->closeUri. "'":'null'). ");";
 		$out .= $this->m_script->render($options);

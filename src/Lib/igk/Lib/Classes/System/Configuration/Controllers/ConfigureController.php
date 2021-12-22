@@ -100,7 +100,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         $bbox->clearChilds();
         switch ($app->CurrentPageFolder) {
             case IGK_CONFIG_PAGEFOLDER:
-                $app->Doc->body["class"] = "-igk-client-page +igk-cnf-body +google-Roboto";
+                $s = "-igk-client-page +igk-cnf-body +google-Roboto";
+                if (igk_is_conf_connected())
+                    $s.= " +dashboard";
+                $app->Doc->body["class"] = ""; //$s;
                 break;
             default:
                 $app->Doc->body["class"] = "+igk-client-page -igk-cnf-body -google-Roboto";
@@ -1387,7 +1390,7 @@ EOF;
                     $head = igk_getv($t->getElementsByTagName("head"), 0);
                     $body = igk_getv($t->getElementsByTagName("body"), 0);
                     $tl = igk_getv($head->getElementsByTagName("title"), 0);
-                    $d->addDiv()->setClass("fcl-blue igk-title-5")->Content = $tl ? $tl->innerHTML : "NoTitle";
+                    $d->addDiv()->setClass("fcl-blue igk-title-5")->Content = $tl ? $tl->getInnerHtml() : "NoTitle";
                     $dv = $d->addDiv();
                     if ($body) {
                         $dv->Content = igk_html_render_text_node($body);
@@ -1805,7 +1808,11 @@ EOF;
 
             switch ($app->CurrentPageFolder) {
                 case IGK_CONFIG_MODE:
-                    $app->getDoc()->getBody()["class"] = "-igk-client-page +igk-cnf-body +google-Roboto";
+                    $s = "-igk-client-page +igk-cnf-body +google-Roboto";
+                    if (igk_is_conf_connected()){
+                        $s .=" dashboard";
+                    }
+                    $app->getDoc()->getBody()->setClass($s);
                     $bbox->add($t);
                     break;
                 default:

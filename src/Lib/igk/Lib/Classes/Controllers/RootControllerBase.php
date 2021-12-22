@@ -3,6 +3,7 @@
 namespace IGK\Controllers;
 
 use Closure;
+use IGK\Helper\IO;
 use IGKApp;
 use IGKObject;
 use IGKType;
@@ -210,8 +211,8 @@ abstract class RootControllerBase extends IGKObject{
     * @param mixed $name
     * @param mixed $dir
     */
-    public function getArticleInDir($name, $dir){
-        return igk_io_get_article($name, $dir);
+    public function getArticleInDir($name, $dir){        
+        return IO::GetArticleInDir($dir, $name); 
     }
     ///<summary></summary>
     /**

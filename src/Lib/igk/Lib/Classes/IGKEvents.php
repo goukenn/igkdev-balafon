@@ -10,6 +10,7 @@ class IGKEvents extends IGKObject
     const HOOK_SESS_START = "sys_session_start";
     const HOOK_APP_PRESENTATION = 0xa01;
     const HOOK_INIT_APP = "init_app";
+    const HOOK_BEFORE_INIT_APP = "before_init_app";
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
     const HOOK_CSS_REG = "css_class_reg";
     const HOOK_DB_DATA_ENTRY = "db_dataentry";

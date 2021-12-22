@@ -16,6 +16,7 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
      * @var array
      */
     protected $m_data = [];
+    // protected $preserveKey = false;
     private $m_iterator;
 
     public function current() { 
@@ -27,7 +28,7 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
     }
 
     public function key() { 
-        return $this->m_iterator->valid();
+        return $this->m_iterator->key();
     }
 
     public function valid(): bool { 

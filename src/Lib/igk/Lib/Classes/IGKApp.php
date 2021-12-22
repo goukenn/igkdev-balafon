@@ -191,10 +191,10 @@ class IGKApp extends IGKObject
      * @return void 
      */
     public static function StartEngine(IGKApplicationBase $app, $render = 1)
-    {
-        //
-        // init environment
-        //
+    {       
+        // | --------------------------------------------------------------
+        // | init environment
+        // |
         IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());
 
         // igk_wln_e(get_included_files(), "duddration ". igk_sys_request_time());
@@ -203,14 +203,15 @@ class IGKApp extends IGKObject
         self::$sm_instance->m_application = $app;
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);
 
-        // + initialize library
-        $app->libary("session");
-        $app->libary("mysql");
-        $app->libary("zip");
-        $app->libary("gd");
+        igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::$sm_instance]);
 
         // + | init session data
         $v_setting_info = null;
+
+        if ($app->lib("subdomain")){
+            // | init subdomain management
+            IGKSubDomainManager::Init();
+        } 
         if ($app->lib("session")) {
             $v_setting_info = igk_create_session_instance("igk", function(){
                 return call_user_func_array([self::$sm_instance, 'createAppInfo'], []);
@@ -220,13 +221,10 @@ class IGKApp extends IGKObject
         }
         self::$sm_instance->m_settings = new IGKAppSetting($v_setting_info);      
      
-        // + |
+        // + |--------------------------------------------------------------
         // + | INIT CONTROLLER LIST
-        // + | HOOK application initilize
-        // + |
-        igk_hook(IGKEvents::HOOK_INIT_APP, [self::$sm_instance]);
-
-       
+        // + | HOOK application initilize 
+        igk_hook(IGKEvents::HOOK_INIT_APP, [self::$sm_instance]);       
     }
 
     /**

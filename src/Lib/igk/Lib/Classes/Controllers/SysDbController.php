@@ -38,6 +38,10 @@ final class SysDbController extends NonVisibleControllerBase{
     public function getClassesDir(){
         return IGK_LIB_CLASSES_DIR;
     }
+    public function getArticlesDir()
+    { 
+        return IGK_LIB_DIR."/".IGK_ARTICLES_FOLDER;
+    }
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="cardinality"></param>

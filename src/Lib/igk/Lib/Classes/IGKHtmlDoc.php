@@ -232,7 +232,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     */
     protected function setup_document(){
         $this->_initThemes();
-        $this->m_body["class"]="igk-body +igk-setup"; 
+        $this->m_body["class"]="igk-body"; 
     }
 
     public function render($options = null){

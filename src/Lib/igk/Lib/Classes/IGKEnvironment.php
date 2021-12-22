@@ -12,7 +12,7 @@ require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
 * @property string $subdomainctrl current subdomain controller
 * @property string $basectrl base controller
 */
-final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAccess{
+final class IGKEnvironment extends IGKEnvironmentConstants{
     private static $sm_instance;
     /**
      * environment properties
@@ -25,23 +25,19 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAcce
         "TST"=>"testing",
         "ACC"=>"acceptance",
         "OPS"=>"production"
-    ];
-
-    // | define environment reserver key constant
-    const INIT_APP = 'INIT_APP';
-    const DEBUG = 'DEBUG';
-    const CTRL_CONTEXT_SOURCE_VIEW_ARGS=self::CURRENT_CTRL + 2;
-    const CTRL_CONTEXT_VIEW_ARGS=self::CURRENT_CTRL + 1;
-    const CURRENT_CTRL=0xE0;
-    const VIEW_CURRENT_ACTION=self::CURRENT_CTRL+3;
-    const VIEW_HANDLE_ACTIONS=self::CURRENT_CTRL+4;
-    const VIEW_INC_VIEW= self::CURRENT_CTRL+5;
-    const VIEW_CURRENT_VIEW_NAME= self::CURRENT_CTRL+6;
-    const IGNORE_LIB_DIR = "sys://lib/ignoredir";
-    const AUTO_LOAD_CLASS = "auto_load_class";
-
+    ]; 
+    
     public function getEnvironments(){
         return $this->m_envs;
+    }
+    public function peek($n){
+       
+        $tab = $this->get($n);
+        if (is_array($tab) && (($c = igk_count($tab)) > 0)) {
+            $r = $tab[$c - 1];
+            return $r;
+        }
+        return null;
     }
     /**
      * init this environment with a callable
@@ -104,7 +100,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAcce
     * get environment basedirectory
     */
    public function setLogFile($logfile){
-        $this->OffsetSet("basedir", $logfile);
+        $this->set("logfile", $logfile);
         return $this;
    }
 
@@ -187,7 +183,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAcce
         if (method_exists($this, $fc = "set".$n)){
             $this->$fc($v);            
         } else{
-            $this->OffsetSet($n, $v);
+            $this->set($n, $v);
         }
 		return $this;
     }
@@ -219,8 +215,15 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAcce
             }
         }
         if ($t===null)
+        {
+            if (($default !== null) && igk_is_callable($default)) {
+                if (($m = call_user_func_array($default, array()))!== null){
+                    $this->m_envs[$var] = $m;
+                    return $m;
+                }
+            }
             $t = $default;
-    
+        }
 		return $t;
     }
     ///<summary>create a environment class </summary>
@@ -293,14 +296,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAcce
     */
     public function name(){
         return igk_server()->ENVIRONMENT;
-    }
-
-    use \IGK\System\Polyfill\ArrayAccessSelfTrait; 
-
+    } 
     ///<summary></summary>
     ///<param name="i"></param>
-    /**
-    * 
+    /** 
     * @param mixed $i
     */
     protected function _access_offsetExists($i):bool{
@@ -422,10 +421,12 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements \ArrayAcce
      * @return void 
      */
     public function pop($key){
+        $o = null;
         if (is_array($c = $this->get($key))){
-            array_pop($c);
+            $o = array_pop($c);
             $this->set($key, $c);
         }
+        return $o;
     }
     /**
      * get the last environment storage

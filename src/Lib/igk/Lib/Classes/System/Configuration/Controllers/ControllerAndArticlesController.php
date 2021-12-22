@@ -714,7 +714,7 @@ EOF;
         $this->m_selectedLang=igk_getr("n");
         $div=igk_createnode("div");
         $this->_buildViewArticle($div, $ctrl);
-        igk_wl($div->innerHTML);
+        igk_wl($div->getInnerHtml());
     }
     ///<summary></summary>
     public function ca_ctrl_drop(){

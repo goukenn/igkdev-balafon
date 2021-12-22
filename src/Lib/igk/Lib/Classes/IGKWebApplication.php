@@ -343,10 +343,15 @@ require_once(IGK_LIB_CLASSES_DIR . '/System/Html/SVG/SvgRenderer.php');
             HtmlRenderer::RenderDocument(igk_app()->getDoc());
         }
     }
-
-
-    public function render_default_uri()
+    public function bootstrap()
     {
-        igk_wln("render default ");
+        // bootstrap web application
+         // + initialize library
+         $this->library("session");
+         $this->library("mysql");
+         $this->library("zip");
+         $this->library("gd");
+         $this->library("subdomain");
     }
+ 
 }

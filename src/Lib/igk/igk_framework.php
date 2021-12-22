@@ -11,4 +11,8 @@ require_once IGK_LIB_DIR."/igk_functions.php";
 require_once IGK_LIB_CLASSES_DIR."/IGKApplicationLoader.php";  
 require_once IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php";  
 require_once IGK_LIB_CLASSES_DIR."/IGKApplication.php";  
+require_once IGK_LIB_CLASSES_DIR."/IGKEnvironment.php";  
+require_once IGK_LIB_CLASSES_DIR."/IGKServer.php";  
+require_once IGK_LIB_CLASSES_DIR."/IGKAppContext.php";  
+require_once IGK_LIB_CLASSES_DIR."/IGKAppType.php";  
  

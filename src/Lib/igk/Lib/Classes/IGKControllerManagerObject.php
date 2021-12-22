@@ -447,11 +447,12 @@ final class IGKControllerManagerObject extends IGKObject {
         } 
         return $out;
     }
-    ///<summary>init all controller</summary>
+    ///<summary>init all controllers</summary>
     /**
-    * init all controller
+    * init all controllers
+    * @param IGKApp application controller
     */
-    private function InitControllers($apps/*, $init_app_callback=null*/){
+    private function InitControllers(IGKApp $app){
         if (func_num_args()>1){
             igk_die("init controller with extra argument not allowed");
         }
@@ -459,8 +460,10 @@ final class IGKControllerManagerObject extends IGKObject {
             /// TODO: avoid init controller twice
             /// case in bafon command --project:list
             ///
-            igk_wln_e(__METHOD__, "Int countroller twice : only allowed one. ");
+            igk_wln(__METHOD__, "Int countroller twice : only allowed one. ");
         }
+        $initialize_all = $app->getConfigs()->init_all_controller;
+
         $_init_callback=function() {
             // + | hook global controller init complete
             igk_hook(IGKEvents::HOOK_CONTROLLER_INIT_COMPLETE, [$this]);
@@ -483,39 +486,28 @@ final class IGKControllerManagerObject extends IGKObject {
         $fc=self::FileCtrlCache();
         if(!$no_cache){
             // $sf = ['IGKMySQLDataCtrl'=> \IGK\System\Database\MySQL\IGKMySQLDataCtrl::class];
-            if(0 && file_exists($fc)){
+            if(file_exists($fc)){
                 // igk_ilog("load controller from cache: ".$fc);
                 $caches = include($fc);
+                $resolvCtrl = & self::GetResolvController();
+                // igk_wln_e("load from cache", $caches, $resolvCtrl);
                 foreach($caches as $m){
-                    $d = explode("|", $m);
-                    $g = trim($d[0]);
-                    if (empty($g))continue;
- 
-                    $v_ctrl = new $g();
-                    $this->registerController($v_ctrl, true);   
-                }
-                // foreach(explode(IGK_LF, igk_io_read_allfile($fc)) as $k){
-            
-                //     $g=trim($k);
-                //     if(empty($g))
-                //         continue;
-                //     list($n, $rn) = explode("|", $g);
-                //     if (isset($sf[$n])){
-                //         $n = $sf[$n];
-                //     }
-                //     if(class_exists($n, false)){
-                //         //if (!IGKSysDbController::Initialized($n)){
-                //             $v_ctrl = new $n();
-                //             $this->registerController($v_ctrl, true);   
-                //        // }
-                //     } else {
-                //         throw new IGKException("Failed to load : ".$n. ": ".$rn);
-                //     }
-                // } 
-                $sysload=true;
+                    $d = array_filter(explode("|", $m));
+                    $cl = trim($d[0]);
+                    if (empty($cl))
+                        continue;
+                        
+                    $reg_name = trim($d[1]);
+                    $reg_cname = trim($d[2]); 
+                    $resolvCtrl[$reg_cname] = $cl;
+                    if (1 || $initialize_all){
+                        $v_ctrl = new $cl();
+                        $this->registerController($v_ctrl, true);   
+                    }
+                }                 
+                $sysload=true; 
             }
-        }
-        
+        }       
 
         if(!$sysload){
             $sfc="GetCanCreateFrameworkInstance";
@@ -552,9 +544,7 @@ final class IGKControllerManagerObject extends IGKObject {
                igk_io_w2file($fc, PHPScriptBuilderUtility::GetArrayReturn($m, $fc), true);
             }
         }
-        $_init_callback();
-        // $ctrls = $this->getControllers();
-        // igk_wln_e(__FILE__.":".__LINE__,  $ctrls);
+        $_init_callback(); 
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
@@ -1024,7 +1014,7 @@ final class IGKControllerManagerObject extends IGKObject {
      * get .controller.pinc registrated
      * @return mixed 
      */
-    public static function GetResolvController(){
+    public static function & GetResolvController(){
         static $resolv_ctrl;
         if ($resolv_ctrl === null){
             $resolv_ctrl = include(IGK_LIB_DIR."/.controller.pinc");

@@ -1,8 +1,11 @@
 <?php
 
+use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlComponentNode;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\HtmlNodeType;
+use IGK\System\Html\HtmlReader;
 
 function igk_hpane_get_dir_uri($f){
 	return igk_html_uri(igk_io_baseRelativePath(dirname($f)));
@@ -456,10 +459,10 @@ final class IGKHTMLHorizontalPaneItem extends HtmlNode
 			foreach($d->Childs as $k)
 			{
 
-				if ($k->Type == "HtmlText")
+				if ($k->getType() == HtmlNodeType::Text )
 				continue;
 				$r = $k->TagName;
-				$this->Pane->$r = trim($k->innerHTML);
+				$this->Pane->$r = trim($k->getInnerHtml());
 			}
 		}
 	}
@@ -543,7 +546,7 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 		foreach($data->getElementsByTagName("page") as $e){
 			$file = $e["file"]; 
 			$p = $this->addPage();
-			igk_html_bind_target(null, $p, $e->innerHtml(), (object)array("file"=>$file));
+			igk_html_bind_target(null, $p, $e->getInnerHtml()(), (object)array("file"=>$file));
 			$p->setFile($file);
  
 			if (IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER)){

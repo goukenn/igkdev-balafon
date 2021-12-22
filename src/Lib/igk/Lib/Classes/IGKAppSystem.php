@@ -35,9 +35,7 @@ class IGKAppSystem{
                 $t_files= self::_LoadEnvFiles(); 
                 igk_reglib($t_files);
                 IGKSysCache::CacheLibFiles(true); 
-            }
-            
-            IGKSubDomainManager::Init();
+            }             
             !defined('IGK_INIT') && define('IGK_INIT', 1);
             return;
         }
@@ -115,8 +113,7 @@ class IGKAppSystem{
         closedir($hdir);
         umask($old);
         igk_raise_initenv_callback();
-        igk_environment()->set(IGKEnvironment::INIT_APP, null);
-        IGKSubDomainManager::Init();
+        igk_environment()->set(IGKEnvironment::INIT_APP, null); 
     }
     private static function _LoadEnvFiles(){
         return igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", "SysMods", igk_io_projectdir()));

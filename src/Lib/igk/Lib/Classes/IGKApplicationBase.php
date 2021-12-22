@@ -28,7 +28,7 @@ abstract class IGKApplicationBase{
      * @param mixed $libname 
      * @return void 
      */
-    public function libary($libname)
+    protected function library($libname)
     {
         if ($this->m_library == null){
             $this->m_library = new stdClass();
@@ -47,18 +47,19 @@ abstract class IGKApplicationBase{
         }
         return $c;
     }
+    /**
+     * check the library loading
+     * @param mixed $libname 
+     * @return bool 
+     */
     public function lib($libname):bool{
         return isset($this->lib[$libname]);
     }
     /**
-     * 
-     * @param string $type 
-     * @return IGKApplicationBase application 
+     * initialize application environment
+     * @return mixed 
      */
-    public static function Boot(string $type="web"){
-        $app = IGKApplicationLoader::Boot($type);
-        return $app;
-    }
+    abstract function bootstrap();
     /**
      * run application
      * @param string $entryfile 

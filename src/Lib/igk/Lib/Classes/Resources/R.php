@@ -373,7 +373,7 @@ EOF;
             $tab=$h->getElementsByTagName("string");
             foreach($tab as  $v){
                 $n=strtolower($v["name"]);
-                $r=trim($v->innerHTML);
+                $r=trim($v->getInnerHtml());
                 if(!empty($n) && ($override || !isset($g->langRes[$n]))){
                     $g->langRes[$n]=$r;
                 }

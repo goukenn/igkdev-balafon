@@ -113,7 +113,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
                         continue;
                     }  
                     if($k->ChildCount<=0){
-                        $t->{$k->TagName}=$k->innerHTML;
+                        $t->{$k->TagName}=$k->getInnerHtml();
                     }
                     else{
                         $v_ob=igk_createobj();

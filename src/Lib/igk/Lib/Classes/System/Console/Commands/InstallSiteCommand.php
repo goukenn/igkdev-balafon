@@ -8,7 +8,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Installers\InstallSite;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKCtrlInitListener;
+use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use \IGKControllerManagerObject;

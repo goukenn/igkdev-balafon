@@ -70,10 +70,12 @@ class App{
     /**
      * run application command line
      * @param array $command default commands
+     * @param string $basePath base path
+     * @param XPathConfig $configs loaded configuration
      * @return void 
      * @throws Exception 
      */
-    public static function Run($command=[], $basePath=null){ 
+    public static function Run($command=[], string $basePath=null, XPathConfig $configs=null){ 
         $app = (new static);
         if ($basePath === null){
             $basePath = getcwd();
@@ -84,10 +86,10 @@ class App{
         igk_environment()->set("app_type", IGKAppType::balafon);
         igk_environment()->set("workingdir", $wdir); 
         $app->basePath = $basePath;
-        Logger::SetLogger(new ConsoleLogger($app));
-
-        
+        $app->configs = $configs;
+        Logger::SetLogger(new ConsoleLogger($app));        
         $app->boot();
+
         $command_args = AppCommand::GetCommands();
 
         if ($command_args){ 
@@ -230,49 +232,7 @@ class App{
         if ($show_help)
         $app->showHelp(); 
     }
-    protected function boot(){
-        define('IGK_FRAMEWORK_ATOMIC', 1); 
-        $wd = null;
-        $bdir = $this->basePath;
-    
-        if (file_exists($configFile = $bdir."/balafon.config.xml")){
-            $c = igk_conf_load_file($configFile, "balafon");
-            $this->configs= new XPathConfig($c); 
-            $this->print_debug("configuration loaded: ".$configFile);    
-            $c = $this->configs->get("env");         
-           
-            if ($c){
-                if (!is_array($c))
-                    $c = [$c];
-            
-                foreach($c as $env){ 
-                    defined($env->name) || define($env->name, 
-                    preg_match("/_DIR$/", $env->name)? realpath($env->value) : 
-                        $env->value
-                    ); 
-                }    
-            }         
-        }else{
-            $this->configs = new XPathConfig((object)[]);
-            $this->configs->isTemp = true;
-            $wd = igk_environment()->get("workingdir", getcwd());
-            register_shutdown_function(function()use($wd){
-                if (strstr($wd, sys_get_temp_dir())){
-                    IO::RmDir($wd); 
-                }
-            });
-        }
-        defined('IGK_APP_DIR') || define("IGK_APP_DIR", $wd);
-        defined('IGK_BASE_DIR') || define("IGK_BASE_DIR",$wd);
-        // setup the log folder
-        if (!defined('IGK_LOG_FILE') && ($logFolder  = $this->getLogFolder())){
-            define('IGK_LOG_FILE', $logFolder."/.".IGK_TODAY.".cons.log");
-        }
-        igk_loadlib(dirname(__FILE__)."/Commands");
-        date_default_timezone_set('Europe/Brussels');
-        // IGKApp::InitSingle(); 
-        if (defined('IGK_DOCUMENT_ROOT'))
-            igk_server()->IGK_DOCUMENT_ROOT = realpath(constant('IGK_DOCUMENT_ROOT')); 
+    protected function boot(){       
         igk_hook("console::app_boot", $this); 
     }
     public function print(...$text){

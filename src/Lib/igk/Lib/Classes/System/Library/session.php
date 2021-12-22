@@ -3,6 +3,7 @@
 namespace IGK\System\Library;
 
 use IGK\Helper\IO;
+use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
 
@@ -11,7 +12,9 @@ class session extends \IGKLibraryBase{
     public function init():bool{
         // initialize function
         require_once IGK_LIB_CLASSES_DIR ."/IGKSessionFileSaveHandler.php";
-        $this->start();
+        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
+            $this->start();
+        }); 
         return true;
     }
     /**

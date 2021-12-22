@@ -9,6 +9,7 @@ use IGK\Helper\SysUtils;
 use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlChildArray;
 use IGK\System\Html\HtmlContext;
+use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
@@ -62,6 +63,14 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     protected $m_parent;  
 
     static $sm_macros;
+
+    /**
+     * return 
+     * @return string node type  
+     */
+    public function getType(){
+        return HtmlNodeType::Node;
+    }
 
     public static function RegisterMacros($name, $class){
         if (empty($name)){
@@ -336,7 +345,7 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
             return call_user_func_array([$this, $fc], []);
         }
         igk_trace();
-        igk_wln_e("try to get ", $name, get_class($this), array_keys((array)$this));
+        igk_wln_e("try to get ", get_class($this),  $name);
     }
     public function __set($key, $value)
     {

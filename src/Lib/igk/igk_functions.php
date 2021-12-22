@@ -45,6 +45,7 @@ use IGK\System\Html\Dom\IGKHtmlMailDoc;
 use IGK\System\Html\FormBuilderEngine;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlMetaManager;
+use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
@@ -1517,7 +1518,7 @@ function igk_community_get_followus_service()
 function igk_community_register_followus_service($name, $callback)
 {
     $k = "sys://services/community/followus";
-    $tab = igk_get_env($k, function () {
+    $tab = igk_get_env($k, function() {
         return array();
     });
     $tab[strtolower($name)] = $callback;
@@ -1593,11 +1594,15 @@ function igk_conf_load($obj, $n)
 {
     if (!isset($n))
         return null;
+
+    if (igk_is_debug()){
+        igk_wln("load debuginng ", $obj, $n);
+    }
     $tab = array();
     array_push($tab, (object)array("t" => $obj, "n" => $n));
     while ($q = array_pop($tab)) {
-        if ($q->n->HasAttributes) {
-            foreach ($q->n->Attributes as $m => $mc) {
+        if ($q->n->getHasAttributes()) {
+            foreach ($q->n->getAttributes() as $m => $mc) {
                 $q->t->{$m} = $mc;
             }
             if (!empty($ct = $q->n->getContent()))
@@ -1612,7 +1617,7 @@ function igk_conf_load($obj, $n)
         }
         if ($attr = $q->n->Childs) foreach ($attr as $v) {
             if (($v->ChildCount <= 0) && !$v->HasAttributes) {
-                $q->t->{$v->TagName} = $v->innerHtml;
+                $q->t->{$v->TagName} = $v->getInnerHtml();
             } else {
                 $cb = igk_createobj();
                 array_push($tab, (object)array("t" => $cb, "n" => $v, "p" => $q->t));
@@ -1658,19 +1663,20 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
     $div = igk_create_xmlnode("dummy");
     $div->Load($s);
     $h = ($div->getElementsByTagName($tag));
-    $d = igk_getv($div->getElementsByTagName($tag), 0);
+    $d = igk_getv($h, 0);
     if ($d) {
         $t = array();
         igk_conf_load_attribs($t, $d);
-        $childs = $d->Childs;
-        if ($childs) foreach ($d->Childs as $k) {
-            if ($k->Type == "HtmlText")
+        $childs = $d->getChilds();
+        if ($childs) 
+        foreach ($d->Childs as $k) {
+            if ($k->getType() == HtmlNodeType::Text)
                 continue;
-            $n = $k->TagName;
+            $n = $k->getTagName();
             $o = null;
-            if ($k->ChildCount <= 0) {
-                $sk = $k->innerHTML;
-                if ($k->HasAttributes) {
+            if ($k->getChildCount() <= 0) {
+                $sk = $k->getInnerHtml();
+                if ($k->getHasAttributes()) {
                     $o = igk_createobj();
                     igk_conf_load($o, $k);
                 }
@@ -1690,13 +1696,14 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
             } else {
                 $v_ob = igk_createobj();
                 igk_conf_load($v_ob, $k);
-                if (isset($t[$k->TagName])) {
-                    if (!is_array($t[$k->TagName])) {
-                        $t[$k->TagName] = array($t[$k->TagName]);
+                 
+                if (isset($t[$n])) {
+                    if (!is_array($t[$n])) {
+                        $t[$n] = array($t[$n]);
                     }
-                    $t[$k->TagName][] = $v_ob;
+                    $t[$n][] = $v_ob;
                 } else
-                    $t[$k->TagName] = $v_ob;
+                    $t[$n] = $v_ob;
             }
         }
         return (object)$t;
@@ -9906,20 +9913,11 @@ function igk_get_domain_name($n)
  * @param mixed $default 
  */
 function igk_get_env($k, $default = null)
-{
-    $IGK_ENV = igk_environment();
+{ 
     if (empty($k) || is_object($k) || is_array($k)) {
         igk_die("illegal offset : ", __FUNCTION__);
     }
-    if (isset($IGK_ENV[$k])) {
-        return $IGK_ENV[$k];
-    }
-    if (($default != null) && igk_is_callable($default)) {
-        $m = call_user_func_array($default, array());
-        $IGK_ENV[$k] = $m;
-        return $m;
-    }
-    return igk_getv($IGK_ENV, $k, $default);
+    return igk_environment()->get($k, $default); 
 }
 ///<summary>get all environment variable that match the pattern</summary>
 /**
@@ -9927,9 +9925,8 @@ function igk_get_env($k, $default = null)
  */
 function igk_get_env_all($match)
 {
-    $t = array();
-    $IGK_ENV = igk_environment();
-    foreach ($IGK_ENV as $k => $v) {
+    $tab = igk_environment()->getEnvironments();
+    foreach ($tab as $k => $v) {
         if (strstr($k, $match)) {
             $t[$k] = $v;
         }
@@ -10006,8 +10003,7 @@ function igk_get_env_obj($ns)
  */
 function igk_get_envs()
 {
-    $IGK_ENV = igk_environment();
-    return $IGK_ENV;
+    return igk_environment()->getEnvironments();
 }
 ///<summary>return all error</summary>
 /**
@@ -11931,7 +11927,7 @@ function igk_html_array_attrs($tab)
 ///<param name="articleoptions" default="true"></param>
 /**
  * 
- * @param mixed $ctrl 
+ * @param BaseController $ctrl 
  * @param mixed $name 
  * @param mixed $target 
  * @param mixed $data 
@@ -11940,7 +11936,7 @@ function igk_html_array_attrs($tab)
  * @param mixed $evalExpression 
  * @param mixed $articleoptions 
  */
-function igk_html_article($ctrl, $name, $target, $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
+function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
 {
     $f = $name;
     $n = null;
@@ -12029,7 +12025,7 @@ function igk_html_bind_content($ctrl, $content, $raw = null)
 {
     $t = igk_createnode("div");
     igk_html_bind_target($ctrl, $t, $content, $raw);
-    return $t->innerHTML;
+    return $t->getInnerHtml();
 }
 ///<summary>bind node to data model</summary>
 ///<param name="ctrl">the controller</param>
@@ -12056,7 +12052,7 @@ function igk_html_bind_node($ctrl, $model, $targetnode, $entries = null, $render
             igk_html_bindentry($ctrl, $entries, $tabinfo, $o, $c);
             $bindchild = true;
         } else {
-            $i = $c->innerHTML;
+            $i = $c->getInnerHtml();
             if (is_array($entries)) {
                 igk_set_env("sys://html/bindentries", 1);
                 foreach ($entries as $k => $v) {
@@ -15931,26 +15927,7 @@ function igk_io_fulluri2basedir($uri)
  */
 function igk_io_get_article($name, $dir = null)
 {
-    if ($dir == null) {
-        $dir = IGK_LIB_DIR . "/" . IGK_ARTICLES_FOLDER;
-    }
-    $f = $dir . "/" . $name;
-    if (file_exists($f))
-        return $f;
-    $s = IGK_ARTICLE_TEMPLATE_REGEX;
-    if (preg_match($s, $name)) {
-        return igk_io_dir($dir . "/" . $name);
-    }
-    $lang = R::GetCurrentLang();
-    foreach (["." . $lang, ""] as $lg) {
-        foreach (["phtml", 'html'] as $v) {
-            $f = igk_io_dir($dir . "/{$name}{$lg}.{$v}");
-            if (file_exists($f))
-                return $f;
-        }
-    }
-    $ext = igk_get_article_ext();
-    return igk_io_dir($dir . "/" . $name . $ext);
+   return IO::GetArticleInDir($dir, $name);
 }
 ///<summary></summary>
 ///<param name="name"></param>
@@ -18539,7 +18516,7 @@ function igk_loadlib($dir, $ext = ".php", $excludedir = null)
     if (!$excludedir)
         $excludedir = array();
     $m = &$excludedir;
-    $IGK_ENV[$excluded_key] = $m;
+    $IGK_ENV->set($excluded_key,  $m);
     while (igk_count($dirs) > 0) {
         $dir = realpath(array_shift($dirs));
         if (isset($excludedir[$dir]))
@@ -19680,16 +19657,7 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
  */
 function igk_peek_env($n)
 {
-    $IGK_ENV = igk_environment();
-    if ($n == "sys://env/actions") {
-        igk_die(__FUNCTION__);
-    }
-    $tab = igk_getv($IGK_ENV, $n);
-    if (is_array($tab) && (($c = igk_count($tab)) > 0)) {
-        $r = $tab[$c - 1];
-        return $r;
-    }
-    return null;
+    return igk_environment()->peek($n);   
 }
 ///<summary></summary>
 /**
@@ -19776,14 +19744,7 @@ function igk_pop_article_chain()
  */
 function igk_pop_env($n)
 {
-    $IGK_ENV = igk_environment();
-    $tab = igk_getv($IGK_ENV, $n);
-    if (is_array($tab)) {
-        $r = array_pop($tab);
-        $IGK_ENV[$n] = $tab;
-        return $r;
-    }
-    return null;
+    return igk_environment()->pop($n);
 }
 ///<summary></summary>
 ///<param name="name"></param>
@@ -19965,18 +19926,20 @@ function igk_push_article_chain($f, $context = null)
  */
 function igk_push_env($n, $v)
 {
-    $IGK_ENV = igk_environment();
-    if ($v == null) {
-        return;
-    }
-    $tab = igk_getv($IGK_ENV, $n, function () {
-        return array();
-    });
-    if (!is_array($tab)) {
-        igk_die("failed tab is not an array:" . $n, __FUNCTION__);
-    }
-    array_push($tab, $v);
-    $IGK_ENV[$n] = $tab;
+    return igk_environment()->push($n, $v);
+    // $IGK_ENV = igk_environment();
+    // if ($v == null) {
+    //     return;
+    // }
+    // $tab = igk_getv($IGK_ENV, $n, function () {
+    //     return array();
+    // });
+    // if (!is_array($tab)) {
+    //     igk_die("failed tab is not an array:" . $n, __FUNCTION__);
+    // }
+    // array_push($tab, $v);
+
+    // $IGK_ENV[$n] = $tab;
 }
 ///<summary></summary>
 ///<param name="name"></param>
@@ -21195,7 +21158,7 @@ function igk_require_module($modulename, callable $init = null, $loadall = 1, $d
         $ext_regex = "/(.)*\.php$/";
         $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
         $excludedir = igk_default_ignore_lib($dir);
-        $IGK_ENV[$excluded_key] = $excludedir;
+        $IGK_ENV->set($excluded_key,  $excludedir);
         $exclude_files = [igk_html_uri($dir . "/index.php")];
         if ($loadall) {
             $f = igk_io_getfiles(
@@ -21649,16 +21612,7 @@ function igk_set_cookie($n, $v = null, $override = 1, $tm = null)
  */
 function igk_set_env($k, $v)
 {
-    $IGK_ENV = igk_environment();
-    if (isset($IGK_ENV[$k])) {
-        if ($v === null) {
-            unset($IGK_ENV[$k]);
-            return;
-        }
-    } else if ($v === null) {
-        return;
-    }
-    $IGK_ENV[$k] = $v;
+    igk_environment()->set($k, $v);
 }
 ///<summary>store environment data as array</summary>
 /**

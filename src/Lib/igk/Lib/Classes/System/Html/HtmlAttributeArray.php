@@ -8,6 +8,7 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 class HtmlAttributeArray extends ArrayList implements ArrayAccess{
     use ArrayAccessSelfTrait; 
+    // protected $preserverKeys = true;
 
     public function activate($n){
         $this->m_data[$n] = HtmlActiveAttrib::getInstance();
