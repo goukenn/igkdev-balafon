@@ -446,16 +446,7 @@ abstract class ControllerExtension{
         }  
         IGKApplicationLoader::getInstance()->registerLoading($ns, $cldir);
 
-        // $k="sys://autoloading/".igk_base_uri_name($ctrl->getDeclaredDir());
-        // if(igk_get_env($k))
-        //     return;
-        // igk_set_env($k, 1);
-        // $fc = function(){            
-        //     return BaseController::Invoke($this, "auto_load_class", func_get_args());
-        // };
-        // $fc = $fc->bindTo($ctrl);
-        // IGKApplicationLoader::getInstance()->Load($fc);
-        // igk_register_autoload_class($fc);
+       
     }
     public static function ns(BaseController $ctrl, $path){
         $cl = $path;
@@ -644,6 +635,23 @@ abstract class ControllerExtension{
             return true;
         return $user->auth($authDemand);
     }
+
+    ///<summary>View Error</summary>
+    ///<param name="ctrl"></param>
+    ///<param name="code"></param>
+    /**
+     * 
+     * @param mixed $ctrl
+     * @param mixed $code
+     */
+    public static function GetErrorView(BaseController $ctrl, $code)
+    {
+        if (!is_object($ctrl) || !is_subclass_of(get_class($ctrl), __CLASS__)) {
+            igk_die("controller not valid: " . get_class($ctrl) . " # " . is_subclass_of(get_class($ctrl), __CLASS__));
+        }
+        return $ctrl->getErrorViewFile($code);
+    }
+
     public static function getUser(BaseController $controller, $uid=null){
         $u = $uid === null ? igk_app()->session->getUser() : 
          igk_get_user($uid);
@@ -802,15 +810,15 @@ abstract class ControllerExtension{
     /**
     * set environment parameter for this controller
     */
-    public static function setEnvParam(BaseController $controller, $key, $value, $default=null){
-        return igk_set_env(self::getEnvParamKey($controller)."/".$key, $value, $default);
+    public static function setEnvParam(BaseController $controller, $key, $value){
+        return igk_environment()->setArray(self::getEnvParamKey($controller), $key, $value);
     }
      ///<summary>get environment parameter for this controller</summary>
     /**
     * get environment parameter for this controller
     */
     public static function getEnvParam(BaseController $controller, $key, $default=null){
-        return igk_get_env(self::getEnvParamKey($controller)."/".$key, $default);
+        return igk_environment()->getArray(self::getEnvParamKey($controller), $key, $default);
     }
     /**
      * @return string controller's environment key
@@ -1059,5 +1067,21 @@ abstract class ControllerExtension{
      */
     public static function getCanModify(BaseController $controller){
         return !empty(strstr( $controller->getDeclaredDir(), igk_io_projectdir()));
+    }
+
+
+     /**
+     * load controller route route config files
+     * @param mixed $controller 
+     * @return void 
+     */
+    public static function loadRoute(BaseController $controller)
+    {
+        if (file_exists($cf = $controller::configFile("routes"))) {
+            $inc = function () {
+                include_once(func_get_arg(0));
+            };
+            $inc($cf);
+        }
     }
 }

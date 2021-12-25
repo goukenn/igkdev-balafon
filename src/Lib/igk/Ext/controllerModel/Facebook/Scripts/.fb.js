@@ -17,13 +17,15 @@
 	var js = document.createElement("script");
 	js.src= l || 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.11';	
 	
-	if (!$igk(".fb-root").first()){
-		var d= document.createElement("div");
-		d.className="fb-root";
-		$igk(document.body).add(d);		
-	}
-	
-	$igk(document.body).add(js);
-	_lib.fbLib={host:c};
+	// wait on loading to append data
+	igk.ready(function(){
+		if (!$igk(".fb-root").first()){
+			var d= document.createElement("div");
+			d.className="fb-root";
+			$igk(document.body).add(d);		
+		}		
+		$igk(document.body).add(js);
+		_lib.fbLib={host:c};
+	});
 	
 })();

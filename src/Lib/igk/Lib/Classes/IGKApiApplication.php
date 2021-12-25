@@ -11,7 +11,8 @@ use IGK\Helper\StringUtility;
  */
 class IGKApiApplication extends IGKApplicationBase
 {
-    public function run(string $file, $render=1){
-        echo "render api";
+    public function bootstrap() {       
+    }
+    public function run(string $file, $render=1){        
     }
 }

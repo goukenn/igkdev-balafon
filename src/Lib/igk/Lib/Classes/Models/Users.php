@@ -4,6 +4,8 @@ namespace IGK\Models;
 use IGK\Helper\Utility; 
 
 /** 
+ * @method static User currentUser() get current user
+ * @method static 
  */
 class Users extends ModelBase {
 	/** 

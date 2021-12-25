@@ -75,5 +75,6 @@ return [
 // default lang support
 'support_lang'=>['fr','en','nl'],
 "display_errors"=>0,
-"error_reporting"
+"error_reporting"=>0,
+"allow_page_cache"=>1
 ];

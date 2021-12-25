@@ -2,10 +2,11 @@
 
 namespace IGK\System\Html\Dom;
 
+require_once IGK_LIB_CLASSES_DIR . "/IGKObject.php";
+
 use ArrayAccess;
 use Closure;
 use IGK\Helper\IO;
-use IGK\Helper\SysUtils;
 use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlChildArray;
 use IGK\System\Html\HtmlContext;
@@ -71,7 +72,17 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
     public function getType(){
         return HtmlNodeType::Node;
     }
-
+  ///<summary></summary>
+    ///<param name="host"></param>
+    /**
+    * 
+    * @param mixed $host
+    */
+    public function setParentHost($host){
+        if(($host == null) || igk_reflection_class_extends($host, __CLASS__)){
+            $this->setFlag(IGK_PARENTHOST_FLAG, $host);
+        }
+    }
     public static function RegisterMacros($name, $class){
         if (empty($name)){
             throw new IGKException("name not defined");
@@ -896,7 +907,13 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
         else
             $this->_f[$flag]=$v;
     }
-
+    ///<summary></summary>
+    /**
+    * 
+    */
+    public function getParentHost(){
+        return $this->getFlag(IGK_PARENTHOST_FLAG);
+    }
     /**
     * load content to current node
     * @param mixed $source 

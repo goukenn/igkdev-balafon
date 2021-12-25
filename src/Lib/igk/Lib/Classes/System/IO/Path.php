@@ -23,7 +23,16 @@ class Path{
 
     private static $sm_instance; 
 
+    public static function GetExtension($path){
+        if (empty($path))
+            return null;
+        if (($pos = strrpos($path, '.'))!==false){
+            return substr($path, $pos);
+        }
+        return ($t = explode(".", $path)) > 1 ? array_pop($t) : "";
+    }
     /**
+     * get system path instance
      * @return Path path instance
      */
     public static function getInstance(){

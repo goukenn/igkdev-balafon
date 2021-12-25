@@ -27,19 +27,18 @@ use ReflectionClass;
  * @method static void object|null select_row($condition) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
- * @method static void cacheRow() macros function
+ * @method static object|null cacheRow() macros function
  * @method static void colKeys() macros function
  * @method static void column() macros function
  * @method static void commit() macros function
- * @method static void count() macros function
- * @method static void createFromCache() macros function
+ * @method static int count() macros function
+ * @method static object|null createFromCache() macros function
  * @method static bool createIfNotExists(object $object, ?mixed $condition) macros function: create if not exists
  * @method static void delete() macros function
  * @method static void display() macros function
- * @method static void drop() macros function
- * @method static void factory() macros function
- * @method static void formFields() macros function
- * @method static void formSelectData() macros function
+ * @method static void drop() macros function 
+ * @method static array|Iterable|null formFields() macros function
+ * @method static array formSelectData() macros function : form selection data
  * @method static void form_select_all() macros function
  * @method static void id() macros function
  * @method static void insert() macros function
@@ -51,7 +50,7 @@ use ReflectionClass;
  * @method static void prepare() macros function
  * @method static void primaryKey() macros function
  * @method static void query() macros function
- * @method static void requestAdd() macros function
+ * @method static object|null|bool requestAdd() macros function add model entry by request
  * @method static void requestUpdate() macros function
  * @method static void rollback() macros function
  * @method static void select() macros function
@@ -62,6 +61,11 @@ use ReflectionClass;
  * @method static void string table() macros function
  * @method static void update() macros function
  * @method static void updateOrCreateIfNotExists() macros function
+ * @method static void registerMacros($classname)
+ * @method static void registerMacro($macroName, Callable $callable) register macros
+ * @method static IGK\System\Database\Factories\FactoryBase factory(number) factory for seeder
+ * @method array to_array();
+ * @method void set(name, value): set value
  */
 abstract class ModelBase implements ArrayAccess
 {

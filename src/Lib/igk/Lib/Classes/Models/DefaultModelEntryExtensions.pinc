@@ -1,5 +1,5 @@
 <?php
-
+// @file : DefaultModelEntryExtensions.pinc
 use IGK\Database\DbQueryResult;
 use IGK\Helper\MacrosHelper;
 use IGK\Models\Authorizations;
@@ -26,8 +26,8 @@ Usergroups::registerMacro("getUserGroups", function(int $uid){
     return $c ? $c->getRows() : null;
 });
 
-
-Groupauthorizations::registerMacro("getUserAuths", function(int $uid){
+// + | register user authorisation checking
+Groupauthorizations::registerMacro("getUserAuths", function(int $uid){     
     $auth_table = Authorizations::table();
     $group_table = Groups::table();
     $user_group_table = UserGroups::table();

@@ -2969,7 +2969,9 @@ Name:balafon.js
 
 	__nsigk = igk;// igk namespace
 	// window.igk= igk;
-	window.$igk = function (n) { return __igk(n) };// register function igk function
+	window.$igk = function (n) { var m= __igk(n); if (m==null){ 
+		console.error('errror .... data - '+ n);
+		} return m; };// register function igk function
 	window.$ns_igk = __nsigk;
 	window.ns_igk = __nsigk;
 	window.igk.wln = console.debug;

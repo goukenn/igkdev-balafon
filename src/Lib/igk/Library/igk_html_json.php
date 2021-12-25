@@ -27,7 +27,7 @@ function igk_html_json($n){
 			if($ctrib=$q->getAttributes()){
 				$attribs=array();
 				foreach($ctrib->to_array() as $k=>$attrv){
-					$attribs[$k]=IGKHtmlUtils::GetAttributeValue($attrv);
+					$attribs[$k]=HtmlUtils::GetAttributeValue($attrv);
 				}
 				if(count($attribs) > 0){
 					$view[0]=$attribs;

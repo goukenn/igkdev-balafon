@@ -18,7 +18,7 @@ require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationFactory.php");
 require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
  
  
-igk_wln("time: ".igk_sys_request_time());
+// igk_wln("time: ".igk_sys_request_time());
 
 IGKApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
 

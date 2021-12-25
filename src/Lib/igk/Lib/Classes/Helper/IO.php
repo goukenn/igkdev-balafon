@@ -982,7 +982,7 @@ class IO{
                     continue;
                 }
                 if (is_link($v)){
-                    unlink($v);
+                    @unlink($v);
                     continue;
                 }
                 if(is_dir($v)){

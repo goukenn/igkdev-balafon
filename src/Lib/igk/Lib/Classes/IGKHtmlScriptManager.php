@@ -24,8 +24,13 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function __construct(){
         $this->_f=new IGKFv(); 
         igk_reg_hook(IGKEvents::HOOK_HTML_HEAD, function($e){
-            if (isset($e->args["options"]) && $e->args["options"]->Document->getScriptManager() === $this)
+            $v_options = igk_getv($e->args, "options");
+            if ($v_options)
             {
+                if ( !($v_options->Document instanceof IGKHtmlDoc) ||
+                    ($v_options->Document->getScriptManager() !== $this)){
+                        return; 
+                }
                 $src = "";
                 foreach($this->m_scripts as $file=>$v){
                     $u = "";

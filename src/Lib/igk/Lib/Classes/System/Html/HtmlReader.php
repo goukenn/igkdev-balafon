@@ -958,8 +958,8 @@ final class HtmlReader extends IGKObject{
                 return class_exists($f) && !igk_reflection_class_isabstract($f) && igk_reflection_class_extends($f, 'HtmlNode');
             }
             else{
-                if($node->getParentHost() != null){
-                    $node=$node->getParentHost();
+                if( ($h_host = $node->getParentHost()) != null){
+                    $node=$h_host;
                     return $this->IsResolved($node, $tagName);
                 }
             }
@@ -1032,6 +1032,7 @@ final class HtmlReader extends IGKObject{
     ///<summary></summary>
     ///<param name="file"></param>
     public static function LoadXMLFile($file){
+        igk_env_count(__FUNCTION__);
         self::$sm_openertype="XML";
         $d=self::LoadFile($file);
         self::$sm_openertype=null;

@@ -119,11 +119,12 @@ abstract class ModelEntryExtension{
         return $tab;
     }
     public static function count(ModelBase $model, $conditions=null, $options=null){  
-        $driver = $model->getDataAdapter();   
+        $driver = $model->getDataAdapter();  
+        $r = 0; 
         if ($m = $driver->selectCount($model->getTable(), $conditions, $options)){
-            return $m->getRowAtIndex(0)->count; 
+            $r = $m->getRowAtIndex(0)->count; 
         }
-        return null;
+        return $r;
     }
     public static function select_row(ModelBase $model, $conditions, $options=null ){     
         $cl = get_class($model);   

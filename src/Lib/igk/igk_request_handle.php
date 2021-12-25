@@ -10,7 +10,7 @@ use IGK\Resources\R;
 use function igk_resources_gets as __;
 
 
-igk_sys_reg_uri("^/favicon.ico[%q%]", function(){  
+IGKRoutes::Register("^/favicon.ico[%q%]", function(){  
     igk_set_header(200, 
         "ok",
         ["Content-Type: image/png",
@@ -25,7 +25,7 @@ igk_sys_reg_uri("^/favicon.ico[%q%]", function(){
 //+ | asset balafon preloader
 //+ | uri: /assets/Scripts/balafon.js
 //+ | ----------------------------------------------------------------------------------- 
-igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]", function(){
+IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]", function(){
     $_igk = igk_app();
     $doc= $_igk->Doc;
     if(!$doc){
@@ -77,7 +77,7 @@ igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]", fu
     igk_exit();
 }
 , 0);
-igk_sys_reg_uri("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($fc, $arg){
+IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($fc, $arg){
     // igk_wln_e("handle ... ".igk_io_request_uri(). " - ".igk_env_count(__FUNCTION__));
     $doc = igk_get_last_rendered_document();
     if(!$doc){
@@ -182,7 +182,7 @@ igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function($e){
 igk_reg_hook("generateLink", function(){
     igk_internal_reslinkaccess();
 });
-igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH."[%q%]", function($fc, $arg){
+IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH."[%q%]", function($fc, $arg){
     switch($fc){
         case "Lang":
         header("Access-Control-Allow-Origin: ".igk_getv($_SERVER, "HTTP_ORIGIN", "*"));
@@ -208,7 +208,7 @@ igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH."[
     igk_exit();
 }); 
 
-igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
+IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
  
     if(defined("IGK_FORCSS"))
         return;   
@@ -230,7 +230,7 @@ igk_sys_reg_uri("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", fu
     igk_exit();
 }
 , 1); // change here 0 to 1.
-igk_sys_reg_uri("^/!/lib/(:path+)[%q%]", function($path, $version=null){
+IGKRoutes::Register("^/!/lib/(:path+)[%q%]", function($path, $version=null){
     if(is_array($path))
         $path=IGK_LIB_DIR."/".implode("/", $path);
     else
@@ -255,7 +255,7 @@ igk_sys_reg_uri("^/!/lib/(:path+)[%q%]", function($path, $version=null){
     igk_exit();
 }
 , 1);
-igk_sys_reg_uri("^/robots.txt$", function(){
+IGKRoutes::Register("^/robots.txt$", function(){
 
     $headers = [];
     $a = IGKServer::getInstance()->HTTP_USER_AGENT;    
@@ -281,7 +281,7 @@ igk_sys_reg_uri("^/robots.txt$", function(){
     igk_exit();
 }, 1);
 
-igk_sys_reg_uri("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
+IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
 
      
     igk_header_no_cache();

@@ -20,6 +20,20 @@ class IGKApp extends IGKObject
     const DOC_NAME = "main_document";
     
     /**
+     * get app configuration settings
+     * @return mixed 
+     */
+    public static function GetConfig($key, $default=null){
+        return IGKAppConfig::getInstance()->Data->get($key, $default);
+    }
+    /**
+     * engine application
+     * @return IGKApplicationBase 
+     */
+    public function getApplication(){
+        return $this->m_application;
+    }
+    /**
      * return the application instance
      * @return mixed 
      */
@@ -174,7 +188,6 @@ class IGKApp extends IGKObject
             if (!igk_environment()->get(__METHOD__))
             {
                 igk_environment()->set(__METHOD__, 1);
-                igk_start_time(__METHOD__); 
                 $v_doc = IGKHtmlDoc::CreateCoreDocument(0);        
                 $v_doc->setParam(IGK_DOC_ID_PARAM, self::DOC_NAME);
                 igk_environment()->set(__METHOD__, null);

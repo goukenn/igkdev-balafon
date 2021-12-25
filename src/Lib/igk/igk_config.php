@@ -166,6 +166,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define('IGK_XML_CREATOR_NODE_RESULT', 194); 
     define('IGK_LAST_EVAL_LINE', 195); 
     define('IGK_XML_CREATOR_SKIP_ADD', 196); 
+    define('IGK_ENV_CONFIG_ENTRIES', 197); 
     
     define("IGK_ENV_SESS_DOM_LIST", 0x201);
     define("IGK_CUSTOM_CTRL_PARAM", 0x400);
@@ -394,8 +395,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_NODETYPENAME_FLAG", IGK_NODE_FLAG + 7);
     // define("IGK_NODETAG_FLAG", IGK_NODE_FLAG + 8);
     // define("IGK_NODECONTENT_FLAG", IGK_NODE_FLAG + 9);
-    // define("IGK_SORTREQUIRED_FLAG", IGK_NODE_FLAG + 10);
-    // define("IGK_PARENTHOST_FLAG", IGK_NODE_FLAG + 11);
+    // define("IGK_SORTREQUIRED_FLAG", IGK_NODE_FLAG + 10); 
     // define("IGK_PREVIOUS_CIBLING_FLAG", IGK_NODE_FLAG + 12);
     // define("IGK_DESC_FLAG", IGK_NODE_FLAG + 13);
     // define("IGK_STYLE_FLAG", IGK_NODE_FLAG + 14);

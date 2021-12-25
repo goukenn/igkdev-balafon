@@ -70,7 +70,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess {
     * display value
     */
     public function __toString(){
-        return "IGKHtmlDocTheme : [id:".$this->m_id.", type: {$this->m_type} ]";
+        return "HtmlDocTheme : [id:".$this->m_id.", type: {$this->m_type} ]";
     }
     public function bindFile($file){
         igk_css_bind_file(null, $file, $this); 
@@ -879,9 +879,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess {
 // Theme Media creation
 // Name : {$this->Name}
 \$cl = get_class(\$this);
-if (\$cl != 'IGKHtmlDocTheme')
+if (\$cl != 'HtmlDocTheme')
 {
-	igk_die("this file can be only included in IGKHtmlDocTheme context");
+	igk_die("this file can be only included in HtmlDocTheme context");
 }
 EOF;
         $out .= $this->getDeclaration();

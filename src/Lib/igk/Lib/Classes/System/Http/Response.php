@@ -19,7 +19,7 @@ abstract class Response{
 
     public static function HandleResponse($r){
         $e = 0;
-        if (is_object($r) && (($r instanceof \IGK\System\Http\IResponse) || ($r instanceof IGK\System\Http\RequestResponse))) {
+        if (is_object($r) && (($r instanceof \IGK\System\Http\IResponse) || ($r instanceof \IGK\System\Http\RequestResponse))) {
             $r->output();
             $e = 1;
         } else if ($r instanceof HtmlItemBase) {
@@ -32,5 +32,6 @@ abstract class Response{
         }
         if ($e)
             igk_exit();
+        return $r;
     }
 }

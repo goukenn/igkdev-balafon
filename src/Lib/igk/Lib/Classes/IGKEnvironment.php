@@ -4,6 +4,8 @@
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Helper\IO ;
+use IGK\System\IO\FileSystem;
+
 use function igk_getv as getv;
 require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
 ///<summary>use to manage Server Environment</summary>
@@ -61,7 +63,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      * get environment basedirectory
      */
     public function setBaseDir($basedir){
-        $this->OffsetSet("basedir", $basedir);
+        $this->set("basedir", $basedir);
         return $this;
     }
 
@@ -81,12 +83,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      * @return string cache directory 
      */
     public function getViewCacheDir(){
-        $dir = igk_io_cachedir()."/views";
-        if (defined("IGK_VIEW_CACHE_DIR")){
-            $dir = constant("IGK_VIEW_CACHE_DIR");
-        }
-        !IO::CreateDir($dir) && die("view cache not created");
-        return $dir;
+        return IGKCaches::view()->path;
     }
 
     /*
@@ -120,12 +117,18 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
         }
         return getv($b, $classname);
     }
+    /**
+     * return resolved enviromnent key
+     * @param mixed $n 
+     * @return int|string|false 
+     */
     public static function ResolvEnvironment($n){        
         if (($index = array_search(strtolower($n), self::$env_keys))===false){
             return "DEV";
         }
         return $index;
     }
+    
 
     public function setArray($name, $key, $value){
         $tab = $this->get($name);
@@ -134,7 +137,15 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
             $tab = array();
         }
         $tab[$key] = $value;
-        $this->$name = $tab;
+        $this->set($name,  $tab);
+        return $this;
+    }
+    public function getArray($name, $key, $default=null){
+        $b = $this->get($name);
+        if (is_array($b)){
+            return igk_getv($b, $key, $default);
+        }
+        return $default;
     }
     ///<summary></summary>
     /**
@@ -171,6 +182,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
    public function __isset($v){
 		return array_key_exists($v, $this->m_envs);
 	}
+    public function setNo_cache($value){
+        $this->m_envs["no_cache"] = $value;
+        return $this;
+    }
+    public function getNo_cache(){
+        return igk_getv($this->m_envs, "no_cache");
+    }
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="v"></param>
@@ -292,11 +310,15 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     }
     ///<summary></summary>
     /**
-    * 
+    * environment full name
     */
     public function name(){
-        return igk_server()->ENVIRONMENT;
+        return IGKServer::getInstance()->ENVIRONMENT;
     } 
+
+    public function keyName(){
+        return self::ResolvEnvironment(IGKServer::getInstance()->ENVIRONMENT);
+    }
     ///<summary></summary>
     ///<param name="i"></param>
     /** 
@@ -356,7 +378,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     /**
     * set localy variable
     */
-    public function set($k, $v){
+    public function set($k, $v){        
         if($v === null){
             unset($this->m_envs[$k]);
         }

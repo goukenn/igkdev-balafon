@@ -2,6 +2,8 @@
 
 namespace IGK\System\Console;
 
+use Exception;
+use IGK\Controllers\ControllerTask;
 use IGK\Helper\IO;
 use IGK\Models\Crons;
 use IGK\System\Configuration\XPathConfig;
@@ -39,6 +41,10 @@ class BalafonApplication extends IGKApplicationBase
         $bdir = $this->basePath;
 
         defined('IGK_FRAMEWORK_ATOMIC') || define('IGK_FRAMEWORK_ATOMIC', 1);
+        $_SERVER["SERVER_NAME"] = "BalafonCLI";
+        igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"];
+        
+        try{
         if (file_exists($configFile = $bdir . "/balafon.config.xml")) {
             $c = igk_conf_load_file($configFile, "balafon");
             $this->configs = new XPathConfig($c);
@@ -65,6 +71,10 @@ class BalafonApplication extends IGKApplicationBase
                 }
             });
         }
+
+    } catch(Exception $ex){
+        igk_wln_e("try to load .... ");
+    }
         defined('IGK_APP_DIR') || define("IGK_APP_DIR", $wd);
         defined('IGK_BASE_DIR') || define("IGK_BASE_DIR", $wd);
         // setup the log folder
@@ -304,20 +314,25 @@ class BalafonApplication extends IGKApplicationBase
                             $path = "Pages/" . ucfirst($page) . "Page";
 
                             if (!($t = $c::resolvClass($path))) {
-
+                                $name = ucfirst($page);
+                                if (strrpos($name, "Page", 4)===false){
+                                    $name .="Page";
+                                } 
                                 $builder = new PHPScriptBuilder();
                                 $builder
                                     ->author($command->app->getConfigs()->get("author", IGK_AUTHOR))
                                     ->type("class")
                                     ->file("$path.php")
-                                    ->name(ucfirst($page) . "Page")
+                                    ->name($name)
                                     ->extends(ControllerTask::class)
                                     ->implements()
                                     ->desc(igk_getv($command->options, "--desc"))
                                     ->defs("public function index(){\n}")
                                     ->namespace($c::ns("Pages"));
-                                igk_io_w2file($c::classdir() . "/{$path}.php", $builder->render());
-                                Logger::success("complete page:" . $path);
+                                $file = $c::classdir() . "/{$path}.php";
+                                igk_io_w2file($file, $builder->render());
+                                Logger::success("complete page: " . $path);
+                                Logger::info("file: ".$file);
                             }
                             return 200;
                         } else {
@@ -403,7 +418,7 @@ class BalafonApplication extends IGKApplicationBase
                         return;
                     }
                     $init_data = igk_create_xmlnode("balafon");
-                    $config = new IGK\System\Console\AppConfigs();
+                    $config = new \IGK\System\Console\AppConfigs();
                     $config->author = igk_environment()->balafon_author;
 
 

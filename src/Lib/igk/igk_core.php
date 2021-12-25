@@ -36,7 +36,7 @@ function igk_server()
 ///<summary></summary>
 /**
  * shortcut get core environment 
- * @return \IGKEnvironment environment
+ * @return IGKEnvironment environment
  */
 function igk_environment()
 {
@@ -67,8 +67,23 @@ function igk_exit($close = 1, $clean_buffer = 0)
     }
     exit;
 }
-
-///<summary>zip output content</summary>
+///<summary>get output type</summary>
+/**
+ * get zip output type
+ */
+function igk_zip_output_type($forcegzip=0){
+    $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
+    $type = null;
+    if (!$forcegzip && strstr($accept, "deflate") && function_exists("gzdeflate")) {         
+        $type = "deflate";
+    } else if (($forcegzip || strstr($accept, "gzip")) && function_exists("gzencode")) {        
+        $type = "gzip";
+    } else {
+        $type = 'no-compression';        
+    }
+    return $type;
+}
+///<summary>write zipped output to buffer</summary>
 function igk_zip_output($c, $forcegzip = 0, $header = 1, &$type = null)
 {
     $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
@@ -992,7 +1007,7 @@ function igk_ilog(...$args)
 }
 
 // + | IO shortcut
-///<summary>shortcut to IO::GetBaseUri</summary>
+///<summary>shortcut get baseuri</summary>
 ///<param name="dir">null or existing fullpath directory or file element. </param>
 ///<return>full base uri path</return>
 /**

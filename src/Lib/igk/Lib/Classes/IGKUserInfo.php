@@ -23,6 +23,12 @@ class IGKUserInfo extends IGKObject{
     ///<summary>Represente auth function</summary>
     ///<param name="name"></param>
     ///<param name="strict" default="false"></param>
+    /**
+     * 
+     * @param mixed $name 
+     * @param bool $strict 
+     * @return mixed 
+     */
     public function auth($name, $strict=false){
         return IGK\Models\Users::createFromCache($this)->auth($name, $strict);
     }
@@ -32,6 +38,10 @@ class IGKUserInfo extends IGKObject{
     }
     ///get all available authorisation for this user
     public function getAuths(){
+        if (igk_environment()->is("DEV")){
+            /// TASK: handle authorisation for all
+            return true;
+        }
         if($this->clId){
             $tab=array();
             $db=igk_db_table_select_where($this->usergrouptable, array(IGK_FD_USER_ID=>$this->clId));

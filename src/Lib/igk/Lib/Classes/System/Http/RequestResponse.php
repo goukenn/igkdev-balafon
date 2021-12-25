@@ -14,7 +14,8 @@ abstract class RequestResponse extends Response{
      */
     var $headers; 
 
-    protected function getStatus($code){
+     
+    public static function GetStatus($code){
         return igk_getv(
             [
                 "404"=>"Page Not found", 
@@ -28,7 +29,7 @@ abstract class RequestResponse extends Response{
      * @return void 
      */
     public function output(){ 
-        igk_set_header($this->code, $this->getStatus($this->code), $this->headers); // "testing base", $headers);
+        igk_set_header($this->code, self::GetStatus($this->code), $this->headers); // "testing base", $headers);
         igk_wl($this->render());
         igk_exit();
     }

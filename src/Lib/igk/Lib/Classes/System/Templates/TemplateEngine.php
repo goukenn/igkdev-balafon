@@ -113,7 +113,7 @@ class TemplateEngine
                 $c_childs = $node->GetRenderingChildren($options);
                 $c_tchild = igk_count($c_childs);
                 if (!$node->getFlag("NO_CONTENT"))
-                    $inner .= IGKHtmlUtils::GetContentValue($node, $options);
+                    $inner .= HtmlUtils::GetContentValue($node, $options);
 
                 if ($c_tchild > 0) {
 

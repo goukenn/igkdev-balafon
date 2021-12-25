@@ -20,6 +20,15 @@ abstract class IGKApplicationBase{
         }
     }
 
+    /**
+     * check and get application option
+     * @param mixed $name 
+     * @return mixed
+     */
+    public function options($name, $default=null){
+        return false;
+    }
+
     public function getLibrary(){
         return $this->m_library;
     }

@@ -539,7 +539,7 @@ igk_reg_hook("google_init_component", function () {
         igk_css_reg_global_style_file(dirname(__FILE__) . "/Styles/igk.google.pgcss");
     }
 });
-igk_sys_reg_uri(
+IGKRoutes::Register(
     "^/!@res/(/)?google/cssfont" . IGK_REG_ACTION_METH . "[%q%]",
     function ($u, $f) {
         @session_write_close();
@@ -563,7 +563,7 @@ igk_sys_reg_uri(
     },
     1
 );
-igk_sys_reg_uri(
+IGKRoutes::Register(
     "^/!@res/(/)?getgooglefont[%q%]",
     function ($c) {
         @session_write_close();

@@ -10,6 +10,7 @@
 
 namespace IGK\Database;
 
+use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 
 

@@ -18,6 +18,11 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     private $m_private;
     private $m_theme;
     private $m_baseuri;
+    /**
+     * the page theme name
+     * @var string
+     */
+    private $m_page_theme;
     private static $sm_theme;
     private static $sm_scriptManager;
 
@@ -50,6 +55,19 @@ class IGKHtmlDoc extends HtmlDocumentNode{
             $this->Metas->addMeta($n, $meta);
         }
         $this->Metas->setAttribute($n, HtmlMetaManager::ATTR_CONTENT, $cl);
+    }
+    
+    /**
+     * 
+     * @param string $theme dark|light
+     * @return $this 
+     */
+    public function setDefaultTheme(string $theme){
+        $this->m_page_theme = $theme;
+        return $this;
+    }
+    public function getDefaultTheme(){
+        return $this->m_page_theme; 
     }
     ///<summary>get the meta manager object</summary>
     /**
@@ -104,9 +122,9 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         }
         igk_die("theme not created");
     }
-    ///<summary></summary>
+    ///<summary>script manager</summary>
     /**
-    * 
+    * @return IGKHtmlScriptManager 
     */
     public function getScriptManager(){
         return $this->getFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG);
@@ -126,6 +144,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         $this->m_id = $id; 
         $this->m_theme= new HtmlDocTheme($this, "css:public");
         $this->m_private= new HtmlDocTheme($this, "css:private");
+        $this->m_page_theme = "dark";
 
         $this->setFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG, $this->prepareScriptManager());
        
@@ -203,6 +222,8 @@ class IGKHtmlDoc extends HtmlDocumentNode{
        
 		if ($sm_lastDocument === null){
 			$_id = igk_app()->settings->CurrentDocumentIndex;
+            if ($_id ===null)
+                $_id = 0;
 			if ($_id > 0){
 				$sm_lastDocument = new self($_id);
 			}else {
@@ -434,5 +455,11 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         $tab2=$this->m_body->getElementsByTagName($name);
         $h=array_merge($tab1, $tab2);
         return $h;
+    }
+    public function headerExtraAttribute(){
+        $attr = "";
+        if ($this->m_page_theme)
+            $attr .= "data-theme=\"".$this->m_page_theme."\"";
+        return trim($attr);
     }
 }

@@ -2,8 +2,9 @@
 
 
 namespace IGK\System\Http;
+ 
+use IGK\System\Html\Dom\HtmlDocTheme;
 
-use IGKHtmlDocTheme;
 use function igk_resources_gets as __;
 
 class ErrorRequestResponse extends RequestResponse{
@@ -19,7 +20,7 @@ class ErrorRequestResponse extends RequestResponse{
        
         $obj = ["response"=>(object)[
             "code"=>$this->code,
-            "status"=> $this->code== 200? 'OK' :  $this->getStatus($this->code),
+            "status"=> $this->code== 200? 'OK' :  self::GetStatus($this->code),
             "message"=>$this->message
         ]];
         switch($this->type){
@@ -49,7 +50,7 @@ class ErrorRequestResponse extends RequestResponse{
         
     }
     public function getErrorStyle(){        
-        $theme = new IGKHtmlDocTheme(null, -1);
+        $theme = new HtmlDocTheme(null, -1);
         $theme["*, html, body"] = "margin:0px; padding:0px;";
         $theme->bindFile(IGK_LIB_DIR."/Styles/error_request.pcss");
         return $theme->get_css_def();

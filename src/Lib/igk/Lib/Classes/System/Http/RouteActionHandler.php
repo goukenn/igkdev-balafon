@@ -14,23 +14,8 @@ use IGKException;
  * route action handler
  * @package IGK\System\Http
  */
-class RouteActionHandler
-{
-    /**
-     * name for searching
-     * @var mixed
-     */
-    protected $name;
-    /**
-     * route type
-     * @var mixed
-     */
-    private $type;
-    /**
-     * route path
-     * @var mixed
-     */
-    protected $path;
+class RouteActionHandler extends RouteHandler
+{ 
     /**
      * store def access
      * @var mixed
@@ -42,17 +27,7 @@ class RouteActionHandler
      * @var mixed
      */
     protected $m_expressions;
-    /**
-     * get verbs
-     * @var array
-     */
-    protected $verbs = [];
-
-    /**
-     * autorisation string
-     * @var string|array
-     */
-    protected $auth;
+    
 
     /**
      * auth requirement 
@@ -77,10 +52,7 @@ class RouteActionHandler
      * @var mixed
      */
     protected $ajx;
-    /**
-     * set the route
-     */
-   protected $route;
+    
     /**
      * 
      * @param string $path path 
@@ -92,6 +64,8 @@ class RouteActionHandler
     {
         if (!is_string($path))
             throw new ArgumentTypeNotValidException("path");
+
+        parent::__construct($path, $handleClass);
         $this->path = $path;
         $this->classBind = $handleClass;
         $this->type = $type;
@@ -111,27 +85,7 @@ class RouteActionHandler
         return  null;
     }
     
-    /**
-     * set roting property object
-     * @param object $info 
-     * @return void 
-     */
-    public function setRoutingInfo(object $info)
-    {
-        if ($info == null) {
-            $this->info = $info;
-            return $this;
-        }
-        $this->info = igk_get_robjs("ruri", 0, $info);
-        return $this;
-    }
-    public function getRoutingInfo($name=null)
-    {
-        if ($name!==null && $this->info){
-            return igk_getv($this->info, $name);
-        }
-        return $this->info;
-    }
+   
     public static function uri($name)
     {
         if ($route = Route::GetRouteByName($name)) {
@@ -139,89 +93,8 @@ class RouteActionHandler
         }
         return null;
     }
-    protected function setRoute($route)
-    {
-        $this->route = $route;
-        return $this;
-    }
-    public function getRoute()
-    {
-        return $this->route;
-    }
-    public function getPath()
-    {
-        return $this->path;
-    }
-    public function getVerbs()
-    {
-        return $this->verbs;
-    }
-    /**
-     * return the selected user auth
-     * @return mixed 
-     */
-    public function getUserAuth()
-    {
-        if ($u = $this->user) {
-            return $u->{"::auth"};
-        }
-        return;
-    }
-    public function setUser($user)
-    {
-        $this->user = $user;
-        return $this;
-    }
-    /**
-     * return the selected use
-     * @return mixed 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    /**
-     * return the name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-    /** 
-     * return this type
-    */
-    public function getType(){
-        return $this->type;
-    }
-
-
-    /**
-     * retrieve pattern regex expression
-     * @return string 
-     * @throws Exception 
-     */
-    protected function getPatternRegex()
-    {
-        $croute = "/" . ltrim($this->path, "/");
-        if (preg_match_all("/(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})/i", $croute, $tab)) {
-            $count = 0;
-            foreach ($tab["name"] as $i) {
-                $c = trim($i);
-                $s = $tab[0][$count];
-                $opt = igk_getv($tab["option"], $count) == "*";
-                // print_r($tab["option"]);
-                if ($g = igk_getv($this->m_expressions, $c)) {
-                    if ($opt) {
-                        $g = "(/{$g}(/)?)?";
-                        $s = "/" . rtrim($s, "/"); 
-                    }
-                    $croute = str_replace($s, "(".$g.")", $croute);
-                }
-                $count++;
-            } 
-        }
-        return "#^" . $croute . "$#";
-    }
+    
+ 
     public function getPathUri(){
         $croute = "/" . ltrim($this->path, "/");
         $croute = preg_replace("/(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})/i", "",  $croute);
@@ -243,67 +116,10 @@ class RouteActionHandler
         }
         return true;
     }
-    /**
-     * get if match with the verbs
-     * @param mixed $path 
-     * @param string $verb 
-     * @return int|false 
-     * @throws Exception 
-     */
-    public function match($path, $verb = 'GET')
-    {
+    
 
-        if (!in_array($verb, $this->verbs)) {
-            return false;
-        }
-        $regex = $this->getPatternRegex(); 
-        if ($r = preg_match($regex, "/" . ltrim($path, "/"))) {
-            if ($this->ajx && !igk_is_ajx_demand()){                
-                throw new  RequestException(400);                                
-            }
-            $this->setRoute($path);
-        }
-        return $r;
-    }
-    /**
-     * add expression
-     * @param mixed $name 
-     * @param mixed $expression 
-     * @return $this 
-     */
-    private function addExpression($name, $expression)
-    {
-        $this->m_expressions[$name] = $expression;
-        return $this;
-    }
-    /**
-     * set the shorcut key name
-     */
-    public function name($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * set autorisation key name
-     * @param mixed $name string|array of autorisation
-     * @param bool $strict autorisation requirement
-     * @return RouteActionHandler 
-     */
-    public function auth($name, bool $strict=false)
-    {
-        $this->auth = $name;
-        $this->auth_requirement = $strict;
-        return $this;
-    }
-    /**
-     * add where condition expression
-     */
-    public function where($id, $pattern)
-    {
-        return $this->addExpression($id, $pattern);
-    }
+     
+   
     /**
      * set ajx route pattern requirement
      * @param bool $value 
@@ -313,7 +129,22 @@ class RouteActionHandler
         $this->ajx = $value;
         return $this;
     }
-
+    public function process(...$arguments){
+        if (func_num_args()==0){
+            igk_die("request action");
+        }
+        $controller = func_get_arg(0);
+        if (!($controller instanceof BaseController)){
+            igk_wln("controller is not a base controller");
+        }
+        return $this->_processAction($controller, ...array_slice(func_get_args(), 1));
+    }
+    public static function Handle($route, ...$arguments){
+        if (!($route instanceof RouteActionHandler)){
+            igk_die("route not a RouteAction Handler");
+        }
+        return $route->process(...$arguments);
+    }
     /**
      * process this action
      * @param BaseController $controller 
@@ -321,7 +152,7 @@ class RouteActionHandler
      * @return mixed 
      * @throws IGKException 
      */
-    public function process(BaseController $controller, ...$args)
+    private function _processAction(BaseController $controller, ...$args)
     {
         $type = 0;
         $cl = "";
@@ -375,25 +206,7 @@ class RouteActionHandler
                 break;                
         }
     }
-    /**
-     * set allowed verb
-     * @param array $verb 
-     * @return $this 
-     */
-    public function setVerb(array $verb)
-    {
-        $this->verbs = $verb;
-        return $this;
-    }
-    /**
-     * shortcut function
-     * @param array $verb 
-     * @return mixed 
-     */
-    public function verbs(array $verb)
-    {
-        return $this->setVerb($verb);
-    }
+   
     public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $path=null){
         $t = $route->gettype();
         $c = "";

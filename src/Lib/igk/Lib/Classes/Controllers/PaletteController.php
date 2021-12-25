@@ -100,7 +100,7 @@ final class PaletteController extends NonVisibleControllerBase {
     */
     public function loadPalette(){
         $dir=$this->getPaletteDir();
-        if(is_dir($dir)){
+        if($dir && is_dir($dir)){
             $v_tfiles=IO::GetFiles($dir, "/\.gkpal$/i", false);
             foreach($v_tfiles as $f){
                 $this->loadFile($f);

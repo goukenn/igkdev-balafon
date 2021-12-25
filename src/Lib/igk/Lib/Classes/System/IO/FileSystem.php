@@ -2,9 +2,7 @@
 namespace IGK\System\IO;
 
 use IGK\System\Exceptions\ArgumentNotValidException; 
-
-igk_trace();
-die("load dfaile ---- ");
+ 
 /**
  * file system helper 
  */

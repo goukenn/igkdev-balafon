@@ -3,6 +3,7 @@
 
 namespace IGK\System\Http;
 
+use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
 use IGKHtmlDoc;
 
@@ -12,6 +13,12 @@ use IGKHtmlDoc;
  */
 class WebResponse extends RequestResponse{
     private $node;
+
+    /**
+     * enable cache on rendering
+     * @var mixed
+     */
+    var $cache;
 
     public $headers = [
         "Content-Type: text/html"
@@ -31,6 +38,8 @@ class WebResponse extends RequestResponse{
         } 
         if (is_object($this->node)){
             if (method_exists($this->node, "renderAJX")){
+                $options = HtmlRenderer::CreateRenderOptions();
+                $options->Cache = $this->cache;
                 $this->node->renderAJX();
                 return;
             }
@@ -39,21 +48,23 @@ class WebResponse extends RequestResponse{
     public function output(){
  
         ob_start();
-        $cache = is_object($this->node) &&  igk_is_class_instance_of($this->node, IGKHtmlDoc::class);
+        $cache = $this->cache; //is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc);
         $this->render();
-        $s = ob_get_clean();
-     
-
-        $zip = 0 && igk_server()->accepts(["gzip"]);
+        $s = ob_get_clean();  
+        $zip = igk_server()->accepts(["gzip"]);
+      
         if ($cache){ 
-            // ----------------------------------------------------------------
-            // CACHE THE DOCUMENT URI
-            // ----------------------------------------------------------------
-            $option = $zip ? "_zip" : "";
-            $file = IGKCaches::page_filesystem()->getCacheFilePath(igk_server()->REQUEST_URI.$option); 
+            // + |----------------------------------------------------------------
+            // + | CACHE THE DOCUMENT URI
+            // + |
+            list($uri, $zip) = \IGK\Helper\UriUtils::CacheUri();            
+            $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
             if ($zip){
-                $s = igk_zip_output($s, 0, 1);
+                ob_start();
+                igk_zip_output($s, 0, 1);
+                $s = ob_get_clean();
             }
+            // save cache document for zip and no zip content
             igk_io_w2file(
                 $file, 
                 $s);
@@ -61,14 +72,13 @@ class WebResponse extends RequestResponse{
                 echo $s;
                 igk_exit();
             }
-        }
- 
+        } 
         if ($zip){    
-            igk_zip_output($s);
-            return $s;           
+            igk_zip_output($s);   
+        } else {
+            igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
+            echo $s;
         }
-        igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
-        echo $s;
         igk_exit();
     }
 }

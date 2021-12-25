@@ -25,4 +25,8 @@ final class GlobalScriptManagerHostNode extends HtmlNode{
         });
         return $v;
     }
+    public function getCanRenderTag()
+    {
+        return false;
+    }
 }

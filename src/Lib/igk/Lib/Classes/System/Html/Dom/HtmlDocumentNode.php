@@ -78,10 +78,16 @@ class HtmlDocumentNode extends HtmlItemBase{
             if ($id = $this->getId())
                 $attr .= " document_id=\"".$id."\"";
         }
+        if (!empty($extra = $this->headerExtraAttribute())){
+            $attr .= " ".$extra;
+        }
         $s .= "<html{$attr}>"; 
         $s .= HtmlRenderer::Render($this->m_head, $options);
         $s .= HtmlRenderer::Render($this->m_body, $options);   
         $s .= "</html>";
         return $s;
+    }
+    protected function headerExtraAttribute(){
+        return null;
     }
 }

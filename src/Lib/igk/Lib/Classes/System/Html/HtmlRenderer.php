@@ -3,6 +3,7 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGKApp;
 use IGKException;
 use ReflectionMethod;
 
@@ -79,7 +80,9 @@ class HtmlRenderer{
             // -------------------
             // + | Render document
             // -------------------  
-            (new \IGK\System\Http\WebResponse($doc))->output();            
+            $response = new \IGK\System\Http\WebResponse($doc);
+            $response->cache = !igk_environment()->no_cache && IGKApp::GetConfig("allow_page_cache");             
+            $response->output();            
         
         }
     }
@@ -160,7 +163,10 @@ class HtmlRenderer{
                     if (is_object($content)){
                         $s .= HtmlRenderer::GetValue($content, $options);
                     }else{
-                        $s .= $content;
+                        if (is_array($content)){
+                            $s .= json_encode($content);
+                        }else 
+                            $s .= $content;
                     }
                 }
                 if((count($childs) > 0)){

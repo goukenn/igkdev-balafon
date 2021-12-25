@@ -216,9 +216,10 @@ final class IGKServer{
             }
             $this->REQUEST_SCHEME = $scheme;
         }
+        $uri = $this->REQUEST_URI;
 
-        $this->full_request_uri = StringUtility::Uri(urldecode(rtrim(
-            implode("/", array_filter([$this->GetRootUri(), ltrim($this->REQUEST_URI, '/')])), "/"))); 
+        $this->full_request_uri = !empty($uri) ? StringUtility::Uri(urldecode(rtrim(
+            implode("/", array_filter([$this->GetRootUri(), ltrim($this->REQUEST_URI, '/')])), "/"))) : ""; 
 
         if (!empty($doc_root = $this->IGK_DOCUMENT_ROOT) || (defined('IGK_APP_DIR') && !empty($doc_root = constant('IGK_APP_DIR')))) {
             $doc_root = rtrim(StringUtility::Dir($doc_root), DIRECTORY_SEPARATOR);
@@ -264,5 +265,10 @@ final class IGKServer{
     */
     public function to_array(){
         return $this->data;
+    }
+
+    public static function RequestTime(){
+        $time = $_SERVER["REQUEST_TIME_FLOAT"];
+        return (microtime(true) - $time);
     }
 }

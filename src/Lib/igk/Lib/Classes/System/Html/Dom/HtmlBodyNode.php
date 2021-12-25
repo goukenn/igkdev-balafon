@@ -51,6 +51,7 @@ class HtmlBodyNode extends HtmlNode{
         }        
         $c = array_merge($c,  parent::__getRenderingChildren($options));
         $c[] = $this->m_bodyMainScript;  
+        $c[] = HtmlPoweredByNode::getItem();
         $c[] = new HtmlHookNode(IGKEvents::HOOK_HTML_BODY, [
             "options"=>$options,
             "body"=>$this

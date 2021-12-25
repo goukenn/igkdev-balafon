@@ -61,6 +61,3 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 		igk_exit();
 	}
 }
-
-//mark the class as a system controller
-igk_sys_regSysController(IGKBillingDetailsCtrl::class); 

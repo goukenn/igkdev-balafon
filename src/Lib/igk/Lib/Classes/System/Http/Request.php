@@ -2,7 +2,13 @@
 
 namespace IGK\System\Http;
 
+use IGK\Helper\IO;
+use IGK\Helper\StringUtility as IGKString;
 ///<summary>request </summary>
+/**
+ * 
+ * @package IGK\System\Http
+ */
 class Request
 {
     static $sm_instance;
@@ -54,11 +60,27 @@ class Request
         return $this->m_params;
     }
 
+    ///<summary>base request instance</summary>
+    /**
+     * base request instance
+     * @return  Request
+     */
     public static function getInstance()
     {
         if (self::$sm_instance === null)
             self::$sm_instance = new self();
         return self::$sm_instance;
+    }
+    public function requestEntry(){
+        $b = igk_server()->REQUEST_URI; 
+        if (!$b)
+            return null;
+        $t = IGKString::Uri(dirname((($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF)));
+        $s = $b;
+        if (strstr($b, $t)) {
+            $s = "/" . ltrim(substr($b, strlen($t)), "/");
+        }
+        return urldecode($s);
     }
     private function __construct()
     {
@@ -83,7 +105,7 @@ class Request
         return null;
     }
     /**
-     * 
+     * get arg from request
      * @param mixed $name 
      * @param mixed|null $default 
      * @return mixed 

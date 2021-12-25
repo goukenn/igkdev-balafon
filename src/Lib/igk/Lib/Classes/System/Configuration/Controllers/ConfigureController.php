@@ -1770,6 +1770,17 @@ EOF;
             $this->View();
             igk_navtocurrent();
         }
+        private static function GetConfigEntryData(){
+            
+            $s = "^/Configs(/:lang)?(" . IGK_REG_ACTION_METH . ")?(;(:options))?";
+            $uri = igk_io_request_uri();
+            $b = igk_sys_ac_create_pattern(null, $uri, $s);
+            if ($b->matche($uri)) {
+                return $b->getQueryParams();
+            }
+            return [];
+            
+        }
         ///<summary>base configuration view</summary>
         /**
             * base configuration view
@@ -1781,15 +1792,7 @@ EOF;
                 return;
             } 
 
-            $data = $this->getEnvParam("CNFDATA", function () {
-                $s = "^/Configs(/:lang)?(" . IGK_REG_ACTION_METH . ")?(;(:options))?";
-                $uri = igk_io_request_uri();
-                $b = igk_sys_ac_create_pattern(null, $uri, $s);
-                if ($b->matche($uri)) {
-                    return $b->getQueryParams();
-                }
-                return [];
-            });
+            $data = $this->getEnvParam("CNFDATA") ?? self::GetConfigEntryData();
             if (isset($data["lang"]) && !empty($data["lang"])) {
                 igk_ctrl_change_lang($this, $data);
             }
@@ -1812,6 +1815,7 @@ EOF;
                     if (igk_is_conf_connected()){
                         $s .=" dashboard";
                     }
+                    igk_environment()->no_cache = 1;
                     $app->getDoc()->getBody()->setClass($s);
                     $bbox->add($t);
                     break;
@@ -1827,7 +1831,7 @@ EOF;
                     return;
                 }
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
-                    $app->Doc->Theme->addTempFile($f);
+                    $app->getDoc()->Theme->addTempFile($f);
                 }
 
 

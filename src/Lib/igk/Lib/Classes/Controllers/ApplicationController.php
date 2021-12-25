@@ -147,34 +147,7 @@ abstract class ApplicationController extends  PageControllerBase{
         igk_exit();
         return false;
     }
-    // ///<summary>check init and init user to this apps </summary>
-    // /**
-    // * check init and init user to this apps
-    // */
-    // public function checkUser($nav=true, $uri=null){
-    //     $r=true;
-    //     $u= igk_app()->Session->User;
-    //     $ku=$this->getUser();   
-
-    //     if($ku === null){
-    //         if($u !== null){
-    //             $this->setUser($this->initUserFromSysUser($u));
-    //         }
-    //         else
-    //             $r=false;
-    //     }
-    //     if($nav && !$r){
-    //         $ruri=igk_io_base_request_uri();
-    //         $s="";
-    //         if($ruri)
-    //             $s="q=".base64_encode($ruri);
-    //         $u=($uri == null ? $this->getAppUri(""): $uri);
-    //         if($s)
-    //             $u .= ((strpos($u, "?") === false) ? "?": "&").$s;
-    //         igk_navto($u);
-    //     }
-    //     return $r;
-    // }
+    
     ///<summary></summary>
     ///<param name="node" default="null"></param>
     /**
@@ -418,7 +391,7 @@ EOF;
     * 
     */
     public function getAppName(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_APPNAME);
+        return igk_getv($this->Configs, IGK_CTRL_CNF_APPNAME, static::class);
     }
     ///<summary>get if this application is not active</summary>
     /**
@@ -762,16 +735,20 @@ EOF;
     */
     protected function InitComplete(){
         parent::InitComplete();
-        $n=str_replace("\\", ".", $this->AppName);
-        $c=self::GetApps();
-        if(empty($n)){
-            $n=str_replace("\\", ".", $this->Name);
-        }  
-        if(preg_match(IGK_IS_FQN_NS_REGEX, $n) && !isset($c->_[$n])){
-            $c->_[$n]=$this->getName();
-        }
-        else{
-            igk_assert_die(!igk_get_env("sys://reloadingCtrl"), "Application identifier is not valid or already register. [".$n."]");
+
+        $n = $this->getAppName();
+        if ($n){ 
+            $n=str_replace("\\", ".", $n);
+            $c=self::GetApps();
+            if(empty($n)){
+                $n=str_replace("\\", ".", $this->Name);
+            }  
+            if(preg_match(IGK_IS_FQN_NS_REGEX, $n) && !isset($c->_[$n])){
+                $c->_[$n]=$this->getName();
+            }
+            else{
+                igk_assert_die(!igk_get_env("sys://reloadingCtrl"), "Application identifier is not valid or already register. [".$n."]");
+            }
         }
         $this->register_action();
         if(!isset(self::$INIT)){

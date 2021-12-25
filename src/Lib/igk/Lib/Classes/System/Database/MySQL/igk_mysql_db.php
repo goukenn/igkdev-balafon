@@ -403,10 +403,7 @@ DbQueryDriver::Init(function(& $conf){
     $t["lastid"]="mysqli_insert_id";
     $conf[$n]["func"]=$t;
 });
-// igk_sys_regSysController(IGKMySQLDataCtrl::CURRENT_VIEW);
 
 require_once __DIR__ ."/Controllers/DbConfigController.php";
-
-igk_sys_regsyscontroller(\IGK\System\Database\MySQL\Controllers\DbConfigController::class);
 
 ConfigControllerRegistry::Register(\IGK\System\Database\MySQL\Controllers\DbConfigController::class, IGK_MYSQL_DB_CTRL);

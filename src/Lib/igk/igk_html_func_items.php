@@ -1,9 +1,9 @@
 <?php
-// file : igk_html_func_items.php
-// author: C.A.D. BONDJE DOUE
-// licence: IGKDEV - Balafon @ 2019
-// description: Balafon's html functional components
-// TODO: parallax not implement
+// @file : igk_html_func_items.php
+// @author: C.A.D. BONDJE DOUE
+// @licence: IGKDEV - Balafon @ 2019
+// @description: Balafon's html functional components
+
 
 use IGK\Controllers\BaseController;
 use IGK\Models\Users;
@@ -376,10 +376,8 @@ function igk_html_node_menu(
         $tab = $q["menu"];
         $ul = $q["ul"];
 
-        foreach ($tab as $i => $v) {
-
-
-            $auth = igk_getv($v, "auth");
+        foreach ($tab as $i => $v) { 
+            $auth = igk_getv($v, "auth");            
             if ((is_bool($auth) && !$auth) ||
                 ((is_string($auth) && $user && !$user->auth($auth)))
             ) {
@@ -1087,30 +1085,33 @@ function igk_html_node_cellrow()
  */
 function igk_html_node_centerbox($content = null)
 {
-    $n = igk_createnode('div');
-    $n->setClass("igk-centerbox");
-    $c = $n->add("div");
-    $c->setClass("content");
-    $c->setParentHost($n);
-    if ($content) {
-        if (is_string($content)) {
-            $c->content = $content;
-        } else if (is_callable($content)) {
-            $c->host($content);
-        } else {
-            $c->content = igk_ob_get($content);
-        }
-    }
-    // igk_debug(1);
-    if ($q =
-        igk_html_parent_node()
-    ) {
-        $q->add($n);
-        igk_html_parent_result($c);
-
-        return null;
-    }
-    return $n;
+    return new IGK\System\Html\Dom\HtmlCenterBoxNode($content);
+    // igk_trace();
+    // igk_wln_e("center box : ", $content);
+    // $n = igk_createnode('div');
+    // $n->setClass("igk-centerbox");
+    // $c = $n->add("div");
+    // $c->setClass("content");
+    // $c->setParentHost($n);
+    // if ($content) {
+    //     if (is_string($content)) {
+    //         $c->content = $content;
+    //     } else if (is_callable($content)) {
+    //         $c->host($content);
+    //     } else {
+    //         $c->content = igk_ob_get($content);
+    //     }
+    // }
+    // // igk_debug(1);
+    // if ($q = igk_html_parent_node()
+    // ) {
+    //     $q->add($n);
+    //     igk_html_parent_result($c);
+        
+    //     igk_html_skip_add();
+    //     return $n;
+    // }
+    // return $c;
 }
 ///<summary>function igk_html_node_circlewaiter</summary>
 /**
@@ -4539,6 +4540,38 @@ function igk_html_node_space(){
 }
 function igk_html_node_img(){
     return new \IGK\System\Html\Dom\HtmlImgNode();
+}
+
+/**
+ * 
+ * @param array|\IGK\Controllers\BaseController $data data to bind
+ * @param mixed $uri uri to load
+ * @param mixed $name 
+ * @param null|bool $production 
+ * @return null|HtmlItemBase 
+ * @throws IGKException 
+ */
+function igk_html_node_bindscript($data, $uri, $name, ?bool $production=null){
+    $p = igk_html_parent_node();
+    if (is_object($data) && ($data instanceof \IGK\Controllers\BaseController) ){
+        $data = [
+            $data->getScriptsDir()
+        ];
+    }
+    $fc = function()use($data, $uri, $name, $production){
+        echo \IGK\System\Html\Dom\HtmlCoreJSScriptsNode::GetScriptContent(
+            $data,
+            $uri,
+            $name,
+            $production==null ? igk_environment()->is("OPS") : $production
+        );
+    };
+    if ($p){
+        $p->obdata($fc);
+        igk_html_skip_add();
+        return null;
+    }
+    return igk_createnode("obdata", null, $fc);
 }
 //---------------------------------------------------------------------------------
 // + | form tag extension

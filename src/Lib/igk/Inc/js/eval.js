@@ -1,10 +1,11 @@
 (function(){
-    var i = document.scripts[document.scripts.length-1].previousSibling;
-    if (typeof(i.text) == "undefined"){
+    var i = document.scripts[document.scripts.length-2];//.previousSibling;
+      if (typeof(i.text) == "undefined"){
         return;
     }
 
     var s = i.text.trim().substring(2);
+  
     function loadXml(s){
     var r = null;
     if ("DOMParser" in window) {
@@ -28,7 +29,7 @@
             }
         } catch (b) {
             console.error('Error:igk-winui-balafon-js-inc');
-            console.debug('message:'+ b.message, 'source:'+s, b.lineNumber+":"+b.columnNumber);
+            console.debug('message: '+ b.message, b.lineNumber+":"+b.columnNumber);
         }
     } else {
         console.debug("failed to parse core data")

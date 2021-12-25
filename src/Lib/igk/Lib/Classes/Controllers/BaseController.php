@@ -22,74 +22,74 @@ use function igk_resources_gets as __;
  * @package IGK\Controllers
  * @method static bool getCanInitDb() check if this controller entry can init database
  * @method static bool initDb() macros method. init controller database
- * @method static string name(string path) macros method. get resolved key name
+ * @method static string name(string $path) macros method. get resolved key name
  * @method static InitDataBaseModel() macros function
  * @method static InitDataFactory() macros function
  * @method static InitDataInitialization() macros function
  * @method static InitDataSeeder() macros function
- * @method static IsEntryController() macros function
- * @method static IsFunctionExposed() macros function
- * @method static IsUserAllowedTo() macros function
- * @method static asset() macros function
- * @method static asset_content() macros function
- * @method static baseUri() macros function
+ * @method static bool IsEntryController() macros function
+ * @method static bool IsFunctionExposed() macros function
+ * @method static bool IsUserAllowedTo() macros function
+ * @method static void asset() macros function
+ * @method static void asset_content() macros function
+ * @method static string baseUri() macros function
  * @method static bindNodeClass() macros function
  * @method static buri() macros function
  * @method static cache_dir() macros function
  * @method static checkUser() macros function
  * @method static string classdir() macros function
- * @method static configDir() macros function
- * @method static configFile() macros function
- * @method static ctrl() macros function
- * @method static db_add_column() macros function
- * @method static db_change_column() macros function
- * @method static db_query() macros function
- * @method static db_rename_column() macros function
- * @method static db_rm_column() macros function
- * @method static dispatchToModelUtility() macros function
- * @method static dropDb() macros function
- * @method static furi() macros function
- * @method static getAuthKey() macros function
- * @method static getAutoresetParam() macros function
- * @method static getBaseFullUri() macros function
- * @method static getCacheInfo() macros function
- * @method static getCanInitDb() macros function
- * @method static getCanModify() macros function
- * @method static getComponentsDir() macros function
- * @method static getCurrentDoc() macros function
- * @method static getDataAdapter() macros function
- * @method static getDataSchemaFile() macros function
- * @method static getDataTableDefinition() macros function
- * @method static getEnvKey() macros function
- * @method static getEnvParam() macros function
- * @method static getEnvParamKey() macros function
- * @method static getInitDbConstraintKey() macros function
- * @method static getIsVisible() macros function
- * @method static getRouteUri() macros function
- * @method static getTestClassesDir() macros function
- * @method static getUser() macros function
- * @method static array getViewArgs() macros function
- * @method static hookName() macros function
- * @method static initDbConstantFiles() macros function
- * @method static initDbFromFunctions() macros function
- * @method static initDbFromSchemas() macros function
- * @method static libdir() macros function
- * @method static loadDataAndNewEntriesFromSchemas() macros function
- * @method static loadDataFromSchemas() macros function
- * @method static login() macros function
- * @method static logout() macros function
- * @method static migrate() macros function
- * @method static modelUtility() macros function
- * @method static string name(?string path) macros function
- * @method static notifyKey() macros function
+ * @method static string configDir() macros function
+ * @method static string configFile() macros function
+ * @method static BaseController ctrl() macros function
+ * @method static void db_add_column() macros function
+ * @method static void db_change_column() macros function
+ * @method static void db_query() macros function
+ * @method static void db_rename_column() macros function
+ * @method static void db_rm_column() macros function
+ * @method static void dispatchToModelUtility() macros function
+ * @method static void dropDb() macros function
+ * @method static void furi() macros function
+ * @method static void getAuthKey() macros function
+ * @method static void getAutoresetParam() macros function
+ * @method static void getBaseFullUri() macros function
+ * @method static void getCacheInfo() macros function
+ * @method static void getCanInitDb() macros function
+ * @method static void getCanModify() macros function
+ * @method static void getComponentsDir() macros function
+ * @method static void getCurrentDoc() macros function
+ * @method static void getDataAdapter() macros function
+ * @method static string getDataSchemaFile() macros function
+ * @method static void getDataTableDefinition() macros function
+ * @method static void getEnvKey() macros function
+ * @method static void getEnvParam() macros function
+ * @method static void getEnvParamKey() macros function
+ * @method static void getInitDbConstraintKey() macros function
+ * @method static void getIsVisible() macros function
+ * @method static void getRouteUri() macros function
+ * @method static void getTestClassesDir() macros function
+ * @method static object getUser() macros function
+ * @method static void array getViewArgs() macros function
+ * @method static void hookName() macros function
+ * @method static void initDbConstantFiles() macros function
+ * @method static void initDbFromFunctions() macros function
+ * @method static void initDbFromSchemas() macros function
+ * @method static void libdir() macros function
+ * @method static object loadDataAndNewEntriesFromSchemas() macros function
+ * @method static void loadDataFromSchemas() macros function
+ * @method static void login() macros function
+ * @method static void logout() macros function
+ * @method static void migrate() macros function
+ * @method static object|null modelUtility() macros function
+ * @method static void string name(?string path) macros function
+ * @method static void notifyKey() macros function
  * @method static string ns(string $path) macros function
  * @method static void register_autoload() macros function register macros function
- * @method static resolvClass() macros function
- * @method static resolv_table_name() macros function
- * @method static seed() macros function
- * @method static setEnvParam() macros function
- * @method static storeConfigSettings() macros function
- * @method static string uri() macros function
+ * @method static void resolvClass() macros function
+ * @method static void resolv_table_name() macros function
+ * @method static void seed() macros function
+ * @method static void setEnvParam() macros function
+ * @method static void storeConfigSettings() macros function
+ * @method static void string uri() macros function
  */
 abstract class BaseController extends RootControllerBase implements IIGKDataController
 {
@@ -175,16 +175,35 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return (object)$t;
     }
+      ///<summary>reset the current view file request</summary>
+      protected function _resolview($f, $params){
+        $view_dir=$this->getViewDir();
+        $dfile=dirname($f);
+        $qfile=$dfile;
+        $find=0; 
+        while(!$find && ($qfile != $view_dir)){
+            $qfile=dirname($qfile);
+            if(file_exists($s=$qfile."/".IGK_DEFAULT_VIEW_FILE)){
+                $find=$s;
+                $ln=strlen($view_dir) + 1;
+                $v=dirname(substr($s, $ln));
+                $p=array_merge(explode("/", igk_html_uri(substr($dfile, $ln + strlen($v) + 1))), $params);
+                $this->setFlag(self::CURRENT_VIEW, $v);
+                $options=$this->getEnvParam(IGK_VIEW_OPTIONS);
+                $this->regSystemVars(null, null);
+                $this->regSystemVars($p, $options);
+            }
+        }
+        return $find;
+    }
     ///<summary></summary>
     /**
      * 
      */
     protected function _renderViewFile()
     {
-
         $ctrl = $this;
         $params = null;
-
         extract($ctrl->getViewArgs());
 
         $f = "";
@@ -194,8 +213,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $v = igk_getr("v", $v);
         }
         $meth_exits = method_exists($this, $meth = $v);
-
-
         if (($meth_exits && $this->IsFuncUriAvailable($meth)) || (isset($params) && method_exists($this, $meth = IGK_DEFAULT_VIEW))) {
             try {
                 $params = isset($params) ? $params : [];
@@ -504,8 +521,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     public function getConfigs()
     {
+        $key = IGK_ENV_CONFIG_ENTRIES; 
         $cf = $this->getConfigFile();
-        if (!($tab = igk_environment()->get("ConfigsEntries"))) {
+        if (!($tab = igk_environment()->get($key))) {
             $tab = array();
         }
         if ($m = igk_getv($tab, $cf)) {
@@ -514,13 +532,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if (empty($cf)) {
             igk_wln_e("configuration file is empty ", $cf, $this);
         }
-        $c = igk_environment()->init($cf, function () {
-            $config = new ControllerConfigurationData($this);
-            $config->initConfigSetting($this->_loadCtrlConfig());
-            return $config;
-        });
+        $c = new ControllerConfigurationData($this);
+        $c->initConfigSetting($this->_loadCtrlConfig());
         $tab[$cf] = $c;
-        igk_environment()->set("ConfigsEntries",  $tab);
+        igk_environment()->set($key,  $tab);
         return $c;
     }
     ///<summary></summary>
@@ -692,21 +707,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         return null;
     }
 
-    ///<summary>View Error</summary>
-    ///<param name="ctrl"></param>
-    ///<param name="code"></param>
-    /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $code
-     */
-    public static function GetErrorView($ctrl, $code)
-    {
-        if (!is_object($ctrl) || !is_subclass_of(get_class($ctrl), __CLASS__)) {
-            igk_die("controller not valid: " . get_class($ctrl) . " # " . is_subclass_of(get_class($ctrl), __CLASS__));
-        }
-        return $ctrl->getErrorViewFile($code);
-    }
+    
     ///<summary></summary>
     ///<return refout="true"></return>
     /**

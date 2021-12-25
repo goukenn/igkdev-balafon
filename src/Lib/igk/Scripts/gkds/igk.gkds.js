@@ -655,7 +655,7 @@
 		// console.debug("length "+types.length);
 		var phc = 0; 
 		var revert = 0;
-		function __pushdata(data){
+		function pushdata(data){
 			d += data;
 		};
 		function __get_reservesePoint(types, points, dat){
@@ -700,7 +700,7 @@
 			dat.ct = ct;
 			dat.cp = cp;
 			dat.l = l;
-			return "/*reverse data*/";
+			return "/ *reverse data* /";
 		}
 		var safreverse = false;
 				for(var i = 0 ; i < types.length; i++){
@@ -723,19 +723,18 @@
 					switch(t){
 						case 0://start						
 							//reset bezier
-							v_bezierPoint = [];
-							__pushdata("ctx.moveTo("+pt.x+", "+pt.y+");");      
+							v_bezierPoint = []; 
+							pushdata('ctx.moveTo('+ pt.x +', '+pt.y+');');      
 						break;						
 						case 1://line point
 						  if (v_bezierPoint.length > 0)
-							{
-								
-								console.debug("there are unfinshed bezier " + v_bezierPoint.length);
-								//length must be 3
+							{							
+								// console.debug("there are unfinshed bezier " + v_bezierPoint.length);
+								// length must be 3
 								if (v_bezierPoint == 3)
 								{
 									v_bezierPoint.push(pt);
-									__pushdata(_getBezierCurve(v_bezierPoint));										
+									pushdata(_getBezierCurve(v_bezierPoint));										
 								}
 								// switch (v_bezierPoint.length)                            
 								// { 
@@ -749,7 +748,7 @@
 								
 							}
 							//else
-							__pushdata("ctx.lineTo("+pt.x+", "+pt.y+");");
+							pushdata("ctx.lineTo("+pt.x+", "+pt.y+");");
 							v_bezierPoint = [];
 						break;
 						case 3: //bezier point
@@ -757,7 +756,7 @@
 							switch(v_bezierPoint.length){
 								case 3:																					
 									// console.debug("addlines");
-									__pushdata(_getBezierCurve(v_bezierPoint));
+									pushdata(_getBezierCurve(v_bezierPoint));
 									v_bezierPoint = [];						
 								break;
 							}
@@ -780,20 +779,20 @@
 						//d += "ctx.closePath();";	
 						switch(t){
 							case 1:
-								__pushdata("ctx.lineTo("+pt.x+", "+pt.y+");");
+								pushdata("ctx.lineTo("+pt.x+", "+pt.y+");");
 								break;
 							case 3:
 								// console.debug("end with bezier :  "+v_bezierPoint.length);
 								switch(v_bezierPoint.length){
 									case 2:								
 									v_bezierPoint.push(pt);
-									__pushdata(_getBezierCurve(v_bezierPoint)); 
+									pushdata(_getBezierCurve(v_bezierPoint)); 
 									break;
 									// case 0:		
 									// v_bezierPoint.push(pt);
 									// v_bezierPoint.push(pt);
 									// v_bezierPoint.push(pt);
-									// __pushdata(_getBezierCurve(v_bezierPoint)); 
+									// pushdata(_getBezierCurve(v_bezierPoint)); 
 									// break;
 									default:
 										console.debug("error ...."+v_bezierPoint.length);

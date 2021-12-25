@@ -4,12 +4,15 @@ namespace IGK\System\Collections;
 use ArrayAccess;
 use Countable;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGK\System\Polyfill\IteratorTrait;
 use IGKIterator;
 use IIGKArrayObject;
 use Iterator;
 
 class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
     use ArrayAccessSelfTrait; 
+    use IteratorTrait;
+
 
     /**
      * access to array list 
@@ -19,23 +22,23 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
     // protected $preserveKey = false;
     private $m_iterator;
 
-    public function current() { 
+    public function _iterator_current() { 
         return $this->m_iterator->current();
     }
 
-    public function next():void { 
+    public function _iterator_next():void { 
         $this->m_iterator->next();
     }
 
-    public function key() { 
+    public function _iterator_key() { 
         return $this->m_iterator->key();
     }
 
-    public function valid(): bool { 
+    public function _iterator_valid(): bool { 
         return $this->m_iterator->valid();
     }
 
-    public function rewind():void { 
+    public function _iterator_rewind():void { 
         $this->m_iterator = new IGKIterator($this->m_data);
         $this->m_iterator->rewind();
     }

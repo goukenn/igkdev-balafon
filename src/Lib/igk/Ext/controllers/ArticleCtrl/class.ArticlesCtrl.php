@@ -16,4 +16,3 @@ class IGKArticleController extends IGKAtriclesCtrlBase
 		return $this->getArticle("confidentiality");
 	} 
 } 
-igk_sys_regSysController(IGKArticleController::class); 

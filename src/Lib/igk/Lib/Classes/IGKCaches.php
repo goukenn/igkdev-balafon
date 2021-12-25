@@ -3,9 +3,11 @@
 use IGK\System\Exceptions\LoadArticleException;
 use IGK\System\IO\FileSystem;
 use IGK\Helper\IO;
+use IGK\System\Http\WebFileResponse;
 
 /**
- * chachage object 
+ * cache object 
+ * @method static FileSystem view() view file system
  */
 final class IGKCaches{
     /**
@@ -32,7 +34,19 @@ final class IGKCaches{
     public static function ResolvPath($file){         
         return $file;
     }
-    
+    public static function HandleCache(){
+        if (!IGKApp::GetConfig("allow_page_cache")){
+            return false;
+        }
+        list($uri, $zip) = \IGK\Helper\UriUtils::CacheUri();
+ 
+        $file = IGKCaches::page_filesystem()->getCacheFilePath($uri); 
+        if (file_exists($file) && IGKCaches::page_filesystem()->expired($uri, 50000)){
+            $response = new WebFileResponse($file);
+            $response->zip = $zip;
+            $response->output(); 
+        }
+    }
     public static function __callStatic($name, $args){
         $i = self::getInstance();
         if (isset($i->{$name})){
@@ -44,6 +58,7 @@ final class IGKCaches{
             $i->{$name} = $o;
             return $o;
         }
+        die("method not found. ".__CLASS__."::".$name);
     }
      /**
      * init and get javascript filesystem

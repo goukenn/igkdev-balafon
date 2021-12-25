@@ -1,10 +1,11 @@
 <?php
-
+// @file : IGKActionBase.php
 
 
 ///<summary>Represente view's action definition</summary>
 
 use IGK\Actions\IActionProcessor;
+use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Http\Request;
@@ -111,7 +112,7 @@ abstract class IGKActionBase implements IActionProcessor{
             $cargs = [$this];
             $b = new $b(...$cargs); 
         }  
-        return igk_view_handle_actions($fname, $b, $args, $exit, $flag );
+        return self::HandleActions($fname, $b, $args, $exit, $flag );
     }
     public function __call($name, $arguments){ 
         if ($fc = igk_getv(self::$macro, $name)){
@@ -144,5 +145,75 @@ abstract class IGKActionBase implements IActionProcessor{
             return $this->$fc();
         }
         return null;
+    }
+
+    public static function HandleActions($viewname, $arrayList, $params, $exit = 1, $flag = 0)
+    {
+        igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, array("v" => $viewname, "list" => $arrayList, "args" => $params));
+        $b = 0;
+        if (is_string($arrayList)) {
+            if (class_exists($arrayList)) {
+                $arrayList = new $arrayList();
+            } else {
+                igk_die("not allowed view action handler");
+            }
+        }
+        if (is_array($arrayList)) {
+            foreach ($arrayList as $k => $v) {
+                igk_view_reg_action($viewname, $k, $v);
+            }
+            igk_do_response($b = igk_view_handle_action($viewname, $params));
+        } else if (is_object($arrayList)) {
+            $b = self::HandleObjAction($viewname, $arrayList, $params, $exit, $flag);
+        }
+        igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, null);
+        if ($b && $exit) {
+            $c = igk_get_current_base_ctrl();
+            if ($c)
+                $c->regSystemVars(null);
+            igk_exit();
+        }
+        return $b;
+    }
+    public static function HandleObjAction($fname, $object, array $params = [], $exit = 1, $flag = 0)
+    {
+        $action = igk_getv($params, 0);
+        $r = 0;
+        if (!empty($action)) {
+            igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
+            igk_environment()->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
+            $args = array_slice($params, 1);
+            try {
+                if ( $object instanceof MiddlewireActionBase){
+                    $c =  $object->__call($action, $args);
+                }else{  
+                    $c = $object->$action(...$args);
+                }
+                if ($exit) {
+                    return igk_do_response($c);
+                }
+            } catch (IGK\System\Http\RequestException $ex) {
+                if ($ex->handle()) {
+                    igk_exit();
+                }
+                throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
+            } catch (Throwable $ex) {
+                throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
+            }
+            return $c;
+        }
+        if (!empty($action) && (((($flag & 1) == 1) || method_exists($object, $action)) || igk_getv($object, "handleAllAction"))) {
+            igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
+            $g = new ReflectionMethod($object, $action);
+            $params = array_slice($params, 1);
+            if (($g->getNumberOfRequiredParameters() == 1) && ($cl = $g->getParameters()[0]->getType()) && igk_is_request_type($cl) ) {
+                $req = IGK\System\Http\Request::getInstance();
+                $req->setParam($params);
+                $params = [$req];
+            }
+            $r = call_user_func_array(array($object, $action), $params);
+            igk_do_response($r);
+        }
+        return $r;
     }
 }

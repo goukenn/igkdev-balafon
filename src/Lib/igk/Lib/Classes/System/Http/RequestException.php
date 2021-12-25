@@ -4,7 +4,7 @@ namespace IGK\System\Http;
 use Exception;
 ///<summary>request exception</summary>
 class RequestException extends \IGKException{
-
+ 
     ///<summary>.ctr request constructor</summary>
     public function __construct($code, $message="", ?\Throwable $previous=null)
     {
@@ -19,7 +19,7 @@ class RequestException extends \IGKException{
             igk_set_header($this->code);
             igk_do_response(new JsonResponse((object)[
                 "code"=>$this->code,
-                "status"=>$this->status
+                "status"=>RequestResponse::GetStatus($this->code)
             ], $this->code));
             return true;
         }

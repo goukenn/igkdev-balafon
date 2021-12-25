@@ -455,12 +455,13 @@ final class IGKControllerManagerObject extends IGKObject {
     private function InitControllers(IGKApp $app){
         if (func_num_args()>1){
             igk_die("init controller with extra argument not allowed");
-        }
+        } 
         if (igk_env_count(__METHOD__)>1){
             /// TODO: avoid init controller twice
             /// case in bafon command --project:list
             ///
-            igk_wln(__METHOD__, "Int countroller twice : only allowed one. ");
+            igk_wln_e(__METHOD__, "Int countroller twice : only allowed one.", 
+                igk_env_count_get(__METHOD__));
         }
         $initialize_all = $app->getConfigs()->init_all_controller;
 
@@ -637,10 +638,8 @@ final class IGKControllerManagerObject extends IGKObject {
     /**
     * use to invoke system controller method
     */
-    public function InvokeUri($uri=null, $defaultBehaviour=true, $pattern=null){
-
-		
-	   igk_sys_handle_uri();
+    public function InvokeUri($uri=null, $defaultBehaviour=true, $pattern=null){		
+	    igk_sys_handle_uri($uri);
         $c=null;
         $f=null;
         $args=null;

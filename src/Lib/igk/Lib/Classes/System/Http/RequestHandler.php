@@ -9,6 +9,8 @@ use IGKApplicationBase;
 use IGKException;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Http\Routes;
+use IGKApplication;
 use IGKEvents;
 
 use function igk_resources_gets as __;
@@ -21,6 +23,13 @@ use function igk_resources_gets as __;
 class RequestHandler
 {
     private static $sm_instance;
+
+    /**
+     * handle current context
+     * @var mixed
+     */
+    var $context;
+
     /**
      * 
      * @return RequestHandler instance 
@@ -36,6 +45,55 @@ class RequestHandler
     {
     }
 
+    /**
+     * 
+     * @param mixed $path 
+     * @param IGK\System\Http\Routes|null #Parameter#ebc966f5 
+     * @return void 
+     */
+    public function handle_route($path, ?RouteCollection $routes = null)
+    {
+        $this->context = ['type'=>'handle_route', 'uri' => $path];
+        $route_file = \IGK\System\IO\Path::getInstance()->getDataDir() . "/routes.php";
+        if (!file_exists($route_file))
+            return;
+      
+        if ($routes == null) {
+            $routes = new RouteCollection();
+            // + | --------------------------------------------
+            // + | include route files and build route mecanism
+            //
+            include($route_file);
+            $routes = Route::GetRoutes();
+        }
+     
+        $user = null;
+        if (empty($routes))
+            return;
+  
+   
+        $arguments = [];
+        foreach ($routes as $v) {
+
+            if ($v->match($path, igk_server()->REQUEST_METHOD)) {
+                if ($user && !$v->isAuth($user)) {
+                    throw new IGKException("Route access not allowed");
+                }
+                $v->setUser($user);
+
+                // $v->setRoutingInfo((object)[
+                //     "ruri" => $path,
+                //     "args"=>[]
+                // ]);
+                $arguments = array_filter(explode("/", $path));
+                
+                $api = IGKApplication::Boot('api');
+                // start engine require for 
+                IGKApp::StartEngine($api, false);
+                return RouteHandler::Handle($v, $arguments); 
+            }
+        } 
+    }
     /**
      * system handle request uri
      * @param mixed|null $u 
@@ -161,11 +219,11 @@ class RequestHandler
      */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
-        if (defined('IGK_REDIRECTION')){
+        if (defined('IGK_REDIRECTION')) {
             die("already call redirection");
         }
         define("IGK_REDIRECTION", 1);
-       
+
         IGKApp::StartEngine($application, 0);
 
         $defctrl = igk_get_defaultwebpagectrl();
@@ -199,14 +257,14 @@ class RequestHandler
                 // default redirect request handle
                 // binding site pam 
                 if ($redirect == "/sitemap.xml") {
-                    igk_bind_sitemap(["ctrl"=>$defctrl, "c"=>"sitemap"]);
+                    igk_bind_sitemap(["ctrl" => $defctrl, "c" => "sitemap"]);
                     igk_exit();
                 }
                 /// TASK: handle query option on system command
-                if ($this->handle_cmd_action($redirect)){
+                if ($this->handle_cmd_action($redirect)) {
                     igk_exit();
                 }
-                
+
                 break;
             case 904:
                 header("Status: 404");
@@ -248,7 +306,7 @@ class RequestHandler
                 $_REQUEST["p"] = $page;
                 $_REQUEST["l"] = $lang;
                 $_REQUEST["from_error"] = true;
-                $app->ControllerManager->InvokeUri();
+                $app->getControllerManager()->InvokeUri();
                 HtmlRenderer::RenderDocument();
                 igk_exit();
             }
@@ -307,7 +365,8 @@ class RequestHandler
     /**
      * handle command application command action
      */
-    public function handle_cmd_action(string $redirect){
+    public function handle_cmd_action(string $redirect)
+    {
         $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/(\/)?(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";
         $c = preg_match_all($rx, $redirect, $ctab);
         if ($c > 0) {

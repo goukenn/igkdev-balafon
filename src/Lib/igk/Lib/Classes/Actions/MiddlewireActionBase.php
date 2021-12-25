@@ -7,6 +7,7 @@ use IGK\Models\Users;
 use IGK\System\Http\RedirectRequestResponse;
 use IGK\System\Http\Request;
 use IGK\System\Http\Route;
+use IGK\System\Http\RouteActionHandler;
 use IGKActionBase;
 use IGKException;
 /**
@@ -14,6 +15,10 @@ use IGKException;
  * @package IGK\Actions
  */
 abstract class MiddlewireActionBase extends IGKActionBase{
+    /**
+     * default user
+     * @var mixed
+     */
     protected $user;
 
     /**
@@ -33,7 +38,7 @@ abstract class MiddlewireActionBase extends IGKActionBase{
      */
     protected $middleware;
 
-    
+   
     protected function getActionProcessor()
     {
         return $this;
@@ -84,22 +89,19 @@ abstract class MiddlewireActionBase extends IGKActionBase{
             } 
         } 
         Route::LoadConfig($this->ctrl);
-        $route = Route::GetMatchAll();
+       
         $path = "/".implode("/", array_merge([$name], $arguments)); 
-        $ruri = Request::getInstance()->view_args("entryuri").$path;
-        // igk_wln(Request::getInstance()->view_args());
-        // igk_trace();
-        // igk_wln(__CLASS__, $name, $arguments);
-        // igk_wln_e("entry path:".$path, compact("ruri"));
+        $ruri = Request::getInstance()->view_args("entryuri").$path; 
         $routes = Route::GetAction(static::class);
         $user = $this->user;
-     
+        $path = trim($path, '/');    
 
         if (!empty($routes)){
             // must use the route technique to validate the path
-            foreach($routes as $v){
-                
-                if ($v->match($path, igk_server()->REQUEST_METHOD)){
+            // igk_wln(__FILE__.":".__LINE__, $path, $routes);
+            
+            foreach($routes as $v){ 
+                if ($v->match($path, igk_server()->REQUEST_METHOD)){ 
                     if (!$v->isAuth($user)){
                         throw new IGKException("Route access not allowed");
                     } 
@@ -108,12 +110,13 @@ abstract class MiddlewireActionBase extends IGKActionBase{
                         "ruri"=>$ruri
                     ]);                    
                     array_unshift($arguments, $this->ctrl); 
-                    return $v->process(...$arguments);
+                    return RouteActionHandler::Handle($v, ...$arguments);
                 }
                  
             }
             throw new IGKException("Route not resolved", 404);
         }
+        $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments); 
     }
     abstract protected function invoke($route, $args);
