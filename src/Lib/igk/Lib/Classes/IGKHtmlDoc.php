@@ -285,13 +285,13 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         }
         if(isset($t->temp[$file])){
             $n=$t->temp[$file];
-            $n->setIsTemporary($t);
+            $n->setIsTemp($t);
             $this->m_head->add($n);
             return $n;
         } 
         $sc=$this->m_head->addScript($file, $version); 
         $t->temp[$file]=$sc;
-        $sc->setIsTemporary($t);
+        $sc->setIsTemp($t);
         return $sc;
     }
      ///<summary>add tempory file to temp document. must be called out of rendering context.the file will be requested with link in the header.</summary>

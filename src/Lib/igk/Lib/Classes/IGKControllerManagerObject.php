@@ -493,7 +493,7 @@ final class IGKControllerManagerObject extends IGKObject {
                 $resolvCtrl = & self::GetResolvController();
                 // igk_wln_e("load from cache", $caches, $resolvCtrl);
                 foreach($caches as $m){
-                    $d = array_filter(explode("|", $m));
+                    $d = explode("|", $m);
                     $cl = trim($d[0]);
                     if (empty($cl))
                         continue;

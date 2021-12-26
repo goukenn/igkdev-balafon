@@ -211,4 +211,9 @@ class HtmlNode extends HtmlItemBase{
         }
         return parent::getCanRenderTag();
     }
+
+    public function activate($n){
+        $this->m_attributes->activate($n);
+        return $this;
+    }
 }

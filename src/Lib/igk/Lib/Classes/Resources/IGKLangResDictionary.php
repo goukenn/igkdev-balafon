@@ -2,13 +2,15 @@
 
 namespace IGK\Resources;
 
-use ArrayAccess; 
+use ArrayAccess;
+use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 ///<summary> use for key's language operation</summary>
 /**
 *  use for key's language operation
 */
 final class IGKLangResDictionary implements ArrayAccess{
+    use ArrayAccessSelfTrait; 
     private $_f;
     ///<summary></summary>
     /**
@@ -21,7 +23,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * 
     * @param mixed $i
     */
-    public function OffsetExists($i){
+    public function _access_OffsetExists($i){
         return isset($this->_f[strtolower($i)]);
     }
     ///<summary></summary>
@@ -30,7 +32,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * 
     * @param mixed $i
     */
-    public function offsetGet($i){
+    public function _access_offsetGet($i){
         return $this->_f[strtolower($i)];
     }
     ///<summary></summary>
@@ -41,7 +43,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $i
     * @param mixed $v
     */
-    public function offsetSet($i, $v){
+    public function _access_offsetSet($i, $v){
         $this->_f[strtolower($i)]=$v;
     }
     ///<summary></summary>
@@ -50,14 +52,14 @@ final class IGKLangResDictionary implements ArrayAccess{
     * 
     * @param mixed $i
     */
-    public function offsetUnset($i){
+    public function _access_offsetUnset($i){
         unset($this->_f[strtolower($i)]);
     }
     ///<summary> get sorted keys</summary>
     /**
     *  get sorted keys
     */
-    public function sortKeys(){
+    public function _access_sortKeys(){
         if(($this->_f == null) || (igk_count($this->_f) == 0)){
             return false;
         }

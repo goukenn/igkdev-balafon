@@ -10,10 +10,14 @@ use IGKException;
 /**
  * Collection of registrated routes.
  * @package IGK\System\Http
- * @method static RouteActionHandler get(string $middlewireActionBaseClass, string $pattern, ?string $page) \
+ * @method static RouteActionHandler get(string $actionBaseClass, string $pattern, ?string $controllerTaskClass) \
  * register GET route and return RouteActionHandler
  * @method static RouteHandler get($pattern, $controllerClass) \
  * register GET route and return a RouteHandler
+ * @method static RouteActionHandler post()
+ * @method static RouteActionHandler options()
+ * @method static RouteActionHandler put()
+ * @method static RouteActionHandler delete()
  */
 class Route  
 {
@@ -122,11 +126,13 @@ class Route
      * @return RouteActionHandler|RouteHandler 
      */
     public static function RegisterAction($actionClass, $path, $handleClass=null)
-    {
+    { 
         /**
          * two type of returned data. depend on argument
          */
-        if (is_string($actionClass) && is_string($path) && ($handleClass==null)){
+        if (is_string($actionClass) && is_string($path) 
+            && is_subclass_of($path, BaseController::class)
+            && ($handleClass==null)){
             return self::RegisterRoute($actionClass, $path);
         }
 

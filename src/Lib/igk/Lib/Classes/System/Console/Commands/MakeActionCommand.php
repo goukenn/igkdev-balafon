@@ -11,6 +11,7 @@ use IGKActionBase;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
+use IGK\Actions\MiddlewireActionBase;
 use \IGKControllerManagerObject;
  
 class MakeActionCommand extends AppExecCommand{
@@ -36,8 +37,9 @@ class MakeActionCommand extends AppExecCommand{
         $type = igk_str_ns(igk_getv($command->options, "--type", IGKActionBase::class));
         $type = igk_getv([
             "project"=>ProjectDefaultAction::class,
-            "def"=>IGKActionBase::class
-        ], $type, $type);
+            "def"=>IGKActionBase::class,
+            "middlewire"=>MiddlewireActionBase::class
+        ], strtolower($type), $type);
         
         $ctrl = igk_getctrl(str_replace("/", "\\", $name), false);
         if (!$ctrl){
@@ -45,7 +47,7 @@ class MakeActionCommand extends AppExecCommand{
             return false;
         }
         if (!$type || !class_exists($type) || !(($type==IGKActionBase::class) || is_subclass_of($type, IGKActionBase::class))){
-            Logger::danger("type class not found");
+            Logger::danger("type class not found : [$type] ");
             return false;
         }
         $ns = $ctrl->getEntryNamespace();

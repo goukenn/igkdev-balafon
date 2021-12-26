@@ -8,6 +8,7 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKException;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Html\Dom\HtmlDefaultMainPage;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\Routes;
 use IGKApplication;
@@ -344,8 +345,8 @@ class RequestHandler
                 if (file_exists($file = igk_env_file(igk_io_applicationdir() . "/" . IGK_INC_FOLDER . "/error.404"))) {
                     include($file);
                 } else {
-                    $doc = igk_get_document("RedirectError");
-                    $doc->body->setNoDefaultMainPage(true);
+                    HtmlDefaultMainPage::getInstance()->setIsVisible(false);
+                    $doc = igk_get_document("RedirectError"); 
                     $h = igk_createnode("div");
                     $h->div()->container()->panel()->h1()->Content = __("Page not found");
                     $doc->body->clearChilds()->div()->add($h);

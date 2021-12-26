@@ -14,8 +14,7 @@ use IGKEvents;
 use IGKOb;
 use IGKResourceUriResolver;
 use IGKServer;
-use IGKSubDomainManager;
-use ReflectionMethod;
+use IGKSubDomainManager; 
 use IGKHostParam;
 
 use function igk_resources_gets as __;
@@ -37,6 +36,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return parent::getViewDir();
     } 
+    
     ///<summary>.ctr conig controller</summary>
     /**
      * .ctr conig controller

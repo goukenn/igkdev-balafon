@@ -3160,8 +3160,8 @@ function igk_html_node_singlerowcol($col = null)
     return null;
 }
 
-function igk_html_node_form(){
-    $c = new \IGK\System\Html\Dom\HtmlFormNode();
+function igk_html_node_form($uri=".", $method="POST", $notitle=false, $nofoot=false){
+    $c = new \IGK\System\Html\Dom\HtmlFormNode($uri, $method, $notitle, $nofoot);
     return $c;
 }
 ///<summary>function igk_html_node_slabelcheckbox</summary>
@@ -4538,8 +4538,8 @@ function igk_html_node_memoryusageinfo(){
 function igk_html_node_space(){
     return new \IGK\System\Html\Dom\HtmlSpaceNode();
 }
-function igk_html_node_img(){
-    return new \IGK\System\Html\Dom\HtmlImgNode();
+function igk_html_node_img($src=null){
+    return new \IGK\System\Html\Dom\HtmlImgNode($src);
 }
 
 /**

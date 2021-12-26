@@ -2,9 +2,14 @@
 
 namespace IGK\System\IO\File;
 
+use IGKException;
 
 class PHPScriptBuilder
 {
+    public function __construct()
+    {
+        $this->author = IGK_AUTHOR;
+    }
     public function __get($name)
     {
         return null;
@@ -14,6 +19,15 @@ class PHPScriptBuilder
         $this->$name = $arguments[0];
         return $this;
     }
+    /**
+     * write array
+     * @param mixed $file 
+     * @param mixed $tab 
+     * @param string $desc 
+     * @return void 
+     * @throws IGKException 
+     */
+
     public static function WriteArray($file, $tab, $desc = "")
     {
         $builder = new static;
@@ -28,6 +42,14 @@ class PHPScriptBuilder
             ->defs("return [$s];");
         igk_io_w2file($file, $builder->render());
     }
+    /**
+     * 
+     * @param mixed $file 
+     * @param mixed $data 
+     * @param string $desc 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function WriteData($file, $data, $desc = "")
     {
         $builder = new static;
@@ -44,7 +66,7 @@ class PHPScriptBuilder
         $o = "";
         $h = "";
         $h = implode("\n", array_filter([
-            "// @author: " . $this->author,
+            "// @author: " . ($this->author ?? IGK_AUTHOR),
             $this->file ? "// @file: " . $this->file : null,
             $this->desc ? "// @desc: " . implode("\n//", explode("\n", $this->desc)) : null,
             "// @date: " . date("Ymd H:i:s")
@@ -52,6 +74,16 @@ class PHPScriptBuilder
         if ($ns = $this->namespace) {
             $h .= "namespace " . $ns . ";\n\n";
         }
+        if ($_uses = $this->uses){
+            if (is_string($_uses))
+            {
+                $_uses = [$_uses];
+            }
+            $h .= implode("\n", array_map(function($n){
+                return "use ".$n.";";
+            }, $_uses));
+        }
+
         $defs = "";
         if ($e = $this->defs) {
             $defs .= implode("\n", array_map(function ($s) {

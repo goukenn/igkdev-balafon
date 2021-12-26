@@ -1,8 +1,8 @@
 <?php
 namespace IGK\System\Database;
 
-use IGK\Models\ModelBase;
-use DbExpression;
+use IGK\Models\ModelBase; 
+use IGK\Database\DbExpression;
 
 class QueryBuilder{
     private $m_conditions;

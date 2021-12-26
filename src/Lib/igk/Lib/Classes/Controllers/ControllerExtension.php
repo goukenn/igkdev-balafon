@@ -5,16 +5,14 @@ namespace IGK\Controllers;
 use Exception;
 use Faker\Provider\Base;
 use IGK\Models\Migrations;
-use IGK\Models\ModelBase;
-use IGK\Models\ModelEntryExtension;
+use IGK\Models\ModelBase; 
 use IGK\System\Console\Logger;
 use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKException;
-use DbQueryResult;
+use IGKException; 
 use IGK\Database\DbSchemas;
-use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+use IGK\Database\Seeds\DataBaseSeeder;
 use IGKApplicationLoader;
 use IGKEnvironment;
 use IGKResourceUriResolver;
@@ -221,24 +219,25 @@ abstract class ControllerExtension{
     public static function seed(BaseController $ctrl, $classname=null){
         //get all seed class and run theme        
         if (igk_is_null_or_empty($classname)){
-            $classname = "Database/Seeds/DataBaseSeeder";
-            //$classname = igk_str_ns(implode("/", array_filter([$ctrl->getEntryNamespace(), $classname])));
-         
+            $classname = \Database\Seeds\DataBaseSeeder::class; 
         }else{
             //try to resolv class 
-            if (file_exists($f = $ctrl->classdir()."/Database/Seeds/".$classname.".php")){
-                $classname = implode("/", array_filter([$ctrl->getEntryNamespace(), "Database/Seeds/".$classname]));
+            if (file_exists($ctrl->classdir()."/Database/Seeds/".$classname.".php")){
+                $classname = "/Database/Seeds/".$classname;
+              } else {
+                // + | seeder not found
+                return false;
             }
+        } 
 
-        }
         $ctrl::register_autoload();
         $g = self::ns($ctrl, $classname ); 
         if (class_exists($g)){
-            Logger::info("run seed ".$classname);
+            Logger::info("run seed : ".$g);
             $o = new $g();
             return $o->run();
         }else{
-            Logger::danger("class not found: ".$classname);
+            Logger::danger("class not found- : ".$g);
         } 
     }
     public static function migrate(BaseController $ctrl, $classname=null){

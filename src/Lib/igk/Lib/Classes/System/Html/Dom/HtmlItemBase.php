@@ -731,7 +731,11 @@ abstract class HtmlItemBase extends IGKObject implements ArrayAccess
             $tab=array(strtolower($name), null, $arguments);
             return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
         }
-        die("call_expression not allowed");
+        if (igk_environment()->is('DEV')){
+            igk_wln(__FILE__.":".__LINE__,  get_class($this));
+            igk_trace();
+            die("call_expression not allowed. ".$name);
+        }
     }
     public function getHasAttributes(){
         return igk_count($this->m_attributes);

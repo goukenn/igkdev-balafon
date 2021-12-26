@@ -3,7 +3,7 @@
 
 use IGK\Controllers\NonVisibleControllerBase;
 
-final class IGKHtmlItemController extends NonVisibleControllerBase{
+final class HtmlNodeController extends NonVisibleControllerBase{
     public function getDataTableName(){
         return null;
     }

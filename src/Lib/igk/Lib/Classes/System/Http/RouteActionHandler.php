@@ -21,44 +21,27 @@ class RouteActionHandler extends RouteHandler
      * @var mixed
      */
     protected $classBind;
-
-    /**
-     * stored expression
-     * @var mixed
-     */
-    protected $m_expressions;
-    
-
     /**
      * auth requirement 
      * @var bool
      */
     protected $auth_requirement;
-
     /**
      * get the attached model user
      * @var mixed
      */
     protected $user;
-
     /**
      * routing info - updated after match
      * @var mixed
      */
     protected $info;
-
     /**
-     * bool get if this route require ajx request
-     * @var mixed
-     */
-    protected $ajx;
-    
-    /**
-     * 
+     * .ctr a route action handler
      * @param string $path path 
      * @param mixed $handleClass 
      * @param string $verb 
-     * @return void 
+     * @return RouteActionHandler  
      */
     public function __construct($path, $handleClass, $type = "action", $verb = "GET, POST")
     {
@@ -75,14 +58,14 @@ class RouteActionHandler extends RouteHandler
     /**
      * get uri by name
      * @param mixed $name 
-     * @return void 
+     * @return string 
      */
     public function getUri($path = null)
     {
         if ($this->info){
             return igk_getv($this->info, "ruri");
         } 
-        return  null;
+        return  $path;
     }
     
    
@@ -120,15 +103,7 @@ class RouteActionHandler extends RouteHandler
 
      
    
-    /**
-     * set ajx route pattern requirement
-     * @param bool $value 
-     * @return $this 
-     */
-    public function ajx(bool $value =  true){
-        $this->ajx = $value;
-        return $this;
-    }
+   
     public function process(...$arguments){
         if (func_num_args()==0){
             igk_die("request action");
@@ -144,6 +119,9 @@ class RouteActionHandler extends RouteHandler
             igk_die("route not a RouteAction Handler");
         }
         return $route->process(...$arguments);
+    }
+    public function getBindClass(){
+        return $this->classBind;
     }
     /**
      * process this action

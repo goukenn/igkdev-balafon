@@ -112,7 +112,7 @@ function igk_get_app_ctrl(){
         $n=igk_getv(igk_getquery_args($e->value), "c");
         $ctrl=igk_getctrl($n, false);
         if($ctrl){
-            if(igk_reflection_class_extends($ctrl, "IGKApplicationController")){
+            if(igk_reflection_class_extends($ctrl, "ApplicationController")){
                 return $ctrl;
             }
         }

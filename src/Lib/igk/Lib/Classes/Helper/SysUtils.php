@@ -6,8 +6,23 @@ use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGKEvents;
 use IGKException;
+use ReflectionMethod;
 
 class SysUtils{
+    public static function GetDeclaredMethods($class){
+        $ref = igk_sys_reflect_class($class);
+        return  array_filter(array_map(function($m) use ($class){
+            $n = $m->getName();
+            if (strpos($n , "__")===0){
+                return null;
+            }
+            if ($m->getDeclaringClass()->getName() == $class)
+                return $n;
+            return null;
+        },$ref->getMethods( ReflectionMethod::IS_PUBLIC)));
+
+
+    }
      /**
      * 
      * @param array|\IIGKArrayObject $n  item to convert

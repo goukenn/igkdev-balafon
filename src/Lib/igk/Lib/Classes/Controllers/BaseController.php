@@ -65,7 +65,7 @@ use function igk_resources_gets as __;
  * @method static void getEnvParamKey() macros function
  * @method static void getInitDbConstraintKey() macros function
  * @method static void getIsVisible() macros function
- * @method static void getRouteUri() macros function
+ * @method static void getRouteUri() macros functiong
  * @method static void getTestClassesDir() macros function
  * @method static object getUser() macros function
  * @method static void array getViewArgs() macros function
@@ -140,17 +140,17 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         return null;
     }
 
-    ///<summary> registered entry namespace . for auto load class </summary>
-    /**
-     *  registered entry namespace . for auto load class
-     */
-    protected function getEntryNameSpace()
-    {
+     
+
+    protected function getEntryNamespace(){
+        if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
+            return \IGK::class;
+        }
         $ns = dirname(igk_io_dir(get_class($this)));
         if ($ns != ".") {
             return str_replace("/", "\\", $ns);
         }
-        return null;
+        return null; 
     }
     ///<summary></summary>
     /**
@@ -314,7 +314,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             // }
             if ((igk_count($params) > 0) && key_exists(0, $params) && ($handler = $this->getActionHandler($fname, $params[0]))) {
                 $handler::Handle($this, $fname, $params);
-            }
+            } 
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;

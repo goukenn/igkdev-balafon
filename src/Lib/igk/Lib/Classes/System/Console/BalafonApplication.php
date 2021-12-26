@@ -197,13 +197,19 @@ class BalafonApplication extends IGKApplicationBase
             "--db:seed" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = null, $class = null) {
                     DbCommand::Init($command);
+                    // Transformo to namespace class
+                    if ($ctrl){
+                        $ctrl = str_replace("/", "\\", $ctrl);
+                    }
+ 
 
                     if ($ctrl) {
-                        if ($c = igk_getctrl($ctrl, false)) {
-
+                        if ($c = igk_getctrl($ctrl, false)) { 
                             $inf = get_class($c);
                             if (!empty($class))
                                 $inf .= "::" . $class;
+ 
+
                             Logger::print("seed..." . $inf . " " . igk_environment()->querydebug);
                             $c::seed($class);
                             Logger::success("seed complete");

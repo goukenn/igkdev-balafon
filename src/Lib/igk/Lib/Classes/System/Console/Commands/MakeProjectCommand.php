@@ -17,9 +17,9 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\SchemaBuilder;
+use IGK\System\Http\Route;
 use IGK\System\IO\File\PHPScriptBuilder; 
-use IGK\Helper\IO as IGKIO;
-use IGK\Helper\IO;
+ 
 
 use function igk_resources_gets as __;
 use stdClass;
@@ -54,6 +54,7 @@ class MakeProjectCommand extends AppExecCommand{
         $e_ns=igk_getv($command->options, "--entryNamespace", null);
         $desc=igk_getv($command->options, "--desc", null);
         $configs=igk_getv($command->options, "--configs", null);
+        $no_config=property_exists($command->options, "--noconfig");
         $use_git=property_exists($command->options, "--git");
         $ns=igk_str_ns($name);
         $pname=basename(igk_io_dir($ns));
@@ -61,6 +62,9 @@ class MakeProjectCommand extends AppExecCommand{
         $dir=igk_io_projectdir()."/{$pname}";
         igk_init_controller(new ControllerInitListener($dir, 'appsystem'));
         $defs="";
+
+
+        
         if(!empty($e_ns)){
             $e_ns=str_replace("\\\\", "\\", igk_str_ns($e_ns));
             $defs .= "protected function getEntryNamespace(){ return {$e_ns}::class; }";
@@ -90,7 +94,7 @@ class MakeProjectCommand extends AppExecCommand{
 EOF;
 
         $config=new stdClass();
-        if(class_exists($type)){
+        if(!$no_config && class_exists($type)){
             if(method_exists($type, "GetAdditionalDefaultViewContent")){
                 $defaultsrc=$type::GetAdditionalDefaultViewContent();
                 if(strpos($defaultsrc, "<?php") === 0){
@@ -134,6 +138,23 @@ EOF;
             $build=new SchemaBuilder();
             igk_io_w2file($file, $build->render((object)["Context"=>"XML", "Indent"=>true]));
         };
+
+
+        // configuration 
+        $bind[$dir."/".IGK_CONF_FOLDER."/routes.php"] = function($file){
+            $builder = new PHPScriptBuilder();
+            $builder->uses(Route::class)
+            ->type("function")
+            ->file(basename($file))
+            ->defs(implode("\n", [
+                "// store the RouteActionHandler for this base controller",
+                "// Route::get( \$actionClass, \$uriPattern, \$controllerTaskPage) ",
+
+            ]));
+            
+            igk_io_w2file($file, $builder->render());
+        };
+
         if($configs)
             $bind[$dir."/".IGK_DATA_FOLDER."/".
         IGK_CTRL_CONF_FILE]=function($file) use ($author, $dir, $configs){

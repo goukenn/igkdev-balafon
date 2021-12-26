@@ -58,7 +58,7 @@ final class IGKLangKey implements IHtmlGetValue {
                 $vs=igk_createnode("script");
                 $vs->Content=$v_langctrl->sourceScript();
                 if($options && $options->Document && ($body=$options->Document->body)){
-                    $body->AppendContent->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->add($vs);
+                    $body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->add($vs);
                 }
                 else{
                     $vs->renderAJX();

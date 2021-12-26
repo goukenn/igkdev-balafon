@@ -1,9 +1,12 @@
 <?php
+// @file : IConfigController.php
+// @package : IGK
+// @author : C.A.D. BONDJE DOUE
 
 namespace IGK\System\Configuration\Controllers;
-///<summary>Represente interface: IIGKConfigController</summary>
+///<summary>a controller for configuration</summary>
 /**
-* Represente IIGKConfigController interface
+* a controller for configuration
 */
 interface IConfigController {
     ///<summary></summary>

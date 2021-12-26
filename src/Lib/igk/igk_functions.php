@@ -14979,6 +14979,7 @@ function igk_init_controller($listener)
     $listener->addDir(IGK_SCRIPT_FOLDER);
     $listener->addDir(IGK_STYLE_FOLDER);
     $listener->addDir(IGK_CONTENT_FOLDER);
+    $listener->addDir(IGK_CONF_FOLDER);
     $listener->addDir(implode("/", [IGK_LIB_FOLDER, IGK_CLASSES_FOLDER]));
     $listener->addDir(implode("/", [IGK_LIB_FOLDER, IGK_TESTS_FOLDER]));
     $listener->addDir(IGK_CONF_FOLDER);
@@ -17118,8 +17119,9 @@ function igk_io_symlink($target, $link)
         if (!($r = IO::SymLink($target, $link))) {
             igk_ilog("unix symlink failed: source: " . $target . " cibling: " . $link);
             if (igk_environment()->is("DEV")) {
+
                 igk_trace();
-                igk_wln_e("fileexists? " . file_exists($target), "realtarget:" . realpath($target), "failed; " . $target, " cibling " . $link);
+                igk_wln_e("failed to create symlink "); ///fileexists? " . file_exists($target), "realtarget:" . realpath($target), "failed; " . $target, " cibling " . $link);
             }
         }
     }
@@ -18882,6 +18884,8 @@ function igk_nav_session()
  */
 function igk_navto($uri, $headerStatus = null)
 { 
+    // igk_trace();
+    // igk_wln_e("navto :::".$uri);
     if (($headerStatus !== null) && $headerStatus) {
         // igk_ilog("the status " . ($headerStatus == null));
         igk_set_header($headerStatus);

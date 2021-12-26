@@ -49,7 +49,17 @@ class RouteHandler
      */
     protected $route;
 
+    /**
+     * support ajx
+     * @var bool
+     */
     protected $ajx;
+
+    /**
+     * stored expression
+     * @var mixed
+     */
+    protected $m_expressions;
 
     public function getRoute()
     {
@@ -280,4 +290,14 @@ class RouteHandler
     public static function Handle($route, ...$arguments){
         return $route->process(...$arguments);
     }   
+
+     /**
+     * set ajx route pattern requirement
+     * @param bool $value 
+     * @return $this 
+     */
+    public function ajx(bool $value =  true){
+        $this->ajx = $value;
+        return $this;
+    }
 }

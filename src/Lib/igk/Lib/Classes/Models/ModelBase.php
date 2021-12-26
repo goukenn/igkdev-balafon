@@ -8,6 +8,7 @@ use Exception;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Utility;
+use IGK\Models\ModelBase as ModelsModelBase;
 use IGKEvents;
 use IGKException;
 use IGKSystemController;
@@ -22,8 +23,8 @@ use ReflectionClass;
  * @method static object|null insert() macros function - DefaultModelEntryExtension
  * @method static array|null select(?array $condition=null) macros function - DefaultModelEntryExtension
  * @method static array|null select_all($condition=null) macros function  
- * @method static void bool drop() macros function drop table 
- * @method static void bool delete($condition) macros function delete table's entries
+ * @method static bool drop() macros function drop table 
+ * @method static bool delete(array|objectg $condition) macros function delete table's entries
  * @method static void object|null select_row($condition) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
@@ -34,9 +35,7 @@ use ReflectionClass;
  * @method static int count() macros function
  * @method static object|null createFromCache() macros function
  * @method static bool createIfNotExists(object $object, ?mixed $condition) macros function: create if not exists
- * @method static void delete() macros function
  * @method static void display() macros function
- * @method static void drop() macros function 
  * @method static array|Iterable|null formFields() macros function
  * @method static array formSelectData() macros function : form selection data
  * @method static void form_select_all() macros function
@@ -70,7 +69,11 @@ use ReflectionClass;
 abstract class ModelBase implements ArrayAccess
 {
 
-    static $macros;
+    /**
+     * stored macros
+     * @var mixed
+     */
+    private static $macros;
     /**
      * table's name
      * @var string
@@ -179,14 +182,27 @@ abstract class ModelBase implements ArrayAccess
         return DbSchemas::CreateRow($this->getTable(), $ctrl);
     }
 
+    private static function CreateMockInstance($classname){
+        static $mock_instance;
+        if ($mock_instance===null){
+            $mock_instance = [];
+        }
+        if (!($m = igk_getv($mock_instance, $classname))){
+            $m =  new $classname(null, 1);
+            $mock_instance[$classname] = $m;
+        }
 
-    public function __construct($raw = null)
+        return $m;
+
+    }
+
+    public function __construct($raw = null, $mock=0)
     {
-        $this->raw = $this->createRow();
-        if (!$this->raw) {
+        $this->raw = $raw && ($raw instanceof ModelBase) ? $raw :  $this->createRow();
+        if (!$this->raw && !$mock) {
             igk_trace();
             igk_wln(__FILE__ . ":" . __LINE__, "raw is null", get_class($this), $this->controller, $this->getTable());
-            igk_wln_e(igk_app()->getControllerManager()->getInitControllerKeys());
+            // igk_wln_e(igk_app()->getControllerManager()->getInitControllerKeys());
             die("Failed to create dbrow: " . $this->getTable());
         }
         if ($raw) {
@@ -196,6 +212,9 @@ abstract class ModelBase implements ArrayAccess
                 }
             }
         }
+        $this->is_mock = $mock;
+        // igk_wln_e("load mocking ", $mock, $this->getTable());
+        // exit;
     }
     public function __set($name, $value)
     {
@@ -294,7 +313,7 @@ abstract class ModelBase implements ArrayAccess
             // 
             // + initialize macro definition
             //
-            self::$macros = [
+            $macros = [
                 "create" => function ($raw = null) {
                     $c = new static($raw);
                     if ($c->raw) {
@@ -306,15 +325,15 @@ abstract class ModelBase implements ArrayAccess
                     }
                     return $c;
                 },
-                "registerMacro" => function ($name, callable $callback) {
+                "registerMacro" => function ($name, callable $callback) use ( & $macros ) {
 
                     if (is_callable($callback)) {
                         $callback = Closure::fromCallable($callback);
                     }
                     if (__CLASS__ == static::class) {
-                        self::$macros[$name] = $callback;
+                        $macros[$name] = $callback;
                     } else {
-                        self::$macros[igk_ns_name(static::class . "/" . $name)] = $callback;
+                        $macros[igk_ns_name(static::class . "/" . $name)] = $callback;
                     }
                 },
                 "unregisterMacro" => function ($name) {
@@ -336,6 +355,8 @@ abstract class ModelBase implements ArrayAccess
                     return igk_environment()->createClassInstance(static::class);
                 }
             ];
+
+            self::$macros = & $macros; 
             // register call extension
             $f = igk_sys_reflect_class(ModelEntryExtension::class);
             foreach ($f->getMethods() as $k) {
@@ -347,8 +368,7 @@ abstract class ModelBase implements ArrayAccess
             igk_hook(IGKEvents::HOOK_MODEL_INIT, []);
         }
 
-        $_instance_class = igk_environment()->createClassInstance(static::class);
-        $_instance_class->is_mock = 1;
+        $_instance_class = self::CreateMockInstance(static::class);
 
         if ($fc = igk_getv(self::$macros, $name)) {
             $bind = 1;

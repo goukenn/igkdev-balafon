@@ -17,4 +17,8 @@ class View {
     public static function File(){
         return igk_get_viewfile();
     }
+
+    public static function Dir(){
+        return dirname(self::File());
+    }
 }

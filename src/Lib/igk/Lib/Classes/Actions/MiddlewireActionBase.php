@@ -3,6 +3,7 @@
 namespace IGK\Actions;
 
 use IGK\Helper\MacrosHelper;
+use IGK\Helper\SysUtils;
 use IGK\Models\Users;
 use IGK\System\Http\RedirectRequestResponse;
 use IGK\System\Http\Request;
@@ -44,6 +45,10 @@ abstract class MiddlewireActionBase extends IGKActionBase{
         return $this;
     }
     protected function checkMiddle(){
+
+        if (empty($auths = $this->auths)){
+            return true;
+        }
         $this->ctrl->checkUser(false); 
         if (!$this->ctrl->User){
              
@@ -58,7 +63,7 @@ abstract class MiddlewireActionBase extends IGKActionBase{
         } 
 
         $user = Users::currentUser();
-        if ( $this->auths && !$user->auth($this->auths)){
+        if ( !$user->auth($auths)){
              throw new IGKException("Resource access not allowed");
         }
         $this->user = $user;
@@ -98,26 +103,40 @@ abstract class MiddlewireActionBase extends IGKActionBase{
 
         if (!empty($routes)){
             // must use the route technique to validate the path
-            // igk_wln(__FILE__.":".__LINE__, $path, $routes);
             
+            // igk_wln(__FILE__.":".__LINE__, $path, $routes, static::class);
             foreach($routes as $v){ 
                 if ($v->match($path, igk_server()->REQUEST_METHOD)){ 
-                    if (!$v->isAuth($user)){
+                    if ($user && !$v->isAuth($user)){
                         throw new IGKException("Route access not allowed");
                     } 
                     $v->setUser($user);
                     $v->setRoutingInfo((object)[
                         "ruri"=>$ruri
                     ]);                    
-                    array_unshift($arguments, $this->ctrl); 
+                    array_unshift($arguments, $this->ctrl);  
+                    if ($v->getBindClass() === null){
+                        $m = SysUtils::GetDeclaredMethods(static::class);
+                        // detected method to invoke
+                        $proc = ["_".strtolower(igk_server()->REQUEST_METHOD), ""];
+                        while((count($proc)>0) && (($f = array_shift($proc))!==null)){
+                            if (in_array($name.$f, $m)){
+                                $name = $name.$f; 
+                                return $this->$name(...$arguments);
+                            }
+                        } 
+                        // no controller task setup
+                        return null;
+                    }
                     return RouteActionHandler::Handle($v, ...$arguments);
-                }
-                 
+                } 
             }
             throw new IGKException("Route not resolved", 404);
         }
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments); 
     }
-    abstract protected function invoke($route, $args);
+    protected function invoke($route, $args){
+
+    }
 }

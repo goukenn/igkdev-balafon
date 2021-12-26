@@ -49,16 +49,19 @@ class IO{
         $path = igk_html_uri($str);
         foreach ($tp as $c => $t) {
             $gp = [$c];
-            if (($tc = realpath($c)) || is_link($c)) {
+            if ((($tc = realpath($c)) && ($tc != $c)) || is_link($c)) {
+                if ($tc===false){
+                    $tc = $c; 
+                }
                 $gp[] = $tc;
             }
-            foreach ($gp as $tm) {
+            foreach ($gp as $tm) { 
                 if (strpos($path, $tm) === 0) {
                     $path = str_replace($tm, $t, $path);
                     break 2;
                 }
             }
-        }
+        } 
         return $path;
     }
     /**
