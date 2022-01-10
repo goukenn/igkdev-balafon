@@ -10,7 +10,8 @@
 
 namespace IGK\Controllers;
 
-use IGK\Resources\R; 
+use IGK\Resources\R;
+use IGK\System\Configuration\Controllers\UsersConfigurationController;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\JsonResponse;
@@ -21,6 +22,19 @@ use IGKResourceUriResolver;
  * @package IGK\Controllers
  */
 final class SystemController extends NonVisibleControllerBase{
+    public function getAppUri($path=null){
+        empty($path) && igk_die("null path not allowed");
+        $uri = igk_register_temp_uri(static::class);
+        return implode("/", [$uri, $path]);        
+    }
+    public function logout(){
+        UsersConfigurationController::ctrl()->logout();   
+        if ($sess = igk_app()->getApplication()->getLibrary()->session){
+            $sess->destroy();            
+        }
+        $redirect = urldecode(igk_getr("redirect_uri", "/")); 
+        igk_navto($redirect);
+    }
     ///<summary></summary>
     public function __construct(){
         parent::__construct();

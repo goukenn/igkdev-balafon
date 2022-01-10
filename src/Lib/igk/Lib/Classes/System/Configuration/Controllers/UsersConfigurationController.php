@@ -23,7 +23,7 @@ use function igk_resources_gets as __;
 * class used to register global user in system
 */
 class UsersConfigurationController extends ConfigControllerBase {
-    const IGK_DB="Db";
+    
     ///<summary></summary>
     /**
     * 
@@ -64,7 +64,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     * @param mixed $pwd clear pwd
     */
     public function connect($log=null, $pwd=null){
-        $u=igk_app()->Session->User;
+        $u=igk_app()->session->User;
         if($u !== null)
             return false;
         $rm_me=null;
@@ -99,7 +99,7 @@ class UsersConfigurationController extends ConfigControllerBase {
 
         if ($r = Users::select_row($condition)){
             if($r->clStatus == 1){
-                igk_app()->Session->lastLogin = $r->clLastLogin;
+                igk_app()->session->lastLogin = $r->clLastLogin;
                 //+ | update the last login 
                 Users::update(["clLastLogin"=>
                     QueryBuilder::Expression("CURRENT_TIMESTAMP")],
@@ -118,7 +118,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         }
  
 
-        $e=$this->getDbEntries();
+        $e=  Users::query_all();
         if($e){
             if(!preg_match("/@(.)+$/i", $log)){
                 $log=$log."@".igk_app()->Configs->website_domain;
@@ -130,7 +130,7 @@ class UsersConfigurationController extends ConfigControllerBase {
                 if($t->clStatus == 1){
                     $t=igk_sys_create_user($t);
                     $this->setGlobalUser($t);
-                    $u=igk_app()->Session->User;
+                    $u=igk_app()->session->User;
                     if($rm_me){
                         igk_user_store_tokenid($t);
                     }
@@ -152,7 +152,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     * 
     */
     public function connectpage(){
-        $u=igk_app()->Session->User;
+        $u=igk_app()->session->User;
         if($u != null){
             igk_navto(igk_io_baseuri());
         }
@@ -197,14 +197,13 @@ class UsersConfigurationController extends ConfigControllerBase {
     * 
     */
     public function getDb(){
-        $db=$this->getEnvParam(self::IGK_DB);
+        static $db;
         if($db === null){
 			if (method_exists($this , "_createDbUtility")){
 				$db = $this->_createDbUtility();
 			}
 			if (!$db ){
-				$db=new IGKDbUtility($this);
-				$this->setEnvParam(self::IGK_DB, $db);
+				$db=new IGKDbUtility($this); 
 			}
         }
         return $db;
@@ -261,19 +260,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    /**
-    * 
-    * @param mixed $id
-    */
-    private function getuser($id){
-        $r=igk_db_table_select_where($this->getDataTableName(), array(IGK_FD_ID=>$id), $this);
-        if($r && ($r->RowCount == 1)){
-            return $r->getRowAtIndex(0);
-        }
-        return null;
-    }
+   
     protected function InitComplete()
     {
         parent::InitComplete();
@@ -361,11 +348,11 @@ class UsersConfigurationController extends ConfigControllerBase {
         $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
         setcookie($n, "", time() - (3600), igk_get_cookie_path());
         unset($_COOKIE[$n]);
-        $u=igk_app()->Session->User;
+        $u=igk_app()->session->User;
         if($u != null){
             if(isset($u->clTokenStored))
                 igk_user_set_info("TOKENID", null);
-            igk_app()->Session->setUser(null, $this);
+            igk_app()->session->setUser(null, $this);
         }
         return true;
     }
@@ -514,7 +501,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     * @param mixed $u
     */
     public function setGlobalUser($u){
-        igk_app()->Session->setUser($u, $this);
+        igk_app()->session->setUser($u, $this);
     }
     ///<summary></summary>
     ///<param name="u"></param>
@@ -623,8 +610,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             } 
             
             $i=0;
-            try { 
-
+            try {  
                 $i= igk_db_insert($this, $tb, $o);
             }
             catch(\Exception $ex){
@@ -635,7 +621,7 @@ class UsersConfigurationController extends ConfigControllerBase {
                 $not->addMsgr("msg.useradded");
                 $ctrl=igk_get_regctrl("docs");
                 if($ctrl && !igk_getr("conf")){
-                    igk_ilog("send mail");
+                    igk_dev_ilog("send mail");
                     $info="u=".$o->clLogin."&d=".date("y-m-d");
                     $o->ConfirmationLink=$this->getUri("us_activate&q=".base64_encode($info));
                     $d=new IGKHtmlMailDoc();
@@ -856,7 +842,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             $frm->div()->Content = "No User Found";
         }
         
-        if(igk_app()->Session->URI_AJX_CONTEXT){
+        if(igk_app()->session->URI_AJX_CONTEXT){
             $t->renderAJX();
             igk_exit();
         }

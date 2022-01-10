@@ -7,14 +7,15 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Helper\IO as IGKIO;
+use IGK\System\Console\App;
 use ReflectionClass;
 
 class ModuleListCommand extends AppExecCommand{
     var $command = "--module";
-
+    var $category = "module";
     var $desc  = "module management command";
 
-    public function exec($command){
+    public function exec($command, $args="ls"){
        $args = "ls";
 
        switch($args){
@@ -32,12 +33,16 @@ class ModuleListCommand extends AppExecCommand{
         foreach($mod as $k=>$v){
             $tag = "\r\t\t";
             $f = $k;
-            $f .= $tag.$v->author;
+            $f .= "\n".$tag.$v->author;
             $tag .= "\t\t\t";
             $f .= $tag.$v->version;
             $tag .= "\t";
             $mod = igk_get_module($k);
-            $f .= $tag.$mod->getDeclaredDir().":".$mod->config("entry_NS"); 
+            if (!$mod){
+                $f.= $tag.App::gets( App::RED, "module not found");
+            }else {
+                $f .= $tag.$mod->getDeclaredDir().":".$mod->config("entry_NS"); 
+            }
             Logger::print($f); 
         }
     }

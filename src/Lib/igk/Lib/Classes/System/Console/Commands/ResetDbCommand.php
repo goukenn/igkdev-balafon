@@ -3,6 +3,7 @@ namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGKModuleListMigration;
 
 class ResetDbCommand extends AppExecCommand{
     var $command = "--db:resetdb";
@@ -35,16 +36,25 @@ class ResetDbCommand extends AppExecCommand{
             }
         } else {
             $c = igk_app()->getControllerManager()->getControllers(); 
+            if ($b = IGKModuleListMigration::CreateModulesMigration()){
+                $c =  array_merge($c, [$b]); 
+            } 
         }
         if ($c) {
             foreach ($c as $m) {
                 if ($m->getCanInitDb()){
                     $m->register_autoload();
                     $command->app->print("resetdb : " . get_class($m));
-                    $m::resetDb(false, $force);
-                    Logger::success("complete: ".get_class($m));
+                    if ($m::resetDb(false, $force)!=0){
+                        Logger::danger("failed");
+                    } else {
+                        Logger::success("complete: ".get_class($m));
+                    }
                 }
             }
+            // init modules controller 
+
+
             Logger::print("-"); 
             if ($seed){
                 $fc = $command->exec;

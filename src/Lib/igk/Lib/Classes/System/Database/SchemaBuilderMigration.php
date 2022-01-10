@@ -1,9 +1,12 @@
 <?php
 namespace IGK\System\Database;
-
-use IGKDbSchemas;
+ 
 use IGKException;
 
+/**
+ * update schema migrations
+ * @package IGK\System\Database
+ */
 class SchemaBuilderMigration{
     var $controller;
     private $items; 
@@ -18,7 +21,7 @@ class SchemaBuilderMigration{
             $this->items[] = $c;
             return $c;
         }
-        throw new IGKException("not allowed: $cl::".$name);
+        throw new IGKException("schema builder not allowed : $cl::".$name);
     } 
     public function upgrade(){
         if (!$this->items)return false;

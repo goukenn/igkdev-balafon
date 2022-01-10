@@ -91,7 +91,7 @@ class IGKObject {
     /**
     * used to dispose and release element
     */
-    public function Dispose(){}
+    public function dispose(){}
     ///<summary></summary>
     /**
     * 

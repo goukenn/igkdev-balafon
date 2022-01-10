@@ -22,7 +22,7 @@ background-color:@bg_color;
 }
 EOF;
 
-$bbox=$t->addDiv();
+$bbox=$t->div();
 $bbox->setClass("overflow-y-a fith");
 $hd=$bbox->addDiv()->setClass("header");
 if(!($ref=$ctrl->getParam("referer"))){

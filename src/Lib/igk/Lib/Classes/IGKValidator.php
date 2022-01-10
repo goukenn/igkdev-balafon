@@ -195,6 +195,13 @@ final class IGKValidator extends IGKObject {
         if(empty($v))
             return false;
         $r=preg_match('/^(((http(s){0,1}):)?\/\/([\w\.0-9]+)|(\?))/i', $v);
+        // +-------------------------------------------
+        // detect core matching - component tempory uri 
+        // +-------------------------------------------
+        if (!$r && preg_match( "#^/(index\.php/)?\{[^\}]+\}#i", $v)){           
+            return true;
+        }
+        // $r = !$r || preg_match( "#^/(index\.php/)?\{[^\}]+]\}#i", $v);
         return $r;
     }
     ///<summary></summary>

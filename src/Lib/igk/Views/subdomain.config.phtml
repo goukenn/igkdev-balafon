@@ -12,18 +12,18 @@ use function igk_resources_gets as __;
 use IGK\Resources\R;
 use IGK\System\Html\HtmlUtils; 
 $t->clearChilds();
-$t->addDiv()->setStyle("display:none")->Content="Subdomain Manager";
-$t->addDiv()->addTitleLevel(4)->Content= __("Sub-Domain");
+$t->div()->setStyle("display:none")->Content="Subdomain Manager";
+$t->div()->addTitleLevel(4)->Content= __("Sub-Domain");
 $t->addHSep();
 $dom=IGKSubDomainManager::GetBaseDomain();
-$dv=$t->addDiv();
+$dv=$t->div();
 $dv["class"]="igk-roll-owner";
 $dv->Content=$dom;
 $dv->addRollIn()->setClass("igk-pull-right")->addAJXA($ctrl->getUri("dom_add_db_edit_domain_ajx"))->addResImg("edit_16x16");
 
 $vlist=IGKSubDomainManager::getInstance()->domainList();
 if($vlist && (count($vlist) > 0) ){
-    $tdv=$t->addDiv();
+    $tdv=$t->div();
     $tdv["class"]="igk-row";
     $tdv["style"]="margin:0px; margin-bottom:10px;";
     $tdv->addDiv()->addTitleLevel(5)->Content=R::ngets("title.SystemDomain");
@@ -32,7 +32,7 @@ if($vlist && (count($vlist) > 0) ){
         $dv->add("div")->setClass("floatl")->setStyle("width:180px;")->Content=$v;
     }
 }
-$tdv=$t->addDiv();
+$tdv=$t->div();
 $tdv["class"]="c-z igk-write";
 $tdv->addDiv()->addTitleLevel(5)->Content=R::ngets("title.DatbaseRegisteredDomain");
 igk_notifyctrl()->setNotifyHost($tdv->addDiv(), "domain/dbz");

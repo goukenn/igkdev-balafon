@@ -1,5 +1,8 @@
 <?php
-
+// @author: C.A.D. BONDJE DOUE
+// @file: SchemaAddColumnMigration.php
+// @desc: schema builder helper
+// @date: 20210422 09:09:36
 namespace IGK\System\Database;
 
 use IGK\Database\DbColumnInfo;
@@ -18,9 +21,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         foreach($childs as $c){
             $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
             $this->columns[]=$cl; 
-        } 
-        // TODO: To remove
-        // $this->up();   
+        }   
     }
     public function up(){ 
 

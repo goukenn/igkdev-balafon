@@ -53,10 +53,9 @@ final class MenuController extends ConfigControllerBase
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->m_CurrentPage = IGK_DEFAULT_VIEW;
-        $this->m_CurrentPageIndex = 0;
+        parent::__construct();  
     }
+    
     ///<summary></summary>
     ///<param name="div"></param>
     ///<param name="selectedMenu"></param>
@@ -425,7 +424,7 @@ EOF;
      */
     private function _LoadMenu()
     {
-        throw new IGKException("Not implement");
+        throw new IGKException(__METHOD__. " Not implement");
     }
     ///<summary></summary>
     ///<param name="table"></param>
@@ -564,7 +563,7 @@ EOF;
      */
     public function getCurrentPage()
     {
-        return $this->getFlag("m_CurrentPage");
+        return $this->getFlag("currentPage", igk_app()->getConfigs()->get("menu_defaultPage", IGK_DEFAULT_VIEW));
     }
     ///<summary></summary>
     /**
@@ -572,7 +571,7 @@ EOF;
      */
     public function getCurrentPageIndex()
     {
-        return $this->getFlag("m_CurrentPageIndex");
+        return $this->getFlag("currentPageIndex", 0);
     }
 
 
@@ -715,15 +714,7 @@ EOF;
     {
         return $this->m_customMenu;
     }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    protected function InitComplete()
-    {
-        parent::InitComplete();
-        $this->CurrentPage = igk_gettv(igk_app()->Configs->menu_defaultPage, IGK_DEFAULT_VIEW);
-    }
+    
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="ctrl"></param>

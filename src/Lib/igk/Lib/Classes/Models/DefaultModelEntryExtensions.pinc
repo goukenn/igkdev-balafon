@@ -12,7 +12,7 @@ use IGK\System\Database\QueryBuilder;
 if (defined("IGK_FRAMEWORK_ATOMIC")){
     return;
 }
-
+// + | register user get user groups 
 Usergroups::registerMacro("getUserGroups", function(int $uid){   
     $c = $this::select_query(["clUser_Id"=>$uid],[
         "OrderBy" => ["clName|ASC"],
@@ -67,5 +67,27 @@ Groupauthorizations::registerMacro("getUserAuths", function(int $uid){
 
 });
 
+// + | check auth
 Users::registerMacro("auth", MacrosHelper::auth());
+
+//+ | get current user helper 
 Users::registerMacro("currentUser", MacrosHelper::currentUser());
+
+//+ | add user 
+// Users::registerMacro("addUser", [MacrosHelper::class, "addUser"]);
+Users::registerMacro("addUser", MacrosHelper::addUser2());
+
+Users::registerMacro("GetUserByLogin", function($login){
+$conditions = [];
+if (!IGKValidator::IsEmail($login)) {
+    $conditions[] = (object)["operand" => "OR", "conditions" => ["clLogin" => $login, "clLogin" => $login . "@" . igk_app()->Configs->website_domain]];
+} else {
+    $conditions["clLogin"] = $login;
+}
+return \IGK\Models\Users::select_row($conditions);
+});
+
+/**
+ * @package \IGK\Models\Users;
+ * @method static void addUser add user
+ */

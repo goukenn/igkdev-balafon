@@ -2,6 +2,8 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\Resources\ResourceData;
+use IGK\System\Html\HtmlAttributeArray;
+use IGK\System\Html\HtmlResolvLinkValue;
 
 ///<summary>Represente class: IGKHtmlNoTagNode</summary>
 /**
@@ -10,13 +12,18 @@ use IGK\Resources\ResourceData;
 class HtmlImgNode extends HtmlNode{
     ///<summary></summary>
     /**
-    * 
+    * @param string $src uri
     */
     public function __construct($src=null){
         parent::__construct("igk-img");
-        $this["src"] = new ResourceData($src); 
+        $this["src"] = $src; 
         $this["xmlns:igk"] = self::HTML_NAMESPACE; 
     } 
+    protected function createAttributeArray(){ 
+        return new HtmlAttributeArray([
+            "src"=>new HtmlResolvLinkValue()
+        ]);
+    }
     public function setSrc($source){
         if ($source==null){
             unset($this["src"]);

@@ -66,7 +66,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     }
                     else{
                         IGKOb::Start();
-                        $this->datadb("syncdata", $ctrl->Name, $u->clLogin);
+                        $this->datadb("syncdata", $ctrl->getName(), $u->clLogin);
                         $c=IGKOB::Content();
                         IGKOb::Clear();
                         igk_wl($c);
@@ -89,14 +89,14 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                         $u=$uid;
                         $tb=igk_db_get_ctrl_tables($ctrl);
                         $apt=igk_get_data_adapter($ctrl->getDataAdapterName());
-                        $sync["Controller"]=$ctrl->Name;
+                        $sync["Controller"]=$ctrl->getName();
                         $sync["namespace"]="igk://".$ctrl->Configs->Namespace;
                         if($apt->connect()){
                             $tables=(object)array("list"=>array());
                             $entries=$sync->addNode("Entries");
                             foreach($tb as  $v_tablen){
                                 if(!isset($tables->list[$v_tablen])){
-                                    $rep=$sync->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$v_tablen));
+                                    $rep=$sync->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$v_tablen));
                                     $_api->datadb("get_sync_definition", $rep, $v_tablen, $u, $apt, $ctrl->Db, $entries);
                                 }
                             }

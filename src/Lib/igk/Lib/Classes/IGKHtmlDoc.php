@@ -276,7 +276,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     /**
     * load temp extra script file. must be called out of rendering context. /!\\ Before
     */
-    public function addTempScript($file, $onlyonce=1, $version=IGK_VERSION){
+    public function addTempScript($file){
         if(!IGKValidator::IsUri($file))
             $file=igk_io_dir($file);
         $t=$this->ScriptManager->getTempScripts();
@@ -289,7 +289,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
             $this->m_head->add($n);
             return $n;
         } 
-        $sc=$this->m_head->addScript($file, $version); 
+        $sc=$this->m_head->addScript($file); 
         $t->temp[$file]=$sc;
         $sc->setIsTemp($t);
         return $sc;

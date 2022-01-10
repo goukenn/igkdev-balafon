@@ -2,20 +2,14 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand;
-use IGK\System\Console\Logger;
-use IGKNumber;
-use ZipArchive;
-use IGK\Resources\R;
-use IGK\System\Console\App;
-use IGKControllerManagerObject;
-
-// require_once (IGK_LIB_DIR."/Lib/Classes/Resources/R.php");
+use IGK\System\Console\Logger; 
+use IGK\System\Console\App;  
 
 
 class ProjectListCommand extends AppExecCommand{
 
     var $command = "--project:list";
-
+    var $category = "project";
     var $desc = "List installed project";
 
     public function exec($command, $pattern =".+") { 

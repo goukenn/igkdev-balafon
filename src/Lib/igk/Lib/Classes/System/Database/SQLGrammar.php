@@ -385,10 +385,12 @@ class SQLGrammar
         $defvalue =  static::AllowedDefValue();
         $query = "";
         $tinf = null;
+        $not_supported = false;
 
         $type = getev(static::ResolvType($v->clType), "Int");
         if (!$adapter->isTypeSupported($type)) {
             $type = static::fallbackType($type, $adapter);
+            $not_supported = true;
         }
         $query .= $adapter->escape_string($type);
         $s = strtolower($type);
@@ -407,7 +409,7 @@ class SQLGrammar
         }
         $query .= " ";
      
-        if ($v->IsUnsigned()) {
+        if (!$not_supported && $v->IsUnsigned()) {
             $query .= "unsigned ";
         }
 
@@ -703,6 +705,7 @@ class SQLGrammar
                 return strtoupper($pos) . "('" . $driver->escape_string($value) . "')";
             }
         }
+        $value = $driver->getDataValue($value, $tinf); 
         return "'" . $driver->escape_string($value) . "'";
     }
 
@@ -850,7 +853,7 @@ class SQLGrammar
                         $t = 1;
                         continue;
                     }
-                    // if($v instanceof IGKDbExpression){
+                    // if($v instanceof DbExpression){
                     //     if($t == 1)
                     //         $query .= " $op ";
                     //     $query .= $v->getValue((object)[
@@ -1055,7 +1058,7 @@ class SQLGrammar
                             if ($rg = $ad->getObExpression($v, true)) {
                                 $columns .= $rg;
                             }
-                            // if ($s instanceof IGKDbExpression){
+                            // if ($s instanceof DbExpression){
                             //     $columns.= $s->getValue();
                             // } else {
                             //     throw new IGKException(__("objet not a DB Expression"));

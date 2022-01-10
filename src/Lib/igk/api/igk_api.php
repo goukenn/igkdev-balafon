@@ -237,7 +237,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                         $token=igk_curl_post_uri(igk_str_rm_last($srv, '/')."/api/v2/datadb/gentoken");
                         if($token !== false){
                             $c=igk_curl_post_uri(igk_str_rm_last($srv, '/')."/api/v2/datadb/syncdata", array(
-                        "clCtrl"=>$ctrl->Name,
+                        "clCtrl"=>$ctrl->getName(),
                         "clLogin"=>$u->clLogin,
                         "clClearS"=>1,
                         "clToken"=>$token
@@ -253,7 +253,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                             }
                         }
                         else{
-                            $this->datadb("loadsyncdata", $c, $u->clLogin, $ctrl->Name);
+                            $this->datadb("loadsyncdata", $c, $u->clLogin, $ctrl->getName());
                         }
                         igk_exit();
                         header("Content-Type: application/xml");
@@ -282,10 +282,10 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     }
                     else{
                         IGKOb::Start();
-                        $this->datadb("syncdata", $ctrl->Name, $u->clLogin);
+                        $this->datadb("syncdata", $ctrl->getName(), $u->clLogin);
                         $c=IGKOB::Content();
                         IGKOb::Clear();
-                        $g=igk_curl_post_uri($srv."/api/v2/datadb/loadsyncdata", array("data"=>$c, "login"=>$u->clLogin, "ctrl"=>$ctrl->Name));
+                        $g=igk_curl_post_uri($srv."/api/v2/datadb/loadsyncdata", array("data"=>$c, "login"=>$u->clLogin, "ctrl"=>$ctrl->getName()));
                         header("Content-Type: application/xml");
                         igk_wl($g);
                         igk_exit();
@@ -316,7 +316,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                         $u=$uid;
                         $tb=igk_db_get_ctrl_tables($ctrl);
                         $apt=igk_get_data_adapter($ctrl->getDataAdapterName());
-                        $sync["Controller"]=$ctrl->Name;
+                        $sync["Controller"]=$ctrl->getName();
                         $sync["namespace"]=$ctrl->Configs->Namespace;
                         $sync["xmlns:igk"]=IGK_WEB_SITE;
                         if($apt->connect()){
@@ -324,7 +324,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                             $entries=$sync->addNode("Entries");
                             foreach($tb as $v_tablen){
                                 if(!isset($tables->list[$v_tablen]) && $ctrl->Db->getCanSyncDataTable($v_tablen)){
-                                    $rep=$sync->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$v_tablen));
+                                    $rep=$sync->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$v_tablen));
                                     $_api->datadb("get_sync_definition", $rep, $v_tablen, $u, $apt, $ctrl->Db, null, $tables);
                                 }
                             }
@@ -336,11 +336,11 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                             }
                             $apt->close();
                             $vd=igk_createnode();
-                            igk_notification_push_event("system/notify/syncdata/".$ctrl->Name, $_api, array("node"=>$vd, "user"=>$uid));
+                            igk_notification_push_event("system/notify/syncdata/".$ctrl->getName(), $_api, array("node"=>$vd, "user"=>$uid));
                             if($vd->HasChilds){
                                 foreach($vd->Childs->to_array() as $l){
                                     switch($l->TagName){
-                                        case IGKDbSchemas::DATA_DEFINITION:
+                                        case DbSchemas::DATA_DEFINITION:
                                         $sync->add($l);
                                         break;
                                         case "Entries":

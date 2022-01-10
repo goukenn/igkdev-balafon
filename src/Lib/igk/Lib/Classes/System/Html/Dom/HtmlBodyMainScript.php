@@ -11,17 +11,19 @@ class HtmlBodyMainScript extends HtmlScriptNode{
 ///<summary>add inline script to bodymain  script</summary>
     ///<return>index of this script</return>
     public function addScript($key, $script){
-        if(!isset($this->m_scripts[$key])){
-            if(is_string($script))
-                $this->m_v .= $script;
-            else{
-                $this->m_v .= HtmlUtils::GetValue($script);
-            }
-            $this->m_scripts[$key]=$script;
+        if(!isset($this->m_scripts[$key])){            
+            if (!empty($script)){
+                $this->m_scripts[$key]=$script;
+            }  
         }
-        else{
-            $this->m_scripts[$key]=$script;
-            $this->_initValue();
+        else{ 
+            if ($script===null)
+            {
+                unset($this->m_scripts[$key]);
+            } else {
+                $this->m_scripts[$key]=$script;
+            }
+            
         }
         return igk_count($this->m_scripts);
     }
@@ -61,24 +63,21 @@ class HtmlBodyMainScript extends HtmlScriptNode{
      
     protected function __getRenderingChildren($options = null)
     {
-        return [
-            // new ScriptFileRendererer($this->m_script),
-            new HtmlBodyInitDocumentNode()
+        return [ 
+            new HtmlBodyInitDocumentNode(),
+            new SourceScriptRenderer($this->m_scripts)
         ];
     }
 }  
+class SourceScriptRenderer extends HtmlNode{
+    private $m_scripts;
 
-/** @package IGK\System\Html\Dom */
-class ScriptFileRendererer implements IHtmlGetValue{
-    private $tag;
-    public function __construct(array $tab){
-        $this->tag = $tab;
+    public function __construct($scripts)
+    {
+        $this->m_scripts = $scripts;
     }
-    public function getValue($option=null){
-        $m = "";
-        foreach($this->tab as $k=>$v){
-            $m.="<script src=\"".$v."\"></script>";
-        }
-        return $m;
+    public function render($options = null) { 
+        return $this->m_scripts ? implode("\n", array_values($this->m_scripts )) : null;
     }
-}
+
+} 

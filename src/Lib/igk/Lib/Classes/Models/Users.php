@@ -1,31 +1,17 @@
-<?php 
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: Users.php
+// @desc: model file
+// @date: 20220109 10:15:50
 namespace IGK\Models;
 
-use IGK\Helper\Utility; 
+use IGK\Models\ModelBase;
 
-/** 
- * @method static User currentUser() get current user
- * @method static 
- */
-class Users extends ModelBase {
-	/** 
-	 */
-	protected $table = "%prefix%users"; 
-
-	protected $display = "clLogin";
-
-	protected $fillable = ["clLogin", "clPwd", "clFirstName", "clLastName"];
-
-	protected $form_fields = ["clLogin", "clPwd", "clFirstName", "clLastName"];
-
+class Users extends ModelBase{
+	/**
+	* table's name
+	*/
+	protected $table = "%prefix%users";
 
 	
-	public function fullname(){
-		return Utility::GetFullName($this);
-	}
-	public function mail_display(){
-		return implode(" ",array_filter([
-			strtoupper($this->clLastName), ucfirst($this->clFirstName),
-			"&lt;".$this->clLogin."&gt;"]));
-	}
 }

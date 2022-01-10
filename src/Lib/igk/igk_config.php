@@ -25,7 +25,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //+ define('IGK_NO_SESSION', 1); 
     //+ define("IGK_TRACE", 1);
     //+ define('IGK_ENV_PRODUCTION', 1); 
-    
+    //+ define("IGK_NO_CACHE_VIEW", 1);
     //+ |----------------------------------------------------------- 
     //+ | ENVIRONMENT SETTING KEYS - DO NOT REPLACE THAT VALUES
     //+ |----------------------------------------------------------- 
@@ -307,7 +307,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_NS_PARAM_KEY", 0x0022);
     // define("IGK_SESS_UNKCOLOR_KEY", 0x002D);
     // define("IGK_SVG_REGNODE_KEY", 0x000E); 
-    // define("IGK_XML_HTML_TEMPLATE_PARENT_KEY", 0x0025);
     // define('IGK_ENV_DB_INIT_CTRL', "sys://db_init_table/ctrl");
     define("IGK_TODAY", date("Y-m-d"));
     define("IGK_DEFAULT_LANG_FOLDER", IGK_LIB_DIR. "/Default/Lang/");
@@ -372,7 +371,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_FIRSTUSE_FLAG", IGK_VIEW_MODE_FLAG + 2);
     // define("IGK_ISINIT_FLAG", IGK_VIEW_MODE_FLAG +3 );
     // define("IGK_AUTH_FLAG", IGK_VIEW_MODE_FLAG +4);
-    // define("IGK_SESS_FLAG", IGK_VIEW_MODE_FLAG +5 );
     // define("IGK_CREATE_AT", IGK_VIEW_MODE_FLAG + 6);
     // define("IGK_SESSION_ID", IGK_VIEW_MODE_FLAG + 7);
     // define("IGK_CURRENT_DOC_INDEX_ID", IGK_VIEW_MODE_FLAG + 8); 
@@ -391,7 +389,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_AUTODINDEX_FLAG", IGK_NODE_FLAG + 2);
     // define("IGK_ZINDEX_FLAG", IGK_NODE_FLAG + 3);
     // define("IGK_ISLOADING_FLAG", IGK_NODE_FLAG + 4);
-    // define("IGK_NODETYPE_FLAG", IGK_NODE_FLAG + 6);
     // define("IGK_NODETYPENAME_FLAG", IGK_NODE_FLAG + 7);
     // define("IGK_NODETAG_FLAG", IGK_NODE_FLAG + 8);
     // define("IGK_NODECONTENT_FLAG", IGK_NODE_FLAG + 9);
@@ -527,8 +524,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_TABLE_PREFIX", "tb");
     //+ engine
     define("IGK_ENGINE_EXPRESSION_NODE", "igk:expression-node"); // used internally to replace data with expression node
-    define("IGK_ENGINE_ATTR_EXPRESSION_NODE", "igk:attr-expression");
-    //	define("IGK_XML_HTML_TEMPLATE_PARENT_KEY", "sys://html/engine/parent");
+    define("IGK_ENGINE_ATTR_EXPRESSION_NODE", "igk:attr-expression"); 
     
     define("IGK_APP_FORM_CONTENT", "Application/x-www-form-urlencoded");
     define("IGK_JS_VOID", "javascript:void();");

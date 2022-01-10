@@ -17,7 +17,7 @@ class XmlNode extends HtmlItemBase{
     }
     public static function CreateWebNode($n, $attributes = null, $indexOrargs = null)
     {
-        $g = new static($n);
+        $g = new self($n);
         if ($attributes){
             $g->setAttributes($attributes);
         }

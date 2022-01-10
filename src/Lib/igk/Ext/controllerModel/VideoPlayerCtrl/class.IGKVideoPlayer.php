@@ -105,7 +105,7 @@ final class IGKHtmlVideoNode extends HtmlNode
 		$r["width"] = $this["width"];
 		$r["height"] = $this["height"];
 		$r->add("data", array());
-		$t->addDiv()->Content = R::ngets("msg.cantrendervideo");
+		$t->div()->Content = R::ngets("msg.cantrendervideo");
 		$this->m_ObjectNode = $t;
 	}
 }

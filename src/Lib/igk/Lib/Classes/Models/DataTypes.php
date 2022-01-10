@@ -1,14 +1,15 @@
 <?php
- 
-
+// @author: C.A.D. BONDJE DOUE
+// @file: DataTypes.php
+// @desc: model file
+// @date: 20220109 10:15:50
 namespace IGK\Models;
 
-use IGK\Models\ModelBase; 
+use IGK\Models\ModelBase;
 
-/** 
- */
-class DataTypes extends ModelBase {
-	/** 
-	 */
-	protected $table = IGK_TB_DATATYPES; 
+class DataTypes extends ModelBase{
+	/**
+	* table's name
+	*/
+	protected $table = "%prefix%data_types";
 }

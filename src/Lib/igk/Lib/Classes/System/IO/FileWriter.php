@@ -20,8 +20,8 @@ class FileWriter{
      * @return true 
      */
     public static function Save($filename, $content, $overwrite=true, $chmod=IGK_DEFAULT_FILE_MASK, $type="w+"){
+         
         if(empty($filename)){
-            // igk_trace();
             igk_die(__FUNCTION__." Filename is empty or null");
         }
         $filename=igk_io_dir($filename);
@@ -57,8 +57,8 @@ class FileWriter{
                     if(IGKApp::IsInit()){
                         igk_notify_error("/!\\ chmod failed ". $filename. " : ".$chmod);
                     }
-                }
-                igk_ilog(__FUNCTION__."::chmodfailed :::".$filename.":".$chmod);
+                } 
+                igk_ilog(__METHOD__."  -> chmodfailed :::".$filename.":".$chmod); 
             }        
         }
         return true; 

@@ -8,8 +8,11 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Database\DbColumnInfo;
 use IGK\Database\DbQueryDriver;
+use IGK\Database\DbSchemas;
 use IGK\Database\SQLDataAdapter;
+use IGK\Helper\IO;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 
@@ -221,6 +224,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         $v = stripslashes($v);
 		return $this->sql->escapeString($v);
 	}
+    public function last_error()
+    {
+        return $this->sql->last_error();
+    }
     ///<summary></summary>
     /**
     * 

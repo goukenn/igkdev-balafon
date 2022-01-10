@@ -3,7 +3,9 @@
 ///<summary>
 class IGKAppSetting{
     private $info;
-
+    public function getInfo(){
+        return $this->info;
+    }
     public function __construct($info){
         if (!is_object($info)) die("info not valid");
         $this->info = $info;

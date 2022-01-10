@@ -14,6 +14,10 @@ use IGK\System\Http\Request;
 * Represente view's action definition
 */
 abstract class IGKActionBase implements IActionProcessor{
+    /**
+     * 
+     * @var BaseController
+     */
     protected $ctrl;
     protected $context;
     protected $throwActionNotFound = true;

@@ -18,6 +18,7 @@ use ReflectionFunction;
  * @method static resetDb() from default extension 
  * @method static object getMacro() from default extension 
  * @method static mixed invokeMacro($name, $args) . from context force macros invocation if method is present.
+ * @method static null|callable getMacro($name, $args) . from context force macros invocation if method is present.
  */
 abstract class RootControllerBase extends IGKObject{
 	static $macros;
@@ -43,6 +44,7 @@ abstract class RootControllerBase extends IGKObject{
         }        
         return igk_auto_load_class($n, $entryNS, $classdir);
     }
+   
 	///<summary></summary>
     /**
     * 
@@ -53,13 +55,17 @@ abstract class RootControllerBase extends IGKObject{
 	public static function IsSystemController( RootControllerBase $controller){
 		return $controller->getIsSystemController();
 	}
+    /**
+     * return registrated macro function 
+     */
+    public final static function getMacro($name){
+        return igk_getv(self::$macros, $name);
+    }
 
     public static function __callStatic($name, $arguments)
 	{
         $c = null; 
-        $v_macro  = 0;
-
-        
+        $v_macro  = 0; 
 
 		if (self::$macros===null){
 			self::$macros = [
@@ -74,10 +80,7 @@ abstract class RootControllerBase extends IGKObject{
 				},
 				"getDb"=>function(){
 					return null;
-				},
-				"getMacro"=>function($name) {
-					return  igk_getv(self::$macros, $name);
-				}
+				},				 
 			];
 		} 
 		$v_macro = 0;
@@ -104,19 +107,45 @@ abstract class RootControllerBase extends IGKObject{
 		//if ($name == "getComponentsDir"){
 			// method is probably protected
 		if (!$v_macro && !igk_environment()->{static::class.'/bypass_method'} && method_exists($c, $name)){
-			//invoke in controller context
+			//invoke in controller context 
 			return $c::Invoke($c, $name, $arguments);
 		}	
         // + | invoke controller extension method
 		array_unshift($arguments, $c); 
+
+        if ($name=="getDbEntries"){
+            igk_trace();
+            igk_exit();
+        }
+
 		return ControllerExtension::$name(...$arguments); 
 	}
 	public function __call($name, $argument){
         return static::__callStatic($name, $argument);
     }
+
+    public function __get($name){
+        if(method_exists($this, $fc = "get".ucfirst($name))){ 
+      
+            return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
+        }
+        return $this->getEnvParam($name);
+    }
+    public function __set($name, $value){
+        if (!$this->_setIn($name, $value)){   
+           $this->setEnvParam($name, $value);
+        }
+        return $this;
+    }
+
 	abstract function View();
 
-	/** @return mixed  */
+
+    ///<summary>get application manager instance</summary>
+	/**
+     * get application manager instance
+     *  @return IGKApp  
+     * */
 	public function getApp(){ return IGKApp::getInstance(); }
 
     /**

@@ -17,10 +17,10 @@ final class IGKCssComponentStyle extends IGKObject{
     ///<summary></summary>
     public static function getInstance(){
         $k=igk_get_instance_key(__CLASS__);
-        $v=igk_app()->Session->getParam($k);
+        $v=igk_app()->session->getParam($k);
         if(!$v){
             $v=new IGKCssComponentStyle();
-            igk_app()->Session->setParam($k, $v);
+            igk_app()->session->setParam($k, $v);
         }
         return $v;
     }

@@ -23,6 +23,7 @@ use function \igk_api_mysql_check_data_structure;
  */
 class DbCleanCommand extends AppExecCommand{
     var $command = "--db:clean";
+    var $category = "db";
 
     public function exec($command) { 
         require_once(IGK_API_MYSQLPINC);

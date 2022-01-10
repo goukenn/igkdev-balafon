@@ -79,6 +79,11 @@ class RouteHandler
         $this->route = $route;
         return $this;
     }
+
+    public function isAuthRequired(){
+        return !empty($this->auth);
+    }
+
  /**
      * set roting property object
      * @param object $info 

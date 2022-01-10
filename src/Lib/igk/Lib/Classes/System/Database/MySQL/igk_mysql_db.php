@@ -217,8 +217,9 @@ function igk_mysql_db_error($r=null){
     $g=DbQueryDriver::GetFunc("error");
     if(DbQueryDriver::Is("MySQLI")){
         $d=DbQueryDriver::GetResId();
-        if($d)
+        if($d){ 
             return $g($d);
+        }
         return "";
     }
     return $g($r);

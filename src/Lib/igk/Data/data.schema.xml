@@ -162,7 +162,7 @@
         <Column clName="clLevel" clType="ENUM" clEnumValues="-1,0,1,2,3" clNotNull="True" clDefault="0" clDescription="user description" />
         <Column clName="clStatus" clType="Int" clTypeLength="11" clDefault="-1" clDescription="state of the account, -1 = not activated, 1=activated, 0or2=blocked, 4=update" clNotNull="True" />
         <Column clName="clDate" clType="DateTime" clDescription="registration date" clNotNull="True" clDefault="CURRENT_TIMESTAMP" />
-        <Column clName="clLastLogin" clType="DateTime" clDescription="last login" />
+        <Column clName="clLastLogin" clType="Datetime" clDescription="last login" />
         <Column clName="clParent_Id" clType="Int" clTypeLength="11" clDescription="Parent of this account" clLinkType="%prefix%users" />
         <Column clName="clClassName" clType="VARCHAR" clTypeLength="255" clDescription="if clParent_Id then object refer to class name that initialize the sub user" />
     </DataDefinition>
@@ -240,7 +240,8 @@
         
         <Migration>
             <addColumn table="%prefix%users" >
-                <Column clName="clupdate_at" clType="DateTime"  clDefault="CURRENT_TIMESTAMP" clUpdateFunction="Now()" clDescription="update information" clNotNull="True" /> 
+                <Column clName="clcreate_at" clType="DateTime"  clDefault="CURRENT_TIMESTAMP" clUpdateFunction="Now()" clDescription="create at" clNotNull="True" /> 
+                <Column clName="clupdate_at" clType="DateTime"  clDefault="CURRENT_TIMESTAMP" clUpdateFunction="Now()" clDescription="update user info's at" clNotNull="True" /> 
             </addColumn>
         </Migration>
         <Migration>

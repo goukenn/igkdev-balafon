@@ -5,6 +5,8 @@
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
+use IGK\System\Html\HtmlRenderer;
+use IGK\System\Html\HtmlUtils;
 
 use function igk_resources_gets as __;
 
@@ -674,7 +676,7 @@ function igk_html_domaintitle($title){
 */
 function igk_html_dump($obj){
     $t=igk_createnode("div");
-    $t->addDiv()->Content="Object: ";
+    $t->div()->Content="Object: ";
     $tq=array(array($obj, $t));
     while($q=array_pop($tq)){
         $dv=$q[1]->addDiv();
@@ -813,7 +815,7 @@ function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){
     };
     $bindValue = function(&$o, & $fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag){
         $attr_key = $get_attr_key($v);
-        $_value= key_exists("value", $v) ? $v["value"]: "";
+        $_value= is_array($v) && key_exists("value", $v) ? $v["value"]: "";
         if ($attr_key){
             if (isset($v[$attr_key]["value"])){
                 $_value = $v[$attr_key]["value"];
@@ -958,6 +960,11 @@ function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){
     };
     $fieldset=0;
     foreach($formFields as $k=>$v){
+        if (is_integer($k)){
+            if (is_string($v)){
+                $k = $v;
+            }
+        }
         if ( ($cpos = strrpos($k, "[]")) !== false){   
             $name = substr($k, 0, $cpos);
             $ct = count($v);
@@ -966,7 +973,6 @@ function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){
                 $b["name"]= $k;  
                 $bindValue($o, $fieldset, $name, $b );
             }
-            //igk_wln_e("position : ", $cpos, count($v), $k, $name);
             continue;
         }
         $bindValue($o, $fieldset, $k, $v );
@@ -994,9 +1000,14 @@ function igk_html_form_init(){
     igk_html_form_cref();
    
 }
+/**
+ * render html cref
+ * @return void 
+ * @throws IGKException 
+ */
 function igk_html_form_cref(){
     $o=igk_createnode("input");
-    $o["name"]=base64_encode(igk_app()->Session->getCRef());
+    $o["name"]=base64_encode(igk_app()->getSession()->getCRef());
     $o["value"]=1;
     $o["type"]="hidden";
     $o->renderAJX();
@@ -1424,14 +1435,7 @@ function igk_html_wtag($tag, $content, $attribs=null, $forcexml=0){
     return $o;
 }
 function igk_html_render_attribs($attribs){
-	$o = "";
-	if (!$attribs)
-		igk_die("attrib is empty");
-	foreach($attribs as $n=>$v){
-		$r=HtmlUtils::GetValue($v);
-		$o .= " {$n}=\"".$r."\"";
-	}
-	return ltrim($o);
+    return HtmlUtils::GetAttributeArrayToString($attribs); 	
 }
 
 

@@ -37,6 +37,7 @@ abstract class ProjectDefaultAction extends \IGKActionBase{
             $response->cache_output(2500);  
             $response->output();
         } 
+        // igk_dev_wln_e(__FILE__.":".__LINE__,  $content );
         throw new  RequestException(404, "resource not found: $path");
     }
     protected function manifest_json(){

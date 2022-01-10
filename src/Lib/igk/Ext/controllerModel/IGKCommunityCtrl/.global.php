@@ -44,9 +44,9 @@ function igk_html_node_FollowUsButton($name, $uid){
 	$srv = igk_community_get_followus_service();
 	$fc = igk_getv($srv, $name);
 	if ($fc){
-		$n = igk_createnotagnode();
+		$n = igk_create_notagnode();
 		$args = array_merge(array("view", $n, $uid), array_slice(func_get_args(),2));
-		call_user_func_array($fc, $args);//call$fc("googleplus", "view", $t->addDiv(), "110019067739683958923");
+		call_user_func_array($fc, $args);//call$fc("googleplus", "view", $t->div(), "110019067739683958923");
 		return $n;
 	}
 	return null;

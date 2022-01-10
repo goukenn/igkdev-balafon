@@ -52,7 +52,7 @@ Vivamus cras quam erat ligula, nunc sapien malesuada lacus, suspendisse sed, sed
 EOF
 );
 
-	$t->addDiv()->Content = "Layout Presentation demos";
+	$t->div()->Content = "Layout Presentation demos";
 }
 
 

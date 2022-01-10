@@ -10,6 +10,7 @@ use IGK\Resources\IGKLangResDictionary;
 use IGK\System\Console\Logger;
 use IGKAppType;
 use HtmlReader;
+use IGKException;
 use IGKLangExpression;
 use IGKUserAgent;
 
@@ -44,6 +45,20 @@ final class R extends IGKObject {
     public static function AddLang($key, $value){
         if(!empty($key))
             self::getInstance()->langRes[strtolower(trim($key))]=$value;
+    }
+    /**
+     * get current lang locale string 
+     * @return string  
+     * @throws IGKException 
+     */
+    public static function GetLocale(){
+        $n = self::GetCurrentLang();
+        $c = $n;
+        // igk_wln_e("locale : ", php-intl \Locale::getDisplayRegion("-be", "en"));
+        if (strpos($n, "_")!==false){
+            return $n;
+        }
+        return sprintf("%s_%s", strtolower($n), strtoupper($c));
     }
     ///<summary></summary>
     ///<param name="lang" default="fr"></param>
@@ -387,7 +402,7 @@ EOF;
     public static function ncgets($ctrl, $key){
         if(empty($key) || ($ctrl == null))
             return null;
-        return self::ngets(strtolower($ctrl->Name.".".$key));
+        return self::ngets(strtolower($ctrl->getName().".".$key));
     }
     ///<summary>get new language expression</summary>
     /**
@@ -463,8 +478,8 @@ EOF;
             $_instance->m_langctrl=array();
         if($_instance->m_langFiles == null)
             $_instance->m_langFiles=array();
-        if($ctrl && !IGKControllerManagerObject::IsSystemController($ctrl) && !isset($_instance->sm_langctrl[$ctrl->Name])){
-            $_instance->m_langctrl[$ctrl->Name]=$ctrl;
+        if($ctrl && !IGKControllerManagerObject::IsSystemController($ctrl) && !isset($_instance->sm_langctrl[ $name = $ctrl->getName()])){
+            $_instance->m_langctrl[$name]=$ctrl;
             if($v->m_langloaded){
                 self::LoadCtrlLang($ctrl);
             }
@@ -576,7 +591,7 @@ EOF;
         $_instance=self::getInstance();
         if($_instance->m_langctrl == null)
             $_instance->m_langctrl=array();
-        if(isset($_instance->m_langctrl[$ctrl->Name]))
-            unset($_instance->m_langctrl[$ctrl->Name]);
+        if(isset($_instance->m_langctrl[$ctrl->getName()]))
+            unset($_instance->m_langctrl[$ctrl->getName()]);
     }
 }

@@ -114,8 +114,8 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         $this->addTabPage("page3", $buri."/showpage/4", false);
         $i=$this->m_selected ? $this->m_selected: 1;
         $this->m_tabcontent->Content=igk_ob_get_func(array($this, "showpage"), array($i));
-        $t->addDiv()->Content="Code Sample";
-        $t->addDiv()->addCode()->setAttribute("igk-code", "php")->Content=<<<EOF
+        $t->div()->Content="Code Sample";
+        $t->div()->addCode()->setAttribute("igk-code", "php")->Content=<<<EOF
 \$this->clearChilds();
 \$this->addTabPage("page1", \$this->getComponentUri("showpage/1"), true);
 \$this->addTabPage("page2", \$this->getComponentUri("showpage/2"), false);

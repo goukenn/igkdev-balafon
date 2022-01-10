@@ -4,10 +4,12 @@ namespace IGK\System\Html;
 
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
+use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode; 
 use IGK\System\Html\XML\XmlNode;
+use IGKException;
 use ReflectionClass;
 use ReflectionFunction;
 
@@ -17,8 +19,62 @@ use function igk_resources_gets as __;
 /**
  * represent html utility
  */
-abstract class HtmlUtils
+abstract class HtmlUtils extends DomNodeBase
 {
+
+    /**
+     * get full query ars
+     * @param string $uri 
+     * @param array $args 
+     * @return string 
+     */
+    public static function GetFullQueryUri(string $uri, array $args){
+        $q = self::AppendQueryArgs($uri, $args);
+        return explode("?", $uri)[0]."?".http_build_query($q);
+    }
+    /**
+     * append query args
+     * @param string $uri 
+     * @param array $args 
+     * @return array 
+     */
+    public static function AppendQueryArgs(string $uri, array $args){
+        $data = parse_url($uri);
+        $q = [];
+        if (isset($data["query"])){
+            parse_str($data["query"], $q);        
+        }
+        $q = array_merge($q, $args);
+        return $q;
+    }
+    /**
+     * get system tagname 
+     * @param HtmlItemBase $node 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetGeneratedTagname(HtmlItemBase $node){
+        $tagname = "";
+        $inf = $node->getFlag(IGK_NODETYPE_FLAG); 
+        if (!$inf || ($inf->type=="c")){
+            $tagname = $node->getTagName();
+        } else {
+            $tagname = "igk:" . $node->getTagName();
+        }
+        return $tagname;
+    }
+
+    public static function GetAttributeArrayToString($attribs){ 
+        $o = "";
+        if (!$attribs)
+            igk_die("attrib is empty");
+        foreach($attribs as $n=>$v){
+            $r= self::GetValue($v);
+            $o .= " {$n}=\"".$r."\"";
+        }
+        return ltrim($o);       
+    }
+
     private static $gRendering;
     /**
      * 
@@ -229,13 +285,14 @@ abstract class HtmlUtils
         if (preg_match("/^\'/", $q) && preg_match("/\'$/", $q)) {
             $v_h = "'";
         }
-        if (0===strpos($q, $v_h)) {
-            $q = substr($q, 1);
+        // if (igk_is_debug()){
+        //     echo "debug \n<br />";
+        // }
+        if ((0===strpos($q, $v_h)) && (strrpos($q, $v_h, -1)!==false)) {
+            $q = substr($q, 1);         
+            $q = substr($q, 0, strlen($q) - 1); 
         }
-        if (IGKString::EndWith($q, $v_h)) {
-            $q = substr($q, 0, strlen($q) - 1);
-        }
-        if ($v_h == "\"") {
+        if (($context!="binding") && ($v_h == "\"")) {
             $q = str_replace("\"", "&quot;", $q);
         }
         if ($context && is_string($context) && (preg_match("/(xml|xsl)/i", $context))) {
@@ -484,7 +541,7 @@ abstract class HtmlUtils
     }
 
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    {
+    {        
         require_once IGK_LIB_DIR . "/igk_html_func_items.php";
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
         if ($initiator == null) {
@@ -549,7 +606,7 @@ abstract class HtmlUtils
             return $comp;
         }
         $c = null;
-        $f = IGKString::Format(IGK_HTML_CLASS_NODE_FORMAT, $name);
+        // $f = IGKString::Format(IGK_HTML_CLASS_NODE_FORMAT, $name);
         // if (class_exists($f) && !igk_reflection_class_isabstract($f) && igk_reflection_class_extends($f, $class)) {
         //     $p = igk_sys_reflect_class($f);
         //     $tb = array();
@@ -586,6 +643,16 @@ abstract class HtmlUtils
                             if ($c) {
                                 if ($initcallback)
                                     $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
+                                    $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
+                                        "type"=>"f",
+                                        "name"=>$name,
+                                        "args"=>$tb
+                                    ]));
+                                    // $mc = new HtmlNode("h1");
+                                    // igk_wln_e(__FILE__.":".__LINE__, serialize($c),
+                                    // self::GetGeneratedTagname($c),
+                                    // self::GetGeneratedTagname($mc)
+                                    // );
                             }
                         } else {
                             igk_die("add <b>{$name}</b> : number of required parameters mismatch. Expected {$v_rp} but " . $v_pcount . " passed");

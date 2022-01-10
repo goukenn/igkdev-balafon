@@ -106,10 +106,14 @@ abstract class MiddlewireActionBase extends IGKActionBase{
             
             // igk_wln(__FILE__.":".__LINE__, $path, $routes, static::class);
             foreach($routes as $v){ 
-                if ($v->match($path, igk_server()->REQUEST_METHOD)){ 
-                    if ($user && !$v->isAuth($user)){
-                        throw new IGKException("Route access not allowed");
-                    } 
+                if ($v->match($path, igk_server()->REQUEST_METHOD)){  
+                    if($v->isAuthRequired()){
+                        if ($user && !$v->isAuth($user)){
+                            throw new IGKException("Route access not allowed");
+                        } else if (!$user){
+                            throw new IGKException("User required to match the rule");
+                        }
+                    }
                     $v->setUser($user);
                     $v->setRoutingInfo((object)[
                         "ruri"=>$ruri

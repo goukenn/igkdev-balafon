@@ -44,7 +44,7 @@ final class PaletteController extends NonVisibleControllerBase {
     * 
     */
     public function getPaletteDir(){
-        return $this->Configs->Location;
+        return $this->getConfigs()->Location;
     }
     ///<summary></summary>
     /**

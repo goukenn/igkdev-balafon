@@ -68,6 +68,9 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $g;
     }
+    public function __isset($key){
+        return isset($this->m_sessionParams[$key]);
+    }
     public function & getReference($name){
         $tab = null;
         if (isset($this->m_sessionParams[$name])){
@@ -217,7 +220,8 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * 
     */
     public function getCRef(){ 
-        $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){            
+        $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){     
+            // igk_wln("generate cref")       ;
             return $this->generateCref();
         })();
         return $cref;
@@ -394,12 +398,10 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function registerControllerParams($classname, & $tab){
 		$p = & $this->getControllerParams();
 		$p[$classname] = & $tab;
-        // $this->m_sessionParams[self::SESS_CONTROLLERPARAM_KEY][$classname]=& $tab;
     }
 	 public function unregisterControllerParams($classname, & $tab){
 		$p = & $this->getControllerParams();
 		unset($p[$classname]);
-        // $this->m_sessionParams[self::SESS_CONTROLLERPARAM_KEY][$classname]=& $tab;
     }
     ///<summary></summary>
     ///<param name="obj"></param>

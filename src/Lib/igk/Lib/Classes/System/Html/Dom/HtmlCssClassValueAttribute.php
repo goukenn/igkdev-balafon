@@ -84,8 +84,8 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute{
     ///<return refout="true"></return>
     private static function & _GetRegClass(){
         if(self::$sm_regClass === null){
-            if(igk_app()->Session->RegClasses !== null){
-                self::$sm_regClass=& igk_app()->Session->RegClasses->regClass;
+            if(igk_app()->session->RegClasses !== null){
+                self::$sm_regClass=& igk_app()->session->RegClasses->regClass;
             }
             else{
                 self::$sm_regClass=array();

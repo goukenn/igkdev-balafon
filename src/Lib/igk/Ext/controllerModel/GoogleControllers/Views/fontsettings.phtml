@@ -26,7 +26,7 @@ $box->addbutton("btn.install")
 
 
 if (!igk_sys_env_production())
-    $t->addDiv()->addA($ctrl->geturi("resave"))
+    $t->div()->addA($ctrl->geturi("resave"))
     ->setClass("igk-btn igk-btn-default")
     ->Content = __("Build");
 

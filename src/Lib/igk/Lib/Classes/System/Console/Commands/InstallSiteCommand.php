@@ -11,6 +11,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
+use IGK\Helper\IO;
 use \IGKControllerManagerObject;
  
 class InstallSiteCommand extends AppExecCommand{

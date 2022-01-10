@@ -29,8 +29,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase{
     const SL_SELECTCONTROLLER=1;
     ///<summary></summary>
     public function __construct(){
-        parent::__construct();
-        $this->m_SelectedController=null;
+        parent::__construct(); 
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
@@ -358,7 +357,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase{
                     "onclick"=>"javascript:window.igk.fn.config.select_ctrl(this, '".$this->TargetNode["id"]."', '".$this->getUri('select_controller_ajx&n='.$k->Name)."'); return false; "
                 ))->Content=$k->Name;
                 $tr->addTd()->Content=$k->TargetNode->Index;
-                HtmlUtils::AddImgLnk($tr->add("td", array("style"=>"min-with:16px; min-height:16px;")), $this->getUri("ca_remove_child&clParentCtrl=".$ctrl->Name."&clChild=".$k->Name), "drop_16x16");
+                HtmlUtils::AddImgLnk($tr->add("td", array("style"=>"min-with:16px; min-height:16px;")), $this->getUri("ca_remove_child&clParentCtrl=".$ctrl->getName()."&clChild=".$k->Name), "drop_16x16");
             }
         }
         else{
@@ -519,7 +518,7 @@ EOF;
         $lg=$this->m_selectedLang ? $this->m_selectedLang: "fr";
         $frm->addLabel()->Content=__("lb.currentlang", $lg);
         $frm->addInput("clLang", "hidden", $lg);
-        $frm->addInput("clCtrl", "hidden", $ctrl->Name);
+        $frm->addInput("clCtrl", "hidden", $ctrl->getName());
         $frm->addBr();
         $txt=$frm->addTextArea("clContent", null);
         igk_js_enable_tinymce($frm, 'exact', 'clContent');
@@ -771,7 +770,7 @@ EOF;
                 $frame->Form["igk-confirmframe-response-target"]=strtolower($ctrl);
                 $frame->Form->addInput("n", "hidden", base64_encode($n));
                 $frame->Form->addInput("navigate", "hidden", igk_getr("navigate"));
-                $frame->Form->addInput("ctrlid", "hidden", $ctrl ? $ctrl->Name: null);
+                $frame->Form->addInput("ctrlid", "hidden", $ctrl ? $ctrl->getName(): null);
                 $frame->renderAJX();
             }
         }
@@ -893,7 +892,7 @@ EOF;
         if(file_exists($f)){
             $str=igk_io_read_allfile($f);
             $t=igk_createnode("div");
-            $t->addDiv()->Content="Path: ".igk_io_basepath(igk_io_basedir($f));
+            $t->div()->Content="Path: ".igk_io_basepath(igk_io_basedir($f));
             $frm=$t->addForm();
             $frm["action"]=$this->getUri("update_article".(($ajx == 1) ? null: "#".$this->_getarticleid()));
             $ul=$frm->add("ul");
@@ -945,7 +944,7 @@ EOF;
             $txt["class"]="frame_textarea";
             $frm->addInput("clfile", "hidden", base64_encode(urlencode($f)));
             $frm->addInput("clframe", "hidden", $frame["id"]);
-            $frm->addInput("clctrl", "hidden", $ctrl ? $ctrl->Name: null);
+            $frm->addInput("clctrl", "hidden", $ctrl ? $ctrl->getName(): null);
             $frm->addBtn("btn_update", __("Update"))->setClass("igk-btn igk-btn-default");
             $frame->Form=$frm;
             return $frame;
@@ -1019,7 +1018,7 @@ EOF;
             $frm->addInput("clfile", "hidden", base64_encode(urlencode($f)));
             $frm->addInput("clframe", "hidden", 'frame_edit_article');
             if($ctrl)
-                $frm->addInput("clctrl", "hidden", $ctrl->Name);
+                $frm->addInput("clctrl", "hidden", $ctrl->getName());
             $frm->addBtn("btn_update", __("Update"));
             return $frm;
         }
@@ -1055,7 +1054,7 @@ EOF;
             igk_js_enable_tinymce($ul, "clContent");
             $frm->addInput("clfile", "hidden", base64_encode(urlencode($f)));
             $frm->addInput("clframe", "hidden", $frame["id"]);
-            $frm->addInput("clctrl", "hidden", $ctrl->Name);
+            $frm->addInput("clctrl", "hidden", $ctrl->getName());
             $frm->addBtn("btn_update", __("Update"));
             return $frame;
         }
@@ -1105,7 +1104,7 @@ EOF;
             igk_frame_close($frame_name);
             return;
         }
-        $frame->Title=__("title.editctrlaticles_1", $ctrl->Name);
+        $frame->Title=__("title.editctrlaticles_1", $ctrl->getName());
         $frame->CloseUri=$this->getUri("unreg_view_frame");
         $c=$frame->BoxContent;
         $c->clearChilds();
@@ -1135,7 +1134,7 @@ EOF;
         $ctrl=$name == null ? igk_getctrl($this->SelectedController, false): igk_getctrl($name, false);
         if($ctrl == null)
             return null;
-        $title=__("title.editctrl.properties_1", $ctrl->Name);
+        $title=__("title.editctrl.properties_1", $ctrl->getName());
         $frm=igk_createnode('form');
         $frm["action"]=$this->getUri("ca_update_ctrl_properties". ($name == null ? IGK_STR_EMPTY: "&n=".$name));
         $ul=$frm->addDiv()->setClass("igk-v-h")->setStyle("max-height:200px; overflow-y:auto;")->add("ul");
@@ -1503,7 +1502,7 @@ EOF;
         }
         $notify=igk_notifyctrl();
         if($ctrl->storeConfigSettings()){
-            $notify->addSuccess(__("Controller [{0}] updated", $ctrl->Name));
+            $notify->addSuccess(__("Controller [{0}] updated", $ctrl->getName()));
         }
         else{
             igk_ilog("configuration failed");
@@ -1702,7 +1701,7 @@ EOF;
             igk_app()->Configs->default_controller=$n;
             igk_save_config();
             $this->View();
-            igk_app()->Session->setParam("forceview", 1);
+            igk_app()->session->setParam("forceview", 1);
             igk_notification_push_event("sys://event/defaultpagechanged", $this);
             igk_kill_all_sessions(session_id());
             return 1;
@@ -1849,9 +1848,9 @@ EOF;
             $t=$t->clearChilds()->addPanelBox();
             igk_html_add_title($t, "Controller & Articles");
             $t->addReplaceUri();
-            $b=$t->addDiv();
+            $b=$t->div();
             igk_html_article($this, "controller_and_article", $b);
-            $dv=$t->addDiv()->setClass("gc-v");
+            $dv=$t->div()->setClass("gc-v");
             $v_tabc=$dv->addComponent($this, HtmlComponents::AJXTabControl, "tab", 1);
             $v_tabc->clearChilds();
             $g=$this->getParam(__CLASS__."://tabselected", 1);

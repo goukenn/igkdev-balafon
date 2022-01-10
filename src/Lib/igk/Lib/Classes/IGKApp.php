@@ -59,6 +59,23 @@ class IGKApp extends IGKObject
         igk_die("not allowed " . $n);
     }
     public function getSettings(){
+        $app_key = "igk";
+        $use_session = $this->getApplication()->lib("session");
+        //$reset = 0;
+        if ($this->m_settings && $use_session && (!isset($_SESSION[$app_key]) || ($_SESSION[$app_key] !==  $this->m_settings->getInfo())) ){
+            $this->m_settings = null; 
+            igk_hook(IGKEvents::HOOK_APP_SETTING_RESET, [$this]); 
+        }
+        if ($this->m_settings  === null){
+            if ($use_session) {
+                $v_setting_info = igk_create_session_instance($app_key, function(){
+                    return call_user_func_array([$this, 'createAppInfo'], []);
+                });
+            } else {
+                $v_setting_info = $this->createAppInfo();
+            }
+            $this->m_settings = new IGKAppSetting($v_setting_info);    
+        }        
         return $this->m_settings;
     }
     ///<summary>get environment base controller</summary>
@@ -85,9 +102,9 @@ class IGKApp extends IGKObject
     */
     public function getViewMode(){
 
-		if (!isset($this->m_settings->{IGK_VIEW_MODE_FLAG}))
+		if (!isset($this->getSettings()->{IGK_VIEW_MODE_FLAG}))
 			return IGKViewMode::VISITOR;
-        return $this->m_settings->{IGK_VIEW_MODE_FLAG};// $this->_f[IGK_VIEW_MODE_FLAG];
+        return $this->getSettings()->{IGK_VIEW_MODE_FLAG}; 
     }
      ///<summary></summary>
     ///<param name="v"></param>
@@ -101,7 +118,7 @@ class IGKApp extends IGKObject
             return;
 		if ($v ==  IGKViewMode::VISITOR)
 			$v = null;
-		$this->m_settings->{IGK_VIEW_MODE_FLAG} = $v; 
+		$this->getSettings()->{IGK_VIEW_MODE_FLAG} = $v; 
         igk_hook(IGKEvents::HOOK_VIEW_MODE_CHANGED, [$this, $v]);
     }
    
@@ -152,8 +169,10 @@ class IGKApp extends IGKObject
 				$appinfo->session = & $tab;
             }
 			$sm_session=new IGKSession($this, $tab);
-            $this->_f[IGK_SESS_FLAG] = & $sm_session->getData();
-        }
+            igk_reg_hook(IGKEvents::HOOK_APP_SETTING_RESET, function()use(& $sm_session){
+                $sm_session = null;
+            }); 
+        }  
         return $sm_session;
     }
     /**
@@ -225,14 +244,14 @@ class IGKApp extends IGKObject
             // | init subdomain management
             IGKSubDomainManager::Init();
         } 
-        if ($app->lib("session")) {
-            $v_setting_info = igk_create_session_instance("igk", function(){
-                return call_user_func_array([self::$sm_instance, 'createAppInfo'], []);
-            });
-        } else {
-            $v_setting_info = self::$sm_instance->createAppInfo();
-        }
-        self::$sm_instance->m_settings = new IGKAppSetting($v_setting_info);      
+        // if ($app->lib("session")) {
+        //     $v_setting_info = igk_create_session_instance("igk", function(){
+        //         return call_user_func_array([self::$sm_instance, 'createAppInfo'], []);
+        //     });
+        // } else {
+        //     $v_setting_info = self::$sm_instance->createAppInfo();
+        // }
+        // self::$sm_instance->m_settings = new IGKAppSetting($v_setting_info);      
      
         // + |--------------------------------------------------------------
         // + | INIT CONTROLLER LIST

@@ -194,7 +194,7 @@ final class IGKControllerManagerObject extends IGKObject {
         $this->$n=$ctrl;
         $this->m_classReg[get_class($ctrl)] = $ctrl;
         if(!self::IsSystemController($ctrl)){
-            $s=$regname ?? $ctrl->Configs->clRegisterName;
+            $s=$regname ?? $ctrl->getConfigs()->clRegisterName;
             if(!empty($s)){
                 $rg=$this->getRegisters();
                 if(isset($this->Registers->$s) && ($this->Registers->$s != null))
@@ -310,7 +310,7 @@ final class IGKControllerManagerObject extends IGKObject {
     public function dropController($ctrl){
         if(!$ctrl)
             return false;
-        $k=strtolower($ctrl->Name);
+        $k=strtolower($ctrl->getName());
         $d=dirname($ctrl->getDeclaredFileName());
         $ctrl->dropController();
         $r=false;
@@ -418,21 +418,12 @@ final class IGKControllerManagerObject extends IGKObject {
     */
     public function getUserControllers($callbackfilter=null){
         $tab=$this->getControllers();
+
         $out=array();
         if(igk_count($tab) > 0){
-            // igk_wln("try....", __FILE__.":".__LINE__, $tab);
-            // $tab_k=array_keys($tab);
-            // igk_usort($tab_k, "igk_key_sort");
             foreach($tab as $v){
-                // $v=$tab[$k];
-                // if (get_class($v) == "igk_default"){
-                //     echo "stop here ";
-                //     $modify = $v->getCanModify();
-                //     echo "modify ".$modify; 
-                // }
-
-                if(get_class($v) === __PHP_Incomplete_Class::class){
-                    // unset($tab[$k]);
+               
+                if(get_class($v) === __PHP_Incomplete_Class::class){              
                     continue;
                 }
                 if(IGKControllerManagerObject::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) || !$v->getCanModify())
@@ -441,8 +432,7 @@ final class IGKControllerManagerObject extends IGKObject {
                     igk_wln("failed to implement");
                     continue;
                 }
-                $out[]=$v;
-                
+                $out[]=$v;                
             }
         } 
         return $out;
@@ -694,7 +684,7 @@ final class IGKControllerManagerObject extends IGKObject {
             }
 
             if(($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)){
-                igk_app()->Session->URI_AJX_CONTEXT=igk_is_ajx_demand() || IGKString::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
+                igk_app()->session->URI_AJX_CONTEXT=igk_is_ajx_demand() || IGKString::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
                 $fd=null;
                 // if(($fd=$ctrl->getConstantFile()) && file_exists($fd))
                 //     include_once($fd);

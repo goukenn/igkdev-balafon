@@ -9,6 +9,7 @@ class IGKEvents extends IGKObject
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
     const HOOK_APP_PRESENTATION = 0xa01;
+    const HOOK_APP_SETTING_RESET = "app_setting_reset";
     const HOOK_INIT_APP = "init_app";
     const HOOK_BEFORE_INIT_APP = "before_init_app";
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
@@ -23,6 +24,7 @@ class IGKEvents extends IGKObject
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";
     const HOOK_USER_ADDED = "sys_user_added";
+    const HOOK_USER_EXISTS = "sys_user_exists";
     const USER_PWD_CHANGED = "user pwd changed";
     const HOOK_MODEL_INIT = "db_init_model_macros";
     const HOOK_AUTLOAD_CLASS = "sys_autoload_class";
@@ -32,6 +34,7 @@ class IGKEvents extends IGKObject
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
+    const ENV_KEY = "sys://hooks";
 
     
     const VIEWCOMPLETE = 0x1;
@@ -236,15 +239,12 @@ class IGKEvents extends IGKObject
      */
     public static function reg_hook($name, $callback, $priority = 10)
     {
-        $hooks = igk_environment()->{"sys://hooks"};
-        if (!$hooks) {
-            $hooks = array();
-        }
+        $hooks = & igk_environment()->createArray(self::ENV_KEY); 
         if (!isset($hooks[$name])) {
             $hooks[$name] = (object)array("list" => array(), "changed" => 1);
         }
         $hooks[$name]->list[] = (object)array("priority" => $priority, "callback" => $callback);
-        igk_environment()->{"sys://hooks"} = $hooks;
+        $hooks[$name]->changed = 1;  
     }
 
     /**
@@ -252,16 +252,19 @@ class IGKEvents extends IGKObject
      */
     public static function hook($name, $args = array(), $options = null)
     {
+        
         $def = null;
         if ($options) {
             $def = igk_get_robjs("default|output", 0, (object)$options);
         }
-        $hooks = igk_environment()->{"sys://hooks"};
-        if (!$hooks) {
-            $hooks = array();
-        }
+        $hooks = igk_environment()->{self::ENV_KEY};
 
         $tab = igk_getv($hooks, $name);
+
+        if ($name == "filter_db_schema_info"){
+            igk_debug_wln("hook=   ".( $tab ? count($tab->list) : " not found "));
+        }
+        
         if ($tab) {
             $list = &$tab->list;
             if ($tab->changed) {
@@ -303,5 +306,41 @@ class IGKEvents extends IGKObject
             return $cargs[0]->output;
         }
         return $def ? $def->output : $args;
+    }
+
+    /**
+     * unregister hook
+     * @param mixed $name 
+     * @param mixed $callback 
+     * @param bool $all 
+     * @return int 
+     */
+    public static function unreg_hook($name, $callback, $all=true){
+        $hooks = igk_environment()->createArray(self::ENV_KEY);
+        if (!$hooks) {
+            return 0;
+        }
+        $tb = &$hooks[$name]->list;
+    
+        if ($all){
+            $c = 0; 
+           
+            $tb = array_filter(array_map(function($v)use($callback, & $c){
+                if ($v->callback === $callback){
+                    $c++;
+                    return null;
+                }
+                return $v;
+            }, $tb));
+            return $c;
+        }
+    
+        foreach ($tb as $k => $v) {
+            if ($v->callback === $callback) {
+                unset($tb[$k]);
+                return 1;
+            }
+        }
+        return 0;
     }
 }

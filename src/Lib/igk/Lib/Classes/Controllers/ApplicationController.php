@@ -71,8 +71,8 @@ abstract class ApplicationController extends  PageControllerBase{
     //         $bbox->clearChilds();
     //         $t=$bbox;
     //         $t->addContainer()->addCol()->addDiv()->setClass("igk-fsl-4")->Content=R::ngets("title.about");
-    //         $ct=$t->addDiv()->addContainer();
-    //         $ct->addCol()->addDiv()->Content="Version : ".igk_getv($this->Configs, "Version", "1.0");
+    //         $ct=$t->div()->addContainer();
+    //         $ct->addCol()->addDiv()->Content="Version : ".$this->getConfigs()->get( "Version", "1.0");
     //         $ct->addCol()->addDiv()->Content="Author : ".IGK_AUTHOR;
     //         $ct->addCol()->addDiv()->Content="CONTACT : ".IGK_AUTHOR_CONTACT;
     //         $dv=$ct->addWebMasterNode()->addCol()->addDiv();
@@ -263,14 +263,14 @@ abstract class ApplicationController extends  PageControllerBase{
             return;
         }
         $s=$force || igk_is_conf_connected() || $c->IsUserAllowedTo($c->Name.":".__FUNCTION__);
-        
+       
         if($s){
             $args = func_get_args();
             $db = [ControllerExtension::class, __FUNCTION__];            
             return $db($c, ...$args);
         } 
 		igk_hook("sys://drop_app_database", [$c]);
-        if(igk_app_is_uri_demand($c, __FUNCTION__)){
+        if($navigate && igk_app_is_uri_demand($c, __FUNCTION__)){
             igk_navto($c->getAppUri());
         }
     }
@@ -297,7 +297,7 @@ abstract class ApplicationController extends  PageControllerBase{
             igk_exit();
         }
         $doc = $this->getAppDocument();
-        $doc->Title=R::ngets("title.app_2", "Functions ".igk_getv($this->Configs, IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
+        $doc->Title=R::ngets("title.app_2", "Functions ".$this->getConfigs()->get( IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
         $d= $bodybox=$doc->body->getBodyBox();
         $d->clearChilds();
         $m=$d->addDiv()->addDiv()->addContainer();
@@ -367,7 +367,7 @@ abstract class ApplicationController extends  PageControllerBase{
 <?php
 use IGK\\Resources\\R;
 \$t->clearChilds();
-\$t->addDiv()->addSectionTitle(4)->Content = R::ngets("Title.App_1", \$this->AppTitle);
+\$t->div()->addSectionTitle(4)->Content = R::ngets("Title.App_1", \$this->AppTitle);
 \$t->inflate(igk_io_dir(\$dir."/".\$fname));
 EOF;
 }
@@ -391,14 +391,14 @@ EOF;
     * 
     */
     public function getAppName(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_APPNAME, static::class);
+        return $this->getConfigs()->get(IGK_CTRL_CNF_APPNAME, static::class);
     }
     ///<summary>get if this application is not active</summary>
     /**
     * get if this application is not active
     */
     public function getAppNotActive(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_APPNOTACTIVE);
+        return $this->getConfigs()->get(IGK_CTRL_CNF_APPNOTACTIVE);
     }
     ///<summary></summary>
     ///<return refout="true"></return>
@@ -409,11 +409,11 @@ EOF;
     public static function & GetApps(){
         if(self::$sm_apps === null){
             // igk_wln_e("application get Apps : call");
-            // $m=igk_app()->Session->getParam(__METHOD__);
+            // $m=igk_app()->session->getParam(__METHOD__);
             $m = igk_environment()->get(self::IGK_CTRL_APPS_KEY);
             if($m === null){
                 $m=(object)array('_'=>array());
-                // igk_app()->Session->setParam(self::IGK_CTRL_APPS_KEY, $m);
+                // igk_app()->session->setParam(self::IGK_CTRL_APPS_KEY, $m);
                 igk_environment()->set(self::IGK_CTRL_APPS_KEY, $m);
             }
             self::$sm_apps=& $m;
@@ -425,7 +425,7 @@ EOF;
     * 
     */
     public function getAppTitle(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_TITLE);
+        return $this->getConfigs()->get(IGK_CTRL_CNF_TITLE);
     }
 
     ///<summary>Basic uri pattern</summary>
@@ -433,7 +433,7 @@ EOF;
     * Basic uri pattern
     */
     public function getBasicUriPattern(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_BASEURIPATTERN);
+        return $this->getConfigs()->get( IGK_CTRL_CNF_BASEURIPATTERN);
     }
 
     ///<summary>return application uri</summary>
@@ -489,7 +489,7 @@ EOF;
     * 
     */
     public function getDataTablePrefix(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_TABLEPREFIX);
+        return $this->getConfigs()->get( IGK_CTRL_CNF_TABLEPREFIX);
     }
     ///<summary></summary>
     /**
@@ -623,7 +623,7 @@ EOF;
         igk_bind_sitemap(["ctrl"=>$this, "c"=>$c]);        
         
         // include(IGK_LIB_DIR."/Inc/igk_sitemap.pinc");
-        $tn=$this->TargetNode;
+        $tn=$this->getTargetNode();
         
     
         if($this->_handle_uri_param($c, $param, $query_options)){
@@ -637,7 +637,7 @@ EOF;
             $this->renderDefaultDoc(igk_conf_get($this->Configs, "/default/document", 'default'));
             igk_exit();
         }
-        $doc=$this->AppDocument;
+        $doc=$this->getAppDocument();
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
         $fnc="";
         $handle=0;  
@@ -708,7 +708,7 @@ EOF;
                 $m="Misconfiguration. Subsequent call of domain controller is not allowed. ".igk_io_request_uri();
                 throw new UriActionException($m, $u, 0x1a001);
             }
-            igk_app()->Session->RedirectionContext=1;
+            igk_app()->session->RedirectionContext=1;
            //  igk_wln_e("invoke uri pattern ");
             // $actionctrl->invokeUriPattern($m);
 
@@ -922,7 +922,7 @@ EOF;
             igk_die("/!\\ app document match the global document. That is not allowed");
         } 
         $wt = igk_app()->getConfigs()->get("website_title", igk_server()->SERVER_NAME);
-        $title  = igk_getv($this->Configs, IGK_CTRL_CNF_TITLE);
+        $title  = $this->getConfigs()->get( IGK_CTRL_CNF_TITLE);
         if (!empty($title))
             $title = __("title.app_2", $title, $wt); // igk_app()->Configs->website_title);
         else {
@@ -953,7 +953,7 @@ EOF;
         }
         else{
             $d= $this->getAppDocument();
-            $d->Title= R::ngets("title.app_2", igk_getv($this->Configs, IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
+            $d->Title= R::ngets("title.app_2", $this->getConfigs()->get( IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
             $div=$d->Body->add("div");
             $div->add("div", array("class"=>"igk-title"))->Content=R::ngets("Title.Error");
             $div->add("div", array("class"=>"igk-notify igk-notify-danger"))->Content="No function $c found";

@@ -12,9 +12,25 @@ use ReflectionMethod;
  * @package IGK\System\Html
  */
 class HtmlRenderer{
+  
+    /**
+     * append after rendering element
+     * @param mixed $option 
+     * @param mixed $node 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function AppendOptionNode($option, $node){
+        if (!($c = igk_getv($option, "__append__"))) {
+            $c = [];
+            $option->{"__append__"} = $c;
+        }
+        array_push($option->__append__, $node);
+    }
     public static function CreateRenderOptions(){
         $o = (object)[
-            "Indent"=>true,
+            "AJX"=>false,
+            "Indent"=>false,
             "Stop"=>0,
             "Context"=>HtmlContext::Html,
             "Depth"=>0,
@@ -28,7 +44,8 @@ class HtmlRenderer{
             "setnoAttribEscape"=>null,
             "Tab"=>[],
             "Chain"=>1,
-            "TextOnly"=>false
+            "TextOnly"=>false,
+            "lastRendering"=>null
         ];
         if($o->Cache){
             $o->CacheUri=base64_decode(igk_sys_cache_uri());
@@ -99,7 +116,8 @@ class HtmlRenderer{
             foreach([ 
                 "Stop"=>0,
                 "Context"=>"XML",
-                "Depth"=>0
+                "Depth"=>0,
+                "Indent"=>false
             ] as $k=>$v){
                 if(!isset($options->$k)){
                     $options->$k=$v;
@@ -111,8 +129,9 @@ class HtmlRenderer{
         ]; 
         $s = "";
         $reflect = [];
+        $ln= $options->Indent ? "\n" : "";
         // $renderer = null; //igk_getv($options, "renderer") ?? new HtmlRenderer();
-        // $engine = null; //igk_getv($options, "engine"); 
+        $engine = igk_getv($options, "Engine"); 
 
         while(($q = array_pop($tab)) && !$options->Stop){
             $tag = null;
@@ -123,24 +142,34 @@ class HtmlRenderer{
                 $i = $q;
                 $q = ["item"=>$i, "close"=>false ];
             }
-            // if ($engine){
-            //     $engine->render($i, $options);
-            //     continue;
-            // }
-        
-            if (!isset($reflect[$cl = get_class($i)])){
-                $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, "render"))->getDeclaringClass()->name;                
-            }
-            if ($reflect[$cl]){
-                $s .= $i->render($options);
-                continue;
-            } 
-            
-            if (!$i->AcceptRender($options)){
-                continue;
-            }            
-
+           
             if (!$q["close"]){
+                if ($i instanceof HtmlItemBase) 
+                {
+                    if (!$i->AcceptRender($options)){
+                        continue;
+                    }  
+                    if (isset($options->__append__)){
+                        $tab = array_merge($tab, $options->__append__); 
+                        unset($options->__append__);
+                    }
+                }
+
+                if ($engine){ 
+                    $s .= $engine->render($i, $options);
+                    continue;
+                }
+            
+                if (!isset($reflect[$cl = get_class($i)])){
+                    $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, "render"))->getDeclaringClass()->name;                
+                }
+                if ($reflect[$cl]){
+                    $options->lastRendering = $i;
+                    $s .= $i->render($options);
+                    continue;
+                } 
+
+                $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag() ? $i->getTagName() : "";
                 $havTag = !empty($tag);
                 if ($havTag){
@@ -184,17 +213,13 @@ class HtmlRenderer{
             }
             if (!empty($tag)){
                 if ($q["close_tag"])
-                    $s .= "</".$tag.">";
+                    $s .= "</".$tag.">".$ln;
                 else {
-                    $s.= "/>";
+                    $s.= "/>".$ln;
                 } 
             }
             $options->Depth = max(0, $options->Depth -1);
-        }
-
-        
-
-
+        } 
         return $s;
     }
 
@@ -243,6 +268,7 @@ class HtmlRenderer{
                 igk_wln_e("attributes is an is array", get_class($item));
             }
             $attrs = $item->getAttributes()->to_array();
+            // igk_wln_e(__FILE__.":".__LINE__, $attrs);
             if (!empty($out)) {
                 $out .= " ";
             }
@@ -296,11 +322,12 @@ class HtmlRenderer{
             foreach ($event as $k => $v) {
                 $s .= $v->getValue() . " ";
             }
-            $out .= " " . $s;
+            $out .= $s;
         }
         return rtrim($out);
     }
 
+   
     ///<summary>get attribute string</summary>
     ///<param name="v"></param>
     ///<param name="options"></param>

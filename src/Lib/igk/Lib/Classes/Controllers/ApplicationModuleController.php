@@ -381,9 +381,24 @@ final class ApplicationModuleController extends BaseController{
             $fc(...$args); 
         }
     }
+    /**
+     * disable static call on module
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return null 
+     */
     public static function __callStatic($name, $arguments)
-    {
-
+    {        
         return null; 
+    }
+    /**
+     * use allway schema to update the user
+     * @return true 
+     */
+    public function getUseDataSchema(){ 
+        return true;
+    }
+    public function getDataSchemaFile(){
+        return ControllerExtension::getDataSchemaFile($this);
     }
 }

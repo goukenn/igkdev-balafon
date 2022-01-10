@@ -57,7 +57,7 @@ class WebResponse extends RequestResponse{
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
-            list($uri, $zip) = \IGK\Helper\UriUtils::CacheUri();            
+            list($uri, $zip) = IGKCaches::CacheUri();            
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
             if ($zip){
                 ob_start();

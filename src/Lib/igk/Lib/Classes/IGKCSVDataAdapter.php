@@ -13,6 +13,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_ctrl;
     private $m_dbname;
     private $m_fhandle;
+
+    public function last_error() {
+        return null;
+     }
     public static function ToDateTimeStr($format, $value){
         $_format = "Y-m-d";
         if (preg_match("#[0-9]{2}/[0-9]{2}/[0-9]{4}#", $value)){

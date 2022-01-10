@@ -7,10 +7,11 @@
 // @company: IGKDEV
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+namespace IGK\System\Html;
 
-namespace IGK\System\Html\Dom;
+use IGK\System\Html\Css\CssStyle;
 
-final class HtmlStyleValueAttribute extends HtmlItemAttribute{
+final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     private $m_o, $m_v;
     ///<summary></summary>
     ///<param name="target"></param>
@@ -32,7 +33,7 @@ final class HtmlStyleValueAttribute extends HtmlItemAttribute{
         $opt=IGK_STR_EMPTY;
         if(igk_xml_is_mailoptions($options)){
             $p=$this->m_o["class"];
-            $style=new IGKCssStyle();
+            $style=new CssStyle();
             $s=trim($p ? $p->EvalClassStyle(): IGK_STR_EMPTY);
             if(!empty($s))
                 $style->Load($s, 1, $p);

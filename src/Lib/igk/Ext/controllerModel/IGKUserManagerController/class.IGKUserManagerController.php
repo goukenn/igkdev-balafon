@@ -1,6 +1,8 @@
 <?php
 ///<summary>represent a client user manager controller</summary>
 
+use IGK\Database\DbColumnInfo;
+use IGK\Models\Users;
 use IGK\Resources\R;
 
 /**
@@ -60,7 +62,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		$obj->clLogin = $login;
 		$obj->clPwd = $pwd;
 
-		$s = igk_db_select_wherec($this, array("clLogin"=>$login, "clPwd"=>$pwd));
+		$s = Users::select_row(array("clLogin"=>$login, "clPwd"=>$pwd));
 
 		if (($s) && ($s->getRowCount() == 1))
 		{
@@ -87,7 +89,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		if ($this->getIsUserConnected())
 		{
 			$this->m_user->clPwd = md5("clPwd");
-			igk_db_update($this, $this->getDataTableName(), (array)$this->m_user, array("clId"=>$this->m_user->clId));
+			Users::update(["clPwd"=>$this->m_user->clPwd ], array("clId"=>$this->m_user->clId) );
 		}
 	}
 	public function updateUserInfo()

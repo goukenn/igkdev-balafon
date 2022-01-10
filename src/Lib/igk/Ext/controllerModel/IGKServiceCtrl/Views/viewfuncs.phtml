@@ -24,7 +24,7 @@ $doc->setHeaderColor("#0064FF");
 $t->clearChilds();
 $t->Content=null;
 $t["class"]="google-Roboto";
-$n=$t->addDiv();
+$n=$t->div();
 $r=$n->addDiv()->setStyle("padding-left:0px; padding-right:0px; margin-left:0px; margin-right:0px;overflow:hidden; background-color:#0064ff; color:#fefefe");
 $h1=$r->addDiv()->setStyle("margin-left:-10px; margin-right:-10px; position:relative;")->setClass("igk-col-lg-12-2 fith presentation")->addContainer()->addSingleRowCol();
 $ct=$h1->addDiv()->setClass("dispb no-decoration");
@@ -32,7 +32,7 @@ $ct->add("span")->setClass("dispib posr")->setStyle("left:0px; top:4px;")->Conte
 $ct->addDiv()->setClass("igk-title-4")->Content=$ctrl->ServiceName;
 $r->addDiv()->setClass("igk-col-lg-12-10 .ibox");
 
-$t->addDiv()->addContainer()->addSingleRowCol()->addDiv()->Content=$ctrl->getServiceDescription();
+$t->div()->addContainer()->addSingleRowCol()->addDiv()->Content=$ctrl->getServiceDescription();
 $n=$t->addWebMasterNode()->container()->row()->col()->div();
 $ul=$n->add("ul");
 $ul->addLi()->Content= __("Location : {0}", $ctrl->getDeclaredFileName());

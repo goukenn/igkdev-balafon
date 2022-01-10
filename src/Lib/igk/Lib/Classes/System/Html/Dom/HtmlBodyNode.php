@@ -44,6 +44,13 @@ class HtmlBodyNode extends HtmlNode{
         }
         return $this->m_appendContent ;
     }
+
+    ///load addition script content when page request loaded.
+    /**
+    */
+    public function addScriptContent($key, $script){       
+        return $this->m_bodyMainScript->addScript($key, $script);
+    }
      
     public function getBodyBox(){
         if ($this->m_bodybox ===null){
@@ -56,7 +63,8 @@ class HtmlBodyNode extends HtmlNode{
     }
 
     protected function __getRenderingChildren($options = null)
-    {
+    { 
+        
         $c = [];
         if ($this->getBodyBox()->getHasChilds()){
             $c[] = $this->m_bodybox;
@@ -67,11 +75,9 @@ class HtmlBodyNode extends HtmlNode{
             $c[] = HtmlDefaultMainPage::getInstance();
         }
 
-        $c[] = $this->m_bodyMainScript;  
-        if ($this->m_appendContent){
-            $c[] = $this->m_appendContent;
-        }
-        $c[] = HtmlPoweredByNode::getItem();
+        $c[] = $this->m_bodyMainScript;   
+        $c[] = $this->getAppendContent(); 
+        $c[] = HtmlPoweredByNode::getItem(); 
         $c[] = new HtmlHookNode(IGKEvents::HOOK_HTML_BODY, [
             "options"=>$options,
             "body"=>$this

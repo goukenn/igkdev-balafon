@@ -10,53 +10,54 @@
 
 namespace IGK\System\Html;
 
-use IGK\System\Html\Dom\XmlNode;
+use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\XML\XmlNode;
 
-class HtmlAttribExpressionNode extends XmlNode{
-    var $m_context, $node_args;
+class HtmlAttribExpressionNode extends XmlNode
+{
+    var  $node_args;
+    var  $target_node;
     ///<summary>Represente __construct function</summary>
     ///<param name="c"></param>
     ///<param name="context" default="null"></param>
-    public function __construct($c, $context=null){
-        if(!is_array($c)){
-            igk_die("node args must be an array");
-        }
+    public function __construct(HtmlItemBase $cnode, array $c)
+    {        
         parent::__construct(IGK_ENGINE_ATTR_EXPRESSION_NODE);
-        $this->node_args=$c;
-        $this->m_context=$context;
+        $this->node_args = $c; 
+        $this->target_node = $cnode;
     }
     ///<summary>Represente getCanAddChild function</summary>
-    public function getCanAddChild(){
+    public function getCanAddChild()
+    {
         return false;
     }
     ///<summary>Represente loadingComplete function</summary>
-    protected function loadingComplete(){
-        $r=$this->node_args;
-        $m=$this->Attributes->to_array();
-        $_p=[];
-        $_g=explode("|", "*for|*visible");
-        if(!$this->m_context){
-            $context=array_merge(["ctrl"=>$r[2]], isset($r[3]) ? (array)$r[3]->getArgs(): []);
-            $context["raw"]=$context["value"];
-        }
-        else
-            $context=$this->m_context;
-        $context=igk_get_attrib_raw_context($context);
-        foreach($m as $k=>$t){
-            if(in_array($k, $_g))
+    public function loadingComplete()
+    { 
+        $context = null;
+        $r = $this->node_args;
+        $m = $this->Attributes->to_array();
+        $_p = [];
+        $_g = explode("|", "*for|*visible");
+        $context = $r;
+        $context = igk_get_attrib_raw_context($context);
+        $p = $this->target_node;
+        foreach ($m as $k => $t) {
+            // ignore attribute binding
+            if (in_array($k, $_g))
                 continue;
-            if($k[0] == "*"){
-                $t=igk_template_get_piped_value($t, $context);
-                $k=ltrim($k, "*");
+            if ($k[0] == "*") {
+                $t = igk_template_get_piped_value($t, $context);
+                $k = ltrim($k, "*");
             }
-            $_p[$k]=$t;
+            $_p[$k] = $t;
         }
-        if(count($_p) > 0){
-            $r[0]->setAttributes($_p);
-            $m=& $r[1];
-            $m=igk_html_render_attribs($r[0]->getAttributes());
+
+        if (count($_p) > 0) {
+            // + append attribute 
+            $p->setAttributes($_p);  
         }
-        $this->node_args=null;
-        $this->dispose();
+        $this->node_args = null;    
+        $this->dispose(); 
     }
 }

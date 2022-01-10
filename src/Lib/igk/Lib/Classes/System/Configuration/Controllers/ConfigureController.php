@@ -53,8 +53,10 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     public function __get($n)
     {
-        igk_trace();
-        igk_wln_e("CallDirect Magic Property  : " . __CLASS__ . " try get {$n} : ");
+        if (igk_environment()->is("DEV")){
+            igk_trace();
+            igk_dev_wln_e("CallDirect Magic Property  : " . __CLASS__ . " try get [ {$n} ] ");
+        }
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -64,7 +66,7 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function __init_cache_tools($t)
     {
-        $t->addDiv()->addSectionTitle(4)->Content = __("title.cacheTools");
+        $t->div()->addSectionTitle(4)->Content = __("title.cacheTools");
         $frm = $t->addForm();
         $frm["action"] = $this->getUri("updatecacheConfig_ajx");
         $u = $this->getUri("activehtmlCache-ajx");
@@ -80,7 +82,7 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function __init_log_tools($t)
     {
-        $t->addDiv()->addSectionTitle(4)->Content = __("Logs");
+        $t->div()->addSectionTitle(4)->Content = __("Logs");
         $frm = $t->addForm()->setId("config-log-form");
         $frm["action"] = $this->getUri("update");
         $bar = $frm->addActionBar();
@@ -626,7 +628,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_set_env("sys://defaultpage/off", 1);
         $doc = igk_get_document($this, 0);
         $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->addDiv();
-        $t->addDiv()->Content = __("Configuration view");
+        $t->div()->Content = __("Configuration view");
         self::ViewInContext($this, "general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);
         $doc->renderAJX();
         igk_exit();
@@ -1058,8 +1060,7 @@ EOF;
     protected function InitComplete()
     {
         parent::InitComplete();
-        OwnViewCtrl::RegViewCtrl($this);
-        $this->m_configuration = false;
+        OwnViewCtrl::RegViewCtrl($this); 
     }
     ///<summary></summary>
     /**
@@ -1105,7 +1106,7 @@ EOF;
     private function initConnexionNode()
     {
 
-        $bfrm = igk_createnotagnode();
+        $bfrm = igk_create_notagnode();
         $igk_framename = IGK_FRAMEWORK;
         $igk_version = IGK_VERSION;
         $doc = igk_app()->getDoc();
@@ -1422,7 +1423,7 @@ EOF;
         public function registerConfig($ctrl)
         {
             $c = $this->getParam("m_confctrls", array());
-            $c[$ctrl->Name] = $ctrl;
+            $c[$ctrl->getName()] = $ctrl;
         }
         ///<summary> override register Hook</summary>
         /**
@@ -1530,9 +1531,7 @@ EOF;
             * @param mixed $stored the default value is 0
             */
         public function setpage($p = null, $stored = 0)
-        {
-
-
+        { 
             $key = "cnf://no_reload";
             if ($sp = igk_get_env($key)) {
                 return;
@@ -1549,17 +1548,15 @@ EOF;
             } else {
                 $this->setConfigView(IGK_DEFAULT_VIEW);
             }
-            $p = $this->getConfigView();
-            $app = igk_app();
+            $p = $this->getConfigView(); 
             $cnf_n = $this->getConfigNode();
             if ($cnf_n === null) {
                 $cnf_n = igk_createnode("div");
                 $this->ConfigNode = $cnf_n;
             }
-            $cnf_n->clearChilds();
-            $v_supported = true;
-            igk_notify_sethost($cnf_n->addDiv());
-            $ctrl = $this;
+            $cnf_n->clearChilds(); 
+            igk_notify_sethost($cnf_n->addDiv()); 
+            $args = ["ctrl"=>$this, "app"=>igk_app()];
             switch ($p) {
                 case "configurationmenusetting":
                     $this->SelectedConfigCtrl = null;
@@ -1575,17 +1572,17 @@ EOF;
                     break;
                 case "serverinfo":
                     $this->_selectMenu("serverinfo", "IGKConfigCtrl::setpage");
+                    extract($args);
                     include($this->getViewFile("config.server_info.phtml"));
                     break;
                 case IGK_DEFAULT_VIEW:
+                    extract($args);
                     include($this->getViewFile("config.default_page.phtml"));
                     igk_set_env($key, 1);
                     break;
-                default:
-                    $v_supported = false;
+                default: 
                     break;
-            }
-            //$cnf_n->clearChilds();//addDiv()->Content = "OK";
+            }  
         }
         ///set selected menu config
         ///$ctrl = selected config controller

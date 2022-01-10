@@ -1,6 +1,7 @@
 <?php
 namespace IGK\Resources;
 
+use IGK\System\Html\HtmlAttributeValue;
 use IGK\System\Html\IHtmlGetValue;
 use IGKResourceUriResolver;
 use IGKValidator;
@@ -9,7 +10,7 @@ use IGKValidator;
  * string resource uri data
  * @package IGK\Resources
  */
-class ResourceData implements IHtmlGetValue{
+class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
     var $value;
 
     public function __construct(string $value)

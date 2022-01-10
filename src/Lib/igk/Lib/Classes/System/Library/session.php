@@ -52,7 +52,7 @@ class session extends \IGKLibraryBase{
         }
         ini_set("session.cookie_same", "Strict");
         //+ | security fix
-    ini_set("session.cookie_secure", igk_sys_srv_is_secure());
+        ini_set("session.cookie_secure", igk_sys_srv_is_secure());
         ini_set("session.cookie_httponly", 1);
         ini_set("session.cookie_samesite", "strict");
         //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
@@ -85,6 +85,15 @@ class session extends \IGKLibraryBase{
         return $b;
     }
     /**
+     * restart session with new id
+     * @param mixed $id 
+     * @return bool 
+     */
+    public function restart($id){
+        session_id($id);
+        return session_start();
+    }
+    /**
      * close the started session
      * @return void 
      */
@@ -98,5 +107,18 @@ class session extends \IGKLibraryBase{
     public function destroy(){
         $this->close();
         @session_destroy();
+    }
+    /**
+     * unlink session file
+     * @param mixed $id 
+     * @return bool 
+     */
+    public function unlink($id){
+        $d = ini_get("session.save_path");
+        $f = igk_io_dir($d . "/" . IGK_SESSION_FILE_PREFIX . $id);
+        if (file_exists($f)) {
+            return unlink($f);
+        }
+        return false;
     }
 }

@@ -2,6 +2,8 @@
 namespace IGK\Database;
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
+use IGK\Controllers\SysDbControllerManager;
 use IGK\System\Html\HtmlReader;
 use IGKException;
 use stdClass;
@@ -53,8 +55,10 @@ abstract class DbSchemas{
     }
     public static function __callStatic($name, $arguments)
     {
-        die("not allowed");
+        die("call static method not allowed.".__CLASS__);
     }
+
+   
 
     public static function LoadSchema($file, $ctrl = null, $resolvname = true){
         
@@ -74,8 +78,8 @@ abstract class DbSchemas{
     }
     /**
      * get schema definition from node
-     * @param mixed $d 
-     * @param mixed $ctrl 
+     * @param HtmlNode $d node definition 
+     * @param null|IGK\Controllers\BaseController $ctrl base controller 
      * @param bool $resolvname 
      * @return object 
      * @throws IGKException 
@@ -99,7 +103,10 @@ abstract class DbSchemas{
      * @return stdClass|null 
      */
     public static function CreateRow($tablename, $ctrl, $dataobj = null){  
-        $g = $ctrl->getDataTableDefinition($tablename);
+        if ($ctrl instanceof SysDbController){
+            $g = SysDbControllerManager::getDataTableDefinition($tablename);
+        }else 
+            $g = $ctrl->getDataTableDefinition($tablename);
         if ($g){
             $inf = $g["tableRowReference"];              
             return self::CreateObjFromInfo($inf, $dataobj);
@@ -140,17 +147,20 @@ abstract class DbSchemas{
         $tb = $r->Data;
         $etb = $r->Entries;
         $no_error = 1;
-        $adapter->beginInitDb($ctrl);
-        foreach ($tb as $k => $v) {
-            $n = igk_db_get_table_name($k, $ctrl);
-            $data = igk_getv($etb, $n);
-            igk_hook(IGK_NOTIFICATION_INITTABLE, [$ctrl, $n, &$data]);
-            if (!$adapter->createTable($n, igk_getv($v, 'ColumnInfo'), $data, igk_getv($v, 'Description'), $adapter->DbName)) {
-                igk_push_env("db_init_schema", __("failed to create [0]", $n));
-                $no_error = 0;
+        if ($tb){
+            $adapter->beginInitDb($ctrl);
+            foreach ($tb as $k => $v) {
+                $n = igk_db_get_table_name($k, $ctrl);
+                $data = igk_getv($etb, $n);
+                igk_hook(IGK_NOTIFICATION_INITTABLE, [$ctrl, $n, &$data]);
+            
+                if (!$adapter->createTable($n, igk_getv($v, 'ColumnInfo'), $data, igk_getv($v, 'Description'), $adapter->DbName)) {
+                    igk_push_env("db_init_schema", __("failed to create [0]", $n));
+                    $no_error = 0;
+                }
             }
-        }
-        $adapter->endInitDb();
+            $adapter->endInitDb();
+        } 
         return $no_error;
     }
    

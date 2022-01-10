@@ -93,6 +93,7 @@ class RouteActionHandler extends RouteHandler
      */
     public function isAuth(Users $user)
     {
+        igk_wln_e("check auth");
         if ($user && !empty($this->auth)) {
             $r = $user->auth($this->auth, $this->auth_requirement);
             return $r;

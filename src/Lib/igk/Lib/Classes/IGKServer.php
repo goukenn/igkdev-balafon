@@ -20,7 +20,10 @@ final class IGKServer{
 
 
     ///<summary></summary>
-    public static function IsIGKDEVSERVER(){
+    /**
+     * 
+     */
+    public static function IsIGKDEVSERVER() : bool{
         $r= self::getInstance()->HTTP_USER_AGENT;
         if(strstr($r, IGK_SERVERNAME)){
             return true;

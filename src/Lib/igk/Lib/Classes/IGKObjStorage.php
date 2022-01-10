@@ -8,10 +8,14 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+/**
+ * use to copy and retrieve data or null
+ * @package 
+ */
 final class IGKObjStorage{
     ///<summary></summary>
     ///<param name="tab" default="null"></param>
-    public function __construct($tab=null){
+    public function __construct(?array $tab=null){
         if($tab && is_array($tab)){
             foreach($tab as $k=>$v){
                 $this->$k=$v;
@@ -39,5 +43,9 @@ final class IGKObjStorage{
     ///<summary>display value</summary>
     public function __toString(){
         return __CLASS__;
+    }
+    public function to_array(){
+        $tab = (array)$this;        
+        return $tab;
     }
 }

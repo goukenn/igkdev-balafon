@@ -1,8 +1,8 @@
 <?php
 
 namespace IGK\System\Templates;
-
-use IGKHtmlUtils;
+ 
+use IGK\System\Html\HtmlUtils;
 use ReflectionFunction;
 
 /**
@@ -62,12 +62,8 @@ class TemplateEngine
                 continue;
             }
             $attr = "";
-
-            if ($node->getFlag(IGK_NODETYPE_FLAG) == "c") {
-                $tagname = $node->tagName;
-            } else
-                $tagname = "igk:" . $node->tagName;
-
+            $tagname = HtmlUtils::GetGeneratedTagname($node);
+            
       
             if (!empty($rdinfo->content)){
                 $s .= $rdinfo->content;
@@ -157,8 +153,7 @@ class TemplateEngine
                 $rdinfo->count--;
                 //igk_wln_e($rdinfo->count);
                 }
-                while( $rdinfo && ($rdinfo->count <=0) ); 
-               // igk_wln_e($node);
+                while( $rdinfo && ($rdinfo->count <=0) );  
             }
         }
         while ($rdinfo && $rdinfo->tagname) {

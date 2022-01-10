@@ -5,6 +5,8 @@ use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Helper\IO as IGKIO;
+use IGK\Helper\IO;
+
 use function igk_resources_gets as __; 
  
 class MakeModuleCommand extends AppCommand{

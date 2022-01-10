@@ -3,7 +3,7 @@
 namespace IGK\System\Database;
 
 use IGK\System\Html\Dom\HtmlCommentNode;
-use IGKDbSchemas;
+use DbSchemas;
 use IGKException;
 use IGKHtmlCommentItem;
 

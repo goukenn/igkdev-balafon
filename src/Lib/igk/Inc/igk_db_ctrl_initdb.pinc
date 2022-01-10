@@ -1,5 +1,7 @@
 <?php
-
+// @file : igk_db_ctrl_initdb
+// @author: C.A.D. BONDJE DOUE
+// @desc: 
 use IGK\System\Console\Logger;
 
 if(!$controller->getCanInitDb()){
@@ -10,17 +12,17 @@ $fcname = "initDb";
 igk_set_env("sys://db/constraint_key", $controller->getInitDbConstraintKey());
 // Logger::print("init db: ".get_class($controller));
 if(!$controller->getUseDataSchema()){ 
-    Logger::print("init from db function ...");
+    Logger::info("init from db function ...");
     $controller::initDbFromFunctions();
 }
 else{
-    Logger::print("init from db schemas ...");
+    Logger::info("init from db schemas ...");
     $bck=igk_get_env(IGK_ENV_DB_INIT_CTRL);
     igk_set_env(IGK_ENV_DB_INIT_CTRL, $controller);
     $controller->initDbFromSchemas();
     $controller->initDbConstantFiles();
     $controller::InitDataBaseModel($force);
-    if ($cl = $controller::resolvClass(Database\InitData::class) && class_exists($cl, false)){ 
+    if (($cl = $controller::resolvClass(Database\InitData::class)) && class_exists($cl, false)){ 
         $call = true;
         // + | Check Init 
         $c = new ReflectionMethod($cl, "Init");

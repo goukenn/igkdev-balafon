@@ -38,7 +38,7 @@ final class IGKCaches{
         if (!IGKApp::GetConfig("allow_page_cache")){
             return false;
         }
-        list($uri, $zip) = \IGK\Helper\UriUtils::CacheUri();
+        list($uri, $zip) = self::CacheUri();
  
         $file = IGKCaches::page_filesystem()->getCacheFilePath($uri); 
         if (file_exists($file) && IGKCaches::page_filesystem()->expired($uri, 50000)){
@@ -46,6 +46,20 @@ final class IGKCaches{
             $response->zip = $zip;
             $response->output(); 
         }
+    }
+
+      /**
+     * get system cache uri
+     * @return (string|bool)[]  uri and zip flag 
+     */
+    public static function CacheUri(){
+        $o = strtolower(igk_environment()->keyname()).":";
+        $uri = $o.igk_server()->REQUEST_URI;
+        $zip = igk_server()->accepts(["gzip"]);      
+        if ($zip){
+            $uri .= "_zip";
+        }
+        return [$uri, $zip];
     }
     public static function __callStatic($name, $args){
         $i = self::getInstance();
@@ -122,7 +136,7 @@ final class IGKCaches{
         igk_environment()->push($key, $file);
         
         $cache = $fs->getCacheFilePath($file);
-        $n=igk_createnotagnode();
+        $n=igk_create_notagnode();
         if ($fs->cacheExpired($file)){ 
            
             // + |-----------------------------------------------
@@ -136,7 +150,7 @@ final class IGKCaches{
             $option = igk_create_view_builder_option();
             $n->renderAJX($option);
             $s = ob_get_clean();
-            igk_io_w2file($cache, trim($s.igk_view_builder_extra($file, $option)));
+            igk_io_w2file($cache, trim($s).igk_view_builder_extra($file, $option));
 
             if($render){
                 echo $s; 
@@ -174,16 +188,16 @@ final class IGKCaches{
             // + |-----------------------------------------------
             // + | Compile the target 
             // + |-----------------------------------------------
-            $n=igk_createnotagnode();
+            $n=igk_create_notagnode();
             $n->article($controller, $file, $raw);
             ob_start();
             $option = igk_create_view_builder_option();
             $n->renderAJX($option);
             $s = ob_get_clean();
-            igk_io_w2file($cache, trim($s.igk_view_builder_extra($file, $option)));
+            igk_io_w2file($cache, trim($s).igk_view_builder_extra($file, $option));
         }
          
-        $n=igk_createnotagnode();
+        $n=igk_create_notagnode();
         $n->obdata(function()use($cache, $raw){
             try{
                 include($cache); 
@@ -205,7 +219,7 @@ final class IGKCaches{
 
           // igk_environment()->push("FileLoader", $f);
         // $cache = $this->_cache_fs->getCacheFilePath($f);
-        // $n=igk_createnotagnode();
+        // $n=igk_create_notagnode();
         // if ($this->_cache_fs->cacheExpired($f)){
         //     // + |-----------------------------------------------
         //     // + | Compile the target 

@@ -527,7 +527,7 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 	///mage all visibility
 	public function isVisible($n, $t){
 
-		$u = igk_app()->Session->User;
+		$u = igk_app()->session->User;
 		switch($t){
 			case "infobox":
 				return !$this->HasPage && (IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage")));
@@ -565,8 +565,8 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 
 		$p = $this->getPageViewListener();
 		$uri = null;
-		//$u = igk_app()->Session->User;
-		$u = igk_app()->Session->User;
+		//$u = igk_app()->session->User;
+		$u = igk_app()->session->User;
 
 		$v = IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage"));
 		if ($v)

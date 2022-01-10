@@ -4,6 +4,7 @@ namespace IGK\Database;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Number;
 use IGKEvents;
+use IGKException;
 use IGKObject;
 use IIGKdbManager;
 use Throwable;
@@ -26,6 +27,9 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     private $m_openCount;
 	private $m_dboptions;
     private $m_resource;
+    protected $m_error;
+    protected $m_errorCode;
+
     private static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
     private static $__store;
     private static $sm_resid;
@@ -48,7 +52,13 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     /**
     * .ctr
     */
-    private function __construct(){}
+    private function __construct($name){
+        $this->m_name = $name;
+        if (igk_env_count(__METHOD__)>1){
+            igk_trace(); 
+            igk_wln_e("create driver: ".get_class($this) . " : ", $name);
+        }
+    }
     ///<summary></summary>
     ///<param name="tablename"></param>
     ///<param name="entries"></param>
@@ -93,7 +103,10 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * 
     */
     public function __wakeup(){
-        igk_wln_e("wake up not allowed ", $this->m_openCount, get_class($this));
+ 
+        igk_wln_e("wake up not allowed: unfortunally query driver being store in session",
+            $this->m_openCount, 
+            get_class($this));
         // $this->m_resource=null;
         // $this->m_openCount=0;
     }
@@ -228,8 +241,15 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * @param mixed $dbuser the default value is "root"
     * @param mixed $dbpwd the default value is ""
     */
-    public static function Create($dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
-        $out=new DbQueryDriver();
+    public static function Create(?array $options=null){
+        $dbserver =key_exists("server", $options) ?   $options["server"] : func_get_arg(0);
+        $dbuser = key_exists("user", $options)  ? $options["user"] : func_get_arg(1);
+        $dbpwd = key_exists("pwd", $options) ? $options["pwd"]: func_get_arg(2);
+        $port = key_exists("port", $options) ?  $options["port"] : func_get_arg(3);
+        
+
+        // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
+        $out=new DbQueryDriver("mysql");
         if (is_object($dbserver)){
             //principal info 
             $out->m_dbserver=trim($dbserver->server);
@@ -263,9 +283,13 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     public function createdb($db){
         if(!$this->getIsConnect())
             return false;
+        // + | -------------------
         // + | autocreate database 
+        // + |
         if (igk_environment()->is("DEV") || igk_app()->getConfigs()->db_auto_create){
-            $this->getSender()->sendQuery("CREATE DATABASE IF NOT EXISTS `".$this->escape_string($db)."` ");
+            if (igk_env_count(__METHOD__)==1){ 
+                $this->getSender()->sendQuery("CREATE DATABASE IF NOT EXISTS `".$this->escape_string($db)."` ");
+            }
         }
         return true;
     }
@@ -513,11 +537,11 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * @param mixed $t
     * @param mixed $msg the default value is ""
     */
-    protected function dieinfo($t, $msg=""){
+    protected function dieinfo($t, $msg="", $code=0){
  
         if(!$t){ 
-            $d=$this->getErrorCode();
-            $m = $em=$this->getError(); 
+            $d= $code;
+            $m = $em = $this->getError();   
             if (!igk_is_cmd()){
                 $m="<div><div class=\"igk-title-4 igk-danger\" >/!\\ ".__CLASS__." Error</div><div>". $em."</div>"."<div>Code: ".$d."</div>"."<div>Message: <i>".$msg."</i></div></div>";
             } else {
@@ -526,7 +550,9 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             $this->ErrorString=$em;
             switch($d){
                 case 1062:
+                    // + | duplicate entry error Code 
                 case 1146:
+                    // + | 
                 return null;
             }
             igk_push_env("sys://adapter/sqlerror", $m);
@@ -640,20 +666,32 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     public function getDbUser(){
         return $this->m_dbUser;
     }
+    /**
+     * retrieve driver error 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    protected function getDriverError(){
+        return igk_mysql_db_error();
+    }
+    ///<summary></summary>
+    /**
+    * retrieve driver code 
+    */
+    protected function getDriverErrorCode(){
+        return igk_mysql_db_errorc();
+    }
     ///<summary></summary>
     /**
     * 
     */
     public function getError(){
-        return igk_mysql_db_error();
+        return $this->m_error; 
     }
-    ///<summary></summary>
-    /**
-    * 
-    */
     public function getErrorCode(){
-        return igk_mysql_db_errorc();
+        return $this->m_errorCode;
     }
+
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="throwError" default="1"></param>
@@ -686,9 +724,9 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     public function getIsConnect(){
         return $this->m_isconnect;
     }
-    ///<summary></summary>
+    ///<summary>retrieve last send query </summary>
     /**
-    * 
+    * retrieve last send query 
     */
     public function getLastQuery(){
         return $this->m_lastQuery;
@@ -781,7 +819,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     */
     public static function InitDefault(){
         $dbName = igk_get_env("dbName");
-        $db=new DbQueryDriver();
+        $db=new DbQueryDriver("mysql");
         $db->connect();
         $db->selectdb($dbName);
         return $db;
@@ -805,29 +843,8 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     */
     public function insert($tbname, $values, $tableinfo=null){
         $this->dieNotConnect();
-        $tableinfo=$tableinfo == null ? igk_db_getdatatableinfokey($tbname): $tableinfo;
-        igk_wln_e("get class:", get_class($this->m_adapter));
+        $tableinfo=$tableinfo == null ? igk_db_getdatatableinfokey($tbname): $tableinfo;        
         return $this->m_adapter->insert($tbname, $values, $tableinfo);
-        // igk_wln(__FILE__.':'.__LINE__, ["tbname"=>$tbname, "table info"=>$tableinfo]);
-        // IGKSQLQueryUtils::SetAdapter($this);
-        // $query=IGKSQLQueryUtils::GetInsertQuery($tbname, $values, $tableinfo);
-        // $t=$this->getSender()->sendQuery($query);
-        // if($t){
-        //     if(($t->getResultType() == "boolean") && $t->getValue()){
-        //         if(is_object($values)){
-        //             if(igk_getv($values, IGK_FD_ID) == null)
-        //                 $values->clId=$this->lastId();
-        //         }
-        //         return true;
-        //     }
-        //     return false;
-        // }
-        // else{
-        //     $error="[IGK] - Insertion Query Error : ".igk_mysql_db_error(). " : ".$query;
-        //     igk_ilog($error);
-        //     igk_db_error($error);
-        // }
-        // return false;
     }
     ///<summary></summary>
     /**
@@ -923,7 +940,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * 
     */
     public function selectLastId(){
-        return IGKMySQLQueryResult::CreateResult($this->_sendQuery("SELECT  LAST_INSERT_ID()"));
+        return IGKMySQLQueryResult::CreateResult($this->_sendQuery("SELECT LAST_INSERT_ID()"));
     }
     ///<summary></summary>
     ///<param name="query"></param>
@@ -948,11 +965,20 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
 			}
             $this->setLastQuery($query);
             $t=igk_db_query($query, $this->m_resource);
+            $error = "";
+            $code = 0;
             if (!$t && !$v_nolog){ 
-                igk_ilog("Query Error:".$this->getError()."\n".$query."\n"); 
+                $error = $this->getDriverError(); 
+                $code = $this->getDriverErrorCode();
+                // in debug mode the driver lost errr message
+                $this->m_error = $error;
+                $this->m_errorCode = $code;
+                igk_ilog("Query Error: m : ".$error."\n".$query."\n");  
             }            
-            if($throwex){
-                $this->dieinfo($t, "/!\\ SQL Query Error :<div style='font-style:normal;'>".igk_html_query_parse($query)."</div>");
+            if($throwex && !$t){                
+                $this->dieinfo($t, 
+                "<div>/!\\ SQL Query Error : $error </div><div style='font-style:normal;'>".igk_html_query_parse($query)."</div>", 
+                $code);
             }
             else if(!$t)
                 return null;

@@ -1,15 +1,15 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: 
-// @desc: 
-// @date: 20210420 14:22:08
+// @file: Crons.php
+// @desc: model file
+// @date: 20220109 10:15:50
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
 class Crons extends ModelBase{
-		/** 
-		 */
-		protected $table = "%prefix%crons"; 
-	
+	/**
+	* table's name
+	*/
+	protected $table = "%prefix%crons";
 }

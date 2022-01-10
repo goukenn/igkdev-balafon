@@ -28,7 +28,7 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
 		$v = @eval($s);
         $setattrib($attrname, $v);
         return null;
-    })(HtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, $context));
     return null;
 }
 
@@ -40,7 +40,7 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
 		$v = igk_template_get_piped_value($rv, $context);
         $setattrib($attrname, $v);
         return null;
-    })(HtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, $context));
     return null;
 }
 
@@ -58,6 +58,10 @@ igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context
     $g=(function($script) use ($context){
         extract(igk_to_array($context));  
         return @eval((function(){
+            // if (igk_is_debug()){
+            //     igk_trace();
+            //     igk_wln_e(__FILE__.":".__LINE__, func_get_arg(0));
+            // }
             if (func_num_args()==1)
             return "return ".func_get_arg(0).";"; 
         })(HtmlUtils::GetAttributeValue($script, $context)));
@@ -80,7 +84,7 @@ igk_reg_template_bindingattributes("*classes", function($n, $attr, $v, $context,
                 $setattrib("class", implode(" ", $tab));
         }
         return null;
-    })(HtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, $context));
 
 	$n->setInfos(["attribute"=>$attr, "context-data"=>$g, "context"=>"bind-expression", "operation"=>"loop", "for"=>$n->getName()]);
 
@@ -94,7 +98,7 @@ igk_reg_template_bindingattributes("*href", function($n, $attr, $v, $context, $s
 		$v = @eval($s);
         $setattrib("href", $v);
         return null;
-    })(HtmlUtils::GetAttributeValue($v, null));
+    })(HtmlUtils::GetAttributeValue($v, $context));
     return null;
 });
 

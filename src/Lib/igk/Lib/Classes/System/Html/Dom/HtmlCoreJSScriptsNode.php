@@ -70,14 +70,14 @@ class HtmlCoreJSScriptsNode extends HtmlNode
             [IGK_LIB_DIR . "/Ext", "sys"],
         ];
         $d = rtrim(explode("?", igk_server()->REQUEST_URI)[0], "/");
-        $rq = count(array_filter(explode("/", $d))) . "/:";
+        $rq = null;
         $resolverfc = null;
         $tag = null;
         $s = "";
         // $production = true;
-        $production_file  = "";
-      
+        $production_file  = ""; 
         if (!$production) {
+            $rq = count(array_filter(explode("/", $d))) . "/:";
             $resolverfc = function ($f) use ($resolver, &$s, &$tag) {
                 $ext = Path::GetExtension($f);
                 $u = $resolver->resolve($f);
@@ -153,6 +153,8 @@ class HtmlCoreJSScriptsNode extends HtmlNode
      * @throws IGKException 
      */
     public static function GetScriptContent($data, $uri, $name, $production = false){
+ 
+
         $out = "";
         $exclude_dir = [];
         $resolver = IGKResourceUriResolver::getInstance();
@@ -165,6 +167,8 @@ class HtmlCoreJSScriptsNode extends HtmlNode
         $s = "";
         // $production = true;
         $production_file  = "";
+
+   
       
         if (!$production) {
             $resolverfc = function ($f) use ($resolver, &$s, &$tag) {
@@ -182,8 +186,9 @@ class HtmlCoreJSScriptsNode extends HtmlNode
                 }
             };
         } else {
+
             $production_file = IGKCaches::js_filesystem()->getCacheFilePath($name.":/data.js");
-            if (file_exists($production_file)){
+            if (0 && file_exists($production_file)){
                 return file_get_contents($production_file);
             }
             $resolverfc = function ($f) use ($resolver, &$s) {
@@ -208,15 +213,16 @@ class HtmlCoreJSScriptsNode extends HtmlNode
                 IGKCaches::js_filesystem()->getCacheFilePath($rq.$name.$dir):
                 null;
 
-            if (!$production && file_exists($cache_path)) {
+            if ( $cache_path && file_exists($cache_path)) {
                 ob_start();
                 include($cache_path);
                 $out .= ob_get_contents();
                 ob_end_clean();
-            } else {
+            } 
+            else {
                 $s = "";
                 IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir, $resolverfc);
-                IO::WriteToFile($cache_path, $s);
+                IO::WriteToFile($production_file, $s);
                 $out .= $s;
             }
         }

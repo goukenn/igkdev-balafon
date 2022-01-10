@@ -24,7 +24,7 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		extract($this->getSystemVars());
 		$t->clearChilds();
-		$frm = $t->addDiv()->addForm();
+		$frm = $t->div()->addForm();
 		$frm["action"]="";
 		$lb = $frm->add("label");
 		$lb["for"] = "";
@@ -36,8 +36,8 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		{
 			$sl->add("options")->Content = $v->clName;
 		}
-		$t->addDiv();
-		$t->addDiv();
+		$t->div();
+		$t->div();
 
 	}
 

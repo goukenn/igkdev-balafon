@@ -19,6 +19,7 @@ use IGK\System\IO\FileWriter;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 
 use function igk_resources_gets  as __;
@@ -42,6 +43,13 @@ function igk_environment()
 {
     return IGKEnvironment::getInstance();
 }
+/**
+ * return application configuration 
+ * @return mixed 
+ */
+function igk_sys_configs(){
+    return IGKAppConfig::getInstance()->Data;
+}
 
 
 
@@ -53,6 +61,7 @@ function igk_environment()
  */
 function igk_exit($close = 1, $clean_buffer = 0)
 {
+    exit;
     if (igk_environment()->isAJXDemand){
         if (igk_environment()->is("DEV")){
             igk_trace();
@@ -145,6 +154,8 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 400)
 ///<summary>shortcut to resource get __</summary>
 /**
  * shortcut to resource get __
+ * @param string $text formatted key
+ * @param string|null $default default value
  */
 function igk_resources_gets($text, $default = null)
 {
@@ -474,21 +485,15 @@ function igk_sys_download_core($download = 1)
 }
 
 
-///<summary>return a list of project installed controllers</summary>
+///<summary>return a list of controller installed in project dirs </summary>
+/**
+ * 
+ * @return array|IGK\Controllers\BaseController[] list of controller  
+ * @throws IGKException 
+ */
 function igk_sys_project_controllers()
 {
-    if (!IGKApp::IsInit()) {
-        return null;
-    }
-    $c = igk_app()->getControllerManager()->getControllers();
-    $dir = igk_io_projectdir();
-    $projects_ctrl = [];
-    foreach ($c as $k) {
-        if (strstr($k->getDeclaredDir(), $dir)) {
-            $projects_ctrl[] = $k;
-        }
-    }
-    return $projects_ctrl;
+    return SysUtils::GetProjectControllers();       
 }
 ///<summary></summary>
 ///<param name="msg"></param>
@@ -739,7 +744,7 @@ function igk_log_var_dump($tab, $lf = null)
  * write line to buffer and exit
  */
 function igk_wln_e($msg = "")
-{
+{ 
     igk_environment()->set('TRACE_LEVEL', 3);
     call_user_func_array('igk_wln', func_get_args());
     igk_exit();
@@ -996,14 +1001,22 @@ function igk_app()
  * shortcut to get controller by ref_name
  * @param string $name reference name. key or class name
  * @param int|bool $throwex throw exception if not found
+ * @return null|IGK\Controllers\BaseController controller found
  */
 function igk_getctrl($name, $throwex = 1)
 {
     return igk_app()->getControllerManager()->getController($name, $throwex);
 }
-function igk_ilog(...$args)
-{
-    IGKLog::Append(...$args);
+/**
+ * shortcut to write log
+ * @param string $message 
+ * @param string|null $tag 
+ * @param mixed $traceindex tracing index
+ * @return void 
+ * @throws IGKException 
+ */
+function igk_ilog($message, ?string $tag=null, $traceindex=0){
+    IGKLog::Append($message, $tag, $traceindex);
 }
 
 // + | IO shortcut
@@ -1378,6 +1391,13 @@ function igk_init_ctrl($ctrlname)
     return IGKControllerManagerObject::InitController($ctrlname);
 }
 
+///<summary>shortcut to string ::Format method helper</summary>
+/**
+ * shortcut to string ::Format method helper
+ * @param string $data format key
+ * @return string formatted string
+ * @throws IGKException 
+ */
 function igk_str_format($data)
 {
     return IGKString::Format(...func_get_args());

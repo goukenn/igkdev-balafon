@@ -2,6 +2,10 @@
 //controller code class declaration
 //file is a part of the controller tab list
 ///<summary>used to manage comomunity site</summary>
+
+use IGK\Database\DbColumnInfo;
+use IGK\Models\Community;
+
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase {
 	public function getName(){return get_class($this);}
 	protected function InitComplete(){
@@ -70,59 +74,15 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase {
 	//@@@ parent view control
 	public function View(){
 			return;
-			// igk_wln(__METHOD__." is visible?" .$this->IsVisible);
-
-			// $this->TargetNode->clearChilds();
-			// extract($this->getSystemVars());
-
-			// $ul = $t->addDiv()->add("ul");
-			// $ul["class"]= "igk-community-list";
-			// $e = $this->getDbEntries();
-			// if ($e)
-			// {
-				// foreach($e->Rows as $k=>$v)
-				// {
-					// if (!$v || !$v->clAvailable)
-						// continue;
-					// $src = IGK_STR_EMPTY;
-					// $src .= igk_getv($v, "clImageKey")!=null? $v->clImageKey : "com_".$v->clName;
-					// $b = $ul->add("li")->add("a", array(
-					// "href"=>$v->clLink,
-					// "target"=>"_blank",
-					// "class"=>"igk-community-list"));
-					// $b->add("div", array("class"=>"igk-community-box igk-com-".$v->clName));
-					// igk_css_regclass("com_".$v->clName, "[res:".$src."]" );
-				// }
-			// }
 	}
 	public function loadCommunityNode($n){
-		$e = $this->getDbEntries();
-		$ul = $n->add("ul");
-		if ($e && ($e->RowCount>0)){
-			$coms = igk_db_select($this, "tbigk_community");
-			$n = "";
-				// igk_wln($coms->Rows);
-				
-				foreach($e->Rows as  $v)
-				{
-							if (!$v || !$v->clAvailable)
-								continue;
-							if (!isset($coms->Rows[$v->clCommunity_Id]))
-								continue;
-							$rn = $coms->Rows[$v->clCommunity_Id];
-							$n = $rn->clName;
-							// igk_ilog("load ".$n);
-							$src = IGK_STR_EMPTY;
-							$src .= igk_getv($v, "clImageKey")!=null? $v->clImageKey : "com_".$n;
-							$b = $ul->add("li")->setClass("igk-community-i")->add("a", array(
-							"href"=>$v->clLink,
-							"target"=>"_blank"));
-							$b->add("div", array("class"=>"igk-community-box igk-com-".$n))->addSvgSymbol($n);
-							//igk_css_regclass("com_".$v->clName, "[res:".$src."]" );
-				}
-			}else{
-				$ul->addWebMasterNode()->addLi()->add("span")->Content = "No Community";
-			}
+		$e = Community::select_all();
+		if ($e){ 
+			$ul = $n->add("ul");
+			$ul->loop($e)->host(function($i, $t){
+				$t->li()->Content= $i->clName;
+			});
+		}
 	}
 
 } 

@@ -9,6 +9,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Utility;
 use IGK\Models\ModelBase as ModelsModelBase;
+use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKEvents;
 use IGKException;
 use IGKSystemController;
@@ -45,7 +46,7 @@ use ReflectionClass;
  * @method static void last_error() macros function
  * @method static void last_id() macros function
  * @method static void linkCondition() macros function
- * @method static void model() macros function
+ * @method static ModelBase model() macros function return object model
  * @method static void prepare() macros function
  * @method static void primaryKey() macros function
  * @method static void query() macros function
@@ -68,7 +69,9 @@ use ReflectionClass;
  */
 abstract class ModelBase implements ArrayAccess
 {
+	use ArrayAccessSelfTrait;
 
+    static $mock_instance;
     /**
      * stored macros
      * @var mixed
@@ -183,22 +186,29 @@ abstract class ModelBase implements ArrayAccess
     }
 
     private static function CreateMockInstance($classname){
-        static $mock_instance;
-        if ($mock_instance===null){
-            $mock_instance = [];
+        
+        if (self::$mock_instance===null){
+            self::$mock_instance = [];
         }
-        if (!($m = igk_getv($mock_instance, $classname))){
+        if (!($m = igk_getv(self::$mock_instance, $classname))){
             $m =  new $classname(null, 1);
-            $mock_instance[$classname] = $m;
+            self::$mock_instance[$classname] = $m;
         }
 
         return $m;
 
     }
+    /**
+     * check if model created mock instance
+     * @return bool 
+     */
+    public static function IsMockInstance(){
+        return isset(self::$mock_instance[static::class]);
+    }
 
     public function __construct($raw = null, $mock=0)
     {
-        $this->raw = $raw && ($raw instanceof ModelBase) ? $raw :  $this->createRow();
+        $this->raw = $raw && ($raw instanceof static) ? $raw :  $this->createRow();
         if (!$this->raw && !$mock) {
             igk_trace();
             igk_wln(__FILE__ . ":" . __LINE__, "raw is null", get_class($this), $this->controller, $this->getTable());
@@ -238,22 +248,22 @@ abstract class ModelBase implements ArrayAccess
         return igk_getv($this->raw, $name);
     }
 
-    public function offsetExists($offset): bool
+    public function _access_offsetExists($offset): bool
     {
         return false;
     }
 
-    public function offsetGet($offset): mixed
+    public function _access_offsetGet($offset): mixed
     {
         return $this->$offset;
     }
 
-    public function offsetSet($offset, $value): void
+    public function _access_offsetSet($offset, $value): void
     {
         $this->$offset = $value;
     }
 
-    public function offsetUnset($offset): void
+    public function _access_offsetUnset($offset): void
     {
     }
 
@@ -271,6 +281,11 @@ abstract class ModelBase implements ArrayAccess
     {
         return IGKSysUtil::GetTableName($this->table, $this->getController());
     }
+    /**
+     * get current table info
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function getTableInfo()
     {
         $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
@@ -463,6 +478,15 @@ abstract class ModelBase implements ArrayAccess
         $r = $this->getDataAdapter()->update($this->getTable(), $this->raw, [$this->primaryKey => $this->$pkey]);
         return $r && $r->success();
     }
+	/**
+	 * return json data
+	 * @return string|false 
+	 * @throws Exception 
+	 */
+	public function __toString()
+	{
+		return $this->to_json();
+	}
 
     /**
      * retrieve all registrated model

@@ -158,7 +158,7 @@ function igk_api_mysql_get_data_schema($api, $render=1 , $param=null){
 					if ($e)
 					igk_exit();
 					$table_n = $t->$n;
-					$row = $rep->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array(
+					$row = $rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array(
 						"TableName"=>$table_n
 					));
 					$tinfo = array();
@@ -335,7 +335,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
 						continue;
 					}
 					$tables[$tname] = (object)array("info"=>$tinfo, "ctrl"=>$v);
-					$row = $rep->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array(
+					$row = $rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array(
 						"TableName"=>$tname,
 						"igk:ctrlName"=>$v->Name
 					));
@@ -361,7 +361,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
 						continue;
 					}
 					
-						$row = $rep->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array(
+						$row = $rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array(
 						"TableName"=>$ck,
 						"igk:ctrlName"=>$v->Name
 					));

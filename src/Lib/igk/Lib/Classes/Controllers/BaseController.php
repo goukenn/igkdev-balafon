@@ -29,9 +29,10 @@ use function igk_resources_gets as __;
  * @method static InitDataSeeder() macros function
  * @method static bool IsEntryController() macros function
  * @method static bool IsFunctionExposed() macros function
- * @method static bool IsUserAllowedTo() macros function
+ * @method static bool IsUserAllowedTo() macros function - check if current user is allowed to 
  * @method static void asset() macros function
- * @method static void asset_content() macros function
+ * @method static string|null asset_content(path) macros function : \
+ * get asset content if found in $controller->getDataDir()."/assets" by default
  * @method static string baseUri() macros function
  * @method static bindNodeClass() macros function
  * @method static buri() macros function
@@ -43,13 +44,13 @@ use function igk_resources_gets as __;
  * @method static BaseController ctrl() macros function
  * @method static void db_add_column() macros function
  * @method static void db_change_column() macros function
- * @method static void db_query() macros function
+ * @method static \IIGKQueryResult db_query(string $query) macros function
  * @method static void db_rename_column() macros function
  * @method static void db_rm_column() macros function
  * @method static void dispatchToModelUtility() macros function
- * @method static void dropDb() macros function
+ * @method static bool dropDb($navigate=1, $force=0) macros function drop controller database model
  * @method static void furi() macros function
- * @method static void getAuthKey() macros function
+ * @method static string getAuthKey() macros function : get controller authentication key
  * @method static void getAutoresetParam() macros function
  * @method static void getBaseFullUri() macros function
  * @method static void getCacheInfo() macros function
@@ -57,9 +58,9 @@ use function igk_resources_gets as __;
  * @method static void getCanModify() macros function
  * @method static void getComponentsDir() macros function
  * @method static void getCurrentDoc() macros function
- * @method static void getDataAdapter() macros function
+ * @method static object getDataAdapter() macros function data driver
  * @method static string getDataSchemaFile() macros function
- * @method static void getDataTableDefinition() macros function
+ * @method static array getDataTableDefinition(string tablename) macros function
  * @method static void getEnvKey() macros function
  * @method static void getEnvParam() macros function
  * @method static void getEnvParamKey() macros function
@@ -76,7 +77,7 @@ use function igk_resources_gets as __;
  * @method static void libdir() macros function
  * @method static object loadDataAndNewEntriesFromSchemas() macros function
  * @method static void loadDataFromSchemas() macros function
- * @method static void login() macros function
+ * @method static bool login(user, passwd, nav) macros function. try login with the user
  * @method static void logout() macros function
  * @method static void migrate() macros function
  * @method static object|null modelUtility() macros function
@@ -89,7 +90,9 @@ use function igk_resources_gets as __;
  * @method static void seed() macros function
  * @method static void setEnvParam() macros function
  * @method static void storeConfigSettings() macros function
- * @method static void string uri() macros function
+ * @method static string uri() macros function 
+ * @method static string loadMigrationFile() macros function 
+ * @method Users checkUser(bool $check, ?string $redirectUri ) macros function check if user or navigate
  */
 abstract class BaseController extends RootControllerBase implements IIGKDataController
 {
@@ -793,7 +796,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         $tagName = igk_sys_getconfig("app_default_controller_tag_name", "div");
         $div = new HtmlCtrlNode($this, $tagName);
-        $div["id"] = igk_css_str2class_name(strtolower($this->Name));
+        $div["id"] = igk_css_str2class_name(strtolower($this->getName()));
         return $div;
     }
     /**

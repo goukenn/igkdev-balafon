@@ -33,7 +33,7 @@ final class SysDbController extends NonVisibleControllerBase{
     }
     ///<summary>Represente getEntryNamespace function</summary>
     protected function getEntryNamespace(){
-        return rtrim(IGK::class, "\\");
+        return rtrim(\IGK::class, "\\");
     }
     public function getClassesDir(){
         return IGK_LIB_CLASSES_DIR;
@@ -70,19 +70,8 @@ final class SysDbController extends NonVisibleControllerBase{
     protected function getUseDataSchema(){
         return true;
     }
+    
      
-    // public function getDataTableInfo()
-    // {
-    //     return null; 
-        // array(
-        //     new DbColumnInfo(array(IGK_FD_NAME=>IGK_FD_ID, IGK_FD_TYPE=>"Int","clAutoIncrement"=>true,IGK_FD_TYPELEN=>10, "clIsUnique"=>true, "clIsPrimary"=>true)),
-        //     new DbColumnInfo(array(IGK_FD_NAME=>"clBillId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>10)),
-        //     new DbColumnInfo(array(IGK_FD_NAME=>"clUId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>10)),
-        //     new DbColumnInfo(array(IGK_FD_NAME=>"clRefId", IGK_FD_TYPE=>"VarChar", IGK_FD_TYPELEN=>30)),
-        //     new DbColumnInfo(array(IGK_FD_NAME=>"clQte", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>10)),
-        //     new DbColumnInfo(array(IGK_FD_NAME=>"clAmount", IGK_FD_TYPE=>"Float", IGK_FD_TYPELEN=>10)),
-        //     );
-    // }
     public function getDataDir(){
         return IGK_LIB_DIR."/".IGK_DATA_FOLDER;
     }

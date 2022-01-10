@@ -40,7 +40,7 @@ final class HtmlArticleConfigNode extends HtmlNode{
         $this["igk-article-options"]="true";
         $this->Index=-9999;
         $config=igk_getctrl(IGK_CA_CTRL);
-        $n=($ctrl) ? $ctrl->Name: "";
+        $n=($ctrl) ? $ctrl->getName(): "";
         if($config){
             HtmlUtils::AddImgLnk($this, igk_js_post_frame($config->getUri("ca_edit_article_ajx&navigate=1&ctrlid=".$n."&m=1&fc=1&fn=".base64_encode($f)), $ctrl), "edit_16x16");
             HtmlUtils::AddImgLnk($this, igk_js_post_frame($config->getUri("ca_add_article_frame_ajx&ctrlid=".$n."&m=1&fc=1&fn=".base64_encode($f)), $ctrl), "add_16x16");

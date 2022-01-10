@@ -169,6 +169,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     /**
     * build and send a mysql select query
     * @param mixed $options callback or igk_db_create_opt_obj()
+    * @return object query result
     */
     public function select($tbname, $where=null, $options=null, $throwex=false){
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);		

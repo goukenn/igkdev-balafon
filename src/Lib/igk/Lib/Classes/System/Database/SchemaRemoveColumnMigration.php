@@ -19,7 +19,5 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl::db_add_column($tb, $this->columnInfo, null); 
-    }
-   
-
+    } 
 }

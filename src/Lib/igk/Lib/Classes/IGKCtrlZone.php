@@ -36,7 +36,7 @@ final class IGKCtrlZone extends IGKObject implements IIGKCtrlDirManagement{
         return $this->getDataDir()."/".IGK_RES_FOLDER;
     }
     ///<summary></summary>
-    public function getScriptDir(){
+    public function getScriptsDir(){
         return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_SCRIPT_FOLDER);
     }
     ///<summary></summary>

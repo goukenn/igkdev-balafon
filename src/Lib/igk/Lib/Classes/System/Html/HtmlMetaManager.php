@@ -108,6 +108,12 @@ final class HtmlMetaManager extends IGKObject{
             unset($this->m_metas[$name]);
         }
         if($meta && !isset($this->m_metas[$name])){
+            if (is_string($meta)){
+                $m = new \IGK\System\Html\Dom\HtmlNode("meta");
+                $m["name"] = $name;
+                $m["content"] = $meta;
+                $meta = $m;
+            }
             $this->m_metas[$name]= HtmlUtils::GetAttributes($meta->attributes);
             $this->m_metas[$name]["changed"]=1;
             return 1;
@@ -145,23 +151,28 @@ final class HtmlMetaManager extends IGKObject{
     ///<summary></summary>
     ///<param name="options" default="null"></param>
     public function render($options=null){
-        $handle=0;
-        $s=igk_ob_get_func(function() use (& $handle){        });
-        if($handle){
-            return $s;
-        }
+        // $handle=0;
+        // $s=igk_ob_get_func(function() use (& $handle){        });
+        // if($handle){
+        //     return $s;
+        // }
         $LF="";
         $o="";
+        $DEPTH = "";
+        if (igk_getv($options, "Indent")){
+            $LF = "\n";
+            $DEPTH = str_repeat("\t", $options->Depth);
+        }
         foreach($this->m_metas as $k=>$v){
-            $o .= "<meta ";
+            $o .= $LF.$DEPTH."<meta ";
             foreach($v as $k=>$v){
                 if($k == "changed")
                     continue;
                 $o .= $k."=\"".HtmlUtils::GetAttributeValue($v)."\" ";
             }
-            $o .= "/>".$LF;
+            $o .= "/>";
         }
-        return $o.$s;
+        return $o;// .$s;
     }
     ///<summary></summary>
     ///<param name="name"></param>

@@ -73,7 +73,7 @@ $is_install=(igk_getv($params, 1) == "install") || igk_getr("install");
 if($is_install){
 	call_user_func_array($fclist["install"], $params);
 }
-igk_app()->Session->setParam("igk_wizeinstall", 1);
+igk_app()->session->setParam("igk_wizeinstall", 1);
 igk_google_addfont($doc, "Roboto");
 igk_google_addfont($doc, "Material+Icons");
 

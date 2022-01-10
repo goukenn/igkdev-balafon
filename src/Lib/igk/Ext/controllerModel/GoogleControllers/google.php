@@ -430,7 +430,7 @@ function igk_html_node_google_icon($name, $title = "", $type = "span")
  */
 function igk_html_demo_googlemapgeo($t)
 {
-    $t->addDiv()->addPanelBox()->addCode()->Content = "\$t->addGoogleMapGeo(\"50.847311,4.355072\");";
+    $t->div()->addPanelBox()->addCode()->Content = "\$t->addGoogleMapGeo(\"50.847311,4.355072\");";
     return $t->addGoogleMapGeo("50.847311,4.355072");
 }
 ///<summary></summary>

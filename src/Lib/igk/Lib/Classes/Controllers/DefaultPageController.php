@@ -241,7 +241,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     ///<summary></summary>
     protected function InitComplete(){
         parent::InitComplete();
-        igk_app()->Session->addUserChangedEvent($this, "View");
+        igk_app()->session->addUserChangedEvent($this, "View");
     }
     ///<summary></summary>
     ///<param name="doc"></param>

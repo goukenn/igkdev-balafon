@@ -133,7 +133,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/IGKValueListener.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlANode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlAHref.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlStyleValueAttribute.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlStyleValueAttribute.php');
 
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/BaseController.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/RootControllerBase.php');

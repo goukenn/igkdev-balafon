@@ -61,8 +61,8 @@ abstract class StringUtility{
     ///<summary></summary>
     ///<param name="s"></param>
     /**
-    * 
-    * @param mixed $s
+    * regex detection of formatted string
+    * @param string $s formatted string. 
     */
     public static function Format($s){
         $c=preg_match_all("/\{(?P<value>[0-9]+)\}/i", $s, $match);

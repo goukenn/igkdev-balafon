@@ -57,7 +57,7 @@ abstract class ToolControllerBase extends BaseController{
         $t["class"]="dispib alignc alignt";
         $t["style"]="min-width: 96px; min-height:72px;";
         $t->clearChilds();
-        $d=$t->addDiv();
+        $d=$t->div();
         $a=$d->add("a", array(
             "class"=>"alignc dispib",
             "href"=>$this->getUri("doAction")

@@ -198,4 +198,6 @@ final class IGKSysUtil
     public static function GetTableName($table, $ctrl=null){   
         return igk_db_get_table_name($table, $ctrl); 
     }
+
+    
 }

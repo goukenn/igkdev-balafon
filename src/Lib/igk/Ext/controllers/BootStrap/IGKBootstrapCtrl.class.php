@@ -76,7 +76,7 @@ final class IGKBootstrapCtrl extends ConfigControllerBase
 		// $js= $tab[0]
 		$dir = igk_io_baseDir("Lib/bootstrap/");
 		if (!empty($f)){
-			if ($this->IsEnabled)	{
+			if ($this->getIsEnabled())	{
 				if (is_dir($dir)){
 				igk_css_reg_font_package("glyphicons" , igk_io_basePath($dir."fonts/glyphicons-halflings-regular.ttf"),null,"TrueTypeFont");
 				igk_css_reg_font_package("glyphicons" , igk_io_basePath($dir."fonts/glyphicons-halflings-regular.woff"),null, "WOFF");
@@ -92,7 +92,7 @@ final class IGKBootstrapCtrl extends ConfigControllerBase
 
 		$d = $tab[1] ?? igk_io_baseDir("Lib/bootstrap/js/bootstrap.min.js");
 		if (!empty($d)){
-			if ($this->IsJsEnabled)
+			if ($this->getIsJsEnabled())
 			{
 				$doc->Body->appendScript($d, false, 100);
 			}

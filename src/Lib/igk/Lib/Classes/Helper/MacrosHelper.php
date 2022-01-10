@@ -3,6 +3,9 @@
 namespace IGK\Helper;
 
 use IGK\Models\Groupauthorizations;
+use IGK\Models\Users;
+use IGKEvents;
+use IGKObjStorage;
 
 /**
  * macro helper expressions
@@ -22,7 +25,12 @@ class MacrosHelper
             //init global macros function 
             self::$macros = [
                 "auth" => function ($auths, $strict = false) {
-                    return self::GetAuth($this, $auths, $strict);                    
+                    igk_wln_e(__FILE__.":".__LINE__, "auth context ");
+                    /**
+                     * @var \IGK\Models\Users $q 
+                     */
+                    $q = $this;
+                    return self::GetAuth($q, $auths, $strict);                    
                 },
                 "currentUser"=>function()
                 {
@@ -30,6 +38,13 @@ class MacrosHelper
                         return \IGK\Models\Users::createFromCache($u);
                     }
                     return null;
+                },
+                "addUser2"=>function($data){
+                    /**
+                     * @var \IGK\Models\Users $q 
+                     */
+                    $q = $this;
+                    return self::AddUser($q, $data);
                 }
             ];
         }
@@ -37,11 +52,10 @@ class MacrosHelper
     }
 
 
-    private static function GetAuth(\IGK\Models\Users $user, $auths, 
-    $strict= false){
+    private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false){
         /// MARK: auth users 
         if (igk_environment()->is("DEV"))
-        return true;
+            return true;
         /**
          * @var ModelBase $q; current model object 
          * */
@@ -51,8 +65,7 @@ class MacrosHelper
                 return false;
             }
             $auths = [$auths];
-        }
-        // igk_wln("check ". implode(", ", $auths));
+        } 
         $data = $q->to_array();
         if (($g = $q->{"::auth"}) === null) {
             $g = [];
@@ -86,5 +99,25 @@ class MacrosHelper
             }
         }
         return $is_auths;
+    }
+
+    public static function AddUser(\IGK\Models\Users $user, $data){
+        $storage = new IGKObjStorage($data); 
+        $r = null;
+        // igk_environment()->querydebug = 1;
+        // $id = ["clLogin"=>$storage->clLogin];
+        // Users::delete($id);
+        if (!empty($storage->clLogin) && ($r = Users::select_row(["clLogin"=>$storage->clLogin]))){
+            // user aleady exists
+            igk_hook(IGKEvents::HOOK_USER_EXISTS, [$r]);
+            $r = Users::select_row(["clId"=>$r->clId]);
+        } else {
+            if ($r = Users::create($storage->to_array())){
+                igk_hook(IGKEvents::HOOK_USER_ADDED, [$r]);
+                $r = Users::select_row(["clId"=>$r->clId]);
+            }
+        }
+        return $r;
+        
     }
 }

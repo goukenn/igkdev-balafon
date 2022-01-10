@@ -10,7 +10,7 @@
 
 use function igk_resources_gets as __;
 $t->clearChilds();
-$dv=$t->addDiv();
+$dv=$t->div();
 $box=$dv->addPanelBox();
 $box->addSectionTitle(4)->Content=R::gets("Security Manager");
 $box->addDiv()->article($ctrl, "help/security");

@@ -15,6 +15,9 @@ if (!defined("IGK_LIB_DIR")){
     require_once(__DIR__."/../../igk_framework.php");
 } 
 
+// + | ----------------------------------------------------------------------
+// + | test file auto register
+// + |
 spl_autoload_register(function($n){    
     $fix_path = function($p, $sep=DIRECTORY_SEPARATOR){
         if ($sep=="/"){
@@ -55,21 +58,17 @@ foreach(["IGK_NO_DBCACHE"] as $k){
     }
 }
 defined("IGK_PROJECT_DIR") || define("IGK_PROJECT_DIR", IGK_APP_DIR."/Projects");           
-// include(IGK_LIB_DIR."/igk_extensions.phtml");
+ 
+require_once(__DIR__."/PhpUnitApplication.php");
+require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationFactory.php");
+require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
 
+IGKApplicationFactory::Register("phpunit", PhpUnitApplication::class);
 //
 // igk_loadlib(IGK_PROJECT_DIR);
 // //.session start for testing
 // $s = session_start();
 // // initialize application static folder
-$app = IGKApplicationLoader::Boot("phpunit");
-echo "finish";
-exit;
-echo "boot application.";
-exit;
-// IGKApp::InitAtomic();
+$app = IGKApplicationLoader::Boot("phpunit"); 
 
-// IGKApp::InitSingle(); 
-foreach(igk_sys_project_controllers() as $m){
-    $m::register_autoload();  
-} 
+$app->run(__FILE__, false);

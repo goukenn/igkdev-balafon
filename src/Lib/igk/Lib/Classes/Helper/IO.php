@@ -514,8 +514,8 @@ class IO{
     * @param callable $callback callback called* $excludedir the default value is null
     */
     public static function GetFiles($dir, $match, $recursive=false, & $excludedir=null, ?callable $callback=null){
-     
-        igk_ilog("get file :".$dir);
+      
+        // igk_dev_ilog( __METHOD__ ." / ".$dir);
 
         if(is_dir($dir) === false)
             return null;

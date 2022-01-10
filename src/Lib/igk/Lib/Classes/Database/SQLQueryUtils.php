@@ -11,7 +11,17 @@
 namespace IGK\Database;
 
 use IGK\System\Html\IHtmlGetValue;
-
+use IGK\System\Database\QueryBuilderConstant as queryConstant;
+use IGKException;
+use IGKQueryResult;
+use IGKSysUtil;
+/**
+ * 
+ * @package IGK\Database
+ * @method object sendQuery() send query
+ * @method object lastId() get last id
+ * @method object dieNotConnect() if query no ok die
+ */
 class SQLQueryUtils{
     const AVAIL_FUNC=['IGK_PASSWD_ENCRYPT', 'AES_ENCRYPT', 'BIN', 'CHAR', 'COMPRESS', 'CURRENT_USER', 'AES_DECRYPTDATABASE', 'DAYNAME', 'DES_DECRYPT', 'DES_ENCRYPT', 'ENCRYPT', 'HEX', 'INET6_NTOA', 'INET_NTOA', 'LOAD_FILE', 'LOWER', 'LTRIM', 'MD5', 'MONTHNAME', 'OLD_PASSWORD', 'PASSWORD', 'QUOTE', 'REVERSE', 'RTRIM', 'SHA1', 'SOUNDEX', 'SPACE', 'TRIM', 'UNCOMPRESS', 'UNHEX', 'UPPER', 'USER', 'UUID', 'VERSION', 'ABS', 'ACOS', 'ASCII', 'ASIN', 'ATAN', 'BIT_COUNT', 'BIT_LENGTH', 'CEILING', 'CHAR_LENGTH', 'CONNECTION_ID', 'COS', 'COT', 'CRC32', 'CURRENT_DATE', 'CURRENT_TIME', 'DATE', 'DAYOFMONTH', 'DAYOFWEEK', 'DAYOFYEAR', 'DEGREES', 'EXP', 'FLOOR', 'FROM_DAYS', 'FROM_UNIXTIME', 'HOUR', 'INET6_ATON', 'INET_ATON', 'LAST_DAY', 'LENGTH', 'LN', 'LOG', 'LOG10', 'LOG2', 'MICROSECOND', 'MINUTE', 'MONTH', 'NOW', 'OCT', 'ORD', 'PI', 'QUARTER', 'RADIANS', 'RAND', 'ROUND', 'SECOND', 'SEC_TO_TIME', 'SIGN', 'SIN', 'SQRT', 'SYSDATE', 'TAN', 'TIME', 'TIMESTAMP', 'TIME_TO_SEC', 'TO_DAYS', 'TO_SECONDS', 'UNCOMPRESSED_LENGTH', 'UNIX_TIMESTAMP', 'UTC_DATE', 'UTC_TIME', 'UTC_TIMESTAMP', 'UUID_SHORT', 'WEEK', 'WEEKDAY', 'WEEKOFYEAR', 'YEAR', 'YEARWEEK'];
     protected static $sm_adapter;
@@ -262,7 +272,7 @@ class SQLQueryUtils{
             return "`clId`='{$tab}'";
         }
         if(is_object($tab)){
-            if(get_class($tab) instanceof IGKDbExpression){
+            if(get_class($tab) instanceof DbExpression){
                 return $tab->getValue($grammar);
             }
         }
@@ -283,7 +293,7 @@ class SQLQueryUtils{
             foreach($tab as $k=>$v){
                 $c="=";
                 if(is_object($v)){
-                    if($v instanceof IGKDbExpression){
+                    if($v instanceof DbExpression){
                         if($t == 1)
                             $query .= " $op ";
                         $query .= $v->getValue((object)["grammar"=>$grammar, "type"=>"where", "column"=>$k]);
@@ -499,7 +509,7 @@ class SQLQueryUtils{
                         $columns .= $ad->escape_string($s);
                     }
                     else if(is_object($s)){
-                        if($s instanceof IGKDbExpression){
+                        if($s instanceof DbExpression){
                             $columns .= $s->getValue();
                         }
                         else{
@@ -854,7 +864,7 @@ class SQLQueryUtils{
                     $tvalues->$k=null;
                 }
                 else{
-                    $tvalues->$k=$values->{                    $k};
+                    $tvalues->$k=$values->{$k};
                 }
             }
         }

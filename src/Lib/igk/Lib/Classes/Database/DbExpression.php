@@ -1,5 +1,5 @@
 <?php
-// @file: IGKDbExpression.php
+// @file: DbExpression.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021

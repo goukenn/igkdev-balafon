@@ -5,7 +5,7 @@
 // @date: 20210422 06:39:05
 namespace IGK\System\DataBase;
 
-use IGKDbSchemas;
+use IGK\Database\DbSchemas;
 
 class SchemaMigrationBuilder extends SchemaBuilderHelper{
   

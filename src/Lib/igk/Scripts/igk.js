@@ -20232,6 +20232,18 @@ igk.ready(function () {
 	}
 
 	igk.system.createNS("igk.css", {
+		changeDocumentTheme(n){
+			var d = document.getElementsByTagName('html')[0];
+			if (typeof (n) == 'undefined'){
+				// toggle theme
+				n='dark';
+				if (d.getAttribute('data-theme')==n){
+					n = 'light';
+				}
+			}
+			d.setAttribute('data-theme', n);
+			return n;
+		},
 		getStyleSelectorList(index) {
 			if (this != igk.css) {
 				throw new Error("Func must be called staticly");

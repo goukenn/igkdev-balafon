@@ -52,49 +52,56 @@ class IGKApplicationLoader
      * @param mixed $callable 
      * @return void 
      */
-    public function Load($callable, $priority = 20)
+    private function Load($callable, $priority = 20, $classdir=null, $namespace=null)
     {
-        $this->callables[] = compact("callable", "priority");
+        $this->callables[] = get_defined_vars(); 
         $this->sorted = 1;
     }
     public function registerLoading($entryNS, $classdir, $priority = 20, &$refile = null)
     {
-        $key = IGKEnvironment::AUTO_LOAD_CLASS;
-        $cl = &igk_environment()->createArray($key);
+        
+        $cl = & igk_environment()->createArray(IGKEnvironment::AUTO_LOAD_CLASS);
         if (!isset($cl[$classdir])) {
-            $this->Load(function ($n) use ($classdir,  &$refile, & $cl) {
-                $e_ns = igk_getv($cl[$classdir], "entryNS");
+            $cl[$classdir] = compact("entryNS", "refile");
+            $this->Load(function ($n) use ($classdir, & $cl) {           
+                $e_ns = igk_getv($cl[$classdir], "entryNS");                
                 if (!empty($e_ns) && (strpos($n, $e_ns."\\")===0))
                 {
                     $n = substr($n, strlen($e_ns)+1); 
                 }
                 $g = self::_TryLoadClasses([$n], $classdir, false);
                 return $g;
-            }, $priority);
-            $cl[$classdir] = compact("entryNS", "refile");
+            }, $priority, $classdir, $entryNS);
             // igk_environment()->set($key, $cl);
         }
     }
 
     private function _sort_priority($a, $b)
     {
+        $g = strcmp($b["namespace"], $a["namespace"]);
+        if ($g != 0){
+            return $g;
+        }
         $x = $a['priority'];
         $y = $b['priority'];
         return $x == $y ? 0 : $y - $x / abs($y - $x);
     }
     private function _auto_load($n)
-    {
+    { 
         if ($this->callables) {
             if ($this->sorted) {
                 usort($this->callables, [$this, '_sort_priority']);
                 $this->sorted = false;
-            }
+            }           
             foreach ($this->callables as $c) {
-                $fc = $c["callable"];
-                if ($fc($n)) {
+                if(!is_dir($c["classdir"]) || (!empty($ns = $c["namespace"]) && (strpos($n, ltrim($ns."\\", "\\"))!==0))){
+                    continue;
+                }  
+                $fc = $c["callable"];                 
+                if ($fc($n)) {                              
                     return 1;
                 }
-            }
+            }         
         }
         return self::LoadClass($n);
     }
@@ -126,44 +133,52 @@ class IGKApplicationLoader
 
         list($major, $minor) = explode(".", PHP_VERSION);
         $resolv_class =  [$major . "." . $minor, $major, ""];
-        $cdir = $path;
+        $cdir = null;
         $is_core  = IGK_LIB_CLASSES_DIR == $path;
         $result = true;
-        while ($result &&  ($classname = array_shift($classnames)) !== null) {
-            // echo "load : ".$classname."<br />\n";
-            
-            // load class method
-            if (!class_exists($classname, false) && !trait_exists($classname, false) && !interface_exists($classname, false)) {
-                // igk_ilog("tryload:".$classname);
-                $n = $classname;
-                $f = StringUtility::Uri($n);
-                if ((strpos($f, "IGK/") === 0) && $is_core) {
-                    $f = substr($f, 4);
-                }
-                $found = false;
-                foreach ($resolv_class as $version) {
-                    $ext = (!empty($version) ? ".{$version}" : "") . ".php";
-                    if (
-                        file_exists($cf = ($cdir . "/" . $f . $ext)) ||
-                        (!empty($version) && file_exists($cf = ($cdir . "/{$version}/" . $f . ".php")))
-                    ) {
-                        require_once($cf);
-                        if (
-                            !class_exists($n, false) && !interface_exists($n, false)
-                            && !trait_exists($n, false)
-                        ) {
-                            if ($throw) {
-                                igk_trace();
-                                igk_die("file {$cf} loaded but not content class|interface|trait {$n} definition", 1, 500);
-                            }
-                            $result = false;
-                        }
-                        // first version file founded
-                        $found = true;
-                        break;
+        if (!is_array($path)){
+            $path = [$path];            
+        }
+        while($cdir = array_shift($path)){
+            if (!is_dir($cdir)){
+                continue;
+            }
+            while ($result &&  ($classname = array_shift($classnames)) !== null) {
+                
+                
+                // load class method
+                if (!class_exists($classname, false) && !trait_exists($classname, false) && !interface_exists($classname, false)) {
+                    // igk_ilog("tryload:".$classname);
+                    $n = $classname;
+                    $f = StringUtility::Uri($n);
+                    if ((strpos($f, "IGK/") === 0) && $is_core) {
+                        $f = substr($f, 4);
                     }
+                    $found = false;
+                    foreach ($resolv_class as $version) {
+                        $ext = (!empty($version) ? ".{$version}" : "") . ".php";
+                        if (
+                            file_exists($cf = ($cdir . "/" . $f . $ext)) ||
+                            (!empty($version) && file_exists($cf = ($cdir . "/{$version}/" . $f . ".php")))
+                        ) {
+                            require_once($cf);
+                            if (
+                                !class_exists($n, false) && !interface_exists($n, false)
+                                && !trait_exists($n, false)
+                            ) {
+                                if ($throw) {
+                                    igk_trace();
+                                    igk_die("file {$cf} loaded but not content class|interface|trait {$n} definition", 1, 500);
+                                }
+                                $result = false;
+                            }
+                            // first version file founded
+                            $found = true;
+                            break;
+                        }
+                    }
+                    $result = $result && $found;
                 }
-                $result = $result && $found;
             }
         }
         return $result;

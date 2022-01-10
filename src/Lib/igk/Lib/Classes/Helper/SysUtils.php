@@ -4,11 +4,41 @@ namespace IGK\Helper;
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+use IGKApp;
 use IGKEvents;
 use IGKException;
 use ReflectionMethod;
 
 class SysUtils{
+    /**
+     * get application module from entry file
+     * @param mixed $file 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetApplicationModule($file){
+        return igk_get_module(igk_get_module_name(dirname($file)));
+    }
+    /**
+     * @return array list of controller installed in project folder
+     */
+    public static function GetProjectControllers(callable $filter=null){
+        if (!IGKApp::IsInit()) {
+            return null;
+        }
+        $c = igk_app()->getControllerManager()->getControllers();
+        $dir = igk_io_collapse_path(igk_io_projectdir());
+        $projects_ctrl = [];
+        foreach ($c as $k){
+            $ccpath = igk_io_collapse_path($k->getDeclaredDir());;
+            
+            if (strstr($ccpath, $dir)) {
+                if (!$filter || $filter($k))
+                    $projects_ctrl[] = $k;
+            }
+        }
+        return $projects_ctrl;
+    }
     public static function GetDeclaredMethods($class){
         $ref = igk_sys_reflect_class($class);
         return  array_filter(array_map(function($m) use ($class){
@@ -69,6 +99,17 @@ class SysUtils{
                 $c->$m = $v;
             }
         }
+    }
+    /***
+     * init class variable
+     */
+    public static function InitClassVars($n, $tag){
+    
+
+        foreach(get_class_vars(get_class($n)) as $k=>$c){ 
+            $n->$k = igk_getv($tag, $k, $c);
+        } 
+
     }
     public static function assert_notify($condition, $successmsg, $errormessage, $name=null){
         $check = igk_check($condition);

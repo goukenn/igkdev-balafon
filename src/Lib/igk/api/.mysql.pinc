@@ -9,6 +9,9 @@
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\BaseController;
+use IGK\Database\DbColumnInfo;
+use IGK\Database\DbSchemas;
+use IGK\Resources\R;
 
 use function igk_resources_gets as __;
 ///used to get relation </summary>
@@ -201,7 +204,7 @@ function igk_api_mysql_addcolumn($api, $tbname, $name){
     if($ad->connect()){
         $g=$ad->addColumn($tbname, $name);
         if($ad->getHasError()){
-            $t->addDiv()->setClass("igk-danger")->Content="Some error : ".$ad->getError();
+            $t->div()->setClass("igk-danger")->Content="Some error : ".$ad->getError();
         }
         else{
             $t->addObData(function() use ($g){igk_wln($g);
@@ -340,7 +343,7 @@ function igk_api_mysql_ctrl_gen_schema($api, $ctrlname){
         $rep->addXmlNode("table")->setAttribute("count", igk_count($tables));
         $mysql=$c->Db->Ad;
         foreach($tables as $v){
-            $row=$n->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$v));
+            $row=$n->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$v));
             $tt=$mysql->sendQuery("SHOW FULL COLUMNS FROM `".$v."`;");
             foreach($tt->Rows as $s){
                 igk_api_get_columninfo($row, $s, $v, $mysql);
@@ -447,8 +450,8 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
     foreach($ctrl as $v){
         if($v->getCanInitDb() && ($v->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)){
             $b = BaseController::Invoke($v, "getUseDataSchema");
-// igk_wln_e("data : ", $b);
-            if(!$b){ // $v->getUseDataSchema()){
+ 
+            if(!$b){ 
               
                 $tname=$v->getDataTableName();
                 $tinfo=$v->getDataTableInfo();
@@ -458,7 +461,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                         continue;
                     }
                     $tables[$tname]=(object)array("info"=>$tinfo, "ctrl"=>$v);
-                    $row=$rep->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$tname, "igk:ctrlName"=>$v->Name));
+                    $row=$rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$tname, "igk:ctrlName"=>$v->Name));
                     foreach($tinfo as $vv){
                         $cl=$row->addNode("Column");
                         $cl->setAttributes($vv);
@@ -475,7 +478,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                             $msg->add("msg")->Content="Table $ck already found. [".$v->Name. "] get from ".$tables[$ck]->ctrl->Name." with schema";
                             continue;
                         }
-                        $row=$rep->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$ck, "igk:ctrlName"=>$v->Name));
+                        $row=$rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$ck, "igk:ctrlName"=>$v->Name));
                         $row["clDescription"]=igk_getv($cv, "clDescription");
                         $cinfo=igk_getv($cv, "ColumnInfo");
                         $tables[$ck]=(object)array("info"=>$cinfo, "ctrl"=>$v);
@@ -529,7 +532,7 @@ function igk_api_mysql_get_data_schema($api, $render=1, $param=null){
                 if($e)
                     igk_exit();
                 $table_n=$t->$n;
-                $row=$rep->addNode(IGKDbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$table_n));
+                $row=$rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$table_n));
                 $tinfo=array();
                 $tt=$mysql->sendQuery("SELECT Count(*) FROM `".$table_n."`;");
                 $b=$tt->Columns[0]->name;
@@ -621,7 +624,7 @@ function igk_api_mysql_resetctrldb($api, $ctrlname=null){
             $ctrl->Invoke($ctrl, "dropDbFromSchemas", []);
             $ctrl->Invoke($ctrl, "initDb", []);
             igk_notification_push_event("system/dbchanged", $ctrl);
-            // igk_wln_e("/!\\ Database reset for ".$ctrl->Name);
+            // igk_wln_e("/!\\ Database reset for ".$ctrl->getName());
             $ctrl->setParam(IGK_CTRL_TABLE_INFO_KEY, null);
             $r=1;
         }
@@ -657,7 +660,7 @@ function igk_api_mysql_rmcolumn($api, $tbname, $name){
     if($ad->connect()){
         $g=$ad->rmColumn($tbname, $name);
         if($ad->getHasError()){
-            $t->addDiv()->setClass("igk-danger")->Content="Some error : ".$ad->getError();
+            $t->div()->setClass("igk-danger")->Content="Some error : ".$ad->getError();
         }
         else{
             $t->addObData(function() use ($g){igk_wln($g);

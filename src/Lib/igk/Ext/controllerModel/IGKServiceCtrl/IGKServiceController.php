@@ -60,7 +60,7 @@ abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase 
         $this->setCurrentView("default", true, null, array("doc"=>$doc));
         $div->add($this->TargetNode);
         $c=$doc->Body->addNodeCallback("debug-z", function($t){
-            return $t->addDiv()->setId("debug-z");
+            return $t->div()->setId("debug-z");
         });
         $doc->Body->addScriptContent("main-ss", "ns_igk.configure({nosymbol:1});");
         $doc->setParam("no-script", 0);
@@ -205,10 +205,10 @@ EOF;
     ///SERVICE FUNC
     public function getDesc($method){
         $t=igk_createnode("div");
-        $t->addDiv()->article($this, $method.".desc");
+        $t->div()->article($this, $method.".desc");
         $c=$this->__getMethodParameter($method);
         if(igk_count($c) > 0){
-            $dv=$t->addDiv()->setClass("args")->setStyle("background-color:#efefef");
+            $dv=$t->div()->setClass("args")->setStyle("background-color:#efefef");
             $table=$dv->addTable();
             $r=$table->addTr();
             $r->addTh()->Content=__("Name");
@@ -311,11 +311,11 @@ EOF;
     }
     ///<summary>Represente getServiceDescription function</summary>
     public function getServiceDescription(){
-        return igk_getv($this->Configs, "clServiceDescription");
+        return $this->getConfigs()->get( "clServiceDescription");
     }
     ///<summary>Represente getServiceName function</summary>
     public function getServiceName(){
-        return strtolower(igk_getv($this->Configs, "clServiceName"));
+        return strtolower($this->getConfigs()->get( "clServiceName"));
     }
     ///<summary>Represente getServices function</summary>
     public final function getServices(){

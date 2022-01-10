@@ -601,9 +601,16 @@ interface IIGKQueryResult{
     function getRowAtIndex($index);
     ///<summary></summary>
     /**
-    * 
+    * get rows
+    * @return array 
     */
     function getRows();
+
+    /**
+     * get a column list
+     * @return array 
+     */
+    function getColumns();
 }
 ///<summary>Represente interface: IIGKSystemUser</summary>
 /**

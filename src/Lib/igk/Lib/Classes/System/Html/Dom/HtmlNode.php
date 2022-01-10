@@ -4,6 +4,7 @@ namespace IGK\System\Html\Dom;
 
 use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
+use IGK\System\Html\HtmlStyleValueAttribute;
 
 class HtmlNode extends HtmlItemBase{
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
@@ -67,6 +68,13 @@ class HtmlNode extends HtmlItemBase{
         $this["style"]=igk_css_treatstyle($value);
         return $this;
     }
+    public function address(){
+        if ($this->getCanAddChilds()){
+            $c = new HtmlNode("address");
+            $this->add($c);
+            return $c;
+        }
+    }
      ///<summary></summary>
     /**
      * 
@@ -75,6 +83,12 @@ class HtmlNode extends HtmlItemBase{
     {
         return $this->getChilds()->count();
     }
+    /**
+     * assert class
+     * @param mixed $condition 
+     * @param mixed $value 
+     * @return $this 
+     */
     public function setAssertClass($condition, $value)
     {
         if ($condition) {
@@ -214,6 +228,10 @@ class HtmlNode extends HtmlItemBase{
 
     public function activate($n){
         $this->m_attributes->activate($n);
+        return $this;
+    }
+    public function deactivate($n){
+        $this->m_attributes->deactivate($n);
         return $this;
     }
 }

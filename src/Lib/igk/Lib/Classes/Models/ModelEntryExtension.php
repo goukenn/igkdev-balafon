@@ -1,6 +1,7 @@
 <?php
 namespace IGK\Models;
- 
+
+use IGK\Controllers\BaseController;
 use IGK\System\Database\QueryBuilder;  
 use IGK\Database\DbQueryResult;
 use IGKException;
@@ -20,6 +21,15 @@ abstract class ModelEntryExtension{
     ///<summary>get the current model expression</summary>
    public static function model(ModelBase $model){
        return $model; 
+   }
+   /**
+    * retrieve controller static extension
+    * @param ModelBase $model 
+    * @return null|BaseController 
+    * @throws IGKException 
+    */
+   public static function controller(ModelBase $model){
+        return $model->getController();
    }
     /**
      * create a model from an object. 
@@ -117,6 +127,10 @@ abstract class ModelEntryExtension{
             }  
         }
         return $tab;
+    }
+    public static function query_all(ModelBase $model, $conditions=null, $options=null){  
+        $driver = $model->getDataAdapter(); 
+        return  $driver->select($model->getTable(), $conditions, $options);
     }
     public static function count(ModelBase $model, $conditions=null, $options=null){  
         $driver = $model->getDataAdapter();  
@@ -516,6 +530,12 @@ abstract class ModelEntryExtension{
 		return $model::createIfNotExists((array)$b); 
     }
 
+    /**
+     * return primary key id
+     * @param ModelBase $model 
+     * @param mixed $condition 
+     * @return mixed 
+     */
     public static function id(ModelBase $model, $condition=null){
         if ($model->is_mock()){            
             if (!empty($condition) && ($trow = $model->cacheIsRow($condition))){
@@ -528,5 +548,9 @@ abstract class ModelEntryExtension{
 
     public static function prepare(ModelBase $model){
         return new QueryBuilder($model);
+    }
+
+    public static function modelTableInfo(ModelBase $model){
+        return $model->getTableInfo();
     }
 }

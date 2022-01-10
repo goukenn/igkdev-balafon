@@ -765,9 +765,15 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     public function select_count($condition=null, $table=null){
         if (!($table = $table ?? $this->getTable())){ 
             igk_die("table not found");
-        } 
-        if ($r = $this->ad->selectCount($table, $condition)->Rows[0]){
-            return $r->count;  
+        }  
+
+        if ($c = $this->ad->selectCount($table, $condition)){
+            if ($r = $c){
+                return $r->count;  
+            }
+        }else {
+            igk_trace();
+            igk_wln_e(__FILE__.":".__LINE__);
         }
         // igk_wln_e("table :::::".$table, $this->ad->getLastQuery());
         return -1;

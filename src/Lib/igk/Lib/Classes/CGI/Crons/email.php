@@ -2,7 +2,7 @@
 
 use IGK\System\Console\Logger;
 
-$mail = new IGKMail();
+$mail = new Mail();
 $mail->addTo($to);
 $mail->From = "cbondje@igkdev.be";
 $mail->HtmlMsg= $message;

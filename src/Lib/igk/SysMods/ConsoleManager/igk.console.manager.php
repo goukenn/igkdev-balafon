@@ -72,7 +72,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase{
 		$t->clearChilds();
 		$t = $this->viewConfig($t, __("Admin Console"), ".help/console.manager.desc");
 
-		$frm = $t->addDiv()->addPanelBox()->addForm();
+		$frm = $t->div()->addPanelBox()->addForm();
 		$frm->addDiv()->Content = __("On Development");
 	}
 }

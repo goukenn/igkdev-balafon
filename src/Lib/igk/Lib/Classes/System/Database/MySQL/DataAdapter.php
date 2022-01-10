@@ -1,12 +1,14 @@
 <?php
 
-namespace IGK\System\Database\MySQL; 
+namespace IGK\System\Database\MySQL;
 
+use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection; 
 use IGK\Database\DbQueryDriver;
 use IGK\Database\DbQueryResult;
+use IGKException;
 
 use function igk_getv as getv;
  
@@ -30,6 +32,17 @@ class DataAdapter extends DataAdapterBase
         if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo)) {
             return $this->sendQuery($query);
         }
+    }
+    /**
+     * retrieve data table definition 
+     * @param mixed $table 
+     * @return null|array definition
+     * @throws IGKException 
+     */
+    public function getDataTableDefinition($table){
+        if ($ctrl = igk_getctrl(IGK_MYSQL_DB_CTRL, false)){
+            return $ctrl->getDataTableDefinition($table);
+        } 
     }
 
     ///<summary></summary>
@@ -59,15 +72,15 @@ class DataAdapter extends DataAdapterBase
     /**
      * 
      */
-    protected function __createManager()
-    {
+    protected function _createDriver()
+    { 
         if (class_exists(DbQueryDriver::class)) {
             $this->makeCurrent();
             $cnf = $this->app->Configs;
-            $s = DbQueryDriver::Create($options = (object)[
+            $s = DbQueryDriver::Create([
                 "server" => $cnf->db_server,
-                "user" =>  $cnf->db_user,
-                "pwd" =>  $cnf->db_pwd,
+                "user" => $cnf->db_user,
+                "pwd" => $cnf->db_pwd,
                 "port" => $cnf->db_port
             ]);
             // igk_wln_e(__FILE__.":".__LINE__, "driver ::: ",$s, $options, mysqli_connect_error());
@@ -89,6 +102,17 @@ class DataAdapter extends DataAdapterBase
             return mysqli_real_escape_string($b, $v);
         }
         return addslashes($v);
+    }
+
+    public function getDataValue($value, DbColumnInfo $tinf)
+    {
+        if (preg_match("/^date$/i", $tinf->clType)){
+            $value = date("Y-m-d", strtotime($value));
+        }
+        if (preg_match("/^datetime$/i", $tinf->clType)){
+            $value = date("Y-m-d H:s:i", strtotime($value));
+        }
+        return $value; 
     }
     ///<summary>display value</summary>
     /**
@@ -131,7 +155,7 @@ class DataAdapter extends DataAdapterBase
     public function addColumn($tbname, $name)
     {
         if (empty($tbname))
-            return false;
+            return false; 
         $grammar = $this->getGrammar();
         $tbname = igk_db_escape_string($tbname);
         $columninfo = "";
@@ -428,6 +452,14 @@ class DataAdapter extends DataAdapterBase
     public function tableExists($tablename)
     {
         return $this->m_dbManager->tableExists($tablename);
+    }
+    public function __debugInfo()
+    {
+        return [];
+    }
+    public function last_error()
+    { 
+        return $this->m_dbManager->getError();
     }
 }
  

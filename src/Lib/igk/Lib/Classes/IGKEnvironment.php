@@ -4,6 +4,7 @@
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Helper\IO ;
+use IGK\Resources\R;
 use IGK\System\IO\FileSystem;
 
 use function igk_getv as getv;
@@ -13,6 +14,8 @@ require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
 * use to manage Server Environment
 * @property string $subdomainctrl current subdomain controller
 * @property string $basectrl base controller
+* @property int    $querydebug activate of not the query debug
+* @property array  $db_adapter get registered data adapters
 */
 final class IGKEnvironment extends IGKEnvironmentConstants{
     private static $sm_instance;
@@ -32,6 +35,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     public function getEnvironments(){
         return $this->m_envs;
     }
+    public function getLocale(){
+        return R::GetLocale();
+    }
+    
     public function peek($n){
        
         $tab = $this->get($n);
@@ -479,7 +486,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      * @return mixed 
      */
     public function & createArray($key){
-        $c = $this->get($key);
+        $c = & $this->get($key);
         if (!$c){
             $c = [];
             $this->m_envs[$key] = & $c;

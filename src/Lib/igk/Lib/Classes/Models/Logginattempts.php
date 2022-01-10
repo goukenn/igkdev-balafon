@@ -1,15 +1,15 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: 
-// @desc: 
-// @date: 20210920 13:29:21
+// @file: Logginattempts.php
+// @desc: model file
+// @date: 20220109 10:15:50
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
 class Logginattempts extends ModelBase{
-		/** 
-		 */
-		protected $table = "%prefix%logginattempts"; 
-	
+	/**
+	* table's name
+	*/
+	protected $table = "%prefix%logginattempts";
 }

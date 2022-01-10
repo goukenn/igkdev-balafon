@@ -68,7 +68,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $ul->setClass("debug-panel google-Roboto");
             $v_btn_class="btn btn-default igk-btn igk-btn-default";
             if(!igk_get_env("sys://error")){
-                $ul["class"]="btn-group action-group"; 
+                $ul["class"]="session btn-group action-group"; 
                 $ul->addLi()->add("a", array("href"=>$_owner->getUri("forceview")))->setClass($v_btn_class)->Content=__("ForceView");
                 $ul->addLi()->addAClearSAndReload()->clearClass()->setClass($v_btn_class)->Content=__("ClearSession");
                 if(igk_server_is_local() && ($sess_ctrl=igk_getctrl(IGK_SESSION_CTRL, false))){
@@ -134,7 +134,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 }
             }
             else{
-                $div=$t->addDiv()->setClass("igk-form-group");
+                $div=$t->div()->setClass("igk-form-group");
                 if($cnf_view){
                     $sl=$div->addSelect("clViewMode")->setClass("igk-form-control");
                     $uri=$_owner->getUri("changeviewmode");
@@ -147,7 +147,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                         }
                     }
                 }
-                $t->addDiv()->setClass("igk-cleartab");
+                $t->div()->setClass("igk-cleartab");
             }
             echo $d->render();
         }

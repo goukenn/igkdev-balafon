@@ -12,6 +12,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\Process\CronJobProcess;
 use IGKApp;
 use IGKApplicationBase;
+use IGKModuleListMigration;
 use Throwable;
 use function igk_resources_gets as __;
 
@@ -89,7 +90,8 @@ class BalafonApplication extends IGKApplicationBase
 
 
         $this->library("zip");
-        //igk_hook("console::app_boot", $this);
+        $this->library("mysql");
+        igk_hook("console::app_cli_bootstrap", $this);
     }
 
     public function run(string $entryfile, $render = 1)
@@ -237,6 +239,17 @@ class BalafonApplication extends IGKApplicationBase
                         $c = [$c];
                     } else {
                         $c = igk_sys_getall_ctrl();
+
+                        if ( ($ctrl ===null) && ($modules = igk_get_modules())){
+                            $list = array_filter( array_map(function($c, $k){
+                                if ($mod = igk_get_module($k)){
+                                    return $mod;
+                                }
+                            }, $modules, array_keys($modules)));
+
+                            $c = array_merge($c, [IGKModuleListMigration::Create($list)]);
+                       
+                        }
                     }
                     foreach ($c as $t) {
                         Logger::info("migrate..." . get_class($t));
@@ -244,19 +257,21 @@ class BalafonApplication extends IGKApplicationBase
                             Logger::success("migrate:" . get_class($t));
                         }
                     }
+                    // migrate module 
+
                 };
             }, __("migrate your database"), "db"],
             "--db:initdb" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = "") {
                     $c = null;
                     DbCommand::Init($command);
-
+                    $c = igk_app()->getControllerManager()->getControllers();
                     if (!empty($ctrl)) {
-                        if (!($ctrl = igk_getctrl($ctrl, false))) {
-                            Logger::danger("no countroller found");
+                        if (!($c = igk_getctrl($ctrl, false))) {
+                            Logger::danger("no controller found: ".$ctrl);
                             return -1;
                         }
-                        $c = [$ctrl];
+                        $c = [$c];
                     } else {
                         $c = igk_app()->getControllerManager()->getControllers();
                     }

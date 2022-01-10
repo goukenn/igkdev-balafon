@@ -149,7 +149,7 @@ final class NotificationController extends BaseController implements IIGKNotifyM
                 $notify[$name]=[];
             }
         }
-        $tab=& igk_app()->Session->getData();
+        $tab=& igk_app()->session->getData();
         $tab["notifications"]=& $notify;
         $tab=& $notify[$name];
         if($c=IGKNotifyStorage::Create($tab, $name)){
@@ -274,7 +274,7 @@ EOF;
         if($notifyhost){
             $n=$this->getNotification($name);
             if($n){
-                $m=igk_createnotagnode();
+                $m=igk_create_notagnode();
                 $s=new HtmlSingleNodeViewerNode($m);
                 $tab=igk_create_node_callback([$this, "NotificationIsVisible"], [$notifyhost, $name]);
                 $notifyhost->setCallback("getIsVisible", $tab);

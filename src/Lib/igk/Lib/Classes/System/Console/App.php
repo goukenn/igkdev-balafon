@@ -20,7 +20,6 @@ use Throwable;
 // igk_load_class(\IGK\Database\DbQueryDriver::class);
 // igk_load_class(\IGKDataAdapter::class);
 // igk_load_class(\SQLDataAdapter::class ); 
-// igk_load_class(\IGK\System\Database\MySQL\DataAdapterBase::class);
 // igk_load_class(\IGK\System\Console\AppCommand::class);
 // igk_load_class(\IGK\System\Console\AppExecCommand::class);
 // igk_load_class(\IGK\System\Configuration\XPathConfig::class);
