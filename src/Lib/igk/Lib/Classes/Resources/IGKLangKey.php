@@ -55,7 +55,7 @@ final class IGKLangKey implements IHtmlGetValue {
         if($s == strtolower($this->key) && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER)){
             $v_langctrl=igk_getctrl(IGK_LANG_CTRL);
             if(!igk_get_env("::".__METHOD__)){
-                $vs=igk_createnode("script");
+                $vs=igk_create_node("script");
                 $vs->Content=$v_langctrl->sourceScript();
                 if($options && $options->Document && ($body=$options->Document->body)){
                     $body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->add($vs);
@@ -69,7 +69,7 @@ final class IGKLangKey implements IHtmlGetValue {
             if($this->args != null){
                 $v_index=$v_langctrl->RegKeyLang($this->key, $this->args);
             }
-            $n=igk_createnode("span");
+            $n=igk_create_node("span");
             $n["class"]="igk-new-lang-key";
             $n["igk-new-lang-key"]="1";
             $n["igk:data"]=$v_index;

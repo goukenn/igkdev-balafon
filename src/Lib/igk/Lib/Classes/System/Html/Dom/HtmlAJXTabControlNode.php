@@ -198,7 +198,7 @@ EOF;
             $this->Ctrl->showTabPage($index);
         }
         else{
-            $d=igk_createnode("div");
+            $d=igk_create_node("div");
             $d->Content="Demo page ".$index;
             $this->m_selected=$index;
             $d->renderAJX();

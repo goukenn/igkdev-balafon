@@ -72,7 +72,7 @@ final class SubDomainController extends ConfigControllerBase{
             igk_ajx_panel_dialog_close();
             igk_resetr(); 
         }
-        $dv=igk_createnode();
+        $dv=igk_create_node();
         $frm=$dv->addForm();
         $frm["action"]=$this->getUri(__FUNCTION__);
         $frm["igk-ajx-form"]=1;
@@ -97,7 +97,7 @@ final class SubDomainController extends ConfigControllerBase{
             igk_flush_data();
             igk_exit();
         }
-        $dv=igk_createnode();
+        $dv=igk_create_node();
         $frm=$dv->addForm();
         $frm["action"]=$this->getUri(__FUNCTION__);
         $frm["igk-ajx-form"]=1;
@@ -161,9 +161,9 @@ final class SubDomainController extends ConfigControllerBase{
             igk_notifyctrl()->bind($msg, $type);
             return;
         }
-        $d = igk_createnode("div");
+        $d = igk_create_node("div");
         $d->Content = __("remove this subdomain ? ");
-        $form = igk_createnode("form");        
+        $form = igk_create_node("form");        
         $form["action"]=$this->getUri(__FUNCTION__);
         $form["igk-ajx-form"]=1;
         $form->addConfirm(1);
@@ -233,7 +233,7 @@ final class SubDomainController extends ConfigControllerBase{
             if($data == null){
                 return;           
             }
-            $dv=igk_createnode();
+            $dv=igk_create_node();
             $frm=$dv->addForm();
             $frm["action"]=$this->getUri(__FUNCTION__);
             $frm["igk-ajx-form"]=1;
@@ -273,8 +273,8 @@ final class SubDomainController extends ConfigControllerBase{
         return IGK_SUBDOMAINNAME_CTRL;
     }
     ///<summary></summary>
-    protected function InitComplete(){
-        parent::InitComplete();
+    protected function initComplete(){
+        parent::initComplete();
         // if(!defined('IGK_APP_PLUGIN'))
         //     $this->__init_domain();
     }

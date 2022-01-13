@@ -3,7 +3,7 @@ $CF = igk_ctrl_zone_init(__FILE__);
 
 function igk_html_node_uiTrack($type='default'){
 	$CF = igk_ctrl_zone(__FILE__);
-	$dv = igk_createnode("div");
+	$dv = igk_create_node("div");
 	$dv["class"]="igk-winui-uitrack ".$type;
 
 	$callback["_trackoption.func"]=<<<EOF

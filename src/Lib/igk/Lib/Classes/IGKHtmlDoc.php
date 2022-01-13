@@ -50,7 +50,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         $n="theme-color";
         $meta=$sm->getMetaById($n);
         if($meta == null){;
-            $meta=igk_createnode("meta");
+            $meta=igk_create_node("meta");
             $meta["name"]=$n;
             $this->Metas->addMeta($n, $meta);
         }

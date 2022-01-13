@@ -77,10 +77,12 @@ final class SysDbController extends NonVisibleControllerBase{
     }
     ///<summary>Represente Init function</summary>
     public static function Init(){
-        igk_wln_e(__METHOD__);
+        igk_wln_e(__FILE__.":".__LINE__,  __METHOD__);
         $c=igk_create_session_instance(__CLASS__, function(){
             $g=new self();
-            IGKControllerManagerObject::getInstance()->registerController($g, !IGKApp::IsInit());
+            IGKControllerManagerObject::getInstance()->registerController($g, 
+            "sys.dbcontroller",
+            !IGKApp::IsInit());
             return $g;
         });
         return $c;
@@ -90,8 +92,8 @@ final class SysDbController extends NonVisibleControllerBase{
     { 
     }
     ///<summary></summary>
-    protected function InitComplete(){
-        parent::InitComplete();
+    protected function initComplete(){
+        parent::initComplete();
         $this->RegValueTypeArray("USERTOKENID", null, 1, 1);
     }
     ///<summary></summary>

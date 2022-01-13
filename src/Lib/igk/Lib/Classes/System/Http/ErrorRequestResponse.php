@@ -34,7 +34,7 @@ class ErrorRequestResponse extends RequestResponse{
                 igk_header_set_contenttype("html");
             break;
         }
-        $doc = igk_createnode("html");        
+        $doc = igk_create_node("html");        
         $doc->add("head")->addObData(function($c){
            
             $c->add("title")->Content = __("Error");

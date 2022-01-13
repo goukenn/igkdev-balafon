@@ -15,6 +15,9 @@ use ReflectionFunction;
 
 use function igk_resources_gets as __;
 
+
+require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
+
 ///<summary>represent html utility </summary>
 /**
  * represent html utility
@@ -48,9 +51,9 @@ abstract class HtmlUtils extends DomNodeBase
         return $q;
     }
     /**
-     * get system tagname 
+     * get system generated tagname 
      * @param HtmlItemBase $node 
-     * @return mixed 
+     * @return string 
      * @throws IGKException 
      */
     public static function GetGeneratedTagname(HtmlItemBase $node){
@@ -62,6 +65,19 @@ abstract class HtmlUtils extends DomNodeBase
             $tagname = "igk:" . $node->getTagName();
         }
         return $tagname;
+    }
+    ///<summary>retrieve tagname used to created the node</summary>
+    /**
+     * retrieve tagname used to created the node
+     * @param HtmlItemBase $node 
+     * @return string 
+     * @throws IGKException 
+     */
+    public static function GetCreatedTagName(HtmlItemBase $node){
+        if ($info = $node->getInitNodeTypeInfo()){ 
+            return $info->name;
+        }
+        return self::GetGeneratedTagname($node);
     }
 
     public static function GetAttributeArrayToString($attribs){ 
@@ -187,7 +203,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function BuildForm($array)
     {
-        $frm = igk_createnode("form");
+        $frm = igk_create_node("form");
         foreach ($array as $k => $v) {
             switch (strtolower($k)) {
                 case "label":
@@ -321,7 +337,7 @@ abstract class HtmlUtils extends DomNodeBase
             return igk_invoke_callback_obj(igk_getv($c, 'clType') == 'node' ? $n : null, $c);
         }
         if (is_array($c)) {
-            $r = igk_createnode('content');
+            $r = igk_create_node('content');
             $i = 0;
             foreach ($c as $k => $v) {
                 if (ord($k) == 0)
@@ -348,7 +364,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function GetTableFromSingleArray($array)
     {
-        $tab = igk_createnode("table");
+        $tab = igk_create_node("table");
         foreach ($array as $k => $v) {
             $tr = $tab->addTr();
             $tr->addTd()->Content = $k;
@@ -442,7 +458,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function nInput($id, $value = null, $type = "text")
     {
-        $btn = igk_createnode("input")->setAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
+        $btn = igk_create_node("input")->setAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
         switch (strtolower($btn["type"])) {
             case "button":
             case "submit":
@@ -462,7 +478,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function nTextArea($id, $value)
     {
-        return igk_createnode("textarea")->setAttributes(array("id" => $id, "name" => $id, "value" => $value));
+        return igk_create_node("textarea")->setAttributes(array("id" => $id, "name" => $id, "value" => $value));
     }
     ///<summary></summary>
     ///<param name="item"></param>
@@ -549,8 +565,7 @@ abstract class HtmlUtils extends DomNodeBase
         }
         if ($v_info = igk_getv($initiator, $name)) {
             $v_info["context"] = $context;
-            $v_info["count"]++;
-            
+            $v_info["count"]++; 
             return call_user_func_array($v_info["invoke"], [$v_info, $args]);
         }
         if ($creator != null) {
@@ -566,6 +581,7 @@ abstract class HtmlUtils extends DomNodeBase
                             "name" => "__creator:" . $name
                         ));
                     }
+                    igk_hook("pre_filter_node", ["node"=>$c, "tagname"=>$name]);
                 }
                 return $c;
             }
@@ -641,18 +657,15 @@ abstract class HtmlUtils extends DomNodeBase
                         if ($v_pcount >= $v_rp) {
                             $c = call_user_func_array($fc, $tb);
                             if ($c) {
-                                if ($initcallback)
+                                if ($initcallback){
                                     $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
-                                    $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
+                                }
+                                $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
                                         "type"=>"f",
                                         "name"=>$name,
                                         "args"=>$tb
-                                    ]));
-                                    // $mc = new HtmlNode("h1");
-                                    // igk_wln_e(__FILE__.":".__LINE__, serialize($c),
-                                    // self::GetGeneratedTagname($c),
-                                    // self::GetGeneratedTagname($mc)
-                                    // );
+                                ]));
+                                igk_hook("pre_filter_node", ["node"=>$c, "tagname"=>$name]);
                             }
                         } else {
                             igk_die("add <b>{$name}</b> : number of required parameters mismatch. Expected {$v_rp} but " . $v_pcount . " passed");
@@ -669,9 +682,10 @@ abstract class HtmlUtils extends DomNodeBase
                         $name = $inf["name"];
                         $context = $inf["context"];
                         if ($context == HtmlContext::Html) {
-                            $c = new HtmlNode($name);
+                            $c = new HtmlNode($name);                           
+                            igk_hook("pre_filter_node", ["node"=>$c, "tagname"=>$name]);
                         } else {
-                            $c = new XmlNode($name);
+                            $c = new XmlNode($name);  
                         }
                         return $c;
                     }

@@ -25,7 +25,7 @@
     //     }
     // }else {
 
-    //     $dn=igk_createnode("div");
+    //     $dn=igk_create_node("div");
     //     $n=$dn->add("table")->setClass("igk-table-hover igk-table-striped");
     //     $r1=$n->addTr();
     //     $r2=$n->addTr();

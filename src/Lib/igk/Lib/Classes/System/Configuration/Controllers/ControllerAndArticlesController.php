@@ -121,7 +121,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase{
     private function __write_article_for_tiny($file, $v_content, $property=null){
         if(empty($file))
             return false;
-        $v_dummy=igk_createnode("dummy");
+        $v_dummy=igk_create_node("dummy");
         $v_dummy->Load($v_content);
         if($v_dummy->HasChilds){
             if($property){
@@ -473,7 +473,7 @@ EOF;
         $name=igk_getr(IGK_FD_NAME);
         $content=igk_getr("clContent");
         $lang=igk_getr("clLang", igk_sys_getconfig("default_lang", "fr"));
-        $e=igk_createnode("error");
+        $e=igk_create_node("error");
         if(IGKValidator::IsStringNullOrEmpty($name)){
             $e->addLi()->Content="name not defined";
         }
@@ -509,7 +509,7 @@ EOF;
             igk_notifyctrl()->addMsg("no controller selected");
             return null;
         }
-        $d=igk_createnode("div");
+        $d=igk_create_node("div");
         $d->clearChilds();
         $frm=$d->addForm();
         $frm["action"]=$this->getUri("ca_add_article");
@@ -645,7 +645,7 @@ EOF;
     }
     ///<summary>build a add view frame</summary>
     public function ca_add_view_frame(){
-        $frame=igk_createnode("div");
+        $frame=igk_create_node("div");
         $d=$frame;
         $d->clearChilds();
         $frm=$d->addForm();
@@ -711,7 +711,7 @@ EOF;
     public function ca_ctrl_article_select_lang_ajx(){
         $ctrl=igk_getctrl(igk_getr("ctrl"), false);
         $this->m_selectedLang=igk_getr("n");
-        $div=igk_createnode("div");
+        $div=igk_create_node("div");
         $this->_buildViewArticle($div, $ctrl);
         igk_wl($div->getInnerHtml());
     }
@@ -818,7 +818,7 @@ EOF;
                 }
             }
             else{
-                $d=igk_createnode("div");
+                $d=igk_create_node("div");
                 $d->addDiv()->Content=__(IGK_MSG_DELETECTRL_QUESTION, $a);
                 $frm=$d->addForm();
                 $frm["action"]=$this->getUri("ca_drop_controller_ajx");
@@ -855,7 +855,7 @@ EOF;
                 }
             }
             else{
-                $frame=igk_createnode("div");
+                $frame=igk_create_node("div");
                 $form=$frame->add("form");
                 $form["action"]=$this->getUri("ca_drop_view");
                 $form->addDiv()->Content=__(IGK_MSG_DELETEFILE_QUESTION, $n);
@@ -891,7 +891,7 @@ EOF;
         $f=file_exists($f) ? $f: $ctrl->getArticle($f);
         if(file_exists($f)){
             $str=igk_io_read_allfile($f);
-            $t=igk_createnode("div");
+            $t=igk_create_node("div");
             $t->div()->Content="Path: ".igk_io_basepath(igk_io_basedir($f));
             $frm=$t->addForm();
             $frm["action"]=$this->getUri("update_article".(($ajx == 1) ? null: "#".$this->_getarticleid()));
@@ -963,7 +963,7 @@ EOF;
                     igk_navto_referer();
                 }
             }
-            $frm=igk_createnode('form');
+            $frm=igk_create_node('form');
             $frm["action"]=$this->getUri(__FUNCTION__);
             $frm["method"]="POST";
             igk_html_form_initfield($frm);
@@ -1008,7 +1008,7 @@ EOF;
             $f=base64_decode($n);
         if($force || file_exists($f)){
             $str=IO::ReadAllText($f);
-            $frm=igk_createnode('form');
+            $frm=igk_create_node('form');
             $frm["action"]=$this->getUri("ca_update_articlewtiny_f");
             $ul=$frm->add("ul");
             $ul->addLi()->addSLabelInput("clRemoveStyles", "checkbox");
@@ -1069,7 +1069,7 @@ EOF;
             return null;
         $f=igk_io_dir($ctrl->getDeclaredFileName());
         if(file_exists($f)){
-            $frame=igk_createnode("div");
+            $frame=igk_create_node("div");
             $frame->clearChilds();
             $frame->Title=__("title.editctrl", basename($f));
             $str=null;
@@ -1135,7 +1135,7 @@ EOF;
         if($ctrl == null)
             return null;
         $title=__("title.editctrl.properties_1", $ctrl->getName());
-        $frm=igk_createnode('form');
+        $frm=igk_create_node('form');
         $frm["action"]=$this->getUri("ca_update_ctrl_properties". ($name == null ? IGK_STR_EMPTY: "&n=".$name));
         $ul=$frm->addDiv()->setClass("igk-v-h")->setStyle("max-height:200px; overflow-y:auto;")->add("ul");
         $d=igk_sys_getdefaultctrlconf();
@@ -1288,7 +1288,7 @@ EOF;
     ///<summary></summary>
     ///<param name="info"></param>
     public function ca_getFieldInfo($info){
-        $tr=igk_createnode("tr");
+        $tr=igk_create_node("tr");
         $tr["__id"]=igk_new_id();
         $tr->addTd()->Content=IGK_HTML_SPACE;
         foreach($info as $v=>$k){
@@ -1328,7 +1328,7 @@ EOF;
         if($t != null)
             return $t;
         else
-            $tb=igk_createnode("table");
+            $tb=igk_create_node("table");
         $ctrl=$ctrl == null ? igk_getctrl($this->SelectedController): $ctrl;
         $tr=$tb->addTr();
         $t=DbColumnInfo::GetColumnInfo();
@@ -1430,7 +1430,7 @@ EOF;
         }
         $g=igk_getr("g");
         // $n=$this->getTempParam(__CLASS__."://tabview_node/");        
-        $n=igk_createnode("div");
+        $n=igk_create_node("div");
         $n->clearChilds();
         switch($g){
             case 1:
@@ -1519,7 +1519,7 @@ EOF;
     ///<summary></summary>
     public function ca_update_dbdata(){
         $obj=igk_get_robj();
-        $e=igk_createnode(DbSchemas::DATA_DEFINITION);
+        $e=igk_create_node(DbSchemas::DATA_DEFINITION);
         $e["TableName"]=igk_getr("clTableName");
         unset($obj->clTableName);
         $v_kexist=array();
@@ -1568,7 +1568,7 @@ EOF;
     }
     ///<summary> handle view tab information </summary>
     public function controller($view="infotab"){
-        $t=igk_createnode("div");
+        $t=igk_create_node("div");
         if(file_exists($file=$this->getViewFile("tab.".$view, 0))){
             $this->loader->view($file, ["t"=>$t, "viewid"=>$this->_getviewid(), "s_ctrl"=>igk_getctrl($this->SelectedController), "articleid"=>$this->_getarticleid()]);
             $this->setParam("tab:editresult", $view);
@@ -1646,8 +1646,8 @@ EOF;
         return $this->getParam(self::SL_SELECTCONTROLLER);
     }
     ///<summary></summary>
-    protected function InitComplete(){
-        parent::InitComplete();
+    protected function initComplete(){
+        parent::initComplete();
         $this->setup_defaultpage();
     }
     ///<summary></summary>
@@ -1664,7 +1664,7 @@ EOF;
     }
     ///<summary></summary>
     public function lst_adapter_ajx(){
-        $n=igk_createnode("div");
+        $n=igk_create_node("div");
         $t=igk_getr("t");
         $cs=get_class(igk_get_data_adapter($t));
         if(method_exists($cs, "GetSchemaOptions")){
@@ -1690,7 +1690,7 @@ EOF;
     ///<summary></summary>
     public function select_controller_ajx(){
         $this->SelectedController=igk_getr("n");
-        $n=igk_createnode("div");
+        $n=igk_create_node("div");
         $this->_viewCtrlEditResult($n);
         $n->renderAJX();
     }
@@ -1766,7 +1766,7 @@ EOF;
         $f=urldecode(base64_decode(igk_getr("clfile")));
         $v_c=igk_str_remove_empty_line(igk_html_unscape(igk_getr("clContent")));
         $v_frame=igk_getr("clframe");
-        $v_dummy=igk_createnode("div");
+        $v_dummy=igk_create_node("div");
         $id=igk_getr("clctrl");
         $ctrl=igk_getctrl($id, false);
         $n=igk_getr("n");

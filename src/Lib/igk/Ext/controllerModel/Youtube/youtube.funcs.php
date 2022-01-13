@@ -8,7 +8,7 @@ function igk_html_node_youtubevideo($uri, $param=null){
 //integrate video : exemple : https://www.youtube.com/embed/YqeW9_5kURI
 //integrate video list : exemple : https://www.youtube.com/embed/2JaTztqeUDs?list=PL3A7BF1733573B10A
 
-	$n = igk_createnode("iframe");
+	$n = igk_create_node("iframe");
 	$n["src"] = $uri;
 	$n["allowFullScreen"]="1";
 	$n["title"]= igk_getv($param, "title", "YouTube video player" );
@@ -21,7 +21,7 @@ function igk_html_node_youtubevideo($uri, $param=null){
 
 //<summary>demonstration of you tube video</summary>
 function igk_html_demo_youtubevideo($tg){
-	$n = igk_createnode();
+	$n = igk_create_node();
 	//major lazer
 	$n->addyoutubeVideo("https://www.youtube.com/embed/YqeW9_5kURI");
 	$tg->addDiv()->Content = "You tube demonstration";
@@ -29,7 +29,7 @@ function igk_html_demo_youtubevideo($tg){
 }
 //<summary>description of you tube video</summary>
 function igk_html_desc_youtubeVideo($tg){
-	$n = igk_createnode();
+	$n = igk_create_node();
 	//major lazer
 	// $s = "test";
 	$n->addDiv()->Content = "Usage in PHP Script";

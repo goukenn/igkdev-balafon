@@ -4,8 +4,8 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	public function getName(){return get_class($this);}
 
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 		//please enter your controller declaration complete here
 	}
 	public static function GetAdditionnalConfigInfo()

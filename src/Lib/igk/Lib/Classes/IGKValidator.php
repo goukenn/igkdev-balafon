@@ -14,7 +14,7 @@ final class IGKValidator extends IGKObject {
     * 
     */
     private function __construct(){
-        $this->sm_enode=igk_createnode("error");
+        $this->sm_enode=igk_create_node("error");
         $this->sm_cibling=array();
     }
     ///<summary></summary>

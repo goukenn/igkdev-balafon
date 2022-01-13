@@ -54,7 +54,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
         $_api=$this;
         $_data=array(
             "syncto"=>function($cmd, $args) use ($_api){
-                    $rep=igk_createnode("response");
+                    $rep=igk_create_node("response");
                     $error=false;
                     $ctrl=igk_getctrl(igk_getv($args, 1));
                     $u=igk_get_user_bylogin(igk_getv($args, 2));
@@ -81,7 +81,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     return !$error;
                 },
             "syncdata"=>function($cmd, $args) use ($_api){
-                    $sync=igk_createnode("igk-sync");
+                    $sync=igk_create_node("igk-sync");
                     $ctrl=igk_getctrl(igk_getv($args, 0));
                     $uid=igk_get_user_bylogin(igk_getv($args, 1));
                     if($ctrl && $uid){
@@ -114,7 +114,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
             
             "loadsyncdata"=>function($cmd, $args) use ($_api){
                     igk_debuggerview()->clearChilds();
-                    $rep=igk_createnode("reponse");
+                    $rep=igk_create_node("reponse");
                     $c=igk_getr("data");
                     $login=igk_getr("login");
                     $u=igk_get_user_bylogin($login);
@@ -240,7 +240,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
     public function request(){
         $u=igk_getr("u");
         $pwd=igk_getr("pwd");
-        $node = igk_createnode("response");
+        $node = igk_create_node("response");
         $this->ConfigCtrl->logout(false, true);
         if(!$this->ConfigCtrl->IsConnected){
             $this->ConfigCtrl->connect($u, $pwd, false);

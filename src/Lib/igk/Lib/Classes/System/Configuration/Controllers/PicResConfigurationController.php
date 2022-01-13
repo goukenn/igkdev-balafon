@@ -283,7 +283,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
     ///<summary></summary>
     protected function initTargetNode(){
-        return igk_createnode("div", array("class"=>strtolower($this->Name)));
+        return igk_create_node("div", array("class"=>strtolower($this->Name)));
     }
     ///<summary></summary>
     public function loadfile(){
@@ -510,7 +510,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
     ///<summary></summary>
     public function uploadpic_ajx(){
-        $div=igk_createnode("div");
+        $div=igk_create_node("div");
         $rd=$div->addRow();
         $cl=$rd->addCol()->addDiv();
         igk_ajx_panel_dialog("Upload Pictures", $div);

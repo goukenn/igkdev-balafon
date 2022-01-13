@@ -19,6 +19,9 @@ if(!function_exists("mysqli_connect")){
     igk_exit();
 }
 
+require_once(IGK_LIB_CLASSES_DIR."/Database/DbQueryDriver.php");
+require_once(IGK_LIB_CLASSES_DIR."/Database/SQLDataAdapter.php");
+require_once(__DIR__."/DataAdapterBase.php");
 require_once(__DIR__."/DataAdapter.php");
 require_once(__DIR__."/Controllers/MySQLDataController.php");
 
@@ -325,7 +328,7 @@ function igk_mysql_db_tbname($tbname){
 * @param mixed $resource
 */
 function igk_mysql_result_table($resource){
-    $tab=igk_createnode("table");
+    $tab=igk_create_node("table");
     $tab["class"]="igk-table mysql-r";
     $tr=$tab->Add("tr");
     $c=igk_db_num_fields($resource);

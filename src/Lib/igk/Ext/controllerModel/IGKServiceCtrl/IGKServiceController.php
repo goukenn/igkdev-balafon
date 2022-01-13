@@ -74,7 +74,7 @@ abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase 
         $doc= igk_get_document(self::DOC_ID);
         $doc->setParam("sys://designMode/off", 1);
         $doc->title = "Services";
-        $t=igk_createnode("div");
+        $t=igk_create_node("div");
         igk_doc_set_favicon($doc, $dir."/Data/R/favicon.ico");
  
 
@@ -204,7 +204,7 @@ EOF;
     }
     ///SERVICE FUNC
     public function getDesc($method){
-        $t=igk_createnode("div");
+        $t=igk_create_node("div");
         $t->div()->article($this, $method.".desc");
         $c=$this->__getMethodParameter($method);
         if(igk_count($c) > 0){
@@ -277,7 +277,7 @@ EOF;
     ///<summary>Represente getExtra function</summary>
     ///<param name="m"></param>
     public function getExtra($m){
-        $n=igk_createnode("div");
+        $n=igk_create_node("div");
         $f=$this->getArticlesDir()."/".$m.".json";
         if(file_exists($f)){
             $n->addJSAExtern("openFile", igk_io_to_uri($f))->setClass("igk-btn igk-btn-default igk-active")->Content=R::ngets("btn.Edit");
@@ -315,7 +315,7 @@ EOF;
     }
     ///<summary>Represente getServiceName function</summary>
     public function getServiceName(){
-        return strtolower($this->getConfigs()->get( "clServiceName"));
+        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, "clServiceName"); // strtolower($this->getConfigs()->get( "clServiceName"));
     }
     ///<summary>Represente getServices function</summary>
     public final function getServices(){
@@ -329,7 +329,7 @@ EOF;
     ///<summary>Represente getServiceViewTitle function</summary>
     ///<param name="m"></param>
     public function getServiceViewTitle($m){
-        $n=igk_createnode("div")->setClass("title");
+        $n=igk_create_node("div")->setClass("title");
         $info = new ReflectionMethod($this, $m);
         $ctype = "";
         if ($rtype = $info->getReturnType()){
@@ -385,10 +385,9 @@ EOF;
         $wsdl->registerMethod($cl, $this->getServiceName(), $funclist);
     }
     ///<summary>Represente InitComplete function</summary>
-    protected function InitComplete(){
-        parent::InitComplete();
-        $this->register_service();
-       
+    protected function initComplete(){
+        parent::initComplete();
+        $this->register_service();       
     }
     ///<summary>init service environment</summary>
     public static function InitEnvironment($ctrl){
@@ -414,26 +413,26 @@ EOF;
     ///<summary>Represente pageFolderChanged function</summary>
     protected function pageFolderChanged(){    }
     ///<summary>Represente register_service function</summary>
-    protected function register_service(){
+    private function register_service(){
         $c="^/".IGK_SERVICE_BASE_URI."/".$this->getServiceName();
-        $k=$this->getEnvParam("appkeys");
-        if(!empty($k)){
-            igk_sys_ac_unregister($k);
-        }
-        if($c){
-            $k="".$c.IGK_REG_ACTION_METH;
-            igk_sys_ac_register($k, $this->getUri("evaluateUri"));
-            $this->setEnvParam("appkeys", $k);
-        }
-        $t=& self::$sm_services;
-        if($t == null){
-            $t=array();
-            $c="^/".IGK_SERVICE_BASE_URI."(/){0,1}$";
-            $f=$this->getUri("baseEvaluateUri&m=global");
-            igk_sys_ac_register($c, $f);
-            self::$sm_services=& $t;
-        }
-        $t[]=$this;
+        // $k=$this->getEnvParam("appkeys");
+        // if(!empty($k)){
+        //     igk_sys_ac_unregister($k);
+        // }
+        // if($c){
+        //     $k="".$c.IGK_REG_ACTION_METH;
+        //     igk_sys_ac_register($k, $this->getUri("evaluateUri"));
+        //     $this->setEnvParam("appkeys", $k);
+        // }
+        // $t=& self::$sm_services;
+        // if($t == null){
+        //     $t=array();
+        //     $c="^/".IGK_SERVICE_BASE_URI."(/){0,1}$";
+        //     $f=$this->getUri("baseEvaluateUri&m=global");
+        //     igk_sys_ac_register($c, $f);
+        //     self::$sm_services=& $t;
+        // }
+        // $t[]=$this;
     }
     ///<summary>Represente renderDefaultDoc function</summary>
     protected function renderDefaultDoc(){

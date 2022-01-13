@@ -10,8 +10,8 @@ class IGKProcessDocument extends NonVisibleControllerBase
 	public function getName(){
 		return "process_script";
 	}
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 	}
 	public function __construct(){
 		parent::__construct();

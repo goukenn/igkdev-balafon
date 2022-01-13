@@ -243,7 +243,7 @@ class Loader implements IResponse {
      * @throws Exception 
      */
     public function bind($file, $data=array(), $render=0){
-        $n = igk_createnode("NoTagNode");
+        $n = igk_create_node("NoTagNode");
         $n->addArticle($this->_controller, $file, $data);
         $o = $n->render();
         if($render)

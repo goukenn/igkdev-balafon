@@ -85,8 +85,7 @@ class InstallSite
         // generate phpunit.xml.dist distribution
         $php_xml = igk_create_xmlnode("phpunit");
         $php_xml["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
-        $php_xml["xsi:noNamespaceSchemaLocation"] = "./src/application/Packages/vendor/phpunit/phpunit/phpunit.xsd";
-        // $php_xml["bootstrap"] = "./src/application/Packages/vendor/autoload.php";
+        $php_xml["xsi:noNamespaceSchemaLocation"] = "./src/application/Packages/vendor/phpunit/phpunit/phpunit.xsd";        
         $php_xml["bootstrap"] = "./src/application/Lib/igk/Lib/Test/autoload.php";
         $php_xml["colors"] = "true";
 

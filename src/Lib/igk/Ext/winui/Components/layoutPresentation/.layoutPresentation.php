@@ -4,7 +4,7 @@ $CF = igk_ctrl_zone_init(__FILE__);
 
 function igk_html_node_layoutPresentation($type="1-2"){
 $CF = igk_ctrl_zone(__FILE__);
-$c = igk_createnode("div");
+$c = igk_create_node("div");
 $c->setClass("igk-winui-layoutp t-".$type);
 
 $t = array("t"=>$c);

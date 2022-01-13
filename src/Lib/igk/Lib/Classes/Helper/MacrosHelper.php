@@ -103,9 +103,7 @@ class MacrosHelper
 
     public static function AddUser(\IGK\Models\Users $user, $data){
         $storage = new IGKObjStorage($data); 
-        $r = null;
-        // igk_environment()->querydebug = 1;
-        // $id = ["clLogin"=>$storage->clLogin];
+        $r = null; 
         // Users::delete($id);
         if (!empty($storage->clLogin) && ($r = Users::select_row(["clLogin"=>$storage->clLogin]))){
             // user aleady exists

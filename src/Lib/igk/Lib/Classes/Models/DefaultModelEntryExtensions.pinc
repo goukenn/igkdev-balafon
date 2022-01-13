@@ -12,6 +12,9 @@ use IGK\System\Database\QueryBuilder;
 if (defined("IGK_FRAMEWORK_ATOMIC")){
     return;
 }
+
+require_once IGK_LIB_CLASSES_DIR."/Helper/MacrosHelper.php";
+
 // + | register user get user groups 
 Usergroups::registerMacro("getUserGroups", function(int $uid){   
     $c = $this::select_query(["clUser_Id"=>$uid],[

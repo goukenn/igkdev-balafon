@@ -11,6 +11,9 @@ use IIGKConfigController;
 
 use function igk_resources_gets as __; 
 
+
+require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigController.php";
+
 /**
 * Represente ConfigControllerBase class
 */
@@ -99,8 +102,9 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * 
     */
-    protected function InitComplete(){ 
-        parent::InitComplete();
+    protected function initComplete(){ 
+        parent::initComplete();
+        
         if($c=$this->getConfigCtrl()){
             $c->registerConfig($this);
         }

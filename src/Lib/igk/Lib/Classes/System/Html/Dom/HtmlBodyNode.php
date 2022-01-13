@@ -4,6 +4,9 @@ namespace IGK\System\Html\Dom;
 
 use IGKEvents;
 
+require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlDefaultMainPage.php");
+require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlPoweredByNode.php");
+
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
@@ -32,9 +35,13 @@ class HtmlBodyNode extends HtmlNode{
     public function removeScript($scriptFile){
         return $this->m_bodyMainScript->removeScript($scriptFile);
     }
-    public function appendScript($id, $scriptFile){
-        igk_trace();
-        igk_wln_e(__FILE__.":".__LINE__, func_get_args());
+    /**
+     * append main body script
+     * @param mixed $id 
+     * @param mixed $scriptFile 
+     * @return mixed 
+     */
+    public function appendScript($id, $scriptFile){ 
         return $this->m_bodyMainScript->addScript($id, $scriptFile);
     }
 

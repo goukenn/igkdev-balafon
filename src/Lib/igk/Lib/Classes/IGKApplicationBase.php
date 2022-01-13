@@ -75,4 +75,10 @@ abstract class IGKApplicationBase{
      * @return mixed 
      */
     abstract function run(string $entryfile, $render=1);
+
+
+    public function __debugInfo()
+    {
+        return [];
+    }
 }

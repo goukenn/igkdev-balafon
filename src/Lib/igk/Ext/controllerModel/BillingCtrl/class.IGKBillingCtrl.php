@@ -9,9 +9,9 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 	private $m_billingDetails;
 
 	
-	protected function InitComplete()
+	protected function initComplete()
 	{
-		parent::InitComplete();
+		parent::initComplete();
 		//register a billing
 		$this->app->getControllerManager()->register("Billing", $this);
 		$this->app->getControllerManager()->register("BillingDetails", new IGKBillingDetailsCtrl());

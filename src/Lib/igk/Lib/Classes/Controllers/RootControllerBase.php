@@ -121,6 +121,10 @@ abstract class RootControllerBase extends IGKObject{
 		return ControllerExtension::$name(...$arguments); 
 	}
 	public function __call($name, $argument){
+        //by pass method properted call
+        if (method_exists($this, $name) && (in_array(strtolower($name), ["initcomplete"]))){
+            return call_user_func([$this, $name], $argument);
+        }
         return static::__callStatic($name, $argument);
     }
 
@@ -187,7 +191,7 @@ abstract class RootControllerBase extends IGKObject{
     */
     public function getArticleBindingContent($name, $entries, $prebuild=true){
         if(is_object($entries) && ($entries->RowCount > 0)){
-            $d=igk_createnode("div");
+            $d=igk_create_node("div");
             igk_html_binddata($this, $d, $name, $entries);
             return $d->render();
         }

@@ -19,14 +19,14 @@ function igk_community_init_ShareWith_callback($t){
 }
 
 function igk_html_node_CommunityNode(){
-	$n = igk_createnode("div");
+	$n = igk_create_node("div");
 	$n["class"]="igk-community-node";
 	igk_community_init_node_callback($n);
 	return $n;
 }
 
 function igk_html_node_SharedWithCommunity($tab=null){
-	$n = igk_createnode("div");
+	$n = igk_create_node("div");
 	$n["class"]="igk-shared-comm";
 	if ($tab!=null){
 		foreach($tab as $k=>$v){

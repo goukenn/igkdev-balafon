@@ -38,6 +38,11 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     public function getLocale(){
         return R::GetLocale();
     }
+
+    public function write_debug(string $message){ 
+        $d = & $this->createArray("debug_load");
+        $d[] = "<span>".(count($d) + 1)."</span> ".$message; 
+    } 
     
     public function peek($n){
        
@@ -315,14 +320,17 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     public function context(){
         return $this->get("app_type", IGKAppType::web);
     }
-    ///<summary></summary>
+    ///<summary>environment full name</summary>
     /**
     * environment full name
     */
     public function name(){
         return IGKServer::getInstance()->ENVIRONMENT;
     } 
-
+    ///<summary>environment short name</summary>
+    /**
+    * environment short name
+    */
     public function keyName(){
         return self::ResolvEnvironment(IGKServer::getInstance()->ENVIRONMENT);
     }

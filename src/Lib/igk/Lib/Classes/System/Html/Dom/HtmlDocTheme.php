@@ -481,7 +481,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess {
     public function getAllClassExpression(){
         $out=IGK_STR_EMPTY;
         $def=$this->def;
-        $tab=igk_createnode("table");
+        $tab=igk_create_node("table");
         foreach($def->Attributes as $k=>$v){
             $r=$tab->addRow();
             $r->addTd()->Content=$k;

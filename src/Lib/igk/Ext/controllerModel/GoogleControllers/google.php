@@ -416,7 +416,7 @@ function igk_html_demo_googlelinewaiter($t)
  */
 function igk_html_node_google_icon($name, $title = "", $type = "span")
 {
-    $n = igk_createnode($type);
+    $n = igk_create_node($type);
     $n["title"] = $title;
     $n->setClass("material-icons")->Content = $name;
     $n->setFlag("NO_CONTENT", 1);
@@ -439,7 +439,7 @@ function igk_html_demo_googlemapgeo($t)
  */
 function igk_html_node_googlecirclewaiter()
 {
-    $n = igk_createnode();
+    $n = igk_create_node();
     $n->setClass("igk-google-circle-waiter");
     return $n;
 }
@@ -479,7 +479,7 @@ EOF,
 function igk_html_node_googlejsmaps($data = null, $apikey = null)
 {
     $apikey = $apikey ?? igk_google_apikey();
-    $n = igk_createnode("div");
+    $n = igk_create_node("div");
     $n["class"] = "igk-gmaps";
     $srv = igk_getv(igk_get_services("google"), "googlemap");
     $mapuri = $srv("apiuri", null, (object)["Google" => (object)["ApiKey" => $apikey]]);
@@ -503,7 +503,7 @@ EOF;
  */
 function igk_html_node_googlelinewaiter()
 {
-    $n = igk_createnode();
+    $n = igk_create_node();
     $n->setClass("igk-google-line-waiter");
     return $n;
 }
@@ -515,7 +515,7 @@ function igk_html_node_googlelinewaiter()
  */
 function igk_html_node_googlemapgeo($loc, $apikey = null)
 {
-    $n = igk_createnode("div");
+    $n = igk_create_node("div");
     $n["class"] = "igk-winui-google-map";
     $q = $loc;
     $key = $apikey ?? igk_google_apikey();
@@ -677,7 +677,7 @@ igk_sys_reg_referencedir(__FILE__, igk_io_dir(dirname(__FILE__) . "/Data/Referen
 
 function igk_html_node_googleOAuthLink($tab)
 {
-    $n = igk_createnode("a");
+    $n = igk_create_node("a");
     $list = [
         "client_id" => 1,
         "redirect_uri" => 1,
@@ -704,7 +704,7 @@ function igk_html_node_googleOAuthLink($tab)
 
 function igk_html_node_googleOth2Button($url, $gclient)
 {
-    $n = igk_createnode("a");
+    $n = igk_create_node("a");
     $q = http_build_query([
         "client_id" => $gclient->client_id,
         "redirect_uri" => $url,

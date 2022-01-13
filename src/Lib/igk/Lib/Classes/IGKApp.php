@@ -227,36 +227,28 @@ class IGKApp extends IGKObject
         // | --------------------------------------------------------------
         // | init environment
         // |
-        IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());
-
-        // igk_wln_e(get_included_files(), "duddration ". igk_sys_request_time());
-
+        
+        igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());
+        IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());        
+        
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
+        $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);
-
-        igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::$sm_instance]);
-
-        // + | init session data
-        $v_setting_info = null;
-
+        
+        
+        igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);               
+        
         if ($app->lib("subdomain")){
             // | init subdomain management
             IGKSubDomainManager::Init();
-        } 
-        // if ($app->lib("session")) {
-        //     $v_setting_info = igk_create_session_instance("igk", function(){
-        //         return call_user_func_array([self::$sm_instance, 'createAppInfo'], []);
-        //     });
-        // } else {
-        //     $v_setting_info = self::$sm_instance->createAppInfo();
-        // }
-        // self::$sm_instance->m_settings = new IGKAppSetting($v_setting_info);      
-     
+        }  
         // + |--------------------------------------------------------------
-        // + | INIT CONTROLLER LIST
         // + | HOOK application initilize 
-        igk_hook(IGKEvents::HOOK_INIT_APP, [self::$sm_instance]);       
+        // + | 
+        \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
+        igk_hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);    
+        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.05);           
     }
 
     /**

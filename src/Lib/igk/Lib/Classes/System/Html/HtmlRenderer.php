@@ -142,8 +142,12 @@ class HtmlRenderer{
                 $i = $q;
                 $q = ["item"=>$i, "close"=>false ];
             }
-           
+            
             if (!$q["close"]){
+                if ($ln && ($options->Depth >0)){
+                    $s.= str_repeat("\t",$options->Depth );
+                }
+                $options->Depth++;
                 if ($i instanceof HtmlItemBase) 
                 {
                     if (!$i->AcceptRender($options)){
@@ -181,10 +185,12 @@ class HtmlRenderer{
                 }
                 $content = $i->getContent();
                 $childs = $i->getRenderedChilds($options);   
-                $have_content = (count($childs) > 0) || !empty($content);         
+                $have_childs = (count($childs) > 0);
+                $have_content = $have_childs || !empty($content);         
                 $q["close_tag"] =  $have_content || $i->closeTag();
                 $q["close"] = true;
                 $q["tag"] = $tag;
+                $q["have_childs"]=$have_childs;
                 if ($havTag && $q["close_tag"]){
                     $s.=">";
                 }
@@ -199,7 +205,8 @@ class HtmlRenderer{
                     }
                 }
                 if((count($childs) > 0)){
-                    $options->Depth++;
+                    //$options->Depth++;
+                    $s.= $ln;
                     array_push($tab, $q); 
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
@@ -211,16 +218,23 @@ class HtmlRenderer{
             } else {
                 $tag = $q["tag"];
             }
+            $options->Depth = max(0, $options->Depth-1);
+            // igk_wln("depth : ".$options->Depth);
             if (!empty($tag)){
-                if ($q["close_tag"])
+                if ($q["close_tag"]){
+                    if ($ln  && $q["have_childs"] && ($options->Depth >0)){
+                        $s.= str_repeat("\t",$options->Depth );
+                    }
                     $s .= "</".$tag.">".$ln;
+
+                }
                 else {
                     $s.= "/>".$ln;
                 } 
             }
-            $options->Depth = max(0, $options->Depth -1);
+            // $options->Depth = max(0, $options->Depth -1);
         } 
-        return $s;
+        return rtrim($s);
     }
 
     public static function GetAttributeString(HtmlItemBase $item, $options){      

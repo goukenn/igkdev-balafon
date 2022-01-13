@@ -1,11 +1,12 @@
 <?php
 
 namespace IGK\System\Http;
-
-use ArrayAccess;
-use IGK\Controllers\BaseController;
-use IGK\System\Polyfill\ArrayAccessSelfTrait;
+ 
+use IGK\Controllers\BaseController; 
 use IGKException;
+
+
+require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
 
 /**
  * Collection of registrated routes.

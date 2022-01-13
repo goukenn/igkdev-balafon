@@ -8,8 +8,8 @@ use IGK\Models\Community;
 
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase {
 	public function getName(){return get_class($this);}
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 		igk_db_reg_sys_ctrl("community", $this);
 		//only one instance is allowed.
 		igk_reg_hook("sys://events/community", "igk_community_init_node_callback");

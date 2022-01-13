@@ -105,8 +105,14 @@ class session extends \IGKLibraryBase{
      * @return void 
      */
     public function destroy(){
-        $this->close();
-        @session_destroy();
+        $this->close(); 
+        igk_session_destroy();
+        // + | -----------------------------------------------------------
+        // + | clear user session cookies
+        // + |
+        setcookie(igk_get_cookie_name(igk_sys_domain_name()."/uid"), null);
+        @session_destroy(); 
+        $_SESSION=array();  
     }
     /**
      * unlink session file

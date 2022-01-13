@@ -144,12 +144,12 @@ class IGKMailCtrl extends ConfigControllerBase{
     ///<param name="message" default="null"></param>
     public function send_contactmail($fromName, $message=null){
         $obj=igk_get_robj();
-        $enode=igk_createnode("div");
+        $enode=igk_create_node("div");
         $mail=new Mail();
         $this->initMailSetting();
         $this->init_mail_config($mail);
         $mail->addTo(igk_app()->Configs->mail_contact);
-        $div=igk_createnode("div");
+        $div=igk_create_node("div");
         $div["style"]="border:1px solid black; min-height:32px;";
         $ul=$div->add("ul");
         $ul->addLi()->Content="Message From: ".$fromName;
@@ -162,7 +162,7 @@ class IGKMailCtrl extends ConfigControllerBase{
         $mail->From="website@".igk_app()->Configs->website_domain;
         if($mail->sendMail()){
             igk_resetr();
-            $div=igk_createnode("div");
+            $div=igk_create_node("div");
             $div->Content=__("msg.email.correctlysend");
             $div->addScript()->Content="igk.animation.autohide(igk.getParentScript(), 3000);";
             $e=new HtmlSingleNodeViewerNode($div);
@@ -198,7 +198,7 @@ class IGKMailCtrl extends ConfigControllerBase{
     public function sendmailto(){
         $to=igk_getr("n");
         $s=igk_getr("s");
-        $m=igk_createnode("script");
+        $m=igk_create_node("script");
         $m->Content=<<<EOF
 window.open("mailto:$to?subject=$s","sendmail");
 EOF;

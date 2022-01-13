@@ -39,7 +39,7 @@ final class NotificationController extends BaseController implements IIGKNotifyM
     public function addErrori($msgcode){
         $c=igk_error($msgcode);
         if($c){
-            $li=igk_createnode("div", array("class"=>"alignl"));
+            $li=igk_create_node("div", array("class"=>"alignl"));
             $li->addLabel()->Content="Message : ";
             $li->addspan()->Content=__($c["Msg"]);
             $this->addError($li->render(null));
@@ -216,7 +216,7 @@ final class NotificationController extends BaseController implements IIGKNotifyM
             if($this->HasMsg){
                 if($this->getParam("ajx:renderincontext") !== true){
                     $this->setParam("ajx:renderincontext", true);
-                    $d=igk_createnode("div")->addScript();
+                    $d=igk_create_node("div")->addScript();
                     $uri=$this->getUri("notify_ajx&rv=1");
                     $d->Content=<<<EOF
 (function(){ ns_igk.ajx.post('${uri}',null, ns_igk.ajx.fn.prepend_to_body); })();

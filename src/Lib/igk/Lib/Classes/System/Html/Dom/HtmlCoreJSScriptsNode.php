@@ -206,25 +206,29 @@ class HtmlCoreJSScriptsNode extends HtmlNode
             };
         }
 
+        $regex = "/\.(js|json|xml|svg|shader|txt)$/";
 
         while ($q = array_shift($tab)) {
             $dir = $q;
-            $cache_path = !$production ?
-                IGKCaches::js_filesystem()->getCacheFilePath($rq.$name.$dir):
-                null;
-
-            if ( $cache_path && file_exists($cache_path)) {
-                ob_start();
-                include($cache_path);
-                $out .= ob_get_contents();
-                ob_end_clean();
-            } 
+            if ($cache_path = !$production ?  IGKCaches::js_filesystem()->getCacheFilePath($rq.$name.$dir): null){
+                if ( file_exists($cache_path)) {
+                    ob_start();
+                    include($cache_path);
+                    $out .= ob_get_contents();
+                    ob_end_clean();
+                } else {
+                    $s = "";
+                    IO::GetFiles($dir, $regex , true, $exclude_dir, $resolverfc);
+                    IO::WriteToFile($cache_path, $s);                 
+                    $out .= $s;
+                }
+            }
             else {
                 $s = "";
-                IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir, $resolverfc);
-                IO::WriteToFile($production_file, $s);
+                IO::GetFiles($dir, $regex, true, $exclude_dir, $resolverfc);
+                IO::WriteToFile($production_file, $s);                 
                 $out .= $s;
-            }
+            } 
         }
         if ($production && !empty($out)){
             $pif = [

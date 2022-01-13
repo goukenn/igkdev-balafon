@@ -10,8 +10,8 @@ igk_js_bind_script_folder(dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 	}
 	public function View(){
 		$t = $this->TargetNode;

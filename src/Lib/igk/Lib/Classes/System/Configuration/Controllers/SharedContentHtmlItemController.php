@@ -41,8 +41,8 @@ final class SharedContentHtmlItemController extends BaseController{
         return IGK_SHARED_CONTENT_CTRL;
     }
     ///<summary></summary>
-    protected function InitComplete(){
-        parent::InitComplete();
+    protected function initComplete(){
+        parent::initComplete();
     }
     ///<summary></summary>
     protected function initTargetNode(){

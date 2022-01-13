@@ -220,13 +220,15 @@ class RequestHandler
      */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
+        igk_environment()->write_debug("Redirect start : ".igk_sys_request_time());
+
         if (defined('IGK_REDIRECTION')) {
             die("already call redirection");
         }
         define("IGK_REDIRECTION", 1);
 
         IGKApp::StartEngine($application, 0);
-
+        igk_environment()->write_debug("Redirect engine start : ".igk_sys_request_time());
         $defctrl = igk_get_defaultwebpagectrl();
 
         $server_info = (object)array();
@@ -347,7 +349,7 @@ class RequestHandler
                 } else {
                     HtmlDefaultMainPage::getInstance()->setIsVisible(false);
                     $doc = igk_get_document("RedirectError"); 
-                    $h = igk_createnode("div");
+                    $h = igk_create_node("div");
                     $h->div()->container()->panel()->h1()->Content = __("Page not found");
                     $doc->body->clearChilds()->div()->add($h);
                     $doc->title = __("ERROR");

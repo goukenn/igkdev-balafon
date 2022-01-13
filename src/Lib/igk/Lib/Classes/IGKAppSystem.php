@@ -11,37 +11,47 @@ class IGKAppSystem{
     public static function InitEnv(string $dirname){    
    
         if(!is_dir($dirname))
-            return -9;
-        $Rfile=$dirname."/".IGK_RES_FOLDER."/R.class.php";
+            return -9; 
         if(!defined("IGK_APP_DIR"))
             define("IGK_APP_DIR", $dirname);
         if(defined("IGK_INIT") && IGK_INIT){
             return; 
         }
-      
         $path = Path::getInstance();
         $project_dir=igk_io_projectdir();
         $app_dir=igk_io_applicationdir();
         $confFILE = StringUtility::UriCombine($path->getDataDir(), "configure");
+    
         /// TODO: force init
     
         if(!(defined('IGK_INIT') && IGK_INIT) && file_exists($confFILE)){
             foreach([igk_io_cachedir(), igk_io_basedir()."/".IGK_RES_FOLDER] as $cdir){
                 !is_dir($cdir) && IO::Createdir($cdir);
             }
-            if(file_exists($Rfile))
-                include_once($Rfile);
+            // + | -----------------------------------------
+            // + | expected load lib cache for max 5ms
+            // + | 
+            \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
             if(!IGKSysCache::LoadCacheLibFiles()){
                 $t_files= self::_LoadEnvFiles(); 
                 igk_reglib($t_files);
                 IGKSysCache::CacheLibFiles(true); 
-            }             
-            !defined('IGK_INIT') && define('IGK_INIT', 1);
+                \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.100);
+            } else {
+                \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.050); 
+            }           
+            !defined('IGK_INIT') && define('IGK_INIT', 1);        
             return;
         }
+
+        // + | ------------------------------------------------------------------
+        // + | check if can open directory name 
         $hdir=null;
         if(!is_dir($dirname) || !($hdir=opendir($dirname)))
             return;
+        closedir($hdir);
+
+        return;
 
         igk_environment()->set(IGKEnvironment::INIT_APP, 1);       
         $access="deny from all";
@@ -110,7 +120,7 @@ class IGKAppSystem{
         }
         igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/index.php", igk_config_php_index_content(), false);
         igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/.htaccess", igk_getconfig_access(), false);
-        closedir($hdir);
+        
         umask($old);
         igk_raise_initenv_callback();
         igk_environment()->set(IGKEnvironment::INIT_APP, null); 

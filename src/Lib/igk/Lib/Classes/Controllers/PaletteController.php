@@ -51,15 +51,17 @@ final class PaletteController extends NonVisibleControllerBase {
     * 
     */
     public function getPalettes(){
+        if ($this->m_palettes === null){
+            $this->loadPalette();
+        }
         return $this->m_palettes;
     }
     ///<summary></summary>
     /**
     * 
     */
-    protected function InitComplete(){
-        parent::InitComplete();
-        $this->loadPalette();
+    protected function initComplete(){
+       parent::initComplete(); 
     }
     ///<summary></summary>
     ///<param name="fname"></param>
@@ -77,7 +79,7 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         else
             $v_t=array();
-        $e=igk_createnode("pal");
+        $e=igk_create_node("pal");
         try {
             $e->Load(IO::ReadAllText($fname));
             $e=igk_getv($e->getElementsByTagName("palette"), 0);
@@ -103,6 +105,7 @@ final class PaletteController extends NonVisibleControllerBase {
         if($dir && is_dir($dir)){
             $v_tfiles=IO::GetFiles($dir, "/\.gkpal$/i", false);
             foreach($v_tfiles as $f){
+                igk_wln_e("load file : ".$f);
                 $this->loadFile($f);
             }
         }

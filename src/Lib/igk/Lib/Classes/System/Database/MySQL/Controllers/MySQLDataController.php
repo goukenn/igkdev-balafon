@@ -24,7 +24,7 @@ class MySQLDataController extends BaseController{
         $d=igk_get_data_adapter($this);
         $node=null;
         if($d->connect()){
-            $node=igk_createnode("div");
+            $node=igk_create_node("div");
             $r=$d->sendQuery("SHOW TABLES");
             $table=igk_html_build_query_result_table($r);
             $node->add($table);
@@ -296,4 +296,5 @@ class MySQLDataController extends BaseController{
     public static function RestoreRelations($adapt, $dbname, $e){
         throw new \IGK\System\Exceptions\NotImplementException(__METHOD__); 
     }
+ 
 }

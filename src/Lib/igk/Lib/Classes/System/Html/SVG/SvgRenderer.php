@@ -86,7 +86,7 @@ class SvgRenderer{
         if ($list =  self::$RegisterPath){
             if (igk_environment()->is("DEV"))
                 echo "<!-- SVG LIST -->";
-            $n = igk_createnode("div");
+            $n = igk_create_node("div");
             $n["class"] = "igk-svg-lst";
             $n["style"] = "display:none";
             $n->host(function() use ($list){

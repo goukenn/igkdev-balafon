@@ -45,7 +45,7 @@ class MakeProjectCommand extends AppExecCommand{
             return false;
         }
         $dir = igk_io_projectdir()."/".$name;
-        Logger::info(__("Make project ... {0} ", igk_io_projectdir()."/".$name));
+        Logger::info(__("Make project ... {0}",  $name));
      
         // IO::RmDir($dir); 
         

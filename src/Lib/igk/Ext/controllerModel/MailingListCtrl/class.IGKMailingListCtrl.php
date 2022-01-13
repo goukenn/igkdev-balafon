@@ -1,8 +1,8 @@
 <?php
 abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 		igk_getctrl("IGKMailCtrl")->addMailSendEvent($this, "mailinglist_send_mail");
 
 	}

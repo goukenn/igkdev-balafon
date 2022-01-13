@@ -8,7 +8,7 @@ $CF = igk_ctrl_zone_init(__FILE__);
 ///{controls: for available control , btns
 function igk_html_node_videoControls($model='default', $options=null){
 	$CF = igk_ctrl_zone(__FILE__);
-	$n = igk_createnode("div");
+	$n = igk_create_node("div");
 	$f = igk_io_dir(dirname(__FILE__)."/.style.func");
 	if(!file_exists($f))
 		igk_die("style file not exists " , __FUNCTION__);

@@ -960,8 +960,13 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         
         if(igk_db_is_resource($this->m_resource)){
 			if ($v_qdebug){ 
-                igk_dev_wln($query);
+                // igk_dev_wln($query);
 				igk_push_env(IGK_ENV_QUERY_LIST, $query);
+                // if ($query == "SELECT * FROM `tbigk_users` WHERE `clId`='4';"){
+                //     igk_trace();
+                //     igk_exit();
+                // }
+                igk_environment()->write_debug("<span>query &gt; </span>".$query);
 			}
             $this->setLastQuery($query);
             $t=igk_db_query($query, $this->m_resource);

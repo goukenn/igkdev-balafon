@@ -256,7 +256,7 @@ final class IGKHtmlScriptManager extends IGKObject {
                         "]]>",                
                     ]);
                     $c->renderAJX($option);
-                    $c=igk_createnode("script");
+                    $c=igk_create_node("script");
                     $c->Content = igk_js_minify(file_get_contents(__DIR__."/Inc/js/eval.js"));
                     $c->renderAJX($option);
                 }

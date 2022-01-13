@@ -23,7 +23,7 @@ class IGKGooglePackage{
     * 
     */
     public function Button(){
-        $n=igk_createnode("div");
+        $n=igk_create_node("div");
         $n["class"]="google-button";
         $n["curx"]="10px";
         $n["cury"]="10px";
@@ -40,6 +40,6 @@ class IGKGooglePackage{
         if(method_exists($this, $name)){
             return call_user_func_array([$this, $name], array_slice(func_get_args(), 1));
         }
-        return igk_createnode("div");
+        return igk_create_node("div");
     }
 }

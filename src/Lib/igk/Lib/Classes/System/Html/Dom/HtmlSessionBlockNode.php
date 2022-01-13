@@ -57,35 +57,35 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $cnf_=igk_getctrl(IGK_CONF_CTRL);
             $cnf_view=igk_is_conf_connected();
             $_owner=igk_getctrl(IGK_SESSION_CTRL);
-            $t = igk_createnode("div");
+            $t = igk_create_node("div");
             $t["class"]="debugzone igk-session-block google-Roboto";
             $t->setIndex(10000);
-            $d=igk_createnode("div");
+            $d=igk_create_node("div");
         
 
             $d->addSectionTitle(4)->Content=__("Debug Panel");
             $ul=$d->add("ul");
             $ul->setClass("debug-panel google-Roboto");
-            $v_btn_class="btn btn-default igk-btn igk-btn-default";
+            $v_btn_class="igk-btn igk-btn-default";
             if(!igk_get_env("sys://error")){
                 $ul["class"]="session btn-group action-group"; 
-                $ul->addLi()->add("a", array("href"=>$_owner->getUri("forceview")))->setClass($v_btn_class)->Content=__("ForceView");
-                $ul->addLi()->addAClearSAndReload()->clearClass()->setClass($v_btn_class)->Content=__("ClearSession");
+                $ul->addLi()->abtn($_owner->getUri("forceview"))->setClass($v_btn_class)->Content=__("ForceView");
+                $ul->addLi()->addAClearSAndReload()->setClass($v_btn_class)->Content=__("ClearSession");
                 if(igk_server_is_local() && ($sess_ctrl=igk_getctrl(IGK_SESSION_CTRL, false))){
-                    $ul->li()->a($sess_ctrl->getUri("clearAllSession"))->setClass($v_btn_class)->Content=__("Clear All Session");
+                    $ul->li()->abtn($sess_ctrl->getUri("clearAllSession"))->setClass($v_btn_class)->Content=__("Clear All Session");
                 }
             }
             if(igk_server_is_local()){
                 $ul->li()->a($cnf_->getUri("clearLogs"))->setClass($v_btn_class)->Content=__("Clear Logs");
             }
             if($cnf_view)
-                $ul->addLi()->add("a", array("href"=>$cnf_->getUri('logout')))->setClass($v_btn_class)->Content=__("Logout");
+                $ul->addLi()->abtn($cnf_->getUri('logout'))->setClass($v_btn_class)->Content=__("Logout");
             if(igk_app()->getCurrentPageFolder() != "Configs"){
-                $ul->addLi()->add("a", array("href"=>new IGKHtmlRelativeUriValueAttribute("/Configs")))->setClass($v_btn_class)->Content=__("Configure");
+                $ul->addLi()->abtn(new IGKHtmlRelativeUriValueAttribute("/Configs"))->setClass($v_btn_class)->Content=__("Configure");
             }
-            $ul->addLi()->add("a", array("href"=>new IGKHtmlRelativeUriValueAttribute(IGK_BASE_DIR."/")))->setClass($v_btn_class)->Content=__("Homepage");
+            $ul->addLi()->abtn(new IGKHtmlRelativeUriValueAttribute(IGK_BASE_DIR."/"))->setClass($v_btn_class)->Content=__("Homepage");
             if(IGKServer::IsLocal() || $cnf_view || !igk_sys_env_production()){
-                $ul->addLi()->add("a", array("href"=>igk_getctrl(IGK_SESSION_CTRL)->getUri("clearcache")))->setClass($v_btn_class)->Content=__("Clear Cache");
+                $ul->addLi()->abtn(igk_getctrl(IGK_SESSION_CTRL)->getUri("clearcache"))->setClass($v_btn_class)->Content=__("Clear Cache");
             }
             if($api_ctrl=igk_getctrl("api", false)){
                 $ul->addVisible("igk_is_conf_connected")->addLi()->addA($api_ctrl->getAppUri(""))->setClass($v_btn_class)->Content=__("API");

@@ -48,8 +48,8 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function __construct(){
 		parent::__construct();
 	}
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 	}
 	public function getCanAddChild(){
 		return false;

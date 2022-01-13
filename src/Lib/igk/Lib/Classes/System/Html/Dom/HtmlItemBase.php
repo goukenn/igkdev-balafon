@@ -3,6 +3,8 @@
 namespace IGK\System\Html\Dom;
 
 require_once IGK_LIB_CLASSES_DIR . "/IGKObject.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/DomNodeBase.php";
 
 use ArrayAccess;
 use Closure;
@@ -319,7 +321,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         static $closeTags;
         if ($closeTags === null){
-            $closeTags = explode("|", "a|html|body|ul|li|ol|pre|code|videos|audio|head|script|style|div|form|tr|td|th|table");
+            $closeTags = explode("|", "a|html|body|ul|li|ol|pre|code|button|videos|audio|head|script|style|div|form|nav|tr|td|th|table");
         }
         return (strpos($this->tagname, ":")!==false) || in_array($this->tagname, $closeTags); 
     }
@@ -394,18 +396,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if(!$this->_setIn($key, $value)){
             $o=null;
             if(!$this->evalCallback("set".$key, $o, array("value"=>$value))){
-                $this->$key=$value;
-                // igk_trace();
-                // igk_wln_e("failed to set ". get_class($this), $key, $value);
+                if (method_exists($this, "setProperty")){
+                    return $this->setProperty($key, $value);
+                }
+                $this->$key=$value; 
             }
-        }
-        // if ($n ==="__callback"){
-        //     igk_wln_e("set callback");
-        // }
-        // if (method_exists($this, $fc = "set" . ucfirst($n))) {
-        //     return $this->$fc($v);
-        // }
-        // parent::__set($n, $v);
+        } 
     }
     /**
      * 
@@ -858,7 +854,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         if (!empty($name)) {
             if (strpos($name, 'igk:') === 0) {
-                $f = igk_createnode(substr($name, 4), null, $param);
+                $f = igk_create_node(substr($name, 4), null, $param);
                 if ($f)
                     return $f;
             }
@@ -977,6 +973,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     * @param mixed $context context of the loading. mixed string or object
     */
     public static function LoadInContext($t, $content, $context=null, callable $creator=null){
+        if ($creator===null){
+            $creator = function()use($t){
+                return $t::CreateElement(...func_get_args());
+            };
+        }
         $d= HtmlReader::Load($content, $context, $creator);
         if($d){
             $d->CopyTo($t);
@@ -991,13 +992,22 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function loadFile($file, $options=null, $args=null){
         if(!file_exists($file))
             return false;
-        $options=igk_create_filterobject((object)$options, ["stripComment"=>0]);
+        $op = null;
+        if (is_string($options)){
+            $op = ["Context"=>$options];
+        }else {
+            $op = (object)$options;
+        }
+        $options=igk_create_filterobject( $op, ["stripComment"=>0]);
         $content=IO::ReadAllText($file);
         if($options->stripComment){
             $content=igk_html_strip_comment($content);
         }
         if(is_array($args))
             $args=(object)$args; 
+        else {
+            $args = $options; 
+        }
         return $this->load($content, $args);        
     }
     

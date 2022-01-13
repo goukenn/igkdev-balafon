@@ -208,7 +208,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         if ($app->Configs->informAccessConnection) {
             $to = $app->Configs->website_adminmail;
             if ($to) {
-                $message = igk_createnode("div");
+                $message = igk_create_node("div");
                 $message->article($ctrl, "mail.notify.template", (object)array(
                     "clDate" => igk_mysql_datetime_now(),
                     "clDomain" => $app->Configs->website_domain
@@ -245,7 +245,7 @@ final class ConfigureController extends BaseController implements IConfigControl
 
 
         $txt = IO::ReadAllText($f);
-        $dummy = igk_createnode("dummy");
+        $dummy = igk_create_node("dummy");
         $dummy->Load($txt);
         $b = igk_getv($dummy->getElementsByTagName("configmenu"), 0);
         $v_subdiv = $c->addDiv();
@@ -353,7 +353,7 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     public function checkForUpdate()
     {
-        $r = igk_createnode("response");
+        $r = igk_create_node("response");
         $v = igk_getr("v", '0.0.0.0');
         $buri = IGK_WEB_SITE;
         $uri = $buri . "/api/v2/sysversion";
@@ -529,7 +529,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         $u = IGK_WEB_SITE . "/balafon/download/0";
         $f = igk_get_web_content($u);
-        $rep = igk_createnode("response");
+        $rep = igk_create_node("response");
         if (!empty($f)) {
             $dir = igk_io_dir(IGK_LIB_DIR . "/tmp");
             igk_io_createdir($dir);
@@ -858,7 +858,7 @@ EOF;
     {
         static $configMenu;
         if ($configMenu === null) {
-            $configMenu = igk_createnode("div");
+            $configMenu = igk_create_node("div");
             $configMenu->setId("igk-cnf-menu");
             $configMenu["class"] = "igk-cnf-menu";
         }
@@ -872,7 +872,7 @@ EOF;
     {
         static $confNode;
         if ($confNode === null) {
-            $confNode = igk_createnode("div");
+            $confNode = igk_create_node("div");
             $confNode->setId("igk-cnf-content")->setClass("igk-cnf-content");
         }
         return $confNode; 
@@ -1057,9 +1057,9 @@ EOF;
     ///register config controlleur
     /**
      */
-    protected function InitComplete()
+    protected function initComplete()
     {
-        parent::InitComplete();
+        parent::initComplete();
         OwnViewCtrl::RegViewCtrl($this); 
     }
     ///<summary></summary>
@@ -1301,8 +1301,8 @@ EOF;
         protected function initTargetNode()
         {
             $this->setParam(IGK_KEY_CSS_NOCLEAR, 1);
-            $node = igk_createnode("div")->setAttribute("class", "igk-cnf-page fit igk-parentscroll igk-powered-viewer overflow-y-a");
-            $v_cnf = igk_createnode("div")->setAttributes(array("class" => "igk-cnf-frame"));
+            $node = igk_create_node("div")->setAttribute("class", "igk-cnf-page fit igk-parentscroll igk-powered-viewer overflow-y-a");
+            $v_cnf = igk_create_node("div")->setAttributes(array("class" => "igk-cnf-frame"));
             $v_cnf->add($this->getConfigMenuNode());
             $v_cnf->add($this->getConfigNode());
             $this->setConfigFrame($v_cnf);
@@ -1383,7 +1383,7 @@ EOF;
             */
         public function preview_result_ajx()
         {
-            $d = igk_createnode();
+            $d = igk_create_node();
             if ($uri = igk_server()->HTTP_REFERER) {
                 $s = igk_curl_post_uri($uri);
                 if ($s) {
@@ -1551,7 +1551,7 @@ EOF;
             $p = $this->getConfigView(); 
             $cnf_n = $this->getConfigNode();
             if ($cnf_n === null) {
-                $cnf_n = igk_createnode("div");
+                $cnf_n = igk_create_node("div");
                 $this->ConfigNode = $cnf_n;
             }
             $cnf_n->clearChilds(); 

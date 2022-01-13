@@ -5,6 +5,10 @@ use IGK\System\IO\FileSystem;
 use IGK\Helper\IO;
 use IGK\System\Http\WebFileResponse;
 
+require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
+
 /**
  * cache object 
  * @method static FileSystem view() view file system

@@ -1,10 +1,11 @@
 <?php
 
+use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Html\HtmlRenderer;
 
 
-require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
+require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php"; 
 
 class IGKWebApplication extends IGKApplicationBase
 {
@@ -29,24 +30,25 @@ class IGKWebApplication extends IGKApplicationBase
         // handle cache
         IGKEnvironment::getInstance()->is("OPS") && $render && IGKCaches::HandleCache();
 
+        igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/IHtmlGetValue.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKObject.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKAttribute.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKSystemUriActionPatternInfo.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKEvents.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKAppSystem.php');
+        
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/IO.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/IO/FileWriter.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Database/DataAdapterBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Database/SQLDataAdapter.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/RootControllerBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/BaseController.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/IConfigController.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/System/Configuration/Controllers/ConfigControllerBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Database/DbQueryDriver.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/ControllerTypeBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Controllers/NonAtomicTypeBase.php');
-        // dom libraty loader
+        // dom libray loader
+        require_once(IGK_LIB_CLASSES_DIR . '/System/Html/HtmlAttributeValue.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlItemBase.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlScriptNode.php');
@@ -184,8 +186,17 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlNoTagNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/SVG/SvgListIconNode.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/SVG/SvgRenderer.php');
-        try {
+        require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
+        require_once IGK_LIB_CLASSES_DIR . "/System/Http/Route.php";
+        require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/ConfigControllerBase.php"; 
+        require_once IGK_LIB_CLASSES_DIR . "/Controllers/ApplicationModuleController.php"; 
+        //
+        // exposed
+        //
+        require_once(IGK_LIB_CLASSES_DIR . '/IGKHtmlRelativeUriValueAttribute.php');
 
+        try {
+            igk_environment()->write_debug("before request handle : ".igk_sys_request_time());
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
             // | ----------------------------------------------------
             // | backup index file 
@@ -347,6 +358,8 @@ class IGKWebApplication extends IGKApplicationBase
     }
     public function bootstrap()
     {
+
+        Benchmark::$Enabled = igk_environment()->is("DEV");
         // bootstrap web application
         // + initialize library
         $this->library("session");

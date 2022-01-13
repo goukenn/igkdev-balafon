@@ -170,13 +170,7 @@ final class IGKControllerManagerObject extends IGKObject {
             return $this->renderController($s, $tab, $fname, $fsize, $x, $y, $cl);
         }
         return $rc;
-    }
-    ///generate
-    /**
-    */
-    private function _initController($ctrl){
-        $this->registerController($ctrl, true);
-    } 
+    }     
      
     ///<summary></summary>
     ///<param name="ctrl"></param>
@@ -194,14 +188,15 @@ final class IGKControllerManagerObject extends IGKObject {
         $this->$n=$ctrl;
         $this->m_classReg[get_class($ctrl)] = $ctrl;
         if(!self::IsSystemController($ctrl)){
+            //regname try to get it from config --- 
             $s=$regname ?? $ctrl->getConfigs()->clRegisterName;
-            if(!empty($s)){
-                $rg=$this->getRegisters();
-                if(isset($this->Registers->$s) && ($this->Registers->$s != null))
-                    igk_die("you already register a controller with the name {$s} - please check configuration");
-                $this->m_register->$s=$ctrl;
-                return 1;
-            }
+        //     if(!empty($s)){
+        //         $rg=$this->getRegisters();
+        //         if(isset($this->Registers->$s) && ($this->Registers->$s != null))
+        //             igk_die("you already register a controller with the name {$s} - please check configuration");
+        //         $this->m_register->$s=$ctrl;
+        //         return 1;
+        //     }
         } 
         return 0;
     }
@@ -389,7 +384,7 @@ final class IGKControllerManagerObject extends IGKObject {
         if(self::$sm_instance === null){ 
 			self::$sm_instance = new self();
             igk_reg_hook(IGKEvents::HOOK_INIT_APP, function($e){                
-                self::$sm_instance->InitControllers($e->args[0]);
+                self::$sm_instance->InitControllers($e->args["app"]);
             }); 
         }  
         return self::$sm_instance;
@@ -453,7 +448,7 @@ final class IGKControllerManagerObject extends IGKObject {
             igk_wln_e(__METHOD__, "Int countroller twice : only allowed one.", 
                 igk_env_count_get(__METHOD__));
         }
-        $initialize_all = $app->getConfigs()->init_all_controller;
+        $initialize_all = 1 || $app->getConfigs()->init_all_controller;
 
         $_init_callback=function() {
             // + | hook global controller init complete
@@ -481,7 +476,7 @@ final class IGKControllerManagerObject extends IGKObject {
                 // igk_ilog("load controller from cache: ".$fc);
                 $caches = include($fc);
                 $resolvCtrl = & self::GetResolvController();
-                // igk_wln_e("load from cache", $caches, $resolvCtrl);
+                // igk_wln("load from cache", compact("caches", "initialize_all"));
                 foreach($caches as $m){
                     $d = explode("|", $m);
                     $cl = trim($d[0]);
@@ -491,9 +486,13 @@ final class IGKControllerManagerObject extends IGKObject {
                     $reg_name = trim($d[1]);
                     $reg_cname = trim($d[2]); 
                     $resolvCtrl[$reg_cname] = $cl;
-                    if (1 || $initialize_all){
+                    if ( $initialize_all){
+                        // igk_wln($cl.":".igk_sys_request_time());
+                        if (empty($regname)){
+                            $regname = str_replace("\\","." , $cl); 
+                        }
                         $v_ctrl = new $cl();
-                        $this->registerController($v_ctrl, true);   
+                        $this->registerController($v_ctrl, $reg_name, true);   
                     }
                 }                 
                 $sysload=true; 
@@ -771,7 +770,12 @@ final class IGKControllerManagerObject extends IGKObject {
     * raise init complete event
     */
     private function onInitComplete(){
+        //igk_start_time(__FUNCTION__);
+        \IGK\System\Diagnostics\Benchmark::mark("lib_controller_init_complete");
         ConfigControllerRegistry::InvokeRegisterComplete();
+        \IGK\System\Diagnostics\Benchmark::expect("lib_controller_init_complete", 0.02);
+        //igk_wln_e("init_complete:", igk_execute_time(__FUNCTION__) );
+
         if(defined('IGK_NO_WEB'))
             return; 
         if(!$this->m_initEvent){
@@ -791,8 +795,8 @@ final class IGKControllerManagerObject extends IGKObject {
     /**
      * register controller. register to init complete
      */
-    public function registerController($controller, $initComplete = true){
-        $this->_registerCtrl($controller);
+    public function registerController( BaseController $controller, $regname = null,  $initComplete = true){
+        $this->_registerCtrl($controller, $regname);
         $initComplete && ConfigControllerRegistry::RegisterInitComplete($controller);
     }
      

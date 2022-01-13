@@ -73,7 +73,7 @@ class WebResponse extends RequestResponse{
                 igk_exit();
             }
         } 
-        if ($zip){    
+        if ( $zip){    
             igk_zip_output($s);   
         } else {
             igk_set_header($this->code, $this->getStatus($this->code), $this->headers);

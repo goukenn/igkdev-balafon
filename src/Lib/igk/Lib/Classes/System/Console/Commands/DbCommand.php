@@ -16,8 +16,8 @@ abstract class DbCommand{
             if (property_exists($command->options, $k)){   
                 igk_app()->configs->$v = $command->options->{$k};
             }    
-        }  
-       
+        } 
+        // + | activate query debug if requested  
         if (property_exists($command->options, "--querydebug")){
             igk_environment()->querydebug = 1;
         }

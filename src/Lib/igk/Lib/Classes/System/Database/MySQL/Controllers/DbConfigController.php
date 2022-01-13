@@ -75,7 +75,7 @@ final class DbConfigController extends ConfigControllerBase
             if ($r && ($r->getRowCount() > 0)) {
                 $uri = igk_register_temp_uri(__CLASS__) . "/page/";
                 $selected = 1;
-                $dv = igk_createnode("div");
+                $dv = igk_create_node("div");
                 $dv->addDiv()->Content = $q;
                 $dv->div()
                     ->setStyle("min-height:80px; line-height:1")
@@ -101,7 +101,7 @@ final class DbConfigController extends ConfigControllerBase
             if ($g && ($g->RowCount > 0)) {
                 $uri = igk_register_temp_uri(__CLASS__) . "/page/";
                 $selected = $view;
-                $dv = igk_createnode("div");
+                $dv = igk_create_node("div");
                 $dv->addDiv()->Content = $q;
                 $dv->addDiv()->setClass("igk-table-host overflow-x-a fitw bdr-1")
                     ->addDbResult($g, $uri, $selected, 5);
@@ -1070,7 +1070,7 @@ final class DbConfigController extends ConfigControllerBase
             // $frame->Form->Div->Content=__(IGK_MSG_RESTOREBACKUPFILE_QUESTION, $v_f);
             // $frame->Form->addInput("file", "hidden", $v_f);
 
-            $form = igk_createnode("form");
+            $form = igk_create_node("form");
             $form["action"] = $this->getUri("db_dbRestore");
             $form->div()->setStyle("max-width: 200px")->Content = __(IGK_MSG_RESTOREBACKUPFILE_QUESTION, $v_f);
             $form->addInput("file", "hidden", $v_f);
@@ -1092,7 +1092,7 @@ final class DbConfigController extends ConfigControllerBase
             igk_ajx_replace_ctrl_view($this);
             igk_exit();
         }
-        $b = igk_createnode();
+        $b = igk_create_node();
         $frm = $b->addForm();
         $frm["action"] = $this->getUri(__FUNCTION__);
         $frm["igk-ajx-form"] = 1;
@@ -1361,7 +1361,7 @@ final class DbConfigController extends ConfigControllerBase
     {
         $this->setParam("update:n", $n);
         $this->setParam("update:s", $s);
-        $frm = igk_createnode("form");
+        $frm = igk_create_node("form");
         $frm["action"] = $this->getUri("db_update_entry");
         $frm["class"] = ["db-update-entry-form"];
         $frm->setStyle("min-width: 360px");
@@ -1473,10 +1473,10 @@ final class DbConfigController extends ConfigControllerBase
             $this->pinitSDb(true);
             $this->View();
             igk_ajx_replace_node($this->ConfigNode);
-            igk_createnode("Toast")->setContent("Operation Complete")->renderAJX();
+            igk_create_node("Toast")->setContent("Operation Complete")->renderAJX();
             igk_exit();
         } else {
-            $frm = igk_createnode("form");
+            $frm = igk_create_node("form");
             $frm->div()->p()->Content = __("q.reloadsystables");
             $frm->actionbar(HtmlUtils::ConfirmAction());
             igk_ajx_panel_dialog(__("Confirm"), $frm);
@@ -1630,7 +1630,7 @@ final class DbConfigController extends ConfigControllerBase
      */
     public function demandToShowDataBase_ajx()
     {
-        $c = igk_createnode("div");
+        $c = igk_create_node("div");
         $c["class"] = "igk-dbview";
         $this->_showSelectedDbTables($c, "Database");
         $c->renderAJX();
@@ -1929,9 +1929,9 @@ final class DbConfigController extends ConfigControllerBase
     /**
      * init controller complete
      */
-    protected function InitComplete()
+    protected function initComplete()
     {
-        parent::InitComplete();
+        parent::initComplete();
         // $this->_loadDbFromCache(); 
     }
 
@@ -2217,7 +2217,7 @@ final class DbConfigController extends ConfigControllerBase
             $p = igk_getr("v", null);
             if (empty($p))
                 return;
-            $t = igk_createnode("div");
+            $t = igk_create_node("div");
             $f = "_view_conf_{$p}";
             if (method_exists($this, $f)) {
                 $this->setFlag('tabview', $p);
@@ -2264,7 +2264,7 @@ final class DbConfigController extends ConfigControllerBase
     public function viewtable()
     {
         $selected = igk_getr("v") ?? 1;
-        $n = igk_createnode("div");
+        $n = igk_create_node("div");
         $this->_showSelectedDbTables($n, null, $selected);
         $n->renderAJX();
         igk_exit();

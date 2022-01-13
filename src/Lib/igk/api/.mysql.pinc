@@ -230,7 +230,7 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
     $tdb =  igk_api_mysql_get_data_schema($api, false, (object)array("check"=>1));
 
 
-    $rep=igk_createnode("data_response");
+    $rep=igk_create_node("data_response");
     $err=$rep->add("error-message");
     $err->setCallback("getIsVisible", "return \$this->ChildCount>0;");
     $notused=$rep->add("TableNotUsed")->setCallback("getIsVisible", "return \$this->ChildCount>0;");
@@ -578,7 +578,7 @@ function igk_api_mysql_init_db($api, $exit=1){
         }
     }
     else{
-        igk_createnode("response")->setContent("You must be logged as administrator")->RenderXml();
+        igk_create_node("response")->setContent("You must be logged as administrator")->RenderXml();
     }
     if ($exit)
     igk_exit();
@@ -685,7 +685,7 @@ function igk_api_mysql_who_use($api, $tablename=null){
     }
     $c=igk_db_get_datatableowner($tablename);
     if($c){
-        $n=igk_createnode("response");
+        $n=igk_create_node("response");
         $n->addNode("info")->setContent("".$c);
         $n->addNode("class")->Content=get_class($c);
         if(igk_server_is_local()){

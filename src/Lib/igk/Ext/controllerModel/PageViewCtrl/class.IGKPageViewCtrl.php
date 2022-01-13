@@ -7,8 +7,8 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getName(){return get_class($this);}
 	public function getViewZone(){return $this->m_viewZone;}
 
-	protected function InitComplete(){
-		parent::InitComplete();
+	protected function initComplete(){
+		parent::initComplete();
 		//please enter your controller declaration complete here
 
 	}

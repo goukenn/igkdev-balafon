@@ -16,6 +16,10 @@ use IGKSystemController;
 use IGKSysUtil;
 use ReflectionClass;
 
+
+require_once __DIR__ . "/ModelEntryExtension.php";
+
+
 /**
  * model base
  * @package IGK\Models
@@ -400,9 +404,16 @@ abstract class ModelBase implements ArrayAccess
             }
             return $fc(...$arguments);
         }
-        if ($fc = igk_getv(self::$macros, igk_ns_name(static::class . "/" . $name))) {
-            $fc = $fc->bindTo($_instance_class);
-            return $fc(...$arguments);
+        if ($tfc = igk_getv(self::$macros, igk_ns_name(static::class . "/" . $name))) {
+            // + | ----------------------------------------
+            // + | bind to instance or call it as extension 
+            
+            if ($fc = @$tfc->bindTo($_instance_class)){
+                return $fc(...$arguments);
+            }else {
+                array_unshift($arguments, $_instance_class);
+                return $tfc(...$arguments);
+            }
         }
         if (static::class === __CLASS__) {
             return;

@@ -8,6 +8,7 @@ use IGK\Helper\IO;
 use IGK\Models\Crons;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommand;
+use IGK\System\Diagnostics\Benchmark;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\Process\CronJobProcess;
 use IGKApp;
@@ -44,7 +45,7 @@ class BalafonApplication extends IGKApplicationBase
         defined('IGK_FRAMEWORK_ATOMIC') || define('IGK_FRAMEWORK_ATOMIC', 1);
         $_SERVER["SERVER_NAME"] = "BalafonCLI";
         igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"];
-        
+         
         try{
         if (file_exists($configFile = $bdir . "/balafon.config.xml")) {
             $c = igk_conf_load_file($configFile, "balafon");
@@ -212,7 +213,7 @@ class BalafonApplication extends IGKApplicationBase
                                 $inf .= "::" . $class;
  
 
-                            Logger::print("seed..." . $inf . " " . igk_environment()->querydebug);
+                            Logger::print("seed... " . $inf . " query debug: " . igk_environment()->querydebug);
                             $c::seed($class);
                             Logger::success("seed complete");
                             return 1;

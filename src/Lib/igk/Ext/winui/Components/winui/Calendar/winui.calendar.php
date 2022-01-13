@@ -7,7 +7,7 @@
 
 ///<summary>represent the calendar item</summary>
 function igk_html_node_Calendar(){
-	$d = igk_createnode("div");
+	$d = igk_create_node("div");
 	$d["class"] = "igk-winui-calendar";
 	return $d;
 }

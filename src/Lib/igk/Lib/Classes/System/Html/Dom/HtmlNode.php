@@ -6,6 +6,16 @@ use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
 use IGK\System\Html\HtmlStyleValueAttribute;
 
+/**
+ * 
+ * @package IGK\System\Html\Dom
+ * @method HtmlNode div() add div
+ * @method HtmlNode container() add a div container
+ * @method HtmlFormNode form() add a div form
+ * @method HtmlFormNode table() add a div form
+ * @method HtmlNode br() add brea node
+ * @method HtmlNode p() add brea node 
+ */
 class HtmlNode extends HtmlItemBase{
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
     ///<summary></summary>
@@ -42,10 +52,13 @@ class HtmlNode extends HtmlItemBase{
         $this["class"] = $value;
         return $this;
     }
+    /**
+     * clear class
+     * @return $this 
+     */
     public function clearClass(){
        
-        $this["class"] = null;
-         
+        $this["class"] = null;         
         return $this;
     }
 
@@ -68,6 +81,17 @@ class HtmlNode extends HtmlItemBase{
         $this["style"]=igk_css_treatstyle($value);
         return $this;
     }
+    public function __call($n, $arguments){
+        if (in_array(strtolower($n), ["address"])){
+            if ($this->getCanAddChilds()){
+                $tab=array(strtolower($n), null, $arguments);
+                return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
+            } 
+        }
+        return parent::__call($n,$arguments);
+    }
+    /*
+    address have a special meaning
     public function address(){
         if ($this->getCanAddChilds()){
             $c = new HtmlNode("address");
@@ -75,6 +99,8 @@ class HtmlNode extends HtmlItemBase{
             return $c;
         }
     }
+    */
+
      ///<summary></summary>
     /**
      * 
@@ -109,6 +135,7 @@ class HtmlNode extends HtmlItemBase{
         parent::__construct();
         if ($tagname !==null)
             $this->tagname = $tagname;
+        
     }
     ///<summary></summary>
     ///<param name="key"></param>
@@ -148,20 +175,41 @@ class HtmlNode extends HtmlItemBase{
         }
         return $this;
     }
+
+    public function setProperty($name, $value){
+        $n = igk_getv($this, $name);
+        $this->$name = $value;
+        if ($n!= $value){  
+            // + | ------------------------------------------
+            // + | dom property changed
+            // + | 
+            igk_hook(\IGKEvents::HOOK_DOM_PROPERTY_CHANGED, [
+                "node"=>$this, 
+                "name"=>$name, 
+                "new"=>$value, 
+                "old"=>$n]); 
+        }
+        return $this;
+    }
+    public function __set($n, $v){
+        parent::__set($n, $v);
+    }
+
     protected function _access_OffsetSet($k, $v){
         if ($v===null){
             unset($this->m_attributes[$k]);            
         }else{    
             switch($k){
                 case "class":                    
-                    if ($v == null){
+                    if ($v === null){
                         unset($this->m_attributes[$k]);
                     }else {
                         if (!($cl = igk_getv($this->m_attributes, $k))){
                             $cl = new HtmlCssClassValueAttribute();
-                            $this->m_attributes[$k] = $cl;                    }
+                            $this->m_attributes[$k] = $cl;                   
                         }
                         $cl->add($v);
+                    }
                     break;
                 case "style":
                     if (!($cl = igk_getv($this->m_attributes, $k))){

@@ -149,8 +149,8 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     /**
     * 
     */
-    protected function InitComplete(){
-        parent::InitComplete();
+    protected function initComplete(){
+        parent::initComplete();
         igk_hook(IGK_NODE_DISPOSED_EVENT, array($this, "nodeDisposed"));
     }
     ///<summary>invoke</summary>

@@ -6,6 +6,8 @@ use ArrayAccess;
 use IGK\System\Collections\ArrayList;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
+require_once IGK_LIB_CLASSES_DIR ."/System/Html/HtmlActiveAttrib.php";
+
 class HtmlAttributeArray extends ArrayList implements ArrayAccess{
     use ArrayAccessSelfTrait; 
     // protected $preserverKeys = true;

@@ -162,7 +162,7 @@ function igk_html_apptitle($ctrl, $title){
 * @param mixed $headercallback the default value is null
 */
 function igk_html_array_table($tab, $headercallback=null){
-    $n=igk_createnode("table");
+    $n=igk_create_node("table");
     if($headercallback)
         $headercallback($n->add("tr"));
     foreach($tab as $k=>$v){
@@ -273,7 +273,7 @@ function igk_html_build_form_array_entry($name, $type, $n, $value=null){
 function igk_html_build_menu($target, $menuTab, $user=null, $ctrl=null, $default="li", $sub="ul"){
     $render=0;
     if($target == null){
-        $target=igk_createnode($sub);
+        $target=igk_create_node($sub);
         $render=1;
     }
     igk_html_load_menu_array($target, $menuTab, $default, $sub, $user, $ctrl);
@@ -675,7 +675,7 @@ function igk_html_domaintitle($title){
 * @param mixed $obj
 */
 function igk_html_dump($obj){
-    $t=igk_createnode("div");
+    $t=igk_create_node("div");
     $t->div()->Content="Object: ";
     $tq=array(array($obj, $t));
     while($q=array_pop($tq)){
@@ -992,7 +992,7 @@ function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){
 * 
 */
 function igk_html_form_init(){
-    $o=igk_createnode("input");
+    $o=igk_create_node("input");
     $o["name"]="confirm";
     $o["value"]=1;
     $o["type"]="hidden";
@@ -1006,7 +1006,7 @@ function igk_html_form_init(){
  * @throws IGKException 
  */
 function igk_html_form_cref(){
-    $o=igk_createnode("input");
+    $o=igk_create_node("input");
     $o["name"]=base64_encode(igk_app()->getSession()->getCRef());
     $o["value"]=1;
     $o["type"]="hidden";
@@ -1031,7 +1031,7 @@ function igk_html_form_initfield($frm){
 */
 function igk_html_js_lang($ns, $e){
     $data=json_encode((object)$e);
-    $s=igk_createnode("script");
+    $s=igk_create_node("script");
     $s->Content=<<<EFO
 (function(){
 	if (typeof(igk)!='undefined'){
@@ -1280,7 +1280,7 @@ function igk_html_server_info(){
 * render directly to content
 */
 function igk_html_submit_button($value="submit", $id="submit"){
-    $n=igk_createnode("input");
+    $n=igk_create_node("input");
     $n["value"]=$value;
     $n["type"]="submit";
     $n["class"]="igk-btn igk-btn-default";
@@ -1305,7 +1305,7 @@ function igk_html_subtitle($title){
 * @param mixed $value the default value is null
 */
 function igk_html_textarea($id, $value=null){
-    $g=igk_createnode("textarea");
+    $g=igk_create_node("textarea");
     $g->setId($id);
     $g->Content=$value;
     $g->renderAJX();
@@ -1334,7 +1334,7 @@ function igk_html_title($t, $s, $level=2){
 * @param mixed $type the default value is "igk-default"
 */
 function igk_html_toast($doc, $message, $type="igk-default"){
-    $t=igk_createnode("singlenodeviewer", null, array(IGK_HTML_NOTAG_ELEMENT));
+    $t=igk_create_node("singlenodeviewer", null, array(IGK_HTML_NOTAG_ELEMENT));
     $n=$t->targetNode->addToast();
     $n["class"]="{$type}";
     $n->Content=$message;
@@ -1362,7 +1362,7 @@ function igk_html_utils_buildformfield($formfields, $render=1){
 * @param mixed $type the default value is "html"
 */
 function igk_html_view_node($tag, $callback, $type="html"){
-    if($t=igk_createnode($tag)){
+    if($t=igk_create_node($tag)){
         $callback($t);
         if($type == "html"){
             $t->renderAJX();
@@ -1381,7 +1381,7 @@ function igk_html_wdump(){
 }
 ///<summary>dump a table</summary>
 function igk_html_dump_table($tab){
-	$td = igk_createnode("table");
+	$td = igk_create_node("table");
 	$td["class"] = "igk-dump-table";
 	foreach($tab as $k=>$v){
 		$td->add("tr")

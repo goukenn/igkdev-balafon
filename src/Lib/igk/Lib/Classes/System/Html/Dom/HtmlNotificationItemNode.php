@@ -30,7 +30,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     public function __construct($owner, $name){
         parent::__construct("div");
         $this->m_autohided=true;
-        $this->m_script=igk_createnode("script");
+        $this->m_script=igk_create_node("script");
         $this->m_script->Content="\$ns_igk.winui.notifyctrl.init(\$ns_igk.getParentScript());";
         $this->m_owner=$owner;
         $this["class"]="igk-notify-ctrl";

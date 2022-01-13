@@ -101,7 +101,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		if (!igk_is_ajx_demand())
 			igk_navto(igk_io_baseUri());
 
-		$dv = igk_createnode();
+		$dv = igk_create_node();
 		$frm = $dv->addForm();
 
 		//$frame->Title = R::ngets("title.addCommunity");

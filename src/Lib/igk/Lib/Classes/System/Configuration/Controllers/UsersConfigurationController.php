@@ -261,9 +261,9 @@ class UsersConfigurationController extends ConfigControllerBase {
         return null;
     }
    
-    protected function InitComplete()
+    protected function initComplete()
     {
-        parent::InitComplete();
+        parent::initComplete();
         if (igk_environment()->app_type != "balafon"){
             igk_reg_hook(IGK_HOOK_DB_TABLECREATED, function($e){
                 if (($e->args["1"] == Users::table())) {
@@ -373,13 +373,13 @@ class UsersConfigurationController extends ConfigControllerBase {
     public function lstgrp($id=null){
         $id=$id ?? igk_getr("id");
         if($id && ($user = Users::cacheRow($id))){
-            $n=igk_createnode("div")->addPanelBox();
+            $n=igk_create_node("div")->addPanelBox();
             $frm=$n->addAJXForm();
             $frm->setStyle("min-width: 320px");
             $group=igk_db_user_groups($id);
             if(igk_count($group) > 0){
                 $frm->addObData(function() use ($group, $id){
-                    $dv = igk_createnode("div")->setClass("group-list");
+                    $dv = igk_create_node("div")->setClass("group-list");
                     $table = $dv
                     ->tablehost()->table()->header("", __("name"),
                     "", "");
@@ -643,7 +643,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             return;
         }
         else{
-            $frm=igk_createnode("form");
+            $frm=igk_create_node("form");
             $frm["action"]=$this->getUri(__FUNCTION__);
             $frm["autocomplete"]="off";
             $ul=$frm->add("ul");
@@ -913,7 +913,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             SysUtils::exitOnAJX();
         }
 
-        $form = igk_createnode("form");
+        $form = igk_create_node("form");
         $form["action"] = $this->getUri(__FUNCTION__);
         $form["igk-ajx-form"] = 1;
         $form->setStyle("min-width: 360px;");

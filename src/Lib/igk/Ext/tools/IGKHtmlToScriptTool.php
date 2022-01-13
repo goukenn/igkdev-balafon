@@ -8,9 +8,9 @@ use IGK\XML\XMLNodeType;
 
 class IGKHtmlToScriptTool extends ToolControllerBase
 {
-	protected function InitComplete()
+	protected function initComplete()
 	{
-		parent::InitComplete();
+		parent::initComplete();
 	}
 	public function getImageUri(){
 		$uri = igk_html_resolv_img_uri(igk_io_baseDir("Lib/igk/Default/R/Img/pics_48x48/tool_c2script.jpeg"));

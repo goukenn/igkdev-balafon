@@ -104,12 +104,13 @@ abstract class ExceptionUtils
 
 	//+ igk-tracelist
 	(function(){
-		igk.ready(function(){
-			\$igk(".igk-tracelist").each_all(function(){
-				this.o.scrollTop = 0;
-			});
-
-	});
+        if (typeof (window.ns_igk) != 'undefined'){
+            ns_igk.ready(function(){
+                \$igk(".igk-tracelist").each_all(function(){
+                    this.o.scrollTop = 0;
+                });
+            });
+        }
 	})();
 
 })();

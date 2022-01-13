@@ -3,9 +3,9 @@
 abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 	public function getCanAddChild(){return false;}
-	protected function InitComplete()
+	protected function initComplete()
 	{
-		parent::InitComplete();
+		parent::initComplete();
 		igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 		$clname = ".".strtolower($this->Name);
 		igk_css_regclass($clname, "{sys:posab,loct,fitw} overflow:hidden; min-height:32px; line-height:32px; text-align:center; vertical-align:middle; z-index:100; background-color:white;");

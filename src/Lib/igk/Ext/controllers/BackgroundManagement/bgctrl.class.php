@@ -28,12 +28,6 @@
 		// }
 
 
-		// protected function InitComplete()
-		// {
-			// parent::InitComplete();
-			// igk_getctrl(IGK_CHANGE_MAN_CTRL)->addLoadConfigEvent($this, "SettingChanged");
-
-		// }
 		// public function SettingChanged($ctrl)
 		// {
 			// if ($ctrl->isChanged(self::PROP_CHANGED, $this->m_lastChanged))
@@ -43,8 +37,8 @@
 		// }
 		// protected function initTargetNode()
 		// {
-			// $this->m_configTargetNode =  igk_createnode("div")->setAttributes(array("class"=>strtolower($this->getName())));
-			// return igk_createnode("div");
+			// $this->m_configTargetNode =  igk_create_node("div")->setAttributes(array("class"=>strtolower($this->getName())));
+			// return igk_create_node("div");
 		// }
 
 		// public function getConfigPage()
@@ -106,7 +100,7 @@
 				// if (is_dir($s))
 				// {
 				// $tab = igk_io_getfiles($s);
-				// $node =  igk_createnode("images");
+				// $node =  igk_create_node("images");
 				// foreach($tab as $k){
 					// $node->add("image", array("src"=>igk_io_baseUri(igk_io_basePath($k))));
 				// }

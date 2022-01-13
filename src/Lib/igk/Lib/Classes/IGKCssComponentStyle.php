@@ -32,7 +32,7 @@ final class IGKCssComponentStyle extends IGKObject{
             $ct=igk_html_node_clonenode($this->m_loadedStyles[$file]);
             return $ct;
         }
-        $c=igk_createnode("style");
+        $c=igk_create_node("style");
         $c["type"]="text/css";
         $c->setCallback("AcceptRender", igk_create_expression_callback(<<<EOF
 

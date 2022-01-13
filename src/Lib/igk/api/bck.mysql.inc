@@ -75,7 +75,7 @@ function igk_api_mysql_init_db($api){
 		igk_getctrl(IGK_DB_CTRL)->initSDb(false, false);
 	}
 	else{
-		igk_createnode("response")->setContent("You must be logged as administrator")->RenderXml();
+		igk_create_node("response")->setContent("You must be logged as administrator")->RenderXml();
 	}		
 	igk_exit();
 }
@@ -402,7 +402,7 @@ function igk_api_mysql_who_use($api, $tablename=null){
 	}
 	$c = igk_db_getdatatable_owner($tablename);
 	if ($c){
-		$n = igk_createnode("response");
+		$n = igk_create_node("response");
 		$n->addNode("info")->setContent("".$c);
 		$n->addNode("class")->Content = get_class($c);
 		if (igk_server_is_local()){
@@ -426,7 +426,7 @@ function igk_api_mysql_check_data_structure($api){
 	// igk_wln("mysql >  data schema");
 	$tdb     = igk_api_mysql_get_data_schema($api, false, (object)array("check"=>1));
 	// igk_wln($tdb["tbigk_humans"]); 
-	$rep = igk_createnode("data_rep");
+	$rep = igk_create_node("data_rep");
 	$err = $rep->add("error-message");
 	$err->setCallback("getIsVisible", "return \$this->ChildCount>0;");	
 	

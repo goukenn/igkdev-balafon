@@ -43,7 +43,7 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     * 
     */
     public function component_info_ajx(){
-        $d=igk_createnode();
+        $d=igk_create_node();
         $c=igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->getComponents();
         $tab=$d->add("table");
         foreach($c as $k=>$v){

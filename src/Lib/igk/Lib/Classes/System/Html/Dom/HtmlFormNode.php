@@ -43,8 +43,8 @@ final class HtmlFormNode extends HtmlNode {
         $this->m_nofoot=$nofoot;
         $this["class"]="igk-form"; 
         $this->topdiv=new HtmlFormTitleNode();
-        $this->bodydiv=igk_createnode("div")->setAttributes(["class"=>'content']);
-        $this->footdiv=igk_createnode("div")->setAttributes(["class"=>"foot"]);
+        $this->bodydiv=igk_create_node("div")->setAttributes(["class"=>'content']);
+        $this->footdiv=igk_create_node("div")->setAttributes(["class"=>"foot"]);
         $this->m_definition=new HtmlFormInnerNode($this);
         $this->m_definition->Add($this->topdiv);
         $this->m_definition->Add($this->bodydiv);

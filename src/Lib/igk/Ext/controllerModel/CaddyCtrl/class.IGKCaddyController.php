@@ -80,9 +80,9 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return igk_io_getconf_file(dirname(__FILE__));
 	}
-	protected function InitComplete()
+	protected function initComplete()
 	{
-		parent::InitComplete();
+		parent::initComplete();
 
 		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id();
 	// 	igk_sys_uri_regpage("showcaddy");

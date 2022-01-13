@@ -36,6 +36,8 @@ class IGKEvents extends IGKObject
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
     const ENV_KEY = "sys://hooks";
 
+    const HOOK_DOM_PROPERTY_CHANGED = "dom_property_changed";
+
     
     const VIEWCOMPLETE = 0x1;
     private $m_methods;

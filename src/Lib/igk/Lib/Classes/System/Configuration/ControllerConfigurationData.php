@@ -4,15 +4,16 @@
 namespace IGK\System\Configuration;
 
 use ArrayAccess;
-use IGK\Controllers\RootControllerBase; 
-use IGK\System\Helper;
+use IGK\Controllers\RootControllerBase;  
+use IGK\System\Html\HtmlContext;
 use IGK\XML\XMLNodeType;
 use IGKEnvironment;
 use IGKObject;
 use function igk_resources_gets as __;
  
  
- 
+require_once IGK_LIB_CLASSES_DIR. "/System/Html/XML/XmlConfigurationNode.php";
+require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php";
 
 ///<summary>Controller configuration data</summary>
 /**
@@ -63,7 +64,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     * @param mixed $n
     */
     public function __get($n){
-        return igk_conf_get($this->m_configs, $n);
+        return $this->get($n, null);
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -83,12 +84,22 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     * @param mixed $v
     */
     public function __set($n, $v){
+        if (is_object($m = igk_conf_get($this->m_configs, $n)) && ($m instanceof SysConfigExpression)){
+            if (($v!==null) && is_string($v)){
+                if ($v != $m->expression){
+                    $m->expression = $v;
+                    $this->m_changed = 1;
+                    return;
+                }
+            }
+        }
         igk_conf_set($this->m_configs, $v, $n);
         $this->m_changed=1;
     }
-    ///<summary></summary>
+    ///<summary>get configuration file</summary>
     /**
-    * 
+     * get configuration file
+    * @return string 
     */
     public function getConfigFile(){
         return igk_io_dir($this->ctrl->getDataDir()."/".IGK_CTRL_CONF_FILE);
@@ -104,8 +115,10 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
         $def = null;
         if(file_exists($f)){
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
-            $div=igk_create_xmlnode("dummy-configs");         
-            $div->loadFile($f);
+            $div= new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
+            igk_debug(1);
+            $div->loadFile($f, HtmlContext::XML);
+            igk_debug(0);
             $d=igk_getv($div->getElementsByTagName("config"), 0);
             if($d){
                 foreach($d->Childs as $k){
@@ -121,7 +134,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
                         $t->{$k->TagName}=$v_ob;
                     }
                 }
-            }
+            } 
             // | ----------------------------------------------------------
             // | UPDATE the configuration file to match allowed environment
             // | ---------------------------------------------------------- 
@@ -132,7 +145,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
                     }
                     $t->$c = $p;
                 } 
-            }        
+            }  
         }
         if (!empty($fs = ltrim($this->ctrl->getName(), "."))){
             $fs = ".".$fs;
@@ -186,13 +199,19 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     */
     public function storeConfig(){         
         $this->m_changed = 0;  
-        $d = igk_createxml_config_data($this->m_configs);          
-        return igk_io_w2file($this->getConfigFile(), $d->render((object)[
+        $d = igk_createxml_config_data($this->m_configs);    
+        $data = $d->render((object)[
             "Context"=>"XML",
             "Indent"=>true
-        ]));
+        ]);
+        // igk_wln_e(__FILE__.":".__LINE__, $data);        
+        return igk_io_w2file($this->getConfigFile(), $data);
     }
     public function get($xpath, $default= null){
-        return igk_conf_get($this->m_configs, $xpath, $default);
+        $v = igk_conf_get($this->m_configs, $xpath, $default);
+        if (is_object($v) && ($v instanceof SysConfigExpression)){
+            return $v->__toString();
+        }
+        return $v;
     }
 }

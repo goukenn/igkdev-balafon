@@ -1,7 +1,9 @@
 <?php
 
 namespace IGK\Controllers;
+require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";
 
+use AppAdministrationController;
 use Exception;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
@@ -18,6 +20,8 @@ use IGKHtmlDoc;
 use IGKSession;
 use ReflectionClass;
 use ReflectionMethod;
+use stdClass;
+
 use function igk_resources_gets as __;
  
 ///<summary>base application controller</summary>
@@ -217,7 +221,7 @@ abstract class ApplicationController extends  PageControllerBase{
             $r=$this->loadDataAndNewEntriesFromSchemas();
             $tb=$r->Data;
             $etb=$r->Entries;
-            $ee=igk_createnode();
+            $ee=igk_create_node();
             $db=igk_get_data_adapter($this, true);
             if($db){
                 if($db->connect()){
@@ -412,7 +416,10 @@ EOF;
             // $m=igk_app()->session->getParam(__METHOD__);
             $m = igk_environment()->get(self::IGK_CTRL_APPS_KEY);
             if($m === null){
-                $m=(object)array('_'=>array());
+                // igk_wln("new std array");
+                $m= new \stdClass();
+                $m->_ = []; 
+                // $m = (object)array('_'=>array());
                 // igk_app()->session->setParam(self::IGK_CTRL_APPS_KEY, $m);
                 igk_environment()->set(self::IGK_CTRL_APPS_KEY, $m);
             }
@@ -433,7 +440,8 @@ EOF;
     * Basic uri pattern
     */
     public function getBasicUriPattern(){
-        return $this->getConfigs()->get( IGK_CTRL_CNF_BASEURIPATTERN);
+        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, IGK_CTRL_CNF_BASEURIPATTERN);
+        //  $this->getConfigs()->get( IGK_CTRL_CNF_BASEURIPATTERN );
     }
 
     ///<summary>return application uri</summary>
@@ -733,15 +741,18 @@ EOF;
     /**
     * 
     */
-    protected function InitComplete(){
-        parent::InitComplete();
-
-        $n = $this->getAppName();
+    protected function initComplete(){
+        parent::initComplete();
+         
+        $n = get_class($this);//  $this->getAppName();
+        if ($n == AppAdministrationController::class){
+            igk_debug(1);
+        }
         if ($n){ 
             $n=str_replace("\\", ".", $n);
             $c=self::GetApps();
             if(empty($n)){
-                $n=str_replace("\\", ".", $this->Name);
+                $n=str_replace("\\", ".", $this->getName());
             }  
             if(preg_match(IGK_IS_FQN_NS_REGEX, $n) && !isset($c->_[$n])){
                 $c->_[$n]=$this->getName();
@@ -1089,7 +1100,7 @@ EOF;
         if(($login == null) && ($this->User != null))
             $login=$this->User->clLogin;
         $c=igk_get_user_bylogin($login);
-        $d=igk_createnode("response");
+        $d=igk_create_node("response");
         if($c == null){
             $d->addXmlNode("error")->Content="LoginNotFound";
             $d->addXmlNode("msg")->Content="login . not present on our database";

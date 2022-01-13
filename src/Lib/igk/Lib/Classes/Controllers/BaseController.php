@@ -525,7 +525,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     public function getConfigs()
     {
         $key = IGK_ENV_CONFIG_ENTRIES; 
-        $cf = $this->getConfigFile();
+        $cf = $this->getConfigFile();        
         if (!($tab = igk_environment()->get($key))) {
             $tab = array();
         }
@@ -536,7 +536,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             igk_wln_e("configuration file is empty ", $cf, $this);
         }
         $c = new ControllerConfigurationData($this);
-        $c->initConfigSetting($this->_loadCtrlConfig());
+        if (file_exists($cf)){
+            $c->initConfigSetting($this->_loadCtrlConfig());
+        }
         $tab[$cf] = $c;
         igk_environment()->set($key,  $tab);
         return $c;
@@ -727,8 +729,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 return $r;
             }
             $tab = array();
-            $r = IGKFv::Create($classname, $tab);
-            //igk_app()->session->registerControllerParams($classname, $tab);
+            $r = IGKFv::Create($classname, $tab); 
         }
         return $r;
     }

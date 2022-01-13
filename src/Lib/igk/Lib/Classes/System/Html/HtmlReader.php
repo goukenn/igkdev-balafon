@@ -10,13 +10,12 @@
 namespace IGK\System\Html;
 
 require_once IGK_LIB_DIR . "/igk_html_utils.php";
+require_once IGK_LIB_CLASSES_DIR .'/System/Html/Dom/HtmlProcessInstructionNode.php';
 
-use Exception;
-use IGK\System\Html\Dom\IGKHtmlCommentNode;
+
+use Exception; 
 use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\Dom\HtmlTextNode;
-use IGK\System\Html\Dom\IGKHtmlDoctype;
-use IGK\System\Html\Dom\IGKHtmlProcessInstructionNode;
+use IGK\System\Html\Dom\HtmlTextNode; 
 use IGK\System\XML\XMLExpressionAttribute;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\Dom\HtmlCommentNode;
@@ -274,7 +273,10 @@ final class HtmlReader extends IGKObject
                 case '@':
                 case '{':
                 case IGK_EXPRESSION_ESCAPE_MARKER:
-                    if ($this->m_context) {
+                    if ($this->GetStringContext() == HtmlContext::Html){
+
+                        igk_debug_wln_e(__FILE__.":".__LINE__,  $this->GetStringContext());
+                        //igk_ilog("the context : ". $this->m_context);
                         if (self::__replaceDetectedExpression($this, $this->m_text, $v, $this->m_offset, $replace_expression, 0)) {
                             break 2;
                         }
@@ -290,6 +292,19 @@ final class HtmlReader extends IGKObject
             return true;
         }
         return false;
+    }
+    /**
+     * get the string context
+     * @throws Exception not a valid context
+     */
+    public function GetStringContext(){
+        if (!$this->m_context){
+            return HtmlContext::Html;
+        }
+        if (is_string($this->m_context)){
+            return $this->m_context;
+        }        
+        return igk_getv($this->m_context , "Context", HtmlContext::Html );
     }
     ///<summary>replace data binding expression</summary>
     ///<param name="reader"></param>

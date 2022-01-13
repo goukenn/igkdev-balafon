@@ -67,7 +67,7 @@ function igk_html_json_decode($n){
             if($_c > 0){}
             $_c++;
             foreach($i as $k=>$v){
-                $n=$n == null ? igk_createnode($k): $n->add($k);
+                $n=$n == null ? igk_create_node($k): $n->add($k);
                 if(is_object($v)){
                     $v=(array)$v;
                 }

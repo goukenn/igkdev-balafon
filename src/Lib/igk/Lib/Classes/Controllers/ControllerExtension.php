@@ -663,9 +663,10 @@ abstract class ControllerExtension
             }
         }
         if ($f){ 
+            $uid = $ctrl->User->clId;
             $ctrl->User->bclLastLogin = $ctrl->User->clLastLogin;
             $ctrl->User->clLastLogin = date("Y-m-d H:i:s");
-            \IGK\Models\Users::update(["clLastLogin"=>$ctrl->User->clLastLogin], ["clId"=>$u["clId"]]); 
+            \IGK\Models\Users::update(["clLastLogin"=>$ctrl->User->clLastLogin], ["clId"=>$uid]); 
         } else {
             igk_notifyctrl("notify/app/login")->addErrorr("e.loginfailed");
         }

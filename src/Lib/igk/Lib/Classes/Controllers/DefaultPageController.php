@@ -147,7 +147,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
                             $c->add("ctrl")->Content=$this->Name;
                         }
                         if(!igk_sys_env_production()){
-                            $data=igk_createnode("ObData", null, array(function(){
+                            $data=igk_create_node("ObData", null, array(function(){
                                         igk_show_serverinfo();
                                     }));
                             $r->add($data);
@@ -239,8 +239,8 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         return true;
     }
     ///<summary></summary>
-    protected function InitComplete(){
-        parent::InitComplete();
+    protected function initComplete(){
+        parent::initComplete();
         igk_app()->session->addUserChangedEvent($this, "View");
     }
     ///<summary></summary>

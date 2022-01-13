@@ -52,7 +52,7 @@ class MakeModuleCommand extends AppCommand{
                 $builder
                 ->author($author)
                 ->type("function")
-                ->file("$file.php")
+                ->file(igk_io_collapse_path("{$file}.php"))
                 ->name($name)  
                 ->desc(igk_getv($command->options, "--desc"))
                 ->defs("// + module definition\nreturn [\n$definition\n];")

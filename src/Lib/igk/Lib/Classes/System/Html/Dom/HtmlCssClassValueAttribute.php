@@ -48,6 +48,9 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute{
             $v='O:8:"stdClass":1:{s:5:"value";r:1;}';
         }
     }
+    public function __toString(){
+        return $this->getValue();
+    }
     ///<summary></summary>
     ///<param name="v"></param>
     private function _add($v){

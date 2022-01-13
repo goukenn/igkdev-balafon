@@ -20,7 +20,7 @@ implements IIGKHtmlCookieItem
 		// igk-panel-group panel-group
 		$this["class"] = "igk-accordeon";
 		$this->setAttribute("igk-js-toggle-cookies", new IGKValueListener($this, "CookieId"));
-		$this->m_script = igk_createnode("balafonJS");
+		$this->m_script = igk_create_node("balafonJS");
 		$this->m_script->Content = "if (igk.winui.accordeon)igk.winui.accordeon.init();";
 	}
 	protected function __getRenderingChildren($o=null){
@@ -37,7 +37,7 @@ implements IIGKHtmlCookieItem
 		$t->addCode()->Content = <<<EOF
 
 	//add accordeon
-	\$a = igk_createnode('accordeon');
+	\$a = igk_create_node('accordeon');
 	\$a->addPanel("title 1", "content for panel1", true);
 	\$a->addPanel("title 2", "content for panel2", false);
 	\$a->addPanel("title 3", "content for panel3", false);

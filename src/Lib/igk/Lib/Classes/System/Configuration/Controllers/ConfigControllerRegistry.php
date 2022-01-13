@@ -1,12 +1,11 @@
 <?php
 
 namespace IGK\System\Configuration\Controllers;
-
-use IGK\Controllers\BaseController;
+ 
 use IGKControllerManagerObject;
 use IGKEvents;
 use IGK\Controllers\IRegisterOnInitController;
-use IGKEnvironment;
+use IGK\System\Diagnostics\Benchmark;
 
 class ConfigControllerRegistry{
     const LOADED_CONFIG_CTRL = "config_controllers";
@@ -23,7 +22,7 @@ class ConfigControllerRegistry{
     public static function RegisterInitComplete($ctrl=null){
         if(self::$sm_regComplete === null)
             self::$sm_regComplete=array();
-        $register = $ctrl && in_array(IRegisterOnInitController::class,  class_implements($ctrl, false));
+        $register = $ctrl && ($ctrl instanceof IRegisterOnInitController); // in_array(IRegisterOnInitController::class,  class_implements($ctrl, false));
      
         if(($ctrl !== null) && (!$register || $ctrl->getCanRegisterOnInit())){
             self::$sm_regComplete[]=$ctrl;
@@ -37,9 +36,19 @@ class ConfigControllerRegistry{
     */
     public static function InvokeRegisterComplete(){
         if(self::$sm_regComplete){
+            // $ctime = igk_sys_request_time();
+            // $ttime = 0;
             foreach(self::$sm_regComplete as  $v){ 
-               $v->InitComplete();
+                Benchmark::mark(get_class()."::initComplete");
+                $v->initComplete();
+                Benchmark::expect(get_class()."::initComplete", 0.01);
+                // $time = igk_sys_request_time();
+                // $duration = ($time-$ctime);
+                // $ttime += $duration;
+                // igk_wln("build : ".get_class($v). " : ". $time ." : ", $duration > 0.0005 ? "<div style='color:red' >mark : {$duration} </div>": $duration);
+                // $ctime = $time;
             }
+            //igk_wln("duration:".$ttime," Count ".count(self::$sm_regComplete));
         }
         self::$sm_regComplete=null;
     }

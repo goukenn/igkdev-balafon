@@ -131,7 +131,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
         $args=array_slice(func_get_args(), 1);
         $_api=$this;
         $_data=array();
-        $n=igk_createnode("div");
+        $n=igk_create_node("div");
         $_data["geninstall"]=function($ctrl) use ($n, $_api){
             $v=igk_getctrl($ctrl, false);
             if(!$v){
@@ -145,7 +145,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
             $ftempdir=IO::GetDir($tempdir."/".igk_new_id().".iczip");
             if($zip->open($ftempdir, ZIPARCHIVE::CREATE)){
                 igk_zip_dir($folder, $zip);
-                $inf=igk_createnode("ctrl");
+                $inf=igk_create_node("ctrl");
                 igk_api_build_ctrl_manifest($ctrl, $inf);
                 $opt=igk_xml_create_render_option();
                 $opt->Context="xml";
@@ -221,7 +221,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     igk_exit();
                 },
             "syncfrom"=>function($cmd, $args) use ($_api){
-                    $rep=igk_createnode("response");
+                    $rep=igk_create_node("response");
                     $error=false;
                     $ctrl=igk_getctrl(igk_getv($args, 1));
                     $u=igk_get_user_bylogin(igk_getv($args, 2));
@@ -270,7 +270,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     return !$error;
                 },
             "syncto"=>function($cmd, $args) use ($_api){
-                    $rep=igk_createnode("response");
+                    $rep=igk_create_node("response");
                     $error=false;
                     $ctrl=igk_getctrl(igk_getv($args, 1));
                     $u=igk_get_user_bylogin(igk_getv($args, 2));
@@ -309,7 +309,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                             igk_exit();
                         }
                     }
-                    $sync=igk_createnode("igk-sync");
+                    $sync=igk_create_node("igk-sync");
                     $ctrl=igk_getctrl(($c=igk_getv($args, 0)) ? $c: igk_getr("clCtrl"));
                     $uid=igk_get_user_bylogin(($c=igk_getv($args, 1)) ? $c: (($c=igk_getr("clLogin")) ? $c: (($ctrl && ($c=$ctrl->User->clLogin)) ? $c: null)));
                     if($ctrl && $uid){
@@ -335,7 +335,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                                 }
                             }
                             $apt->close();
-                            $vd=igk_createnode();
+                            $vd=igk_create_node();
                             igk_notification_push_event("system/notify/syncdata/".$ctrl->getName(), $_api, array("node"=>$vd, "user"=>$uid));
                             if($vd->HasChilds){
                                 foreach($vd->Childs->to_array() as $l){
@@ -385,7 +385,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                 },
             "loadsyncdata"=>function($cmd, $args) use ($_api){
                     igk_debuggerview()->clearChilds();
-                    $rep=igk_createnode("reponse");
+                    $rep=igk_create_node("reponse");
                     if(igk_server_request_onlocal_server()){
                         $c=igk_getv($args, 0);
                         $login=igk_getv($args, 1);
@@ -487,7 +487,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                         igk_db_restore_backup_data($ctrl, $schema);
                     }
                     else{
-                        $d=igk_createnode("div");
+                        $d=igk_create_node("div");
                         $d->addObData(function(){
 ?> Usage : update controller db
 <?php

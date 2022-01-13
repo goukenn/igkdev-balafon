@@ -172,7 +172,7 @@ final class MenuController extends ConfigControllerBase
         $tab = array();
         $f = IGK_LIB_DIR . "/" . IGK_DATA_FOLDER . "/config.menu.xml";
         if (file_exists($f)) {
-            $d = igk_createnode("div");
+            $d = igk_create_node("div");
             $d->Load(igk_io_read_allfile($f));
             
             $e = igk_getv($d->getElementsByTagName("configmenu"), 0);
@@ -281,8 +281,8 @@ final class MenuController extends ConfigControllerBase
             //igk_wln_e("the text ", $text);
             $div = $cul->addAccordeon();
             foreach ($group as $k => $v) {
-                $ul = igk_createnode("div");
-                $t = igk_createnode();
+                $ul = igk_create_node("div");
+                $t = igk_create_node();
                 $t["class"] = "igk-row thead";
                 $t->div()->setClass("ico " . strtolower($k));
                 $t->div()->Content =  __("group." . $k);
@@ -349,7 +349,7 @@ final class MenuController extends ConfigControllerBase
         }
         // igk_wln_e("bind.....", $v_ctab);
         $v_sortByDisplayText = array(MenuItem::class, "SortMenuByDisplayText");
-        $v_configTargetNode = igk_createnode("div");
+        $v_configTargetNode = igk_create_node("div");
         $v_configTargetNode["class"] = "igk-config-menu-font google-Roboto";
         // $v_configTargetNode["igk-js-autofix"]=1;
         // $v_configTargetNode["igk-autofix-style"]="{'left':'0px', 'top':'10px', 'bottom':'10px', 'width':'200px'}";
@@ -552,7 +552,7 @@ EOF;
     {
         static $config_target = null;
         if ($config_target === null) {
-            $config_target = igk_createnode("div");
+            $config_target = igk_create_node("div");
         }
         return $config_target;
         // return $this->getFlag("m_configTargetNode");
@@ -773,7 +773,7 @@ EOF;
      */
     protected function initTargetNode()
     {
-        $ul = igk_createnode("ul");
+        $ul = igk_create_node("ul");
         return $ul;
     }
     ///<summary></summary>

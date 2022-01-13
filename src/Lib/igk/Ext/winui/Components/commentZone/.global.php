@@ -7,7 +7,7 @@ use IGK\Resources\R;
 igk_ctrl_zone_init(__FILE__);
 
 function igk_html_node_CommentZone(){
-$n = igk_createnode("div");
+$n = igk_create_node("div");
 $n["class"] = "igk-comment-z";
 $n->addOnRenderCallback(igk_create_node_callback('igk_comment_init', array($n)));
 return $n;

@@ -45,7 +45,7 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 
 		$rd = $dv->addDiv()->addAccordeon();
 		foreach($this->m_users as $k=>$v){
-			$ul = igk_createnode("ul");
+			$ul = igk_create_node("ul");
 			$rd->addPanel($k, $ul, true);
 
 			$d = $this->getFolders($v);
@@ -72,7 +72,7 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		}
 		$imap = @imap_open($link,$i->clLogin, $i->clPwd);
 		if (!$imap){
-			$this->m_error = igk_createnode("div");
+			$this->m_error = igk_create_node("div");
 			$this->m_error->addDiv()->Content = "Error";
 			$this->m_error->addDiv()->Content = $link;
 			$this->m_error->addDiv()->Content = imap_errors();
@@ -148,14 +148,14 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$msg = $this->getMessage($u, $q);
 		//igk_wln("done ");
 		
-		$d = igk_createnode("div");
+		$d = igk_create_node("div");
 		$d->setClass("msg-z");
 		if (igk_count($msg)==0)
 		{
 			$d->addDiv()->Content = R::ngets("msmg.mailbox.boxisempty_1", $q);
 		}
 		else{
-			$p = igk_createnode("div");
+			$p = igk_create_node("div");
 			$p->setClass("msg");
 			$row = $p->addRow();
 			//$p->loadExpression("[func:igk_wln_ob_get(\$row)]<div>{\$row->clSubject}</div>");

@@ -84,10 +84,8 @@ final class SessionController extends BaseController{
     // }
     ///<summary> clear session and navigate</summary>
     public function ClearS($navigate=true){
-        $id=session_id();
-        if($id){
-            igk_session_destroy();
-            $_SESSION=array();
+        if ($session = igk_app()->getApplication()->getLibrary()->session){
+            $session->destroy();
         }
         $_rcu=explode("?", igk_io_request_uri())[0];
         if($navigate){
@@ -141,13 +139,14 @@ final class SessionController extends BaseController{
     }
     
     ///<summary></summary>
-    protected function InitComplete(){ 
-        parent::InitComplete();
+    protected function initComplete(){ 
+        parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
         $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
         $rs=igk_getv($_COOKIE, $n);
         if(!empty($rs)){
+            igk_wln_e("rs", $rs);
             try {
                 $uid=igk_getv(explode(':', $rs), 0);
                 $v=igk_user_info(IGK_UINFO_TOKENID, $uid);

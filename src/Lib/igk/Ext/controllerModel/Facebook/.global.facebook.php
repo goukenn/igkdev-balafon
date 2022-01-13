@@ -44,7 +44,7 @@ function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 		$uri.="&colorscheme={$theme}";
 	$lang = igk_fb_lang(R::GetCurrentLang());
 	$uri.="&locale=${lang}";
-	$n = igk_createnode("iframe");
+	$n = igk_create_node("iframe");
 	$n["src"]=$uri;
 	$n["allowTransparency"]="true";
 	$n["scrolling"]="no";
@@ -53,7 +53,7 @@ function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 
 	//<iframe src="https://www.facebook.com/plugins/follow.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck&width=0&height=80&layout=standard&size=small&show_faces=true&appId=146303832789263" width="0" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 
-	// $n = igk_createnode("div");
+	// $n = igk_create_node("div");
 	// $n["class"]="fb-follow";
 	// $n["data-href"] = "https://www.facebook.com/".$id;
 	// $n["data-layout"] = "light";//$theme;//"https://twitter.com/".$id;
@@ -73,7 +73,7 @@ function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 function igk_html_node_faceBookTimeLine($id){
 
 
-	$n = igk_createnode("div");
+	$n = igk_create_node("div");
 
 	$n["class"]="fb-like";
 	$n["data-href"] = "https://www.facebook.com/".$id;
@@ -86,7 +86,7 @@ function igk_html_node_faceBookTimeLine($id){
 }
 
 function igk_html_node_faceBookLikeButton($showface=false){
-	$n = igk_createnode("div");
+	$n = igk_create_node("div");
 // <div
 // class="fb-like"
 // data-share="false"
@@ -106,7 +106,7 @@ function igk_html_node_faceBookLikeButton($showface=false){
 }
 
 function igk_html_node_faceBookShareButton(){
-		$n = igk_createnode("div");
+		$n = igk_create_node("div");
 // <div
 // class="fb-like"
 // data-share="false"
@@ -128,7 +128,7 @@ function igk_html_node_faceBookShareButton(){
 }
 
 function igk_html_node_faceBookComments($uri){
-	$n = igk_createnode("div");
+	$n = igk_create_node("div");
 	$n["class"]="fb-comments";
 	$n["data-href"] = $uri;
 	$n["data-numposts"] = "5";

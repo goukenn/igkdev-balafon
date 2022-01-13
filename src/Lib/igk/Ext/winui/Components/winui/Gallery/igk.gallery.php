@@ -1,7 +1,7 @@
 <?php
 
 function igk_html_node_Gallery(){
-$n = igk_createnode("div");
+$n = igk_create_node("div");
 $n["class"]="igk-winui-gallery";
 $n->setCallback("addPicture", "igk_gallery_add");
 return $n;

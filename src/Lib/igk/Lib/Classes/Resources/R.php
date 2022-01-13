@@ -550,7 +550,7 @@ EOF;
     */
     public static function SaveLangXml($filename=null){
         $q=self::getInstance();
-        $out=igk_createnode("resources");
+        $out=igk_create_node("resources");
         $tab=$q->langRes;
         $ktab=array_keys($tab);
         igk_usort($ktab, "igk_key_sort");
