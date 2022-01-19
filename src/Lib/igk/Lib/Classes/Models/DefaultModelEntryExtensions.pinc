@@ -9,9 +9,10 @@ use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder; 
 
-if (defined("IGK_FRAMEWORK_ATOMIC")){
-    return;
-}
+// if (defined("IGK_FRAMEWORK_ATOMIC")){
+//     igk_wln("atomic frameworks");
+//     return;
+// }
 
 require_once IGK_LIB_CLASSES_DIR."/Helper/MacrosHelper.php";
 
@@ -68,7 +69,7 @@ Groupauthorizations::registerMacro("getUserAuths", function(int $uid){
     ]);  
     return $tab; 
 
-});
+}); 
 
 // + | check auth
 Users::registerMacro("auth", MacrosHelper::auth());
@@ -79,7 +80,7 @@ Users::registerMacro("currentUser", MacrosHelper::currentUser());
 //+ | add user 
 // Users::registerMacro("addUser", [MacrosHelper::class, "addUser"]);
 Users::registerMacro("addUser", MacrosHelper::addUser2());
-
+//+ |  get user by login
 Users::registerMacro("GetUserByLogin", function($login){
 $conditions = [];
 if (!IGKValidator::IsEmail($login)) {
@@ -89,8 +90,4 @@ if (!IGKValidator::IsEmail($login)) {
 }
 return \IGK\Models\Users::select_row($conditions);
 });
-
-/**
- * @package \IGK\Models\Users;
- * @method static void addUser add user
- */
+ 

@@ -151,6 +151,7 @@ class IO{
     * @param mixed $overwrite the default value is false
     */
     public static function CopyFiles($inputDir, $outputDir, $recursive=false, $overwrite=false){
+   
         $hdir=opendir($inputDir);
         $sep='/';
         if($hdir){
@@ -159,8 +160,11 @@ class IO{
                     continue;
                 $f=$inputDir. $sep. $r;
                 $p=$outputDir. $sep. $r;
-                if(file_exists($p) == false)
-                    copy($f, $p);
+                if(is_file($p)){
+                    // igk_wln("copy: ".$f);
+                    if (file_exists($p) == false)
+                        copy($f, $p);
+                }
             }
             closedir($hdir);
         }
@@ -378,6 +382,9 @@ class IO{
     * tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur
     */
     public static function GetDir($dir, $separator=DIRECTORY_SEPARATOR){
+        if ($dir === null){          
+            return $dir;
+        }
         $d=$separator;     
         $out=IGK_STR_EMPTY;
         if(ord($d) == 92){
@@ -735,11 +742,11 @@ class IO{
     * Get the Root directory according to DocumentRoot apache configuration
     * @param mixed $dir relative dirctory that will be append to result
     */
-    public static function GetRootBaseDir($dir=null){
+    public static function GetRootBaseDir($dir=""){
         $s=self::GetBaseDir();
         $s=str_replace("\\", "/", $s);
-        $doc=str_replace("\\", "/", igk_io_rootdir());
-        $dir=str_replace("\\", "/", $dir); 
+        $doc= StringUtility::Uri(igk_io_rootdir());
+        $dir= StringUtility::Uri($dir); 
 
         if(strlen($s) > 0){
             if($s[0] == "/"){
@@ -776,7 +783,7 @@ class IO{
         if($i != -1){
             $dir=substr($dir, $i + strlen($doc_root));
             $bdir=igk_io_dir($doc_root."/".self::GetRootBaseDir());
-            $c=igk_io_getrelativepath($bdir, $doc_root);
+            $c=igk_io_get_relativepath($bdir, $doc_root);
         }
         $dir=str_replace(self::GetRootBaseDir(), IGK_STR_EMPTY, $dir);
         while((strlen($dir) > 0) && ($dir[0] == DIRECTORY_SEPARATOR)){

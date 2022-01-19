@@ -26,7 +26,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ init target node
 	protected function initTargetNode(){
 		$node =  parent::initTargetNode();
-		$this->m_viewZone = $node->addDiv();
+		$this->m_viewZone = $node->div();
 		return $node;
 	}
 	public function getCanAddChild(){
@@ -106,12 +106,12 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$this->_showViewFile();
 		$t->Add("noscript", array("class"=>"hidden"))->div()->setAttributes(array("id"=>"igkdev-nocontact", "class"=>""))->Content = IGK_HTML_SPACE;
 		$c = $t->div()->setAttributes(array("class"=>"igk-page-content nowrap"));
-		$div = $c->addDiv();
+		$div = $c->div();
 		$div["id"]= "igk-contact-info-node";
 		$div["class"]= "igk-contact-info-node";
 		igk_html_article($this, "contact_info", $div, null, true);
 
-		$div = $c->addDiv();
+		$div = $c->div();
 		$frm = $div->addForm();
 		$frm["action"]= $this->getUri("send_mail");
 		$frm["class"]= "igk_contact_mailform";

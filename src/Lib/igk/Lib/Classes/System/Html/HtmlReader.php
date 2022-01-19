@@ -32,6 +32,7 @@ use function igk_resources_gets as __;
 final class HtmlReader extends IGKObject
 {
     const EXPRESSION_ARGS = "[[:@raw]], [[:@ctrl]]";
+    const ARGS_ATTRIBUTE = "igk:args"; 
     const READ_XML =  "XML";
     const READ_HTML = "HTML";
     private $m_attribs, $m_context, $m_contextLevel, $m_hasAttrib, $m_hfile, $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v;
@@ -275,8 +276,8 @@ final class HtmlReader extends IGKObject
                 case IGK_EXPRESSION_ESCAPE_MARKER:
                     if ($this->GetStringContext() == HtmlContext::Html){
 
-                        igk_debug_wln_e(__FILE__.":".__LINE__,  $this->GetStringContext());
-                        //igk_ilog("the context : ". $this->m_context);
+                        // igk_debug_wln_e(__FILE__.":".__LINE__,  $this->GetStringContext());
+                        // igk_ilog("the context : ". $this->m_context);
                         if (self::__replaceDetectedExpression($this, $this->m_text, $v, $this->m_offset, $replace_expression, 0)) {
                             break 2;
                         }
@@ -320,7 +321,7 @@ final class HtmlReader extends IGKObject
                 if ($replace_expression) {
                     $sdata = "";
                     if ($skip) {
-                        $sdata = \igk_html_wtag(IGK_ENGINE_EXPRESSION_NODE, "", ["expression" => str_replace("\"", "\\\"", htmlentities($tab[0][0])), "igk:args" => self::EXPRESSION_ARGS], 1);
+                        $sdata = \igk_html_wtag(IGK_ENGINE_EXPRESSION_NODE, "", ["expression" => str_replace("\"", "\\\"", htmlentities($tab[0][0])), self::ARGS_ATTRIBUTE => self::EXPRESSION_ARGS], 1);
                     } else {
                         $n_context = $reader->m_context;
                         $_e = $tab[0][0];
@@ -722,9 +723,10 @@ final class HtmlReader extends IGKObject
                         if ($template) {
                             $cattr["igk:template-content"] = null;
                         }
-                        $pargs = igk_engine_get_attr_arg(igk_getv($cattr, "igk:args"), $reader->m_context);
+                        $pargs = igk_engine_get_attr_arg(igk_getv($cattr, self::ARGS_ATTRIBUTE), $reader->m_context);
                         $v_tn = self::_BuildNode($reader, $cnode, $name, $tab_doc, $pargs);
                         if ($v_tn) {
+                           // igk_debug_wln("\n data : ".get_class($v_tn) , "\nEmptyTag:". $v_tn->isEmptyTag(). " : ". $v_tn->tagName ." vs " .$name. "? ".$reader->IsEmpty()."\n");
                             if ($v_tn->tagName && ($v_tn->tagName != $name) && !$reader->IsEmpty()) {
                                 array_unshift($v_tags, (object)array(IGK_FD_NAME => $name, "item" => $v_tn));
                                 if ($cnode == null)
@@ -733,7 +735,7 @@ final class HtmlReader extends IGKObject
                             $v_tn->startLoading(__CLASS__, $context);
                             if ($reader->HasAttrib()) {
                                 foreach ($cattr as $k => $c) {
-                                    if ($k == "igk:args")
+                                    if ($k == self::ARGS_ATTRIBUTE)
                                         continue;
                                     if (self::GetOpenerContext() == self::READ_XML) {
                                         $v_tn->setAttribute($k, $c);
@@ -1042,8 +1044,7 @@ final class HtmlReader extends IGKObject
     ///<param name="context" default="null"></param>
     ///<param name="listener" default="null"></param>
     public static function Load($text, $context = null, $listener = null)
-    {
-        $opentag = false;
+    { 
         $tab_doc = null;
         $b_context = false;
         if ((self::GetOpenerContext()===null) && ($context !==null)){

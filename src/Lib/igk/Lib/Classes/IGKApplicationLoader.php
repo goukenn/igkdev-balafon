@@ -18,6 +18,7 @@ require_once __DIR__ . "/IGKRoutes.php";
 require_once __DIR__ . "/IGKSysUtil.php";
 require_once __DIR__ . "/Database/DbSchemas.php";
 require_once __DIR__ . "/Database/DbColumnInfo.php";
+require_once __DIR__ . "/IGKLog.php";
 
 use IGK\Helper\IO;
 use IGK\System\IO\Path as IGKPath;
@@ -73,7 +74,7 @@ class IGKApplicationLoader
     }
     private function getCacheFile()
     {
-        return  IGK_LIB_DIR. "/Cache/.included." . $this->_context . ".cache";
+        return  IGK_LIB_DIR. "/.Caches/.included." .implode(".", array_filter([$this->_context, igk_environment()->getPhpCoreVersion()])). ".cache";
     }
 
     private function __construct($context = null)
@@ -126,7 +127,7 @@ class IGKApplicationLoader
 
     private function _sort_priority($a, $b)
     {
-        $g = strcmp($b["namespace"], $a["namespace"]);
+        $g = strcmp((string)$b["namespace"], (string)$a["namespace"]);
         if ($g != 0) {
             return $g;
         }

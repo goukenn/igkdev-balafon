@@ -8,7 +8,7 @@
 
 igk_css_bind_wuistyle($doc, $CF, $type);
 
-$div = $bind->addDiv();
+$div = $bind->div();
 $div["class"] = "+igk-win10-toggle";
 
 $i = $div->addInput($name, "checkbox")->setClass("igk-state-btn");
@@ -27,4 +27,4 @@ if ($c){
     $attrs["checked"] = 1;
 }
 
-$div->addDiv()->setAttributes($attrs);
+$div->div()->setAttributes($attrs);

@@ -10,6 +10,8 @@ class ZipCoreCommand extends AppExecCommand{
 
     var $desc = "zip balafon core";
 
+    var $category = "utils";
+
 
     public function exec($command, $path=null){
        
@@ -21,7 +23,7 @@ class ZipCoreCommand extends AppExecCommand{
         if ($path == null){
             $path = getcwd().$fname;
         } else if (is_dir($path)){
-            $path = $path.$fname;
+            $path = rtrim($path, "/").$fname;
         }
         if (igk_sys_zip_core($path)){
             Logger::print("out file : ".$path);

@@ -71,7 +71,7 @@ final class MenuController extends ConfigControllerBase
     public function __getEditController($div, $selectedMenu, $key = "lb.Controller", $remove = IGK_STR_EMPTY)
     {
         $tab = igk_sys_get_projects_controllers();
-        $li = $div->addLi();
+        $li = $div->li();
         $li->addLabel()->Content = __($key);
         $sel = $li->add("select");
         $sel["class"] = "igk-form-control";
@@ -356,7 +356,7 @@ final class MenuController extends ConfigControllerBase
         $v_configTargetNode->Index = -9999;
         $v_configTargetNode->clearChilds();
         $v_configTargetNode->addVscrollbar();
-        $div = $v_configTargetNode->addLi()->addDiv();
+        $div = $v_configTargetNode->li()->div();
         $ul = $div->add("ul");
         $this->_initConfigMenu($v_CPages, $ctab, $ul, false);
 
@@ -461,12 +461,12 @@ EOF;
             igk_html_article($this, $a, $target->div()->setClass("article-host"));       
         }
         $frm = $target->addForm();
-        $li = $frm->add("ul")->addLi();
+        $li = $frm->add("ul")->li();
         $li->addLabel("lb.Menus", "clMenus");
         igk_html_build_select($li, "clMenus", array());
         $table = $frm->addTable();
         $this->_m_loadTableHeader($table, "d");
-        $btndiv = $frm->addDiv();
+        $btndiv = $frm->div();
         igk_html_toggle_class($table);
     }
     ///<summary></summary>
@@ -802,14 +802,14 @@ EOF;
         $d->clearChilds();
         $frm = $d->addForm();
         $frm["action"] = $this->getUri("menu_add_menu");
-        $div = $frm->addDiv();
-        $div->addLi()->addSLabelInput(IGK_FD_NAME, "text", null, null, true);
-        $div->addLi()->addSLabelInput("clIndex", "text", null, array("isnumeric" => true), true);
-        $div->addLi()->addSLabelInput("clPage");
+        $div = $frm->div();
+        $div->li()->addSLabelInput(IGK_FD_NAME, "text", null, null, true);
+        $div->li()->addSLabelInput("clIndex", "text", null, array("isnumeric" => true), true);
+        $div->li()->addSLabelInput("clPage");
         $this->__getEditController($div, null);
-        $div->addLi()->addSLabelInput("clMethod");
-        $div->addLi()->addSLabelInput("clGroup");
-        $li = $div->addLi();
+        $div->li()->addSLabelInput("clMethod");
+        $div->li()->addSLabelInput("clGroup");
+        $li = $div->li();
         $li->addLabel()->Content = __("clAvailable");
         $chb = $li->addInput("clAvailable", "checkbox");
         $chb["checked"] = true;
@@ -921,15 +921,15 @@ EOF;
         $frm->clearChilds();
         $frm = $d->addForm();
         $frm["action"] = $this->getUri("save_menu");
-        $div = $frm->addDiv();
+        $div = $frm->div();
         $index = igk_getsv(igk_getv($v_menu, "clIndex"), '0');
-        $div->addLi()->addSLabelInput(IGK_FD_NAME, "text", igk_getv($v_menu, IGK_FD_NAME), null, true);
-        $div->addLi()->addSLabelInput("clIndex", "text", $index, array("isnumeric" => true), true);
-        $div->addLi()->addSLabelInput("clPage", "text", igk_getv($v_menu, "clPage"), null);
+        $div->li()->addSLabelInput(IGK_FD_NAME, "text", igk_getv($v_menu, IGK_FD_NAME), null, true);
+        $div->li()->addSLabelInput("clIndex", "text", $index, array("isnumeric" => true), true);
+        $div->li()->addSLabelInput("clPage", "text", igk_getv($v_menu, "clPage"), null);
         $this->__getEditController($div, igk_getv($v_menu, "clController"));
-        $div->addLi()->addSLabelInput("clMethod", "text", igk_getv($v_menu, "clMethod"));
-        $div->addLi()->addSLabelInput("clGroup", "text", igk_getv($v_menu, "clGroup"));
-        $li = $div->addLi();
+        $div->li()->addSLabelInput("clMethod", "text", igk_getv($v_menu, "clMethod"));
+        $div->li()->addSLabelInput("clGroup", "text", igk_getv($v_menu, "clGroup"));
+        $li = $div->li();
         $li->addLabel()->Content = __("clAvailable");
         $chb = $li->addInput("clAvailable", "checkbox");
         if (igk_getv($v_menu, "clAvailable")) {
@@ -987,7 +987,7 @@ EOF;
         $c["action"] = "#" . $c["id"];
         $this->addTitle($c, "title.MenuManager");
         $c->addHSep();
-        igk_html_article($this, "menu.description", $c->addDiv());
+        igk_html_article($this, "menu.description", $c->div());
         $c->addHSep();
         $c->addBr();
         $c->addBr();
@@ -1021,7 +1021,7 @@ EOF;
             }
         }
         $c->addBr();
-        $div = $c->addDiv();
+        $div = $c->div();
         $a = HtmlUtils::AddImgLnk($div, $this->getUri("menu_drop_selected_menu_ajx"), "drop_16x16");
         $a["onclick"] = "javascript: var q =  \$igk(this).getParentByTagName('form'); q.action = this.href; q.submit();  return false;";
         HtmlUtils::AddBtnLnk($c, "btn.add", igk_js_post_frame($this->getUri("menu_add_menu_frame_ajx")));
@@ -1374,7 +1374,7 @@ EOF;
             $t->clearChilds();
             $box = $t->addPanelBox();
             $box->addSectionTitle(4)->Content = __("Menu");
-            $this->MenuConfig($box->addDiv());
+            $this->MenuConfig($box->div());
             //
             // Configure custom menu 
             // 

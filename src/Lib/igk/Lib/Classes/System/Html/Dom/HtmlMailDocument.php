@@ -28,7 +28,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $this["class"]="igk-mail";
         $this->m_theme=new HtmlDocTheme($this->m_app->getDoc(), __CLASS__.":theme");
         $this->_initTheme();
-        $this->m_message=$this->addDiv();
+        $this->m_message=$this->div();
         $this->setId("message");
     }
     ///<summary></summary>

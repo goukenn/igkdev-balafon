@@ -74,12 +74,12 @@ abstract class ApplicationController extends  PageControllerBase{
     //         $bbox=$doc->body->getBodyBox();
     //         $bbox->clearChilds();
     //         $t=$bbox;
-    //         $t->addContainer()->addCol()->addDiv()->setClass("igk-fsl-4")->Content=R::ngets("title.about");
-    //         $ct=$t->div()->addContainer();
-    //         $ct->addCol()->addDiv()->Content="Version : ".$this->getConfigs()->get( "Version", "1.0");
-    //         $ct->addCol()->addDiv()->Content="Author : ".IGK_AUTHOR;
-    //         $ct->addCol()->addDiv()->Content="CONTACT : ".IGK_AUTHOR_CONTACT;
-    //         $dv=$ct->addWebMasterNode()->addCol()->addDiv();
+    //         $t->container()->addCol()->div()->setClass("igk-fsl-4")->Content=R::ngets("title.about");
+    //         $ct=$t->div()->container();
+    //         $ct->addCol()->div()->Content="Version : ".$this->getConfigs()->get( "Version", "1.0");
+    //         $ct->addCol()->div()->Content="Author : ".IGK_AUTHOR;
+    //         $ct->addCol()->div()->Content="CONTACT : ".IGK_AUTHOR_CONTACT;
+    //         $dv=$ct->addWebMasterNode()->addCol()->div();
     //         $dv->Content="Location : ".$this->getDeclaredFileName();
     //     }
     //     $doc->renderAJX();
@@ -94,11 +94,11 @@ abstract class ApplicationController extends  PageControllerBase{
     */
     public function administration(){
         $doc= $this->getAppDocument();
-        $div=$doc->body->clearChilds()->addDiv();
+        $div=$doc->body->clearChilds()->div();
         $div["class"]="igk-notify igk-notify-warning";
         $div["style"]="display:block; position:absolute; top:50%; min-height:96px; margin-top:-48px;";
         $div->Content="No administration page";
-        $div=$doc->body->addDiv();
+        $div=$doc->body->div();
         $div["style"]="font-size: 3em; ";
         $div->addA($this->getAppUri(""))->setClass("glyphicons no-decoration")->Content="&#xe021;";
         $doc->renderAJX();
@@ -173,7 +173,7 @@ abstract class ApplicationController extends  PageControllerBase{
             $doc->renderAJX();
             return;
         }
-        $d=$node->addDiv();
+        $d=$node->div();
         $tab=$d->addTable();
         foreach(igk_sys_getall_funclist($this) as  $v){
             $tr=$tab->add("tr");
@@ -234,7 +234,7 @@ abstract class ApplicationController extends  PageControllerBase{
                             foreach($data as $vv){
                                 igk_db_insert_if_not_exists($db, $n, $vv);
                                 if($db->getHasError()){
-                                    $dv=$ee->addDiv();
+                                    $dv=$ee->div();
                                     $dv->addNode("div")->Content="Code : ".$db->getErrorCode();
                                     $dv->addNode("div")->setClass("error_msg")->Content=$db->getError();
                                 }
@@ -252,7 +252,7 @@ abstract class ApplicationController extends  PageControllerBase{
             igk_notifyctrl()->addError($ee->render());
         }
         else{
-            igk_notification_push_event(igk_get_event_key($this, "dbchanged"), $this);
+            igk_hook(igk_get_event_key($this, "dbchanged"), $this);
             $this->logout();
         } 
         igk_navto($this->getAppUri()); 
@@ -304,25 +304,25 @@ abstract class ApplicationController extends  PageControllerBase{
         $doc->Title=R::ngets("title.app_2", "Functions ".$this->getConfigs()->get( IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
         $d= $bodybox=$doc->body->getBodyBox();
         $d->clearChilds();
-        $m=$d->addDiv()->addDiv()->addContainer();
+        $m=$d->div()->div()->container();
         $r=$m->addRow();
         $cl=get_class($this);
         $ref=igk_sys_reflect_class($cl);
         $sf=$this->getDeclaredFileName();
-        $r->addDiv()->setClass("fc_h")->setStyle("font-size:1.4em")->Content="File : ".igk_io_basepath($sf);
-        $m=$d->addDiv()->addDiv()->addContainer();
+        $r->div()->setClass("fc_h")->setStyle("font-size:1.4em")->Content="File : ".igk_io_basepath($sf);
+        $m=$d->div()->div()->container();
         $r=$m->addRow();
         $func=$this->_getfunclist($n);
         usort($func, function($a, $b){
             return strcmp(strtolower($a), strtolower($b));
         });
         foreach($func as $k){
-            $b=$r->addCol("igk-col-12-2 igk-sm-list-item")->setStyle("padding-top:8px; padding-bottom:8px")->addDiv();
+            $b=$r->addCol("igk-col-12-2 igk-sm-list-item")->setStyle("padding-top:8px; padding-bottom:8px")->div();
             $b->addA($this->getAppUri($k))->setContent($k);
         }
         $bodybox->setStyle("position:relative; color: #eee; margin-bottom:300px;padding-bottom:0px; overflow-y:auto; color:indigo;");
-        $bodybox->addDiv()->setClass("posfix loc_b loc_r loc_l dispb footer-box igk-fixfitw")->setId("fbar")->setAttribute("igk-js-fix-loc-scroll-width", "1")->setStyle("min-height:80px; z-index: 10; width: auto;");
-        $bodybox->addDiv()->setClass("no-visibity dispb")->setAttribute("igk-js-fix-height", "#fbar");
+        $bodybox->div()->setClass("posfix loc_b loc_r loc_l dispb footer-box igk-fixfitw")->setId("fbar")->setAttribute("igk-js-fix-loc-scroll-width", "1")->setStyle("min-height:80px; z-index: 10; width: auto;");
+        $bodybox->div()->setClass("no-visibity dispb")->setAttribute("igk-js-fix-height", "#fbar");
         $b=$bodybox->addActionBar();
         $u=$this->getAppUri("functions/1");
         $b->addButton("btn.init")->setAttribute("value", "init function list")->setAttribute("onclick", "javascript: ns_igk.form.posturi('".$u."'); return false;");
@@ -745,9 +745,7 @@ EOF;
         parent::initComplete();
          
         $n = get_class($this);//  $this->getAppName();
-        if ($n == AppAdministrationController::class){
-            igk_debug(1);
-        }
+        
         if ($n){ 
             $n=str_replace("\\", ".", $n);
             $c=self::GetApps();
@@ -865,7 +863,7 @@ EOF
         $i["accept"]="text/xml";
         $i["onchange"]="this.form.submit(); return false;";
         $frm->addInput("clRuri", "hidden", $this->getAppUri(""));
-        $frm->addScript()->Content=<<<EOF
+        $frm->script()->Content=<<<EOF
 (function(){var f = \$ns_igk.getParentScriptByTagName('form'); f.clFileName.click();})();
 EOF;
         $doc->renderAJX();

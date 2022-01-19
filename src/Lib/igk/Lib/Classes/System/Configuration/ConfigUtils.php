@@ -13,6 +13,7 @@ class ConfigUtils{
      * @return void 
      */
     public static function LoadData($file, & $data, $autocontext=true){         
+        
         $data = include($file); 
         if ($autocontext && ($ctx = igk_environment()->context()) != "web"){
             $dir = dirname($file);            

@@ -218,19 +218,66 @@ class Path{
         if (is_dir($link)){
             $link = rtrim($link, "/")."/";
         }
-        $d1 = explode("/", ltrim(str_helper::uri($spath), "/"));
-        $d2 = explode("/", ltrim(str_helper::uri($link), "/"));
-        $i = 0;
-        $c1 =count($d1);
-        while(($i < $c1) && ($d = array_shift($d2)) && ($d == $d1[$i])){
-            //determine        
-            $i++;
+        return self::GetRelativePath(str_helper::uri($spath), str_helper::uri($link));
+        
+        // $d1 = explode("/", ltrim(str_helper::uri($spath), "/"));
+        // $d2 = explode("/", ltrim(str_helper::uri($link), "/"));
+        // $i = 0;
+        // $c1 =count($d1);
+        // while(($i < $c1) && ($d = array_shift($d2)) && ($d == $d1[$i])){
+        //     //determine        
+        //     $i++;
+        // }
+        // if ($i==0){
+        //     return false; // die("path not match");
+        // }
+        // $dnew = str_repeat("../", count($d2)). implode("/", array_slice($d1,$i));
+        // return $dnew;
+    }
+
+
+    ////<summary>get relative path</summary>
+    /**
+     * Get relative path
+     * @param mixed $source 
+     * @param mixed $target 
+     * @return string|null 
+     */
+    public static function GetRelativePath($source, $target){
+        $source = rtrim($source,"/");
+        $target = rtrim($target,"/");
+        if ($source==$target){
+            return "./";
         }
-        if ($i==0){
-            return false; // die("path not match");
+        $p = [];
+        if (strpos($target, $source) === 0){
+            // target is a child of the source
+            $found = 0;
+            while (($ctag = dirname($target)) && ($ctag!= $target)){
+                array_unshift($p, basename($target));
+                $target = $ctag;
+                if(strpos($source, $ctag) === 0){
+                    $found = 1;
+                    break;
+                }
+            } 
+            return "./".implode("/", $p);
         }
-        $dnew = str_repeat("../", count($d2)). implode("/", array_slice($d1,$i));
-        return $dnew;
+        $found = 0;
+        $cpath = "";
+        while (($ctag = dirname($target)) && ($ctag!= $target)){
+            array_unshift($p, basename($target));
+            $target = $ctag; 
+            if (strpos($source, $target)===0){
+                $found = 1;
+                break;
+            } 
+        } 
+        if($found){ 
+            $cpath = str_repeat("../",  count(explode("/", ltrim(substr($source, strlen($target)), "/")))); 
+            return $cpath.implode("/", $p);
+        } 
+        return null;
     }
 }
  

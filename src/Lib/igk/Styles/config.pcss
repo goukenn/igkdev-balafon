@@ -298,7 +298,8 @@ $def[$page." .igk-vertical-separator"]= "width:16px; [res:vsep]; background-repe
 
 
 	//android menu options
-$def[$page." .igk-mob-opts"] = "{sys:dispib,posfix,fith,loc_l,loc_t,loc_b} [trans: all ease-in-out 0.2s] z-index:100; max-width:460px;[sysfcl:configMobileTextColor] [sysbgcl:configMobileBackgroundColor] overflow:hidden";
+$def[$page." .igk-mob-opts"] = "{sys:dispib,posfix,fith,loc_l,loc_t,loc_b} [trans: all ease-in-out 0.2s] z-index:100; max-width:460px;[sysfcl:configMobileTextColor] overflow:hidden";
+$def[$page." .igk-mob-opts:before"]="{sys:dispb, posab, fit} [bgcl:configMobileBackgroundColor, #111]  content:' '; opacity: 0.92";
 $def[$page." .igk-mob-opts li > a"] = "{sys:no-decoration,dispb, fit} [sysfcl:igk-android-menu-option-fcl] min-height:32px; font-size: 0.8em; line-height: 32px;";
 $def[$page." .igk-mob-opts li > a:hover"] =
 $def[$page." .igk-mob-opts a:hover"] =
@@ -481,11 +482,12 @@ $def[$page." .igk-accordeon .igk-row.thead div:last-child"] = "padding:10px; fon
 
 
 //BALAFON Material component
-//BMC  login form
+// BMC - config material
 $e = $page." .igk-adm-login-form";
-$def[$e] = "max-width:420px; margin:10px auto; background-color:[cl:configBackgroundColor]; padding:16px; overflow:hidden; ";
-$def[$e." .igk-action-bar a.igk-btn.igk-pull-right"] = "margin-top:10px;";
+$def[$e] = "max-width:420px; margin:10px auto; background-color:[cl:configBackgroundColor]; padding:16px; overflow:hidden; "; 
 $prop["--igk-winui-bmc-shape__bgcolor"] = "yellow";
+$def["button#connect.igk-bmc-button"] = "margin: initial; margin-right:auto;";
+$def["button#connect.igk-bmc-button +  .igk-btn"] = "margin: initial; margin-left:auto;";
 
 
 
@@ -566,9 +568,9 @@ $def[$page." .igk-cnf-menu .igk-config-menu-font"] =
 
 //igk-update-button
 $def["div.igk-update-button"] = "{sys:dispib}";
-$def["div.igk-update-button .igk-ajx-pickfile"]="[trans: all 0.2s] border-radius: 4px;  margin-bottom: 1em; padding: 8px; background-color: #222;";
+$def["div.igk-update-button .igk-ajx-pickfile"]="[trans: all 0.2s] border-radius: 4px;  margin-bottom: 2em; padding: 8px; background-color: #222;";
 $def["div.igk-update-button .igk-ajx-pickfile:hover"] = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; background-color: [cl:confUpdateButtonBgColor, #444]; color: [cl:confUpdateButtonFgColor, #fff];";
-$def["div.igk-update-button + #update_target"] = "{sys:posab}";
+$def["div.igk-update-button + #update_target"] = "{sys:posab, loc_b}";
 
  // igk_wln_e("color ", $cl);
 
@@ -642,7 +644,7 @@ $xsm_screen["form.send-mail-form label"] = "display:none !important;";
 
 
 
-$def[$page ." input.igk-form-control[disabled]"] = "color: rgb(179,179,179);";
+$def[$page ." input.igk-form-control[disabled]"] = "[fcl:configEditorDisableForeColor, rgb(121, 121, 121)]";
 $def[$page ." .igk-text-editor > .content"] = "[fcl:configEditorForeColor, #333];";
 
 

@@ -22,7 +22,7 @@ class MakeClassCommand extends AppExecCommand{
 
     public function exec($command, $classPath=null) {
         if (empty($classPath)){
-            Logger::danger("class path can't be empty");
+            Logger::danger("classPath can't be empty");
             return -1;
         }
         $ctrl = igk_getv($command->options, "--controller");

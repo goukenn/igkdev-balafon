@@ -9,7 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Installers;
 
-use IGKSystemController;
+use IGK\Controllers\SystemController;
 use IIGKActionResult;
 use Throwable;
 
@@ -18,7 +18,7 @@ use function igk_resources_gets as __;
 /**
 * use to update core framework
 */
-class IGKBalafonInstaller implements IIGKActionResult{
+class BalafonInstaller implements IIGKActionResult{
     const INSTALLER_KEY = "installer://uploadfile";
     protected $zipcore = true;
     protected $zipfile;
@@ -29,16 +29,17 @@ class IGKBalafonInstaller implements IIGKActionResult{
     public function index(){ 
     }
     public function configDir(){
-        return IGKSystemController::configDir();
+        return SystemController::configDir();
     }
     ///<summary></summary>
     /**
     * 
     */
     public function update(){
-		// igk_set_header(500, "update not allowed");
-		// igk_exit();
-		// return; 
+        if ((igk_server()->HTTP_ACCEPT != "text/event-stream") && !igk_is_ajx_demand()){
+            igk_set_header(500, "update not allowed");
+            igk_exit();
+        } 
         $r=0;
         $key=self::INSTALLER_KEY;
         $from_upload=0;
@@ -48,13 +49,12 @@ class IGKBalafonInstaller implements IIGKActionResult{
             header("Cache-Control: no-cache");
         }
         else{
-            if(igk_server_is_local()){
+            if(igk_server_is_local() || igk_is_conf_connected()){
                 igk_server()->HTTP_ACCEPT="text/event-stream";
             }
-            else{
-                
-                igk_set_header(500);
-                igk_wln_e("misconfiguration");
+            else{ 
+                igk_set_header(500); 
+                igk_wln_e("misconfiguration - accept only request from local server");
             }
         }
         $this->zipfile = $zfile = igk_app()->session->getParam($key);
@@ -111,15 +111,22 @@ class IGKBalafonInstaller implements IIGKActionResult{
     /**
     * 
     */
-    public function upload(){ 
-        $file=igk_io_sys_tempnam("igk");
+    public function upload(){        
+        
+        // if (!igk_is_ajx_demand() || !igk_server()->method("POST")){
+        //     die("operation not allowed. ".__FUNCTION__);
+        // }     
+        igk_ilog("recieve file: ");   
+        $file=igk_io_sys_tempnam("igk_lib");
         rename($file, $file=$file.".zip");
         igk_app()->session->setParam(self::INSTALLER_KEY, igk_html_uri($file));
         session_write_close();
+        igk_ilog("upload file : ".$file);
         igk_io_store_ajx_uploaded_data(dirname($file), basename($file));
-        $size = filesize($file);
-        if ($size==0){
+        $size = 0;
+        if (file_exists($file)  && (($size = @filesize($file))==0)){
             igk_ilog(static::class.":no data to store : ".$file);
+            igk_set_header(500, "file not set");
         }else{
 		    igk_ilog("installer stored data : ".$file .":".$size);
         }

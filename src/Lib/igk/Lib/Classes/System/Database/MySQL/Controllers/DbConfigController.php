@@ -13,6 +13,7 @@ use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 use IGKCSVDataAdapter;
 use IGKEvents;
+use IGKException;
 
 use function igk_resources_gets as __;
 
@@ -41,7 +42,7 @@ final class DbConfigController extends ConfigControllerBase
      */
     private function __addEditTable($tr, $tablename, $selectedDb = null)
     {
-        $tr->addTd()->addLi()->add("a", array("href" => igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $tablename . ($selectedDb ? "&from=" . $this->selectedDb : IGK_STR_EMPTY)))))->add("img", array(
+        $tr->addTd()->li()->add("a", array("href" => igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $tablename . ($selectedDb ? "&from=" . $this->selectedDb : IGK_STR_EMPTY)))))->add("img", array(
             "width" => "16px",
             "height" => "16px",
             "src" => R::GetImgUri("edit_16x16"),
@@ -76,7 +77,7 @@ final class DbConfigController extends ConfigControllerBase
                 $uri = igk_register_temp_uri(__CLASS__) . "/page/";
                 $selected = 1;
                 $dv = igk_create_node("div");
-                $dv->addDiv()->Content = $q;
+                $dv->div()->Content = $q;
                 $dv->div()
                     ->setStyle("min-height:80px; line-height:1")
                     ->tablehost()->setClass("posab fit overflow-y-a")
@@ -102,8 +103,8 @@ final class DbConfigController extends ConfigControllerBase
                 $uri = igk_register_temp_uri(__CLASS__) . "/page/";
                 $selected = $view;
                 $dv = igk_create_node("div");
-                $dv->addDiv()->Content = $q;
-                $dv->addDiv()->setClass("igk-table-host overflow-x-a fitw bdr-1")
+                $dv->div()->Content = $q;
+                $dv->div()->setClass("igk-table-host overflow-x-a fitw bdr-1")
                     ->addDbResult($g, $uri, $selected, 5);
                 $dv->renderAJX();
             }
@@ -163,7 +164,7 @@ final class DbConfigController extends ConfigControllerBase
     {
         $conf_title = array("class" => "igk-cnf-title");
         $conf_search = $this->getFlag('db:searchtable');
-        $d = $h->addDiv();
+        $d = $h->div();
         $d->Content = __("User not allowed to view database");
         $d->addBr();
         if ($mysql->connect()) {
@@ -193,9 +194,9 @@ final class DbConfigController extends ConfigControllerBase
                             foreach ($tab as  $v) {
                                 $s = $v;
                                 $tr->addTd()->addInput("tname[]", "checkbox", $s);
-                                $tr->addTd()->addLi()->addA(igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->Content = $s;
+                                $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->Content = $s;
                                 $this->__addEditTable($tr, $s, igk_app()->Configs->db_name);
-                                $tr->addTd()->addLi()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->add("img", array(
+                                $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->add("img", array(
                                     "width" => "16px",
                                     "height" => "16px",
                                     "src" => R::GetImgUri("drop_16x16"),
@@ -212,7 +213,7 @@ final class DbConfigController extends ConfigControllerBase
             }
             $mysql->close();
         } else {
-            $h->addDiv()->Content = "failed to connect to database";
+            $h->div()->Content = "failed to connect to database";
         }
     }
     ///<summary></summary>
@@ -289,107 +290,7 @@ final class DbConfigController extends ConfigControllerBase
         }
         return null;
     }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    private function _initTableInfo()
-    {
-        igk_wln("init: " . __METHOD__);
-        return;
-
-        // if(igk_get_env("sys://db_init")){
-        //     return;
-        // }
-        // igk_set_env("sys://db_init", 1);
-        // $cf=null;
-        // $no_db_cache = defined("IGK_NO_DBCACHE");
-        // if (!defined("IGK_NO_DBCACHE")){
-        //     $cf = $this->getCacheFile();
-        // }
-        // if($no_db_cache || ($cf ===null) || !file_exists($cf)){
-
-        //     // get loaded controller
-        //     $t = igk_app()->getControllerManager()->getControllers(); 
-
-
-        //     foreach($t as $v){       
-        //         if(igk_is_class_incomplete($v)){ 
-        //             continue;
-        //         }
-        //         if($v === $this)
-        //             continue; 
-        //         if($v->getUseDataSchema()){
-
-        //             $cr = $v->loadDataFromSchemas(); 
-        //             $r= igk_getv($cr, "tables"); 
-        //             if($r != null){ 
-        //                 foreach(array_keys($r) as $kk){
-        //                     $this->_addTable($kk, $v);
-        //                 }
-        //             }
-        //         }
-        //         else{ 
-        //             $r=$v->getDataTableInfo();
-        //             if($r != null){
-        //                 $this->_addTable($v->getDataTableName(), $v);
-        //             }
-        //         }
-        //     }  
-        //     if (!$no_db_cache)
-        //         $this->_storeDbCache(1);
-        // }
-        // else{
-        //     $this->_loadDbFromCache();
-        // }
-        // igk_set_env("sys://db_init", null);
-    }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    private function _loadDbFromCache()
-    {
-        die(__METHOD__);
-        /*
-      
-
-        $f = null;
-        if (!defined("IGK_NO_DBCACHE")){
-            $f=$this->getCacheFile();
-        } 
-        if($f && file_exists($f)){
-            $txt=IO::ReadAllText($f);
-            $s=explode(IGK_LF, $txt);
-            $t= & $this->getLoadTables();
-            $t = array_slice($t, count($t));
-            $sk=array();
-            foreach($s as  $v){
-                if(empty($v))
-                    continue;
-                $db=explode(":", $v);
-                if(count($db) < 1)
-                    continue;
-                $n=$db[1];
-                if(isset($sk[$n]))
-                    $ctrl=$sk[$n];
-                else{
-                    $ctrl=igk_getctrl_from_classname($db[1]);
-                    $sk[$n]=$ctrl;
-                }
-                if($ctrl){
-                    $t[$db[0]]=$ctrl;
-                }
-                else{
-                    igk_ilog("No ctrl found for ".$db[0] . " espect ".$db[1], __FUNCTION__);
-                }
-            }
-        }
-        else{
-            $this->_initTableInfo();
-        }
-        */
-    }
+   
     ///<summary></summary>
     ///<param name="frm"></param>
     /**
@@ -399,7 +300,7 @@ final class DbConfigController extends ConfigControllerBase
     private function _showDataBaseBackup($frm)
     {
         $v_dir = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER;
-        $bckdiv = $frm->addDiv();
+        $bckdiv = $frm->div();
         $bckdiv->h2()->Content = __("title.backup");
 
         $v_table = $frm->addTable()->setClass('igk-table-striped');
@@ -439,7 +340,7 @@ final class DbConfigController extends ConfigControllerBase
                 $bar = $frm->addActionBar();
                 $bar->addABtn($this->getUri("ClearBackup"))->Content = __("btn.clearAllBackup");
             } else {
-                $frm->addDiv()->Content = __("Msg.NoBackgup");
+                $frm->div()->Content = __("Msg.NoBackgup");
             }
         }
         igk_html_toggle_class($v_table, "tr");
@@ -461,15 +362,15 @@ final class DbConfigController extends ConfigControllerBase
         $c->addHSep();
         $sdb = $this->SelectedDb;
         if (!empty($sdb)) {
-            $c->addDiv()->addTip()->Content = __("tip.db.selecteddb", $sdb);
+            $c->div()->addTip()->Content = __("tip.db.selecteddb", $sdb);
         } else {
-            $c->addDiv()->Content = __("No Database selected");
+            $c->div()->Content = __("No Database selected");
         }
-        $div = $c->addDiv();
+        $div = $c->div();
         $div["class"] = "no-wrap";
         $frm = $div->form();
         $frm["action"] = $this->getUri("dataview");
-        $v_table = $frm->addDiv()->setClass("overflow-x-a")->addTable()->setClass("igk-table-striped");
+        $v_table = $frm->div()->setClass("overflow-x-a")->addTable()->setClass("igk-table-striped");
         $v_theader = false;
         if ($r->RowCount > 0) {
             if ($this->SelectedDb == null)
@@ -489,7 +390,7 @@ final class DbConfigController extends ConfigControllerBase
                         $tr["class"] = "+igk-selectdb-row";
                     }
                     $tr->addTd()->addInput(IGK_STR_EMPTY, "checkbox");
-                    $tr->addTd()->addLi()->add("a", array("href" => $this->getUri("selectdb&n=" . $v)))
+                    $tr->addTd()->li()->add("a", array("href" => $this->getUri("selectdb&n=" . $v)))
                         ->Content = $v;
                     $tr->addTd()->space(); // addLi()->add("a", array("href"=>$this->getUri("editdb&n=".$v)))->add("img", array(
                     $tr->addTd()->space();
@@ -514,7 +415,7 @@ final class DbConfigController extends ConfigControllerBase
         if (!igk_is_ajx_demand()) {
             if (!$h) {
                 $this->setParam($k, 1);
-                $c->addDiv()->addAJXScriptContent($this->getUri("demandToShowDataBase_ajx"));
+                $c->div()->addAJXScriptContent($this->getUri("demandToShowDataBase_ajx"));
             } else {
                 $this->getParam($k, null);
                 igk_die(array(
@@ -535,12 +436,12 @@ final class DbConfigController extends ConfigControllerBase
         igk_html_add_title($c, "title.Tables");
         $c->addHSep();
         $s = new HtmlSearchNode($this->getUri("searchtable"), $v_search);
-        $c->addDiv()->add($s);
-        $div = $c->addDiv()->setId("igkdb_tablelist");
+        $c->div()->add($s);
+        $div = $c->div()->setId("igkdb_tablelist");
         $frm = $div->addForm();
         $frm["action"] = $this->getUri("db_dropSelectedTable");
-        $frm->addDiv()->Content = $tab->RowCount;
-        $table = $frm->addDiv()->setStyle("overflow:auto;")->addTable();
+        $frm->div()->Content = $tab->RowCount;
+        $table = $frm->div()->setStyle("overflow:auto;")->addTable();
         $tr = $table->addTr();
         HtmlUtils::AddToggleAllCheckboxTh($tr);
         $tr->add("th", array("class" => "fitw"))->Content = __("lb.Name");
@@ -557,7 +458,7 @@ final class DbConfigController extends ConfigControllerBase
                 $tr->addTd()->addInput("tname[]", "checkbox", $s);
                 $tr->addTd()->add("a", array("href" => igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . $this->SelectedDb))))->Content = $s;
                 $this->__addEditTable($tr, $s, $this->SelectedDb);
-                $tr->addTd()->addLi()->add("a", array("href" => igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s))))->add("img", array(
+                $tr->addTd()->li()->add("a", array("href" => igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s))))->add("img", array(
                     "width" => "16px",
                     "height" => "16px",
                     "src" => R::GetImgUri("drop_16x16"),
@@ -626,7 +527,7 @@ final class DbConfigController extends ConfigControllerBase
         $pan = $zdiv->addPanelbox();
         $pan->h2()->Content = __("Datas");
         $h = $pan->addRow();
-        $div1 = $h->addCol("igk-col-3-3")->addDiv()->setClass("db_info");
+        $div1 = $h->addCol("igk-col-3-3")->div()->setClass("db_info");
         $conf_title = null;
         if ($mysql) {
             if ($mysql->connect()) {
@@ -638,12 +539,12 @@ final class DbConfigController extends ConfigControllerBase
                         $div1->addABtn($this->getUri("pinitSDb"))->Content = __("btn.initDb");
                         $div1->addABtn($this->getUri("backupDb"))->Content = __("btn.backupdatabase");
                     } else {
-                        $row = $div1->addDiv()->addRow();
+                        $row = $div1->div()->addRow();
                         $row->addCol()->Content = __("msg.cantshowdatabase");
                         $this->_db_viewTables($h, $mysql);
                     }
                     if (!empty($this->SelectedDb)) {
-                        $div2 = $h->addCol("igk-col-3-2")->addDiv();
+                        $div2 = $h->addCol("igk-col-3-2")->div();
                         $this->_showSelectedDbTables($div2, $conf_title);
                     }
                 } catch (Exception $ex) {
@@ -700,8 +601,8 @@ final class DbConfigController extends ConfigControllerBase
         ///TODO: query selector tool 
         $pan = $zdiv->addPanelBox();
         $pan->h2()->Content =  __("MySQL Query Tool");
-        $h = $pan->addDiv()->addRow();
-        $dv = $h->addCol("fitw")->addDiv();
+        $h = $pan->div()->addRow();
+        $dv = $h->addCol("fitw")->div();
         $frm = $dv->addForm();
         $frm["action"] = $this->getUri("__db_query_r_ajx");
         $frm["igk-ajx-form"] = 1;
@@ -723,7 +624,7 @@ final class DbConfigController extends ConfigControllerBase
 
         $acb = $frm->addActionBar();
         $acb->addInput("btn.send", "submit", __("btn.send"))->setClass("-clsubmit +igk-btn igk-btn-default");
-        $dv->addDiv()->setId("query-s-r")->setClass("fitw-i");
+        $dv->div()->setId("query-s-r")->setClass("fitw-i");
     }
     ///<summary></summary>
     ///<param name="zdiv"></param>
@@ -1098,7 +999,7 @@ final class DbConfigController extends ConfigControllerBase
         $frm["igk-ajx-form"] = 1;
         $frm["igk-ajx-form-data"] = "{complete: function(){ ns_igk.winui.notify.close(); }}";
         $frm->addConfirm(1);
-        igk_html_binddata($this, $frm->addDiv(), "confirm.dialog.template", (object)array("clMessage" => __("msg.confirmalltablesuppression")));
+        igk_html_binddata($this, $frm->div(), "confirm.dialog.template", (object)array("clMessage" => __("msg.confirmalltablesuppression")));
         $frmdial = igk_ajx_notify_dialog(__("title.confirmalltablesuppression"), $b);
         $frmdial->renderAJX();
     }
@@ -1387,7 +1288,7 @@ final class DbConfigController extends ConfigControllerBase
                 $ul = $frm->add("ul");
                 $l = $e->getRowAtIndex(0);
                 foreach ($e->Columns as $k) {
-                    $li = $ul->addLi();
+                    $li = $ul->li();
                     $v = $k->name;
                     if (in_array($v, $ignore_list))
                         continue;
@@ -1444,7 +1345,7 @@ final class DbConfigController extends ConfigControllerBase
         $c = $this->getParam("db:columns");
         if ($c) {
             foreach ($c as $k) {
-                $li = $ul->addLi();
+                $li = $ul->li();
                 $pwd = $k->name == IGK_FD_PASSWORD;
                 switch (strtolower($k->type)) {
                     case "blob":
@@ -1549,12 +1450,12 @@ final class DbConfigController extends ConfigControllerBase
         $frame = igk_html_frame($this, "db_view_entries", "./#igkdb_tablelist");
         $frame->Title = __("title.db_viewtableentries_1", $tb);
         $frame->clearChilds();
-        $div = $frame->BoxContent->addDiv();
+        $div = $frame->BoxContent->div();
         $div["class"] = "igk-db-tableentries";
-        $title = $div->addDiv();
+        $title = $div->div();
         $div->addHSep();
         $title->setClass("title");
-        $content = $div->addDiv();
+        $content = $div->div();
         $content["class"] = "datas";
         $content["style"] = "overflow:auto;";
         $title->Content = __("title.TableInfo", $db . "." . $tb);
@@ -1588,7 +1489,7 @@ final class DbConfigController extends ConfigControllerBase
         $this->setParam("db:table", $tb);
         $this->setParam("db:r", $r);
         $this->setParam("db:columns", $r->Columns);
-        $cdiv = $div->addDiv();
+        $cdiv = $div->div();
         HtmlUtils::AddImgLnk($cdiv, igk_js_post_frame($this->getUri("db_insert_db_entry_frame_ajx")), "add_16x16");
         HtmlUtils::AddImgLnk($cdiv, $this->getUri("db_Clearall_db_entry"), "drop_16x16");
         HtmlUtils::AddBtnLnk($div, __("btn.close"), $frame->CloseUri)->setAttribute("onclick", "javascript: (function(q){ ns_igk.winui.framebox.close_currentframe(q); })(this); return false;");
@@ -1721,13 +1622,26 @@ final class DbConfigController extends ConfigControllerBase
      */
     public function getAllTableNames()
     {
-        die(__METHOD__);
+        $tables = [];
+        $adName = $this->getDataAdapterName();
+        if ($ctrl_s = igk_app()->getControllerManager()->getControllers()) {
+            foreach ($ctrl_s as $c) {
+                if (($c === $this) || ($c->getDataAdapterName() != $adName))
+                    continue; 
+                if ($c->getUseDataSchema()){
+                    $r=$this->loadDataAndNewEntriesFromSchemas();
+                    if ($r && ($tb=$r->Data)){
+                        $tables = array_merge($tables, array_keys($tb));
+                    }
 
-        // $this->_initTableInfo();
-        // $tab = & $this->getLoadTables();
-        // if($tab)
-        //     return array_keys($tab);
-        // return null;
+                } else {
+                    if ($table = $c->getTableName()){
+                        $tables[] = $table;
+                    }
+                }
+            }
+        } 
+        return $tables;
     }
     ///<summary></summary>
     /**
@@ -1750,8 +1664,7 @@ final class DbConfigController extends ConfigControllerBase
      * return the controller that manage the table name
      */
     public function getDataTableCtrl($tablename)
-    {
-        $this->_initTableInfo();
+    { 
         $tab = &$this->getLoadTables();
         if (isset($tab[$tablename])) {
             return $tab[$tablename];
@@ -1856,15 +1769,25 @@ final class DbConfigController extends ConfigControllerBase
     {
         return $this->getFlag(self::TABINFO_DB);
     }
+    /**
+     * 
+     * @param mixed $ctrl 
+     * @param bool $include_dependency 
+     * @return false|array 
+     * @throws IGKException 
+     * @deprecated use DbSchema insteed
+     */
     public function getTablesFor($ctrl, $include_dependency = false)
     {
+        igk_trace();
+        die("not implements". __METHOD__);
+
         if (is_string($ctrl)) {
             $h = igk_getctrl($ctrl);
             if ($h == null)
                 return false;
             $ctrl = $h;
-        }
-        $this->_initTableInfo();
+        } 
         $t = array();
         $tab = &$this->getLoadTables();
         foreach ($tab as $k => $v) {
@@ -1925,15 +1848,7 @@ final class DbConfigController extends ConfigControllerBase
         $data = igk_getv($e, 2);
         $this->_addTable($tbn, $o);
     }
-    ///<summary>init controller complete</summary>
-    /**
-     * init controller complete
-     */
-    protected function initComplete()
-    {
-        parent::initComplete();
-        // $this->_loadDbFromCache(); 
-    }
+   
 
     ///<summary></summary>
     ///<param name="ctrlid" default="null"></param>
@@ -2009,7 +1924,7 @@ final class DbConfigController extends ConfigControllerBase
                 $ad->commit();
 
 
-                igk_notification_push_event("sys://db/init_complete", $this);
+                igk_hook("sys://db/init_complete", $this);
                 igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($this));
                 igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller" => $this]);
             }
@@ -2242,12 +2157,12 @@ final class DbConfigController extends ConfigControllerBase
         igk_html_title($c, __("Configure MySQL Database"));
         $c->addNotifyHost();
         $h = $c->addRow();
-        $div = $h->addDiv();
+        $div = $h->div();
         $pan = $div->addPanelBox();
-        $pan->addDiv()->Content = "DataBase : MySQL";
-        $pan->addDiv()->Content = "Available : " . igk_parsebool(defined("IGK_MSQL_DB_Adapter"));
-        $pan->addDiv()->Content = "MySQL : " . igk_parsebool(IGK_MSQL_DB_AdapterFunc);
-        $pan->addDiv()->Content = "MySQLi : " . igk_parsebool(IGK_MSQLi_DB_AdapterFunc);
+        $pan->div()->Content = "DataBase : MySQL";
+        $pan->div()->Content = "Available : " . igk_parsebool(defined("IGK_MSQL_DB_Adapter"));
+        $pan->div()->Content = "MySQL : " . igk_parsebool(IGK_MSQL_DB_AdapterFunc);
+        $pan->div()->Content = "MySQLi : " . igk_parsebool(IGK_MSQLi_DB_AdapterFunc);
         $cview = $this->getFlag("tabview");
         $tab = $div->addComponent($this, HtmlComponents::AJXTabControl, "tab", 1);
         $tab->addTabPage(__("General"), $this->getUri("view&v=general"), empty($cview) || $cview == 'general');
@@ -2255,7 +2170,7 @@ final class DbConfigController extends ConfigControllerBase
         $tab->addTabPage(__("Backup"), $this->getUri("view&v=backup"), $cview == 'backup');
         $tab->addTabPage(__("Tools"), $this->getUri("view&v=tools"), $cview == 'tools');
         $tab->addTabPage(__("Query"), $this->getUri("view&v=query"), $cview == 'query');
-        $zdiv = $div->addDiv();
+        $zdiv = $div->div();
     }
     ///<summary></summary>
     /**

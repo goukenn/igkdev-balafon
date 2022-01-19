@@ -24,8 +24,8 @@ class HtmlLooperNode extends HtmlItemBase{
     public function render($options = null) { return null; }
 
     public function host(callable $callback){
-        foreach($this->args as $c){
-            $callback($this->node, $c);
+        foreach($this->args as $k => $c){
+            $callback($this->node, $c, $k);
         }
         $this->callback = $callback;
     }   

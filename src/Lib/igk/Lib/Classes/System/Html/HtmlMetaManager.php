@@ -90,7 +90,7 @@ final class HtmlMetaManager extends IGKObject{
         );
         $this->m_metas[self::META_VIEWPORT]=array(
             "name"=>"viewport",
-            self::ATTR_CONTENT=> "width=device-width, inital-scale=1"
+            self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
         );
 
         igk_reg_hook("html_meta", function(){

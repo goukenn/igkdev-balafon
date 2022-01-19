@@ -135,7 +135,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
         $_data["geninstall"]=function($ctrl) use ($n, $_api){
             $v=igk_getctrl($ctrl, false);
             if(!$v){
-                $n->addDiv()->Content="/!\\ Controller [".$ctrl."] not found";
+                $n->div()->Content="/!\\ Controller [".$ctrl."] not found";
                 return false;
             }
             $folder=$v->getDeclaredDir();
@@ -336,7 +336,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                             }
                             $apt->close();
                             $vd=igk_create_node();
-                            igk_notification_push_event("system/notify/syncdata/".$ctrl->getName(), $_api, array("node"=>$vd, "user"=>$uid));
+                            igk_hook("system/notify/syncdata/".$ctrl->getName(), $_api, array("node"=>$vd, "user"=>$uid));
                             if($vd->HasChilds){
                                 foreach($vd->Childs->to_array() as $l){
                                     switch($l->TagName){
@@ -502,12 +502,12 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     $bbox=$doc->body->addBodyBox()->clearChilds();
                     $bbox["class"]="google-Roboto";
                     
-                    $b=$bbox->addDiv();
-                    $b->addContainer()->addSingleRowCol()->addSectionTitle(4)->Content=__("API DataDB Command list");
-                    $b=$bbox->addDiv()->addContainer()->addRow();
+                    $b=$bbox->div();
+                    $b->container()->addSingleRowCol()->addSectionTitle(4)->Content=__("API DataDB Command list");
+                    $b=$bbox->div()->container()->addRow();
                     $buri=$this->getAppUri();
                     foreach(array_keys($_data) as $k){
-                        $b->addCol()->addDiv()->addA($buri.'/datadb/'.$k)->Content=$k;
+                        $b->addCol()->div()->addA($buri.'/datadb/'.$k)->Content=$k;
                     }
                     $hdiv=null;
                     $row=null;
@@ -517,13 +517,13 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     foreach($gtab as $b=>$m){
                         if(preg_match("/^igk_api_mysql_(?P<name>(.)+)$/i", $m, $tab)){
                             if($hdiv == null){
-                                $hdiv=$bbox->addDiv();
-                                $hdiv->addContainer()->addRow()->addCol()->addSectionTitle(4)->setContent(__("MySQL DataBase Command Line"));
-                                $row=$hdiv->addDiv()->addContainer()->addRow();
+                                $hdiv=$bbox->div();
+                                $hdiv->container()->addRow()->addCol()->addSectionTitle(4)->setContent(__("MySQL DataBase Command Line"));
+                                $row=$hdiv->div()->container()->addRow();
                             }
-                            $b=$row->addCol()->addDiv();
+                            $b=$row->addCol()->div();
                             $b->addA($buri.'/datadb/'.$tab["name"])->setContent($tab["name"]);
-                            $b->addDiv()->Content=__("help.api.mysql.".$tab["name"]);
+                            $b->div()->Content=__("help.api.mysql.".$tab["name"]);
                         }
                     }
                     $doc->renderAJX();

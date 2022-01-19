@@ -10,7 +10,7 @@ function igk_api_mysql_help($api){
 	$doc->Title = "MysQL Utility - [BALFAFON]";	
 	
 	$bbox = $doc->body->addBodyBox();
-	$dv = $bbox->addDiv()->addContainer();
+	$dv = $bbox->div()->container();
 	
 	$ul = $dv->addUl();
 	
@@ -21,7 +21,7 @@ function igk_api_mysql_help($api){
 	preg_match_all("/function\\s+igk_api_mysql_(?P<name>([a-z])([a-z0-9_]*))\\s*/i",$c, $tab);
 	
 	foreach($tab["name"] as $k=>$v){
-		$ul->addLi()->add("a")->setAttribute("href",$api->getAppUri("mysql/".$v))->Content = $v;
+		$ul->li()->add("a")->setAttribute("href",$api->getAppUri("mysql/".$v))->Content = $v;
 	}
 	
 	$mi = $doc->body->addmenu()->setAttributes(array(
@@ -42,11 +42,11 @@ function igk_api_mysql_about($api){
 	$doc = igk_api_mysql__doc($api);
 	$doc->Title = "MySQL Utility - About - [BALAFON]";
 	$bbox = $doc->body->addBodyBox();
-	$dv = $bbox->addDiv()->addContainer();
-	$dv->addDiv()->setClass("igk-title-4")->Content = "About";
-	$ul = $dv->addDiv()->addUl();
-	$ul->addLi()->Content = IGK_AUTHOR;
-	$ul->addLi()->Content = "Version : 1.0";
+	$dv = $bbox->div()->container();
+	$dv->div()->setClass("igk-title-4")->Content = "About";
+	$ul = $dv->div()->addUl();
+	$ul->li()->Content = IGK_AUTHOR;
+	$ul->li()->Content = "Version : 1.0";
 	
 	$doc->renderAJX();
 }

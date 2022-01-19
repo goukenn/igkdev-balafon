@@ -13,8 +13,8 @@ use IGK\System\Html\HtmlStyleValueAttribute;
  * @method HtmlNode container() add a div container
  * @method HtmlFormNode form() add a div form
  * @method HtmlFormNode table() add a div form
- * @method HtmlNode br() add brea node
- * @method HtmlNode p() add brea node 
+ * @method HtmlNode br() add break node
+ * @method HtmlNode p() add paragraph node 
  */
 class HtmlNode extends HtmlItemBase{
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
@@ -42,6 +42,12 @@ class HtmlNode extends HtmlItemBase{
             return $this;
         }
         return $b;
+    }
+    public function addNode($name){
+        if ($this->getCanAddChilds()){
+            $p = new HtmlNode($name);
+            return $this->add($p);
+        }        
     }
      ///<summary>set the class combination of this item</summary>
     /**
@@ -135,7 +141,14 @@ class HtmlNode extends HtmlItemBase{
         parent::__construct();
         if ($tagname !==null)
             $this->tagname = $tagname;
-        
+        $this->initialize();        
+    }
+    /**
+     * initialize this node
+     * @return void 
+     */
+    protected function initialize(){
+
     }
     ///<summary></summary>
     ///<param name="key"></param>
@@ -150,7 +163,7 @@ class HtmlNode extends HtmlItemBase{
     public function setSysAttribute($key, $value, $context=null){
         if(($context !== null) && ($value !== null) && (is_string($value))){
             $tb=array();
-            if(($c=preg_match_all("%\[eval:(?P<value>[^\]]*)]%i", $value, $tb)) > 0){
+            if((preg_match_all("%\[eval:(?P<value>[^\]]*)]%i", $value, $tb)) > 0){
                 $e=igk_str_read_in_brancket($value, "[", "]");
                 $script=substr($e[0], strpos($e[0], ":") + 1);
                 if(!empty($script))
@@ -221,7 +234,8 @@ class HtmlNode extends HtmlItemBase{
                 default:
                     if(strpos($k, 'igk:') === 0){
                         $ck=substr($k, 4);
-                        if($ck == "param"){
+                        
+                        if(!HtmlOptions::IsAllowedAttribute($ck)){ 
                             return;
                         }
                         if(!$this->setSysAttribute($ck, $v, $this->getLoadingContext())){

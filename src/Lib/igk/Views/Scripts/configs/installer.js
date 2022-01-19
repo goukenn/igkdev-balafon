@@ -20,14 +20,14 @@ igk.system.createNS("igk.core", {
 			});
 			
 			source.addEventListener("error", function(e){
-				console.debug("event finish :"+error);
+				// console.debug("event finish :", e);
 				if(e.readyState == EventSource.CLOSED){
 					console.log("connection closed");
 				}
 			});
 			
 			source.addEventListener("finish", function(e){				
-				console.debug("event finish :");
+				console.debug("event finish :", e.data);
 				source.close();
 				q.setHtml('');
 				if (e.data == 'ok'){

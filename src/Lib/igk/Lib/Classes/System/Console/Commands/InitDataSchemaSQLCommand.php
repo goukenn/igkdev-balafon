@@ -58,7 +58,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
                 ], JSON_PRETTY_PRINT);
                 igk_exit();
         }
-        igk_notification_push_event("sys://db/init_complete", $ctrl);
+        igk_hook("sys://db/init_complete", $ctrl);
         igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($ctrl));
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$ctrl]);
         Logger::success("Schema complete");

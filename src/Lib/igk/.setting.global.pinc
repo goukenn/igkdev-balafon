@@ -64,7 +64,7 @@ return [
 'default_author'=>null,
 'help_uri'=>null,
 // default configuration port
-'configuration_port'=>8080,
+'configuration_port'=>null,
 'force_secure_redirection'=>0,
 'secure_port'=>443,
 'force_single_controller_app'=>0,

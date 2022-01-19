@@ -29,7 +29,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 		$this->m_script = parent::addScript();
 	}
 	public function addPage($n){
-		$dv = $this->m_content->addDiv();
+		$dv = $this->m_content->div();
 		$dv["class"] = "igk-slider-page";
 		$dv->add($n);
 		return $dv;

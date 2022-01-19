@@ -27,29 +27,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
     ///<summary></summary>
     ///<param name="o" default="null"></param>
     protected function __AcceptRender($o=null){ 
-        return true;
-
-        // if(!$this->getIsVisible() || !$o || !$o->Document){
-        //     return false;
-        // }
-        // $key=".@".get_class($this)."/rendered";
-        // if(isset($o->{$key}) && $o->{$key}){
-        //     return false;
-        // }
-        // $o->{$key}=1;
-        // if(igk_xml_is_mailoptions($o) || igk_xml_is_cachingrequired($o))
-        //     return false;
-        // $this->clearChilds();
-
-
-
-        // $v=$this->__buildview();
-        // $t=$this;
-        // $t->addNodeCallback("mem_usage", function($t){
-        //     return $t->memoryusageinfo();
-        // });
-        // $t->addJSReadyScript('igk.ctrl.sessionblock.init');
-        return true;
+        return $this->getIsVisible();     
     }
     ///<summary></summary>
     private function __buildview($t){
@@ -69,8 +47,8 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $v_btn_class="igk-btn igk-btn-default";
             if(!igk_get_env("sys://error")){
                 $ul["class"]="session btn-group action-group"; 
-                $ul->addLi()->abtn($_owner->getUri("forceview"))->setClass($v_btn_class)->Content=__("ForceView");
-                $ul->addLi()->addAClearSAndReload()->setClass($v_btn_class)->Content=__("ClearSession");
+                $ul->li()->abtn($_owner->getUri("forceview"))->setClass($v_btn_class)->Content=__("ForceView");
+                $ul->li()->addAClearSAndReload()->setClass($v_btn_class)->Content=__("ClearSession");
                 if(igk_server_is_local() && ($sess_ctrl=igk_getctrl(IGK_SESSION_CTRL, false))){
                     $ul->li()->abtn($sess_ctrl->getUri("clearAllSession"))->setClass($v_btn_class)->Content=__("Clear All Session");
                 }
@@ -79,16 +57,16 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 $ul->li()->a($cnf_->getUri("clearLogs"))->setClass($v_btn_class)->Content=__("Clear Logs");
             }
             if($cnf_view)
-                $ul->addLi()->abtn($cnf_->getUri('logout'))->setClass($v_btn_class)->Content=__("Logout");
+                $ul->li()->abtn($cnf_->getUri('logout'))->setClass($v_btn_class)->Content=__("Logout");
             if(igk_app()->getCurrentPageFolder() != "Configs"){
-                $ul->addLi()->abtn(new IGKHtmlRelativeUriValueAttribute("/Configs"))->setClass($v_btn_class)->Content=__("Configure");
+                $ul->li()->abtn(new IGKHtmlRelativeUriValueAttribute("/Configs"))->setClass($v_btn_class)->Content=__("Configure");
             }
-            $ul->addLi()->abtn(new IGKHtmlRelativeUriValueAttribute(IGK_BASE_DIR."/"))->setClass($v_btn_class)->Content=__("Homepage");
+            $ul->li()->abtn(new IGKHtmlRelativeUriValueAttribute(IGK_BASE_DIR."/"))->setClass($v_btn_class)->Content=__("Homepage");
             if(IGKServer::IsLocal() || $cnf_view || !igk_sys_env_production()){
-                $ul->addLi()->abtn(igk_getctrl(IGK_SESSION_CTRL)->getUri("clearcache"))->setClass($v_btn_class)->Content=__("Clear Cache");
+                $ul->li()->abtn(igk_getctrl(IGK_SESSION_CTRL)->getUri("clearcache"))->setClass($v_btn_class)->Content=__("Clear Cache");
             }
             if($api_ctrl=igk_getctrl("api", false)){
-                $ul->addVisible("igk_is_conf_connected")->addLi()->addA($api_ctrl->getAppUri(""))->setClass($v_btn_class)->Content=__("API");
+                $ul->addVisible("igk_is_conf_connected")->li()->addA($api_ctrl->getAppUri(""))->setClass($v_btn_class)->Content=__("API");
             }
             $ul=$d->add("ul")->setId("cnf-inf");
             $ul->li()->Content="Referer : ". igk_server()->REMOTE_ADDR;
@@ -115,20 +93,20 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 $frm["class"]="igk-debug-connect-form";
                 igk_html_form_initfield($frm);
                 $v_logul=$frm->addPanelBox()->add("ul");
-                $li=$v_logul->addLi();
+                $li=$v_logul->li();
                 $li->add("label")->setAttribute("for", "clAdmLogin")->Content=__("Login");
                 $input=$li->addInput("clAdmLogin");
                 $input["autocomplete"]="off";
                 $input["placeholder"]=__("tip.login");
                 $input["autofocus"]=true;
                 $input->setClass("igk-form-control");
-                $li=$v_logul->addLi();
+                $li=$v_logul->li();
                 $li->addLabel()->Content=__("Password");
                 $i=$li->addInput("clAdmPwd", "password");
                 $i["placeholder"]=__("tip.password");
                 $i["autocomplete"]="current-password";
                 $i->setClass("igk-form-control");
-                $i=$v_logul->addLi()->addInput("btn.connect", "submit", __("btn.connect"));
+                $i=$v_logul->li()->addInput("btn.connect", "submit", __("btn.connect"));
                 if($bootstrap){
                     $i->setClass("btn btn-default igk-btn igk-btn-default");
                 }

@@ -376,7 +376,7 @@ $def[".igk-breadcrumbs > li:not(:last-child):after"]="{sys:floatr} content:'/'; 
 $def[".igk-rm-margin"]="margin-right:-{$pad_size}; margin-left:-{$pad_size}; ";
 $def[".igk-add-margin"]="margin-right:{$pad_size}; margin-left:{$pad_size}; ";
 $def["a > svg"]=
-$def["a.igk-svg-host"]="line-height:0;";
+$def["a.igk-svg-host"]="{sys:dispib} line-height:0;";
 $def["a.svg-a"]="{sys:dispib} width:32px; height:32px; [trans: all 0.2s ease-in-out]";
 $def["a.svg-a svg"]="fill:#000";
 $def["a.svg-a:hover"]="background-color:#000;";
@@ -484,12 +484,18 @@ for($i=0; $i < igk_count($m); $i++){
     $v_ss=$m[$i];
     for($j=0; $j < igk_count($mt); $j++){
         $k=$mt[$j];
-        $def[".igk-pad-".$k[0]."-".
-        $v_ss]="padding-{$k}: ".$v_ss."px;";
-        $def[".igk-mar-".$k[0]."-".
-        $v_ss]="margin-{$k}: ".$v_ss."px;";
+        $def[".igk-pad-".$k[0]."-".$v_ss]="padding-{$k}: ".$v_ss."px;";
+        $def[".igk-mar-".$k[0]."-".$v_ss]="margin-{$k}: ".$v_ss."px;";
+        $def[".igk-border-".$k[0]."-".$v_ss]= "border-width: ".$v_ss."px; border-style: solid; border-color:red;";
     }
 }
+
+$def[".border-s"] = "border: 1px solid [cl:borderColor, #ddd];";
+$def[".border-t-s"] = "border-top: 1px solid [cl:borderColor, #ddd];";
+$def[".border-b-s"] = "border-bottom: 1px solid [cl:borderColor, #ddd];";
+$def[".border-l-s"] = "border-left: 1px solid [cl:borderColor, #ddd];";
+$def[".border-r-s"] = "border-right: 1px solid [cl:borderColor, #ddd];";
+
 $def[".igk-number-list"]="padding-left: 32px;";
 $def[".igk-number-list li"]="list-style: number;";
 foreach($margin as $t=>$v){

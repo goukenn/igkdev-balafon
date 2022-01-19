@@ -16,3 +16,8 @@ $l["tip.login"] = "Log in";
 $l["Login or password not correct"] = "Onjuiste gebruikersnaam of wachtwoord";
 
 $l["btn.connect"] = "Verbonden";
+
+$l["msg.updatingpleasewait"] =  "please wait...";
+$l["title.pleasewait"] =  "Update please wait";
+$l["msg.uptodaterequired"] =  "Core update is required";
+$l["msg.loadingcomplete"] =  "loading complete";

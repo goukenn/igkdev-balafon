@@ -48,17 +48,17 @@ EOF;
 	}
 	public function addPanel($title, $content, $active=false)
 	{
-		$d = $this->addDiv();
+		$d = $this->div();
 		$d->setClass("igk-panel");
-		$h = $d->addDiv()
+		$h = $d->div()
 		->setClass("igk-panel-heading")		;
-		$m = $h->addDiv()//A("#")
+		$m = $h->div()//A("#")
 		//->setAttribute("igk-js-toggle","{parent:'^.igk-panel', target:'.igk-c', data:'igk-collapse'}")
 		->setAttribute("igk-js-toggle-cookies", new IGKValueListener(new AccordeonCookiePanel($this, $this->m_panCount), "CookieId"));
 		$m->Content = $title;
 
 		//$active
-		$d->addDiv()
+		$d->div()
 		->setClass( (!$active ? "igk-collapse" : ""). " igk-c in")
 		->setAttribute("class", "igk-trans-all")
 		->Content = $content;

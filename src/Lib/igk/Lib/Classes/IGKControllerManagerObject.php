@@ -314,7 +314,7 @@ final class IGKControllerManagerObject extends IGKObject {
         }
         unset($this->m_tbcontrollers[$k]);
         BaseController::UnRegisterInitComplete($ctrl);
-        igk_notification_push_event(IGK_DROP_CTRL_EVENT, array($ctrl));
+        igk_hook(IGK_DROP_CTRL_EVENT, array($ctrl));
         return true;
     }
     ///<summary></summary>
@@ -412,19 +412,22 @@ final class IGKControllerManagerObject extends IGKObject {
     /**
     */
     public function getUserControllers($callbackfilter=null){
-        $tab=$this->getControllers();
-
+        $tab=$this->getControllers(); 
         $out=array();
         if(igk_count($tab) > 0){
             foreach($tab as $v){
                
-                if(get_class($v) === __PHP_Incomplete_Class::class){              
+                if(get_class($v) === __PHP_Incomplete_Class::class){      
+                    // igk_dev_wln("table incomplete"        );
                     continue;
                 }
-                if(IGKControllerManagerObject::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) || !$v->getCanModify())
+                if(IGKControllerManagerObject::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) || !$v->getCanModify()){
+                    // igk_dev_wln("not user ".get_class($v));                   
                     continue;
+
+                }
                 if($callbackfilter && !$callbackfilter($v)){
-                    igk_wln("failed to implement");
+                    // igk_dev_wln("failed filter to implement");
                     continue;
                 }
                 $out[]=$v;                
@@ -487,12 +490,13 @@ final class IGKControllerManagerObject extends IGKObject {
                     $reg_cname = trim($d[2]); 
                     $resolvCtrl[$reg_cname] = $cl;
                     if ( $initialize_all){
-                        // igk_wln($cl.":".igk_sys_request_time());
                         if (empty($regname)){
                             $regname = str_replace("\\","." , $cl); 
                         }
-                        $v_ctrl = new $cl();
-                        $this->registerController($v_ctrl, $reg_name, true);   
+                        if (class_exists($cl)){
+                            $v_ctrl = new $cl();
+                            $this->registerController($v_ctrl, $reg_name, true);   
+                        }
                     }
                 }                 
                 $sysload=true; 
@@ -841,7 +845,7 @@ final class IGKControllerManagerObject extends IGKObject {
             }
         }
         $this->onInitComplete();
-        igk_notification_push_event("sys://notify/ctrl/reload", $this);
+        igk_hook("sys://notify/ctrl/reload", $this);
         igk_set_env("sys://reloadingCtrl", null);
         if($redirect){
             igk_navtocurrent();

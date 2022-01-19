@@ -13,6 +13,7 @@ $l["btn.addview"]="Add";
 $l["btn.answer"]="Reply";
 $l["btn.backupdatabase"]="Backup";
 $l["btn.balafon.download_app_2"]="Download {0} - {1}";
+$l["title.menuController"]="Menu";
 $l["btn.cancel"]="Cancel";
 $l["btn.checkauth"]="Check Autorisation";
 $l["btn.clearbackup"]="Clear Backup";
@@ -558,3 +559,9 @@ $l["menu.installsite"] = "Install Site";
 $l["menu.session"] = "Session";
 
 $l["msg.nocontroller.for.menu"] = "no controller setup for main menu.";
+
+$l["msg.updatingpleasewait"] =  "please wait...";
+$l["title.pleasewait"] =  "Update please wait";
+$l["msg.uptodaterequired"] =  "Core update is required";
+$l["msg.loadingcomplete"] =  "loading complete";
+$l["title.OS"] =  "operate";

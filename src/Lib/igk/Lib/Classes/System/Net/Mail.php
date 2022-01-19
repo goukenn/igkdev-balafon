@@ -17,6 +17,8 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
     const CONTENT_PLAIN_TEXT=IGK_CT_PLAIN_TEXT;
     const PART_ALTERNATIVE="multipart/alternative";
     const PART_MIXED="multipart/mixed";
+    const UTF8_CHARSET = "UTF-8";
+    const BASE64_CHUNK = 76;
     private $ErrorMsg;
     private $html_charset="iso-8859-1";
     private $m_files;
@@ -37,6 +39,8 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
     private $m_user;
     private $text_charset="iso-8859-1";
 
+    
+    var $Base64Encoding = true;
     ///<summary>send mail</summary>
     /**
      * send mail
@@ -53,9 +57,9 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
         }
         $mail->HtmlMsg=$message;
         $mail->Title=$subject;
-        $mail->From=$from;
-        $mail->HtmlCharset="utf-8";
-        $mail->TextCharset="utf-8";
+        $mail->From=$from ?? igk_sys_configs()->get("mail_contact");
+        $mail->HtmlCharset= self::UTF8_CHARSET;
+        $mail->TextCharset= self::UTF8_CHARSET; 
         $mail->addTo($to);
         if(is_array($attachement)){
             foreach($attachement as  $v){
@@ -87,8 +91,8 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
             $this->m_smtp_port=$app->Configs->mail_port;
             $this->m_socketType=$app->Configs->mail_authtype;
         }
-        // $this->HtmlCharset="utf-8";
-        // $this->TextCharset="utf-8";
+        $this->HtmlCharset = self::UTF8_CHARSET;
+        $this->TextCharset = self::UTF8_CHARSET; 
     }
     ///<summary>send mail with TLS by using socket</summary>
     /**
@@ -188,7 +192,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
             }
             fwrite($socket, 'Subject: '.$subject.IGK_CLF.'To: <'.implode('>, <', $this->m_to).'>'.IGK_CLF.$headers."\r\n\r\n".$message.IGK_CLF);
             fwrite($socket, "\r\n.\r\n");
-            igk_debug_wln("SEND....Subject");
+            igk_debug_wln("END mail.");
             if(!$this->server_parse($socket, '250')){
                 $this->_closeSocket($socket);
                 return false;
@@ -521,14 +525,26 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
         if(!((empty($j1) && empty($j2)))){
             $message .= "Content-Type: multipart/alternative; boundary=sub_$boundary".$lf;
             if(!empty($j1)){
+
+                
+
                 $message .= $LINE."--sub_$boundary".$lf;
                 $message .= "Content-Type: text/plain; charset=\"".$this->text_charset."\"".$LINE;
                 $message .= $j1;
             }
             if(!empty($j2)){
+
                 $message .= $LINE."--sub_$boundary".$lf;
-                $message .= "Content-Type:text/html; charset=\"".$this->html_charset."\"".$LINE;
-                $message .= $j2;
+                if ($this->Base64Encoding){
+                    $message .= "Content-Transfer-Encoding: base64".$lf;
+                    $message .= "Content-Type:text/html; charset=\"".$this->html_charset."\"".$LINE;
+                    $message .= implode("\n", str_split(base64_encode($j2), self::BASE64_CHUNK));
+                }else {
+                    $message .= "Content-Type:text/html; charset=\"".$this->html_charset."\"".$LINE;
+                    $message .= $j2;
+                }
+
+
             }
             $message .= $LINE."--sub_$boundary--".$lf;
         }

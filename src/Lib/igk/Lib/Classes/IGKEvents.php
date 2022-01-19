@@ -37,6 +37,14 @@ class IGKEvents extends IGKObject
     const ENV_KEY = "sys://hooks";
 
     const HOOK_DOM_PROPERTY_CHANGED = "dom_property_changed";
+    /**
+     * filter node . update property or replace with output response.
+     */
+    const FILTER_CREATED_NODE = "post_filter_node";
+    /**
+     * filter node creation
+     */
+    const FILTER_PRE_CREATE_ELEMENT = "pre_filter_node";
 
     
     const VIEWCOMPLETE = 0x1;
@@ -254,18 +262,15 @@ class IGKEvents extends IGKObject
      */
     public static function hook($name, $args = array(), $options = null)
     {
-        
+        // + ----------------------------------------------------------------------
+        // + | Default output 
         $def = null;
         if ($options) {
-            $def = igk_get_robjs("default|output", 0, (object)$options);
+            $def = igk_get_robjs("default|output|type", 0, (object)$options);
         }
         $hooks = igk_environment()->{self::ENV_KEY};
 
         $tab = igk_getv($hooks, $name);
-
-        if ($name == "filter_db_schema_info"){
-            igk_debug_wln("hook=   ".( $tab ? count($tab->list) : " not found "));
-        }
         
         if ($tab) {
             $list = &$tab->list;
@@ -290,7 +295,7 @@ class IGKEvents extends IGKObject
                     if (is_object($v->callback)) {
                         $cargs[0]->lastoutput = igk_invoke_callback_obj(null, $v->callback, $cargs);
                     } else {
-                        igk_wln_e(
+                        igk_dev_wln_e(
                             __FILE__ . ':' . __LINE__,
                             " : not a callable ",
                             $name,

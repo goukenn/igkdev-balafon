@@ -8,7 +8,9 @@ abstract class StringUtility{
     /**
      * convert to uri presentation
      */
-    public static function Uri($u){
+    public static function Uri(?string $u=""){
+        if ($u===null)
+            return $u;
         return str_replace("\\", "/", $u);
     }
     public static function UriCombine(...$args){

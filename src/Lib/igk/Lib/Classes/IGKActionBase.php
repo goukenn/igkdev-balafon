@@ -181,7 +181,9 @@ abstract class IGKActionBase implements IActionProcessor{
     }
     public static function HandleObjAction($fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
-        $action = igk_getv($params, 0);
+        // + | -------------------------------------------------------------
+        // + |  sanitize action name                 
+        $action = str_replace("-","_", igk_getv($params, 0));
         $r = 0;
         if (!empty($action)) {
             igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);

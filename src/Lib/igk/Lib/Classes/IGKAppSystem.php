@@ -9,7 +9,7 @@ use IGK\Cache\SystemFileCache as IGKSysCache;
 class IGKAppSystem{
 
     public static function InitEnv(string $dirname){    
-   
+ 
         if(!is_dir($dirname))
             return -9; 
         if(!defined("IGK_APP_DIR"))
@@ -50,21 +50,43 @@ class IGKAppSystem{
         if(!is_dir($dirname) || !($hdir=opendir($dirname)))
             return;
         closedir($hdir);
-
-        return;
+   
 
         igk_environment()->set(IGKEnvironment::INIT_APP, 1);       
-        $access="deny from all";
-        $old=umask(0);
+        
+       
         $idx= $path->getBaseDir()."/index.php";
-        $v_access= $path->getBaseDir()."/.htaccess";
         if(!file_exists($idx)){
-            $indexsrc=igk_getbaseindex_src(__FILE__);
+            $indexsrc=igk_getbaseindex_src(IGK_LIB_FILE);
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
+        
+       
+        $ips=igk_server_name();
+        self::InstallDir($idx, $app_dir, $dirname, $project_dir, $path->getDataDir(), $path->getSysDataDir(),[
+            "domain_name"=>!IGKValidator::IsIPAddress($ips) ? $ips: IGK_DOMAIN,
+        ]);        
+        igk_raise_initenv_callback();
+        igk_environment()->set(IGKEnvironment::INIT_APP, null);  
+        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, "reloadConfigCallback"]);
+    }
+    public static function reloadConfigCallback(){
+        igk_app()->getConfigs()->reload();
+        igk_unreg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, __FUNCTION__]); 
+    }
+
+    public static function InstallDir(string $idx, string $app_dir, string $dirname, $project_dir, $data_dir, 
+         $sys_datadir,
+         ?array $options=null){
+        $access="deny from all";  
+        $old=umask(0);
+        $is_primary = ($app_dir == $dirname);
+
+        $v_access= dirname($idx)."/.htaccess";
         if(!file_exists($v_access)){
             igk_io_save_file_as_utf8($v_access, igk_getbase_access(), true);
         }
+        $confFILE = StringUtility::UriCombine($data_dir, "configure");
         igk_io_save_file_as_utf8($app_dir."/Lib/.htaccess", $access, true);
         IO::CreateDir($dirname."/".IGK_RES_FOLDER);
         igk_io_save_file_as_utf8($dirname."/".IGK_RES_FOLDER."/.htaccess", "allow from localhost", true);
@@ -90,11 +112,11 @@ class IGKAppSystem{
         IO::CreateDir($app_dir."/".IGK_PACKAGES_FOLDER);
         igk_io_save_file_as_utf8($app_dir."/".IGK_PACKAGES_FOLDER."/.htaccess", $access, false);
         igk_io_save_file_as_utf8($project_dir."/.htaccess", $access, true);
-        $data_dir=$app_dir."/".IGK_DATA_FOLDER;
+   
         IO::CreateDir($data_dir);
         IO::CreateDir($data_dir."/Lang");
-        if (is_dir($v_dir = $path->getSysDataDir())){
-            IO::CopyFiles($v_dir, $path->getDataDir(), true);
+        if (is_dir($v_dir = $sys_datadir)){ 
+            IO::CopyFiles($v_dir, $data_dir, true);
         }
         igk_io_save_file_as_utf8($app_dir. "/".IGK_DATA_FOLDER."/.htaccess", $access, false);
         igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_DATA, igk_get_defaultconfigdata(), false);
@@ -103,6 +125,12 @@ class IGKAppSystem{
         igk_io_save_file_as_utf8($app_dir. "/".IGK_INC_FOLDER."/.htaccess", "deny from all");
         IO::CreateDir($app_dir."/".IGK_CACHE_FOLDER, 0775);
         igk_io_save_file_as_utf8($app_dir. "/".IGK_CACHE_FOLDER."/.htaccess", "deny from all");
+
+        // + init cgi-bin 
+        IO::CreateDir($app_dir."/cgi-bin");
+        igk_io_save_file_as_utf8($app_dir."/cgi-bin/.htaccess", "deny from all");
+        igk_io_save_file_as_utf8($app_dir."/cgi-bin/cronjob.php", igk_get_defaultcron_data(), false);
+        // 
         // load library folder 
         // igk_load_env_files(IGK_LIB_DIR);
         // igk_loadlib($app_dir. "/".IGK_INC_FOLDER);
@@ -110,20 +138,21 @@ class IGKAppSystem{
         self::_LoadEnvFiles();
 
         igk_io_save_file_as_utf8($confFILE, "1", false);
-        $ips=igk_server_name();
-        igk_io_save_file_as_utf8($path->getDataDir()."/domain.conf", !IGKValidator::IsIPAddress($ips) ? $ips: IGK_DOMAIN, true);
+        
+        igk_io_save_file_as_utf8($data_dir."/domain.conf", igk_getv($options, "domain_name"), true);
         $cgi=IGK_LIB_DIR."/cgi-bin";
         if(!igk_phar_running() && ($ctab=igk_io_getfiles($cgi, "/\.cgi$/"))){
             foreach($ctab as $k){
                 @chmod($k, octdec("0755"));
             }
+        } 
+        if ($is_primary){
+            igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/index.php", igk_config_php_index_content(), false);
+            igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/.htaccess", igk_getconfig_access(), false);
         }
-        igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/index.php", igk_config_php_index_content(), false);
-        igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/.htaccess", igk_getconfig_access(), false);
+
         
         umask($old);
-        igk_raise_initenv_callback();
-        igk_environment()->set(IGKEnvironment::INIT_APP, null); 
     }
     private static function _LoadEnvFiles(){
         return igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", "SysMods", igk_io_projectdir()));

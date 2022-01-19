@@ -15,7 +15,7 @@ class IGKRoutes
             self::Invoke($uri, $u, $callback);
         }
     }
-    /**
+  /**
      * invoke registrated uri
      * @param mixed $uri 
      * @param mixed $u 
@@ -39,7 +39,11 @@ class IGKRoutes
                     $b[$request] = $u;
                     igk_set_env($uri_key, $b);
                 }
-                call_user_func_array($callback, [$p->getQueryParams()]);
+                $args = $p->getQueryParams();
+                if (PHP_VERSION > "8.0.0"){
+                    $args = array_values($args);
+                }
+                call_user_func_array($callback, $args);
             }
         }
     }

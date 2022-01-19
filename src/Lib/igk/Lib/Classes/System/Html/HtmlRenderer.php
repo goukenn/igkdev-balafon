@@ -127,11 +127,13 @@ class HtmlRenderer{
         $tab = [
             ["item"=>$item, "close"=>false]
         ]; 
+        $options->Source = $item;
         $s = "";
         $reflect = [];
         $ln= $options->Indent ? "\n" : "";
         // $renderer = null; //igk_getv($options, "renderer") ?? new HtmlRenderer();
         $engine = igk_getv($options, "Engine"); 
+        $start = true;
 
         while(($q = array_pop($tab)) && !$options->Stop){
             $tag = null;
@@ -163,15 +165,16 @@ class HtmlRenderer{
                     $s .= $engine->render($i, $options);
                     continue;
                 }
-            
-                if (!isset($reflect[$cl = get_class($i)])){
-                    $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, "render"))->getDeclaringClass()->name;                
+                if ($options->Source !== $i){
+                    if (!isset($reflect[$cl = get_class($i)])){
+                        $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, "render"))->getDeclaringClass()->name;                
+                    }
+                    if ($reflect[$cl]){
+                        $options->lastRendering = $i;
+                        $s .= $i->render($options);
+                        continue;
+                    } 
                 }
-                if ($reflect[$cl]){
-                    $options->lastRendering = $i;
-                    $s .= $i->render($options);
-                    continue;
-                } 
 
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag() ? $i->getTagName() : "";

@@ -24,7 +24,7 @@ $c->addOnRenderCallback(igk_create_expression_callback(
 
 function igk_html_demo_layoutPresentation($t){
 
-	// $p = $t->addContainer()->addRow()->addCol("igk-col-4-2 igk-col-sm-4-4 igk-col-xsm-4-4 no-padding")->addDiv()->addlayoutPresentation();
+	// $p = $t->container()->addRow()->addCol("igk-col-4-2 igk-col-sm-4-4 igk-col-xsm-4-4 no-padding")->div()->addlayoutPresentation();
 	$p = $t->addlayoutPresentation();
 	$p->mainCell->Content =igk_html_from_string(<<<EOF
  Lorem ipsum dolor sit amet, lacinia congue nunc turpis, feugiat amet eget nullam nulla ac et, eros est mi donec duis fermentum aliquet, mauris eget magna habitant. Fusce donec nonummy metus turpis, dolor faucibus faucibus at. Leo ipsum magna vestibulum, senectus non ut, dui massa a sed ipsum ac suscipit, integer iaculis vestibulum ante rutrum pellentesque, sed accumsan eu molestie. Sed varius pretium, mauris adipiscing dapibus venenatis nullam. Rhoncus class excepturi neque eget, amet neque laoreet sagittis lorem consequat, lacus adipiscing sed. Viverra nam cras in diam, amet ante ipsam magna, aliquam id sit fusce lorem magna enim, velit nisl curabitur lectus sit diam neque, ligula libero donec ipsum ut pellentesque duis. Lacus viverra rutrum turpis sed, lacus amet porta montes mauris volutpat eu, class vel. Nullam ipsum sit, suspendisse neque urna augue lacus id. Enim id. Libero at. Porta dui consectetuer, nunc metus, lectus molestias dolor, ornare id sagittis, hendrerit posuere mi proin eleifend placerat. Sit vel, quam nonummy nibh lorem litora, pellentesque lectus vestibulum eleifend neque quam facilisis.

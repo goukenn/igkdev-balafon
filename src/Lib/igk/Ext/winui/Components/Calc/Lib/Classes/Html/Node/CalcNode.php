@@ -24,10 +24,10 @@ final class CalcNode extends HtmlNode
 		$this->clearChilds();
 		//model de vuew
 		$frm = $this->addForm();
-		$dv = $frm->addDiv();
+		$dv = $frm->div();
 		//$dv->addLabel("clValue")->Content = R::ngets("lb.verser");
 		$i = $dv->addInput("clValue", "text", new IGKValueListener($this, "Value"))->setAttribute("default-v",new IGKValueListener($this, "Value"));
 		$i["class"] = "+alignr";
-		$frm->addDiv()->add("span")->Content = "0";
+		$frm->div()->add("span")->Content = "0";
 	}
 }

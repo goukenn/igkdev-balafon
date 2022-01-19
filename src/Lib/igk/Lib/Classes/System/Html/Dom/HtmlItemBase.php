@@ -321,7 +321,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         static $closeTags;
         if ($closeTags === null){
-            $closeTags = explode("|", "a|html|body|ul|li|ol|pre|code|button|videos|audio|head|script|style|div|form|nav|tr|td|th|table");
+            $closeTags = explode("|", "a|html|body|span|code|ul|li|ol|pre|p|button|videos|audio|select|head|script|style|div|form|nav|tr|td|th|table|textarea");
         }
         return (strpos($this->tagname, ":")!==false) || in_array($this->tagname, $closeTags); 
     }

@@ -69,15 +69,15 @@ function igk_app_login_form($app, $div, $badUri=null, $goodUri=null){
     $frm["action"]=$app->getAppUri("login");
     $frm["class"]="igk-login-form";
     $frm["igk-form-validate"]=1;
-    igk_notify_sethost($frm->addDiv(), "notify/app/login");
-    $cd=$frm->addDiv()->setClass("form-group");
-    $cd->addRow()->addCol()->addDiv()->addInput("clLogin", "text")->setClass("igk-form-control")->setAttribute("placeholder", R::ngets("tip.login"))->setAttribute("igk-input-focus", 1)->setAttribute("autocomplete", 'off')->setAttribute("autocorrect", "off")->setAttribute("autocapitalize", "none");
+    igk_notify_sethost($frm->div(), "notify/app/login");
+    $cd=$frm->div()->setClass("form-group");
+    $cd->addRow()->addCol()->div()->addInput("clLogin", "text")->setClass("igk-form-control")->setAttribute("placeholder", R::ngets("tip.login"))->setAttribute("igk-input-focus", 1)->setAttribute("autocomplete", 'off')->setAttribute("autocorrect", "off")->setAttribute("autocapitalize", "none");
     $row=$cd->addRow();
-    $row->addCol()->addDiv()->addInput("clPwd", "password")->setClass("igk-form-control")->setAttribute("placeholder", R::ngets("tip.pwd"))->setAttribute("autocomplete", 'current-password');
+    $row->addCol()->div()->addInput("clPwd", "password")->setClass("igk-form-control")->setAttribute("placeholder", R::ngets("tip.pwd"))->setAttribute("autocomplete", 'current-password');
     $row=$cd->addRow();
-    $row->addCol()->addDiv()->setClass("alignc")->addInput("btn_connect", "submit", R::ngets("btn.connect"))->setClass("igk-btn igk-btn-default igk-form-control igk-btn-connect");
+    $row->addCol()->div()->setClass("alignc")->addInput("btn_connect", "submit", R::ngets("btn.connect"))->setClass("igk-btn igk-btn-default igk-form-control igk-btn-connect");
     $row=$cd->addRow();
-    $dv=$row->addCol()->addDiv();
+    $dv=$row->addCol()->div();
     $dv->Content=igk_get_string_format(<<<EOF
 <input type="checkbox" name="remember_me" id="remember_me" value="1" checked="1" /><span>{1}</span>
 <span class="separator" >&middot;</span>

@@ -39,7 +39,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static void commit() macros function
  * @method static int count() macros function
  * @method static object|null createFromCache() macros function
- * @method static bool createIfNotExists(object $object, ?mixed $condition) macros function: create if not exists
+ * @method static bool|object createIfNotExists(object $object, ?mixed $condition) macros function: create if not exists
  * @method static void display() macros function
  * @method static array|Iterable|null formFields() macros function
  * @method static array formSelectData() macros function : form selection data
@@ -423,7 +423,8 @@ abstract class ModelBase implements ArrayAccess
             return $c->$name(...$arguments);
         }
         igk_wln(array_keys(self::$macros));
-        die("ModelBase: failed to call [" . $name . "]");
+        igk_trace();
+        die("ModelBase: failed to call [" . $name . "] - ".static::class);
     }
 
     /**

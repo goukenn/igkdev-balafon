@@ -123,7 +123,7 @@ function igk_html_attribvalue($n){
 function igk_html_add_title($node, $title){
     if($node == null)
         return null;
-    $d=$node->addDiv();
+    $d=$node->div();
     $d["class"]="igk-title";
     $d->Content=__($title);
     return $d;
@@ -679,12 +679,12 @@ function igk_html_dump($obj){
     $t->div()->Content="Object: ";
     $tq=array(array($obj, $t));
     while($q=array_pop($tq)){
-        $dv=$q[1]->addDiv();
+        $dv=$q[1]->div();
         foreach($q[0] as $k=>$s){
             if(is_object($s) || is_array($s)){
                 $dv->addLabel()->Content=$k;
-                $ts=$dv->addDiv()->setStyle("margin-Left:32px; position:relative;");
-                array_push($tq, array($s, $ts->addDiv()));
+                $ts=$dv->div()->setStyle("margin-Left:32px; position:relative;");
+                array_push($tq, array($s, $ts->div()));
             }
             else{
                 $ul=$dv->add("ul");
@@ -960,7 +960,13 @@ function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){
     };
     $fieldset=0;
     foreach($formFields as $k=>$v){
+        
         if (is_integer($k)){
+            if ($v=="-"){
+                // add separator
+                $o .= "<div class=\"igk-separator\"></div>";
+                continue;
+            }
             if (is_string($v)){
                 $k = $v;
             }
@@ -1169,7 +1175,7 @@ function igk_html_paginate($target, $pagingHost, $tab, $maxperpage, $callback, $
             break;
     }
     if($epagination && $uri){
-        $pagingHost->addDiv()->addAJXPaginationView($uri, $count, $maxperpage, $selected, $ajxtarget);
+        $pagingHost->div()->addAJXPaginationView($uri, $count, $maxperpage, $selected, $ajxtarget);
     }
 }
 ///<summary></summary>
@@ -1449,7 +1455,7 @@ function igk_html_installer_button($node, $class, $text, $update="/update", $upd
     $src = file_get_contents(IGK_LIB_DIR.'/Views/Scripts/configs/installer.js'); 
  
     $n["class"] = "igk-btn igk-btn-primary";     
-    $node->addScript()->Content= $src;
+    $node->script()->Content= $src;
     $node->add($n);
     return $n; 
 }

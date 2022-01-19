@@ -19,7 +19,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ init target node
 	protected function initTargetNode(){
 		$node =  parent::initTargetNode();
-		$this->m_viewZone = $node->addDiv();
+		$this->m_viewZone = $node->div();
 		igk_css_regclass(".pageview", "{sys:dispib,alignl,alignt,fitw} max-width:1024px; padding:4px;");
 		$this->m_viewZone["class"]="pageview";
 		return $node;

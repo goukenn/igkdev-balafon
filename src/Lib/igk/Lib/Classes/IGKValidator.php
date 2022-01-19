@@ -46,7 +46,7 @@ final class IGKValidator extends IGKObject {
         if($condition){
             $error=$error || true;
             if($node != null){
-                $node->addLi()->Content=$errormsg;
+                $node->li()->Content=$errormsg;
             }
         }
     }

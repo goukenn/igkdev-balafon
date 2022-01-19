@@ -18,11 +18,11 @@ final class HtmlNotifyDialogBoxItem extends HtmlNode {
     public function __construct(){
         parent::__construct("div");
         $this["class"]="igk-notify-box";
-        $nv=$this->addDiv();
+        $nv=$this->div();
         $nv["class"]="content";
-        $nv->addDiv()->setClass("title")->Content=new IGKValueListener($this, 'Title');
-        $nv->addDiv()->setClass("msg")->Content=new IGKValueListener($this, 'Message');
-        $nv->addScript()->Content=<<<EOF
+        $nv->div()->setClass("title")->Content=new IGKValueListener($this, 'Title');
+        $nv->div()->setClass("msg")->Content=new IGKValueListener($this, 'Message');
+        $nv->script()->Content=<<<EOF
 if(ns_igk)ns_igk.winui.notify.init();
 EOF;
     }

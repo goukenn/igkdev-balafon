@@ -116,9 +116,9 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
         if(file_exists($f)){
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
             $div= new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
-            igk_debug(1);
+         
             $div->loadFile($f, HtmlContext::XML);
-            igk_debug(0);
+           
             $d=igk_getv($div->getElementsByTagName("config"), 0);
             if($d){
                 foreach($d->Childs as $k){

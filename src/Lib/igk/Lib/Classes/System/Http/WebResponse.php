@@ -51,7 +51,7 @@ class WebResponse extends RequestResponse{
         $cache = $this->cache; //is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc);
         $this->render();
         $s = ob_get_clean();  
-        $zip = igk_server()->accepts(["gzip"]);
+        $zip = 0 && igk_server()->accepts(["gzip"]);
       
         if ($cache){ 
             // + |----------------------------------------------------------------
@@ -64,6 +64,7 @@ class WebResponse extends RequestResponse{
                 igk_zip_output($s, 0, 1);
                 $s = ob_get_clean();
             }
+            // + |----------------------------------------------------------------
             // save cache document for zip and no zip content
             igk_io_w2file(
                 $file, 

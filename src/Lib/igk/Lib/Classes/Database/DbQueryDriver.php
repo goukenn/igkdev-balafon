@@ -951,7 +951,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * @param mixed $throwex the default value is true
     */
     public function sendQuery($query, $throwex=true){
-        $v_qdebug = igk_environment()->querydebug;
+     
         $v_nolog = false;
         if (is_array($throwex)){
             $v_nolog = igk_getv($throwex, "no_log", false);
@@ -959,8 +959,8 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         } 
         
         if(igk_db_is_resource($this->m_resource)){
-			if ($v_qdebug){ 
-                // igk_dev_wln($query);
+			if (igk_environment()->querydebug){ 
+                igk_dev_wln($query);
 				igk_push_env(IGK_ENV_QUERY_LIST, $query);
                 // if ($query == "SELECT * FROM `tbigk_users` WHERE `clId`='4';"){
                 //     igk_trace();

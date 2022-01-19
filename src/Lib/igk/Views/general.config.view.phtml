@@ -24,22 +24,22 @@ EOF;
 
 $bbox=$t->div();
 $bbox->setClass("overflow-y-a fith");
-$hd=$bbox->addDiv()->setClass("header");
+$hd=$bbox->div()->setClass("header");
 if(!($ref=$ctrl->getParam("referer"))){
     $ref=igk_sys_srv_referer() ?? igk_io_baseuri();
     $ctrl->setParam("referer", $ref);
 }
 $hd->addA($ctrl->getUri("back"))->addFontSymbol("global", 0xF001);
 $hd->addSectionTitle(4)->Content= __("Configurations");
-$h=$bbox->addDiv();
+$h=$bbox->div();
 $f=$h->addForm();
 $f["style"]="padding:4px;";
 $f["action"]=$ctrl->getUri("configure_search_ajx");
 $f["onsubmit"]="return false;";
-$r=$f->addDiv();
+$r=$f->div();
 $r->addLabel("Find")->setClass("dispib floatl");
 $r->addInput("clsearch", "text")->setClass("dispi floatl")->setAttribute("onkeyup", "javascript: ns_igk.ajx.fn.postData(this.form.action, this, '#vr'); return ;");
 $r->addClearTab();
 $r->addInput("btn.search", "submit")->setClass("dispn");
-$h=$bbox->addDiv()->setId("vr")->setClass("overflow-y-a loc_l loc_b loc_r");
+$h=$bbox->div()->setId("vr")->setClass("overflow-y-a loc_l loc_b loc_r");
 $h->addAJXUriLoader($ctrl->getUri("configure_search_ajx"));

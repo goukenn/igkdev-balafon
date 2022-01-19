@@ -12,7 +12,7 @@ namespace IGK\Controllers;
 
 use IGK\System\Html\Dom\HtmlNotificationItemNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
- 
+use IGKException;
 use IGKNotifyStorage;
 use IIGKNotifyMessage;
 use function igk_resources_gets as __;
@@ -270,6 +270,14 @@ EOF;
     ///<param name="notifyhost"></param>
     ///<param name="name" default="null"></param>
     ///<param name="options" default="null"></param>
+    /**
+     * bind notify controller
+     * @param mixed $notifyhost 
+     * @param string $name 
+     * @param mixed $options 
+     * @return $this 
+     * @throws IGKException 
+     */
     public function setNotifyHost($notifyhost, $name="::global", $options=null){
         if($notifyhost){
             $n=$this->getNotification($name);

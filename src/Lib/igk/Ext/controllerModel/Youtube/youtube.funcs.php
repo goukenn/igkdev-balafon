@@ -24,7 +24,7 @@ function igk_html_demo_youtubevideo($tg){
 	$n = igk_create_node();
 	//major lazer
 	$n->addyoutubeVideo("https://www.youtube.com/embed/YqeW9_5kURI");
-	$tg->addDiv()->Content = "You tube demonstration";
+	$tg->div()->Content = "You tube demonstration";
 	$tg->add($n); 
 }
 //<summary>description of you tube video</summary>
@@ -32,7 +32,7 @@ function igk_html_desc_youtubeVideo($tg){
 	$n = igk_create_node();
 	//major lazer
 	// $s = "test";
-	$n->addDiv()->Content = "Usage in PHP Script";
+	$n->div()->Content = "Usage in PHP Script";
 	$n->addCode()->Content = (<<<EOF
 \$node->addyoutubeVideo("https://www.youtube.com/embed/YqeW9_5kURI");
 EOF

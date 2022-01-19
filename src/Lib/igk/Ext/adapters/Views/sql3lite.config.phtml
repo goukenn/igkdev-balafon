@@ -13,7 +13,7 @@ $t->clearChilds();
 $box = $t->addPanelBox();
 $box->addH1()->Content=__("SQL3Lite Management");
 
-$frm= $box->addDiv()->addForm();
+$frm= $box->div()->addForm();
 $frm->addNotifyHost();
 igk_html_form_initfield($frm);
 igk_html_form_buildformfield($frm, ["base_datafilename"=>[

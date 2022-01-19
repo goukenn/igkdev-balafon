@@ -1,0 +1,13 @@
+<?php
+require_once IGK_LIB_CLASSES_DIR . '/System/Polyfill/ArrayAccessSelfTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Polyfill/CSSDefaultArrayAccess.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Polyfill/IGKMediaArrayAccessTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Polyfill/IteratorTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Polyfill/ScriptAssocArrayAccessTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigArrayAccessTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/Controllers/ControllerUriTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/IO/FileSystem.php';
+require_once IGK_LIB_CLASSES_DIR . '/IGKIterator.php';
+require_once IGK_LIB_CLASSES_DIR . '/IGKUserInfo.php';
+require_once IGK_LIB_CLASSES_DIR . '/IIGKArrayObject.php';
+require_once IGK_LIB_CLASSES_DIR . '/IGKResourceUriResolver.php';

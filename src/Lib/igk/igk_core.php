@@ -60,13 +60,11 @@ function igk_sys_configs(){
  *  @endcode exit
  */
 function igk_exit($close = 1, $clean_buffer = 0)
-{
-    exit;
+ {
     if (igk_environment()->isAJXDemand){
         if (igk_environment()->is("DEV")){
             igk_trace();
             igk_wln("<div style='position:fixed; z-index: 1000; top:0; left:0: background-color:red; color:#fdfdfd'>call igk_exit not allowed in : inAJXDemand Flag context.</div>");
-
         }
     }
     if ($close && !empty(session_id())) {
@@ -954,14 +952,14 @@ function igk_is_singlecore_app()
 }
 
 
-///<summary></summary>
-///<param name="name"></param>
-///<param name="args"></param>
+///<summary>shortcut IGKEvents::hook</summary>
+///<param name="name">hook name</param>
+///<param name="args">argument to pass</param>
 /**
- * 
+ * shortcut to IGKEvents::hook 
  * @param mixed $name
  * @param mixed $args the default value is
- * @param mixed $options to pass to to okthe default value is
+ * @param array|object $options to pass default|output|type
  */
 function igk_hook($name, $args = array(), $options = null)
 {
@@ -1588,4 +1586,32 @@ function igk_sys_reflect_class($cl)
     }
     $reflection[$cl] = 1;
     return new ReflectionClass($cl);
+}
+
+/**
+ * get working directory
+ * @return void 
+ */
+function igk_io_workingdir(){
+    if(defined( "IGK_WORKING_DIR")){
+        return IGK_WORKING_DIR;
+    }
+    $app_dir = igk_io_applicationdir();
+    $base_dir = igk_io_basedir();
+    if ($app_dir == $base_dir){
+        define("IGK_WORKING_DIR", $app_dir);
+        return $app_dir;
+    }
+    $c = 0;
+    while($app_dir && ($app_dir!="/")){
+        $app_dir = dirname($app_dir);
+        $c++;
+        if ($c>10) break;
+        if (strstr($base_dir, $app_dir)){
+            define("IGK_WORKING_DIR", $app_dir);
+            return $app_dir;
+        }
+    }
+    die("failed to found working directory ".getcwd());
+
 }

@@ -46,7 +46,7 @@ $fclist=array("install"=>function(){
             if(!$e && ($o->clDbUserPassword !== $o->clDbUserRePassword)){
                 $e=1;
             }
-            igk_notification_push_event("sys://event/check_wizeinstall", $o);
+            igk_hook("sys://event/check_wizeinstall", $o);
             $es="::Error";
             if(!isset($o->$es) && !$e){
                 $app->Configs->admin_pwd=md5($o->cladminPassword);
@@ -117,7 +117,7 @@ $hpage=$c->div()->setClass("igk-hpage-view")->setId("pageview");
 
 
 $hpage->clearChilds();
-$hpage->addScript()->Content = file_get_contents(dirname(__FILE__)."/.pageview.js");
+$hpage->script()->Content = file_get_contents(dirname(__FILE__)."/.pageview.js");
 
 // igk_wln_e(
 //     __FILE__.":".__LINE__,

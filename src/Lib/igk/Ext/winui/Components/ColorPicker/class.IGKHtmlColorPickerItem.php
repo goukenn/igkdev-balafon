@@ -3,6 +3,7 @@
 
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Number;
 
 final class IGKHtmlColorPickerItem extends HtmlNode
 {
@@ -21,19 +22,19 @@ final class IGKHtmlColorPickerItem extends HtmlNode
 		parent::__construct("div");
 		$this->setClass("igk-clpicker");
 
-		$this->addDiv()
+		$this->div()
 			->addTrackBar()->setId("clr");
-		$this->addDiv()
+		$this->div()
 			->addTrackBar()->setId("clg");
-		$this->addDiv()
+		$this->div()
 			->addTrackBar()->setId("clb");
 
-		$frm = $this->addDiv()->addForm();
+		$frm = $this->div()->addForm();
 		$frm->addInput("clValue", "hidden",$this->getWebValue());
-		//$this->addDiv()->Content = $this->getWebValue();
+		//$this->div()->Content = $this->getWebValue();
 
 
-		$this->addScript()->Content =<<<EOF
+		$this->script()->Content =<<<EOF
 ns_igk.readyinvoke('igk.winui.components.colorpicker.init');
 EOF;
 
@@ -42,7 +43,7 @@ EOF;
 
 	public function initDemo($t){
 		$this["demo"] = "1";
-		$this->addDiv()->Content = "for demo";
+		$this->div()->Content = "for demo";
 
 	}
 }
@@ -70,27 +71,27 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 	}
 	public function initView(){
 		$this->clearChilds();
-		$d = $this->addDiv()->setClass("dispib");
-		$c = $d->addDiv();
+		$d = $this->div()->setClass("dispib");
+		$c = $d->div();
 		$uri = $this->m_ctrl->getDataDir()."/R/Img/bg-circ.png";
 		$uri = IGKResourceUriResolver::getInstance()->resolve($uri); 
 		$c->addImg()->setAttribute("src", $uri);
 
-		$c->addDiv()->setClass("posab loc_l loc_t loc_r fith igk-circ-pan")->setStyle("border :1px solid #eee");
+		$c->div()->setClass("posab loc_l loc_t loc_r fith igk-circ-pan")->setStyle("border :1px solid #eee");
 
-		$d->addDiv()->setClass("dispb alignc igk-circ-v")->Content = "&nbsp;";
-		$d->addDiv()->setClass("dispb")->addTrackbar();
-		$i = $d->addDiv()->setClass("dispb")->addInput("clvalue", "text");
+		$d->div()->setClass("dispb alignc igk-circ-v")->Content = "&nbsp;";
+		$d->div()->setClass("dispb")->addTrackbar();
+		$i = $d->div()->setClass("dispb")->addInput("clvalue", "text");
 		$i["class"]= "igk-form-control";
 
-$this->addScript()->Content = <<<EOF
+$this->script()->Content = <<<EOF
 ns_igk.readyinvoke('igk.winui.components.circleColorPicker.init');
 EOF;
 	}
 
 	public function initDemo($t){
 		$this["demo"] = "1";
-		$this->addDiv()->setClass("demo")->Content = "for demo";
+		$this->div()->setClass("demo")->Content = "for demo";
 	}
 }
 

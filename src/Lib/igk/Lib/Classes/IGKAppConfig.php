@@ -28,19 +28,17 @@ final class IGKAppConfig extends IGKObject {
     * load configuration files
     */
     private function _loadSystemConfig(){
-        // require_once(IGK_LIB_DIR."/Lib/Classes/System/Configuration/ConfigUtils.php");
-        // require_once(IGK_LIB_DIR."/Lib/Classes/IGKCSVDataAdapter.php");
         $file=IGK_CONF_DATA;
         $this->m_configEntries=array();
-        $fullpath=igk_io_syspath($file);
-        // $s = igk_sys_request_time();
-        // igk_debug_wln("Before loading configuration util:::::::".$s . " ? ".file_exists($fullpath));
-        IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
+        if (file_exists($fullpath=igk_io_syspath($file))){        
+            IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
+        }
         // $m = igk_sys_request_time();  
         // igk_debug_wln("After loading configuration util:::::::::".$m);// = igk_sys_request_time()));
         // igk_wln_e("duration ::: ".($m - $s));
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries);
         date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
+      
     }
     ///<summary></summary>
     /**

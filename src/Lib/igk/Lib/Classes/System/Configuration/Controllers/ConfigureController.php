@@ -70,7 +70,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $frm = $t->addForm();
         $frm["action"] = $this->getUri("updatecacheConfig_ajx");
         $u = $this->getUri("activehtmlCache-ajx");
-        $div = $frm->addDiv();
+        $div = $frm->div();
         $div->addLabel("a_html_cache")->setClass("dispib")->Content = __("Html Cache");
         $div->addToggleStateButton("a_html_cache", "on", igk_sys_is_htmlcaching())->setClass("dispib")->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
     }
@@ -205,13 +205,13 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         $ctrl = $this;
         $app = igk_app();
-        if ($app->Configs->informAccessConnection) {
-            $to = $app->Configs->website_adminmail;
+        if ($app->getConfigs()->informAccessConnection) {
+            $to = $app->getConfigs()->website_adminmail;
             if ($to) {
                 $message = igk_create_node("div");
                 $message->article($ctrl, "mail.notify.template", (object)array(
                     "clDate" => igk_mysql_datetime_now(),
-                    "clDomain" => $app->Configs->website_domain
+                    "clDomain" => $app->getConfigs()->website_domain
                 ));
                 $d = igk_get_document('sys://mail/notification');
                 if ($d === igk_app()->getDoc()) {
@@ -221,7 +221,7 @@ final class ConfigureController extends BaseController implements IConfigControl
                 $opt->Context = "mail";
                 $opt->NoStoreRendering = 1;
                 $d->body->clearChilds()->add($message);
-                if (!igk_mail_sendmail($to, "no-reply@" . igk_app()->Configs->website_domain, __("title.mail.adminnotifyconnexion_1", $app->Configs->website_domain), $d->render($opt), null)) {
+                if (!igk_mail_sendmail($to, "no-reply@" . igk_app()->Configs->website_domain, __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
                     igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
                 }
             } else {
@@ -248,9 +248,9 @@ final class ConfigureController extends BaseController implements IConfigControl
         $dummy = igk_create_node("dummy");
         $dummy->Load($txt);
         $b = igk_getv($dummy->getElementsByTagName("configmenu"), 0);
-        $v_subdiv = $c->addDiv();
+        $v_subdiv = $c->div();
         foreach ($b->Childs as  $v) {
-            $v_d = $v_subdiv->addDiv();
+            $v_d = $v_subdiv->div();
             $t = $v_d->div()->setAttributes(array("class" => "table table-stripped config-menu-title"));
             $t->Content = $v->TagName;
         }
@@ -367,32 +367,32 @@ final class ConfigureController extends BaseController implements IConfigControl
             $p = igk_cmp_version($v, $sys);
             if ($p == 0) {
                 $m = $r->add("Message");
-                $m->addDiv()->Content = __("msg.youareuptodate");
+                $m->div()->Content = __("msg.youareuptodate");
                 $r->add("Status")->Content = 0;
             } else if ($p == -1) {
                 $r->add("Status")->Content = 1;
-                $d = $r->add("Message")->addDiv();
+                $d = $r->add("Message")->div();
                 $d->setStyle("padding-top:10px; padding-bottom:10px");
                 $u = igk_io_fullbaserequesturi() . "/" . $this->getUri('conf_install_update');
-                $d->addDiv()->Content = __("msg.uptodaterequired");
-                $d->addDiv()->Content = __("app.new.version_1", $sys);
+                $d->div()->Content = __("msg.uptodaterequired");
+                $d->div()->Content = __("app.new.version_1", $sys);
                 $d->addInput("btn.update", "submit", __("Update"))->setAttribute("onclick", "javascript: ns_igk.os.update('$u'); return false;");
-                $dv = $d->addDiv();
+                $dv = $d->div();
                 $dv->setId("dialog");
                 $dv->setClass("igk-dialog-temp wait");
-                $dv->addDiv()->setClass("title")->Content = __("title.pleasewait");
-                $m = $dv->addDiv()->setClass("msg")->addDiv();
-                $m->addDiv()->Content = __("msg.updatingpleasewait");
-                $m->addDiv()->addLineWaiter();
-                $dv = $d->addDiv();
+                $dv->div()->setClass("title")->Content = __("title.pleasewait");
+                $m = $dv->div()->setClass("msg")->div();
+                $m->div()->Content = __("msg.updatingpleasewait");
+                $m->div()->addLineWaiter();
+                $dv = $d->div();
                 $dv->setId("dialog");
                 $dv->setClass("igk-dialog-temp os-complete");
-                $dv->addDiv()->setClass("title")->Content = __("title.OS");
-                $m = $dv->addDiv()->setClass("msg")->addDiv();
-                $m->addDiv()->Content = __("msg.loadingcomplete");
+                $dv->div()->setClass("title")->Content = __("title.OS");
+                $m = $dv->div()->setClass("msg")->div();
+                $m->div()->Content = __("msg.loadingcomplete");
             } else {
                 $m = $r->add("Message");
-                $m->addDiv()->Content = __("msg.yourversionishighter");
+                $m->div()->Content = __("msg.yourversionishighter");
                 $r->addNode("Status")->Content = "0";
             }
         } else {
@@ -589,7 +589,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $c->informAccessConnection =  (igk_getr("clinformAccessConnection", false) == 'on') ? 1 : 0; // (igk_getr("clinformAccessConnection", false)=="on");
 
         foreach ($c as $k => $v) {
-            $app->Configs->{$k} = $v;
+            $app->getConfigs()->{$k} = $v;
         }
 
         igk_save_config();
@@ -627,7 +627,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_set_env("sys://designMode/off", 1);
         igk_set_env("sys://defaultpage/off", 1);
         $doc = igk_get_document($this, 0);
-        $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->addDiv();
+        $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->div();
         $t->div()->Content = __("Configuration view");
         self::ViewInContext($this, "general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);
         $doc->renderAJX();
@@ -682,7 +682,7 @@ final class ConfigureController extends BaseController implements IConfigControl
             }
         }
         $uri = $this->getUri("configure_store_ajx");
-        $tab->addScript()->Content = <<<EOF
+        $tab->script()->Content = <<<EOF
 			var q = \$igk(igk.getParentScriptByTagName('table'));
 
 igk.ready(function(){
@@ -798,8 +798,8 @@ EOF;
             if (empty($u) || empty($pwd)) {
                 $not->addError(__("err.login.failed")); 
             } else {
-                $adm = strtolower($app->Configs->admin_login);
-                $adm_pwd = strtolower($app->Configs->admin_pwd);
+                $adm = strtolower($app->getConfigs()->admin_login);
+                $adm_pwd = strtolower($app->getConfigs()->admin_pwd);
  
                 if (($adm == $u) && ($adm_pwd == $pwd)) {
                     $us = (object)array(
@@ -1113,17 +1113,17 @@ EOF;
         if (function_exists('igk_google_addfont')){
             igk_google_addfont($doc, "Roboto");
         }
-        if ($bmc = igk_require_module("igk/BMC", null, 0, 0)) {
+        if ($bmc = igk_require_module(\igk\BMC::class, null, 0, 0)) {
 
-            $bmc->initdoc($doc);  
+            $bmc->initDoc($doc);  
             $doc->setHeaderColor("#4588fa");
-            $root = $bfrm->addDiv()->setClass("disptable fit")->addDiv();
+            $root = $bfrm->div()->setClass("disptable fit")->div();
             $root->setclass("disptabc alignm fitw");
 
             $root->img(IGK_LIB_DIR . "/Data/R/img/login_bg.jpg")->setClass("posfix loc_t")->setStyle("");
-            $dv = $root->addDiv();
+            $dv = $root->div();
             $dv["class"] = "igk-adm-login-form";
-            $frm = $dv->addBMCShape()->addDiv()->addForm()->setClass("dispb");
+            $frm = $dv->addBMCShape()->div()->addForm()->setClass("dispb");
             $frm["action"] = $this->getUri("connectToConfig");
 
 
@@ -1132,8 +1132,8 @@ EOF;
                 igk_html_form_init();
             }, null);
 
-            $frm->addDiv()->setClass("igk-adm-logo")->Content =  igk_svg_use("balafon_logo");
-            $frm->addDiv()->addNotifyHost("connexion:frame", 0);
+            $frm->div()->setClass("igk-adm-logo")->Content =  igk_svg_use("balafon_logo");
+            $frm->div()->addNotifyHost("connexion:frame", 0);
 
             $frm->addBMCTextfield("clAdmLogin", array(
                 "text" => __("Login"),
@@ -1151,11 +1151,11 @@ EOF;
             ), "", null, 1, 1)->addBMCRipple();
             $frm->addInput("goodUri", "hidden", $this->getAppUri());
             $frm->addInput("badUri", "hidden", $this->getAppUri());
-            $bar = $frm->addActionBar()->setStyle("margin: auto;");
+            $bar = $frm->addActionBar()->setStyle("margin: auto; display: flex; justify-content: space-between; ");
             $bar->addButton("connect", 1)->setClass("bmc-raise igk-winui-bmc-button")->Content = __("Connect");
             $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", igk_sys_domain_name());
-            $root->addDiv()->setAttribute("style", "font-size:0.8em; text-align:center")->addDiv()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
-            $root->addDiv()->setClass("alignc")->addIGKCopyright();
+            $root->div()->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
+            $root->div()->setClass("alignc")->addIGKCopyright();
 
 
             return $bfrm;
@@ -1189,27 +1189,27 @@ EOF;
             $frm->Box["style"] = "top:0px; bottom:0px; position:relative; overflow-y:auto; height:100%; background-color:#37C4FF;vertical-align:middle;";
             $dv = $frm->pageCenterBox(function ($dv) use ($frm, $igk_version, $igk_framename) {
 
-                $dv->addDiv()->setClass("dispib")->setAttribute("style", "text-align:center; color:#efefef; font-size:3.4em;vertical-align:middle; margin-bottom:32px;padding-top:32px;")->Content = IGK_PLATEFORM_NAME . "<span class=\"igk-smaller alignt\" style=\"font-size:0.4em\">&copy;</span> Configuration";
-                $kdiv = $frm->addDiv()->setClass("no-overflow");
+                $dv->div()->setClass("dispib")->setAttribute("style", "text-align:center; color:#efefef; font-size:3.4em;vertical-align:middle; margin-bottom:32px;padding-top:32px;")->Content = IGK_PLATEFORM_NAME . "<span class=\"igk-smaller alignt\" style=\"font-size:0.4em\">&copy;</span> Configuration";
+                $kdiv = $frm->div()->setClass("no-overflow");
                 $kdiv["style"] = "height:auto; vertical-align:bottom; display:inline-block;  vertical-align:middle; ";
-                $div = $kdiv->addDiv();
-                $row = $kdiv->addContainer()->addDiv()->setClass("dispib")->setStyle("max-width:250px")->addRow();
-                $row->addCol("igk-col-3-3")->addDiv()->setClass("alignl")->addNotifyHost("connexion:frame");
-                $cdiv = $row->addCol("igk-col-3-3")->addDiv();
+                $div = $kdiv->div();
+                $row = $kdiv->container()->div()->setClass("dispib")->setStyle("max-width:250px")->addRow();
+                $row->addCol("igk-col-3-3")->div()->setClass("alignl")->addNotifyHost("connexion:frame");
+                $cdiv = $row->addCol("igk-col-3-3")->div();
                 $cdiv->addLabel()->setClass("igk-hbox")->Content = __("lb.clLogin");
                 $cdiv->addInput("clAdmLogin", "text")
                     ->setAttribute("placeholder", __("Admin login"))
                     ->setAttribute("autofocus", true)
                     ->setClass("-cltext dispb igk-sm-fitw igk-form-control")->setStyle("border:none; border-bottom: 2px solid black; ");
 
-                $cdiv = $row->addCol("igk-col-3-3")->addDiv();
+                $cdiv = $row->addCol("igk-col-3-3")->div();
                 $cdiv->addLabel()->setClass("igk-hbox")->Content = __("lb.clPwd");
                 $cdiv->addInput("clAdmPwd", "password")->setAttribute("placeholder", __("Admin password"))->setAttribute("autocomplete", "current-password")->setClass("-clpassword dispb igk-sm-fitw igk-form-control")->setStyle("border:none; border-bottom: 2px solid black;");
-                $cdiv = $row->addCol("igk-col-3-3")->addDiv()->setClass('alignc');
-                $cdiv->addDiv()->addInput("btn_connect", "submit", __("btn.connect"))->setClass("-clsubmit fitw igk-btn igk-btn-connect");
-                $cdiv = $frm->addContainer()->setClass("igk-smaller");
+                $cdiv = $row->addCol("igk-col-3-3")->div()->setClass('alignc');
+                $cdiv->div()->addInput("btn_connect", "submit", __("btn.connect"))->setClass("-clsubmit fitw igk-btn igk-btn-connect");
+                $cdiv = $frm->container()->setClass("igk-smaller");
                 $cdiv->addA(igk_io_baseuri())->Content = "goto index";
-                $frm->addDiv()->setClass("dispb posfix fitw no-overflow loc_l loc_b")->setAttribute("style", "font-size:0.8em; position:fixed; height:48px;")->addDiv()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
+                $frm->div()->setClass("dispb posfix fitw no-overflow loc_l loc_b")->setAttribute("style", "font-size:0.8em; position:fixed; height:48px;")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
             });
         } else {
             $lang = function ($n) {
@@ -1256,7 +1256,7 @@ ${igk_framename} - ${igk_version}<br />
 	<div id="igk_cpv"></div>
 </div>
 EOF;
-                $dv = $frm->addDiv();
+                $dv = $frm->div();
                 $g = $dv->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
                 $g->load($out);
                 $i = $g->getElementById("id_board");
@@ -1271,9 +1271,9 @@ EOF;
                 }
             }
             if (!$android) {
-                $d = $bfrm->addDiv()->setClass("mobilescreen dispn");
-                $d->addDiv()->addSectionTitle(4)->Content = __("Login Form");
-                $dv = $d->addDiv();
+                $d = $bfrm->div()->setClass("mobilescreen dispn");
+                $d->div()->addSectionTitle(4)->Content = __("Login Form");
+                $dv = $d->div();
                 $form = $dv->addForm();
                 $form["action"] = $this->getUri("connectToConfig");
                 $form["method"] = "POST";
@@ -1287,7 +1287,7 @@ EOF;
                 ]);
                 $acbar = $form->addActionBar();
                 $acbar->addSubmit("btn.submit", __("connect"));
-                $d->addDiv()->Content = IGK_COPYRIGHT;
+                $d->div()->Content = IGK_COPYRIGHT;
             }
             if ($c)
                 $c->Content = IGK_COPYRIGHT;
@@ -1391,8 +1391,8 @@ EOF;
                     $head = igk_getv($t->getElementsByTagName("head"), 0);
                     $body = igk_getv($t->getElementsByTagName("body"), 0);
                     $tl = igk_getv($head->getElementsByTagName("title"), 0);
-                    $d->addDiv()->setClass("fcl-blue igk-title-5")->Content = $tl ? $tl->getInnerHtml() : "NoTitle";
-                    $dv = $d->addDiv();
+                    $d->div()->setClass("fcl-blue igk-title-5")->Content = $tl ? $tl->getInnerHtml() : "NoTitle";
+                    $dv = $d->div();
                     if ($body) {
                         $dv->Content = igk_html_render_text_node($body);
                     } else {
@@ -1555,13 +1555,13 @@ EOF;
                 $this->ConfigNode = $cnf_n;
             }
             $cnf_n->clearChilds(); 
-            igk_notify_sethost($cnf_n->addDiv()); 
+            igk_notify_sethost($cnf_n->div()); 
             $args = ["ctrl"=>$this, "app"=>igk_app()];
             switch ($p) {
                 case "configurationmenusetting":
                     $this->SelectedConfigCtrl = null;
                     $this->_selectMenu("ConfigurationMenuSetting", "IGKConfigCtrl::setpage");
-                    $div = $cnf_n->addDiv();
+                    $div = $cnf_n->div();
                     $this->_view_ConfigMenuSetting($div);
                     break;
                 case "phpinfo":
@@ -1723,11 +1723,11 @@ EOF;
         public function update_defaultlang()
         {
             $app = igk_app();
-            $app->Configs->default_lang = igk_getr("cldefaultLang", "Fr");
+            $app->getConfigs()->default_lang = igk_getr("cldefaultLang", "Fr");
             igk_save_config();
             igk_notifyctrl()->addMsgr("msg.update_defaultlang");
             $this->View();
-            igk_navtocurrent('?l=' . $app->Configs->default_lang);
+            igk_navtocurrent('?l=' . $app->getConfigs()->default_lang);
         }
 
         public function getCtrlFile($path)
@@ -1751,13 +1751,13 @@ EOF;
             $prefix = igk_getr("website_prefix");
             $app = igk_app();
             if ($d && strlen($d) && igk_is_domain_name($d)) {
-                $app->Configs->website_domain = $d;
+                $app->getConfigs()->website_domain = $d;
                 IGKSubDomainManager::StoreBaseDomain($this, $d);
             }
-            $app->Configs->website_title = $title;
-            $app->Configs->website_prefix = $prefix;
-            $app->Configs->website_adminmail = igk_getr("website_adminmail", null);
-            $app->Configs->company_name = igk_getr("company_name");
+            $app->getConfigs()->website_title = $title;
+            $app->getConfigs()->website_prefix = $prefix;
+            $app->getConfigs()->website_adminmail = igk_getr("website_adminmail", null);
+            $app->getConfigs()->company_name = igk_getr("company_name");
             igk_io_save_file_as_utf8_wbom(igk_io_applicationdatadir() . "/domain.conf", $d, true);
             if (igk_save_config()) {
                 igk_notifyctrl()->addSuccessr("msg.settingupdate");

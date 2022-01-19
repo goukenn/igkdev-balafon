@@ -85,7 +85,7 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
     protected function initTargetNode(){
         $node=parent::initTargetNode();
         $node["class"]="alignc alignt dispb";
-        $this->m_viewZone=$node->addDiv();
+        $this->m_viewZone=$node->div();
         $this->m_viewZone["class"]="page_zone";
         return $node;
     }

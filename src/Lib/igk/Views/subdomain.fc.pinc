@@ -44,8 +44,8 @@ function igk_subdomain_fc_inflate($tab, $t, $data=null, $mode=1){
     }
     $g=$tab["@templates"];
     if(igk_count($g) > 0){
-        $sl->addDiv()->setContent(R::ngets("s.Templates"));
-        $rv=$sl->addDiv();
+        $sl->div()->setContent(R::ngets("s.Templates"));
+        $rv=$sl->div();
         foreach($g as  $v){
             $opt=$rv->add("option");
             $opt->Content=$v;

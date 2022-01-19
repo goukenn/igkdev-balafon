@@ -109,7 +109,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		// $frm = $frame->BoxContent->addForm();
 		$frm["action"] = $this->getUri("comm_addComm");
 		 $frm["igk-ajx-form"]=1;
-		igk_notifyctrl()->setNotifyHost($frm->addDiv());
+		igk_notifyctrl()->setNotifyHost($frm->div());
 		$ul = $frm->add("ul");
 
 		$li = $ul->add("li");
@@ -130,7 +130,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 
 		$frm->addHLineSeparator();
 
-		$d = $frm->addDiv();
+		$d = $frm->div();
 		$d->addInput("btnOk", "submit", R::ngets("btn.add"));
 		//return $frame;
 
@@ -165,9 +165,9 @@ final class IGKCommunityLink extends ConfigControllerBase
 		$table = $this->getCommunityTable();
 		// $c->add($this->ConfigNode);
 		$c = $c->clearChilds()->addPanelBox();
-		igk_html_add_title($c->addDiv(),"title.configure.community");
+		igk_html_add_title($c->div(),"title.configure.community");
 		if ($table == null){
-			$c->addDiv()->setClass("igk-danger")->Content = R::ngets("msg.community.addrequired");
+			$c->div()->setClass("igk-danger")->Content = R::ngets("msg.community.addrequired");
 			return;
 		}
 
@@ -175,7 +175,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		$frm["action"] = $this->getUri("update_community");
 
 		$frm->addHSep();
-		igk_html_article($this, "community_desc", $frm->addDiv());
+		igk_html_article($this, "community_desc", $frm->div());
 		$frm->addHSep();
 		$ul = $frm->add("ul");
 		$table = $this->getCommunityTable();
@@ -192,7 +192,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		if (($tab==null) || ($tab->RowCount == 0))
 		{
 
-			$ul->add("li")->addDiv()->setClass("igk-danger")->Content =
+			$ul->add("li")->div()->setClass("igk-danger")->Content =
 					($tab ==null)	?
 					R::ngets("msg.community.notablefound_1",$table):
 					R::ngets("msg.community.addlink");// entrie(s) found.";
@@ -206,7 +206,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 			{
 				if (!$k)
 					continue;
-				$li = $ul->addLi();
+				$li = $ul->li();
 				$lb = $li->add("label");
 
 
@@ -231,7 +231,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 
 		}
 		if ($addlink){
-			$ul = $frm->addDiv();
+			$ul = $frm->div();
 			HtmlUtils::AddImgLnk($ul, igk_js_post_frame($this->getUri("comm_addCommunityFrame_ajx")), "add_16x16");
 		}
 		if ($update){

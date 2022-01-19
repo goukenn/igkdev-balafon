@@ -532,8 +532,7 @@
 					// q.selectedIndex=m;
 					// __updateNavbtn(q);
 					// __select(m);
-					// m_navigate = false;
-					// console.debug("done");
+					// m_navigate = false; 
 				// }
 			// );
 			

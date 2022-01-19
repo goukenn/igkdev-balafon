@@ -30,8 +30,8 @@
     //     $r1=$n->addTr();
     //     $r2=$n->addTr();
     //     foreach($c as $k=>$v){
-    //         $r1->addTh()->addDiv()->Content=$k;
-    //         $r2->addTd()->addDiv()->Content=$v;
+    //         $r1->addTh()->div()->Content=$k;
+    //         $r2->addTd()->div()->Content=$v;
     //     }
     //     echo $dn->render();
     // }

@@ -23,10 +23,10 @@ $dv=$t->div();
 $dv["style"]="padding:2em";
 $dv->addSectionTitle(5)->Content="BALAFON <span>Api version <span>".IGKAPIInfo::VERSION."</span></span>";
 $c=$t->div();
-$c=$c->addContainer();
+$c=$c->container();
 if(igk_is_conf_connected()){
     $col=$c->addSingleRowCol();
-    $dv=$col->addDiv();
+    $dv=$col->div();
 }
 $dv=$t->div()->setStyle("padding-left:2em");
 $ul=$dv->add("ul");

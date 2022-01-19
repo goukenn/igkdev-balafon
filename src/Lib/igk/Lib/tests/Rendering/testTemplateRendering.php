@@ -14,6 +14,6 @@ MSG_EOF;
 $g = HtmlReader::Load($src);
 echo $g->render();
 
-        $this->expectOutputString("<div></div>");
+        $this->expectOutputString("<div>ddd</div>");
     }
 }

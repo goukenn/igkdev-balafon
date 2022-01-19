@@ -25,7 +25,7 @@ function igk_html_node_ToggleStateButton($id,$value='on', $checked=0,$type="wind
 }
 
 function igk_html_demo_ToggleStateButton($tg){
-	$tg->addDiv()->Content = "<b>window10</b> style state button";
+	$tg->div()->Content = "<b>window10</b> style state button";
 	$n = igk_html_node_ToggleStateButton('marche',"window10");
 	$tg->add($n);
 }

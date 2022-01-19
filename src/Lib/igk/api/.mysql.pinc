@@ -179,11 +179,11 @@ function igk_api_mysql_about($api){
     $doc=igk_get_document("sysapp:mysql", true);
     $doc->Title="MySQL Utility - About - [BALAFON]";
     $bbox=$doc->body->addBodyBox();
-    $dv=$bbox->addDiv()->addContainer();
-    $dv->addDiv()->addSectionTitle(4)->Content=R::gets("MySQL Utility Api Service");
-    $ul=$dv->addDiv()->addUl();
-    $ul->addLi()->Content=IGK_AUTHOR;
-    $ul->addLi()->Content="Version :".IGKMySQLUtilityConstant::VERSION;
+    $dv=$bbox->div()->container();
+    $dv->div()->addSectionTitle(4)->Content=R::gets("MySQL Utility Api Service");
+    $ul=$dv->div()->addUl();
+    $ul->li()->Content=IGK_AUTHOR;
+    $ul->li()->Content="Version :".IGKMySQLUtilityConstant::VERSION;
     $doc->renderAJX();
 }
 ///<summary></summary>
@@ -200,7 +200,7 @@ function igk_api_mysql_addcolumn($api, $tbname, $name){
     $doc=igk_api_get_mysql_doc();
     $ad=igk_get_data_adapter("MYSQL") ?? igk_die("No MYSQL Found");
     $bbox=$doc->body->addBodyBox();
-    $t=$bbox->clearChilds()->addDiv();
+    $t=$bbox->clearChilds()->div();
     if($ad->connect()){
         $g=$ad->addColumn($tbname, $name);
         if($ad->getHasError()){
@@ -592,13 +592,13 @@ function igk_api_mysql_init_db($api, $exit=1){
 function igk_api_mysql_mysql_help($api){
     $doc=igk_api_get_mysql_doc();
     $bbox=$doc->body->addBodyBox();
-    $dv=$bbox->addDiv()->addContainer();
+    $dv=$bbox->div()->container();
     $ul=$dv->addUl();
     $c=file_get_contents(__FILE__);
     $tab=array();
     preg_match_all("/function\\s+igk_api_mysql_(?P<name>([a-z])([a-z0-9_]*))\\s*/i", $c, $tab);
     foreach($tab["name"] as $v){
-        $ul->addLi()->add("a")->setAttribute("href", $api->getAppUri("mysql/".$v))->Content=$v;
+        $ul->li()->add("a")->setAttribute("href", $api->getAppUri("mysql/".$v))->Content=$v;
     }
     $dv->menu([])
     ->setAttributes(array("type"=>"context", "id"=>"action"))
@@ -623,7 +623,7 @@ function igk_api_mysql_resetctrldb($api, $ctrlname=null){
         if($ctrl->UseDataSchema){
             $ctrl->Invoke($ctrl, "dropDbFromSchemas", []);
             $ctrl->Invoke($ctrl, "initDb", []);
-            igk_notification_push_event("system/dbchanged", $ctrl);
+            igk_hook("system/dbchanged", $ctrl);
             // igk_wln_e("/!\\ Database reset for ".$ctrl->getName());
             $ctrl->setParam(IGK_CTRL_TABLE_INFO_KEY, null);
             $r=1;
@@ -656,7 +656,7 @@ function igk_api_mysql_rmcolumn($api, $tbname, $name){
     $doc=igk_api_get_mysql_doc();
     $ad=igk_get_data_adapter("MYSQL") ?? igk_die("No MYSQL Found");
     $bbox=$doc->body->addBodyBox();
-    $t=$bbox->clearChilds()->addDiv();
+    $t=$bbox->clearChilds()->div();
     if($ad->connect()){
         $g=$ad->rmColumn($tbname, $name);
         if($ad->getHasError()){

@@ -89,14 +89,14 @@ final class PicResConfigurationController extends ConfigControllerBase{
     private function _showdefault(){
         $div=$this->TargetNode->clearChilds()->addPanelBox();
         igk_html_add_title($div, "title.PictureResourcesManager");
-        igk_html_article($this, "pictures.res", $div->addDiv());
+        igk_html_article($this, "pictures.res", $div->div());
         $div->addNotifyHost("picres");
         $c=igk_realpath(igk_io_currentrelativepath(self::TARGETDIR));
         $tab=igk_io_dirs($c);
         if($tab && (count($tab) > 0)){
             $ul=$div->add("ul");
             foreach($tab as $k){
-                $li=$ul->addLi();
+                $li=$ul->li();
                 $li->add("label", array("class"=>"-cllabel cell_minsize dispib"))->add("a", array(
                     "href"=>$this->getUri("setdir&d=".base64_encode(urldecode($k))),
                     "class"=>"config-fileviewdir"
@@ -460,11 +460,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $frm=$div->addForm();
         $frm["method"]="POST";
         $frm["action"]=$this->getUri();
-        $v_div=$frm->addDiv();
+        $v_div=$frm->div();
         HtmlUtils::AddBtnLnk($v_div, "btn.Return", $this->getUri("gotodefaultview"));
         HtmlUtils::AddBtnLnk($v_div, "btn.loadfile", $this->getUri("show_loadfile_frame"));
         HtmlUtils::AddBtnLnk($v_div, __("btn.RemoveBrokenfiles"), $this->getUri("remove_broken_file"));
-        $info=$frm->addDiv();
+        $info=$frm->div();
         $tab=$frm->addTable();
         $tr=$tab->addTr();
         HtmlUtils::AddToggleAllCheckboxTh($tr);
@@ -512,7 +512,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     public function uploadpic_ajx(){
         $div=igk_create_node("div");
         $rd=$div->addRow();
-        $cl=$rd->addCol()->addDiv();
+        $cl=$rd->addCol()->div();
         igk_ajx_panel_dialog("Upload Pictures", $div);
     }
     ///<summary></summary>
@@ -554,7 +554,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $c=$frame->BoxContent;
         $c->clearChilds();
         $c->div()->setAttributes(array("class"=>"alignc"))->add("img", array("src"=>$this->getUri("viewpic&name=".igk_getr("name"))));
-        $c->addDiv()->Content="image definition";
+        $c->div()->Content="image definition";
         $frame->renderAJX();
     }
 }

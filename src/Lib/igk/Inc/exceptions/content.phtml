@@ -2,7 +2,7 @@
  
 use function igk_resources_gets as __;
 
- 
+$display_error = ini_get("display_errors");
 $is_prod = !igk_server_is_local() && !igk_app()->Configs->error_debug && igk_sys_env_production();
 $base_path = $is_prod;
 $cl1 = "#ddd";
@@ -24,9 +24,10 @@ $content .= ("<div style='height:100%;' > ");
         $file = (($file != null) ? $file: $tx->getFile());
         $from .= "<div> From : <span>".get_class($tx)."</span>";
         $from .= "<ul>";
-        $from .= ("<li><span>File :</span>". ($base_path ? igk_io_basepath($file) : $file ).":".
+        $from .= ("<li><span>File: </span>". ($base_path ? igk_io_basepath($file) : $file ).":".
         (($line != null) ? $line: $tx->getLine())
-        ."</li>");       
+        ."</li>");   
+        $from.= '<li><span>Message: </span>'.$tx->getMessage().'</li>';
         $from .= "</ul>";
         $from ."</div>";
         $tx = $tx->getPrevious();
@@ -190,14 +191,20 @@ $content .= ("<div style='height:100%;' > ");
         }
         $content .= ("<a href=\"".igk_io_baseuri()."\" class=\"igk-btn\" > Home </a>");
         $content .= "</div>";
-        $content .= "</div>";
-
+        
     }
     else{
+        $m = $Ex->getMessage();
         $code = $Ex->getCode(); 
-        $content .="<li class='code-view'>".$code."</li>";
-        $content .= "</ul>";
+        $content .="<li class=\"code-view\">".$code."</li>";   
+        if ($display_error){
+            $content .= "<li class='message-code' style='display:block; text-align:center; font-size: 0.9em;border:1px solid black; width: 100%;'><span style='display:inline-block'>".$m."</span></li>";
+        }
+        $content .= "</ul>"; 
+        header("bal-err-message: '{$m}'");
     }  
+    $content .= "</div>";
+    $content .= "</div>";
 //no script rendergin
 $content .= "<noscript>";
 $content .= "Please activate javascript";

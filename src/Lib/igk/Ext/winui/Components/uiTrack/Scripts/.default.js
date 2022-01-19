@@ -202,13 +202,7 @@
 		},igk.features.supportPassive?{passive:true}:false);
 		}
 		_update_v(0);
-		// e.o.value = "70";
-		// console.debug("done");
-		
-		
-		// q.reg_event("curChanged", function(){
-			// console.debug("sursor changed .....");
-		// });
+		 
 	}
 	igk.system.createNS("igk.winui.uitrack",{
 		version:"1.0",

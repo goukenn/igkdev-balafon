@@ -230,6 +230,17 @@
         <Column clName="logginattempts_createAt" clType="DateTime"  clDefault="NOW()" clDescription="Now" clNotNull="True" />
         <Column clName="logginattempts_updateAt" clType="DateTime"  clUpdateFunction="Now()" clDescription="Last try datetime" clNotNull="True" />
     </DataDefinition>
+
+    <DataDefinition TableName="%prefix%mails" Description="Store mails">
+        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
+        <Column clName="mail_from" clType="VARCHAR" clTypeLength="60" clDescription="from" clNotNull="True" />
+        <Column clName="mail_try" clType="Int" clDescription="attemps" clNotNull="True" />
+        <Column clName="mail_status" clType="Int" clDescription="staus" clNotNull="True" clDefault="0" />
+        <Column clName="mail_data" clType="JSON" clNotNull="True" clDefault="{}" clDescription="mail data info"/>
+        <Column clName="mail_createAt" clType="DateTime"  clDefault="NOW()" clDescription="Now" clNotNull="True" />
+        <Column clName="mail_updateAt" clType="DateTime"  clUpdateFunction="Now()" clDescription="Last try datetime" clNotNull="True" />
+    </DataDefinition>
+
     <Migrations>
         <Migration>
             <changeColumn table="%prefix%users" column="clLogin">

@@ -27,9 +27,9 @@ function igk_comment_zone($ctrl, $n, $title="", $msg=null, $since=null, $id_repl
 	$have_child=false,
 	$can_drop=0
 ){
-	$c = $n->addDiv();
+	$c = $n->div();
 	$c["class"]  = "i";
-	$h = $c->addDiv();
+	$h = $c->div();
 	$h["class"]="t";
 	$dtc = igk_get_env(__FUNCTION__."://time", function(){
 		return igk_time_span("Ymd His",date("Ymd His"));
@@ -41,11 +41,11 @@ function igk_comment_zone($ctrl, $n, $title="", $msg=null, $since=null, $id_repl
 	// igk_wln(gmdate("Ymd His", $since));
 	//igk_set_env(__FUNCTION__."://time", $dtc);
 
-	$p = $h->addDiv()->setClass("p  igk-bg-comment");
+	$p = $h->div()->setClass("p  igk-bg-comment");
 	$p->addSpan()->Content = "logo picture";
-	$p->addDiv()->setClass("dispib posab fit loc_l loc_t")->Content= igk_svg_use("comment");
-	$ctn = $h->addDiv();
-	$hd = $ctn->addDiv()->setClass("cm-header");
+	$p->div()->setClass("dispib posab fit loc_l loc_t")->Content= igk_svg_use("comment");
+	$ctn = $h->div();
+	$hd = $ctn->div()->setClass("cm-header");
 	$hd->addSpan()->setClass("dispib")->addSectionTitle(6)->Content= $title;
 	// $since = igk_time_span("Ymd","20181020");
 	if ($since){
@@ -54,13 +54,13 @@ function igk_comment_zone($ctrl, $n, $title="", $msg=null, $since=null, $id_repl
 		$data = igk_time_max_info($dtc, $since);//, igk_time_span("Ymd",date("Ymd")));
 		$hd->addSpan()->Content = igk_comment_time($data);
 	}
-	$ctn->setClass("c")->addDiv()->setClass("m")->Content = $msg!=null?$msg:<<<EOF
+	$ctn->setClass("c")->div()->setClass("m")->Content = $msg!=null?$msg:<<<EOF
 --------------------- Nothing to Comment ----------------
 EOF;
-	$a = $ctn->addDiv();
+	$a = $ctn->div();
 	//action
 	if ($id_reply){
-		$a =   $a->addDiv()->setClass("a");
+		$a =   $a->div()->setClass("a");
 
 		$a->addA($ctrl->getAppUri("comment_add_ajx"))
 		->setAttribute('options', "{id:'{$id_reply}'}")
@@ -94,7 +94,7 @@ function igk_comment_init($a,$b,$c){
 	return 1;
 }
 function igk_comment_zone_callback($n, $callback, $params=null){
-	$c = $n->addDiv();
+	$c = $n->div();
 	$c["class"]  = "i";
 	$c["style"] = "margin: 2em 0px; padding:10px; ";
 	return call_user_func_array($callback, $params);

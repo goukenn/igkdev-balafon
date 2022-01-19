@@ -22,14 +22,16 @@
     return r;
     }
     if (r = loadXml("<data>"+s+"</data>")){
-        var b = r.lastChild.textContent; 
-        try{
-            if ( b && (b.length > 0)){
-                (new Function(b)).apply();
+        if (r.lastChild){
+            var b = r.lastChild.textContent; 
+            try{
+                if ( b && (b.length > 0)){
+                    (new Function(b)).apply();
+                }
+            } catch (b) {
+                console.error('Error:igk-winui-balafon-js-inc');
+                console.debug('message: '+ b.message, b.lineNumber+":"+b.columnNumber);
             }
-        } catch (b) {
-            console.error('Error:igk-winui-balafon-js-inc');
-            console.debug('message: '+ b.message, b.lineNumber+":"+b.columnNumber);
         }
     } else {
         console.debug("failed to parse core data")

@@ -5,9 +5,8 @@
 // | default uri handler
 //----------------------------------------------------------------------------
 
-use IGK\Helper\IO;
-use IGK\Resources\R; 
-use function igk_resources_gets as __;
+use IGK\Helper\IO; 
+use IGK\System\Http\RequestHandler; 
 
 
 IGKRoutes::Register("^/favicon.ico[%q%]", function(){  
@@ -282,111 +281,11 @@ IGKRoutes::Register("^/robots.txt$", function(){
 }, 1);
 
 IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
-
-     
-    igk_header_no_cache();
-	$uri= igk_io_request_entry();
-    $key= igk_get_component_uri_key($guid);
-    $tab=igk_app()->session->regUris;
-    $handle=false;
-	$routes = igk_app()->session->Routes;
-	$index = array_search($key, $routes);
-	$obj = null;
-    $args=$query;
-    if(is_string($query))
-        $args=explode("/", $query);
-	if (!empty($index)){
-		$obj["class"] = $index;
-	}else if($tab && isset($tab[$key])){
-        $obj=$tab[$key];
-	}
-    if(is_array($obj)){
-        $tclass=  explode("/::", $obj["class"]);
-        $class = array_shift($tclass); 
-        $tclass = implode("" , $tclass);
-        
-        if (strpos($class, "m:")===0)
-        {
-            $mod = str_replace(".", "\\", substr($class, 2));
-            $mod_instance = igk_require_module($mod);
-            $method= igk_getv($args, 0, "handle");
-            $args=array_slice($args, 1);
-            if ($ob = call_user_func_array([$mod_instance, $method], $args)){
-                igk_do_response($ob);
-            }
-            igk_set_header(500);
-	        igk_wln_e(__("failed to handle module action")); 
-
-        }
-        // if ($ctrl=igk_getctrl(IGK_CONF_CTRL, false)){
-            //     $ctrl::register_autoload();
-            // }
-            if(!class_exists($class)){
-                igk_set_header(500, "temp class not found");
-                igk_wln_e("class not exists {$class} ", $tclass, $obj, $index, "routes", $routes);
-            }
-            if (is_subclass_of( $class, BaseController::class)
-             && ($ctrl = igk_getctrl($class, false))){           
-                $ctrl::register_autoload();
-             }
-            else{
-                $tclass = null;
-                $ctrl = new $class();
-            }
-            
-            $method="index";
-            
-            R::RegLangCtrl($ctrl);
-
-            if (!empty($tclass) && 
-                class_exists($tclass))
-            {
-                $cl = new $tclass($ctrl);
-            }
-            else {
-                $cl= $ctrl; //new $class();
-            } 
-            if(count($args) > 0){
-                if(method_exists($cl, $args[0])){
-                    $method=$args[0];
-                    $args=array_slice($args, 1);
-                }
-            }
-            if(method_exists($cl, $method)){
-                ob_start();
-                if (!igk_do_response($ob = call_user_func_array(array($cl, $method), $args))){
-                    igk_wl(ob_get_clean());
-                } else {
-                    ob_end_clean();                
-                }
-            }
-            else{
-                igk_wln("method not found");
-                igk_set_header(500, "function not found");
-            } 
-            igk_exit();
-        }
-        $cl = null;
-        $b=json_decode($tab[$key]);
-        if ($b)
-         $cl=$b->classpath;
- 
-        if(!empty($cl) && class_exists($cl, false) && !empty($query)){
-            $g=new $cl($b);
-            $args=explode("/", $query);
-            ob_start();
-            $ob=call_user_func_array(array($g, $args[0]), array_slice($args, 1));
-            ob_end_clean();
-            igk_wl($ob);
-        }
-
-    if(igk_getr("__clear")){
-        igk_app()->session->regUris=null;
+    $sessid = session_id(); 
+    if (!defined("IGK_INIT") && empty($sessid)) {
+        $app = IGKApplication::Boot('web'); 
+        IGKApp::StartEngine($app);
     }
-    igk_set_header(500);
-    if (igk_environment()->is("DEV")){
-	    igk_wl_e(__("failed to handle component action"));
-    }
-    igk_exit();
+    RequestHandler::getInstance()->handle_guid_action($guid, $query, $version);
 }
-, 0);
+, 1);

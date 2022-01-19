@@ -10,8 +10,9 @@
 namespace IGK\System\Installers;
 
 use Exception;
-use IGKHtmlReader;
-use IO;
+use IGK\Helper\IO;
+use IGK\System\Html\HtmlReader;
+ 
 
 use function igk_resources_gets as __;
 ///<summary>Represente class: InstallerActionMiddleWare</summary>
@@ -214,7 +215,7 @@ class ExtractLibaryMiddleWare extends InstallerActionMiddleWare{
         $s=igk_zip_unzip_filecontent($zip, "manifest.xml");
         if(empty($s))
             return;
-        $xml=IGKHtmlReader::Load($s, "xml");
+        $xml=HtmlReader::Load($s, "xml");
         $obj=igk_createobj();
         igk_conf_load($obj, $xml);
         $manifest=igk_conf_get($obj, "manifest");
@@ -413,6 +414,9 @@ class SuccessMiddleWare extends InstallerActionMiddleWare{
             else{
                 IO::RmDir($libdir);
             }
+        }
+        if (function_exists("opcache_reset")){
+            opcache_reset();
         }
         $srv->Success=1;
         $this->next();

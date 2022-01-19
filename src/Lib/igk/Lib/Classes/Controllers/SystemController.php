@@ -43,11 +43,11 @@ final class SystemController extends NonVisibleControllerBase{
     ///<param name="frm"></param>
     private function _buildForm($frm){
         $this->m_fontList=$this->_getFontList();
-        igk_notifyctrl()->setNotifyHost($frm->addDiv());
-        $frm->addDiv()->Content="Font list ";
+        igk_notifyctrl()->setNotifyHost($frm->div());
+        $frm->div()->Content="Font list ";
         $frm->ClearChilds();
         $frm["action"]=$this->getUri("installfont_ajx");
-        $div=$frm->addDiv();
+        $div=$frm->div();
         $div["style"]="min-height: 300px;max-height: 400px; min-width: 400px; overflow-x:none; overflow-y:auto;";
         $i=0;
         if($this->m_fontList != null){

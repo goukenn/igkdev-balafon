@@ -5,7 +5,8 @@
 * used to iterate thru an array
 */
 final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Countable {
-    use IGK\System\Polyfill\IteratorTrait; 
+    use \IGK\System\Polyfill\IteratorTrait; 
+    use \IGK\System\Polyfill\ArrayAccessSelfTrait;
     private $it_index;
     private $it_vtab;
     private $m_count;
@@ -55,7 +56,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
             $this->m_it_key=$this->it_vtab[$this->it_index];
         }
     }
-    use IGK\System\Polyfill\ArrayAccessSelfTrait;
+    
     ///<summary></summary>
     ///<param name="key"></param>
     /**

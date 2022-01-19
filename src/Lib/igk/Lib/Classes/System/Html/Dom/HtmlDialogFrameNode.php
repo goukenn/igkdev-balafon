@@ -56,11 +56,11 @@ final class HtmlDialogFrameNode extends HtmlNode{
         $this->m_Title=$this->m_Box->add("div", array(
             "class"=>"framebox-title",
             "id"=>"framebox_".$id."_title"
-        ))->addDiv()->setClass("igk-framebox-dialog-title title");
+        ))->div()->setClass("igk-framebox-dialog-title title");
         $tab=$this->m_Box->add("div", array("class"=>"disptable fitw fith framebox_bgcl"));
         $c=$this->m_Box;
         $this->m_BoxContent=$tab->add("div", array("class"=>"disptabr fith fitw"))->add("div", array("class"=>"igk-framebox-dialog-content disptabc alignl pad4"));
-        $v_cdiv=$this->m_Title->addDiv()->setClass("framebox_close");
+        $v_cdiv=$this->m_Title->div()->setClass("framebox_close");
         $this->m_closeBtn=$v_cdiv->addLinkBtn(IGK_STR_EMPTY, null, 48, 24);
         $this->m_closeBtn["class"]="-igk-btn-lnk igk-framebox-btn-close";
         $this->m_Box["data"]=igk_create_func_callback(array($this, '__get_dialog_attrib'), null);

@@ -6,8 +6,8 @@ exemple:
 ```php
 $pane = $page->addHorizontalPane($this); 
 $pane->clearPages();
-$pane->addPage()->addDiv()->Content = "Page1";
-$pane->addPage()->addDiv()->Content = "Page2";
+$pane->addPage()->div()->Content = "Page1";
+$pane->addPage()->div()->Content = "Page2";
 $pane->flush();
 ```
 

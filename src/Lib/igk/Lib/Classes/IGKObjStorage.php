@@ -48,4 +48,11 @@ final class IGKObjStorage{
         $tab = (array)$this;        
         return $tab;
     }
+    /**
+     * return json data
+     * @return string|false 
+     */
+    public function to_json(){
+        return json_encode($this->to_array());
+    }
 }

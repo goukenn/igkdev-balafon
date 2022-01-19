@@ -3,6 +3,7 @@
 namespace IGK\System\Configuration;
 
 use IGK\Resources\R;
+use IGK\System\IO\FileWriter;
 use IGKCSVDataAdapter;
 use function igk_resources_gets as __;
 
@@ -111,8 +112,9 @@ final class ConfigData {
         } 
         $file=$this->m_confile; 
         $m = igk_map_array_to_str($this->m_configEntries);  
-        $out = igk_cache_array_content( $m, $file);    
-        return igk_io_w2file($file, $out, true);
+        $out = igk_cache_array_content( $m, $file);           
+        ($r = igk_io_w2file($file, $out, true)) && FileWriter::Invalidate($file);
+        return $r;
     }
     public function set($name, $entries){
         if (is_array($entries)){
@@ -174,5 +176,8 @@ final class ConfigData {
 
     public function menu_default_page(){
         return $this->get("menu_default_page", "default");
+    }
+    public function reload(){ 
+        $this->m_configEntries = include($this->m_confile) ?? []; 
     }
 }

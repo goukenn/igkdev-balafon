@@ -33,7 +33,7 @@ class HtmlCssLinkNode extends HtmlNode{
     ///<param name="system" default="false"></param>
     public function __construct($link, $system=false, $defer=0){
         parent::__construct("igk-css-link");
-        $ln=self::CreateWebNode("link");
+        $ln = self::CreateWebNode("link");  
         $ln["type"]="text/css";
         $ln["rel"]="stylesheet";
         if($defer)

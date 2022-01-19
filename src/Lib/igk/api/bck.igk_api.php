@@ -143,11 +143,11 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                     $doc=igk_get_document(__FUNCTION__);
                     $doc->Title="Api - MYSQL ";
                     $bbox=$doc->body->addBodyBox()->clearChilds();
-                    $b=$bbox->addDiv();
+                    $b=$bbox->div();
                     $b->addSectionTitle()->Content="Command list";
-                    $b=$bbox->addDiv()->addContainer()->addRow();
+                    $b=$bbox->div()->container()->addRow();
                     foreach(array_keys($_data) as $k){
-                        $b->addCol()->addDiv()->addA("#")->Content=$k;
+                        $b->addCol()->div()->addA("#")->Content=$k;
                     }
                     $doc->renderAJX();
                     igk_exit();

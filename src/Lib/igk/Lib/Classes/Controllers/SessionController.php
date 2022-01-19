@@ -268,7 +268,7 @@ final class SessionController extends BaseController{
         }
         $d=IGKOb::Content();
         IGKOb::Clear();
-        $doc->body->addBodyBox()->addDiv()->Content=$d;
+        $doc->body->addBodyBox()->div()->Content=$d;
         $doc->renderAJX();
         $doc->Dispose();
         igk_exit();

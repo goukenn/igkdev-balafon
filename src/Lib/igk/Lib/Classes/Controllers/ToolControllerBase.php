@@ -68,7 +68,7 @@ abstract class ToolControllerBase extends BaseController{
         if($c){
             $m->setSrc($c);
         }
-        $a->addDiv()->Content=__("tool.".$this->Name);
+        $a->div()->Content=__("tool.".$this->Name);
     }
     ///<summary></summary>
     public function View(){    }

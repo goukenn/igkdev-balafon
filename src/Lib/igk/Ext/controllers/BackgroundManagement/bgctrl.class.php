@@ -56,13 +56,13 @@
 				// $frm["action"] = $this->getUri("updatevalue");
 				// $ul = $frm->add("ul");
 
-				// $ul->addLi()->addSLabelCheckbox("clEnabled",  $this->App->Configs->adorator_fade_enabled);
-				// $ul->addLi()->addSLabelInput("clFadeinterval","text", igk_gettv($this->App->Configs->adorator_fade_interval , 500));
-				// $ul->addLi()->addSLabelInput("clRotationInterval", "text", igk_gettv($this->App->Configs->adorator_rotation_interval, 10000));
-				// $ul->addLi()->addSLabelCheckbox("clRandom", $this->App->Configs->adorator_random_enabled);
+				// $ul->li()->addSLabelCheckbox("clEnabled",  $this->App->Configs->adorator_fade_enabled);
+				// $ul->li()->addSLabelInput("clFadeinterval","text", igk_gettv($this->App->Configs->adorator_fade_interval , 500));
+				// $ul->li()->addSLabelInput("clRotationInterval", "text", igk_gettv($this->App->Configs->adorator_rotation_interval, 10000));
+				// $ul->li()->addSLabelCheckbox("clRandom", $this->App->Configs->adorator_random_enabled);
 				// $frm->addHSep();
 				// $ul = $frm->add("ul");
-				// $ul->addLi()->addSLabelInput("clDir", "text", $this->App->Configs->adorator_fade_directory?$this->App->Configs->adorator_fade_directory:"Adorator" );
+				// $ul->li()->addSLabelInput("clDir", "text", $this->App->Configs->adorator_fade_directory?$this->App->Configs->adorator_fade_directory:"Adorator" );
 				// $frm->addBtn("btn_update", R::ngets("btn.update"));
 		// }
 	// public function showConfig(){

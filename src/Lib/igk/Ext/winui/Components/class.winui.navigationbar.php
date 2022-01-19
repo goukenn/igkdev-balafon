@@ -106,7 +106,7 @@ if ($d)
 			}
 	   }
 	}
-	$v_d->addScript()->Content = <<<EOF
+	$v_d->script()->Content = <<<EOF
 (function(node, parent){igk.ready(function(){ igk.winui.navigationBar.init(node, parent,  {duration:1000, interval:20, "orientation":"vertical"},false, false);});})(igk.getParentScript(), document.getElementById('kms_defaultctrl'));
 EOF;
 }

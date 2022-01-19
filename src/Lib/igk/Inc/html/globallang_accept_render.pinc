@@ -1,4 +1,6 @@
 <?php
-
-igk_init_renderinglang($self);
-return true;
+// @file : globallang_accept_render.pinc
+// @author:  C.A.D. BONDJE DOUE
+// @return: update language rendering
+ 
+return igk_init_renderinglang($self); 

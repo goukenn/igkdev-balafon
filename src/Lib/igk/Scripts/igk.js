@@ -48,6 +48,7 @@ Name:balafon.js
 	var __devscript = "igk.js";
 	var __lang = [];
 	var __initDocSetting = 0;
+	var __scriptsEval = {};
 
 	var __igk_settings = {
 		nosymbol: 0
@@ -3033,15 +3034,16 @@ Name:balafon.js
 				if (!f)
 					throw ("argument f require");
 
-				f = typeof (f) == "function" ? f : f.complete;
 				var eCb = f.error || null;// error callback
+				var eComplete = typeof (f) == "function" ? f : f.complete;
+
+				f = eComplete;
 
 				function getNodeData(n) {
 					var dummy = igk.createNode("dummy");
 					var c = n.childNodes.length;
 					var i = 0;
-					var m = null;
-
+					var m = null;  
 
 					// copy node
 
@@ -3077,15 +3079,14 @@ Name:balafon.js
 				// alert(ob.o.type);		
 
 				igk.dom.body().prepend(ob);
-				ob.reg_event("error", function (evt) {
-					if (__loaded || (igk.navigator.isFirefox() && igk.navigator.getFirefoxVersion() >= 50)) {
-						return;
-					}
+				ob.reg_event("error", function (evt) {				
 					if (eCb) {
 						eCb.apply(ob);
-					}
-					// alert("error for : "+u);
-
+						eCb = null;
+					}  
+					if (__loaded || (igk.navigator.isFirefox() && igk.navigator.getFirefoxVersion() >= 50)) {
+						return;
+					} 
 					f.apply(document, [{
 						error: 1,
 						data: evt,
@@ -6454,33 +6455,25 @@ Name:balafon.js
 
 			return _js_version;
 		},
-		checkupdate: function (uri, v) {
+		checkupdate: function (uri) {
 			var q = $igk(igk.getParentScript());
-			(function () {
-				igk.io.file.load(uri, function (d) {
-					if (!d.error) {
-						var c = igk.createNode("dummy");
-						var d = igk.utils.getBodyContent(d.data);
-						c.setHtml(d);
-						var m = c.getElementsByTagName("Message")[0];
-						var s = c.getElementsByTagName("status")[0] || null;
-						var v = s ? s.innerHTML : -1;
-						if (m)
-							q.setHtml(m.innerHTML);
-						else {
-							q.remove();
+			(function () { 
+				igk.io.file.load(uri, {
+					error(){ 
+						q.remove();
+					},
+					complete(){
+						var w = $igk("#dialog.error").first();
+						if (w) {
+							var m = w.select(".msg").first().clone();
+							igk.show_notify_error(
+								w.select(".title").first().getHtml(),
+								m.getHtmll());
 						}
-						return;
+						q.remove();
 					}
-					var w = $igk("#dialog.error").first();
-					if (w) {
-						var m = w.select(".msg").first().clone();
-						igk.show_notify_error(
-							w.select(".title").first().getHtml(),
-							m.getHtmll());
-					}
-					q.remove();
-				});
+				});		
+				 
 			})();
 
 		},
@@ -12591,23 +12584,24 @@ Name:balafon.js
 							}
 						}
 						else {
-
-
-
 							igk_preload_image(n); // preload n
 							// igk_eval_all_script(n);					
 							var ct = $igk(n).select("script");
 
 							ct.each(function () {
-
 								var _t = this.getAttribute("type");
-								// var _s=this.getAttribute("src"); 
+						
 								if (_t == 'text/balafonjs') {
 									__bindbalafonjs.apply(this);
 								}
 								else {
+									if (_t in __scriptsEval){
+										var fc = __scriptsEval[_t];
+										fc.apply(this);
+									}else{ 
 									// + | eval  script 
-									igk_eval(this.getHtml(), this.o, this.o);
+										igk_eval(this.getHtml(), this.o, this.o);
+									}
 								}
 								return this;
 							});
@@ -16465,14 +16459,66 @@ Name:balafon.js
 		}
 	};
 
-	// balafon script js
+	// + -------------------------------------------------------------------------------
+	// + | init balafon js script on ready
+	// + |
 	igk.ready(function () {
 		var j = 0;
 		igk.dom.body().qselect("script[type='text/balafonjs']").each_all(function () {
-
 			__bindbalafonjs.apply(this);
 			j++;
 		});
+	});
+
+	// manage component
+	(function(){
+		var j = 0; // count number of component
+		__scriptsEval['text/balafon-component'] = function(){
+			var p = $igk(this.o.parentNode);
+			var src = '"use strict"; (function(){' + this.o.innerHTML + '}).apply(this);';
+			p.component = new Object();
+			(new Function(src)).apply(p.component);
+			this.remove(); 
+			j++;
+		};
+		
+		// + -------------------------------------------------------------------------------
+		// + | init balafon js script on ready
+		// + |
+		igk.ready(function () {
+			
+			var _initComponent = __scriptsEval['text/balafon-component'];
+			igk.dom.body().qselect("script[type='text/balafon-component']").each_all(function () {
+				_initComponent.apply(this);  
+			});
+		});
+	})();
+
+	igk.appendProperties(igk, {
+			/**
+			 * get node component
+			 * @param {*} n dom node
+			 * @returns node component
+			 */ 
+			component(n){
+				return igk.retrieveProperty(n, 'component');
+		},
+		/**
+		 * retrieve chain properties
+		 */
+		retrieveProperty(n, name){
+			var g = $igk(n); 
+			while(g!=null){ 
+				if (name in g){
+					return g[name];
+				}
+				if ((g.o.parentNode==null) || (typeof(g.o.parentNode) == 'undefined')){
+					break;
+				}
+				g = $igk(g.o.parentNode);
+			}
+			return null;
+		}
 	});
 
 	var _udef = 'undefined';
@@ -23446,7 +23492,7 @@ igk.system.createNS("igk.system", {
 			console.error("/!\\ igk-ajx-pickfile: no uri found found ");
 			return;
 		}
-		var s = this.getAttribute("igk:param");
+		var s = this.getAttribute("igk:data");
 		var p = igk.JSON.parse(s, this);
 		if (typeof (p) != 'object') {
 			p = {};
@@ -23629,8 +23675,7 @@ igk.system.createNS("igk.system", {
 		var u = this.getAttribute("igk:href");
 		var a = this.getAttribute("igk:append");
 		var self = this;
-		if (u) {
-			// var lw = this.add("div").addClass("igk-google-line-waiter");
+		if (u) {			 
 			var q = $igk(this.o.parentNode);
 			var ta = q.select(a).first();
 			igk.ajx.get(u, null, function (xhr) {
@@ -24242,7 +24287,7 @@ igk.system.createNS("igk.system", {
 
 	function __i_parallax() {
 		var q = this;
-		var p = q.getAttribute("igk:param");
+		var p = q.getAttribute("igk:data");
 
 		q.setCss({
 			backgroundImage: "url('" + p + "')",

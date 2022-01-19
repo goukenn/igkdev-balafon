@@ -49,10 +49,10 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     public function __construct(){
         parent::__construct("div");
         $this->setClass("igk-tabcontrol");
-        $h=$this->addDiv()->setClass("igk-tab-h");
+        $h=$this->div()->setClass("igk-tab-h");
         $ul=$h->add("ul");
         $this->m_tablist=$ul;
-        $c=$this->addDiv();
+        $c=$this->div();
         $this->m_tabcontent=$c;
         $this->m_tabcontent->setClass("igk-tabcontent");
     }

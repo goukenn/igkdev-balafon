@@ -38,6 +38,6 @@ igk_set_env(get_class($controller)."::initdb", 1);
 if(igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($fcname))){
  
     igk_is_debug() && igk_ilog("notify message :  IGK_HOOK_DB_CHANGED");
-    igk_notification_push_event(IGK_HOOK_DB_CHANGED, $controller, null);
+    igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
     igk_navto($controller->getAppUri());
 }

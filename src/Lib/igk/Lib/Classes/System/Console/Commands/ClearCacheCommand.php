@@ -15,8 +15,7 @@ class ClearCacheCommand extends AppExecCommand{
     public function exec($command)
     { 
         //defined("NO")
-        Logger::print("Cache directory : ".igk_io_cachedir()); 
-        // IO::RmDir($cdir);
+        Logger::print("Cache directory : ".igk_io_cachedir());  
         IGKControllerManagerObject::ClearCache();
         Logger::success("done");
     }

@@ -3,6 +3,7 @@
 defined("IGK_FRAMEWORK") && die("Framework already define");
 define("IGK_FRAMEWORK", "IGKDEV-WFM");
 define("IGK_LIB_DIR", __DIR__);
+define("IGK_LIB_FILE", __FILE__);
 
 require_once IGK_LIB_DIR."/igk_constants.php";
 require_once IGK_LIB_DIR."/igk_config.php";

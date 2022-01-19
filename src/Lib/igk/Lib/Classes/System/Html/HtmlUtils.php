@@ -7,7 +7,7 @@ use IGK\Resources\R;
 use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\Dom\HtmlItemBase;
-use IGK\System\Html\Dom\HtmlNode; 
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
 use ReflectionClass;
@@ -31,9 +31,10 @@ abstract class HtmlUtils extends DomNodeBase
      * @param array $args 
      * @return string 
      */
-    public static function GetFullQueryUri(string $uri, array $args){
+    public static function GetFullQueryUri(string $uri, array $args)
+    {
         $q = self::AppendQueryArgs($uri, $args);
-        return explode("?", $uri)[0]."?".http_build_query($q);
+        return explode("?", $uri)[0] . "?" . http_build_query($q);
     }
     /**
      * append query args
@@ -41,11 +42,12 @@ abstract class HtmlUtils extends DomNodeBase
      * @param array $args 
      * @return array 
      */
-    public static function AppendQueryArgs(string $uri, array $args){
+    public static function AppendQueryArgs(string $uri, array $args)
+    {
         $data = parse_url($uri);
         $q = [];
-        if (isset($data["query"])){
-            parse_str($data["query"], $q);        
+        if (isset($data["query"])) {
+            parse_str($data["query"], $q);
         }
         $q = array_merge($q, $args);
         return $q;
@@ -56,10 +58,11 @@ abstract class HtmlUtils extends DomNodeBase
      * @return string 
      * @throws IGKException 
      */
-    public static function GetGeneratedTagname(HtmlItemBase $node){
+    public static function GetGeneratedTagname(HtmlItemBase $node)
+    {
         $tagname = "";
-        $inf = $node->getFlag(IGK_NODETYPE_FLAG); 
-        if (!$inf || ($inf->type=="c")){
+        $inf = $node->getFlag(IGK_NODETYPE_FLAG);
+        if (!$inf || ($inf->type == "c")) {
             $tagname = $node->getTagName();
         } else {
             $tagname = "igk:" . $node->getTagName();
@@ -73,22 +76,24 @@ abstract class HtmlUtils extends DomNodeBase
      * @return string 
      * @throws IGKException 
      */
-    public static function GetCreatedTagName(HtmlItemBase $node){
-        if ($info = $node->getInitNodeTypeInfo()){ 
+    public static function GetCreatedTagName(HtmlItemBase $node)
+    {
+        if ($info = $node->getInitNodeTypeInfo()) {
             return $info->name;
         }
         return self::GetGeneratedTagname($node);
     }
 
-    public static function GetAttributeArrayToString($attribs){ 
+    public static function GetAttributeArrayToString($attribs)
+    {
         $o = "";
         if (!$attribs)
             igk_die("attrib is empty");
-        foreach($attribs as $n=>$v){
-            $r= self::GetValue($v);
-            $o .= " {$n}=\"".$r."\"";
+        foreach ($attribs as $n => $v) {
+            $r = self::GetValue($v);
+            $o .= " {$n}=\"" . $r . "\"";
         }
-        return ltrim($o);       
+        return ltrim($o);
     }
 
     private static $gRendering;
@@ -97,12 +102,14 @@ abstract class HtmlUtils extends DomNodeBase
      * @param array|\IIGKArrayObject $n  item to convert
      * @return array 
      */
-    public static function ToArray($n){
+    public static function ToArray($n)
+    {
         if (is_array($n))
             return $n;
         return $n->to_array();
     }
-    public static function GetAttributes($attr){
+    public static function GetAttributes($attr)
+    {
         return self::ToArray($attr);
     }
     public static function SubmitActionCallback($title = null, $name = "btn_submit")
@@ -176,7 +183,7 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return null;
     }
-     
+
     ///<summary></summary>
     ///<param name="tr"></param>
     ///<param name="targetid" default="null"></param>
@@ -258,7 +265,7 @@ abstract class HtmlUtils extends DomNodeBase
     {
         $ul = $target->add("ul", array("class" => "igk-cnf-content_submenu"));
         foreach ($items as $k => $v) {
-            $li = $ul->addLi();
+            $li = $ul->li();
             $li->add("a", array("href" => $v))->Content = __("cl" . $k);
             if ($selected == $k) {
                 $li["class"] = "+igk-cnf-content_submenu_selected";
@@ -304,11 +311,11 @@ abstract class HtmlUtils extends DomNodeBase
         // if (igk_is_debug()){
         //     echo "debug \n<br />";
         // }
-        if ((0===strpos($q, $v_h)) && (strrpos($q, $v_h, -1)!==false)) {
-            $q = substr($q, 1);         
-            $q = substr($q, 0, strlen($q) - 1); 
+        if ((0 === strpos($q, $v_h)) && (strrpos($q, $v_h, -1) !== false)) {
+            $q = substr($q, 1);
+            $q = substr($q, 0, strlen($q) - 1);
         }
-        if (($context!="binding") && ($v_h == "\"")) {
+        if (($context != "binding") && ($v_h == "\"")) {
             $q = str_replace("\"", "&quot;", $q);
         }
         if ($context && is_string($context) && (preg_match("/(xml|xsl)/i", $context))) {
@@ -326,8 +333,6 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function GetContentValue($n, $options = null)
     {
-
-
         if ($n->iscallback("handleRender")) {
             return $n->handleRender();
         }
@@ -488,9 +493,9 @@ abstract class HtmlUtils extends DomNodeBase
      * @deprecated direct remove self remove item with the remove method
      */
     public static function RemoveItem($item)
-    {  
+    {
         if (($item != null) && (($p = $item->getParentNode()) != null)) {
-            if ($item->remove() === false){            
+            if ($item->remove() === false) {
                 igk_debug_wln("/!\\ Failed to remove an item");
                 return false;
             }
@@ -557,15 +562,20 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    {        
+    {
         require_once IGK_LIB_DIR . "/igk_html_func_items.php";
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
+
+        if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))){
+            return $p;
+        }
+
         if ($initiator == null) {
             $initiator = igk_environment()->createArray("component_initiators");
         }
         if ($v_info = igk_getv($initiator, $name)) {
             $v_info["context"] = $context;
-            $v_info["count"]++; 
+            $v_info["count"]++;
             return call_user_func_array($v_info["invoke"], [$v_info, $args]);
         }
         if ($creator != null) {
@@ -581,7 +591,7 @@ abstract class HtmlUtils extends DomNodeBase
                             "name" => "__creator:" . $name
                         ));
                     }
-                    igk_hook("pre_filter_node", ["node"=>$c, "tagname"=>$name]);
+                    self::FilterNode($c,  ["node" => $c, "tagname" => $name]);
                 }
                 return $c;
             }
@@ -643,98 +653,115 @@ abstract class HtmlUtils extends DomNodeBase
         //     ];
         //     $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $tb]);
         // } else {
-            if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
-                $s = new ReflectionFunction($fc);
-                $v_rp = $s->getNumberOfRequiredParameters();
-                $initiator[$name] = [
-                    "type" => "function", "name" => $name, "callback" => $fc, "count" => 1, "requireArgs" => $v_rp, "invoke" => function ($inf, $args) use ($initcallback) {
-                        $tb = is_array($args) ? $args : array();
-                        $v_pcount = igk_count($tb);
-                        $v_rp = $inf["requireArgs"];
-                        $name = $inf["name"];
-                        $c = null;
-                        $fc = $inf["callback"];
-                        if ($v_pcount >= $v_rp) {
-                            $c = call_user_func_array($fc, $tb);
-                            if ($c) {
-                                if ($initcallback){
-                                    $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
-                                }
-                                $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
-                                        "type"=>"f",
-                                        "name"=>$name,
-                                        "args"=>$tb
-                                ]));
-                                igk_hook("pre_filter_node", ["node"=>$c, "tagname"=>$name]);
+        if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
+            $s = new ReflectionFunction($fc);
+            $v_rp = $s->getNumberOfRequiredParameters();
+            $initiator[$name] = [
+                "type" => "function", "name" => $name, "callback" => $fc, "count" => 1, "requireArgs" => $v_rp, "invoke" => function ($inf, $args) use ($initcallback) {
+                    $tb = is_array($args) ? $args : array();
+                    $v_pcount = igk_count($tb);
+                    $v_rp = $inf["requireArgs"];
+                    $name = $inf["name"];
+                    $c = null;
+                    $fc = $inf["callback"];
+                    if ($v_pcount >= $v_rp) {
+                        $c = call_user_func_array($fc, $tb);
+                        if ($c) {
+                            if ($initcallback) {
+                                $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
                             }
-                        } else {
-                            igk_die("add <b>{$name}</b> : number of required parameters mismatch. Expected {$v_rp} but " . $v_pcount . " passed");
+                            $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
+                                "type" => "f",
+                                "name" => $name,
+                                "args" => $tb
+                            ]));
+
+                            self::FilterNode($c,  [
+                                "node" => $c,
+                                "tagname" => $name,
+                                "type" => "f",
+                                "callback" => $fc
+                            ]);
                         }
-                        return $c;
+                    } else {
+                        igk_die("add <b>{$name}</b> : number of required parameters mismatch. Expected {$v_rp} but " . $v_pcount . " passed");
                     }
-                ];
-                $fc = $initiator[$name]["invoke"];
-              
-                $c = $fc($initiator[$name], $args);
-            } else {
-                $initiator[$name] = [
-                    "type" => "fallback", "name" => $name, "count" => 1, "context" => $context, "invoke" => function ($inf, $args) {
-                        $name = $inf["name"];
-                        $context = $inf["context"];
-                        if ($context == HtmlContext::Html) {
-                            $c = new HtmlNode($name);                           
-                            igk_hook("pre_filter_node", ["node"=>$c, "tagname"=>$name]);
-                        } else {
-                            $c = new XmlNode($name);  
-                        }
-                        return $c;
+                    return $c;
+                }
+            ];
+            $fc = $initiator[$name]["invoke"];
+
+            $c = $fc($initiator[$name], $args);
+        } else {
+            $initiator[$name] = [
+                "type" => "fallback", "name" => $name, "count" => 1, "context" => $context, "invoke" => function ($inf, $args) {
+                    $name = $inf["name"];
+                    $context = $inf["context"];
+                    if ($context == HtmlContext::Html) {
+                        $c = new HtmlNode($name);
+                        self::FilterNode($c,  ["node" => $c, "tagname" => $name]);
+                    } else {
+                        $c = new XmlNode($name);
                     }
-                ];
-                $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $args]);
-            }
-        
+                    return $c;
+                }
+            ];
+            $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $args]);
+        }
+
         return $c;
     }
 
+    public static function FilterNode(HtmlItemBase &$node, array $args)
+    {
+        if ($g = igk_hook(\IGKEvents::FILTER_CREATED_NODE, $args, ["output" => null])) {
+            $node = $g;
+        }
+    }
+    public static function PrefilterNode($args){
+        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, ["output" => null]);
+    }
     ///<summary></summary>
     ///<param name="vsystheme"></param>
     /**
-    * 
-    * @param mixed $vsystheme
-    */
-    public static function InitSystemTheme($vsystheme){
-      
-        $vsystheme->Name="igk_system_theme";
+     * 
+     * @param mixed $vsystheme
+     */
+    public static function InitSystemTheme($vsystheme)
+    {
+
+        $vsystheme->Name = "igk_system_theme";
         $vsystheme->def->Clear();
-        $d=$vsystheme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
-        $d=$vsystheme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
-        $d=$vsystheme->reg_media("(max-width:700px)");
-        $lfile=[];
-        $v_cache_file=igk_io_dir(IGK_LIB_DIR."/Cache/css.cache");
-        if(file_exists($v_cache_file)){
+        $d = $vsystheme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
+        $d = $vsystheme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
+        $d = $vsystheme->reg_media("(max-width:700px)");
+        $lfile = [];
+        $v_cache_file = igk_io_dir(IGK_LIB_DIR . "/Cache/css.cache");
+        if (file_exists($v_cache_file)) {
             igk_css_include_cache($v_cache_file, $lfile);
+        } else {
+            $lfile[] = igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
+            $lfile[] = igk_get_env("sys://css/file/global_color", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
+            $lfile[] = igk_get_env("sys://css/file/global_template", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
         }
-        else{
-            $lfile[]=igk_io_dir(IGK_LIB_DIR."/".IGK_STYLE_FOLDER."/global.pcss");
-            $lfile[]=igk_get_env("sys://css/file/global_color", igk_io_dir(IGK_LIB_DIR."/".IGK_STYLE_FOLDER."/igk_css_colors.phtml"));
-            $lfile[]=igk_get_env("sys://css/file/global_template", igk_io_dir(IGK_LIB_DIR."/".IGK_STYLE_FOLDER."/igk_css_template.phtml"));
-        }
-        $g=implode(";", $lfile);
-        $g=str_replace(IGK_LIB_DIR, "%lib%", $g);
+        $g = implode(";", $lfile);
+        $g = str_replace(IGK_LIB_DIR, "%lib%", $g);
         $vsystheme->def->setFiles($g);
     }
 
 
-    public static function SkipAdd($value=1){
-        if ($p = igk_html_parent_node()){
-            igk_environment()->set(IGK_XML_CREATOR_SKIP_ADD, $value? $p : $value);
+    public static function SkipAdd($value = 1)
+    {
+        if ($p = igk_html_parent_node()) {
+            igk_environment()->set(IGK_XML_CREATOR_SKIP_ADD, $value ? $p : $value);
         }
     }
-    public static function IsSkipped($autoreset){
-        $p = igk_html_parent_node();     
-        $o = igk_environment()->get(IGK_XML_CREATOR_SKIP_ADD);    
-        if (($o === $p) && $autoreset){
-            igk_html_skip_add(null); 
+    public static function IsSkipped($autoreset)
+    {
+        $p = igk_html_parent_node();
+        $o = igk_environment()->get(IGK_XML_CREATOR_SKIP_ADD);
+        if (($o === $p) && $autoreset) {
+            igk_html_skip_add(null);
         }
         return $o != null;
     }

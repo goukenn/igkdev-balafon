@@ -24,9 +24,9 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 		parent::showConfig();
 		$cnf = $this->ConfigNode;
 		$box = $cnf->addPanelBox();
-		$box->addDiv()->setClass("igk-title-4")->setStyle("line-height:1; margin-bottom:1em")->Content = __("Google Settings");
+		$box->div()->setClass("igk-title-4")->setStyle("line-height:1; margin-bottom:1em")->Content = __("Google Settings");
 
-		$frm = $box->addDiv()->addForm();
+		$frm = $box->div()->addForm();
 		$frm["action"] = $this->getUri("storeApiKey");
 		$frm->add("label")->Content = __("API KEY");
 		$frm->addInput("clApiKey", "text", igk_google_apikey())->setAttribute("placeholder", __("google api key"));

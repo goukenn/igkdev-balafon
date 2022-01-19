@@ -34,16 +34,16 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$this->clearChilds();
 
 		$r = $this->addRow();
-		$dv = $r->addCol()->addDiv();
+		$dv = $r->addCol()->div();
 	    $dv->addTitleLevel(4)->Content = "Mailbox";
 
 		$r = $this->addRow();
 		$r->addMenuBar();
 
 		$r = $this->addRow();
-		$dv  = $r->addCol()->setClass("igk-col msg-bc posab")->setStyle("width: 300px;")->addDiv()->setClass("msgb-b");
+		$dv  = $r->addCol()->setClass("igk-col msg-bc posab")->setStyle("width: 300px;")->div()->setClass("msgb-b");
 
-		$rd = $dv->addDiv()->addAccordeon();
+		$rd = $dv->div()->addAccordeon();
 		foreach($this->m_users as $k=>$v){
 			$ul = igk_create_node("ul");
 			$rd->addPanel($k, $ul, true);
@@ -54,11 +54,11 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 				$ul->add("li")->addAJXA($this->getComponentUri("mbx_vmsg&u=".$k."&q=".base64_encode($n->clDisplay)))->Content = $n->clDisplay;
 			}
 		}
-		$dv = $r->addCol()->setClass("igk-col msg-zc")->setStyle("margin-left: 300px")->addDiv();
+		$dv = $r->addCol()->setClass("igk-col msg-zc")->setStyle("margin-left: 300px")->div();
 		$dv->setClass("msg-z");
-		$dv->addDiv()->Content = "Well done your mail box is correctly configured";
+		$dv->div()->Content = "Well done your mail box is correctly configured";
 
-		$dv = $r->addCol()->addDiv();
+		$dv = $r->addCol()->div();
 	}
 
 	private function connect($i, $link = null){
@@ -73,9 +73,9 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$imap = @imap_open($link,$i->clLogin, $i->clPwd);
 		if (!$imap){
 			$this->m_error = igk_create_node("div");
-			$this->m_error->addDiv()->Content = "Error";
-			$this->m_error->addDiv()->Content = $link;
-			$this->m_error->addDiv()->Content = imap_errors();
+			$this->m_error->div()->Content = "Error";
+			$this->m_error->div()->Content = $link;
+			$this->m_error->div()->Content = imap_errors();
 		}
 		return $imap;
 	}
@@ -152,7 +152,7 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$d->setClass("msg-z");
 		if (igk_count($msg)==0)
 		{
-			$d->addDiv()->Content = R::ngets("msmg.mailbox.boxisempty_1", $q);
+			$d->div()->Content = R::ngets("msmg.mailbox.boxisempty_1", $q);
 		}
 		else{
 			$p = igk_create_node("div");
@@ -180,13 +180,13 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 				$m->clIsDraft = igk_getv($v, "draft", 0);
 				$m->clIsReply = igk_getv($v, "answered", 0);
 
-				$dv = $d->addDiv();
+				$dv = $d->div();
 				igk_html_bind_node($this->Ctrl,
 				$p,
-				$dv->addDiv(),
+				$dv->div(),
 				$m
 				);
-				$dv->addDiv()->setClass("info-bx");
+				$dv->div()->setClass("info-bx");
 			}
 		}
 		igk_ajx_replace_node($d, ".msg-z" , "#!\mailbox=".$q);

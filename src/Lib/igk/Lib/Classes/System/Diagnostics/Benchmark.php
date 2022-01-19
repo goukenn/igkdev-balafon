@@ -34,16 +34,24 @@ class Benchmark{
             $time = igk_sys_request_time();
             $v_duration = ($time - $m[$name]);
             if ($v_duration > $duration){
-                $m = sprintf("Benchmark:%s request time exceed %s . duration : %s ", $name, $duration, $v_duration);
-                igk_environment()->write_debug("<div class='igk-danger'>".$m."</div>");
+                $msg = sprintf("Benchmark:%s request time exceed %s . duration : %s ", $name, $duration, $v_duration);
+                igk_environment()->write_debug("<div class='igk-danger'>".$msg."</div>");
                 if(self::getInstance()->m_configs->dieOnError){
-                    die($m);
+                    die($msg);
                 }
-            }
+            } 
             unset($m[$name]);
         }
     }
     public static function mark($name){
         self::getInstance()->mark[$name] = igk_sys_request_time();
+    }
+    /**
+     * set die on error
+     * @param bool $b 
+     * @return void 
+     */
+    public function dieOnError(bool $b){
+        $this->m_configs->dieOnError = $b;
     }
 }

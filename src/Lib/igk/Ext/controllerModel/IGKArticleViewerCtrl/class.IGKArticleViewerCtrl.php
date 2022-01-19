@@ -25,10 +25,10 @@ abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 				igk_html_article($this, basename($k), $t->div()->setAttributes(array("class"=>"igk-article-viewer-box node_".$i)));
 				$i++;
 			}
-			$t->addScript()->Content = "window.igk.winui.articleviewer.init();";
+			$t->script()->Content = "window.igk.winui.articleviewer.init();";
 		}
 		else{
-			$t->TargetNode->addDiv()->Content = "No target item";
+			$t->TargetNode->div()->Content = "No target item";
 		}
 	}
 

@@ -10,7 +10,7 @@
 
 $_not_implement_ajx=function(){
     $pan=igk_create_node("panel");
-    $pan->addDiv()->Content="/!\\ sorry page or service not yet implement";
+    $pan->div()->Content="/!\\ sorry page or service not yet implement";
     $pan->renderAJX();
     igk_exit();
 };

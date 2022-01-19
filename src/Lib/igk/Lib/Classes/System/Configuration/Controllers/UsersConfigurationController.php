@@ -41,17 +41,17 @@ class UsersConfigurationController extends ConfigControllerBase {
         $doc->Title=__("title.welcome_1", $domain);
         $mbox=$doc->body->getBodyBox()->setClass("igk-register");
         $mbox->addIGKHeaderBar()->Title=__("title.beginpwdreset");
-        $p=$mbox->addDiv()->addContainer()->addDiv();
+        $p=$mbox->div()->container()->div();
         $p["style"]="max-width:380px; margin:auto;";
-        $p->addDiv()->setClass("igk-title-5")->Content=__("title.findyouraccount_1", $domain);
+        $p->div()->setClass("igk-title-5")->Content=__("title.findyouraccount_1", $domain);
         $frm=$p->addForm();
         $frm["action"]=$this->getUri("check_email");
-        $div=$frm->addDiv();
+        $div=$frm->div();
         $div->addLabel("clEmail")->Content="lb.youremail";
         $div->addInput("clEmail", "text")->setClass("igk-form-control")->setAttribute("placeholder", "tip.yourmail");
-        $div->addDiv()->addInput("btn_search", "submit", "btn.search")->setClass("igk-btn");
-        $p->addDiv();
-        $p->addDiv()->Content=igk_app()->Configs->copyright;
+        $div->div()->addInput("btn_search", "submit", "btn.search")->setClass("igk-btn");
+        $p->div();
+        $p->div()->Content=igk_app()->Configs->copyright;
         $doc->renderAJX();
         igk_exit();
     }
@@ -532,14 +532,14 @@ class UsersConfigurationController extends ConfigControllerBase {
         $mbox=$doc->body->getBodyBox()->setClass("igk-register");
         $mbox->clearChilds();
         $mbox->addIGKHeaderBar()->Title=__("title.registration");
-        $d=$mbox->addDiv()->addContainer()->addRow();
+        $d=$mbox->div()->container()->addRow();
         $regfrm=$d->addCol()->setClass("igk-col-4-4")->addRegistrationForm();
         $regfrm->Action=$this->getUri("uc_auf");
         $regfrm->GoodUri="";
         $regfrm->BadUri="";
         $regfrm->initView();
-        $d=$mbox->addDiv();
-        $d->addDiv()->Content=igk_app()->Configs->copyright;
+        $d=$mbox->div();
+        $d->div()->Content=igk_app()->Configs->copyright;
         $doc->renderAJX();
         igk_exit();
     }
@@ -667,7 +667,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             $frm->addInput("conf", "hidden", 1);
             $frm->addHSep();
             $frm->addInput("btn.add", "submit", __("add"));
-            $frm->addScript()->Content = file_get_contents(IGK_LIB_DIR."/Inc/js/register_user.js");
+            $frm->script()->Content = file_get_contents(IGK_LIB_DIR."/Inc/js/register_user.js");
             igk_ajx_panel_dialog(__("Add user"), $frm);
         }
         igk_exit();
@@ -712,7 +712,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             $f=igk_io_basedir()."/pages/signup_confirmation.php";
             if(file_exists($f)){
                 $f=igk_html_uri(igk_io_baseuri()."/".igk_io_basepath($f));
-                igk_notification_push_event("user/activate_login", $this);
+                igk_hook("user/activate_login", $this);
                 igk_navto($f);
             }
         }
@@ -776,14 +776,14 @@ class UsersConfigurationController extends ConfigControllerBase {
         $t=$t->addPanelBox();
         igk_html_add_title($t, __("System's Users"));
         
-        $t->addPanelBox()->addDiv()->setClass("article-host")->article($this, "users");
+        $t->addPanelBox()->div()->setClass("article-host")->article($this, "users");
         
         $frm=$t->addForm();
         $frm->addNotifyHost("sys://uc/auf");
       
         $r= Users::select();//  igk_db_table_select_where($this->getDataTableName(), null, $this);
         $r && $this->uc_options($frm);
-        $table=$frm->addDiv()->setClass("igk-table-host overflow-x-a")->addTable();
+        $table=$frm->div()->setClass("igk-table-host overflow-x-a")->addTable();
      
         $table["class"]="igk-table igk-table-striped igk-users-list";
         if($r){ 
@@ -835,7 +835,7 @@ class UsersConfigurationController extends ConfigControllerBase {
                     break;
             }
             if($epagination){
-                $frm->addDiv()->addAJXPaginationView(igk_io_currenturi().'/'.$this->getUri("view&v="), $count, $perpage, $selected, "^.igk-cnf-content");
+                $frm->div()->addAJXPaginationView(igk_io_currenturi().'/'.$this->getUri("view&v="), $count, $perpage, $selected, "^.igk-cnf-content");
             }
             
         } else {
@@ -919,7 +919,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         $form->setStyle("min-width: 360px;");
         igk_html_form_initfield($form);
 
-        $form->addDiv()->setStyle("margin-bottom:2.1em")->Content = igk_user_fullname($rid);
+        $form->div()->setStyle("margin-bottom:2.1em")->Content = igk_user_fullname($rid);
 
         $form->addFields([
             "pwd"=>["type"=>"password", "label_text"=>__("Password")],

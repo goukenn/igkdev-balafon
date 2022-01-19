@@ -46,21 +46,19 @@ class FileWriter{
         fwrite($hf, $content);
         fflush($hf);
         fclose($hf);
-        if($chmod){ 
-            // $user = posix_getpwuid(fileowner($filename));
-            // igk_wln_e($filename, "user info : ", get_current_user(), PHP_OS, $user, $_SERVER);
-    
-            if(in_array(PHP_OS, ["Linux"])
-              && ($user = posix_getpwuid(fileowner($filename)))
-              && (get_current_user() == $user["name"]) && !@chmod($filename, $chmod)){
+        if($chmod && igk_environment()->isUnix()){  
+            $s_chmod = is_string($chmod) ? octdec($chmod) : $chmod; 
+            if(($user = posix_getpwuid(fileowner($filename)))
+              && (get_current_user() == $user["name"]) && !@chmod($filename, $s_chmod)){
                 if (igk_current_context() == IGKAppContext::running){
                     if(IGKApp::IsInit()){
                         igk_notify_error("/!\\ chmod failed ". $filename. " : ".$chmod);
                     }
                 } 
                 igk_ilog(__METHOD__."  -> chmodfailed :::".$filename.":".$chmod); 
-            }        
+            }
         }
+     
         return true; 
     }
     /**
@@ -80,6 +78,8 @@ class FileWriter{
             igk_die("InvalidOperation#1200");
         }
         $pdir=array($dirname);
+        $s_mode = is_string($mode) ? octdec($mode) : $mode;
+        $is_unix = igk_environment()->isUnix();
      
         while($dirname=array_pop($pdir)){
             if(empty($dirname))
@@ -95,7 +95,9 @@ class FileWriter{
                 continue;
             if(is_dir($p) && !is_file($dirname) && !is_dir($dirname) ){ 
                 if (@mkdir($dirname)){
-                    chmod($dirname, $mode);
+                    if ($is_unix){
+                        chmod($dirname, $s_mode);
+                    }
                 }else{
                     igk_dev_wln_e("failed to create : ".$dirname);
                     throw new IGKException("failed to create ".$dirname); 
@@ -107,5 +109,19 @@ class FileWriter{
             }
         }        
         return igk_count($pdir) == 0;
+    }
+
+    /**
+     * if opcache enabled invalidate the file
+     * @param mixed $file 
+     * @param bool $force 
+     * @return bool|void 
+     */
+    public static function Invalidate($file, $force=true){        
+        if (function_exists('opcache_get_status')){
+            if ($s = opcache_get_status()){
+                return opcache_invalidate($file, $force); 
+            } 
+        }
     }
 }

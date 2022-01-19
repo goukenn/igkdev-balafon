@@ -54,16 +54,16 @@ EOF
  if (\$e!=null)
  {
 
- \$div = \$frm->addDiv();
+ \$div = \$frm->div();
  \$div["class"] = "error";
  \$div->add(\$e);
  }
 
- \$div = \$frm->addDiv();
+ \$div = \$frm->div();
  \$li = \$div->addSLabelInput("clType","lb.particulier", "radio", "1");
  \$li["checked"]="checked";
  \$li = \$div->addSLabelInput("clType","lb.enterprise", "radio", "2");
- \$ul = \$frm->addDiv()->add("ul");
+ \$ul = \$frm->div()->add("ul");
 
  \$ul->add("li", array("class"=>igk_val_cbcss(\$cb, "clEmail") ))->addSLabelInput("clEmail", "lb.Email");
  \$ul->add("li", array("class"=>igk_val_cbcss(\$cb, "clPwd").""))->addSLabelInput("clPwd",  "lb.Pwd" ,"password");

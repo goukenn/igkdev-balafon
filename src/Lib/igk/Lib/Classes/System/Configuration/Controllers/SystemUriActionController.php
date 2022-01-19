@@ -390,13 +390,13 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $c=$c->clearChilds()->addPanelBox();
         igk_html_add_title($c, "title.SystemUriView");
         $c->addHSep();
-        igk_html_article($this, "systemuri", $c->addDiv());
+        igk_html_article($this, "systemuri", $c->div());
         $c->addHSep();
-        $div=$c->addDiv();
+        $div=$c->div();
         $ul=$div->add("ul");
         $v_routes=$this->getRoutes();
         foreach($v_routes as $k=>$v){
-            $li=$ul->addLi()->setClass("clearb");
+            $li=$ul->li()->setClass("clearb");
             $li->add("span", array("class"=>"igk-col-4-2 no-overflow igk-text-ellipis"))->Content=$k;
             $li->add("span", array("class"=>"igk-col-4-2"))->Content=$v;
         }

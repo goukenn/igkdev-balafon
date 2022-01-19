@@ -14,12 +14,16 @@ abstract class IGKApplicationBase{
 
     private $m_library;
 
+    protected $no_init_environment;
+
     public function __get($n){
         if (method_exists($this, $fc="get".ucfirst($n))){
             return $this->$fc();
         }
     }
-
+    public function getNoEnviroment(){
+        return $this->no_init_environment;
+    }
     /**
      * check and get application option
      * @param mixed $name 

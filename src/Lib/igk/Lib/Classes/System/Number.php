@@ -1,5 +1,5 @@
 <?php
-// @file: IGKNumber.php
+// @file: Number.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021

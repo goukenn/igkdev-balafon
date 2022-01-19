@@ -41,7 +41,7 @@ if ($navigate){
     $controller::logout(0);
 } 
 if($force || igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($funcName))){
-    igk_notification_push_event(IGK_HOOK_DB_CHANGED, $controller, null);
+    igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
     if($navigate){
         igk_navto($controller->getAppUri());
     }

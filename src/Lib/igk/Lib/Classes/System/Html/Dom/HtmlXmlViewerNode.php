@@ -42,8 +42,8 @@ final class HtmlXmlViewerNode extends HtmlNode {
     * @param mixed $t
     */
     public function initDemo($t){
-        $t->addDiv()->addSectionTitle(5)->Content="Samples ";
-        $t->addDiv()->addPhpCode()->Content="\$t->addXmlViewer()->Load('[xml_content]');";
+        $t->div()->addSectionTitle(5)->Content="Samples ";
+        $t->div()->addPhpCode()->Content="\$t->addXmlViewer()->Load('[xml_content]');";
         $this->ClearChilds();
         $this->Load(<<<EOF
 <demo attr_1="attrib_definition" >The viewer<i >sample</i></demo>

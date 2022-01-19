@@ -1,16 +1,11 @@
 <?php
+//
+// @file: ModuleList2Command.php
+// @author: C.A.D. BONDJE DOUE
+// @desc: list installed module 
 namespace IGK\System\Console\Commands;
 
-use IGK\System\Console\AppExecCommand;
-use IGK\System\Console\Logger;
-use IGKNumber;
-use ZipArchive;
-use IGK\Resources\R;
-use IGK\System\Console\App;
-use IGKControllerManagerObject;
-
-// require_once (IGK_LIB_DIR."/Lib/Classes/Resources/R.php");
-
+use IGK\System\Console\AppExecCommand; 
 
 class ModuleList2Command extends AppExecCommand{
 

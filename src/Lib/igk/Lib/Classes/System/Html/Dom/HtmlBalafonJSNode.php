@@ -9,6 +9,5 @@ class HtmlBalafonJSNode extends HtmlScriptNode{
         $this["type"] = "text/balafonjs";
         $this["autoremove"] = $autoremove;
         $this->setCallback("handleRender", "igk_html_callback_production_minifycontent");
-    }
-    
+    } 
 }   

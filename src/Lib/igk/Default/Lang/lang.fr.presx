@@ -12,6 +12,7 @@ $l["Clear cache"] = "Supprimer la cache";
 $l["add"] = "Ajoutez";
 $l["lb.clView"] = "Vue";
 $l["add news"] = "Ajouter";
+$l["title.menuController"]="Menu";
 $l["add task"] = "Ajouter une tâche";
 $l["adl.btn.addenterprise"] = "Ajouter";
 $l["adl.btn.addprestation"] = "Ajouter une prestation";

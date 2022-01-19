@@ -8,7 +8,7 @@ return $n;
 }
 
 function igk_gallery_add($gallery, $src, $alt=null){
-	$i = $gallery->addDiv()->setClass("bx");
+	$i = $gallery->div()->setClass("bx");
 	$h = $i->addXmlNode("img");
 	$h["src"]=$src;
 	$h["alt"]=$alt;

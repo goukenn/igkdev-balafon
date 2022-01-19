@@ -49,7 +49,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     * @param mixed $title
     */
     protected function addTitle($node, $title){
-        $d=$node->addDiv();
+        $d=$node->div();
         $d["class"]="igk-cnf-title";
         $d->Content=__($title);
     }

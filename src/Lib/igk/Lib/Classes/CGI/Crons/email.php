@@ -1,6 +1,7 @@
 <?php
 
 use IGK\System\Console\Logger;
+use IGK\System\Net\Mail;
 
 $mail = new Mail();
 $mail->addTo($to);

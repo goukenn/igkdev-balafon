@@ -24,4 +24,5 @@ return [
     IGK_FRAME_CTRL=> \IGK\Controllers\FrameDialogController::class,
     IGK\Controllers\UserGroupController::class=>IGK\Controllers\UserGroupController::class,
     // IGK_MYSQL_DB_CTRL=>\IGK\System\Database\MySQL\Controllers\DbConfigController::class,
+    IGK_MAIL_CTRL=>\IGK\System\Net\MailConfigController::class,
 ];

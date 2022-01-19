@@ -376,7 +376,7 @@ function igk_html_demo_googlecirclewaiter($t)
 {
     /// TODO : Fix google circle
     $dv = $t->div()->setStyle("height: 200px");
-    $dv->addDiv()->Content = __("Please wait...");
+    $dv->div()->Content = __("Please wait...");
     $dv->addgoogleCircleWaiter()->setStyle("display:inline-block; height:100px; width:100%");
 }
 ///'https://local.com/Lib/igk/Ext/ControllerModel/GoogleControllers/Scripts/igk.google.maps.js'
@@ -485,7 +485,7 @@ function igk_html_node_googlejsmaps($data = null, $apikey = null)
     $mapuri = $srv("apiuri", null, (object)["Google" => (object)["ApiKey" => $apikey]]);
     $n->setCallback("AcceptRender", "igk_google_jsmap_acceptrender_callback");
     $mapjs =  IGKResourceUriResolver::getInstance()->resolve(dirname(__FILE__) . '/Scripts/igk.google.maps.js');
-    $n->addScript()->Content = <<<EOF
+    $n->script()->Content = <<<EOF
 (function(q){
 var b = ['{$mapuri}'];
 if (!igk._\$exists('igk.google.maps'))

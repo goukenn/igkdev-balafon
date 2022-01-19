@@ -6,7 +6,7 @@ $box = igk_html_ctrl_view_config($ctrl, $cnf_n, "title.frameworkInfo", null);
 $cnf=$ctrl->getConfigNode()->clearChilds();
 
 // +| VIEW SERVER Information
-$dv=$cnf->addDiv()->addPanelBox();
+$dv=$cnf->div()->addPanelBox();
 $dv->addSectionTitle()->Content="\$_SERVER";
 $tb=$dv->tablehost()->table()->header("Name", "Value");
 foreach($_SERVER as $k=>$v){
@@ -15,7 +15,7 @@ foreach($_SERVER as $k=>$v){
 	$r->addTd()->Content=$v;
 }
 // +| VIEW php.ini Informations 
-$dv=$cnf->addDiv();
+$dv=$cnf->div();
 $dv->addSectionTitle()->Content="php.ini";
 $g = ini_get_all();
 $tb=$dv->panelbox()->tablehost()->table()->header("Name", "Value");

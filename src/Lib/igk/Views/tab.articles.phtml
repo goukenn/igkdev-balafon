@@ -15,7 +15,7 @@ use IGK\Resources\R;
 
 ($s_ctrl == null) && igk_die("selected controller not found");
 $div=$t;
-$v_divarticle=$div->addDiv();
+$v_divarticle=$div->div();
 $v_divarticle["id"]="view_articles";
 if (!igk_is_ajx_demand())
 $v_divarticle->add("h3")->Content = 

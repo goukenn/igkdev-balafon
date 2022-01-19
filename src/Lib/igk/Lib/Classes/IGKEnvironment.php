@@ -38,6 +38,22 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     public function getLocale(){
         return R::GetLocale();
     }
+    /**
+     * get true if environment is unix type
+     */
+    public function isUnix(){       
+        return in_array(strtolower(PHP_OS), ["unix","linux", "darwin"]);
+    }
+
+    public function getPhpCoreVersion(){
+        static $version;
+        if ($version == null){
+            list($major, $minor) = explode(".",  PHP_VERSION);
+            $version = $major.".".$minor; 
+        }
+        return $version;
+
+    }
 
     public function write_debug(string $message){ 
         $d = & $this->createArray("debug_load");

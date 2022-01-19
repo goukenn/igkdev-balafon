@@ -8,7 +8,7 @@ use function igk_resources_gets as __;
 
 require_once(__DIR__."/InstallerActionMiddleWare.pinc");
 
-class IGKBalafonProjectInstaller extends IGKBalafonInstaller{
+class BalafonProjectInstaller extends BalafonInstaller{
     protected $controller;
     protected $zipcore = false;
     protected function init_installer(InstallerMiddleWareActions $action){

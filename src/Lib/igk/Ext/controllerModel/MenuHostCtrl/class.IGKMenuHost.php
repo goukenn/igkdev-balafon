@@ -36,7 +36,7 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 			$v["href"] = "#".$n;
 			$v["igk-nav-link"]= $n;
 		}
-		$t->addScript()->Content =<<<EOF
+		$t->script()->Content =<<<EOF
 var node = igk.getParentScript();
 var parent = document.getElementById("{$this->app->Configs->web_pagectrl}");
 igk.ready(function(){

@@ -137,7 +137,7 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
     }
     ///<summary></summary>
     public function addGroup(){
-        $g=$this->frm->addDiv();
+        $g=$this->frm->div();
         $g["class"]="igk-form-group";
         $this->group=$g;
         return $this;

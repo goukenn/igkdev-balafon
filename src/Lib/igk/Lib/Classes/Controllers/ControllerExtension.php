@@ -1173,12 +1173,16 @@ abstract class ControllerExtension
     }
 
     /**
-     * project used controller
+     * project used controller's
      * @return void 
      */
     public static function getCanModify(BaseController $controller)
     {
-        return !empty(strstr($controller->getDeclaredDir(), igk_io_projectdir()));
+        $pdir = igk_io_projectdir();
+        $decdir = $controller->getDeclaredDir();
+        if (is_link($pdir))
+            $pdir = realpath($pdir);
+        return $pdir && !empty(strstr($decdir, $pdir));
     }
 
 

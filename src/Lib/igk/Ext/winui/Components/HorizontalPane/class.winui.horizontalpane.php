@@ -60,7 +60,7 @@ final class IGKJS_HorizontalPane extends IGKObject
 		$this->m_AnimType = self::DEFAULTANIMTYPE;//IGKHTMLHorizontalAnimType::r "translation";/// fade, rotation
 		//fit parent
 
-		$this->m_pageNode = $target->addDiv();
+		$this->m_pageNode = $target->div();
 		$this->m_pageNode["igk-control-type"]="igk-pane";
 		$this->m_pageNode->setClass("igk-pane rotation");
 		//global register theme to document directry if this object is created
@@ -82,7 +82,7 @@ final class IGKJS_HorizontalPane extends IGKObject
 	{
 		if ($this->m_bulletZone == null)
 		{
-			$this->m_bulletZone  =  $this->m_target->addDiv();
+			$this->m_bulletZone  =  $this->m_target->div();
 			$this->m_bulletZone["igk-control-type"]="hpane-bz";
 			$this->m_bulletZone["class"]="hpane-bz";
 		}
@@ -175,7 +175,7 @@ final class IGKHTMLHorizontalPaneManager extends HtmlComponentNode
 		igk_exit();
 	}
 	public function addHPaneOption($typename){
-		$d = $this->addDiv();
+		$d = $this->div();
 		$d->setClass("igk-pane-option igk-trans-all-200ms");
 		$d->add("span")->setClass("igk-hbox")->Content = $typename;
 		$d->pane = $this->m_owner; 
@@ -205,7 +205,7 @@ final class IGKHTMLHorizontalPaneManager extends HtmlComponentNode
 		$this->m_paneOptions = $this->addHPaneOption("options");
 		$this->m_paneOptions->item->setStyle("[res:option_32x32]; cursor: pointer;");
 
-		$this->addDiv()->setClass("igk-cleartab")->Content = " ";
+		$this->div()->setClass("igk-cleartab")->Content = " ";
 
 		$this->setCallback("getIsVisible", $f);
 	}
@@ -267,7 +267,7 @@ $pane->renderAJX();
 				$img["src"] = "[func:igk_hpane_get_dir_uri(\$row->file).'/{$cfname}']";
 				//igk_html_inlinedata($type, igk_io_read_allfile($s));//"data:{$type}, base64, ".base64_encode($s);// "[func:igk_hpane_geturi(\$row->file).'/{$cfname}']";
 				$img->setClass("igk-pane-img");
-				$div->addDiv()->setClass("igk-pane-view");
+				$div->div()->setClass("igk-pane-view");
 				//store template
 				igk_io_save_file_as_utf8_wbom($dir."/".basename($s).".".IGK_DEFAULT_VIEW_EXT, $div->render(null) , true);
 				break;
@@ -512,14 +512,14 @@ $target->Load( igk_html_databinding_treatresponse($s,null, null,null));
 		$this->m_pane = new IGKJS_HorizontalPane($this);
 		$this->m_pattern = "/\.phtml$/i";
 		$this->m_manager = new IGKHTMLHorizontalPaneManager($this);
-		$this->m_infobox = $this->addDiv()->setClass("igk-pane-infobox");
+		$this->m_infobox = $this->div()->setClass("igk-pane-infobox");
 
 
 		$this->m_pane->pageNode["igk-component-id"] = $this->m_manager["igk-component-id"];
 		$this->add($this->m_manager);
 		$this->m_infobox->setCallback("getIsVisible", igk_create_node_callback(array($this, "isVisible"), array('infobox')));
-		$this->m_infobox->addDiv()->setClass("igk-pane-infobox-c disptable fitw fith")
-		->addDiv()->setClass("disptabc alignc alignm")
+		$this->m_infobox->div()->setClass("igk-pane-infobox-c disptable fitw fith")
+		->div()->setClass("disptabc alignc alignm")
 		->Content = R::ngets("msg.nopageaddedtopane");
 		$this->m_infoboxScript = $this->m_infobox->addScript();
 		$this->m_ConfigFileName = "config.xml";

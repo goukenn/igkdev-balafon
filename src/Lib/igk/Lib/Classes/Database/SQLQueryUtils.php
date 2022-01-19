@@ -652,7 +652,7 @@ class SQLQueryUtils{
         $flag="";
         if(igk_environment()->querydebug){
             $flag = igk_getv($tq, "flag");
-            igk_wln_e("flagggg ".$flag);
+            igk_dev_wln_e(__FILE__.":".__LINE__,  "flag : ".$flag);
         }
         $q="SELECT {$flag}{$column} FROM `".igk_mysql_db_tbname($tbname)."`".rtrim($q).";";
         return $q;

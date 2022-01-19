@@ -46,8 +46,7 @@ class MakeProjectCommand extends AppExecCommand{
         }
         $dir = igk_io_projectdir()."/".$name;
         Logger::info(__("Make project ... {0}",  $name));
-     
-        // IO::RmDir($dir); 
+      
         
         $author=$command->app->getConfigs()->get("author", IGK_AUTHOR);
         $type=igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);

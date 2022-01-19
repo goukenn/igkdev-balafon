@@ -19,7 +19,7 @@ $t->div()->container()->section()
 ->quaote()->h2()->Content= __("List of services");
 //$body
 $dv = $t->div()->setClass("content");
-$row = $dv->addContainer()->addRow();
+$row = $dv->container()->addRow();
 if (igk_count($services) <=0){
 	$row->addCol()->addColViewBox()->Content = __("No services found");
 }
@@ -27,4 +27,4 @@ else{
 
 	$row->addCol("igk-col-3-3")->article($ctrl, $ctrl->getParentArticle("services.list.template"), $ctrl->getServices());
 }
-$t->div()->setClass("footer")->addContainer()->addSingleRowCol()->addDiv()->addIGKCopyRight();
+$t->div()->setClass("footer")->container()->addSingleRowCol()->div()->addIGKCopyRight();

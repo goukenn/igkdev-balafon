@@ -299,7 +299,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_NAMED_ID_PARAM", 0x002C);
     // define("IGK_NAMED_NODE_PARAM", 0x002B);
     // define("IGK_NODE_DISPOSED_EVENT", 0x0029);
-    // define("IGK_NOTIFICATION_APP_DOWNLOADED", 0x0033);
       
     // define("IGK_NOTIFICATION_DB_TABLEDROPPED", 0x0032);
     // define("IGK_NOTIFICATION_INITTABLE", 0x0035);
@@ -442,8 +441,8 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_SERVERNAME", "IGKDEV");
     define("IGK_STR_EMPTY", "");
     define("IGK_MAX_CONFIG_PWD_LENGHT", 5);
-    defined("IGK_DEFAULT_FOLDER_MASK") || define("IGK_DEFAULT_FOLDER_MASK", 0755);
-    defined("IGK_DEFAULT_FILE_MASK") || define("IGK_DEFAULT_FILE_MASK", 0755); 
+    defined("IGK_DEFAULT_FOLDER_MASK") || define("IGK_DEFAULT_FOLDER_MASK", '0755');
+    defined("IGK_DEFAULT_FILE_MASK") || define("IGK_DEFAULT_FILE_MASK", '0775'); 
     define("IGK_LF", "\n");
     define("IGK_CLF", "\r\n");
     define("IGK_DATA_FOLDER", "Data");
@@ -766,8 +765,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // ,'IGK_NO_TRACELOG'
     // ,'IGK_SYS_CONFIG_FILE'
     // ,'IGK_TRACE' 
-    // 'IGK_WEBFRAMEWORK',
-    // 'IGK_DEFAULT_FOLDER_MASK',
+    // 'IGK_WEBFRAMEWORK', 
     // 'IGK_DEFAULT_FILE_MASK'];
     
     // foreach($tab as $k=>$v){

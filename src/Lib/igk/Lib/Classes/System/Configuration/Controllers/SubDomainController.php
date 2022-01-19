@@ -120,7 +120,7 @@ final class SubDomainController extends ConfigControllerBase{
                 }
                 if($ok){
                     igk_notifyctrl()->addSuccessr("msg.items.deleted");
-                    igk_notification_push_event("sys://domain/changed", $this);
+                    igk_hook("sys://domain/changed", $this);
                 }
                 else
                     igk_notifyctrl()->addErrorr("e.items.notdeleted");
@@ -147,7 +147,7 @@ final class SubDomainController extends ConfigControllerBase{
             $msg=__("Domain dropped");
             $type="igk-success";
             if(Subdomains::delete(array(IGK_FD_ID=>$id))){
-                igk_notification_push_event("sys://domain/changed", $this);
+                igk_hook("sys://domain/changed", $this);
                 IGKSubDomainManager::getInstance()->Clear();
                 $this->__init_domain();
             }

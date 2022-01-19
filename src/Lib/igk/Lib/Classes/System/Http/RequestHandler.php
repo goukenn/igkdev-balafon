@@ -252,9 +252,7 @@ class RequestHandler
         $redirect_status = $server_info->{'REDIRECT_STATUS'};
         $r = $server_info->{'REDIRECT_REQUEST_METHOD'};
         igk_sys_handle_res($query);
-
-        // igk_html_pre($_SERVER);
-        // exit;
+//  igk_wln_e("code", $code, $redirect, $_SERVER);
         switch ($code) {
             case 901:
                 // default redirect request handle
@@ -266,8 +264,7 @@ class RequestHandler
                 /// TASK: handle query option on system command
                 if ($this->handle_cmd_action($redirect)) {
                     igk_exit();
-                }
-
+                } 
                 break;
             case 904:
                 header("Status: 404");
@@ -301,7 +298,7 @@ class RequestHandler
 
 
         if (($actionctrl = igk_getctrl(IGK_SYSACTION_CTRL)) && igk_io_handle_redirection_uri($actionctrl, $page, $params, 1))
-            return;
+            return; 
         try {
             if (igk_sys_ispagesupported($page)) {
                 $tab = $_REQUEST;
@@ -371,10 +368,124 @@ class RequestHandler
     public function handle_cmd_action(string $redirect)
     {
         $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/(\/)?(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";
+     
         $c = preg_match_all($rx, $redirect, $ctab);
         if ($c > 0) {
             igk_getctrl(IGK_SYSACTION_CTRL)->invokePageAction($ctab["type"][0], $ctab["ctrl"][0], $ctab["function"][0], $ctab["args"][0]);
             return true;
         }
+    }
+
+    /**
+     * handle guid action 
+     * @param string $guid 
+     * @param null|string $query 
+     * @param null|string $version 
+     * @return void 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public function handle_guid_action(string $guid, ?string $query = null, ?string $version = "")
+    {
+        igk_header_no_cache();
+        $uri = igk_io_request_entry();
+        $key = igk_get_component_uri_key($guid);
+        $tab = igk_app()->session->regUris;
+        $handle = false;
+        $routes = igk_app()->session->Routes;
+        $index = array_search($key, $routes);
+        $obj = null;
+        $args = $query;
+        if (is_string($query))
+            $args = explode("/", $query);
+        if (!empty($index)) {
+            $obj["class"] = $index;
+        } else if ($tab && isset($tab[$key])) {
+            $obj = $tab[$key];
+        }
+        if (is_array($obj)) {
+            $tclass =  explode("/::", $obj["class"]);
+            $class = array_shift($tclass);
+            $tclass = implode("", $tclass);
+
+            if (strpos($class, "m:") === 0) {
+                $mod = str_replace(".", "\\", substr($class, 2));
+                $mod_instance = igk_require_module($mod);
+                $method = igk_getv($args, 0, "handle");
+                $args = array_slice($args, 1);
+                if ($ob = call_user_func_array([$mod_instance, $method], $args)) {
+                    igk_do_response($ob);
+                }
+                igk_set_header(500);
+                igk_wln_e(__("failed to handle module action"));
+            }
+            // if ($ctrl=igk_getctrl(IGK_CONF_CTRL, false)){
+            //     $ctrl::register_autoload();
+            // }
+            if (!class_exists($class)) {
+                igk_set_header(500, "temp class not found");
+                igk_wln_e("class not exists {$class} ", $tclass, $obj, $index, "routes", $routes);
+            }
+            if (
+                is_subclass_of($class, BaseController::class)
+                && ($ctrl = igk_getctrl($class, false))
+            ) {
+                $ctrl::register_autoload();
+                R::RegLangCtrl($ctrl);
+            } else {
+                $tclass = null;
+                $ctrl = new $class();
+            }
+            $method = "index";
+
+            if (
+                !empty($tclass) &&
+                class_exists($tclass)
+            ) {
+                $cl = new $tclass($ctrl);
+            } else {
+                $cl = $ctrl; //new $class();
+            }
+            if (count($args) > 0) {
+                if (method_exists($cl, $args[0])) {
+                    $method = $args[0];
+                    $args = array_slice($args, 1);
+                }
+            }
+            if (method_exists($cl, $method)) {
+                ob_start();
+                if (!igk_do_response($ob = call_user_func_array(array($cl, $method), $args))) {
+                    igk_wl(ob_get_clean());
+                } else {
+                    ob_end_clean();
+                }
+            } else {
+                igk_wln("method not found");
+                igk_set_header(500, "function not found");
+            }
+            igk_exit();
+        }
+        $cl = null;
+        $b = json_decode($tab[$key]);
+        if ($b)
+            $cl = $b->classpath;
+
+        if (!empty($cl) && class_exists($cl, false) && !empty($query)) {
+            $g = new $cl($b);
+            $args = explode("/", $query);
+            ob_start();
+            $ob = call_user_func_array(array($g, $args[0]), array_slice($args, 1));
+            ob_end_clean();
+            igk_wl($ob);
+        }
+
+        if (igk_getr("__clear")) {
+            igk_app()->session->regUris = null;
+        }
+        igk_set_header(500);
+        if (igk_environment()->is("DEV")) {
+            igk_wl_e(__("failed to handle component action"));
+        }
+        igk_exit();
     }
 }

@@ -27,7 +27,8 @@
             "readonly":false
         };
         var q = this; 
-        _editor = igk.createNode("div").addClass("igk-text-editor");
+        
+        _editor = igk.createNode("div").addClass("igk-text-editor editor");
         _content = _editor.add('div').addClass("content")
         .setAttribute("contenteditable", "true")
         .setAttribute("autofocus", "true")
@@ -148,6 +149,7 @@
         _e.node = this;
         _e.parent = this.o.parentNode;  
         _e.form = this.select("^form").first();
+        _e.editor.addClass(this.o.getAttribute("class"));// "dispib");
         if (_e.form){
             _e.form.on("submit", function(e){
                 _e.update_value(_e.content.o.innerHTML);

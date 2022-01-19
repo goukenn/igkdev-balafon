@@ -10,7 +10,7 @@
 
 namespace IGK\System\Html\Dom;
 
-class HtmlOptions{
+abstract class HtmlOptions{
     static $CloseWithCloseTags=array(
             "style"=>"style",
             "label"=>"label",
@@ -55,4 +55,17 @@ class HtmlOptions{
             "source"=>"source",
             "embed"=>"embed"
         );
+
+    public static function IsAllowedAttribute(string $name){
+        // ---------------------------------------------------------------------------------
+        // ignore igk:param cause have a special meaning for loading template - it will call setParam methoe- will pass data
+        // use igk:data to pass data to js 
+        // use igk:args to pass data to opener
+        // ---------------------------------------------------------------------------------
+        if (in_array($name, ["param"])){
+            // use set param insteed
+            return false;
+        }
+        return true;
+    }
 }

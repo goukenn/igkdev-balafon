@@ -143,7 +143,7 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 
 		$frame->Form = $d->addForm();
 		$frame->Form["action"] = $this->getUri("convert");
-		$frame->Form->Div = $frame->Form->addDiv();
+		$frame->Form->Div = $frame->Form->div();
 		$frame->Form->Div->addTextArea("clHtmlCode", "code .... ");
 		$frame->Form->Div->addInput("confirm", "hidden",1);
 		$frame->Form->addHSep();

@@ -79,9 +79,21 @@ class App{
         if ($basePath === null){
             $basePath = getcwd();
         }
-  
-        $wdir = sys_get_temp_dir()."/balafon";
+        // + | temporary directory  
+        $wdir = sys_get_temp_dir()."/balafon-cgi";
+
+        !defined('IGK_LOG_FILE') && define('IGK_LOG_FILE', $wdir."/logs/.".IGK_TODAY."/cons.log"); 
+
         IO::CreateDir($wdir);
+
+        register_shutdown_function(function()use($wdir){
+            if (!($error = error_get_last())){
+                IO::RmDir($wdir);
+            }
+            print_r($error);
+        });
+      
+
         igk_environment()->set("app_type", IGKAppType::balafon);
         igk_environment()->set("workingdir", $wdir); 
         $app->basePath = $basePath;
@@ -302,7 +314,7 @@ class App{
                     $s.= (igk_getv($c, 1));
                 }
 
-                $this->print($s."\n");
+                $this->print(implode("\r\n\t\t\t\t", explode("\n", $s))."\n");
             }
             $key=key($groups);
         }

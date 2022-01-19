@@ -101,7 +101,7 @@ function igk_html_node_configsubmenu($menuList, $selected)
 {
     $ul = igk_create_node("ul")->setClass("igk-cnf-content_submenu");
     foreach ($menuList as $k => $v) {
-        $li = $ul->addLi();
+        $li = $ul->li();
         $li->add("a", array("href" => $v))->Content = __("cl" . $k);
         if ($selected == $k) {
             $li["class"] = "+igk-cnf-content_submenu_selected";
@@ -184,7 +184,7 @@ function igk_html__tabbutton_add($q)
  */
 function igk_html_add_context_menu_item($n, $uri, $display)
 {
-    $n->addLi()->addA($uri)->Content = $display;
+    $n->li()->addA($uri)->Content = $display;
 }
 ///<summary>function igk_html_callback_ajx_lnksettarget</summary>
 ///<param name="n"></param>
@@ -289,7 +289,7 @@ function igk_html_code_copyright_callback($ctrl = null)
 function igk_html_create_container_section($t)
 {
     $dv = $t->div();
-    $ct = $dv->addContainer();
+    $ct = $dv->container();
     $r = $ct->addRow();
     return $r;
 }
@@ -720,7 +720,7 @@ function igk_html_node_ajxpickfile($uri, $param = null)
     $u["type"] = "file";
     $u->setClass("-cltext igk-ajx-pickfile");
     $u["igk:uri"] = $uri;
-    $param && $u->setAttributes(["igk:param"=>$param]);
+    $param && $u->setAttributes(["igk:data"=>$param]);
     return $u;
 }
 ///<summary>function igk_html_node_ajxreplacecontent</summary>
@@ -791,9 +791,9 @@ function igk_html_node_arraydata($tab)
     $n = igk_create_node("div");
     $n["class"] = "+igk-array-data";
     foreach ($tab as $k => $v) {
-        $cv = $n->addDiv()->setClass("r")->setStyle("display:table-row");
-        $cv->addDiv()->setClass("k")->setStyle("display:table-cell")->Content = $k;
-        $cv->addDiv()->setClass("v")->setStyle("display:table-cell")->addObData($v);
+        $cv = $n->div()->setClass("r")->setStyle("display:table-row");
+        $cv->div()->setClass("k")->setStyle("display:table-cell")->Content = $k;
+        $cv->div()->setClass("v")->setStyle("display:table-cell")->addObData($v);
     }
     return $n;
 }
@@ -869,6 +869,9 @@ function igk_html_node_balafonjs($autoremove = 0)
     $c = new \IGK\System\Html\Dom\HtmlBalafonJSNode(); 
     return $c;
 }
+function igk_html_node_balafonComponentJS(){
+    return new \IGK\System\Html\Dom\HtmlBalafonJSComponentNode(); 
+}
 ///<summary>function igk_html_node_bindarticle</summary>
 ///<param name="ctrl"></param>
 ///<param name="name"></param>
@@ -939,8 +942,8 @@ function igk_html_node_bmcloginpage($listener)
     $bmc = igk_require_module("igk/BMC");
     $dv = igk_create_node("div");
     $dv["class"] = "disptable fit";
-    $g = $dv->addDiv()->setClass("disptabc alignm alignc");
-    $frm = $g->addDiv()->setClass("dispib alignl")->setStyle("width:300px;")->addForm();
+    $g = $dv->div()->setClass("disptabc alignm alignc");
+    $frm = $g->div()->setClass("dispib alignl")->setStyle("width:300px;")->addForm();
     $frm["action"] = $listener->getAppUri("login");
     igk_html_form_initfield($frm);
     $shape = $frm->addBMCShape()->setClass('fitw')->setStyle("padding:20px");
@@ -1382,7 +1385,7 @@ function igk_html_node_cookiewarning($warnurl = null)
     $n["class"] = "igk-cookie-warn";
     $n["igk-domain-ewarn"] = "local.com.ewarn";
     $n->Content = __("By using this site, you agree with cookies usage. you can erase or stop them in your navigation parameters." . "<a href=\"" . $warnurl . "\">" . __("For more infos") . "</a>");
-    $n->addDiv()->setClass("close")->addABtn("#")->Content = igk_svg_use("drop");
+    $n->div()->setClass("close")->addABtn("#")->Content = igk_svg_use("drop");
     $n->setCallback("IsVisible", "return igk_get_global_cookie(\"local.com.warn\", 0)!=0;");
     return $n;
 }
@@ -1639,7 +1642,7 @@ function igk_html_node_dialogbox($title)
 {
     $n = igk_create_node("div");
     $n["class"] = "igk-winui-dialogbox";
-    $t = $n->addDiv()->setClass("title");
+    $t = $n->div()->setClass("title");
     $t->div()->setClass("cls")->addSvgSymbol("close_btn_2");
     $t->addSectionTitle(4)->Content = $title;
     $t->div()->setClass("opts")->addSvgSymbol("v_dot_3");
@@ -1704,7 +1707,7 @@ function igk_html_node_actions($actionlist)
 function igk_html_node_divcontainer($attribs = null)
 {
     $n = igk_create_node();
-    $n->addContainer();
+    $n->container();
     return $n;
 }
 ///<summary>function igk_html_node_domainlink</summary>
@@ -1856,8 +1859,8 @@ function igk_html_node_formusagecondition()
 {
     $dd = igk_create_node();
     $dd->setClass("disptable fitw");
-    $dd->addDiv()->setClass("disptabc")->addInput("clAcceptCondition", "checkbox")->setAttribute("checked", 1);
-    $dd->addDiv()->setClass("disptabc fitw")->addDiv()->add("label")->setAttribute("for", "clAcceptCondition")->setStyle("padding-left:10px")->Content = new HtmlUsageCondition();
+    $dd->div()->setClass("disptabc")->addInput("clAcceptCondition", "checkbox")->setAttribute("checked", 1);
+    $dd->div()->setClass("disptabc fitw")->div()->add("label")->setAttribute("for", "clAcceptCondition")->setStyle("padding-left:10px")->Content = new HtmlUsageCondition();
     return $dd;
 }
 ///<summary>function igk_html_node_frame</summary>
@@ -1906,7 +1909,7 @@ function igk_html_node_galleryfolder($ctrl, $folder, $ignorethumb = 1)
             if ($ignorethumb && strstr($img, $thumb)) {
                 continue;
             }
-            $i = $n->addDiv()->setClass("igk-col no-overflow item")->setStyle("height: 210px; padding-bottom: 20px;")->addImg()->setSrc($img);
+            $i = $n->div()->setClass("igk-col no-overflow item")->setStyle("height: 210px; padding-bottom: 20px;")->addImg()->setSrc($img);
             $i["alt"] = basename($img);
             $i["class"] = "fit fitc";
         }
@@ -1932,11 +1935,11 @@ function igk_html_node_igkheaderbar($title, $baseuri = null)
     $baseuri = $baseuri ? $baseuri : igk_io_baseDomainUri();
     $n = igk_create_node("div");
     $r = $n->addRow()->setClass("no-margin");
-    $h1 = $r->addDiv()->setClass(" igk-col-lg-12-2 fith presentation");
-    $t = $h1->addDiv()->addA($baseuri)->setClass("dispb no-decoration");
+    $h1 = $r->div()->setClass(" igk-col-lg-12-2 fith presentation");
+    $t = $h1->div()->addA($baseuri)->setClass("dispb no-decoration");
     $t->add("span")->setClass("dispib posr")->setStyle("left:10px; top:12px;")->Content = igk_web_get_config("company_name");
     $t->div()->setClass("igk-title-4")->Content = $title;
-    $n->m_Box = $r->addDiv();
+    $n->m_Box = $r->div();
     $n->m_Box->setClass("igk-col-lg-12-10 .ibox");
     return $n;
 }
@@ -2019,7 +2022,7 @@ function igk_html_node_huebar()
 {
     $n = igk_create_node("div");
     $n["class"] = "igk-winui-huebar";
-    $n->addDiv()->setClass("cur");
+    $n->div()->setClass("cur");
     $n->addBalafonJS()->Content = "igk.winui.huebar.init(); ";
     return $n;
 }
@@ -2159,10 +2162,10 @@ function igk_html_node_resimg($name, $desc = "", $width = 16, $height = 16)
 function igk_html_node_jombotron($text = 'Jombotron')
 {
     $n = igk_create_node("div");
-    $col = $n->addContainer()->addRow()->addCol();
-    $dv = $col->addDiv()->setClass("igk-jombotron");
+    $col = $n->container()->addRow()->addCol();
+    $dv = $col->div()->setClass("igk-jombotron");
     $dv->addSectionTitle(4)->Content = __("Welcome");
-    $dv->addDiv()->Content = $text;
+    $dv->div()->Content = $text;
     return $n;
 }
 ///<summary>function igk_html_node_jsaextern</summary>
@@ -2403,9 +2406,9 @@ function igk_html_node_linewaiter()
     $n = igk_create_node();
     $n["class"] = "igk-line-waiter";
     $n["igk:count"] = "3";
-    $n->addDiv()->setClass("igk-line-waiter-cur");
-    $n->addDiv()->setClass("igk-line-waiter-cur");
-    $n->addDiv()->setClass("igk-line-waiter-cur");
+    $n->div()->setClass("igk-line-waiter-cur");
+    $n->div()->setClass("igk-line-waiter-cur");
+    $n->div()->setClass("igk-line-waiter-cur");
     $n->addBalafonJS()->Content = <<<EOF
 ns_igk.readyinvoke('igk.winui.lineWaiter.init');
 EOF;
@@ -2639,21 +2642,14 @@ function igk_html_node_notification($nodeType = "div", $notifyName = null)
  * used to bind notify global ctrl message
  */
 function igk_html_node_notifyhost($name = "::global", $autohide = 1)
-{
-    $n = igk_create_node("div");
-    $n["class"] = "igk-notify-host";
-    if ($autohide) {
-        $n["class"] = "+anim-autohide";
-    }
-    if (igk_environment()->is("DEV")) {
-        $n["title"] = igk_str_ns($name);
-    }
-    $c = igk_notifyctrl();
-    $g = $c->setNotifyHost($n, $name);
-    if ($g) {
-        $g->setAutohide($autohide);
-    }
-    return $n;
+{ 
+    return new \IGK\System\Html\Dom\HtmlNotifyResponse($name, $autohide); 
+}
+function igk_html_node_togglebutton(){
+    return new \IGK\System\Html\Dom\HtmlToggleButtonNode();
+}
+function igk_html_node_bar(){
+    return new \IGK\System\Html\Dom\HtmlBarNode();
 }
 ///<summary>function igk_html_node_notifyhostbind</summary>
 ///<param name="name"></param>
@@ -2824,10 +2820,10 @@ function igk_html_node_paneldialog($title, $content = null, $settings = null)
 
     $n = igk_create_node("div");
     $n["class"] = "igk-winui-panel-dialog";
-    $box = $n->addDiv()->setClass("box");
-    $tl = $box->addDiv()->setClass("igk-title");
+    $box = $n->div()->setClass("box");
+    $tl = $box->div()->setClass("igk-title");
     $tl->add("span")->Content = $title;
-    $ctn = $box->addDiv()->setClass("igk-content");
+    $ctn = $box->div()->setClass("igk-content");
     if ($content) {
         if (is_string($content))
             $ctn->load($content);
@@ -2854,7 +2850,7 @@ function igk_html_node_paneldialog($title, $content = null, $settings = null)
     return $n;
 }
 ///<summary> parallax node view</summary>
-///<exemple> $t->addParallaxNode(igk_html_resolv_img_uri($this->getDataDir()."/R/parallax/img1.jpg"))->addDiv()->setClass("slide_inside")->Content = "Page 1"; </exemple>
+///<exemple> $t->addParallaxNode(igk_html_resolv_img_uri($this->getDataDir()."/R/parallax/img1.jpg"))->div()->setClass("slide_inside")->Content = "Page 1"; </exemple>
 /**
  *  parallax node view
  */
@@ -2862,7 +2858,7 @@ function igk_html_node_parallaxnode($uri = null)
 {
     $n = igk_create_node("div");
     $n["class"] = "igk-winui-parallax";
-    $n->Attributes->Set("igk:param", "{$uri}");
+    $n["igk:data"] = $uri; 
     return $n;
 }
 ///<summary>function igk_html_node_popupmenu</summary>
@@ -2895,7 +2891,7 @@ function igk_html_node_progressbar()
     $n = igk_create_node();
     $n["class"] = "igk-progressbar";
     $n["data"] = "0";
-    $n->m_cur = $n->addDiv()->setClass("igk-progressbar-cur igk-progress-0");
+    $n->m_cur = $n->div()->setClass("igk-progressbar-cur igk-progress-0");
     return $n;
 }
 
@@ -2922,9 +2918,9 @@ function igk_html_node_registermailform()
     $n = igk_create_node("form");
     $n["action"] = igk_getctrl(IGK_MAIL_CTRL)->getUri("register");
     $n["method"] = "POST";
-    igk_notify_sethost($n->addRow()->addCol()->addDiv(), "sys://mailregisterform");
-    $n->addRow()->addCol()->addDiv()->addInput("clEmail", "text")->setAttribute("placeholder", R::ngets("lb.yourmail"));
-    $n->addRow()->addCol()->addDiv()->addInput("clSubmit", "submit", R::ngets("btn.send"));
+    igk_notify_sethost($n->addRow()->addCol()->div(), "sys://mailregisterform");
+    $n->addRow()->addCol()->div()->addInput("clEmail", "text")->setAttribute("placeholder", R::ngets("lb.yourmail"));
+    $n->addRow()->addCol()->div()->addInput("clSubmit", "submit", R::ngets("btn.send"));
     $n->addInput("cref", "hidden", IGKApp::getInstance()->Session->getCRef());
     return $n;
 }
@@ -3017,7 +3013,7 @@ function igk_html_node_row()
     $n->setCallback(
         "addCell",
         implode("\n", [ 
-            "\$d = \$this->addDiv();",
+            "\$d = \$this->div();",
             "\$d->setClass(\"igk-row-cell\");",
             "return \$d;"
         ])
@@ -3629,13 +3625,13 @@ function igk_html_node_underconstructionpage()
     if ($src) {
         $n->addBackgroundLayer()->addImg()->setSrc($src);
     }
-    $c = $n->addContainer();
+    $c = $n->container();
     $c->setStyle("padding-top: 64px; padding-bottom; ;");
     $r = $c->addRow();
-    $r->addCol()->addDiv()->setStyle("font-size:3em;color:#eee")->Content = R::ngets("title.pageUnderConstruction");
-    $c = $r->addCol()->addDiv();
+    $r->addCol()->div()->setStyle("font-size:3em;color:#eee")->Content = R::ngets("title.pageUnderConstruction");
+    $c = $r->addCol()->div();
     $c->Content = "Vous souhaitez être informer lors de l'ouverture du site";
-    $r->addCol()->addDiv()->addRegisterMailForm();
+    $r->addCol()->div()->addRegisterMailForm();
     return $n;
 }
 ///<summary>function igk_html_node_videofilestream</summary>
@@ -3885,7 +3881,7 @@ function igk_init_renderinglang($sl)
     $sl->clearChilds();
     $gt = R::GetCurrentLang(); 
     $tab = array_filter(explode("|", R::GetSupportLangRegex()));
-    if ($tab) {
+    if (count($tab) > 0 ) {
         $tab = array_merge($tab);
         foreach ($tab as  $v) {
             $op = $sl->add("option");
@@ -3895,7 +3891,9 @@ function igk_init_renderinglang($sl)
                 $op["selected"] = "true";
             }
         }
+        return true;
     }
+    return false;
 }
 ///<summary>function igk_init_renderingtheme_callback</summary>
 ///<param name="n"></param>
@@ -4003,7 +4001,7 @@ function igk_pic_zone($n, $r, $c, $base = 4, $tab = null, $offset = 0)
             $j--;
             $cl = $t->addCol();
             $cl->setClass("igk-col-{$base}-1");
-            $cl->addDiv()->setClass("pic")->Content = igk_getv($tab, $ct, IGK_HTML_SPACE);
+            $cl->div()->setClass("pic")->Content = igk_getv($tab, $ct, IGK_HTML_SPACE);
             $ct++;
         }
     }
@@ -4146,7 +4144,7 @@ function igk_html_node_dataschema(){
 function igk_html_node_containerRowCol($style = "")
 {
     $p = igk_html_parent_node();
-    $n = $p->addContainer()->addRow()->addCol($style);
+    $n = $p->container()->addRow()->addCol($style);
     return ["node" => $n];
 }
 

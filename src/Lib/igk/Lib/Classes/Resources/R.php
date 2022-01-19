@@ -60,6 +60,14 @@ final class R extends IGKObject {
         }
         return sprintf("%s_%s", strtolower($n), strtoupper($c));
     }
+    /**
+     * 
+     * @param string $locale 
+     * @return bool 
+     */
+    public static function SupportLang(string $locale){
+        return in_array(strtolower($locale) , array_filter(explode("|", R::GetSupportLangRegex())));
+    }
     ///<summary></summary>
     ///<param name="lang" default="fr"></param>
     /**

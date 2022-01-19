@@ -109,12 +109,12 @@ final class HtmlSearchNode extends HtmlNode {
         $frm["action"]=$uri;
         $frm["id"]="search_item";
         $frm["method"]=new IGKValueListener($this, "Method");
-        $frm->addDiv()->setClass("igk-underline-div");
+        $frm->div()->setClass("igk-underline-div");
         $frm->NoTitle=true;
         $frm->NoFoot=true;
-        $d=$frm->addDiv();
+        $d=$frm->div();
         $d["class"]="disptable fitw";
-        $d=$d->addDiv()->setClass("disptabr");
+        $d=$d->div()->setClass("disptabr");
         $this->m_link= HtmlUtils::AddImgLnk($d, $uri, "btn_search_16x16", "24px", "24px");
         $this["class"]="alignm";
         $this->m_input=$d->addInput($prop, "text", igk_getr($prop, $search));

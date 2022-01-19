@@ -5,6 +5,9 @@ namespace IGK\System\Console;
 class AppConfigs
 {
     var $author;
+
+    const ConfigurationFileName = "balafon.config.xml";
+    
     public function init($init_data)
     {
 

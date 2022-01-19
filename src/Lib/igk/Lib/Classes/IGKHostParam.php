@@ -4,16 +4,25 @@
 class IGKHostParam{
     private $m_data;
 
-    public function __construct($data)
+    /**
+     * 
+     * @param mixed $data 
+     * @return void 
+     */
+    public function __construct(object $data)
     {
-        $this->m_data  = $data;
+        if ($data == null){
+            igk_die("param not allowed");
+        }
+        $this->m_data = $data;
     }
     public function __get($n){
         return igk_getv($this->m_data, $n);
     }
     public function __set($n, $value){
-        if ($value ==null){
-            unset($this->m_data, $value);
+        if ($value == null){
+            unset($this->m_data->$n); 
+            return;
         }
         $this->m_data->$n = $value;
     }

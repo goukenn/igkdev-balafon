@@ -80,7 +80,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 		);
 		igk_html_form_initfield($form);
 		//+ tips information
-		$div = $form->addDiv();
+		$div = $form->div();
 		$div->addP()->Content = __("TIPS");
 		$div->article($this, "help.installer.tips");
 		$_ac_bar = $form->addActionBar();

@@ -43,16 +43,23 @@ if (isset($argv[1]) && $argv[1]=="--init"){
     if (in_array("--noconfig", $argv)){
         $carg["--noconfig"] = 1;
     }
-    $command["options"] = (object)$carg;    
+    if (in_array("--force", $argv)){
+        $carg["--force"] = 1;
+    }
+    if (in_array("--primary", $argv)){
+        $carg["--primary"] = 1;
+    }
+    $command["options"] = (object)$carg;
+    $command["argv"] = $argv;
     $fc([], $command); 
     exit(0); 
 }
 if (in_array("--debug", $argv)){
     $fc = $command["--debug"][0];
     $fc([], $command);
+} 
 
-}
-
+ 
 
 //--------------------------------------------------------------------------------
 // | Run the application

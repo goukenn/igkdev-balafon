@@ -28,19 +28,19 @@ $this->_view_ctrl_info($s_ctrl, $dv);
 // $p->div()->Content=R::ngets("lb.Location_1", $s_ctrl->getDeclaredDir());
 // $p->addBr();
 // if(method_exists($s_ctrl, "getAppUri")){
-//     $dv=$p->addDiv();
+//     $dv=$p->div();
 //     $appuri=$s_ctrl->getAppUri();
 //     if($appuri)
 //         $dv->addABtn($appuri)->Content="Visit";
 // }
-// $table=$p->addDiv()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
+// $table=$p->div()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
 // $v_parent=igk_getctrl($s_ctrl->Configs->clParentCtrl, false);
 // if($v_parent != null){
 //     $t=$table->addTr();
 //     $t->add("th")->Content=R::ngets("title.Parent");
 //     $t->add("th")->Content=IGK_HTML_SPACE;
 //     $tr=$table->addTr();
-//     $tr->addTd()->addLi()->add("a", array(
+//     $tr->addTd()->li()->add("a", array(
 //             "href"=>"#",
 //             "onclick"=>"javascript:window.igk.fn.config.select_ctrl(this, '".$ctrl->TargetNode["id"]."', '".$ctrl->getUri('select_controller_ajx&n='.$s_ctrl->Configs->clParentCtrl)."'); "
 //         ))->Content=$s_ctrl->Configs->clParentCtrl;
@@ -51,7 +51,7 @@ $this->_view_ctrl_info($s_ctrl, $dv);
 //     $tr->add("td", array("colspan"=>2))->Content=R::ngets("msg.noparent");
 // }
 // $p->addBr();
-// $table=$p->addDiv()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
+// $table=$p->div()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
 // $table["class"]="fitw";
 // $tr=$table->addTr();
 // $tr->add("th")->Content=R::ngets("title.Childs");
@@ -75,7 +75,7 @@ $this->_view_ctrl_info($s_ctrl, $dv);
 //     $tr->add("td", array("colspan"=>3))->Content=R::ngets("msg.nochilds");
 // }
 // $p->addHSep();
-// $table=$p->addDiv()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
+// $table=$p->div()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
 // $tr=$table->addTr();
 // $tr->add("th")->Content=R::ngets("lb.properties");
 // $tr->add("th")->Content=R::ngets("lb.values");
@@ -86,4 +86,4 @@ $this->_view_ctrl_info($s_ctrl, $dv);
 //     $tr->addTd()->addLabel()->Content=R::ngets("lb.".$k);
 //     $tr->addTd()->addLabel()->Content=$v;
 // }
-// $div=$p->addDiv();
+// $div=$p->div();

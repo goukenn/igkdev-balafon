@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: CookieStorages.php
 // @desc: model file
-// @date: 20220109 10:15:50
+// @date: 20220116 16:24:43
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
