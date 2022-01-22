@@ -13212,10 +13212,16 @@ Name:balafon.js
 					xhr.setRequestHeader("IGK-UP-FILE-TYPE", file.type);
 					// xhr.setRequestHeader("Content-Type","multipart/form-data");
 					// xhr.setRequestHeader("Content-Type","multipart/form-data;charset=utf-8; boundary=" + Math.random().toString().substr(2));
-					xhr.setRequestHeader("Content-Type", "charset=utf-8; boundary=" + Math.random().toString().substr(2));
+					// for security reason need to pass Content-Type with proper content-type
+					var type = file.type ;
+					// if (!type){
+					type = "application/octet-stream";
+					// }
+					xhr.setRequestHeader("Content-Type", 
+					type +"; charset=utf-8; boundary=" + Math.random().toString().substr(2));
 					//"Content-type","multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2));
 
-
+				
 
 
 

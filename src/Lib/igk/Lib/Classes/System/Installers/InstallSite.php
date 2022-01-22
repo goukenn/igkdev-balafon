@@ -109,7 +109,7 @@ class InstallSite
                 "   failingTests: false",
                 "phpunit:",
                 "   binaryPath: " . (file_exists($tf = igk_io_packagesdir() . "/vendor/bin/phpunit") ? $tf : ""),
-                "   arguments: --stop-on-failure --colors=always --testdox --bootstrap {$c_app}/Lib/igk/Lib/Tests/autoload.php {$c_app}/Projects/",
+                "   arguments: --stop-on-failure --colors=always --testdox --bootstrap {$c_app}/Lib/igk/Lib/tests/autoload.php {$c_app}/Projects/",
             ]));
 
             // + | -------------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ class InstallSite
             $php_xml = igk_create_xmlnode("phpunit");
             $php_xml["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
             $php_xml["xsi:noNamespaceSchemaLocation"] = "./{$c_app}/Packages/vendor/phpunit/phpunit/phpunit.xsd";
-            $php_xml["bootstrap"] = "./{$c_app}/Lib/igk/Lib/Test/autoload.php";
+            $php_xml["bootstrap"] = "./{$c_app}/Lib/igk/Lib/tests/autoload.php";
             $php_xml["colors"] = "true";
             $suites = $php_xml->add("testsuites");
             $ts =  $suites->add("testsuite");

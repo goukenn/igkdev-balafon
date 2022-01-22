@@ -74,7 +74,7 @@ class IGKApplicationLoader
     }
     private function getCacheFile()
     {
-        return  IGK_LIB_DIR. "/.Caches/.included." .implode(".", array_filter([$this->_context, igk_environment()->getPhpCoreVersion()])). ".cache";
+        return  IGK_LIB_DIR . "/.Caches/.included." . implode(".", array_filter([$this->_context, igk_environment()->getPhpCoreVersion()])) . ".cache";
     }
 
     private function __construct($context = null)
@@ -85,14 +85,14 @@ class IGKApplicationLoader
             if (!defined("IGK_BASE_DIR")) {
                 return;
             }
-            if ($this->_changed){
+            if ($this->_changed) {
                 $m = implode("\n", array_map(function ($m) {
-                    if (strpos($m, IGK_LIB_CLASSES_DIR) ==0 ){
-                        $m = str_replace(IGK_LIB_CLASSES_DIR,"IGK_LIB_CLASSES_DIR . '", $m)."'";
+                    if (strpos($m, IGK_LIB_CLASSES_DIR) == 0) {
+                        $m = str_replace(IGK_LIB_CLASSES_DIR, "IGK_LIB_CLASSES_DIR . '", $m) . "'";
                     }
                     return "require_once " . $m . ";";
                 }, $this->_included));
-                igk_io_w2file($this->getCacheFile(), "<?php\n". $m. "");
+                igk_io_w2file($this->getCacheFile(), "<?php\n" . $m . "");
                 // echo "shutdown : ". $this->getCacheFile(). " : " .$m;
             }
         });
@@ -181,9 +181,9 @@ class IGKApplicationLoader
     {
         $include = null;
         $v_coreload  = !self::$sm_instance->_coreload;
-        if ($v_coreload){
-            $included = & self::$sm_instance->_included;
-        }else {
+        if ($v_coreload) {
+            $included = &self::$sm_instance->_included;
+        } else {
             $included = [];
         }
 
@@ -220,7 +220,7 @@ class IGKApplicationLoader
                         ) {
                             require_once($cf);
                             $included[$cf] = $cf;
-                            if ($v_coreload){
+                            if ($v_coreload) {
                                 self::$sm_instance->_changed = true;
                             }
                             if (
@@ -257,115 +257,118 @@ class IGKApplicationLoader
      */
     public static function Boot($type = "web")
     {
+       
         // + protect w
+        static $initialize;
         $srv = IGKServer::getInstance();
-        // + | Initialize environment 
-        self::$sm_instance =  new self($type);
-        $v_loader = self::$sm_instance;
-        self::$sm_instance->_coreload  = false;
-
-        spl_autoload_register([$v_loader, '_auto_load']);
-        $file = self::$sm_instance->getCacheFile();
-     
-        if ( file_exists($file)) {
-            include($file);            
-        } else {
-            // + | -----------------------------------------------------
-            // + | Load traits according to version
-            // + | 
-            self::LoadClasses([
-                IGK\System\Polyfill\ArrayAccessSelfTrait::class,
-                IGK\System\Polyfill\CSSDefaultArrayAccess::class,
-                IGK\System\Polyfill\IGKMediaArrayAccessTrait::class,
-                IGK\System\Polyfill\IteratorTrait::class,
-                IGK\System\Polyfill\ScriptAssocArrayAccessTrait::class,
-                IGK\System\Configuration\ConfigArrayAccessTrait::class,
-                IGK\Controllers\ControllerUriTrait::class,
-                IGK\System\IO\FileSystem::class,
-                IGKIterator::class,
-                IGKUserInfo::class,
-                IIGKArrayObject::class,
-                IGKResourceUriResolver::class,
-            ]);
-            // vs 
-            // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/ArrayAccessSelfTrait.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/CSSDefaultArrayAccess.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/IGKMediaArrayAccessTrait.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/IteratorTrait.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/ScriptAssocArrayAccessTrait.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/ConfigArrayAccessTrait.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/Controllers/ControllerUriTrait.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/System/IO/FileSystem.7.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/IGKIterator.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/IGKUserInfo.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/IIGKArrayObject.php";
-            // require_once IGK_LIB_CLASSES_DIR . "/IGKResourceUriResolver.php";
-
-            // // + |  Load required files    
+        $boot = false;
+        if ($initialize === null) {
+            self::$sm_instance =  new self($type); 
+            self::$sm_instance->_coreload  = false;
+            spl_autoload_register([self::$sm_instance, '_auto_load']);
+            $initialize = true;
+            $boot = true; 
         }
         
-        self::$sm_instance->_coreload = true;
-        require_once IGK_LIB_CLASSES_DIR . "/IGKApp.php";
-        require_once IGK_LIB_CLASSES_DIR . "/IGKLibraryBase.php";
-        require_once IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php";
-        require_once IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php";
-        require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/ConfigControllerBase.php";
-        require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/ConfigControllerRegistry.php";
-        require_once IGK_LIB_CLASSES_DIR . "/System/Diagnostics/Benchmark.php";
- 
-        
+        // + | Initialize environment  
+        if ($boot) {
+            $file = self::$sm_instance->getCacheFile();
+
+            if (file_exists($file)) {
+                include($file);
+            } else {
+                // + | -----------------------------------------------------
+                // + | Load traits according to version
+                // + | 
+                self::LoadClasses([
+                    IGK\System\Polyfill\ArrayAccessSelfTrait::class,
+                    IGK\System\Polyfill\CSSDefaultArrayAccess::class,
+                    IGK\System\Polyfill\IGKMediaArrayAccessTrait::class,
+                    IGK\System\Polyfill\IteratorTrait::class,
+                    IGK\System\Polyfill\ScriptAssocArrayAccessTrait::class,
+                    IGK\System\Configuration\ConfigArrayAccessTrait::class,
+                    IGK\Controllers\ControllerUriTrait::class,
+                    IGK\System\IO\FileSystem::class,
+                    IGKIterator::class,
+                    IGKUserInfo::class,
+                    IIGKArrayObject::class,
+                    IGKResourceUriResolver::class,
+                ]);
+                // vs 
+                // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/ArrayAccessSelfTrait.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/CSSDefaultArrayAccess.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/IGKMediaArrayAccessTrait.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/IteratorTrait.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/System/Polyfill/ScriptAssocArrayAccessTrait.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/ConfigArrayAccessTrait.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/Controllers/ControllerUriTrait.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/System/IO/FileSystem.7.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/IGKIterator.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/IGKUserInfo.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/IIGKArrayObject.php";
+                // require_once IGK_LIB_CLASSES_DIR . "/IGKResourceUriResolver.php"; 
+                // // + |  Load required files    
+            }
+
+            self::$sm_instance->_coreload = true;
+            require_once IGK_LIB_CLASSES_DIR . "/IGKApp.php";
+            require_once IGK_LIB_CLASSES_DIR . "/IGKLibraryBase.php";
+            require_once IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php";
+            require_once IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php";
+            require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/ConfigControllerBase.php";
+            require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/ConfigControllerRegistry.php";
+            require_once IGK_LIB_CLASSES_DIR . "/System/Diagnostics/Benchmark.php";
+        }
         //return null;
         $app = IGKApplicationFactory::Create($type);
 
         $app->bootstrap();
+        if ($boot) { 
+            // + |-----------------------------------------------------------------------
+            // + | mandatory constants
+            // + |         
+            $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
 
+            if (!defined('IGK_APP_DIR')) {
+                $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
+                define("IGK_APP_DIR", $dir);
+            }
+            if (!defined('IGK_BASE_DIR')) {
+                define("IGK_BASE_DIR", $bdir);
+            }
+            if (!defined("IGK_PROJECT_DIR")) {
+                $dir = !empty($dir = $srv->IGK_PROJECT_DIR) && is_dir($dir) ? $dir : StringUtility::Dir(IGK_APP_DIR . "/" . IGK_PROJECTS_FOLDER);
+                define("IGK_PROJECT_DIR", $dir);
+            }
+            if (!defined("IGK_MODULE_DIR")) {
+                if (!empty($dir = $srv->IGK_MODULE_DIR) && is_dir($dir))
+                    define("IGK_MODULE_DIR", $dir);
+            }
+            if (!defined("IGK_PACKAGE_DIR")) {
+                define("IGK_PACKAGE_DIR", IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
+            }
 
-
-        // + |-----------------------------------------------------------------------
-        // + | mandatory constants
-        // + |         
-        $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
-
-        if (!defined('IGK_APP_DIR')) {
-            $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
-            define("IGK_APP_DIR", $dir);
+            if (!defined("IGK_MODULE_DIR")) {
+                define("IGK_MODULE_DIR", IGK_APP_DIR . "/" . IGK_MODULE_FOLDER);
+            }
+            if (defined('IGK_SESS_DIR') && IO::CreateDir(IGK_SESS_DIR)) {
+                ini_set("session.save_path", IGK_SESS_DIR);
+            }
+            self::$sm_instance->path = IGKPath::getInstance();
+            $package_dir = self::$sm_instance->path->getPackagesDir();
+            // + | -----------------------------------------------------
+            // + | Autoloading composer packages
+            // + |
+            if (file_exists($package_dir . "/composer.json")) {
+                require_once($package_dir . "/vendor/autoload.php");
+            }
         }
-        if (!defined('IGK_BASE_DIR')) {
-            define("IGK_BASE_DIR", $bdir);
-        }
-        if (!defined("IGK_PROJECT_DIR")) {
-            $dir = !empty($dir = $srv->IGK_PROJECT_DIR) && is_dir($dir) ? $dir : StringUtility::Dir(IGK_APP_DIR . "/" . IGK_PROJECTS_FOLDER);
-            define("IGK_PROJECT_DIR", $dir);
-        }
-        if (!defined("IGK_MODULE_DIR")) {
-            if (!empty($dir = $srv->IGK_MODULE_DIR) && is_dir($dir))
-                define("IGK_MODULE_DIR", $dir);
-        }
-        if (!defined("IGK_PACKAGE_DIR")) {
-            define("IGK_PACKAGE_DIR", IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
-        }
-
-        if (!defined("IGK_MODULE_DIR")) {
-            define("IGK_MODULE_DIR", IGK_APP_DIR . "/" . IGK_MODULE_FOLDER);
-        }
-        if (defined('IGK_SESS_DIR') && IO::CreateDir(IGK_SESS_DIR)) {
-            ini_set("session.save_path", IGK_SESS_DIR);
-        }
-
-        $v_loader->path = IGKPath::getInstance();
-
-        $package_dir = $v_loader->path->getPackagesDir();
-        // + | -----------------------------------------------------
-        // + | Autoloading composer packages
-        // + |
-        if (file_exists($package_dir . "/composer.json")) {
-            require_once($package_dir . "/vendor/autoload.php");
-        }
+         
         // igk_wln_e("bootstrap:complete");
         // + | -----------------------------------------------------
         // + | return the application 
         // + |
-        // igk_wln_e("time: ".IGKServer::RequestTime());
+        // igk_wln("time: ".IGKServer::RequestTime());
 
         return $app;
     }

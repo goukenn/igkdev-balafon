@@ -38,8 +38,8 @@ final class IGKCaches{
     public static function ResolvPath($file){         
         return $file;
     }
-    public static function HandleCache(){
-        if (!IGKApp::GetConfig("allow_page_cache")){
+    public static function HandleCache(){        
+        if (igk_setting()->no_page_cache()){
             return false;
         }
         list($uri, $zip) = self::CacheUri();
@@ -92,7 +92,12 @@ final class IGKCaches{
     public static function page_filesystem(){
         return self::__callStatic(__FUNCTION__, []);
     }
-
+    /**
+     * init and get css filesystem caching
+     */
+    public static function css_filesystem(){
+        return self::__callStatic(__FUNCTION__, []);
+    }
     /**
      * init and get javascript filesystem
      * @return FileSystem  
@@ -134,7 +139,9 @@ final class IGKCaches{
     private function _init_js_filesystem_caches(){
         return self::__init_cache(igk_io_cachedir()."/storage/js");
     }
-
+    private function _init_css_filesystem_caches(){
+        return self::__init_cache(igk_io_cachedir()."/storage/css");
+    }
     public static function Compile($controller, $fs, $file, $raw, $key="FileBuilder", $render=1){
      
         igk_environment()->push($key, $file);

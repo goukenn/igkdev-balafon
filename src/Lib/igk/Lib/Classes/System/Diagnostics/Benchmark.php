@@ -4,6 +4,7 @@
 // @date : 20220112
 namespace IGK\System\Diagnostics;
 
+use IGKException;
 use stdClass;
 
 /**
@@ -12,7 +13,7 @@ use stdClass;
  */
 class Benchmark{
     private static $sm_instance;
-    public static $Enabled;
+    public  static $Enabled;
     private $mark = [];
     private $m_configs;
     private function __construct(){  
@@ -23,6 +24,18 @@ class Benchmark{
         if (self::$sm_instance === null)
             self::$sm_instance = new self();
         return self::$sm_instance;
+    }
+    /**
+     * activate diagnostics
+     * @param bool $enabled 
+     * @param null|array $options 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function Activate(bool $enabled, ?array $options=null){
+        self::$Enabled = $enabled;
+        $i = self::getInstance();
+        $i->m_configs->dieOnEror = $options ? igk_getv($options, "dieOnError", false) : false;
     }
     public static function expect($name, $duration){
         if (!self::$Enabled){
@@ -54,4 +67,11 @@ class Benchmark{
     public function dieOnError(bool $b){
         $this->m_configs->dieOnError = $b;
     }
+    public static function __callStatic($name, $arguments)
+    {
+        if (method_exists(static::class, $m = "Set".$name)){
+            return self::$m(...$arguments);
+        }
+    }
+     
 }

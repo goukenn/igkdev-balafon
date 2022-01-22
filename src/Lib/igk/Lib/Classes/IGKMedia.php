@@ -8,7 +8,9 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-final class IGKMedia implements ArrayAccess{
+use IGK\Css\ICssStyleContainer;
+
+final class IGKMedia implements ArrayAccess, ICssStyleContainer{
     use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
     const CUSTOM_COLOR=0x1;
     const DEFAULT_THEME=0x2;
@@ -20,6 +22,40 @@ final class IGKMedia implements ArrayAccess{
     ///<summary>.ctr media </summary>
     public function __construct($type, $name){
         $this->_=array();
+        $this->_[self::MEDIA_ID] = $type.":".$name;
+    }
+      /**
+     * return a copy of this media storage
+     * @return array 
+     */
+    public function to_array(){
+        foreach([self::DEFAULT_THEME=>"def", 
+            self::CUSTOM_COLOR=>"color", 
+            self::FILES_THEME=>"file", 
+            self::FONT_THEME=>"font"] as $t=>$n){
+            $out[$n] = igk_getv($this->_, $t);
+        }
+        return array_filter($out);
+    }
+    /**
+     * load media data
+     * @param array $data 
+     * @return void 
+     */
+    public function load_data(array $data){
+       
+        $this->_ = [];
+        foreach([self::DEFAULT_THEME=>"def", 
+            self::CUSTOM_COLOR=>"color", 
+            self::FILES_THEME=>"file", 
+            self::FONT_THEME=>"font"] as $t=>$n){
+            
+            if (is_array($g = igk_getv($data, $n))){
+                $this->_[$t] = $g;
+            }
+        }
+        return true;
+
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -34,7 +70,9 @@ final class IGKMedia implements ArrayAccess{
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="v"></param>
-    public function __set($n, $v){    }
+    public function __set($n, $v){   
+        // do nothing
+    }
     ///<summary></summary>
     public function __sleep(){
         if(empty($this->_)){
@@ -79,6 +117,10 @@ final class IGKMedia implements ArrayAccess{
         return $this->getFlag(self::MEDIA_ID);
     }
     ///<summary>get if this media storage is empty</summary>
+    /**
+     * get if this media storage is empty
+     * @return bool 
+     */
     public function isEmpty(){
         return count($this->_) == 0;
     }
@@ -88,5 +130,5 @@ final class IGKMedia implements ArrayAccess{
     private function setFlag($n, $v){
         $this->_[$n]=$v;
         return $this;
-    }
+    } 
 }

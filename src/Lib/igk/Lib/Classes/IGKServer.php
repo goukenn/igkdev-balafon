@@ -228,6 +228,9 @@ final class IGKServer{
             $doc_root = rtrim(StringUtility::Dir($doc_root), DIRECTORY_SEPARATOR);
         }
         $this->root_dir = $doc_root;
+
+         // + | internal stus code
+        $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
     }
     public function GetRootUri($secured=false){
         // return "";

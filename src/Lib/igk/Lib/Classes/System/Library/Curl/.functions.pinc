@@ -1,0 +1,108 @@
+<?php
+
+
+///<summary></summary>
+/**
+ * 
+ */
+function igk_curl_get_info()
+{
+    return igk_get_env("curl://getinfo", array());
+}
+///<summary>get environment called curl info</summary>
+/**
+ * get environment called curl info
+ */
+function igk_curl_info()
+{
+    return igk_get_env("curl://info");
+}
+///<summary>get environment called curl last error</summary>
+/**
+ * get environment called curl last error
+ */
+function igk_curl_lasterror()
+{
+    return igk_get_error("igk_curl_post_uri");
+}
+///<summary></summary>
+///<param name="tab"></param>
+/**
+ * 
+ * @param mixed $tab 
+ */
+function igk_curl_set_info($tab)
+{
+    igk_set_env("curl://getinfo/setting", $tab);
+}
+///<summary> get environment called curl status</summary>
+/**
+ * get environment called curl status
+ */
+function igk_curl_status()
+{
+    $g = igk_curl_get_info();
+    return igk_getv($g, CURLINFO_HTTP_CODE, -1);
+}
+
+///<summary>balafon send curl </summary>
+///<param name="curlOptions" > mixed, array of curl option or string of custom request type:</param>
+///<usage >igk_curl_post_uri(uri)</usage>
+/**
+ * balafon send curl 
+ * @param mixed $curlOptions  mixed, array of curl option or string of custom request type:
+ */
+function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = null)
+{
+    $get_info_callback = function ($r, $tab) {
+        $rtab = [];
+        foreach ($tab as $v) {
+            $rtab[$v] = curl_getinfo($r, $v);
+        }
+        return $rtab;
+    };
+    $server = "BALAFON";
+    $sessid = igk_getv($_COOKIE, 'PHPSESSID', session_id());
+    $strCookie = 'PHPSESSID=' . $sessid . '; path=' . igk_get_cookie_path();
+    $r = curl_init();
+    if ($r) {
+        curl_setopt($r, CURLOPT_URL, $uri);
+        curl_setopt($r, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($r, CURLOPT_SSL_VERIFYHOST, false);
+        if ($args) {
+            curl_setopt($r, CURLOPT_POSTFIELDS, http_build_query($args));
+        }
+        curl_setopt($r, CURLOPT_USERAGENT, $server);
+        curl_setopt($r, CURLOPT_COOKIE, $strCookie);
+        if ($curlOptions) {
+            if (is_string($curlOptions)) {
+                curl_setopt($r, CURLOPT_CUSTOMREQUEST, $curlOptions);
+            } else {
+                foreach ($curlOptions as $k => $v) {
+                    curl_setopt($r, constant("CURLOPT_" . $k), $v);
+                }
+            }
+        }
+        if ($headers) {
+            curl_setopt($r, CURLOPT_HTTPHEADER, $headers);
+        }
+        IGKOb::Start();
+        $data = curl_exec($r);
+        if (!empty($data)) {
+            echo $data;
+        }
+        igk_set_env("curl://getinfo", $get_info_callback($r, igk_get_env("curl://getinfo/setting", array(CURLINFO_HTTP_CODE))));
+        if (curl_errno($r)) {
+            $err = curl_error($r);
+            igk_set_error(__FUNCTION__, $err);
+            $c = null;
+        } else {
+            $c = IGKOb::Content();
+            IGKOb::Clear();
+        }
+        igk_set_env("curl://info", ["Status" => curl_getinfo($r, CURLINFO_HTTP_CODE), "Protocol" => curl_getinfo($r, CURLINFO_PROTOCOL), "Url" => curl_getinfo($r, CURLINFO_EFFECTIVE_URL)]);
+        curl_close($r);
+        return $c;
+    }
+    return null;
+}

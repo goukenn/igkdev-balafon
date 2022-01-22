@@ -1827,11 +1827,13 @@ EOF;
                     $this->__NoIE6supportView();
                     return;
                 }
+                // + | -------------------------------------------------------------
+                // + | include configuration style
+                // + |
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
-                    $app->getDoc()->Theme->addTempFile($f);
+                    $app->getDoc()->getSysTheme()->addTempFile($f);
                 }
-
-
+                
                 if (!$this->getIsConnected()) {
                     igk_io_protect_request(igk_io_baseuri() . "/Configs");
                     $cnode = $this->initConnexionNode();

@@ -1,5 +1,6 @@
 <?php
 
+use IGK\Helper\IO;
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Html\HtmlRenderer;
@@ -359,13 +360,52 @@ class IGKWebApplication extends IGKApplicationBase
     public function bootstrap()
     {
 
-        Benchmark::$Enabled = igk_environment()->is("DEV");
+        Benchmark::$Enabled = false;// igk_environment()->is("DEV");
+  
         // bootstrap web application
         // + initialize library
         $this->library("session");
         $this->library("mysql");
         $this->library("zip");
         $this->library("gd");
+        $this->library("curl");
         $this->library("subdomain");
+
+
+igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function($e){
+    $fdir= igk_io_cacheddist_jsdir();
+    $access=$fdir."/.htaccess";
+    if(!file_exists($access)){
+        IO::CreateDir(dirname($access));
+        igk_io_w2file($access, implode("\n", array(
+                "allow from all",
+                "AddType text/javascript js",
+                "AddEncoding deflate js",
+                "<IfModule mod_headers.c>",
+                "Header set Cache-Control \"max-age=31536000\"",
+                "</IfModule>"
+        )));
+    }
+    $sdir = dirname($e->args["dir"]); 
+    $core_res_regex = "/\.(json|xml|jpeg|png|svg)$/i";
+    if ($scripts = igk_environment()->get("ScriptFolder"))
+    {
+        $lib_res = IGK_LIB_DIR."/Scripts/";
+        foreach($scripts as $d){
+            foreach(igk_io_getfiles($d, $core_res_regex) as $res){
+                if (strpos($res, $lib_res)===0){
+                    $bres = $sdir."/".substr($res, strlen($lib_res));
+                    if (IO::CreateDir(dirname($bres))){
+                        igk_io_symlink(realpath($res),$bres);
+                    }
+                }
+            }
+        }
+    } 
+    igk_internal_reslinkaccess();
+});
+igk_reg_hook("generateLink", function(){
+    igk_internal_reslinkaccess();
+});
     }
 }

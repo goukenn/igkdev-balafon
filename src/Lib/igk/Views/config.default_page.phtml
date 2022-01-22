@@ -93,6 +93,7 @@ $dv = $frm->div();
 $dv->addBtn("btn_domainName", __("Update"));
 igk_hook("sys//config/general_setting", [$this, "node" => $box]);
 $frm = $box->addPanelBox()->addForm();
+$frm->input("username", "text")->setStyle("display:hidden");
 $frm->setId("adminpwd-form");
 $frm["action"] = $ctrl->getUri("update_adminpwd");
 igk_notify_sethost($frm->div(), "update_adminpwd");

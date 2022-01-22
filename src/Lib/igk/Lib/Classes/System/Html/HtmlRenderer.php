@@ -272,7 +272,7 @@ class HtmlRenderer{
                         }
                     }
                     if ($options->renderTheme) {
-                        $g = igk_css_treatstyle($g, $options->renderTheme, $options->renderTheme);
+                        $g = igk_css_treat($options->renderTheme, $g, $options->renderTheme);
                     }
                 }
                 $item->setStyle("{$g}");

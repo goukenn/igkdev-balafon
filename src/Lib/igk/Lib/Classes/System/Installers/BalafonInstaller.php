@@ -111,13 +111,16 @@ class BalafonInstaller implements IIGKActionResult{
     /**
     * 
     */
-    public function upload(){        
-        
-        // if (!igk_is_ajx_demand() || !igk_server()->method("POST")){
-        //     die("operation not allowed. ".__FUNCTION__);
-        // }     
+    public function upload(){  
+        // igk_ilog("execute update ..... ")  ;
+        if (!igk_is_ajx_demand() || !igk_server()->method("POST")){
+            igk_wln_e("ajx-demand ".igk_is_ajx_demand(),
+            igk_environment()->get("source_request"), 
+             $_SERVER);
+            die("operation not allowed. ".__FUNCTION__);
+        }     
         igk_ilog("recieve file: ");   
-        $file=igk_io_sys_tempnam("igk_lib");
+        $file=igk_io_sys_tempnam("igk");
         rename($file, $file=$file.".zip");
         igk_app()->session->setParam(self::INSTALLER_KEY, igk_html_uri($file));
         session_write_close();

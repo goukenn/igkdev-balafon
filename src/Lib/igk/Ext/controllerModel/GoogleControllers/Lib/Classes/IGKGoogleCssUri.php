@@ -16,7 +16,7 @@ namespace IGK\Core\Ext\Google;
 // DIRECT RENDERINGuse IGKHtmlRelativeUriValueAttribute as IGKHtmlRelativeUriValueAttribute;
 use IGKIO ;
 use \IGKHtmlRelativeUriValueAttribute;
-
+ 
 ///parse uri to local
 /**
 */

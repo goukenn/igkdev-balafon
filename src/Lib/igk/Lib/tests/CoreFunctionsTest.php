@@ -2,6 +2,8 @@
 
 namespace IGK\Tests;
 
+use IGK\Helper\StringUtility;
+
 class CoreFunctionsTest extends BaseTestCase
 {
     public function testRelativePath()
@@ -45,5 +47,21 @@ class CoreFunctionsTest extends BaseTestCase
             null,
             igk_io_get_relativepath("c:/A/B/C", "d:/C/B/O")
         );
+    }
+
+    public function testStringUtilityCamelCase(){
+        $this->assertEquals("Default",
+        StringUtility::CamelClassName("default"));
+
+        $this->assertEquals("DefaultAction",
+        StringUtility::CamelClassName("default____action"));
+
+
+        $this->assertEquals("DefaultAction",
+        StringUtility::CamelClassName("default-_action"));
+
+        // with at 
+        $this->assertEquals("DefaultAction",
+        StringUtility::CamelClassName("@default-_action"));
     }
 }

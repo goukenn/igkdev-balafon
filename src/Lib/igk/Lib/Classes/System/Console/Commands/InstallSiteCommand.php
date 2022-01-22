@@ -35,8 +35,10 @@ class InstallSiteCommand extends AppExecCommand{
         "-init"=>"init flag balafon configuration"
     ]; 
     public function exec($command, $install_dir="", $viewname=""){  
+        $force = property_exists($command->options, "--force");
         if (empty($install_dir)){
             $install_dir = getcwd(); 
+            $force = 1;
         }  else {
             $install_dir = realpath($install_dir);
         }
@@ -85,7 +87,7 @@ class InstallSiteCommand extends AppExecCommand{
                 "packagedir"=>$package,
                 "moduledir"=>$module,
                 "apachedir"=>$apachedir,
-                "force"=>property_exists($command->options, "--force"),
+                "force"=>$force,
                 "user:group"=>$ugroup,
                 "is_primary"=>$is_primary
             ])){

@@ -272,6 +272,7 @@ class RequestHandler
                 igk_exit();
                 break;
             case 403:
+              
                 igk_set_header($code);
                 igk_sys_show_error_doc($code);
                 igk_exit();
@@ -379,13 +380,13 @@ class RequestHandler
     /**
      * handle guid action 
      * @param string $guid 
-     * @param null|string $query 
+     * @param array|string $query 
      * @param null|string $version 
      * @return void 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public function handle_guid_action(string $guid, ?string $query = null, ?string $version = "")
+    public function handle_guid_action(string $guid, $query = null, ?string $version = "")
     {
         igk_header_no_cache();
         $uri = igk_io_request_entry();

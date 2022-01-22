@@ -852,7 +852,7 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0)
         $o .= "<td style=\"{$tds}\">";
         $g = igk_getv($callers[$i], "file");
         if ($_base_path) {
-            $g = igk_io_basepath($g);
+            $g = igk_io_collapse_path($g); // igk_io_basepath($g);
         }
         $o .= $g;
 
@@ -1104,7 +1104,7 @@ function igk_get_defaultwebpagectrl()
 {
     $n = IGKAppConfig::getInstance()->Data->get("default_controller");
 
-    if (!class_exists($n, false)) {
+    if (!$n || !class_exists($n, false)) {
         return null;
     } else {
         if (!is_subclass_of($n, BaseController::class)) {
@@ -1613,5 +1613,12 @@ function igk_io_workingdir(){
         }
     }
     die("failed to found working directory ".getcwd());
+}
 
+/**
+ * application environment setting
+ */
+function igk_setting(){
+    require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentSettings.php";
+    return \IGK\IGKEnvironmentSettings::getInstance();
 }

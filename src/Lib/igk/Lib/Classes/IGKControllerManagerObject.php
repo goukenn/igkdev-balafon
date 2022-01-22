@@ -383,8 +383,11 @@ final class IGKControllerManagerObject extends IGKObject {
         }  
         if(self::$sm_instance === null){ 
 			self::$sm_instance = new self();
-            igk_reg_hook(IGKEvents::HOOK_INIT_APP, function($e){                
-                self::$sm_instance->InitControllers($e->args["app"]);
+            igk_reg_hook(IGKEvents::HOOK_INIT_APP, function($e){  
+                if (!igk_setting()->no_init_controller)              
+                {
+                    self::$sm_instance->InitControllers($e->args["app"]);
+                } 
             }); 
         }  
         return self::$sm_instance;
@@ -961,11 +964,14 @@ final class IGKControllerManagerObject extends IGKObject {
             }
             $v=$cc->$ctrlname;
             if($v == null){
-                $v=igk_init_ctrl($ctrlname);
+                // controller not found but possibility exists that is was loaded in cache project
+                $v= self::InitController($ctrlname); 
             }
             if($throwex && ($v === null)){   
                 $msg  = __("Controller [{0}] not found", $ctrlname);
                 igk_environment()->is("DEV") && igk_wln_e($ctrlname, $msg, igk_ob_get_func("igk_trace"));
+                igk_trace();
+                igk_wln_e("controller not found");
                 igk_die($msg);
             }
             return $v;
@@ -978,9 +984,35 @@ final class IGKControllerManagerObject extends IGKObject {
         return null;
     }
 
+    /**
+     * resolv project class 
+     */
+    public static function ProjectClass($n){
+        static $project_info;
+        if ($project_info === null ) {
+            $project_info = [];
+        }
+        $projects = ["igk_default"=>\IGK\Helper\StringUtility::Uri(igk_io_projectdir()."/igk_default")];
+
+
+        if (isset($projects[$n])){
+            $dir = $projects[$n];
+            if (!($dir_info = igk_getv($project_info, $dir))){ 
+                $dir_info = (object)["dir"=>$dir, "loaded"=>false]; 
+                if (is_dir($dir) && igk_loadlib($dir)){
+                    $dir_info->loaded = 1;
+
+                }
+                $projects[$dir] = $dir_info; 
+            } 
+            return $dir_info->loaded && class_exists($n, false);
+        } 
+        return false;
+    }
+
     public static function InitController($ctrlname){        
         $n= self::GetSystemController($ctrlname); // igk_sys_get_controller($ctrlname);
-        if (($n===null) && class_exists($ctrlname)){
+        if (($n===null) && (self::ProjectClass($ctrlname) || class_exists($ctrlname))){
             $n = $ctrlname;
         }     
         if(!empty($n) && class_exists($n)){

@@ -42,7 +42,7 @@ class IGKRoutes
                 $args = $p->getQueryParams();
                 if (PHP_VERSION > "8.0.0"){
                     $args = array_values($args);
-                }
+                } 
                 call_user_func_array($callback, $args);
             }
         }

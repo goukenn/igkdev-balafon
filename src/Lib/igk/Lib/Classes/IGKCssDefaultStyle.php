@@ -8,7 +8,9 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-final class IGKCssDefaultStyle implements ArrayAccess{
+use IGK\Css\ICssStyleContainer;
+
+final class IGKCssDefaultStyle implements ArrayAccess,  ICssStyleContainer{
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
     const COLORS_RULE=5;
     const DECLARED_RULE=1;
@@ -43,6 +45,37 @@ final class IGKCssDefaultStyle implements ArrayAccess{
     ///<summary>display value</summary>
     public function __toString(){
         return get_class($this)."#items[count(".count($this->_).")]";
+    }
+    /**
+     * return a copy array presentation of this style
+     * @return array 
+     */
+    public function to_array(){  
+        // + |------------------------------------------------------
+        // + | copy array  
+        $o = [];
+        foreach($this->_ as $k=>$v){
+            $o[$k] = $v;
+        }
+        return $o;
+    }
+    public function load_data(array $data){
+        $this->_ = [];
+        foreach([self::COLORS_RULE,
+        self::DECLARED_RULE,
+        self::FILES_BIND_TEMP_RULE,
+        self::FILES_RULE,
+        self::FLAG_RULE,
+        self::FONT_RULE,
+        self::PARAMS_RULE,
+        self::PROPERTIES,
+        self::SYMBOLS_RULE,
+        self::TEMP_FILES_RULE
+        ] as $t){
+            if (isset($data[$t]) && is_array($g = $data[$t])){
+                $this->_[$t] = $g;
+            }
+        }
     }
     ///<summary></summary>
     ///<param name="seri"></param>

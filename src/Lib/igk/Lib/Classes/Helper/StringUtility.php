@@ -6,6 +6,17 @@ use IGK\System\Html\HtmlUtils;
 ///<summary>String utility </summary>
 abstract class StringUtility{
     /**
+     * get camel class name
+     * @param string $name 
+     * @return string 
+     */
+    public static function CamelClassName(?string $name=null){
+        if ($name==null)
+            return $name;
+        $name = preg_replace("#[^0-9a-z]#i", "_", $name);      
+        return str_replace("_","", ucwords(ucfirst($name), "_"));
+    }
+    /**
      * convert to uri presentation
      */
     public static function Uri(?string $u=""){

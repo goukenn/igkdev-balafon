@@ -2607,27 +2607,34 @@ function igk_css_bind_file($ctrl, $f, $theme = null)
             $theme = $doc->Theme;
         }
     }
-    $context = \IGK\Css\IGKCssContext::Init($ctrl, $theme);
-    $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
-    $sm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
-    $lg_screen = $theme->get_media(HtmlDocThemeMediaType::LG_MEDIA);
-    $xlg_screen = $theme->get_media(HtmlDocThemeMediaType::XLG_MEDIA);
-    $xxlg_screen = $theme->get_media(HtmlDocThemeMediaType::XXLG_MEDIA);
-    $PTR = $theme->getPrintMedia();
-    $css_m = "";
+    $_prop = & $theme->getProperties();
+    $properties = [
+    "context" => \IGK\Css\IGKCssContext::Init($ctrl, $theme),
+    "xsm_screen" => $theme->get_media(HtmlDocThemeMediaType::XSM_MEDIA),
+    "sm_screen" => $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA),
+    "lg_screen" => $theme->get_media(HtmlDocThemeMediaType::LG_MEDIA),
+    "xlg_screen" => $theme->get_media(HtmlDocThemeMediaType::XLG_MEDIA),
+    "xxlg_screen" => $theme->get_media(HtmlDocThemeMediaType::XXLG_MEDIA),
+    "PTR" => $theme->getPrintMedia(),
+    "css_m" => "",
+    "ctrl"=>$ctrl,
+    "def" => $theme->def,
+    "cl" => IGKCssColorHost::Create($theme->getCl()),
+    "prop" => & $v_prop,
+    "referer" => igk_server()->get("HTTP_REFERER", "igk://system"),
+    ];
     if ($ctrl) {
         $n = "";
         if (is_object($ctrl)) {
             $n = $ctrl->getName();
         } else
             $n = $ctrl;
-        $css_m = $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
+        $properties["css_m"]= $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
         unset($n);
     }
-    $def = $theme->def;
-    $cl = IGKCssColorHost::Create($theme->getCl());
-    $prop = &$theme->getProperties();
-    $referer = igk_server()->get("HTTP_REFERER", "igk://system");
+    unset($v_prop);
+    // tip to disable not use variable
+    extract( $properties ); 
     include($f);
     $cl = IGKCssColorHost::Create($theme->getCl());
     if (isset($root) && is_array($root)) {
@@ -3007,17 +3014,7 @@ function igk_css_get_map_selector()
     }
     return $selector;
 }
-///<summary>shortcut to get theme media</summary>
-/**
- * shortcut to get theme media
- */
-function igk_css_get_media($id)
-{
-    $igk = igk_app();
-    if ($igk === null)
-        return;
-    return $igk->getDoc()->Theme->get_media($id);
-}
+ 
 ///<summary></summary>
 ///<param name="propname"></param>
 ///<param name="value"></param>
@@ -3146,8 +3143,9 @@ function igk_css_get_theme_files($theme)
 }
 ///change css process workflow : 08/02/2018
 /**
+ * get base css style definition
  */
-function igk_css_getbasedef($minfile = false, $themeexport = false)
+function igk_css_get_base_def($minfile = false, $themeexport = false)
 {
     $igk = igk_app();
     $o = IGK_STR_EMPTY;
@@ -3182,7 +3180,7 @@ function igk_css_getbasedef($minfile = false, $themeexport = false)
  * 
  * @param mixed $v 
  */
-function igk_css_getbg_size($v)
+function igk_css_get_bg_size($v)
 {
     $o = IGK_STR_EMPTY;
     $o .= "-webkit-background-size: " . $v . ";";
@@ -3199,7 +3197,7 @@ function igk_css_getbg_size($v)
  * @param mixed $v 
  * @param mixed $doc 
  */
-function igk_css_getbgcl($v, $doc = null)
+function igk_css_get_bgcl($v, $doc = null)
 {
     if (empty($v))
         return null;
@@ -3217,7 +3215,7 @@ function igk_css_getbgcl($v, $doc = null)
  * 
  * @param mixed $v 
  */
-function igk_css_getbordercl($v)
+function igk_css_get_bordercl($v)
 {
     if (empty($v))
         return null;
@@ -3227,7 +3225,7 @@ function igk_css_getbordercl($v)
 /**
  * 
  */
-function igk_css_getdefaultstyle()
+function igk_css_get_default_style()
 {
     $v = <<<ETF
 *{ margin : 0px; padding: 0px; }
@@ -3243,7 +3241,7 @@ ETF;
  * @param mixed $v 
  * @param mixed $doc 
  */
-function igk_css_getfcl($v, $doc = null)
+function igk_css_get_fcl($v, $doc = null)
 {
     if (empty($v))
         return null;
@@ -3263,7 +3261,7 @@ function igk_css_getfcl($v, $doc = null)
  * 
  * @param mixed $v 
  */
-function igk_css_getfont($v)
+function igk_css_get_font($v)
 {
     if (empty($v))
         return null;
@@ -3275,7 +3273,7 @@ function igk_css_getfont($v)
  * get document theme media
  * @param mixed $id 
  */
-function igk_css_getmedia($id)
+function igk_css_get_media($id)
 {
     return igk_app()->getDoc()->Theme->get_media($id);
 }
@@ -3693,7 +3691,7 @@ function igk_css_render_balafon_style($doc = null)
         if ($mfile) {
             $o = implode('|', explode("\\r\\n", $o));
         }
-        $o .= igk_css_getbasedef($mfile);
+        $o .= igk_css_get_base_def($mfile);
         if ($t) {
             IO::WriteToFile($f, $o);
         }
@@ -4008,17 +4006,17 @@ function igk_css_treat_entries(&$v, $theme, $type, $value, $systheme, $a = "", $
             break;
         case "sysbgcl":
             $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_getbgcl($ncl) : "";
+            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bgcl($ncl) : "";
             $v = str_replace($v_m, $b, $v);
             break;
         case "sysfcl":
             $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_getfcl($ncl) : "";
+            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_fcl($ncl) : "";
             $v = str_replace($v_m, $b, $v);
             break;
         case "sysbcl":
             $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_getbordercl($ncl) : "";
+            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
             $v = str_replace($v_m, $b, $v);
             break;
         case "syscl":
@@ -4039,15 +4037,15 @@ function igk_css_treat_entries(&$v, $theme, $type, $value, $systheme, $a = "", $
             $v = str_replace($v_m, $ncl . $a, $v);
             break;
         case "fcl":
-            $v = str_replace($v_m, igk_css_getfcl($chainColorCallback($value)), $v);
+            $v = str_replace($v_m, igk_css_get_fcl($chainColorCallback($value)), $v);
             break;
         case "bgcl":
             $ncl = $chainColorCallback($value);
-            $v = str_replace($v_m, igk_css_getbgcl($ncl), $v);
+            $v = str_replace($v_m, igk_css_get_bgcl($ncl), $v);
             break;
         case "bcl":
             $ncl = $chainColorCallback($value);
-            $v = str_replace($v_m, igk_css_getbordercl($ncl), $v);
+            $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
             break;
         case "cl":
             $rp = igk_str_rm_last($v_m, ';');
@@ -4056,7 +4054,7 @@ function igk_css_treat_entries(&$v, $theme, $type, $value, $systheme, $a = "", $
             $v = str_replace($rp, $t, $v);
             break;
         case "ft":
-            $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_getfont($value) : null, $v);
+            $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);
             break;
         case "ftn":
             $h = $theme->ft[$value] ? $theme->ft[$value] : null;
@@ -4230,9 +4228,9 @@ function igk_css_treat_gtheme($theme, $systheme, $v)
     }
     return $v;
 }
-///<summary>used to treat style value</summary>
+///<summary>single value treatment</summary>
 /**
- * used to treat style value
+ * single value treatment
  */
 function igk_css_treat_value($v, $theme, $systheme, $themeexport = 1)
 {
@@ -4392,6 +4390,8 @@ function igk_css_unreg_font_package($fontname)
  */
 function igk_css_var_support()
 {
+    require_once IGK_LIB_CLASSES_DIR ."/IGKUserAgent.php";
+
     if (IGKUserAgent::IsSafari()) {
         if (IGKUserAgent::IsOldSafariAgent())
             return false;
@@ -4832,110 +4832,7 @@ function igk_ctrl_zone_init($filepath)
     igk_set_env("sys://ctrl/zone/files", $b);
     return $b[$filepath];
 }
-///<summary></summary>
-/**
- * 
- */
-function igk_curl_get_info()
-{
-    return igk_get_env("curl://getinfo", array());
-}
-///<summary></summary>
-/**
- * 
- */
-function igk_curl_info()
-{
-    return igk_get_env("curl://info");
-}
-///<summary></summary>
-/**
- * 
- */
-function igk_curl_lasterror()
-{
-    return igk_get_error("igk_curl_post_uri");
-}
-///<summary>balafon send curl </summary>
-///<param name="curlOptions" > mixed, array of curl option or string of custom request type:</param>
-///<usage >igk_curl_post_uri(uri)</usage>
-/**
- * balafon send curl 
- * @param mixed $curlOptions  mixed, array of curl option or string of custom request type:
- */
-function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = null)
-{
-    $get_info_callback = function ($r, $tab) {
-        $rtab = [];
-        foreach ($tab as $v) {
-            $rtab[$v] = curl_getinfo($r, $v);
-        }
-        return $rtab;
-    };
-    $server = "BALAFON";
-    $sessid = igk_getv($_COOKIE, 'PHPSESSID', session_id());
-    $strCookie = 'PHPSESSID=' . $sessid . '; path=' . igk_get_cookie_path();
-    $r = curl_init();
-    if ($r) {
-        curl_setopt($r, CURLOPT_URL, $uri);
-        curl_setopt($r, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($r, CURLOPT_SSL_VERIFYHOST, false);
-        if ($args) {
-            curl_setopt($r, CURLOPT_POSTFIELDS, http_build_query($args));
-        }
-        curl_setopt($r, CURLOPT_USERAGENT, $server);
-        curl_setopt($r, CURLOPT_COOKIE, $strCookie);
-        if ($curlOptions) {
-            if (is_string($curlOptions)) {
-                curl_setopt($r, CURLOPT_CUSTOMREQUEST, $curlOptions);
-            } else {
-                foreach ($curlOptions as $k => $v) {
-                    curl_setopt($r, constant("CURLOPT_" . $k), $v);
-                }
-            }
-        }
-        if ($headers) {
-            curl_setopt($r, CURLOPT_HTTPHEADER, $headers);
-        }
-        IGKOb::Start();
-        $data = curl_exec($r);
-        if (!empty($data)) {
-            echo $data;
-        }
-        igk_set_env("curl://getinfo", $get_info_callback($r, igk_get_env("curl://getinfo/setting", array(CURLINFO_HTTP_CODE))));
-        if (curl_errno($r)) {
-            $err = curl_error($r);
-            igk_set_error(__FUNCTION__, $err);
-            $c = null;
-        } else {
-            $c = IGKOb::Content();
-            IGKOb::Clear();
-        }
-        igk_set_env("curl://info", ["Status" => curl_getinfo($r, CURLINFO_HTTP_CODE), "Protocol" => curl_getinfo($r, CURLINFO_PROTOCOL), "Url" => curl_getinfo($r, CURLINFO_EFFECTIVE_URL)]);
-        curl_close($r);
-        return $c;
-    }
-    return null;
-}
-///<summary></summary>
-///<param name="tab"></param>
-/**
- * 
- * @param mixed $tab 
- */
-function igk_curl_set_info($tab)
-{
-    igk_set_env("curl://getinfo/setting", $tab);
-}
-///<summary></summary>
-/**
- * 
- */
-function igk_curl_status()
-{
-    $g = igk_curl_get_info();
-    return igk_getv($g, CURLINFO_HTTP_CODE, -1);
-}
+
 ///<summary></summary>
 ///<param name="amout"></param>
 /**
@@ -14751,10 +14648,7 @@ function igk_include_view_file($ctrl, $file)
     $cache = igk_cache()::view();
     $key = "viewFileCaches";
     igk_environment()->push($key, $file);
-    // if (0 && !$cache->cacheExpired($file)) {
-    //     $_f = $cache->getCacheFilePath($file);
-    //     array_unshift($args, $_f);
-    // } else {
+ 
     if ($ctrl->getConfigs()->no_auto_cache_view) {
         array_unshift($args, $file);
     } else {
@@ -14773,9 +14667,7 @@ function igk_include_view_file($ctrl, $file)
             igk_io_w2file($_f, $output . $src . $extra);
         }
         array_unshift($args, $_f);
-    }
-
-    // }
+    } 
     $_bindfc = (function () {
         if ((func_num_args() >= 2) && (is_array(func_get_arg(1)))) {
             extract(func_get_arg(1));
@@ -16846,23 +16738,24 @@ function igk_io_store_ajx_uploaded_data($folder, $fname = null)
         return false;
     }
     $fsize = igk_getv($tab, "IGK_UP_FILE_SIZE");
-    $type = igk_getv($tab, "IGK_UP_FILE_TYPE", "text/html");
+    //$type = igk_getv($tab, "IGK_UP_FILE_TYPE", "text/html");
     $fname = $fname === null ? igk_getv($tab, "IGK_FILE_NAME", "file.data") : $fname;
-    $bfname = igk_io_basenamewithoutext($fname);
+    // $bfname = igk_io_basenamewithoutext($fname);
     $of = igk_io_dir($folder . "/" . $fname);
     $v_gh = fopen("php://input", "r");
     $v_wh = fopen($of, "w");
+    $output = null;
     if ($v_wh) {
         igk_io_copy_stream($v_gh, $v_wh, 8192, 1);
-        if (filesize($of) == $fsize) {
-            return $of;
+        if (filesize($of) == $fsize) {            
+            $output = $of;
+        } else {
+            @unlink($of);
         }
-        unlink($of);
-        return null;
-    } else {
-        @fclose($v_gh);
     }
-    return null;
+    $v_gh && @fclose($v_gh);
+    $v_wh && @fclose($v_wh);
+    return $output;
 }
 ///<summary></summary>
 ///<param name="file"></param>
@@ -17775,7 +17668,7 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
 
     $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($dirname);
 
-    if (0 && file_exists($cache_path)) {
+    if (file_exists($cache_path)) {
 
         $data = include($cache_path);
         foreach ($data as $f => $tag) {
@@ -24939,7 +24832,7 @@ function igk_sys_handle_request($uri)
         $_SERVER['REDIRECT_URL'] = $uri;
         $_SERVER['REDIRECT_STATUS'] = 200;
         $_SERVER['REDIRECT_REQUEST_METHOD'] = igk_getv($_SERVER, 'REQUEST_METHOD', 'GET');
-        $_SERVER['REDIRECT_QUERY_STRING'] = igk_getv($_SERVER, 'QUERY_STRING', 'GET');
+        $_SERVER['REDIRECT_QUERY_STRING'] = igk_getv($_SERVER, 'QUERY_STRING', '');
         include(IGK_LIB_DIR . '/igk_redirection.php');
     }
     igk_set_header(404);
@@ -25758,8 +25651,7 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
 {
     $defctrl = $defctrl ? $defctrl : igk_get_defaultwebpagectrl();
     if ($defctrl) {
-        if (file_exists($f = BaseController::GetErrorView($defctrl, $code))) {
-            igk_wln_e("handle 404 : " . $f);
+        if (file_exists($f = $defctrl::GetErrorView($code))) {            
             $defctrl->setCurrentView($f, true, null, array("error" => $code, "uri" => igk_io_request_uri()));
             HtmlRenderer::RenderDocument();
         }

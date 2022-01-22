@@ -24,8 +24,12 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define('IGK_NO_TRACELOG', 1); 
     //+ define('IGK_NO_SESSION', 1); 
     //+ define("IGK_TRACE", 1);
-    //+ define('IGK_ENV_PRODUCTION', 1); 
-    //+ define("IGK_NO_CACHE_VIEW", 1);
+    //+ define('IGK_ENV_PRODUCTION', 1);
+    // + | global disable view cache
+    // + define("IGK_NO_CACHE_VIEW", 1);
+
+    // + | global disable handle page cache
+    // + defined"IGK_NO_PAGE_CACHE") || define("IGK_NO_PAGE_CACHE", 1);
     //+ |----------------------------------------------------------- 
     //+ | ENVIRONMENT SETTING KEYS - DO NOT REPLACE THAT VALUES
     //+ |----------------------------------------------------------- 
@@ -286,7 +290,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_ENV_NO_TRACE_KEY", 0x0010);
     // define("IGK_ENV_PAGEFOLDER_CHANGED_KEY", 0x001F);
     // define("IGK_ENV_PARAM_KEY", 0x001E);
-    // define("IGK_ENV_REQUEST_METHOD", 0x000D);
     // define("IGK_ENV_URI_PATTERN_KEY", 0x0021);
     // define("IGK_ENV_WIDGETS_KEY", 0x0018);
     // define("IGK_DROP_CTRL_EVENT", 0x0026);
@@ -336,7 +339,6 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //    define("IGK_ENV_NO_AJX_TEST", "sys://env/no_ajx_test");
     //    define("IGK_ENV_HTML_COMPONENTS", "sys://env/html/components");
     //    define("IGK_ENV_HTML_NS_PREFIX", "sys://env/html/prefix");
-    //    define("IGK_ENV_REQUEST_METHOD", "sys://request_method");
     // define("IGK_BASE_EVENT", 0xe00);
     // define("IGK_ENV_SETTING_CHANGED", IGK_BASE_EVENT + 1);
     // define("IGK_ENV_APP_INIT", IGK_BASE_EVENT + 2);

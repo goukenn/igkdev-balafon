@@ -1169,7 +1169,7 @@ abstract class ControllerExtension
      */
     public static function getCurrentDoc(BaseController $controller)
     {
-        return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? $controller->getAppDocument();
+        return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc(); //  $controller->getAppDocument();
     }
 
     /**

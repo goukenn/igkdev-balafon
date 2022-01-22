@@ -84,7 +84,7 @@ class HtmlNode extends HtmlItemBase{
             $s=$this["style"];
             $value=substr($value, 2);
         }
-        $this["style"]=igk_css_treatstyle($value);
+        $this["style"]= new HtmlCssValueAttribute($value); // igk_css_treatstyle($value);
         return $this;
     }
     public function __call($n, $arguments){

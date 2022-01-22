@@ -101,7 +101,7 @@ class IGKAppSystem{
         IO::CreateDir($dirname."/".IGK_RES_FOLDER."/Videos");
         igk_io_save_file_as_utf8($dirname."/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/ie.css", "@import url(\"base.css\");", true);
         igk_io_save_file_as_utf8($dirname."/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/mod.css", "@import url(\"base.css\");", true);
-        igk_io_save_file_as_utf8($dirname."/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/base.css", igk_css_getdefaultstyle(), true);
+        igk_io_save_file_as_utf8($dirname."/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/base.css", igk_css_get_default_style(), true);
         IO::CreateDir($dirname."/".IGK_RES_FOLDER."/Themes");
         $theme=IGK_DEFAULT_THEME_FOLDER."/default.theme";
         $v_f=IO::ReadAllText($theme);

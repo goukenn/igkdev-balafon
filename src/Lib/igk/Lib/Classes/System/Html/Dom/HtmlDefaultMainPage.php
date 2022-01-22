@@ -9,9 +9,7 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\System\Html\Dom;
- 
-
-igk_require_module(\igk\Google::class, null, 0, 0);
+  
 
 use IGK\Resources\R;
 use IGKException;

@@ -9,6 +9,10 @@ use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
 
+/**
+ * core script rendering
+ * @package IGK\System\Html\Dom
+ */
 class HtmlCoreJSScriptsNode extends HtmlNode
 {
     private static $sm_instance;
@@ -62,6 +66,7 @@ class HtmlCoreJSScriptsNode extends HtmlNode
      */
     public static function GetCoreScriptContent($production = false)
     {
+        $no_page_cache = igk_setting()->no_page_cache();
         $out = "";
         $exclude_dir = [];
         $resolver = IGKResourceUriResolver::getInstance();
@@ -94,7 +99,7 @@ class HtmlCoreJSScriptsNode extends HtmlNode
             };
         } else {
             $production_file = IGKCaches::js_filesystem()->getCacheFilePath("corejs:/igk.js");
-            if (file_exists($production_file)){
+            if ( !$no_page_cache  && file_exists($production_file)){                
                 return file_get_contents($production_file);
             }
             $resolverfc = function ($f) use ($resolver, &$s) {
@@ -118,7 +123,7 @@ class HtmlCoreJSScriptsNode extends HtmlNode
             $tag = $q[1];
             $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir);
 
-            if (file_exists($cache_path)) {
+            if (!$no_page_cache && file_exists($cache_path)) {
                 ob_start();
                 include($cache_path);
                 $out .= ob_get_contents();

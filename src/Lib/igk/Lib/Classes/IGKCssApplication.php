@@ -10,11 +10,16 @@ require_once IGK_LIB_CLASSES_DIR ."/IGKCaches.php";
  */
 class IGKCssApplication extends IGKApplicationBase
 {
+    public function getNoEnviroment(){
+        return true;
+    }
     public function bootstrap() { 
         // + | activate the session
         $this->library("session");
-
+        igk_setting()->no_init_controller = true;
         Benchmark::$Enabled = false;
+
+        require_once IGK_LIB_CLASSES_DIR . "/Css/IGKCssContext.php";
     }
 
     public function run(string $entryfile, $render = 1) { 

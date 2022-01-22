@@ -3,18 +3,20 @@
 // author: C.A.D. BONDJE DOUE
 // description: BALAFON google's utility function. fonts, some components
 // version: 1.0
-//annotation: none, vertical-bubble, bubble
+// annotation: none, vertical-bubble, bubble
 // default: //view
 
-use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
-use IGK\Core\Ext\Google\IGKGooglePackage as IGKGooglePackage;
+
+use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri; 
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use function igk_resources_gets as __;
 if(defined ('GOOGLE_MODULE')){
     return ;
 } else {
+require_once(__DIR__. "/Lib/Classes/IGKHrefListValue.php");
+require_once(__DIR__. "/Lib/Classes/IGKGoogleCssUri.php");
+require_once(__DIR__. "/Lib/Classes/IGKHrefListValue.php");
 define('GOOGLE_MODULE', 1);
-
 define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
 define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
 define("IGK_GOOGLE_DEFAULT_PROFILE_PIC", "//lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s120");
@@ -34,7 +36,7 @@ define("IGK_GOOGLE_DEFAULT_PROFILE_PIC", "//lh3.googleusercontent.com/uFp_tsTJbo
  * @param mixed $bool$temp  attached temporaly
  */
 function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans-serif')
-{
+{ 
     $size = igk_google_get_font_sizes($family, $size);
 
     $g = trim($family);
@@ -262,8 +264,7 @@ function igk_google_local_uri_callback($uri, $e = null)
     $tab = [];
     parse_str(igk_getv(parse_url($uri), "query"), $tab);
     $family = igk_getv($tab, "family");
-    $file = "";
-
+    $file = "";  
 
     if (($file = igk_google_filefromfamily($family)) && file_exists($file)) {
         return new IGKHtmlRelativeUriValueAttribute($file);
