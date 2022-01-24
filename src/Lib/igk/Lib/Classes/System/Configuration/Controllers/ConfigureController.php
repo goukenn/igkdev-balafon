@@ -6,7 +6,9 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Helper\IO;
+use IGK\System\CronJob;
 use IGK\System\Html\HtmlReader;
+use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKAppConfig;
 use IGKControllerManagerObject;
@@ -1831,7 +1833,7 @@ EOF;
                 // + | include configuration style
                 // + |
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
-                    $app->getDoc()->getSysTheme()->addTempFile($f);
+                    $app->getDoc()->getTheme()->addTempFile($f);
                 }
                 
                 if (!$this->getIsConnected()) {
@@ -1895,5 +1897,15 @@ EOF;
                 igk_exit();
             }
             return $d;
+        }
+
+        public function runcron(){
+            if (!igk_is_conf_connected()){
+                throw new NotAllowedRequestException();
+            }         
+            $job = new CronJob();
+            $c = $job->execute();
+            igk_notifyctrl("run:cron")->addMsg("cron executed", $c);
+            igk_navto_referer(); 
         }
     }

@@ -87,6 +87,13 @@ final class IGKLog extends IGKObject{
         error_log("[{$tag}] - $msg");
     }
 
+    /**
+     * 
+     */
+ 
+        \IGK\Models\DbLogs::add($msg);
+     
+
     }
     ///<summary></summary>
     /**

@@ -107,10 +107,10 @@
     <item name="igk-active" />
     <item name="igk-add-margin" />
     <item name="igk-anchor-all" />
-    <item name="igk-android" />
-    <item name="igk-android-menu-option" />
-    <item name="igk-android-menu-options" />
-    <item name="igk-android.lnd-scape" />
+    <item name="igk-mob" />
+    <item name="igk-mob-menu-option" />
+    <item name="igk-mob-menu-options" />
+    <item name="igk-mob.lnd-scape" />
     <item name="igk-article-options" />
     <item name="igk-bigger" />
     <item name="igk-black-border" />

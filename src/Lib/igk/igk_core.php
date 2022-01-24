@@ -1102,24 +1102,9 @@ function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_
 
 function igk_get_defaultwebpagectrl()
 {
-    $n = IGKAppConfig::getInstance()->Data->get("default_controller");
-
-    if (!$n || !class_exists($n, false)) {
-        return null;
-    } else {
-        if (!is_subclass_of($n, BaseController::class)) {
-            igk_die(__("Default class is not a Balafon controller : {0}", $n));
-        }
-        if (method_exists($n, "getInstance")) {
-            return $n::getInstance();
-        } else {
-            $b = igk_getctrl($n);
-            if ($b === null) {
-                $b = igk_app()->session->createInstance($n);
-            }
-            return $b;
-        }
-    }
+    if ($n = IGKAppConfig::getInstance()->Data->get("default_controller")){
+        return igk_getctrl($n, false);
+    }  
 }
 
 ///<summary>get object with igk Xpath selection model</summary>

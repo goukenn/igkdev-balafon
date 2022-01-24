@@ -37,13 +37,13 @@ $t->div()->setStyle("z-index: 10; top:0px; position:fixed; width:inherit; height
 // CNF header 
 $h = $t->div()->setClass("igk-cnf-header header");
 $navbtn=$h->addToggleButton();
-$navbtn->Target="#android-menu";
+$navbtn->Target="#mob-menu";
 $navbtn->setClass("igk-sm-only igk-xsm-only floatr");
 $navbtn->ClassProperty="posab igk-col-sm-3-2";
 $navbtn->addBar(3);
 
 $android_menu=$h->div();
-$android_menu->setId("android-menu");
+$android_menu->setId("mob-menu");
 $android_menu["class"]="igk-mob-opts igk-sm-only";
 $android_menu["igk-data-menu"]=1;
 $android_menu["igk-data-menu-binding"]="#igk-cnf-menu";

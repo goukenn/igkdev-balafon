@@ -14,6 +14,7 @@ use IGKEvents;
 use IGKException;
 use IGKSystemController;
 use IGKSysUtil;
+use ModelBase as GlobalModelBase;
 use ReflectionClass;
 
 
@@ -332,18 +333,7 @@ abstract class ModelBase implements ArrayAccess
             // 
             // + initialize macro definition
             //
-            $macros = [
-                "create" => function ($raw = null) {
-                    $c = new static($raw);
-                    if ($c->raw) {
-                        if ($g = $c->insert($c->raw)) {
-                            $c->raw = $g->raw;;
-                        } else {
-                            return null;
-                        }
-                    }
-                    return $c;
-                },
+            $macros = [                
                 "registerMacro" => function ($name, callable $callback) use ( & $macros ) {
 
                     if (is_callable($callback)) {
@@ -357,6 +347,11 @@ abstract class ModelBase implements ArrayAccess
                 },
                 "unregisterMacro" => function ($name) {
                     unset(self::$macros[igk_ns_name(static::class . "/" . $name)]);
+                },
+                "updateRaw"=>function(ModelBase $target, ModelBase $g){ 
+                    if (get_class($target) == get_class($g)){
+                        $target->raw = $g->raw;
+                    }
                 },
                 "registerExtension" => function ($classname) {
 

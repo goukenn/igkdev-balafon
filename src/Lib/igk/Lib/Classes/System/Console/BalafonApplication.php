@@ -417,51 +417,10 @@ class BalafonApplication extends IGKApplicationBase
             }, __("run script by loading")],
             "--run:cron" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = null) {
-                    try {
-                        igk_ilog("run cron - " . date("Ymd H:i:s"));
-                        
-                        Logger::info("#run:cron");
-                        if (property_exists($command->options, "--provider")){
-                            if ($provider = CronJobProcess::GetJobProcessProvider($command->options->{"--provider"})){
-                                $ctrl &&  ($ctrl = igk_getctrl($ctrl, false));                                
-                                if ($provider->exec("sys:invoke", null, $ctrl)){
-                                    Logger::success(__("success : ".$command->options->{"--provider"}));
-                                    return 0;
-                                }else {
-                                    Logger::danger(__("crons failed"));
-                                    return -1;
-                                }
-
-                            }else {
-                                Logger::danger("provider not found.");
-                                return -1;
-                            }
-                        }
-
-
-                        $condition = ["!crons_process" => 1];
-                        if ($ctrl &&  ($ctrl = igk_getctrl($ctrl, false))) {
-                            $condition["crons_class"] = get_class($ctrl);
-                        }
-                        $rows = Crons::select_all($condition); // 
-                        foreach ($rows as $r) {
-                            Logger::print($r->crons_script);
-                            if ($provider = CronJobProcess::GetJobProcessProvider($r->crons_script)) {
-                                if ($provider->exec($r->crons_name, json_decode($r->crons_options), $ctrl)) {
-                                    $r->crons_process = 1;
-                                    Logger::success("success :" . $r->crons_name);
-                                } else {
-                                    $r->crons_process = 2;
-                                    Logger::danger(__("crons failed : {0}", $r->crons_name));
-                                }
-                                $r->update();
-                            }
-                        }
-                    } catch (Throwable $ex) {
-                        Logger::danger(":" . $ex->getMessage());
-                        return false;
-                    }
-                    return 0;
+                    $job = new \IGK\System\CronJob();
+                    $job->provider = igk_getv($command->options, "--provider");
+                    $job->ctrl = $ctrl;
+                    return $job->execute();                    
                 };
             }, __("run cron's script")],
 

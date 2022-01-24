@@ -24,6 +24,8 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         $this->_=array();
         $this->_[self::MEDIA_ID] = $type.":".$name;
     }
+
+    public function getProperties() { return []; }
       /**
      * return a copy of this media storage
      * @return array 

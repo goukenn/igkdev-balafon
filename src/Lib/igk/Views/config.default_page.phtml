@@ -169,4 +169,8 @@ if (IGKServer::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()
     $dv->add('a')->setClass("clsubmit igk-btn igk-btn-default dispib")->setAttribute("href", $ctrl->getUri("clearcache"))
         //->setAttribute("onclick", "javascript: ns_igk.ajx.get(this.href+'&ajx=1', null,{src:this,complete:function(xhr){ ns_igk.ajx.fn.prepend_to(xhr,this.src.parentNode); }});  return false;")
         ->Content = __("Clear cache");
+
+    $dv->abtn($ctrl->getUri("runcron"))->Content = __("Run Cron");
 }
+
+$dv->div()->toast_notify("run:cron");

@@ -91,3 +91,15 @@ if (!IGKValidator::IsEmail($login)) {
 return \IGK\Models\Users::select_row($conditions);
 });
  
+
+\IGK\Models\DbLogs::registerMacro("add", function(string $msg){ 
+    // + | because database can failed
+    static $logger;
+    if (!$logger){
+        $logger = 1;
+        $r =  \IGK\Models\DbLogs::create(["db_logs_msg"=>$msg]);
+        $logger = null;
+        return $r;
+    }
+    return false;
+});

@@ -8,6 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\ILibaryController;
 use IGK\Helper\IO;
 use IGK\Resources\R;
@@ -36,9 +37,9 @@ abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase 
         return $this->getExposedServiceFunction(); 
     }
     ///<summary>Represente _initCssStyle function</summary>
-    protected function _initCssStyle(){                    
-        igk_ctrl_bind_css_file($this, dirname(__FILE__)."/Styles/default.pcss", 1);        
-        parent::_initCssStyle();
+    protected function initCssStyle(){                    
+        igk_ctrl_bind_css_file($this, dirname(__FILE__)."/Styles/default.pcss", 1);  
+        ControllerExtension::bindCssStyle($this);
     }
     protected function _configureDocument($doc){
         $doc->setHeaderColor("#af104f");

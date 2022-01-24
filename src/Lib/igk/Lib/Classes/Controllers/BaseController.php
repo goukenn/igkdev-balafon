@@ -873,14 +873,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         igk_set_env($ck, $t);
         return $t;
     }
-    ///<summary>init base style</summary>
-    /**
-     * 
-     */
-    protected function _initCssStyle()
-    {
-        igk_ctrl_bind_css_file($this);
-    }
+    
     ///<summary>Initialize view setting - before renderging </summary>
     /**
      * Initialize view setting - before renderging
@@ -888,7 +881,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     protected function _initView()
     {
         R::RegLangCtrl($this);
-        $this->_initCssStyle();
+        ControllerExtension::bindCssStyle($this);
     }
     ///<summary>set the flag</summary>
     /**
@@ -1057,6 +1050,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             return $tb;
         }
     }
+    /**
+     * default table name
+     * @return null|string 
+     */
     public function getDataTableName()
     {
         // override this to handle management of a spécific table 

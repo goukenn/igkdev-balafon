@@ -10,6 +10,7 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Css\CssStyle;
+use IGK\System\Html\Dom\HtmlCssValueAttribute;
 
 final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     private $m_o, $m_v;
@@ -41,13 +42,17 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
         }
         if(!empty($opt) && !empty($this->m_v))
             $opt .= " ";
-        $opt=$opt.$this->m_v;
+            if (is_object($this->m_v)){
+                $opt .= $this->m_v->getValue($options);
+            } else {
+                $opt=$opt.$this->m_v;
+            }
         return empty($opt) ? null: $opt;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     public function setValue($value){
-        if(($value == null) || is_string($value))
+        if(($value == null) || is_string($value) || ($value instanceof HtmlCssValueAttribute))
             $this->m_v=$value;
         else{
             igk_die("no value allowed ".$value. " target :".get_class($this->m_target));

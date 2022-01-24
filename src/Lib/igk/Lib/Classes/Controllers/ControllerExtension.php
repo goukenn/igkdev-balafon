@@ -850,7 +850,11 @@ abstract class ControllerExtension
      */
     public static function initDbFromFunctions(BaseController $controller)
     {
-        $tbname = igk_db_get_table_name($controller->getDataTableName(), $controller);
+        $func_table = $controller->getDataTableName();
+        if ($func_table === null){
+            return false;
+        }
+        $tbname = igk_db_get_table_name($func_table, $controller);
         if (empty($tbname)) {
             return false;
         }
@@ -1171,7 +1175,9 @@ abstract class ControllerExtension
     {
         return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc(); //  $controller->getAppDocument();
     }
-
+    public static function bindCssStyle(BaseController $controller){
+        return igk_ctrl_bind_css_file($controller);
+    }
     /**
      * project used controller's
      * @return void 

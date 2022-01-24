@@ -34,6 +34,10 @@ class IGKEvents extends IGKObject
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
+    /**
+     * css context bind controller styles sheet on init
+     */
+    const HOOK_BIND_CTRL_CSS = "css_bind_ctrl_style";
     const ENV_KEY = "sys://hooks";
 
     const HOOK_DOM_PROPERTY_CHANGED = "dom_property_changed";

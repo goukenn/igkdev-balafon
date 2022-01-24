@@ -25595,3 +25595,74 @@ igk.system.createNS("igk.system", {
 		_updateState(true);
 	});
 })();
+
+
+(function(){
+	var _ut = {
+		getSep(){
+			return igk.system.getNS('igk.system.locale.decimalSeperator') || ".";
+		}
+	}
+	var _handler = {
+		number(e, notdec){
+			var v = this.value;
+			var def = notdec || true;
+			if (typeof(notdec) == 'undefined')
+				notdec = true;
+			if (notdec){
+				var sep = _ut.getSep();
+				if ((e.key == sep)){
+						//already contain separator
+						if (v.indexOf(sep) != -1){
+							e.preventDefault();
+							e.stopPropagation();  
+						}
+						return;
+				}
+			}
+			if (/[0-9]/.test(e.key) == false){
+				e.preventDefault();
+				e.stopPropagation();  
+			} 
+		},
+		pastenumber(e, notdef){
+			let paste = (e.clipboardData || window.clipboardData).getData('text');
+			var v = this.value;
+			var sl = this.selectionStart; 
+			var sep = _ut.getSep();
+			paste = v.substr(0, this.selectionStart) + paste + v.substr(sl);  
+			(sep == '.') 
+			var rf = [/^[0-9]+(\.([0-9]+)?)?$/, /^[0-9]+$/];
+			if (typeof(notdec) == 'undefined')
+				notdec = true;
+			var rx = notdec ? rf[0] : rf[1];
+
+			if (rx.test(paste) == false){
+				e.preventDefault();
+				e.stopPropagation(); 
+			}
+		},
+		integer(e){
+			_handler.number(e, false);
+		},
+		pasteinteger(e){
+			_handler.pastenumber(e, false);
+		}
+	};
+	function __init_form(){
+		this.qselect('input').each_all(function(){
+			if (this.supportClass('number')){
+				this.on('keypress', _handler.number);
+				this.on('paste', _handler.pastenumber);
+			}
+			if (this.supportClass('integer')){
+				this.on('keypress', _handler.integer);
+				this.on('paste', _handler.pasteinteger);
+			}
+		});
+	};
+
+	igk.winui.initClassControl('igk-form', __init_form);
+
+})();
+

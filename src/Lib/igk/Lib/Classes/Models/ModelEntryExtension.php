@@ -31,6 +31,19 @@ abstract class ModelEntryExtension{
    public static function controller(ModelBase $model){
         return $model->getController();
    }
+
+   public static function create(ModelBase $model, $raw=null){        
+        $cl = get_class($model);
+        $c = new $cl($raw); 
+        if ($craw = $c->to_array()) {
+            if ($g = $c->insert($craw)) {
+                $c->updateRaw($g);                
+            } else {
+                return null;
+            }
+        }
+        return $c;  
+   }
     /**
      * create a model from an object. 
      * @param ModelBase $ctrl 

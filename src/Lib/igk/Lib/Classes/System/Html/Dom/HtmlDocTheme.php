@@ -4,26 +4,18 @@ namespace IGK\System\Html\Dom;
 
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use ArrayAccess;
-use IGK\Css\ICssStyleContainer;
 use IGKCssDefaultStyle; 
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKMedia;
 use IGKOb;
 use IGKObjectGetProperties; 
 use IGKHtmlDoc;
-
-// + | --------------------------------------------------------------------------
-// + | manage theme handle
-// + | exemple: 
-// + |      $doc->Theme->def["body"] = "background-color: indigo;";
-// + |      $doc->Theme->def["body div"] = "(sys:.dispn)"; //system theme class handler
-// + | --------------------------------------------------------------------------
-
+use IGK\Css\ICssStyleContainer;
 ///<summary>represent a document themes</summary>
 /**
 * represent a document themes
 */
-final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, ICssStyleContainer {
+final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess , ICssStyleContainer{
     const REGKEY="HtmlDocTheme";
     private $m_document;
     private $m_def;
@@ -34,15 +26,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     private static $MEDIA;
     private static $SM_MEDIAKEY;
 
-    /// TODO: handle theme parent
-    /**
-     * theme parent
-     * @var mixed
-     */
-    // var $parent;
-
     use  ArrayAccessSelfTrait; 
 
+    /**
+     * parent of this theme
+     * @var mixed
+     */
+    var $parent;
     
     ///<summary></summary>
     ///<param name="document"></param>
@@ -153,7 +143,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $res=$this->res;
         $ft_def="";
         $tv=0;
-        $s="";
+        $s=""; 
         if($systheme===null){
             $systheme = igk_app()->getDoc()->getSysTheme();
         }
@@ -216,11 +206,14 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             $out .= $def->getRulesString($lineseparator, $themeexport, $systheme).$lineseparator;
             $out .= "/* <!-- end:Rules --> */\n";
         }
+        
         $s="";
         $tv=0;
         if($attr=$def->getAttributes()){
             foreach($attr as $k=>$v){
-                $kv=trim(igk_css_treat($this, $v, $systheme));
+                if (empty($v))
+                    continue;
+                $kv=trim(igk_css_treat($this, $v, $systheme));               
                 if(!empty($kv)){
                     $s .= $k."{".$kv."}".$lineseparator;
                     $tv=1;
@@ -229,8 +222,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         }
         if($tv){
             $out .= "/* <!-- Attributes --> */".$lineseparator;
-            $out .= $s.$lineseparator;
-            $out .= "/* <!-- end:Attributes --> */\n";
+            $out .= rtrim($s).$lineseparator;;
+            $out .= "/* <!-- end:Attributes --> */".$lineseparator;
         }
         $res=$this->res;
         if(!$themeexport){
@@ -495,14 +488,18 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     public function get_css_def($minfile=false, $themeexport=false, $doc=null){
         $el=$minfile ? IGK_STR_EMPTY: IGK_LF;
         $is_root=false;
-        $doc = $doc ?? igk_app()->getDoc();
+        $doc = $doc ?? $this->m_document ?? igk_app()->getDoc(); 
         
-        $systheme = $doc->SysTheme;
+        $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
-        
-        $out=  $this->_get_css_def(!$minfile, $themeexport, $systheme);
-
-        if($this->m_medias) foreach($this->m_medias as $k=>$v){
+        $parent = $is_root ? null : ( ($this->parent instanceof self) && ($this->parent !== $this) ? $this->parent : $systheme);
+        \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
+        $out=  $this->_get_css_def(!$minfile, $themeexport, $parent); // systheme);
+        \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
+ 
+        if($this->m_medias) {
+            $g = "";
+        foreach($this->m_medias as $k=>$v){
             $g=trim($v->getCssDef($this, $minfile, $themeexport, $systheme));
             if(!empty($g)){
                 $out .= "@media ".self::GetMediaName($k)."{".$el;
@@ -516,6 +513,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 $out .= "}".$el;
             }
         }
+    }
         return rtrim($out);
     }
     ///<summary></summary>
@@ -646,7 +644,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<summary></summary>
     ///<return refout="true"></return>
     /**
-    * return theme default properties definition
+    * get
     * @return mixed|array|object definition
     */
     public function & getdef(){
@@ -974,4 +972,5 @@ EOF;
         $p=& $this->m_def->getParams();
         $p[$name]=$value;
     }
+ 
 }

@@ -10,7 +10,7 @@
 
 use IGK\Css\ICssStyleContainer;
 
-final class IGKCssDefaultStyle implements ArrayAccess,  ICssStyleContainer{
+final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
     const COLORS_RULE=5;
     const DECLARED_RULE=1;
@@ -27,6 +27,10 @@ final class IGKCssDefaultStyle implements ArrayAccess,  ICssStyleContainer{
     public function __construct(& $setting){
         $this->_=& $setting;
     }
+
+    public function getProperties() { 
+        return igk_getv($this->_, self::PROPERTIES);
+    }
     ///<summary></summary>
     ///<param name="n"></param>
     public function __get($n){
@@ -34,7 +38,7 @@ final class IGKCssDefaultStyle implements ArrayAccess,  ICssStyleContainer{
     }
     ///<summary></summary>
     public function __serialize(){
-        return [serialize($this->_)];
+        return [serialize(array_filter($this->_))];
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -103,6 +107,11 @@ final class IGKCssDefaultStyle implements ArrayAccess,  ICssStyleContainer{
     }
     ///<summary></summary>
     public function getAttributes(){
+        return igk_getv($this->_, self::PROPERTIES);
+    }
+    public function getdef(){
+        igk_trace();
+        igk_wln_e("get def....");
         return igk_getv($this->_, self::PROPERTIES);
     }
     ///<summary></summary>

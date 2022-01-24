@@ -19,6 +19,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode; 
 use IGK\System\Html\Dom\HtmlNodeBase;
+use IGK\System\Html\Dom\HtmlNotifyResponse;
 use IGK\System\Html\Dom\HtmlWebComponentNode;
 use IGK\System\Html\HtmlAttribExpressionNode;
 use IGK\System\Html\HtmlHeaderLinkHost;
@@ -4625,6 +4626,15 @@ function igk_html_node_bindscript($data, $uri, $name, ?bool $production=null){
         return null;
     }
     return igk_create_node("obdata", null, $fc);
+}
+
+function igk_html_node_toast_notify($name){
+    $node = igk_html_node_notagnode();
+    if ($d = igk_notifyctrl($name)){
+        $cnode = new \IGK\System\Html\Dom\HtmlNotifyToastResponse($name);
+        $node->add($cnode); 
+    }
+    return $node;
 }
 //---------------------------------------------------------------------------------
 // + | form tag extension

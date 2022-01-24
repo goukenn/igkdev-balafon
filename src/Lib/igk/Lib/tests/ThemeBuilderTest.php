@@ -26,33 +26,33 @@ class ThemeBuilderTest extends BaseTestCase
     function test_theme_to_array()
     {
         $theme = new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), "test");
-        $theme[".info"] = "background-color:red;";
+        $theme[".info"] = "background-color:green;";
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";
 
         $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XLG_MEDIA);
-        $xsm_screen[".info"] = "background-color: indigo;";
-
-        $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
         $xsm_screen[".info"] = "background-color: red;";
 
+        $sm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
+        // igk_wln_e("media lllll - ", $sm_screen);
+        $sm_screen[".info"] = "background-color: yellow;";
+
         // igk_wln($xsm_screen);  
-        $tab = $theme->to_array();
-
-        //igk_wln_e($tab, "definition : ". $theme->get_css_def());
-
-
+        $tab = $theme->to_array();       
+        
         $this->assertTrue($tab !== null);
-
+        // igk_debug(1);
+        // igk_wln_e($tab, "definition : ". $theme->get_css_def());
         $this->assertEquals(
             <<<EOF
 /* <!-- Attributes --> */
-.info{background-color:red;}
+.info{background-color:green;}
+/* <!-- end:Attributes --> */
 @media (min-width:321px) and (max-width:710px){
-.info{background-color: red;}
+.info{background-color: yellow;}
 }
 @media (min-width:1025px) and (max-width:1300px){
-.info{background-color: indigo;}
+.info{background-color: red;}
 }
 EOF,
             $theme->get_css_def(),

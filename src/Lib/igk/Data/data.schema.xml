@@ -186,6 +186,13 @@
         <Column clName="clDateTime" clType="DateTime" clNotNull="True" />
         <Column clName="clFrom" clType="VARCHAR" clTypeLength="15" />
     </DataDefinition>
+    <DataDefinition TableName="%prefix%db_logs" Definition="log">
+        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
+        <Column clName="db_logs_msg" clType="Text" clNotNull="true"  />
+        <Column clName="db_logs_status" clType="Int" clDefault="0" clNotNull="True" />
+        <Column clName="db_logs_createAt" clType="DateTime" clNotNull="True" clInsertFunction="Now()" />        
+    </DataDefinition>
+
     <DataDefinition TableName="%prefix%sessions" Description="Track user started session">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clSessId" clType="VARCHAR" clTypeLength="50" />

@@ -247,6 +247,9 @@ class HtmlRenderer{
         igk_get_defined_ns($item, $out, $options);
         if ($options && ($options->Context == "mail")) {
             //for mail rendering attribures
+            if (!isset($options->renderTheme)){
+                $options->renderTheme = igk_app()->getDoc()->getTheme();
+            }
 
             if ($attribs) {
 
@@ -259,10 +262,10 @@ class HtmlRenderer{
                     foreach ($cl->getKeys() as $k) {
                         $matcher = [];
                         if (!empty($tagname = $item->tagName)) {
-                            $matcher[] = $item->tagName . "." . $k;
+                            $matcher[] = $tagname. "." . $k;
                         }
-                        if (!empty($id = $item->Id)) {
-                            $matcher[] = "#id.$k";
+                        if (!empty($id = igk_getv($item, "id"))) {
+                            $matcher[] = "#id.{$k}_$id";
                         }
                         $matcher[] = ".{$k}";
                         foreach ($matcher as $m) {
@@ -271,7 +274,7 @@ class HtmlRenderer{
                             }
                         }
                     }
-                    if ($options->renderTheme) {
+                    if ($options->renderTheme && $g) {
                         $g = igk_css_treat($options->renderTheme, $g, $options->renderTheme);
                     }
                 }

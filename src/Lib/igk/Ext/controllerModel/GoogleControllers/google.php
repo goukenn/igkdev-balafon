@@ -537,7 +537,7 @@ function igk_html_node_googlemapgeo($loc, $apikey = null)
 igk_reg_hook("google_init_component", function () {
     if (!igk_get_env("init_globalfont")) {
         igk_set_env("init_globalfont", 1);
-        igk_css_reg_global_style_file(dirname(__FILE__) . "/Styles/igk.google.pgcss");
+        igk_css_reg_global_style_file(dirname(__FILE__) . "/Styles/igk.google.pgcss", null,null, 1);
     }
 });
 IGKRoutes::Register(

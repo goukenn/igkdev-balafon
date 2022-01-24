@@ -95,6 +95,7 @@ function igk_db_escape_string($v, $r=null){
 			if (is_array($v)){
                 if (!igk_environment()->is("production")){
                     igk_trace();
+                    var_dump($v);
                     igk_wln_e("Passing Array not allowed", $v);
                 }                
 				igk_die("escape failed: Array for value not allowed");

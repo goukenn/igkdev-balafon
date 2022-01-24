@@ -2,6 +2,7 @@
 ///<summary>Represente class: DbQueryDriver</summary>
 namespace IGK\Database;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
+use IGK\System\Database\NoDbConnection;
 use IGK\System\Number;
 use IGKEvents;
 use IGKException;
@@ -55,7 +56,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     private function __construct($name){
         $this->m_name = $name;
         if (igk_env_count(__METHOD__)>1){
-            igk_trace(); 
+            igk_trace();  
             igk_wln_e("create driver: ".get_class($this) . " : ", $name);
         }
     }
@@ -242,14 +243,26 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * @param mixed $dbpwd the default value is ""
     */
     public static function Create(?array $options=null){
+
+        static $driver_storage;
+
+        if ($driver_storage === null){
+            $driver_storage = [];
+        }   
+        $name = "mysql";
+
+        if (key_exists($name, $driver_storage)){
+            return $driver_storage[$name];
+        }
+
         $dbserver =key_exists("server", $options) ?   $options["server"] : func_get_arg(0);
         $dbuser = key_exists("user", $options)  ? $options["user"] : func_get_arg(1);
         $dbpwd = key_exists("pwd", $options) ? $options["pwd"]: func_get_arg(2);
         $port = key_exists("port", $options) ?  $options["port"] : func_get_arg(3);
-        
+        $dbname =( key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  igk_app()->getConfigs()->db_name;
 
         // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
-        $out=new DbQueryDriver("mysql");
+        $out=new DbQueryDriver($name);
         if (is_object($dbserver)){
             //principal info 
             $out->m_dbserver=trim($dbserver->server);
@@ -264,13 +277,16 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         }
         $out->connect();
         if($out->m_isconnect){
-            if (igk_environment()->is("DEV")  && !empty($db = igk_app()->Configs->db_name)){
-                $out->createDb($db);
+            if (igk_environment()->is("DEV")  && !empty($dbname)){
+                $out->createDb($dbname);
             }
             $out->close();
+            $driver_storage[$name] = $out;
         }
         else{
             $out=null;
+            $driver_storage[$name] = null;//  new NoDbConnection();
+            //igk_wln_e("try no storage");
         }
         return $out;
     }

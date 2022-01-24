@@ -58,6 +58,7 @@ abstract class ApplicationController extends  PageControllerBase{
     protected function _createDbUtility(){
         return new IGKDbUtility($this);
     }
+   
     ///<summary></summary>
     /**
     * 
@@ -569,7 +570,9 @@ EOF;
     */
     protected function getRootPattern(){
         $t=array();
-        $broot=$this->getBasicUriPattern();
+        if (empty($broot=$this->getBasicUriPattern())){
+            return null;
+        }
         $s=preg_match_all("/(\^\/)?(?P<name>(([^\/]+)(\/([^\/]+)\/?)?))/i", $broot, $t);
         if($s > 0){
             $o=$t["name"][0];
@@ -741,7 +744,7 @@ EOF;
     /**
     * 
     */
-    protected function initComplete(){
+    protected function initComplete(){ 
         parent::initComplete();
          
         $n = get_class($this);//  $this->getAppName();
@@ -766,6 +769,7 @@ EOF;
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
     }
+
    
     ///<summary></summary>
     ///<param name="ctrl"></param>
@@ -900,7 +904,7 @@ EOF;
     }
     ///<summary></summary>
     /**
-    * 
+    * register action bind
     */
     protected final function register_action(){
         $k=$this->getEnvParam("appkeys");
