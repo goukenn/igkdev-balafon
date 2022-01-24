@@ -23,7 +23,7 @@ final class HtmlFormNode extends HtmlNode {
     protected function __AcceptRender($o=null){
         $e=$this->topdiv->Content;
         $this->topdiv->setIsVisible(!empty($e) && !$this->m_notitle);
-        $this->footdiv->setIsVisible(!$this->footdiv->hasContent && !$this->m_nofoot);
+        $this->footdiv->setIsVisible($this->footdiv->gethasContent() && !$this->m_nofoot);
         return true;
     }
     ///<summary></summary>

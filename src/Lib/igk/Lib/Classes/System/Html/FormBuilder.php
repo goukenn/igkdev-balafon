@@ -13,7 +13,8 @@ class FormBuilder{
         "email"=>"email",
         "password"=>"password",
         "text"=>"text",
-        "date"=>"date"
+        "date"=>"date",
+        "json"=>"text"
     ];
     private static $ResolvClass = [
         "float"=>"number",

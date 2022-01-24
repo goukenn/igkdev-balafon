@@ -390,12 +390,12 @@ abstract class ModelEntryExtension{
                             }
                         break;
                     case "int":
-                            $r["type"] = "text";
+                            $r["type"] = "int";
                             $attribs["maxlength"] = 9;
                             $attribs["pattern"] = "[0-9]+";
                         break;
                     case "float":
-                            $r["type"] = "text";
+                            $r["type"] = "float";
                             $attribs["maxlength"] = 9;
                             $attribs["pattern"] = "[0-9]+(\.[0-9]+)?";
                         break;

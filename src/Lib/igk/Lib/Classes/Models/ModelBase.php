@@ -165,7 +165,9 @@ abstract class ModelBase implements ArrayAccess
 
     public function display()
     {
-        return $this->{$this->display};
+        $d = $this->display;
+        if (isset($this->raw->{$d}))
+            return $this->{$d};
     }
     public function getPrimaryKey()
     {

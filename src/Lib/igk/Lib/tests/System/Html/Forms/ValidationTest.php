@@ -91,8 +91,8 @@ class ValidationTest extends BaseTestCase
     {
         //custom type validate
         $validation = new Validation();
-        $validation->registerValidator("custom", function($value, $default=null) {
-            return "handle:".$value;
+        $validation->registerValidator("custom", function ($value, $default = null) {
+            return "handle:" . $value;
         });
 
         $this->assertEquals($validation->validator([
@@ -105,71 +105,119 @@ class ValidationTest extends BaseTestCase
     public function test_password_validator()
     {
         //custom type validate
-        $validation = new Validation();        
+        $validation = new Validation();
 
-        $this->assertEquals(false, $validation->validator([
-            "x" => ["type" => "password", "default" => null]            
-        ])->validate(["x" => "basic", "default" => true]),
-         "password return value");
+        $this->assertEquals(
+            false,
+            $validation->validator([
+                "x" => ["type" => "password", "default" => null]
+            ])->validate(["x" => "basic", "default" => true]),
+            "password return value"
+        );
 
-         $this->assertEquals(["x"=>"basic@Host123"], $validation->validator([
-            "x" => ["type" => "password", "default" => null]            
-        ])->validate(["x" => "basic@Host123", "default" => true]),
-         "password return value");
+        $this->assertEquals(
+            ["x" => "basic@Host123"],
+            $validation->validator([
+                "x" => ["type" => "password", "default" => null]
+            ])->validate(["x" => "basic@Host123", "default" => true]),
+            "password return value"
+        );
     }
 
     public function test_pattern_validator()
     {
         //custom type validate
-        $validation = new Validation();        
+        $validation = new Validation();
 
-        $this->assertEquals(false, $validation->validator([
-            "x" => ["type" => "text", "maxlength"=>4, "default" => null, "error"=>"x not defined"]            
-        ])->validate(["x" => "basics", "default" => true]),
-         "pattern validation ");
+        $this->assertEquals(
+            false,
+            $validation->validator([
+                "x" => ["type" => "text", "maxlength" => 4, "default" => null, "error" => "x not defined"]
+            ])->validate(["x" => "basics", "default" => true]),
+            "pattern validation "
+        );
 
 
-         $this->assertEquals(["x"=>"basi"], $validation->validator([
-            "x" => ["type" => "text", "maxlength"=>4, "default" => null, "error"=>"x not defined"]            
-        ])->validate(["x" => "basi", "default" => true]),
-         "pattern validation ");
+        $this->assertEquals(
+            ["x" => "basi"],
+            $validation->validator([
+                "x" => ["type" => "text", "maxlength" => 4, "default" => null, "error" => "x not defined"]
+            ])->validate(["x" => "basi", "default" => true]),
+            "pattern validation "
+        );
     }
     public function test_url_validator()
     {
         //custom type validate
-        $validation = new Validation();        
+        $validation = new Validation();
 
         $b = $validation->validator([
-            "x" => ["type" => "url",  "required"=>1, "default" => null, "error"=>"x not defined"]            
-        ])->validate(["x" => "basics", "default" => true]); 
-        $this->assertEquals(false, $b,
-         "url validation: must return false");
+            "x" => ["type" => "url",  "required" => 1, "default" => null, "error" => "x not defined"]
+        ])->validate(["x" => "basics", "default" => true]);
+        $this->assertEquals(
+            false,
+            $b,
+            "url validation: must return false"
+        );
 
 
-         $b = $validation->validator([
-            "x" => ["type" => "url", "default" => null, "error"=>"x not defined"]            
-        ])->validate(["x" => "basics", "default" => true]); 
-        $this->assertEquals(["x"=>null], $b,
-         "url validation: must return an empty not required");
+        $b = $validation->validator([
+            "x" => ["type" => "url", "default" => null, "error" => "x not defined"]
+        ])->validate(["x" => "basics", "default" => true]);
+        $this->assertEquals(
+            ["x" => null],
+            $b,
+            "url validation: must return an empty not required"
+        );
 
 
-         $q = parse_url("https://igkdev.com?f=sample ok");
- 
+        $q = parse_url("https://igkdev.com?f=sample ok");
 
-         $this->assertEquals(["x"=>"https://igkdev.com"], $g = $validation->validator([
-            "x" => ["type" => "url",  "default" => "https://data.com", "error"=>"x not defined"]            
-        ])->validate(["x" => "https://igkdev.com"]),
-         "url validation failed");
 
-         $this->assertEquals(["x"=>"https://igkdev.com?version=1.0"], $validation->validator([
-            "x" => ["type" => "url",  "default" => "https://data.com", "error"=>"x not defined"]            
-        ])->validate(["x" => "https://igkdev.com?version=1.0"]),
-         "url validation failed");
+        $this->assertEquals(
+            ["x" => "https://igkdev.com"],
+            $g = $validation->validator([
+                "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
+            ])->validate(["x" => "https://igkdev.com"]),
+            "url validation failed"
+        );
 
-         $this->assertEquals(["x"=>"https://igkdev.com?version=1.0&data=%26lt%3Bscript%26gt%3Balert%28%26%23039%3Bok%26%23039%3B%29%26lt%3B%2Fscript%26gt%3B"], $validation->validator([
-            "x" => ["type" => "url",  "default" => "https://data.com", "error"=>"x not defined"]            
-        ])->validate(["x" => "https://igkdev.com?version=1.0&data=<script>alert('ok')</script>"]),
-         "url validation failed"); 
+        $this->assertEquals(
+            ["x" => "https://igkdev.com?version=1.0"],
+            $validation->validator([
+                "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
+            ])->validate(["x" => "https://igkdev.com?version=1.0"]),
+            "url validation failed"
+        );
 
+        $this->assertEquals(
+            ["x" => "https://igkdev.com?version=1.0&data=%26lt%3Bscript%26gt%3Balert%28%26%23039%3Bok%26%23039%3B%29%26lt%3B%2Fscript%26gt%3B"],
+            $validation->validator([
+                "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
+            ])->validate(["x" => "https://igkdev.com?version=1.0&data=<script>alert('ok')</script>"]),
+            "url validation failed"
+        );
+    }
+
+    public function test_json_validator()
+    {
+        //custom type validate
+        $validation = new Validation();
+
+        $this->assertEquals(
+            false,
+            $validation->validator([
+                "x" => ["type" => "json",  "required" => 1, "default" => null, "error" => "x not defined"]
+            ])->validate(["x" => "{basics:'45'}", "default" => true]),
+            "json validation: must return false"
+        ); 
+
+        $this->assertEquals(
+            ["x" => "{\"basics\":\"45\"}"],
+            $validation->validator([
+                "x" => ["type" => "json",  "required" => 1, "default" => null, "error" => "x not defined"]
+            ])->validate(["x" => "{\"basics\":\"45\"}", "default" => true]),
+            "json validation: test 1"
+        );
     }
 }

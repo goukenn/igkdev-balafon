@@ -12,4 +12,6 @@ class Users extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%users";
+
+	protected $display = "clLogin";
 }

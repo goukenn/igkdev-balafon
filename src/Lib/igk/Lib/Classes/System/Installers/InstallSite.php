@@ -158,6 +158,20 @@ class InstallSite
             igk_io_createdir($lnk);
             InstallerUtils::NoAccessDir($lnk);
         }
+        // install vendor dir
+        $lnk = $app_folder . "/" . IGK_PACKAGES_FOLDER."/". IGK_VENDOR_FOLDER;
+        if (!empty($moduledir = igk_getv($options, "vendordir")) && !is_link(
+            $lnk
+        )) {
+            symlink($moduledir, $lnk);
+        } else {
+            igk_io_createdir($lnk);
+            InstallerUtils::NoAccessDir($lnk);
+            $base = dirname($lnk);
+            // generate composer instruction 
+            $this->_generateComposer($base);
+        }
+
         $lnk = $app_folder . "/" . IGK_PROJECTS_FOLDER;
         if (!empty($projectdir = igk_getv($options, "projectdir")) && !is_link(
             $lnk
@@ -279,5 +293,27 @@ EOF
             igk_wln("not unix");
         }
         return true;
+    }
+
+
+    /**
+     * generate composer file
+     * @param string $folder 
+     * @param null|array $options 
+     * @return void 
+     * @throws IGKException 
+     */
+    private function _generateComposer(string $folder, ?array $options=null){
+        $com = [];
+        $com["name"] = igk_getv($options, "name");
+        $com["description"] = igk_getv($options, "description");
+        $com["license"] = igk_getv($options, "license", "MIT License");
+        $com["autoload"] = [
+            "psr-4"=> [
+                "IGK\\Packages\\Vendor"=>"src/"
+            ]
+        ];
+        $com["require"] = [];
+        igk_io_w2file($folder."/composer.json", json_encode($com, JSON_PRETTY_PRINT));
     }
 }

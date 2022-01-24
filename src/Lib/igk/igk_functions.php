@@ -2564,8 +2564,20 @@ function igk_css_balafon_index($dir)
         }
         igk_exit();
     } 
-    igk_header_no_cache();
-    igk_do_response(new \IGK\Css\CssCoreResponse($c)); 
+    /// TODO: Cache CSS
+    // igk_header_cache_output();
+    $cache = false;
+    if (igk_environment()->is("DEV")){
+        igk_header_no_cache();
+    } else {
+        // 
+        $referer = igk_getv(explode("?", igk_server()->HTTP_REFERER), 0);
+        $cache = true;
+    }
+    $response = new \IGK\Css\CssCoreResponse($c);
+    $response->cache = $cache;
+    $response->file = $referer;
+    igk_do_response($response); 
     igk_exit();
 }
 ///<summary></summary>
@@ -3018,17 +3030,7 @@ function igk_css_get_map_selector()
     }
     return $selector;
 }
-///<summary>shortcut to get theme media</summary>
-/**
- * shortcut to get theme media
- */
-function igk_css_get_media($id)
-{
-    $igk = igk_app();
-    if ($igk === null)
-        return;
-    return $igk->getDoc()->Theme->get_media($id);
-}
+ 
 ///<summary></summary>
 ///<param name="propname"></param>
 ///<param name="value"></param>
@@ -3158,7 +3160,7 @@ function igk_css_get_theme_files($theme)
 ///change css process workflow : 08/02/2018
 /**
  */
-function igk_css_getbasedef(IGKHtmlDoc $doc, bool $no_systheme=false, bool $minfile = false, bool $themeexport = false)
+function igk_css_get_basedef(IGKHtmlDoc $doc, bool $no_systheme=false, bool $minfile = false, bool $themeexport = false)
 {
     
     $igk = igk_app();
@@ -3207,7 +3209,7 @@ function igk_css_getbasedef(IGKHtmlDoc $doc, bool $no_systheme=false, bool $minf
  * 
  * @param mixed $v 
  */
-function igk_css_getbg_size($v)
+function igk_css_get_bg_size($v)
 {
     $o = IGK_STR_EMPTY;
     $o .= "-webkit-background-size: " . $v . ";";
@@ -3224,7 +3226,7 @@ function igk_css_getbg_size($v)
  * @param mixed $v 
  * @param mixed $doc 
  */
-function igk_css_getbgcl($v, $theme, $systheme=null)
+function igk_css_get_bgcl($v, $theme, $systheme=null)
 {
     if (empty($v))
         return null;    
@@ -3239,7 +3241,7 @@ function igk_css_getbgcl($v, $theme, $systheme=null)
  * 
  * @param mixed $v 
  */
-function igk_css_getbordercl($v)
+function igk_css_get_bordercl($v)
 {
     if (empty($v))
         return null;
@@ -3249,7 +3251,7 @@ function igk_css_getbordercl($v)
 /**
  * 
  */
-function igk_css_getdefaultstyle()
+function igk_css_get_default_style()
 {
     $v = <<<ETF
 *{ margin : 0px; padding: 0px; }
@@ -3265,7 +3267,7 @@ ETF;
  * @param mixed $v 
  * @param mixed $doc 
  */
-function igk_css_getfcl($v, $doc = null)
+function igk_css_get_fcl($v, $doc = null)
 {
     if (empty($v))
         return null;
@@ -3285,7 +3287,7 @@ function igk_css_getfcl($v, $doc = null)
  * 
  * @param mixed $v 
  */
-function igk_css_getfont($v)
+function igk_css_get_font($v)
 {
     if (empty($v))
         return null;
@@ -3297,9 +3299,9 @@ function igk_css_getfont($v)
  * get document theme media
  * @param mixed $id 
  */
-function igk_css_getmedia($id)
+function igk_css_get_media($id)
 {
-    return igk_app()->getDoc()->Theme->get_media($id);
+    return igk_app()->getDoc()->getTheme()->get_media($id);
 }
 ///<summary></summary>
 /**
@@ -3725,7 +3727,7 @@ function igk_css_render_balafon_style($doc = null, bool $no_systheme=false)
         if ($mfile) {
             $o = implode('|', explode("\\r\\n", $o));
         }
-        $o .= igk_css_getbasedef($doc, $no_systheme, $mfile);
+        $o .= igk_css_get_basedef($doc, $no_systheme, $mfile);
         if ($t) {
             IO::WriteToFile($f, $o);
         }
@@ -4041,17 +4043,17 @@ function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $
             break;
         case "sysbgcl":
             $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_getbgcl($ncl, $systheme, null) : "";
+            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bgcl($ncl, $systheme, null) : "";
             $v = str_replace($v_m, $b, $v);
             break;
         case "sysfcl":
             $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_getfcl($ncl) : "";
+            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_fcl($ncl) : "";
             $v = str_replace($v_m, $b, $v);
             break;
         case "sysbcl":
             $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_getbordercl($ncl) : "";
+            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
             $v = str_replace($v_m, $b, $v);
             break;
         case "syscl":
@@ -4072,15 +4074,15 @@ function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $
             $v = str_replace($v_m, $ncl . $a, $v);
             break;
         case "fcl":
-            $v = str_replace($v_m, igk_css_getfcl($chainColorCallback($value)), $v);
+            $v = str_replace($v_m, igk_css_get_fcl($chainColorCallback($value)), $v);
             break;
         case "bgcl":
             $ncl = $chainColorCallback($value);
-            $v = str_replace($v_m, igk_css_getbgcl($ncl, $gtheme, $systheme), $v);
+            $v = str_replace($v_m, igk_css_get_bgcl($ncl, $gtheme, $systheme), $v);
             break;
         case "bcl":
             $ncl = $chainColorCallback($value);
-            $v = str_replace($v_m, igk_css_getbordercl($ncl), $v);
+            $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
             break;
         case "cl":
             $rp = igk_str_rm_last($v_m, ';');
@@ -4089,7 +4091,7 @@ function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $
             $v = str_replace($rp, $t, $v);
             break;
         case "ft":
-            $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_getfont($value) : null, $v);
+            $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);
             break;
         case "ftn":
             $h = $theme->ft[$value] ? $theme->ft[$value] : null;
@@ -5745,6 +5747,12 @@ function igk_db_get_error()
 function igk_db_get_model_class_name($name, $ctrl = null)
 {
     $b = $ctrl ? $ctrl : igk_getctrl(IGK_MYSQL_DB_CTRL)->getDataTableCtrl($name);
+    if ($b===null){
+        if (!($c = \IGK\Controllers\SysDbControllerManager::getDataTableDefinition($name))){
+            igk_wln_e("failed to get controller from ".$name, $c);
+        }
+        $b = $c["Controller"]; 
+    }
     $nss = $b->getEntryNamespace();
     $ns = igk_db_get_table_name("%prefix%", $b);
     $k = $name;
