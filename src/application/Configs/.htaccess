@@ -1,0 +1,13 @@
+#SetEnv PHP_VER 5_4
+Options -Indexes
+ErrorDocument 404 "/Lib/igk/igk_redirection.php?__c=404&m=config"
+ErrorDocument 403 "/Lib/igk/igk_redirection.php?__c=403&m=config"
+
+#no mod rewrite
+<IfModule rewrite_module>
+RewriteEngine On
+#redirect all to index.php
+RewriteCond "%{REQUEST_FILENAME}" !-f
+RewriteCond "%{REQUEST_FILENAME}" !-d
+RewriteRule ^(/)?(.)*$  "index.php" [QSA,L]
+</IfModule>
