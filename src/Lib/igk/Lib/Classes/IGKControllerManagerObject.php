@@ -417,15 +417,15 @@ final class IGKControllerManagerObject extends IGKObject {
     public function getUserControllers($callbackfilter=null){
         $tab=$this->getControllers(); 
         $out=array();
+        $callbackfilter = null;
         if(igk_count($tab) > 0){
-            foreach($tab as $v){
-               
+            foreach($tab as $v){               
                 if(get_class($v) === __PHP_Incomplete_Class::class){      
                     // igk_dev_wln("table incomplete"        );
                     continue;
                 }
                 if(IGKControllerManagerObject::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) || !$v->getCanModify()){
-                    // igk_dev_wln("not user ".get_class($v));                   
+                    // igk_dev_wln("not user not ".get_class($v) ." is ". IGKControllerManagerObject::IsIncludedController($v));                   
                     continue;
 
                 }
@@ -436,6 +436,7 @@ final class IGKControllerManagerObject extends IGKObject {
                 $out[]=$v;                
             }
         } 
+        // igk_test_wln("no controller found", $tab);
         return $out;
     }
     ///<summary>init all controllers</summary>
@@ -473,7 +474,7 @@ final class IGKControllerManagerObject extends IGKObject {
             $_init_callback();
             return;
         }
-        $no_cache = defined("IGK_NO_CACHE_LIB");
+        $no_cache = defined("IGK_NO_CACHE_LIB") || igk_environment()->get("no_lib_cache"); 
         $sysload=false;
         $fc=self::FileCtrlCache();
         if(!$no_cache){
@@ -678,7 +679,7 @@ final class IGKControllerManagerObject extends IGKObject {
                 return null;
             }
             if(!method_exists($ctrl, $f)){
-                igk_html_output(404);
+                igk_set_header(404);
                 if(!igk_get_contents($ctrl, 404, ["method not found"])){
                     igk_die("method not exists --- > [".get_class($ctrl)."::".$f."] ".$uri);
                 }
@@ -900,6 +901,8 @@ final class IGKControllerManagerObject extends IGKObject {
          $fc=self::FileCtrlCache();
         if(empty($fc))
             return;
+
+        igk_wln_e("store library ");
         @unlink($fc);
         $m=" ";
         foreach($this->m_register as $k=>$v){

@@ -7,7 +7,6 @@ use IGK\Database\DbQueryResult;
 use IGKException;
 
 use function igk_resources_gets as __;
-use function PHPUnit\Framework\callback;
 use function igk_getv as getv;
 use function igk_get_robjs as get_robjs;
 use function igk_count as fcount;
@@ -136,7 +135,7 @@ abstract class ModelEntryExtension{
         if ($data = $driver->select($model->getTable(), $conditions, $options)){
             foreach($data->getRows() as $row){
                 $c = new $cl($row->to_array());  
-                $tab[] = $c;
+                $tab[] = $c; 
             }  
         }
         return $tab;

@@ -78,13 +78,13 @@ abstract class DbSchemas{
     }
     /**
      * get schema definition from node
-     * @param HtmlNode $d node definition 
+     * @param HtmlNode $d schema definition node
      * @param null|IGK\Controllers\BaseController $ctrl base controller 
-     * @param bool $resolvname 
+     * @param bool $resolvname ressolv name
      * @return object 
      * @throws IGKException 
      */
-    public static function GetDefinition($d, $ctrl=null, $resolvname=true){
+    public static function GetDefinition($d, ?BaseController $ctrl=null, bool $resolvname=true){
         $tables = array();
         $migrations = [];
         $relations = [];
@@ -99,7 +99,7 @@ abstract class DbSchemas{
         return (object)$output;
     }
     /**
-     * create db row
+     * create and empty table row
      * @return stdClass|null 
      */
     public static function CreateRow($tablename, $ctrl, $dataobj = null){  
@@ -107,6 +107,7 @@ abstract class DbSchemas{
             $g = SysDbControllerManager::getDataTableDefinition($tablename);
         }else 
             $g = $ctrl->getDataTableDefinition($tablename);
+        
         if ($g){
             $inf = $g["tableRowReference"];              
             return self::CreateObjFromInfo($inf, $dataobj);

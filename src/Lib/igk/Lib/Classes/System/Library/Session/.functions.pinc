@@ -1,0 +1,12 @@
+<?php
+
+///<summary></summary>
+/**
+ * destroy session
+ */
+function igk_session_destroy()
+{
+    if (session_id()) {
+        @session_destroy();
+    } 
+}

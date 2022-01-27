@@ -36,8 +36,10 @@ class HtmlPoweredByNode extends HtmlNode{
     public function getContent()
     {
         $uri = IGKApp::GetConfig('powered_uri');
-        $msg = IGKApp::GetConfig('powered_message');
-        $data = "<a href=\"{$uri}\" title=\"powered target\">".$msg."</a>";
-        return __("Powered by {0}", $data);
+        $msg = IGKApp::GetConfig('powered_message'); 
+        if ($uri && $msg){
+            $data = "<a href=\"{$uri}\" title=\"powered target\">".$msg."</a>";
+            return __("Powered by {0}", $data);
+        } 
     }
 }

@@ -141,4 +141,33 @@ class SysUtils{
         }
         igk_ajx_toast($d["msg"], $d["type"]);
     }
+
+    /**
+     * get subdomain controller 
+     * @return null|BaseController subdomain controller
+     */
+    public static function GetSubDomainCtrl(){
+        $v_c = igk_app()->getApplication();
+        if ($v_c->lib("subdomain")){
+            return $v_c->getLibrary()->subdomain->subdomain; 
+        }
+        return null;
+    }
+    /**
+      * @return null|BaseController subdomain controller
+     */
+    public static function CurrentBaseController(){
+        // $a = igk_app();
+
+        return igk_environment()->subdomainctrl ??
+            igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
+        // if ($g !== null) {
+        //     return $g;
+        // }
+        // return null;
+    }
+
+    public static function GetApplicationLibrary(string $name){
+        return igk_app()->getApplication()->getLibrary()->$name;
+    }
 }

@@ -3,6 +3,7 @@
 namespace IGK\System\Library;
 
 use IGK\Helper\IO;
+use IGK\System\IO\Path;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
@@ -12,8 +13,10 @@ class session extends \IGKLibraryBase{
     public function init():bool{
         // initialize function
         require_once IGK_LIB_CLASSES_DIR ."/IGKSessionFileSaveHandler.php";
+        require_once __DIR__."/Session/.functions.pinc"; 
+ 
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
-            $this->start();
+            $this->start(); 
         }); 
         return true;
     }
@@ -98,20 +101,19 @@ class session extends \IGKLibraryBase{
      * @return void 
      */
     public function close(){
-        session_write_close();
+        @session_write_close();
     }
     /**
      * destroy session
      * @return void 
      */
-    public function destroy(){
-        $this->close(); 
+    public function destroy(){ 
         igk_session_destroy();
         // + | -----------------------------------------------------------
         // + | clear user session cookies
         // + |
-        setcookie(igk_get_cookie_name(igk_sys_domain_name()."/uid"), null);
-        @session_destroy(); 
+        setcookie(igk_get_cookie_name(igk_sys_domain_name()."/uid"), null);      
+        $this->close(); 
         $_SESSION=array();  
     }
     /**

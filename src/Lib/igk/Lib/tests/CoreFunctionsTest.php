@@ -64,4 +64,13 @@ class CoreFunctionsTest extends BaseTestCase
         $this->assertEquals("DefaultAction",
         StringUtility::CamelClassName("@default-_action"));
     }
+
+    public function test_str_remove_line(){
+        $str = "la vie\n \n \n est\n belle";
+        $this->expectOutputString("la vie est belle");
+        echo igk_str_remove_lines($str);
+
+        $this->expectException(\TypeError::class);
+        igk_str_remove_lines(null);
+    }
 }

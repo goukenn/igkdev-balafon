@@ -6,6 +6,7 @@
 use IGK\Resources\R;
 
 use function igk_resources_gets as __;
+igk_require_module(\igk\ovh::class, null, 0, 0);
 
 
 $ctrl->setSelectedConfigCtrl(null);
@@ -75,6 +76,18 @@ if (igk_io_basedir_is_root() && function_exists("zip_open")) {
         $uform->div()->setId("update_target");
         $uform->script()->Content =  file_get_contents(dirname(__FILE__) . '/Scripts/configs/installer.js');
     }
+    // + | ovh service for firewal management
+    if ($srv = igk_app()->getService("ovh")){
+        $rd = $uform->span()->setClass("badge ");
+        if ($srv->enable_firewall){
+            $rd->a($srv->disable_firewall_uri())->Content = __("Disable Ovh firewall");
+        }else {
+            $rd->a($srv->enable_firewall_uri())->Content = __("Enable ovh firewall");        
+        }
+    }
+
+    //support
+    igk_hook("filter_config_default_bar", ["host"=>$uform] );
 }
 $uform->add("span")->setclass("badge git no-wrap")->Content = "<span> Git: </span><a href=\"https://github.com/goukenn/Balafon\" target=\"__blank\" > https://github.com/goukenn/Balafon </a>";
 $div = $box->addPanelBox()->div();

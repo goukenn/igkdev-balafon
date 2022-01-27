@@ -169,7 +169,7 @@ class InstallSite
             InstallerUtils::NoAccessDir($lnk);
             $base = dirname($lnk);
             // generate composer instruction 
-            $this->_generateComposer($base);
+            $this->_generateComposer($base, ["name"=>StringUtility::Identifier(basename($folder))."/sites-packages"]);
         }
 
         $lnk = $app_folder . "/" . IGK_PROJECTS_FOLDER;
@@ -196,6 +196,7 @@ class InstallSite
                 "project_dir" => 'IGK_APP_DIR."/Projects"'
             ])
         );
+ 
 
         IGKAppSystem::InstallDir($index, 
         $app_folder, 
@@ -234,6 +235,10 @@ SetEnv ENVIRONMENT {$environment}
 SetEnv IGK_LIB_DIR {$src}/application/Lib/igk
 DocumentRoot {$c_root}
 <Directory {$c_root}>
+ErrorDocument 401 '/Lib/igk/igk_redirection.php?__code=403'
+ErrorDocument 402 '/Lib/igk/igk_redirection.php?__code=402'
+ErrorDocument 403 '/Lib/igk/igk_redirection.php?__code=403'
+ErrorDocument 500 '/Lib/igk/igk_redirection.php?__code=500'
 Options +FollowSymLinks -MultiViews -Indexes
 Order deny,allow
 AllowOverride none
@@ -305,15 +310,15 @@ EOF
      */
     private function _generateComposer(string $folder, ?array $options=null){
         $com = [];
-        $com["name"] = igk_getv($options, "name");
-        $com["description"] = igk_getv($options, "description");
+        $com["name"] = igk_getv($options, "name", "");
+        $com["description"] = igk_getv($options, "description", "");
         $com["license"] = igk_getv($options, "license", "MIT License");
         $com["autoload"] = [
             "psr-4"=> [
                 "IGK\\Packages\\Vendor"=>"src/"
             ]
         ];
-        $com["require"] = [];
-        igk_io_w2file($folder."/composer.json", json_encode($com, JSON_PRETTY_PRINT));
+        $com["require"] = (object)[];
+        igk_io_w2file($folder."/composer.json", json_encode($com, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }

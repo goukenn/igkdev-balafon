@@ -76,5 +76,7 @@ return [
 'support_lang'=>['fr','en','nl'],
 "display_errors"=>0,
 "error_reporting"=>0,
-"allow_page_cache"=>1
+"allow_page_cache"=>1,
+"powered_uri"=>IGK_WEB_SITE,
+"powered_message"=>strtoupper(IGK_COMPANY)
 ];

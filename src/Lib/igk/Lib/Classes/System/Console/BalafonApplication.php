@@ -127,6 +127,7 @@ class BalafonApplication extends IGKApplicationBase
         // + | configure engine to start
         // + |
         $this->no_init_environment = $this->configs->isTemp; 
+        igk_environment()->no_lib_cache = 1;
         IGKApp::StartEngine($this);
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }

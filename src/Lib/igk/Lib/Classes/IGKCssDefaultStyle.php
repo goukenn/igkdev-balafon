@@ -168,7 +168,7 @@ final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
         $o="";
         $tab=igk_getv($this->_, self::DECLARED_RULE);
         foreach($tab as $k=>$v){
-            $v=igk_css_treat($this, $v, $systheme);
+            $v=igk_css_treat($v, $this, $systheme);
             if($v){
                 $o .= $k."{".$v."}".$lineseparator;
             }

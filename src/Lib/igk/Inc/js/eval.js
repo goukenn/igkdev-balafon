@@ -28,9 +28,13 @@
                 if ( b && (b.length > 0)){
                     (new Function(b)).apply();
                 }
-            } catch (b) {
+            } catch (e) {
                 console.error('Error:igk-winui-balafon-js-inc');
-                console.debug('message: '+ b.message, b.lineNumber+":"+b.columnNumber);
+                console.debug('message: '+ e.message, e.lineNumber+":"+e.columnNumber);
+                // view message rule
+                var tab = b.split('\n');
+                console.debug('source ... : \n ' + 
+                tab[e.lineNumber].substr(max(e.columnNumber -10, 0), 20));
             }
         }
     } else {

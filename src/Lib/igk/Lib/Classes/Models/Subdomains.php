@@ -12,8 +12,5 @@ class Subdomains extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%subdomains"; 
-	/**
-	*override primary key 
-	*/
-	protected $primaryKey = "clName";
+
 }

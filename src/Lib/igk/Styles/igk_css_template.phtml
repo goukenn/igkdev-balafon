@@ -15,7 +15,7 @@
 //filter:blur(4px);";
 
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
-
+// igk_wln_e(__FILE__.":".__LINE__,  get_class($def));
 $pad1="8px";
 $pad2="10px";
 $pad22="20px";
@@ -247,7 +247,7 @@ $def[".igk-hscroll:hover"]="[sysbgcl:igk-vscroll-h-bg]";
 $def[".igk-hscroll > .igk-scroll-cur"]="{sys:posab, fith, loc_t } [sysbgcl:scrollCurBackground] min-width:32px; cursor:pointer";
 igk_css_regcolor("igk-scroll-cur-bg", "#FF6961");
 igk_css_regcolor("igk-vscroll-h-bg", "#ddd;");
-$def[".igk-line-waiter"]="height:8px; [sysbgcl:igk-line-waiter-bg]; padding-top:4px; padding-bottom:4px; background-color:transparent;";
+$def[".igk-line-waiter"]="height:8px; [sysbgcl:igk-line-waiter-bg] padding-top:4px; padding-bottom:4px; background-color:transparent;";
 $def[".igk-line-waiter .igk-line-waiter-cur"]="{sys:posab,dispb,loc_t,loc_b}  [trans: 4.0s ease-in-out] [trans-prop: margin-right, right] left: auto;right: 100%; padding-right:4px; background-color:indigo; margin:2px;  margin-right:-6px; ";
 $def[".igk-line-waiter .igk-line-waiter-cur.igk-animate"]=" right:0%; margin-right:0px;";
 $def[".igk-anim-time-board"]="{sys:dispb,posab} visibility:hidden; z-index:-9999";
@@ -346,7 +346,7 @@ $def[".igk-hmenu > li > ul > li"]="padding:0px;";
 $def[".igk-hmenu > li > ul li a"]="{sys:dispb} padding: 8px;";
 $def[".igk-hmenu > li > ul li a:hover"]="[sysbgcl:submenu-hightlight-bg] [sysfcl:submenu-hightlight-fcl]";
 $def[".igk-hmenu > li"]="{sys:dispib}";
-$def[".igk-hmenu > li:hover"]="[bgcl:horizontalMenuHoverBackground,transparent]; ";
+$def[".igk-hmenu > li:hover"]="[bgcl:horizontalMenuHoverBackground,transparent]";
 $def[".igk-hmenu > li > ul li"]="display:block";
 $def[".igk-hmenu > li  ul.igk-show"]="opacity:1; display:block;";
 $def[".igk-hmenu > li > ul li:hover"]="[sysbgcl:igk-hmenu-si-bg]";
@@ -438,10 +438,10 @@ $def[".igk-js-notify .igk-notify-btn-close"]="display:block; color:white; margin
 $def[".igk-js-notify.igk-danger .igk-panel"]="color: #777";
 $def[".igk-notify-z"]="min-height:2.1em";
 $def["code.igk-code span.ln"]="color:#cecece; vertical-align:bottom; margin-right:10px";
-$def["code.igk-code span.ln"]="{sys:posr} color: [cl:codeLineForeColor, #cecece] z-index:10; padding-right:{$pad_size}; [resolv:user-select: none;] display:table-cell !important;";
-$def["code.igk-code span.ln:before"]="{sys:posab, loc_l} background-color: [cl:codeLineBgColor, #444] z-index: -1; right:4px; top:-4px; bottom:-4px; margin-left:-12px; content:' ';";
+$def["code.igk-code span.ln"]="{sys:posr} [fcl:codeLineForeColor, #cecece] z-index:10; padding-right:{$pad_size}; [resolv:user-select: none;] display:table-cell !important;";
+$def["code.igk-code span.ln:before"]="{sys:posab, loc_l} background-color: [cl:codeLineBgColor, #444]; z-index: -1; right:4px; top:-4px; bottom:-4px; margin-left:-12px; content:' ';";
 $def["code.igk-code > div"]="{sys:disptabr}";
-$def["code.igk-code:before"]="{sys:posab, loc_a} background-color: [cl:codeViewBgColor, #eee] content:' '; z-index:-1; ";
+$def["code.igk-code:before"]="{sys:posab, loc_a} [bgcl:codeViewBgColor, #eee] content:' '; z-index:-1; ";
 $def["code.igk-code"]="line-height: 1.4em; {sys:posr, fitw} max-width:100%;";
 $def[".igk-table"]="border-collapse: collapse; border-spacing:0px; border:none; padding:0px;";
 $def[".igk-table > tbody  th"]="{sys:no-wrap};";
@@ -523,7 +523,7 @@ $def[".igk-btn"]=
 $def[".igk-btn-lnk"]=
 $def[".clsubmit"]=
 $def[".clbutton"]="font-size: 16px; font-family: inherit; display:inline-block; margin:auto; padding: {$pad2}; border:1px solid [cl:buttonBorderColor, rgb(221,221,221)]; border-radius: 4px; cursor:pointer;";
-$def[".igk-btn.igk-active"]="border-left: solid 4px #FFBF00; color: #683500";
+// $def[".igk-btn.igk-active"] = "border-left: solid 4px #FFBF00; color: #683500";
 $def[".igk-btn-connect, input.igk-btn-connect, .igk-btn-connect a"]="[sysbgcl:igk-btn-connect-bg] [sysfcl:igk-btn-connect-fcl]";
 $def[".igk-form-control, .cltext, .clpassword, .clemail, .clnumber, .clsearch, .cltel, .clselect"]="{sys:fitw} padding:{$pad1}; margin:0px;[trans: 0.1s color ease-in] [sysfcl:igk-input-cl]";
 $def[".igk-form-control.cltext:focus, .igk-form-control.clpassword:focus, .igk-form-control.clemail:focus"]="color:#222;";
@@ -557,8 +557,7 @@ foreach($state as $k){
     $def[".igk-notify-".
     $k]="[sysbgcl:igk-notify-".$k."-bg] [sysfcl:igk-notify-".$k."-fcl] padding: {$pad1};";
     $c=ucfirst($k);
-    $def[".igk-btn.igk-".
-    $k]="color:[syscl:button{$c}Color]; background-color: [syscl:button{$c}Background];";
+    $def[".igk-btn.igk-".$k]="[sysfcl:button{$c}Color] [sysbgcl:button{$c}Background]";
 }
 foreach($i_state as $k){
     $def[".igk-".$k]="";
@@ -636,7 +635,7 @@ $def[".igk-mail .igk-menu-bar"]="clear:both;";
 $def[".igk-mail a"]="{sys:no-decoration}";
 $def[".igk-mail .igk-btn"]="color:#888; background-color:#78ecff;";
 $def[".igk-mail .sign"]="border-top:1px solid #8d8; padding-top:{$pad_size}; font-size:0.72em; background-color:#f1f1f1;";
-$def[".igk-ms-dialog"]="{sys: posfix} display:none; [sysbgcl:igk-ms-dialog-bg][sysfcl:igk-ms-dialog-fcl]; left:0px; top:50%; width:100%; z-index:400;";
+$def[".igk-ms-dialog"]="{sys: posfix} display:none; [sysbgcl:igk-ms-dialog-bg] [sysfcl:igk-ms-dialog-fcl] left:0px; top:50%; width:100%; z-index:400;";
 $def[".igk-ms-dialog:before"]="content:' '; opacity:0.4; display:block; position:fixed; background-color:black; {sys:fitw, fith, loc_t, loc_l, loc_r, loc_b}";
 $def[".igk-ms-dialog.igk-show"]="display:block;";
 $def[".igk-ms-dialog .igk-btn-close"]="{sys:posab, loc_r, loc_t,no-repeat} height:32px; width:48px; display:block; cursor:pointer; z-index:401; padding:0px; margin:0px;";
@@ -706,7 +705,7 @@ $sm_screen[".igk-form"]="width:100%;";
 $def[".igk-winui-dialogbox"]="width:440px;";
 $def[".igk-winui-dialogbox.no-close .cls"]="{sys:dispn}";
 $def[".igk-winui-dialogbox:before"]="{sys:posfix, loc_l, loc_t, loc_r, loc_b} background-color:#444; opacity:0.8; display:block; content:' ';  ";
-$def[".igk-winui-dialogbox .title"]="background-color:[cl: dialogBgColor, #455A64] color:#DCDCDC; padding:12px 0px; ";
+$def[".igk-winui-dialogbox .title"]="[bgcl: dialogBgColor, #455A64] color:#DCDCDC; padding:12px 0px; ";
 $def[".igk-winui-dialogbox .title .igk-svg-symbol"]="fill:#DCDCDC";
 $def[".igk-winui-dialogbox .title .igk-section-title"]="{sys:dispib} padding-left:48px; font-size:1.4em";
 $def[".igk-winui-dialogbox .title .cls"]="cursor:pointer;{sys:posab, loc_l} display:block; line-height:1px; top:50%; margin-top:-16px; margin-left:8px; width:32px; z-index:2; padding:8px;";
@@ -807,8 +806,8 @@ $def[".igk-webgl-game-surface"]="{sys:dispib}; margin:auto;";
 $def[".igk-webgl-game-surface > .scene"]="background-color:#444; width:720px; height:409px;";
 $def[".igk-guide-menu"]="[trans: width 0.2s] width:0; z-index:20; overflow:hidden; touch-action:none; top:0px !important;";
 $def[".igk-guide-menu.igk-show"]="width:150px";
-$def[".igk-ajx-pickfile"]="display:inline-block; cursor:pointer; padding:4px; border-left: 4px solid [syscl:pickfileBorder]; background-color:[syscl:pickfileBackground]; margin-right: 1em;";
-$def[".igk-ajx-pickfile:hover"]="border-color:[syscl:pickfileHoverBorder]; background-color:[cl:pickfileHoverBackground]; color: [syscl:pickfileHoverColor];";
+$def[".igk-ajx-pickfile"]="display:inline-block; cursor:pointer; padding:4px; border-left: 4px solid [syscl:pickfileBorder] [sysbgcl:pickfileBackground] margin-right: 1em;";
+$def[".igk-ajx-pickfile:hover"]="border-color:[syscl:pickfileHoverBorder] background-color:[cl:pickfileHoverBackground] [sysfcl:pickfileHoverColor]";
 
 $def[".igk-ajx-pickfile.igk-btn"] = "padding: [prop:buttonPadding];";
 
@@ -823,7 +822,7 @@ $def[".igk-cookie-warn .close"]="{sys:dispib, posab} width:32px; right:32px; mar
 $def[".igk-cookie-warn .close svg"]="{sys:fit}; fill:white";
 $def["code.code-php > div"]="{sys:no-wrap}";
 $def["code.code-php > div span"]="{sys:no-wrap}";
-$def["code.code-php > div span.s"]="color: [syscl:phpCodeStringColor]";
+$def["code.code-php > div span.s"]="[sysfcl: phpCodeStringColor, red]";
 $def[".igk-winui-pagination .igk-btn.igk-selected"]="background-color:#444; color:#ddd";
 $def[".igk-winui-pagination .igk-btn"]="background-color:#34B0FF; color:#eee";
 $def[".igk-winui-pagination.igk-pull-right"]="{sys:alignr}";

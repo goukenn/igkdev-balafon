@@ -4,6 +4,7 @@ namespace IGK\Controllers;
 
 use Closure;
 use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
 use IGKApp;
 use IGKObject;
 use IGKType;
@@ -112,13 +113,14 @@ abstract class RootControllerBase extends IGKObject{
 		}	
         // + | invoke controller extension method
 		array_unshift($arguments, $c); 
-
-        if ($name=="getDbEntries"){
-            igk_trace();
-            igk_exit();
+        if (method_exists(ControllerExtension::class, $name)){
+		    return ControllerExtension::$name(...$arguments); 
+        } else {
+            if (igk_environment()->is("DEV")){
+                igk_die("method [$name] not found");
+            }
+            throw new \IGK\System\Exceptions\ActionNotFoundException($name);
         }
-
-		return ControllerExtension::$name(...$arguments); 
 	}
 	public function __call($name, $argument){
         //by pass method properted call
@@ -165,8 +167,8 @@ abstract class RootControllerBase extends IGKObject{
     * getfull uri
     */
     public function getAppUri($function=null){
-        $app=igk_app();
-        if($app->SubDomainCtrl === $this){
+        
+        if(SysUtils::GetSubDomainCtrl() === $this){
             $g=$app->SubDomainCtrlInfo->clView;
             if(!empty($function) && (stripos($g, $function) === 0)){
                 $function=substr($function, strlen($g));

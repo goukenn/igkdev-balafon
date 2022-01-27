@@ -13,7 +13,9 @@ Name:balafon.js
 // read fix for more info 
 
 "use strict";
-
+// + | -------------------------------------------------------------------------------------
+// + | Core balafon.js definition
+// + | -------------------------------------------------------------------------------------
 (function (window) {
 	if (typeof (window.igk) != 'undefined') {
 		return;
@@ -49,6 +51,7 @@ Name:balafon.js
 	var __lang = [];
 	var __initDocSetting = 0;
 	var __scriptsEval = {};
+	var __platform = {};
 
 	var __igk_settings = {
 		nosymbol: 0
@@ -134,6 +137,20 @@ Name:balafon.js
 			// }
 		};
 	}
+	(function(){
+	let c = window.navigator.userAgentData;
+		if (typeof(c) != IGK_UNDEF){ 
+			__platform.osType = c.platform;
+			__platform.osAgent = c.brands.map(function(i){
+				return i.brand +"/"+i.version+" ";
+			}).join();
+	
+		} else { 
+			// console.debug("OS use old ways ");
+			__platform.osType = "Unknow";
+			__platform.osAgent = navigator.userAgent;
+		}
+	})();
 
 	function __dom_innerHTML(i) {
 		if ("innerHTML" in i)
@@ -2970,9 +2987,12 @@ Name:balafon.js
 
 	__nsigk = igk;// igk namespace
 	// window.igk= igk;
-	window.$igk = function (n) { var m= __igk(n); if (m==null){ 
-		console.error('errror .... data - '+ n);
-		} return m; };// register function igk function
+	window.$igk = function (n) { 
+		var m= __igk(n); 
+		if (m==null){ 
+			console.error('errror .... data - '+ n);
+		} return m; 
+	};// register function igk function
 	window.$ns_igk = __nsigk;
 	window.ns_igk = __nsigk;
 	window.igk.wln = console.debug;
@@ -6192,7 +6212,9 @@ Name:balafon.js
 		}
 	});
 
-
+	igk_defineProperty(igk, "platform", {get(){
+		return __platform;
+	}});
 
 
 	createNS("igk.uri", {
@@ -11511,8 +11533,8 @@ Name:balafon.js
 	var m_navprop = {};
 	var _nav = igk.navigator;
 
-	if (/Xbox/.test(navigator.userAgent)) {
-		if (/Xbox One/.test(navigator.userAgent)) {
+	if (/Xbox/.test(igk.platform.osAgent)) {
+		if (/Xbox One/.test(igk.platform.osAgent)) {
 			XBoxOne = true;
 		}
 		else {
@@ -11520,8 +11542,7 @@ Name:balafon.js
 		}
 		igk.ready(function () {
 			igk.dom.body().addClass("xbox" + (XBoxOne ? 'one' : ''));
-		});
-
+		}); 
 	}
 
 	igk_appendProp(_nav,
@@ -11537,12 +11558,12 @@ Name:balafon.js
 			isXBoxOne: function () { return XBoxOne; },
 			isXBox360: function () { return XBox360; },
 			isFirefox: function () {
-				return window.navigator.userAgent.indexOf("Firefox/") != -1;
+				return igk.platform.osAgent.indexOf("Firefox/") != -1;
 			},
 			getFirefoxVersion: function () {
-				var i = window.navigator.userAgent.indexOf("Firefox/");
+				var i = igk.platform.osAgent.indexOf("Firefox/");
 				if (i != -1)
-					return /Firefox\/([0-9]+\.[0-9]+)/.exec(window.navigator.userAgent + "")[1];
+					return /Firefox\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
 				return -1;
 			},
 			getUserMedia: (function () {
@@ -11580,7 +11601,7 @@ Name:balafon.js
 
 			},
 			isChrome: function () {
-				var ua = window.navigator.userAgent + '';
+				var ua = igk.platform.osAgent + '';
 				if ((ua.indexOf("Chrome/") != -1) && /Google Inc\./.test(window.navigator.vendor)) // for chrome
 				{
 					return !0;
@@ -11590,13 +11611,13 @@ Name:balafon.js
 			chromeVersion: function () {
 
 				if (igk.navigator.isChrome()) {
-					var i = window.navigator.userAgent.indexOf("Chrome/");
-					return (window.navigator.userAgent + "").substring(i + 7).split(' ')[0];
+					var i = igk.platform.osAgent .indexOf("Chrome/");
+					return (igk.platform.osAgent  + "").substring(i + 7).split(' ')[0];
 				}
 				return 0;
 			},
 			isIE: function () {
-				var ua = window.navigator.userAgent + '';
+				var ua = igk.platform.osAgent  + '';
 				if ((ua.indexOf("MSIE") != -1) || ua.indexOf("Trident/") != -1) // for ie 11
 				{
 					return !0;
@@ -11604,21 +11625,21 @@ Name:balafon.js
 				return !1;
 			},
 			isIEEdge: function () {
-				var ua = window.navigator.userAgent + '';
+				var ua =igk.platform.osAgent  + '';
 				if (ua.indexOf("Edge/") != -1)
 					return !0;
 				return !1;// igk.navigator.isIE() &&(igk.navigator.IEVersion()>=11);
 			},
 			getEEdgeVersion: function () {
-				var i = window.navigator.userAgent.indexOf("Edge/");
+				var i = igk.platform.osAgent .indexOf("Edge/");
 				if (i != -1)
-					return /Edge\/([0-9]+\.[0-9]+)/.exec(window.navigator.userAgent + "")[1];
+					return /Edge\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
 				return -1;
 			},
 			IEVersion: function () {
 				if (!igk.navigator.isIE())
 					return -1;
-				var ua = window.navigator.userAgent + '';
+				var ua = igk.platform.osAgent  + '';
 				var i = ua.indexOf("MSIE");
 				if (i != -1) {
 					return ua.substring(i).split(';')[0].split(' ')[1];
@@ -11632,7 +11653,9 @@ Name:balafon.js
 				return -1;
 			},
 			isAndroid: function () {
-				var v = (window.navigator.userAgent + "").toLowerCase().indexOf("android");
+				// window.navigator.userAgent 
+				
+				var v = ( igk.platform.osAgent + "").toLowerCase().indexOf("android");
 				if (v != -1) {
 					return !0;
 				}
@@ -11642,7 +11665,7 @@ Name:balafon.js
 				return 0;
 			},
 			isSafari: function () { // return real safari web browser
-				var i = window.navigator.userAgent.indexOf("Safari/");
+				var i = igk.platform.osAgent.indexOf("Safari/");
 				var _nav = igk.navigator;
 				if ((i != -1) && /Apple Computer, Inc\./.test(window.navigator.vendor)) {
 					return !0;
@@ -11650,16 +11673,16 @@ Name:balafon.js
 				return !1;
 			},
 			SafariVersion: function () {
-				var i = window.navigator.userAgent.indexOf("Safari/");
+				var i = igk.platform.osAgent.indexOf("Safari/");
 				if (i != -1) {
-					return (window.navigator.userAgent + "").substring(i + 7).split(' ')[0];
+					return (igk.platform.osAgent  + "").substring(i + 7).split(' ')[0];
 				}
 				return 0;
 			},
 			FFVersion: function () {
-				var i = window.navigator.userAgent.indexOf("Firefox/");
+				var i = igk.platform.osAgent .indexOf("Firefox/");
 				if (i != -1) {
-					return (window.navigator.userAgent + "").substring(i + 8).split(' ')[0];
+					return (igk.platform.osAgent  + "").substring(i + 8).split(' ')[0];
 				}
 				return 0;
 			},
@@ -14514,7 +14537,7 @@ Name:balafon.js
 			"igk-js-fix-size": { n: "js", desc: "fix elemenet size to target size. value is a id of the element" },
 			"igk-js-fix-prop": { n: "js", desc: "fix element properties on size.expect property wait: {target,prop} " },
 			"igk-js-fix-eval": { n: "js", desc: "fix element properties on window resize property wait: {update:function()} " },
-			"igk-ajx-form": { n: 'js', desc: 'bool indicate that a form is used in ajx context. mixed(0|1|[{complete:func,targetid:[id of response node]}]. used igk-ajx-form-targedid to indicated the reponse node' },
+			"igk-ajx-form": { n: 'js', desc: 'bool indicate that a form is used in ajx context. mixed(0|1|[{complete:func,targetid:[id of response node]}]. used igk-ajx-form-targedid to indicated the response node' },
 			// select utility data
 			"igk-js-bind-select-to": { n: "js", desc: "bind select to data from target ref #id,passing object refid or json: {id:#sample,selected:value,usecustom:0|1,allowempty:1|0,emptyvalue:value}" },
 			"igk-ajx-form-target": { n: 'js', type: 'attr', desc: 'used in form to set the target of the form response,(select|=|::) where=is for the current form,:: if for the entire document ' }
@@ -16532,7 +16555,6 @@ Name:balafon.js
 	ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };
 
 
-
 })(window);
 
 // -----------------------------------------------------------------------------------------
@@ -18002,7 +18024,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 							}
 							else {
 								var s = self.o["igk:source"];
-								var k = $igk(s);
+								var k = s ? $igk(s) : !1;
 								if (k) {
 									k.unregister();
 									this.setResponseTo(k.o, false);
@@ -25602,7 +25624,7 @@ igk.system.createNS("igk.system", {
 		getSep(){
 			return igk.system.getNS('igk.system.locale.decimalSeperator') || ".";
 		}
-	}
+	};
 	var _handler = {
 		number(e, notdec){
 			var v = this.value;
@@ -25625,13 +25647,12 @@ igk.system.createNS("igk.system", {
 				e.stopPropagation();  
 			} 
 		},
-		pastenumber(e, notdef){
+		pastenumber(e, notdec){
 			let paste = (e.clipboardData || window.clipboardData).getData('text');
 			var v = this.value;
 			var sl = this.selectionStart; 
 			var sep = _ut.getSep();
-			paste = v.substr(0, this.selectionStart) + paste + v.substr(sl);  
-			(sep == '.') 
+			paste = v.substr(0, this.selectionStart) + paste + v.substr(sl);   
 			var rf = [/^[0-9]+(\.([0-9]+)?)?$/, /^[0-9]+$/];
 			if (typeof(notdec) == 'undefined')
 				notdec = true;

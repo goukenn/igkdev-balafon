@@ -12,8 +12,5 @@ class ReferenceModels extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%reference_models"; 
-	/**
-	*override primary key 
-	*/
-	protected $primaryKey = "clModel";
+	 
 }

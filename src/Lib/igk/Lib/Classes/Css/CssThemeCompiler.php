@@ -90,11 +90,10 @@ class CssThemeCompiler{
                     $theme->getDef()->setFiles($cfile);
                 }
             }
-           // igk_wln_e(":---", $data, $array, $cfile, $must_recompile, $theme->to_array());
-            if (!$must_recompile && file_exists($express_cf )){
+            if ( !$must_recompile && file_exists($express_cf )){
                 $src_sys = file_get_contents($express_cf);
             }
-            else{
+            else{ 
                 igk_css_bind_sys_global_files($theme);
                 $src_sys = $theme->get_css_def();         
                 igk_io_w2file($express_cf, $src_sys, true);

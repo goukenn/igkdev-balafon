@@ -360,16 +360,16 @@ class IGKWebApplication extends IGKApplicationBase
     public function bootstrap()
     {
 
-        Benchmark::$Enabled = false;// igk_environment()->is("DEV");
+        Benchmark::$Enabled = igk_environment()->is("DEV");
   
         // bootstrap web application
         // + initialize library
+        $this->library("subdomain");
         $this->library("session");
         $this->library("mysql");
         $this->library("zip");
         $this->library("gd");
         $this->library("curl");
-        $this->library("subdomain");
 
 
 igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function($e){

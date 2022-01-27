@@ -16,6 +16,28 @@ abstract class StringUtility{
         $name = preg_replace("#[^0-9a-z]#i", "_", $name);      
         return str_replace("_","", ucwords(ucfirst($name), "_"));
     }
+
+    public static function Identifier(string $n){
+        $rx =  "/^".IGK_IDENTIFIER_RX."$/i";
+        if (preg_match($rx, $n)){
+            return $n;
+        }
+        // + | replace all non valid symbol to _
+        //$_under = strlen($n) - strlen(ltrim($n, '_'));
+        $n = preg_replace("#[^0-9a-z]#i", "_", $n);   
+        $n = ucwords(ucfirst($n), "_");
+        // $n = str_repeat("_", $_under).$n;
+        // igk_wln("test : ".$n. " :: ");
+        if (!preg_match($rx, $n))
+            return null;
+        return $n;
+    }
+    public static function SanitizeLine(string $str){
+        $t = preg_split("/(\r\n)|(\n)|(\t)/i", $str);
+        return implode("", array_filter($t, function($i){
+            return empty(trim($i)) ? null : $i;
+        }));
+    }
     /**
      * convert to uri presentation
      */

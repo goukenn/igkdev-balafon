@@ -135,7 +135,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
                 else{
                     if($xml){
                         ob_clean();
-                        igk_html_output(404);
+                        igk_set_header(404);
                         header("HTTP/1.0 404 Not Found");
                         $r=new XmlNode("result_evaluation_uri");
                         $r->add("error")->Content="IGK_ERR_FUNCNOTAVAILABLE";

@@ -203,7 +203,7 @@ final class DbColumnInfo extends IGKObject {
     public static function CreateWithRelation($attribs, $tb, $ctrl, & $tbrelation=null){
         $cl = new DbColumnInfo(igk_to_array($attribs));
         if (!empty($cl->clLinkType)){
-            $cl->clLinkType = IGKSysUtil::GetTableName( $cl->clLinkType, $ctrl );
+            $cl->clLinkType = IGKSysUtil::DBGetTableName( $cl->clLinkType, $ctrl );
         }
         if(($tbrelation !== null) && !empty($cl->clLinkType)){
             if(!isset($tbrelation[$tb]))

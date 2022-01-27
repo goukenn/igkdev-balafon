@@ -12,8 +12,5 @@ class Configurations extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%configurations"; 
-	/**
-	*override primary key 
-	*/
-	protected $primaryKey = "clName";
+	
 }

@@ -8,6 +8,7 @@ use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ActionNotFoundException;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\Request;
 
 /**
@@ -22,8 +23,19 @@ abstract class IGKActionBase implements IActionProcessor{
     protected $context;
     protected $throwActionNotFound = true;
 	var $handleAllAction;
-    protected static $macro;
-
+    /**
+     * macros helper 
+     * @var mixed
+     */
+    protected static $macro = [];
+    const FAILED_STATUS = "@error";
+    /**
+     * define function handle
+     * @var string[]
+     */
+    protected $defineHandle = [
+        self::FAILED_STATUS => "handleError"
+    ];
     /**
      * override this to handle request header
      * @return void 
@@ -122,10 +134,15 @@ abstract class IGKActionBase implements IActionProcessor{
         if ($fc = igk_getv(self::$macro, $name)){
             return $fc(...$arguments);
         } 
-        //+ handle fetch request header
+        //+ | handle fetch request header
         $this->fetchRequestHeader(Request::getInstance());
-        
-        // dispatch to method
+        if ($fc = igk_getv($this->defineHandle, $name)){
+            if (method_exists($this,$fc)){ 
+                return $this->$fc(...$arguments);
+            }
+        }
+
+        //+ | dispatch to method
         if (method_exists($this, $fc = $name."_".strtolower(igk_server()->REQUEST_METHOD))){
             return $this->$fc(...$arguments);
         }  
@@ -151,6 +168,16 @@ abstract class IGKActionBase implements IActionProcessor{
         return null;
     }
 
+    /**
+     * 
+     * @param mixed $viewname 
+     * @param array|object|self $arrayList action list, object dispatcher, IGKActionBase
+     * @param mixed $params param to pass
+     * @param int $exit must stop after execute
+     * @param int $flag extra flag
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function HandleActions($viewname, $arrayList, $params, $exit = 1, $flag = 0)
     {
         igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, array("v" => $viewname, "list" => $arrayList, "args" => $params));
@@ -181,10 +208,20 @@ abstract class IGKActionBase implements IActionProcessor{
     }
     public static function HandleObjAction($fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
-        // + | -------------------------------------------------------------
-        // + |  sanitize action name                 
-        $action = str_replace("-","_", igk_getv($params, 0));
+        // igk_trace();    
+        // igk_wln(get_class($object));
+        // igk_wln_e(igk_server()->REDIRECT_STATUS);
+        $action = "";
         $r = 0;
+        if (igk_server()->REDIRECT_STATUS != 200){
+            $action = self::FAILED_STATUS;
+            array_unshift($params,0, igk_server()->REDIRECT_STATUS); 
+        }else{
+            // + | -------------------------------------------------------------
+            // + |  sanitize action name                 
+            $action = str_replace("-","_", igk_getv($params, 0));
+        }
+
         if (!empty($action)) {
             igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
             igk_environment()->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
@@ -221,5 +258,13 @@ abstract class IGKActionBase implements IActionProcessor{
             igk_do_response($r);
         }
         return $r;
+    }
+    protected function handleError($code, ...$params){
+       
+        $c = $this->getController();
+        if ($c && file_exists($f = $c::getErrorViewFile($code))){
+            return $c::viewError($code); 
+        }        
+        igk_wln_e("handle error data :::: ", $f);
     }
 }

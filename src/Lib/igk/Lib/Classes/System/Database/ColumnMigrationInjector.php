@@ -42,7 +42,7 @@ class ColumnMigrationInjector{
      */
     public static function Inject($driver, $table, $callable){
           // inject column info     
-          igk_reg_hook("filter_db_schema_info", $fc = function($e)use($table, $callable){
+          igk_reg_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, $fc = function($e)use($table, $callable){
               $tablename = $e->args["tablename"];
               if ($table != $tablename){
                   return;
@@ -51,6 +51,6 @@ class ColumnMigrationInjector{
             $callable($v_info); 
         }); 
         $driver->getDataTableDefinition($table); 
-        igk_unreg_hook("filter_db_schema_info", $fc); 
+        igk_unreg_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, $fc); 
     }
 }

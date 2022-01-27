@@ -216,7 +216,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<param name="ctrl"></param>
     ///<param name="pattern"></param>
     ///<param name="render" default="1"></param>
-    public function invokeCtrlUriPattern($ctrl, $pattern, $render=1){
+    public function invokeCtrlUriPattern(\IGK\Controllers\BaseController $ctrl, $pattern, $render=1){
         if(igk_get_env("sys://call/".__METHOD__) == 1){
             igk_debug_wln("Invoke Ctrl Uri Pattern is not allowed");
         }

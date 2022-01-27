@@ -16,6 +16,7 @@ use IGK\Database\DbSchemas;
 use IGK\Database\Seeds\DataBaseSeeder;
 use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\Migrations\Migration;
+use IGK\System\IO\Path;
 use IGKApplicationLoader;
 use IGKEnvironment;
 use IGKResourceUriResolver;
@@ -83,7 +84,25 @@ abstract class ControllerExtension
         return igk_io_baseuri() === $ctrl->getAppUri() ?
             $ctrl->getAppUri() : igk_io_baseuri();
     }
-
+    /**
+     * get error files
+     * @param BaseController $controller 
+     * @param mixed $code 
+     * @return string|null 
+     */
+    public static function getErrorViewFile(BaseController $controller, $code)
+    {        
+        if (file_exists($f = $controller->getViewDir() ."/.error/" . $code . ".phtml")) {
+            return $f;
+        }
+        // igk_wln_e(
+        //     __FILE__.":".__LINE__, 
+        //     "file: ".$f, 
+        //     igk_io_collapse_path($f),
+        //     igk_io_expand_path(igk_io_collapse_path($f))
+        // );
+        return null;
+    }
     /**
      * return asset content if exists
      * @param BaseController $ctrl 
@@ -113,7 +132,9 @@ abstract class ControllerExtension
      */
     public static function IsEntryController(BaseController $ctrl)
     {
-        return (igk_app()->SubDomainCtrl === $ctrl) || (igk_get_defaultwebpagectrl() === $ctrl);
+      
+
+        return (\IGK\Helper\SysUtils::GetSubDomainCtrl() === $ctrl) || (igk_get_defaultwebpagectrl() === $ctrl);
     }
     public static function uri(BaseController $ctrl, $name)
     {
@@ -718,10 +739,7 @@ abstract class ControllerExtension
      */
     public static function GetErrorView(BaseController $ctrl, $code)
     {
-        if (!is_object($ctrl) || !is_subclass_of(get_class($ctrl), __CLASS__)) {
-            igk_die("controller not valid: " . get_class($ctrl) . " # " . is_subclass_of(get_class($ctrl), __CLASS__));
-        }
-        return $ctrl->getErrorViewFile($code);
+        return self::getErrorViewFile($ctrl, $code);
     }
 
     public static function getUser(BaseController $controller, $uid = null)
@@ -899,7 +917,7 @@ abstract class ControllerExtension
      * set environment parameter for this controller
      */
     public static function setEnvParam(BaseController $controller, $key, $value)
-    {
+    {       
         return igk_environment()->setArray(self::getEnvParamKey($controller), $key, $value);
     }
     ///<summary>get environment parameter for this controller</summary>
@@ -1091,7 +1109,7 @@ abstract class ControllerExtension
             }
             if ($info){
                 // $m =  & \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename);
-                igk_hook("filter_db_schema_info", ["tablename"=>$tablename, "info"=> & $info]);
+                igk_hook(\IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename"=>$tablename, "info"=> & $info]);
                 // igk_wln_e("check???", 
                 //  $info["ColumnInfo"] === $m["ColumnInfo"]
                 // //  ,  \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename)
@@ -1185,9 +1203,7 @@ abstract class ControllerExtension
     public static function getCanModify(BaseController $controller)
     {
         $pdir = igk_io_projectdir();
-        $decdir = $controller->getDeclaredDir();
-        if (is_link($pdir))
-            $pdir = realpath($pdir);
+        $decdir = $controller->getDeclaredDir(); 
         return $pdir && !empty(strstr($decdir, $pdir));
     }
 
@@ -1205,5 +1221,21 @@ abstract class ControllerExtension
             };
             $inc($cf);
         }
+    }
+
+    public static function viewError(BaseController $controller, int $code, $params=[]){
+        if (file_exists($f = $controller::getErrorViewFile($code))){
+            $node = igk_create_node("div");
+            $controller->setEnvParam(BaseController::NO_ACTION_FLAG, 1);  
+            $controller->regSystemVars(null);
+            $controller->setCurrentView($f, true, $node, array(
+                "code" => $code, 
+                "params"=>$params,
+                "uri" => igk_io_request_uri()));
+            $n = new \IGK\System\Html\Dom\HtmlNode("html");
+            $n->add("body")->add($node);
+            igk_do_response( new \IGK\System\Http\WebResponse($n, $code));
+        }
+        return false;
     }
 }

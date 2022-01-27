@@ -85,8 +85,8 @@ final class SessionController extends BaseController{
     ///<summary> clear session and navigate</summary>
     public function ClearS($navigate=true){
         if ($session = igk_app()->getApplication()->getLibrary()->session){
-            $session->destroy();
-        }
+            $session->destroy(); 
+        } 
         $_rcu=explode("?", igk_io_request_uri())[0];
         if($navigate){
             $buri=0;

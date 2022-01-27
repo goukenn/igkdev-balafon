@@ -44,7 +44,8 @@ abstract class IGKApplicationBase{
     protected function library($libname)
     {
         if ($this->m_library == null){
-            $this->m_library = new stdClass();
+            $tab = [];
+            $this->m_library = new IGKObjStorage($tab);// new stdClass();
         }
         if (!$this->lib($libname)){
             $cl = 'IGK\\System\\Library\\' . $libname;

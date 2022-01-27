@@ -83,20 +83,21 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         return array("\0".__CLASS__."\0_");
     }
     ///<summary>get media definition</summary>
-    public function getCssDef($theme, $minfile=true, $themeexport=false, $doc=null){
-        $o="";
-        $tv="";
+    public function getCssDef(ICssStyleContainer $theme, 
+        ICssStyleContainer $systheme,
+        $minfile=true){
+          
+        $o=""; 
         $lineseparator=$minfile ? "": IGK_LF;
         $def=$this->getDef();
         if($def){
             foreach($def as $k=>$v){
-                $kv=trim(igk_css_treat($theme, $v, null));
+                $kv=trim(igk_css_treat($v, $theme, $systheme));
                 if(!empty($kv)){
-                    $o .= $k."{".$kv."}".$lineseparator;
-                    $tv=1;
+                    $o .= $k."{".$kv."}".$lineseparator; 
                 }
             }
-        }
+        } 
         return $o;
     }
     ///<summary></summary>

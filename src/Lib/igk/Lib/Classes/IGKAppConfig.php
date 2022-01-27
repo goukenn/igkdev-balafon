@@ -30,13 +30,34 @@ final class IGKAppConfig extends IGKObject {
     private function _loadSystemConfig(){
         $file=IGK_CONF_DATA;
         $this->m_configEntries=array();
-        if (file_exists($fullpath=igk_io_syspath($file))){        
-            IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
+        $extra = [];
+        $fullpath = null;
+        $b = igk_io_basenamewithoutext($file);
+        $dir = dirname(igk_io_syspath($file));
+        foreach(["", ".".igk_environment()->name()] as $f){
+            $n = $dir."/".$b.$f.".php"; 
+            if (file_exists($n = $dir."/".$b.$f.".php")){        
+                $fullpath=$n;
+                IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
+            } 
+        }
+        if (($cnf = igk_environment()->extra_config) && ($cnf_file= igk_getv($cnf, "configFiles"))){
+            $dir = dirname($fullpath);
+            foreach ($cnf_file as $key => $value) {
+                if (file_exists($file = $dir."/configs.".$value.".php")){                     
+                    $data = [];
+                    IGK\System\Configuration\ConfigUtils::LoadData($file, $data);      
+                    $extra = $extra + $data;
+                };
+            }
+        } 
+        if ($fullpath==null){
+            $fullpath = igk_io_syspath($file);
         }
         // $m = igk_sys_request_time();  
         // igk_debug_wln("After loading configuration util:::::::::".$m);// = igk_sys_request_time()));
         // igk_wln_e("duration ::: ".($m - $s));
-        $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries);
+        $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
         date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
       
     }
@@ -96,14 +117,16 @@ final class IGKAppConfig extends IGKObject {
     }
     ///<summary></summary>
     /**
-    * 
+     * get data storage
+    * @return \IGK\System\Configuration\ConfigData
     */
     public function getData(){
         return $this->m_datas;
     }
     ///<summary></summary>
     /**
-    * 
+    * get singleton instance
+    * @return self
     */
     public static function getInstance(){
         if(self::$sm_instance === null){

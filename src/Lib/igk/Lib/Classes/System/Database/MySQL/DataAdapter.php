@@ -40,7 +40,7 @@ class DataAdapter extends DataAdapterBase
      * @throws IGKException 
      */
     public function getDataTableDefinition($table){
-        if ($ctrl = igk_getctrl(IGK_MYSQL_DB_CTRL, false)){
+        if ($ctrl = igk_getctrl(IGK_MYSQL_DB_CTRL, false)){ 
             return $ctrl->getDataTableDefinition($table);
         } 
     }

@@ -259,6 +259,14 @@ IGKRoutes::Register("^/robots.txt$", function(){
         $app = IGKApplication::Boot('web'); 
         IGKApp::StartEngine($app);
     }
+    if ( ($code = igk_server()->REDIRECT_STATUS) != 200){
+      
+        if ($g = igk_get_defaultwebpagectrl()){
+            $g::viewError($code);
+        }        
+        igk_dev_wln_e(__CLASS__.": can't view Error ", $g);
+        igk_exit();
+    }
     RequestHandler::getInstance()->handle_guid_action($guid, $query, $version);
 }
 , 1);

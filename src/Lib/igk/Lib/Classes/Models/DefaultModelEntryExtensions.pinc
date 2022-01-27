@@ -92,12 +92,15 @@ return \IGK\Models\Users::select_row($conditions);
 });
  
 
-\IGK\Models\DbLogs::registerMacro("add", function(string $msg){ 
+\IGK\Models\DbLogs::registerMacro("add", function(string $msg, ?string $tag=null){ 
     // + | because database can failed
     static $logger;
     if (!$logger){
         $logger = 1;
-        $r =  \IGK\Models\DbLogs::create(["db_logs_msg"=>$msg]);
+        $data = ["db_logs_msg"=>$msg];
+        if ($tag)
+            $data["db_logs_tags"] = $tag;
+        $r =  \IGK\Models\DbLogs::create($data);
         $logger = null;
         return $r;
     }

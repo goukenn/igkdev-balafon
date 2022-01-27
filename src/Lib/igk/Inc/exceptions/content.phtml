@@ -7,7 +7,7 @@ $is_prod = !igk_server_is_local() && !igk_app()->Configs->error_debug && igk_sys
 $base_path = $is_prod;
 $cl1 = "#ddd";
 $w_padding = "20px";
-$content .= ("<div style='height:100%;' > ");
+$content .= ("<div style='height:100%' > ");
     $content .= ("<h1 style=\"background-color: #efefef; padding: {$w_padding} 20px;\">/!\\ ERROR </h1>");
     if($title){
         $content .= ("<h2>".$title."</h2>");
@@ -180,7 +180,7 @@ $content .= ("<div style='height:100%;' > ");
         // | presentation trace info 
             $content .= "</div>";
         
-        $content .= "<div class='uti-action'>";
+        $content .= "<div class='uti-action' style='padding:0 20px;'>";
         if ($c_session = igk_getctrl(IGK_SESSION_CTRL, false)){
             $buri = $c_session::getBaseFullUri();
             if (session_id()){

@@ -45,10 +45,10 @@ function igk_environment()
 }
 /**
  * return application configuration 
- * @return mixed 
+ * @return \IGK\System\Configuration\ConfigData
  */
 function igk_sys_configs(){
-    return IGKAppConfig::getInstance()->Data;
+    return IGKAppConfig::getInstance()->getData();
 }
 
 
@@ -1099,12 +1099,17 @@ function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_
 {
     return File::Save($file, $content, $overwrite, $chmod, $type);
 }
-
+/**
+ * get defaulf webpage controller
+ * @return null|BaseController  
+ * @throws IGKException 
+ */
 function igk_get_defaultwebpagectrl()
 {
-    if ($n = IGKAppConfig::getInstance()->Data->get("default_controller")){
+    if ($n = igk_sys_configs()->get("default_controller")){
         return igk_getctrl($n, false);
     }  
+    return null;
 }
 
 ///<summary>get object with igk Xpath selection model</summary>
@@ -1240,9 +1245,21 @@ function igk_io_fullrequesturi()
     return igk_server()->full_request_uri;
 }
 
-function igk_io_handle_system_command()
+/**
+ * handle system command
+ * @param string $uri 
+ * @return bool 
+ * @throws IGKException 
+ */
+function igk_io_handle_system_command(string $uri )
 {
-    die(__METHOD__);
+    $rx="#^(".igk_io_baseuri().")?\/!@(?P<type>".IGK_IDENTIFIER_RX.")\/(\/)?(?P<ctrl>".IGK_FQN_NS_RX.")\/(?P<function>".IGK_IDENTIFIER_RX.")(\/(?P<args>(.)*))?$#i";
+    $c=preg_match_all($rx, explode("?", $uri)[0], $ctab);
+    if($c > 0){
+        igk_getctrl(IGK_SYSACTION_CTRL)->invokePageAction($ctab["type"][0], $ctab["ctrl"][0], $ctab["function"][0], explode("?", $ctab["args"][0])[0]);
+        return true;
+    }
+    return false;
 }
 
 function igk_sys_handle_uri($uri = null)
@@ -1606,4 +1623,10 @@ function igk_io_workingdir(){
 function igk_setting(){
     require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentSettings.php";
     return \IGK\IGKEnvironmentSettings::getInstance();
+}
+
+function igk_test_wln(){
+    if (defined("IGK_TEST_INIT")){
+        igk_wln(...func_get_args());
+    }
 }

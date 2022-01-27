@@ -227,29 +227,28 @@ class IGKApp extends IGKObject
         // | --------------------------------------------------------------
         // | init environment
         // |
-        
+       
         igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());
         if (!$app->getNoEnviroment()){
             IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());        
-        }        
+        }   
+        if ( self::$sm_instance !=null)    {
+            igk_wln_e("app already started");
+        }
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);
         
-        
-        igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);               
-        
-        if ($app->lib("subdomain")){
-            // | init subdomain management
-            IGKSubDomainManager::Init();
-        }  
+        igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
         // + |--------------------------------------------------------------
-        // + | HOOK application initilize 
+        // + | HOOK application initialize 
         // + | 
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
         igk_hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);    
-        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.05);           
+        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.05);  
+        
+        igk_hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
     }
 
     /**
@@ -285,5 +284,13 @@ class IGKApp extends IGKObject
             return 1;
         }
         return 0;
+    }
+    /**
+     * get service 
+     * @param string $serviceName 
+     * @return void 
+     */
+    public function getService(string $serviceName){
+        return IGKServices::Get($serviceName);
     }
 }

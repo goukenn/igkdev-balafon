@@ -23,8 +23,7 @@ class IGKCGIServer
             register_shutdown_function(function(){
                 foreach(self::$smTempFile as $k){
                     unlink($k);
-                }
-                igk_wln("script kill");
+                } 
             });
         }
         self::$smTempFile[] = $file;

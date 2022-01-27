@@ -95,7 +95,7 @@ $def[$page.""] = "overflow: hidden; text-align:left; [res:light-op20] [bgcl:conf
 EOF;
 
 $def[".igk-bodybox $page .igk-form-control:focus:after"] = "content:' a'; position:absolute; display:block; color:red; height:3px; background-color:indigo";
-$def[".igk-bodybox $page .igk-form-control"] = "[fcl:configColor] border:none; [bgcl:configFormBgColor];";
+$def[".igk-bodybox $page .igk-form-control"] = "[fcl:configColor] border:none; [bgcl:configFormBgColor]";
 
 
 $sm_screen[".igk-cnf-page .other-conf-setting li"] = "{sys:dispb, fitw}";
@@ -125,10 +125,10 @@ $def[$page." .fmenu-h .ico:after"] = "content:' '; display:block; width: 32px; h
 // $def[".fmenu-h .ico.web:after"] = "content:\"&lt;\"; [res:edit] {sys:no-repeat}";
 
 $def["#id_board .igk-panel"]= "border-radius: 4px;";
-$def["#id_board .igk-panel.igk-error"] = "[bgcl:configPanelDangerBackgroundColor]; [fcl:configPanelDangerForeColor]";
+$def["#id_board .igk-panel.igk-error"] = "[bgcl:configPanelDangerBackgroundColor] [fcl:configPanelDangerForeColor]";
 
 
-$def[".igk-panel.igk-error"] = "[bgcl:configPanelDangerBackgroundColor]; [fcl:configPanelDangerForeColor]";
+$def[".igk-panel.igk-error"] = "[bgcl:configPanelDangerBackgroundColor] [fcl:configPanelDangerForeColor]";
 
 // ------------------------------------------------------------------------------
 // accordeon menu setting
@@ -203,7 +203,7 @@ $def[$page." .clsearch"] = "padding:0px; border:1px solid #aaa !important;[trans
 $def[$page." .clsearch:hover"] = "border-color: [syscl:configFocusAreaSelected];";
 $def[$page." .notify-z"] = "[fcl:configColor]";
 
-$def[$page. " .igk-table.igk-table-striped.ssession-list tr.igk-active"]= "[fcl:configLinkColor]; background-color: darkslategray;";
+$def[$page. " .igk-table.igk-table-striped.ssession-list tr.igk-active"]= "[fcl:configLinkColor] background-color: darkslategray;";
 
 $def[".igk-cnf-body .framebox-dialog .clbutton,".
 ".igk-cnf-body .framebox-dialog .clsubmit, ".
@@ -355,8 +355,8 @@ $def[$page." .table_lightrow:hover a"]= "[sysbgcl:tableLightHoverColor]";
 $def[$page." .table_darkrow"]=  "[sysbgcl:tableDarkRowColor]";
 $def[$page." .table_darkrow:hover"]= "[sysbgcl:tableDarkHoverColor][sysfcl:tableDarkRowHoverTextColor]";
 $def[$page." .table_lightrow a,.igk-cnf-page .table_darkrow a"] ="{sys:dispb,fitw,fith}";
-$def[$page." .table_darkrow a:hover"] = "[fcl:tableDarkLinkHoverForeColor];";
-$def[$page." .table_lightrow a:hover"] = "[fcl:tableLightLinkHoverForeColor];";
+$def[$page." .table_darkrow a:hover"] = "[fcl:tableDarkLinkHoverForeColor]";
+$def[$page." .table_lightrow a:hover"] = "[fcl:tableLightLinkHoverForeColor]";
 
 $def[$page." .db_info"] = "{sys:alignt}";
 $def[$page." .row .db_info"] = "margin: 0px !important;";
@@ -539,7 +539,7 @@ $def[$page." a.igk-btn svg"] = "{sys:fit,dispib}";
 $def[$page." a.igk-btn.igk-svg-host"] = "width:16px; height:16px; padding:0px;";
 
 
-$def[$page." .igk-cnf-menu"] ="display:table-cell; width:210px; [bgcl:configMenuBackground]; margin-right:200px;";
+$def[$page." .igk-cnf-menu"] ="display:table-cell; width:210px; [bgcl:configMenuBackground] margin-right:200px;";
 $def[$page." .igk-cnf-menu .igk-scroll-host"] =
 $def[$page." .igk-cnf-menu .igk-config-menu-font"] =
  "max-height:100%; overflow:hidden; vertical-align:top;";
@@ -575,13 +575,13 @@ $def["div.igk-update-button + #update_target"] = "{sys:posab, loc_b}";
  // igk_wln_e("color ", $cl);
 
 // option
-$def[$page." select option"] = "[bgcl:configFormBgColor]; font-size: 14pt;padding:10px";
+$def[$page." select option"] = "[bgcl:configFormBgColor] font-size: 14pt;padding:10px";
 
-$def[$page." div.config-desc"] = "[fcl:configFormBgColor]; font-size: 12pt; margin-top:4em";
-$def[$page." #igk_cpv"] = "[fcl:configFormBgColor]; font-size: 10pt;margin: 2em 0px 1em 0px;";
+$def[$page." div.config-desc"] = "[fcl:configFormBgColor] font-size: 12pt; margin-top:4em";
+$def[$page." #igk_cpv"] = "[fcl:configFormBgColor] font-size: 10pt;margin: 2em 0px 1em 0px;";
 
 $def[$page.".con-start"] = "background-color:transparent !important";
-$def[$page.".con-start .igk-cnf-connexion-div"] = "border-radius:4px; box-shadaow: #444 0p 4px 20px 10px";
+$def[$page.".con-start .igk-cnf-connexion-div"] = "border-radius:4px; box-shadow: #444 0p 4px 20px 10px";
 
 
 $def[$page." .igk-action-bar a.igk-btn"] = "vertical-align:middle; border:none; [trans:transform 0.2s, background-color .3s]";
@@ -661,6 +661,8 @@ $def[".mobilescreen .login-form input"] = "margin-bottom:2em;";
 
 
 $def[".article-host"] = "padding: 16px 0; border-top: #ddd 1px solid;";
+$def["body.igk-body.igk-cnf-body.dashboard"] = "padding-top: 32px !important;";
 
 
-$def["body.igk-body.igk-cnf-body.dashboard"] = "padding-top: 32px; !important;";
+
+$def[".subdomain-listview table td,.subdomain-listview table th"] = "padding:4px 4px; font-size:14pt;";

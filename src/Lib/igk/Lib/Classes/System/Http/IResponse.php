@@ -3,7 +3,7 @@
 namespace IGK\System\Http;
 
 /**
- * sent the output reponse
+ * sent the output response
  * @package IGK
  */
 interface IResponse{

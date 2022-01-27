@@ -47,15 +47,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
         $this->ctrl=$ctrl;
         $this->m_changed=0;
         $this->m_autosave = true;
-        $this->m_configs=igk_createobj();
-        // igk_trace();
-        // igk_exit();
-        // igk_environment()->push("register_shutdown_function", 
-        //     function(){
-        //     if($this->m_changed && $this->m_autosave){
-        //         $this->storeConfig();
-        //     }
-        // });
+        $this->m_configs=igk_createobj();       
     }
     ///<summary></summary>
     ///<param name="n"></param>

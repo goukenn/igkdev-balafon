@@ -186,7 +186,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         else{
             igk_header_no_cache();
-            igk_html_output(404, "Error Component");
+            igk_set_header(404, "Error Component");
             igk_hook(IGK_COMP_NOT_FOUND_EVENT, $this, $k);
             if(igk_is_ajx_demand()){
                 igk_wln("<div style=\"color:#FFDF72\" >/!\\ Component {{$k}} not found  </div>");

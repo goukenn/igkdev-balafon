@@ -166,7 +166,7 @@ class RequestHandler
                 return null;
             }
             if (!method_exists(get_class($ctrl), $f)) {
-                igk_html_output(404);
+                igk_set_header(404);
                 igk_show_error_doc(null, 4046, null, "method not exists [" . get_class($ctrl) . "::" . $f . "]");
                 igk_exit();
                 return false;
@@ -252,7 +252,7 @@ class RequestHandler
         $redirect_status = $server_info->{'REDIRECT_STATUS'};
         $r = $server_info->{'REDIRECT_REQUEST_METHOD'};
         igk_sys_handle_res($query);
-//  igk_wln_e("code", $code, $redirect, $_SERVER);
+        // igk_wln_e("code", $code, $redirect, $redirect_status, $_SERVER);
         switch ($code) {
             case 901:
                 // default redirect request handle
@@ -401,6 +401,12 @@ class RequestHandler
             $args = explode("/", $query);
         if (!empty($index)) {
             $obj["class"] = $index;
+            if ($loader = igk_getv($tab[$key], "loader")){
+                if ($loader = igk_getctrl($loader, false)){
+                    $obj["loader"] = $loader;
+                    $loader::register_autoload();
+                }
+            }
         } else if ($tab && isset($tab[$key])) {
             $obj = $tab[$key];
         }
@@ -425,7 +431,8 @@ class RequestHandler
             // }
             if (!class_exists($class)) {
                 igk_set_header(500, "temp class not found");
-                igk_wln_e("class not exists {$class} ", $tclass, $obj, $index, "routes", $routes);
+                igk_wln_e("RequestHandler::Class not exists {$class} ", 
+                igk_ob_get_func('igk_html_pre', [compact("tclass", "index", "obj", "routes", "tab")]));
             }
             if (
                 is_subclass_of($class, BaseController::class)
@@ -485,7 +492,7 @@ class RequestHandler
         }
         igk_set_header(500);
         if (igk_environment()->is("DEV")) {
-            igk_wl_e(__("failed to handle component action"));
+            igk_die(__("failed to handle component action"), 1 , 500);
         }
         igk_exit();
     }

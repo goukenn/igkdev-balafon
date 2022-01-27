@@ -15,5 +15,5 @@ class Systemuri extends ModelBase{
 	/**
 	*override primary key 
 	*/
-	protected $primaryKey = "clName";
+	protected $displayKey = "clName";
 }

@@ -93,8 +93,8 @@ class IGKApplicationLoader
                     return "require_once " . $m . ";";
                 }, $this->_included));
                 igk_io_w2file($this->getCacheFile(), "<?php\n" . $m . "");
-                // echo "shutdown : ". $this->getCacheFile(). " : " .$m;
             }
+            igk_hook(IGKEvents::HOOK_SHUTDOWN, [$this]);
         });
     }
     /**
@@ -325,7 +325,7 @@ class IGKApplicationLoader
         $app->bootstrap();
         if ($boot) { 
             // + |-----------------------------------------------------------------------
-            // + | mandatory constants
+            // + | mandatory constants protected base constant
             // + |         
             $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
 
@@ -362,9 +362,8 @@ class IGKApplicationLoader
             if (file_exists($package_dir . "/composer.json")) {
                 require_once($package_dir . "/vendor/autoload.php");
             }
-        }
-         
-        // igk_wln_e("bootstrap:complete");
+            igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]);
+        } 
         // + | -----------------------------------------------------
         // + | return the application 
         // + |

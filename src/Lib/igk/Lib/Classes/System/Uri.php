@@ -4,7 +4,12 @@ namespace IGK\System;
 
 use IGKException;
 
+/**
+ * manage uri
+ * @package IGK\System
+ */
 class Uri{
+    const TEMP_ENV_KEY = "sys://temp_uri";
     /**
      * build a query arg query
      * @param mixed $uri 
@@ -45,5 +50,12 @@ class Uri{
             }
         }
         return $cpath;
+    }
+
+    public static function get(string $name, $default=null){
+        return igk_environment()->getArray(self::TEMP_ENV_KEY, $name, $default);
+    }
+    public static function register(string $name, string $uri ){
+        igk_environment()->setArray(self::TEMP_ENV_KEY, $name, $uri);
     }
 }

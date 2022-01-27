@@ -7,6 +7,7 @@ use AppAdministrationController;
 use Exception;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
 use IGK\Resources\R;
 use IGK\System\Exceptions\UriActionException;
 use IGK\System\Html\Dom\HtmlNode;
@@ -462,11 +463,13 @@ EOF;
             }
         } 
 
-        if(self::IsEntryController($this)){
-            if($app->SubDomainCtrl === $this){
-                $g=$app->SubDomainCtrlInfo->clView;
-                if(!empty($function) && (stripos($g, $function) === 0)){
-                    $function=substr($function, strlen($g));
+        if($this::IsEntryController()){
+            if ($subdomain = SysUtils::GetApplicationLibrary("subdomain")){
+                if($subdomain->subdomain === $this){
+                    $g=$subdomain->subdomainInfo->clView;
+                    if(!empty($function) && (stripos($g, $function) === 0)){
+                        $function=substr($function, strlen($g));
+                    }
                 }
             }
         }
@@ -587,7 +590,7 @@ EOF;
     public function getSystemVars(){
         $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY);
         if($doc === null){
-            if(igk_sys_is_subdomain() && ($this->App->SubDomainCtrl === $this)){
+            if(igk_sys_is_subdomain() && (SysUtils::GetSubDomainCtrl() === $this)){
                 $doc=$this->getAppDocument();
             }
             else{

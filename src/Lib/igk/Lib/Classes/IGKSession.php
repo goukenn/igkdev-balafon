@@ -9,6 +9,7 @@ use function igk_resources_gets as __;
 
 /**
 * represent handle session service
+* @property $services stored services
 */
 final class IGKSession extends IGKObject implements IIGKParamHostService {
     const BASE_SESS_PARAM=0x020;
@@ -23,9 +24,11 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     const SESS_LANG_KEY=(self::BASE_SESS_PARAM + 0x00B);
     const SESS_PAGEFOLDER_KEY=(self::BASE_SESS_PARAM + 0x003);
     const SESS_SESSION_EVENTS=(self::BASE_SESS_PARAM + 0x008);
-    const SESS_USER_KEY=(self::BASE_SESS_PARAM + 0x002);
+    const SESS_USER_KEY=(self::BASE_SESS_PARAM + 0x0002);
+    const SESS_SERVICE=(self::BASE_SESS_PARAM + 0x000F);
+
     const SYSDB_CTRL=IGK_KEY_SYSDB_CTRL;
-	const GLOBALVARS = (self::BASE_SESS_PARAM + 0x00D);
+	const GLOBALVARS = (self::BASE_SESS_PARAM + 0x0100);
     private $m_instances;
     private $m_sessionParams;
     ///<summary></summary>
@@ -37,8 +40,7 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * @param mixed * $params
     */
     public function __construct($App, & $params){
-        $this->m_sessionParams=& $params;
-        // $this->getCRef(); 
+        $this->m_sessionParams=& $params; 
     }
     /**
      * @return mixed|array return configured routes 
@@ -548,5 +550,16 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         $this->__set(IGKSession::IGK_REDIRECTION_SESS_PARAM, null);
         if($this->m_updateSessionEvent != null)
             $this->m_updateSessionEvent->Call($this, null);
+    }
+
+    public function getServices(){
+        return $this->getParam(self::SESS_SERVICE);
+    }
+    public function setServices(?array $service=null){
+        if ($service ==null){
+            unset($this->m_sessionParams[self::SESS_SERVICE]  );
+        }else {
+            $this->m_sessionParams[self::SESS_SERVICE] =$service; 
+        }
     }
 }

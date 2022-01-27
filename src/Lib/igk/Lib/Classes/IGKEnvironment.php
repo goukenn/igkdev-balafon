@@ -16,6 +16,8 @@ require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
 * @property string $basectrl base controller
 * @property int    $querydebug activate of not the query debug
 * @property array  $db_adapter get registered data adapters
+* @property bool $no_lib_cache no library cache
+* @property null|array $extra_config extra configuration file
 */
 final class IGKEnvironment extends IGKEnvironmentConstants{
     private static $sm_instance;
@@ -253,6 +255,9 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     */
     public function & get($var, $default=null){
 		$t = null;
+        if (empty($var)){
+            return $default;
+        }
         if (method_exists($this, $fc = "get".$var)){
             $t = $this->$fc();
         } else {
@@ -289,10 +294,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     ///<return refout="true"></return>
     /**
     * 
-    * @return IGKEvenrionment environment instance
+    * @return self environment instance
     */
     public static function getInstance(){
-        !($c= self::$sm_instance) && ($c = self::$sm_instance=new IGKEnvironment());
+        !($c= self::$sm_instance) && ($c = self::$sm_instance=new self());
         return $c;
     }
 
@@ -532,5 +537,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     public function isInArray($key, $value){
         $c = $this->createArray($key);
         return in_array($value, $c);
+    }
+    /**
+     * call before init app to load extra configuration file
+     * @param array $config 
+     * @return void 
+     */
+    public function setConfigFiles(array $config){
+        $this->setArray("extra_config", "configFiles", $config);
     }
 }

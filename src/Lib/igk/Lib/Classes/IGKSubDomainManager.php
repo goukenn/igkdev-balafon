@@ -3,6 +3,7 @@
 ///<summary>subdomain manager</summary>
 
 use IGK\Helper\IO;
+use IGK\Models\Subdomains;
 
 /**
 * subdomain manager
@@ -47,7 +48,7 @@ final class IGKSubDomainManager extends IGKObject{
         if(igk_is_atomic()){
             return false;
         }
-        $subdomain=igk_io_subdomain_uri_name($uri);
+        $subdomain= IGKSubDomainManager::SubDomainUriName($uri);
         $t=$this->getRegList();
         if(!empty($subdomain)){
             $s=$subdomain;
@@ -60,17 +61,26 @@ final class IGKSubDomainManager extends IGKObject{
                 $row=$c->row;
                 return $c->ctrl;
             }
-            $row=null;
-            $domctrl=igk_getctrl(IGK_SUBDOMAINNAME_CTRL);
-            if(!$domctrl){
-                igk_die("domain controller not found + single application ".igk_sys_getconfig("force_single_controller_app"));
-            }
-            $c=$domctrl->getDomainCtrl($s, $row);
-            if(($c !== null)){
-                if(!$this->reg_domain($s, $c, $row))
-                    igk_die("/!\\ Fatal can't register function");
-                return $c;
-            }
+            if ($raw = Subdomains::select_row([
+                "clName"=>$subdomain
+            ])){
+                if ($ctrl = igk_getctrl($raw->clCtrl, false)){
+                    $row = $raw;
+                    $this->reg_domain($subdomain, $raw->clCtrl, $raw);
+                    return $ctrl;
+                }
+            } 
+            // $row=null;
+            // $domctrl=igk_getctrl(IGK_SUBDOMAINNAME_CTRL);
+            // if(!$domctrl){
+            //     igk_die("domain controller not found + single application ".igk_sys_getconfig("force_single_controller_app"));
+            // }
+            // $c=$domctrl->getDomainCtrl($s, $row);
+            // if(($c !== null)){
+            //     if(!$this->reg_domain($s, $c, $row))
+            //         igk_die("/!\\ Fatal can't register function");
+            //     return $c;
+            // }
         }
         return false;
     }
@@ -95,14 +105,27 @@ final class IGKSubDomainManager extends IGKObject{
     * 
     */
     public static function GetBaseDomain(){
-        $f=self::GetBaseDomainConfile();
-        $d="";
-        if(file_exists($f)){
-            $d= IO::ReadAllText($f);
+        $srv = igk_server()->SERVER_NAME;
+        // + | auto dectect base domain
+        if ($srv == "localhost"){
+            return $srv;
         }
-        if(empty($d))
-            $d=IGK_DOMAIN;
-        return $d;
+        if (preg_match("/(\.)?localhost$/", $srv)){
+            return "localhost";
+        }
+        $tab = explode(".", $srv);
+        if ( (($c = count($tab))>2) && !IGKValidator::IsIpAddress($srv)){
+            return implode(".", array_slice($tab, $c - 2));
+        }
+        
+        // $f=self::GetBaseDomainConfile();
+        // $d="";
+        // if(file_exists($f)){
+        //     $d= IO::ReadAllText($f);
+        // }
+        // if(empty($d))
+        //     $d=IGK_DOMAIN;
+        return null;
     }
     ///<summary></summary>
     /**
@@ -141,7 +164,7 @@ final class IGKSubDomainManager extends IGKObject{
             $srv=substr($srv, 4);
         }
         if(!empty($srv)){
-            $d=self::GetBaseDomain();
+            $d=self::GetBaseDomain(); 
             if(preg_match("/(\.".$d."$)/i", $srv)){
                 $srv=substr($srv, 0, strlen($srv) - strlen($d)-1);
             }
@@ -167,7 +190,8 @@ final class IGKSubDomainManager extends IGKObject{
         $srv=igk_sys_srv_domain_name();
         $domain=self::GetBaseDomain();
         $rdomain=null;
-        if(($srv !== "localhost") && !IGKValidator::IsIPAddress($srv) && ($srv !== $domain) && (preg_match("/(www)?\.".$domain."$/i", $srv) || self::AcceptDomain($domain, $srv))){
+        $ip_server = IGKValidator::IsIPAddress($srv);
+        if(($srv !== "localhost") && !$ip_server && ($srv !== $domain) && (preg_match("/(www)?\.".$domain."$/i", $srv) || self::AcceptDomain($domain, $srv))){
             $rdomain=defined("IGK_COOKIE_DOMAIN") ? igk_const("IGK_COOKIE_DOMAIN") : self::Resolv($domain);
             ini_set("session.cookie_domain", ".".$rdomain);
             self::$sm_isSubDomain=true;
@@ -176,8 +200,7 @@ final class IGKSubDomainManager extends IGKObject{
         else{
             $rdomain=$srv;
             $_path="/";
-            if(IGKValidator::IsIPAddress($srv)){}
-            else{
+            if(!$ip_server){
                 if(igk_server_request_onlocal_server())
                     $srv="localhost";
                 else
@@ -286,11 +309,18 @@ final class IGKSubDomainManager extends IGKObject{
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = $t; 
     }
 
-    public static function SubDomainUriName($uri){
+    public static function SubDomainUriName(?string $uri=null){
         $domain=igk_io_domain_uri_name($uri);
         $bdom=self::GetBaseDomain();
         $s="";
         if(($domain === $bdom) || IGKValidator::IsIpAddress($domain) || ($domain == "localhost")){
+            return $s;
+        }
+        // remove port
+        $domain = explode(":", $domain)[0];
+        //
+        if (($pos =  strrpos($domain, $bdom))!==false){
+            $s = rtrim(substr($domain,0, $pos ), ".");
             return $s;
         }
         $tab=array();

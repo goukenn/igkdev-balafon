@@ -5,26 +5,53 @@ namespace IGK\System\Configuration;
 use IGK\Resources\R;
 use IGK\System\IO\FileWriter;
 use IGKCSVDataAdapter;
+use IGKException;
+
 use function igk_resources_gets as __;
 
-///<summary>represent system config data - </summary>
+///<summary>represent system config data</summary>
 /**
-* represent system config data -
+* represent system config data - \
+*   this can have extra proprerties depend on environment 'extra_config' list. \
+*   check with haveExtra method. \
+*   extra properties are readonly and will not be stored.
+* @exemple  
+*  $this->$property will return extra properties if exists against  
+*  $this->get($property) which will always return configurable properties
 */
 final class ConfigData {
+    /**
+     * configuration controller
+     * @var mixed
+     */
     private $m_configCtrl;
+    /**
+     * stored config entrie
+     * @var array
+     */
     private $m_configEntries;
+    /**
+     * file of this configuration data
+     * @var mixed
+     */
     private $m_confile;
+
+    /**
+     * extra properties
+     * @var array
+     */
+    private $m_extra;
     ///full path to
     ///conffile : configuration file
     ///configctrl : hosted controller
     ///entries: default entry
     /**
     */
-    public function __construct($conffile, $configCtrl, $entries){
+    public function __construct($conffile, $configCtrl, $entries, ?array $extra=null){
         $this->m_confile=$conffile;
         $this->m_configCtrl=$configCtrl;
         $this->m_configEntries=$entries;
+        $this->m_extra = $extra;
     }
     ///<summary></summary>
     ///<param name="key"></param>
@@ -33,6 +60,12 @@ final class ConfigData {
     * @param mixed $key
     */
     public function __get($key){
+        if ($this->m_extra)
+        {
+            if (key_exists($key, $this->m_extra)){
+                return igk_getv($this->m_extra, $key);
+            }
+        }
         return igk_getv($this->m_configEntries, $key);
     }
     ///<summary></summary>
@@ -85,8 +118,29 @@ final class ConfigData {
     public function getConfig($name, $default=null){
         return igk_getv($this->m_configEntries, $name, $default);
     }
+    /**
+     * get the stored configuration data
+     * @param mixed $xpath 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function get($xpath, $default= null){
         return igk_conf_get($this->m_configEntries, $xpath, $default);
+    }
+    /**
+     * check if contain extra properties
+     * @return bool 
+     */
+    public function haveExtra(){
+        return count($this->m_extra) > 0;
+    }
+    /**
+     * get extra keys
+     * @return string[]|null 
+     */
+    public function extraKeys(){
+        return $this->m_extra ? array_keys($this->m_extra) : null;
     }
     ///<summary></summary>
     /**
@@ -140,8 +194,8 @@ final class ConfigData {
     ///<param name="name"></param>
     ///<param name="value"></param>
     /**
-    * 
-    * @param mixed $name
+    * set configuration
+    * @param string $name
     * @param mixed $value
     */
     public function setConfig($name, $value){

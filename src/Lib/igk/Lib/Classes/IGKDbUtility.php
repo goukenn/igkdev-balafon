@@ -101,11 +101,7 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
             register_shutdown_function(function(){
                 $this->close();
             });
-        }
-        else{
-          //igk_wln_e( $this->getAd());
-          // igk_die(__("Failed to select {0}'s databases", __CLASS__));
-        }
+        }      
     }
     ///<summary>get table prefix</summary>
     /**

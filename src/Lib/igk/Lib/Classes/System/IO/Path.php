@@ -279,5 +279,11 @@ class Path{
         } 
         return null;
     }
+
+    public static function LocalPath(string $path){
+        return igk_io_expand_path(
+            igk_io_collapse_path($path)
+        ); 
+    }
 }
  

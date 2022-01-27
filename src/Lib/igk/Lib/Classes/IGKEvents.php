@@ -7,11 +7,13 @@
 class IGKEvents extends IGKObject
 {
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
+    const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_SESS_START = "sys_session_start";
     const HOOK_APP_PRESENTATION = 0xa01;
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
     const HOOK_INIT_APP = "init_app";
     const HOOK_BEFORE_INIT_APP = "before_init_app";
+    const HOOK_AFTER_INIT_APP = "after_init_app";
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
     const HOOK_CSS_REG = "css_class_reg";
     const HOOK_DB_DATA_ENTRY = "db_dataentry";
@@ -34,6 +36,7 @@ class IGKEvents extends IGKObject
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
+    const HOOK_SHUTDOWN = "app_shutdown";
     /**
      * css context bind controller styles sheet on init
      */
@@ -45,6 +48,8 @@ class IGKEvents extends IGKObject
      * filter node . update property or replace with output response.
      */
     const FILTER_CREATED_NODE = "post_filter_node";
+
+    const FILTER_DB_SCHEMA_INFO = "filter_db_schema_info";
     /**
      * filter node creation
      */

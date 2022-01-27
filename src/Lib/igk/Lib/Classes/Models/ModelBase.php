@@ -31,7 +31,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static array|null select_all($condition=null) macros function  
  * @method static bool drop() macros function drop table 
  * @method static bool delete(array|objectg $condition) macros function delete table's entries
- * @method static void object|null select_row($condition) macros function : select single row
+ * @method static object|null select_row($condition) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
  * @method static object|null cacheRow() macros function
@@ -187,7 +187,10 @@ abstract class ModelBase implements ArrayAccess
      * @return object|null dummy raw 
      */
     protected function createRow()
-    {
+    {      
+        // if (get_class($this) == \IGK\Models\Subdomains::class){
+        //     echo "try sub";
+        // }
         $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
         return DbSchemas::CreateRow($this->getTable(), $ctrl);
     }
@@ -218,11 +221,17 @@ abstract class ModelBase implements ArrayAccess
         $this->raw = $raw && ($raw instanceof static) ? $raw :  $this->createRow();
         if (!$this->raw && !$mock) {
             igk_trace();
-            igk_wln(__FILE__ . ":" . __LINE__, "raw is null", get_class($this), $this->controller, $this->getTable());
+            igk_wln(__FILE__ . ":" . __LINE__, "raw is null",
+             get_class($this), 
+             $raw,
+             $this->controller, $this->getTable());
             // igk_wln_e(igk_app()->getControllerManager()->getInitControllerKeys());
             die("Failed to create dbrow: " . $this->getTable());
         }
-        if ($raw) {
+        //
+        // + copy raw
+        //
+        if ($raw && ($raw!== $this->raw)) {
             foreach ($raw as $k => $v) {
                 if (property_exists($this->raw, $k)) {
                     $this->raw->$k = $v;
@@ -286,7 +295,7 @@ abstract class ModelBase implements ArrayAccess
      */
     public function getTable()
     {
-        return IGKSysUtil::GetTableName($this->table, $this->getController());
+        return IGKSysUtil::DBGetTableName($this->table, $this->getController());
     }
     /**
      * get current table info

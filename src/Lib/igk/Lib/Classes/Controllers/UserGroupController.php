@@ -25,7 +25,7 @@ final class UserGroupController extends NonVisibleControllerBase{
     protected function registerHook(){
         $tb=$this->getDataTableName();
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function($hook) use ($tb){
-            igk_wln_e(__FILE__.":".__LINE__,  "init data entries");
+            igk_dev_wln_e(__FILE__.":".__LINE__,  "init data entries");
             if($hook->args[1] == $tb){
                 $db=$hook->args[0];
                 $db->insert($tb, array(IGK_FD_USER_ID=>1, IGK_FD_GROUP_ID=>2));

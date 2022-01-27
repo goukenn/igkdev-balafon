@@ -195,8 +195,27 @@ final class IGKSysUtil
     /**
      * resolv the table name
      */
-    public static function GetTableName($table, $ctrl=null){   
-        return igk_db_get_table_name($table, $ctrl); 
+    public static function DBGetTableName(string $table, ?BaseController $ctrl=null){   
+        $v = "/^%(?P<name>(prefix|sysprefix))%/i";
+    
+        return preg_replace_callback(
+            $v,
+            function ($m) use ($ctrl) {
+                switch ($m["name"]) {
+                    case "prefix":
+                        $p = igk_app()->configs->get("db_prefix");
+                        if ($ctrl) {
+                            if (!empty($s = $ctrl->getConfigs()->clDataTablePrefix)) {
+                                $p = $s;
+                            }
+                        }
+                        return $p;
+                    case "sysprefix":
+                        return igk_app()->configs->get("db_prefix");
+                }
+            },
+            $table
+        );
     }
 
     

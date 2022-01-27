@@ -1029,7 +1029,7 @@ function igk_bind_host_css_style($doc)
         foreach ($g as $v) {
             igkOb::Start();
             igk_css_bind_file($v->host, igk_io_expand_path($v->file), $bvtheme);
-            $m = igk_css_treat($sys, igkOb::Content());
+            $m = igk_css_treat(igkOb::Content(), $sys, $sys);
             igkOb::Clear();
             if (!empty($m)) {
                 $out .= $m;
@@ -1063,7 +1063,7 @@ function igk_bind_host_css_style_file($file, $doc, $host)
     $sys = $doc->SysTheme;
     igkOb::Start();
     igk_css_bind_file($host, $file, $bvtheme);
-    $m = igk_css_treat($sys, igkOb::Content());
+    $m = igk_css_treat(igkOb::Content(), $sys, $sys);
     igkOb::Clear();
     if (!empty($m)) {
         $out .= $m;
@@ -1943,9 +1943,9 @@ function igk_create_component_callback($classname, $callback)
     }
     return $t[$classname];
 }
-///<summary></summary>
+///<summary>get single cref id for app</summary>
 /**
- * 
+ * get single cref id for app
  */
 function igk_create_cref()
 {
@@ -2518,15 +2518,11 @@ function igk_css_balafon_index($dir)
         igk_ilog(__FUNCTION__ . " : application not initialise " . igk_server()->REQUEST_URI);
         igk_exit();
     }
-    $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
-    $app_setting = igk_app()->getSettings();
-    $doc_id = igk_app()->settings->CurrentDocumentIndex;
-     // igk_wln_e("document id : ", $doc_id, $doc);
-    if ($doc) {
-        // igk_ilog("l?? : ". ($doc === igk_app()->getDoc()));
+    $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc(); 
+    $doc_id = igk_app()->settings->CurrentDocumentIndex; 
+    if ($doc) { 
         igk_set_env("sys://css/cleartemp", __FUNCTION__);
-        $vsystheme = $doc->getSysTheme();
-  
+        $vsystheme = $doc->getSysTheme();  
         if (($doc_id === -1) || ($doc_id === null)) {
             if ($ctrl = igk_get_defaultwebpagectrl()){  
                 igk_ctrl_bind_css_file($ctrl);
@@ -2541,12 +2537,8 @@ function igk_css_balafon_index($dir)
         if ($cfile){
             igk_css_bind_theme_files($doc->getTheme(), $cfile);
         }
-        $no_systheme = \IGK\Css\CssThemeCompiler::CompileAndRenderTheme($vsystheme, $doc->getId(), "sys:global");       
-        // if ($files) { 
-        //     $doc->getTheme()->getDef()->setBindTempFiles(implode(";", $files));
-        // }
-        echo "\n\n\n";
-        // igk_wln_e("the file :::: ", $doc_id, $files, $no_systheme);
+        $no_systheme = \IGK\Css\CssThemeCompiler::CompileAndRenderTheme($vsystheme, $doc->getId(), "sys:global"); 
+        echo "\n\n\n"; 
         igk_css_render_balafon_style($doc, $no_systheme); 
     } else {
         include(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/balafon.min.css");
@@ -2567,13 +2559,25 @@ function igk_css_balafon_index($dir)
     /// TODO: Cache CSS
     // igk_header_cache_output();
     $cache = false;
-    if (igk_environment()->is("DEV")){
+    $referer = null; 
+    // if (igk_environment()->is("DEV")){
         igk_header_no_cache();
-    } else {
-        // 
-        $referer = igk_getv(explode("?", igk_server()->HTTP_REFERER), 0);
-        $cache = true;
-    }
+    // } else {
+    //     // 
+    //     $referer = igk_getv(explode("?", igk_server()->HTTP_REFERER), 0);
+    //     $cache = true;
+    // }
+    // if ($ct = preg_match_all("/\(\s*(?P<type>(sys))\s*:\s*(?P<value>[^\)]+)\)/", $c, $tab))
+    // {
+    //     igk_wln(__FILE__.":".__LINE__, "not resolved - ", $vsystheme[".igk-def-c"],
+    //         igk_css_treat($doc->getTheme(), "info: (sys:.igk-def-c)", $vsystheme)
+    //     );
+    //     echo "<pre>";
+    //     var_dump($tab);
+    //     echo "</pre>";
+    //     igk_wln_e("tab");
+    //     exit;
+    // }
     $response = new \IGK\Css\CssCoreResponse($c);
     $response->cache = $cache;
     $response->file = $referer;
@@ -3230,7 +3234,7 @@ function igk_css_get_bgcl($v, $theme, $systheme=null)
 {
     if (empty($v))
         return null;    
-    $h = igk_css_treat($theme, $v, $systheme);
+    $h = igk_css_treat($v, $theme, $systheme);
     if ($h == null)
         return null;
     return "background-color: " . $v . ";";
@@ -3274,7 +3278,7 @@ function igk_css_get_fcl($v, $doc = null)
     $doc = $doc ? $doc : igk_app()->getDoc();
     $theme = $doc->Theme;
     $systheme = $doc->SysTheme;
-    $h = igk_css_treat($theme, $v, $systheme);
+    $h = igk_css_treat($v, $theme, $systheme);
     if ($h) {
         return "color: " . $h . ";";
     } else {
@@ -3833,11 +3837,20 @@ function igk_css_str2class_name($s)
  * 
  */
 function igk_css_treat(
+    string $value, 
     \IGK\Css\ICssStyleContainer $theme, 
-    string $v, 
     ?\IGK\Css\ICssStyleContainer $systheme=null)
 {   
-    return igk_css_treat_gtheme($v, $theme, $systheme);
+    //+ -----------------------
+    //+ | Treat global theme .
+    //+ | value can be resolved with other view class chain
+    //+ | sample : (sys:.igk-def-c); overflow:hidden
+    //+ -----------------------
+
+    $builder = new \IGK\Css\CssThemeResolver();
+    $builder->theme = $theme;
+    $builder->parent = $systheme;
+    return $builder->treat($value); 
 }
 ///<summary>treat style properties with sys</summary>
 /**
@@ -3921,226 +3934,227 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
  */
 function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $value, \IGK\Css\ICssStyleContainer $systheme, $a = "", $stop = "", $themeexport = 0)
 {
-    $themeexport = 0;
-    $gtheme = $theme;
-    $v_m = $v;
-    if (!is_object($systheme )){
-        igk_trace();
-        igk_wln_e("not an object");
-    }
-    $d = & $systheme->getDef()->getCl();
-    $gcl = ($d) ? $d : array();
-    $stop = trim($stop); 
+    igk_die("not allowed.");
+    // $themeexport = 0;
+    // $gtheme = $theme;
+    // $v_m = $v;
+    // if (!is_object($systheme )){
+    //     igk_trace();
+    //     igk_wln_e("not an object");
+    // }
+    // $d = & $systheme->getDef()->getCl();
+    // $gcl = ($d) ? $d : array();
+    // $stop = trim($stop); 
 
-    $v_designmode = igk_css_design_mode();
-    $chainColors = array();
-    if (($theme != null) && ($gtheme !== $theme) && ($theme !== $systheme)) {
-        $colors = $theme->getCl();
-        if ($colors) {
-            $chainColors[] = $colors;
-        }
-    }
-    if ($colors = $gtheme->getCl()) {
-        $chainColors[] = $colors;
-    }
-    if ($gcl) {
-        $chainColors[] = array_merge($gcl, []);
-    }
-    $chainColorCallback = function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
-        $tab = explode(",", $value);
-        $v = trim($tab[0]);
-        $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
-        if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
-            $s = igk_css_design_color_value($v, null, $v_designmode);
-        }
-        if ((empty($s) || ($s == $v)) && (igk_count($tab) > 1)) {
-            $s = trim($def);
-        }
-        return $s;
-    };
-    switch (strtolower($type)) {
-        case "resolv":
-            $v = str_replace($v_m, igk_css_get_resolv_stylei($value) ?? "", $v);
-            break;
-        case "varp":
-            if (!igk_css_var_support()) {
-                $tab = explode(":", $value);
-                $prop = $tab[0];
-                $name = implode(":", array_slice($tab, 1));
-                igk_set_env_keys("sys://css/vars", $prop, $name);
-                $v_r = "";
-            } else {
-                $v_r = $value . ";";
-            }
-            $v = str_replace($v_m, $v_r, $v);
-            break;
-        case "varf":
-            if (!igk_css_var_support()) {
-                $v = str_replace($v_m, $value, $v);
-            } else
-                $v = str_replace($v_m, "", $v);
-            break;
-        case "var":
-            if (igk_css_var_support()) {
-                $v_r = "var(" . $value . ")" . $a;
-            } else {
-                $tab = array_slice(explode(",", $value), 1);
-                if (igk_count($tab) > 0) {
-                    $v_r = trim(implode(",", $tab));
-                } else {
-                    $v_r = ($t = igk_get_env("sys://css/vars")) ? igk_getv($t, $value) : null;
-                }
-                if (!empty($v_r))
-                    $v_r .= $a;
-            }
-            $v = str_replace($v_m, $v_r, $v);
-            break;
-        case "fit":
-            if (preg_match("/^(fill|contain|cover|none|scale-down)/i", $value)) {
-                $v = str_replace($v_m, "-webkit-object-fit: {$value};-ms-object-fit:{$value}; -o-object-fit: {$value}; object-fit: {$value};", $v);
-            } else {
-                $v = str_replace($v_m, "", $v);
-            }
-            break;
-        case "trans":
-            $v = str_replace($v_m, "-webkit-transition: {$value};-ms-transition:{$value}; -moz-transition:{$value}; -o-transition: {$value}; transition: {$value};", $v);
-            break;
-        case "lingrad":
-            $v_stand = $value;
-            if (preg_match("/^(left|top|right|bottom)/i", trim($v_stand))) {
-                $v_stand = "to " . $v_stand;
-            }
-            $v = str_replace($v_m, "background: -webkit-linear-gradient({$value}); background:-ms-linear-gradient({$value}); background:-moz-linear-gradient({$value});background:-o-linear-gradient({$value}); background:linear-gradient({$v_stand});", $v);
-            break;
-        case "trans-prop":
-            $v = str_replace($v_m, "-webkit-transition-property: {$value};-ms-transition-property:{$value}; -moz-transition-property:{$value}; -o-transition-property: {$value}; transition-property: {$value};", $v);
-            break;
-        case "transform":
-            $v = str_replace($v_m, "-webkit-transform: {$value};-ms-transform:{$value}; -moz-transform:{$value}; -o-transform: {$value}; transform: {$value};", $v);
-        case "transform-o":
-            $v = str_replace($v_m, "-webkit-transform-origin: {$value};-ms-transform-origin:{$value}; -moz-transform-origin:{$value}; -o-transform-origin: {$value}; transform-origin: {$value};", $v);
-            break;
-        case "anim":
-        case "animation":
-            $v = str_replace($v_m, "-webkit-animation: {$value};-ms-animation:{$value}; -moz-animation:{$value}; -o-animation: {$value}; animation: {$value};", $v);
-            break;
-        case "filter":
-            $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
-            break;
-        case "res":
-            if (is_file($value)) {
-                $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
-            } else {
-                $vimg = R::GetImgResUri($value);
-                $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
-            }
-            break;
-        case "bgres":
-            $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "');" : ""), $v);
-            break;
-        case "uri":
-            $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "')" : ""), $v);
-            break;
-        case "sysbgcl":
-            $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bgcl($ncl, $systheme, null) : "";
-            $v = str_replace($v_m, $b, $v);
-            break;
-        case "sysfcl":
-            $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_fcl($ncl) : "";
-            $v = str_replace($v_m, $b, $v);
-            break;
-        case "sysbcl":
-            $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
-            $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
-            $v = str_replace($v_m, $b, $v);
-            break;
-        case "syscl":
-            $tv = explode(",", $value);
-            $cl = trim($tv[0]);
-            $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-            if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {
-                if ($defcl = igk_getv($tv, 1)) {
-                    $ncl = $defcl;
-                } else {
-                    if (igk_sys_env_production()) {
-                        $ncl = 'initial';
-                    }
-                }
-                $cl = &$systheme->def->getCl();
-                $cl[$ncl] = $ncl;
-            }
-            $v = str_replace($v_m, $ncl . $a, $v);
-            break;
-        case "fcl":
-            $v = str_replace($v_m, igk_css_get_fcl($chainColorCallback($value)), $v);
-            break;
-        case "bgcl":
-            $ncl = $chainColorCallback($value);
-            $v = str_replace($v_m, igk_css_get_bgcl($ncl, $gtheme, $systheme), $v);
-            break;
-        case "bcl":
-            $ncl = $chainColorCallback($value);
-            $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
-            break;
-        case "cl":
-            $rp = igk_str_rm_last($v_m, ';');
-            $nv = $chainColorCallback($value);
-            $t = $nv;
-            $v = str_replace($rp, $t, $v);
-            break;
-        case "ft":
-            $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);
-            break;
-        case "ftn":
-            $h = $theme->ft[$value] ? $theme->ft[$value] : null;
-            if ($h)
-                $v = str_replace($v_m, "\"" . $h . "\"", $v);
-            else
-                $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-            break;
-        case "pr":
-        case "prop":
-            $p = &$systheme->getProperties();
-            $v_r = igk_css_design_property_value($value, $theme->properties, $v_designmode);
-            if (!empty($v_r))
-                $v_r .= $stop;
-            $v = str_replace($v_m, $v_r, $v);
-            break;
-        case "palcl":
-            $r = igk_get_palette();
-            $v = str_replace($v_m, $r ? igk_getv($r, $value) : null, $v);
-            break;
-        case "palbgcl":
-            $r = igk_get_palette();
-            if ($r) {
-                $s = $r[$value];
-                if (!empty($s))
-                    $v = str_replace($v_m, "background-color: " . $s . ";", $v);
-                else
-                    $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-            } else {
-                $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-            }
-            break;
-        case "palfcl":
-            $r = igk_get_palette();
-            $s = igk_getv($r, $value);
-            if (!empty($s))
-                $v = str_replace($v_m, "color: " . $s . ";", $v);
-            else
-                $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-            break;
-        default:
-            if ((strlen($type) > 0) && ($type[0] == "-")) {
-                $type = substr($type, 1);
-                $v = str_replace($v_m, "-webkit-{$type}: {$value};-ms-{$type}:{$value}; -moz-{$type}:{$value}; -o-{$type}: {$value}; {$type}: {$value};", $v);
-            } else
-                $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-            break;
-    }
-    return $v;
+    // $v_designmode = igk_css_design_mode();
+    // $chainColors = array();
+    // if (($theme != null) && ($gtheme !== $theme) && ($theme !== $systheme)) {
+    //     $colors = $theme->getCl();
+    //     if ($colors) {
+    //         $chainColors[] = $colors;
+    //     }
+    // }
+    // if ($colors = $gtheme->getCl()) {
+    //     $chainColors[] = $colors;
+    // }
+    // if ($gcl) {
+    //     $chainColors[] = array_merge($gcl, []);
+    // }
+    // $chainColorCallback = function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
+    //     $tab = explode(",", $value);
+    //     $v = trim($tab[0]);
+    //     $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
+    //     if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
+    //         $s = igk_css_design_color_value($v, null, $v_designmode);
+    //     }
+    //     if ((empty($s) || ($s == $v)) && (igk_count($tab) > 1)) {
+    //         $s = trim($def);
+    //     }
+    //     return $s;
+    // };
+    // switch (strtolower($type)) {
+    //     case "resolv":
+    //         $v = str_replace($v_m, igk_css_get_resolv_stylei($value) ?? "", $v);
+    //         break;
+    //     case "varp":
+    //         if (!igk_css_var_support()) {
+    //             $tab = explode(":", $value);
+    //             $prop = $tab[0];
+    //             $name = implode(":", array_slice($tab, 1));
+    //             igk_set_env_keys("sys://css/vars", $prop, $name);
+    //             $v_r = "";
+    //         } else {
+    //             $v_r = $value . ";";
+    //         }
+    //         $v = str_replace($v_m, $v_r, $v);
+    //         break;
+    //     case "varf":
+    //         if (!igk_css_var_support()) {
+    //             $v = str_replace($v_m, $value, $v);
+    //         } else
+    //             $v = str_replace($v_m, "", $v);
+    //         break;
+    //     case "var":
+    //         if (igk_css_var_support()) {
+    //             $v_r = "var(" . $value . ")" . $a;
+    //         } else {
+    //             $tab = array_slice(explode(",", $value), 1);
+    //             if (igk_count($tab) > 0) {
+    //                 $v_r = trim(implode(",", $tab));
+    //             } else {
+    //                 $v_r = ($t = igk_get_env("sys://css/vars")) ? igk_getv($t, $value) : null;
+    //             }
+    //             if (!empty($v_r))
+    //                 $v_r .= $a;
+    //         }
+    //         $v = str_replace($v_m, $v_r, $v);
+    //         break;
+    //     case "fit":
+    //         if (preg_match("/^(fill|contain|cover|none|scale-down)/i", $value)) {
+    //             $v = str_replace($v_m, "-webkit-object-fit: {$value};-ms-object-fit:{$value}; -o-object-fit: {$value}; object-fit: {$value};", $v);
+    //         } else {
+    //             $v = str_replace($v_m, "", $v);
+    //         }
+    //         break;
+    //     case "trans":
+    //         $v = str_replace($v_m, "-webkit-transition: {$value};-ms-transition:{$value}; -moz-transition:{$value}; -o-transition: {$value}; transition: {$value};", $v);
+    //         break;
+    //     case "lingrad":
+    //         $v_stand = $value;
+    //         if (preg_match("/^(left|top|right|bottom)/i", trim($v_stand))) {
+    //             $v_stand = "to " . $v_stand;
+    //         }
+    //         $v = str_replace($v_m, "background: -webkit-linear-gradient({$value}); background:-ms-linear-gradient({$value}); background:-moz-linear-gradient({$value});background:-o-linear-gradient({$value}); background:linear-gradient({$v_stand});", $v);
+    //         break;
+    //     case "trans-prop":
+    //         $v = str_replace($v_m, "-webkit-transition-property: {$value};-ms-transition-property:{$value}; -moz-transition-property:{$value}; -o-transition-property: {$value}; transition-property: {$value};", $v);
+    //         break;
+    //     case "transform":
+    //         $v = str_replace($v_m, "-webkit-transform: {$value};-ms-transform:{$value}; -moz-transform:{$value}; -o-transform: {$value}; transform: {$value};", $v);
+    //     case "transform-o":
+    //         $v = str_replace($v_m, "-webkit-transform-origin: {$value};-ms-transform-origin:{$value}; -moz-transform-origin:{$value}; -o-transform-origin: {$value}; transform-origin: {$value};", $v);
+    //         break;
+    //     case "anim":
+    //     case "animation":
+    //         $v = str_replace($v_m, "-webkit-animation: {$value};-ms-animation:{$value}; -moz-animation:{$value}; -o-animation: {$value}; animation: {$value};", $v);
+    //         break;
+    //     case "filter":
+    //         $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
+    //         break;
+    //     case "res":
+    //         if (is_file($value)) {
+    //             $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
+    //         } else {
+    //             $vimg = R::GetImgResUri($value);
+    //             $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
+    //         }
+    //         break;
+    //     case "bgres":
+    //         $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "');" : ""), $v);
+    //         break;
+    //     case "uri":
+    //         $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "')" : ""), $v);
+    //         break;
+    //     case "sysbgcl":
+    //         $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
+    //         $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bgcl($ncl, $systheme, null) : "";
+    //         $v = str_replace($v_m, $b, $v);
+    //         break;
+    //     case "sysfcl":
+    //         $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
+    //         $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_fcl($ncl) : "";
+    //         $v = str_replace($v_m, $b, $v);
+    //         break;
+    //     case "sysbcl":
+    //         $ncl = igk_css_design_color_value($value, $gcl, $v_designmode);
+    //         $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
+    //         $v = str_replace($v_m, $b, $v);
+    //         break;
+    //     case "syscl":
+    //         $tv = explode(",", $value);
+    //         $cl = trim($tv[0]);
+    //         $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
+    //         if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {
+    //             if ($defcl = igk_getv($tv, 1)) {
+    //                 $ncl = $defcl;
+    //             } else {
+    //                 if (igk_sys_env_production()) {
+    //                     $ncl = 'initial';
+    //                 }
+    //             }
+    //             $cl = &$systheme->def->getCl();
+    //             $cl[$ncl] = $ncl;
+    //         }
+    //         $v = str_replace($v_m, $ncl . $a, $v);
+    //         break;
+    //     case "fcl":
+    //         $v = str_replace($v_m, igk_css_get_fcl($chainColorCallback($value)), $v);
+    //         break;
+    //     case "bgcl":
+    //         $ncl = $chainColorCallback($value);
+    //         $v = str_replace($v_m, igk_css_get_bgcl($ncl, $gtheme, $systheme), $v);
+    //         break;
+    //     case "bcl":
+    //         $ncl = $chainColorCallback($value);
+    //         $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
+    //         break;
+    //     case "cl":
+    //         $rp = igk_str_rm_last($v_m, ';');
+    //         $nv = $chainColorCallback($value);
+    //         $t = $nv;
+    //         $v = str_replace($rp, $t, $v);
+    //         break;
+    //     case "ft":
+    //         $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);
+    //         break;
+    //     case "ftn":
+    //         $h = $theme->ft[$value] ? $theme->ft[$value] : null;
+    //         if ($h)
+    //             $v = str_replace($v_m, "\"" . $h . "\"", $v);
+    //         else
+    //             $v = str_replace($v_m, IGK_STR_EMPTY, $v);
+    //         break;
+    //     case "pr":
+    //     case "prop":
+    //         $p = &$systheme->getProperties();
+    //         $v_r = igk_css_design_property_value($value, $theme->properties, $v_designmode);
+    //         if (!empty($v_r))
+    //             $v_r .= $stop;
+    //         $v = str_replace($v_m, $v_r, $v);
+    //         break;
+    //     case "palcl":
+    //         $r = igk_get_palette();
+    //         $v = str_replace($v_m, $r ? igk_getv($r, $value) : null, $v);
+    //         break;
+    //     case "palbgcl":
+    //         $r = igk_get_palette();
+    //         if ($r) {
+    //             $s = $r[$value];
+    //             if (!empty($s))
+    //                 $v = str_replace($v_m, "background-color: " . $s . ";", $v);
+    //             else
+    //                 $v = str_replace($v_m, IGK_STR_EMPTY, $v);
+    //         } else {
+    //             $v = str_replace($v_m, IGK_STR_EMPTY, $v);
+    //         }
+    //         break;
+    //     case "palfcl":
+    //         $r = igk_get_palette();
+    //         $s = igk_getv($r, $value);
+    //         if (!empty($s))
+    //             $v = str_replace($v_m, "color: " . $s . ";", $v);
+    //         else
+    //             $v = str_replace($v_m, IGK_STR_EMPTY, $v);
+    //         break;
+    //     default:
+    //         if ((strlen($type) > 0) && ($type[0] == "-")) {
+    //             $type = substr($type, 1);
+    //             $v = str_replace($v_m, "-webkit-{$type}: {$value};-ms-{$type}:{$value}; -moz-{$type}:{$value}; -o-{$type}: {$value}; {$type}: {$value};", $v);
+    //         } else
+    //             $v = str_replace($v_m, IGK_STR_EMPTY, $v);
+    //         break;
+    // }
+    // return $v;
 }
 function & igk_css_get_treat_colors(?array $defColor=null){
     static $gcolor;
@@ -4152,163 +4166,7 @@ function & igk_css_get_treat_colors(?array $defColor=null){
     }
     return $gcolor;
 }
-///<summary>Represente igk_css_treat_gtheme function</summary>
-///<param name="theme"></param>
-///<param name="systheme"></param>
-///<param name="v"></param>
-/**
- * Represente igk_css_treat_gtheme function
- * @param string $value data to treat
- * @param \IGK\Css\ICssStyleContainer $theme 
- * @param \IGK\Css\ICssStyleContainer $systheme parent theme
- */
-function igk_css_treat_gtheme(string $value, \IGK\Css\ICssStyleContainer $theme, ?\IGK\Css\ICssStyleContainer $systheme=null)
-{
-    //+ -----------------------
-    //+ | Treat global theme .
-    //+ | value can be resolved with other view class chain
-    //+ | sample : (sys:.igk-def-c); overflow:hidden
-    //+ -----------------------
-
-
-    $reg = IGK_CSS_TREAT_REGEX;
-    $reg3 = IGK_CSS_CHILD_EXPRESSION_REGEX;
-    $match = array();
-    $gtheme = $theme;
-    $v = $value;
-    static $d;
-    if ($d===null){
-        // get static variable pointer
-        $cldef = & igk_css_get_treat_colors($systheme ? $systheme->getDef()->getCl() : []);
-        $d = (object)[
-            "gcl"=> & $cldef, // store pointer as reference
-            "designmode"=>igk_css_design_mode(),
-            "start"=>igk_sys_request_time(),
-            "last"=>$value,
-            "resolv"=>[],
-            "systheme"=>$systheme
-        ];
-         unset($cldef);
-    }
-    $duration = (($mt = igk_sys_request_time()) - $d->start) ;
-    // if ($duration>0.001){
-    //     //igk_wl("v: ".$d->last. " ". (($mt = igk_sys_request_time()) - $d->start) . " \n");
-    // }
-    $d->start = $mt;
-    $d->last = $value;
-    $systheme = $d->systheme;
-
-    // if ($v=="#EC4038"){
-    //     igk_trace();
-    //     igk_wln_e("defnnnn ");
-    // }
-    if ((strpos($v, "[")===false) && (strpos($v, "{")===false)){
-        return $v;
-    }
-    if (isset($d->resolv[$v])){
-        return $d->resolv[$v];
-    }
-    $v_def = $v;
-    
-    $gcl = & $d->gcl;   
-    $c = 0;
-    $v_designmode = $d->designmode; 
-    $v_resolv_names = [];
-
-    while (($c = preg_match_all($reg3, $v, $match))) {
-        for ($i = 0; $i < $c; $i++) {
-            $n = $match[0][$i];
-            $name = $match["name"][$i];
-            $type = $match["type"][$i];
-            $deftheme = $match["def"][$i];
-            $rv = IGK_STR_EMPTY;
-            if (empty($deftheme)) {
-                $deftheme = "def";
-            }
-            if (empty($type)) {
-                $rv = $gtheme->$deftheme[$name];
-            } else {
-                if (isset($v_resolv_names[$name])) {
-                    igk_ilog(["css loop - detection", $v_resolv_names, $name], __FUNCTION__);
-                    break;
-                }
-                switch ($type) {
-                    case "sys":
-                        $v_resolv_names[$name] = 1;
-                        $rv = $systheme->$deftheme[$name];
-                        break;
-                    case "th":
-                        $v_resolv_names[$name] = 1;
-                        $rv = $theme->$deftheme[$name];
-                        break;
-                    default:
-                        igk_ilog("css type not define: " . $name . " on " . $type . " " . $deftheme, __FUNCTION__);
-                        break;
-                }
-            }
-            $v = str_replace($n, $rv, $v);
-        }
-    }
-    $vresolv = 1;
-    $v = trim($v);
-    $vsrc = $v;
-    while ($vresolv) {
-        $vresolv = 0;
-        $qlist = [];
-        $qlist[] = $v;
-        $roots = [];
-        while ($g = array_pop($qlist)) {
-            $rtv = null;
-            $pos = 0;
-            if (is_array($g)) {
-                $rtv = $g["parent"];
-                $g = $g["value"];
-            }
-            while (($pos = strpos($g, "[", $pos)) !== false) {
-                $tv = igk_str_read_brank($g, $pos, "]", "[");
-                if (empty($tv))
-                    continue;
-                if ($rtv == null) {
-                    $roots[$tv] = $tv;
-                }
-                if (($tl = strpos($tv, "[", 1)) !== false) {
-                    $q = array("parent" => $tv, "value" => substr($tv, $tl));
-                    array_push($qlist, $q);
-                } else {
-                    $sv = igk_css_treat_value($tv, $theme, $systheme);
-                    if (($rtv == null) || !isset($roots[$rtv]))
-                        $roots[$tv] = $sv;
-                    else {
-                        $nvalue = str_replace($tv, $sv, $roots[$rtv]);
-                        $roots[$rtv] = $nvalue;
-                        if (($tl = strpos($nvalue, "[", 0)) !== false) {
-                            $q = array("parent" => $rtv, "value" => $nvalue);
-                            array_push($qlist, $q);
-                        }
-                        unset($roots[$tv]);
-                    }
-                }
-            }
-        }
-        foreach ($roots as $k => $tv) {
-            if ($k == $tv) {
-                $tv = "";
-            }
-            if (strpos($v, $k) === false) {
-                throw new \IGK\System\Exceptions\CssParserException("{$k} not found in {$v}");
-            } else
-                $v = str_replace($k, $tv, $v);
-        }
-        $v = igk_css_treat_bracket($v, $theme, $systheme);
-        $g = 0;
-        if (!empty($v) && ($v != $vsrc) && (strpos($v, "[") !== false)) {
-            $vresolv = 1;
-            $vsrc = $v;
-        }
-    }
-    $d->resolv[$v_def] = $v;
-    return $v;
-}
+ 
 ///<summary>used to treat style value</summary>
 /**
  * used to treat style value
@@ -4600,9 +4458,9 @@ function igk_ctrl_env_param_key($ctrl)
  * 
  * @param mixed $ctrl 
  */
-function igk_ctrl_env_view_arg_key($ctrl)
+function igk_ctrl_env_view_arg_key(\IGK\Controllers\BaseController $ctrl)
 {
-    return strtolower("sys://ctrl/viewargs/" . get_class($ctrl) . "/view/args");
+    return $ctrl::getEnvKey("/view/args");
 }
 ///<summary></summary>
 ///<param name="ctrn"></param>
@@ -5875,31 +5733,14 @@ function igk_db_get_table_info($table)
 ///<summary>Resolv table name</summary>
 ///<param name="name"></param>
 /**
- * Resolv table name
+ * Resolv table name shortcut
  * @param mixed $name 
+ * @return null|string resolved table name
  */
-function igk_db_get_table_name(string $name, $ctrl = null)
+function igk_db_get_table_name(string $name, ?BaseController $ctrl = null)
 {
-    $v = "/^%(?P<name>(prefix|sysprefix))%/i";
-    
-    return preg_replace_callback(
-        $v,
-        function ($m) use ($ctrl) {
-            switch ($m["name"]) {
-                case "prefix":
-                    $p = igk_app()->configs->get("db_prefix");
-                    if ($ctrl) {
-                        if (!empty($s = $ctrl->getConfigs()->clDataTablePrefix)) {
-                            $p = $s;
-                        }
-                    }
-                    return $p;
-                case "sysprefix":
-                    return igk_app()->configs->get("db_prefix");
-            }
-        },
-        $name
-    );
+    return \IGKSysUtil::DBGetTableName($name, $ctrl); 
+   
 }
 ///<summary>get table that contains specified column</summary>
 /**
@@ -6465,7 +6306,7 @@ function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$mig
         while ($c_entries = array_shift($entries)) {
             foreach ($c_entries->getElementsByTagName(DbSchemas::ROWS_TAG) as $v) {
                 if ($tb = $v["For"]) {
-                    $tb = $resolvname ? IGKSysUtil::GetTableName($tb, $ctrl) : $tb;
+                    $tb = $resolvname ? IGKSysUtil::DBGetTableName($tb, $ctrl) : $tb;
                     $rtab = [];
                     foreach ($v->getElementsByTagName("Row") as $item) {
                         if ($attr = $item->getAttributes()) {
@@ -6485,7 +6326,7 @@ function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$mig
         $c = array();
         $tb = $v["TableName"];
         if ($resolvname)
-            $tb = IGKSysUtil::GetTableName($v["TableName"], $ctrl);
+            $tb = IGKSysUtil::DBGetTableName($v["TableName"], $ctrl);
         foreach ($v->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
             $cl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
             $c[$cl->clName] = $cl;
@@ -6512,7 +6353,7 @@ function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$mig
                 $item = $v_m->$fc()->load($c);
                 switch (strtolower($fc)) {
                     case "addcolumn":
-                        $tb = IGKSysUtil::GetTableName($item->table, $ctrl);
+                        $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                         $tabcl = &$tables[$tb]["ColumnInfo"];
                         foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
                             $cl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
@@ -6520,13 +6361,13 @@ function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$mig
                         }
                         break;
                     case "removecolumn":
-                        $tb = IGKSysUtil::GetTableName($item->table, $ctrl);
+                        $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                         $tabcl = &$tables[$tb]["ColumnInfo"];
                         $item->columnInfo = $tabcl[$item->column];
                         unset($tabcl[$item->column]);
                         break;
                     case "changecolumn":
-                        $tb = IGKSysUtil::GetTableName($item->table, $ctrl);
+                        $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                         $tabcl = &$tables[$tb]["ColumnInfo"];
                         $item->columnInfo = $tabcl[$item->column];
                         foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
@@ -6535,7 +6376,7 @@ function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$mig
                         }
                         break;
                     case "renamecolumn":
-                        $tb = IGKSysUtil::GetTableName($item->table, $ctrl);
+                        $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                         $tabcl = &$tables[$tb]["ColumnInfo"];
                         $column = $tabcl[$item->column];
                         $column->clName = $item->new_name;
@@ -9648,17 +9489,12 @@ function igk_get_currency_symbol($curr = 'EUR')
 ///<summary>get the current base controller</summary>
 /**
  * get the current base controller
+ * @return null|BaseController return the current base controller shortcut
  */
 function igk_get_current_base_ctrl()
 {
-    $a = igk_app();
-
-    $g = igk_environment()->subdomainctrl ??
-        $a->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
-    if ($g !== null) {
-        return $g;
-    }
-    return null;
+    return \IGK\Helper\SysUtils::CurrentBaseController();
+   
 }
 ///<summary></summary>
 ///<param name="dir" default="null"></param>
@@ -9740,16 +9576,28 @@ function igk_get_default_view_content($ctrl)
 function igk_get_defaultconfigdata()
 {
     $servername = igk_getv($_SERVER, "SERVER_NAME", "igkdev.com");
-    $data = ["admin_login" => "admin", "admin_pwd" => "21232f297a57a5a743894a0e4a801fc3", "allow_article_config" => 0, "allow_auto_cache_page" => 0, "allow_debugging" => 0, "allow_log" => 0, "app_default_controller_tag_name" => "div", "cache_loaded_file" => 0, "company_name" => "igkdev", "copyright" => IGK_COPYRIGHT, "db_name" => "igkdev", "db_prefix" => IGK_DEFAULT_DB_PREFIX, "db_pwd" => "rootbonaje", "db_server" => "local_mysql", "db_user" => "root", "default_controller" => "igk_default", "mail_admin" => "administrator@igkdev.com", "mail_contact" => "info@igkdev.com", "mail_port" => 25, "mail_server" => "relay.skynet.be", "menu_defaultPage" => "default", "meta_copyright" => "igkdev@igkdev.com", "meta_description" => "default page description", "meta_enctype" => "text/html; charset=utf-8", "meta_keywords" => "IGKDEV, .NET, C#, BONDJE DOUE, Developper, PHP, HTML5, WEBDEV, PLATEFORM, BALAFON", "meta_title" => "igkdev.be", "powered_message" => "", "show_debug" => 0, "show_powered" => 1, "website_domain" => $servername, "website_prefix" => "igk", "website_title" => $servername, "default_lang" => "fr",] + include(IGK_LIB_DIR . "/.setting.global.pinc");
+    $data = ["admin_login" => "admin", "admin_pwd" => "21232f297a57a5a743894a0e4a801fc3", "allow_article_config" => 0, "allow_auto_cache_page" => 0, "allow_debugging" => 0, "allow_log" => 0, "app_default_controller_tag_name" => "div", "cache_loaded_file" => 0, "company_name" => "igkdev", "copyright" => IGK_COPYRIGHT, "db_name" => "igkdev", "db_prefix" => IGK_DEFAULT_DB_PREFIX, "db_pwd" => "", 
+    "db_server" => "localhost", 
+    "db_user" => "root", 
+    "default_controller" => "igk_default", "mail_admin" => "administrator@igkdev.com", "mail_contact" => "info@igkdev.com", "mail_port" => 25, "mail_server" => "relay.skynet.be", "menu_defaultPage" => "default", "meta_copyright" => "igkdev@igkdev.com", "meta_description" => "default page description", "meta_enctype" => "text/html; charset=utf-8", "meta_keywords" => "IGKDEV, .NET, C#, BONDJE DOUE, Developper, PHP, HTML5, WEBDEV, PLATEFORM, BALAFON", "meta_title" => "igkdev.be", 
+    "powered_message" => "IGKDEV", 
+    "powered_uri"=>"https://igkdev.com", 
+    "show_debug" => 0, "show_powered" => 1, "website_domain" => $servername, "website_prefix" => "igk", "website_title" => $servername, "default_lang" => "fr",] + include(IGK_LIB_DIR . "/.setting.global.pinc");
+
+    ksort($data);
     return igk_cache_array_content(igk_map_array_to_str($data));
 }
 function igk_get_defaultcron_data($file="cronjob.php"){
     $bal = IGK_APP_DIR."/Lib/igk/bin/balafon";
     $rootdir = igk_io_workingdir();
+    $author = igk_sys_configs()->get("author", IGK_AUTHOR);
     $o = "#!/usr/bin/env php\n";
     $o .="<?php\n";
     $o .="// @file: {$file}\n";
     $o .="// @date: ".date("Ymd H:i:s")."\n";
+    $o .="// @author: ". $author . "\n";
+    $o .="// @license: ". "\n\n";
+    
     $o .= "shell_exec(\"{$bal} --run:cron --wdir:{$rootdir}\");";
     return $o;
 }
@@ -11761,13 +11609,13 @@ function igk_header_set_contenttype($type, $charset = "charset=utf-8")
     $data = igk_getv($mime, $type, IGK_CT_PLAIN_TEXT) . $charset;
     header("Content-Type: " . $data);
 }
-///<summary></summary>
-///<param name="code"></param>
+///<summary>get header satus message</summary>
+///<param name="code">error code</param>
 /**
- * 
+ * get header satus message
  * @param mixed $code 
  */
-function igk_header_status($code)
+function igk_header_status(int $code)
 {
     return igk_getv(igk_get_env("sys://header/statuscode", function () {
         $t = array(
@@ -12706,7 +12554,7 @@ function igk_html_databinding_read_obj_litteral(&$obj, $value, $ctrl, $row)
 ///<param name="$ctx" type="mixed" >extra context data. </param>
 /**
  * treat string data binding response before eval
- * @param mixed $rep reponse
+ * @param mixed $rep response
  * @param mixed $$ctrl controller
  * @param mixed $$row row data to pass
  * @param mixed $$ctx extra context data. 
@@ -13666,17 +13514,7 @@ function igk_html_newnode($tag)
 {
     return new HtmlNode($tag);
 }
-///<summary></summary>
-///<param name="code"></param>
-/**
- * 
- * @param mixed $code 
- */
-function igk_html_output($code)
-{
-    $g = igk_header_status($code);
-    header("Status: " . $g);
-}
+ 
 ///<summary>get the base of the creation node</summary>
 /**
  * get the base of the creation node
@@ -15299,7 +15137,7 @@ function igk_io_check_request_file($uri, $failedcallback = null)
         $bdir = igk_io_basedir();
         $dir = igk_io_dir(dirname(igk_io_basedir() . "/" . $c));
         if (($bdir != $dir) && is_dir($dir)) {
-            igk_html_output(404);
+            igk_set_header(404);
             header("HTTP/1.0 404 Not Found");
             if ($failedcallback) {
                 $failedcallback();
@@ -18580,7 +18418,7 @@ function igk_mail_stylesheet()
     $f = igk_io_currentrelativepath(igk_sys_getconfig("mail_style_sheet", igk_io_basepath(igk_io_dir(IGK_LIB_DIR . "/Default/" . IGK_STYLE_FOLDER . "/mail.css"))));
     if (file_exists($f)) {
         $v_s = igk_str_remove_lines(IO::ReadAllText($f));
-        $v_s = igk_css_treat(igk_app()->getDoc()->getTheme(), $v_s);
+        $v_s = igk_css_treat($v_s, igk_app()->getDoc()->getTheme());
         $s->setContent($v_s);
     } else {
         igk_debug_wln(getcwd());
@@ -19007,9 +18845,9 @@ function igk_notify_post($msg, $notifytag = null, $type = "igk-default")
         igk_notifyctrl($notifytag)->TargetNode->div()->setContent($msg)->setClass($type);
     }
 }
-///<summary> utility to notify reponse</summary>
+///<summary> utility to notify response</summary>
 /**
- *  utility to notify reponse
+ *  utility to notify response
  */
 function igk_notify_reponse($msg, $type = 'default', $name = null)
 {
@@ -20655,21 +20493,31 @@ function igk_register_service($type, $name, $callback)
 ///<summary>register tempory route to class</summary>
 /**
  * register tempory route to class
+ * @param string controller class
  */
-function igk_register_temp_uri($controllerClass)
+function igk_register_temp_uri($controllerClass, ?BaseController $loader=null)
 {
     $routes = igk_app()->session->getRoutes();
     $cl = is_object($controllerClass) ? get_class($controllerClass) : $controllerClass;
     $is_module = is_object($controllerClass) && ($cl == IGKApplicationModuleController::class) && strstr($controllerClass->getDeclaredDir(), igk_get_module_dir(),);
     $rtname = $is_module ? "m:" . $controllerClass->getName() : $cl;
+ 
+
     if (!isset($routes[$rtname])) {
         $guid = igk_get_component_uri_key(igk_create_guid());
         $routes[$rtname] = $guid;
         igk_app()->settings->{IGK_SESS_ROUTES} = $routes;
-        $g = array("type" => "route", "class" => $cl);
+        $g = array(
+            "type" => "route", 
+            "class" => $cl            
+        );
+        if ($loader){
+            $g["loader"] = get_class($loader);
+        }
         if ($is_module)
             $g["module"] = $rtname;
         igk_app()->session->component($guid, $g);
+      
         return $guid;
     }
     return $routes[$rtname];
@@ -21275,16 +21123,7 @@ function igk_session_block_exit_callback()
         $t->onAppExit();
     }
 }
-///<summary></summary>
-/**
- * 
- */
-function igk_session_destroy()
-{
-    if ($id = session_id()) {
-        @session_destroy();
-    }
-}
+
 ///<summary>check if session file exists</summary>
 /**
  * check if session file exists
@@ -21349,12 +21188,12 @@ function igk_session_update($id, $callback, $close = 1)
 ///<param name="data"></param>
 ///<param name="duration" default="600"></param>
 /**
- * 
- * @param mixed $n 
- * @param mixed $data 
- * @param mixed $duration 
+ * set session cache data
+ * @param string $n name for cache data
+ * @param mixed $data data to store
+ * @param int $duration duration
  */
-function igk_set_cached($n, $data, $duration = 600)
+function igk_set_cached(string $n, $data, int $duration = 600)
 {
     $igk = igk_app();
     $c = $igk->Session->getParam("sys://cache");
@@ -21541,7 +21380,7 @@ function igk_set_globalvars($n, $d)
 ///<param name="message" default=""></param>
 /**
  * 
- * @param mixed $code reponse mesage code
+ * @param mixed $code response mesage code
  * @param mixed $message custom message to add to response
  * @param array headers list of extra header entries
  */
@@ -23397,20 +23236,15 @@ function igk_str_remove_empty_line($str)
     }
     return $o;
 }
-///<summary>remove line</summary>
+///<summary>remove line empty file </summary>
 /**
- * remove line
+ * remove empty line line
+ * @param string $str string
+ * @return string 
  */
 function igk_str_remove_lines($str)
 {
-    $t = preg_split("/(\r\n)|(\n)|(\t)/i", $str);
-    $o = IGK_STR_EMPTY;
-    foreach ($t as $v) {
-        if (($v == null) || empty($v) || (strlen(trim($v)) == 0))
-            continue;
-        $o .= $v;
-    }
-    return trim($o);
+    return \IGK\Helper\StringUtility::SanitizeLine($str); 
 }
 ///<summary>Represente igk_str_remove_quote function</summary>
 ///<param name="v"></param>
@@ -24500,7 +24334,7 @@ function igk_sys_env_enable_production_mode()
  */
 function igk_sys_error($error)
 {
-    igk_html_output(404);
+    igk_set_header(404);
     header("HTTP/1.0 404 Not Found");
     $r = new XmlNode("result");
     $r->add("error")->Content = $error;
@@ -25286,7 +25120,7 @@ function igk_sys_powered_node()
     $d = igk_create_node("div");
     $d["class"] = "igk-powered no-selection no-contextmenu google-Roboto";
     $d["igk-no-contextmenu"] = "1";
-    $s = igk_app()->Configs->powered_message;
+    $s = igk_app()->getConfigs()->powered_message;
     $d->Content = !empty($s) ? $s : __("Powered by") . " <a href=\"" . IGK_WEB_SITE . "\" >IGKDEV</a> ";
     $d->setCallback("getIsVisible", "igk_sys_powered_view_callback");
     return $d;
@@ -25857,7 +25691,7 @@ function igk_sys_shutdown_function($evt = null)
             }
             header("Content-Type:text/html");
             igk_header_no_cache();
-            igk_html_output(404, 'error on page');
+            igk_set_header(404, 'error on page');
             $lastexp = igk_get_env(IGK_LAST_EVAL_KEY);
             if ($lastexp && igk_server_is_local()) {
                 $lastexp = "eval function failed to evaluate : <div><code>" . htmlentities($lastexp) . "</code></div>";

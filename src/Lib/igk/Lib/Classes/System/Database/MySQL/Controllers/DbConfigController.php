@@ -55,6 +55,7 @@ final class DbConfigController extends ConfigControllerBase
      */
     public function __db_query_r_ajx()
     {
+        $g = null;
         $mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
         $q = trim(igk_getr("clQuery"));
         if (empty($q) || !igk_is_conf_connected())
@@ -65,7 +66,8 @@ final class DbConfigController extends ConfigControllerBase
         }
         if (preg_match("/^SELECT /i", $q)) {
             $g = $mysql->sendQuery("SELECT COUNT(*) as count FROM (" . $mysql->escape_string($q) . ") as dummy");
-            if ($g->getRowAtIndex(0)->count > 50) {
+            $r = $g->getRowAtIndex(0);
+            if ($r && ($r->count > 50)) {
                 $q .= " Limit 1, 50";
             }
         }
@@ -647,6 +649,7 @@ final class DbConfigController extends ConfigControllerBase
         $bar->addABtn($this->getUri("backupDb"))->Content = __("btn.backupdatabase");
         $bar->addABtn($this->getUri("pdropDb"))->Content = __("Drop database");
         $bar->addABtn($this->getUri("pMigrate"))->Content = __("Migrate");
+        $bar->abtn($this->getUri("pCleanTable"))->Content = __("Clean Database");
         if (!igk_environment()->is("OPS"))
             $bar->addABtn($this->getUri("pSeed"))->Content = __("Seed");
         $bar->addAJXA($this->getUri("db_reload_sys_tables_ajx"))->setClass("igk-btn")->Content = __("btn.reloadsystables");
@@ -668,6 +671,35 @@ final class DbConfigController extends ConfigControllerBase
             $this->notifyctrl()->success("database cleaned");
         }
         return igk_navtocurrent();
+    }
+    public function pCleanTable(){
+        $ad = $this->getDataAdapter();
+        $q = igk_sys_configs()->get("db_prefix", "tbigk_")."%";
+        // $q = "%\\\\_%";
+        if (!$ad->connect()){
+            return null;
+        }
+        $dbname = igk_sys_configs()->db_name;
+        $op = "NOT"; //igk_getr("not") ? "NOT" :  "";
+        // igk_environment()->querydebug = 1;
+            $q = $ad->escape_string($q);
+            $field = "tables_in_{$dbname}";
+            $rg = $ad->sendQuery("SHOW TABLES WHERE tables_in_{$dbname} {$op} LIKE '$q'");
+            if ($rg && ($rg->getRowCount()>0)){
+                $field = ucfirst($field);
+                $ad->stopRelationChecking();
+                $ad->beginTransaction();
+                foreach($rg->getRows() as $r){
+                    igk_dev_wln($r->$field);
+                    $ad->sendQuery("DROP TABLE `".$ad->escape_string($r->$field)."`");
+                }
+                $ad->commit();
+                $ad->restoreRelationChecking();
+            } 
+        
+            $ad->close();
+            return igk_navtocurrent();
+      
     }
     public function pMigrate()
     {
@@ -723,13 +755,12 @@ final class DbConfigController extends ConfigControllerBase
         if ($mysql->connect()) {
             if ($db_table) {
                 foreach ($db_table->Rows as $t => $v) {
-                    $v_tbname = igk_getv($v, "Table");
-                    // $r=$mysql->sendQuery("SELECT * FROM `".$v_tbname."`;");
+                    $v_tbname = igk_getv($v, "Table"); 
                     ///TODO: SELECT
-                    $r = $mysql->getGrammar()->createSelectQuery($v_tbname);  // sendQuery("SELECT * FROM `".$v_tbname."`;");
+                    $query = $mysql->getGrammar()->createSelectQuery($v_tbname);  // sendQuery("SELECT * FROM `".$v_tbname."`;");
+                    $r = $mysql->sendQuery($query); 
                     if ($r) {
-                        $out .= $v_tbname . IGK_LF;
-                        $v_sep = false;
+                        $out .= $v_tbname . IGK_LF; 
                         $out .= $adapter->toCSVLineEntry($r->Columns, "name") . IGK_LF;
                         if ($r->Rows) {
                             foreach ($r->Rows as $e) {
@@ -806,6 +837,7 @@ final class DbConfigController extends ConfigControllerBase
     public function db_backup_tables($ctrl, $outtag, $dbname = null, $storetableinfo = true)
     {
         $tables = $this->getTablesFor($ctrl);
+    
         if (!is_array($tables))
             return;
         $ad = igk_get_data_adapter($this, true);
@@ -1692,7 +1724,7 @@ final class DbConfigController extends ConfigControllerBase
                 igk_dev_wln_e("not definite ".$tablename);
             }
             self::$sm_tabinfo[$tablename] = $info;  
-            igk_hook("filter_db_schema_info", ["tablename"=>$tablename, "info"=> & $info]);
+            igk_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename"=>$tablename, "info"=> & $info]);
             return $info;
         }
        
@@ -1704,6 +1736,10 @@ final class DbConfigController extends ConfigControllerBase
                 if ($def = $c->getDataTableDefinition($tablename)) {
                     $found = true;
                     self::$sm_tabinfo[$tablename] = $def; 
+                    // if ($tablename == "tbigk_subdomains"){
+                    //     igk_wln_e(__FILE__.":".__LINE__, "subdomain.....", 
+                    //     $c, $def);
+                    // }  
                     // igk_wln("binding ..... ", $tablename, 
                     //     \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($adName, $tablename)["ColumnInfo"]);
                     break;
@@ -1713,6 +1749,7 @@ final class DbConfigController extends ConfigControllerBase
         if ($found) {
             return $def;
         }
+        igk_test_wln("controller list ", $ctrl_s, "found :", $tablename, $found);
     }
     
     ///<summary></summary>
@@ -1781,6 +1818,7 @@ final class DbConfigController extends ConfigControllerBase
     {
         igk_trace();
         die("not implements". __METHOD__);
+        return null;
 
         if (is_string($ctrl)) {
             $h = igk_getctrl($ctrl);
