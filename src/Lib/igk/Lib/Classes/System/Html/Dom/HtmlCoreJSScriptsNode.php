@@ -3,6 +3,7 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\Helper\IO;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGKCaches;
@@ -13,7 +14,7 @@ use IGKResourceUriResolver;
  * core script rendering
  * @package IGK\System\Html\Dom
  */
-class HtmlCoreJSScriptsNode extends HtmlNode
+final class HtmlCoreJSScriptsNode extends HtmlNode
 {
     private static $sm_instance;
     public static function getItem()
@@ -23,8 +24,7 @@ class HtmlCoreJSScriptsNode extends HtmlNode
         }
         return self::$sm_instance;
     }
-    public function __construct()
-    {
+    private function __construct(){
         parent::__construct("igk:js-core-script");
     }
     public function getCanAddChilds()
@@ -37,8 +37,7 @@ class HtmlCoreJSScriptsNode extends HtmlNode
     }
     protected function __AcceptRender($opt = null)
     {
-        $document = igk_getv($opt, "Document");
-        return true;
+        return $this->getIsVisible() && igk_getv($opt, "Document");        
     }
     protected function __getRenderingChildren($options = null)
     {
@@ -46,15 +45,25 @@ class HtmlCoreJSScriptsNode extends HtmlNode
     }
     public function render($options = null)
     {
+        // igk_trace();
+        // igk_exit();
+        $tabstop = "";
+        $bck_def = false;
+        $bck_def = $options->Depth;
+        $options->Depth = max(0, $options->Depth - 1);
+      
+        $tabstop = HtmlRenderer::GetTabStop($options);
         $sb = new StringBuilder();
         if (igk_environment()->is("DEV")) {
-            $sb->appendLine("<!-- core scripts -->");
-            $sb->appendLine(self::GetCoreScriptContent());
-            $sb->appendLine("<!-- :core scripts -->");
+            $sb->appendLine($tabstop."<!-- core scripts -->");
+            $sb->append(self::GetCoreScriptContent($options));
+            $sb->append($tabstop."<!-- end:core scripts -->".$options->LF);
         } else {
             // production script
-            $sb->appendLine(self::GetCoreScriptContent(igk_environment()->is("OPS")));
+            $sb->appendLine(self::GetCoreScriptContent($options, igk_environment()->is("OPS")));
         }
+        if($bck_def)
+            $options->Depth = $bck_def;
         return $sb;
     }
     
@@ -64,45 +73,52 @@ class HtmlCoreJSScriptsNode extends HtmlNode
      * @return string|false 
      * @throws IGKException 
      */
-    public static function GetCoreScriptContent($production = false)
+    public static function GetCoreScriptContent($options, $production = false)
     {
         $no_page_cache = igk_setting()->no_page_cache();
         $out = "";
         $exclude_dir = [];
+        $uri = igk_server()->REQUEST_URI ?? "";
         $resolver = IGKResourceUriResolver::getInstance();
         $tab = [
             [IGK_LIB_DIR . "/" . IGK_SCRIPT_FOLDER, "igk"],
             [IGK_LIB_DIR . "/Ext", "sys"],
         ];
-        $d = rtrim(explode("?", igk_server()->REQUEST_URI)[0], "/");
+        $d = rtrim(explode("?", $uri)[0], "/");
         $rq = null;
         $resolverfc = null;
         $tag = null;
         $s = "";
+        $lf = $options->LF;
+        $tabstop = HtmlRenderer::GetTabStop($options);
+
+        // igk_wln_e("no cache page : ", $no_page_cache);
         // $production = true;
         $production_file  = ""; 
         if (!$production) {
             $rq = count(array_filter(explode("/", $d))) . "/:";
-            $resolverfc = function ($f) use ($resolver, &$s, &$tag) {
+            $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf, $tabstop) {
                 $ext = Path::GetExtension($f);
                 $u = $resolver->resolve($f);
                 switch (($ext)) {
                     case ".js";
                         $u .= "?v=" . IGK_VERSION;
-                        $s .= "<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
+                        $s .= $tabstop."<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
                         if ($tag != "igk") {
                             $s .= " defer";
                         }
-                        $s .= " ></script>";
+                        $s .= " ></script>".$lf;
                         break;
                 }
             };
         } else {
-            $production_file = IGKCaches::js_filesystem()->getCacheFilePath("corejs:/igk.js");
-            if ( !$no_page_cache  && file_exists($production_file)){                
+            $production_file = IGKCaches::js_filesystem()->getCacheFilePath("corejs:/igk.js", ".js");
+           
+
+            if (!$no_page_cache  && file_exists($production_file)){                
                 return file_get_contents($production_file);
             }
-            $resolverfc = function ($f) use ($resolver, &$s) {
+            $resolverfc = function ($f) use ($resolver, &$s, $lf, $tabstop) {
                 $ext = Path::GetExtension($f);
                 $F = igk_io_collapse_path($f);
                 switch (($ext)) {
@@ -140,11 +156,13 @@ class HtmlCoreJSScriptsNode extends HtmlNode
                 igk_js_minify($out),
                 igk_js_minify(file_get_contents(IGK_LIB_DIR."/Inc/js/eval.js"))
             ];
-            $out = "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[".$pif[0]."]]>\n</script>\n";
-            $out.= "<script type=\"text/javascript\" language=\"javascript\" >\n".$pif[1]."\n</script>";
-            igk_io_w2file($production_file, $out);
-            $path = IGKCaches::js_filesystem()->getCacheFilePath("corejs-dist:/igk.js", ".js");
-            igk_io_w2file($path, implode("\n", $pif));
+            $out = $tabstop."<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[".$pif[0]."]]>\n</script>".$lf;
+            $out.= $tabstop."<script type=\"text/javascript\" language=\"javascript\" >\n".$pif[1]."\n</script>".$lf;
+            if (!$no_page_cache){
+                // IO::WriteToFile($production_file, $out);
+                // $path = IGKCaches::js_filesystem()->getCacheFilePath("corejs-dist:/igk.js", ".js");
+                IO::WriteToFile($production_file, $out);
+            }
         }
         return $out;
     }

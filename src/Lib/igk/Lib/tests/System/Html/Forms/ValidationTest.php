@@ -24,6 +24,7 @@ class ValidationTest extends BaseTestCase
 
 
         $validation = new Validation();
+        $validation->storage = false;
         $validation
             ->validator([
                 "filename" => ["type" => "text", "required" => 1, "error" => "missing text"],
@@ -91,6 +92,7 @@ class ValidationTest extends BaseTestCase
     {
         //custom type validate
         $validation = new Validation();
+        $validation->storage = false;
         $validation->registerValidator("custom", function ($value, $default = null) {
             return "handle:" . $value;
         });
@@ -106,7 +108,7 @@ class ValidationTest extends BaseTestCase
     {
         //custom type validate
         $validation = new Validation();
-
+        $validation->storage = false;
         $this->assertEquals(
             false,
             $validation->validator([
@@ -128,7 +130,7 @@ class ValidationTest extends BaseTestCase
     {
         //custom type validate
         $validation = new Validation();
-
+        $validation->storage = false;
         $this->assertEquals(
             false,
             $validation->validator([
@@ -150,7 +152,7 @@ class ValidationTest extends BaseTestCase
     {
         //custom type validate
         $validation = new Validation();
-
+        $validation->storage = false;
         $b = $validation->validator([
             "x" => ["type" => "url",  "required" => 1, "default" => null, "error" => "x not defined"]
         ])->validate(["x" => "basics", "default" => true]);
@@ -203,7 +205,7 @@ class ValidationTest extends BaseTestCase
     {
         //custom type validate
         $validation = new Validation();
-
+        $validation->storage = false;
         $this->assertEquals(
             false,
             $validation->validator([
@@ -219,5 +221,19 @@ class ValidationTest extends BaseTestCase
             ])->validate(["x" => "{\"basics\":\"45\"}", "default" => true]),
             "json validation: test 1"
         );
+    }
+
+    public function test_file_validation(){
+        $validation = new Validation();
+        $validation->storage = false;
+
+        $this->assertEquals(
+            ["x"=>["name"=>"myfile", "size"=>0, "default" => true]],
+            $validation->validator([
+                "x" => ["type" => "file", "required" => 1, "default" => null, "error" => "x not defined"]
+            ])->files(["x" => ["name"=>"myfile", "size"=>0, "default" => true]]),
+            "test file validation "
+        ); 
+
     }
 }

@@ -80,5 +80,7 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
         unset($this->m_data[$n]);
     }
 
-  
+    protected function _access_offsetExists($n){
+        return isset($this->m_data[$n]);
+    }
 }

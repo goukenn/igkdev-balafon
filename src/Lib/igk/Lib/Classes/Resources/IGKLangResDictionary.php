@@ -23,7 +23,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * 
     * @param mixed $i
     */
-    public function _access_OffsetExists($i){
+    protected function _access_offsetExists($i){
         return isset($this->_f[strtolower($i)]);
     }
     ///<summary></summary>
@@ -32,7 +32,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * 
     * @param mixed $i
     */
-    public function _access_offsetGet($i){
+    protected function _access_offsetGet($i){
         return $this->_f[strtolower($i)];
     }
     ///<summary></summary>
@@ -43,7 +43,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $i
     * @param mixed $v
     */
-    public function _access_offsetSet($i, $v){
+    protected function _access_offsetSet($i, $v){
         $this->_f[strtolower($i)]=$v;
     }
     ///<summary></summary>
@@ -52,7 +52,7 @@ final class IGKLangResDictionary implements ArrayAccess{
     * 
     * @param mixed $i
     */
-    public function _access_offsetUnset($i){
+    protected function _access_offsetUnset($i){
         unset($this->_f[strtolower($i)]);
     }
     ///<summary> get sorted keys</summary>

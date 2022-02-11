@@ -71,7 +71,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     * 
     * @param mixed $i
     */
-    public function _access_offsetExists($i):bool{
+    protected function _access_offsetExists($i):bool{
         return isset($this->_properties[$i]);
     }
     ///<summary></summary>
@@ -80,7 +80,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     * 
     * @param mixed $i
     */
-    public function _access_offsetGet($i){
+    protected function _access_offsetGet($i){
         return isset($this->_properties[$i]) ? $this->_properties[$i]: null;
     }
     ///<summary></summary>
@@ -91,7 +91,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     * @param mixed $i
     * @param mixed $v
     */
-    public function _access_offsetSet($i, $v){
+    protected function _access_offsetSet($i, $v){
         if($v == null)
             unset($this->_properties[$i]);
         else
@@ -103,7 +103,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     * 
     * @param mixed $i
     */
-    public function _access_offsetUnset($i){
+    protected function _access_offsetUnset($i){
         unset($this->_properties[$i]);
     }
     ///<summary></summary>

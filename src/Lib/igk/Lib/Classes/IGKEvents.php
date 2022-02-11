@@ -19,6 +19,7 @@ class IGKEvents extends IGKObject
     const HOOK_DB_DATA_ENTRY = "db_dataentry";
     const HOOK_DB_INIT_COMPLETE = "db_init_complete";
     const HOOK_DB_INIT_ENTRIES = "db_init_entries";
+    const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
     const HOOK_HTML_BODY = "html_body";
     const HOOK_HTML_FOOTER = "html_footer";
     const HOOK_HTML_HEAD = "html_head";

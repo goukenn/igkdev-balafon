@@ -18,6 +18,12 @@ use function igk_resources_gets as __;
 
 final class SubDomainController extends ConfigControllerBase
 {
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    //     igk_trace();
+    //     igk_wln("create ");
+    // }
     ///<summary>Represente __init_domain function</summary>
     private function __init_domain()
     {
@@ -43,8 +49,7 @@ final class SubDomainController extends ConfigControllerBase
     }
     ///<summary></summary>
     public function dom_add_db_domain_ajx()
-    {
-        //igk_wln("is ajx demand ". igk_is_ajx_demand());
+    { 
         if (!igk_is_ajx_demand()) {
             $uri = igk_server()->REQUEST_URI;
             $uri = explode("?", $uri)[0];

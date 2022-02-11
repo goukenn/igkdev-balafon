@@ -44,11 +44,20 @@ abstract class RequestResponse extends Response{
     public function clear_headers(){
         $this->headers = [];
     }
-
-    public static function Create($type, $data, $code=200, $headers=null){
-        $cl = __NAMESPACE__."\\".ucfirst($type)."Response";
-        if (class_exists($cl)){
-            $obj = new $cl($data, $code);
+     
+    /**
+     * create a response
+     * @param string $type 
+     * @param mixed $data 
+     * @param int $code 
+     * @param null|array $headers 
+     * @return object 
+     */
+    public static function Create(?string $type, $data,int $code=200, ?array $headers=null){
+        
+        $cl = ($type)? __NAMESPACE__."\\".ucfirst($type)."Response" : null;
+        if ($cl && class_exists($cl)){
+            $obj = new $cl($data, $code, $headers);
         }else {
             $obj = new WebResponse($data, $code, $headers);
         }  

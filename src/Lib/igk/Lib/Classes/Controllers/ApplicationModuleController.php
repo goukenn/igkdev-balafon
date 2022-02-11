@@ -72,8 +72,8 @@ final class ApplicationModuleController extends BaseController{
         igk_set_env($this->getModuleKey($name), $value); 
         return $this;
     }
-    public function getEnvParam($name){
-        return igk_get_env($this->getModuleKey($name)); 
+    public function getEnvParam($name, $default=null){
+        return igk_get_env($this->getModuleKey($name), $default); 
     }
     ///<summary></summary>
     ///<param name="dir"></param>

@@ -935,7 +935,7 @@ EOF;
             $frm["action"] = $this->getUri("update_article" . (($ajx == 1) ? null : "#" . $this->_getarticleid()));
             $ul = $frm->add("ul");
             $ul["class"] = "fitw";
-            $ul->li()->addTextArea("clContent", $str)->setClass("igk-text-editor");
+            $ul->li()->addTextArea("clContent", $str)->setClass("igk-winui-text-editor");
             $txt["class"] = "fitw tyni";
             $frm->addInput("clfile", "hidden", base64_encode(urlencode($f)));
             $frm->addInput("navigate", "hidden", igk_getr("navigate", 0));

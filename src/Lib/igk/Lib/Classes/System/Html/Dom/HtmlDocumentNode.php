@@ -1,8 +1,9 @@
 <?php
-
+// @file: HtmlDocumentNode.php
 
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
+use IGKEvents;
 
 ///<summary>reprensent a html document</summary>
 class HtmlDocumentNode extends HtmlItemBase{
@@ -59,14 +60,11 @@ class HtmlDocumentNode extends HtmlItemBase{
         $this->m_body = $this->add(new HtmlBodyNode());
     }
     public function render($options=null){
-        if ($options==null){
-            $options = HtmlRenderer::CreateRenderOptions();
-        }
+        HtmlRenderer::DefOptions($options); 
         $options->Document = $this; 
-        $s = "<!DOCTYPE html ";
-     
-        $s.= ">\n";
+        $s = "<!DOCTYPE html>\n";             
         $attr = "";
+        $ln = $options->LF;
         if (!empty($this->m_lang)){
             $attr = " lang=\"".$this->m_lang."\"";
         }
@@ -82,11 +80,24 @@ class HtmlDocumentNode extends HtmlItemBase{
             $attr .= " ".$extra;
         }
         $s .= "<html{$attr}>"; 
-        $s .= HtmlRenderer::Render($this->m_head, $options);
-        $s .= HtmlRenderer::Render($this->m_body, $options);   
+        $sdepth = $options->Depth;
+        $options->Depth++;
+        igk_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, ["doc"=>$this]);
+        if (!empty($head = HtmlRenderer::Render($this->m_head, $options))){
+            $s.= $head.$ln;
+        }
+        $options->Depth = $sdepth+1;
+        if (!empty($body = HtmlRenderer::Render($this->m_body, $options))){
+            $s = rtrim($s) . $body.$ln;
+        };   
+        $options->Depth = $sdepth;
         $s .= "</html>";
         return $s;
     }
+    /**
+     * get extra attribute
+     * @return null 
+     */
     protected function headerExtraAttribute(){
         return null;
     }

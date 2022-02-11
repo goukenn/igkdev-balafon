@@ -81,7 +81,7 @@ final class CacheConfigs{
      * @throws IGKException 
      */
     public static function storeCacheOptions(){
-        if (self::getInstance()->changed){
+        if (!defined("IGK_TEST_INIT") && self::getInstance()->changed){
             igk_io_w2file(self::getInstance()->getCacheFile(), serialize(self::getInstance()->cacheOptions));
             self::getInstance()->changed = false;
         }
@@ -96,6 +96,9 @@ final class CacheConfigs{
      * @throws IGKException 
      */
     public static function GetCachedSetting($name, $key, $default=null){
+        if (defined("IGK_TEST_INIT")) 
+            return null;
+
         $options = igk_getv(self::getInstance()->cacheOptions, $name);
         if ($options){
             return igk_getv($options, $key, $default);

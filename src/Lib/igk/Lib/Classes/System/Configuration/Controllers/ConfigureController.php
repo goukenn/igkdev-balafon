@@ -7,6 +7,8 @@ use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Helper\IO;
 use IGK\System\CronJob;
+use IGK\System\Html\Dom\HtmlConfigContentNode;
+use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\WinUI\Menus\MenuItem;
@@ -18,6 +20,7 @@ use IGKResourceUriResolver;
 use IGKServer;
 use IGKSubDomainManager; 
 use IGKHostParam;
+use IGKValidator;
 
 use function igk_resources_gets as __;
 
@@ -606,8 +609,8 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     public function configure_search_ajx()
     {
-        $s = igk_getr("clsearch");
-        $n = igk_html_node_notagnode();
+        $s = igk_getr("clsearch"); 
+        $n = new HtmlNoTagNode();  
         if (!empty($s)) {
             $s = "/(" . $s . ")/i";
         } else {
@@ -621,18 +624,24 @@ final class ConfigureController extends BaseController implements IConfigControl
      * global configure setting request
      */
     public function configure_settings()
-    {
+    { 
+       
         if (!igk_is_conf_connected()) {
             igk_navto($this->getAppUri());
         }
+        try{
         igk_header_no_cache();
         igk_set_env("sys://designMode/off", 1);
         igk_set_env("sys://defaultpage/off", 1);
         $doc = igk_get_document($this, 0);
         $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->div();
         $t->div()->Content = __("Configuration view");
-        self::ViewInContext($this, "general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);
+        $this::ViewInContext("general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);
         $doc->renderAJX();
+        }
+        catch(\Exception $e){
+            igk_wln_e("something bad happend", $e->getMessage());
+        }
         igk_exit();
     }
     ///<summary></summary>
@@ -658,11 +667,11 @@ final class ConfigureController extends BaseController implements IConfigControl
  
 
         $r = $tab->add("thead")->setClass("igk-fixed-header")->addTr();
-        $r->addTH()->Content = __("Name");
-        $r->addTH()->Content = __("Type");
-        $r->addTH()->Content = __("Status");
-        $r->addTH()->setStyle("width:100%")->Content = __("Value");
-        $r->addTH()->Content = __("Description");
+        $r->th()->Content = __("Name");
+        $r->th()->Content = __("Type");
+        $r->th()->Content = __("Status");
+        $r->th()->setStyle("width:100%")->Content = __("Value");
+        $r->th()->Content = __("Description");
         $ti = array("admin_pwd" => 1);
         $p = "";
         $gf = igk_app()->Configs;
@@ -674,13 +683,13 @@ final class ConfigureController extends BaseController implements IConfigControl
                     continue;
                 $cnf = igk_getv($gf, $vk);
                 $r = $st->addTr();
-                $r->addTd()->Content = $vk;
-                $r->addTd()->Content = 'string';
-                $r->addTd()->Content = $vv == $cnf;
-                $td = $r->addTd();
+                $r->td()->Content = $vk;
+                $r->td()->Content = 'string';
+                $r->td()->Content = $vv == $cnf;
+                $td = $r->td();
                 $td->Content = $cnf;
                 $td->setClass("e");
-                $r->addTd()->Content = $cnf->clDesc;
+                $r->td()->Content = "&nbsp;"; //$cnf->clDesc;
             }
         }
         $uri = $this->getUri("configure_store_ajx");
@@ -874,8 +883,8 @@ EOF;
     {
         static $confNode;
         if ($confNode === null) {
-            $confNode = igk_create_node("div");
-            $confNode->setId("igk-cnf-content")->setClass("igk-cnf-content");
+            $confNode = new HtmlConfigContentNode();
+   
         }
         return $confNode; 
     }
@@ -1155,7 +1164,7 @@ EOF;
             $frm->addInput("badUri", "hidden", $this->getAppUri());
             $bar = $frm->addActionBar()->setStyle("margin: auto; display: flex; justify-content: space-between; ");
             $bar->addButton("connect", 1)->setClass("bmc-raise igk-winui-bmc-button")->Content = __("Connect");
-            $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", igk_sys_domain_name());
+            $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", IGKValidator::IsIpAddress(igk_server()->SERVER_NAME) ? __("Home") :  igk_sys_domain_name());
             $root->div()->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
             $root->div()->setClass("alignc")->addIGKCopyright();
 
@@ -1863,9 +1872,7 @@ EOF;
                             $tab = $this->getEnvParam("cnf_query_options");
                             $g = igk_pattern_view_extract($v_cctrl, $tab, 1);
                             $v_cctrl->regSystemVars(array_merge(isset($g["c"]) ? [$g["c"]] : [], is_array($v_t = igk_getv($g, "param")) ? $v_t : []), igk_getv($g, "query_options"));
-                            $v_cctrl->showConfig();
-                            //igk_wln_e("select ", $this->getSelectedConfigCtrl(), igk_get_env("sys://config/selectedview"));
-
+                            $v_cctrl->showConfig(); 
                         }
                     }
                 }

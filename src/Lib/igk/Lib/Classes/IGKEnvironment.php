@@ -18,6 +18,7 @@ require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
 * @property array  $db_adapter get registered data adapters
 * @property bool $no_lib_cache no library cache
 * @property null|array $extra_config extra configuration file
+* @property bool $handle_ctrl_request flag that handle controller request . subdomain usage
 */
 final class IGKEnvironment extends IGKEnvironmentConstants{
     private static $sm_instance;

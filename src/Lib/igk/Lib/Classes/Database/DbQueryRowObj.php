@@ -45,13 +45,13 @@ class DbQueryRowObj implements ArrayAccess, Iterator{
 		}
 		return $tab;
 	}
-	public function _access_Exists($i){ 
+	protected function _access_Exists($i){ 
 		return isset($this->m_rows[$i]);
 	}
-	public function _access_offsetExists($i){
+	protected function _access_offsetExists($i){
 		return isset($this->m_rows[$i]);
     }
-	public function _access_OffsetSet($i, $v){
+	protected function _access_offsetSet($i, $v){
 		$this->m_rows[$i] = $v;
 	}
 	public function OffsetGet($i){
@@ -60,7 +60,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator{
 		}
 		return null;
 	}
-	public function _access_OffsetUnset($i){
+	protected function _access_offsetUnset($i){
 		 unset( $this->m_rows[$i]);
 	}
 

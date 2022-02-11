@@ -10,10 +10,12 @@ use IGK\Resources\R;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\Cache\SystemFileCache as IGKSysCache;
+use IGK\Cache\SystemFileCache;
 use IGK\Controllers\RootControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Drawing\Color;
+use IGK\System\IO\File\PHPScriptBuilder;
 
 use function igk_resources_gets as __;
 
@@ -332,12 +334,20 @@ final class IGKControllerManagerObject extends IGKObject {
         }
         return false;
     }
-    ///<summary>get file ctrl cache</summary>
+    ///<summary>get controller info's cache file</summary>
     /**
-    * get file ctrl cache
+    * get controller info's cache file
+    * @return string 
     */
     private static function FileCtrlCache(){
         return igk_io_syspath(IGK_FILE_CTRL_CACHE);
+    }
+    /**
+     * get system's projects controller cache file
+     * @return string 
+     */
+    private static function FileProjectCtrlCache(){
+        return igk_io_syspath(IGK_FILE_PROJECT_CTRL_CACHE);
     }
     ///<summary></summary>
     ///<param name="classname"></param>
@@ -384,13 +394,32 @@ final class IGKControllerManagerObject extends IGKObject {
         if(self::$sm_instance === null){ 
 			self::$sm_instance = new self();
             igk_reg_hook(IGKEvents::HOOK_INIT_APP, function($e){  
-                if (!igk_setting()->no_init_controller)              
+              if (!igk_setting()->no_init_controller)              
                 {
                     self::$sm_instance->InitControllers($e->args["app"]);
                 } 
             }); 
         }  
         return self::$sm_instance;
+    }
+    private function classProjectStore(){
+      
+        $f = self::FileProjectCtrlCache();
+        $m = "";
+        $p = $this->getUserControllers();
+        if ($p){ 
+            $m ="return [\n".implode("\n", array_map(function(BaseController $i){
+                $dir = igk_io_collapse_path($i->getDeclaredDir());
+                $dir = str_replace("%project%", "IGK_PROJECT_DIR.'", $dir);
+                return "\"".addslashes(get_class($i)). "\" => ".$dir."',";
+            }, $p)). "\n];";
+            $builder = new PHPScriptBuilder();
+            $builder->type("function")->defs($m)
+            ->file(basename($f))
+            ->desc("project controller cache");
+            $m = $builder->render();
+        } 
+        igk_io_w2file($f, $m);
     }
     ///<summary>get registerd global controller for specific fonctionnality</summary>
     /**
@@ -439,6 +468,13 @@ final class IGKControllerManagerObject extends IGKObject {
         // igk_test_wln("no controller found", $tab);
         return $out;
     }
+    private function initCallBack(bool $sysload){
+        // + | hook global controller init complete
+        if ($sysload)
+            $this->classProjectStore();
+        igk_hook(IGKEvents::HOOK_CONTROLLER_INIT_COMPLETE, [$this]);
+        $this->onInitComplete();
+    }
     ///<summary>init all controllers</summary>
     /**
     * init all controllers
@@ -457,11 +493,7 @@ final class IGKControllerManagerObject extends IGKObject {
         }
         $initialize_all = 1 || $app->getConfigs()->init_all_controller;
 
-        $_init_callback=function() {
-            // + | hook global controller init complete
-            igk_hook(IGKEvents::HOOK_CONTROLLER_INIT_COMPLETE, [$this]);
-            $this->onInitComplete();
-        };
+       
         if(igk_is_singlecore_app()){
             $this->registerController( new SystemUriActionController());
             $c=igk_sys_getconfig("default_controller");
@@ -471,18 +503,19 @@ final class IGKControllerManagerObject extends IGKObject {
             $v_ctrl=new $c();
             $this->_registerCtrl($v_ctrl, null); // empty($rn) ? null: $rn);
             BaseController::RegisterInitComplete($v_ctrl);
-            $_init_callback();
+            $this->initCallBack(false);
             return;
         }
         $no_cache = defined("IGK_NO_CACHE_LIB") || igk_environment()->get("no_lib_cache"); 
         $sysload=false;
         $fc=self::FileCtrlCache();
         if(!$no_cache){
-            // $sf = ['IGKMySQLDataCtrl'=> \IGK\System\Database\MySQL\IGKMySQLDataCtrl::class];
             if(file_exists($fc)){
                 // igk_ilog("load controller from cache: ".$fc);
                 $caches = include($fc);
                 $resolvCtrl = & self::GetResolvController();
+                // igk_wln($resolvCtrl, $this);
+
                 // igk_wln("load from cache", compact("caches", "initialize_all"));
                 foreach($caches as $m){
                     $d = explode("|", $m);
@@ -494,10 +527,16 @@ final class IGKControllerManagerObject extends IGKObject {
                     $reg_cname = trim($d[2]); 
                     $resolvCtrl[$reg_cname] = $cl;
                     if ( $initialize_all){
-                        if (empty($regname)){
-                            $regname = str_replace("\\","." , $cl); 
+                        if (empty($reg_name)){
+                            $reg_name = str_replace("\\","." , $cl); 
                         }
+                        // igk_wln("regname : ", $reg_name);
                         if (class_exists($cl)){
+                            if (isset($this->m_tbcontrollers[$reg_name])
+                            || isset($this->m_tbcontrollers[$cl])){
+                                continue;
+                            }
+                            // igk_wln("create register .....".$cl);
                             $v_ctrl = new $cl();
                             $this->registerController($v_ctrl, $reg_name, true);   
                         }
@@ -542,7 +581,7 @@ final class IGKControllerManagerObject extends IGKObject {
                igk_io_w2file($fc, PHPScriptBuilderUtility::GetArrayReturn($m, $fc), true);
             }
         }
-        $_init_callback(); 
+        $this->initCallBack($sysload);
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
@@ -559,8 +598,9 @@ final class IGKControllerManagerObject extends IGKObject {
             BaseController::RegisterInitComplete($ctrl);
         }
         $this->onInitComplete();
-        if($new)
+        if($new){
             $this->storeControllerLibCache();
+        }
     }
     ///used to invoke function and return response. main used in igk_api
     /**
@@ -902,7 +942,7 @@ final class IGKControllerManagerObject extends IGKObject {
         if(empty($fc))
             return;
 
-        igk_wln_e("store library ");
+        igk_wln_e("store library : ".__METHOD__);
         @unlink($fc);
         $m=" ";
         foreach($this->m_register as $k=>$v){
@@ -992,11 +1032,23 @@ final class IGKControllerManagerObject extends IGKObject {
      */
     public static function ProjectClass($n){
         static $project_info;
+        static $projects;
+        // + | initialize project class from cache
         if ($project_info === null ) {
             $project_info = [];
         }
-        $projects = ["igk_default"=>\IGK\Helper\StringUtility::Uri(igk_io_projectdir()."/igk_default")];
-
+        if ($projects==null){
+            if (file_exists($file = self::FileProjectCtrlCache())){
+                $projects = include($file);
+            }else {                
+                if (class_exists($n, false)){ 
+                    return null; 
+                } 
+                $projects = [];
+            }
+        }
+ 
+        // igk_wln_e(__FILE__.":".__LINE__,  compact("projects", "n"));
 
         if (isset($projects[$n])){
             $dir = $projects[$n];
@@ -1004,7 +1056,6 @@ final class IGKControllerManagerObject extends IGKObject {
                 $dir_info = (object)["dir"=>$dir, "loaded"=>false]; 
                 if (is_dir($dir) && igk_loadlib($dir)){
                     $dir_info->loaded = 1;
-
                 }
                 $projects[$dir] = $dir_info; 
             } 
@@ -1013,7 +1064,8 @@ final class IGKControllerManagerObject extends IGKObject {
         return false;
     }
 
-    public static function InitController($ctrlname){        
+    public static function InitController($ctrlname){  
+         
         $n= self::GetSystemController($ctrlname); // igk_sys_get_controller($ctrlname);
         if (($n===null) && (self::ProjectClass($ctrlname) || class_exists($ctrlname))){
             $n = $ctrlname;

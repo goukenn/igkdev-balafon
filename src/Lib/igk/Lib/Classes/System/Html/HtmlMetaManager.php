@@ -10,6 +10,7 @@
 
 namespace IGK\System\Html;
 
+use IGKException;
 use IGKObject;
 
 /**
@@ -99,21 +100,28 @@ final class HtmlMetaManager extends IGKObject{
             igk_exit();
         });
     }
-    ///<summary></summary>
+    ///<summary>add or set metaname</summary>
     ///<param name="name"></param>
     ///<param name="meta"></param>
-    public function addMeta($name, $meta){
+    /**
+     * 
+     * @param string $name 
+     * @param mixed $meta 
+     * @return int 
+     * @throws IGKException 
+     */
+    public function addMeta(string $name, $meta){
         $bmeta=igk_getv($this->m_metas, $name);
         if($bmeta && ($bmeta !== $meta)){
             unset($this->m_metas[$name]);
-        }
+        } 
         if($meta && !isset($this->m_metas[$name])){
             if (is_string($meta)){
                 $m = new \IGK\System\Html\Dom\HtmlNode("meta");
                 $m["name"] = $name;
                 $m["content"] = $meta;
                 $meta = $m;
-            }
+            } 
             $this->m_metas[$name]= HtmlUtils::GetAttributes($meta->attributes);
             $this->m_metas[$name]["changed"]=1;
             return 1;
@@ -222,5 +230,18 @@ final class HtmlMetaManager extends IGKObject{
             $this->m_metas[$key][self::ATTR_CONTENT]=$value;
             $this->m_metas[$key]["changed"]=1;
         }
+    }
+    /**
+     * get meta content value
+     * @param mixed $name 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function get($name){
+        foreach($this->m_metas as $t){
+            if (igk_getv($t, "name")==$name){
+                return igk_getv($t,self::ATTR_CONTENT);
+            }
+        } 
     }
 }

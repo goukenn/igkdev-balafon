@@ -14,6 +14,6 @@ trait ArrayAccessSelfTrait{
         $this->_access_OffsetUnset($n);
     }
     function offsetExists(mixed $n):bool{
-        return $this->_access_offsetExists($n);
+        return  $this->_access_offsetExists($n); 
     }
 }

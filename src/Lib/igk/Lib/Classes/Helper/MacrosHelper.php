@@ -54,8 +54,8 @@ class MacrosHelper
 
     private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false){
         /// MARK: auth users 
-        if (igk_environment()->is("DEV"))
-            return true;
+        // if (igk_environment()->is("DEV"))
+        //     return true;
         /**
          * @var ModelBase $q; current model object 
          * */

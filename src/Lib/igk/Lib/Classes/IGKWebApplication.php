@@ -27,7 +27,7 @@ class IGKWebApplication extends IGKApplicationBase
         $bdir = dirname($file);
         $this->file = $file;
         // prepare server info
-        $srv = IGKServer::getInstance();
+        $srv = IGKServer::getInstance(); 
         // handle cache
         IGKEnvironment::getInstance()->is("OPS") && $render && IGKCaches::HandleCache();
 
@@ -148,7 +148,7 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/System/Http/Response.php');
 
         // extra load  
-        require_once(IGK_LIB_CLASSES_DIR . '/Helper/View.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Helper/ViewHelper.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/UriUtils.php');
 
         require_once(IGK_LIB_CLASSES_DIR . '/System/Collections/ArrayList.php');

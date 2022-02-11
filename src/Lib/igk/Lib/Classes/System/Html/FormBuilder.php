@@ -6,6 +6,7 @@ use function igk_resources_gets as __;
 
 
 class FormBuilder{
+    var $datasource;
     static $ResolvType = [
         "number"=>"text",
         "float"=>"text",
@@ -14,14 +15,16 @@ class FormBuilder{
         "password"=>"password",
         "text"=>"text",
         "date"=>"date",
-        "json"=>"text"
+        "json"=>"text",
+        "radio"=>"radio",
+        "checkbox"=>"checkbox",
     ];
     private static $ResolvClass = [
         "float"=>"number",
         "double"=>"number",
         "int"=>"integer"
     ];
-    public static function build($formFields, $render=0, $engine=null, $tag="div"){
+    public function build($formFields, $render=0, $engine=null, $tag="div"){
         $o = "";
         $clprop = new HtmlCssClassValueAttribute();
         $get_attr_key = function($v){
@@ -74,10 +77,13 @@ class FormBuilder{
             }
         };
         $bindValue = function(&$o, & $fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag){
+            if (!is_array($v)){
+                $v = []; 
+            }
             $attr_key = $get_attr_key($v);
             $ResolvClass = self::$ResolvClass;
             $ResolvType = self::$ResolvType;
-
+           
             $_value= is_array($v) && key_exists("value", $v) ? $v["value"]: "";
             if ($attr_key){
                 if (isset($v[$attr_key]["value"])){
@@ -85,8 +91,10 @@ class FormBuilder{
                     unset( $v[$attr_key]["value"]);
                 }
             }
-            $_type=strtolower(isset($v["type"]) ? $v["type"]: "text");
-    
+            if (empty($_value) && $this->datasource && key_exists($k, $this->datasource)){
+                $_value = igk_getv($this->datasource, $k); 
+            }
+            $_type=strtolower(isset($v["type"]) ? $v["type"]: "text");    
             $_allow_empty=isset($v["allow_empty"]) ? $v["allow_empty"]: "";
             $_empty_value=isset($v["empty_value"]) ? $v["empty_value"]: "0";
             if($_type == "fieldset"){
@@ -136,11 +144,15 @@ class FormBuilder{
                 break;
                 case "textarea":
                 $o .= "<textarea {$_name} {$_id}";
+                if(isset($v["placeholder"])){
+                    $o .= " placeholder=\"{$v["placeholder"]}\" ";
+                }  
                 $load_attr($v, $o);
                 if($_is_required){
                     $o.= " required=\"true\"";
                 }
                 $o .= ">{$_value}</textarea>";
+            
                 break;
                 case "radiogroup":
                 $o .= '<'.$tag.' style="display:inline-block;">';
@@ -197,6 +209,7 @@ class FormBuilder{
                 }
                 $o .= "</select>";
                 break;
+           
                 case "text":
                 case "hidden":
                 case "password":
@@ -218,14 +231,23 @@ class FormBuilder{
                 }
                 if(isset($v["placeholder"])){
                     $o .= "placeholder=\"{$v["placeholder"]}\" ";
-                }  
-                      
+                }     
                 if (isset($v["attribs"]))
                     $v["attribs"]["class"] = igk_getv ($v["attribs"], "class"). " +".$def_type;
-                else 
+                else {
                     $v["attribs"]["class"] = $def_type;
+                }
                 $load_attr($v, $o);
+
+                if ($_is_required){
+                    $o.= 'required="1" ';
+                }
+
                 $o .= "/>";
+
+                if (isset($v["tips"])){
+                    $o.= '<div class="tips">'.$v["tips"].'</div>';
+                } 
                 break;
             }
             if($_is_div){

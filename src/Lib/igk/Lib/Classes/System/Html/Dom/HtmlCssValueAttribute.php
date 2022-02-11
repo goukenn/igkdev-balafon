@@ -12,7 +12,7 @@ class HtmlCssValueAttribute implements IHtmlGetValue{
         $this->value = $value;
     }
     public function getValue($options = null) { 
-        if (CssThemeCompiler::CanCompile($this->value)){
+        if (isset($options->Document) && CssThemeCompiler::CanCompile($this->value)){
             $systheme = $options->Document->getSysTheme();
             $compiler = new CssThemeCompiler($systheme->getDef()->getCl(), false);
             return $compiler->treatValue($this->value, $options->Document->getTheme(), $options->Document->getSysTheme());

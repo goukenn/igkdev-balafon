@@ -381,15 +381,21 @@ function igk_io_build_uri($uri, ?array $query = null, &$fragment = null)
     $uri = $uri . "?" . http_build_query($info);
     return $uri;
 }
+/**
+ * return system path
+ * @param mixed $relativepath 
+ * @return string|string[]|null<b>|null 
+ */
 function igk_io_syspath($relativepath = null)
 {
     if ($relativepath)
         return igk_io_dir(igk_io_applicationdir() . "/" . $relativepath);
     return igk_io_applicationdir();
 }
-///<summary></summary>
+///<summary>get application directory</summary>
 /**
- * 
+ * get application directory
+ * @return string
  */
 function igk_io_applicationdir()
 {
@@ -586,7 +592,7 @@ function igk_dev_wln_e()
 
 function igk_bind_trace()
 {
-
+ 
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
         $c = IGKException::GetCallingFunction($lv);
@@ -606,7 +612,10 @@ function igk_bind_trace()
             $r2 = '<tr>';
             foreach ($c as $k => $v) {
                 $r1 .= '<th>' . $k . '</th>';
-                $r2 .= '<td>' . $v . '</td>';
+                $r2 .= '<td>';
+
+                $r2 .= is_array($v) ? json_encode( $v ) : $v;
+                $r2 .= '</td>';
             }
             $dn = $r1 . $r2 . '<table></div>';
             echo $dn;
@@ -881,14 +890,19 @@ function igk_trace_e()
     igk_exit();
 }
 
-///<summary>get system directory presentation</summary>
+///<summary>get system directory presentation shortcut</summary>
 /**
- * get system directory presentation
+ * get system directory presentation shortcut
+ * @return string|null 
  */
 function igk_io_dir($dir, $separator = DIRECTORY_SEPARATOR)
 {
     return IO::GetDir($dir, $separator);
 }
+/**
+ * prepare component storage
+ * @return object 
+ */
 function igk_prepare_components_storage()
 {
     return (object)array(

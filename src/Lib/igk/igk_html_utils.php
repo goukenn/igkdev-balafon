@@ -374,6 +374,7 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
         $pname=igk_io_basenamewithoutext($k);
         $mi=$target;
         $ii=null;
+        $lkey = "";
         if(!isset($root[$k])){
             if(isset($sd[$pname])){
                 $ii=$sd[$pname];
@@ -405,7 +406,7 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
             $u= $_binduri(igk_getv($s, "uri"), $ctrl);
             $auth=igk_getv($s, "auth", true);
             $ajx=igk_getv($s, "ajx");
-            $lkey=igk_getv($s, "lkey", "menu.".$k);
+            $lkey=igk_getv($s, "text", __("menu.".$k));
             $init=igk_getv($s, "init");
             if((false === $auth) || (is_string($auth) && !$user->auth($auth))){
                 continue;
@@ -415,10 +416,10 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
                 igk_die($item." create null");
             }
             if($ajx){
-                $hi->addAJXA($u)->Content=R::ngets($lkey);
+                $hi->addAJXA($u)->Content= $lkey;
             }
             else
-                $hi->addA($u)->Content=R::ngets($lkey);
+                $hi->addA($u)->Content= $lkey;
             if($init){
                 $init($hi);
             }
@@ -429,7 +430,7 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
             }
             $hi=$mi->add($item);
 			$s = $_binduri($s, $ctrl);
-            $hi->addA($s)->Content=R::ngets("menu.".$k);
+            $hi->addA($s)->Content= $lkey;
             $sd[$k]->li=$hi;
         }
     }
@@ -763,9 +764,10 @@ function igk_html_form_select_data($data, $callback){
 /**
 * build form field on modele view
 */
-function igk_html_form_fields($formFields, $render=0, $engine=null, $tag="div"){ 
+function igk_html_form_fields($formFields, ?array $datasource=null, $render=0, $engine=null, $tag="div"){ 
     $o="";
     $builder = new FormBuilder();
+    $builder->datasource = $datasource;
     $o = $builder->build($formFields, $render, $engine, $tag);
     return $o;   
 }

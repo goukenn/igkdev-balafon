@@ -10,6 +10,11 @@
 
 use IGK\System\Html\Dom\HtmlItemAttribute;
 
+/**
+ * represent base dir resolution path resolver. \
+ * base_dir/lnk exists resolv it
+ * @package 
+ */
 final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
     private $m_lnk;
     ///<summary></summary>
@@ -43,7 +48,7 @@ final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
         }
         if(!($fs=igk_realpath(igk_io_basedir()."/".$this->m_lnk))){
             $fs=$this->m_lnk;
-        }
+        } 
         return IGKResourceUriResolver::getInstance()->resolve($fs, $options);
     }
 }

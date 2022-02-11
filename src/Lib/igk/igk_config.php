@@ -26,7 +26,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //+ define("IGK_TRACE", 1);
     //+ define('IGK_ENV_PRODUCTION', 1);
     // + | global disable view cache
-    // + define("IGK_NO_CACHE_VIEW", 1);
+    // + define("IGK_NO_VIEW_CACHE", 1);
 
     // + | global disable handle page cache
     // + defined"IGK_NO_PAGE_CACHE") || define("IGK_NO_PAGE_CACHE", 1);
@@ -55,7 +55,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define('IGK_CTRL_TABLE_INFO_KEY', 20);
     define('IGK_CTRL_TG_NODE', 21);
     define('IGK_CTRL_VIEW_CONTEXT_PARAM_KEY', 22);
-    define('IGK_CURRENT_DOC_INDEX_ID', 23);
+    define('IGK_APP_CURRENT_DOC_INDEX_ID', 23);
     define('IGK_CURRENT_DOC_PARAM_KEY', 24);
     define('IGK_DATA_ADAPTER_CTRL', 25);
     define('IGK_DEFINEDNS_FLAG', 26);
@@ -171,6 +171,8 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define('IGK_LAST_EVAL_LINE', 195); 
     define('IGK_XML_CREATOR_SKIP_ADD', 196); 
     define('IGK_ENV_CONFIG_ENTRIES', 197); 
+    // application info : request uri
+    define('IGK_APP_REQUEST_URI', 198); 
     
     define("IGK_ENV_SESS_DOM_LIST", 0x201);
     define("IGK_CUSTOM_CTRL_PARAM", 0x400);
@@ -371,10 +373,8 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_VIEW_MODE_FLAG", 0x01);
     // define("IGK_FIRSTUSE_FLAG", IGK_VIEW_MODE_FLAG + 2);
     // define("IGK_ISINIT_FLAG", IGK_VIEW_MODE_FLAG +3 );
-    // define("IGK_AUTH_FLAG", IGK_VIEW_MODE_FLAG +4);
-    // define("IGK_CREATE_AT", IGK_VIEW_MODE_FLAG + 6);
-    // define("IGK_SESSION_ID", IGK_VIEW_MODE_FLAG + 7);
-    // define("IGK_CURRENT_DOC_INDEX_ID", IGK_VIEW_MODE_FLAG + 8); 
+    // define("IGK_AUTH_FLAG", IGK_VIEW_MODE_FLAG +4); 
+    // define("IGK_SESSION_ID", IGK_VIEW_MODE_FLAG + 7); 
     // define("IGK_KEY_DOCUMENTS", dechex(IGK_VIEW_MODE_FLAG + 10)); //+ store document index
     //+ config flags
     // define("IGK_CONFIG_FLAG", 0xA0);
@@ -604,6 +604,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_TEMPLATES_FOLDER", IGK_DATA_FOLDER . "/Templates");
     define("IGK_MODULE_FOLDER", IGK_PACKAGES_FOLDER . "/Modules");
     define("IGK_FILE_CTRL_CACHE", IGK_CACHE_FOLDER . "/.controller.cache");
+    define("IGK_FILE_PROJECT_CTRL_CACHE", IGK_CACHE_FOLDER . "/.project.cache");
     define("IGK_FILE_LIB_CACHE", IGK_CACHE_FOLDER . "/.lib.files.cache");
     define("IGK_ADAPTER_CACHE", IGK_CACHE_FOLDER . "/.adapter.cache");
     define("IGK_CACHE_DATAFILE", IGK_CACHE_FOLDER . "/.datafile.cache");

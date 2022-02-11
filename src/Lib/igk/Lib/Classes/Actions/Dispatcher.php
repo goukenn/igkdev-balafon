@@ -3,6 +3,7 @@
 namespace IGK\Actions;
 
 use Closure;
+use Exception;
 use IGK\Actions\IActionProcessor;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -96,7 +97,11 @@ class Dispatcher implements IActionProcessor
                         }
                     }
                 }
-                return $fc(...$args);
+                try{
+                    return $fc(...$args);
+                }catch(\Exception $ex){
+                    throw $ex; 
+                }
             };
         }
         if (is_callable($fc = igk_getv(self::$sm_macro, $name))) {

@@ -25,6 +25,7 @@ use IGK\System\Html\HtmlTemplateReaderDataBinding;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\XML\XmlNode;
 use IGK\XML\XMLNodeType;
+use IGKException;
 use IGKObject;
 use function igk_resources_gets as __;
 
@@ -467,7 +468,7 @@ final class HtmlReader extends IGKObject
     ///<param name="v" ref="true"></param>
     ///<param name="attribs" default="[[]" ref="true"></param>
     ///<param name="callback" default="null"></param>
-    private static function _ReadAttributes($reader, &$v, &$attribs = [], $callback = null)
+    private static function _ReadAttributes(self $reader, &$v, &$attribs = [], $callback = null)
     {
         // start reading attribute name
         $mode = 0;
@@ -617,6 +618,21 @@ final class HtmlReader extends IGKObject
                         $v = substr($v, 0, -1);
                         $reader->m_isEmpty = true;
                     }
+                    else {
+                        if ($reader->m_context == HtmlContext::Html){
+                            // special closing tag
+                            if (in_array($reader->m_name , HtmlContext::HtmlAutoCloseTag)){
+                                $reader->m_isEmpty = true;
+                            }
+                            // else{
+                            //     igk_wln("closing:", $reader->m_name);
+                            // }
+                            // igk_wln_e(
+                            //     "empty: ".$reader->m_isEmpty,
+                            //     "closing ". $reader->m_name, "context: ".$reader->m_context);
+                        }
+                    }
+
                     break;
                 default:
                     if ($mode == 0) {
@@ -654,7 +670,15 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>read the model</summary>
     ///<param name="context">name of the function that call the read model</param>
-    private static function _ReadModel($reader, $tab_doc, $context = null)
+    /**
+     * 
+     * @param HtmlReader $reader 
+     * @param mixed $tab_doc 
+     * @param mixed $context 
+     * @return void 
+     * @throws IGKException 
+     */
+    private static function _ReadModel(self $reader, $tab_doc, $context = null)
     {
         $cnode = null;
         $pnode = null;
@@ -900,7 +924,11 @@ final class HtmlReader extends IGKObject
                 array_unshift($v_tags, $s);
         }
     }
-    ///<summary></summary>
+    ///<summary>return iterable definition</summary>
+    /**
+     * return iterable definition
+     * @return null|Iterable 
+     */
     public function Attribs()
     {
         return $this->m_attribs;
@@ -1009,7 +1037,11 @@ final class HtmlReader extends IGKObject
     {
         return $this->m_hasAttrib;
     }
-    ///<summary></summary>
+    ///<summary>get if the current reading node is empty</summary>
+    /**
+     * get if the current reading node is empty
+     * @return mixed 
+     */
     public function IsEmpty()
     {
         return $this->m_isEmpty;
@@ -1248,6 +1280,7 @@ final class HtmlReader extends IGKObject
                         if ($this->m_nodetype == XMLNodeType::ELEMENT) {
                             $match = array();
                             $tag = strtolower($this->m_name);
+                          
                             switch ($tag) {
                                 case "script":
                                 case "code":
@@ -1263,6 +1296,9 @@ final class HtmlReader extends IGKObject
                                     $this->m_name = $tag;
                                     $this->m_v = $v;
                                     $this->m_nodetype = XMLNodeType::TEXT;
+                                
+                                    
+                                    
                                     return true;
                                 case "style": {
                                         while ($this->CanRead()) {
@@ -1386,18 +1422,32 @@ final class HtmlReader extends IGKObject
         $reader->m_procTagClose = false;
         $phptag = false;
         while ($reader->CanRead()) {
-            $v .= $reader->m_text[$reader->m_offset];
+            $ch = $reader->m_text[$reader->m_offset];
+            $v .= $ch;
             $reader->m_offset++;
             if (!$phptag) {
                 $phptag = preg_match("/^(php|=)/", $v);
             } else {
                 if (substr($v, -2, 2) == "/*") {
+                    // read till end end comment
                     $lpos = strpos($reader->m_text, "*/", $reader->m_offset);
                     if ($lpos > 0) {
                         $v .= substr($reader->m_text, $reader->m_offset, $lpos - $reader->m_offset + 2);
                         $reader->m_offset = $lpos + 2;
                         continue;
                     }
+                }
+                switch ($ch) {
+                    case '"':
+                    case "'":
+                        $text = igk_str_read_brank($reader->m_text, $reader->m_offset, $ch, $ch);
+                        $v.= $text;  
+                        // igk_dev_wln("the text = ".$text."<br />\n");
+                        $reader->m_offset++;                        
+                        break;                    
+                    default:
+                        # code...
+                        break;
                 }
             }
             if (substr($v, -2, 2) == "?>") {

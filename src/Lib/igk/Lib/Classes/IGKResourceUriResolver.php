@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\Helper\IO;
+use IGK\System\IO\Path;
 
 use function igk_resources_gets as __;
 
@@ -21,7 +22,11 @@ class IGKResourceUriResolver{
         $this->fulluri=0;
         $this->prepareEnvironment();
     }
-    ///<summary></summary>
+    ///<summary>get resolver instance</summary>
+    /**
+     * resolver instance
+     * @return self
+     */
     public static function getInstance(){
         if(self::$sm_instance == null){
             self::$sm_instance=new IGKResourceUriResolver();
@@ -68,6 +73,14 @@ class IGKResourceUriResolver{
         }
     }
     ///<summary>resolve existing file to asset resources</summary>
+    /**
+     * resolve uri
+     * @param mixed $uri 
+     * @param mixed $options 
+     * @param int $generate 
+     * @return null|string 
+     * @throws IGKException 
+     */
     public function resolve($uri, $options=null, $generate=1){
         static $appData=null;
         if(empty($uri))
@@ -112,16 +125,20 @@ class IGKResourceUriResolver{
         $buri=explode("?", $uri);
         $uri=$buri[0];
         $query="";
+        $rp = "";
         if(count($buri) > 1){
             $query="?".implode("?", array_slice($buri, 1));
         }
         $bdir=igk_io_basedir();
+
+     
         if(igk_io_is_subdir($bdir, $uri)){
             $n_uri=igk_html_get_system_uri($uri, $options).$query;
             return $n_uri;
         }
         if(IO::IsRealAbsolutePath($uri)){
             $rp=igk_realpath($uri);
+            // igk_wln_e(':-)', '<----->', $bdir, $uri, igk_io_collapse_path($rp), Path::LocalPath($bdir));
             if(!igk_io_is_subdir($bdir, $rp)){
                 $acpath=igk_io_access_path($rp);
                 if(!igk_io_is_subdir($bdir, $uri)){
@@ -143,7 +160,7 @@ class IGKResourceUriResolver{
                             $n=substr($rp, strlen($i) + 1);
                             $v_found=true;
                             if(is_object($s)){
-                                $b=$s->{                                'ini_chain'};
+                                $b=$s->{'ini_chain'};
                                 $chain=$b($n, $rp);
                             }
                             else{
@@ -190,13 +207,14 @@ class IGKResourceUriResolver{
             if(!strstr(IGK_LIB_DIR, igk_html_uri(igk_io_applicationdir())))
                 $i=0;
             $appData=$i;
-        }
-        if(!$appData && strpos($ln=igk_html_uri($uri), IGK_LIB_DIR) === 0){
-            return igk_io_libdiruri($rp, $options).$query;
+        } 
+        if(!$appData && (($pos = strpos(igk_html_uri($uri), IGK_LIB_DIR)) === 0)){
+            $v = ltrim(substr($uri, strlen(IGK_LIB_DIR)), "/");
+            return igk_io_libdiruri($rp, $options).$v.$query;
         }
         if(($v=igk_ajx_link($uri)) == null){
-            $v=igk_html_get_system_uri($uri, $options);
-        }
+            $v= igk_html_get_system_uri($uri, $options); 
+        }        
         return $v.$query;
     }
     ///<summary>Represente resolveFullUri function</summary>

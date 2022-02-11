@@ -48,7 +48,7 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		return null;
 	}
 	public function getDataAdapterName(){
-		return "MYSQL";
+		return IGK_MYSQL_DATAADAPTER;  
 	}
 	public function getDBEntries()
 	{

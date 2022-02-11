@@ -2,6 +2,7 @@
 namespace IGK\System\Html\Forms;
 
 use IGK\Helper\StringUtility;
+use IGKException;
 use IGKObjStorage;
 use function igk_resources_gets  as __;
 
@@ -9,6 +10,7 @@ require_once __DIR__."/IFormValidator.php";
 require_once __DIR__."/IFormPatternValidator.php";
 
 class Validation{
+    var $storage = true;
     /**
      * validation list
      * @var mixed
@@ -63,11 +65,37 @@ class Validation{
             $this->m_validators[$name] = $callable;
         }
     }
+    /**
+     * used to validate files
+     */
+    public function files(?array $filedata =null){
+        if ($filedata===null){
+            $filedata = $_FILES;
+        }
+        $this->m_errors = [];
+        $result = false;
+        $out_data = [];
+        foreach($this->m_validator as $k => $data){
+            if (igk_getv($data,"type")=="file"){
+                $validator = new FileValidator();
+                $storage = new IGKObjStorage($data);
+                $storage->name = $k;
+                $v = igk_getv($filedata, $k);
+                $v = $validator->validate($v, $storage->default, $storage, $this->m_errors);
+                $out_data[$k] = $v;
+            }
+        }
+        if (count($this->m_errors)==0){
+            return $out_data;
+        }
 
+
+        return $result;
+    }
     /**
      * 
-     * @param array $request 
-     * @return bool|array false 
+     * @param array $request array that simulate the request
+     * @return bool|array|IGKObjStorage if storage will return an object storage or array
      */
     public function validate(array $request){
         // + | reset the error list
@@ -89,6 +117,10 @@ class Validation{
                 $storage = null;
                 $out_data = [];
                 foreach($this->m_validator as $k => $data){
+                    if (is_string($data)&& is_numeric($k)){
+                        $k = $data;
+                        $data = [];
+                    }
                     $v = igk_getv($request, $k);
                     $storage = new IGKObjStorage($data);
                     $storage->name = $k;
@@ -106,7 +138,10 @@ class Validation{
                     $out_data[$k] = $v;
                 }
                 if (count($this->m_errors) == 0 ){
-                    $result = $out_data;
+                    if ($this->storage)
+                        $result = new IGKObjStorage($out_data);
+                    else 
+                        $result = $out_data;
                 }
         }
         return $result;
@@ -134,5 +169,22 @@ class Validation{
             }             
         }
         return new $cl();
+    }
+    /**
+     * utility validate form fields
+     * @param mixed $fields 
+     * @param array $request 
+     * @param string $method 
+     * @return bool|array|IGKObjStorage 
+     * @throws IGKException 
+     */
+    public static function ValidateFormFields($fields, ?array $request=null, string $method = "POST"){
+        if ($request===null){
+            $request = $_REQUEST;
+        }
+        if (igk_server()->method($method)){
+            return (new self())->validator($fields)->validate($request);
+        }
+        return false;
     }
 }

@@ -39,6 +39,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         return parent::getDataDir();
     }
 
+    protected function getConfig($name, $default=null){         
+        return igk_getv([
+            "no_auto_cache_view"=>"1",
+        ], $name, $this->getConfigs()->get($name, $default));
+    }
   
     ///<summary></summary>
     ///<param name="node"></param>
@@ -168,6 +173,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
 		$e_key  = "sys://config/selectedview";
         $this->ConfigCtrl->setSelectedConfigCtrl($this, get_class($this)."::showConfig");
         
+        if (igk_env_count_get(__METHOD__)==1){
+            igk_trace();
+            igk_exit();
+
+        }
 
         if(!$this->getIsVisible()){
             $_t->remove();
@@ -175,7 +185,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         else{
             $this->View();
-            if($_cnf_node=$this->getConfigNode()){
+            if($_cnf_node=$this->getConfigNode()){ 
                 $_cnf_node->clearChilds();
                 $_cnf_node->add($_t);
                 igk_set_env($e_key, $this); 

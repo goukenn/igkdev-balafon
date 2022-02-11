@@ -1,5 +1,6 @@
 <?php
- 
+
+use IGK\Cache\SystemFileCache;
 use IGK\System\Diagnostics\Benchmark;
  
 
@@ -10,6 +11,10 @@ require_once IGK_LIB_CLASSES_DIR ."/IGKCaches.php";
  */
 class IGKCssApplication extends IGKApplicationBase
 {
+    /**
+     * disable environment loading
+     * @return true 
+     */
     public function getNoEnviroment(){
         return true;
     }
@@ -18,8 +23,8 @@ class IGKCssApplication extends IGKApplicationBase
         $this->library("session");
         igk_setting()->no_init_controller = true;
         Benchmark::$Enabled = false;
-
         require_once IGK_LIB_CLASSES_DIR . "/Css/IGKCssContext.php";
+        IGKAppSystem::LoadEnvironment(); 
     }
 
     public function run(string $entryfile, $render = 1) { 

@@ -31,15 +31,7 @@ class IGKAppSystem{
             // + | -----------------------------------------
             // + | expected load lib cache for max 5ms
             // + | 
-            \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
-            if(!IGKSysCache::LoadCacheLibFiles()){
-                $t_files= self::_LoadEnvFiles(); 
-                igk_reglib($t_files);
-                IGKSysCache::CacheLibFiles(true); 
-                \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.100);
-            } else {
-                \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.050); 
-            }           
+            self::LoadEnvironment();               
             !defined('IGK_INIT') && define('IGK_INIT', 1);        
             return;
         }
@@ -156,6 +148,22 @@ class IGKAppSystem{
     }
     private static function _LoadEnvFiles(){
         return igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", "SysMods", igk_io_projectdir()));
+    }
+    /**
+     * load environment and cache
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function LoadEnvironment(){
+        \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
+        if(!IGKSysCache::LoadCacheLibFiles()){
+            $t_files= self::_LoadEnvFiles(); 
+            igk_reglib($t_files);
+            IGKSysCache::CacheLibFiles(true); 
+            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.100);
+        } else {
+            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.050); 
+        }       
     }
     private function __construct()
     {

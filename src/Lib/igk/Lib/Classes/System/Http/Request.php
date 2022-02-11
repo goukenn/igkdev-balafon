@@ -60,6 +60,10 @@ class Request
         return $this->m_params;
     }
 
+    public function getParams(){
+        return $this->m_params;
+    }
+
     ///<summary>base request instance</summary>
     /**
      * base request instance

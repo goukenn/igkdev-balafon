@@ -548,8 +548,8 @@ foreach($state as $k){
     $k]="[sysbgcl:igk-panel-".$k."-bg] [sysfcl:igk-panel-".$k."-fcl]";
     $def[".igk-btn-".
     $k]="[sysbgcl:igk-btn-".$k."-bg] [sysfcl:igk-btn-".$k."-fcl]";
-    $def[".igk-".
-    $k]="[sysbgcl:igk-".$k."-bg] [sysfcl:igk-".$k."-fcl]";
+   
+    $def[".igk-".$k]="[sysbgcl:igk-".$k."-bg] [sysfcl:igk-".$k."-fcl]";
     $def[".igk-btn-".$k.
     ":hover"]="[sysbgcl:igk-btn-".$k."-hover-bg] [sysfcl:igk-btn-".$k."-hover-fcl]";
     $def[".igk-".$k.
@@ -1023,7 +1023,7 @@ $def["form.igk-debug-connect-form ul li:last-child"] = "margin-top:{$pad_size};"
   $def[".igk-picker-zone"] = "color: #ccc; border: 2px dotted #555; padding: 40px; display:inline-block; border-radius: 20px;";
 
 
-  $def[".igk-form-control.igk-text-editor"] = "min-height: 200px; padding:0px; margin-bottom: 1rem;";
+  $def[".igk-form-control.igk-winui-text-editor"] = "min-height: 200px; padding:0px; margin-bottom: 1rem;";
 
   $def[".igk-pwd-validation"]="";
   $def[".igk-pwd-validation + .data"]="content:' '; position:relative; width:100%;height:4px; [trans: .2s background-color]";
@@ -1042,6 +1042,7 @@ $def[".igk-code.code-php .s"] = "color: #c10000; ";
 $def[".igk-code.code-php .w.r"] = "color: #602795; ";
 $def[".igk-code.code-php .pc + .w "] = "color: #023c60; font-weight: bold;";
 $def[".igk-code.code-php .num "] = "color: blue";
+$def[".igk-code.code-php span.litteral"] = "font-style: italic; font-weight:200; [fcl:codeLitteralColor, #19668c]"; 
 
 
 // + | 3D Accelarate
@@ -1051,3 +1052,6 @@ $def[".igk-3d-material"] = "perspective: 1000px;backface-visibility: hidden;tran
 $def["form.igk-form div.required label:after"]="content:'*'; font-weight: bold;";
 
  
+
+$cl["igk-danger-fcl"] = "red";
+$cl["igk-danger-bg"] = "transparent";

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: StringBuilder.php
-// @desc: 
+// @desc: String builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO;
 

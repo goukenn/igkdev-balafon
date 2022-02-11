@@ -25,7 +25,7 @@ class WebFileResponse extends RequestResponse{
     public function render()
     {
         ob_start();
-        include($this->file);
+        readfile($this->file);
         $s= ob_get_clean();
         return $s;
     }
@@ -36,7 +36,7 @@ class WebFileResponse extends RequestResponse{
         $this->headers[] = "Content-Type: text/html";
         $this->headers[] = "Content-Length: ".strlen($s);
         if ($this->zip){
-            $this->headers[] = "Content-Encoding:  deflate";
+            $this->headers[] = "Content-Encoding: deflate";
         } 
         igk_set_header($this->code, $this->getStatus($this->code), $this->headers); 
         echo $s;

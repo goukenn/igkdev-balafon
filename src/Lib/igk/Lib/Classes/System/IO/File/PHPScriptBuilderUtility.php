@@ -1,9 +1,10 @@
 <?php
-
+// @file: PHPScriptBuilderUtility.php
+// @author: C.A.D BONDJE DOUE
 namespace IGK\System\IO\File;
 
 
-class PHPScriptBuilderUtility
+abstract class PHPScriptBuilderUtility
 {
 
     public static function GetArrayReturn($data, ?string $fc=null , ?string $desc=null){
@@ -16,5 +17,25 @@ class PHPScriptBuilderUtility
         $o .= "// @author: ". IGK_AUTHOR."\n";
         $o .= "return [".$data."];";
         return $o;
+    }
+
+    /**
+     * remove php comment token 
+     * @param string $source source
+     * @return string 
+     */
+    public static function RemoveComment(string $source){
+        $comments = token_get_all($source);
+        $src = implode("", array_map(function($m){
+            if (is_array($m)){
+                if (token_name($m[0]) == "T_COMMENT"){
+                    return null;
+                }
+                return $m[1];
+            }
+            return $m;
+        }, $comments));
+        // igk_wln_e($comments, $source);
+        return $src;
     }
 }

@@ -267,7 +267,7 @@ EOF;
             $g->input->setAttribute("placeholder", __("Subject"));
             $dv=$f->div();
             $dv->addLabel("msg")->Content=__("Message");
-            $dv->addTextarea("msg")->setClass("igk-form-control igk-text-editor dispib")
+            $dv->addTextarea("msg")->setClass("igk-form-control igk-winui-text-editor dispib")
             ->setAttribute("placeholder", "Message");
             $dv=$f->div();
             $dv->add("label")->Content="&nbsp;";

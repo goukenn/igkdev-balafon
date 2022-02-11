@@ -568,12 +568,7 @@ IGKRoutes::Register(
     "^/!@res/(/)?getgooglefont[%q%]",
     function ($c) {
         @session_write_close();
-        header("Content-Type: text/css");
- 
-
-        // http://local.com/!@res//getgooglefont?uri=aHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PU1hdGVyaWFsK0ljb25zOjEwMCwyMDAsNDAwLDcwMCw5MDA=&type=css
-        //  IO::RmDir("/Volumes/Data/wwwroot/sites/8801.237mons/src/public/assets");
-        // https://local.com:48801/!@res//getgooglefont?uri=aHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90bzoxMDAsNDAwLDcwMCw5MDA=&type=css
+        header("Content-Type: text/css"); 
         if (is_array($c)) {
             $c = igk_getv($c, "query");
         }

@@ -50,7 +50,7 @@ return [
 'powered_messae'=>"",
 'show_debug'=>"0",
 'show_powered'=>"1",
-'default_controller'=>"igk_default",
+'default_controller'=>null, 
 'website_adminmail'=>"bondje.doue@igkdev.com",
 'website_domain'=>"igkdev.com",
 'mail_noreply'=>"no-reply@igkdev.com",

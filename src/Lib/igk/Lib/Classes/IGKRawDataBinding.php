@@ -15,10 +15,10 @@ class IGKRawDataBinding implements ArrayAccess {
      public function offsetGet (  $offset ) {
         return $this->__get($offset);
     }
-    public function _access_OffsetSet ($offset ,$value ) {
+    protected function _access_offsetSet ($offset ,$value ) {
         $this->__set($offset, $value);
     }
-     public function _access_OffsetUnset($offset) {
+     protected function _access_offsetUnset($offset) {
         if (is_object($this->m_data)){
             unset($this->m_data->$offset);
             return;

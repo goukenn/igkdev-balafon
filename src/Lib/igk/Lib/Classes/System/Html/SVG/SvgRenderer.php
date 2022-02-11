@@ -21,11 +21,13 @@ class SvgRenderer{
      * return svg folder 
      * @return mixed 
      */
-    public static function GetPath($name){
+    public static function GetPath($name, & $class=null){
         if (!empty($name)){
-            $f = self::GetSvgFolder(); 
-            while( $d = array_shift($f)){
+            $f = self::GetSvgFolder();  
+            while( $q = array_shift($f)){
+                $d = $q[0]; // directory                
                 if (file_exists( $file = $d."/".$name.".svg")){
+                    $class = $q[1];
                     return IO::GetDir($file);
                 }
             }
@@ -34,12 +36,12 @@ class SvgRenderer{
     }
 
     /**
-     * return svg folder 
-     * @return mixed 
+     * return svg key folder 
+     * @return array 
      */
     public static function GetSvgFolder(){
         $svg_folder = igk_environment()->get(self::FOLDER) ?? [];
-        $svg_folder[] = IGK_LIB_DIR . "/Data/R/svg/icons";
+        $svg_folder[] = [IGK_LIB_DIR . "/Data/R/svg/icons", "igk"];
         return $svg_folder;
     }
     /**
@@ -48,9 +50,12 @@ class SvgRenderer{
      * @return void 
      * @throws EnvironmentArrayException 
      */
-    public static function RegisterFolder($folder){
+    public static function RegisterFolder($folder, ?string $targetLib=null){
         if (is_dir($folder)){
-            igk_environment()->push(self::FOLDER, $folder);
+            if (!($t = igk_environment()->get(self::FOLDER)) || 
+                !in_array($folder, $t)){
+                igk_environment()->push(self::FOLDER, [$folder, $targetLib]);
+            }
         }
     }
     /**

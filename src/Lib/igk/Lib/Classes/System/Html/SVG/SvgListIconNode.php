@@ -17,10 +17,15 @@ class SvgListIconNode extends HtmlNode{
     { 
         if (parent::__AcceptRender($options)){
             SvgRenderer::AcceptRenderList($options);
-            if ($path = SvgRenderer::GetPath($name = $this["igk:svg-name"])){
+            $cl = null;
+            if ($path = SvgRenderer::GetPath($name = $this["igk:svg-name"], $cl)){
                 SvgRenderer::$RegisterPath[$name] = $path;
+                //  igk_wln_e("data ::: ", $cl);
+                if ($cl){
+                    $this->setClass("+".$cl);
+                }
                 return true;
-            }
+            } 
         }
         return false;
     }

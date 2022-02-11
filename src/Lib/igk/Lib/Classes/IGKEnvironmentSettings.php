@@ -29,6 +29,6 @@ class IGKEnvironmentSettings{
         return defined("IGK_NO_PAGE_CACHE") || $this->no_page_cache;
     }
     public function no_view_cache(){
-        return defined("IGK_NO_CACHE_VIEW") || $this->no_view_cache;
+        return defined("IGK_NO_VIEW_CACHE") || $this->no_view_cache;
     }
 }

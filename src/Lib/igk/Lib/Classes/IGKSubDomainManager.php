@@ -117,23 +117,9 @@ final class IGKSubDomainManager extends IGKObject{
         if ( (($c = count($tab))>2) && !IGKValidator::IsIpAddress($srv)){
             return implode(".", array_slice($tab, $c - 2));
         }
-        
-        // $f=self::GetBaseDomainConfile();
-        // $d="";
-        // if(file_exists($f)){
-        //     $d= IO::ReadAllText($f);
-        // }
-        // if(empty($d))
-        //     $d=IGK_DOMAIN;
-        return null;
+        return  $srv; 
     }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    protected static function GetBaseDomainConfile(){
-        return igk_io_sys_datadir()."/domain.conf";
-    }
+
     ///<summary></summary>
     /**
     * 
@@ -277,28 +263,8 @@ final class IGKSubDomainManager extends IGKObject{
             return $x1.".".$ex2;
         return $domain;
     }
-    ///<summary></summary>
-    ///<param name="domain" default="IGK_DOMAIN"></param>
-    /**
-    * 
-    * @param mixed $domain the default value is IGK_DOMAIN
-    */
-    public static function SetBaseDomain($domain=IGK_DOMAIN){
-        $f=self::GetBaseDomainConfile();
-        igk_io_w2file($f, $domain, true);
-    }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="bDomain" default="IGK_DOMAIN"></param>
-    /**
-    * 
-    * @param mixed $ctrl
-    * @param mixed $bDomain the default value is IGK_DOMAIN
-    */
-    public static function StoreBaseDomain($ctrl, $bDomain=IGK_DOMAIN){
-        $f=self::GetBaseDomainConfile();
-        igk_io_w2file($f, $bDomain, true);
-    }
+    
+    
     ///<summary></summary>
     ///<param name="t"></param>
     /**

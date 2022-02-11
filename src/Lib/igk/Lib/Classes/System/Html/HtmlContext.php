@@ -23,6 +23,7 @@ abstract class HtmlContext{
     const XML="XML";
     const AJX = "ajx";
     const Mail = "mail";
+    const HtmlAutoCloseTag = ["img", "hr", "br", "input"];
     protected function __construct(){        
     }
 }

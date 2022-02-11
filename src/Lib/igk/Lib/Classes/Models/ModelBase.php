@@ -264,22 +264,22 @@ abstract class ModelBase implements ArrayAccess
         return igk_getv($this->raw, $name);
     }
 
-    public function _access_offsetExists($offset): bool
+    protected function _access_offsetExists($offset): bool
     {
         return false;
     }
 
-    public function _access_offsetGet($offset): mixed
+    protected function _access_offsetGet($offset): mixed
     {
         return $this->$offset;
     }
 
-    public function _access_offsetSet($offset, $value): void
+    protected function _access_offsetSet($offset, $value): void
     {
         $this->$offset = $value;
     }
 
-    public function _access_offsetUnset($offset): void
+    protected function _access_offsetUnset($offset): void
     {
     }
 

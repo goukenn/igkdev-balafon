@@ -33,8 +33,9 @@ class IniFileTest extends BaseTestCase{
         $g->activate("info");
         $this->assertEquals(
             ["info"=>"12"]
-            , $g->to_array()
-        ) ;
+            , $g->to_array(),
+            "activation failed ..... "
+        );
 
         unlink($temp); 
     }

@@ -6,6 +6,7 @@ namespace IGK\System\Http;
 use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
 use IGKHtmlDoc;
+use IHeaderResponse;
 
 /**
  * represent a web rendering result
@@ -37,6 +38,7 @@ class WebResponse extends RequestResponse{
             return;
         } 
         if (is_object($this->node)){
+           
             if (method_exists($this->node, "renderAJX")){
                 $options = HtmlRenderer::CreateRenderOptions();
                 $options->Cache = $this->cache;
@@ -51,8 +53,8 @@ class WebResponse extends RequestResponse{
         $cache = $this->cache; //is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc);
         $this->render();
         $s = ob_get_clean();  
-        $zip = 0 && igk_server()->accepts(["gzip"]);
-      
+        $zip = 0 && igk_server()->accepts(["gzip"]); 
+        igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
@@ -69,15 +71,14 @@ class WebResponse extends RequestResponse{
             igk_io_w2file(
                 $file, 
                 $s);
-            if ($zip){
+            if ($zip){ 
                 echo $s;
                 igk_exit();
             }
-        } 
+        }  
         if ( $zip){    
             igk_zip_output($s);   
         } else {
-            igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
             echo $s;
         }
         igk_exit();

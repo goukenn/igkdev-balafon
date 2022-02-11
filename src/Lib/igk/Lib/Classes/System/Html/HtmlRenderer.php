@@ -3,8 +3,9 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Http\IHeaderResponse;
 use IGKApp;
-use IGKException;
+use IGKException; 
 use ReflectionMethod;
 
 /**
@@ -97,10 +98,63 @@ class HtmlRenderer{
             // -------------------
             // + | Render document
             // -------------------  
-            $response = new \IGK\System\Http\WebResponse($doc);
+            $headers = [];
+            if ($doc instanceof IHeaderResponse){
+                $headers = array_merge($headers, $doc->getResponseHeaders() ?? []);
+            }
+            //igk_dev_wln_e(__FILE__.":".__LINE__,  "data ", $headers);
+            $response = new \IGK\System\Http\WebResponse($doc, 200, $headers);
             $response->cache = !igk_environment()->no_cache && IGKApp::GetConfig("allow_page_cache");             
             $response->output();            
         
+        }
+    }
+    public static function SanitizeOptions($options){
+        if (!isset($options->{':sanitize'})){
+            $options->{':sanitize'} = 1;
+        }else 
+        {
+            return;
+        }
+        foreach([ 
+            "Stop"=>0,
+            "Context"=>"XML",
+            "Depth"=>0,
+            "Indent"=>false,            
+        ] as $k=>$v){
+            if(!isset($options->$k)){
+                $options->$k=$v;
+            }
+        }
+      
+    }
+    public static function DefOptions (& $options = null){
+        if ($options==null){
+            $options = self::CreateRenderOptions();
+        } else {
+            // sanitize options property
+            self::SanitizeOptions($options);           
+        }        
+        $options->LF = $options->Indent ? "\n" : "";   
+        $options->__invoke = [];     
+    }
+    /**
+     * retrieve tab stop
+     * @param mixed $options 
+     * @return string 
+     */
+    public static function GetTabStop($options){
+        $s = "";
+        if ($options->Indent){
+            return str_repeat("\t", $options->Depth);
+        }
+        return $s;
+    }
+    public static function UpdateInvoke(string $method, $options){
+        if (!isset($options->__invoke[$method])){
+            $options->__invoke[$method] = 1;
+        }else{
+            $options->__invoke[$method]++; 
         }
     }
     /**
@@ -108,32 +162,19 @@ class HtmlRenderer{
      */
     public static function Render(HtmlItemBase $item, $options=null){
         // + | render option definition
-        
-        if ($options==null){
-            $options = self::CreateRenderOptions();
-        } else {
-            // sanitize options property
-            foreach([ 
-                "Stop"=>0,
-                "Context"=>"XML",
-                "Depth"=>0,
-                "Indent"=>false
-            ] as $k=>$v){
-                if(!isset($options->$k)){
-                    $options->$k=$v;
-                }
-            }
-        }
+        self::DefOptions($options);       
         $tab = [
             ["item"=>$item, "close"=>false]
         ]; 
         $options->Source = $item;
+        //count the parent invoker
+        self::UpdateInvoke(__METHOD__, $options);
+        
         $s = "";
         $reflect = [];
-        $ln= $options->Indent ? "\n" : "";
-        // $renderer = null; //igk_getv($options, "renderer") ?? new HtmlRenderer();
-        $engine = igk_getv($options, "Engine"); 
-        $start = true;
+        $ln= $options->LF;        
+        $engine = igk_getv($options, "Engine");
+        $level = $options->Depth;
 
         while(($q = array_pop($tab)) && !$options->Stop){
             $tag = null;
@@ -147,9 +188,10 @@ class HtmlRenderer{
             
             if (!$q["close"]){
                 if ($ln && ($options->Depth >0)){
-                    $s.= str_repeat("\t",$options->Depth );
+                    $s = rtrim($s);
+                    $s.= $ln.self::GetTabStop($options); 
                 }
-                $options->Depth++;
+              
                 if ($i instanceof HtmlItemBase) 
                 {
                     if (!$i->AcceptRender($options)){
@@ -160,9 +202,10 @@ class HtmlRenderer{
                         unset($options->__append__);
                     }
                 }
-
+                $options->Depth++;
                 if ($engine){ 
-                    $s .= $engine->render($i, $options);
+                    $s .= $engine->render($i, $options); 
+                    $options->Depth = max($level, $options->Depth-1);
                     continue;
                 }
                 if ($options->Source !== $i){
@@ -171,7 +214,10 @@ class HtmlRenderer{
                     }
                     if ($reflect[$cl]){
                         $options->lastRendering = $i;
-                        $s .= $i->render($options);
+                        if (!empty($v_c = rtrim($i->render($options)))){
+                            $s = rtrim($s).$ln.$v_c.$options->LF;
+                        }  
+                        $options->Depth = max(0, $options->Depth-1);                       
                         continue;
                     } 
                 }
@@ -185,7 +231,11 @@ class HtmlRenderer{
                     if (!empty($attr = static::GetAttributeString($i,  $options))){
                         $s.= " ".$attr;
                     }
+                } else {
+                    // + | do not progress depth because item do not have tag presentation
+                    $options->Depth = max($level, $options->Depth-1);
                 }
+
                 $content = $i->getContent();
                 $childs = $i->getRenderedChilds($options);   
                 $have_childs = (count($childs) > 0);
@@ -208,34 +258,28 @@ class HtmlRenderer{
                     }
                 }
                 if((count($childs) > 0)){
-                    //$options->Depth++;
-                    $s.= $ln;
+                    if ($havTag)
+                        $s.= $ln;
                     array_push($tab, $q); 
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
-                    // foreach($childs as $k){
-                    //     array_push($tab,["item"=>$k, "close"=>false]);
-                    // }
                     continue;
                 }
             } else {
                 $tag = $q["tag"];
             }
-            $options->Depth = max(0, $options->Depth-1);
-            // igk_wln("depth : ".$options->Depth);
+            $options->Depth = max($level, $options->Depth-1);
             if (!empty($tag)){
                 if ($q["close_tag"]){
                     if ($ln  && $q["have_childs"] && ($options->Depth >0)){
-                        $s.= str_repeat("\t",$options->Depth );
+                        $s = rtrim($s). $ln.self::GetTabStop($options);
                     }
                     $s .= "</".$tag.">".$ln;
-
                 }
                 else {
                     $s.= "/>".$ln;
                 } 
             }
-            // $options->Depth = max(0, $options->Depth -1);
         } 
         return rtrim($s);
     }

@@ -14,9 +14,9 @@ final class HtmlHeadBaseUriNode extends HtmlNode{
     static $sm_item;
     ///<summary></summary>
     ///<param name="option" default="null"></param>
-    protected function __AcceptRender($option=null){
-        $suri=0;
-        if(($doc=$option->Document)){
+    protected function __AcceptRender($options=null){
+        
+        if(($doc=$options->Document)){
             $b=$doc->getBaseUri();
             if(!empty($b)){
                 $this["href"]=$b;

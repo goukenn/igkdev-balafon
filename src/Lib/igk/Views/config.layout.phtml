@@ -51,7 +51,8 @@ $android_menu["igk-data-menu-binding"]="#igk-cnf-menu";
 $h->div()->setClass("floatr alignb")->Content= __("Welcome, {0}", igk_app()->Configs->admin_login);
 $h->addClearBoth();
 
-$t->div()->setClass("igk-cnf-section section")->add($confframe);
+$c = $t->section()->setClass("igk-cnf-section section"); 
+$c->add($confframe);
 $t->addClearBoth();
 
 $t->div()->setClass("igk-cnf-footer")->container()->addRow()->addCol("igk-col-3-3")->div()->Content=IGK_COPYRIGHT;

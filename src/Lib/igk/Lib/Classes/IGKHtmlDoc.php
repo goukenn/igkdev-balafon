@@ -8,21 +8,32 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\HtmlMetaManager;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Http\IHeaderResponse;
 
 /**
  * create core document
- * @package 
+ * @package IGK
  */
-class IGKHtmlDoc extends HtmlDocumentNode{
+class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      
     private $m_private;
     private $m_theme;
     private $m_baseuri;
     /**
+     * array to add extra reponse on rendering document
+     * @var array
+     */
+    private $m_responseHeader;
+    /**
      * the page theme name
      * @var string
      */
     private $m_page_theme;
+    /**
+     * document direction
+     * @var string
+     */
+    private $m_dir;
     private static $sm_theme;
     private static $sm_scriptManager;
 
@@ -52,11 +63,33 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         if($meta == null){;
             $meta=igk_create_node("meta");
             $meta["name"]=$n;
-            $this->Metas->addMeta($n, $meta);
+            $sm->addMeta($n, $meta);
         }
-        $this->Metas->setAttribute($n, HtmlMetaManager::ATTR_CONTENT, $cl);
+        $sm->setAttribute($n, HtmlMetaManager::ATTR_CONTENT, $cl);
+        return $this;
     }
-    
+    public function getHeaderColor(){
+        if ($g = $this->getMetas()->getMetaById("theme-color")){
+            return $g[HtmlMetaManager::ATTR_CONTENT];
+        }
+        return null;
+    }
+    /**
+     * get reponse header
+     * @return null|array 
+     */
+    public function getResponseHeaders(): ?array{
+        return $this->m_responseHeader;
+    }
+    /**
+     * get reponse header
+     * @param null|array $headers 
+     * @return self
+     */
+    public function setResponseHeaders(?array $headers = null){
+        $this->m_responseHeader = $headers;
+        return $this;
+    }
     /**
      * 
      * @param string $theme dark|light
@@ -72,6 +105,7 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     ///<summary>get the meta manager object</summary>
     /**
     * get the meta manager object
+    * @return IGK\System\Html\HtmlMetaManager
     */
     public function getMetas(){
         if(!($g=$this->getTempFlag(self::IGK_DOC_METAMANAGER_FLAG))){
@@ -162,12 +196,11 @@ class IGKHtmlDoc extends HtmlDocumentNode{
      ///<summary></summary>
     ///<param name="icon"></param>
     /**
-    * 
+    * check the presence of the favicon
     * @param mixed $icon
     */
     public function setFavicon($icon){
-
-        $g=$this->getFavicon();
+ 
         if($icon){
             if(is_object($icon)){
                 $icon=$icon->getValue();
@@ -181,6 +214,16 @@ class IGKHtmlDoc extends HtmlDocumentNode{
         else{
             $this->setFlag(self::IGK_DOC_FAVICON_FLAG, null);
         }
+    }
+    /**
+     * set favicon as uri
+     * @param string $uri 
+     * @return $this 
+     * @throws IGKException 
+     */
+    public function setFaviconURL(string $uri){
+        $this->setFlag(self::IGK_DOC_FAVICON_FLAG, $uri);
+        return $this;
     }
     ///<summary></summary>
     /**
@@ -459,7 +502,11 @@ class IGKHtmlDoc extends HtmlDocumentNode{
     public function headerExtraAttribute(){
         $attr = "";
         if ($this->m_page_theme)
-            $attr .= "data-theme=\"".$this->m_page_theme."\"";
+            $attr .= "data-theme=\"".$this->m_page_theme."\" ";
+        if ($this->m_dir){
+            $attr .= "dir=\"".$this->m_dir."\" ";
+        }
+
         return trim($attr);
     }
 }

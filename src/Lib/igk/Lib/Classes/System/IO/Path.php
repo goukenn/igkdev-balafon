@@ -2,7 +2,8 @@
 namespace IGK\System\IO;
 
 use IGK\Helper\StringUtility as str_helper;
-use IGK\Helper\IO ; 
+use IGK\Helper\IO ;
+use IGKException;
 
 ///<summary>manage system path</summary>
 ///<note>for better directory manipulation. use t
@@ -126,6 +127,14 @@ class Path{
             return $dir;
         return igk_io_dir($bdir . "/" . $dir);
     }
+    /**
+     * get full base uri
+     * @param mixed $dir : relativepath 
+     * @param mixed $secured force secure path
+     * @param mixed $path output path-info
+     * @return string|false|null 
+     * @throws IGKException 
+     */
     public function baseuri($dir = null, $secured = null, &$path = null)
     {
         $secured = $secured === null ? igk_getv($_SERVER, 'HTTPS') == 'on' : $secured;

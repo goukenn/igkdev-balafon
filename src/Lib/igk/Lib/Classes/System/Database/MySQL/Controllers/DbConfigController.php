@@ -1740,7 +1740,6 @@ final class DbConfigController extends ConfigControllerBase
                     //     igk_wln_e(__FILE__.":".__LINE__, "subdomain.....", 
                     //     $c, $def);
                     // }  
-                    // igk_wln("binding ..... ", $tablename, 
                     //     \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($adName, $tablename)["ColumnInfo"]);
                     break;
                 }

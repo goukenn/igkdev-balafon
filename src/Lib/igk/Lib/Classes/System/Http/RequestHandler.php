@@ -150,6 +150,9 @@ class RequestHandler
 
     public function handle_ctrl_request_uri($u = null, $defaultBehaviour = 1)
     {
+        if (igk_environment()->handle_ctrl_request){
+            return 1;
+        }
         if (igk_environment()->get("sys://notsystemurihandle"))
             return;
         $c = igk_getr("c");
@@ -213,6 +216,7 @@ class RequestHandler
                 igk_ilog($msg);
             }
         }
+        igk_environment()->handle_ctrl_request = 1; 
     }
     /**
      * handle redirect
@@ -252,7 +256,7 @@ class RequestHandler
         $redirect_status = $server_info->{'REDIRECT_STATUS'};
         $r = $server_info->{'REDIRECT_REQUEST_METHOD'};
         igk_sys_handle_res($query);
-        // igk_wln_e("code", $code, $redirect, $redirect_status, $_SERVER);
+       // igk_wln_e("code", $code, $redirect, $redirect_status, $_SERVER);
         switch ($code) {
             case 901:
                 // default redirect request handle
@@ -297,9 +301,9 @@ class RequestHandler
         $page = $uri;
         $lang = null;
 
-
+        
         if (($actionctrl = igk_getctrl(IGK_SYSACTION_CTRL)) && igk_io_handle_redirection_uri($actionctrl, $page, $params, 1))
-            return; 
+            return;  
         try {
             if (igk_sys_ispagesupported($page)) {
                 $tab = $_REQUEST;

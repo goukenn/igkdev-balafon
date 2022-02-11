@@ -319,11 +319,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public function closeTag()
     {
-        static $closeTags;
-        if ($closeTags === null){
-            $closeTags = explode("|", "a|html|body|span|code|ul|li|ol|pre|p|button|videos|audio|select|head|script|style|div|form|nav|tr|td|th|table|textarea");
-        }
-        return (strpos($this->tagname, ":")!==false) || in_array($this->tagname, $closeTags); 
+         return true;
     }
     public function getCanRenderTag()
     {
@@ -748,6 +744,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 
             if (strpos($name, "get")===0){
                 igk_trace();
+                igk_wln("'try to call : ".__METHOD__ . " ".$name);
                 die("'try to call : ".__METHOD__ . " ".$name);
             }
             if (strpos($name, "set")===0){

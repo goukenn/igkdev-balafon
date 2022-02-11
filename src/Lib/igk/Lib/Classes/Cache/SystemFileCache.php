@@ -13,15 +13,15 @@ class SystemFileCache extends CommonCache{
     ///<summary>override lib cache file</summary>
     /**
      * return 
-     * @return string|null 
+     * @return string 
      */
-    protected static function _LibCacheFile(){
+    public static function CacheFile(){
         return igk_io_syspath(IGK_FILE_LIB_CACHE);
     }
     ///<summary></summary>
     ///<param name="force" default="false"></param>
     public static function CacheLibFiles($force=false){
-        $f=self::_LibCacheFile();
+        $f=self::CacheFile();
         if(empty($f))
             return;
         $t=3600;
@@ -78,7 +78,7 @@ class SystemFileCache extends CommonCache{
     }
    ///<summary></summary>
    public static function LoadCacheLibFiles(){
-    $f= static::_LibCacheFile();
+        $f= self::CacheFile();
         $v=false;
         if(!defined("IGK_NO_CACHE_LIB") && file_exists($f)){
             //+ | clear lib cache

@@ -69,7 +69,9 @@ class IGKApp extends IGKObject
         if ($this->m_settings  === null){
             if ($use_session) {
                 $v_setting_info = igk_create_session_instance($app_key, function(){
-                    return call_user_func_array([$this, 'createAppInfo'], []);
+                    $a = call_user_func_array([$this, 'createAppInfo'], []);
+                    $a->{IGK_SESSION_ID} = session_id();
+                    return $a;
                 });
             } else {
                 $v_setting_info = $this->createAppInfo();
@@ -233,7 +235,7 @@ class IGKApp extends IGKObject
             IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());        
         }   
         if ( self::$sm_instance !=null)    {
-            igk_wln_e("app already started");
+            igk_die("App already started...");
         }
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
@@ -264,7 +266,8 @@ class IGKApp extends IGKObject
             IGK_CLIENT_IP => igk_getv($_SERVER, "REMOTE_ADDR"),
             IGK_CLIENT_AGENT => igk_getv($_SERVER, "HTTP_USER_AGENT"),
             IGK_SESSION_ID => "",
-            IGK_CURRENT_DOC_INDEX_ID => -1,
+            IGK_APP_REQUEST_URI => igk_getv($_SERVER, "REQUEST_URI"),
+            IGK_APP_CURRENT_DOC_INDEX_ID => -1,
             "appInfo" => (object)[
                 "controllers" => [],
                 "documents" => [],

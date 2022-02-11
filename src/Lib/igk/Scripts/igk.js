@@ -2403,6 +2403,7 @@ Name:balafon.js
 			var _loc = igk.system.io.getdir(uri);
 			var _uri = igk.resources.getlang(_loc, _lang);
 
+			console.debug("loadLangRes");
 
 			// error.apply(this);
 			// return null;
@@ -2433,11 +2434,8 @@ Name:balafon.js
 			}
 			catch (ex) {
 
-				_getRes = function () {
-					// var _ext = igk.navigator.isIE() ? ".ejson" : ".json";//because of mime type        
-					var _ext = ".json"; // get data will get from ajx of mime type        
-					var _uri = igk.resources.getlang(_loc, _lang);
-
+				_getRes = function () {    
+					  
 					if (!document.body) {
 						igk.ajx.get(_uri, null, function (xhr) {
 							if (this.isReady()) {
@@ -2480,8 +2478,7 @@ Name:balafon.js
 						_promise.__then();
 					}
 					// igk.winui.events.raise(_sysnode, "resLoaded");
-				}).catch(function (e) {
-					var error = 1;
+				}).catch(function (e) {					
 					console.debug(e);
 					console.error("[BJS] - there is an error : " + e +
 						"\nUri:" + _uri);
@@ -2498,11 +2495,13 @@ Name:balafon.js
 			}
 			if (!t)
 				t = igk.dom.html().getAttribute("lang") || igk.navigator.getLang();
-
+		 
 			return _loc + '/Lang/res.' + t + '.json';
-		}
+		},	 
 	});
-
+	if (typeof(igk.resources.lang) == 'undefined'){
+		igk.resources.lang = {}; 
+	}
 	createNS("igk.system.Db", {
 		getIndexedDb: function () {
 			return window.indexDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -16229,13 +16228,14 @@ Name:balafon.js
 			var dir = igk.system.io.getlocationdir(igk.getScriptLocation());
 			if (!dir)
 				return;
-
-			var loc = igk.resources.getlang(dir, _lang); // + "/Lang/res." + _lang + _ext; 			
+			var loc = igk.resources.getlang(dir, _lang);  			
+			if (igk.resources.lang[_lang]){
+				init_res(igk.resources.lang[_lang], loc);
+				return;
+			}
 			// TODO: Load language resources files ::::: in productions
 
-
-			// return;
-			// alert("loading : "+loc);
+ 
 
 			var g = null;
 			var _storage = window.localStorage;
@@ -19852,7 +19852,7 @@ igk.ready(function () {
 	function igk_php_eval() {// php evaluation code
 
 		igk_e.apply(this);
-		var reserved = /((true|false)|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
+		var reserved = /((true|false)|\\$this|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
 		var w = 0;
 		var l = 1;// line count
 		var mode = 0;
@@ -19897,6 +19897,14 @@ igk.ready(function () {
 									inf.mode = 0;
 								}
 								break;
+							case "`":
+								inf.mode = 1;// string
+								inf.pos++;
+								w = _readStringLitteral(ch);
+								inf.mode = 0; 
+								sp.add('span').addClass("litteral").setHtml(w);
+
+								break;
 							case '/':// for comment
 								if ((inf.pos + 1 < inf.ln) && (inf.s[inf.pos + 1] == "/")) {
 									sp.add("span").addClass("cm").setHtml(ch + inf.s.substr(inf.pos + 1));
@@ -19915,7 +19923,7 @@ igk.ready(function () {
 							case '$':// read var
 								inf.pos++;
 								w = _readWord();
-								sp.add("span").addClass("v").setHtml("$" + w);
+								sp.add("span").addClass("v r").setHtml("$" + w);
 								inf.pos--;
 								// inf.read = 0;
 
@@ -23013,7 +23021,7 @@ igk.system.createNS("igk.system", {
 			}
 			return t;
 		},
-		newSvgContainer: function (n) { // create new igk;svgSymbol block container
+		newSvgContainer: function (n) { // create new igk:svgSymbol block container
 			var q = igk.createNode("div");
 			q.setAttribute('igk:svg-name', n).addClass("igk-svg-symbol " + n);
 			return q;
@@ -24859,8 +24867,8 @@ igk.system.createNS("igk.system", {
 })();
 
 //---------------------------------------------------------------------------
-// igk-svg-lst: svg list image
-// igk-svg-lst-i: svg list item
+// +|igk-svg-lst: svg list image
+// +| igk-svg-lst-i: svg list item
 //---------------------------------------------------------------------------
 (function () {
 	var m_item = {};  
@@ -24868,14 +24876,18 @@ igk.system.createNS("igk.system", {
 	function __init_svg_i() {
 		var n = this.getAttribute("igk:svg-name"); 
 		if (m_item[n]) {
+			this.rmClass("igk-svg-lst-i");
 			// replace 
 			var g = $igk(m_item[n]).clone();
 			var p = this.o.parentNode;
-
 			$igk(p).addClass("igk-svg-host");
+			// +| use set attribute to change class name
+			g.o.setAttribute("class", this.o.className); 
 			p.replaceChild(g.o, this.o);
-			if (p.getAttribute("title"))
+			if (p.getAttribute("title")){
 				$igk(p).qselect("svg > title").remove();
+				console.debug("remove title "+p.getAttribute('title'));
+			}
 
 		} else {
 			console.debug("item not found :" + n);

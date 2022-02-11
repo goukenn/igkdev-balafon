@@ -64,4 +64,5 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess{
          parent::_access_OffsetUnset($n);
          return $this;
     }
+    
 }

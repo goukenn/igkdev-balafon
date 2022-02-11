@@ -1,9 +1,24 @@
 <?php
-
+// @author: C.A.D. BONDJE DOUE
+// @file: PhpScriptBuilder.php
+// @desc: PhpScript builder helper
+// @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
 
 use IGKException;
 
+/**
+ * php script builder
+ * @package IGK\System\IO\File
+ * @method self defs(string $content) set the containt definition
+ * @method self use(string $use) uses definition
+ * @method self extends(string|array $class) if type is class mark extends
+ * @method self author(string $auther) set author text
+ * @method self namespace(string $namespace) define the namespace
+ * @method self type(string $type) define the type. class|trait|interface|function
+ * @method self name(string $name) define the of type in case class|trait|interface
+ * @method self comment(string $comment) define the top comment
+ */
 class PHPScriptBuilder
 {
     public function __construct()

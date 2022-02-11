@@ -18,6 +18,7 @@ use IGK\System\Html\HtmlStyleValueAttribute;
  */
 class HtmlNode extends HtmlItemBase{
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
+    static $AutoTagNameClass = false;
     ///<summary></summary>
     ///<param name="eventObj"></param>
     ///<return refout="true"></return>
@@ -48,6 +49,13 @@ class HtmlNode extends HtmlItemBase{
             $p = new HtmlNode($name);
             return $this->add($p);
         }        
+    }
+
+    public function addRange(array $childs){
+        if ($this->getCanAddChilds()){
+            array_map([$this, "add"], $childs);
+        }
+        return $this;
     }
      ///<summary>set the class combination of this item</summary>
     /**
@@ -207,6 +215,9 @@ class HtmlNode extends HtmlItemBase{
     public function __set($n, $v){
         parent::__set($n, $v);
     }
+    protected function _access_offsetExists($n){
+        return isset($this->m_attributes[$n]); 
+    }
 
     protected function _access_OffsetSet($k, $v){
         if ($v===null){
@@ -295,5 +306,22 @@ class HtmlNode extends HtmlItemBase{
     public function deactivate($n){
         $this->m_attributes->deactivate($n);
         return $this;
+    }
+
+     /**
+     * @return bool get if close tag
+     */
+    public function closeTag()
+    {
+        static $closeTags;
+        if ($closeTags === null){
+            $closeTags = explode("|", "a|html|body|span|code|ul|li|ol|pre|p|button|videos|audio|select|head|script|style|div|form|nav|tr|td|th|table|textarea");
+        }
+        $n = $this->tagname;
+
+        return  (strpos($n, ":")!==false) || 
+                (strpos($n, "-")!==false) ||
+                (strpos($n, "_")!==false) ||
+                in_array($this->tagname, $closeTags); 
     }
 }

@@ -14,16 +14,16 @@ final class HtmlFaviconNode extends HtmlNode{
     static $sm_instance;
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){
-        if($o && isset($o->Document)){
-            $g=$o->Document->getFavicon();
-            $this["href"]=$g;
+    protected function __AcceptRender($options=null){
+        if($options && isset($options->Document)){
+            $g=$options->Document->getFavicon();
+            $this["href"]=$g; 
             return $g != null;
         }
         return false;
     }
     ///<summary></summary>
-    public function __construct(){
+    private function __construct(){
         parent::__construct("link");
         $this["rel"]="shortcut icon";
         $this["type"]="image/x-icon";

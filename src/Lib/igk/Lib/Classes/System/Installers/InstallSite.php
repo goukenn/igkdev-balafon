@@ -235,9 +235,10 @@ SetEnv ENVIRONMENT {$environment}
 SetEnv IGK_LIB_DIR {$src}/application/Lib/igk
 DocumentRoot {$c_root}
 <Directory {$c_root}>
-ErrorDocument 401 '/Lib/igk/igk_redirection.php?__code=403'
-ErrorDocument 402 '/Lib/igk/igk_redirection.php?__code=402'
-ErrorDocument 403 '/Lib/igk/igk_redirection.php?__code=403'
+ErrorDocument 401 '/index.php/Lib/igk/igk_redirection.php?__code=401'
+ErrorDocument 402 '/index.php/Lib/igk/igk_redirection.php?__code=402'
+ErrorDocument 403 '/index.php/Lib/igk/igk_redirection.php?__code=403'
+ErrorDocument 413 '/index.php/Lib/igk/igk_redirection.php?__code=413'
 ErrorDocument 500 '/Lib/igk/igk_redirection.php?__code=500'
 Options +FollowSymLinks -MultiViews -Indexes
 Order deny,allow

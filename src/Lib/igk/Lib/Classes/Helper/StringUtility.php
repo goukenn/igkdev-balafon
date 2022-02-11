@@ -5,6 +5,10 @@ use IGK\System\Html\HtmlUtils;
 
 ///<summary>String utility </summary>
 abstract class StringUtility{
+    public static function RmSubString(string $str, $offset, int $length){
+
+        return substr($str, 0, $offset).substr($str, $offset+$length);
+    }
     /**
      * get camel class name
      * @param string $name 

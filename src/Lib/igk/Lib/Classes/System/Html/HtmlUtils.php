@@ -105,8 +105,8 @@ abstract class HtmlUtils extends DomNodeBase
     public static function ToArray($n)
     {
         if (is_array($n))
-            return $n;
-        return $n->to_array();
+            return $n;       
+        return  method_exists($n, "to_array") ? $n->to_array() : null;
     }
     public static function GetAttributes($attr)
     {
@@ -699,6 +699,9 @@ abstract class HtmlUtils extends DomNodeBase
                     $context = $inf["context"];
                     if ($context == HtmlContext::Html) {
                         $c = new HtmlNode($name);
+                        if (HtmlNode::$AutoTagNameClass){
+                            $c["class"] = $name;
+                        }
                         self::FilterNode($c,  ["node" => $c, "tagname" => $name]);
                     } else {
                         $c = new XmlNode($name);

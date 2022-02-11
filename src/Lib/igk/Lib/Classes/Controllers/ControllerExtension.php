@@ -862,6 +862,17 @@ abstract class ControllerExtension
         return igk_ctrl_auth_key($controller, $k);
     }
 
+    /**
+     * retrieve the configs
+     * @param BaseController $controller 
+     * @param string $name 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function getConfig(BaseController $controller, string $name, $default=null ){
+        return $controller->getConfigs()->get($name, $default);
+    }
 
     /**
      * init controller from function definition
@@ -1237,5 +1248,21 @@ abstract class ControllerExtension
             igk_do_response( new \IGK\System\Http\WebResponse($n, $code));
         }
         return false;
+    }
+
+    public static function viewInContext(BaseController $controller, string $file, $params=null){
+        if (realpath($file) || file_exists($file = $controller->getViewFile($file))){
+			$bck = $controller->getSystemVars();
+			if ($params){
+				$controller->regSystemVars($params);
+				$key = igk_ctrl_env_view_arg_key($controller);
+				
+				$tparams = array_merge($bck, $params);
+				igk_set_env($key, $tparams);			
+			}
+			 // $ctrl->regSystemVars($params);
+			$controller->_include_file_on_context($file);
+			$controller->regSystemVars($bck);
+		}
     }
 }

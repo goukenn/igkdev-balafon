@@ -130,8 +130,8 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
     private static function InitActionList($ctrl){
-        igk_die("init action");
-        if (defined("IGK_NO_WEB")){
+       
+        if (defined("IGK_NO_WEB") || igk_is_cmd()){
             return;
         }
         self::$sm_actions=array();
@@ -164,11 +164,10 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $route=& $ctrl->getRoutes();
         foreach(self::$sm_actions as $k=>$v){
             $route[$k]=$v;
-        }
-        // igk_wln_e(__FILE__.":".__LINE__, get_class($ctrl));
-        $e=$ctrl->getDbEntries();
-        if($e && ($e->RowCount > 0)){
-            foreach($e->Rows as $k=>$v){
+        } 
+        $e = Systemuri::select_all(); 
+        if($e){
+            foreach($e as $k=>$v){
                 if(is_object($v)){
                     $route[$v->clName]=$v->clUri;
                 }
@@ -179,11 +178,8 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             }
         }
         return self::$sm_actions;
-    }
+    } 
    
-    public function getDbEntries(){
-        return []; 
-    }
     ///<summary></summary>
     public function invoke_action(){
         $u=igk_getv($_SERVER, "REQUEST_URI");
@@ -400,5 +396,11 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             $li->add("span", array("class"=>"igk-col-4-2 no-overflow igk-text-ellipis"))->Content=$k;
             $li->add("span", array("class"=>"igk-col-4-2"))->Content=$v;
         }
+    }
+
+    protected function initComplete()
+    {
+        parent::initComplete();
+        self::InitActionList($this);
     }
 }

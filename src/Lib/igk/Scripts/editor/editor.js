@@ -28,7 +28,7 @@
         };
         var q = this; 
         
-        _editor = igk.createNode("div").addClass("igk-text-editor editor");
+        _editor = igk.createNode("div").addClass("igk-winui-text-editor editor");
         _content = _editor.add('div').addClass("content")
         .setAttribute("contenteditable", "true")
         .setAttribute("autofocus", "true")
@@ -250,7 +250,7 @@
         _e.parent.replaceChild(_e.editor.o, _e.node.o); 
         _e.editor.insertAfter(_e.input.o); 
     }
-    igk.winui.initClassControl("igk-text-editor", __init_text_editor);
+    igk.winui.initClassControl("igk-winui-text-editor", __init_text_editor);
 
 
 })();

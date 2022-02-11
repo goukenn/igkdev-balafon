@@ -5,6 +5,7 @@ use Exception;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
 use IGK\System\IO\FileWriter;
+use IGK\System\IO\Path;
 use IGKException;
 
 use function igk_resources_gets as __;
@@ -316,20 +317,69 @@ class IO{
     ///<param name="dir"> full path to resources</param>
     /**
     * return relative uri from server requested URI
-    * @param mixed $dir  full path to resources
+    * @param mixed $dir full path to resources
     */
-    public static function GetCurrentRelativeUri($dir=IGK_STR_EMPTY){
+    public static function GetCurrentRelativeUri($dir=IGK_STR_EMPTY, ?string $path=null){
+        $rootdir = igk_io_rootdir();
+        $bdir = igk_io_basedir();
+        if ($path === null){
+            $path = igk_io_request_uri();
+        }
+
+        if (!empty($dir)){
+            if (strpos($dir, $bdir)===0){
+                //sub path or relative dir            
+                if (realpath($dir)){
+                    // path exists
+                    // -----------
+                    die("not emplement");
+                }
+            }
+        }
+        $bdir = implode("/", array_filter([$bdir, ltrim($path, "/")]));
+        if (strpos($bdir, $rootdir)=== 0){
+            //path is subdir
+            if ($rootdir == $bdir){
+                if (empty($dir)){
+                    $r = "./";
+                }else{
+                    $r = self::GetRootRelativePath($dir);
+                }
+                return $r;            
+            } 
+            // get 
+            $p = "";
+            $cbdir = $bdir;
+            while($cbdir != $rootdir){
+                $p .= "../";
+                $cbdir = dirname($cbdir);
+            } 
+            return $p.ltrim($dir, "/");     
+        }
+        die("not implement ". __FILE__);
+        igk_wln(
+            "root_c  = ".self::GetRootRelativePath($dir),
+            "rootdir = ".igk_io_rootdir(),
+            "basedir = ".igk_io_basedir(),
+            "request = ".self::GetRequestBaseUri(),
+            "base--  = ".self::GetRootUri(self::GetRequestBaseUri()),
+            "rrq     = ".igk_io_request_uri()
+        );
+
         $__dir=$dir;
         $v_basedir=igk_io_basedir();
         $r_uri=null;
         $v_isdir=true;
         $sep="/";
-        $r_uri=igk_getv(explode("?", igk_io_request_uri()), 0);
+        $r_uri= self::GetRequestBaseUri(); // igk_getv(explode("?", igk_io_request_uri()), 0);
         $v_isdir=IGKString::EndWith($r_uri, '/');
-        $cdir=self::GetRootUri(igk_str_rm_last($r_uri, '/'));
+        $cdir=self::GetRootUri(rtrim($r_uri, '/'));
         $is_root=igk_io_basedir_is_root();
         $bdir=$is_root ? igk_io_baseuri(): self::GetRootUri();
         $dir=ltrim(igk_html_uri($dir), $sep);
+
+        igk_wln_e(get_defined_vars());
+
         if(!$is_root){
             $sbdir=igk_html_uri(igk_io_basedir());
             $srdir=igk_html_uri(igk_io_rootdir());
@@ -731,8 +781,7 @@ class IO{
     * 
     */
     public static function GetRequestBaseUri(){
-        $refUri=self::GetRootUri(igk_getv(explode("?", igk_io_request_uri()), 0));
-        return $refUri;
+       return self::GetRootUri(igk_getv(explode("?", igk_io_request_uri() ?? ""), 0));
     }
     ///end relative
     ///<summary>Get the Root directory according to DocumentRoot apache configuration </summary>
@@ -772,25 +821,26 @@ class IO{
         return $s;
     }
     ///<summary> get relative path according to the DOCUMENT_ROOT</summary>
-    ///<remark>dir = must be a full path to an existing file or directory</remark>
+    ///<remark>full path from root dir</remark>
     /**
     *  get relative path according to the DOCUMENT_ROOT
     */
-    public static function GetRootRelativePath($dir, $separator=DIRECTORY_SEPARATOR){
+    public static function GetRootRelativePath(?string $dir=null, $separator=DIRECTORY_SEPARATOR){
         $doc_root=igk_io_rootdir();
+        $bdir = self::GetRootBaseDir();
         $i=IGKString::IndexOf($dir, $doc_root);
         $c=IGK_STR_EMPTY;
         if($i != -1){
             $dir=substr($dir, $i + strlen($doc_root));
-            $bdir=igk_io_dir($doc_root."/".self::GetRootBaseDir());
+            $bdir=igk_io_dir($doc_root.$separator.$bdir);
             $c=igk_io_get_relativepath($bdir, $doc_root);
         }
-        $dir=str_replace(self::GetRootBaseDir(), IGK_STR_EMPTY, $dir);
-        while((strlen($dir) > 0) && ($dir[0] == DIRECTORY_SEPARATOR)){
+        $dir=str_replace($bdir, IGK_STR_EMPTY, $dir);
+        while((strlen($dir) > 0) && ($dir[0] == $separator)){
             $dir=substr($dir, 1);
         }
         if($c)
-            $dir=$c.DIRECTORY_SEPARATOR.$dir;
+            $dir=$c.$separator.$dir;
         return igk_html_uri(empty($dir) ? null: self::__fixPath($dir));
     }
     ///<summary></summary>

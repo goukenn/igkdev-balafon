@@ -1,5 +1,6 @@
 <?php
 
+use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\LoadArticleException;
 use IGK\System\IO\FileSystem;
 use IGK\Helper\IO;
@@ -43,11 +44,17 @@ final class IGKCaches{
             return false;
         }
         list($uri, $zip) = self::CacheUri();
- 
-        $file = IGKCaches::page_filesystem()->getCacheFilePath($uri); 
+        /// TODO:  Configs cache page attached to controller 
+        // igk_wln_e("configs ::: ".igk_sys_configs()->default_controller);
+   
+        $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
         if (file_exists($file) && IGKCaches::page_filesystem()->expired($uri, 50000)){
+            // header("Content-Encoding: deflate");
+            // readfile($file);
+            
             $response = new WebFileResponse($file);
             $response->zip = $zip;
+            $response->cache_output(igk_sys_configs()->get("cache_output", 3600));
             $response->output(); 
         }
     }
@@ -56,14 +63,37 @@ final class IGKCaches{
      * get system cache uri
      * @return (string|bool)[]  uri and zip flag 
      */
-    public static function CacheUri(){
-        $o = strtolower(igk_environment()->keyname()).":";
-        $uri = $o.igk_server()->REQUEST_URI;
+    public static function CacheUri($controller=null, ?string $requestUri=null){
+        $o = "";
+        if ($controller===null){ 
+            $controller = igk_sys_configs()->default_controller;
+        }
+        if (is_string($controller)){
+            $o.= $controller."/";
+        }else if ( $controller instanceof BaseController){
+            $o .= $controller->getName()."/";
+        }
+        if ($requestUri===null){
+            $requestUri = igk_io_baseuri().igk_server()->REQUEST_URI;
+        }
+        $o .= strtolower(igk_environment()->keyname()).":";
+        $uri = $o.$requestUri;
         $zip = igk_server()->accepts(["gzip"]);      
         if ($zip){
             $uri .= "_zip";
         }
         return [$uri, $zip];
+    }
+    /**
+     * check if cache 
+     * @param string $requestUri query string
+     * @param string|IGK\Controllers\BaseController $controller 
+     * @return bool 
+     */
+    public static function IsCachedUri(string $requestUri, $controller=null){
+        list($uri, $zip) = self::CacheUri($controller, $requestUri); 
+        $file = IGKCaches::page_filesystem()->getCacheFilePath($uri); 
+        return file_exists($file);
     }
     public static function __callStatic($name, $args){
         $i = self::getInstance();
@@ -148,8 +178,8 @@ final class IGKCaches{
         
         $cache = $fs->getCacheFilePath($file);
         $n=igk_create_notagnode();
-        if ($fs->cacheExpired($file)){ 
-           
+        if (1 || $fs->cacheExpired($file)){ 
+           igk_wln_e("cahing .... ");
             // + |-----------------------------------------------
             // + | Compile the target 
             // + |-----------------------------------------------
@@ -195,7 +225,8 @@ final class IGKCaches{
 
         $cache = $fs->getCacheFilePath($file);
         
-        if ($fs->cacheExpired($file)){
+        if (1 || $fs->cacheExpired($file)){
+            igk_wln_e("cache 2");
             // + |-----------------------------------------------
             // + | Compile the target 
             // + |-----------------------------------------------

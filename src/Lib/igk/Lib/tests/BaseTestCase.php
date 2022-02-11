@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 abstract class BaseTestCase extends TestCase{
     // call before all launching test - and output is consider in return of the output string test.
     protected function setUp():void{ 
+        igk_server()->prepareServerInfo();
     }
     protected function CreateController($classname){
         return Utils::CreateController($classname);

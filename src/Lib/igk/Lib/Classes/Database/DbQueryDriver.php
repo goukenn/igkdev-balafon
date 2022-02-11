@@ -57,7 +57,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         $this->m_name = $name;
         if (igk_env_count(__METHOD__)>1){
             igk_trace();  
-            igk_wln_e("create driver: ".get_class($this) . " : ", $name);
+            igk_wln_e("try to create db driver more than twice: ".get_class($this) . " : ", $name);
         }
     }
     ///<summary></summary>

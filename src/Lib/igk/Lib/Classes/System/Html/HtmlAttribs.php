@@ -44,7 +44,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
     ///<summary></summary>
     ///<param name="key"></param>
-    public function _access_offsetGet($key){
+    protected function _access_offsetGet($key){
         $g=$this->getAttributes();
         if($g && isset($g[$key]))
             return $g[$key];

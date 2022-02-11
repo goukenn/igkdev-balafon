@@ -5,7 +5,7 @@
 // @desc: subdomain library loading
 //
 namespace IGK\System\Library;
-
+use function igk_resources_gets as __;
 use Exception;
 use IGKEvents;
 use IGKException;
@@ -25,12 +25,15 @@ class subdomain{
             return false;
         }
         if (!defined('IGK_CONFIG_PAGE') && !igk_is_cmd() && !IGKValidator::IsIPAddress(igk_server()->SERVER_NAME)){
+
             igk_reg_hook(IGKEvents::HOOK_APP_BOOT, [$this, 'bootapp']);        
             return true;
         }
         return false;
     }
     public function bootapp(){
+       
+
         IGKSubDomainManager::Init();
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($c){            
             $app = $c->args["app"]->getApplication();
@@ -39,7 +42,11 @@ class subdomain{
             )
             {
                 return;
-            }            
+            } 
+            if (igk_app()->getCurrentPageFolder()=="Configs"){
+                return;
+            }
+            // igk_wln_e("not subdomain .... ",  igk_app()->getCurrentPageFolder());           
             $this->__checkSubDomain();
         }, 100);
     }
@@ -54,7 +61,7 @@ class subdomain{
         if(igk_io_handle_system_command($uri)){
             igk_exit();
         }
-        igk_sys_handle_ctrl_request_uri($uri);
+        igk_sys_handle_ctrl_request_uri($uri); 
         $row=null;
         $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row);
      
@@ -123,8 +130,6 @@ class subdomain{
         // $this->setSubDomainCtrl(null);
         // $this->setSubDomainCtrlInfo(null);
         $this->subdomain = null;
-        $this->subdomainInfo = null;
-        igk_trace();
-        igk_wln_e(__FILE__.":".__LINE__,  "finish", $subdomain_ctrl ) ;
+        $this->subdomainInfo = null; 
     }
 }

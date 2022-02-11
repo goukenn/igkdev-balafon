@@ -35,7 +35,7 @@ use function igk_resources_gets as __;
  * get asset content if found in $controller->getDataDir()."/assets" by default
  * @method static string baseUri() macros function
  * @method static bindNodeClass() macros function
- * @method static buri() macros function
+ * @method static string buri(string $path) macros function
  * @method static cache_dir() macros function
  * @method static checkUser() macros function
  * @method static string classdir() macros function
@@ -94,6 +94,7 @@ use function igk_resources_gets as __;
  * @method static string loadMigrationFile() macros function 
  * @method Users checkUser(bool $check, ?string $redirectUri ) macros function check if user or navigate
  * @method static string getErrorViewFile(int code) macros function get controller error file
+ * @method static mixed getConfig(string name, default=null) macros function get config setting
  */
 abstract class BaseController extends RootControllerBase implements IIGKDataController
 {
