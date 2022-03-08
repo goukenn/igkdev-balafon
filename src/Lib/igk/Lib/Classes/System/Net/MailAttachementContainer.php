@@ -1,5 +1,5 @@
 <?php
-// @file: IGKMailAttachementContainer.php
+// @file: MailAttachementContainer.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021

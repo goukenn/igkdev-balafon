@@ -451,7 +451,7 @@ EOF;
     * return application uri
     */
     public function getAppUri($function=null){
-        $app=igk_app();
+       
 		if (!empty($function)){
 			$function = igk_str_rm_start($function, "/");
         }
@@ -483,8 +483,9 @@ EOF;
                 $function=$s.$rt.(!empty($function) ? "/".$function: '');
             }
         }
-        if($function)
+        if($function){ 
             return igk_str_rm_last(igk_io_baseuri(), '/')."/".$function;
+        }
         return igk_io_baseuri();
     }  
    
@@ -616,6 +617,7 @@ EOF;
             "viewdefault"=>0,
             "query_options"=>0
         ));
+    
         if(is_string($u)){
             $page=explode("?", $u);
             $k=$this->getDomainUriAction();
@@ -631,8 +633,9 @@ EOF;
             $p=$u->getQueryParams();
             $viewdefault=1;
             extract(igk_pattern_view_extract($this, $p, 1)); 
-            igk_ctrl_change_lang($this, $p);
+            igk_ctrl_change_lang($this, $p); 
         }
+      
         //passing ctrl to view for sitepam
         igk_bind_sitemap(["ctrl"=>$this, "c"=>$c]);        
         
@@ -646,7 +649,10 @@ EOF;
       
         $this->regSystemVars(null);
         if(empty($param))
-        $param=array();
+            $param=array();
+        else if (!is_array($param)){
+            $param = array($param);
+        }
         if(empty($c) &&  $viewdefault){            
             $this->renderDefaultDoc(igk_conf_get($this->Configs, "/default/document", 'default'));
             igk_exit();
@@ -655,16 +661,17 @@ EOF;
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
         $fnc="";
         $handle=0;  
-  
+       
         //igk_wln_e(__FILE__.":".__LINE__, $u, $c, $param, $query_options, $this->getViewFile($c));
-        if(!($handle=$this->handle_func($c, $param, $doc, 0, null)) && (file_exists($fnc=$this->getViewFile($c)) && preg_match(IGK_VIEW_FILE_END_REGEX, $fnc))){
-     
+        if(!($handle=$this->handle_func($c, $param, $doc, 0, null)) && (file_exists($fnc=$this->getViewFile($c, 1, $param)) && preg_match(IGK_VIEW_FILE_END_REGEX, $fnc))){
+          
+            
             $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL, true);
             $m=$actionctrl->matche($page[0]);
             $ck=$this->getEnvParam("appkeys");
             if($m !== null){
                 if($m->action === $ck){
-                    if(igk_sys_is_subdomain() && ( ($loc = igk_get_defaultwebpagectrl()) === $this)){
+                    if(igk_sys_is_subdomain() && ( (igk_get_defaultwebpagectrl()) === $this)){
                         $m="Misconfiguration. Subsequent call of domain controller is not allowed. ".igk_io_request_uri().
 						"<br />".$this->getName().
 						"<br />";
@@ -675,9 +682,12 @@ EOF;
                     $actionctrl->invokeUriPattern($m);
                     igk_exit();
                 }
-            } 
-            
-            igk_view_dispatch_args($this, $c, $fnc, $param);          
+            }  
+            // if ($this->getViewFile($c, 0) != $fnc){
+            //     array_unshift($param, $c); 
+            // }
+            //igk_view_dispatch_args($this, $c, $fnc, $param);          
+            // igk_wln(__FILE__.":".__LINE__,$c, $param, $fnc, $this->getViewFile($c, 0));
             $this->setCurrentView($c, true, null, $param, $query_options);
             $this->resetCurrentView(null); 
             if(igk_is_ajx_demand()){

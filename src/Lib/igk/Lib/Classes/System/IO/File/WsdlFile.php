@@ -6,7 +6,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGKObject; 
 use ReflectionMethod;
 
-// author: C.A.D. BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 // desc: wsdl utility class
 

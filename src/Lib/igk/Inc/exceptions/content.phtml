@@ -2,6 +2,14 @@
  
 use function igk_resources_gets as __;
 
+if (igk_server()->accept("json")){
+    igk_json([
+        "error"=>1,
+        "msg"=>$Ex->getMessage(),
+        "code"=>$Ex->getCode(),
+    ], $Ex->getCode()); 
+} 
+
 $display_error = ini_get("display_errors");
 $is_prod = !igk_server_is_local() && !igk_app()->Configs->error_debug && igk_sys_env_production();
 $base_path = $is_prod;
@@ -198,7 +206,7 @@ $content .= ("<div style='height:100%' > ");
         $code = $Ex->getCode(); 
         $content .="<li class=\"code-view\">".$code."</li>";   
         if ($display_error){
-            $content .= "<li class='message-code' style='display:block; text-align:center; font-size: 0.9em;border:1px solid black; width: auto;'>".$m."</li>";
+            $content .= "<li class='message-code' style='display:block; text-align:center; padding: 2em 10px; font-size: 0.9em; width: auto;'>".$m."</li>";
         }
         $content .= "</ul>"; 
         header("bal-err-message: '{$m}'");

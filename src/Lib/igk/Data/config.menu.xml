@@ -203,4 +203,13 @@
 		<imagekey />
 		<group>controller</group>
 	</module>
+
+	<composer> 
+		<menuname>composer</menuname>
+		<pagename>composer</pagename>
+		<menuindex>30</menuindex>
+		<imagekey />
+		<group>administration</group>
+	</composer>
+
 </configmenu>

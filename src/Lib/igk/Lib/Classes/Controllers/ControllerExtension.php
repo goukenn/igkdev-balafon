@@ -388,6 +388,13 @@ abstract class ControllerExtension
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $name;
     }
+    /**
+     * initialize controller database models
+     * @param BaseController $ctrl 
+     * @param bool $force 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function InitDataBaseModel(BaseController $ctrl, $force = false)
     {
         $core_model_base = igk_html_uri(IGK_LIB_CLASSES_DIR."/Models/ModelBase.php");
@@ -517,6 +524,10 @@ abstract class ControllerExtension
             $cldir = $ctrl->getTestClassesDir();
             $loader->registerLoading($ns."\\Tests", $cldir);
         } 
+        if (file_exists($_auto_file = realpath($cldir."/../autoload.php"))){
+            require_once($_auto_file);
+        }
+        igk_hook($ctrl::hookName("register_autoload"), [$ctrl]);
     }
     public static function ns(BaseController $ctrl, $path)
     {
@@ -575,14 +586,34 @@ abstract class ControllerExtension
             $o .= "\tprotected \$controller = {$cl}::class; " . PHP_EOL;
         }
         $key = "";
+        $refkey = "";
+        $php_doc = "";
         foreach ($v["ColumnInfo"] as $cinfo) {
             if ($cinfo->clIsPrimary) {
+                if (!empty($key)){
+                    die(
+                        sprintf(
+                            "only one column must marked as primary .%s ( %s vs %s )\n", 
+                            $table,
+                            $key,
+                            $cinfo->clName
+                        )
+                    );
+                }
                 $key = $cinfo->clName;
             }
+            if ($cinfo->getIsRefID()){
+                $refkey = $cinfo->clName;
+            }
+            $php_doc.="@property mixed $".$cinfo->clName ."\n";
         }
         if ($key != "clId") {
             $o .= "/**\n*override primary key \n*/\n";
             $o .= "protected \$primaryKey = \"{$key}\"; " . PHP_EOL;
+        }
+        if (!empty($refkey) && ($refkey != "clId")){
+            $o .= "/**\n*override refid key \n*/\n";
+            $o .= "protected \$refId = \"{$refkey}\"; " . PHP_EOL;
         }
         $base_ns = implode("\\", array_filter([$ns, "Models"]));
         $builder = new PHPScriptBuilder();
@@ -594,9 +625,12 @@ abstract class ControllerExtension
             ->defs($o)
             ->file($name.".php")
             ->desc("model file")
+            ->phpdoc(rtrim($php_doc))
             ->use($uses);
 
-        return $builder->render();
+        $cf = $builder->render();
+        // igk_wln_e(__FILE__.":".__LINE__,  "output : ", $cf);
+        return $cf;
     }
     private static function GetDefaultModelBaseSource(BaseController $ctrl)
     {
@@ -686,7 +720,7 @@ abstract class ControllerExtension
         if ($f){ 
             $uid = $ctrl->User->clId;
             $ctrl->User->bclLastLogin = $ctrl->User->clLastLogin;
-            $ctrl->User->clLastLogin = date("Y-m-d H:i:s");
+            $ctrl->User->clLastLogin = date(\IGKConstants::MYSQL_DATETIME_FORMAT);
             \IGK\Models\Users::update(["clLastLogin"=>$ctrl->User->clLastLogin], ["clId"=>$uid]); 
         } else {
             igk_notifyctrl("notify/app/login")->addErrorr("e.loginfailed");
@@ -848,9 +882,11 @@ abstract class ControllerExtension
     {
         igk_app_is_uri_demand($ctrl, __FUNCTION__);
         $ctrl->setUser(null);
-        igk_getctrl(IGK_USER_CTRL)->logout();
-        if ($navigate)
+        igk_getctrl(IGK_USER_CTRL)->logout(); 
+          
+        if ($navigate){
             igk_navto($ctrl->getAppUri());
+        }
     }
 
     ///<summary>get authorisation key</summary>
@@ -1033,7 +1069,7 @@ abstract class ControllerExtension
 
         $s = "<?php" . IGK_LF;
         $s .= "// Balafon : generated db constants file" . IGK_LF;
-        $s .= "// date: " . date("Y-m-d H:i:s") . IGK_LF;
+        $s .= "// date: " . date(\IGKConstants::MYSQL_DATETIME_FORMAT) . IGK_LF;
         // generate class constants definition
         $cl = igk_html_uri(get_class($controller));
         $ns = dirname($cl);

@@ -6,6 +6,7 @@ use IGK\System\Configuration\ConfigData;
 
 /**
 * Represente IGKAppConfig class
+* @property \IGK\System\Configuration\ConfigData $Data get property data
 */
 final class IGKAppConfig extends IGKObject {
     const CHANGE_REG_KEY="IGKConfigDataChanged";
@@ -41,9 +42,14 @@ final class IGKAppConfig extends IGKObject {
                 IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
             } 
         }
+        // + | load extra configuration files
+        $preload_configs = [strtolower(igk_environment()->keyName())];
         if (($cnf = igk_environment()->extra_config) && ($cnf_file= igk_getv($cnf, "configFiles"))){
-            $dir = dirname($fullpath);
-            foreach ($cnf_file as $key => $value) {
+            $preload_configs = array_unique(array_merge($preload_configs, $cnf_file));
+        }
+        if ($preload_configs){
+            $dir = dirname($fullpath); 
+            foreach ($preload_configs as $value) {
                 if (file_exists($file = $dir."/configs.".$value.".php")){                     
                     $data = [];
                     IGK\System\Configuration\ConfigUtils::LoadData($file, $data);      

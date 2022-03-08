@@ -1,6 +1,8 @@
 <?php
 ///<summary>Represente class: DbQueryDriver</summary>
 namespace IGK\Database;
+
+use Exception;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\System\Number;
@@ -15,6 +17,10 @@ use Throwable;
 */
 class DbQueryDriver extends IGKObject implements IIGKdbManager {
     private $fkeys;
+    /**
+     * 
+     * @var \IGK\Database\DataAdapterBase adapter used by this driver
+     */
     private $m_adapter;
     private $m_closeCallback;
     private $m_dbpwd;
@@ -27,13 +33,13 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     private $m_openCallback;
     private $m_openCount;
 	private $m_dboptions;
-    private $m_resource;
+    protected $m_resource;
     protected $m_error;
     protected $m_errorCode;
 
     private static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
     private static $__store;
-    private static $sm_resid;
+    // private static $sm_resid;
     public  static $Config;
     static $idd=0;
     const DRIVER_MYSQLI = "MySQLI";
@@ -55,10 +61,10 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     */
     private function __construct($name){
         $this->m_name = $name;
-        if (igk_env_count(__METHOD__)>1){
-            igk_trace();  
-            igk_wln_e("try to create db driver more than twice: ".get_class($this) . " : ", $name);
-        }
+        // if (igk_env_count(__METHOD__)>1){
+        //     igk_trace();  
+        //     igk_wln_e("try to create db driver more than twice: ".get_class($this) . " : ", $name);
+        // }
     }
     ///<summary></summary>
     ///<param name="tablename"></param>
@@ -83,6 +89,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * 
     * @param mixed $query
     * @param mixed $option null or array key of object 
+    * @return mixed|object|null
     */
     private function _sendQuery($query, $options=null){
         return $this->getSender()->sendQuery($query, $options);
@@ -127,7 +134,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
                     igk_mysql_db_close($this->m_resource);
                 $this->m_isconnect=false;
                 $this->m_resource=null;
-                self::SetResId(null, __FUNCTION__);
+                // self::SetResId(null, __FUNCTION__);
                 $this->m_openCount=0;
             }
         }
@@ -158,7 +165,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     
         if($this->m_isconnect && $this->m_resource){
             if(@$this->m_resource->ping()){
-                self::SetResId($this->m_resource, __FUNCTION__);
+                // self::SetResId($this->m_resource, __FUNCTION__);
                 $this->m_openCount++;
                 igk_set_env("lastCounter", igk_ob_get_func('igk_trace'));
                 return true;
@@ -174,9 +181,9 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         $r=igk_db_connect($this);
     
         if(igk_db_is_resource($r)){
-            self::SetResId($r, __FUNCTION__);
+            // self::SetResId($r, __FUNCTION__);
 
-            $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)");
+            $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $r);
             if($t && (igk_db_num_rows($t) == 1)){
                 $this->m_isconnect=true;
                 $this->m_resource=$r;
@@ -189,7 +196,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             $_error=__CLASS__."::Error : SERVER RESOURCE # ";
             igk_notify_error($_error, "sys");
         }
-        self::SetResId(null, __FUNCTION__);
+        // self::SetResId(null, __FUNCTION__);
         $this->m_isconnect=false;
         $this->m_resource=null;
         return false;
@@ -211,7 +218,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             $this->close();
         $r=@\igk_db_connect($dbserver, $dbuser, $dbpwd);
         if(\igk_db_is_resource($r)){
-            $t=\igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)");
+            $t=\igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $r);
             if($t && (\igk_db_num_rows($t) == 1)){
                 $this->m_isconnect=true;
                 $this->m_resource=$r;
@@ -250,10 +257,10 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             $driver_storage = [];
         }   
         $name = "mysql";
-
-        if (key_exists($name, $driver_storage)){
-            return $driver_storage[$name];
-        }
+        // TODO: Driver handle
+        // if (key_exists($name, $driver_storage)){
+        //     return $driver_storage[$name];
+        // }
 
         $dbserver =key_exists("server", $options) ?   $options["server"] : func_get_arg(0);
         $dbuser = key_exists("user", $options)  ? $options["user"] : func_get_arg(1);
@@ -262,7 +269,8 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         $dbname =( key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  igk_app()->getConfigs()->db_name;
 
         // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
-        $out=new DbQueryDriver($name);
+        $cl = static::class;
+        $out=new $cl($name);
         if (is_object($dbserver)){
             //principal info 
             $out->m_dbserver=trim($dbserver->server);
@@ -286,7 +294,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         else{
             $out=null;
             $driver_storage[$name] = null;//  new NoDbConnection();
-            //igk_wln_e("try no storage");
+            $driver_storage[$name] = new NoDbConnection();
         }
         return $out;
     }
@@ -316,8 +324,8 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     public function createTable($tbname, $columninfo, $entries=null, $desc=null, $dbname=null){
         if(!$this->getIsConnect())
             return false; 
-        if ($grammar = $this->m_adapter->getGrammar()){
-            $query = $grammar->createTableQuery($tbname, $columninfo, $desc, $dbname);
+        if ($grammar = $this->m_adapter->getGrammar()){ 
+            $query = $grammar->createTableQuery($tbname, $columninfo, $desc, $dbname); 
             if ($this->sendQuery($query)){
                 if ($entries){
                     $this->m_adapter->pushEntries($tbname, $entries, $columninfo);
@@ -516,33 +524,14 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     ///delete item in tables
     /**
     */
-    public function delete($tbname, $values=null){
-        $this->dieNotConnect();
-        if ($this->m_adapter->delete($tbname, $values)){
-            if ($values==null){
-                $this->m_adapter->sendQuery("ALTER TABLE `".$tbname."` AUTO_INCREMENT =1");
-            }
-            return true;
-        }
-        return false;
-        // $query=IGKSQLQueryUtils::GetDeleteQuery($tbname, $values);
-        // $sender=$this->getSender();
-        // $t=$this->_sendQuery($query);
-        // if($t){
-        //     if($values == null)
-        //         $this->_sendQuery("ALTER TABLE `".$tbname."` AUTO_INCREMENT =1");
-        //     return true;
-        // }
-        // return false;
+    public function delete($tbname, $values=null){       
+       return $this->m_adapter->delete($tbname, $values);
     }
     ///<summary>delete all items</summary>
     /**
     * delete all items
     */
-    public function deleteAll($tbname, $condition=null){
-        $sender=$this->getSender();
-        $this->dieNotConnect();
-        $tbname= $this->escape_string($tbname);
+    public function deleteAll($tbname, $condition=null){       
         return $this->m_adapter->delete($tbname, $condition); 
     }
     ///<summary></summary>
@@ -573,7 +562,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             }
             igk_push_env("sys://adapter/sqlerror", $m);
             if(!igk_sys_env_production()){
-                throw new \Exception($m);
+                throw new Exception($m);
             }
         }
     }
@@ -645,7 +634,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         if(is_array($tb) && (igk_count($tb) > 0)){
             igk_debug_wln("send failed table .... creation ");
             foreach($tb as $k=>$v){
-                $sender->endQuery($v);
+                $sender->sendQuery($v);
             }
         }
         if (is_callable($complete)){
@@ -762,13 +751,20 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         $this->fkeys[]=$s;
         return $s;
     }
-    ///<summary></summary>
     /**
-    * 
-    */
-    public static function GetResId(){
-        return self::$sm_resid;
+     * get the resources
+     * @return mixed 
+     */
+    public function getResId(){
+        return $this->m_resource;
     }
+    // ///<summary></summary>
+    // /**
+    // * 
+    // */
+    // public static function GetResId(){
+    //     return self::$sm_resid;
+    // }
     ///<summary></summary>
     /**
     * 
@@ -878,8 +874,9 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
 
     ///get the last inserted id
     /**
+     * get driver last id
     */
-    public function lastId(){
+    public function last_id(){   
         return igk_mysql_db_last_id();
     }
     ///<summary></summary>
@@ -943,6 +940,14 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             if($this->m_resource){
                 if(!@$this->m_resource->ping())
                     return false;
+                if ($dbname == "information_schema"){
+                    igk_environment()->set("mysql_resource", $this->m_resource);
+                }
+                    //     $g = $mysql_func($this->m_resource, $dbname);
+                    //     $g = mysqli_query($this->m_resource, "SELECT DATABASE() as DbName");
+                    //     $mm = mysqli_fetch_assoc($g);
+                    //     igk_wln_e("change db name ".$dbname, $g, $mm);
+                    // }
                 return $mysql_func($this->m_resource, $dbname);
             }
             return false;
@@ -962,9 +967,10 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     ///<param name="query"></param>
     ///<param name="throwex" default="true"></param>
     /**
-    * 
+    * send query and return resources
     * @param mixed $query
     * @param mixed $throwex the default value is true
+    * @return resource|null 
     */
     public function sendQuery($query, $throwex=true){
      
@@ -975,13 +981,9 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         } 
         
         if(igk_db_is_resource($this->m_resource)){
-			if (igk_environment()->querydebug){ 
-                igk_dev_wln($query);
-				igk_push_env(IGK_ENV_QUERY_LIST, $query);
-                // if ($query == "SELECT * FROM `tbigk_users` WHERE `clId`='4';"){
-                //     igk_trace();
-                //     igk_exit();
-                // }
+            if (igk_environment()->querydebug){ 
+                igk_dev_wln("query: ".$query);
+				igk_push_env(IGK_ENV_QUERY_LIST, $query);             
                 igk_environment()->write_debug("<span>query &gt; </span>".$query);
 			}
             $this->setLastQuery($query);
@@ -1013,7 +1015,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
 		if(igk_db_is_resource($this->m_resource)){
             $this->setLastQuery($query);
             if ($v_qdebug){
-                igk_dev_wln($query);
+                igk_dev_wln("query: ".$query);
 				igk_push_env(IGK_ENV_QUERY_LIST, $query);
 			}
             $t = igk_db_multi_query( $query , $this->m_resource);
@@ -1034,7 +1036,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     * @param mixed $o
     */
     public function setAdapter($o){
-        $this->m_adapter=$o;
+        $this->m_adapter=$o; 
     }
     ///<summary></summary>
     ///<param name="v"></param>
@@ -1064,16 +1066,16 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
         $this->m_openCallback=$v;
     }
     ///<summary></summary>
-    ///<param name="r"></param>
-    ///<param name="context" default="null"></param>
-    /**
-    * 
-    * @param mixed $r
-    * @param mixed $context the default value is null
-    */
-    private static function SetResId($r, $context=null){
-        self::$sm_resid=$r;
-    }
+    // ///<param name="r"></param>
+    // ///<param name="context" default="null"></param>
+    // /**
+    // * 
+    // * @param mixed $r
+    // * @param mixed $context the default value is null
+    // */
+    // private static function SetResId($r, $context=null){
+    //     self::$sm_resid=$r;
+    // }
     ///<summary></summary>
     ///<param name="tablename"></param>
     /**

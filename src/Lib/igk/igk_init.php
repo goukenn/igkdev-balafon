@@ -34,7 +34,7 @@ if (!igk_is_function_disable("shell_exec")) {
             if ($is_cgi) {
                 // + | run script as cgi              
                 echo "<script>document.location = '/Configs'; </script>";
-                exit;
+                igk_exit();
             }
             igk_navto("/Configs");
         } else {
@@ -43,7 +43,7 @@ if (!igk_is_function_disable("shell_exec")) {
                 echo "Content-Type: text/html;\r\n\r\n";
             }
             echo "failed to install site";
-            exit;
+            igk_exit();
         }
     } else {
         echo "complete.\n";
@@ -51,4 +51,4 @@ if (!igk_is_function_disable("shell_exec")) {
 } else {
     echo "shell_exec is disabled on this server.";
 }
-exit;
+igk_exit();

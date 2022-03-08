@@ -1,5 +1,5 @@
 <?php
-// author: C.A.D. BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 
 use IGK\Resources\IGKLangKey;
@@ -269,16 +269,25 @@ function igk_html_build_form_array_entry($name, $type, $n, $value=null){
     }
 }
 ///<summary>shortcut to igk_html_load_menu_array. used to build menu</summary>
-/**
+/** 
 * shortcut to igk_html_load_menu_array. used to build menu
-*/
-function igk_html_build_menu($target, $menuTab, $user=null, $ctrl=null, $default="li", $sub="ul"){
+* @param mixed $target target node
+* @param mixed $menuTab menu's list info
+* @param mixed $callback 
+* @param mixed $user 
+* @param mixed $ctrl 
+* @param string $default 
+* @param string $sub 
+* @return void 
+* @throws IGKException 
+ */
+function igk_html_build_menu($target, $menuTab, $callback=null, $user=null, $ctrl=null, $default="li", $sub="ul"){
     $render=0;
     if($target == null){
         $target=igk_create_node($sub);
         $render=1;
     }
-    igk_html_load_menu_array($target, $menuTab, $default, $sub, $user, $ctrl);
+    igk_html_load_menu_array($target, $menuTab, $default, $sub, $user, $ctrl, $callback);
     if($render){
         $target->renderAJX();
     }
@@ -310,13 +319,22 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
 	if ($ctrl == null){
 		$ctrl = igk_app()->getBaseCurrentCtrl();
 	}
+     
+    $item_build_callback = [\IGK\System\WinUI\Menus\Engine::class, "BuildMenuItem"];
+    $submenu_item_build_callback = $callback;
+    if ($callback){
+        if (is_object($callback) && ($callback instanceof \IGK\System\WinUI\Menus\Engine)){
+            $item_build_callback = [$callback, "buildItem"];
+            $submenu_item_build_callback = [$callback, "buildSubMenuItem"];
+        } 
+    }
 
 	$_binduri = function($s, $ctrl){
-            if($ctrl && !empty($s) && !IGKValidator::IsUri($s)){
-                $s=ltrim($s, "/");
-                $s=$ctrl->getAppUri($s);
-            }
-			return $s;
+        if($ctrl && !empty($s) && !IGKValidator::IsUri($s)){
+            $s=ltrim($s, "/");
+            $s=$ctrl->getAppUri($s);
+        }
+        return $s;
 	};
 
 
@@ -326,6 +344,12 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
         $level=array();
         $roots=0;
         foreach($tab as $k=>$v){
+            $_k = $k;
+            if (is_string($v) && is_numeric($k)){
+                $k = $v;
+                $v = [];
+            }
+
             $st=igk_io_basenamewithoutext($k);
             $v_isr=$st === $k;
             $c=0;
@@ -338,10 +362,10 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
                     $c=$level[$st];
             }
             $obj=(object)array(
-                "key"=>$k,
+                "key"=>$_k,
                 "index"=>null,
-                "level"=>$v_isr ? 0: igk_count(explode(".",
-                $st))
+                "id"=>$k,
+                "level"=>$v_isr ? 0: igk_count(explode(".",$st))
             );
             if(is_array($v)){
                 $kk=igk_getv($v, "index");
@@ -358,20 +382,32 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
         return $o;
     };
     $h=$sfc($tab);
+    // + | ----------------------------------------------------------
+    // + | sort by menu id 
     usort($h, function($a, $b){
         if($a->level == $b->level){
-            if($a->index == $b->index)
-                return strcmp(strtolower($a->key), strtolower($b->key));
+            if($a->index == $b->index){
+                return strcmp(strtolower($a->id), strtolower($b->id));
+            }
             return $a->index < $b->index ? -1: 1;
         }
         return $a->level < $b->level ? -1: 1;
-    });
+    }); 
+    // + | ----------------------------------------------------------
+    // + | build menu
     $root=array();
     $sd=array();
+    
     foreach($h as $obj){
         $s=$tab[$obj->key];
-        $k=strtolower($obj->key);
+        if (is_numeric($obj->key) && is_string($s)){
+            $k = strtolower($s);
+        }else{
+            $k=strtolower($obj->key);
+        }
         $pname=igk_io_basenamewithoutext($k);
+
+        // igk_wln(" key : ".$k, $pname);
         $mi=$target;
         $ii=null;
         $lkey = "";
@@ -379,13 +415,19 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
             if(isset($sd[$pname])){
                 $ii=$sd[$pname];
                 if($ii->ul == null){
+                    if ($ii->li== null){
+                        igk_wln_e("li not created not handle ..... ", $ii);
+                    }
+                    $ii->li["class"] = "+menu-group";
                     $ii->ul=$ii->li->add($subnode);
                 }
                 $mi=$ii->ul;
+                $sd[$pname]->childs++; 
+                $sd[$pname]->li->subitem = true;
             }
             else{
-                if((empty($pname) || !isset($root[$pname]))){
-                    $root[$k]=(object)array("li"=>null, "ul"=>null, 'level'=>$obj->level);
+                if(!isset($root[$pname])){
+                    $root[$k]=(object)array("key"=>$k, "li"=>null, "ul"=>null, 'level'=>$obj->level, "childs"=>0);
                     $sd[$k]=$root[$k];
                 }
                 else{
@@ -395,17 +437,22 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
             }
             if($mi !== $target){
                 $mi["class"]="sub s".$obj->level;
-                if($callback)
-                    $callback($mi, "subi", $pname);
+                if($submenu_item_build_callback)
+                    $submenu_item_build_callback($mi, "subi", $pname);
             }
         }
         else{
             igk_die("10: already define ");
         }
         if(is_array($s)){
-            $u= $_binduri(igk_getv($s, "uri"), $ctrl);
+            if ($u = igk_getv($s, "uri")){
+                $u = $_binduri($u, $ctrl);
+            }
+            else {
+                $u = "#";
+            }
             $auth=igk_getv($s, "auth", true);
-            $ajx=igk_getv($s, "ajx");
+            $ajx= (bool)igk_getv($s, "ajx");
             $lkey=igk_getv($s, "text", __("menu.".$k));
             $init=igk_getv($s, "init");
             if((false === $auth) || (is_string($auth) && !$user->auth($auth))){
@@ -415,13 +462,14 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
             if($hi == null){
                 igk_die($item." create null");
             }
-            if($ajx){
-                $hi->addAJXA($u)->Content= $lkey;
-            }
-            else
-                $hi->addA($u)->Content= $lkey;
+            $item_build_callback($hi, $lkey, $u, $ajx, $s);          
             if($init){
                 $init($hi);
+            }
+            if (!isset($sd[$k])){
+                $sd[$k] = (object)["key"=>$k, "li"=>$hi, "ul"=>null, 'level'=>$obj->level];
+            }else{
+                $sd[$k]->li = $hi;
             }
         }
         else{
@@ -429,12 +477,20 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
                 $mi=$target;
             }
             $hi=$mi->add($item);
+            $lkey =  __("menu.".$s);
 			$s = $_binduri($s, $ctrl);
-            $hi->addA($s)->Content= $lkey;
-            $sd[$k]->li=$hi;
+            $item_build_callback($hi, $lkey, $s, false, $s);     
+            if (!isset($sd[$k])){
+                $sd[$k] = (object)["key"=>$k, "li"=>$hi, "ul"=>null, 'level'=>$obj->level];
+            }
+            else{
+                $sd[$k]->li = $hi;
+            }
         }
     }
     $target->roots=$root;
+    return $root;
+    //igk_debug_wln_e("finish");
 }
 ///@attributes array of  [allowEmpty, valuekey, displaykey]
 ///@attr is html attributes
@@ -738,9 +794,9 @@ function igk_html_select_constants($type){
 * @param mixed $frm
 * @param mixed $data
 */
-function igk_html_form_buildformfield($frm, $data){
-    $frm->addObData(function() use ($data){
-        igk_wl(igk_html_utils_buildformfield($data, 0));
+function igk_html_form_buildformfield($frm, $fields, $data){
+    $frm->addObData(function() use ($fields, $data){
+        igk_wl(igk_html_utils_buildformfield($fields, $data, 0));
     });
     return $frm;
 }
@@ -750,7 +806,7 @@ function igk_html_form_buildformfield($frm, $data){
  * @param array $data get select data
  * @param callback $callback callback to resolve data to field data
  */
-function igk_html_form_select_data($data, $callback){
+function igk_html_form_select_data(array $data, $callback){
     $o = [];
     foreach($data as $r){
         $g = $callback($r);
@@ -1136,8 +1192,8 @@ function igk_html_toast($doc, $message, $type="igk-default"){
 * 
 * @param mixed $formfields
 */
-function igk_html_utils_buildformfield($formfields, $render=1){
-    return igk_html_form_fields($formfields, $render);
+function igk_html_utils_buildformfield($formfields, ?array $data=null, $render=1){
+    return igk_html_form_fields($formfields, $data, $render);
 }
 
 ///<summary></summary>

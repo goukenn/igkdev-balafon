@@ -1,8 +1,11 @@
 <?php
 namespace IGK\System\Console\Commands;
 
+use IGK\Controllers\RootControllerBase;
+use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Database\DbUtils;
 use IGKModuleListMigration;
 
 class ResetDbCommand extends AppExecCommand{
@@ -36,6 +39,8 @@ class ResetDbCommand extends AppExecCommand{
             }
         } else {
             $c = igk_app()->getControllerManager()->getControllers(); 
+
+            usort($c, DbUtils::OrderController);
             if ($b = IGKModuleListMigration::CreateModulesMigration()){
                 $c =  array_merge($c, [$b]); 
             } 

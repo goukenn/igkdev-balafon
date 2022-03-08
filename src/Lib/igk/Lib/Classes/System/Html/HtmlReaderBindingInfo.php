@@ -10,13 +10,18 @@
 
 namespace IGK\System\Html;
 
+/**
+ * represent reader binding info
+ * @package IGK\System\Html
+ */
 final class HtmlReaderBindingInfo{
     const PATH=__CLASS__.'::Construct';
     ///<summary></summary>
     ///<param name="_reader"></param>
     ///<param name="listener" default="null"></param>
-    public function __construct($_reader, $listener=null){
-        igk_set_env(self::PATH, ["reader"=>$_reader, "info"=>[], "listener"=>$listener]);
+    public function __construct(HtmlReader $_reader, $listener=null){
+        igk_set_env(self::PATH, ["reader"=>$_reader, "info"=>[            
+        ], "listener"=>$listener]);
     }
     ///<summary></summary>
     ///<param name="v"></param>

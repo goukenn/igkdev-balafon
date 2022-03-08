@@ -2,11 +2,23 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
 // @desc: model file
-// @date: 20220116 16:24:43
+// @date: 20220222 03:33:09
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
+///<summary></summary>
+/**
+* @package IGK\Models
+* @property mixed $clId
+* @property mixed $crons_name
+* @property mixed $crons_process
+* @property mixed $crons_script
+* @property mixed $crons_options
+* @property mixed $crons_class
+* @property mixed $crons_create_at
+* @property mixed $crons_update_at
+*/
 class Crons extends ModelBase{
 	/**
 	* table's name

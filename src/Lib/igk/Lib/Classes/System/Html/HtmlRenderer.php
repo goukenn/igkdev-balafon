@@ -2,10 +2,12 @@
 
 namespace IGK\System\Html;
 
+use IGK\System\Html\Dom\HtmlExpressionNode;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\IHeaderResponse;
 use IGKApp;
-use IGKException; 
+use IGKException;
+use IGKHtmlDoc;
 use ReflectionMethod;
 
 /**
@@ -98,16 +100,24 @@ class HtmlRenderer{
             // -------------------
             // + | Render document
             // -------------------  
-            $headers = [];
-            if ($doc instanceof IHeaderResponse){
-                $headers = array_merge($headers, $doc->getResponseHeaders() ?? []);
-            }
-            //igk_dev_wln_e(__FILE__.":".__LINE__,  "data ", $headers);
-            $response = new \IGK\System\Http\WebResponse($doc, 200, $headers);
-            $response->cache = !igk_environment()->no_cache && IGKApp::GetConfig("allow_page_cache");             
-            $response->output();            
-        
+            self::OutputDocument($doc);
         }
+    }
+    /**
+     * output the document
+     * @param IGKHtmlDoc $doc 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function OutputDocument(IGKHtmldoc $doc){
+        $headers = [];
+        if ($doc instanceof IHeaderResponse){
+            $headers = array_merge($headers, $doc->getResponseHeaders() ?? []);
+        }
+        //igk_dev_wln_e(__FILE__.":".__LINE__,  "data ", $headers);
+        $response = new \IGK\System\Http\WebResponse($doc, 200, $headers);
+        $response->cache = !igk_environment()->no_cache && IGKApp::GetConfig("allow_page_cache");             
+        $response->output();  
     }
     public static function SanitizeOptions($options){
         if (!isset($options->{':sanitize'})){
@@ -221,6 +231,10 @@ class HtmlRenderer{
                         continue;
                     } 
                 }
+                if ($i instanceof HtmlExpressionNode){
+                    igk_trace();
+                    igk_debug_wln_e("Expression binding ......", $options->Source === $i);
+                }
 
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag() ? $i->getTagName() : "";
@@ -252,7 +266,7 @@ class HtmlRenderer{
                         $s .= HtmlRenderer::GetValue($content, $options);
                     }else{
                         if (is_array($content)){
-                            $s .= json_encode($content);
+                            $s .= json_encode($content, JSON_UNESCAPED_SLASHES);
                         }else 
                             $s .= $content;
                     }
@@ -364,7 +378,7 @@ class HtmlRenderer{
                         }
                         continue;
                     } else {
-                        $c = self::GetStringAttribute($v, $options);
+                        $c = static::GetStringAttribute($v, $options);
                     }
                 }
                 if (is_numeric($c) || !empty($c)) {
@@ -403,7 +417,7 @@ class HtmlRenderer{
     public static function GetStringAttribute($v, $options){
         if(empty($v) && !is_numeric($v))
             return null;
-        $data=null;
+        
         while(is_object($v)){
             $v= HtmlUtils::GetValueObj($v, $options);
         }
@@ -436,7 +450,7 @@ class HtmlRenderer{
             }
         }else{
             $v=str_replace("\"", "\\\"", $v);
-        }
+        } 
         unset($options->setnoAttribEscape);
         return "\"".$v."\"";
     }

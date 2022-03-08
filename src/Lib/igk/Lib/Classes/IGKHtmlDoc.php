@@ -13,12 +13,22 @@ use IGK\System\Http\IHeaderResponse;
 /**
  * create core document
  * @package IGK
+ * @property bool NoCache disable document caching
  */
 class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      
     private $m_private;
     private $m_theme;
     private $m_baseuri;
+    private $m_noCache;
+
+    public function getNoCache(){
+        return $this->m_noCache;
+    }
+    public function setNoCache(bool $value){
+        $this->m_noCache = $value;
+        return $this;
+    }
     /**
      * array to add extra reponse on rendering document
      * @var array
@@ -146,9 +156,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     public function getTempTheme(){
         return $this->m_private;
     }
-    ///<summary></summary>
+    ///<summary>get document theme</summary>
     /**
-    * 
+     * get document theme
+    * @return mixed|IGK\System\Html\Dom\HtmlDocTheme 
+    * @throws Exception
     */
     public function getTheme(){
         if($r=(igk_get_env("sys://css_temp") ? $this->m_private: $this->m_theme)){

@@ -2,11 +2,18 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Usergroups.php
 // @desc: model file
-// @date: 20220116 16:24:43
+// @date: 20220222 03:33:08
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
+///<summary></summary>
+/**
+* @package IGK\Models
+* @property mixed $clId
+* @property mixed $clUser_Id
+* @property mixed $clGroup_Id
+*/
 class Usergroups extends ModelBase{
 	/**
 	* table's name

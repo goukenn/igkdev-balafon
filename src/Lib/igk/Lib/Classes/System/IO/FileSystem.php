@@ -2,16 +2,12 @@
 namespace IGK\System\IO;
 
 use IGK\System\Exceptions\ArgumentNotValidException; 
- 
+require_once __DIR__."/CoreFileSystem.php"; 
 /**
  * file system helper 
  */
-class FileSystem{
-    /**
-     * 
-     * @var string base path of the file system
-     */
-    public $path; 
+class FileSystem extends CoreFileSystem{
+ 
 
     public function __construct(string $dir){
         if (!file_exists($dir)){
@@ -19,42 +15,7 @@ class FileSystem{
         }
         $this->path = $dir;
     }
-    /**
-     * check if path is dir
-     * @return bool 
-     */
-    public function isDir(){
-        return is_dir($this->path); 
-    }
-    /**
-     * check if path is file
-     * @return bool 
-     */
-    public function isFile(){
-        return is_file($this->path);
-    }
-
-    /**
-     * check if path is expired
-     * @param string $path 
-     * @param mixed $timespan 
-     * @return bool 
-     */
-    public function expired(string $path, $timespan){
-        return $this->lastModified($path) < $timespan;
-    }
-    /**
-     * get path last modification
-     * @param mixed $path 
-     * @return int|false 
-     */
-    public function lastModified(string $path){
-        $c = $this->getFullPath($path);        
-        if (self::Exists($c)){       
-            return filemtime($c);
-        }
-        return false;
-    }
+    
     /**
      * path to check if exists
      * @param string $path 

@@ -20,7 +20,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator{
     }
 	public function __debugInfo()
 	{
-		return $this->m_rows; //["m_rows"=>$this->m_rows];
+		return $this->m_rows; 
 	}
     public function to_json(){
         return Utility::To_JSON($this->m_rows, null);
@@ -54,7 +54,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator{
 	protected function _access_offsetSet($i, $v){
 		$this->m_rows[$i] = $v;
 	}
-	public function OffsetGet($i){
+	public function _access_OffsetGet($i){
 		if ($this->OffsetExists($i)){
 			return $this->m_rows[$i];
 		}

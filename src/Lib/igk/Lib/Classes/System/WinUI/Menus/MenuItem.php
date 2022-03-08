@@ -10,15 +10,22 @@
 
 namespace IGK\System\WinUI\Menus;
 
+use IGKException;
+
 use function igk_resources_gets as __;
 
-
+///<summary>contextual menu item</summary>
+/**
+ * contextual menu item
+ * @package IGK\System\WinUI\Menus
+ */
 class MenuItem{
     const GP_NAME=0x2;
     const NAME=0x1;
     const PAGE=0x6;
     const POSITION=0x4;
     const TITLE=0x5;
+    const IMAGEKEY=0x6;
     const URI=0x3;
     private $_;
     ///<summary></summary>
@@ -26,6 +33,19 @@ class MenuItem{
     ///<param name="args"></param>
     public function __call($n, $args){
         igk_die(__CLASS__.":::NO EXTRA ".$n);
+    }
+    ///<summary>return the menu item fullname</summary>
+    /**
+     * return the menu item fullname
+     * @return string 
+     * @throws IGKException 
+     */
+    public function fullName(){
+        return implode(".", array_filter([
+            $this->getGroup(),
+            $this->getName(),
+            $this->getIndex()            
+        ]));
     }
     ///<summary></summary>
     ///<param name="$name"></param>
@@ -35,7 +55,17 @@ class MenuItem{
     ///<param name="$imagekey" default="null"></param>
     ///<param name="$t" default="null"></param>
     ///<param name="$group" default="null"></param>
-    public function __construct($name, $title=null, $uri=null, $position=10, $imagekey=null, $t=null, $group=null){
+    /**
+     * iniit 
+     * @param string $name menu name
+     * @param ?string $title title to dispay 
+     * @param ?string $uri target uri
+     * @param int $position 
+     * @param mixed $imagekey the image key 
+     * @param mixed $group 
+     * @return void 
+     */
+    public function __construct($name, $title=null, $uri=null, $position=10, $imagekey=null, $group=null){
         $this->_=array();
         $this->setFlag(self::NAME, $name);
         $this->setFlag(self::TITLE, $title ?? $name);
@@ -43,6 +73,7 @@ class MenuItem{
         $this->setFlag(self::POSITION, $position);
         $this->setFlag(self::URI, $uri);
         $this->setFlag(self::GP_NAME, $group);
+        $this->setFlag(self::IMAGEKEY, $imagekey);
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -62,10 +93,10 @@ class MenuItem{
     public function __toString(){
         return __CLASS__."[".$this->getName()."]";
     }
-    ///<summary></summary>
-    public function add(){
-        igk_die(__METHOD__."");
-    }
+    // ///<summary></summary>
+    // public function add(){
+    //     igk_die(__METHOD__."");
+    // }
     ///<summary></summary>
     public function getCurrentPage(){
         return igk_getv($this->_, self::PAGE);
@@ -134,5 +165,7 @@ class MenuItem{
     }
     ///<summary></summary>
     ///<param name="u"></param>
-    public function updateUri($u){    }
+    public function updateUri($uri){  
+        $this->setFlag(self::URI, $uri);
+    }
 }

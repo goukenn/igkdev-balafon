@@ -1,5 +1,5 @@
 <?php
-
+// @file: DataAdapterBase.php
 
 namespace IGK\System\Database\MySQL;
 
@@ -48,6 +48,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $this->m_dbManager->setCloseCallback(array($this, 'closeCallback'));
             $this->m_dbManager->setOpenCallback(array($this, 'openCallback'));
         }
+     
         if ($this->connect()) {
             register_shutdown_function(function () {
                 $c = $this->OpenCount();
@@ -57,8 +58,8 @@ abstract class DataAdapterBase extends SQLDataAdapter
                         new IGKException("failed to close connection");
                     }
                 }
-            });
-        }
+            }); 
+        } 
     }
 
     ///<summary></summary>
@@ -389,7 +390,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     public function getResId()
     {
-        return DbQueryDriver::GetResId();
+        return  $this->m_dbManager ? $this->m_dbManager->getResId() : null;
     }
     ///<summary></summary>
     /**
@@ -473,8 +474,8 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * 
      */
     public function last_id()
-    {
-        return $this->m_dbManager->lastId();
+    { 
+        return $this->m_dbManager->last_id();
     }
     ///<summary></summary>
     /**

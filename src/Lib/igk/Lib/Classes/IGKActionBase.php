@@ -156,7 +156,7 @@ abstract class IGKActionBase implements IActionProcessor
             return $this->$fc(...$arguments);
         }
         if ($this->throwActionNotFound)
-            throw new ActionNotFoundException($name);
+            throw new ActionNotFoundException("[".get_class($this)."]->".$name);
         return false;
     }
     /**
@@ -248,6 +248,7 @@ abstract class IGKActionBase implements IActionProcessor
             igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
             igk_environment()->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
             $args = array_slice($params, 1);
+          
             try {
                 if ($object instanceof MiddlewireActionBase) {
                     $c =  $object->__call($action, $args);

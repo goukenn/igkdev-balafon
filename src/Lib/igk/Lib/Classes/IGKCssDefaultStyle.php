@@ -114,7 +114,11 @@ final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
         igk_wln_e("get def....");
         return igk_getv($this->_, self::PROPERTIES);
     }
-    ///<summary></summary>
+    ///<summary>retrieve binded temp file </summary>
+    /**
+     * retrieve binded temp file 
+     * @param bool $clear clear the temp binding files
+     */
     public function getBindTempFiles($clear=0){
         $r=igk_getv($this->_, self::FILES_BIND_TEMP_RULE);
         if($r && $clear){
@@ -181,8 +185,18 @@ final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
     }
     ///<summary></summary>
     ///<return refout="true"></return>
-    public function & getTempFiles(){
-        $g=& $this->prepareStorage(self::TEMP_FILES_RULE);
+    /**
+     * 
+     * @param bool $clear 
+     * @return mixed 
+     */
+    public function & getTempFiles($clear = false ){
+        $g = & $this->prepareStorage(self::TEMP_FILES_RULE);
+        if ($clear){
+            $gcp = $g;
+            $g = [];
+            $g = & $gcp;
+        }
         return $g;
     }
     ///<summary></summary>

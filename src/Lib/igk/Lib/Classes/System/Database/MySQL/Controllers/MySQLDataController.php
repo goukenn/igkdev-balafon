@@ -3,7 +3,8 @@ namespace IGK\System\Database\MySQL\Controllers;
 
 ///<summary>Represente class: IGKMySQLDataCtrl</summary>
 
-use IGK\Controllers\BaseController; 
+use IGK\Controllers\BaseController;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
 * Represente IGKMySQLDataCtrl class
@@ -156,8 +157,13 @@ class MySQLDataController extends BaseController{
     public static function DropTableRelation($adapter, $tbname, $dbname, $tablelist=null, & $deleted=null, $node=null){
         $d=$adapter;
         $bck=$dbname;
-        $d->selectdb("information_schema");
-        $h=$d->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
+        $rp = $d->selectdb("information_schema"); 
+        $h=$d->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';");
+        // $g = $d->sendQuery("SELECT DATABASE() as dbName");
+        // var_dump($g->getRows());
+        // igk_wln_e("esources ", igk_environment()->get("mysql_resource"), 
+        // "? = ".(igk_environment()->get("mysql_resource") === $d->getResId()) );
+        // igk_wln_e($g->getRows());
         $d->selectdb($bck);
         $r=false;
         if($h && $h->RowCount > 0){

@@ -16,7 +16,7 @@ use ReflectionFunction;
  * @method static macroKeys() macros: get registrated macros key
  * @method static initDb() macros: init Controller database
  * @method static getDb() macros: get data adapter
- * @method static resetDb() from default extension 
+ * @method static bool resetDb(bool $navigate=true , bool $force = true) from default extension reset controller attached database
  * @method static object getMacro() from default extension 
  * @method static mixed invokeMacro($name, $args) . from context force macros invocation if method is present.
  * @method static null|callable getMacro($name, $args) . from context force macros invocation if method is present.
@@ -67,7 +67,6 @@ abstract class RootControllerBase extends IGKObject{
 	{
         $c = null; 
         $v_macro  = 0; 
-
 		if (self::$macros===null){
 			self::$macros = [
 				"macrosKeys"=>function(){
@@ -76,15 +75,14 @@ abstract class RootControllerBase extends IGKObject{
 				"initDb"=>function(RootControllerBase $controller, $force=false){
 					return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_initdb.pinc"); 
 				},
-				"resetDb"=>function(RootControllerBase $controller, $navigate=true, $force=false){
+				"resetDb"=>function(RootControllerBase $controller, $navigate=true, $force=false){              
 				 	return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_resetdb.pinc");
 				},
 				"getDb"=>function(){
 					return null;
 				},				 
 			];
-		} 
-		$v_macro = 0;
+		}  
         if ($name == "invokeMacros"){
             $c = $arguments[1];
             $name = $arguments[0];
@@ -169,7 +167,7 @@ abstract class RootControllerBase extends IGKObject{
     public function getAppUri($function=null){
         
         if(SysUtils::GetSubDomainCtrl() === $this){
-            $g=$app->SubDomainCtrlInfo->clView;
+            $g= igk_app()->SubDomainCtrlInfo->clView;
             if(!empty($function) && (stripos($g, $function) === 0)){
                 $function=substr($function, strlen($g));
             }

@@ -14,6 +14,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_dbname;
     private $m_fhandle;
 
+    public function getDataTableDefinition(string $tablename) { 
+        return null;
+    }
+
     public function last_error() {
         return null;
      }
@@ -132,7 +136,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * 
     */
-    public function selectCount(){
+    public function selectCount(string $table,?array $where = null, ?array $options = null){
         igk_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_show_trace());
     }
     ///<summary></summary>

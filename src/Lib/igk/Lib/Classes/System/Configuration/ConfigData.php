@@ -16,8 +16,8 @@ use function igk_resources_gets as __;
 *   check with haveExtra method. \
 *   extra properties are readonly and will not be stored.
 * @exemple  
-*  $this->$property will return extra properties if exists against  
-*  $this->get($property) which will always return configurable properties
+*  $this->$property will return extra properties if exists against configurable property
+*  $this->get($property) which will always return configurable properties value
 */
 final class ConfigData {
     /**

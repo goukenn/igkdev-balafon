@@ -5,8 +5,8 @@ namespace IGK\System\Configuration;
 use IGK\System\Html\IHtmlGetValue;
 
 /**
- * 
- * @package 
+ * retrieve sys expression
+ * @package IGK\System\Configuration
  */
 class SysConfigExpression implements IHtmlGetValue{
     var $expression;

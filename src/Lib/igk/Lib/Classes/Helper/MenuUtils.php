@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\Helper;
 
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
@@ -95,7 +96,14 @@ final class MenuUtils{
     ///<param name="target"></param>
     ///<param name="menu"></param>
     ///<param name="pages" ref="true"></param>
-    public static function InitMenu($target, $menu, & $pages){
+    /**
+     * 
+     * @param HtmlNode $target 
+     * @param MenuItem $menu 
+     * @param array & $pages reference page 
+     * @return void 
+     */
+    public static function InitMenu(HtmlNode $target, MenuItem $menu, ?array & $pages = null){
         $add_uri=null;
         $node=null;
         if(isset($page)){
@@ -115,12 +123,11 @@ final class MenuUtils{
                 }
             }
             else{
-                $pages [$page]=$menu;
+                $pages[$page]=$menu;
             }
-        }
-        if($add_uri)
-            ;
-        $menu->updateUri($add_uri);
+        }     
+        if ($add_uri)
+            $menu->updateUri($add_uri);
         if($menu->HasChilds){
             $menu->sortChilds();
             $menucl="igk-submenu submenu_".self::GetMenuLevel($menu);
@@ -129,7 +136,8 @@ final class MenuUtils{
                 $v=self::InitMenu($v_ul, $k, $pages);
             }
         }
-        $target->add("li")->add('a')->setAttribute("href", $menu->getUri())->Content=__("menu.".$menu->Name);
+        $target->li()->a() 
+        ->setAttribute("href", $menu->getUri())->Content=__("menu.".$menu->Name);
     }
     ///<summary></summary>
     ///<param name="target"></param>

@@ -18,6 +18,22 @@ abstract class DataAdapterBase extends IGKObject {
     protected $m_name;
     private $m_relations;
 
+    /**
+     * get if adapter name is registered
+     * @param string #adName
+     * @param IGK\Database\adName #Parameter#830480dd 
+     * @return void 
+     */
+    public static function IsRegister(string $adName){
+        return isset(self::$sm_regAdapter[$adName]);
+    }
+    /**
+     * get data table definition info
+     * @param string $tablename 
+     * @return mixed 
+     */
+    abstract function getDataTableDefinition(string $tablename);
+
     public static function GetAdapter($controllerOrAdpaterName, $throwException = false){
         $n = IGK_STR_EMPTY;
         if (is_string($controllerOrAdpaterName)) {
@@ -34,7 +50,8 @@ abstract class DataAdapterBase extends IGKObject {
         return self::CreateDataAdapter($n, $throwException);
     }
     public function pushRelations($table, $columninfo){
-        
+        if (!$this->m_relations)
+            return false;
         if (!isset($this->m_relations->relations[$table])){
             $this->m_relations->relations[$table] = [];
         }
@@ -46,6 +63,8 @@ abstract class DataAdapterBase extends IGKObject {
         ];
     }
     public function pushEntries($table, $entries, $tableInfo){
+        if (!$this->m_relations)
+            return false;
         $this->m_relations->info[$table] = $tableInfo;
         if (!isset($this->m_relations->entries[$table])){
             $this->m_relations->entries[$table] = [];
@@ -118,14 +137,32 @@ abstract class DataAdapterBase extends IGKObject {
     public function getName(){
         return $this->m_name;
     }
-	public abstract function escape_string($s);
+    /**
+     * escape string
+     * @param string $s string to escape
+     * @return string 
+     */
+	public abstract function escape_string(string $s);
+    /**
+     * get last error
+     * @return mixed 
+     */
     public abstract function last_error();
+    /**
+     * send query to database
+     * @param string $query 
+     * @param bool $throwex indicate to throw exception on error
+     * @param mixed $options extra option to pass
+     * @return void 
+     */
     public function sendQuery($query, $throwex=true, $options=null){}
     /**
      * 
-     * @return object grammar object
+     * @return null|IDbQueryGrammar grammar object
      */
-    public function getGrammar(){}
+    public function getGrammar(){
+        return null;
+    }
 
     /**
      * get select wquery expression 
@@ -185,8 +222,7 @@ abstract class DataAdapterBase extends IGKObject {
     */
     public static function CreateDataAdapter($ctrl, $throwexception=true, $newAdapter=0, $params=null){
         if(empty($ctrl)){
-            igk_trace();
-            igk_wln_e("can't create empty data adapter");
+            igk_wln_e("can't create data adapter from empty value");
             return null;
         }
         self::GetAdapters();
@@ -195,7 +231,7 @@ abstract class DataAdapterBase extends IGKObject {
         $n=IGK_STR_EMPTY;
         $key=IGK_STR_EMPTY;
         $db_adapter = igk_environment()->db_adapters;
-       
+        
          if(is_string($ctrl)){
             $key=strtoupper($ctrl);
             if (!($n = igk_getv($db_adapter, $ctrl))){
@@ -212,10 +248,10 @@ abstract class DataAdapterBase extends IGKObject {
         if (isset($db_adapter[$n])){
             $n = $db_adapter[$n];
         }
-      //igk_wln_e("adapter : ".$ctrl, $db_adapter, $n, $key);
-   
+
         if(!igk_reflection_class_isabstract($n)){
-            $out=igk_create_adapter_from_classname($n);
+        
+            $out=igk_create_adapter_from_classname($n); 
             if($out){
                 $adapt[$key]=$out;
                 $out->m_name = $key; 
@@ -261,12 +297,36 @@ abstract class DataAdapterBase extends IGKObject {
     ///<param name="columninfoArray"></param>
     ///<param name="entries" default="null"></param>
     /**
-    * 
+    * create table
     * @param mixed $tablename
     * @param mixed $columninfoArray
     * @param mixed $entries the default value is null
+    * @param string $desc table description
+    * @param bool
     */
-    public function createTable($tablename, $columninfoArray, $entries=null){}
+    public function createTable($tablename, $columninfoArray, $entries=null, string $desc=null){
+        return false;
+    }
+    /**
+     * drop table
+     * @param string $tablename 
+     * @return bool
+     */
+    public function dropTable(string $tablename){
+        return false;
+    }
+    /**
+    * create link expression
+    * @param string $table table name
+    * @param array $column 
+    * @param array $value 
+    * @param mixed $columnkey 
+    * @return null|DbLinkExpression 
+    */
+   public function createLinkExpression($table, $column, $value, $columnkey){
+       return null; 
+   }
+
     ///<summary></summary>
     ///<param name="tablename"></param>
     ///<param name="entries"></param>
@@ -277,6 +337,39 @@ abstract class DataAdapterBase extends IGKObject {
     */
     public function delete($tablename, $condition=null){
         igk_die("function ".__FUNCTION__." not implements");
+    }
+    /**
+     * 
+     * @return false 
+     */
+    public function beginTransaction(){
+        return false;
+    }
+    /**
+     * 
+     * @return false 
+     */
+    public function commit(){
+        return false;
+    }
+    /**
+     * 
+     * @return false 
+     */
+    public function rollback(){
+        return false;
+    }
+    /**
+     * create fetch result
+     * @param string $query 
+     * @param null|IGK\Database\ModelBase $model 
+     * @return null|DbFetchResult 
+     */
+    public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model=null){
+        return null;
+    }
+    public function last_id(){
+        return -1;
     }
     ///<summary></summary>
     ///<param name="tablename"></param>
@@ -453,8 +546,11 @@ abstract class DataAdapterBase extends IGKObject {
     * @param mixed $tablename
     * @param mixed $condition
     * @param mixed $options
+    * @return null|\IGK\Database\DbQueryResult
     */
-    public function select($tablename, $condition=null, $options=null){}
+    public function select($tablename, $condition=null, $options=null){
+        return null;
+    }
     ///<summary></summary>
     ///<param name="tbname"></param>
     /**
@@ -463,6 +559,24 @@ abstract class DataAdapterBase extends IGKObject {
     */
     public function selectAll($tbname){
         return null;
+    }
+    /**
+     * select count
+     * @param mixed $tbname 
+     * @param mixed $where 
+     * @param mixed $options 
+     * @return int|\IGK\Database\DbQueryResult
+     */
+    public function selectCount(string $tbname, ?array $where = null, ?array $options = null)
+    {
+        return 0;
+    }
+    /**
+     * return select query
+     * @return string|null
+     */
+    public function get_query(string $tbname, ?array $where = null, ?array $options = null){
+
     }
     ///<summary></summary>
     ///<param name="tablename"></param>

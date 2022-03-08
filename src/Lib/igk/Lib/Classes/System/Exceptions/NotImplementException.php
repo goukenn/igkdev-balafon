@@ -17,6 +17,6 @@ class NotImplementException extends IGKException{
     * @param mixed $func
     */
     public function __construct($func){
-        parent::__construct(__("Not Implement [0]", $func));
+        parent::__construct(__("Not implement [{0}]", $func));
     }
 }

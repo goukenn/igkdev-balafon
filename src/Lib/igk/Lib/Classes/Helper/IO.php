@@ -1125,4 +1125,17 @@ class IO{
     public static function WriteToFileAsUtf8WBOM($filename, $content, $overwrite=true, $chmod=IGK_DEFAULT_FILE_MASK){
         return self::WriteToFile($filename, $content, $overwrite, $chmod);
     }
+
+    /**
+     * read file lines 
+     * @param string $filename 
+     * @param int $start 
+     * @param int $end 
+     * @return string 
+     */
+    public static function ReadLines(string $filename, int $start, int $end){
+        $g = explode("\n", file_get_contents($filename));
+        $g = array_slice($g, $start, $end- $start);
+        return implode("\n", $g);
+    }
 }

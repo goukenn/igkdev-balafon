@@ -5,6 +5,7 @@ namespace IGK\System\Http;
 
 use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
+use IGKEvents;
 use IGKHtmlDoc;
 use IHeaderResponse;
 
@@ -37,29 +38,43 @@ class WebResponse extends RequestResponse{
             igk_wl($this->node);
             return;
         } 
+        
         if (is_object($this->node)){
            
             if (method_exists($this->node, "renderAJX")){
                 $options = HtmlRenderer::CreateRenderOptions();
                 $options->Cache = $this->cache;
-                $this->node->renderAJX();
-                return;
+                $options->AJX = igk_is_ajx_demand();
+                $this->node->renderAJX($options); 
+                // raise ajx end reponse in order to add extra data to svg list 
+                if ($options->AJX){ 
+                    igk_hook( IGKEvents::HOOK_AJX_END_RESPONSE, [$this]);
+                }
             }
         }
     }
     public function output(){
- 
-        ob_start();
-        $cache = $this->cache; //is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc);
+        $cache = $this->cache;
+        // + | priority to document cache setting
+        if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
+            $cache = !$this->node->NoCache; 
+        }
+        ob_start();   
         $this->render();
         $s = ob_get_clean();  
-        $zip = 0 && igk_server()->accepts(["gzip"]); 
+        $zip = igk_server()->accepts(["gzip"]); 
         igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
-            list($uri, $zip) = IGKCaches::CacheUri();            
+            list($uri, $zip) = IGKCaches::CacheUri();  
+
+        //       igk_wln_e("to cache=",
+             
+        //     "uri:".$uri, 
+        //     //IGKCaches::page_filesystem()->expired($uri, 50000)
+        // );
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
             if ($zip){
                 ob_start();

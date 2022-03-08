@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
  namespace IGK\System\Html\Dom;
 
+use IGK\Helper\UriHelper;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
@@ -32,7 +33,10 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue{
         if(!is_string($bck)){
             return $bck;
         }
-        $m=igk_xml_is_mailoptions($option);
+        $m=igk_xml_is_mailoptions($option);        
+        if ($bck=="#"){
+            return $bck;
+        }
         if(IGKValidator::IsUri($bck)){
             if(igk_xml_is_cachingrequired($option)){
                 $s=igk_io_baseuri();
@@ -42,16 +46,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue{
             }
             return $bck;
         }
-        $s=preg_replace_callback("/%(?P<name>[^%]+)%/i", function($m){
-            switch($m["name"]){
-                case "base":
-                return igk_io_baseuri();
-                case "base_config":
-                return igk_io_baseuri()."/Configs/";
-            }
-            return "";
-        }
-        , $bck);
+        $s = UriHelper::UriSysReplace($bck);
         $bck=$s;
         $dx=igk_getv(explode("?", str_replace(igk_io_baseuri(), "", $bck)), 0);
         if(!empty($dx)){

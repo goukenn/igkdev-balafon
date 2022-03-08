@@ -33,7 +33,10 @@ class InitCommand extends AppExecCommand{
                     if (!isset($commands[$cldir])){
                         $classname = get_class($c);
                         $c::register_autoload();
-                        foreach(igk_io_getfiles($cldir."/Commands", "/\.php$/")  as $file){
+                        $tab = igk_io_getfiles($cldir."/Commands", "/\.php$/") ;
+                        if (!$tab)
+                            continue;
+                        foreach($tab as $file){
                             if ($clpath = $c::resolvClass("Commands/".igk_io_basenamewithoutext($file))){
                                 if ((igk_sys_reflect_class($clpath))->isAbstract() || !is_subclass_of($clpath, AppCommand::class) ){
                                     continue;
@@ -72,6 +75,10 @@ class InitCommand extends AppExecCommand{
                         $tns =[$ns];
                     }
                     $files = igk_io_getfiles($f."/Classes/System/Console/Commands", "/Command\.php$/");
+                    if (!$files){
+                        // Logger::info("command not found : ".$f);
+                        continue;
+                    }
                     foreach($files as $tf ){
                         $v = igk_regex_get("/\/(?P<name>([^\/]+))Command\.php$/", "name", $tf);
                         if (empty($v))continue;
@@ -82,8 +89,6 @@ class InitCommand extends AppExecCommand{
                         if (!class_exists($classname) || (igk_sys_reflect_class($classname))->isAbstract()){
                             continue;
                         }
-                        
-                        
                         $commands_list[$classname] = $tf;
                     }
                 } 

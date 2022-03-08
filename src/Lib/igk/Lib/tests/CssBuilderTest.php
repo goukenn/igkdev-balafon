@@ -9,7 +9,34 @@ use IGKHtmlDoc;
 
 class CssBuilderTest extends BaseTestCase
 {
+    function test_render_transform(){
+        $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
 
+        $cv =  "[transform: scale(1.0)]";    
+        $r = igk_css_treat($cv, $theme, $theme);
+        $this->assertEquals(
+            "-webkit-transform: scale(1.0);-ms-transform:scale(1.0); -moz-transform:scale(1.0); -o-transform: scale(1.0); transform: scale(1.0);",
+            $r, 
+            "render transform not resolved"
+        );
+
+        $cv =  "[transform: rotate(90)]";    
+        $r = igk_css_treat($cv, $theme, $theme);
+        $this->assertEquals(
+            "-webkit-transform: rotate(90);-ms-transform:rotate(90); -moz-transform:rotate(90); -o-transform: rotate(90); transform: rotate(90);",
+            $r, 
+            "render rotate not resolved"
+        );
+        $cv =  "[transform: scale(1.5), rotate(90deg)]";    
+ 
+        $r = igk_css_treat($cv, $theme, $theme);
+     
+        $this->assertEquals(
+            "-webkit-transform: scale(1.5), rotate(90deg);-ms-transform:scale(1.5), rotate(90deg); -moz-transform:scale(1.5), rotate(90deg); -o-transform: scale(1.5), rotate(90deg); transform: scale(1.5), rotate(90deg);",
+            $r, 
+            "render rotate not resolved"
+        );
+    }
     function test_rendergin()
     { 
         $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
@@ -74,7 +101,7 @@ class CssBuilderTest extends BaseTestCase
         );
     }
     function test_css_syscl(){
-        $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = new HtmlDocTheme( IGKHtmlDoc::CreateDocument("test"), "test");
         $systheme = igk_app()->getDoc()->getSysTheme();
 
 
@@ -94,9 +121,17 @@ class CssBuilderTest extends BaseTestCase
             "border-left: 4px solid blue;",
             igk_css_treat($v, $theme, $systheme),
             "syscl: color define but not resolved not valid"
+        ); 
+    }
+
+    function test_joining(){
+        $theme = new HtmlDocTheme( IGKHtmlDoc::CreateDocument("test"), "test");
+        $systheme = igk_app()->getDoc()->getSysTheme();
+        $v = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; [bgcl:confUpdateButtonBgColor, #444] [fcl:confUpdateButtonFgColor, #fff]";
+        $this->assertEquals(
+            "border-left-color:indigo; background-color: #444; color: #fff;",
+            igk_css_treat($v, $theme, $systheme),
+            "syscl: color define but not resolved not valid"
         );
-
-
-        
     }
 }

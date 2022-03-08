@@ -4,7 +4,12 @@ namespace IGK\Models;
 use IGK\Controllers\BaseController;
 use IGK\System\Database\QueryBuilder;  
 use IGK\Database\DbQueryResult;
+use IGK\Database\DbSchemas;
+use IGK\System\Database\DbConditionExpressionBuilder;
+use IGK\System\Database\MySQL\MYSQLQueryFetchResult;
 use IGKException;
+use IGKQueryResult;
+use SQLCondExpression;
 
 use function igk_resources_gets as __;
 use function igk_getv as getv;
@@ -35,13 +40,22 @@ abstract class ModelEntryExtension{
         $cl = get_class($model);
         $c = new $cl($raw); 
         if ($craw = $c->to_array()) {
-            if ($g = $c->insert($craw)) {
-                $c->updateRaw($g);                
+            if (($g = $c->insert($craw))!== false) {
+                if ($g instanceof $model)
+                {
+                    $c->updateRaw($g);  
+                }
             } else {
                 return null;
             }
         }
         return $c;  
+   }
+   public static function createEmptyRow(ModelBase $model){
+      
+        $ctrl = igk_getctrl($model->controller ?? SysDbController::class);
+        return DbSchemas::CreateRow($model->getTable(), $ctrl);
+        
    }
     /**
      * create a model from an object. 
@@ -93,6 +107,12 @@ abstract class ModelEntryExtension{
         $model::update($condition, [$p=>$row->{$p}]);
         return null;
     }
+    public static function insertIfNotExists(ModelBase $model, ?array $condition){
+       if (!($model->select_row($condition))){
+            return self::insert($model, $condition,false);
+       }
+       return false;
+    }
     public static function updateOrCreateIfNotExists(ModelBase $model, $condition, $update_extras=null){
         if (!($row = $model->select_row($condition))){
             if ($update_extras){
@@ -140,6 +160,31 @@ abstract class ModelEntryExtension{
         }
         return $tab;
     }
+    /**
+     * get model dataadapter driver
+     * @param ModelBase $model 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function driver(ModelBase $model){
+        return $model->getDataAdapter();
+    }
+    /**
+     * create query condition for grammar helper
+     * @param ModelBase $model 
+     * @param string $operand 
+     * @param null|array $field_key_values 
+     * @return DbConditionExpressionBuilder 
+     */
+    public static function query_condition(ModelBase $model, string $operand, ?array $field_key_values = null){
+        $g = new DbConditionExpressionBuilder($operand);
+        if ($field_key_values !== null){
+            foreach($field_key_values as $k=>$v){
+                $g->add($k, $v);
+            }
+        }
+        return $g;
+    }
     public static function query_all(ModelBase $model, $conditions=null, $options=null){  
         $driver = $model->getDataAdapter(); 
         return  $driver->select($model->getTable(), $conditions, $options);
@@ -184,6 +229,17 @@ abstract class ModelEntryExtension{
         }
         return null;
     }
+    /**
+     * retrieve select query to send
+     * @param ModelBase $model 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function get_query(ModelBase $model ,$conditions=null, $options=null) {
+        return $model->getDataAdapter()->get_query($model->getTable(), $conditions, $options  );
+    }
 
     
     public static function update(ModelBase $model, $value=null, $conditions=null){
@@ -219,14 +275,35 @@ abstract class ModelEntryExtension{
         }
         return $driver->delete($model->getTable(), $conditions);
     }
-    public static function insert(ModelBase $model, $entries){ 
+    /**
+     * insert and update the entry  
+     * @param ModelBase $model 
+     * @param array|object $entries 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function insert(ModelBase $model, $entries, $update=true){ 
+     
         $ad = $model->getDataAdapter();
         if ( $ad->insert($model->getTable(), $entries, $model->getTableInfo())){
-            return $model::select_row([$model->getPrimaryKey()=>$ad->last_id()]);            
+ 
+            if ($update){
+                $ref_id = $model->getRefId();
+                if ($id = $ad->last_id()){
+                    $s = $model::select_row([$ref_id=>$id]);            
+                    if ($s && is_object($entries)){
+                        foreach($s->to_array() as $k => $v){
+                            $entries->$k = $v ;
+                        }
+                    }
+                    return $s;
+                }
+            }
+            return true;
         }
         return false;
     }
-    public static function last_id(ModelBase $model){
+    public static function last_id(ModelBase $model){ 
         return $model->getDataAdapter()->last_id();
     }
     public static function last_error(ModelBase $model){
@@ -296,6 +373,11 @@ abstract class ModelEntryExtension{
         $driver = $model->getDataAdapter();
         return $driver->dropTable($model->getTable()); 
     } 
+    public static function createTable(ModelBase $model){
+        $driver = $model->getDataAdapter(); 
+        $info = $model::getDataTableDefinition();    
+        return $driver->createTable($model::table(), igk_getv($info, "tableRowReference"), igk_getv($info, "Description"));
+    }
 
     /**
      * return this model form fields
@@ -497,7 +579,14 @@ abstract class ModelEntryExtension{
         return static::cacheRow($model, $primaryKeyIdentifier, false);
     }
 
-
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param null|callable $filter 
+     * @param mixed $condition 
+     * @param mixed $options 
+     * @return array 
+     */
     public static function form_select_all(ModelBase $model, ?callable $filter=null, $condition=null, $options=null){
         if ($filter === null){
             $filter = function($r)use($model){
@@ -519,7 +608,13 @@ abstract class ModelEntryExtension{
         $model::select_all($condition, $options);
         return $tab;
     }
-
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $expression 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function linkCondition(ModelBase $model, $expression){
         $express = explode(".", $expression);
         if (fcount($express)!=2){
@@ -557,7 +652,11 @@ abstract class ModelEntryExtension{
         }
         return $model->{$model->getPrimaryKey()};
     }
-
+    /**
+     * get prepare query builder
+     * @param ModelBase $model 
+     * @return QueryBuilder 
+     */
     public static function prepare(ModelBase $model){
         return new QueryBuilder($model);
     }
@@ -565,4 +664,39 @@ abstract class ModelEntryExtension{
     public static function modelTableInfo(ModelBase $model){
         return $model->getTableInfo();
     }
+    /**
+     * retrieve query column
+     * @param ModelBase $model 
+     * @return array
+     */
+    public static function queryColumns(ModelBase $model, ?array $filter=null){
+        $tab = array_map(function($a)use($model){
+            return $model::column($a);
+        }, array_keys(self::modelTableInfo($model)));
+        $tab = array_combine($tab, $tab);
+        if ($filter){
+            foreach($filter as $k=>$v){
+                if (isset($tab[$k]) || (($k = $model::column($k)) && isset($tab[$k])) ){
+                    $tab[$k] = $v;
+                } 
+            }
+        }
+        return $tab;
+    }
+    /**
+     * 
+     * @param ModelBase $model 
+     * @return void 
+     */
+    public static function select_fetch(ModelBase $model, ?array $condition=null, ?array $options=null){
+        $driver = $model->getDataAdapter(); 
+        $query = $driver->getGrammar()->createSelectQuery($model->table(), $condition, $options);
+        $res = $driver->createFetchResult($query, $model); 
+        $driver->sendQuery($query, false, array_merge($options ?? [], [
+            IGKQueryResult::RESULTHANDLER => $res
+        ]));
+        return $res;
+    }
+
+   
 }

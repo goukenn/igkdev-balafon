@@ -1,5 +1,5 @@
 <?php
-
+// @file: session.php
 namespace IGK\System\Library;
 
 use IGK\Helper\IO;
@@ -8,13 +8,16 @@ use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
 
-///<summary>session library
+///<summary>session library</summary>
+/**
+ * 
+ * @package IGK\System\Library
+ */
 class session extends \IGKLibraryBase{
     public function init():bool{
         // initialize function
         require_once IGK_LIB_CLASSES_DIR ."/IGKSessionFileSaveHandler.php";
-        require_once __DIR__."/Session/.functions.pinc"; 
- 
+        require_once __DIR__."/Session/.functions.pinc";  
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
             $this->start(); 
         }); 
@@ -108,11 +111,17 @@ class session extends \IGKLibraryBase{
      * @return void 
      */
     public function destroy(){ 
+        $sess_id = session_name();
         igk_session_destroy();
         // + | -----------------------------------------------------------
         // + | clear user session cookies
         // + |
-        setcookie(igk_get_cookie_name(igk_sys_domain_name()."/uid"), null);      
+        setcookie(igk_sys_domain_name()."/uid", null);      
+ 
+        if ($sess_id){
+            setcookie($sess_id, null);
+            unset($_COOKIE[$sess_id]);
+        }
         $this->close(); 
         $_SESSION=array();  
     }

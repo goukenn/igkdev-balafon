@@ -61,7 +61,7 @@ class SystemFileCache extends CommonCache{
             $restore="";
         }
         $date=igk_date_now();
-        $out=implode("\n", ["<?php", "// Balafon lib cache - auto generate", "// author: C.A.D. BONDJE DOUE", "// date : {$date}", "${init}", "${src}", !empty($data) ? 
+        $out=implode("\n", ["<?php", "// Balafon lib cache - auto generate", "// @author: C.A.D. BONDJE DOUE", "// date : {$date}", "${init}", "${src}", !empty($data) ? 
         implode("\n", ["foreach([{$data}] as \$k){",
             "    if (file_exists(\$c = igk_io_expand_path(\$k))){", 
             "        require_once(\$c);", "    }", 

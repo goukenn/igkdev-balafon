@@ -38,6 +38,7 @@ class IGKEvents extends IGKObject
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
     const HOOK_SHUTDOWN = "app_shutdown";
+    const HOOK_LOG_APPEND = "sys_log_append_msg";
     /**
      * css context bind controller styles sheet on init
      */
@@ -55,6 +56,7 @@ class IGKEvents extends IGKObject
      * filter node creation
      */
     const FILTER_PRE_CREATE_ELEMENT = "pre_filter_node";
+    const FILTER_CONFIG_MENU = 'filter_config_menu';
 
     
     const VIEWCOMPLETE = 0x1;

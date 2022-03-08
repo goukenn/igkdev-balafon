@@ -56,9 +56,9 @@ class ViewHelper
      * @return string 
      * @throws IGKException 
      */
-    public static function Dir()
+    public static function Dir(?string $path=null)
     {
-        return dirname(self::File());
+        return dirname(self::File()).($path ? $path : "");
     }
     /**
      * get current controller
@@ -76,4 +76,6 @@ class ViewHelper
             return $s;
         return igk_getv($s, $n, $default);
     }
+
+  
 }

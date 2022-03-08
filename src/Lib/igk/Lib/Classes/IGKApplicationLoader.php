@@ -115,10 +115,10 @@ class IGKApplicationLoader
             $cl[$classdir] = compact("entryNS", "refile");
             $this->Load(function ($n) use ($classdir, &$cl) {
                 $e_ns = igk_getv($cl[$classdir], "entryNS");
-                if (!empty($e_ns) && (strpos($n, $e_ns . "\\") === 0)) {
-                    $n = substr($n, strlen($e_ns) + 1);
-                }
-                $g = self::_TryLoadClasses([$n], $classdir, false);
+                // if (!empty($e_ns) && (strpos($n, $e_ns . "\\") === 0)) {
+                //      $n = substr($n, strlen($e_ns) + 1);
+                // }
+                $g = self::_TryLoadClasses([$n], $classdir, $e_ns, false);
                 return $g;
             }, $priority, $classdir, $entryNS);
             // igk_environment()->set($key, $cl);
@@ -136,7 +136,7 @@ class IGKApplicationLoader
         return $x == $y ? 0 : $y - $x / abs($y - $x);
     }
     private function _auto_load($n)
-    {
+    {       
         if ($this->callables) {
             if ($this->sorted) {
                 usort($this->callables, [$this, '_sort_priority']);
@@ -174,12 +174,21 @@ class IGKApplicationLoader
         if (is_string($classnames)) {
             $classnames = [$classnames];
         }
-        return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, true);
+        return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, \IGK::class);
     }
 
-    private static function _TryLoadClasses(array $classnames, $path, $throw = false)
+    /**
+     * 
+     * @param array $classnames 
+     * @param mixed $path 
+     * @param mixed $entryNS 
+     * @param bool $throw 
+     * @return bool 
+     * @throws IGKException 
+     */
+    private static function _TryLoadClasses(array $classnames, $path, $entryNS=null,  $throw = false)
     {
-        $include = null;
+        $included = null;
         $v_coreload  = !self::$sm_instance->_coreload;
         if ($v_coreload) {
             $included = &self::$sm_instance->_included;
@@ -192,6 +201,12 @@ class IGKApplicationLoader
         $cdir = null;
         $is_core  = IGK_LIB_CLASSES_DIR == $path;
         $result = true;
+        if ($entryNS){
+            if (is_string($entryNS))
+                $entryNS =StringUtility::Uri($entryNS);
+            else 
+                $entryNS = \IGK::class;
+        }
         if (!is_array($path)) {
             $path = [$path];
         }
@@ -208,8 +223,11 @@ class IGKApplicationLoader
                     // igk_ilog("tryload:".$classname);
                     $n = $classname;
                     $f = StringUtility::Uri($n);
-                    if ((strpos($f, "IGK/") === 0) && $is_core) {
+                    if ($is_core && (strpos($f, "IGK/") === 0)){
                         $f = substr($f, 4);
+                    }
+                    if (!$is_core && $entryNS &&  (strpos($f, $entryNS)===0)){
+                        $f = substr($f, strlen($entryNS)+1);
                     }
                     $found = false;
                     foreach ($resolv_class as $version) {

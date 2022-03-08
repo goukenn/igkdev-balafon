@@ -1,12 +1,13 @@
 <?php
 
 namespace IGK\System\Templates;
- 
+
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use ReflectionFunction;
 
 /**
- * reprenet a rendering template engine
+ * represent a rendering template engine
  * @package IGK\System\Templates
  */
 class TemplateEngine
@@ -83,7 +84,7 @@ class TemplateEngine
                     $tagname = "igk:" . strtolower(substr($fc, strlen("igk_html_node_")));
                 }
             } else {
-                $attr = $node->getAttributeString($options);
+                $attr = HtmlRenderer::GetAttributeString($node, $options);
                 if (isset($options->ns)) {
                     array_push($ns, $options->ns);
                 }
@@ -106,7 +107,7 @@ class TemplateEngine
 
             $inner = IGK_STR_EMPTY;
             if (!$node->getFlag("NO_CHILD")) {
-                $c_childs = $node->GetRenderingChildren($options);
+                $c_childs = $node->getRenderedChilds($options);
                 $c_tchild = igk_count($c_childs);
                 if (!$node->getFlag("NO_CONTENT"))
                     $inner .= HtmlUtils::GetContentValue($node, $options);

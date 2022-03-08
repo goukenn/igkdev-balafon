@@ -20,7 +20,11 @@ class Loader implements IResponse {
     private $_output;
 	private $_listener;
     private $_cache_fs;
+    private $loader_load_files = [];
 
+    public function loaded_files(){
+        return $this->loader_load_files;
+    }
 	public function output() {         
         $m = $this->_controller->_output.$this->_output;
         $this->_controller->_output = "";
@@ -76,11 +80,10 @@ class Loader implements IResponse {
     */
     private function _inc_file($file, $data){
         $fc = Closure::fromCallable(function(){
-            extract(func_get_arg(1));
             /**
              * $ctrl passing to include
              */
-            $ctrl = $this; 
+            extract(array_merge(func_get_arg(1), ["ctrl"=>$this])); 
             include(func_get_arg(0));
         })->bindTo($this->_controller);
  
@@ -142,11 +145,11 @@ class Loader implements IResponse {
     public function getLoader(){
         return $this;
     }
-    ///<summary></summary>
+    ///<summary>retreive controller output buffer</summary>
     /**
-    * 
+    * retreive controller output buffer
     */
-    public function getOut(){
+    public function getOutput(){
         return $this->_controller->_output;
     }
     ///<summary></summary>
@@ -208,6 +211,7 @@ class Loader implements IResponse {
         }
         if(!file_exists($file))
              return $this;
+        $this->loader_load_files[$file] = $file;
         $bck = set_include_path(dirname($file).PATH_SEPARATOR. get_include_path());
         //+ unset the file to load        
         unset($data["file"]);

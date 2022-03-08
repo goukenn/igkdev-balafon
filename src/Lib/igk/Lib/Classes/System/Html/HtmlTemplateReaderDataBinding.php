@@ -7,13 +7,16 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGKException;
 
+/**
+ * represent loop data binding
+ */
 class HtmlTemplateReaderDataBinding{
     var $node;
     var $data;
     var $ctrl;
     var $source; 
 
-    public function __construct(HtmlItemBase $node, string $source, BaseController $ctrl, array $data){
+    public function __construct(HtmlItemBase $node, string $source, ?BaseController $ctrl=null, ?array $data=null){
         $this->node = $node;
         $this->data = $data;
         $this->ctrl = $ctrl;
@@ -32,9 +35,14 @@ class HtmlTemplateReaderDataBinding{
         $cnode = $this->node;
         $engine = ""; 
         $n_context=["scope"=>0, "contextlevel"=>1, "fname"=>"__memory__", "data"=>null];
-        $n_options=(object)["Indent"=>0, "Depth"=>0, "Context"=>"html", "RContext"=>$n_context, "ctrl"=>$ctrl];
+        $n_options=(object)["Indent"=>0, "Depth"=>0, 
+            "Context"=>"html", 
+            "Source"=>$this->node,
+            "RContext"=>$n_context, 
+            "ctrl"=>$ctrl];
         // backup attribute
         $bck_attribs = $cnode->getAttributes()->to_array();
+
 
         $script_obj = igk_html_databinding_getobjforscripting($ctrl);
         foreach($data as $key=>$raw){
@@ -44,7 +52,8 @@ class HtmlTemplateReaderDataBinding{
             $c= $this->treat_content(["type"=>"loop", "key"=>$key, "value"=>$raw, "raw"=>$raw]); 
             if($c){
                 $attribs = $cnode->getAttributes()->to_array();  
-                $engine .= trim(igk_html_wtag($cnode->tagName, trim($c->getinnerHtml($n_options)), $attribs,
+               // $engine .= trim(igk_html_wtag($cnode->tagName, trim($c->getinnerHtml($n_options)), $attribs,
+                $engine .= trim(igk_html_wtag($cnode->tagName, trim($c->render()), $attribs,
                     $cnode->closeTag()
                 ));
             }

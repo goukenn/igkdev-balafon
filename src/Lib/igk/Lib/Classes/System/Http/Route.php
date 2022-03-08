@@ -11,14 +11,14 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
 /**
  * Collection of registrated routes.
  * @package IGK\System\Http
- * @method static RouteActionHandler get(string $actionBaseClass, string $pattern, ?string $controllerTaskClass) \
- * register GET route and return RouteActionHandler
- * @method static RouteHandler get($pattern, $controllerClass) \
- * register GET route and return a RouteHandler
- * @method static RouteActionHandler post()
- * @method static RouteActionHandler options()
- * @method static RouteActionHandler put()
- * @method static RouteActionHandler delete()
+ * 
+ * @method static RouteActionHandler get(string $actionBaseClass, string $pattern, ?string|callable $controllerTaskClass)
+ * @method static RouteActionHandler get(string $actionBaseClass, string $pattern)
+ * @method static RouteHandler get($pattern, $controllerClass) register GET route and return RouteActionHandler
+ * @method static RouteActionHandler post() register POST route and return a RouteActionHandler
+ * @method static RouteActionHandler options() register OPTION route and return a RouteActionHandler
+ * @method static RouteActionHandler put() register PUT route and return a RouteActionHandler
+ * @method static RouteActionHandler delete() register DELETE route and return a RouteActionHandler
  */
 class Route  
 {
@@ -77,6 +77,7 @@ class Route
         }
     }
     /**
+     * retrieve controller user list
      * @param BaseController $controller 
      * @param mixed $classpath 
      * @return mixed 
@@ -178,7 +179,7 @@ class Route
      * get route by name
      * @param mixed $name 
      * @param mixed $classPath 
-     * @return mixed 
+     * @return null|\IGK\System\Http\RouteActionHandler route action handler 
      * @throws IGKException 
      */
     public static function GetRouteByName($name, $classPath = null)
@@ -196,10 +197,9 @@ class Route
         }
 
         foreach ($actions as $actions) {
-                          foreach ($actions as $a) {                 
+            foreach ($actions as $a) {                 
                 if ($name == $a->getName()) { 
-                        return $a;
-                    
+                        return $a; 
                 }
             }
         }       

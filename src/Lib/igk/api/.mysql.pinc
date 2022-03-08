@@ -198,7 +198,7 @@ function igk_api_mysql_about($api){
 */
 function igk_api_mysql_addcolumn($api, $tbname, $name){
     $doc=igk_api_get_mysql_doc();
-    $ad=igk_get_data_adapter("MYSQL") ?? igk_die("No MYSQL Found");
+    $ad=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER) ?? igk_die("No MYSQL Found");
     $bbox=$doc->body->addBodyBox();
     $t=$bbox->clearChilds()->div();
     if($ad->connect()){
@@ -371,7 +371,7 @@ function igk_api_mysql_ctrl_gen_schema($api, $ctrlname){
 * @param mixed $tbname
 */
 function igk_api_mysql_extract($api, $tbname){
-    $c=igk_get_data_adapter("MYSQL");
+    $c=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
     $c->connect();
     $r=$c->select($tbname);
     $c->close();
@@ -654,7 +654,7 @@ function igk_api_mysql_resetsysdb(){
 */
 function igk_api_mysql_rmcolumn($api, $tbname, $name){
     $doc=igk_api_get_mysql_doc();
-    $ad=igk_get_data_adapter("MYSQL") ?? igk_die("No MYSQL Found");
+    $ad=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER ?? igk_die("No MYSQL Found");
     $bbox=$doc->body->addBodyBox();
     $t=$bbox->clearChilds()->div();
     if($ad->connect()){

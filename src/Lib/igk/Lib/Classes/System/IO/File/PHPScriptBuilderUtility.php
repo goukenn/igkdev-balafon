@@ -25,6 +25,8 @@ abstract class PHPScriptBuilderUtility
      * @return string 
      */
     public static function RemoveComment(string $source){
+
+
         $comments = token_get_all($source);
         $src = implode("", array_map(function($m){
             if (is_array($m)){
@@ -35,7 +37,7 @@ abstract class PHPScriptBuilderUtility
             }
             return $m;
         }, $comments));
-        // igk_wln_e($comments, $source);
+  
         return $src;
     }
 }

@@ -32,11 +32,12 @@ class HtmlANode extends HtmlNode{
         return true;
     }
     ///<summary></summary>
-    public function __construct(){
+    public function __construct($uri="#"){
         parent::__construct("a");
         $this->m_href=new HtmlAHref($this);
         $this->domainLink=0;
         parent::offsetSet("href", $this->m_href);
+        $this->m_href->setValue($uri);
     }
     ///<summary></summary>
     ///<param name="option" default="null"></param>

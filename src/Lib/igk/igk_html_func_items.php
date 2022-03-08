@@ -11,6 +11,7 @@ use IGK\System\Html\Dom\Factory;
 use function igk_resources_gets as __;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlANode;
+use IGK\System\Html\Dom\HtmlAssertNode;
 use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\Dom\HtmlItemBase;
@@ -21,6 +22,7 @@ use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\Dom\HtmlNodeBase;
 use IGK\System\Html\Dom\HtmlNotifyResponse;
 use IGK\System\Html\Dom\HtmlWebComponentNode;
+use IGK\System\Html\Dom\HtmlWigetNode;
 use IGK\System\Html\HtmlAttribExpressionNode;
 use IGK\System\Html\HtmlHeaderLinkHost;
 use IGK\System\Html\HtmlReader;
@@ -31,6 +33,23 @@ use IGK\System\Number;
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/HtmlHeaderLinkHost.php");
 
+
+function igk_html_node_dl(){
+    return new \IGK\System\Html\Dom\HtmlDocumentListNode();
+}
+ /**
+  * 
+  * @param bool $condition 
+  * @param mixed $args 
+  * @return HtmlAssertNode 
+  * @throws IGKException 
+  */
+function igk_html_node_assertnode(bool $condition,  ...$args){
+    if (!($p = igk_html_parent_node())){
+        die("assert node must be set to a parent");
+    }
+    return new \IGK\System\Html\Dom\HtmlAssertNode($condition, $p, ...$args);
+}
 /**
  * create radio button
  * @param null|string $id 
@@ -171,13 +190,13 @@ function igk_html_node_extends($parentview)
 /**
  * helper: loop thru array<
  */
-function igk_html_node_loop(array $array, ?callable $callback = null)
+function igk_html_node_loop(Iterable $array, ?callable $callback = null)
 {
     require_once IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlLooperNode.php';
 
     $p = igk_html_parent_node() ?? die("parent required");
     $c = new HtmlLooperNode($array, $p);
-    if ($callback) {
+    if ($callback) { 
         $c->host($callback);
     }
     return $c;
@@ -462,13 +481,36 @@ function igk_html_node_menu(
     }
     return $ul;
 }
-
-function igk_html_node_menus($items, $tag = "ul", $item = "li")
+/**
+ * 
+ * @param mixed $items 
+ * @param mixed $callback 
+ * @param string $tag 
+ * @param string $item 
+ * @return HtmlItemBase<mixed, string> 
+ * @throws IGKException 
+ */
+function igk_html_node_menus($items, $callback=null, $tag = "ul", $item = "li")
 {
     $node = igk_create_node($tag);
     $node["class"] = "menu";
-    igk_html_build_menu($node, $items, null, null, $item, $tag);
+    igk_html_build_menu($node, $items, $callback, null, null, $item, $tag);
     return $node;
+}
+/**
+ * 
+ * @param mixed $items 
+ * @param mixed $engine 
+ * @param string $tag 
+ * @param string $item 
+ * @return HtmlItemBase<mixed, string> 
+ * @throws IGKException 
+ */
+function igk_html_node_accordeon_menus($items, $engine=null, $tag="ul", $item="li"){
+    $n = igk_html_node_menus($items, $engine, $tag, $item);
+    $n->balafonjs()->Content = "igk.winui.menu.accordeonMenu.init(igk.getParentScript());";
+    return $n;
+
 }
 
 ///<summary>handle used to render css style</symmary>
@@ -517,7 +559,22 @@ function igk_html_node_a($href = "#", $attributes = null, $index = null)
     }
     return $a;
 }
-
+/**
+ * post urit using data form
+ * @param string $uri 
+ * @return HtmlANode<mixed, mixed> 
+ * @throws IGKException 
+ */
+function igk_html_node_form_post(string $uri){
+    $a = igk_html_node_a();
+    if (empty($complete)) {
+        $complete = 'null';
+    }
+    $a->on("click", "igk.form.posturi('" .
+        $uri
+        . "'); return false;");
+    return $a;
+}
 function igk_html_node_a_post($uri, $complete = '')
 {
     $a = igk_html_node_a();
@@ -526,7 +583,7 @@ function igk_html_node_a_post($uri, $complete = '')
     }
     $a->on("click", "igk.ajx.post('" .
         $uri
-        . "',null, " . $complete . ");");
+        . "',null, " . $complete . "); return false;");
     return $a;
 }
 function igk_html_node_a_get($uri, $complete = '')
@@ -534,7 +591,7 @@ function igk_html_node_a_get($uri, $complete = '')
     $a = igk_html_node_a("#");
     $a->on("click", "igk.ajx.get('" .
         $uri
-        . "',null,'" . $complete . "');");
+        . "',null,'" . $complete . "'); return false;");
     return $a;
 }
 ///<summary>function igk_html_node_abbr</summary>
@@ -595,7 +652,9 @@ function igk_html_node_actionbar($actions = null)
     $n->setClass("igk-action-bar");
     if ($actions) {
         if (is_callable(($actions))) {
-            $actions($n);
+            $tab = [$n];
+            $tab = array_merge($tab, array_slice(func_get_args(), 1) );
+            $actions(...$tab);
         } else if (is_array($actions)) {
             foreach ($actions as $l => $v) {
                 $n->addABtn(igk_getv($v, "uri"))->setClass("igk-btn-default")->Content = __(igk_getv($v, "k"));
@@ -965,8 +1024,8 @@ function igk_html_node_blocknode()
 }
 function igk_html_node_submit($name = null, $value = null, $type = "submit")
 {
-    $n = igk_create_node("input");
-    $n["class"] = "igk-form-control clsubmit";
+    $n = igk_html_node_input($name, $type, $value);
+    $n["class"] = "igk-form-control igk-btn";
     $n["type"] = $type;
     if ($name) {
         $n->setAttribute("name", $name);
@@ -1173,8 +1232,7 @@ function igk_html_node_centerbox($content = null)
     //     } else {
     //         $c->content = igk_ob_get($content);
     //     }
-    // }
-    // // igk_debug(1);
+    // } 
     // if ($q = igk_html_parent_node()
     // ) {
     //     $q->add($n);
@@ -1265,7 +1323,7 @@ function igk_html_node_clonenode(HtmlItemBase $node)
     $n->setCallback('getCanRenderTag', "return false;");
     $n->setCallback("getTargetNode", "return \$this->getParam('self::targetnode'); ");
     $n->setCallback("getIsVisible", "\$v =  \$this->getTargetNode() && \$this->getTargetNode()->IsVisible; return \$v;");
-    $n->setCallback("GetRenderingChildren", "return array(\$this->getTargetNode()); ");
+    $n->setCallback("getRenderedChilds", "return array(\$this->getTargetNode()); ");
     return $n;
 }
 ///<summary>create base php code</summary>
@@ -1338,6 +1396,18 @@ function igk_html_node_communitylink($name, $link)
     $s["href"] = $link;
     return $s;
 }
+function igk_html_community_view($n, $v, $k){
+    if (is_object($v) || is_array($v)) {
+        $uri = igk_getv($v, "uri");
+        if (($c = igk_getv($v, "auth")) && (is_callable($c) && (!$c()))) {
+            return;
+        }
+    } else {
+        $uri = $v;
+    }
+    $n->add("li")->addA($uri)->setAttribute("target", "__blank")->setClass($k)->Content = igk_svg_use($k);
+
+}
 ///<summary>function igk_html_node_communitylinks</summary>
 ///<param name="tab"></param>
 /**
@@ -1378,7 +1448,7 @@ function igk_html_node_component($listener, $typename, $regName, $unregister = 0
         }
     }
     return igk_html_node_livenodecallback($listener, $regName, function ($l, $n) use ($typename) {
-        $c = HtmlWebComponentNode::CreateComponent($typename);
+        $c = HtmlWebComponentNode::CreateComponent($typename);        
         $c->setComponentListener($l, $l->getParam("sys://component/params/{$n}"));
         return $c;
     });
@@ -2095,7 +2165,7 @@ function igk_html_node_igkgloballangselector()
     $dv = igk_create_node("div");
     $sl = $dv->add("select")->setId("lang")->setClass("-igk-control -igk-form-control -clselect");
     $gt = igk_app()->Configs->default_lang;
-    $uri = \IGK\Helper\UriUtils::GetCmdAction(igk_sys_ctrl(), "changeLang_ajx");
+    $uri = \IGK\Helper\UriHelper::GetCmdAction(igk_sys_ctrl(), "changeLang_ajx");
     $sl["onchange"] = " if (window.ns_igk){ ns_igk.ajx.get('{$uri}/'+this.value, null, ns_igk.ajx.fn.replace_or_append_to_body); } return false;";
     $sl->setCallback('AcceptRender', igk_io_get_script(IGK_LIB_DIR . "/Inc/html/globallang_accept_render.pinc"));
     return $dv;
@@ -2116,7 +2186,7 @@ function igk_html_node_igkglobalthemeselector()
     $dv = igk_create_node("div");
     $sl = $dv->addSelect("theme")->setClass("-igk-control -clselect");
     $sl->setCallback('AcceptRender', "return igk_init_renderingtheme_callback(\$this); ");
-    $uri = \IGK\Helper\UriUtils::GetCmdAction(igk_sys_ctrl(), "changeTheme");
+    $uri = \IGK\Helper\UriHelper::GetCmdAction(igk_sys_ctrl(), "changeTheme");
     $sl["onchange"] = " if (window.ns_igk) { ns_igk.css.changeTheme('{$uri}', this.value);} return false;";
     return $dv;
 }
@@ -2741,7 +2811,7 @@ function igk_html_node_notifyzone($name = null, $autohide = 1, $tag = "div")
  */
 function igk_html_node_obdata($data, $nodeType = "div")
 {
-    if ($nodeType == null)
+    if (($nodeType == null)||($nodeType===false))
         $nodeType = IGK_HTML_NOTAG_ELEMENT;
     $n = igk_create_node($nodeType);
     if (is_callable($data)) {
@@ -2760,6 +2830,20 @@ function igk_html_node_obdata($data, $nodeType = "div")
     $t = new HtmlSingleNodeViewerNode(igk_html_node_notagnode());
     $t->targetNode->Content = $s;
     $n->add($t);
+    return $n;
+}
+
+/**
+ * bind object scripting for callable
+ * @param callable $callback 
+ * @return \IGK\System\Html\Dom\HtmlScriptNode
+ */
+function igk_html_node_obscript(callable $callback){
+    ob_start();
+    $r = $callback();
+    $r.= ob_get_clean();
+    $n = new \IGK\System\Html\Dom\HtmlScriptNode();
+    $n->Content = $r;
     return $n;
 }
 
@@ -3134,20 +3218,29 @@ function igk_html_node_scrollloader($src)
     $n["data"] = $src;
     return $n;
 }
-///<summary>function igk_html_node_searchbutton</summary>
+///<summary>search button view</summary>
 ///<param name="uri"></param>
 /**
- * function igk_html_node_searchbutton
+ * search button view
  * @param mixed $uri
  */
-function igk_html_node_searchbutton($uri)
+function igk_html_node_searchbutton(string $uri, string $id="search")
 {
     $n = igk_create_node("span");
     $n["class"] = "igk-winui-searchbtn";
     $n["igk:target-uri"] = $uri;
+    $n["igk:target-id"] = $id;
     $n->Content = igk_svg_use("search");
+    $n->on("click", "return igk.winui.searchbox.search(this);");
     return $n;
 }
+function igk_html_node_searchbox(string $uri, $id="search"){
+    $n = igk_create_node("div");
+    $n["class"] = "igk-winui-searchbox";
+    $n->add(igk_html_node_searchbutton($uri, $id));
+    $n->input($id, "text", igk_getr($id));
+    return $n;
+}   
 ///<summary>function igk_html_node_sectiontitle</summary>
 ///<param name="level"></param>
 /**
@@ -3732,13 +3825,7 @@ function igk_html_node_viewcontent($listener, $data = null)
  */
 function igk_html_node_visible($cond)
 {
-    $n = igk_html_node_noTagNode();
-    if (igk_is_callable($cond))
-        $f = $cond;
-    else
-        $f = "return {$cond}";
-    $n->setCallback("getIsVisible", $f);
-    return $n;
+    return new \IGK\System\Html\Dom\HtmlVisibleNode($cond);
 }
 ///<summary>function igk_html_node_vscrollbar</summary>
 ///<param name="cibling"></param>
@@ -4145,28 +4232,29 @@ function igk_html_node_jsview()
     return $n;
 }
 
-//engine use
+// + attribute expression only use for child node
+// engine use
 function igk_html_node_attr_expression($p = null)
 {
-    $c = null;
-    // $p = null;
+    $c = null; 
     if ($cp = HtmlReader::GetOpenerContext()) {
         if (igk_getv($cp, "type") == "loop") {
             $c = $cp;
             $p = $cp->engineNode;
+        }else if ($cp instanceof stdClass){
+            //is context childs
+            $c = $cp;
         }
-    }
-    // if ($c === null){
-    //     igk_die("attr-expression must be create on template loading context"); 
-    // }
+    }  
+   
     if ($p == null) {
         $p = igk_html_parent_node();
         igk_html_skip_add();
-    }
-
+    }  
     $n = new HtmlAttribExpressionNode($p, (array)$c);
     return $n;
 }
+ 
 /**
  * load field list to parent
  * @param array $fielddata
@@ -4231,13 +4319,14 @@ function igk_html_node_containerRowCol($style = "")
  * @param mixed $ctrl the default value is null
  */
 function igk_html_node_expression_node($raw, $ctrl = null)
-{
+{ 
     $ctx = HtmlReader::GetOpenerContext();
     if ($ctrl === null) {
-        $g = igk_get_env("sys:://expression_context");
-        $ctrl = $g->ctrl;
+        if ($g = igk_get_env("sys:://expression_context")){
+            $ctrl = $g->ctrl;
+        }
     }
-    $n = new \IGK\System\Html\Dom\HtmlExpressionNode($raw, $ctrl);
+    $n = new \IGK\System\Html\Dom\HtmlExpressionNode($raw, $ctrl, $ctx);
     return $n;
 }
 function igk_html_node_nbsp()
@@ -4287,7 +4376,9 @@ function igk_html_node_host(callable $callback, ...$args)
     if (!($p = igk_html_parent_node()))
         throw new IGKException("Parent Node not found");
     ob_start();
-    if ($response = $callback($p, ...$args)) {
+    array_unshift($args, $p);
+    // if ($response = $callback($p, ...$args)) {
+    if ($response = $callback(...$args)) {
         if (is_array($response)) {
             $p->text(igk_ob_get($response));
         } else {
@@ -4549,14 +4640,13 @@ function igk_html_node_input($id = null, $type = 'text', $value = null, $attribu
     if ($i) {
         $i["type"] = $type;
         $i["value"] = ($value === null) ? igk_getr($id, null) : $value;
-        $i["id"] =
-            $i["name"] = $id;
-        $i["class"] = "cl" . $type;
+        $i["id"] = $i["name"] = $id;
+        $i["class"] = "+cl" . $type;
         switch ($type) {
             case "button":
             case "submit":
             case "reset":
-                $i["class"] = "igk-btn";
+                $i["class"] = "-cltext +igk-btn";
                 break;
         }
         $attributes && $i->setAttributes($attributes);
@@ -4687,6 +4777,32 @@ function igk_html_node_img($src = null)
 function igk_html_node_xmlviewer()
 {
     return new \IGK\System\Html\Dom\HtmlXmlViewerNode();
+}
+
+/**
+ * mark parent node with autofixing with. 
+ */
+function igk_html_node_js_autofix_width(){
+    $n = new HtmlNode('igk:auto-fix-width');
+    $n->setStyle("display:none;")
+    ->balafonJS()->Content = "igk.winui.layout.autofix_width(this.getParentNode());";
+    return $n;
+}
+/**
+ * use to configure node before next cibling rendering 
+ * @param callback #Parameter#6fbcd033 
+ * @return \IGK\System\Html\Dom\HtmlBeforeRenderNextSiblingChildrenCallbackNode 
+ */
+function igk_html_node_beforeRenderNextSibling(callable $callback){
+    return new \IGK\System\Html\Dom\HtmlBeforeRenderNextSiblingChildrenCallbackNode($callback);
+}
+/**
+ * create 
+ * @param null|string $tagname 
+ * @return HtmlWidgetNode 
+ */
+function igk_html_node_widget(?string $tagname=null){
+    return new \IGK\System\Html\Dom\HtmlWidgetNode($tagname);
 }
 /**
  * 

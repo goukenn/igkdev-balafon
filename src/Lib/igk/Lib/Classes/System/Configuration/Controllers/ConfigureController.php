@@ -1,5 +1,6 @@
 <?php
-// author: C.A.D. BONDJE DOUE 
+// @author: C.A.D. BONDJE DOUE 
+// @file: ConfigureController.php
 
 namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
@@ -10,6 +11,7 @@ use IGK\System\CronJob;
 use IGK\System\Html\Dom\HtmlConfigContentNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\HtmlReader;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKAppConfig;
@@ -506,7 +508,7 @@ final class ConfigureController extends BaseController implements IConfigControl
                     if (file_exists($cf))
                         unlink($cf);
                     IGKControllerManagerObject::ClearCache();
-                    IGKSubDomainManager::StoreBaseDomain($this, $bDomain);
+                    //IGKSubDomainManager::StoreBaseDomain($this, $bDomain);
                     $r = true;
                 }
             } else {
@@ -630,14 +632,16 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_navto($this->getAppUri());
         }
         try{
-        igk_header_no_cache();
-        igk_set_env("sys://designMode/off", 1);
-        igk_set_env("sys://defaultpage/off", 1);
-        $doc = igk_get_document($this, 0);
-        $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->div();
-        $t->div()->Content = __("Configuration view");
-        $this::ViewInContext("general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);
-        $doc->renderAJX();
+            igk_header_no_cache();
+            igk_set_env("sys://designMode/off", 1);
+            igk_set_env("sys://defaultpage/off", 1);
+            $doc = igk_get_document($this, 0);
+            $doc->NoCache = true;
+            $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->div();
+            $t->div()->Content = __("Configuration view");
+            $this::ViewInContext("general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);
+
+            HtmlRenderer::OutputDocument($doc); 
         }
         catch(\Exception $e){
             igk_wln_e("something bad happend", $e->getMessage());
@@ -798,6 +802,11 @@ EOF;
         $adm = null;
         $adm_pwd = null; 
         $is_connected = $this->getIsConnected();
+    //     igk_app()->session->counting++;
+    //     $this->setParam(self::CFG_USER, "counting_*****".igk_app()->session->counting);
+        
+    //    igk_wln_e(__FILE__.":".__LINE__, "connect", $this->getParam(self::CFG_USER));
+
         if (!$is_connected && igk_server()->method("POST") && igk_valid_cref(1)) {
             if (!igk_sys_env_production()) {
                 $u = $u == null ? "admin" : "";
@@ -822,6 +831,7 @@ EOF;
                     $this->setConfigUser($obj_u);
                     $this->_send_notification_mail(); 
                     $is_connected = 1;
+                    // igk_wln_e(__FILE__.":".__LINE__, "connect", $this->getParam(self::CFG_USER));
                 } else {
                     $not->addError(__("err.login.failed"));
                     igk_ilog("failed connection"); 
@@ -1763,7 +1773,7 @@ EOF;
             $app = igk_app();
             if ($d && strlen($d) && igk_is_domain_name($d)) {
                 $app->getConfigs()->website_domain = $d;
-                IGKSubDomainManager::StoreBaseDomain($this, $d);
+                //IGKSubDomainManager::StoreBaseDomain($this, $d);
             }
             $app->getConfigs()->website_title = $title;
             $app->getConfigs()->website_prefix = $prefix;
@@ -1791,11 +1801,11 @@ EOF;
         }
         ///<summary>base configuration view</summary>
         /**
-            * base configuration view
-            */
+        * base configuration view
+        */
         public function View()
         { 
-
+ 
             if (!$this->getIsVisible() || igk_get_env(IGK_KEY_VIEW_FORCED)) {
                 return;
             } 
@@ -1814,8 +1824,7 @@ EOF;
             $menuctrl = igk_getctrl(IGK_MENU_CTRL);
             $app = igk_app();
             $bbox = $app->getDoc()->getBody()->getBodyBox();
-            $bbox->clearChilds();
-
+            $bbox->clearChilds(); 
 
             switch ($app->CurrentPageFolder) {
                 case IGK_CONFIG_MODE:
@@ -1826,9 +1835,11 @@ EOF;
                     igk_environment()->no_cache = 1;
                     $app->getDoc()->getBody()->setClass($s);
                     $bbox->add($t);
+                    igk_app()->settings->appInfo->store("config", 1);
                     break;
                 default:
                     $app->getDoc()->getBody()["class"] = "+igk-client-page -igk-cnf-body -google-Roboto";
+                    igk_app()->settings->appInfo->store("config", null);
                     return;
             }
 
@@ -1844,7 +1855,12 @@ EOF;
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
                     $app->getDoc()->getTheme()->addTempFile($f);
                 }
-                
+             
+                // igk_wln_e(
+                //     __FILE__.":".__LINE__,
+                //     $cfile =  $app->getDoc()->getTheme()->getDef()->getBindTempFiles(1), 
+                //     $cfile =  $app->getDoc()->getTheme()->getDef()->getTempFiles(), 
+                // ); 
                 if (!$this->getIsConnected()) {
                     igk_io_protect_request(igk_io_baseuri() . "/Configs");
                     $cnode = $this->initConnexionNode();

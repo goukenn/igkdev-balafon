@@ -52,8 +52,7 @@ class InstallSiteCommand extends AppExecCommand{
         
 
         $cnf = $command->app->getConfigs();
-        // echo ("project dir ::::: " . json_encode((array)$cnf));
-        // exit;
+    
         $author =igk_getv($command->options, "--author",  $cnf ? $cnf->get("author", IGK_AUTHOR) : IGK_AUTHOR);  
         $module =  igk_getv($command->options, "--module", null);
         $package = igk_getv($command->options, "--package",  null);

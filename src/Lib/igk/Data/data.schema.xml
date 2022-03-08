@@ -45,7 +45,7 @@
     </DataDefinition>
     <DataDefinition TableName="%prefix%configurations">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="130" clNotNull="True" clIsPrimary="True" />
+        <Column clName="clName" clType="VARCHAR" clTypeLength="130" clNotNull="True"/>
         <Column clName="clValue" clType="TEXT" />
         <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
     </DataDefinition>
@@ -80,7 +80,7 @@
     </DataDefinition>
     <DataDefinition TableName="%prefix%infos">
         <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="60" clNotNull="True" clIsPrimary="True" />
+        <Column clName="clName" clType="VARCHAR" clTypeLength="60" clNotNull="True" />
         <Column clName="clValue" clType="TEXT" />
     </DataDefinition>
     <DataDefinition TableName="%prefix%mailinglists">
@@ -104,18 +104,18 @@
     </DataDefinition>
     <DataDefinition TableName="%prefix%reference_models" Description="Store reference domain">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
-        <Column clName="clModel" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsPrimary="True" />
+        <Column clName="clModel" clType="VARCHAR" clTypeLength="170" clNotNull="True" />
         <Column clName="clNextValue" clType="Int" clTypeLength="11" clNotNull="True" />
     </DataDefinition>
     <DataDefinition TableName="%prefix%subdomains" Description="store sub domain">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="100" clDescription="Subdomain name. exemple. 'mail'  in the .domain.com will be mail.domain.dom" clNotNull="True" clIsPrimary="True" clIsUnique="True" />
+        <Column clName="clName" clType="VARCHAR" clTypeLength="100" clDescription="Subdomain name. exemple. 'mail'  in the .domain.com will be mail.domain.dom" clNotNull="True" clIsUnique="True" />
         <Column clName="clCtrl" clType="VARCHAR" clTypeLength="33" clDescription="Controller name" clNotNull="True" />
         <Column clName="clView" clType="TEXT" clDescription="Entry" />
     </DataDefinition>
     <DataDefinition TableName="%prefix%systemuri">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsPrimary="True" />
+        <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"/>
         <Column clName="clUri" clType="VARCHAR" clTypeLength="255" />
     </DataDefinition> 
     <DataDefinition TableName="%prefix%user_info_types">
@@ -157,7 +157,7 @@
     <DataDefinition TableName="%prefix%users_reference_models">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clUser_Id" clType="Int" clTypeLength="11" clNotNull="True" clLinkType="%prefix%users" />
-        <Column clName="clModel" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsPrimary="True" />
+        <Column clName="clModel" clType="VARCHAR" clTypeLength="170" clNotNull="True" />
         <Column clName="clNextValue" clType="Int" clTypeLength="11" clNotNull="True" />
     </DataDefinition>
     <DataDefinition TableName="%prefix%who_uses" Description="Track who use the framework">

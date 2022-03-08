@@ -143,7 +143,7 @@ interface IIGKDataAdapter{
     /**
     * 
     */
-    function selectCount();
+    function selectCount(string $tbname, ?array $where = null, ?array $options = null);
     ///<summary></summary>
     /**
     * 

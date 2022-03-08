@@ -3598,7 +3598,10 @@ Name:balafon.js
 			return this;
 		},
 		on: function (method, func, useCapture) {
+			/**
 			// sample: target.on('click', func) ; shortcut to reg_event
+			// note : 
+			*/
 			if (this.o.each) {
 				this.o.each(this.on, arguments);
 				return this;
@@ -3915,8 +3918,7 @@ Name:balafon.js
 			return this;
 		},
 		// class
-		addClass: function (classname) {
-
+		addClass(classname) { 
 			function __appendClass(t, tab) {
 				var ch = 0;
 				var s = "";
@@ -3928,21 +3930,26 @@ Name:balafon.js
 					console.error("object.className is not a string (probably svg case) : " + t.o.className);
 					return ch;
 				}
+				var ucl = typeof(t.o.classList)!='undefined';
 				for (var i = 0; i < tab.length; i++) {
 					k = igk.system.string.trim(tab[i]);
 					if (st[k]) {
 						continue;
 					}
 					st[k] = 1;
+					if (ucl){
+						t.o.classList.add(k);
+						continue;
+					}
 
-					if ((k.lenth == 0) || (t.o.className && (t.o.className.indexOf(k) !== -1)))
+					if ((k.length == 0) || (t.o.className && (t.o.className.indexOf(k) !== -1)))
 						continue;
 					if (s.length > 0)
 						s += " ";
 					s += k;
 					ch = !0;
 				}
-				if (s.length > 0) {
+				if (!ucl && (s.length > 0)) {
 					if (t.o.className == " ")
 						t.o.className = igk.system.string.trim(ts);
 					else {
@@ -3956,7 +3963,13 @@ Name:balafon.js
 				var g = t.o.className.split(' ');
 				var ch = 0;
 				var s = "";
+				var ucl = t.o.classList;
+				if (ucl){
+					tab.map( function(i){ ucl.remove(i); });
+					return 1;
+				}
 				for (var i = 0; i < g.length; i++) {
+				 
 					if (g[i] in tab) {
 						ch = 1;
 					} else {
@@ -3964,7 +3977,7 @@ Name:balafon.js
 							s += " ";
 						s += g[i];
 					}
-				}
+				} 
 				t.o.className = s;
 				return ch;
 			};
@@ -3989,23 +4002,17 @@ Name:balafon.js
 
 				} else {
 					var rm = [];
-					var _bc = this.o.className;
-
+					var s = "";
 					for (var i in classname) {
-						var s = igk.system.string.trim(i);
+						s = igk.system.string.trim(i);
 						if (((typeof (classname[i]) == "function") && classname[i]()) ||
 							classname[i]) {
 							tab.push(s);
 						} else {
-							var s = igk.system.string.trim(i);
-							if (s.indexOf(s) !== -1) {
-								rm.push(s);
-								rm[s] = s;
-							}
+							rm.push(s);								
 						}
 					}
-					ch = __appendClass(this, tab) || __rmClass(this, rm);
-
+					ch = __appendClass(this, tab) || __rmClass(this, rm);  
 				}
 
 				if (ch) {
@@ -4129,9 +4136,12 @@ Name:balafon.js
 			return this;
 		},
 		// determine 
-		supportClass: function (classname) {
+		supportClass(classname) {
 			if (this.isSr()) {
 				return !1;
+			}
+			if (this.o.classList){
+				return this.o.classList.contains(classname);
 			}
 			var cl = this.o.className;
 			var exp = "($|[\\s]?)(" + classname + "){1}($|[\\s]+)";
@@ -4668,14 +4678,14 @@ Name:balafon.js
 				this.setCss({ transition: k });
 			return this;
 		},
-		setTransitionDuration: function (time) {
+		setTransitionDuration(time) {
 			if (this.o.each) {
 				this.o.each(this.setTransitionDuration, arguments);
 			} else
 				igk.css.setTransitionDuration(this, time);
 			return this;
 		}
-		, replaceWith: function (t) {
+		, replaceWith(t){
 			// t:target node or text
 			// desc: replace content of the current nodes list by t. t 
 			if (this.o.each) {
@@ -10789,7 +10799,8 @@ Name:balafon.js
 							});
 
 						} else {
-							_wnd.location = u; // refresh location
+							// refresh location
+							_wnd.location = u; 
 						}
 					} catch (ex) {
 						console.debug("[igk.winui.print] - can't register load event  - " + ex);
@@ -12734,7 +12745,7 @@ Name:balafon.js
 								}
 							},
 							toString: function () {
-								return "igk.ajx.targetResponse"
+								return "igk.ajx.targetResponse";
 							}
 						});
 				},
@@ -13540,6 +13551,10 @@ Name:balafon.js
 
 		var m_nodeReady = [];
 		var m_initBeforeReady = [];
+		/**
+		 * global current host to replace. tab 
+		 */
+		var m_ajx_host = null; 
 		// var _rootDepth=0;// count init node
 		// 
 		// uitilies ajx function
@@ -13588,8 +13603,6 @@ Name:balafon.js
 				};
 			},
 			postData: function (uri, n, t, m) {
-
-
 				if (uri in _postdata) {
 					_postdata[uri].abort();
 				}
@@ -13681,9 +13694,6 @@ Name:balafon.js
 							igk.ajx.fn.replace_or_append_to(igk.dom.body().o).apply(this, [xhr]);
 						}
 						else {
-
-
-
 							this.setResponseTo(host, true);
 						}
 					}
@@ -13945,6 +13955,13 @@ Name:balafon.js
 				_initnode(c);
 
 
+			},
+			setHost(h){
+				if(typeof(h)=='string'){
+					m_ajx_host = igk.dom.body().qselect(h);
+				}else {
+					m_ajx_host = h;
+				}
 			}
 
 		});
@@ -14531,9 +14548,9 @@ Name:balafon.js
 			"igk-input-focus": { n: "js", desc: "force the cibling node to get focus" },
 			"igk-input-data": { n: "js", desc: "setup the data used to validate the input" },
 			"igk-form-validate": { n: "js", desc: "used with form to indicate that the form must be validate before submit." },
-			"igk-js-fix-height": { n: "js", desc: "fix elemenet height to target height. value is a id of the element" },
-			"igk-js-fix-width": { n: "js", desc: "fix elemenet width to target width. value is a id of the element" },
-			"igk-js-fix-size": { n: "js", desc: "fix elemenet size to target size. value is a id of the element" },
+			"igk-js-fix-height": { n: "js", desc: "fix element height to target height. value is a id of the element" },
+			"igk-js-fix-width": { n: "js", desc: "fix element width to target width. value is a id of the element" },
+			"igk-js-fix-size": { n: "js", desc: "fix element size to target size. value is a id of the element" },
 			"igk-js-fix-prop": { n: "js", desc: "fix element properties on size.expect property wait: {target,prop} " },
 			"igk-js-fix-eval": { n: "js", desc: "fix element properties on window resize property wait: {update:function()} " },
 			"igk-ajx-form": { n: 'js', desc: 'bool indicate that a form is used in ajx context. mixed(0|1|[{complete:func,targetid:[id of response node]}]. used igk-ajx-form-targedid to indicated the response node' },
@@ -14688,14 +14705,18 @@ Name:balafon.js
 				getAttribCtrl: function (k) {
 					return m_attribCtrl[k] || null;
 				},
-				getAttribCtrlList: function (k) {
+				/**
+				 * retrieve used attribute list
+				 * @returns array
+				 */
+				getAttribCtrlList: function () {
 					var t = [];
 					for (var i in m_attribCtrl) {
 						if (i == "length")
 							continue;
 						t.push(i);
 					}
-					return t;// m_attribCtrl[k] || null;
+					return t;
 				},
 				bindAttribManager: function (key, callback, setting) {
 					if (setting && !(key in m_attrib_datas)) {
@@ -17260,10 +17281,10 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			var e = null;
 			for (var s = 0; s < t.length; s++) {
 				e = t[s];
-				if ((e.i == item) && (e.func == func)) {
+				if (!((e.i == item) && (e.func == func))) {
 					cp.push(e);
 					c = !0;
-				}
+				} 
 			}
 			if (c)
 				m_eventDatas[n] = cp;
@@ -17302,7 +17323,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 	};
 
 
-	// register double click event
+	// + | register click event
 	(function (PN) {
 		igk.winui.registerEventHandler(PN, {
 			reg_event: function (item, func, useCapture, single) {
@@ -17354,6 +17375,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			}
 		});
 	})("touchOrClick");
+	// + | register double click event
 	(function (PN) {
 		igk.winui.registerEventHandler(PN, {
 			reg_event: function (item, func, useCapture, single) {
@@ -17405,6 +17427,51 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			}
 		});
 	})("doubleTouchOrClick");
+
+
+	(function(PN){
+		igk.winui.registerEventHandler(PN, {
+			reg_event: function (item, func, useCapture, single) {
+				var _dc = 0;
+				if (typeof (single) == 'undefined') {
+					single = 1;
+				}
+				if (single && (_dc = _getEventData(PN, item, func))) {
+					console.debug("[BJS] - function already binded for .", item, item === _dc.i, _dc);
+					return;
+				}
+				var c = {
+					n: PN, index: 0, i: item, h: 0, "func": func, bind: function (evt) {
+					 
+						c.func.apply(item, [evt]);
+					}
+				};
+				c.index = m_eventDatas[c.n] ? m_eventDatas[c.n].length : 0;
+				_regEventData(c.n, c);	
+				if (MutationObserver){
+					var ob = new MutationObserver(c.bind);
+					ob.observe(item, {childList:true, subtree:true});  
+					c.observer = ob;      
+				} else{
+					item.addEventListener("DOMNodeInserted", c.bind, useCapture);
+					item.addEventListener("DOMNodeRemoved", c.bind, useCapture);
+				}
+			},
+			unreg_event: function (item, func) {
+				var n = PN;
+				var c = _getEventData(n, item, func);
+				if (c.observer){
+					c.observer.disconnect();
+					_unregEventData(c.n, item, func);
+					console.debug("disconnect");
+				}
+				if (c) {
+					igk.winui.unreg_system_event(item, "DOMNodeInserted", c.bind);
+					igk.winui.unreg_system_event(item, "DOMNodeRemoved", c.bind);
+				}
+			}
+		});
+	})("DOMChanged");
 
 	function __mobile_device_event(n, mobe) {
 		return {
@@ -18210,7 +18277,9 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 //----------------------------------------------------------
 (function () {
 	var _attribs = {};
-	igk.ctrl.registerAttribManager("igk:oninit", {});
+	igk.ctrl.registerAttribManager("igk:oninit", {
+		"desc":"on init register"
+	});
 	igk.ctrl.bindAttribManager("igk:oninit", function (m, v) {
 		// alert("bind attrib management: "+v);
 		try {
@@ -18918,10 +18987,17 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 // possible value : 1 | {method:function([ajx.get|ajx.post]),execute: [execute directly] ,complete: after receive}
 (function () {
 	var m_xhr = null;
-	igk.system.createNS("igk.winui.ajx.lnk", {
+	// host for reponse in case no tag setup
+	var m_host=null;
+	var _NS = igk.system.createNS("igk.winui.ajx.lnk", {
 		getLink: function () { return m_xhr.source; },// expose link for evaluation
-		getXhr: function () { return m_xhr; }
+		getXhr: function () { return m_xhr; }		
 	});
+	igk.defineProperty(_NS, "host", {get(){
+		return m_host;
+	}, set(v){
+		m_host = v;
+	}});
 	igk.ctrl.registerAttribManager("igk-ajx-lnk", { ns: "ajx", desc: "Ajax link. used in combination with 'igk-ajx-lnk-tg' properties. " });
 	igk.ctrl.bindAttribManager("igk-ajx-lnk", function (n, m) {
 		if (!m)
@@ -18954,27 +19030,23 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 				var tn = q.getAttribute("igk:target");
 				var rpm = q.getAttribute("igk:replacemode") || 'content'; // content| node
 				var r = null;
+			 
 				if (obj.target)
 					r = $igk(obj.target).first();
 				else if (tn) {
 					r = q.select(tn).first() || $igk(tn).first(); // || q.select(tn).first();
+				} else {
+					r = m_host;
+					m_host = null;
 				}
-
-
-
+				 
 
 				if (r != null) {
 					if (rpm == "content") {
 						fc = igk.ajx.fn.replace_content(r.o);
-					} else
+					} else {
 						fc = igk.ajx.fn.replace_node(r.o);
-					// var t = r.first();
-					// if (t)
-					// fc = igk.ajx.fn.replace_content(t.o);
-					// else {
-
-					// q.select(tn).first();
-					// }
+					}					
 				}
 				if (opxhr != null) {
 					opxhr.abort();
@@ -19375,13 +19447,12 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 	igk.ctrl.registerAttribManager("igk-js-autofix-item", { 'ns': 'js', 'desc': 'start auto fix item to host. item must be added before being initialized' });
 
 	igk.ctrl.bindAttribManager("igk-js-autofix-item", function (m, n) {
+		// console.debug("auto fix item ");
 		var o = igk.JSON.parse(n);
 		var c = null;
 		if (!o.target) c = this.select("^.igk-parentscroll").first();
 		else c = this.select(o.target).first();
-
 		c = c || $igk(document);
-
 		c.reg_event("scroll", __autofix_check_scroll(this, c, o));
 	});
 
@@ -19399,18 +19470,15 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 	//create a class
 	function _autofix_manager() { };
 	//add method to class using prototype
-	_autofix_manager.prototype.check = function (e) {
-
-		var g = this.q.getScreenLocation();
+	_autofix_manager.prototype.check = function(){ 
 		var c = this.p;
-		var offset = this.o.offset || 0;
-
+		var offset = this.o.offset || 0; 
 		if (c.o.scrollTop > offset) {
-			console.debug("bind ...");
+			// console.debug("bind ... make it fixed");
 			c.addClass("igk-js-autofix-host");
 			this.q.addClass("fix");
 		} else {
-			console.debug("unbind");
+			// console.debug("unbind");
 			c.rmClass("igk-js-autofix-host");
 			this.q.rmClass("fix");
 		}
@@ -19781,13 +19849,8 @@ igk.ready(function () {
 		var o = q.add('span').addClass("dispib").setHtml('_');
 		var w = igk.getNumber(o.getComputedStyle('width'));
 		o.remove();
-		// delete(o);
-
-
-
+		// delete(o); 
 		w = (((m.getLines() + '').length * w) + 10) & 0xFFFA;
-
-
 		igk.css.appendRule(q.getCssSelector() + " > div > span.ln {text-align:right; width:" + w + "px;}");
 
 	};
@@ -21284,8 +21347,7 @@ igk.ready(
 				$igk(evt.target).unreg_event("scroll", __fcScroll);
 			}
 			console.debug("" + tab.length);
-		}
-		// igk.qselect(".igk-parentscroll").reg_event("scroll",__fcScroll);
+		} 
 
 		igk.dom.body().select("igk-img-js").each(function () {
 			var p = this.o.offsetParent;
@@ -22283,8 +22345,10 @@ igk.system.createNS("igk.system", {
 		}
 	});
 
-	igk.ctrl.registerAttribManager("igk-balafonjs", {});
-	// node compopent width balajs js javascript
+	igk.ctrl.registerAttribManager("igk-balafonjs", {
+		"desc":"inline script to be evaluate."
+	});
+	// node compopent with balafonjs js javascript
 	igk.ctrl.bindAttribManager("igk-balafonjs", function (m, v) {
 		if (m)
 			eval(v);
@@ -23673,12 +23737,6 @@ igk.system.createNS("igk.system", {
 		});
 		// igk.ready(function(){__update.apply(q,[v])},0);
 		igk.winui.reg_event(window, "resize", g = function () {
-
-			// if(!q.getpresentOnDocument()){
-			// igk.winui.unreg_event(window,"resize",g);
-			// }
-
-
 			__update.apply(q, [v]);
 		});
 		q.fix.update();
@@ -24886,9 +24944,8 @@ igk.system.createNS("igk.system", {
 			p.replaceChild(g.o, this.o);
 			if (p.getAttribute("title")){
 				$igk(p).qselect("svg > title").remove();
-				console.debug("remove title "+p.getAttribute('title'));
-			}
-
+				// console.debug("remove title "+p.getAttribute('title'));
+			} 
 		} else {
 			console.debug("item not found :" + n);
 		}
@@ -25198,33 +25255,59 @@ igk.system.createNS("igk.system", {
 
 // TODO: test extra attribute event - demonstration - hold click with BALAFON javasript 
 (function () {
+	// --------------------------------------------------------------------------
+	// bind attribute event
+	//
 	igk.system.createNS("igk.event", {
 		stop: function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 		}
 	});
-	var list = {
-		"click": "touchOrClick",
-		"doubleclick": "doubleTouchOrClick"
-	};
-
+	// var list = {
+	// 	"click": "touchOrClick",
+	// 	"doubleclick": "doubleTouchOrClick"
+	// };
+	var meth = [];
+	var c = ["click","doublick","contextmenu","mouseover", "mousedown", "mouseup"];
+	for(var j in window){
+		if (j)
+		if (/^on/.test(j)){
+			j = j.substring(2);
+			if (c.indexOf(j)==-1){
+				meth.push(j);
+				igk.ctrl.registerAttribManager("["+j+"]", { desc: j+" property event" });
+				igk.ctrl.bindAttribManager("["+j+"]", function(m, n){
+					let fc = new Function(n);
+					this.o.removeAttribute(m);
+					m = m.substring(1, m.length-1);
+					this.reg_event(m, function(e){ 
+						if (fc.apply(this, [e])==!1){ 
+							igk.event.stop(e); 
+						}
+					});
+				});
+			}
+		}
+	} 
 	igk.ctrl.registerAttribManager("[click]", { desc: "click property event" });
 	igk.ctrl.registerAttribManager("[doubleclick]", { desc: "doubleclick property event" });
+	igk.ctrl.registerAttribManager("[contextmenu]", { desc: "contextmenu property event" });
 	igk.ctrl.bindAttribManager("[click]", function (m, n) {
 		if (n == null) {
 			return;
 		}
+		this.o.removeAttribute(m);
 		var fc = new Function(n);
 		var q = this;
-		this.reg_event("touchOrClick", function (event) {
-			igk.event.stop(event);
+		this.reg_event("touchOrClick", function (event) {		 
 			if (event.handle)
 				return;
-			fc.apply(q, [event]);
+			if(fc.apply(q, [event]) == false){
+				igk.event.stop(event);
+			} 
 		});
-	});
-
+	}); 
 	igk.ctrl.bindAttribManager("[doubleclick]", function (m, n) {
 		if (n == null) {
 			return;
@@ -25258,7 +25341,16 @@ igk.system.createNS("igk.system", {
 		igk.ctrl.registerAttribManager("[" + n + "]", { desc: "click property event" });
 		igk.ctrl.bindAttribManager("[" + n + "]", _initmethod(n));
 	}
-
+	// + | disable context menu if necessary
+	igk.ctrl.bindAttribManager("[contextmenu]", function (m, n){
+		let fc = new Function(n);
+		this.reg_event('contextmenu', function(e){ 
+			if (fc.apply(this, [e])==!1){ 
+				igk.event.stop(e); 
+			}
+		});
+		this.o.removeAttribute(m);
+	});
 
 
 })();
@@ -25525,6 +25617,7 @@ igk.system.createNS("igk.system", {
 		});
 	};
 	igk.ctrl.registerAttribManager("igk-table-col-hover", {
+		"desc":"table col management"
 	});
 	var time_ = 0;
 	igk.ctrl.bindAttribManager("igk-table-col-hover", function (n, m) {
@@ -25560,7 +25653,9 @@ igk.system.createNS("igk.system", {
 // | igk:validation-data validation data
 // -------------------------------------
 (function () {
-	igk.ctrl.registerAttribManager("igk:validation-data", {});
+	igk.ctrl.registerAttribManager("igk:validation-data", {
+		"desc":"use for validation data."
+	});
 	igk.ctrl.bindAttribManager("igk:validation-data", function (t, v) {
 		var d = igk.createNode("div");
 		d.addClass("data");

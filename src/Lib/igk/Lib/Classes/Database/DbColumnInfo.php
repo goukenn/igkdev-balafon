@@ -11,6 +11,11 @@ use IGKSysUtil;
 */
 final class DbColumnInfo extends IGKObject {
     /**
+     * reference key column
+     * @var mixed
+     */
+    // protected $clRefId;
+    /**
      * set if the column is auto increment
      * @var mixed
      */
@@ -175,7 +180,10 @@ final class DbColumnInfo extends IGKObject {
                 $this->clDefaultLinkExpression = $this->clDefault;
             }
             $this->clDefault = null;
-        }         
+        }  
+    }
+    public function getIsRefId(){
+        return preg_match("/int/i", $this->clType ) && $this->clAutoIncrement && $this->clIsPrimary;
     }
     ///<summary> return a filtered array of property</summary>
     /**

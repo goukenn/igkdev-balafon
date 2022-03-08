@@ -10,8 +10,11 @@
 
 ///<summary>Represente namespace: IGK\System\Console\Commands</summary>
 namespace IGK\System\Console\Commands;
- 
+
+use Closure;
 use IGK\Controllers\ControllerInitListener;
+use IGK\Helper\IO;
+use IGK\Resources\R;
 use \IGKControllerManagerObject;
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
@@ -68,20 +71,22 @@ class MakeProjectCommand extends AppExecCommand{
             $e_ns=str_replace("\\\\", "\\", igk_str_ns($e_ns));
             $defs .= "protected function getEntryNamespace(){ return {$e_ns}::class; }";
         }
+        IO::CreateDir(implode("/", [$dir,IGK_DATA_FOLDER,IGK_RES_FOLDER]));
         $bind=[];
         $fname=$clname.".php";
-        $bind[$dir.
-        "/.global.php"]=function($file) use ($author){
+        $bind[$dir."/.global.php"]=function($file) use ($author){
             $builder=new PHPScriptBuilder();
             $builder->type("function")->author($author)->desc("global function");
             igk_io_w2file($file, $builder->render());
         };
-        $bind[$dir.
-        "/$fname"]=function($file) use ($type, $author, $defs, $desc, $clname, $fname){
+        $bind[$dir."/$fname"] =function($file) use ($type, $author, $defs, $desc, $clname, $fname){
             $builder=new PHPScriptBuilder();
             $builder->type("class")->name($clname)->author($author)->defs($defs)->doc("Controller entry point")->file($fname)->desc($desc)->extends($type);
             igk_io_w2file($file, $builder->render());
         };
+        $this->_bind_articles($bind, $dir);
+
+
         $defaultsrc=<<<EOF
 /**
  * @var object \$t
@@ -138,6 +143,17 @@ EOF;
             igk_io_w2file($file, $build->render((object)["Context"=>"XML", "Indent"=>true]));
         };
 
+        // Lib/autoload.php
+        $bind[$dir."/".IGK_LIB_FOLDER."/autoload.php"] = function($file){
+            $builder = new PHPScriptBuilder();
+            $builder->uses(Route::class)
+            ->type("function")
+            ->file(basename($file))
+            ->defs(implode("\n", [
+                "// on register_autoload initialize",
+            ]));       
+            igk_io_w2file($file, $builder->render());
+        };
 
         // configuration 
         $bind[$dir."/".IGK_CONF_FOLDER."/routes.php"] = function($file){
@@ -147,10 +163,12 @@ EOF;
             ->file(basename($file))
             ->defs(implode("\n", [
                 "// store the RouteActionHandler for this base controller",
-                "// Route::get( \$actionClass, \$uriPattern, \$controllerTaskPage) ",
-
-            ]));
-            
+                "// Route::get( \$actionClass, string \$uriPattern) ",
+                "// - \$actionClass: middle ware action class",
+                "// - \$uriPattern : path {name}  ",
+                "// - \$uriPattern : path/{name} with required parameter ",
+                "// - \$uriPattern : path/{name} with optional parameter ",
+            ]));            
             igk_io_w2file($file, $builder->render());
         };
 
@@ -180,6 +198,21 @@ EOF;
         IGKControllerManagerObject::ClearCache(null, true);
         Logger::info("output: ".$dir);
         Logger::success("done\n");
+    }
+    protected function _store_article($f){
+        $builder=new PHPScriptBuilder();
+        $builder->type("function")->file(basename($f));
+        igk_io_w2file($f, $builder->render());
+    }
+    protected function _bind_articles(array & $bind, $dir){
+        $tab = explode("|", R::GetSupportLangRegex());
+        $outdir = $dir."/".IGK_ARTICLES_FOLDER;
+        $fc = Closure::fromCallable([$this,"_store_article"])->bindTo($this);
+        foreach(explode("|", "about|presentation|confidentiality") as $l){
+            foreach($tab as $b){
+                $bind[$outdir."/".$l.".".$b.".phtml"] = $fc; 
+            }
+        }
     }
     ///<summary>Represente help function</summary>
     public function help(){

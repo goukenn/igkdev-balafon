@@ -4,6 +4,8 @@ namespace IGK\System\Database\MySQL;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;  
 use IGK\Database\DbQueryRowObj;
+use IGKException;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKSorter;
 use IIGKQueryResult;
 
@@ -38,7 +40,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
         $this->m_rows=array();
         $this->m_rowsEntity=array();
         $this->m_irows=array();
-        $this->m_adapterName="MYSQL";
+        $this->m_adapterName= IGK_MYSQL_DATAADAPTER;
         $this->m_type="none";
         $this->m_result=0;
         $this->m_multitable = false;
@@ -87,14 +89,24 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
         $out->m_query='Empty';
         return $out;
     }
-    ///<summary>create a result data</summary>
+     ///<summary>create a result data</summary>
     ///<param name="options">callback or igk_db_create_opt_obj()</param>
     /**
-    * create a result data
+    * 
     * @param mixed options callback or igk_db_create_opt_obj()
     */
+    /**
+     * create a result data
+     * @param mixed $dbresult 
+     * @param mixed $query 
+     * @param callable|array|mixed $options option list . view QueryOptions for details
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public static function CreateResult($dbresult, $query=null, $options=null){
         $_handle=$options && igk_getv($options, 'handle');
+        $no_primary = igk_getv($options, "NoPrimaryKey");
         if(!$_handle){
             if(is_bool($dbresult) || is_numeric($dbresult) || ($dbresult === null)){
                 $out = new DbSingleValueResult();
@@ -156,7 +168,8 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
             $out->m_tables[$d->table]=$d->table;
             $index++;
         }
-        $v_primkey=count($prim_key) == 1 ? $prim_key[0]->name: null;
+        $v_primkey= !$no_primary && (count($prim_key) == 1) ? $prim_key[0]->name: null;
+        // igk_debug_wln_e("the prim--- ", $query, $v_primkey, $dbresult, $no_primary, $options);
         $v_primkeyindex=count($prim_key) == 1 ? $prim_key[0]->index: null;
         $callback=is_callable($options) ? $options: igk_getv($options, self::CALLBACK_OPTS );
         $_nn=(igk_count($out->m_tables) > 1);

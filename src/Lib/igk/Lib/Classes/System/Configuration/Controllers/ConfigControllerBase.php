@@ -6,6 +6,7 @@ namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\WinUI\Menus\MenuItem;
+use IGKControllerManagerObject;
 use IGKEvents;
 use IIGKConfigController;
 
@@ -18,6 +19,10 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigCon
 * Represente ConfigControllerBase class
 */
 abstract class ConfigControllerBase extends BaseController implements IConfigController {
+    public function getName()
+    {
+        return IGKControllerManagerObject::GetResolvName(static::class);
+    }
     public function getViewDir()
     {
         if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
@@ -131,7 +136,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
                     $this->getUri("showConfig"),
                     $cp->menuindex,
                     $cp->imagekey,
-                    null,
                     $cp->group)
                 );
             }
@@ -146,8 +150,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
                 $this->getUri("showConfig"),
                 $this->ConfigIndex ?? -1,
                 $this->ConfigImageKey,
-                null,
-                $this->ConfigGroup)
+                $this->getConfigGroup())
             );
         }
         return null;

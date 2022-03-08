@@ -282,7 +282,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	} 
 
 	// protected function auto_load_class($f, $tag=null){
-	// 	// igk_debug(1);
+ 
 	// 	// igk_wln($f, igk_env_count(__FUNCTION__));
 	// 	return parent::auto_load_class($f, $tag);
 	// 	// igk_trace();

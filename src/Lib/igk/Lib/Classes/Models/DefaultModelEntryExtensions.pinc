@@ -2,6 +2,7 @@
 // @file : DefaultModelEntryExtensions.pinc
 use IGK\Database\DbQueryResult;
 use IGK\Helper\MacrosHelper;
+use IGK\Helper\StringUtility;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
@@ -25,8 +26,6 @@ Usergroups::registerMacro("getUserGroups", function(int $uid){
             [ Groups::table() =>QueryBuilder::LeftJoin(Groups::column("clId")." = clGroup_Id")]
         ]
     ]);  
-
-    
     return $c ? $c->getRows() : null;
 });
 
@@ -100,9 +99,17 @@ return \IGK\Models\Users::select_row($conditions);
         $data = ["db_logs_msg"=>$msg];
         if ($tag)
             $data["db_logs_tags"] = $tag;
-        $r =  \IGK\Models\DbLogs::create($data);
+        //$r =  \IGK\Models\DbLogs::create($data);
         $logger = null;
-        return $r;
+        //return $r;
     }
     return false;
+});
+
+\IGK\Models\Users::registerMacro("fullname", function(){
+    return StringUtility::NameDisplay($this->clFirstName, $this->clLastName);
+});
+
+\IGK\Models\Usergroups::registerMacro("getUserGroup", function(){
+    return igk_db_user_groups($this->clUser_Id);
 });

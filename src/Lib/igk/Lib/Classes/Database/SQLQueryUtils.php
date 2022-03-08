@@ -492,6 +492,7 @@ class SQLQueryUtils{
                             $torder .= ", ";
                         $torder .= $c." ".$type;
                     }
+                    $torder .= " ";
                     $optset[$k]=$torder;
                 }
                 else{
@@ -938,6 +939,6 @@ class SQLQueryUtils{
     }
     ///<summary>check if this type support defaut value</summary>
     public static function supportDefaultValue($type){
-        return !in_array($type, ["text"]);
+        return !in_array($type, ["int"]);
     }
 }

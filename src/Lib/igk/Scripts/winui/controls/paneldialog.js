@@ -62,8 +62,6 @@ function _panDialogInit(){
         });
     };
 	function _update_size(){
-		
-		
 		q.rmClass("inner");
 		// console.debug("size changed ");
 		var f = q.select(".igk-content").first();
@@ -115,10 +113,7 @@ var _LNS = igk.system.createNS(_NS, {
 });
 
 igk.appendProperties(_LNS.panelDialog.prototype, {
-
 });
-
-
 igk.appendProperties(_LNS.panelDialog, {
 close: _closeDialog
 });

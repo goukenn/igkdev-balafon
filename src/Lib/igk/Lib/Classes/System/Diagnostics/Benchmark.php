@@ -37,7 +37,13 @@ class Benchmark{
         $i = self::getInstance();
         $i->m_configs->dieOnEror = $options ? igk_getv($options, "dieOnError", false) : false;
     }
-    public static function expect($name, $duration){
+    /**
+     * bech mark expectation
+     * @param string $name identifier
+     * @param float $duration duration
+     * @return void 
+     */
+    public static function expect(string $name, float $duration, ?string $message=null){
         if (!self::$Enabled){
             return;
         } 
@@ -49,15 +55,63 @@ class Benchmark{
             if ($v_duration > $duration){
                 $msg = sprintf("Benchmark:%s request time exceed %s . duration : %s ", $name, $duration, $v_duration);
                 igk_environment()->write_debug("<div class='igk-danger'>".$msg."</div>");
-                if(self::getInstance()->m_configs->dieOnError){
-                    die($msg);
+                if ($message){
+                    $msg.="\n".$message;
+                }
+                if(self::getInstance()->m_configs->dieOnError){                   
+                    $s = igk_ob_trace();
+                    die(igk_ob_get_func("igk_html_pre",[
+                        $msg,
+                        $s
+                    ]));
                 }
             } 
             unset($m[$name]);
         }
     }
+    /**
+     * 
+     * @param string $name measure if enabled
+     * @param bool $unset unset the mark measure
+     * @return int|float|void 
+     */
+    public static function measure(string $name, bool $unset = false){
+        if (!self::$Enabled){
+            return;
+        }  
+        $m = & self::getInstance()->mark;
+        if (isset($m[$name])){
+            $time = igk_sys_request_time();
+            $v_duration = ($time - $m[$name]);
+            if ($unset){
+                unset($m[$name]);
+            }
+            return $v_duration;
+        }
+    }
+    /**
+     * mark to bench mark
+     * @param mixed $name 
+     * @return void 
+     */    
     public static function mark($name){
         self::getInstance()->mark[$name] = igk_sys_request_time();
+    }
+    /**
+     * write to - if enabled
+     * @param mixed $args 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function write(...$args){
+        if (self::$Enabled){
+            igk_wln($args);
+        }
+    }
+    public static function log(...$args){
+        if (self::$Enabled){
+            igk_ilog($args);
+        }
     }
     /**
      * set die on error

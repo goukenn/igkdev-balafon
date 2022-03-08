@@ -95,6 +95,9 @@ final class IGKServer{
     * @param mixed $v
     */
     public function __set($n, $v){
+        if ($n == "REQUEST_STRING"){
+            igk_wln_e("try change request uri ", $v);
+        }
         if($v === null){
             unset($this->data[$n]);
         }

@@ -1,5 +1,7 @@
 <?php
 //Balafon Generated language file
+
+
 $l["Back to {0}"] = "Retour à la page : {0}";
 $l["failed to connect or select {0}'s databases"] = "Impossible de selectionner ou de se connecter à la base de données {0}";
 $l["menu.clearcache"] = "Supprimer la cache";
@@ -1667,3 +1669,13 @@ $l["@sysconfig:datetime_format"] = "d-m-Y H:i";
 $l["Clear session"] = "Supprimer la session";
  
 $l["members"] = "Membres";
+
+
+$l["menu.composer"] = "Composer";
+$l["menu.auth"] = "Authorizations";
+$l["menu.usergroups"] = "Groupes";
+$l["First"] = "Premier";
+$l["Last"] = "Dernier";
+$l["Delete"] = "Supprimer";
+$l["Cancel"] = "Annuler";
+

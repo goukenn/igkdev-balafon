@@ -9,12 +9,16 @@
 // @url: https://www.igkdev.com
 namespace IGK\Database;
 
+use IGKException;
 use IGKIterator;
 use IGKObject;
 use IGKSorter;
 
 abstract class DbQueryResult extends IGKObject{
     private $m_error, $m_errormsg;
+    /**
+     * key name use to filter result
+     */
     public const CALLBACK_OPTS="@callback";
     ///<summary></summary>
     public function createEmptyEntry(){
@@ -50,6 +54,10 @@ abstract class DbQueryResult extends IGKObject{
         return 0;
     }
     ///<summary></summary>
+    /**
+     * get rows
+     * @return null|Iterable|array
+     */
     public function getRows(){
         return null;
     }
@@ -90,5 +98,14 @@ abstract class DbQueryResult extends IGKObject{
             $tm[$r->$keyname]=$r;
         }
         return $tm;
+    }
+    /**
+     * get row at index
+     * @param int $index 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function getRowAtIndex(int $index){
+        return igk_getv(array_values($this->getRows()), $index);
     }
 }

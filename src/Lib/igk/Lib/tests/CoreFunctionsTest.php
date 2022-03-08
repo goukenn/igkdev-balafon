@@ -73,4 +73,7 @@ class CoreFunctionsTest extends BaseTestCase
         $this->expectException(\TypeError::class);
         igk_str_remove_lines(null);
     }
+
+
+    
 }

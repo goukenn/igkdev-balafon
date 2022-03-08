@@ -258,6 +258,12 @@ function igk_zip_unzip_entry($f, $entry){
     return $c;
 }
 ///<summary>read zip content</summary>
+/**
+ * unzip file archive and return name content
+ * @param mixed $zipfile 
+ * @param mixed $name 
+ * @return false|string 
+ */
 function igk_zip_unzip_filecontent($zipfile, $name){
     $hzip=@zip_open($zipfile);
     if(!$hzip || !is_resource($hzip))

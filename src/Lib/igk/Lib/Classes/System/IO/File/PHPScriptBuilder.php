@@ -18,6 +18,9 @@ use IGKException;
  * @method self type(string $type) define the type. class|trait|interface|function
  * @method self name(string $name) define the of type in case class|trait|interface
  * @method self comment(string $comment) define the top comment
+ * @method self phpdoc(string $phpdoc) define element 
+ * @method self file(string $phpdoc) define element 
+ * @method self desc(string $phpdoc) define element 
  */
 class PHPScriptBuilder
 {
@@ -114,7 +117,23 @@ class PHPScriptBuilder
                 if ($d = $this->doc) {
                     // documents
                     $o .= "///<summary>" . $d . "</summary>\n";
-                    $o .= "/**\n * " . $d . "\n */\n";
+
+                    $o .= "/**\n";
+                    $o .="* " . $d."\n";
+                    if ($ns){
+                        $o .= "* @package {$ns}\n";
+                    }
+                    if ($phpdoc = $this->phpdoc){
+                        $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
+                    }
+                    $o .= " */\n";
+                } else {
+                    $o .= "///<summary></summary>\n";
+                    $o .= "/**\n* @package {$ns}\n";
+                    if ($phpdoc = $this->phpdoc){
+                        $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
+                    }
+                    $o .= "\n*/\n";
                 }
                 if (!empty($modifier = $this->class_modifier)) {
                     $modifier .= " ";

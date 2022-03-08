@@ -10,6 +10,7 @@
 
 namespace IGK\Controllers;
 
+use IGK\Models\Usergroups;
 use IGKEvents;
 
 final class UserGroupController extends NonVisibleControllerBase{
@@ -19,7 +20,7 @@ final class UserGroupController extends NonVisibleControllerBase{
     }
     ///<summary></summary>
     public function getDataTableName(){
-        return igk_db_get_table_name(IGK_TB_USERGROUPS);
+        return Usergroups::table();
     }
     ///<summary></summary>
     protected function registerHook(){

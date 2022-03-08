@@ -3,6 +3,7 @@
 namespace IGK\System\Http;
 
 use IGK\Actions\Dispatcher;
+use IGKException;
 use ReflectionMethod;
 
 /**
@@ -60,6 +61,18 @@ class RouteHandler
      * @var mixed
      */
     protected $m_expressions;
+
+    /**
+     * enable strict directory
+     * @var bool
+     */
+    protected $strict_dir;
+
+    /**
+     * authenticated user required
+     * @var bool
+     */
+    protected $user_required;
 
     public function getRoute()
     {
@@ -149,6 +162,9 @@ class RouteHandler
         $this->path = $path;
         $this->controller = $controller;
     }
+    public function isUserRequired(){
+        return $this->user_required;
+    }
     /**
      * get if match with the verbs
      * @param mixed $path 
@@ -158,11 +174,13 @@ class RouteHandler
      */
     public function match($path, $verb = 'GET')
     { 
+        // + match verb
         if (!in_array($verb, $this->verbs)) {
             return false;
-        }
-        $regex = $this->getPatternRegex();
-        if ($r = preg_match($regex, "/" . ltrim($path, "/"))) {
+        }        
+        $regex = $this->getPatternRegex();  
+        // igk_wln_e("path : ", $path);
+        if ($r = preg_match($regex, $path)) {
             if ($this->ajx && !igk_is_ajx_demand()) {
                 throw new RequestException(400);
             }
@@ -171,8 +189,7 @@ class RouteHandler
                 "regex"=>$regex,
                 "response"=>$r,
                 "ruri" =>$path
-            ];
-            
+            ]; 
         }
         return $r;
     }
@@ -183,33 +200,122 @@ class RouteHandler
      */
     protected function getPatternRegex()
     {
-        $croute = "/" . ltrim($this->path, "/");
-        if (preg_match_all("/(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})/i", $croute, $tab)) {
+        return static::GetRouteRegex($this->path, $this->m_expressions);
+
+        // $croute = "/" . ltrim($this->path, "/");
+        // if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
+        //     $count = 0;
+        //     foreach ($tab["name"] as $i) {
+        //         $c = trim($i);
+        //         $s = $tab[0][$count];
+        //         $opt = igk_getv($tab["option"], $count) == "*";
+        //         $mark1 = igk_getv($tab["mark1"], $count);
+        //         $mark2 = igk_getv($tab["mark2"], $count);
+
+                
+                
+        //         if ($g = igk_getv($this->m_expressions, $c, ".*")) {
+        //             if ($opt) {
+        //                 $g = "({$g}(/)?)?";
+        //                 //$s = "/" . rtrim($s, "/");
+        //             }
+        //             $croute = str_replace($s, "(?P<".$i.">" . $g . ")", $croute);
+        //         }
+        //         $count++;
+        //     }
+        // }
+        // return "#^" . $croute . "$#";
+    }
+    public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true){
+        $croute = "/" . ltrim($path, "/");
+        if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
             $count = 0;
+            $optional = false;
             foreach ($tab["name"] as $i) {
                 $c = trim($i);
                 $s = $tab[0][$count];
                 $opt = igk_getv($tab["option"], $count) == "*";
-                // igk_wln($i);
-                if ($g = igk_getv($this->m_expressions, $c, ".*")) {
-                    if ($opt) {
-                        $g = "(/{$g}(/)?)?";
-                        $s = "/" . rtrim($s, "/");
+                $mark1 = igk_getv($tab["mark1"], $count);
+                $mark2 = igk_getv($tab["mark2"], $count);
+                // if ($mark1 && ($mark1 == $mark2)){
+                //     // inside mark
+                // }
+                if ($g = igk_getv($expressions, $c, ".*")) {
+                    if ($g == ".*"){
+                        $g = "[^/]+";
+                    }                   
+                    $rp = "(?P<".$i.">" . $g . ")";
+                    if ($opt) { 
+                        $optional = true;
+                        $rp.="?";
                     }
-                    $croute = str_replace($s, "(?P<".$i.">" . $g . ")", $croute);
+                    if ($mark2){
+                        $rp .= "(/)";
+                    }
+                    if ($mark1){
+                        $rp = "(".$mark1.$rp.")";
+                        if ($optional)
+                            {
+                                $rp .="?";
+                            }
+                    }
+                    $croute = str_replace($s, $rp, $croute);
                 }
                 $count++;
             }
         }
+        if (!$strict_dir){
+            if (strrpos($croute, "(/)",-3) !== false){
+                $croute .= "?";
+            }
+        }
         return "#^" . $croute . "$#";
+    }
+
+    /**
+     * retrive resolved uri
+     * @param string $routepattern 
+     * @param null|array $resolve 
+     * @param null|string $baseUri 
+     * @return string 
+     * @throws IGKException 
+     */
+    public static function GetResolveURI(string $routepattern, ?array $resolve=null, ?string $baseUri=null){
+        $croute = "/" . ltrim($routepattern, "/");
+        if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
+            $count = 0;
+            $optional = false;
+            foreach ($tab["name"] as $i) {
+                $c = trim($i);
+                $s = $tab[0][$count];
+                $opt = igk_getv($tab["option"], $count) == "*";
+                $mark1 = igk_getv($tab["mark1"], $count);
+                $mark2 = igk_getv($tab["mark2"], $count);
+                
+                if ($g = igk_getv($resolve, $c)) {
+                    $rp = $g;
+                    if ($mark1){
+                        $rp = "/".$rp;
+                    }
+                   
+                    $croute = str_replace($s, $rp, $croute);
+                }
+                $count++;
+            }
+        }
+        if ($baseUri != null){
+            $croute = $baseUri . $croute;
+        }
+        
+        return  $croute ;
     }
     /**
      * add expression
-     * @param mixed $name 
-     * @param mixed $expression 
+     * @param string $name name to identifie expression
+     * @param string $expression expression to use
      * @return RouteHandler 
      */
-    private function addExpression($name, $expression)
+    private function addExpression(string $name, string $expression)
     {
         $this->m_expressions[$name] = $expression;
         return $this;
@@ -227,7 +333,7 @@ class RouteHandler
      * set autorisation key name
      * @param mixed $name string|array of autorisation
      * @param bool $strict autorisation requirement
-     * @return RouteActionHandler 
+     * @return static 
      */
     public function auth($name, bool $strict=false)
     {
@@ -236,12 +342,27 @@ class RouteHandler
         return $this;
     }
     /**
-     * add where condition expression
+     * bind condition
+     * @param mixed $id identie 
+     * @param mixed $pattern regular expression
      * @return RouteHandler 
      */
-    public function where($id, $pattern)
+    public function where(string $id, string $pattern)
     {
         return $this->addExpression($id, $pattern);
+    }
+    public function userRequired(bool $require){
+        $this->user_required = $require;
+        return $this;
+    }
+    /**
+     * activate strict dir
+     * @param bool $strict_dir 
+     * @return $this 
+     */
+    public function strict_dir(bool $strict_dir){
+        $this->strict_dir = $strict_dir;
+        return $this;
     }
  /**
      * set allowed verb
@@ -256,7 +377,7 @@ class RouteHandler
     /**
      * shortcut function
      * @param array $verb 
-     * @return RouteHandler 
+     * @return static 
      */
     public function verbs(array $verb)
     {

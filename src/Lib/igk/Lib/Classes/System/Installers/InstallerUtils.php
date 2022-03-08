@@ -1,5 +1,5 @@
 <?php
-// author: C.A.D. BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // desc: installer utility class helper
 namespace IGK\System\Installers;
 

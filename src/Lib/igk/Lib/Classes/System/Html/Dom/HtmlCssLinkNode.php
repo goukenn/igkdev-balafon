@@ -21,9 +21,9 @@ class HtmlCssLinkNode extends HtmlNode{
             return false;
         }
         $uri=igk_html_get_system_uri($this->link, $o);
-        if($this->cache && ($o && $o->Cache)){
-            $uri=igk_uri_add_args($uri, array("Cache"=>1));
-        }
+        // if($this->cache && ($o && $o->Cache)){
+        //     $uri=igk_uri_add_args($uri, array("Cache"=>1));
+        // }
         $tr=$uri ? $uri: $this->link;
         $this->ln["href"]=$tr;
         return $tr && $this->IsVisible;

@@ -9,7 +9,8 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\System\Html\Dom;
-use IGK\System\Html\Dom\HtmlDocTheme; 
+use IGK\System\Html\Dom\HtmlDocTheme;
+use IGK\System\Net\MailAttachementContainer;
 
 final class IGKHtmlMailDoc extends HtmlNode{
     private $_attachement, $m_app, $m_message, $m_theme;
@@ -114,7 +115,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
     ///<summary></summary>
     public function renderDoc(){
-        $this->_attachement=new IGKMailAttachementContainer();
+        $this->_attachement=new MailAttachementContainer();
         $p=igk_xml_create_render_option();
         $p->Context="mail";
         $p->Attachement=$this->_attachement;

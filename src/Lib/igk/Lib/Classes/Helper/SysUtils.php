@@ -85,10 +85,17 @@ class SysUtils{
         }
     }
     ///<summary>exist on ajx deman</summary>
+    /**
+     * exit on ajx demand
+     * @return void 
+     * @throws IGKException 
+     */
     public static function exitOnAJX(){
         if (igk_is_ajx_demand()){
-            igk_exit();
+            igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
+            igk_environment()->isAJXDemand = null;
         } 
+        igk_exit();
     }
 
     public static function InitClassFields($c, $object){
@@ -103,9 +110,7 @@ class SysUtils{
     /***
      * init class variable
      */
-    public static function InitClassVars($n, $tag){
-    
-
+    public static function InitClassVars($n, $tag){ 
         foreach(get_class_vars(get_class($n)) as $k=>$c){ 
             $n->$k = igk_getv($tag, $k, $c);
         } 

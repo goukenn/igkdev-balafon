@@ -394,7 +394,7 @@ final class IGKControllerManagerObject extends IGKObject {
         if(self::$sm_instance === null){ 
 			self::$sm_instance = new self();
             igk_reg_hook(IGKEvents::HOOK_INIT_APP, function($e){  
-              if (!igk_setting()->no_init_controller)              
+                if (!igk_setting()->no_init_controller)              
                 {
                     self::$sm_instance->InitControllers($e->args["app"]);
                 } 
@@ -821,7 +821,7 @@ final class IGKControllerManagerObject extends IGKObject {
         //igk_start_time(__FUNCTION__);
         \IGK\System\Diagnostics\Benchmark::mark("lib_controller_init_complete");
         ConfigControllerRegistry::InvokeRegisterComplete();
-        \IGK\System\Diagnostics\Benchmark::expect("lib_controller_init_complete", 0.02);
+        \IGK\System\Diagnostics\Benchmark::expect("lib_controller_init_complete", 0.50);
         //igk_wln_e("init_complete:", igk_execute_time(__FUNCTION__) );
 
         if(defined('IGK_NO_WEB'))
@@ -1104,5 +1104,13 @@ final class IGKControllerManagerObject extends IGKObject {
             $resolv_ctrl = include(IGK_LIB_DIR."/.controller.pinc");
         }
         return $resolv_ctrl;
+    }
+
+    public static function GetResolvName($class){
+        $g = self::GetResolvController();        
+        if ($c = array_search($class, $g)){
+            return $c;
+        }
+        return $class;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 // @file: igk_default_template_register.php
 // @author: C.A.D. BONDJE DOUE
-// @description:
+// @description: Html attribute template register
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -28,7 +28,7 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
 		$v = @eval($s);
         $setattrib($attrname, $v);
         return null;
-    })(HtmlUtils::GetAttributeValue($v, $context));
+    })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
 
@@ -40,15 +40,21 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
 		$v = igk_template_get_piped_value($rv, $context);
         $setattrib($attrname, $v);
         return null;
-    })(HtmlUtils::GetAttributeValue($v, $context));
+    })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
 
 function igk_template_get_piped_value($rv, $context){
 	extract( igk_to_array($context));
-    list($v, $pipe) = igk_str_pipe_args($rv, $c, 0);
-    // igk_ilog(__FILE__.":43:".$v);
-	$v = @eval( "return $v;");
+    list($v, $pipe) = igk_str_pipe_args($rv, $c, 0);   
+    try{
+	    $v = eval( "return $v;");    
+        if ($e = error_get_last()){
+            igk_dev_wln_e(__FUNCTION__."::Error:", $e, "source:".$rv, "output:".$v, $raw, $context);
+        }
+    }catch(ParseError $ex){
+        igk_wln("parse failed : ", $rv);
+    }
 	$v = igk_str_pipe_value($v, $pipe);
 	return $v;
 }
@@ -64,7 +70,7 @@ igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context
             // }
             if (func_num_args()==1)
             return "return ".func_get_arg(0).";"; 
-        })(HtmlUtils::GetAttributeValue($script, $context)));
+        })(HtmlUtils::GetAttributeValue($script, $context, true)));
     })($v);
     $reader->setInfos(["skipcontent"=>1, "attribute"=>$attr, "context-data"=>$g, "context"=>"expression", "operation"=>"loop", "for"=>$reader->getName()]);
     return null;
@@ -84,7 +90,7 @@ igk_reg_template_bindingattributes("*classes", function($n, $attr, $v, $context,
                 $setattrib("class", implode(" ", $tab));
         }
         return null;
-    })(HtmlUtils::GetAttributeValue($v, $context));
+    })(HtmlUtils::GetAttributeValue($v, $context, true));
 
 	$n->setInfos(["attribute"=>$attr, "context-data"=>$g, "context"=>"bind-expression", "operation"=>"loop", "for"=>$n->getName()]);
 
@@ -98,7 +104,7 @@ igk_reg_template_bindingattributes("*href", function($n, $attr, $v, $context, $s
 		$v = @eval($s);
         $setattrib("href", $v);
         return null;
-    })(HtmlUtils::GetAttributeValue($v, $context));
+    })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 });
 
@@ -107,11 +113,12 @@ igk_reg_template_bindingattributes("*visible", function($readerInfo, $attr, $v, 
     $g=(function() use ($readerInfo, $context, $setattrib, $attr){
         if ((func_num_args()!=1) ||  !is_string (func_get_arg(0))){
             igk_die("argument script not valid");
-        }
+        } 
         extract(igk_to_array($context)); 
         if(isset($ctrl)){
             extract(igk_extract_context($ctrl));
         }  
+        
         $s="return ".func_get_arg(0).";";
         $_v= eval($s); 
         $readerInfo->setAttribute("igk:isvisible", $_v);
@@ -119,7 +126,7 @@ igk_reg_template_bindingattributes("*visible", function($readerInfo, $attr, $v, 
 		$setattrib("igk:isvisible", $_v);
 
         return null;
-    })(HtmlUtils::GetAttributeValue($v, $context));
+    })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 });
 

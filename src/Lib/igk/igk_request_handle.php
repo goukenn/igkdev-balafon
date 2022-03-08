@@ -179,10 +179,10 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_MET
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
     
     if(defined("IGK_FORCSS"))
-    return;   
+        return;   
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
     defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1);  
-    
+ 
     
     // $d="/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css.php";
     // + | change to application directory   
@@ -244,8 +244,7 @@ IGKRoutes::Register("^/robots.txt$", function(){
             igk_exit();
         } 
         // disallow all
-        igk_set_header(200, "Content-Type:text/plain; charset=UTF8", $headers);
-        // igk_header_cache_output(3600*24*365);    
+        igk_set_header(200, "Content-Type:text/plain; charset=UTF8", $headers); 
         igk_text(implode("\n",[
             "user-agent: *",
             "allow: /b"

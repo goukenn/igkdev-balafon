@@ -6,6 +6,7 @@ use IGKEnvironment;
 /**
  * manage defaualt environment setting
  * @package IGK
+ * @property bool $no_init_controller in bootstrap disable the init controller behaviour
  */
 class IGKEnvironmentSettings{
     private static $sm_instance;

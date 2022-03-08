@@ -102,13 +102,9 @@ abstract class DbSchemas{
      * create and empty table row
      * @return stdClass|null 
      */
-    public static function CreateRow($tablename, $ctrl, $dataobj = null){  
-        if ($ctrl instanceof SysDbController){
-            $g = SysDbControllerManager::getDataTableDefinition($tablename);
-        }else 
-            $g = $ctrl->getDataTableDefinition($tablename);
-        
-        if ($g){
+    public static function CreateRow(string $tablename, BaseController $ctrl, $dataobj = null){ 
+        $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
+        if ($g){ 
             $inf = $g["tableRowReference"];              
             return self::CreateObjFromInfo($inf, $dataobj);
         }
@@ -120,7 +116,9 @@ abstract class DbSchemas{
         if ($tb) {
             $obj = igk_createobj();
             foreach ($tb as $k => $v) {
-                $obj->$k = DbColumnInfo::GetRowDefaultValue($v);   
+                $cl = DbColumnInfo::GetRowDefaultValue($v);  
+                $n = igk_getv($v, "clName", is_numeric($k) ? "column_".$k : $k);
+                $obj->$n = $cl;
             }
             if ($dataobj != null) {
                 if (is_array($dataobj))
@@ -128,6 +126,7 @@ abstract class DbSchemas{
                 // igk_db_copy_row($obj, $dataobj);
 
                 foreach ($obj as $k => $v) {
+             
                     if (isset($dataobj->$k)) {
                         $obj->$k = $dataobj->$k;
                     } else { 

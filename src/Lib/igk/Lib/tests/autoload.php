@@ -49,8 +49,8 @@ foreach(["IGK_APP_DIR", "IGK_SESS_DIR", "IGK_BASE_DIR"] as $k){
 }  
 $_SERVER["DOCUMENT_ROOT"] = IGK_BASE_DIR;
 $_SERVER["SERVER_NAME"] = "local.test.com";
-$_SERVER["SERVER_PORT"] = "8801";
-// igk_server()->prepareServerInfo();
+$_SERVER["SERVER_PORT"] = "8801"; 
+$_SERVER["HTTP_USER_AGENT"] = "local.test.agent";
 
 foreach(["IGK_NO_DBCACHE"] as $k){
     if (!defined($k) && ($t = igk_getv($_ENV, $k))){
@@ -66,8 +66,7 @@ require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
 igk_environment()->setArray("extra_config", "configFiles", ["unittest"]);
 
 IGKApplicationFactory::Register("phpunit", PhpUnitApplication::class);
-//
-// igk_loadlib(IGK_PROJECT_DIR);
+// 
 // //.session start for testing
 // $s = session_start();
 // // initialize application static folder

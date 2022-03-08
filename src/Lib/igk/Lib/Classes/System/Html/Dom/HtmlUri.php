@@ -8,6 +8,12 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+namespace IGK\System\Html\Dom;
+
+use IGK\System\Html\IHtmlGetValue;
+use IGKObject;
+use IGKValidator;
+
 final class HtmlUri extends IGKObject implements IHtmlGetValue{
     private $m_v;
     ///<summary></summary>

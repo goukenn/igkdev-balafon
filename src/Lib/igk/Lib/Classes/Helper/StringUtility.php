@@ -2,9 +2,43 @@
 namespace IGK\Helper;
 
 use IGK\System\Html\HtmlUtils;
+use IGKException;
 
-///<summary>String utility </summary>
+///<summary>String utility helper </summary>
 abstract class StringUtility{
+    /**
+     * check if uri start with compare
+     * @param string $haystack source uri
+     * @param string $compare uri to compare
+     * @return bool
+     * @throws IGKException 
+     */
+    public static function UriStart(string $haystack, string $compare):bool{
+     
+        $haystack = rtrim($haystack, "/");
+        $compare = rtrim($compare, "/");
+        if (strpos($haystack, $compare)===0){
+            $u = rtrim(parse_url($haystack)["path"], "/");
+            $v = rtrim(parse_url($compare)["path"], "/");
+        
+             
+           return (bool)preg_match("#".$v ."(/(.+)|\?|\#|$)#", $u );
+        }
+        return false;
+    }
+    public static function NameDisplay(?string $firstname=null, ?string $lastname=null){
+        return implode(" ", array_filter([ucfirst($firstname ?? ""), strtoupper($lastname ?? "")]));
+    }
+    public static function DateDisplay($date, $in="Y-m-d", ?string $out=null){
+        if ($out===null){
+            $out = igk_sys_configs()->get("date_display_format", "M d, Y");
+        }
+        //return igk_format_date($date, "Y-m-d", igk_sys_configs()->get("date_display_format", "Y-m-d"));
+        return igk_format_date($date, $in, $out); 
+    }
+    public static function LocationDisplay(?string $location=null){
+        return $location; 
+    }
     public static function RmSubString(string $str, $offset, int $length){
 
         return substr($str, 0, $offset).substr($str, $offset+$length);

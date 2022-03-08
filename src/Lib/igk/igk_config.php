@@ -1,8 +1,8 @@
 <?php
 
-// file:igk_config.php
+// @file:igk_config.php
 // description: Represent configuration and constants settings
-// author: C.A.D. BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // create: 01/01/2013
 // license: view license.txt
 // copyright: igkdev @ 2019
@@ -200,8 +200,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //+ define('IGK_CACHE_URI', '1');
     //+ define('IGK_COMPONENT_CTRL_FLAG', '1');
     //+ define('IGK_CONFIG_PAGE', '1');
-    //+ define('IGK_CONF_CONNECT', '1');
-    //+ define('IGK_COOKIE_DOMAIN', '1');
+    //+ define('IGK_CONF_CONNECT', '1'); 
     //+ define('IGK_CREF', '1');
     //+ define('IGK_CURRENT_PAGEFOLDER', '1');
     //+ define('IGK_DB_GRANT_CAN_INIT', '1');
@@ -272,8 +271,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_AJX_BINDSTYLES", 0x001C);
     // define("IGK_COMPONENT_ID_KEY", 0x001D);
     // define("IGK_COMPONENT_REG_FUNC_KEY", 0x0023);
-    // define("IGK_COMP_NOT_FOUND_EVENT", 0x0027);
-    // define("IGK_CONF_PAGEFOLDER_CHANGED_EVENT", 0x002A); 
+    // define("IGK_COMP_NOT_FOUND_EVENT", 0x0027); 
     define("IGK_CSS_DEFAULT_STYLE_FUNC_KEY", 'sys://css/function/defaultStyle');
     // define("IGK_CTRL_TABLE_INFO_KEY", 0x001A);
     // define("IGK_CURRENT_DOC_PARAM_KEY", 0x0024);
@@ -287,8 +285,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     // define("IGK_ENV_HTML_COMPONENTS", 0x000B);
     // define("IGK_ENV_HTML_NS_PREFIX", 0x000C);
     // define("IGK_ENV_INVOKE_ARGS", 0x0013);
-    // define("IGK_ENV_NO_AJX_TEST", 0x000A);
-    // define("IGK_ENV_NO_COOKIE_KEY", 0x0020);
+    // define("IGK_ENV_NO_AJX_TEST", 0x000A); 
     // define("IGK_ENV_NO_TRACE_KEY", 0x0010);
     // define("IGK_ENV_PAGEFOLDER_CHANGED_KEY", 0x001F);
     // define("IGK_ENV_PARAM_KEY", 0x001E);
@@ -461,7 +458,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_MENUS_REGEX", "/menu(?P<name>(.)+)conf.csv/i");
     define("IGK_PHP_RESERVEDNAME_REGEX", "/^((a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|" . "(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|" . "(__halt_compiler|break|list|(x)?or|var|while))$/i");
     define("IGK_IDENTIFIER_RX", "([a-z]|[_]+[a-z0-9])([a-z0-9_]*)");
-    define("IGK_IDENTIFIER_PATTERN", "[a-z_][a-z0-9]*");
+    define("IGK_IDENTIFIER_PATTERN", "[a-z_][a-z0-9_]*");
     define("IGK_IDENTIFIER_TAG_CHARS", "_:0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     define("IGK_XML_IDENTIFIER_RX", "([a-z]+:)*([a-z]|[_]+[a-z0-9])([a-z0-9_-]*)");
     define("IGK_ISIDENTIFIER_REGEX", "/^" . IGK_IDENTIFIER_RX . "$/i");
@@ -536,8 +533,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     //    define("IGK_DROP_CTRL_EVENT", "sys://ctrl/ondrop");
     define("IGK_FORCEVIEW_EVENT", "sys://notify/forceview");
     //    define("IGK_COMP_NOT_FOUND_EVENT", "sys://component/notfound");
-     //    define("IGK_NODE_DISPOSED_EVENT", "sys://node/disposed");
-    //    define("IGK_CONF_PAGEFOLDER_CHANGED_EVENT", "sys://event/folderchanged");
+     //    define("IGK_NODE_DISPOSED_EVENT", "sys://node/disposed"); 
     //    define("IGK_NAMED_NODE_PARAM", "sys://node/namedchilds");
     //    define("IGK_NAMED_ID_PARAM", "sys://node/namedchilds/id");
     define("IGK_CTRL_CNF_TITLE", "clTitle");
@@ -637,6 +633,8 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_NOTIFICATION_CTRL", "c_nt");
     define("IGK_CHANGE_MAN_CTRL", "c_chm");
     define("IGK_CTRL_MANAGER", "c_cm");
+    define("IGK_CTRL_TOOLS", "{912679e9-ad55-936d-27ee-73a76e54f49b}");
+    define("IGK_CTRL_SESSION_MANAGER", "{5d1f178b-7734-102c-e649-4dc74edcf296}");
     define("IGK_SESSION_CTRL", "c_sc");
     define("IGK_ERROR_CTRL", "c_er");
     define("IGK_THEME_CTRL", "c_th");
@@ -653,6 +651,7 @@ if (defined('IGK_SYS_CONFIG_FILE'))
     define("IGK_COMPONENT_MANAGER_CTRL", "c_com");
     define("IGK_REFERENCE_CTRL", "c_rf");
     define("IGK_MAIL_CTRL", "c_ml");
+    define("IGK_COMPOSER_CTRL", "c_composer");
     define("IGK_USER_CTRL", "c_u");
     define("IGK_SCRIPT_CTRL", "c_scpt");
     define("IGK_DEBUG_CTRL", "c_debug");
@@ -785,3 +784,8 @@ if (defined('IGK_SYS_CONFIG_FILE'))
 
 
 define("IGK_LIB_CLASSES_DIR", IGK_LIB_DIR."/".IGK_LIB_FOLDER."/".IGK_CLASSES_FOLDER);
+
+
+
+
+defined("IGK_CONF_DEF_PWD") || define("IGK_CONF_DEF_PWD", "admin123");

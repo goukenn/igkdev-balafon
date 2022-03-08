@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Configuration\Controllers\ConfigureLayout;
+
 use function igk_resources_gets as __;
 
 igk_require_module(igk\Google::class, null, 0, 0);
@@ -28,11 +30,13 @@ $doc->getMetas()->keywords = "balafon, configs, configspage";
  */
 
 
+$layout = new ConfigureLayout($ctrl);
+
 $confframe=$ctrl->getConfigFrame(); 
 ($cl=$t["class"]) && $cl->clear();
-$t["class"]="igk-cnf-page";
-$t["style"] = "width: 100%;";
-$t->div()->setStyle("z-index: 10; top:0px; position:fixed; width:inherit; height: 32px; max-width: inherit; background-color: #984451;");
+$t["class"]="igk-cnf-page"; 
+$t->div()
+->setClass("conf-header-bar")->host([$layout, "configBar"]);
 
 // CNF header 
 $h = $t->div()->setClass("igk-cnf-header header");

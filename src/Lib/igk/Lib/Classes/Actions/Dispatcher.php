@@ -99,7 +99,7 @@ class Dispatcher implements IActionProcessor
                 }
                 try{
                     return $fc(...$args);
-                }catch(\Exception $ex){
+                }catch(Exception $ex){
                     throw $ex; 
                 }
             };

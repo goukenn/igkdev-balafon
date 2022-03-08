@@ -308,6 +308,8 @@ class CssThemeResolver
                 break;
             case "transform":
                 $v = str_replace($v_m, "-webkit-transform: {$value};-ms-transform:{$value}; -moz-transform:{$value}; -o-transform: {$value}; transform: {$value};", $v);
+      
+                break;
             case "transform-o":
                 $v = str_replace($v_m, "-webkit-transform-origin: {$value};-ms-transform-origin:{$value}; -moz-transform-origin:{$value}; -o-transform-origin: {$value}; transform-origin: {$value};", $v);
                 break;
@@ -316,7 +318,9 @@ class CssThemeResolver
                 $v = str_replace($v_m, "-webkit-animation: {$value};-ms-animation:{$value}; -moz-animation:{$value}; -o-animation: {$value}; animation: {$value};", $v);
                 break;
             case "filter":
-                $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
+                // "-moz-filter not available
+                // $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
+                $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 break;
             case "res":
                 if (is_file($value)) {

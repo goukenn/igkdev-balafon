@@ -145,8 +145,7 @@ final class SessionController extends BaseController{
             return; 
         $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
         $rs=igk_getv($_COOKIE, $n);
-        if(!empty($rs)){
-            igk_wln_e("rs", $rs);
+        if(!empty($rs)){ 
             try {
                 $uid=igk_getv(explode(':', $rs), 0);
                 $v=igk_user_info(IGK_UINFO_TOKENID, $uid);

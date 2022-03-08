@@ -17,9 +17,9 @@ use IGKValidator;
 
 use function igk_resources_gets as __;
 
-///<summary>represent a menu controller. It's used to manage global menu and system's configuration menu.</summary>
+///<summary> used to manage global menu and system's configuration menu.</summary>
 /**
- * represent a menu controller. It's used to manage global menu and system's configuration menu.
+ *  used to manage global menu and system's configuration menu.
  */
 final class MenuController extends ConfigControllerBase
 {
@@ -275,7 +275,7 @@ final class MenuController extends ConfigControllerBase
                     $group[$gp][] = (object)array("Menu" => $m, "Node" => IGK_STR_EMPTY);
                 } else {
                     igk_trace();
-                    igk_wln_e("no group " . $m . " Please Configure the <b>%lib%/Data/config.menu.xml</b>");
+                    igk_wln_e("no group " . $m . " Please Configure the <b>%lib%/Data/config.menu.xml</b> --- ".$gp);
                 }
             }
             //igk_wln_e("the text ", $text);
@@ -340,13 +340,17 @@ final class MenuController extends ConfigControllerBase
             if ($v !== $v_confctrl) {
                 if (!($v instanceof ConfigControllerBase) || !$v->getIsConfigPageAvailable())
                     continue;
-                $cm = $v->initConfigMenu();
+                $cm = $v->initConfigMenu(); 
 
                 if ($cm !== null) {
                     $v_ctab = array_merge($v_ctab, $cm);
                 }
             }
         }
+        $c_array = (object)[
+            "data"=> & $v_ctab
+        ];
+        igk_hook(IGKEvents::FILTER_CONFIG_MENU, [$c_array] );
         // igk_wln_e("bind.....", $v_ctab);
         $v_sortByDisplayText = array(MenuItem::class, "SortMenuByDisplayText");
         $v_configTargetNode = igk_create_node("div");
@@ -424,7 +428,7 @@ EOF;
      */
     private function _LoadMenu()
     {
-        throw new IGKException(__METHOD__. " Not implement");
+        // throw new IGKException(__METHOD__. " Not implement");
     }
     ///<summary></summary>
     ///<param name="table"></param>
@@ -756,6 +760,8 @@ EOF;
         if (file_exists($f) == false) {
             $content = <<<EOF
 DEFAULT,0,,,default,1
+DEFAULT,0,,,contact,2
+DEFAULT,0,,,about,3
 EOF;
             igk_io_save_file_as_utf8($f, $content, true);
             $ctrl->_ReLoadMenu();

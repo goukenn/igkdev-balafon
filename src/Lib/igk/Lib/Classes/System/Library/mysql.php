@@ -6,13 +6,16 @@ class mysql extends \IGKLibraryBase{
     public function init():bool{
         if (!extension_loaded("mysqli")){
             return false;
-        }
-        require_once IGK_LIB_CLASSES_DIR."/System/Database/MySQL/igk_mysql_db.php";
-        
+        } 
+        require_once IGK_LIB_CLASSES_DIR."/System/Database/MySQL/igk_mysql_db.php";        
         // initialize function
         \IGK\Database\DataAdapterBase::Register( [
             IGK_MYSQL_DATAADAPTER=> MySQLDataAdapter::class
         ]);
+        if (!class_exists("IGKMYSQLDataAdapter")){
+            class_alias(\IGK\System\DataBase\MySQL\DataAdapter::class, 
+            "IGKMYSQLDataAdapter");
+        }
         return true;
     }
 }

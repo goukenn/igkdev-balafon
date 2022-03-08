@@ -122,7 +122,7 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return function ($a) {
             $a->addInput("btn.ok", "submit", __("restore"));
-            $a->addInput("btn.cancel", "submit", __("cancel"))->on("click", "igk.winui.controls.panelDialog.close()");
+            $a->addInput("btn.cancel", "submit", __("cancel"))->on("click", "igk.winui.controls.panelDialog.close(); return false;");
         };
     }
     public static function GetInputType($type)
@@ -297,23 +297,26 @@ abstract class HtmlUtils extends DomNodeBase
     ///<param name="context" default="null"></param>
     /**
      * 
-     * @param mixed $c
+     * @param mixed $c read value
      * @param mixed $context the default value is null
+     * @param bool $expression read in expression
      */
-    public static function GetAttributeValue($c, $context = null)
+    public static function GetAttributeValue($c, $context = null, bool $expression=false)
     {
         $s = self::GetValue($c);
         $q = trim($s);
         $v_h = "\"";
-        if (preg_match("/^\'/", $q) && preg_match("/\'$/", $q)) {
-            $v_h = "'";
-        }
-        // if (igk_is_debug()){
-        //     echo "debug \n<br />";
-        // }
-        if ((0 === strpos($q, $v_h)) && (strrpos($q, $v_h, -1) !== false)) {
-            $q = substr($q, 1);
-            $q = substr($q, 0, strlen($q) - 1);
+        if (!$expression){
+            if (preg_match("/^\'/", $q) && preg_match("/\'$/", $q)) {
+                $v_h = "'";
+            }
+            // if (igk_is_debug()){
+            //     echo "debug \n<br />";
+            // }
+            if ((0 === strpos($q, $v_h)) && (strrpos($q, $v_h, -1) !== false)) {
+                $q = substr($q, 1);
+                $q = substr($q, 0, strlen($q) - 1);
+            }
         }
         if (($context != "binding") && ($v_h == "\"")) {
             $q = str_replace("\"", "&quot;", $q);

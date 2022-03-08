@@ -2,7 +2,7 @@
 namespace IGK\System\Installers;
 
 use IGK\Controllers\BaseController;
-use IO;
+use IGK\Helper\IO;
 
 use function igk_resources_gets as __; 
 
@@ -48,8 +48,7 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
 
     }
     public function invoke(){
-        return;
-        
+       
         $dir = $this->controller->getDeclaredDir();
         $fname = igk_str_ns(get_class($this->controller))."_".date("Ymd");
         $path = dirname($dir)."/".$fname.".zip";

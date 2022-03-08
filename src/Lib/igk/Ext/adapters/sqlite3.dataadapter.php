@@ -220,6 +220,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_list;
     private static $sm_sql;
 
+    public function getDataTableDefinition(string $tablename) { 
+        return null;
+    }
+
 	public function escape_string($v){
         $v = stripslashes($v);
 		return $this->sql->escapeString($v);
@@ -337,7 +341,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     /**
     * 
     */
-    public function selectCount(){
+    public function selectCount(string $table, ?array $where=null, $options=null){
         return 0;
     }
     ///<summary></summary>
@@ -923,6 +927,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     * 
     * @param mixed $query
     * @param mixed $tbname the default value is null
+    * @return null|IGK\Database\DbQueryResult
     */
     public function sendQuery($query, $throwex=true, $options=null){
         $sql=$this->getSql();

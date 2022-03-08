@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 
@@ -31,6 +32,10 @@ final class IGKConsoleToolManager extends ConfigControllerBase{
     public function getConfigGroup(){
         return "administration";
     }
+    public function getConfigPage(){
+        return "console";
+    }
+
     ///<summary></summary>
     /**
     * 
@@ -49,9 +54,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase{
     /**
     * 
     */
-    public function getConfigPage(){
-        return "console";
-    }
+   
     ///<summary></summary>
     /**
     * 
@@ -73,6 +76,20 @@ final class IGKConsoleToolManager extends ConfigControllerBase{
 		$t = $this->viewConfig($t, __("Admin Console"), ".help/console.manager.desc");
 
 		$frm = $t->div()->addPanelBox()->addForm();
-		$frm->div()->Content = __("On Development");
+		$frm->div()->Content = __("In Development");
 	}
+ 
+    // public function initConfigMenu()
+    // {
+    //     return [
+    //         new MenuItem(
+    //             "console",
+    //             "console",
+    //             $this->getUri("showConfig"),
+    //             0,
+    //             null,
+    //             "administration"
+    //         )
+    //     ];
+    // }
 }

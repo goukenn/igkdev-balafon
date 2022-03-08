@@ -8,8 +8,7 @@ $areasize = "420px";
 // $def->clear(); 
 // because of clear on theme make errors
 // reg file type color
-
-
+ 
 
 // include config mode
 
@@ -113,7 +112,7 @@ $def[$page." .igk-table-host td"]="{sys:no-wrap, ellipsis};";
 $def[$page. " .igk-panel-box > div.igk-section-title" ]="margin-bottom:2em";
 $def[$page. " input[type=\"submit\"]"] = "text-transform: none;";
 
-$def[$page. " select"] = "border:none; vertical-align:top; [fcl:configColor]";
+$def[$page. " select"] = "border:none; vertical-align:top; [fcl:configColor]; [bgcl:configSelectBgColor, #444]";
 $def[$page. " select:focus"] = "[fcl:configColor]";
 
 
@@ -163,7 +162,7 @@ $def[".igk-body.igk-android.igk-cnf-body"] = "height:100% !important;";
 // $def[$page." .igk-cnf-menu"] = "display:none !important;";
 // notify page
 $def[$page." .notify-host div.igk-default"]="color: #444; background-color: #eee; padding: 10px;";
-$def[$page." .notify-host div.igk-danger"]="color: #fff; background-color: rbg(255,122,122); padding: 10px;";
+$def[$page." .notify-host div.igk-danger"]="color: #fff; background-color: rgb(255,122,122); padding: 10px;";
 $def[$page." .igk-cnf-connexion-div label"]="visibility:hidden";
 // default styling form
 $def[$page." .igk-form label"] = "{sys:dispib} width: 170px;";
@@ -200,7 +199,7 @@ $def[$page." .clsearch"] = "padding:0px; border:1px solid #aaa !important;[trans
 $def[$page." .clsearch:hover"] = "border-color: [syscl:configFocusAreaSelected];";
 $def[$page." .notify-z"] = "[fcl:configColor]";
 
-$def[$page. " .igk-table.igk-table-striped.ssession-list tr.igk-active"]= "[fcl:configLinkColor] background-color: darkslategray;";
+$def[$page. " .igk-table.igk-table-striped.ssession-list tr.igk-active"]= "[fcl:configLinkColor] [bgcl:activeTableList, #ddd5]";
 
 $def[".igk-cnf-body .framebox-dialog .clbutton,".
 ".igk-cnf-body .framebox-dialog .clsubmit, ".
@@ -326,7 +325,8 @@ $def[".menu-indent-trans"] = "[trans: all 0.2s ease-in]";
 /// igk-cnf-menu setting
 
 
-$def[$page." .igk-cnf-menu li > a"]="{sys:dispb,fith,fitw, no-wrap, no-decoration,menu-indent-trans} padding: 4px 10px; font-size: [var:--config-mmenu-FontSize, 12pt]; text-overflow:ellipsis; vertical-align:middle; cursor:pointer;  [fcl:configMenuColor]";
+$def[$page." .igk-cnf-menu li > a"]="{sys:dispb,fith,fitw, no-wrap, no-decoration,menu-indent-trans} padding: 4px 10px 4px 35px; font-size: [var:--config-mmenu-FontSize, 12pt]; text-overflow:ellipsis; vertical-align:middle; cursor:pointer;  [fcl:configMenuColor]";
+// $def[$page." .igk-cnf-menu li > a:before"]="content:''; display:block; position: absolute; width:32px; height: 100px; background-color:red; left: 0px; top:0px;";
 $def[$page." .igk-cnf-menu li > span"]="line-height:32px; height:32px; font-size: 0.8em; vertical-align:middle; cursor:pointer;";
 $def[$page." .igk-cnf-menu li > a:hover"]="background-color:#444; [fcl:configMenuHoverColor]";
 
@@ -425,7 +425,7 @@ $xsm_screen[$page." .igk-cnf-menu"] = $sm_screen[$page." .igk-cnf-menu"] =
  //-----------------------------------------------------------------------------------------------------------------------
  //-----------------------------------------------------------------------------------------------------------------------
 
-$def[$page." select"] = "[fcl:configColor] {sys:alignt} font-size:1em;";
+
 
  //-----------------------------------------------------------------------------------------------------------------------
 $def[".igk-cnf-content form"] = "width:100%;";
@@ -529,12 +529,13 @@ $def[$page." .igk-breadcrumbs a:hover"] = "color:[syscl:breadcrumbsLinkHover];";
 
 // session-list
 
-$def[$page." .session-list tr.igk-active"] = "background-color:#eee;";
+$def[$page." .session-list tr.igk-active"] = "[bgcl:sessionCurrentBackgroundColor, #ddd]";
 $def[$page." .session-list tr td:nth-child(3)"] = "max-width:320px; {sys:ellipsis, no-wrap, no-overflow}";
 
 $def[$page." a.igk-btn svg"] = "{sys:fit,dispib}";
-$def[$page." a.igk-btn.igk-svg-host"] = "width:16px; height:16px; padding:0px;";
-
+$def[$page." a.igk-btn.igk-svg-host"] = "{sys:dispib} padding:0px;";
+$def[$page." a.igk-btn.igk-svg-host > * "] = "vertical-align:middle;";
+$def[$page." a.igk-btn.igk-svg-host > svg"] = "width: 32px; height: 32px; ";
 
 $def[$page." .igk-cnf-menu"] ="display:table-cell; width:210px; [bgcl:configMenuBackground] margin-right:200px;";
 $def[$page." .igk-cnf-menu .igk-scroll-host"] =
@@ -545,7 +546,7 @@ $def[$page." .igk-cnf-menu .igk-config-menu-font"] =
 
  $def[$page." .igk-tab-h ul:after"] = "content:' '; position:absolute; bottom:0px; left:0px; right: 0px; border-bottom: 3px solid #31beff;";
  $def[$page." .igk-tab-h li"] = "border-bottom: none;";
- $def[$page." .igk-tab-h li a" ] = "padding: 10px 15px; border-radius:none;";
+ $def[$page." .igk-tab-h li a" ] = "padding: 10px 15px; border-radius: 0;";
  $def[$page." .igk-tab-h li.igk-active"]="background-color: #31beff; font-weight: 700 !important; ";
  $def[$page." .igk-tab-h li.igk-active a"]="color:white; ";
 
@@ -566,7 +567,7 @@ $def[$page." .igk-cnf-menu .igk-config-menu-font"] =
 //igk-update-button
 $def["div.igk-update-button"] = "{sys:dispib}";
 $def["div.igk-update-button .igk-ajx-pickfile"]="[trans: all 0.2s] border-radius: 4px;  margin-bottom: 2em; padding: 8px; background-color: #222;";
-$def["div.igk-update-button .igk-ajx-pickfile:hover"] = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; background-color: [cl:confUpdateButtonBgColor, #444]; color: [cl:confUpdateButtonFgColor, #fff];";
+$def["div.igk-update-button .igk-ajx-pickfile:hover"] = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; [bgcl:confUpdateButtonBgColor, #444]; [fcl:confUpdateButtonFgColor, #fff]";
 $def["div.igk-update-button + #update_target"] = "{sys:posab, loc_b}";
 
  // igk_wln_e("color ", $cl);
@@ -578,7 +579,7 @@ $def[$page." div.config-desc"] = "[fcl:configFormBgColor] font-size: 12pt; margi
 $def[$page." #igk_cpv"] = "[fcl:configFormBgColor] font-size: 10pt;margin: 2em 0px 1em 0px;";
 
 $def[$page.".con-start"] = "background-color:transparent !important";
-$def[$page.".con-start .igk-cnf-connexion-div"] = "border-radius:4px; box-shadow: #444 0p 4px 20px 10px";
+$def[$page.".con-start .igk-cnf-connexion-div"] = "border-radius:4px; box-shadow: 0px 4px 20px 10px  #444;";
 
 
 $def[$page." .igk-action-bar a.igk-btn"] = "vertical-align:middle; border:none; [trans:transform 0.2s, background-color .3s]";
@@ -663,3 +664,40 @@ $def["body.igk-body.igk-cnf-body.dashboard"] = "padding-top: 32px !important;";
 
 
 $def[".subdomain-listview table td,.subdomain-listview table th"] = "padding:4px 4px; font-size:14pt;";
+
+
+
+$def["a.igk-svg-host svg"]="width:20px; height:20px;";
+$def["a.igk-svg-host"]="display:inline-block;";
+
+
+$def[".igk-form-control.clsubmit"] = "width:auto;";
+
+
+$cl["buttonBgColor"] = "red";
+$def[ ".igk-pagination > li"] = "padding:0px; border-radius: 6px; [bgcl: buttonBgColor]";// align-self:center;";
+$def[ ".igk-pagination > li > a "] = "{sys:dispib} padding:6px 12px; cursor:pointer; ";
+$def[ ".igk-pagination > li.igk-active"] = "border-radius: 6px; [bgcl: buttonActiveBgColor, transparent]";
+$def[ ".igk-pagination > li:not(:first-child)"] = "margin-right: 5px";
+
+
+$root["--config-configSVGFillColor"] = "#eea570";
+
+
+$def[$page." .igk-cnf-content svg"] = "fill: var(--config-configSVGFillColor);";
+
+
+// + | configuration header bar 
+$def[$page." .conf-header-bar"] = "{sys:posfix, loc_t, fitw} height: 32px; [bgcl:configHeaderBarBgColor, transparent]";
+
+
+$def[$page." #c_ml .igk-form .content > div"] =  "display: flex;";
+$def[$page." #c_ml .igk-form .content > div > label"] =  "align-self: start; padding-top: 10px";
+
+
+$def[$page." .igk-btn .igk-ajx-pickfile"] = "padding-left: 10px;";
+$def[$page." .igk-btn .igk-ajx-pickfile:hover"] = "background-color:transparent !important; color:inherit;";
+$def[$page." .igk-btn.igk-btn-core-update" ] = "[bgcl:configButtonColor, #247397]";
+
+
+

@@ -1,7 +1,10 @@
 <?php
 
 namespace IGK\System\Html\Forms;
-
+/**
+ * form an route pattern
+ * @package IGK\System\Html\Forms
+ */
 class FormPattern{
     const number = "^[0-9]+(\.([0-9]+)?)?$";
     const integer = "^[0-9]+$";

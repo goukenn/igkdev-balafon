@@ -27,7 +27,7 @@ if(!$s){
     return -2;
 }  
 Logger::print("dropdb");
-$controller::dropDb($navigate, $force); 
+$controller::dropDb(false, $force); 
 $ad=igk_get_data_adapter($controller);
 $ad->initForInitDb();
 igk_set_env("sys://db_init_table/ctrl", $controller);

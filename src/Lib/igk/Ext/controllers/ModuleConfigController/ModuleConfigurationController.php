@@ -1,13 +1,27 @@
 <?php
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 
 ///<summary>Module configuration controller</summary>
 class ModuleConfigurationController extends ConfigControllerBase{
-    
-    
+    // public function getName()
+    // {
+    //     return IGKControllerManagerObject::GetResolvName(static::class);
+    // }
+    public function initConfigMenu()
+	{
+		return [
+			new MenuItem(
+				$this->getConfigPage(),
+				__("Modules"),
+				$this->getUri("showConfig"),
+				30, null, $this->getConfigGroup()
+			)
+		];
+	}
     public function getConfigPage(){
         return "Module";
     }

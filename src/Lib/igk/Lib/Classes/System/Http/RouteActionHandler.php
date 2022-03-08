@@ -56,7 +56,7 @@ class RouteActionHandler extends RouteHandler
         $this->ajx = false;
     }
     /**
-     * get uri by name
+     * get request uri info
      * @param mixed $name 
      * @return string 
      */
@@ -67,8 +67,23 @@ class RouteActionHandler extends RouteHandler
         } 
         return  $path;
     }
+    /**
+     * 
+     * @param mixed $args 
+     * @param null|string $baseUri 
+     * @return string 
+     * @throws IGKException 
+     */
+    public function resolveUri($args, ?string $baseUri = null){
+        return RouteHandler::GetResolveURI($this->path, $args, $baseUri );
+    }
     
-   
+    /**
+     * helper retrieve Route handle by name
+     * @param mixed $name 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function uri($name)
     {
         if ($route = Route::GetRouteByName($name)) {
@@ -92,19 +107,13 @@ class RouteActionHandler extends RouteHandler
      * @return mixed 
      */
     public function isAuth(Users $user)
-    {
-        igk_wln_e("check auth");
+    { 
         if ($user && !empty($this->auth)) {
             $r = $user->auth($this->auth, $this->auth_requirement);
             return $r;
         }
         return true;
-    }
-    
-
-     
-   
-   
+    } 
     public function process(...$arguments){
         if (func_num_args()==0){
             igk_die("request action");
@@ -136,12 +145,18 @@ class RouteActionHandler extends RouteHandler
         $type = 0;
         $cl = "";
         $func_name = null;
-        if (is_array($this->classBind)) {
+        if (is_array($this->classBind) || is_callable($this->classBind)) {
             if (is_callable($this->classBind)) {
                 //call static
                 $type = 1;
-                $cl = $this->classBind[0];
-                $func_name = $this->classBind[1];
+                if (is_array($this->classBind)){
+                    $cl = $this->classBind[0];
+                    $func_name = $this->classBind[1];
+                }else {
+                    $cl = null;
+                    $func_name = $this->classBind;
+                    $type = 4;
+                }
             } else {
                 $cl = $this->classBind[0];
                 $func_name = $this->classBind[1];
@@ -182,11 +197,15 @@ class RouteActionHandler extends RouteHandler
                     return Dispatcher::Dispatch($fc, ...$args);
                 }
                 return call_user_func_array([$g, $func_name], $args);
-                break;                
+                break;  
+            case 4:
+                return Dispatcher::Dispatch($func_name, ...$args);
+                //return call_user_func_array($func_name, $args);
+                break;              
         }
     }
    
-    public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $path=null){
+    public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $routepattern=null){
         $t = $route->gettype();
         $c = "";
         if (class_exists($t)){
@@ -194,10 +213,10 @@ class RouteActionHandler extends RouteHandler
             $c = strtolower(igk_preg_match("/^(?P<name>(.)+)(Action)$/", $bname, "name",0));                                
             if (!empty($c)){
                 $c = $c.$route->getPathUri();
-                if (!empty($path)){
+                if (!empty($routepattern)){
                     $c = rtrim($c, "/");
                 }
-                return $controller->getAppUri(implode("/", array_filter([$c,$path])));
+                return $controller->getAppUri(implode("/", array_filter([$c,$routepattern])));
             }
         }
         return null;

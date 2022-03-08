@@ -347,7 +347,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $dv->addABtn($appuri)->Content = __("Visit");
         }
         $table = $p->div()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
-        $v_parent = igk_getctrl($ctrl->Configs->clParentCtrl);
+        $v_parent = igk_getctrl($ctrl->Configs->clParentCtrl, false);
         if ($v_parent != null) {
             $t = $table->addTr();
             $t->add("th")->Content = __("Parent");
@@ -475,7 +475,7 @@ EOF;
         }
         if (empty($content)) {
             $content .= "<?php\n";
-            $content .= "// file: " . $n . "\n";
+            $content .= "// @file: " . $n . "\n";
             $content .= "// date: " . date("Ymd H:i:s") . "\n";
             $content .= "// author : " . igk_sys_getconfig("script_author", IGK_AUTHOR) . " \n";
             $content .= "// copyright : " . igk_sys_getconfig("script_copyright", IGK_COPYRIGHT) . " \n";
@@ -1774,7 +1774,7 @@ EOF;
         $this->_view_ctrl_EditCtrl($n);
         $data["edit_result"] = $n->render();
         $data["selected"] = $this->SelectedController;
-        igk_do_response(new JsonResponse(json_encode($data)));
+        return new JsonResponse(json_encode($data));
     }
     ///<summary>set the default page controller</summary>
     public function setdefaultpage()

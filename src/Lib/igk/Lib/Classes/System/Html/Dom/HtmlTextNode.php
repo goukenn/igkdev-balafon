@@ -5,7 +5,7 @@ namespace IGK\System\Html\Dom;
 use IGK\XML\XMLNodeType;
 
 /**
- * reprensent text done
+ * represent text done
  */
 class HtmlTextNode extends HtmlItemBase{    
     function getCanRenderTag(){

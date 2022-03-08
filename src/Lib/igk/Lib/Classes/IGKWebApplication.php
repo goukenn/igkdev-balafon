@@ -149,7 +149,7 @@ class IGKWebApplication extends IGKApplicationBase
 
         // extra load  
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/ViewHelper.php');
-        require_once(IGK_LIB_CLASSES_DIR . '/Helper/UriUtils.php');
+        require_once(IGK_LIB_CLASSES_DIR . '/Helper/UriHelper.php');
 
         require_once(IGK_LIB_CLASSES_DIR . '/System/Collections/ArrayList.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Database/MySQL/Controllers/DbConfigController.php');
@@ -195,7 +195,7 @@ class IGKWebApplication extends IGKApplicationBase
         // exposed
         //
         require_once(IGK_LIB_CLASSES_DIR . '/IGKHtmlRelativeUriValueAttribute.php');
-
+ 
         try {
             igk_environment()->write_debug("before request handle : ".igk_sys_request_time());
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
@@ -263,7 +263,7 @@ class IGKWebApplication extends IGKApplicationBase
                                 $q .= "?" . $_SERVER["QUERY_STRING"];
                             }
                             $_SERVER["REDIRECT_URL"] = $q;
-                            $_SERVER["REQUEST_URI"] = $q;
+                            $_SERVER["ENV_FULL_REQUEST_URI"] = $q;
                         }
                         IGKServer::getInstance()->prepareServerInfo();
                         RequestHandler::getInstance()->redirect($this, []);
@@ -327,7 +327,7 @@ class IGKWebApplication extends IGKApplicationBase
                 $q = $path_info;
                 if (!empty($_SERVER["QUERY_STRING"]))
                     $q .= "?" . $_SERVER["QUERY_STRING"];
-                $_SERVER["REQUEST_URI"] = $q;
+                $_SERVER["ENV_FULL_REQUEST_URI"] = $q;
                 IGKServer::getInstance()->prepareServerInfo();
                 RequestHandler::getInstance()->redirect($this, $_redirectArgs);
                 igk_exit();
@@ -339,7 +339,7 @@ class IGKWebApplication extends IGKApplicationBase
             IGK\Helper\ExceptionUtils::ShowException($ex);
         }
         catch (Exception $ex) {
-            echo "Error: " . $ex->getMessage();
+            igk_environment()->set("LastException",  "Error: " . $ex->getMessage());
             IGK\Helper\ExceptionUtils::ShowException($ex);
         }
     }
@@ -349,7 +349,14 @@ class IGKWebApplication extends IGKApplicationBase
         // + | start engine index
         // + | ------------------------------------------------------------
         // 0.031s 
+        // igk_wln(__FILE__.":".__LINE__, "measure first cache loading");
+        // Benchmark::$Enabled = true;
+        // Benchmark::getInstance()->dieOnError(true);
+        // IO::RmDir(igk_io_applicationdir()."/.Caches");
+        // Benchmark::mark(__METHOD__);
         IGKApp::StartEngine($this);
+        // Benchmark::expect(__METHOD__, 0.5);
+        // igk_wln_e("complete...... ");
         // + | Dfault Handle 
         RequestHandler::getInstance()->handle_ctrl_request_uri();
         if ($render) {

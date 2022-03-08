@@ -1,5 +1,5 @@
 <?php
-// author: C.A.D. BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 // desc: default template
 //fgc : foreground color
@@ -74,7 +74,7 @@ foreach($ts as $l){
         $def[$n]="width:".(100 * ($i/$l))."%;";
     }
 }
-$def[$p]="float:left;";
+// $def[$p]="float:left;";
 $def[".igk-col.igk-pull-right"]="float:right !important;";
 $p="";
 foreach($screen_resolutions as $k){
@@ -327,13 +327,13 @@ $def[".igk-horizontal-menu li"]="{sys:dispib}";
 $def[".igk-horizontal-menu li a"]="{sys:dispb, nodecoration}";
 $def[".igk-horizontal-menu li:not(:first-child)"]="margin-left:{$pad1};";
 $def[".igk-horizontal-menu .igk-selected-menuitem"]="border-bottom : 2px solid red; ";
-$def[".igk-pagination"]="{sys:dispi} margin-left:auto; margin-right:auto; min-width: 200px;";
+$def[".igk-pagination"]="{sys:dispflex} margin-left:auto; margin-right:auto; min-width: 200px;";
 $def[".igk-pagination:after"]="display:table; content:' '; clear:both;";
 $def[".igk-pagination li"]="{sys:floatl} border: 1px solid #ddd;";
 $def[".igk-pagination > li"]="padding:6px 12px;[sysbgcl:igk-pagination-bg]";
-$def[".igk-pagination li a"]="text-decoration:none;";
 $def[".igk-pagination > li.igk-active"]="[sysbgcl:igk-pagination-active-bg]";
 $def[".igk-pagination > li.igk-inactive"]="cursor: not-allowed;";
+$def[".igk-pagination li a"]="text-decoration:none;";
 $def[".igk-hmenu"]="";
 $def[".igk-hmenu.floatr, igk-hmenu-floatl"]="z-index:20";
 $def[".igk-hmenu.igk-btn"]="margin:auto; padding:8px;";
@@ -807,7 +807,7 @@ $def[".igk-webgl-game-surface > .scene"]="background-color:#444; width:720px; he
 $def[".igk-guide-menu"]="[trans: width 0.2s] width:0; z-index:20; overflow:hidden; touch-action:none; top:0px !important;";
 $def[".igk-guide-menu.igk-show"]="width:150px";
 $def[".igk-ajx-pickfile"]="display:inline-block; cursor:pointer; padding:4px; border-left: 4px solid [syscl:pickfileBorder] [sysbgcl:pickfileBackground] margin-right: 1em;";
-$def[".igk-ajx-pickfile:hover"]="border-color:[syscl:pickfileHoverBorder] background-color:[cl:pickfileHoverBackground] [sysfcl:pickfileHoverColor]";
+$def[".igk-ajx-pickfile:hover"]="border-color:[syscl:pickfileHoverBorder]; [sysbgcl:pickfileHoverBackground] [sysfcl:pickfileHoverColor]";
 
 $def[".igk-ajx-pickfile.igk-btn"] = "padding: [prop:buttonPadding];";
 
@@ -1055,3 +1055,42 @@ $def["form.igk-form div.required label:after"]="content:'*'; font-weight: bold;"
 
 $cl["igk-danger-fcl"] = "red";
 $cl["igk-danger-bg"] = "transparent";
+
+
+// 
+
+// technique css d'alignement de zone
+$def[".contact-block-item"]="{sys:dispflex, flex-alignc}";
+$def[".contact-block-item > *"]="align-self: center;";
+$def[".contact-block-item svg"] = "width:20px; height:20px; margin-right: 14px; vertical-align:middle;";
+
+
+
+// + | search button
+$def[".igk-winui-searchbtn"] = "cursor:pointer;";
+$def[".igk-winui-searchbox .igk-winui-searchbtn"] = "{sys:posab, fith, dispflex, flex-row} width: 20px; padding: 4px 0px; left: 8px;";
+$def[".igk-winui-searchbox .igk-winui-searchbtn svg"] = "width: 20px; height: 20px; vertical-align:middle; align-self:center;";
+$def[".igk-winui-searchbox input"] = "padding-left: 32px !important; border-radius: 4px; margin-bottom: 4px !important;";
+
+
+// + | action group
+$def[".igk-action-group"] = "{sys:dispflex}";
+$def[".igk-action-group > .igk-btn"] =
+$def[".igk-action-group > .igk-form-control"] =
+ "{sys:dispib, no-margin, no-border} width: auto; border-radius:0px;";
+
+$def[".igk-action-group > .igk-btn:first-child"] =
+$def[".igk-action-group > .igk-form-control:first-child"] = "border-radius: 5px 0 0 5px;";
+
+$def[".igk-action-group > .igk-btn:last-child"] =
+$def[".igk-action-group > .igk-form-control:last-child"] = "border-radius: 0px 5px 5px 0px;";
+
+
+
+
+
+$def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
+
+// + | define root global color
+$root["--selection-bgColor"] = "transparent";
+$root["--selection-foreColor"] = "red";

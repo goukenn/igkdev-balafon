@@ -41,7 +41,7 @@ class ThemeBuilderTest extends BaseTestCase
         $tab = $theme->to_array();       
         
         $this->assertTrue($tab !== null);
-        // igk_debug(1);
+ 
         // igk_wln_e($tab, "definition : ". $theme->get_css_def());
         $this->assertEquals(
             <<<EOF

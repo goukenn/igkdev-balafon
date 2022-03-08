@@ -2,6 +2,7 @@
 
 ///<summary>subdomain manager</summary>
 
+use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Models\Subdomains;
 
@@ -83,6 +84,24 @@ final class IGKSubDomainManager extends IGKObject{
             // }
         }
         return false;
+    }
+
+    /**
+     * Get Subdomain controller
+     * @return BaseController|void 
+     * @throws IGKException 
+     */
+    public static function GetSubDomainCtrl(){
+        if (self::$sm_isSubDomain){
+            $subdomain = self::$sm_subDomainName;
+            if ($raw = Subdomains::select_row([
+                "clName"=>$subdomain
+            ])){
+                if ($ctrl = igk_getctrl($raw->clCtrl, false)){
+                    return $ctrl;
+                }
+            }
+        }
     }
     ///<summary></summary>
     /**

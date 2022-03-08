@@ -41,7 +41,8 @@ class ConfigControllerRegistry{
             foreach(self::$sm_regComplete as  $v){ 
                 Benchmark::mark(get_class()."::initComplete");
                 $v->initComplete();
-                Benchmark::expect(get_class()."::initComplete", 0.01);
+                Benchmark::expect(get_class()."::initComplete", 0.01 , 
+                sprintf("%s took too long", get_class($v)));
                 // $time = igk_sys_request_time();
                 // $duration = ($time-$ctime);
                 // $ttime += $duration;
@@ -80,8 +81,9 @@ class ConfigControllerRegistry{
         $resolv_ctrl = self::GetResolvController();
         foreach($resolv_ctrl as $k=>$v){
             if (!isset($v_load_controller[$v])){
-                $ctrl= igk_getctrl($k, false) ?? igk_init_ctrl($v);
-                $v_load_controller[get_class($ctrl)] = $ctrl;
+                if ($ctrl= igk_getctrl($k, false) ?? igk_init_ctrl($v)){
+                    $v_load_controller[get_class($ctrl)] = $ctrl;
+                }
             }
         } 
 

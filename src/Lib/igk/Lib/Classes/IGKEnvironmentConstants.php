@@ -17,4 +17,5 @@ abstract class IGKEnvironmentConstants{
      const IGNORE_LIB_DIR = "sys://lib/ignoredir";
      const AUTO_LOAD_CLASS = "auto_load_class";
      const NOT_VISIBLE_CTRL = "sys://ctrl/notvisible"; 
+     const ARTICLE_CHAIN_CONTEXT =  "sys://article_chain";
 }

@@ -70,7 +70,11 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
         }
         if(empty($s))
             return "";
-        return "[".$this->_n. "]=\"".HtmlUtils::GetAttributeValue($s)."\"";
+        $s = HtmlUtils::GetAttributeValue($s);
+        return implode(" ", array_map(function($k)use($s){
+            return "[".$k. "]=\"".$s."\"";
+        },array_filter(explode(" ", $this->_n))));
+        // return "[".$this->_n. "]=\"".HtmlUtils::GetAttributeValue($s)."\"";
     }
     ///<summary></summary>
     ///<param name="id"></param>

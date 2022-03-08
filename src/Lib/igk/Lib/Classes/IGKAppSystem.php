@@ -123,10 +123,8 @@ class IGKAppSystem{
         igk_io_save_file_as_utf8($app_dir."/cgi-bin/.htaccess", "deny from all");
         igk_io_save_file_as_utf8($app_dir."/cgi-bin/cronjob.php", igk_get_defaultcron_data(), false);
         // 
-        // load library folder 
-        // igk_load_env_files(IGK_LIB_DIR);
-        // igk_loadlib($app_dir. "/".IGK_INC_FOLDER);
-        // igk_loadlib($project_dir);
+        // load library folder  
+ 
         self::_LoadEnvFiles();
 
         igk_io_save_file_as_utf8($confFILE, "1", false);
@@ -160,7 +158,7 @@ class IGKAppSystem{
             $t_files= self::_LoadEnvFiles(); 
             igk_reglib($t_files);
             IGKSysCache::CacheLibFiles(true); 
-            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.100);
+            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 2.00);
         } else {
             \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.050); 
         }       

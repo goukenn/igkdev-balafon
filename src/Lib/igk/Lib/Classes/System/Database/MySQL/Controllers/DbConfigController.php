@@ -5,12 +5,17 @@ namespace IGK\System\Database\MySQL\Controllers;
 use Exception;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
+use IGK\Helper\StringUtility;
+use IGK\Models\DbLogs;
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+use IGK\System\Database\DbUtils;
 use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Http\NotAllowedRequestException;
+use IGK\System\Http\RequestHandler;
 use IGKCSVDataAdapter;
 use IGKEvents;
 use IGKException;
@@ -66,9 +71,11 @@ final class DbConfigController extends ConfigControllerBase
         }
         if (preg_match("/^SELECT /i", $q)) {
             $g = $mysql->sendQuery("SELECT COUNT(*) as count FROM (" . $mysql->escape_string($q) . ") as dummy");
-            $r = $g->getRowAtIndex(0);
-            if ($r && ($r->count > 50)) {
-                $q .= " Limit 1, 50";
+            if ($g){
+                $r = $g->getRowAtIndex(0);
+                if ($r && ($r->count > 50)) {
+                    $q .= " Limit 1, 50";
+                }
             }
         }
         if ($q) {
@@ -198,12 +205,21 @@ final class DbConfigController extends ConfigControllerBase
                                 $tr->addTd()->addInput("tname[]", "checkbox", $s);
                                 $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->Content = $s;
                                 $this->__addEditTable($tr, $s, igk_app()->Configs->db_name);
-                                $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->add("img", array(
-                                    "width" => "16px",
-                                    "height" => "16px",
-                                    "src" => R::GetImgUri("drop_16x16"),
-                                    "alt" => __("info.droptable")
-                                ));
+                                // $tr->td()->li()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->add("img", array(
+                                //     "width" => "16px",
+                                //     "height" => "16px",
+                                //     "src" => R::GetImgUri("drop_16x16"),
+                                //     "alt" => __("info.droptable")
+                                // ));
+
+                                $tr->td()->li()->ajxa($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name))
+                                ->Content = igk_svg_use("drop");
+                                // ->add("img", array(
+                                //     "width" => "16px",
+                                //     "height" => "16px",
+                                //     "src" => R::GetImgUri("drop_16x16"),
+                                //     "alt" => __("info.droptable")
+                                // ));
                             }
                         }
                     }
@@ -228,28 +244,23 @@ final class DbConfigController extends ConfigControllerBase
     {
         $r = null;
         $ad = igk_get_data_adapter($this, true);
-        if ($ad) {
-            $ad->connect(igk_app()->Configs->db_name);
+        $tab = [];
+        if ($ad && $ad->connect(igk_app()->Configs->db_name)) {         
             $r = $ad->listTables();
-            if ($r) {
-                $tab = $r->CreateEmptyResult($r);
-                $ad->close();
-                if (count($r->Columns) > 0) {
-                    $n = $r->Columns[0]->name;
+            $ad->close();
+            if ($r) { 
+                if (count($r) > 0) {
                     if ($searchkey != null) {
                         $q = strtolower($searchkey);
-                        foreach ($r->Rows as $t) {
-                            if (strstr(strtolower($t->$n), $q)) {
-                                $tab->addRow(array("Table" => $t->$n));
+                        foreach ($r as $t) {
+                            if (strstr(strtolower($t->table), $q)) {
+                                $tab[] = $r;
                             }
                         }
-                        return $tab;
                     } else {
-                        foreach ($r->Rows as $t) {
-                            $tab->addRow(array("Table" => $t->$n));
-                        }
-                        return $tab;
+                        $tab = $r; 
                     }
+                    return $tab;
                 }
             }
         }
@@ -304,12 +315,42 @@ final class DbConfigController extends ConfigControllerBase
         $v_dir = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER;
         $bckdiv = $frm->div();
         $bckdiv->h2()->Content = __("title.backup");
-
-        $v_table = $frm->addTable()->setClass('igk-table-striped');
-        $v_table->setCallback("getIsVisible", "return \$this->HasChilds;");
+        $frm->notifyhost("db_restore");
+        $v_table = $frm->table()->setClass('igk-table-striped'); 
         $v_hasfile = false;
         if (is_dir($v_dir)) {
-            $hdir = opendir($v_dir);
+            $v_theader = false;
+            foreach(igk_io_getfiles($v_dir, "/\.(csv|zip)$/",false) as $file){
+                if (!$v_theader) {
+                    $v_theader = true;
+                    $li = $v_table->tr();
+                    HtmlUtils::AddToggleAllCheckboxTh($li);
+                    $li->th()->Content = __(IGK_FD_NAME);
+                    $li->th()->Content = IGK_HTML_SPACE;
+                    $li->th()->Content = IGK_HTML_SPACE;
+                }
+                $f = basename($file);
+                $li = $v_table->tr();
+                $li->td()->addInput(IGK_STR_EMPTY, "checkbox");
+                $li->td()->add("a", array("href" => $this->getUri("downloadbackupfile&file=" . $f)))->Content = $f;
+                $li->td()->ajxa($this->getUri("db_dbRestore&file=" . $f))
+                ->Content = igk_svg_use("reload");
+
+                // ->addImg()->setAttributes(array(
+                //     "width" => 16,
+                //     "height" => 16,
+                //     "src" => R::GetImgUri(trim("db_restore_16x16")),
+                //     "alt" => __("restore")
+                // ));
+                $li->td()->ajxa(
+                    $this->getUri("dropBackup&file=" . $f)
+                )
+                ->content = igk_svg_use("drop");
+                // HtmlUtils::AddImgLnk($li->add("td", array("class" => "igk-table-img-action_16x16")), $this->getUri("dropBackup&file=" . $f), "drop_16x16", "16px", "16px", "lb.dropbackup");
+                $v_hasfile = true;
+            }
+
+           /* $hdir = opendir($v_dir);
             $v_theader = false;
             while (($f = readdir($hdir))) {
                 if (($f == ".") || ($f == ".."))
@@ -338,12 +379,17 @@ final class DbConfigController extends ConfigControllerBase
                 $v_hasfile = true;
             }
             closedir($hdir);
-            if ($v_hasfile) {
-                $bar = $frm->addActionBar();
-                $bar->addABtn($this->getUri("ClearBackup"))->Content = __("btn.clearAllBackup");
-            } else {
-                $frm->div()->Content = __("Msg.NoBackgup");
-            }
+
+            */
+
+        }
+        if ($v_hasfile) {
+            $bar = $frm->actionbar();
+            $bar->ajxa($this->getUri("ClearBackup"))
+            ->setClass("igk-btn")
+            ->Content = __("btn.clearAllBackup");
+        } else {
+            $frm->div()->Content = __("No backup found");
         }
         igk_html_toggle_class($v_table, "tr");
     }
@@ -681,7 +727,7 @@ final class DbConfigController extends ConfigControllerBase
         }
         $dbname = igk_sys_configs()->db_name;
         $op = "NOT"; //igk_getr("not") ? "NOT" :  "";
-        // igk_environment()->querydebug = 1;
+      
             $q = $ad->escape_string($q);
             $field = "tables_in_{$dbname}";
             $rg = $ad->sendQuery("SHOW TABLES WHERE tables_in_{$dbname} {$op} LIKE '$q'");
@@ -731,9 +777,9 @@ final class DbConfigController extends ConfigControllerBase
         }
         return igk_navtocurrent();
     }
-    ///<summary>entry to backup mysql database</summary>
+    ///<summary>backup mysql database</summary>
     /**
-     * entry to backup mysql database
+     * backup mysql database
      */
     public function backupDb()
     {
@@ -751,11 +797,17 @@ final class DbConfigController extends ConfigControllerBase
         $v_file = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER . "/backup_" . $v_date . ".csv";
         $out = IGK_STR_EMPTY;
         $db_table = $this->_getTables(null);
+        $skip_array = [
+            DbLogs::table()
+        ];
         $warn = "";
         if ($mysql->connect()) {
             if ($db_table) {
-                foreach ($db_table->Rows as $t => $v) {
-                    $v_tbname = igk_getv($v, "Table"); 
+                foreach ($db_table as $v) {
+                    $v_tbname = $v->table; 
+                    if (in_array($v_tbname, $skip_array)){
+                        continue;
+                    }
                     ///TODO: SELECT
                     $query = $mysql->getGrammar()->createSelectQuery($v_tbname);  // sendQuery("SELECT * FROM `".$v_tbname."`;");
                     $r = $mysql->sendQuery($query); 
@@ -786,10 +838,13 @@ final class DbConfigController extends ConfigControllerBase
             igk_ilog($warn);
         }
         IO::CreateDir(dirname($v_file));
-        if (strlen($out) > 100000) {
-            igk_zip_content($v_file . ".zip", basename($v_file), $out);
+        $cout = utf8_encode($out);
+   
+
+        if (strlen($out) > 1000000) {
+            igk_zip_content($v_file . ".zip", basename($v_file), $cout);
         } else {
-            igk_io_save_file_as_utf8($v_file, $out, true, 0666);
+            igk_io_w2file($v_file, $cout, true, 0666);
         }
         $this->View();
         igk_notifyctrl()->addMsgr("msg.dataBackup");
@@ -802,7 +857,7 @@ final class DbConfigController extends ConfigControllerBase
     public function check_con_ajx()
     {
         igk_reset_db_dataadapter();
-        $ad = igk_get_data_adapter("MYSQL");
+        $ad = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         $con = "failed";
         $type = "igk-danger";
         igk_set_env("sys://Db/NODBSELECT", 1);
@@ -825,10 +880,16 @@ final class DbConfigController extends ConfigControllerBase
             IO::RmDir($v_dir);
             $this->View();
             igk_navtocurrent();
-        } else {
-            $frame = igk_frame_add_confirm($this, "confirm_Clear_backup_file", $this->getUri("ClearBackup"));
-            $frame->Form->Div->Content = __(IGK_MSG_DELETEALLDATABASEBACKUP_QUESTION);
-        }
+        } 
+        $d = igk_create_node("div");
+        $form = $d->form();
+        $form["action"] = $this->getUri(__FUNCTION__);
+        $form->div()->p()->Content = __(IGK_MSG_DELETEALLDATABASEBACKUP_QUESTION);
+        $form->actionbar(function($a){
+            $a->submit();
+        });    
+        $form->confirm();    
+        igk_ajx_panel_dialog(__("Confirm Clear Backup"), $d);
     }
     ///<summary>backup table associated to a controller</summary>
     /**
@@ -895,6 +956,126 @@ final class DbConfigController extends ConfigControllerBase
             $frame->Form->Div->Content = __("Q.WILLYOUDROPTHECONTENTOFTHISTABLE", $tbname);
         }
     }
+    private function _db_restore_db($file, $mode){
+        $r = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER . "/" . $file;
+        $v_file = igk_io_basedir($r);
+        $result = false;
+        if (file_exists($v_file)){
+            $str = "";
+            if (igk_io_path_ext($v_file)=="zip"){
+                if (igk_app()->getApplication()->lib("zip") == false){
+                    return false;
+                }
+                $str = igk_zip_unzip_filecontent($v_file,  $n = igk_io_basenamewithoutext($v_file));
+            } else {
+                $str = igk_io_read_allfile($v_file);
+            }
+
+            $str = utf8_decode($str);
+            // igk_text($str);
+            // exit;
+            $h = explode("\0", $str);
+            $table = null;
+            $definition = null;
+            $header = null;
+            $warn = "";
+            $syncdata = array();
+            foreach ($h as  $v) {
+                
+                $lines = explode(IGK_LF, trim($v));
+                if (count($lines)<2)
+                    continue;
+
+                $entries = array_slice($lines, 2);
+                $table = trim($lines[0]); 
+
+                $header = igk_array_tokeys(IGKCSVDataAdapter::LoadString(trim($lines[1]))[0]);
+                $entriecs = array();
+                $definition = IGKCSVDataAdapter::LoadString(implode(IGK_LF, $entries), true, $header);
+                if (igk_count($definition) == 0)
+                    continue;
+                $th = igk_count($header);
+                $ec = -1;
+                foreach ($definition as $m => $n) {
+                    $ec++;
+                    if (igk_count($n) != $th) {
+                        $warn .= "column header doest not match the entries definition of : {$table} : {$ec} " . IGK_LF;
+                        continue;
+                    }
+                    $row = igk_createobj($header);
+                    $i = 0;
+                    foreach ($header as $ss => $tt) {
+                        $row->{$ss} = $n[$i];
+                        $i++;
+                    }
+                    $entriecs[] = $row;
+                }
+                $syncdata[$table] = $entriecs;
+            }
+            $adapt = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
+            $r = 1;
+            if (($adapt != null) && ($adapt->connect())) {
+                $adapt->beginTransaction();
+                $adapt->sendQuery("SET foreign_key_checks = 0;");
+                $_syncfc = function ($adapt, $t, $e, $m) {
+                    if (!($ge = $adapt->sendQuery("SELECT * FROM `{$t}` LIMIT 0")))
+                        return false;
+
+                    $tbinfo = igk_db_getdatatableinfokey($t);
+                    $o = igk_createobj();
+                    $g = $ge->Columns;
+                    if (!$g){
+                        igk_ilog("db : $t no column found");
+                        return false;
+                    } 
+                    foreach ($ge->Columns as $d) {
+                        if (!isset($tbinfo[$d->name])) {
+                            igk_set_error("sys", "data table columns not match", 0xDB0001);
+                            return 0;
+                        }
+                        $o->{$d->name} = null;
+                    }
+                    $r = 0;
+                    switch ($m) {
+                        case 1:
+                            $r = $adapt->delete($t);
+                            if ($r) {
+                                if (is_array($e)) {
+                                    foreach ($e as $v) {
+                                        $mm = igk_createobj_filter($v, $o);
+                                        $r = $r && $adapt->insert($t, $mm);
+                                    }
+                                } else
+                                    $r = $r && $adapt->insert($t, $e);
+                            }
+                            break;
+                    }
+                    return $r;
+                };
+                $r = 1;
+                
+                foreach ($syncdata as $t => $e) {
+                    $e_x = $adapt->sendQuery("SELECT * FROM `{$t}` LIMIT 0");
+                    if (!$e_x) {
+                        $warn .= "table [{$t}] does not exists" . IGK_LF;
+                        continue;
+                    }
+                    $r = $r && $_syncfc($adapt, $t, $e, $mode);
+                    if (!$r)
+                        break;
+                }
+                $adapt->sendQuery("SET foreign_key_checks = 1;");
+                if ($r) {
+                    $adapt->commit();
+                } else {
+                    $adapt->rollback();
+                }
+                $adapt->close();
+            }
+            $result= $r;
+        }
+        return $result;
+    }
     ///<summary></summary>
     /**
      * 
@@ -903,100 +1084,10 @@ final class DbConfigController extends ConfigControllerBase
     {
         $v_f = igk_getr("file");
         $v_mode = igk_getr("mode", 1);
-
-
         if (igk_qr_confirm() && $v_mode) {
-            $r = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER . "/" . $v_f;
-            $v_file = igk_io_basedir($r);
-            if (!file_exists($v_file))
-                igk_notifyctrl()->addErrorr("msg.nodatatorestore");
-            else {
-                $str = igk_io_read_allfile($v_file);
-                $h = explode("\0", $str);
-                $table = null;
-                $definition = null;
-                $header = null;
-                $warn = "";
-                $syncdata = array();
-                foreach ($h as  $v) {
-                    $lines = explode(IGK_LF, trim($v));
-                    $entries = array_slice($lines, 2);
-                    $table = trim($lines[0]);
-                    $header = igk_array_tokeys(IGKCSVDataAdapter::LoadString(trim($lines[1]))[0]);
-                    $entriecs = array();
-                    $definition = IGKCSVDataAdapter::LoadString(implode(IGK_LF, $entries), true, $header);
-                    if (igk_count($definition) == 0)
-                        continue;
-                    $th = igk_count($header);
-                    $ec = -1;
-                    foreach ($definition as $m => $n) {
-                        $ec++;
-                        if (igk_count($n) != $th) {
-                            $warn .= "column header doest not match the entries definition of : {$table} : {$ec} " . IGK_LF;
-                            continue;
-                        }
-                        $row = igk_createobj($header);
-                        $i = 0;
-                        foreach ($header as $ss => $tt) {
-                            $row->{$ss} = $n[$i];
-                            $i++;
-                        }
-                        $entriecs[] = $row;
-                    }
-                    $syncdata[$table] = $entriecs;
-                }
-                $adapt = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
-                if (($adapt != null) && ($adapt->connect())) {
-                    $adapt->beginTransaction();
-                    $adapt->sendQuery("SET foreign_key_checks = 0;");
-                    $_syncfc = function ($adapt, $t, $e, $m) {
-                        $ge = $adapt->sendQuery("SELECT * FROM `{$t}` LIMIT 0");
-                        $tbinfo = igk_db_getdatatableinfokey($t);
-                        $o = igk_createobj();
-                        foreach ($ge->Columns as $d) {
-                            if (!isset($tbinfo[$d->name])) {
-                                igk_set_error("sys", "data table columns not match", 0xDB0001);
-                                return 0;
-                            }
-                            $o->{$d->name} = null;
-                        }
-                        $r = 0;
-                        switch ($m) {
-                            case 1:
-                                $r = $adapt->delete($t);
-                                if ($r) {
-                                    if (is_array($e)) {
-                                        foreach ($e as $v) {
-                                            $mm = igk_createobj_filter($v, $o);
-                                            $r = $r && $adapt->insert($t, $mm);
-                                        }
-                                    } else
-                                        $r = $r && $adapt->insert($t, $e);
-                                }
-                                break;
-                        }
-                        return $r;
-                    };
-                    $r = 1;
-                    foreach ($syncdata as $t => $e) {
-                        $e_x = $adapt->sendQuery("SELECT * FROM `{$t}` LIMIT 0");
-                        if (!$e_x) {
-                            $warn .= "table [{$t}] does not exists" . IGK_LF;
-                            continue;
-                        }
-                        $r = $r && $_syncfc($adapt, $t, $e, $v_mode);
-                        if (!$r)
-                            break;
-                    }
-                    $adapt->sendQuery("SET foreign_key_checks = 1;");
-                    if ($r) {
-                        $adapt->commit();
-                    } else {
-                        $adapt->rollback();
-                    }
-                    $adapt->close();
-                }
-            }
+            if (!$this->_db_restore_db($v_f, $v_mode)){
+                igk_notifyctrl("db_restore")->addError(__("restore db from file failed"));
+            }           
             $this->View();
         } else {
             // $frame=igk_frame_add_confirm($this, "confirm_restoration", $this->getUri("db_dbRestore"));
@@ -1059,13 +1150,26 @@ final class DbConfigController extends ConfigControllerBase
      * drop all tables
      */
     public function db_drop_sys_tables()
-    {
-        // $tab=$this->getAllTableNames();
-        $ldtables = &$this->getLoadTables();
-        $tab = array_keys($ldtables);
-        $attrb = array();
-        $ad = null;
+    { 
+        $ldtables = & $this->getLoadTables();     
         $adapter = igk_get_data_adapter($this);
+        if (!($tables = $adapter->listTables())){            
+            return;
+        }
+        igk_ilog("START: drop system database...");
+        $time = igk_start_time(__METHOD__);
+        igk_environment()->set("NoDBLog", 1);
+        $adapter->initForInitDb();
+        $adapter->setForeignKeyCheck(0); 
+        foreach ($tables as $t) {             
+            $adapter->dropTable($t->table);
+        }
+        $adapter->setForeignKeyCheck(1);
+        $adapter->flushForInitDb();
+        igk_environment()->set("NoDBLog", null);
+        igk_ilog("END: drop system database " . igk_execute_time(__METHOD__, $time));
+        $ldtables = [];
+        /*
         $cl = get_class($adapter);
         igk_ilog("START: drop system database");
         $t = igk_start_time(__METHOD__);
@@ -1085,17 +1189,27 @@ final class DbConfigController extends ConfigControllerBase
             $inf->tables[] = $v;
             $attrb[$cl] = $inf;
         }
+        // get dblog states 
+        igk_environment()->set("NoDBLog", 1);
 
+        igk_ilog("END: drop system database " . igk_execute_time(__METHOD__));
+
+        igk_wln_e($attrb);
         foreach ($attrb as  $v) {
-            $ad = $v->adapter;
-            if ($ad && $ad->connect()) {
-                $ad->initForInitDb();
-                $ad->dropTable($v->tables);
-                $ad->flushForInitDb();
-                $ad->close();
+            $adapter = $v->adapter;
+            if ($adapter && $adapter->connect()) {
+                $adapter->initForInitDb();
+                $adapter->setForeignKeyCheck(0);
+                
+                $adapter->dropTable($v->tables);
+                $adapter->setForeignKeyCheck(1);
+                $adapter->flushForInitDb();
+                $adapter->close();
             }
         }
+        igk_environment()->set("NoDBLog", null); 
         igk_ilog("END: drop system database " . igk_execute_time(__METHOD__));
+        */
     }
 
     ///<summary>drop table associated to a controller</summary>
@@ -1244,11 +1358,11 @@ final class DbConfigController extends ConfigControllerBase
         $tb = igk_db_get_table_name(IGK_TB_USERS);
         $r = array_merge([$tb => function ($columninfo, $li, $value, $iparam) {
             $v = $columninfo->name;
-            switch ($columninfo->name) {
+            switch ($v) {
                 case "clClassName":
                     $li->add("label")->Content = __("lb.{$v}");
                     $sl = $li->add("select");
-                    $sl->setId($columninfo->name);
+                    $sl->setId($v);
                     $sl->setClass("igk-form-control");
                     $sl->add("option")->setAttributes(array("value" => "0"));
                     $h = 1;
@@ -1260,12 +1374,13 @@ final class DbConfigController extends ConfigControllerBase
                         $o['value'] = $h;
                         $o->Content = $n;
                         $h++;
-                        $tcllist[] = $c;
+                        $tcllist[] = $n;
                         if ($n == $value) {
                             $o["selected"] = "true";
                         }
                     }
                     $iparam->setParam("update:cllist", array($v => $tcllist));
+                    // $iparam->setParam("update:cllist", []);
                     return 1;
 
                 case "clParent_Id":
@@ -1310,27 +1425,26 @@ final class DbConfigController extends ConfigControllerBase
         }
         $table = igk_db_get_table_name($table);
         $mysql = igk_get_data_adapter($ctrl, true);
-        if ($mysql != null) {
-            $mysql->connect($dbname);
-            $e = $mysql->select($table, array($s => $n));
-            $ignore_list = $this->getIgnoreList($table);
-            $field_handler = $this->getFieldHandler($table);
+        if (($mysql != null) && $mysql->connect($dbname)) {
+            
+                $e = $mysql->select($table, array($s => $n));
+                $ignore_list = $this->getIgnoreList($table);
+                $field_handler = $this->getFieldHandler($table);
 
-            if ($e->RowCount == 1) {
-                $ul = $frm->add("ul");
-                $l = $e->getRowAtIndex(0);
-                foreach ($e->Columns as $k) {
-                    $li = $ul->li();
-                    $v = $k->name;
-                    if (in_array($v, $ignore_list))
-                        continue;
-                    if ($field_handler && $field_handler($k, $li, $l->$v, $this)) {
-                        continue;
+                if ($e->RowCount == 1) {
+                    $ul = $frm->add("ul");
+                    $l = $e->getRowAtIndex(0);
+                    foreach ($e->Columns as $k) {
+                        $li = $ul->li();
+                        $v = $k->name;
+                        if (in_array($v, $ignore_list))
+                            continue;
+                        if ($field_handler && $field_handler($k, $li, $l->$v, $this)) {
+                            continue;
+                        }
+                        igk_html_build_form_array_entry($v, $k->typeName, $li, $l->$v);
                     }
-                    igk_html_build_form_array_entry($v, $k->typeName, $li, $l->$v);
                 }
-            }
-
             $mysql->close();
         }
         $frm->addHSep();
@@ -1400,18 +1514,31 @@ final class DbConfigController extends ConfigControllerBase
      * 
      */
     public function db_reload_sys_tables_ajx()
-    {
-        if (igk_qr_confirm()) {
+    {        
+        // form request
+        if (RequestHandler::IsHandling($this->getUri(__FUNCTION__)) && !igk_is_conf_connected()){
+            throw new NotAllowedRequestException();
+        }
+        if (igk_server()->method("POST") && igk_qr_confirm()) {
             $this->db_drop_sys_tables();
-            $this->pinitSDb(true);
-            $this->View();
-            igk_ajx_replace_node($this->ConfigNode);
-            igk_create_node("Toast")->setContent("Operation Complete")->renderAJX();
-            igk_exit();
+            igk_environment()->querydebug = 1;
+            $this->pinitSDb(false);
+            if (igk_is_ajx_demand()){
+                $this->View();
+                igk_ajx_panel_dialog_close();
+                igk_ajx_replace_node($this->ConfigNode);
+                igk_ajx_toast(__("Operation Complete"), "igk-success");
+            }
+            else {
+                igk_navto_referer();
+            } 
         } else {
             $frm = igk_create_node("form");
+            $frm["action"] = $this->getUri(__FUNCTION__);
+            $frm["igk-ajx-form"] = 1;
             $frm->div()->p()->Content = __("q.reloadsystables");
             $frm->actionbar(HtmlUtils::ConfirmAction());
+            $frm->confirm();
             igk_ajx_panel_dialog(__("Confirm"), $frm);
         }
     }
@@ -1432,18 +1559,20 @@ final class DbConfigController extends ConfigControllerBase
         $tclist = $this->getParam("update:cllist");
         $this->setParam("update:cllist", null);
         $adapter = igk_get_data_adapter($this, true);
-        $ext = igk_getr('clexternal');
+        $ext = igk_getr('clexternal'); 
         if ($adapter) {
 
-            $o = igk_get_robj();
-            $properties = igk_array_filter((array)$o, array_fill_keys($v_list = ["cln", "cldb", "cls", "cltable", "clexternal"], null));
+            $o = igk_get_robj(); 
+            igk_array_filter((array)$o, array_fill_keys($v_list = ["cln", "cldb", "cls", "cltable", "clexternal"], null));
             foreach ($v_list as $m) {
-                unset($o->$m);
-            }
-            foreach ($tclist as $k => $v) {
-                $ii = $o->$k - 1;
-                if ($ii >= 0)
-                    $o->$k = get_class($v[$ii]);
+                unset($o->$m);                
+            } 
+            if ($tclist){
+                foreach ($tclist as $k => $v) {
+                    $ii = $o->$k - 1;
+                    if ($ii >= 0)
+                        $o->$k = igk_getv($v, $ii);
+                }
             }
             $adapter->connect($dbname);
             $adapter->update($table, $o, array($s => $n), igk_db_getdatatableinfokey($table));
@@ -1456,7 +1585,7 @@ final class DbConfigController extends ConfigControllerBase
             if ($ctrl != null) {
                 $ctrl->View();
             }
-        }
+        } 
     }
     ///<summary></summary>
     ///<param name="dbname" default="null"></param>
@@ -1591,15 +1720,26 @@ final class DbConfigController extends ConfigControllerBase
     {
         $v_file = igk_getr("file");
         if (igk_qr_confirm()) {
-            $v_f = igk_io_currentrelativepath(IGK_BACKUP_FOLDER . "/" . $v_file);
-            unlink($v_f);
+            $v_file = !empty($v_file) ? StringUtility::Uri($v_file) : die("file not valid");
+            if (strpos($v_file, "/")!==false)
+                die("not allowed not valid");
+            $v_f =  igk_io_applicationdir()."/".IGK_BACKUP_FOLDER . "/" . $v_file;            
+            @unlink($v_f);
             $this->View();
             igk_navtocurrent();
-        } else {
-            $frame = igk_frame_add_confirm($this, "confirm_Clear_backup_file", $this->getUri("dropBackup"));
-            $frame->Form->Div->Content = __(IGK_MSG_DELETEABACKUPFILE_QUESTION, $v_file);
-            $frame->Form->addInput("file", "hidden", $v_file);
-        }
+        }  
+        $d = igk_create_node("div");
+        $d->p()->Content = __(IGK_MSG_DELETEABACKUPFILE_QUESTION, $v_file);
+        $form = $d->form();
+        $form["action"] = $this->getUri(__FUNCTION__);
+        $form->input("file", "hidden", $v_file);
+        $form->input("confirm", "hidden", 1);
+        $form->actionbar(function($a){
+            $a->submit();
+        });
+        igk_ajx_panel_dialog("Drop", $d);
+
+        
     }
 
     ///<summary></summary>
@@ -1748,7 +1888,9 @@ final class DbConfigController extends ConfigControllerBase
         if ($found) {
             return $def;
         }
-        igk_test_wln("controller list ", $ctrl_s, "found :", $tablename, $found);
+        igk_test_wln(igk_ob_get_func("igk_trace"));
+        igk_test_wln("controller list ", $ctrl_s, "#table definition not found :", $tablename, $found);
+        igk_exit();
     }
     
     ///<summary></summary>
@@ -1939,8 +2081,10 @@ final class DbConfigController extends ConfigControllerBase
                 call_user_func_array($global_fc, []);
             } else {
                 $ad_n = $this->getDataAdapterName();
-                $v_ctab = igk_app()->getControllerManager()->getControllers();
-                $v_cctab = ConfigControllerRegistry::GetConfigurationControllers();
+                // $v_ctab = igk_app()->getControllerManager()->getControllers();
+                $v_cctab = ConfigControllerRegistry::GetConfigurationControllers();               
+                usort($v_cctab, DbUtils::OrderController);
+                // igk_wln_e(__FILE__.":".__LINE__, $v_cctab);
 
                 foreach ($v_cctab as $k) {
                     if (($k == $this) || ($k->getDataAdapterName() != $ad_n))
@@ -2032,8 +2176,7 @@ final class DbConfigController extends ConfigControllerBase
         if ($nav && !igk_is_ajx_demand()) {
             igk_ob_clean();
             igk_navtocurrent();
-        }
-        igk_exit();
+        } 
     }
     ///<summary></summary>
     ///<param name="tablename"></param>
@@ -2172,7 +2315,7 @@ final class DbConfigController extends ConfigControllerBase
             $t = igk_create_node("div");
             $f = "_view_conf_{$p}";
             if (method_exists($this, $f)) {
-                $this->setFlag('tabview', $p);
+                $this->setFlag("tabview", $p);
                 call_user_func_array(array($this, $f), array($t));
                 igk_ajx_replace_uri(igk_io_request_uri_path() . "#!p=" . $p);
                 $t->renderAJX();
@@ -2201,7 +2344,7 @@ final class DbConfigController extends ConfigControllerBase
         $pan->div()->Content = "MySQL : " . igk_parsebool(IGK_MSQL_DB_AdapterFunc);
         $pan->div()->Content = "MySQLi : " . igk_parsebool(IGK_MSQLi_DB_AdapterFunc);
         $cview = $this->getFlag("tabview");
-        $tab = $div->addComponent($this, HtmlComponents::AJXTabControl, "tab", 1);
+        $tab = $div->addComponent($this, HtmlComponents::AJXTabControl, "db:tab-control", 1);
         $tab->addTabPage(__("General"), $this->getUri("view&v=general"), empty($cview) || $cview == 'general');
         $tab->addTabPage(__("Datas"), $this->getUri("view&v=datas"), $cview == 'datas');
         $tab->addTabPage(__("Backup"), $this->getUri("view&v=backup"), $cview == 'backup');

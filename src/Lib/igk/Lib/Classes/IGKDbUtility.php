@@ -76,6 +76,7 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
         }
         $this->close(); 
         $msg="/!\\ DBUtility[".get_class($this)."] Action {$name} not implements";
+        throw new \IGK\System\Exceptions\NotImplementException($msg);
         igk_ilog($msg, __CLASS__);
         igk_notifyctrl()->addError($msg);
         igk_assert_die(igk_server_is_local(), $msg);
@@ -758,20 +759,22 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
         }
         $this->close();
     }
+    /**
+     * fix db utility
+     * @param mixed $condition 
+     * @param mixed $table 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function select_count($condition=null, $table=null){
         if (!($table = $table ?? $this->getTable())){ 
             igk_die("table not found");
         }  
-
-        if ($c = $this->ad->selectCount($table, $condition)){
-            if ($r = $c){
+        if ($c = $this->ad->selectCount($table, $condition)){           
+            if ($r = $c->getRowAtIndex(0)){
                 return $r->count;  
             }
-        }else {
-            igk_trace();
-            igk_wln_e(__FILE__.":".__LINE__);
-        }
-        // igk_wln_e("table :::::".$table, $this->ad->getLastQuery());
+        }  
         return -1;
     }
 }

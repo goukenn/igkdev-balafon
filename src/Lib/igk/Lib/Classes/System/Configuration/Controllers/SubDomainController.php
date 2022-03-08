@@ -55,7 +55,7 @@ final class SubDomainController extends ConfigControllerBase
             $uri = explode("?", $uri)[0];
             igk_navto($uri);
         }
-        if (igk_qr_confirm() && igk_server()->method("POST") && igk_valid_cref(1)) {
+        if ( igk_qr_confirm() && igk_server()->method("POST") && igk_valid_cref(1)) {
             $obj = igk_get_robj();
             igk_getctrl(IGK_CONF_CTRL)->setSelectedConfigCtrl($this);
             $info = ["type" => "igk-success", "msg" => __("updated")];
@@ -68,6 +68,8 @@ final class SubDomainController extends ConfigControllerBase
                 $info["type"] = "igk-danger";
                 $info["msg"] = __("failed to add subdomain");
             }
+            // Subdomains::delete();
+            // igk_wln_e("file", $r);
             if (igk_is_ajx_demand())
                 igk_ajx_toast($info["msg"], $info["type"]);
             // replace
@@ -98,7 +100,7 @@ final class SubDomainController extends ConfigControllerBase
             if (!empty($obj->clName) && igk_is_domain_name($obj->clName)) {
                 $app->Configs->website_domain = $obj->clName;
                 $app->Session->Domain = $obj->clName;
-                IGKSubDomainManager::StoreBaseDomain($this, $obj->clName);
+                //IGKSubDomainManager::StoreBaseDomain($this, $obj->clName);
             }
             $this->View();
             igk_ajx_replace_ctrl_view($this);
@@ -167,6 +169,7 @@ final class SubDomainController extends ConfigControllerBase
             igk_ajx_replace_uri(igk_io_baseuri() . "/Configs/#!p=" . $this->getConfigPage());
             igk_ajx_toast($msg, $type);
             igk_notifyctrl()->bind($msg, $type);
+            igk_ajx_panel_dialog_close();
             return;
         }
         $d = igk_create_node("div");
@@ -293,7 +296,7 @@ final class SubDomainController extends ConfigControllerBase
         $tdv = $n->div();
         $tdv["class"] = "c-z igk-write";
         // $tdv->div()->addTitleLevel(5)->Content = R::ngets("title.DatbaseRegisteredDomain");
-        igk_environment()->querydebug = 1;
+         
         $tdv->notifyhost("domain/dbz");
         // \opcache_reset(); 
         //igk_notifyctrl()->setNotifyHost($tdv->div(), "domain/dbz");

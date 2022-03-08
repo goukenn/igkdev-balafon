@@ -46,15 +46,16 @@ final class IGKCaches{
         list($uri, $zip) = self::CacheUri();
         /// TODO:  Configs cache page attached to controller 
         // igk_wln_e("configs ::: ".igk_sys_configs()->default_controller);
-   
-        $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
-        if (file_exists($file) && IGKCaches::page_filesystem()->expired($uri, 50000)){
-            // header("Content-Encoding: deflate");
-            // readfile($file);
-            
+        // $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
+         $expires = 50000;
+         
+         
+         if (! IGKCaches::page_filesystem()->expired($uri, $expires)){
+             // igk_wln_e("load from cache");
+             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);              
             $response = new WebFileResponse($file);
             $response->zip = $zip;
-            $response->cache_output(igk_sys_configs()->get("cache_output", 3600));
+            $response->cache_output(igk_sys_configs()->get("cache_output", $expires));
             $response->output(); 
         }
     }
@@ -74,8 +75,8 @@ final class IGKCaches{
             $o .= $controller->getName()."/";
         }
         if ($requestUri===null){
-            $requestUri = igk_io_baseuri().igk_server()->REQUEST_URI;
-        }
+            $requestUri = explode("?", igk_io_baseuri().igk_server()->REQUEST_URI)[0];
+        } 
         $o .= strtolower(igk_environment()->keyname()).":";
         $uri = $o.$requestUri;
         $zip = igk_server()->accepts(["gzip"]);      
@@ -174,12 +175,13 @@ final class IGKCaches{
     }
     public static function Compile($controller, $fs, $file, $raw, $key="FileBuilder", $render=1){
      
+        /// TODO: Compile
+        igk_wln_e("cahing .... ");
         igk_environment()->push($key, $file);
         
         $cache = $fs->getCacheFilePath($file);
         $n=igk_create_notagnode();
-        if (1 || $fs->cacheExpired($file)){ 
-           igk_wln_e("cahing .... ");
+        if ($fs->cacheExpired($file)){ 
             // + |-----------------------------------------------
             // + | Compile the target 
             // + |-----------------------------------------------
@@ -220,13 +222,14 @@ final class IGKCaches{
 
     public static function Compile2($controller, $fs , $file, $raw, $key="FileLoader", $render=1){
         
-       
+        /// TODO: Compile2
+        igk_wln_e("cache 2");
         igk_environment()->push($key, $file);
 
         $cache = $fs->getCacheFilePath($file);
         
-        if (1 || $fs->cacheExpired($file)){
-            igk_wln_e("cache 2");
+        if ($fs->cacheExpired($file)){
+            
             // + |-----------------------------------------------
             // + | Compile the target 
             // + |-----------------------------------------------
@@ -257,42 +260,6 @@ final class IGKCaches{
             $n->renderAJX();
         }
       
-        igk_environment()->pop($key);
-
-          // igk_environment()->push("FileLoader", $f);
-        // $cache = $this->_cache_fs->getCacheFilePath($f);
-        // $n=igk_create_notagnode();
-        // if ($this->_cache_fs->cacheExpired($f)){
-        //     // + |-----------------------------------------------
-        //     // + | Compile the target 
-        //     // + |-----------------------------------------------
-        //     $n->addArticle($this->_controller, $f, $raw);
-        //     ob_start();
-        //     $n->renderAJX();
-        //     $s = ob_get_clean();
-        //     igk_io_w2file($cache, $s);
-        //     if($render){
-        //         echo $s; 
-        //     }
-        // }
-        // else {
-        //     $n->obdata(function()use($cache, $raw){
-        //         try{
-        //             include($cache); 
-        //         }
-        //         catch(Exception $ex){
-        //             throw new LoadArticleException($ex, $ex);
-        //             igk_wln_e("exception :");
-        //         }
-        //         catch(Error $ex){
-        //             igk_wln_e("error :");
-
-        //         } 
-        //     });  
-        //     if($render){
-        //         $n->renderAJX();
-        //     }
-        // }
-        // igk_environment()->pop("FileLoader");
+        igk_environment()->pop($key); 
     }
 }

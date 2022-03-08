@@ -56,6 +56,10 @@ implements IIGKUriActionRegistrableController, ILibaryController{
         return $n;
     }
     ///<summary></summary>
+    /**
+     * 
+     * @return null|object application user info
+     */
     public function getUser(){
         return $this->getEnvParam(self::PAGE_USER);
     }

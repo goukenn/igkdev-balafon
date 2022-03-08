@@ -179,7 +179,9 @@ EOF;
     * @param mixed $listener
     * @param mixed $param the default value is null
     */
-    public function setComponentListener($listener, $param=null){}
+    public function setComponentListener($listener, $param=null){
+        // mark component to listen for parameter
+    }
     ///<summary></summary>
     ///<param name="o"></param>
     /**

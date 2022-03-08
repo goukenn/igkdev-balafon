@@ -3,14 +3,17 @@
 namespace  IGK\System\Configuration\Controllers;
 
 use IGK\Controllers\PageControllerBase;
+use IGK\Database\SQLQueryUtils;
 use IGK\Helper\SysUtils;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder;
 use IGK\System\Html\Dom\IGKHtmlMailDoc;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\WinUI\Views;
 use IGKDbUtility;
 use IGKEvents;
+use IGKException;
 use IGKHtmlDoc; 
 use IGKIterator;
 use IGKSysUtil;
@@ -23,13 +26,21 @@ use function igk_resources_gets as __;
 * class used to register global user in system
 */
 class UsersConfigurationController extends ConfigControllerBase {
-    
+    const view_action = self::class."::ViewAction";
     ///<summary></summary>
     /**
     * 
     */
-    public function __user_info(){
-        igk_init_user_info();
+    // public function __user_info(){
+    //     igk_init_user_info();
+    // }
+    public static function ViewAction($a){
+        $ctrl = self::ctrl();
+        $a->searchbox($ctrl->getUri("search")); 
+    }
+    public function search(){ 
+        $this->setParam("search", igk_getr("search"));
+        $this->View();
     }
     ///<summary></summary>
     /**
@@ -173,9 +184,9 @@ class UsersConfigurationController extends ConfigControllerBase {
     }
     ///<summary></summary>
     /**
-    * 
+    * setting config page name
     */
-    public function getConfigPage(){
+    public function getConfigPage(){       
         return "users";
     }
     ///<summary></summary>
@@ -190,7 +201,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     * 
     */
     public function getDataTableName(){
-        return igk_db_get_table_name(IGK_TB_USERS);
+        return Users::table();
     }
     ///<summary></summary>
     /**
@@ -279,9 +290,10 @@ class UsersConfigurationController extends ConfigControllerBase {
          
         $d=igk_app()->Configs->website_domain;
         $now=date(IGK_MYSQL_DATETIME_FORMAT); 
+        $def_pwd = igk_app()->Configs->get("default_conf_pwd", IGK_CONF_DEF_PWD);
         Users::create(array(
             "clLogin"=>"admin@".$d,
-            "clPwd"=>"test123",
+            "clPwd"=>$def_pwd,
             "clFirstName"=>"admin",
             "clLastName"=>"Administrator",
             "clDisplay"=>"Admin",
@@ -292,7 +304,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         )); 
         Users::create( array(
             "clLogin"=>"test@".$d,
-            "clPwd"=>"test123",
+            "clPwd"=>$def_pwd,
             "clFirstName"=>"test",
             "clLastName"=>"test",
             "clLevel"=>"1",
@@ -302,7 +314,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         ));
         Users::create(array(
             "clLogin"=>"info@".$d,
-            "clPwd"=>"info123",
+            "clPwd"=>$def_pwd,
             "clFirstName"=>"info",
             "clLastName"=>"info",
             "clLevel"=>"1",
@@ -345,15 +357,19 @@ class UsersConfigurationController extends ConfigControllerBase {
     * 
     */
     public function logout(){
-        $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
-        setcookie($n, "", time() - (3600), igk_get_cookie_path());
-        unset($_COOKIE[$n]);
         $u=igk_app()->session->User;
         if($u != null){
             if(isset($u->clTokenStored))
                 igk_user_set_info("TOKENID", null);
             igk_app()->session->setUser(null, $this);
         }
+        if (igk_app()->getApplication()->lib("session")){
+            igk_app()->getApplication()->getLibrary()->session->destroy();   
+        }
+        $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
+        setcookie($n, "", time() - (3600), igk_get_cookie_path());
+        unset($_COOKIE[$n]);
+        igk_clear_cookie($n);     
         return true;
     }
     ///<summary></summary>
@@ -367,7 +383,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     ///<summary>List user group</summary>
     ///<param name="id" default="null"></param>
     /**
-    * 
+    * List user group
     * @param mixed $id the default value is null
     */
     public function lstgrp($id=null){
@@ -383,10 +399,11 @@ class UsersConfigurationController extends ConfigControllerBase {
                     $table = $dv
                     ->tablehost()->table()->header("", __("name"),
                     "", "");
-                    foreach($group as  $gid=>$v){ 
+                    foreach($group as $v){ 
+                        $gid = $v->clId;
                         $tr = $table->tr();
                         $tr->td()->nbsp();
-                        $tr->td()->Content = $v;
+                        $tr->td()->Content = $v->clName;
                         $tr->td()->a($this->getUri("rm_grp_from_group&id={$id}&gid=".$gid))
                         ->google_icon("delete"); 
                         $tr->td()->nbsp(); 
@@ -396,11 +413,17 @@ class UsersConfigurationController extends ConfigControllerBase {
                 igk_ajx_panel_dialog(__("User's group"). " - " .$user->fullname(), $n);
             }
             else{
-                igk_ajx_toast("no group", "warn");
+                igk_ajx_toast("no group", "igk-danger");
             }
         }
     }
-
+    /**
+     * remove user from group
+     * @param mixed $userid 
+     * @param mixed $groupid 
+     * @return void 
+     * @throws IGKException 
+     */
     function rm_grp_from_group($userid=null, $groupid=null){
         $userid = $userid ?? igk_getr("id");
         $groupid = $groupid ?? igk_getr("gid"); 
@@ -575,7 +598,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         }
         $id=igk_getr("id");
         igk_getctrl(IGK_MYSQL_DB_CTRL)->db_edit_entry_frame($this, igk_app()->Configs->db_name, $this->getDataTableName(), $id, IGK_FD_ID, true);
-        igk_exit();
+        SysUtils::exitOnAJX();
     }
     ///<summary>add user frame</summary>
     /**
@@ -771,78 +794,120 @@ class UsersConfigurationController extends ConfigControllerBase {
         }
 		$cnf = $this->getConfigNode();
         $cnf->add($t);
+        $search = $this->getParam("search");
+        $condition = null; 
+        if ($search){
+            $condition = [(object) [
+                "operand"=>"OR",
+                "conditions"=>[
+                    "@@clFirstName"=>"%".$search."%",
+                    "@@clLogin"=>"%".$search."%",
+                    "@@clLastName"=>"%".$search."%"
+                ]
+            ]];
+        }
 
-        $t->clearChilds();
+        $t->clearChilds(); 
         $t=$t->addPanelBox();
         igk_html_add_title($t, __("System's Users"));
         
         $t->addPanelBox()->div()->setClass("article-host")->article($this, "users");
         
+
+        $t->nav()->setClass("actions")->host(self::view_action); 
+
         $frm=$t->addForm();
         $frm->addNotifyHost("sys://uc/auf");
-      
-        $r= Users::select();//  igk_db_table_select_where($this->getDataTableName(), null, $this);
-        $r && $this->uc_options($frm);
-        $table=$frm->div()->setClass("igk-table-host overflow-x-a")->addTable();
-     
+            
+        // $r= Users::select();//  igk_db_table_select_where($this->getDataTableName(), null, $this);
+        // $r && $this->uc_options($frm);
+        $table=$frm->div()->setClass("igk-table-host overflow-x-a")->addTable();     
         $table["class"]="igk-table igk-table-striped igk-users-list";
-        if($r){ 
-
-            $this->uc_options($frm);
-            $tr=$table->addTr();
-            $tr->add("th")->addSpace();
-            $tr->add("th")->Content=__("lb.clFirstName");
-            $tr->add("th")->Content=__("lb.clLastName");
-            $tr->add("th")->setClass("fitw")->Content=__("lb.clLogin");
-            $tr->add("th")->Content=__("lb.clLevel");
-            $tr->add("th")->Content=__("lb.clStatus");
-            $tr->add("th")->Content=__("lb.clDate");
-            $tr->add("th")->Content=__("lb.clClassName");
-            $tr->add("th")->addSpace();
-            $tr->add("th")->addSpace();
-            $tr->add("th")->addSpace();
-            $tr->add("th")->addSpace();
-            $selected=igk_getr("v", 1);
-            $perpage=20;
-            $max=$perpage;
-            $count= count($r);
-            $epagination=$max < $count; 
-            igk_get_builder_engine(null, $table);
-            $grpuri=$this->getUri("lstgrp&id=");
-            foreach($r as  $v){
-                $edit_uri=$this->getUri('u_edit&id='.$v->clId);
-                $lock_uri=$this->getUri('u_block&id='.$v->clId);
+        $this->uc_options($frm); 
+        Views::ModelViewHandleLimit($frm, $table, Users::class, function($table, $v){
+            static $header;
+            if (!$header){
+                $header = true;
                 $tr=$table->addTr();
-                $tr->addTd()->addInput("r", "checkbox", $v->clId);
-                $tr->addTd()->addAJXA($edit_uri)->Content=$v->clFirstName;
-                $tr->addTd()->addAJXA($edit_uri)->Content=$v->clLastName;
-                $tr->addTd()->Content=$v->clLogin;
-                $tr->addTd()->Content=$v->clLevel;
-                $tr->addTd()->Content=$v->clStatus;
-                $tr->addTd()->Content=$v->clDate;
-                $tr->addTd()->Content=$v->clClassName;
-                HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($edit_uri), "edit_16x16");
-                $tr->addTd()->addAJXA($grpuri.$v->clId)->setClass("igk-svg-btn svg-32")->Content= igk_svg_use("group");
-                $tr->addTd()->addAJXA($this->getUri("changePassword&id=".$v->clId))->setClass("igk-svg-btn svg-32")
-                ->setAttribute("title", __("change password"))
-                ->Content=                 
-                igk_svg_use("cog-outline");
+                $tr->add("th")->addSpace();
+                $tr->add("th")->Content=__("lb.clFirstName");
+                $tr->add("th")->Content=__("lb.clLastName");
+                $tr->add("th")->setClass("fitw")->Content=__("lb.clLogin");
+                $tr->add("th")->Content=__("lb.clLevel");
+                $tr->add("th")->Content=__("lb.clStatus");
+                $tr->add("th")->Content=__("lb.clDate");
+                $tr->add("th")->Content=__("lb.clClassName");
+                $tr->add("th")->addSpace();
+                $tr->add("th")->addSpace();
+                $tr->add("th")->addSpace();
+                $tr->add("th")->addSpace();
+            }
+            $grpuri=$this->getUri("lstgrp&id=");
+            $edit_uri=$this->getUri('u_edit&id='.$v->clId);
+            $lock_uri=$this->getUri('u_block&id='.$v->clId);
+            $tr=$table->addTr();
+            $tr->addTd()->addInput("r", "checkbox", $v->clId);
+            $tr->addTd()->addAJXA($edit_uri)->Content=$v->clFirstName;
+            $tr->addTd()->addAJXA($edit_uri)->Content=$v->clLastName;
+            $tr->addTd()->Content=$v->clLogin;
+            $tr->addTd()->Content=$v->clLevel;
+            $tr->addTd()->Content=$v->clStatus;
+            $tr->addTd()->Content=$v->clDate;
+            $tr->addTd()->Content=$v->clClassName;
+            HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($edit_uri), "edit_16x16");
+            $tr->addTd()->addAJXA($grpuri.$v->clId)->setClass("igk-svg-btn svg-32")->Content= igk_svg_use("people");
+            $tr->addTd()->addAJXA($this->getUri("changePassword&id=".$v->clId))->setClass("igk-svg-btn svg-32")
+            ->setAttribute("title", __("change password"))
+            ->Content=                 
+            igk_svg_use("cog-outline");
+            
+
+            HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), "drop_16x16");
+          
+        }, $condition, null);
+        // if($r){ 
+
+        //     $selected=igk_getr("v", 1);
+        //     $perpage=20;
+        //     $max=$perpage;
+        //     $count= count($r);
+        //     $epagination=$max < $count; 
+        //     igk_get_builder_engine(null, $table);
+        //     $grpuri=$this->getUri("lstgrp&id=");
+        //     foreach($r as  $v){
+        //         $edit_uri=$this->getUri('u_edit&id='.$v->clId);
+        //         $lock_uri=$this->getUri('u_block&id='.$v->clId);
+        //         $tr=$table->addTr();
+        //         $tr->addTd()->addInput("r", "checkbox", $v->clId);
+        //         $tr->addTd()->addAJXA($edit_uri)->Content=$v->clFirstName;
+        //         $tr->addTd()->addAJXA($edit_uri)->Content=$v->clLastName;
+        //         $tr->addTd()->Content=$v->clLogin;
+        //         $tr->addTd()->Content=$v->clLevel;
+        //         $tr->addTd()->Content=$v->clStatus;
+        //         $tr->addTd()->Content=$v->clDate;
+        //         $tr->addTd()->Content=$v->clClassName;
+        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($edit_uri), "edit_16x16");
+        //         $tr->addTd()->addAJXA($grpuri.$v->clId)->setClass("igk-svg-btn svg-32")->Content= igk_svg_use("people");
+        //         $tr->addTd()->addAJXA($this->getUri("changePassword&id=".$v->clId))->setClass("igk-svg-btn svg-32")
+        //         ->setAttribute("title", __("change password"))
+        //         ->Content=                 
+        //         igk_svg_use("cog-outline");
                 
 
-                HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), "drop_16x16");
-                $max--;
-                if($max == 0)
-                    break;
-            }
-            if($epagination){
-                $frm->div()->addAJXPaginationView(igk_io_currenturi().'/'.$this->getUri("view&v="), $count, $perpage, $selected, "^.igk-cnf-content");
-            }
+        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), "drop_16x16");
+        //         $max--;
+        //         if($max == 0)
+        //             break;
+        //     }
+        //     if($epagination){
+        //         $frm->div()->addAJXPaginationView(igk_io_currenturi().'/'.$this->getUri("view&v="), $count, $perpage, $selected, "^.igk-cnf-content");
+        //     }
             
-        } else {
-            $frm->div()->Content = "No User Found";
-        }
-        
-        if(igk_app()->session->URI_AJX_CONTEXT){
+        // } else {
+        //     $frm->div()->Content = "No User Found";
+        // }
+         
+        if(igk_is_ajx_demand()){
             $t->renderAJX();
             igk_exit();
         }
@@ -906,10 +971,7 @@ class UsersConfigurationController extends ConfigControllerBase {
                 } 
             } 
             SysUtils::Notify($m["msg"], $m["type"]);
-            igk_ajx_panel_dialog_close();
-            if (igk_is_ajx_demand()){
-                igk_exit();
-            }
+            igk_ajx_panel_dialog_close();             
             SysUtils::exitOnAJX();
         }
 
@@ -930,11 +992,8 @@ class UsersConfigurationController extends ConfigControllerBase {
         $form->addActions([
             "btn.ok"=>["value"=>__("Modify"), "type"=>"submit", "attribs"=>["class"=>"igk-btn igk-default"]]
         ]);
-
         igk_ajx_panel_dialog(__("Change User's Password"), $form);
-        if (igk_is_ajx_demand())
-            igk_exit();
-
+        SysUtils::exitOnAJX();
     }
 
     

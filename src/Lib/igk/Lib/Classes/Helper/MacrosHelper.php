@@ -1,5 +1,9 @@
 <?php
-
+//
+// @file: MacrosHelper.php
+// @author: C.A.D BONDJE DOUE
+// version: 1.0
+//
 namespace IGK\Helper;
 
 use IGK\Models\Groupauthorizations;
@@ -25,7 +29,7 @@ class MacrosHelper
             //init global macros function 
             self::$macros = [
                 "auth" => function ($auths, $strict = false) {
-                    igk_wln_e(__FILE__.":".__LINE__, "auth context ");
+                    // igk_wln_e(__FILE__.":".__LINE__, "auth context ");
                     /**
                      * @var \IGK\Models\Users $q 
                      */

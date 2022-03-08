@@ -88,15 +88,7 @@ class ServiceHandler{
         $this->tab = $tab;
         error_log("sleep handle ..... construct");
     }
-    // public function __sleep()
-    // {
-    //    error_log("sleep handle .....>>>>>>>>>");
-    //     return ['---******************************'];
-    // }
-    // public function __wakeup(){
-    //     igk_trace();
-    //     exit;
-    // }
+    
     public function serialize(){
         return "{'seri':'data'}";
     }

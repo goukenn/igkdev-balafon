@@ -1,6 +1,11 @@
 <?php
 
 ///<summary>
+/**
+ * 
+ * @package IGK
+ * @property \IGKAppInfoStorage $appInfo application storage info
+ */
 class IGKAppSetting{
     private $info;
     public function getInfo(){
@@ -11,6 +16,9 @@ class IGKAppSetting{
         $this->info = $info;
     }
     public function __get($n){
+        if (method_exists($this, $fc = "get".ucfirst($n))){
+            return call_user_func_array([$this, $fc], []);
+        }
         if (isset($this->info->$n)){
             return $this->info->$n;
         }
@@ -23,5 +31,20 @@ class IGKAppSetting{
             $this->info->$n = $v;
         }
         return $this;
+    }
+    /**
+     * return application storage info
+     * @return IGKAppInfoStorage 
+     */
+    public function getAppInfo(){
+        static $storage;
+        if (($storage===null) || ($storage!== $this->info->appInfo)){
+            $storage = new IGKAppInfoStorage($this->info->appInfo);
+        }
+        return $storage;
+    }
+    public function __debugInfo()
+    {
+        return [];
     }
 }

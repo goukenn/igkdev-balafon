@@ -2,16 +2,16 @@
 namespace IGK\Resources;
 
 use IGK\Controllers\BaseController;
+use IGK\Resources\IGKLangExpression;
 use IGKObject;
 use IGKAppContext;
 use IGK\Resources\IGKLangKey;
 use IGKControllerManagerObject;
 use IGK\Resources\IGKLangResDictionary;
 use IGK\System\Console\Logger;
-use IGKAppType;
-use HtmlReader;
-use IGKException;
-use IGKLangExpression;
+use IGKAppType; 
+use IGK\System\Html\HtmlReader;
+use IGKException; 
 use IGKUserAgent;
 
 use function igk_resources_gets as __;
@@ -318,7 +318,7 @@ EOF;
                 }
                 $tfile []=$sfile;
             }
-        }
+        } 
         while($f=array_shift($tfile)){
             if(file_exists($f) && !isset($_instance->m_langFiles[$f])){
                 $l=& $v->langRes;
@@ -489,7 +489,7 @@ EOF;
         if($ctrl && !IGKControllerManagerObject::IsSystemController($ctrl) && !isset($_instance->sm_langctrl[ $name = $ctrl->getName()])){
             $_instance->m_langctrl[$name]=$ctrl;
             if($v->m_langloaded){
-                self::LoadCtrlLang($ctrl);
+                self::LoadCtrlLang($ctrl); 
             }
         }
     }

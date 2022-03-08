@@ -22,7 +22,7 @@ class SvgListIconNode extends HtmlNode{
                 SvgRenderer::$RegisterPath[$name] = $path;
                 //  igk_wln_e("data ::: ", $cl);
                 if ($cl){
-                    $this->setClass("+".$cl);
+                    $this->setClass("+".$cl ." +".$name );
                 }
                 return true;
             } 

@@ -61,6 +61,8 @@ function igk_sys_configs(){
  */
 function igk_exit($close = 1, $clean_buffer = 0)
  {
+    // igk_trace();
+
     if (igk_environment()->isAJXDemand){
         if (igk_environment()->is("DEV")){
             igk_trace();
@@ -752,8 +754,9 @@ function igk_log_var_dump($tab, $lf = null)
  */
 function igk_wln_e($msg = "")
 { 
+    
     igk_environment()->set('TRACE_LEVEL', 3);
-    call_user_func_array('igk_wln', func_get_args());
+    call_user_func_array('igk_wln', func_get_args()); 
     igk_exit();
 }
 
@@ -810,7 +813,13 @@ function igk_sys_copyright()
     return "IGKDEV &copy; 2011-" . date('Y') . " " . __("all rights reserved");
 }
 
-
+/**
+ * trace utility in buffer
+ * @return string|false 
+ */
+function igk_ob_trace($depth = 0, $sep = "", $count = -1, $header = 0){
+    return igk_ob_get_func('igk_trace', [2+$depth, $sep, $count, $header]);
+}
 ///<summary></summary>
 ///<param name="depth"></param>
 /**
@@ -1633,12 +1642,17 @@ function igk_io_workingdir(){
 
 /**
  * application environment setting
+ * @return \IGK\EnvironmentSettings environment setting
  */
 function igk_setting(){
     require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentSettings.php";
     return \IGK\IGKEnvironmentSettings::getInstance();
 }
-
+/**
+ * write text on testing
+ * @return void 
+ * @throws IGKException 
+ */
 function igk_test_wln(){
     if (defined("IGK_TEST_INIT")){
         igk_wln(...func_get_args());

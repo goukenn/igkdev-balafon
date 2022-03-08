@@ -5,10 +5,11 @@ namespace IGK\System\Database\MySQL;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
-use IGK\System\Database\NoDbConnection; 
-use IGK\Database\DbQueryDriver;
+use IGK\System\Database\NoDbConnection;  
 use IGK\Database\DbQueryResult;
 use IGKException;
+use IGKQueryResult;
+use ModelBase;
 
 use function igk_getv as getv;
  
@@ -27,11 +28,34 @@ class DataAdapter extends DataAdapterBase
     {
         return true;
     }
+    /**
+     * create a fetch result
+     * @param string $query query to send
+     * @param ?\IGK\Models\ModelBase $model source model
+     * @return MYSQLQueryFetchResult 
+     */
+    public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null){
+        return MYSQLQueryFetchResult::Create($query, $model);
+    }
+    public function isAutoIncrementType(string $type){        
+        return in_array(strtolower($type), ["int","bigint"]);
+    }
     public function update($tbname, $entries, $where = null, $querytabinfo = null)
     {
         if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo)) {
             return $this->sendQuery($query);
         }
+    }
+    /**
+     * 
+     * @param string $tbname 
+     * @param null|array $where 
+     * @param null|array $option 
+     * @return string 
+     * @throws IGKException 
+     */
+    public function get_query(string $tbname, ?array $where=null, ?array $options=null){
+        return $this->getGrammar()->createSelectQuery($tbname, $where, $options);
     }
     /**
      * retrieve data table definition 
@@ -65,8 +89,17 @@ class DataAdapter extends DataAdapterBase
                     $supportedList[] = strtolower($r->type);
                 }
             }
-        }
+        }   
         return in_array(strtolower($type), $supportedList);
+    }
+    /**
+     * allow supported default value
+     * @param mixed $type 
+     * @return bool 
+     */
+    public function supportDefaultValue($type)
+    {
+        return in_array($type, ["float","int", "varchar", "enum", "datetime", "time", "float"]);
     }
     ///<summary></summary>
     /**
@@ -97,7 +130,7 @@ class DataAdapter extends DataAdapterBase
     public function escape_string($v)
     {
         $v = stripslashes($v);
-        $b = DbQueryDriver::GetResId();
+        $b = $this->getResId();  
         if ($b) {
             return mysqli_real_escape_string($b, $v);
         }
@@ -110,7 +143,7 @@ class DataAdapter extends DataAdapterBase
             $value = date("Y-m-d", strtotime($value));
         }
         if (preg_match("/^datetime$/i", $tinf->clType)){
-            $value = date("Y-m-d H:s:i", strtotime($value));
+            $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
         }
         return $value; 
     }
@@ -125,7 +158,7 @@ class DataAdapter extends DataAdapterBase
 
     public function get_charset()
     {
-        $b = DbQueryDriver::GetResId();
+        $b = $this->m_dbManager->getResId(); 
         if ($b) {
             return mysqli_character_set_name($b);
         }
@@ -133,7 +166,7 @@ class DataAdapter extends DataAdapterBase
     }
     public function set_charset($charset = "utf-8")
     {
-        $b = DbQueryDriver::GetResId();
+        $b = $this->m_dbManager->getResId(); 
         if ($b) {
             return mysqli_set_charset($b, $charset);
         } 
@@ -141,8 +174,9 @@ class DataAdapter extends DataAdapterBase
 
     public function delete($tablename, $conditions=null){
         if ($query = $this->getGrammar()->createDeleteQuery($tablename, $conditions)){
-            return $this->sendQuery($query);
+            return $this->sendQuery($query, false);
         }
+        return false;
     }
     ///<summary> add column</summary>
     ///<param name="tbname">the table name</param>
@@ -218,6 +252,7 @@ class DataAdapter extends DataAdapterBase
         if ($this->m_dbManager != null) {
 
             if (!empty($tablename) && !$this->tableExists($tablename)) {
+                igk_debug_wln("en:", __FILE__.":".__LINE__,  get_class($this->m_dbManager));
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $this->DbName);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
@@ -343,9 +378,9 @@ class DataAdapter extends DataAdapterBase
         return null;
     }
 
-    public function getColumnInfo($table)
+    public function getColumnInfo(string $table, ?string $dbname=null)
     {
-        $data =  $this->getGrammar()->get_column_info($table);
+        $data =  $this->getGrammar()->get_column_info($table, $dbname);
         $outdata = [];
         array_map(function ($v) use ($table, &$outdata) {
             $cl = [];
@@ -393,18 +428,25 @@ class DataAdapter extends DataAdapterBase
      * 
      * @param mixed $query
      * @param mixed $throwex the default value is true
-     * @param mixed $options use to filter the query result. the default value is null
+     * @param mixed $options extra option. used by query result
+     * @return DbQueryResult|\Iterable|null|bool
      */
     public function sendQuery($query, $throwex = true, $options = null)
     {
-        $sendquery = $this->queryListener ?? $this->m_dbManager;
-        if ($sendquery) {
+        $listener = $this->queryListener ?? $this->m_dbManager;
+        if ($listener) {
             $options = $options ?? (object)[];
-            $r = $sendquery->sendQuery($query, $throwex);
+            $r = $listener->sendQuery($query, $throwex, $options); 
+            if ($r === false)
+                return false;
             if ($r instanceof DbQueryResult) {
                 return $r;
             }
+
             if ($r !== null) {
+                if ($res = igk_getv($options ,IGKQueryResult::RESULTHANDLER)){
+                    return $res->handle($r);
+                }
                 return IGKMySQLQueryResult::CreateResult($r, $query, $options);
             }
         }

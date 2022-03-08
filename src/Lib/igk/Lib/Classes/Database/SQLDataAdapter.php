@@ -51,10 +51,17 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     public function createLinkExpression($table, $column, $value, $columnkey){
         return new DbLinkExpression($table, $column, $value, $columnkey);      
     }
-
+    /**
+     * 
+     * @return SQLGrammar 
+     */
     public function getGrammar(){
         return $this->create_grammar() ?? die("grammar can't be found");
     }
+    /**
+     * 
+     * @return SQLGrammar 
+     */
     protected function create_grammar(){        
         $grammar = new SQLGrammar($this);
         // $grammar->driver = $this;
@@ -257,7 +264,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     * @param mixed $tabinfo the default value is null
     */
     public function update($tablename, $entry, $condition=null, $tabinfo=null){
-        $this->dieNotConnect();
+        // $this->dieNotConnect();
         $query = $this->getGrammar()->createUpdateQuery($tablename, $entry, $condition, $tabinfo);
         // $query=IGKSQLQueryUtils::GetUpdateQuery($tablename, $entry, $condition, $tabinfo);
         $s=$this->sendQuery($query, $tablename);
@@ -288,7 +295,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
             return $value->getValue();
         } else {
             if ($throwex){
-                throw new IGKException(__("objet not a DB Expression"));
+                throw new IGKException(__("objet not a DB Expression." .get_class($value)));
             }
         }
         return null;

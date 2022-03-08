@@ -1,0 +1,99 @@
+<?php
+namespace IGK\Tests\Models;
+
+use IGK\Database\DbColumnInfo;
+use IGK\Helper\Activator;
+use IGK\Models\DbModelDefinitionInfo;
+use IGK\Models\ModelBase;
+
+/** @package  
+ * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
+*/
+class Table1Test extends ModelBase {
+    protected $table = "dummy_table1";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo{
+        $clinfo = [
+            "clId"=>new DbColumnInfo(["clType"=>"Int",  "clTypeLength"=>"11", "clIsPrimary"=>1, "clAutoIncrement"=>1]),
+            "clName"=>new DbColumnInfo(["clType"=>"varchar", "clTypeLength"=>30]),
+            "clDescription"=>new DbColumnInfo(["clType"=>"text"])
+        ]; 
+
+        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
+        [
+            "tableRowReference"=>$clinfo,
+            "ColumnInfo"=>$clinfo,
+        ]);
+    }
+}
+ 
+ 
+class Table2Test extends ModelBase {
+    protected $table = "dummy_table2";
+
+    protected function getDataTableDefinition(){
+        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
+        [
+            "tableRowReference"=>[
+                "clId"=>new DbColumnInfo(["clType"=>"int", "clTypeLength"=>"11", "clIsPrimary"=>1, "clAutoIncrement"=>1]),
+                "clName"=>new DbColumnInfo(["clType"=>"varchar", "clTypeLength"=>30])
+            ]           
+        ]);
+    }
+}
+
+/**
+ * 
+ * @package IGK\Tests\Models
+ * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
+ */
+class Table3Test extends ModelBase{
+    protected $table = "dummy_table3";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo{
+        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
+        [
+            "tableRowReference"=>[
+                "clId"=>new DbColumnInfo(["clType"=>"int"]),
+                "clName"=>new DbColumnInfo(["clType"=>"varchar", "clTypeLength"=>30]),
+                "clData"=>new DbColumnInfo(["clType"=>"json", 'clNotNull'=>true]),
+            ]           
+        ]);
+    }
+}
+/**
+ * 
+ * @package IGK\Tests\Models
+ * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
+ */
+class Table4Test extends ModelBase{
+    protected $table = "dummy_table4";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo{
+        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
+        [
+            "tableRowReference"=>[
+                "clId"=>new DbColumnInfo(["clType"=>"int"]),
+                "clDate"=>new DbColumnInfo(["clType"=>"datetime", "clTypeLength"=>30]),                
+            ]           
+        ]);
+    }
+}
+
+/** @package  */
+class table_enum extends ModelBase {
+    protected $table = "dummy_table1";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo{
+      
+        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
+        [
+            "tableRowReference"=>[
+                "clId"=>new DbColumnInfo(["clType"=>"int", "clIsPrimary"=>1, "clAutoIncrement"=>1]),
+                "clName"=>new DbColumnInfo(["clType"=>"Enum", "clEnumValues"=>"1,2,3",
+                 "clDefault"=>"1", 
+                 "clTypeLength"=>30]), 
+            ]
+        ]);
+    }
+}

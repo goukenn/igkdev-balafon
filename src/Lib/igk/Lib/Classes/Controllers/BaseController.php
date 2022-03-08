@@ -4,10 +4,12 @@ namespace IGK\Controllers;
 
 use Exception;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\Helper\StringUtility;
 use IGK\Resources\R;
 use IGK\System\Configuration\ControllerConfigurationData;
 use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Html\Dom\HtmlCtrlNode;
+use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGKEnvironment;
@@ -23,7 +25,7 @@ use function igk_resources_gets as __;
  * @method static bool getCanInitDb() check if this controller entry can init database
  * @method static bool initDb() macros method. init controller database
  * @method static string name(string $path) macros method. get resolved key name
- * @method static InitDataBaseModel() macros function
+ * @method static void InitDataBaseModel() macros function
  * @method static InitDataFactory() macros function
  * @method static InitDataInitialization() macros function
  * @method static InitDataSeeder() macros function
@@ -38,10 +40,10 @@ use function igk_resources_gets as __;
  * @method static string buri(string $path) macros function
  * @method static cache_dir() macros function
  * @method static checkUser() macros function
- * @method static string classdir() macros function
- * @method static string configDir() macros function
- * @method static string configFile() macros function
- * @method static BaseController ctrl() macros function
+ * @method static string classdir() macros function get entry class directory
+ * @method static string configDir() macros function get configuration directory
+ * @method static string configFile() macros function get configuration file
+ * @method static BaseController ctrl() macros function get controller instance
  * @method static void db_add_column() macros function
  * @method static void db_change_column() macros function
  * @method static \IIGKQueryResult db_query(string $query) macros function
@@ -52,12 +54,12 @@ use function igk_resources_gets as __;
  * @method static void furi() macros function
  * @method static string getAuthKey() macros function : get controller authentication key
  * @method static void getAutoresetParam() macros function
- * @method static void getBaseFullUri() macros function
+ * @method static string getBaseFullUri() macros function
  * @method static void getCacheInfo() macros function
- * @method static void getCanInitDb() macros function
- * @method static void getCanModify() macros function
+ * @method static bool getCanInitDb() macros function
+ * @method static bool getCanModify() macros function
  * @method static void getComponentsDir() macros function
- * @method static void getCurrentDoc() macros function
+ * @method static \IGKHtmlDoc getCurrentDoc() macros function
  * @method static object getDataAdapter() macros function data driver
  * @method static string getDataSchemaFile() macros function
  * @method static array getDataTableDefinition(string tablename) macros function
@@ -65,12 +67,12 @@ use function igk_resources_gets as __;
  * @method static void getEnvParam() macros function
  * @method static void getEnvParamKey() macros function
  * @method static void getInitDbConstraintKey() macros function
- * @method static void getIsVisible() macros function
+ * @method static bool getIsVisible() macros function
  * @method static void getRouteUri() macros functiong
  * @method static void getTestClassesDir() macros function
  * @method static object getUser() macros function
  * @method static void array getViewArgs() macros function
- * @method static void hookName() macros function
+ * @method static string hookName() macros function get hook name
  * @method static void initDbConstantFiles() macros function
  * @method static void initDbFromFunctions() macros function
  * @method static void initDbFromSchemas() macros function
@@ -123,8 +125,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
     private static $sm_sysController = [];
 
-
-    protected function getActionHandler($name, $params = null)
+    /**
+     * get action handler
+     */
+    protected function getActionHandler(string $name, $params = null)
     {
         if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
             $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
@@ -135,12 +139,17 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if (!empty($ns)) {
             $c[] = $ns;
         }
-        $c[] = "Actions\\" . ucfirst($name) . "Action";
-        $t[] = implode("\\", $c);
+        $m = "";
+        $sep = "";
+        foreach(explode("/", $name) as $r){
+            $m .= $sep.StringUtility::CamelClassName(ucfirst($r));
+            array_unshift($t, implode("\\", array_filter(array_merge($c, ["Actions\\".$m."Action"]))));    
+            $sep="\\";
+        } 
 
         if ($name != IGK_DEFAULT_VIEW) {
             $t[] = implode("\\", array_filter(array_merge([$ns], ["Actions\\" . ucfirst(IGK_DEFAULT_VIEW) . "Action"])));
-        }
+        } 
         while ($cl = array_shift($t)) {
             if (class_exists($cl)) {
                 return $cl;
@@ -214,7 +223,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $ctrl = $this;
         $params = null;
         extract($ctrl->getViewArgs());
-      
+        $v_handle =false;
         $f = "";
         $v = $this->getCurrentView() ?? igk_die("current view is null. " . get_class($this));
         $c = strtolower(igk_getr("c", null));
@@ -224,6 +233,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $meth_exits = method_exists($this, $meth = $v);
         if (($meth_exits && $this->IsFuncUriAvailable($meth)) || (isset($params) && method_exists($this, $meth = IGK_DEFAULT_VIEW))) {
             try {
+                $v_handle = "method";
                 $params = isset($params) ? $params : [];
                 return call_user_func_array(array($this, $meth), $params);
             } catch (Exception $ex) {
@@ -236,9 +246,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
         if (!$meth_exits && !file_exists($f = igk_io_dir($this->getViewFile($v)))) {
             //
-
+            $v_handle = "file";
             $find = $this->_resolview($f, $params);
-
             if (!$find) {
                 if (igk_is_conf_connected() && IGKServer::IsLocal()) {
                     if (!igk_io_save_file_as_utf8($f, igk_get_defaultview_content($this), true)) {
@@ -264,9 +273,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $vdir = $this->getViewDir();
         $tdir = empty($f) ? igk_io_dir(implode("/", [$vdir, $v])) : $f;
         if (file_exists($f)) {
-            try {
-               
-                //+ bind view
+            try {  
+                // + -------------------------------------------             
+                // + | bind view
+                $v_handle = "bindfile";
                 if ( (!empty($tdir) && empty(strstr($f, $tdir))) && ((dirname($f) == $vdir) || !is_dir($tdir))) {
                     if ($v != IGK_DEFAULT_VIEW) {
                         if ($params && ((count($params) >= 1) && isset($params[0]) && ($params[0] !== $v))) {
@@ -283,6 +293,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 igk_exit();
             }
         }
+        if ($v_handle === false){
+            throw new PageNotFoundException(__("View {$v} Not Handle ")); 
+        }
     }
     ///<summary>copy this fonction to allow file inclusion on the current context controller</summayr>
     /**
@@ -295,12 +308,11 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $fname = igk_io_getviewname($file, $this->getViewDir());
         $rname = igk_io_view_root_entry_uri($this, $fname);
         $context = __FUNCTION__;
-        extract($this->utilityViewArgs($fname, $file));
+        extract($this->utilityViewArgs($fname, $file));   
         extract($this->getSystemVars());
         
         $this->setEnvParam("fulluri", $furi);
-        $params = isset($params) ? $params : array(); 
-
+        $params = isset($params) ? $params : array();  
 
         $query_options = $this->getEnvParam(IGK_VIEW_OPTIONS);
         $is_direntry = (count($params) == 0) && igk_str_endwith(explode('?', igk_io_request_uri())[0], '/');
@@ -318,33 +330,32 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $targs = get_defined_vars();
 
             //+ | ----------------------------------------------------------------
-            //+ | insert here a middleware to auto handle the view before include 
-            //+ | ----------------------------------------------------------------
-            // if ((igk_count($params)>0) && !key_exists(0, $params)){
-            //     igk_ilog("somthing bad");
-            //     igk_ilog($params);
-            // }
+            //+ | handle action: insert here a middleware to auto handle the view before include 
+            //+ |   
+
             if (!$this->getEnvParam(self::NO_ACTION_FLAG) && (igk_count($params) > 0) && key_exists(0, $params) && ($handler = $this->getActionHandler($fname, $params[0]))) {
                 $handler::Handle($this, $fname, $params);
             } 
+            // + | ----------------------------------------------------------------
+            // + | check if view already loaded:
+            // + | do not include view file in case file already beeing include by the loader
+            
+            $g = ($loader = $this->getLoader())? $loader->loaded_files() : null;
+            if ($g && in_array($file, $g)){
+                if (!empty($buffer = $this->_output )){
+                    $t->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->Content = $buffer; 
+                } 
+                return;
+            } 
+
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;
             $response = igk_include_view_file($this, $file, $targs);
-
             igk_environment()->viewfile = 0;
             set_include_path($bckdir);
             $out = ob_get_contents();
-            ob_end_clean();
-
-
-
-            // echo "try bind-------1\n\n";
-            // $t->clearChilds();
-            // $t->div(); // (new HtmlNode("quote")); // ->div()->Content = "Marto";
-
-            // $s = $t->render();
-            // echo "\n\nfinish: ".$s; 
+            ob_end_clean(); 
 
             if (!empty($out)) {
                 $t->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->Content = $out;
@@ -354,6 +365,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 \IGK\System\Http\Response::HandleResponse($response);
                 igk_exit();
             }
+
+
         } catch (\Exception $ex) {
             if (!($code = $ex->getCode())) {
                 $code = 500;
@@ -419,7 +432,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     public function getParamKeys()
     {
-        return array_keys($this->getFlagParams());
+        return array_keys((array)$this->getParams());
     }
     ///<summary>get all controller's parameters</summary>
     /**
@@ -427,7 +440,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     public function getParams()
     {
-        return $this->getFlagParams();
+        return $this->getM_();
     }
     ///override this method to show the controller view.
     /**
@@ -531,6 +544,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     ///<summary>get controlleur current configuration</summary>
     /**
      * get controlleur current configuration
+     * @return IControllerConfigurationData 
      */
     public function getConfigs()
     {
@@ -664,15 +678,18 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     }
     ///<sample>editor[/package/function/arg1/args2]</sample>
     /**
-     * @param string view view extension
-     * @param string checkfile _exist
-     * @param string extra view extension
+     * @param string $view extension
+     * @param string $checkfile _exist
+     * @param ?array & $param extra view extension
+     * @param string &extra view extension
      */
-    public function getViewFile($view, $checkfile = 1)
-    {
+    public function getViewFile($view, $checkfile = 1, & $param=null)
+    {  
         $extension = IGK_DEFAULT_VIEW_EXT;
-        if ($e = igk_getv(array_slice(func_get_args(), 2), 0))
+        if ($e = igk_getv(array_slice(func_get_args(), 3), 0))
             $extension = $e;
+        
+        
         if (empty($view))
             $view = IGK_DEFAULT_VIEW;
         else if ($rp = realpath($view))
@@ -684,12 +701,13 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         $f = igk_html_uri(rtrim($this->getViewDir() . "/" . $view, '/'));
         $ext = $extension;
+     
         if (is_dir($f)) {
-            //window allow same file in folder
+            //window allow dir and file with the same name
             if (file_exists($cf = $f . "/" . IGK_DEFAULT_VIEW_FILE)) {
                 $f = $cf;
             } else {
-                $f = $f    . "." . $extension;
+                $f = $f . "." . $extension;
             }
         } else {
             $ext = preg_match('/\.' . $ext . '$/i', $view) ? '' : '.' . $ext;
@@ -698,6 +716,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 if (is_file($f)) {
                     return $f;
                 } else {
+                    if (is_array($param)){
+                        array_unshift($param, ...explode("/", $view));
+                    }
                     return dirname($f) . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
                 }
             }

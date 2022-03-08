@@ -1,12 +1,13 @@
 <?php
 
-// file: IGKInstallSiteConfig
+// @file: IGKInstallSiteConfig
 // desc: install site
 //
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Installers\InstallerUtils;
 use IGK\System\Installers\InstallSite;
+use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 
@@ -54,6 +55,17 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	public function getIsConfigPageAvailable()
 	{
 		return !igk_io_is_subdir(igk_io_applicationdir(), IGK_LIB_DIR);
+	}
+	public function initConfigMenu()
+	{
+		return [
+			new MenuItem(
+				"installsite",
+				__("install site"),
+				$this->getUri("showConfig"),
+				30, null, "administration"
+			)
+		];
 	}
 	public function View()
 	{

@@ -78,5 +78,7 @@ return [
 "error_reporting"=>0,
 "allow_page_cache"=>1,
 "powered_uri"=>IGK_WEB_SITE,
-"powered_message"=>strtoupper(IGK_COMPANY)
+"powered_message"=>strtoupper(IGK_COMPANY),
+"pagelayout_limit"=>20,
+"pagelayout_limits"=>[20,50,100]
 ];

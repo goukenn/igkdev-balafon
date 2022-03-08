@@ -13,17 +13,49 @@ namespace IGK\System\Configuration\Controllers;
 
 use IGK\Models\Systemuri;
 use IGK\System\Html\HtmlRenderer;
+use IGKException;
 use IGKSystemUriActionPatternInfo;
 use IIGKUriActionListener;
 
 final class SystemUriActionController extends ConfigControllerBase implements IIGKUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
-    private static $sm_actions, $sm_routes;
+    private static $sm_actions, $sm_routes, $sm_Match_required = false;
+    public static function GetCacheFile(){
+        return igk_io_cachedir()."/.routes.cache";
+    }
+    private static function _RegActions(SystemUriActionController $controller){
+        if (self::$sm_actions === null){
+            // @unlink(self::GetCacheFile());
+            if (file_exists($file = self::GetCacheFile())){
+                $tab = unserialize(file_get_contents($file));
+                self::$sm_routes = $tab["routes"];
+                self::$sm_actions = $tab["actions"];
+                if (empty(self::$sm_actions)){
+                    self::$sm_actions = self::InitActionList($controller, self::$sm_routes);
+                } 
+            }
+            else {
+                $g = & $controller->getRoutes();
+                self::$sm_actions = self::InitActionList($controller, $g);
+                // igk_wln_e("init route ", self::$sm_actions);
+                register_shutdown_function(function()use($file)
+                { 
+                    igk_io_w2file($file, serialize([
+                        "routes"=>self::$sm_routes,
+                        "actions"=>self::$sm_actions
+                    ])); 
+                });
+            } 
+            krsort(self::$sm_routes);
+        }
+        return self::$sm_actions;
+    }
     ///<summary></summary>
     ///<param name="key"></param>
     public function contains($key){
-        $tab=$this->getRoutes();
+        
+        $tab=$this->_refRoutes();
         if(is_array($tab))
             return array_key_exists($key, $tab);
         return false;
@@ -94,7 +126,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     }
     ///<summary></summary>
     public function getmailto(){
-        igk_navto("mailto:bondje.doue@igkdev.com");
+        igk_navto("mailto:".IGK_AUTHOR_CONTACT);
         igk_exit();
     }
     ///<summary></summary>
@@ -108,18 +140,20 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<summary>get system uri actions routes</summary>
     ///<return refout="true"></return>
     public function & getRoutes(){
-        if(self::$sm_routes == null){
+        if(self::$sm_routes === null){
             self::$sm_routes=array();
         }
         return self::$sm_routes;
     }
+    private function & _refRoutes(){
+        self::_RegActions($this);
+        return $this->getRoutes();
+    }
     ///<summary></summary>
     ///<param name="key" default="null"></param>
     public function getSystemUri($key=null){
-        $tab=$this->getRoutes();
-        if(isset($tab[$key]))
-            return $tab[$key];
-        return null;
+        $tab=$this->_refRoutes();
+        return igk_getv($tab,$key);
     }
     ///<summary></summary>
     public function gotoconfig(){
@@ -129,55 +163,57 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function init_wakeup(){    }
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
-    private static function InitActionList($ctrl){
-       
-        if (defined("IGK_NO_WEB") || igk_is_cmd()){
-            return;
+    private static function InitActionList($ctrl, & $route){
+        // igk_wln_e(__FILE__.":".__LINE__, "init action ... ");
+        $actions=array();
+        if (!self::$sm_Match_required && (defined("IGK_NO_WEB") || igk_is_cmd())){
+            return $actions;
         }
-        self::$sm_actions=array();
-        self::$sm_actions["^/config(.php)?$"]=$ctrl->getUri("gotoconfig");
+        $actions["^/config(.php)?$"]=$ctrl->getUri("gotoconfig");
         $conf_ctrl=igk_getconfigwebpagectrl();
         if($conf_ctrl){
-            self::$sm_actions["^/Configs!Settings$"]=$conf_ctrl->getUri("configure_settings");
+            $actions["^/Configs!Settings$"]=$conf_ctrl->getUri("configure_settings");
             $t=igk_get_env("sys://configs/options");
             if($t){
                 foreach($t as $k=>$v){
-                    self::$sm_actions["^/Configs!{$k}$"]=$conf_ctrl->getUri("configure&v=".$v);
+                    $actions["^/Configs!{$k}$"]=$conf_ctrl->getUri("configure&v=".$v);
                 }
             }
-            self::$sm_actions["^/reconnect$"]=$conf_ctrl->getUri("reconnect");
+            $actions["^/reconnect$"]=$conf_ctrl->getUri("reconnect");
         }
-        self::$sm_actions["/@!(.)+"]=$ctrl->getUri("invoke_action");
-        self::$sm_actions["/clr$"]="?c=".IGK_SESSION_CTRL."&f=ClearS";
-        self::$sm_actions["/run-cron$"]="?c=".IGK_SESSION_CTRL."&f=RunCron";
-        self::$sm_actions["^/initsdb$"]="?c=".IGK_MYSQL_DB_CTRL."&f=pinitSDb";
-        self::$sm_actions["^/getmailto$"]=$ctrl->getUri("getmailto");
+        $actions["/@!(.)+"]=$ctrl->getUri("invoke_action");
+        $actions["/clr$"]="?c=".IGK_SESSION_CTRL."&f=ClearS";
+        $actions["/run-cron$"]="?c=".IGK_SESSION_CTRL."&f=RunCron";
+        $actions["^/initsdb$"]="?c=".IGK_MYSQL_DB_CTRL."&f=pinitSDb";
+        $actions["^/getmailto$"]=$ctrl->getUri("getmailto");
         if($uctrl=igk_getctrl(IGK_USER_CTRL)){
-            self::$sm_actions["^/connect$"]=$uctrl->getUri("connectpage");
-            self::$sm_actions["^/signup$"]=$uctrl->getUri("signup");
-            self::$sm_actions["^/users/begin_reset_pwd$"]=$uctrl->getUri("begin_pwd_reset");
-            self::$sm_actions["^/users/logout$"]=$uctrl->getUri("logout_lnk");
+            $actions["^/connect$"]=$uctrl->getUri("connectpage");
+            $actions["^/signup$"]=$uctrl->getUri("signup");
+            $actions["^/users/begin_reset_pwd$"]=$uctrl->getUri("begin_pwd_reset");
+            $actions["^/users/logout$"]=$uctrl->getUri("logout_lnk");
         }
         if($sys_c=igk_getctrl(IGK_SYS_CTRL, false)){
-            self::$sm_actions["^/sys_api/check_mod_rewrite$"]=$sys_c->getUri("mod_rewrite");
-        }
-        $route=& $ctrl->getRoutes();
-        foreach(self::$sm_actions as $k=>$v){
+            $actions["^/sys_api/check_mod_rewrite$"]=$sys_c->getUri("mod_rewrite");
+        }  
+        // + | append actions to routes
+        foreach($actions as $k=>$v){
             $route[$k]=$v;
-        } 
-        $e = Systemuri::select_all(); 
-        if($e){
-            foreach($e as $k=>$v){
-                if(is_object($v)){
-                    $route[$v->clName]=$v->clUri;
-                }
-                else{
-                    igk_wln("uri : object not register from db");
-                    igk_wln($v);
+        }  
+        if (!igk_sys_configs()->get("no_db_route")){
+            $e = Systemuri::select_all(); 
+            if($e){
+                foreach($e as $k=>$v){
+                    if(is_object($v)){
+                        $route[$v->clName]=$v->clUri;
+                    }
+                    else{
+                        igk_wln("uri : object not register from db");
+                        igk_wln($v);
+                    }
                 }
             }
         }
-        return self::$sm_actions;
+        return $actions;
     } 
    
     ///<summary></summary>
@@ -231,6 +267,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<param name="func"></param>
     ///<param name="args"></param>
     public function invokePageAction($type, $ctrl, $func, $args){
+
+        self::_RegActions($this);
+igk_wln_e("page action");
         switch($type){
             case "sys":
             $ctrl=igk_getctrl($ctrl);
@@ -282,7 +321,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<param name="pattern"></param>
     ///<param name="render" default="1"></param>
     public function invokeUriPattern($pattern, $render=1){
-        $r=$this->getRoutes();
+        $r=$this->_refRoutes();
         $v_uri=$r ? igk_getv($r, $pattern->action): null;
         $app=igk_app();
         $app->Session->PageFolder=IGK_HOME_PAGEFOLDER;
@@ -294,19 +333,50 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             igk_exit();
         }
     }
-   
+    /**
+     * get controller that match the query
+     * @param string $uri 
+     * @return null|\IGK\Controllers\BaseController 
+     * @throws IGKException 
+     */
+    public static function GetMatchCtrl(string $uri){
+        static $rsolv = true;
+
+        if ($rsolv){
+            $rsolv = false;
+        }else {
+            return ;
+        }
+
+        self::$sm_Match_required = true;
+        $g = self::ctrl()->matche($uri);
+        self::$sm_Match_required = false;
+        $c = null;
+        $rsolv = true;
+        if ($g){
+            $tg = [];
+            parse_str(igk_getv(parse_url($g->value), "query", ""), $tg);            
+            if ($c = igk_getv($tg, "c")){ 
+                return igk_getctrl($c, false);
+            }
+        }
+    }
     ///<summary></summary>
     ///<param name="uri"></param>
     public function matche($uri){
-        $v_routes=$this->getRoutes();
+        if (empty($uri)){
+            return null;
+        }
+        $v_routes = $this->_refRoutes();  
         if($v_routes){
-            krsort($v_routes);
+            //  krsort($v_routes);
             foreach($v_routes as $k=>$v){
-                $pattern=igk_pattern_matcher_get_pattern($k);
+                $pattern=igk_pattern_matcher_get_pattern($k); 
                 if(preg_match_all($pattern, $uri)){
+                     
                     return new IGKSystemUriActionPatternInfo(array(
                         "action"=>$k,
-                        "ctrl"=>null,
+                        "ctrl"=> null,
                         "value"=>$v,
                         "pattern"=>$pattern,
                         "uri"=>$uri,
@@ -319,7 +389,8 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     }
     ///<summary> use to match global registrated uri</summary>
     public function matche_global($uri){
-        $v_routes=$this->getRoutes();
+    
+        $v_routes = $this->_refRoutes();
         if($v_routes){
             foreach($v_routes as $k=>$v){
                 $pattern=igk_pattern_matcher_get_pattern($k);
@@ -361,18 +432,19 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<param name="p"></param>
     ///<param name="uri"></param>
     public function sys_ac_register($p, $uri){
-        $v_tab=& $this->getRoutes();
+        $v_tab = & $this->_refRoutes(); 
         if(isset($v_tab[$p])){
-            return;        }
+            return;       
+         }
         $v_tab[$p]=$uri;
     }
     ///<summary></summary>
     ///<param name="uripattern"></param>
     public function sys_ac_unregister($uripattern){
-        $tab=& $this->getRoutes();
+        $tab=& $this->_refRoutes();
         if(isset($tab[$uripattern])){
             unset($tab[$uripattern]);
-            $this->setRoutes($tab);
+            // $this->setRoutes($tab);
         }
     }
     ///<summary></summary>
@@ -390,7 +462,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $c->addHSep();
         $div=$c->div();
         $ul=$div->add("ul");
-        $v_routes=$this->getRoutes();
+        $v_routes=$this->_refRoutes();
         foreach($v_routes as $k=>$v){
             $li=$ul->li()->setClass("clearb");
             $li->add("span", array("class"=>"igk-col-4-2 no-overflow igk-text-ellipis"))->Content=$k;
@@ -401,6 +473,5 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     protected function initComplete()
     {
         parent::initComplete();
-        self::InitActionList($this);
     }
 }

@@ -28,10 +28,12 @@ final class SystemController extends NonVisibleControllerBase{
         return implode("/", [$uri, $path]);        
     }
     public function logout(){
+     
         UsersConfigurationController::ctrl()->logout();   
         if ($sess = igk_app()->getApplication()->getLibrary()->session){
             $sess->destroy();            
         }
+        igk_clearall_cookie();
         $redirect = urldecode(igk_getr("redirect_uri", "/")); 
         igk_navto($redirect);
     }
@@ -139,7 +141,7 @@ final class SystemController extends NonVisibleControllerBase{
         }
         igk_app()->Configs->globaltheme=$name;
         igk_save_config();
-        igk_app()->bindCtrlStyle(); 
+        // igk_app()->bindCtrlStyle(); 
         igk_css_render_balafon_style();
         igk_exit();
     }

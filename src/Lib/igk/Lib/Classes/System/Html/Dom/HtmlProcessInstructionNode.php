@@ -64,69 +64,11 @@ class HtmlProcessInstructionNode extends HtmlNode{
             $src=$compiler->Compile($src);
         }
         else{
-            if(igk_getv($options, "PHP.SkipComment")){
-                //remove comment
-                $src = substr(PHPScriptBuilderUtility::RemoveComment("<?".$src), 2);
-                // echo "source : ".implode("", array_filter($source));
-                // echo "<pre>";
-                // echo $src;
-                // var_dump(array_map(function($n){
-                //     echo "name: ".token_name($n[0]) . " Line :".igk_getv($n, 2) ." <br />";
-                // }, $comments));
-                // var_dump($comments);
-                // echo "</pre>";
-                // igk_wln_e(__FILE__.":".__LINE__, $comments);
-
-                // $pos=0;
-                // $ln=strlen($src);
-                // $comment=false;
-                // $cs="";
-                // while($pos < $ln){
-                //     $ch=$src[$pos];
-                //     if($comment){
-                //         if($ch != "*"){
-                //             if($ch != '/'){
-                //                 $comment=false;
-                //                 $cs .= "/";
-                //             }
-                //         }
-                //     }
-                //     switch($ch){
-                //         case "'":
-                //         case "\"":
-                //         $cs .= igk_str_read_brank($src, $pos, $ch, $ch);
-                //         break;
-                //         case "/":
-                //         if(!$comment){
-                //             $comment=true;
-                //         }
-                //         else{
-                //             if($rpos=strpos($src, "\n", $pos)){
-                //                 $pos=$rpos;
-                //             }
-                //             else{
-                //                 $pos=$ln;
-                //             }
-                //             $comment=false;
-                //         }
-                //         break;
-                //         case "*":
-                //         if($comment){
-                //             if(($lpos=strpos($src, "*/", $pos)) > $pos){
-                //                 $pos=$lpos + 2;
-                //                 $comment=false;
-                //                 break;
-                //             }
-                //             igk_wln_e("remove multilne comment :: ".$cs, $src, "pos : ".$lpos);
-                //         }
-                //         $cs .= $ch;
-                //         break;default: $cs .= $ch;
-                //         break;
-                //     }
-                //     $pos++;
-                // }
-                // $src=$cs;
-                $src=implode("\n", array_filter(array_map("rtrim", explode("\n", $src))));
+            if(igk_getv($options, "PHP.SkipComment")){              
+                // + | remove comment 
+                $src = substr(PHPScriptBuilderUtility::RemoveComment("<?".$src), 2);    
+                // + | remove empty line            
+                $src=implode("\n", array_filter(array_map("rtrim", explode("\n", $src)))); 
             }
         }
         $out="<?";

@@ -99,7 +99,7 @@ class IGKUserAgent{
     }
     ///<summary></summary>
     public static function IsChrome(){
-        if(strstr(self::Agent(), "Chrome"))
+        if( ($a = self::Agent()) && strstr($a, "Chrome"))
             return true;
         return false;
     }

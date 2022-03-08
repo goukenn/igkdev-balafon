@@ -3,6 +3,7 @@
 
 ///<summary>Represente class: IGKLog</summary>
 
+use IGK\Database\DataAdapterBase;
 use IGK\Helper\IO;
 
 /**
@@ -12,6 +13,11 @@ final class IGKLog extends IGKObject
 {
     const ERRORLOGFILE = "Data/Logs/.global-error." . IGK_TODAY . ".log";
     const LOGFILE = "Data/Logs/.global." . IGK_TODAY . ".log";
+    /**
+     * logger flags
+     * @var false
+     */
+    private static $sm_loggin = false;
     private static $sm_instance;
     ///<summary></summary>
     /**
@@ -55,6 +61,10 @@ final class IGKLog extends IGKObject
      */
     public static function Append($msg, $tag = null, $traceindex = 0)
     {
+        if (self::$sm_loggin){
+            igk_die("try lo log when appending ");
+        }
+        self::$sm_loggin = true;
         // + igk_wln($msg);
         // + igk_trace();
         // + igk_exit();
@@ -92,12 +102,27 @@ final class IGKLog extends IGKObject
             error_log("[{$tag}] - $msg");
         }
 
-        /**
-         * 
-         */
-        if (!igk_sys_configs()->no_db_log){
-            \IGK\Models\DbLogs::add($msg, $tag);
+        // +| ---------------------------------------------------
+        // +| log running data to running app
+       
+        if (self::CanDBLog()){            
+            \IGK\Models\DbLogs::add($msg, $tag);            
         }
+        igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());
+        self::$sm_loggin = false;
+    }
+    /**
+     * check if can write log gdo data base
+     * @return void|false 
+     * @throws IGKException 
+     */
+    public static function CanDBLog(){
+        $g = !igk_environment()->get("NoDBLog") && !igk_sys_configs()->no_db_log && igk_app();
+        if ($g){
+            $db = igk_sys_configs()->get("default_dataadapter");
+            return DataAdapterBase::IsRegister($db);
+        }
+        return false;
     }
     ///<summary></summary>
     /**

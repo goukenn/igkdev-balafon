@@ -12,6 +12,7 @@ use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use IGK\Actions\MiddlewireActionBase;
+use IGK\Helper\StringUtility;
 use \IGKControllerManagerObject;
  
 class MakeActionCommand extends AppExecCommand{
@@ -24,6 +25,12 @@ class MakeActionCommand extends AppExecCommand{
     var $options = [ 
         "--type"=>"defaut action type class"
     ]; 
+
+    var $help = "[options] controller actionName";
+    /**
+     * @var string $name Controller
+     * @var string $actionName the action to create 
+     */
     public function exec($command, $name="", $actionName=""){
         if (empty($name)){
             return false;
@@ -54,16 +61,21 @@ class MakeActionCommand extends AppExecCommand{
         $dir = $ctrl::classdir(); 
         $bind = [];
         $actionName = ucfirst($actionName);
-        $clname = igk_str_ns($actionName);
-
-        $bind[$dir."/Actions/{$clname}Action.php"] = function($file)use($actionName, 
-            $author,$clname, $ns, $type){           
+        $path = $actionName;
+        $tcl =  explode("/", StringUtility::Uri($path ));
+        array_pop( $tcl); 
+        if (!empty($ns)){
+            $ns.="\\";
+        }
+        $ns .= "Actions";
+        if (count($tcl)){
+            $ns.= "\\".implode("\\", $tcl);
+        }
+         
+        $bind[$dir."/Actions/{$path}Action.php"] = function($file)use($actionName, 
+            $author, $ns, $type){           
             $builder = new PHPScriptBuilder();
-            $fname = $actionName.".phtml";
-            if (!empty($ns)){
-                $ns.="\\";
-            }
-            $ns .= "Actions";
+            $fname = $actionName.".phtml";           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
             ->author($author)
             ->namespace($ns)
@@ -74,9 +86,7 @@ class MakeActionCommand extends AppExecCommand{
             ->desc("view action ".$actionName);
             igk_io_w2file( $file,  $builder->render());
         };
-
-       
-
+ 
         foreach($bind as $n=>$c){
             if (!file_exists($n)){
                 $c($n, $command);

@@ -24,7 +24,7 @@ use function igk_resources_gets as __;
 class RequestHandler
 {
     private static $sm_instance;
-
+    private $m_ctrl_request;
     /**
      * handle current context
      * @var mixed
@@ -46,6 +46,15 @@ class RequestHandler
     {
     }
 
+    /**
+     * get if request handler handle the controller request
+     * @param string $uri 
+     * @return false 
+     * @throws IGKException 
+     */
+    public static function IsHandling(string $uri){        
+        return $uri == self::getInstance()->m_ctrl_request;
+    }
     /**
      * 
      * @param mixed $path 
@@ -157,14 +166,14 @@ class RequestHandler
             return;
         $c = igk_getr("c");
         $f = igk_getr("f");
+ 
         $app = igk_app();
         if ($c && $f) {
             $f = str_replace("-", "_", $f);
             $arg = array();
             $args = igk_getquery_args($u);
             $arg = igk_io_arg_from($f);
-            $ctrl = igk_getctrl($c, false) ?? igk_template_create_ctrl($c);
-            // igk_wln_e(__FILE__.":".__LINE__, "controller: ".$c, $ctrl, session_id());
+            $ctrl = igk_getctrl($c, false); // + | ?? igk_template_create_ctrl($c); 
             if (!$ctrl) {
                 return null;
             }
@@ -189,20 +198,24 @@ class RequestHandler
                 unset($fd);
                 igk_environment()->set(IGK_ENV_REQUEST_METHOD, strtolower(get_class($ctrl) . "::" . $f));
                 igk_environment()->set(IGK_ENV_INVOKE_ARGS, $args);
+                self::getInstance()->m_ctrl_request = $ctrl->getUri($f);
+                $response = null;
                 if (is_array($arg))
-                    call_user_func_array(array($ctrl, $f), $arg);
+                    $response = call_user_func_array(array($ctrl, $f), $arg);
                 else {
                     if ($arg)
-                        $ctrl->$f($arg);
+                        $response = $ctrl->$f($arg);
                     else {
-                        $ctrl->$f();
+                        $response = $ctrl->$f();
                     }
                 }
+                self::getInstance()->m_ctrl_request = null; 
                 igk_environment()->set(IGK_ENV_INVOKE_ARGS, null);
                 igk_environment()->set(IGK_ENV_REQUEST_METHOD, null);
                 if ($defaultBehaviour && $v_isajx) {
                     igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
                     igk_environment()->isAJXDemand = null;
+                    igk_do_response($response);
                     igk_exit();
                 }
                 $app->Session->URI_AJX_CONTEXT = 0;
@@ -216,7 +229,7 @@ class RequestHandler
                 igk_ilog($msg);
             }
         }
-        igk_environment()->handle_ctrl_request = 1; 
+        igk_environment()->handle_ctrl_request = 1;  
     }
     /**
      * handle redirect
@@ -290,7 +303,7 @@ class RequestHandler
         }
         $args = igk_getquery_args($server_info->{'REDIRECT_QUERY_STRING'});
         $_REQUEST = array_merge($_REQUEST, $args);
-        if ($r == "POST" && ($code < 900)) {
+        if (($r == "POST") && ($code < 900)) {
             //DEBUG: Posted data are lost
             igk_is_debug() && igk_wln_e($_POST);
         }

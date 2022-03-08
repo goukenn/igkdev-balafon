@@ -1,6 +1,6 @@
 <?php
-// file: ActionHelper.php
-// author: C.A.D BONDJE DOUE
+// @file: ActionHelper.php
+// @author: C.A.D BONDJE DOUE
 // date: 2022-10-02
 // description: contains function that IGKActionBase can use
 

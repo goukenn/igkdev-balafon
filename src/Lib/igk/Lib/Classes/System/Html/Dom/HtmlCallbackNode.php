@@ -20,8 +20,14 @@ final class HtmlCallbackNode extends HtmlNode{
         return 1;
     }
     ///<summary></summary>
-    public function __construct(){
+    /**
+     * render callback constructor
+     * @param null|callable $callback 
+     * @return void 
+     */
+    public function __construct(?callable $callback=null){
         parent::__construct('igk:callbacknode');
+        $this->callback = $callback;
     }
     ///<summary></summary>
     public function getCanRenderTag(){
@@ -31,10 +37,12 @@ final class HtmlCallbackNode extends HtmlNode{
     ///<param name="options" default="null"></param>
     public function render($options=null){
         IGKOb::Start();
-        $fc=$this->callback;
-        $fc($options);
+        $r = "";
+        if ($fc=$this->callback){
+            $r = $fc($options);
+        }
         $s=IGKOb::Content();
         IGKOb::Clear();
-        return $s;
+        return $r.$s;
     }
 }

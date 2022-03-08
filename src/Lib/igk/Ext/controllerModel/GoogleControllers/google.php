@@ -1,6 +1,6 @@
 <?php
-// file: google.php
-// author: C.A.D. BONDJE DOUE
+// @file: google.php
+// @author: C.A.D. BONDJE DOUE
 // description: BALAFON google's utility function. fonts, some components
 // version: 1.0
 // annotation: none, vertical-bubble, bubble
@@ -21,7 +21,18 @@ define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
 define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
 define("IGK_GOOGLE_DEFAULT_PROFILE_PIC", "//lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s120");
 
-
+/**
+ * set theme definition
+ * @param mixed $theme 
+ * @param mixed $family 
+ * @return void 
+ */
+function igk_google_css_setfont(& $theme, $family, $extra="sans-serif"){
+    $n = str_replace(" ", "-", $family);
+    if (is_string($extra) && !empty(trim($extra)))
+        $extra = ", ".$extra;
+    $theme[".google-".$n] = "font-family:'{$n}'{$extra};";
+}
 ///<summary>add google font to theme</summary>
 ///<param name="document"> document to attach the google font  </param>
 ///<param name="family"> Font's Name</param>
@@ -51,10 +62,9 @@ function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans
         $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
     }
 
-    $n = str_replace(" ", "-", $family);
-    if (is_string($extra) && !empty(trim($extra)))
-        $extra = ", ".$extra;
-    $doc->getTheme()->def[".google-" . $n] = "font-family:'{$family}'{$extra};";
+    
+    igk_google_css_setfont($doc->getTheme()->def, $family, $extra);
+    //$doc->getTheme()->def[".google-" . $n] = "font-family:'{$family}'{$extra};";
  
     igk_hook("google_init_component", "font");
 }
@@ -527,11 +537,8 @@ function igk_html_node_googlemapgeo($loc, $apikey = null)
     $iframe["frameborder"] = "0";
     $iframe["src"] = $lnk;
     $iframe["onerror"] = "event.target.innerHTML ='---failed to load map---';";
-    return $n;
+    return $n; 
 }
-// igk_sys_reg_autoloadlib(dirname(__FILE__) . "/Lib/Classes", "IGK\Core\Ext\Google");
-//+ define("GOOGLE_GEO_APPKEY", "");
-
 
 //igk_reg_component_package("google", new IGKGooglePackage());
 igk_reg_hook("google_init_component", function () {

@@ -1,5 +1,5 @@
 <?php
-// author: C.A.D. BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 // desc: gd utility class
 

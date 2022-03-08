@@ -39,8 +39,8 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * @param mixed $App
     * @param mixed * $params
     */
-    public function __construct($App, & $params){
-        $this->m_sessionParams=& $params; 
+    public function __construct(& $params){
+        $this->m_sessionParams=& $params;  
     }
     /**
      * @return mixed|array return configured routes 
@@ -198,17 +198,23 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * 
     */
     public function & getControllerParams(){
-        static $controllerParams=null;
-        $appInfo = igk_app()->settings->appInfo;
-        if ($appInfo){
-            if($controllerParams == null){
-                if (!isset($appInfo->ctrlParams)){
-                    $appInfo->ctrlParams = array();
-                }
-                $controllerParams = & $appInfo->ctrlParams;
-            }
-        }
-        return $controllerParams;
+        //$appinfo = igk_app()->settings->appInfo;
+        // $p = & $appinfo->ctrlParams;
+        $p = & igk_app()->settings->appInfo->ctrlParams;
+        return $p;
+
+        // static $controllerParams=null;
+        // $appInfo = igk_app()->settings->appInfo;
+        // if ($appInfo){
+        //     if($controllerParams === null){
+        //         if (!isset($appInfo->ctrlParams)){
+        //             $appInfo->ctrlParams = array();
+        //         }
+        //         // $controllerParams = & $appInfo->getRef("ctrlParams");
+        //         $controllerParams = & $appInfo->ctrlParams;
+        //     }
+        // }
+        // return $controllerParams;
     }
 	///<summary>store here general form setting</summary>
 	public function getForm(){
@@ -236,6 +242,9 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     */
     public function & getData(){
         return $this->m_sessionParams;
+    }
+    public function NoStore($data){
+        return $this->m_sessionParams === $data;
     }
     ///<summary></summary>
     /**

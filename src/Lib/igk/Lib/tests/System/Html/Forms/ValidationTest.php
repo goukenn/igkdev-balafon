@@ -192,11 +192,13 @@ class ValidationTest extends BaseTestCase
             "url validation failed"
         );
 
-        $this->assertEquals(
-            ["x" => "https://igkdev.com?version=1.0&data=%26lt%3Bscript%26gt%3Balert%28%26%23039%3Bok%26%23039%3B%29%26lt%3B%2Fscript%26gt%3B"],
+        // server pass a query to script and receive a dump data
+        $this->assertEquals(            
+            ["x" => "https://igkdev.com?version=1.0&data=%3Cscript%3Ealert%28%27ok%27%29%3C%2Fscript%3E"],
             $validation->validator([
                 "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
-            ])->validate(["x" => "https://igkdev.com?version=1.0&data=<script>alert('ok')</script>"]),
+            ])->validate(["x" =>
+             "https://igkdev.com?version=1.0&data=<script>alert('ok')</script>"]),
             "url validation failed"
         );
     }

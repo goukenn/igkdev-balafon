@@ -1,6 +1,6 @@
 <?php
 
-namespace IGK\System\Database; 
+namespace IGK\System\Database\MySQL; 
 
 use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
 
@@ -10,6 +10,8 @@ use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
 class DbQueryDriver extends DatabaseDbQueryDriver {
 
     public static function Create($options=null){
-        return DatabaseDbQueryDriver::Create($options);
-    }   
+        $o = parent::Create($options); 
+        return $o;
+    } 
+   
 }

@@ -44,13 +44,19 @@ $ul->li()->Content = "Environment: " . igk_environment()->name();
 if ($sess_id = session_id()){
     $ul->li()->Content = "Session ID: " . $sess_id;
 }
+$ul->li()->Content = "GIT: "."<a href=\"".IGK_GIT_URL."\" target=\"__blank\" > ".IGK_GIT_URL." </a>";
+
 $frm = $box->addForm();
 $frm["action"] = $ctrl->getUri("conf_install_platform");
 $frm["class"] = "dispn";
 $frm["enctype"] = "multipart/form-data";
 $i = $frm->addInput("clFile", "file");
 $i["accept"] = ".zip";
-$i["onchange"] = "javascript: ns_igk.os.install(this.form, {wait:'please wait... installing', complete:'install complete !!!'}); return false;";
+$lang = json_encode([
+    "wait"=>__("please wait... installing"),
+    "complete"=>__("install complete !!!"),
+]);
+$i["onchange"] = "javascript: ns_igk.os.install(this.form, {$lang}); return false;";
 $i["class"] = "igk-btn igk-btn-default alignl dispib";
 
 // + | ---------------------------------------------------------------------------
@@ -67,18 +73,22 @@ if ((strpos(igk_server()->HTTP_HOST, 'igkdev.')!==false) && !igk_app()->session-
 $uform = $box->addPanelBox()->div();
 if (igk_io_basedir_is_root() && function_exists("zip_open")) {
     $cl = \IGK\System\Installers\BalafonInstaller::class;
+    $_ag = $uform->actiongroup()->setClass("flex-alignc");
     if (class_exists($cl)) {
         $uri = igk_register_temp_uri($cl);
 
-        $uform->div()->setClass("igk-update-button")
+        $_ag->div()->setClass("igk-btn no-padding igk-btn-core-update")
             ->addAJXPickFile($uri . "/upload", "{complete:igk.core.install('" . $uri . "/update" . "', '#update_target')," . "progress:igk.core.progress('#update_target')," . "accept:'.zip'" . "}")
             ->setAttribute("value", __("Update CoreLib"));
         $uform->div()->setId("update_target");
         $uform->script()->Content =  file_get_contents(dirname(__FILE__) . '/Scripts/configs/installer.js');
     }
     // + | ovh service for firewal management
+    /**
+     * @var object $srv
+     */
     if ($srv = igk_app()->getService("ovh")){
-        $rd = $uform->span()->setClass("badge ");
+        $rd = $_ag->span()->setClass("badge igk-btn");
         if ($srv->enable_firewall){
             $rd->a($srv->disable_firewall_uri())->Content = __("Disable Ovh firewall");
         }else {
@@ -89,7 +99,15 @@ if (igk_io_basedir_is_root() && function_exists("zip_open")) {
     //support
     igk_hook("filter_config_default_bar", ["host"=>$uform] );
 }
-$uform->add("span")->setclass("badge git no-wrap")->Content = "<span> Git: </span><a href=\"https://github.com/goukenn/Balafon\" target=\"__blank\" > https://github.com/goukenn/Balafon </a>";
+
+    /// TODO : Group button
+
+$box->div()->groupbutton(function($a){
+    $a->button();
+    $a->button();
+});
+
+
 $div = $box->addPanelBox()->div();
 igk_html_add_title($div, __("Administration"));
 $div->addHSep();
@@ -171,19 +189,19 @@ $fx = $box->addPanelBox();
 $frm = $fx->addForm();
 $frm["action"] = $ctrl->getUri("resetconfig");
 $frm["class"] = "dispib btn-form";
-$frm->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"));
+$frm->getBox()->actiongroup()->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"));
 $frm = $fx->addForm();
 $frm["action"] = $ctrl->getUri("conf_runCtrlConfig");
 $frm["class"] = "dispib btn-form";
-$frm->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"));
-$dv = $fx->div()->setClass("btn-form");
+$frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"));
+$dv = $fx->div()->setClass("btn-form igk-action-group");
 $dv->addABtn(igk_io_baseuri() . "/Configs!Settings")->setclass("clsubmit igk-btn-default dispib")->Content = __("General Configuration");
 if (IGKServer::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
     $dv->add('a')->setClass("clsubmit igk-btn igk-btn-default dispib")->setAttribute("href", $ctrl->getUri("clearcache"))
         //->setAttribute("onclick", "javascript: ns_igk.ajx.get(this.href+'&ajx=1', null,{src:this,complete:function(xhr){ ns_igk.ajx.fn.prepend_to(xhr,this.src.parentNode); }});  return false;")
         ->Content = __("Clear cache");
 
-    $dv->abtn($ctrl->getUri("runcron"))->Content = __("Run Cron");
+    $dv->abtn($ctrl->getUri("runcron"))->setClass("clsubmit igk-btn-default")->Content = __("Run Cron");
 }
 
-$dv->div()->toast_notify("run:cron");
+$fx->div()->toast_notify("run:cron");

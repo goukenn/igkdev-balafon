@@ -407,10 +407,15 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return false;
     }
-    
-    protected function _Add($n)
+    /**
+     * add node to list
+     * @param mixed $n node to add
+     * @param bool $force bypass can add childs check
+     * @return bool 
+     */
+    protected function _Add($n, $force = false)
     {
-        if ($this->getCanAddChilds() && $n && ($n !== $this)) {
+        if (($force || $this->getCanAddChilds()) && $n && ($n !== $this)) {
             if ($n->m_parent){  
                 $n->remove();
             } 
@@ -741,16 +746,17 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     return call_user_func_array(array($this, IGK_ADD_PREFIX), $tab);
                 }
             }
-
-            if (strpos($name, "get")===0){
-                igk_trace();
-                igk_wln("'try to call : ".__METHOD__ . " ".$name);
-                die("'try to call : ".__METHOD__ . " ".$name);
-            }
-            if (strpos($name, "set")===0){
-                igk_trace();
-                igk_wln("tag: " , $this->getTagName());
-                die("'try to call : ".__METHOD__ . " ".$name);
+            if (igk_environment()->is("DEV")){
+                if (strpos($name, "get")===0){
+                    igk_trace();
+                    igk_wln("'try to call : ".__METHOD__ . " ".$name);
+                    die("'try to call : ".__METHOD__ . " ".$name);
+                }
+                if (strpos($name, "set")===0){
+                    igk_trace();
+                    igk_wln("tag: " , $this->getTagName());
+                    die("'try to call : ".__METHOD__ . " ".$name);
+                }
             }
             foreach(["get","add"] as $prefix){
                 if (method_exists($this, $fc = $prefix.ucfirst($name))){

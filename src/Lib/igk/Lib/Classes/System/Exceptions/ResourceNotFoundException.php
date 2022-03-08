@@ -19,7 +19,7 @@ class ResourceNotFoundException extends IGKException {
     * @param mixed $message
     * @param mixed $file
     */
-    public function __construct($message, $file, $code=500){
+    public function __construct($message, $file, $code=404){
         parent::__construct($message, $code);
         $this->m_file=$file;
     }

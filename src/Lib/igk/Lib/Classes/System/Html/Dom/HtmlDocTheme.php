@@ -15,6 +15,7 @@ use IGK\Css\ICssStyleContainer;
 ///<summary>represent a document themes</summary>
 /**
  * represent a document themes
+ * @method ?array getTempFile() get tempory loading files
  */
 final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, ICssStyleContainer
 {
@@ -50,11 +51,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<param name="type" default="global"></param>
     /**
      * 
-     * @param mixed $document
-     * @param mixed $id
+     * @param HtmlItemBase|null $document owner
+     * @param string|id $id
      * @param mixed $type the default value is "global"
      */
-    public function __construct($document, $id, $type = "global")
+    public function __construct(?HtmlItemBase $document=null, ?string $id=null, $type = "global")
     {
         $this->m_id = $id;
         $this->m_document = $document;
@@ -277,7 +278,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             }
         }
         $ktemp = IGK_CSS_TEMP_FILES_KEY;
-        $v_csstmpfiles = $def->getTempFiles();
+        $v_csstmpfiles = $def->getTempFiles(); 
 
         if (count($v_csstmpfiles) > 0) {
             if (!igk_get_env($ktemp) && $v_csstmpfiles) {
@@ -319,20 +320,26 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             $this->_initMedia($this->m_id);
             return;
         }
-        (($cl = get_class($this->m_document)) != IGKHtmlDoc::class)  && igk_die("class [" . $cl . "] not allowed\n ");
+
+        /**
+         * @var IGKAppInfoStorage $app_info
+         */
+        // (($cl = get_class($this->m_document)) != IGKHtmlDoc::class)  && igk_die("class [" . $cl . "] not allowed\n ");
         $tab = null;
         $id = $this->m_document->getId();
-        $app_info = igk_app()->settings->appInfo;
+        $app_info = igk_app()->settings->appInfo; 
+               
         $docs = null;
         $themes = null;
         if ($app_info) {
 
             $docs = &$app_info->documents[$id];
+            //$docs = igk_getv($app_info->documents, $id);
 
             if ($docs === null) {
                 $docs = [];
                 // igk_wln_e(__LINE__.":".__FILE__, igk_app()->settings->appInfo);
-                $app_info->documents[$id] = &$docs;
+                $app_info->getData()->documents[$id] = &$docs;
                 //die("no setting for id : ".$id);
             }
             if (!isset($docs["theme"])) {
@@ -902,8 +909,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     {
         $def->addRule("@-webkit-keyframes " . $name, $expression);
         $def->addRule("@-moz-keyframes " . $name, $expression);
-        $def->addRule("@-ms-keyframes " . $name, $expression);
-        $def->addRule("@-o-keyframes " . $name, $expression);
+        // $def->addRule("@-ms-keyframes " . $name, $expression);
+        // $def->addRule("@-o-keyframes " . $name, $expression);
         $def->addRule("@keyframes " . $name, $expression);
     }
     ///<summary>register a media </summary>

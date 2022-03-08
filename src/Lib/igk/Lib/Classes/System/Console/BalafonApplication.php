@@ -9,6 +9,7 @@ use IGK\Helper\StringUtility;
 use IGK\Models\Crons;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommand;
+use IGK\System\Database\DbUtils;
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\Process\CronJobProcess;
@@ -206,7 +207,26 @@ class BalafonApplication extends IGKApplicationBase
                 },
                 __("set controller's configuration")
             ],
-
+            "--site:lock" =>[
+                function($v, $command){
+                    $command->exec = function($command, $dir=null){
+                        $dir = $dir ?? IGK_BASE_DIR;
+                        \IGK\Helper\MaintenanceHelper::LockSite($dir);
+                    };
+                }, [
+                    "desc"=>"Lock site. put it in maintenance mode."
+                ]
+            ],
+            "--site:unlock"=>[
+                function($v, $command){
+                    $command->exec = function($command, $dir=null){
+                        $dir = $dir ?? IGK_BASE_DIR;
+                        \IGK\Helper\MaintenanceHelper::UnlockSite($dir);
+                    };
+                },[
+                    "desc"=>"Unlock site."
+                ]
+            ],
             "--set:sysconfigs" => [
                 function ($v, $command) {
                     DbCommand::Init($command);
@@ -306,6 +326,10 @@ class BalafonApplication extends IGKApplicationBase
                         $c = [$c];
                     } else {
                         $c = igk_app()->getControllerManager()->getControllers();
+                        usort($c, DbUtils::OrderController);
+                        if ($b = IGKModuleListMigration::CreateModulesMigration()){
+                            $c =  array_merge($c, [$b]); 
+                        } 
                     }
                     if ($c) {
                         foreach ($c as $m) {
@@ -424,6 +448,18 @@ class BalafonApplication extends IGKApplicationBase
                     return $job->execute();                    
                 };
             }, __("run cron's script")],
+            "--db:query" => [function ($v, $command) {
+                $command->exec = function ($command, $model = null) {
+                    $model = igk_ns_name($model);
+                    if (!class_exists($model)){
+                        Logger::danger("class not exists");
+                        return 0;
+                    }   
+                    foreach($model::select_fetch() as $o){
+                        igk_wln($o->to_json());
+                    }                
+                };
+            }, __("run cron's script")],
 
             "-v, --version" => [function ($arg, $command) {
                 $command->exec = function () {
@@ -443,6 +479,8 @@ class BalafonApplication extends IGKApplicationBase
                 return 200;
             }, ["desc" => "show help or activate help option for a command"], "info"],
             "--init" => [
+                // + | --------------------------------------------------------------
+                // + | initialize environment configuration
                 function ($arg, $command) {
                     $file = getcwd() . "/" .AppConfigs::ConfigurationFileName;
                     if (file_exists($file) && !property_exists($command["options"], "--force")) {

@@ -127,12 +127,11 @@ igk.system.createNS("igk.winui.accordeon", {
 				starttouch = 0;				
 			}
 		}
-		q.reg_event("scroll", function(){
-			console.debug("item scroll");
-		});
+		// q.reg_event("scroll", function(){
+		// 	console.debug("item scroll");
+		// });
 		igk.winui.reg_event(window, "scroll", function(){	
-__binds();		
-		
+			__binds();		
 		}, true);
 		igk.winui.reg_event(document, "scroll", function(){			
 			__binds();	

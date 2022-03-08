@@ -3,6 +3,7 @@
 namespace IGK\System\Database;
 
 use IGK\Database\DbColumnInfo;
+use IGKEvents;
 
 /**
  * 
@@ -18,16 +19,7 @@ class ColumnMigrationInjector{
     }
     public function add(& $info){
         $t = & $info["ColumnInfo"];
-        $t[$this->info->clName] = $this->info; 
-
-        // $rinfo = & \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition("MYSQL","tbigk_users"); 
-        // igk_wln(
-        //     __FILE__.":".__LINE__, 
-        //     $info["ColumnInfo"] === $rinfo["ColumnInfo"],
-        //     "add : ".$this->info->clName, $info["ColumnInfo"],
-        // "?".( $t === $rinfo["ColumnInfo"]));    
-        // igk_trace();
-        // exit;
+        $t[$this->info->clName] = $this->info;  
     }
     public function remove(& $info){
         unset($info["ColumnInfo"][$this->info->clName]);

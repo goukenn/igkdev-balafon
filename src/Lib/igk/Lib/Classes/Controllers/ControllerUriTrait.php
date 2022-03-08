@@ -9,7 +9,7 @@ trait ControllerUriTrait {
     * 
     * @param mixed $function the default value is null
     */
-    public function getUri($function=null){
+    public function getUri(?string $function=null){
         $out=[];
         $out["c"]= strtolower($this->getName());
         $g = "";

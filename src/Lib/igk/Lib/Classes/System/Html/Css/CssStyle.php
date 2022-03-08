@@ -10,6 +10,8 @@
 
 namespace IGK\System\Html\Css;
 
+use IGK\Controllers\BaseController;
+use IGKEvents;
 use IGKObject;
 
 final class CssStyle extends IGKObject{
@@ -37,4 +39,5 @@ final class CssStyle extends IGKObject{
         }
         return $o;
     }
+ 
 }

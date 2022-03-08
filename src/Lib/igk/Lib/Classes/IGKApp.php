@@ -8,6 +8,12 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\RequestHandler;
 use IGK\System\IO\Path;
 
+/**
+ * 
+ * @package IGK
+ * @property IGKAppSetting $settings application setting - store in session if library 'session' is available
+ * 
+ */
 class IGKApp extends IGKObject
 {
     private static $sm_instance;
@@ -73,10 +79,16 @@ class IGKApp extends IGKObject
                     $a->{IGK_SESSION_ID} = session_id();
                     return $a;
                 });
+
+    
+
             } else {
                 $v_setting_info = $this->createAppInfo();
             }
-            $this->m_settings = new IGKAppSetting($v_setting_info);    
+            $this->m_settings = new IGKAppSetting($v_setting_info);  
+            if (!$this->m_settings->appInfo->loaded){
+                $this->m_settings->appInfo->loaded = 1;
+            }
         }        
         return $this->m_settings;
     }
@@ -154,26 +166,37 @@ class IGKApp extends IGKObject
     public function getCurrentPage(){
         return igk_getv(igk_getctrl(IGK_MENU_CTRL), 'CurrentPage', 'home');
     }
+    /**
+     * session data
+     * @return IGKSession 
+     * @throws IGKException 
+     */
     public function getSession(){
+        /**
+         * @var object|null $sm_session session marker
+         */
         static $sm_session=null;
+        $init = false;
         if($sm_session === null){
-			$tab = null;
-            $appinfo = $this->getSettings()->appInfo;
+            $init = true;
+        }
+        $appinfo = $this->getSettings()->appInfo;
+        if (!$init && $appinfo && $sm_session->NoStore($appinfo )){
+            $init = 1;
+        }
+        if ($init){
+		
+            /**
+             * @var IGKAppInfoStorage $appinfo
+             */      
 			if (!$appinfo){                                    
-                    igk_die("can't create appinfo");                
-            }            
-            if(isset($appinfo->session)){
-                $tab= & $appinfo->session;
-            }
-            else{
-                //+ get array reference
-                $tab=array();
-				$appinfo->session = & $tab;
-            }
-			$sm_session=new IGKSession($this, $tab);
+                igk_die("can't create appinfo");                
+            }  
+            $tab = & $appinfo->getSession(); 
+			$sm_session=new IGKSession($tab);
             igk_reg_hook(IGKEvents::HOOK_APP_SETTING_RESET, function()use(& $sm_session){
                 $sm_session = null;
-            }); 
+            });  
         }  
         return $sm_session;
     }
@@ -188,6 +211,7 @@ class IGKApp extends IGKObject
     ///<summary>application configuration data</summary>
     /**
     * short cut to get application configuration data
+    * @return IGK\System\Configuration\ConfigData
     */
     public function getConfigs(){
         return IGKAppConfig::getInstance()->Data;
@@ -248,7 +272,7 @@ class IGKApp extends IGKObject
         // + | 
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
         igk_hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);    
-        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.05);  
+        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.5);  
         
         igk_hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
     }
@@ -268,11 +292,7 @@ class IGKApp extends IGKObject
             IGK_SESSION_ID => "",
             IGK_APP_REQUEST_URI => igk_getv($_SERVER, "REQUEST_URI"),
             IGK_APP_CURRENT_DOC_INDEX_ID => -1,
-            "appInfo" => (object)[
-                "controllers" => [],
-                "documents" => [],
-                "components" => igk_prepare_components_storage()
-            ]
+            "appInfo" => (new IGKAppInfoStorage())->getData() 
         ];
     }
 

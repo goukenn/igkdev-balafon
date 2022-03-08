@@ -90,4 +90,17 @@ abstract class Utility {
         }
         return json_encode($root, $json_option);
     }
+
+    /**
+     * 
+     * @param string $clasname 
+     * @return string[] 
+     */
+    public static function GetStaticClassMethods(string $clasname){
+        $tab = array_map(function($i)use($clasname){
+            return $clasname."::".$i; 
+         }, get_class_methods($clasname));        
+        sort($tab);
+        return $tab;
+    }
 }

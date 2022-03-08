@@ -27,7 +27,7 @@ abstract class ControllerTypeBase extends BaseController{
             $viewcomment=implode("\n* ", explode("\n", trim(igk_ob_get_func(function() use (& $viewcomment){
             include(IGK_LIB_DIR."/Inc/default.view.comment.inc");
         }))))."\n*/";
-        $r="<?php\n/**\n* ".igk_html_eval_article("{$viewcomment}\n\$t->clearChilds();\nigk_html_article(\$this , \"default\", \$t);\n", ["author"=>igk_sys_getconfig("developer", IGK_AUTHOR), "date"=>date("Y-m-d H:i:s"), "version"=>1.0 ]);
+        $r="<?php\n/**\n* ".igk_html_eval_article("{$viewcomment}\n\$t->clearChilds();\nigk_html_article(\$this , \"default\", \$t);\n", ["author"=>igk_sys_getconfig("developer", IGK_AUTHOR), "date"=>date(\IGKConstants::MYSQL_DATETIME_FORMAT), "version"=>1.0 ]);
         return $r;
     }
     ///<summary></summary>
