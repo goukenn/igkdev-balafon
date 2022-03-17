@@ -16,6 +16,10 @@ use IGK\Database\DbSchemas;
 use IGK\Database\Seeds\DataBaseSeeder;
 use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\Migrations\Migration;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
+use IGK\System\Http\RequestResponse;
+use IGK\System\Http\WebResponse;
 use IGK\System\IO\Path;
 use IGKApplicationLoader;
 use IGKEnvironment;
@@ -689,8 +693,7 @@ abstract class ControllerExtension
     {
 
         $u = $user;
-
-        // igk_wln_e("login, $user, $pwd" , $ctrl->User, "uri?".igk_app_is_uri_demand($ctrl, __FUNCTION__));
+        // igk_wln_e(__FILE__.":".__LINE__,  "login, $user, $pwd" , $ctrl->User, "uri?".igk_app_is_uri_demand($ctrl, __FUNCTION__));
 
         if (!igk_environment()->viewfile && igk_app_is_uri_demand($ctrl, __FUNCTION__) && file_exists($file = $ctrl->getViewFile(__FUNCTION__, false))) {
             $ctrl->loader->view($file, compact("u", "pwd", "nav"));
@@ -1251,7 +1254,7 @@ abstract class ControllerExtension
     {
         $pdir = igk_io_projectdir();
         $decdir = $controller->getDeclaredDir(); 
-        return $pdir && !empty(strstr($decdir, $pdir));
+        return $pdir && $decdir && !empty(strstr($decdir, $pdir));
     }
 
 
@@ -1300,5 +1303,115 @@ abstract class ControllerExtension
 			$controller->_include_file_on_context($file);
 			$controller->regSystemVars($bck);
 		}
+    }
+
+    public static function SaveDataSchemas(BaseController $controller){
+        $dom=HtmlNode::CreateWebNode(IGK_SCHEMA_TAGNAME);
+        $dom["ControllerName"]=$controller->Name;
+        $dom["Platform"]=IGK_PLATEFORM_NAME;
+        $dom["PlatformVersion"]=IGK_WEBFRAMEWORK;
+        $e=HtmlNode::CreateWebNode("Entries");
+        $d= igk_getv($controller->loadDataFromSchemas(),"tables");
+        if($d){
+            $tabs=array();
+            foreach($d as $k=>$v){
+                $b=$dom->add(DbSchemas::DATA_DEFINITION);
+                $b["TableName"]=$k;
+                $b["Description"]=$v["Description"];
+                $tabs[]=$k;
+                foreach($v["ColumnInfo"] as $cinfo){
+                    $col=$b->add(IGK_COLUMN_TAGNAME);
+                    $tb=(array)$cinfo;
+                    $col->setAttributes($cinfo);
+                }
+            }
+            $db= $controller::getDataAdapter(); 
+            $r=null;
+            if($db){
+                $db->connect();
+                foreach($tabs as $tabname){
+                    try {
+                        $r=$db->selectAll($tabname);
+                        if($r->RowCount > 0){
+                            $s=$e->add($tabname);
+                            foreach($r->Rows as $c=>$cc){
+                                $irow=$s->addXMLNode(IGK_ROW_TAGNAME);
+                                $irow->setAttributes($cc);
+                            }
+                        }
+                    }
+                    catch(Exception $ex){
+
+                    }
+                }
+                $db->close();
+            }
+        }
+        if($e->HasChilds){
+            $dom->add($e);
+        }
+        return $dom;
+    }
+    /**
+     * handle request 
+     * @param string $uri 
+     * @return null|RequestResponse 
+     */
+    public static function handle(BaseController $controller, string $uri, $method='GET', $args=null) : ?RequestResponse{
+        $tab = [];
+        $tab = parse_url($uri);
+        igk_server()->REQUEST_URI = $tab["path"];
+        igk_server()->METHOD  = $method;
+        igk_server()->REQUEST_QUERY  = $query = igk_getv($tab, "query");
+        $response = null;
+        //save state
+        $state = [$_GET, $_POST, $_REQUEST];
+        if ($query){
+            $tquery = [];
+            parse_str($query, $tquery); 
+            $_REQUEST = $_GET = $tquery;
+            if ($method=="POST"){
+                $_POST = $tquery;
+            }
+        } 
+        try{
+            $controller->setCurrentView('default/one/base/ok/', true, null, $args, ["Context"=>"handle"]);
+            $response = new WebResponse($controller->getTargetNode());
+        } catch(Exception $ex){         
+            $response = new ControllerRequestNotFoundRequestResponse($uri, $controller);
+            $response->code = 500;
+            $response->message = $ex->getMessage();
+        }finally{
+            // restore
+            $_GET = $state[0];
+            $_POST = $state[1];
+            $_REQUEST = $state[2]; 
+        }
+        return $response; 
+    }
+    /**
+     * macros helper update controller database
+     * @param BaseController $controller 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function updateDb(BaseController $controller){
+        $s=igk_is_conf_connected() || igk_user()->auth($controller->Name.":".__FUNCTION__);
+        if(!$s){
+            igk_ilog("// not authorize to updateDb of " + $controller->getName());
+            igk_navto($controller->getAppUri());
+        }
+        $schema = igk_db_backup_ctrl($controller);
+        $dataxml = ($schema) ? $schema->render() : null;
+        $controller->resetDb(0);
+        if ($dataxml) {
+            $error = [];
+            igk_db_restore_backup_data($controller, $dataxml, $error);
+        }
+        $file = $controller->getDataDir() . "/dbbackup/" . date("YmdHis") . ".db.bck.xml";
+        igk_io_w2file($file, $dataxml);
+        $uri=$controller->getAppUri();
+        igk_navto($uri);
+        igk_exit();
     }
 }

@@ -203,50 +203,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     * @param mixed $condition the default value is null
     * @param mixed $options the default value is null
     */
-    public function selectAndWhere($tbname, $condition=null, $options=null){
-        // $o="";
-        // $q="";
-        // $s=0;
-        // $s="";
-        // $column= "*"; //IGKSQLQueryUtils::GetColumnList($options, $tbname);
-        // $tlist = "";
-        // if(is_string($tbname)){
-        //     $tbname=igk_mysql_db_tbname($tbname);
-        //     $tlist="`".$tbname."`";
-        // }
-        // else if(is_array($tbname)){
-        //     $r=0;
-        //     foreach($tbname as $k){
-        //         $_n=igk_mysql_db_tbname($k);
-        //         if($r)
-        //             $q .= ",";
-        //         $q .= "`".$_n."`";
-        //         $r=1;
-        //     }
-        //     $tlist = $q;
-        //     $q = "";
-        // } 
-        // if($condition){
-        //     if(is_object($condition) || (is_array($condition) && (igk_count($condition) > 0))){
-        //         if ($c = IGKSQLQueryUtils::GetCondString($condition, "AND", $this))
-        //             $q .= "WHERE ".$c;
-        //     }
-        //     else if(is_numeric($condition) || !is_string($condition)){
-        //         $q .= "WHERE `".IGK_FD_ID."`='".igk_db_escape_string($condition)."' ";
-        //     }
-        //     else if(is_string($condition)){
-        //         $q .= "WHERE ".igk_db_escape_string($condition)." ";
-        //     }
-        // }
-        // $q = " FROM ".$tlist .$q;
-        // $columns = "*";
-        // if ($options && ($tq= IGKSQLQueryUtils::GetExtraOptions($options, $this))){
-        //     if (!empty($tq->join))
-        //         $q = $tq->join . " ".$q;
-        //     $q.= " ".$tq->extra;
-        //     $columns = $tq->columns;
-        // }
-        // $q = "SELECT {$columns} ".$q.";";
+    public function selectAndWhere($tbname, $condition=null, $options=null){       
         if ($query = $this->getGrammar()->createSelectQuery($tbname, $condition, $options)){
             return $this->sendQuery($query, $tbname, $options);
         }

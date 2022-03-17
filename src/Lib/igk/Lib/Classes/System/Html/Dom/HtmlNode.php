@@ -215,7 +215,7 @@ class HtmlNode extends HtmlItemBase
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-     * 
+     * set or append style to 
      * @param string|array $value
      */
     public function setStyle($value)
@@ -230,12 +230,12 @@ class HtmlNode extends HtmlItemBase
         }
 
         if (0 === strpos($value, '+/')) {
-            $s = $this["style"];
-            $value = substr($value, 2);
+            $s = $this["style"]."";
+            $value = implode(';', array_filter([rtrim($s, ";"), substr($value, 2)])); 
         }
         $this["style"] = new HtmlCssValueAttribute($value);
         return $this;
-    }
+    } 
     public function __call($n, $arguments)
     {
         if (in_array(strtolower($n), ["address"])) {
@@ -439,11 +439,12 @@ class HtmlNode extends HtmlItemBase
 
     public function getCanRenderTag()
     {
+       
         if ($this->iscallback(__FUNCTION__)) {
             $this->evalCallback(__FUNCTION__, $output);
             return $output;
         }
-        return parent::getCanRenderTag();
+        return parent::getCanRenderTag(func_get_arg(0));
     }
 
     public function activate($n)

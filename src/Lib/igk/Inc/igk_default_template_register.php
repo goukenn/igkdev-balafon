@@ -50,10 +50,14 @@ function igk_template_get_piped_value($rv, $context){
     try{
 	    $v = eval( "return $v;");    
         if ($e = error_get_last()){
+            igk_trace();
             igk_dev_wln_e(__FUNCTION__."::Error:", $e, "source:".$rv, "output:".$v, $raw, $context);
         }
     }catch(ParseError $ex){
-        igk_wln("parse failed : ", $rv);
+        igk_ilog("parse failed : ", $rv);
+        igk_html_pre($v); 
+        igk_trace();
+        igk_exit();
     }
 	$v = igk_str_pipe_value($v, $pipe);
 	return $v;

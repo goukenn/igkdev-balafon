@@ -169,7 +169,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         }
         $doc=igk_get_document("system/connectionpage");
         $ctrl=igk_get_current_base_ctrl();
-        $pa=PageControllerBase::HandlePage($ctrl, "connect");
+        $pa= $ctrl::handleView("connect");
         if($pa)
             return;
         $doc->Title=__("title.welcome_1", igk_app()->Configs->website_title);
@@ -941,7 +941,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     public function changePassword(int $id=null){
 
         if (!igk_is_conf_connected()){
-            igk_header_status(403);
+            igk_get_header_status(403);
         }
         $tb = $this->getDataTableName();
         $id = $id ? $id : igk_getr("id");

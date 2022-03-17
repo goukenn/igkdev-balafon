@@ -144,7 +144,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
 
     public function fetch():bool{
         //create and transform to db query row object
-        if ($this->m_rowdef = igk_db_fetch_assoc($this->m_result)){
+        if ($this->m_rowdef = igk_db_fetch_assoc($this->m_result)){ 
             if ($this->m_model){
                 $cl = $this->m_model;
                 $this->m_rowdef = new $cl($this->m_rowdef);

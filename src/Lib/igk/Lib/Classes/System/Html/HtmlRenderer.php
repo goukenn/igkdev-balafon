@@ -224,20 +224,21 @@ class HtmlRenderer{
                     }
                     if ($reflect[$cl]){
                         $options->lastRendering = $i;
-                        if (!empty($v_c = rtrim($i->render($options)))){
+                        if (!empty($v_c = $i->render($options))){
+                            //igk_debug_wln_e("debug : binding ....:".$v_c.":".strlen($v_c));
                             $s = rtrim($s).$ln.$v_c.$options->LF;
                         }  
                         $options->Depth = max(0, $options->Depth-1);                       
                         continue;
                     } 
                 }
-                if ($i instanceof HtmlExpressionNode){
-                    igk_trace();
-                    igk_debug_wln_e("Expression binding ......", $options->Source === $i);
-                }
+                // if ($i instanceof HtmlExpressionNode){
+                //     igk_trace();
+                //     igk_debug_wln_e("Expression binding ......", $options->Source === $i);
+                // }
 
                 $options->lastRendering = $i;
-                $tag = $i->getCanRenderTag() ? $i->getTagName() : "";
+                $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
                 $havTag = !empty($tag);
                 if ($havTag){
                     $s .= "<".$tag."";
@@ -271,7 +272,7 @@ class HtmlRenderer{
                             $s .= $content;
                     }
                 }
-                if((count($childs) > 0)){
+                if($have_childs){
                     if ($havTag)
                         $s.= $ln;
                     array_push($tab, $q); 

@@ -32,4 +32,5 @@ return [
     "cb"=>\IGK\System\Configuration\Controllers\UserAndGroupController::class,
     IGK_CTRL_TOOLS => \IGK\System\Configuration\Controllers\ToolConfigController::class,
     IGK_CTRL_SESSION_MANAGER => \IGK\System\Configuration\Controllers\SessionManagerController::class, 
+    IGK_CB_REF_CTRL => \IGK\Controllers\ReferenceModelController::class,
 ];

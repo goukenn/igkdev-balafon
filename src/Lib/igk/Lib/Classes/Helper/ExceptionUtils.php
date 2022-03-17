@@ -19,8 +19,9 @@ abstract class ExceptionUtils
         $content = "";
         $traces = $Ex->getTrace();
         if (igk_is_cmd()) {
+            igk_show_trace();
             $out = "";
-            $out .= "/!\\ IGK-ERROR\n" . IGK_LF;
+            $out .= "/!\\ ".IGK_PLATEFORM_NAME."-ERROR\n" . IGK_LF;
             if ($title) {
                 $out .= $title . IGK_LF;
             }

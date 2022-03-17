@@ -24,7 +24,7 @@ final class IGKCtrlZone extends IGKObject implements IIGKCtrlDirManagement{
         return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_DATA_FOLDER);
     }
     ///<summary></summary>
-    public function getDeclaredDir(){
+    public function getDeclaredDir():string{
         return dirname($this->m_filename);
     }
     ///<summary></summary>

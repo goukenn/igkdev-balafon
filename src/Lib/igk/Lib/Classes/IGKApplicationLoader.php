@@ -19,6 +19,7 @@ require_once __DIR__ . "/IGKSysUtil.php";
 require_once __DIR__ . "/Database/DbSchemas.php";
 require_once __DIR__ . "/Database/DbColumnInfo.php";
 require_once __DIR__ . "/IGKLog.php";
+require_once __DIR__ . "/IGKException.php";
 
 use IGK\Helper\IO;
 use IGK\System\IO\Path as IGKPath;

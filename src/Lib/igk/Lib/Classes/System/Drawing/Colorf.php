@@ -20,6 +20,8 @@ class Colorf extends IGKObject{
     ///<param name="cl"></param>
     ///<param name="v"></param>
     private static function __bindStringData($cl, $v){
+        if ($v===null)
+            return null;
         $v=trim(strtoupper($v));
         if(0===strpos($v, "#") || IGKString::StartWith($v, "0x")){
             $v=str_replace("#", IGK_STR_EMPTY, $v);

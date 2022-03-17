@@ -336,7 +336,11 @@ class IGKWebApplication extends IGKApplicationBase
             $this->runEngine($render);
         } 
         catch (IGKException $ex){
-            IGK\Helper\ExceptionUtils::ShowException($ex);
+            if (!igk_environment()->no_handle_error){
+                IGK\Helper\ExceptionUtils::ShowException($ex);
+            }else {
+                throw $ex;
+            }
         }
         catch (Exception $ex) {
             igk_environment()->set("LastException",  "Error: " . $ex->getMessage());

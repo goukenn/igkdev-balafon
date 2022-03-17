@@ -777,9 +777,8 @@ final class IGKControllerManagerObject extends IGKObject {
             $dir=dirname($controller->getDeclaredFileName());
         }
         $o  =  igk_io_basepath(IO::GetDir(IGK_LIB_DIR."/".IGK_INC_FOLDER));
-        $dir=  igk_io_basepath($dir);
-        $i=0;
-        while($o && (strlen($dir) > 0) && !preg_match("/^(\.|\/|\\\\)$/", $dir)){
+        $dir=  igk_io_basepath($dir);      
+        while($o && $dir && (strlen($dir) > 0) && !preg_match("/^(\.|\/|\\\\)$/", $dir)){
             if($dir === $o){
                 return true;
             }

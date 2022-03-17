@@ -3843,6 +3843,20 @@ function igk_html_node_vscrollbar($cibling = null, $initTarget = null)
     $n["igk:target"] = $initTarget;
     return $n;
 }
+
+/**
+ * use to close node on client side
+ * @return IGK\System\Html\Dom\HtmlNode 
+ */
+function igk_html_node_jsclone(string $target, ?string $complete=null){
+    $n = igk_create_node("div");
+    $n["class"] = "igk-winui-clonenode";
+    $n["igk:target"] = $target;
+    $n["igk:complete"] = $complete;
+    return $n;
+}
+
+
 ///<summary>function igk_html_node_vsep</summary>
 /**
  * function igk_html_node_vsep
@@ -4778,6 +4792,19 @@ function igk_html_node_xmlviewer()
 {
     return new \IGK\System\Html\Dom\HtmlXmlViewerNode();
 }
+
+function igk_html_node_carousel(){
+    $n = new  \IGK\System\Html\Dom\HtmlCarouselNode("div");
+    $n["class"] = "igk-winui-carousel";
+    if (igk_environment()->is("DEV")) {
+        $nav = $n->nav();
+        $nav->li();
+        $nav->li()->setClass("igk-active");
+        $nav->li();
+    }
+    return $n;
+}
+
 
 /**
  * mark parent node with autofixing with. 

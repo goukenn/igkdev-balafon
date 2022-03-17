@@ -68,9 +68,10 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static string table() macros function
  * @method static void update() macros function
  * @method static void updateOrCreateIfNotExists() macros function
- * @method static void registerMacros($classname)
+ * @method static void registerExtension($classname) macros helper register static function attache to class
  * @method static void registerMacro($macroName, Callable|array $callable) register macros
  * @method static IGK\System\Database\Factories\FactoryBase factory(number) factory for seeder
+ * @method static array queryColumns(?array filter=null, bool useall if filter user all column by filter column with as property) macros function query columns
  * @method array to_array();
  * @method static \IGK\System\Database\DbConditionExpressionBuilder query_condition(string operand); OR|AND query condition 
  * @method void set(name, value): set value
@@ -412,12 +413,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
                         $target->raw = $g->raw;
                     }
                 },
-                "registerExtension" => function ($classname) {
+                "registerExtension" => function ($classname) use (& $macros) {
 
                     $f = igk_sys_reflect_class($classname);
                     foreach ($f->getMethods() as $k) {
                         if ($k->isStatic()) {
-                            self::$macros[$k->getName()] = [$classname, $k->getName()];
+                            $macros[$k->getName()] = [$classname, $k->getName()];
                         }
                     }
                 },

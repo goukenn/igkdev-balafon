@@ -20,6 +20,13 @@ class PhpUnitApplication extends IGKApplicationBase{
                 $m::register_autoload();  
             } 
         }
+        if ($tmodule = igk_getv($_ENV,'IGK_TEST_MODULE')){
+            $tmodule = igk_require_module($tmodule);
+        } 
+        if ($m = igk_getv($_ENV,'IGK_TEST_CONTROLER')){
+            $m = igk_getctrl($m);
+            $m::register_autoload();
+        } 
     }
 
 }

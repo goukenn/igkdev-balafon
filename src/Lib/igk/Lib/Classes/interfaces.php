@@ -112,7 +112,7 @@ interface IIGKCtrlDirManagement{
     /**
     * 
     */
-    function getDeclaredDir();
+    function getDeclaredDir() : string;
     ///<summary></summary>
     /**
     * 

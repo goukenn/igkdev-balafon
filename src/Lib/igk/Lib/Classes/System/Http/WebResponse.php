@@ -54,6 +54,7 @@ class WebResponse extends RequestResponse{
         }
     }
     public function output(){
+        // igk_wln_e(__FILE__.":".__LINE__, "output");
         $cache = $this->cache;
         // + | priority to document cache setting
         if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){

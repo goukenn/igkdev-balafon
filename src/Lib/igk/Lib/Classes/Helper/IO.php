@@ -577,10 +577,9 @@ class IO{
         if(is_dir($dir) === false)
             return null;
         $v_out=array();
-        $dir=igk_str_rm_last(igk_html_uri($dir), '/');
+        $dir=rtrim(igk_html_uri($dir), '/');
         $q=0;
-        $dirs=array();
-        $dir=igk_html_uri($dir);
+        $dirs=array(); 
         array_push($dirs, $dir);
         $iscallable=is_callable($match);
         $sep='/';

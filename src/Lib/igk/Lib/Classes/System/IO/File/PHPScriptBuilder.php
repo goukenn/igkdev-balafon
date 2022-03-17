@@ -131,9 +131,9 @@ class PHPScriptBuilder
                     $o .= "///<summary></summary>\n";
                     $o .= "/**\n* @package {$ns}\n";
                     if ($phpdoc = $this->phpdoc){
-                        $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
+                        $o.= "* ".implode("\n* ", explode("\n", $phpdoc))."\n";
                     }
-                    $o .= "\n*/\n";
+                    $o .= "*/\n";
                 }
                 if (!empty($modifier = $this->class_modifier)) {
                     $modifier .= " ";

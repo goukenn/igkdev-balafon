@@ -89,6 +89,9 @@ if (!IGKValidator::IsEmail($login)) {
 }
 return \IGK\Models\Users::select_row($conditions);
 });
+
+
+Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
  
 
 \IGK\Models\DbLogs::registerMacro("add", function(string $msg, ?string $tag=null){ 
@@ -113,3 +116,5 @@ return \IGK\Models\Users::select_row($conditions);
 \IGK\Models\Usergroups::registerMacro("getUserGroup", function(){
     return igk_db_user_groups($this->clUser_Id);
 });
+
+\IGK\Models\ReferenceModels::registerExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);

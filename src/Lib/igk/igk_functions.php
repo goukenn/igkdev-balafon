@@ -3479,7 +3479,7 @@ function igk_css_invoke_color_request($r)
  */
 function igk_css_is_webknowncolor($cl, $theme = null)
 {
-    if (preg_match("/#([0-9a-f]{3}|[0-9a-f]{6})$/i", $cl)) {
+    if ($cl && preg_match("/#([0-9a-f]{3}|[0-9a-f]{6})$/i", $cl)) {
         return 1;
     }
     $tcl = $theme == null ? igk_app()->getDoc()->SysTheme->cl : $theme;
@@ -7079,27 +7079,7 @@ function igk_db_update_cookie($identifier, $name, $date = null)
         "clDateTime" => $date
     ));
 }
-///<summary></summary>
-///<param name="ctrl"></param>
-/**
- * 
- * @param mixed $ctrl 
- */
-function igk_db_update_ctrl_db($ctrl)
-{
-    if (!$ctrl) {
-        return 0;
-    }
-    $schema = igk_db_backup_ctrl($ctrl);
-    $dataxml = ($schema) ? $schema->render() : null;
-    $ctrl->resetDb(0);
-    if ($dataxml) {
-        $error = [];
-        igk_db_restore_backup_data($ctrl, $dataxml, $error);
-    }
-    $file = $ctrl->getDataDir() . "/dbbackup/" . date("YmdHis") . ".db.bck.xml";
-    igk_io_w2file($file, $dataxml);
-}
+ 
 ///<summary>get system user groups</summary>
 ///<param name="u">mixed id or user object</param>
 /**
@@ -9930,27 +9910,8 @@ function igk_get_header_obj()
  */
 function igk_get_header_status($code)
 {
-    static $t = null;
-    if ($t === null) {
-        $t = array(
-            400 => "HTTP/1.0 400 Bad request condition",
-            401 => "HTTP/1.0 401 unauthorized",
-            402 => "HTTP/1.0 402 payement required",
-            403 => "HTTP/1.0 403 forbidden",
-            404 => "HTTP/1.0 404 not found",
-            405 => "HTTP/1.0 405 method not allowed",
-            406 => "HTTP/1.0 406 not acceptable",
-            407 => "HTTP/1.0 407 Proxy Authentication Required",
-            408 => "HTTP/1.0 408 request time out",
-            409 => "HTTP/1.0 409 Confict",
-            410 => "HTTP/1.0 410 Gone",
-            411 => "HTTP/1.0 411 Length required",
-            500 => "HTTP/1.0 500 Internal server error",
-            503 => "HTTP/1.0 503 Service not available",
-            505 => "HTTP/1.0 505 Version not supported"
-        );
-    }
-    return igk_getv($t, $code, "HTTP/1.0 200 Ok");
+    
+    return \IGK\System\Http\StatusCode::GetStatus($code);    
 }
 ///<summary> used to created a hosted component</summary>
 /**
@@ -11529,29 +11490,7 @@ function igk_header_set_contenttype($type, $charset = "charset=utf-8")
         $charset = ";" . $charset;
     $data = igk_getv($mime, $type, IGK_CT_PLAIN_TEXT) . $charset;
     header("Content-Type: " . $data);
-}
-///<summary>get header satus message</summary>
-///<param name="code">error code</param>
-/**
- * get header satus message
- * @param mixed $code 
- */
-function igk_header_status(int $code)
-{
-    return igk_getv(igk_get_env("sys://header/statuscode", function () {
-        $t = array(
-            301 => "301 Move Permanently",
-            302 => "302 Found",
-            403 => "403 Forbiden. You have no authorisation to perform that request",
-            404 => "404 Page Not found",
-            414 => "414 Request too long",
-            500 => "500 Server Error",
-            501 => "501 Misconfiguration",
-            502 => "502 Requirement missing"
-        );
-        return $t;
-    }), $code);
-}
+} 
 ///<summary>convert header string to associative array</summary>
 /**
  * convert header string to associative array
@@ -14479,8 +14418,9 @@ function igk_include_view_file($ctrl, $file)
     $cache = igk_cache()::view();
     $key = "viewFileCaches";
     igk_environment()->push($key, $file); 
+ 
 
-    if ($ctrl->getConfig("no_auto_cache_view")) {
+    if ($ctrl->getConfigs()->no_auto_cache_view) {
         array_unshift($args, $file);
     } else {
         $_f = $cache->getCacheFilePath($file);
@@ -14519,16 +14459,20 @@ function igk_include_view_file($ctrl, $file)
         igk_wln_e("fatal error: ".$ex->getMessage());
     }
     catch (Exception $ex) {
-        if (igk_environment()->is("DEV")) {
-            igk_ilog("INC VIEW ERROR:::");
+        if (!igk_environment()->no_handle_error && igk_environment()->is("DEV") && !defined("IGK_TEST_INIT")) {
+            igk_ilog("INC VIEW ERROR:::".$ex->getMessage());
+            $rp =realpath(igk_environment()->last($key));
             igk_wln_e(
-                "<h2>INC VIEW ERROR</h2>" . igk_environment()->last($key),
+                "<h2>INC VIEW ERROR</h2>" . $rp,
                 $ex->getMessage(),
+                $rp == $ex->getFile() ? $ex->getFile().":".$ex->getLine() : '',
                 array_map(function ($e) {
                     return implode(":", [igk_getv($e, "file"), igk_getv($e, "line")]);
                 }, $ex->getTrace())
             );
-        }  
+        } 
+        // + + |  
+        ob_end_clean();
         throw $ex;
     } finally {
         igk_environment()->pop($key);
@@ -15064,7 +15008,6 @@ function igk_io_check_request_file($uri, $failedcallback = null)
         $dir = igk_io_dir(dirname(igk_io_basedir() . "/" . $c));
         if (($bdir != $dir) && is_dir($dir)) {
             igk_set_header(404);
-            header("HTTP/1.0 404 Not Found");
             if ($failedcallback) {
                 $failedcallback();
             }
@@ -15754,19 +15697,7 @@ function igk_io_global_uri()
  */
 function igk_io_handle_redirection_uri($actionctrl, $uri, $params = null, $redirection = 0, $render = 1)
 {
-    $app = igk_app();
-    if ($actionctrl && ($e = $actionctrl->matche($uri))) {
-        $e->requestparams = $params;
-        $app->Session->RedirectionContext = $redirection;
-        try {
-            $actionctrl->invokeUriPattern($e, $render);
-        } catch (Exception $e) {
-            igk_show_exception($e);
-            igk_exit();
-        }
-        return true;
-    }
-    return false;
+    $actionctrl->handle_redirection_uri( $uri, $params, $redirection, $render);  
 }
 ///<summary>shortcut to create new IGKHtmlRelativeUriValueAttribute</summary>
 /**
@@ -18968,8 +18899,13 @@ function igk_parse_num($num)
  */
 function igk_parsebool($bool)
 {
-    if (!is_bool($bool))
-        boolval($bool);
+    if (!is_bool($bool)){
+
+        if (is_string($bool)) {
+            $bool = preg_match("/(true|1)/i", $bool);
+        } else 
+            $bool = boolval($bool);
+    }
     return $bool ? "true" : "false";    
 }
 ///<summary> parse bool language expression</summary>
@@ -24259,7 +24195,6 @@ function igk_sys_env_enable_production_mode()
 function igk_sys_error($error)
 {
     igk_set_header(404);
-    header("HTTP/1.0 404 Not Found");
     $r = new XmlNode("result");
     $r->add("error")->Content = $error;
     $r->add("msg")->Content = __(igk_get_error_key($error));
@@ -26014,7 +25949,12 @@ function igk_temp_bind_attribute($reader, $attr, $value, $context = null, $store
     }
     $g = igk_get_template_bindingattributes();
     if (isset($g[$attr])) {
-        $inf = $g[$attr];
+        $inf = $g[$attr];        
+        $value = html_entity_decode($value); 
+        // $len = strlen($value);
+        // if (($len > 0) && ($value[0]=='"') && ($value[$len-1]=='"')){
+        //     $value = trim($value,'"');
+        // }
         list($k, $v) = $inf($reader, $attr, $value, $context, $storecallback);
         if ($k && $v && $storecallback) {
             $storecallback($k, $v);

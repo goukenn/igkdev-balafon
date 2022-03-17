@@ -120,7 +120,7 @@ final class IGKLog extends IGKObject
         $g = !igk_environment()->get("NoDBLog") && !igk_sys_configs()->no_db_log && igk_app();
         if ($g){
             $db = igk_sys_configs()->get("default_dataadapter");
-            return DataAdapterBase::IsRegister($db);
+            return $db && DataAdapterBase::IsRegister($db);
         }
         return false;
     }

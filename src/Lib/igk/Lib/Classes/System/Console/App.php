@@ -199,6 +199,8 @@ class App{
                     if (isset($handle[$v])){
                         $action = is_callable($handle[$v])?$handle[$v]: $handle[$v][0];
                         $action($v, $command, $v_ts);
+                    } else{
+                        $command->options->{$c[0]} = $v_ts;
                     }
                 }else {
 

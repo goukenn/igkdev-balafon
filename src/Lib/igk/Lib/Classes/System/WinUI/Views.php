@@ -18,12 +18,12 @@ class Views {
     }
     public static function ViewContact($n, $info, $key=null){
         $li = $n->li()->setClass("contact-block-item");
-        if ($ico = igk_getv($info,"icon")){
-            $li->span()->Content = igk_svg_use($ico);
-        }
         $s = $li;
         if ($lnk = igk_getv($info,"uri")){
             $s = $li->a($lnk);
+        }
+        if ($ico = igk_getv($info,"icon")){
+            $s->span()->Content = igk_svg_use($ico);
         }
         $s->span()->Content = igk_getv($info, "text", $key ? __($key):null);       
     }

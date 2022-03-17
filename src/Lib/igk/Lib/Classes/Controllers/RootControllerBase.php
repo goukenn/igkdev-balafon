@@ -42,7 +42,7 @@ abstract class RootControllerBase extends IGKObject{
             $classdir = [
                 $classdir, $this->getTestClassesDir()
             ];
-        }        
+        }         
         return igk_auto_load_class($n, $entryNS, $classdir);
     }
    
@@ -50,8 +50,8 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * 
     */
-    protected final function getIsSystemController(){
-        return  !empty($m = strstr($this->getDeclaredDir(), IGK_LIB_DIR));
+    protected final function getIsSystemController(){       
+        return  !empty(strstr($this->getDeclaredDir(), IGK_LIB_DIR));
     }
 	public static function IsSystemController( RootControllerBase $controller){
 		return $controller->getIsSystemController();
@@ -164,8 +164,7 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * getfull uri
     */
-    public function getAppUri($function=null){
-        
+    public function getAppUri($function=null){ 
         if(SysUtils::GetSubDomainCtrl() === $this){
             $g= igk_app()->SubDomainCtrlInfo->clView;
             if(!empty($function) && (stripos($g, $function) === 0)){

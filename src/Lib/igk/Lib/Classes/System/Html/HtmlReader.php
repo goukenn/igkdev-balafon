@@ -780,6 +780,7 @@ final class HtmlReader extends IGKObject
                             $v_sr = "";
                             break;
                         }
+                      
                         if ($cnode) {
                             if ($cnode->isEmptyTag()) {
                                 $txt = new HtmlTextNode($v_sr);
@@ -971,7 +972,7 @@ final class HtmlReader extends IGKObject
         if (self::GetOpenerContext() == "XML") {
             return new XmlNode($name);
         }
-        return HtmlNode::CreateElement($name, $args);
+        return HtmlNode::CreateWebNode($name, $args);
     }
     ///<summary>Represente GetAttributeRegex function</summary>
     public static function GetAttributeRegex()

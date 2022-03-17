@@ -14,7 +14,10 @@ class CoreLoadingImgTest extends BaseTestCase{
 <img src="sample"><span>data</span>
 EOF
     );
-        $this->assertEquals($s, $f->render());
+        $this->assertEquals($s, 
+            $f->render(),
+            "load image"
+        );
     }
 
     public function test_load_img_closed(){

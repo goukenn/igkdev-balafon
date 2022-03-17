@@ -24,8 +24,8 @@ abstract class DataAdapterBase extends IGKObject {
      * @param IGK\Database\adName #Parameter#830480dd 
      * @return void 
      */
-    public static function IsRegister(string $adName){
-        return isset(self::$sm_regAdapter[$adName]);
+    public static function IsRegister(?string $adName=null){
+        return $adName && isset(self::$sm_regAdapter[$adName]);
     }
     /**
      * get data table definition info

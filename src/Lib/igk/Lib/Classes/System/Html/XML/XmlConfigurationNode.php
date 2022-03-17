@@ -8,18 +8,15 @@ class XmlConfigurationNode extends XmlNode{
     {
         parent::__construct($tagname);
     }
-    public static function CreateWebNode($n, $attributes = null, $indexOrargs = null)
-    {
-        die(__METHOD__);
-    }
-    public static function CreateElement($name, $param = null)
+    public static function CreateWebNode($name, $attributes = null, $indexOrargs = null)
     {
         $g = new self($name);
-        if (is_array($param)){
-            $g->setAttributes($param);
+        if (is_array($attributes)){
+            $g->setAttributes($attributes);
         }
         return $g; 
     }
+   
     public function getInnerHtml()
     {
         $s = trim(parent::getInnerHtml());     

@@ -39,8 +39,9 @@ spl_autoload_register(function($n){
     return 0;
 });
 
-
-foreach(["IGK_APP_DIR", "IGK_SESS_DIR", "IGK_BASE_DIR"] as $k){
+// + | ---------------------------------------------------------------------------------------------------
+// + | initilize environment variable 
+foreach(["IGK_APP_DIR", "IGK_SESS_DIR", "IGK_BASE_DIR", "IGK_TEST_MODULE", "IGK_TEST_CONTROLER"] as $k){
     if (!defined($k)){
         if (($appdir = igk_getv($_ENV, $k)) && is_dir($appdir)){
             define($k, realpath($appdir));   
@@ -66,6 +67,8 @@ require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
 igk_environment()->setArray("extra_config", "configFiles", ["unittest"]);
 
 IGKApplicationFactory::Register("phpunit", PhpUnitApplication::class);
+
+
 // 
 // //.session start for testing
 // $s = session_start();

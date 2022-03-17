@@ -20,6 +20,12 @@ final class HtmlXmlViewerNode extends HtmlNode {
         parent::__construct("div");
         $this["class"]="igk-xml-viewer";
     }
+    public function getContent(){
+        return $this->content;
+    }
+    public function setContent($v){
+        $this->content = $v;
+    }
     ///<summary></summary>
     ///<param name="target"></param>
     ///<param name="depth"></param>

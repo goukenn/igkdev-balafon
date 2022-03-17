@@ -877,7 +877,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
      * get driver last id
     */
     public function last_id(){   
-        return igk_mysql_db_last_id();
+        return igk_mysql_db_last_id($this->m_resource);
     }
     ///<summary></summary>
     /**

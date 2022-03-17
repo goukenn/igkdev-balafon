@@ -137,6 +137,22 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function getPatternInfo(){
         return igk_get_env(IGK_ENV_URI_PATTERN_KEY);
     }
+
+    public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
+        $app = igk_app();
+        $actionctrl = $this; 
+        if ($e = $actionctrl->matche($uri)){
+            $e->requestparams = $params;
+            $app->Session->RedirectionContext = $redirection; 
+            try {
+                $actionctrl->invokeUriPattern($e, $render);
+            } catch (\Exception $ex) {
+                throw $ex;
+            }
+            return true;
+        }
+        return false;
+    }
     ///<summary>get system uri actions routes</summary>
     ///<return refout="true"></return>
     public function & getRoutes(){
@@ -465,7 +481,7 @@ igk_wln_e("page action");
         $v_routes=$this->_refRoutes();
         foreach($v_routes as $k=>$v){
             $li=$ul->li()->setClass("clearb");
-            $li->add("span", array("class"=>"igk-col-4-2 no-overflow igk-text-ellipis"))->Content=$k;
+            $li->add("span", array("class"=>"igk-col-4-2 no-overflow"))->Content=$k;
             $li->add("span", array("class"=>"igk-col-4-2"))->Content=$v;
         }
     }

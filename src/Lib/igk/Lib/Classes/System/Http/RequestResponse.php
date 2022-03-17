@@ -14,15 +14,14 @@ abstract class RequestResponse extends Response{
      */
     var $headers; 
 
+    /**
+     * get the status
+     * @var mixed
+     */
+    var $status;
      
     public static function GetStatus($code){
-        return igk_getv(
-            [
-                "404"=>"Page Not found", 
-                "400"=>"Bad request!!!", 
-            ],
-            $code
-        );
+        return  StatusCode::GetStatus($code);
     }
     /**
      * output the current response
@@ -62,5 +61,10 @@ abstract class RequestResponse extends Response{
             $obj = new WebResponse($data, $code, $headers);
         }  
         return $obj;
+    }
+
+    protected function __construct()
+    {
+        $this->status = self::GetStatus($this->code);
     }
 }

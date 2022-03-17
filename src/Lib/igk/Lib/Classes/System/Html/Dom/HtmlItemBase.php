@@ -335,11 +335,19 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
     public function setContent($value)
     {
-        $this->content = $value;
+        if (is_string($value) && $this->getCanAddChilds() && HtmlUtils::IsHtmlContent($value)){
+            $this->load($value);
+        }else{
+            $this->content = $value;
+        }
         return $this;
     }
-
-    public function getTagName()
+    /**
+     * get tagname
+     * @param mixed $options 
+     * @return mixed 
+     */
+    public function getTagName($options=null)
     {
         return $this->tagname;
     }
@@ -837,7 +845,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @return mixed 
      * @throws IGKException 
      */
-    public static function CreateWebNode($n, $attributes=null, $indexOrArgs= null){
+    public static function CreateWebNode($n, $attributes=null, $indexOrArgs= null){  
         if ($n= HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)){
             if ($attributes){                 
                 $n->setAttributes($attributes);
@@ -845,30 +853,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $n;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="param" default="null"></param>
-    /**
-     * 
-     * @param mixed $name
-     * @param mixed $param the default value is null
-     */
-    public static function CreateElement($name, $param = null)
-    {
-        if (!empty($name)) {
-            if (strpos($name, 'igk:') === 0) {
-                $f = igk_create_node(substr($name, 4), null, $param);
-                if ($f)
-                    return $f;
-            }
-            $tb = explode(':', $name);
-            if (count($tb) == 1) {
-                return new HtmlNode($name);
-            }
-        }
-        return null;
-    }
-
+    
     public function output()
     {
         (new \IGK\System\Http\WebResponse($this->render()))->output();        
@@ -977,9 +962,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     */
     public static function LoadInContext($t, $content, $context=null, callable $creator=null){
         if ($creator===null){
-            $creator = function()use($t){
-                return $t::CreateElement(...func_get_args());
-            };
+            $creator = Closure::fromCallable([get_class($t), "LoadingNodeCreator"]);
         }
         $d= HtmlReader::Load($content, $context, $creator);
         if($d){
@@ -988,6 +971,26 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return false;
     }  
+    /**
+     * default loading node creator
+     * @param string $name 
+     * @param null|array $param 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function LoadingNodeCreator(string $name, ?array $param=null){
+        if (strpos($name, 'igk:') === 0) {
+            $f = igk_create_node(substr($name, 4), null, $param);
+            if ($f)
+                return $f;
+        }
+        $tb = explode(':', $name);
+        if (count($tb) == 1) {
+            return new HtmlNode($name);
+        }
+        // return $t::CreateElement(...func_get_args());
+        return static::CreateWebNode(...func_get_args());
+    }
     ///<summary> load file content .xphtml </summary>
     /**
     *  load file content .xphtml
@@ -1238,10 +1241,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 $tab[] = $q;
                 continue;
             }
-            if ($q->getChilds() ===null){
-                igk_wln_e("is null ", get_class($q));
+            $v_c = $q->getChilds();
+            if ($v_c===null){
+                // igk_dev_wln("is null child node is null ", get_class($q));
+                continue;
             }
-            if ($c = $q->getChilds()->to_array()) {
+            if ($c = $v_c->to_array()) {
                 foreach ($c as $k) {
                     array_push($itab, $k);
                 }

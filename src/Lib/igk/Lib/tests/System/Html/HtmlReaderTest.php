@@ -1,7 +1,11 @@
 <?php
 namespace IGK\Tests\System\Html;
 
+use Exception;
 use IGK\Tests\BaseTestCase;
+use IGKException;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use PHPUnit\Framework\ExpectationFailedException;
 
 class HtmlReaderTest extends BaseTestCase{
     function test_read_php_processor(){
@@ -27,5 +31,23 @@ class HtmlReaderTest extends BaseTestCase{
             "read content"
         ); 
         $this->assertStringEndsNotWith("\"", $src,  "comment files must not end with \"");
+    }
+
+    /**
+     * loading text content
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
+    public function test_loading_content(){
+        
+        $n = igk_create_node("div");
+        $n->Content = "item <b>sample</b> info";
+        $this->assertEquals(
+            "<div>item <b>sample</b> info</div>",
+            $n->render()
+        ); 
     }
 }

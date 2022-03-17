@@ -318,7 +318,7 @@ abstract class HtmlUtils extends DomNodeBase
                 $q = substr($q, 0, strlen($q) - 1);
             }
         }
-        if (($context != "binding") && ($v_h == "\"")) {
+        if ((!$expression) && ($context != "binding") && ($v_h == "\"")) {
             $q = str_replace("\"", "&quot;", $q);
         }
         if ($context && is_string($context) && (preg_match("/(xml|xsl)/i", $context))) {
@@ -714,7 +714,6 @@ abstract class HtmlUtils extends DomNodeBase
             ];
             $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $args]);
         }
-
         return $c;
     }
 
@@ -770,5 +769,13 @@ abstract class HtmlUtils extends DomNodeBase
             igk_html_skip_add(null);
         }
         return $o != null;
+    }
+    /**
+     * check if content is html content
+     * @param string $content 
+     * @return bool 
+     */
+    public static function IsHtmlContent(string $content) : bool {
+        return preg_match("#\<(?P<tagname>[\w][0-9_\-\w:]*)( (.+)?)?>#", $content);
     }
 }

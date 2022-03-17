@@ -26,6 +26,14 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
         }
         return array("m_v", "m_o");
     }
+    public function __debugInfo()
+    {
+        return [];
+    }
+    public function __toString()
+    {
+        return $this->getValue();
+    }
     ///<summary></summary>
     function __wakeup(){    }
     ///<summary></summary>

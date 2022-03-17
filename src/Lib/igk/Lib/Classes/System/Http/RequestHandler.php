@@ -156,7 +156,13 @@ class RequestHandler
         }
         $this->handle_ctrl_request_uri($u);
     }
-
+    /**
+     * handle application request uri
+     * @param mixed $u 
+     * @param int $defaultBehaviour 
+     * @return int|void|null|false 
+     * @throws IGKException 
+     */
     public function handle_ctrl_request_uri($u = null, $defaultBehaviour = 1)
     {
         if (igk_environment()->handle_ctrl_request){
@@ -314,9 +320,8 @@ class RequestHandler
         $page = $uri;
         $lang = null;
 
-        
-        if (($actionctrl = igk_getctrl(IGK_SYSACTION_CTRL)) && igk_io_handle_redirection_uri($actionctrl, $page, $params, 1))
-            return;  
+        if (($actionctrl = igk_getctrl(IGK_SYSACTION_CTRL)) && $actionctrl->handle_redirection_uri($page, $params, 1))
+            return;   
         try {
             if (igk_sys_ispagesupported($page)) {
                 $tab = $_REQUEST;

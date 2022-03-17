@@ -23,28 +23,28 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         parent::__construct();
     }
     ///<summary>include current view</summary>
-    protected function _renderViewFile($view=null){
-        igk_wln(__METHOD__, "data \n");
-        extract($this->getSystemVars());
-        $view=$view ? $view: $this->getCurrentView();
-        if(file_exists($view)){
-            $f=$view;
-        }
-        else
-            $f=$this->getViewFile($view);
-        if(file_exists($f)){
-            ob_start();
-            $this->_include_file_on_context($f);
-            $g=ob_get_contents();
-            ob_end_clean();
-            if(!empty($g)){
-                $t->notagnode()->Content=$g;
-            }
-        }
-        else{
-            igk_debug_wln("Current view file does't exists : ".$f);
-        }
-    }
+    // protected function _renderViewFile($view=null){
+        
+    //     extract($this->getSystemVars());
+    //     $view=$view ? $view: $this->getCurrentView();
+    //     if(file_exists($view)){
+    //         $f=$view;
+    //     }
+    //     else
+    //         $f=$this->getViewFile($view);
+    //     if(file_exists($f)){
+    //         ob_start();
+    //         $this->_include_file_on_context($f);
+    //         $g=ob_get_contents();
+    //         ob_end_clean();
+    //         if(!empty($g)){
+    //             $t->notagnode()->Content=$g;
+    //         }
+    //     }
+    //     else{
+    //         igk_debug_wln("Current view file does't exists : ".$f);
+    //     }
+    // }
     ///default handle uri global uri
     public static function CheckBeforeAddControllerInfo($request){
         $g=igk_getv($request, "clDefaultPage");
@@ -187,7 +187,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     }
     ///get the name of the page that control this controller
     public function getBasicUriPattern(){
-        return igk_getv($this->Configs, IGK_CTRL_CNF_BASEURIPATTERN);
+        return $this->getConfigs()->get(IGK_CTRL_CNF_BASEURIPATTERN);
     }
     ///<summary></summary>
     public function getExtraTitle(){

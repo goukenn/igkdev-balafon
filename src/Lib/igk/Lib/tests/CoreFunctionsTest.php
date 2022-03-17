@@ -3,9 +3,31 @@
 namespace IGK\Tests;
 
 use IGK\Helper\StringUtility;
+use IGK\System\Html\HtmlUtils;
 
 class CoreFunctionsTest extends BaseTestCase
 {
+
+    public function test_parse_bool(){
+
+        $this->assertEquals(
+            "false",
+            igk_parsebool(false)
+        );
+        $this->assertEquals(
+            "true",
+            igk_parsebool(true)
+        );
+
+        $this->assertEquals(
+            "true",
+            igk_parsebool("true")
+        );
+        $this->assertEquals(
+            "false",
+            igk_parsebool("false")
+        );
+    }
     public function testRelativePath()
     {
         $this->assertEquals(
@@ -74,6 +96,37 @@ class CoreFunctionsTest extends BaseTestCase
         igk_str_remove_lines(null);
     }
 
+    public function test_html_is_html_content(){   
+        $this->assertFalse(
+            HtmlUtils::IsHtmlContent("Hello jour <body"),
+            "condition 1"
+        );     
+        $this->assertTrue(
+            HtmlUtils::IsHtmlContent("<body>"),
+            "condition 2"
+        );
+        $this->assertTrue(
+            HtmlUtils::IsHtmlContent("<body />"),
+            "condition 3"
 
+        );
+        $this->assertTrue(
+            HtmlUtils::IsHtmlContent("<igk:info />"),
+            "condition 4"
+        );
+        $this->assertTrue(
+            HtmlUtils::IsHtmlContent("<igk:info-p />"),
+            "condition 5"
+        );
+        $this->assertTrue(
+            HtmlUtils::IsHtmlContent("<igk:info-p>"),
+            "condition 6"
+        );
+        $this->assertFalse(
+            HtmlUtils::IsHtmlContent("&gt;body &lt;"),
+            "special case failed"
+        );
+ 
+    }
     
 }

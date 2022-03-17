@@ -209,7 +209,7 @@ final class IGKCaches{
                     igk_wln_e("exception :");
                 }
                 catch(Error $ex){
-                    igk_wln_e("error :");
+                    igk_wln_e("error :", __CLASS__);
                 } 
             });  
             if($render){
@@ -252,7 +252,7 @@ final class IGKCaches{
                 igk_wln_e("exception :");
             }
             catch(Error $ex){
-                igk_wln_e("error :");
+                igk_wln_e("error :", __CLASS__);
 
             } 
         });  

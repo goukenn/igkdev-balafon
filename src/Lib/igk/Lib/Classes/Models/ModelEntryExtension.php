@@ -40,7 +40,12 @@ abstract class ModelEntryExtension{
         $cl = get_class($model);
         $c = new $cl($raw); 
         if ($craw = $c->to_array()) {
-            if (($g = $c->insert($craw))!== false) {
+            $g = $c->insert($craw);
+            if (($g!== false) && ($g!==null)){
+                // if (igk_environment()->querydebug){
+                //     igk_wln_e("explore ");
+                //     igk_wln_e($g->to_array(), $model->last_id());
+                // }
                 if ($g instanceof $model)
                 {
                     $c->updateRaw($g);  
@@ -285,11 +290,11 @@ abstract class ModelEntryExtension{
     public static function insert(ModelBase $model, $entries, $update=true){ 
      
         $ad = $model->getDataAdapter();
-        if ( $ad->insert($model->getTable(), $entries, $model->getTableInfo())){
+        if ( $r = $ad->insert($model->getTable(), $entries, $model->getTableInfo())){
  
             if ($update){
-                $ref_id = $model->getRefId();
-                if ($id = $ad->last_id()){
+                $ref_id = $model->getRefId(); 
+                if (($id = $ad->last_id()) && ($id !== -1)){ 
                     $s = $model::select_row([$ref_id=>$id]);            
                     if ($s && is_object($entries)){
                         foreach($s->to_array() as $k => $v){
@@ -669,16 +674,27 @@ abstract class ModelEntryExtension{
      * @param ModelBase $model 
      * @return array
      */
-    public static function queryColumns(ModelBase $model, ?array $filter=null){
+    public static function queryColumns(ModelBase $model, ?array $filter=null, bool $useall = false){
         $tab = array_map(function($a)use($model){
             return $model::column($a);
         }, array_keys(self::modelTableInfo($model)));
         $tab = array_combine($tab, $tab);
         if ($filter){
+            $ctab = [];
             foreach($filter as $k=>$v){
+                if (is_numeric($k) && is_string($v)){
+                    $k = $v;
+                    $v = $model::column($k);
+                }
                 if (isset($tab[$k]) || (($k = $model::column($k)) && isset($tab[$k])) ){
-                    $tab[$k] = $v;
-                } 
+                    $ctab[$k] = $v;
+                    if ($useall){
+                        $tab[$k] = $v;
+                    }
+                }  
+            }
+            if (!$useall){
+                $tab = $ctab; 
             }
         }
         return $tab;
@@ -697,6 +713,8 @@ abstract class ModelEntryExtension{
         ]));
         return $res;
     }
+
+
 
    
 }

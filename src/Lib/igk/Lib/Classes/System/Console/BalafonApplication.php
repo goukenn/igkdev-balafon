@@ -462,10 +462,13 @@ class BalafonApplication extends IGKApplicationBase
             }, __("run cron's script")],
 
             "-v, --version" => [function ($arg, $command) {
-                $command->exec = function () {
-                    echo IGK_VERSION . "\n";
-                    return 200;
-                };
+            
+                if (!$command->exec){
+                    $command->exec = function () {
+                        echo IGK_VERSION . "\n";
+                        return 200;
+                    };
+                } 
             }, "show the current version"],
             "--help" => [function ($arg, $command) {
                 if ($command->exec) {

@@ -114,7 +114,7 @@ implements IIGKUriActionRegistrableController, ILibaryController{
     }
     ///<summary>init app's. override this method to initialize user app's environment</summary>
     ///<remark>in general you must load app environment setting and store it in $user->EnvParam["app:://Name/setting"]</remark>
-    protected function initUserFromSysUser($u){
+    protected function initUserFromSysUser(?object $u){
         return $u;
     }
     ///<summary></summary>
@@ -124,18 +124,18 @@ implements IIGKUriActionRegistrableController, ILibaryController{
         igk_navto($c);
     }
     
-    ///<summary></summary>
-    ///<param name="v"></param>
-    public function set_output($v){
-        $s=$this->getEnvParam("_output");
-        if(!$s){
-            $s=$v;
-        }
-        else{
-            $s=$v;
-        }
-        $this->setEnvParam("_output", $s);
-    }
+    // ///<summary></summary>
+    // ///<param name="v"></param>
+    // public function set_output($v){
+    //     $s=$this->getEnvParam("_output");
+    //     if(!$s){
+    //         $s=$v;
+    //     }
+    //     else{
+    //         $s=$v;
+    //     }
+    //     $this->setEnvParam("_output", $s);
+    // }
     ///<summary></summary>
     ///<param name="user"></param>
     protected function setUser($user){

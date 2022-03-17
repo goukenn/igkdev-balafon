@@ -8,11 +8,13 @@ use Exception;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
+use IGK\Models\Groups;
 use IGK\Resources\R;
 use IGK\System\Exceptions\UriActionException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Http\WebResponse;
 use IGKApp;
 use IGKDbUtility;
 use IGKException;
@@ -58,38 +60,7 @@ abstract class ApplicationController extends  PageControllerBase{
     */
     protected function _createDbUtility(){
         return new IGKDbUtility($this);
-    }
-   
-    ///<summary></summary>
-    /**
-    * 
-    */
-    // public function about(){
-    //     $doc= $this->getAppDocument(); //createNewDoc();
-    //     $doc->Title=R::ngets("title.about_1", $doc->Title);
-    //     $f=$this->getViewFile("about");
-    //     if(file_exists($f)){
-	// 		$this->loader->view($f, func_get_args());
-	// 		$doc->body->getBodyBox()->add($this->getTargetNode());
-    //     }
-    //     else{
-    //         $bbox=$doc->body->getBodyBox();
-    //         $bbox->clearChilds();
-    //         $t=$bbox;
-    //         $t->container()->addCol()->div()->setClass("igk-fsl-4")->Content=R::ngets("title.about");
-    //         $ct=$t->div()->container();
-    //         $ct->addCol()->div()->Content="Version : ".$this->getConfigs()->get( "Version", "1.0");
-    //         $ct->addCol()->div()->Content="Author : ".IGK_AUTHOR;
-    //         $ct->addCol()->div()->Content="CONTACT : ".IGK_AUTHOR_CONTACT;
-    //         $dv=$ct->addWebMasterNode()->addCol()->div();
-    //         $dv->Content="Location : ".$this->getDeclaredFileName();
-    //     }
-    //     $doc->renderAJX();
-    //     // $doc->RemoveChilds();
-    //     // $doc->Dispose();
-    //     // unset($doc);
-	// 	igk_exit();
-    // }
+    } 
     ///<summary></summary>
     /**
     * 
@@ -442,8 +413,7 @@ EOF;
     * Basic uri pattern
     */
     public function getBasicUriPattern(){
-        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, IGK_CTRL_CNF_BASEURIPATTERN);
-        //  $this->getConfigs()->get( IGK_CTRL_CNF_BASEURIPATTERN );
+        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, IGK_CTRL_CNF_BASEURIPATTERN); 
     }
 
     ///<summary>return application uri</summary>
@@ -451,7 +421,7 @@ EOF;
     * return application uri
     */
     public function getAppUri($function=null){
-       
+       igk_debug_wln("check : ", $function);
 		if (!empty($function)){
 			$function = igk_str_rm_start($function, "/");
         }
@@ -659,30 +629,32 @@ EOF;
         }
         $doc=$this->getAppDocument();
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
-        $fnc="";
-        $handle=0;  
-       
-        //igk_wln_e(__FILE__.":".__LINE__, $u, $c, $param, $query_options, $this->getViewFile($c));
-        if(!($handle=$this->handle_func($c, $param, $doc, 0, null)) && (file_exists($fnc=$this->getViewFile($c, 1, $param)) && preg_match(IGK_VIEW_FILE_END_REGEX, $fnc))){
-          
-            
-            $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL, true);
-            $m=$actionctrl->matche($page[0]);
-            $ck=$this->getEnvParam("appkeys");
-            if($m !== null){
-                if($m->action === $ck){
-                    if(igk_sys_is_subdomain() && ( (igk_get_defaultwebpagectrl()) === $this)){
-                        $m="Misconfiguration. Subsequent call of domain controller is not allowed. ".igk_io_request_uri().
-						"<br />".$this->getName().
-						"<br />";
-                        throw new UriActionException($m, $u, 0x1a001);
+        // $fnc="";
+        // $handle=0;   
+        
+         // igk_wln_e(__FILE__.":".__LINE__, $c, $param, $query_options);
+            if (igk_sys_is_subdomain()){
+                //check of uri access ... 
+                $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL, true);
+                $m=$actionctrl->matche($page[0]);
+                $ck=$this->getEnvParam("appkeys");
+                if($m !== null){
+                    if($m->action == $ck){
+                        if( (igk_get_defaultwebpagectrl()) === $this){
+                            $m="Misconfiguration. Subsequent call of domain controller is not allowed. ".igk_io_request_uri().
+                            "<br />".$this->getName().
+                            "<br />";
+                            throw new UriActionException($m, $u, 0x1a001);
+                        }else {
+                            throw new \IGKException("AccessNotAllowed");
+                        }
                     }
-                }
-                else{
-                    $actionctrl->invokeUriPattern($m);
-                    igk_exit();
-                }
-            }  
+                    else{
+                        $actionctrl->invokeUriPattern($m);
+                        igk_exit();
+                    }
+                }   
+            }
             // if ($this->getViewFile($c, 0) != $fnc){
             //     array_unshift($param, $c); 
             // }
@@ -704,45 +676,42 @@ EOF;
                 }
             }            
             igk_exit();
-        }
-        if(!empty($s=$this->_output)){
-            $tn->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->Content=$s;
-            $this->_output=null;
-        }
-        if($handle){
-            if($forcehandle){
-                $doc->body->getBodyBox()->clearChilds()->add($tn);
-                $doc->renderAJX();
-                igk_exit();
-            }
-            return 1;
-        }
-        // igk_wln("action not handled");
-        $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL, true);
-        $ck=$this->getEnvParam("appkeys");
-        $m=$actionctrl->matche($page[0]);
-        // igk_trace();
-        if (igk_env_count(__METHOD__)>10){
-            igk_wln_e("infinie loop detected on request ",
-                __FILE__.':'.__LINE__);
-        }
-        if((!empty($fnc) && file_exists($fnc)) && $m){
-            if(igk_sys_is_subdomain() && ($m->action === $ck)){
-                igk_set_header(500);
-                $m="Misconfiguration. Subsequent call of domain controller is not allowed. ".igk_io_request_uri();
-                throw new UriActionException($m, $u, 0x1a001);
-            }
-            igk_app()->session->RedirectionContext=1;
-           //  igk_wln_e("invoke uri pattern ");
-            // $actionctrl->invokeUriPattern($m);
-
-        }
-        else{
-            echo "request page not found: ".$fnc;
-		    igk_sys_show_error_doc(igk_getr('__c', 404), $this, ["page"=>$page, "fnc"=>$fnc]);
-            igk_exit();
-        }
-        return false;
+       
+        // if(!empty($s=$this->_output)){
+        //     $tn->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->Content=$s;
+        //     $this->_output=null;
+        // }
+        // if($handle){
+        //     if($forcehandle){
+        //         $doc->body->getBodyBox()->clearChilds()->add($tn);
+        //         $doc->renderAJX();
+        //         igk_exit();
+        //     }
+        //     return 1;
+        // }
+        // // igk_wln("action not handled");
+        // $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL, true);
+        // $ck=$this->getEnvParam("appkeys");
+        // $m=$actionctrl->matche($page[0]);
+        // // igk_trace();
+        // if (igk_env_count(__METHOD__)>10){
+        //     igk_wln_e("infinite loop detected on request ",
+        //         __FILE__.':'.__LINE__);
+        // }
+        // if((!empty($fnc) && file_exists($fnc)) && $m){
+        //     if(igk_sys_is_subdomain() && ($m->action === $ck)){
+        //         igk_set_header(500);
+        //         $m="Misconfiguration. Subsequent call of domain controller is not allowed. ".igk_io_request_uri();
+        //         throw new UriActionException($m, $u, 0x1a001);
+        //     }
+        //     igk_app()->session->RedirectionContext=1; 
+        // }
+        // else{
+        //     echo "request page not found: ".$fnc;
+		//     igk_sys_show_error_doc(igk_getr('__c', 404), $this, ["page"=>$page, "fnc"=>$fnc]);
+        //     igk_exit();
+        // }
+        // return false;
     }
     ///<summary></summary>
     ///<param name="code"></param>
@@ -753,9 +722,9 @@ EOF;
     protected function HandleError($code=0){
         return 0;
     }
-    ///<summary></summary>
+    ///<summary>init complete</summary>
     /**
-    * 
+    * init complete
     */
     protected function initComplete(){ 
         parent::initComplete();
@@ -994,53 +963,11 @@ EOF;
     */
     public function save_data_schemas($exit=1){
         $this->checkFunc(__FUNCTION__);
-        $dom=HtmlNode::CreateWebNode(IGK_SCHEMA_TAGNAME);
-        $dom["ControllerName"]=$this->Name;
-        $dom["Platform"]=IGK_PLATEFORM_NAME;
-        $dom["PlatformVersion"]=IGK_WEBFRAMEWORK;
-        $e=HtmlNode::CreateWebNode("Entries");
-        $d= igk_getv($this->loadDataFromSchemas(),"tables");
-        if($d){
-            $tabs=array();
-            foreach($d as $k=>$v){
-                $b=$dom->add(DbSchemas::DATA_DEFINITION);
-                $b["TableName"]=$k;
-                $b["Description"]=$v["Description"];
-                $tabs[]=$k;
-                foreach($v["ColumnInfo"] as $cinfo){
-                    $col=$b->add(IGK_COLUMN_TAGNAME);
-                    $tb=(array)$cinfo;
-                    $col->setAttributes($cinfo);
-                }
-            }
-            $db=igk_get_data_adapter($this);
-            $r=null;
-            if($db){
-                $db->connect();
-                foreach($tabs as $tabname){
-                    try {
-                        $r=$db->selectAll($tabname);
-                        if($r->RowCount > 0){
-                            $s=$e->add($tabname);
-                            foreach($r->Rows as $c=>$cc){
-                                $irow=$s->addXMLNode(IGK_ROW_TAGNAME);
-                                $irow->setAttributes($cc);
-                            }
-                        }
-                    }
-                    catch(Exception $ex){}
-                }
-                $db->close();
-            }
+        $dom = ControllerExtension::SaveDataSchemas($this);   
+        if($exit && $dom){
+            return new WebResponse($dom, 200,["Content-Type: application/xml"]);
         }
-        if($e->HasChilds){
-            $dom->add($e);
-        }
-        if($exit)
-            header("Content-Type: application/xml");
-        $dom->renderAJX();
-        if($exit)
-            igk_exit();
+        return $dom;
     }
     ///<summary></summary>
     ///<param name="t" ref="true"></param>
@@ -1062,9 +989,7 @@ EOF;
     * @param mixed $doc
     */
     protected function setDefaultFavicon($doc){		
-		throw new IGKException(__("Not implement : use igk_doc_set_favicon function "));
-        // $d=$this->getResourcesDir()."/Img/favicon.ico";
-        // igk_doc_set_favicon($doc, $d);
+		throw new IGKException(__("Not implement : use igk_doc_set_favicon function "));       
     }
     ///<summary></summary>
     ///<param name="param"></param>
@@ -1077,13 +1002,9 @@ EOF;
         $t=strtolower(str_replace(' ', '_', $this->Name));
         if(empty($t))
             throw new IGKException(__("Can't setup controller: {0}", get_class($this) ));
-        $c=array($t, $t."_administrator");
-        $table = igk_db_get_table_name(IGK_TB_GROUPS);
+        $c=array($t, $t."_administrator");;
         foreach($c as $k){
-            $e=igk_db_table_select_where($table, array(IGK_FD_NAME=>$k), $this);
-            if($e && !$e->Success){
-                igk_db_insert($this, $table, array(IGK_FD_NAME=>$k));
-            }
+            Groups::insertIfNotExists(array(IGK_FD_NAME=>$k));;
         }
     }
     ///<summary></summary>
@@ -1128,41 +1049,5 @@ EOF;
         ob_end_clean();
         igk_wl($s);
         igk_exit();
-    }
-    ///<summary>shortcut to global view function</summary>
-    /**
-    * shortcut to global view function
-    */
-    public function v($view='default', $forceview=false){
-        $this->setCurrentView($view, $forceview);
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function View(){
-        // $v_context="app";
-        // if( !$this->IsActive()){
-        //     $v_context="docview";
-        //     $doc=$this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc();
-        //     if($doc !== null){ 
-        //         $doc->body->getBodyBox()->clearChilds()->add($this->getTargetNode());
-        //     }
-        //     else{
-        //         igk_ilog(implode(",", ["Session probably destroyed. Document is null",
-        //         "session time out ". ini_get('session.gc_maxlifetime')]));
-        //         igk_die("/!\\ Session kill");
-        //     }
-        // }
-        // $this->setEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY, $v_context);
-       // try { 
-            parent::View();
-        // }
-        // catch(\Exception $ex){
-        //     ob_clean();
-        //     throw new IGKException("ERROR : ".$ex->getMessage(), $ex->getCode(), $ex);    
-        // }finally{
-        //     $this->setEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY, null);
-        // }
-    }
+    }    
 }

@@ -485,8 +485,7 @@
     <item name="igk-text-active" />
     <item name="igk-text-c" />
     <item name="igk-text-danger" />
-    <item name="igk-text-default" />
-    <item name="igk-text-ellipis" />
+    <item name="igk-text-default" /> 
     <item name="igk-text-inactive" />
     <item name="igk-text-info" />
     <item name="igk-text-success" />

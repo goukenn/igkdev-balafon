@@ -64,10 +64,13 @@ function igk_exit($close = 1, $clean_buffer = 0)
     // igk_trace();
 
     if (igk_environment()->isAJXDemand){
-        if (igk_environment()->is("DEV")){
-            igk_trace();
-            igk_wln("<div style='position:fixed; z-index: 1000; top:0; left:0: background-color:red; color:#fdfdfd'>call igk_exit not allowed in : inAJXDemand Flag context.</div>");
-        }
+        igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
+        igk_environment()->isAJXDemand = null;
+
+        // if (igk_environment()->is("DEV")){
+        //     igk_trace();
+        //     igk_wln("<div style='position:fixed; z-index: 1000; top:0; left:0: background-color:red; color:#fdfdfd'>call igk_exit not allowed in : inAJXDemand Flag context.</div>");
+        // }
     }
     if ($close && !empty(session_id())) {
         igk_hook(IGKEvents::ON_BEFORE_EXIT, array(igk_app(), null));

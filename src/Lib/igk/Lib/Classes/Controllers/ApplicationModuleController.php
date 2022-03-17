@@ -75,6 +75,12 @@ final class ApplicationModuleController extends BaseController{
     public function getEnvParam($name, $default=null){
         return igk_get_env($this->getModuleKey($name), $default); 
     }
+    public function getEntryNamespace(){
+        return str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($this->m_dir)));
+    }
+    public function getTestClassesDir(){
+        return implode('/' , [dirname($this->getClassesDir()), IGK_TESTS_FOLDER]);
+    }
     ///<summary></summary>
     ///<param name="dir"></param>
     /**
@@ -114,10 +120,12 @@ final class ApplicationModuleController extends BaseController{
             if (!is_dir($dir)){
                 $dir = "";
             } 
-            $entry_ns = $this->config("entry_NS", str_replace("/","\\", igk_get_module_name($dir)));
+            $entry_ns =  str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($dir)));
             $libdir=$classLib;
+            // igk_wln_e("entry namespace ", $entry_ns, $libdir);
+
             spl_autoload_register(function($n)use($entry_ns, $libdir){
-             
+              
                 $fc = "";
                 if (!empty($entry_ns) && (strpos( $n, $entry_ns)===0)){
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
@@ -128,6 +136,20 @@ final class ApplicationModuleController extends BaseController{
                         }
                         return 1;
                     }
+                    if (defined("IGK_TEST_INIT")){
+                        $pos = $entry_ns."\\Tests\\";
+                        if (strpos($n, $pos)=== 0){ 
+                            $cl = ltrim(substr($n, strlen($pos)), "\\");
+                            if (file_exists($fc = $this->getTestClassesDir()."/".$cl.".php")){
+                                include($fc);
+                                if (!class_exists($n, false) && !interface_exists($n, false)){               
+                                    igk_die("file loaded but class $cl does not exists");
+                                }
+                                return 1;
+                            } 
+                        } 
+                    }
+
                 } 
             });
         }
@@ -237,7 +259,7 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
-    public function getDeclaredDir(){
+    public function getDeclaredDir():string{
         return $this->m_dir;
     }
     ///<summary></summary>
