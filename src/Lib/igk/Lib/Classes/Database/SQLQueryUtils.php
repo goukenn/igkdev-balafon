@@ -25,7 +25,7 @@ use IGKSysUtil;
 class SQLQueryUtils{
     const AVAIL_FUNC=['IGK_PASSWD_ENCRYPT', 'AES_ENCRYPT', 'BIN', 'CHAR', 'COMPRESS', 'CURRENT_USER', 'AES_DECRYPTDATABASE', 'DAYNAME', 'DES_DECRYPT', 'DES_ENCRYPT', 'ENCRYPT', 'HEX', 'INET6_NTOA', 'INET_NTOA', 'LOAD_FILE', 'LOWER', 'LTRIM', 'MD5', 'MONTHNAME', 'OLD_PASSWORD', 'PASSWORD', 'QUOTE', 'REVERSE', 'RTRIM', 'SHA1', 'SOUNDEX', 'SPACE', 'TRIM', 'UNCOMPRESS', 'UNHEX', 'UPPER', 'USER', 'UUID', 'VERSION', 'ABS', 'ACOS', 'ASCII', 'ASIN', 'ATAN', 'BIT_COUNT', 'BIT_LENGTH', 'CEILING', 'CHAR_LENGTH', 'CONNECTION_ID', 'COS', 'COT', 'CRC32', 'CURRENT_DATE', 'CURRENT_TIME', 'DATE', 'DAYOFMONTH', 'DAYOFWEEK', 'DAYOFYEAR', 'DEGREES', 'EXP', 'FLOOR', 'FROM_DAYS', 'FROM_UNIXTIME', 'HOUR', 'INET6_ATON', 'INET_ATON', 'LAST_DAY', 'LENGTH', 'LN', 'LOG', 'LOG10', 'LOG2', 'MICROSECOND', 'MINUTE', 'MONTH', 'NOW', 'OCT', 'ORD', 'PI', 'QUARTER', 'RADIANS', 'RAND', 'ROUND', 'SECOND', 'SEC_TO_TIME', 'SIGN', 'SIN', 'SQRT', 'SYSDATE', 'TAN', 'TIME', 'TIMESTAMP', 'TIME_TO_SEC', 'TO_DAYS', 'TO_SECONDS', 'UNCOMPRESSED_LENGTH', 'UNIX_TIMESTAMP', 'UTC_DATE', 'UTC_TIME', 'UTC_TIMESTAMP', 'UUID_SHORT', 'WEEK', 'WEEKDAY', 'WEEKOFYEAR', 'YEAR', 'YEARWEEK'];
     protected static $sm_adapter;
-    public static $LENGTHDATA=array("varchar"=>"VarChar");
+    public static $LENGTHDATA=array("varchar"=>"VarChar", "char"=>"Char");
     ///<summary>Represente AllowedDefValue function</summary>
     public static function AllowedDefValue(){
         static $defvalue=null;
@@ -693,16 +693,17 @@ class SQLQueryUtils{
             }
             $t=1;
         }
+        
         if($condition){
             if(is_array($condition)){
                 $v_condstr .= self::GetCondString($condition);
             }
-            else if(is_string($condition) && !preg_match("/^[0-9]+$/i", $condition))
+            else if(is_string($condition) && !preg_match(\IGK\System\Regex\RegexConstant::INT_REGEX, $condition))
                 $v_condstr .= $condition;
-            else if(is_integer($condition) || preg_match("/^[0-9]+$/i", $condition))
+            else if(is_integer($condition) || preg_match(\IGK\System\Regex\RegexConstant::INT_REGEX, $condition))
                 $v_condstr .= "`clId`='".igk_db_escape_string($condition)."'";
             else{
-                igk_wln("data is ".$condition. " ".strlen($condition). " ::".is_integer((int)$condition));
+                igk_dev_wln("data is ".$condition. " ".strlen($condition). " ::".is_integer((int)$condition));
             }
         }
         else if($id){

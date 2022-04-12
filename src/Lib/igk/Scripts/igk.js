@@ -13236,9 +13236,8 @@ Name:balafon.js
 					}
 					xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
 					xhr.setRequestHeader("Cache-Control", "no-cache");
-
+					// + | ajx context header
 					igk.ajx.setHeader(xhr);
-
 					xhr.setRequestHeader("IGK-UPLOADFILE", true);
 					xhr.setRequestHeader("IGK-FILE-NAME", file.name);
 					xhr.setRequestHeader("IGK-UP-FILE-SIZE", file.size); // file.file[0] size);
@@ -13254,14 +13253,9 @@ Name:balafon.js
 					type +"; charset=utf-8; boundary=" + Math.random().toString().substr(2));
 					//"Content-type","multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2));
 
-				
-
-
-
 					var r = file;
 					var filer = false;
 					if (m != 'blob') {
-
 						if (typeof (FileReader) != IGK_UNDEF)
 							filer = new FileReader();
 						if (!filer) {
@@ -13269,10 +13263,9 @@ Name:balafon.js
 						}
 						// 1.
 						reader = filer;
-						reader.onprogress = function (evt) {
-							console.debug("progress read");
-
-						};
+						// reader.onprogress = function (evt) {
+						// 	console.debug("progress read");
+						// };
 						reader.onload = function (evt) {
 							// igk.winui.notify.showMsg("<div class=\"igk-notify igk-notify-default\">"+ igk.html.getDefinition(xhr)+"</div>");
 							var t = igk.winui.eventTarget(evt);
@@ -13294,8 +13287,6 @@ Name:balafon.js
 							bob = r.slice(0, file.size);
 							// important to avoid
 							try {
-
-
 								xhr.send(bob);
 							}
 							catch (ex) {
@@ -21026,7 +21017,7 @@ igk.ready(function () {
 	};
 
 	igk.system.createNS("igk.system.io", {
-		pickfile: function (uri, p, osrc) {
+		pickfile(uri, p, osrc) {
 			s = s || __getfile();
 			p = p || {};
 			// reset the value

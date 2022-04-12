@@ -133,6 +133,8 @@ function igk_api_get_columninfo($row, $v, $table_n, $mysql){
 		$rel = get_relation($mysql, $table_n,$v->Field);
 		if ($rel){
 			$cl["clLinkType"] = $rel->REFERENCED_TABLE_NAME;
+			$cl["clLinkColumn"] = $rel->REFERENCED_COLUMN_NAME; 
+            $cl["clLinkConstraintName"] = $rel->CONSTRAINT_NAME; 
 		}
 		// else{
 			// igk_wln($v);

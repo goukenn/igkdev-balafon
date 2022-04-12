@@ -188,6 +188,15 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
+    /**
+     * force text content
+     * @param string $text 
+     * @return $this 
+     */
+    public function setTextContent(string $text){
+        $this->content = $text;
+        return $this;
+    }
     ///<summary>set the class combination of this item</summary>
     /**
      * set the class combination of this item

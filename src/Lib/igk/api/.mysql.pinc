@@ -37,14 +37,14 @@ function get_relation($mysql, $tname, $clname, $dbname=null){
 * @param mixed $table_n
 * @param mixed $mysql
 */
-function igk_api_get_columninfo($row, $v, $table_n, $mysql){
-    $cl=$row->addNode("Column");
+function igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix=""){    
+    $cl=$row->add("Column");
     $cl["clName"]=$v->Field;
     $tab=array();
     $ctype = trim($v->Type);
     preg_match_all("/^((?P<type>([^\(\))]+)))\\s*((\((?P<length>([0-9]+))\)){0,1}|(.+)?)$/i", trim($v->Type), $tab);
     //igk_wln("type ::::". $v->Type. " = ".$tab["type"][0]);
-    $cl["clType"]=igk_balafon_mysql_datatype(igk_getv($tab["type"], 0, "Int"));
+    $cl["clType"]=igk_balafon_mysql_datatype(igk_getv($tab["type"], 0, "Text"));
     if (strtolower($cl["clType"]) =="enum"){
         $cl["clEnumValues"] = substr($ctype, strpos($ctype, "(")+1,-1); 
     }else{
@@ -62,13 +62,27 @@ function igk_api_get_columninfo($row, $v, $table_n, $mysql){
     if(preg_match("/(MUL|UNI)/i", $v->Key)){
         $rel=get_relation($mysql, $table_n, $v->Field);
         if($rel){
-            $cl["clLinkType"]=$rel->REFERENCED_TABLE_NAME;
+            $cl["clLinkType"]=$prefix.$rel->REFERENCED_TABLE_NAME;
+            $cl["clLinkColumn"] = $rel->REFERENCED_COLUMN_NAME; 
+            $cl["clLinkConstraintName"] = $rel->CONSTRAINT_NAME; 
         }
     }
     if (!empty($v->Extra) && (($cpos = strpos($v->Extra, "on update "))!==false)){
         $c = trim(substr($v->Extra, $cpos+10));
         if (in_array($c, ["CURRENT_TIMESTAMP"]))
             $cl["clUpdateFunction"] = "Now()";
+    }
+
+    // + | laravel timestamp import 
+    if (strtolower($cl["clType"]) == "timestamp"){
+        if (in_array($n = $cl["clName"], ["created_at", "updated_at"])){
+            $cl["clDefault"] = "CURRENT_TIMESTAMP";
+            $cl["clInsertFunction"] = "NOW()";
+            if ($n == "updated_at"){
+                $cl["clUpdateFunction"] = "NOW()";
+            }
+        }
+        //igk_wln_e("binding ..... ".$n);
     }
     //+ insert and update function ignored
     return $cl;
@@ -269,7 +283,7 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
                 // "Column [{$tbname}::{$vv->clName}] Type Not match. Expected {$vv->clType} but {$v_btest->clType} found";
                 $v_err=0;
             }
-            else if(igk_db_is_typelength($vv->clType) && ($vv->clTypeLength != $v_btest->clTypeLength)){
+            else if(DbColumnInfo::SupportTypeLength($vv->clType) && ($vv->clTypeLength != $v_btest->clTypeLength)){
                 $err->add("msg")->Content="Column [{$tbname}::{$vv->clName}] Type length not match. Expected {$vv->clTypeLength} but {$v_btest->clTypeLength} found";
                 $v_err=0;
             }
@@ -526,22 +540,33 @@ function igk_api_mysql_get_data_schema($api, $render=1, $param=null){
         $mysql->selectdb($api->App->Configs->db_name);
         $r=$mysql->listTables();
         if($r){
-            $n=$r->Columns[0]->name;
+            $n= "table"; 
             $e=false;
-            foreach($r->Rows as $t){
+            $prefix = $param && igk_getv($param, "prefix-table") ? "%prefix%" : "";
+            
+            foreach($r as $t){
                 if($e)
                     igk_exit();
                 $table_n=$t->$n;
-                $row=$rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$table_n));
+                $row=$rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$prefix.$table_n));
                 $tinfo=array();
                 $tt=$mysql->sendQuery("SELECT Count(*) FROM `".$table_n."`;");
                 $b=$tt->Columns[0]->name;
                 $row["Entries"]=$tt->Rows[0]->$b;
                 $tt=$mysql->sendQuery("SHOW FULL COLUMNS FROM `".$table_n."`;");
+                $primary = [];
                 foreach($tt->Rows as $v){
-                    $cl=igk_api_get_columninfo($row, $v, $table_n, $mysql);                   
+                    $cl=igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix);                   
                     $tinfo[$v->Field]=new DbColumnInfo($cl->Attributes->to_array());
+                    if ($cl["clIsPrimary"]){
+                        $primary[$cl["clName"]] = $cl;
+                    }
                 }
+
+                // if (count($primary)>1){
+                //     igk_wln_e("more primary on column", array_keys($primary));
+                // }
+
                 $tables[$table_n]=(object)array("tinfo"=>$tinfo, 'ctrl'=>"sys://mysql_db");
             }
         }
@@ -654,7 +679,7 @@ function igk_api_mysql_resetsysdb(){
 */
 function igk_api_mysql_rmcolumn($api, $tbname, $name){
     $doc=igk_api_get_mysql_doc();
-    $ad=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER ?? igk_die("No MYSQL Found");
+    $ad=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER) ?? igk_die("No MYSQL Found");
     $bbox=$doc->body->addBodyBox();
     $t=$bbox->clearChilds()->div();
     if($ad->connect()){
@@ -699,17 +724,30 @@ function igk_api_mysql_who_use($api, $tablename=null){
 ///<summary></summary>
 ///<param name="t"></param>
 /**
-* 
+* convert mysql defined data type to schema data type
 * @param mixed $t
 */
 function igk_balafon_mysql_datatype($t){
-    switch(strtolower($t)){
-        case "int":
-        return "Int";
-        case "varchar":
-        return "VARCHAR";
-    }
-    return strtoupper($t);
+    return igk_getv([
+        "int"=>"Int",
+        "char"=>"char",
+        "varchar"=>"VARCHAR",
+        "bigint"=>"BIGINT",
+        "bigint unsigned"=>"UBIGINT",
+        "int unsigned"=>"UINT",
+        "tinyint"=>"TINYINT",
+        "tinyint unsigned"=>"UTinyINT",
+        "smallint unsigned"=>"UTinyINT",
+        "date"=>"DATE",
+        "datetime"=>"DATETIME",
+        "timestamp"=>"TIMESTAMP",
+        "text"=>"Text",
+        "longtext"=>"Text",  
+        "json"=>"JSON",
+        "decimal"=>"decimal",
+        "double"=>"double",
+        "float"=>"float"
+    ], strtolower($t), "Text");   
 }
 ///<summary></summary>
 ///<param name="api"></param>
@@ -774,5 +812,5 @@ function igk_api_mysql_get_table_definition($api, $row, $table_n, $mysql, $tinfo
 * Represente IGKMySQLUtilityConstant class
 */
 class IGKMySQLUtilityConstant{
-    const VERSION="2.1";
+    const VERSION="2.2";
 }

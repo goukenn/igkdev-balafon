@@ -2041,9 +2041,9 @@ function igk_create_func_callback($func, $param = null)
         "clParam" => $param
     );
 }
-///<summary></summary>
+///<summary>create guid value {}</summary>
 /**
- * 
+ * create guid value {xxxx-xxxx-}
  */
 function igk_create_guid()
 {
@@ -2055,6 +2055,13 @@ function igk_create_guid()
     $hyphen = chr(45);
     $uuid = chr(123) . substr($charid, 0, 8) . $hyphen . substr($charid, 8, 4) . $hyphen . substr($charid, 12, 4) . $hyphen . substr($charid, 16, 4) . $hyphen . substr($charid, 20, 12) . chr(125);
     return $uuid;
+}
+/**
+ * get guid value and remove the {...}
+ */
+function igk_create_guid_value(){
+    $g = igk_create_guid();
+    return substr($g, 1, -1);
 }
 ///<summary></summary>
 ///<param name="name"></param>
@@ -5997,13 +6004,13 @@ function igk_db_inserts($ad, $table, $entries, $strict = 1)
 ///<summary></summary>
 ///<param name="t"></param>
 /**
- * 
+ * check if support type length
  * @param mixed $t 
  */
-function igk_db_is_typelength($t)
-{
-    return preg_match("/(int|varchar|enum)/i", strtolower($t));
-}
+// function igk_db_is_typelength($t)
+// {
+//     return preg_match("/(int|varchar|char|enum)/i", strtolower($t));
+// }
 ///<summary></summary>
 /**
  * 
@@ -7847,7 +7854,7 @@ function igk_download_content($name, $size, $content, $mimeType = null, $encodin
     header("Cache-Control: no-cache, must-revalidate");
     header("Pragma: no-cache");
     igk_set_env(IGK_ENV_NO_TRACE_KEY, 1);
-    ob_clean();
+    ob_get_level() && ob_clean();
     igk_wl($content);
     if ($exit)
         igk_exit();
@@ -7858,8 +7865,7 @@ function igk_download_content($name, $size, $content, $mimeType = null, $encodin
 function igk_download_file($name, $filename, $mimeType = null, $encoding = "binary", $exit = 1)
 {
     if (file_exists($filename)) {
-        $size = @filesize($filename);
-        ob_clean();
+        $size = @filesize($filename);        
         igk_download_content($name, $size, IO::ReadAllText($filename), $mimeType, $encoding, $exit);
     }
 }
@@ -9910,7 +9916,6 @@ function igk_get_header_obj()
  */
 function igk_get_header_status($code)
 {
-    
     return \IGK\System\Http\StatusCode::GetStatus($code);    
 }
 ///<summary> used to created a hosted component</summary>

@@ -84,7 +84,7 @@ final class DbColumnInfo extends IGKObject {
      */
     var $clLinkTableDisplay;
     /**
-     * link to table for foreing key
+     * link to table for foreign key
      * @var mixed
      */
     var $clLinkType;
@@ -94,6 +94,12 @@ final class DbColumnInfo extends IGKObject {
      * @var mixed
      */
     var $clLinkRelationName;
+
+    /**
+     * link constraint name
+     * @var mixed
+     */
+    var $clLinkConstraintName;
 
     /**
      * link inversed name 
@@ -146,6 +152,14 @@ final class DbColumnInfo extends IGKObject {
      * @var clRequire
      */
     var $clRequire;
+    /**
+     * check if support type length
+     * @param mixed $t 
+     * @return int|false 
+     */
+    public static function SupportTypeLength($t){
+        return preg_match("/(int|varchar|char|enum)/i", strtolower($t));
+    }
     ///<summary></summary>
     ///<param name="array" default="null"></param>
     /**
@@ -169,7 +183,7 @@ final class DbColumnInfo extends IGKObject {
                 $this->$k=$v;
             }
         }
-        if(!igk_db_is_typelength($this->clType))
+        if(!self::SupportTypeLength($this->clType))
             $this->clTypeLength=null;
         if(!$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)){
             $this->clDefault=0;
@@ -297,7 +311,7 @@ final class DbColumnInfo extends IGKObject {
      * @return int|false 
      */
     public function IsUnsigned(){
-        return preg_match("/u((big)?int)/i", $this->clType);
+        return preg_match("/u((big|smal|tiny)?int)/i", $this->clType);
     }
 
     ///<summary> get row default value</summary>

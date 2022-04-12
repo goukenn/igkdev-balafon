@@ -1266,10 +1266,15 @@ function igk_html_node_dialog_circle_waiter()
     return $bar;
 }
 
+/**
+ * render autho community node
+ * @return HtmlItemBase 
+ * @throws IGKException 
+ */
 function igk_html_node_author_community()
 {
     $n = igk_create_node("div");
-    $n->setClass("com-host")->CommunityLinks([
+    $n->setClass("com-host")->setStyle("margin-bottom:2.2em")->CommunityLinks([
         "linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",
         "twitter" => "https://twitter.com/@IGKDEV",
         "facebook" => "https://facebook.com/IGKDEV",
@@ -1483,13 +1488,13 @@ function igk_html_node_container()
 /**
  * function igk_html_node_contextmenu
  */
-function igk_html_node_contextmenu()
-{
-    $n = igk_create_node();
-    $n["class"] = "igk-context-menu";
-    $n->setCallback("addItem", "igk_html_add_context_menu_item");
-    return $n;
-}
+// function igk_html_node_contextmenu()
+// {
+//     $n = igk_create_node();
+//     $n["class"] = "igk-context-menu";
+//     $n->setCallback("addItem", "igk_html_add_context_menu_item");
+//     return $n;
+// }
 ///<summary>function igk_html_node_cookiewarning</summary>
 ///<param name="warnurl"></param>
 /**
@@ -2828,7 +2833,7 @@ function igk_html_node_obdata($data, $nodeType = "div")
     } else
         $s = $data;
     $t = new HtmlSingleNodeViewerNode(igk_html_node_notagnode());
-    $t->targetNode->Content = $s;
+    $t->targetNode->setTextContent($s);
     $n->add($t);
     return $n;
 }

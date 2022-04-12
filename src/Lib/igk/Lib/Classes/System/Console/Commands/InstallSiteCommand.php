@@ -40,6 +40,9 @@ class InstallSiteCommand extends AppExecCommand{
             $install_dir = getcwd(); 
             $force = 1;
         }  else {
+            if (!is_dir(realpath($install_dir))){
+                IGKIO::CreateDir($install_dir);
+            }
             $install_dir = realpath($install_dir);
         }
         if ($install_dir!="."){

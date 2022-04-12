@@ -5,7 +5,7 @@
 * Represente IGKValidator class
 */
 final class IGKValidator extends IGKObject {
-    const INT_REGEX="/^[0-9]+$/i";
+    const INT_REGEX= \IGK\System\Regex\RegexConstant::INT_REGEX; 
     private $sm_cibling;
     private $sm_enode;
     private static $sm_instance;

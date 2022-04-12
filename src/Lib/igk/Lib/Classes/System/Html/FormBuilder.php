@@ -18,6 +18,7 @@ class FormBuilder{
         "json"=>"text",
         "radio"=>"radio",
         "checkbox"=>"checkbox",
+        "file"=>"file"
     ];
     private static $ResolvClass = [
         "float"=>"number",
@@ -196,11 +197,13 @@ class FormBuilder{
                     $o .= "value=\"{$_empty_value}\" ></option>";
                 }
                 if(isset($v["data"]) && is_array($_tab=$v["data"])){
+              
                     foreach($_tab as $row){
                         $o .= "<option ";
                         $o .= "value=\"{$row['i']}\" ";
                         if( (isset($bas) && ($bas == $row['i'])) || (igk_getv($row, 'selected'))){
-                            $o .= "selected";
+                            $o .= "selected ";
+                            // igk_wln_e("load.....".$bas, $_name, $row['t']);
                         }
                         $o .= ">";
                         $o .= $row["t"];
@@ -288,6 +291,7 @@ class FormBuilder{
         if($render){
             echo $o;
         }
+      
         return $o;
     }
 }

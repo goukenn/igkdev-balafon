@@ -37,7 +37,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     protected $m_error;
     protected $m_errorCode;
 
-    private static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
+    private static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar", "char"=>"Char");
     private static $__store;
     // private static $sm_resid;
     public  static $Config;
@@ -334,192 +334,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
                 return true;
             }
         }
-        return null;
-
-        // $v_rs=false;
-        // $v_infkey="sys://db/tabfinfo/data";
-        // $v_tableinit_info=igk_get_env($v_infkey);
-        // $queryfilter = igk_environment()->mysql_query_filter;
-
-        // if($v_tableinit_info === null){
-        //     $v_tableinit_info=array(
-        //         "__linkdata"=>array(),
-        //         "__tables"=>array(),
-        //         "__failed"=>array(),
-        //         "__created"=>array(),
-        //         "__constraint"=>0
-        //     );
-        //     igk_get_env($v_infkey, $v_tableinit_info);
-        // }
-        // $dbname=$dbname == null ? igk_sys_getconfig("db_name"): $dbname;
-        // $tbname=igk_mysql_db_tbname($tbname);
-        
-
-        // $query=IGKSQLQueryUtils::CreateTableQuery($tbname, $columninfo, $desc, $this->m_adapter);
-        // $nk=igk_get_env("sys://db/constraint_key");
-        // if($nk){
-        //     if(!igk_get_env("sys://db/initConstraint/".$nk)){
-        //         IGKMySQLDataCtrl::DropConstraints($this->m_adapter, $dbname, $nk."%");
-        //         igk_set_env("sys://db/initConstraint/".$nk, 1);
-        //     }
-        // }
-
-        // $t=$this->getSender()->sendQuery($query);
-        // if($t){
-        //     igk_hook(IGK_HOOK_DB_TABLECREATED, [$this, $tbname]);
-        //     $v_tableinit_info["__created"][$tbname]=$tbname;
-        //     $query="";
-        //     $tlinks=array();
-        //     $linkdata=igk_getv($v_tableinit_info, "__linkdata");
-        //     $c=& $v_tableinit_info["__tables"];
-        //     foreach($columninfo as $k=>$v){
-        //         if($v->clLinkType != null){
-        //             $v_tableinit_info["__constraint"]++;
-        //             $ck_index=$v_tableinit_info["__constraint"];
-        //             $nk=igk_get_env("sys://db/constraint_key", "ctn_");
-        //             if($ck_index == 1){
-        //                 $idx=1;
-        //                 $ck_index=max($idx, $ck_index);
-        //                 $v_tableinit_info["__constraint"]=$idx++;
-        //             }
-        //             $nk=strtolower($nk.$ck_index);
-        //             if(strlen($nk) > 64){
-        //                 $tbm=explode("_", $nk);
-        //                 $tbs="";
-        //                 foreach($tbm as $_rs){
-        //                     $tbs .= !empty($_rs) ? $_rs[0]: "";
-        //                 }
-        //                 $nk="constraint_".$tbs;
-        //             }
-        //             $nk = $queryfilter ? '' : "`".$nk."`";
-        //             $query=IGKString::Format("ALTER TABLE {0} ADD CONSTRAINT {1} FOREIGN KEY (`{2}`) REFERENCES {3}  ON DELETE RESTRICT ON UPDATE RESTRICT;\n",
-		// 				"`{$dbname}`.`{$tbname}`", 
-        //                 $nk,
-        //                  $v->clName, IGKString::Format("`{0}`.`{1}`(`{2}`)",
-		// 				$dbname,
-		// 				$v->clLinkType,
-		// 				igk_getv($v, "clLinkColumn", IGK_FD_ID)
-		// 			));
-        //             $sender=$this->getSender();
-        //             if($this->tableExists($v->clLinkType)){
-        //                 $t=$this->_sendQuery($query);
-        //             }
-        //             else{
-        //                 if(!isset($tlinks[$v->clLinkType])){
-        //                     $mm=igk_getv($linkdata, $v->clLinkType);
-        //                     if($mm == null){
-        //                         $mm=(object)array("To"=>1, "from"=>array($tbname=>1));
-        //                     }
-        //                     else{
-        //                         $mm->To++;
-        //                         $mm->from[$tbname]=1;
-        //                     }
-        //                     $tlinks[$v->clLinkType]=$mm;
-        //                     $linkdata[$v->clLinkType]=$mm;
-        //                 }
-        //                 else{
-        //                     $tlinks[$v->clLinkType]->To++;
-        //                     $tlinks[$v->clLinkType]->from[$tbname]=1;
-        //                 }
-        //                 $inf=null;
-        //                 if(isset($v_tableinit_info[$v->clLinkType])){
-        //                     $inf=$v_tableinit_info[$v->clLinkType];
-        //                 }
-        //                 else{
-        //                     $inf=array();
-        //                 }
-        //                 $inf[]=$query;
-        //                 $v_tableinit_info[$v->clLinkType]=$inf;
-        //             }
-        //         }
-        //     }
-        //     $direct=true;
-        //     if($entries != null){
-        //         if(igk_count($tlinks) > 0){
-        //             $c[$tbname]=array("links"=>$tlinks, "entries"=>$entries);
-        //             $direct=false;
-        //         }
-        //         else{
-        //             $this->__initTableEntries($tbname, $entries, 1);
-        //         }
-        //     }
-        //     else{
-        //         $ctrl=igk_get_env(IGK_ENV_DB_INIT_CTRL) ?? igk_die(__("Environment failed : current controller to init not found. ".$tbname));
-        //         if(igk_count($tlinks) == 0){
-        //             igk_hook(IGKEvents::HOOK_DB_DATA_ENTRY, [$this, $tbname, 0]);
-        //         }
-        //         else{
-        //             $c[$tbname]=array(
-        //                 "links"=>$tlinks,
-        //                 "entries"=>null,
-        //                 "callback"=>function() use ($tbname){
-        //                         igk_hook(IGKEvents::HOOK_DB_DATA_ENTRY, [$this, $tbname, 0]);
-        //                     }
-        //             );
-        //         }
-        //     }
-        //     if(isset($v_tableinit_info[$tbname])){
-        //         $error=false;
-        //         foreach($v_tableinit_info[$tbname] as $k=>$v){
-        //             if(!$this->_sendQuery($v)){
-        //                 $msg="Alter failed : ". igk_debuggerview()->getMessage();
-        //                 $error=true;
-        //                 $v_tableinit_info["__failed"][]=$v;
-        //             }
-        //         }
-        //         unset($v_tableinit_info[$tbname]);
-        //         igk_debug_wln("init table with link ".$tbname);
-        //         if(isset($linkdata[$tbname])){
-        //             $tt=$linkdata[$tbname]->from;
-        //             foreach($tt as $x=>$y){
-        //                 if(isset($c[$x])){
-        //                     unset($c[$x]["links"][$tbname]);
-        //                     if(igk_count($c[$x]["links"]) == 0){
-        //                         $e=$c[$x]["entries"];
-        //                         if($e)
-        //                             $this->__initTableEntries($x, $e);
-        //                         else{
-        //                             $cb=igk_getv($c[$x], "callback");
-        //                             if(igk_is_callable($cb)){
-        //                                 call_user_func_array($cb, array($this, $tbname));
-        //                             }
-        //                             else{
-        //                                 igk_ilog(__METHOD__, " no callback found for ".$tbname);
-        //                                 igk_ilog($cb);
-        //                                 igk_die("no callback error");
-        //                             }
-        //                         }
-        //                         unset($c[$x]);
-        //                     }
-        //                 }
-        //             }
-        //             unset($linkdata[$tbname]);
-        //         }
-        //     }
-        //     foreach($c as $k=>$v){
-        //         $m=$v["links"];
-        //         if(isset($m[$tbname])){
-        //             unset($m[$tbname]);
-        //             if(igk_count($m) == 0){
-        //                 $e=$v["entries"];
-        //                 $this->__initTableEntries($k, $e);
-        //                 unset($v["links"]);
-        //                 unset($v["entries"]);
-        //                 unset($v_tableinit_info["__tables"][$k]);
-        //             }
-        //             else{
-        //                 $v["links"]=$m;
-        //             }
-        //         }
-        //     }
-        //     $v_tableinit_info["__linkdata"]=$linkdata;
-        //     $v_tableinit_info["__tables"]=$c;
-        //     $v_rs=true;
-        // }
-        // if(!$v_rs)
-        //     igk_debug_wln("failed to create ".$tbname);
-        // igk_set_env("sys://db/tabfinfo/data", $v_tableinit_info);
-        // return $v_rs;
+        return null; 
     }
     ///delete item in tables
     /**
@@ -545,12 +360,18 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     protected function dieinfo($t, $msg="", $code=0){
  
         if(!$t){ 
-            $d= $code;
+            $this->m_error = igk_mysql_db_error($this->m_resource);
+            $d= igk_mysql_db_errorc($this->m_resource);
             $m = $em = $this->getError();   
             if (!igk_is_cmd()){
                 $m="<div><div class=\"igk-title-4 igk-danger\" >/!\\ ".__CLASS__." Error</div><div>". $em."</div>"."<div>Code: ".$d."</div>"."<div>Message: <i>".$msg."</i></div></div>";
             } else {
-                $m = implode(PHP_EOL, ["code: $d", "query: ".$this->getLastQuery(), "error: $m"]);
+                $m = implode(PHP_EOL, [
+                    "SQL ERROR",
+                    "code: $d", 
+                    "error: $m", 
+                    "query: ".$this->getLastQuery(), 
+                ]);
             }
             $this->ErrorString=$em;
             switch($d){
@@ -562,7 +383,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             }
             igk_push_env("sys://adapter/sqlerror", $m);
             if(!igk_sys_env_production()){
-                throw new Exception($m);
+                throw new IGKException($m);
             }
         }
     }
@@ -677,14 +498,14 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
      * @throws IGKException 
      */
     protected function getDriverError(){
-        return igk_mysql_db_error();
+        return igk_mysql_db_error($this->m_resource); 
     }
     ///<summary></summary>
     /**
     * retrieve driver code 
     */
     protected function getDriverErrorCode(){
-        return igk_mysql_db_errorc();
+        return igk_mysql_db_errorc($this->m_resource);
     }
     ///<summary></summary>
     /**
@@ -996,7 +817,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
                 // in debug mode the driver lost errr message
                 $this->m_error = $error;
                 $this->m_errorCode = $code;
-                igk_ilog("Query Error: m : ".$error."\n".$query."\n");  
+                igk_ilog(["Query Error"=> $error, "Query"=>$query]);  
             }            
             if($throwex && !$t){                
                 $this->dieinfo($t, 
@@ -1085,8 +906,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
     public function tableExists($tablename){
         if(empty($tablename))
             return false;
-        try {
-            
+        try {            
             $s=$this->_sendQuery("SELECT Count(*) FROM `".igk_mysql_db_tbname($tablename)."`", 
                 [
                     "throw"=>false,
@@ -1098,7 +918,8 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             } 
             return $s !== null;
         }
-        catch(\Exception $ex){
+        catch(Exception $ex){
+            igk_ilog(__METHOD__.":".$ex->getMessage());
         }
          return false;
     }

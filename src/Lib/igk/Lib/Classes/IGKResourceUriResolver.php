@@ -13,9 +13,17 @@ use IGK\System\IO\Path;
 
 use function igk_resources_gets as __;
 
+/**
+ * 
+ * @package 
+ */
 class IGKResourceUriResolver{
     private $environment;
     private static $sm_instance;
+    /**
+     * accept full uri resolution
+     * @var bool
+     */
     var $fulluri;
     ///<summary></summary>
     private function __construct(){

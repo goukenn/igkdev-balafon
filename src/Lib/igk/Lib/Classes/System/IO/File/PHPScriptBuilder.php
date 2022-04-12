@@ -142,7 +142,7 @@ class PHPScriptBuilder
                 if ($e = $this->use){
                     if (!is_array($e)){
                         $e = [$e];
-                    }  
+                    }                   
                     $e = array_unique($e);
                     array_map($this->_getHeaderMap($h, $_uses), $e);
                 }

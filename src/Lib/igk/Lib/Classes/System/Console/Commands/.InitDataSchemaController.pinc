@@ -1,11 +1,13 @@
 <?php
 namespace IGK\System\Console\Commands;
-
-use IGKNonVisibleControllerBase;
+use IGK\Controllers\NonVisibleControllerBase;
 
 /**
  * basic system controller to initialize system controller
  * @package IGK\System\Console\Commands
  */
-class InitDataSchemaController extends IGKNonVisibleControllerBase{
+class InitDataSchemaController extends NonVisibleControllerBase{
+    public function getDBConfigFile(){
+        return null;
+    }
 }

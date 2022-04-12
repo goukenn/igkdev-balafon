@@ -1,7 +1,7 @@
 <?php
-// @file: IGKDefaultMainPage.php
+// @file: HtmlDefaultMainPage.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description: default home page
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -14,6 +14,10 @@ namespace IGK\System\Html\Dom;
 use IGK\Resources\R;
 use IGKException;
 
+/**
+ * defaut home page
+ * @package IGK\System\Html\Dom
+ */
 final class HtmlDefaultMainPage extends HtmlNode
 {
     static $sm_instance;
@@ -21,7 +25,7 @@ final class HtmlDefaultMainPage extends HtmlNode
     ///<param name="options" default="null"></param>
     public function __AcceptRender($options = null)
     {
-        if (!$this->IsVisible) {
+        if (!$this->getIsVisible()) {
             return 0;
         }
         igk_set_env("sys://nopowered", 1);
@@ -47,7 +51,11 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return 1;
     }
-    ///<summary></summary>
+    ///<summary>.ctr</summary>
+    /**
+     * .ctr
+     * @return void 
+     */
     private function __construct()
     {
         parent::__construct("div");

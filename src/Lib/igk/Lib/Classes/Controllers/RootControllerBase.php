@@ -96,7 +96,8 @@ abstract class RootControllerBase extends IGKObject{
 			$fc = $fc->bindTo(null, static::class);
 			$ref = (new ReflectionFunction($fc));		
 			if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
-				if (($t == self::class) || is_subclass_of(IGKType::GetName($t), self::class)){
+                $t = IGKType::GetName($t);
+				if (($t == self::class) || is_subclass_of($t, self::class)){
 					array_unshift($arguments, $c);
 				}
 			}

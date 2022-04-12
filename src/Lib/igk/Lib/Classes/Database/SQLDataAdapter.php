@@ -115,6 +115,8 @@ abstract class SQLDataAdapter extends DataAdapterBase{
             $rel= static::GetRelation($mysql, $table_n, $v->Field);
             if($rel){
                 $cl["clLinkType"]=$rel->REFERENCED_TABLE_NAME;
+                $cl["clLinkColumn"] = $rel->REFERENCED_COLUMN_NAME; 
+                $cl["clLinkConstraintName"] = $rel->CONSTRAINT_NAME; 
             }
         }
         if (!empty($v->Extra) && (($cpos = strpos($v->Extra, "on update "))!==false)){

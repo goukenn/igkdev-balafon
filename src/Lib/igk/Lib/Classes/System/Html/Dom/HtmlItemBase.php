@@ -447,6 +447,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $this;
     }
+    public function addNode($nodeName){
+      //  igk_wln_e("try to add ", $nodeName);
+       return $this->add($nodeName);
+    }
 
      ///<summary>used to add non declared element by namespace</summary>
     /**

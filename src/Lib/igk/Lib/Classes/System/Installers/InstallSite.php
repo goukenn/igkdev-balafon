@@ -316,7 +316,7 @@ EOF
         $com["license"] = igk_getv($options, "license", "MIT License");
         $com["autoload"] = [
             "psr-4"=> [
-                "IGK\\Packages\\Vendor"=>"src/"
+                "IGK\\Packages\\Vendor\\"=>"src/"
             ]
         ];
         $com["require"] = (object)[];

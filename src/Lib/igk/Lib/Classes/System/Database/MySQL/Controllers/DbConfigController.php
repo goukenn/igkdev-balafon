@@ -1857,11 +1857,13 @@ final class DbConfigController extends ConfigControllerBase
         $found = false;
         $def = null;
         $adName = $this->getDataAdapterName();
-
+        //igk_dev_wln_e(__METHOD__, $tablename);
         if ($info = & \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($adName, $tablename))
         {  
             if (!isset( self::$sm_tabinfo[$tablename] )){
-                igk_dev_wln_e("not definite ".$tablename);
+                igk_dev_wln_e( 
+                    __FILE__.":".__LINE__, 
+                    "tableinfo not define [".$tablename."]");
             }
             self::$sm_tabinfo[$tablename] = $info;  
             igk_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename"=>$tablename, "info"=> & $info]);
@@ -2291,12 +2293,17 @@ final class DbConfigController extends ConfigControllerBase
         $cnf->db_user = $user;
         $cnf->db_name = $dbname;
         $cnf->db_port = $dbPort;
-
         igk_save_config();
         igk_resetr();
         igk_notifyctrl()->addSuccessr("msg.databaseinfoupdated");
-        $db = igk_get_data_adapter($this);
-        $db->Reset();
+        try{
+            if ($db = igk_get_data_adapter($this)){
+                $db->Reset();
+            }
+        }
+        catch(\Exception $ex){
+            igk_ilog(__("failed to reset and connect to db: ".$ex->getMessage())); 
+        }      
         $this->View();
         igk_navtocurrent();
         igk_exit();

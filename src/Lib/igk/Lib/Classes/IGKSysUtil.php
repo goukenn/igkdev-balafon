@@ -135,7 +135,8 @@ final class IGKSysUtil
 
                     if ($ti->clLinkType) {
                         $refColumn = igk_getv($ti, "clLinkColumn", IGK_FD_ID);
-                        $nk = $queryfilter ? '' : '`'.$table . "_" . $ti->clName.'`';
+                        $nk = $queryfilter ? '' : 
+                        igk_getv($ti, "clLinkConstraintName", '`'.$table . "_" . $ti->clName.'`');
 
                         $links .= trim(IGKString::Format(
                             "ALTER TABLE {0} ADD CONSTRAINT {1} FOREIGN KEY (`{2}`) REFERENCES {3}  ON DELETE RESTRICT ON UPDATE RESTRICT;",

@@ -379,7 +379,7 @@ class IGKApplicationLoader
             // + | Autoloading composer packages
             // + |
             if (file_exists($package_dir . "/composer.json")) {
-                require_once($package_dir . "/vendor/autoload.php");
+                file_exists($package_dir . "/vendor/autoload.php") && require_once($package_dir . "/vendor/autoload.php");
             }
             igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]);
         } 

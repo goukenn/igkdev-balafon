@@ -706,15 +706,18 @@ abstract class ModelEntryExtension{
      */
     public static function select_fetch(ModelBase $model, ?array $condition=null, ?array $options=null){
         $driver = $model->getDataAdapter(); 
-        $query = $driver->getGrammar()->createSelectQuery($model->table(), $condition, $options);
+        $inf = $model->modelTableInfo();
+        $query = $driver->getGrammar()->createSelectQuery($model->table(), $condition, $options, $inf);
         $res = $driver->createFetchResult($query, $model); 
         $driver->sendQuery($query, false, array_merge($options ?? [], [
             IGKQueryResult::RESULTHANDLER => $res
         ]));
         return $res;
+    } 
+    public static function get_insert_query(ModelBase $model){
+        $inf = $model->modelTableInfo();
+        $driver = $model->getDataAdapter(); 
+        $query = $driver->getGrammar()->createInsertQuery($model->table(), $model, $inf); 
+        return $query;
     }
-
-
-
-   
 }
