@@ -284,8 +284,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     ///<param name="args"></param>
     public function invokePageAction($type, $ctrl, $func, $args){
 
-        self::_RegActions($this);
-igk_wln_e("page action");
+        self::_RegActions($this); 
         switch($type){
             case "sys":
             $ctrl=igk_getctrl($ctrl);

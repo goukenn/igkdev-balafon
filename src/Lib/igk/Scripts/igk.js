@@ -2403,8 +2403,7 @@ Name:balafon.js
 			var _loc = igk.system.io.getdir(uri);
 			var _uri = igk.resources.getlang(_loc, _lang);
 
-			console.debug("loadLangRes");
-
+			// console.debug("loadLangRes"); 
 			// error.apply(this);
 			// return null;
 			var _promise = {
@@ -6981,7 +6980,7 @@ Name:balafon.js
 				removeEventListener: function (method, func) {
 					m_d["on" + method] = null;
 				},
-				toString: function () { return "igk:// activeXDocument"; }
+				toString: function () { return "[object://igk:activeXDocument]"; }
 			});
 		}
 		)(d);
@@ -7906,8 +7905,7 @@ Name:balafon.js
 				m_module_info = null;
 			}
 		}
-		// console.debug(_m);
-		//}
+	 
 		return _m;
 	};
 	function igk_getModule(n) {
@@ -8502,8 +8500,7 @@ Name:balafon.js
 			var _m = m_module_info;
 			return _m.dir + f;
 		},
-		getModuleLocation: function () {
-			//console.debug(m_module_info);
+		getModuleLocation: function () { 
 			return m_module_info ? m_module_info.dir : null;
 		},
 		getModule: igk_getModule
@@ -8926,10 +8923,7 @@ Name:balafon.js
 				for (var i = 0; i < x; i++) {
 					if (item.childNodes[i]) {
 						c += $igk(item.childNodes[i]).getOuterHtml();
-					}
-					else {
-						console.debug("i " + i);
-					}
+					} 
 				}
 			}
 			return c;
@@ -16943,9 +16937,7 @@ function animationProperty(q, s) {
 				else {
 					q.setCss({ transition: 'all ' + rmduration + ' ' + effect })
 						.setCss(store)
-						.timeOut(300, function () {
-							console.debug("end transition");
-						});
+						.timeOut(0, ()=>{});
 				}
 			}
 			else {
@@ -17017,8 +17009,7 @@ igk.ctrl.bindAttribManager("igk-js-anim-msover", function () {
 			else {
 				q.setCss({ transition: 'all ' + rmduration + ' ' + effect })
 					.setCss(store)
-					.timeOut(300, function () {
-						console.debug("end transition");
+					.timeOut(0, ()=>{
 					});
 			}
 		}
@@ -19855,7 +19846,7 @@ igk.ready(function () {
 			getLines: function () { return l; }
 		});
 	};
-	var inf = {
+	const inf = {
 		ln: 0,
 		mode: 0,
 		pos: 0
@@ -19868,6 +19859,11 @@ igk.ready(function () {
 		while (inf.pos < inf.ln) {
 			ch = inf.s[inf.pos];
 			// TODO TRADITIONAL WAY
+			// if (ch==("(")){
+			// 	inf.pos--;
+			// 	console.debug("breakk..............", inf.pos);
+			// 	break;
+			// }
 
 			c = ch.toLowerCase().charCodeAt(0);
 			if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')) {
@@ -19880,8 +19876,10 @@ igk.ready(function () {
 		}
 
 		// delete(c);
-		if (w.length == 0)
-			inf.read = 0;
+		// if (w.length == 0){
+
+		// }
+		// 	inf.read = 0;
 		return w;
 	}
 	function _readStringLitteral(ch) {
@@ -19902,9 +19900,22 @@ igk.ready(function () {
 			inf.pos++;
 		}
 		return w + p;
-	}
+	};
+	function _readPhpOperator(ch){
+		const op = ["||","|","&&","&",".","->","-", "/","+", "*", "^", "~","%", "()", "[]", "(",")","[","]","{","}"];
+		let c = "";
+		while(inf.pos < inf.ln){
+			c = inf.s[inf.pos];
+			if (op.indexOf(ch+c)==-1){
+				return ch;
+			}
+			ch += c;
+			inf.pos++;
+		}
+		return ch;
+	};
 	function igk_php_eval() {// php evaluation code
-
+		 
 		igk_e.apply(this);
 		var reserved = /((true|false)|\\$this|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
 		var w = 0;
@@ -19930,9 +19941,10 @@ igk.ready(function () {
 					inf.read = 1;
 					inf.s = s;
 					var sp = igk.createNode("span");
-					var ch = "";
+					var ch = ""; 
 					while (inf.read && (inf.ln > inf.pos)) {
-						ch = s[inf.pos];
+						ch = s[inf.pos]; 
+					 
 						switch (ch) {
 							case ' ':
 								sp.add("span").setHtml("&nbsp;");
@@ -19941,7 +19953,7 @@ igk.ready(function () {
 								sp.add("span").addClass("t").setHtml("&nbsp;");
 								break;
 
-							case "\"":
+							case '"':
 							case "'":
 								if (inf.mode == 0) {
 									inf.mode = 1;// string
@@ -19977,31 +19989,36 @@ igk.ready(function () {
 							case '$':// read var
 								inf.pos++;
 								w = _readWord();
-								sp.add("span").addClass("v r").setHtml("$" + w);
+								if (w.length>0){
+									sp.add("span").addClass("v r").setHtml("$" + w);
+									
+								}else{
+									sp.add("span").setHtml(ch); 
+								}
 								inf.pos--;
 								// inf.read = 0;
 
 								break;
-							case "&":
-								if (inf.mode == 0) {
-									inf.start = inf.pos;
-									inf.pos++;
-									while ((inf.pos < inf.ln) && (s[inf.pos] != ';')) {
-										inf.pos++;
-									}
-									if (s[inf.pos] == ';') {
-										m = sp.add("span").addClass("pc").setHtml(s.substr(inf.start, inf.pos - inf.start));
+							// case "&":
+							// 	if (inf.mode == 0) {
+							// 		inf.start = inf.pos;
+							// 		inf.pos++;
+							// 		while ((inf.pos < inf.ln) && (s[inf.pos] != ';')) {
+							// 			inf.pos++;
+							// 		}
+							// 		if (s[inf.pos] == ';') {
+							// 			m = sp.add("span").addClass("pc").setHtml(s.substr(inf.start, inf.pos - inf.start));
 
-									}
-									else
-										inf.read = 0;
-									delete (inf.start);
-								}
-								break;
+							// 		}
+							// 		else
+							// 			inf.read = 0;
+							// 		delete (inf.start);
+							// 	}
+							// 	break;
 							default:
 								if (inf.mode == 0) {
-									if (",.?|()#[]-+{}\\/%*><;:=".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
-
+									if (",.?|()#[]-+{}\\/%*><;:=&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
+										ch = _readPhpOperator(ch);
 										m = sp.add("span").addClass("pc").setHtml(ch);
 
 									} else {
@@ -25159,15 +25176,13 @@ igk.system.createNS("igk.system", {
 
 		while ((s = tab.pop())) {
 
-			if (s.e) {
-				// console.debug("end");
+			if (s.e) { 
 				m = igk.createNode("div").addClass("l");
 				m.add("span").setHtml("&lt;");
 				m.add("span").addClass("tag").setHtml(s.n.tagName.toLowerCase());
 				m.add("span").setHtml("/&gt;");
 				s.p.add(m);
-				continue;
-				// return;
+				continue; 
 			}
 			switch (s.n.nodeType) {
 				case 1:

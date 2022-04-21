@@ -8,6 +8,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Installers\InstallerUtils;
 use IGKAppSystem;
+use IGKEvents;
 use IGKException;
 use IO;
 
@@ -75,23 +76,25 @@ class InstallSite
             igk_io_createdir($src . "/logs");
             igk_io_createdir($src . "/crons");
             igk_io_createdir($src . "/test");
-
-            // generate git ignore
-            igk_io_w2file($folder . "/.gitignore", implode("\n", [
+            $configs = [
                 "**/.vscode/**",
                 "**/node_modules/**",
                 "**/.DS_Store",
                 "**/.gitignore",
                 ".gitignore",
-                "{$c_base}/vhost.conf",
+                "vhost.conf",
                 "balafon.config.xml",
                 "phpunit.xml.dist",
                 "phpunit-watcher.yml",
                 "{$c_app}/**",
                 "{$c_app}/Projects/**/Data/**",
                 "{$c_base}/sesstemp/**",
-                "{$c_public}/**"
-            ]));
+                "{$c_public}/**",
+                "releases/"
+            ];
+
+            // generate git ignore
+            igk_io_w2file($folder . "/.gitignore", implode("\n", $configs));
         }
 
         // generate phpunit-watcher file
@@ -169,7 +172,7 @@ class InstallSite
             InstallerUtils::NoAccessDir($lnk);
             $base = dirname($lnk);
             // generate composer instruction 
-            $this->_generateComposer($base, ["name"=>StringUtility::Identifier(basename($folder))."/sites-packages"]);
+            $this->_generateComposer($base, ["name"=>strtolower(IGK_PLATEFORM_NAME."/site-packages")]);
         }
 
         $lnk = $app_folder . "/" . IGK_PROJECTS_FOLDER;
@@ -285,19 +288,19 @@ EOF
                 igk_io_w2file($file, $c->render($opts));
             }
         }
-        igk_hook("sys://install_site", ["sender"=>$this, "folder"=>$folder, "options"=>$options]);
-
-        // + | ---------------------------------------------------------------------------------------
+        // + | ------------------------------------------------------------------------------------------
+        // + | post install site 
+        // + |
+        igk_hook(IGKEvents::HOOK_INSTALL_SITE, ["sender"=>$this, "folder"=>$folder, "options"=>$options]);
+        // + | ------------------------------------------------------------------------------------------
         // + | after install change if possible the user group
         // + |
-        if (igk_environment()->isUnix()){
+        if (igk_environment()->isUnix() && (get_current_user() == "root")){
             if ($ug = igk_getv($options, "user:group", "www-data:www-data")) {
                 `chown -R ${ug} ${folder}`;
                 `chmod -R 775 ${folder}`;
             }
-        } else {
-            igk_wln("not unix");
-        }
+        } 
         return true;
     }
 

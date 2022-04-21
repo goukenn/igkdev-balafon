@@ -27,8 +27,7 @@
 				this.ajx = null;
 				this.update = update;
 				this.view = document.createElement("div");
-				this.ul = null;
-				
+				this.ul = null; 
 				m_target.parentNode.appendChild(this.view);
 				
 				$igk(m_target).reg_event("keyup", function(evt){ 	
@@ -68,11 +67,9 @@
 						});						
 						q.ajx = null;
 						if (q.ul == null)
-						{
-							//q.ul = document.createElement("select");//load selection
+						{ 
 							q.ul = document.createElement("ul");
 							$igk(q.ul).addClass("clselect dispb fitw fith");
-							//$igk(q.ul).reg_event("change", function(){ _changeValue(this,true, true); });							
 						}
 						
 						var md = document.createElement("div");
@@ -105,8 +102,7 @@
 						q.view.appendChild(q.ul);
 						q.ul.innerHTML = md.innerHTML;
 						
-						$igk(q.ul).select("a").each(function(){ 
-							//for every a
+						$igk(q.ul).select("a").each(function(){  
 							this.addClass("queryboxitem dispb fitw").reg_event("click", function(evt){ _updateValue($igk(this).getAttribute("value")); evt.preventDefault(); }); 
 						return this;});
 						

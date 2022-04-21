@@ -144,6 +144,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
      */
     protected $fillable;
 
+    /**
+     * hidden list data
+     * @var mixed
+     */
+    protected $hidden;
 
     /**
      * for mocking object

@@ -47,6 +47,10 @@ final class IGKAppConfig extends IGKObject {
         if (($cnf = igk_environment()->extra_config) && ($cnf_file= igk_getv($cnf, "configFiles"))){
             $preload_configs = array_unique(array_merge($preload_configs, $cnf_file));
         }
+        if ($fullpath==null){
+            $fullpath = igk_io_syspath($file);
+        }
+
         if ($preload_configs){
             $dir = dirname($fullpath); 
             foreach ($preload_configs as $value) {
@@ -56,10 +60,7 @@ final class IGKAppConfig extends IGKObject {
                     $extra = $extra + $data;
                 };
             }
-        } 
-        if ($fullpath==null){
-            $fullpath = igk_io_syspath($file);
-        }
+        }        
         // $m = igk_sys_request_time();  
         // igk_debug_wln("After loading configuration util:::::::::".$m);// = igk_sys_request_time()));
         // igk_wln_e("duration ::: ".($m - $s));

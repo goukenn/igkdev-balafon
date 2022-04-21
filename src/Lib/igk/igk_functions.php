@@ -11346,15 +11346,16 @@ function igk_globalvars_isset($n)
     return true;
 }
 ///<summary>Represente igk_glue function</summary>
-///<param name="glue"></param>
+///<param name="glue">glue all values</param>
 /**
- * Represente igk_glue function
- * @param mixed $glue 
+ * helper : glue all values
+ * @param string $glue glue string
+ * @param array $params array list to glue
  */
-function igk_glue($glue)
+function igk_glue(string $glue, ...$params)
 {
     if (func_num_args() > 1) {
-        return call_user_func_array("implode", array($glue, array_slice(func_get_args(), 1)));
+        return call_user_func_array("implode", array($glue, $params));
     }
 }
 ///<summary></summary>

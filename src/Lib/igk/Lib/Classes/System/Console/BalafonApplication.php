@@ -17,6 +17,7 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKConstants;
 use IGKModuleListMigration;
+use stdClass;
 use Throwable;
 use function igk_resources_gets as __;
 
@@ -439,7 +440,26 @@ class BalafonApplication extends IGKApplicationBase
                     }
                     return 0;
                 };
-            }, __("run script by loading")],
+            }, [
+                "desc"=>__("run script by loading"),
+                "help"=>function(){
+                    Logger::info("\n--run [options] scriptfile\n");
+                }
+            ]
+            ],
+            "--run:tac"=>[function(){
+                // terminal action command
+                Logger::success("terminal action command \n");
+                $c = new TerminalActionCommand;
+                return $c->run();   
+            }, [
+
+                "desc"=>__("terminal action command"),
+                "help"=>function(){
+                    Logger::info('terminal action command');
+                }
+            ]
+            ],
             "--run:cron" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = null) {
                     $job = new \IGK\System\CronJob();
@@ -486,7 +506,8 @@ class BalafonApplication extends IGKApplicationBase
                 // + | initialize environment configuration
                 function ($arg, $command) {
                     $file = getcwd() . "/" .AppConfigs::ConfigurationFileName;
-                    if (file_exists($file) && !property_exists($command["options"], "--force")) {
+                    $options = igk_getv($command, "options") ?? new stdClass();
+                    if (file_exists($file) && !property_exists($options, "--force")) {
                         Logger::print("already initialized");
                         return;
                     }
@@ -495,8 +516,8 @@ class BalafonApplication extends IGKApplicationBase
                     $config->author = igk_environment()->balafon_author;
 
 
-                    if (property_exists($command["options"], "--noconfig")) {
-                        $primary = property_exists($command["options"], "--primary");
+                    if (property_exists($options, "--noconfig")) {
+                        $primary = property_exists($options, "--primary");
                         $app_dir = $primary ? "./" :  "src/application";
                         $public_dir = $primary ? "./" : "src/public";
                    

@@ -66,14 +66,7 @@ class FileWriter{
      * @return bool success
      */
     public static function CreateDir($dirname, $mode=IGK_DEFAULT_FOLDER_MASK){
-        $dirname = igk_io_dir($dirname); 
-        // if ((basename($dirname) =="views") && 
-        // ($dirname!='/var/www/html/sites/balafon/src/application/Caches/storage/views')){
-        //     igk_wln_e("dir : ", $dirname);
-        //     igk_trace();
-        //     igk_exit();
-        // }
-
+        $dirname = igk_io_dir($dirname);  
         if(preg_match("/^phar:/i", $dirname)){
             igk_die("InvalidOperation#1200");
         }

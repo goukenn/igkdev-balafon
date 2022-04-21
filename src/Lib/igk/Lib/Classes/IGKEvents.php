@@ -39,6 +39,7 @@ class IGKEvents extends IGKObject
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
     const HOOK_SHUTDOWN = "app_shutdown";
     const HOOK_LOG_APPEND = "sys_log_append_msg";
+    const HOOK_INSTALL_SITE = "sys_install_site";
     /**
      * css context bind controller styles sheet on init
      */

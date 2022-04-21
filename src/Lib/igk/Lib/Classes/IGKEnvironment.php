@@ -445,8 +445,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
         $this->set(get_class($ctrl).'/bypass_method', $bypass);   
     }
 
-    public function get_file($file, $ext=".phtml"){
-        $r = "";
+    public function get_file($file, $ext=".phtml"){ 
         $n = ".".strtolower($this->name()); 
         foreach([$n, ""] as $k){
             if (file_exists($f = $file.$k.$ext)){
@@ -463,9 +462,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      * @return void 
      */
     public function push($key, $value){
-        // igk_ilog("value : ". json_encode(compact("key", "value")));
-        // return;
-
+        
         $c = $this->get($key);
         if (!$c){
             $c = [];

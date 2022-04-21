@@ -174,6 +174,20 @@ function igk_getv($array, $key, $default = null)
 {
     return igk_getpv($array, array($key), $default);
 }
+/**
+ * from laravel helper get request object 
+ * @param mixed $ob 
+ * @param callable|null $callback 
+ * @return mixed 
+ */
+function  igk_geto($ob, string $name, callable $callback= null ){
+    $t = igk_getv($ob, $name);
+    if (is_null($callback)){
+        return new IGKObjStorage($t);
+    } else if (!is_null($t)){
+        return $callback($t);
+    }
+ }
 
 ///<summary></summary>
 ///<param name="array"></param>
