@@ -10,6 +10,8 @@ namespace IGK\System\Installers;
 
 use IGK\Helper\IO;
 
+use function igk_resources_gets as __;
+
 ///<summary>Represente class: SuccessMiddleWare</summary>
 /**
 * Represente SuccessMiddleWare class
