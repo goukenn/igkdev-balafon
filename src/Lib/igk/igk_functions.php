@@ -25876,7 +25876,7 @@ function igk_sys_zip_core(string $tfile)
         return false;
     $zip = new ZipArchive();
     if ($zip->open($tfile, ZIPARCHIVE::CREATE)) {
-        igk_zip_dir(IGK_LIB_DIR, $zip, "Lib/igk", "/(Lib\/igk\/(temp|application|.Caches|Data\/config.xml))|(\.(vscode|git(ignore)?|gkds|DS_Store|bak)$)/");
+        $files = igk_zip_dir(IGK_LIB_DIR, $zip, "Lib/igk", "/(Lib\/igk\/(temp|application|.Caches|Data\/(config.xml|domain.conf)))|(\.(vscode|git(ignore)?|gkds|DS_Store|bak)$)/");
         $manifest = igk_create_xmlnode("manifest");
         $manifest["xmlns"] = "https://www.igkdev.com/balafon/schemas/manifest";
         $manifest["appName"] = IGK_PLATEFORM_NAME;
@@ -25885,6 +25885,11 @@ function igk_sys_zip_core(string $tfile)
         $manifest->add("date")->Content = date("Ymd His");
         $zip->addFromString("manifest.xml", $manifest->render((object)["Indent"=>true]));
         $zip->addFromString("__lib.def", IGK_VERSION);
+        if ($files ){
+            foreach($files as $k){
+                $manifest->add("file")->setAttribute("entry", $k);
+            }
+        }
         return @$zip->close();
     }
     return false;

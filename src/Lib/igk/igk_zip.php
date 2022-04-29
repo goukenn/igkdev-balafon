@@ -83,11 +83,20 @@ function igk_zip_delete($file, $entry, $close=1){
     return $r;
 }
 ///<summary>use to zip a directory </summary>
+/**
+ * zip folder 
+ * @param mixed $dir 
+ * @param mixed $zip 
+ * @param mixed $folder 
+ * @param mixed $regex 
+ * @return void|array entries files
+ */
 function igk_zip_dir($dir, $zip, $folder=null, $regex=null){
     if(!$zip)
         return;
     $q=0;
     $tab=is_array($dir) ? $dir: array($dir);
+    $files = [];
     while($q=array_pop($tab)){
         $hdir=opendir($q);
         if(is_resource($hdir)){
@@ -108,11 +117,13 @@ function igk_zip_dir($dir, $zip, $folder=null, $regex=null){
                 }
                 else if(is_file($f)){
                     $zip->addFile($f, $hd);
+                    array_push($files, $hd);
                 }
             }
             closedir($hdir);
         }
     }
+    return $files;
 }
 ///<summary></summary>
 ///<param name="dir"></param>
@@ -214,7 +225,7 @@ function igk_zip_unzip($file, $outdir, $entry=null){
         return 0;
     while(($e=zip_read($hzip))){
         $n=zip_entry_name($e);
-        if($entry && (is_callable($entry) && !$entry($n)) && !preg_match($entry, $n)){
+        if($entry && (is_callable($entry) && !$entry($n)) && (is_string($entry) && !preg_match($entry, $n))){
             continue;
         }
         if(igk_zip_isdirentry($e)){
