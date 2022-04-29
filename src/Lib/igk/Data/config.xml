@@ -1,9 +1,0 @@
-<config>
-	<clDataAdapterName>MYSQL</clDataAdapterName>
-	<clDataSchema></clDataSchema>
-	<clRegisterName>igkdev.com.c_mysql</clRegisterName>
-	<clTargetNodeIndex></clTargetNodeIndex>
-	<clVisiblePages>*</clVisiblePages>
-	<auto_cache_view>1</auto_cache_view>
-	<website_domain>local.com</website_domain>
-</config>
