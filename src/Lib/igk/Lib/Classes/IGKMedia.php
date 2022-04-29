@@ -8,6 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Css\CssSupport;
 use IGK\Css\ICssStyleContainer;
 
 final class IGKMedia implements ArrayAccess, ICssStyleContainer{
@@ -26,6 +27,28 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
     }
 
     public function getProperties() { return []; }
+
+    public function Clear(){
+        $id = igk_getv($this->_, self::MEDIA_ID);
+        $this->_ = [];
+        $this->_[self::MEDIA_ID] =$id;
+    }
+
+    public function supports(string $rule){
+        $key = "@supports (".trim($rule).")";
+        if ($g = igk_getv($this->getDef(), $key)){
+            if ($g instanceof CssSupport){
+                return $g;
+            }
+        }
+        $s = new CssSupport($rule);
+        $this[$key] = $s; 
+        return $s;
+    }
+    public function bindSupport(CssSupport $support){ 
+        $key = "@supports (".trim($support->rule).")";
+        $this[$key] = $support;
+    }
       /**
      * return a copy of this media storage
      * @return array 
@@ -46,7 +69,9 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
      */
     public function load_data(array $data){
        
-        $this->_ = [];
+        $this->_ = [self::MEDIA_ID=>
+            $this->getId()
+        ];
         foreach([self::DEFAULT_THEME=>"def", 
             self::CUSTOM_COLOR=>"color", 
             self::FILES_THEME=>"file", 
@@ -86,15 +111,19 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
     public function getCssDef(ICssStyleContainer $theme, 
         ICssStyleContainer $systheme,
         $minfile=true){
-          
+      
         $o=""; 
         $lineseparator=$minfile ? "": IGK_LF;
         $def=$this->getDef();
         if($def){
             foreach($def as $k=>$v){
-                $kv=trim(igk_css_treat($v, $theme, $systheme));
-                if(!empty($kv)){
-                    $o .= $k."{".$kv."}".$lineseparator; 
+                if (is_string($v)){
+                    $kv=trim(igk_css_treat($v, $theme, $systheme));
+                    if(!empty($kv)){
+                        $o .= $k."{".$kv."}".$lineseparator; 
+                    }
+                } else {
+                    $o .= $k."{ ".$v->getCssDef($theme, $systheme)." }".$lineseparator; 
                 }
             }
         } 

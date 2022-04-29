@@ -3,6 +3,8 @@
 namespace IGK\Css;
 
 use IGK\Resources\R;
+use IGK\System\Html\SVG\SvgRenderer;
+use IGKResourceUriResolver;
 
 class CssThemeResolver
 {
@@ -439,6 +441,18 @@ class CssThemeResolver
                 else
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
                 break;
+
+            // TODO: Add SVG import support
+            case "svg":
+                    $n = $value;
+                    $s = "";
+                    if ($p = SvgRenderer::GetPath($n)){
+                        $uri = IGKResourceUriResolver::getInstance()->resolve($p);                         
+                        $s= "url(".$uri.")";
+                    }else{
+                    }
+                    $v = str_replace($v_m, $s, $v); 
+                break; 
             default:
                 if ((strlen($type) > 0) && ($type[0] == "-")) {
                     $type = substr($type, 1);

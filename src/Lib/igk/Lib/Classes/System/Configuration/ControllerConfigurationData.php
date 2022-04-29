@@ -94,7 +94,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     * @return string 
     */
     public function getConfigFile(){
-        return igk_io_dir($this->ctrl->getDataDir()."/".IGK_CTRL_CONF_FILE);
+        return igk_io_dir($this->ctrl->getConfigFile());
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -102,12 +102,12 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     * 
     * @param mixed $t
     */
-    public function initConfigSetting($t){
-        $f=$this->getConfigFile();
-        $def = null;
+    public function initConfigSetting(\stdClass $t, $file=null){
+        $f= $file ?? $this->getConfigFile();
+        $def = null; 
         if(file_exists($f)){
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
-            $div= new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
+            $div = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
          
             $div->loadFile($f, HtmlContext::XML);
            
@@ -191,13 +191,15 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     */
     public function storeConfig(){         
         $this->m_changed = 0;  
-        $d = igk_createxml_config_data($this->m_configs);    
-        $data = $d->render((object)[
-            "Context"=>"XML",
-            "Indent"=>true
-        ]);
-        // igk_wln_e(__FILE__.":".__LINE__, $data);        
-        return igk_io_w2file($this->getConfigFile(), $data);
+        if ($this->m_configs){
+            $d = igk_createxml_config_data($this->m_configs);    
+            $data = $d->render((object)[
+                "Context"=>"XML",
+                "Indent"=>true
+            ]);
+            // igk_wln_e(__FILE__.":".__LINE__, $data, $this->getConfigFile());        
+            return igk_io_w2file($this->getConfigFile(), $data, true);
+        }
     }
     public function get($xpath, $default= null){
         $v = igk_conf_get($this->m_configs, $xpath, $default);

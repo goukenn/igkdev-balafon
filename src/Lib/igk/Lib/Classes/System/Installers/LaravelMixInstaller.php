@@ -9,30 +9,8 @@ use IGK\Helper\IO;
 use IGK\System\Console\Logger;
 use IGKException;
 
-class OsShell {    
-    private static $sm_commands = [
-        "Unix"=>OsUnixCommand::class,
-        "Window"=>WinCommand::class
-    ];
-    public static function Register(string $type, string $class ){
-        self::$sm_commands[$type] = $class;
-    }
-    public static function __callStatic($n, $args){        
-        if (igk_environment()->isUnix()){
-            $cl = self::$sm_commands["Unix"];            
-        }else{
-            $cl = self::$sm_commands["Window"];            
-        } 
-        return call_user_func_array([$cl, $n], $args);
-    }
-     
-}
-class OsUnixCommand extends OsShell{
-    public static function Where($cmd){ 
-        return exec("which ".$cmd);
-    }
-}
-class WindowCommand extends OsShell{
+ 
+class OsWindowCommand extends OsShell{
     public static function Where($cmd){ 
         return exec("where ".$cmd);
     }

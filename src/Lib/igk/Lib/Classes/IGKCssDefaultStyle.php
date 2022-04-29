@@ -8,9 +8,11 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Css\CssSupport;
 use IGK\Css\ICssStyleContainer;
+use IGK\Css\ICssSupport;
 
-final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
+final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleContainer{
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
     const COLORS_RULE=5;
     const DECLARED_RULE=1;
@@ -26,6 +28,25 @@ final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
     ///<summary></summary>
     public function __construct(& $setting){
         $this->_=& $setting;
+    }
+
+    /**
+     * define support ruel
+     * @param mixed $rule 
+     * @return HtmlDocTheme 
+     */
+    public function supports(string $rule){
+        $key = "@supports (".$rule.")";
+        $trule=& $this->_[self::DECLARED_RULE];
+
+        if (isset($trule[$key])){
+            if (($trule[$key] instanceof CssSupport)){
+                return $trule[$key]; 
+            }
+        }
+        $rule = new CssSupport($rule);
+        $trule[$key]= $rule;
+        return $rule;
     }
 
     public function getProperties() { 
@@ -110,8 +131,6 @@ final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
         return igk_getv($this->_, self::PROPERTIES);
     }
     public function getdef(){
-        igk_trace();
-        igk_wln_e("get def....");
         return igk_getv($this->_, self::PROPERTIES);
     }
     ///<summary>retrieve binded temp file </summary>
@@ -172,9 +191,14 @@ final class IGKCssDefaultStyle implements ArrayAccess, ICssStyleContainer{
         $o="";
         $tab=igk_getv($this->_, self::DECLARED_RULE);
         foreach($tab as $k=>$v){
-            $v=igk_css_treat($v, $this, $systheme);
-            if($v){
-                $o .= $k."{".$v."}".$lineseparator;
+            if (is_string($v)){
+                $v=igk_css_treat($v, $this, $systheme);
+                if($v){
+                    $o .= $k."{".$v."}".$lineseparator;
+                }
+            } elseif ($v instanceof CssSupport) {                            
+                $b = $v->getCssDef($this, $systheme);
+                $o.= $k ."{".$b."}";                
             }
         }
         return $o;

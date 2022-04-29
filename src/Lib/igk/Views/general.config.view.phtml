@@ -1,13 +1,18 @@
 <?php 
+// @author: C.A.D. BONDJE DOUE
+// @filename: general.config.view.phtml
+// @date: 20220425 11:21:11
+// @desc: default configuration view node
 
-/**
- * @var HtmlNode$t node
+/*
+ * @var HtmlNode $t node
+ * @var IGKHtmlDoc $doc document
  */
 use function igk_resources_gets as __;
 
 
 $doc->Title=__("Global configurations");
-$doc->Theme->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
+$doc->getTheme()->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
 if(file_exists($ftfile=IGK_LIB_DIR."/Default/R/Fonts/global.ttf")){
     $doc->Theme->addFont("global", $ftfile);
 }

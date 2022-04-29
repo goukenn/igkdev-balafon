@@ -1,7 +1,19 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Logger.php
+// @date: 20220426 10:28:49
+// @desc: Core Logger - use in console
+
 
 namespace IGK\System\Console;
 
+/**
+ * 
+ * @package IGK\System\Console
+ * @method static void danger(string $message)  
+ * @method static void print(string $message)  
+ * @method static void info(string $message)  
+ */
 class Logger{
     static $sm_logger;
 

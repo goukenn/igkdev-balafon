@@ -566,7 +566,9 @@ abstract class HtmlUtils extends DomNodeBase
 
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
     {
-        require_once IGK_LIB_DIR . "/igk_html_func_items.php";
+        if (file_exists(IGK_LIB_DIR . "/igk_html_func_items.php")){     
+            require_once IGK_LIB_DIR . "/igk_html_func_items.php";
+        }
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
 
         if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))){

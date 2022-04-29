@@ -34,12 +34,7 @@ trait CSSDefaultArrayAccess{
     * @param mixed $i
     * @param mixed $v
     */
-    public function offsetSet($i, $v){
-        // if (trim($i) == ".igk-btn.igk-active"){
-        //     igk_trace();
-        //     igk_wln("the value :".$v);
-        //     igk_exit();
-        // } 
+    public function offsetSet($i, $v){         
         $g=null;
         if(!isset($this->_[self::PROPERTIES]) || !is_array($this->_[self::PROPERTIES])){
             $g = [];

@@ -1,7 +1,7 @@
 //!#<?php
 
 
-$f = realpath($CF->getStylesDir().'/p.'.$type.'.pcss');
+$f = realpath($CF->getStylesDir().'/p.'.$type.'.'.IGK_DEFAULT_STYLE_EXT);
 if (igk_is_ajx_demand()){
 	igk_css_ajx_bind_file($f);	
 }else{

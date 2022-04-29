@@ -1,7 +1,7 @@
 <?php
 // @file: installerMiddleware.pinc
 // @author: C.A.D. BONDJE DOUE
-// @description:
+// @description: list of installer middelware 
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -13,7 +13,7 @@ use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\MaintenanceHelper;
 use IGK\System\Html\HtmlReader;
- 
+use SuccessMiddleWare as GlobalSuccessMiddleWare;
 
 use function igk_resources_gets as __;
 
@@ -237,14 +237,20 @@ class MaintenaceLibMiddleWare extends InstallerActionMiddleWare{
 * Represente RenameLibaryMiddleWare class
 */
 class RenameLibaryMiddleWare extends InstallerActionMiddleWare{
+    private function getTempDir(){
+        return dirname($this->getService()->LibDir)."/__tempigk";        
+    }
     ///<summary></summary>
     /**
-    * 
+    * restaure tempory directory
     */
     public function abort(){
-        $libdir=dirname($this->getService()->LibDir)."/__tempigk";
-        if(is_dir($libdir)){
-            rename($libdir, dirname($libdir)."/igk");
+        $libdir= $this->getTempDir();
+        if(is_dir($libdir) ){
+            $g = dirname($libdir)."/igk";
+            if (!is_dir($g)){
+                rename($libdir, $g); 
+            }
         }
     }
     ///<summary></summary>
@@ -261,46 +267,14 @@ class RenameLibaryMiddleWare extends InstallerActionMiddleWare{
     public function invoke(){
         $libdir=$this->getService()->LibDir;
         if(is_dir($libdir)){
-            rename($libdir, dirname($libdir)."/__temp".basename($libdir));
+            $g =  dirname($libdir)."/__temp".basename($libdir);
+            if (is_dir($g)){
+                IO::RmDir($g);
+            }
+            rename($libdir,$g);
         }
         $this->next();
     }
 }
-///<summary>Represente class: SuccessMiddleWare</summary>
-/**
-* Represente SuccessMiddleWare class
-*/
-class SuccessMiddleWare extends InstallerActionMiddleWare{
 
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getMessage(){
-        return __("welldone");
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function invoke(){
-        $srv=$this->getService();
-        if(is_dir($libdir=dirname($this->getService()->LibDir)."/__tempigk")){
-            if(!is_dir($vdir=dirname($libdir)."/igk.bck".$srv->Version)){
-                $srv->Listener->write(__("Backup previous version"));
-                rename($libdir, $vdir);
-                igk_zip_folder($vdir.".zip", $vdir, "Lib/igk");
-                IO::RmDir($vdir);
-                igk_io_w2file(dirname($libdir)."/backup.info", $srv->Version);
-            }
-            else{
-                IO::RmDir($libdir);
-            }
-        }
-        if (function_exists("opcache_reset")){
-            opcache_reset();
-        }
-        $srv->Success=1;
-        $this->next();
-    }
-}
+

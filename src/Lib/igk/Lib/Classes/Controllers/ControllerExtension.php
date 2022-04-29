@@ -1302,6 +1302,14 @@ abstract class ControllerExtension
         return false;
     }
 
+    /**
+     * 
+     * @param BaseController $controller 
+     * @param string $file 
+     * @param mixed $params 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function viewInContext(BaseController $controller, string $file, $params = null)
     {
         if (realpath($file) || file_exists($file = $controller->getViewFile($file))) {
@@ -1313,7 +1321,6 @@ abstract class ControllerExtension
                 $tparams = array_merge($bck, $params);
                 igk_set_env($key, $tparams);
             }
-            // $ctrl->regSystemVars($params);
             $controller->_include_file_on_context($file);
             $controller->regSystemVars($bck);
         }
@@ -1428,5 +1435,69 @@ abstract class ControllerExtension
         $uri = $controller->getAppUri();
         igk_navto($uri);
         igk_exit();
+    }
+
+
+    
+    /**
+     * append tempory tyle file
+     * @param BaseController $controller 
+     * @param string|string[] $fname name or file
+     * @param mixed $document 
+     * @return never 
+     */
+    public static function pcss(BaseController $controller, $fname, $document=null){
+        if (is_null($document)){
+            //$document = igk_view_args() ?? die("document not found");
+            $document = $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? die("document not found");
+        }
+        if (is_string($fname)){
+            $fname = explode("|", $fname);
+        } 
+        if (!is_array($fname)){
+            igk_die("not a valid argument");
+        }
+        $q = $fname;
+        $c = 0;
+        while($fname = array_shift($q)){
+            $f = $controller->getStylesDir()."/$fname";
+            if (!preg_match("/\.(".IGK_DEFAULT_STYLE_EXT."|css)$/", $f)){
+                $f .= ".".IGK_DEFAULT_STYLE_EXT;
+            }
+            if (file_exists($f)){
+                $document->getTheme()->addTempStyle($controller, $f);
+                $c++;
+            }
+        }
+        return $c;
+    }
+    /**
+    * load js script extension
+    * @param BaseController $controler
+    */
+    public static function js(BaseController $controller, $fname, $document=null){
+        if (is_null($document)){
+            $document = $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? die("document not found");
+        }
+        if (is_string($fname)){
+            $fname = explode("|", $fname);
+        } 
+        if (!is_array($fname)){
+            igk_die("not a valid argument");
+        }
+
+        $q = $fname;
+        $c = 0;
+        while($fname = array_shift($q)){
+            $f = $controller->getScriptsDir()."/$fname";
+            if (!preg_match("/\.(js)$/", $f)){
+                $f .= ".js";
+            }
+            if (file_exists($f)){
+                $document->addTempScript($f);
+                $c++; 
+            }
+        }
+        return $c;
     }
 }

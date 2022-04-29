@@ -2256,6 +2256,7 @@ function igk_html_node_select($id = null)
     $n = new HtmlNode("select");
     $n->setId($id);
     $n["title"] = $id;
+    $n["class"] = "+clselect";
     return $n;
 }
 ///<summary>function igk_html_node_innerimg</summary>
@@ -2869,9 +2870,10 @@ function igk_html_node_onrendercallback($callbackObj)
     if (!igk_is_callable($callbackObj)) {
         return null;
     }
-    $n = igk_create_notagnode();
-    $n->__callback = $callbackObj;
-    $n->setCallback("AcceptRender", igk_io_get_script(IGK_LIB_DIR . "/Inc/html/onrendercallbak.accept.render.pinc"));
+    $n = new \IGK\System\Html\Dom\HtmlRenderCallbackNode($callbackObj);
+    // $n = igk_create_notagnode();
+    // $n->__callback = $callbackObj;
+    // $n->setCallback("AcceptRender", igk_io_get_script(IGK_LIB_DIR . "/Inc/html/onrendercallbak.accept.render.pinc"));
     return $n;
 }
 ///<summary>function igk_html_node_page</summary>

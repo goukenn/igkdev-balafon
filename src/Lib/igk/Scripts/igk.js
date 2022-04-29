@@ -1529,8 +1529,9 @@ Name:balafon.js
 					msg += s + "; ex:[" + Exception + "]" + space;
 				}
 			}
-			if (element == null)
-				alert(msg);
+			if (element == null){
+				console.log(msg);
+			}
 			else {
 				$igk(element).o.innerHTML = msg;
 			}
@@ -1829,7 +1830,7 @@ Name:balafon.js
 				if (c > 0) {
 					for (i = 0; i < c; i++) {
 						if (!tab[i]) {
-							alert('not define ' + tab[i] + " i=" + i + " c=" + c + " tab.length=" + tab.length + " \n " + tab[i - 1].innerHTML);
+							console.log('not define ' + tab[i] + " i=" + i + " c=" + c + " tab.length=" + tab.length + " \n " + tab[i - 1].innerHTML);
 							continue;
 						}
 						var j = tab[i];
@@ -2401,7 +2402,7 @@ Name:balafon.js
 			var _chtml = igk.dom.html();
 			var _lang = lang || (_chtml ? _chtml.getAttribute("lang") : null) || igk.navigator.getLang();
 			var _loc = igk.system.io.getdir(uri);
-			var _uri = igk.resources.getlang(_loc, _lang);
+			var _uri = igk.resources.getLangLocation(_loc, _lang);
 
 			// console.debug("loadLangRes"); 
 			// error.apply(this);
@@ -2487,19 +2488,36 @@ Name:balafon.js
 		}
 	});
 
+	/**
+	 * --- manage language resources
+	 */
+
 	createNS("igk.resources", {
-		getlang: function (_loc, t) {
+		/**
+		 * get language resources location
+		 * @param {} _loc 
+		 * @param {*} t 
+		 * @returns 
+		 */
+		 getLangLocation(_loc, t) {
 			if (!_loc) {
 				return null;
 			}
-			if (!t)
+			if (!t){
 				t = igk.dom.html().getAttribute("lang") || igk.navigator.getLang();
-		 
+			}		 
 			return _loc + '/Lang/res.' + t + '.json';
 		},	 
 	});
 	if (typeof(igk.resources.lang) == 'undefined'){
-		igk.resources.lang = {}; 
+		igk.resources.lang = function(n){
+			if (n in igk.resources.lang ){
+				return igk.resources.lang[n];
+			}
+			return n;
+		};
+		igk_appendProp(igk.resources.lang, {"Hello":"Bonjour"});
+		
 	}
 	createNS("igk.system.Db", {
 		getIndexedDb: function () {
@@ -5936,6 +5954,7 @@ Name:balafon.js
 			// sys call by system
 			function _async_call(e, document, i) {
 				//@i : name of the measurement function for 'warning duration violation' raise in chrome
+				// console.log("function : "+i);
 				// if (i=="f5")
 
 				setTimeout(function () {
@@ -10216,9 +10235,7 @@ Name:balafon.js
 								}
 							});
 						m_eventContext.reg_event(this.target, "mouseup", function (evt) { self.dragstart = false; });
-					}
-					else
-						alert("igk.winui.dragFrameManager ... event context failed");
+					} 
 					return self;
 				};
 				return new __construct(target, box);
@@ -11551,7 +11568,7 @@ Name:balafon.js
 
 	igk_appendProp(_nav,
 		{	// static function
-			getLang: function () {
+			getLang() {
 				if (window.navigator.language)
 					return window.navigator.language + "";
 				return window.navigator.languages + "";
@@ -16119,7 +16136,7 @@ Name:balafon.js
 		function init_res(_res, loc) {
 
 			igk.appendProperties(_res, {
-				getLang: function () {
+				getLang(){
 					var s = igk.navigator.getLang().split(',')[0];
 					for (var i in m_lang) {
 						if (igk.system.array.isContain(m_lang[i], s))
@@ -16234,7 +16251,7 @@ Name:balafon.js
 			var dir = igk.system.io.getlocationdir(igk.getScriptLocation());
 			if (!dir)
 				return;
-			var loc = igk.resources.getlang(dir, _lang);  			
+			var loc = igk.resources.getLangLocation(dir, _lang);  			
 			if (igk.resources.lang[_lang]){
 				init_res(igk.resources.lang[_lang], loc);
 				return;

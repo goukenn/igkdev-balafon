@@ -159,14 +159,14 @@
 				return true;//allow to continues
 			});		
 			var m_eventContext = igk.window.RegEventContext(p, $igk(p));			
-			if (m_eventContext)
-			{
+			if (m_eventContext){
 				m_eventContext.reg_window( "resize", function(){
 					updateSize(true);
 				});
 			}
 			else{
-				alert("igk.winui.articleviewer ... event context failed");
+				console.log("igk.winui.articleviewer ... event context failed");
+				return;
 			}						
 			//igk.ready(function(){ alert("ready"); updateSize(); });
 			//bind to document complete

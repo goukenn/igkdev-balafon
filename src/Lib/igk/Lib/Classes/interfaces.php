@@ -839,7 +839,7 @@ interface IIGKQueryConditionalExpression extends IIGKGetValue {
 /**
 * Represente IIGKWebPageController interface
 */
-interface IIGKWebPageController extends IIGKWebController {
+interface IIGKWebPageController{
     ///<summary></summary>
     ///<param name="file"></param>
     /**

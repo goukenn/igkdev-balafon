@@ -20,7 +20,7 @@
             if (indicators){
                 this.qselect("nav").remove();
                 var nav = this.add("nav");
-                var active = this.getAttribute("active") || 0
+                var active = this.getAttribute("active");
                 this.qselect(".igk-winui-carousel-slide").each_all(function(){
                     var li = nav.add("li");
                     if (active !== null){

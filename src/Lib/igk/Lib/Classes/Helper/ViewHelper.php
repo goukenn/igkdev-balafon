@@ -22,7 +22,8 @@ class ViewHelper
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
         $appuri = $ctrl->getAppUri($fname);
-        $ruri = igk_io_baseuri() . igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        // $ruri = igk_io_baseuri() . igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        $ruri = igk_io_baseuri() . igk_io_request_uri_path();// igk_getv(explode('?', igk_io_base_request_uri()), 0);
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
@@ -35,6 +36,9 @@ class ViewHelper
                 $entry_is_dir = (strlen($s) > 0) && $s[0] == "/";
             }
         }
+
+        
+
         if (!$entry_is_dir) {
             $ctrl->setParam("redirect_request", ['request' => $_REQUEST]);
             igk_navto($appuri . "/");

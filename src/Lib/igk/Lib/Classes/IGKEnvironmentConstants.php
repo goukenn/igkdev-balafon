@@ -18,4 +18,5 @@ abstract class IGKEnvironmentConstants{
      const AUTO_LOAD_CLASS = "auto_load_class";
      const NOT_VISIBLE_CTRL = "sys://ctrl/notvisible"; 
      const ARTICLE_CHAIN_CONTEXT =  "sys://article_chain";
+     const VIEW_FILE_CACHES = "viewFileCaches";
 }

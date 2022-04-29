@@ -16,6 +16,7 @@ use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlComponents;
+use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\JsonResponse;
 use IGKControllerTypeManager;
@@ -99,31 +100,37 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     }
     ///<summary></summary>
     ///<param name="t"></param>
+    /**
+     * 
+     * @param mixed $t 
+     * @return void 
+     * @deprecated disable configuration of menu host
+     */
     private function __viewMenuHostCtrl($t)
     {
-        $frm = $t->AddForm();
-        $frm->setId("menuhost-form");
-        $frm["action"] = $this->getUri("ca_setmenuhost");
-        $tab = self::GetSysProject(); 
-        igk_html_add_title($frm, "title.menuController");
-        if (igk_count($tab) == 0) {
-            $frm->ul()->li()->add("div")->Content = __("msg.nocontroller.for.menu");
-        } else {
-            igk_html_add_title($frm, "lb.MenuHostCtrl");
-            $sl = $frm->addUl()->li()->add("select")->setClass("igk-form-control");
-            $sl->setId("clCtrlMenuHost");
-            $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('ca_setmenuhost_ajx&') . "'+this.id+'='+this.value, null, null);";
-            $sl->add("option", array("value" => IGK_STR_EMPTY))->Content = IGK_HTML_SPACE;
-            $v_menuhost = igk_app()->Configs->menuHostCtrl;
-            foreach ($tab as $v) {
-                $opt = $sl->add("option", array("value" => $v->getName()));
-                if ($v->getName() == $v_menuhost) {
-                    $opt["selected"] = "true";
-                }
-                $opt->Content = $v->getDisplayName();
-            }
-            $frm->div()->add("noscript")->addInput("btn_add", "submit");
-        }
+        // $frm = $t->AddForm();
+        // $frm->setId("menuhost-form");
+        // $frm["action"] = $this->getUri("ca_setmenuhost");
+        // $tab = self::GetSysProject(); 
+        // igk_html_add_title($frm, "title.menuController");
+        // if (igk_count($tab) == 0) {
+        //     $frm->ul()->li()->add("div")->Content = __("msg.nocontroller.for.menu");
+        // } else {
+        //     igk_html_add_title($frm, "lb.MenuHostCtrl");
+        //     $sl = $frm->addUl()->li()->add("select")->setClass("igk-form-control");
+        //     $sl->setId("clCtrlMenuHost");
+        //     $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('ca_setmenuhost_ajx&') . "'+this.id+'='+this.value, null, null);";
+        //     $sl->add("option", array("value" => IGK_STR_EMPTY))->Content = IGK_HTML_SPACE;
+        //     $v_menuhost = igk_app()->Configs->menuHostCtrl;
+        //     foreach ($tab as $v) {
+        //         $opt = $sl->add("option", array("value" => $v->getName()));
+        //         if ($v->getName() == $v_menuhost) {
+        //             $opt["selected"] = "true";
+        //         }
+        //         $opt->Content = $v->getDisplayName();
+        //     }
+        //     $frm->div()->add("noscript")->addInput("btn_add", "submit");
+        // }
     }
     ///<summary></summary>
     ///<param name="file"></param>
@@ -155,7 +162,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $s = igk_xml_create_render_option();
                 $s->Indent = true;
                 $s->ParentDepth = $v_dummy->Childs[0];
-                if (get_class($s->ParentDepth) === "IGKHtmlText") {
+                if (get_class($s->ParentDepth) === HtmlTextNode::class) {
                     igk_io_save_file_as_utf8($file, $s->ParentDepth->render(null), true);
                 } else
                     igk_io_save_file_as_utf8($file, $s->ParentDepth->getinnerHtml($s), true);
@@ -295,6 +302,9 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         igk_html_add_title($frm, "title.controllers");
         $ul = $frm->ul();
         if (igk_count($tab = self::GetSysProject()) > 0) {
+            usort($tab, function($a, $b){
+                return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+            });// SORT_FLAG_CASE| SORT_REGULAR);
             $select = $ul->li()->select(); 
             $target = $this->TargetNode["id"];
             $uri = $this->getUri('select_controller_ajx&n=');
@@ -429,8 +439,8 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     {
         $t->addNotifyHost();
         $tv = $t->addRow();
-        $this->__viewDefaultPageCtrl($tv->addCol("igk-col-4-2 igk-col-sm-3-3")->div()->setClass("igk-col-view-box"));
-        $this->__viewMenuHostCtrl($tv->addCol("igk-col-4-2 igk-col-sm-3-3")->div()->setClass("igk-col-view-box"));
+        $this->__viewDefaultPageCtrl($tv->addCol("igk-col-3-3")->div()->setClass("igk-col-view-box"));
+        // $this->__viewMenuHostCtrl($tv->addCol("igk-col-4-2 igk-col-sm-3-3")->div()->setClass("igk-col-view-box"));
         $row = $t->addRow();
         $this->_view_ctrl_EditCtrl($row->addCol("igk-col-3-3")->setId("edit_ctrl"));
         $v_dv = $row->addCol("igk-col-3-3")->div()->setClass("cnf-edit-view-result igk-row");
@@ -581,12 +591,12 @@ EOF;
             $this->view();
             igk_js_ajx_view_ctrl($this);
         }
-        $frame = igk_html_frame($this, $frameid);
-        $frame->Title = __("title.AddController");
-        $frame->BoxContent->clearChilds();
-        $frm = $frame->BoxContent->addForm();
-        $frm["action"] = $this->getUri("ca_add_ctrl");
-        $nid = $this->TargetNode["id"];
+        $frame = igk_create_node("div");//igk_html_frame($this, $frameid);
+        $frame->div()->Content = "Form DATA";
+        // $frame->Title = __("title.AddController");
+        // $frame->BoxContent->clearChilds();
+        $frm = $frame->form();
+        $frm["action"] = $this->getUri("ca_add_ctrl");        
         $js_change_func = <<<EOF
 if (ns_igk.ctrl.ca_ctrl_change)
 ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', this);
@@ -595,7 +605,8 @@ EOF;
         $frm["onsubmit"] = "javascript: window.igk.ajx.postform(this,'" . $this->getUri("ca_add_ctrl_frame_ajx") . "', ns_igk.ajx.fn.replace_or_append_to_body, false ); this.reset(); return false;";
         $frm->div()->addNotifyHost('controller');
         $frm->addInput('notification', 'hidden', 'controller');
-        $ul = $frm->add("ul")->setStyle("overflow-y:auto; max-height:300px");
+        $ul = $frm->ul()->setClass("add_ctrl_ul")->setStyle("overflow-y:auto; max-height:300px");
+  
         $ul->li()->addSLabelInput(IGK_FD_NAME, "text", null, null, true);
         $ul->li()->addSLabelInput("clDisplayName");
         $h = $ul->li()->addSLabelInput("clRegisterName");
@@ -605,7 +616,7 @@ EOF;
         $ul->li()->addSLabelInput("clOutFolder");
         $t = array_keys(IGKControllerTypeManager::GetControllerTypes());
         sort($t);
-        $sel = $li->addSelect("clCtrlType");
+        $sel = $li->select("clCtrlType");
         foreach ($t as $k => $v) {
             $opt = $sel->add("option");
             $opt->Content = $v;
@@ -623,7 +634,7 @@ EOF;
             $this->setParam("ca:view_frame", $p);
         }
         $p->clearChilds();
-        igk_html_add($p, $ul);
+        $ul->add($p); 
         $this->_ca_add_adapter($ul->li(), "clDataAdapterName", IGK_MYSQL_DATAADAPTER);
         $li = $ul->li();
         $li->addLabel("clDataSchema");
@@ -647,21 +658,25 @@ EOF;
             $u = igk_io_baseuri(IGK_BALAFON_JS_CORE_FILE);
             $frm->script()->setAttribute('src', $u);
         }
-        $frm->addBalafonJS()->Content = <<<EOF
+        $frm->addBalafonJS()->Content =  <<<EOF
 ns_igk.ready(
 function(){
 var r = \$igk(\$ns_igk.getParentScriptForm());
-if (!r)return;
+if (!r)
+    return;
+
  (function(q){ if (!q)return;
  var p = q.select("#liPageName").getItemAt(0);
  var c = q.select("#clWebPage").getItemAt(0);
  if (c && p)
-	c.reg_event("change",function(){ if (this.checked) p.css('display:block;'); else p.css('display:none'); });})(r);
-	var q = (r).select("#clCtrlType").getItemAt(0);
-	if (ns_igk.ctrl.ca_ctrl_change)
+	c.reg_event("change",function(){ if (this.checked) p.css('display:block;'); else p.css('display:none'); });
+})(r);
+	var q = (r).select("#clCtrlType").first();
+	if (q && ns_igk.ctrl.ca_ctrl_change)
 		ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', q.o);
 });
 EOF;
+
 
         return $frame;
     }
@@ -670,8 +685,8 @@ EOF;
     {
         $frame = $this->ca_add_ctrl_frame();
         if ($renderframe) {
-            igk_frame_close($frame->id);
-            igk_ajx_panel_dialog(__("Add new Controller"), $frame->BoxContent);
+            // igk_frame_close($frame->id);
+            igk_ajx_panel_dialog(__("Add new Controller"), $frame);
         }
     }
     ///<summary>build a add view frame</summary>
@@ -702,8 +717,8 @@ EOF;
     ///<summary>Request add controller</summary>
     public function ca_addCtrl()
     {
-        if (igk_qr_confirm() && $this->ConfigCtrl->getIsConnected()) {
-            $ctrl = igk_getctrl(IGK_CTRL_MANAGER);
+        
+        if (igk_qr_confirm() && $this->ConfigCtrl->getIsConnected() && ($ctrl = igk_getctrl(IGK_CTRL_MANAGER, false))) {
             $g = 0;
             $msg = "msg.ctrl.notadded";
             $v_not = igk_notifyctrl(igk_getr("notification", 'controller'));
@@ -723,6 +738,9 @@ EOF;
                 igk_ajx_replace_ctrl_view($this);
                 igk_exit();
             }
+        } else {
+            igk_ajx_toast(__("-- failed to add controller --"), "igk-danger");
+            igk_exit();
         }
     }
     ///<summary></summary>

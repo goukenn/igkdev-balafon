@@ -33,8 +33,15 @@
                 console.debug('message: '+ e.message, e.lineNumber+":"+e.columnNumber);
                 // view message rule
                 var tab = b.split('\n');
-                console.debug('source ... : \n ' + 
-                tab[e.lineNumber].substr(max(e.columnNumber -10, 0), 20));
+                var msg = ";";
+                if (tab.length< e.lineNumber){
+                    var o = Math.max(0, e.columnNumber -10);
+                    msg = b.substring(o, o + 40);
+                }else{
+                    msg = tab[e.lineNumber].substr(Math.max(e.columnNumber -10, 0), 20) ;
+                }
+                console.error('source ... : \n' + msg);
+            
             }
         }
     } else {

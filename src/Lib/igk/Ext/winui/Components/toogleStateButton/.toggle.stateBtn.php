@@ -10,15 +10,15 @@ function igk_html_node_ToggleStateButton($id,$value='on', $checked=0,$type="wind
 	$CF = igk_ctrl_zone(__FILE__);
 	$n = igk_create_node("div");
 	$n["class"] = "igk-winui-btn-toggle-state";
+ 
 	// $checked = 0;
-	$n->addOnRenderCallback(igk_create_expression_callback($src_expression
-	,
-	array("node"=>$n,
-	"CF"=>$CF,
-	"type"=>$type,
-	"name"=>$id,
-	"i_value"=>array("v"=>$value,"c"=>$checked)
-	)
+	$n->addOnRenderCallback(igk_create_expression_callback($src_expression,
+		["node"=>$n,
+		"CF"=>$CF,
+		"type"=>$type,
+		"name"=>$id,
+		"i_value"=>array("v"=>$value,"c"=>$checked)
+		]
 	));
 	//on render bind css style to document
 	return $n;

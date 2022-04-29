@@ -112,7 +112,9 @@ class InstallSiteCommand extends AppExecCommand
         )) {
             if (igk_environment()->isUnix() && (get_current_user() == "root")) {
                 // + | setting user group
-                `chown -R {$ugroup} *`;
+                if ($ugroup){
+                    `chown -R {$ugroup} *`;
+                }
                 `chmod -R 775 *`;
             }
             if ($init) {

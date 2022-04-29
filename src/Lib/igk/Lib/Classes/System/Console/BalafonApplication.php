@@ -208,6 +208,19 @@ class BalafonApplication extends IGKApplicationBase
                 },
                 __("set controller's configuration")
             ],
+            "--set:libconfigs" => [
+                function ($v, $command) {
+                    $command->exec = function ($command, $path = null, $value = null) {
+                        if ($cnf = igk_lib_configs()){ 
+                            $cnf->$path = $value;
+                            $cnf->storeConfig(); 
+                            Logger::success("Change configs");
+                        }
+                        Logger::print("");
+                    };
+                },
+                __("set system configuration")
+            ],
             "--site:lock" =>[
                 function($v, $command){
                     $command->exec = function($command, $dir=null){
@@ -227,6 +240,29 @@ class BalafonApplication extends IGKApplicationBase
                 },[
                     "desc"=>"Unlock site."
                 ]
+            ],
+            "--set:maintenance"=>[function(){
+                $dir = igk_io_basedir();
+                Logger::info("maintenance site ".$dir);
+                if (file_exists($file = $dir."/".\IGK\Helper\MaintenanceHelper::lockFile)){
+                    Logger::info("unlock site ...");
+                    // in maintenace mode
+                    \IGK\Helper\MaintenanceHelper::UnlockSite($dir);
+                    // @unlink($dir."/.htaccess");
+                    // @unlink($dir."/index.php");
+                    // @rename($dir."/.lock.index.php", $dir."/index.php");
+                    // @rename($dir."/.lock.htaccess", $dir."/.htaccess");
+                    file_exists($file) && @unlink($file);
+                } else {
+                    // put in maintence mode
+                    Logger::info("lock site ...");
+                    \IGK\Helper\MaintenanceHelper::LockSite($dir);
+                }
+                Logger::success("maintenance");
+                igk_exit();
+            },[
+                "desc"=>"toggle maintenance mode"
+            ]
             ],
             "--set:sysconfigs" => [
                 function ($v, $command) {

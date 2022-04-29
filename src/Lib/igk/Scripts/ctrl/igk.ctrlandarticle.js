@@ -28,23 +28,23 @@ igk.system.createNS("igk.ctrl",{
 			var q = a.form[name];
 			if (q)
 			{
-			if ((q.length) && (q.length>0))
-			{
-				for(var s = 0; s < a.form[a.name].length; s++)
+				if ((q.length) && (q.length>0))
 				{
-					if (a.form[a.name][s] == a)
+					for(var s = 0; s < a.form[a.name].length; s++)
 					{
-						q[s].value = a.checked? "1": "0";
-						break;
-					}
-				}				
-			}
-			else{
-				q.value = a.checked? "1": "0";//test changed";
-			}
+						if (a.form[a.name][s] == a)
+						{
+							q[s].value = a.checked? "1": "0";
+							break;
+						}
+					}				
+				}
+				else{
+					q.value = a.checked? "1": "0";//test changed";
+				}
 			}
 			else 
-				alert("element not found : "+ name);			  
+				console.log("element not found : "+ name);			  
 		},
 		ca_ctrl_change: function(uri, q){
 			if (!q)

@@ -71,7 +71,7 @@ class HtmlBodyNode extends HtmlNode{
 
     protected function __getRenderingChildren($options = null)
     { 
-        
+        $doc = igk_getv($options, "Document");
         $c = [];
         if ($this->getBodyBox()->getHasChilds()){
             $c[] = $this->m_bodybox;
@@ -84,6 +84,9 @@ class HtmlBodyNode extends HtmlNode{
 
         $c[] = $this->m_bodyMainScript;   
         $c[] = $this->getAppendContent(); 
+        if ($doc){
+            $c[] = new HtmlDocumentCssHostNode($doc);
+        }
         $c[] = HtmlPoweredByNode::getItem(); 
         $c[] = new HtmlHookNode(IGKEvents::HOOK_HTML_BODY, [
             "options"=>$options,

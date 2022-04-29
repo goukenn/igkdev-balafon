@@ -884,7 +884,7 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case XMLNodeType::PROCESSOR: {
-                        $v = $reader->getValue();                       
+                        $v = $reader->getValue(); 
                         $v_cnode = new HtmlProcessInstructionNode($v, $reader->procTagClose());
                         if ($cnode == null) {
                             $tab_doc->add($v_cnode);
@@ -1438,8 +1438,10 @@ final class HtmlReader extends IGKObject
                 }
                 switch ($ch) {
                     case '"':
-                    case "'":                       
-                        $text = igk_str_read_brank($reader->m_text, $reader->m_offset, $ch, $ch); 
+                    case "'":  
+                        // + | -------------------------------------------------------------------------                     
+                        // + | read propcessor string content
+                        $text = igk_str_read_brank($reader->m_text, $reader->m_offset, $ch, $ch,null, 1); 
                         $v.= $text;                      
                         $reader->m_offset++;                        
                         break;                    

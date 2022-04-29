@@ -311,7 +311,7 @@ abstract class ApplicationController extends  PageControllerBase{
             igk_wln("user not allowed to");
             igk_exit();
         }
-        $f=$this->getDataSchemaFile(); // Dir()."/".IGK_SCHEMA_FILENAME;
+        $f=$this->getDataSchemaFile(); 
         if(file_exists($f)){
             $s=HtmlReader::LoadFile($f);
             $s->RenderXML();

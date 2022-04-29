@@ -23,19 +23,23 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     var $options = [
         "controller"=>"controller to target",
         "file"=>"file to export",
-        "-option"=>"export type xml|json"
+        "-option:[xml|json]"=>"export type xml|json"
     ];
 
+    public function showUsage(){
+        Logger::print("--db:schema Controller [file]");
+    }
     public function exec($command,  $ctrl=null, $file=null)
     {    
-        include_once(__DIR__."/.InitDataSchemaController.pinc");
+        require_once(__DIR__."/.InitDataSchemaController.pinc");
       
-        if (!$ctrl  || !($ctrl = igk_getctrl($ctrl))){
+        if (!$ctrl  || !($ctrl = igk_getctrl($ctrl, false))){
             $ctrl = new InitDataSchemaController();
         }
-        if ($file===null){
-            $file = $ctrl->getDBConfigFile();
+        if ($file===null){ 
+            $file = $ctrl::getDataSchemaFile();
         }
+ 
 
         if (!$file || !file_exists($file)){
             Logger::danger("file not found");
@@ -57,8 +61,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
                     "ignore_empty"=>1,
                 ], JSON_PRETTY_PRINT);
                 igk_exit();
-        }
-        igk_hook("sys://db/init_complete", $ctrl);
+        } 
         igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($ctrl));
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$ctrl]);
         Logger::success("Schema complete");

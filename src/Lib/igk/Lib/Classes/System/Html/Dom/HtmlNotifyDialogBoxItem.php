@@ -40,8 +40,7 @@ EOF;
     public function getTitle(){
         return $this->m_title;
     }
-    public function render($options =null){
-        igk_wln_e("render .... ");
+    public function render($options =null){ 
         $o = parent::render($options); 
         $this->setIsVisible(false);
         return $o;

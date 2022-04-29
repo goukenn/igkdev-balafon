@@ -12,6 +12,8 @@ use IGKEvents;
 use IGKException;
 use IO;
 
+require_once IGK_LIB_DIR . "/igk_html_func_items.php";
+
 class InstallSite
 {
     /**

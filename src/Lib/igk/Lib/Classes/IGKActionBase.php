@@ -287,7 +287,6 @@ abstract class IGKActionBase implements IActionProcessor
     }
     protected function handleError($code, ...$params)
     {
-
         $c = $this->getController();
         if ($c && ($f = $c::getErrorViewFile($code)) && file_exists($f)) {
             return $c::viewError($code);

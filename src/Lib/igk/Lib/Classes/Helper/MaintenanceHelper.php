@@ -1,18 +1,31 @@
 <?php
 
+// @author: C.A.D. BONDJE DOUE
+// @filename: MaintenanceHelper.php
+// @date: 20220427 14:54:14
+// @desc: maintenance helper
+
 namespace IGK\Helper;
 
+use IGK\System\Installers\InstallerUtils;
+
+/**
+ * 
+ */
 class MaintenanceHelper
 {
+    const lockFile = ".maintenance.lock"; 
     public static function LockSite(string $bdir)
     {
-        if (file_exists($lock = $bdir . "/maintenance.lock")) {
+        if (file_exists($lock = $bdir . "/".self::lockFile)) {
             return;
         }
         igk_io_w2file($lock, '1');
         $rnlist = [$bdir . "/index.php" => $bdir . "/.lock.index.php", $bdir . "/.htaccess" => $bdir . "/.lock.htaccess",];
         foreach ($rnlist as $k => $v) {
-            rename($k, $v);
+            if (file_exists($k)){
+                @rename($k, $v);
+            }
         }
         igk_io_w2file($bdir . "/index.php", igk_io_read_allfile(IGK_LIB_DIR . "/Default/Views/maintenance.mode.phtml"));
         igk_io_w2file(
@@ -35,16 +48,38 @@ EOF
      */
     public static function UnlockSite(string $bdir)
     {
-        if (!file_exists($lock = $bdir . "/maintenance.lock")) {
+        if (!file_exists($lock = $bdir ."/".self::lockFile)) {
             return;
         }
-        unlink($bdir . "/index.php");
-        unlink($bdir . "/.htaccess");
+        @unlink($bdir . "/index.php");
+        @unlink($bdir . "/.htaccess");
         $restore = [$bdir . "/.lock.index.php" => $bdir . "/index.php", $bdir . "/.lock.htaccess" => $bdir . "/.htaccess"];
         foreach ($restore as $k => $v) {
             if (file_exists($k)) {
-                rename($k, $v);
+                @rename($k, $v);
             }
+        }
+
+        if (!file_exists($index = $bdir . "/index.php")){
+            // install index file ...
+            $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
+            igk_io_w2file(
+                $index,
+                InstallerUtils::GetEntryPointSource([
+                    "is_primary" => $is_primary,
+                    "app_dir" => $is_primary ? '$appdir' : '$appdir."/application"',
+                    "project_dir" => 'IGK_APP_DIR."/Projects"'
+                ])
+            );
+        }
+
+        if (!file_exists($h = $bdir . "/.htaccess")){
+            // install index file ...
+            $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
+            igk_io_w2file(
+                $h,
+                igk_getbase_access()
+            );
         }
         unlink($lock);
     }

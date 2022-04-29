@@ -77,7 +77,7 @@ class MakeViewCommand extends AppExecCommand{
         IGKControllerManagerObject::ClearCache(); 
         Logger::success("done\n");
     }
-    public function help(){
+    public function help(){ 
         Logger::print("-");
         Logger::info("Make new Balafon's PROJECT view");
         Logger::print("-\n");

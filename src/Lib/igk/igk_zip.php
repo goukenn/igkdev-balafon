@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\Helper\IO;
+use IGK\System\Console\Logger;
 
 if (!in_array("zip", get_loaded_extensions(false))){
     return;
@@ -98,6 +99,7 @@ function igk_zip_dir($dir, $zip, $folder=null, $regex=null){
                 if(($regex !== null) && preg_match($regex, $f)){
                     continue;
                 }
+                // Logger::print($f); 
                 $hd=substr($f, strlen($dir) + 1);
                 $hd=(!empty($folder) ? $folder."/": null).$hd;
                 if(is_dir($f)){

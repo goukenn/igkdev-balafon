@@ -9,7 +9,7 @@ use IGKEvents;
 // @description: 
 // @copyright: igkdev © 2021
 
-class HtmlHeadNode extends HtmlItemBase{
+class HtmlHeadNode extends HtmlNode{
     protected $tagname = "head";
     private $m_title; 
 

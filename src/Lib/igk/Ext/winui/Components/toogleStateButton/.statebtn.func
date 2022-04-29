@@ -1,9 +1,16 @@
 //!#<?php
-//file: Lib\igk\Ext\WinUI\Components\toogleStateButton\.statebtn.func
+
+// @author: C.A.D. BONDJE DOUE
+// @filename: .statebtn.func
+// @date: 20220427 17:28:45
+// @desc: state button notification 
 // igk_ilog("include : ".__FILE__);
 // igk_ilog("include : ".$CF->getViewDir()."/".$type.".state");
+
 $ctx = $extra[0];
-$doc = $ctx->Document;
-//windonw 10 notification style
-include(igk_io_dir($CF->getViewDir()."/".$type.".state"));
+$doc = $ctx->Document; 
+//window 10 - notification style - 
+if ($cf = $CF->getViewDir()."/".$type.".state"){
+    include($cf);
+}  
 return true;

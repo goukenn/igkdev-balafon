@@ -11,6 +11,7 @@
 namespace IGK\Controllers;
 
 use IGK\System\Html\XML\XmlNode;
+use IGKException;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKSystemUriActionPatternInfo;
 use IGKViewMode;
@@ -22,30 +23,14 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     public function __construct(){
         parent::__construct();
     }
-    ///<summary>include current view</summary>
-    // protected function _renderViewFile($view=null){
-        
-    //     extract($this->getSystemVars());
-    //     $view=$view ? $view: $this->getCurrentView();
-    //     if(file_exists($view)){
-    //         $f=$view;
-    //     }
-    //     else
-    //         $f=$this->getViewFile($view);
-    //     if(file_exists($f)){
-    //         ob_start();
-    //         $this->_include_file_on_context($f);
-    //         $g=ob_get_contents();
-    //         ob_end_clean();
-    //         if(!empty($g)){
-    //             $t->notagnode()->Content=$g;
-    //         }
-    //     }
-    //     else{
-    //         igk_debug_wln("Current view file does't exists : ".$f);
-    //     }
-    // }
-    ///default handle uri global uri
+    
+    ///<summary>default handle uri global uri</summary>
+    /**
+     * default handle uri global uri
+     * @param mixed $request 
+     * @return false|int 
+     * @throws IGKException 
+     */
     public static function CheckBeforeAddControllerInfo($request){
         $g=igk_getv($request, "clDefaultPage");
         if(empty($g))

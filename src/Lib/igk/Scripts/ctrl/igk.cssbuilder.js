@@ -178,13 +178,13 @@ igk.system.createNS("igk.cssbuilder",{
 		if (pwnd){
 			__initInfo(pwnd);
 			pwnd.unload = function(){
-				alert("unloading");
+				console.log("unloading");
 			};
 			pwnd.load = function(){
-				alert("loading");
+				console.log("loading");
 			};
 			pwnd.complete = function(){
-				alert("loading dd");
+				console.log("loading complete");
 			};
 		}
 		else {	

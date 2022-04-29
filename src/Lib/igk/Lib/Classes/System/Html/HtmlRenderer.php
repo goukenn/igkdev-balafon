@@ -72,13 +72,13 @@ class HtmlRenderer{
     public static function RenderDocument($doc=null, $refreshDefault=1, $ctrl=null){ 
         $igk= igk_app(); 
         $doc= $doc ?? $igk->getDoc();
-        if(!$igk->ConfigMode && $igk->Configs->allow_auto_cache_page){
-            $ctrl=igk_getctrl("cache");
-            if($ctrl){
-                $ctrl->loadCache($igk->CurrentPage.".html", igk_app());
-            }
-        }
-        else{
+        // if(!$igk->ConfigMode && $igk->Configs->allow_auto_cache_page){
+        //     $ctrl=igk_getctrl(IGK_CACHE_CTRL, false);
+        //     if($ctrl){
+        //         $ctrl->loadCache($igk->CurrentPage.".html", igk_app());
+        //     }
+        // }
+        // else{
             if($refreshDefault){
                 $ctrl=$ctrl ?? igk_get_defaultwebpagectrl();
                 if($ctrl && (igk_environment()->get(IGK_KEY_FORCEVIEW) !== 1)){
@@ -101,7 +101,7 @@ class HtmlRenderer{
             // + | Render document
             // -------------------  
             self::OutputDocument($doc);
-        }
+        // }
     }
     /**
      * output the document
@@ -334,10 +334,12 @@ class HtmlRenderer{
                         }
                     }
                     if ($options->renderTheme && $g) {
-                        $g = igk_css_treat($options->renderTheme, $g, $options->renderTheme);
+                        $g = igk_css_treat($g, $options->renderTheme, null); //$options->renderTheme);
                     }
+                } 
+                if(!empty($g)){
+                    $item->setStyle("{$g}");
                 }
-                $item->setStyle("{$g}");
             }
         }
 

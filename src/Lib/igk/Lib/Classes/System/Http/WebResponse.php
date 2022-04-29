@@ -1,5 +1,9 @@
 <?php
  
+// @author: C.A.D. BONDJE DOUE
+// @filename: WebResponse.php
+// @date: 20220425 15:39:28
+// @desc: web response
 
 namespace IGK\System\Http;
 
@@ -62,7 +66,7 @@ class WebResponse extends RequestResponse{
         }
         ob_start();   
         $this->render();
-        $s = ob_get_clean();  
+        $s = ob_get_clean();   
         $zip = igk_server()->accepts(["gzip"]); 
         igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
         if ($cache){ 

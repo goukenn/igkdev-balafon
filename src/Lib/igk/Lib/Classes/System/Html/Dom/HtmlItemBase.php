@@ -1010,6 +1010,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         $options=igk_create_filterobject( $op, ["stripComment"=>0]);
         $content=IO::ReadAllText($file);
+        if (empty($content)){
+            return $this;
+        }
         if($options->stripComment){
             $content=igk_html_strip_comment($content);
         }

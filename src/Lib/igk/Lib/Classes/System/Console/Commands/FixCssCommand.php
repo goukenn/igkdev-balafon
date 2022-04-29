@@ -17,7 +17,7 @@ class FixCssCommand extends AppExecCommand{
         Logger::info("fix css file");
         if (!empty($path) && file_exists($f = realpath($path))){
             $ext = igk_io_path_ext($f);
-            if ($ext!="pcss"){
+            if ($ext!= IGK_DEFAULT_STYLE_EXT){
                 return -1;
             } 
             $invoke = function(){

@@ -17,8 +17,8 @@ class HtmlProcessInstructionNode extends HtmlNode{
     ///<param name="content"></param>
     public function __construct($content, $noClose=false){
         parent::__construct("igk-process");
-        $this->content=$content;
-        $this->m_noClose=$noClose;
+        $this->content = $content;
+        $this->m_noClose = $noClose; 
     }
     ///<summary></summary>
     ///<param name="option" default="null"></param>

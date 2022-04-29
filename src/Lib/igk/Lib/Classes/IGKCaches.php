@@ -4,14 +4,17 @@ use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\LoadArticleException;
 use IGK\System\IO\FileSystem;
 use IGK\Helper\IO;
+use IGK\System\Html\Dom\HtmlNoTagNode;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Http\WebFileResponse;
 
 require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
 
+///<summary>cache system support</summary>
 /**
- * cache object 
+ * cache system 
  * @method static FileSystem view() view file system
  */
 final class IGKCaches{
@@ -173,6 +176,20 @@ final class IGKCaches{
     private function _init_css_filesystem_caches(){
         return self::__init_cache(igk_io_cachedir()."/storage/css");
     }
+
+    /**
+     * 
+     * @param mixed $controller 
+     * @param mixed $fs 
+     * @param mixed $file 
+     * @param mixed $raw 
+     * @param string $key 
+     * @param int $render 
+     * @return HtmlNoTagNode 
+     * @throws EnvironmentArrayException 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     public static function Compile($controller, $fs, $file, $raw, $key="FileBuilder", $render=1){
      
         /// TODO: Compile
@@ -220,6 +237,19 @@ final class IGKCaches{
         return $n;
     }
 
+    /**
+     * 
+     * @param mixed $controller 
+     * @param mixed $fs 
+     * @param mixed $file 
+     * @param mixed $raw 
+     * @param string $key 
+     * @param int $render 
+     * @return never 
+     * @throws EnvironmentArrayException 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     public static function Compile2($controller, $fs , $file, $raw, $key="FileLoader", $render=1){
         
         /// TODO: Compile2

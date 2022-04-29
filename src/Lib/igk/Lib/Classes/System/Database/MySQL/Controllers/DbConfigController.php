@@ -2106,8 +2106,7 @@ final class DbConfigController extends ConfigControllerBase
             } else {
                 $ad->commit();
 
-
-                igk_hook("sys://db/init_complete", $this);
+ 
                 igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($this));
                 igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller" => $this]);
             }
@@ -2194,6 +2193,8 @@ final class DbConfigController extends ConfigControllerBase
             self::$sm_tabinfo = array();
         self::$sm_tabinfo[$tablename] = $inf;
     }
+
+   
     ///<summary></summary>
     /**
      * 

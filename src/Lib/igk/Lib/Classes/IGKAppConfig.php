@@ -3,7 +3,7 @@
 ///<summary>Represente class: IGKAppConfig</summary>
 
 use IGK\System\Configuration\ConfigData;
-
+use function igk_resources_gets as __; 
 /**
 * Represente IGKAppConfig class
 * @property \IGK\System\Configuration\ConfigData $Data get property data

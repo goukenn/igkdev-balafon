@@ -5,6 +5,8 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
 use IGK\System\Html\HtmlStyleValueAttribute;
+use IGKException;
+use function igk_resources_gets as __;
 
 /**
  * 
@@ -147,6 +149,7 @@ class HtmlNode extends HtmlItemBase
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
     static $AutoTagNameClass = false;
     const NODE_LIST = "a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr";
+    const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext  |live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
     ///<summary></summary>
     ///<param name="eventObj"></param>
     ///<return refout="true"></return>
@@ -181,6 +184,23 @@ class HtmlNode extends HtmlItemBase
         }
     }
 
+    /**
+     * set aria attribute
+     * @param string $type aria types
+     * @param mixed $value 
+     * @return void 
+     */
+    public function setAria(string $type, $value){
+        static $arias = null;
+        if ($arias === null ){
+            $arias = explode("|", self::ARIA_LIST);
+        }
+        if (!in_array($type, $arias)){
+            throw new IGKException(__("Aria not found in aria list"));
+        }
+        $this->setAttribute("aria-".$type, $value);
+        return $this;
+    }
     public function addRange(array $childs)
     {
         if ($this->getCanAddChilds()) {

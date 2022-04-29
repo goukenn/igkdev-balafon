@@ -1034,6 +1034,21 @@ function igk_app()
 {
     return IGKApp::getInstance();
 }
+/**
+ * helper to get configuration
+ * @return IGK\System\Configuration\ConfigData
+ */
+function igk_configs(){
+    return igk_app()->getConfigs();
+}
+
+/**
+ * helper to get library configuration
+ * @return IGK\System\Configuration\ControllerConfigurationData
+ */
+function igk_lib_configs(){
+    return IGK\System\Configuration\Controllers\ConfigureController::ctrl()->getConfigs();
+}
 ///<summary>shortcut to get controller by ref_name</summary>
 /**
  * shortcut to get controller by ref_name
@@ -1604,8 +1619,9 @@ function igk_io_is_subdir($p, $c)
  */
 function igk_sys_getdefaultctrlconf()
 {
+  
     return array(
-        "clDataAdapterName" => IGK_CSV_DATAADAPTER,
+        "clDataAdapterName" => igk_configs()->get("default_dataadapter", IGK_CSV_DATAADAPTER),
         "clDataSchema" => false,
         "clDisplayName" => null,
         "clRegisterName" => null,

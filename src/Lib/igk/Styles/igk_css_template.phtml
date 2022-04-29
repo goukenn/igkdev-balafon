@@ -245,8 +245,6 @@ $def[".igk-hscroll:before"]="content:' '; opacity:0.1; background-color:black; {
 $def[".igk-hscroll.igk-show"]="opacity:1.0; ";
 $def[".igk-hscroll:hover"]="[sysbgcl:igk-vscroll-h-bg]";
 $def[".igk-hscroll > .igk-scroll-cur"]="{sys:posab, fith, loc_t } [sysbgcl:scrollCurBackground] min-width:32px; cursor:pointer";
-igk_css_regcolor("igk-scroll-cur-bg", "#FF6961");
-igk_css_regcolor("igk-vscroll-h-bg", "#ddd;");
 $def[".igk-line-waiter"]="height:8px; [sysbgcl:igk-line-waiter-bg] padding-top:4px; padding-bottom:4px; background-color:transparent;";
 $def[".igk-line-waiter .igk-line-waiter-cur"]="{sys:posab,dispb,loc_t,loc_b}  [trans: 4.0s ease-in-out] [trans-prop: margin-right, right] left: auto;right: 100%; padding-right:4px; background-color:indigo; margin:2px;  margin-right:-6px; ";
 $def[".igk-line-waiter .igk-line-waiter-cur.igk-animate"]=" right:0%; margin-right:0px;";
@@ -265,14 +263,9 @@ $def[".igk-snippet.pull-left"]="top:50%; left:0px;";
 $def[".igk-snippet.pull-right"]="top:50%; left:auto; right:0px;";
 $def[".igk-snippet.pull-top"]="top:0%;left:50%;";
 $def[".igk-snippet.pull-bottom"]="top:auto; bottom:0px; left:50%;";
-igk_css_regcolor("igk-snippet-hover-bg", "#FBB");
-igk_css_regcolor("igk-scroll-bg", "#ddd");
 $def[".igk-card-id .story-line .bdr"]="[sysfcl:igk-card-id-bdr-fcl] height:8px";
 $def[".igk-card-id .story-line .bg"]="[sysbgcl:igk-card-id-bdr-bg]";
 $def[".igk-card-id canvas"]="{sys:posab,loc_t,loc_l,fitw,fith}";
-igk_css_regcolor("igk-card-id-bdr-fcl", "#444");
-igk_css_regcolor("igk-comment-fcl", "#00AF07");
-igk_css_regcolor("igk-card-id-bdr-bg", "#dedede");
 $def[".igk-accordeon .igk-trans-all"]="[trans: all 0.2s ]";
 $def[".igk-accordeon .igk-panel-heading"]="cursor:default";
 $def[".igk-accordeon .igk-panel-heading a"]="{sys:dispb} padding-top:{$pad2}; padding-bottom:{$pad2};";
@@ -284,7 +277,7 @@ $def[".igk-lborder:hover"]="";
 $def[".igk-lborder.pull-bottom"]="{sys:loc_b} top:auto;";
 $def[".igk-lborder.pull-left"]="height:auto; width:4px; {sys:loc_t, loc_b} right:auto;";
 $def[".igk-lborder.pull-right"]="height:auto; width:4px; {sys:loc_t, loc_b} left:auto;";
-igk_css_regcolor("igk-lborder-bg", "#50D39A");
+
 $def[".igk-bullet"]="width:32px; height:32px; background-repeat:no-repeat;";
 $def[".igk-bullet.igk-active"]="background-position:-32px 0px;";
 $theme->reg_keyFrames($def, "igk-progress-frame", " from {background-position: 0px 0; } to { background-position: 40px 0; }");
@@ -304,8 +297,7 @@ for($i=0; $i<=10; $i++){
 
 $def[".igk-tool-option div"]="padding: 4px; background-color:white";
 
-igk_css_regcolor("igk-progressbar-bg", "#00CBFF");
-igk_css_regcolor("igk-progressbar-cur-bg", "#ada");
+
 $def[".igk-shapes"]="{sys:no-border,no-repeat}";
 $def[".igk-shapes.trapeze"]="width:16px;height:16px; background-color:yellow;";
 $def[".igk-shapes.trapeze:before"]="background-color:#458845;";
@@ -360,10 +352,7 @@ $def["input[type=reset]"] = "";
 
 
 
-igk_css_regcolor("submenu-bg", "#444");
-igk_css_regcolor("submenu-fcl", "#444");
-igk_css_regcolor("submenu-hightlight-fcl", "#77d");
-igk_css_regcolor("submenu-hightlight-bg", "#aaa");
+
 $def[".igk-canva-editor"]="width:400px; height:300px;";
 $def[".igk-canva-editor canvas"]="{sys:fitw, fith, bdr-1} border-color:red; ";
 $def[".igk-view-box"]="padding-top:32px; padding-bottom:32px;";
@@ -390,7 +379,7 @@ $def[".igk-menu-bar"]="min-height:16px; [sysbgcl:igk-menu-bar-bg] [sysfcl:igk-me
 $def[".igk-trb"]="position:relative; background-color:#DEAEEE; cursor:pointer; padding:4px;";
 $def[".igk-trb > .igk-trb-cur"]="width:0px; min-height:8px; height:100%; [sysbgcl:igk-trb-cur-bg]";
 $def[".igk-trb.igk-dir-up > .igk-trb-cur, .igk-trb.igk-dir-down > .igk-trb-cur"]="height:auto;min-height:auto;width:100%; background-color:red;";
-igk_css_regcolor("igk-trb-cur-bg", "#44FF44");
+
 $def[".igk-action-bar.igk-pull-right > .igk-separator"]="display:block; float:right;width:1px; margin-left:40px; height:1px; border-right:1px solid transparent; ";
 $def[".igk-action-bar.igk-pull-right > .igk-separator:after"]="content:' '; display:table; clear:both;";
 $def[".igk-action-bar > div.igk-pull-right"]="{sys:floatr}";
@@ -474,8 +463,7 @@ $def[".igk-tabcontrol ul"]="margin:0px;";
 $def[".igk-tabcontrol > div:first-child > ul > li"]="{sys:dispib} padding:4px;";
 $def[".igk-tabcontrol > div:first-child > ul > li.igk-active"]="font-weight:300; font-size:1.2em; [sysbgcl:igk-tabcontrol-a-bg] [sysfcl:igk-tabcontrol-c-a-fcl]";
 $def[".igk-tabcontrol .igk-tabcontent"]="[sysbgcl:igk-tabcontrol-c-bg] padding:{$pad_size}; margin-left:-{$pad_size}; margin-right:-{$pad_size}; overflow:hidden !important;";
-igk_css_regcolor("igk-tabcontrol-a-bg", "#eaeff2");
-igk_css_regcolor("igk-tabcontrol-c-bg", "#eaeff2");
+
 $def[".igk-glyph-home"]="font-size:1.4em";
 $def[".igk-gohome-btn"]="opacity: 0.0 !important; position:fixed; right:32px; bottom:32px; overflow:hidden; width:48px; height:48px; z-index:50;";
 $def[".igk-gohome-btn.igk-show"]="opacity:1.0 !important;";
@@ -640,10 +628,7 @@ $def[".igk-ms-dialog:before"]="content:' '; opacity:0.4; display:block; position
 $def[".igk-ms-dialog.igk-show"]="display:block;";
 $def[".igk-ms-dialog .igk-btn-close"]="{sys:posab, loc_r, loc_t,no-repeat} height:32px; width:48px; display:block; cursor:pointer; z-index:401; padding:0px; margin:0px;";
 $def[".igk-ms-dialog .igk-ms-dialog-title"]="font-size:2.1em; padding:8px 16px;";
-igk_css_regcolor("igk-ms-dialog-bg", "#454545");
-igk_css_regcolor("igk-ms-dialog-fcl", "#cecece");
-igk_css_regcolor("igk-mail-bg", "#fafafa");
-igk_css_regcolor("igk-mail-fcl", "#444");
+
 $def["igk.btn.igk-btn-logout"]="width:16px; height:16px;";
 $def[".igk-configpage-editor"]="position:fixed; top:0px; left:50%; border:1px solid black; z-index:10000; opacity:0; background-color: #ddd;";
 $def[".igk-configpage-editor a"]="margin:5px;";
@@ -652,7 +637,6 @@ $def[".igk-configpage-editor .close-bar"]="background-color: #888";
 $def[".igk-configpage-editor .close-bar:hover"]="background-color: #eee";
 $def[".igk-bodypage"]="{sys:fitw,fith,posr} overflow:hidden;";
 $def["body .igk-session-block"]="{sys:posfix} [sysbgcl:sessionBlockBackground] [sysfcl:sessionBlockColor] box-shadow: 0px 4px 16px; border-radius: 4px;";
-igk_css_regcolor('sessionBlockBackground', "#ededed", 1);
 $def[".igk-session-block .cllabel"]="{sys:dispb,alignt,alignl}";
 $def[".igk-session-block .action-group"] = "max-height:300px";
 $def[".igk-session-button"]="[res:session_btn]; [trans: all 0.2s] cursor:pointer; z-index:{$ctrl_session_zindex}; top:0px; opacity:0.1";
@@ -890,63 +874,6 @@ $def["ul.debug-panel"] = "";
 $def["ul.debug-panel:after"] = "{sys:clearb, dispb} content:' ';";
 $def["ul.debug-panel > li"] = "float:left;";
 igk_set_env("sys://globalcolor", 1);
-igk_css_regcolor("igk-btn-default-bg", "#eee");
-igk_css_regcolor("igk-btn-default-fcl", "#aaa");
-igk_css_regcolor("igk-btn-default-hover-bg", "#4AAFFF");
-igk_css_regcolor("igk-btn-default-hover-fcl", "#eee");
-igk_css_regcolor("igk-btn-success-bg", "#afa");
-igk_css_regcolor("igk-btn-success-fcl", "#444");
-igk_css_regcolor("igk-btn-success-hover-bg", "#4AAFFF");
-igk_css_regcolor("igk-btn-success-hover-fcl", "#eee");
-igk_css_regcolor("igk-session-block-bg", "#eee");
-igk_css_regcolor("igk-table-cell-border", "#bbb");
-igk_css_regcolor("igk-success", "#57C136");
-igk_css_regcolor("igk-success-bg", "#44BF55");
-igk_css_regcolor("igk-success-fcl", "white");
-igk_css_regcolor("igk-danger-bg", "#F48174");
-igk_css_regcolor("igk-danger-fcl", "#eee");
-igk_css_regcolor("igk-table-hover-row-fcl", "#fff");
-igk_css_regcolor("igk-table-hover-row-bg", "#ccc");
-igk_css_regcolor("igk-header-fcl", "white");
-igk_css_regcolor("igk-header-bgcl", "#005483");
-igk_css_regcolor("igk-dashed-border-bcl", "#ccc");
-igk_css_regcolor("igk-notify-default-bg", "#777");
-igk_css_regcolor("igk-notify-default-fcl", "#eee");
-igk_css_regcolor("igk-notify-success-bg", "#30CD90");
-igk_css_regcolor("igk-notify-success-fcl", "white");
-igk_css_regcolor("igk-notify-warning-bg", "#FF86AB");
-igk_css_regcolor("igk-notify-warning-fcl", "white");
-igk_css_regcolor("igk-notify-bg", "white");
-igk_css_regcolor("igk-input-cl", "#333");
-igk_css_regcolor("igk-btn-connect-bg", "#3699FF");
-igk_css_regcolor("igk-btn-connect-fcl", "white");
-igk_css_regcolor("igk-btn-download-bg", "#00BD5C");
-igk_css_regcolor("igk-btn-download-fcl", "white");
-igk_css_regcolor("igk-admin-header-bg", "#eee");
-igk_css_regcolor("igk-xml-tag-fcl", "#abf");
-igk_css_regcolor("igk-xml-attrv-fcl", "#ff5e5e");
-igk_css_regcolor("igk-xml-comment-fcl", "#00AA5C");
-igk_css_regcolor("igk-iconbar-bcl", "#aaa");
-igk_css_regcolor("igk-pagination-active-bg", "#AFE");
-igk_css_regcolor("igk-pagination-bg", "#FFF");
-igk_css_regcolor("igk-panel-fcl", "#bbb");
-igk_css_regcolor("igk-panel-bg", "transparent");
-igk_css_regcolor("igk-divider-cl", "#656565");
-igk_css_regcolor("igk-footer-bg", "#898");
-igk_css_regcolor("igk-footer-fcl", "#FFF");
-igk_css_regcolor("igk-body-fcl", "#555");
-igk_css_regcolor("igk-action-bar-bg", "#ddd;");
-igk_css_regcolor("igk-inactive-fcl", "#eee");
-igk_css_regcolor("igk-text-inactive-fcl", "#eee");
-igk_css_regcolor("igk-menu-bar-bg", "#444", 1);
-igk_css_regcolor("igk-menu-bar-fcl", "#ddd", 1);
-igk_css_regcolor("igk-background-layer-bg", "#cdcdcd");
-igk_css_regcolor("igk-warning-bg", "#FF8797");
-igk_css_regcolor("igk-warning-fcl", "#535353");
-igk_css_regcolor("igk-required-mark-fcl", "#a353c3");
-igk_css_regcolor("igk-table-row-odd-bgcl", "#fdfdfd", 1);
-igk_css_regcolor("stripTableEventRowForeColor", "#aaa", 1);
-igk_css_regcolor("igk-table-row-odd-hover-bgcl", "#ddf", 1);
 igk_set_env("sys://globalcolor", 0);
 
 foreach([4, 10, 16, 20] as $pad){
@@ -1083,7 +1010,10 @@ $def[".igk-action-group > .igk-btn:first-child"] =
 $def[".igk-action-group > .igk-form-control:first-child"] = "border-radius: 5px 0 0 5px;";
 
 $def[".igk-action-group > .igk-btn:last-child"] =
-$def[".igk-action-group > .igk-form-control:last-child"] = "border-radius: 0px 5px 5px 0px;";
+$def[".igk-action-group > .igk-form-control:last-child"] = "border-radius: 0px 5px 5px 0px;"; 
+
+$def[".igk-action-group > .igk-btn:last-child:first-child"] =
+$def[".igk-action-group > .igk-form-control:last-child:first-child"] = "border-radius: 5px";
 
 
 
@@ -1095,5 +1025,5 @@ $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, tran
 $root["--selection-bgColor"] = "transparent";
 $root["--selection-foreColor"] = "red";
 
-
+include __DIR__."/template.color.pcss";
 include __DIR__."/winui/carousel.pcss";

@@ -120,12 +120,7 @@ function igk_google_condensedfamilyname($family)
  * @param mixed $family name
  */
 function igk_google_filefromfamily($family)
-{
-    // $file=igk_getv(igk_conf_get(igk_google_settings(), "fonts"), $family);
-    // igk_wln_e("font ", igk_google_settings(), "file : ", $file,
-    // igk_google_get_css_fontfile($family)
-    // );
-    //if(file_exists($file=igk_google_get_css_fontfile($family))){
+{ 
     return igk_google_get_css_fontfile($family);
 }
 ///<summary>get google uri form</summary>

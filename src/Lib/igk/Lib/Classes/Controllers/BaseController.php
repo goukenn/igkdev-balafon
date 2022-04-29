@@ -98,6 +98,8 @@ use function igk_resources_gets as __;
  * @method Users checkUser(bool $check, ?string $redirectUri ) macros function check if user or navigate
  * @method static string getErrorViewFile(int code) macros function get controller error file
  * @method static mixed getConfig(string $name, default=null) macros function get config setting
+ * @method static mixed js(string $name, default=null) macros function load inline js script
+ * @method static mixed pcss(string $name, default=null) macros function load temp inline pcss
  */
 abstract class BaseController extends RootControllerBase implements IIGKDataController
 {
@@ -182,10 +184,12 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     }
     ///<summary></summary>
     /**
-     * 
+     * @return object 
      */
     protected function _loadCtrlConfig()
     {
+         
+
         $t = igk_sys_getdefaultctrlconf();
         $meth = "GetAdditionalConfigInfo";
         if (method_exists(get_class($this), $meth)) {
@@ -295,13 +299,11 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 $f = $find;
             }
         }    
-              
-        
-        // igk_wln_e("the param ..... ", $v,  $params);
         if (file_exists($f)) {
             try {  
-                // + -------------------------------------------             
+                // + | -------------------------------------------             
                 // + | bind view
+                // + | 
                 $v_handle = "bindfile";               
                 $this->regSystemVars(null, null);
                 $this->setEnvParam(self::VIEW_ARGS, $params);
@@ -390,7 +392,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             if (ob_get_level()>0){
                 igk_ob_clean();
             }            
-           throw new \IGKException(static::class, 500,  $ex); 
+           throw $ex;
         }
     }
 
@@ -566,7 +568,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     public function getConfigs()
     {
         $key = IGK_ENV_CONFIG_ENTRIES; 
-        $cf = $this->getConfigFile();        
+        $cf = $this->getConfigFile();  
         if (!($tab = igk_environment()->get($key))) {
             $tab = array();
         }
@@ -576,8 +578,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if (empty($cf)) {
             igk_wln_e("configuration file is empty ", $cf, $this);
         }
-        $c = new ControllerConfigurationData($this);
-        if (file_exists($cf)){
+        $c = new ControllerConfigurationData($this);       
+        if (file_exists($cf)){ 
             $c->initConfigSetting($this->_loadCtrlConfig());
         }
         $tab[$cf] = $c;

@@ -110,7 +110,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
     ///<summary></summary>
     public function getcloseMethodUri(){
-        return $this->m_closeMethod;
+        return $this->m_closeMethodUri;
     }
     ///<summary></summary>
     public function getcloseUri(){

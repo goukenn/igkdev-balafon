@@ -1,6 +1,8 @@
 <?php
-// @author: C.A.D. BONDJE DOUE 
-// @file: ConfigureController.php
+
+// @author: C.A.D. BONDJE DOUE
+// @filename: ConfigureController.php 
+// @desc:  Configuration Controller 
 
 namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
@@ -43,7 +45,21 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return parent::getViewDir();
     } 
-    
+    public function getConfigFile()
+    {
+      return implode("/", [IGK_LIB_DIR,IGK_DATA_FOLDER,IGK_CTRL_CONF_FILE]);       
+    }
+    protected function getDataSchemaFile(){
+        return implode("/", [IGK_LIB_DIR,IGK_DATA_FOLDER, IGK_SCHEMA_FILENAME]); 
+    }
+    /**
+     * configuration controller
+     * @return object 
+     */
+    protected function _loadCtrlConfig(){ 
+        return (object)[];
+    }
+
     ///<summary>.ctr conig controller</summary>
     /**
      * .ctr conig controller
@@ -60,6 +76,8 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     public function __get($n)
     {
+
+        /// TASK: error when handle property on configuration
         if (igk_environment()->is("DEV")){
             igk_trace();
             igk_dev_wln_e("CallDirect Magic Property  : " . __CLASS__ . " try get [ {$n} ] ");
@@ -73,11 +91,12 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function __init_cache_tools($t)
     {
-        $t->div()->addSectionTitle(4)->Content = __("title.cacheTools");
+        igk_html_add_title($t, __("title.cacheTools")); 
+        $t->hsep();
         $frm = $t->addForm();
         $frm["action"] = $this->getUri("updatecacheConfig_ajx");
         $u = $this->getUri("activehtmlCache-ajx");
-        $div = $frm->div();
+        $div = $frm->div()->col("fitw other-conf-setting");
         $div->addLabel("a_html_cache")->setClass("dispib")->Content = __("Html Cache");
         $div->addToggleStateButton("a_html_cache", "on", igk_sys_is_htmlcaching())->setClass("dispib")->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
     }
@@ -89,7 +108,8 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function __init_log_tools($t)
     {
-        $t->div()->addSectionTitle(4)->Content = __("Logs");
+        igk_html_add_title($t, __("Logs"));  
+        $t->hsep();
         $frm = $t->addForm()->setId("config-log-form");
         $frm["action"] = $this->getUri("update");
         $bar = $frm->addActionBar();
@@ -126,7 +146,7 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function __NoIE6supportView()
     {
-        igk_wln("no ie 6 supported");
+        igk_dev_wln("no ie 6 supported");
         igk_exit();
     }
     
@@ -160,9 +180,7 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         $app = igk_app();
         $bbox = $app->Doc->body->getBodyBox();
-        $bbox->clearChilds();
-        // $t= $this->getTargetNode();
-        // $t->clearChilds();
+        $bbox->clearChilds(); 
         $app->Doc->body["class"] = "+igk-client-page -igk-cnf-body";
 
         switch ($app->CurrentPageFolder) {
@@ -593,8 +611,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $c->allow_auto_cache_page = igk_getr("clautocachepage", false) == "on" ? 1 : 0;
         $c->cache_file_time = igk_getr("clcache_file_time", false) == "on" ? 1 : 0;
         $c->cache_loaded_file = igk_getr("clCacheLoadedFile", false) == "on" ? 1 : 0;
-        $c->informAccessConnection =  (igk_getr("clinformAccessConnection", false) == 'on') ? 1 : 0; // (igk_getr("clinformAccessConnection", false)=="on");
-
+        $c->informAccessConnection =  (igk_getr("clinformAccessConnection", false) == 'on') ? 1 : 0;  
         foreach ($c as $k => $v) {
             $app->getConfigs()->{$k} = $v;
         }
@@ -710,8 +727,7 @@ igk.ready(function(){
 		}
 	}
 
-	q.select('.e').each(function(){
-		// console.debug('reg event');
+	q.select('.e').each(function(){ 
 		this.reg_event("dblclick", function(){
 			 //console.debug("on dbl click");
 			 if (e_!=null){
@@ -738,8 +754,7 @@ igk.ready(function(){
 				 'id':'clValue',
 				 'class':'cltext igk-form-control',
 				 'value':s
-			 }).reg_event("keypress", function(evt){
-				// console.debug(evt.keyCode);
+			 }).reg_event("keypress", function(evt){ 
 				switch (evt.keyCode){
 					case 13:
 					 evt.preventDefault();
@@ -801,11 +816,7 @@ EOF;
     {
         $adm = null;
         $adm_pwd = null; 
-        $is_connected = $this->getIsConnected();
-    //     igk_app()->session->counting++;
-    //     $this->setParam(self::CFG_USER, "counting_*****".igk_app()->session->counting);
-        
-    //    igk_wln_e(__FILE__.":".__LINE__, "connect", $this->getParam(self::CFG_USER));
+        $is_connected = $this->getIsConnected(); 
 
         if (!$is_connected && igk_server()->method("POST") && igk_valid_cref(1)) {
             if (!igk_sys_env_production()) {
@@ -830,8 +841,7 @@ EOF;
                     $obj_u = igk_sys_create_user($us);
                     $this->setConfigUser($obj_u);
                     $this->_send_notification_mail(); 
-                    $is_connected = 1;
-                    // igk_wln_e(__FILE__.":".__LINE__, "connect", $this->getParam(self::CFG_USER));
+                    $is_connected = 1; 
                 } else {
                     $not->addError(__("err.login.failed"));
                     igk_ilog("failed connection"); 
@@ -934,7 +944,7 @@ EOF;
      */
     public function getConfigUser()
     {
-        return $this->getParam(self::CFG_USER); // $this->getConfigSettings()->ConfigUser;
+        return $this->getParam(self::CFG_USER); 
     }
     ///<summary></summary>
     /**
@@ -1181,12 +1191,7 @@ EOF;
 
             return $bfrm;
         }
-        // else if(!igk_environment()->is("production")){
-        //     $d=$bfrm->addObData(function(){
-        //         echo "<div >/!\\bmc not found</div>";
-        //     });
-        //     $d["class"]="posab";
-        // }
+        
         $frm = $bfrm->addForm()->setAttributes(array("class" => "connexion_frame"));
         $frm->clearChilds();
         $frm->addObData(
@@ -1527,8 +1532,7 @@ EOF;
         */
         private function setConfigUser($v)
         {
-            if ($this->getConfigUser() !== $v) {
-                // $this->getConfigSettings()->ConfigUser=$v;
+            if ($this->getConfigUser() !== $v) { 
                 $this->setParam(self::CFG_USER, $v);
                 $this->onConfigUserChanged();
             }
@@ -1854,13 +1858,8 @@ EOF;
                 // + |
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
                     $app->getDoc()->getTheme()->addTempFile($f);
-                }
-             
-                // igk_wln_e(
-                //     __FILE__.":".__LINE__,
-                //     $cfile =  $app->getDoc()->getTheme()->getDef()->getBindTempFiles(1), 
-                //     $cfile =  $app->getDoc()->getTheme()->getDef()->getTempFiles(), 
-                // ); 
+                } 
+                 
                 if (!$this->getIsConnected()) {
                     igk_io_protect_request(igk_io_baseuri() . "/Configs");
                     $cnode = $this->initConnexionNode();
@@ -1931,4 +1930,4 @@ EOF;
             igk_notifyctrl("run:cron")->addMsg("cron executed", $c);
             igk_navto_referer(); 
         }
-    }
+}
