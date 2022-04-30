@@ -19,6 +19,8 @@ use IGKException;
  */
 class ViewHelper
 {
+    const ARG_KEY = "sys://io/query_args";
+
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
         $appuri = $ctrl->getAppUri($fname);
@@ -73,13 +75,37 @@ class ViewHelper
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
 
+    /**
+     * retrieve global args definition
+     * @param mixed $n 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function GetArgs($n = null, $default = null)
     {
-        $s = igk_environment()->get("sys://io/query_args");
+        $s = igk_environment()->get(self::ARG_KEY);
         if ($n == null)
             return $s;
         return igk_getv($s, $n, $default);
     }
+    public static function RegisterArgs($t){
+        igk_set_env(self::ARG_KEY, $t);
+    } 
 
+    /**
+     * return view args
+     * @param mixed $param 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetViewArgs($param=null,$default=null){
+        $t =  igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
+        if (!is_null($param) && $t ){
+            return igk_getv($t, $param, $default);
+        }
+        return $t;
+    } 
   
 }

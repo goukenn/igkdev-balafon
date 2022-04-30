@@ -28,7 +28,7 @@ class HtmlCenterBoxNode extends HtmlNode
             $this->content_node
         ];
     }
-    protected function _Add($n){
+    protected function _Add($n, $force=false){
         return $this->content_node->add($n);
     }
 }

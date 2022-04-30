@@ -552,8 +552,8 @@ final class ConfigureController extends BaseController implements IConfigControl
         if (!igk_is_conf_connected()) {
             return false;
         }
-        $u = IGK_WEB_SITE . "/balafon/download/0";
-        $f = igk_get_web_content($u);
+        $u = IGK_WEB_SITE . "/balafon/get-download";
+        $f = ""; 
         $rep = igk_create_node("response");
         if (!empty($f)) {
             $dir = igk_io_dir(IGK_LIB_DIR . "/tmp");

@@ -48,7 +48,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
     if(file_exists($sf)){
         $resolver->resolve($sf);
         igk_header_set_contenttype("js");
-        header("Content-Type: application/javascript; charset= UTF-8");   
+        header("Content-Type: application/javascript; charset=UTF-8");   
         header("Content-Encoding:deflate"); 
         echo file_get_contents($sf); 
         igk_exit();

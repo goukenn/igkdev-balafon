@@ -13,6 +13,11 @@ namespace IGK\System\Html\Dom;
 final class HtmlSingleNodeViewerNode extends HtmlNode{
     private $m_callback;
     var $targetNode;
+    public function setContent($v){
+        $this->targetNode->setContent($v);
+        return $this;
+    }
+
     ///<summary></summary>
     ///<param name="options" default="null"></param>
     protected function __AcceptRender($options=null){
@@ -25,17 +30,21 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     ///<param name="callback">call after render</param>
     public function __construct($node, $callback=null){
         parent::__construct("igk:singleViewItem");
+        if (is_string($node) ){
+            $node = igk_create_node(trim($node));
+        } 
         $this->targetNode=$node;
         $this->m_callback=$callback;
     }
     ///<summary></summary>
     ///<param name="option" default="null"></param>
     protected function __getRenderingChildren($option=null){
-        return array($this->targetNode);
+        
+        return [$this->targetNode];
     }
     ///<summary></summary>
     ///<param name="options" default="null"></param>
-    protected function __RenderComplete($options=null){
+    protected function __RenderComplete($options=null){ 
         igk_html_rm($this);
         if($this->m_callback){
             igk_invoke_callback_obj($this, $this->m_callback);

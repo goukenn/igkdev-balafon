@@ -3006,7 +3006,7 @@ Name:balafon.js
 	window.$igk = function (n) { 
 		var m= __igk(n); 
 		if (m==null){ 
-			console.error('errror .... data - '+ n);
+			console.error('found - ['+ n +']');
 		} return m; 
 	};// register function igk function
 	window.$ns_igk = __nsigk;
@@ -19820,7 +19820,7 @@ igk.ready(function () {
 				c = 'php';
 			}
 		}
-		q.addClass("code-php");
+		// q.addClass("code-php");
 		var s = q.o.textContent.trim();// .getHtml().trim();
 		var t = s.split('\n');
 

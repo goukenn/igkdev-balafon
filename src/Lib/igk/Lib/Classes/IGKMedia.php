@@ -34,6 +34,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         $this->_[self::MEDIA_ID] =$id;
     }
 
+    /**
+     * support css rules 
+     * @param string $rule 
+     * @return CssSupport 
+     * @throws IGKException 
+     */
     public function supports(string $rule){
         $key = "@supports (".trim($rule).")";
         if ($g = igk_getv($this->getDef(), $key)){

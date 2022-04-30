@@ -93,7 +93,7 @@ use function igk_resources_gets as __;
  * @method static void seed() macros function
  * @method static void setEnvParam(key, value) macros function
  * @method static void storeConfigSettings() macros function
- * @method static string uri() macros function 
+ * @method static string uri(?string $path) macros function 
  * @method static string loadMigrationFile() macros function 
  * @method Users checkUser(bool $check, ?string $redirectUri ) macros function check if user or navigate
  * @method static string getErrorViewFile(int code) macros function get controller error file
@@ -378,8 +378,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $out = ob_get_contents();
             ob_end_clean(); 
 
+            // echo "output: ".$out;
             if (!empty($out)) {
-                $t->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->Content = $out;
+                $t->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->setContent($out);
+              
             }
             if ($response && (is_object($response) || is_array($response))) {
                 // + | Bind response
@@ -515,9 +517,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     /**
      * get style dir
      */
-    public function getPrimaryCssFile()
+    protected function getPrimaryCssFile()
     {
-
         return igk_io_dir($this->getStylesDir() . "/" . igk_getv($this->getConfigs(), "PrimaryStyle", "default.pcss"));
     }
     ///<summary></summary>

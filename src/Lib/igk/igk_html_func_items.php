@@ -1274,7 +1274,7 @@ function igk_html_node_dialog_circle_waiter()
 function igk_html_node_author_community()
 {
     $n = igk_create_node("div");
-    $n->setClass("com-host")->setStyle("margin-bottom:2.2em")->CommunityLinks([
+    $n->setClass("com-host")->CommunityLinks([
         "linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",
         "twitter" => "https://twitter.com/@IGKDEV",
         "facebook" => "https://facebook.com/IGKDEV",
@@ -1338,8 +1338,7 @@ function igk_html_node_clonenode(HtmlItemBase $node)
 function igk_html_node_code($type = 'php')
 {
     $n = new HtmlNode("code");
-    $n["class"] = "igk-code";
-    $n["igk-code"] = $type;
+    $n["class"] = "igk-code ".($type ? "code-".$type:""); 
     return $n;
 }
 ///<summary>function igk_html_node_col</summary>

@@ -432,6 +432,8 @@ $def["code.igk-code span.ln:before"]="{sys:posab, loc_l} background-color: [cl:c
 $def["code.igk-code > div"]="{sys:disptabr}";
 $def["code.igk-code:before"]="{sys:posab, loc_a} [bgcl:codeViewBgColor, #eee] content:' '; z-index:-1; ";
 $def["code.igk-code"]="line-height: 1.4em; {sys:posr, fitw} max-width:100%;";
+$def["code.igk-code span.s"] = "{sys:no-wrap}";
+
 $def[".igk-table"]="border-collapse: collapse; border-spacing:0px; border:none; padding:0px;";
 $def[".igk-table > tbody  th"]="{sys:no-wrap};";
 $def[".igk-table.th-left > tbody  th"]="{sys:alignl};";
@@ -553,7 +555,7 @@ foreach($i_state as $k){
 $def[".cltext.igk-invalid"]="background-color:#C71A24; color:white;";
 $def[".igk-page-zone:before, .igk-page-zone:after"]="display:table;content:' ';";
 $def[".igk-page-zone"]="min-height:1px; padding-left:15px; padding-right:15px; margin-left:auto; margin-right:auto;";
-$def[".igk-container"]="[trans:width 0.9s ease-in-out]  margin-left:auto; margin-right:auto;";
+$def[".igk-container"]="[trans:width 0.9s ease-in-out] padding: 0px {$pad_size}; margin-left:auto; margin-right:auto;";
 $def[".igk-container:after, .igk-float-container:after"]="display:table;clear:both;content:' '";
 $def[".igk-padd"]="padding-left:{$pad_size}; padding-right:{$pad_size};";
 $def[".igk-row-container"]="padding-left:{$pad2}; padding-right:{$pad2}; ";
@@ -741,8 +743,7 @@ $def[".igk-js-notify-box .igk-js-notify .content-z .title"] = "margin-bottom:10p
 $def[".igk-hline-sep"]="border-top:1px solid [syscl:HLineSeparatorColor] ; margin-top:1.3em";
 $def[".igk-hline-sep:before"]="content:' '; display:block; height:16px";
 $def["input.igk-state-btn[type='checkbox']"]="height:1px;width:0px;overflow:hidden;padding:0px;position:absolute;clip:rect(0,0,0,0);";
-$sm_screen[".igk-container"]="padding:0px; margin:0px;";
-$sm_screen[".igk-container > .igk-row"]="padding:0px; margin:0px;";
+// $sm_screen[".igk-container > .igk-row"]="padding:0px; margin:0px;";
 $sm_screen[".igk-sm-dispn"]=$xsm_screen[".igk-xsm-dispn"]
 ="{sys:dispn}";
 $def[".igk-bgfilter-blur"]="";

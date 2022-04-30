@@ -4251,20 +4251,6 @@ function igk_ctrl_bind_css(BaseController $ctrl, $n, ?string $classdef = null)
 function igk_ctrl_bind_css_file(\IGK\Controllers\BaseController $ctrl, ?string $file = null, $temp = 0)
 {   
     \IGK\System\Html\Css\CssUtils::InitBindingCssFile($ctrl, $file, $temp);
-    // $f = $file ?? $ctrl->getPrimaryCssFile();
-    // if (file_exists($f) && !igk_is_ajx_demand()) {
-    //     if (!defined("IGK_FORCSS")) {
-    //         // if (get_class($ctrl) == IGKApplicationManager::class) {
-    //         //     igk_trace();
-    //         //     session_destroy();
-    //         //     igk_exit();
-    //         // }
-    //         $doc = $ctrl->getCurrentDoc() ?? igk_app()->getDoc();
-    //         igk_css_reg_global_tempfile($f, $doc->getTheme(), $ctrl, $temp);
-    //     } else {
-    //         igk_css_bind_file($ctrl, $f);
-    //     }
-    // }
 }
 ///<summary> controller request to change the lang</summary>
 /**
@@ -10822,7 +10808,7 @@ function igk_get_view_arg($ctrl, $name, $default = null)
  */
 function igk_get_view_args()
 {
-    return igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
+    return \IGK\Helper\ViewHelper::GetViewArgs();
 }
 ///<summary>Represente igk_get_viewfile function</summary>
 /**
@@ -10832,11 +10818,11 @@ function igk_get_viewfile()
 {
     return igk_environment()->last("viewFileCaches");
 }
-///<summary></summary>
-///<param name="param"></param>
+///<summary>convert to view param </summary>
+///<param name="param">param to convert</param>
 /**
- * 
- * @param mixed $param 
+ * convert to view param 
+ * @param mixed $param param to convert
  */
 function igk_get_viewparam($param)
 {
@@ -10845,16 +10831,7 @@ function igk_get_viewparam($param)
     }
     return $param;
 }
-///<summary></summary>
-///<param name="uri"></param>
-/**
- * 
- * @param mixed $uri 
- */
-function igk_get_web_content($uri)
-{
-    igk_die("not implement ", __FUNCTION__);
-}
+ 
 ///<summary>get web page content utility</summary>
 /**
  * get web page content utility
@@ -14454,15 +14431,21 @@ function igk_include_view_file($ctrl, $file)
         igk_wln_e("fatal error: ".$ex->getMessage());
     }
     catch (Exception $ex) {
-        if (!igk_environment()->no_handle_error && igk_environment()->is("DEV") && !defined("IGK_TEST_INIT")) {
+        if ( !igk_environment()->no_handle_error && igk_environment()->is("DEV") && !defined("IGK_TEST_INIT")) {
             igk_ilog("INC VIEW ERROR:::".$ex->getMessage());
-            $rp =realpath(igk_environment()->last($key));
+            $rp = realpath(igk_environment()->last($key));
+            $src = $ex->getFile();
             igk_wln_e(
                 "<h2>INC VIEW ERROR</h2>" . $rp,
-                $ex->getMessage(),
+                "<div>".$ex->getMessage()."</div>",
                 $rp == $ex->getFile() ? $ex->getFile().":".$ex->getLine() : '',
-                array_map(function ($e) {
-                    return implode(":", [igk_getv($e, "file"), igk_getv($e, "line")]);
+                array_map(function ($e) use($src) {
+                    $file = igk_getv($e, "file");
+                    $line = igk_getv($e, "line");
+                    if ($src == $file){
+                        return "__CACHE__:".basename($file).".". $line;
+                    }
+                    return igk_io_collapse_path($file).":".$line;
                 }, $ex->getTrace())
             );
         } 
@@ -16713,14 +16696,14 @@ function igk_io_uri_is_dir($uri)
 /**
  * 
  * @param mixed $ctrl 
- * @param mixed $fname 
+ * @param string $filename 
  */
-function igk_io_view_entry_uri($ctrl, $fname = "")
+function igk_io_view_entry_uri($ctrl, string $filename = "")
 {
-    $c = $fname;
-    if (!empty($fname)) {
-        if (!($c = dirname($fname)))
-            $c = $fname;
+    $c = $filename;
+    if (!empty($filename)) {
+        if (!($c = dirname($filename)))
+            $c = $filename;
         if ($c == '.')
             $c = '';
     }
@@ -19150,7 +19133,7 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
         "handle_file" => $handle_file
     );
     if ($globalregister) {
-        igk_set_env("sys://io/query_args", $t);
+        IGK\Helper\ViewHelper::RegisterArgs($t);        
     }
     return $t;
 }
@@ -23605,36 +23588,37 @@ function igk_svg_register_icons($doc, $name = null, $dir = IGK_LIB_DIR . "/Data/
         igk_svg_register($doc, igk_io_basenamewithoutext($file), $file);
     });
 }
-///<summary>render loaded svg file async </summary>
-///<param name="o" default="null"></param>
-/**
- * render loaded svg file async 
- * @param mixed $o 
- */
-function igk_svg_render_ajx($o = null)
-{
-    $c = igk_environment()->{IGK_SVG_REGNODE_KEY};
-    if (!$c) {
-        return;
-    }
-    $key = "sys://svg/lists";
-    $obj = $c->getParam($key);
-    $tab = (array)$obj;
-    if (igk_count($tab) > 0) {
-        $t = igk_create_node("div")->setClass("igk-svg-lst ajx")->setStyle("display:none;");
-        igk_svg_callable_list($t, $c);
-        if (igk_is_ajx_demand() || ($o == null)) {
-            $t->renderAJX();
-        } else {
-            if ($o->Document) {
-                $o->Document->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->add($t);
-            } else
-                $t->renderAJX();
-        }
-        $c->getParam($key, null);
-        igk_environment()->{IGK_SVG_REGNODE_KEY} = null;
-    }
-}
+// ///<summary>render loaded svg file async </summary>
+// ///<param name="o" default="null"></param>
+// /**
+//  * render loaded svg file async 
+//  * @param mixed $o 
+//  * @deprecated 
+//  */
+// function igk_svg_render_ajx($o = null)
+// {
+//     $c = igk_environment()->{IGK_SVG_REGNODE_KEY};
+//     if (!$c) {
+//         return;
+//     }
+//     $key = "sys://svg/lists";
+//     $obj = $c->getParam($key);
+//     $tab = (array)$obj;
+//     if (igk_count($tab) > 0) {
+//         $t = igk_create_node("div")->setClass("igk-svg-lst ajx")->setStyle("display:none;");
+//         igk_svg_callable_list($t, $c);
+//         if (igk_is_ajx_demand() || ($o == null)) {
+//             $t->renderAJX();
+//         } else {
+//             if ($o->Document) {
+//                 $o->Document->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->add($t);
+//             } else
+//                 $t->renderAJX();
+//         }
+//         $c->getParam($key, null);
+//         igk_environment()->{IGK_SVG_REGNODE_KEY} = null;
+//     }
+// }
 ///<summary>use svg image</summary>
 /**
  * use svg image
@@ -26968,7 +26952,7 @@ function igk_view_action_path()
  */
 function igk_view_args($n = null, $default = null)
 {
-    return \IGK\Helper\ViewHelper::GetArgs($n, $default); 
+    return \IGK\Helper\ViewHelper::GetViewArgs($n, $default); 
 }
 ///<summary> shortcut : view controller's article content</summary>
 /**

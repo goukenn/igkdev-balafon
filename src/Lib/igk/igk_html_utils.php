@@ -1,6 +1,8 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// licence: IGKDEV - Balafon @ 2019
+// @licence: IGKDEV - Balafon @ 2019
+// @desc: Content html helper functions 
+// @filename: igk_html_utils.php  
 
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
@@ -13,6 +15,10 @@ use IGK\System\Html\HtmlUtils;
 use function igk_resources_gets as __;
 
 ///<summary>pre render argument</summary>
+/**
+ * pre tag direct print
+ * @return void 
+ */
 function igk_html_pre(){
     echo "<pre>";
     foreach(func_get_args() as $k){
@@ -20,6 +26,26 @@ function igk_html_pre(){
     }
     echo "</pre>";
 }
+
+/**
+ * build tag helper
+ * @param mixed $tag 
+ * @param mixed $content 
+ * @param null|array $attributes 
+ * @return mixed content direct render 
+ * @throws IGKException 
+ */
+function igk_html_tag($tag, $content, ?array $attributes=null){
+    $n = igk_create_node($tag);
+    if ($content){
+        $n->setContent($content);
+    } 
+    if ($attributes){
+        $n->setAttributes($attributes);
+    }
+    return $n->render();
+}
+
 
 function igk_html_reg_class($name, $class){
     $B = igk_environment()->get("html://class");

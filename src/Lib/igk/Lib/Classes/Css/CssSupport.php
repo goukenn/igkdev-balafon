@@ -23,7 +23,6 @@ class CssSupport implements ArrayAccess{
     }
     public function __toString()
     {  
-        igk_trace();
         return "@support(".$this->rule."){".$this->media."" . "}";
     }
 

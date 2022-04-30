@@ -140,19 +140,23 @@ abstract class ControllerExtension
 
         return (\IGK\Helper\SysUtils::GetSubDomainCtrl() === $ctrl) || (igk_get_defaultwebpagectrl() === $ctrl);
     }
-    public static function uri(BaseController $ctrl, $name)
+    public static function uri(BaseController $ctrl, string $name="")
     {
         return $ctrl->getAppUri($name);
     }
     ///<summary>retrieve current view uri</summary>
-    public static function furi(BaseController $ctrl, $name)
+    public static function furi(BaseController $ctrl, string $name="")
     {
         $fname = igk_getv(igk_get_view_args(), "fname");
         return $ctrl->getAppUri($fname . rtrim($name, '/'));
     }
     ///<summary>retrieve root base uri</summary>
-    public static function buri(BaseController $ctrl, $name)
+    public static function buri(BaseController $ctrl, ?string $name="")
     {
+        if(is_null($name)){
+            igk_trace();
+            igk_dev_wln_e("not handle");
+        }
         $uri = self::furi($ctrl, $name);
         $buri = igk_io_baseuri();
         if (strpos($uri, $buri) === 0) {

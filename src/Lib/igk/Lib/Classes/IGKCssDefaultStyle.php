@@ -31,9 +31,10 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     }
 
     /**
-     * define support ruel
-     * @param mixed $rule 
+     * define support rule
+     * @param string $rule rule expression
      * @return HtmlDocTheme 
+     * @example _ $def->supports('backdrop-filter: blur(2px)') 
      */
     public function supports(string $rule){
         $key = "@supports (".$rule.")";
