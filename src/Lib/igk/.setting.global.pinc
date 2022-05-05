@@ -80,5 +80,6 @@ return [
 "powered_uri"=>IGK_WEB_SITE,
 "powered_message"=>strtoupper(IGK_COMPANY),
 "pagelayout_limit"=>20,
-"pagelayout_limits"=>[20,50,100]
+"pagelayout_limits"=>[20,50,100],
+'no_db_route'=>0,
 ];

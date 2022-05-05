@@ -76,7 +76,7 @@ class BalafonApplication extends IGKApplicationBase
 
         try {
             if (file_exists($configFile = $bdir . "/".AppConfigs::ConfigurationFileName)) {
-                $c = igk_conf_load_file($configFile, "balafon");
+                $c = igk_conf_load_file($configFile, "balafon"); 
                 $this->configs = new XPathConfig($c);
                 $c = $this->configs->get("env");
                 if ($c) {

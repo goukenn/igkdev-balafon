@@ -178,8 +178,7 @@ class RouteHandler
         if (!in_array($verb, $this->verbs)) {
             return false;
         }        
-        $regex = $this->getPatternRegex();  
-        // igk_wln_e("path : ", $path);
+        $regex = $this->getPatternRegex();   
         if ($r = preg_match($regex, $path)) {
             if ($this->ajx && !igk_is_ajx_demand()) {
                 throw new RequestException(400);

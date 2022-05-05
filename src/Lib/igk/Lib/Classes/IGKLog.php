@@ -62,7 +62,7 @@ final class IGKLog extends IGKObject
     public static function Append($msg, $tag = null, $traceindex = 0)
     {
         if (self::$sm_loggin){
-            igk_die("try lo log when appending ");
+            igk_die("try to log when appending...log message");
         }
         self::$sm_loggin = true;
         // + igk_wln($msg);

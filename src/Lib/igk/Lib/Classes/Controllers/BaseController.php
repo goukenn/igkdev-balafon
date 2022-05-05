@@ -665,6 +665,11 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     { 
         $extension = IGK_DEFAULT_VIEW_EXT;
         $_viewdir  = $this->getViewDir();
+        if ($param === null){
+            $param = [];
+        } else if (!is_array($param)){
+            $param = [$param];
+        }
 
         if ($e = igk_getv(array_slice(func_get_args(), 3), 0))
             $extension = $e;
@@ -1111,7 +1116,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function getUseDataSchema()
     {
-        return !self::IsSysController(get_class($this)) && igk_getv($this->getConfigs(), "clDataSchema");
+        return self::IsSysController($this) || igk_getv($this->getConfigs(), "clDataSchema");
     }
     public function setTargetNode($node)
     {

@@ -56,7 +56,7 @@ final class IGKCaches{
          if (! IGKCaches::page_filesystem()->expired($uri, $expires)){
              // igk_wln_e("load from cache");
              $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);              
-            $response = new WebFileResponse($file);
+            $response = new WebFileResponse($file, "text/html");
             $response->zip = $zip;
             $response->cache_output(igk_sys_configs()->get("cache_output", $expires));
             $response->output(); 

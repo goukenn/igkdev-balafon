@@ -72,6 +72,7 @@ class HtmlRenderer{
     public static function RenderDocument($doc=null, $refreshDefault=1, $ctrl=null){ 
         $igk= igk_app(); 
         $doc= $doc ?? $igk->getDoc();
+        
         // if(!$igk->ConfigMode && $igk->Configs->allow_auto_cache_page){
         //     $ctrl=igk_getctrl(IGK_CACHE_CTRL, false);
         //     if($ctrl){
@@ -376,7 +377,7 @@ class HtmlRenderer{
                         igk_wln_e("/!\\ don't send array as attribute: ", $k, $v);
                     }
                     if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
-                        if (!empty($cv = $v->getValue())){
+                        if (!empty($cv = $v->getValue()) || is_string($cv)){
                             $out .= $k . "=\"" . $cv . "\" ";
                         }
                         continue;

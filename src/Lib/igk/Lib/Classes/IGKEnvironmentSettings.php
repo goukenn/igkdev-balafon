@@ -26,9 +26,17 @@ class IGKEnvironmentSettings{
     public function __call($name, $args){
         return IGKEnvironment::getInstance()->$name;
     }
+    /**
+     * no use page cache
+     * @return bool 
+     */
     public function no_page_cache(){
         return defined("IGK_NO_PAGE_CACHE") || $this->no_page_cache;
     }
+    /**
+     * no use view cache
+     * @return bool 
+     */
     public function no_view_cache(){
         return defined("IGK_NO_VIEW_CACHE") || $this->no_view_cache;
     }

@@ -28,4 +28,5 @@ define("IGK_LIB_CGI_BIN_DIR", IGK_LIB_DIR."/cgi-bin");
 define("IGK_LIB_BIN", IGK_LIB_DIR."/bin/balafon");
 define("IGK_LIB_RUNFILE", IGK_LIB_DIR."/igk_run_script.php");
 define("IGK_LIB_MODS_DIR", IGK_LIB_DIR."/Modules");
-define("IGK_GIT_URL", "https://github.com/goukenn/Balafon");
+define("IGK_GIT_URL", "https://github.com/goukenn/igkdev-balafon");
+define("IGK_GIT_DRSSTUDIO_URL", "https://github.com/goukenn/DrSStudio.git");

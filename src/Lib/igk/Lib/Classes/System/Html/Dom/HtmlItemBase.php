@@ -79,7 +79,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     protected $m_parent;  
 
-    static $sm_macros;
+    protected static $sm_macros;
 
     /**
      * return 
@@ -675,7 +675,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function getIGKNodeTypeName(){
         return $this->getFlag(IGK_NODETYPENAME_FLAG) ?? get_class($this);
     }
-    public function getInnerHtml(){
+    public function getInnerHtml(){ 
         return HtmlRenderer::GetInnerHtml($this);
     }
     ///<summary></summary>
@@ -1296,7 +1296,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             }
             else {
                 foreach($c_c as $t){
-                    if(strtolower($t->getTagName()) == $s){
+                    if ($_tagname = $t->getTagName()){
+                        $_tagname = strtolower($_tagname);
+                    }
+                    if($_tagname == $s){
                         $tab[]=$t;
                     }
                     $p = $t->getChilds();

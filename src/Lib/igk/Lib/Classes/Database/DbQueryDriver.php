@@ -175,8 +175,7 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             $this->m_isconnect= false;
             $this->m_openCount=0;
             igk_die("[igk] The connection was not closed properly :::ping failed : ".
-				$lcount." <br />");
-				
+				$lcount." <br />");				
         }
         $r=igk_db_connect($this);
     
@@ -283,7 +282,16 @@ class DbQueryDriver extends IGKObject implements IIGKdbManager {
             $out->m_dbpwd=trim($dbpwd);
             $out->m_dbport = $port;
         }
-        $out->connect();
+        try {
+            $out->connect();
+        }
+        catch(\Exception $_){
+            $out->m_isconnect = false;
+            // remove last error in case last error - 
+            if (igk_is_cmd() && error_get_last()){
+                error_clear_last();
+            }
+        }
         if($out->m_isconnect){
             if (igk_environment()->is("DEV")  && !empty($dbname)){
                 $out->createDb($dbname);

@@ -9,7 +9,7 @@ class TestApplicationController extends ApplicationController{
         return $this->getEnvParam("DeclaredDir");
     }
     public function getDeclaredDir():string{
-        return $this->_getTestDeclaredDir();
+        return (string)$this->_getTestDeclaredDir();
     }
     public function getDeclaredFileName(){
         return $this->_getTestDeclaredDir()."/TestController.php"; 
@@ -19,5 +19,9 @@ class TestApplicationController extends ApplicationController{
     }
     protected function IsEntryController(){ 
         return false;
+    }
+    protected function getPrimaryCssFile()
+    {
+        return ".__/Styles/default.pcss";
     }
 }

@@ -889,6 +889,7 @@ EOF;
     * register action bind
     */
     protected final function register_action(){
+       
         $k=$this->getEnvParam("appkeys");
         if(!empty($k)){
             igk_sys_ac_unregister($k);

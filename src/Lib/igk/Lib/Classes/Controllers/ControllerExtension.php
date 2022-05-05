@@ -14,6 +14,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 use IGK\Database\DbSchemas;
 use IGK\Database\Seeds\DataBaseSeeder;
+use IGK\System\Configuration\Controllers\UsersConfigurationController;
 use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\Migrations\Migration;
 use IGK\System\Html\Dom\HtmlNode;
@@ -154,8 +155,10 @@ abstract class ControllerExtension
     public static function buri(BaseController $ctrl, ?string $name="")
     {
         if(is_null($name)){
-            igk_trace();
-            igk_dev_wln_e("not handle");
+            if (igk_environment()->is("DEV")){
+                igk_trace();
+                igk_dev_wln_e("not handle");
+            }
         }
         $uri = self::furi($ctrl, $name);
         $buri = igk_io_baseuri();
@@ -1152,7 +1155,7 @@ abstract class ControllerExtension
      * get data table definition
      */
     public static function getDataTableDefinition(BaseController $ctrl, $tablename)
-    {
+    { 
         if ($ctrl->getUseDataSchema()) {
             $info = null;
             if (!($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
@@ -1259,7 +1262,10 @@ abstract class ControllerExtension
     }
     public static function bindCssStyle(BaseController $controller)
     {
-        return igk_ctrl_bind_css_file($controller);
+        if (!empty($file = $controller->getPrimaryCssFile()))  
+        {      
+            return igk_ctrl_bind_css_file($controller, $file); 
+        }
     }
     /**
      * project used controller's

@@ -247,14 +247,14 @@ final class HtmlReader extends IGKObject
         return $v;
     }
     ///<summary>read text content</summary>
-    private function __readTextValue()
+    private function __readTextValue(string $prefix="")
     {
         $_pre = ($this->m_name == 'pre') && ($this->m_nodetype == 1);
         $_cread = 1;
         $replace_expression = 1;
         $this->m_name = null;
         $ch = null;
-        $v = "";
+        $v = $prefix;
         $space = 0;
         while ($_cread && $this->CanRead()) {
             $ch = $this->m_text[$this->m_offset];
@@ -287,8 +287,7 @@ final class HtmlReader extends IGKObject
             $v .= $ch;
         }
         if (($v == '0') || !empty($v)) {
-            $this->m_v = $v;
-            $this->m_nodetype = XMLNodeType::TEXT;
+            $this->_setText($v);
             return true;
         }
         return false;
@@ -688,7 +687,7 @@ final class HtmlReader extends IGKObject
                         break;
                     }
                     $cattr = $reader->Attribs();
-
+                   
                     if ($context == IGK_LOAD_EXPRESSION_CONTEXT) {
                         $v_tn = new HtmlNode($name);
                         $v_tn->startLoading(__CLASS__, $context);
@@ -723,6 +722,7 @@ final class HtmlReader extends IGKObject
                             }
                         }
                     } else {
+                        // + | loading context
                         $template = igk_getv($cattr, "igk:template-content");
                         if ($template) {
                             $cattr["igk:template-content"] = null;
@@ -732,6 +732,8 @@ final class HtmlReader extends IGKObject
  
 
                         $v_tn = self::_BuildNode($reader, $cnode, $name, $tab_doc, $pargs);
+
+                      
                         if ($v_tn) {
                            // igk_debug_wln("\n data : ".get_class($v_tn) , "\nEmptyTag:". $v_tn->isEmptyTag(). " : ". $v_tn->tagName ." vs " .$name. "? ".$reader->IsEmpty()."\n");
                             if ($v_tn->tagName && ($v_tn->tagName != $name) && !$reader->IsEmpty()) {
@@ -771,10 +773,12 @@ final class HtmlReader extends IGKObject
                         } else {
                             $reader->Skip();
                         }
+
+                       
                     }
                     break;
                 case XMLNodeType::TEXT:
-                    $v_sr = $reader->getValue() . "";
+                    $v_sr = $reader->getValue() . ""; 
                     if (strlen($v_sr) > 0) {
                         if (empty($v_c = trim($v_sr)) && $v_c !== '0') {
                             $v_sr = "";
@@ -1202,8 +1206,7 @@ final class HtmlReader extends IGKObject
                         }
                     } else {
                         return $this->__readTextValue();
-                    }
-                    igk_debug_wln("failed - processor : offset: " . $this->m_offset);
+                    } 
                     return false;
                 case "!":
                     if ($v_enter) {
@@ -1254,6 +1257,7 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case "/":
+           
                     if ($v_enter) {
                         $this->m_offset += 1;
                         $this->m_nodetype = XMLNodeType::ENDELEMENT;
@@ -1286,11 +1290,7 @@ final class HtmlReader extends IGKObject
                                         }
                                     }
                                     $this->m_name = $tag;
-                                    $this->m_v = $v;
-                                    $this->m_nodetype = XMLNodeType::TEXT;
-                                
-                                    
-                                    
+                                    $this->_setText($v); 
                                     return true;
                                 case "style": {
                                         while ($this->CanRead()) {
@@ -1303,12 +1303,11 @@ final class HtmlReader extends IGKObject
                                             }
                                         }
                                         $this->m_name = null;
-                                        $this->m_v = $v;
-                                        $this->m_nodetype = XMLNodeType::TEXT;
+                                        $this->_setText($v); 
                                     }
                                     return true;
-                                default:
-                                    $c = $this->__readTextValue();
+                                default: 
+                                    $c = $this->__readTextValue($v);
                                     return $c;
                             }
                         } else {
@@ -1322,7 +1321,7 @@ final class HtmlReader extends IGKObject
                                     break;
                                 }
                                 return $c_txt;
-                            }
+                            } 
                             return $this->__readTextValue();
                         }
                     } else {
@@ -1376,11 +1375,20 @@ final class HtmlReader extends IGKObject
         }
         if (!$v_enter && !empty($v)) {
             $this->m_name = null;
-            $this->m_v = $v;
-            $this->m_nodetype = XMLNodeType::TEXT;
+            $this->_setText($v); 
             return true;
         }
         return false;
+    }
+    private function _setText(?string $value=""){
+        $this->m_v = $value;
+        $this->m_nodetype = XMLNodeType::TEXT;
+        if (igk_is_debug() && ($value=="sites/igkdev.com/src/application/Data/release")){
+            igk_wln("value : ".$value);
+            igk_trace();
+            igk_exit();
+        }
+        
     }
     ///<summary>Represente ReadAttributes function</summary>
     ///<param name="value"></param>

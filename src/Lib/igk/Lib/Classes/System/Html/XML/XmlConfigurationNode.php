@@ -21,6 +21,7 @@ class XmlConfigurationNode extends XmlNode{
     {
         $s = trim(parent::getInnerHtml());     
         $gps = \IGK\System\Configuration\SysConfigExpressionFactory::GetRegisterRegex();
+        igk_debug_wln_e(__FILE__.":".__LINE__, $s);
         // if (!empty($s) && preg_match("/\{\{(?P<exp>.+)\}\}/i", $s, $tab)){
         if (!empty($s) && preg_match("/\{\{(?P<exp>\s*((?P<name>$gps)\.)?.+)\}\}/i", $s, $tab)){
             $m = trim($tab["exp"]);
@@ -38,13 +39,7 @@ class XmlConfigurationNode extends XmlNode{
                         return $c;
                     }
                     break;
-            }
-            // // if (strpos($m, "sys.") === 0){                
-            // //     return new \IGK\System\Configuration\SysConfigExpression(substr($m , 4));
-            // // } 
-            // igk_trace();
-            // var_dump($tab);
-            // igk_wln_e("Configuration : express not resoled", $m);
+            } 
         }
         return $s;
 

@@ -20,7 +20,7 @@ use IIGKUriActionListener;
 final class SystemUriActionController extends ConfigControllerBase implements IIGKUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
-    private static $sm_actions, $sm_routes, $sm_Match_required = false;
+    private static $sm_actions, $sm_routes;
     public static function GetCacheFile(){
         return igk_io_cachedir()."/.routes.cache";
     }
@@ -32,7 +32,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
                 self::$sm_routes = $tab["routes"];
                 self::$sm_actions = $tab["actions"];
                 if (empty(self::$sm_actions)){
-                    self::$sm_actions = self::InitActionList($controller, self::$sm_routes);
+                    self::$sm_actions = self::InitActionList($controller, self::$sm_routes, true);
                 } 
             }
             else {
@@ -179,10 +179,10 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function init_wakeup(){    }
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
-    private static function InitActionList($ctrl, & $route){
+    private static function InitActionList($ctrl, & $route, $forceReload=false){
         // igk_wln_e(__FILE__.":".__LINE__, "init action ... ");
         $actions=array();
-        if (!self::$sm_Match_required && (defined("IGK_NO_WEB") || igk_is_cmd())){
+        if (!$forceReload && (defined("IGK_NO_WEB") || igk_is_cmd())){
             return $actions;
         }
         $actions["^/config(.php)?$"]=$ctrl->getUri("gotoconfig");
@@ -215,7 +215,12 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         foreach($actions as $k=>$v){
             $route[$k]=$v;
         }  
+        // + | -----------------------------------------------------------------------
+        /// TODO :  SELECT  * DB ROUTE LOOP FAILED, infinite loop
+        // + | -----------------------------------------------------------------------
         if (!igk_sys_configs()->get("no_db_route")){
+            
+
             $e = Systemuri::select_all(); 
             if($e){
                 foreach($e as $k=>$v){
@@ -354,7 +359,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
      * @return null|\IGK\Controllers\BaseController 
      * @throws IGKException 
      */
-    public static function GetMatchCtrl(string $uri){
+    public static function GetMatchCtrl(string $uri, bool $forceMatch=false){
         static $rsolv = true;
 
         if ($rsolv){
@@ -362,10 +367,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         }else {
             return ;
         }
-
-        self::$sm_Match_required = true;
+ 
         $g = self::ctrl()->matche($uri);
-        self::$sm_Match_required = false;
+        
         $c = null;
         $rsolv = true;
         if ($g){

@@ -603,7 +603,7 @@ class IO{
                     continue;
                 $mdata=0;
                 $f=$q.$sep. $r;
-                if(!is_dir($f) && (($iscallable && ($mdata=$match($f, $excludedir))) || ($match == null) || (is_string($match) && preg_match($match, $f)))){
+                if(!is_dir($f) && (($iscallable && ($mdata=$match($f, $excludedir))) || ($match == null) || (is_string($match) && preg_match($match, $f)))){                    
                     if($mdata == -1){
                         continue;
                     }

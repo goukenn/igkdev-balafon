@@ -78,11 +78,13 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
                 $extra = " server:" . $srv->server . " user:" . $srv->user;
             }
             $msg = "DB Error : " . $ex->getMessage() . $extra;
-            igk_ilog($msg);
-            if (igk_environment()->is("DEV")){
-                igk_trace();
-                igk_exit();
-            }
+            // igk_ilog($msg);
+            // if (igk_environment()->is("DEV")){
+            //     igk_ilog("danger: ".$msg);
+            //     \IGK\System\Console\Logger::danger("danger : ".$msg);
+            //     igk_trace();
+            //     igk_exit();
+            // }
             throw new \IGKException($msg, 500, $ex);
         }
         return null;

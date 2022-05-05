@@ -27,9 +27,11 @@ class IGKWebApplication extends IGKApplicationBase
         $bdir = dirname($file);
         $this->file = $file;
         // prepare server info
-        $srv = IGKServer::getInstance(); 
+        $srv = IGKServer::getInstance();
         // handle cache
         IGKEnvironment::getInstance()->is("OPS") && $render && IGKCaches::HandleCache();
+        // igk_wln_e(__FILE__.":".__LINE__, "data request handle");
+       
 
         igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/IHtmlGetValue.php');
@@ -198,6 +200,8 @@ class IGKWebApplication extends IGKApplicationBase
  
         try {
             igk_environment()->write_debug("before request handle : ".igk_sys_request_time());
+
+            
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
             // | ----------------------------------------------------
             // | backup index file 
@@ -361,6 +365,7 @@ class IGKWebApplication extends IGKApplicationBase
         IGKApp::StartEngine($this);
         // Benchmark::expect(__METHOD__, 0.5);
         // igk_wln_e("complete...... ");
+        
         // + | Dfault Handle 
         RequestHandler::getInstance()->handle_ctrl_request_uri();
         if ($render) {

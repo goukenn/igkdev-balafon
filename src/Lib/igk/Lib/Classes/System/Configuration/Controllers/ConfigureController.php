@@ -627,7 +627,10 @@ final class ConfigureController extends BaseController implements IConfigControl
      * general config ajx 
      */
     public function configure_search_ajx()
-    {
+    { 
+        if (!igk_is_ajx_demand()){
+            throw new NotAllowedRequestException();
+        }
         $s = igk_getr("clsearch"); 
         $n = new HtmlNoTagNode();  
         if (!empty($s)) {

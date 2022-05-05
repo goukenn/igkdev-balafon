@@ -64,6 +64,7 @@ use IGK\XML\IGKXmlCDATA;
 use IGK\XML\XMLNodeType;
 
 use function igk_resources_gets as __;
+use IGK\Helper\StringUtility;
 ///<summary>convert system path to uri scheme</summary>
 /**
  * shorcut convert system path to uri scheme
@@ -1591,8 +1592,11 @@ function igk_conf_load($obj, $n)
             foreach ($q->n->getAttributes() as $m => $mc) {
                 $q->t->{$m} = $mc;
             }
-            if (!empty($ct = $q->n->getContent()))
+            if (!empty($ct = $q->n->getContent())){
+
                 $q->t->value = $ct;
+               
+            }
         }
         if ($q->n->ChildCount == 1) {
             if ($q->n->Childs[0]->TagName == "!CDATA") {
@@ -1604,6 +1608,7 @@ function igk_conf_load($obj, $n)
         if ($attr = $q->n->Childs) foreach ($attr as $v) {
             if (($v->ChildCount <= 0) && !$v->HasAttributes) {
                 $q->t->{$v->TagName} = $v->getInnerHtml();
+                igk_debug_wln("inner ::: ".$v->getInnerHtml());
             } else {
                 $cb = igk_createobj();
                 array_push($tab, (object)array("t" => $cb, "n" => $v, "p" => $q->t));
@@ -1662,6 +1667,7 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
                 $o = null;
                 if ($k->getChildCount() <= 0) {
                     $sk = $k->getInnerHtml();
+                   
                     if ($k->getHasAttributes()) {
                         $o = igk_createobj();
                         igk_conf_load($o, $k);
@@ -2541,7 +2547,7 @@ function igk_css_balafon_index($dir)
         $v_css_conf = false; 
         if (igk_app()->settings->appInfo->config){
             $conf_entry = igk_io_baseuri()."/".IGK_CONF_FOLDER;
-            if ((empty($ref) || \IGK\Helper\StringUtility::UriStart($ref, $conf_entry))){              
+            if ((empty($ref) || StringUtility::UriStart($ref, $conf_entry))){              
                 $v_css_conf = true;
             } 
         }
@@ -2554,7 +2560,8 @@ function igk_css_balafon_index($dir)
                 //
                 if (!empty($ref) && strpos($ref, igk_io_baseuri())===0){
                     $ruri = explode("?", substr($ref, strlen(igk_io_baseuri())))[0];
-                    $ctrl = igk_getctrl(IGK_SYSACTION_CTRL, false)::getMatchCtrl($ruri);
+                    $ac = igk_getctrl(IGK_SYSACTION_CTRL, false);
+                    $ctrl = $ac::getMatchCtrl($ruri);
                 }
                 $ctrl = $ctrl ?? $defctrl;           
             } 
@@ -2574,7 +2581,8 @@ function igk_css_balafon_index($dir)
         // + | ----------------------------------------------------
         // + | bind controller definition
         if ($ctrl){  
-            \IGK\System\Html\Css\CssUtils::InitBindingCssFile ($ctrl);
+            $ctrl::bindCssStyle();
+            // \IGK\System\Html\Css\CssUtils::InitBindingCssFile ($ctrl, );
             // igk_ctrl_bind_css_file($ctrl);
             // igk_hook(IGKEvents::HOOK_BIND_CTRL_CSS, ["sender"=>$ctrl, "type"=>"css"]);
             // attach temps files 
@@ -4248,7 +4256,7 @@ function igk_ctrl_bind_css(BaseController $ctrl, $n, ?string $classdef = null)
  * @param mixed $ctrl controller that will be used to bind extra css setting
  * @param string $file pcss file toInitBindingCssFileull then the primarayCssFile of the controller is used
  */
-function igk_ctrl_bind_css_file(\IGK\Controllers\BaseController $ctrl, ?string $file = null, $temp = 0)
+function igk_ctrl_bind_css_file(\IGK\Controllers\BaseController $ctrl, string $file, $temp = 0)
 {   
     \IGK\System\Html\Css\CssUtils::InitBindingCssFile($ctrl, $file, $temp);
 }
@@ -27508,6 +27516,7 @@ function igk_xml_obj_2_xml($node, $data, $attrib_style = false)
 ///<summary>xml reader info</summary>
 /**
  * xml reader info
+ * @deprecated use HtmlReader class  
  */
 function igk_xml_read($xreader)
 {
@@ -27949,45 +27958,7 @@ function igk_xml_read_attribute($s, &$pos = 0, &$outstring = null, $securename =
         $outstring .= $n;
     }
     return $tab;
-}
-///<summary>function to read xml content</summary>
-///<param name='content'>xml string value</param>
-///<param name='callback'>callback that will be call when read data</param>
-///<param name='callback'>information used</param>
-///<code type="php">
-///$inf->path = path to rootnode
-///$inf->objects list of all object on that root node populate
-///</code>
-/**
- * function to read xml content
- * @param mixed $content xml string value
- * @param mixed $callback callback that will be call when read data
- * @param mixed $callback information used
- */
-function igk_xml_read_content($content, $callback, &$inf = null)
-{
-    $inf = igk_xml_create_readinfo($inf);
-    $xreader = (object)[];
-    $xreader->offset = $inf->offset;
-    $xreader->text = $content;
-    $xreader->length = strlen($content);
-    $xreader->name = "";
-    $xreader->value = "";
-    $xreader->type = "";
-    $xreader->parent = null;
-    $xreader->context = "xml";
-    $xreader->inf = $inf;
-    $xreader->attribs = null;
-    $xreader->nodetype = 0;
-    while (igk_xml_read($xreader)) {
-        if (!$callback($xreader, $inf)) {
-            igk_wln("bread for what");
-            break;
-        }
-    }
-    $inf->offset = $xreader->offset;
-    igk_xml_unset_read_info($inf);
-}
+} 
 ///<summary></summary>
 ///<param name="s"></param>
 ///<param name="pos" ref="true"></param>
@@ -28028,9 +27999,11 @@ function igk_xml_read_doctype($s, &$pos)
 /**
  * 
  * @param mixed $xreader 
+ * @deprecated use HtmlReader to read node
  */
 function igk_xml_read_node($xreader)
 {
+    igk_die(__FUNCTION__);
     $n = $xreader->name;
     $n = igk_create_xmlnode($n);
     $n->setAttributes($xreader->attribs);

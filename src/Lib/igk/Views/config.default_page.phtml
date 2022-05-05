@@ -67,7 +67,7 @@ $i["class"] = "igk-btn igk-btn-default alignl dispib";
 
 $domain = igk_lib_configs()->get("website_domain"); 
 
-if (igk_environment()->is("DEV") || ($domain == igk_server()->SERVER_NAME )){
+if (igk_environment()->is("DEV") || ($domain == igk_server()->SERVER_NAME ) || ($domain == "*")){
 
  
 

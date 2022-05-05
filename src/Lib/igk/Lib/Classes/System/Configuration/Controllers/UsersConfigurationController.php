@@ -201,6 +201,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     * 
     */
     public function getDataTableName(){
+ 
         return Users::table();
     }
     ///<summary></summary>

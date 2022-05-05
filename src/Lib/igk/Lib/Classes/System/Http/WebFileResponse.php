@@ -24,9 +24,12 @@ class WebFileResponse extends RequestResponse{
      */
     var $charset;
 
-    public function __construct($file)
+    var $content_type;
+
+    public function __construct($file, $content_type=null)
     {
         $this->file = $file;
+        $this->content_type = $content_type;
     }
     public function render()
     {
@@ -50,8 +53,10 @@ class WebFileResponse extends RequestResponse{
             $charset = $this->charset;
             if ($charset)
                 $charset = ";" . $charset;
-            $data = igk_getv($mime, $type, IGK_CT_PLAIN_TEXT) . $charset;
-            $this->headers[$index] = "Content-Type: ".$data;
+            if (empty($_type = $this->content_type)){
+                $_type = igk_getv($mime, $type, IGK_CT_PLAIN_TEXT) . $charset;
+            }
+            $this->headers[$index] = "Content-Type: ".$_type;
         }
         igk_set_header($this->code, $this->getStatus($this->code), $this->headers); 
         echo $s;

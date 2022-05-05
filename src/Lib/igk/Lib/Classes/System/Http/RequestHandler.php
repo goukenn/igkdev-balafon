@@ -165,6 +165,7 @@ class RequestHandler
      */
     public function handle_ctrl_request_uri($u = null, $defaultBehaviour = 1)
     {
+        
         if (igk_environment()->handle_ctrl_request){
             return 1;
         }
@@ -174,6 +175,7 @@ class RequestHandler
         $f = igk_getr("f");
  
         $app = igk_app();
+        
         if ($c && $f) {
             $f = str_replace("-", "_", $f);
             $arg = array();
