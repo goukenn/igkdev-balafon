@@ -8940,7 +8940,7 @@ function igk_get_attrib_raw_context($context)
         // old was null
     }
     $raw = null;
-    if (is_object($context) && isset($context->raw)) {
+    if (is_object($context) && property_exists($context, 'raw')) {
         $raw = is_array($context->raw) && array_key_exists("raw", $context->raw) ? $context->raw["raw"] : $context->raw;
     } else {
         if (is_array($context)) {
@@ -10824,7 +10824,7 @@ function igk_get_view_args()
  */
 function igk_get_viewfile()
 {
-    return igk_environment()->last("viewFileCaches");
+    return \IGK\Helper\ViewHelper::File();
 }
 ///<summary>convert to view param </summary>
 ///<param name="param">param to convert</param>
@@ -11443,12 +11443,15 @@ function igk_header_mime()
 function igk_header_no_cache()
 {
     $t = "Thu, 04 Aug 1983 21:00:00 GMT";
-    header("Expires: Thu, 04 Aug 1983 21:00:00 GMT");
+    header("Expires: ".$t);
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
     header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
     header("Last-Modified: " . $t);
     header("Connection: close");
+
+    // + | make safari to no cache file
+    header("Vary: *");
 }
 ///<summary></summary>
 ///<param name="type"></param>
@@ -11682,7 +11685,9 @@ function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $t
         if ($evalExpression) {
             $content = igk_html_eval_global_script($content, $ctrl, $data, basename($f));
         }
-        $n->load($content, $ldcontext);
+        if (!empty($content)){
+            $n->load($content, $ldcontext);
+        }
         igk_html_treatinput($n);
     }
     if ($articleoptions) {
@@ -14225,27 +14230,25 @@ function igk_include($file, $params = null, $target = null)
     is_array($params) ? extract($params) : null;
     $file = $__tfile;
     unset($__tfile);
+    if ($target)
+        $t = $target;
+    $args = get_defined_vars();
     if (isset($bindto)) {
-        $args = get_defined_vars();
         unset($args["bindto"]);
-        $fc = function () use ($args, $target, $file) {
-            extract($args);
-            $context = "igk_include::callback";
-            if ($target)
-                $t = $target;
+        $fc = function () use ($args,$file) {
+            $args["context"] = "igk_include::callback";
+            extract($args);  
             if (file_exists($file)) {
-                include($file);
+                return include($file);
             }
         };
         $fc = $fc->bindTo($bindto);
         $fc();
-    } else {
-        if ($target)
-            $t = $target;
-        extract($args);
-        $context = "igk_include::inline";
+    } else { 
+        $args["context"] = "igk_include::inline";
+        extract($args); 
         if (file_exists($file)) {
-            include($file);
+            return include($file);
         }
     }
 }

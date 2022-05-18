@@ -123,7 +123,7 @@ class CssParser implements ArrayAccess{
         if (igk_is_debug()){
             var_dump($def);
         }
-        igk_debug_wln_e(__FILE__.":".__LINE__,  $def);
+        // igk_debug_wln_e(__FILE__.":".__LINE__,  $def);
         return $def;
         //igk_wln_e($def, $name, $value, $selector, $rv);
     }

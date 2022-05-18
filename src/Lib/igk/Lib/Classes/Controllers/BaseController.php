@@ -150,7 +150,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $sep="\\";
         } 
 
-        if ($name != IGK_DEFAULT_VIEW) {
+        if (($name != IGK_DEFAULT_VIEW) && !$this->getConfig("no_fallback_to_default_action")) {
             $t[] = implode("\\", array_filter(array_merge([$ns], ["Actions\\" . ucfirst(IGK_DEFAULT_VIEW) . "Action"])));
         } 
         $classdir = $this->getClassesDir(); 

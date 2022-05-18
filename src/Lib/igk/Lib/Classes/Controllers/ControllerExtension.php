@@ -1082,6 +1082,14 @@ abstract class ControllerExtension
      */
     public static function initDbConstantFiles(BaseController $controller)
     {
+        $table = null;
+        if (!$controller->getConfigs()->clDataSchema ){
+
+           if (is_null($table = $controller->getDataTableName()))
+                return;
+        }
+
+
         $f = $controller->getDbConstantFile();
         $tb = $controller->getDataTableInfo();
 
@@ -1097,10 +1105,13 @@ abstract class ControllerExtension
             $s .= "namespace " . str_replace("/", "\\", $ns) . "; " . IGK_LF;
         }
         $s .= "abstract class " . basename($cl) . "DbConstants{" . IGK_LF;
+        if (!is_null($table)){
+            $tb = [$table=>$tb];
+        }
         if ($tb != null) {
             ksort($tb);
             $prefix = igk_db_get_table_name("%prefix%", $controller);
-            foreach ($tb as $k => $v) {
+            foreach (array_keys($tb) as $k) {
                 $n = strtoupper($k);
                 $n = preg_replace_callback(
                     "/^%prefix%/i",
@@ -1117,9 +1128,8 @@ abstract class ControllerExtension
                 }
                 $s .= "\tconst " . $n . " = \"" . $k . "\";" . IGK_LF;
             }
-        }
+        } 
         $s .= "}" . IGK_LF;
-
         igk_io_w2file($f, $s, true);
         include_once($f);
     }
@@ -1510,4 +1520,23 @@ abstract class ControllerExtension
         }
         return $c;
     }
+
+    /**
+     * include in
+     * @param BaseController $controller 
+     * @param string $inc 
+     * @return void 
+     */
+    public static function inc(BaseController $controller, string $inc, $args = null){
+        $cf = \IGK\Helper\ViewHelper::Dir()."/".$inc;
+        if (is_null($args)){
+            $args = $controller->getViewArgs();
+        } 
+        foreach(["",".pinc"] as $ext){            
+            if (file_exists($g = $cf.$ext)){
+                return igk_include($g, $args);   
+            }
+        }            
+    }
+
 }

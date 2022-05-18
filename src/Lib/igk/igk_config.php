@@ -637,7 +637,7 @@ define("IGK_CHANGE_MAN_CTRL", "c_chm");
 define("IGK_CTRL_MANAGER", "c_cm");
 define("IGK_CTRL_TOOLS", "{912679e9-ad55-936d-27ee-73a76e54f49b}");
 define("IGK_CTRL_SESSION_MANAGER", "{5d1f178b-7734-102c-e649-4dc74edcf296}");
-define("IGK_SESSION_CTRL", "c_sc");
+define("IGK_SESSION_CTRL", "{78c6c622-f002-cb20-f30f-db9c31edf853}"); // "c_sc
 define("IGK_ERROR_CTRL", "c_er");
 define("IGK_THEME_CTRL", "c_th");
 define("IGK_FILE_MAN_CTRL", "c_fm");

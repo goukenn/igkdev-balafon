@@ -15,6 +15,6 @@ class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {
                 return IGKResourceUriResolver::getInstance()->resolve($lnk);
             }
         }
-        return null;
+        return $lnk;
     }     
 }

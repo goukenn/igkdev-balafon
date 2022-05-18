@@ -22,6 +22,7 @@ class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
         return $this->value;
     }
     public function getValue($option = null){
+        igk_wln_e("get value ... ");
         if (IGKValidator::IsUri($this->value)){
             return $this->value;
         }
@@ -29,6 +30,7 @@ class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
         if (file_exists($this->value)){
             $m =  IGKResourceUriResolver::getInstance()->resolve($this->value);
         }
+        igk_wln_e("resolving .... ".$this->value);
         return $m; 
     }
 }

@@ -3,12 +3,19 @@
 use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;
 
+include_once __DIR__."/IGKBillingConstants.php";
+
 final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic data
 {
-	
+	private function getBilling(){
+		return igk_getctrl(IGKBillingConstants::BILL_CTRL, false);
+	}
 	public function getDataTableName()
 	{
-		return null; //igk_getv($this->getBilling(), "DataTableName")."_details";
+		if(is_null($m = $this->getBilling())){
+			return null;
+		} 
+		return igk_getv($m, "DataTableName", "%prefix%_billing")."_details";
 	}
 	public function getDataTableInfo()
 	{

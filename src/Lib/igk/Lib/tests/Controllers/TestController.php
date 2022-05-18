@@ -5,6 +5,10 @@ use IGK\Controllers\BaseController;
 
 class TestController extends BaseController{
     
+    /**
+     * 
+     * @return string
+     */
     private function _getTestDeclaredDir(){
         return $this->getEnvParam("DeclaredDir");
     }

@@ -178,7 +178,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_MET
 //+ |
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
     
-    if(defined("IGK_FORCSS"))
+     if(defined("IGK_FORCSS"))
         return;   
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
     defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1);  

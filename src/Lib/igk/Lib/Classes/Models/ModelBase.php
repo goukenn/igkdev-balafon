@@ -22,7 +22,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * model base
  * @package IGK\Models
  * @method static ModelBase create() - create a row entries
- * @method static ModelBase createEmptyRow() - create a empty row - do not insert into database
+ * @method static static createEmptyRow() - create a empty row - do not insert into database
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter
  * @method static object|null insertIfNotExists(?array condition = null, ?array options = null) macros:Insert if condition not meet.
  * @method static object|null insert() macros function - DefaultModelEntryExtension

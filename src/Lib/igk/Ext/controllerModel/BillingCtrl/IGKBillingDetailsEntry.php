@@ -11,6 +11,6 @@ final class IGKBillingDetailsEntry
 	var $clAmount;
 
 	public function __toString(){
-		return "IGKBillingDetailsEntry";
+		return __CLASS__;
 	}
 }

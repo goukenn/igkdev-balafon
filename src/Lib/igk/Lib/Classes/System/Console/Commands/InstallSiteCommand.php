@@ -27,7 +27,7 @@ class InstallSiteCommand extends AppExecCommand
     var $desc  = "create new site";
 
     var $options = [
-        "--root_dir:[dir]" => "document root. default is current install directory",
+        "--root_dir:[dir]" => "document root. default is current install directory. if relative, base on the install site",
         "--apache:[host_dir]" => "apache server vitual host directory",
         "--environment:[key=v]" => "define environment",
         "--listen:[port]" => "port to listen. default is port 80. --listen:4000",
@@ -48,6 +48,7 @@ class InstallSiteCommand extends AppExecCommand
         } else {
             if (!is_dir(realpath($install_dir))) {
                 IGKIO::CreateDir($install_dir);
+                $force = 1;
             }
             $install_dir = realpath($install_dir);
         }

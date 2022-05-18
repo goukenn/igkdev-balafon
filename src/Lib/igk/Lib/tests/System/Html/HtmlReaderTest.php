@@ -50,4 +50,14 @@ class HtmlReaderTest extends BaseTestCase{
             $n->render()
         ); 
     }
+
+    public function test_loading_attr_expression(){
+        $n = igk_create_node("div");
+        $n->load("<div><igk:attr-expression id='info' /><igk:usesvg igk:args='data' title='data'/></div>");
+        $this->assertEquals(
+            '<div><div id="info"><span title="data"></span></div></div>',
+            $n->render(),
+            "not resolved"
+        ); 
+    }
 }

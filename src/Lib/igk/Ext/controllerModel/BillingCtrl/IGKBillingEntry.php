@@ -10,6 +10,6 @@ final class IGKBillingEntry
 	var $clTotalAmount;
 
 	public function __toString(){
-		return "BillingEntry";
+		return __CLASS__;
 	}
 }

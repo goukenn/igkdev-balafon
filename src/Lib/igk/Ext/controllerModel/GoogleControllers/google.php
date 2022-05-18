@@ -10,7 +10,9 @@
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri; 
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use function igk_resources_gets as __;
-if(defined ('GOOGLE_MODULE')){
+use function igk_curl_post_uri as post_uri;
+
+if(defined ('GOOGLE_MODULE') || !function_exists("igk_curl_post_uri")){
     return ;
 } else {
 require_once(__DIR__. "/Lib/Classes/IGKHrefListValue.php");
@@ -173,7 +175,7 @@ function igk_google_get_font($ft = "Open Sans", $dir = null)
     $ft = str_replace(" ", "+", $ft);
     $options = "";
     $url = igk_google_font_api_uri($ft, $options);
-    $g = igk_curl_post_uri($url);
+    $g = post_uri($url);
     if (preg_match_all(GOOGLE_URI_REGEX, $g, $tab) > 0) {
         $dir = $dir ?? igk_google_get_fontdir();
         $dir = "{$dir}/{$ft}";
@@ -221,13 +223,13 @@ function igk_google_installfont($family, $sizes, $file = null)
     $result = array();
     foreach (explode(';', $sizes) as $k) {
         $huri = igk_google_font_api_uri($family, trim($k));
-        $s = igk_curl_post_uri($huri . "&display=swap");
+        $s = post_uri($huri . "&display=swap");
         $info = igk_curl_info();
         if (($ts = $info["Status"]) == 200) {
             if (preg_match_all(GOOGLE_URI_REGEX, $s, $tab) > 0) {
                 $lnk = $tab["link"];
                 foreach ($lnk as $bs) {
-                    $b = igk_curl_post_uri($bs);
+                    $b = post_uri($bs);
                     $sr = str_replace(" ", "+", basename($bs));
                     igk_io_w2file($_installdir . "/" . $sr, $b);
                     $s = str_replace($bs, "./" . $name . "/" . $sr, $s);
@@ -339,7 +341,7 @@ function igk_google_zip_fontlist($links, $download = 1)
     $zip = null;
     $temp = tempnam(sys_get_temp_dir(), "fxip");
     foreach ($links as $v) {
-        $b = igk_curl_post_uri($v);
+        $b = post_uri($v);
         if ($zip == null) {
             $zip = igk_zip_content($temp, basename($v), $b, 0);
         } else {
@@ -631,7 +633,7 @@ IGKRoutes::Register(
             igk_exit();
         }
         $guri = $uri . "&display=swap";
-        $s = igk_curl_post_uri($guri);
+        $s = post_uri($guri);
         $info = igk_curl_info();
         if ($info["Status"] != 200) {
             igk_exit();

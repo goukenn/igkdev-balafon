@@ -15,7 +15,7 @@ use ReflectionFunction;
  * represent a root controller entry
  * @method static macroKeys() macros: get registrated macros key
  * @method static initDb() macros: init Controller database
- * @method static getDb() macros: get data adapter
+ * @method static mixed getDb() macros: get data adapter
  * @method static bool resetDb(bool $navigate=true , bool $force = true) from default extension reset controller attached database
  * @method static object getMacro() from default extension 
  * @method static mixed invokeMacro($name, $args) . from context force macros invocation if method is present.

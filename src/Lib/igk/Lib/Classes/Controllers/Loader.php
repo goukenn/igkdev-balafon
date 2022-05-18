@@ -210,7 +210,8 @@ class Loader implements IResponse {
             }
         }
         if(!file_exists($file))
-             return $this;
+             return $this; 
+
         $this->loader_load_files[$file] = $file;
         $bck = set_include_path(dirname($file).PATH_SEPARATOR. get_include_path());
         //+ unset the file to load        

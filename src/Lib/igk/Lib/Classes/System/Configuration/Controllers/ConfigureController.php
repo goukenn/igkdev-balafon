@@ -233,20 +233,13 @@ final class ConfigureController extends BaseController implements IConfigControl
         if ($app->getConfigs()->informAccessConnection) {
             $to = $app->getConfigs()->website_adminmail;
             if ($to) {
-                $message = igk_create_node("div");
-                $message->article($ctrl, "mail.notify.template", (object)array(
-                    "clDate" => igk_mysql_datetime_now(),
-                    "clDomain" => $app->getConfigs()->website_domain
-                ));
-                $d = igk_get_document('sys://mail/notification');
-                if ($d === igk_app()->getDoc()) {
-                    igk_die("notification is equal to global document ");
-                }
+              
+                $d = new \IGK\System\Html\Mail\NotifyConnexionMailDocument($this); 
                 $opt = igk_xml_create_render_option();
                 $opt->Context = "mail";
-                $opt->NoStoreRendering = 1;
-                $d->body->clearChilds()->add($message);
-                if (!igk_mail_sendmail($to, "no-reply@" . igk_app()->Configs->website_domain, __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
+                $opt->NoStoreRendering = 1; 
+                if (!igk_mail_sendmail($to, "no-reply@" . igk_app()->Configs->website_domain, 
+                __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
                     igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
                 }
             } else {

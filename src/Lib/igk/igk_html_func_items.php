@@ -367,9 +367,9 @@ function igk_html_node_list($items, $callback = null, $ordered = 0)
 
 
 function igk_html_node_usesvg($name)
-{
+{ 
     $s = igk_create_node("span");
-    $s->Content = igk_svg_use($name);
+    $s->Content = igk_svg_use($name);    
     return $s;
 }
 
@@ -1216,32 +1216,7 @@ function igk_html_node_cellrow()
  */
 function igk_html_node_centerbox($content = null)
 {
-    return new IGK\System\Html\Dom\HtmlCenterBoxNode($content);
-    // igk_trace();
-    // igk_wln_e("center box : ", $content);
-    // $n = igk_create_node('div');
-    // $n->setClass("igk-centerbox");
-    // $c = $n->add("div");
-    // $c->setClass("content");
-    // $c->setParentHost($n);
-    // if ($content) {
-    //     if (is_string($content)) {
-    //         $c->content = $content;
-    //     } else if (is_callable($content)) {
-    //         $c->host($content);
-    //     } else {
-    //         $c->content = igk_ob_get($content);
-    //     }
-    // } 
-    // if ($q = igk_html_parent_node()
-    // ) {
-    //     $q->add($n);
-    //     igk_html_parent_result($c);
-
-    //     igk_html_skip_add();
-    //     return $n;
-    // }
-    // return $c;
+    return new IGK\System\Html\Dom\HtmlCenterBoxNode($content);   
 }
 ///<summary>function igk_html_node_circlewaiter</summary>
 /**
@@ -4268,8 +4243,7 @@ function igk_html_node_attr_expression($p = null)
     }  
    
     if ($p == null) {
-        $p = igk_html_parent_node();
-        igk_html_skip_add();
+        $p = igk_html_parent_node();        
     }  
     $n = new HtmlAttribExpressionNode($p, (array)$c);
     return $n;

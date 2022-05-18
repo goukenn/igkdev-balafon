@@ -118,8 +118,9 @@ final class ConfigData {
     public function getConfig($name, $default=null){
         return igk_getv($this->m_configEntries, $name, $default);
     }
+    ///<summary>get default stored configuration data</summary>
     /**
-     * get the stored configuration data
+     * get default stored configuration data
      * @param mixed $xpath 
      * @param mixed $default 
      * @return mixed 

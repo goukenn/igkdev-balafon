@@ -1,15 +1,14 @@
 <div style="padding:2em 0em">
-Le système vous envoie cet email suite à une connexion réussie à votre d'interface d'administration.
+    {{ 'Connexion to Balafon Configuration interface' }} 
 </div>
 <div>
-<ul>
-<li>Time : {$row->clDate}</li>
-<li>domain : {$row->clDomain}</li>
-<li>ip: [func: igk_getv($_SERVER, 'REMOTE_ADDR')]</li>
-<li>with: [func: igk_getv($_SERVER, 'HTTP_USER_AGENT')]</li>
-<li>browser: [func: get_browser()]</li>
-</ul>
+    <ul>
+        <li>Time : {{ $raw->date }}</li>
+        <li>domain : {{ $raw->domain }}</li>
+        <li>ip: {{ $raw->server_ip }}</li>
+        <li>agent : {{ $raw->user_agent }} </li>
+    </ul>
 </div>
 <div>
-Cet email est destiné vous sensibiliser à la sécurité.
+    Cet email est destiné vous sensibiliser à la sécurité.
 </div>

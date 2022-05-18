@@ -420,8 +420,7 @@ EOF;
     /**
     * return application uri
     */
-    public function getAppUri($function=null){
-       igk_debug_wln("check : ", $function);
+    public function getAppUri($function=null){ 
 		if (!empty($function)){
 			$function = igk_str_rm_start($function, "/");
         }

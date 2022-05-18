@@ -359,7 +359,7 @@ final class MenuController extends ConfigControllerBase
         // $v_configTargetNode["igk-autofix-style"]="{'left':'0px', 'top':'10px', 'bottom':'10px', 'width':'200px'}";
         $v_configTargetNode->Index = -9999;
         $v_configTargetNode->clearChilds();
-        $v_configTargetNode->addVscrollbar();
+        
         $div = $v_configTargetNode->li()->div();
         $ul = $div->add("ul");
         $this->_initConfigMenu($v_CPages, $ctab, $ul, false);
@@ -371,7 +371,7 @@ final class MenuController extends ConfigControllerBase
         $v_configTargetNode->addBalafonJS()->Content = <<<EOF
 ns_igk.readyinvoke('igk.configmenu.init', ns_igk.getParentScript());
 EOF;
-
+        $v_configTargetNode->vscrollbar();
         //igk_wln_e( __FILE__.":".__LINE__, $v_configTargetNode);
         return $v_configTargetNode;
     }

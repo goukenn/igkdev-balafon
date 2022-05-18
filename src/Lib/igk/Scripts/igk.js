@@ -20498,6 +20498,7 @@ igk.ready(function () {
 		},
 		initAutoTransitionProperties: _initTransitionProperties,
 		loadLinks(t) {
+			 
 			for (var i = 0; i < t.length; i++) {
 				var c = document.createElement("link");
 				c.setAttribute("href", t[i]);

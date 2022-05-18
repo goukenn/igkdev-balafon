@@ -220,7 +220,7 @@ final class HtmlReader extends IGKObject
                     break;
                 case "'":
                 case '"':
-                    $v .= igk_str_read_brank($text, $offset, $ch, $ch, null, 1);
+                    $v .=  igk_str_read_brank($text, $offset, $ch, $ch, null, 1);
                     break;
                 case '{':
                 case '@':
@@ -407,6 +407,11 @@ final class HtmlReader extends IGKObject
             }
             return $n;
         } 
+        if ($name =='igk:usesvg'){
+            // igk_wln('nodename:'.$name, $cnode);
+            // igk_trace();
+            // igk_exit();
+        }
         return ($cnode !== null) ? $reader->_addNode($cnode, $name, $tab_doc, $pargs) : self::CreateNode($name, $pargs);
     }
     ///<summary></summary>
@@ -660,9 +665,7 @@ final class HtmlReader extends IGKObject
     private static function _ReadModel(self $reader, $tab_doc, $context = null)
     {
         $cnode = null;
-        $pnode = null;
-        $vp_item = (object)array("clCurrent" => null, "clParent" => null);
-
+        $pnode = null;       
         self::_PushContext(($reader->m_context != null) ? $reader->m_context : self::READ_XML);
 
         // + | }
@@ -729,10 +732,7 @@ final class HtmlReader extends IGKObject
                         }
                         $pargs = igk_engine_get_attr_arg(igk_getv($cattr, self::ARGS_ATTRIBUTE), $reader->m_context);
 
- 
-
                         $v_tn = self::_BuildNode($reader, $cnode, $name, $tab_doc, $pargs);
-
                       
                         if ($v_tn) {
                            // igk_debug_wln("\n data : ".get_class($v_tn) , "\nEmptyTag:". $v_tn->isEmptyTag(). " : ". $v_tn->tagName ." vs " .$name. "? ".$reader->IsEmpty()."\n");
@@ -1085,8 +1085,7 @@ final class HtmlReader extends IGKObject
         $tab_doc = new HtmlReaderDocument();
         $reader = new static($text);
         $reader->setContext($context);
-        self::_ReadModel($reader, $tab_doc, __FUNCTION__);
-         
+        self::_ReadModel($reader, $tab_doc, __FUNCTION__); 
         if ($b_context ) self::_PopContext();
         return $tab_doc;
     }
@@ -1448,10 +1447,16 @@ final class HtmlReader extends IGKObject
                     case '"':
                     case "'":  
                         // + | -------------------------------------------------------------------------                     
-                        // + | read propcessor string content
-                        $text = igk_str_read_brank($reader->m_text, $reader->m_offset, $ch, $ch,null, 1); 
+                        // + | read propcessor string content                
+                        if ($reader->m_text[$reader->m_offset] == $ch)
+                        {
+                            // empty string
+                            $text = $ch;
+                        }else{
+                            $text = igk_str_read_brank($reader->m_text, $reader->m_offset, $ch, $ch,null, 1); 
+                        }
                         $v.= $text;                      
-                        $reader->m_offset++;                        
+                        $reader->m_offset++;          
                         break;                    
                     case '/':
                         if (!$scomment){

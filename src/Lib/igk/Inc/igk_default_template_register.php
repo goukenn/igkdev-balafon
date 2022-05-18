@@ -48,7 +48,7 @@ function igk_template_get_piped_value($rv, $context){
 	extract( igk_to_array($context));
     list($v, $pipe) = igk_str_pipe_args($rv, $c, 0);   
     try{
-	    $v = eval( "return $v;");    
+	    $v = @eval( "return $v;");    
         if ($e = error_get_last()){
             igk_trace();
             igk_dev_wln_e(__FUNCTION__."::Error:", $e, "source:".$rv, "output:".$v, $raw, $context);

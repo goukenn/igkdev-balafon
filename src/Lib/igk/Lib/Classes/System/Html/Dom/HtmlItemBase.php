@@ -437,9 +437,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         $skip = false;
         if (is_string($n)) {
-            igk_html_push_node_parent($this);
+            igk_html_push_node_parent($this); 
             $n = static::CreateWebNode($n, $attributes, $args);
-            $skip = igk_html_is_skipped();
+            $skip = igk_html_is_skipped();            
             igk_html_pop_node_parent(); 
         }
         if ($n && ($skip || ($this->_Add($n) !== false))) {
@@ -952,7 +952,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     * @param callable|null $creator 
     * @return mixed 
     */
-    public function load($source, $contextObj=null, callable $creator=null){         
+    public function load(string $source, $contextObj=null, callable $creator=null){         
         return self::LoadInContext($this, $source, $contextObj ?? HtmlContext::Html, $creator);
     }  
     ///<summary>Load html content to this node </summary>
@@ -964,10 +964,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     * @param mixed $content source string to load
     * @param mixed $context context of the loading. mixed string or object
     */
-    public static function LoadInContext($t, $content, $context=null, callable $creator=null){
-        if ($creator===null){
+    public static function LoadInContext($t, string $content, $context=null, callable $creator=null){
+        if (is_null($creator)){
             $creator = Closure::fromCallable([get_class($t), "LoadingNodeCreator"]);
-        }
+        } 
         $d= HtmlReader::Load($content, $context, $creator);
         if($d){
             $d->CopyTo($t);

@@ -127,6 +127,14 @@ EOF;
                 }
             }
             ksort($tab);
+            Logger::info("Configure : ");
+            $names = [
+                "clAppName"=>__("name"),
+                "clAppNotActive"=>__("Is not Active ?"),
+                "clBasicUriPattern"=>__("Entry URI"),
+                "clTitle"=>__("Title"),
+                "clDataTablePrefix"=>__("Tables's Prefix"),
+            ];
             foreach($tab as $key=>$value){
                 $def=null;
                 if($def=(is_array($value) ? igk_getv($value, "default"): $value)){
@@ -134,7 +142,7 @@ EOF;
                         $def=$def($prop);
                     }
                 }
-                $config->$key=igk_getsv(readline("configure : ".$key. " = "), $def);
+                $config->$key=igk_getsv(readline(igk_getv($names, $key, $key). " = "), $def);
             }
         }
         if($config){

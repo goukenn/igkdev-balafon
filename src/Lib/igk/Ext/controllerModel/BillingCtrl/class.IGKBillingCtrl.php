@@ -6,15 +6,14 @@ use igk\PDF as PDFModule;
 
 abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_billingDetails;
-
+ 
 	
 	protected function initComplete()
-	{
+	{ 
 		parent::initComplete();
 		//register a billing
-		$this->app->getControllerManager()->register("Billing", $this);
-		$this->app->getControllerManager()->register("BillingDetails", new IGKBillingDetailsCtrl());
+		$this->app->getControllerManager()->register(IGKBillingConstants::BILL_CTRL, $this);
+		$this->app->getControllerManager()->register(IGKBillingConstants::BILL_DETAIL_CTRL, new IGKBillingDetailsCtrl());
 	}
 	public function store($caddyInfo)
 	{

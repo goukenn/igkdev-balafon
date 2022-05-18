@@ -26,8 +26,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             return $c;
         }
 
-
-     
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" :
                 (property_exists($options, "--restore") ? "r" :
@@ -100,7 +98,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
                     $g = substr($f, strlen($pdir));
                     if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
-                        @ftp_mkdir($h, dirname($project . $g));
+                        ftpHelper::CreateDir($h, dirname($project . $g));
                         array_push($cdir, $_cdir);
                     }
                     Logger::print("upload : " . $f);

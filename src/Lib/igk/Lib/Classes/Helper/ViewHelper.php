@@ -55,7 +55,7 @@ class ViewHelper
      */
     public static function File()
     {
-        return igk_get_viewfile();
+        return  igk_environment()->last("viewFileCaches");
     }
     /**
      * get included file directory

@@ -24,7 +24,7 @@ class HtmlAttribExpressionNode extends XmlNode
     {        
         parent::__construct(IGK_ENGINE_ATTR_EXPRESSION_NODE);
         $this->node_args = $c; 
-        $this->target_node = $cnode;
+        $this->target_node = $cnode; 
     }
     ///<summary>Represente getCanAddChild function</summary>
     public function getCanAddChild()

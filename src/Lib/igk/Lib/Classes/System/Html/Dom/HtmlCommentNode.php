@@ -10,10 +10,17 @@ namespace IGK\System\Html\Dom;
 class HtmlCommentNode extends HtmlItemBase{
     protected $tagname = "igk:comment";
     
+    public function __construct(?string $data = null)
+    {
+        $this->setContent($data);
+    }
     public function getCanAddChilds(){
         return false;
     }
-    public function render($options=null){
-        return "<!--" .$this->getContent(). " -->";
+    public function render($options=null){ 
+        if (igk_getv($options, "NoComment"))
+            return null;        
+        return "<!-- " .trim($this->getContent()). " -->";
     }
+    
 }

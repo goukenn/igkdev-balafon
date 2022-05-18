@@ -12,7 +12,7 @@ class IGKRawDataBinding implements ArrayAccess {
         }
         return array_key_exists($offset, $this->m_data);
     }
-     public function offsetGet (  $offset ) {
+     public function _access_offsetGet (  $offset ) {
         return $this->__get($offset);
     }
     protected function _access_offsetSet ($offset ,$value ) {

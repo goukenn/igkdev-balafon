@@ -28,9 +28,17 @@ class IGKWebApplication extends IGKApplicationBase
         $this->file = $file;
         // prepare server info
         $srv = IGKServer::getInstance();
+        $config = igk_configs();
+        // + | --------------------------------------------------------        
+        // + | handle secure port 
+        if($config->force_secure_redirection && ($sport=$config->secure_port ?? 443) && (igk_server()->SERVER_PORT != $sport)){            
+            igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
+            igk_exit();
+        }
+        
+        // + | --------------------------------------------------------        
         // handle cache
         IGKEnvironment::getInstance()->is("OPS") && $render && IGKCaches::HandleCache();
-        // igk_wln_e(__FILE__.":".__LINE__, "data request handle");
        
 
         igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());

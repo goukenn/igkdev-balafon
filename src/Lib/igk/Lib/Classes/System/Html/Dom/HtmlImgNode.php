@@ -18,22 +18,23 @@ class HtmlImgNode extends HtmlNode{
         parent::__construct("igk-img");
         $this["src"] = $src; 
         $this["xmlns:igk"] = self::HTML_NAMESPACE; 
+        $this->setSrc($src);
     } 
     protected function createAttributeArray(){ 
         return new HtmlAttributeArray([
             "src"=>new HtmlResolvLinkValue()
         ]);
     }
-    public function setSrc($source){
-        if ($source==null){
+    public function setSrc($source){ 
+        if (is_null($source)){
             unset($this["src"]);
         }else {
-            if (!($g = igk_getv($this, "src"))){
+            if (!($g = igk_getv($this, "src"))){ 
                 $g = new ResourceData($source);
                 $this["src"] = $g;
             }else {
                 $g->setValue( $source );
-            }
+            } 
         }
         return $this;
     }
@@ -43,7 +44,5 @@ class HtmlImgNode extends HtmlNode{
     public function closeTag()
     {
         return true;
-    }
-    
-    
+    } 
 }

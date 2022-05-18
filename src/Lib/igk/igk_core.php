@@ -205,10 +205,10 @@ function igk_getpv($array, $key, $default = null)
     if (!is_array($n)) {
         $n = explode("/", $n);
     }
-    if (($array === null) || (empty($key) && ($key !== 0))) {
+    if ((is_null($array)) || (empty($key) && ($key !== 0))) {
         return $default;
     }
-    if ($key === null) {
+    if (is_null($key)) {
         igk_die(__FUNCTION__ . " key not defined");
     }
     $def = $default;
@@ -241,7 +241,7 @@ function igk_getpv($array, $key, $default = null)
         }
         $array = $o;
     }
-    if ($o === null) {
+    if (is_null($o)) {
         if (!is_string($def) && igk_is_callable($def)) {
             $o = call_user_func_array($def, array());
             $array[$ckey] = $o;
@@ -325,7 +325,7 @@ function igk_const_defined($ctname, $defvalue = 1)
  */
 function igk_create_instance($class, &$obj, $callback)
 {
-    if ($obj === null) {
+    if (is_null($obj)) {
         $obj = $callback($class);
     }
     return $obj;
@@ -435,7 +435,7 @@ function igk_set_cmd($v = 1)
 }
 function igk_is_null_or_empty($c)
 {
-    return ($c === null) || empty($c);
+    return (is_null($c)) || empty($c);
 }
 
 ///<summary>get if framework is in atomic mode</summary>
@@ -456,7 +456,7 @@ function igk_is_atomic()
 function igk_load_library($name)
 {
     static $inUse = null;
-    if ($inUse === null) {
+    if (is_null($inUse)) {
         $inUse = array();
     }
     $lib = IGK_LIB_DIR . "/Library/";
@@ -597,16 +597,7 @@ function igk_dev_wln_e()
         igk_exit();
     }
 }
-// function igk_wln_set($prop, $value){
-//     $s = igk_env_get($k = "sys://igk_wln");
-//     if ($s === null)
-//         $s = [];
-//     if ($value == null){
-//         unset($s[$prop]);
-//     }else
-//         $s[$prop] = $value;
-//     igk_env_set($k, $s);
-// }
+ 
 
 
 function igk_bind_trace()
@@ -721,7 +712,7 @@ function igk_wln($msg = "")
  */
 function igk_log_var_dump($tab, $lf = null)
 {
-    if ($lf === null) {
+    if (is_null($lf)) {
         if (!($lf = igk_environment()->get(IGK_LF_KEY))) {
             $v_iscmd = igk_is_cmd();
             $lf = $v_iscmd ? IGK_CLF : "<br />";
@@ -1039,7 +1030,7 @@ function igk_app()
  * @return IGK\System\Configuration\ConfigData
  */
 function igk_configs(){
-    return igk_app()->getConfigs();
+    return IGKAppConfig::getInstance()->Data;
 }
 
 /**
@@ -1258,7 +1249,7 @@ function igk_conf_get($conf, $path, $default = null, $strict = 0)
                 return $default;
         }
         if ($q) {
-            if ($tout === null) {
+            if (is_null($tout)) {
                 $tout = $q;
             } else if (!is_array($tout)) {
                 $tout = array($tout);
@@ -1561,47 +1552,16 @@ function igk_is_class_incomplete($n)
 {
     return get_class($n) === __PHP_Incomplete_Class::class;
 }
-
+///<summary>get realpath helper</summary>
+/**
+ * get realpah helper
+ * @param mixed $p 
+ * @return string|false|null 
+ * @throws IGKException 
+ */
 function igk_realpath($p)
 {
-    return Path::getInstance()->realpath($p);
-    // $o = "";
-    // $path = igk_html_uri($path);
-    // $offset = 0;
-    // if ($o = realpath($path)){
-    //     return $o;
-    // }else {
-    // 	//check if contains
-    // 	$found = 0;
-    //     while(($pos = strpos( $path,"../", $offset))!==false){
-    // 		$found = 1;
-    //         if (!($ch = realpath(substr($path, 0, $pos+3)))){
-    //             return false;
-    //         }
-    //         $path = igk_html_uri($ch) ."/".substr($path, $pos+3);
-    //         $offset =strlen($ch);
-    //     }
-    // 	if (!$found)
-    // 		return null;
-    // }
-    // if (!$b){
-
-    // }
-
-    // while($c = preg_match("#(?P<n>(\.\.\/)+)#", $path, $tab, PREG_OFFSET_CAPTURE, $offset)){
-
-    //     $d = $tab[0];
-    //     if ($cc = igk_realpath(substr($path, 0, $noff = $d[1]+strlen($d[0])))){
-    //         $path = igk_html_uri($cc)."/".substr($path, $noff);
-    //     }else {
-    //         $failed = 1;
-    //         break;
-    //     }
-    // }
-    // if (!$failed){
-    //     $o = $path;
-    // }
-    // return $path;
+    return Path::getInstance()->realpath($p);     
 }
 
 ///<summary>check if is sub directory</summary>
@@ -1621,6 +1581,7 @@ function igk_sys_getdefaultctrlconf()
 {
   
     return array(
+        "clVersion"=>"1.0",
         "clDataAdapterName" => igk_configs()->get("default_dataadapter", IGK_CSV_DATAADAPTER),
         "clDataSchema" => false,
         "clDisplayName" => null,
@@ -1629,14 +1590,13 @@ function igk_sys_getdefaultctrlconf()
         "clTargetNodeIndex" => 0,
         "clVisiblePages" => "*",
         "clDescription" => null,
-        "auto_cache_view"=>1
     );
 }
 
 function igk_sys_reflect_class($cl)
 {
     static $reflection;
-    if ($reflection === null) {
+    if (is_null($reflection)) {
         $reflection = [];
     }
     if (is_object($cl)) {
