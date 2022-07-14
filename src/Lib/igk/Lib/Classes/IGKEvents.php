@@ -1,6 +1,12 @@
 <?php
 
 ///<summary>represent a event method pointer</summary>
+
+use IGK\Actions\Dispatcher;
+use IGK\HookOptions;
+use IGK\IHookOptions;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+
 /**
  * represent a event method pointer
  */
@@ -40,6 +46,10 @@ class IGKEvents extends IGKObject
     const HOOK_SHUTDOWN = "app_shutdown";
     const HOOK_LOG_APPEND = "sys_log_append_msg";
     const HOOK_INSTALL_SITE = "sys_install_site";
+
+    public static function CreateHookOptions():IHookOptions{
+        return new HookOptions();
+    }
     /**
      * css context bind controller styles sheet on init
      */
@@ -260,29 +270,41 @@ class IGKEvents extends IGKObject
      * @param int $priority 
      * @return void 
      */
-    public static function reg_hook($name, $callback, $priority = 10)
+    public static function reg_hook($name, $callback, $priority = 10, $injectable=true)
     {
         $hooks = & igk_environment()->createArray(self::ENV_KEY); 
         if (!isset($hooks[$name])) {
             $hooks[$name] = (object)array("list" => array(), "changed" => 1);
         }
-        $hooks[$name]->list[] = (object)array("priority" => $priority, "callback" => $callback);
+        $hooks[$name]->list[] = (object)array(
+            "priority" => $priority, 
+            "callback" => $callback, 
+            "injectable"=> $injectable,
+        );
         $hooks[$name]->changed = 1;  
     }
 
     /**
-     * hook event
-     */
+    * 
+    * @param mixed $name 
+    * @param array $args 
+    * @param ?\IGK\IHookOptions|array|object $options 
+    * @return mixed 
+    * @throws IGKException 
+    * @throws ArgumentTypeNotValidException 
+    * @throws ReflectionException 
+    */
     public static function hook($name, $args = array(), $options = null)
     {
         // + ----------------------------------------------------------------------
         // + | Default output 
         $def = null;
-        if ($options) {
-            $def = igk_get_robjs("default|output|type", 0, (object)$options);
+        if (!is_null($options) && !($options instanceof IHookOptions)) { 
+             $def = igk_get_robjs("default|output|type", 0, (object)$options);
+        } else {
+            $def = $options;
         }
-        $hooks = igk_environment()->{self::ENV_KEY};
-
+        $hooks = igk_environment()->get(self::ENV_KEY);
         $tab = igk_getv($hooks, $name);
         
         if ($tab) {
@@ -316,8 +338,14 @@ class IGKEvents extends IGKObject
                         );
                         continue;
                     }
-                } else
-                    $cargs[0]->lastoutput = call_user_func_array($v->callback, $cargs);
+                } else{ 
+                    $tcargs = $cargs;
+                    if ($v->injectable){
+                        $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
+                        $tcargs = Dispatcher::GetInjectArgs( new \ReflectionFunction($fc), $cargs);
+                    }
+                    $cargs[0]->lastoutput = call_user_func_array($v->callback, $tcargs);
+                }
                 if ($cargs[0]->handle) {
                     break;
                 }

@@ -8,7 +8,7 @@ use IGK\Resources\R;
 use IGK\System\IO\FileSystem;
 
 use function igk_getv as getv;
-require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
+
 ///<summary>use to manage Server Environment</summary>
 /**
 * use to manage Server Environment
@@ -101,15 +101,15 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     }
 
     public function getEnvironmentPath(){
-        return [
+        return array_filter([
+            "%lib%"=>IGK_LIB_DIR,
             "%app%"=>igk_io_applicationdir(),
             "%project%"=>igk_io_projectdir(),
-            "%lib%"=>IGK_LIB_DIR,
             "%basedir%"=>igk_io_basedir(),
             "%packages%"=>igk_io_packagesdir(),
             "%modules%"=>igk_get_module_dir(),
-            "%viewcaches%"=>$this->getViewCacheDir()
-        ];
+            "%viewcaches%"=>igk_is_cmd()? null : $this->getViewCacheDir()
+        ]);
     }
     /**
      * return view cache directory. 
@@ -185,13 +185,23 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     * 
     */
     private function __construct(){
+        $this->_prepareServerEnvironment();
+    }
+    /**
+     * prepare server environment
+     * @return void 
+     */
+    private function _prepareServerEnvironment(){
         $t=[];
         foreach($_SERVER as $k=>$v){
-            if(preg_match("/^IGK_/i", $k)){
-                $t[$k]=$v;
-            }
+            if (strpos($k, "IGK_")===0){
+                $t[$k]= $v;
+            } 
         }
         $this->m_envs=$t;
+    }
+    public function getToday(){
+        return date("Y-m-d");
     }
     public function __debugInfo()
     {
@@ -325,6 +335,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
             $env_mode = self::$env_keys[$env_mode];
         }
         return IGKServer::getInstance()->ENVIRONMENT == $env_mode;
+    }
+    /**
+     * helper
+     * @return bool 
+     */
+    public function isDev():bool{
+        return $this->is("DEV");
     }
     ///<summary>get if environment is in debug mode</summary>
     /**
@@ -545,5 +562,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      */
     public function setConfigFiles(array $config){
         $this->setArray("extra_config", "configFiles", $config);
+    }
+
+    /**
+     * get if allowed to resolv SQL data type 
+     * @return bool 
+     */
+    public function getResolvSQLType(){
+        return !defined("IGK_TEST_INIT");
     }
 }

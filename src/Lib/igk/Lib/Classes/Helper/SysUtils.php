@@ -8,8 +8,21 @@ use IGKApp;
 use IGKEvents;
 use IGKException;
 use ReflectionMethod;
+use IGK\Controllers\BaseController;
 
 class SysUtils{
+    /**
+     * get controller by name
+     * @param string $ctrl 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetControllerByName(string $ctrl, $throwex = 1){
+        $ctrl = str_replace("/", "\\", $ctrl);  
+        return  (IGKApp::IsInit() && class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class) ) ?
+                $ctrl::ctrl() : 
+                igk_app()->getControllerManager()->getController($ctrl, $throwex);
+    }
     /**
      * get application module from entry file
      * @param mixed $file 
@@ -166,10 +179,6 @@ class SysUtils{
 
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
-        // if ($g !== null) {
-        //     return $g;
-        // }
-        // return null;
     }
 
     public static function GetApplicationLibrary(string $name){

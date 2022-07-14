@@ -7,8 +7,7 @@
 
 use IGK\Database\DbQueryDriver;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
-
-
+use IGK\System\Console\Logger;
 
 if (!extension_loaded("mysql") && (!extension_loaded("mysqli"))) {
     error_log("[BLF] - no extension mysql or mysqli installed. class will not be installed in that case." . extension_loaded("mysqli"));
@@ -18,12 +17,17 @@ if (!function_exists("mysqli_connect")) {
     error_log("function not exists mysqli_connect");
     igk_exit();
 }
-
+define("IGK_MYSQL_DIR", IGK_LIB_CLASSES_DIR . "/System/Database/MySQL");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
-require_once(__DIR__ . "/DataAdapterBase.php");
-require_once(__DIR__ . "/DataAdapter.php");
-require_once(__DIR__ . "/Controllers/MySQLDataController.php");
+ 
+$file = (new ReflectionClass(\IGK\System\DataBase\MySQL\DataAdapterBase::class))->getFileName();
+
+
+require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
+// igk_wln_e("the file ", get_included_files() , $file, IGK_MYSQL_DIR . "/DataAdapterBase.php");
+require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
+require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
 
 ///<summary></summary>
 ///<param name="srv"></param>
@@ -79,7 +83,7 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
             }
             $msg = "DB Error : " . $ex->getMessage() . $extra;
             // igk_ilog($msg);
-            // if (igk_environment()->is("DEV")){
+            // if (igk_environment()->isDev()){
             //     igk_ilog("danger: ".$msg);
             //     \IGK\System\Console\Logger::danger("danger : ".$msg);
             //     igk_trace();
@@ -116,7 +120,7 @@ function igk_db_escape_string($v, $r = null)
             return $g($b, $v);
         }
         // no driver to espace string default function
-        return addslashes($v);
+        return is_null($v) ? $v : addslashes($v);
     }
     if (!empty($g))
         return $g($v);
@@ -196,6 +200,10 @@ function igk_db_fetch_assoc($r){
  */
 function igk_db_query($query, $res = null)
 { 
+    // if (igk_environment()->isDev()){
+        // error_log("querylogging:".$query); 
+        // Logger::print("q:".$query);
+    // }
     $g = DbQueryDriver::GetFunc("query");
     if (DbQueryDriver::Is("MySQLI")) { 
         if ($res) {

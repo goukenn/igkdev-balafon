@@ -9,13 +9,15 @@ use function igk_resources_gets  as __;
 require_once __DIR__."/IFormValidator.php";
 require_once __DIR__."/IFormPatternValidator.php";
 
-class Validation{
+class FormValidation{
+    var $uri;
+
     var $storage = true;
     /**
-     * validation list
+     * fields to validate
      * @var mixed
      */
-    private $m_validator;
+    private $_fields;
 
     /**
      * error message
@@ -38,14 +40,15 @@ class Validation{
     }
     /**
      * set array of validation
-     * @param array $validation 
+     * @param array $fields 
      * @return self 
      */
-    public function validator(array $validation){
-        $this->m_validator = $validation;
+    public function fields(array $fields){
+        $this->_fields = $fields;
         return $this;
     }
 
+   
     /**
      * register validator
      * @param mixed $name 
@@ -75,7 +78,7 @@ class Validation{
         $this->m_errors = [];
         $result = false;
         $out_data = [];
-        foreach($this->m_validator as $k => $data){
+        foreach($this->_fields as $k => $data){
             if (igk_getv($data,"type")=="file"){
                 $validator = new FileValidator();
                 $storage = new IGKObjStorage($data);
@@ -105,7 +108,7 @@ class Validation{
         if (empty($request)){
             $this->m_errors[] = __("validation: empty request not allowed");
         } 
-        if (empty($this->m_validator)){
+        if (empty($this->_fields)){
             $this->m_errors[] = __("no validator setup");
         }
         if (count($this->m_errors) == 0 ){
@@ -116,25 +119,35 @@ class Validation{
                  */
                 $storage = null;
                 $out_data = [];
-                foreach($this->m_validator as $k => $data){
-                    if (is_string($data)&& is_numeric($k)){
-                        $k = $data;
-                        $data = [];
+                foreach($this->_fields as $k => $data){
+                    if (is_numeric($k)){
+                        if (is_string($data)){
+                            $k = $data;
+                            $data = [];
+                        }
+                        if (is_object($data)){
+                            if (!$data->validateRequest($out_data, $this->m_errors)){
+                                
+                            }                      
+                            continue;
+                        }
                     }
+
                     $v = igk_getv($request, $k);
                     $storage = new IGKObjStorage($data);
                     $storage->name = $k;
-                    if (empty($v) && $storage->required){
+                    if (empty($v) && (strlen($v)==0) && $storage->required){
                         $this->m_errors[] = __("form validation {0} is required", $k);
                         continue;
                     }
+                 
 
                     // validate field 
                     $_v = $this->getValidator($storage->type);
                     if ($_v instanceof IFormPatternValidator){
                         $_v->setPattern($storage->pattern);
                     }
-                    $v = $_v->validate($v, $storage->default, $storage, $this->m_errors); 
+                    $v = $_v->validate($v, $storage->default, $storage, $this->m_errors);                    
                     $out_data[$k] = $v;
                 }
                 if (count($this->m_errors) == 0 ){
@@ -143,7 +156,8 @@ class Validation{
                     else 
                         $result = $out_data;
                 }
-        }
+        } 
+
         return $result;
     }
 
@@ -183,7 +197,7 @@ class Validation{
             $request = $_REQUEST;
         }
         if (igk_server()->method($method)){
-            return (new self())->validator($fields)->validate($request);
+            return (new self())->fields($fields)->validate($request);
         }
         return false;
     }

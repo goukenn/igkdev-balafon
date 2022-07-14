@@ -95,10 +95,24 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     */
     public function showConfig(){
         parent::showConfig();
-        $cnf=$this->ConfigNode;
-        $box=$cnf->addPanelBox();
+        $cnf = $this->getConfigNode();
+
+        $box = $cnf->addPanelBox();
+        // $box->div()->Content = "OK ".igk_env_count(__FILE__);
+        // $box->div()->obdata(function(){
+        //     igk_trace();
+        // });
+		// $box->div()->setClass("igk-title-4")->setStyle("line-height:1; margin-bottom:1em")->Content = __("Google Setss tings");
+
+        $box= $cnf->addPanelBox();
+        $box->div()->h2()->Content = "Google's Font Setting";
+        // $box->panelbox()->Content = "...";
+        $box->panelbox()->Content = "use <code class=\"dispib\"> igk_google_addfont(\$doc, \$name)</code> to add google's inline font";
         igk_css_reg_global_tempfile(dirname(__FILE__)."/Styles/google.font.css");
+
         $box->ctrlview("fontsettings", $this, ['fontlist'=>$this->getfontlist()]);
+
+
     }
 	public function resave(){
 		igk_google_store_setting();

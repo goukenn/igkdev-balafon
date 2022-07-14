@@ -16,7 +16,7 @@ abstract class ControllerBaseTestCase extends BaseTestCase{
             }
         }else{
             $this->controller = $ctrl;
-        }
+        } 
        
     }
     /**

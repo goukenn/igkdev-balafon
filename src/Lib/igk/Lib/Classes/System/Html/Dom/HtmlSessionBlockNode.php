@@ -21,7 +21,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
  
     public function getIsVisible()
     {
-        return IGKServer::IsLocal() || igk_environment()->is("DEV");
+        return IGKServer::IsLocal() || igk_environment()->isDev();
     }
     
     ///<summary></summary>

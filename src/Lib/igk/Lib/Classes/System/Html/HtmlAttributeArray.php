@@ -5,6 +5,7 @@ namespace IGK\System\Html;
 use ArrayAccess;
 use IGK\System\Collections\ArrayList;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGKException;
 
 require_once IGK_LIB_CLASSES_DIR ."/System/Html/HtmlActiveAttrib.php";
 
@@ -13,6 +14,12 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess{
     // protected $preserverKeys = true;
     private $m_protectedList;
 
+    /**
+     * activate attribute
+     * @param mixed $n 
+     * @return $this 
+     * @throws IGKException 
+     */
     public function activate($n){
         $t = array_filter(explode(" ", $n));
         while( $s = array_shift($t)){
@@ -20,8 +27,21 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess{
         }
         return $this;
     }
+    /**
+     * deactivate attribute
+     * @param mixed $n 
+     * @return void 
+     */
     public function deactivate($n){
         unset($this->m_data[$n]);
+    }
+    /**
+     * get if attribute is active
+     * @param mixed $n 
+     * @return bool 
+     */
+    public function isactive($n){
+        return isset($this->m_data[$n]) && ($this->m_data[$n] instanceof HtmlActiveAttrib);
     }
     function __debugInfo()
     {

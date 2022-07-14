@@ -8,7 +8,7 @@ use IGK\XML\XMLNodeType;
 
 class IGKHtmlToScriptTool extends ToolControllerBase
 {
-	protected function initComplete()
+	protected function initComplete($context=null)
 	{
 		parent::initComplete();
 	}

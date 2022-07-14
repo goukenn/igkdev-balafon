@@ -67,16 +67,24 @@ class IGKAppSystem{
         igk_unreg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, __FUNCTION__]); 
     }
 
-    public static function InstallDir(string $idx, string $app_dir, string $dirname, $project_dir, $data_dir, 
-         $sys_datadir,
+    public static function InstallDir(string $idx, string $app_dir, string $dirname, string $project_dir, string $data_dir, 
+         string $sys_datadir,
          ?array $options=null){
         $access="deny from all";  
         $old=umask(0);
         $is_primary = ($app_dir == $dirname);
 
+        
         $v_access= dirname($idx)."/.htaccess";
-        if(!file_exists($v_access)){
-            igk_io_save_file_as_utf8($v_access, igk_getbase_access(), true);
+        
+        igk_trace();
+        igk_wln_e("try create : ", $idx, $v_access);
+        
+        if(!file_exists($v_access)){            
+            
+            igk_io_save_file_as_utf8($v_access, igk_getbase_access(                
+                $dirname
+            ), true); 
         }
         $confFILE = StringUtility::UriCombine($data_dir, "configure");
         igk_io_save_file_as_utf8($app_dir."/Lib/.htaccess", $access, true);

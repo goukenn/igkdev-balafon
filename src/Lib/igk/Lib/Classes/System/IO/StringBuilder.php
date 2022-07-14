@@ -8,16 +8,18 @@ namespace IGK\System\IO;
 
 class StringBuilder{
     protected $m_src;
+    var $lf;
     
     public function __construct(& $src = null)
     {
         if ($src===null){
             $src  = "";
         }
+        $this->lf = "\n";
         $this->m_src = & $src;
     }
     public function appendLine($text){
-        $this->append($text."\n");
+        $this->append($text.$this->lf);
     }
     public function append($text){          
         $this->m_src .= $text;       

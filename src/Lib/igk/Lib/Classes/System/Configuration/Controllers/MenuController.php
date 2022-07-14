@@ -47,14 +47,7 @@ final class MenuController extends ConfigControllerBase
         $this->m_customMenu = array();
         $this->storeDBConfigsSettingMenu($storeconfig);
     }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    public function __construct()
-    {
-        parent::__construct();  
-    }
+   
     
     ///<summary></summary>
     ///<param name="div"></param>
@@ -351,7 +344,7 @@ final class MenuController extends ConfigControllerBase
             "data"=> & $v_ctab
         ];
         igk_hook(IGKEvents::FILTER_CONFIG_MENU, [$c_array] );
-        // igk_wln_e("bind.....", $v_ctab);
+ 
         $v_sortByDisplayText = array(MenuItem::class, "SortMenuByDisplayText");
         $v_configTargetNode = igk_create_node("div");
         $v_configTargetNode["class"] = "igk-config-menu-font google-Roboto";
@@ -558,8 +551,7 @@ EOF;
         if ($config_target === null) {
             $config_target = igk_create_node("div");
         }
-        return $config_target;
-        // return $this->getFlag("m_configTargetNode");
+        return $config_target; 
     }
     ///<summary></summary>
     /**
@@ -1359,6 +1351,15 @@ EOF;
         $pages = $this->getParam("pages", array());
         unset($pages[$pageName]);
     }
+    protected function getIsAvailable(){
+        return false;
+    }
+    public function getIsVisible(){
+        return false;
+    }
+    public function getIsConfigPageAvailable(){
+        return false;
+    }
     ///<summary></summary>
     /**
      * 
@@ -1366,6 +1367,9 @@ EOF;
     public function View()
     {
         $t = $this->TargetNode;
+        $t->clearChilds();
+        return;
+
         if (!$this->getIsVisible()) {
             if (!$this->ConfigCtrl->IsConfiguring) {
                 $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);

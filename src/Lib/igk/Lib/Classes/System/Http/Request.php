@@ -1,15 +1,18 @@
 <?php
 
 namespace IGK\System\Http;
-
+ 
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\IInjectable;
+use IGKException;
+
 ///<summary>request </summary>
 /**
  * 
  * @package IGK\System\Http
  */
-class Request
+class Request implements IInjectable
 {
     static $sm_instance;
     private $m_params;
@@ -150,5 +153,12 @@ class Request
     public function __toString()
     {
         return json_encode($this);
+    }
+    public function __get($name){
+        if (!array_key_exists($name, $_REQUEST)){ 
+            igk_environment()->isDev() && igk_ilog(sprintf("key %s not present", $name ));
+            return null;           
+        }
+        return $this->get($name);
     }
 }

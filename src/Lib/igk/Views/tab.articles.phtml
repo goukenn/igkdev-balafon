@@ -24,7 +24,7 @@ __("Article for {0}", $s_ctrl->getName());
 $frm=$v_divarticle->addForm();
 $frm["action"]=$ctrl->getUri("ca_add_article_frame");
 $frm->addLabel()->Content= __("Lang");
-$l= explode("|", R::GetSupportLangRegex());
+$l= R::GetSupportedLangs();  
 
 $tab=array(IGK_ALL_LANG);
 if(count($l) > 0)

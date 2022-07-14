@@ -92,7 +92,7 @@ final class SysDbController extends NonVisibleControllerBase{
     { 
     }
     ///<summary></summary>
-    protected function initComplete(){
+    protected function initComplete($context=null){
         parent::initComplete();
         $this->RegValueTypeArray("USERTOKENID", null, 1, 1);
     }

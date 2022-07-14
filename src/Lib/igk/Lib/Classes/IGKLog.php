@@ -5,14 +5,15 @@
 
 use IGK\Database\DataAdapterBase;
 use IGK\Helper\IO;
+use IGK\System\Exceptions\NotImplementException;
 
 /**
  * Represente IGKLog class
  */
 final class IGKLog extends IGKObject
 {
-    const ERRORLOGFILE = "Data/Logs/.global-error." . IGK_TODAY . ".log";
-    const LOGFILE = "Data/Logs/.global." . IGK_TODAY . ".log";
+    // const ERRORLOGFILE = "Data/Logs/.global-error." . IGK_TODAY . ".log";
+    // const LOGFILE = "Data/Logs/.global." . IGK_TODAY . ".log";
     /**
      * logger flags
      * @var false
@@ -36,15 +37,18 @@ final class IGKLog extends IGKObject
         $r = fopen($f, "w+");
         fclose($r);
     }
+    public function write_i_data(){
+        throw new NotImplementException(__METHOD__);
+    }
     ///<summary></summary>
     /**
-     * 
+     * @return static
      */
     public static function getInstance()
     {
-        if (!isset($_SESSION)) {
-            igk_die("/|\ must start session");
-        }
+        // if (!isset($_SESSION)) {
+        //     igk_die("/|\ must start session");
+        // }
         if (self::$sm_instance == null) {
             self::$sm_instance = igk_get_class_instance(__CLASS__, function () {
                 return new IGKLog();
@@ -68,7 +72,24 @@ final class IGKLog extends IGKObject
         // + igk_wln($msg);
         // + igk_trace();
         // + igk_exit();
+        if (!defined('IGK_NO_TRACELOG')) {
+            if (!igk_sys_env_production()) {
+                igk_ilog_trace(igk_trace_function(2 + $traceindex));
+                $msg = array("msg" => $msg, "trace" => igk_ilog_get_trace());
+            }
+        }
 
+
+       
+        $f = "";
+        if (!($f = igk_const("IGK_LOG_FILE")))
+            $f = igk_ilog_file();
+       
+        if (empty($tag)) {
+            $tag = IGK_LOG_SYS;
+        } 
+        igk_log_append($f, $msg, $tag);
+        
         if (is_array($msg)) {
             $s = "Array(" . count($msg) . "):[\n";
             $o = "";
@@ -85,20 +106,8 @@ final class IGKLog extends IGKObject
             $s .= "]";
             $msg = $s;
         }
-        $f = "";
-        if (!($f = igk_const("IGK_LOG_FILE")))
-            $f = igk_ilog_file();
-        if (!defined('IGK_NO_TRACELOG')) {
-            if (!igk_sys_env_production()) {
-                igk_ilog_trace(igk_trace_function(2 + $traceindex));
-                $msg = array("msg" => $msg, "trace" => igk_ilog_get_trace());
-            }
-        }
-        if (empty($tag)) {
-            $tag = IGK_LOG_SYS;
-        }
-        igk_log_append($f, $msg, $tag);
-        if (igk_environment()->is("DEV")) {
+        
+        if (igk_environment()->isDev()) {
             error_log("[{$tag}] - $msg");
         }
 
@@ -129,13 +138,14 @@ final class IGKLog extends IGKObject
      * 
      */
     public function getLogFile()
-    {
-        $app = igk_app();
-        $s = igk_io_basedir(IGKLog::LOGFILE);
-        if ($app && isset($app->Configs))
-            return igk_getv($app->Configs, "LogFile", $s);
-        else
-            return $s;
+    {  
+        return igk_getv(igk_configs(), "LogFile", $this->getDefaultLogFile()); 
+    }
+    public function getDefaultLogFile(){
+        return igk_io_applicationdir()."/Data/Logs/.global." . igk_environment()->getToDay() . ".log"; 
+    }
+    public function getDefaultErrorLogFile(){
+        return igk_io_applicationdir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . ".log"; 
     }
     ///<summary></summary>
     ///<param name="msg"></param>

@@ -6,7 +6,7 @@ class AppConfigs
 {
     var $author;
 
-    const ConfigurationFileName = "balafon.config.xml";
+    const ConfigurationFileName = IGK_BALAFON_CONFIG;
     
     public function init($init_data)
     {

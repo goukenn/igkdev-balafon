@@ -30,7 +30,7 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 	protected function initTargetNode(){
 		return parent::initTargetNode();
 	}
-	protected function initComplete(){
+	protected function initComplete($context=null){
 		parent::initComplete();
 
 		$s = $this->App->Doc->getScriptManager()->getScript(self::sn);

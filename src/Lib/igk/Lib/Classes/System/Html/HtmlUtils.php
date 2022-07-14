@@ -9,6 +9,7 @@ use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\XML\XmlNode;
+use IGKEvents;
 use IGKException;
 use ReflectionClass;
 use ReflectionFunction;
@@ -129,7 +130,7 @@ abstract class HtmlUtils extends DomNodeBase
     {
         static $requireInput;
         if ($requireInput === null) {
-            $requireInput  = explode("|", "text|email|password");
+            $requireInput  = explode("|", "text|email|password|checkbox|radio");
         }
         if (in_array($type, $requireInput)) {
             return $type;
@@ -303,7 +304,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function GetAttributeValue($c, $context = null, bool $expression=false)
     {
-        $s = self::GetValue($c);
+        if (is_null($s = self::GetValue($c))) return null;
         $q = trim($s);
         $v_h = "\"";
         if (!$expression){
@@ -565,10 +566,9 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    {
-        if (file_exists(IGK_LIB_DIR . "/igk_html_func_items.php")){     
-            require_once IGK_LIB_DIR . "/igk_html_func_items.php";
-        }
+    {    
+        require_once IGK_LIB_DIR . "/igk_html_func_items.php";
+         
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
 
         if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))){
@@ -721,12 +721,14 @@ abstract class HtmlUtils extends DomNodeBase
 
     public static function FilterNode(HtmlItemBase &$node, array $args)
     {
-        if ($g = igk_hook(\IGKEvents::FILTER_CREATED_NODE, $args, ["output" => null])) {
+        $options = IGKEvents::CreateHookOptions();
+        if ($g = igk_hook(\IGKEvents::FILTER_CREATED_NODE, $args, $options)) {
             $node = $g;
         }
     }
     public static function PrefilterNode($args){
-        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, ["output" => null]);
+        $options = IGKEvents::CreateHookOptions();
+        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options);// ["output" => null]);
     }
     ///<summary></summary>
     ///<param name="vsystheme"></param>

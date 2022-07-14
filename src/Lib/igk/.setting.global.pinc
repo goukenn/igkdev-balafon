@@ -32,6 +32,8 @@ return [
 'db_port'=>"3306",
 'db_auto_creae'=>0,
 'db_driver'=>"nodb",
+// in case the driver required connexion string.
+'db_connexion_string'=>null, 
 'db_default_column_id'=>"clId",
 'error_debug'=>"0",
 'default_lang'=>"fr",

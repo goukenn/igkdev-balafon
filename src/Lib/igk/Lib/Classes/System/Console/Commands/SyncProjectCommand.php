@@ -18,19 +18,18 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
     var $help = "--[list|restore[:foldername] --clearcache";
 
-    private $remove_cache= false;
+    private $remove_cache = false;
 
     public function exec($command, ?string $project = null)
     {
-        if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
+        if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
         }
 
         $options = igk_getv($command, "options");
-        $arg =  property_exists($options, "--list") ? "l" :
-                (property_exists($options, "--restore") ? "r" :
-            "");
- 
+        $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
+                "");
+
         $this->remove_cache = property_exists($options, "--clearcache");
 
 
@@ -43,18 +42,18 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             return -2;
         }
 
-       
- 
-        if (!is_object($h = $this->connect($setting["server"],$setting["user"], $setting["password"]))){
+
+
+        if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
         }
 
-       
+
 
         switch ($arg) {
             case "l":
                 // list release
-                $this->_listRelease($h, $setting["release"], $project);               
+                $this->_listRelease($h, $setting["release"], $project);
                 break;
             case "r":
                 $this->_restoreRelease($h, $project, $setting);
@@ -77,10 +76,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 ftp_chdir($h, $setting["path"]);
                 @ftp_mkdir($h, $project);
                 $cdir = [];
-                $fc = function ($f, $excludedir) {
+
+                $fc = function ($f, array &$excludedir = null) {
                     $dir = dirname($f);
                     if ($excludedir) {
-                        if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {
+                        if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {                      
+                            $excludedir[] = $dir;
                             return false;
                         }
                     }
@@ -92,7 +93,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     }
                     return 1;
                 };
-                $exclude = [".git", ".vscode", ".balafon"];
 
                 foreach (IO::GetFiles($pdir, $fc, true, $exclude) as $f) {
 
@@ -105,41 +105,42 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     ftp_put($h, $o_dir . $g, $f, FTP_BINARY);
                 }
                 $this->removeCache($h, $setting["application_dir"]);
-          
+
                 Logger::success("sync project ... " . $o_dir);
                 break;
         }
         ftp_close($h);
         error_clear_last();
     }
-    protected function removeCache($ftp, $app_dir){
-        if ($this->remove_cache){
-            parent::removeCache($ftp, $app_dir."/.Caches");
+    protected function removeCache($ftp, $app_dir)
+    {
+        if ($this->remove_cache) {
+            parent::removeCache($ftp, $app_dir . "/.Caches");
         }
     }
 
-    private function  _listRelease($ftp, $path, $project){
+    private function  _listRelease($ftp, $path, $project)
+    {
         $bckdir = $path;
-        if (!@ftp_chdir($ftp, $bckdir)){
+        if (!@ftp_chdir($ftp, $bckdir)) {
             Logger::info("no release folder found");
-        }
-        else{
+        } else {
             $g = $this->_getRelease($ftp, $project);
-            array_map(function($i){
+            array_map(function ($i) {
                 Logger::info($i);
             }, $g);
             return $g;
-
         }
     }
-    private function _getRelease($ftp, $project){
-        $g = array_filter($m = ftp_nlist($ftp, ""), function($i)use($project){
-            if (preg_match("/^".$project."[0-9]+/", $i)){
+    private function _getRelease($ftp, $project)
+    {
+        $g = array_filter($m = ftp_nlist($ftp, ""), function ($i) use ($project) {
+            if (preg_match("/^" . $project . "[0-9]+/", $i)) {
                 return true;
             }
             return false;
         });
-        sort($g);      
+        sort($g);
         return $g;
     }
 
@@ -150,33 +151,30 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      * @param array $setting 
      * @return void 
      */
-    private function _restoreRelease($ftp, $project, array $setting){
-        
+    private function _restoreRelease($ftp, $project, array $setting)
+    {
+
         $projectPath = $setting["path"];
         $path = $setting["release"];
 
         $bckdir = $path;
-        if (!@ftp_chdir($ftp, $bckdir)){
+        if (!@ftp_chdir($ftp, $bckdir)) {
             Logger::info("no release folder found");
-        }
-        else{
-            if ($g = $this->_getRelease($ftp, $project)){
-                $g = array_shift($g);   
-                
-                $target = $projectPath."/".$project;
+        } else {
+            if ($g = $this->_getRelease($ftp, $project)) {
+                $g = array_shift($g);
+
+                $target = $projectPath . "/" . $project;
                 // $cwd = ftp_pwd($ftp);  
                 Logger::info("remove $target");
-                if ( ftpHelper::RmDir($ftp, $target)){
+                if (ftpHelper::RmDir($ftp, $target)) {
                     Logger::success("rename $path/$g to $target");
-                    ftp_rename($ftp, $path."/".$g, $target);
+                    ftp_rename($ftp, $path . "/" . $g, $target);
                 } else {
                     Logger::danger("failed to remove $target");
                 }
             }
-
             $this->removeCache($ftp, $setting["application_dir"]);
-
         }
     }
 }
-

@@ -63,22 +63,18 @@ class WebResponse extends RequestResponse{
         if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
             $cache = !$this->node->NoCache; 
         }
+        
         ob_start();   
         $this->render();
         $s = ob_get_clean();   
-        $zip = igk_server()->accepts(["gzip"]); 
+        $zip = igk_server()->accepts(["gzip"]);        
+      
         igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
-            list($uri, $zip) = IGKCaches::CacheUri();  
-
-        //       igk_wln_e("to cache=",
-             
-        //     "uri:".$uri, 
-        //     //IGKCaches::page_filesystem()->expired($uri, 50000)
-        // );
+            list($uri, $zip) = IGKCaches::CacheUri();                      
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
             if ($zip){
                 ob_start();
@@ -86,7 +82,7 @@ class WebResponse extends RequestResponse{
                 $s = ob_get_clean();
             }
             // + |----------------------------------------------------------------
-            // save cache document for zip and no zip content
+            // + | cache document for zip and no zip content
             igk_io_w2file(
                 $file, 
                 $s);
@@ -94,7 +90,7 @@ class WebResponse extends RequestResponse{
                 echo $s;
                 igk_exit();
             }
-        }  
+        }   
         if ( $zip){    
             igk_zip_output($s);   
         } else {

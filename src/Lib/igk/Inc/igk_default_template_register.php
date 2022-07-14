@@ -20,7 +20,7 @@ if (in_array('eval', explode(',', ini_get('disable_functions')))){
 
 function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattrib){
 	 $attrname = $attr;
-	 while(strlen($attrname)>0 && ($attrname[0]=="*"))
+	 while((strlen($attrname)>0) && ($attrname[0]=="*"))
 		$attrname = substr($attrname, 1);
 	 $g=(function($rv) use ($n, $context, $setattrib, $attrname){
         extract($tab = (array)$context);  
@@ -34,7 +34,7 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
 
 function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $setattrib){
 	 $attrname = $attr;
-	 while(strlen($attrname)>0 && ($attrname[0]=="*"))
+	 while((strlen($attrname)>0) && ($attrname[0]=="*"))
 		$attrname = substr($attrname, 1);
 	 $g=(function($rv) use ($n, $context, $setattrib, $attrname){
 		$v = igk_template_get_piped_value($rv, $context);

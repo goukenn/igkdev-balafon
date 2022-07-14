@@ -45,16 +45,15 @@ class HtmlHeadNode extends HtmlNode{
         if($is_document){
             if($meta=$options->Document->getMetas()){
                 $t[]=$meta;
-            }
-        }
-        if ($is_document){
+            } 
             $t[] = HtmlCoreJSScriptsNode::getItem();
+            $t[] = HtmlControllerJSScriptsNode::getItem();
         }
 
         if(is_array($v))
         $t=array_merge($t, $v);        
         // to load extra item on 
-        $t[] =new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, $options);
+        $t[] =new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, "head");
         return $t;
     }
 }

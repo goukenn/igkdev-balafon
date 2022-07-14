@@ -66,7 +66,15 @@ final class R extends IGKObject {
      * @return bool 
      */
     public static function SupportLang(string $locale){
-        return in_array(strtolower($locale) , array_filter(explode("|", R::GetSupportLangRegex())));
+        return in_array(strtolower($locale) , self::GetSupportedLangs());
+    }
+    /**
+     * array of supported lang
+     * @return string[] 
+     * @throws IGKException 
+     */
+    public static function GetSupportedLangs(){
+        return array_filter(explode("|", self::GetSupportLangRegex()));
     }
     ///<summary></summary>
     ///<param name="lang" default="fr"></param>
@@ -81,7 +89,7 @@ final class R extends IGKObject {
             return;
         igk_set_env($key, 1);
         $v_lang=$app->session->lang; 
-        $tab = array_filter(explode("|", R::GetSupportLangRegex()));
+        $tab = self::GetSupportedLangs(); 
         if($lang && !in_array($lang, $tab)){
             $lang=igk_app()->Configs->default_lang;
         }

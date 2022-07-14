@@ -8,7 +8,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 	//
 	public function getDataTableInfo(){
 	}
-	protected function initComplete(){
+	protected function initComplete($context=null){
 		parent::initComplete();
 		$k = "blog(/:function(/:params+)?)?";
 		igk_sys_ac_register($k, $this->getUri("evaluateUri"));

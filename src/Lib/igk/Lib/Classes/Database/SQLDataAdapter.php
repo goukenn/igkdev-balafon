@@ -6,6 +6,7 @@ use IGK\System\Database\SQLGrammar;
 use IGK\System\Html\IHtmlGetValue;
 use IGKException;
 use IGKSysUtil;
+use ModelBase;
 
 use function igk_getv as getv;
 use function igk_resources_gets as __;
@@ -25,7 +26,23 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     public static function ResolvType($t){        
         return SQLQueryUtils::ResolvType($t);
     }
-    public function GetValue($k, $rowInfo=null, & $tinfo=null){
+    public function filterColumn($columninfo, $value): bool { 
+        return false;
+    }
+
+    public function getCreateTableFormat(?array $options=null):string{
+        return "CREATE TABLE IF NOT EXISTS %s;";
+    }
+    /**
+     * resolv driver parameter
+     * @param string $k 
+     * @param mixed $rowInfo 
+     * @param mixed $tinfo 
+     * @return null|string 
+     * @throws IGKException 
+     */
+    public function getParam($k, $rowInfo=null, $tinfo=null): ?string{
+   
         static $configs;
         if ($configs===null){
             $configs['auto_increment_word'] = "AUTO_INCREMENT";
@@ -67,7 +84,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         // $grammar->driver = $this;
         return $grammar;
     }
-    public function escape($str){
+    public function escape($str):string{
         return igk_db_escape_string($str);
     }
     /**
@@ -80,6 +97,16 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     protected static function GetRelation($adapter, $tname, $clname){
         $r = $adapter->getDbname();        
         $adapter->selectdb("information_schema");
+        // TODO: remove select ALL expression
+        // $q = $adapter->getGrammar()->createSelectQuery('KEY_COLUMN_USAGE', [
+        //     "TABLE_NAME"=>$tname,
+        //     "TABLE_SCHEMA"=>$r,
+        //     "COLUMN_NAME"=>$clname,
+        //     "!REFERENCED_TABLE_NAME"=>""
+        // ]);
+        // $adapter->sendQuery($q);
+
+
         $h=$adapter->sendQuery("SELECT * FROM `KEY_COLUMN_USAGE` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."' AND `COLUMN_NAME`='".igk_db_escape_string($clname)."' AND `REFERENCED_TABLE_NAME`!=''");
         $adapter->selectdb($r);
         return $h->getRowAtIndex(0);
@@ -191,9 +218,8 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     * @param mixed $tbname
     */
     public function selectAll($tbname){
-        $tbname=igk_mysql_db_tbname($tbname);
-        $q="SELECT * FROM `".($tbname)."` ";
-        return $this->sendQuery($q, $tbname);
+        $query = $this->getGrammar()->createSelectQuery($tbname);
+        return $this->sendQuery($query, $tbname);
     }
     ///<summary></summary>
     ///<param name="tbname"></param>
@@ -239,6 +265,10 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         return null;
     }
     public function getObjValue($value){
+        
+        if ($value instanceof \IGK\Models\ModelBase){
+            return $value->id();
+        } 
         if(igk_reflection_class_implement($value, IHtmlGetValue::class)){
             return $value->getValue(
                 (object)[

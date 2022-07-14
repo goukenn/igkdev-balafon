@@ -56,7 +56,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     /**
     * 
     */
-    protected function initComplete(){
+    protected function initComplete($context=null){
         parent::initComplete();
         $tab=$this->getAppleIcon();
         $c=igk_count($tab);

@@ -357,7 +357,8 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $dv->addABtn($appuri)->Content = __("Visit");
         }
         $table = $p->div()->setClass("fitw")->setStyle("overflow-x:auto")->addTable();
-        $v_parent = igk_getctrl($ctrl->Configs->clParentCtrl, false);
+        $v_p = $ctrl->Configs->clParentCtrl;
+        $v_parent = $v_p ? igk_getctrl($v_p, false) : null;
         if ($v_parent != null) {
             $t = $table->addTr();
             $t->add("th")->Content = __("Parent");
@@ -366,7 +367,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $tr->addTd()->li()->add("a", array(
                 "href" => "#",
                 "onclick" => "javascript:window.igk.fn.config.select_ctrl(this, '" . $this->TargetNode["id"] . "', '" . $this->getUri('select_controller_ajx&n=' . $ctrl->Configs->clParentCtrl) . "'); "
-            ))->Content = $ctrl->Configs->clParentCtrl;
+            ))->Content = $v_p;
             HtmlUtils::AddImgLnk($tr->add("td", array("style" => "min-with:16px; min-height:16px;")), $this->getUri("ca_remove_parent&clCtrl=" . $ctrl->getName() . "&clParent=" . $ctrl->Configs->clParentCtrl), "drop_16x16");
         } else {
             $tr = $table->addTr();
@@ -1732,7 +1733,7 @@ EOF;
         return $this->getParam(self::SL_SELECTCONTROLLER);
     }
     ///<summary></summary>
-    protected function initComplete()
+    protected function initComplete($context=null)
     {
         parent::initComplete();
         $this->setup_defaultpage();

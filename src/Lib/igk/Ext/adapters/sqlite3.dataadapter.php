@@ -15,6 +15,7 @@ use IGK\Database\SQLDataAdapter;
 use IGK\Helper\IO;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
+use IGK\System\Database\SQLGrammar;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
 define("IGK_SQL3LITE_KN_TABLE_KEY", IGK_SQL3LITE_KN."::/tableName");
@@ -215,16 +216,59 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private $fname;
     private $m_creator;
     private $m_current;
-    private static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
+    protected static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
     private static $sm_connexions;
     private static $sm_list;
     private static $sm_sql;
+
+       /**
+     * create able info query
+     * @param SQLGrammar $grammar 
+     * @param string $table 
+     * @param string $dbname 
+     * @return string 
+     * @throws IGKException 
+     */
+    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string
+    {
+        $query = sprintf("PRAGMA table_info(%s)", $table);
+        return $query;
+    }
+    public function escape_table_name(string $v): string {
+        return  $v;
+    }
+
+    public function escape_table_column(string $v): string { 
+        return $v;
+    }
+
+    public function getDataValue($value, $tinf) { }
+
+    public function getDbName(): ?string {
+        return "sqlite3-file://";
+     }
+    public function getFilter(): bool
+    {
+        return false;
+    }
+
+    public function isTypeSupported(string $type): bool {
+        return true;
+     }
+
+    public function supportDefaultValue(string $type): bool { 
+        return true;
+    }
+
+    public function isAutoIncrementType(string $type): bool { 
+        return true;
+    }
 
     public function getDataTableDefinition(string $tablename) { 
         return null;
     }
 
-	public function escape_string($v){
+	public function escape_string($v):string{
         $v = stripslashes($v);
 		return $this->sql->escapeString($v);
 	}
@@ -902,7 +946,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     /**
     * 
     */
-    public function OpenCount(){
+    public function openCount(){
         $r=$this->getConnectionManager();
         return $r ? $r->count: 0;
     }
@@ -1009,35 +1053,39 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     }
 }
 
-///<summary>Represente class: IGKSQl3DbConfigCtrl</summary>
-/**
-* Represente IGKSQl3DbConfigCtrl class
-*/
-class IGKSQl3DbConfigCtrl extends ConfigControllerBase{
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getConfigPage(){
-        return "sqlite3database";
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getName(){
-        return "SQLite3";
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function showConfig(){
-        parent::showConfig();
-        $box=$this->getConfigNode()->clearChilds()->addPanelBox();
-        $this->loader->view("sql3lite.config", ["t"=>$box]);
-    }
-}
+
+// 29-05-2022 remove SQL3Config manager
+// ///<summary>Represente class: IGKSQl3DbConfigCtrl</summary>
+// /**
+// * Represente IGKSQl3DbConfigCtrl class
+// */
+// class IGKSQl3DbConfigCtrl extends ConfigControllerBase{
+//     ///<summary></summary>
+//     /**
+//     * 
+//     */
+//     public function getConfigPage(){
+//         return "sqlite3database";
+//     }
+//     ///<summary></summary>
+//     /**
+//     * 
+//     */
+//     public function getName(){
+//         return "SQLite3";
+//     }
+//     ///<summary></summary>
+//     /**
+//     * 
+//     */
+//     public function showConfig(){
+//         parent::showConfig();
+//         $box=$this->getConfigNode()->clearChilds()->addPanelBox();
+//         $this->loader->view("sql3lite.config", ["t"=>$box]);
+//     }
+// }
+ 
+
 ///<summary>Represente class: sql3literesult</summary>
 /**
 * Represente sql3literesult class

@@ -7,12 +7,15 @@ class mysql extends \IGKLibraryBase{
         if (!extension_loaded("mysqli")){
             return false;
         } 
+    
+        require_once IGK_LIB_CLASSES_DIR ."/System/Database/MySQL/DataAdapterBase.php";
+        // require_once IGK_LIB_CLASSES_DIR ."/System/Database/MySQL/DataAdapter.php";
         require_once IGK_LIB_CLASSES_DIR."/System/Database/MySQL/igk_mysql_db.php";        
         // initialize function
         \IGK\Database\DataAdapterBase::Register( [
             IGK_MYSQL_DATAADAPTER=> MySQLDataAdapter::class
         ]);
-        if (!class_exists("IGKMYSQLDataAdapter")){
+        if (!class_exists("IGKMYSQLDataAdapter",false)){
             class_alias(\IGK\System\DataBase\MySQL\DataAdapter::class, 
             "IGKMYSQLDataAdapter");
         }

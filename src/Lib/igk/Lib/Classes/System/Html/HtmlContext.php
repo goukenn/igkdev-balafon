@@ -23,7 +23,29 @@ abstract class HtmlContext{
     const XML="XML";
     const AJX = "ajx";
     const Mail = "mail";
-    const HtmlAutoCloseTag = ["img", "hr", "br", "input"];
+    /**
+     * html tag that need to be closed with a closed tag
+     */
+    const HtmlAutoCloseTag = "a|html|body|span|code|ul|li|ol|pre|p|button|videos|audio|select|option|head|script|style|div|form|nav|tr|td|th|table|textarea|noscript";
+    /**
+     * html tag that denied a close tag
+     */
+    const EmptyTags =  "br|input|hr|img";
+
     protected function __construct(){        
+    }
+    public static function GetEmptyTagArray(){
+        static $clTag = null;
+        if ($clTag === null){
+            $clTag = explode("|", self::EmptyTags );
+        }
+        return $clTag;
+    }
+    public static function GetCloseTagArray(){
+        static $clTag = null;
+        if ($clTag === null){
+            $clTag = explode("|", self::HtmlAutoCloseTag );
+        }
+        return $clTag;
     }
 }

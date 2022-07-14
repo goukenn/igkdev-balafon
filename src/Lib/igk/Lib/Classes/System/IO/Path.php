@@ -50,9 +50,13 @@ class Path{
         $this->package_dir = str_helper::Uri(IGK_PACKAGE_DIR);
         $this->module_dir = str_helper::Uri(IGK_MODULE_DIR); 
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
-        $this->css_path = str_helper::uri(implode("/", [IGK_RES_FOLDER,IGK_STYLE_FOLDER,"balafon.css?v=".IGK_VERSION]));    
+        $b = ["v"=>IGK_VERSION];
+        if (igk_environment()->isDev() && igk_getr("XDEBUG_TRIGGER")){
+            $b["XDEBUG_TRIGGER"] = 1;
+        }
+        http_build_query($b);
+        $this->css_path = str_helper::uri(implode("/", [IGK_RES_FOLDER,IGK_STYLE_FOLDER,"balafon.css?". http_build_query($b)]));    
         $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR , "vendor");
-
         $this->sys_data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
         $this->data_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_DATA_FOLDER);
     }
@@ -107,25 +111,45 @@ class Path{
      */
     public function basedir($dir = null)
     {
-        $bdir = igk_environment()->get("basedir", constant("IGK_BASE_DIR"));
+        // $bdir = igk_environment()->get("basedir", $this->base_dir);
+        // if (!$bdir) {
+        //     return null;
+        // }
+        // if ($dir == null)
+        //     return $bdir;
+        // $l = igk_io_dir($bdir);
+        // if (file_exists($dir) && (($hdir = igk_io_dir($dir)) == igk_realpath($dir))) {
+        //     $rpath = IO::GetRelativePath($hdir, $l);
+        //     if ($rpath)
+        //         return igk_io_dir($l . DIRECTORY_SEPARATOR . $rpath);
+        //     return $dir;
+        // }
+        // $s = str_replace("\\", "\\\\", $l);
+        // $egext = "#^(" . $s . ")#";
+        // $dir = igk_io_dir($dir);
+        // if ($s && preg_match($egext, $dir))
+        //     return $dir;
+        // return igk_io_dir($bdir . "/" . $dir);
+
+        $bdir = igk_environment()->get("basedir", $this->base_dir );  
         if (!$bdir) {
             return null;
-        }
-        $l = igk_io_dir($bdir);
+        } 
         if ($dir == null)
-            return $l;
+            return $bdir;
+        $l = igk_io_dir($bdir);
+        $_r = null;
         if (file_exists($dir) && (($hdir = igk_io_dir($dir)) == igk_realpath($dir))) {
             $rpath = IO::GetRelativePath($hdir, $l);
-            if ($rpath)
-                return igk_io_dir($l . DIRECTORY_SEPARATOR . $rpath);
-            return $dir;
+            $_r = ($rpath)? igk_io_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
+        }else{
+             $s = str_replace("\\", "\\\\", $l);
+            $egext = "#^(" . $s . ")#";
+            $dir = igk_io_dir($dir);
+                $_r = ($s && preg_match($egext, $dir)) ?
+                $dir :  $bdir . "/" . $dir;
         }
-        $s = str_replace("\\", "\\\\", $l);
-        $egext = "#^(" . $s . ")#";
-        $dir = igk_io_dir($dir);
-        if ($s && preg_match($egext, $dir))
-            return $dir;
-        return igk_io_dir($bdir . "/" . $dir);
+        return  !is_null($_r) ? igk_html_uri($_r) : null;
     }
     /**
      * get full base uri
@@ -173,7 +197,7 @@ class Path{
      * @return string|false|null 
      * @throws IGKException 
      */
-    public function realpath($path)
+    public function realpath(string $path)
     {
         $o = "";
         $path = str_helper::uri($path);

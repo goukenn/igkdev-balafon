@@ -11,7 +11,7 @@ use IGKException;
  * php script builder
  * @package IGK\System\IO\File
  * @method self defs(string $content) set the containt definition
- * @method self use(string $use) uses definition
+ * @method self uses(string|array $use) uses definition
  * @method self extends(string|array $class) if type is class mark extends
  * @method self author(string $auther) set author text
  * @method self namespace(string $namespace) define the namespace
@@ -24,6 +24,8 @@ use IGKException;
  */
 class PHPScriptBuilder
 {
+    var $no_header_comment;
+
     public function __construct()
     {
         $this->author = IGK_AUTHOR;
@@ -80,26 +82,58 @@ class PHPScriptBuilder
         igk_io_w2file($file, $builder->render());
     }
     public function render()
-    {
+    { 
+        $_setPhDoc = function($d, $ns){
+            $o = "";
+            $o .= "/**\n";
+            $o .="* " . $d."\n";
+            if ($ns){
+                $o .= "* @package {$ns}\n";
+            }
+            if ($phpdoc = $this->phpdoc){
+                $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
+            }
+            $o .= "*/\n";
+            return $o;
+        };
         $o = "";
         $h = "";
-        $h = implode("\n", array_filter([
-            "// @author: " . ($this->author ?? IGK_AUTHOR),
-            $this->file ? "// @file: " . $this->file : null,
-            $this->desc ? "// @desc: " . implode("\n//", explode("\n", $this->desc)) : null,
-            "// @date: " . date("Ymd H:i:s")
-        ])) . "\n";
+        if (!$this->no_header_comment){
+            $h = implode("\n", array_filter([
+                "// @author: " . ($this->author ?? IGK_AUTHOR),
+                $this->file ? "// @file: " . $this->file : null,
+                $this->desc ? "// @desc: " . implode("\n//", explode("\n", $this->desc)) : null,
+                "// @date: " . date("Ymd H:i:s")
+            ])) . "\n";
+        }
         if ($ns = $this->namespace) {
             $h .= "namespace " . $ns . ";\n\n";
         }
-        if ($_uses = $this->uses){
+        if ($_uses = $this->uses){      
+            $t_uses = [];
             if (is_string($_uses))
             {
                 $_uses = [$_uses];
             }
-            $h .= implode("\n", array_map(function($n){
-                return "use ".$n.";";
-            }, $_uses));
+            $h .= implode("\n", array_map(function($n, $k) use (& $t_uses){
+                $cl = $n;
+                if (!is_int($k)){
+                    $cl = $k;
+                }
+                if (in_array($cl, $t_uses)){
+                    return null;
+                }
+                $t_uses[$cl] = basename(igk_io_dir($cl));
+                if (is_int($k)){
+                    return "use ".$n.";";
+                }
+                else{
+                    $t_uses[$cl] = $n;
+                    return sprintf("use %s as %s;", $k, $n);
+                }
+            }, $_uses, array_keys($_uses))).PHP_EOL;
+
+            $_uses = $t_uses; 
         }
 
         $defs = "";
@@ -114,46 +148,36 @@ class PHPScriptBuilder
                 $o .= preg_replace("/^\\t/m", "", $defs);
                 break;
             case "class":
+            case "interface":
+            case "trait":
                 if ($d = $this->doc) {
                     // documents
-                    $o .= "///<summary>" . $d . "</summary>\n";
-
-                    $o .= "/**\n";
-                    $o .="* " . $d."\n";
-                    if ($ns){
-                        $o .= "* @package {$ns}\n";
-                    }
-                    if ($phpdoc = $this->phpdoc){
-                        $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
-                    }
-                    $o .= " */\n";
+                    $o .= "///<summary>" . $d . "</summary>\n";  
+                    $o .= $_setPhDoc($d, $ns);
+                    
                 } else {
                     $o .= "///<summary></summary>\n";
-                    $o .= "/**\n* @package {$ns}\n";
-                    if ($phpdoc = $this->phpdoc){
-                        $o.= "* ".implode("\n* ", explode("\n", $phpdoc))."\n";
-                    }
-                    $o .= "*/\n";
+                    $o .= $_setPhDoc("", $ns); 
                 }
                 if (!empty($modifier = $this->class_modifier)) {
                     $modifier .= " ";
                 }
-                $_uses = [];
-                if ($e = $this->use){
-                    if (!is_array($e)){
-                        $e = [$e];
-                    }                   
-                    $e = array_unique($e);
-                    array_map($this->_getHeaderMap($h, $_uses), $e);
-                }
+                // $_uses = [];
+                // if ($e = $this->use){
+                //     if (!is_array($e)){
+                //         $e = [$e];
+                //     }                   
+                //     $e = array_unique($e);
+                //     array_map($this->_getHeaderMap($h, $_uses), $e);
+                // }
 
                 $o .= $modifier . $this->type . " " . $this->name;
                 if ($e = $this->extends) {
                     $cu = igk_html_uri($e);
                     if (!empty($ns) || (count(explode("/", $cu)) > 1)){
-                        if (!in_array($e, $_uses)){
+                        if (!isset($_uses[$e])){
                             $h .= "use " . $e . ";\n";
-                            $_uses[] = $e;
+                            $_uses[$e] = $e;
                         }
                     }
                     $v_as = igk_getv($_uses, $e);                    
@@ -180,6 +204,7 @@ class PHPScriptBuilder
     private function _getHeaderMap(& $h,& $_uses)
     {
         return function($e)use(& $h, & $_uses){
+            igk_wln($e);
             $as = "";
             $ms = "";
             if (is_array($e)){
@@ -187,6 +212,8 @@ class PHPScriptBuilder
                 $as = $e[$key];
                 $ms = " as ".$as;
                 $e = $key;
+            } else {
+
             }
             if (!in_array($e, $_uses)){
                 $h .= "use " . $e . $ms.";\n";

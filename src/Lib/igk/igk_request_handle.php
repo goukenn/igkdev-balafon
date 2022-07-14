@@ -181,16 +181,12 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
      if(defined("IGK_FORCSS"))
         return;   
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
-    defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1);  
- 
-    
-    // $d="/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css.php";
-    // + | change to application directory   
-    try{
+    defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1); 
+    try{        
         igk_css_balafon_index(igk_io_basedir());  
     }catch(Exception $ex){
         header("Content-Type: text/css");
-        if (igk_environment()->is("DEV")){
+        if (igk_environment()->isDev()){
             echo "/* Exception : ".$ex->getMessage(). "*/\n";
         }
         echo "body{background-color: red !important; }";

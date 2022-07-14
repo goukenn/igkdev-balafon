@@ -54,6 +54,9 @@ class Route
      */
     protected $path = "";
 
+
+    const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";
+
     protected function _access_OffsetSet($n, $v){
         $this->path = $n;
         $this->controller = $v;
@@ -166,7 +169,7 @@ class Route
     }
     public static function __callStatic($name, $arguments)
     {
-        $verbs = explode('|', 'POST|GET|STORE|HEAD|PUT');
+        $verbs = explode('|', self::SUPPORT_VERBS);
 
         if (in_array($v = strtoupper($name), $verbs)) {
             $fc = static::RegisterAction(...$arguments);

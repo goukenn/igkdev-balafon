@@ -29,7 +29,7 @@ class FileWriter{
             if(!IO::CreateDir(dirname($filename)))
                 return false;
         }
-        if(is_file($filename) && !$overwrite){
+        if(!$overwrite && is_file($filename)){
             return false;
         } 
         // if ($filename === "/var/www/html/sites/HomeNotify/src/application/Caches/.controller.cache"){

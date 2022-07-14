@@ -6,6 +6,7 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Helper\IO as IGKIO;
 use IGK\Helper\IO;
+use IGK\System\Configuration\CoreGeneration;
 use IGK\System\IO\StringBuilder;
 
 use function igk_resources_gets as __; 
@@ -99,10 +100,11 @@ class MakeModuleCommand extends AppCommand{
             $bind[$dir."/Lib/Tests/autoload.php"] = function($file)use($name){
                 $builder = new PHPScriptBuilder();
                 $e_ns = str_replace("/", "\\", $name);
+                $gen = new CoreGeneration();
                 $builder->type('function')->defs(
                     implode("\n",
                         [ 
-                            'require_once $_ENV["IGK_APP_DIR"]."/Lib/igk/Lib/Tests/autoload.php";'
+                            $gen->GetTestRequireAutoload()
                         ]
                 ));
                 igk_io_w2file($file, $builder->render());

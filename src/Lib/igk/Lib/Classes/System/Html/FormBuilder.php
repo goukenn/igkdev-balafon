@@ -2,6 +2,8 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
+use IGK\System\Html\Dom\HtmlItemBase;
+
 use function igk_resources_gets as __;
 
 
@@ -272,6 +274,14 @@ class FormBuilder{
                 if (is_string($v)){
                     $k = $v;
                 }
+                if (is_object($v)){
+                    if ($v instanceof HtmlItemBase){
+                        $o .= $v->render();
+                        continue;
+                    }
+                    igk_wln($k, $v);
+                    igk_die("object not allowed");
+                }
             }
             if ( ($cpos = strrpos($k, "[]")) !== false){   
                 $name = substr($k, 0, $cpos);
@@ -290,8 +300,7 @@ class FormBuilder{
         }
         if($render){
             echo $o;
-        }
-      
+        }      
         return $o;
     }
 }

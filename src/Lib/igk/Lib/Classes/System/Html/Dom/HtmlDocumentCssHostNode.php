@@ -14,6 +14,10 @@ use IGK\System\Html\Css\CssUtils;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocumentCssHostNode extends HtmlNode{
+    /**
+     * 
+     * @var IGKHtmlDoc
+     */
     protected $doc;
     public function __construct($doc){
         $this->doc = $doc;
@@ -28,9 +32,15 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     }
     public function render($options = null)
     {
-        if ($s = CssUtils::GetInlineStyleRendering($this->doc)){
-            return $s;
-        }
+
+        $inlineTheme = $this->doc->getInlineTheme();
+        $s = CssUtils::GetInlineStyleRendering($this->doc);
+        $g = $inlineTheme->get_css_def();
+
+        $vs = igk_create_node("style");
+        $vs->text($g);
+        $s.= $vs->render();        
+        return $s;        
     }
 
    

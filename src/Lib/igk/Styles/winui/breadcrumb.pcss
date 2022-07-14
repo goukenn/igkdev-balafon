@@ -1,0 +1,16 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: breadcrumb.pcss
+// @date: 20220524 11:21:37
+// @desc: breadcrumb styling 
+
+// $def["ul.igk-breadcrumb:before"] = "content: 'the ".$css_m."';";
+$def["ul.igk-breadcrumb"] = "display: block; padding: 16px 10px; background-color: [cl:breadCrumbColor, rgb(201,206,207)]; border-radius: 5px; font-size: 1.1rem;";
+$def["ul.igk-breadcrumb > li"] = "display: inline-block; text-transform: capitalize;";
+$def["ul.igk-breadcrumb > li + li:before"] = "content: ' / '; padding:8px;";
+$def["ul.igk-breadcrumb > li a"] = "cursor: pointer; color: [cl: breadcrumbColor, #444]";
+$def["ul.igk-breadcrumb.no-visite > li a:visited"] = "color:[cl: breadcrumbColor, #444]";
+$def["ul.igk-breadcrumb > li a:hover"] = "text-decoration: underline;";
+$def["ul.igk-breadcrumb > li.igk-active"] = "font-weight: bold; text-transform: uppercase;";
+
+

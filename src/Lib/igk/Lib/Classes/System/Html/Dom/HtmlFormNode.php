@@ -183,7 +183,8 @@ final class HtmlFormNode extends HtmlNode {
     * @param mixed $value
     */
     public function setAction($value){
-        return $this["action"]=$value;
+        $this->setAttribute("action", $value);
+        return $this;
     }
     ///<summary></summary>
     ///<param name="v"></param>
@@ -203,6 +204,7 @@ final class HtmlFormNode extends HtmlNode {
     */
     public function setEncType($value){
         $this->m_encType=$value;
+        return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
@@ -211,8 +213,8 @@ final class HtmlFormNode extends HtmlNode {
     * @param mixed $value
     */
     public function setMethod($value){
-        return
-        $this["method"]=$value;
+        $this->setAttribute("method", $value);
+        return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
@@ -222,6 +224,7 @@ final class HtmlFormNode extends HtmlNode {
     */
     public function setNoFoot($value){
         $this->m_nofoot=$value;
+        return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
@@ -231,14 +234,16 @@ final class HtmlFormNode extends HtmlNode {
     */
     public function setNoTitle($value){
         $this->m_notitle=$value;
+        return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * 
+    * set for mtitle
     * @param mixed $value
     */
     public function setTitle($value){
         $this->topdiv->Content=$value;
+        return $this;
     }
 }

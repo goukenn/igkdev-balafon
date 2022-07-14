@@ -17,11 +17,9 @@ class Engine{
      * @return void 
      */
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
-        if($ajx){
-            $hi->addAJXA($u)->Content= $text;
-        }
-        else
-            $hi->addA($u)->Content= $text;
+        $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);
+        $a->Content = $text;
+        igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
     }
 
     public function buildSubMenuItem(HtmlNode $hi ){

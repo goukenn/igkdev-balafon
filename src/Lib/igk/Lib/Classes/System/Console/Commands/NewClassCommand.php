@@ -11,7 +11,7 @@ class NewClassSQLCommand extends AppExecCommand{
     var $command = "--new";
     var $desc = "new type class builder "; 
 
-    public function exec($command, $type=null, $name="", $dir=null)
+    public function exec($command, $type=null, $controller="", $dir=null)
     {    
         $desc = "";
         $rootns = "";
@@ -24,9 +24,9 @@ class NewClassSQLCommand extends AppExecCommand{
             $root_ns = $command->options->{"-root-ns"};
         }
 
-        $path = $name;
+        $path = $controller;
         if (!empty($root_ns)){
-            if (strpos($name, $root_ns ) === 0){
+            if (strpos($controller, $root_ns ) === 0){
                 $path = substr($path, strlen($root_ns)+1);
             }
         }
@@ -39,7 +39,7 @@ class NewClassSQLCommand extends AppExecCommand{
             return;
         }
            
-        if (($ns = dirname($name))=="."){
+        if (($ns = dirname($controller))=="."){
             $ns = "";
         }
         $builder = new PHPScriptBuilder();
@@ -48,7 +48,7 @@ class NewClassSQLCommand extends AppExecCommand{
         )
         ->namespace(igk_ns_name($ns))
         ->name(
-            basename(igk_html_uri($name))
+            basename(igk_html_uri($controller))
         )->file(igk_html_uri($path.".php")) ->desc($desc);
 
   

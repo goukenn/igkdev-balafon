@@ -5,6 +5,7 @@ namespace IGK\Controllers;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Http\WebResponse;
 
+///<summary> api controller</summary>
 abstract class ApiController extends ControllerTypeBase{
     public function index(...$args){
         //        

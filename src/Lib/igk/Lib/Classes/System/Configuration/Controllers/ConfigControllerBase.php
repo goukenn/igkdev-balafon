@@ -112,9 +112,8 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * 
     */
-    protected function initComplete(){ 
-        parent::initComplete();
-        
+    protected function initComplete($context=null){ 
+        parent::initComplete($context);        
         if($c=$this->getConfigCtrl()){
             $c->registerConfig($this);
         }
@@ -124,6 +123,9 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     * 
     */
     public function initConfigMenu(){
+        if (!$this->getIsConfigPageAvailable()){
+            return null;
+        }
         $c=$this->getConfigPage();
         $error_msg="No config menu found for : ".$c. " = ".$this->Name. " : ".get_class($this). " ".$this->getDeclaredFileName();
         $conf=igk_get_configs_menu_settings();

@@ -13,6 +13,8 @@ use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Helper\StringUtility;
+use IGK\Helper\Utility;
+use igk\System\Console\Commands\Utility as CommandsUtility;
 use \IGKControllerManagerObject;
  
 class MakeActionCommand extends AppExecCommand{
@@ -23,23 +25,30 @@ class MakeActionCommand extends AppExecCommand{
     var $desc = "make new project's action";
 
     var $options = [ 
-        "--type"=>"defaut action type class"
+        "--type"=>"defaut action type class",
+        "--force"=>"force create action"
     ]; 
 
     var $help = "[options] controller actionName";
+
     /**
-     * @var string $name Controller
+     * 
+     * @var callable
+     */
+    var $definition; // definition callback
+    /**
+     * @var string $controller Controller
      * @var string $actionName the action to create 
      */
-    public function exec($command, $name="", $actionName=""){
-        if (empty($name)){
+    public function exec($command, $controller="", $actionName=""){
+        if (empty($controller)){
             return false;
         } 
         if (empty($actionName)){
             Logger::danger("action name required");
             return false;
         } 
-        Logger::info("make action ...".$name);
+        Logger::info("make action ...".$controller);
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
         $type = igk_str_ns(igk_getv($command->options, "--type", IGKActionBase::class));
         $type = igk_getv([
@@ -48,9 +57,9 @@ class MakeActionCommand extends AppExecCommand{
             "middlewire"=>MiddlewireActionBase::class
         ], strtolower($type), $type);
         
-        $ctrl = igk_getctrl(str_replace("/", "\\", $name), false);
+        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
-            Logger::danger("controller $name not found");
+            Logger::danger("controller $controller not found");
             return false;
         }
         if (!$type || !class_exists($type) || !(($type==IGKActionBase::class) || is_subclass_of($type, IGKActionBase::class))){
@@ -73,29 +82,31 @@ class MakeActionCommand extends AppExecCommand{
         }
          
         $bind[$dir."/Actions/{$path}Action.php"] = function($file)use($actionName, 
-            $author, $ns, $type){           
+            $author, $ns, $type){          
+            $content = $this->_getContent(); 
             $builder = new PHPScriptBuilder();
             $fname = $actionName.".phtml";           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
             ->author($author)
             ->namespace($ns)
-            ->defs("")
+            ->defs($content)
             ->doc("view action")
             ->file($fname)
             ->extends($type)
             ->desc("view action ".$actionName);
             igk_io_w2file( $file,  $builder->render());
         };
- 
-        foreach($bind as $n=>$c){
-            if (!file_exists($n)){
-                $c($n, $command);
-                Logger::info("generate : ".$n);
-            }
-        }
-        
+
+        CommandsUtility::BindFiles($command, $bind, property_exists($command->options, "--force"));
         IGKControllerManagerObject::ClearCache(); 
-        Logger::success("done\n");
+        Logger::success("Done - Make Action");
+    }
+    private function _getContent(){
+        if ($def = $this->definition){
+            return $def();
+        }
+        return "";
+
     }
     public function help(){
         Logger::print("-");

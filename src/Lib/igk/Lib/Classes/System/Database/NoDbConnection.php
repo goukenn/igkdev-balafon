@@ -40,8 +40,11 @@ class NoDbConnection{
     /**
     * 
     */
-    function OpenCount(){
+    public function openCount(){
         return -1;
+    }
+    public function isConnect(){
+        return false;
     }
     ///<summary></summary>
     ///<param name="query"></param>

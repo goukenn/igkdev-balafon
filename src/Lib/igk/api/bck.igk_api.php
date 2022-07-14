@@ -8,6 +8,12 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Controllers\ApplicationController;
+use IGK\Database\DbSchemas;
+use IGK\Helper\IO;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\HtmlReader;
+
 define("IGK_API_CTRL", "API");
 define("IGK_API_VERSION", "1.0.0.0");
 define("IGK_API_URI", "^/api/v2");

@@ -18,6 +18,7 @@ use function igk_resources_gets as __;
 * @exemple  
 *  $this->$property will return extra properties if exists against configurable property
 *  $this->get($property) which will always return configurable properties value
+* update : when set with magic property the extra property will be unset
 */
 final class ConfigData {
     /**
@@ -85,7 +86,11 @@ final class ConfigData {
     * @param mixed $key
     * @param mixed $value
     */
-    public function __set($key, $value){ 
+    public function __set($key, $value){  
+        if ($this->m_extra &&  key_exists($key, $this->m_extra)){
+            // here remove key 
+            unset($this->m_extra[$key]);
+        }
         if(isset($this->m_configEntries[$key])){
             if($value === null){
                 unset($this->m_configEntries[$key]);
@@ -234,5 +239,12 @@ final class ConfigData {
     }
     public function reload(){ 
         $this->m_configEntries = include($this->m_confile) ?? []; 
+    }
+    /**
+     * get the primary configuration file
+     * @return ?string 
+     */
+    public function getConfigFile(){
+        return $this->m_confile;
     }
 }

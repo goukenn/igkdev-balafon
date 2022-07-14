@@ -123,7 +123,14 @@ foreach($screen_resolutions as $scr){
 
 $def["body.igk-body"]="background-color:[syscl:backgroundColor]; color:[syscl:textColor, #333];";
 $def["body.igk-body.xboxone"]="padding:0px !important; background-color:[syscl:backgroundColor, transparent]";
-$def["body.igk-body.xboxone .igk-powered"]="{sys:dispn}";
+
+// + - POWERED VIEW
+$def["body.igk-body.xboxone .igk-powered"]="{sys:dispn}"; 
+$def["body.no-powered .igk-powered"] = "display:none !important;";
+
+
+
+
 $def[".igk-lh-0"]="line-height:0 !important;";
 $def["ul.igk-puce"]="padding-left:32px;";
 $def["ul.igk-puce > li"]="list-style-type: disc;";
@@ -201,7 +208,7 @@ $def[".igk-collapse"]="display:none;";
 $def["igk-js-msbox"]=" {sys:fit, igk-parentscroll, igk-powered-viewer, overflow-y-a}";
 $def[".igk-js-notify"]="max-height:400px; overflow:auto";
 $def[".igk-js-notify-box .igk-js-notify"]="max-height:400px; overflow:scroll;";
-$def[".igk-js-notify .content-z"]="{sys:margin-a-lr}";
+$def[".igk-js-notify .content-z"]="{sys:mg-w-a}";
 $def["textarea.no-resize"]=" resize:none;";
 $def[".igk-body .err-403 .presentation a"]="color:#cecece;";
 $def[".igk-body .err-403 .presentation"]="background-color:#454545;";
@@ -375,6 +382,10 @@ $def[".igk-action-bar:after"]="clear:both;content:' '; display:table;";
 $def[".igk-action-bar.igk-pull-right > igk-btn, .igk-action-bar.igk-pull-right > input[type=button],.igk-action-bar.igk-pull-right > input[type=submit],.igk-action-bar.igk-pull-right > input[type=reset]"]="float:right;";
 $def[".igk-action-bar.igk-pull-right > input[type=button]:not(:first-child),.igk-action-bar.igk-pull-right > input[type=submit]:not(:first-child),.igk-action-bar.igk-pull-right > input[type=reset]:not(:first-child)"]="margin-right:8px;";
 $def[".igk-action-bar > .igk-btn:not(.igk-pull-right)"]="float:left;";
+$def[".igk-action-bar.alignc .igk-btn"]="float:none !important;";
+
+
+
 $def[".igk-menu-bar"]="min-height:16px; [sysbgcl:igk-menu-bar-bg] [sysfcl:igk-menu-bar-fcl] padding-top:4px; padding-bottom:4px;";
 $def[".igk-trb"]="position:relative; background-color:#DEAEEE; cursor:pointer; padding:4px;";
 $def[".igk-trb > .igk-trb-cur"]="width:0px; min-height:8px; height:100%; [sysbgcl:igk-trb-cur-bg]";
@@ -515,7 +526,7 @@ $def[".clsubmit"]=
 $def[".clbutton"]="font-size: 16px; font-family: inherit; display:inline-block; margin:auto; padding: {$pad2}; border:1px solid [cl:buttonBorderColor, rgb(221,221,221)]; border-radius: 4px; cursor:pointer;";
 // $def[".igk-btn.igk-active"] = "border-left: solid 4px #FFBF00; color: #683500";
 $def[".igk-btn-connect, input.igk-btn-connect, .igk-btn-connect a"]="[sysbgcl:igk-btn-connect-bg] [sysfcl:igk-btn-connect-fcl]";
-$def[".igk-form-control, .cltext, .clpassword, .clemail, .clnumber, .clsearch, .cltel, .clselect"]="{sys:fitw} padding:{$pad1}; margin:0px;[trans: 0.1s color ease-in] [sysfcl:igk-input-cl]";
+$def[".igk-form-control, .cltext, .clpassword, .clemail, .clnumber, .clsearch, .cltel, .clselect"]="{sys:fitw} padding:{$pad2}; margin:0px;[trans: 0.1s color ease-in] [sysfcl:igk-input-cl]";
 $def[".igk-form-control.cltext:focus, .igk-form-control.clpassword:focus, .igk-form-control.clemail:focus"]="color:#222;";
 $def[".igk-form-box"]="{sys:dispb} max-width: 355px; margin-left:auto; margin-right:auto; padding:32px; background-color: #F7F7F7;";
 
@@ -813,9 +824,11 @@ $def[".igk-winui-pagination .igk-btn"]="background-color:#34B0FF; color:#eee";
 $def[".igk-winui-pagination.igk-pull-right"]="{sys:alignr}";
 $def[".igk-winui-pagination.igk-pull-right .igk-btn"]="";
 $def[".igk-winui-pagination.igk-pull-right:after"]="display:table;content:' '; clear:both;";
+
 $PTR[".igk-session-button"]="display: none;";
 $PTR["body.igk-body"]="background-color:transparent ;";
 $PTR[".no-print"]="display:none !important;";
+
 $def[".igk-action-bar a.igk-btn"]="line-height:normal;";
 $def[".igk-action-bar .igk-btn > svg"]="width:24px; height:24px; padding:4px; fill:#777";
 $def[".igk-action-bar a.igk-btn:hover > svg"]="fill:#54e;";
@@ -994,6 +1007,8 @@ $def[".contact-block-item svg"] = "width:20px; height:20px; margin-right: 14px; 
 
 
 
+$def[".igk-form-control.dispib"] = "width:auto;";
+
 // + | search button
 $def[".igk-winui-searchbtn"] = "cursor:pointer;";
 $def[".igk-winui-searchbox .igk-winui-searchbtn"] = "{sys:posab, fith, dispflex, flex-row} width: 20px; padding: 4px 0px; left: 8px;";
@@ -1017,14 +1032,37 @@ $def[".igk-action-group > .igk-btn:last-child:first-child"] =
 $def[".igk-action-group > .igk-form-control:last-child:first-child"] = "border-radius: 5px";
 
 
-
-
+// 
+$def[".igk-svg-host.svg-fit > svg"] = "{sys: fit}";
+$def[".igk-svg-host.svg-fill > svg"] = "{sys: fit}";
 
 $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
 
 // + | define root global color
 $root["--selection-bgColor"] = "transparent";
 $root["--selection-foreColor"] = "red";
+
+
+// + ----------------------------------------------------------------------------------------
+// + Material design definitions
+// + ----------------------------------------------------------------------------------------
+
+foreach(["2"=>"8px"] as $k=>$v){
+    $def[".pad-".$k] = "padding: ".$v.";";
+}
+
+foreach(
+    [
+    "1"=>"17px",
+    "2"=>"24pt",
+    "3"=>"32pt",
+    "4"=>"48pt",
+   ] as $k=>$v){
+    $def[".ft-".$k] = "font-size: ".$v.";";
+}
+
+// reset font size to document 
+$def[".reset-ft"] = "font-size: 1rem;";
 
 include __DIR__."/template.color.pcss";
 include __DIR__."/winui/carousel.pcss";

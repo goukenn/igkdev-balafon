@@ -23,6 +23,9 @@ final class ToolConfigController extends ConfigControllerBase {
     public function getConfigGroup(){
         return "administration";
     }
+    protected function getConfigIndex(){ 
+        return 1000;
+    }
     public function getIsConfigPageAvailable()
     {
         return true;
@@ -63,11 +66,14 @@ final class ToolConfigController extends ConfigControllerBase {
             $t->remove();
             return;
         }
+
+        $v_ct=$this->getm_tools()->getTools();
+        $count = igk_count($v_ct);
         $t->ClearChilds();
         $this->getConfigNode()->add($t);
         $box=$t->addPanelBox();
         igk_html_add_title($box, __("Tools"));
-        $box->addHSep();
+        
         igk_notifyctrl()->setNotifyHost($box->addDiv());
         $s=$box->addSearch()->setClass("fitw");
         $s->Uri=$this->getUri("view_tools_ajx");
@@ -78,13 +84,14 @@ final class ToolConfigController extends ConfigControllerBase {
         $th[".igk-tool-option div"]="padding: 4px; background-color:white";
         $d["class"]="igk-tool-option table ";
         $q=strtolower(igk_getr("q"));
-        $v_t=$this->getm_tools()->getTools();
-        $box->addDiv()->Content=__("Tools : {0} ", igk_count($v_t));
+        $box->addDiv()->Content=__("Tools : {0} ", $count);
+        if ($count>0){
         $d=$box->addDiv();
-        foreach($v_t as $k=>$v){
-            if(!$v->getIsAvailable() || ($q && !strstr(strtolower($v->Name), $q) && !strstr(strtolower(R::ngets("tool.".$this->Name)->getValue()), $q)))
-                continue;
-            $v->showTool($d->addDiv()->setAttribute("class", "dispib floatl marg4"));
+            foreach($v_ct as $k=>$v){
+                if(!$v->getIsAvailable() || ($q && !strstr(strtolower($v->Name), $q) && !strstr(strtolower(R::ngets("tool.".$this->Name)->getValue()), $q)))
+                    continue;
+                $v->showTool($d->addDiv()->setAttribute("class", "dispib floatl marg4"));
+            }
         }
     }
     

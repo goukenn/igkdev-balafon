@@ -150,8 +150,7 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         igk_exit();
     }
     protected function init_installer(InstallerMiddleWareActions $action)
-    {
-        igk_ilog("init installer");
+    { 
         require_once IGK_LIB_DIR . "/igk_html_func_items.php";
         $action->add(new BalafonInstallerMiddelWare());
         $action->add(new BackupLibConfigMiddleWare());

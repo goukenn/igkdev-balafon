@@ -65,8 +65,17 @@ abstract class RootControllerBase extends IGKObject{
 
     public static function __callStatic($name, $arguments)
 	{
+        // if ($name === "getEnvParam"){
+        //     igk_trace();
+        //     igk_exit();
+        // }
+        // igk_wln("call: ".$name);
         $c = null; 
         $v_macro  = 0; 
+        static $func_defs = null;
+        if ($func_defs===null){
+            $func_defs = [];
+        }
 		if (self::$macros===null){
 			self::$macros = [
 				"macrosKeys"=>function(){
@@ -92,21 +101,27 @@ abstract class RootControllerBase extends IGKObject{
 		$c = $c ? $c : igk_getctrl(static::class); 
 		
 		if (isset(self::$macros[$name])){
-			$fc = Closure::fromCallable(self::$macros[$name]);
-			$fc = $fc->bindTo(null, static::class);
-			$ref = (new ReflectionFunction($fc));		
-			if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
-                $t = IGKType::GetName($t);
-				if (($t == self::class) || is_subclass_of($t, self::class)){
-					array_unshift($arguments, $c);
-				}
-			}
+            $k = static::class."/".$name;
+            if (!isset($func_defs[$k])){
+                $fc = Closure::fromCallable(self::$macros[$name]);
+                $fc = $fc->bindTo(null, static::class);
+                $ref = (new ReflectionFunction($fc));		
+                if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
+                    $t = IGKType::GetName($t);
+                    if (($t == self::class) || is_subclass_of($t, self::class)){
+                        array_unshift($arguments, $c);
+                    }
+                }
+                $func_defs[$k] = $fc;
+            }else {
+                $fc = $func_defs[$k];
+            }
 			return $fc(...$arguments);
 		} 
 		
 		//if ($name == "getComponentsDir"){
 			// method is probably protected
-		if (!$v_macro && !igk_environment()->{static::class.'/bypass_method'} && method_exists($c, $name)){
+		if (!$v_macro && !igk_environment()->get(static::class.'/bypass_method') && method_exists($c, $name)){
 			//invoke in controller context 
 			return $c::Invoke($c, $name, $arguments);
 		}	
@@ -115,20 +130,25 @@ abstract class RootControllerBase extends IGKObject{
         if (method_exists(ControllerExtension::class, $name)){
 		    return ControllerExtension::$name(...$arguments); 
         } else {
-            if (igk_environment()->is("DEV")){
+            if (igk_environment()->isDev()){
                 igk_die("method [$name] not found");
             }
             throw new \IGK\System\Exceptions\ActionNotFoundException($name);
         }
 	}
 	public function __call($name, $argument){
-        //by pass method properted call
+        // + | by pass method propected call
         if (method_exists($this, $name) && (in_array(strtolower($name), ["initcomplete"]))){
-            return call_user_func([$this, $name], $argument);
+            return call_user_func_array([$this, $name], $argument);
         }
         return static::__callStatic($name, $argument);
     }
 
+    /**
+     * get response or get environment params
+     * @param mixed $name 
+     * @return mixed 
+     */
     public function __get($name){
         if(method_exists($this, $fc = "get".ucfirst($name))){ 
       
@@ -136,6 +156,13 @@ abstract class RootControllerBase extends IGKObject{
         }
         return $this->getEnvParam($name);
     }
+
+    /**
+     * set environment parameter
+     * @param mixed $name 
+     * @param mixed $value 
+     * @return $this 
+     */
     public function __set($name, $value){
         if (!$this->_setIn($name, $value)){   
            $this->setEnvParam($name, $value);
@@ -269,7 +296,12 @@ abstract class RootControllerBase extends IGKObject{
         return $this->getEnvParam("fulluri") ?? $this->getAppUri($this->currentView);
     }
 
-    protected function initComplete(){        
+    /**
+     * override this to initialize context
+     * @return void 
+     */
+    protected function initComplete($context = null){    
+        
     }
 
    
@@ -285,5 +317,21 @@ abstract class RootControllerBase extends IGKObject{
             $o->InitComplete();
         }
         return $o;
+    }
+    public static function Invoke($instance, string $method, ?array $args=null){
+        if (is_null($args))
+            $args = [];
+        return call_user_func_array([$instance, $method], $args);
+        // if(method_exists($instance, $method)){
+        //     if($args == null){
+        //         return $instance->$method();
+        //     }
+        //     else{
+        //         return $instance->$method(...$args); 
+        //     }
+        // }else {
+        //     return static::__call($name, $args);
+        // }
+        // return null;
     }
 }

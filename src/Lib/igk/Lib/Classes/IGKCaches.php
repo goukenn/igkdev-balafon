@@ -156,7 +156,7 @@ final class IGKCaches{
      * @return FileSystem|null 
      * @throws IGKException 
      */
-    private function _init_view_caches(){
+    private function _init_view_caches(){ 
         return self::__init_cache(igk_io_cachedir()."/storage/views"); 
     }
     /**

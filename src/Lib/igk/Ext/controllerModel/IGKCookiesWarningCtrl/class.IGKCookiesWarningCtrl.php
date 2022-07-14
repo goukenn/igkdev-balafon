@@ -3,7 +3,7 @@
 abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 	public function getCanAddChild(){return false;}
-	protected function initComplete()
+	protected function initComplete($context=null)
 	{
 		parent::initComplete();
 		igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);

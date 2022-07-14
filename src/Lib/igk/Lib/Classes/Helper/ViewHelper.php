@@ -8,7 +8,9 @@ namespace IGK\Helper;
 
 use IGK\Controllers\BaseController;
 use IGKEnvironment;
+use IGKEnvironmentConstants;
 use IGKException;
+use IGKHtmlDoc;
 
 /**
  * view helper class 
@@ -21,6 +23,50 @@ class ViewHelper
 {
     const ARG_KEY = "sys://io/query_args";
 
+    private static function _GetIncArgs($args=null){
+
+        if (is_null($args)|| empty($args))
+            $args = self::GetViewArgs(); 
+        return $args;
+    }
+    private static function _GetIncFile($file){
+        $c = self::Dir()."/".$file;
+        if (file_exists($c) || ($c.= ".phtml"))
+            return $c;
+        igk_die("inc [".$file."] file not found");        
+    }
+    /**
+     * get entry fname uri
+     * @param string $name path or name
+     * @return string
+     */
+    public static function Uri(?string $name=null){
+        $ctrl = self::CurrentCtrl();
+        $fname = self::GetViewArgs("fname");
+        if (igk_str_endwith($fname, $s = "/".IGK_DEFAULT_VIEW)){
+            $fname = substr($fname, 0, strlen($fname) - strlen($s));
+        }
+        if (strpos($name, "/")===0){
+            return $ctrl::uri($fname.$name);
+        }
+        $uri = $ctrl::getRouteUri($name);
+        return $uri;
+
+    }
+    /**
+     * 
+     * @param string $path 
+     * @param array|null $args 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function Inc(){
+        if(func_num_args()==0){
+            igk_die("missing file argument");
+        }
+        extract(self::_GetIncArgs(array_slice(func_get_args(),1))); 
+        return include self::_GetIncFile(func_get_arg(0));
+    }
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
         $appuri = $ctrl->getAppUri($fname);
@@ -55,7 +101,7 @@ class ViewHelper
      */
     public static function File()
     {
-        return  igk_environment()->last("viewFileCaches");
+        return  igk_environment()->last(IGKEnvironmentConstants::VIEW_FILE_CACHES);
     }
     /**
      * get included file directory
@@ -73,6 +119,16 @@ class ViewHelper
     public static function CurrentCtrl(): ?BaseController
     {
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
+    }
+    public static function BaseController(): ?BaseController{
+        return SysUtils::CurrentBaseController();
+    }
+    /**
+     * get controller current document
+     * @return IGKHtmlDoc 
+     */
+    public static function CurrentDocument(){
+        return self::CurrentCtrl()->getCurrentDoc();
     }
 
     /**
@@ -108,4 +164,22 @@ class ViewHelper
         return $t;
     } 
   
+    public static function GetUriHelper($fname){
+        $ctrl = self::CurrentCtrl();
+        return new ViewUriHelper($ctrl, $fname);
+    }
+    /**
+     * get User Profiles access
+     * @return object 
+     */
+    public static function GetUserProfile(){
+        return self::CurrentCtrl()->getUser(); 
+    }
+
+    public static function GetCheckUserProfile(bool $redirect, ?string $uri=null){
+        $c = self::CurrentCtrl();
+        return $c->checkUser($redirect, $uri) ? 
+            $c->getUser():
+            null;
+    }
 }

@@ -69,8 +69,7 @@ class HtmlExpressionNode extends HtmlNode{
             if($shift){
                 $script_obj->resetShift();
             }
-        // }
-        //igk_debug_wln_e("the output : ", $sout);
+        // } 
         return $sout;
     }
 }

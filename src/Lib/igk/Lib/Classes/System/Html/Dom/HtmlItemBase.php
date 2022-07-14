@@ -14,6 +14,7 @@ use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlChildArray;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlInitNodeInfo;
+use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
@@ -115,27 +116,25 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         if (self::$sm_macros == null){
             self::$sm_macros = (object)[
-                "context"=>[],
+                "context"=>[],// "context and classe
                 "funcs"=>[], //list of function ,
-                "preload"=>1
+                "preload"=>1,
+                "context_funcs"=>[], // list of contexted macros function 
             ];
         }
         if (!in_array($class, self::$sm_macros->context)){
-            self::$sm_macros->context[$name] = $class;
+            self::$sm_macros->context[$name] = $class;            
             if (class_exists($class, false)){
-                \IGK\System\ExtensionUtils::LoadMethods(self::$sm_macros->funcs, $class, self::class);
-                // $ref = igk_sys_reflect_class($class); 
-                // $tf = & self::$sm_macros->funcs;
-                // foreach($ref->GetMethods(ReflectionMethod::IS_STATIC | ReflectionMethod::IS_PUBLIC) as $k){
-                //     $tf[$k->getName()] = [$class, $k];
-                // }
-                if (self::$sm_macros->preload==1)
-                    self::$sm_macros->preload=0;
+                $tab = [];
+                \IGK\System\ExtensionUtils::LoadMethods( $tab, $class, self::class); 
+                self::$sm_macros->context_funcs[$name] = $tab;
+                return true;
             } else{
+                //class need to loaded
                 if (is_array(self::$sm_macros->preload)){
-                    self::$sm_macros->preload[] = $class;
+                    self::$sm_macros->preload[$name][] = $class;
                 }else{
-                   self::$sm_macros->preload = [$class];
+                   self::$sm_macros->preload = [$name=>[$class]];
                 }
             }
          }
@@ -144,19 +143,44 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 
        if ( self::$sm_macros ){      
             if (is_array(self::$sm_macros->preload)){
-                foreach(self::$sm_macros->preload as $p){
-                    if (class_exists($p)){
-                        \IGK\System\ExtensionUtils::LoadMethods( self::$sm_macros->funcs, $p, self::class); 
+                foreach(self::$sm_macros->preload as $context => $v){
+                    foreach ($v as $p) {                        
+                        if (class_exists($p)){
+                            $tab = [];
+                            \IGK\System\ExtensionUtils::LoadMethods( $tab, $p, self::class); 
+                            self::$sm_macros->context_funcs[$context] = $tab;
+                            // igk_wln_e("load :::: ".$p);
+                        } else {
+                            igk_die("failed to load class ".$p);
+                        }
                     }
                 } 
                 self::$sm_macros->preload = 0;
             } 
+            if ($g = HtmlLoadingContext::GetCurrentContext()){
+                if ($g && !(key_exists($g->name, self::$sm_macros->context))){
+                        return;                            
+                }
+                if ($tab = igk_getv(self::$sm_macros->context_funcs, $g->name)){
+                    if ($fc = igk_getv($tab, $name)){
+                        if ($fc = closure::fromCallable($fc)){
+                            // igk_wln_e("invoking....");
+                            $response =  $fc(...$argument); 
+                            return true;
+                        }  
+                    }
+                }
+                //igk_wln_e("try load ", $name, $g->name, self::$sm_macros->context_funcs["vue3"]);
+
+            }else {
+                return;
+            }
             if (isset(self::$sm_macros->funcs[$name])){
                 if ($fc = closure::fromCallable(self::$sm_macros->funcs[$name])){
                     $response =  $fc(...$argument); 
                     return true;
                 }
-            }
+            }          
        }
     }
 
@@ -274,7 +298,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         if (is_array($item)) {
             foreach ($item as $k => $v) {
-                $this[$k] =  HtmlUtils::GetValue($v);
+                $this[$k] = $v;// HtmlUtils::GetValue($v);
             }
         }
         return $this;
@@ -333,9 +357,18 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->content;
     }
+    /**
+     * get if we can load context
+     * @param mixed $value 
+     * @return bool 
+     */
+    protected function getcanLoadContent($value):bool{
+        return is_string($value) && $this->getCanAddChilds() && HtmlUtils::IsHtmlContent($value)
+        && (!($ctx = HtmlLoadingContext::GetCurrentContext()) || $ctx->load_content);
+    }
     public function setContent($value)
-    {
-        if (is_string($value) && $this->getCanAddChilds() && HtmlUtils::IsHtmlContent($value)){
+    { 
+        if ($this->getcanLoadContent($value)){
             $this->load($value);
         }else{
             $this->content = $value;
@@ -758,7 +791,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     return call_user_func_array(array($this, IGK_ADD_PREFIX), $tab);
                 }
             }
-            if (igk_environment()->is("DEV")){
+            if (igk_environment()->isDev()){
                 if (strpos($name, "get")===0){
                     igk_trace();
                     igk_wln("'try to call : ".__METHOD__ . " ".$name);
@@ -1233,7 +1266,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * 
      * @param mixed $id
      */
-    public function getElementById($id)
+    public function getElementById(string $id)
     {
         $c = $this->getChilds()->to_array();
         if ($c == null) {
@@ -1244,7 +1277,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $q = $this; 
         $itab = array($q);
         while ($q = array_pop($itab)) {
-            if (strtolower($q["id"]) == $s) {
+            $_id = $q["id"];
+            if (is_string($_id) && (strtolower($_id) == $s)) {
                 $tab[] = $q;
                 continue;
             }

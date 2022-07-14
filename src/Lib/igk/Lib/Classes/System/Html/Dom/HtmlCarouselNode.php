@@ -34,4 +34,12 @@ class HtmlCarouselNode extends HtmlNode{
         $n["class"] = "igk-winui-carousel-slide";
         return $n;
     }
+
+    protected function __AcceptRender($options = null)
+    {
+        if ($doc = $options ? igk_getv($options, "Document") : null){
+            $doc->getTheme()->addTempFile(IGK_LIB_DIR."/Styles/winui/carousel.pcss");
+        }
+        return parent::__AcceptRender($options);
+    }
 }

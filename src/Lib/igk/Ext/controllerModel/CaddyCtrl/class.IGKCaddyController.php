@@ -80,27 +80,12 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return igk_io_getconf_file(dirname(__FILE__));
 	}
-	protected function initComplete()
+	protected function initComplete($context=null)
 	{
 		parent::initComplete();
 
-		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id();
-	// 	igk_sys_uri_regpage("showcaddy");
-		$this->app->ControllerManager->register("Caddy", $this);
-		/*
-		$this->caddy_addproduct();
-		$this->__updateCaddyInfo();
-
-		$this->app->Session->addUserChangedEvent($this, "__userChanged");
-
-		igk_getctrl("igkusersctrl")->connect("bondje.doue@gmail.com", "test123");
-		//$this->caddy_clear();
-		$this->caddy_addproduct();
-		$this->caddy_addproduct();
-		$this->caddy_addproduct();
-
-
-		igk_wln($this->caddy_render())*/
+		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id(); 
+		$this->app->ControllerManager->register("Caddy", $this); 
 	}
 	private function __reloadCaddy()
 	{

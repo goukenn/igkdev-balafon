@@ -17,7 +17,7 @@ use IGK\System\Http\IHeaderResponse;
  */
 class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      
-    private $m_private;
+    private $m_privatetheme;
     private $m_theme;
     private $m_baseuri;
     private $m_noCache;
@@ -44,6 +44,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      * @var string
      */
     private $m_dir;
+    /**
+     * store global themes
+     * @var mixed
+     */
     private static $sm_theme;
     private static $sm_scriptManager;
 
@@ -142,10 +146,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     */
     public function getTemporaryCssDef($minfile, $export, $reset=0){
         igk_set_env("sys://css_temp", 1);
-        $p=$this->m_private->get_css_def($minfile, $export);
+        $p=$this->m_privatetheme->get_css_def($minfile, $export);
         igk_set_env("sys://css_temp", null);
         if($reset){
-            $this->m_private->resetAll();
+            $this->m_privatetheme->resetAll();
         }
         return $p;
     }
@@ -154,7 +158,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * 
     */
     public function getTempTheme(){
-        return $this->m_private;
+        return $this->m_privatetheme;
     }
     ///<summary>get document theme</summary>
     /**
@@ -162,8 +166,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * @return mixed|IGK\System\Html\Dom\HtmlDocTheme 
     * @throws Exception
     */
-    public function getTheme(){
-        if($r=(igk_get_env("sys://css_temp") ? $this->m_private: $this->m_theme)){
+    public function getTheme($ops=false){
+        $r = $this->m_theme;
+        if ($ops || igk_environment()->is("OPS")){
+            $r = $this->getInlineTheme();
+        }
+        if($r=(igk_get_env("sys://css_temp") ? $this->m_privatetheme: $r)){
             return $r;
         }
         igk_die("theme not created");
@@ -189,20 +197,42 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         parent::__construct();
         $this->m_id = $id; 
         $this->m_theme= new HtmlDocTheme($this, "css:public");
-        $this->m_private= new HtmlDocTheme($this, "css:private");
+        $this->m_privatetheme= new HtmlDocTheme($this, "css:private");
         $this->m_page_theme = "dark";
 
         $this->setFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG, $this->prepareScriptManager());
        
         $this->getHead()->add(new GlobalScriptManagerHostNode());
-        $this->addCoreCss();
+        $this->_addCoreCss();
         $this->setup_document();
         igk_hook(IGK_ENV_NEW_DOC_CREATED, array(igk_app(), $this));
     }
-    private function addCoreCss(){
-        $s = igk_io_corestyle_uri(); 
-        $t=$this->addStyle($s, true);
-        $t->cache = 1; 
+
+    /**
+     * get inline theme
+     * @return HtmlDocTheme 
+     */
+    public function getInlineTheme(){
+        $id = spl_object_id($this);
+        $key = "doc://".$id."/inline_theme";
+        if ($theme = igk_environment()->get($key)){
+            return $theme;
+        }
+        $theme = new  HtmlDocTheme($this, "css://inline_theme");
+        igk_environment()->set($key, $theme);
+        return $theme;
+    }
+
+    /**
+     * add core style uri
+     * @return mixed 
+     * @throws IGKException 
+     */
+    private function _addCoreCss(){
+        if (!empty($s = igk_io_corestyle_uri())){
+            $t=$this->addStyle($s, true);
+            $t->cache = 1; 
+        }
         return $t;
     }
      ///<summary></summary>
@@ -244,6 +274,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     public function getFavicon(){
         return $this->getFlag(self::IGK_DOC_FAVICON_FLAG);
     }
+
+    
     
     ///<summary></summary>
     /**
@@ -297,9 +329,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         if($d !== $this){
             return;
         } 
-        $this->m_private->Name="igk_private_theme";
+        $this->m_privatetheme->Name="igk_private_theme";
         $this->m_theme->Name="default";
-        $this->m_private->resetAll(); 
+        $this->m_privatetheme->resetAll(); 
     }
 
      ///<summary>setup global document</summary>
@@ -444,7 +476,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     /**
     * file : relative path to file according to system base dir
     */
-    public function addStyle($file, $system=false){
+    public function addStyle(string $file, $system=false){
         return $this->__addStyle($this->m_head, $file, $system);
     }
     ///<summary></summary>
@@ -457,7 +489,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * @param mixed $file
     * @param mixed $system the default value is false
     */
-    protected function __addStyle($n, $file, $system=false){
+    protected function __addStyle($n, string $file, $system=false){
         $g=$n->getParam("sys://css");
         if($g == null){
             $g=array();

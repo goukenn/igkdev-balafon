@@ -25,7 +25,7 @@ class HtmlPoweredByNode extends HtmlNode{
     }
     public function getIsVisible()
     {
-        return !IGKApp::GetConfig("hide_powered");
+        return !IGKApp::GetConfig("hide_powered") && !empty($this->getContent());
     }
     private function __construct()
     {

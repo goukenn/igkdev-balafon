@@ -228,10 +228,9 @@ final class IGKServer{
             implode("/", array_filter([$this->GetRootUri(), ltrim($this->REQUEST_URI, '/')])), "/"))) : ""; 
 
         if (!empty($doc_root = $this->IGK_DOCUMENT_ROOT) || (defined('IGK_APP_DIR') && !empty($doc_root = constant('IGK_APP_DIR')))) {
-            $doc_root = rtrim(StringUtility::Dir($doc_root), DIRECTORY_SEPARATOR);
+            $doc_root = rtrim(StringUtility::Dir($doc_root), "/");
         }
         $this->root_dir = $doc_root;
-
          // + | internal stus code
         $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
     }

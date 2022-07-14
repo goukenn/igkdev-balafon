@@ -8,7 +8,7 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 {
  
 	
-	protected function initComplete()
+	protected function initComplete($context=null)
 	{ 
 		parent::initComplete();
 		//register a billing

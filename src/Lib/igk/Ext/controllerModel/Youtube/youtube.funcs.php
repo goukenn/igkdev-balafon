@@ -2,7 +2,16 @@
 ///global utility fonctions used to manage youtube fonction
 ///02-10-2015
 
-function igk_html_node_youtubevideo($uri, $param=null){
+use IGK\System\Html\Dom\HtmlItemBase;
+
+/**
+ * create youtube video tag
+ * @param string $uri 
+ * @param null|array $param 
+ * @return HtmlItemBase<mixed, mixed> 
+ * @throws IGKException 
+ */
+function igk_html_node_youtubevideo(string $uri, ?array $param=null){
 //test with lean on
 //<iframe width="854" height="480" src="https://www.youtube.com/embed/YqeW9_5kURI" frameborder="0" allowfullscreen></iframe>
 //integrate video : exemple : https://www.youtube.com/embed/YqeW9_5kURI

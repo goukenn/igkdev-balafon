@@ -13,13 +13,16 @@
  * @package 
  */
 final class IGKObjStorage{
+    private $m_init;
     ///<summary></summary>
     ///<param name="tab" default="null"></param>
     public function __construct(?array $tab=null){
         if($tab && is_array($tab)){
+            $this->m_init = true;
             foreach($tab as $k=>$v){
-                $this->$k=$v;
+                $this->__set($k, $v);
             }
+            $this->m_init = false;
         }
     }
     ///<summary></summary>
@@ -34,9 +37,11 @@ final class IGKObjStorage{
     ///<param name="n"></param>
     ///<param name="v"></param>
     public function __set($n, $v){
-        if($v === null){
-            unset($this->$n);
-            return;
+        if (!$this->m_init){
+            if($v === null){
+                unset($this->$n);
+                return;
+            }
         }
         $this->$n=$v;
     }

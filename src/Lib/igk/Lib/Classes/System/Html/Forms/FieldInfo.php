@@ -38,4 +38,10 @@ class FieldInfo{
      * error message
      */
     var $error;
+
+    /**
+     * place holder message
+     * @var mixed
+     */
+    var $placeholder;
 }

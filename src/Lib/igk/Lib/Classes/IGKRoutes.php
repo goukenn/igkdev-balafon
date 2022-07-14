@@ -8,11 +8,16 @@ class IGKRoutes
 
     public static function Register($u, $callback, $prehandle = 1)
     {
-        static $uri = null;
-        $uri = Request::getInstance()->requestEntry();
+        static $request_entry = null;
+        // TODO : remove register
+        // return;
+
+        if (is_null($request_entry)){
+            $request_entry = Request::getInstance()->requestEntry();
+        }
         igk_environment()->setArray(self::REG_KEY, $u, $callback);
-        if ($prehandle) {
-            self::Invoke($uri, $u, $callback);
+        if ($prehandle && $request_entry){
+            self::Invoke($request_entry, $u, $callback);
         }
     }
   /**

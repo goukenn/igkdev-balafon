@@ -139,7 +139,7 @@ final class SessionController extends BaseController{
     }
     
     ///<summary></summary>
-    protected function initComplete(){ 
+    protected function initComplete($context=null){ 
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
@@ -165,8 +165,8 @@ final class SessionController extends BaseController{
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
     
-        igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){
-            $options = $e->args["options"];
+        igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){            
+            $options = igk_getv($e->args, "options");
             echo $this->getTargetNode()->render($options); 
         });
     }

@@ -71,9 +71,10 @@ $def[".bdr-1"] = "border:1px solid black;";
 $def[".fts-i"] = "font-style:italic;";
 $def[".cur-pointer"] = "cursor:pointer;";
 $def[".cur-default"] = "cursor:default;";
-
-$def[".margin-a-lr"] 
-= $def[".margin-a-w"] = $def[".margin-w-a"]
+ 
+$def[".margin-a-w"] 
+= $def[".margin-w-a"]
+= $def[".mg-w-a"]
 = "margin-left:auto; margin-right:auto;";
 
 
@@ -142,6 +143,9 @@ $def[".no-scrollbar::-webkit-scrollbar"] = "display:none;";
 $def[".no-scrollbar"] = "scrollbar-width:none; -ms-overflow-style:none;";
 $def[".no-cursor"] = "cursor: none;";
 
+
+$def[".overflow"] = "overflow: auto;";
+
 $def[".ellipsis"]= "text-overflow:ellipsis;";
 $def[".wrapnormal"] = "white-space:normal;";
 $def[".loc_b"]="bottom:0px;";
@@ -206,12 +210,14 @@ $def[".flex-a-center"] = "justify-content: center; align-items: center;";
 $def[".flex-column"] = "flex-direction: column;";
 $def[".flex-row"] = "flex-direction: row;";
 $def[".flex-alignc > *"] = "align-self: center;";				// align all child to center
+$def[".flex-align-ic"] = "align-items: center;";				// align all child to center
 $def[".flex-space-between"] = "justify-content: space-between;";
 $def[".flex-justifys"] = "justify-content: start;";
 $def[".flex-justifyc"] = "justify-content: center;";
 $def[".flex-justifyb"] = "justify-content: space-between;";
 $def[".flex-justifya"] = "justify-content: space-around;";
 $def[".flex-justifye"] = "justify-content: space-evenly;";
+$def[".flex-nowrap"] = "flex-wrap: nowrap;";
 
 $def[".flex-grow"] = "flex-grow: 1;";
 $def[".flex-fill > *"] = "flex-grow: 1;";
@@ -337,7 +343,8 @@ $def[".sr-only"]= "{sys:no-overflow} position:absolute; display:block;width:0px;
 
 $def["code.dispib"] = "width:auto !important; vertical-align:middle;";
 
-$PTR[".".IGK_SESSION_CTRL] = "display:none;";
+// Printing 
+$PTR[".".igk_css_str2class_name(IGK_SESSION_CTRL)] = "display:none;";
 
 $cl["igk-framebox-title-bgcl"]=
 $cl["igk-hsep-bg"] =

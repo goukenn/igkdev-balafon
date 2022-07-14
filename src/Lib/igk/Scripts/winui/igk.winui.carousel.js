@@ -18,9 +18,10 @@
             var _items = [];
             var ptime = 0;
             if (indicators){
+                this.o.removeAttribute('indicators');
                 this.qselect("nav").remove();
-                var nav = this.add("nav");
-                var active = this.getAttribute("active");
+                var nav = this.add("nav").addClass('indicators');
+                var active = this.getAttribute("active") || 0;
                 this.qselect(".igk-winui-carousel-slide").each_all(function(){
                     var li = nav.add("li");
                     if (active !== null){

@@ -5,14 +5,15 @@ namespace IGK\System\Database\MySQL;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
-use IGK\System\Database\NoDbConnection;  
+use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
+use IGK\Database\IDataDriver;
 use IGKException;
 use IGKQueryResult;
 use ModelBase;
 
 use function igk_getv as getv;
- 
+
 
 /**
  * MySQL Data Adapter 
@@ -24,9 +25,21 @@ class DataAdapter extends DataAdapterBase
 
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
+
+
     public function supportGroupBy()
     {
         return true;
+    }
+
+    public function escape_table_name(string $v): string
+    {
+        return '`' . $v . '`';
+    }
+
+    public function escape_table_column(string $v): string
+    {
+        return '`' . $v . '`';
     }
     /**
      * create a fetch result
@@ -34,11 +47,14 @@ class DataAdapter extends DataAdapterBase
      * @param ?\IGK\Models\ModelBase $model source model
      * @return MYSQLQueryFetchResult 
      */
-    public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null){
-        return MYSQLQueryFetchResult::Create($query, $model);
+    public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null, ?IDataDriver $driver = null)
+    {
+        $driver = $driver ?? ($model ? $model->getDataAdapter() : igk_get_data_adapter(IGK_MYSQL_DATAADAPTER));
+        return MYSQLQueryFetchResult::Create($query, $driver, $model);
     }
-    public function isAutoIncrementType(string $type){        
-        return in_array(strtolower($type), ["int","bigint"]);
+    public function isAutoIncrementType(string $type): bool
+    {
+        return in_array(strtolower($type), ["int", "bigint"]);
     }
     public function update($tbname, $entries, $where = null, $querytabinfo = null)
     {
@@ -54,7 +70,8 @@ class DataAdapter extends DataAdapterBase
      * @return string 
      * @throws IGKException 
      */
-    public function get_query(string $tbname, ?array $where=null, ?array $options=null){
+    public function get_query(string $tbname, ?array $where = null, ?array $options = null)
+    {
         return $this->getGrammar()->createSelectQuery($tbname, $where, $options);
     }
     /**
@@ -63,10 +80,11 @@ class DataAdapter extends DataAdapterBase
      * @return null|array definition
      * @throws IGKException 
      */
-    public function getDataTableDefinition($table){
-        if ($ctrl = igk_getctrl(IGK_MYSQL_DB_CTRL, false)){ 
+    public function getDataTableDefinition($table)
+    {
+        if ($ctrl = igk_getctrl(IGK_MYSQL_DB_CTRL, false)) {
             return $ctrl->getDataTableDefinition($table);
-        } 
+        }
     }
 
     ///<summary></summary>
@@ -79,7 +97,7 @@ class DataAdapter extends DataAdapterBase
     {
         parent::__construct($ctrl);
     }
-    public function isTypeSupported($type)
+    public function isTypeSupported($type): bool
     {
         static $supportedList;
         if ($supportedList === null) {
@@ -89,7 +107,7 @@ class DataAdapter extends DataAdapterBase
                     $supportedList[] = strtolower($r->type);
                 }
             }
-        }   
+        }
         return in_array(strtolower($type), $supportedList);
     }
     /**
@@ -97,16 +115,16 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $type 
      * @return bool 
      */
-    public function supportDefaultValue($type)
+    public function supportDefaultValue($type): bool
     {
-        return in_array($type, ["float","int", "varchar", "enum", "datetime", "time", "float"]);
+        return in_array($type, ["float", "int", "varchar", "enum", "datetime", "time", "float"]);
     }
     ///<summary></summary>
     /**
      * 
      */
     protected function _createDriver()
-    { 
+    {
         if (class_exists(DbQueryDriver::class)) {
             $this->makeCurrent();
             $cnf = $this->app->Configs;
@@ -127,25 +145,34 @@ class DataAdapter extends DataAdapterBase
         }
         return null;
     }
-    public function escape_string($v)
+    public function escape_string($v): string
     {
+        if (is_object($v)) {
+            $v = "" . $v;
+        }
         $v = stripslashes($v);
-        $b = $this->getResId();  
+        $b = $this->getResId();
         if ($b) {
             return mysqli_real_escape_string($b, $v);
         }
         return addslashes($v);
     }
 
-    public function getDataValue($value, DbColumnInfo $tinf)
+    /**
+     * 
+     * @param mixed $value 
+     * @param mixed|DbColumnInfo $tinf 
+     * @return mixed 
+     */
+    public function getDataValue($value, $tinf)
     {
-        if (preg_match("/^date$/i", $tinf->clType)){
+        if (preg_match("/^date$/i", $tinf->clType)) {
             $value = date("Y-m-d", strtotime($value));
         }
-        if (preg_match("/^datetime$/i", $tinf->clType)){
+        if (preg_match("/^datetime$/i", $tinf->clType)) {
             $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
         }
-        return $value; 
+        return $value;
     }
     ///<summary>display value</summary>
     /**
@@ -158,7 +185,7 @@ class DataAdapter extends DataAdapterBase
 
     public function get_charset()
     {
-        $b = $this->m_dbManager->getResId(); 
+        $b = $this->m_dbManager->getResId();
         if ($b) {
             return mysqli_character_set_name($b);
         }
@@ -166,14 +193,15 @@ class DataAdapter extends DataAdapterBase
     }
     public function set_charset($charset = "utf-8")
     {
-        $b = $this->m_dbManager->getResId(); 
+        $b = $this->m_dbManager->getResId();
         if ($b) {
             return mysqli_set_charset($b, $charset);
-        } 
+        }
     }
 
-    public function delete($tablename, $conditions=null){
-        if ($query = $this->getGrammar()->createDeleteQuery($tablename, $conditions)){
+    public function delete($tablename, $conditions = null)
+    {
+        if ($query = $this->getGrammar()->createDeleteQuery($tablename, $conditions)) {
             return $this->sendQuery($query, false);
         }
         return false;
@@ -189,17 +217,17 @@ class DataAdapter extends DataAdapterBase
     public function addColumn($tbname, $name)
     {
         if (empty($tbname))
-            return false; 
+            return false;
         $grammar = $this->getGrammar();
         $tbname = igk_db_escape_string($tbname);
         $columninfo = "";
         if (is_object($name)) {
-            $query = $grammar->add_column($tbname, $name); 
+            $query = $grammar->add_column($tbname, $name);
         } else {
             $columninfo .= "Int(9) NOT NULL";
             $name = igk_db_escape_string($name);
             $query = "ALTER TABLE `{$tbname}` ADD `{$name}` " . $columninfo;
-        }        
+        }
         return $this->sendQuery($query, false);
     }
     public function resetAutoIncrement($table, $value = 1)
@@ -226,13 +254,14 @@ class DataAdapter extends DataAdapterBase
     ///<summary></summary>
     ///<param name="dbname"></param>
     /**
-     * 
+     * create database
      * @param mixed $dbname
      */
     public function createdb($dbname)
     {
-        if ($this->m_dbManager != null)
-            return $this->m_dbManager->createDb($dbname);
+        if ($this->m_dbManager != null){
+            return $this->m_dbManager->createDb($dbname); 
+        }
         return false;
     }
     ///<summary></summary>
@@ -249,10 +278,11 @@ class DataAdapter extends DataAdapterBase
      */
     public function createTable($tablename, $columninfoArray, $entries = null, $desc = null)
     {
-        if ($this->m_dbManager != null) {
+        if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect())  {
 
-            if (!empty($tablename) && !$this->tableExists($tablename)) {
-                igk_debug_wln("en:", __FILE__.":".__LINE__,  get_class($this->m_dbManager));
+            if (!$this->tableExists($tablename)) {
+                // igk_debug_wln("en:", __FILE__.":".__LINE__,  get_class($this->m_dbManager));
+                // igk_wln_e("try:::::consolll");                
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $this->DbName);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
@@ -303,7 +333,7 @@ class DataAdapter extends DataAdapterBase
     {
         return $this->m_dbManager->getHasError();
     }
-    
+
     ///<summary>create table links definition </summary>
     ///return true if this table still have link an register ctrl data
     /**
@@ -324,7 +354,7 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $tableinfo the default value is null
      */
     public function insert($tablename, $entry, $tableinfo = null)
-    {       
+    {
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
             return $this->sendQuery($query);
         }
@@ -359,7 +389,7 @@ class DataAdapter extends DataAdapterBase
      */
     public function rmColumn($tbname, $name)
     {
-        if ($query = $this->getGrammar()->rm_column($tbname, $name)){
+        if ($query = $this->getGrammar()->rm_column($tbname, $name)) {
             return $this->sendQuery($query, false);
         }
     }
@@ -378,7 +408,7 @@ class DataAdapter extends DataAdapterBase
         return null;
     }
 
-    public function getColumnInfo(string $table, ?string $dbname=null)
+    public function getColumnInfo(string $table, ?string $dbname = null)
     {
         $data =  $this->getGrammar()->get_column_info($table, $dbname);
         $outdata = [];
@@ -408,8 +438,8 @@ class DataAdapter extends DataAdapterBase
                 $rel = $this->getGrammar()->get_relation($table, $v->Field, $this->getDbName());
                 if ($rel) {
                     $cl["clLinkType"] = $rel->REFERENCED_TABLE_NAME;
-                    $cl["clLinkColumn"] = $rel->REFERENCED_COLUMN_NAME; 
-                    $cl["clLinkConstraintName"] = $rel->CONSTRAINT_NAME; 
+                    $cl["clLinkColumn"] = $rel->REFERENCED_COLUMN_NAME;
+                    $cl["clLinkConstraintName"] = $rel->CONSTRAINT_NAME;
                 }
             }
             if (!empty($v->Extra) && (($cpos = strpos($v->Extra, "on update ")) !== false)) {
@@ -438,7 +468,7 @@ class DataAdapter extends DataAdapterBase
         $listener = $this->queryListener ?? $this->m_dbManager;
         if ($listener) {
             $options = $options ?? (object)[];
-            $r = $listener->sendQuery($query, $throwex, $options); 
+            $r = $listener->sendQuery($query, $throwex, $options);
             if ($r === false)
                 return false;
             if ($r instanceof DbQueryResult) {
@@ -446,7 +476,7 @@ class DataAdapter extends DataAdapterBase
             }
 
             if ($r !== null) {
-                if ($res = igk_getv($options ,IGKQueryResult::RESULTHANDLER)){
+                if ($res = igk_getv($options, IGKQueryResult::RESULTHANDLER)) {
                     return $res->handle($r);
                 }
                 return IGKMySQLQueryResult::CreateResult($r, $query, $options);
@@ -502,8 +532,7 @@ class DataAdapter extends DataAdapterBase
         return [];
     }
     public function last_error()
-    { 
+    {
         return $this->m_dbManager->getError();
     }
 }
- 

@@ -4,16 +4,18 @@
 // @desc: 
 use IGK\System\Console\Logger;
 
-if(!$controller->getCanInitDb()){
+if(!$force && !$controller->getCanInitDb()){
     igk_debug_wln("Can't init db ".$controller->Name. " ConfigUserConnected: ".igk_parsebool(igk_is_conf_connected()));
     return;
 }
+$response = false;
 $fcname = "initDb";
 igk_set_env("sys://db/constraint_key", $controller->getInitDbConstraintKey());
 // Logger::print("init db: ".get_class($controller));
 if(!$controller->getUseDataSchema()){ 
     Logger::info("init from db function ...");
     $controller::initDbFromFunctions();
+    $response = true;
 }
 else{
     Logger::info("init from db schemas ...");
@@ -41,3 +43,5 @@ if(igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($fcname))){
     igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
     igk_navto($controller->getAppUri());
 }
+
+return $response;

@@ -38,7 +38,7 @@ class IGKUserInfo extends IGKObject{
     }
     ///get all available authorisation for this user
     public function getAuths(){
-        // if (igk_environment()->is("DEV")){
+        // if (igk_environment()->isDev()){
         //     /// TASK: handle authorisation for all
         //     return true;
         // }
@@ -122,5 +122,8 @@ class IGKUserInfo extends IGKObject{
     ///<summary></summary>
     public function toString(){
         return get_class($this);
+    }
+    public function to_array(){
+        return (array)$this;
     }
 }

@@ -24,9 +24,9 @@ class MakeManifestCommand extends AppExecCommand{
         "--name"=>"display name of the application",
         "--force"=>"force generation" 
     ]; 
-    public function exec($command, $name=""){
+    public function exec($command, $controller=""){
         $pwa = igk_require_module("igk/PWA");
-        if (empty($name)){
+        if (empty($controller)){
             return false;
         } 
        
@@ -35,18 +35,18 @@ class MakeManifestCommand extends AppExecCommand{
         $type = igk_str_ns(igk_getv($command->options, "--type", IGKActionBase::class));
         $is_force = property_exists($command->options, "--force");
           
-        $ctrl = igk_getctrl(str_replace("/", "\\", $name), false);
+        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
-            Logger::danger("controller $name not found");
+            Logger::danger("controller $controller not found");
             return false;
         }
-        $name = igk_str_ns(igk_getv($command->options, "--name", $ctrl->getName()));
-        $shortname = igk_str_ns(igk_getv($command->options, "--shortname", $name));
+        $controller = igk_str_ns(igk_getv($command->options, "--name", $ctrl->getName()));
+        $shortname = igk_str_ns(igk_getv($command->options, "--shortname", $controller));
         $version = igk_str_ns(igk_getv($command->options, "--version", "1.0"));
         
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl->getDeclaredDir(); 
-        $info = new \IGK\PWA\IGKPWA($name, "/");
+        $info = new \IGK\PWA\IGKPWA($controller, "/");
         $info->info->short_name = $shortname;
         $info->info->version = $version;
         

@@ -569,6 +569,12 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
             return !$error;
         });
     }
+    /**
+     * load model
+     * @param mixed $modeltype 
+     * @param mixed $name 
+     * @return mixed 
+     */
     public function model($modeltype, $name=null){
         return $this->Ctrl->loader->model($modeltype, $name);
     }

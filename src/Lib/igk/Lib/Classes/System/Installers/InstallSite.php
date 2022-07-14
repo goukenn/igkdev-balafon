@@ -13,6 +13,7 @@ use IGKException;
 use IO;
 
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
+require_once __DIR__."/InstallerUtils.php";
 
 class InstallSite
 {
@@ -53,14 +54,10 @@ class InstallSite
         if (!igk_io_createdir($src)) {
             return false;
         }
-        $wdir = getcwd();
         $c_root = StringUtility::Uri(implode("/", array_filter([$src, ltrim(igk_io_get_relativepath($src, $options["rootdir"]), './')])));
-        $is_primary = $src == $c_root;
-        // $c_app = ltrim(igk_io_get_relativepath($folder, igk_getv($options, "appdir")), "./");
-        // $c_public = ltrim(igk_io_get_relativepath($folder, IGK_BASE_DIR), "./");
-        // $is_primary = $src == $c_root;
-        // $src = realpath($src);
-        // igk_wln_e("c_root ", $c_root , $is_primary ,$src, $folder);
+        $is_primary = $src == $c_root;     
+ 
+
         $c_public = "";
         $c_app = "";
         if (!$is_primary) {

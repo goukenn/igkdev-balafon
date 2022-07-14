@@ -77,9 +77,6 @@ class JSStringifyTest extends BaseTestCase{
         ]);
         $this->assertEquals('{"route":{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}}', 
             $g,
-        "by function ");
-
-
-            
+        "by function ");            
     }
 }

@@ -14,6 +14,7 @@ abstract class IGKEnvironmentConstants{
      const VIEW_HANDLE_ACTIONS=self::CURRENT_CTRL+4;
      const VIEW_INC_VIEW= self::CURRENT_CTRL+5;
      const VIEW_CURRENT_VIEW_NAME= self::CURRENT_CTRL+6;
+     const VIEW_ACTION_PARAMS = self::CURRENT_CTRL+7;
      const IGNORE_LIB_DIR = "sys://lib/ignoredir";
      const AUTO_LOAD_CLASS = "auto_load_class";
      const NOT_VISIBLE_CTRL = "sys://ctrl/notvisible"; 

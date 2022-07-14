@@ -3,6 +3,7 @@ namespace IGK\System\Configuration;
 
 use AppBootstrapController;
 use IGK\Controllers\BaseController;
+use IGK\Helper\ControllerHelper;
 use IGKException;
 use stdClass;
 
@@ -31,7 +32,7 @@ final class CacheConfigs{
     public static function getInstance(){
         if (self::$sm_instance == null){
             self::$sm_instance = new self();
-            if (file_exists($file = self::$sm_instance->getCacheFile())){
+            if (file_exists($file = self::$sm_instance->getCacheFile())){                 
                 self::$sm_instance->cacheOptions = unserialize(file_get_contents($file));
                 self::$sm_instance->mtime = filemtime($file);
             } else {
@@ -45,7 +46,7 @@ final class CacheConfigs{
     }
     public static function GetCachedOption(BaseController $controller, $name, $defaut=null){
         $i = self::getInstance();       
-        $cnf = $controller->getConfigFile();
+        $cnf = ControllerHelper::getConfigFile($controller); 
         if (!($i->mtime < filemtime($cnf))){
             $options = igk_getv($i->cacheOptions, get_class($controller)); 
             $keyname = strtolower(igk_environment()->keyName()); 

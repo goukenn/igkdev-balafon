@@ -3,6 +3,10 @@ namespace IGK\System\Database;
 
 use IGK\System\Exceptions\ArgumentNotValidException;
 
+/**
+ * represent expression builder 
+ * @package IGK\System\Database
+ */
 class DbConditionExpressionBuilder{
     var $operand = "AND";
 
@@ -21,9 +25,14 @@ class DbConditionExpressionBuilder{
         }
         $this->operand = $operand;
     }
-
+    /**
+     * key must have 
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return $this 
+     */
     public function add($key, $value){
-        array_push($this->conditions, [$key, $value]);
+        $this->conditions[] = [$key, $value];
         return $this;
-    }
+    }  
 }

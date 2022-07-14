@@ -15,16 +15,16 @@ class ZipProjectCommand extends AppExecCommand{
     var $desc = "zip balafon project core";
 
 
-    public function exec($command, $name=null, $path=null){
+    public function exec($command, $controller=null, $path=null){
        
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");
             return -1;
         }
 
-        $ctrl = igk_getctrl(str_replace("/", "\\", $name), false);
+        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
-            Logger::danger("controller $name not found");
+            Logger::danger("controller $controller not found");
             return false;
         }
 

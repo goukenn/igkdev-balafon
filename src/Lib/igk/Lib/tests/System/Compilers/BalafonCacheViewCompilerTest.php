@@ -21,8 +21,7 @@ $g_src = <<<EOF
 EOF;
 
         igk_io_w2file($temp, $g_src);
-        $s = 0;
-        igk_debug(1);
+        $s = 0; 
         $g = explode("\n", BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp));        
         array_pop($g);
         array_pop($g);

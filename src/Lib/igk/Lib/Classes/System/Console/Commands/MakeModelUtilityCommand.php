@@ -18,21 +18,21 @@ class MakeModelUtilityCommand extends AppExecCommand
     var $desc  = "make new project's model utility";
 
     var $options = [];
-    public function exec($command, $name = "", $modelname = "")
+    public function exec($command, $controller = "", $modelname = "")
     {
-        if (empty($name)) {
+        if (empty($controller)) {
             return false;
         }
         if (empty($modelname)) {
             Logger::danger("model utility name required");
             return false;
         }
-        Logger::info("make model utility class ..." . $name);
+        Logger::info("make model utility class ..." . $controller);
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
 
-        $ctrl = igk_getctrl(str_replace("/", "\\", $name), false);
+        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl) {
-            Logger::danger("controller $name not found");
+            Logger::danger("controller $controller not found");
             return false;
         }
 

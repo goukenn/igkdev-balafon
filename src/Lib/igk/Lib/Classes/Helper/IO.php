@@ -4,9 +4,11 @@ namespace IGK\Helper;
 use Exception;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\FileWriter;
 use IGK\System\IO\Path;
 use IGKException;
+use ReflectionException;
 
 use function igk_resources_gets as __;
 
@@ -16,6 +18,20 @@ use function igk_resources_gets as __;
  */
 class IO{
     
+    /**
+     * resolv path constant
+     * @param mixed $dir 
+     * @param mixed $value 
+     * @return string 
+     */
+    public static function ResolvPathConstant($dir, $value){
+        $p = realpath($value); 
+        if (empty($p)){
+            return str_replace("\\", "/", $dir."/".$value);
+        }
+        return $p;
+    }
+
     public static function GetArticleInDir($dir, $name){
         if ($dir == null) {
             $dir = IGK_LIB_DIR . "/" . IGK_ARTICLES_FOLDER;
@@ -100,11 +116,7 @@ class IO{
                 `ln -s '$target' '$cibling'` ;
             }            
         }else{
-            if ($fc){
-                exec("mklink /S '{$target}' '$cibling'");
-            }else{
-                `mklink /S '$target' '$cibling'` ;
-            }    
+            @symlink($target, $cibling);
         }
         $r = is_link($cibling);
         return $r;
@@ -325,7 +337,6 @@ class IO{
         if ($path === null){
             $path = igk_io_request_uri();
         }
-
         if (!empty($dir)){
             if (strpos($dir, $bdir)===0){
                 //sub path or relative dir            
@@ -356,76 +367,78 @@ class IO{
             } 
             return $p.ltrim($dir, "/");     
         }
-        die("not implement ". __FILE__);
-        igk_wln(
-            "root_c  = ".self::GetRootRelativePath($dir),
-            "rootdir = ".igk_io_rootdir(),
-            "basedir = ".igk_io_basedir(),
-            "request = ".self::GetRequestBaseUri(),
-            "base--  = ".self::GetRootUri(self::GetRequestBaseUri()),
-            "rrq     = ".igk_io_request_uri()
-        );
+        return null;
 
-        $__dir=$dir;
-        $v_basedir=igk_io_basedir();
-        $r_uri=null;
-        $v_isdir=true;
-        $sep="/";
-        $r_uri= self::GetRequestBaseUri(); // igk_getv(explode("?", igk_io_request_uri()), 0);
-        $v_isdir=IGKString::EndWith($r_uri, '/');
-        $cdir=self::GetRootUri(rtrim($r_uri, '/'));
-        $is_root=igk_io_basedir_is_root();
-        $bdir=$is_root ? igk_io_baseuri(): self::GetRootUri();
-        $dir=ltrim(igk_html_uri($dir), $sep);
+        // die("not implement ". __FILE__);
+        // igk_wln(
+        //     "root_c  = ".self::GetRootRelativePath($dir),
+        //     "rootdir = ".igk_io_rootdir(),
+        //     "basedir = ".igk_io_basedir(),
+        //     "request = ".self::GetRequestBaseUri(),
+        //     "base--  = ".self::GetRootUri(self::GetRequestBaseUri()),
+        //     "rrq     = ".igk_io_request_uri()
+        // );
 
-        igk_wln_e(get_defined_vars());
+        // $__dir=$dir;
+        // $v_basedir=igk_io_basedir();
+        // $r_uri=null;
+        // $v_isdir=true;
+        // $sep="/";
+        // $r_uri= self::GetRequestBaseUri(); // igk_getv(explode("?", igk_io_request_uri()), 0);
+        // $v_isdir=IGKString::EndWith($r_uri, '/');
+        // $cdir=self::GetRootUri(rtrim($r_uri, '/'));
+        // $is_root=igk_io_basedir_is_root();
+        // $bdir=$is_root ? igk_io_baseuri(): self::GetRootUri();
+        // $dir=ltrim(igk_html_uri($dir), $sep);
 
-        if(!$is_root){
-            $sbdir=igk_html_uri(igk_io_basedir());
-            $srdir=igk_html_uri(igk_io_rootdir());
-            // igk_wln_e("null", $is_root, IGK_APP_DIR,  "sbdir:".$sbdir, "root:".$srdir, "rootdir is empty ".igk_io_rootdir());
-            if(strstr($sbdir, $srdir)){
-                $child=igk_str_rm_last(substr($sbdir, strlen($srdir) + 1), $sep);
-                $dir=$child.$sep.$dir;
-            }
-            else{               
-                return null;
-            }
-        }
-        $i=-1;
+        // igk_wln_e(get_defined_vars());
+
+        // if(!$is_root){
+        //     $sbdir=igk_html_uri(igk_io_basedir());
+        //     $srdir=igk_html_uri(igk_io_rootdir());
+        //     // igk_wln_e("null", $is_root, IGK_APP_DIR,  "sbdir:".$sbdir, "root:".$srdir, "rootdir is empty ".igk_io_rootdir());
+        //     if(strstr($sbdir, $srdir)){
+        //         $child=igk_str_rm_last(substr($sbdir, strlen($srdir) + 1), $sep);
+        //         $dir=$child.$sep.$dir;
+        //     }
+        //     else{               
+        //         return null;
+        //     }
+        // }
+        // $i=-1;
         
-        if($bdir == $cdir){
-            if(empty($dir))
-                return "./";
-            return self::GetRootRelativePath($dir);
-        }
-        $i=IGKString::IndexOf($cdir, $bdir);
-        $c=0;
-        $h="";
-        if(($lv=igk_io_dir_level()) > 0){
-            $h=str_repeat("../", $lv);
-        }
-        if(($sdir=IGK_BASE_DIR) != $v_basedir){
-            while($sdir != "." && !strstr($v_basedir, $sdir)){
-                $h .= "../";
-                $sdir=dirname($sdir);
-                $c++;
-            }
-            return igk_html_uri($h.substr($v_basedir, strlen($sdir) + 1).$sep.$dir);
-        }
-        else{
-            $sdir=$cdir;
-            $counter=0;
-            while(!empty($sdir) && ($sdir != $bdir)){
-                $h .= "../";
-                $sdir=dirname($sdir);
-                if($sdir == ".")
-                    break;
-            }
-            if(empty($dir))
-                return $h;
-            return igk_html_uri($h.$dir);
-        }
+        // if($bdir == $cdir){
+        //     if(empty($dir))
+        //         return "./";
+        //     return self::GetRootRelativePath($dir);
+        // }
+        // $i=IGKString::IndexOf($cdir, $bdir);
+        // $c=0;
+        // $h="";
+        // if(($lv=igk_io_dir_level()) > 0){
+        //     $h=str_repeat("../", $lv);
+        // }
+        // if(($sdir=IGK_BASE_DIR) != $v_basedir){
+        //     while($sdir != "." && !strstr($v_basedir, $sdir)){
+        //         $h .= "../";
+        //         $sdir=dirname($sdir);
+        //         $c++;
+        //     }
+        //     return igk_html_uri($h.substr($v_basedir, strlen($sdir) + 1).$sep.$dir);
+        // }
+        // else{
+        //     $sdir=$cdir;
+        //     $counter=0;
+        //     while(!empty($sdir) && ($sdir != $bdir)){
+        //         $h .= "../";
+        //         $sdir=dirname($sdir);
+        //         if($sdir == ".")
+        //             break;
+        //     }
+        //     if(empty($dir))
+        //         return $h;
+        //     return igk_html_uri($h.$dir);
+        // }
     }
     ///<summary>tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur</summary>
     /**
@@ -567,10 +580,10 @@ class IO{
     * @param mixed $dir
     * @param mixed $match
     * @param mixed $recursive the default value is false
-    * @param mixed * $excludedir the default value is null
+    * @param ?array|mixed * $excludedir the default value is null
     * @param callable $callback callback called* $excludedir the default value is null
     */
-    public static function GetFiles($dir, $match, $recursive=false, & $excludedir=null, ?callable $callback=null){
+    public static function GetFiles($dir, $match, $recursive=false, ?array & $excludedir=null, ?callable $callback=null){
       
         // igk_dev_ilog( __METHOD__ ." / ".$dir);
 
@@ -588,7 +601,7 @@ class IO{
         };
         if(is_string($excludedir)){
             $fc=function($d, $m, $ignoredname){
-                return preg_match($ignoredname, $m);
+                return preg_match("#".$ignoredname."#", $m);
             };
         }
         else if(is_array($excludedir)){
@@ -596,22 +609,35 @@ class IO{
                 return isset($ignoredname[$m]) || isset($ignoredname[$d]);
             };
         }
+        if (is_string($match)){
+            $_include_match = function($f)use($match){
+                return preg_match($match, $f);
+            };
+        }else if ($iscallable){
+            $_include_match = function($f)use($match , & $excludedir){
+                return $match($f, $excludedir);
+            };
+        }
+
         while($q=array_pop($dirs)){
             if ($hdir=@opendir($q)){
             while($hdir && ($r=readdir($hdir))){
                 if($r == "." || ($r == ".."))
                     continue;
                 $mdata=0;
-                $f=$q.$sep. $r;
-                if(!is_dir($f) && (($iscallable && ($mdata=$match($f, $excludedir))) || ($match == null) || (is_string($match) && preg_match($match, $f)))){                    
-                    if($mdata == -1){
-                        continue;
+                $f = $q.$sep. $r;
+                if (!is_dir($f)){
+                    if( $_include_match && $_include_match($f)){                    
+                      //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
+                        if($mdata == -1){
+                            continue;
+                        }
+                        $v_out[]=$f;
+                        $callback && $callback($f);
                     }
-                    $v_out[]=$f;
-                    $callback && $callback($f);
                 }
                 else{
-                    if(is_dir($f) && !$fc($f, $r, $excludedir) && $recursive){
+                    if(!$fc($f, $r, $excludedir) && $recursive){
                         array_push($dirs, $f);
                     }
                 }
@@ -961,7 +987,7 @@ class IO{
     * read entiere file in one shot. speed for small file
     */
     public static function ReadAllText($filename){
-        if((file_exists($filename) == false) || !is_file($filename))
+        if(!is_file($filename))
             return null;
         $fsize=@filesize($filename);
         if($fsize<=0)
@@ -1136,5 +1162,52 @@ class IO{
         $g = explode("\n", file_get_contents($filename));
         $g = array_slice($g, $start, $end- $start);
         return implode("\n", $g);
+    }
+
+    /**
+     * get unix path - to search for real file
+     * @param string $path 
+     * @param bool $mustExist check if the path must exist
+     * @return null|string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetUnixPath(string $path, bool $mustExist=false, $start="/"): ?string{
+        if (!igk_environment()->isUnix()|| ($path[0]!="/")){
+            return null;
+        }
+        $_viewdir = $start;
+        $od = rtrim($start, "/");
+        if($dir = opendir($_viewdir)){
+            $cp = array_filter(explode("/", $path));
+            while($dir && ($tq = array_shift($cp))){
+                $q = strtolower($tq);
+                $found = false; 
+                while(false !== ($cdir = readdir($dir))){
+                    if (strtolower($cdir)==$q){
+                        $found = true;
+                        $od .= "/".$cdir;
+                        break;
+                    }
+                } 
+                if ($found){
+                    closedir($dir);
+                    $dir = null;
+                    if (is_dir($od)){
+                        ($dir = opendir($od)) || igk_die("failed to open : ".$od);
+
+                    }
+                } else {
+                    if (!$mustExist){
+                        $od.= rtrim("/".$tq."/".implode("/", $cp), "/");
+                    }
+                    $cp = null;
+                    break;
+                }
+            } 
+        }
+        if ($dir) closedir($dir);
+        return $od;
     }
 }

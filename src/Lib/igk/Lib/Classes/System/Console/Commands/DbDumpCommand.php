@@ -33,7 +33,8 @@ class DbDumpCommand extends AppExecCommand{
     {    
          
         if (!$ctrl  || !($ctrl = igk_getctrl($ctrl))){
-            die("controller required");
+            Logger::danger("controller required");
+            return -1;
         
         }
         $type = igk_getv($command->options, "--type", "json");

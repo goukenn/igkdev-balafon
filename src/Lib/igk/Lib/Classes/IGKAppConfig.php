@@ -42,6 +42,7 @@ final class IGKAppConfig extends IGKObject {
                 IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
             } 
         }
+ 
         // + | load extra configuration files
         $preload_configs = [strtolower(igk_environment()->keyName())];
         if (($cnf = igk_environment()->extra_config) && ($cnf_file= igk_getv($cnf, "configFiles"))){
@@ -60,10 +61,7 @@ final class IGKAppConfig extends IGKObject {
                     $extra = $extra + $data;
                 };
             }
-        }        
-        // $m = igk_sys_request_time();  
-        // igk_debug_wln("After loading configuration util:::::::::".$m);// = igk_sys_request_time()));
-        // igk_wln_e("duration ::: ".($m - $s));
+        }         
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
         date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
       

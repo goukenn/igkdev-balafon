@@ -2,6 +2,9 @@
 
 namespace IGK\Database;
 
+use IGKException;
+use Exception;
+
 class DbLinkExpression extends DbExpression{
 
     public $linkTable;
@@ -16,14 +19,25 @@ class DbLinkExpression extends DbExpression{
         $this->columnValue = $columnValue; 
         $this->primaryColumn = $primaryColumn;
     }
-    public function getValue($grammar=null){
+    /**
+     * 
+     * @param IGrammarOptions|object $grammarOptions 
+     * @return null|string|void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public function getValue($grammarOptions=null){
         //link value 
-        if ($grammar == null){ 
+        if ($grammarOptions==null){
+            if (igk_environment()->isDev()){
+                igk_trace();
+                igk_wln_e("grammar is null value ::: ", $grammarOptions);
+            }
             return null;
-        }   
-        switch($grammar->type){
+        }        
+        switch($grammarOptions->type){
             case "where":
-                return "`{$grammar->column}`=(SELECT {$this->primaryColumn} FROM {$this->linkTable} where {$this->columnName}='{$this->columnValue}')";
+                return "`{$grammarOptions->column}`=(SELECT {$this->primaryColumn} FROM {$this->linkTable} where {$this->columnName}='{$this->columnValue}')";
             case "insert":
                 return "(SELECT {$this->primaryColumn}  FROM {$this->linkTable} where {$this->columnName}='{$this->columnValue}')";
         } 

@@ -3,15 +3,15 @@
 /**
 * represent a base IGK Framework exception
 */
-class IGKException extends \Exception {
+class IGKException extends \Exception implements Throwable{
    
     ///<summary></summary>
     ///<param name="msg"></param>
-    ///<param name="status" default="404"></param>
+    ///<param name="status" default="500"></param>
     /**
     * 
     * @param mixed $msg
-    * @param mixed $status the default value is 404
+    * @param mixed $code the default value is 500
     */
     public function __construct($msg, $code=500, ?\Throwable $throwable=null){
         

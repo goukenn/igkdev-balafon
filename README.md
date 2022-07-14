@@ -23,3 +23,11 @@ Installation dans une architecture UNIX
 ## Views
 
 ## Data Adapter
+
+
+## FIX
+
+- 20220714
+    + add igk_css_request_ctrl global function 
+    + OPS update css dynamic file from controller
+

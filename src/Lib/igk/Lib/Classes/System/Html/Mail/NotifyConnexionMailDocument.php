@@ -43,6 +43,7 @@ class NotifyConnexionMailDocument extends MailDocument{
             "date" => igk_mysql_datetime_now(),
             "domain" => igk_app()->getConfigs()->website_domain,
             "server_ip"=>igk_server()->REMOTE_ADDR,
+            "user_agent"=>igk_server()->HTTP_USER_AGENT
         );
     }
 }

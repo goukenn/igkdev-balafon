@@ -1,12 +1,14 @@
 <?php
 namespace IGK\System\Console\Commands;
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGKModuleListMigration;
+use Illuminate\Database\Console\DbCommand;
 
 class ResetDbCommand extends AppExecCommand{
     var $command = "--db:resetdb";
@@ -21,6 +23,7 @@ class ResetDbCommand extends AppExecCommand{
 
     public function exec($command, $ctrl=null)
     {   
+        DbCommandHelper::Init($command);
         $seed = property_exists($command->options, "--seed");
         $force = property_exists($command->options, "--force");
          
@@ -29,12 +32,16 @@ class ResetDbCommand extends AppExecCommand{
             $fc = $seed["0"];
             $fc("resetdb", $command); 
         }
+       
+        igk_wln("ok", igk_is_debug(), igk_environment()->querydebug);
 
         if ($ctrl){
-            if ($c = igk_getctrl($ctrl, false)){            
+            $c = \IGK\Helper\SysUtils::GetControllerByName($ctrl); 
+
+            if ($c){            
                 $c = [$c];
-            } else{
-                Logger::danger("controller not found");
+            } else{ 
+                Logger::danger(sprintf("controller [%s] not found", $ctrl));
                 return -1;
             }
         } else {
@@ -47,13 +54,15 @@ class ResetDbCommand extends AppExecCommand{
         }
         if ($c) {
             foreach ($c as $m) {
+                $n = get_class($m);
                 if ($m->getCanInitDb()){
                     $m->register_autoload();
-                    $command->app->print("resetdb : " . get_class($m));
-                    if ($m::resetDb(false, $force)!=0){
-                        Logger::danger("failed");
+                    $command->app->print("resetdb : " . $n);
+                    if ( ($g = $m::resetDb(false, $force)) !=1){
+                        // igk_wln_e($g);
+                        Logger::danger("failed resetdb [".$n."]");
                     } else {
-                        Logger::success("complete: ".get_class($m));
+                        Logger::success("complete: [".$n."]");
                     }
                 }
             }

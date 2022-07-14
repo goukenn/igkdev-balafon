@@ -3,7 +3,7 @@
 namespace IGK\Tests;
 
 use IGK\Helper\StringUtility;
-use IGK\System\Html\Forms\Validation;
+use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Html\Dom\HtmlDoc;
 use IGKHtmlDoc;
 
@@ -11,22 +11,22 @@ class ValidationTest extends BaseTestCase
 {
     function test_validation_class_exist()
     {
-        $this->assertTrue(class_exists(Validation::class));
-        $validation = new Validation();
+        $this->assertTrue(class_exists(FormValidation::class));
+        $validation = new FormValidation();
     }
     function test_empty_validation()
     {
-        $this->assertFalse((new Validation())->validate([]));
+        $this->assertFalse((new FormValidation())->validate([]));
     }
     function test_request()
     {
 
 
 
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
         $validation
-            ->validator([
+            ->fields([
                 "filename" => ["type" => "text", "required" => 1, "error" => "missing text"],
                 "firstname" => ["type" => "text",  "error" => "missing firstname"],
                 "lastname" => ["type" => "text", "error" => "missing lastname"],
@@ -47,26 +47,26 @@ class ValidationTest extends BaseTestCase
         ], "html entities stransform");
 
 
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "int", "default" => 0]
         ])->validate(["x" => "8985bondj"]), [
             "x" => 0,
         ], "html entities stransform");
 
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "pattern", "pattern" => "/a[0-9]+/i", "default" => 0]
         ])->validate(["x" => "z8985"]), [
             "x" => 0,
         ], "pattern validation failed");
 
 
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "pattern", "pattern" => "/a[0-9]+/i", "default" => 0]
         ])->validate(["x" => "a8985"]), [
             "x" => "a8985",
         ], "pattern validation failed");
 
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "array", "default" => []]
         ])->validate(["x" => "a8985"]), [
             "x" => ["a8985"],
@@ -74,14 +74,14 @@ class ValidationTest extends BaseTestCase
 
 
         // return false default value
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "bool", "default" => false]
         ])->validate(["x" => "", "default" => true]), [
             "x" => false,
         ], "bool validation failed");
 
         // converto bool value if default is null
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "bool", "default" => null]
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => true,
@@ -91,13 +91,13 @@ class ValidationTest extends BaseTestCase
     public function test_custom_validator()
     {
         //custom type validate
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
         $validation->registerValidator("custom", function ($value, $default = null) {
             return "handle:" . $value;
         });
 
-        $this->assertEquals($validation->validator([
+        $this->assertEquals($validation->fields([
             "x" => ["type" => "custom", "default" => null]
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => "handle:basic",
@@ -107,11 +107,11 @@ class ValidationTest extends BaseTestCase
     public function test_password_validator()
     {
         //custom type validate
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
         $this->assertEquals(
             false,
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "password", "default" => null]
             ])->validate(["x" => "basic", "default" => true]),
             "password return value"
@@ -119,7 +119,7 @@ class ValidationTest extends BaseTestCase
 
         $this->assertEquals(
             ["x" => "basic@Host123"],
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "password", "default" => null]
             ])->validate(["x" => "basic@Host123", "default" => true]),
             "password return value"
@@ -129,11 +129,11 @@ class ValidationTest extends BaseTestCase
     public function test_pattern_validator()
     {
         //custom type validate
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
         $this->assertEquals(
             false,
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "text", "maxlength" => 4, "default" => null, "error" => "x not defined"]
             ])->validate(["x" => "basics", "default" => true]),
             "pattern validation "
@@ -142,7 +142,7 @@ class ValidationTest extends BaseTestCase
 
         $this->assertEquals(
             ["x" => "basi"],
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "text", "maxlength" => 4, "default" => null, "error" => "x not defined"]
             ])->validate(["x" => "basi", "default" => true]),
             "pattern validation "
@@ -151,9 +151,9 @@ class ValidationTest extends BaseTestCase
     public function test_url_validator()
     {
         //custom type validate
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
-        $b = $validation->validator([
+        $b = $validation->fields([
             "x" => ["type" => "url",  "required" => 1, "default" => null, "error" => "x not defined"]
         ])->validate(["x" => "basics", "default" => true]);
         $this->assertEquals(
@@ -163,7 +163,7 @@ class ValidationTest extends BaseTestCase
         );
 
 
-        $b = $validation->validator([
+        $b = $validation->fields([
             "x" => ["type" => "url", "default" => null, "error" => "x not defined"]
         ])->validate(["x" => "basics", "default" => true]);
         $this->assertEquals(
@@ -178,7 +178,7 @@ class ValidationTest extends BaseTestCase
 
         $this->assertEquals(
             ["x" => "https://igkdev.com"],
-            $g = $validation->validator([
+            $g = $validation->fields([
                 "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
             ])->validate(["x" => "https://igkdev.com"]),
             "url validation failed"
@@ -186,7 +186,7 @@ class ValidationTest extends BaseTestCase
 
         $this->assertEquals(
             ["x" => "https://igkdev.com?version=1.0"],
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
             ])->validate(["x" => "https://igkdev.com?version=1.0"]),
             "url validation failed"
@@ -195,7 +195,7 @@ class ValidationTest extends BaseTestCase
         // server pass a query to script and receive a dump data
         $this->assertEquals(            
             ["x" => "https://igkdev.com?version=1.0&data=%3Cscript%3Ealert%28%27ok%27%29%3C%2Fscript%3E"],
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
             ])->validate(["x" =>
              "https://igkdev.com?version=1.0&data=<script>alert('ok')</script>"]),
@@ -206,11 +206,11 @@ class ValidationTest extends BaseTestCase
     public function test_json_validator()
     {
         //custom type validate
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
         $this->assertEquals(
             false,
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "json",  "required" => 1, "default" => null, "error" => "x not defined"]
             ])->validate(["x" => "{basics:'45'}", "default" => true]),
             "json validation: must return false"
@@ -218,7 +218,7 @@ class ValidationTest extends BaseTestCase
 
         $this->assertEquals(
             ["x" => "{\"basics\":\"45\"}"],
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "json",  "required" => 1, "default" => null, "error" => "x not defined"]
             ])->validate(["x" => "{\"basics\":\"45\"}", "default" => true]),
             "json validation: test 1"
@@ -226,12 +226,12 @@ class ValidationTest extends BaseTestCase
     }
 
     public function test_file_validation(){
-        $validation = new Validation();
+        $validation = new FormValidation();
         $validation->storage = false;
 
         $this->assertEquals(
             ["x"=>["name"=>"myfile", "size"=>0, "default" => true]],
-            $validation->validator([
+            $validation->fields([
                 "x" => ["type" => "file", "required" => 1, "default" => null, "error" => "x not defined"]
             ])->files(["x" => ["name"=>"myfile", "size"=>0, "default" => true]]),
             "test file validation "

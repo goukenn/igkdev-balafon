@@ -15,23 +15,27 @@ use IGKEvents;
 use IGKNonVisibleControllerBase;
 use function \igk_api_mysql_check_data_structure;
 
-
+require_once IGK_LIB_DIR . "/api/igk_api.php";
 
 /**
  * initialize data schema
  * @package IGK\System\Console\Commands
  */
-class DbCleanCommand extends AppExecCommand{
+class DbCleanCommand extends AppExecCommand
+{
     var $command = "--db:clean";
     var $category = "db";
+    var $desc = "clean database";
 
-    public function exec($command) { 
-        require_once(IGK_API_MYSQLPINC);
-        DbCommand::init($command);
-        Logger::info("clean db"); 
+    public function exec($command)
+    {
+        if (defined('IGK_API_MYSQLPINC'))
+            require_once(IGK_API_MYSQLPINC);
+        DbCommandHelper::init($command);
+        Logger::info("clean db");
         Logger::print("not used tables");
-        $prompt  =app::gets(app::AQUA, "do you want to delete them ? "); 
-    
+        $prompt  = __("do you want to delete them ? ");
+
         $tb = [];
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         //$sdb = $db->dbName;        
@@ -48,35 +52,31 @@ class DbCleanCommand extends AppExecCommand{
         // } 
         $api = igk_getctrl(IGK_API_CTRL);
         ob_start();
-        $c = igk_api_mysql_check_data_structure($api, 0, 0, function($type, $info)use(& $tb){
-            switch($type){
+        $c = igk_api_mysql_check_data_structure($api, 0, 0, function ($type, $info) use (&$tb) {
+            switch ($type) {
                 case "tableNotUsed":
-                        $tb[] = $info;
-                        
+                    $tb[] = $info;
                     break;
             }
         });
         ob_end_clean();
 
-        if (count($tb)> 0 ){
-            try{
-             if ((strtolower($y = readline($prompt." (y/n) "))) == "y"){
-                $db->stopRelationChecking();
-                foreach($tb as $table){
-                    Logger::info("drop table : ".$table);
-                    $db->sendQuery("DROP Table IF EXISTS `{$table}`");
+        if (count($tb) > 0) {
+            try {
+                if ((strtolower($y = readline($prompt . " (y/n) "))) == "y") {
+                    $db->stopRelationChecking();
+                    foreach ($tb as $table) {
+                        Logger::info("drop table : " . $table);
+                        $db->sendQuery("DROP Table IF EXISTS `{$table}`");
+                    }
+                    $db->restoreRelationChecking();
                 }
-                $db->restoreRelationChecking();
-         }
-         }
-            catch(Exception $ex){
+            } catch (Exception $ex) {
                 echo "error";
             }
+        }
 
-         } 
 
-
-        Logger::success("complete"); 
+        Logger::success("complete");
     }
-
 }

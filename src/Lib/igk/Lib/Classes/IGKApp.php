@@ -21,6 +21,11 @@ class IGKApp extends IGKObject
     private $m_appInfo;
     private $m_settings;
     private $m_controllerManager;
+    /**
+     * initialized
+     * @var bool
+     */
+    private $m_initialized;
     private $_f;
 
     const DOC_NAME = "main_document";
@@ -64,6 +69,13 @@ class IGKApp extends IGKObject
     {
         igk_die("not allowed " . $n);
     }
+    public function __call($name, $args){
+        if (($app = $this->m_application) &&
+            ($builder = $app->getBuilder())){
+            $builder->$name(...$args);
+            return $this;
+        }
+    }
     public function getSettings(){
         $app_key = "igk";
         $use_session = $this->getApplication()->lib("session");
@@ -106,7 +118,7 @@ class IGKApp extends IGKObject
     * change environment base controller
     * @param mixed $v
     */
-    public function setBaseCurrentCtrl(?BaseController $v){
+    public function setBaseCurrentCtrl(?BaseController $v){    
 		igk_environment()->basectrl =  $v; 
         return $this;
     }
@@ -228,8 +240,7 @@ class IGKApp extends IGKObject
             igk_die("can't get core document - application not initialized");
             return null;
         }
-        if ($v_doc === null){
-            // igk_wln("init document ......".igk_sys_request_time());	
+        if ($v_doc === null){ 	
             if (!igk_environment()->get(__METHOD__))
             {
                 igk_environment()->set(__METHOD__, 1);
@@ -242,7 +253,7 @@ class IGKApp extends IGKObject
     }
 
     public static function IsInit(){
-        return self::$sm_instance !==null;
+        return (self::$sm_instance !==null) && self::$sm_instance->m_initialized;
     }
     /**
      * balafon engine
@@ -253,28 +264,27 @@ class IGKApp extends IGKObject
         // | --------------------------------------------------------------
         // | init environment
         // |
-       
+        if ( self::$sm_instance !=null)    {
+            igk_die("App already started...");
+        }
+        
         igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());
         if (!$app->getNoEnviroment()){
             IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());        
         }   
-        if ( self::$sm_instance !=null)    {
-            igk_die("App already started...");
-        }
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
-        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);
-        
+        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);        
         igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
         // + |--------------------------------------------------------------
         // + | HOOK application initialize 
         // + | 
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
         igk_hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);    
-        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.5);  
-        
+        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.5);          
         igk_hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
+        self::$sm_instance->m_initialized = true;
     }
 
     /**
@@ -311,7 +321,7 @@ class IGKApp extends IGKObject
     /**
      * get service 
      * @param string $serviceName 
-     * @return void 
+     * @return ?IApplicationService|mixed service to return  
      */
     public function getService(string $serviceName){
         return IGKServices::Get($serviceName);

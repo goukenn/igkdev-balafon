@@ -36,40 +36,30 @@ class ComposerController extends ConfigControllerBase {
 		$t->clearChilds();
         $t->panelbox()->host([$this, "_composer_pan"], $this);
     }
-    public static function _composer_pan($n, $ctrl){
+    protected function _composer_pan($n, $ctrl){
         $_json = igk_io_packagesdir()."/composer.json";
         $_available = file_exists($_json); 
         $n->h2()->Content = "Composer";
         $n->hr();
-        $n->div()->Content = "Is Available : ". $_available; 
-
+        $n->panelbox()->div()->Content = __("Is Available : {0}", __($_available ? "True" : "False")); 
         if ($_available){
-
-            $n->div()->Content = __("Version : {0}", $ctrl->getComposerVersion());
-
+            $_id = "resutlnode";
+            $n->panelbox()->div()->Content = __("Version : {0}", $ctrl->getComposerVersion());
+            $n->actionbar(function($a)use($ctrl, $_id){
+                // $a->ajxa($ctrl->getUri("init"), "#".$_id)->setClass("igk-btn")->Content = "init";
+            });
+            $n->div()->setAttribute("id", $_id);
         }
-
-        $n->actionbar(function($a)use($ctrl){
-            $a->abtn($ctrl->getUri("init"))->Content = "init";
-        });
     } 
     /**
      * initialize composer
      * @return void 
      */
-    public function init(){
-        $cmd = igk_io_packagesdir()."/composer.phar";
-        $cwd = getcwd();
-        $c_cmd = implode(" ", [
-            "composer",
-            "--version"
-        ]);
-        chdir(dirname($cmd));
-        $c = exec( $c_cmd );
-
-        igk_text("c - ", $c_cmd,  $c);
-
-    }
+    // public function init(){        
+    //     if ($c = $this->_exec_command("init")){
+    //         igk_text("return - \n", $c);
+    //     }
+    // }
     private function getComposerVersion(){
         return $this->_exec_command("--version");
     }

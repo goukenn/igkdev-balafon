@@ -105,7 +105,9 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     public function initConfigSetting(\stdClass $t, $file=null){
         $f= $file ?? $this->getConfigFile();
         $def = null; 
-        if(file_exists($f)){
+        if(!is_null($f) && file_exists($f)){
+            /// TODO : Load configuration setting
+            // igk_ilog("init configuration data:".$f);
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
             $div = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
          

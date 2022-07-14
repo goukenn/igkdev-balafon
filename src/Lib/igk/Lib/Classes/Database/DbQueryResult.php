@@ -14,7 +14,7 @@ use IGKIterator;
 use IGKObject;
 use IGKSorter;
 
-abstract class DbQueryResult extends IGKObject{
+abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     private $m_error, $m_errormsg;
     /**
      * key name use to filter result

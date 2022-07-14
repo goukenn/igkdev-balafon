@@ -1,5 +1,6 @@
 <?php
 namespace IGK\System\Polyfill;
+ 
 
 trait EventPropertyArrayAccessTrait{
      ///<summary></summary>

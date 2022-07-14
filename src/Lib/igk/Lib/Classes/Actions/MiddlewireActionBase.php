@@ -10,6 +10,7 @@ use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGKActionBase;
 use IGKException;
+use function igk_resources_gets as __;
 /**
  * Action Middleware
  * use to process method with specific checkMiddle - route 
@@ -107,7 +108,7 @@ abstract class MiddlewireActionBase extends IGKActionBase{
             // must use the route technique to validate the path
              
             foreach($routes as $v){   
-                // igk_wln("c: ". $v->getName() . " $path ");
+                // igk_dev_wln("name: ". $v->getName() . " root:  vs $path ".PHP_EOL);
                 if ($v->match($path, igk_server()->REQUEST_METHOD)){  
                     if ($v->isUserRequired()){
                         if (!$user){
@@ -129,12 +130,14 @@ abstract class MiddlewireActionBase extends IGKActionBase{
                         $m = get_class_methods(static::class);
                         // detected method to invoke
                         $proc = ["_".strtolower(igk_server()->REQUEST_METHOD), ""];
+            
                         while((count($proc)>0) && (($f = array_shift($proc))!==null)){
                             if (in_array($name.$f, $m)){
                                 $name = $name.$f; 
                                 return $this->$name(...$arguments);
                             }
                         } 
+                        igk_wln_e("will call" , $name);
                         // no controller task setup
                         return null;
                     }
@@ -146,8 +149,8 @@ abstract class MiddlewireActionBase extends IGKActionBase{
                 } 
             }  
             // + | route not resolved 
-            //igk_wln_e("#Route not resolved");
-            throw new IGKException("Route not resolved", 404);
+            // igk_dev_wln_e("#Route not resolved", __("Route {0} not resolved", $path));
+            throw new IGKException(__("Route {0} not resolved", $path), 404);
         }
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments); 

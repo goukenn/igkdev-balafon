@@ -4,6 +4,7 @@ namespace IGK\System\Library;
 
 use IGK\Helper\IO;
 use IGK\System\IO\Path;
+use IGK\System\Http\RequestHeader;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
@@ -21,6 +22,17 @@ class session extends \IGKLibraryBase{
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
             $this->start(); 
         }); 
+        // register_shutdown_function(function(){
+            // $header = new RequestHeader(); 
+            // if (($id = session_id()) && ($header->PRAGMA == 'no-cache')){
+            //     if (session_status()==1){
+            //         //restart the session before destroy becose it's closed
+            //         session_start();
+            //     }                
+            //     @session_destroy();
+            // }
+            // echo ("shut down ...... ". $header("CONNECTION"));
+        // });
         return true;
     }
     /**

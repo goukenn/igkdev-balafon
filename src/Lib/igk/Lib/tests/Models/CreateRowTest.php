@@ -70,18 +70,19 @@ class CreateRowTest extends BaseTestCase{
         //     $gram->createTableQuery(Users::table(), (object)$defs["ColumnInfo"])
         // );
         //var_dump((object)$defs["ColumnInfo"]);
-        $defs = table_enum::getDataTableDefinition()->tableRowReference; //  SysDbControllerManager::GetDataTableDefinition();
-        // var_dump($defs);
-        // igk_wln_e("*****************************");
+        $defs = table_enum::getDataTableDefinition()->tableRowReference; 
+        //  SysDbControllerManager::GetDataTableDefinition();
         $this->assertEquals(
-            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` text NOT NULL,`clName` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
+            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) AUTO_INCREMENT,`clName` Enum('1','2','3') NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
+            // "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` text NOT NULL,`clName` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
             $gram->createTableQuery("table_enum", $defs)
         ); 
     }
 }
 
+/** @package IGK\Tests\Models */
 class SupportNothingDataAdapter extends \IGK\System\DataBase\MySQL\DataAdapter{
-    public function isTypeSupported($type){ 
+    public function isTypeSupported($type):bool{ 
         return false;
     } 
 }

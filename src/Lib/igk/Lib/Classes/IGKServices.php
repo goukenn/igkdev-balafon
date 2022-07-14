@@ -59,6 +59,13 @@ class IGKServices
         return igk_getv(self::getInstance()->$serviceName, "instance");
     }
 
+    /**
+     * register service
+     * @param string $serviceName 
+     * @param string $className 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function Register(string $serviceName, string $className)
     {
         $instance = self::getInstance();

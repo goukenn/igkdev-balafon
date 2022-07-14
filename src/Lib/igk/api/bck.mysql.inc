@@ -85,8 +85,7 @@ function get_relation($mysql, $tname, $clname,  $dbname=null){
 	$r = $dbname==null? igk_mysql_db_selected_db($mysql) : $dbname;
 	$n = $mysql->selectdb("information_schema");
 	
-	// $h = $mysql->sendQuery("SELECT * FROM `information_schema`.`TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)
-		// ."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."'");
+
 		
 	$h = $mysql->sendQuery("SELECT * FROM `KEY_COLUMN_USAGE` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)
 		."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."' AND `COLUMN_NAME`='".igk_db_escape_string($clname)."' AND `REFERENCED_TABLE_NAME`!=''");

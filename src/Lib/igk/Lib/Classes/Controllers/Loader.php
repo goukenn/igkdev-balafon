@@ -161,9 +161,9 @@ class Loader implements IResponse {
     }
     ///<summary> use to load model utility class</summary>
     /**
-    *  use to load model class
+    *  use to load model utility class
     */
-    public function & model($name, $refname=null, $forceloading=false){
+    public function model($name, $refname=null, $forceloading=false){
         $n=$refname ? $refname: $name;
         $igk_c=$this->_controller;
         $cl=$name;

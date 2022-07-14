@@ -23,22 +23,22 @@ class MakeViewCommand extends AppExecCommand{
         "--action"=>"enable action",
         "--dir"=>"enable view dir"
     ]; 
-    public function exec($command, $name="", $viewname=""){
-        if (empty($name)){
+    public function exec($command, $controller="", $viewname=""){
+        if (empty($controller)){
             return false;
         } 
         if (empty($viewname)){
             Logger::danger("view name required");
             return false;
         } 
-        Logger::info("make view ...".$name);
+        Logger::info("make view ...".$controller);
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
                    
         $action = property_exists($command->options, "--action");
         $is_dir = property_exists($command->options, "--dir");
-        $ctrl = igk_getctrl(str_replace("/", "\\", $name), false);
+        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
-            Logger::danger("controller $name not found");
+            Logger::danger("controller $controller not found");
             return false;
         }
   

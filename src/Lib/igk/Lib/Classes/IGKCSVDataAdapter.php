@@ -5,6 +5,7 @@
 
 use IGK\Database\DataAdapterBase;
 use IGK\Helper\IO;
+use IGK\System\Database\SQLGrammar;
 
 /**
 * Represente IGKCSVDataAdapter class
@@ -13,6 +14,51 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_ctrl;
     private $m_dbname;
     private $m_fhandle;
+
+    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string {
+        return "";
+    }
+
+    public function getCreateTableFormat(?array $options = null): ?string {
+        return null;
+    }
+
+    public function filterColumn($columninfo, $value): bool { 
+        return false;
+    }
+
+    public function getDbName(): ?string { 
+        return "file://csv";
+    }
+
+    public function escape_table_name(string $v): string {
+        return  $v;
+    }
+
+    public function escape_table_column(string $v): string { 
+        return $v;
+    }
+    public function isTypeSupported(string $type): bool {
+        return true;
+     }
+
+    public function escape($column): string {
+        return $column;
+     }
+
+    public function supportDefaultValue(string $type): bool {
+        return false;
+     }
+
+    public function isAutoIncrementType(string $type): bool { 
+        return false;
+    }
+
+    public function getDataValue($value, $tinf) { }
+
+    public function getParam(string $key, $rowInfo = null, $tableInfo = null): ?string {
+        return null;
+     }
 
     public function getDataTableDefinition(string $tablename) { 
         return null;
@@ -44,7 +90,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      * @param mixed $v 
      * @return string 
      */
-	public function escape_string($v){
+	public function escape_string($v):string{
         // same as XMLDataAdapter
         $v = stripslashes($v);
         return addslashes($v); 

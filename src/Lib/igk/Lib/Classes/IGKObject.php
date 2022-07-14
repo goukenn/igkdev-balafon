@@ -101,13 +101,13 @@ class IGKObject {
     /**
     * override this method to filter call of global method used to call internal function (protected)
     */
-    public static function Invoke($ctrl, $method, $args=null){
-        if(method_exists($ctrl, $method)){
+    public static function Invoke($instance, string $method, ?array $args=null){
+        if(method_exists($instance, $method)){
             if($args == null){
-                return $ctrl->$method();
+                return $instance->$method();
             }
             else{
-                return $ctrl->$method(...$args); 
+                return $instance->$method(...$args); 
             }
         }
         return null;

@@ -12,11 +12,28 @@ use function igk_getv as getv;
 /**
 * Represente IGKDataAdapter class
 */
-abstract class DataAdapterBase extends IGKObject {
+abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     // + | register user
     private static $sm_regAdapter=[];
     protected $m_name;
     private $m_relations;
+    protected static $LENGTHDATA = ["int","varchar","char", "decimal"];
+
+    public function getEngineSupport():bool{
+        return true;
+    }
+    public function getFilter():bool{
+        return true;
+    }
+    public function getIsLengthData(string $type): bool
+    {
+        return in_array($type, static::$LENGTHDATA);
+    }
+
+
+    public function createAlterTableFormat(?array $options=null):string{
+        return "ALTER TABLE %s ADD %sFOREIGN KEY (%s) REFERENCES %s ON DELETE RESTRICT ON UPDATE RESTRICT;";
+    }
 
     /**
      * get if adapter name is registered
@@ -142,7 +159,7 @@ abstract class DataAdapterBase extends IGKObject {
      * @param string $s string to escape
      * @return string 
      */
-	public abstract function escape_string(string $s);
+	public abstract function escape_string($v):string;
     /**
      * get last error
      * @return mixed 
@@ -153,7 +170,7 @@ abstract class DataAdapterBase extends IGKObject {
      * @param string $query 
      * @param bool $throwex indicate to throw exception on error
      * @param mixed $options extra option to pass
-     * @return void 
+     * @return null|bool|IDbQueryResult result data
      */
     public function sendQuery($query, $throwex=true, $options=null){}
     /**
@@ -360,12 +377,24 @@ abstract class DataAdapterBase extends IGKObject {
         return false;
     }
     /**
+     * end transaction helper
+     * @param bool $result 
+     * @return void 
+     */
+    public function endTransaction(bool $result){
+        if ($result){
+            $this->commit();
+        }else {
+            $this->rollback();
+        }
+    }
+    /**
      * create fetch result
      * @param string $query 
      * @param null|IGK\Database\ModelBase $model 
-     * @return null|DbFetchResult 
+     * @return null|IDbFetchResult|DbFetchResult 
      */
-    public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model=null){
+    public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model=null, ?IDataDriver $driver=null){
         return null;
     }
     public function last_id(){
@@ -432,7 +461,7 @@ abstract class DataAdapterBase extends IGKObject {
 
 	///<summary>insert </summary>
     public function insert($table, $entries){
-        igk_ilog(__CLASS__. " - [warning] ::::must override insert");
+        igk_ilog(__CLASS__. " - [warning] :::: must be overrided");
         return false;
     }
     ///<summary></summary>
@@ -525,7 +554,7 @@ abstract class DataAdapterBase extends IGKObject {
     /**
     *  override to manage the open connexion counter
     */
-    public function OpenCount(){
+    public function openCount(){
         return 0;
     }
     ///<summary></summary>
@@ -613,7 +642,7 @@ abstract class DataAdapterBase extends IGKObject {
     * @param mixed $tablename
     * @param mixed $entrie
     */
-    public function update($tablename, $entries, $condition=null){
+    public function update($tablename, $entries, $condition=null, $tableinfo=null){
         return false;
     }
 }

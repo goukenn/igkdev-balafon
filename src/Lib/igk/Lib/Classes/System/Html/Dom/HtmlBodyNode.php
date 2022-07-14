@@ -16,6 +16,7 @@ class HtmlBodyNode extends HtmlNode{
     protected $tagname = "body";
     private $m_bodybox;
     private $m_bodyMainScript;
+    private $m_inlineTheme;
     /**
      * html node 
      * @var mixed
@@ -26,6 +27,9 @@ class HtmlBodyNode extends HtmlNode{
         parent::__construct();
         $this->m_bodyMainScript = new HtmlBodyMainScript();
     }
+
+    
+
     // ///<summary></summary>
     // ///<param name="id"></param>
     // ///<param name="n"></param>
@@ -49,7 +53,7 @@ class HtmlBodyNode extends HtmlNode{
         if($this->m_appendContent === null){
             $this->m_appendContent = new HtmlNoTagNode();
         }
-        return $this->m_appendContent ;
+        return $this->m_appendContent;
     }
 
     ///load addition script content when page request loaded.
@@ -88,10 +92,7 @@ class HtmlBodyNode extends HtmlNode{
             $c[] = new HtmlDocumentCssHostNode($doc);
         }
         $c[] = HtmlPoweredByNode::getItem(); 
-        $c[] = new HtmlHookNode(IGKEvents::HOOK_HTML_BODY, [
-            "options"=>$options,
-            "body"=>$this
-        ]);
+        $c[] = new HtmlHookNode(IGKEvents::HOOK_HTML_BODY, "body");
         return $c;
     }
 }

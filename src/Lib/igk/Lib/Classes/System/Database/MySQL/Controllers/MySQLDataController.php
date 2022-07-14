@@ -131,7 +131,8 @@ class MySQLDataController extends BaseController{
         else{
             $delete=null;
             self::DropTableRelation($adapter, $tbname, $dbname, null, $delete, $node);
-            if(!$adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($tbname)."` ")->Success){
+            $g = $adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($tbname)."` ");
+            if(!$g || !$g->Success){
                 igk_notifyctrl()->addErrorr("Table ".$tbname. " not deleted ".igk_mysql_db_error());
                 return false;
             }

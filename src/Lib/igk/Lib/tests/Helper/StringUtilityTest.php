@@ -59,12 +59,9 @@ class StringUtilityTest extends BaseTestCase
 
         $l = '<a href="'.$c->getUri("showConfig").'"></a>';
         $n = igk_create_notagnode();
-        //$n->load($l);
+        // $n->load($l);
         $p = [];
         $menu = new MenuItem("data", "", $c->getUri("showConfig"));
-
-        // igk_wln_e( __FILE__.":".__LINE__,  $menu->getUri());
-        // igk_debug(1);
         MenuUtils::InitMenu($n, 
             $menu
         , $p);

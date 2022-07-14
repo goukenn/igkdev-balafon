@@ -62,6 +62,7 @@ class Benchmark{
                     $s = igk_ob_trace();
                     die(igk_ob_get_func("igk_html_pre",[
                         $msg,
+                        "\nServerRequestTime : ".igk_sys_request_time(),
                         $s
                     ]));
                 }

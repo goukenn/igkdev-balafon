@@ -20,7 +20,7 @@ class HtmlNotifyResponse extends HtmlNode{
         if ($this->autohide) {
             $this["class"] = "+anim-autohide";
         }
-        if (igk_environment()->is("DEV")) {
+        if (igk_environment()->isDev()) {
             $this["title"] = igk_str_ns($this->name);
         } 
     }

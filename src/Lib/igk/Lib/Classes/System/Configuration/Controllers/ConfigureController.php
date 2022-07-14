@@ -78,7 +78,7 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
 
         /// TASK: error when handle property on configuration
-        if (igk_environment()->is("DEV")){
+        if (igk_environment()->isDev()){
             igk_trace();
             igk_dev_wln_e("CallDirect Magic Property  : " . __CLASS__ . " try get [ {$n} ] ");
         }
@@ -822,11 +822,12 @@ EOF;
             $not = igk_notifyctrl("connexion:frame");
             $u = ($u == null) ? strtolower(igk_getr("clAdmLogin", $u)) : $u;
             $pwd = ($pwd == null) ? strtolower(md5(igk_getr("clAdmPwd", $pwd))) : md5($pwd);
+            $cnf = igk_configs();
             if (empty($u) || empty($pwd)) {
                 $not->addError(__("err.login.failed")); 
             } else {
-                $adm = strtolower($app->getConfigs()->admin_login);
-                $adm_pwd = strtolower($app->getConfigs()->admin_pwd);
+                $adm = strtolower($cnf->admin_login ?? "");
+                $adm_pwd = strtolower($cnf->admin_pwd ?? "");
  
                 if (($adm == $u) && ($adm_pwd == $pwd)) {
                     $us = (object)array(
@@ -1042,8 +1043,9 @@ EOF;
      * 
      */
     public function getSelectedConfigCtrl()
-    {
-        return igk_getctrl($this->getConfigSettings()->SelectedController);
+    {        
+        if (!empty($sl = $this->getConfigSettings()->SelectedController))
+            return igk_getctrl($sl);
     }
     ///<summary></summary>
     /**
@@ -1084,7 +1086,7 @@ EOF;
     ///register config controlleur
     /**
      */
-    protected function initComplete()
+    protected function initComplete($context=null)
     {
         parent::initComplete();
         OwnViewCtrl::RegViewCtrl($this); 
@@ -1132,11 +1134,16 @@ EOF;
      */
     private function initConnexionNode()
     {
-
+   
         $bfrm = igk_create_notagnode();
         $igk_framename = IGK_FRAMEWORK;
         $igk_version = IGK_VERSION;
         $doc = igk_app()->getDoc();
+        $doc->title = sprintf("%s - [%s]",
+             __("get connect to Balafon admin dashboard"),
+                igk_configs()->website_domain
+        );
+
         if (function_exists('igk_google_addfont')){
             igk_google_addfont($doc, "Roboto");
         }

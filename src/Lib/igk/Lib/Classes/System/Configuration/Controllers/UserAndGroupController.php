@@ -192,7 +192,7 @@ class UserAndGroupController extends ConfigControllerBase{
         $conditions = null;
         if($n == null){
             $field = $this->getAddGroupFields();
-            $v = \IGK\System\Html\Forms\Validation::ValidateFormFields($field);            
+            $v = \IGK\System\Html\Forms\FormValidation::ValidateFormFields($field);            
             if($v){
                 $conditions = array(IGK_FD_NAME=>$v->clName);
             }             

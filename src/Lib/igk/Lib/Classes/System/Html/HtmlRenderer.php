@@ -30,6 +30,11 @@ class HtmlRenderer{
         }
         array_push($option->__append__, $node);
     }
+    /**
+     * 
+     * @return object|IHtmlRenderOptions
+     * @throws IGKException 
+     */
     public static function CreateRenderOptions(){
         $o = (object)[
             "AJX"=>false,
@@ -44,11 +49,12 @@ class HtmlRenderer{
             "Cache"=>igk_sys_cache_require(),
             "CacheUri"=>0,
             "CacheUriLevel"=>0,
-            "setnoAttribEscape"=>null,
+            "flag_no_attrib_escape"=>null,
             "Tab"=>[],
             "Chain"=>1,
             "TextOnly"=>false,
-            "lastRendering"=>null
+            "lastRendering"=>null,
+            "jsOpsFirstEval"=>null
         ];
         if($o->Cache){
             $o->CacheUri=base64_decode(igk_sys_cache_uri());
@@ -225,18 +231,14 @@ class HtmlRenderer{
                     }
                     if ($reflect[$cl]){
                         $options->lastRendering = $i;
-                        if (!empty($v_c = $i->render($options))){
-                            //igk_debug_wln_e("debug : binding ....:".$v_c.":".strlen($v_c));
+                        if (!empty($v_c = $i->render($options))){ 
                             $s = rtrim($s).$ln.$v_c.$options->LF;
                         }  
                         $options->Depth = max(0, $options->Depth-1);                       
                         continue;
                     } 
                 }
-                // if ($i instanceof HtmlExpressionNode){
-                //     igk_trace();
-                //     igk_debug_wln_e("Expression binding ......", $options->Source === $i);
-                // }
+              
 
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
@@ -252,9 +254,9 @@ class HtmlRenderer{
                     $options->Depth = max($level, $options->Depth-1);
                 }
 
-                $content = $i->getContent();
+                $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);   
-                $have_childs = (count($childs) > 0);
+                $have_childs = $childs && (count($childs) > 0);
                 $have_content = $have_childs || !empty($content);         
                 $q["close_tag"] =  $have_content || $i->closeTag();
                 $q["close"] = true;
@@ -263,7 +265,7 @@ class HtmlRenderer{
                 if ($havTag && $q["close_tag"]){
                     $s.=">";
                 }
-                if (!empty($content)){
+                if (!empty($content) || is_numeric($content)){
                     if (is_object($content)){
                         $s .= HtmlRenderer::GetValue($content, $options);
                     }else{
@@ -272,7 +274,7 @@ class HtmlRenderer{
                         }else 
                             $s .= $content;
                     }
-                }
+                } 
                 if($have_childs){
                     if ($havTag)
                         $s.= $ln;
@@ -435,7 +437,7 @@ class HtmlRenderer{
             if(strpos($v, "\'") === 0 )
                 return $v;
         }
-        if (!igk_getv($options, "setnoAttribEscape")){
+        if (!igk_getv($options, "flag_no_attrib_escape")){
             if($options && igk_getv($options, "AttributeEntityEscape")){
                 $v=preg_replace_callback("/\&([^;=]+;)?/i", function($m){
                     switch($m[0]){
@@ -455,7 +457,8 @@ class HtmlRenderer{
         }else{
             $v=str_replace("\"", "\\\"", $v);
         } 
-        unset($options->setnoAttribEscape);
+        // clear flag for setting attribute
+        unset($options->flag_no_attrib_escape);
         return "\"".$v."\"";
     }
     ///<summary>get node item inner content</summary>

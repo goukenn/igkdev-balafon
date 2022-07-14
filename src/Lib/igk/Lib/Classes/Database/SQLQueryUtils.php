@@ -180,12 +180,12 @@ class SQLQueryUtils{
             $query .= ", ".$findex;
         $query .= ")";
         if(!$noengine)
-            $query .= ' ENGINE=InnoDB ';
+            $query .= ' ENGINE=InnoDB';
         if(!empty($fautoindex)){
-            $query .= " ". $fautoindex." ";
+            $query .= " ". $fautoindex;
         }
         if($desc){
-            $query .= "COMMENT='".igk_db_escape_string($desc)."' ";
+            $query .= " COMMENT='".igk_db_escape_string($desc)."' ";
         }
         $query=rtrim($query).";";
         return $query;

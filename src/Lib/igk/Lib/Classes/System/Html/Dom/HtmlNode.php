@@ -2,6 +2,7 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
 use IGK\System\Html\HtmlStyleValueAttribute;
@@ -188,7 +189,7 @@ class HtmlNode extends HtmlItemBase
      * set aria attribute
      * @param string $type aria types
      * @param mixed $value 
-     * @return void 
+     * @return static 
      */
     public function setAria(string $type, $value){
         static $arias = null;
@@ -342,6 +343,7 @@ class HtmlNode extends HtmlItemBase
      */
     public function setSysAttribute($key, $value, $context = null)
     {
+        $eval = false;
         if (($context !== null) && ($value !== null) && (is_string($value))) {
             $tb = array();
             if ((preg_match_all("%\[eval:(?P<value>[^\]]*)]%i", $value, $tb)) > 0) {
@@ -349,6 +351,7 @@ class HtmlNode extends HtmlItemBase
                 $script = substr($e[0], strpos($e[0], ":") + 1);
                 if (!empty($script))
                     $value = igk_html_eval_value_in_context($script, $context);
+                $eval = true;
             }
         }
         $t = array("style" => "class");
@@ -360,6 +363,11 @@ class HtmlNode extends HtmlItemBase
             if (method_exists($this, $k)) {
                 $this->$k($value);
             } else {
+                if ($eval){
+                    $this[$key] = $value;             
+                    return $this;
+                }
+                // igk_wln_e("set ".$key, $value);
                 // $cond = igk_server_is_local() && (($context !== null) && ($context !== 'Load'));               
                 // igk_assert_die($cond, "/!\\ Method not define [". $key. "] :::".$value. " :::".get_class($this). "::::Context[".$context."]");
                 return false;
@@ -492,12 +500,8 @@ class HtmlNode extends HtmlItemBase
      */
     public function closeTag()
     {
-        static $closeTags;
-        if ($closeTags === null) {
-            $closeTags = explode("|", "a|html|body|span|code|ul|li|ol|pre|p|button|videos|audio|select|option|head|script|style|div|form|nav|tr|td|th|table|textarea");
-        }
+        $closeTags = HtmlContext::getCloseTagArray();
         $n = $this->tagname;
-
         return in_array($this->tagname, $closeTags) || !in_array($n, $this->_nodeList());
     }
     /**

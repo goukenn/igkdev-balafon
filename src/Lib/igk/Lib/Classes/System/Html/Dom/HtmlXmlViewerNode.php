@@ -5,6 +5,7 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\XML\XmlCDATA;
 use IGK\XML\XMLNodeType;
 
 ///<summary>Represente class: IGKHtmlXmlViewerItem</summary>
@@ -12,6 +13,7 @@ use IGK\XML\XMLNodeType;
 * Represente IGKHtmlXmlViewerItem class
 */
 final class HtmlXmlViewerNode extends HtmlNode {
+    private $m_cdata;
     ///<summary>.ctr</summary>
     /**
     * contruct xml viewer
@@ -19,12 +21,15 @@ final class HtmlXmlViewerNode extends HtmlNode {
     public function __construct(){
         parent::__construct("div");
         $this["class"]="igk-xml-viewer";
+        $this->m_cdata = new HtmlCommentNode();
+
     }
-    public function getContent(){
-        return $this->content;
+    public function getContent($options = null){ 
+        return null;
     }
     public function setContent($v){
-        $this->content = $v;
+        $this->m_cdata->Content = $v; 
+        return $this;
     }
     ///<summary></summary>
     ///<param name="target"></param>
@@ -40,6 +45,14 @@ final class HtmlXmlViewerNode extends HtmlNode {
                 $target->add("span")->setClass("t")->addSpace();
             }
         }
+    }
+    function getRenderedChilds($options = null)
+    {
+        return [$this->m_cdata];
+    }
+    function getCanAddChilds()
+    {
+        return false;
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -128,4 +141,6 @@ EOF
             $target->add("span")->setClass("s")->Content="/&gt;";
         }
     }
+
+    
 }

@@ -14,6 +14,8 @@ abstract class IGKApplicationBase{
 
     private $m_library;
 
+    private $m_appBuilder;
+
     protected $no_init_environment;
 
     public function __get($n){
@@ -60,6 +62,20 @@ abstract class IGKApplicationBase{
             $c = $this->lib[$libname];
         }
         return $c;
+    }
+
+    public function getBuilder(){
+        if ($this->m_appBuilder == null ){
+            ($this->m_appBuilder = $this->createAppBuilder()) || igk_die("builder not create");
+        }
+        return $this->m_appBuilder;
+    }
+    /**
+     * 
+     * @return IGK\System\AppBuilder 
+     */
+    protected function createAppBuilder(){
+        return new \IGK\System\AppBuilder();
     }
     /**
      * check the library loading

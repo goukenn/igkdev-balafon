@@ -809,7 +809,7 @@ final class DbConfigController extends ConfigControllerBase
                         continue;
                     }
                     ///TODO: SELECT
-                    $query = $mysql->getGrammar()->createSelectQuery($v_tbname);  // sendQuery("SELECT * FROM `".$v_tbname."`;");
+                    $query = $mysql->getGrammar()->createSelectQuery($v_tbname);  
                     $r = $mysql->sendQuery($query); 
                     if ($r) {
                         $out .= $v_tbname . IGK_LF; 
@@ -1857,15 +1857,26 @@ final class DbConfigController extends ConfigControllerBase
         $found = false;
         $def = null;
         $adName = $this->getDataAdapterName();
+        if (!isset(self::$sm_tabinfo[$adName])){
+            $tab = [];
+            self::$sm_tabinfo[$adName] = & $tab;
+        }else {
+            $tab = & self::$sm_tabinfo[$adName];
+        }
+        if ($info = igk_getv($tab, $tablename)){ 
+            return $info;
+        }
         //igk_dev_wln_e(__METHOD__, $tablename);
         if ($info = & \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($adName, $tablename))
         {  
-            if (!isset( self::$sm_tabinfo[$tablename] )){
-                igk_dev_wln_e( 
-                    __FILE__.":".__LINE__, 
-                    "tableinfo not define [".$tablename."]");
-            }
-            self::$sm_tabinfo[$tablename] = $info;  
+            // if (!isset( self::$sm_tabinfo[$tablename] )){
+            //     igk_trace();
+            //     igk_dev_wln_e( 
+            //         __FILE__.":".__LINE__, 
+            //         $info,
+            //         "tableinfo not define [".$tablename."]");
+            // }
+            $tab[$tablename] = $info;  
             igk_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename"=>$tablename, "info"=> & $info]);
             return $info;
         }
@@ -1877,7 +1888,7 @@ final class DbConfigController extends ConfigControllerBase
                     continue; 
                 if ($def = $c->getDataTableDefinition($tablename)) {
                     $found = true;
-                    self::$sm_tabinfo[$tablename] = $def; 
+                    $tab[$tablename] = $def; 
                     // if ($tablename == "tbigk_subdomains"){
                     //     igk_wln_e(__FILE__.":".__LINE__, "subdomain.....", 
                     //     $c, $def);
@@ -2075,9 +2086,11 @@ final class DbConfigController extends ConfigControllerBase
             // };
             // $init_env();
             $callable = array($this, "init_table");
+            $db_name = igk_configs()->db_name;
+
             igk_reg_hook(IGK_NOTIFICATION_INITTABLE, $callable);
-            $r = $ad->createdb(igk_app()->Configs->db_name);
-            $ad->selectdb(igk_app()->Configs->db_name);
+            $ad->createdb($db_name);
+            $ad->selectdb($db_name);
             $icomplete = [];
             if (function_exists($global_fc = "InitDb")) {
                 call_user_func_array($global_fc, []);
@@ -2141,15 +2154,16 @@ final class DbConfigController extends ConfigControllerBase
         IO::RmDir(IGK_APP_DIR . "/Caches/db");
         $this->resetDataTableDefinition();
         $ad = igk_get_data_adapter($this);
-        $dbname = igk_app()->Configs->db_name;
-        if ($dbname && $ad->connect(null, 0)) {
-            // $ad->sendQuery("DROP DATABASE {$dbname};");
-
+        $dbname = igk_configs()->db_name;
+        
+        if ($dbname && $ad->connect(null, 0)) { 
+ 
             if (!$ad->selectdb($dbname) && !$ad->createDb($dbname)) {
                 $ad->close();
                 $ad = null;
                 igk_dev_wln_e("failed : create db");
             } else {
+                $ad->selectdb($dbname); 
                 $ad->setForeignKeyCheck(0);
                 $fc = array($this, '__inittable_callback');
                 $keye = 'sys://event/sdb/inittable';

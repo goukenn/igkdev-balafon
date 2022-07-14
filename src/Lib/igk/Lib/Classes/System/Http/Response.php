@@ -4,9 +4,10 @@
 namespace IGK\System\Http;
 
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGKException;
 
 ///<summary> default response </summary>
-abstract class Response{
+abstract class Response implements IResponse{
     /**
      * response body
      * @var mixed
@@ -17,24 +18,14 @@ abstract class Response{
     public function setBody($body){
     }
 
+    /**
+     * handle response 
+     * @param mixed $r 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function HandleResponse($r){
-        $e = 0;
-        if (is_object($r) && (($r instanceof \IGK\System\Http\IResponse) || ($r instanceof \IGK\System\Http\RequestResponse))) {
-            ob_get_level() &&  ob_clean();
-            $r->output();
-            $e = 1;
-        } else if ($r instanceof HtmlItemBase) {
-            ob_get_level() &&  ob_clean();
-            $b = new WebResponse($r);
-            $b->output();
-            $e = 1;
-        } else if (is_array($r)) {
-            ob_get_level() &&  ob_clean();
-            igk_json(json_encode($r));
-            $e = 1;
-        }
-        if ($e)
-            igk_exit();
-        return $r;
+        $handler = igk_app()->getService(\ResponseHandler::class) ?? new ResponseHandler();
+        return $handler->HandleReponse($r); 
     }
 }

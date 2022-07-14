@@ -2,7 +2,7 @@
 
 return <<<EOF
 # {$const('IGK_PLATEFORM_NAME')} primary htaccess file
-# installing from {$server_n}
+# installing from {$servername}
 # rootdir {$root_dir}
 # SetEnv PHP_VER 5_4
 Options -Indexes

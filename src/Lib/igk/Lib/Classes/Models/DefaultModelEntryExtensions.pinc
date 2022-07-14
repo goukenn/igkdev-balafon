@@ -1,5 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DefaultModelEntryExtensions.pinc
+// @date: 20220429 09:21:55
 // @file : DefaultModelEntryExtensions.pinc
+
 use IGK\Database\DbQueryResult;
 use IGK\Helper\MacrosHelper;
 use IGK\Helper\StringUtility;
@@ -10,10 +14,6 @@ use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder; 
 
-// if (defined("IGK_FRAMEWORK_ATOMIC")){
-//     igk_wln("atomic frameworks");
-//     return;
-// }
 
 require_once IGK_LIB_CLASSES_DIR."/Helper/MacrosHelper.php";
 
@@ -112,6 +112,7 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
 \IGK\Models\Users::registerMacro("fullname", function(){
     return StringUtility::NameDisplay($this->clFirstName, $this->clLastName);
 });
+
 
 \IGK\Models\Usergroups::registerMacro("getUserGroup", function(){
     return igk_db_user_groups($this->clUser_Id);

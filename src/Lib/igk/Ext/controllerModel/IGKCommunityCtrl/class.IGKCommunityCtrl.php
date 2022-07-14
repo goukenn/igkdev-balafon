@@ -8,7 +8,7 @@ use IGK\Models\Community;
 
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase {
 	public function getName(){return get_class($this);}
-	protected function initComplete(){
+	protected function initComplete($context=null){
 		parent::initComplete();
 		igk_db_reg_sys_ctrl("community", $this);
 		//only one instance is allowed.

@@ -2,13 +2,14 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Mails.php
 // @desc: model file
-// @date: 20220314 11:26:49
+// @date: 20220705 14:13:39
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
 ///<summary></summary>
 /**
+* 
 * @package IGK\Models
 * @property mixed $clId
 * @property mixed $mail_from
@@ -16,8 +17,7 @@ use IGK\Models\ModelBase;
 * @property mixed $mail_status
 * @property mixed $mail_data
 * @property mixed $mail_createAt
-* @property mixed $mail_updateAt
-*/
+* @property mixed $mail_updateAt*/
 class Mails extends ModelBase{
 	/**
 	* table's name

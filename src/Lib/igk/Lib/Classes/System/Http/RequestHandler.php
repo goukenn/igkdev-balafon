@@ -3,6 +3,7 @@
 namespace IGK\System\Http;
 
 use Exception;
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Resources\R;
 use IGKApp;
 use IGKApplicationBase;
@@ -175,6 +176,7 @@ class RequestHandler
         $f = igk_getr("f");
  
         $app = igk_app();
+       
         
         if ($c && $f) {
             $f = str_replace("-", "_", $f);
@@ -366,7 +368,8 @@ class RequestHandler
         try {
             if (!($p = igk_get_defaultwebpagectrl())) {
                 igk_set_header(404);
-                if (file_exists($file = igk_env_file(igk_io_applicationdir() . "/" . IGK_INC_FOLDER . "/error.404"))) {
+                $file = $file = igk_env_file(igk_io_applicationdir() . "/" . IGK_INC_FOLDER . "/error.404");
+                if ($file && file_exists($file)) {
                     include($file);
                 } else {
                     HtmlDefaultMainPage::getInstance()->setIsVisible(false);
@@ -421,6 +424,12 @@ class RequestHandler
         $index = array_search($key, $routes);
         $obj = null;
         $args = $query;
+
+        
+        // print_r($tab);
+
+        // igk_wln_e(__FILE__.":".__LINE__, $tab, $routes, get_defined_vars());
+
         if (is_string($query))
             $args = explode("/", $query);
         if (!empty($index)) {
@@ -466,6 +475,10 @@ class RequestHandler
                 R::RegLangCtrl($ctrl);
             } else {
                 $tclass = null;
+                // if ($class == ApplicationModuleController::class){
+                //     igk_dev_wln("data --- monsieur --- ", $obj);
+                // }
+                // igk_dev_wln_e(__FILE__.":".__LINE__, $class);
                 $ctrl = new $class();
             }
             $method = "index";
@@ -515,7 +528,7 @@ class RequestHandler
             igk_app()->session->regUris = null;
         }
         igk_set_header(500);
-        if (igk_environment()->is("DEV")) {
+        if (igk_environment()->isDev()) {
             igk_die(__("failed to handle component action"), 1 , 500);
         }
         igk_exit();

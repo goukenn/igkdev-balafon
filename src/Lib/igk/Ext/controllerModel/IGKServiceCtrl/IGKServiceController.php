@@ -386,7 +386,7 @@ EOF;
         $wsdl->registerMethod($cl, $this->getServiceName(), $funclist);
     }
     ///<summary>Represente InitComplete function</summary>
-    protected function initComplete(){
+    protected function initComplete($context=null){
         parent::initComplete();
         $this->register_service();       
     }

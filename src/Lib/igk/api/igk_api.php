@@ -8,13 +8,19 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Controllers\ApplicationController;
+use IGK\Database\DbSchemas;
+use IGK\Helper\IO;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\HtmlReader;
+
 use function igk_resources_gets as __;
 define("IGK_API_CTRL", "API");
 define("IGK_API_VERSION", "2.1.1.0921");
 define("IGK_API_URI", "^/api/v2");
 define("IGK_API_LIB", dirname(__FILE__));
 require_once(IGK_API_LIB."/.igk.api.func.pinc");
-require_once(IGK_LIB_CLASSES_DIR."/ApplicationController.php");
+// require_once(IGK_LIB_CLASSES_DIR."/ApplicationController.php");
 
 ///<summary></summary>
 /**

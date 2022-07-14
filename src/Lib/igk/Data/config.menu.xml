@@ -27,13 +27,7 @@
 		<imagekey />
 		<group>configuration</group>
 	</langconfig>
-	<pictureresconfig>
-		<menuname>pictureresconfig</menuname>
-		<pagename>pictureresconfig</pagename>
-		<menuindex>230</menuindex>
-		<imagekey />
-		<group>files</group>
-	</pictureresconfig>
+ 
 	<template>
 		<menuname>template</menuname>
 		<pagename>template</pagename>
@@ -147,13 +141,7 @@
 		<imagekey />
 		<group>utility</group>
 	</referencectrl>
-	<toolctrl>
-		<menuname>toolctrl</menuname>
-		<pagename>toolctrl</pagename>
-		<menuindex>510</menuindex>
-		<imagekey />
-		<group>utility</group>
-	</toolctrl>
+
 	<bootstrap>
 		<menuname>bootstrap</menuname>
 		<pagename>bootstrap</pagename>

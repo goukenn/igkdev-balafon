@@ -60,17 +60,10 @@ function igk_sys_configs(){
  *  @endcode exit
  */
 function igk_exit($close = 1, $clean_buffer = 0)
- {
-    // igk_trace();
-
+{  
     if (igk_environment()->isAJXDemand){
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
-        igk_environment()->isAJXDemand = null;
-
-        // if (igk_environment()->is("DEV")){
-        //     igk_trace();
-        //     igk_wln("<div style='position:fixed; z-index: 1000; top:0; left:0: background-color:red; color:#fdfdfd'>call igk_exit not allowed in : inAJXDemand Flag context.</div>");
-        // }
+        igk_environment()->isAJXDemand = null; 
     }
     if ($close && !empty(session_id())) {
         igk_hook(IGKEvents::ON_BEFORE_EXIT, array(igk_app(), null));
@@ -145,7 +138,8 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 400)
             }
         }
         error_log($msg);
-        // + | Last Exception         
+        // + | Last Exception    
+        igk_wl_e($msg)     ;
         throw new IGKException($msg, $code);
     } else {
         ob_clean();
@@ -580,19 +574,19 @@ function igk_dump_pre($p)
 }
 function igk_dev_wln()
 {
-    if (igk_environment()->is("DEV")) {
+    if (igk_environment()->isDev()) {
         call_user_func_array("igk_wln", func_get_args());
     }
 }
 function igk_dev_ilog()
 {
-    if (igk_environment()->is("DEV")) {
+    if (igk_environment()->isDev()) {
         call_user_func_array("igk_ilog", func_get_args());
     }
 }
 function igk_dev_wln_e()
 {
-    if (igk_environment()->is("DEV")) {
+    if (igk_environment()->isDev()) {
         call_user_func_array("igk_wln_e", func_get_args());
         igk_exit();
     }
@@ -646,6 +640,7 @@ function igk_wln($msg = "")
     // include(IGK_LIB_DIR.'/Inc/igk_trace.pinc');
     //}
     /// BIND TRACE IF - do not include file for speed 
+ 
     igk_bind_trace(3);
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
@@ -865,7 +860,7 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0)
         $o .= "<th>" . __("In") . "</th>";
         $o .= "</tr>" . $sep;
     }
-    $_base_path = !igk_environment()->is("DEV") && defined("IGK_BASE_DIR");
+    $_base_path = !igk_environment()->isDev() && defined("IGK_BASE_DIR");
 
     for ($i = $depth; $i < count($callers); $i++, $tc++) {
 
@@ -990,7 +985,7 @@ function igk_is_singlecore_app()
  * shortcut to IGKEvents::hook 
  * @param mixed $name
  * @param mixed $args the default value is
- * @param array|object $options to pass default|output|type
+ * @param null|array|object|\IGK\IHookOptions $options to pass default|output|type
  */
 function igk_hook($name, $args = array(), $options = null)
 {
@@ -1008,9 +1003,9 @@ function igk_hook($name, $args = array(), $options = null)
  * @param mixed $callback
  * @param mixed $priority the default value is 10
  */
-function igk_reg_hook($name, $callback, $priority = 10)
+function igk_reg_hook($name, $callback, $priority = 10, $injectable=true)
 {
-    IGKEvents::reg_hook($name, $callback, $priority);
+    IGKEvents::reg_hook($name, $callback, $priority, $injectable);
 }
 
 
@@ -1047,9 +1042,19 @@ function igk_lib_configs(){
  * @param int|bool $throwex throw exception if not found
  * @return null|IGK\Controllers\BaseController controller found
  */
-function igk_getctrl($name, $throwex = 1)
+function igk_getctrl(string $name, $throwex = 1)
 {
-    return igk_app()->getControllerManager()->getController($name, $throwex);
+    // igk_env_count(__FUNCTION__);
+    // static $loading = null; 
+    // if (IGKApp::IsInit()){
+    //     igk_debug_wln("initialize .... ".$name . " = ". igk_env_count_get(__FUNCTION__));
+        // if (!$loading){
+        //     $loading = true;
+        //     $c = IGK\Helper\SysUtils::GetControllerByName($name, $throwex);
+        //     return $c;
+        // }
+    // }
+    return  igk_app()->getControllerManager()->getController($name, $throwex);    
 }
 /**
  * shortcut to write log
@@ -1321,12 +1326,13 @@ function igk_sys_handle_uri($uri = null)
 ///<param name="key"></param>
 ///<param name="value" default="null"></param>
 /**
- * 
- * @param mixed $tab
- * @param mixed $key
- * @param mixed|closure $value the default value is null
+ * retrieve from objet or table 
+ * @param mixed $tab table to check
+ * @param mixed $key value path to get
+ * @param mixed|closure $value default value
+ * @return mixed|null founded value or default 
  */
-function igk_getrequest($tab, $key, $value = null)
+function igk_get_tab_value($tab, $key, $value = null)
 {
     if (is_object($key))
         return $value;
@@ -1348,7 +1354,7 @@ function igk_getrequest($tab, $key, $value = null)
  */
 function igk_getr($key, $value = null)
 {
-    return igk_getrequest($_REQUEST, $key, $value);
+    return igk_get_tab_value($_REQUEST, $key, $value);
 }
 
 ///<summary>get GET value</summary>
@@ -1357,7 +1363,7 @@ function igk_getr($key, $value = null)
  */
 function igk_getg($key, $value = null)
 {
-    return igk_getrequest($_GET, $key, $value);
+    return igk_get_tab_value($_GET, $key, $value);
 }
 
 ///<summary>get a check POST value</summary>
@@ -1366,7 +1372,7 @@ function igk_getg($key, $value = null)
  */
 function igk_getp($key, $value = null)
 {
-    return igk_getrequest($_POST, $key, $value);
+    return igk_get_tab_value($_POST, $key, $value);
 }
 ///<summary>get session param value</summary>
 /**
@@ -1374,7 +1380,7 @@ function igk_getp($key, $value = null)
  */
 function igk_gets($key, $value = null)
 {
-    return igk_getrequest($_SESSION, $key, $value);
+    return igk_get_tab_value($_SESSION, $key, $value);
 }
 
 ///get request object value
@@ -1531,7 +1537,11 @@ function igk_io_rm_redirectvar(&$uri, $force = 0)
         }
     }
 }
-
+/**
+ * create and fill stdClass from array or object
+ * @param mixed $tab 
+ * @return stdClass|mixed 
+ */
 function igk_createobj($tab = null)
 {
     $o = new stdClass();
@@ -1559,7 +1569,7 @@ function igk_is_class_incomplete($n)
  * @return string|false|null 
  * @throws IGKException 
  */
-function igk_realpath($p)
+function igk_realpath(string $p)
 {
     return Path::getInstance()->realpath($p);     
 }
@@ -1650,4 +1660,16 @@ function igk_test_wln(){
     if (defined("IGK_TEST_INIT")){
         igk_wln(...func_get_args());
     }
+}
+/**
+ * get or portion of script code
+ * @param mixed $file 
+ * @param mixed $start_line 
+ * @param mixed $end_line 
+ * @return string 
+ */
+function igk_get_script_code($file, $start_line, $end_line=null){
+    $src = explode("\n", file_get_contents($file));
+    
+    return implode("\n", array_slice($src, $start_line, $end_line? abs($start_line-$end_line) : null ));
 }

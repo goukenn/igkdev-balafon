@@ -21,6 +21,8 @@ class subdomain{
     var $subdomain;
     var $subdomainInfo;
     public function init():bool{
+        require_once IGK_LIB_CLASSES_DIR."/IGKSubDomainManager.php";
+
         if (empty(IGKSubDomainManager::GetSubDomain())){
             return false;
         }

@@ -3,7 +3,10 @@
 
 namespace IGK\System\Http;
 
-abstract class RequestResponse extends Response{
+use IGK\System\IInjectable;
+use IGKException;
+
+abstract class RequestResponse extends Response implements IInjectable{
  
     /**
      * return code
@@ -66,5 +69,14 @@ abstract class RequestResponse extends Response{
     protected function __construct()
     {
         $this->status = self::GetStatus($this->code);
+    }
+    /**
+     * 
+     * @return object 
+     * @throws IGKException 
+     */
+    public static function CreateResponse(){
+        $type = igk_getv(["application/json"=>"json"], igk_server()->CONTENT_TYPE);
+        return self::Create($type, null, 200);
     }
 }

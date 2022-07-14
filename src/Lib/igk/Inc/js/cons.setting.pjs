@@ -3,12 +3,7 @@ igk.ready(function(){
 	var e_=null;
 	var u_='<?= $uri ?>';
 
-	function _start(){
-		if (e_==null){
-
-		}
-	}
-
+	 
 	q.select('.e').each(function(){
 		// console.debug('reg event');
 		this.reg_event("dblclick", function(){

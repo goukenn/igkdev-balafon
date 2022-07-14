@@ -60,7 +60,7 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * 
     */
-    protected function initComplete(){
+    protected function initComplete($context=null){
        parent::initComplete(); 
     }
     ///<summary></summary>

@@ -38,7 +38,7 @@ class SysDbControllerManager{
      * ]
      * @throws IGKException 
      */
-    public static function GetDataTableDefinitionFormController($ctrl, $tablename){
+    public static function GetDataTableDefinitionFormController(?BaseController $ctrl, $tablename){
         if (($ctrl==null) || ($ctrl instanceof SysDbController)){
             $g = self::GetDataTableDefinition($tablename);
         }else 

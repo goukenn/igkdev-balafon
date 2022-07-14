@@ -2,20 +2,20 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: UserInfos.php
 // @desc: model file
-// @date: 20220314 11:26:49
+// @date: 20220705 14:13:39
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
 ///<summary></summary>
 /**
+* 
 * @package IGK\Models
 * @property mixed $clId
 * @property mixed $clUser_Id
 * @property mixed $clUserInfoType_Id
 * @property mixed $clValue
-* @property mixed $clDescription
-*/
+* @property mixed $clDescription*/
 class UserInfos extends ModelBase{
 	/**
 	* table's name

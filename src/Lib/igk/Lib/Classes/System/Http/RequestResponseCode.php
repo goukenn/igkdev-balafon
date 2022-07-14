@@ -6,7 +6,7 @@ namespace IGK\System\Http;
  * @package IGK\System\Http
  */
 abstract class RequestResponseCode{
-    const Ok = "200";
+    const Ok = 200;
     const MultipleChoice = 300;
     const MovePermanently = 301;
     const Found = 302;
@@ -25,5 +25,4 @@ abstract class RequestResponseCode{
     const Gone = 410;
     const LengthRequired = 411;
     const InternalServerError = 500;
-
 }

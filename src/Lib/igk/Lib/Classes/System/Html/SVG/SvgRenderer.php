@@ -89,7 +89,7 @@ class SvgRenderer{
         $options = igk_getv($e->args, "options"); 
               
         if ($list =  self::$RegisterPath){
-            if (igk_environment()->is("DEV")){
+            if (igk_environment()->isDev()){
                 echo "<!-- SVG LIST -->\n";
             }
             $n = igk_create_node("div");
@@ -104,7 +104,7 @@ class SvgRenderer{
             });
             
             echo $n->render($options);
-            if (igk_environment()->is("DEV"))
+            if (igk_environment()->isDev())
                 echo "\n<!-- END:SVG LIST -->\n";
         }
         // clear the registrated path

@@ -9,7 +9,7 @@ class ViewsTest extends BaseTestCase{
 
     public function test_pagination_query() { 
         $q = "";
-        $gramm = igk_get_data_adapter("MYSQL")->getGrammar();
+        $gramm = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)->getGrammar();
         $_REQUEST["p"] = 3;
         $pan = new Pagination(10, 50);
         $q = $gramm->createSelectQuery("sample", null, [
@@ -23,7 +23,7 @@ class ViewsTest extends BaseTestCase{
 
     public function test_pagination_list() { 
         $q = "";
-        $gramm = igk_get_data_adapter("MYSQL")->getGrammar();
+        $gramm = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)->getGrammar();
         $_REQUEST["p"] = 6;
         $pan = new Pagination(10, 50);        
         

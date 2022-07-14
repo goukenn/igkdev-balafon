@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\IHtmlGetValue;
+
 final class IGKFrameScript implements IHtmlGetValue{
     private $m_type;
     var $owner;

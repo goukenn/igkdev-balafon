@@ -120,12 +120,8 @@ class CssParser implements ArrayAccess{
             $def[$name] = $rv;
             $rv = null;
         }
-        if (igk_is_debug()){
-            var_dump($def);
-        }
-        // igk_debug_wln_e(__FILE__.":".__LINE__,  $def);
-        return $def;
-        //igk_wln_e($def, $name, $value, $selector, $rv);
+      
+        return $def; 
     }
     /**
      * load css style string

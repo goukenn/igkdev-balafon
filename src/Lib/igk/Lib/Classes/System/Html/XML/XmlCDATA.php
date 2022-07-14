@@ -15,10 +15,11 @@ final class XmlCDATA extends XmlNode{
     public function __construct(){
         parent::__construct("igk:cdata");
     }
-    ///<summary></summary>
-    public function getCanAddChild(){
+    function getCanAddChilds()
+    {
         return false;
     }
+   
     ///<summary></summary>
     public function getCanRenderTag(){
         return false;

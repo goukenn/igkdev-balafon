@@ -9,6 +9,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGK\System\Installers\OsShell;
+use IGKException;
 use IGKModuleListMigration;
 
 /**
@@ -28,15 +29,36 @@ class RemoveProjectCommand extends AppExecCommand{
     ];
 
 
+    /**
+     * 
+     * @param mixed $command 
+     * @param ?string $projectName project entry directory or controller name
+     * @return false|void 
+     * @throws IGKException 
+     */
     public function exec($command, $projectName=null) { 
         if (empty($projectName)){
             Logger::danger("Project name is required");
             return false;
         }
         $c = igk_io_projectdir()."/".ucfirst($projectName);
+        $found = false;
         if (!is_dir($c)){
-            Logger::danger("Project not found");
-            return false;
+
+            $c = igk_sys_get_projects_controllers(); 
+            $t = [];
+
+            foreach ($c as $m) {
+                if (get_class($m) == $projectName){
+                    $found = true;
+                    $c = $m->getDeclaredDir();
+                    break;
+                }
+            }
+            if (!$found){
+                Logger::danger("Project not found");
+                return false;
+            }
         } 
         IO::RmDir($c);  
         $c = new ClearCacheCommand;

@@ -5,7 +5,10 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use IGK\System\Console\App;  
 
-
+/**
+ * list all project
+ * @package IGK\System\Console\Commands
+ */
 class ProjectListCommand extends AppExecCommand{
 
     var $command = "--project:list";
@@ -28,7 +31,4 @@ class ProjectListCommand extends AppExecCommand{
         Logger::info("Result\n");
         Logger::print(implode("\n\n", $t)."\n");
     }
-
-    
-
 }

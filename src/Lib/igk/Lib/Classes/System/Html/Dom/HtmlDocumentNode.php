@@ -72,7 +72,7 @@ class HtmlDocumentNode extends HtmlItemBase{
             foreach($this->namespaces as $k=>$v)
                 $attr.= " ".$k."=".HtmlRenderer::GetStringAttribute($v, $options);
         }
-        if (igk_environment()->is("DEV")){
+        if (igk_environment()->isDev()){
             if ($id = $this->getId())
                 $attr .= " document_id=\"".$id."\"";
         }

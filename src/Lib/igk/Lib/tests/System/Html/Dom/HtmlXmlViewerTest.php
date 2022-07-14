@@ -13,7 +13,7 @@ class HtmlXmlViewerTest extends BaseTestCase{
         $n->xmlviewer()->Content = "<a *title=\"\$raw->title\">title</a>";
 
         $this->assertEquals(
-            '<div><div class="igk-xml-viewer"><a *title="$raw->title">title</a></div></div>',
+            '<div><div class="igk-xml-viewer"><!-- <a *title="$raw->title">title</a> --></div></div>',
             $n->render()
         );
     }

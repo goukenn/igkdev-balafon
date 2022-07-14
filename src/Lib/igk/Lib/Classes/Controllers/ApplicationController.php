@@ -3,9 +3,7 @@
 namespace IGK\Controllers;
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";
 
-use AppAdministrationController;
-use Exception;
-use IGK\Database\DbSchemas;
+  
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Models\Groups;
@@ -14,16 +12,13 @@ use IGK\System\Exceptions\UriActionException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
-use IGK\System\Http\WebResponse;
-use IGKApp;
+use IGK\System\Http\WebResponse; 
 use IGKDbUtility;
 use IGKException;
 use IGKGD;
 use IGKHtmlDoc;
-use IGKSession;
-use ReflectionClass;
-use ReflectionMethod;
-use stdClass;
+use IGKSession; 
+use ReflectionMethod; 
 
 use function igk_resources_gets as __;
  
@@ -138,7 +133,7 @@ abstract class ApplicationController extends  PageControllerBase{
         }
         if($node == null){
             $doc= $this->getAppDocument();
-            $doc->Title="Configure Functions - [".$this->App->Configs->website_domain."]";
+            $doc->Title= __("Configure Functions - [{0}]", igk_configs()->website_domain);
             $bbox=$doc->body->getBodyBox();
             $bbox->addIGKAppHeaderBar($this);
             $bbox->addMenuBar();
@@ -721,26 +716,40 @@ EOF;
     protected function HandleError($code=0){
         return 0;
     }
+    protected function initMacros(){
+        $cl = $this::resolvClass("Database/InitMacros");
+		$m = new $cl();
+		$m->run(igk_app()->getApplication()->getBuilder());
+	} 
     ///<summary>init complete</summary>
     /**
     * init complete
     */
-    protected function initComplete(){ 
+    protected function initComplete($context=null){ 
         parent::initComplete();
-         
-        $n = get_class($this);//  $this->getAppName();
-        
-        if ($n){ 
+        if (file_exists($f = $this->getClassesDir()."/Database/InitMacros.php")){
+			include_once($f);
+			$this::register_autoload();
+			if (\IGK\Models\ModelBase::IsMacrosInitialize()){
+				$this->initMacros();
+			}else {
+				igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function(){				 
+					$this->initMacros();
+				}); 
+			}
+		}	  
+        $cc = igk_env_count(get_class($this));
+        if ($n = get_class($this)){ 
             $n=str_replace("\\", ".", $n);
-            $c=self::GetApps();
-            if(empty($n)){
-                $n=str_replace("\\", ".", $this->getName());
-            }  
-            if(preg_match(IGK_IS_FQN_NS_REGEX, $n) && !isset($c->_[$n])){
+            $c=self::GetApps(); 
+            
+            if(($def = preg_match(IGK_IS_FQN_NS_REGEX, $n)) && !isset($c->_[$n])){
                 $c->_[$n]=$this->getName();
             }
             else{
-                igk_assert_die(!igk_get_env("sys://reloadingCtrl"), "Application identifier is not valid or already register. [".$n."]");
+                igk_assert_die(!igk_get_env("sys://reloadingCtrl"),
+"Application identifier is not valid or already register. [{$n}] - ".$def . " - ".$cc
+                );
             }
         }
         $this->register_action();

@@ -28,9 +28,16 @@ final class PicResConfigurationController extends ConfigControllerBase{
     const PICRES_FLAG=1;
     const PICRES_KEY="PicResChanged";
     const TARGETDIR=IGK_RES_FOLDER."/Img";
-    ///<summary></summary>
-    public function __construct(){
-        parent::__construct();
+   
+    public function getIsVisible(){
+        return false;
+    }
+    public function getIsConfigPageAvailable(){
+        return false;
+    }
+    public function getConfigGroup(){
+        igk_trace();
+        igk_exit();
     }
     ///<summary></summary>
     ///<param name="div"></param>
@@ -91,8 +98,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         igk_html_add_title($div, "title.PictureResourcesManager");
         igk_html_article($this, "pictures.res", $div->div());
         $div->addNotifyHost("picres");
-        $c=igk_realpath(igk_io_currentrelativepath(self::TARGETDIR));
-        $tab=igk_io_dirs($c);
+        $tab = null;
+        if ($d = igk_io_currentrelativepath(self::TARGETDIR)){
+            $c=igk_realpath($d);
+            $tab=igk_io_dirs($c);
+        }
         if($tab && (count($tab) > 0)){
             $ul=$div->add("ul");
             foreach($tab as $k){

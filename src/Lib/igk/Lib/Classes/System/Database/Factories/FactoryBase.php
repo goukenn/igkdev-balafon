@@ -8,17 +8,27 @@ abstract class FactoryBase {
     protected $count;
     protected $model;
     
-    public function __construct(ModelBase $model, $count=1){
+    public function __construct(ModelBase $model, int $count=1){
         $this->count = $count;
         $this->model = $model; 
     }
 
+    /**
+     * create model and return response
+     * @return array 
+     */
     public function create(){ 
+        $response = [];
         for($i = 0; $i < $this->count; $i++){
             $def = $this->definition(); 
-            $this->model::create($def);
+            $response[] = $this->model::create($def);
         }    
+        return $response;
     }
     ///<summary>override definition</summary>
-    abstract function definition();
+    /**
+     * return new entry definition. Fake
+     * @return array 
+     */
+    abstract function definition(): ?array;
 }

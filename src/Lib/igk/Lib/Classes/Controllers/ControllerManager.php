@@ -184,7 +184,7 @@ EOF;
 ///<summary>{$param["summary"]}</summary>
 class $name extends {$param["extend"]} {
 	public function getName(){return get_class(\$this);}
-	protected function InitComplete(){
+	protected function initComplete($context=null){
 		parent::InitComplete();
 		//please enter your controller declaration complete here
 

@@ -2,7 +2,7 @@
 
 namespace  IGK\System\Console;
 
-use IGK\System\Console\Commands\DbCommand;
+use IGK\System\Console\Commands\DbCommandHelper;
 use IGKControllerManagerObject;
 
 abstract class AppExecCommand extends AppCommand{
@@ -20,7 +20,7 @@ abstract class AppExecCommand extends AppCommand{
                     Logger::print("\n");
                     return $h;
                 }
-                DbCommand::Init($command); 
+                DbCommandHelper::Init($command); 
                 $fc = $this->handle;
                 $args = func_get_args();
                 return $fc(...$args);

@@ -498,7 +498,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                         $tables[$ck]=(object)array("info"=>$cinfo, "ctrl"=>$v);
                         foreach($cinfo as $ckv){
                             $cl=$row->addNode("Column");
-                            $cl->setAttributes($ckv);
+                            $cl->setAttributes((array)$ckv);
                         }
                         $count++;
                     }

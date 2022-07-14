@@ -10,7 +10,8 @@
 
 namespace IGK\Controllers;
 
-use IGK\Controllers\ILibaryController; 
+use IGK\Controllers\ILibaryController;
+use IGK\System\SystemUserProfile;
 use IGKSession;
 use IIGKUriActionRegistrableController;
 use ReflectionClass;
@@ -20,9 +21,9 @@ use ReflectionClass;
  * 
  * @package IGK\Controllers
  */
-abstract class PageControllerBase extends ControllerTypeBase
- 
-implements IIGKUriActionRegistrableController, ILibaryController{
+abstract class PageControllerBase extends ControllerTypeBase 
+    implements IIGKUriActionRegistrableController, ILibaryController
+{
 
     const PAGE_CONSTANT=IGKSession::BASE_SESS_PARAM + 0xA0;
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
@@ -114,7 +115,10 @@ implements IIGKUriActionRegistrableController, ILibaryController{
     }
     ///<summary>init app's. override this method to initialize user app's environment</summary>
     ///<remark>in general you must load app environment setting and store it in $user->EnvParam["app:://Name/setting"]</remark>
-    protected function initUserFromSysUser(?object $u){
+    protected function initUserFromSysUser(?object $u): ?\IGK\System\Database\IUserProfile{
+        if ($u){
+            $u = SystemUserProfile::Create($u);
+        }
         return $u;
     }
     ///<summary></summary>
@@ -151,17 +155,17 @@ implements IIGKUriActionRegistrableController, ILibaryController{
         return 0;
     }
     ///<summary>update the current data base</summary>
-    public final function updateDb(){
-        $s=igk_is_conf_connected() || igk_user()->auth($this->Name.":".__FUNCTION__);
-        if(!$s){
-            igk_ilog("// not authorize to updateDb of " + $this->getName());
-            igk_navto($this->getAppUri());
-        }
-        igk_db_update_ctrl_db($this);
-        $uri=$this->getAppUri();
-        igk_navto($uri);
-        igk_exit();
-    }
+    // public final function updateDb(){
+    //     $s=igk_is_conf_connected() || igk_user()->auth($this->Name.":".__FUNCTION__);
+    //     if(!$s){
+    //         igk_ilog("// not authorize to updateDb of " + $this->getName());
+    //         igk_navto($this->getAppUri());
+    //     }
+    //     igk_db_update_ctrl_db($this);
+    //     $uri=$this->getAppUri();
+    //     igk_navto($uri);
+    //     igk_exit();
+    // }
 
     ///<summary> get a application document. getDoc return the global document </summary>
     /**

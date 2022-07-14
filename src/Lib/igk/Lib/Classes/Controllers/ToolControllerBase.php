@@ -39,7 +39,7 @@ abstract class ToolControllerBase extends BaseController{
         $t->clearChilds();
     }
     ///<summary></summary>
-    protected function initComplete(){
+    protected function initComplete($context=null){
         parent::initComplete();
         if($this->getIsAvailable()){
             self::$sm_tools[get_class($this)] = $this;

@@ -37,7 +37,7 @@ class IGKRawDataBinding implements ArrayAccess {
         return $o;        
     }
     public function __get($n){
-        if (igk_environment()->is("DEV") && !$this->offsetExists($n)){   
+        if (igk_environment()->isDev() && !$this->offsetExists($n)){   
             igk_die(__FILE__.":".__LINE__." : offset \"$n\" not present");
         }
         return igk_getv($this->m_data, $n);

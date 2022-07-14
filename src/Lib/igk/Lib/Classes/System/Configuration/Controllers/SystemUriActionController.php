@@ -11,6 +11,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use Exception;
 use IGK\Models\Systemuri;
 use IGK\System\Html\HtmlRenderer;
 use IGKException;
@@ -218,10 +219,10 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         // + | -----------------------------------------------------------------------
         /// TODO :  SELECT  * DB ROUTE LOOP FAILED, infinite loop
         // + | -----------------------------------------------------------------------
-        if (!igk_sys_configs()->get("no_db_route")){
-            
-
-            $e = Systemuri::select_all(); 
+        if (!igk_sys_configs()->get("no_db_route")){        
+            try {
+                $e = Systemuri::select_all(); 
+         
             if($e){
                 foreach($e as $k=>$v){
                     if(is_object($v)){
@@ -232,6 +233,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
                         igk_wln($v);
                     }
                 }
+            }
+            } catch(Exception $ex){
+                // no uri loader
             }
         }
         return $actions;
@@ -476,9 +480,11 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $this->ConfigNode->add($c);
         $c=$c->clearChilds()->addPanelBox();
         igk_html_add_title($c, "title.SystemUriView");
-        $c->addHSep();
-        igk_html_article($this, "systemuri", $c->div());
-        $c->addHSep();
+        //$c->addHSep();
+        
+        $c->notagnode()->article($this, "systemuri", []);
+        //igk_html_article($this, "systemuri", $c->div());
+        //$c->addHSep();
         $div=$c->div();
         $ul=$div->add("ul");
         $v_routes=$this->_refRoutes();
@@ -488,9 +494,5 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             $li->add("span", array("class"=>"igk-col-4-2"))->Content=$v;
         }
     }
-
-    protected function initComplete()
-    {
-        parent::initComplete();
-    }
+  
 }

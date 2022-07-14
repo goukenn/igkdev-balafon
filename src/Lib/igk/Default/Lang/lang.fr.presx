@@ -1529,7 +1529,7 @@ $l["title.stocks"] = "Gestion de stock";
 $l["title.subdomainmanager"] = "Domaine";
 $l["title.systemdomain"] = "Domaine système";
 $l["title.systemthememanager"] = "Theme enregistrer";
-$l["title.systemuriview"] = "Url et reference";
+$l["title.systemuriview"] = "URI et reference";
 $l["title.tableinfo"] = "Ligne de la table";
 $l["title.tables"] = "Tables";
 $l["title.team"] = "Equipe";
@@ -1656,7 +1656,7 @@ $l["menu.session"] = "Session";
 $l["failed to change user's password"] = "impossible de changer le mot de passe";
 
 
-
+$l["Submit"] = "Soumettre";
 $l["Add user"] = "Ajouter l'utilisateur";
 
 $l["Change password"] = "Changer le mot de passe";

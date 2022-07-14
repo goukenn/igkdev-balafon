@@ -24,6 +24,7 @@ abstract class DbSchemas{
     const MIGRATIONS_TAG = "Migrations";
     const RELATIONS_TAG = "Relations";
     const RELATION_TAG = "Relation";
+    const COLUMN_TAG = IGK_COLUMN_TAGNAME;
 
 
     /**
@@ -102,7 +103,7 @@ abstract class DbSchemas{
      * create and empty table row
      * @return stdClass|null 
      */
-    public static function CreateRow(string $tablename, BaseController $ctrl, $dataobj = null){ 
+    public static function CreateRow(string $tablename, ?BaseController $ctrl=null, $dataobj = null){ 
         $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
         if ($g){ 
             $inf = $g["tableRowReference"];              

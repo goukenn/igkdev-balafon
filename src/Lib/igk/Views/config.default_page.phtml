@@ -67,7 +67,7 @@ $i["class"] = "igk-btn igk-btn-default alignl dispib";
 
 $domain = igk_lib_configs()->get("website_domain"); 
 
-if (igk_environment()->is("DEV") || ($domain == igk_server()->SERVER_NAME ) || ($domain == "*")){
+if (igk_environment()->isDev() || ($domain == igk_server()->SERVER_NAME ) || ($domain == "*")){
 
  
 
@@ -150,7 +150,7 @@ $frm->addHSep();
 if (!$app->Configs->default_lang) {
     $app->Configs->default_lang = R::GetCurrentLang();
 }
-$tab = explode("|", R::GetSupportLangRegex()); //  "  explode("|", $v_csvc->Languages);
+$tab = R::GetSupportedLangs();
 $tab = array_merge($tab);
 $dv = $frm->div();
 $dv->addLabel("cldefaultLang")->Content = R::ngets("lb.cldefaultlang");

@@ -2,14 +2,17 @@
 namespace IGK\Models;
 
 use IGK\Controllers\BaseController;
+use IGK\Database\DbQueryCondition;
 use IGK\System\Database\QueryBuilder;  
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSchemas;
+use IGK\Database\IDbQueryResult;
+use IGK\Models\Caches\CacheModels;
 use IGK\System\Database\DbConditionExpressionBuilder;
-use IGK\System\Database\MySQL\MYSQLQueryFetchResult;
 use IGKException;
 use IGKQueryResult;
 use SQLCondExpression;
+use stdClass;
 
 use function igk_resources_gets as __;
 use function igk_getv as getv;
@@ -23,8 +26,31 @@ use function igk_form_input_type as form_input_type;
 abstract class ModelEntryExtension{
 
     ///<summary>get the current model expression</summary>
+    /**
+     * get model instance
+     * @param ModelBase $model 
+     * @return ModelBase 
+     */
    public static function model(ModelBase $model){
        return $model; 
+   }
+   /**
+    * get model name
+    * @param ModelBase $model 
+    * @return string 
+    */
+   public static function name(ModelBase $model){
+        return basename(igk_io_dir(get_class($model)));
+   }
+   /**
+    * return the instance model
+    * @param ModelBase $model 
+    * @param mixed $tab 
+    * @return mixed 
+    * @throws IGKException 
+    */
+   public static function getv(ModelBase $model, $tab, $key){
+    return igk_getv($tab, $key);
    }
    /**
     * retrieve controller static extension
@@ -34,18 +60,22 @@ abstract class ModelEntryExtension{
     */
    public static function controller(ModelBase $model){
         return $model->getController();
-   }
-
-   public static function create(ModelBase $model, $raw=null){        
+   } 
+   /**
+    * 
+    * @param ModelBase $model 
+    * @param mixed $raw 
+    * @param bool $idresult 
+    * @return null|object 
+    */
+   public static function create(ModelBase $model, $raw=null, bool $update=true){  
+  
         $cl = get_class($model);
         $c = new $cl($raw); 
-        if ($craw = $c->to_array()) {
-            $g = $c->insert($craw);
-            if (($g!== false) && ($g!==null)){
-                // if (igk_environment()->querydebug){
-                //     igk_wln_e("explore ");
-                //     igk_wln_e($g->to_array(), $model->last_id());
-                // }
+
+        if ($craw = $c->to_array()) {            
+            $g = $c->insert($craw, $update);
+            if (($g!== false) && ($g!==null)){                
                 if ($g instanceof $model)
                 {
                     $c->updateRaw($g);  
@@ -56,11 +86,16 @@ abstract class ModelEntryExtension{
         }
         return $c;  
    }
+   /**
+    * 
+    * @param ModelBase $model 
+    * @return stdClass|null 
+    * @throws IGKException 
+    */
    public static function createEmptyRow(ModelBase $model){
       
-        $ctrl = igk_getctrl($model->controller ?? SysDbController::class);
+        $ctrl = $model->getController();
         return DbSchemas::CreateRow($model->getTable(), $ctrl);
-        
    }
     /**
      * create a model from an object. 
@@ -140,6 +175,9 @@ abstract class ModelEntryExtension{
     public static function rollback(ModelBase $model){
         return $model->getDataAdapter()->rollback();
     }
+    public static function endTransaction(ModelBase $model, bool $result){
+        return $model->getDataAdapter()->endTransaction($result);
+    }
     
     /**
      * 
@@ -211,7 +249,7 @@ abstract class ModelEntryExtension{
         if($r && $r->RowCount == 1){
             $g=$r->getRowAtIndex(0);
             $g->{"sys:table"}=$model->getTable(); 
-            return new $cl($g->to_array());  
+            return new $cl($g->to_array(),0, true);  
         }
         return null;
     }
@@ -228,6 +266,14 @@ abstract class ModelEntryExtension{
     public static function select_query(ModelBase $model, $conditions=null, $options=null){
         return $model->getDataAdapter()->select($model->getTable(), $conditions, $options);     
     } 
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return null|iterable 
+     * @throws IGKException 
+     */
     public static function select_query_rows(ModelBase $model, $conditions=null, $options=null){
         if ($g = static::select_query($model, $conditions, $options)){
             return $g->getRows();
@@ -250,11 +296,16 @@ abstract class ModelEntryExtension{
     public static function update(ModelBase $model, $value=null, $conditions=null){
         $driver = $model->getDataAdapter(); 
         $primary = $model->getPrimaryKey();
+        $tbinfo = $model->getTableInfo();
+        $table = $model->getTable(); 
         if ($model->is_mock()){
+            if ($value===null){ 
+                $value = $model->to_array();
+            }
             if (is_numeric($conditions)){            
                 $conditions = [$model->getPrimaryKey()=> $conditions];            
             } 
-            return $driver->update($model->getTable(), $value, $conditions, $model->getTableInfo());
+            return $driver->update($table, $value, $conditions, $tbinfo); 
         }
         if ($value===null){ 
             $value = $model->to_array();
@@ -263,9 +314,9 @@ abstract class ModelEntryExtension{
                     unset($value[$k]);
                 }
             } 
-            return $driver->update($model->getTable(), $value, [$primary=>$model->$primary]);
+            return $driver->update($table, $value, [$primary=>$model->$primary], $tbinfo);
         }
-        $r = $driver->update($model->getTable(), $value, $conditions); 
+        $r = $driver->update($table, $value, $conditions, $tbinfo); 
         return $r;
     }
     public static function delete(ModelBase $model, $conditions=null){        
@@ -281,20 +332,22 @@ abstract class ModelEntryExtension{
         return $driver->delete($model->getTable(), $conditions);
     }
     /**
-     * insert and update the entry  
+     * 
      * @param ModelBase $model 
-     * @param array|object $entries 
-     * @return mixed 
+     * @param mixed $entries 
+     * @param bool $update 
+     * @return null|ModelBase|bool 
      * @throws IGKException 
      */
     public static function insert(ModelBase $model, $entries, $update=true){ 
      
-        $ad = $model->getDataAdapter();
-        if ( $r = $ad->insert($model->getTable(), $entries, $model->getTableInfo())){
- 
+        $ad = $model->getDataAdapter(); 
+
+        if ($ad->insert($model->getTable(), $entries, $model->getTableInfo())){ 
             if ($update){
                 $ref_id = $model->getRefId(); 
                 if (($id = $ad->last_id()) && ($id !== -1)){ 
+                    // because selection : last_id missing 
                     $s = $model::select_row([$ref_id=>$id]);            
                     if ($s && is_object($entries)){
                         foreach($s->to_array() as $k => $v){
@@ -314,19 +367,34 @@ abstract class ModelEntryExtension{
     public static function last_error(ModelBase $model){
         return $model->getDataAdapter()->last_error();
     }
-    public static function query(ModelBase $model, $query){
+    /**
+     * send query 
+     * @param ModelBase $model 
+     * @param mixed $query 
+     * @return null|bool|IDbQueryResult 
+     * @throws IGKException 
+     */
+    public static function query(ModelBase $model, string $query){
         $driver = $model->getDataAdapter();
         return $driver->sendQuery($query);
     } 
     public static function factory(ModelBase $model){
-        // create a factory object
-        $c = get_class($model);
+        // create a factory object         
         $cl = $model->getFactory();
         if (class_exists($cl)){
             $arg = func_get_args(); 
             return new $cl(...$arg);
         }
-        die("factory class not found . ".$cl);
+        igk_die("factory class not found . ".$cl);
+    }
+    public static function viewFilter(ModelBase $model){
+        // create a factory object         
+        $cl = $model->getViewFilter();
+        if (class_exists($cl)){
+            $arg = func_get_args(); 
+            return new $cl(...$arg);
+        }
+        igk_die("view filter class not found . ".$cl);
     }
     /**
      * display for this model view
@@ -391,7 +459,7 @@ abstract class ModelEntryExtension{
      * @return array 
      * @throws IGKException 
      */
-    public static function formFields(ModelBase $model, $edit=false){
+    public static function formFields(ModelBase $model, $edit=false, ?array $unsetKeys=null){
         $cl = $model->getFormFields();
         $t = [];
         
@@ -413,8 +481,12 @@ abstract class ModelEntryExtension{
             $info  = $inf[$v];
             $r = ["type"=>"text", "value"=>$model->$v];
             $type = !empty($info->clInputType) ? form_input_type($info->clInputType) : $info->clType;
-          
             $attribs = [];
+            if ($info->clRequire || $info->clNotNull){
+                $attribs["required"] = "required";
+                $r["required"] = 1;
+            }
+
             if ($info->clLinkType){
                 $r["type"] = "select";
                 if (!$binf = getv($binfo, $info->clLinkType)){
@@ -431,7 +503,7 @@ abstract class ModelEntryExtension{
                 }
                 $r["selected"] = $model->$v;
              
-            }else{
+            }else{                  
                 switch(strtolower($type)){
                     case "enum": 
                         $attribs["maxlength"] = $info->clTypeLength;
@@ -460,10 +532,20 @@ abstract class ModelEntryExtension{
                         $t[$v."-datalist"] = $r; 
                         continue 2; 
                     case "bool":
+                    case "checkbox":
                             $r["type"]="checkbox";
+                            unset($r["value"]);
+                            $model->$v && ($attribs["checked"] = "checked"); 
+                            if (!$info->clRequire) {                         
+                                unset($r["required"]); 
+                                unset($attribs["required"]);                          
+                            }
                         break;
                     case "text":
                             $r["type"] = "textarea";
+                            if (!empty($info->clInputMaxLength)){
+                                $attribs["maxlength"] = $info->clInputMaxLength;
+                            }
                         break;
                     case "date":
                             $r["type"] = "date";
@@ -495,6 +577,7 @@ abstract class ModelEntryExtension{
                         $attribs["maxlength"] = $info->clTypeLength;
                         break;
                 }
+
             }
             if (!empty($info->clDescription)){
                 $attribs["placeholder"] = __($info->clDescription);
@@ -502,9 +585,7 @@ abstract class ModelEntryExtension{
             if (!$edit && !empty($info->clDefault)){
                 $r["value"] = $info->clDefault;
             }
-            if ($info->clRequire || $info->clNotNull){
-                $attribs["required"] = "required";
-            }
+         
             $attribs["autocomplete"]="off";
             $r["attribs"] = $attribs;
             $t[$v] = $r;
@@ -512,7 +593,48 @@ abstract class ModelEntryExtension{
         $t["::model"]=["type"=>"hidden", "value"=>base64_encode(get_class($model))];
         if ($ctrl)
         $t["::ctrl"]=["type"=>"hidden", "value"=>base64_encode(get_class($ctrl))];
+
+
+        if ($unsetKeys){
+            $t = array_diff_key($t, array_flip($unsetKeys));
+        }
         return $t;
+    }
+    /**
+     * get entry model
+     * @param ModelBase $model 
+     * @param mixed $column 
+     * @param mixed $id
+     * @return object|ModelBase|null 
+     */
+    public static function Get(ModelBase $model, $column, $id, $autoinsert=null){
+        if ($id instanceof $model){
+            return $id;
+        }
+        $r =  $model::select_row([$column=>$id]);
+        if (!$r && $autoinsert){
+            $r = $model::insert($autoinsert);
+        }
+        return $r;
+    }
+    /**
+     * get cached properties
+     * @param ModelBase $model 
+     * @param mixed $column 
+     * @param mixed $id 
+     * @param mixed $autoinsert 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetCache(ModelBase $model, $column, $id, $autoinsert=null): ?object{
+        $key = "cache://".get_class($model)."/".$column."/".$id;
+        if ($o = CacheModels::Get($key)){
+            return $o;
+        }
+        if ($o = self::Get($model, $column, $id, $autoinsert)){
+            CacheModels::Register($key, $o);
+        }
+        return $o;
     }
     ///<summary>return the model table name</summary>
     /**
@@ -719,5 +841,26 @@ abstract class ModelEntryExtension{
         $driver = $model->getDataAdapter(); 
         $query = $driver->getGrammar()->createInsertQuery($model->table(), $model, $inf); 
         return $query;
+    }
+
+    /**
+     * create condition row
+     * @param ModelBase $model 
+     * @return DbQueryCondition 
+     */
+    public static function createCondition(ModelBase $model){
+        return new \IGK\Database\DbQueryCondition($model::createEmptyRow());
+    }
+
+    /**
+     * get entry details
+     * @param ModelBase $model source model
+     * @param string $className target model
+     * @param string $column column name that identifier the foreign key.
+     * @return mixed 
+     */
+    public static function getDetails(ModelBase $model, string $className, string $column){
+    
+        return $className::select_query_rows([$column=>$model]);
     }
 }

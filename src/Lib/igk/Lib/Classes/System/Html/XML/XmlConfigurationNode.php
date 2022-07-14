@@ -21,7 +21,7 @@ class XmlConfigurationNode extends XmlNode{
     {
         $s = trim(parent::getInnerHtml());     
         $gps = \IGK\System\Configuration\SysConfigExpressionFactory::GetRegisterRegex();
-        igk_debug_wln_e(__FILE__.":".__LINE__, $s);
+        //  
         // if (!empty($s) && preg_match("/\{\{(?P<exp>.+)\}\}/i", $s, $tab)){
         if (!empty($s) && preg_match("/\{\{(?P<exp>\s*((?P<name>$gps)\.)?.+)\}\}/i", $s, $tab)){
             $m = trim($tab["exp"]);

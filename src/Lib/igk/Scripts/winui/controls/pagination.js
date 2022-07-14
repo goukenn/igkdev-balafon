@@ -10,8 +10,7 @@
 			function _page_ready(q, i, t, cl, r){
 				return function(xhr){
 						if (this.isReady()){
-							if (xhr.status == 200){
-								console.debug("target :"+i.target);
+							if (xhr.status == 200){ 
 								if (i.target){
 									$igk(i.target).first().setHtml(xhr.responseText).init();
 									if (!i.update_uri){

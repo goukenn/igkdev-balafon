@@ -1,8 +1,7 @@
 <?php
 
 namespace IGK\System\Configuration;
-
-use IGKCSVDataAdapter;
+  
 
 class ConfigUtils{
     /**

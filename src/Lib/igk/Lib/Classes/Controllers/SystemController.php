@@ -166,7 +166,7 @@ final class SystemController extends NonVisibleControllerBase{
         return IGK_SYS_CTRL;
     }
     ///<summary></summary>
-    protected function initComplete(){
+    protected function initComplete($context=null){
         parent::initComplete();
     }
     ///<summary></summary>

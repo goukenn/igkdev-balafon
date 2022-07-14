@@ -8,7 +8,7 @@ use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\FormBuilder;
-use IGK\System\Html\Forms\Validation;
+use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 
@@ -515,8 +515,7 @@ function igk_html_load_menu_array($target, $tab, $item="li", $subnode="ul", $use
         }
     }
     $target->roots=$root;
-    return $root;
-    //igk_debug_wln_e("finish");
+    return $root; 
 }
 ///@attributes array of  [allowEmpty, valuekey, displaykey]
 ///@attr is html attributes
@@ -751,7 +750,7 @@ function igk_html_db_select_filter($dbResult, $sortcallback, $useempty=0){
 * @param mixed $title
 */
 function igk_html_domaintitle($title){
-    return  __("title.app_2", $title, igk_app()->Configs->website_domain);
+    return  __("title.app_2", $title, igk_configs()->website_domain);
 }
 ///<summary></summary>
 ///<param name="obj"></param>
@@ -844,8 +843,16 @@ function igk_html_form_select_data(array $data, $callback){
 }
 ///<summary>build form field on modele view </summary>
 /**
-* build form field on modele view
-*/
+ * 
+ * @param IFormFieldOptions[]|mixed $formFields 
+ * @param null|array $datasource 
+ * @param int $render 
+ * @param mixed $engine 
+ * @param string $tag 
+ * @return string 
+ * @throws IGKException 
+ * @throws Exception 
+ */
 function igk_html_form_fields($formFields, ?array $datasource=null, $render=0, $engine=null, $tag="div"){ 
     $o="";
     $builder = new FormBuilder();
@@ -1334,6 +1341,24 @@ function igk_html_render_template($node)
         "Engine" => new \IGK\System\Templates\TemplateEngine()
     ]);
     echo igk_html_render_node($node, $option);
+}
+
+
+function igk_html_form_login_fields(){
+    $fields = [
+        "login"=>["type"=>"text", "label_text"=>__("Login"), "required"=>1,
+         "attribs"=>[
+             "placeholder"=>__("email or login"),
+             "autocomplete"=>"username"
+        ]],
+        "password"=>["type"=>"password", "required"=>1, "label_text"=>__("Password"), 
+            "attribs"=>[
+                "placeholder"=>__("password"),
+                "autocomplete"=>"current-password"
+            ]],
+        "continue"=>["type"=>"hidden", "value"=>urldecode(igk_getr("continue"))]
+    ];
+    return $fields;
 }
 
 igk_load_library("html_ob");

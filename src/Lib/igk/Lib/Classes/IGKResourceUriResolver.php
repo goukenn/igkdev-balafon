@@ -89,7 +89,7 @@ class IGKResourceUriResolver{
      * @return null|string 
      * @throws IGKException 
      */
-    public function resolve($uri, $options=null, $generate=1){
+    public function resolve(string $uri, $options=null, $generate=1){
         static $appData=null;
         if(empty($uri))
             return null;
@@ -138,6 +138,7 @@ class IGKResourceUriResolver{
             $query="?".implode("?", array_slice($buri, 1));
         }
         $bdir=igk_io_basedir();
+        $uri = igk_html_uri($uri);
 
      
         if(igk_io_is_subdir($bdir, $uri)){

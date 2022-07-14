@@ -6,6 +6,8 @@ use IGK\Database\DbExpression;
 use IGK\Models\Users;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\Tests\BaseTestCase;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use PHPUnit\Framework\ExpectationFailedException;
 
 class DbExpressionTest extends BaseTestCase{
     public function setUp(): void {
@@ -69,7 +71,13 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-    public function test_update_query_3(){
+    /**
+     * test query with db condition builder
+     * @return void 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
+    public function test_update_query_with_db_condition_builder(){
         $gram = Table1Test::driver()->getGrammar();  
         $this->assertEquals(
             "UPDATE `dummy_table1` SET `clName`='8' WHERE `clName` IS NOT NULL OR `clName`!='1';",
@@ -110,15 +118,15 @@ class DbExpressionTest extends BaseTestCase{
     public function test_create_table_query(){
  
         $gram = Table1Test::model()->getDataAdapter()->getGrammar(); 
-        $q = $gram->CreateTableQuery(Table1Test::table(), igk_getv(Table1Test::getDatatableDefinition(), "tableRowReference"));     
+        $tableinfo = igk_getv(Table1Test::getDatatableDefinition(), "tableRowReference"); 
+        $q = $gram->createTableQuery(Table1Test::table(), $tableinfo);      
         $this->assertEquals(
             "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) AUTO_INCREMENT,`clName` varchar(30),`clDescription` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
             $q);
     }
 
     public function test_query_fetch_prepare(){
-        // igk_environment()->querydebug = 1; 
-        // igk_debug(1); 
+       
         // igk_wln_e("dbname", igk_sys_configs()->db_name, igk_sys_configs()->db_server);
         Table1Test::createTable();
         Table2Test::createTable();

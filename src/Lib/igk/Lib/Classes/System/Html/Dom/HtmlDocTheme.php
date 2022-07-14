@@ -525,19 +525,42 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @param BaseController $host controller that host the file
      * @param string $f file path 
      */
-    public function addTempStyle($host, string $f)
+    public function addInlineStyle($host, string $f)
     {
         if (!file_exists($f))
             return false;
-        $key = self::INLINE_STYLE_KEY;
-        $tab = $this->getParam($key);
+        $ckey = self::INLINE_STYLE_KEY;
+        $tab = $this->getParam($ckey);
         if ($tab === null)
             $tab = array();
         $f = igk_io_collapse_path($f);
+        $m = $f.':'.$host;
+        $hashContainer = new \IGK\System\HashContainer('sha256', function($a, $k, string $code){ 
+            return $k == hash($code, $a->file.':'.$a->host);
+        });
+        if ($hashContainer->contains($m, $tab)){ 
+            return false;
+        }          
         $tab[] = (object)array('file' => $f, 'host' => $host);
-        $this->setParam($key, $tab); 
-        return 1;
+        $this->setParam($ckey, $tab);  
+        return true;
     }
+
+    /**
+     * retrieve stored inline style
+     * @param bool $reset 
+     * @return mixed 
+     */
+    public function getInlineStyle($reset=false){
+
+        $g = $this->getParam(self::INLINE_STYLE_KEY);
+        if ($reset){
+           $this->setParam(self::INLINE_STYLE_KEY, null);
+        }
+        return $g;
+    }
+
+    
     ///<summary></summary>
     /**
      * 
@@ -1104,10 +1127,14 @@ EOF;
      */
     public function & getProperties($k = null)
     {
-        $g = &$this->m_def->getParams();
+        $g = & $this->m_def->getParams();
         if ($k) {
-            $g = igk_getv($g, $k);
+            if (isset($g[$k])){
+                $g = & $g[$k];
+                return $g;
+            }
         }
+        $g = null; // igk_getv($g, $k);
         return  $g;
     }
      ///<summary></summary>

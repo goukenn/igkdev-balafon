@@ -63,9 +63,12 @@ function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans
     } else {
         $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
     }
-
-    
-    igk_google_css_setfont($doc->getTheme()->def, $family, $extra);
+    $theme = $doc->getTheme();
+    if(igk_environment()->is("OPS")){
+        $theme = $doc->getInlineTheme();
+    } 
+    igk_google_css_setfont($theme->def, $family, $extra);
+    // igk_google_css_setfont($doc->getTheme()->def, $family, $extra);
     //$doc->getTheme()->def[".google-" . $n] = "font-family:'{$family}'{$extra};";
  
     igk_hook("google_init_component", "font");
@@ -666,10 +669,10 @@ igk_register_service("google", "googlemap", function ($cmd, $t, $config = null) 
     }
     return null;
 });
-igk_sys_reg_componentname([
-    "googlemapgeo" => "GoogleMapGeo",
-    "googlejsmaps" => "GoogleJSMaps"
-]);
+// igk_sys_reg_componentname([
+//     "googlemapgeo" => "GoogleMapGeo",
+//     "googlejsmaps" => "GoogleJSMaps"
+// ]);
 igk_sys_reg_referencedir(__FILE__, igk_io_dir(dirname(__FILE__) . "/Data/References"));
 
 

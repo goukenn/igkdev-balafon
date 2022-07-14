@@ -637,7 +637,7 @@ return true;
 			$p = $this->Pattern;
 			if (IO::CreateDir($dir)){
 				IO::WriteToFileAsUtf8WBOM($dir."/.htaccess", "allow from all", false);
-				//igk_ilog("loading ....");
+				// igk_ilog("loading ....");
 				foreach(igk_io_getfiles($dir, $p, false) as  $v)
 				{
 					// igk_ilog("loading ....file : ".$v);

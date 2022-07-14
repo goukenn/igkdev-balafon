@@ -1,9 +1,11 @@
 <?php
+namespace IGK\Css;
+
+use ArrayAccess;
 
 class IGKCssColorHost implements ArrayAccess{
     private $_;
     private function __construct(){
-
     }
     public static function Create(& $color){
         $c = new self();

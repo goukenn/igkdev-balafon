@@ -16,24 +16,38 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
-class ContextValueTest extends BaseTestCase{
+class ContextValueTest extends BaseTestCase
+{
 
-    function test_get_custom_expression(){
+    function test_loading_configuration()
+    {
+        $g = igk_conf_load_content(<<<MSG_EOF
+<balafon><div>sample</div></balafon>
+MSG_EOF, "balafon");
+
+        $this->assertTrue($g == (object)[
+            "div" => "sample"
+        ], "failed to load configuration");
+    }
+    function test_get_custom_expression()
+    {
         $s = "";
         \IGK\System\Configuration\SysConfigExpressionFactory::Register("baba", DummyExpression::class);
-        
+
         $c = \IGK\System\Configuration\SysConfigExpressionFactory::Create("baba", "baba.operator");
-       // igk_wln_e($c);
+        // igk_wln_e($c);
         $this->assertEquals(
             "operator:1",
-            "".$c
+            "" . $c
         );
     }
 }
 
-class DummyExpression extends SysAppConfigExpression {
+class DummyExpression extends SysAppConfigExpression
+{
     protected $tag = "baba";
-    public function getOperator(){
+    public function getOperator()
+    {
         return "operator:1";
     }
 }

@@ -5,29 +5,10 @@ namespace IGK\System\Console;
 use IGK\System\Configuration\XPathConfig;
 use Closure;
 use Exception;
-use IGK\Helper\IO;
-use IGK\System\Console\Commands\DbCommand;
-use IGKApp;
-use IGKAppType;
-use IGKControllerManagerObject;
-use IGK\Helper\IO as IGKIO;
-use IGKXmlNode;
+use IGK\Helper\IO;  
+use IGKAppType;  
 use stdClass;
-use Throwable;
-
-// igk_load_class(\IGKHtmlChildElementCollections::class);
-// igk_load_class(\HtmlUtils::class);
-// igk_load_class(\IGK\Database\DbQueryDriver::class);
-// igk_load_class(\IGKDataAdapter::class);
-// igk_load_class(\SQLDataAdapter::class ); 
-// igk_load_class(\IGK\System\Console\AppCommand::class);
-// igk_load_class(\IGK\System\Console\AppExecCommand::class);
-// igk_load_class(\IGK\System\Configuration\XPathConfig::class);
-// igk_load_class(\IGKDbUtility::class);
-// igk_load_class(\IGK\System\Configuration\ConfigUtils::class);
-// igk_load_class(\IGKCSVDataAdapter::class);
-// require_once(IGK_LIB_CLASSES_DIR."/IGKXmlChilds.php");
-// require_once(IGK_LIB_CLASSES_DIR."/System/Database/MySQL/Controllers/IGKMySQLDataCtrl.php");
+use Throwable; 
  
 ///<summary>represent Balafon CLI console Application</summary>
 class App{
@@ -46,7 +27,7 @@ class App{
      * application version
      * @var string
      */
-    public $version = "0.1.0";
+    public $version = "0.1.1";
     /**
      * available command
      * @var mixed
@@ -82,7 +63,7 @@ class App{
         // + | temporary directory  
         $wdir = sys_get_temp_dir()."/balafon-cgi";
 
-        !defined('IGK_LOG_FILE') && define('IGK_LOG_FILE', $wdir."/logs/.".IGK_TODAY."/cons.log"); 
+        !defined('IGK_LOG_FILE') && define('IGK_LOG_FILE', $wdir."/logs/.".igk_environment()->getToday()."/cons.log"); 
 
         IO::CreateDir($wdir);
 
@@ -219,12 +200,12 @@ class App{
                 }
             }
         }
-
+ 
         try{
             $action = $command->exec; //($v, $command, implode(":", array_slice($c,1)));
             if ($action){
                 if (property_exists($command->options, "--help")){  
-                    $command->app->showHelp($command->command[0]);
+                    $app->showHelp($command->command[0]);
                     return 0;
                 }
                 return $action($command , ...$args); 
@@ -327,6 +308,12 @@ class App{
             return $this->configs->get("logFolder");
         }
     }
+    /**
+     * get console command string . 
+     * @param mixed $color 
+     * @param mixed $s 
+     * @return string 
+     */
     public static function gets($color, $s){
         return $color.$s."\e[0m";
     }

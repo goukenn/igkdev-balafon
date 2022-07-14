@@ -88,8 +88,7 @@ igk.system.createNS("igk.ctrl.topnavbar",
 						// console.debug(p.clientWidth+"px");
 __bind(p);						
 					
-					});
-					//console.debug('bind....');
+					}); 
 					__bind(p);
 				}else{
 					console.debug("there is no parent offset");

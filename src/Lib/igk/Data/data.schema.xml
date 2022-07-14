@@ -139,7 +139,7 @@
         <Column clName="clGroup_Id" clType="Int" clNotNull="True" clLinkType="%prefix%groups" clIsUniqueColumnMember="true" clUniqueColumnIndex="1" />
     </DataDefinition>
     <DataDefinition TableName="%prefix%users" Description="User's tables">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
+        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />        
         <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clNotNull="True" />
         <Column clName="clPwd" clType="VARCHAR" clTypeLength="200" clNotNull="True" clInsertFunction="IGK_PASSWD_ENCRYPT" clUpdateFunction="IGK_PASSWD_ENCRYPT" clInputType="password" />
         <Column clName="clFirstName" clType="VARCHAR" clTypeLength="60" />
@@ -232,7 +232,7 @@
     <Migrations>
         <Migration>
             <changeColumn table="%prefix%users" column="clLogin">
-                <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clRequire="true" />
+                <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clRequire="true" clNotNull="true" clNotAllowEmptyString="true" />
             </changeColumn>
         </Migration> 
         <Migration>
@@ -251,5 +251,25 @@
                 <Column clName="db_logs_tags" clType="Text" clDescription="tags" clNotNull="True" />
             </addColumn>
         </Migration>
+        <Migration>
+            <addColumn table="%prefix%users">
+                <Column clName="clGuid" clType="VARCHAR" clTypeLength="64" clIsUnique="True"  />
+            </addColumn>
+        </Migration>   
+        <Migration>
+            <addColumn table="%prefix%groups">
+                <Column clName="clController" clType="VARCHAR" clTypeLength="255" clIsUniqueColumnMember="True"  clUniqueColumnIndex="0" />
+            </addColumn>
+            <changeColumn table="%prefix%groups" column="clName">
+                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0"/>
+            </changeColumn>
+            <addColumn table="%prefix%authorizations">
+                <Column clName="clController" clType="VARCHAR" clTypeLength="255" clIsUniqueColumnMember="True"  clUniqueColumnIndex="0" />
+                <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
+            </addColumn>
+            <changeColumn table="%prefix%authorizations" column="clName">
+                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0"/>
+            </changeColumn>
+        </Migration>           
     </Migrations> 
 </data-schemas>

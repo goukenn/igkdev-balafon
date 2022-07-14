@@ -3,12 +3,16 @@ namespace IGK\Controllers;
 
 use IGKApplicationLoader;
 
+/**
+ * used to register service
+ * @package IGK\Controllers
+ */
 class ServiceController extends NonVisibleControllerBase{
     public static function register_autoload()
     {
         $services = igk_app()->session->getServices();
         if ($services){
-            foreach($services as $k=>$v){
+            foreach($services as $v){
                 if (file_exists($fc = igk_io_expand_path($v))){
                     require_once $fc;
                 }

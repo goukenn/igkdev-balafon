@@ -149,6 +149,10 @@ final class IGKValidator extends IGKObject {
     public static function IsFloat($v){
         return is_float($v);
     }
+
+    public static function IsGUID(string $v){
+        return preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
+    }
     ///<summary></summary>
     ///<param name="v"></param>
     /**

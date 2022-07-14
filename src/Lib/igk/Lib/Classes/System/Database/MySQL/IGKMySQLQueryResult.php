@@ -27,6 +27,10 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     private $m_type;
     private $m_value;
     private $m_multitable; 
+    public function __debugInfo()
+    {
+        return null;
+    }
     public function success(){
         return $this->m_rows !== null;
     }
@@ -168,8 +172,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
             $out->m_tables[$d->table]=$d->table;
             $index++;
         }
-        $v_primkey= !$no_primary && (count($prim_key) == 1) ? $prim_key[0]->name: null;
-        // igk_debug_wln_e("the prim--- ", $query, $v_primkey, $dbresult, $no_primary, $options);
+        $v_primkey= !$no_primary && (count($prim_key) == 1) ? $prim_key[0]->name: null; 
         $v_primkeyindex=count($prim_key) == 1 ? $prim_key[0]->index: null;
         $callback=is_callable($options) ? $options: igk_getv($options, self::CALLBACK_OPTS );
         $_nn=(igk_count($out->m_tables) > 1);

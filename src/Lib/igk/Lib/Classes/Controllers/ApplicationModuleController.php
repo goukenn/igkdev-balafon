@@ -25,6 +25,9 @@ final class ApplicationModuleController extends BaseController{
     {
         return null;
     }
+    public static function IsModule($controllerClass){
+        return is_object($controllerClass) && (get_class($controllerClass) == static::class) && strstr($controllerClass->getDeclaredDir(), igk_get_module_dir(),);
+    }
     /**
      * check if this module extends methods
      * @param mixed $method 
@@ -103,17 +106,19 @@ final class ApplicationModuleController extends BaseController{
                 }
                 igk_io_w2file($tf, $o);
             }
-        }
+        } 
+        $this->_initModuleClasses();
+
         $c=realpath($dir."/.module.pinc");
         if(file_exists($c)){
             $this->_init($c);
-        }
-
-        $classLib = $this->getDeclaredDir()."/Lib/Classes";
+        } 
        
-
+    }
+    private function _initModuleClasses(){
+        $dir = $this->getDeclaredDir();
+        $classLib = $dir."/Lib/Classes"; 
         if (is_dir($classLib)){
-            $dir = $this->getDeclaredDir();
             if (!empty($dir) &&  is_link($dir)){
                 $dir = @readlink($dir);
             } 
@@ -121,9 +126,7 @@ final class ApplicationModuleController extends BaseController{
                 $dir = "";
             } 
             $entry_ns =  str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($dir)));
-            $libdir=$classLib;
-            // igk_wln_e("entry namespace ", $entry_ns, $libdir);
-
+            $libdir=$classLib;  
             spl_autoload_register(function($n)use($entry_ns, $libdir){
               
                 $fc = "";
@@ -422,5 +425,10 @@ final class ApplicationModuleController extends BaseController{
     }
     public function getDataSchemaFile(){
         return ControllerExtension::getDataSchemaFile($this);
+    }
+
+    public function __toString()
+    {
+        return sprintf("%s - [%s]", __CLASS__, $this->getName());
     }
 }

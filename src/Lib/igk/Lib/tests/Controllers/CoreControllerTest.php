@@ -69,13 +69,11 @@ class CoreControllerTest extends ControllerBaseTestCase
         $sdir = sys_get_temp_dir()."/appController";
         IO::CreateDir($sdir);
         $c::setEnvParam("DeclaredDir", $sdir); 
-
-        igk_debug(1);
+ 
         $this->assertEquals(
             igk_io_baseuri()."/unittest/logintest",
             $c->getAppUri("logintest")
-        );
-        igk_debug(0);
+        ); 
         IO::RmDir($sdir);
     }
 }

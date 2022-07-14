@@ -22,7 +22,7 @@ class InstallSiteCommand extends AppExecCommand
 {
     var $command = "--install-site";
 
-    var $category = "make";
+    var $category = "sys";
 
     var $desc  = "create new site";
 

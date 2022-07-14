@@ -4,6 +4,7 @@ namespace IGK\System\Database\MySQL;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;  
 use IGK\Database\DbQueryRowObj;
+use IGK\Database\IDataDriver;
 use IGK\Database\IDbQueryFetchResult;
 use IGK\System\Polyfill\IteratorTrait;
 use IGKSorter;
@@ -25,6 +26,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     private $m_columns = [];
     private $m_tables = [];
     private $m_model;
+    private $m_driver;
     use IteratorTrait;
 
     public function getRowAtIndex($index) { 
@@ -37,6 +39,8 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
 
     public function handle($result){
         $this->m_result = $result; 
+        $this->m_fieldcount= igk_db_num_fields($result);
+        $this->m_rowcount = igk_db_num_rows($result);
         $this->init = false;
     }
     protected function _iterator_valid(){
@@ -61,13 +65,15 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     /**
      * 
      * @param mixed $query 
-     * @param \IGK\System\Database\MySQL\IGK\Models\ModelBase|null $model 
+     * @param IDataDriver $driver driver
+     * @param \IGK\System\Database\MySQL\IGK\Models\ModelBase $model source model
      * @return MYSQLQueryFetchResult 
      */
-    public static function Create($query, ?\IGK\Models\ModelBase $model=null){
+    public static function Create($query, IDataDriver $driver, ?\IGK\Models\ModelBase $model=null){
         $c = new self();
         $c->m_query = $query;
         $c->m_model = $model;
+        $c->m_driver = $driver; 
         return $c;
     }
     ///retult of the query  uses for boolean data
@@ -160,8 +166,8 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         if (!$dbresult)
             return false;
         if (!$this->init && $dbresult){
-            $this->m_fieldcount=igk_db_num_fields($dbresult);
-            $this->m_rowcount =igk_db_num_rows($dbresult);
+            $this->m_fieldcount= igk_db_num_fields($dbresult);
+            $this->m_rowcount = igk_db_num_rows($dbresult);
             $this->init = true;
           
         }
@@ -177,5 +183,13 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     }
     public function _iterator_next(){
         $this->fetch();
+    }
+
+    /**
+     * 
+     * @return null|object|DbQueryRowObj
+     */
+    public function row(): ?object{
+        return $this->m_rowdef;
     }
 }

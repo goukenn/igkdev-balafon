@@ -4,11 +4,16 @@
 namespace IGK\System\Database\MySQL;
 
 use Exception;
-use IGKException;
-use IGK\Database\DbQueryDriver;
+use IGKException; 
 use IGK\Database\SQLDataAdapter;
 use IGK\System\Database\MySQL\Controllers\MySQLDataController;
+use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
+
+
+// if (!defined(__FILE__)){
+
+//     define(__FILE__, 1);
 
 
 ///<summary>Represente class: DataAdapterBase</summary>
@@ -89,7 +94,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if ($this->m_dbManager != null) {
             $this->m_dbManager->close($leaveOpen);
             if ($this->m_dbManager->OpenCount() <= 0) {
-                $this->m_dbname = null;
+                $this->_setDbName(null);
             }
         }
     }
@@ -102,7 +107,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if ($this->m_dbManager) {
             $this->m_dbManager->closeAll();
         }
-        $this->m_dbname = null;
+        $this->_setDbName(null);
     }
     ///<summary></summary>
     /**
@@ -110,7 +115,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     public function closeCallback()
     {
-        $this->m_dbname = null;
+        $this->_setDbName(null);
     }
     ///<summary></summary>
     /**
@@ -140,6 +145,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     public function connect($dbnamemix = null, $selectdb = true)
     {
+       
         $this->makeCurrent();
         if (($this->m_dbManager == null) || (!$this->m_dbManager->connect())) {
             if (get_class($this->m_dbManager) != \IGK\System\Database\NoDbConnection::class) {
@@ -149,13 +155,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
                         "dbManager is null"
                 );
             } else {
-                igk_environment()->is("DEV") && igk_ilog("no db adapter available: " . igk_env_count(__METHOD__));
-            }
+                igk_environment()->isDev() && igk_ilog("no db adapter available: " . igk_env_count(__METHOD__));
+            }            
             return false;
         }
 
         $dbs = igk_get_env("sys://Db/NODBSELECT");
-        $dbname = $this->m_dbname;
+        $dbname = $this->m_dbname; 
+
         if (is_string($dbnamemix))
             $dbname = $dbnamemix;
 
@@ -165,9 +172,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
                 $this->close();
                 return false;
             }
-            $this->m_dbname = $dbname;
+            $this->_setDbName($dbname);
         }
         return true;
+    }
+    private function _setDbName($dbname){
+        $this->m_dbname = $dbname; 
     }
     ///<summary></summary>
     ///<param name="dbserver"></param>
@@ -293,7 +303,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     public function dropTable($tbname)
     {
-        if ($this->m_dbManager != null)
+        if (($this->m_dbManager != null) && $this->m_dbManager->isConnect())
             return MySQLDataController::DropTable($this, $tbname, $this->DbName);
         return null;
     }
@@ -330,8 +340,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
      * 
      */
-    public function getDbName()
+    public function getDbName(): ?string
     {
+        if (is_null($this->m_dbname)){
+            // must define database name
+            if (igk_environment()->isDev()){
+                igk_wln_e(__FILE__.":".__LINE__,  "DB Name is empty :: failed to connect ");
+            }
+        }
         return $this->m_dbname;
     }
     ///<summary></summary>
@@ -497,11 +513,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
      * 
      */
-    public function OpenCount()
+    public function openCount()
     {
         if ($this->m_dbManager)
-            return $this->m_dbManager->OpenCount();
+            return $this->m_dbManager->openCount();
         return 0;
+    }
+    public function isConnect(){
+        return $this->openCount() > 0;
     }
     ///<summary></summary>
     /**
@@ -532,7 +551,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if (($this->m_dbManager != null) && !empty($dbname)) {
             $r = $this->m_dbManager->selectdb($dbname);
             if ($r) {
-                $this->m_dbname = $dbname;
+                $this->_setDbName($dbname);
             } else {
                 if (!igk_sys_env_production()) {
                     igk_ilog(["can't select database \"{$dbname}\". Database not found.", __FILE__ . ":" . __LINE__]);
@@ -595,4 +614,27 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return $this->m_dbManager->update($tbname, $entries, $where, $querytabinfo);
     }
+
+    /**
+     * create able info query
+     * @param SQLGrammar $grammar 
+     * @param string $table 
+     * @param string $dbname 
+     * @return string 
+     * @throws IGKException 
+     */
+    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string
+    {
+        $query = $grammar->createSelectQuery(
+            "information_schema.columns",
+            [
+                "table_schema" => $dbname,
+                "table_name" => $table
+            ]
+        );
+        return $query;
+    }
 }
+
+
+// }

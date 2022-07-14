@@ -23,8 +23,15 @@ if (function_exists('igk_google_addfont')){
  
 $doc->getMetas()->description = "Configuration page";
 $doc->getMetas()->keywords = "balafon, configs, configspage";
+$doc->title = sprintf("%s - [%s]",
+__("Your BALAFON web App - admin dashboard"),
+   igk_configs()->website_domain
+);
+ ;
+if (igk_environment()->isDev() && (igk_env_count(__FILE__)>1)){
+    igk_dev_wln_e("config layout call twice");
+}
 
- 
 /**
  * @var object $t target node
  */
@@ -52,11 +59,11 @@ $android_menu["class"]="igk-mob-opts igk-sm-only";
 $android_menu["igk-data-menu"]=1;
 $android_menu["igk-data-menu-binding"]="#igk-cnf-menu";
 
-$h->div()->setClass("floatr alignb")->Content= __("Welcome, {0}", igk_app()->Configs->admin_login);
 $h->addClearBoth();
 
 $c = $t->section()->setClass("igk-cnf-section section"); 
 $c->add($confframe);
 $t->addClearBoth();
 
-$t->div()->setClass("igk-cnf-footer")->container()->addRow()->addCol("igk-col-3-3")->div()->Content=IGK_COPYRIGHT;
+$t->div()->setClass("igk-cnf-footer")
+->container()->addRow()->addCol("igk-col-3-3")->div()->Content=IGK_COPYRIGHT;

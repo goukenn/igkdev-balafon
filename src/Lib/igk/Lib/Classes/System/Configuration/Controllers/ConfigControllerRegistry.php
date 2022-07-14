@@ -34,22 +34,16 @@ class ConfigControllerRegistry{
     /**
     * 
     */
-    public static function InvokeRegisterComplete(){
-        if(self::$sm_regComplete){
-            // $ctime = igk_sys_request_time();
-            // $ttime = 0;
+    public static function InvokeRegisterComplete($context=null){
+        if(self::$sm_regComplete){ 
             foreach(self::$sm_regComplete as  $v){ 
                 Benchmark::mark(get_class()."::initComplete");
-                $v->initComplete();
-                Benchmark::expect(get_class()."::initComplete", 0.01 , 
-                sprintf("%s took too long", get_class($v)));
-                // $time = igk_sys_request_time();
-                // $duration = ($time-$ctime);
-                // $ttime += $duration;
-                // igk_wln("build : ".get_class($v). " : ". $time ." : ", $duration > 0.0005 ? "<div style='color:red' >mark : {$duration} </div>": $duration);
-                // $ctime = $time;
-            }
-            //igk_wln("duration:".$ttime," Count ".count(self::$sm_regComplete));
+                $v->initComplete($context);
+                Benchmark::expect(
+                    get_class()."::initComplete", 0.01 , 
+                        sprintf("%s took too long", get_class($v))
+                ); 
+            } 
         }
         self::$sm_regComplete=null;
     }

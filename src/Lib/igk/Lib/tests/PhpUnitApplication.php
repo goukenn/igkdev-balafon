@@ -1,10 +1,13 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: PhpUnitApplication.php
+// @date: 20220620 13:53:43
+// @desc: Entry unit test application
 
 /**
  * represent the php unit test application
  * @package 
  */
-
 class PhpUnitApplication extends IGKApplicationBase{
     public function bootstrap() { 
         $this->library("mysql");

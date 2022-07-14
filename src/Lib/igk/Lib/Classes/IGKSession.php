@@ -80,6 +80,13 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $tab;
     }
+    /**
+     * get session id
+     * @return string|false 
+     */
+    public function id(){
+        return session_id();
+    }
     ///<summary></summary>
     ///<param name="key"></param>
     ///<param name="value"></param>

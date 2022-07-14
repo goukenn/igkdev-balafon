@@ -273,7 +273,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         return null;
     }
    
-    protected function initComplete()
+    protected function initComplete($context=null)
     {
         parent::initComplete();
         if (igk_environment()->app_type != "balafon"){
@@ -286,6 +286,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     }
     ///insert data base
     /**
+     * Initialize default users
     */
     protected function initDataEntry(){
          
@@ -302,6 +303,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             "clLevel"=>"-1",
             "clStatus"=>1,
             "clDate"=>$now,
+            "clGuid"=>igk_create_guid()
         )); 
         Users::create( array(
             "clLogin"=>"test@".$d,
@@ -311,7 +313,8 @@ class UsersConfigurationController extends ConfigControllerBase {
             "clLevel"=>"1",
             "clStatus"=>0,
             "clDate"=>$now,
-            "clLocale"=>"fr"
+            "clLocale"=>"fr",
+            "clGuid"=>igk_create_guid()
         ));
         Users::create(array(
             "clLogin"=>"info@".$d,
@@ -321,7 +324,8 @@ class UsersConfigurationController extends ConfigControllerBase {
             "clLevel"=>"1",
             "clStatus"=>0,
             "clDate"=>$now,
-            "clLocale"=>"fr"
+            "clLocale"=>"fr",
+            "clGuid"=>igk_create_guid()
         ));
         Users::create(array(
             "clLogin"=>IGK_USER_LOGIN,
@@ -331,7 +335,8 @@ class UsersConfigurationController extends ConfigControllerBase {
             "clLevel"=>"0",
             "clStatus"=>1,
             "clDate"=>$now,
-            "clLocale"=>"en"
+            "clLocale"=>"en",
+            "clGuid"=>igk_create_guid(),
         ));
         Users::create( array(
             "clLogin"=>"igk.system@igkdev.com",
@@ -341,7 +346,8 @@ class UsersConfigurationController extends ConfigControllerBase {
             "clLevel"=>"0",
             "clStatus"=>0,
             "clDate"=>$now,
-            "clLocale"=>"fr"
+            "clLocale"=>"fr",
+            "clGuid"=>igk_create_guid(),
         )); 
     }
      

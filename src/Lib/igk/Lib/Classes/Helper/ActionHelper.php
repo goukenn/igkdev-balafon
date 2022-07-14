@@ -33,11 +33,26 @@ abstract class ActionHelper{
      * @return void 
      */
     public static function BindRequestArgs($object, $action, & $args){
-        $g = new ReflectionMethod($object, $action); 
+        $g = new ReflectionMethod($object, $action);  
         if (($g->getNumberOfRequiredParameters() == 1) && ($cl = $g->getParameters()[0]->getType()) && igk_is_request_type($cl)) {
             $req = \IGK\System\Http\Request::getInstance();
             $req->setParam($args);
             $args = [$req];
         } 
+    }
+    /**
+     * handle args helper 
+     * @param string $fname 
+     * @param array $handleArgs 
+     * @return bool 
+     */
+    public static function HandleArgs(string $fname , array & $handlerArgs, string $entryName=IGK_DEFAULT):bool{        
+        if ((strpos($fname, "/") !== false) && !igk_str_endwith($fname, $entryName)) {
+            if (!empty($tb = array_slice(explode("/", $fname), -1)[0])) {
+                array_unshift($handlerArgs, $tb);
+            }
+            return true;
+        }
+        return false;
     }
 }

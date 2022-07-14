@@ -41,19 +41,19 @@ final class IGKModuleListMigration extends BaseController{
         self::$sm_instance = new self();
         $fc = BaseController::getMacro("resetDb");
         foreach(self::$sm_list as $l){
-            Logger::info("reset db .... ".$l->getName());
+            Logger::info("reset module db .... ".$l->getName());
             self::$sm_instance->host = $l;
             $fc(self::$sm_instance, $navigate, $force);
-
             ControllerExtension::migrate(self::$sm_instance);
         } 
+        return true;
     }
     public function __call($n, $argument){ 
         if ($this->host){
             return call_user_func_array([$this->host, $n ],  $argument);
         }
         else {
-            if (igk_environment()->is("DEV")){
+            if (igk_environment()->isDev()){
                 igk_trace();
                 igk_wln_e("try call :::".$n);
             }
