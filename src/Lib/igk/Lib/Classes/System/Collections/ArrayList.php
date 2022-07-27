@@ -61,7 +61,7 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
     }
    
     protected function _access_OffsetSet($n, $v){
-        if ($v==null){
+        if ($v===null){
             if($n !== null){
                 unset($this->m_data[$n]);
             }

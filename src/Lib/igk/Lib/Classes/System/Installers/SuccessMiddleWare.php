@@ -12,6 +12,7 @@ use IGK\Helper\IO;
 
 use function igk_resources_gets as __;
 
+
 ///<summary>Represente class: SuccessMiddleWare</summary>
 /**
 * Represente SuccessMiddleWare class
@@ -32,8 +33,8 @@ final class SuccessMiddleWare extends InstallerActionMiddleWare{
     * 
     */
     public function invoke(){
-        $srv=$this->getService();
-        if(is_dir($libdir= dirname($this->getService()->LibDir)."/__tempigk")){
+        $srv=$this->getServiceInfo();
+        if(is_dir($libdir= dirname($srv->LibDir)."/__tempigk")){
             if(!is_dir($vdir=dirname($libdir)."/igk.bck".$srv->Version)){
                 $srv->Listener->write(__("Backup previous version"));
                 rename($libdir, $vdir);

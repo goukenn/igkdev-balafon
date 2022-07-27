@@ -6,6 +6,7 @@
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands;
 
+use IGK\Controllers\BaseController;
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
@@ -15,9 +16,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $command = "--sync:project";
     var $desc = "sync project through ftp configuration";
     var $category = "sync";
-
-    var $help = "--[list|restore[:foldername] --clearcache";
-
+    var $help = "--[list|restore[:foldername] --clearcache  --zip";
+    /**
+     * use zip to indicate 
+     * @var bool
+     */
+    var $use_zip;
     private $remove_cache = false;
 
     public function exec($command, ?string $project = null)
@@ -28,9 +32,10 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
-                "");
+            "");
 
         $this->remove_cache = property_exists($options, "--clearcache");
+        $this->use_zip = property_exists($options, "--zip");
 
 
         if (is_null($project)) {
@@ -41,15 +46,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             Logger::danger("project not found");
             return -2;
         }
-
-
-
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
         }
-
-
-
         switch ($arg) {
             case "l":
                 // list release
@@ -59,8 +58,14 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 $this->_restoreRelease($h, $project, $setting);
                 break;
             default:
+            if ($this->use_zip){
+                $controller = null;
+                $this->_installZipProject($controller);
+               
+            } else {
+             
                 // sync project
-
+                $exclude = [];
                 $g = ftp_nlist($h, $setting["path"]);
                 $o_dir = $setting["path"] . "/" . $project;
                 if (!in_array($project, $g)) {
@@ -80,12 +85,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 $fc = function ($f, array &$excludedir = null) {
                     $dir = dirname($f);
                     if ($excludedir) {
-                        if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {                      
+                        if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {
                             $excludedir[] = $dir;
                             return false;
                         }
                     }
-                    if (preg_match("#\.(git(.+)?|vscode|balafon)$#", $dir)) {
+                    if (preg_match("#\.(git(.+)?|vscode|balafon|DS_Store)$#", $dir)) {
                         return false;
                     }
                     if (preg_match("#(phpunit(.+(\.(yml|dist))$)|\.(git(.+)?|vscode|balafon)$)#", $f)) {
@@ -107,6 +112,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 $this->removeCache($h, $setting["application_dir"]);
 
                 Logger::success("sync project ... " . $o_dir);
+            }
                 break;
         }
         ftp_close($h);
@@ -177,4 +183,14 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             $this->removeCache($ftp, $setting["application_dir"]);
         }
     }
+
+    private function _installZipProject($controller){
+        
+        $file = tempnam(sys_get_temp_dir(), "blf");
+
+        igk_sys_zip_project($controller, $file);
+
+        Logger::info("done : ".$file);
+    }
+
 }

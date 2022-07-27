@@ -45,11 +45,11 @@ class MockInstaller extends BalafonInstaller{
 
         $action->process();
     }
-    protected function init_installer(InstallerMiddleWareActions $action)
+    protected function init_installer(InstallerMiddleWareActions $service)
     {
-        $action->add(new Action1MiddelWare());
-        $action->add(new Action3MiddelWare());
-        $action->add(new Action2MiddelWare());
+        $service->add(new Action1MiddelWare());
+        $service->add(new Action3MiddelWare());
+        $service->add(new Action2MiddelWare());
     }
 }
 abstract class MockActionBase implements  IMiddleWareAction{

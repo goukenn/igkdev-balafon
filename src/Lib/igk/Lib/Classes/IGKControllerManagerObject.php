@@ -430,7 +430,6 @@ final class IGKControllerManagerObject extends IGKObject
      */
     private function classProjectStore()
     {
-
         $f = self::FileProjectCtrlCache();
         $m = "";
         $p = $this->getUserControllers();

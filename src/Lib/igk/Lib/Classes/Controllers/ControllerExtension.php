@@ -428,6 +428,16 @@ abstract class ControllerExtension
         return $name;
     }
     /**
+     * get type name
+     * @param string $t 
+     * @return string 
+     */
+    private static function _GetTypeName(string $t):string{
+        $name = preg_replace("/\\s/", "_", $t);
+        $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
+        return $name;
+    }
+    /**
      * initialize controller database models
      * @param BaseController $ctrl 
      * @param bool $force 
@@ -450,8 +460,7 @@ abstract class ControllerExtension
                 //remove prefix
                 $gs = !empty($ns) && strpos($k, $ns) === 0;
                 $t =  $gs ? str_replace($ns, "", $k) : $k;
-                $name = preg_replace("/\\s/", "_", $t);
-                $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
+                $name = self::_GetTypeName($t);
                 //generate class name 
 
                 $file = $c . $name . ".php";
@@ -603,6 +612,20 @@ abstract class ControllerExtension
     {
         return $ctrl->getConfigs()->get("clDisplayName", get_class($ctrl));
     }
+
+    /**
+     * 
+     * @param mixed $cinfo 
+     * @return string 
+     */
+    private static function _GetTypeFromInfo($cinfo){
+        $p = ["mixed"];
+        if ($cinfo->clLinkType){
+            $p[] = self::_GetTypeName($cinfo->clLinkType);
+        } 
+        $p[] = strtolower($cinfo->clType);
+        return implode("|", $p);
+    }
     private static function GetModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl)
     {
         $ns =  self::ns($ctrl, "");
@@ -645,7 +668,11 @@ abstract class ControllerExtension
             if ($cinfo->getIsRefID()) {
                 $refkey = $cinfo->clName;
             }
-            $php_doc .= "@property mixed $" . $cinfo->clName . "\n";
+
+            // + get property type
+            $pr_type =  self::_GetTypeFromInfo($cinfo); 
+
+            $php_doc .= "@property ".$pr_type." $" . $cinfo->clName . "\n";
         }
         if ($key != "clId") {
             if (is_array($key)) {
@@ -1328,7 +1355,7 @@ abstract class ControllerExtension
     public static function bindCssStyle(BaseController $controller)
     {
         $doc = self::getCurrentDoc($controller);
-        if (!empty($file = $controller->getPrimaryCssFile()))  
+        if ($doc && !empty($file = $controller->getPrimaryCssFile()))  
         {      
             return igk_ctrl_bind_css_file($controller, $doc, $file); 
         }

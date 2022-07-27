@@ -69,18 +69,21 @@ class WebResponse extends RequestResponse{
         $s = ob_get_clean();   
         $zip = igk_server()->accepts(["gzip"]);        
       
-        igk_set_header($this->code, $this->getStatus($this->code), $this->headers);
+        igk_set_header($this->code, $this->getStatus($this->code), $this->headers); 
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
             list($uri, $zip) = IGKCaches::CacheUri();                      
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
+
+  
             if ($zip){
                 ob_start();
                 igk_zip_output($s, 0, 1);
                 $s = ob_get_clean();
             }
+            
             // + |----------------------------------------------------------------
             // + | cache document for zip and no zip content
             igk_io_w2file(

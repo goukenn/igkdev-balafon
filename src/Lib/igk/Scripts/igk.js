@@ -21782,8 +21782,7 @@ igk.system.createNS("igk.system", {
 // // }
 // }
 // });
-// };
-// igk.publisher.register('sys://html/doc/scroll', m.callback);
+// }; 
 // // igk.winui.reg_event(window, 'scroll', function(){
 // // });
 // });

@@ -32,7 +32,7 @@ igk.system.createNS("igk.core", {
 				q.setHtml('');
 				if (e.data == 'ok'){
 					// reload on finish
-					document.location.reload(true);
+					document.location.reload(true);					
 				} 
 			});
 			 
@@ -52,8 +52,12 @@ igk.system.createNS("igk.core", {
 	if (!_s)
 		_s = "Progress:";
 	var q = $igk(t).first();
-	return function(e){ 
-		q.setHtml(_s+( Math.round((e.loaded / e.total) * 100)) + "%");
-	};
+	if (q){
+		return function(e){ 
+			q.setHtml(_s+( Math.round((e.loaded / e.total) * 100)) + "%");
+		};
+	} else {
+		console.log('failed to get ' + t );
+	}
 }}); 
 })();

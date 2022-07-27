@@ -8,18 +8,25 @@
 namespace IGK\Controllers;
 
 use IGK\Helper\ViewHelper;
+use IGK\System\WinUI\IViewLayoutLoader;
+
 use function igk_resources_gets as __;
 
 /**
  * view layout loader
  * @package IGK\Controllers
  */
-class ViewLayoutLoader{
+class ViewLayoutLoader implements IViewLayoutLoader{
     private $m_controller;
 
     var $header;
 
     var $footer;
+
+    public function getController(): BaseController
+    {
+        return $this->m_controller;
+    }
 
     public function __construct(BaseController $controller)
     {

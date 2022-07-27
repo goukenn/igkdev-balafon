@@ -200,9 +200,11 @@ class UsersConfigurationController extends ConfigControllerBase {
     /**
     * 
     */
-    public function getDataTableName(){
- 
-        return Users::table();
+    public function getDataTableName(){ 
+        return igk_db_get_table_name(IGK_TB_USERS);
+    }
+    protected function getUseDataSchema() {
+        return true;
     }
     ///<summary></summary>
     /**

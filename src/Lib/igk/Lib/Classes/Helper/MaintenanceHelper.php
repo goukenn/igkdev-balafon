@@ -60,9 +60,9 @@ EOF
             }
         }
 
+        $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
         if (!file_exists($index = $bdir . "/index.php")){
             // install index file ...
-            $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
             igk_io_w2file(
                 $index,
                 InstallerUtils::GetEntryPointSource([
@@ -75,10 +75,9 @@ EOF
 
         if (!file_exists($h = $bdir . "/.htaccess")){
             // install index file ...
-            $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
             igk_io_w2file(
                 $h,
-                igk_getbase_access()
+                igk_getbase_access(igk_io_basedir())
             );
         }
         unlink($lock);

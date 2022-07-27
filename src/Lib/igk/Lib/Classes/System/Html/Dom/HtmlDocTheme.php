@@ -139,7 +139,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
     public function bindFile($file)
     {
-        igk_css_bind_file(null, $file, $this);
+        igk_css_bind_file(igk_app()->getDoc(), null, $file, $this);
     }
     ///<summary>convert data to array</summary>
     /**
@@ -154,11 +154,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             $def = $m->to_array();
             if (count($def) == 0)
                 continue;
-            //if ($id = $m->getId()){
-            $medias[$id] = $def;
-            // }
-            // else 
-            //     $medias[] = $def;
+            $medias[$id] = $def;          
         }
         if (0 != count($medias)) {
             $out["medias"] = $medias;
@@ -198,7 +194,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @param mixed $doc the default value is null
      * @param $systheme parent theme
      */
-    private function _get_css_def($indent = true, $themeexport = false, ?ICssStyleContainer $systheme = null)
+    private function _get_css_def(IGKHtmlDoc $doc, $indent = true, $themeexport = false, ?ICssStyleContainer $systheme = null)
     {
         $lineseparator = $indent ? IGK_LF : IGK_STR_EMPTY;
         $out = IGK_STR_EMPTY;
@@ -331,7 +327,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 foreach ($v_csstmpfiles as $k) {
                     $k = igk_io_expand_path($k);
                     IGKOb::Start();
-                    igk_css_bind_file(null, $k, $vtemp);
+                    igk_css_bind_file($doc, null, $k, $vtemp);
                     $m = IGKOb::Content();
                     IGKOb::Clear();
                     $h = $vtemp->get_css_def($indent, $themeexport);
@@ -613,7 +609,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $is_root = $this === $systheme;
         $parent = $is_root ? null : (($this->parent instanceof self) && ($this->parent !== $this) ? $this->parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
-        $out =  $this->_get_css_def(!$minfile, $themeexport, $parent); // systheme);
+        $out =  $this->_get_css_def($doc, !$minfile, $themeexport, $parent); // systheme);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
 
         if ($this->m_medias) {
@@ -1029,7 +1025,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function reset($save = false)
     {
-        // igk_wln(__FILE__.':'.__LINE__);
+        // igk_trace();
+        // igk_wln(__FILE__.':'.__LINE__, "reset call");
+        // exit;
+        
         $this->def->Clear();
         $cl = & $this->getCl();//->Clear();
         array_slice($cl, count($cl));

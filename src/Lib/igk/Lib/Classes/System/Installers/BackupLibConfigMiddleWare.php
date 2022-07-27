@@ -21,16 +21,14 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
         return __("backup library configuration");
     }
     public function invoke(){
-        $f = implode("/", [IGK_LIB_DIR, IGK_DATA_FOLDER, "config.xml"]);
-        // igk_debug_wln("invoke : ", $f);
+        $service = $this->getServiceInfo();        
+        $f = implode("/", [$service->Listener->LibDir, IGK_DATA_FOLDER, "config.xml"]);
+        
         if (file_exists($f)){
             $this->m_config = tempnam(sys_get_temp_dir(), "igk");
             copy($f, $this->m_config);
-            // igk_debug_wln("the pass : ", file_get_contents($f),  
-            // "config ==== ", 
-            // file_get_contents($this->m_config), 
-            // $this->m_config);
-            igk_reg_hook(SuccessMiddleWare::EVENT, function()use($f){                
+            igk_reg_hook(SuccessMiddleWare::EVENT, function()use($f){  
+                $this->getServiceInfo()->Listener->write("restore config info");
                 rename($this->m_config, $f);
             });
         }
@@ -38,6 +36,6 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
     }
     public function abort()
     {
-        parent::abort();
+        return parent::abort();
     }
 }

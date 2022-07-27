@@ -81,6 +81,8 @@ class CssThemeCompiler{
                 $cfile = igk_io_expand_path($cfile);
                 $files = explode(";", $cfile);
                 foreach($files as $f){
+                    if (!file_exists($f))
+                        continue;
                     if (filemtime($f) > $mtime){
                         $must_recompile = true;  
                         break;

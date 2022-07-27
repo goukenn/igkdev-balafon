@@ -146,6 +146,7 @@ class BalafonApplication extends IGKApplicationBase
 
         $this->library("zip");
         $this->library("mysql");
+        $this->library("curl");
         igk_hook("console::app_cli_bootstrap", $this);
     }
 

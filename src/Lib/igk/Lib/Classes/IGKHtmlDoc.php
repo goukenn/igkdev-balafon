@@ -218,7 +218,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         if ($theme = igk_environment()->get($key)){
             return $theme;
         }
-        $theme = new  HtmlDocTheme($this, "css://inline_theme");
+        $theme = new  HtmlDocTheme(null, "css://inline_theme");
         igk_environment()->set($key, $theme);
         return $theme;
     }

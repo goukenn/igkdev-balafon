@@ -13,7 +13,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess{
     use ArrayAccessSelfTrait; 
     // protected $preserverKeys = true;
     private $m_protectedList;
-
+    var $add_listener;
     /**
      * activate attribute
      * @param mixed $n 
@@ -68,12 +68,16 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess{
     }
     protected function _access_OffsetSet($n, $v)
     {
+        if (!is_null($this->add_listener)){
+            $fc = $this->add_listener;
+            $fc($n) || igk_die("can't update attribute : ".$n);
+        } 
         if ($this->m_protectedList && isset($this->m_protectedList[$n])){
             $this->m_protectedList[$n]->setValue($v);
             return $this;
         }
-        else  
-            return parent::_access_OffsetSet($n, $v);
+       
+        return parent::_access_OffsetSet($n, $v);
         
     }
     protected function _access_OffsetUnset($n)

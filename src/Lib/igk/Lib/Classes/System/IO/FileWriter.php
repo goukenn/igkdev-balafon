@@ -54,7 +54,7 @@ class FileWriter{
                     if(IGKApp::IsInit()){
                         igk_notify_error("/!\\ chmod failed ". $filename. " : ".$chmod);
                     }
-                } 
+                }  
                 igk_ilog(__METHOD__."  -> chmodfailed :::".$filename.":".$chmod); 
             }
         }

@@ -9,272 +9,351 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Installers;
 
+use ClearCacheCommand;
 use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\MaintenanceHelper;
 use IGK\System\Html\HtmlReader;
+use IGKControllerManagerObject;
 use SuccessMiddleWare as GlobalSuccessMiddleWare;
 
 use function igk_resources_gets as __;
 
 ///<summary>Represente class: BalaffonInstallerMiddelWare</summary>
 /**
-* Represente BalaffonInstallerMiddelWare class
-*/
-class BalafonInstallerMiddelWare extends InstallerActionMiddleWare{
+ * Represente BalaffonInstallerMiddelWare class
+ */
+class BalafonInstallerMiddelWare extends InstallerActionMiddleWare
+{
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getMessage(){
+     * 
+     */
+    public function getMessage()
+    {
         return "start installer";
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        $service=$this->getService();
+     * 
+     */
+    public function invoke()
+    {
+        $service = $this->getServiceInfo();
+        $service->Listener->write("LibInfo : libDir = " . $service->LibDir);
         try {
             $this->next();
+        } catch (Exception $ex) {
+            $service->Success = false;
+            $service->error = $ex->getMessage();
         }
-        catch(Exception $ex){
-            $this->getService()->Success=false;
-        }
-        if($this->getService()->Success){
+        if ($this->getServiceInfo()->Success) {
             $service->Listener->write(__("Success"));
-        }
-        else{
+        } else {
             $this->abort();
         }
     }
 }
 ///<summary>Represente class: ClearCacheMiddleWare</summary>
 /**
-* Represente ClearCacheMiddleWare class
-*/
-class ClearCacheMiddleWare extends InstallerActionMiddleWare{
-  
+ * Represente ClearCacheMiddleWare class
+ */
+class ClearCacheMiddleWare extends InstallerActionMiddleWare
+{
+
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getMessage(){
+     * 
+     */
+    public function getMessage()
+    {
         return __("Clear cache ...");
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        if(is_dir($cachedir=$this->getService()->CacheDir)){
-            IO::RmDir($cachedir);
+     * 
+     */
+    public function invoke()
+    {
+        $l = $this->getServiceInfo()->Listener;        
+        if (($l->installDir == IGK_LIB_DIR) && is_dir($cachedir = $l->CacheDir)){
+            $l->write("remove cache folder");
+            IGKControllerManagerObject::ClearCache();
+            IO::RmDir($cachedir);            
         }
         $this->next();
     }
 }
 ///<summary>Represente class: ErrorHandleMiddleWare</summary>
 /**
-* Represente ErrorHandleMiddleWare class
-*/
-class ErrorHandleMiddleWare extends InstallerActionMiddleWare{
+ * Represente ErrorHandleMiddleWare class
+ */
+class ErrorHandleMiddleWare extends InstallerActionMiddleWare
+{
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
+     * 
+     */
+    public function invoke()
+    {
         try {
             $this->next();
-        }
-        catch(Exception $ex){
-            $this->getService()->Success=0;
+        } catch (Exception $ex) {
+            $this->getServiceInfo()->Success = 0;
         }
     }
 }
 ///<summary>Represente class: ExtractLibaryMiddleWare</summary>
 /**
-* Represente ExtractLibaryMiddleWare class
-*/
-class ExtractLibaryMiddleWare extends InstallerActionMiddleWare{
+ * Represente ExtractLibaryMiddleWare class
+ */
+class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
+{
     ///<summary></summary>
     /**
-    * 
-    */
-    public function abort(){
-        $lib=$this->getService()->LibDir;
-        if(is_dir($lib)){
+     * 
+     */
+    public function abort()
+    {
+        $lib = $this->getServiceInfo()->Listener->LibDir;
+        if (is_dir($lib)) {
             IO::RmDir($lib);
         }
         parent::abort();
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getMessage(){
+     * 
+     */
+    public function getMessage()
+    {
         return __("Extract Core Library");
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        if(!file_exists($zip=$this->getService()->CoreZip)){
-            return;
-		}
-        $s=igk_zip_unzip_filecontent($zip, "manifest.xml");
-        if(empty($s))
-            return;
-        $xml=HtmlReader::Load($s, "xml");
-        $obj=igk_createobj();
-        igk_conf_load($obj, $xml);
-        $manifest=igk_conf_get($obj, "manifest");
-        if(igk_conf_get($manifest, "appName") != IGK_PLATEFORM_NAME){
-            return;}
-        $version=igk_conf_get($manifest, "version");
-        $lib=$this->getService()->LibDir;
-        IO::CreateDir($lib);
-        if(!igk_zip_unzip(igk_html_uri($zip), $lib."/../../", "#^Lib/igk#")){
+     * 
+     */
+    public function invoke()
+    {
+        $service = $this->getServiceInfo();
+        if (!file_exists($zip = $service->Listener->CoreZip)) {
+            $service->Listener->write("missing zip file");
             return;
         }
+        $s = igk_zip_unzip_filecontent($zip, "manifest.xml");
+        if (empty($s)) {
+            $service->Listener->write("manifest.xml is empty");
+            return;
+        }
+        $xml = HtmlReader::Load($s, "xml");
+        $obj = igk_createobj();
+        igk_conf_load($obj, $xml);
+        $manifest = igk_conf_get($obj, "manifest");
+        if (igk_conf_get($manifest, "appName") != IGK_PLATEFORM_NAME) {
+            $service->Listener->write("no appName or missing " . IGK_PLATEFORM_NAME);
+            return;
+        }
+
+        $version = igk_conf_get($manifest, "version");
+        if (!$version) {
+            $service->Listener->write("missing version in manifest");
+            return;
+        }
+        $lib = $service->Listener->installDir;
+        IO::CreateDir($lib);
+        $_ind = tempnam(dirname($lib), "balafonInstaller");
+        $service->Listener->write("data:" . $lib);
+        $service->Listener->write("temp:" . $_ind);
+        @unlink($_ind);
+        IO::CreateDir($_ind . "/Lib/igk");
+
+        $service->Listener->write(__("extracting..."));
+        $is_dev = igk_environment()->isDev();
+        if (!igk_zip_unzip(igk_html_uri($zip), $_ind, function ($e) use ($service, $is_dev) {
+            if (preg_match("#^Lib/igk#", $e)) {
+                $is_dev && $service->Listener->write("file:" . $e);
+                return true;
+            }
+        })) {
+            return;
+        }
+        $src = $_ind . "/Lib/igk";
+        $service->Listener->write(__("rename file to"));
+        $service->Listener->write($src);
+        $service->Listener->write($lib);
+        if (is_dir($lib)) {
+            IO::RmDir($lib);
+        }
+        rename($src, $lib);
+        IO::RmDir($_ind);
+        $service->Listener->write(__("extract complete"));
         $this->next();
     }
 }
 ///<summary>Represente class: FailedMiddleWare</summary>
 /**
-* Represente FailedMiddleWare class
-*/
-class FailedMiddleWare extends InstallerActionMiddleWare{
+ * Represente FailedMiddleWare class
+ */
+class FailedMiddleWare extends InstallerActionMiddleWare
+{
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        $this->getService()->Success=1;
+     * 
+     */
+    public function invoke()
+    {
+        $this->getServiceInfo()->Success = 1;
     }
 }
 ///<summary>Represente class: InstallerEventMessageMiddleWare</summary>
 /**
-* Represente InstallerEventMessageMiddleWare class
-*/
-class InstallerEventMessageMiddleWare extends InstallerActionMiddleWare{
+ * Represente InstallerEventMessageMiddleWare class
+ */
+class InstallerEventMessageMiddleWare extends InstallerActionMiddleWare
+{
     var $host;
     ///<summary></summary>
     ///<param name="host"></param>
     /**
-    * 
-    * @param mixed $host
-    */
-    public function __construct($host){
-        $this->host=$host;
+     * 
+     * @param mixed $host
+     */
+    public function __construct($host)
+    {
+        $this->host = $host;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function abort(){
-        $msg=$this->host->getMessage();
-        igk_flush_write("aborting ... ". $msg);
+     * 
+     */
+    public function abort()
+    {
+        $msg = $this->host->getMessage();
+        igk_flush_write("aborting ... " . $msg);
         igk_flush_data();
         parent::abort();
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        $msg=$this->host->getMessage();
+     * 
+     */
+    public function invoke()
+    {
+        $msg = $this->host->getMessage();
         igk_flush_write($msg);
         igk_flush_data();
         $this->next();
     }
 }
-///<summary>Represente class: MaintenaceLibMiddleWare</summary>
+///<summary>put site in maintenance mode</summary>
 /**
-* Represente MaintenaceLibMiddleWare class
-*/
-class MaintenaceLibMiddleWare extends InstallerActionMiddleWare{
+ * put site in maintenance mode
+ */
+class MaintenaceLibMiddleWare extends InstallerActionMiddleWare
+{
+    private $_lock;
     ///<summary></summary>
     /**
-    * 
-    */
-    private function __unlock(){
-        if (is_dir($bdir=$this->getService()->BaseDir)){
-            MaintenanceHelper::UnlockSite($bdir);       
+     * 
+     */
+    private function __unlock()
+    {
+        if (is_dir($bdir = $this->getServiceInfo()->BaseDir)) {
+            MaintenanceHelper::UnlockSite($bdir);
+            $this->_lock = false;
         }
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function abort(){
-        $this->__unlock();
+     * 
+     */
+    public function abort()
+    {
+        if ($this->_lock){
+            $this->__unlock();
+        }
         parent::abort();
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getMessage(){
+     * 
+     */
+    public function getMessage()
+    {
         return __("put site on 'maintenance mode'");
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        $bdir=$this->getService()->BaseDir;
-        \IGK\Helper\MaintenanceHelper::LockSite($bdir);       
+     * 
+     */
+    public function invoke()
+    {
+        $l = $this->getServiceInfo()->Listener;
+        $bdir = $this->getServiceInfo()->Listener->BaseDir;
+        if ($l->installDir == IGK_LIB_DIR){
+            \IGK\Helper\MaintenanceHelper::LockSite($bdir);
+            $this->_lock = true;
+        }
         $this->next();
-        if($this->getService()->Success){
-            $this->getService()->Listener->write("unlock 'maintenance mode'");
+        if ($this->getServiceInfo()->Success && $this->_lock) {
+            $l->write("unlock 'maintenance mode'");
             $this->__unlock();
         }
     }
+    
 }
 ///<summary>Represente class: RenameLibaryMiddleWare</summary>
 /**
-* Represente RenameLibaryMiddleWare class
-*/
-class RenameLibaryMiddleWare extends InstallerActionMiddleWare{
-    private function getTempDir(){
-        return dirname($this->getService()->LibDir)."/__tempigk";        
+ * Represente RenameLibaryMiddleWare class
+ */
+class RenameLibaryMiddleWare extends InstallerActionMiddleWare
+{
+    private function getTempDir()
+    {
+        return dirname($this->getServiceInfo()->LibDir) . "/__tempigk";
     }
     ///<summary></summary>
     /**
-    * restaure tempory directory
-    */
-    public function abort(){
-        $libdir= $this->getTempDir();
-        if(is_dir($libdir) ){
-            $g = dirname($libdir)."/igk";
-            if (!is_dir($g)){
-                rename($libdir, $g); 
+     * restaure tempory directory
+     */
+    public function abort()
+    {
+        $libdir = $this->getTempDir();
+        if (is_dir($libdir)) {
+            $g = dirname($libdir) . "/igk";
+            if (!is_dir($g)) {
+                rename($libdir, $g);
             }
         }
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getMessage(){
+     * 
+     */
+    public function getMessage()
+    {
         return "rename library";
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function invoke(){
-        $libdir=$this->getService()->LibDir;
-        if(is_dir($libdir)){
-            $g =  dirname($libdir)."/__temp".basename($libdir);
-            if (is_dir($g)){
-                IO::RmDir($g);
+     * 
+     */
+    public function invoke()
+    {
+        $l = $this->getServiceInfo()->Listener;
+        $libdir = $l->LibDir;
+        $installdir = $l->installDir;
+        if ($installdir == IGK_LIB_DIR) {
+            if (is_dir($libdir)) {
+                $g = $this->getTempDir();
+                if (is_dir($g)) {
+                    IO::RmDir($g);
+                }
+                rename($libdir, $g);
             }
-            rename($libdir,$g);
+        } else {
+            $l->write("not in core lib update");
         }
         $this->next();
     }
 }
-
-

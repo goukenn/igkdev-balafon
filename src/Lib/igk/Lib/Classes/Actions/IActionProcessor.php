@@ -10,5 +10,5 @@ namespace IGK\Actions;
  * @package IGK\Actions
  */
 interface IActionProcessor{
-
+    function getHost();
 }

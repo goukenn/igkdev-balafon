@@ -136,8 +136,7 @@ abstract class MiddlewireActionBase extends IGKActionBase{
                                 $name = $name.$f; 
                                 return $this->$name(...$arguments);
                             }
-                        } 
-                        igk_wln_e("will call" , $name);
+                        }  
                         // no controller task setup
                         return null;
                     }
@@ -162,6 +161,6 @@ abstract class MiddlewireActionBase extends IGKActionBase{
      * @return void 
      */
     protected function invoke($route, $args){
-
     }
+   
 }

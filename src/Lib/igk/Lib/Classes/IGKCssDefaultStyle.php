@@ -120,6 +120,10 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     }
     ///<summary></summary>
     public function Clear(){
+        // if (igk_is_debug()){
+        //     igk_trace();
+        //     igk_debug_wln_e("clear all data ");
+        // }
         if($this->_) while(count($this->_) > 0)
             array_pop($this->_);
     }
@@ -142,7 +146,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     public function getBindTempFiles($clear=0){
         $r=igk_getv($this->_, self::FILES_BIND_TEMP_RULE);
         if($r && $clear){
-            $this->_[self::FILES_BIND_TEMP_RULE]=null;
+            unset($this->_[self::FILES_BIND_TEMP_RULE]);//=null;
         }
         return $r;
     }
@@ -221,6 +225,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
             $gcp = $g;
             $g = [];
             $g = & $gcp;
+            unset($this->_[self::TEMP_FILES_RULE]);
         }
         return $g;
     }

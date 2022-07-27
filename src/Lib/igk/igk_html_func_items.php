@@ -934,16 +934,20 @@ function igk_html_node_arraylist($list, $tag = "li", $callback = null)
 /**
  * bind article
  */
-function igk_html_node_article($ctrl, $name, $raw = [], $showAdminOption = 1)
+function igk_html_node_article(?BaseController $ctrl=null, ?string $name=null, $raw = [], $showAdminOption = 1)
 {
+    if (is_null($ctrl) && is_null($name)){
+        return new HtmlNode("article");
+    }
     $n = igk_html_node_notagnode();
     if ($ctrl === null) {
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
     }
-    
-
     igk_html_article($ctrl, trim($name), $n, $raw, null, true, true, $showAdminOption);
     return $n;
+}
+function igk_html_node_webarticle(){
+    return igk_create_node("article");
 }
 ///<summary>create winui-backgroundlayer</summary>
 /**

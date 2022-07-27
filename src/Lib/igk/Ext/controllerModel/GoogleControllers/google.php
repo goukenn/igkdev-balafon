@@ -68,9 +68,8 @@ function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans
         $theme = $doc->getInlineTheme();
     } 
     igk_google_css_setfont($theme->def, $family, $extra);
-    // igk_google_css_setfont($doc->getTheme()->def, $family, $extra);
-    //$doc->getTheme()->def[".google-" . $n] = "font-family:'{$family}'{$extra};";
- 
+
+    //igk_wln_e($theme->def);
     igk_hook("google_init_component", "font");
 }
 function igk_google_bindfont($theme, $family, $size = null)

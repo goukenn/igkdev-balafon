@@ -13,6 +13,7 @@ use IGK\Helper\ActionHelper;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Http\IResponse;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\Route;
@@ -62,6 +63,14 @@ abstract class IGKActionBase implements IActionProcessor
             $this->notify_name = static::class;
         }
     }
+    /**
+     * action processor host
+     * @return $this 
+     */
+    public function getHost(){
+        return $this;
+    }
+
     public static function CurrentAction(){
         return igk_environment()->get(IGKEnvironment::VIEW_CURRENT_ACTION);
     }
@@ -326,15 +335,14 @@ abstract class IGKActionBase implements IActionProcessor
         }        
 
         if (!empty($actionMethod)) {
+            igk_dev_ilog("CALLING ACTION ".static::class ."::".$actionMethod);
             $args = array_slice($params, 1); 
             $env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
             $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
-            $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args);
-            // igk_wln_e("action : ", $object,$fname, $actionMethod, $args);
+            $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args); 
             try {
                 
                 if($verb = igk_server()->REQUEST_METHOD){
-
                     if (preg_match("/(.)_(".Route::SUPPORT_VERBS.")$/i", $actionMethod)
                     // && (!preg_match("/_($verb)$/i", $actionMethod))
                     )
@@ -353,8 +361,10 @@ abstract class IGKActionBase implements IActionProcessor
                     $c = $object->$actionMethod(...$args);
                 }
                 $object->getController()->{ControllerParams::ActionViewResponse} = $c;
+
+                
                 // CHECK EXIT FOR DO RESPONSE                  
-                if ($exit || (!$_is_middelwire && $object->getHost()->_handleResponse($c))) {
+                if ($exit || ($object->getHost()->_handleResponse($c))) {
                     return igk_do_response($c);
                 }
             } catch (IGK\System\Http\RequestException $ex) {
@@ -367,21 +377,22 @@ abstract class IGKActionBase implements IActionProcessor
             }
             return $c;
         }
-        igk_die("reach here .... ".$actionMethod);
-        if (!empty($actionMethod) && (((($flag & 1) == 1) || method_exists($object, $actionMethod)) || igk_getv($object, "handleAllAction"))) {
-            igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
-            $g = new ReflectionMethod($object, $actionMethod);
-            $params = array_slice($params, 1);
-            $params = Dispatcher::GetInjectArgs($g, $params);
-            // if (($g->getNumberOfRequiredParameters() == 1) && ($cl = $g->getParameters()[0]->getType()) && igk_is_request_type($cl)) {
-            //     $req = IGK\System\Http\Request::getInstance();
-            //     $req->setParam($params);
-            //     $params = [$req];
-            // }
-            $r = call_user_func_array(array($object, $actionMethod), $params);
-            igk_do_response($r);
-        }
-        return $r;
+        // igk_die( implode("\n", [__FILE__.":".__LINE__, "reach here .... action = [".$actionMethod. "]"]));
+
+        // if (!empty($actionMethod) && (((($flag & 1) == 1) || method_exists($object, $actionMethod)) || igk_getv($object, "handleAllAction"))) {
+        //     igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
+        //     $g = new ReflectionMethod($object, $actionMethod);
+        //     $params = array_slice($params, 1);
+        //     $params = Dispatcher::GetInjectArgs($g, $params);
+        //     // if (($g->getNumberOfRequiredParameters() == 1) && ($cl = $g->getParameters()[0]->getType()) && igk_is_request_type($cl)) {
+        //     //     $req = IGK\System\Http\Request::getInstance();
+        //     //     $req->setParam($params);
+        //     //     $params = [$req];
+        //     // }
+        //     $r = call_user_func_array(array($object, $actionMethod), $params);
+        //     igk_do_response($r);
+        // }
+        // return $r;
     }
     protected function handleError($code, ...$params)
     {

@@ -4,10 +4,7 @@
 // @filename: SyncProjectCommand.php
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
-namespace IGK\System\Console\Commands;
-
-use IGK\Helper\IO;
-use IGK\System\Console\ftpHelper as ConsoleFtpHelper;
+namespace IGK\System\Console\Commands; 
 use IGK\System\Console\Logger;
 
 /**
@@ -16,6 +13,7 @@ class SyncClearCacheCommand extends SyncAppExecCommandBase
 {
     var $command = "--sync:clearcache";
     var $category = "sync";
+    var $desc = "sync clear cache";
 
     public function exec($command)
     {
@@ -27,7 +25,6 @@ class SyncClearCacheCommand extends SyncAppExecCommandBase
         }
         Logger::info("remove cache");
         $this->removeCache($h, $setting["application_dir"]);
-
         ftp_close($h);
         error_clear_last();
     }

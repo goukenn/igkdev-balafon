@@ -12,6 +12,15 @@ use IGK\Controllers\BaseController;
 
 class SysUtils{
     /**
+     * get site title
+     * @param string $title 
+     * @return string 
+     */
+    public static function SiteTitle(string $title){
+        $j = igk_configs()->get("site_title_join", " - ");
+        return implode ($j, array_filter(array_merge(func_get_args(), [sprintf("[ %s ]", igk_configs()->website_domain)])) );
+    }
+    /**
      * get controller by name
      * @param string $ctrl 
      * @return mixed 

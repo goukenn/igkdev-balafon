@@ -11,6 +11,17 @@ class InstallerMiddleWareActions{
     var $BaseDir;
     var $CacheDir;
     var $LibDir;
+    /**
+     * install directory
+     * @var ?string
+     */
+    var $installDir;
+
+    /**
+     * from uploading
+     * @var bool 
+     */
+    var $fromUpload;
     ///<summary></summary>
     /**
     * 
@@ -27,7 +38,7 @@ class InstallerMiddleWareActions{
         //     $this->_list[0]->abort();
         // }
         if (count($this->_list)>0){
-            $serv = $this->_list[0]->getService();
+            $serv = $this->_list[0]->getServiceInfo();
             if ($serv && ($bserv = $this->_list[$serv->Current])){
                 $bserv->abort();
             }

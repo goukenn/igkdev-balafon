@@ -3,6 +3,7 @@
 namespace IGK\System\Html;
 
 use IGK\Helper\StringUtility as IGKString;
+use IGK\IGlobalFunction;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
@@ -738,22 +739,38 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function InitSystemTheme($vsystheme)
     {
-
+        // igk_ilog("init sys theme ". igk_env_count(__METHOD__));
         $vsystheme->Name = "igk_system_theme";
+        // if (defined("IGK_FORCSS")){
+        //     return; 
+        // }
         $vsystheme->def->Clear();
         $d = $vsystheme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
         $d = $vsystheme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
         $d = $vsystheme->reg_media("(max-width:700px)");
-        $lfile = [];
-        $v_cache_file = igk_io_dir(IGK_LIB_DIR . "/Cache/css.cache");
+       
+        $v_cache_file = igk_io_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
         if (file_exists($v_cache_file)) {
             igk_css_include_cache($v_cache_file, $lfile);
         } else {
-            $lfile[] = igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
-            $lfile[] = igk_get_env("sys://css/file/global_color", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
-            $lfile[] = igk_get_env("sys://css/file/global_template", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
+            $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles()));
+            $options = null;
+            if (IGlobalFunction::Exists("igk_global_init_material")){
+                $options = (object)["file"=>& $lfile];
+                IGlobalFunction::igk_global_init_material($options);
+            }
+
+            if (!$options || !igk_getv($options, "handle")){ 
+                igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [& $lfile]);
+               
+                if (count($lfile) == 0 ){
+                    $lfile[] = igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
+                    $lfile[] = igk_get_env("sys://css/file/global_color", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
+                    $lfile[] = igk_get_env("sys://css/file/global_template", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
+                }
+            }
         }
-        $g = implode(";", $lfile);
+        $g = implode(";", array_unique($lfile));
         $g = str_replace(IGK_LIB_DIR, "%lib%", $g);
         $vsystheme->def->setFiles($g);
     }

@@ -30,16 +30,17 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     
     ///<summary></summary>
     /**
-    * 
+    * get current message title
     */
     public function getMessage(){
         return get_class($this);
     }
     ///<summary></summary>
     /**
-    * 
+    * get service info
+    * @var object
     */
-    public function getService(){
+    public function getServiceInfo(){
         return $this->_service;
     }
     ///<summary></summary>
@@ -62,7 +63,7 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     * @param mixed $index
     * @param mixed $service the default value is null
     */
-    public static function Run($list, $index, $service=null){
+    public static function Run($list, $index, ?InstallerMiddleWareActions $service){
         $c=$list[$index]; 
         $_service=(object)array(
             "Success"=>0,

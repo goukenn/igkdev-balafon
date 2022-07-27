@@ -6,15 +6,15 @@
 //----------------------------------------------------------------------------------------
 define("IGK_BALAFON_JS_VERSION", "4.6.0.0408");
 defined("IGK_FRAMEWORK") || define("IGK_FRAMEWORK", "IGKDEV-WFM");
-!defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", "12.18");
-!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.0714");
+!defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", "12.19");
+!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".1.0725");
 define("IGK_AUTHOR", "C.A.D. BONDJE DOUE");
 define("IGK_AUTHOR_CONTACT", "bondje.doue@igkdev.com");
 define("IGK_AUTHOR_2", "R. TCHATCHO");
 define("IGK_AUTHOR_CONTACT_2", "gerald.romeo@tbnsolaris.com");
 define("IGK_AUTHORS", "C.A.D. BONDJE DOUE & R. TCHATCHO");
 define("IGK_PLATEFORM_NAME", "BALAFON");
-define("IGK_RELEASE_DATE", "22/05/2022");
+define("IGK_RELEASE_DATE", "15/07/2022");
 define("IGK_START_DATE", "01/01/2013");
 defined("IGK_COPYRIGHT") || define("IGK_COPYRIGHT", "IGKDEV &copy; 2011-".date('Y')." all rights reserved");
 define("IGK_WEB_SITE", "https://www.igkdev.com");

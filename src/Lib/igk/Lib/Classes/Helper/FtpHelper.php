@@ -6,6 +6,12 @@ use IGK\System\Console\Logger;
 
 class FtpHelper
 {
+
+    public static function FileExists($res, $path){
+        $dir = dirname($path);
+        $g = ftp_nlist($res, $dir);
+        return in_array(basename($path), $g);
+    }
     /**
      * create directory
      * @param resource $ftpresourse ftp resource 
@@ -68,4 +74,16 @@ class FtpHelper
         } 
         return true;  
     } 
+    /**
+     * remove file from server
+     * @param mixed $res 
+     * @param mixed $path 
+     * @return bool 
+     */
+    public static function RmFile($res, $path){        
+        return @ftp_delete($res, $path);
+    }
+    public static function RenameFile($res, $source, $dest){
+        return @ftp_rename($res, $source, $dest);
+    }
 }

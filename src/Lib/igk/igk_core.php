@@ -483,22 +483,11 @@ function igk_wl_tag($tag)
 function igk_sys_download_core($download = 1)
 {
     $tfile = tempnam(sys_get_temp_dir(), "igk");
-    $zip = new ZipArchive();
-    if ($zip->open($tfile, ZIPARCHIVE::CREATE)) {
-        igk_zip_dir(IGK_LIB_DIR, $zip, "Lib/igk", "/\.(vscode|git|gkds)$/");
-        $manifest = igk_create_xmlnode("manifest");
-        $manifest["xmlns"] = "https://www.igkdev.com/balafon/schemas/manifest";
-        $manifest["appName"] = IGK_PLATEFORM_NAME;
-        $manifest->add("version")->Content = IGK_VERSION;
-        $manifest->add("author")->Content = IGK_AUTHOR;
-        $manifest->add("date")->Content = date("Ymd His");
-        $zip->addFromString("manifest.xml", $manifest->render());
-        $zip->addFromString("__lib.def", "");
-        $zip->close();
-    }
+    if (igk_sys_zip_core($tfile, false)){
     if ($download)
         igk_download_file("Balafon." . IGK_VERSION . ".zip", $tfile, "binary", 0);
-    return $tfile;
+        return $tfile;
+    }
 }
 
 
@@ -1058,7 +1047,7 @@ function igk_getctrl(string $name, $throwex = 1)
 }
 /**
  * shortcut to write log
- * @param string $message 
+ * @param array|string $message 
  * @param string|null $tag 
  * @param mixed $traceindex tracing index
  * @return void 

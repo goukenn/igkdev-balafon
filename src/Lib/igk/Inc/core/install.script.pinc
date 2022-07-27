@@ -1,0 +1,251 @@
+<?php
+
+// @author: C.A.D. BONDJE DOUE
+// @filename: install.script.pinc
+// @date: 20220716 09:22:34
+// @desc: corelib installer script 
+// @param: $corelib 
+
+
+if (!function_exists("igk_getr")) {
+    function igk_getr($n, $default = null)
+    {
+        if (isset($_REQUEST[$n])) {
+            return $_REQUEST[$n];
+        }
+        return $default;
+    }
+}
+if (!function_exists("igk_count")) {
+    function igk_count($n)
+    {
+        return count($n);
+    }
+}
+if (!function_exists("igk_io_dir")) {
+    function igk_io_dir($dir, $separator = DIRECTORY_SEPARATOR)
+    {
+        if ($dir === null){          
+            return $dir;
+        }
+        $d=$separator;     
+        $out=IGK_STR_EMPTY;
+        if(ord($d) == 92){
+            $out=preg_replace("/\//", '\\', $dir);
+            $out=str_replace("\\", "\\", $out);
+        }
+        else{
+            $d="/[\\\\]/";
+            $out=preg_replace($d, '/', $dir);
+            $out=str_replace("//", "/", $out);
+        }
+        return $out; 
+    }
+}
+if (!function_exists("igk_io_rmdir")) {
+    function igk_io_rmdir($dir, $recursive = true, $callback = null)
+    {
+        if (!is_dir($dir))
+            return false;
+        $pdir = array($dir);
+        $kdir = array($dir);
+        $d = 1;
+        while ($dir = array_pop($pdir)) {
+            $hdir = opendir($dir);
+            if (!$hdir)
+                return false;
+            while (($f = readdir($hdir))) {
+                if (($f == ".") || ($f == ".."))
+                    continue;
+                $v = igk_io_dir($dir . "/" . $f);
+
+                if ($callback && !$callback($v)) {
+                    continue;
+                }
+                if (is_link($v)) {
+                    @unlink($v);
+                    continue;
+                }
+                if (is_dir($v)) {
+                    if ($recursive) {
+                        array_push($pdir, $v);
+                        array_push($kdir, $v);
+                    } else {
+                        $d = 0;
+                        break;
+                    }
+                } else if (is_file($v) || is_link($v)) {
+                    if ($recursive)
+                        unlink($v);
+                    else {
+                        $d = 0;
+                        break;
+                    }
+                }
+            }
+            closedir($hdir);
+        }
+        while ($d && ($dir = array_pop($kdir))) {
+            if (is_link($dir)) {
+                unlink($dir);
+            } else {
+                @rmdir($dir);
+            }
+        }
+        return igk_count($kdir) == 0;
+    }
+}
+
+class InstallerResponse
+{
+    var $code;
+    /**
+     * installer response header
+     * @var array
+     */
+    var $header = [];
+    public function __construct()
+    {
+        $this->code = 200;
+    }
+    public function setHeader()
+    {
+        $reponses = [
+            "200" => "HTTP/1.0 200 OK",
+            "404" => "HTTP/1.0 404 Not Found",
+            "500" => "HTTP/1.0 500 Server misconfiguration",
+            "503" => "HTTP/1.0 500 Installer Directory is link",
+        ];
+        $msg = $reponses[$this->code];
+        header($msg);
+        foreach ($this->header as $k) {
+            header($k);
+        }
+    }
+    public function die(string $msg, $code = 200)
+    {
+        $this->code = $code;
+        $this->setHeader();
+        die($msg);
+    }
+    public function Response($data, $contentType = "text/html")
+    {
+        $this->header[] = "Content-Type: " . $contentType;
+        $this->code = 200;
+        $this->setHeader();
+        echo $data;
+        exit;
+    }
+}
+
+defined("IGK_BL") || define("IGK_BL", "<br />\n");
+defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
+
+$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : "/";
+$corelib =  isset($corelib) ? $corelib : 
+ ($glib = igk_getr("corelib") ? implode("/", [$home, trim($glib, "/")]) :  __DIR__ . "/corelib.zip");
+
+$response = new InstallerResponse();
+$install_dir = "";
+$app_dir = null;
+$steps = [];
+
+if(!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")){
+    $response->die("request method not match", 500);
+}
+if (!($tk = igk_getr("token")) || ($token != $tk)){
+    $response->die("missing token", 500);
+}
+
+if (!class_exists(ZipArchive::class)) {
+    $response->die("zip archive not present", 500);
+}
+if (!class_exists(SimpleXMLElement::class)) {
+    $response->die("zip simple xml element not present", 500);
+}
+if (!file_exists($corelib)) {
+    $response->die("missing archive", 500);
+}
+
+$install_dir = igk_getr("install_dir");
+if ($install_dir)
+    $install_dir = implode("/", [$home, trim($install_dir,"/")]);
+else
+    $install_dir = __DIR__ . "/../application/Lib/igk";
+
+if (is_link($install_dir)){
+    $response->die("directory link to ", 503);
+}
+
+if (!is_dir($install_dir) && !@mkdir($install_dir, 0777, true)) {
+    $response->die("failed created dir: ".$install_dir, 500);
+}
+
+$app_dir = igk_getr("app_dir");
+$install_dir = realpath($install_dir);
+$temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
+@unlink($temp_dir);
+@unlink($install_dir);
+mkdir($temp_dir);
+
+
+
+$version = 0;
+$author = 0;
+$appName;
+$count_file = 0;
+$archive = new \ZipArchive();
+if ($archive->open($corelib)) {
+    $error = false;
+    if (!$error && (false !== ($g = $archive->getStream("manifest.xml")))) {
+
+        $data = "";
+        while (!feof($g)) {
+            $data .= fread($g, 4096);
+        }
+        fclose($g);
+        $dc = (array)simplexml_load_string($data);
+        isset($dc["author"]) ? $author = $dc["author"] : $error = true;
+        isset($dc["version"]) ? $version = $dc["version"] : $error = true;
+        if (isset($dc["@attributes"]["appName"])) {
+            $appName = $dc["@attributes"]["appName"];
+        } else {
+            $error = true;
+            $error_msg = "AppName is missing in manifest";
+        }
+        if (!$error) {
+            $path = "Lig/igk";
+            $ln = strlen($path);
+            for ($i = 0; $i < $archive->numFiles; $i++) {
+                $fname = $archive->getNameIndex($i);
+                if (preg_match("#^Lib/igk#", $fname) && ($fname[strlen($fname) - 1] != "/")) {
+                    $path = implode("/", [$install_dir, trim(substr($fname, $ln), "/")]);
+                    $archive->extractTo($temp_dir, $fname);
+                    $count_file++;
+                }
+            }
+        }
+    } else {
+        $error = true;
+        $error_msg = "manifest file not found";
+    }
+    $archive->close();
+    if (!$error) {
+        igk_io_rmdir($install_dir);
+        rename($temp_dir . "/Lib/igk/", $install_dir);
+        igk_io_rmdir($temp_dir);
+        unset($temp_dir);
+        if (isset($app_dir)){
+            $steps[] = "clear caches";
+            $app_dir = implode("/", [$home, trim($app_dir, "/")]);
+            igk_io_rmdir($app_dir."/.Caches");
+        }
+    }
+} else {
+    $response->die("can't open archive", 501);
+}
+$_vart = compact("error", "install_dir", "count_file", "author", "version", "appName", "steps");
+if (!empty($error_msg)) {
+    $_vart["error_msg"] = $error_msg;
+}
+$response->Response(json_encode((object)$_vart, JSON_UNESCAPED_SLASHES), "application/json");

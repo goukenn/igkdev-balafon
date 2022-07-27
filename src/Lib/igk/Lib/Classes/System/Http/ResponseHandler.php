@@ -38,6 +38,7 @@ class ResponseHandler{
             $b->output();
             $e = 1;
         }
+        // stop : on exit
         if ($e)
             igk_exit();
         return $r;

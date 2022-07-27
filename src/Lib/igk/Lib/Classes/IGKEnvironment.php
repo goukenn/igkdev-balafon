@@ -140,10 +140,24 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      * @return mixed 
      * @throws Exception 
      */
-    public function createClassInstance($classname){
+    public function createClassInstance($classname, $callback=null){
         $b = $this->instances;
         if ($b===null){
             $b = [];
+            $this->instances = $b;
+        }
+
+        if (!isset($b[$classname])){
+            $o = null;
+            if ($callback){
+                if (method_exists($callback, "bindTo"))
+                    $callback = $callback->bindTo(null, $classname);
+                $o = $callback();
+            }else{ 
+                $o = new $classname();
+            }
+            $b[$classname] = $o;
+            return $o;
         }
         if (!isset($b[$classname])){
             $b[$classname] = new $classname();

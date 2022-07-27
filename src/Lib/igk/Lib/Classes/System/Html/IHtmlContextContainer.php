@@ -13,7 +13,7 @@ namespace IGK\System\Html;
 interface IHtmlContextContainer{
     /**
      * get the context definition 
-     * @return string 
+     * @return ?HtmlLoadingContext 
      */
     function getContext(): ?HtmlLoadingContext;
 }

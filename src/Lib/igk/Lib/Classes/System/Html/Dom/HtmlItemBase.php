@@ -190,7 +190,13 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $this->m_childs = $this->getCanAddChilds() ?  new HtmlChildArray() : null;
     }
     protected function createAttributeArray(){
-        return new HtmlAttributeArray();
+        $attrib = new HtmlAttributeArray();
+        if (method_exists($this,'_isAllowedAttribute')){
+            $attrib->add_listener = function($attrib){
+                return $this->_isAllowedAttribute($attrib);
+            };
+        }
+        return $attrib;
     }
     ///<summary></summary>
     /**

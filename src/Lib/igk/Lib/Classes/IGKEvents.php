@@ -46,6 +46,7 @@ class IGKEvents extends IGKObject
     const HOOK_SHUTDOWN = "app_shutdown";
     const HOOK_LOG_APPEND = "sys_log_append_msg";
     const HOOK_INSTALL_SITE = "sys_install_site";
+    const HOOK_INIT_GLOBAL_MATERIAL_FILTER = "sys_init_gobal_material_filter";
 
     public static function CreateHookOptions():IHookOptions{
         return new HookOptions();

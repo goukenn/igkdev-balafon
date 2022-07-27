@@ -34,7 +34,7 @@ abstract class CssUtils
             if (!defined("IGK_FORCSS")) { 
                 igk_css_reg_global_tempfile($file, $document->getTheme(), $ctrl, $temp);
             } else {
-                igk_css_bind_file($ctrl, $file);
+                igk_css_bind_file($document, $ctrl, $file);
             }
             igk_hook(IGKEvents::HOOK_BIND_CTRL_CSS, ["sender" => $ctrl, "type" => "css"]);
         }

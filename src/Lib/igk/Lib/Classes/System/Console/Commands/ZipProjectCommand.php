@@ -37,23 +37,6 @@ class ZipProjectCommand extends AppExecCommand{
         }
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
         igk_sys_zip_project($ctrl, $path, $author );
-
-        // $g = $ctrl->getDeclaredDir();
-        // $zip = new ZipArchive();
-        // if ($zip->open($path, ZIPARCHIVE::CREATE))
-        // { 
-        //     igk_zip_dir($g, $zip,  $prjname, "/(\/temp)|\.(vscode|git(ignore)?|gkds|DS_Store)$/");
-        //     $manifest = igk_create_xmlnode("manifest");
-        //     $manifest["xmlns"] = "https://schema.igkdev.com/project";
-        //     $manifest["appName"] = IGK_PLATEFORM_NAME."/".$prjname;
-        //     $manifest->add("version")->Content = $ctrl->Configs->get("version", "1.0");// IGK_VERSION;
-        //     $manifest->add("author")->Content = $author;
-        //     $manifest->add("date")->Content = date("Ymd His"); 
-
-        //     $zip->addFromString("manifest.xml", $manifest->render());
-        //     $zip->addFromString("__project.def", "");
-        //     $zip->close(); 
-        // } 
         Logger::success("zip project: ".$path . " : ". Number::GetMemorySize(filesize($path)));
     }
       

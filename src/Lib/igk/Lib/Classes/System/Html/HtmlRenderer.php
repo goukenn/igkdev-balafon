@@ -123,7 +123,7 @@ class HtmlRenderer{
         }
         //igk_dev_wln_e(__FILE__.":".__LINE__,  "data ", $headers);
         $response = new \IGK\System\Http\WebResponse($doc, 200, $headers);
-        $response->cache = !igk_environment()->no_cache && IGKApp::GetConfig("allow_page_cache");             
+        $response->cache = !igk_environment()->no_cache && igk_configs()->allow_page_cache;
         $response->output();  
     }
     public static function SanitizeOptions($options){
@@ -255,7 +255,18 @@ class HtmlRenderer{
                 }
 
                 $content = $i->getContent($options);
-                $childs = $i->getRenderedChilds($options);   
+                $childs = $i->getRenderedChilds($options);  
+                
+                if (property_exists($options, "aside")){
+
+                    if (!is_array($options->aside)){
+                    }
+                    $rf = array_reverse($options->aside);
+                    $tab = array_merge($tab, $rf);
+                    unset($options->aside, $rf);
+                    //igk_wln_e("bind aside");
+                }
+
                 $have_childs = $childs && (count($childs) > 0);
                 $have_content = $have_childs || !empty($content);         
                 $q["close_tag"] =  $have_content || $i->closeTag();
@@ -371,6 +382,7 @@ class HtmlRenderer{
                     $out .= $k . " ";
                     continue;
                 }
+        
                 $r = (is_object($v) && ($v instanceof HtmlExpressionAttribute));
                 if ($r)
                     $c = $v->getValue();
@@ -421,6 +433,9 @@ class HtmlRenderer{
     * @param mixed $options
     */
     public static function GetStringAttribute($v, $options){
+        if (is_bool($v)){
+            return sprintf("\"%s\"", $v? "true":"false");
+        }
         if(empty($v) && !is_numeric($v))
             return null;
         

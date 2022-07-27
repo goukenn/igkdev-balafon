@@ -72,14 +72,8 @@ class IGKAppSystem{
          ?array $options=null){
         $access="deny from all";  
         $old=umask(0);
-        $is_primary = ($app_dir == $dirname);
-
-        
-        $v_access= dirname($idx)."/.htaccess";
-        
-        igk_trace();
-        igk_wln_e("try create : ", $idx, $v_access);
-        
+        $is_primary = ($app_dir == $dirname);        
+        $v_access= dirname($idx)."/.htaccess";      
         if(!file_exists($v_access)){            
             
             igk_io_save_file_as_utf8($v_access, igk_getbase_access(                

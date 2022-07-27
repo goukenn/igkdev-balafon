@@ -15,6 +15,7 @@ use IGK\System\Html\Dom\HtmlCtrlNode;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
+use IGK\System\WinUI\IViewLayoutLoader;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
@@ -288,10 +289,17 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * create view loader 
      * @return IGK\System\WinUI\ViewLoader 
      */
-    protected function createViewLoader()
+    protected function createViewLoader(): IViewLayoutLoader
     {
         return new ViewLayoutLoader($this);
     }
+    /**
+     * get the view loader
+     * @return void|IGK\Controllers\IGK\System\WinUI\ViewLoader 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function getViewLoader()
     {
         if ($l = $this->getEnvParam(ControllerParams::ViewLoader)){
@@ -325,13 +333,14 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $this->checkUser(false);
             // traitement before passing args to handlers
             $handlerArgs = $params;  
+            // igk_dev_wln(__FILE__.":".__LINE__,  $handlerArgs);
             if (count($handlerArgs)==0){
                 // no parameter pass to index method of the action handler
                 if (!ActionHelper::HandleArgs($fname, $handlerArgs)){                    
                     $handlerArgs = ["index"];
                 }
             }   
-            else if (is_numeric($handlerArgs[0])){
+            else if ( is_numeric(array_keys($handlerArgs)[0]) && is_numeric($handlerArgs[0])){
                 // + | passing numeric data to index
                 array_unshift($handlerArgs, "index");
             } else {
