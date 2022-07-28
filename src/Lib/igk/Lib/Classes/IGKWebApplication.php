@@ -92,8 +92,7 @@ class IGKWebApplication extends IGKApplicationBase
             //--------------------------------------------------------------        
             if (!defined("IGK_REDIRECTION") && (($path_info = $srv->PATH_INFO) || !empty($path_info = urldecode($srv->REDIRECT_URL ?? "")))) {
                 // $path_info = empty($v_path)? $redirect : $v_path;
-                // igk_wln_e(__FILE__.":".__LINE__,
-                //  "<pre>". igk_ob_get($_SERVER)."</pre>", 
+                // igk_wln_e(__FILE__.":".__LINE__,                
                 //  $redirect,
                 //  $v_path,
                 //  $path_info
@@ -188,9 +187,7 @@ class IGKWebApplication extends IGKApplicationBase
             $this->runEngine($render);
         } 
         catch (IGKException $ex){
-            echo "<pre>";
-            print_r(["tracing : ", $ex->getTrace()]);
-            echo "</pre>";
+      
             if (!igk_environment()->no_handle_error){
                 IGK\Helper\ExceptionUtils::ShowException($ex);
             }else {

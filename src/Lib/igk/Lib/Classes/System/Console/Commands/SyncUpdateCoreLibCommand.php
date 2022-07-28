@@ -91,7 +91,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         FtpHelper::RmFile($h,$install);
         ftp_close($h);
         if (($status = igk_curl_status())== 200){
-            Logger::info("curl response ". App::gets(App::BLUE, $response));
+            Logger::info("curl response \n". App::gets(App::BLUE, $response));
         }else {
             Logger::danger("install script failed");
             Logger::info( "status : ".$status); 

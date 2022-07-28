@@ -667,12 +667,12 @@ function igk_array_exclude($args, $property)
  * @param string|array $property list of data to extract
  * @return ?array
  */
-function igk_array_extract($t, $property) : ?array
+function igk_array_extract($t, $property): ?array
 {
     if (is_string($property)) {
         $property = explode("|", $property);
     }
-    if (empty($property)){
+    if (empty($property)) {
         return null;
     }
     $tab = [];
@@ -2492,14 +2492,15 @@ function igk_css_append($name, $value)
 /**
  * get request uri controller 
  */
-function igk_css_request_ctrl(?string $ref=null, ?string $uri=null){
+function igk_css_request_ctrl(?string $ref = null, ?string $uri = null)
+{
     $ctrl = null;
     $uri = $uri ?? igk_io_baseuri();
     $ref = $ref ?? igk_io_baseuri();
     if (!empty($ref) && strpos($ref, $uri) === 0) {
         $ruri = explode("?", substr($ref, strlen($uri)))[0];
         igk_debug_wln("request uri", $ruri);
-        if ($ac = igk_getctrl(IGK_SYSACTION_CTRL, false)){
+        if ($ac = igk_getctrl(IGK_SYSACTION_CTRL, false)) {
             $ctrl = $ac::getMatchCtrl($ruri);
         }
     }
@@ -2511,7 +2512,7 @@ function igk_css_request_ctrl(?string $ref=null, ?string $uri=null){
  * 
  * @param mixed $dir 
  */
-function igk_css_balafon_index($dir, $debug=null)
+function igk_css_balafon_index($dir, $debug = null)
 {
     require_once IGK_LIB_CLASSES_DIR . "/IGKGlobalColor.php";
     require_once IGK_LIB_CLASSES_DIR . "/Css/CssThemeCompiler.php";
@@ -2522,6 +2523,7 @@ function igk_css_balafon_index($dir, $debug=null)
     $vsystheme = null;
     $vtheme = null;
     $ref = null;
+    $doc = null;
 
     $c = igk_getr("Cache");
     if ($c) {
@@ -2543,37 +2545,47 @@ function igk_css_balafon_index($dir, $debug=null)
         igk_exit();
     }
     $is_ref_cache = false;
-    if ($ctrl = igk_getr("c")){
+    if ($ctrl = igk_getr("c")) {
         $ctrl = igk_getctrl($ctrl);
     }
     IGKOb::CleanAndStart();
-    if (!$ctrl){
-        if ($subctrl = IGKSubDomainManager::GetSubDomainCtrl()){
-            $ctrl = $subctrl;
+    $defctrl = igk_get_defaultwebpagectrl();
+    // priority to config controller
+    if (
+        igk_app()->settings->appInfo->config &&
+        (empty($ref) || StringUtility::UriStart($ref, $igk_io_baseuri() . "/" . IGK_CONF_FOLDER))
+    ) {
+        $ctrl = $defctrl;
+        $doc = igk_app()->getDoc();
+    } else {
+        if (!$ctrl) {
+            if ($subctrl = IGKSubDomainManager::GetSubDomainCtrl()) {
+                $ctrl = $subctrl;
+            }
+        }
+        // check for refered controller 
+        if (!$ctrl && ($ref = igk_server()->HTTP_REFERER)) {
+            igk_set_session_redirection($ref);
+            if (igk_environment()->is("OPS") && igk_configs()->allow_page_cache) {
+                // dectect same cache uri
+                $buri = rtrim(igk_io_baseuri(), "/");
+                $ref = rtrim($ref, "/");
+                $luri = null;
+                if (strpos($ref, $buri) === 0) {
+                    $luri = $buri . igk_getv(parse_url($ref), "path", "/");
+                    $is_ref_cache = igk_configs()->allow_page_cache &&  IGKCaches::IsCachedUri($luri);
+                }
+                echo "/* detect ops " . $buri . " is cache ref " . $is_ref_cache . "  \nluri:" . $luri . " \n*/\n";
+            }
+            if (!$ctrl) {
+                $ctrl = igk_css_request_ctrl($ref);
+                if ($debug) echo "/* request ctrl : " . $ctrl . "*/\n";
+            }
         }
     }
-    // check for refered controller 
-    if (!$ctrl && ($ref = igk_server()->HTTP_REFERER)){
-        igk_set_session_redirection($ref);
-        if (igk_environment()->is("OPS") && igk_configs()->allow_page_cache) {
-            // dectect same cache uri
-            $buri = rtrim(igk_io_baseuri(), "/");
-            $ref = rtrim($ref, "/");
-            $luri = null;
-            if (strpos($ref, $buri) === 0) {
-                $luri = $buri. igk_getv(parse_url($ref), "path", "/");
-                $is_ref_cache = igk_configs()->allow_page_cache &&  IGKCaches::IsCachedUri($luri); 
-            }
-            echo "/* detect ops ".$buri." is cache ref ".$is_ref_cache ."  \nluri:".$luri." \n*/\n";
-        }
-        if (!$ctrl){
-            $ctrl = igk_css_request_ctrl($ref);
-            if ($debug) echo "/* request ctrl : ".$ctrl."*/\n";
-        }
-    }  
     //  igk_ilog("detect controler ".($subctrl = IGKSubDomainManager::GetSubDomainCtrl()));
- 
-    $defctrl = igk_get_defaultwebpagectrl();
+
+
     // $v_css_conf = false;
     // + | ----------------------------------------------------
     // + | check if we are in subdomain 
@@ -2591,21 +2603,17 @@ function igk_css_balafon_index($dir, $debug=null)
     //         $ctrl = null;
     //     }
     // }
-
-
-   $doc = null;
-   if ($ctrl){
+    if ($ctrl) {
         $doc = $ctrl->getCurrentDoc();
-    }
-   else {
+    } else {
         $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
-   }
+    }
     $doc_id = igk_app()->settings->CurrentDocumentIndex;
-   
-    if ($debug){
-        echo("/* referer : ".$ref."*/ \n");
-        echo("/* before controller : ".$ctrl."*/ \n");
-        echo("/* defctrl : ".$defctrl."*/ \n");        
+
+    if ($debug) {
+        echo ("/* referer : " . $ref . "*/ \n");
+        echo ("/* before controller : " . $ctrl . "*/ \n");
+        echo ("/* defctrl : " . $defctrl . "*/ \n");
     }
     if ($doc) {
         igk_set_env("sys://css/cleartemp", __FUNCTION__);
@@ -2614,7 +2622,7 @@ function igk_css_balafon_index($dir, $debug=null)
         $vdef = $vtheme->getDef();
         // echo "theme exit; { $doc_id } \n ";
         // print_r($vtheme->getDef());
-        
+
         // + | ----------------------------------------------------
         // + | get binding temporary theme that need to be included
         // + | clear the list before save the session
@@ -2622,14 +2630,9 @@ function igk_css_balafon_index($dir, $debug=null)
         // + | - closing the session.
 
         $v_binTempFiles = $vdef->getBindTempFiles(1);
-        $v_tempFiles = $vdef->getTempFiles(1); 
-      
-        if (igk_app()->settings->appInfo->config) {
-            $conf_entry = igk_io_baseuri() . "/" . IGK_CONF_FOLDER;
-            if ((empty($ref) || StringUtility::UriStart($ref, $conf_entry))) {
-                $v_css_conf = true;
-            }
-        }
+        $v_tempFiles = $vdef->getTempFiles(1);
+
+
         // $seridata = serialize($vtheme);
         $seridata = $vtheme->to_array();
         $vtheme->reset();
@@ -2652,14 +2655,14 @@ function igk_css_balafon_index($dir, $debug=null)
         //         $ctrl = null;
         //     }
         // }
-        echo("/* controller ".$ctrl." */ \n");
-         
+        echo ("/* controller " . $ctrl . " */ \n");
+
         // + | ----------------------------------------------------
         // + | bind controller definition   
-        if ($ctrl) { 
+        if ($ctrl) {
             // attach temps files 
-            $ctrl->bindCssStyle(); 
-        } 
+            $ctrl->bindCssStyle();
+        }
         if ($v_binTempFiles) {
             igk_css_bind_theme_files($doc, $vtheme, $v_binTempFiles);
         }
@@ -2727,13 +2730,13 @@ function igk_css_bind_file(IGKHtmlDoc $doc, ?BaseController $ctrl, string $f, ?H
     if (!file_exists($f)) {
         igk_ilog('Bind file failed ' . $f);
         return;
-    }    
+    }
     $is_null = is_null($theme);
     $theme = $theme ?? $doc->getTheme();
     if (defined("IGK_FORCSS")) {
         if ($is_null) {
             $key = "sys://css/IncludedFiled";
-            $files = igk_get_env($key, array());            
+            $files = igk_get_env($key, array());
             $i = igk_env_count(__FUNCTION__);
             if ($i == 1) {
                 // $theme->resetAll();
@@ -2745,7 +2748,7 @@ function igk_css_bind_file(IGKHtmlDoc $doc, ?BaseController $ctrl, string $f, ?H
             }
             igk_set_env($key, $files);
         }
-    } 
+    }
     \IGK\System\Html\Css\CssUtils::Include($f, $ctrl, $theme);
 }
 ///<summary></summary>
@@ -3273,9 +3276,9 @@ function igk_css_get_basedef(IGKHtmlDoc $doc, bool $no_systheme = false, bool $m
     foreach ($data as $v) {
         $theme = $v["theme"];
         $name = $v["name"];
-        $o = "";    
+        $o = "";
         Benchmark::mark("theme-export");
-        $o .= "/* CSS - [\"{$name}\"] */".$el;
+        $o .= "/* CSS - [\"{$name}\"] */" . $el;
         $o .= $theme->get_css_def($minfile, $themeexport) . $el;
         Benchmark::expect("theme-export", 0.500);
 
@@ -3801,7 +3804,7 @@ function igk_css_get_core_comment($id = null)
 function igk_css_render_balafon_style($doc = null, bool $no_systheme = false)
 {
     $doc = $doc ? $doc : igk_get_last_rendered_document();
- 
+
     ob_start();
     $o = "";
     if (!$no_systheme) {
@@ -11623,8 +11626,8 @@ function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $t
         if ($evalExpression) {
             $content = igk_html_eval_global_script($content, $ctrl, $data, basename($f));
         }
-        if (!empty($content)) { 
-            $n->load($content, $ldcontext); 
+        if (!empty($content)) {
+            $n->load($content, $ldcontext);
         }
         igk_html_treatinput($n);
     }
@@ -25472,7 +25475,7 @@ function igk_sys_shutdown_function($evt = null)
         $s = ob_get_contents();
         ob_end_flush();
     }
-    if ($last){
+    if ($last) {
         igk_ilog($last, __FUNCTION__);
     }
     if (igk_get_env("sys://noshowlast_error") || !$last) {
@@ -25814,12 +25817,12 @@ function igk_sys_viewctrl($name)
  * @param string $tfile path where to store
  * @return bool true if succeed
  */
-function igk_sys_zip_core(string $tfile, $incVersion=false)
+function igk_sys_zip_core(string $tfile, $incVersion = false)
 {
     if (!class_exists(ZipArchive::class, false))
         return false;
     $zip = new ZipArchive();
- 
+
     if ($zip->open($tfile, ZIPARCHIVE::CREATE)) {
         $files = igk_zip_dir(IGK_LIB_DIR, $zip, "Lib/igk", "/(Lib\/igk\/(temp|application|.Caches|Data\/(config.xml|domain.conf)))|(\.(vscode|git(ignore)?|gkds|DS_Store|bak)$)/");
         $manifest = igk_create_xmlnode("manifest");
@@ -25830,9 +25833,9 @@ function igk_sys_zip_core(string $tfile, $incVersion=false)
         $manifest->add("date")->Content = date("Ymd His");
         $zip->addFromString("manifest.xml", $manifest->render((object)["Indent" => true]));
         $zip->addFromString("__lib.def", IGK_VERSION);
-        if ($incVersion){
+        if ($incVersion) {
             list($major, $minor, $x, $y) = explode(".", IGK_VERSION);
-            $x = $incVersion;        
+            $x = $incVersion;
             $zip->addFromString("Lib/igk/igk_version.php", implode(".", [$major, $minor, $x, $y]));
         }
         if ($files) {
@@ -25866,8 +25869,8 @@ function igk_sys_zip_project($controller, $path, $author = IGK_AUTHOR)
     }
     if ($zip->open($path, ZIPARCHIVE::CREATE)) {
         $g = is_string($controller) ? $controller : $controller->getDeclaredDir();
-        $prjname = is_string($controller) ? basename($g) : 
-        igk_str_snake(basename(igk_io_dir(get_class($controller))));
+        $prjname = is_string($controller) ? basename($g) :
+            igk_str_snake(basename(igk_io_dir(get_class($controller))));
         igk_zip_dir($g, $zip, $prjname, $ignore);
         $manifest = igk_create_xmlnode("manifest");
         $manifest["xmlns"] = "https://schema.igkdev.com/project";
