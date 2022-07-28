@@ -23,7 +23,7 @@ class ServiceTest extends BaseTestCase{
 class DummyService implements \IGK\IService{
 
     public function init(): bool {
-        $fc = igk_sys_configs()->get("ovh.ovhconfig");
+        $fc = igk_configs()->get("ovh.ovhconfig");
         if ($fc && file_exists($fc)){
             return true;
         }
@@ -37,7 +37,7 @@ class DummyService implements \IGK\IService{
             $base = $c;
         }
         if ($found){
-            igk_sys_configs()->{"ovh.ovhconfig"} = $fc;            
+            igk_configs()->{"ovh.ovhconfig"} = $fc;            
             return true;
         }
      }

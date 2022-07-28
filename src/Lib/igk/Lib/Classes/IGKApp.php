@@ -237,6 +237,7 @@ class IGKApp extends IGKObject
         static $v_doc=null;
         if(!self::IsInit()){
             igk_session_destroy();
+            // igk_trace();
             igk_die("can't get core document - application not initialized");
             return null;
         }
@@ -283,8 +284,8 @@ class IGKApp extends IGKObject
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
         igk_hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);    
         \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.5);          
-        igk_hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
         self::$sm_instance->m_initialized = true;
+        igk_hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
     }
 
     /**

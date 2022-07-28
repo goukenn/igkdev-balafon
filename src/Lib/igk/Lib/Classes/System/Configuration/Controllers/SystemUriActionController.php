@@ -219,7 +219,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         // + | -----------------------------------------------------------------------
         /// TODO :  SELECT  * DB ROUTE LOOP FAILED, infinite loop
         // + | -----------------------------------------------------------------------
-        if (!igk_sys_configs()->get("no_db_route")){        
+        if (!igk_configs()->get("no_db_route")){        
             try {
                 $e = Systemuri::select_all(); 
          

@@ -126,9 +126,9 @@ final class IGKLog extends IGKObject
      * @throws IGKException 
      */
     public static function CanDBLog(){
-        $g = !igk_environment()->get("NoDBLog") && !igk_sys_configs()->no_db_log && igk_app();
+        $g = !igk_environment()->get("NoDBLog") && !igk_configs()->no_db_log && igk_app();
         if ($g){
-            $db = igk_sys_configs()->get("default_dataadapter");
+            $db = igk_configs()->get("default_dataadapter");
             return $db && DataAdapterBase::IsRegister($db);
         }
         return false;

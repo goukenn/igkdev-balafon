@@ -27,7 +27,7 @@ class SysConfigExpression implements IHtmlGetValue{
 
     public function __toString()
     {
-        return (string)igk_sys_configs()->get($this->expression);
+        return (string)igk_configs()->get($this->expression);
     }
     public function getStoreValue(){
         if (!empty($ex = trim($this->expression)))

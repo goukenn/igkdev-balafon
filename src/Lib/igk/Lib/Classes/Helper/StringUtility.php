@@ -31,9 +31,9 @@ abstract class StringUtility{
     }
     public static function DateDisplay($date, $in="Y-m-d", ?string $out=null){
         if ($out===null){
-            $out = igk_sys_configs()->get("date_display_format", "M d, Y");
+            $out = igk_configs()->get("date_display_format", "M d, Y");
         }
-        //return igk_format_date($date, "Y-m-d", igk_sys_configs()->get("date_display_format", "Y-m-d"));
+        //return igk_format_date($date, "Y-m-d", igk_configs()->get("date_display_format", "Y-m-d"));
         return igk_format_date($date, $in, $out); 
     }
     public static function LocationDisplay(?string $location=null){

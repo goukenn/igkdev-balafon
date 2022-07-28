@@ -188,6 +188,9 @@ class IGKWebApplication extends IGKApplicationBase
             $this->runEngine($render);
         } 
         catch (IGKException $ex){
+            echo "<pre>";
+            print_r(["tracing : ", $ex->getTrace()]);
+            echo "</pre>";
             if (!igk_environment()->no_handle_error){
                 IGK\Helper\ExceptionUtils::ShowException($ex);
             }else {

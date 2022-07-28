@@ -55,7 +55,7 @@ final class IGKCaches{
              $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);              
             $response = new WebFileResponse($file, "text/html");
             $response->zip = $zip;
-            $response->cache_output(igk_sys_configs()->get("cache_output", $expires));
+            $response->cache_output(igk_configs()->get("cache_output", $expires));
             $response->output(); 
         }
     }
@@ -67,7 +67,7 @@ final class IGKCaches{
     public static function CacheUri($controller=null, ?string $requestUri=null){
         $o = "";
         if ($controller===null){ 
-            $controller = igk_sys_configs()->default_controller;
+            $controller = igk_configs()->default_controller;
         }
         if (is_string($controller)){
             $o.= $controller."/";

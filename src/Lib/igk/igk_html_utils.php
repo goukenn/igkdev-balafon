@@ -97,9 +97,7 @@ function igk_html_validate(){
     throw new IGKException("Not Implement");
 }
 function igk_html_print_r($args){
-    igk_wl("<pre>");
-    print_r($args);
-    igk_wln("</pre>");
+    igk_wl_pre($args);
 }
 /**
 * @return mixed

@@ -69,7 +69,7 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
                 $b = @$g($srv, $dbu, $pwd);
             } 
             if ($b){           
-                $charset = igk_getv($options, "charset", igk_sys_configs()->get("db_charset", "utf8"));
+                $charset = igk_getv($options, "charset", igk_configs()->get("db_charset", "utf8"));
                 if (is_resource($b)) {                
                     mysqli_set_charset($b, $charset);                
                 } else {

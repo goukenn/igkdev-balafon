@@ -25,7 +25,7 @@ class DbExpressionTest extends BaseTestCase{
 
         // $c = new Table1Test();
         // igk_wln_e($c->to_array());
-        $ad = igk_sys_configs()->get("default_dataadapter");
+        $ad = igk_configs()->get("default_dataadapter");
 
         if ($ad != IGK_MYSQL_DATAADAPTER){
             $this->markTestSkipped();
@@ -127,7 +127,7 @@ class DbExpressionTest extends BaseTestCase{
 
     public function test_query_fetch_prepare(){
        
-        // igk_wln_e("dbname", igk_sys_configs()->db_name, igk_sys_configs()->db_server);
+        // igk_wln_e("dbname", igk_configs()->db_name, igk_configs()->db_server);
         Table1Test::createTable();
         Table2Test::createTable();
         $g = Table1Test::prepare()->join([]

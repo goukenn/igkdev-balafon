@@ -57,7 +57,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
         }
         $mail->HtmlMsg=$message;
         $mail->Title=$subject;
-        $mail->From=$from ?? igk_sys_configs()->get("mail_contact");
+        $mail->From=$from ?? igk_configs()->get("mail_contact");
         $mail->HtmlCharset= self::UTF8_CHARSET;
         $mail->TextCharset= self::UTF8_CHARSET; 
         $mail->addTo($to);

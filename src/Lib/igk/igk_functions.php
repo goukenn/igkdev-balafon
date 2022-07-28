@@ -2538,11 +2538,20 @@ function igk_css_balafon_index($dir, $debug=null)
         // $app->run($dir."/index.php", false);
         IGKApp::StartEngine($app);
     }
+    if (!IGKApp::IsInit()) {
+        igk_ilog(__FUNCTION__ . " : application not initialise " . igk_server()->REQUEST_URI);
+        igk_exit();
+    }
     $is_ref_cache = false;
     if ($ctrl = igk_getr("c")){
         $ctrl = igk_getctrl($ctrl);
     }
     IGKOb::CleanAndStart();
+    if (!$ctrl){
+        if ($subctrl = IGKSubDomainManager::GetSubDomainCtrl()){
+            $ctrl = $subctrl;
+        }
+    }
     // check for refered controller 
     if (!$ctrl && ($ref = igk_server()->HTTP_REFERER)){
         igk_set_session_redirection($ref);
@@ -2561,15 +2570,38 @@ function igk_css_balafon_index($dir, $debug=null)
             $ctrl = igk_css_request_ctrl($ref);
             if ($debug) echo "/* request ctrl : ".$ctrl."*/\n";
         }
-    }
-    if (!IGKApp::IsInit()) {
-        igk_ilog(__FUNCTION__ . " : application not initialise " . igk_server()->REQUEST_URI);
-        igk_exit();
-    }
-   
-    $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
-    $doc_id = igk_app()->settings->CurrentDocumentIndex;
+    }  
+    //  igk_ilog("detect controler ".($subctrl = IGKSubDomainManager::GetSubDomainCtrl()));
+ 
     $defctrl = igk_get_defaultwebpagectrl();
+    // $v_css_conf = false;
+    // + | ----------------------------------------------------
+    // + | check if we are in subdomain 
+    // if (!$ctrl && !($subctrl = IGKSubDomainManager::GetSubDomainCtrl())) {
+    //     if ($is_ref_cache || ($doc_id === -1) || ($doc_id === null)) {               
+    //         $ctrl = $defctrl;
+    //     }
+    // } else {
+    //     if ($v_css_conf || ($doc_id === 0) && ($defctrl)) {
+    //         if ($defctrl === $subctrl) {
+    //             $ctrl = null;
+    //         }
+    //     }
+    //     if ($v_css_conf) {
+    //         $ctrl = null;
+    //     }
+    // }
+
+
+   $doc = null;
+   if ($ctrl){
+        $doc = $ctrl->getCurrentDoc();
+    }
+   else {
+        $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
+   }
+    $doc_id = igk_app()->settings->CurrentDocumentIndex;
+   
     if ($debug){
         echo("/* referer : ".$ref."*/ \n");
         echo("/* before controller : ".$ctrl."*/ \n");
@@ -2579,6 +2611,7 @@ function igk_css_balafon_index($dir, $debug=null)
         igk_set_env("sys://css/cleartemp", __FUNCTION__);
         $vsystheme = $doc->getSysTheme();
         $vtheme = $doc->getTheme();
+        $vdef = $vtheme->getDef();
         // echo "theme exit; { $doc_id } \n ";
         // print_r($vtheme->getDef());
         
@@ -2588,9 +2621,9 @@ function igk_css_balafon_index($dir, $debug=null)
         // + | - get copy of files to include, clear list, before
         // + | - closing the session.
 
-        $v_binTempFiles = $vtheme->getDef()->getBindTempFiles(1);
-        $v_tempFiles = $vtheme->getDef()->getTempFiles(1);
-        $v_css_conf = false;
+        $v_binTempFiles = $vdef->getBindTempFiles(1);
+        $v_tempFiles = $vdef->getTempFiles(1); 
+      
         if (igk_app()->settings->appInfo->config) {
             $conf_entry = igk_io_baseuri() . "/" . IGK_CONF_FOLDER;
             if ((empty($ref) || StringUtility::UriStart($ref, $conf_entry))) {
@@ -2603,28 +2636,29 @@ function igk_css_balafon_index($dir, $debug=null)
         @session_write_close();
         $vtheme->load_data($seridata);
 
-        // + | ----------------------------------------------------
-        // + | check if we are in subdomain 
-        if (!$ctrl && !($subctrl = IGKSubDomainManager::GetSubDomainCtrl())) {
-            if ($is_ref_cache || ($doc_id === -1) || ($doc_id === null)) {               
-                $ctrl = $defctrl;
-            }
-        } else {
-            if ($v_css_conf || ($doc_id === 0) && ($defctrl)) {
-                if ($defctrl === $subctrl) {
-                    $ctrl = null;
-                }
-            }
-            if ($v_css_conf) {
-                $ctrl = null;
-            }
-        }
-        if ($debug) echo("/* controller ".$ctrl." */ \n");
+        // // + | ----------------------------------------------------
+        // // + | check if we are in subdomain 
+        // if (!$ctrl && !($subctrl = IGKSubDomainManager::GetSubDomainCtrl())) {
+        //     if ($is_ref_cache || ($doc_id === -1) || ($doc_id === null)) {               
+        //         $ctrl = $defctrl;
+        //     }
+        // } else {
+        //     if ($v_css_conf || ($doc_id === 0) && ($defctrl)) {
+        //         if ($defctrl === $subctrl) {
+        //             $ctrl = null;
+        //         }
+        //     }
+        //     if ($v_css_conf) {
+        //         $ctrl = null;
+        //     }
+        // }
+        echo("/* controller ".$ctrl." */ \n");
+         
         // + | ----------------------------------------------------
         // + | bind controller definition   
-        if ($ctrl) {
+        if ($ctrl) { 
             // attach temps files 
-            $ctrl::bindCssStyle();
+            $ctrl->bindCssStyle(); 
         } 
         if ($v_binTempFiles) {
             igk_css_bind_theme_files($doc, $vtheme, $v_binTempFiles);
@@ -2637,7 +2671,7 @@ function igk_css_balafon_index($dir, $debug=null)
         // + | passing data to document with css
         // + |       
         // echo "body:before{content:'document {$refctrl}';}";
-        if (igk_sys_configs()->css_view_state) {
+        if (igk_configs()->css_view_state) {
             echo "/*document " . $ref . "::::*/  body:before{content:'referer {$ref} cached: {$is_ref_cache} {$doc_id} controller : {$ctrl} ';}";
         }
         $no_systheme = \IGK\Css\CssThemeCompiler::CompileAndRenderTheme($vsystheme, $doc->getId(), "sys:global");
@@ -9363,7 +9397,7 @@ function igk_get_defaultcron_data($file = "cronjob.php")
 {
     $bal = IGK_APP_DIR . "/Lib/igk/bin/balafon";
     $rootdir = igk_io_workingdir();
-    $author = igk_sys_configs()->get("author", IGK_AUTHOR);
+    $author = igk_configs()->get("author", IGK_AUTHOR);
     $o = "#!/usr/bin/env php\n";
     $o .= "<?php\n";
     $o .= "// @file: {$file}\n";

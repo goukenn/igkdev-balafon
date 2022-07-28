@@ -46,6 +46,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             Logger::danger("project not found");
             return -2;
         }
+        $pdir = IO::GetUnixPath($pdir, true);
+        $project = basename($pdir);
+        
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
         }

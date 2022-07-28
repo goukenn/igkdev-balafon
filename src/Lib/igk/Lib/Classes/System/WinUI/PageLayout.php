@@ -11,7 +11,7 @@ class PageLayout{
      * @return ConfigData|int 
      */
     public static function ItemLimits(){
-        $limit = igk_sys_configs()->get("pagelayout_limit");
+        $limit = igk_configs()->get("pagelayout_limit");
         if ($limit>0){
             return $limit;
         }

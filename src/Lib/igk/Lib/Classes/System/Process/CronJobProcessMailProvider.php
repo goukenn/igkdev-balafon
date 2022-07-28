@@ -17,7 +17,7 @@ class CronJobProcessMailProvider extends CronJobProcessProviderBase
     {
 
         if ($mails = Mails::select_all(["mail_status" => 0])) {
-            $base_from = igk_sys_configs()->mail_contact;
+            $base_from = igk_configs()->mail_contact;
             foreach ($mails as $mail) {
                 $mailinfo = new IGKObjStorage((array)json_decode($mail->mail_data));
                 if (empty($mail->mail_from)) {

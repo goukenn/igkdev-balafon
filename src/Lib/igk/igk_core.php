@@ -42,16 +42,7 @@ function igk_server()
 function igk_environment()
 {
     return IGKEnvironment::getInstance();
-}
-/**
- * return application configuration 
- * @return \IGK\System\Configuration\ConfigData
- */
-function igk_sys_configs(){
-    return IGKAppConfig::getInstance()->getData();
-}
-
-
+} 
 
 ///<summary> encapsulate exit function. used for debugging purpose</summary>
 /**
@@ -546,7 +537,7 @@ function igk_wl($msg)
 ///<summary></summary>
 ///<param name="p"></param>
 /**
- * 
+ * pre print_r helper
  * @param mixed $p
  */
 function igk_wl_pre($p)
@@ -555,6 +546,11 @@ function igk_wl_pre($p)
     print_r($p);
     echo "</pre>";
 }
+/**
+ * pre var_dump helper
+ * @param mixed $p 
+ * @return void 
+ */
 function igk_dump_pre($p)
 {
     echo "<pre>";
@@ -1014,7 +1010,7 @@ function igk_app()
  * @return IGK\System\Configuration\ConfigData
  */
 function igk_configs(){
-    return IGKAppConfig::getInstance()->Data;
+    return IGKAppConfig::getInstance()->getData();
 }
 
 /**
@@ -1146,7 +1142,7 @@ function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_
  */
 function igk_get_defaultwebpagectrl()
 {
-    if ($n = igk_sys_configs()->get("default_controller")){
+    if ($n = igk_configs()->get("default_controller")){
         return igk_getctrl($n, false);
     }  
     return null;

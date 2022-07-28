@@ -159,7 +159,7 @@ class SchemaMigration
      * @param bool $reload 
      * @return static 
      */
-    public static function LoadSchema (XmlNode $node, & $result, ?array & $tables=null,  &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false ): static{
+    public static function LoadSchema (XmlNode $node, & $result, ?array & $tables=null,  &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false ){
         $mi = new static;
         $mi->node = $node;
         $mi->table = &$tables;

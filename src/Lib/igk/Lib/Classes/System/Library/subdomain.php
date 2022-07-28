@@ -34,8 +34,6 @@ class subdomain{
         return false;
     }
     public function bootapp(){
-       
-
         IGKSubDomainManager::Init();
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($c){            
             $app = $c->args["app"]->getApplication();
@@ -47,9 +45,11 @@ class subdomain{
             } 
             if (igk_app()->getCurrentPageFolder()=="Configs"){
                 return;
-            }
-            // igk_wln_e("not subdomain .... ",  igk_app()->getCurrentPageFolder());           
-            $this->__checkSubDomain();
+            }     
+            // register after init app 
+            igk_reg_hook(IGKEvents::HOOK_AFTER_INIT_APP , function(){              
+                $this->__checkSubDomain();
+            });
         }, 100);
     }
 
@@ -116,7 +116,7 @@ class subdomain{
         }
         else{
             $s=igk_io_subdomain_uri_name();
-            if(!empty($s) && !strstr(igk_sys_configs()->website_domain, $s)){
+            if(!empty($s) && !strstr(igk_configs()->website_domain, $s)){
                 if(igk_server()->REQUEST_PATH == '/'){
                     $msg=__("Subdomain not accessible : {0}", $s);
                     if($def_ctrl=igk_get_defaultwebpagectrl()){

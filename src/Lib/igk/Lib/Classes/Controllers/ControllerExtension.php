@@ -1360,8 +1360,10 @@ abstract class ControllerExtension
         $doc = self::getCurrentDoc($controller);
         if ($doc && !empty($file = $controller->getPrimaryCssFile()))  
         {      
+            // igk_ilog("try bind to bind primary files....".$file);
             return igk_ctrl_bind_css_file($controller, $doc, $file); 
         }
+        //igk_ilog("failed to bind primary files....");
     }
     /**
      * project used controller's

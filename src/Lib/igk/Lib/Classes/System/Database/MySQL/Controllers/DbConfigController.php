@@ -720,12 +720,12 @@ final class DbConfigController extends ConfigControllerBase
     }
     public function pCleanTable(){
         $ad = $this->getDataAdapter();
-        $q = igk_sys_configs()->get("db_prefix", "tbigk_")."%";
+        $q = igk_configs()->get("db_prefix", "tbigk_")."%";
         // $q = "%\\\\_%";
         if (!$ad->connect()){
             return null;
         }
-        $dbname = igk_sys_configs()->db_name;
+        $dbname = igk_configs()->db_name;
         $op = "NOT"; //igk_getr("not") ? "NOT" :  "";
       
             $q = $ad->escape_string($q);
