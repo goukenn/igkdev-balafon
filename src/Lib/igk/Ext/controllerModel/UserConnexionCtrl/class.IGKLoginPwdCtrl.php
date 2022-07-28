@@ -19,9 +19,7 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 		return $node;
 	}
 	public function getCanAddChild(){return false; }
-	//----------------------------------------
-	//Please Enter your code declaration here
-	//----------------------------------------
+ 
 	//@@@ parent view control
 	public function View(){
 		$t = $this->TargetNode;

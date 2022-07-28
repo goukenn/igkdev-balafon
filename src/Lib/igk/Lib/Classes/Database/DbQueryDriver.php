@@ -823,7 +823,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 $code = $this->getDriverErrorCode();
                 $this->m_error = $error;
                 $this->m_errorCode = $code;
-                igk_ilog(["DBQueryError" => $error, "Query" => $query, "__FILE__" => __FILE__]);
+                igk_ilog(["DBQueryError" => $error, "Query" => $query, "File" => __FILE__, "Line"=>__LINE__]);
             }
             if ($throwex && !$t) {
                 $this->dieinfo(

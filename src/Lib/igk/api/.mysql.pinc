@@ -520,64 +520,65 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
         return $tables;
     return $rep;
 }
+ 
 ///<summary></summary>
 ///<param name="api"></param>
 ///<param name="render" default="1"></param>
 ///<param name="param" default="null"></param>
 /**
-* 
-* @param mixed $api
-* @param mixed $render the default value is 1
-* @param mixed $param the default value is null
-*/
-function igk_api_mysql_get_data_schema($api, $render=1, $param=null){
-    $rep=igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
-    $rep["Date"]=date('Y-m-d');
-    $rep["Version"]="1.0";
-    $mysql=igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
-    $tables=array();
-    if($mysql->connect()){
-        $mysql->selectdb($api->App->Configs->db_name);
-        $r=$mysql->listTables();
-        if($r){
-            $n= "table"; 
-            $e=false;
-            $prefix = $param && igk_getv($param, "prefix-table") ? "%prefix%" : "";
-            
-            foreach($r as $t){
-                if($e)
-                    igk_exit();
-                $table_n=$t->$n;
-                $row=$rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$prefix.$table_n));
-                $tinfo=array();
-                $tt=$mysql->sendQuery("SELECT Count(*) FROM `".$table_n."`;");
-                $b=$tt->Columns[0]->name;
-                $row["Entries"]=$tt->Rows[0]->$b;
-                $tt=$mysql->sendQuery("SHOW FULL COLUMNS FROM `".$table_n."`;");
-                $primary = [];
-                foreach($tt->Rows as $v){
-                    $cl=igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix);                   
-                    $tinfo[$v->Field]=new DbColumnInfo($cl->Attributes->to_array());
-                    if ($cl["clIsPrimary"]){
-                        $primary[$cl["clName"]] = $cl;
+ * helper to extract database schema definition
+ * @param mixed $api
+ * @param mixed $render the default value is 1
+ * @param mixed $param the default value is null (db_name|prefix-table)
+ */
+function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
+{
+    $rep = igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
+    $rep["Date"] = date('Y-m-d');
+    $rep["Version"] = "1.0";
+    $mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
+    $tables = array();
+    $dbname = ($param ? igk_getv($param, "db_name") : null) ?? igk_configs()->db_name;
+    $prefix = $param && igk_getv($param, "prefix-table") ? "%prefix%" : "";
+
+    if ($mysql->connect()) {
+        if (!($mysql->selectdb($dbname))) {
+            $rep->addNode("error")->Content = __("Database {0} not selected", $dbname);
+        } else {
+            $r = $mysql->listTables();
+            if ($r) {
+                $n = "table";
+                $e = false;
+                foreach ($r as $t) {
+                    if ($e)
+                        igk_exit();
+                    $table_n = $t->$n;
+                    $row = $rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName" => $prefix . $table_n));
+                    $tinfo = array();
+                    $tt = $mysql->sendQuery("SELECT Count(*) FROM `" . $table_n . "`;");
+                    $b = $tt->Columns[0]->name;
+                    $row["Entries"] = $tt->Rows[0]->$b;
+                    $tt = $mysql->sendQuery("SHOW FULL COLUMNS FROM `" . $table_n . "`;");
+                    $primary = [];
+                    foreach ($tt->Rows as $v) {
+                        $cl = igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix);
+                        $tinfo[$v->Field] = new DbColumnInfo($cl->Attributes->to_array());
+                        if ($cl["clIsPrimary"]) {
+                            $primary[$cl["clName"]] = $cl;
+                        }
                     }
+                    $tables[$table_n] = (object)array("tinfo" => $tinfo, 'ctrl' => "sys://mysql_db");
                 }
-
-                // if (count($primary)>1){
-                //     igk_wln_e("more primary on column", array_keys($primary));
-                // }
-
-                $tables[$table_n]=(object)array("tinfo"=>$tinfo, 'ctrl'=>"sys://mysql_db");
             }
         }
         $mysql->close();
     }
-    if($render){
+    if ($render) {
         $rep->RenderXML();
         igk_exit();
     }
-    $check=igk_getv($param, "check");
-    if($check)
+    $check = igk_getv($param, "check");
+    if ($check)
         return $tables;
     return $rep;
 }

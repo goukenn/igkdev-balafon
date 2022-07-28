@@ -180,8 +180,8 @@ class PHPScriptBuilder
                             $_uses[$e] = $e;
                         }
                     }
-                    $v_as = igk_getv($_uses, $e);                    
-                    $o .= " extends " .( $v_as ? $v_as :  basename(igk_html_uri($e)));
+                    $v_as = igk_getv($_uses, $e);                         
+                    $o .= " extends " .( $v_as ? basename(igk_html_uri($v_as)) :  "\\".$e);
                 }
                 if ($e = $this->implements) {
                     if (!is_array($e)) {
@@ -191,8 +191,6 @@ class PHPScriptBuilder
                     array_map($this->_getHeaderMap($h, $_uses), $e);
                     $o .= " implements " . implode(",", $e);
                 }
-               
-
                 $o .= "{\n";
                 $o .= rtrim($defs);
                 $o .= "\n}";
@@ -203,8 +201,7 @@ class PHPScriptBuilder
     }
     private function _getHeaderMap(& $h,& $_uses)
     {
-        return function($e)use(& $h, & $_uses){
-            igk_wln($e);
+        return function($e)use(& $h, & $_uses){             
             $as = "";
             $ms = "";
             if (is_array($e)){
@@ -212,9 +209,7 @@ class PHPScriptBuilder
                 $as = $e[$key];
                 $ms = " as ".$as;
                 $e = $key;
-            } else {
-
-            }
+            }  
             if (!in_array($e, $_uses)){
                 $h .= "use " . $e . $ms.";\n";
                 $_uses[] = $e;

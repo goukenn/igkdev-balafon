@@ -105,7 +105,7 @@ class IGKUserAgent{
     }
     ///<summary></summary>
     public static function IsIE(){
-        return preg_match("#(MSIE|Trident/|Edge/)#i", self::Agent());
+        return ($a = self::Agent()) && preg_match("#(MSIE|Trident/|Edge/)#i", $a);
     }
     ///<summary></summary>
     public static function IsIOS(){

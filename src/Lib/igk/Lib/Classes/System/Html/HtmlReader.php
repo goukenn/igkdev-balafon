@@ -315,7 +315,8 @@ final class HtmlReader extends IGKObject
     ///<param name="skip" default="1"></param>
     private static function __replaceDetectedExpression($reader, $text, &$v, &$offset, $replace_expression = 1, $skip = 1)
     {
-        if (!is_object($reader->m_context) || !$reader->m_context->load_expression){
+        // if (!is_object($reader->m_context) || !igk_getv($reader->m_context, "load_expression")){
+        if (!is_object($reader->m_context)){ //  || !igk_getv($reader->m_context, "load_expression")){
             return false;
         }
         if ($c = preg_match(IGK_TEMPLATE_EXPRESSION_REGEX, $text, $tab, PREG_OFFSET_CAPTURE, $offset)) {

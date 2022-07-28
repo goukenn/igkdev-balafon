@@ -5,6 +5,7 @@ namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbRelation;
 use IGK\Database\DbSchemas;
+use IGK\System\Html\XML\XmlNode;
 use IGKSysUtil;
 
 /**
@@ -25,6 +26,12 @@ class SchemaMigration
 
     var $migrations;
 
+
+    /**
+     * migrate the definition
+     * @param mixed $ctrl 
+     * @return array 
+     */
     public function migrate($ctrl)
     {
         $reload = $this->reload ;
@@ -138,5 +145,29 @@ class SchemaMigration
         }
         $v_result = compact("tables", "tbrelations", "migrations", "relations");
         return $v_result;
+    }
+
+    /**
+     * 
+     * @param XmlNode $node schema node 
+     * @param mixed $result table response
+     * @param null|array $tables 
+     * @param mixed $tbrelations 
+     * @param mixed $migrations 
+     * @param mixed $ctrl 
+     * @param bool $resolvname 
+     * @param bool $reload 
+     * @return static 
+     */
+    public static function LoadSchema (XmlNode $node, & $result, ?array & $tables=null,  &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false ): static{
+        $mi = new static;
+        $mi->node = $node;
+        $mi->table = &$tables;
+        $mi->tbrelations = &$tbrelations;
+        $mi->migrations = &$migrations;
+        $mi->resolvname = $resolvname;
+        $mi->reload = $reload;
+        $result = $mi->migrate($ctrl);
+        return $mi;
     }
 }

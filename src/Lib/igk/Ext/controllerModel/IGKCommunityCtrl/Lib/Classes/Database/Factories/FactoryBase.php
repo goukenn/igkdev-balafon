@@ -3,8 +3,7 @@
 // @desc: factory base
 // @date: 20211106 11:36:51
 namespace Database\Factories;
-
-use IGKCommunityLink;
+ 
 use IGK\System\Database\Factories\FactoryBase as Factory;
 
 ///<summary>Factory base</summary>

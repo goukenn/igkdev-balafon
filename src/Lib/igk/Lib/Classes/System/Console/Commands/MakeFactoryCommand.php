@@ -1,5 +1,10 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: MakeFactoryCommand.php
+// @date: 20220728 16:57:09
+// @desc: make factory class
 
+ 
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\App; 
@@ -35,20 +40,27 @@ class MakeFactoryCommand extends AppExecCommand
             Logger::danger("controller $controller not found");
             return false;
         }
-
+        $entry_path = "/Database/Factories";
         $clname = ucfirst(igk_str_ns($modelname)) . "Factory";
-        $ns = $ctrl->getEntryNamespace();
+        $ns = $ctrl->getEntryNamespace().$entry_path;
         if (!empty($ns)) {
-            $ns = str_replace("/", "\\", $ns . "/Factory");
+            $ns = str_replace("/", "\\", $ns);
         }
 
         $bind = [];
-        $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns) {
+        $fields = [];
+        if ($g = $ctrl::model($modelname)){
+            $fields = (array)$g::createEmptyRow();
+        }
+        $fields = var_export($fields, true);      
+ 
+
+        $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns, $fields) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);
             $builder->type("class")->name($clname)
                 ->author($author)
-                ->defs("")
+                ->defs("public function definition(): ?array{\n\treturn $fields;\n}")
                 ->doc("factory")
                 ->file($fname)
                 ->namespace($ns)
@@ -59,14 +71,17 @@ class MakeFactoryCommand extends AppExecCommand
 
 
         $force = property_exists($command->options, "--force");
+        $gen  = false ;
         foreach ($bind as $n => $c) {
             if (!file_exists($n) || $force) {
                 $c($n, $command);
                 Logger::success("generate : " . $n);
+                $gen = true;
             }
         }
-
-        IGKControllerManagerObject::ClearCache();
+        if ($gen){
+            IGKControllerManagerObject::ClearCache();
+        }
         Logger::success("done\n");
     }
     public function help()

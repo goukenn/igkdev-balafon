@@ -70,20 +70,9 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 			}
 		}
 	}
-
-
-	protected function getDBConfigFile()
-	{
-		return igk_io_getdbconf_file(dirname(__FILE__));
-	}
-	protected function getConfigFile()
-	{
-		return igk_io_getconf_file(dirname(__FILE__));
-	}
 	protected function initComplete($context=null)
 	{
 		parent::initComplete();
-
 		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id(); 
 		$this->app->ControllerManager->register("Caddy", $this); 
 	}

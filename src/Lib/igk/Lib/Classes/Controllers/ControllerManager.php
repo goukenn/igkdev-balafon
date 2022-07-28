@@ -169,39 +169,49 @@ EOF;
         $out=<<<EOF
 <?php
 //***
-//author:{$param["author"]}
-//description:{$param["desc"]}
-//created:{$param["create"]}
-//copyright: {$param["copyright"]}
-//type: controller
+// @author:{$param["author"]}
+// @description:{$param["desc"]}
+// @created:{$param["create"]}
+// @copyright: {$param["copyright"]}
+// @type: controller
 //***
 
-//
-//controller code class declaration
-//file is a part of the controller tab list
-//
-
 ///<summary>{$param["summary"]}</summary>
-class $name extends {$param["extend"]} {
-	public function getName(){return get_class(\$this);}
-	protected function initComplete($context=null){
-		parent::InitComplete();
-		//please enter your controller declaration complete here
+/**
+ * {$param["summary"]}
+ */
+class $name extends {$param["extend"]}{
 
-	}
+    /**
+     * get controller identification 
+     * */
+	// public function getName(){return get_class(\$this);}
+
+    /**
+     * init countroller
+     * */
+	// protected function initComplete(\$context=null){
+	// 	parent::InitComplete();    
+	// }
+
 	///<summary> init target node </summary>
-	protected function initTargetNode(){
-		\$node =  parent::initTargetNode();
-		return \$node;
-	}
-	//----------------------------------------
-	//Please Enter your code declaration here
-	//----------------------------------------
+	// protected function initTargetNode(){
+	// 	\$node =  parent::initTargetNode();
+	// 	return \$node;
+	// }
+
 
 	///<summary>override to handle your custom view mecanism</summary>
+    /**
+     * override to handle view mecanism
+     * */
 	//public function View(){
 	//	parent::View();
 	//}
+
+    //----------------------------------------
+	// Please Enter your code declaration here
+	//----------------------------------------
 }
 EOF;
         return $out;

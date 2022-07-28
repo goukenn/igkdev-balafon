@@ -1,10 +1,12 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ControllerExtension.php
+// @date: 20220728 17:08:32
+// @desc: controller macro extension
 
 namespace IGK\Controllers;
 
-use Exception;
-use Faker\Provider\Base;
-use IGK\Database\DbColumnInfo;
+use Exception; 
 use IGK\Database\DbLinkExpression;
 use IGK\Models\Migrations;
 use IGK\Models\ModelBase;
@@ -13,20 +15,16 @@ use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
-use IGK\Database\DbSchemas;
-use IGK\Database\Seeds\DataBaseSeeder;
+use IGK\Database\DbSchemas; 
 use IGK\Helper\StringUtility;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
-use IGK\Models\Groups;
-use IGK\System\Configuration\Controllers\UsersConfigurationController;
-use IGK\System\Database\ColumnMigrationInjector;
-use IGK\System\Database\Migrations\Migration;
+use IGK\Models\Groups; 
+use IGK\System\Database\ColumnMigrationInjector; 
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
 use IGK\System\Http\RequestResponse;
-use IGK\System\Http\WebResponse;
-use IGK\System\IO\Path;
+use IGK\System\Http\WebResponse; 
 use IGKApplicationLoader;
 use IGKEnvironment;
 use IGKResourceUriResolver;
@@ -49,6 +47,12 @@ abstract class ControllerExtension
     public static function ctrl(BaseController $ctrl)
     {
         return $ctrl;
+    }
+
+    public static function getDBConfigFile(BaseController $ctrl){
+        
+        igk_trace();
+        exit;
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -496,7 +500,7 @@ abstract class ControllerExtension
                     "\n",
                     [
                         "public static function Init(" . basename($cl) . " \$controller){",
-                        "\t// + | unitialize your data base",
+                        "\t// + | itialize your data base",
                         "}"
                     ]
                 ));
@@ -553,7 +557,7 @@ abstract class ControllerExtension
                 ->desc("factory base")
                 ->doc("Factory base")
                 ->class_modifier("abstract")
-                ->extends('Factory')
+                ->extends(\IGK\System\Database\Factories\FactoryBase::class)
                 ->defs(implode(
                     "\n",
                     []
@@ -1229,8 +1233,7 @@ abstract class ControllerExtension
      */
     public static function getDataSchemaFile(BaseController $ctrl)
     {
-        $d = $ctrl->getDataDir() . "/" . IGK_SCHEMA_FILENAME;
-        return $d;
+       return $ctrl->getDataDir() . "/" . IGK_SCHEMA_FILENAME;       
     }
 
     /**

@@ -8,9 +8,7 @@ use IGK\System\Configuration\Controllers\ConfigureController;
  * @package IGK\System\Console\Commands
  */
 class InitDataSchemaController extends NonVisibleControllerBase{
-    public function getDBConfigFile(){
-        return null;
-    }
+ 
     protected function getDataSchemaFile(){
         return ConfigureController::ctrl()->getDataSchemaFile();
     }

@@ -753,7 +753,7 @@ abstract class HtmlUtils extends DomNodeBase
         if (file_exists($v_cache_file)) {
             igk_css_include_cache($v_cache_file, $lfile);
         } else {
-            $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles()));
+            $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles() ?? ""));
             $options = null;
             if (IGlobalFunction::Exists("igk_global_init_material")){
                 $options = (object)["file"=>& $lfile];

@@ -1,4 +1,10 @@
 <?php
+
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKMySQLQueryResult.php
+// @date: 2018
+// @desc: 
+
 namespace IGK\System\Database\MySQL;
  
 use IGK\Database\DbQueryResult;
@@ -33,6 +39,9 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     }
     public function success(){
         return $this->m_rows !== null;
+    }
+    public function to_array(){
+        return $this->getRows();
     }
     ///<summary></summary>
     /**

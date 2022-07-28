@@ -8,7 +8,7 @@ use IGKSystemController;
 final class Helper{
     public static function GenerateModel(BaseController $ctrl, callable $callback, $force=false){
         $manifest = [];
-        $file = $ctrl->getDBConfigFile();
+        $file = $ctrl->getDataSchemaFile();
         if (!file_exists($file)){
             die("schema file not found.");
         }

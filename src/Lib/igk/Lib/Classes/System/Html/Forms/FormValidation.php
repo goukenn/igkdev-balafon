@@ -136,7 +136,7 @@ class FormValidation{
                     $v = igk_getv($request, $k);
                     $storage = new IGKObjStorage($data);
                     $storage->name = $k;
-                    if (empty($v) && (strlen($v)==0) && $storage->required){
+                    if ((empty($v) || (strlen($v)==0)) && $storage->required){
                         $this->m_errors[] = __("form validation {0} is required", $k);
                         continue;
                     }

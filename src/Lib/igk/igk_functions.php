@@ -658,16 +658,24 @@ function igk_array_exclude($args, $property)
     }
     return $args;
 }
-///<summary>extra property list</summary>
+///<summary>extract property list</summary>
+///<exemple>igk_array_extract([], 'one|two')</exemple>
+///<exemple>igk_array_extract([], ['one', 'two'])</exemple>
 /**
- * extra property list
+ * extract property list
+ * @param mixed $t source object 
+ * @param string|array $property list of data to extract
+ * @return ?array
  */
-function igk_array_extract($t, $property)
+function igk_array_extract($t, $property) : ?array
 {
-    $tab = [];
     if (is_string($property)) {
         $property = explode("|", $property);
     }
+    if (empty($property)){
+        return null;
+    }
+    $tab = [];
     foreach ($property as $k) {
         $tab[$k] = igk_getv($t, $k);
     }
@@ -2275,8 +2283,8 @@ function igk_createobj_array($keys, $default = null)
 ///<param name="filter"> filtered data </param>
 /**
  * create filtered object 
- * @param mixed $src  source data 
- * @param mixed $filter  filtered data 
+ * @param mixed $src source data 
+ * @param mixed $filter filtered data 
  */
 function igk_createobj_filter($src, $filter)
 {
@@ -2289,18 +2297,20 @@ function igk_createobj_filter($src, $filter)
 ///<summary></summary>
 ///<param name="array_key"></param>
 /**
- * 
+ * create strict object storage
  * @param mixed $array_key 
+ * @return \IGKObjectStrict
  */
 function igk_createobj_strict($array_key)
 {
     return IGKObjectStrict::Create($array_key);
 }
-///<summary></summary>
+///<summary>create objeect storage</summary>
 ///<param name="tab" default="null"></param>
 /**
- * 
- * @param mixed $tab 
+ * create object storage
+ * @param mixed $tab source data
+ * @return \IGKObjStorage
  */
 function igk_createobjstorage($tab = null)
 {
@@ -6105,7 +6115,6 @@ function igk_db_load_data_entries_schemas($file, $ctrl)
 function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false)
 {
     $key = "schema_load";
-
     if ($ctrl) {
         // if (!$reload && IGKApp::IsInit() && ($tk = $ctrl::getEnvParam($key))) {
         if (!$reload && IGKApp::IsInit() && ($tk = $ctrl->getEnvParam($key))) {
@@ -6114,17 +6123,16 @@ function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$mig
         }
         $key = $ctrl->getEnvKey($key);
     }
-
-    $mi = new \IGK\System\Database\SchemaMigration();
-    $mi->node = $n;
-    $mi->table = &$tables;
-    $mi->tbrelations = &$tbrelations;
-    $mi->migrations = &$migrations;
-    $mi->resolvname = $resolvname;
-    $mi->reload = $reload;
-
-    $v_result = $mi->migrate($ctrl);
-
+    $v_result = null;
+    $mi = \IGK\System\Database\SchemaMigration::LoadSchema($n, $v_result, $tables, $tbrelations, $migrations, $ctrl, $resolvname, $reload);
+    // $dmi = new \IGK\System\Database\SchemaMigration();
+    // $mi->node = $n;
+    // $mi->table = &$tables;
+    // $mi->tbrelations = &$tbrelations;
+    // $mi->migrations = &$migrations;
+    // $mi->resolvname = $resolvname;
+    // $mi->reload = $reload;
+    // $v_result = $mi->migrate($ctrl);
     igk_environment()->set($key, $v_result);
     return $v_result;
 }
@@ -15490,7 +15498,7 @@ function igk_io_getconf_file($dir)
  */
 function igk_io_getdbconf_file($dir)
 {
-    return igk_io_dir($dir . "/" . IGK_DATA_FOLDER . "/" . IGK_CTRL_DBCONF_FILE);
+    return igk_io_dir($dir . "/" . IGK_DATA_FOLDER . "/" . IGK_SCHEMA_FILENAME);
 }
 ///<summary>shortcut to get files from directory</summary>
 ///<param name="dir">directory</param>
@@ -21234,7 +21242,7 @@ function igk_set_session_redirection($uri = null, $reset = 1)
 ///<summary></summary>
 ///<param name="t"></param>
 /**
- * 
+ * set execution timeout helper
  * @param mixed $t 
  */
 function igk_set_timeout($t)

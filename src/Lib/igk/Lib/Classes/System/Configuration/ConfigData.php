@@ -178,8 +178,9 @@ final class ConfigData {
     }
     public function set($name, $entries){
         if (is_array($entries)){
-            igk_trace();
-            igk_exit();
+            igk_die("array entries not allowed");            
+        }else{
+            igk_die("array entries not allowed");            
         }
         $k = key($entries);
         $v = array_unshift($entries);

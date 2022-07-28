@@ -1,5 +1,10 @@
 <?php
 
+// @author: C.A.D. BONDJE DOUE
+// @filename: RequestResponse.php
+// @date: 20220728 15:51:46
+// @desc: request reponse
+
 
 namespace IGK\System\Http;
 
@@ -78,5 +83,13 @@ abstract class RequestResponse extends Response implements IInjectable{
     public static function CreateResponse(){
         $type = igk_getv(["application/json"=>"json"], igk_server()->CONTENT_TYPE);
         return self::Create($type, null, 200);
+    }
+    /**
+     * create a json response
+     * @param mixed $data 
+     * @return object 
+     */
+    public function json($data){
+        return static::Create(__FUNCTION__, $data);
     }
 }

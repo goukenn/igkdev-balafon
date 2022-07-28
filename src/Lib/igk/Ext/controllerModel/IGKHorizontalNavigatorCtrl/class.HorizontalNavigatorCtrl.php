@@ -55,10 +55,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		$t["clanim_NAV_AUTOANIMATE"] = igk_getr("clanim_NAV_AUTOANIMATE");
 		$t["clanim_NAV_ANIMTYPE"] = igk_getr("clanim_NAV_ANIMTYPE");
 		$t["clanim_NAV_AUTOPERIOD"] = igk_getr("clanim_NAV_AUTOPERIOD");
-	}
-	//----------------------------------------
-	//Please Enter your code declaration here
-	//----------------------------------------
+	} 
 	//@@@ parent view control
 	public function View(){
 		$this->TargetNode->clearChilds();

@@ -1,4 +1,8 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DbDumpCommand.php
+// @date: 20220727 19:30:34
+// @desc: dump controller database
 
 namespace IGK\System\Console\Commands;
 
@@ -13,19 +17,19 @@ use IGKNonVisibleControllerBase;
 
 
 /**
- * initialize data schema
+ * dump controller database
  * @package IGK\System\Console\Commands
  */
 class DbDumpCommand extends AppExecCommand{
     var $command = "--db:dump";
-    var $desc = "dump db from schema"; 
+    var $desc = "dump controller db from schema"; 
     var $category = "db";
-
     var $options = [
         "controller"=>"controller to target",
         "file"=>"file to export",
         "-option"=>"export type xml|json"
     ];
+    var $help = "--db:dump controller [output_file] [-option:xml|json]";
 
     private $_entries;
 
@@ -71,7 +75,7 @@ class DbDumpCommand extends AppExecCommand{
         $tb = $ctrl::resolv_table_name($table);
         $g = $ad->selectAll($table);
         $rest = []; 
-        if ($g->RowCount){
+        if ($g && $g->RowCount){
             foreach($g->getRows() as $r){
                 $rest[] = $r->to_array();
             }

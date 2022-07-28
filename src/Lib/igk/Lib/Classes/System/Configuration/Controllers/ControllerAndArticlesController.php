@@ -757,7 +757,7 @@ EOF;
     public function ca_ClearTableList_ajx()
     {
         $this->setParam("ctrl:ca_tabInfo", null);
-        $f = igk_getctrl($this->SelectedController)->getDBConfigFile();
+        $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
         if (file_exists($f))
             @unlink($f);
         igk_wl($this->ca_getTableInfo()->render());
@@ -779,7 +779,7 @@ EOF;
     ///<summary></summary>
     public function ca_db_drop_db_file_ajx()
     {
-        $f = igk_getctrl($this->SelectedController)->getDBConfigFile();
+        $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
         if (file_exists($f)) {
             unlink($f);
             $this->View();
@@ -1284,7 +1284,7 @@ EOF;
         $a = HtmlUtils::AddImgLnk($div, "#", "drop_16x16");
         $a["onclick"] = igk_js_ajx_post_auri($this->getUri("ca_ClearTableList_ajx"), "window.igk.ctrl.ca_updatetable");
         $frm->addInput("btn.update", "submit", __("Update"));
-        $f = $ctrl->getDBConfigFile();
+        $f = $ctrl->getDataSchemaFile();
         if (file_exists($f)) {
             $frm->addInput("btn.update", "button", __("btn.dropdb"))->setAttribute("onclick", igk_js_ajx_post_auri("ca_db_drop_db_file_ajx"));
         }
@@ -1409,7 +1409,7 @@ EOF;
         }
         $tr->add("th")->Content = IGK_HTML_SPACE;
         if ($table == null) {
-            if (file_exists($ctrl->getDBConfigFile())) {
+            if (file_exists($ctrl->getDataSchemaFile())) {
                 $tab = $ctrl->getDataTableInfo();
                 foreach ($tab as $k) {
                     $tb->add($this->ca_getFieldInfo($k));
@@ -1609,7 +1609,7 @@ EOF;
                 $cl[$k] = $v[$i];
             }
         }
-        $f = igk_getctrl($this->SelectedController)->getDBConfigFile();
+        $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
         igk_io_save_file_as_utf8($f, $e->render((object)array("Indent" => true)));
         igk_frame_close("add_edit_db_frame");
         $this->setParam("ctrl:ca_tabInfo", null);

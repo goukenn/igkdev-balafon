@@ -2075,7 +2075,7 @@ final class DbConfigController extends ConfigControllerBase
                 igk_wln("/!\\ connection failed");
                 igk_exit();
             }
-            ini_set("max_execution_time", 0);
+            igk_set_timeout(0);
             $ad->beginTransaction();
             // + | init db environment
             // $init_env=function(){

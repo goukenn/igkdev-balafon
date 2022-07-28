@@ -8,7 +8,6 @@ use SysDbController;
 use IGK\System\Database\InitBase;
 
 class InitData extends InitBase{
-	public static function Init(BaseController $controller){
-		// + | unitialize your data base
+	public static function Init(BaseController $controller){ 
 	}
 }

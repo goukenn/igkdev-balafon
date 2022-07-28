@@ -21,16 +21,6 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 		return "COMMUNITY";
 	}
 
-	protected function getConfigFile()
-	{
-		$s = dirname(__FILE__)."/".IGK_DATA_FOLDER."/".IGK_CTRL_CONF_FILE;
-		return igk_io_dir($s);
-	}
-	protected function getDBConfigFile()
-	{
-		return igk_io_dir(dirname(__FILE__)."/".IGK_DATA_FOLDER."/".IGK_CTRL_DBCONF_FILE);
-	}
-
 	public function View()
 	{
 

@@ -82,11 +82,17 @@ class Request implements IInjectable
         $b = igk_server()->REQUEST_URI; 
         if (!$b)
             return null;
-        $t = IGKString::Uri(dirname((($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF)));
+        $file = (($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF);
+        $dfile = implode("/", [rtrim(igk_io_rootdir()), $file]);
+        if (!file_exists($dfile)){
+            igk_ilog("entry request file not is missing.");
+            igk_die("misconfiguration: entry request is missing");
+        }
+        $t = IGKString::Uri(dirname($file));
         $s = $b;
         if (strstr($b, $t)) {
             $s = "/" . ltrim(substr($b, strlen($t)), "/");
-        }
+        } 
         return urldecode($s);
     }
     private function __construct()

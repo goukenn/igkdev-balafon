@@ -31,10 +31,8 @@ class ResetDbCommand extends AppExecCommand{
             $seed = $command->app->command["--db:seed"];
             $fc = $seed["0"];
             $fc("resetdb", $command); 
-        }
-       
-        igk_wln("ok", igk_is_debug(), igk_environment()->querydebug);
-
+        }       
+        // igk_dev_wln(igk_is_debug(), igk_environment()->querydebug);
         if ($ctrl){
             $c = \IGK\Helper\SysUtils::GetControllerByName($ctrl); 
 

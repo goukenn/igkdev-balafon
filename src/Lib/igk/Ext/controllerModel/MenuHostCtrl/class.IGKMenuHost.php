@@ -16,9 +16,7 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		$tab["clAllowMenuNavigation"] = igk_getr("clAllowMenuNavigation");
 	}
-	//----------------------------------------
-	//Please Enter your code declaration here
-	//----------------------------------------
+ 
 	//@@@ parent view control
 	public function View(){
 		extract($this->getSystemVars());

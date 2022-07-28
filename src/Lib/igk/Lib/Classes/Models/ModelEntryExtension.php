@@ -787,6 +787,11 @@ abstract class ModelEntryExtension{
     public static function prepare(ModelBase $model){
         return new QueryBuilder($model);
     }
+    public static function with(ModelBase $model, $modelUnion){
+        $model = self::prepare($model);
+        // $model->with($modelUnion);
+        return $model;
+    }
 
     public static function modelTableInfo(ModelBase $model){
         return $model->getTableInfo();

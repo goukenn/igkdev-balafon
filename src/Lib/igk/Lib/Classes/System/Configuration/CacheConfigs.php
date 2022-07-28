@@ -47,7 +47,7 @@ final class CacheConfigs{
     public static function GetCachedOption(BaseController $controller, $name, $defaut=null){
         $i = self::getInstance();       
         $cnf = ControllerHelper::getConfigFile($controller); 
-        if (!($i->mtime < filemtime($cnf))){
+        if (file_exists($cnf) && !($i->mtime < filemtime($cnf))){
             $options = igk_getv($i->cacheOptions, get_class($controller)); 
             $keyname = strtolower(igk_environment()->keyName()); 
             if ($options && property_exists($options, $keyname)){

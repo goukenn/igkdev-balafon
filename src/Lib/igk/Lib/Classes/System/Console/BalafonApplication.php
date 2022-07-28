@@ -370,9 +370,12 @@ class BalafonApplication extends IGKApplicationBase
                         }
                     }
                     foreach ($c as $t) {
-                        Logger::info("migrate..." . get_class($t));
+                        $cl = get_class($t);
+                        Logger::info("migrate..." . $cl);
                         if ($t::migrate()) {
-                            Logger::success("migrate:" . get_class($t));
+                            Logger::success("migrate:" . $cl);
+                        }else {
+                            Logger::danger("failed to migrate : ". $cl);
                         }
                     }
                     // migrate module 

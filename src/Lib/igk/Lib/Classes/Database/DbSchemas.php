@@ -69,8 +69,6 @@ abstract class DbSchemas{
         $data = igk_getv(self::$sm_schemas, $file);
         if (!$data){
             $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname);
-             
-            
             self::$sm_schemas[$file] = ["controller"=>$ctrl, "definition"=>$data];
         }else {            
             $data = $data["definition"];

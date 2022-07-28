@@ -1,4 +1,8 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: QueryBuilder.php
+// @date: 20220728 14:50:19
+// @desc: 
 
 namespace IGK\System\Database;
 
@@ -91,10 +95,30 @@ class QueryBuilder
             $table => [$condition, "type" => QueryBuilderConstant::LeftJoin]
         ]);
     }
-    public function limit(array $limit_raw)
+    /**
+     * limit query
+     * @param array|int $limit_min
+     * @param ?int $limit_max
+     * @return $this 
+     */
+    public function limit($limit_raw, ?int $max=null)
     {
+        if (!is_array($limit_raw)){
+            !is_numeric($limit_raw) && igk_die("value not allowed");
+            $limit_raw = [$limit_raw];
+            if ($max){
+                $limit_raw[] = $max;
+            }
+        }   
         $this->m_options["Limit"] = $limit_raw;
         return $this;
+    }
+    public function latest(?string $column=null){
+        $cl = $column;
+        if (is_null($column)){
+            $cl = $this->model()->getPrimaryKey();
+        }
+        return $this->orderBy([$cl."|DESC"]);
     }
     /**
      * set columns list
@@ -215,4 +239,13 @@ class QueryBuilder
         return $this->m_model;
     }
     // 
+
+    public function get(){
+        if ($tab = $this->execute()){
+            return $tab->to_array();
+        }
+    }
+
+    
+
 }

@@ -7,7 +7,6 @@ use IGKCommunityLink;
 use IGK\System\Database\InitBase;
 
 class InitData extends InitBase{
-	public static function Init( $controller){
-		// + | unitialize your data base
+	public static function Init( $controller){ 
 	}
 }
