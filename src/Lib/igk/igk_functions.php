@@ -10086,8 +10086,9 @@ function igk_get_module_name($dir)
     return null;
 }
 ///<summary>retrieve the active installed module</summary>
+///<note>only module with module.json file in root folder.</note>
 /**
- * retrieve the active installed module
+ * retrieve the active installed module.
  */
 function igk_get_modules()
 {
@@ -20576,7 +20577,7 @@ function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
 ///<summary>represent require module</summary>
 /**
  * represent require module
- * @return null|ApplicationModulController
+ * @return null|\IGK\Controllers\ApplicationModuleController
  */
 function igk_require_module($modulename, callable $init = null, $loadall = 1, $die = 1)
 {
@@ -25872,7 +25873,7 @@ function igk_sys_zip_core(string $tfile, $incVersion = false)
  * @param mixed $path where to store
  * @param mixed $author default author setting
  */
-function igk_sys_zip_project($controller, $path, $author = IGK_AUTHOR)
+function igk_sys_zip_project($controller, $path, $author = IGK_AUTHOR, ?array $manifestOptions = [])
 {
     if (!class_exists(ZipArchive::class)) {
         return false;
@@ -25893,6 +25894,9 @@ function igk_sys_zip_project($controller, $path, $author = IGK_AUTHOR)
         $manifest->add("version")->Content = $controller->Configs->get("version", "1.0");
         $manifest->add("author")->Content = $author;
         $manifest->add("date")->Content = date("Ymd His");
+        if ($manifestOptions){
+            $manifest->setAttributes($manifestOptions);
+        }
         $zip->addFromString("manifest.xml", $manifest->render());
         $zip->addFromString("__project.def", "");
         $zip->close();

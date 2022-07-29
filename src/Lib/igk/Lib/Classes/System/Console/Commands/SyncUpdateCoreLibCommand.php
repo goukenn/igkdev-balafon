@@ -46,11 +46,10 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $script_install = igk_io_sys_tempnam("blfcore");
 
         unlink($temp_file);
-        Logger::info("temp file :" . $temp_file);
+        Logger::info("temp file : " . $temp_file);
         Logger::info("temp script :" . $script_install);
         $sb = new StringBuilder();
         $token = date("Ymd").rand(2, 85).igk_create_guid();
-
         $sb->appendLine(implode("\n", [
             "\$token = '".$token."';",            
         ]));
@@ -61,18 +60,11 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $builder = new PHPScriptBuilder();
         $builder->type("function")
         ->defs($sb);
-
-
         igk_io_w2file($script_install, $builder->render());
-
-        igk_sys_zip_core($temp_file, false);
-        
+        igk_sys_zip_core($temp_file, false);     
 
         ftp_put($h,$lib =  $pdir."/corelib.zip", $temp_file, FTP_BINARY);
-        ftp_put($h,$install= $pdir."/install.php", $script_install, FTP_BINARY);
-
-
-        
+        ftp_put($h,$install= $pdir."/install.php", $script_install, FTP_BINARY);        
 
         unlink($temp_file);
         unlink($script_install);
@@ -92,6 +84,10 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ftp_close($h);
         if (($status = igk_curl_status())== 200){
             Logger::info("curl response \n". App::gets(App::BLUE, $response));
+            $rep = json_decode($response);
+            if (!$rep->error){
+                Logger::success("update core lib success");
+            }
         }else {
             Logger::danger("install script failed");
             Logger::info( "status : ".$status); 

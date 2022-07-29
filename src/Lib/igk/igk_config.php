@@ -621,6 +621,12 @@ define("IGK_DEFAULT_VIEW_FILE", IGK_DEFAULT_VIEW . "." . IGK_DEFAULT_VIEW_EXT);
 define("IGK_INC_VIEWS_FUNC", IGK_LIB_DIR . "/Inc/igk_views_func.pinc");
 define("IGK_HTML_CLASS_NODE_FORMAT", "IGKHtml{0}Item");
 define("IGK_HTML_NODE_REGEX", "/^IGKHtml(?<name>(.)+)Item$/i");
+
+
+/**
+ * configuration controller 
+ */
+define("MODULE_CNF_CTRL", "{14166020-7B69-1DDD-CC2A-6E701570D1B5}");
 define("IGK_SYS_CTRL", "c_sysc");
 define("IGK_SYS_PAGE_CTRL", "c_syspc");
 define("IGK_HUMAN_CTRL", "c_sys_hc");

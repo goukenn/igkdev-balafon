@@ -28,8 +28,8 @@ class DbValidateSchemaCommand extends AppExecCommand{
 
     public function exec($command,  $file=null)
     {
-        if (!file_exists($file)){
-            Logger::danger("file not found");
+        if (empty($file) || !file_exists($file)){
+            Logger::danger("exec command : file not found");
             return -1;
         }
         if (!file_exists($db_schema = IGK_LIB_DIR."/Data/Schemas/db-schemas.xsd")){

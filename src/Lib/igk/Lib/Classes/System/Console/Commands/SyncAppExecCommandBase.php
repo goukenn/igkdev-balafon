@@ -57,6 +57,9 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             "public_dir"=>igk_getv($sync, "public_dir", $app),
             "site_uri" => igk_getv($sync , "site_uri"),
             "lib_dir"=>igk_getv($sync , "lib_dir"),
+            "module_dir"=>igk_getv($sync , "module_dir"),
+            "node_dir"=>igk_getv($sync , "node_dir"),
+            "composer_dir"=>igk_getv($sync , "composer_dir"),
         ];
         return $sync;
 

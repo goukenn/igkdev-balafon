@@ -4,12 +4,15 @@ namespace IGK\System\Html\Dom;
 use IGK\Resources\ResourceData;
 use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlResolvLinkValue;
+use IGKException;
 
 ///<summary>Represente class: IGKHtmlNoTagNode</summary>
 /**
 * no definition 
 */
 class HtmlImgNode extends HtmlNode{
+
+    
     ///<summary></summary>
     /**
     * @param string $src uri
@@ -25,6 +28,12 @@ class HtmlImgNode extends HtmlNode{
             "src"=>new HtmlResolvLinkValue()
         ]);
     }
+    /**
+     * set image sources
+     * @param mixed $source 
+     * @return $this 
+     * @throws IGKException 
+     */
     public function setSrc($source){ 
         if (is_null($source)){
             unset($this["src"]);

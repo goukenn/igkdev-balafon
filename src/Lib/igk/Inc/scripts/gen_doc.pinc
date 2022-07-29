@@ -77,6 +77,6 @@ if(file_exists($f)){
     eval(" \$fc(\$itc, \$itif); ?>".$s);
 }
 else{
-    echo "file not found";
+    echo "gen doc file not found";
 }
 echo "Not def"; 

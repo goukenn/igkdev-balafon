@@ -11,6 +11,10 @@ use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
 
+/**
+ * sync ftp project
+ * @package IGK\System\Console\Commands
+ */
 class SyncProjectCommand extends SyncAppExecCommandBase
 {
     var $command = "--sync:project";
@@ -24,7 +28,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $use_zip;
     private $remove_cache = false;
 
-    public function exec($command, ?string $project = null)
+    public function exec($command, ?string $module = null)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
@@ -38,16 +42,16 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         $this->use_zip = property_exists($options, "--zip");
 
 
-        if (is_null($project)) {
+        if (is_null($module)) {
             Logger::danger("project name is required");
             return -1;
         }
-        if (!is_dir($pdir = igk_io_projectdir() . "/${project}")) {
+        if (!is_dir($pdir = igk_io_projectdir() . "/${module}")) {
             Logger::danger("project not found");
             return -2;
         }
         $pdir = IO::GetUnixPath($pdir, true);
-        $project = basename($pdir);
+        $module = basename($pdir);
         
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
@@ -55,10 +59,10 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         switch ($arg) {
             case "l":
                 // list release
-                $this->_listRelease($h, $setting["release"], $project);
+                $this->_listRelease($h, $setting["release"], $module);
                 break;
             case "r":
-                $this->_restoreRelease($h, $project, $setting);
+                $this->_restoreRelease($h, $module, $setting);
                 break;
             default:
             if ($this->use_zip){
@@ -70,19 +74,19 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 // sync project
                 $exclude = [];
                 $g = ftp_nlist($h, $setting["path"]);
-                $o_dir = $setting["path"] . "/" . $project;
-                if (!in_array($project, $g)) {
+                $o_dir = $setting["path"] . "/" . $module;
+                if (!in_array($module, $g)) {
                     // upload project if not found
                     Logger::info("project not found in " . $setting["server"]);
                 } else {
                     // move current folder to release
-                    ftpHelper::CreateDir($h, $bckdir = $setting["release"] . "/" . $project . date("YmdHis"));
+                    ftpHelper::CreateDir($h, $bckdir = $setting["release"] . "/" . $module . date("YmdHis"));
                     Logger::info("rename " . $o_dir . " " . $bckdir);
                     ftp_rename($h, $o_dir, $bckdir);
                 }
                 ftpHelper::CreateDir($h, $setting["path"]);
                 ftp_chdir($h, $setting["path"]);
-                @ftp_mkdir($h, $project);
+                @ftp_mkdir($h, $module);
                 $cdir = [];
 
                 $fc = function ($f, array &$excludedir = null) {
@@ -106,7 +110,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
                     $g = substr($f, strlen($pdir));
                     if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
-                        ftpHelper::CreateDir($h, dirname($project . $g));
+                        ftpHelper::CreateDir($h, dirname($module . $g));
                         array_push($cdir, $_cdir);
                     }
                     Logger::print("upload : " . $f);
@@ -165,7 +169,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
         $projectPath = $setting["path"];
         $path = $setting["release"];
-
         $bckdir = $path;
         if (!@ftp_chdir($ftp, $bckdir)) {
             Logger::info("no release folder found");
@@ -186,14 +189,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             $this->removeCache($ftp, $setting["application_dir"]);
         }
     }
-
-    private function _installZipProject($controller){
-        
+    //zip controller project
+    private function _installZipProject($controller){        
         $file = tempnam(sys_get_temp_dir(), "blf");
-
         igk_sys_zip_project($controller, $file);
-
         Logger::info("done : ".$file);
+        return $file;
     }
 
 }

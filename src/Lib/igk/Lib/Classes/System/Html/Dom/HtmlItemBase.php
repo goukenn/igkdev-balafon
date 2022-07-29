@@ -889,6 +889,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @throws IGKException 
      */
     public static function CreateWebNode($n, $attributes=null, $indexOrArgs= null){  
+        if (strtolower($n) == "_access_offsetunset"){
+            igk_trace();
+            igk_wln_e("bind");
+        }
         if ($n= HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)){
             if ($attributes){                 
                 $n->setAttributes($attributes);
@@ -953,6 +957,13 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $this->m_attributes[$k] = $v;
         }
         return $this;
+    }
+    protected function _access_OffsetUnset($n){
+        unset($this->m_attributes[$n]);
+        return $this;
+    }
+    protected function _access_offsetExists($n){
+        return $this->m_attributes->keyExists($n);
     }
     ///<summary>compatibility with previous version</summary>
     final function renderAJX($options=null){        

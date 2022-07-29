@@ -40,7 +40,7 @@ class IGKWebApplication extends IGKApplicationBase
         // + |
         IGKEnvironment::getInstance()->is("OPS") && $render && IGKCaches::HandleCache();
         
-        igk_ilog("handle cache.".session_id());
+        // igk_ilog("handle cache.".session_id());
         
         igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());
         $this->initlibrary();

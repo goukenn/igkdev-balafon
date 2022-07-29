@@ -504,7 +504,7 @@ class BalafonApplication extends IGKApplicationBase
                         if (file_exists($file)) {
                             include($file);
                         } else {
-                            Logger::danger(__("file not found"));
+                            Logger::danger(__("[ run file ] file not found"));
                         }
                     } catch (Throwable $ex) {
                         Logger::danger(":" . $ex->getMessage());
@@ -525,7 +525,6 @@ class BalafonApplication extends IGKApplicationBase
                 $c = new TerminalActionCommand;
                 return $c->run();   
             }, [
-
                 "desc"=>__("terminal action command"),
                 "help"=>function(){
                     Logger::info('terminal action command');

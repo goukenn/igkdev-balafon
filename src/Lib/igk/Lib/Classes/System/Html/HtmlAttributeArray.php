@@ -27,6 +27,9 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess{
         }
         return $this;
     }
+    public function keyExists($n){
+        return key_exists($n, $this->m_data);
+    }
     /**
      * deactivate attribute
      * @param mixed $n 
