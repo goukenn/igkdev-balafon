@@ -486,7 +486,7 @@ EOF;
     {
         $newPage = igk_gettv($newPage, igk_getr("defaultmenupage"));
         if ($newPage) {
-            igk_app()->Configs->menu_defaultPage = $newPage;
+            igk_configs()->menu_defaultPage = $newPage;
             igk_save_config();
             igk_notifyctrl()->addMsg("configuration update");
         }
@@ -977,7 +977,7 @@ EOF;
         $frm["action"] = $this->getUri("changeDefaultPage");
         $frm["method"] = "post";
         $frm->addLabel("defaultMenuPage");
-        $frm->addInput("defaultmenupage", "text", igk_gettv(igk_app()->Configs->menu_defaultPage, IGK_DEFAULT_VIEW));
+        $frm->addInput("defaultmenupage", "text", igk_gettv(igk_configs()->menu_defaultPage, IGK_DEFAULT_VIEW));
         $frm->addBr();
         $frm->addInput("btn_d", "submit", __("btn.submit"));
         $c = $v_mdiv->addForm();
@@ -1235,8 +1235,8 @@ EOF;
      */
     public function setMenuview()
     {
-        if (igk_app()->Configs->menuHostCtrl) {
-            $menu_host = igk_getctrl(igk_app()->Configs->menuHostCtrl);
+        if (igk_configs()->menuHostCtrl) {
+            $menu_host = igk_getctrl(igk_configs()->menuHostCtrl);
             if ($menu_host != null) {
                 $this->setMenuhostCtrl($menu_host);
                 $this->setParentView($menu_host->TargetNode);

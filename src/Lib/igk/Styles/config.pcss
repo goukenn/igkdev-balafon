@@ -1,6 +1,5 @@
 <?php
-// igk_ilog("load config pcss");
-
+ 
 // ^/Configs
 // css configuration page
 $page = ".igk-cnf-page";
@@ -481,37 +480,23 @@ $def[$page." .igk-accordeon .igk-row.thead div:last-child"] = "padding:10px; fon
 // + | BALAFON Material component
 // + | BMC - config material
 $e = $page." .igk-adm-login-form";
-$def[$e] = "max-width:420px; margin:10px auto; background-color:[cl:configBackgroundColor]; padding:16px; overflow:hidden; "; 
-$prop["--igk-winui-bmc-shape__bgcolor"] = "yellow";
-$def["button#connect.igk-bmc-button"] = "margin: initial; margin-right:auto;";
-$def["button#connect.igk-bmc-button +  .igk-btn"] = "margin: initial; margin-left:auto;";
+// $def[$e] = "max-width:420px; margin:10px auto; background-color:[cl:configBackgroundColor]; padding:16px; overflow:hidden; ";
+// $prop["--igk-winui-bmc-shape__bgcolor"] = "yellow";
+// $def["button#connect.igk-bmc-button"] = "margin: initial; margin-right:auto;";
+// $def["button#connect.igk-bmc-button +  .igk-btn"] = "margin: initial; margin-left:auto;";
 
-
-
-$def[$e." .igk-winui-bmc-shape"] = "{sys:fitw}".<<<EOF
-[varp:--igk-winui-bmc-shape__bgcolor: {$cl["configBackgroundColor"]}]
-[varp:--igk-winui-bmc-shape__corner_bl_rx:0px !important]
-[varp:--igk-winui-bmc-shape__corner_bl_ry:0px !important]
-[varf: background-color:[var:--igk-winui-bmc-shape__bgcolor];]
-EOF;
+// $def[$e." .igk-winui-bmc-shape"] = "{sys:fitw}".<<<EOF
+// [varp:--igk-winui-bmc-shape__bgcolor: {$cl["configBackgroundColor"]}]
+// [varp:--igk-winui-bmc-shape__corner_bl_rx:0px !important]
+// [varp:--igk-winui-bmc-shape__corner_bl_ry:0px !important]
+// [varf: background-color:[var:--igk-winui-bmc-shape__bgcolor];]
+// EOF;
 
 
 $def[":root"] = "--config-mmenu-FontSize: 12pt;";
 $def[":root"] .= "--config-mmenu-CatFontSize: 18pt;";
+  
 
-
-
-
-
-
-
-
-
-
-
-$def[$e." .igk-action-bar"] = "padding: 10px 0px;";
-$def[$e." .content"] = "padding: 32px; background-color:rgb(25, 64, 60); color: #333;";
-$def[$e." .content:hover:before"] = "{sys:loc_a, posab} content:'';";
 
 
 $e = $page." .igk-adm-login-form .igk-adm-logo";
@@ -711,3 +696,7 @@ $def["code.dispib"] = "background-color: [cl:iCodeBgColor, #313275]; margin-left
 $def[".igk-svg-host.svg-fit > svg"] = "{sys: fit} fill:white; ";
 
 $def[".igk-svg-host.logo"] = "width:32px; height:32px; margin: 4px;";
+
+ 
+
+$cl["loginFormBgColor"] = "indigo";

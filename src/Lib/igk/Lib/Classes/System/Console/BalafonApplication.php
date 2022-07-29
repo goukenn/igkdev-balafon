@@ -180,7 +180,7 @@ class BalafonApplication extends IGKApplicationBase
             "--set:default_controller" => [function ($v, $command) {
                 $command->exec = function ($command, $name = "") {
                     if (!empty($name) && class_exists($name)) {
-                        igk_app()->Configs->default_controller = $name;
+                        igk_configs()->default_controller = $name;
                         igk_save_config(true);
                         Logger::success(__("controller changed to {0}", $name));
                     }
@@ -189,7 +189,7 @@ class BalafonApplication extends IGKApplicationBase
             "--get:sysconfigs" => [
                 function ($v, $command) {
                     $command->exec = function ($command, $pattern = null) {
-                        $tab = igk_app()->Configs->getEntries();
+                        $tab = igk_configs()->getEntries();
                         ksort($tab);
 
                         foreach ($tab as $k => $v) {
@@ -299,7 +299,7 @@ class BalafonApplication extends IGKApplicationBase
                     $command->exec = function ($command, $name = null, $value = null) {
 
                         if (!empty($name)) {
-                            igk_app()->Configs->$name = $value;
+                            igk_configs()->$name = $value;
                             igk_save_config(true);
                             Logger::print("");
                             Logger::success("configuration changed");

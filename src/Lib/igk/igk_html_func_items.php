@@ -322,7 +322,7 @@ EOF;
  */
 function igk_html_code_copyright_callback($ctrl = null)
 {
-    $s = ($ctrl ? igk_getv($ctrl->Configs, 'copyright') : null) ?? igk_getv(igk_app()->Configs, 'copyright', IGK_COPYRIGHT);
+    $s = ($ctrl ? igk_getv($ctrl->Configs, 'copyright') : null) ?? igk_configs()->get('copyright', IGK_COPYRIGHT);
     if (!empty($s)) {
         $s = igk_html_databinding_treatresponse($s, null, null);
     }
@@ -2131,7 +2131,7 @@ function igk_html_node_igkgloballangselector()
 {
     $dv = igk_create_node("div");
     $sl = $dv->add("select")->setId("lang")->setClass("-igk-control -igk-form-control -clselect");
-    $gt = igk_app()->Configs->default_lang;
+    $gt = igk_configs()->default_lang;
     $uri = \IGK\Helper\UriHelper::GetCmdAction(igk_sys_ctrl(), "changeLang_ajx");
     $sl["onchange"] = " if (window.ns_igk){ ns_igk.ajx.get('{$uri}/'+this.value, null, ns_igk.ajx.fn.replace_or_append_to_body); } return false;";
     $sl->setCallback('AcceptRender', igk_io_get_script(IGK_LIB_DIR . "/Inc/html/globallang_accept_render.pinc"));

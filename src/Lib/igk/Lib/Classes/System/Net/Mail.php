@@ -161,7 +161,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
                 $this->_closeSocket($socket);
                 return false;
             }
-            igk_debug_wln("AUTH pass ". igk_app()->Configs->mail_password);
+            igk_debug_wln("AUTH pass ". igk_configs()->mail_password);
             fwrite($socket, base64_encode($pass).IGK_CLF);
             if(!$this->server_parse($socket, '235')){
                 $this->_closeSocket($socket);

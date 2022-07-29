@@ -121,7 +121,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         //     $sl->setId("clCtrlMenuHost");
         //     $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('ca_setmenuhost_ajx&') . "'+this.id+'='+this.value, null, null);";
         //     $sl->add("option", array("value" => IGK_STR_EMPTY))->Content = IGK_HTML_SPACE;
-        //     $v_menuhost = igk_app()->Configs->menuHostCtrl;
+        //     $v_menuhost = igk_configs()->menuHostCtrl;
         //     foreach ($tab as $v) {
         //         $opt = $sl->add("option", array("value" => $v->getName()));
         //         if ($v->getName() == $v_menuhost) {
@@ -1485,7 +1485,7 @@ EOF;
     public function ca_setmenuhost()
     {
         $v_n = igk_getr("clCtrlMenuHost");
-        igk_app()->Configs->menuHostCtrl = $v_n;
+        igk_configs()->menuHostCtrl = $v_n;
         igk_save_config();
         $this->View();
         $ctrl = igk_getctrl($v_n);
@@ -1799,8 +1799,8 @@ EOF;
     public function setdefaultpage()
     {
         $n = igk_getr("clDefaultCtrl");
-        if (igk_app()->Configs->default_controller != $n) {
-            igk_app()->Configs->default_controller = $n;
+        if (igk_configs()->default_controller != $n) {
+            igk_configs()->default_controller = $n;
             igk_save_config();
             $this->View();
             igk_app()->session->setParam("forceview", 1);

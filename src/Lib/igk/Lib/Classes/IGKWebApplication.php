@@ -19,13 +19,7 @@ class IGKWebApplication extends IGKApplicationBase
      * @throws IGKException 
      */
     public function run(string $file, $render = 1)
-    {
-        // if (igk_getr("XDEBUG_PROFILE")==1){
-        //     echo "profile runing web application \n";
-        //     // igk_wln_e($_ENV, $_SERVER);
-        //     igk_exit();
-        // }
-        // return; //:: 250ms
+    { 
         if (!file_exists($file)) {
             throw new IGKException("Operation Not Valid");
         }
@@ -36,14 +30,17 @@ class IGKWebApplication extends IGKApplicationBase
         $config = igk_configs();
         // + | --------------------------------------------------------        
         // + | handle secure port 
+        // + |
         if($config->force_secure_redirection && ($sport=$config->secure_port ?? 443) && (igk_server()->SERVER_PORT != $sport)){            
             igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
             igk_exit();
         }
         // + | --------------------------------------------------------        
-        // handle cache
+        // + | handle cache
+        // + |
         IGKEnvironment::getInstance()->is("OPS") && $render && IGKCaches::HandleCache();
         
+        igk_ilog("handle cache.".session_id());
         
         igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());
         $this->initlibrary();

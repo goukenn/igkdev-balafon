@@ -16,7 +16,6 @@ class CSSCommand extends AppExecCommand{
     }
     public function exec($command)
     {    
-        // Logger::print(igk_css_render_balafon_style(igk_app()->getDoc()));
         Logger::print(igk_css_doc_get_def(igk_app()->getDoc()));
     }   
 }

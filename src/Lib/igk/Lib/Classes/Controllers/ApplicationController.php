@@ -928,7 +928,7 @@ EOF;
         $wt = igk_app()->getConfigs()->get("website_title", igk_server()->SERVER_NAME);
         $title  = $this->getConfigs()->get( IGK_CTRL_CNF_TITLE);
         if (!empty($title))
-            $title = __("title.app_2", $title, $wt); // igk_app()->Configs->website_title);
+            $title = __("title.app_2", $title, $wt); // igk_configs()->website_title);
         else {
             $title = __("title.app_1", $wt);
         }

@@ -363,7 +363,7 @@ final class ApplicationModuleController extends BaseController{
     ///<summary></summary>
     ///<param name="doc"></param>
     /**
-    * 
+    * attach to current document
     * @param mixed $doc
     */
     private function setCurrentDoc($doc){

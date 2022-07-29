@@ -91,7 +91,7 @@ final class R extends IGKObject {
         $v_lang=$app->session->lang; 
         $tab = self::GetSupportedLangs(); 
         if($lang && !in_array($lang, $tab)){
-            $lang=igk_app()->Configs->default_lang;
+            $lang=igk_configs()->default_lang;
         }
         $r=false;
         if(($v_lang != $lang) && in_array($lang, $tab)){

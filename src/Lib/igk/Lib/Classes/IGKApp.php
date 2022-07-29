@@ -152,7 +152,7 @@ class IGKApp extends IGKObject
     /**
     * get api current page folder
     */
-    public function getCurrentPageFolder(){
+    public function getCurrentPageFolder(){        
         $_is_phar=defined("IGK_PHAR_CONTEXT");
         if($_is_phar){
             $buri=igk_io_baseuri();

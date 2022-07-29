@@ -1355,9 +1355,12 @@ abstract class ControllerExtension
     {
         return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc(); //  $controller->getAppDocument();
     }
-    public static function bindCssStyle(BaseController $controller)
+    /**
+     * bind controller style to document
+     */
+    public static function bindCssStyle(BaseController $controller, ?\IGKHtmlDoc $doc = null)
     {
-        $doc = self::getCurrentDoc($controller);
+        $doc = $doc ?? self::getCurrentDoc($controller);
         if ($doc && !empty($file = $controller->getPrimaryCssFile()))  
         {      
             // igk_ilog("try bind to bind primary files....".$file);

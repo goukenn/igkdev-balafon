@@ -21,7 +21,20 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
  */
 abstract class CssUtils
 {
-
+    public static function InitSysGlobal(\IGKHtmlDoc $doc){
+        $clear = 0;
+        $sys = $doc->getSysTheme();
+        if (!$sys->getinitGlobal()){
+            $sys->initSysGlobal(); 
+            $clear = 1;
+            if (!defined("IGK_FORCSS")){
+                register_shutdown_function(function()use($sys){
+                    $sys->resetSysGlobal();
+                });
+            }
+        } 
+        return $clear;
+    }
     /**
      * 
      * @param null|BaseController $ctrl 
@@ -32,7 +45,9 @@ abstract class CssUtils
     {   
         if (file_exists($file) && !igk_is_ajx_demand()) {
             if (!defined("IGK_FORCSS")) { 
-                igk_css_reg_global_tempfile($file, $document->getTheme(), $ctrl, $temp);
+                // igk_wln("binding ...".$temp);
+                // igk_css_reg_global_tempfile($file, $document->getTheme(), $ctrl, $temp);
+                igk_css_reg_global_style_file($file, $document->getTheme(), $ctrl, $temp);// $document->getSysTheme(), $ctrl, $temp);
             } else {
                 igk_css_bind_file($document, $ctrl, $file);
             }
@@ -55,7 +70,7 @@ abstract class CssUtils
         $out = "";
         $g = $doc->getTheme()->getInlineStyle(true);          
         // igk_wln_e("inline style renderegin ??? ", $doc->getParam('change'), $g);
-        // + | igk_wln("inline rendering", $g);
+        // igk_wln("inline rendering", $g);
         // + | reset parameter        
         $sys = $doc->getSysTheme();
         $clear = 0;

@@ -391,6 +391,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             return null;
         }
         $v_routes = $this->_refRoutes();  
+        // igk_wl_pre($v_routes);
+        // igk_wln_e(__FILE__.":".__LINE__);
+
         if($v_routes){
             //  krsort($v_routes);
             foreach($v_routes as $k=>$v){

@@ -32,18 +32,18 @@ class MailConfigController extends ConfigControllerBase{
     ///<summary>initialize system mail configuration</summary>
     ///<param name="mail">mail object</param>
     private function init_mail_config($mail){
-        $mail->UseAuth=igk_app()->Configs->mail_useauth;
-        $mail->User=igk_app()->Configs->mail_user;
-        $mail->Pwd=igk_app()->Configs->mail_password;
-        $mail->Port=igk_app()->Configs->mail_port;
-        $mail->SmtpHost=igk_app()->Configs->mail_server;
-        $mail->SocketType=igk_app()->Configs->mail_authtype;
+        $mail->UseAuth=igk_configs()->mail_useauth;
+        $mail->User=igk_configs()->mail_user;
+        $mail->Pwd=igk_configs()->mail_password;
+        $mail->Port=igk_configs()->mail_port;
+        $mail->SmtpHost=igk_configs()->mail_server;
+        $mail->SocketType=igk_configs()->mail_authtype;
     }
     ///<summary></summary>
     public function initMailSetting(){
-        ini_set("smpt_port", igk_app()->Configs->mail_port);
-        ini_set("SMTP", igk_app()->Configs->mail_server);
-        ini_set("sendmail_from", igk_app()->Configs->mail_admin);
+        ini_set("smpt_port", igk_configs()->mail_port);
+        ini_set("SMTP", igk_configs()->mail_server);
+        ini_set("sendmail_from", igk_configs()->mail_admin);
     }
     ///<summary></summary>
     ///<param name="func" default="null"></param>
@@ -71,7 +71,7 @@ class MailConfigController extends ConfigControllerBase{
             $subject=__("Mail test: {0}", $app->getConfigs()->website_domain);
         if(empty($msg=igk_getr("msg")))
             $msg=__("<h1>Mail </h1><div>This is a test mail from <b>{0}</b></div>", $app->getConfigs()->website_domain);
-        igk_app()->Configs->mail_testmail=$to;
+        igk_configs()->mail_testmail=$to;
         igk_save_config();
         $mailctrl=igk_getctrl(IGK_MAIL_CTRL);
         $c=$app->getConfigs()->mail_contact;
@@ -152,7 +152,7 @@ class MailConfigController extends ConfigControllerBase{
         $mail=new Mail();
         $this->initMailSetting();
         $this->init_mail_config($mail);
-        $mail->addTo(igk_app()->Configs->mail_contact);
+        $mail->addTo(igk_configs()->mail_contact);
         $div=igk_create_node("div");
         $div["style"]="border:1px solid black; min-height:32px;";
         $ul=$div->add("ul");
@@ -163,7 +163,7 @@ class MailConfigController extends ConfigControllerBase{
         $mail->HtmlMsg=utf8_decode($div->render());
         $mail->Title=utf8_decode($obj->clSubject);
         $mail->ReplyTo=$obj->clYourmail;
-        $mail->From="website@".igk_app()->Configs->website_domain;
+        $mail->From="website@".igk_configs()->website_domain;
         if($mail->sendMail()){
             igk_resetr();
             $div=igk_create_node("div");
@@ -261,8 +261,8 @@ EOF;
         $frm->host(function($f){
             $dv=$f->div();
             $dv->label()->Content=__("From");
-            $dv->addInput("from", "text", igk_app()->Configs->mail_contact)->setClass("igk-form-control")->setAttribute("disabled", "true");
-            $f->div()->addSLabelInput("clTestMail", "text", igk_app()->Configs->mail_testmail);
+            $dv->addInput("from", "text", igk_configs()->mail_contact)->setClass("igk-form-control")->setAttribute("disabled", "true");
+            $f->div()->addSLabelInput("clTestMail", "text", igk_configs()->mail_testmail);
             $g=$f->div()->addSLabelInput("subject", "text", "");
             $g->input->setAttribute("placeholder", __("Subject"));
             $dv=$f->div();

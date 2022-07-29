@@ -186,7 +186,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             return true;
         }
         $cp=$this->CurrentPageFolder;
-        $cnf=igk_app()->Configs;
+        $cnf=igk_configs();
         $v=($cp != IGK_CONFIG_MODE) && (strtolower($cnf->default_controller) == strtolower($this->Name));
         return $v;
     }
@@ -334,7 +334,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             $doc->body->addBodyBox()->clearChilds()->add($t);
         }
         $menu_ctrl->setParentView($this->menu_content);
-        $this->doc->Title=$this->m_Title ? $this->m_Title: igk_app()->Configs->website_title. $this->getExtraTitle();
+        $this->doc->Title=$this->m_Title ? $this->m_Title: igk_configs()->website_title. $this->getExtraTitle();
         $this->initDocument($this->doc);
         $this->_initView();
         $c=strtolower(igk_getr("c", null));

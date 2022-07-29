@@ -170,12 +170,12 @@ $div = $frm->div();
 $ul = $div->add("ul");
 $ul["class"] = "igk-row other-conf-setting";
 $tab = [ 
-    "cldebugmode" => ["t" => "allow_debugging", "v" => igk_app()->Configs->allow_debugging],
+    "cldebugmode" => ["t" => "allow_debugging", "v" => igk_configs()->allow_debugging],
     //"clallowlog"=>["t"=>"allow_log", "v"=>false],
-    // "clCacheLoadedFile" => ["t" => "cache_loaded_file", "v" => igk_app()->Configs->cache_loaded_file],
-    "clarticleconfig" => ["t" => "allow_article_config", "v" => igk_app()->Configs->allow_article_config],
-    "clinformAccessConnection" => ["t" => "informAccessConnection", "v" => igk_app()->Configs->informAccessConnection],
-    // "clautocachepage" => ["t" => "allow_auto_cache_page", "v" => igk_app()->Configs->allow_auto_cache_page]
+    // "clCacheLoadedFile" => ["t" => "cache_loaded_file", "v" => igk_configs()->cache_loaded_file],
+    "clarticleconfig" => ["t" => "allow_article_config", "v" => igk_configs()->allow_article_config],
+    "clinformAccessConnection" => ["t" => "informAccessConnection", "v" => igk_configs()->informAccessConnection],
+    // "clautocachepage" => ["t" => "allow_auto_cache_page", "v" => igk_configs()->allow_auto_cache_page]
 ];
 foreach ($tab as $s => $kt) {
     $div = $ul->li()->setClass("igk-col fitw")->div();

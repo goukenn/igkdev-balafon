@@ -21,7 +21,14 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     private $m_theme;
     private $m_baseuri;
     private $m_noCache;
-
+    /**
+     * get if current document is system document
+     * @return bool 
+     * @throws IGKException 
+     */
+    public function getIsSysDoc(){
+        return $this === igk_app()->getDoc();
+    }
     public function getNoCache(){
         return $this->m_noCache;
     }

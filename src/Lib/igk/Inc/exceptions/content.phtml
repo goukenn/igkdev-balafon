@@ -11,7 +11,7 @@ if (igk_server()->accept("json")){
 } 
 
 $display_error = ini_get("display_errors");
-$is_prod = !igk_server_is_local() && !igk_app()->Configs->error_debug && igk_sys_env_production();
+$is_prod = !igk_server_is_local() && !igk_configs()->error_debug && igk_sys_env_production();
 $base_path = $is_prod;
 $cl1 = "#ddd";
 $w_padding = "20px";

@@ -48,7 +48,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     */
     public function begin_pwd_reset(){
         $doc= new IGKHtmlDoc("reset_pwd");
-        $domain=igk_app()->Configs->website_domain;
+        $domain=igk_configs()->website_domain;
         $doc->Title=__("title.welcome_1", $domain);
         $mbox=$doc->body->getBodyBox()->setClass("igk-register");
         $mbox->addIGKHeaderBar()->Title=__("title.beginpwdreset");
@@ -62,7 +62,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         $div->addInput("clEmail", "text")->setClass("igk-form-control")->setAttribute("placeholder", "tip.yourmail");
         $div->div()->addInput("btn_search", "submit", "btn.search")->setClass("igk-btn");
         $p->div();
-        $p->div()->Content=igk_app()->Configs->copyright;
+        $p->div()->Content=igk_configs()->copyright;
         $doc->renderAJX();
         igk_exit();
     }
@@ -100,7 +100,7 @@ class UsersConfigurationController extends ConfigControllerBase {
                 "operand"=>"OR",
                 "conditions"=>[
                     "clLogin"=>$log,
-                    "clLogin"=>$log."@".igk_app()->Configs->website_domain
+                    "clLogin"=>$log."@".igk_configs()->website_domain
                 ]
             ];            
         }
@@ -132,7 +132,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         $e=  Users::query_all();
         if($e){
             if(!preg_match("/@(.)+$/i", $log)){
-                $log=$log."@".igk_app()->Configs->website_domain;
+                $log=$log."@".igk_configs()->website_domain;
             }
             
             $tab=array("clLogin"=>$log, "clPwd"=>IGKSysUtil::Encrypt($pwd));
@@ -172,7 +172,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         $pa= $ctrl::handleView("connect");
         if($pa)
             return;
-        $doc->Title=__("title.welcome_1", igk_app()->Configs->website_title);
+        $doc->Title=__("title.welcome_1", igk_configs()->website_title);
         $mbox=$doc->body->getBodyBox()->setClass("igk-connect");
         $mbox->clearChilds();
         $mbox->addIGKHeaderBar()->Title=__("title.connect");
@@ -292,9 +292,9 @@ class UsersConfigurationController extends ConfigControllerBase {
     */
     protected function initDataEntry(){
          
-        $d=igk_app()->Configs->website_domain;
+        $d=igk_configs()->website_domain;
         $now=date(IGK_MYSQL_DATETIME_FORMAT); 
-        $def_pwd = igk_app()->Configs->get("default_conf_pwd", IGK_CONF_DEF_PWD);
+        $def_pwd = igk_configs()->get("default_conf_pwd", IGK_CONF_DEF_PWD);
         Users::create(array(
             "clLogin"=>"admin@".$d,
             "clPwd"=>$def_pwd,
@@ -560,7 +560,7 @@ class UsersConfigurationController extends ConfigControllerBase {
     */
     public function signup(){
         $doc=igk_get_document("system/signup");
-        $doc->Title=__("title.welcome_1", igk_app()->Configs->website_title);
+        $doc->Title=__("title.welcome_1", igk_configs()->website_title);
         $mbox=$doc->body->getBodyBox()->setClass("igk-register");
         $mbox->clearChilds();
         $mbox->addIGKHeaderBar()->Title=__("title.registration");
@@ -571,7 +571,7 @@ class UsersConfigurationController extends ConfigControllerBase {
         $regfrm->BadUri="";
         $regfrm->initView();
         $d=$mbox->div();
-        $d->div()->Content=igk_app()->Configs->copyright;
+        $d->div()->Content=igk_configs()->copyright;
         $doc->renderAJX();
         igk_exit();
     }
@@ -606,7 +606,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             igk_exit();
         }
         $id=igk_getr("id");
-        igk_getctrl(IGK_MYSQL_DB_CTRL)->db_edit_entry_frame($this, igk_app()->Configs->db_name, $this->getDataTableName(), $id, IGK_FD_ID, true);
+        igk_getctrl(IGK_MYSQL_DB_CTRL)->db_edit_entry_frame($this, igk_configs()->db_name, $this->getDataTableName(), $id, IGK_FD_ID, true);
         SysUtils::exitOnAJX();
     }
     ///<summary>add user frame</summary>
@@ -658,7 +658,7 @@ class UsersConfigurationController extends ConfigControllerBase {
                     $o->ConfirmationLink=$this->getUri("us_activate&q=".base64_encode($info));
                     $d=new IGKHtmlMailDoc();
                     $d->Message->Load($ctrl->getArticleContent("confirmmail", true, $o));
-                    $f=$d->sendMail($o->clLogin, igk_app()->Configs->mail_contact, __("title.mailconfirmation"));
+                    $f=$d->sendMail($o->clLogin, igk_configs()->mail_contact, __("title.mailconfirmation"));
                     if(!$f){
                         igk_notifyctrl()->addErrorr("e.confirmail.failed");
                     }

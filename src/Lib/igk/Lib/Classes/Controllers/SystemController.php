@@ -139,10 +139,9 @@ final class SystemController extends NonVisibleControllerBase{
         if(empty($s)){
             igk_navto(igk_io_baseuri());
         }
-        igk_app()->Configs->globaltheme=$name;
-        igk_save_config();
-        // igk_app()->bindCtrlStyle(); 
-        igk_css_render_balafon_style();
+        igk_configs()->globaltheme=$name;
+        igk_save_config(); 
+        igk_css_render_balafon_style(igk_app()->getDoc());
         igk_exit();
     }
     ///<summary></summary>

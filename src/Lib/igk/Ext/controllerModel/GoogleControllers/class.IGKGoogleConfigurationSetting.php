@@ -38,7 +38,7 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 			return;
 		}
 		$key = igk_getr("clApiKey");		
-		igk_app()->Configs->{self::API_KEY} = $key;
-		igk_app()->Configs->saveData();
+		igk_configs()->{self::API_KEY} = $key;
+		igk_configs()->saveData();
 	} 
 }

@@ -90,7 +90,7 @@ final class DbConfigController extends ConfigControllerBase
                 $dv->div()
                     ->setStyle("min-height:80px; line-height:1")
                     ->tablehost()->setClass("posab fit overflow-y-a")
-                    ->addDbResult($g, $uri, $selected, igk_app()->Configs->db_query_page_result ?? 50, "#query-s-r");
+                    ->addDbResult($g, $uri, $selected, igk_configs()->db_query_page_result ?? 50, "#query-s-r");
                 $dv->renderAJX();
             } else {
                 if ($error = $mysql->getError()) {
@@ -177,10 +177,10 @@ final class DbConfigController extends ConfigControllerBase
         $d->Content = __("User not allowed to view database");
         $d->addBr();
         if ($mysql->connect()) {
-            $mysql->selectdb(igk_app()->Configs->db_name);
+            $mysql->selectdb(igk_configs()->db_name);
             try {
                 $r = $this->_getTables($conf_search);
-                $d->add("div", $conf_title)->Content = igk_app()->Configs->db_name . " Tables";
+                $d->add("div", $conf_title)->Content = igk_configs()->db_name . " Tables";
                 $d->addHSep();
                 $d->add(new HtmlSearchNode($this->getUri("searchtable"), $conf_search))->setClass("dispb");
                 $d->addHSep();
@@ -203,16 +203,16 @@ final class DbConfigController extends ConfigControllerBase
                             foreach ($tab as  $v) {
                                 $s = $v;
                                 $tr->addTd()->addInput("tname[]", "checkbox", $s);
-                                $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->Content = $s;
-                                $this->__addEditTable($tr, $s, igk_app()->Configs->db_name);
-                                // $tr->td()->li()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name)))->add("img", array(
+                                $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . igk_configs()->db_name)))->Content = $s;
+                                $this->__addEditTable($tr, $s, igk_configs()->db_name);
+                                // $tr->td()->li()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_configs()->db_name)))->add("img", array(
                                 //     "width" => "16px",
                                 //     "height" => "16px",
                                 //     "src" => R::GetImgUri("drop_16x16"),
                                 //     "alt" => __("info.droptable")
                                 // ));
 
-                                $tr->td()->li()->ajxa($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_app()->Configs->db_name))
+                                $tr->td()->li()->ajxa($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_configs()->db_name))
                                 ->Content = igk_svg_use("drop");
                                 // ->add("img", array(
                                 //     "width" => "16px",
@@ -245,7 +245,7 @@ final class DbConfigController extends ConfigControllerBase
         $r = null;
         $ad = igk_get_data_adapter($this, true);
         $tab = [];
-        if ($ad && $ad->connect(igk_app()->Configs->db_name)) {         
+        if ($ad && $ad->connect(igk_configs()->db_name)) {         
             $r = $ad->listTables();
             $ad->close();
             if ($r) { 
@@ -422,7 +422,7 @@ final class DbConfigController extends ConfigControllerBase
         $v_theader = false;
         if ($r->RowCount > 0) {
             if ($this->SelectedDb == null)
-                $this->SelectedDb = strtolower(igk_app()->Configs->db_name);
+                $this->SelectedDb = strtolower(igk_configs()->db_name);
             foreach ($r->Rows as $tab) {
                 if (!$v_theader) {
                     $v_theader = true;
@@ -621,7 +621,7 @@ final class DbConfigController extends ConfigControllerBase
         $frm->setStyle("max-width:300px;");
         $frm["method"] = "POST";
         $frm["action"] = $this->getUri("updatedb");
-        $cnf = igk_app()->Configs;
+        $cnf = igk_configs();
         $frm->addFields(
             [
                 "dbServer" => ["attribs" => ["class" => "igk-form-control required", "placeholder" => __("Server"), "value" => $cnf->db_server]],
@@ -687,7 +687,7 @@ final class DbConfigController extends ConfigControllerBase
         $pan->notifyhost("mysql:tools");
         $frm = $pan->form();
         $bar = $frm->addActionBar();
-        if (igk_server_is_local() && ($h = igk_app()->Configs->phpmyadmin_uri)) {
+        if (igk_server_is_local() && ($h = igk_configs()->phpmyadmin_uri)) {
             $bar->addABtn($this->getUri("gotophpmyadmin"))->Content = __("btn.phpmyadmin");
         }
 
@@ -1237,7 +1237,7 @@ final class DbConfigController extends ConfigControllerBase
     {
         if (!$this->ConfigCtrl->IsConnected)
             return;
-        $db = $dbname ? $dbname : igk_app()->Configs->db_name;
+        $db = $dbname ? $dbname : igk_configs()->db_name;
         if (igk_qr_confirm()) {
             if ($db == null) {
                 igk_wln("no db name selected");
@@ -1751,7 +1751,7 @@ final class DbConfigController extends ConfigControllerBase
         if (igk_is_conf_connected()) {
             $ad = igk_get_data_adapter($this);
             if ($ad && $ad->connect()) {
-                $ad->sendQuery("drop database if exists " . igk_app()->Configs->db_name . " ");
+                $ad->sendQuery("drop database if exists " . igk_configs()->db_name . " ");
                 $ad->close();
             }
         }
@@ -1950,7 +1950,7 @@ final class DbConfigController extends ConfigControllerBase
      */
     public function getSelectedDb()
     {
-        return $this->getFlag(self::SELECTED_DB) ?? igk_app()->Configs->db_name;
+        return $this->getFlag(self::SELECTED_DB) ?? igk_configs()->db_name;
     }
     ///<summary></summary>
     /**
@@ -2020,7 +2020,7 @@ final class DbConfigController extends ConfigControllerBase
     public function gotophpmyadmin()
     {
         // if($this->getViewMyAdmin()){
-        if (igk_server_is_local() && $h = igk_app()->Configs->phpmyadmin_uri) {
+        if (igk_server_is_local() && $h = igk_configs()->phpmyadmin_uri) {
             igk_navto($h);
             igk_exit();
         }
@@ -2301,7 +2301,7 @@ final class DbConfigController extends ConfigControllerBase
         $pwd = igk_getr("dbPasswd");
         $dbname = igk_getr("dbName");
         $dbPort = igk_getr("dbPort");
-        $cnf = igk_app()->Configs;
+        $cnf = igk_configs();
 
         $cnf->db_pwd = $pwd;
         $cnf->db_server = $server;

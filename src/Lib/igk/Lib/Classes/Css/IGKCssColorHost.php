@@ -1,9 +1,15 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKCssColorHost.php
+// @date: 20220729 08:59:16
+// @desc: 
+
 namespace IGK\Css;
 
 use ArrayAccess;
 
 class IGKCssColorHost implements ArrayAccess{
+    const PRIMARY_COLOR = 'inherit';
     private $_;
     private function __construct(){
     }
@@ -19,7 +25,7 @@ class IGKCssColorHost implements ArrayAccess{
         $this->_[$n] = $v;
     }
     public function offsetGet($n){
-        return $this->_[$n];
+        return igk_getv($this->_, $n, self::PRIMARY_COLOR);
     }
     public function offsetUnset($n):void{
         unset($this->_[$n]);

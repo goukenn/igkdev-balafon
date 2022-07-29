@@ -43,9 +43,9 @@ class subdomain{
             {
                 return;
             } 
-            if (igk_app()->getCurrentPageFolder()=="Configs"){
+            if (igk_app()->getCurrentPageFolder() == IGK_CONFIG_PAGEFOLDER){
                 return;
-            }     
+            }  
             // register after init app 
             igk_reg_hook(IGKEvents::HOOK_AFTER_INIT_APP , function(){              
                 $this->__checkSubDomain();
@@ -74,6 +74,10 @@ class subdomain{
             $this->subdomain = $subdomain_ctrl ; 
             $this->subdomainInfo = $row;
             $app= igk_app();
+            // + | reset configuration page
+            $app->settings->appInfo->store("config", null);
+            igk_ilog([__FILE__.":".__LINE__, "reset config"]);
+
             $tab=explode('?', $v_ruri);
             $uri=igk_getv($tab, 0);
             $params=igk_getv($tab, 1);

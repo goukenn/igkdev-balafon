@@ -103,7 +103,7 @@ function igk_google_get_font_sizes($family, $size = null)
  */
 function igk_google_apikey()
 {
-    return igk_app()->Configs->{IGKGoogleConfigurationSetting::API_KEY};
+    return igk_configs()->{IGKGoogleConfigurationSetting::API_KEY};
 }
 ///<summary>get condensed family name for URI </summary>
 /**

@@ -131,7 +131,7 @@ final class SessionController extends BaseController{
     public function getIsVisible(){
         if(igk_get_env("sys://error"))
             return 0;
-        return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (IGKServer::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_getv(igk_app()->Configs, "allow_debugging", false)));
+        return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (IGKServer::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
     }
     ///<summary></summary>
     public function getName(){

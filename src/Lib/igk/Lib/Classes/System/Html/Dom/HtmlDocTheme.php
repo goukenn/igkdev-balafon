@@ -188,15 +188,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<param name="themeexport" default="false"></param>
     ///<param name="doc" default="null"></param>
     /**
-     * 
-     * @param mixed $indent the default value is true
-     * @param mixed $themeexport the default value is false
-     * @param mixed $doc the default value is null
-     * @param $systheme parent theme
+     * get theme styling definition
+     * @param \IGKHtmlDoc $doc document that host theme to export
+     * @param bool $minfile the default value is true
+     * @param bool $themeexport the default value is false 
+     * @param ICssStyleContainer $systheme style container
      */
-    private function _get_css_def(IGKHtmlDoc $doc, $indent = true, $themeexport = false, ?ICssStyleContainer $systheme = null)
+    private function _get_css_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false, ?ICssStyleContainer $systheme = null)
     {
-        $lineseparator = $indent ? IGK_LF : IGK_STR_EMPTY;
+        $lineseparator = $minfile ? IGK_STR_EMPTY  : IGK_LF;
         $out = IGK_STR_EMPTY;
         $def = $this->def;
         $colors = $this->cl;
@@ -322,7 +322,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         if (count($v_csstmpfiles) > 0) {
             if (!igk_get_env($ktemp) && $v_csstmpfiles) {
                 igk_set_env($ktemp, 1);
-
                 $vtemp = HtmlDocTheme::CreateTemporaryTheme("theme://inline/tempfiles");
                 foreach ($v_csstmpfiles as $k) {
                     $k = igk_io_expand_path($k);
@@ -330,7 +329,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                     igk_css_bind_file($doc, null, $k, $vtemp);
                     $m = IGKOb::Content();
                     IGKOb::Clear();
-                    $h = $vtemp->get_css_def($indent, $themeexport);
+                    $h = $vtemp->get_css_def($minfile, $themeexport);
                     if (igk_is_debug()) {
                         $out .= "\n/TempFileLoading: *" . igk_io_basepath($k) . "*/\n";
                     }
@@ -343,6 +342,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 igk_set_env($ktemp, null);
             }
         }
+
 
         $this->m_resolver = null;
         return $out;
@@ -601,6 +601,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function get_css_def($minfile = false, $themeexport = false, $doc = null)
     {
+       // igk_wln("minfile = ".$minfile);
         $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
         $is_root = false;
         $doc = $doc ?? $this->m_document ?? igk_app()->getDoc();
@@ -609,7 +610,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $is_root = $this === $systheme;
         $parent = $is_root ? null : (($this->parent instanceof self) && ($this->parent !== $this) ? $this->parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
-        $out =  $this->_get_css_def($doc, !$minfile, $themeexport, $parent); // systheme);
+        $out = $this->_get_css_def($doc, $minfile, $themeexport, $parent); // systheme);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
 
         if ($this->m_medias) {
@@ -628,6 +629,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                     $out .= "}" . $el;
                 }
             }
+            //igk_wln_e("the el ".$minfile, $el);
         }
         return rtrim($out);
     }

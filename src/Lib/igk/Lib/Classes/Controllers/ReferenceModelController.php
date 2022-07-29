@@ -64,7 +64,7 @@ final class ReferenceModelController extends NonVisibleControllerBase{
             return null;
         }
         $n=igk_getv($row, IGK_FD_NAME);
-        $v_tmodel=($prefix ? $prefix: igk_app()->Configs->Prefix).$row->clPrefix;
+        $v_tmodel=($prefix ? $prefix: igk_configs()->Prefix).$row->clPrefix;
         $r=igk_db_table_select_where($this->getDataTableName(), array("clModel"=>$v_tmodel));
         $model=$r->RowCount == 0 ? 0: $r->getRowAtIndex(0);
         $c=$model ? $model->clNextValue: null;

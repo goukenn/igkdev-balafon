@@ -165,7 +165,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $target->add("label", array("for" => $name))->Content = __("lb." . $param);
         $chb = $target->addInput($name, "checkbox", null);
         $chb["value"] = "1";
-        if (igk_app()->Configs->$param)
+        if (igk_configs()->$param)
             $chb["checked"] = "true";
     }
     ///<summary></summary>
@@ -238,7 +238,7 @@ final class ConfigureController extends BaseController implements IConfigControl
                 $opt = igk_xml_create_render_option();
                 $opt->Context = "mail";
                 $opt->NoStoreRendering = 1; 
-                if (!igk_mail_sendmail($to, "no-reply@" . igk_app()->Configs->website_domain, 
+                if (!igk_mail_sendmail($to, "no-reply@" . igk_configs()->website_domain, 
                 __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
                     igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
                 }
@@ -349,8 +349,8 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function check_connect($user)
     {
-        $adm = strtolower(igk_app()->Configs->admin_login);
-        $adm_pwd = strtolower(igk_app()->Configs->admin_pwd);
+        $adm = strtolower(igk_configs()->admin_login);
+        $adm_pwd = strtolower(igk_configs()->admin_pwd);
         return (($adm == $user->clLogin) && ($adm_pwd == $user->clPwd));
     }
     ///<summary></summary>
@@ -691,7 +691,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $r->th()->Content = __("Description");
         $ti = array("admin_pwd" => 1);
         $p = "";
-        $gf = igk_app()->Configs;
+        $gf = igk_configs();
         if ($t) { 
             $st = $tab->add("tbody");
             foreach ($t as $vk => $vv) {
@@ -795,8 +795,8 @@ EOF;
             return;
         }
         $n = igk_getr("clName");
-        igk_app()->Configs->$n = igk_getr("clValue");
-        igk_app()->Configs->saveData();
+        igk_configs()->$n = igk_getr("clValue");
+        igk_configs()->saveData();
     }
     ///<summary></summary>
     ///<param name="u" default="null"></param>
@@ -1173,6 +1173,7 @@ EOF;
                 "text" => __("Login"),
                 "tip" => __("Admin login"),
                 "type" => "text",
+                "required"=>1,
                 "attribs" => [
                     "autofocus" => true
                 ]
@@ -1181,7 +1182,8 @@ EOF;
             $frm->addBMCTextfield("clAdmPwd", array(
                 "text" => __("Password"),
                 "tip" => __("Admin password"),
-                "type" => "password"
+                "type" => "password",
+                "required"=>1,
             ), "", null, 1, 1)->addBMCRipple();
             $frm->addInput("goodUri", "hidden", $this->getAppUri());
             $frm->addInput("badUri", "hidden", $this->getAppUri());
@@ -1263,9 +1265,9 @@ EOF;
 	<div id="notify-z" class="notify-z" ></div>
 	<ul style="padding-bottom:1.5em" >
         <li><label class="cllabel alignl" for="clAdmLogin" >{$lang('Login')}</label>
-        <input type="text" name="clAdmLogin" id="clAdmLogin" class="cltext" autocomplete="off" placeholder="{$lang('Admin login')}" /><br /></li>
+        <input type="text" name="clAdmLogin" id="clAdmLogin" required="1" class="cltext" autocomplete="off" placeholder="{$lang('Admin login')}" /><br /></li>
         <li><label class="cllabel alignl" for="clAdmPwd" >{$lang('Password')}</label>
-        <input type="password" name="clAdmPwd" id="clAdmPwd" class="clpassword " autocomplete="current-password" placeholder="{$lang('Admin password')}" /><br /></li>
+        <input type="password" name="clAdmPwd" id="clAdmPwd" required="1" class="clpassword " autocomplete="current-password" placeholder="{$lang('Admin password')}" /><br /></li>
 	</ul>
     <div class="igk-row" >
         <div class="igk-col fitw alignc">
@@ -1311,8 +1313,8 @@ EOF;
                     igk_html_form_init();
                 }, null);
                 $form->addFields([
-                    "clAdmLogin" => ["type" => "text", "label_text" => __("Login"),  "placeholder" => __('Admin login'), "attribs" => []],
-                    "clAdmPwd" => ["type" => "password", "label_text" => __("Password"), "placeholder" => __('Admin password'), "attribs" => []]
+                    "clAdmLogin" => ["type" => "text", "required"=>1, "label_text" => __("Login"),  "placeholder" => __('Admin login'), "attribs" => []],
+                    "clAdmPwd" => ["type" => "password","required"=>1, "label_text" => __("Password"), "placeholder" => __('Admin password'), "attribs" => []]
                 ]);
                 $acbar = $form->addActionBar();
                 $acbar->addSubmit("btn.submit", __("connect"));
@@ -1718,7 +1720,7 @@ EOF;
         {
             $d = igk_getr("passadmin");
             if ($d && (strlen($d) >= IGK_MAX_CONFIG_PWD_LENGHT)) {
-                igk_app()->Configs->admin_pwd = md5($d);
+                igk_configs()->admin_pwd = md5($d);
                 igk_save_config();
                 igk_resetr();
                 igk_notifyctrl(__FUNCTION__)->addSuccessr("msg.pwdupdated");
@@ -1736,7 +1738,7 @@ EOF;
         {
             $s = igk_getr("cldefault_node_tagname", "div");
             if (!empty($s))
-                igk_app()->Configs->app_default_controller_tag_name = $s;
+                igk_configs()->app_default_controller_tag_name = $s;
             igk_save_config();
             igk_resetr();
             $this->View();
@@ -1811,12 +1813,10 @@ EOF;
         * base configuration view
         */
         public function View()
-        { 
- 
+        {  
             if (!$this->getIsVisible() || igk_get_env(IGK_KEY_VIEW_FORCED)) {
                 return;
-            } 
-
+            }  
             $data = $this->getEnvParam("CNFDATA") ?? self::GetConfigEntryData();
             if (isset($data["lang"]) && !empty($data["lang"])) {
                 igk_ctrl_change_lang($this, $data);
