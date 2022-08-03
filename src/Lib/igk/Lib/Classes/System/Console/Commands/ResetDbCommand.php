@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ResetDbCommand.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 namespace IGK\System\Console\Commands;
 
 use IGK\Controllers\BaseController;
@@ -32,7 +37,7 @@ class ResetDbCommand extends AppExecCommand{
             $fc = $seed["0"];
             $fc("resetdb", $command); 
         }       
-        // igk_dev_wln(igk_is_debug(), igk_environment()->querydebug);
+        igk_dev_wln("db: ". igk_configs()->db_name, "server: ".igk_configs()->db_server); 
         if ($ctrl){
             $c = \IGK\Helper\SysUtils::GetControllerByName($ctrl); 
 
@@ -65,13 +70,12 @@ class ResetDbCommand extends AppExecCommand{
                 }
             }
             // init modules controller 
-
-
             Logger::print("-"); 
             if ($seed){
                 $fc = $command->exec;
                 $fc($command, $ctrl);
             }
+            Logger::success("Done"); 
             return 1;
         }
         return -1;

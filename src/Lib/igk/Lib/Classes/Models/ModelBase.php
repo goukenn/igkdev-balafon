@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ModelBase.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 
 namespace IGK\Models;
 
@@ -81,14 +86,26 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static ?static Get($column, $id, $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static GetCache($column, $id, $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static getv($array, $i) macros function convert class
+ * @method static \IGK\System\Database\QueryBuilder with(string $table, ?string $propertyName=null) prepare command with table 
  */
 abstract class ModelBase implements ArrayAccess, JsonSerializable
 {
 	use ArrayAccessSelfTrait;
     use JsonSerializableTrait;
     const ClosureSeperator = "@";
-    const StaticSperator = ":";
-    static $mock_instance;
+    const StaticSperator = "::";
+    private static $mock_instance;
+    private static $sm_model;
+    /**
+     * retrieve model info
+     * @var IGK\Models\Models
+     */
+    public static function & RegisterModels(){
+        if (self::$sm_model===null){
+            self::$sm_model = [];
+        }
+        return self::$sm_model;
+    }
 
     /**
      * stored macros
@@ -291,7 +308,16 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
 
     public function __construct($raw = null, $mock=0, $unset=false)
     {
-        $this->_initialize($raw, $mock, $unset);          
+        $this->_initialize($raw, $mock, $unset);   
+        $tab = & self::RegisterModels();       
+        if (!isset($tab[$tb = $this->table()])){
+            $ctrl = $this->getTableInfoController();              
+            $tab[$tb]= (object)[
+                'model'=> static::class,
+                'info'=> [],
+                "ref" => DbSchemas::GetTableRowReference($tb, $ctrl)
+            ]; 
+        }
     }
     protected function _initialize($raw=null, $mock=0, $unset=false){
         $this->raw = $raw && ($raw instanceof static) ? $raw :  $this->createRow();
@@ -395,9 +421,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
      */
     public function getTableInfo()
     {
-        $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
+        $ctrl = $this->getTableInfoController(); 
         $r =  $ctrl::getDataTableDefinition($this->getTable());
         return igk_getv($r, "ColumnInfo");
+    }
+    protected function getTableInfoController(){
+        return igk_getctrl($this->controller ?? SysDbController::class);
     }
     public function getController()
     {
@@ -481,8 +510,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
                         }
                     }
                 },
-                "getMacroKeys" => function(){
-                    return array_keys(self::$macros);
+                "getMacroKeys" => function()use(& $macros){
+                    return array_keys($macros);
                 },
                 "getInstance" => function(){
                     return igk_environment()->createClassInstance(static::class);

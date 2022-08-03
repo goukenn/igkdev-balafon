@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKApp.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 ///<summary> core application engine </summary>
 
@@ -193,11 +198,10 @@ class IGKApp extends IGKObject
             $init = true;
         }
         $appinfo = $this->getSettings()->appInfo;
-        if (!$init && $appinfo && $sm_session->NoStore($appinfo )){
+        if (!$init && $appinfo && (!$sm_session || $sm_session->NoStore($appinfo ))){
             $init = 1;
         }
-        if ($init){
-		
+        if ($init){		
             /**
              * @var IGKAppInfoStorage $appinfo
              */      

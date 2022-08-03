@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Path.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 namespace IGK\System\IO;
 
 use IGK\Helper\StringUtility as str_helper;

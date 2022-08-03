@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKMySQLDataTableCtrl.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 /*datatable controller
 */
 abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase

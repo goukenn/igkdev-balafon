@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: BaseController.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 namespace IGK\Controllers;
 
@@ -125,6 +130,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     const NO_ACTION_FLAG = 11;
 
     const VIEW_ARGS = IGK_VIEW_ARGS;
+    const VIEW_EXTRA_ARGS = VIEW_EXTRA_ARGS;
 
     /**
      * 
@@ -175,41 +181,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         return (object)$t;
     }
     ///<summary>reset the current view file request</summary>
-    protected function _resolview($f, ?array $params = [])
-    {
-        return false;
-        //   var_dump($params);
-        //   igk_wln_e(__FILE__.":".__LINE__, "file : ".$f, $params);
-        // $view_dir=$this->getViewDir();
-        // $dfile=dirname($f);
-        // $qfile=$dfile;
-        // $find=0; 
-        // if ($params===null){
-        //     $params = [];
-        // }
-        // while(!$find && ($qfile != $view_dir)){
-        //     $qfile=dirname($qfile);
-        //     if(file_exists($s=$qfile."/".IGK_DEFAULT_VIEW_FILE)){
-        //         $find=$s;
-        //         $ln=strlen($view_dir) + 1;
-        //         $v= ltrim(dirname(substr($s, $ln)), '.');                
-        //         $p=array_merge(explode("/", igk_html_uri(substr($dfile, $ln + strlen($v)))), $params);
-        //         // var_dump($p);
-        //         // igk_wln_e(
-        //         //     compact("f", "ln", "v", "dfile", "view_dir", "s", "p")
-        //         // );
-
-
-
-
-        //         $this->setFlag(self::CURRENT_VIEW, $v);
-        //         $options=$this->getEnvParam(IGK_VIEW_OPTIONS);
-        //         $this->regSystemVars(null, null);
-        //         $this->regSystemVars($p, $options);
-        //     }
-        // }
-        // return $find;
-    }
+    // protected function _resolview($f, ?array $params = [])
+    // {
+    //     return false;       
+    // }
     ///<summary></summary>
     /**
      * 
@@ -274,7 +249,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 // + | bind view
                 // + | 
                 $v_handle = "bindfile";
+                // + | reset system variable context
+                // igk_wln(__FILE__.":".__LINE__,  "current param", $params); 
                 $this->regSystemVars(null, null);
+                // + update view args
                 $this->setEnvParam(self::VIEW_ARGS, $params);
                 $this->_include_file_on_context($f);
             } catch (Exception $ex) {
@@ -287,7 +265,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     }
     /**
      * create view loader 
-     * @return IGK\System\WinUI\ViewLoader 
+     * @return IViewLayoutLoader
      */
     protected function createViewLoader(): IViewLayoutLoader
     {
@@ -295,7 +273,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     }
     /**
      * get the view loader
-     * @return void|IGK\Controllers\IGK\System\WinUI\ViewLoader 
+     * @return null|IViewLayoutLoader
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
@@ -321,18 +299,21 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function handleAction(string $fname, array $params)
     {
+
+        // igk_wln("handling, ", $fname, $params, "action flag:", $this->getEnvParam(self::NO_ACTION_FLAG));
         //+ | -----------------------------------------------------------------------------
         //+ | handle action: insert here a middleware to auto handle the view before include 
-        //+ |  
+        //+ |   
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname))
         ) {    
+            // igk_wln_e("current handler : ".$handler);
             // $is_default_action = $handler== $this->resolvClass("Actions/DefaultAction");            
             // check for source user
             $this->checkUser(false);
             // traitement before passing args to handlers
-            $handlerArgs = $params;  
+            $handlerArgs = $params;   
             // igk_dev_wln(__FILE__.":".__LINE__,  $handlerArgs);
             if (count($handlerArgs)==0){
                 // no parameter pass to index method of the action handler
@@ -344,17 +325,22 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 // + | passing numeric data to index
                 array_unshift($handlerArgs, "index");
             } else {
-                ActionHelper::HandleArgs($fname, $handlerArgs);
-            }
-            // igk_wln_e("handle_action_:::", $fname, $handlerArgs, $params);
+                if ($handler== $this->resolvClass("Actions/DefaultAction")){
+                    ActionHelper::HandleArgs($fname, $handlerArgs);
+                }
+               
+            } 
+            // igk_wln("\n".__FILE__.":".__LINE__,  "\nhandle_action_:::", "\n".$fname, $handlerArgs, $params);
             $r = $handler::Handle(
                 $this,
                 $fname,
                 $handlerArgs,
                 // igk_is_ajx_demand() ||
-                (igk_server()->CONTENT_TYPE == "application/json")
+                (igk_server()->CONTENT_TYPE == "application/json"),
+                true
             );
             unset($handlerArgs);
+           
             return $r;
         } 
     }
@@ -380,7 +366,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $this->bindNodeClass($t, $fname, strtolower((isset($css_def) ? " " . $css_def : "")));
 
         $doc->body["class"] = "-custom-thumbnail";
-        $doc->title = "IGKDEV";
+        $doc->title = igk_configs()->website_title();
         $ob_level = ob_get_level();
 
 
@@ -391,7 +377,13 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             extract($this->_get_extra_args($file));
             $targs = get_defined_vars();
 
-            $this->handleAction($fname, $params);
+            try{
+                $this->handleAction($fname, $params);
+            }catch(\Exception $ex){
+                // + | handler failed or thro an exception. 
+                // + | method no present
+                igk_dev_ilog("exception raise : ".$ex->getMessage());
+            }
             // + | ----------------------------------------------------------------
             // + | check if view already loaded:
             // + | do not include view file in case file already beeing include by the loader
@@ -403,6 +395,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 }
                 return;
             }
+ 
 
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
@@ -666,12 +659,11 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     public function regSystemVars($args = null, $options = null)
     {
-
         if ($args === null) {
+            // clean system vars
             $this->setEnvParam(self::VIEW_ARGS, null);
             igk_set_env(igk_ctrl_env_view_arg_key($this), null);
         } else {
-
             $g = $this->getEnvParam(self::VIEW_ARGS);
             if (is_array($args)) {
                 if (is_array($g)) {
@@ -905,13 +897,12 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     public function getSystemVars()
     {
-
-        $ck = igk_ctrl_env_view_arg_key($this);
+        $ck = igk_ctrl_env_view_arg_key($this); 
         $t = igk_get_env($ck);
-        $c = $this->getEnvParam(self::VIEW_ARGS);
         if ($t !== null) {
             return $t;
         }
+        $c = $this->getEnvParam(self::VIEW_ARGS);  
         $t = array();
         $t["t"] = $this->getTargetNode();
         $t["ctrl"] = $this;
@@ -938,7 +929,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         if ($c !== null) {
             $t = array_merge($t, array("params" => is_array($c) ? $c : array($c)));
-        }
+        } 
         igk_set_env($ck, $t);
         return $t;
     }

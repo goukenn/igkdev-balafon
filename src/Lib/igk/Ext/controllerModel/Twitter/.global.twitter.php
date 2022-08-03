@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: .global.twitter.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 function igk_html_node_twitterFollowUs($id, $showcount=0){
 	//followus

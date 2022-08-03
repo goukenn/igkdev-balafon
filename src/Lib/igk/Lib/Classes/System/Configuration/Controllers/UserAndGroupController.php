@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: UserAndGroupController.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 namespace IGK\System\Configuration\Controllers;
 
 use IGK\Helper\NotifyHelper;
@@ -83,6 +88,7 @@ class UserAndGroupController extends ConfigControllerBase{
     * @param  $n
     */
     public function addAuthToGroup($groupname, $n){
+        Groups::grantAuthorization($groupname, $n);
         $ad=igk_get_data_adapter($this);
         if(!$ad->connect()){
             return false;

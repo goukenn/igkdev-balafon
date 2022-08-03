@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: onrendercallbak.accept.render.pinc
+// @date: 20220803 13:51:47
+// @desc: 
+
 
 if (isset($this)){
     $c= igk_invoke_callback_obj($this, $this->__callback, $param); 

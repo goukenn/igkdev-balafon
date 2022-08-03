@@ -1,4 +1,8 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: igk_framework.php
+// @date: 01/01/2013
+// @desc: core lib entry file 
 
 defined("IGK_FRAMEWORK") && die("Framework already define");
 define("IGK_FRAMEWORK", "IGKDEV-WFM");

@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,11 +11,11 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clName
-* @property mixed $clEmail
-* @property mixed $clRelease
-* @property mixed $clVersion*/
+* @property mixed|int $clId
+* @property mixed|varchar $clName
+* @property mixed|text $clEmail
+* @property mixed|datetime $clRelease
+* @property mixed|text $clVersion*/
 class Plugins extends ModelBase{
 	/**
 	* table's name

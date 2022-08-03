@@ -9,7 +9,8 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\System\Configuration\Controllers;
- 
+
+use IGK\Controllers\BaseController;
 use IGK\Controllers\PageControllerBase;
 use IGK\Database\DbColumnDataType;
 use IGK\Database\DbColumnInfo;
@@ -841,15 +842,24 @@ EOF;
     ///<param name="ctrl" default="null"></param>
     ///<param name="reconnect" default="1"></param>
     public function ca_drop_controller_ajx($ctrl = null, $reconnect = 1)
-    {
+    {       
         $a = $ctrl ? $ctrl : (($ctrl = igk_getr("clController")) ? $ctrl : igk_getr("n"));
+     
         if ($a) {
             $ctrl = igk_getctrl($a, false);
-            if ($ctrl == null)
+            if ($ctrl == null){
+                igk_environment()->isDev() && igk_ilog("no selected controller");
+                igk_ajx_toast(__("no selected controller"), "danger");
                 return;
-            $is_ajx = igk_is_ajx_demand();
+            }
+            $canDelete = !BaseController::IsSysController($ctrl);
+            if (!$canDelete){
+                igk_ajx_toast(__("Can't delete controller"), "danger");
+                igk_exit();
+            }
+            $is_ajx = igk_is_ajx_demand(); 
             if (igk_qr_confirm()) {
-                if ($ctrl->canDelete) {
+                if ($canDelete) {
                     $uri = igk_getconfigwebpagectrl()->getReconnectionUri();
                     if (igk_getctrl(IGK_CTRL_MANAGER)->removeCtrl($a)) {
                         $this->SelectedController = null;
@@ -863,8 +873,8 @@ EOF;
                                 igk_getconfigwebpagectrl()->View();
                             $doc->body->renderAJX();
                             igk_exit();
-                        } else if ($reconnect) {
-                            $ctrl->ClearSessionAndReconnect(false);
+                        } else {
+                            igk_navto(igk_server()->HTTP_REFERER);
                         }
                     } else {
                         igk_ilog("drop the controlleur failed : " . $a, __FUNCTION__);
@@ -884,11 +894,16 @@ EOF;
                 }
                 $b = $frm->div();
                 $b->addInput("yes", "submit", __("btn.yes"));
-                $b->addInput("no", "button", __("btn.no"));
+                $b->addInput("no", "button", __("btn.no"))
+                ->setAttribute("data-type", "cancel");
                 $frm->addConfirm();
                 $frm->addToken();
                 igk_ajx_notify_dialog(__("title.dropController"), $d);
+            
             }
+        }
+        else {
+            igk_environment()->isDev() && igk_ilog("no selected controller");
         }
     }
     ///<summary></summary>

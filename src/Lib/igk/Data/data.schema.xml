@@ -15,7 +15,7 @@
             <Row clName="igkdev" clCategory="framework" clWebSite="//igkdev.com" clDescription="web site creator" />
         </Rows>
     </Entries>
-    <DataDefinition TableName="%prefix%apps">
+    <DataDefinition TableName="%prefix%apps" Description="manage download time application.">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="50" clNotNull="True" clIsUnique="True" />
         <Column clName="clDownloadTime" clType="VARCHAR" clTypeLength="10" />
@@ -33,7 +33,7 @@
         <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="140" clNotNull="True" clIsUnique="True" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%colors">
+    <DataDefinition TableName="%prefix%colors" Description="use to store named colors.">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="50" clNotNull="True" clIsUnique="True" />
         <Column clName="clValue" clType="VARCHAR" clTypeLength="9" />
@@ -72,7 +72,7 @@
         <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUnique="True" />
         <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%humans" Description="Store human list">
+    <DataDefinition TableName="%prefix%humans" Description="store human list">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clGender" clType="VARCHAR" clTypeLength="1" clDescription="m or f for male or female" clNotNull="True" />
         <Column clName="clFirstName" clType="VARCHAR" clTypeLength="100" />
@@ -83,19 +83,19 @@
         <Column clName="clName" clType="VARCHAR" clTypeLength="60" clNotNull="True" />
         <Column clName="clValue" clType="TEXT" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%mailinglists">
+    <DataDefinition TableName="%prefix%mailinglists" Description="store mailing lists.">
         <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clEmail" clType="VARCHAR" clTypeLength="60" clNotNull="True" clIsUnique="True" />
-        <Column clName="clState" clType="Int" clTypeLength="11" />
+        <Column clName="clState" clType="Int" clTypeLength="1" clDescription="0|1 (no-active, active)" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%partners">
+    <DataDefinition TableName="%prefix%partners" Description="store local sites partner.">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="33" clIsUnique="True" />
         <Column clName="clCategory" clType="VARCHAR" clTypeLength="33" />
         <Column clName="clWebSite" clType="TEXT" />
         <Column clName="clDescription" clType="TEXT" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%plugins">
+    <DataDefinition TableName="%prefix%plugins" Description="store plugins.">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="60" clNotNull="True" clIsUnique="True" />
         <Column clName="clEmail" clType="TEXT" clDescription="Author's email " />
@@ -113,12 +113,12 @@
         <Column clName="clCtrl" clType="VARCHAR" clTypeLength="33" clDescription="Controller name" clNotNull="True" />
         <Column clName="clView" clType="TEXT" clDescription="Entry" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%systemuri">
+    <DataDefinition TableName="%prefix%systemuri" Description="store system uri.">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"/>
         <Column clName="clUri" clType="VARCHAR" clTypeLength="255" />
     </DataDefinition> 
-    <DataDefinition TableName="%prefix%user_info_types">
+    <DataDefinition TableName="%prefix%user_info_types" Description="store use information types.">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clName" clType="VARCHAR" clTypeLength="33" clNotNull="True" clIsUnique="True" />
         <Column clName="clDataType" clType="VARCHAR" clTypeLength="5" clDescription="data type name" clNotNull="True" />
@@ -167,13 +167,13 @@
         <Column clName="clDateTime" clType="DateTime" clNotNull="True" />
         <Column clName="clIP" clType="VARCHAR" clTypeLength="15" />
     </DataDefinition> 
-    <DataDefinition TableName="%prefix%connexions" Definition="Store started connexions">
+    <DataDefinition TableName="%prefix%connexions" Description="Store started connexions">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="clUser_Id" clType="Int" clNotNull="true" clLinkType="%prefix%users" />
         <Column clName="clDateTime" clType="DateTime" clNotNull="True" />
         <Column clName="clFrom" clType="VARCHAR" clTypeLength="15" />
     </DataDefinition>
-    <DataDefinition TableName="%prefix%db_logs" Definition="log">
+    <DataDefinition TableName="%prefix%db_logs" Description="store system log">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
         <Column clName="db_logs_msg" clType="Text" clNotNull="true" />
         <Column clName="db_logs_status" clType="Int" clDefault="0" clNotNull="True" />
@@ -271,5 +271,15 @@
                 <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0"/>
             </changeColumn>
         </Migration>           
+        <Migration>
+            <addColumn table="%prefix%mailinglists">
+                <Column clName="clSource" clType="text"  />    
+                <Column clName="clml_locale" clType="varchar" clTypeLength="10" clDefault="en" clNotNull="true" />    
+                <Column clName="clml_agent" clType="text" clNotNull="true" />    
+                <Column clName="clml_create_at" clType="DATETIME" clInsertFunction="NOW()" clNotNull="true" />    
+                <Column clName="clml_update_at" clType="DATETIME" clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true"  />    
+            </addColumn>            
+        </Migration>
+
     </Migrations> 
 </data-schemas>

@@ -10459,15 +10459,15 @@ Name:balafon.js
 					return window.navigator.language + "";
 				return window.navigator.languages + "";
 			},
-			getProperty: function (n) {
+			getProperty(n) {
 				return m_navprop[n] || false;
 			},
-			isXBoxOne: function () { return XBoxOne; },
-			isXBox360: function () { return XBox360; },
-			isFirefox: function () {
+			isXBoxOne(){ return XBoxOne; },
+			isXBox360(){ return XBox360; },
+			isFirefox(){
 				return igk.platform.osAgent.indexOf("Firefox/") != -1;
 			},
-			getFirefoxVersion: function () {
+			getFirefoxVersion() {
 				var i = igk.platform.osAgent.indexOf("Firefox/");
 				if (i != -1)
 					return /Firefox\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
@@ -10483,10 +10483,10 @@ Name:balafon.js
 					}
 				}
 			})(),
-			getScreenWidth: function () { return igk.winui.screenSize().width; },
-			getScreenHeight: function () { return igk.winui.screenSize().height; },
-			getOrientation: function () { return window.orientation || 0 },
-			getDevicePixelRatio: function () { return window.devicePixelRatio || (window.screen.availWidth / document.documentElement.clientWidth) },
+			getScreenWidth() { return igk.winui.screenSize().width; },
+			getScreenHeight() { return igk.winui.screenSize().height; },
+			getOrientation() { return window.orientation || 0 },
+			getDevicePixelRatio() { return window.devicePixelRatio || (window.screen.availWidth / document.documentElement.clientWidth) },
 			navTo: function (uri) {// navigate to that uri				
 				var a = igk.createNode("a");
 				a.setCss({ display: "none" });
@@ -10494,18 +10494,18 @@ Name:balafon.js
 				igk.dom.body().appendChild(a.o);
 				a.o.click();
 			},
-			logAgent: function () {
+			logAgent() {
 				var _nav = igk.navigator;
 				console.debug("IsChrome: " + _nav.isChrome());
 				console.debug("IsFireFox: " + _nav.isFirefox());
 				console.debug("IsSafari: " + _nav.isSafari());
 				console.debug("IsEdge: " + _nav.isIEEdge());
 			},
-			isSecure: function () {
+			isSecure(){
 				// get if this navigator is secure
 				return document.location.protocol == "https:";
 			},
-			isChrome: function () {
+			isChrome() {
 				var ua = igk.platform.osAgent + '';
 				if ((ua.indexOf("Chrome/") != -1) && /Google Inc\./.test(window.navigator.vendor)) // for chrome
 				{
@@ -10513,14 +10513,14 @@ Name:balafon.js
 				}
 				return !1;
 			},
-			chromeVersion: function () {
+			chromeVersion() {
 				if (igk.navigator.isChrome()) {
 					var i = igk.platform.osAgent .indexOf("Chrome/");
 					return (igk.platform.osAgent  + "").substring(i + 7).split(' ')[0];
 				}
 				return 0;
 			},
-			isIE: function () {
+			isIE() {
 				var ua = igk.platform.osAgent  + '';
 				if ((ua.indexOf("MSIE") != -1) || ua.indexOf("Trident/") != -1) // for ie 11
 				{
@@ -10528,19 +10528,19 @@ Name:balafon.js
 				}
 				return !1;
 			},
-			isIEEdge: function () {
+			isIEEdge() {
 				var ua =igk.platform.osAgent  + '';
 				if (ua.indexOf("Edge/") != -1)
 					return !0;
 				return !1;// igk.navigator.isIE() &&(igk.navigator.IEVersion()>=11);
 			},
-			getEEdgeVersion: function () {
+			getEEdgeVersion() {
 				var i = igk.platform.osAgent .indexOf("Edge/");
 				if (i != -1)
 					return /Edge\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
 				return -1;
 			},
-			IEVersion: function () {
+			IEVersion() {
 				if (!igk.navigator.isIE())
 					return -1;
 				var ua = igk.platform.osAgent  + '';
@@ -10556,7 +10556,7 @@ Name:balafon.js
 				}
 				return -1;
 			},
-			isAndroid: function () {
+			isAndroid() {
 				// window.navigator.userAgent 
 				var v = ( igk.platform.osAgent + "").toLowerCase().indexOf("android");
 				if (v != -1) {
@@ -14104,6 +14104,7 @@ Name:balafon.js
 				}
 			},
 			showMsg: function (msg, type, nc, settings) {
+		
 				// msg : content message
 				// type : of the content notification
 				// nc: close button
@@ -14156,6 +14157,10 @@ Name:balafon.js
 					}).setHtml("close").addClass("igk-notify-btn-close");
 					div.appendChild(close);
 				}
+				// select all and close for cancel button
+				div.qselect("input[type='button'][data-type='cancel']").each_all(function(){
+					this.on("click", _g_close_notify);
+				});
 				function _g_close_notify() {
 					_close_notify(null);
 				};
@@ -18254,6 +18259,7 @@ igk.ready(function () {
 				return v_prop.toString();
 				break;
 			default:
+				// console.error(n);
 				return stylelist[n];
 		}
 	};
@@ -18363,10 +18369,11 @@ igk.ready(function () {
 			// @n : the name of the property to get
 			return __getStyleValue(stylelist, n);
 		},
-		toggleClass(i, p) {
+		toggleClass(i, p) { // toggle class
 			var q = $igk(i).first();
-			if (q) {
+			if (q) {				
 				q.toggleClass(p);
+				console.log(q.o.className);
 			}
 		},
 		initAutoTransitionProperties: _initTransitionProperties,

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKHtmlColorPickerItem.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 //igk.winui.colorpicker
 
 use IGK\Controllers\NonVisibleControllerBase;

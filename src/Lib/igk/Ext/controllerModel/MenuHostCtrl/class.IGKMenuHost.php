@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKMenuHost.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 //controller code class declaration
 //file is a part of the controller tab list
 
@@ -20,7 +25,7 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ parent view control
 	public function View(){
 		extract($this->getSystemVars());
-		$t = $this->TargetNode;
+		$t = $this->getTargetNode();
 		$t->clearChilds();
 		$igkmenuctrl = igk_getv($controllers, "igkmenuctrl");
 		if ($igkmenuctrl)

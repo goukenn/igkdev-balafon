@@ -1,5 +1,10 @@
 <?php
 
+// @author: C.A.D. BONDJE DOUE
+// @filename: igk_phar_lib.php
+// @date: 20220803 13:34:58
+// @desc: for phar file
+
 // __dir__
 
 $web = "/index.php";

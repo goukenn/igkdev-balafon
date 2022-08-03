@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKAppSystem.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;

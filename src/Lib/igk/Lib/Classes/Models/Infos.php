@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Infos.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,9 +11,9 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clName
-* @property mixed $clValue*/
+* @property mixed|int $clId
+* @property mixed|varchar $clName
+* @property mixed|text $clValue*/
 class Infos extends ModelBase{
 	/**
 	* table's name

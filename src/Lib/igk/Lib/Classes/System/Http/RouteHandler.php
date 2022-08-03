@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: RouteHandler.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 
 namespace IGK\System\Http;
 
@@ -94,7 +99,7 @@ class RouteHandler
     }
 
     public function isAuthRequired(){
-        return !empty($this->auth);
+        return is_array($this->auth) && !empty($this->auth);
     }
 
  /**
@@ -330,7 +335,7 @@ class RouteHandler
     }
     /**
      * set autorisation key name
-     * @param mixed $name string|array of autorisation
+     * @param bool|string|arrayy $name bool|string|array of autorisation condition
      * @param bool $strict autorisation requirement
      * @return static 
      */

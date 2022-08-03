@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKBillingDetailsCtrl.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 
 use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;

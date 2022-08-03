@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Loader.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 namespace IGK\Controllers;
 
@@ -27,11 +32,11 @@ class Loader implements IResponse {
     }
 	public function output() {         
         $m = $this->_controller->_output.$this->_output;
-        $this->_controller->_output = "";
         $this->_output = "";
-        return (new WebResponse($m))->output();
-        
+        $this->_output = "";
+        return (new WebResponse($m))->output();        
     }
+
     //+ store callback to call protected function info provide by the controller
     ///<summary>dispatch call to controller</summary>
     /**
@@ -114,7 +119,7 @@ class Loader implements IResponse {
     * 
     */
     public function clear(){
-        $this->_controller->_output="";
+        $this->_output="";
     }
     ///<summary>check an resolve view file</summary>
     /**
@@ -149,8 +154,12 @@ class Loader implements IResponse {
     /**
     * retreive controller output buffer
     */
-    public function getOutput(){
-        return $this->_controller->_output;
+    public function getOutput($clear=false){
+        $c = $this->_output;
+        if ($clear){
+            $this->_output = "";
+        }
+        return $c;
     }
     ///<summary></summary>
     /**
@@ -232,7 +241,7 @@ class Loader implements IResponse {
         if($render)
             echo $o;
         else{
-            $this->_controller->_output .= $o;
+            $this->_output .= $o;
         }
 		return $this;
     
@@ -249,12 +258,12 @@ class Loader implements IResponse {
      */
     public function bind($file, $data=array(), $render=0){
         $n = igk_create_node("NoTagNode");
-        $n->addArticle($this->_controller, $file, $data);
+        $n->div()->article($this->_controller, $file, $data);
         $o = $n->render();
         if($render)
             echo $o;
         else{
-            $this->_controller->_output .= $o;
+            $this->_output .= $o; 
         }
         return $this;
     }

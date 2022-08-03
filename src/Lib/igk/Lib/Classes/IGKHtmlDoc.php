@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKHtmlDoc.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;

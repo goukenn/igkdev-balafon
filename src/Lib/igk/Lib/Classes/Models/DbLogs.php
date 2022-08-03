@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,11 +11,11 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $db_logs_msg
-* @property mixed $db_logs_status
-* @property mixed $db_logs_createAt
-* @property mixed $db_logs_tags*/
+* @property mixed|int $clId
+* @property mixed|text $db_logs_msg
+* @property mixed|int $db_logs_status
+* @property mixed|datetime $db_logs_createAt
+* @property mixed|text $db_logs_tags*/
 class DbLogs extends ModelBase{
 	/**
 	* table's name

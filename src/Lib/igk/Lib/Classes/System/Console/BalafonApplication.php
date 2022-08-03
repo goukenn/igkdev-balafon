@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: BalafonApplication.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 
 namespace IGK\System\Console;
 
@@ -78,7 +83,7 @@ class BalafonApplication extends IGKApplicationBase
     }
     public function bootstrap()
     {
-        
+       
         // + | because prefilter command line args
         global $argv, $argc;
  
@@ -143,7 +148,7 @@ class BalafonApplication extends IGKApplicationBase
         if (defined('IGK_DOCUMENT_ROOT'))
             igk_server()->IGK_DOCUMENT_ROOT = realpath(constant('IGK_DOCUMENT_ROOT'));
 
-
+            
         $this->library("zip");
         $this->library("mysql");
         $this->library("curl");
@@ -157,6 +162,8 @@ class BalafonApplication extends IGKApplicationBase
         // + |
         $this->no_init_environment = $this->configs->isTemp; 
         igk_environment()->no_lib_cache = 1;
+        igk_environment()->no_db_route = 1;
+        igk_configs()->no_db_route = 1;
         IGKApp::StartEngine($this);
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
@@ -354,7 +361,7 @@ class BalafonApplication extends IGKApplicationBase
             "--db:migrate" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = null) {
                     DbCommandHelper::Init($command);
-                    if ($c = igk_getctrl($ctrl, false)) {
+                    if (!is_null($ctrl ) && ($c = igk_getctrl($ctrl, false))) {
                         $c = [$c];
                     } else {
                         $c = igk_sys_getall_ctrl();
@@ -533,6 +540,7 @@ class BalafonApplication extends IGKApplicationBase
             ],
             "--run:cron" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = null) {
+                    DbCommandHelper::Init($command);
                     $job = new \IGK\System\CronJob();
                     $job->provider = igk_getv($command->options, "--provider");
                     $job->ctrl = $ctrl;

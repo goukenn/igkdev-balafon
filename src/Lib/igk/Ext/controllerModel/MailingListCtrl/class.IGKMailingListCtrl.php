@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKMailingListCtrl.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 	protected function initComplete($context=null){

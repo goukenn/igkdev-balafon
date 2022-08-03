@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Dispatcher.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 namespace IGK\Actions;
 
@@ -56,58 +61,8 @@ class Dispatcher implements IActionProcessor
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
             self::$sm_macro["Dispatch"] = function ($fc, ...$args) {
-
                 $g = new ReflectionFunction($fc); 
-                $args = self::GetInjectArgs($g, $args); 
-                // | try to inject parameter
-                // if (($required >= 1) &&
-                //     ($parameters = $g->getParameters()) &&
-                //     ($cl = $parameters[0]->getType()) &&
-                //     (IGKType::GetName($cl) ===  Request::class)
-                // ) {
-                //     $req =  Request::getInstance();
-                //     $req->setParam($args);
-                //     $args = [$req];
-                //     for ($i = 1; $i < count($parameters); $i++) {
-                //         if (($p = $parameters[$i]->getType()) && (class_exists($type = IGKType::GetName($p)))) {
-
-                //             $c = new $type();
-                //             $args[] = $c;
-                //             continue;
-                //         }
-                //         throw new NotInjectableTypeException($i);
-                //     }
-                // } elseif (isset($parameters)) {
-
-
-                //     for ($i = 0; $i < count($parameters); $i++) {
-                //         if (!$parameters[$i]->isOptional()) {
-                //             if ($i >= count($args)) {
-                //                 throw new RequireArgumentException($required, count($args));
-                //             }
-                //         }
-                //         if (($p = $parameters[$i]->getType()) && (class_exists($type = IGKType::GetName($p)))) {
-
-                //             $c = new $type();
-                //             $args[$i] = $c;
-                //             continue;
-                //         } else {
-                //             if ($p) {
-                //                 $tname = IGKType::GetName($p);
-                //                 $v = igk_getv($args, $i);
-                //                 // igk_wln("type : ", $tname);
-                //                 if ($tname == "array") {
-                //                     $args[$i] = $v ? explode(",", $v) : []; // implode(",", $args[$i]);                                    
-                //                 } else {
-                //                     $pattern = igk_getv(self::$sm_matches, $tname, ".+");
-                //                     if ($v && !preg_match_all("#^" . $pattern . "$#", $v)) {
-                //                         throw new ArgumentTypeNotValidException($i);
-                //                     }
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
+                $args = self::GetInjectArgs($g, $args);                 
                 try {
                     return $fc(...$args);
                 } catch (Exception $ex) {
@@ -115,8 +70,7 @@ class Dispatcher implements IActionProcessor
                 }
             };
         }
-        if (is_callable($fc = igk_getv(self::$sm_macro, $name))) {
-         
+        if (is_callable($fc = igk_getv(self::$sm_macro, $name))) {         
             return $fc(...$args);
         }
         return (new static(null))->$name(...$args);

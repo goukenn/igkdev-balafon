@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: MacrosHelper.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 //
 // @file: MacrosHelper.php
 // @author: C.A.D BONDJE DOUE
@@ -28,8 +33,7 @@ class MacrosHelper
         if (self::$macros == null) {
             //init global macros function 
             self::$macros = [
-                "auth" => function ($auths, $strict = false) {
-                    // igk_wln_e(__FILE__.":".__LINE__, "auth context ");
+                "auth" => function ($auths, $strict = false) { 
                     /**
                      * @var \IGK\Models\Users $q 
                      */

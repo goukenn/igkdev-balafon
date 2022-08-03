@@ -1580,7 +1580,7 @@ function igk_sys_getdefaultctrlconf()
         "clDataAdapterName" => igk_configs()->get("default_dataadapter", IGK_CSV_DATAADAPTER),
         "clDataSchema" => false,
         "clDisplayName" => null,
-        "clRegisterName" => null,
+        "clRegisterName" => null,   // register name will be converted as entry namespace
         "clParentCtrl" => null,
         "clTargetNodeIndex" => 0,
         "clVisiblePages" => "*",

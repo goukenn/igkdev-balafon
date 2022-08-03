@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: autoload.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 
 if (!version_compare(PHP_VERSION, "7.2", ">")){

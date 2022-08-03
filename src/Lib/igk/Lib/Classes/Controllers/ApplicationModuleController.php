@@ -1,6 +1,9 @@
 <?php
 namespace IGK\Controllers;
+
+use Exception;
 use IGK\Helper\IO;
+use TypeError;
 
 // @author: C.A.D. BONDJE DOUE
 // @licence: IGKDEV - Balafon @ 2019
@@ -185,7 +188,13 @@ final class ApplicationModuleController extends BaseController{
         $reg=function($name, $callback){
             $this->reg_function($name, $callback);
         };
-        $data = eval("?>".$s);
+        try{
+            // igk_dev_wln(__FILE__.":".__LINE__,  $this->getName());
+            $data = eval("?>".$s);
+        }
+        catch(TypeError $error){
+            igk_wln_e("the error : ", $error);
+        }
         $this->m_src=$s;
         if ($data){
             $this->m_configs = $data; 

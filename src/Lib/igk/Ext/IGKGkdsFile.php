@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKGkdsFile.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 use IGK\System\Drawing\Colorf;
 use IGK\System\Drawing\Vector2f;

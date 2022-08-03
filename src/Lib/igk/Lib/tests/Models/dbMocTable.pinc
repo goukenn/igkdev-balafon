@@ -1,4 +1,10 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: dbMocTable.pinc
+// @date: 20220803 13:51:47
+// @desc: 
+
+
 namespace IGK\Tests\Models;
 
 use IGK\Database\DbColumnInfo;
@@ -8,37 +14,45 @@ use IGK\Models\ModelBase;
 
 /** @package  
  * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
-*/
-class Table1Test extends ModelBase {
+ */
+class Table1Test extends ModelBase
+{
     protected $table = "dummy_table1";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo{
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
         $clinfo = [
-            "clId"=>new DbColumnInfo(["clType"=>"Int",  "clTypeLength"=>"11", "clIsPrimary"=>1, "clAutoIncrement"=>1]),
-            "clName"=>new DbColumnInfo(["clType"=>"varchar", "clTypeLength"=>30]),
-            "clDescription"=>new DbColumnInfo(["clType"=>"text"])
-        ]; 
+            "clId" => new DbColumnInfo(["clType" => "Int",  "clTypeLength" => "11", "clIsPrimary" => 1, "clAutoIncrement" => 1]),
+            "clName" => new DbColumnInfo(["clType" => "varchar", "clTypeLength" => 30]),
+            "clDescription" => new DbColumnInfo(["clType" => "text"])
+        ];
 
-        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
-        [
-            "tableRowReference"=>$clinfo,
-            "ColumnInfo"=>$clinfo,
-        ]);
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => $clinfo,
+                "ColumnInfo" => $clinfo,
+            ]
+        );
     }
 }
- 
- 
-class Table2Test extends ModelBase {
+
+
+class Table2Test extends ModelBase
+{
     protected $table = "dummy_table2";
 
-    protected function getDataTableDefinition(){
-        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
-        [
-            "tableRowReference"=>[
-                "clId"=>new DbColumnInfo(["clType"=>"int", "clTypeLength"=>"11", "clIsPrimary"=>1, "clAutoIncrement"=>1]),
-                "clName"=>new DbColumnInfo(["clType"=>"varchar", "clTypeLength"=>30])
-            ]           
-        ]);
+    protected function getDataTableDefinition()
+    {
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int", "clTypeLength" => "11", "clIsPrimary" => 1, "clAutoIncrement" => 1]),
+                    "clName" => new DbColumnInfo(["clType" => "varchar", "clTypeLength" => 30])
+                ]
+            ]
+        );
     }
 }
 
@@ -47,18 +61,22 @@ class Table2Test extends ModelBase {
  * @package IGK\Tests\Models
  * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
  */
-class Table3Test extends ModelBase{
+class Table3Test extends ModelBase
+{
     protected $table = "dummy_table3";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo{
-        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
-        [
-            "tableRowReference"=>[
-                "clId"=>new DbColumnInfo(["clType"=>"int"]),
-                "clName"=>new DbColumnInfo(["clType"=>"varchar", "clTypeLength"=>30]),
-                "clData"=>new DbColumnInfo(["clType"=>"json", 'clNotNull'=>true]),
-            ]           
-        ]);
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int"]),
+                    "clName" => new DbColumnInfo(["clType" => "varchar", "clTypeLength" => 30]),
+                    "clData" => new DbColumnInfo(["clType" => "json", 'clNotNull' => true]),
+                ]
+            ]
+        );
     }
 }
 /**
@@ -66,34 +84,97 @@ class Table3Test extends ModelBase{
  * @package IGK\Tests\Models
  * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
  */
-class Table4Test extends ModelBase{
+class Table4Test extends ModelBase
+{
     protected $table = "dummy_table4";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo{
-        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
-        [
-            "tableRowReference"=>[
-                "clId"=>new DbColumnInfo(["clType"=>"int"]),
-                "clDate"=>new DbColumnInfo(["clType"=>"datetime", "clTypeLength"=>30]),                
-            ]           
-        ]);
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int"]),
+                    "clDate" => new DbColumnInfo(["clType" => "datetime", "clTypeLength" => 30]),
+                ]
+            ]
+        );
+    }
+}
+class Table5Test extends ModelBase
+{
+    protected $table = "dummy_table5";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int"]),
+                    "clOptions" => new DbColumnInfo(["clType" => "JSON"]),
+                ]
+            ]
+        );
+    }
+}
+class Table6Test extends ModelBase
+{
+    protected $table = "dummy_table6";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int"]),
+                    "clOptions" => new DbColumnInfo(["clType" => "JSON"]),
+                    "clTab7_id" => new DbColumnInfo(["clType" => "int", "clLinkType"=>"dummy_table7"]),
+                ]
+            ]
+        );
+    }
+}
+
+class Table7Test extends ModelBase
+{
+    protected $table = "dummy_table7";
+
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int"]),
+                    "clData" => new DbColumnInfo(["clType" => "VARCHAR", "clTypeLength"=>32]),
+                ]
+            ]
+        );
     }
 }
 
 /** @package  */
-class table_enum extends ModelBase {
+class table_enum extends ModelBase
+{
     protected $table = "dummy_table1";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo{
-      
-        return Activator::CreateNewInstance( DbModelDefinitionInfo::class, 
-        [
-            "tableRowReference"=>[
-                "clId"=>new DbColumnInfo(["clType"=>"int", "clIsPrimary"=>1, "clAutoIncrement"=>1]),
-                "clName"=>new DbColumnInfo(["clType"=>"Enum", "clEnumValues"=>"1,2,3",
-                 "clDefault"=>"1", 
-                 "clTypeLength"=>30]), 
+    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    {
+
+        return Activator::CreateNewInstance(
+            DbModelDefinitionInfo::class,
+            [
+                "tableRowReference" => [
+                    "clId" => new DbColumnInfo(["clType" => "int", "clIsPrimary" => 1, "clAutoIncrement" => 1]),
+                    "clName" => new DbColumnInfo([
+                        "clType" => "Enum", "clEnumValues" => "1,2,3",
+                        "clDefault" => "1",
+                        "clTypeLength" => 30
+                    ]),
+                ]
             ]
-        ]);
+        );
     }
 }

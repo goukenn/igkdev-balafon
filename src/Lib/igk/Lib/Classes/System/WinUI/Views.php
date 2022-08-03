@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Views.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 
 namespace IGK\System\WinUI;
 use function igk_resources_gets as __;

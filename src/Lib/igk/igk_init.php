@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
-// @author: C.A.D BONDJE 
-// @desc: init application system 
-// @file : igk_init.php
-// @license : MIT license
+// @author: C.A.D. BONDJE DOUE
+// @filename: igk_init.php   
+// @desc: init application system  
+// @license : see licence.txt attached to the library
 
 use IGK\Helper\StringUtility;
 

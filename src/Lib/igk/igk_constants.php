@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: igk_constants.php
+// @date: 20220803 13:34:31
+// @desc: core constant definition
+
 // +  | store here 
 
 //----------------------------------------------------------------------------------------
@@ -6,15 +11,15 @@
 //----------------------------------------------------------------------------------------
 define("IGK_BALAFON_JS_VERSION", "4.6.0.0408");
 defined("IGK_FRAMEWORK") || define("IGK_FRAMEWORK", "IGKDEV-WFM");
-!defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", "12.23");
-!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.0729");
+!defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", "12.25");
+!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.0803");
 define("IGK_AUTHOR", "C.A.D. BONDJE DOUE");
 define("IGK_AUTHOR_CONTACT", "bondje.doue@igkdev.com");
 define("IGK_AUTHOR_2", "R. TCHATCHO");
 define("IGK_AUTHOR_CONTACT_2", "gerald.romeo@tbnsolaris.com");
 define("IGK_AUTHORS", "C.A.D. BONDJE DOUE & R. TCHATCHO");
 define("IGK_PLATEFORM_NAME", "BALAFON");
-define("IGK_RELEASE_DATE", "29/07/2022");
+define("IGK_RELEASE_DATE", "03/08/2022");
 define("IGK_START_DATE", "01/01/2013");
 defined("IGK_COPYRIGHT") || define("IGK_COPYRIGHT", "IGKDEV &copy; 2011-".date('Y')." all rights reserved");
 define("IGK_WEB_SITE", "https://www.igkdev.com");

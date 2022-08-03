@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: igk_db_ctrl_resetdb.pinc
+// @date: 20220803 13:51:47
+// @desc: 
+
 
 use IGK\System\Console\Logger;
 use IGK\Controllers\BaseController;

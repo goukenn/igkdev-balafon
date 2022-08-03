@@ -185,6 +185,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
         $v_primkeyindex=count($prim_key) == 1 ? $prim_key[0]->index: null;
         $callback=is_callable($options) ? $options: igk_getv($options, self::CALLBACK_OPTS );
         $_nn=(igk_count($out->m_tables) > 1);
+        // igk_debug_wln_e("getin ...", $query, $callback);
         $c=0;
         while($d=igk_db_fetch_row($dbresult)){
             $t=array();

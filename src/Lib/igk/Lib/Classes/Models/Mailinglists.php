@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Mailinglists.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,9 +11,14 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clEmail
-* @property mixed $clState*/
+* @property mixed|int $clId
+* @property mixed|varchar $clEmail
+* @property mixed|int $clState
+* @property mixed|text $clSource
+* @property mixed|varchar $clml_locale
+* @property mixed|text $clml_agent
+* @property mixed|datetime $clml_create_at
+* @property mixed|datetime $clml_update_at*/
 class Mailinglists extends ModelBase{
 	/**
 	* table's name

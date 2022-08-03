@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKSession.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 ///<summary>represent handle session service</summary>
 ///<remark> only create when required . from session param</remark>

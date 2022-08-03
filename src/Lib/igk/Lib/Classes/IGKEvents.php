@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKEvents.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 ///<summary>represent a event method pointer</summary>
 
@@ -47,6 +52,7 @@ class IGKEvents extends IGKObject
     const HOOK_LOG_APPEND = "sys_log_append_msg";
     const HOOK_INSTALL_SITE = "sys_install_site";
     const HOOK_INIT_GLOBAL_MATERIAL_FILTER = "sys_init_gobal_material_filter";
+    const HOOK_MAIL_REGISTER = "sys_hook_mail_register";
 
     public static function CreateHookOptions():IHookOptions{
         return new HookOptions();

@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Guids.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,10 +11,10 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clGUID
-* @property mixed $clDesc
-* @property mixed $clCreateAt*/
+* @property mixed|int $clId
+* @property mixed|varchar $clGUID
+* @property mixed|text $clDesc
+* @property mixed|datetime $clCreateAt*/
 class Guids extends ModelBase{
 	/**
 	* table's name

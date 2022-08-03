@@ -76,6 +76,9 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $ul->li()->Content="CurrentFolder : ". igk_app()->CurrentPageFolder;
             $ul->li()->Content="ViewMode : ". IGKViewMode::GetSystemViewMode();
             $ul->li()->Content="Environment : ". array("development", "production")[igk_sys_env_production()];
+            if ($_id = session_id()){
+                $ul->li()->Content="SessionID : ". $_id;
+            }
             // $ul->li()->Content=new IGKSessionIdValue();
             $bootstrap=igk_sys_getconfig("BootStrap.Enabled");
             $tab=igk_sys_debug_components();

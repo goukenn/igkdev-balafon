@@ -172,6 +172,7 @@ define('IGK_XML_CREATOR_SKIP_ADD', 196);
 define('IGK_ENV_CONFIG_ENTRIES', 197);
 // application info : request uri
 define('IGK_APP_REQUEST_URI', 198);
+define('VIEW_EXTRA_ARGS', 199);
 
 define("IGK_ENV_SESS_DOM_LIST", 0x201);
 define("IGK_CUSTOM_CTRL_PARAM", 0x400);
@@ -180,10 +181,10 @@ define("IGK_CUSTOM_CTRL_PARAM", 0x400);
 define("IGK_ENV_KEY", 0xE0);
 
 
-define("IGK_ENV_REQUIREMENT_KEY", 194);
-define('IGK_DOCUMENT_CLASS', 195);
-define('IGK_ENV_TRACE_LEVEL', 196);
-define('IGK_ENV_QUERY_LIST', 197);
+define("IGK_ENV_REQUIREMENT_KEY", 200);
+define('IGK_DOCUMENT_CLASS', 201);
+define('IGK_ENV_TRACE_LEVEL', 202);
+define('IGK_ENV_QUERY_LIST', 203);
 
 define("IGK_HTML_NOTAG_ELEMENT", "NoTagNode");
 
@@ -214,8 +215,7 @@ define("IGK_HTML_NOTAG_ELEMENT", "NoTagNode");
 //+ define('IGK_DOC_TYPE_FLAG', '1');
 //+ define('IGK_DOMAINBASEDIR_SESS_PARAM', '1');
 //+ define('IGK_ENV', '1');
-//+ define('IGK_ENV_PARAM_LANGCHANGE_KEY', '1');
-//+ define('IGK_ENV_REQUIREMENT_KEY', '1');
+//+ define('IGK_ENV_PARAM_LANGCHANGE_KEY', '1'); 
 //+ define('IGK_ERROR_OP_NOT_ALLOWED', '1');
 //+ define('IGK_ERROR_REQUEST_NOT_FROM_BALAFON_SERVER', '1');
 //+ define('IGK_ERR_FILE_NOT_SUPPORTED', '1');

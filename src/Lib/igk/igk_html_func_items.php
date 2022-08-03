@@ -1230,18 +1230,21 @@ function igk_html_node_dialog_circle_waiter()
 }
 
 /**
- * render autho community node
+ * render autho community node - system community link
  * @return HtmlItemBase 
  * @throws IGKException 
  */
-function igk_html_node_author_community()
+function igk_html_node_author_community(?array $options=null)
 {
     $n = igk_create_node("div");
     $n->setClass("com-host")->CommunityLinks([
+        "mail"=>"mailto:".IGK_AUTHOR_CONTACT,
         "linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",
         "twitter" => "https://twitter.com/@IGKDEV",
         "facebook" => "https://facebook.com/IGKDEV",
-    ]);
+        "github"=>"https://github.com/goukenn",
+        "youtube"=>"https://www.youtube.com/channel/UC5qYUsVFf3Mbc8giPY5V-4A",
+    ], $options);
     return $n;
 }
 ///<summary></summary>
@@ -1381,20 +1384,28 @@ function igk_html_community_view($n, $v, $k){
  * create winui-communitylinks
  * @param mixed $tab
  */
-function igk_html_node_communitylinks($tab)
-{
+function igk_html_node_communitylinks($tab, ?array $options=null)
+{   
+    $symbols = igk_getv($options, "symbols");
     $ul = igk_create_node("ul")->setClass("igk-com-links");
     if ($tab) {
         foreach ($tab as $k => $v) {
+            $svg_symbol = $k;
+            if ($symbols){
+                $svg_symbol = igk_getv($symbols, $k, $k);
+            }
+            
             if (is_object($v) || is_array($v)) {
                 $uri = igk_getv($v, "uri");
                 if (($c = igk_getv($v, "auth")) && (is_callable($c) && (!$c()))) {
                     continue;
                 }
+                $svg_symbol = igk_getv($v,  "icons");     
             } else {
                 $uri = $v;
             }
-            $ul->add("li")->addA($uri)->setAttribute("target", "__blank")->setClass($k)->Content = igk_svg_use($k);
+            $a = $ul->add("li")->addA($uri)->setAttribute("target", "__blank");
+            $a->setClass($k)->Content = igk_svg_use($svg_symbol);
         }
     }
     return $ul;

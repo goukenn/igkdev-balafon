@@ -92,4 +92,8 @@ abstract class RequestResponse extends Response implements IInjectable{
     public function json($data){
         return static::Create(__FUNCTION__, $data);
     }
+
+    public function download($name, $size, $data, $mimeType=null, $encoding="binary", $exit=0){
+        igk_download_content($name, $size, $data, $mimeType, $encoding, $exit);
+    }
 }

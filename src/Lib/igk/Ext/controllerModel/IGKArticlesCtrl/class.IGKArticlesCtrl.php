@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKArticlesCtrl.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 ///<summary>represent used to store common primary articles and templates</summary>
 abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
 {

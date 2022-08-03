@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.winui.navigationbar.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 /*
 * file: class.winui.navigationbar.php

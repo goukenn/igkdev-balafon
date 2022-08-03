@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: R.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 namespace IGK\Resources;
 
 use IGK\Controllers\BaseController;
@@ -59,6 +64,15 @@ final class R extends IGKObject {
             return $n;
         }
         return sprintf("%s_%s", strtolower($n), strtoupper($c));
+    }
+    public static function Localize(string $text, ?string $locale=null, ?array $args=null){
+        if (is_null($locale)){
+            $locale = self::GetCurrentLang();
+        }
+        if ($locale != self::GetCurrentLang()){
+            
+        }
+        return __($text, ...$args);
     }
     /**
      * 

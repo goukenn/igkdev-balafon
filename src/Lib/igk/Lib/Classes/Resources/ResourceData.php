@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ResourceData.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 namespace IGK\Resources;
 
 use IGK\System\Html\HtmlAttributeValue;

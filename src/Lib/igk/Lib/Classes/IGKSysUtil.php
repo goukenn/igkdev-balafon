@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKSysUtil.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 ///<summary> System utility class </summary>
 
 use IGK\Controllers\BaseController;

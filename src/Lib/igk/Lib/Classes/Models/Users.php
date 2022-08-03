@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,23 +11,23 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clLogin
-* @property mixed $clPwd
-* @property mixed $clFirstName
-* @property mixed $clLastName
-* @property mixed $clDisplay
-* @property mixed $clLocale
-* @property mixed $clPicture
-* @property mixed $clLevel
-* @property mixed $clStatus
-* @property mixed $clDate
-* @property mixed $clLastLogin
-* @property mixed $clParent_Id
-* @property mixed $clClassName
-* @property mixed $clcreate_at
-* @property mixed $clupdate_at
-* @property mixed $clGuid*/
+* @property mixed|int $clId
+* @property mixed|varchar $clLogin
+* @property mixed|varchar $clPwd
+* @property mixed|varchar $clFirstName
+* @property mixed|varchar $clLastName
+* @property mixed|text $clDisplay
+* @property mixed|varchar $clLocale
+* @property mixed|varchar $clPicture
+* @property mixed|enum $clLevel
+* @property mixed|int $clStatus
+* @property mixed|datetime $clDate
+* @property mixed|datetime $clLastLogin
+* @property mixed|TbigkUsers|int $clParent_Id
+* @property mixed|varchar $clClassName
+* @property mixed|datetime $clcreate_at
+* @property mixed|datetime $clupdate_at
+* @property mixed|varchar $clGuid*/
 class Users extends ModelBase{
 	/**
 	* table's name

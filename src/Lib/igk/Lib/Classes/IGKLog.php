@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKLog.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 
 ///<summary>Represente class: IGKLog</summary>
@@ -115,13 +120,13 @@ final class IGKLog extends IGKObject
         // +| log running data to running app
        
         if (self::CanDBLog()){            
-            \IGK\Models\DbLogs::add($msg, $tag);            
+            \IGK\Models\DbLogs::add($msg, $tag, 0);            
         }
         igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());
         self::$sm_loggin = false;
     }
     /**
-     * check if can write log gdo data base
+     * check if can write log to database
      * @return void|false 
      * @throws IGKException 
      */

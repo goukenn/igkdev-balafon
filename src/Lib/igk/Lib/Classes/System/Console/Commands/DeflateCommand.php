@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DeflateCommand.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand;

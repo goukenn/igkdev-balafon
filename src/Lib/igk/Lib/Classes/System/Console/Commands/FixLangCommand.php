@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: FixLangCommand.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;

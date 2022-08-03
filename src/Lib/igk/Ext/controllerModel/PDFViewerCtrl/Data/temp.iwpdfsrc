@@ -14,6 +14,3 @@ $pdf->drawText("drawText", 10,"3cm");
 
 
 $pdf->restore();
-
-//$pdf->renderPage();
-?>

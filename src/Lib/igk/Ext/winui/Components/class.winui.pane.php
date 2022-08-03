@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.winui.pane.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 ///<summary>Represent a pan view control </summary>
 
 use IGK\System\Html\Dom\HtmlNode;

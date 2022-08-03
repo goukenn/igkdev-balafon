@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ViewHelper.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 //
 // @file: View.php
 // @desc: helper view description files
@@ -7,10 +12,12 @@
 namespace IGK\Helper;
 
 use IGK\Controllers\BaseController;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEnvironment;
 use IGKEnvironmentConstants;
 use IGKException;
 use IGKHtmlDoc;
+use ReflectionException;
 
 /**
  * view helper class 
@@ -54,7 +61,7 @@ class ViewHelper
 
     }
     /**
-     * 
+     * include path argument
      * @param string $path 
      * @param array|null $args 
      * @return mixed 
@@ -66,6 +73,47 @@ class ViewHelper
         }
         extract(self::_GetIncArgs(array_slice(func_get_args(),1))); 
         return include self::_GetIncFile(func_get_arg(0));
+    }
+    /**
+     * include sub view. from current controller view context
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function Include(){
+        if(func_num_args()==0){
+            igk_die("missing file argument");
+        }
+        if(func_num_args()>2){
+            igk_die("too many argument passed");
+        }
+        if((func_num_args()>1) && (is_array(func_get_arg(1)))){
+            extract(func_get_arg(1));
+            $params = func_get_arg(1);
+        }
+        extract(self::GetViewArgs(), EXTR_SKIP); 
+        extract($ctrl->getExtraArgs(), EXTR_SKIP);
+        $_tab = get_defined_vars(); 
+        $g = (function(){
+            extract(func_get_arg(1));
+            include(func_get_arg(0));
+        })->bindTo($ctrl);
+        if (!file_exists($file = func_get_arg(0))){
+            file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: ".$file);
+        }
+        return $g($file, $_tab);
+        // return include(self::Dir().func_get_arg(0));
+    }
+    public static function RequireOnce($file){
+        if (!file_exists($file = func_get_arg(0))){
+            file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: ".$file);
+        }
+        $ctrl = self::CurrentCtrl();
+        $g = (function(){
+            require_once(func_get_arg(0));
+        })->bindTo($ctrl);
+        return $g($file);
     }
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
@@ -150,7 +198,7 @@ class ViewHelper
     } 
 
     /**
-     * return view args
+     * return variable passed on a top view 
      * @param mixed $param 
      * @param mixed $default 
      * @return mixed 
@@ -181,5 +229,13 @@ class ViewHelper
         return $c->checkUser($redirect, $uri) ? 
             $c->getUser():
             null;
+    }
+    /**
+     * view dir
+     * @param null|string $path 
+     * @return string  
+     */
+    public static function GetView(?string $path=null){
+        return implode("/", array_filter([self::CurrentCtrl()->getViewDir(), $path]));
     }
 }

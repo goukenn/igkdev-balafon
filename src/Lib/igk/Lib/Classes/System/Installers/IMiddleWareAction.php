@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IMiddleWareAction.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 namespace IGK\System\Installers;
 
 interface IMiddleWareAction{

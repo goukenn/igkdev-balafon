@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: .InitDataSchemaController.pinc
+// @date: 20220803 13:51:47
+// @desc: 
+
 namespace IGK\System\Console\Commands;
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Configuration\Controllers\ConfigureController;

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: session.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 // @file: session.php
 namespace IGK\System\Library;
 
@@ -84,7 +89,7 @@ class session extends \IGKLibraryBase{
                 setcookie($cookieName, $idstorage);
             }
         }
-        $dom=igk_get_cookie_domain();
+        $dom=igk_get_cookie_domain();       
         $opts=[];
         if(!empty($dom))
             $opts["domain"]=$dom;

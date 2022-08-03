@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Groups.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,10 +11,10 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clName
-* @property mixed $clDescription
-* @property mixed $clController*/
+* @property mixed|int $clId
+* @property mixed|varchar $clName
+* @property mixed|varchar $clDescription
+* @property mixed|varchar $clController*/
 class Groups extends ModelBase{
 	/**
 	* table's name

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.FacebookLike.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 ///</summary>controller used to a a like on page � the target points</summary>
 
 use IGK\System\Html\Dom\HtmlNode;

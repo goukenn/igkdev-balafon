@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Connexions.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,10 +11,10 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clUser_Id
-* @property mixed $clDateTime
-* @property mixed $clFrom*/
+* @property mixed|int $clId
+* @property mixed|TbigkUsers|int $clUser_Id
+* @property mixed|datetime $clDateTime
+* @property mixed|varchar $clFrom*/
 class Connexions extends ModelBase{
 	/**
 	* table's name

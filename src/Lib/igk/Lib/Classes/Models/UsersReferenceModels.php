@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: UsersReferenceModels.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,10 +11,10 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clUser_Id
-* @property mixed $clModel
-* @property mixed $clNextValue*/
+* @property mixed|int $clId
+* @property mixed|TbigkUsers|int $clUser_Id
+* @property mixed|varchar $clModel
+* @property mixed|int $clNextValue*/
 class UsersReferenceModels extends ModelBase{
 	/**
 	* table's name

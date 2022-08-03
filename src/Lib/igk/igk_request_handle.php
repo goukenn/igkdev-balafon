@@ -1,4 +1,8 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: igk_request_handle.php
+// @date: 20220803 13:29:41
+// @desc: handle query request
 
 
 //----------------------------------------------------------------------------

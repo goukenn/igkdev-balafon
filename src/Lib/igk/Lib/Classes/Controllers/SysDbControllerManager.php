@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: SysDbControllerManager.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 namespace IGK\Controllers;
 
 use IGKException;
@@ -35,11 +40,12 @@ class SysDbControllerManager{
      * @param mixed $tablename 
      * @return array [\
      *      "ColumnInfo"=> []\
+     *      "tableRowReference"=>[]\
      * ]
      * @throws IGKException 
      */
     public static function GetDataTableDefinitionFormController(?BaseController $ctrl, $tablename){
-        if (($ctrl==null) || ($ctrl instanceof SysDbController)){
+        if (($ctrl===null) || ($ctrl instanceof SysDbController)){
             $g = self::GetDataTableDefinition($tablename);
         }else 
             $g = $ctrl->getDataTableDefinition($tablename);

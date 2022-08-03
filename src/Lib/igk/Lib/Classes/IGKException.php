@@ -1,4 +1,9 @@
-<?php  
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKException.php
+// @date: 20220803 13:48:54
+// @desc: 
+  
 ///<summary>represent a base IGK Framework exception</summary>
 /**
 * represent a base IGK Framework exception

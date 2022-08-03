@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKRawDataBinding.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 class IGKRawDataBinding implements ArrayAccess {
     use IGK\System\Polyfill\ArrayAccessSelfTrait;

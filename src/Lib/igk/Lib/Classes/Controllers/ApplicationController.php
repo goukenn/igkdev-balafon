@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ApplicationController.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 namespace IGK\Controllers;
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";

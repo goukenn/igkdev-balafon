@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DataAdapterBase.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 // @file: DataAdapterBase.php
 
 namespace IGK\System\Database\MySQL;
@@ -135,6 +140,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $this->m_dbManager->configure($array);
     }
+    public function resetDbManager(){
+        $this->m_dbManager = null;
+        $this->m_dbManager = $this->_createDriver();
+    }
     ///<summary></summary>
     ///<param name="dbnamemix" default="null"></param>
     ///<param name="selectdb" default="true"></param>
@@ -144,8 +153,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * @param mixed $selectdb the default value is true
      */
     public function connect($dbnamemix = null, $selectdb = true)
-    {
-       
+    {      
         $this->makeCurrent();
         if (($this->m_dbManager == null) || (!$this->m_dbManager->connect())) {
             if (get_class($this->m_dbManager) != \IGK\System\Database\NoDbConnection::class) {
@@ -154,7 +162,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
                     $this->m_dbManager ? "can't connect with DBManager: " . get_class($this->m_dbManager) :
                         "dbManager is null"
                 );
-            } else {
+            } else {                
                 igk_environment()->isDev() && igk_ilog("no db adapter available: " . igk_env_count(__METHOD__));
             }            
             return false;

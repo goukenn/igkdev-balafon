@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKUserRegistratonCtrl.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 

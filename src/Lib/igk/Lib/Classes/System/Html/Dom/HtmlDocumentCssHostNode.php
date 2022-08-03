@@ -32,28 +32,27 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         return false;
     }
     public function render($options = null)
-    {        
+    {     
+        
         
         $clear = CssUtils::InitSysGlobal($this->doc);       
-
         $inlineTheme = $this->doc->getInlineTheme();
         $s = CssUtils::GetInlineStyleRendering($this->doc);
-        // igk_wln_e("inile style ::: ", $s);
+        
+        $g = "";
+        $g.= $this->doc->getTheme()->get_css_def();  
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles){
             igk_css_bind_theme_files($this->doc, $inlineTheme, $v_bindTempFiles);
         }
 
-        // igk_wln("bind temp file :", $v_bindTempFiles);
-
-        $g = $inlineTheme->get_css_def(true);
+        $g .= $inlineTheme->get_css_def(true);
         $vs = igk_create_node("style");
         $vs->text("\n".$g);
         $s.= $vs->render();   
         if ($clear){
             $this->doc->getSysTheme()->resetSysGlobal();
-        }
-        // igk_wln_e(__FILE__.":".__LINE__, "inline rendering, ", $s);
+        } 
         return $s;        
     }
 

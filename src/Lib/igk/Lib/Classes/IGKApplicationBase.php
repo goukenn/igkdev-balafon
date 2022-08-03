@@ -1,4 +1,9 @@
-<?php 
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKApplicationBase.php
+// @date: 20220803 13:48:54
+// @desc: 
+ 
 
 ///<summary>represent application base type</summary>
 /**

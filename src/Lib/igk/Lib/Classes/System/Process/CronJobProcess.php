@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: CronJobProcess.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 
 namespace IGK\System\Process;
 
@@ -23,7 +28,7 @@ class CronJobProcess{
             "crons_name"=>$name,
             "crons_script"=>$script,
             "crons_class"=>$ctrl ? get_class($ctrl):null,
-            "crons_options"=>json_encode($options)
+            "crons_options"=>json_encode($options, JSON_UNESCAPED_SLASHES)
         ]) !==null;
     }
     /**
@@ -42,5 +47,15 @@ class CronJobProcess{
         }
 
         return $cl;
+    }
+    /**
+     * run cron script 
+     * @param  string $file script to run
+     * @param  ?array $args argument to pass
+     * @return bool 
+     */
+    public static function RunFile(){
+        extract(func_get_arg(1));
+        return include(func_get_arg(0));
     }
 }

@@ -1060,8 +1060,13 @@ function igk_html_password($t, $id, $auto="current-password"){
     $i["autocomplete"]=$auto;
     return $i;
 }
-function igk_html_submit($a){
-    $a->input("submit", "submit", __("Submit"));
+/**
+ * submit input helper 
+ * @param mixed $a 
+ * @return void 
+ */
+function igk_html_submit($a, ?string $text=null){
+    $a->input("submit", "submit", $text ?? __("Submit"));
 }
 ///<summary></summary>
 ///<param name="tag"></param>

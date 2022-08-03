@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKJSSCriptiInitCtrl.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 /*
 controller to load inistialization script on document
 */

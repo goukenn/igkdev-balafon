@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: JSStringifyTest.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 use igk\js\VueJS\IO\JSExpression;
 use igk\js\VueJS\Route;

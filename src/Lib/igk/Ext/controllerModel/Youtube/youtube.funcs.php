@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: youtube.funcs.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 ///global utility fonctions used to manage youtube fonction
 ///02-10-2015
 

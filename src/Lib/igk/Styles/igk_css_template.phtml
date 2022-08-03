@@ -336,8 +336,8 @@ $def[".igk-pagination li a"]="text-decoration:none;";
 $def[".igk-hmenu"]="";
 $def[".igk-hmenu.floatr, igk-hmenu-floatl"]="z-index:20";
 $def[".igk-hmenu.igk-btn"]="margin:auto; padding:8px;";
-$def[".igk-hmenu a"]="color:#D7D7D7; [trans:0.5s color]";
-$def[".igk-hmenu a:hover"]="color:#65FF00;";
+$def[".igk-hmenu a"]="color:[cl:menuColor,#ddd]; [trans:0.5s color]";
+$def[".igk-hmenu a:hover"]="[cl:menuHoverColor,#fff]; font-style:bold;";
 $def[".igk-hmenu li"]="[trans: 0.2s background-color]";
 $def[".igk-hmenu > li a"]="padding:8px;";
 $def[".igk-hmenu > li > ul"]="[trans:0.5s all] {sys:posab} display:none;  width:auto; min-width:150px; z-index:50; [sysbgcl:submenu-bg] [sysfcl:submenu-fcl] padding:0px;";
@@ -1059,6 +1059,16 @@ foreach(
     "4"=>"48pt",
    ] as $k=>$v){
     $def[".ft-".$k] = "font-size: ".$v.";";
+}
+foreach([
+    "1"=>"16px",
+    "2"=>"24px",
+    "3"=>"32px",
+    "4"=>"48px",
+    "5"=>"64px",
+    "6"=>"92px"
+] as $k=>$v){
+    $def[".svg-size-".$k] = "width: $v; height: $v;";
 }
 
 // reset font size to document 

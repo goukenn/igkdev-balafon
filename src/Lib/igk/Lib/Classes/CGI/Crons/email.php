@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: email.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 use IGK\System\Console\Logger;
 use IGK\System\Net\Mail;

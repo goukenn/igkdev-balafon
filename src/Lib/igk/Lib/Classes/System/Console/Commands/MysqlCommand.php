@@ -41,7 +41,7 @@ class MySQLCommand extends AppExecCommand
         Logger::print($this->desc);
         Logger::print("");
         Logger::info("options*:");
-        foreach (explode("|", "info|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query") as $k) {
+        foreach (explode("|", "info|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect") as $k) {
             Logger::print("\t{$k}");
         }
     }
@@ -55,6 +55,21 @@ class MySQLCommand extends AppExecCommand
             case null:
                 Logger::danger(__("no --action defined"));
                 return;
+            case "connect":// check connection
+                if ($db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)){
+                    $db->resetDbManager();
+                    if ($db->connect()){
+                        Logger::success("connexion success");
+                        $db->close();
+                        return 1;
+                    }else{
+                        igk_wln($db);
+                        Logger::danger("failed to connect");
+                    }
+                }else {
+                    Logger::danger("failed get data adapter");
+                }
+                return false;
             case "info":
 
                 $d = igk_array_extract(igk_configs(), "db_name|db_server|db_user|db_pwd|db_port");

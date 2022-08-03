@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: RouteMatcher.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 
 namespace IGK\System\Http;
 
@@ -47,6 +52,14 @@ class RouteMatcher extends RouteHandler{
         $m = new self($controller);
         return $m;
     }
+    public function __debugInfo()
+    {
+        return [];
+    }
+    public function __toString()
+    {
+        return __CLASS__;
+    }
     /**
      * handle all 
      * @return mixed 
@@ -56,12 +69,12 @@ class RouteMatcher extends RouteHandler{
          * @var self $rc self
          */
         $rc = $this->root();
-        while($rc){
+        while($rc){ 
             if ($rc->check()){
                 return true;
             }
             $rc = $rc->chainTo;
-        }
+        } 
         if ($throwException){
             $cl = $this->throwClass ?? PageNotFoundException::class;
             $args = [];
@@ -84,6 +97,9 @@ class RouteMatcher extends RouteHandler{
         }  
         // check auth requirement
         $auth = $this->auth;
+        if (is_bool($auth)){
+            return $auth;
+        }
         $user = Users::currentUser();
         if ($this->isAuthRequired()){
             if (!$user || !$user::auth($auth)){

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKControllerManagerObject.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 ///<summary> System Controllers Managers. store list of different controller table. </summary>
 ///<note></note>
@@ -324,13 +329,16 @@ final class IGKControllerManagerObject extends IGKObject
             return false;
         $k = strtolower($ctrl->getName());
         $d = dirname($ctrl->getDeclaredFileName());
-        $ctrl->dropController();
+ 
+        if (method_exists($ctrl, "dropController")){
+            $ctrl->dropController();
+        }
         $r = false;
         if (is_dir($d)) {
-            $r = IO::RmDir($d, true);
+             IO::RmDir($d, true);
         }
-        unset($this->m_tbcontrollers[$k]);
-        BaseController::UnRegisterInitComplete($ctrl);
+        unset($this->m_tbcontrollers[$k]); 
+        ConfigControllerRegistry::UnRegisterInitComplete($ctrl);
         igk_hook(IGK_DROP_CTRL_EVENT, array($ctrl));
         return true;
     }
@@ -541,7 +549,7 @@ final class IGKControllerManagerObject extends IGKObject
             }
             $v_ctrl = new $c();
             $this->_registerCtrl($v_ctrl, null); // empty($rn) ? null: $rn);
-            BaseController::RegisterInitComplete($v_ctrl);
+            ConfigControllerRegistry::RegisterInitComplete($v_ctrl);
             $this->initCallBack(false);
             return;
         }
@@ -642,7 +650,8 @@ final class IGKControllerManagerObject extends IGKObject
         $n = strtolower($ctrl->getName());
         if (!isset($this->m_tbcontrollers[$n])) {
             $this->$n = $ctrl;
-            BaseController::RegisterInitComplete($ctrl);
+            // BaseController::RegisterInitComplete($ctrl);
+            ConfigControllerRegistry::RegisterInitComplete($ctrl);
         }
         $this->onInitComplete(null);
         if ($new) {
@@ -935,7 +944,7 @@ final class IGKControllerManagerObject extends IGKObject
                 if (!isset($this->m_tbcontrollers[$n])) {
                     igk_ilog_assert(igk_is_debug(), "register create new  : >>>> " . $v . " ? " . isset($tab[$v]));
                     $this->$n = $t;
-                    BaseController::RegisterInitComplete($t);
+                    ConfigControllerRegistry::RegisterInitComplete($t);
                 } else {
                     unset($t);
                 }
@@ -995,9 +1004,7 @@ final class IGKControllerManagerObject extends IGKObject
     {
         $fc = self::FileCtrlCache();
         if (empty($fc))
-            return;
-
-        igk_wln_e("store library : " . __METHOD__);
+            return; 
         @unlink($fc);
         $m = " ";
         foreach ($this->m_register as $k => $v) {

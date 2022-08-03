@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: .layoutPresentation.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 //init controller zone
 $CF = igk_ctrl_zone_init(__FILE__);
 

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: uiTrack.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 $CF = igk_ctrl_zone_init(__FILE__);
 
 function igk_html_node_uiTrack($type='default'){

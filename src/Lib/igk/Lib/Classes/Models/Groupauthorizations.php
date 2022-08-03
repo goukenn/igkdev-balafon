@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Groupauthorizations.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,10 +11,10 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clGroup_Id
-* @property mixed $clAuth_Id
-* @property mixed $clGrant*/
+* @property mixed|int $clId
+* @property mixed|TbigkGroups|int $clGroup_Id
+* @property mixed|TbigkAuthorizations|int $clAuth_Id
+* @property mixed|enum $clGrant*/
 class Groupauthorizations extends ModelBase{
 	/**
 	* table's name

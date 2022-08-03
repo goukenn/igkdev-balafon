@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKBlogCtrl.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 ///<summary>represent blog platform </summary>
 abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 {

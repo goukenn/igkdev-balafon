@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: AccordeonCookiePanel.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 final class AccordeonCookiePanel extends IGKObject{
 	var $m_pindex;

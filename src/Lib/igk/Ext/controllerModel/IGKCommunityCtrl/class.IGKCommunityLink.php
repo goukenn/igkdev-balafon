@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKCommunityLink.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 
 use function igk_resources_gets as __;
 

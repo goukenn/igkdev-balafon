@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKActionBase.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 // @file : IGKActionBase.php
 
 
@@ -172,6 +177,7 @@ abstract class IGKActionBase implements IActionProcessor
      */
     protected function Handle($fname, $args, $exit=1, $flag = 0)
     {
+        // igk_wln($fname, $args, $exit, __FILE__.":".__LINE__, );
         $ctrl = null; 
         if ($fname instanceof BaseController) {
             if (func_num_args() < 3) {
@@ -198,6 +204,7 @@ abstract class IGKActionBase implements IActionProcessor
             }
             $cargs = [$this];
             $b = new $b(...$cargs);
+            // $this->throwActionNotFound = $flag;
         }
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
@@ -232,9 +239,7 @@ abstract class IGKActionBase implements IActionProcessor
             $arguments = Dispatcher::GetInjectArgs(new ReflectionMethod($this, $fc), $arguments);       
             return $this->$fc(...$arguments);
         }
-        if ($this->throwActionNotFound){ 
-            // igk_trace();
-            // igk_wln_e($name, $arguments, get_class($this));       
+        if ($this->throwActionNotFound){       
             throw new ActionNotFoundException("[".get_class($this)."]->".$name);
         }
         return false;
@@ -286,7 +291,7 @@ abstract class IGKActionBase implements IActionProcessor
                 igk_view_reg_action($viewname, $k, $v);
             }
             igk_do_response($b = igk_view_handle_action($viewname, $params));
-        } else if (is_object($arrayList)) {              
+        } else if (is_object($arrayList)) {          
             $b = self::HandleObjAction($viewname, $arrayList, $params, $exit, $flag);
         }
         igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, null);
@@ -319,23 +324,23 @@ abstract class IGKActionBase implements IActionProcessor
      */
     public static function HandleObjAction($fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
+     
         // + | -------------------------------------------------------------
         // + | handle object action
         $actionMethod = "";
-        $env = igk_environment();
-        $r = 0;
+        $env = igk_environment();      
         $redirect_status = igk_server()->REDIRECT_STATUS;
         if ( $redirect_status && ($redirect_status != 200)){
             $actionMethod = self::FAILED_STATUS;
             array_unshift($params, 0, igk_server()->REDIRECT_STATUS);
-        } else {
+        } else { 
             // + | -------------------------------------------------------------
             // + |  sanitize action name                 
             $actionMethod = ActionHelper::SanitizeMethodName(igk_getv($params, 0));
         }        
 
         if (!empty($actionMethod)) {
-            igk_dev_ilog("CALLING ACTION ".static::class ."::".$actionMethod);
+            // igk_dev_ilog("CALLING ACTION ".static::class ."::".$actionMethod);
             $args = array_slice($params, 1); 
             $env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
             $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
@@ -351,6 +356,9 @@ abstract class IGKActionBase implements IActionProcessor
                     }
                     unset($verb);   
                 } 
+
+           
+
                 $_is_middelwire = $object instanceof MiddlewireActionBase;
                 if ($_is_middelwire) {
                     $c =  $object->__call($actionMethod, $args);
@@ -376,23 +384,7 @@ abstract class IGKActionBase implements IActionProcessor
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;
-        }
-        // igk_die( implode("\n", [__FILE__.":".__LINE__, "reach here .... action = [".$actionMethod. "]"]));
-
-        // if (!empty($actionMethod) && (((($flag & 1) == 1) || method_exists($object, $actionMethod)) || igk_getv($object, "handleAllAction"))) {
-        //     igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
-        //     $g = new ReflectionMethod($object, $actionMethod);
-        //     $params = array_slice($params, 1);
-        //     $params = Dispatcher::GetInjectArgs($g, $params);
-        //     // if (($g->getNumberOfRequiredParameters() == 1) && ($cl = $g->getParameters()[0]->getType()) && igk_is_request_type($cl)) {
-        //     //     $req = IGK\System\Http\Request::getInstance();
-        //     //     $req->setParam($params);
-        //     //     $params = [$req];
-        //     // }
-        //     $r = call_user_func_array(array($object, $actionMethod), $params);
-        //     igk_do_response($r);
-        // }
-        // return $r;
+        }        
     }
     protected function handleError($code, ...$params)
     {

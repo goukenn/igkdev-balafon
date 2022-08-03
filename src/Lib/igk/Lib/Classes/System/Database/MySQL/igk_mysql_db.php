@@ -46,7 +46,6 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
     if (empty($srv))
         return false;
     $g = DbQueryDriver::GetFunc("connect") ?? igk_die("not connect found for !!!! " . DbQueryDriver::$Config["system"]);
-
     /**
      * @var object|resource|mysqli $b
      */
@@ -64,6 +63,7 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
                     null,
                     $port
                 ];
+             
                 $b = @$g(...$mg);
             } else {
                 $b = @$g($srv, $dbu, $pwd);

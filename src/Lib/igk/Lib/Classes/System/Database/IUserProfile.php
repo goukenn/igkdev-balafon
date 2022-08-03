@@ -12,5 +12,10 @@ namespace IGK\System\Database;
  * @package 
  */
 interface IUserProfile{
-
+    /**
+     * check authorization for user
+     * @param mixed $type 
+     * @return bool 
+     */
+    function auth($type):bool;
 }

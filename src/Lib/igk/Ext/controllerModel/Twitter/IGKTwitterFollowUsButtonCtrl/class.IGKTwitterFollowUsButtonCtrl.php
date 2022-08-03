@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKTwitterFollowUsButtonCtrl.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 /*
 file : class.IGKTwitterFollowUsButtonCtrl.php
 create: 13-07-14

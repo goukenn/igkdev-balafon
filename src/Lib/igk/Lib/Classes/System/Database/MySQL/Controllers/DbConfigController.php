@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DbConfigController.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 
 namespace IGK\System\Database\MySQL\Controllers;
 
@@ -6,6 +11,7 @@ use Exception;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
+use IGK\Models\Apps;
 use IGK\Models\DbLogs;
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -16,6 +22,7 @@ use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\RequestHandler;
+use IGK\System\Number;
 use IGKCSVDataAdapter;
 use IGKEvents;
 use IGKException;
@@ -1168,48 +1175,7 @@ final class DbConfigController extends ConfigControllerBase
         $adapter->flushForInitDb();
         igk_environment()->set("NoDBLog", null);
         igk_ilog("END: drop system database " . igk_execute_time(__METHOD__, $time));
-        $ldtables = [];
-        /*
-        $cl = get_class($adapter);
-        igk_ilog("START: drop system database");
-        $t = igk_start_time(__METHOD__);
-        foreach ($tab as $v) {
-            $c = isset($ldtables[$v]) ? $ldtables[$v] : "";
-            if (empty($c)) {
-                igk_ilog("info table not found : " . $v);
-                continue;
-            }
-            $adapter = igk_get_data_adapter($c);
-            $inf = null;
-            if (isset($attrb[$cl])) {
-                $inf = $attrb[$cl];
-            } else {
-                $inf = (object)array('adapter' => $adapter, 'tables' => array());
-            }
-            $inf->tables[] = $v;
-            $attrb[$cl] = $inf;
-        }
-        // get dblog states 
-        igk_environment()->set("NoDBLog", 1);
-
-        igk_ilog("END: drop system database " . igk_execute_time(__METHOD__));
-
-        igk_wln_e($attrb);
-        foreach ($attrb as  $v) {
-            $adapter = $v->adapter;
-            if ($adapter && $adapter->connect()) {
-                $adapter->initForInitDb();
-                $adapter->setForeignKeyCheck(0);
-                
-                $adapter->dropTable($v->tables);
-                $adapter->setForeignKeyCheck(1);
-                $adapter->flushForInitDb();
-                $adapter->close();
-            }
-        }
-        igk_environment()->set("NoDBLog", null); 
-        igk_ilog("END: drop system database " . igk_execute_time(__METHOD__));
-        */
+        $ldtables = [];   
     }
 
     ///<summary>drop table associated to a controller</summary>
@@ -2385,5 +2351,33 @@ final class DbConfigController extends ConfigControllerBase
         $this->_showSelectedDbTables($n, null, $selected);
         $n->renderAJX();
         igk_exit();
+    }
+
+    protected function initComplete($context = null)
+    {
+        parent::initComplete($context);
+
+        // system used download application
+        igk_reg_hook(IGK_NOTIFICATION_APP_DOWNLOADED, function($e){
+            $appName = $e->args["name"];
+            // igk_ilog("downloadApp...".$appName);
+            DbLogs::add(
+                "download app - ".$appName, 
+                "APP_DOWNLOAD"
+            );  
+            if ($s = Apps::select_row( array("clName"=>$appName ))){
+                $t =  Number::FromBase($s->clDownloadTime, 36);
+                $t++;
+                $s->clDownloadTime = Number::ToBase($t,36);
+                $s->clLast = null;
+                $s->update();
+            } 
+            else{		
+                Apps::create(array(
+                    "clName"=>$appName ,
+                    "clDownloadTime"=>1
+                ));		
+            } 
+        });
     }
 }

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKSitemapGeneratorTools.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 use IGK\Controllers\ToolControllerBase;
 //method 1: site map generator
 final class IGKSitemapGeneratorTools extends ToolControllerBase

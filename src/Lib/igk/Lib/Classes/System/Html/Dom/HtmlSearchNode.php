@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: HtmlSearchNode.php
+// @date: 20220803 13:48:56
+// @desc: 
+
 
 ///<summary>Represente class: HtmlSearchNode</summary>
 

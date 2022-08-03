@@ -70,11 +70,42 @@ Groupauthorizations::registerMacro("getUserAuths", function(int $uid){
 
 }); 
 
+Users::registerMacro("groups", function($user=null){    
+    return Usergroups::getUserGroups($this->clId);
+});
+
 // + | check auth
 Users::registerMacro("auth", MacrosHelper::auth());
 
 //+ | get current user helper 
 Users::registerMacro("currentUser", MacrosHelper::currentUser());
+
+
+// --------------------------------------------------------------
+// get current users auths 
+// --------------------------------------------------------------
+Users::registerMacro("auths", function(){
+    $joint = [
+        Authorizations::table()=>[Authorizations::column("clId")."=".Groupauthorizations::column("clAuth_Id")],
+        //Groupauthorizations::table()=>[Groupauthorizations::column("clGroup_Id")."=".Authorizations::column(("clId"))],
+        UserGroups::table()=>[UserGroups::table("clUser_Id")."=".$this->clId]
+    ];
+    // igk_html_pre($joint);
+    // igk_wln_e($joint);
+    $g = Groupauthorizations::prepare()
+    ->join($joint)
+    ->distinct(true)
+    ->where([
+        'clGrant'=>1
+    ])
+    ->columns([Authorizations::column("clName")=>"name",
+    Authorizations::column("clController")=>"controller"])
+    ->orderBy(["name"])
+    ->execute();
+    if ($g){
+        return $g->to_array();
+    } 
+});
 
 //+ | add user 
 // Users::registerMacro("addUser", [MacrosHelper::class, "addUser"]);
@@ -90,6 +121,44 @@ if (!IGKValidator::IsEmail($login)) {
 return \IGK\Models\Users::select_row($conditions);
 });
 
+Users::registerMacro("grantAuthorization", function($group, $auth, $grant=1){
+    $result = false;
+    $this->beginTransaction();
+    $gr = Groups::select_row(["clName"=>$group]);    
+    if (!$gr && ! ($gr = Groups::insertIfNotExists(["clName"=>$group]))){
+        igk_die("failed to add group");
+    }
+    if ($gr->grantAuthorization($auth, $grant)){
+        // Logger::success("grant authorization to group");
+        if (Usergroups::insertIfNotExists([
+            "clUser_Id"=>$this->clId,
+            "clGroup_Id"=>$gr->clId
+        ])){
+            $result = true;
+        }
+    }
+    if ($result){
+        $this->commit();
+    }else {
+        $this->rollback();
+    }
+    return $result;
+});
+
+Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
+   // Logger::print("Grant : ".$auth ." to ". $group);
+  
+
+    $auths = Authorizations::select_row(["clName"=>$auth]);
+    if (!$auths && !($auths = Authorizations::insertIfNotExists(["clName"=>$auth]))){
+        igk_die("failed to add auth");        
+    }
+    return Groupauthorizations::insertIfNotExists(
+        ["clGroup_Id"=>$this->clId, "clAuth_Id"=>$auths->clId],
+        ["extra"=>["clGrant"=>$grant]]);
+
+});
+
 
 Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
  
@@ -99,7 +168,7 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
     static $logger;
     if (!$logger){
         $logger = 1;
-        $data = ["db_logs_msg"=>$msg];
+        $data = ["db_logs_msg" => $msg];
         if ($tag)
             $data["db_logs_tags"] = $tag;
         //$r =  \IGK\Models\DbLogs::create($data);

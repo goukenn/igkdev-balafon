@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DbQueryDriver.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 ///<summary>Represente class: DbQueryDriver</summary>
 namespace IGK\Database;
 
@@ -178,8 +183,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * 
      */
     public function connect()
-    {
-
+    { 
         if ($this->m_isconnect && $this->m_resource) {
             if (@$this->m_resource->ping()) {
                 $this->m_openCount++;

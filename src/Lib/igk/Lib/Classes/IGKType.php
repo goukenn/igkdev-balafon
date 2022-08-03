@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKType.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 /**
  * manage type helper 
  * @package 

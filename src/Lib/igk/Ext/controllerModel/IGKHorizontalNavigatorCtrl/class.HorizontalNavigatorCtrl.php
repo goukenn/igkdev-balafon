@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.HorizontalNavigatorCtrl.php
+// @date: 20220803 13:48:59
+// @desc: 
+
 /*
 file: class.HorizontalNavigatorCtrl
 Description: control that will host every article and navigate thru them by configuration

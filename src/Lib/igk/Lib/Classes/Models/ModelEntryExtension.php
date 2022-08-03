@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ModelEntryExtension.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 namespace IGK\Models;
 
 use IGK\Controllers\BaseController;
@@ -147,11 +152,23 @@ abstract class ModelEntryExtension{
         $model::update($condition, [$p=>$row->{$p}]);
         return null;
     }
-    public static function insertIfNotExists(ModelBase $model, ?array $condition){
-       if (!($model->select_row($condition))){
-            return self::insert($model, $condition,false);
+    /**
+     * insert if not exists
+     * @param ModelBase $model 
+     * @param null|array $condition 
+     * @param null|array $options 
+     * @param bool update true to send a select query with the last inserted id 
+     * @return null|ModelBase|bool 
+     * @throws IGKException 
+     */
+    public static function insertIfNotExists(ModelBase $model, ?array $condition, ?array $options=null, $update=false){
+       if (!($row = $model->select_row($condition))){
+            if ($tab= !$options?[]: igk_getv($options, "extra")){
+                $condition = array_merge($condition, $tab);
+            }
+            $row = self::insert($model, $condition, $update);
        }
-       return false;
+       return $row;
     }
     public static function updateOrCreateIfNotExists(ModelBase $model, $condition, $update_extras=null){
         if (!($row = $model->select_row($condition))){
@@ -787,9 +804,9 @@ abstract class ModelEntryExtension{
     public static function prepare(ModelBase $model){
         return new QueryBuilder($model);
     }
-    public static function with(ModelBase $model, $modelUnion){
+    public static function with(ModelBase $model, $modelUnion, ?string $propertyName=null){
         $model = self::prepare($model);
-        // $model->with($modelUnion);
+        $model->with($modelUnion, $propertyName);
         return $model;
     }
 

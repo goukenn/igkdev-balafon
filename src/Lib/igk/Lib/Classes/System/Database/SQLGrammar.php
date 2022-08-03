@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: SQLGrammar.php
+// @date: 20220803 13:48:56
+// @desc: 
+
 
 namespace IGK\System\Database;
 
@@ -679,6 +684,19 @@ class SQLGrammar implements IDbQueryGrammar
                 return "'" . $driver->escape_string($value) . "'";
             }
             return $value;
+        }
+        if ($tinf->clType=="JSON"){
+            if (is_string($value)){
+                $deco = json_decode($value);
+                if (json_last_error()){
+                    igk_die("value not a valid json");
+                }
+                return "'".str_replace('\\"', '\\\\"', json_encode($deco, JSON_UNESCAPED_SLASHES))."'";
+                 
+            }
+            if ($data= json_encode($value, JSON_UNESCAPED_SLASHES)){
+                return "'".str_replace('\\"', '\\\\"',$data)."'";
+            }            
         }
         $of = 'NULL';
         if (($type == "i") && $tinf->clInsertFunction) {

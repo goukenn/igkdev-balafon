@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.pickfolder.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 ///<summary>used to configure sytem application folder</summary>
 

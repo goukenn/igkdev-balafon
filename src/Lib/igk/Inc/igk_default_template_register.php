@@ -36,7 +36,7 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
 	 $attrname = $attr;
 	 while((strlen($attrname)>0) && ($attrname[0]=="*"))
 		$attrname = substr($attrname, 1);
-	 $g=(function($rv) use ($n, $context, $setattrib, $attrname){
+	 (function($rv) use ($n, $context, $setattrib, $attrname){
 		$v = igk_template_get_piped_value($rv, $context);
         $setattrib($attrname, $v);
         return null;
@@ -50,7 +50,7 @@ function igk_template_get_piped_value($rv, $context){
     try{
 	    $v = @eval( "return $v;");    
         if ($e = error_get_last()){
-            igk_trace();
+           // igk_trace();
             igk_dev_wln_e(__FUNCTION__."::Error:", $e, "source:".$rv, "output:".$v, $raw, $context);
         }
     }catch(ParseError $ex){
@@ -61,6 +61,42 @@ function igk_template_get_piped_value($rv, $context){
     }
 	$v = igk_str_pipe_value($v, $pipe);
 	return $v;
+}
+
+/**
+ * bind single class attribute *class
+ * @param mixed $n 
+ * @param mixed $attr 
+ * @param mixed $v 
+ * @param mixed $context 
+ * @param mixed $setattrib 
+ * @return void 
+ * @throws IGKException 
+ */
+function igk_template_update_class_piped_expression($n, $attr, $v, $context, $setattrib){
+
+    $attrname = $attr; 
+    while((strlen($attrname)>0) && ($attrname[0]=="*"))
+       $attrname = substr($attrname, 1);
+    (function($rv) use ($n, $context, $setattrib, $attrname){
+       $v = igk_template_get_piped_value($rv, $context);
+       if (is_array($v)){
+            $data = [];
+            foreach($v as $k=>$v){
+                if (is_numeric($k)){
+                    $data[] = $v;            
+                }else if ($v){
+                    $data[] = $k;
+                }
+            }
+            $setattrib($attrname, implode(" ", $data));
+       }
+       else {
+        $setattrib($attrname, $v);
+       }
+       return null;
+   })(HtmlUtils::GetAttributeValue($v, $context, true));
+ 
 }
 
 
@@ -95,10 +131,7 @@ igk_reg_template_bindingattributes("*classes", function($n, $attr, $v, $context,
         }
         return null;
     })(HtmlUtils::GetAttributeValue($v, $context, true));
-
 	$n->setInfos(["attribute"=>$attr, "context-data"=>$g, "context"=>"bind-expression", "operation"=>"loop", "for"=>$n->getName()]);
-
-
     return null;
 });
 igk_reg_template_bindingattributes("*href", function($n, $attr, $v, $context, $setattrib){
@@ -140,3 +173,5 @@ igk_reg_template_bindingattributes("*value", 'igk_template_update_attrib_piped_e
 igk_reg_template_bindingattributes("*title", 'igk_template_update_attrib_piped_expression');
 igk_reg_template_bindingattributes("*src", 'igk_template_update_attrib_piped_expression');
 igk_reg_template_bindingattributes("*action", 'igk_template_update_attrib_piped_expression');
+igk_reg_template_bindingattributes("*class", 'igk_template_update_class_piped_expression');
+igk_reg_template_bindingattributes("*style", 'igk_template_update_style_piped_expression');

@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKCssApplication.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 use IGK\Cache\SystemFileCache;
 use IGK\System\Configuration\Controllers\SystemUriActionController;

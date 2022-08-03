@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: NoDbConnection.php
+// @date: 20220803 13:48:56
+// @desc: 
+
 
 namespace IGK\System\Database;
 
@@ -7,6 +12,14 @@ namespace IGK\System\Database;
 * Represente IGKNoDbConnection class
 */
 class NoDbConnection{
+    public function __toString()
+    {
+        return __CLASS__;
+    }
+    public function __debugInfo()
+    {
+        return [];
+    }
     ///<summary></summary>
     /**
     * 

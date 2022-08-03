@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKDbUtility.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 use function igk_resources_gets as __;
 
 ///<summary>class used to manage database for a controller</summary>

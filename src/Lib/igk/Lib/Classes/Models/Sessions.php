@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: Sessions.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,17 +11,17 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clSessId
-* @property mixed $clSessIp
-* @property mixed $clSessStartAt
-* @property mixed $clSessLatitude
-* @property mixed $clSessLongitude
-* @property mixed $clSessCountryName
-* @property mixed $clSessCountryCode
-* @property mixed $clSessCityName
-* @property mixed $clSessRegionName
-* @property mixed $clSessAgent*/
+* @property mixed|int $clId
+* @property mixed|varchar $clSessId
+* @property mixed|varchar $clSessIp
+* @property mixed|datetime $clSessStartAt
+* @property mixed|float $clSessLatitude
+* @property mixed|float $clSessLongitude
+* @property mixed|varchar $clSessCountryName
+* @property mixed|varchar $clSessCountryCode
+* @property mixed|varchar $clSessCityName
+* @property mixed|varchar $clSessRegionName
+* @property mixed|text $clSessAgent*/
 class Sessions extends ModelBase{
 	/**
 	* table's name

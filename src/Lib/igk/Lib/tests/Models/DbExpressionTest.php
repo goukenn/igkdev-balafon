@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DbExpressionTest.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 namespace IGK\Tests\Models;
  
 use IGK\Controllers\BaseController;
@@ -41,14 +46,11 @@ class DbExpressionTest extends BaseTestCase{
         ])->distinct(true);
         $query = $p->get_query();
         $this->assertEquals("SELECT DISTINCT * FROM `dummy_table1` LEFT JOIN dummy_table2 on (dummy_table1.clName=dummy_table2.clName) WHERE `clId`='1';", 
-        $query);
-
-       
+        $query); 
     }
 
     public function test_update_query(){
         $gram = Table1Test::driver()->getGrammar(); 
-
         // igk_wln_e("table info : ", Table1Test::getDatatableDefinition());
 
         $this->assertEquals(
@@ -104,7 +106,7 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-    public function test_json_date_query(){
+    public function test_date_query(){
         $gram = Table1Test::driver()->getGrammar();  
         $this->assertEquals(
             "INSERT INTO `dummy_table4`(`clId`,`clDate`) VALUES (NULL,'2021-01-13 10:37:31');",
@@ -165,6 +167,37 @@ class DbExpressionTest extends BaseTestCase{
                     ]
                 ]
             )
+        );
+    }
+
+    /**
+     * testing json query
+     * @return void 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
+    public function test_json_query(){
+        $gram = Table5Test::driver()->getGrammar();  
+        $data = json_encode((object)["one"=>"1", "to"=>"2"]);
+        
+        $this->assertEquals(
+            "INSERT INTO `dummy_table5`(`clId`,`clOptions`) VALUES (NULL,'{\"one\":\"1\",\"to\":\"2\",\"info\":\"<a href=\\\\\"/data\\\\\">present</a>\"}');",
+            $gram->createInsertQuery(
+                Table5Test::table(),  
+                ["clName"=>'testing', "clOptions"=>json_encode((object)["one"=>"1", "to"=>"2", "info"=>"<a href=\"/data\">present</a>"])] ,
+                Table5Test::getDatatableDefinition()->tableRowReference             
+            )
+        );
+    }
+
+    public function test_with_query(){
+        // $gram = Table6Test::driver()->getGrammar();  
+        $s = Table6Test::with(Table7Test::table())
+            ->get_query();
+        $this->assertEquals(
+            "SELECT * FROM `dummy_table6`;",
+            $s,
+            "test with table query failed"
         );
     }
 }

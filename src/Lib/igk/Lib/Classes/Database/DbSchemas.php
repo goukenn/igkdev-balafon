@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DbSchemas.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 namespace IGK\Database;
 
 use IGK\Controllers\BaseController;
@@ -102,19 +107,24 @@ abstract class DbSchemas{
      * @return stdClass|null 
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl=null, $dataobj = null){ 
-        $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
-        if ($g){ 
-            $inf = $g["tableRowReference"];              
+        $inf = self::GetTableRowReference($tablename, $ctrl);
+        if ($inf){
             return self::CreateObjFromInfo($inf, $dataobj);
         }
+    }
+    public static function GetTableRowReference(string $tablename, ?BaseController $ctrl=null){
+        $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
+        if ($g){ 
+            return igk_getv($g, "tableRowReference"); 
+        }       
     }
     /**
      * create object from info Key refererence
      */
-    public static function CreateObjFromInfo($tb, $dataobj=null){
-        if ($tb) {
+    public static function CreateObjFromInfo($tableRowReference, $dataobj=null){
+        if ($tableRowReference) {
             $obj = igk_createobj();
-            foreach ($tb as $k => $v) {
+            foreach ($tableRowReference as $k => $v) {
                 $cl = DbColumnInfo::GetRowDefaultValue($v);  
                 $n = igk_getv($v, "clName", is_numeric($k) ? "column_".$k : $k);
                 $obj->$n = $cl;

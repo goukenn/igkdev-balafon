@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: PHPScriptBuilderUtility.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 // @file: PHPScriptBuilderUtility.php
 // @author: C.A.D BONDJE DOUE
 namespace IGK\System\IO\File;

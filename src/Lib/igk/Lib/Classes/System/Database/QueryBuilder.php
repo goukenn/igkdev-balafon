@@ -10,6 +10,7 @@ use IGK\Models\ModelBase;
 use IGK\Database\DbExpression;
 use IGKException;
 use IGKQueryResult;
+use QueryOptions;
 
 /**
  * use to build query
@@ -20,6 +21,20 @@ class QueryBuilder
     private $m_conditions;
     private $m_options;
     private $m_model;
+    private $m_with;
+
+    /**
+     * with expression to get single data value
+     * @param mixed $table 
+     * @param null|string $key 
+     * @return $this 
+     */
+    public function with($table, ?string $key=null){
+        if (!$this->m_with)
+            $this->m_with = [];
+        $this->m_with[$table] = $key ?? $table;
+        return $this;
+    }
 
 
     public function __construct(ModelBase $model)
@@ -86,7 +101,14 @@ class QueryBuilder
      */
     public function join(array $join)
     {
-        $this->m_options["Joins"][] = $join;
+        // igk_wln_e(array_keys($join));
+        foreach(array_keys($join) as $k){
+            if (is_numeric($k)){
+                igk_die("not a valid table key : ".$k);
+            }
+            $v = $join[$k];
+            $this->m_options["Joins"][] = [$k=>$v];
+        }
         return $this;
     }
     public function join_left(string $table, string $condition)
@@ -204,13 +226,59 @@ class QueryBuilder
      * @return bool|?IDbQueryResult result
      * @throws IGKException 
      */
-    public function execute()
+    public function execute($throwOnError=true, $options=null)
     {
         $driver = $this->m_model->getDataAdapter();
         if (!empty($query = $this->get_query())) {
-            return $driver->sendQuery($query);
+            igk_debug_wln($this->m_with);
+            if (!empty($this->m_with)){
+                $old_callback = !$options ? null : igk_getv($options, "@callback");
+                $options = [
+                    "@callback"=>function($v)use($old_callback){                        
+                        $row = $v;
+                        if ($old_callback && ! ($row = $old_callback($v))){
+                            return false;
+                        }
+                        return self::_BuildRefWith($v, $row, $this->model(), $this->m_with);
+                    }
+                ];
+
+            }
+            return $driver->sendQuery($query, $throwOnError, $options);
         }
         return false;
+    }
+    private static function _BuildRefWith($v, $row, $model, $with){
+        $tab = \IGK\Models\ModelBase::RegisterModels();
+        $ref = $tab[$model->getTable()]->ref;
+        $links = array_filter(array_map(function($a){ 
+            if (!$a->clLinkType)
+                return null;
+            return [$a->clLinkType, $a->clLinkColumn]; 
+        }, $ref));
+     
+        foreach($with as $k=>$vv){
+            $w_table = $vv;
+            $w_prop = $vv;
+            if (!is_numeric($k)){
+                $w_table = $k;
+            }
+            if (isset($tab[$w_table])){
+                $w_mod = $tab[$w_table]->model::model();
+            }
+            foreach($links as $cl=>$info){
+                list($table, $clname) = $info;
+                if ($table == $w_table){
+                    $clname = $clname ?? $w_mod->getPrimaryKey();                                  
+                    if ($dd = $v->$cl){
+                        $g = $w_mod::cacheRow([$clname=>$dd]); 
+                        $row->$w_prop = $g;
+                    }
+                    break;
+                }
+            }
+        }
+        return $row;
     }
     /**
      * select single row from this
@@ -239,13 +307,21 @@ class QueryBuilder
         return $this->m_model;
     }
     // 
-
+    /**
+     * execute and get array
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function get(){
         if ($tab = $this->execute()){
             return $tab->to_array();
         }
     }
 
+    public function groupBy(?array $column=null){
+        $this->m_options["GroupBy"] = $column;
+        return $this;
+    }
     
 
 }

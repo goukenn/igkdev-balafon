@@ -346,11 +346,13 @@ abstract class ControllerExtension
                         $t->upgrade();
                     }
                 } catch (Exception $ex) {
-                    igk_dev_wln_e("some error", $ex->getMessage());
+                    Logger::danger(sprintf("some error : %s", $ex->getMessage()));
+                    return false;
                 }
             }
         }
         self::loadMigrationFile($ctrl);
+        return true;
     }
 
     /**
@@ -411,9 +413,11 @@ abstract class ControllerExtension
                 } catch (Throwable $tex) {
                     Logger::print($tex->getMessage());
                     Logger::danger("failed to init: " . $t . ":" . $tex->getMessage());
+                    return false;
                 }
             }
         }
+        return true;
     }
     /**
      * resolv table name
@@ -759,6 +763,38 @@ abstract class ControllerExtension
             $view_args[$k] = $v;
         }
         return $view_args;
+    }
+    /**
+     * set extra argument. that live on controller view context
+     * @param BaseController $ctrl 
+     * @param null|array $args 
+     * @return void 
+     */
+    public static function setExtraArgs(BaseController $ctrl, ?array $args=null){
+        if (is_null($args )){
+            $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, null);
+            return;
+        }
+        $v = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS);
+        if (!$v){
+            $v = $args;
+        }else{
+            $v = array_merge($v, $args);
+        }
+        $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, $v);
+    }
+    /**
+     * get extra args
+     * @param null|string $name 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function getExtraArgs(BaseController $ctrl, ?string $name=null, $default=null){
+        if ($g = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS)){
+            return is_null($name) ? $g : igk_getv($g, $name, $default);
+        }
+        return $default;
     }
     /**
      * login a selected user 
@@ -1665,7 +1701,7 @@ abstract class ControllerExtension
         if (igk_env_count(__METHOD__.$name) > 1) {
             igk_trace();
             igk_die(__METHOD__." call twice ".$name);
-        }
+        } 
 
         if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
             $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");

@@ -1,10 +1,16 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: HtmlDocTheme.php
+// @date: 20220803 13:48:56
+// @desc: 
+
 
 namespace IGK\System\Html\Dom;
 
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use ArrayAccess;
 use Exception;
+use IGK\Css\CssColorDef;
 use IGK\Css\CssThemeCompiler;
 use IGKCssDefaultStyle;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
@@ -39,6 +45,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function getInitGlobal(){
         return $this->m_initGlobal;
+    }
+    /**
+     * get global color definition used to render color on current context
+     * @return void 
+     */
+    public function getGlobalColor(){
+        return CssColorDef::getInstance();
     }
     /**
      * initialize global sys theme

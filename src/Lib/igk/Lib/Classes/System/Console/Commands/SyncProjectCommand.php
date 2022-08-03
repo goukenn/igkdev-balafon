@@ -52,7 +52,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         }
         $pdir = IO::GetUnixPath($pdir, true);
         $module = basename($pdir);
-        
+
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
         }
@@ -65,61 +65,72 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 $this->_restoreRelease($h, $module, $setting);
                 break;
             default:
-            if ($this->use_zip){
-                $controller = null;
-                $this->_installZipProject($controller);
-               
-            } else {
-             
-                // sync project
-                $exclude = [];
-                $g = ftp_nlist($h, $setting["path"]);
-                $o_dir = $setting["path"] . "/" . $module;
-                if (!in_array($module, $g)) {
-                    // upload project if not found
-                    Logger::info("project not found in " . $setting["server"]);
-                } else {
-                    // move current folder to release
-                    ftpHelper::CreateDir($h, $bckdir = $setting["release"] . "/" . $module . date("YmdHis"));
-                    Logger::info("rename " . $o_dir . " " . $bckdir);
-                    ftp_rename($h, $o_dir, $bckdir);
-                }
-                ftpHelper::CreateDir($h, $setting["path"]);
-                ftp_chdir($h, $setting["path"]);
-                @ftp_mkdir($h, $module);
-                $cdir = [];
+                if ($this->use_zip) {
+                    $controller = null;
 
-                $fc = function ($f, array &$excludedir = null) {
-                    $dir = dirname($f);
-                    if ($excludedir) {
-                        if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {
-                            $excludedir[] = $dir;
-                            return false;
+                    // get project in pdir
+                    foreach (igk_sys_project_controllers() as $c) {
+                        if ($pdir == $c->getDeclaredDir()) {
+                            $controller = $c;
+                            break;
                         }
                     }
-                    if (preg_match("#\.(git(.+)?|vscode|balafon|DS_Store)$#", $dir)) {
-                        return false;
+                    if (!is_null($controller)) {
+                        $this->_installZipProject($controller);
+                    } else {
+                        Logger::danger(sprintf("no controller found in : %s", $pdir));
                     }
-                    if (preg_match("#(phpunit(.+(\.(yml|dist))$)|\.(git(.+)?|vscode|balafon)$)#", $f)) {
-                        return false;
-                    }
-                    return 1;
-                };
+                } else {
 
-                foreach (IO::GetFiles($pdir, $fc, true, $exclude) as $f) {
-
-                    $g = substr($f, strlen($pdir));
-                    if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
-                        ftpHelper::CreateDir($h, dirname($module . $g));
-                        array_push($cdir, $_cdir);
+                    // sync project
+                    $exclude = [];
+                    $g = ftp_nlist($h, $setting["path"]);
+                    $o_dir = $setting["path"] . "/" . $module;
+                    if (!in_array($module, $g)) {
+                        // upload project if not found
+                        Logger::info("project not found in " . $setting["server"]);
+                    } else {
+                        // move current folder to release
+                        ftpHelper::CreateDir($h, $bckdir = $setting["release"] . "/" . $module . date("YmdHis"));
+                        Logger::info("rename " . $o_dir . " " . $bckdir);
+                        ftp_rename($h, $o_dir, $bckdir);
                     }
-                    Logger::print("upload : " . $f);
-                    ftp_put($h, $o_dir . $g, $f, FTP_BINARY);
+                    ftpHelper::CreateDir($h, $setting["path"]);
+                    ftp_chdir($h, $setting["path"]);
+                    @ftp_mkdir($h, $module);
+                    $cdir = [];
+
+                    $fc = function ($f, array &$excludedir = null) {
+                        $dir = dirname($f);
+                        if ($excludedir) {
+                            if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {
+                                $excludedir[] = $dir;
+                                return false;
+                            }
+                        }
+                        if (preg_match("#\.(git(.+)?|vscode|balafon|DS_Store)$#", $dir)) {
+                            return false;
+                        }
+                        if (preg_match("#(phpunit(.+(\.(yml|dist))$)|\.(git(.+)?|vscode|balafon)$)#", $f)) {
+                            return false;
+                        }
+                        return 1;
+                    };
+
+                    foreach (IO::GetFiles($pdir, $fc, true, $exclude) as $f) {
+
+                        $g = substr($f, strlen($pdir));
+                        if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
+                            ftpHelper::CreateDir($h, dirname($module . $g));
+                            array_push($cdir, $_cdir);
+                        }
+                        Logger::print("upload : " . $f);
+                        ftp_put($h, $o_dir . $g, $f, FTP_BINARY);
+                    }
+                    $this->removeCache($h, $setting["application_dir"]);
+
+                    Logger::success("sync project ... " . $o_dir);
                 }
-                $this->removeCache($h, $setting["application_dir"]);
-
-                Logger::success("sync project ... " . $o_dir);
-            }
                 break;
         }
         ftp_close($h);
@@ -190,11 +201,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         }
     }
     //zip controller project
-    private function _installZipProject($controller){        
+    private function _installZipProject($controller)
+    {
         $file = tempnam(sys_get_temp_dir(), "blf");
+        Logger::info("zip project : ".$controller->getName());
         igk_sys_zip_project($controller, $file);
-        Logger::info("done : ".$file);
+        Logger::info("done : " . $file);
         return $file;
     }
-
 }

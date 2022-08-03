@@ -194,9 +194,9 @@ function igk_ajx_notify_dialog($title, $content, $type = "default", $render = tr
 {
     $notbox = new HtmlNotifyDialogBoxItem();
     $notbox->setClass("igk-" . $type);
-    $c = $notbox->show($title, $content);
+    $notbox->show($title, $content);
     if ($render) {
-        $c->renderAJX();
+        $s = $notbox->renderAJX();
     }
     return $notbox;
 }
@@ -4337,12 +4337,12 @@ function igk_ctrl_env_param_key($ctrl)
 ///<summary></summary>
 ///<param name="ctrl"></param>
 /**
- * 
+ * shortcut to get environment view args
  * @param mixed $ctrl 
  */
 function igk_ctrl_env_view_arg_key(\IGK\Controllers\BaseController $ctrl)
 {
-    return $ctrl::getEnvKey("/view/args");
+    return $ctrl::getEnvKey("view/args");
 }
 ///<summary></summary>
 ///<param name="ctrn"></param>
@@ -9253,15 +9253,23 @@ function igk_get_cookie($n)
     }
     return igk_getv($_COOKIE, $n);
 }
-///<summary></summary>
+///<summary>retrieve the cookie domain</summary>
 /**
- * 
+ * retrieve the cookie domain
+ * @return ?string 
  */
 function igk_get_cookie_domain()
 {
     $srv = igk_server();
     $p = igk_server()->HTTP_HOST;
-    if ((IGKValidator::IsIPAddress($p) && ($srv->SERVER_NAME == $srv->SERVER_ADDR))) {
+    // + -------------------------------------------------------------------
+    // + BUGFIX: Safari destroy IP address base session     
+    // if (IGKValidator::IsIPAddress($p)){
+    //     return null;
+    // }
+    if ((IGKValidator::IsIPAddress($p) && 
+        ((explode(":", $p)[0] == $srv->SERVER_NAME) ||
+        ($srv->SERVER_NAME == $srv->SERVER_ADDR)))) {
         return null;
     }
     $tab = parse_url($p);
@@ -10751,7 +10759,7 @@ function igk_get_value($obj, $path)
 ///<param name="name"></param>
 ///<param name="default" default="null"></param>
 /**
- * 
+ * helper get view arg
  * @param mixed $ctrl 
  * @param mixed $name 
  * @param mixed $default 
@@ -14402,6 +14410,7 @@ function igk_include_view_file($ctrl, $file)
             extract(func_get_arg(1));
         }
         // + | include view file.
+        extract($this->getExtraArgs(), EXTR_SKIP);
         return include(func_get_arg(0));
     })->bindTo($ctrl);
     $response = null;
@@ -14427,8 +14436,7 @@ function igk_include_view_file($ctrl, $file)
                     return igk_io_collapse_path($file) . ":" . $line;
                 }, $ex->getTrace())
             );
-        }
-        // + + |  
+        } 
         ob_end_clean();
         throw $ex;
     } finally {
@@ -20570,6 +20578,9 @@ function igk_request_is($type)
 {
     return igk_server()->REQUEST_METHOD == $type;
 }
+/**
+ * include module helper
+ */
 function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
 {
     return igk_require_module($modulename, $init, $loadall, 0);
@@ -21163,7 +21174,7 @@ function igk_set_form_value($id, $value = null)
  * @param mixed $dom 
  */
 function igk_set_global_cookie($n, $v = null, $override = 1, $tm = null, $dom = null, $secure = false, $options = null)
-{
+{    
     $rs = igk_getv($_COOKIE, $n);
     if (!isset($_COOKIE[$n]) || $override) {
         !$dom &&
@@ -22066,6 +22077,7 @@ function igk_str_join_tab($tab, $separator = ',', $key = true)
 function igk_str_ns($n)
 {
     $n = str_replace(".", "\\", $n);
+    $n = str_replace("/", "\\", $n);
     $n = preg_replace("/[^0-9a-z\\\\_]/i", "_", $n);
     return implode("", array_filter(explode("_", str_replace(" ", "_", str_replace("/", "\\", $n)))));
 }

@@ -62,8 +62,7 @@ class WebResponse extends RequestResponse{
         // + | priority to document cache setting
         if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
             $cache = !$this->node->NoCache; 
-        }
-        
+        } 
         ob_start();   
         $this->render();
         $s = ob_get_clean();   

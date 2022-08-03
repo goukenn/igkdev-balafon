@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKPdfViewerCtrl.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 
 /*
 file : class.IGKPDFViewerCtrl.php

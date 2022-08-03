@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: UserInfoTypes.php
 // @desc: model file
-// @date: 20220705 14:13:39
+// @date: 20220802 21:32:00
 namespace IGK\Models;
 
 use IGK\Models\ModelBase;
@@ -11,12 +11,12 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed $clId
-* @property mixed $clName
-* @property mixed $clDataType
-* @property mixed $clRegex
-* @property mixed $clCardinality
-* @property mixed $clType*/
+* @property mixed|int $clId
+* @property mixed|varchar $clName
+* @property mixed|varchar $clDataType
+* @property mixed|varchar $clRegex
+* @property mixed|int $clCardinality
+* @property mixed|int $clType*/
 class UserInfoTypes extends ModelBase{
 	/**
 	* table's name

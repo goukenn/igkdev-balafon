@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Mail.php
+// @date: 20220803 13:48:55
+// @desc: 
+
 
 namespace IGK\System\Net;
 
@@ -41,6 +46,9 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
 
     
     var $Base64Encoding = true;
+    public function getErrorMsg(){
+        return $this->ErrorMsg;
+    }
     ///<summary>send mail</summary>
     /**
      * send mail
@@ -168,7 +176,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
                 return false;
             }
             $from = $this->FROM;
-            if (!preg_match("/\<(?P<form>[^\^]+)\>/", $from)){
+            if ($from && !preg_match("/\<(?P<form>[^\^]+)\>/", $from)){
                 $from = "<".$from.">";
             }
 

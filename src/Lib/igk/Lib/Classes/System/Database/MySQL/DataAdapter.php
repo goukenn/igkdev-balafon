@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: DataAdapter.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 
 namespace IGK\System\Database\MySQL;
 
@@ -41,6 +46,7 @@ class DataAdapter extends DataAdapterBase
     {
         return '`' . $v . '`';
     }
+    
     /**
      * create a fetch result
      * @param string $query query to send
@@ -134,13 +140,12 @@ class DataAdapter extends DataAdapterBase
                 "pwd" => $cnf->db_pwd,
                 "port" => $cnf->db_port
             ]);
-            // igk_wln_e(__FILE__.":".__LINE__, "driver ::: ",$s, $options, mysqli_connect_error());
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
-            }
+            } 
             return $s;
         }
         return null;

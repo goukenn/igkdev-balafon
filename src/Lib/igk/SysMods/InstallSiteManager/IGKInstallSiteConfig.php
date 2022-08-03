@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: IGKInstallSiteConfig.php
+// @date: 20220803 13:48:54
+// @desc: 
+
 
 // @file: IGKInstallSiteConfig
 // desc: install site

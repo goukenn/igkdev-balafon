@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: ConfigControllerBase.php
+// @date: 20220803 13:48:57
+// @desc: 
+
 
 ///<summary>Represente class: ConfigControllerBase</summary>
 namespace IGK\System\Configuration\Controllers;

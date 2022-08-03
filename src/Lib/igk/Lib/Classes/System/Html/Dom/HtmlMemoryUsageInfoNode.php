@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: HtmlMemoryUsageInfoNode.php
+// @date: 20220803 13:48:56
+// @desc: 
+
 
 
 ///<summary>represent language selection options</items>

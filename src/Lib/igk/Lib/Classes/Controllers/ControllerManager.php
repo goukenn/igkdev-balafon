@@ -66,7 +66,7 @@ final class ControllerManager extends NonVisibleControllerBase {
             return $response;
         }
         if($n && ($n != ".") && ($n != "..") && (igk_getctrl($n, false) == null) && ($type != null)){
-            $clcontent=self::GetDefaultClassContent($n, $type, $webparent);
+            
             $p="";
             if(($ctrl_ns != "igk") && preg_match(IGK_NAME_SPACE_REGEX, $ctrl_ns)){
                 $m=explode(".", $ctrl_ns);
@@ -98,12 +98,16 @@ final class ControllerManager extends NonVisibleControllerBase {
             $t["clVisiblePages"]=igk_getr("clVisiblePages");
             $t["clDescription"]=igk_getr("clDescription");
             $t["clDataSchema"]=igk_getr("clDataSchema");
-            $o=call_user_func_array(array($type, "SetAdditionalConfigInfo"), array(& $t));
+            $t["clAppName"] = igk_getr("clAppName");
+            $o = call_user_func_array(array($type, "SetAdditionalConfigInfo"), array(& $t));
             if($type == IGKDefaultPageController::class){
                 igk_io_save_file_as_utf8($folder."/".IGK_SCRIPT_FOLDER."/default.js", self::GetDefaultScript($n));
             }
             $file_name=$folder."/class.".$n.".php";
-            igk_io_save_file_as_utf8($file_name, $clcontent);
+
+            $v_clcontent = self::GetDefaultClassContent($n, $type, $webparent, $t);
+
+            igk_io_save_file_as_utf8($file_name, $v_clcontent);
             igk_io_save_file_as_utf8($folder."/".IGK_VIEW_FOLDER."/".IGK_DEFAULT_VIEW_FILE, call_user_func(array($type, "GetAdditionalDefaultViewContent")));
             include($file_name);
             $conf=igk_create_node("config");
@@ -151,7 +155,7 @@ final class ControllerManager extends NonVisibleControllerBase {
     * @param  $extends
     * @param  $webparent the default value is null
     */
-    public static function GetDefaultClassContent($name, $extends, $webparent=null){
+    public static function GetDefaultClassContent($name, $extends, $webparent=null, ?array $config=null){
         if(igk_ctrl_is_reservedname($name))
             return null;
         $cnf=igk_app()->getConfigs();
@@ -162,10 +166,17 @@ final class ControllerManager extends NonVisibleControllerBase {
         $param["create"]=igk_date_now();
         $param["copyright"]=igk_getv($cnf, 'copyright', IGK_COPYRIGHT);
         $param["author"]=igk_getv($cnf, 'default_author', IGK_AUTHOR);
+        $entry_ns = igk_getv($config, "clAppName", null);
+        if (!empty($entry_ns)){
+            $entry_ns = dirname(str_replace(".", "/", $entry_ns));
+            $entry_ns = "\\".igk_str_ns($entry_ns)."::class";
+        } 
+        $param["entry_namespace"] = $entry_ns;
         $s=IGK_STR_EMPTY;
         $s .= !$webparent || (igk_getctrl($webparent, false) == null) ? null: <<<EOF
 igk_getctrl("{$webparent}")->regChildController(\$this);
 EOF;
+$entry_ns = $entry_ns ? "protected function getEntryNamespace(){ return {$param['entry_namespace']}; }": null;
         $out=<<<EOF
 <?php
 //***
@@ -187,6 +198,7 @@ class $name extends {$param["extend"]}{
      * */
 	// public function getName(){return get_class(\$this);}
 
+    ${entry_ns}
     /**
      * init countroller
      * */
@@ -261,11 +273,11 @@ OEF;
             if($ctrl){
                 $cl=get_class($ctrl);
                 if($cl){
-                    IGKControllerManagerObject::ClearCache();
-                    $i=IGKControllerManagerObject::getInstance();
-                    $r=is_string($n) ? $i->dropControllerByName($n): $i->dropController($n);
-                    if($r){
-                        $i->reloadModules(array($cl=>$n), false, 0);
+                    
+                    $i=IGKControllerManagerObject::getInstance(); 
+                    if ($r=is_string($n) ? $i->dropControllerByName($n): $i->dropController($n)){
+                        // reset controller cache
+                        IGKControllerManagerObject::ClearCache();
                     }
                 }
             }

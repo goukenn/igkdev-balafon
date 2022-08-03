@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: HtmlNotifyDialogBoxItem.php
+// @date: 20220803 13:48:56
+// @desc: 
+
 
 namespace IGK\System\Html\Dom;
 
@@ -11,12 +16,12 @@ use IGKValueListener;
 final class HtmlNotifyDialogBoxItem extends HtmlNode {
     private $m_Message;
     private $m_title;
+    protected $tagname = "div";
     ///<summary></summary>
     /**
     * 
     */
-    public function __construct(){
-        parent::__construct("div");
+    protected function initialize(){        
         $this["class"]="igk-notify-box";
         $nv=$this->div();
         $nv["class"]="content";
@@ -40,11 +45,11 @@ EOF;
     public function getTitle(){
         return $this->m_title;
     }
-    public function render($options =null){ 
-        $o = parent::render($options); 
-        $this->setIsVisible(false);
-        return $o;
-    }
+    // public function render($options =null){ 
+    //     $o = parent::render($options); 
+    //     $this->setIsVisible(false);
+    //     return $o;
+    // }
     ///<summary></summary>
     ///<param name="title"></param>
     ///<param name="msg"></param>
@@ -53,9 +58,10 @@ EOF;
     * @param mixed $title
     * @param mixed $msg
     */
-    public function show($title, $msg){$this->m_title=$title;
+    public function show($title, $msg){
+        $this->m_title=$title;
         $this->m_Message=$msg;
-        $this->setIsVisible(null);
+        // $this->setIsVisible(null);
         return $this;
     }
 }

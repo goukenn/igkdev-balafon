@@ -1,4 +1,9 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: class.IGKProductViewCtrl.php
+// @date: 20220803 13:48:58
+// @desc: 
+
 ///<summary>controller code class declaration file is a part of the controller tab list</summary>
 abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {

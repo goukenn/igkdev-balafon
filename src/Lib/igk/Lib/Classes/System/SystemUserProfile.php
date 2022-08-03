@@ -35,6 +35,10 @@ class SystemUserProfile implements IUserProfile
     protected function __construct()
     {
     }
+
+    public function auth($type): bool {
+        return $this->m_profile->auth();
+    }
     /**
      * create user profile from info
      * @param mixed $userInfo 

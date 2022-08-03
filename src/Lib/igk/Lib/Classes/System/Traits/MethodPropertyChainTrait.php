@@ -1,6 +1,15 @@
-<?Php
+<?php
+
+// @author: C.A.D. BONDJE DOUE
+// @filename: MethodPropertyChainTrait.php
+// @date: 20220803 13:50:44
+// @desc: 
+
 namespace IGK\System\Traits;
 
+/**
+ * 
+ */
 trait MethodPropertyChainTrait{
     public function __call($n, $args){
         method_exists($this, "isAllowed") || igk_die("isAllowed method is missing in ".static::class); 
