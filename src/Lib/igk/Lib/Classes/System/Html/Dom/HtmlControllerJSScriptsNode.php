@@ -35,10 +35,13 @@ class HtmlControllerJSScriptsNode extends HtmlNode{
             return null;
         }
         $gb = realpath($ctrl->getScriptsDir());
-        $is_dev = igk_environment()->isDev(); 
+        $is_dev = igk_environment()->isDev();  
+
         $src = HtmlScriptLoader::LoadScripts([
             [$gb, "ctrl"],
-        ], $options, igk_environment()->is("OPS"), "ctrljs:/".$ctrl->getName());
+        ], $options, igk_environment()->is("OPS"), 
+        igk_sys_js_exclude_dir(),
+        "ctrljs:/".$ctrl->getName());
         $sb = new StringBuilder();
         $is_dev && $sb->appendLine("<!-- controller:js -->");  
         $sb->appendLine($src);

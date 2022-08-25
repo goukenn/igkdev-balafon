@@ -379,3 +379,27 @@ $def[".clear-b:after"] = "display:table; clear: both; content:' '; ";
 /* cursor style */
 $def[".cursor-pointer"] = "cursor: pointer;";
 $def[".cursor-help"] = "cursor: help;";
+
+
+
+// init screen device
+// display only only
+$tab = ["xsm", "sm", "lg", "xlg", "xxlg"];
+$c = 0;
+$tkey = []; 
+foreach ($tab as $k) {
+    $v = ".igk-" . $k . "-only";
+    $def[$v] = "display:none;";    
+    ${$k . "_screen"}[$v] = "display:initial;";
+    $c++;
+    $g = $k;
+    foreach (array_slice($tab, $c) as $m) {
+        $g .= "-" . $m;
+        if ($g == "xsm-sm-lg-xlg-xxlg")
+            continue;
+        $kk = ".igk-" . $g . "-only"; 
+        $def[$kk] = "display:none;";
+    }
+}
+igk_theme_screen_mark("only", "display:initial;");
+unset($v, $k,$c);

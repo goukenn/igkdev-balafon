@@ -775,12 +775,17 @@ final class DbConfigController extends ConfigControllerBase
                 return igk_navtocurrent();
             }
             $c = new \IGK\System\Console\Commands\MysqlCommand();
+            $v_notify = igk_notifyctrl("mysql:tools");
+            try{
             ob_start();
             $o = $c->exec((object)[
                 "options" => (object)["--action" => "seed"]
             ]);
-            $r = ob_get_clean();
-            igk_notifyctrl("mysql:tools")->success(__("database seed"));
+            ob_get_clean();
+            $v_notify->success(__("database seed"));
+            } catch(Exception $ex){
+                $v_notify->danger(__("something bad happend. {0}", $ex->getMessage()) );
+            }
         }
         return igk_navtocurrent();
     }
@@ -1867,9 +1872,7 @@ final class DbConfigController extends ConfigControllerBase
         if ($found) {
             return $def;
         }
-        igk_test_wln(igk_ob_get_func("igk_trace"));
-        igk_test_wln("controller list ", $ctrl_s, "#table definition not found :", $tablename, $found);
-        igk_exit();
+        igk_dev_wln("no definition found for ".$tablename); 
     }
     
     ///<summary></summary>
@@ -2083,9 +2086,7 @@ final class DbConfigController extends ConfigControllerBase
             if (igk_get_env("sys://db_init/error") > 0) {
                 $ad->rollback();
             } else {
-                $ad->commit();
-
- 
+                $ad->commit(); 
                 igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($this));
                 igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller" => $this]);
             }
@@ -2122,11 +2123,9 @@ final class DbConfigController extends ConfigControllerBase
         $ad = igk_get_data_adapter($this);
         $dbname = igk_configs()->db_name;
         
-        if ($dbname && $ad->connect(null, 0)) { 
- 
+        if ($dbname && $ad->connect(null, 0)) {  
             if (!$ad->selectdb($dbname) && !$ad->createDb($dbname)) {
                 $ad->close();
-                $ad = null;
                 igk_dev_wln_e("failed : create db");
             } else {
                 $ad->selectdb($dbname); 
@@ -2146,14 +2145,8 @@ final class DbConfigController extends ConfigControllerBase
                 $this->notifyctrl()->success(__("init system database"));
                 igk_debug_wln("init system db finish");
             }
-        } else
-            $ad = null;
-
+        } 
         igk_close_session();
-
-
-        // igk_wln_e("done");
-
         if ($nav && !igk_is_ajx_demand()) {
             igk_ob_clean();
             igk_navtocurrent();
@@ -2329,8 +2322,8 @@ final class DbConfigController extends ConfigControllerBase
         $pan = $div->addPanelBox();
         $pan->div()->Content = "DataBase : MySQL";
         $pan->div()->Content = "Available : " . igk_parsebool(defined("IGK_MSQL_DB_Adapter"));
-        $pan->div()->Content = "MySQL : " . igk_parsebool(IGK_MSQL_DB_AdapterFunc);
-        $pan->div()->Content = "MySQLi : " . igk_parsebool(IGK_MSQLi_DB_AdapterFunc);
+        $pan->div()->Content = "MySQL : " . (defined('IGK_MSQL_DB_AdapterFunc') ? igk_parsebool(IGK_MSQL_DB_AdapterFunc) : 0);
+        $pan->div()->Content = "MySQLi : " . (defined('IGK_MSQLi_DB_AdapterFunc') ? igk_parsebool(IGK_MSQLi_DB_AdapterFunc) : 0);
         $cview = $this->getFlag("tabview");
         $tab = $div->addComponent($this, HtmlComponents::AJXTabControl, "db:tab-control", 1);
         $tab->addTabPage(__("General"), $this->getUri("view&v=general"), empty($cview) || $cview == 'general');

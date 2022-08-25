@@ -19,6 +19,20 @@ class ActionScaffold extends ScaffoldBase
 {
     public function exec($command, $controller = null, ?string $name = null)
     {
+
+        if (property_exists($command->options, "--help")) {
+            $this->showHelp($command);
+            return;
+        }
+        $this->run($command, ...array_slice(func_get_args(), 1));
+    }
+    protected function showHelp($command)
+    {
+        Logger::print("--model:[model_name]\tSet the model");
+        Logger::print("--force \tfoce model create the model");
+    }
+    protected function run($command, $controller = null, ?string $name=null)
+    {
         $model = igk_getv($command->options, "--model");
         $is_force = property_exists($command->options, "--force");
 
@@ -28,6 +42,9 @@ class ActionScaffold extends ScaffoldBase
             return false;
         }
 
+        //as class = 
+        $controller = igk_str_ns($controller);
+        // igk_wln_e($controller, class_exists($controller));
 
         if (!($ctrl = igk_getctrl($controller, false))) {
             Logger::danger(sprintf("controller %s not found", $controller));
@@ -54,7 +71,7 @@ class ActionScaffold extends ScaffoldBase
         $bind[$viewdir . "/list.phtml"] = function ($file) use ($model) {
             igk_io_w2file($file, self::GenerateViewTemplate($file));
         };
-        $bind[$viewdir . "/create.phtml"] = function ($file) use ($model) {            
+        $bind[$viewdir . "/create.phtml"] = function ($file) use ($model) {
             igk_io_w2file($file, self::GenerateViewTemplate($file));
         };
         $bind[$viewdir . "/delete.phtml"] = function ($file) use ($model) {
@@ -106,13 +123,14 @@ EOF;
 
         Logger::success("Done. " . igk_sys_request_time());
     }
-    private static function GenerateViewTemplate($file, ?string $content = null){
+    private static function GenerateViewTemplate($file, ?string $content = null)
+    {
         $builder = new PHPScriptBuilder();
         $content = $content ?? "\$t->clearChilds();";
         $builder->type("function")
-        ->desc("view template")
-        ->filename(basename($file))
-        ->defs($content);
+            ->desc("view template")
+            ->filename(basename($file))
+            ->defs($content);
         return $builder->render();
     }
 }

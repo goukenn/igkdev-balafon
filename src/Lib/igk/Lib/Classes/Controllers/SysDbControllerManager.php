@@ -38,17 +38,19 @@ class SysDbControllerManager{
      * get data table definition . 
      * @param mixed $ctrl 
      * @param mixed $tablename 
-     * @return array [\
+     * @return array|\IGK\System\Database\SchemaMigrationInfo [\
      *      "ColumnInfo"=> []\
      *      "tableRowReference"=>[]\
      * ]
      * @throws IGKException 
      */
     public static function GetDataTableDefinitionFormController(?BaseController $ctrl, $tablename){
-        if (($ctrl===null) || ($ctrl instanceof SysDbController)){
+     
+        if (($ctrl===null) || ($ctrl instanceof SysDbController)){ 
             $g = self::GetDataTableDefinition($tablename);
         }else 
             $g = $ctrl->getDataTableDefinition($tablename);
         return $g;
+       
     }
 }

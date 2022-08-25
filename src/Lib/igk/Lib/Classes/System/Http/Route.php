@@ -7,7 +7,8 @@
 
 namespace IGK\System\Http;
  
-use IGK\Controllers\BaseController; 
+use IGK\Controllers\BaseController;
+use IGK\System\Database\IUserProfile;
 use IGKException;
 
 
@@ -27,7 +28,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  */
 class Route  
 {
-     
+     static $sm_controller;
     /**
      * action register
      * @var array
@@ -78,6 +79,7 @@ class Route
     public static function LoadConfig(BaseController $controller)
     {
         if (file_exists($cf = $controller::configFile("routes"))) {
+            self::$sm_controller = $controller;
             $inc = function () {
                 include_once(func_get_arg(0));
             };
@@ -212,5 +214,12 @@ class Route
             }
         }       
         return null;
+    }
+    /**
+     * get the current user
+     * @return mixed 
+     */
+    public static function user(): ?IUserProfile{
+        return self::$sm_controller ? self::$sm_controller->getUser() : null;
     }
 }

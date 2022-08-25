@@ -249,12 +249,12 @@ final class R extends IGKObject {
         }
         else{
             if(!empty($key)){
-                $i->langRes[$key]=$key;
+                $i->langRes->set($key, $key);
                 $i->OnKeyAdded($key);
             }
         }
         if(func_num_args() > 1){
-            return call_user_func_array('igk_str_format', array_merge(array($key), array_slice(func_get_args(), 1)));
+            return igk_str_format(...array_merge(array($key), array_slice(func_get_args(), 1)));
         }
         return $key;
     }
@@ -343,9 +343,7 @@ EOF;
         } 
         while($f=array_shift($tfile)){
             if(file_exists($f) && !isset($_instance->m_langFiles[$f])){
-                $l=& $v->langRes;
-                include($f);
-                $v->langRes=$l;
+                $v->langRes->load($f);
                 $_instance->m_langFiles[$f]=1;
             }
             else{
@@ -368,11 +366,10 @@ EOF;
             return;
         }
         $v->langRes=new IGKLangResDictionary();
-        $v->m_langloaded=false;
-        $l=& $v->langRes;
+        $v->m_langloaded=false;        
         $f=$v->GetCurrentLangPath();
         if(file_exists($f)){
-            include($f);
+            $v->langRes->load($f);     
         }
         else{
             if(!igk_sys_env_production()){

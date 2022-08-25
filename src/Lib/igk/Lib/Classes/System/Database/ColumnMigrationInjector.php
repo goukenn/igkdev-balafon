@@ -23,11 +23,11 @@ class ColumnMigrationInjector{
         $this->info = $info;
     }
     public function add(& $info){
-        $t = & $info["ColumnInfo"];
+        $t = & $info->columnInfo;
         $t[$this->info->clName] = $this->info;  
     }
     public function remove(& $info){
-        unset($info["ColumnInfo"][$this->info->clName]);
+        unset($info->columnInfo[$this->info->clName]);
     }
 
     /**

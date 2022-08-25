@@ -17,6 +17,10 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper{
         $c->is_migration = 0;
         return $c;
     }
+    /**
+     * add migration node if not exists
+     * @return $this|SchemaMigrationBuilder 
+     */
     public function migration(){
         if ($this->is_migration){
             return $this;

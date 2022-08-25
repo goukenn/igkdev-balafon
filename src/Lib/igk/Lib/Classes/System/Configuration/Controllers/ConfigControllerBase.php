@@ -28,6 +28,12 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return IGKControllerManagerObject::GetResolvName(static::class);
     }
+    protected function getUseDataSchema(){
+        if (self::IsSysController(static::class)){
+            return false;
+        }
+        return false;
+    }
     public function getViewDir()
     {
         if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){

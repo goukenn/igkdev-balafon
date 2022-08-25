@@ -38,6 +38,33 @@ class CssThemeResolver
 
     var $colordef = null;
 
+    const ATTR_RESOLV = "resolv";
+    const ATTR_TRANS = "trans";
+    const ATTR_TRANSFORM = "transform";
+    const ATTR_ANIM = "anim";
+    const ATTR_ANIMATION = "animation";
+    const ATTR_COLOR= "cl";
+    const ATTR_VAR= "var";
+    const ATTR_BACKGROUND_COLOR= "bgcl";
+    const ATTR_FOREGROUND_COLOR= "fcl";
+    const ATTR_FIT = "fit";
+    const ATTR_VAR_PROPERTY = "varp";
+    const ATTR_FONT = "ft";
+    const ATTR_FONT_NAME = "ftn";
+    const ATTR_RESOURCE = "res";
+    const ATTR_BACKGROUND_RESOURCE= "bgres";
+    const ATTR_URI = "uri";
+    const ATTR_BORDER_COLOR = "bcl";
+    const ATTR_SVG = "svg";
+    const ATTR_FILTER = "filter";
+    const ATTR_PROP = "prop";
+    const ATTR_PROPERTY = "pr";
+    const ATTR_SYS_BGCL = "sysbgcl";
+    const ATTR_SYS_FCL = "sysfcl";
+    const ATTR_SYS_COLOR = "syscl";
+    const ATTR_SYS_BCL = "sysbcl";
+
+
     /**
      * treat value
      * @param string $value 
@@ -60,17 +87,17 @@ class CssThemeResolver
             // initialize 
             $this->start = igk_sys_request_time();
             $this->cldef = &igk_css_get_treat_colors($this->parent ? $this->parent->getDef()->getCl() : []);
-        } else {
-            $duration = (($mt = igk_sys_request_time()) - $this->start);
+        } else {            
+            // $duration = (($mt = igk_sys_request_time()) - $this->start);
+            // igk_dev_ilog(sprintf("css_duration : %s/%s", $duration, $mt));
         }
 
-        $reg = IGK_CSS_TREAT_REGEX;
+        // $reg = IGK_CSS_TREAT_REGEX;
         $reg3 = IGK_CSS_CHILD_EXPRESSION_REGEX;
         $match = array();
         $gtheme = $theme = $this->theme;
         $systheme = $this->parent;
         $this->last = $value;
-
         $v = $v_def = $value;
 
         while (($c = preg_match_all($reg3, $v, $match))) {
@@ -104,7 +131,7 @@ class CssThemeResolver
                             break;
                     }
                 }
-                $v = str_replace($n, $rv, $v);
+                $v = str_replace($n, $rv ?? "", $v);
             }
         }
         $vresolv = 1;
@@ -257,10 +284,10 @@ class CssThemeResolver
             return $s;
         };
         switch (strtolower($type)) {
-            case "resolv":
+            case self::ATTR_RESOLV:
                 $v = str_replace($v_m, igk_css_get_resolv_stylei($value) ?? "", $v);
                 break;
-            case "varp":
+            case self::ATTR_VAR_PROPERTY:
                 if (!igk_css_var_support()) {
                     $tab = explode(":", $value);
                     $prop = $tab[0];
@@ -278,7 +305,7 @@ class CssThemeResolver
                 } else
                     $v = str_replace($v_m, "", $v);
                 break;
-            case "var":
+            case self::ATTR_VAR:
                 if (igk_css_var_support()) {
                     $v_r = "var(" . $value . ")" . $a;
                 } else {
@@ -293,14 +320,14 @@ class CssThemeResolver
                 }
                 $v = str_replace($v_m, $v_r, $v);
                 break;
-            case "fit":
+            case self::ATTR_FIT :
                 if (preg_match("/^(fill|contain|cover|none|scale-down)/i", $value)) {
                     $v = str_replace($v_m, "-webkit-object-fit: {$value};-ms-object-fit:{$value}; -o-object-fit: {$value}; object-fit: {$value};", $v);
                 } else {
                     $v = str_replace($v_m, "", $v);
                 }
                 break;
-            case "trans":
+            case self::ATTR_TRANS:
                 $v = str_replace($v_m, "-webkit-transition: {$value};-ms-transition:{$value}; -moz-transition:{$value}; -o-transition: {$value}; transition: {$value};", $v);
                 break;
             case "lingrad":
@@ -313,23 +340,22 @@ class CssThemeResolver
             case "trans-prop":
                 $v = str_replace($v_m, "-webkit-transition-property: {$value};-ms-transition-property:{$value}; -moz-transition-property:{$value}; -o-transition-property: {$value}; transition-property: {$value};", $v);
                 break;
-            case "transform":
+            case self::ATTR_TRANSFORM:
                 $v = str_replace($v_m, "-webkit-transform: {$value};-ms-transform:{$value}; -moz-transform:{$value}; -o-transform: {$value}; transform: {$value};", $v);
-      
                 break;
             case "transform-o":
                 $v = str_replace($v_m, "-webkit-transform-origin: {$value};-ms-transform-origin:{$value}; -moz-transform-origin:{$value}; -o-transform-origin: {$value}; transform-origin: {$value};", $v);
                 break;
-            case "anim":
-            case "animation":
+            case self::ATTR_ANIM:
+            case self::ATTR_ANIMATION: 
                 $v = str_replace($v_m, "-webkit-animation: {$value};-ms-animation:{$value}; -moz-animation:{$value}; -o-animation: {$value}; animation: {$value};", $v);
                 break;
-            case "filter":
+            case self::ATTR_FILTER:
                 // "-moz-filter not available
                 // $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 break;
-            case "res":
+            case self::ATTR_RESOURCE:
                 if (is_file($value)) {
                     $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
                 } else {
@@ -337,20 +363,20 @@ class CssThemeResolver
                     $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
                 }
                 break;
-            case "bgres":
+            case self::ATTR_BACKGROUND_RESOURCE: 
                 $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "');" : ""), $v);
                 break;
-            case "uri":
+            case self::ATTR_URI: 
                 $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "')" : ""), $v);
                 break;
-            case "sysbgcl":
+            case self::ATTR_SYS_BGCL: 
                 $tv = explode(",", $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
                 $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bgcl($ncl, $systheme, null) : "";
                 $v = str_replace($v_m, $b, $v);
                 break;
-            case "sysfcl":
+            case self::ATTR_SYS_FCL:
                 $tv = explode(",", $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
@@ -359,7 +385,7 @@ class CssThemeResolver
                 }
                 $v = str_replace($v_m, $b, $v);
                 break;
-            case "sysbcl":
+            case self::ATTR_SYS_BCL : 
                 $tv = explode(",", $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
@@ -367,7 +393,7 @@ class CssThemeResolver
                 $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
                 $v = str_replace($v_m, $b, $v);
                 break;
-            case "syscl":
+            case self::ATTR_SYS_COLOR: 
                 $tv = explode(",", $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
@@ -387,35 +413,35 @@ class CssThemeResolver
                 }
                 $v = str_replace($v_m, $ncl . $a, $v);
                 break;
-            case "fcl":
+            case self::ATTR_FOREGROUND_COLOR:
                 $v = str_replace($v_m, igk_css_get_fcl($chainColorCallback($value)), $v);
                 break;
-            case "bgcl":
+            case self::ATTR_BACKGROUND_COLOR:
                 $ncl = $chainColorCallback($value);
                 $v = str_replace($v_m, igk_css_get_bgcl($ncl, $gtheme, $systheme), $v);
                 break;
-            case "bcl":
+            case self::ATTR_BORDER_COLOR: 
                 $ncl = $chainColorCallback($value);
                 $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
                 break;
-            case "cl":
+            case self::ATTR_COLOR:
                 $rp = igk_str_rm_last($v_m, ';');
                 $nv = $chainColorCallback($value);
                 $t = $nv;
                 $v = str_replace($rp, $t, $v);
                 break;
-            case "ft":
+            case self::ATTR_FONT:
                 $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);
                 break;
-            case "ftn":
+            case self::ATTR_FONT_NAME:
                 $h = $theme->ft[$value] ? $theme->ft[$value] : null;
                 if ($h)
                     $v = str_replace($v_m, "\"" . $h . "\"", $v);
                 else
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
                 break;
-            case "pr":
-            case "prop":
+            case self::ATTR_PROPERTY:
+            case self::ATTR_PROP:
                 $p = &$systheme->getProperties();
                 $v_r = igk_css_design_property_value($value, $theme->properties, $v_designmode);
                 if (!empty($v_r))
@@ -446,16 +472,14 @@ class CssThemeResolver
                 else
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
                 break;
-
             // TODO: Add SVG import support
-            case "svg":
+            case self::ATTR_SVG:
                     $n = $value;
                     $s = "";
                     if ($p = SvgRenderer::GetPath($n)){
                         $uri = IGKResourceUriResolver::getInstance()->resolve($p);                         
                         $s= "url(".$uri.")";
-                    }else{
-                    }
+                    } 
                     $v = str_replace($v_m, $s, $v); 
                 break; 
             default:

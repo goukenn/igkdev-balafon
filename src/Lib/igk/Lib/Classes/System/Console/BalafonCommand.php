@@ -7,7 +7,7 @@
 
 namespace IGK\System\Console;
 
-use IGK\System\Installers\OsShell;
+use IGK\System\Shell\OsShell;
 
 class BalafonCommand{
     protected function __construct()
@@ -29,7 +29,7 @@ class BalafonCommand{
         
     }
     /**
-     * reutnr command args
+     * return command args
      * @param mixed $commandArgs 
      * @return string 
      */

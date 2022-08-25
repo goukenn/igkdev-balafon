@@ -21,6 +21,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $desc = "sync project through ftp configuration";
     var $category = "sync";
     var $help = "--[list|restore[:foldername] --clearcache  --zip";
+    
     /**
      * use zip to indicate 
      * @var bool
@@ -33,7 +34,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
         }
-
+        $exclude_file_extension = "vscode|balafon|DS_Store|gkds";
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
             "");
@@ -100,7 +101,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     @ftp_mkdir($h, $module);
                     $cdir = [];
 
-                    $fc = function ($f, array &$excludedir = null) {
+                    $fc = function ($f, array &$excludedir = null) use ($exclude_file_extension) {                       
                         $dir = dirname($f);
                         if ($excludedir) {
                             if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {
@@ -108,10 +109,11 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                                 return false;
                             }
                         }
-                        if (preg_match("#\.(git(.+)?|vscode|balafon|DS_Store)$#", $dir)) {
+                        if (preg_match("#\.(git(.+)?|".$exclude_file_extension.")$#", $dir)) {
                             return false;
                         }
-                        if (preg_match("#(phpunit(.+(\.(yml|dist))$)|\.(git(.+)?|vscode|balafon)$)#", $f)) {
+                        if (preg_match("#(phpunit(.+(\.(yml|dist)))|\.(vscode|balafon|DS_Store|git(.+)))$#"
+                            , $f)) { 
                             return false;
                         }
                         return 1;
@@ -123,6 +125,10 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
                             ftpHelper::CreateDir($h, dirname($module . $g));
                             array_push($cdir, $_cdir);
+                        }
+                        if (preg_match("/\.DS_Store$/", $f)){
+                            igk_wln_e("match : ".$f);
+                            igk_exit();
                         }
                         Logger::print("upload : " . $f);
                         ftp_put($h, $o_dir . $g, $f, FTP_BINARY);

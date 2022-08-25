@@ -10,6 +10,7 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\System\IO\File\PHPScriptBuilderUtility;
+use IGKException;
 
 class HtmlProcessInstructionNode extends HtmlNode{
     private  $m_noClose;
@@ -47,8 +48,14 @@ class HtmlProcessInstructionNode extends HtmlNode{
     public function getCanRenderTag(){
         return false;
     }
-    ///<summary>Represente IsPhpCloseInstruct function</summary>
+    ///<summary>get if instruction is last rendering</summary>
     ///<param name="option"></param>
+    /**
+     * get if instruction is last rendering
+     * @param mixed $option 
+     * @return bool 
+     * @throws IGKException 
+     */
     public static function IsPhpCloseInstruct($option){
         $g = igk_getv($option, 'lastRendering');
         if($g && ($g instanceof self)){
@@ -64,7 +71,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
             $src=$compiler->Compile($src);
         }
         else{
-            if(igk_getv($options, "PHP.SkipComment")){              
+            if(igk_getv($options, "PHP.SkipComment")){             
                 // + | remove comment 
                 $src = substr(PHPScriptBuilderUtility::RemoveComment("<?".$src), 2);    
                 // + | remove empty line            

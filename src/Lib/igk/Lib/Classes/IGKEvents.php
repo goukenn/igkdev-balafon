@@ -350,7 +350,7 @@ class IGKEvents extends IGKObject
                     if ($v->injectable){
                         $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
                         $tcargs = Dispatcher::GetInjectArgs( new \ReflectionFunction($fc), $cargs);
-                    }
+                    } 
                     $cargs[0]->lastoutput = call_user_func_array($v->callback, $tcargs);
                 }
                 if ($cargs[0]->handle) {

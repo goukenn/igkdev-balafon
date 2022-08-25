@@ -345,6 +345,14 @@ function igk_mysql_db_last_id($r = null)
     }
     return $g($r);
 }
+function igk_db_last_connect_error(){
+    $g = DbQueryDriver::GetFunc("connect_error");
+    if (DbQueryDriver::Is("MySQLI")) {
+        return $g();
+    }
+    return $g();
+}
+
 ///<summary></summary>
 ///<param name="mysql"></param>
 /**
@@ -454,6 +462,7 @@ DbQueryDriver::Init(function (&$conf) {
     $t["errorc"] = "mysqli_errno";
     $t["lastid"] = "mysqli_insert_id";
     $t["seek"] = "mysqli_data_seek"; 
+    $t["connect_error"] = "mysqli_connect_error";
     $conf[$n]["func"] = $t;
 });
 

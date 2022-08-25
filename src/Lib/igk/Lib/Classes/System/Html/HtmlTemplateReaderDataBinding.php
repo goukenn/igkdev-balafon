@@ -34,8 +34,7 @@ class HtmlTemplateReaderDataBinding{
      */
     public function treat(){
         $data = $this->data;
-        $script_obj = & $this->m_script;
-        $src = $this->source;
+        $script_obj = & $this->m_script;       
         $ctrl = $this->ctrl;
         $cnode = $this->node;
         $engine = ""; 
@@ -50,19 +49,19 @@ class HtmlTemplateReaderDataBinding{
 
 
         $script_obj = igk_html_databinding_getobjforscripting($ctrl);
+        $v_gtag = $cnode->getCanRenderTag() ? $cnode->tagName : null;        
+        // $gb = igk_create_xmlnode("div"); 
+        // $gb->load($this->source, HtmlContext::XML);              
         foreach($data as $key=>$raw){
-            // $script_obj->push(["type"=>"loop", "key"=>$key, "value"=>$raw]);
-            // $c=igk_html_treat_content($src, $ctrl, $raw, null, true, $n_context);
-            // igk_wln("content : ", $src);
             $c= $this->treat_content(["type"=>"loop", "key"=>$key, "value"=>$raw, "raw"=>$raw]); 
             if($c){
                 $attribs = $cnode->getAttributes()->to_array();  
-               // $engine .= trim(igk_html_wtag($cnode->tagName, trim($c->getinnerHtml($n_options)), $attribs,
-                $engine .= trim(igk_html_wtag($cnode->tagName, trim($c->render()), $attribs,
+      
+      
+                $engine .= trim(igk_html_wtag($v_gtag, trim($c->render()), $attribs,
                     $cnode->closeTag()
                 ));
             }
-            //$script_obj->pop();
         }
         // restore attribute 
         $cnode->clearAttributes();
@@ -81,8 +80,6 @@ class HtmlTemplateReaderDataBinding{
         ], $data);
         $target = igk_create_notagnode();
         $target->Load($this->source, $ldcontext);
- 
-        // igk_html_treatinput($target);  
         return $target;
     }
 }

@@ -44,6 +44,10 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
                 }
             }
         }
+        if (is_array($sync) && !empty($name)){
+            Logger::danger("No name found");
+            return -200;
+        }
         
 
         $app = $sync->application;

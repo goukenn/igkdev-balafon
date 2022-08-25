@@ -195,6 +195,9 @@ EOF;
         $bind[$dir."/".IGK_DATA_FOLDER.
         "/data.schema.xml"]=function($file) use ($author, $dir){
             $build=new SchemaBuilder();
+            $build["version"] = "1.0";
+            $build["author"] = $author;
+            $build->comment("data schema");
             igk_io_w2file($file, $build->render((object)["Context"=>"XML", "Indent"=>true]));
         };
 

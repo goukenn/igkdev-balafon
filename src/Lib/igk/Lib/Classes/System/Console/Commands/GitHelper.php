@@ -57,7 +57,6 @@ class GitHelper
                     "@" . str_replace(" ", "", $author)
                 ])
             );
-
             $init_git ();
         };
     }

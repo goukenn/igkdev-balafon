@@ -70,7 +70,6 @@ function igk_mysql_rename_table($api, $tbname, $ntbname){
 	}
 }
 function igk_api_mysql_init_db($api){
-	//igk_wln("initdb");
 	if (igk_is_conf_connected()){		
 		igk_getctrl(IGK_DB_CTRL)->initSDb(false, false);
 	}

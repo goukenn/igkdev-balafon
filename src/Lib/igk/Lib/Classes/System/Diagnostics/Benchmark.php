@@ -22,7 +22,7 @@ class Benchmark{
     private $mark = [];
     private $m_configs;
     private function __construct(){  
-        $this->m_configs = new stdClass();
+        $this->m_configs = new BenchmarkOptions();
         $this->m_configs->dieOnError = false;
     }
     public static function getInstance(){
@@ -33,14 +33,16 @@ class Benchmark{
     /**
      * activate diagnostics
      * @param bool $enabled 
-     * @param null|array $options 
+     * @param null|array $options {dieOnError:bool}
      * @return void 
      * @throws IGKException 
      */
     public static function Activate(bool $enabled, ?array $options=null){
         self::$Enabled = $enabled;
+        if ($options){
         $i = self::getInstance();
-        $i->m_configs->dieOnEror = $options ? igk_getv($options, "dieOnError", false) : false;
+        $i->m_configs->dieOnError = igk_getv($options, "dieOnError", false);
+        }
     }
     /**
      * bech mark expectation
@@ -52,8 +54,9 @@ class Benchmark{
         if (!self::$Enabled){
             return;
         } 
+        $v_i = self::getInstance();
 
-        $m = & self::getInstance()->mark;
+        $m = & $v_i->mark;
         if (isset($m[$name])){
             $time = igk_sys_request_time();
             $v_duration = ($time - $m[$name]);
@@ -63,7 +66,7 @@ class Benchmark{
                 if ($message){
                     $msg.="\n".$message;
                 }
-                if(self::getInstance()->m_configs->dieOnError){                   
+                if($v_i->m_configs->dieOnError){                   
                     $s = igk_ob_trace();
                     die(igk_ob_get_func("igk_html_pre",[
                         $msg,

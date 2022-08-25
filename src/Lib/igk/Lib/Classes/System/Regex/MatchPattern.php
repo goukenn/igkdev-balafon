@@ -6,9 +6,25 @@
 
 namespace IGK\System\Regex;
 
-
-class MatchPattern{
+/**
+ * match pattern
+ * @package IGK\System\Regex
+ */
+abstract class MatchPattern{
+    /**
+     * in number
+     */
     const Int = "[0-9]+";
+    /**
+     * float number
+     */
     const Float = "(([0-9]+)\.[0-9]+)|([0-9]+)(\.[0-9]+)?";
+    /**
+     * single float number
+     */
+    const Single = "[0-9]+(\.[0-9]+)?";
+    /**
+     * date search pattern
+     */
     const DateSearch = "[0-9]{4}((-|\/)([0-9]{2}))?";
 }

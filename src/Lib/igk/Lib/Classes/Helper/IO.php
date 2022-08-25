@@ -16,28 +16,32 @@ use IGKException;
 use ReflectionException;
 
 use function igk_resources_gets as __;
+use function PHPSTORM_META\override;
 
 /**
  * IO utility helper
  * @package IGK\Helper
  */
-class IO{
-    
+class IO
+{
+
     /**
      * resolv path constant
      * @param mixed $dir 
      * @param mixed $value 
      * @return string 
      */
-    public static function ResolvPathConstant($dir, $value){
-        $p = realpath($value); 
-        if (empty($p)){
-            return str_replace("\\", "/", $dir."/".$value);
+    public static function ResolvPathConstant($dir, $value)
+    {
+        $p = realpath($value);
+        if (empty($p)) {
+            return str_replace("\\", "/", $dir . "/" . $value);
         }
         return $p;
     }
 
-    public static function GetArticleInDir($dir, $name){
+    public static function GetArticleInDir($dir, $name)
+    {
         if ($dir == null) {
             $dir = IGK_LIB_DIR . "/" . IGK_ARTICLES_FOLDER;
         }
@@ -65,25 +69,26 @@ class IO{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function CollapsePath($str){
+    public static function CollapsePath($str)
+    {
         $tp = array_flip(igk_environment()->getEnvironmentPath());
         krsort($tp);
         $path = igk_html_uri($str);
         foreach ($tp as $c => $t) {
             $gp = [$c];
             if ((($tc = realpath($c)) && ($tc != $c)) || is_link($c)) {
-                if ($tc===false){
-                    $tc = $c; 
+                if ($tc === false) {
+                    $tc = $c;
                 }
                 $gp[] = $tc;
             }
-            foreach ($gp as $tm) { 
+            foreach ($gp as $tm) {
                 if (strpos($path, $tm) === 0) {
                     $path = str_replace($tm, $t, $path);
                     break 2;
                 }
             }
-        } 
+        }
         return $path;
     }
     /**
@@ -93,34 +98,36 @@ class IO{
      * @return bool 
      * @throws IGKException 
      */
-    public static function IsSubDir($p, $c){
-        if(DIRECTORY_SEPARATOR != "/"){
-            $p=str_replace("\\", "/", $p);
-            $c=str_replace("\\", "/", $c);
-        } 
-        if(empty($p)){
-            igk_die(__FUNCTION__."::p is empty ");
+    public static function IsSubDir($p, $c)
+    {
+        if (DIRECTORY_SEPARATOR != "/") {
+            $p = str_replace("\\", "/", $p);
+            $c = str_replace("\\", "/", $c);
         }
-        if(empty($c)){
-            igk_die(__FUNCTION__."::c is empty");
+        if (empty($p)) {
+            igk_die(__FUNCTION__ . "::p is empty ");
+        }
+        if (empty($c)) {
+            igk_die(__FUNCTION__ . "::c is empty");
         }
         return (strpos($c, $p) === 0);
     }
     /**
      * create a symlinks
      */
-    public static function SymLink($target, $cibling){
+    public static function SymLink($target, $cibling)
+    {
         $r = false;
         $fc = !igk_is_function_disable("exec");
-        
-        if(!igk_server()->WINDIR){
+
+        if (!igk_server()->WINDIR) {
             // + | UNIX Allow us to create link relatively 
-            if ($fc){
+            if ($fc) {
                 exec("ln -s '{$target}' '$cibling'");
-            }else{
-                `ln -s '$target' '$cibling'` ;
-            }            
-        }else{
+            } else {
+                `ln -s '$target' '$cibling'`;
+            }
+        } else {
             @symlink($target, $cibling);
         }
         $r = is_link($cibling);
@@ -130,16 +137,17 @@ class IO{
     ///<param name="path"></param>
     ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
-    * 
-    * @param mixed $path
-    * @param mixed $separator the default value is DIRECTORY_SEPARATOR
-    */
-    private static function __fixPath($path, $separator=DIRECTORY_SEPARATOR){
-        if($separator == "/"){
+     * 
+     * @param mixed $path
+     * @param mixed $separator the default value is DIRECTORY_SEPARATOR
+     */
+    private static function __fixPath($path, $separator = DIRECTORY_SEPARATOR)
+    {
+        if ($separator == "/") {
             return preg_replace('/([\/]+)/i', '/', $path);
         }
-        if ($separator == "\\"){ 
-            return preg_replace('/([\\'.$separator.'\/]+)/i', ''.$separator.'', $path);
+        if ($separator == "\\") {
+            return preg_replace('/([\\' . $separator . '\/]+)/i', '' . $separator . '', $path);
         }
         return $path;
     }
@@ -148,12 +156,13 @@ class IO{
     ///<param name="content"></param>
     ///<param name="chmod" default="IGK_DEFAULT_FILE_MASK"></param>
     /**
-    * 
-    * @param mixed $filename
-    * @param mixed $content
-    * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
-    */
-    public static function AppendToFileAsUTF8WBOM($filename, $content, $chmod=IGK_DEFAULT_FILE_MASK){
+     * 
+     * @param mixed $filename
+     * @param mixed $content
+     * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
+     */
+    public static function AppendToFileAsUTF8WBOM($filename, $content, $chmod = IGK_DEFAULT_FILE_MASK)
+    {
         return self::WriteToFile($filename, $content, true, $chmod, "a+");
     }
     ///<summary></summary>
@@ -162,103 +171,125 @@ class IO{
     ///<param name="recursive" default="false"></param>
     ///<param name="overwrite" default="false"></param>
     /**
-    * 
-    * @param mixed $inputDir
-    * @param mixed $outputDir
-    * @param mixed $recursive the default value is false
-    * @param mixed $overwrite the default value is false
-    */
-    public static function CopyFiles($inputDir, $outputDir, $recursive=false, $overwrite=false){
-   
-        $hdir=opendir($inputDir);
-        $sep='/';
-        if($hdir){
-            while(($r=readdir($hdir))){
-                if($r == "." || ($r == ".."))
-                    continue;
-                $f=$inputDir. $sep. $r;
-                $p=$outputDir. $sep. $r;
-                if(is_file($p)){
-                    // igk_wln("copy: ".$f);
-                    if (file_exists($p) == false)
-                        copy($f, $p);
+     * 
+     * @param mixed $inputDir
+     * @param mixed $outputDir
+     * @param mixed $recursive the default value is false
+     * @param mixed $overwrite the default value is false
+     */
+    public static function CopyFiles($inputDir, $outputDir, $recursive = false, $overwrite = false)
+    {
+        $ddir = [["d"=>$inputDir,"path"=>$outputDir]];
+        $sep = '/';
+        $ln = strlen($inputDir);
+
+        while ($q = array_pop($ddir)) {
+            $inputDir = $q["d"];
+            $outputDir = $q["path"];
+
+            $hdir = opendir($inputDir);
+            if ($hdir) { 
+                while (($r = readdir($hdir))) {
+                    if ($r == "." || ($r == ".."))
+                        continue;
+                    $f = $inputDir . $sep . $r;
+                    $p = $outputDir . $sep . $r;
+                    if (is_dir($f)) {
+                        self::CreateDir($p);
+                        if ($recursive) {
+                            array_push($ddir, ["d"=>$f, "path"=>$p]);
+                        }
+                        continue;
+                    }
+                    if (!is_file($p) || $overwrite) {
+                        if ($overwrite && is_file($p)){
+                            unlink($p);
+                        }
+                        copy($f, $p);                        
+                    } 
                 }
+                closedir($hdir);
             }
-            closedir($hdir);
         }
     }
     ///<summary></summary>
     ///<param name="dirname"></param>
     ///<param name="mode" default="IGK_DEFAULT_FOLDER_MASK"></param>
     /**
-    * 
-    * @param mixed $dirname
-    * @param mixed $mode the default value is IGK_DEFAULT_FOLDER_MASK
-    */
-    public static function CreateDir($dirname, $mode=IGK_DEFAULT_FOLDER_MASK){ 
-        return FileWriter::CreateDir($dirname, $mode);   
+     * 
+     * @param mixed $dirname
+     * @param mixed $mode the default value is IGK_DEFAULT_FOLDER_MASK
+     */
+    public static function CreateDir($dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
+    {
+        return FileWriter::CreateDir($dirname, $mode);
     }
     ///<summary> Create a directory recursivily</summary>
     ///<dir>directory to create</dir>
     ///<root>mus add a as directory separator </root>
     ///<return>-1 if dir is empty, </return>
     /**
-    *  Create a directory recursivily
-    */
-    public static function CreateRDir($dir, $root=false){
-        if(empty($dir)){
+     *  Create a directory recursivily
+     */
+    public static function CreateRDir($dir, $root = false)
+    {
+        if (empty($dir)) {
             return -1;
         }
-        if(is_dir($dir))
+        if (is_dir($dir))
             return 1;
-        $d=explode(DIRECTORY_SEPARATOR, igk_io_dir($dir));
-        $s=IGK_STR_EMPTY;
-        for($i=0; $i < count($d); $i++){
-            if($root || ($i > 0)){
+        $d = explode(DIRECTORY_SEPARATOR, igk_io_dir($dir));
+        $s = IGK_STR_EMPTY;
+        for ($i = 0; $i < count($d); $i++) {
+            if ($root || ($i > 0)) {
                 $s .= DIRECTORY_SEPARATOR;
             }
             $s .= $d[$i];
-            if(empty($s) || is_dir($s))
+            if (empty($s) || is_dir($s))
                 continue;
-            if(!@mkdir($s))
+            if (!@mkdir($s))
                 return false;
         }
         return true;
     }
     ///<summary>DIRECTORY FUNCTION.  </summary>
     /**
-    * DIRECTORY FUNCTION.
-    */
-    public static function GetBaseDir($dir=null){
+     * DIRECTORY FUNCTION.
+     */
+    public static function GetBaseDir($dir = null)
+    {
         return igk_io_basedir($dir);
     }
     ///<summary> get relative path according to the IGK_APP_DIR</summary>
     ///<param name="dir">must be a full path to existing file or  existing directory </param>
     /**
-    *  get relative path according to the IGK_APP_DIR
-    * @param mixed $dir must be a full path to existing file or existing directory
-    */
-    public static function GetBaseDirRelativePath($dir, $separator=DIRECTORY_SEPARATOR){
-        $doc_root=self::GetBaseDir();
+     *  get relative path according to the IGK_APP_DIR
+     * @param mixed $dir must be a full path to existing file or existing directory
+     */
+    public static function GetBaseDirRelativePath($dir, $separator = DIRECTORY_SEPARATOR)
+    {
+        $doc_root = self::GetBaseDir();
         return self::GetSysRelativePath($dir, $doc_root, $separator);
     }
     ///<summary>GET BASE FOLDER FULLPATH</summary>
     /**
-    * GET BASE FOLDER FULLPATH
-    */
-    public static function GetBaseFolderFullpath($dir){
-        $d=igk_app()->CurrentPageFolder;
-        if(!empty($d) && ($d != IGK_HOME_PAGEFOLDER))
-            return igk_io_dir(igk_io_currentrelativepath(IGK_APP_DIR. "/".$d."/".$dir));
-        return igk_io_dir(igk_io_currentrelativepath(IGK_APP_DIR. "/".$dir));
+     * GET BASE FOLDER FULLPATH
+     */
+    public static function GetBaseFolderFullpath($dir)
+    {
+        $d = igk_app()->CurrentPageFolder;
+        if (!empty($d) && ($d != IGK_HOME_PAGEFOLDER))
+            return igk_io_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $d . "/" . $dir));
+        return igk_io_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $dir));
     }
     ///<summary>get the current base uri according to local specification</summary>
     ///<param name="dir">null or existing fullpath directory or file element. </param>
     /**
-    * get the current base uri according to local specification
-    * @param mixed $dir null or existing fullpath directory or file element.
-    */
-    public static function GetBaseUri($dir=null, $secured=false, & $path=null){
+     * get the current base uri according to local specification
+     * @param mixed $dir null or existing fullpath directory or file element.
+     */
+    public static function GetBaseUri($dir = null, $secured = false, &$path = null)
+    {
         return igk_io_baseuri($dir, $secured, $path);
     }
     ///<summary></summary>
@@ -266,86 +297,89 @@ class IO{
     ///<param name="destination"></param>
     ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
-    * 
-    * @param mixed $source
-    * @param mixed $destination
-    * @param mixed $separator the default value is DIRECTORY_SEPARATOR
-    */
-    public static function GetChildRelativePath($source, $destination, $separator=DIRECTORY_SEPARATOR){
-        $doc_root= igk_html_uri($source);
+     * 
+     * @param mixed $source
+     * @param mixed $destination
+     * @param mixed $separator the default value is DIRECTORY_SEPARATOR
+     */
+    public static function GetChildRelativePath($source, $destination, $separator = DIRECTORY_SEPARATOR)
+    {
+        $doc_root = igk_html_uri($source);
         $dir = igk_html_uri($destination);
-        if (strpos($dir, $doc_root)!==0)
+        if (strpos($dir, $doc_root) !== 0)
             return;
-        $i=IGKString::IndexOf($dir, $doc_root);
-        if($i != -1){
-            $dir=substr($dir, $i + strlen($doc_root));
+        $i = IGKString::IndexOf($dir, $doc_root);
+        if ($i != -1) {
+            $dir = substr($dir, $i + strlen($doc_root));
         }
-        $basedir=self::GetRootBaseDir();
-        if($basedir != "/")
-            $dir=str_replace($basedir, IGK_STR_EMPTY, $dir);
-        while((strlen($dir) > 0) && ($dir[0] == "/")){
-            $dir=substr($dir, 1);
+        $basedir = self::GetRootBaseDir();
+        if ($basedir != "/")
+            $dir = str_replace($basedir, IGK_STR_EMPTY, $dir);
+        while ((strlen($dir) > 0) && ($dir[0] == "/")) {
+            $dir = substr($dir, 1);
         }
-        return empty($dir) ? null: self::__fixPath($dir, $separator);
+        return empty($dir) ? null : self::__fixPath($dir, $separator);
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public static function GetCurrentDir(){
+     * 
+     */
+    public static function GetCurrentDir()
+    {
         return getcwd();
     }
     ///<summary>get relative path according to IGK_APP_DIR base dir</summary>
     ///@dir: absolute path or basedir relative path
     /**
-    * get relative path according to IGK_APP_DIR base dir
-    */
-    public static function GetCurrentDirRelativePath($dir, $mustexists=1, $separator=DIRECTORY_SEPARATOR){
-        $doc=igk_io_rootdir();
-        $cdir=self::GetCurrentDir();
-        $bdir=self::GetBaseDir();
-        $dir=igk_io_dir($dir);
-        $i=-1;
-        $v_iscurrent=($bdir == $cdir);
-        if($v_iscurrent){
-            if($mustexists){
-                if(file_exists($dir))
-                    $dir=igk_realpath($dir);
-                $d=self::GetBaseDirRelativePath($dir);
-            }
-            else{
-                $dir=$cdir.$separator.$dir;
-                $d=self::GetBaseDirRelativePath($dir);
+     * get relative path according to IGK_APP_DIR base dir
+     */
+    public static function GetCurrentDirRelativePath($dir, $mustexists = 1, $separator = DIRECTORY_SEPARATOR)
+    {
+        $doc = igk_io_rootdir();
+        $cdir = self::GetCurrentDir();
+        $bdir = self::GetBaseDir();
+        $dir = igk_io_dir($dir);
+        $i = -1;
+        $v_iscurrent = ($bdir == $cdir);
+        if ($v_iscurrent) {
+            if ($mustexists) {
+                if (file_exists($dir))
+                    $dir = igk_realpath($dir);
+                $d = self::GetBaseDirRelativePath($dir);
+            } else {
+                $dir = $cdir . $separator . $dir;
+                $d = self::GetBaseDirRelativePath($dir);
             }
             return $d;
         }
-        if(empty($dir)){
+        if (empty($dir)) {
             return self::GetRelativePathToDir($dir, $cdir, $bdir);
         }
-        $r=igk_realpath($dir);
-        if($r != null)
-            $r=self::GetSysRelativePath($r, $cdir);
-        else{
-            $r=self::GetSysRelativePath(igk_io_basedir($dir), $cdir);
+        $r = igk_realpath($dir);
+        if ($r != null)
+            $r = self::GetSysRelativePath($r, $cdir);
+        else {
+            $r = self::GetSysRelativePath(igk_io_basedir($dir), $cdir);
         }
         return $r;
     }
     ///<summary>return relative uri from server requested URI</summary>
     ///<param name="dir"> full path to resources</param>
     /**
-    * return relative uri from server requested URI
-    * @param mixed $dir full path to resources
-    */
-    public static function GetCurrentRelativeUri($dir=IGK_STR_EMPTY, ?string $path=null){
+     * return relative uri from server requested URI
+     * @param mixed $dir full path to resources
+     */
+    public static function GetCurrentRelativeUri($dir = IGK_STR_EMPTY, ?string $path = null)
+    {
         $rootdir = igk_io_rootdir();
         $bdir = igk_io_basedir();
-        if ($path === null){
+        if ($path === null) {
             $path = igk_io_request_uri();
         }
-        if (!empty($dir)){
-            if (strpos($dir, $bdir)===0){
+        if (!empty($dir)) {
+            if (strpos($dir, $bdir) === 0) {
                 //sub path or relative dir            
-                if (realpath($dir)){
+                if (realpath($dir)) {
                     // path exists
                     // -----------
                     die("not emplement");
@@ -353,24 +387,24 @@ class IO{
             }
         }
         $bdir = implode("/", array_filter([$bdir, ltrim($path, "/")]));
-        if (strpos($bdir, $rootdir)=== 0){
+        if (strpos($bdir, $rootdir) === 0) {
             //path is subdir
-            if ($rootdir == $bdir){
-                if (empty($dir)){
+            if ($rootdir == $bdir) {
+                if (empty($dir)) {
                     $r = "./";
-                }else{
+                } else {
                     $r = self::GetRootRelativePath($dir);
                 }
-                return $r;            
-            } 
+                return $r;
+            }
             // get 
             $p = "";
             $cbdir = $bdir;
-            while($cbdir != $rootdir){
+            while ($cbdir != $rootdir) {
                 $p .= "../";
                 $cbdir = dirname($cbdir);
-            } 
-            return $p.ltrim($dir, "/");     
+            }
+            return $p . ltrim($dir, "/");
         }
         return null;
 
@@ -411,7 +445,7 @@ class IO{
         //     }
         // }
         // $i=-1;
-        
+
         // if($bdir == $cdir){
         //     if(empty($dir))
         //         return "./";
@@ -447,43 +481,44 @@ class IO{
     }
     ///<summary>tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur</summary>
     /**
-    * tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur
-    */
-    public static function GetDir($dir, $separator=DIRECTORY_SEPARATOR){
-        if ($dir === null){          
+     * tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur
+     */
+    public static function GetDir($dir, $separator = DIRECTORY_SEPARATOR)
+    {
+        if ($dir === null) {
             return $dir;
         }
-        $d=$separator;     
-        $out=IGK_STR_EMPTY;
-        if(ord($d) == 92){
-            $out=preg_replace("/\//", '\\', $dir);
-            $out=str_replace("\\", "\\", $out);
+        $d = $separator;
+        $out = IGK_STR_EMPTY;
+        if (ord($d) == 92) {
+            $out = preg_replace("/\//", '\\', $dir);
+            $out = str_replace("\\", "\\", $out);
+        } else {
+            $d = "/[\\\\]/";
+            $out = preg_replace($d, '/', $dir);
+            $out = str_replace("//", "/", $out);
         }
-        else{
-            $d="/[\\\\]/";
-            $out=preg_replace($d, '/', $dir);
-            $out=str_replace("//", "/", $out);
-        }
-        return $out; 
+        return $out;
     }
     ///<summary></summary>
     ///<param name="folder"></param>
     /**
-    * 
-    * @param mixed $folder
-    */
-    public static function GetDirFileList($folder){
-        if(!is_dir($folder))
+     * 
+     * @param mixed $folder
+     */
+    public static function GetDirFileList($folder)
+    {
+        if (!is_dir($folder))
             return false;
-        $dirs=array();
-        $hdir=opendir($folder);
-        if($hdir){
-            while(($cdir=readdir($hdir))){
-                if(($cdir == ".") || ($cdir == ".."))
+        $dirs = array();
+        $hdir = opendir($folder);
+        if ($hdir) {
+            while (($cdir = readdir($hdir))) {
+                if (($cdir == ".") || ($cdir == ".."))
                     continue;
-                $f=self::GetDir($folder."/".$cdir);
-                if(is_file($f)){
-                    $dirs[]=$f;
+                $f = self::GetDir($folder . "/" . $cdir);
+                if (is_file($f)) {
+                    $dirs[] = $f;
                 }
             }
             closedir($hdir);
@@ -493,21 +528,22 @@ class IO{
     ///<summary></summary>
     ///<param name="folder"></param>
     /**
-    * 
-    * @param mixed $folder
-    */
-    public static function GetDirList($folder){
-        if(!is_dir($folder))
+     * 
+     * @param mixed $folder
+     */
+    public static function GetDirList($folder)
+    {
+        if (!is_dir($folder))
             return false;
-        $dirs=array();
-        $hdir=opendir($folder);
-        if($hdir){
-            while(($cdir=readdir($hdir))){
-                if(($cdir == ".") || ($cdir == ".."))
+        $dirs = array();
+        $hdir = opendir($folder);
+        if ($hdir) {
+            while (($cdir = readdir($hdir))) {
+                if (($cdir == ".") || ($cdir == ".."))
                     continue;
-                $f=self::GetDir($folder."/".$cdir);
-                if(is_dir($f)){
-                    $dirs[]=$f;
+                $f = self::GetDir($folder . "/" . $cdir);
+                if (is_dir($f)) {
+                    $dirs[] = $f;
                 }
             }
             closedir($hdir);
@@ -519,27 +555,28 @@ class IO{
     ///<param name="match"></param>
     ///<param name="recursive" default="false"></param>
     /**
-    * 
-    * @param mixed $dir
-    * @param mixed $match
-    * @param mixed $recursive the default value is false
-    */
-    public static function GetDirs($dir, $match, $recursive=false){
-        if(is_dir($dir) === false)
+     * 
+     * @param mixed $dir
+     * @param mixed $match
+     * @param mixed $recursive the default value is false
+     */
+    public static function GetDirs($dir, $match, $recursive = false)
+    {
+        if (is_dir($dir) === false)
             return null;
-        $v_out=array();
-        $hdir=@opendir($dir);
-        if($hdir){
-            while(($r=readdir($hdir))){
-                if($r == "." || ($r == ".."))
+        $v_out = array();
+        $hdir = @opendir($dir);
+        if ($hdir) {
+            while (($r = readdir($hdir))) {
+                if ($r == "." || ($r == ".."))
                     continue;
-                $f=$dir. DIRECTORY_SEPARATOR. $r;
-                if(is_dir($f) && (($match == null) || (($match != null) && (preg_match($match, $f))))){
-                    $v_out[]=$f;
+                $f = $dir . DIRECTORY_SEPARATOR . $r;
+                if (is_dir($f) && (($match == null) || (($match != null) && (preg_match($match, $f))))) {
+                    $v_out[] = $f;
                 }
-                if($recursive){
-                    foreach(igk_io_dirs($f, $match, $recursive) as $k){
-                        $v_out[]=$k;
+                if ($recursive) {
+                    foreach (igk_io_dirs($f, $match, $recursive) as $k) {
+                        $v_out[] = $k;
                     }
                 }
             }
@@ -550,16 +587,16 @@ class IO{
     ///<summary></summary>
     ///<param name="filename"></param>
     /**
-    * 
-    * @param mixed $filename
-    */
-    public static function GetFileExt($filename){
-        $pathinfo=pathinfo($filename);
+     * 
+     * @param mixed $filename
+     */
+    public static function GetFileExt($filename)
+    {
+        $pathinfo = pathinfo($filename);
         try {
-            if(isset($pathinfo["extension"]))
+            if (isset($pathinfo["extension"]))
                 return $pathinfo["extension"];
-        }
-        catch(Exception $exception){
+        } catch (Exception $exception) {
             die($filename);
         }
         return null;
@@ -567,12 +604,13 @@ class IO{
     ///<summary></summary>
     ///<param name="filename"></param>
     /**
-    * 
-    * @param mixed $filename
-    */
-    public static function GetFileName($filename){
-        $pathinfo=pathinfo($filename);
-        $b=$pathinfo["basename"];
+     * 
+     * @param mixed $filename
+     */
+    public static function GetFileName($filename)
+    {
+        $pathinfo = pathinfo($filename);
+        $b = $pathinfo["basename"];
         return $b;
     }
     ///<summary></summary>
@@ -581,73 +619,72 @@ class IO{
     ///<param name="recursive" default="false"></param>
     ///<param name="excludedir" default="null" ref="true"></param>
     /**
-    * 
-    * @param mixed $dir
-    * @param mixed $match
-    * @param mixed $recursive the default value is false
-    * @param ?array|mixed * $excludedir the default value is null
-    * @param callable $callback callback called* $excludedir the default value is null
-    */
-    public static function GetFiles($dir, $match, $recursive=false, ?array & $excludedir=null, ?callable $callback=null){
-      
-        // igk_dev_ilog( __METHOD__ ." / ".$dir);
-
-        if(is_dir($dir) === false)
+     * 
+     * @param mixed $dir
+     * @param mixed $match
+     * @param mixed $recursive the default value is false
+     * @param ?array|mixed * $excludedir the default value is null. "@--ignore_hidden--" is a flag used to ignore hidden folder in search
+     * @param callable $callback callback called* $excludedir the default value is null
+     */
+    public static function GetFiles($dir, $match, $recursive = false, ?array &$excludedir = null, ?callable $callback = null)
+    { 
+        if (is_dir($dir) === false)
             return null;
-        $v_out=array();
-        $dir=rtrim(igk_html_uri($dir), '/');
-        $q=0;
-        $dirs=array(); 
+        $v_out = array();
+        $dir = rtrim(igk_html_uri($dir), '/');
+        $q = 0;
+        $dirs = array();
         array_push($dirs, $dir);
-        $iscallable=is_callable($match);
-        $sep='/';
-        $fc=function(){
+        $iscallable = is_callable($match);
+        $ignore_hidden = false;
+        $sep = '/';
+        $fc = function () {
             return false;
         };
-        if(is_string($excludedir)){
-            $fc=function($d, $m, $ignoredname){
-                return preg_match("#".$ignoredname."#", $m);
+        if (is_string($excludedir)) {
+            $fc = function ($d, $m, $ignoredname) {
+                return preg_match("#" . $ignoredname . "#", $m);
             };
-        }
-        else if(is_array($excludedir)){
-            $fc=function($d, $m, $ignoredname){
+        } else if (is_array($excludedir)) {
+            $ignore_hidden = igk_getv($excludedir, "@--ignore_hidden--");
+            $fc = function ($d, $m, $ignoredname) {
                 return isset($ignoredname[$m]) || isset($ignoredname[$d]);
             };
         }
-        if (is_string($match)){
-            $_include_match = function($f)use($match){
+        if (!$iscallable && is_string($match)) {
+            $_include_match = function ($f) use ($match) {
                 return preg_match($match, $f);
             };
-        }else if ($iscallable){
-            $_include_match = function($f)use($match , & $excludedir){
+        } else if ($iscallable) {
+            $_include_match = function ($f) use ($match, &$excludedir) {
+                // echo "bind......";
                 return $match($f, $excludedir);
             };
         }
 
-        while($q=array_pop($dirs)){
-            if ($hdir=@opendir($q)){
-            while($hdir && ($r=readdir($hdir))){
-                if($r == "." || ($r == ".."))
-                    continue;
-                $mdata=0;
-                $f = $q.$sep. $r;
-                if (!is_dir($f)){
-                    if( $_include_match && $_include_match($f)){                    
-                      //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
-                        if($mdata == -1){
-                            continue;
+        while ($q = array_pop($dirs)) {
+            if ($hdir = @opendir($q)) {
+                while ($hdir && ($r = readdir($hdir))) {
+                    if ($r == "." || ($r == ".."))
+                        continue;
+                    $mdata = 0;
+                    $f = $q . $sep . $r;
+                    if (!is_dir($f)) {
+                        if ($_include_match && $_include_match($f)) {
+                            //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
+                            if ($mdata == -1) {
+                                continue;
+                            }
+                            $v_out[] = $f;
+                            $callback && $callback($f);
                         }
-                        $v_out[]=$f;
-                        $callback && $callback($f);
+                    } else {                        
+                        if (!($ignore_hidden && (strpos($r, ".")===0)) && !$fc($f, $r, $excludedir) && $recursive) {
+                            array_push($dirs, $f);
+                        }
                     }
                 }
-                else{
-                    if(!$fc($f, $r, $excludedir) && $recursive){
-                        array_push($dirs, $f);
-                    }
-                }
-            }
-            closedir($hdir);
+                closedir($hdir);
             }
         }
         return $v_out;
@@ -655,13 +692,14 @@ class IO{
     ///<summary></summary>
     ///<param name="size"></param>
     /**
-    * 
-    * @param mixed $size
-    */
-    public static function GetFileSize($size){
-        if($size == 0)
+     * 
+     * @param mixed $size
+     */
+    public static function GetFileSize($size)
+    {
+        if ($size == 0)
             return "0 Bytes";
-        $sizes=array(
+        $sizes = array(
             'Bytes',
             'KB',
             'MB',
@@ -672,49 +710,49 @@ class IO{
             'ZB',
             'YB'
         );
-        return (round($size/pow(1024, ($i=floor(log($size, 1024)))), 2). ' '. $sizes[$i]);
+        return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
     }
     ///<summary></summary>
     ///<param name="dir"></param>
     ///<param name="recursive" default="true"></param>
     /**
-    * 
-    * @param mixed $dir
-    * @param mixed $recursive the default value is true
-    */
-    public static function GetPictureFile($dir, $recursive=true){
-        if(is_dir($dir) === false)
+     * 
+     * @param mixed $dir
+     * @param mixed $recursive the default value is true
+     */
+    public static function GetPictureFile($dir, $recursive = true)
+    {
+        if (is_dir($dir) === false)
             return null;
-        $tab=array();
-        $tdir=array();
-        $hdir=opendir($dir);
-        if($hdir){
-            while(($r=readdir($hdir))){
-                if($r == "." || ($r == ".."))
+        $tab = array();
+        $tdir = array();
+        $hdir = opendir($dir);
+        if ($hdir) {
+            while (($r = readdir($hdir))) {
+                if ($r == "." || ($r == ".."))
                     continue;
-                $f=$dir. DIRECTORY_SEPARATOR. $r;
-                if(is_file($f)){
-                    $ext=strtolower(self::GetFileExt($f));
-                    switch($ext){
+                $f = $dir . DIRECTORY_SEPARATOR . $r;
+                if (is_file($f)) {
+                    $ext = strtolower(self::GetFileExt($f));
+                    switch ($ext) {
                         case "png":
                         case "jpeg":
                         case "jpg":
                         case "ico":
-                        $tab[]=$f;
-                        break;
+                            $tab[] = $f;
+                            break;
                     }
-                }
-                else if(is_dir($f)){
-                    $tdir[]=$f;
+                } else if (is_dir($f)) {
+                    $tdir[] = $f;
                 }
             }
             closedir($hdir);
         }
-        if($recursive){
-            foreach($tdir as $k){
-                $m=self::GetPictureFile($k);
-                if($m != null){
-                    $tab=array_merge($tab, $m);
+        if ($recursive) {
+            foreach ($tdir as $k) {
+                $m = self::GetPictureFile($k);
+                if ($m != null) {
+                    $tab = array_merge($tab, $m);
                 }
             }
         }
@@ -723,12 +761,13 @@ class IO{
     ///<summary></summary>
     ///<param name="secure" default="false"></param>
     /**
-    * 
-    * @param mixed $secure the default value is false
-    */
-    public static function GetPort($secure=false){
-        $p=igk_getv($_SERVER, 'SERVER_PORT');
-        if(($secure) && ($p != 443) || (!$secure && ($p != 80)))
+     * 
+     * @param mixed $secure the default value is false
+     */
+    public static function GetPort($secure = false)
+    {
+        $p = igk_getv($_SERVER, 'SERVER_PORT');
+        if (($secure) && ($p != 443) || (!$secure && ($p != 80)))
             return $p;
         return null;
     }
@@ -737,43 +776,44 @@ class IO{
     ///<param name="targetdir"></param>
     ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
-    * 
-    * @param mixed $sourcepath
-    * @param mixed $targetdir
-    * @param mixed $separator the default value is DIRECTORY_SEPARATOR
-    */
-    public static function GetRelativePath($sourcepath, $targetdir, $separator=DIRECTORY_SEPARATOR){
-        $i=IGKString::IndexOf($targetdir, $sourcepath);
-        if($i != -1){
-            $s=self::__fixpath(substr($targetdir, strlen($sourcepath)));
-            while(!empty($s) && IGKString::StartWith($s, DIRECTORY_SEPARATOR)){
-                $s=substr($s, 1);
+     * 
+     * @param mixed $sourcepath
+     * @param mixed $targetdir
+     * @param mixed $separator the default value is DIRECTORY_SEPARATOR
+     */
+    public static function GetRelativePath($sourcepath, $targetdir, $separator = DIRECTORY_SEPARATOR)
+    {
+        $i = IGKString::IndexOf($targetdir, $sourcepath);
+        if ($i != -1) {
+            $s = self::__fixpath(substr($targetdir, strlen($sourcepath)));
+            while (!empty($s) && IGKString::StartWith($s, DIRECTORY_SEPARATOR)) {
+                $s = substr($s, 1);
             }
             return $s;
         }
-        $dir=$sourcepath;
-        $cdir=$sourcepath;
-        $bdir=$targetdir;
-        $i=-1;
-        $c=0;
-        $tsdir=explode(DIRECTORY_SEPARATOR, $cdir);
-        $tbdir=explode(DIRECTORY_SEPARATOR, $bdir);
-        $rstep=false;
-        while(($c < count($tbdir)) && ($c < count($tsdir))){
-            if($tbdir[$c] != $tsdir[$c]){
-                $rstep=true;
+        $dir = $sourcepath;
+        $cdir = $sourcepath;
+        $bdir = $targetdir;
+        $i = -1;
+        $c = 0;
+        $tsdir = explode(DIRECTORY_SEPARATOR, $cdir);
+        $tbdir = explode(DIRECTORY_SEPARATOR, $bdir);
+        $rstep = false;
+        while (($c < count($tbdir)) && ($c < count($tsdir))) {
+            if ($tbdir[$c] != $tsdir[$c]) {
+                $rstep = true;
                 break;
             }
             $c++;
         }
-        $s=IGK_STR_EMPTY;
-        if($rstep){
-            for($h=$c; $h < count($tbdir); $h++){
-                $s .= "..".DIRECTORY_SEPARATOR;
+        $s = IGK_STR_EMPTY;
+        if ($rstep) {
+            for ($h = $c; $h < count($tbdir); $h++) {
+                $s .= ".." . DIRECTORY_SEPARATOR;
             }
         }
-        for($h=$c; $h < count($tsdir); $h++){
-            if($h > $c)
+        for ($h = $c; $h < count($tsdir); $h++) {
+            if ($h > $c)
                 $s .= DIRECTORY_SEPARATOR;
             $s .= $tsdir[$h];
         }
@@ -784,122 +824,125 @@ class IO{
     ///<param name="cdir"></param>
     ///<param name="bdir"></param>
     /**
-    * 
-    * @param mixed $dir
-    * @param mixed $cdir
-    * @param mixed $bdir
-    */
-    private static function GetRelativePathToDir($dir, $cdir, $bdir){
-        $i=IGKString::IndexOf($cdir, $bdir);
-        if($i != -1){
-            $cdir=substr($cdir, $i + strlen($bdir));
+     * 
+     * @param mixed $dir
+     * @param mixed $cdir
+     * @param mixed $bdir
+     */
+    private static function GetRelativePathToDir($dir, $cdir, $bdir)
+    {
+        $i = IGKString::IndexOf($cdir, $bdir);
+        if ($i != -1) {
+            $cdir = substr($cdir, $i + strlen($bdir));
         }
-        $i=IGKString::IndexOf($dir, $bdir);
-        if($i != -1){
-            $dir=substr($dir, $i + strlen($bdir));
+        $i = IGKString::IndexOf($dir, $bdir);
+        if ($i != -1) {
+            $dir = substr($dir, $i + strlen($bdir));
         }
-        $dir=self::RemoveFirstDirectorySeparator($dir);
-        $cdir=self::RemoveFirstDirectorySeparator($cdir);
-        $t=count(explode(DIRECTORY_SEPARATOR, $cdir));
-        for($i=0; $i < $t; $i++){
-            $dir="..".DIRECTORY_SEPARATOR.$dir;
+        $dir = self::RemoveFirstDirectorySeparator($dir);
+        $cdir = self::RemoveFirstDirectorySeparator($cdir);
+        $t = count(explode(DIRECTORY_SEPARATOR, $cdir));
+        for ($i = 0; $i < $t; $i++) {
+            $dir = ".." . DIRECTORY_SEPARATOR . $dir;
         }
-        return empty($dir) ? null: self::__fixPath($dir);
+        return empty($dir) ? null : self::__fixPath($dir);
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public static function GetRequestBaseUri(){
-       return self::GetRootUri(igk_getv(explode("?", igk_io_request_uri() ?? ""), 0));
+     * 
+     */
+    public static function GetRequestBaseUri()
+    {
+        return self::GetRootUri(igk_getv(explode("?", igk_io_request_uri() ?? ""), 0));
     }
     ///end relative
     ///<summary>Get the Root directory according to DocumentRoot apache configuration </summary>
     ///@get the root dir according to document root. uses for css script file
     ///<param name="dir">relative dirctory that will be append to result</param>
     /**
-    * Get the Root directory according to DocumentRoot apache configuration
-    * @param mixed $dir relative dirctory that will be append to result
-    */
-    public static function GetRootBaseDir($dir=""){
-        $s=self::GetBaseDir();
-        $s=str_replace("\\", "/", $s);
-        $doc= StringUtility::Uri(igk_io_rootdir());
-        $dir= StringUtility::Uri($dir); 
+     * Get the Root directory according to DocumentRoot apache configuration
+     * @param mixed $dir relative dirctory that will be append to result
+     */
+    public static function GetRootBaseDir($dir = "")
+    {
+        $s = self::GetBaseDir();
+        $s = str_replace("\\", "/", $s);
+        $doc = StringUtility::Uri(igk_io_rootdir());
+        $dir = StringUtility::Uri($dir);
 
-        if(strlen($s) > 0){
-            if($s[0] == "/"){
-                $s=strstr($s, $doc);
-                $s=trim(substr($s, strlen($doc)));
-                if((strlen($s) > 0) && ($s[0] != "/"))
-                    $s="/".$s;
-            }
-            else{
-                $s=substr($s, strlen($doc));
-                if((strlen($s) > 0) && $s["0"] != "/")
+        if (strlen($s) > 0) {
+            if ($s[0] == "/") {
+                $s = strstr($s, $doc);
+                $s = trim(substr($s, strlen($doc)));
+                if ((strlen($s) > 0) && ($s[0] != "/"))
+                    $s = "/" . $s;
+            } else {
+                $s = substr($s, strlen($doc));
+                if ((strlen($s) > 0) && $s["0"] != "/")
                     $s .= "/";
             }
         }
-        if($dir){
-            if($s == "/")
-                $s=IGK_STR_EMPTY;
-            if(0===strpos("/", $dir))
+        if ($dir) {
+            if ($s == "/")
+                $s = IGK_STR_EMPTY;
+            if (0 === strpos("/", $dir))
                 $s .= $dir;
             else
-                $s .= "/".$dir;
+                $s .= "/" . $dir;
         }
         return $s;
     }
     ///<summary> get relative path according to the DOCUMENT_ROOT</summary>
     ///<remark>full path from root dir</remark>
     /**
-    *  get relative path according to the DOCUMENT_ROOT
-    */
-    public static function GetRootRelativePath(?string $dir=null, $separator=DIRECTORY_SEPARATOR){
-        $doc_root=igk_io_rootdir();
+     *  get relative path according to the DOCUMENT_ROOT
+     */
+    public static function GetRootRelativePath(?string $dir = null, $separator = DIRECTORY_SEPARATOR)
+    {
+        $doc_root = igk_io_rootdir();
         $bdir = self::GetRootBaseDir();
-        $i=IGKString::IndexOf($dir, $doc_root);
-        $c=IGK_STR_EMPTY;
-        if($i != -1){
-            $dir=substr($dir, $i + strlen($doc_root));
-            $bdir=igk_io_dir($doc_root.$separator.$bdir);
-            $c=igk_io_get_relativepath($bdir, $doc_root);
+        $i = IGKString::IndexOf($dir, $doc_root);
+        $c = IGK_STR_EMPTY;
+        if ($i != -1) {
+            $dir = substr($dir, $i + strlen($doc_root));
+            $bdir = igk_io_dir($doc_root . $separator . $bdir);
+            $c = igk_io_get_relativepath($bdir, $doc_root);
         }
-        $dir=str_replace($bdir, IGK_STR_EMPTY, $dir);
-        while((strlen($dir) > 0) && ($dir[0] == $separator)){
-            $dir=substr($dir, 1);
+        $dir = str_replace($bdir, IGK_STR_EMPTY, $dir);
+        while ((strlen($dir) > 0) && ($dir[0] == $separator)) {
+            $dir = substr($dir, 1);
         }
-        if($c)
-            $dir=$c.$separator.$dir;
-        return igk_html_uri(empty($dir) ? null: self::__fixPath($dir));
+        if ($c)
+            $dir = $c . $separator . $dir;
+        return igk_html_uri(empty($dir) ? null : self::__fixPath($dir));
     }
     ///<summary></summary>
     ///<param name="uri" default="IGK_STR_EMPTY"></param>
     ///<param name="secured" default="null"></param>
     /**
-    * 
-    * @param mixed $uri the default value is IGK_STR_EMPTY
-    * @param mixed $secured the default value is null
-    */
-    public static function GetRootUri($uri=IGK_STR_EMPTY, $secured=null){
-        if(!$secured && igk_sys_srv_is_secure())
-            $secured=true;
-        if($secured){
-            $out='https://';
+     * 
+     * @param mixed $uri the default value is IGK_STR_EMPTY
+     * @param mixed $secured the default value is null
+     */
+    public static function GetRootUri($uri = IGK_STR_EMPTY, $secured = null)
+    {
+        if (!$secured && igk_sys_srv_is_secure())
+            $secured = true;
+        if ($secured) {
+            $out = 'https://';
+        } else {
+            $out = 'http://';
         }
-        else{
-            $out='http://';
+        $port = "";
+        if ($c = self::GetPort($secured)) {
+            $port = ':' . $c;
         }
-        $port="";
-        if($c=self::GetPort($secured)){
-            $port=':'.$c;
-        }
-        $n=igk_server_name();
-        if(!empty($n))
-            $out .= igk_str_rm_last($n, '/').$port;
-        if(!empty($uri))
-            $out .= '/'.ltrim($uri, '/');
-        $out=str_replace('\\', '/', $out);
+        $n = igk_server_name();
+        if (!empty($n))
+            $out .= igk_str_rm_last($n, '/') . $port;
+        if (!empty($uri))
+            $out .= '/' . ltrim($uri, '/');
+        $out = str_replace('\\', '/', $out);
         return $out;
     }
     ///<summary></summary>
@@ -907,108 +950,110 @@ class IO{
     ///<param name="doc_root"></param>
     ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
-    * 
-    * @param mixed $dir
-    * @param mixed $doc_root
-    * @param mixed $separator the default value is DIRECTORY_SEPARATOR
-    */
-    public static function GetSysRelativePath($dir, $doc_root, $separator=DIRECTORY_SEPARATOR){
-        if(empty($dir) || empty($doc_root))
+     * 
+     * @param mixed $dir
+     * @param mixed $doc_root
+     * @param mixed $separator the default value is DIRECTORY_SEPARATOR
+     */
+    public static function GetSysRelativePath($dir, $doc_root, $separator = DIRECTORY_SEPARATOR)
+    {
+        if (empty($dir) || empty($doc_root))
             return null;
-        $i=IGKString::IndexOf($dir, $doc_root);
-        if($i != -1){
-            $dir=ltrim(substr($dir, $i + strlen($doc_root)), $separator);
+        $i = IGKString::IndexOf($dir, $doc_root);
+        if ($i != -1) {
+            $dir = ltrim(substr($dir, $i + strlen($doc_root)), $separator);
             return $dir;
         }
-        $p="../";
-        $found=false;
-        while(!empty($doc_root)){
-            $doc=dirname($doc_root);
-            if($doc == $doc_root){
+        $p = "../";
+        $found = false;
+        while (!empty($doc_root)) {
+            $doc = dirname($doc_root);
+            if ($doc == $doc_root) {
                 break;
             }
-            $doc_root=$doc;
-            $i=IGKString::IndexOf($dir, $doc_root);
-            if($i == -1){
+            $doc_root = $doc;
+            $i = IGKString::IndexOf($dir, $doc_root);
+            if ($i == -1) {
                 $p .= "../";
-            }
-            else{
-                $found=true;
+            } else {
+                $found = true;
                 break;
             }
         }
-        if($found){
-            $dir=ltrim(substr($dir, $i + strlen($doc_root)), $separator);
-            return igk_io_dir($p.$dir);
+        if ($found) {
+            $dir = ltrim(substr($dir, $i + strlen($doc_root)), $separator);
+            return igk_io_dir($p . $dir);
         }
         return null;
     }
     ///<summary></summary>
     ///<param name="uri"></param>
     /**
-    * 
-    * @param mixed $uri
-    */
-    public static function IsAbsolutePath($uri){
-        $uri=igk_io_dir($uri);
+     * 
+     * @param mixed $uri
+     */
+    public static function IsAbsolutePath($uri)
+    {
+        $uri = igk_io_dir($uri);
         return file_exists($uri) && ($uri == igk_realpath($uri));
     }
     ///<summary></summary>
     ///<param name="dir"></param>
     /**
-    * 
-    * @param mixed $dir
-    */
-    public static function IsDirEmpty($dir){
-        if(!is_dir($dir))
+     * 
+     * @param mixed $dir
+     */
+    public static function IsDirEmpty($dir)
+    {
+        if (!is_dir($dir))
             return true;
-        $hdir=@opendir($dir);
-        if($hdir){
-            $empty=true;
-            while($s=readdir($hdir)){
-                if(($s == ".") || ($s == ".."))
+        $hdir = @opendir($dir);
+        if ($hdir) {
+            $empty = true;
+            while ($s = readdir($hdir)) {
+                if (($s == ".") || ($s == ".."))
                     continue;
-                $empty=false;
+                $empty = false;
                 break;
             }
             closedir($hdir);
             return $empty;
-        }
-        else{
-            igk_debug_wln("warning:impossible d'ouvir le repertoire : ".$dir);
+        } else {
+            igk_debug_wln("warning:impossible d'ouvir le repertoire : " . $dir);
         }
         return true;
     }
     ///<summary>check is this file is present on server .symbolink link resolved</summary>
     /**
-    * check is this file is present on server .symbolink link resolved
-    */
-    public static function IsRealAbsolutePath($uri){
-        $uri=igk_io_dir($uri);
-        return !empty($c=igk_realpath($uri));
+     * check is this file is present on server .symbolink link resolved
+     */
+    public static function IsRealAbsolutePath($uri)
+    {
+        $uri = igk_io_dir($uri);
+        return !empty($c = igk_realpath($uri));
     }
     ///<summary>read entiere file in one shot. speed for small file</summary>
     /**
-    * read entiere file in one shot. speed for small file
-    */
-    public static function ReadAllText($filename){
-        if(!is_file($filename))
+     * read entiere file in one shot. speed for small file
+     */
+    public static function ReadAllText($filename)
+    {
+        if (!is_file($filename))
             return null;
-        $fsize=@filesize($filename);
-        if($fsize<=0)
-            return null;        
-        $str='';
-        if($fw=fopen($filename, "r")){
-            while($fsize > 0){
-                if(empty($b=fread($fw, $fsize))){
-                     die(__("Failed to read data"));
+        $fsize = @filesize($filename);
+        if ($fsize <= 0)
+            return null;
+        $str = '';
+        if ($fw = fopen($filename, "r")) {
+            while ($fsize > 0) {
+                if (empty($b = fread($fw, $fsize))) {
+                    die(__("Failed to read data"));
                 }
                 $str .= $b;
                 $fsize -= strlen($b);
             }
             fclose($fw);
-        }
-        else{
+        } else {
             igk_ilog(__("Failed to open : {0}", $filename));
         }
         return $str;
@@ -1018,20 +1063,21 @@ class IO{
     ///<param name="offset"></param>
     ///<param name="ln"></param>
     /**
-    * 
-    * @param mixed $f
-    * @param mixed $offset
-    * @param mixed $ln
-    */
-    public static function ReadFile($f, $offset, $ln){
-        if(!file_exists($f))
+     * 
+     * @param mixed $f
+     * @param mixed $offset
+     * @param mixed $ln
+     */
+    public static function ReadFile($f, $offset, $ln)
+    {
+        if (!file_exists($f))
             return null;
-        $fsize=filesize($f);
-        $ln=min($ln, $fsize - $offset);
-        if($ln > 0){
-            $hf=fopen($f, "r");
+        $fsize = filesize($f);
+        $ln = min($ln, $fsize - $offset);
+        if ($ln > 0) {
+            $hf = fopen($f, "r");
             fseek($hf, $offset);
-            $o=fread($hf, $ln);
+            $o = fread($hf, $ln);
             fclose($hf);
             return $o;
         }
@@ -1040,66 +1086,66 @@ class IO{
     ///<summary></summary>
     ///<param name="dir"></param>
     /**
-    * 
-    * @param mixed $dir
-    */
-    public static function RemoveFirstDirectorySeparator($dir){
-        while((!empty($dir) && ($dir[0] == DIRECTORY_SEPARATOR))){
-            $dir=substr($dir, 1);
+     * 
+     * @param mixed $dir
+     */
+    public static function RemoveFirstDirectorySeparator($dir)
+    {
+        while ((!empty($dir) && ($dir[0] == DIRECTORY_SEPARATOR))) {
+            $dir = substr($dir, 1);
         }
         return $dir;
     }
     ///<summary>REMOVE FOLDER</summary>
     /**
-    * REMOVE FOLDER
-    */
-    public static function RmDir($dir, $recursive=true, $callback=null){
-        if(!is_dir($dir))
+     * REMOVE FOLDER
+     */
+    public static function RmDir($dir, $recursive = true, $callback = null)
+    {
+        if (!is_dir($dir))
             return false;
-        $pdir=array($dir);
-        $kdir=array($dir);
-        $d=1;
-        while($dir=array_pop($pdir)){
-            $hdir=opendir($dir);
-            if(!$hdir)
+        $pdir = array($dir);
+        $kdir = array($dir);
+        $d = 1;
+        while ($dir = array_pop($pdir)) {
+            $hdir = opendir($dir);
+            if (!$hdir)
                 return false;
-            while(($f=readdir($hdir))){
-                if(($f == ".") || ($f == ".."))
+            while (($f = readdir($hdir))) {
+                if (($f == ".") || ($f == ".."))
                     continue;
-                $v=igk_io_dir($dir."/".$f);
-             
-                if ($callback && !$callback($v)){
+                $v = igk_io_dir($dir . "/" . $f);
+
+                if ($callback && !$callback($v)) {
                     continue;
                 }
-                if (is_link($v)){
+                if (is_link($v)) {
                     @unlink($v);
                     continue;
                 }
-                if(is_dir($v)){
-                    if($recursive){
+                if (is_dir($v)) {
+                    if ($recursive) {
                         array_push($pdir, $v);
                         array_push($kdir, $v);
-                    }
-                    else{
-                        $d=0;
+                    } else {
+                        $d = 0;
                         break;
                     }
-                }
-                else if(is_file($v) || is_link($v)){
-                    if($recursive)
+                } else if (is_file($v) || is_link($v)) {
+                    if ($recursive)
                         unlink($v);
-                    else{
-                        $d=0;
+                    else {
+                        $d = 0;
                         break;
                     }
                 }
             }
             closedir($hdir);
         }
-        while($d && ($dir=array_pop($kdir))){
-            if (is_link($dir)){
+        while ($d && ($dir = array_pop($kdir))) {
+            if (is_link($dir)) {
                 unlink($dir);
-            }else{
+            } else {
                 @rmdir($dir);
             }
         }
@@ -1109,22 +1155,23 @@ class IO{
     ///<param name="dir"></param>
     ///<param name="pattern" default="null"></param>
     /**
-    * 
-    * @param mixed $dir
-    * @param mixed $pattern the default value is null
-    */
-    public static function RmFiles($dir, $pattern=null){
-        if(!is_dir($dir))
+     * 
+     * @param mixed $dir
+     * @param mixed $pattern the default value is null
+     */
+    public static function RmFiles($dir, $pattern = null)
+    {
+        if (!is_dir($dir))
             return false;
-        $hdir=opendir($dir);
-        if(!$hdir)
+        $hdir = opendir($dir);
+        if (!$hdir)
             return false;
-        while(($f=readdir($hdir))){
-            if(($f == ".") || ($f == ".."))
+        while (($f = readdir($hdir))) {
+            if (($f == ".") || ($f == ".."))
                 continue;
-            $v=igk_io_dir($dir."/".$f);
-            if(is_file($v)){
-                if(($pattern == null) || preg_match($pattern, $v)){
+            $v = igk_io_dir($dir . "/" . $f);
+            if (is_file($v)) {
+                if (($pattern == null) || preg_match($pattern, $v)) {
                     unlink($v);
                 }
             }
@@ -1135,9 +1182,10 @@ class IO{
     ///<summary>write text to a file</summary>
     ///<remarks>return true if success. or throw exception</remarks>
     /**
-    * write text to a file
-    */
-    public static function WriteToFile($filename, $content, $overwrite=true, $chmod=IGK_DEFAULT_FILE_MASK, $type="w+"){
+     * write text to a file
+     */
+    public static function WriteToFile($filename, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
+    {
         return igk_io_save_file_as_utf8_wbom($filename, $content, $overwrite, $chmod, $type);
     }
     ///<summary></summary>
@@ -1146,13 +1194,14 @@ class IO{
     ///<param name="overwrite" default="true"></param>
     ///<param name="chmod" default="IGK_DEFAULT_FILE_MASK"></param>
     /**
-    * 
-    * @param mixed $filename
-    * @param mixed $content
-    * @param mixed $overwrite the default value is true
-    * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
-    */
-    public static function WriteToFileAsUtf8WBOM($filename, $content, $overwrite=true, $chmod=IGK_DEFAULT_FILE_MASK){
+     * 
+     * @param mixed $filename
+     * @param mixed $content
+     * @param mixed $overwrite the default value is true
+     * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
+     */
+    public static function WriteToFileAsUtf8WBOM($filename, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK)
+    {
         return self::WriteToFile($filename, $content, $overwrite, $chmod);
     }
 
@@ -1163,9 +1212,10 @@ class IO{
      * @param int $end 
      * @return string 
      */
-    public static function ReadLines(string $filename, int $start, int $end){
+    public static function ReadLines(string $filename, int $start, int $end)
+    {
         $g = explode("\n", file_get_contents($filename));
-        $g = array_slice($g, $start, $end- $start);
+        $g = array_slice($g, $start, $end - $start);
         return implode("\n", $g);
     }
 
@@ -1178,39 +1228,39 @@ class IO{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetUnixPath(string $path, bool $mustExist=false, $start="/"): ?string{
-        if (!igk_environment()->isUnix()|| ($path[0]!="/")){
+    public static function GetUnixPath(string $path, bool $mustExist = false, $start = "/"): ?string
+    {
+        if (!igk_environment()->isUnix() || ($path[0] != "/")) {
             return null;
         }
         $_viewdir = $start;
         $od = rtrim($start, "/");
-        if($dir = opendir($_viewdir)){
+        if ($dir = opendir($_viewdir)) {
             $cp = array_filter(explode("/", $path));
-            while($dir && ($tq = array_shift($cp))){
+            while ($dir && ($tq = array_shift($cp))) {
                 $q = strtolower($tq);
-                $found = false; 
-                while(false !== ($cdir = readdir($dir))){
-                    if (strtolower($cdir)==$q){
+                $found = false;
+                while (false !== ($cdir = readdir($dir))) {
+                    if (strtolower($cdir) == $q) {
                         $found = true;
-                        $od .= "/".$cdir;
+                        $od .= "/" . $cdir;
                         break;
                     }
-                } 
-                if ($found){
+                }
+                if ($found) {
                     closedir($dir);
                     $dir = null;
-                    if (is_dir($od)){
-                        ($dir = opendir($od)) || igk_die("failed to open : ".$od);
-
+                    if (is_dir($od)) {
+                        ($dir = opendir($od)) || igk_die("failed to open : " . $od);
                     }
                 } else {
-                    if (!$mustExist){
-                        $od.= rtrim("/".$tq."/".implode("/", $cp), "/");
+                    if (!$mustExist) {
+                        $od .= rtrim("/" . $tq . "/" . implode("/", $cp), "/");
                     }
                     $cp = null;
                     break;
                 }
-            } 
+            }
         }
         if ($dir) closedir($dir);
         return $od;

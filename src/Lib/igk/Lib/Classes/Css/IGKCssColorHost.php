@@ -7,8 +7,10 @@
 namespace IGK\Css;
 
 use ArrayAccess;
+use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 class IGKCssColorHost implements ArrayAccess{
+    use ArrayAccessSelfTrait;
     const PRIMARY_COLOR = 'inherit';
     private $_;
     private function __construct(){
@@ -18,19 +20,19 @@ class IGKCssColorHost implements ArrayAccess{
         $c->_ = & $color;
         return $c;
     }
-    public function offsetSet($n,$v):void{    
+    public function _access_offsetSet($n,$v):void{    
         if (key_exists($n, $this->_)){
             return;
         }
         $this->_[$n] = $v;
     }
-    public function offsetGet($n){
+    public function _access_offsetGet($n){
         return igk_getv($this->_, $n, self::PRIMARY_COLOR);
     }
-    public function offsetUnset($n):void{
+    public function _access_offsetUnset($n):void{
         unset($this->_[$n]);
     }
-    public function offsetExists($n):bool{
+    public function _access_offsetExists($n):bool{
         return key_exists($n, $this->_);
     }
 }

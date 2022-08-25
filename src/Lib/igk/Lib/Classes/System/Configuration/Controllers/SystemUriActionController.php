@@ -25,6 +25,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public static function GetCacheFile(){
         return igk_io_cachedir()."/.routes.cache";
     }
+   
     private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());
@@ -117,10 +118,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function getConfigPage(){
         return "systemuri";
     }
-    ///<summary></summary>
-    public function getDataTableInfo(){
-        return null;
-    }
+    
     ///<summary></summary>
     public function getDataTableName(){
         return igk_db_get_table_name(IGK_TB_SYSTEMURI);
@@ -138,7 +136,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function getPatternInfo(){
         return igk_get_env(IGK_ENV_URI_PATTERN_KEY);
     }
-
+    public function getUseDataSchema(){
+        return false;
+    }
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
         $app = igk_app();
         $actionctrl = $this; 

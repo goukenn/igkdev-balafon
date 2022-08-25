@@ -12,7 +12,7 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\IteratorTrait;
 use Iterator;
 
-class DbQueryRowObj implements ArrayAccess, Iterator{
+class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	use ArrayAccessSelfTrait;
 	use IteratorTrait;
 	private $m_rows;

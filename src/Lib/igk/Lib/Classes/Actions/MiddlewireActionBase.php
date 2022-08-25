@@ -15,6 +15,9 @@ use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGKActionBase;
 use IGKException;
+use Reflection;
+use ReflectionMethod;
+
 use function igk_resources_gets as __;
 /**
  * Action Middleware
@@ -138,7 +141,8 @@ abstract class MiddlewireActionBase extends IGKActionBase{
             
                         while((count($proc)>0) && (($f = array_shift($proc))!==null)){
                             if (in_array($name.$f, $m)){
-                                $name = $name.$f; 
+                                $name = $name.$f;  
+                                $arguments = $arguments ? Dispatcher::GetInjectArgs(new ReflectionMethod($this, $name), $arguments) : [];
                                 return $this->$name(...$arguments);
                             }
                         }  
@@ -153,7 +157,6 @@ abstract class MiddlewireActionBase extends IGKActionBase{
                 } 
             }  
             // + | route not resolved 
-            // igk_dev_wln_e("#Route not resolved", __("Route {0} not resolved", $path));
             throw new IGKException(__("Route {0} not resolved", $path), 404);
         }
         $route = Route::GetMatchAll();

@@ -13,7 +13,8 @@ use IGK\Css\IGKCssColorHost;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlDocTheme;
-use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
+use IGK\System\Html\Dom\HtmlDocThemeMediaType;
+use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
 use IGKOb;
@@ -132,6 +133,8 @@ abstract class CssUtils
     }
     public static function Include($file, $ctrl, $theme){
         $context = \IGK\Css\IGKCssContext::Init($ctrl, $theme);
+        require_once __DIR__."/theme_functions.php";
+
         $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
         $sm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
         $lg_screen = $theme->get_media(HtmlDocThemeMediaType::LG_MEDIA);
@@ -146,6 +149,7 @@ abstract class CssUtils
             } else
                 $n = $ctrl;
             $css_m = $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
+            $ctrl::register_autoload();
             unset($n);
         }
         $def = $theme->def;
@@ -153,7 +157,10 @@ abstract class CssUtils
         $cl = IGKCssColorHost::Create($cltab); 
         $prop = &$theme->getProperties();
         $referer = igk_server()->get("HTTP_REFERER", "igk://system");
+        igk_environment()->push(IGKEnvironmentConstants::CSS_UTIL_ARGS, get_defined_vars());
         include($file);
+        igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);
+
         $cltab = & $theme->getCl();
         $cl = IGKCssColorHost::Create($cltab);
         if (isset($root) && is_array($root)) {

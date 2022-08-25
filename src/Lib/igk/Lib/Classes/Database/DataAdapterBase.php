@@ -19,7 +19,7 @@ use function igk_getv as getv;
 */
 abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     // + | register user
-    private static $sm_regAdapter=[];
+    private static $sm_regAdapter;
     protected $m_name;
     private $m_relations;
     protected static $LENGTHDATA = ["int","varchar","char", "decimal"];
@@ -430,7 +430,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     /**
     * 
     */
-    public static function GetAdapters(){
+    public static function GetAdapters(){ 
         if(self::$sm_regAdapter === null){
             self::$sm_regAdapter = array();
             self::LoadAdapter();
@@ -484,12 +484,13 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     */
     private static function LoadAdapter(){
         $fc=igk_io_syspath(IGK_ADAPTER_CACHE);
-        $n="/^(IGK)?(?P<name>([^\\\\])+)DataAdapter$/i";
+        $n="/^(IGK)?(?P<name>([^\\\\]+))DataAdapter$/i";
+        
         if(empty($fc)){
             return false;
         }
-        $b = igk_environment()->get("db_adapters");
-        if(file_exists($fc)){
+        $b = igk_environment()->get("db_adapters"); 
+        if(0 && file_exists($fc)){
             foreach(explode(IGK_LF, igk_io_read_allfile($fc)) as $k){
                 if(empty(trim($k)))
                     continue;
@@ -516,19 +517,25 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             } 
         }
         else{
-            self::$sm_regAdapter=array();
+            $v_tr =array();
             $m="";
+            // class_alias(\IGK\System\Database\MySQL\DataAdapter::class, 
+            // \IGK\System\Database\MySQLDataAdapter::class, true);
+
             foreach(get_declared_classes() as $k=>$v){
-                if(preg_match($n, $v)){
+                $cl = basename(igk_html_uri($v));
+                
+                if(preg_match($n, $cl)){ 
+                    // igk_wln(__FILE__.":".__LINE__, $v);
                     $t=array();
-                    preg_match_all($n, $v, $t);
+                    preg_match_all($n, $cl, $t);
                     $s=$t["name"][0];
-                    if(is_subclass_of($v, \IGK\DataBase\DataAdapter::class)){
-                        self::$sm_regAdapter[strtoupper($s)]=new $v();
+                    if(is_subclass_of($v, self::class) && !igk_reflection_class_isabstract($v)){
+                        $v_tr[strtoupper($s)]=new $v();
                         $m .= $v.IGK_LF;
                     }
                 }
-            }
+            } 
 
             if ($b){ 
                 foreach($b as $k=>$v){
@@ -538,13 +545,14 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
                         $s=$t["name"][0];
                         
                         if(!igk_reflection_class_isabstract($v) && igk_reflection_class_extends($v, "IGKDataAdapter")){
-                            self::$sm_regAdapter[strtoupper($s)
+                            $v_tr[strtoupper($s)
                             ]=new $v();
                             $m .= $v.IGK_LF;
                         }
                     }
                 }
-            }
+            } 
+            self::$sm_regAdapter = $v_tr;
             igk_io_w2file($fc, $m);
         }
     }

@@ -11,6 +11,7 @@ use IGK\Helper\IO;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
 use IGKCaches;
+use IGKException;
 use IGKResourceUriResolver;
 
 /**
@@ -21,17 +22,46 @@ class HtmlScriptLoader{
 
     var $options;
 
+    /**
+     * directory to load
+     * @var mixed
+     */
     var $dirs;
 
+    /**
+     * production mode
+     * @var bool
+     */
     var $production;
+
+    /**
+     * 
+     * @var ?array excluded directory options
+     */
+    var $excludir;
+
+    public function getExcludeDir() : array{
+        return $this->excludir ? $this->excludir : igk_sys_js_exclude_dir(); 
+    }
 
 
     public function getscript($options = null){
-        return $this->LoadScripts($this->dirs, $options, $this->production);
+        return self::LoadScripts($this->dirs, $options, $this->production, $this->getExcludeDir());
     }
 
-    public static function LoadScripts($tab, $options=null, $production=false, $cachePath="corejs:/igk.js"){
+    /**
+     * load script 
+     * @param array $tab array of directory 
+     * @param mixed $options render option
+     * @param bool $production production mode 
+     * @param array $exclude_dir list of excluded directory
+     * @param string $cachePath cache path
+     * @return string|false result
+     * @throws IGKException 
+     */
+    public static function LoadScripts($tab, $options=null, $production=false, $exclude_dir=[], $cachePath="corejs:/igk.js"){
  
+
         $no_page_cache = igk_setting()->no_page_cache();
         $out = ""; 
         $uri = igk_server()->REQUEST_URI ?? "";
@@ -40,30 +70,22 @@ class HtmlScriptLoader{
 
         if($options && $firstEval)
             $options->jsOpsFirstEval = false;
-        
-
-        // default library directory     
         // 
+        // default library directory             
         // append script to ignore
-        // 
-        $exclude_dir = igk_sys_js_ignore();
-       
+        //       
         $d = rtrim(explode("?", $uri)[0], "/");
         $rq = null;
         $resolverfc = null;
         $tag = null;
         $s = "";
         $lf = $options->LF;
-        $tabstop = HtmlRenderer::GetTabStop($options);
-
-        // igk_wln_e("no cache page : ", $no_page_cache);
-        // $production = true;
+        $tabstop = HtmlRenderer::GetTabStop($options);        
         $production_file  = ""; 
         if (!$production) {
             $rq = count(array_filter(explode("/", $d))) . "/:";
-            $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf, $tabstop) {
-                $g = basename($f);
-                // ignore all file that start with . 
+            $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf, $tabstop) {               
+                $g = basename($f); 
                 if (strpos($g, ".") === 0){
                    return;
                 }
@@ -85,7 +107,7 @@ class HtmlScriptLoader{
             if (!$no_page_cache  && file_exists($production_file)){                
                 return file_get_contents($production_file);
             }
-            $resolverfc = function ($f) use ($resolver, &$s, $lf, $tabstop) {
+            $resolverfc = function ($f) use (&$s) {
                 $ext = Path::GetExtension($f);
                 $F = igk_io_collapse_path($f);
                 switch (($ext)) {
@@ -112,7 +134,7 @@ class HtmlScriptLoader{
                 ob_end_clean();
             } else {
                 $s = "";
-                IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir, $resolverfc);
+                IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir, $resolverfc);        
                 IO::WriteToFile($cache_path, $s);
                 $out .= $s;
             }

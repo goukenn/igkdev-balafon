@@ -6,6 +6,7 @@
 
 
 use IGK\Controllers\BaseController;
+use IGK\Database\IDbArrayResult;
 use IGK\Models\Users;
 use IGK\System\Html\Dom\Factory;
 use function igk_resources_gets as __;
@@ -2941,8 +2942,6 @@ function igk_html_node_paneldialog($title, $content = null, $settings = null)
     if (is_string($settings)) {
         $settings = igk_json_parse($settings);
     }
-
-
     $n = igk_create_node("div");
     $n["class"] = "igk-winui-panel-dialog";
     $box = $n->div()->setClass("box");
@@ -4929,14 +4928,15 @@ function igk_html_node_dbTableView($tabResult,$theader=null, $header_prefix="hea
     if (empty($tabResult)){
         $n->div()->Content = __("No Result");
     } else {
-        if (is_object($tabResult)){
-            $tabResult = [$tabResult];
+        if (!is_array($tabResult)){
+           $tabResult = [$tabResult];
         }
         $table = $n->table();
         $header = null;
-        $header_node = null;
+        $header_node = null; 
+
         foreach($tabResult as $r){ 
-            if ($r instanceof \IGK\Models\ModelBase){
+            if ($r instanceof IDbArrayResult){
                 $r = $r->to_array();
             } else if (!is_array($r)) {
                 $r = (array)$r;

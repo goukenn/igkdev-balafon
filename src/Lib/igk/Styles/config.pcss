@@ -7,10 +7,7 @@ $areasize = "420px";
 // $def->clear(); 
 // because of clear on theme make errors
 // reg file type color
- 
-
 // include config mode
-
 // $theme->data =  "CONFIG.";
 
 include(dirname(__FILE__)."/config.dark.pcss");
@@ -290,19 +287,16 @@ $def[$page." .clsearch input"] = "{sys:disptabc, fitw, alignm} border:none; back
 $def[$page." .igk-horizontal-separator"]="height:1px; background-repeat:repeat-x; {sys:dispb} margin-top:8px; margin-bottom:8px;";
 $def[$page." .igk-vertical-separator"]= "width:16px; [res:vsep]; background-repeat:repeat-y";
 
-
-
-	//android menu options
-$def[$page." .igk-mob-opts"] = "{sys:dispib,posfix,fith,loc_l,loc_t,loc_b} [trans: all ease-in-out 0.2s] z-index:100; max-width:460px;[sysfcl:configMobileTextColor] overflow:hidden";
-$def[$page." .igk-mob-opts:before"]="{sys:dispb, posab, fit} [bgcl:configMobileBackgroundColor, #111]  content:' '; opacity: 0.92";
-$def[$page." .igk-mob-opts li > a"] = "{sys:no-decoration,dispb, fit} [sysfcl:igk-android-menu-option-fcl] min-height:32px; font-size: 0.8em; line-height: 32px;";
-$def[$page." .igk-mob-opts li > a:hover"] =
-$def[$page." .igk-mob-opts a:hover"] =
+// -------------------------------------------------------
+// android menu options
+$xsm_screen[$page." .igk-mob-opts"] = "{sys:dispib,posfix,fith,loc_l,loc_t,loc_b} [trans: all ease-in-out 0.2s] z-index:100; max-width:460px;[sysfcl:configMobileTextColor] overflow:hidden";
+$xsm_screen[$page." .igk-mob-opts:before"]="{sys:dispb, posab, fit} [bgcl:configMobileBackgroundColor, #111]  content:' '; opacity: 0.92";
+$xsm_screen[$page." .igk-mob-opts li > a"] = "{sys:no-decoration,dispb, fit} [sysfcl:igk-android-menu-option-fcl] min-height:32px; font-size: 0.8em; line-height: 32px;";
+$xsm_screen[$page." .igk-mob-opts li > a:hover"] =
+$xsm_screen[$page." .igk-mob-opts a:hover"] =
 "color:#ddd;background-color:#111";
 
 $def[$page." .igk-mob-opts li > a > span"] = "{sys:fit, dispib} padding-left:10px; padding-right:10px;";
-
-
 $def[$page." .igk-mob-opts .igk-config-menu-font li.cnf-menu-sep"] = "background-color:#555; display:block; width:100%; min-height:1px;line-height:1px;";
 $def[$page." .igk-mob-opts .igk-config-menu-font li"] =
 "{sys:dispb} line-height:1.4324;  overflow:hidden;";
@@ -310,9 +304,7 @@ $def[$page." .igk-mob-opts li:first-child"] =
 $def[$page." .igk-mob-opts li:last-child"] = "border:none;";
 $def[$page." .igk-mob-opts .igk-active"]  = "background-color:#F60;";
 $def[$page." .igk-mob-opts .igk-panel"]="{sys:no-padding}";
-
 $def[$page." .igk-mob-opts a:hover"] = "color:white; background-color:#000;";
-
 $def[$page." .igk-cnf-menu li.cnf-menu-sep"] = "border:none; background-color:#555; display:block; width:100%; min-height:1px; height:2px; line-height:1px;";
 
 
@@ -644,7 +636,14 @@ $def[".mobilescreen .login-form input"] = "margin-bottom:2em;";
 
 
 $def[".article-host"] = "padding: 16px 0; border-top: #ddd 1px solid;";
-$def["body.igk-body.igk-cnf-body.dashboard"] = "padding-top: 32px !important;";
+
+// + | ------------------------------------------------------------------ 
+// + | layout screen
+// + |
+$cnf_layout = "body.igk-body.igk-cnf-body.dashboard";
+$def[$cnf_layout] = "padding-top: 40px;";
+$def[$cnf_layout." .conf-header-bar"] = "height: 40px;";
+
 
 
 
@@ -671,10 +670,13 @@ $root["--config-configSVGFillColor"] = "#eea570";
 
 $def[$page." .igk-cnf-content svg"] = "fill: var(--config-configSVGFillColor);";
 
-
+// + | ------------------------------------------------------------------------------
 // + | configuration header bar 
-$def[$page." .conf-header-bar"] = "{sys:posfix, loc_t, fitw} height: 32px; [bgcl:configHeaderBarBgColor, transparent]";
-
+// + |
+$def[$page." .conf-header-bar"] 
+= "{sys:posfix, loc_t, fitw} [bgcl:configHeaderBarBgColor, #444] min-height: 16px; z-index:10; font-size: 16px;";
+$def[$page." .conf-header-bar h1"] = "margin-left: 32px; font-size: 18px; padding: 5px 2px";
+$def[$page." .conf-header-bar .igk-svg-host.logo"] = "width: 18px; height:18px;";
 
 $def[$page." #c_ml .igk-form .content > div"] =  "display: flex;";
 $def[$page." #c_ml .igk-form .content > div > label"] =  "align-self: start; padding-top: 10px";

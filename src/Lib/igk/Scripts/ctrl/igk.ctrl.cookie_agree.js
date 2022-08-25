@@ -6,23 +6,29 @@
             t.remove();
         }).addClass("hide");
     };
-    igk.system.createNS("igk.ctrl", {
-        cookie_agree(type, t){
+    igk.system.createNS("igk.ctrl.cookie_agree", {
+        agree(type, t, n){
             if (t){
                 if (t = $igk(t).first()){
                  _hide(t);
                 }
             }
-            igk.web.setcookies("agree", 1);
+            igk.web.setcookies(n, 1);
             igk.web.setcookies("agree-type", type);
         },
-        init(t){
+        /**
+         * init cookie aggree 
+         * @param {*} t target selector
+         * @param {*} n cookie name
+         */
+        init(t, n){
             // in case os is mobile just hide it
             if (t){
                 if (t = $igk(t).first()){
                     let _mobile = igk.navigator.isAndroid() || igk.navigator.isIOS();
-                    if (_mobile){
-                        _hide(t);
+                    let _g = igk.web.getcookies(n);
+                    if (_g || _mobile){
+                        _hide(t); 
                     }
                 }
             }

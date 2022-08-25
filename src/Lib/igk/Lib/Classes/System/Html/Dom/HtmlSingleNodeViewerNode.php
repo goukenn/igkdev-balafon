@@ -17,6 +17,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         $this->targetNode->setContent($v);
         return $this;
     }
+    
 
     ///<summary></summary>
     ///<param name="options" default="null"></param>

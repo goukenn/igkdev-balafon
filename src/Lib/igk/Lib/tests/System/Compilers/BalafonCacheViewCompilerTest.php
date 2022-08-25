@@ -31,6 +31,52 @@ EOF;
         error_clear_last();
     }
 
+    public function test_compile_with_litteral_quote(){
+        $temp = @tempnam( "tutest","test");
+        // $t->section()->article($ctrl, "styles/corecss.template", [(object)[ 
+        //     "description"=>
+        $g_src = <<<'PHP'
+<?php
+$x = <<<HTML
+    <div>hello the 'bbb </div>
+HTML;
+PHP;
+        igk_io_w2file($temp, $g_src);
+ 
+        $out = BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp, null, true);
+        unlink($temp);
+ 
+        $this->assertEquals(<<<EDF
+<?php
+\$x = <<<HTML
+    <div>hello the 'bbb </div>
+HTML;
+EDF, rtrim($out), "failed");
+    }
+
+    public function test_compile_with_litteral_nowdoc(){
+        $temp = @tempnam( "tutest","test");
+        // $t->section()->article($ctrl, "styles/corecss.template", [(object)[ 
+        //     "description"=>
+        $g_src = <<<'PHP'
+<?php
+$x = <<<'HTML'
+    <div>hello the 'bbb </div>
+HTML;
+PHP;
+        igk_io_w2file($temp, $g_src);
+ 
+        $out = BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp, null, true);
+        unlink($temp);
+ 
+        $this->assertEquals(<<<EDF
+<?php
+\$x = <<<'HTML'
+    <div>hello the 'bbb </div>
+HTML;
+EDF, rtrim($out), "failed");
+    }
+
 }
 
 

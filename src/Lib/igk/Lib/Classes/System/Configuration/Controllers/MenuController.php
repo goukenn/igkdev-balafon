@@ -36,6 +36,9 @@ final class MenuController extends ConfigControllerBase
     const SYSTEM_MENU_FLAG = 0xa01;
     const USER_MENU_FLAG = 0xa0a;
 
+    protected function getCanInitDb(){
+        return false;
+    }
     /**
      * state changed
      * @var mixed

@@ -9,7 +9,10 @@ namespace IGK\Database;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
+use IGK\System\Html\XML\XmlNode;
+use IGKApp;
 use IGKException;
 use stdClass;
 use function igk_resources_gets as __ ;
@@ -30,6 +33,7 @@ abstract class DbSchemas{
     const RELATIONS_TAG = "Relations";
     const RELATION_TAG = "Relation";
     const COLUMN_TAG = IGK_COLUMN_TAGNAME;
+    const GEN_COLUMN = IGK_GEN_COLUMS;
 
 
     /**
@@ -67,7 +71,7 @@ abstract class DbSchemas{
    
 
     public static function LoadSchema($file, $ctrl = null, $resolvname = true){
-        
+ 
         if (!file_exists($file)) {
             return null;
         }
@@ -82,13 +86,13 @@ abstract class DbSchemas{
     }
     /**
      * get schema definition from node
-     * @param HtmlNode $d schema definition node
+     * @param XmlNode $d schema definition node
      * @param null|IGK\Controllers\BaseController $ctrl base controller 
      * @param bool $resolvname ressolv name
      * @return object 
      * @throws IGKException 
      */
-    public static function GetDefinition($d, ?BaseController $ctrl=null, bool $resolvname=true){
+    public static function GetDefinition(XmlNode $d, ?BaseController $ctrl=null, bool $resolvname=true){
         $tables = array();
         $migrations = [];
         $relations = [];
@@ -96,18 +100,51 @@ abstract class DbSchemas{
         if ($d) {
             $n = igk_getv($d->getElementsByTagName(IGK_SCHEMA_TAGNAME), 0);
             if ($n) {
-                $output = igk_db_load_data_schema_array($n, $tables, $relations, $migrations, $ctrl, $resolvname);
+                $output = self::LoadSchemaArray($n, $tables, $relations, $migrations, $ctrl, $resolvname);
             }
-        }
-        
+        }        
         return (object)$output;
+    }
+    /**
+     * loadd schema array
+     * @param mixed $n 
+     * @param mixed $tables 
+     * @param mixed $tbrelations 
+     * @param mixed $migrations 
+     * @param mixed $ctrl 
+     * @param bool $resolvname 
+     * @param bool $reload 
+     * @return mixed 
+     */
+    public static function LoadSchemaArray($n, &$tables, &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false){
+        $key = "schema_load";
+    if ($ctrl) {
+        // if (!$reload && IGKApp::IsInit() && ($tk = $ctrl::getEnvParam($key))) {
+        if (!$reload && IGKApp::IsInit() && ($tk = $ctrl->getEnvParam($key))) {
+            extract($tk);
+            return $tk;
+        }
+        $key = $ctrl->getEnvKey($key);
+    }
+    $v_result = null;
+    $mi = \IGK\System\Database\SchemaMigration::LoadSchema($n, $v_result, $tables, $tbrelations, $migrations, $ctrl, $resolvname, $reload);
+    // $dmi = new \IGK\System\Database\SchemaMigration();
+    // $mi->node = $n;
+    // $mi->table = &$tables;
+    // $mi->tbrelations = &$tbrelations;
+    // $mi->migrations = &$migrations;
+    // $mi->resolvname = $resolvname;
+    // $mi->reload = $reload;
+    // $v_result = $mi->migrate($ctrl);
+    igk_environment()->set($key, $v_result);
+    return $v_result;
     }
     /**
      * create and empty table row
      * @return stdClass|null 
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl=null, $dataobj = null){ 
-        $inf = self::GetTableRowReference($tablename, $ctrl);
+        $inf = self::GetTableRowReference($tablename, $ctrl);        
         if ($inf){
             return self::CreateObjFromInfo($inf, $dataobj);
         }
@@ -115,13 +152,14 @@ abstract class DbSchemas{
     public static function GetTableRowReference(string $tablename, ?BaseController $ctrl=null){
         $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
         if ($g){ 
-            return igk_getv($g, "tableRowReference"); 
-        }       
+            return $g->tableRowReference; 
+        }        
     }
     /**
      * create object from info Key refererence
      */
     public static function CreateObjFromInfo($tableRowReference, $dataobj=null){
+     
         if ($tableRowReference) {
             $obj = igk_createobj();
             foreach ($tableRowReference as $k => $v) {
@@ -134,8 +172,7 @@ abstract class DbSchemas{
                     $dataobj = (object)$dataobj;
                 // igk_db_copy_row($obj, $dataobj);
 
-                foreach ($obj as $k => $v) {
-             
+                foreach ($obj as $k => $v) {             
                     if (isset($dataobj->$k)) {
                         $obj->$k = $dataobj->$k;
                     } else { 
@@ -162,8 +199,9 @@ abstract class DbSchemas{
                 $n = igk_db_get_table_name($k, $ctrl);
                 $data = igk_getv($etb, $n);
                 igk_hook(IGK_NOTIFICATION_INITTABLE, [$ctrl, $n, &$data]);
-            
-                if (!$adapter->createTable($n, igk_getv($v, 'ColumnInfo'), $data, igk_getv($v, 'Description'), $adapter->DbName)) {
+                $columnInfo = $v->columnInfo;
+               
+                if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName)) {
                     igk_push_env("db_init_schema", __("failed to create [0]", $n));
                     $no_error = 0;
                 }

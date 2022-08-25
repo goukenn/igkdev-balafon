@@ -67,6 +67,10 @@ final class SysDbController extends NonVisibleControllerBase{
         return IGK_SYSDB_CTRL;
     }
     ///<summary></summary>
+    /**
+     * get use of data schema
+     * @return true 
+     */
     protected function getUseDataSchema(){
         return true;
     }

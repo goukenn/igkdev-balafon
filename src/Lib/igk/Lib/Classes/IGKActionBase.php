@@ -22,6 +22,7 @@ use IGK\System\Http\IResponse;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\Route;
+use IGK\System\Http\WebResponse;
 
 /**
  * Represente view's action definition
@@ -64,7 +65,7 @@ abstract class IGKActionBase implements IActionProcessor
 
     public function __construct()
     {
-        if (empty($this->notify_name)){
+        if (empty($this->notify_name)) {
             $this->notify_name = static::class;
         }
     }
@@ -72,17 +73,21 @@ abstract class IGKActionBase implements IActionProcessor
      * action processor host
      * @return $this 
      */
-    public function getHost(){
+    public function getHost()
+    {
         return $this;
     }
 
-    public static function CurrentAction(){
+    public static function CurrentAction()
+    {
         return igk_environment()->get(IGKEnvironment::VIEW_CURRENT_ACTION);
     }
-    public static function CurrentViewName(){
+    public static function CurrentViewName()
+    {
         return igk_environment()->get(IGKEnvironment::VIEW_CURRENT_VIEW_NAME);
     }
-    public static function ActionParams(){
+    public static function ActionParams()
+    {
         return igk_environment()->get(IGKEnvironment::VIEW_ACTION_PARAMS);
     }
     /**
@@ -93,8 +98,9 @@ abstract class IGKActionBase implements IActionProcessor
      * @return null|bool 
      * @throws IGKException 
      */
-    protected function handleBool(?bool $result, string $successMsg, string $dangerMsg){
-        if ($result){
+    protected function handleBool(?bool $result, string $successMsg, string $dangerMsg)
+    {
+        if ($result) {
             $this->notify_success($successMsg);
         } else {
             $this->notify_danger($dangerMsg);
@@ -126,7 +132,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @param mixed $ctrl
      */
     protected function initialize(BaseController $ctrl)
-    { 
+    {
         $this->ctrl = $ctrl;
         return $this;
     }
@@ -148,18 +154,18 @@ abstract class IGKActionBase implements IActionProcessor
      * @throws Exception 
      */
     public static function CreateInstance($ctrl, $context = null)
-    { 
+    {
         $cl = static::class;
         if ($cl == __CLASS__) {
             igk_die("Operation not allowed");
         }
         $o = new $cl();
         $o->ctrl = $ctrl;
-        $o->context = $context; 
-        $o->initialize($ctrl); 
+        $o->context = $context;
+        $o->initialize($ctrl);
         return $o;
     }
-    
+
     public static function __callStatic($name, $arguments)
     {
         return (new static)->$name(...$arguments);
@@ -175,10 +181,10 @@ abstract class IGKActionBase implements IActionProcessor
      * - override 1 :  (BaseController , $fname, $args, $exit=1, $flag=0)
      * - override 2 :  ($fname, $args,  $exit=1, $flag=0)
      */
-    protected function Handle($fname, $args, $exit=1, $flag = 0)
+    protected function Handle($fname, $args, $exit = 1, $flag = 0)
     {
         // igk_wln($fname, $args, $exit, __FILE__.":".__LINE__, );
-        $ctrl = null; 
+        $ctrl = null;
         if ($fname instanceof BaseController) {
             if (func_num_args() < 3) {
                 throw new \Exception("Require 3 argument in that case");
@@ -209,16 +215,16 @@ abstract class IGKActionBase implements IActionProcessor
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
     public function __call($name, $arguments)
-    { 
+    {
         // + : -----------------------------------------
         // + : fallback to index if numeric name is call 
         // + : -----------------------------------------
-        if (is_numeric($name)){
+        if (is_numeric($name)) {
             array_unshift($arguments, $name);
             $name = "index";
-            if (method_exists($this, $fc = $name)){ 
+            if (method_exists($this, $fc = $name)) {
                 return $this->$fc(...$arguments);
-            } 
+            }
         }
         if ($fc = igk_getv(self::$macro, $name)) {
             return $fc(...$arguments);
@@ -231,16 +237,28 @@ abstract class IGKActionBase implements IActionProcessor
             if (method_exists($this, $fc)) {
                 return $this->$fc(...$arguments);
             }
-        } 
+        }
         //+ | ------------------------------------------------------------------------------------
         //+ | dispatch to verb method    
         //+ |
-        if (method_exists($this, $fc = $name . "_" . strtolower(igk_server()->REQUEST_METHOD))) {
-            $arguments = Dispatcher::GetInjectArgs(new ReflectionMethod($this, $fc), $arguments);       
+        $verb = strtolower(igk_server()->REQUEST_METHOD);
+        if (method_exists($this, $fc = $name . "_" . $verb)) {
+            $arguments = Dispatcher::GetInjectArgs(new ReflectionMethod($this, $fc), $arguments);
             return $this->$fc(...$arguments);
+        } else if ($verb == "options") {
+            // handle default method option
+            //options request ...
+            $rep = new WebResponse("/Options:data", 200, [
+                "Content-Type: text/html",
+                "Access-Control-Allow-Origin: ".igk_configs()->get("access-control-allow-origin", "*"),
+                "Access-Control-Allow-Methods: ".igk_configs()->get("access-control-allow-methods", "*"),
+                "Access-Control-Allow-Headers: ".igk_configs()->get("access-control-allow-headers", "*")
+            ]);
+            $rep->cache =false;
+            igk_do_response($rep);  
         }
-        if ($this->throwActionNotFound){       
-            throw new ActionNotFoundException("[".get_class($this)."]->".$name);
+        if ($this->throwActionNotFound) {
+            throw new ActionNotFoundException("[" . get_class($this) . "]->" . $name);
         }
         return false;
     }
@@ -291,7 +309,7 @@ abstract class IGKActionBase implements IActionProcessor
                 igk_view_reg_action($viewname, $k, $v);
             }
             igk_do_response($b = igk_view_handle_action($viewname, $params));
-        } else if (is_object($arrayList)) {          
+        } else if (is_object($arrayList)) {
             $b = self::HandleObjAction($viewname, $arrayList, $params, $exit, $flag);
         }
         igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, null);
@@ -309,7 +327,8 @@ abstract class IGKActionBase implements IActionProcessor
      * @return bool 
      * @throws IGKException 
      */
-    protected function _handleResponse($response):bool{
+    protected function _handleResponse($response): bool
+    {
         return (igk_is_ajx_demand() && ($response instanceof HtmlItemBase));
     }
     /**
@@ -324,53 +343,55 @@ abstract class IGKActionBase implements IActionProcessor
      */
     public static function HandleObjAction($fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
-     
+
         // + | -------------------------------------------------------------
         // + | handle object action
         $actionMethod = "";
-        $env = igk_environment();      
+        $env = igk_environment();
         $redirect_status = igk_server()->REDIRECT_STATUS;
-        if ( $redirect_status && ($redirect_status != 200)){
+        if ($redirect_status && ($redirect_status != 200)) {
             $actionMethod = self::FAILED_STATUS;
             array_unshift($params, 0, igk_server()->REDIRECT_STATUS);
-        } else { 
+        } else {
             // + | -------------------------------------------------------------
             // + |  sanitize action name                 
             $actionMethod = ActionHelper::SanitizeMethodName(igk_getv($params, 0));
-        }        
+        }
 
         if (!empty($actionMethod)) {
             // igk_dev_ilog("CALLING ACTION ".static::class ."::".$actionMethod);
-            $args = array_slice($params, 1); 
+            $args = array_slice($params, 1);
             $env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
             $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
-            $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args); 
+            $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args);
             try {
-                
-                if($verb = igk_server()->REQUEST_METHOD){
-                    if (preg_match("/(.)_(".Route::SUPPORT_VERBS.")$/i", $actionMethod)
-                    // && (!preg_match("/_($verb)$/i", $actionMethod))
-                    )
-                    { 
+
+                if ($verb = igk_server()->REQUEST_METHOD) {
+                    if (preg_match("/(.)_(" . Route::SUPPORT_VERBS . ")$/i", $actionMethod)
+                        // && (!preg_match("/_($verb)$/i", $actionMethod))
+                    ) {
                         throw new NotAllowedRequestException(null, "explicit verbs not allowed missmatch");
                     }
-                    unset($verb);   
-                } 
+                    unset($verb);
+                }
 
-           
+
 
                 $_is_middelwire = $object instanceof MiddlewireActionBase;
                 if ($_is_middelwire) {
                     $c =  $object->__call($actionMethod, $args);
                 } else {
-                    if (method_exists($object, $actionMethod)){
+                    if (method_exists($object, $actionMethod)) {
                         ActionHelper::BindRequestArgs($object, $actionMethod, $args);
-                    } 
+                    }
                     $c = $object->$actionMethod(...$args);
                 }
                 $object->getController()->{ControllerParams::ActionViewResponse} = $c;
 
-                
+                // nav if redirecting
+                if ($redirect = igk_getr("::redirect")) {
+                    igk_navto($redirect);
+                }
                 // CHECK EXIT FOR DO RESPONSE                  
                 if ($exit || ($object->getHost()->_handleResponse($c))) {
                     return igk_do_response($c);
@@ -384,7 +405,7 @@ abstract class IGKActionBase implements IActionProcessor
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;
-        }        
+        }
     }
     protected function handleError($code, ...$params)
     {
@@ -392,12 +413,13 @@ abstract class IGKActionBase implements IActionProcessor
         if ($c && ($f = $c::getErrorViewFile($code)) && file_exists($f)) {
             return $c::viewError($code);
         }
-        
-        igk_dev_wln_e(__FILE__.":".__LINE__,  "No handle error: ", compact("code", "f", "params"));
+
+        igk_dev_wln_e(__FILE__ . ":" . __LINE__,  "No handle error: ", compact("code", "f", "params"));
     }
 
-    protected function get_notify(){
-        $notkey = $this->getController()->notifyKey($this->notify_name);    
+    protected function get_notify()
+    {
+        $notkey = $this->getController()->notifyKey($this->notify_name);
         return igk_notifyctrl($notkey);
     }
     /**
@@ -408,25 +430,29 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws IGKException 
      */
-    public function assert_notify($result, $success, $danger){
-        if ($result){
+    public function assert_notify($result, $success, $danger)
+    {
+        if ($result) {
             $this->notify_success($success);
-        }else {
+        } else {
             $this->notify_danger($danger);
         }
         return $result;
     }
-    protected function notify_danger($msg){
+    protected function notify_danger($msg)
+    {
         $this->get_notify()->danger($msg);
     }
-    protected function notify_success($msg){
+    protected function notify_success($msg)
+    {
         $this->get_notify()->success($msg);
     }
-    
+
     /**
      * index action entry point
      * @return void 
      */
-    public function index(){
+    public function index()
+    {
     }
 }

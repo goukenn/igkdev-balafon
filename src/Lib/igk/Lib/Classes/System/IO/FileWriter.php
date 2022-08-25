@@ -68,9 +68,13 @@ class FileWriter{
     }
     /**
      * create directory
+     * @string string 
      * @return bool success
      */
-    public static function CreateDir($dirname, $mode=IGK_DEFAULT_FOLDER_MASK){
+    public static function CreateDir(string $dirname, $mode=IGK_DEFAULT_FOLDER_MASK){
+        if (empty($dirname)){
+            igk_die("dir name is empty");
+        }
         $dirname = igk_io_dir($dirname);  
         if(preg_match("/^phar:/i", $dirname)){
             igk_die("InvalidOperation#1200");
@@ -79,15 +83,11 @@ class FileWriter{
         $s_mode = is_string($mode) ? octdec($mode) : $mode;
         $is_unix = igk_environment()->isUnix();
      
-        while($dirname=array_pop($pdir)){
-            if(empty($dirname))
-                return false;
+        while($dirname=array_pop($pdir)){            
             if(is_dir($dirname))
                 continue;
-            if(empty($dirname))
-                return false;
-            if(is_dir($dirname))
-                continue;
+            igk_debug_wln("create : ".$dirname."\n");
+          
             $p=dirname($dirname);
             if(empty($p))
                 continue;
@@ -102,8 +102,12 @@ class FileWriter{
                 }
             }
             else{
-                array_push($pdir, $dirname);
-                array_push($pdir, dirname($dirname));
+                if (!is_file($dirname)){
+                    array_push($pdir, $dirname);
+                    array_push($pdir, dirname($dirname));
+                }else {
+                    return false;
+                }
             }
         }        
         return igk_count($pdir) == 0;

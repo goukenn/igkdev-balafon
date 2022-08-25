@@ -42,4 +42,13 @@ class HtmlPoweredByNode extends HtmlNode{
             return __("Powered by {0}", $data);
         } 
     }
+    protected function __AcceptRender($options = null)
+    {  
+        $doc = null;
+        $options && ($doc = igk_getv($options, "Document"));
+        if ($doc && $doc->noPowered){
+            return false;
+        }   
+        return true;
+    }
 }

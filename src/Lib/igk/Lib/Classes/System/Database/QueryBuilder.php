@@ -314,7 +314,7 @@ class QueryBuilder
      */
     public function get(){
         if ($tab = $this->execute()){
-            return $tab->to_array();
+            return  $tab->getRows();//->to_array();
         }
     }
 

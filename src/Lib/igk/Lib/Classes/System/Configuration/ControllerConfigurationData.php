@@ -24,12 +24,12 @@ require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php
 /**
 * Controller configuration data
 */
-class ControllerConfigurationData extends IGKObject implements ArrayAccess{
+class ControllerConfigurationData extends ConfigurationData implements ArrayAccess{
     use ConfigArrayAccessTrait; 
     private $ctrl;
-    private $m_changed=0;
-    private $m_configs;
+    private $m_changed=0;   
     private $m_autosave; 
+
     public function setAutoSave(bool $autosave){
         $this->m_autosave = $autosave;
         $this->m_change = 0;
@@ -49,6 +49,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
     public function __construct($ctrl){
         if(!$ctrl)
             igk_die(__("ctrl can't be null"));
+ 
         $this->ctrl=$ctrl;
         $this->m_changed=0;
         $this->m_autosave = true;
@@ -116,7 +117,7 @@ class ControllerConfigurationData extends IGKObject implements ArrayAccess{
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
             $div = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
          
-            $div->loadFile($f, HtmlContext::XML);
+            $div->loadFile($f, HtmlContext::XML, null);
            
             $d=igk_getv($div->getElementsByTagName("config"), 0);
             if($d){

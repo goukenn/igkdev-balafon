@@ -25,8 +25,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
     public function __construct(BaseController $controller)
     {
-        parent::__construct($controller);
-    
+        parent::__construct($controller);    
     }
     protected function initialize(){
         $this->header =  $this ->controller->getViewDir()."/.header.pinc";
@@ -38,17 +37,23 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
     public function include($file, $args){
         $response = null; 
+        $no_layout = false;
         $this->controller->setExtraArgs(["layout"=>$this]);
 
         $args["doc"]->title =  __("{0} - [{1}]", __("title.{$args['fname']}")  , $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
-        if ($this->exists($this->header)){
+        
+        if (!$no_layout && $this->exists($this->header)){
             igk_include_view_file($this->controller, $this->header, $args);
         }
         $response = igk_include_view_file($this->controller, $file, $args);
-        if ($this->exists($this->footer)){
+        $no_layout = $this->Configs["@PageLayout"];
+        if (!$no_layout && $this->exists($this->footer)){
             igk_include_view_file($this->controller, $this->footer, $args);
         }
         return $response;
+    }
+    public function getPageTitle(string $title){
+        return sprintf("%s - [%s]", $title,  $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
     }
 
 }

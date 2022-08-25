@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\Templates\BindingPipeExpressionInfo;
 
 // +| definition of extra template depend on eval function 
 
@@ -46,18 +47,28 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
 
 function igk_template_get_piped_value($rv, $context){
 	extract( igk_to_array($context));
-    list($v, $pipe) = igk_str_pipe_args($rv, $c, 0);   
-    try{
-	    $v = @eval( "return $v;");    
-        if ($e = error_get_last()){
-           // igk_trace();
+    list($v, $pipe) = igk_str_pipe_args($rv, $c, 0);
+    // language = 
+    $tv = trim($v);
+    $info = BindingPipeExpressionInfo::ReadInfo($tv);
+    if ($info["type"]=="litteral"){
+        // literal expression will be evaluate a
+        // a lite
+        $v = sprintf('"%s"', addslashes(igk_resources_gets($tv))); 
+    }
+    
+    try{ 
+	    $v = @eval("return $v;");  
+        if ($e = error_get_last()){ 
             igk_dev_wln_e(__FUNCTION__."::Error:", $e, "source:".$rv, "output:".$v, $raw, $context);
         }
     }catch(ParseError $ex){
         igk_ilog("parse failed : ", $rv);
-        igk_html_pre($v); 
-        igk_trace();
-        igk_exit();
+        if (igk_environment()->isDev()){
+            igk_html_pre($v); 
+            igk_trace();
+        }
+        throw $ex;
     }
 	$v = igk_str_pipe_value($v, $pipe);
 	return $v;
@@ -99,17 +110,17 @@ function igk_template_update_class_piped_expression($n, $attr, $v, $context, $se
  
 }
 
-
+// * --------------------------------------------------------------------------------------
+// for loop : *for
+// * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context, $setattrib){
     $g=(function($script) use ($context){
         extract(igk_to_array($context));  
         return @eval((function(){
-            // if (igk_is_debug()){
-            //     igk_trace();
-            //     igk_wln_e(__FILE__.":".__LINE__, func_get_arg(0));
-            // }
+           
             if (func_num_args()==1)
-            return "return ".func_get_arg(0).";"; 
+                return "return ".func_get_arg(0).";"; 
+            
         })(HtmlUtils::GetAttributeValue($script, $context, true)));
     })($v);
     $reader->setInfos(["skipcontent"=>1, "attribute"=>$attr, "context-data"=>$g, "context"=>"expression", "operation"=>"loop", "for"=>$reader->getName()]);
@@ -175,3 +186,4 @@ igk_reg_template_bindingattributes("*src", 'igk_template_update_attrib_piped_exp
 igk_reg_template_bindingattributes("*action", 'igk_template_update_attrib_piped_expression');
 igk_reg_template_bindingattributes("*class", 'igk_template_update_class_piped_expression');
 igk_reg_template_bindingattributes("*style", 'igk_template_update_style_piped_expression');
+igk_reg_template_bindingattributes("*placeholder", 'igk_template_update_attrib_piped_expression');

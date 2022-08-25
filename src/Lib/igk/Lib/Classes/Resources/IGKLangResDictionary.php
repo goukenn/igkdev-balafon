@@ -8,6 +8,7 @@
 namespace IGK\Resources;
 
 use ArrayAccess;
+use Closure;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 ///<summary> use for key's language operation</summary>
@@ -49,6 +50,8 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $v
     */
     protected function _access_offsetSet($i, $v){
+        igk_trace();
+        igk_exit();
         $this->_f[strtolower($i)]=$v;
     }
     ///<summary></summary>
@@ -71,5 +74,16 @@ final class IGKLangResDictionary implements ArrayAccess{
         $keys=array_keys($this->_f);
         igk_usort($keys, "igk_key_sort");
         return $keys;
+    }
+    public function load(string $file){
+        $fc = Closure::fromCallable(function(){
+            extract ((array)func_get_arg(1));
+            include(func_get_arg(0)); 
+            return $l;
+        })->bindTo(null);
+        $this->_f = $fc($file, ["l"=> $this->_f]); 
+    }
+    public function set($key, $value){
+        $this->_f[$key] = $value;
     }
 }

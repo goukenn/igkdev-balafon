@@ -5,17 +5,11 @@
 // @desc: 
 
 namespace IGK\System\Console\Commands;
-
-use ClearCacheCommand;
-use IGK\Controllers\RootControllerBase;
-use IGK\Controllers\SysDbController;
+ 
 use IGK\Helper\IO;
-use IGK\System\Console\AppExecCommand;
-use IGK\System\Console\Logger;
-use IGK\System\Database\DbUtils;
-use IGK\System\Installers\OsShell;
-use IGKException;
-use IGKModuleListMigration;
+use IGK\System\Console\AppExecCommand; 
+use IGK\System\Console\Logger; 
+use IGKException; 
 
 /**
  * remove project

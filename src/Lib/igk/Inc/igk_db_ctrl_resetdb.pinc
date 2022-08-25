@@ -55,7 +55,6 @@ igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$controller]);
 
 if ($deflog>0){
     $deflog--;
-
 }
  
 if ($navigate){

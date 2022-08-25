@@ -49,7 +49,7 @@ class UserAndGroupController extends ConfigControllerBase{
     public static function Presentation($t, $ctrl){
         $t->h2()->Content = __("User's group");
         $t->hr();
-        $t->blockquotes()->article($ctrl, "group.description");
+        $t->blockquote()->article($ctrl, "group.description");
 
         $frm=$t->form();
         $table=$frm->addDiv()->setClass("overflow-x-a")->addTable();

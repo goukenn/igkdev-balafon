@@ -149,10 +149,9 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function createTablequery($tbname, $columninfo, $desc = null, $noengine = 0, $nocomment = 0)
+    public function createTablequery($tbname, array $columninfo, $desc = null, $noengine = 0, $nocomment = 0)
     {
         $driver = $this->m_driver;
-
         $query = $driver->escape_table_name($tbname) . "(";
         $tb = false;
         $primary = "";

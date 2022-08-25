@@ -66,8 +66,7 @@ class WebResponse extends RequestResponse{
         ob_start();   
         $this->render();
         $s = ob_get_clean();   
-        $zip = igk_server()->accepts(["gzip"]);        
-      
+        $zip = igk_server()->accepts(["gzip"]);       
         igk_set_header($this->code, $this->getStatus($this->code), $this->headers); 
         if ($cache){ 
             // + |----------------------------------------------------------------

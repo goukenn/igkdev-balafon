@@ -11,6 +11,7 @@
 //
 namespace IGK\Helper;
 
+use Closure;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEnvironment;
@@ -36,11 +37,53 @@ class ViewHelper
             $args = self::GetViewArgs(); 
         return $args;
     }
-    private static function _GetIncFile($file){
+    private static function _GetIncFile($file){        
         $c = self::Dir()."/".$file;
         if (file_exists($c) || ($c.= ".phtml"))
             return $c;
         igk_die("inc [".$file."] file not found");        
+    }
+
+    /**
+     * import view file
+     * @param string $file 
+     * @param null|array $param 
+     * @param null|BaseController $controller 
+     * @return Closure 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function Import( string $file, ?array $param=null , ?BaseController $controller=null):Closure{
+        if (is_null($controller) && is_null($controller = self::CurrentCtrl())){
+            igk_die("controller required.");
+        }
+        if (!is_file($file)){
+            if (!is_file($file =  ViewHelper::GetView($file))){
+                igk_die("file not found");
+            }
+        }
+        return function($a)use($file, $controller, $param){
+             /**
+             * @var string file 
+             * @var array params
+             */
+            $tg = ["t"=>$a];
+            if (!is_null($param)){
+                $tg["params"] = $param;
+            }
+            $binIncude = InvocationHelper::Include()->bindTo($controller);
+            $g = $controller->getTargetNode(); 
+            // replace target node 
+            $controller->setTargetNode($a);            
+            $o = $binIncude($file, array_merge(
+                ViewHelper::GetViewArgs(),
+                $controller->getExtraArgs(),
+                $tg 
+            ));
+            $controller->setTargetNode($g);
+            return $o;
+        };
     }
     /**
      * get entry fname uri
@@ -76,7 +119,7 @@ class ViewHelper
     }
     /**
      * include sub view. from current controller view context
-     * @return void 
+     * @return mixed 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
@@ -97,7 +140,7 @@ class ViewHelper
         $_tab = get_defined_vars(); 
         $g = (function(){
             extract(func_get_arg(1));
-            include(func_get_arg(0));
+            return include(func_get_arg(0));
         })->bindTo($ctrl);
         if (!file_exists($file = func_get_arg(0))){
             file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: ".$file);
@@ -111,6 +154,8 @@ class ViewHelper
         }
         $ctrl = self::CurrentCtrl();
         $g = (function(){
+            extract(self::GetViewArgs(), EXTR_SKIP); 
+            extract($ctrl->getExtraArgs(), EXTR_SKIP);
             require_once(func_get_arg(0));
         })->bindTo($ctrl);
         return $g($file);
@@ -136,12 +181,16 @@ class ViewHelper
         
 
         if (!$entry_is_dir) {
+            // + | --------------------------------------------------------
+            // + | Sanitize request uri
+            // + | 
             $ctrl->setParam("redirect_request", ['request' => $_REQUEST]);
             igk_navto($appuri . "/");
         } else {
             $redirect_request = $ctrl->getParam("redirect_request");
             $ctrl->setParam("redirect_request", null);
         }
+        self::CurrentDocument()->setBaseUri($appuri."/");
     }
     /**
      * get include file
@@ -236,6 +285,55 @@ class ViewHelper
      * @return string  
      */
     public static function GetView(?string $path=null){
-        return implode("/", array_filter([self::CurrentCtrl()->getViewDir(), $path]));
+        return implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
+    }
+
+
+    /**
+     * resolv view file and get attached params
+     * @param string $viewDir root view directory
+     * @param string $view demand
+     * @param string $file file
+     * @param int $check enable check
+     * @param mixed $param params to return
+     * @return null|string 
+     */
+    public static function ResolvViewFile(string $viewDir, string $view, string $f, $checkfile=1, & $param=null): ?string{
+        $s = null;
+        $extension = IGK_DEFAULT_VIEW_EXT;
+        $ext = $extension;
+        $ext_regex = '/\.' . $extension . '$/i';
+        $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
+        $f = $f . $ext; 
+        if (!empty($ext) && $checkfile) {
+            $s = 1;
+            $_views = array_filter(explode("/", $view));
+            while ($s && (count($_views) > 0) && ($f != $viewDir)) {
+               
+                if (preg_match($ext_regex, $f) && is_file($f)) {
+                    return $f;
+                } else {
+                    $bname = basename($f);
+                    $f = dirname($f);
+                    if (($bname != IGK_DEFAULT_VIEW_FILE) && (file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
+                        if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
+                            array_unshift($param, array_pop($_views));
+                        }
+                        return $c;
+                    } else {
+                        array_unshift($param, array_pop($_views));
+                    }
+                }
+            }
+            if ($s) {
+                return $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
+            }
+        }
+        else if ($checkfile){
+            if (is_file($f)){
+                return $f;
+            }
+        }
+        return $s;
     }
 }

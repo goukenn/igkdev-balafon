@@ -1006,9 +1006,21 @@ EOF;
     public function getphpinfo()
     {
         $cnf = $this->getConfigNode()->clearChilds();
-        IGKOb::Start();
+        ob_start();
         phpinfo();
-        $b = IGKOb::Content();
+        $b = ob_get_contents();
+        ob_clean();
+        $db = igk_create_node("div");
+        $db->class("phpinfo");
+        $db->load($b);        
+        if ($childs = $db->getElementsByTagName("style")){
+            foreach($childs as $c){
+                $c->remove();
+            }
+        }
+        // remove tag
+        // preg_replace("#<style></style>)
+        echo $db->render();
         igk_exit();
     }
     ///<summary></summary>
@@ -1596,18 +1608,25 @@ EOF;
                     break;
                 case "phpinfo":
                     $this->_selectMenu("phpinfo", "IGKConfigCtrl::setpage");
-                    $iframe = $cnf_n->add("iframe", array("class" => "fitw fith no-border"));
-                    $iframe["src"] = $this->getUri("getphpinfo");
-                    $iframe["style"] = "min-height:800px; ";
+                    $cnf_n->h1()->Content = "Configuration - PHPInfo";
+                    $cnf_n->div()->ajxuriloader($this->getUri("getphpinfo"));
+                    // $iframe = $cnf_n->add("iframe", array("class" => "fitw fith no-border"));
+                    // $iframe["src"] = $this->getUri("getphpinfo");
+                    // $iframe["style"] = "min-height:800px; ";
                     break;
                 case "serverinfo":
                     $this->_selectMenu("serverinfo", "IGKConfigCtrl::setpage");
                     extract($args);
-                    include($this->getViewFile("config.server_info.phtml"));
+                    if ($f = $this->getViewFile("config.server_info.phtml")){
+                        @include($f); 
+                    }                    
                     break;
                 case IGK_DEFAULT_VIEW:
-                    extract($args);
-                    include($this->getViewFile("config.default_page.phtml"));
+                    extract($args); 
+                    if (is_file($f = $this->getViewFile("config.default_page.phtml")))
+                        include($f);
+                    else 
+                        igk_debug_wln_e("default file not found");
                     igk_set_env($key, 1);
                     break;
                 default: 

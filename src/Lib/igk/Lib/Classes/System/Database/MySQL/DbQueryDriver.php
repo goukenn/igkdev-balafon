@@ -8,6 +8,7 @@
 namespace IGK\System\Database\MySQL; 
 
 use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
+use IGKConstants;
 use IGKException;
 
 /**
@@ -19,10 +20,12 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         $o = parent::Create($options); 
         return $o;
     }    
+    public function connect(){
+        return parent::connect();
+    }
    
     protected function initialize($r){
-        $time_zone = igk_configs()->get('date_time_zone', 'Europe/Brussels');
-
+        $time_zone = igk_configs()->get('date_time_zone', IGKConstants::DEFAULT_TIME_ZONE);
         $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $r);
         if($t && (igk_db_num_rows($t) == 1)){
             if (!empty($time_zone)){

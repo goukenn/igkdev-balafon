@@ -69,12 +69,7 @@ abstract class RootControllerBase extends IGKObject{
     }
 
     public static function __callStatic($name, $arguments)
-	{
-        // if ($name === "getEnvParam"){
-        //     igk_trace();
-        //     igk_exit();
-        // }
-        // igk_wln("call: ".$name);
+	{   
         $c = null; 
         $v_macro  = 0; 
         static $func_defs = null;
@@ -197,7 +192,7 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * getfull uri
     */
-    public function getAppUri($function=null){ 
+    public function getAppUri(?string $function=null):?string{ 
         if(SysUtils::GetSubDomainCtrl() === $this){
             $g= igk_app()->SubDomainCtrlInfo->clView;
             if(!empty($function) && (stripos($g, $function) === 0)){

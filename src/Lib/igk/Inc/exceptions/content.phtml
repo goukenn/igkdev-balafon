@@ -162,11 +162,15 @@ $content .= ("<div style='height:100%' > ");
                 ksort($c);
                 $content .= "<table>";
                 foreach($c as $k=>$v){
+                    $tv = $v;
+                    if (is_array($tv)){
+                        $tv = "ARRAY[]";
+                    };
                     $content.= "<tr>";
                     $content.= "<td>".$k;
                     $content.= "</td>";
                     $content.= "<td>";
-                    $content.= is_string($v) ? $v : "ARRAY";// implode("\n<br />", $v);
+                    $content.= htmlspecialchars($tv);
                     $content.= "</td>";
                     $content.= "</tr>";
                 }

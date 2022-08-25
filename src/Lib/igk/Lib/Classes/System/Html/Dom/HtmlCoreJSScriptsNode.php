@@ -78,11 +78,11 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
      * @throws IGKException 
      */
     public static function GetCoreScriptContent($options, $production = false)
-    {
-        return HtmlScriptLoader::LoadScripts( [
+    { 
+        return HtmlScriptLoader::LoadScripts([
             [IGK_LIB_DIR . "/" . IGK_SCRIPT_FOLDER, "igk"],
             [IGK_LIB_DIR . "/Ext", "sys"],
-        ], $options, $production);       
+        ], $options, $production, igk_sys_js_exclude_dir());       
     }
 
     /**

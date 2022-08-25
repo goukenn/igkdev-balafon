@@ -486,7 +486,7 @@ class HtmlNode extends HtmlItemBase
             $this->evalCallback(__FUNCTION__, $output);
             return $output;
         }
-        return parent::getCanRenderTag(func_get_arg(0));
+        return parent::getCanRenderTag();
     }
 
     public function activate($n)

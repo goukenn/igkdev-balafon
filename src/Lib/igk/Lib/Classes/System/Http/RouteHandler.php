@@ -380,11 +380,14 @@ class RouteHandler
     }
     /**
      * shortcut function
-     * @param array $verb 
+     * @param array|string $verb 
      * @return static 
      */
-    public function verbs(array $verb)
+    public function verbs($verb)
     {
+        if (is_string($verb)){
+            $verb = explode("|", $verb);
+        }
         return $this->setVerb($verb);
     }
     protected function process(...$arguments)

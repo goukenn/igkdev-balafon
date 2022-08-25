@@ -6,8 +6,9 @@
 
 namespace IGK\System\Compilers;
 
+use Exception;
 use IGK\Controllers\BaseController;
-
+use IGKException;
 
 /**
  * 
@@ -15,15 +16,27 @@ use IGK\Controllers\BaseController;
  */
 class BalafonCacheViewCompiler{
 
-    public static function Compile(BaseController $controller, string $file, $args = null ){
-        $cache = igk_cache()::view();
-        $option = igk_create_view_builder_option();
+    /**
+     * generate cache view file. 
+     * @param BaseController $controller 
+     * @param string $file 
+     * @param mixed $args 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function Compile(BaseController $controller, string $file, $args = null, $noExtra = false ){
+        $extra = "";
+        // $cache = igk_cache()::view();
         $node = igk_create_notagnode();
         igk_html_article($controller, $file, $node, $args, null, false, true, false);
         ob_start();
+        $option = igk_create_view_builder_option(); 
         $output = $node->render($option);
-        $src = ob_get_clean();        
-        $extra = igk_view_builder_extra($file, $option);
+        $src = ob_get_clean();     
+        if (!$noExtra){
+            $extra = igk_view_builder_extra($file, $option);
+        }    
         $extra = empty($output) ?  trim($extra) : $extra; 
         return $output . $src . $extra;
     }

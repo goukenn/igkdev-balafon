@@ -2,8 +2,11 @@
 <?php
 
 // make type classname
+
+use IGK\System\IO\File\PHPScriptBuilder;
+
 require_once(__DIR__ . "/../igk_framework.php");
-
-
 $builder = new PHPScriptBuilder();
+
+
 

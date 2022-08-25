@@ -24,6 +24,8 @@ use function igk_resources_gets as __;
  *  $this->$property will return extra properties if exists against configurable property
  *  $this->get($property) which will always return configurable properties value
  * update : when set with magic property the extra property will be unset
+ * 
+ * 
  */
 final class ConfigData
 {
@@ -276,6 +278,15 @@ final class ConfigData
      * @throws IGKException 
      */
     public function website_title($default="IGKDEV"){
+        return $this->get(__FUNCTION__, $default);
+    }
+    /**
+     * asset cache output
+     * @param int $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function assets_cache_output($default=3600){
         return $this->get(__FUNCTION__, $default);
     }
 }

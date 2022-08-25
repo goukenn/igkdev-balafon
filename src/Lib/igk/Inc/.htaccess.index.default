@@ -39,16 +39,13 @@ AddDefaultCharset utf-8
 	Header set X-XSS-Protection "1; mode=block"
 	Header set X-Content-Type-Options nosniff
 	Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
-
-
 	#lighthouse require header for SEO 100%
-	Header set Content-Security-Policy "connect-src 'self'"
-	
+	Header set Content-Security-Policy "connect-src 'self'"	
 </IfModule>
 
-# if web server support RewriteEngine the redirect file to igk_redirection.php?__c=901. this __c will support
-# post value redirection
-# note: because of ovh server when RewriteRule operate REQUEST_FILENAME is prefixe by redirect:
+# if web server support RewriteEngine the redirect file to index.php?__c=901. 
+# '__c' will support post value redirection.
+# OVH Note: because of ovh server when RewriteRule operate REQUEST_FILENAME is prefixed by redirect:
 <IfModule rewrite_module>
 RewriteEngine On
 SetEnv IGK_REWRITE_MOD 1 

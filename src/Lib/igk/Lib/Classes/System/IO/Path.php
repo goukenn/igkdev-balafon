@@ -48,6 +48,7 @@ class Path{
         return self::$sm_instance;
     }
     public function prepareData(){
+ 
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);
         $this->base_dir = str_helper::Uri(IGK_BASE_DIR);
         $this->lib_dir = str_helper::Uri(IGK_LIB_DIR);

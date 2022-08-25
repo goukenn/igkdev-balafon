@@ -420,7 +420,10 @@ EOF;
     /**
     * return application uri
     */
-    public function getAppUri($function=null){ 
+    public function getAppUri(?string $function=null):?string{ 
+        if (is_null($function)){
+            $function = "";
+        }
 		if (!empty($function)){
 			$function = igk_str_rm_start($function, "/");
         }
@@ -726,15 +729,15 @@ EOF;
 		$m = new $cl();
 		$m->run(igk_app()->getApplication()->getBuilder());
 	} 
-    ///<summary>init complete</summary>
     /**
-    * init complete
-    */
-    protected function initComplete($context=null){ 
-        parent::initComplete();
-        if (file_exists($f = $this->getClassesDir()."/Database/InitMacros.php")){
+     * init macros from file
+     * @return void 
+     * @throws IGKException 
+     */
+    protected function _initMacros(){
+        if (is_file($f = $this->getClassesDir()."/Database/InitMacros.php")){
 			include_once($f);
-			$this::register_autoload();
+			// $this::register_autoload();
 			if (\IGK\Models\ModelBase::IsMacrosInitialize()){
 				$this->initMacros();
 			}else {
@@ -743,7 +746,8 @@ EOF;
 				}); 
 			}
 		}	  
-        $cc = igk_env_count(get_class($this));
+    }
+    protected function _registerApp(){
         if ($n = get_class($this)){ 
             $n=str_replace("\\", ".", $n);
             $c=self::GetApps(); 
@@ -753,10 +757,19 @@ EOF;
             }
             else{
                 igk_assert_die(!igk_get_env("sys://reloadingCtrl"),
-"Application identifier is not valid or already register. [{$n}] - ".$def . " - ".$cc
+                    "Application identifier is not valid or already register. [{$n}] - ".$def  
                 );
             }
         }
+    }
+    ///<summary>init complete</summary>
+    /**
+    * init application complete    
+    */
+    protected function initComplete($context=null){ 
+        parent::initComplete();
+        $this->_initMacros();
+        $this->_registerApp();
         $this->register_action();
         if(!isset(self::$INIT)){
             igk_reg_hook(IGK_EVENT_DROP_CTRL, "igk_app_ctrl_dropped_callback");

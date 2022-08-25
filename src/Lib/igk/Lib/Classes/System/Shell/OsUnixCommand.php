@@ -3,15 +3,14 @@
 // @filename: LaravelMix.php
 // @date: 20220414 13:46:56
 // @desc: laravel mix instataller
-namespace IGK\System\Installers;
-
-use IGK\Helper\IO;
-use IGK\System\Console\Logger;
-use IGKException;
-
+namespace IGK\System\Shell;
  
-class OsWindowCommand extends OsShell{
+/**
+ * 
+ * @package IGK\System\Shell
+ */
+class OsUnixCommand extends OsShell{
     public static function Where($cmd){ 
-        return exec("where ".$cmd);
+        return exec("which ".$cmd);
     }
 }

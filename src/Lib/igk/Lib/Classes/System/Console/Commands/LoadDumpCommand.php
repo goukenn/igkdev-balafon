@@ -56,8 +56,7 @@ class LoadDumpCommand extends AppExecCommand{
                 if (in_array($table, ["wplq_options"])){
                     continue;
                 }
-
-                Logger::info("init : ".$table);
+                Logger::info("dump table : ".$table);
                 try{
                     if (in_array( $table, $resetDb )){ 
                         $driver->delete($table); 

@@ -276,7 +276,7 @@ class IGKApplicationLoader
     public static function Boot($type = "web")
     {
         // + protect w
-        static $initialize;
+        static $initialize; 
         $srv = IGKServer::getInstance();
         $boot = false;
         if ($initialize === null) {
@@ -288,7 +288,7 @@ class IGKApplicationLoader
             spl_autoload_register($init_info["spl_auto_loader"] , true, true);
             $initialize = $init_info;
             $boot = true;
-        }
+    
         require_once __DIR__ . "/Helper/StringUtility.php";
         require_once __DIR__ . "/Helper/IO.php";
         require_once __DIR__ . "/System/IO/Path.php";
@@ -309,7 +309,7 @@ class IGKApplicationLoader
         require_once __DIR__ . "/IGKLog.php";
         require_once __DIR__ . "/IGKException.php";
         require_once __DIR__ . "/IGKObjStorage.php"; /* require library  */
-
+    } 
         // + | Initialize environment  
         if ($boot) {
             $file = self::$sm_instance->getCacheFile();
@@ -371,7 +371,7 @@ class IGKApplicationLoader
             // + | mandatory constants protected base constant
             // + |         
             $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
-
+ 
             if (!defined('IGK_APP_DIR')) {
                 $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
                 define("IGK_APP_DIR", $dir);
@@ -402,7 +402,7 @@ class IGKApplicationLoader
             // + | -----------------------------------------------------
             // + | Autoloading composer packages
             // + | 
-            if (file_exists($package_dir . "/composer.json") && file_exists($package_dir . "/vendor/autoload.php")) {
+            if (is_file($package_dir . "/composer.json") && is_file($package_dir . "/vendor/autoload.php")) {
                 // preload spl loading class
                 spl_autoload_unregister($initialize["spl_auto_loader"]);
                 require_once($package_dir . "/vendor/autoload.php");

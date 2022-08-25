@@ -22,7 +22,7 @@ use IGKResourceUriResolver;
  * @package IGK\Controllers
  */
 final class SystemController extends NonVisibleControllerBase{
-    public function getAppUri($path=null){
+    public function getAppUri(?string $path=null):?string{
         empty($path) && igk_die("null path not allowed");
         $uri = igk_register_temp_uri(static::class);
         return implode("/", [$uri, $path]);        

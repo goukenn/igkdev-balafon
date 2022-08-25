@@ -695,6 +695,9 @@ abstract class HtmlUtils extends DomNodeBase
                             ]);
                         }
                     } else {
+                        if (igk_is_debug()){
+                            igk_trace();
+                        }
                         igk_die("add <b>{$name}</b> : number of required parameters mismatch. Expected {$v_rp} but " . $v_pcount . " passed");
                     }
                     return $c;

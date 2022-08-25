@@ -7,8 +7,10 @@
 
 namespace IGK\Actions;
 
+use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\RequestException;
 use IGK\System\Http\ResponseHtmlRenderer;
+use IGK\System\Http\WebFileResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\MimeType;
 
@@ -27,23 +29,32 @@ abstract class ProjectDefaultAction extends \IGKActionBase{
      * @return mixed 
      */
     public function assets(){
-
-        $path = implode("/", func_get_args());
-
-
-
-        if ($content = $this->ctrl::asset_content($path)){
-            $response = new WebResponse($content);
-            $mime = igk_getv(igk_header_mime(), igk_io_path_ext($path), "text/plain");
-            $response->headers=[
-                "Content-Type:{$mime}",
-                "Content-Length:".strlen($content)
-            ]; 
-            $response->cache_output(2500);  
-            $response->output();
+        $f = implode("/", array_merge([$this->getController()->getDataDir(), __FUNCTION__],func_get_args()));       
+        // igk_wln_e("domain:::");
+        if (file_exists($f)){
+            $mime = igk_getv(igk_header_mime(), igk_io_path_ext($f), "text/plain");  
+            // igk_wln_e("data ", igk_io_path_ext($f), $mime)  ;        
+            $response = new WebFileResponse($f, $mime);
+            $response->zip = false;
+            $response->cache_output(igk_configs()->assets_cache_output());
+            $response->output(); 
         } 
-        // igk_dev_wln_e(__FILE__.":".__LINE__,  $content );
-        throw new  RequestException(404, "resource not found: $path");
+        throw new PageNotFoundException();            
+         
+        // igk_exit();
+        // $path = implode("/", func_get_args());
+        // if ($content = $this->ctrl::asset_content($path)){
+        //     $response = new WebFileResponse($content);
+        //     $mime = igk_getv(igk_header_mime(), igk_io_path_ext($path), "text/plain");
+        //     $response->headers=[
+        //         "Content-Type:{$mime}",
+        //         "Content-Length:".strlen($content)
+        //     ]; 
+        //     $response->cache_output(2500);  
+        //     $response->zip = false;
+        //     $response->output();
+        // } 
+        // throw new  RequestException(404, "resource not found: $path");
     }
     protected function manifest_json(){
         $dir = $this->ctrl->getDeclaredDir();

@@ -17,7 +17,8 @@ final class IGKObjectStrict{
         return null;
     }
     ///<summary></summary>
-    private function __construct(){    }
+    private function __construct(){
+    }
     ///<summary></summary>
     ///<param name="key"></param>
     public function __get($key){

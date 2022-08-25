@@ -11,6 +11,7 @@
 use function igk_resources_gets as __;
 
 return [
+'noWebConfiguration'=>null,
 'BootStrap.Enabled'=>0,
 'BootStrap.JsEnabled'=>0,
 'JQuery.Enabled'=>"1",

@@ -29,8 +29,10 @@ require_once IGK_LIB_CLASSES_DIR."/IGKAppType.php";
 require_once IGK_LIB_CLASSES_DIR."/IGKObject.php";  
 require_once IGK_LIB_CLASSES_DIR."/IGKApp.php";  
 require_once IGK_LIB_CLASSES_DIR."/IGKEvents.php";    
+require_once IGK_LIB_CLASSES_DIR."/IGKAppConfig.php";    
 require_once IGK_LIB_CLASSES_DIR."/Controllers/RootControllerBase.php";  
 require_once IGK_LIB_CLASSES_DIR."/Controllers/ControllerUriTrait.php";  
 require_once IGK_LIB_CLASSES_DIR."/Controllers/BaseController.php";  
 require_once IGK_LIB_CLASSES_DIR."/Helper/StringUtility.php";  
+require_once IGK_LIB_CLASSES_DIR."/System/IO/Path.php";  
  

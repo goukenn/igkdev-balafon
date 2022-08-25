@@ -2,17 +2,15 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: ResourceNotFoundException.php
 // @date: 20220803 13:48:56
-// @desc: 
-
-
+// @desc: resource not found exception
 
 namespace IGK\System\Exceptions;
 
 use IGKException;
 
-///<summary>ResourceNotFoundException</summary>
+///<summary>resource not found exception</summary>
 /**
-* Represente IGKResourceNotFoundException class
+*  resource not found exception
 */
 class ResourceNotFoundException extends IGKException {
     private $m_file;

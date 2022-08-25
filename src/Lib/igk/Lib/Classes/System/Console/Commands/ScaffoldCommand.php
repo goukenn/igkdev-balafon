@@ -7,23 +7,15 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\App;
-use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-use IGK\System\Installers\InstallSite;
-use IGK\System\IO\File\PHPScriptBuilder;
-use ControllerInitListener;
-use IGK\Helper\IO as IGKIO;
-use \ApplicationController;
-use IGK\Helper\IO;
-use IGK\Helper\StringUtility;
 use IGK\System\Console\Scaffold\ActionScaffold;
 use IGK\System\Exceptions\ArgumentNotValidException;
-use IGK\System\Installers\LaravelMixInstaller;
-use IGKCaches;
-use \IGKControllerManagerObject;
-use IGKEvents;
 
+/**
+ * 
+ * @package IGK\System\Console\Commands
+ */
 class ScaffoldCommand extends AppExecCommand
 {
     var $command = "--scaffold";
@@ -80,6 +72,16 @@ class ScaffoldCommand extends AppExecCommand
             App::gets(App::BLUE_I, "type") 
             . " [options]"
         );
+        Logger::print("\n");
+
+        Logger::print("list of registrated types");
+        
+        Logger::print("\n");
+
+
+        array_map(function($a){
+            Logger::print("\t".$a);
+        }, array_keys(self::$sm_scaffold));
         Logger::print("\n\n");
         $this->showOptions();
     }

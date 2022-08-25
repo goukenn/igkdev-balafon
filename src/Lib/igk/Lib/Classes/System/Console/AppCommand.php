@@ -100,6 +100,9 @@ abstract class AppCommand {
                     }
                 }
             }
+            else {
+                igk_wln_e("file not present ". $file);
+            }
         }
 
         return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 

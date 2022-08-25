@@ -625,7 +625,8 @@ function igk_wln($msg = "")
     // include(IGK_LIB_DIR.'/Inc/igk_trace.pinc');
     //}
     /// BIND TRACE IF - do not include file for speed 
- 
+    // igk_trace();
+
     igk_bind_trace(3);
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
@@ -741,9 +742,9 @@ function igk_log_var_dump($tab, $lf = null)
  * write line to buffer and exit
  */
 function igk_wln_e($msg = "")
-{ 
-    
+{     
     igk_environment()->set('TRACE_LEVEL', 3);
+    // igk_trace();
     call_user_func_array('igk_wln', func_get_args()); 
     igk_exit();
 }
@@ -1007,7 +1008,7 @@ function igk_app()
 }
 /**
  * helper to get configuration
- * @return IGK\System\Configuration\ConfigData
+ * @return \IGK\System\Configuration\ConfigData|\IGK\System\Configuration\ISysConfigurationData
  */
 function igk_configs(){
     return IGKAppConfig::getInstance()->getData();

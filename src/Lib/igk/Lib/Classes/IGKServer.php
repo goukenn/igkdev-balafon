@@ -18,6 +18,8 @@ use IGK\Helper\StringUtility;
 * @property string $DOCUMENT_ROOT server DOCUMENT_ROOT
 * @property string $SCRIPT_FILENAME server SCRIPT_FILENAME
 * @property string $HTTP_HOST server HTTP_HOST
+* @property string $HTTP_IGK_AJX to detect ajx demand
+* @property string $HTTP_IGK_AJX_APP to detect application that request ajx demand
 */
 final class IGKServer{
     private $data;  

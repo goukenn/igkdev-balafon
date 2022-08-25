@@ -120,14 +120,14 @@ Name:balafon.js
 			// }
 		};
 	}
-	(function(){
-	let c = window.navigator.userAgentData;
-		if (typeof(c) != IGK_UNDEF){ 
+	(function () {
+		let c = window.navigator.userAgentData;
+		if (typeof (c) != IGK_UNDEF) {
 			__platform.osType = c.platform;
-			__platform.osAgent = c.brands.map(function(i){
-				return i.brand +"/"+i.version+" ";
+			__platform.osAgent = c.brands.map(function (i) {
+				return i.brand + "/" + i.version + " ";
 			}).join();
-		} else { 
+		} else {
 			// console.debug("OS use old ways ");
 			__platform.osType = "Unknow";
 			__platform.osAgent = navigator.userAgent;
@@ -1370,7 +1370,7 @@ Name:balafon.js
 					msg += s + "; ex:[" + Exception + "]" + space;
 				}
 			}
-			if (element == null){
+			if (element == null) {
 				console.log(msg);
 			}
 			else {
@@ -1448,7 +1448,7 @@ Name:balafon.js
 			return;
 		// TODO: PRELOAD IMAGe Failed on configuration pages
 		function __preload() {
-			var v_timg = node.getElementsByTagName("igk-img"); 
+			var v_timg = node.getElementsByTagName("igk-img");
 			if (!v_timg || (v_timg.length <= 0)) {
 				return;
 			}
@@ -1871,29 +1871,24 @@ Name:balafon.js
 		var node = n || window.igk.getParentScriptByTagName('div');
 		var node = $igk(n || window.igk.getParentScriptByTagName('div'));
 		igk.ready(function () {
-			var q = $igk(".igk-powered-viewer").last();
-			function _update_pos() {
-				if ((q.o.scrollTop > 0) || (q.o.scrollLeft > 0)) {
-					//+ update horizontal bar size + global view size
-					node.setCss({
-						"position": "fixed",
-						"right": (q.o.offsetWidth - q.o.clientWidth) + "px",
-						"bottom": (q.o.offsetHeight - q.o.clientHeight) + "px"
-					});
-				} else {
-					node.setCss({
-						"position": "absolute",
-						"right": "0px",
-						"bottom": "0px"
-					});
-				}
+			var q = $igk(".igk-powered-viewer").last();			
+			function _resizing(){ 	
+				node.setCss({
+					"top": q.hasHCroll() ?  "auto" : "calc(100vh)"
+				});
 			};
+			if (ResizeObserver){				 
+				new ResizeObserver(_resizing).observe(q.o);
+			}  
 			if (q) {
-				q.reg_event("scroll", function () {
-					_update_pos();
+				node.setCss({
+					"position": "sticky",					
+					"bottom": "0px",
+					"top": "calc(100hv)",
+					"left": "calc(100% - 130px)",
+					"width": "130px"
 				});
 				q.add(node);
-				_update_pos();
 			}
 		});
 	};
@@ -2185,7 +2180,7 @@ Name:balafon.js
 					"};"].join(" "));
 			}
 			catch (ex) {
-				_getRes = function () {    
+				_getRes = function () {
 					if (!document.body) {
 						igk.ajx.get(_uri, null, function (xhr) {
 							if (this.isReady()) {
@@ -2223,7 +2218,7 @@ Name:balafon.js
 						_promise.__then();
 					}
 					// igk.winui.events.raise(_sysnode, "resLoaded");
-				}).catch(function (e) {					
+				}).catch(function (e) {
 					console.debug(e);
 					console.error("[BJS] - there is an error : " + e +
 						"\nUri:" + _uri);
@@ -2241,24 +2236,24 @@ Name:balafon.js
 		 * @param {*} t 
 		 * @returns 
 		 */
-		 getLangLocation(_loc, t) {
+		getLangLocation(_loc, t) {
 			if (!_loc) {
 				return null;
 			}
-			if (!t){
+			if (!t) {
 				t = igk.dom.html().getAttribute("lang") || igk.navigator.getLang();
-			}		 
+			}
 			return _loc + '/Lang/res.' + t + '.json';
-		},	 
+		},
 	});
-	if (typeof(igk.resources.lang) == 'undefined'){
-		igk.resources.lang = function(n){
-			if (n in igk.resources.lang ){
+	if (typeof (igk.resources.lang) == 'undefined') {
+		igk.resources.lang = function (n) {
+			if (n in igk.resources.lang) {
 				return igk.resources.lang[n];
 			}
 			return n;
 		};
-		igk_appendProp(igk.resources.lang, {"Hello":"Bonjour"});
+		igk_appendProp(igk.resources.lang, { "Hello": "Bonjour" });
 	}
 	createNS("igk.system.Db", {
 		getIndexedDb: function () {
@@ -2690,11 +2685,11 @@ Name:balafon.js
 	});
 	__nsigk = igk;// igk namespace
 	// window.igk= igk;
-	window.$igk = function (n) { 
-		var m= __igk(n); 
-		if (m==null){ 
-			console.error('found - ['+ n +']');
-		} return m; 
+	window.$igk = function (n) {
+		var m = __igk(n);
+		if (m == null) {
+			console.error('found - [' + n + ']');
+		} return m;
 	};// register function igk function
 	window.$ns_igk = __nsigk;
 	window.ns_igk = __nsigk;
@@ -2703,15 +2698,15 @@ Name:balafon.js
 		/**
 		 * create text node utility
 		 */
-        create(s){ 
-            return igk.dom.loadDocument(s);
-        },
+		create(s) {
+			return igk.dom.loadDocument(s);
+		},
 		/**
 		 * helper to create node
 		 * @param {*} d 
 		 * @returns 
 		 */
-		createNode(d){
+		createNode(d) {
 			return igk.createNode(d);
 		},
 		/**
@@ -2719,23 +2714,23 @@ Name:balafon.js
 		 * @param {*} n 
 		 * @returns 
 		 */
-		isFunction(n){
+		isFunction(n) {
 			return typeof (n) == 'function';
 		},
-		isObject(n){
-			return typeof(n) == 'object';
+		isObject(n) {
+			return typeof (n) == 'object';
 		},
-		isString(n){
-			return typeof(n) == 'string';
+		isString(n) {
+			return typeof (n) == 'string';
 		},
 		/**
 		 * extends global node properties
 		 * @param {e} p 
 		 */
-		extendNodeProperties(p){
+		extendNodeProperties(p) {
 			igk_appendProp(__igk_nodeProperty.prototype, p);
 		}
-    });
+	});
 	// tiny mce require matchMedia. provide a match media
 	if (typeof (matchMedia) == 'undefined') {
 		window.matchMedia = function () {
@@ -2793,7 +2788,7 @@ Name:balafon.js
 					var dummy = igk.createNode("dummy");
 					var c = n.childNodes.length;
 					var i = 0;
-					var m = null;  
+					var m = null;
 					// copy node
 					while (c > 0) {
 						m = n.childNodes[i];
@@ -2824,14 +2819,14 @@ Name:balafon.js
 				// ob.o.type="text/html";
 				// alert(ob.o.type);		
 				igk.dom.body().prepend(ob);
-				ob.reg_event("error", function (evt) {				
+				ob.reg_event("error", function (evt) {
 					if (eCb) {
 						eCb.apply(ob);
 						eCb = null;
-					}  
+					}
 					if (__loaded || (igk.navigator.isFirefox() && igk.navigator.getFirefoxVersion() >= 50)) {
 						return;
-					} 
+					}
 					f.apply(document, [{
 						error: 1,
 						data: evt,
@@ -3428,6 +3423,9 @@ Name:balafon.js
 			var h = this.getComputedStyle("width");
 			return igk.getNumber(h, this.o, "width");
 		},
+		hasHCroll(){
+			return (this.o.scrollTopMax || (this.o.scrollHeight - this.o.offsetHeight ))>0;
+		},
 		setCssAssert: function (c, p)// conditional css property
 		{
 			if (c) {
@@ -3606,7 +3604,7 @@ Name:balafon.js
 			return this;
 		},
 		// class
-		addClass(classname) { 
+		addClass(classname) {
 			function __appendClass(t, tab) {
 				var ch = 0;
 				var s = "";
@@ -3618,14 +3616,14 @@ Name:balafon.js
 					console.error("object.className is not a string (probably svg case) : " + t.o.className);
 					return ch;
 				}
-				var ucl = typeof(t.o.classList)!='undefined';
+				var ucl = typeof (t.o.classList) != 'undefined';
 				for (var i = 0; i < tab.length; i++) {
 					k = igk.system.string.trim(tab[i]);
-					if (st[k]) {
+					if ((k.length == 0) || st[k]) {
 						continue;
 					}
 					st[k] = 1;
-					if (ucl){
+					if (ucl) {
 						t.o.classList.add(k);
 						continue;
 					}
@@ -3650,8 +3648,8 @@ Name:balafon.js
 				var ch = 0;
 				var s = "";
 				var ucl = t.o.classList;
-				if (ucl){
-					tab.map( function(i){ ucl.remove(i); });
+				if (ucl) {
+					tab.map(function (i) { ucl.remove(i); });
 					return 1;
 				}
 				for (var i = 0; i < g.length; i++) {
@@ -3662,7 +3660,7 @@ Name:balafon.js
 							s += " ";
 						s += g[i];
 					}
-				} 
+				}
 				t.o.className = s;
 				return ch;
 			};
@@ -3691,10 +3689,10 @@ Name:balafon.js
 							classname[i]) {
 							tab.push(s);
 						} else {
-							rm.push(s);								
+							rm.push(s);
 						}
 					}
-					ch = __appendClass(this, tab) || __rmClass(this, rm);  
+					ch = __appendClass(this, tab) || __rmClass(this, rm);
 				}
 				if (ch) {
 					igk.publisher.publish("sys://dom/classchanged", { target: this, className: classname });
@@ -3718,7 +3716,7 @@ Name:balafon.js
 					var cur = this.o.className.split(" ");
 					var rms = "";
 					var index = 0;
-					var s = ""; 
+					var s = "";
 					if (cur) {
 						for (var i = 0; i < tab.length; i++) {
 							s = tab[i];
@@ -3809,7 +3807,7 @@ Name:balafon.js
 			if (this.isSr()) {
 				return !1;
 			}
-			if (this.o.classList){
+			if (this.o.classList) {
 				return this.o.classList.contains(classname);
 			}
 			var cl = this.o.className;
@@ -4309,7 +4307,7 @@ Name:balafon.js
 				igk.css.setTransitionDuration(this, time);
 			return this;
 		}
-		, replaceWith(t){
+		, replaceWith(t) {
 			// t:target node or text
 			// desc: replace content of the current nodes list by t. t 
 			if (this.o.each) {
@@ -4374,9 +4372,10 @@ Name:balafon.js
 			if (this.o.each) {
 				this.o.each(this.text, arguments);
 			} else {
-				if ("textContent" in this.o)
-					return this.o.textContent;
-				return ("data" in this.o) ? this.o.data : null
+				return this.o.textContent || this.o.text || this.o.innerText;
+				// if ("textContent" in this.o)
+				// 	return this.o.textContent;
+				// return ("data" in this.o) ? this.o.data : null
 			}
 		}
 		, setHtml: function (v, evalScript) {// set innerHTML  @v:text context ,@eval:bool true to evaluate . default is false
@@ -5725,9 +5724,11 @@ Name:balafon.js
 			};
 		}
 	});
-	igk_defineProperty(igk, "platform", {get(){
-		return __platform;
-	}});
+	igk_defineProperty(igk, "platform", {
+		get() {
+			return __platform;
+		}
+	});
 	createNS("igk.uri", {
 		getQueryArg: function (q) { // retrieve query argument from the query uri q
 			return new (function () {
@@ -5959,12 +5960,12 @@ Name:balafon.js
 		},
 		checkupdate: function (uri) {
 			var q = $igk(igk.getParentScript());
-			(function () { 
+			(function () {
 				igk.io.file.load(uri, {
-					error(){ 
+					error() {
 						q.remove();
 					},
-					complete(){
+					complete() {
 						var w = $igk("#dialog.error").first();
 						if (w) {
 							var m = w.select(".msg").first().clone();
@@ -5974,7 +5975,7 @@ Name:balafon.js
 						}
 						q.remove();
 					}
-				});		
+				});
 			})();
 		},
 		update: function (u) {
@@ -7072,6 +7073,7 @@ Name:balafon.js
 			if (exdays)
 				exdate.setDate(exdate.getDate() + exdays);
 			var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+			c_value += "; SameSite=Strict";
 			document.cookie = name + "=" + c_value;
 		},
 		getcookies: function (name) {
@@ -7746,7 +7748,7 @@ Name:balafon.js
 			var _m = m_module_info;
 			return _m.dir + f;
 		},
-		getModuleLocation: function () { 
+		getModuleLocation: function () {
 			return m_module_info ? m_module_info.dir : null;
 		},
 		getModule: igk_getModule
@@ -8133,7 +8135,7 @@ Name:balafon.js
 				for (var i = 0; i < x; i++) {
 					if (item.childNodes[i]) {
 						c += $igk(item.childNodes[i]).getOuterHtml();
-					} 
+					}
 				}
 			}
 			return c;
@@ -9293,7 +9295,7 @@ Name:balafon.js
 								}
 							});
 						m_eventContext.reg_event(this.target, "mouseup", function (evt) { self.dragstart = false; });
-					} 
+					}
 					return self;
 				};
 				return new __construct(target, box);
@@ -9472,10 +9474,11 @@ Name:balafon.js
 				} else
 					m_rg += n;
 				m_rcg = null;
-				return {
-					init: function () {
-					}
-				};
+				// + Remove init function 
+				// return {
+				// 	init: function () {
+				// 	}
+				// };
 			}
 		});
 		function igk_init_node_class_obj() {
@@ -9794,7 +9797,7 @@ Name:balafon.js
 							});
 						} else {
 							// refresh location
-							_wnd.location = u; 
+							_wnd.location = u;
 						}
 					} catch (ex) {
 						console.debug("[igk.winui.print] - can't register load event  - " + ex);
@@ -10450,7 +10453,7 @@ Name:balafon.js
 		}
 		igk.ready(function () {
 			igk.dom.body().addClass("xbox" + (XBoxOne ? 'one' : ''));
-		}); 
+		});
 	}
 	igk_appendProp(_nav,
 		{	// static function
@@ -10462,9 +10465,9 @@ Name:balafon.js
 			getProperty(n) {
 				return m_navprop[n] || false;
 			},
-			isXBoxOne(){ return XBoxOne; },
-			isXBox360(){ return XBox360; },
-			isFirefox(){
+			isXBoxOne() { return XBoxOne; },
+			isXBox360() { return XBox360; },
+			isFirefox() {
 				return igk.platform.osAgent.indexOf("Firefox/") != -1;
 			},
 			getFirefoxVersion() {
@@ -10501,7 +10504,7 @@ Name:balafon.js
 				console.debug("IsSafari: " + _nav.isSafari());
 				console.debug("IsEdge: " + _nav.isIEEdge());
 			},
-			isSecure(){
+			isSecure() {
 				// get if this navigator is secure
 				return document.location.protocol == "https:";
 			},
@@ -10515,13 +10518,13 @@ Name:balafon.js
 			},
 			chromeVersion() {
 				if (igk.navigator.isChrome()) {
-					var i = igk.platform.osAgent .indexOf("Chrome/");
-					return (igk.platform.osAgent  + "").substring(i + 7).split(' ')[0];
+					var i = igk.platform.osAgent.indexOf("Chrome/");
+					return (igk.platform.osAgent + "").substring(i + 7).split(' ')[0];
 				}
 				return 0;
 			},
 			isIE() {
-				var ua = igk.platform.osAgent  + '';
+				var ua = igk.platform.osAgent + '';
 				if ((ua.indexOf("MSIE") != -1) || ua.indexOf("Trident/") != -1) // for ie 11
 				{
 					return !0;
@@ -10529,13 +10532,13 @@ Name:balafon.js
 				return !1;
 			},
 			isIEEdge() {
-				var ua =igk.platform.osAgent  + '';
+				var ua = igk.platform.osAgent + '';
 				if (ua.indexOf("Edge/") != -1)
 					return !0;
 				return !1;// igk.navigator.isIE() &&(igk.navigator.IEVersion()>=11);
 			},
 			getEEdgeVersion() {
-				var i = igk.platform.osAgent .indexOf("Edge/");
+				var i = igk.platform.osAgent.indexOf("Edge/");
 				if (i != -1)
 					return /Edge\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
 				return -1;
@@ -10543,7 +10546,7 @@ Name:balafon.js
 			IEVersion() {
 				if (!igk.navigator.isIE())
 					return -1;
-				var ua = igk.platform.osAgent  + '';
+				var ua = igk.platform.osAgent + '';
 				var i = ua.indexOf("MSIE");
 				if (i != -1) {
 					return ua.substring(i).split(';')[0].split(' ')[1];
@@ -10558,7 +10561,7 @@ Name:balafon.js
 			},
 			isAndroid() {
 				// window.navigator.userAgent 
-				var v = ( igk.platform.osAgent + "").toLowerCase().indexOf("android");
+				var v = (igk.platform.osAgent + "").toLowerCase().indexOf("android");
 				if (v != -1) {
 					return !0;
 				}
@@ -10578,14 +10581,14 @@ Name:balafon.js
 			SafariVersion: function () {
 				var i = igk.platform.osAgent.indexOf("Safari/");
 				if (i != -1) {
-					return (igk.platform.osAgent  + "").substring(i + 7).split(' ')[0];
+					return (igk.platform.osAgent + "").substring(i + 7).split(' ')[0];
 				}
 				return 0;
 			},
 			FFVersion: function () {
-				var i = igk.platform.osAgent .indexOf("Firefox/");
+				var i = igk.platform.osAgent.indexOf("Firefox/");
 				if (i != -1) {
-					return (igk.platform.osAgent  + "").substring(i + 8).split(' ')[0];
+					return (igk.platform.osAgent + "").substring(i + 8).split(' ')[0];
 				}
 				return 0;
 			},
@@ -11455,11 +11458,11 @@ Name:balafon.js
 									__bindbalafonjs.apply(this);
 								}
 								else {
-									if (_t in __scriptsEval){
+									if (_t in __scriptsEval) {
 										var fc = __scriptsEval[_t];
 										fc.apply(this);
-									}else{ 
-									// + | eval  script 
+									} else {
+										// + | eval  script 
 										igk_eval(this.getHtml(), this.o, this.o);
 									}
 								}
@@ -11750,7 +11753,7 @@ Name:balafon.js
 				 * @param {*} extradata 
 				 * @returns 
 				 */
-				send(uri, method, param, func, async, savestate, extradata) {					
+				send(uri, method, param, func, async, savestate, extradata) {
 					if (typeof (async) == igk.constants.undef)
 						async = !0;
 					var contentType = null;
@@ -12035,12 +12038,12 @@ Name:balafon.js
 					// xhr.setRequestHeader("Content-Type","multipart/form-data");
 					// xhr.setRequestHeader("Content-Type","multipart/form-data;charset=utf-8; boundary=" + Math.random().toString().substr(2));
 					// for security reason need to pass Content-Type with proper content-type
-					var type = file.type ;
+					var type = file.type;
 					// if (!type){
 					type = "application/octet-stream";
 					// }
-					xhr.setRequestHeader("Content-Type", 
-					type +"; charset=utf-8; boundary=" + Math.random().toString().substr(2));
+					xhr.setRequestHeader("Content-Type",
+						type + "; charset=utf-8; boundary=" + Math.random().toString().substr(2));
 					//"Content-type","multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2));
 					var r = file;
 					var filer = false;
@@ -12186,7 +12189,7 @@ Name:balafon.js
 					i.setHtml(t);
 					if (node && node.parentNode) {
 						// load childs						 
-						var pt = $igk(node.parentNode);  
+						var pt = $igk(node.parentNode);
 						var _ini = [];
 						var _c = (node.previousSibling == null) ? pt.o.firstChild : node;
 						// + | chain node
@@ -12199,13 +12202,13 @@ Name:balafon.js
 						while (i.o.firstChild) {
 							_ini.push(i.o.firstChild);
 							pt.o.insertBefore(i.o.firstChild, _c);
-						}				
+						}
 						// + | remove node
 						$igk(node).remove();
 						for (var i = 0; i < _ini.length; i++) {
 							if (_ini[i].nodeType == 1)
 								igk.ajx.fn.initnode(_ini[i]); // .push(i.o.lastChild)
-						} 
+						}
 					}
 				}
 				, appendResponseTo: function (q) {
@@ -12280,7 +12283,7 @@ Name:balafon.js
 		/**
 		 * global current host to replace. tab 
 		 */
-		var m_ajx_host = null; 
+		var m_ajx_host = null;
 		// var _rootDepth=0;// count init node
 		// 
 		// uitilies ajx function
@@ -12654,10 +12657,10 @@ Name:balafon.js
 				}
 				_initnode(c);
 			},
-			setHost(h){
-				if(typeof(h)=='string'){
+			setHost(h) {
+				if (typeof (h) == 'string') {
 					m_ajx_host = igk.dom.body().qselect(h);
-				}else {
+				} else {
 					m_ajx_host = h;
 				}
 			}
@@ -14104,7 +14107,7 @@ Name:balafon.js
 				}
 			},
 			showMsg: function (msg, type, nc, settings) {
-		
+
 				// msg : content message
 				// type : of the content notification
 				// nc: close button
@@ -14158,7 +14161,7 @@ Name:balafon.js
 					div.appendChild(close);
 				}
 				// select all and close for cancel button
-				div.qselect("input[type='button'][data-type='cancel']").each_all(function(){
+				div.qselect("input[type='button'][data-type='cancel']").each_all(function () {
 					this.on("click", _g_close_notify);
 				});
 				function _g_close_notify() {
@@ -14352,6 +14355,25 @@ Name:balafon.js
 							igk.winui.notify.showMsBox(t, m, q.o.className);
 					});
 				}
+			},
+			/**
+			 * notify dialog
+			 * @param {*} t target
+			 * @param string defStyle extra def classes
+			 */
+			showDialog(t, defStyle, type) {
+				let m = $igk(t).first();
+				if (!m) {
+					return;
+				}
+				defStyle = defStyle || "";
+				type = type || "";
+
+				let q = igk.createNode("div")
+					.addClass("igk-notify " + defStyle)
+					.setHtml(m.o.outerHTML);
+				$igk(q.o.firstChild).toggleClass("dispn");
+				igk.winui.notify.showMsg(q.o.outerHTML, type);
 			}
 		});
 	})();
@@ -14588,7 +14610,7 @@ Name:balafon.js
 		var _res = {};
 		function init_res(_res, loc) {
 			igk.appendProperties(_res, {
-				getLang(){
+				getLang() {
 					var s = igk.navigator.getLang().split(',')[0];
 					for (var i in m_lang) {
 						if (igk.system.array.isContain(m_lang[i], s))
@@ -14690,8 +14712,8 @@ Name:balafon.js
 			var dir = igk.system.io.getlocationdir(igk.getScriptLocation());
 			if (!dir)
 				return;
-			var loc = igk.resources.getLangLocation(dir, _lang);  			
-			if (igk.resources.lang[_lang]){
+			var loc = igk.resources.getLangLocation(dir, _lang);
+			if (igk.resources.lang[_lang]) {
 				init_res(igk.resources.lang[_lang], loc);
 				return;
 			}
@@ -14884,14 +14906,14 @@ Name:balafon.js
 		});
 	});
 	// manage component
-	(function(){
+	(function () {
 		var j = 0; // count number of component
-		__scriptsEval['text/balafon-component'] = function(){
+		__scriptsEval['text/balafon-component'] = function () {
 			var p = $igk(this.o.parentNode);
 			var src = '"use strict"; (function(){' + this.o.innerHTML + '}).apply(this);';
 			p.component = new Object();
 			(new Function(src)).apply(p.component);
-			this.remove(); 
+			this.remove();
 			j++;
 		};
 		// + -------------------------------------------------------------------------------
@@ -14900,29 +14922,29 @@ Name:balafon.js
 		igk.ready(function () {
 			var _initComponent = __scriptsEval['text/balafon-component'];
 			igk.dom.body().qselect("script[type='text/balafon-component']").each_all(function () {
-				_initComponent.apply(this);  
+				_initComponent.apply(this);
 			});
 		});
 	})();
 	igk.appendProperties(igk, {
-			/**
-			 * get node component
-			 * @param {*} n dom node
-			 * @returns node component
-			 */ 
-			component(n){
-				return igk.retrieveProperty(n, 'component');
+		/**
+		 * get node component
+		 * @param {*} n dom node
+		 * @returns node component
+		 */
+		component(n) {
+			return igk.retrieveProperty(n, 'component');
 		},
 		/**
 		 * retrieve chain properties
 		 */
-		retrieveProperty(n, name){
-			var g = $igk(n); 
-			while(g!=null){ 
-				if (name in g){
+		retrieveProperty(n, name) {
+			var g = $igk(n);
+			while (g != null) {
+				if (name in g) {
 					return g[name];
 				}
-				if ((g.o.parentNode==null) || (typeof(g.o.parentNode) == 'undefined')){
+				if ((g.o.parentNode == null) || (typeof (g.o.parentNode) == 'undefined')) {
 					break;
 				}
 				g = $igk(g.o.parentNode);
@@ -15264,7 +15286,7 @@ function animationProperty(q, s) {
 				else {
 					q.setCss({ transition: 'all ' + rmduration + ' ' + effect })
 						.setCss(store)
-						.timeOut(0, ()=>{});
+						.timeOut(0, () => { });
 				}
 			}
 			else {
@@ -15329,7 +15351,7 @@ igk.ctrl.bindAttribManager("igk-js-anim-msover", function () {
 			else {
 				q.setCss({ transition: 'all ' + rmduration + ' ' + effect })
 					.setCss(store)
-					.timeOut(0, ()=>{
+					.timeOut(0, () => {
 					});
 			}
 		}
@@ -15549,7 +15571,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 				if (!((e.i == item) && (e.func == func))) {
 					cp.push(e);
 					c = !0;
-				} 
+				}
 			}
 			if (c)
 				m_eventDatas[n] = cp;
@@ -15687,7 +15709,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			}
 		});
 	})("doubleTouchOrClick");
-	(function(PN){
+	(function (PN) {
 		igk.winui.registerEventHandler(PN, {
 			reg_event: function (item, func, useCapture, single) {
 				var _dc = 0;
@@ -15704,12 +15726,12 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 					}
 				};
 				c.index = m_eventDatas[c.n] ? m_eventDatas[c.n].length : 0;
-				_regEventData(c.n, c);	
-				if (MutationObserver){
+				_regEventData(c.n, c);
+				if (MutationObserver) {
 					var ob = new MutationObserver(c.bind);
-					ob.observe(item, {childList:true, subtree:true});  
-					c.observer = ob;      
-				} else{
+					ob.observe(item, { childList: true, subtree: true });
+					c.observer = ob;
+				} else {
 					item.addEventListener("DOMNodeInserted", c.bind, useCapture);
 					item.addEventListener("DOMNodeRemoved", c.bind, useCapture);
 				}
@@ -15717,7 +15739,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			unreg_event: function (item, func) {
 				var n = PN;
 				var c = _getEventData(n, item, func);
-				if (c.observer){
+				if (c.observer) {
 					c.observer.disconnect();
 					_unregEventData(c.n, item, func);
 					console.debug("disconnect");
@@ -16232,7 +16254,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 					var c = self.raiseEvent("igkFormBeforeSubmit", null, function (e) {
 						cancel = e.defaultPrevented;
 					});
-					if (evt.defaultPrevented){
+					if (evt.defaultPrevented) {
 						cancel = true;
 					} else {
 						evt.preventDefault();
@@ -16428,7 +16450,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 (function () {
 	var _attribs = {};
 	igk.ctrl.registerAttribManager("igk:oninit", {
-		"desc":"on init register"
+		"desc": "on init register"
 	});
 	igk.ctrl.bindAttribManager("igk:oninit", function (m, v) {
 		// alert("bind attrib management: "+v);
@@ -16758,7 +16780,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 			},
 			init_confirm_frame: function (p, uri, ajxcontext) {
 				var frm = igk.getParentByTagName(p, 'form');
-				if (!frm){
+				if (!frm) {
 					console.debug($igk(p).getParentByTagName('form'));
 					console.debug(p);
 					console.error("parent form not found");
@@ -16820,7 +16842,6 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 								}
 							}
 							else {
-								// this.replaceBody(xhr.responseText);	 
 								igk.ajx.fn.replace_or_append_to_body.apply(this, [xhr]);
 							}
 						}
@@ -17037,16 +17058,18 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 (function () {
 	var m_xhr = null;
 	// host for reponse in case no tag setup
-	var m_host=null;
+	var m_host = null;
 	var _NS = igk.system.createNS("igk.winui.ajx.lnk", {
 		getLink: function () { return m_xhr.source; },// expose link for evaluation
-		getXhr: function () { return m_xhr; }		
+		getXhr: function () { return m_xhr; }
 	});
-	igk.defineProperty(_NS, "host", {get(){
-		return m_host;
-	}, set(v){
-		m_host = v;
-	}});
+	igk.defineProperty(_NS, "host", {
+		get() {
+			return m_host;
+		}, set(v) {
+			m_host = v;
+		}
+	});
 	igk.ctrl.registerAttribManager("igk-ajx-lnk", { ns: "ajx", desc: "Ajax link. used in combination with 'igk-ajx-lnk-tg' properties. " });
 	igk.ctrl.bindAttribManager("igk-ajx-lnk", function (n, m) {
 		if (!m)
@@ -17091,7 +17114,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 						fc = igk.ajx.fn.replace_content(r.o);
 					} else {
 						fc = igk.ajx.fn.replace_node(r.o);
-					}					
+					}
 				}
 				if (opxhr != null) {
 					opxhr.abort();
@@ -17345,9 +17368,10 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 (function () {
 	igk.winui.initClassControl("igk-parentscroll", function () {
 		var q = this;
-		q.reg_event("scroll", function (evt) {
-			igk.publisher.publish("sys://html/doc/scroll", { target: this, args: evt });
-		});
+		// TASK: remove scroll parent 
+		// q.reg_event("scroll", function (evt) {
+		// 	igk.publisher.publish("sys://html/doc/scroll", { target: this, args: evt });
+		// });
 	});
 })();
 //----------------------------------------------------
@@ -17454,9 +17478,9 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function (n, v) {
 	//create a class
 	function _autofix_manager() { };
 	//add method to class using prototype
-	_autofix_manager.prototype.check = function(){ 
+	_autofix_manager.prototype.check = function () {
 		var c = this.p;
-		var offset = this.o.offset || 0; 
+		var offset = this.o.offset || 0;
 		if (c.o.scrollTop > offset) {
 			// console.debug("bind ... make it fixed");
 			c.addClass("igk-js-autofix-host");
@@ -17750,35 +17774,35 @@ igk.ready(function () {
 		// return;
 		// clear node
 		q.setHtml("");
-		q.getSource = function(){
+		q.getSource = function () {
 			return s;
 		};
-		let copyable  = q.getAttribute("igk-copyable");
-		if (copyable){
+		let copyable = q.getAttribute("igk-copyable");
+		if (copyable) {
 			let block = q.add("div");
 			block.addClass("igk-copyable posab igk-svg-host svg-fill")
-			.setCss({
-				zIndex:100,
-				position:'absolute',
-				display:'block',
-				width: '32px',
-				maxWidth : '32px',
-				overflow:'hidden',
-				top: '0px',
-				right: '0px',
-				background: 'rgb(255 255 255 / 0.9)',
-				padding: '4px',
-				borderBottomLeftRadius:'5px',
-				cursor:'pointer',
-			})
-			.on("click", function(){ 
-				igk.ClipBoard.writeText(s);
-			})			
-			.add(igk.svg.useSvg('copy-outline'));
+				.setCss({
+					zIndex: 100,
+					position: 'absolute',
+					display: 'block',
+					width: '32px',
+					maxWidth: '32px',
+					overflow: 'hidden',
+					top: '0px',
+					right: '0px',
+					background: 'rgb(255 255 255 / 0.9)',
+					padding: '4px',
+					borderBottomLeftRadius: '5px',
+					cursor: 'pointer',
+				})
+				.on("click", function () {
+					igk.ClipBoard.writeText(s);
+				})
+				.add(igk.svg.useSvg('copy-outline'));
 
 
-			q.on('scroll', function(e){
-				let r =  '-'+(q.o.scrollLeft)+'px';
+			q.on('scroll', function (e) {
+				let r = '-' + (q.o.scrollLeft) + 'px';
 				block.o.style.right = r;
 			});
 		}
@@ -17861,12 +17885,12 @@ igk.ready(function () {
 		}
 		return w + p;
 	};
-	function _readPhpOperator(ch){
-		const op = ["||","|","&&","&",".","->","-", "/","+", "*", "^", "~","%", "()", "[]", "(",")","[","]","{","}"];
+	function _readPhpOperator(ch) {
+		const op = ["||", "|", "&&", "&", ".", "->", "-", "/", "+", "*", "^", "~", "%", "()", "[]", "(", ")", "[", "]", "{", "}"];
 		let c = "";
-		while(inf.pos < inf.ln){
+		while (inf.pos < inf.ln) {
 			c = inf.s[inf.pos];
-			if (op.indexOf(ch+c)==-1){
+			if (op.indexOf(ch + c) == -1) {
 				return ch;
 			}
 			ch += c;
@@ -17899,9 +17923,9 @@ igk.ready(function () {
 					inf.read = 1;
 					inf.s = s;
 					var sp = igk.createNode("span");
-					var ch = ""; 
+					var ch = "";
 					while (inf.read && (inf.ln > inf.pos)) {
-						ch = s[inf.pos]; 
+						ch = s[inf.pos];
 						switch (ch) {
 							case ' ':
 								sp.add("span").setHtml("&nbsp;");
@@ -17923,7 +17947,7 @@ igk.ready(function () {
 								inf.mode = 1;// string
 								inf.pos++;
 								w = _readStringLitteral(ch);
-								inf.mode = 0; 
+								inf.mode = 0;
 								sp.add('span').addClass("litteral").setHtml(w);
 								break;
 							case '/':// for comment
@@ -17944,10 +17968,10 @@ igk.ready(function () {
 							case '$':// read var
 								inf.pos++;
 								w = _readWord();
-								if (w.length>0){
+								if (w.length > 0) {
 									sp.add("span").addClass("v r").setHtml("$" + w);
-								}else{
-									sp.add("span").setHtml(ch); 
+								} else {
+									sp.add("span").setHtml(ch);
 								}
 								inf.pos--;
 								// inf.read = 0;
@@ -18286,12 +18310,12 @@ igk.ready(function () {
 		}
 	}
 	igk.system.createNS("igk.css", {
-		changeDocumentTheme(n){
+		changeDocumentTheme(n) {
 			var d = document.getElementsByTagName('html')[0];
-			if (typeof (n) == 'undefined'){
+			if (typeof (n) == 'undefined') {
 				// toggle theme
-				n='dark';
-				if (d.getAttribute('data-theme')==n){
+				n = 'dark';
+				if (d.getAttribute('data-theme') == n) {
 					n = 'light';
 				}
 			}
@@ -18371,7 +18395,7 @@ igk.ready(function () {
 		},
 		toggleClass(i, p) { // toggle class
 			var q = $igk(i).first();
-			if (q) {				
+			if (q) {
 				q.toggleClass(p);
 				console.log(q.o.className);
 			}
@@ -18590,7 +18614,7 @@ igk.ready(function () {
 				}
 			}
 		},
-		getProperties(){ 
+		getProperties() {
 			/**
 			 * return css properties to check
 			 */
@@ -19116,7 +19140,7 @@ igk.ready(
 				$igk(evt.target).unreg_event("scroll", __fcScroll);
 			}
 			console.debug("" + tab.length);
-		} 
+		}
 		igk.dom.body().select("igk-img-js").each(function () {
 			var p = this.o.offsetParent;
 			if (p != null) {
@@ -19144,7 +19168,7 @@ igk.ready(
 	function __fcScroll(q) {
 		if (q.loaded || q.loading || !q.getisVisible())
 			return !1;
-		q.loading = !0; 
+		q.loading = !0;
 		igk.ajx.get(q.getAttribute('data'), null, function (xhr) {
 			if (this.isReady()) {
 				q.loaded = !0;
@@ -19152,7 +19176,7 @@ igk.ready(
 				q.unreg_event("scroll", __load);
 				let p = q.data.scrollP;
 				let r = q.o.previousSibling;
-				this.replaceResponseNode(q.o);				
+				this.replaceResponseNode(q.o);
 			}
 		});
 		return !0;
@@ -19165,7 +19189,7 @@ igk.ready(
 			d.unreg_event("scroll", __load);
 			d.data[k] = null;
 			return;
-		} 
+		}
 		for (var i = 0; i < h.length; i++) {
 			if (__fcScroll(h[i])) {
 				h.splice(i, 1);
@@ -19182,11 +19206,11 @@ igk.ready(
 			return !0;
 		});
 	}
-	function __init_tag(t) { 
+	function __init_tag(t) {
 		if (t.data["igk-scroll-loader"])
-			return; 
+			return;
 		let p = t.select("^.igk-scroll-loader_container").first() || t.getscrollParent().o;
-		var sk = "igk-scroll-loader.parentScroll"; 
+		var sk = "igk-scroll-loader.parentScroll";
 		if (p != null) {
 			var q = $igk(p);
 			if (!q.data[sk]) {
@@ -19197,11 +19221,11 @@ igk.ready(
 			var h = q.data["igk-scroll-loader.items"];
 			h.push(t);
 			t.data["igk-scroll-loader"] = 1;
-			t.data.scrollP = p; 
+			t.data.scrollP = p;
 			if (t.getisVisible()) {
 				__fcScroll(t);
 			}
-		} 
+		}
 		// else {
 		// 	console.debug("no scrolling ");
 		// }
@@ -19210,7 +19234,7 @@ igk.ready(
 	igk.reg_tag_component("igk-scroll-loader",
 		{
 			desc: "scroll loader",
-			func: function () { 
+			func: function () {
 				__init_tag($igk(this));
 			}
 		});
@@ -19952,7 +19976,7 @@ igk.system.createNS("igk.system", {
 		}
 	});
 	igk.ctrl.registerAttribManager("igk-balafonjs", {
-		"desc":"inline script to be evaluate."
+		"desc": "inline script to be evaluate."
 	});
 	// node compopent with balafonjs js javascript
 	igk.ctrl.bindAttribManager("igk-balafonjs", function (m, v) {
@@ -20126,13 +20150,13 @@ igk.system.createNS("igk.system", {
 			 * @param {*} i sibling
 			 * @param {*} c callback
 			 */
-			 loadBeforeReverse(n, i, c){
-				let _c = $igk(n); 
+			loadBeforeReverse(n, i, c) {
+				let _c = $igk(n);
 				i = $igk(i);
 				while (i.o.lastChild) {
 					if (c) c(i.lastChild);
 					_c.o.parentNode.insertBefore(i.o.lastChild, _c.o);
-				}										 		
+				}
 			},
 			/**
 			 * load node's content in order
@@ -20140,8 +20164,8 @@ igk.system.createNS("igk.system", {
 			 * @param {*} i sibling
 			 * @param {*} c callback
 			 */
-			 loadBefore(n,i,c){
-				let _c = $igk(n);  
+			loadBefore(n, i, c) {
+				let _c = $igk(n);
 				i = $igk(i);
 				while (i.o.firstChild) {
 					if (c) c(i.o.firstChild);
@@ -20153,7 +20177,7 @@ igk.system.createNS("igk.system", {
 				// replace all script
 				// text = txt.replace(/<script/
 				var c = new igk.dom.reader(txt);
-				var root = null, i =null, cnode = null; 
+				var root = null, i = null, cnode = null;
 				var ns = p.getNS();
 				var stop = 1;
 				while (stop && c.read()) {
@@ -20206,7 +20230,7 @@ igk.system.createNS("igk.system", {
 						default:
 							console.debug("element ignored " + c.type);
 							break;
-					} 
+					}
 				}
 				return root;
 			}
@@ -20305,8 +20329,8 @@ igk.system.createNS("igk.system", {
 						}
 						// var v=0;
 						var v_r = 1,
-						v_enter = 0,
-						v_ch = 0, v_temp;
+							v_enter = 0,
+							v_ch = 0, v_temp;
 						// var v_tmp="";
 						while (__canRead()) {
 							v_r = 0;
@@ -20600,10 +20624,10 @@ igk.system.createNS("igk.system", {
 		 * @param {} n 
 		 * @returns 
 		 */
-		useSvg(n){
+		useSvg(n) {
 			let d = $igk.createNode('div');
 			d.addClass("igk-svg-lst-i");
-			d.setAttribute("igk:svg-name", n); 
+			d.setAttribute("igk:svg-name", n);
 			return d;
 		},
 		loadSymbols: __loadSymbols,
@@ -21218,7 +21242,7 @@ igk.system.createNS("igk.system", {
 		var u = this.getAttribute("igk:href");
 		var a = this.getAttribute("igk:append");
 		var self = this;
-		if (u) {			 
+		if (u) {
 			var q = $igk(this.o.parentNode);
 			var ta = q.select(a).first();
 			igk.ajx.get(u, null, function (xhr) {
@@ -22135,10 +22159,10 @@ igk.system.createNS("igk.system", {
 // +| igk-svg-lst-i: svg list item
 //---------------------------------------------------------------------------
 (function () {
-	var m_item = {};  
+	var m_item = {};
 	// svg list view item 
 	function __init_svg_i() {
-		var n = this.getAttribute("igk:svg-name"); 
+		var n = this.getAttribute("igk:svg-name");
 		if (m_item[n]) {
 			this.rmClass("igk-svg-lst-i");
 			// replace 
@@ -22146,12 +22170,12 @@ igk.system.createNS("igk.system", {
 			var p = this.o.parentNode;
 			$igk(p).addClass("igk-svg-host");
 			// +| use set attribute to change class name
-			g.o.setAttribute("class", this.o.className); 
+			g.o.setAttribute("class", this.o.className);
 			p.replaceChild(g.o, this.o);
-			if (p.getAttribute("title")){
+			if (p.getAttribute("title")) {
 				$igk(p).qselect("svg > title").remove();
 				// console.debug("remove title "+p.getAttribute('title'));
-			} 
+			}
 		} else {
 			console.debug("item not found :" + n);
 		}
@@ -22165,7 +22189,7 @@ igk.system.createNS("igk.system", {
 		this.remove();
 	};
 	// svg list init svg list
-	function __init_svg_l() { 
+	function __init_svg_l() {
 		igk.dom.body().select(".igk-svg-lst").each_all(__initlist);
 		// var s = igk.dom.body().add("style");
 		// s.o["type"]="text/css";
@@ -22174,7 +22198,7 @@ igk.system.createNS("igk.system", {
 		// s.remove();
 	}
 	igk.ready(__init_svg_l);
-	igk.winui.initClassControl("igk-svg-lst", function () {		 
+	igk.winui.initClassControl("igk-svg-lst", function () {
 		__initlist.apply(this);
 	});
 	igk.ajx.fn.initBeforeReady(function () {
@@ -22329,14 +22353,14 @@ igk.system.createNS("igk.system", {
 		var attrs = 0;
 		tab.push({ n: n, p: q, l: 0 });
 		while ((s = tab.pop())) {
-			if (s.e) { 
+			if (s.e) {
 				m = igk.createNode("div").addClass("l");
 				m.add("span").addClass("sm").setHtml("&lt;");
 				m.add("span").addClass("tag").setHtml(s.n.tagName.toLowerCase());
 				m.add("span").addClass("sm").setHtml("/&gt;");
 				s.p.add(m);
-				continue; 
-			} 
+				continue;
+			}
 			switch (s.n.nodeType) {
 				case 1:
 					if (s.n.tagName) {
@@ -22349,7 +22373,7 @@ igk.system.createNS("igk.system", {
 								var la = m.add("span").addClass("attr");
 								let vattr = attrs[ai].value;
 								la.add("span").addClass("n").setHtml(attrs[ai].name);
-								if (vattr.length>0){
+								if (vattr.length > 0) {
 									la.add("span").addClass("sm").setHtml("=");
 									la.add("span").addClass("v").setHtml("\"" + attrs[ai].value + "\"");
 								}
@@ -22363,11 +22387,11 @@ igk.system.createNS("igk.system", {
 						s.p.add(m);
 					}
 					var tb = s.n.childNodes;
-					if (tb.length == 0){
-						if (s.n.content.childNodes.length>0){
+					if (tb.length == 0) {
+						if (s.n.content.childNodes.length > 0) {
 							tb = s.n.content.childNodes;
 						}
-					} 
+					}
 					if ((tb.length == 0) || (s.n.innerHTML.trim() == "")) {
 						m.add("span").addClass("sm").setHtml("/&gt;");
 					} else {
@@ -22400,7 +22424,7 @@ igk.system.createNS("igk.system", {
 		if (this.getAttribute("igk:loaded"))
 			return;
 		let g = this;
-		if ((this.o.innerHTML+"").startsWith("<!--")){
+		if ((this.o.innerHTML + "").startsWith("<!--")) {
 			let c = this.o.innerHTML.substring(4);
 			c = c.substring(0, c.length - 3).trim();
 			g = igk.createNode("dummy").setHtml(c);
@@ -22408,7 +22432,7 @@ igk.system.createNS("igk.system", {
 		var t = igk.dom.childto_array(g);
 		let b = null;
 		this.setHtml("");
-		for (var i = 0; i < t.length; i++) {			
+		for (var i = 0; i < t.length; i++) {
 			b = t[i];
 			__render_xml_view_tag(this, b);
 		}
@@ -22430,27 +22454,27 @@ igk.system.createNS("igk.system", {
 	// 	"doubleclick": "doubleTouchOrClick"
 	// };
 	var meth = [];
-	var c = ["click","doublick","contextmenu","mouseover", "mousedown", "mouseup"];
-	for(var j in window){
+	var c = ["click", "doublick", "contextmenu", "mouseover", "mousedown", "mouseup"];
+	for (var j in window) {
 		if (j)
-		if (/^on/.test(j)){
-			j = j.substring(2);
-			if (c.indexOf(j)==-1){
-				meth.push(j);
-				igk.ctrl.registerAttribManager("["+j+"]", { desc: j+" property event" });
-				igk.ctrl.bindAttribManager("["+j+"]", function(m, n){
-					let fc = new Function(n);
-					this.o.removeAttribute(m);
-					m = m.substring(1, m.length-1);
-					this.reg_event(m, function(e){ 
-						if (fc.apply(this, [e])==!1){ 
-							igk.event.stop(e); 
-						}
+			if (/^on/.test(j)) {
+				j = j.substring(2);
+				if (c.indexOf(j) == -1) {
+					meth.push(j);
+					igk.ctrl.registerAttribManager("[" + j + "]", { desc: j + " property event" });
+					igk.ctrl.bindAttribManager("[" + j + "]", function (m, n) {
+						let fc = new Function(n);
+						this.o.removeAttribute(m);
+						m = m.substring(1, m.length - 1);
+						this.reg_event(m, function (e) {
+							if (fc.apply(this, [e]) == !1) {
+								igk.event.stop(e);
+							}
+						});
 					});
-				});
+				}
 			}
-		}
-	} 
+	}
 	igk.ctrl.registerAttribManager("[click]", { desc: "click property event" });
 	igk.ctrl.registerAttribManager("[doubleclick]", { desc: "doubleclick property event" });
 	igk.ctrl.registerAttribManager("[contextmenu]", { desc: "contextmenu property event" });
@@ -22461,14 +22485,14 @@ igk.system.createNS("igk.system", {
 		this.o.removeAttribute(m);
 		var fc = new Function(n);
 		var q = this;
-		this.reg_event("touchOrClick", function (event) {		 
+		this.reg_event("touchOrClick", function (event) {
 			if (event.handle)
 				return;
-			if(fc.apply(q, [event]) == false){
+			if (fc.apply(q, [event]) == false) {
 				igk.event.stop(event);
-			} 
+			}
 		});
-	}); 
+	});
 	igk.ctrl.bindAttribManager("[doubleclick]", function (m, n) {
 		if (n == null) {
 			return;
@@ -22501,11 +22525,11 @@ igk.system.createNS("igk.system", {
 		igk.ctrl.bindAttribManager("[" + n + "]", _initmethod(n));
 	}
 	// + | disable context menu if necessary
-	igk.ctrl.bindAttribManager("[contextmenu]", function (m, n){
+	igk.ctrl.bindAttribManager("[contextmenu]", function (m, n) {
 		let fc = new Function(n);
-		this.reg_event('contextmenu', function(e){ 
-			if (fc.apply(this, [e])==!1){ 
-				igk.event.stop(e); 
+		this.reg_event('contextmenu', function (e) {
+			if (fc.apply(this, [e]) == !1) {
+				igk.event.stop(e);
 			}
 		});
 		this.o.removeAttribute(m);
@@ -22734,7 +22758,7 @@ igk.system.createNS("igk.system", {
 		});
 	};
 	igk.ctrl.registerAttribManager("igk-table-col-hover", {
-		"desc":"table col management"
+		"desc": "table col management"
 	});
 	var time_ = 0;
 	igk.ctrl.bindAttribManager("igk-table-col-hover", function (n, m) {
@@ -22766,7 +22790,7 @@ igk.system.createNS("igk.system", {
 // -------------------------------------
 (function () {
 	igk.ctrl.registerAttribManager("igk:validation-data", {
-		"desc":"use for validation data."
+		"desc": "use for validation data."
 	});
 	igk.ctrl.bindAttribManager("igk:validation-data", function (t, v) {
 		var d = igk.createNode("div");
@@ -22835,67 +22859,116 @@ igk.system.createNS("igk.system", {
 		_updateState(true);
 	});
 })();
-(function(){
+(function () {
 	var _ut = {
-		getSep(){
+		getSep() {
 			return igk.system.getNS('igk.system.locale.decimalSeperator') || ".";
 		}
 	};
 	var _handler = {
-		number(e, notdec){
+		number(e, notdec) {
 			var v = this.value;
 			var def = notdec || true;
-			if (typeof(notdec) == 'undefined')
+			if (typeof (notdec) == 'undefined')
 				notdec = true;
-			if (notdec){
+			if (notdec) {
 				var sep = _ut.getSep();
-				if ((e.key == sep)){
-						//already contain separator
-						if (v.indexOf(sep) != -1){
-							e.preventDefault();
-							e.stopPropagation();  
-						}
-						return;
+				if ((e.key == sep)) {
+					//already contain separator
+					if (v.indexOf(sep) != -1) {
+						e.preventDefault();
+						e.stopPropagation();
+					}
+					return;
 				}
 			}
-			if (/[0-9]/.test(e.key) == false){
+			if (/[0-9]/.test(e.key) == false) {
 				e.preventDefault();
-				e.stopPropagation();  
-			} 
-		},
-		pastenumber(e, notdec){
-			let paste = (e.clipboardData || window.clipboardData).getData('text');
-			var v = this.value;
-			var sl = this.selectionStart; 
-			var sep = _ut.getSep();
-			paste = v.substr(0, this.selectionStart) + paste + v.substr(sl);   
-			var rf = [/^[0-9]+(\.([0-9]+)?)?$/, /^[0-9]+$/];
-			if (typeof(notdec) == 'undefined')
-				notdec = true;
-			var rx = notdec ? rf[0] : rf[1];
-			if (rx.test(paste) == false){
-				e.preventDefault();
-				e.stopPropagation(); 
+				e.stopPropagation();
 			}
 		},
-		integer(e){
+		pastenumber(e, notdec) {
+			let paste = (e.clipboardData || window.clipboardData).getData('text');
+			var v = this.value;
+			var sl = this.selectionStart;
+			var sep = _ut.getSep();
+			paste = v.substr(0, this.selectionStart) + paste + v.substr(sl);
+			var rf = [/^[0-9]+(\.([0-9]+)?)?$/, /^[0-9]+$/];
+			if (typeof (notdec) == 'undefined')
+				notdec = true;
+			var rx = notdec ? rf[0] : rf[1];
+			if (rx.test(paste) == false) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		},
+		integer(e) {
 			_handler.number(e, false);
 		},
-		pasteinteger(e){
+		pasteinteger(e) {
 			_handler.pastenumber(e, false);
 		}
 	};
-	function __init_form(){
-		this.qselect('input').each_all(function(){
-			if (this.supportClass('number')){
+	function __init_form() {
+		this.qselect('input').each_all(function () {
+			if (this.supportClass('number')) {
 				this.on('keypress', _handler.number);
 				this.on('paste', _handler.pastenumber);
 			}
-			if (this.supportClass('integer')){
+			if (this.supportClass('integer')) {
 				this.on('keypress', _handler.integer);
 				this.on('paste', _handler.pasteinteger);
 			}
 		});
 	};
 	igk.winui.initClassControl('igk-form', __init_form);
+})();
+
+// | module management
+(function () {
+	let modules = [];
+
+	function esm(templateStrings, ...substitutions) {
+		let js = templateStrings.raw[0];
+		for (let i = 0; i < substitutions.length; i++) {
+			js += substitutions[i] + templateStrings.raw[i + 1];
+		}
+		return 'data:text/javascript;base64,' + btoa(js);
+	};
+
+	igk.system.createNS("igk.system.modules", {
+		response: null,
+		esm: esm,
+		/**
+		 * append module to document
+		 * @param {string} src 
+		 * @returns 
+		 */
+		append(src, id) {
+			let v = igk.createNode('script');
+			v.o.type = 'module';
+			v.o.id = id;
+			v.setHtml(src);
+			igk.dom.body().add(v.o);
+			modules.push(v);
+			return v;
+		},
+		import(src, callback){
+			let g = (async()=>{ 
+				let m = await igk.system.modules.importAsync(src); 			 
+				return m;
+			})().then((m)=>{ 
+				if (callback){
+					callback(m);
+				}
+				return m;
+			}); 
+			return g;
+		},
+		async importAsync(src) {
+			let b = esm`${src}`;
+			let c = await import(b);
+			return c; 
+		}
+	})
 })();

@@ -20,6 +20,7 @@ use IGK\System\Http\RequestHeader;
 use IGK\System\Http\RequestResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IInjectable;
+use IGK\System\Regex\MatchPattern;
 use IGK\System\Services\InjectorProvider;
 use IGKActionBase;
 use IGKType;
@@ -35,8 +36,8 @@ class Dispatcher implements IActionProcessor
     private $host;
     private static $sm_macro;
     private static $sm_matches = [
-        "int" => "[0-9]+",
-        "float" => "(([0-9]+)\.[0-9]+)|([0-9]+)(\.[0-9]+)?"
+        "int" => MatchPattern::Int,
+        "float" => MatchPattern::Float,
     ];
 
     ///<sumary>.ctr</summary>
@@ -181,13 +182,13 @@ class Dispatcher implements IActionProcessor
                 }
                 if (class_exists($type)){                    
                     if (is_subclass_of($type, IInjectable::class)){
-                        $targs[] = self::_GetInjectable($type, $args);
+                        $targs[] = self::_GetInjectable($type, $args);                   
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));  
-                    if ($j){
-                        $c = $j->resolv($arg, $p);
-                        $i--;
+                    if ($j &&  ($c = $j->resolv($arg, $p))){                        
+                        $targs[] = $c;
+                        continue; 
                     } 
                 }
             } else {

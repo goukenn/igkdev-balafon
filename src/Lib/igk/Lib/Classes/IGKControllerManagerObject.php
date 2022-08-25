@@ -246,7 +246,7 @@ final class IGKControllerManagerObject extends IGKObject
         $init && !defined("IGK_INIT_SYSTEM") && define("IGK_INIT_SYSTEM", 1);
         // + | Clear assets folder
         if (is_dir($assets = igk_io_basedir() . "/" . IGK_RES_FOLDER)) {
-            Logger::info("remove cache:" . $assets);
+            Logger::info("remove cache: " . $assets);
             IO::RmDir($assets);
         }
         if (is_dir($bdir)) {

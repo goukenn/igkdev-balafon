@@ -20,6 +20,11 @@ class XmlNode extends HtmlItemBase{
         if ($tagname)
             $this->tagname = $tagname;
     }
+    public function comment(string $text){
+        $c = new XmlComment();
+        $c->text($text);
+        return $this;
+    }
     public function closeTag()
     {
         return true;

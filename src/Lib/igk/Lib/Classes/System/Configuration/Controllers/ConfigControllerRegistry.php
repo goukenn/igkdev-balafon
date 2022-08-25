@@ -6,6 +6,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use Exception;
 use IGKControllerManagerObject;
 use IGKEvents;
 use IGK\Controllers\IRegisterOnInitController;
@@ -59,16 +60,21 @@ class ConfigControllerRegistry
      */
     public static function InvokeRegisterComplete($context = null)
     {
-        if (self::$sm_regComplete) {
-            foreach (self::$sm_regComplete as  $v) {
+        if (self::$sm_regComplete){
+            $cnf = igk_environment()->getControllerInfo();
+            $cnf->initCount = count(self::$sm_regComplete); 
+  
+            foreach (self::$sm_regComplete as  $v){
+                $_cl = get_class($v); 
                 Benchmark::mark(get_class() . "::initComplete");
                 $v->initComplete($context);
                 Benchmark::expect(
                     get_class() . "::initComplete",
-                    0.01,
-                    sprintf("%s took too long", get_class($v))
+                    0.1,
+                    sprintf("%s took too long", $_cl)
                 );
-            }
+                $cnf->ctrls[] = $_cl;
+            } 
         }
         self::$sm_regComplete = null;
     }

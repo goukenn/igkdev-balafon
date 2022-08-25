@@ -281,15 +281,20 @@ class IGKApp extends IGKObject
         self::$sm_instance->m_application = $app;
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);        
-        igk_hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
+        IGKEvents::hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
         // + |--------------------------------------------------------------
         // + | HOOK application initialize 
         // + | 
+  
+        // \IGK\System\Diagnostics\Benchmark::Activate(true, ["dieOnError"=>true]);
+        
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
-        igk_hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);    
-        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.5);          
+        // TODO : REMOVE HOOK_INIT_APP COAST        
+        IGKEvents::hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);  
+        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015);          
+        
         self::$sm_instance->m_initialized = true;
-        igk_hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
+        IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
     }
 
     /**

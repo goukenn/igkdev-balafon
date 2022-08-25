@@ -14,7 +14,7 @@ use IGK\Database\SQLDataAdapter;
 use IGK\System\Database\MySQL\Controllers\MySQLDataController;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
-
+use IGKConstants;
 
 // if (!defined(__FILE__)){
 
@@ -163,8 +163,13 @@ abstract class DataAdapterBase extends SQLDataAdapter
                         "dbManager is null"
                 );
             } else {                
-                igk_environment()->isDev() && igk_ilog("no db adapter available: " . igk_env_count(__METHOD__));
-            }            
+                if (igk_environment()->isDev()){                       
+                    igk_ilog("no db adapter available: " . igk_env_count(__METHOD__).
+                        (version_compare(IGKConstants::CorePHPVersion() , "7.3", "<=")
+                        ?" connection failed : check mysql_native_password vs caching_sha2_password" : "")
+                    );
+                }   
+            }         
             return false;
         }
 
@@ -353,7 +358,8 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if (is_null($this->m_dbname)){
             // must define database name
             if (igk_environment()->isDev()){
-                igk_wln_e(__FILE__.":".__LINE__,  "DB Name is empty :: failed to connect ");
+                // igk_trace();
+                igk_wln_e(__FILE__.":".__LINE__,  "DB Name is empty::::failed to connect ");
             }
         }
         return $this->m_dbname;

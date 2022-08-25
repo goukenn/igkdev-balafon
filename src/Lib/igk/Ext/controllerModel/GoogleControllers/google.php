@@ -6,7 +6,7 @@
 // annotation: none, vertical-bubble, bubble
 // default: //view
 
-
+use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri; 
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use function igk_resources_gets as __;
@@ -18,6 +18,7 @@ if(defined ('GOOGLE_MODULE') || !function_exists("igk_curl_post_uri")){
 require_once(__DIR__. "/Lib/Classes/IGKHrefListValue.php");
 require_once(__DIR__. "/Lib/Classes/IGKGoogleCssUri.php");
 require_once(__DIR__. "/Lib/Classes/IGKHrefListValue.php");
+require_once(__DIR__. "/Lib/Classes/GoogleEvents.php");
 define('GOOGLE_MODULE', 1);
 define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
 define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
@@ -68,9 +69,7 @@ function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans
         $theme = $doc->getInlineTheme();
     } 
     igk_google_css_setfont($theme->def, $family, $extra);
-
-    //igk_wln_e($theme->def);
-    igk_hook("google_init_component", "font");
+    IGKEvents::hook(GoogleEvents::init_component, "font");
 }
 function igk_google_bindfont($theme, $family, $size = null)
 {
@@ -325,9 +324,7 @@ function igk_google_settings()
  */
 function igk_google_store_setting($setting = null)
 {
-
     $g = igk_google_settings();
-
     igk_io_w2file(GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
 }
 ///<summary></summary>
@@ -538,9 +535,8 @@ function igk_html_node_googlemapgeo($loc, $apikey = null)
     $iframe["onerror"] = "event.target.innerHTML ='---failed to load map---';";
     return $n; 
 }
-
-//igk_reg_component_package("google", new IGKGooglePackage());
-igk_reg_hook("google_init_component", function () {
+ 
+igk_reg_hook(GoogleEvents::init_component, function () {
     if (!igk_get_env("init_globalfont")) {
         igk_set_env("init_globalfont", 1);
         igk_css_reg_global_style_file(dirname(__FILE__) . "/Styles/igk.google.pgcss", null,null, 1);
@@ -667,11 +663,7 @@ igk_register_service("google", "googlemap", function ($cmd, $t, $config = null) 
             break;
     }
     return null;
-});
-// igk_sys_reg_componentname([
-//     "googlemapgeo" => "GoogleMapGeo",
-//     "googlejsmaps" => "GoogleJSMaps"
-// ]);
+}); 
 igk_sys_reg_referencedir(__FILE__, igk_io_dir(dirname(__FILE__) . "/Data/References"));
 
 

@@ -687,7 +687,6 @@ EOF;
     {
         $frame = $this->ca_add_ctrl_frame();
         if ($renderframe) {
-            // igk_frame_close($frame->id);
             igk_ajx_panel_dialog(__("Add new Controller"), $frame);
         }
     }

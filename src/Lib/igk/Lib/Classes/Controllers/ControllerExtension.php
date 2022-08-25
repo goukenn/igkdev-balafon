@@ -28,9 +28,8 @@ use IGK\System\Http\WebResponse;
 use IGKApplicationLoader;
 use IGKEnvironment;
 use IGKResourceUriResolver;
-use IGKSysUtil;
-use ReflectionMethod;
-use SQLQueryUtils;
+use IGKSysUtil as sysutil;
+use ReflectionMethod; 
 use Throwable;
 
 ///<summary>controller macros extension</summary>
@@ -88,6 +87,14 @@ abstract class ControllerExtension
         $f = implode("/", [$ctrl->getDataDir(), IGK_RES_FOLDER, $path]);
         if (!file_exists($f))
             return null;
+        $t = IGKResourceUriResolver::getInstance()->resolve($f);
+        if (empty($t)) {
+            igk_ilog("Can't resolv file " . $f . " " . $t);
+        }
+        return $t;
+    }
+    public static function resolvAssetUri(BaseController $ctrl){
+        $f = implode("/", [$ctrl->getDataDir(), IGK_RES_FOLDER]);
         $t = IGKResourceUriResolver::getInstance()->resolve($f);
         if (empty($t)) {
             igk_ilog("Can't resolv file " . $f . " " . $t);
@@ -196,7 +203,7 @@ abstract class ControllerExtension
      * @return string|string[]|null 
      */
     public static function db_getTableName(BaseController $ctrl, $tablename){
-        return IGKSysUtil::DBGetTableName($tablename, $ctrl);
+        return sysutil::DBGetTableName($tablename, $ctrl);
     }
     public static function db_query(BaseController $ctrl, $query)
     {
@@ -428,23 +435,16 @@ abstract class ControllerExtension
     public static function resolv_table_name(BaseController $ctrl, string $table)
     {
         $ns = igk_db_get_table_name("%prefix%", $ctrl);
+ 
         $k = $table;
         $gs = !empty($ns) && strpos($k, $ns) === 0;
         $t =  $gs ? str_replace($ns, "", $k) : $k;
+        $name = $t;
         $name = preg_replace("/\\s/", "_", $t);
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $name;
     }
-    /**
-     * get type name
-     * @param string $t 
-     * @return string 
-     */
-    private static function _GetTypeName(string $t):string{
-        $name = preg_replace("/\\s/", "_", $t);
-        $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
-        return $name;
-    }
+   
     /**
      * initialize controller database models
      * @param BaseController $ctrl 
@@ -457,29 +457,27 @@ abstract class ControllerExtension
         $core_model_base = igk_html_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
         $c = $ctrl->getClassesDir() . "/Models/";
         $tb = $ctrl->getDataTableInfo();
-        $ns = igk_db_get_table_name("%prefix%", $ctrl);
+        // $ns = igk_db_get_table_name("%prefix%", $ctrl);
         $base_f = igk_html_uri($c . "ModelBase.php");
 
         if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
             igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
         }
-        if ($tb) {
-            foreach ($tb as $k => $v) {
-                //remove prefix
-                $gs = !empty($ns) && strpos($k, $ns) === 0;
-                $t =  $gs ? str_replace($ns, "", $k) : $k;
-                $name = self::_GetTypeName($t);
-                //generate class name 
+        if ($tb){
+            // igk_wln_e(json_encode($tb, JSON_PRETTY_PRINT));
 
+            foreach ($tb as $k => $v) {
+                // remove prefix
+                $table = $v->defTableName;               
+                $name = basename(igk_html_uri(sysutil::GetModelTypeName($table)));
+
+                // igk_wln_e("table:".$k . " ". $name);
+                // generate class name 
                 $file = $c . $name . ".php";
                 if (!$force && file_exists($file)) {
                     continue;
-                }
-                $table = $k;
-                if ($gs) {
-                    $table = "%prefix%" . $t;
-                }
-                igk_io_w2file($file, self::GetModelDefaultSourceDeclaration($name, $table, $v, $ctrl));
+                } 
+                igk_io_w2file($file, self::GetModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
             }
         }
         self::InitDataInitialization($ctrl, false);
@@ -587,7 +585,7 @@ abstract class ControllerExtension
     }
     public static function ns(BaseController $ctrl, $path)
     {
-        $cl = $path;
+        $cl = ltrim($path, "/");
         if ($ns = $ctrl->getEntryNamespace()) {
             $cl = implode("/", array_filter([$ns, $cl]));
         }
@@ -603,8 +601,7 @@ abstract class ControllerExtension
     public static function resolvClass(BaseController $ctrl, $path)
     {
         $cl = $ctrl::ns($path);
-        $ctrl::register_autoload();
-        // igk_debug_wln("class ", $cl);
+        $ctrl::register_autoload(); 
         if (class_exists($cl, false) || IGKApplicationLoader::TryLoad($cl)) {
             return $cl;
         }
@@ -626,15 +623,15 @@ abstract class ControllerExtension
      * @param mixed $cinfo 
      * @return string 
      */
-    private static function _GetTypeFromInfo($cinfo){
+    private static function _GetTypeFromInfo($cinfo, $ctrl){
         $p = ["mixed"];
         if ($cinfo->clLinkType){
-            $p[] = self::_GetTypeName($cinfo->clLinkType);
+            $p[] = "\\".sysutil::GetModelTypeName($cinfo->clLinkType, $ctrl);
         } 
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
-    private static function GetModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl)
+    private static function GetModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl, ?string $comment=null)
     {
         $ns =  self::ns($ctrl, "");
         $uses = [];
@@ -657,12 +654,12 @@ abstract class ControllerExtension
             $o .= "\tprotected \$controller = {$cl}::class; " . PHP_EOL;
         }
         if (($columnInfo instanceof  \IGK\Database\DbColumnInfo)){
-            $columnInfo = ["ColumnInfo"=> [$columnInfo]];
+            $columnInfo = (object)["columnInfo"=> [$columnInfo]];
         }
         $key = "";
         $refkey = "";
-        $php_doc = ""; 
-        foreach ($columnInfo["ColumnInfo"] as $cinfo) {
+        $php_doc = "";
+        foreach ($columnInfo->columnInfo as $cinfo) {
             if ($cinfo->clIsPrimary) {
                 if (!empty($key)) {
                     if (!is_array($key)) {
@@ -678,10 +675,23 @@ abstract class ControllerExtension
             }
 
             // + get property type
-            $pr_type =  self::_GetTypeFromInfo($cinfo); 
-
-            $php_doc .= "@property ".$pr_type." $" . $cinfo->clName . "\n";
+            $pr_type =  // self::_GetTypeFromInfo($cinfo, $ctrl); 
+                        sysutil::GetPhpDoPropertyType($cinfo->clName, $cinfo, $ctrl, false);
+            // sysutil::ConvertToPhpDocType($cinfo->clType, $ctrl);      
+            $php_doc .= "@property ".$pr_type. "\n";
         }
+
+        $args = sysutil::DBGetPhpDocModelArgEntries($columnInfo->columnInfo, $ctrl); 
+ 
+        
+        
+
+        if ($args){
+            $t_args = implode(", ", $args);
+            $php_doc .= "@method static ?self Add(".$t_args.") add entry helper\n";
+            $php_doc .= "@method static ?self AddIfNotExists(".$t_args.") add entry if not exists. check for unique column.\n";
+        }
+
         if ($key != "clId") {
             if (is_array($key)) {
                 $key = "['" . implode("','", array_keys($key)) . "']";
@@ -703,9 +713,9 @@ abstract class ControllerExtension
             ->name($name)
             ->namespace($base_ns)
             ->defs($o)
-            ->file($name . ".php")
-            ->desc("model file")
-            ->phpdoc(rtrim($php_doc))
+            ->file($name . ".php") 
+            ->doc($comment)
+            ->phpdoc(rtrim($php_doc)."\n")
             ->uses($uses);
 
         $cf = $builder->render();      
@@ -1286,18 +1296,21 @@ abstract class ControllerExtension
      * get data table definition
      */
     public static function getDataTableDefinition(BaseController $ctrl, $tablename)
-    { 
+    {         
         if ($ctrl->getUseDataSchema()) {
             $info = null;
             if (!($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 if ($schema = self::loadDataFromSchemas($ctrl)) {
                     if (isset($schema->tables[$tablename])) {
-                        $info = &$schema->tables[$tablename];
-                        if (!isset($info["tableRowReference"])) {
+                        $info = & $schema->tables[$tablename];
+                        // $debug && igk_wln_e(__FILE__.":".__LINE__, $ctrl, 
+                        // $schema,
+                        // $tablename,$info, array_keys((array)$info) );
+                        if (!isset($info->tableRowReference)) {
                             //
                             // + | update data with table's row model reference info
                             //
-                            $info["tableRowReference"] = igk_array_object_refkey(igk_getv($info, "ColumnInfo"), IGK_FD_NAME);
+                            $info->tableRowReference = igk_array_object_refkey($info->columnInfo, IGK_FD_NAME);
                         }
                         \IGK\Database\DbSchemaDefinitions::RegisterDataTableDefinition($ctrl->getDataAdapterName(), $tablename, $info);
                     }
@@ -1315,8 +1328,9 @@ abstract class ControllerExtension
         } else {
             if ($ctrl->getDataTableName() == $tablename) {
                 $clinfo = $ctrl->getDataTableInfo();
-                $cinfo = [
-                    "ColumnInfo" => $clinfo,
+                
+                 $cinfo = (object)[
+                    "columnInfo" => $clinfo,
                     "tableRowReference" =>  igk_array_object_refkey($clinfo, IGK_FD_NAME)
                 ];
                 return $cinfo;
@@ -1353,7 +1367,8 @@ abstract class ControllerExtension
                 $obj->Migration = $data->migrations;
 
                 foreach ($data->tables as $n => $t) {
-                    if ($c = igk_getv($t, "Entries")) {
+                    
+                    if ($c = $t->entries) {
                         $obj->Entries[$n] =  $c;
                     }
                     $obj->Data[$n] = $t;
@@ -1486,11 +1501,10 @@ abstract class ControllerExtension
             foreach ($d as $k => $v) {
                 $b = $dom->add(DbSchemas::DATA_DEFINITION);
                 $b["TableName"] = $k;
-                $b["Description"] = $v["Description"];
+                $b["Description"] = $v->description;
                 $tabs[] = $k;
-                foreach ($v["ColumnInfo"] as $cinfo) {
-                    $col = $b->add(IGK_COLUMN_TAGNAME);
-                    $tb = (array)$cinfo;
+                foreach ($v->columnInfo as $cinfo) {
+                    $col = $b->add(IGK_COLUMN_TAGNAME); 
                     $col->setAttributes($cinfo);
                 }
             }
@@ -1724,7 +1738,10 @@ abstract class ControllerExtension
             $t[] = implode("\\", array_filter(array_merge([$ns], ["Actions\\" . ucfirst(IGK_DEFAULT_VIEW) . "Action"])));
         }
         $classdir = $controller->getClassesDir();
-        $sublen = strlen($ns) + 1;
+        $sublen = 1; 
+        if (!empty($ns)){
+            $sublen+=strlen($ns);
+        }
 
         while ($cl = array_shift($t)) {
             $fcl = $cl;

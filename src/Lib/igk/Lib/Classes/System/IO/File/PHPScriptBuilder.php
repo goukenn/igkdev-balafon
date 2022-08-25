@@ -86,7 +86,7 @@ class PHPScriptBuilder
         $_setPhDoc = function($d, $ns){
             $o = "";
             $o .= "/**\n";
-            $o .="* " . $d."\n";
+            $o .="* " . implode("\n*", explode("\n", trim($d)))."\n";
             if ($ns){
                 $o .= "* @package {$ns}\n";
             }
@@ -152,7 +152,7 @@ class PHPScriptBuilder
             case "trait":
                 if ($d = $this->doc) {
                     // documents
-                    $o .= "///<summary>" . $d . "</summary>\n";  
+                    $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
                     $o .= $_setPhDoc($d, $ns);
                     
                 } else {

@@ -15,14 +15,14 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlHookNode extends HtmlNode{
-    private $eventType, $context;
+    private $m_eventType, $m_context;
     ///<summary></summary>
     ///<param name="eventType"></param>
     ///<param name="options" default="null"></param>
     public function __construct($eventType, ?string $context=null){
         parent::__construct("igk-hook-node");
-        $this->eventType=$eventType;
-        $this->context =$context;
+        $this->m_eventType=$eventType;
+        $this->m_context =$context;
     }
     ///<summary></summary>
     ///<param name="options" default="null"></param>
@@ -46,7 +46,7 @@ class HtmlHookNode extends HtmlNode{
     {
         if($v = $this->getIsVisible()){
             ob_start();
-            igk_hook($this->eventType, [$this, "options"=>$options, "context"=>$this->context]);
+            igk_hook($this->m_eventType, [$this, "options"=>$options, "context"=>$this->m_context]);
             $s=ob_get_contents();
             ob_end_clean();
             if (!empty($s)){

@@ -56,8 +56,16 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     public function last_error(){
         return $this->Ad->getError();
     }
-    public function select_row($table, $conditions){
-        return $this->selectSingleRow($table, $conditions);
+    /**
+     * select row
+     * @param mixed $table 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function select_row($table, $conditions, $options=null){
+        return $this->selectSingleRow($table, $conditions, $options);
     }
     ///<summary></summary>
     ///<param name="name"></param>

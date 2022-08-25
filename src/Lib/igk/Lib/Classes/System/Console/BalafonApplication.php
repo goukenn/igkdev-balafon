@@ -98,11 +98,11 @@ class BalafonApplication extends IGKApplicationBase
         defined('IGK_FRAMEWORK_ATOMIC') || define('IGK_FRAMEWORK_ATOMIC', 1);
         $wd = $bdir = $this->basePath;        
         igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"]  = "BalafonCLI";
-
-        // igk_wln_e("loading .... ".$wd, IGK_APP_DIR);
+ 
   
         $configFile = self::GetTopLevelConfigFile($bdir);
 
+        // igk_wln_e("loading config file : ", $configFile, $bdir, $_SERVER, getcwd());
         try {
             if (!empty($configFile) && file_exists($configFile)) {                
                 $wd = dirname($configFile);
@@ -143,7 +143,7 @@ class BalafonApplication extends IGKApplicationBase
             define('IGK_LOG_FILE', $logFolder . "/." . igk_environment()->getToday(). ".cons.log");
         }
         igk_loadlib(dirname(__FILE__) . "/Commands");
-        date_default_timezone_set('Europe/Brussels');
+        date_default_timezone_set(IGKConstants::DEFAULT_TIME_ZONE);
         // IGKApp::InitSingle(); 
         if (defined('IGK_DOCUMENT_ROOT'))
             igk_server()->IGK_DOCUMENT_ROOT = realpath(constant('IGK_DOCUMENT_ROOT'));
@@ -304,20 +304,24 @@ class BalafonApplication extends IGKApplicationBase
                 function ($v, $command) {
                     DbCommandHelper::Init($command);
                     $command->exec = function ($command, $name = null, $value = null) {
-
+                        Logger::print($name, $value);
                         if (!empty($name)) {
+                            if (strpos($name, "=")!== false){
+                                $g = array_map('trim', explode("=", $name));
+                                $name = $g[0];
+                                $value = $g[1];
+                            }
                             igk_configs()->$name = $value;
-                            igk_save_config(true);
-                            Logger::print("");
-                            Logger::success("configuration changed");
-                            Logger::print("");
+                            igk_save_config(true);                            
+                            Logger::success("configuration changed: ".$name);
+                            
                         }
                     };
                 },
                 [
                     "desc" => __("set configuration. name value"),
                     "help" => function () {
-                        Logger::print("\nusage : --set:sysconfig property value\n");
+                        Logger::print("\nusage : --set:sysconfig (property value|[...property=value])\n");
                     }
                 ]
             ],

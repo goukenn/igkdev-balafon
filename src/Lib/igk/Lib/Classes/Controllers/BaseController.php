@@ -12,6 +12,7 @@ use IGK\Helper\ActionHelper;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Helper\StringUtility;
+use IGK\Helper\ViewHelper;
 use IGK\Resources\R;
 use IGK\System\Configuration\ControllerConfigurationData;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -73,7 +74,7 @@ use function igk_resources_gets as __;
  * @method static \IGKHtmlDoc getCurrentDoc() macros function
  * @method static object getDataAdapter() macros function data driver
  * @method static string getDataSchemaFile() macros function
- * @method static array getDataTableDefinition(string tablename) macros function
+ * @method static ?\IGK\System\DataBase\DbSchemaMigrationInfo getDataTableDefinition(string tablename) macros function
  * @method static void getEnvKey() macros function
  * @method static void getEnvParam() macros function
  * @method static void getEnvParamKey() macros function
@@ -137,8 +138,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @var mixed
      */
 
-    private static $sm_sysController = [];
-
+    private static $sm_sysController = [];   
     /**
      * get action handler
      */
@@ -218,8 +218,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if ($params === null) {
             $params = [];
         }
-
-        if (!$meth_exits && !file_exists($f = igk_io_dir($this->getViewFile($v, 1, $params)))) {
+        // + | no method exists in controller and view file not exists
+        if (!$meth_exits && ($allowed_view = $this->_isAllowedView($v)) && !file_exists($f = igk_io_dir($this->getViewFile($v, 1, $params)))) {
             //
             $v_handle = "file";
             if (!$find) {
@@ -243,7 +243,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 $f = $find;
             }
         }
-        if (file_exists($f)) {
+        if ($allowed_view && file_exists($f)) {
             try {
                 // + | -------------------------------------------             
                 // + | bind view
@@ -264,11 +264,35 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
     }
     /**
+     * check if view path is allowed
+     * @param string $view 
+     * @return bool 
+     */
+    protected function _isAllowedView(string $view):bool{
+        $allowed_view = true;
+        foreach(explode("/", $view) as $n){
+            if (strpos($n, ".")===0){
+                $allowed_view = false;
+                break;
+            }
+        }
+        return $allowed_view;
+    }
+    /**
      * create view loader 
      * @return IViewLayoutLoader
      */
     protected function createViewLoader(): IViewLayoutLoader
     {
+        if (ViewHelper::CurrentCtrl()===$this){
+            //by default create a layout per view 
+            if ($n = ViewHelper::GetViewArgs("fname")){
+                $p = "/WinUI/Views/".ucfirst($n)."ViewLoader";
+                if (($cl = $this->resolvClass($p)) && is_subclass_of($cl, IViewLayoutLoader::class )){
+                    return new $cl($this);
+                }
+            } 
+        }
         return new ViewLayoutLoader($this);
     }
     /**
@@ -308,7 +332,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname))
         ) {    
-            // igk_wln_e("current handler : ".$handler);
+            // igk_dev_wln_e("current handler : ".$handler);
             // $is_default_action = $handler== $this->resolvClass("Actions/DefaultAction");            
             // check for source user
             $this->checkUser(false);
@@ -327,9 +351,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             } else {
                 if ($handler== $this->resolvClass("Actions/DefaultAction")){
                     ActionHelper::HandleArgs($fname, $handlerArgs);
-                }
-               
+                } 
             } 
+            // igk_wln_e("\n".__FILE__.":".__LINE__,$handlerArgs);
             // igk_wln("\n".__FILE__.":".__LINE__,  "\nhandle_action_:::", "\n".$fname, $handlerArgs, $params);
             $r = $handler::Handle(
                 $this,
@@ -352,7 +376,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     { 
         $this->_include_constants();
         igk_reset_globalvars();
-        $fname = igk_io_getviewname($file, $this->getViewDir());
+        $fname = igk_io_getviewname($file, $this->getViewDir());    
         $rname = igk_io_view_root_entry_uri($this, $fname);
         $context = __FUNCTION__;
         extract(array_merge(
@@ -382,7 +406,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }catch(\Exception $ex){
                 // + | handler failed or thro an exception. 
                 // + | method no present
-                igk_dev_ilog("exception raise : ".$ex->getMessage());
+                igk_dev_ilog(["exception raise : ".$ex->getMessage(),
+                    $ex->getFile(),
+                    $ex->getLine()]);
             }
             // + | ----------------------------------------------------------------
             // + | check if view already loaded:
@@ -680,25 +706,24 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
     ///<sample>editor[/package/function/arg1/args2]</sample>
     /**
+     * resolv view files and update parameters
      * @param string $view extension
      * @param string $checkfile _exist
      * @param ?array & $param extra view extension
      * @param string &extra view extension
+     * @return string view file path
      */
     public function getViewFile($view, $checkfile = 1, &$param = null)
     {
         $extension = IGK_DEFAULT_VIEW_EXT;
-        $_viewdir  = $this->getViewDir();
+        $_viewdir = $this->getViewDir();
         if ($param === null) {
             $param = [];
         } else if (!is_array($param)) {
             $param = [$param];
         }
-
         if ($e = igk_getv(array_slice(func_get_args(), 3), 0))
             $extension = $e;
-
-
         if (empty($view))
             $view = IGK_DEFAULT_VIEW;
         else if ($rp = realpath($view)) {
@@ -708,47 +733,53 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
         }
         $f = igk_html_uri(rtrim($_viewdir . "/" . $view, '/'));
-        //get fname to realview
+        // + | get fname to UNIX PATH
         $f = IO::GetUnixPath("/".$view, false, $_viewdir) ?? $f;
- 
-
-        $ext = $extension;
         if (is_dir($f)){
             //window allow dir and file with the same name
-            if (file_exists($cf = $f . "/" . IGK_DEFAULT_VIEW_FILE)) {
-                $f = $cf;
+            if (is_file($cf = $f . "/" . IGK_DEFAULT_VIEW_FILE)) {
+                return $cf;
             } else {
+                // add extension
                 $f = $f . "." . $extension;
-            }
-        } else {
-            $ext_regex = '/\.' . $ext . '$/i';
-            $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
-            $f = $f . $ext;
-            if (!empty($ext) && $checkfile) {
-                $s = 1;
-                $_views = array_filter(explode("/", $view));
-                while ($s && (count($_views) > 0) && ($f != $_viewdir)) {
-                    if (preg_match($ext_regex, $f) && is_file($f)) {
-                        return $f;
-                    } else {
-                        $bname = basename($f);
-                        $f = dirname($f);
-                        if (($bname != IGK_DEFAULT_VIEW_FILE) && (file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
-                            if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
-                                array_unshift($param, array_pop($_views));
-                            }
-                            return $c;
-                        } else {
-                            array_unshift($param, array_pop($_views));
-                        }
-                    }
-                }
-                if ($s) {
-                    return $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
+                if (is_file($f)){
+                    // priority to existing files
+                    return $f;
                 }
             }
-        }
-        return $f;
+        } 
+        return ViewHelper::ResolvViewFile($_viewdir, $view, $f, $checkfile, $param);
+
+        // else {
+        //     $ext_regex = '/\.' . $ext . '$/i';
+        //     $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
+        //     $f = $f . $ext;
+        //     if (!empty($ext) && $checkfile) {
+        //         $s = 1;
+        //         $_views = array_filter(explode("/", $view));
+        //         while ($s && (count($_views) > 0) && ($f != $_viewdir)) {
+                   
+        //             if (preg_match($ext_regex, $f) && is_file($f)) {
+        //                 return $f;
+        //             } else {
+        //                 $bname = basename($f);
+        //                 $f = dirname($f);
+        //                 if (($bname != IGK_DEFAULT_VIEW_FILE) && (file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
+        //                     if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
+        //                         array_unshift($param, array_pop($_views));
+        //                     }
+        //                     return $c;
+        //                 } else {
+        //                     array_unshift($param, array_pop($_views));
+        //                 }
+        //             }
+        //         }
+        //         if ($s) {
+        //             return $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
+        //         }
+        //     }
+        // }
+        // return $f;
     }
     ///<summary></summary>
     ///<param name="path"></param>

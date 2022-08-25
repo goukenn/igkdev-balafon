@@ -178,7 +178,7 @@ final class IGKCaches{
     private function _init_css_filesystem_caches(){
         return self::__init_cache(igk_io_cachedir()."/storage/css");
     }
-
+/*
     /**
      * 
      * @param mixed $controller 
@@ -191,7 +191,7 @@ final class IGKCaches{
      * @throws EnvironmentArrayException 
      * @throws IGKException 
      * @throws Exception 
-     */
+     * /
     public static function Compile($controller, $fs, $file, $raw, $key="FileBuilder", $render=1){
      
         /// TODO: Compile
@@ -251,7 +251,7 @@ final class IGKCaches{
      * @throws EnvironmentArrayException 
      * @throws IGKException 
      * @throws Exception 
-     */
+     * /
     public static function Compile2($controller, $fs , $file, $raw, $key="FileLoader", $render=1){
         
         /// TODO: Compile2
@@ -294,4 +294,6 @@ final class IGKCaches{
       
         igk_environment()->pop($key); 
     }
+
+    */
 }

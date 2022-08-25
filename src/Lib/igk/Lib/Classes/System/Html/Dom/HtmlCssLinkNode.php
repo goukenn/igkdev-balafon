@@ -20,10 +20,7 @@ class HtmlCssLinkNode extends HtmlNode{
         if($this->system && $o && ($o->Context == "mail")){
             return false;
         }
-        $uri=igk_html_get_system_uri($this->link, $o);
-        // if($this->cache && ($o && $o->Cache)){
-        //     $uri=igk_uri_add_args($uri, array("Cache"=>1));
-        // }
+        $uri=igk_html_get_system_uri($this->link, $o);        
         $tr=$uri ? $uri: $this->link;
         $this->ln["href"]=$tr;
         return $tr && $this->IsVisible;
@@ -42,7 +39,7 @@ class HtmlCssLinkNode extends HtmlNode{
         $ln->link=$link;
         $ln->cache=false;
         $ln->system=$system;
-        $this->setln($ln);
+        $this->setln($ln);  
     }
     public function getCanRenderTag()
     {

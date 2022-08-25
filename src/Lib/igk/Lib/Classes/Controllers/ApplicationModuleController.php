@@ -189,11 +189,11 @@ final class ApplicationModuleController extends BaseController{
             $this->reg_function($name, $callback);
         };
         try{
-            // igk_dev_wln(__FILE__.":".__LINE__,  $this->getName());
+            igk_dev_ilog("init module: ".$this->getName());
             $data = eval("?>".$s);
         }
         catch(TypeError $error){
-            igk_wln_e("the error : ", $error);
+            throw $error; 
         }
         $this->m_src=$s;
         if ($data){
@@ -229,13 +229,13 @@ final class ApplicationModuleController extends BaseController{
     ///<param name="c" default="null"></param>
     /**
     * 
-    * @param mixed $c the default value is null
+    * @param mixed $function the default value is null
     */
-    public function getAppUri($c=null){
+    public function getAppUri(?string $function=null):?string{
         $q="";
         if($this->Listener)
             $q="ctrl=".$this->Listener->Name;
-        $u="n=".$this->Name.($q ? "&".$q: "")."".($c ? "&q=".$c: "");
+        $u="n=".$this->Name.($q ? "&".$q: "")."".($function ? "&q=".$function: "");
         $s=base64_encode($u);
         return igk_getctrl(IGK_SESSION_CTRL)->getUri("invmodule&q=".$s);
     }

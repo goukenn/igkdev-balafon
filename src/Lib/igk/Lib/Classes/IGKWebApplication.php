@@ -93,12 +93,7 @@ class IGKWebApplication extends IGKApplicationBase
             // | handle redirection
             //--------------------------------------------------------------        
             if (!defined("IGK_REDIRECTION") && (($path_info = $srv->PATH_INFO) || !empty($path_info = urldecode($srv->REDIRECT_URL ?? "")))) {
-                // $path_info = empty($v_path)? $redirect : $v_path;
-                // igk_wln_e(__FILE__.":".__LINE__,                
-                //  $redirect,
-                //  $v_path,
-                //  $path_info
-                // );
+               
 
                 if ($srv->REDIRECT_URL && ($srv->REDIRECT_STATUS != '200')) {
                     // ----------------------------------------------
@@ -124,43 +119,15 @@ class IGKWebApplication extends IGKApplicationBase
                         igk_set_header($srv->REDIRECT_STATUS);
                     }
                     igk_exit();
-                }
-
-                $g = array_slice(explode("/", ($path_info)), 1);
-           
-                RequestHandler::getInstance()->handle_route($path_info);              
-
-                if (strtolower($g[0]) == strtolower(IGK_CONFIG_PAGEFOLDER)) {
-                    define('IGK_REDIRECTION', 0);
-                    if (!defined("IGK_CONFIG_PAGE"))
-                        define("IGK_CONFIG_PAGE", 1);
-                    define("IGK_CURRENT_PAGEFOLDER", IGK_CONFIG_PAGEFOLDER);
-                    $script = $_SERVER["SCRIPT_NAME"];
-                    $dir = igk_str_rm_last(igk_html_uri(dirname($script)), '/');
-                    if (empty($dir) && $v_path) {
-                        $dir .= $script;
-                    }
-                    $level = count($g) - 1;
-                    igk_io_set_dir_level($level);
-                    if (!empty($query = igk_server()->QUERY_STRING)) {
-                        $query = "?" . $query;
-                    }
-                    $rq_path = implode("/", array_slice($g, 1));
-                    if (!empty($rq_path)) {
-                        $rq_path = "/" . $rq_path; // .$query;
-                    }
-
-                    // igk_wln_e("query : ", $query,   $_SERVER["REQUEST_URI"]);
-                    // $_SERVER["REQUEST_URI"]=$dir."/".IGK_CONFIG_PAGEFOLDER."{$rq_path}";
-                    unset($_SERVER["PHP_SELF"]); //=$dir."/".IGK_CONFIG_PAGEFOLDER."/DTA";
-                    IGKServer::getInstance()->prepareServerInfo();
-                    $this->runEngine(false);
-                    if (file_exists(IGK_APP_DIR . "/Data/no_config")) {
-                        igk_set_header("403");
-                        igk_navto(igk_io_baseuri());
-                    }
-                    igk_sys_config_view($file);
-                    igk_exit();
+                }                  
+                RequestHandler::getInstance()->handle_route($path_info);
+                // 
+                // configuration handle
+                //
+                if (!igk_configs()->get("noWebConfiguration")){
+                    (new IGK\System\Http\ConfigurationPageHandler(function(bool $display){
+                        $this->runEngine($display);
+                    }, $file))->handle_route($path_info);
                 }
                 if (!defined("IGK_REDIRECT_ACCCESS") && in_array($path_info, $access_file)) {
                     if (file_exists($cfile = igk_html_uri(dirname(dirname(IGK_LIB_DIR)) . $path_info))) {

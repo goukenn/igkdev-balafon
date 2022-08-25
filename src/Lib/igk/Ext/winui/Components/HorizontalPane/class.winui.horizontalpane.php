@@ -247,9 +247,7 @@ $pane->renderAJX();
 		$fname = igk_getv($tab, "IGK_FILE_NAME", "file.data");
 		$bfname = igk_io_basenamewithoutext($fname);
 		//$s = file_get_contents("php://input");
-		$dir = $pane->Folder;
-
-		// igk_ilog("uploading ... ".$fname . " type : ".$type. " to ".$dir);
+		$dir = $pane->Folder; 
 
 		switch(strtolower($type ))
 		{
@@ -642,18 +640,15 @@ return true;
 			$p = $this->Pattern;
 			if (IO::CreateDir($dir)){
 				IO::WriteToFileAsUtf8WBOM($dir."/.htaccess", "allow from all", false);
-				// igk_ilog("loading ....");
+ 
 				foreach(igk_io_getfiles($dir, $p, false) as  $v)
-				{
-					// igk_ilog("loading ....file : ".$v);
+				{ 
 					$v_p = $data->add("page");
-					$v_p["file"] = $v;
-					//$v_p->LoadFile($v);
+					$v_p["file"] = $v; 
 					$v_p->LoadExpression(igk_io_read_allfile($v));
 				}
 				$this->loadData($data);
-				$this->loadConfigSetting();
-				// igk_ilog($data->render());
+				$this->loadConfigSetting(); 
 			}
 		}
 	}

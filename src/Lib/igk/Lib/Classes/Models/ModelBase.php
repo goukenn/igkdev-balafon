@@ -12,6 +12,7 @@ use Closure;
 use Exception;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
+use IGK\Database\IDbArrayResult;
 use IGK\Helper\Utility; 
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\JsonSerializableTrait;
@@ -27,7 +28,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
 /**
  * model base
  * @package IGK\Models
- * @method static ?static|bool create(array|object|static $definition, bool update=true) - create a row entries
+ * @method static ?static|bool create(array|object|static $definition, bool $update=true) - create a row entries
  * @method static static createEmptyRow() - create a empty row - do not insert into database
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter
  * @method static object|null insertIfNotExists(?array condition = null, ?array options = null) macros:Insert if condition not meet.
@@ -88,7 +89,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static ?static getv($array, $i) macros function convert class
  * @method static \IGK\System\Database\QueryBuilder with(string $table, ?string $propertyName=null) prepare command with table 
  */
-abstract class ModelBase implements ArrayAccess, JsonSerializable
+abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResult
 {
 	use ArrayAccessSelfTrait;
     use JsonSerializableTrait;
@@ -99,8 +100,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
     /**
      * retrieve model info
      * @var IGK\Models\Models
+     * @return array
      */
-    public static function & RegisterModels(){
+    public static function & RegisterModels(): array{
         if (self::$sm_model===null){
             self::$sm_model = [];
         }
@@ -279,11 +281,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
     {   
         if (method_exists($this, "getDataTableDefinition")){
             if ($g = $this->getDataTableDefinition()){
-                $inf = $g["tableRowReference"];
+                $inf = $g->tableRowReference;
                 return DbSchemas::CreateObjFromInfo($inf);
             }
         } 
         $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
+       
         return DbSchemas::CreateRow($this->getTable(), $ctrl);
     }
 
@@ -320,20 +323,21 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
         }
     }
     protected function _initialize($raw=null, $mock=0, $unset=false){
-        $this->raw = $raw && ($raw instanceof static) ? $raw :  $this->createRow();
+        $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
             if (igk_environment()->isDev()){
                 igk_trace();
-                igk_wln(__FILE__ . ":" . __LINE__, "raw is null",
+                igk_wln(__FILE__ . ":" . __LINE__, 
+                "raw is null",
                 get_class($this), 
                 $raw,
                 $this->controller, $this->getTable());
             } 
             die("Failed to create dbrow: " . $this->getTable());
         }
-        //
-        // + copy raw
-        //
+        // + | ----------------------------------------------------------
+        // + | copy raw if not instance 
+        // + | 
         if ($raw && ($raw!== $this->raw)) {
             $props = array_fill_keys(array_keys((array)$this->raw), 1);           
             foreach ($raw as $k => $v) {
@@ -410,8 +414,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
      * return the current table string
      * @return mixed 
      */
-    public function getTable()
-    {
+    public function getTable(){
         return IGKSysUtil::DBGetTableName($this->table, $this->getController());
     }
     /**
@@ -423,7 +426,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable
     {
         $ctrl = $this->getTableInfoController(); 
         $r =  $ctrl::getDataTableDefinition($this->getTable());
-        return igk_getv($r, "ColumnInfo");
+        return $r->columnInfo;
     }
     protected function getTableInfoController(){
         return igk_getctrl($this->controller ?? SysDbController::class);

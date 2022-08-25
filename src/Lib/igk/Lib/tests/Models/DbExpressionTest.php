@@ -129,7 +129,6 @@ class DbExpressionTest extends BaseTestCase{
 
     public function test_query_fetch_prepare(){
        
-        // igk_wln_e("dbname", igk_configs()->db_name, igk_configs()->db_server);
         Table1Test::createTable();
         Table2Test::createTable();
         $g = Table1Test::prepare()->join([]

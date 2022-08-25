@@ -15,4 +15,15 @@ final class IGKConstants{
     const MYSQL_DATETIME_FORMAT = "Y-m-d H:i:s";
     const MYSQL_DATE_FORMAT = "Y-m-d";
     const MYSQL_TIME_FORMAT = "H:i:s";
+    const DEFAULT_TIME_ZONE = 'Europe/Brussels';
+    const MODEL_TABLE_REGEX = "/%(?P<name>((sys)?prefix|year))%/i"; 
+
+    /**
+     * get the core version 
+     * @return string 
+     */
+    public static function CorePHPVersion(){
+        list($major, $minor)= explode(".", PHP_VERSION);
+        return $major.".".$minor;
+    }
 }

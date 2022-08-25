@@ -15,6 +15,7 @@ use IGKEvents;
 use IGKException;
 use IGKObject;
 use IIGKdbManager;
+use mysqli;
 use Throwable;
 
 /**
@@ -39,6 +40,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     private $m_openCallback;
     private $m_openCount;
     private $m_dboptions;
+    private $m_lastError;
     protected $m_resource;
     protected $m_error;
     protected $m_errorCode;
@@ -197,7 +199,11 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             igk_die("[igk] The connection was not closed properly :::ping failed : " .
                 $lcount . " <br />");
         } 
-        $r = igk_db_connect($this);
+        $r = igk_db_connect($this); 
+        
+        
+
+
         if (igk_db_is_resource($r) && $this->initialize($r)) {
             $this->m_isconnect = true;
             $this->m_resource = $r;
@@ -205,12 +211,21 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             return true;
         } else {
             $_error = __CLASS__ . "::Error : SERVER RESOURCE # ";
-            igk_notify_error($_error, "sys");
+            igk_notify_error($_error, "sys");          
+            $error = igk_db_last_connect_error();                
+            $this->m_lastError = $error;
+
         }
         $this->m_isconnect = false;
         $this->m_resource = null;
+
         return false;
     }
+ 
+    public function getLastError(){
+        return $this->m_lastError;
+    }
+
     protected abstract function initialize($resource);
 
     ///<summary></summary>
@@ -298,13 +313,15 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         try {
             $out->connect();
-        } catch (\Exception $_) {
+        } catch (\Exception $_) { 
             $out->m_isconnect = false;
             // remove last error in case last error - 
             if (igk_is_cmd() && error_get_last()) {
                 error_clear_last();
             }
         }
+
+       
         if ($out->m_isconnect) {
             if (igk_environment()->isDev()  && !empty($dbname)) {
                 $out->createDb($dbname);
@@ -335,7 +352,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     /**
      * create table
      */
-    public function createTable($tbname, $columninfo, $entries = null, $desc = null, $dbname = null)
+    public function createTable($tbname, array $columninfo, $entries = null, $desc = null, $dbname = null)
     {
         if (!$this->getIsConnect())
             return false;
@@ -513,7 +530,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * 
      * @param mixed $n
      * @param mixed $throwError the default value is 1
-     * @return mixed|object|resource|mysqli object result or resources
+     * @return ?callable db function to call
      */
     public static function GetFunc($n, $throwError = 1)
     {
@@ -827,7 +844,11 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 $code = $this->getDriverErrorCode();
                 $this->m_error = $error;
                 $this->m_errorCode = $code;
-                igk_ilog(["DBQueryError" => $error, "Query" => $query, "File" => __FILE__, "Line"=>__LINE__]);
+                $log = ["DBQueryError" => $error];
+                if (0 && igk_environment()->isDev()){
+                    $log = array_merge($log, ["Query" => $query, "File" => __FILE__, "Line"=>__LINE__]);
+                }
+                igk_ilog($log);
             }
             if ($throwex && !$t) {
                 $this->dieinfo(

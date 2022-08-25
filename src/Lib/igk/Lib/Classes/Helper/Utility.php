@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: Utility.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc: utility helper
 
 namespace IGK\Helper;
 
@@ -11,6 +11,22 @@ use IGK\System\Http\RequestUtility;
 use stdClass;
 
 abstract class Utility {
+    const ignore_empty_method = "ignore_empty";
+
+    /**
+     * use to filter data 
+     * @param mixed $a 
+     * @return object|array 
+     */
+    private static function ignore_empty($a){
+        $g = array_filter((array)$a);        
+        if (is_object($a)){
+            $g = (object)$g;
+        }
+        return $g;
+
+    }
+
     public static function PostCref(callable $callback, $valid=1, $method="POST"){
         if (igk_server()->method($method) && igk_valid_cref($valid)){
             return $callback();
@@ -53,7 +69,7 @@ abstract class Utility {
      * @return mixed 
      * @throws Exception 
      */
-    public static function To_JSON($raw , $options=null, $json_option = JSON_FORCE_OBJECT){
+    public static function To_JSON($raw , $options=null, $json_option = 0){
         $ignoreempty = igk_getv($options, "ignore_empty", 0);
         $default_output = igk_getv($options, "default_ouput", "{}");
         if(is_string($raw)){
@@ -71,22 +87,35 @@ abstract class Utility {
         while($m = array_shift($tab)){            
             $c = $m["t"];
             $raw = $m["r"];
+            $a = 0;
             if (!$root)
                 $root = $c;
-            if (is_object($raw) || is_array($raw)){
-                foreach($raw as $k=>$v){
+            if (is_object($raw) || (is_array($raw))){
+             
 
+                foreach($raw as $k=>$v){
+                    $a = 0;
                     if ($ignoreempty &&  (($v === null) || ($v =="")))
                         continue;
+                    $is_obj = is_object($v); 
                     // | check if to_array method exists to get the array 
-                    if (is_object($v) && method_exists($v, "to_array")){                       
+                    if ($is_obj && method_exists($v, "to_array")){                       
                         $c->$k = new stdClass();
                         array_unshift($tab, ["r"=>$v->to_array(), "t"=>$c->$k]); 
                         continue;
                     }
-                    if (is_object($v) || is_array($v)){
+                    if (($a = is_array($v)) || $is_obj){
+                   
+                        if ($a && !igk_array_is_assoc($v)){
+                            if ($ignoreempty){
+                                $v = array_map([self::class, self::ignore_empty_method] ,
+                                    array_filter($v)); 
+                            }                      
+                            $c->$k = $v;
+                            continue;
+                        }
                         $c->$k = new stdClass();
-                        array_unshift($tab, ["r"=>$v, "t"=>$c->$k]);
+                        array_unshift($tab, ["r"=>$v, "t"=>$c->$k, "f"=>$k]);
                     }else{
                         $c->$k = $v;
                     }

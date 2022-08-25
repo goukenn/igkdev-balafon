@@ -7,6 +7,7 @@
 
 use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
+use IGK\System\Html\Dom\HtmlDocCoreStyle;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Html\Dom\HtmlNode;
@@ -19,6 +20,8 @@ use IGK\System\Http\IHeaderResponse;
  * create core document
  * @package IGK
  * @property bool NoCache disable document caching
+ * @property ?bool noCoreCss disable loading of core css
+ * @property ?bool noPowered disable powered by message
  */
 class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      
@@ -26,6 +29,26 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     private $m_theme;
     private $m_baseuri;
     private $m_noCache;
+
+
+    public function getNoCoreCss(){
+        if (property_exists($this, "noCoreCss"))
+            return $this->noCoreCss;
+        return null;
+    }
+    public function setNoCoreCss(?bool $value=null){
+        $this->noCoreCss = $value;
+        return $this;
+    }
+    public function getNoPowered(){
+        if (property_exists($this, "noPowered"))
+            return $this->noPowered;
+        return null;
+    }
+    public function setNoPowered(?bool $value=null){
+        $this->noPowered = $value;
+        return $this;
+    }
     /**
      * get if current document is system document
      * @return bool 
@@ -241,9 +264,27 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      * @throws IGKException 
      */
     private function _addCoreCss(){
+        $key = "sys://css";
+        $t = null;
         if (!empty($s = igk_io_corestyle_uri())){
-            $t=$this->addStyle($s, true);
-            $t->cache = 1; 
+  
+            // $t=$this->addStyle($s, true);
+            // $t->cache = 1;
+            // igk_wln($t->render());
+            $n =  $this->m_head;
+            $g=$n->getParam($key);
+            if (!isset($g[$s])){                
+                $t = new HtmlDocCoreStyle($s, true, 0);
+                $this->m_head->add($t);                
+                $t->cache = 0; 
+                $g[$s]=$t;
+                $n->setParam($key, $g); 
+
+            } else {
+                $t = $g[$s];
+            }
+            // igk_wln_e($t->render());
+            // $t=$this->addStyle($s, true);
         }
         return $t;
     }
@@ -496,9 +537,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     ///<param name="file"></param>
     ///<param name="system" default="false"></param>
     /**
-    * 
-    * @param mixed $n
-    * @param mixed $file
+    * append style to head node
+    * @param HtmlNode $n node that will receive the style tag
+    * @param string $file system file path 
     * @param mixed $system the default value is false
     */
     protected function __addStyle($n, string $file, $system=false){
@@ -506,8 +547,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         if($g == null){
             $g=array();
         }
-        if ($file == realpath($file)){
-            $file = IGKResourceUriResolver::getInstance()->resolve($file);            
+        if (realpath($file)){
+            $file = IGKResourceUriResolver::getInstance()->resolve($file, ["hashed"=>1]);            
         }
         if(isset($g[$file])){
             return $g[$file];

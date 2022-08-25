@@ -215,7 +215,7 @@ class App{
                 }
                 return $action($command , ...$args); 
             }else{
-                Logger::danger("no action found");
+                Logger::danger("BLF: no action found");              
             }
         } catch (Exception $ex){
             $app->print(self::gets(self::RED, "BALAFON Error : "). $ex->getMessage());
@@ -229,7 +229,7 @@ class App{
             $show_help = false;
         }
         if ($show_help)
-        $app->showHelp(); 
+            $app->showHelp(); 
     }
     protected function boot(){       
         igk_hook("console::app_boot", $this); 

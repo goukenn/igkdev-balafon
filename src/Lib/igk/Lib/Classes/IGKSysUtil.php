@@ -7,38 +7,63 @@
 ///<summary> System utility class </summary>
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
+use IGK\Controllers\SysDbControllerManager;
+use IGK\Database\DbSchemas;
 use IGK\Database\SQLQueryUtils;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IO\StringBuilder;
 
 /**
  * 
  * @package 
  */
-final class IGKSysUtil
+abstract class IGKSysUtil
 {
-    private function __construct(){
+    private function __construct()
+    {
     }
 
-    public static function Encrypt($data, $prefix=null){       
-        if ($prefix===null){
-            $prefix = defined("IGK_PWD_PREFIX")? IGK_PWD_PREFIX : "";
+    /**
+     * get model full type name 
+     * @param string $table table name to get 
+     * @param ?BaseController $controller the controller 
+     * @return string 
+     */
+    public static function GetModelTypeName(string $t, ?BaseController $ctrl = null): string
+    {
+        $_NS = "";
+        $t = preg_replace(IGKConstants::MODEL_TABLE_REGEX, "", $t);
+        if ($ctrl) {
+            $_NS = $ctrl::ns("Models") . "\\";
         }
-        return hash("sha256", $prefix.$data);
+        $name = preg_replace("/\\s/", "_", $t);
+        $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
+        return $_NS . $name;
+    }
+    public static function Encrypt($data, $prefix = null)
+    {
+        if ($prefix === null) {
+            $prefix = defined("IGK_PWD_PREFIX") ? IGK_PWD_PREFIX : "";
+        }
+        return hash("sha256", $prefix . $data);
     }
     /**
      * clear lib controller
      * @return void 
      */
-    public static function CleanLibFolder(){
-        if ($hdir = opendir($rdir = realpath(IGK_LIB_DIR."/../"))){
-            while($cdir = readdir($hdir)){
-                if (($cdir=="." )|| ($cdir=="..") || ($cdir=="igk")){
+    public static function CleanLibFolder()
+    {
+        if ($hdir = opendir($rdir = realpath(IGK_LIB_DIR . "/../"))) {
+            while ($cdir = readdir($hdir)) {
+                if (($cdir == ".") || ($cdir == "..") || ($cdir == "igk")) {
                     continue;
                 }
-                if (is_dir($b = $rdir."/".$cdir)){ 
+                if (is_dir($b = $rdir . "/" . $cdir)) {
                     IO::RmDir($b);
-                } 
+                }
             }
         }
     }
@@ -62,8 +87,9 @@ final class IGKSysUtil
      * @param mixed $file 
      * @return void 
      */
-    public static function GetDataDefinitionFromFile($file, $v=null, & $tables=null){
-        if ($tables ===null)
+    public static function GetDataDefinitionFromFile($file, $v = null, &$tables = null)
+    {
+        if ($tables === null)
             $tables = [];
         $data = igk_db_load_data_schemas($v->getDataSchemaFile());
         $tschema = $data->tables;
@@ -75,9 +101,9 @@ final class IGKSysUtil
                     return null;
                 }
 
-                $cinfo = igk_getv($cv, "ColumnInfo");
-                $desc = igk_getv($cv, "Description");
-                $entries = igk_getv($cv, "Entries");
+                $cinfo = $cv->columnInfo;
+                $desc = $cv->description;
+                $entries = $cv->entries;              
                 $tables[$ck] = (object)array("info" => $cinfo, "ctrl" => $v, "desc" => $desc, "entries" => $entries);
             }
         }
@@ -140,8 +166,8 @@ final class IGKSysUtil
 
                     if ($ti->clLinkType) {
                         $refColumn = igk_getv($ti, "clLinkColumn", IGK_FD_ID);
-                        $nk = $queryfilter ? '' : 
-                        igk_getv($ti, "clLinkConstraintName", '`'.$table . "_" . $ti->clName.'`');
+                        $nk = $queryfilter ? '' :
+                            igk_getv($ti, "clLinkConstraintName", '`' . $table . "_" . $ti->clName . '`');
 
                         $links .= trim(IGKString::Format(
                             "ALTER TABLE {0} ADD CONSTRAINT {1} FOREIGN KEY (`{2}`) REFERENCES {3}  ON DELETE RESTRICT ON UPDATE RESTRICT;",
@@ -192,7 +218,7 @@ final class IGKSysUtil
                         }
                     }
                 }
-            } 
+            }
             $controller->Db->close();
         }
         return $s;
@@ -201,15 +227,15 @@ final class IGKSysUtil
     /**
      * resolv the table name
      */
-    public static function DBGetTableName(string $table, ?BaseController $ctrl=null){   
-        $v = "/^%(?P<name>(prefix|sysprefix))%/i";
-    
-        return preg_replace_callback(
+    public static function DBGetTableName(string $table, ?BaseController $ctrl = null)
+    {
+        $v = IGKConstants::MODEL_TABLE_REGEX;
+        $t = preg_replace_callback(
             $v,
             function ($m) use ($ctrl) {
+                $p = igk_app()->configs->get("db_prefix");
                 switch ($m["name"]) {
                     case "prefix":
-                        $p = igk_app()->configs->get("db_prefix");
                         if ($ctrl) {
                             if (!empty($s = $ctrl->getConfigs()->clDataTablePrefix)) {
                                 $p = $s;
@@ -217,12 +243,125 @@ final class IGKSysUtil
                         }
                         return $p;
                     case "sysprefix":
-                        return igk_app()->configs->get("db_prefix");
+                        return $p;
+                    case "year":
+                        return date("Y");
                 }
             },
             $table
         );
+        return $t;
     }
 
-    
+
+    public static function DBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl)
+    {
+        $tab = [];
+        $require = [];
+        $optional = [];
+        foreach ($inf as $column => $prop) {
+            if ($prop->clAutoIncrement) {
+                continue;
+            }
+            if ($prop->clDefault) {
+                $optional[] = $column;
+                continue;
+            }
+            $require[] = $column;
+        }
+        $tab = array_merge($require, $optional);
+        $tab = array_combine($tab, $tab);
+        $g = array_map(function ($i) use ($inf, $ctrl) {
+            return self::GetPhpDoPropertyType($i, $inf[$i], $ctrl, true);
+        },  $tab);
+        return $g;
+    }
+
+    public static function GetPhpDoPropertyType($name, $info, $ctrl, $extra = false)
+    {
+
+        $t = self::ConvertToPhpDocType($info->clType);
+        if ($info->clLinkType) {
+            $t = "int|" . self::GetLinkType($info->clLinkType, $info->clNotNull, $ctrl);
+        }
+        $extra = "";
+        if ($extra && $info->clDefault) {
+            $extra = " =\"" . $info->clDefault . "\"";
+        }
+        return $t . " \$" . $name . $extra;
+    }
+
+    /**
+     * reverse table table t
+     * @param string $table 
+     * @param null|BaseController $ctrl 
+     * @return string 
+     */
+    public static function DBReverseTableName(string $table, ?BaseController $ctrl = null)
+    {
+        $c = $table;
+        foreach (["%prefix%", "%sysprefix%", "%year%"] as $v) {
+            if ($vv = self::DBGetTableName($v, $ctrl)) {
+                $c = str_replace($vv, $v, $c);
+            }
+        }
+        return $c;
+    }
+    /**
+     * Get Link type helper
+     * @param mixed $type 
+     * @param bool $notnull 
+     * @param null|BaseController $ctrl 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetLinkType($type, bool $notnull, ?BaseController $ctrl = null)
+    {
+        $t = "";
+        if (!$notnull) {
+            $t .= "?";
+        }
+        $t .= "\\";
+        $g = &\IGK\Models\ModelBase::RegisterModels();
+
+        if (isset($g[$type])) {
+            if (!isset($g[$type]->model)) {
+                igk_die(" model class not definited.");
+            }
+            $t .= $g[$type]->model;
+        } else {
+            // retrieve model 
+            $list = [];
+            if ($ctrl)
+                $list[] = $ctrl;
+            if (SysDbController::ctrl() !== $ctrl) {
+                $list[] = SysDbController::ctrl();
+            }
+            while ($q = array_shift($list)) {
+                if ($gu = SysDbControllerManager::GetDataTableDefinitionFormController($q, $type)) {
+                    break;
+                }
+            }
+            if (is_null($gu)) {
+                igk_die(sprintf("try to retrieve null %s ", $type));
+            }
+            if (!isset($gu->modelClass)) {
+                $gu->modelClass = IGKSysUtil::GetModelTypeName($gu->defTableName, $ctrl);
+            }
+            $t .=  $gu->modelClass;
+        }
+        return $t;
+    }
+    public static function ConvertToPhpDocType($type)
+    {
+        return igk_getv([
+            "varchar" => "string",
+            "int" => "int",
+            "decimal" => "int",
+            "float" => "float",
+            "datetime" => "string|datetime"
+        ], strtolower($type), "string");
+    }
 }

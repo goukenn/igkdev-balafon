@@ -1,8 +1,8 @@
-//.twitter.loader.js
+// .twitter.loader.js - 
 "use strict";
 (function(){
-
-	igk.ready(function(){	
+	igk.ready(function(){
+		 
 		var l = igk.getCurrentScript().getAttribute("data-lib");
 		var o = igk.getParentScript();
 		var js = document.createElement("script");

@@ -56,7 +56,6 @@ EOF
 			extract($this->getSystemVars());
 			$t->clearChilds();
 			$show_count = igk_parsebool(igk_getv($this->Configs,"clShowDataCount", false));
-
 			$t->add("a", array(
 			"href"=>igk_getv($this->Configs,"clUri", "https://twitter.com/twitterapi"),
 			"class"=>"twitter-follow-button",

@@ -10,14 +10,11 @@ use IGK\System\Http\Request;
 class IGKRoutes
 {
     const REG_KEY = "sys://reg/systemuri";
-
+    static $request_entry;
     public static function Register($u, $callback, $prehandle = 1)
     {
-        static $request_entry = null;
         // TODO : remove register
-        // return;
-
-        if (is_null($request_entry)){
+        if (is_null(self::$request_entry)){
             $request_entry = Request::getInstance()->requestEntry();
         }
         igk_environment()->setArray(self::REG_KEY, $u, $callback);

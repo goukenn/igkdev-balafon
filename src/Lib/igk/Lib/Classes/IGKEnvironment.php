@@ -11,12 +11,14 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Helper\IO ;
 use IGK\Resources\R;
 use IGK\System\IO\FileSystem;
+use IGK\System\Providers\ClassProvider;
 
 use function igk_getv as getv;
 
+
 ///<summary>use to manage Server Environment</summary>
 /**
-* use to manage Server Environment
+* use to manage Server Environment configuration poperties
 * @property string $subdomainctrl current subdomain controller
 * @property string $basectrl base controller
 * @property int    $querydebug activate of not the query debug
@@ -317,8 +319,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
         if (isset($instance[$classname])){
             return $instance[$classname];
         }
-        $c = new $classname();
+        $cl = ClassProvider::GetClass($classname);
+        $c = new $cl();
         $instance[$classname] = $c;
+        if ($cl!=$classname){
+            $instance[$cl] = $c;
+        }
+        igk_environment()->set(self::INSTANCES, $instance);
         return $c;
 
     } 
@@ -589,5 +596,8 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
      */
     public function getResolvSQLType(){
         return !defined("IGK_TEST_INIT");
+    }
+    public function getControllerInfo(){
+        return self::GetClassInstance("controller::info");        
     }
 }

@@ -5,7 +5,7 @@
 use IGK\System\Console\Logger;
 
 if(!$force && !$controller->getCanInitDb()){
-    igk_debug_wln("Can't init db ".$controller->Name. " ConfigUserConnected: ".igk_parsebool(igk_is_conf_connected()));
+    // igk_debug_wln("Can't init db ".$controller->Name. " ConfigUserConnected: ".igk_parsebool(igk_is_conf_connected()));
     return;
 }
 $response = false;

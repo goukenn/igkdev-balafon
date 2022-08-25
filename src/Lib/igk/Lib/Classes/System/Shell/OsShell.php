@@ -6,10 +6,13 @@
 // @desc: 
 
 
-namespace IGK\System\Installers;
+namespace IGK\System\Shell;
 
 
-
+/**
+ * 
+ * @package IGK\System\Shell
+ */
 class OsShell {    
     private static $sm_commands = [
         "Unix"=>OsUnixCommand::class,
@@ -25,6 +28,9 @@ class OsShell {
             $cl = self::$sm_commands["Window"];            
         } 
         return call_user_func_array([$cl, $n], $args);
+    }
+    public static function Exec($command){ 
+        return exec($command);
     }
      
 }

@@ -81,8 +81,7 @@ class subdomain{
             $app= igk_app();
             // + | reset configuration page
             $app->settings->appInfo->store("config", null);
-            igk_ilog([__FILE__.":".__LINE__, "reset config"]);
-
+            // igk_ilog([__FILE__.":".__LINE__, "reset config"]);
             $tab=explode('?', $v_ruri);
             $uri=igk_getv($tab, 0);
             $params=igk_getv($tab, 1);

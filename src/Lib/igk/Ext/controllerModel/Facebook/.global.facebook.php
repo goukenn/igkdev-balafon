@@ -135,9 +135,9 @@ igk_community_register_followus_service("facebook", function($cmd,$t,$v=null){
 			$name = igk_getv(func_get_args(),3);
 			$ul = $t->add("ul");
 			igk_html_build_form($ul,array(
-			"cl".$name."Id"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookId'))),
-			"cl".$name."AppID"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookAppID'))),
-			"cl".$name."Version"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookVersion')))
+			IGK_FIELD_PREFIX.$name."Id"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookId'))),
+			IGK_FIELD_PREFIX.$name."AppID"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookAppID'))),
+			IGK_FIELD_PREFIX.$name."Version"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookVersion')))
 			));
 		break;
 		case "getlink":
