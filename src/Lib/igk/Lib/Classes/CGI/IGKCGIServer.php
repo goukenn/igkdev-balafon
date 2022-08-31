@@ -173,61 +173,9 @@ class IGKCGIServer
                         break;
                     }
                 }
-                // if (empty($cl)){
-                //    // read  
-                //    $h =0; 
-                // }
-                // else{ 
-                  
-
-                //     $h = 1;
-                //     if (preg_match("/^Content-Disposition:/", $l)){ 
-                //         $s = substr($inf[0], strlen("Content-Disposition:")+1);
-                //         $_type = $s;
-                //         array_shift($inf);
-                //         $_attr=  HtmlReader::ReadAttributes(implode(" ", $inf));                   
-                //         // igk_wln("type= ".$_type. " attributes : ",$_attr);                    
-                //     }else {
-                //         if ($_type){
-                //             switch($_type){
-                //                case "form-data":
-                //                 if (strpos($cl, $key) === 0){ 
-                //                     $_POST[$_attr["name"]] = $v;
-                //                     $_type = null;
-                //                     $_attr = null;
-                //                     $h=0;
-                //                     $v = "";
-                //                 } else {
-                //                     $v .= $l;
-                //                 } 
-                //                 break;
-                //                 default:
-                //                     igk_wln_e("not handle:".$_type);
-                //                 break;
-                //             }
-                //         }
-                //         else { 
-                //             $key = $cl; 
-                //         }
-                //     }
-                // }
-               // echo "bLine = ".$l."<br />";
+               
             }
-            //igk_wln_e("POST", $_POST);
-            // $buffsize=4096;
-            // $s="";
-            // while(($c=fread($fin, $buffsize))){
-            //     $s .= $c;
-            // }
-            // fclose($fin);
-            // igk_wln("read data", $s, empty($s));
-            // if (!empty($s)){
-            //     // load 
-            //     $c = ";";
-            //     foreach(explode("\n", $s) as $line){
-            //         echo "line:".$line ."<br />";
-            //     }
-            // }
+            
             fseek($fin, 0, SEEK_SET);
             return 1;
         }

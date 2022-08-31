@@ -89,7 +89,6 @@ class ConfigurationPageHandler
 
             igk_sys_config_view($file);
             igk_exit();
-        }
-        igk_wln_e("not handle");
+        } 
     }
 }

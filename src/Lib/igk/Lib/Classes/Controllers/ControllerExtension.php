@@ -181,12 +181,12 @@ abstract class ControllerExtension
         return $ctrl->getAppUri($fname . rtrim($name, '/'));
     }
     ///<summary>retrieve root base uri</summary>
-    public static function buri(BaseController $ctrl, ?string $name="")
+    public static function buri(BaseController $ctrl, string $name="")
     {
         if(is_null($name)){
             if (igk_environment()->isDev()){
                 igk_trace();
-                igk_dev_wln_e("not handle");
+                igk_dev_wln_e(__FILE__.":".__LINE__, "buri not handle");
             }
         }
         $uri = self::furi($ctrl, $name);
