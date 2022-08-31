@@ -13,6 +13,10 @@ use IGK\System\Html\HtmlRenderer;
 
 require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php"; 
 
+/**
+ * application web controller 
+ * @package 
+ */
 class IGKWebApplication extends IGKApplicationBase
 {
 
@@ -47,11 +51,11 @@ class IGKWebApplication extends IGKApplicationBase
         
         // igk_ilog("handle cache.".session_id());
         
-        igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());
+        //igk_environment()->write_debug("include_web_request : ".igk_sys_request_time());
         $this->initlibrary();
        
         try {
-            igk_environment()->write_debug("before request handle : ".igk_sys_request_time());            
+            //igk_environment()->write_debug("before request handle : ".igk_sys_request_time());            
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
             // | ----------------------------------------------------
             // | backup index file 
@@ -170,6 +174,8 @@ class IGKWebApplication extends IGKApplicationBase
   
     }
     protected function initLibrary(){
+        // igk_wln_e(__FILE__.":".__LINE__,  "file : ".igk_sys_request_time());
+
         require_once(IGK_LIB_CLASSES_DIR . '/System/Html/IHtmlGetValue.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKObject.php');
         require_once(IGK_LIB_CLASSES_DIR . '/IGKAttribute.php');
@@ -295,6 +301,8 @@ class IGKWebApplication extends IGKApplicationBase
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/ViewHelper.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/UriHelper.php');
         require_once(IGK_LIB_CLASSES_DIR . '/Helper/Activator.php');
+
+        // igk_wln_e(__FILE__.":".__LINE__,  "file : ".igk_sys_request_time());
 
         require_once(IGK_LIB_CLASSES_DIR . '/System/Collections/ArrayList.php');
         require_once(IGK_LIB_CLASSES_DIR . '/System/Database/MySQL/Controllers/DbConfigController.php');

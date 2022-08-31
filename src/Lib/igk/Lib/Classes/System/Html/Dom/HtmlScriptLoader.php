@@ -59,7 +59,7 @@ class HtmlScriptLoader{
      * @return string|false result
      * @throws IGKException 
      */
-    public static function LoadScripts($tab, $options=null, $production=false, $exclude_dir=[], $cachePath="corejs:/igk.js"){
+    public static function LoadScripts($tab, $options=null, $production=false, $exclude_dir=[], $cachePath="corejs:/igk.js", $defer=0){
  
 
         $no_page_cache = igk_setting()->no_page_cache();
@@ -84,7 +84,7 @@ class HtmlScriptLoader{
         $production_file  = ""; 
         if (!$production) {
             $rq = count(array_filter(explode("/", $d))) . "/:";
-            $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf, $tabstop) {               
+            $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf, $tabstop, $defer) {               
                 $g = basename($f); 
                 if (strpos($g, ".") === 0){
                    return;
@@ -95,7 +95,7 @@ class HtmlScriptLoader{
                     case ".js";
                         $u .= "?v=" . IGK_VERSION;
                         $s .= $tabstop."<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
-                        if ($tag != "igk") {
+                        if (($tag != "igk") || $defer) {
                             $s .= " defer";
                         }
                         $s .= " ></script>".$lf;
@@ -144,8 +144,8 @@ class HtmlScriptLoader{
                 igk_js_minify($out),
                 $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR."/Inc/js/eval.js")) : "igk.js.initEmbededScript()"
             ];
-            $out = $tabstop."<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[".$pif[0]."]]>\n</script>".$lf;
-            $out.= $tabstop."<script type=\"text/javascript\" language=\"javascript\" >\n".$pif[1]."\n</script>".$lf;
+            $out = $tabstop."<script type=\"text/javascript\" language=\"javascript\" defer >\n//<![CDATA[".$pif[0]."]]>\n</script>".$lf;
+            $out.= $tabstop."<script type=\"text/javascript\" language=\"javascript\" defer >\n".$pif[1]."\n</script>".$lf;
             if (!$no_page_cache){
                 // IO::WriteToFile($production_file, $out);
                 // $path = IGKCaches::js_filesystem()->getCacheFilePath("corejs-dist:/igk.js", ".js");
@@ -154,4 +154,7 @@ class HtmlScriptLoader{
         } 
         return $out;
     }
+
+
+ 
 }

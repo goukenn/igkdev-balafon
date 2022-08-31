@@ -7,12 +7,27 @@
 
 namespace IGK\Controllers;
 
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Http\WebResponse;
+use IGKException;
+use ReflectionException;
 
 ///<summary> api controller</summary>
+/**
+ * represent api controller
+ * @package IGK\Controllers
+ */
 abstract class ApiController extends ControllerTypeBase{
-    public function index(...$args){
+
+    /**
+     * default index controller 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function index(){
         //        
         $doc = new HtmlDocumentNode();
         $dv = $doc->getBody()->addBodyBox()->div();

@@ -10,13 +10,11 @@ use Exception;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\FileWriter;
-use IGK\System\IO\Path;
+use IGK\System\IO\FileWriter; 
 use IGKException;
 use ReflectionException;
+use function igk_resources_gets as __; 
 
-use function igk_resources_gets as __;
-use function PHPSTORM_META\override;
 
 /**
  * IO utility helper
@@ -205,7 +203,8 @@ class IO
                         if ($overwrite && is_file($p)){
                             unlink($p);
                         }
-                        copy($f, $p);                        
+                        self::CreateDir(dirname($p));                  
+                        copy($f, $p);                           
                     } 
                 }
                 closedir($hdir);
@@ -669,12 +668,13 @@ class IO
                         continue;
                     $mdata = 0;
                     $f = $q . $sep . $r;
+                    // igk_debug_wln("first file ".$f);
                     if (!is_dir($f)) {
                         if ($_include_match && $_include_match($f)) {
                             //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
                             if ($mdata == -1) {
                                 continue;
-                            }
+                            } 
                             $v_out[] = $f;
                             $callback && $callback($f);
                         }

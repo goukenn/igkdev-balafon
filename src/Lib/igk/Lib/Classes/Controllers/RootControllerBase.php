@@ -10,9 +10,13 @@ namespace IGK\Controllers;
 use Closure;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\ActionNotFoundException;
 use IGKApp;
+use IGKException;
 use IGKObject;
 use IGKType;
+use ReflectionException;
 use ReflectionFunction;
 
 ///<summary>represent a root controller entry</summary>
@@ -68,6 +72,16 @@ abstract class RootControllerBase extends IGKObject{
         return igk_getv(self::$macros, $name);
     }
 
+    /**
+     * macros override
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws ActionNotFoundException 
+     */
     public static function __callStatic($name, $arguments)
 	{   
         $c = null; 

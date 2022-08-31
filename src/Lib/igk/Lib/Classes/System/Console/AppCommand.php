@@ -8,6 +8,7 @@
 
 namespace IGK\System\Console;
 use IGK\System\Console\AppCommandConstant;
+use IGK\System\Console\Commands\InitCommand;
 use ReflectionClass;
 
 
@@ -50,7 +51,7 @@ abstract class AppCommand {
         $o->callable = $callable;
         igk_push_env(self::ENV_KEY, $o);
     }
-    public static function GetCommands(){
+    public static function GetCommands($app){
         static $loaded_command = null;
         if ($loaded_command === null){
 
@@ -101,11 +102,25 @@ abstract class AppCommand {
                 }
             }
             else {
-                igk_wln_e("file not present ". $file);
+                // init command before 
+                // $init_command = new InitCommand;
+                // $cmd = null; // self::Create("");
+                // $init_command->exec($app);
+
+                Logger::info("command file not present ". $file);
             }
         }
 
         return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 
+    }
+    /**
+     * create command argument
+     * @return static 
+     */
+    public static function Create(string $args){
+        $pb = null;// new self;
+
+        return $pb;
     }
     /**
      * execute command

@@ -30,7 +30,8 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $i
     */
     protected function _access_offsetExists($i){
-        return isset($this->_f[strtolower($i)]);
+        $i = strtolower($i);
+        return isset($this->_f[$i]);
     }
     ///<summary></summary>
     ///<param name="i"></param>
@@ -39,7 +40,8 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $i
     */
     protected function _access_offsetGet($i){
-        return $this->_f[strtolower($i)];
+        $i = strtolower($i);
+        return igk_getv($this->_f, $i);
     }
     ///<summary></summary>
     ///<param name="i"></param>
@@ -49,10 +51,9 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $i
     * @param mixed $v
     */
-    protected function _access_offsetSet($i, $v){
-        igk_trace();
-        igk_exit();
-        $this->_f[strtolower($i)]=$v;
+    protected function _access_offsetSet($i, $v){   
+        $i = strtolower($i);
+        $this->_f[$i]=$v;
     }
     ///<summary></summary>
     ///<param name="i"></param>
@@ -61,7 +62,8 @@ final class IGKLangResDictionary implements ArrayAccess{
     * @param mixed $i
     */
     protected function _access_offsetUnset($i){
-        unset($this->_f[strtolower($i)]);
+        $i = strtolower($i);
+        unset($this->_f[$i]);
     }
     ///<summary> get sorted keys</summary>
     /**
@@ -81,7 +83,7 @@ final class IGKLangResDictionary implements ArrayAccess{
             include(func_get_arg(0)); 
             return $l;
         })->bindTo(null);
-        $this->_f = $fc($file, ["l"=> $this->_f]); 
+        $this->_f = array_change_key_case($fc($file, ["l"=> $this->_f]), CASE_LOWER);        
     }
     public function set($key, $value){
         $this->_f[$key] = $value;

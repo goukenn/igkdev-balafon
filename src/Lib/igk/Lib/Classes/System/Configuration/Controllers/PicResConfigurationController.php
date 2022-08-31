@@ -234,7 +234,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="check" default="false"></param>
-    public function getImgUri($name, $check=false){
+    public function getImgUri($name, $check=false, & $path=null){
         $res=$this->getPicRes() ?? (function(){
             $t=array();
             $this->_initDefaultPictureRes($t);
@@ -247,6 +247,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $s=igk_realpath($b);
         if($s){
+            $path = $s;
             return (new IGKHtmlRelativeUriValueAttribute($s))->getValue();
         }
         return igk_html_resolv_img_uri(igk_io_basedir($b));

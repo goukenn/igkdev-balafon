@@ -53,7 +53,7 @@ class FileWriter{
         fclose($hf);
         if($chmod && igk_environment()->isUnix()){  
             $s_chmod = is_string($chmod) ? octdec($chmod) : $chmod; 
-            if(($user = posix_getpwuid(fileowner($filename)))
+            if(function_exists('posix_getpwuid') && ($user = posix_getpwuid(fileowner($filename)))
               && (get_current_user() == $user["name"]) && !@chmod($filename, $s_chmod)){
                 if (igk_current_context() == IGKAppContext::running){
                     if(IGKApp::IsInit()){
@@ -79,15 +79,16 @@ class FileWriter{
         if(preg_match("/^phar:/i", $dirname)){
             igk_die("InvalidOperation#1200");
         }
+        if (is_dir($dirname))
+            return true;
         $pdir=array($dirname);
         $s_mode = is_string($mode) ? octdec($mode) : $mode;
         $is_unix = igk_environment()->isUnix();
-     
+        igk_debug_wln("createdir: ".$dirname."\n");
         while($dirname=array_pop($pdir)){            
             if(is_dir($dirname))
                 continue;
-            igk_debug_wln("create : ".$dirname."\n");
-          
+            // igk_debug_wln("create : ".$dirname."\n");          
             $p=dirname($dirname);
             if(empty($p))
                 continue;
@@ -97,7 +98,9 @@ class FileWriter{
                         chmod($dirname, $s_mode);
                     }
                 }else{
-                    igk_dev_wln_e("failed to create : ".$dirname);
+                    if (igk_environment()->isDev())
+                        igk_trace();
+                    igk_dev_wln_e("failed to create directory: ".$dirname, error_get_last());
                     throw new IGKException("failed to create ".$dirname); 
                 }
             }

@@ -50,8 +50,7 @@ HTML;
         $g = tempnam(sys_get_temp_dir(), "text-"); // tmpfile();
         igk_io_w2file($g, $template);
         $n = igk_create_node("notagnode");
-        $data = [1, 2];
-        igk_debug(1);
+        $data = [1, 2]; 
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
         unlink($g);
@@ -84,8 +83,7 @@ HTML;
             "description"=><<<'HTML'
 <div>presentation \' et information et de jour ' </div>
 HTML
-        ]];
-        igk_debug(1);
+        ]]; 
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
         unlink($g);

@@ -305,7 +305,7 @@ class ViewHelper
         $ext_regex = '/\.' . $extension . '$/i';
         $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
         $f = $f . $ext; 
-        if (!empty($ext) && $checkfile) {
+        if (!empty($ext)) {
             $s = 1;
             $_views = array_filter(explode("/", $view));
             while ($s && (count($_views) > 0) && ($f != $viewDir)) {
@@ -326,14 +326,18 @@ class ViewHelper
                 }
             }
             if ($s) {
-                return $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
+                $f =  $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
+            }
+        }else {
+            if (!$checkfile || ($checkfile && is_file($f))){                
+                $s = $f;
             }
         }
-        else if ($checkfile){
-            if (is_file($f)){
-                return $f;
-            }
-        }
+       //  igk_debug("check file ".$f);
+        // igk_debug_wln("found ? ".$s, $f, "kkdjdjd: ", $s, $ext);
+        // if ($s && $checkfile && is_file($f)){
+        //     return $f;           
+        // }
         return $s;
     }
 }

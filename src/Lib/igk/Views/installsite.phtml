@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Installers\InstallerUtils;
+
 use function igk_resources_gets as __;
 if(isset($source_args)){
     extract($source_args);
@@ -32,24 +34,12 @@ igk_view_handle_actions($fname, ["install"=>function(){
                 if($module){
                     $module_path=igk_html_uri(igk_get_module_dir());
                 }
-                $source=<<<EOF
-<?php
-if (!defined('IGK_FRAMEWORK')){
-	require_once('{$LIB}');
-}
-// define application directory
-define("IGK_APP_DIR", '{$install}/application');
-
-// define base directory
-define("IGK_BASE_DIR", dirname(__FILE__));
-
-// define project directory
-define("IGK_PROJECT_DIR", '{$install}/application/Projects');
-
-// use of modules
-define("IGK_MODULE_DIR", '{$module_path}');
-igk_sys_render_index(__FILE__);
-EOF;
+             
+                $source = InstallerUtils::GetEntryPointSource([
+                    "app_dir"=>$install."/application",
+                    "project_dir"=>$install."/application/Projects",
+                    "entry_app_dir"=>"../",
+                ]);  
                 igk_io_w2file("{$install}/src/public/index.php", $source);
                 igk_notifyctrl("site_install")->addSuccess(__("Site install done : {0}", $install));
             }

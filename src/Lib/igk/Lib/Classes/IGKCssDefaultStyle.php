@@ -197,7 +197,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
         $tab=igk_getv($this->_, self::DECLARED_RULE);
         foreach($tab as $k=>$v){
             if (is_string($v)){
-                $v=igk_css_treat($v, $this, $systheme);
+                $v=igk_css_treat($v, $themeexport, $this, $systheme);
                 if($v){
                     $o .= $k."{".$v."}".$lineseparator;
                 }

@@ -87,7 +87,7 @@ class App{
         Logger::SetLogger(new ConsoleLogger($app));        
         $app->boot();
 
-        $command_args = AppCommand::GetCommands();
+        $command_args = AppCommand::GetCommands($app);
 
         if ($command_args){ 
             foreach($command_args as $c){                 
@@ -126,7 +126,7 @@ class App{
         $app = new static();  
         $app->configs = $cnf;
 
-        if ($command_args = AppCommand::GetCommands()){ 
+        if ($command_args = AppCommand::GetCommands($app)){ 
             foreach($command_args as $c){                
                 $callbable = null;
                 if ($c instanceof AppCommand ){

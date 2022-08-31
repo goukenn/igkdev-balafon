@@ -19,9 +19,12 @@ use IGK\System\Http\IHeaderResponse;
 /**
  * create core document
  * @package IGK
- * @property bool NoCache disable document caching
- * @property ?bool noCoreCss disable loading of core css
- * @property ?bool noPowered disable powered by message
+ * @property ?bool $isTemplate enable template mode. 
+ * @property ?bool $noCache disable document caching
+ * @property ?bool $noCoreCss disable loading of core css
+ * @property ?bool $noPowered disable powered by message
+ * @property ?bool $noCoreScript disable core script rendering
+ * @property ?bool $noFontInstall enable template mode. 
  */
 class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      
@@ -29,8 +32,35 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     private $m_theme;
     private $m_baseuri;
     private $m_noCache;
+    private $m_noCoreScript;
 
+    public function getnoFontInstall(){
+        if (property_exists($this, "noFontInstall"))
+            return $this->noFontInstall;
+        return null;
+    }
+    public function setnoFontInstall(?bool $value){
+        $this->noFontInstall = $value;
+        return $this;
+    }
 
+    public function setIsTemplate(?bool $value){
+        $this->isTemplate = $value;
+        return $this;
+    }
+    public function getIsTemplate(?bool $value){
+        if (property_exists($this, "isTemplate"))
+            return $this->isTemplate;
+        return null;
+    }
+
+    public function getnoCoreScript(){
+        return $this->m_noCoreScript;
+    }
+    public function setnoCoreScript(?bool $n){
+        $this->m_noCoreScript = $n;
+        return $this;
+    }
     public function getNoCoreCss(){
         if (property_exists($this, "noCoreCss"))
             return $this->noCoreCss;
@@ -266,11 +296,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     private function _addCoreCss(){
         $key = "sys://css";
         $t = null;
-        if (!empty($s = igk_io_corestyle_uri())){
-  
-            // $t=$this->addStyle($s, true);
-            // $t->cache = 1;
-            // igk_wln($t->render());
+        if (!empty($s = igk_io_corestyle_uri())){   
             $n =  $this->m_head;
             $g=$n->getParam($key);
             if (!isset($g[$s])){                
@@ -282,9 +308,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
 
             } else {
                 $t = $g[$s];
-            }
-            // igk_wln_e($t->render());
-            // $t=$this->addStyle($s, true);
+            } 
         }
         return $t;
     }
@@ -416,7 +440,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     /**
     * load temp extra script file. must be called out of rendering context. /!\\ Before
     */
-    public function addTempScript($file){
+    public function addTempScript($file){  
         if(!IGKValidator::IsUri($file))
             $file=igk_io_dir($file);
         $t=$this->ScriptManager->getTempScripts();

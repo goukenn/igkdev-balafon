@@ -25,6 +25,10 @@ final class GlobalScriptManagerHostNode extends HtmlNode{
     * @param mixed $options the default value is null
     */
     public function render($options=null){
+        // if ($doc = igk_getv($options, "Document")){
+        //     if ($doc->noCoreScript)
+        //         return;
+        // }
         $v=igk_ob_get_func(function() use ($options){
             igk_app()->getDoc()->getScriptManager()->localScriptRenderCallback($options);
         });

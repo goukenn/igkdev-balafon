@@ -30,7 +30,8 @@ abstract class Response implements IResponse{
      * @throws IGKException 
      */
     public static function HandleResponse($r){
-        $handler = igk_app()->getService(\ResponseHandler::class) ?? new ResponseHandler();
+        $app = igk_app();
+        $handler = ($app ? $app->getService(\ResponseHandler::class) : null) ?? new ResponseHandler();
         return $handler->HandleReponse($r); 
     }
 }

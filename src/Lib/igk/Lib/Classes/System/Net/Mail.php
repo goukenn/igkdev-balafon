@@ -9,6 +9,7 @@ namespace IGK\System\Net;
 
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\HtmlRenderer;
 use IGKObject;
 use IIGKMailAttachmentContainer;
 
@@ -59,7 +60,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer {
             $init($mail);
         }
         if ($message instanceof HtmlItemBase){
-            $opt = igk_xml_create_render_option();
+            $opt = HtmlRenderer::CreateRenderOptions();
             $opt->Context = "mail";
             $message = $message->render($opt); 
         }

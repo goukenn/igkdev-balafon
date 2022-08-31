@@ -61,13 +61,13 @@ class WebResponse extends RequestResponse{
         $cache = $this->cache;
         // + | priority to document cache setting
         if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
-            $cache = !$this->node->NoCache; 
+            $cache = !$this->node->noCache; 
         } 
         ob_start();   
         $this->render();
         $s = ob_get_clean();   
-        $zip = igk_server()->accepts(["gzip"]);       
-        igk_set_header($this->code, $this->getStatus($this->code), $this->headers); 
+        $zip = igk_server()->accepts(["gzip"]);  
+        $this->_setHeader();
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI

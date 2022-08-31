@@ -144,7 +144,8 @@ class FormStorageAction extends ActionBase{
                 return $b;
             }
         ], $params);
-        igk_view_unset_action($fname, $this->uri[1]);
+        if ($this->uri && (count($this->uri)>0))
+            igk_view_unset_action($fname, $this->uri[1]);
         return $o;
     }
 }

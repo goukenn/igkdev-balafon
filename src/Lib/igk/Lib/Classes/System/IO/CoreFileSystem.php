@@ -7,8 +7,13 @@
  
 namespace IGK\System\IO;
 
-use IGK\System\Exceptions\ArgumentNotValidException;
+// igk_trace();
+// igk_wln_e("basic");
 
+/**
+ * core file
+ * @package IGK\System\IO
+ */
 abstract class CoreFileSystem{
 
      /**
@@ -53,7 +58,7 @@ abstract class CoreFileSystem{
     public function lastModified(string $path){
         $c = $path;
         if (self::Exists($c)){   
-            return filemtime($c);
+            return @filemtime($c);
         }
         return false;
     }

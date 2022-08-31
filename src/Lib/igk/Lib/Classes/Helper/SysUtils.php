@@ -194,8 +194,12 @@ class SysUtils{
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
     }
-
+    /**
+     * 
+     * @param string $name 
+     * @return mixed 
+     */
     public static function GetApplicationLibrary(string $name){
-        return igk_app()->getApplication()->getLibrary()->$name;
+        return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
     }
 }

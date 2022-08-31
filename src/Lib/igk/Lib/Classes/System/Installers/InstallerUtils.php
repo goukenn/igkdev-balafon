@@ -3,6 +3,8 @@
 // desc: installer utility class helper
 namespace IGK\System\Installers;
 
+use IGKException;
+
 final class InstallerUtils
 {
     private function __construct(){        
@@ -17,6 +19,12 @@ final class InstallerUtils
         ];
         return implode("\n",$data);
     }
+    /**
+     * get entry point default sources
+     * @param array|null $options used options
+     * @return string|false 
+     * @throws IGKException 
+     */
     public static function GetEntryPointSource(array $options = null ){
         if ($options===null){
             $options = [];

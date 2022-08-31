@@ -8,6 +8,10 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\Controllers\ToolControllerBase;
+use IGK\Helper\IO;
+use IGK\System\Installers\InstallerUtils;
+use IGK\System\IO\StringBuilder;
+
 ///<summary>Represente class: IGKInstallSiteTool</summary>
 /**
 * Represente IGKInstallSiteTool class
@@ -60,17 +64,13 @@ class IGKInstallSiteTool extends ToolControllerBase{
         $dir=$root."/public";
         IO::CreateDir($dir);
         $appdir=igk_html_uri($appdir);
-        igk_io_w2file($dir."/index.php", <<<EOF
-<?php
-\$apppath = realpath(dirname(__FILE__)."/../application");
-define('IGK_PROJECT_DIR', \$apppath.'{$sep}Projects');
-define('IGK_APP_DIR', \$apppath);
-define('IGK_SESS_DIR', dirname(\$apppath).'{$sep}temp');
-@require_once(\$apppath."/Lib/igk/igk_framework.php");
-unset(\$appath);
-igk_sys_render_index(__FILE__);
-EOF
-        );
+        $sb = new StringBuilder();
+        $sb->appendLine(InstallerUtils::GetEntryPointSource([
+            "app_dir"=>$appdir,
+            "project_dir"=>$appdir."/Projects",
+            "entry_app_dir"=>"../",
+        ]));  
+        igk_io_w2file($dir."/index.php",  "".$sb);
         if($frame=igk_getr("frame")){
             igk_ajx_replace_uri(igk_server()->HTTP_REFERER);
         }

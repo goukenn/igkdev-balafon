@@ -38,8 +38,7 @@ class FtpHelper
                 @ftp_chdir($ftpresourse, $_m);
             }
         }
-        ftp_chdir($ftpresourse, $bckdir);
-        
+        ftp_chdir($ftpresourse, $bckdir);        
         return $r;
     }
 

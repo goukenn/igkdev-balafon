@@ -139,7 +139,7 @@ final class SessionController extends BaseController{
     }
     
     ///<summary></summary>
-    protected function initComplete($context=null){ 
+    protected function initComplete($context=null){     
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 

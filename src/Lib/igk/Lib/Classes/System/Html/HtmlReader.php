@@ -415,7 +415,7 @@ final class HtmlReader extends IGKObject
     {
         if ((self::GetOpenerContext() == self::READ_XML) || (isset($reader->context) && ($reader->context == HtmlContext::XML))) {
             // $n = self::CreateNode($name, $pargs);
-            igk_debug_wln_e("create : ", "igk:expression-node");
+            igk_debug_wln_e("create expression node : ", "igk:expression-node");
             $n = new XmlNode($name);
             if ($pargs) {
                 $n->setAttributes($pargs);
@@ -1053,11 +1053,11 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="node" ref="true"></param>
     ///<param name="tagName"></param>
-    private function IsResolved(&$node, $tagName)
+    private function IsResolved(&$node, string $tagName)
     {
         if (!$node)
             return false;
-        $n = count($this->m_resolvKeys) > 0 ? $this->m_resolvKeys[count($this->m_resolvKeys) - 1] : null;
+        $n = count($this->m_resolvKeys) > 0 ? $this->m_resolvKeys[count($this->m_resolvKeys) - 1] : "";
         $d = count($this->m_resolvValues) > 0 ? $this->m_resolvValues[count($this->m_resolvValues) - 1] : null;
 
         if ((strtolower($n) == strtolower($tagName)) && ($d === $node)) {

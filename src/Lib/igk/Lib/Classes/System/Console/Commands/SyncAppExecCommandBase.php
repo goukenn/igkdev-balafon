@@ -64,6 +64,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             "module_dir"=>igk_getv($sync , "module_dir"),
             "node_dir"=>igk_getv($sync , "node_dir"),
             "composer_dir"=>igk_getv($sync , "composer_dir"),
+            "session_dir"=>igk_getv($sync , "session_dir"),
         ];
         return $sync;
 
@@ -86,5 +87,15 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
 
     protected function removeCache($ftp, $app_dir){        
         FtpHelper::RmDir($ftp, $app_dir."/.Caches"); 
+    }
+    /**
+     * remove all item in directory
+     * @param mixed $frp 
+     * @param mixed $dir 
+     * @return void 
+     */
+    protected function emptyDir($ftp, $dir){
+        FtpHelper::RmDir($ftp, $dir); 
+        FtpHelper::CreateDir($ftp, $dir);
     }
 }

@@ -35,6 +35,8 @@ abstract class IGKEnvironmentConstants{
      const IGNORE_LIB_DIR =self::CURRENT_CTRL+9;
      const NOT_VISIBLE_CTRL = self::CURRENT_CTRL+10; // "sys://ctrl/notvisible"; 
      const ARTICLE_CHAIN_CONTEXT = self::CURRENT_CTRL+11;// "sys://article_chain";
+     const MODULES =  "sys://module";
+     const REQUIRE_MODULES = "sys://require_mods";
      /**
       * auto load classes
       */

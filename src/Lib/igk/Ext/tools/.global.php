@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
+use IGK\System\Html\HtmlRenderer;
 
 function igk_sys_gen_global_sitemap($store=0){
 	// if (!igk_is_conf_connected()){
@@ -31,7 +31,7 @@ function igk_sys_gen_global_sitemap($store=0){
 			// break;
 		}
 		
-		$options = igk_xml_create_render_option();
+		$options = HtmlRenderer::CreateRenderOptions();
 		$options->Indent=1;
 		$uri = igk_io_baseUri()."/Lib/igk/Styles/sitemap.xsl";
 		igk_wl(igk_xml_header());

@@ -6,7 +6,7 @@
 
 namespace IGK\Controllers;
 
-use Exception; 
+use Exception;
 use IGK\Database\DbLinkExpression;
 use IGK\Models\Migrations;
 use IGK\Models\ModelBase;
@@ -15,21 +15,25 @@ use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
-use IGK\Database\DbSchemas; 
+use IGK\Database\DbSchemas;
+use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
-use IGK\Models\Groups; 
-use IGK\System\Database\ColumnMigrationInjector; 
+use IGK\Models\Groups;
+use IGK\System\Database\ColumnMigrationInjector;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
 use IGK\System\Http\RequestResponse;
-use IGK\System\Http\WebResponse; 
+use IGK\System\Http\WebResponse;
 use IGKApplicationLoader;
 use IGKEnvironment;
 use IGKResourceUriResolver;
 use IGKSysUtil as sysutil;
-use ReflectionMethod; 
+use IGKValidator;
+use ReflectionException;
+use ReflectionMethod;
 use Throwable;
 
 ///<summary>controller macros extension</summary>
@@ -48,8 +52,9 @@ abstract class ControllerExtension
         return $ctrl;
     }
 
-    public static function getDBConfigFile(BaseController $ctrl){
-        
+    public static function getDBConfigFile(BaseController $ctrl)
+    {
+
         igk_trace();
         exit;
     }
@@ -93,7 +98,36 @@ abstract class ControllerExtension
         }
         return $t;
     }
-    public static function resolvAssetUri(BaseController $ctrl){
+    /**
+     * return an array of views
+     * @param BaseController $ctrl 
+     * @return array 
+     */
+    public static function getViews(BaseController $ctrl, bool $withHidden = false): array
+    {
+        $gf = $ctrl->getViewDir();
+        $tab = [];
+        $ln = strlen($gf);
+        foreach (IO::GetFiles($gf, "/\.phtml/i", true) as $bf) {
+            $n = substr($bf, $ln + 1);
+            $p = dirname($n);
+            $tn = igk_io_basenamewithoutext($n);
+            if (!$withHidden) {
+                if ($tn[0] == '.') // hidden view
+                    continue;
+                if (($p != ".") &&  ($p[0] == ".")) // hidden folder 
+                    continue;
+            }
+            if ($p == ".")
+                $p = "";
+            else
+                $p .= "/";
+            $tab[] = $p . $tn;
+        }
+        return $tab;
+    }
+    public static function resolvAssetUri(BaseController $ctrl)
+    {
         $f = implode("/", [$ctrl->getDataDir(), IGK_RES_FOLDER]);
         $t = IGKResourceUriResolver::getInstance()->resolve($f);
         if (empty($t)) {
@@ -158,16 +192,17 @@ abstract class ControllerExtension
 
         return (\IGK\Helper\SysUtils::GetSubDomainCtrl() === $ctrl) || (igk_get_defaultwebpagectrl() === $ctrl);
     }
-    public static function uri(BaseController $ctrl, string $name="")
+    public static function uri(BaseController $ctrl, string $name = "")
     {
         return $ctrl->getAppUri($name);
     }
-    public static function guid_name(BaseController $ctrl){
-        static $guid ;
-        if ($guid === null ){
-            if (!file_exists($file = $ctrl->getDataDir()."/.id")){
+    public static function guid_name(BaseController $ctrl)
+    {
+        static $guid;
+        if ($guid === null) {
+            if (!file_exists($file = $ctrl->getDataDir() . "/.id")) {
                 $guid = igk_create_guid();
-                igk_io_w2file($file,$guid );            
+                igk_io_w2file($file, $guid);
             } else {
                 $guid = file_get_contents($file);
             }
@@ -175,26 +210,75 @@ abstract class ControllerExtension
         return $guid;
     }
     ///<summary>retrieve current view uri</summary>
-    public static function furi(BaseController $ctrl, string $name="")
+    /**
+     * retrieve current view uri
+     * @param BaseController $ctrl 
+     * @param string $name 
+     * @return null|string 
+     * @throws IGKException 
+     */
+    public static function furi(BaseController $ctrl, string $name = "")
     {
         $fname = igk_getv(igk_get_view_args(), "fname");
         return $ctrl->getAppUri($fname . rtrim($name, '/'));
     }
-    ///<summary>retrieve root base uri</summary>
-    public static function buri(BaseController $ctrl, string $name="")
+    /**
+     * get resolve uri
+     * @param BaseController $ctrl 
+     * @param string $uri uri string
+     * @return string 
+     * 
+     *   
+     * [scheme://[domain]]PATH
+     * in case PATH start with buri return $s
+     */
+    public static function ruri(BaseController $ctrl, ?string $uri = null): string
     {
-        if(is_null($name)){
-            if (igk_environment()->isDev()){
+        if ($ctrl && !empty($uri) && !IGKValidator::IsUri($uri)) {
+            if (strpos($uri, $ctrl::buri("/")) === 0)
+                return $uri;
+            $uri = ltrim($uri, "/");
+            $uri = $ctrl->getAppUri($uri);
+        }
+        return $uri;
+    }
+    ///<summary>retrieve root base uri</summary>
+    /**
+     * retrieve root base uri
+     * @param BaseController $ctrl 
+     * @param string $path 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function buri(BaseController $ctrl, string $path = ""): string
+    {
+        if (is_null($path)) {
+            if (igk_environment()->isDev()) {
                 igk_trace();
-                igk_dev_wln_e(__FILE__.":".__LINE__, "buri not handle");
+                igk_dev_wln_e(__FILE__ . ":" . __LINE__, "buri not handle");
             }
         }
-        $uri = self::furi($ctrl, $name);
+        $uri = self::furi($ctrl, $path);
         $buri = igk_io_baseuri();
         if (strpos($uri, $buri) === 0) {
             $uri = substr($uri, strlen($buri));
+            if ($path == "/") {
+                $uri .= $path;
+            }
         }
         return $uri;
+    }
+    /**
+     * get controller uri name 
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function uri_name(BaseController $ctrl)
+    {
+        $g = $ctrl->getName();
+        return base64_encode($g);
     }
     /**
      * retrieve tablename
@@ -202,7 +286,8 @@ abstract class ControllerExtension
      * @param mixed $tablename 
      * @return string|string[]|null 
      */
-    public static function db_getTableName(BaseController $ctrl, $tablename){
+    public static function db_getTableName(BaseController $ctrl, $tablename)
+    {
         return sysutil::DBGetTableName($tablename, $ctrl);
     }
     public static function db_query(BaseController $ctrl, $query)
@@ -435,7 +520,7 @@ abstract class ControllerExtension
     public static function resolv_table_name(BaseController $ctrl, string $table)
     {
         $ns = igk_db_get_table_name("%prefix%", $ctrl);
- 
+
         $k = $table;
         $gs = !empty($ns) && strpos($k, $ns) === 0;
         $t =  $gs ? str_replace($ns, "", $k) : $k;
@@ -444,7 +529,7 @@ abstract class ControllerExtension
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $name;
     }
-   
+
     /**
      * initialize controller database models
      * @param BaseController $ctrl 
@@ -463,12 +548,12 @@ abstract class ControllerExtension
         if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
             igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
         }
-        if ($tb){
+        if ($tb) {
             // igk_wln_e(json_encode($tb, JSON_PRETTY_PRINT));
 
             foreach ($tb as $k => $v) {
                 // remove prefix
-                $table = $v->defTableName;               
+                $table = $v->defTableName;
                 $name = basename(igk_html_uri(sysutil::GetModelTypeName($table)));
 
                 // igk_wln_e("table:".$k . " ". $name);
@@ -476,7 +561,7 @@ abstract class ControllerExtension
                 $file = $c . $name . ".php";
                 if (!$force && file_exists($file)) {
                     continue;
-                } 
+                }
                 igk_io_w2file($file, self::GetModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
             }
         }
@@ -601,7 +686,7 @@ abstract class ControllerExtension
     public static function resolvClass(BaseController $ctrl, $path)
     {
         $cl = $ctrl::ns($path);
-        $ctrl::register_autoload(); 
+        $ctrl::register_autoload();
         if (class_exists($cl, false) || IGKApplicationLoader::TryLoad($cl)) {
             return $cl;
         }
@@ -623,15 +708,16 @@ abstract class ControllerExtension
      * @param mixed $cinfo 
      * @return string 
      */
-    private static function _GetTypeFromInfo($cinfo, $ctrl){
+    private static function _GetTypeFromInfo($cinfo, $ctrl)
+    {
         $p = ["mixed"];
-        if ($cinfo->clLinkType){
-            $p[] = "\\".sysutil::GetModelTypeName($cinfo->clLinkType, $ctrl);
-        } 
+        if ($cinfo->clLinkType) {
+            $p[] = "\\" . sysutil::GetModelTypeName($cinfo->clLinkType, $ctrl);
+        }
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
-    private static function GetModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl, ?string $comment=null)
+    private static function GetModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl, ?string $comment = null)
     {
         $ns =  self::ns($ctrl, "");
         $uses = [];
@@ -653,8 +739,8 @@ abstract class ControllerExtension
             $o .= "\t/**\n\t */\n";
             $o .= "\tprotected \$controller = {$cl}::class; " . PHP_EOL;
         }
-        if (($columnInfo instanceof  \IGK\Database\DbColumnInfo)){
-            $columnInfo = (object)["columnInfo"=> [$columnInfo]];
+        if (($columnInfo instanceof  \IGK\Database\DbColumnInfo)) {
+            $columnInfo = (object)["columnInfo" => [$columnInfo]];
         }
         $key = "";
         $refkey = "";
@@ -665,7 +751,7 @@ abstract class ControllerExtension
                     if (!is_array($key)) {
                         $key = [$key => $key];
                     }
-                    $key[$cinfo->clName] =  $cinfo->clName;             
+                    $key[$cinfo->clName] =  $cinfo->clName;
                 } else {
                     $key = $cinfo->clName;
                 }
@@ -676,20 +762,20 @@ abstract class ControllerExtension
 
             // + get property type
             $pr_type =  // self::_GetTypeFromInfo($cinfo, $ctrl); 
-                        sysutil::GetPhpDoPropertyType($cinfo->clName, $cinfo, $ctrl, false);
+                sysutil::GetPhpDoPropertyType($cinfo->clName, $cinfo, $ctrl, false);
             // sysutil::ConvertToPhpDocType($cinfo->clType, $ctrl);      
-            $php_doc .= "@property ".$pr_type. "\n";
+            $php_doc .= "@property " . $pr_type . "\n";
         }
 
-        $args = sysutil::DBGetPhpDocModelArgEntries($columnInfo->columnInfo, $ctrl); 
- 
-        
-        
+        $args = sysutil::DBGetPhpDocModelArgEntries($columnInfo->columnInfo, $ctrl);
 
-        if ($args){
+
+
+
+        if ($args) {
             $t_args = implode(", ", $args);
-            $php_doc .= "@method static ?self Add(".$t_args.") add entry helper\n";
-            $php_doc .= "@method static ?self AddIfNotExists(".$t_args.") add entry if not exists. check for unique column.\n";
+            $php_doc .= "@method static ?self Add(" . $t_args . ") add entry helper\n";
+            $php_doc .= "@method static ?self AddIfNotExists(" . $t_args . ") add entry if not exists. check for unique column.\n";
         }
 
         if ($key != "clId") {
@@ -713,12 +799,12 @@ abstract class ControllerExtension
             ->name($name)
             ->namespace($base_ns)
             ->defs($o)
-            ->file($name . ".php") 
+            ->file($name . ".php")
             ->doc($comment)
-            ->phpdoc(rtrim($php_doc)."\n")
+            ->phpdoc(rtrim($php_doc) . "\n")
             ->uses($uses);
 
-        $cf = $builder->render();      
+        $cf = $builder->render();
         return $cf;
     }
     private static function GetDefaultModelBaseSource(BaseController $ctrl)
@@ -780,15 +866,16 @@ abstract class ControllerExtension
      * @param null|array $args 
      * @return void 
      */
-    public static function setExtraArgs(BaseController $ctrl, ?array $args=null){
-        if (is_null($args )){
+    public static function setExtraArgs(BaseController $ctrl, ?array $args = null)
+    {
+        if (is_null($args)) {
             $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, null);
             return;
         }
         $v = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS);
-        if (!$v){
+        if (!$v) {
             $v = $args;
-        }else{
+        } else {
             $v = array_merge($v, $args);
         }
         $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, $v);
@@ -800,8 +887,9 @@ abstract class ControllerExtension
      * @return mixed 
      * @throws IGKException 
      */
-    public static function getExtraArgs(BaseController $ctrl, ?string $name=null, $default=null){
-        if ($g = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS)){
+    public static function getExtraArgs(BaseController $ctrl, ?string $name = null, $default = null)
+    {
+        if ($g = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS)) {
             return is_null($name) ? $g : igk_getv($g, $name, $default);
         }
         return $default;
@@ -849,13 +937,13 @@ abstract class ControllerExtension
             $uid = $ctrl->User->clId;
             $ctrl->User->bclLastLogin = $ctrl->User->clLastLogin;
             $ctrl->User->clLastLogin = date(\IGKConstants::MYSQL_DATETIME_FORMAT);
-     
+
             \IGK\Models\Users::update(
                 [
-                    "clLastLogin" => $ctrl->User->clLastLogin,                  
-                ], 
+                    "clLastLogin" => $ctrl->User->clLastLogin,
+                ],
                 ["clId" => $uid]
-            ); 
+            );
         } else {
             igk_notifyctrl("notify/app/login")->addErrorr("e.loginfailed");
         }
@@ -957,7 +1045,7 @@ abstract class ControllerExtension
      */
     public static function dropDb(BaseController $controller, $navigate = 1, $force = false)
     {
-    
+
         $ctrl = $controller;
 
         $func = function () use ($ctrl) {
@@ -986,7 +1074,7 @@ abstract class ControllerExtension
                 }
             } else {
                 $tb = $ctrl::loadDataFromSchemas();
-                $db = self::getDataAdapter($ctrl);             
+                $db = self::getDataAdapter($ctrl);
                 if ($db) {
                     if ($db->connect()) {
                         $v_tblist = [];
@@ -996,14 +1084,13 @@ abstract class ControllerExtension
                             }
                         }
                         $func();
-                        $db->dropTable($v_tblist);                     
+                        $db->dropTable($v_tblist);
                         $db->close();
                         $_vinit = 1;
                     }
-                } 
-
+                }
             }
-        } 
+        }
         if ($navigate) {
             $controller->View();
             igk_navtocurrent();
@@ -1169,10 +1256,11 @@ abstract class ControllerExtension
      * @param string $model 
      * @return ?ModelBase 
      */
-    public static function model(BaseController $controller, string $model): ?ModelBase{
+    public static function model(BaseController $controller, string $model): ?ModelBase
+    {
         $cl = $model;
-        if (!class_exists($model) || !is_subclass_of($model, ModelBase::class )){
-            if (!($cl = self::resolvClass($controller, "Models/$model"))){
+        if (!class_exists($model) || !is_subclass_of($model, ModelBase::class)) {
+            if (!($cl = self::resolvClass($controller, "Models/$model"))) {
                 return null;
             }
         }
@@ -1215,9 +1303,9 @@ abstract class ControllerExtension
     public static function initDbConstantFiles(BaseController $controller)
     {
         $table = null;
-        if (!$controller->getConfigs()->clDataSchema ){
+        if (!$controller->getConfigs()->clDataSchema) {
 
-           if (is_null($table = $controller->getDataTableName()))
+            if (is_null($table = $controller->getDataTableName()))
                 return;
         }
 
@@ -1237,8 +1325,8 @@ abstract class ControllerExtension
             $s .= "namespace " . str_replace("/", "\\", $ns) . "; " . IGK_LF;
         }
         $s .= "abstract class " . basename($cl) . "DbConstants{" . IGK_LF;
-        if (!is_null($table)){
-            $tb = [$table=>$tb];
+        if (!is_null($table)) {
+            $tb = [$table => $tb];
         }
         if ($tb != null) {
             ksort($tb);
@@ -1260,7 +1348,7 @@ abstract class ControllerExtension
                 }
                 $s .= "\tconst " . $n . " = \"" . $k . "\";" . IGK_LF;
             }
-        } 
+        }
         $s .= "}" . IGK_LF;
         igk_io_w2file($f, $s, true);
         include_once($f);
@@ -1279,7 +1367,7 @@ abstract class ControllerExtension
      */
     public static function getDataSchemaFile(BaseController $ctrl)
     {
-       return $ctrl->getDataDir() . "/" . IGK_SCHEMA_FILENAME;       
+        return $ctrl->getDataDir() . "/" . IGK_SCHEMA_FILENAME;
     }
 
     /**
@@ -1296,13 +1384,13 @@ abstract class ControllerExtension
      * get data table definition
      */
     public static function getDataTableDefinition(BaseController $ctrl, $tablename)
-    {         
+    {
         if ($ctrl->getUseDataSchema()) {
             $info = null;
             if (!($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 if ($schema = self::loadDataFromSchemas($ctrl)) {
                     if (isset($schema->tables[$tablename])) {
-                        $info = & $schema->tables[$tablename];
+                        $info = &$schema->tables[$tablename];
                         // $debug && igk_wln_e(__FILE__.":".__LINE__, $ctrl, 
                         // $schema,
                         // $tablename,$info, array_keys((array)$info) );
@@ -1328,8 +1416,8 @@ abstract class ControllerExtension
         } else {
             if ($ctrl->getDataTableName() == $tablename) {
                 $clinfo = $ctrl->getDataTableInfo();
-                
-                 $cinfo = (object)[
+
+                $cinfo = (object)[
                     "columnInfo" => $clinfo,
                     "tableRowReference" =>  igk_array_object_refkey($clinfo, IGK_FD_NAME)
                 ];
@@ -1367,7 +1455,7 @@ abstract class ControllerExtension
                 $obj->Migration = $data->migrations;
 
                 foreach ($data->tables as $n => $t) {
-                    
+
                     if ($c = $t->entries) {
                         $obj->Entries[$n] =  $c;
                     }
@@ -1409,15 +1497,13 @@ abstract class ControllerExtension
     /**
      * bind controller style to document
      */
-    public static function bindCssStyle(BaseController $controller, ?\IGKHtmlDoc $doc = null)
+    public static function bindCssStyle(BaseController $controller, ?\IGKHtmlDoc $doc = null, bool $cssRendering = true)
     {
         $doc = $doc ?? self::getCurrentDoc($controller);
-        if ($doc && !empty($file = $controller->getPrimaryCssFile()))  
-        {      
-            // igk_ilog("try bind to bind primary files....".$file);
-            return igk_ctrl_bind_css_file($controller, $doc, $file); 
+        if ($doc && !empty($file = $controller->getPrimaryCssFile())) {
+            return igk_ctrl_bind_css_file($controller, $doc, $file, $cssRendering, 0);
         }
-        //igk_ilog("failed to bind primary files....");
+        igk_wln_e("no bind " . $file);
     }
     /**
      * project used controller's
@@ -1426,7 +1512,7 @@ abstract class ControllerExtension
     public static function getCanModify(BaseController $controller)
     {
         $pdir = igk_io_projectdir();
-        $decdir = $controller->getDeclaredDir();      
+        $decdir = $controller->getDeclaredDir();
         return $pdir && $decdir && !empty(strstr($decdir, $pdir));
     }
 
@@ -1504,7 +1590,7 @@ abstract class ControllerExtension
                 $b["Description"] = $v->description;
                 $tabs[] = $k;
                 foreach ($v->columnInfo as $cinfo) {
-                    $col = $b->add(IGK_COLUMN_TAGNAME); 
+                    $col = $b->add(IGK_COLUMN_TAGNAME);
                     $col->setAttributes($cinfo);
                 }
             }
@@ -1599,7 +1685,7 @@ abstract class ControllerExtension
     }
 
 
-    
+
     /**
      * append tempory tyle file
      * @param BaseController $controller 
@@ -1607,25 +1693,26 @@ abstract class ControllerExtension
      * @param mixed $document 
      * @return never 
      */
-    public static function pcss(BaseController $controller, $fname, $document=null){
-        if (is_null($document)){
+    public static function pcss(BaseController $controller, $fname, $document = null)
+    {
+        if (is_null($document)) {
             //$document = igk_view_args() ?? die("document not found");
             $document = $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? die("document not found");
         }
-        if (is_string($fname)){
+        if (is_string($fname)) {
             $fname = explode("|", $fname);
-        } 
-        if (!is_array($fname)){
+        }
+        if (!is_array($fname)) {
             igk_die("not a valid argument");
         }
         $q = $fname;
         $c = 0;
-        while($fname = array_shift($q)){
-            $f = $controller->getStylesDir()."/$fname";
-            if (!preg_match("/\.(".IGK_DEFAULT_STYLE_EXT."|css)$/", $f)){
-                $f .= ".".IGK_DEFAULT_STYLE_EXT;
+        while ($fname = array_shift($q)) {
+            $f = $controller->getStylesDir() . "/$fname";
+            if (!preg_match("/\.(" . IGK_DEFAULT_STYLE_EXT . "|css)$/", $f)) {
+                $f .= "." . IGK_DEFAULT_STYLE_EXT;
             }
-            if (file_exists($f)){
+            if (file_exists($f)) {
                 $document->getTheme()->addTempStyle($controller, $f);
                 $c++;
             }
@@ -1633,30 +1720,31 @@ abstract class ControllerExtension
         return $c;
     }
     /**
-    * load js script extension
-    * @param BaseController $controler
-    */
-    public static function js(BaseController $controller, $fname, $document=null){
-        if (is_null($document)){
+     * load js script extension
+     * @param BaseController $controler
+     */
+    public static function js(BaseController $controller, $fname, $document = null)
+    {
+        if (is_null($document)) {
             $document = $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? die("document not found");
         }
-        if (is_string($fname)){
+        if (is_string($fname)) {
             $fname = explode("|", $fname);
-        } 
-        if (!is_array($fname)){
+        }
+        if (!is_array($fname)) {
             igk_die("not a valid argument");
         }
 
         $q = $fname;
         $c = 0;
-        while($fname = array_shift($q)){
-            $f = $controller->getScriptsDir()."/$fname";
-            if (!preg_match("/\.(js)$/", $f)){
+        while ($fname = array_shift($q)) {
+            $f = $controller->getScriptsDir() . "/$fname";
+            if (!preg_match("/\.(js)$/", $f)) {
                 $f .= ".js";
             }
-            if (file_exists($f)){
+            if (file_exists($f)) {
                 $document->addTempScript($f);
-                $c++; 
+                $c++;
             }
         }
         return $c;
@@ -1668,16 +1756,17 @@ abstract class ControllerExtension
      * @param string $inc 
      * @return void 
      */
-    public static function inc(BaseController $controller, string $inc, $args = null){
-        $cf = \IGK\Helper\ViewHelper::Dir()."/".$inc;
-        if (is_null($args)){
+    public static function inc(BaseController $controller, string $inc, $args = null)
+    {
+        $cf = \IGK\Helper\ViewHelper::Dir() . "/" . $inc;
+        if (is_null($args)) {
             $args = $controller->getViewArgs();
-        } 
-        foreach(["",".pinc"] as $ext){            
-            if (file_exists($g = $cf.$ext)){
-                return igk_include($g, $args);   
+        }
+        foreach (["", ".pinc"] as $ext) {
+            if (file_exists($g = $cf . $ext)) {
+                return igk_include($g, $args);
             }
-        }            
+        }
     }
     /**
      * init groups for base controller
@@ -1685,21 +1774,23 @@ abstract class ControllerExtension
      * @param array $groups 
      * @return void 
      */
-    public static function initGroups(BaseController $controller, array $groups){
-        $cl = $controller->getName() ?? "/".igk_html_uri(get_class($controller));
+    public static function initGroups(BaseController $controller, array $groups)
+    {
+        $cl = $controller->getName() ?? "/" . igk_html_uri(get_class($controller));
         foreach ($groups as $value) {
             $name = $controller::name($value);
-            $group = Groups::createIfNotExists(["clName"=>$name, "clController"=>$cl]);   
-            $c = Authorizations::createIfNotExists(["clName"=>$name]);
+            $group = Groups::createIfNotExists(["clName" => $name, "clController" => $cl]);
+            $c = Authorizations::createIfNotExists(["clName" => $name]);
             if (!$c || !$group)
                 continue;
             Groupauthorizations::createIfNotExists([
-                "clAuth_Id"=>$c->clId, 
-                "clGrant"=>1, 
-                "clGroup_Id"=>new DbLinkExpression(
+                "clAuth_Id" => $c->clId,
+                "clGrant" => 1,
+                "clGroup_Id" => new DbLinkExpression(
                     Groups::table(),
-                    "clName", 
-                    $name)
+                    "clName",
+                    $name
+                )
             ]);
         }
     }
@@ -1710,12 +1801,16 @@ abstract class ControllerExtension
      * @return mixed 
      * @throws IGKException 
      */
-    public static function getActionHandler(BaseController $controller, string $name){
-     
-        if (igk_env_count(__METHOD__.$name) > 1) {
+    public static function getActionHandler(BaseController $controller, string $name)
+    {
+
+        if ($controller->{ControllerParams::NoActionHandle})
+            return null;
+
+        if (igk_env_count(__METHOD__ . $name) > 1) {
             igk_trace();
-            igk_die(__METHOD__." call twice ".$name);
-        } 
+            igk_die(__METHOD__ . " call twice " . $name);
+        }
 
         if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
             $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
@@ -1738,9 +1833,9 @@ abstract class ControllerExtension
             $t[] = implode("\\", array_filter(array_merge([$ns], ["Actions\\" . ucfirst(IGK_DEFAULT_VIEW) . "Action"])));
         }
         $classdir = $controller->getClassesDir();
-        $sublen = 1; 
-        if (!empty($ns)){
-            $sublen+=strlen($ns);
+        $sublen = 1;
+        if (!empty($ns)) {
+            $sublen += strlen($ns);
         }
 
         while ($cl = array_shift($t)) {
@@ -1755,10 +1850,10 @@ abstract class ControllerExtension
             }
         }
         return null;
-    
     }
 
-    public static function showError(BaseController $controller, string $message, string $title, $code=400){
+    public static function showError(BaseController $controller, string $message, string $title, $code = 400)
+    {
         $out = <<<HTML
 <html>
     <head>
@@ -1769,6 +1864,6 @@ abstract class ControllerExtension
     </body>
 </html>
 HTML;
-        igk_do_response(new WebResponse($out, $code));        
+        igk_do_response(new WebResponse($out, $code));
     }
 }

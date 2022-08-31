@@ -141,6 +141,15 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
         return $this;
    }
 
+   /**
+    * override base uri detection by set the environment base uri
+    * @param null|string $uri 
+    * @return void 
+    */
+   public function setBaseURI(?string $uri){
+        $this->set("baseURI", $uri); 
+   }
+
     /**
      * create an environment class instance
      * @param mixed $classname class name declaration
@@ -342,6 +351,16 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
 
     public function is_mod_enabled($module){
         return igk_apache_module($module);  
+    }
+
+    public function & require_modules(){
+        $k = IGKEnvironmentConstants::REQUIRE_MODULES;
+        $v_k = & $this->get($k);
+        if (!$v_k){
+            $v_k = [];
+            $this->m_envs[$k] = & $v_k;
+        }
+        return $v_k;
     }
 
     ///<summary></summary>
@@ -597,7 +616,21 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     public function getResolvSQLType(){
         return !defined("IGK_TEST_INIT");
     }
+    /**
+     * get controller info properties
+     * @return mixed 
+     */
     public function getControllerInfo(){
         return self::GetClassInstance("controller::info");        
+    }
+    /**
+     * get module info propeties
+     * @return \IGK\System\Modules\ModuleManager 
+     */
+    public function getModulesManager(){
+        return self::GetClassInstance("module:manager");
+    }
+    public function getComposerLoader(){
+        return self::GetClassInstance("composer:loader");
     }
 }

@@ -163,12 +163,11 @@ final class R extends IGKObject {
     /**
     * get resource image uri
     */
-    public static function GetImgResUri($name){
+    public static function GetImgResUri($name, & $path=null, $check=true): ?string {
         $v=igk_getctrl(IGK_PIC_RES_CTRL);
         if($v){
-            return $v->getImgUri($name, true);
-        }
-        return IGK_STR_EMPTY;
+            return $v->getImgUri($name, $check, $path);
+        } 
     }
     ///<summary></summary>
     ///<param name="name"></param>
@@ -231,16 +230,16 @@ final class R extends IGKObject {
             return $key;
         }
         $i=self::getInstance();    
-        $t=strtolower($key);
+        $t=$key;
         if(isset($i->langRes[$t])){
             $s=$i->langRes[$t];
             $match=array();
             $c=0;
-            $c=preg_match_all("/\[(?P<value>[a-zA-Z0-9_\.]+)\]/i", $s, $match);
+            $c=preg_match_all("/\[(?P<value>[a-zA-Z0-9_\.]+)\]/", $s, $match);
             if($c > 0){
                 for($i=0; $i < $c; $i++){
                     $ckey=$match["value"][$i];
-                    if(strtolower($ckey) == $t)
+                    if($ckey == $t)
                         continue;
                     $s=str_replace($match[0][$i], __($ckey), $s);
                 }
@@ -277,7 +276,7 @@ final class R extends IGKObject {
     * 
     */
     public static function GetSupportLangRegex(){
-        $cnf = igk_app()->getConfigs();
+        $cnf = igk_configs();
         $r = $cnf->get("support_lang", $cnf->default_lang);
         if (is_array($r)){
             return implode("|", $r);

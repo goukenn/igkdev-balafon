@@ -27,6 +27,9 @@ class HtmlHeadNode extends HtmlNode{
         }
         return null;
     }
+    public function getPreload(){
+        return HtmlHeadPreloadNode::getItem();
+    }
 
     ///<summary></summary>
     ///<param name="options" default="null"></param>
@@ -40,14 +43,17 @@ class HtmlHeadNode extends HtmlNode{
         $t=array(
             HtmlHeadBaseUriNode::getItem(),
             HtmlFaviconNode::getItem(), 
+            HtmlHeadPreloadNode::getItem(),
         );
         $is_document = isset($options->Document);
         if($is_document){
             if($meta=$options->Document->getMetas()){
                 $t[]=$meta;
             } 
-            $t[] = HtmlCoreJSScriptsNode::getItem();
-            $t[] = HtmlControllerJSScriptsNode::getItem();
+            if (!($doc = igk_getv($options, "Document")) || !($doc->noCoreScript)){
+                $t[] = HtmlCoreJSScriptsNode::getItem();
+                $t[] = HtmlControllerJSScriptsNode::getItem();                
+            }
         }
 
         if(is_array($v))

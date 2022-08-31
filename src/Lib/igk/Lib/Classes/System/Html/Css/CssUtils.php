@@ -11,13 +11,17 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Css\IGKCssColorHost;
 use IGK\Helper\ViewHelper;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
+use IGKHtmlDoc;
 use IGKOb;
+use ReflectionException;
 
 require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
 
@@ -43,21 +47,36 @@ abstract class CssUtils
     }
     /**
      * 
-     * @param null|BaseController $ctrl 
+     * @param BaseController $ctrl 
+     * @param IGKHtmlDoc $document 
+     * @param string $file 
+     * @param bool $cssRendering direct redering 
+     * @param bool $temp 
+     * @param bool $raiseHook 
      * @return void 
+     * @throws Exception 
      * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
      */
-    public static function InitBindingCssFile(BaseController $ctrl, \IGKHtmlDoc $document,  string $file,  bool $temp = false)
+    public static function InitBindingCssFile(BaseController $ctrl, \IGKHtmlDoc $document,  string $file, 
+        bool $cssRendering,
+        bool $temp = false,
+        bool $raiseHook=true)
     {   
-        if (file_exists($file) && !igk_is_ajx_demand()) {
-            if (!defined("IGK_FORCSS")) { 
+        if (is_file($file)) {
+            // if (!defined("IGK_FORCSS")) { 
+            if (!$cssRendering) { 
                 // igk_wln("binding ...".$temp);
                 // igk_css_reg_global_tempfile($file, $document->getTheme(), $ctrl, $temp);
                 igk_css_reg_global_style_file($file, $document->getTheme(), $ctrl, $temp);// $document->getSysTheme(), $ctrl, $temp);
-            } else {
+            } else { 
                 igk_css_bind_file($document, $ctrl, $file);
             }
-            igk_hook(IGKEvents::HOOK_BIND_CTRL_CSS, ["sender" => $ctrl, "type" => "css"]);
+            if ($raiseHook){
+                igk_hook(IGKEvents::HOOK_BIND_CTRL_CSS, ["sender" => $ctrl, "type" => "css"]);
+            }
         }
     }
 
@@ -69,7 +88,7 @@ abstract class CssUtils
      * @throws CssParserException 
      * @throws Exception 
      */
-    public static function GetInlineStyleRendering($doc)
+    public static function GetInlineStyleRendering($doc, bool $themeexport)
     {
         
         $bvtheme = new HtmlDocTheme($doc, "temp://files", false);
@@ -88,7 +107,7 @@ abstract class CssUtils
             foreach ($g as $v) {
                 igkOb::Start();
                 igk_css_bind_file($v->host, igk_io_expand_path($v->file), $bvtheme);
-                $m = igk_css_treat(igkOb::Content(), $sys, $sys);
+                $m = igk_css_treat(igkOb::Content(), $themeexport, $sys, $sys);
                 igkOb::Clear();
                 if (!empty($m)) {
                     $out .= $m;
@@ -99,7 +118,7 @@ abstract class CssUtils
         if (!empty($out)) {
             $o .= $out;
         }
-        $o .= $bvtheme->get_css_def(false, false, $doc);
+        $o .= $bvtheme->get_css_def(false, false, null, $doc);
         if ($clear)
             $sys->resetSysGlobal();
             

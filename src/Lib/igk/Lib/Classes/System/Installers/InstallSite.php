@@ -11,6 +11,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\AppConfigs;
 use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlContext;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\Installers\InstallerUtils;
 use IGKAppSystem;
 use IGKEvents;
@@ -287,7 +288,7 @@ EOF
             if (!file_exists($file = $folder."/".AppConfigs::ConfigurationFileName)){
                 // generate configuration file  
                 $c = \IGK\System\Console\Utils::GenerateConfiguration($c_public, $c_app);
-                $opts = igk_xml_create_render_option();
+                $opts = HtmlRenderer::CreateRenderOptions();
                 $opts->Indent = true;
                 igk_io_w2file($file, $c->render($opts));
             }

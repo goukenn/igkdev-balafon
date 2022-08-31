@@ -52,14 +52,14 @@ function igk_google_css_setfont(& $theme, $family, $extra="sans-serif"){
 function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans-serif')
 { 
     $size = igk_google_get_font_sizes($family, $size);
-
     $g = trim($family);
     if (empty($g)) {
         igk_die("font name is empty");
     }
     $key = igk_google_font_api_uri($g, $size);
     $head = $doc->getHead();
-    if (!igk_is_webapp() && !igk_server_is_local()) { 
+    $no_local_install = $doc->noFontInstall || (!igk_server_is_local());
+    if ($no_local_install){ 
         $head->addDeferCssLink($key, $temp);
     } else {
         $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);

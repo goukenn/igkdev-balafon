@@ -116,7 +116,8 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
     ///<summary>get media definition</summary>
     public function getCssDef(ICssStyleContainer $theme, 
         ICssStyleContainer $systheme,
-        $minfile=true){
+        $minfile=true,
+        $themeexport = true){
       
         $o=""; 
         $lineseparator=$minfile ? "": IGK_LF;
@@ -124,7 +125,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         if($def){
             foreach($def as $k=>$v){
                 if (is_string($v)){
-                    $kv=trim(igk_css_treat($v, $theme, $systheme));
+                    $kv=trim(igk_css_treat($v, $themeexport, $theme, $systheme));
                     if(!empty($kv)){
                         $o .= $k."{".$kv."}".$lineseparator; 
                     }

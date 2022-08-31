@@ -23,6 +23,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
     var $footer;   
 
+    const LAYOUT_PAGE_PARAM  = "@PageLayout";
+
     public function __construct(BaseController $controller)
     {
         parent::__construct($controller);    
@@ -41,12 +43,11 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         $this->controller->setExtraArgs(["layout"=>$this]);
 
         $args["doc"]->title =  __("{0} - [{1}]", __("title.{$args['fname']}")  , $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
-        
         if (!$no_layout && $this->exists($this->header)){
-            igk_include_view_file($this->controller, $this->header, $args);
+            igk_include_view_file($this->controller, $this->header, $args);   
         }
         $response = igk_include_view_file($this->controller, $file, $args);
-        $no_layout = $this->Configs["@PageLayout"];
+        $no_layout = $this->Configs[self::LAYOUT_PAGE_PARAM];
         if (!$no_layout && $this->exists($this->footer)){
             igk_include_view_file($this->controller, $this->footer, $args);
         }

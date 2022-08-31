@@ -38,6 +38,12 @@ class CssThemeResolver
 
     var $colordef = null;
 
+    /**
+     * resource resolver
+     * @var ?ICssResourceResolver
+     */
+    var $resolver;
+
     const ATTR_RESOLV = "resolv";
     const ATTR_TRANS = "trans";
     const ATTR_TRANSFORM = "transform";
@@ -70,7 +76,7 @@ class CssThemeResolver
      * @param string $value 
      * @return string 
      */
-    public function treat(string $value)
+    public function treat(string $value, bool $themeexport)
     {
         // check not expression 
         if ((strpos($value, "{") === false) &&
@@ -164,7 +170,7 @@ class CssThemeResolver
                         // $c->parent = $this->parent;
                         // $c->theme = $this->theme;
                         // $c->resolv = & $this->resolv;
-                        $sv = $this->treat_value($tv, false); 
+                        $sv = $this->treat_value($tv, $themeexport); 
                         // igk_wln_e($tv);
 
                         if (($rtv == null) || !isset($roots[$rtv]))
@@ -199,14 +205,12 @@ class CssThemeResolver
         }
         $this->resolv[$v_def] = $v;
         $this->count--;
-
-
         return $v;
     }
     /**
      * treat value
      */
-    public function treat_value(string $v, $themeexport = true)
+    public function treat_value(string $v, bool $themeexport)
     {
         $reg = IGK_CSS_TREAT_REGEX;
         $pos = 0;
@@ -242,9 +246,8 @@ class CssThemeResolver
         $this->start = null;
     }
 
-    private function _treat_entries(string & $v, $type, $value, $a = "", $stop = "", $themeexport = 0)
-    {
-        $themeexport = 0;
+    private function _treat_entries(string & $v, $type, $value, $a = "", $stop = "", bool $themeexport = false)
+    { 
         $theme = $this->theme;
         $systheme = $this->parent;
         $gtheme = $theme;
@@ -271,7 +274,9 @@ class CssThemeResolver
         if ($gcl) {
             $chainColors[] = array_merge($gcl, []);
         }
-        $chainColorCallback = function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
+        $chainColorCallback = 
+        //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
+        function ($value) use (&$chainColors, $v_designmode) {
             $tab = explode(",", $value);
             $v = trim($tab[0]);
             $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
@@ -355,15 +360,29 @@ class CssThemeResolver
                 // $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 break;
-            case self::ATTR_RESOURCE:
-                if (is_file($value)) {
-                    $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
-                } else {
-                    $vimg = R::GetImgResUri($value);
-                    $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
+            case self::ATTR_RESOURCE:               
+
+                if ($themeexport){
+                   //  $r = ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : null;
+                    $v = str_replace($v_m, 
+                        ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : null, 
+                        $v);
+
+                }else{
+
+                    if (is_file($value)) {
+                        $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
+                    } else {
+                        $vimg = R::GetImgResUri($value);
+                        $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
+                    }
                 }
+                // if ($value=="session_btn"){
+                //     igk_wln_e("res resolution", $value, $vimg);
+                // }
                 break;
             case self::ATTR_BACKGROUND_RESOURCE: 
+                igk_wln_e("theme export");
                 $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "');" : ""), $v);
                 break;
             case self::ATTR_URI: 
@@ -373,7 +392,7 @@ class CssThemeResolver
                 $tv = explode(",", $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-                $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bgcl($ncl, $systheme, null) : "";
+                $b = (($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? $this->_get_bgcl($ncl, $themeexport): null) ?? "";
                 $v = str_replace($v_m, $b, $v);
                 break;
             case self::ATTR_SYS_FCL:
@@ -381,7 +400,7 @@ class CssThemeResolver
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
                 if ($b = $this->_detect_color($tv, $cl, $ncl)){
-                    $b = igk_css_get_fcl($b);
+                    $b = $this->_get_fcl($b);
                 }
                 $v = str_replace($v_m, $b, $v);
                 break;
@@ -414,11 +433,11 @@ class CssThemeResolver
                 $v = str_replace($v_m, $ncl . $a, $v);
                 break;
             case self::ATTR_FOREGROUND_COLOR:
-                $v = str_replace($v_m, igk_css_get_fcl($chainColorCallback($value)), $v);
+                $v = str_replace($v_m, $this->_get_fcl($chainColorCallback($value)), $v);
                 break;
             case self::ATTR_BACKGROUND_COLOR:
                 $ncl = $chainColorCallback($value);
-                $v = str_replace($v_m, igk_css_get_bgcl($ncl, $gtheme, $systheme), $v);
+                $v = str_replace($v_m, $this->_get_bgcl($ncl, $themeexport), $v);
                 break;
             case self::ATTR_BORDER_COLOR: 
                 $ncl = $chainColorCallback($value);
@@ -446,7 +465,7 @@ class CssThemeResolver
                 $v_r = igk_css_design_property_value($value, $theme->properties, $v_designmode);
                 if (!empty($v_r))
                     $v_r .= $stop;
-                $v = str_replace($v_m, $v_r, $v);
+                $v = str_replace($v_m, $v_r ?? "", $v);
                 break;
             case "palcl":
                 $r = igk_get_palette();
@@ -492,6 +511,19 @@ class CssThemeResolver
         }
         return $v;
     }
+    private function _resolve_res(string $value):?string {
+        $tf = null;
+        if (is_file($value)){
+            $tf = $value;                     
+        }
+        else{
+            if ($tf = R::GetImgResUri($value, $path)){
+                $tf = $path;
+            }
+        }
+        $tf = $this->resolver->resolve($tf);   
+        return $tf;
+    }
     /**
      * 
      * @param mixed $array 
@@ -516,5 +548,13 @@ class CssThemeResolver
             return $ncl;
         }
         return trim($ncl);
+    }
+
+    protected function _get_bgcl($ncl, bool $themeexport){
+        // igk_css_get_bgcl($ncl, $gtheme, $systheme),
+        return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
+    }
+    protected function _get_fcl($value){
+        return igk_css_get_fcl($value, $this->theme, $this->parent);
     }
 }

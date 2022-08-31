@@ -238,7 +238,7 @@ IGKRoutes::Register("^/robots.txt$", function(){
         // ["HTTPie",
         // "Googlebot"])."/", $a))
         //     return 0;
-        $f = implode(DIRECTORY_SEPARATOR,  [igk_io_sys_datadir(), "robot.txt"]);
+        $f = implode(DIRECTORY_SEPARATOR,  [igk_io_sys_datadir(), "robots.txt"]);
         if (file_exists($f)){
             include($f);
             igk_exit();

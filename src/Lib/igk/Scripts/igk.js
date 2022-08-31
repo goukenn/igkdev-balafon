@@ -225,22 +225,34 @@ Name:balafon.js
 			});
 			return _promise;
 		};
+		// TODO : GET FILES - 
 		if (igk.system.string.startWith(uri, "file://")) {
 			// alert("loading from data file : "+uri);
-			setTimeout(function () {
-				var s = igk.invoke("IOGetFileContent", uri);
-				// alert("s file :::: "+s);
-				if (s && (s.length > 0)) {
-					if (callback) {
-						try {
-							callback({ data: s, source: 'IOGetFileContent', uri: uri });
-						}
-						catch (e) {
-							console.error("exception raise: " + e);
-						}
-					}
-				}
-			}, 1);
+			if (window.Fetch){
+				Fetch(uri).then(()=>{
+
+				}).error(()=>{
+
+				});
+			}
+			/// Get from the file service 
+			// setTimeout(function () {
+			// 	try{
+			// 		var s = igk.invoke("IOGetFileContent", uri);				 
+			// 		if (s && (s.length > 0)) {
+			// 			if (callback) {
+			// 				try {
+			// 					callback({ data: s, source: 'IOGetFileContent', uri: uri });
+			// 				}
+			// 				catch (e) {
+			// 					console.error("exception raise: " + e);
+			// 				}
+			// 			}
+			// 		}
+			// 	} catch(e){
+					
+			// 	}
+			// }, 1);
 			return;
 		}
 		if (igk.navigator.isIE()) {
@@ -1866,21 +1878,23 @@ Name:balafon.js
 		}
 		return 0;
 	}
+	function is_observe(){
+		return typeof(window.ResizeObserver)!= 'undefined';
+	};
 	function igk_init_powered(n) {
 		// get parent node
 		var node = n || window.igk.getParentScriptByTagName('div');
 		var node = $igk(n || window.igk.getParentScriptByTagName('div'));
 		igk.ready(function () {
-			var q = $igk(".igk-powered-viewer").last();			
+			var q = $igk(".igk-powered-viewer").last();
+			var ob = null;			
 			function _resizing(){ 	
 				node.setCss({
 					"top": q.hasHCroll() ?  "auto" : "calc(100vh)"
 				});
-			};
-			if (ResizeObserver){				 
-				new ResizeObserver(_resizing).observe(q.o);
-			}  
+			};			
 			if (q) {
+				is_observe() && (new ResizeObserver(_resizing)).observe(q.o);
 				node.setCss({
 					"position": "sticky",					
 					"bottom": "0px",

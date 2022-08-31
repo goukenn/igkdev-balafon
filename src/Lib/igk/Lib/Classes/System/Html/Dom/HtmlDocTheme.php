@@ -12,6 +12,7 @@ use ArrayAccess;
 use Exception;
 use IGK\Css\CssColorDef;
 use IGK\Css\CssThemeCompiler;
+use IGK\Css\ICssResourceResolver;
 use IGKCssDefaultStyle;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKMedia;
@@ -207,7 +208,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @param bool $themeexport the default value is false 
      * @param ICssStyleContainer $systheme style container
      */
-    private function _get_css_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false, ?ICssStyleContainer $systheme = null)
+    private function _get_css_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false, ?ICssResourceResolver $resourceResolver=null,  ?ICssStyleContainer $systheme = null)
     {
         $lineseparator = $minfile ? IGK_STR_EMPTY  : IGK_LF;
         $out = IGK_STR_EMPTY;
@@ -229,6 +230,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $builder = new \IGK\Css\CssThemeResolver();
         $builder->theme = $this;
         $builder->parent = $systheme;
+        $builder->resolver = $resourceResolver;
+    
         $this->m_resolver = $builder;
 
         $s = $def->getSymbols();
@@ -295,7 +298,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             foreach ($attr as $k => $v) {
                 if (empty($v))
                     continue;
-                $kv = trim($builder->treat($v));
+                $kv = trim($builder->treat($v, $themeexport));
                 if (!empty($kv)) {
                     $s .= $k . "{" . $kv . "}" . $lineseparator;
                     $tv = 1;
@@ -607,12 +610,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<param name="themeexport" default="false"></param>
     ///<param name="doc" default="null"></param>
     /**
-     * 
-     * @param mixed $minfile the default value is false
-     * @param mixed $themeexport the default value is false
+     * get css definition
+     * @param bool $minfile the default value is false
+     * @param bool $themeexport the default value is false
+     * @param ?ICssResourceResolver $resourceResolver
      * @param mixed $doc the default value is null
      */
-    public function get_css_def($minfile = false, $themeexport = false, $doc = null)
+    public function get_css_def(bool $minfile = false, bool $themeexport = false,  ?ICssResourceResolver $resourceResolver=null, $doc = null)
     {
        // igk_wln("minfile = ".$minfile);
         $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
@@ -623,7 +627,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $is_root = $this === $systheme;
         $parent = $is_root ? null : (($this->parent instanceof self) && ($this->parent !== $this) ? $this->parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
-        $out = $this->_get_css_def($doc, $minfile, $themeexport, $parent); // systheme);
+        $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
 
         if ($this->m_medias) {

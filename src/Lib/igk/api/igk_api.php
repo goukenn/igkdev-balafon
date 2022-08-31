@@ -13,6 +13,7 @@ use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
+use IGK\System\Html\HtmlRenderer;
 
 use function igk_resources_gets as __;
 define("IGK_API_CTRL", "API");
@@ -153,7 +154,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                 igk_zip_dir($folder, $zip);
                 $inf=igk_create_node("ctrl");
                 igk_api_build_ctrl_manifest($ctrl, $inf);
-                $opt=igk_xml_create_render_option();
+                $opt=HtmlRenderer::CreateRenderOptions();
                 $opt->Context="xml";
                 $zip->addFromString("ctrl.manifest", $inf->render($opt));
                 $zip->close();
@@ -208,12 +209,17 @@ final class IGKApiFunctionCtrl extends ApplicationController {
     public function datadb($cmd=null){
         ///TODO: PROTECT CALL
 
-        $file=self::LIBNAME;
+        /**
+         * @var ?array $_data 
+         * @var ?array $_data 
+         */
+
+        $file = self::LIBNAME;
         if(file_exists($file)){
             include_once($file);
         }
         $args=array_slice(func_get_args(), 1);
-        $_data=null;
+        
         $_api=$this;
         $_data=array(
             "gentoken"=>function($cmd, $args) use ($_api){
@@ -501,7 +507,8 @@ final class IGKApiFunctionCtrl extends ApplicationController {
                         $d->renderAJX();
                     }
                 },
-            "help"=>function() use (& $_data, $_api){
+            "help"=>function() use ( & $_data, $_api){
+              
                     $doc=igk_get_document($_api);
                     $doc->Title="Api - MYSQL ";
                     igk_google_addfont($doc, "Roboto");

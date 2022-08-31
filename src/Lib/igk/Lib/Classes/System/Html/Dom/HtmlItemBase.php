@@ -1233,7 +1233,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function renderXML($options = null, $exit = 1)
     {
         igk_header_set_contenttype("xml");
-        $opt = $options ?? igk_xml_create_render_option();
+        $opt = $options ?? HtmlRenderer::CreateRenderOptions();
         $opt->Context = "xml";
         if (igk_getv($opt, 'xmldefinition') == 1) {
             $xml = new \IGK\System\Html\XML\XmlProcessor("xml");

@@ -10,31 +10,52 @@ namespace IGK\Controllers;
 ///<summary>represent internal core loader</summary>
 
 use Closure;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\LoadArticleException;
 use IGK\System\Http\IResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\FileSystem;
 use IGKCaches;
 use IGKException;
+use ReflectionException;
 
 /**
 * represent internal core loader
 */
 class Loader implements IResponse {
-    private $_controller;
-    private $_output;
-	private $_listener;
+    private $m_controller;
+    private $m_output;
+	private $m_listener;
     private $_cache_fs;
     private $loader_load_files = [];
 
     public function loaded_files(){
         return $this->loader_load_files;
     }
-	public function output() {         
-        $m = $this->_controller->_output.$this->_output;
-        $this->_output = "";
-        $this->_output = "";
-        return (new WebResponse($m))->output();        
+    /**
+     * output the response
+     * @var bool $render render content
+     * @return mixed|WebResponse
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+	public function output($render=1) {         
+        $m = $this->m_controller->_output.$this->m_output;
+        $this->m_output = ""; 
+        $g = (new WebResponse($m));
+        if ($render){
+            return $g->output();        
+        }
+        return $g;
+    }
+
+    /**
+     * get the button 
+     * @return ?string
+     */
+    public function getBuffer(): ?string{
+        return $this->m_output;
     }
 
     //+ store callback to call protected function info provide by the controller
@@ -44,8 +65,8 @@ class Loader implements IResponse {
     * @return mixed|void
     */
     public function __call($n, $args){
-        if(method_exists($this->_controller, $n)){
-            return call_user_func_array(array($this->_controller, $n), $args);
+        if(method_exists($this->m_controller, $n)){
+            return call_user_func_array(array($this->m_controller, $n), $args);
         }
         return null;
     }
@@ -56,9 +77,9 @@ class Loader implements IResponse {
     * @param mixed $ctrl
     */
     public function __construct($ctrl, $listener){
-        $this->_controller=$ctrl;
-        $this->_output="";
-		$this->_listener = $listener;
+        $this->m_controller=$ctrl;
+        $this->m_output="";
+		$this->m_listener = $listener;
         $this->_cache_fs = FileSystem::Create(igk_environment()->getViewCacheDir());
     }
     ///<summary></summary>
@@ -72,7 +93,7 @@ class Loader implements IResponse {
             return call_user_func_array(array($this, $m), array());
         }
         else{
-            return $this->_controller->$n;
+            return $this->m_controller->$n;
         }
     }
     ///<summary></summary>
@@ -90,7 +111,7 @@ class Loader implements IResponse {
              */
             extract(array_merge(func_get_arg(1), ["ctrl"=>$this])); 
             include(func_get_arg(0));
-        })->bindTo($this->_controller);
+        })->bindTo($this->m_controller);
  
         $fc($file, $data); 
     }
@@ -107,11 +128,11 @@ class Loader implements IResponse {
     public function article($file, $raw=null, $render=1){
 
         if (empty($f= realpath($file)))
-            $f = $this->_controller->getArticle($file);
+            $f = $this->m_controller->getArticle($file);
         if(!file_exists($f)){
             return false;
         }       
-        $n = IGKCaches::Compile2($this->_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
+        $n = IGKCaches::Compile2($this->m_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
         return $n;
     }
     ///<summary></summary>
@@ -119,7 +140,7 @@ class Loader implements IResponse {
     * 
     */
     public function clear(){
-        $this->_output="";
+        $this->m_output="";
     }
     ///<summary>check an resolve view file</summary>
     /**
@@ -131,7 +152,7 @@ class Loader implements IResponse {
             return $f;
         if(file_exists($view))
             return realpath($view);
-        if(!empty($c=$this->_controller->getViewFile($view))){
+        if(!empty($c=$this->m_controller->getViewFile($view))){
             return $c;
         }
         return false;
@@ -141,7 +162,7 @@ class Loader implements IResponse {
     * 
     */
     public function getConfigs(){
-        return $this->_controller->getConfigs();
+        return $this->m_controller->getConfigs();
     }
     ///<summary></summary>
     /**
@@ -155,9 +176,9 @@ class Loader implements IResponse {
     * retreive controller output buffer
     */
     public function getOutput($clear=false){
-        $c = $this->_output;
+        $c = $this->m_output;
         if ($clear){
-            $this->_output = "";
+            $this->m_output = "";
         }
         return $c;
     }
@@ -166,7 +187,7 @@ class Loader implements IResponse {
     * 
     */
     public function getUser(){
-        return $this->_controller->User;
+        return $this->m_controller->User;
     }
     ///<summary> use to load model utility class</summary>
     /**
@@ -174,7 +195,7 @@ class Loader implements IResponse {
     */
     public function model($name, $refname=null, $forceloading=false){
         $n=$refname ? $refname: $name;
-        $igk_c=$this->_controller;
+        $igk_c=$this->m_controller;
         $cl=$name;
 		$cl_c = get_class($igk_c);
         ($m = igk_get_env($key="sys://instance/model/".$cl_c)) || ($m = array());
@@ -188,7 +209,7 @@ class Loader implements IResponse {
 				$cl=call_user_func_array( array($cl_c, $meth), array($name));
 			}else {
 				$ns = "";
-				if ($g_fc= $this->_listener){
+				if ($g_fc= $this->m_listener){
 					$d = $g_fc();
 					$ns = $d->entryNS;
 				} else {
@@ -210,7 +231,7 @@ class Loader implements IResponse {
     *  include view file
     */
     public function view($file, $data=array(), $render=0){
-        if(file_exists($f=$this->_controller->getViewFile($file))){
+        if(file_exists($f=$this->m_controller->getViewFile($file))){
             $file=$f;
         }
         else{
@@ -225,11 +246,11 @@ class Loader implements IResponse {
         $bck = set_include_path(dirname($file).PATH_SEPARATOR. get_include_path());
         //+ unset the file to load        
         unset($data["file"]);
-        $data=array_merge($this->_controller->getSystemVars(), array(
+        $data=array_merge($this->m_controller->getSystemVars(), array(
             "context"=>"loader_view",
             "file"=>$file,
             "dir"=>dirname($file),
-            "fname"=>igk_io_getviewname($file, $this->_controller->getViewDir())
+            "fname"=>igk_io_getviewname($file, $this->m_controller->getViewDir())
         ), $data);
         ob_start();
         igk_environment()->viewfile = 1;
@@ -241,7 +262,7 @@ class Loader implements IResponse {
         if($render)
             echo $o;
         else{
-            $this->_output .= $o;
+            $this->m_output .= $o;
         }
 		return $this;
     
@@ -258,12 +279,12 @@ class Loader implements IResponse {
      */
     public function bind($file, $data=array(), $render=0){
         $n = igk_create_node("NoTagNode");
-        $n->div()->article($this->_controller, $file, $data);
+        $n->div()->article($this->m_controller, $file, $data);
         $o = $n->render();
         if($render)
             echo $o;
         else{
-            $this->_output .= $o; 
+            $this->m_output .= $o; 
         }
         return $this;
     }
@@ -273,8 +294,8 @@ class Loader implements IResponse {
             extract($args);  
             ob_start();
             include($file); 
-            $this->_output .= ob_get_clean();
-        })->bindTo($this->_controller); 
+            $this->m_output .= ob_get_clean();
+        })->bindTo($this->m_controller); 
         return $fc($file, $t, $args);
     }
     public function include($file, $viewargs=null){ 
@@ -284,8 +305,8 @@ class Loader implements IResponse {
                     extract($args);  
                 ob_start();
                 include($file); 
-                $this->_output .= ob_get_clean();
-            })->bindTo($this->_controller);  
+                $this->m_output .= ob_get_clean();
+            })->bindTo($this->m_controller);  
             $fc($file, $viewargs);
         }
     }

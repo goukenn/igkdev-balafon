@@ -34,6 +34,11 @@ final class IGKControllerManagerObject extends IGKObject
      * @var array store [classe:instance] of registrated controller
      */
     private $m_classReg;
+    /**
+     * init complete
+     * @var mixed
+     */
+    private $m_complete;
 
     /**
      * @var array store [name:instance] of registrated controller
@@ -423,13 +428,23 @@ final class IGKControllerManagerObject extends IGKObject
         }
         if (self::$sm_instance === null) {
             self::$sm_instance = new self();
+            
             igk_reg_hook(IGKEvents::HOOK_INIT_APP, function ($e) {
+                // igk_wln_e("init ".__METHOD__);
+                if (self::$sm_instance->m_complete){
+                    igk_unreg_hook(IGKEvents::HOOK_INIT_APP, __FUNCTION__);
+                }
                 if (!igk_setting()->no_init_controller) {
                     self::$sm_instance->InitControllers($e->args["app"]);
+                }else {
+
                 }
             });
         }
         return self::$sm_instance;
+    }
+    public function complete(){
+        $this->m_complete = true;
     }
     /**
      * cache project storage
@@ -562,9 +577,7 @@ final class IGKControllerManagerObject extends IGKObject
         ) {
             // igk_ilog("load controller from cache: ".$fc);
             $caches = include($fc);
-            $resolvCtrl = &self::GetResolvController();
-            // igk_wln($resolvCtrl, $this);
-            // igk_wln("load from cache", compact("caches", "initialize_all"));
+            $resolvCtrl = &self::GetResolvController();      
             foreach ($caches as $m) {
                 $d = explode("|", $m);
                 $cl = trim($d[0]);

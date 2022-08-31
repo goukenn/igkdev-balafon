@@ -3,6 +3,7 @@ namespace IGK\Controllers;
 
 use Exception;
 use IGK\Helper\IO;
+use IGKApplicationLoader;
 use TypeError;
 
 // @author: C.A.D. BONDJE DOUE
@@ -12,6 +13,7 @@ use TypeError;
 ///<summary>represent application module class </summary>
 /**
 * represent application module class
+* @method function initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
     private $m_dir;
@@ -130,8 +132,8 @@ final class ApplicationModuleController extends BaseController{
             } 
             $entry_ns =  str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($dir)));
             $libdir=$classLib;  
-            spl_autoload_register(function($n)use($entry_ns, $libdir){
-              
+            
+            $fc = function($n)use($entry_ns, $libdir){ 
                 $fc = "";
                 if (!empty($entry_ns) && (strpos( $n, $entry_ns)===0)){
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
@@ -157,7 +159,9 @@ final class ApplicationModuleController extends BaseController{
                     }
 
                 } 
-            });
+            };
+
+            IGKApplicationLoader::RegisterAutoload($fc, $libdir);
         }
     }
     ///<summary></summary>

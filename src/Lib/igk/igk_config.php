@@ -226,7 +226,6 @@ define("IGK_HTML_NOTAG_ELEMENT", "NoTagNode");
 //+ define('IGK_IE11_ENGINE', '1');
 //+ define('IGK_INIT', '1');
 //+ define('IGK_INSTANCES_SESS_PARAM', '1');
-//+ define('IGK_IS_WEBAPP', '1');
 //+ define('IGK_JS_TRIMSCRIPTS', '1');
 //+ define('IGK_KEY_DOCUMENTS', '1');
 //+ define('IGK_KEY_LAST_RENDERED_DOC', '1');

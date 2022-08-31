@@ -59,20 +59,23 @@ class IGKApp extends IGKObject
     }
     private function __construct()
     {
-        $this->m_controllerManager = $this->createControllerManager();
+        
     }
-
-    private function createControllerManager(){
+    /** 
+     * create controller manager
+     * @return IGKControllerManagerObject
+     */
+    protected function createControllerManager(): IGKControllerManagerObject{
         return IGKControllerManagerObject::getInstance();
     }
 
     public function __toString()
     {
-        return "igk framework[Version:" . IGK_VERSION . "]";
+        return "igk framework - app[Version:" . IGK_VERSION . "]";
     }
     public function __set($n, $v)
     {
-        igk_die("not allowed " . $n);
+        igk_die(sprintf(__("app - setting property not allowed [%s]"), $n));
     }
     public function __call($name, $args){
         if (($app = $this->m_application) &&
@@ -222,6 +225,9 @@ class IGKApp extends IGKObject
      * @throws IGKException 
      */
     public function getControllerManager(){
+        if (is_null($this->m_controllerManager) && !($this->m_controllerManager = $this->createControllerManager())){
+            igk_die(__("failed to create app's controller manager"));
+        }
         return $this->m_controllerManager; 
     }
     ///<summary>application configuration data</summary>
@@ -232,20 +238,18 @@ class IGKApp extends IGKObject
     public function getConfigs(){
         return IGKAppConfig::getInstance()->Data;
     }
-      ///<summary> get the global document</summary>
+    ///<summary>get the global document</summary>
     /**
     *  get the global document
     * @return IGKHtmlDoc core document
     */
     public function getDoc(){
         static $v_doc=null;
-        if(!self::IsInit()){
-            igk_session_destroy();
-            // igk_trace();
+        if(!self::IsInit()){            
             igk_die("can't get core document - application not initialized");
             return null;
         }
-        if ($v_doc === null){ 	
+        if (is_null($v_doc)){ 	
             if (!igk_environment()->get(__METHOD__))
             {
                 igk_environment()->set(__METHOD__, 1);
@@ -279,6 +283,7 @@ class IGKApp extends IGKObject
         }   
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
+        $manager = self::$sm_instance->getControllerManager();
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);        
         IGKEvents::hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
@@ -291,10 +296,28 @@ class IGKApp extends IGKObject
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
         // TODO : REMOVE HOOK_INIT_APP COAST        
         IGKEvents::hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);  
-        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015);          
-        
+        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015); 
         self::$sm_instance->m_initialized = true;
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
+
+        $manager->complete();
+    }
+
+    /**
+     * 
+     * @param IGKApplicationBase $app 
+     * @return static 
+     */
+    public static function RunApiEngine(IGKApplicationBase $app): IGKApp {    
+        if ( self::$sm_instance !=null){
+            igk_die("App already started ... ");
+        }
+        $i = new self;
+        $i->m_application = $app;
+        self::$sm_instance = $i; 
+        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);
+        self::$sm_instance->m_initialized = true;
+        return self::$sm_instance;
     }
 
     /**

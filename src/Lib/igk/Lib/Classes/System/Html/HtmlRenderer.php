@@ -318,7 +318,44 @@ class HtmlRenderer
         } 
         return $s;
     }
+    public static function MailThemeRendering(HtmlItemBase $item, & $attribs=[],  $options= null){
+         //for mail rendering attribures
+         if (!isset($options->renderTheme)) {
+            $options->renderTheme = igk_app()->getDoc()->getTheme();
+        }
 
+        if ($attribs) {
+
+            $g = $attribs["style"];
+            $cl = $attribs["class"];
+            if (!empty($g)) {
+                $g = rtrim($g, ";") . "; ";
+            }
+            if ($cl) {
+                foreach ($cl->getKeys() as $k) {
+                    $matcher = [];
+                    if (!empty($tagname = $item->tagName)) {
+                        $matcher[] = $tagname . "." . $k;
+                    }
+                    if (!empty($id = igk_getv($item, "id"))) {
+                        $matcher[] = "#id.{$k}_$id";
+                    }
+                    $matcher[] = ".{$k}";
+                    foreach ($matcher as $m) {
+                        if ($p = $options->renderTheme[$m]) {
+                            $g .= rtrim($p, ";") . ";";
+                        }
+                    }
+                }
+                if ($options->renderTheme && $g) {
+                    $g = igk_css_treat($g, false, $options->renderTheme, null); 
+                }
+            }
+            if (!empty($g)) {
+                $item->setStyle("{$g}");
+            }
+        } 
+    }
     public static function GetAttributeString(HtmlItemBase $item, $options)
     {
 
@@ -326,42 +363,7 @@ class HtmlRenderer
         $out = IGK_STR_EMPTY;
         igk_get_defined_ns($item, $out, $options);
         if ($options && ($options->Context == "mail")) {
-            //for mail rendering attribures
-            if (!isset($options->renderTheme)) {
-                $options->renderTheme = igk_app()->getDoc()->getTheme();
-            }
-
-            if ($attribs) {
-
-                $g = $attribs["style"];
-                $cl = $attribs["class"];
-                if (!empty($g)) {
-                    $g = "2".rtrim($g, ";") . "; ";
-                }
-                if ($cl) {
-                    foreach ($cl->getKeys() as $k) {
-                        $matcher = [];
-                        if (!empty($tagname = $item->tagName)) {
-                            $matcher[] = $tagname . "." . $k;
-                        }
-                        if (!empty($id = igk_getv($item, "id"))) {
-                            $matcher[] = "#id.{$k}_$id";
-                        }
-                        $matcher[] = ".{$k}";
-                        foreach ($matcher as $m) {
-                            if ($p = $options->renderTheme[$m]) {
-                                $g .= "3".rtrim($p, ";") . ";";
-                            }
-                        }
-                    }
-                    if ($options->renderTheme && $g) {
-                        $g = igk_css_treat($g, $options->renderTheme, null); //$options->renderTheme);
-                    }
-                }
-                if (!empty($g)) {
-                    $item->setStyle("{$g}");
-                }
-            }
+            self::MailThemeRendering($item, $attribs, $options);
         }
 
 

@@ -70,7 +70,12 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
             $options->Depth = $bck_def;
         return $sb;
     }
-    
+    public static function GetCoreScriptDirs(){
+        return  [
+            [IGK_LIB_DIR . "/" . IGK_SCRIPT_FOLDER, "igk"],
+            [IGK_LIB_DIR . "/Ext", "sys"],
+        ];
+    }
     /**
      * get script content resolver
      * @param bool $production 
@@ -79,10 +84,66 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
      */
     public static function GetCoreScriptContent($options, $production = false)
     { 
-        return HtmlScriptLoader::LoadScripts([
-            [IGK_LIB_DIR . "/" . IGK_SCRIPT_FOLDER, "igk"],
-            [IGK_LIB_DIR . "/Ext", "sys"],
-        ], $options, $production, igk_sys_js_exclude_dir());       
+        return HtmlScriptLoader::LoadScripts(self::GetCoreScriptDirs(), $options, $production, igk_sys_js_exclude_dir());       
+    }
+    public static function GetModuleInlineScriptContent(string $file, $uri = "/"){
+        $sb = new StringBuilder; 
+        $sb->appendLine("(function(){");        
+        $mod_info = [
+            "path"=>igk_io_collapse_path($file),
+            "uri"=>$uri
+        ];
+        $sb->appendLine("const __MODULE__ = ".json_encode((object)$mod_info, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . ";");
+        $sb->appendLine(file_get_contents($file));
+        $sb->appendLine("})();");
+        return "".$sb;
+    }
+    public static function GetScriptInlineContent($tab): ?string{
+        $out = "";
+        $s = "";
+        $resolver = IGKResourceUriResolver::getInstance();
+        $lf = PHP_EOL;
+        $exclude_dir = igk_sys_js_exclude_dir();
+        
+        $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf) {               
+            $g = basename($f); 
+            if (strpos($g, ".") === 0){
+               return;
+            }
+            $ext = Path::GetExtension($f); 
+            switch (($ext)) {
+                case ".js";                    
+                     $s .= "// ".igk_io_collapse_path($f).PHP_EOL;
+                     // igk_wln_e("the file : ".$f);
+                     $s .= file_get_contents($f).PHP_EOL;;                   
+                    break;
+            }
+        };
+        // $ln_cmp = function($a, $b){
+        //     $i = strlen($a) ;
+        //     $j = strlen($b) ;
+        //     if ($i == $j){
+        //         return strcasecmp($a, $b);
+        //     }
+        //     return $i > $j ? 1 : -1;
+        // };
+        while ($q = array_shift($tab)) {
+            $dir = $q[0];  
+            if ($files = IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir)){
+                array_map($resolverfc, $files);
+                $out .= $s . "\n";  
+            } 
+            //clear s
+            $s = "";
+        }
+        return $out;
+    }
+    /**
+     * 
+     */
+    public static function GetCoreScriptInlineContent():?string{
+        $tab = self::GetCoreScriptDirs();
+        return self::GetScriptInlineContent($tab);       
     }
 
     /**

@@ -51,7 +51,8 @@ function igk_environment()
  *  @endcode exit
  */
 function igk_exit($close = 1, $clean_buffer = 0)
-{  
+{   
+    
     if (igk_environment()->isAJXDemand){
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
         igk_environment()->isAJXDemand = null; 
@@ -745,6 +746,7 @@ function igk_wln_e($msg = "")
 {     
     igk_environment()->set('TRACE_LEVEL', 3);
     // igk_trace();
+    // exit;
     call_user_func_array('igk_wln', func_get_args()); 
     igk_exit();
 }
@@ -1023,23 +1025,13 @@ function igk_lib_configs(){
 }
 ///<summary>shortcut to get controller by ref_name</summary>
 /**
- * shortcut to get controller by ref_name
+ * shortcut to get controller application controller by ref_name
  * @param string $name reference name. key or class name
  * @param int|bool $throwex throw exception if not found
  * @return null|IGK\Controllers\BaseController controller found
  */
 function igk_getctrl(string $name, $throwex = 1)
-{
-    // igk_env_count(__FUNCTION__);
-    // static $loading = null; 
-    // if (IGKApp::IsInit()){
-    //     igk_debug_wln("initialize .... ".$name . " = ". igk_env_count_get(__FUNCTION__));
-        // if (!$loading){
-        //     $loading = true;
-        //     $c = IGK\Helper\SysUtils::GetControllerByName($name, $throwex);
-        //     return $c;
-        // }
-    // }
+{   
     return  igk_app()->getControllerManager()->getController($name, $throwex);    
 }
 /**
@@ -1133,7 +1125,8 @@ function igk_sys_getconfig($name, $defaultvalue = null)
  * @param mixed $type the default value is "w+"
  */
 function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
-{
+{ 
+    // igk_debug_wln("try create : ".$file."\n");
     return File::Save($file, $content, $overwrite, $chmod, $type);
 }
 /**
@@ -1595,11 +1588,19 @@ function igk_sys_reflect_class($cl)
     if (is_null($reflection)) {
         $reflection = [];
     }
+
     if (is_object($cl)) {
         $cl = get_class($cl);
     }
-    $reflection[$cl] = 1;
-    return new ReflectionClass($cl);
+    if (isset($reflection[$cl])){
+        return $reflection[$cl];
+    }
+    if (is_string($cl) && class_exists($cl)){        
+        $rf = new ReflectionClass($cl);
+        $reflection[$cl] = $rf;
+        return $rf;
+    }
+    igk_wln_e("missing.".$cl, \com\igkdev\app\llvGStock\MappingService::class== $cl, class_exists($cl), class_exists(\com\igkdev\app\llvGStock\MappingService::class));
 }
 
 /**

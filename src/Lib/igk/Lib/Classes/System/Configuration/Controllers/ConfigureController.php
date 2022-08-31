@@ -235,7 +235,7 @@ final class ConfigureController extends BaseController implements IConfigControl
             if ($to) {
               
                 $d = new \IGK\System\Html\Mail\NotifyConnexionMailDocument($this); 
-                $opt = igk_xml_create_render_option();
+                $opt = HtmlRenderer::CreateRenderOptions();
                 $opt->Context = "mail";
                 $opt->NoStoreRendering = 1; 
                 if (!igk_mail_sendmail($to, "no-reply@" . igk_configs()->website_domain, 
@@ -649,7 +649,7 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_set_env("sys://designMode/off", 1);
             igk_set_env("sys://defaultpage/off", 1);
             $doc = igk_get_document($this, 0);
-            $doc->NoCache = true;
+            $doc->noCache = true;
             $t = $doc->body->clearChilds()->getBodyBox()->clearChilds()->div();
             $t->div()->Content = __("Configuration view");
             $this::ViewInContext("general.config.view", ["t" => $t, "doc" => $doc, "pagell" => "configure_setting"]);

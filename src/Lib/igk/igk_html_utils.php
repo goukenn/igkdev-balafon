@@ -369,11 +369,10 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             $submenu_item_build_callback = [$callback, "buildSubMenuItem"];
         }
     }
-
+ 
     $_binduri = function ($s, $ctrl) {
-        if ($ctrl && !empty($s) && !IGKValidator::IsUri($s)) {
-            $s = ltrim($s, "/");
-            $s = $ctrl->getAppUri($s);
+        if ($ctrl){
+            return $ctrl::ruri($s);
         }
         return $s;
     };

@@ -31,7 +31,11 @@ abstract class PHPScriptBuilderUtility
      */
     public static function RemoveComment(string $source){
          
-        $comments = token_get_all($source);
+        // phpinfo();
+        
+         
+
+        $comments = \token_get_all($source);
         $src = implode("", array_map(function($m){
             if (is_array($m)){
                 if (token_name($m[0]) == "T_COMMENT"){

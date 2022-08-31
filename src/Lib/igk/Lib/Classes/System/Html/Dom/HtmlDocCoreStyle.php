@@ -25,4 +25,7 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
         }  
         return parent::__AcceptRender($o);
     }
+    protected function initialize(){
+        parent::initialize(); 
+    }
 }

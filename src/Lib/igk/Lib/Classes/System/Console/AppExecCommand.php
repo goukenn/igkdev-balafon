@@ -9,8 +9,37 @@ namespace  IGK\System\Console;
 
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGKControllerManagerObject;
+use IGKException;
 
 abstract class AppExecCommand extends AppCommand{
+    /**
+     * get option values
+     * @param mixed $command 
+     * @param string $list 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    protected static function GetOptions($command, string $list){        
+        foreach(explode("|", $list) as $m){
+            if ($m = igk_getv($command->options,$m)){
+                return $m;
+            }
+        }
+    }
+    /**
+     * check if has options set in command
+     * @param mixed $command 
+     * @param string $list 
+     * @return true|void 
+     */
+    protected static function GetHasOptions($command, string $list){        
+        foreach(explode("|", $list) as $m){
+            if (property_exists($command->options, $m)){
+                return true;
+            }
+        }
+    }
+
     public function __construct()
     {
         $this->handle = [$this, "exec"];

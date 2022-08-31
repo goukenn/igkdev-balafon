@@ -18,6 +18,16 @@ use ReflectionMethod;
  * @package IGK\Helper
  */
 abstract class ActionHelper{
+    //do nothing
+    /**
+     * used to pass empty anonymous
+     * @return callable 
+     */
+    public static function Nothing(): callable{
+        return function(){
+            // nothing call back method
+        };
+    }
     /**
      * sanitize method name
      * @param string $name 

@@ -36,12 +36,29 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @return void 
      */
     public function output(){ 
-        igk_set_header($this->code, self::GetStatus($this->code), $this->headers); // "testing base", $headers);
+        $this->_setHeader();
         igk_wl($this->render());
         igk_exit();
     }
+    protected function _setHeader(){             
+        if (count($this->headers)>0)
+            $this->_treat_header();
+        igk_set_header($this->code, self::GetStatus($this->code), $this->headers);  
+    }
     abstract function render();
 
+    protected function _treat_header(){
+        $tab = [];
+        array_map(function($a) use (& $tab){
+            $m = explode(":", $a);
+            if (count($m)>1){
+                $tab[$m[0]] = $a;
+            }else{
+                $tab[$a]=$a;
+            }
+        }, $this->headers);
+        $this->headers = array_values($tab);
+    }
     public function cache_output($second){
         $ts=gmdate("D, d M Y H:i:s", time() + $second). " GMT";
         $this->headers[] = ("Expires: {$ts}");

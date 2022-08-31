@@ -41,7 +41,7 @@ class HtmlControllerJSScriptsNode extends HtmlNode{
             [$gb, "ctrl"],
         ], $options, igk_environment()->is("OPS"), 
         igk_sys_js_exclude_dir(),
-        "ctrljs:/".$ctrl->getName());
+        "ctrljs:/".$ctrl->getName(), 1);
         $sb = new StringBuilder();
         $is_dev && $sb->appendLine("<!-- controller:js -->");  
         $sb->appendLine($src);

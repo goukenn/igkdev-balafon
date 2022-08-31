@@ -18,6 +18,7 @@ use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\Dom\HtmlTextNode;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\JsonResponse;
 use IGKControllerTypeManager;
@@ -160,7 +161,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
             $s = null;
             if ($v_dummy->ChildCount === 1) {
-                $s = igk_xml_create_render_option();
+                $s = HtmlRenderer::CreateRenderOptions();
                 $s->Indent = true;
                 $s->ParentDepth = $v_dummy->Childs[0];
                 if (get_class($s->ParentDepth) === HtmlTextNode::class) {
@@ -168,7 +169,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 } else
                     igk_io_save_file_as_utf8($file, $s->ParentDepth->getinnerHtml($s), true);
             } else {
-                $s = igk_xml_create_render_option();
+                $s = HtmlRenderer::CreateRenderOptions();
                 $s->Indent = true;
                 $s->ParentDepth = $v_dummy;
                 igk_io_save_file_as_utf8($file, $s->ParentDepth->getinnerHtml($s), true);

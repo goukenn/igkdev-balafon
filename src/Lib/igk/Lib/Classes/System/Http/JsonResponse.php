@@ -43,6 +43,6 @@ class JsonResponse extends RequestResponse{
         } else if (is_string($n)){
             $s = $n;
         }
-        igk_wl($s); 
+        igk_wl($s);  
     }
 }

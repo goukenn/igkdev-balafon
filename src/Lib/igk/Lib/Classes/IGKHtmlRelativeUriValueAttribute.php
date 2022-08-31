@@ -46,9 +46,21 @@ final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
                 return igk_ajx_link($lnk) ?? igk_html_get_system_uri($lnk);
             }
         }
+        if (IGKValidator::IsUri($this->m_lnk)){
+            return $this->m_lnk;
+        }
         if(!($fs=igk_realpath(igk_io_basedir()."/".$this->m_lnk))){
             $fs=$this->m_lnk;
-        } 
+        }  
+        if (is_file($fs)){
+            if (strpos($fs, igk_io_basedir()."/") === 0){
+                $path = igk_io_collapse_path($fs);
+                $uri = str_replace("%basedir%", igk_io_baseuri(), $path);
+                return $uri;
+            }         
+            $g = IGKResourceUriResolver::getInstance()->resolve($fs);
+            return $g; 
+        }
         return IGKResourceUriResolver::getInstance()->resolve($fs, $options);
     }
 }

@@ -16,6 +16,7 @@ use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Database\DbUtils;
 use IGK\System\Diagnostics\Benchmark;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\Process\CronJobProcess;
 use IGKApp;
@@ -343,6 +344,12 @@ class BalafonApplication extends IGKApplicationBase
 
 
                             Logger::print("seed... " . $inf . " query debug: " . igk_environment()->querydebug);
+                            $c::register_autoload();
+
+                            // igk_wln(
+                            //     __FILE__.":".__LINE__, 
+                            //     class_exists(\com\igkdev\app\llvGStock\MappingService::class));
+
                             $c::seed($class);
                             Logger::success("seed complete");
                             return 1;
@@ -623,7 +630,7 @@ class BalafonApplication extends IGKApplicationBase
                     } else {
                         $config->init($init_data);
                     }
-                    $opts = igk_xml_create_render_option();
+                    $opts = HtmlRenderer::CreateRenderOptions();
                     $opts->Indent = true;
                     igk_io_w2file($file, $init_data->render($opts));
                 },

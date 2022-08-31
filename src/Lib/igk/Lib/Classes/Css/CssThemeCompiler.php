@@ -6,9 +6,15 @@
 
 namespace IGK\Css;
 
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use Exception;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGKCaches;
 use IGKCssDefaultStyle;
+use IGKException;
+use ReflectionException;
 
 class CssThemeCompiler{
     /**
@@ -67,19 +73,41 @@ class CssThemeCompiler{
        return (strpos($value, "[")!==false) || (strpos($value, "{")!==false);
     }
 
-    public static function CompileAndRenderTheme(HtmlDocTheme $theme, string $docid, string $cacheid){
+    /**
+     * compile and render css 
+     * @param HtmlDocTheme $theme 
+     * @param string $docid 
+     * @param string $cacheid cache item
+     * @param bool $css_cache use css cache
+     * @param bool $minfile use css cache
+     * @param bool $theme_export use css cache
+     * @return int 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     * @throws EnvironmentArrayException 
+     * @throws CssParserException 
+     */
+    public static function CompileAndRenderTheme(HtmlDocTheme $theme, 
+        string $docid, 
+        string $cacheid, 
+        bool $css_cache, 
+        bool $minfile, 
+        bool $theme_export,
+        ?ICssResourceResolver $resolver = null
+        ){
         $src_sys = "";
         $cf = IGKCaches::css_filesystem()->getCacheFilePath($cacheid, ".css.cache");
         $express_cf = IGKCaches::css_filesystem()->getCacheFilePath($cacheid."/expression", ".css.cache");
         $no_systheme = 0;
-        if (!igk_setting()->no_css_cache && file_exists($cf)){
+        if ($css_cache && file_exists($cf)){
             // ob_start();
             // echo "/* systheme from cache */\n";
             $array = $theme->to_array();
             $data = unserialize(file_get_contents($cf)); // include($cf);
             $theme->load_data($data);
-            $mtime = filemtime($cf);
-            
+            $mtime = filemtime($cf);           
          
             $must_recompile = 0;
             if ($cfile = igk_getv($array, IGKCssDefaultStyle::FILES_RULE)){
@@ -102,7 +130,7 @@ class CssThemeCompiler{
             }
             else{ 
                 igk_css_bind_sys_global_files($theme);
-                $src_sys = $theme->get_css_def();         
+                $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);         
                 igk_io_w2file($express_cf, $src_sys, true);
                 igk_io_w2file($cf, serialize($theme->to_array()));          
             }
@@ -111,10 +139,12 @@ class CssThemeCompiler{
             echo $src_sys;
         }else {
             igk_css_bind_sys_global_files($theme);
-            igk_css_load_theme($theme);
-            $src_sys = $theme->get_css_def();         
-            igk_io_w2file($express_cf, $src_sys, true);
-            igk_io_w2file($cf, serialize($theme->to_array()));
+            igk_css_load_theme($theme); 
+            $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);    
+            if (!$theme_export){
+                igk_io_w2file($express_cf, $src_sys, true);
+                igk_io_w2file($cf, serialize($theme->to_array()));
+            }
             $no_systheme = 1;
             echo igk_css_get_core_comment($docid);
             echo $src_sys;

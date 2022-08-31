@@ -167,11 +167,14 @@ class Path{
      */
     public function baseuri($dir = null, $secured = null, &$path = null)
     {
+        if ($baseURI = igk_environment()->get("baseURI")){
+            return implode("/", array_filter([$baseURI, $dir]));
+        }
         $secured = $secured === null ? igk_getv($_SERVER, 'HTTPS') == 'on' : $secured;
         $path = null;
         $out = IGK_STR_EMPTY;
         $v_dir = $this->basedir($dir);
-        $root = $this->getRootDir(); // igk_io_rootdir();
+        $root = $this->getRootDir(); 
         if (!($s = strstr($v_dir, $root))) {
             return null;
         }

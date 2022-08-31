@@ -14,11 +14,12 @@ use IGKHtmlDoc;
 
 class CssBuilderTest extends BaseTestCase
 {
+    
     function test_render_transform(){
         $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
 
         $cv =  "[transform: scale(1.0)]";    
-        $r = igk_css_treat($cv, $theme, $theme);
+        $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
             "-webkit-transform: scale(1.0);-ms-transform:scale(1.0); -moz-transform:scale(1.0); -o-transform: scale(1.0); transform: scale(1.0);",
             $r, 
@@ -26,7 +27,7 @@ class CssBuilderTest extends BaseTestCase
         );
 
         $cv =  "[transform: rotate(90)]";    
-        $r = igk_css_treat($cv, $theme, $theme);
+        $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
             "-webkit-transform: rotate(90);-ms-transform:rotate(90); -moz-transform:rotate(90); -o-transform: rotate(90); transform: rotate(90);",
             $r, 
@@ -34,7 +35,7 @@ class CssBuilderTest extends BaseTestCase
         );
         $cv =  "[transform: scale(1.5), rotate(90deg)]";    
  
-        $r = igk_css_treat($cv, $theme, $theme);
+        $r = igk_css_treat($cv, false, $theme, $theme);
      
         $this->assertEquals(
             "-webkit-transform: scale(1.5), rotate(90deg);-ms-transform:scale(1.5), rotate(90deg); -moz-transform:scale(1.5), rotate(90deg); -o-transform: scale(1.5), rotate(90deg); transform: scale(1.5), rotate(90deg);",
@@ -48,7 +49,7 @@ class CssBuilderTest extends BaseTestCase
 
         $cv =  "[bgcl: actionBarButtonHoverBackgroundColor, #333] color:yellow; box-shadow: 0px 2px 6px [cl:ationBarButtonShadowColor, #111]; [transform:scale(1.1)]";
     
-        $r = igk_css_treat($cv, $theme, $theme);
+        $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
             "background-color: #333; color:yellow; box-shadow: 0px 2px 6px #111; -webkit-transform: scale(1.1);-ms-transform:scale(1.1); -moz-transform:scale(1.1); -o-transform: scale(1.1); transform: scale(1.1);",
             $r, 
@@ -67,7 +68,7 @@ class CssBuilderTest extends BaseTestCase
  
         $this->assertEquals(
             "{background-color:red; line-height:1.25;}",
-            igk_css_treat($theme[".igk-def-c"], $theme, $systheme),
+            igk_css_treat($theme[".igk-def-c"], false, $theme, $systheme),
             "styling not valid"
         );
     }
@@ -83,7 +84,7 @@ class CssBuilderTest extends BaseTestCase
         // no sys color provided
         $this->assertEquals(
             "color: blue;",
-            igk_css_treat($v, $theme, $systheme),
+            igk_css_treat($v, false, $theme, $systheme),
             "sysfcl: defined not valid"
         );
 
@@ -92,7 +93,7 @@ class CssBuilderTest extends BaseTestCase
         // no sys color provided
         $this->assertEquals(
             "color: #222;",
-            igk_css_treat($v, $theme, $systheme),
+            igk_css_treat($v, false, $theme, $systheme),
             "sysfcl: defined not valid"
         );
 
@@ -101,7 +102,7 @@ class CssBuilderTest extends BaseTestCase
         // no sys color provided
         $this->assertEquals(
             "",
-            igk_css_treat($v, $theme, $systheme),
+            igk_css_treat($v, false, $theme, $systheme),
             "sysfcl: no default color provided must be empty removed"
         );
     }
@@ -116,7 +117,7 @@ class CssBuilderTest extends BaseTestCase
         // no color provided
         $this->assertEquals(
             "border-left: 4px solid var(--pickfileBorder);",
-            igk_css_treat($v, $theme, $systheme),
+            igk_css_treat($v, false, $theme, $systheme),
             "syscl: defined not valid"
         );
         $cl = & $systheme->getCl();
@@ -124,7 +125,7 @@ class CssBuilderTest extends BaseTestCase
         $v ="border-left: 4px solid [syscl:pickfileBorder];";
         $this->assertEquals(
             "border-left: 4px solid blue;",
-            igk_css_treat($v, $theme, $systheme),
+            igk_css_treat($v, false, $theme, $systheme),
             "syscl: color define but not resolved not valid"
         ); 
     }
@@ -135,7 +136,7 @@ class CssBuilderTest extends BaseTestCase
         $v = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; [bgcl:confUpdateButtonBgColor, #444] [fcl:confUpdateButtonFgColor, #fff]";
         $this->assertEquals(
             "border-left-color:indigo; background-color: #444; color: #fff;",
-            igk_css_treat($v, $theme, $systheme),
+            igk_css_treat($v, false, $theme, $systheme),
             "syscl: color define but not resolved not valid"
         );
     }

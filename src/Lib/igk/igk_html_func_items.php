@@ -498,6 +498,7 @@ function igk_html_node_menu(
  */
 function igk_html_node_menus($items, $callback=null, $subtag = "ul", $item = "li", ?object $option=null)
 {
+    // igk_wln_e(__FUNCTION__);
     $node = igk_create_node($subtag);
     $node["class"] = "igk-menu menu";
     igk_html_build_menu($node, $items, $callback, null, null, $item, $subtag);
@@ -1405,7 +1406,10 @@ function igk_html_node_communitylinks($tab, ?array $options=null)
             } else {
                 $uri = $v;
             }
-            $a = $ul->add("li")->addA($uri)->setAttribute("target", "__blank");
+            $a = $ul->li()->a($uri)
+                ->setAttribute("target", "__blank")
+                ->setAttribute("alt", sprintf(__("%s social community"), $k ))
+                ;
             $a->setClass($k)->Content = igk_svg_use($svg_symbol);
         }
     }
@@ -1512,8 +1516,13 @@ function igk_html_node_csscomponentstyle($file, $host = null)
     $n = IGKCssComponentStyle::getInstance()->regFile($file, $host);
     return $n;
 }
-
-function igk_html_node_defercsslink($href, $temp = 0)
+/**
+ * defer css link loading
+ * @param mixed $href 
+ * @return null 
+ * @throws IGKException 
+ */
+function igk_html_node_defercsslink($href)
 {
     $p = igk_html_parent_node();
     $key = "sys://cssLink/" . __FUNCTION__;
@@ -1526,7 +1535,7 @@ function igk_html_node_defercsslink($href, $temp = 0)
             $o = "";
             if ($tm = array_keys($sc)) {
                 $o .= "<script type=\"text/javascript\">";
-                $o .= "(function(igk){ if (!igk) return ; igk.ready(function(){ igk.css.loadLinks(" . json_encode($tm) . "); }); })(window.igk)";
+                $o .= "(function(igk){ if(!igk)return;igk.ready(function(){ igk.css.loadLinks(" . json_encode($tm) . ");});})(window.igk)";
                 $o .= "</script>";
             }
             $i->Content = $o;
@@ -4983,5 +4992,17 @@ function igk_html_node_apost($uri){
     $n["href"] = $uri;
     $n["class"] = "igk-winui-aform";
     $n["onclick"] = "javascript: ns_igk.form.posturi(this.href); return false;";
+    return $n;
+}
+
+/**
+ * application header bar
+ * @param BaseController $controller 
+ * @return HtmlNode 
+ */
+function igk_html_node_app_hearder_bar(BaseController $controller){
+    $n = igk_create_node("div");
+    $n["class"] = "igk-app-header-bar displfex pad-4";
+    $n->h1()->Content = $controller->getConfig("clAppTitle");
     return $n;
 }

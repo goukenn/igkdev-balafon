@@ -9,7 +9,6 @@
 
 $web = "/index.php";
 
-
 //present cache out lib
 final class IGKPhar
 {
@@ -53,4 +52,5 @@ if (!empty($uri) && ($uri!= $web) && ($uri !='/') && !igk_get_env($key)){
     igk_sys_handle_request($uri);
     igk_set_env($key, null);
 }
-igk_sys_render_index(__FILE__);
+// igk_sys_render_index(__FILE__);
+IGKApplication::Boot("phar")->run(__FILE__);

@@ -11,4 +11,20 @@ class ControllerParams{
     public const ActionViewResponse = "@ActionViewResponse";
     public const Menus = "@menu";
     public const ViewLoader = "@viewLoader";
+    /**
+     * bool disable action handler 
+     */
+    public const NoActionHandle = "@noActionHandle";
+    /**
+     * bool disable view compilation 
+     */
+    public const NoCompilation = "@noCompilation";
+    /**
+     * 
+     */
+    public const AllowHiddenView = "@AllowHiddenView";
+    /**
+     * no do view reponse for request
+     */
+    public const NoDoViewResponse = "@NoDoViewResponse";
 }

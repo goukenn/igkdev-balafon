@@ -1,16 +1,10 @@
 <?php
-// @author: C.A.D. BONDJE DOUE
-// @filename: index.entry_point.pinc
-// @date: 20220803 13:51:47
-// @desc: 
-
-//
 // @file: index.php
 // @description: balafon entry point
 // @create: {{ @date }}
 // @license: {{ @license }}
 // @author: {{ @author }}
-//
+
 if (!version_compare(PHP_VERSION, "7.0", ">=")){
     die("mandory version required. 7.0<=");
 }
