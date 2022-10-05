@@ -8,6 +8,7 @@
 controller to load inistialization script on document
 */
 
+use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
 abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
@@ -26,20 +27,20 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getCanEditDataTableInfo(){
 		return false;
 	}
-	protected function initTargetNode()
+	protected function initTargetNode(): ?HtmlNode
 	{
 		$n =  HtmlNode::CreateWebNode("script");
 		$this->m_script = $n;
 		return null;
 	}
-	public function getIsVisible(){
+	public function getIsVisible():bool{
 		return !igk_is_confpagefolder();
 	}
 	public function pageFolderChanged()
 	{
 		$this->View();
 	}
-	public function View()
+	public function View():BaseController
 	{
 		if ($this->IsVisible)
 		{
@@ -51,5 +52,6 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 		else {
 			$this->m_script->remove();
 		}
+		return $this;
 	}
 } 

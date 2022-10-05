@@ -79,7 +79,7 @@ class IGKServices
             if (!($c = igk_getv($instance->m_services, $serviceName)) || (get_class($c["instance"]) != $className)) {
                 $cl = new $className();
                 if ($cl->init()) {
-                    $file = (new ReflectionClass($className))->getFileName();
+                    $file = (igk_sys_reflect_class($className))->getFileName();
                     $instance->m_services[$serviceName] = [
                         "instance" => $cl,
                         "l" => $file

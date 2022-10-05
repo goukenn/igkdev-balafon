@@ -11,7 +11,9 @@
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\ILibaryController;
 use IGK\Helper\IO;
+use IGK\Helper\ViewHelper;
 use IGK\Resources\R;
+use IGK\System\Database\IDatabaseHost;
 use IGK\System\IO\File\WsdlFile;
 use function igk_resources_gets as __;
 
@@ -19,7 +21,10 @@ use function igk_resources_gets as __;
 !defined("IGK_SERVICE_BASE_URI") && define("IGK_SERVICE_BASE_URI", "services");
 ///<summary>represent a wsdl service controller type </summary>
 /** @package  */
-abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase implements ILibaryController{
+abstract class IGKServiceController 
+    extends \IGK\Controllers\ControllerTypeBase 
+    implements ILibaryController, IDatabaseHost
+{
     const DOC_ID = "sys://documents/services";
     private static $sm_services=[];
    
@@ -38,7 +43,7 @@ abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase 
     }
     ///<summary>Represente _initCssStyle function</summary>
     protected function initCssStyle(){                    
-        igk_ctrl_bind_css_file($this, dirname(__FILE__)."/Styles/default.pcss", 1);  
+        igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument(), dirname(__FILE__)."/Styles/default.pcss", 1);  
         ControllerExtension::bindCssStyle($this);
     }
     protected function _configureDocument($doc){
@@ -147,7 +152,7 @@ abstract class IGKServiceController extends \IGK\Controllers\ControllerTypeBase 
             igk_exit();
         }
 
-        if(isset($_SERVER["HTTP_SOAPACTION"]) || !strstr(igk_getv($_SERVER, "HTTP_USER_AGENT"), "MS Web Services Client Protocol")){
+        if(isset($_SERVER["HTTP_SOAPACTION"]) || !strstr(igk_server()->HTTP_USER_AGENT, "MS Web Services Client Protocol")){
             if(empty($c)){
                 ob_clean();
                 $this->renderDefaultDoc();
@@ -247,8 +252,7 @@ EOF;
                 $r=$table->addTr();
                 $r->addTd()->Content=$nn;
                 $r->addTd()->Content= ($type = $v->getType()) ? IGKType::GetName($type) : "mixed";
-                $v=igk_getv($jdata, $nn);
-               
+                $v=igk_getv($jdata, $nn);               
                 $r->addTd()->Content=($v) ? igk_getv($v, $lg): IGK_HTML_SPACE;
                 if($store){
                     $jdata->$nn=(object)array($lg=>"");
@@ -349,7 +353,7 @@ EOF;
     }
     ///<summary>Represente getWsdlFile function</summary>
     protected function getWsdlFile(){
-        return igk_io_dir($this->getDataDir()."/service.wsdl");
+        return igk_dir($this->getDataDir()."/service.wsdl");
     }
     ///<summary>start server function</summary>
     protected function init_server(){

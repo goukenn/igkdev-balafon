@@ -13,5 +13,4 @@ $_not_implement_ajx=function(){
     $pan->div()->Content="/!\\ sorry page or service not yet implement";
     $pan->renderAJX();
     igk_exit();
-};
-?>
+}; 

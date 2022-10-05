@@ -71,7 +71,7 @@ class MakeModelUtilityCommand extends AppExecCommand
             }
         }
 
-        IGKControllerManagerObject::ClearCache();
+        \IGK\Helper\SysUtils::ClearCache();
         Logger::success("done\n");
     }
     public function help()

@@ -23,7 +23,7 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	}
 	protected function getConfigFile()
 	{
-		return igk_io_dir(IGK_DATA_FOLDER."/google.".IGK_CTRL_CONF_FILE);
+		return igk_dir(IGK_DATA_FOLDER."/google.".IGK_CTRL_CONF_FILE);
 	}
 	public function showConfig(){
 		parent::showConfig();

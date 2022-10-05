@@ -11,15 +11,11 @@ use IGK\System\Html\Dom\HtmlNode;
 
 abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
 	public function getCanAddChild(){
 		return false;
 	}
-	public function View()
-	{
-		parent::View();
-	}
-	protected function initTargetNode()
+ 
+	protected function initTargetNode():?HtmlNode
 	{
 		$t = new DragDropZoneItem();
 		$t["id"]="dropzone";

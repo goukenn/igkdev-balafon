@@ -6,6 +6,9 @@
 
 //controller code class declaration
 //file is a part of the controller tab list
+
+use IGK\Controllers\BaseController;
+
 abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	public function getName(){return get_class($this);}
@@ -19,14 +22,14 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 
 	}
 	//@@@ init target node
-	protected function initTargetNode(){
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		return $node;
 	}
 	public function getCanAddChild(){return false; }
  
 	//@@@ parent view control
-	public function View(){
+	public function View():BaseController{
 		$t = $this->TargetNode;
 		$t->clearChilds();
 		$frm = $t->addForm();
@@ -34,6 +37,7 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 		$frm->addSLabelInput("clLogin", "lb.login", "text");
 		$frm->addSLabelInput("clPwd", "lb.password", "password");
 		$frm->addInput("btn_connect" , "submit");
+		return $this;
 	}
 	public abstract function connect();
 	public abstract function logout();

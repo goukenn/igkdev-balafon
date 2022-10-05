@@ -10,12 +10,12 @@
 
 namespace IGK\Controllers;
 
-use IGKOb;
-use IGKServer;
+use IGKOb; 
 use IGKUserAgent;
 use IGKValidator;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
+use IGK\Server;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
 use IGKEvents;
@@ -25,8 +25,7 @@ final class SessionController extends BaseController{
     private function _viewTarget(){
         $this->getTargetNode()->clearChilds();
     }
-    public function __construct(){ 
-    }
+  
     ///<summary></summary>
     public function changeviewmode(){
         if(!igk_is_conf_connected()){
@@ -56,7 +55,7 @@ final class SessionController extends BaseController{
         if(igk_is_conf_connected() || igk_server_is_local()){
             $tab=igk_sys_get_all_openedsessionid();
             $cid=session_id();
-            session_write_close();
+            @session_write_close();
             $c=0;
             foreach($tab as $k=>$v){
                 if($exclude && ($k == $cid))
@@ -72,7 +71,7 @@ final class SessionController extends BaseController{
     }
     ///<summary></summary>
     public function clearcache(){
-        if(IGKServer::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()){
+        if(Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()){
             igk_clear_cache();
         }
         igk_navto_referer();
@@ -128,10 +127,10 @@ final class SessionController extends BaseController{
         }
     }
     ///<summary></summary>
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         if(igk_get_env("sys://error"))
-            return 0;
-        return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (IGKServer::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
+            return false;
+        return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (Server::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
     }
     ///<summary></summary>
     public function getName(){
@@ -139,7 +138,8 @@ final class SessionController extends BaseController{
     }
     
     ///<summary></summary>
-    protected function initComplete($context=null){     
+    protected function initComplete($context=null){   
+       
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
@@ -172,7 +172,7 @@ final class SessionController extends BaseController{
     }
     
     ///<summary></summary>
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return  new HtmlSessionBlockNode($this);
     }
     ///<summary></summary>
@@ -230,7 +230,7 @@ final class SessionController extends BaseController{
     public function PageChanged(){
         $this->View();
     }
-    ///<summary></summary>
+    ///<summary>Session Controller Run Crons ----- </summary>
     public function RunCron(){
         $c=igk_getr("ctrl");
         if($c){

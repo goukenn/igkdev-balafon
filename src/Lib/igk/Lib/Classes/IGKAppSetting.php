@@ -16,9 +16,18 @@ class IGKAppSetting{
     public function getInfo(){
         return $this->info;
     }
-    public function __construct($info){
+    /**
+     * create with info
+     * @param object $info 
+     * @return void 
+     */
+    public function __construct(object $info){
         if (!is_object($info)) die("info not valid");
         $this->info = $info;
+    }
+    public function __wakeup()
+    {
+        igk_wln_e("wake up appsetting");
     }
     public function __get($n){
         if (method_exists($this, $fc = "get".ucfirst($n))){

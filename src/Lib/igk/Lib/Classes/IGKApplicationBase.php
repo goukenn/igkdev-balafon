@@ -6,6 +6,9 @@
  
 
 ///<summary>represent application base type</summary>
+
+use IGK\ApplicationLoader;
+
 /**
  * 
  * @package 
@@ -28,7 +31,11 @@ abstract class IGKApplicationBase{
             return $this->$fc();
         }
     }
-    public function getNoEnviroment(){
+    /**
+     * init not environment
+     * @return mixed 
+     */
+    public function getNoEnvironment(){
         return $this->no_init_environment;
     }
     /**
@@ -39,14 +46,17 @@ abstract class IGKApplicationBase{
     public function options($name, $default=null){
         return false;
     }
-
+    /**
+     * get library list
+     * @return mixed 
+     */
     public function getLibrary(){
         return $this->m_library;
     }
     /**
-     * enable application libraries
+     * enable application library by name
      * @param mixed $libname 
-     * @return void 
+     * @return mixed 
      */
     protected function library($libname)
     {
@@ -56,7 +66,7 @@ abstract class IGKApplicationBase{
         }
         if (!$this->lib($libname)){
             $cl = 'IGK\\System\\Library\\' . $libname;
-            if (IGKApplicationLoader::LoadClass($cl)){
+            if (ApplicationLoader::LoadClass($cl)){
                 $c = new $cl();
                 if ($c->init($this)){
                     $this->lib[$libname] = $c;
@@ -83,7 +93,7 @@ abstract class IGKApplicationBase{
         return new \IGK\System\AppBuilder();
     }
     /**
-     * check the library loading
+     * check if library is loaded
      * @param mixed $libname 
      * @return bool 
      */

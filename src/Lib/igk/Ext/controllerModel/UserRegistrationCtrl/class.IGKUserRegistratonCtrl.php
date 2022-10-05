@@ -13,8 +13,6 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 	}
 
 	public function subscribe(){
-		extract($this->getSystemVars());
-
 		$obj = igk_get_robj();
 		igk_val_init();
 		igk_val_check(IGKValidator::IsStringNullOrEmpty($obj->clEmail) ||

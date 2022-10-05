@@ -80,7 +80,7 @@ class MakeFactoryCommand extends AppExecCommand
             }
         }
         if ($gen){
-            IGKControllerManagerObject::ClearCache();
+            \IGK\Helper\SysUtils::ClearCache();
         }
         Logger::success("done\n");
     }

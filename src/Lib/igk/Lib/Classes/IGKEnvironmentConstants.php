@@ -43,4 +43,11 @@ abstract class IGKEnvironmentConstants{
      const AUTO_LOAD_CLASS = self::CURRENT_CTRL+12; // "auto_load_class";
      const VIEW_FILE_CACHES = "viewFileCaches";
      const IGNORE_JS_DIR = self::CURRENT_CTRL+13; // "sys://lib/ignorejsdir";
+
+     const DEV_ENV = "DEV";
+     const OPS_ENV = "OPS";
+     const TST_ENV = "TST";
+     const ACC_ENV = "ACC";
+     const MP1_ENV = "MP1";
+     const MP2_ENV = "MP2";
 }

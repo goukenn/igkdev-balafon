@@ -132,18 +132,17 @@ class Route
     ///<summary>register action provider</summary>
     /**
      * register action provider
-     * @param mixed $actionClass 
-     * @param mixed $path 
+     * @param string $actionClass 
+     * @param string $path path or class 
      * @param mixed $handleClass 
      * @return RouteActionHandler|RouteHandler 
      */
-    public static function RegisterAction($actionClass, $path, $handleClass=null)
+    public static function RegisterAction(string $actionClass, string $path, ?string $handleClass=null)
     { 
         /**
          * two type of returned data. depend on argument
          */
-        if (is_string($actionClass) && is_string($path) 
-            && is_subclass_of($path, BaseController::class)
+        if (is_subclass_of($path, BaseController::class)
             && ($handleClass==null)){
             return self::RegisterRoute($actionClass, $path);
         }
@@ -151,6 +150,7 @@ class Route
         if (!isset(self::$sm_actions[$actionClass])) {
             self::$sm_actions[$actionClass] = [];
         }
+        $path = ltrim($path,"/");
         $c = new RouteActionHandler($path, $handleClass, $actionClass);
         self::$sm_actions[$actionClass][] = $c;
         self::$sm_forceresolv = 1;
@@ -160,8 +160,8 @@ class Route
     
     /**
      * register route
-     * @param string $path 
-     * @param string $controller 
+     * @param string $path entry path
+     * @param string $controller controller in use
      * @return RouteHandler route handler
      */
     public static function RegisterRoute(string $path, string $controller){

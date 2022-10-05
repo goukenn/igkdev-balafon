@@ -33,7 +33,7 @@ class MakeModuleCommand extends AppCommand{
         $command->exec = function($command, $name){
             Logger::print("generate module : " . $command->app::gets($command->app::GREEN, $name));
 
-            $dir = igk_html_uri(igk_get_module_dir()."/".$name);
+            $dir = igk_uri(igk_get_module_dir()."/".$name);
             $force = property_exists($command->options, "--force"); 
             if (is_dir($dir)){
                 if ($force){
@@ -53,7 +53,8 @@ class MakeModuleCommand extends AppCommand{
             if (file_exists($dir."/.global.php")){
                 igk_io_w2file($dir."/.global.php", "<?php\n");
             }
-            $use_git = property_exists($command->options, "--git");
+            $use_git = property_exists($command->options, "--git") || 
+                !property_exists($command->options, "--no-git") ;
             $bind = [];
             $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
             $bind[$dir."/.module.pinc"] = function($file, $command, $name){

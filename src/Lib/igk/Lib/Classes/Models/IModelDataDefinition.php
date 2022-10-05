@@ -7,6 +7,10 @@
 
 namespace IGK\Models;
 
+/**
+ * represent imodel definition 
+ * @package IGK\Models
+ */
 interface IModelDataDefinition{
     function getDataTableDefinition() : DbModelDefinitionInfo;
 }

@@ -31,7 +31,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     const SESS_SESSION_EVENTS=(self::BASE_SESS_PARAM + 0x008);
     const SESS_USER_KEY=(self::BASE_SESS_PARAM + 0x0002);
     const SESS_SERVICE=(self::BASE_SESS_PARAM + 0x000F);
-
     const SYSDB_CTRL=IGK_KEY_SYSDB_CTRL;
 	const GLOBALVARS = (self::BASE_SESS_PARAM + 0x0100);
     private $m_instances;
@@ -45,7 +44,7 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * @param mixed * $params
     */
     public function __construct(& $params){
-        $this->m_sessionParams=& $params;  
+        $this->m_sessionParams=& $params;   
     }
     /**
      * @return mixed|array return configured routes 
@@ -195,7 +194,7 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     */
     public function generateCref(){
         $cref = igk_create_cref();
-		igk_app()->settings->{IGK_FORM_CREF} = $cref;
+		igk_app()->getSettings()->{IGK_FORM_CREF} = $cref; 
         return $cref;
     }
     ///<summary></summary>
@@ -205,28 +204,13 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function getApp(){
         return igk_app();
     }
-    ///<summary></summary>
+    ///<summary>get controller params</summary>
     /**
-    * 
+    * get controller params 
     */
     public function & getControllerParams(){
-        //$appinfo = igk_app()->settings->appInfo;
-        // $p = & $appinfo->ctrlParams;
         $p = & igk_app()->settings->appInfo->ctrlParams;
         return $p;
-
-        // static $controllerParams=null;
-        // $appInfo = igk_app()->settings->appInfo;
-        // if ($appInfo){
-        //     if($controllerParams === null){
-        //         if (!isset($appInfo->ctrlParams)){
-        //             $appInfo->ctrlParams = array();
-        //         }
-        //         // $controllerParams = & $appInfo->getRef("ctrlParams");
-        //         $controllerParams = & $appInfo->ctrlParams;
-        //     }
-        // }
-        // return $controllerParams;
     }
 	///<summary>store here general form setting</summary>
 	public function getForm(){
@@ -239,11 +223,10 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     /**
     * 
     */
-    public function getCRef(){ 
-        $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){     
-            // igk_wln("generate cref")       ;
+    public function getCRef(){   
+        $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){    
             return $this->generateCref();
-        })();
+        })(); 
         return $cref;
     }
     ///<summary></summary>
@@ -279,7 +262,7 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function getdomainBaseFile(){
         $c= $this->getParam(self::SESS_DOMAIN_BASEFILE);
         if  ($c){
-            $c = igk_io_dir(str_replace("%basepath%", igk_io_basedir(), $c));            
+            $c = igk_dir(str_replace("%basepath%", igk_io_basedir(), $c));            
         }
         return $c;
     }
@@ -362,14 +345,12 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * @return mixed|array controller parameters
     */
     public function & getRegisteredControllerParams($classname){
+        igk_trace();
+        igk_wln_e("data .... ");
         $g=null;
 		$t = & $this->getControllerParams();
 		if (isset($t[$classname]))
-			$g = & $t[$classname];
-        // if(isset($this->m_sessionParams[self::SESS_CONTROLLERPARAM_KEY][$classname])){
-            // $g=& $this->m_sessionParams[self::SESS_CONTROLLERPARAM_KEY][$classname];
-            // return $g;
-        // }
+			$g = & $t[$classname];       
         return $g;
     }
     ///<summary></summary>
@@ -418,14 +399,14 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * @param mixed $classname
     * @param mixed * $tab
     */
-    public function registerControllerParams($classname, & $tab){
-		$p = & $this->getControllerParams();
-		$p[$classname] = & $tab;
-    }
-	 public function unregisterControllerParams($classname, & $tab){
-		$p = & $this->getControllerParams();
-		unset($p[$classname]);
-    }
+    // public function registerControllerParams($classname, & $tab){
+	// 	$p = & $this->getControllerParams();
+	// 	$p[$classname] = & $tab;
+    // }
+	//  public function unregisterControllerParams($classname){
+	// 	$p = & $this->getControllerParams();
+	// 	unset($p[$classname]);
+    // }
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="method"></param>

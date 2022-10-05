@@ -7,6 +7,8 @@
 
 namespace  IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
+
 use function igk_resources_gets as __;
 
 ///<summary>class used to register global user in system</summary>
@@ -31,15 +33,16 @@ class ComposerController extends ConfigControllerBase {
     {
         return true;
     }
-    public function getIsVisible()
+    public function getIsVisible():bool
     {
         return true;
     }
-    public function View()
+    public function View():BaseController
 	{
         $t = $this->getTargetNode();
 		$t->clearChilds();
         $t->panelbox()->host([$this, "_composer_pan"], $this);
+        return $this;
     }
     protected function _composer_pan($n, $ctrl){
         $_json = igk_io_packagesdir()."/composer.json";

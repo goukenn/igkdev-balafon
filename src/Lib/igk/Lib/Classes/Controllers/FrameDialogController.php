@@ -71,7 +71,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         }
         if(!igk_is_ajx_demand()){
             if($closeuri){
-                igk_navtocurrent($closeuri);
+                igk_navto($closeuri);
                 igk_exit();
             }
             else if($navigate){

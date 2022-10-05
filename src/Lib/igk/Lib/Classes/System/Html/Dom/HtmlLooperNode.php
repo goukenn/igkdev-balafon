@@ -18,6 +18,7 @@ class HtmlLooperNode extends HtmlItemBase{
     private $args;
     private $node;  
     private $callback;
+    private $params;
     protected $tagname = "igk:looper";
     public function __construct($args, $node){        
         $this->args = $args;
@@ -26,16 +27,19 @@ class HtmlLooperNode extends HtmlItemBase{
     }   
     public function getCanRenderTag() { return false; }
 
-    public function render($options = null) { return null; }
+    public function render($options = null) {          
+        return null; 
+    }
 
-    public function host(callable $callback){
+    public function host(callable $callback, ...$param){
         foreach($this->args as $k => $c){
-            $callback($this->node, $c, $k);
+            $callback($this->node, $c, $k, ...$param);
         }
         $this->callback = $callback;
+        $this->params = $param;
     }   
     public function __getRenderingChildren($options = null){
-        $this->host($this->callback);
+        $this->host($this->callback, ...$this->params);
         return [];        
     }
 }

@@ -69,6 +69,7 @@ abstract class AppCommand {
                 }
             }
             if (file_exists($file = AppCommandConstant::GetCacheFile())){
+                
                 $list = include($file);
                 $mod = igk_get_modules();
                 //init module
@@ -106,7 +107,6 @@ abstract class AppCommand {
                 // $init_command = new InitCommand;
                 // $cmd = null; // self::Create("");
                 // $init_command->exec($app);
-
                 Logger::info("command file not present ". $file);
             }
         }

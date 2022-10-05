@@ -49,7 +49,7 @@ final class IGKCoreJSon extends IGKObject
         array_push($tab, ["exp" => $exp, "pos" => $pos, "q" => $q, "m" => $m, "k" => $k, "v" => $v]);
         $rp = 0;
         $_json_value = function ($v) {
-            return igk_json_value($v);
+            return is_array($v) ? $v : igk_json_value($v);
         };
         while ($cpop = array_pop($tab)) {
             $exp = $cpop["exp"];

@@ -757,7 +757,7 @@ abstract class HtmlUtils extends DomNodeBase
         $d = $vsystheme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
         $d = $vsystheme->reg_media("(max-width:700px)");
        
-        $v_cache_file = igk_io_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
+        $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
         if (file_exists($v_cache_file)) {
             igk_css_include_cache($v_cache_file, $lfile);
         } else {
@@ -772,9 +772,9 @@ abstract class HtmlUtils extends DomNodeBase
                 igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [& $lfile]);
                
                 if (count($lfile) == 0 ){
-                    $lfile[] = igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
-                    $lfile[] = igk_get_env("sys://css/file/global_color", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
-                    $lfile[] = igk_get_env("sys://css/file/global_template", igk_io_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
+                    $lfile[] = igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
+                    $lfile[] = igk_get_env("sys://css/file/global_color", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
+                    $lfile[] = igk_get_env("sys://css/file/global_template", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
                 }
             }
         }

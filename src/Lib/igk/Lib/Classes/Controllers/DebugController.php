@@ -10,13 +10,10 @@
 
 namespace IGK\Controllers;
 
-use IGK\System\Html\Dom\HtmlDebuggerViewNode;
-use IGK\System\Html\Dom\HtmlHookNode;
-use IGK\System\Html\Dom\IGKDebuggerNode;
-use IGK\System\Html\HtmlUtils;
-use IGKEvents; 
-use IGKServer;
-use IGKServerInfo; 
+use IGK\Server;
+use IGK\System\Html\Dom\HtmlDebuggerViewNode; 
+use IGK\System\Html\HtmlUtils; 
+ 
 
 final class DebugController extends BaseController{
     public function getName(){
@@ -40,11 +37,11 @@ final class DebugController extends BaseController{
         return $debug;
     }
     ///<summary></summary>
-    public function getIsVisible(){
-        return IGKServer::IsLocal();
+    public function getIsVisible():bool{
+        return Server::IsLocal();
     }
     ///<summary></summary>
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $node=parent::initTargetNode();
         $cl=strtolower($this->getName());
         $node["class"]=$cl." loc_t loc_l zback posr";
@@ -55,7 +52,7 @@ final class DebugController extends BaseController{
         return $node;
     }
     ///<summary>debug ctrl view override</summary>
-    public function View(){
+    public function View():BaseController{
         if($this->getIsVisible()){
             $body=igk_sys_debugzone_ctrl();
             if($body != null){
@@ -64,5 +61,6 @@ final class DebugController extends BaseController{
         }
         else
             $this->getTargetNode()->remove();
+        return $this;
     }
 }

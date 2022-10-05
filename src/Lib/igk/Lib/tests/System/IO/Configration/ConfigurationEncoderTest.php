@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
  * test configuration reader function 
  * @package IGK\Test\System\IO\Configuration
  */
-class ConfigurationReaderTest extends BaseTestCase {
+class ConfigurationEncoderTest extends BaseTestCase {
    
     public function test_connexion_string_encode(){
         $encoder = new ConfigurationEncoder;

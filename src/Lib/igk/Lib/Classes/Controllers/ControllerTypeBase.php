@@ -11,11 +11,7 @@
 namespace IGK\Controllers;
  
 
-abstract class ControllerTypeBase extends BaseController{
-    ///<summary></summary>
-    public function __construct(){
-        parent::__construct();
-    }
+abstract class ControllerTypeBase extends BaseController{   
     ///<summary></summary>
     public static function GetAdditionalConfigInfo(){
         return null;

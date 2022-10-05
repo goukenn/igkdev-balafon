@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
@@ -131,7 +131,7 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 	{ //vid player construct
 		parent::__construct();
 	}
-	protected function initTargetNode()
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode
 	{
 		$t  = parent::initTargetNode();
 
@@ -189,11 +189,12 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		$this->m_vidNode->setAllowControl(true);
 	}
-	public function  View()
+	public function  View(): BaseController
 	{
 		//no view. rendering
-		if ($this->IsVisible == false)
+		if (!$this->getIsVisible())
 			igk_html_rm($this->TargetNode);
+		return $this;
 	}
 	protected function _showViewFile()
 	{

@@ -8,7 +8,7 @@
 namespace IGK\System\Database;
 
 /**
- * represent profile 
+ * represent user's application profile 
  * @package 
  */
 interface IUserProfile{

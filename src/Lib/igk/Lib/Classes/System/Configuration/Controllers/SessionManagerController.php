@@ -7,6 +7,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\System\Http\WebResponse;
 
 use function igk_resources_gets as __;
@@ -17,6 +18,11 @@ use function igk_resources_gets as __;
 */
 final class SessionManagerController extends ConfigControllerBase{
     const SESS_NOTIFY="sys://notify/sessionmanager";
+    
+    public function getName()
+    {
+        return IGK_CTRL_SESSION_MANAGER;
+    }
     ///<summary>Represente clearall function</summary>
     /**
     * Represente clearall function
@@ -72,8 +78,8 @@ final class SessionManagerController extends ConfigControllerBase{
     /**
     * Represente View function
     */
-    public function View(){
-        $t=$this->TargetNode->clearChilds()->addPanelBox();
+    public function View():BaseController {
+        $t=$this->getTargetNode()->clearChilds()->addPanelBox();
         $t->addSectionTitle(4)->Content=__("Session Manager");
         $bar=$t->addActionBar();
         $dv=$t->addDiv();
@@ -120,5 +126,6 @@ final class SessionManagerController extends ConfigControllerBase{
         else{
             $dv->add("div")->Content=__("No sessions found");
         }
+        return $this;
     }
 }

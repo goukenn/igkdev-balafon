@@ -4,16 +4,31 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
+use IGK\ApplicationLoader;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\IO\Path;
 use IGK\Cache\SystemFileCache as IGKSysCache;
+use IGK\System\Caches\EnvControllerCacheDataBase;
+use IGK\System\Caches\InitEnvControllerChain;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\Controllers\BaseController;
+use IGK\Controllers\SessionController;
+use IGK\Controllers\SysDbController;
 
 ///<summary> manage application system</summary>
 class IGKAppSystem{
 
-    public static function InitEnv(string $dirname){    
+    /**
+     * init application environment
+     * @param string $dirname 
+     * @param IGKApp $app 
+     * @return int|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function InitEnv(string $dirname, IGKApp $app){    
  
         if(!is_dir($dirname))
             return -9; 
@@ -36,7 +51,7 @@ class IGKAppSystem{
             // + | -----------------------------------------
             // + | expected load lib cache for max 5ms
             // + | 
-            self::LoadEnvironment();               
+            self::LoadEnvironment($app);               
             !defined('IGK_INIT') && define('IGK_INIT', 1);        
             return;
         }
@@ -131,11 +146,9 @@ class IGKAppSystem{
         igk_io_save_file_as_utf8($app_dir."/cgi-bin/cronjob.php", igk_get_defaultcron_data(), false);
         // 
         // load library folder  
- 
+        //
         self::_LoadEnvFiles();
-
-        igk_io_save_file_as_utf8($confFILE, "1", false);
-        
+        igk_io_save_file_as_utf8($confFILE, "1", false);        
         igk_io_save_file_as_utf8($data_dir."/domain.conf", igk_getv($options, "domain_name"), true);
         $cgi=IGK_LIB_DIR."/cgi-bin";
         if(!igk_phar_running() && ($ctab=igk_io_getfiles($cgi, "/\.cgi$/"))){
@@ -146,11 +159,16 @@ class IGKAppSystem{
         if ($is_primary){
             igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/index.php", igk_config_php_index_content(), false);
             igk_io_save_file_as_utf8($app_dir. "/".IGK_CONF_FOLDER."/.htaccess", igk_getconfig_access(), false);
-        }
-
-        
+        }        
         umask($old);
     }
+    /**
+     * load environement files
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     private static function _LoadEnvFiles(){
         return igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", "SysMods", igk_io_projectdir()));
     }
@@ -159,19 +177,54 @@ class IGKAppSystem{
      * @return void 
      * @throws IGKException 
      */
-    public static function LoadEnvironment(){
-        \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
+    public static function LoadEnvironment(IGKApp $app){
         if(!IGKSysCache::LoadCacheLibFiles()){
+            \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
             $t_files= self::_LoadEnvFiles(); 
             igk_reglib($t_files);
             IGKSysCache::CacheLibFiles(true); 
             \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 2.00);
-        } else {
-            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 0.050); 
-        }       
+        }  
+        self::_InitControllerEnvironment($app); 
     }
-    private function __construct()
-    {
-        
+    /**
+     * init controller environment
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    private static function _InitControllerEnvironment(IGKApp $app){
+        $manager = $app->getControllerManager();
+        $loader = ApplicationLoader::getInstance();
+        $c = new InitEnvControllerChain;
+        // init environment change
+        if (!is_file($file = igk_io_cachedir()."/".EnvControllerCacheDataBase::FILE)){
+            $sysdb = igk_getctrl(SysDbController::class);
+            $c->add(new EnvControllerCacheDataBase($file, $sysdb));
+        }
+        // $application = $app->getApplication();
+       
+        foreach(get_declared_classes() as $cl){ 
+            if (is_subclass_of($cl, BaseController::class)){
+                // register controller
+                $g = igk_sys_reflect_class($cl);
+                if ($g->isAbstract() || !$g->getConstructor()->isPublic()){
+                    continue;
+                }
+                // Logger::info("controller: ".$cl);
+                $o = new $cl();
+                $manager->register($o);
+                $rfile = $g->getFileName(); 
+                $loader->registerClass(
+                    $rfile,
+                    $cl, ""
+                );
+                $c->update($o);       
+            }
+        }
+        $c->complete(); 
+    }
+    private function __construct(){        
     }
 }

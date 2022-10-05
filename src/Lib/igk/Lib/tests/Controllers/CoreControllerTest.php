@@ -27,7 +27,7 @@ class CoreControllerTest extends ControllerBaseTestCase
 
         $this->assertEquals(
             $this->controller->declaredDir . "/Views/default.phtml",
-            $this->controller->getViewFile("default", 0)
+            $this->controller->getViewFile("default.phtml", 0)
         );
         $p = [];
         $this->assertEquals(

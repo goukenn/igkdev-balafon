@@ -129,24 +129,25 @@ function igk_html_node_faceBookComments($uri){
 }
 
 
-igk_community_register_followus_service("facebook", function($cmd,$t,$v=null){
-	switch($cmd){
-		case "edit":
-			$name = igk_getv(func_get_args(),3);
-			$ul = $t->add("ul");
-			igk_html_build_form($ul,array(
-			IGK_FIELD_PREFIX.$name."Id"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookId'))),
-			IGK_FIELD_PREFIX.$name."AppID"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookAppID'))),
-			IGK_FIELD_PREFIX.$name."Version"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookVersion')))
-			));
-		break;
-		case "getlink":
-		if (isset($v->facebookId))
-			return "https://facebook.com/".$v->facebookId;
-			break;
-		case "view":
-		default:
-		break;
-	}
-	return null;
-});
+
+// igk_community_register_followus_service("facebook", function($cmd,$t,$v=null){
+// 	switch($cmd){
+// 		case "edit":
+// 			$name = igk_getv(func_get_args(),3);
+// 			$ul = $t->add("ul");
+// 			igk_html_build_form($ul,array(
+// 			IGK_FIELD_PREFIX.$name."Id"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookId'))),
+// 			IGK_FIELD_PREFIX.$name."AppID"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookAppID'))),
+// 			IGK_FIELD_PREFIX.$name."Version"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookVersion')))
+// 			));
+// 		break;
+// 		case "getlink":
+// 		if (isset($v->facebookId))
+// 			return "https://facebook.com/".$v->facebookId;
+// 			break;
+// 		case "view":
+// 		default:
+// 		break;
+// 	}
+// 	return null;
+// });

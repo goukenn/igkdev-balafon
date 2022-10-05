@@ -22,7 +22,7 @@ abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 	public function getcanAddChild(){
 		return false;
 	}
-	public function getisVisible(){
+	public function getisVisible(): bool{
 		return false;
 	}
 } 

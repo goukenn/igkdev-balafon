@@ -7,6 +7,8 @@
 
 namespace IGK\System\Console\Commands;
 
+use IGK\System\Console\Logger;
+
 /**
  * db command helper
  * @package IGK\System\Console\Commands
@@ -34,6 +36,11 @@ abstract class DbCommandHelper{
         // + | activate query debug if requested  
         if (property_exists($command->options, "--querydebug")){
             igk_environment()->querydebug = 1;
+        }
+    }
+    public static function ShowUsage(){
+        foreach(array_keys(self::GetDbCommandsProperties()) as $k){
+            Logger::print($k);            
         }
     }
 }

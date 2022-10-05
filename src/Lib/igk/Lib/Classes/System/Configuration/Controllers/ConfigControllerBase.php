@@ -11,7 +11,7 @@ namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\WinUI\Menus\MenuItem;
-use IGKControllerManagerObject;
+
 use IGKEvents;
 use IIGKConfigController;
 
@@ -26,9 +26,9 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigCon
 abstract class ConfigControllerBase extends BaseController implements IConfigController {
     public function getName()
     {
-        return IGKControllerManagerObject::GetResolvName(static::class);
+        return strtolower(static::class);
     }
-    protected function getUseDataSchema(){
+    public function getUseDataSchema():bool{
         if (self::IsSysController(static::class)){
             return false;
         }
@@ -113,7 +113,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * 
     */
-    public function getIsVisible(){
+    public function getIsVisible(): bool{
         $app=igk_app();
         $cnf=$this->ConfigCtrl;
         $v=(($app->CurrentPageFolder == IGK_CONFIG_MODE) && ($cnf) && ($cnf->getSelectedConfigCtrl() === $this) && ($cnf->getIsConnected()));
@@ -175,7 +175,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     * @param mixed $funcName
     */
     protected function IsFunctionExposed(string $function){
-        if (!igk_is_conf_connected()){
+        if (!igk_is_conf_connected() || igk_configs()->get("noWebConfiguration")){
             return false;
         }
         return true; // parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $function]);
@@ -187,15 +187,8 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     public function showConfig(){
         $_t=$this->getTargetNode();
 		$e_key  = "sys://config/selectedview";
-        $this->ConfigCtrl->setSelectedConfigCtrl($this, get_class($this)."::showConfig");
-        
-        if (igk_env_count_get(__METHOD__)==1){
-            igk_trace();
-            igk_exit();
-
-        }
-
-        if(!$this->getIsVisible()){
+        $this->ConfigCtrl->setSelectedConfigCtrl($this, get_class($this)."::showConfig");      
+        if(!$this->getIsVisible()){ 
             $_t->remove();
             igk_set_env($e_key , null);
         }
@@ -214,5 +207,8 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     */
     protected function viewConfig($target, $titlekey, $descfile){
         return igk_html_ctrl_view_config($this, $target, $titlekey, $descfile);
+    }
+    protected function _selectConfigView($ctrl){
+        igk_environment()->set('sys://config/selectedview', $ctrl);
     }
 }

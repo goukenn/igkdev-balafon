@@ -7,6 +7,7 @@
 
 namespace IGK\System\Html;
 
+use IGK\Controllers\ControllerEnvParams;
 use IGK\System\Html\Dom\HtmlExpressionNode;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\IHeaderResponse;
@@ -48,26 +49,8 @@ class HtmlRenderer
      */
     public static function CreateRenderOptions()
     {
-        $o = (object)[
-            "AJX" => false,
-            "Indent" => false,
-            "Stop" => 0,
-            "Context" => HtmlContext::Html,
-            "Depth" => 0,
-            "Document" => null,
-            "BodyOnly" => 0,
-            "Attachement" => 0,
-            "StandAlone" => 0,
-            "Cache" => igk_sys_cache_require(),
-            "CacheUri" => 0,
-            "CacheUriLevel" => 0,
-            "flag_no_attrib_escape" => null,
-            "Tab" => [],
-            "Chain" => 1,
-            "TextOnly" => false,
-            "lastRendering" => null,
-            "jsOpsFirstEval" => null
-        ];
+        $o = new HtmlRendererOptions;
+        $o->Cache = igk_sys_cache_require();        
         if ($o->Cache) {
             $o->CacheUri = base64_decode(igk_sys_cache_uri());
             $o->CacheUriLevel = explode("/", $o->CacheUri);
@@ -76,7 +59,6 @@ class HtmlRenderer
     }
     public static function GetValue($o, $options = null)
     {
-
         if ($o instanceof IHtmlGetValue) {
             return $o->getValue($options);
         }
@@ -90,6 +72,7 @@ class HtmlRenderer
      */
     public static function RenderDocument($doc = null, $refreshDefault = 1, $ctrl = null)
     {  
+        //igk_wln_e("bind:ing");
         $igk = igk_app();
         $doc = $doc ?? $igk->getDoc();   
         if ($refreshDefault) {
@@ -105,6 +88,7 @@ class HtmlRenderer
                     $bbox = $doc->getBody()->getBodyBox()->clearChilds();
                     if ($t = $ctrl->getTargetNode()) {
                         $bbox->add($t);
+                        $ctrl->{ControllerEnvParams::NoCompilation} = 1;
                         $ctrl->View();
                     }
                 }
@@ -144,6 +128,7 @@ class HtmlRenderer
             "Context" => "XML",
             "Depth" => 0,
             "Indent" => false,
+            "header"=>null,
         ] as $k => $v) {
             if (!isset($options->$k)) {
                 $options->$k = $v;
@@ -163,13 +148,13 @@ class HtmlRenderer
     }
     /**
      * retrieve tab stop
-     * @param mixed $options 
+     * @param mixed|XmlRenderOptions $options 
      * @return string 
      */
     public static function GetTabStop($options)
     {
         $s = "";
-        if ($options->Indent) {
+        if ($options && $options->Indent) {
             return str_repeat("\t", $options->Depth);
         }
         return $s;
@@ -180,6 +165,14 @@ class HtmlRenderer
             $options->__invoke[$method] = 1;
         } else {
             $options->__invoke[$method]++;
+        }
+    }
+    private static function _GetHeader($o):?string{
+        if (is_string($o)){
+            return $o;
+        }
+        if (is_object($o)){
+            return self::GetValue($o);
         }
     }
     /**
@@ -195,12 +188,16 @@ class HtmlRenderer
         $options->Source = $item;
         //count the parent invoker
         self::UpdateInvoke(__METHOD__, $options);
-
         $s = "";
         $reflect = [];
         $ln = $options->LF;
         $engine = igk_getv($options, "Engine");
-        $level = $options->Depth;
+        $level = $options->Depth;  
+        $tab_start = false;
+        if ($options->header){
+            $s = self::_GetHeader($options->header);
+            $options->header = null;
+        }
 
         while (($q = array_pop($tab)) && !$options->Stop) {
             $tag = null;
@@ -212,9 +209,9 @@ class HtmlRenderer
                 $q = ["item" => $i, "close" => false];
             } 
             if (!$q["close"]) {
-                if ($ln && ($options->Depth > 0)) {
-                    // $s = "5".rtrim($s);
-                    $s .= $ln . self::GetTabStop($options);
+                if ($ln && ($options->Depth > 0) && !$tab_start ) {                   
+                    $s .= self::GetTabStop($options);
+                    $tab_start = true;
                 }
 
                 if ($i instanceof HtmlItemBase) {
@@ -239,7 +236,7 @@ class HtmlRenderer
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
-                            $s .= $ln . $v_c . $options->LF;
+                            $s .=  $v_c.$ln;
                         }
                         $options->Depth = max(0, $options->Depth - 1);
                         continue;
@@ -250,11 +247,12 @@ class HtmlRenderer
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
                 $havTag = !empty($tag);
+                $tab_start = false;
                 if ($havTag) {
                     $s .= "<" . $tag . "";
                     // render attribute 
                     if (!empty($attr = static::GetAttributeString($i,  $options))) {
-                        $s .= " " . $attr;
+                        $s .= " " . rtrim($attr);
                     }
                 } else {
                     // + | do not progress depth because item do not have tag presentation
@@ -280,7 +278,7 @@ class HtmlRenderer
                 $q["tag"] = $tag;
                 $q["have_childs"] = $have_childs;
                 if ($havTag && $q["close_tag"]) {
-                    $s .= ">";
+                    $s = rtrim($s).">";
                 }
                 if (!empty($content) || is_numeric($content)) {
                     if (is_object($content)) {
@@ -307,10 +305,10 @@ class HtmlRenderer
             $options->Depth = max($level, $options->Depth - 1);
             if (!empty($tag)) {
                 if ($q["close_tag"]) {
-                    if ($ln  && $q["have_childs"] && ($options->Depth > 0)) {
-                        $s = "1".rtrim($s) . $ln . self::GetTabStop($options);
+                    if ($ln && $q["have_childs"] && ($options->Depth > 0)) {
+                        $s = rtrim($s) . $ln . self::GetTabStop($options);
                     }
-                    $s .= "</" . $tag . ">" . $ln;
+                    $s .=  "</" . $tag . ">" . $ln;
                 } else {
                     $s .= "/>" . $ln;
                 }

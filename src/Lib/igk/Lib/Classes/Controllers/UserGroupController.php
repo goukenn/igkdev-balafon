@@ -10,16 +10,17 @@
 
 namespace IGK\Controllers;
 
+use IGK\Models\DbModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGKEvents;
 
 final class UserGroupController extends NonVisibleControllerBase{
     ///<summary></summary>
-    public function getDataTableInfo(){
+    public function getDataTableInfo(): ?DbModelDefinitionInfo{
         return null;
     }
     ///<summary></summary>
-    public function getDataTableName(){
+    public function getDataTableName(): ?string{
         return Usergroups::table();
     }
     ///<summary></summary>

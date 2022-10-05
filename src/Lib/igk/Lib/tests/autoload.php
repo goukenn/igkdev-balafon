@@ -4,7 +4,8 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
+use IGK\ApplicationFactory;
+use IGK\ApplicationLoader;
 
 if (!version_compare(PHP_VERSION, "7.2", ">")){
     die ("php require version must be greather that 7.2");
@@ -66,18 +67,18 @@ foreach(["IGK_NO_DBCACHE"] as $k){
 defined("IGK_PROJECT_DIR") || define("IGK_PROJECT_DIR", IGK_APP_DIR."/Projects");           
  
 require_once(__DIR__."/PhpUnitApplication.php");
-require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationFactory.php");
+require_once(IGK_LIB_CLASSES_DIR."/ApplicationFactory.php");
 require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
 // load configuration file for unit testing
 igk_environment()->setArray("extra_config", "configFiles", ["unittest"]);
 
-IGKApplicationFactory::Register("phpunit", PhpUnitApplication::class);
+ApplicationFactory::Register("phpunit", PhpUnitApplication::class);
 
 
 // 
 // //.session start for testing
 // $s = session_start();
 // // initialize application static folder
-$app = IGKApplicationLoader::Boot("phpunit"); 
+$app = ApplicationLoader::Boot("phpunit"); 
 
 $app->run(__FILE__, false);

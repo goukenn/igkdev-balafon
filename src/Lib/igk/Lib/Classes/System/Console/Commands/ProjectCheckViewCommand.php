@@ -9,7 +9,7 @@
 namespace IGK\System\Console\Commands;
 
 use Exception;
-use IGK\Controllers\ControllerParams;
+use IGK\Controllers\ControllerEnvParams;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use IGK\System\Console\App;  
@@ -24,6 +24,13 @@ class ProjectCheckViewCommand extends AppExecCommand{
     var $category = "project";
     var $desc = "check -lint all views";
 
+    protected function showUsage()
+    {
+        Logger::info("--project:check-view ");
+        DbCommandHelper::ShowUsage();
+    }
+
+
     public function exec($command, $controller=null) { 
         
         if (is_null($controller)){
@@ -36,20 +43,22 @@ class ProjectCheckViewCommand extends AppExecCommand{
         }
         $withHidden = self::GetHasOptions($command, "-h|--withHidden") ?? false;
 
+        DbCommandHelper::Init($command);
+
         // $file = $ctrl->getViewFile('.forms/enterprise');
         // $r = [];
         // igk_debug(1);
         // $file2 = $ctrl->getViewFile('default8.phtml', 1, $r); // $this->getViewFile($v, 1, $params)
         // igk_wln_e($file, $file2, "------------------");
 
-        $views = $ctrl->getViews($withHidden);
+        $views = $ctrl->getViews($withHidden, true);
         $viewDir = $ctrl->getViewDir();
-        $ctrl->{ControllerParams::NoActionHandle} = 1;
-        $ctrl->{ControllerParams::NoCompilation} = 1;
-        $ctrl->{ControllerParams::AllowHiddenView} = 1;
-        $ctrl->{ControllerParams::NoDoViewResponse} = 1;
+        $ctrl->{ControllerEnvParams::NoActionHandle} = 1;
+        $ctrl->{ControllerEnvParams::NoCompilation} = 1;
+        $ctrl->{ControllerEnvParams::AllowHiddenView} = 1;
+        $ctrl->{ControllerEnvParams::NoDoViewResponse} = 1;
         foreach($views as $view){
-            $file = $viewDir."/".$view.".phtml";
+            $file = $viewDir."/".$view.IGK_VIEW_FILE_EXT;
             // lint php
             $g = `php -l $file`;
             echo "lint : ".$g;

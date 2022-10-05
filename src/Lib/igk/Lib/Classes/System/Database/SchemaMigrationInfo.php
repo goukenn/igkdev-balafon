@@ -23,12 +23,9 @@ class SchemaMigrationInfo implements ArrayAccess{
     var $tableRowReference;
     var $modelClass;
 
-    protected function _access_OffsetGet($n){
-        igk_trace();
-        igk_exit();
-    }
-    protected function _access_OffsetSet($n, $v){
-        igk_trace();
-        igk_exit();
+    public function _access_OffsetGet($n){
+        if (property_exists($this, $n)){
+            return $this->$n;
+        }
     }
 }

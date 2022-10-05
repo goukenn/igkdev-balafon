@@ -40,7 +40,7 @@ class UtilityActions{
     public function rmDir(){
         $n=igk_getr("clName");
         if(!empty($n)){
-            $f=igk_io_dir(igk_io_basedir());
+            $f=igk_dir(igk_io_basedir());
             $d=igk_io_basedir()."/__temp_dir";
             rename($f."/".$n, $d);
             \IO::RmDir($d); 

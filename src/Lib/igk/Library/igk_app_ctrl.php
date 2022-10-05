@@ -50,7 +50,7 @@ function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
             $u=base64_decode($q);
         }
     }
-    $frm=$node->addAppLoginForm($app, $app->getAppUri($fname), $u);
+    $node->appLoginForm($app, $app->getAppUri($fname), $u);
 }
 ///<summary></summary>
 ///<param name="app"></param>

@@ -123,19 +123,19 @@ class Path{
         // }
         // if ($dir == null)
         //     return $bdir;
-        // $l = igk_io_dir($bdir);
-        // if (file_exists($dir) && (($hdir = igk_io_dir($dir)) == igk_realpath($dir))) {
+        // $l = igk_dir($bdir);
+        // if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
         //     $rpath = IO::GetRelativePath($hdir, $l);
         //     if ($rpath)
-        //         return igk_io_dir($l . DIRECTORY_SEPARATOR . $rpath);
+        //         return igk_dir($l . DIRECTORY_SEPARATOR . $rpath);
         //     return $dir;
         // }
         // $s = str_replace("\\", "\\\\", $l);
         // $egext = "#^(" . $s . ")#";
-        // $dir = igk_io_dir($dir);
+        // $dir = igk_dir($dir);
         // if ($s && preg_match($egext, $dir))
         //     return $dir;
-        // return igk_io_dir($bdir . "/" . $dir);
+        // return igk_dir($bdir . "/" . $dir);
 
         $bdir = igk_environment()->get("basedir", $this->base_dir );  
         if (!$bdir) {
@@ -143,19 +143,19 @@ class Path{
         } 
         if ($dir == null)
             return $bdir;
-        $l = igk_io_dir($bdir);
+        $l = igk_dir($bdir);
         $_r = null;
-        if (file_exists($dir) && (($hdir = igk_io_dir($dir)) == igk_realpath($dir))) {
+        if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
             $rpath = IO::GetRelativePath($hdir, $l);
-            $_r = ($rpath)? igk_io_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
+            $_r = ($rpath)? igk_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
         }else{
              $s = str_replace("\\", "\\\\", $l);
             $egext = "#^(" . $s . ")#";
-            $dir = igk_io_dir($dir);
+            $dir = igk_dir($dir);
                 $_r = ($s && preg_match($egext, $dir)) ?
                 $dir :  $bdir . "/" . $dir;
         }
-        return  !is_null($_r) ? igk_html_uri($_r) : null;
+        return  !is_null($_r) ? igk_uri($_r) : null;
     }
     /**
      * get full base uri

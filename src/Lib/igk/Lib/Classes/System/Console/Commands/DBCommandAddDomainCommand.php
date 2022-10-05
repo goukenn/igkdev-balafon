@@ -11,7 +11,7 @@ use IGK\Models\Subdomains;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKControllerManagerObject;
+
 use Models\Domains;
 
 class DBCommandAddDomainCommand extends AppExecCommand

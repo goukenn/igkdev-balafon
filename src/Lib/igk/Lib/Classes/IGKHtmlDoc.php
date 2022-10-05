@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
+use IGK\Resources\R;
 use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
 use IGK\System\Html\Dom\HtmlDocCoreStyle;
@@ -233,7 +233,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     */
     public function getTheme($ops=false){
         $r = $this->m_theme;
-        if ($ops || igk_environment()->is("OPS")){
+        if ($ops || igk_environment()->isOPS()){
             $r = $this->getInlineTheme();
         }
         if($r=(igk_get_env("sys://css_temp") ? $this->m_privatetheme: $r)){
@@ -243,9 +243,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     }
     ///<summary>script manager</summary>
     /**
-    * @return IGKHtmlScriptManager 
+    * @return ?IGKHtmlScriptManager 
     */
-    public function getScriptManager(){
+    public function getScriptManager(): ?IGKHtmlScriptManager{
         return $this->getFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG);
     }
     ///<summary>add script file to document</summary>
@@ -318,8 +318,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * check the presence of the favicon
     * @param mixed $icon
     */
-    public function setFavicon($icon){
- 
+    public function setFavicon($icon){ 
         if($icon){
             if(is_object($icon)){
                 $icon=$icon->getValue();
@@ -422,6 +421,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
 
     public function render($options = null){
         igk_app()->settings->CurrentDocumentIndex = $this->getId();
+        $this->m_lang = R::GetCurrentLang();
         return parent::render($options); 
     }
     /**
@@ -442,7 +442,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     */
     public function addTempScript($file){  
         if(!IGKValidator::IsUri($file))
-            $file=igk_io_dir($file);
+            $file=igk_dir($file);
         $t=$this->ScriptManager->getTempScripts();
         if(!igk_getv($t, "temp")){
             $t->temp=array();

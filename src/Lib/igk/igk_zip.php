@@ -160,7 +160,7 @@ function igk_zip_excludedir($dir, $outf, $exclude_pattern){
 function igk_zip_extract($outdir, $hzip, $e){
     if(!is_dir($outdir))
         return;
-    $d=igk_io_dir($outdir.DIRECTORY_SEPARATOR.zip_entry_name($e));
+    $d=igk_dir($outdir.DIRECTORY_SEPARATOR.zip_entry_name($e));
     if(IO::CreateDir(dirname($d))){
         $content=zip_entry_read($e, zip_entry_filesize($e));
         igk_io_save_file_as_utf8_wbom($d, $content, true);
@@ -181,7 +181,7 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
             foreach($dir as $m){
                 $kname=basename($m);
                 if($folder && ($b=strstr($m, $folder))){
-                    $kname=substr(igk_html_uri(substr($m, strlen($folder))), 1);
+                    $kname=substr(igk_uri(substr($m, strlen($folder))), 1);
                 }
                 igk_zip_dir($m, $zip, $kname);
             }
@@ -258,7 +258,7 @@ function igk_zip_unzip_callback($zipfile, $callback){
 ///<param name="f"></param>
 ///<param name="entry"></param>
 function igk_zip_unzip_entry($f, $entry){
-    $c="zip://".igk_html_uri($f)."#".$entry;
+    $c="zip://".igk_uri($f)."#".$entry;
     $h=fopen($c, 'r');
     if(!$h){
         return null;
@@ -318,7 +318,7 @@ function igk_zip_unzip_to($file, $outdir, $zipentry=null){
             break;
         }
         if(preg_match("#^".$zipentry."#i", $n)){
-            $d=igk_io_dir($outdir.DIRECTORY_SEPARATOR. substr(zip_entry_name($e), strlen($zipentry)));
+            $d=igk_dir($outdir.DIRECTORY_SEPARATOR. substr(zip_entry_name($e), strlen($zipentry)));
             if(IO::CreateDir(dirname($d))){
                 $content=zip_entry_read($e, zip_entry_filesize($e));
                 igk_io_save_file_as_utf8_wbom($d, $content, true);

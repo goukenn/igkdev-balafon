@@ -6,6 +6,10 @@
 
 namespace IGK\Controllers;
 
+use IGK\Models\DbModelDefinitionInfo;
+use IGK\Models\ReferenceModels;
+use IGK\System\Number;
+
 ///<summary> used for referencing global value data</summary>
 /**
 *  used for referencing global value data
@@ -30,14 +34,14 @@ final class ReferenceModelController extends NonVisibleControllerBase{
     /**
     * 
     */
-    public function getDataTableInfo(){
+    public function getDataTableInfo(): ?DbModelDefinitionInfo{
         return null;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function getDataTableName(){
+    public function getDataTableName(): ?string{
         return \IGK\Models\ReferenceModels::table(); 
     }
     ///<summary></summary>
@@ -65,17 +69,27 @@ final class ReferenceModelController extends NonVisibleControllerBase{
         }
         $n=igk_getv($row, IGK_FD_NAME);
         $v_tmodel=($prefix ? $prefix: igk_configs()->Prefix).$row->clPrefix;
-        $r=igk_db_table_select_where($this->getDataTableName(), array("clModel"=>$v_tmodel));
-        $model=$r->RowCount == 0 ? 0: $r->getRowAtIndex(0);
+        $model = ReferenceModels::select_row(["clModel"=>$v_tmodel]);
+        // $r=igk_db_table_select_where($this->getDataTableName(), array("clModel"=>$v_tmodel));
+        // $model=$r->RowCount == 0 ? 0: $r->getRowAtIndex(0);
         $c=$model ? $model->clNextValue: null;
         $c++;
-        $out=$v_tmodel."".IGKNumber::ToBase($c, 36, 6);
-        return IGKRefoutModel::Init(array(
+        $out=$v_tmodel."".Number::ToBase($c, 36, 6);
+        return new ReferenceModels(array(
             "out"=>$out,
             "ctrl"=>$this,
             "clModel"=>$v_tmodel,
             "clNextValue"=>$c,
             IGK_FD_ID=>$model ? $model->clId: null
         ));
+
+
+        // return IGKRefoutModel::Init(array(
+        //     "out"=>$out,
+        //     "ctrl"=>$this,
+        //     "clModel"=>$v_tmodel,
+        //     "clNextValue"=>$c,
+        //     IGK_FD_ID=>$model ? $model->clId: null
+        // ));
     }
 }

@@ -10,16 +10,24 @@ namespace IGK\Tests\Models;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
 use IGK\Models\DbModelDefinitionInfo;
+use IGK\Models\IModelDataDefinition;
 use IGK\Models\ModelBase;
+use IGK\System\Database\IOneTableDataBaseDefinition;
+
+
+abstract class  dbMocModelBase extends ModelBase implements IOneTableDataBaseDefinition, IModelDataDefinition{
+    
+}
 
 /** @package  
  * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
  */
-class Table1Test extends ModelBase
+class Table1Test extends dbMocModelBase implements IOneTableDataBaseDefinition
 {
     protected $table = "dummy_table1";
+    
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         $clinfo = [
             "clId" => new DbColumnInfo(["clType" => "Int",  "clTypeLength" => "11", "clIsPrimary" => 1, "clAutoIncrement" => 1]),
@@ -38,11 +46,11 @@ class Table1Test extends ModelBase
 }
 
 
-class Table2Test extends ModelBase
+class Table2Test extends dbMocModelBase
 {
     protected $table = "dummy_table2";
 
-    protected function getDataTableDefinition()
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
@@ -61,11 +69,11 @@ class Table2Test extends ModelBase
  * @package IGK\Tests\Models
  * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
  */
-class Table3Test extends ModelBase
+class Table3Test extends dbMocModelBase
 {
     protected $table = "dummy_table3";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
@@ -84,11 +92,11 @@ class Table3Test extends ModelBase
  * @package IGK\Tests\Models
  * @method static \IGK\Models\DbModelDefinitionInfo getDatatableDefinition()
  */
-class Table4Test extends ModelBase
+class Table4Test extends dbMocModelBase
 {
     protected $table = "dummy_table4";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
@@ -101,11 +109,11 @@ class Table4Test extends ModelBase
         );
     }
 }
-class Table5Test extends ModelBase
+class Table5Test extends dbMocModelBase
 {
     protected $table = "dummy_table5";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
@@ -118,11 +126,11 @@ class Table5Test extends ModelBase
         );
     }
 }
-class Table6Test extends ModelBase
+class Table6Test extends dbMocModelBase
 {
     protected $table = "dummy_table6";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
@@ -137,11 +145,11 @@ class Table6Test extends ModelBase
     }
 }
 
-class Table7Test extends ModelBase
+class Table7Test extends dbMocModelBase
 {
     protected $table = "dummy_table7";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
@@ -156,11 +164,11 @@ class Table7Test extends ModelBase
 }
 
 /** @package  */
-class table_enum extends ModelBase
+class table_enum extends dbMocModelBase
 {
     protected $table = "dummy_table1";
 
-    protected function getDataTableDefinition(): DbModelDefinitionInfo
+    public function getDataTableDefinition(): DbModelDefinitionInfo
     {
 
         return Activator::CreateNewInstance(

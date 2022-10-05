@@ -13,7 +13,7 @@ use IGK\System\Console\AppConstant;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKControllerManagerObject;
+
 use IGK\Helper\IO as IGKIO;
 use ReflectionClass;
 use function igk_resources_gets as __;
@@ -27,7 +27,7 @@ class InitCommand extends AppExecCommand{
         $t = [
             igk_io_projectdir()
         ];
-        IGKControllerManagerObject::ClearCache();
+        \IGK\Helper\SysUtils::ClearCache();
         $commands = [];
         $commands_list = [];
         $ctrls = igk_app()->getControllerManager()->getControllers();

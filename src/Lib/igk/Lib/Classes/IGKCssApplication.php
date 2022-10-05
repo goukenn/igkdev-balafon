@@ -21,22 +21,26 @@ class IGKCssApplication extends IGKApplicationBase
      * disable environment loading
      * @return true 
      */
-    public function getNoEnviroment(){
+    public function getNoEnvironment(){
         return true;
     }
     public function bootstrap() { 
         // + | activate the session
-        $this->library("session");
-        $this->library("mysql");
-        igk_setting()->no_init_controller = file_exists(SystemUriActionController::GetCacheFile());
- 
+        // $this->library("session");
+        $this->library("mysql");         
         Benchmark::$Enabled = false;
-        require_once IGK_LIB_CLASSES_DIR . "/Css/IGKCssContext.php";
-        IGKAppSystem::LoadEnvironment(); 
+        require_once IGK_LIB_CLASSES_DIR . "/Css/CssContext.php";
+        // IGKAppSystem::LoadEnvironment(igk_app()); 
     }
 
-    public function run(string $entryfile, $render = 1) { 
-        // + | run application
+    /**
+     * run css application
+     * @param string $entryfile 
+     * @param int $render 
+     * @return mixed 
+     */
+    public function run(string $entryfile, $render = 1) {      
+        igk_setting()->no_init_controller = file_exists(SystemUriActionController::GetCacheFile()); 
     }
     
 }

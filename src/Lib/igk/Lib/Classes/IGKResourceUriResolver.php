@@ -61,7 +61,7 @@ class IGKResourceUriResolver
             IGK_LIB_DIR . "/cgi-bin" => (object)array(
                 "name" => "cgi-bin",
                 "ini_chain" => function ($n, $rp) {
-                    $chain = igk_html_uri(IGK_RES_FOLDER . "/_cgi_/" . $n);
+                    $chain = igk_uri(IGK_RES_FOLDER . "/_cgi_/" . $n);
                     $o = igk_io_basedir($chain);
                     $dir = dirname($o);
                     if (!file_exists($o)) {
@@ -94,7 +94,7 @@ class IGKResourceUriResolver
         }
     }
     private function __hashResPath($j, $n, $options){
-        $chain = igk_html_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
+        $chain = igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
         if (!is_null($this->m_hashPath) && igk_getv($options, "hashed")) {
             if (strpos($chain, $this->m_hashPath) === 0) {
                 $dir = substr($chain, strlen($this->m_hashPath)+1);
@@ -128,7 +128,7 @@ class IGKResourceUriResolver
         $chainRes = function ($rp, $j, $n, &$chain) use ($generate, $options) {
             $options = $this->m_options;
             $chain = $this->__hashResPath($j, $n, $options);
-            //  igk_html_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
+            //  igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
             // if (!is_null($this->m_hashPath) && igk_getv($options, "hashed")) {
             //     if (strpos($chain, $this->m_hashPath) === 0) {
             //         $dir = substr($chain, strlen($this->m_hashPath)+1);
@@ -179,7 +179,7 @@ class IGKResourceUriResolver
             $query = "?" . implode("?", array_slice($buri, 1));
         }
         $bdir = igk_io_basedir();
-        $uri = igk_html_uri($uri);
+        $uri = igk_uri($uri);
 
 
         if (igk_io_is_subdir($bdir, $uri)) {
@@ -231,7 +231,7 @@ class IGKResourceUriResolver
                 $gs_uri = igk_html_get_system_uri($uri, $options);
                 if ($gs_uri) {
                     $gs_uri = preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
-                    $chain = igk_html_uri(IGK_RES_FOLDER . "/" . $gs_uri);
+                    $chain = igk_uri(IGK_RES_FOLDER . "/" . $gs_uri);
                     $o = igk_io_basedir($chain);
                     $outlink = null;
                     if (!file_exists($o) && IO::CreateDir(dirname($o))) {
@@ -255,11 +255,11 @@ class IGKResourceUriResolver
         }
         if ($appData === null) {
             $i = 1;
-            if (!strstr(IGK_LIB_DIR, igk_html_uri(igk_io_applicationdir())))
+            if (!strstr(IGK_LIB_DIR, igk_uri(igk_io_applicationdir())))
                 $i = 0;
             $appData = $i;
         }
-        if (!$appData && (($pos = strpos(igk_html_uri($uri), IGK_LIB_DIR)) === 0)) {
+        if (!$appData && (($pos = strpos(igk_uri($uri), IGK_LIB_DIR)) === 0)) {
             $v = ltrim(substr($uri, strlen(IGK_LIB_DIR)), "/");
             return igk_io_libdiruri($rp, $options) . $v . $query;
         }
@@ -285,8 +285,8 @@ class IGKResourceUriResolver
     {
         $fulluri = $this->fulluri || igk_is_ajx_demand();
         $notresolved = 0;
-        $bdir = igk_html_uri(igk_io_basedir());
-        $rp = igk_html_uri($file);
+        $bdir = igk_uri(igk_io_basedir());
+        $rp = igk_uri($file);
         $options = null;
         $uri = "";
         if (!igk_io_is_subdir($bdir, $rp)) {
@@ -300,7 +300,7 @@ class IGKResourceUriResolver
                         $b = $s->{'ini_chain'};
                         $chain = $b($n, $rp);
                     } else {
-                        $chain = igk_html_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
+                        $chain = igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
                         $o = igk_io_basedir($chain);
                     }
                     if ($fulluri)
@@ -311,7 +311,7 @@ class IGKResourceUriResolver
             $gs_uri = igk_html_get_system_uri($uri, $options);
             if ($gs_uri) {
                 $gs_uri = preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
-                $chain = igk_html_uri(IGK_RES_FOLDER . "/" . $gs_uri);
+                $chain = igk_uri(IGK_RES_FOLDER . "/" . $gs_uri);
                 $o = igk_io_basedir($chain);
                 $outlink = null;
                 if ($fulluri) {

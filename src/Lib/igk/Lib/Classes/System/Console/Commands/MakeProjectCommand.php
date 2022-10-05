@@ -76,7 +76,7 @@ class MakeProjectCommand extends AppExecCommand{
         $use_git=property_exists($command->options, "--git");
         $force = property_exists($command->options, "--force"); 
         $ns=igk_str_ns($controller);
-        $pname=basename(igk_io_dir($ns));
+        $pname=basename(igk_dir($ns));
         $clname=ucfirst($pname)."Controller";
         $dir=igk_io_projectdir()."/{$pname}";
         igk_init_controller(new ControllerInitListener($dir, 'appsystem'));
@@ -197,6 +197,7 @@ EOF;
             $build=new SchemaBuilder();
             $build["version"] = "1.0";
             $build["author"] = $author;
+            $build["createAt"] = date('Ymd H:i:s');
             $build->comment("data schema");
             igk_io_w2file($file, $build->render((object)["Context"=>"XML", "Indent"=>true]));
         };
@@ -326,7 +327,7 @@ EOF;
 
        
         Utility::BindFiles($command, $bind, $force); 
-        IGKControllerManagerObject::ClearCache(null, true);
+        \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: ".$dir);
         Logger::success("done\n");
     }
@@ -341,7 +342,7 @@ EOF;
         $fc = Closure::fromCallable([$this,"_store_article"])->bindTo($this);
         foreach(explode("|", "about|presentation|confidentiality") as $l){
             foreach($tab as $b){
-                $bind[$outdir."/".$l.".".$b.".phtml"] = $fc; 
+                $bind[$outdir."/".$l.".".$b.IGK_VIEW_FILE_EXT] = $fc; 
             }
         }
     }

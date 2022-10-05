@@ -40,7 +40,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess{
         return;    }
     ///<summary></summary>
     public static function GetCacheFile(){
-        return igk_io_dir(igk_io_cachedir()."/.core.scripts.cache");
+        return igk_dir(igk_io_cachedir()."/.core.scripts.cache");
     }
    
     ///<summary>Represente store function</summary>

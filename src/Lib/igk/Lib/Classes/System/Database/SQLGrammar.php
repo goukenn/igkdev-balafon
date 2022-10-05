@@ -329,6 +329,10 @@ class SQLGrammar implements IDbQueryGrammar
     {
         $db = $db ?? $this->m_driver->getDbName();
         if (!empty($nk) || !empty($nk = igk_getv($v, "clLinkConstraintName", ""))) {
+
+            $this->m_driver->constraintExists($nk);
+            
+
             $nk = "CONSTRAINT " . $nk . " ";
         }
         // $clkey =  $db ? "%s.%s" : "%s";

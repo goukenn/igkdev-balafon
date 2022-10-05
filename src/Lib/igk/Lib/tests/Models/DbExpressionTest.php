@@ -51,13 +51,13 @@ class DbExpressionTest extends BaseTestCase{
 
     public function test_update_query(){
         $gram = Table1Test::driver()->getGrammar(); 
-        // igk_wln_e("table info : ", Table1Test::getDatatableDefinition());
+        // igk_wln_e("table info : ", Table1Test::model()->getDatatableDefinition());
 
         $this->assertEquals(
             "UPDATE `dummy_table1` SET `clName`='info';",
             $gram->createUpdateQuery(
                 Table1Test::table(), ["clName"=>"info"], null,
-                Table1Test::getDatatableDefinition()->tableRowReference
+                Table1Test::model()->getDatatableDefinition()->tableRowReference
             )
         );
     }
@@ -69,7 +69,7 @@ class DbExpressionTest extends BaseTestCase{
                 Table1Test::table(),  
                     ["clName"=>'8'],
                     ["!clName"=>null], 
-                    Table1Test::getDatatableDefinition()->tableRowReference
+                    Table1Test::model()->getDatatableDefinition()->tableRowReference
             )
         );
     }
@@ -90,7 +90,7 @@ class DbExpressionTest extends BaseTestCase{
                             ->add("!clName",null)
                             ->add("!clName",1)
                     ],
-                    Table1Test::getDatatableDefinition()->tableRowReference               
+                    Table1Test::model()->getDatatableDefinition()->tableRowReference               
             )
         );
     }
@@ -102,7 +102,7 @@ class DbExpressionTest extends BaseTestCase{
             $gram->createInsertQuery(
                 Table3Test::table(),  
                 ["clName"=>'testing', "clData"=>""]  ,
-                Table3Test::getDatatableDefinition()->tableRowReference             
+                Table3Test::model()->getDatatableDefinition()->tableRowReference             
             )
         );
     }
@@ -113,14 +113,14 @@ class DbExpressionTest extends BaseTestCase{
             $gram->createInsertQuery(
                 Table4Test::table(),  
                 ["clName"=>'testing', "clDate"=>"2021-01-13 10:37:31"]  ,
-                Table4Test::getDatatableDefinition()->tableRowReference             
+                Table4Test::model()->getDatatableDefinition()->tableRowReference             
             )
         );
     }
     public function test_create_table_query(){
  
         $gram = Table1Test::model()->getDataAdapter()->getGrammar(); 
-        $tableinfo = igk_getv(Table1Test::getDatatableDefinition(), "tableRowReference"); 
+        $tableinfo = igk_getv(Table1Test::model()->getDatatableDefinition(), "tableRowReference"); 
         $q = $gram->createTableQuery(Table1Test::table(), $tableinfo);      
         $this->assertEquals(
             "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) AUTO_INCREMENT,`clName` varchar(30),`clDescription` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
@@ -143,7 +143,7 @@ class DbExpressionTest extends BaseTestCase{
         //     $gram->createInsertQuery(
         //         Table4Test::table(),  
         //         ["clName"=>'testing', "clDate"=>"2021-01-13 10:37:31"]  ,
-        //         Table4Test::getDatatableDefinition()->tableRowReference             
+        //         Table4Test::model()->getDatatableDefinition()->tableRowReference             
         //     )
         // );
         Table1Test::drop();
@@ -151,9 +151,9 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     public function test_column_definition(){
-        $gram = Users::driver()->getGrammar();  
+        $gram = Users::driver()->getGrammar();         
         $this->assertEquals(
-            "SELECT CONCAT(clFirstName,' ', clLastName) as name, clLogin AS bsi, clStatut AS stat FROM `tbigk_users`;",
+            "SELECT CONCAT(clFirstName,' ', clLastName) as name, clLogin AS bsi, clStatut AS stat FROM `tbigk_test_users`;",
             $gram->createSelectQuery(Users::table(), null,
                 [
                     "Columns"=>[
@@ -184,7 +184,7 @@ class DbExpressionTest extends BaseTestCase{
             $gram->createInsertQuery(
                 Table5Test::table(),  
                 ["clName"=>'testing', "clOptions"=>json_encode((object)["one"=>"1", "to"=>"2", "info"=>"<a href=\"/data\">present</a>"])] ,
-                Table5Test::getDatatableDefinition()->tableRowReference             
+                Table5Test::model()->getDatatableDefinition()->tableRowReference             
             )
         );
     }

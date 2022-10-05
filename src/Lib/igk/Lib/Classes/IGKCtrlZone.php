@@ -17,11 +17,11 @@ final class IGKCtrlZone extends IGKObject implements IIGKCtrlDirManagement{
     }
     ///<summary></summary>
     public function getContentDir(){
-        return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_CONTENT_FOLDER);
+        return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_CONTENT_FOLDER);
     }
     ///<summary></summary>
     public function getDataDir(){
-        return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_DATA_FOLDER);
+        return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_DATA_FOLDER);
     }
     ///<summary></summary>
     public function getDeclaredDir():string{
@@ -37,14 +37,14 @@ final class IGKCtrlZone extends IGKObject implements IIGKCtrlDirManagement{
     }
     ///<summary></summary>
     public function getScriptsDir(){
-        return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_SCRIPT_FOLDER);
+        return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_SCRIPT_FOLDER);
     }
     ///<summary></summary>
     public function getStylesDir(){
-        return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_STYLE_FOLDER);
+        return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_STYLE_FOLDER);
     }
     ///<summary></summary>
     public function getViewDir(){
-        return igk_io_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_VIEW_FOLDER);
+        return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_VIEW_FOLDER);
     }
 }

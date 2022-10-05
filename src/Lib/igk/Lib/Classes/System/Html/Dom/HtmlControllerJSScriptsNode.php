@@ -39,7 +39,7 @@ class HtmlControllerJSScriptsNode extends HtmlNode{
 
         $src = HtmlScriptLoader::LoadScripts([
             [$gb, "ctrl"],
-        ], $options, igk_environment()->is("OPS"), 
+        ], $options, igk_environment()->isOPS(), 
         igk_sys_js_exclude_dir(),
         "ctrljs:/".$ctrl->getName(), 1);
         $sb = new StringBuilder();

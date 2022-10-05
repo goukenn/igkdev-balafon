@@ -8,6 +8,8 @@
 
 namespace IGK\Test\Lib\Classes\System\Html;
 
+use AppAdministrationController;
+use IGK\Controllers\RootControllerBase;
 use IGK\Tests\Controllers\TestApplicationController;
 use PHPUnit\Framework\TestCase;
 
@@ -19,5 +21,17 @@ class ControllerTest extends TestCase{
         ".__/Styles/default.pcss", 
         "test file not found");        
     }
+    public function test_is_include_controller(){
+        $def = igk_getctrl(igk_configs()->default_controller, false);
+        if ($def){
+            $this->assertFalse(
+                RootControllerBase::IsIncludedController($def),
+                "Controller not included"
+            );
+        }
+        else {
+            $this->fail("no default controller");
+        }
 
+    }
 }

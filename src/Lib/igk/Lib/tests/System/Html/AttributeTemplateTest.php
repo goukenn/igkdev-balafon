@@ -47,7 +47,7 @@ class AttributeTemplateTest extends BaseTestCase{
         ]);
 
         $this->assertEquals(
-            "<a title=\"data\">data :1 -::test-dummy</a><a title=\"data\">data :2 -::test-dummy</a>",
+            "<a title=\"data\">data : 1 - ::test-dummy</a><a title=\"data\">data : 2 - ::test-dummy</a>",
             $n->render(),
             "attribute bind"
         );
@@ -87,7 +87,7 @@ class DummyController extends BaseController{
     public function getName(){
         return "::test-dummy";
     }
-    public function getAppUri($s=null){        
+    public function getAppUri(?string $s=null):?string{            
         return "test://".$s;
     }
 }

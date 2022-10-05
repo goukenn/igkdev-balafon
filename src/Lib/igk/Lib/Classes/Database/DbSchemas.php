@@ -69,7 +69,14 @@ abstract class DbSchemas{
     }
 
    
-
+    /**
+     * load schema definition
+     * @param mixed $file 
+     * @param mixed $ctrl 
+     * @param bool $resolvname 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function LoadSchema($file, $ctrl = null, $resolvname = true){
  
         if (!file_exists($file)) {
@@ -145,13 +152,13 @@ abstract class DbSchemas{
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl=null, $dataobj = null){ 
         $inf = self::GetTableRowReference($tablename, $ctrl);        
-        if ($inf){
+        if ($inf){ 
             return self::CreateObjFromInfo($inf, $dataobj);
         }
     }
     public static function GetTableRowReference(string $tablename, ?BaseController $ctrl=null){
         $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
-        if ($g){ 
+        if ($g){  
             return $g->tableRowReference; 
         }        
     }
@@ -163,6 +170,13 @@ abstract class DbSchemas{
         if ($tableRowReference) {
             $obj = igk_createobj();
             foreach ($tableRowReference as $k => $v) {
+                if (!($v instanceof DbColumnInfo)){
+                    if (igk_environment()->isDev()){                        
+                        igk_trace(); 
+                        igk_dev_wln_e("failed : tableRowReference ", $tableRowReference);
+                    }
+                    continue;
+                }
                 $cl = DbColumnInfo::GetRowDefaultValue($v);  
                 $n = igk_getv($v, "clName", is_numeric($k) ? "column_".$k : $k);
                 $obj->$n = $cl;

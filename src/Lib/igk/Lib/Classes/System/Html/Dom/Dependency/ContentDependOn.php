@@ -15,6 +15,6 @@ class ContentDependOn{
     var $argName;
 
     public function render($options = null ){
-        return printf("<?= %s ?>", $this->argName); 
+        return sprintf("<?= %s ?>", $this->argName); 
     }
 }

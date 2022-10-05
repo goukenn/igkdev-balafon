@@ -67,7 +67,7 @@ class MakeManifestCommand extends AppExecCommand{
                 Logger::info("generate : ".$n);
             }
         }
-        IGKControllerManagerObject::ClearCache(); 
+        \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }
     public function help(){

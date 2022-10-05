@@ -10,6 +10,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGKHtmlRelativeUriValueAttribute; 
 use IGK\Helper\IO;
@@ -29,7 +30,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     const PICRES_KEY="PicResChanged";
     const TARGETDIR=IGK_RES_FOLDER."/Img";
    
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         return false;
     }
     public function getIsConfigPageAvailable(){
@@ -88,7 +89,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
             if(empty($l))
                 continue;
             $e=explode(igk_csv_sep(), $l);
-            $g [$e[0]]=igk_html_uri($e[1]);
+            $g [$e[0]]=igk_uri($e[1]);
         }
         return $g;
     }
@@ -229,7 +230,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
     ///<summary></summary>
     public function getCurrentPage(){
-        return $this->getFlag("currentPage");
+        return $this->getParam("currentPage");
     }
     ///<summary></summary>
     ///<param name="name"></param>
@@ -293,7 +294,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $tab=$g;
     }
     ///<summary></summary>
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return igk_create_node("div", array("class"=>strtolower($this->Name)));
     }
     ///<summary></summary>
@@ -321,7 +322,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
             return;
         }
         if(IO::CreateDir($target)){
-            $dest=igk_io_dir($target."/".$id.".". $ext);
+            $dest=igk_dir($target."/".$id.".". $ext);
             if(!move_uploaded_file($f, $dest)){
                 igk_notifyctrl($notify)->addError("Unable to move uploaded file to ".$dest);
             }
@@ -355,7 +356,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
             return;
         }
         if(IO::CreateDir($dir)){
-            $dest=igk_io_dir($dir."/".$id.".". $ext);
+            $dest=igk_dir($dir."/".$id.".". $ext);
             if(!move_uploaded_file($f, $dest)){
                 igk_notifyctrl()->addError("Unable to move uploaded file to ".$dest);
             }
@@ -439,7 +440,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     ///<summary></summary>
     ///<param name="page"></param>
     private function setCurrentPage($page){
-        $this->setFlag("currentPage", $page);
+        $this->setParam("currentPage", $page);
     }
     ///<summary></summary>
     public function setdir(){
@@ -495,7 +496,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
                 $tr=$tab->add("tr", array("class"=>"fitw"));
                 $tr->addTd()->addInput(IGK_STR_EMPTY, "checkbox");
                 $tr->addTd()->Content=$k;
-                $tr->addTd()->add("a", array("href"=>igk_js_post_frame($this->getUri("viewpic_ajx&name=".$k))))->Content=igk_io_dir($v);
+                $tr->addTd()->add("a", array("href"=>igk_js_post_frame($this->getUri("viewpic_ajx&name=".$k))))->Content=igk_dir($v);
                 $file=igk_io_currentrelativepath($v);
                 if(file_exists($file)){
                     $size=@filesize($file);
@@ -527,7 +528,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         igk_ajx_panel_dialog("Upload Pictures", $div);
     }
     ///<summary></summary>
-    public function View(){
+    public function View(): BaseController{
         $div=$this->TargetNode;
         $div->clearChilds();
         if($this->getIsVisible()){
@@ -543,6 +544,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         else{
             igk_html_rm($div);
         }
+        return $this;
     }
     ///<summary></summary>
     ///<param name="name" default="null"></param>

@@ -29,7 +29,10 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     public function __construct(& $setting){
         $this->_=& $setting;
     }
-
+    public function & getDeclaredRules(){
+        $trule = & $this->_[self::DECLARED_RULE];;
+        return $trule;
+    }
     /**
      * define support rule
      * @param string $rule rule expression

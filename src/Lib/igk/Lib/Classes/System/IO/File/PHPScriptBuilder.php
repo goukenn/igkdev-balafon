@@ -5,6 +5,7 @@
 // @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
 
+use IGK\Helper\StringUtility;
 use IGKException;
 
 /**
@@ -123,7 +124,7 @@ class PHPScriptBuilder
                 if (in_array($cl, $t_uses)){
                     return null;
                 }
-                $t_uses[$cl] = basename(igk_io_dir($cl));
+                $t_uses[$cl] = basename(igk_dir($cl));
                 if (is_int($k)){
                     return "use ".$n.";";
                 }
@@ -138,9 +139,10 @@ class PHPScriptBuilder
 
         $defs = "";
         if ($e = $this->defs) {
-            $defs .= implode("\n", array_map(function ($s) {
-                return "\t" . $s;
-            }, explode("\n", $e))) . "\n";
+            $defs .= StringUtility::IndentContent($e)."\n";
+            // implode("\n", array_map(function ($s) {
+            //     return "\t" . $s;
+            // }, explode("\n", $e))) . "\n";
         }
 
         switch ($this->type) {
@@ -173,7 +175,7 @@ class PHPScriptBuilder
 
                 $o .= $modifier . $this->type . " " . $this->name;
                 if ($e = $this->extends) {
-                    $cu = igk_html_uri($e);
+                    $cu = igk_uri($e);
                     if (!empty($ns) || (count(explode("/", $cu)) > 1)){
                         if (!isset($_uses[$e])){
                             $h .= "use " . $e . ";\n";
@@ -181,7 +183,7 @@ class PHPScriptBuilder
                         }
                     }
                     $v_as = igk_getv($_uses, $e);                         
-                    $o .= " extends " .( $v_as ? basename(igk_html_uri($v_as)) :  "\\".$e);
+                    $o .= " extends " .( $v_as ? basename(igk_uri($v_as)) :  "\\".$e);
                 }
                 if ($e = $this->implements) {
                     if (!is_array($e)) {

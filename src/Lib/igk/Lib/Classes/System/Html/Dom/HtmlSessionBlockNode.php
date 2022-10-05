@@ -11,8 +11,9 @@ namespace IGK\System\Html\Dom;
 
 use IGK\Controllers\SessionController;
 use IGK\Resources\R;
+use IGK\Server;
 use IGKHtmlRelativeUriValueAttribute;
-use IGKServer;
+ 
 use IGKViewMode;
 use function igk_resources_gets as __;
 
@@ -21,16 +22,16 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
  
     public function getIsVisible()
     {
-        return IGKServer::IsLocal() || igk_environment()->isDev();
+        return Server::IsLocal() || igk_environment()->isDev();
     }
     
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){ 
+    protected function __AcceptRender($o=null){  
         return $this->getIsVisible();     
     }
     ///<summary></summary>
-    private function __buildview($t){
+    private function __buildview($t){ 
         $t->addObData(function(){
             $cnf_=igk_getctrl(IGK_CONF_CTRL);
             $cnf_view=igk_is_conf_connected();
@@ -62,7 +63,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 $ul->li()->abtn(new IGKHtmlRelativeUriValueAttribute("/Configs"))->setClass($v_btn_class)->Content=__("Configure");
             }
             $ul->li()->abtn(new IGKHtmlRelativeUriValueAttribute(IGK_BASE_DIR."/"))->setClass($v_btn_class)->Content=__("Homepage");
-            if(IGKServer::IsLocal() || $cnf_view || !igk_sys_env_production()){
+            if(Server::IsLocal() || $cnf_view || !igk_sys_env_production()){
                 $ul->li()->abtn(igk_getctrl(IGK_SESSION_CTRL)->getUri("clearcache"))->setClass($v_btn_class)->Content=__("Clear Cache");
             }
             if($api_ctrl=igk_getctrl("api", false)){

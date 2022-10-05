@@ -7,6 +7,7 @@
 //controller code class declaration
 //file is a part of the controller tab list
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
 abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
@@ -23,8 +24,8 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
  
 	//@@@ parent view control
-	public function View(){
-		extract($this->getSystemVars());
+	public function View():BaseController{ 
+		$controllers = igk_app()->getControllerManager()->getControllers();
 		$t = $this->getTargetNode();
 		$t->clearChilds();
 		$igkmenuctrl = igk_getv($controllers, "igkmenuctrl");
@@ -47,6 +48,7 @@ igk.winui.navigationBar.init(node, parent,  {duration:1000, interval:20, "orient
 });
 EOF;
 		}
+		return $this;
 	}
 
 

@@ -7,6 +7,7 @@
 //controller code class declaration
 //file is a part of the controller tab list
 
+use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNotificationItemNode;
@@ -29,7 +30,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		return null;
 	}
 	//@@@ init target node
-	protected function initTargetNode(){
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		$this->m_viewZone = $node->div();
 		return $node;
@@ -104,9 +105,8 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 
 	}
 
-	public function View(){
-		extract($this->getSystemVars());
-		$t = $this->TargetNode;
+	public function View(): BaseController{		
+		$t = $this->getTargetNode();
 		$t->clearChilds();
 		$this->_showViewFile();
 		$t->Add("noscript", array("class"=>"hidden"))->div()->setAttributes(array("id"=>"igkdev-nocontact", "class"=>""))->Content = IGK_HTML_SPACE;
@@ -115,7 +115,6 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$div["id"]= "igk-contact-info-node";
 		$div["class"]= "igk-contact-info-node";
 		igk_html_article($this, "contact_info", $div, null, true);
-
 		$div = $c->div();
 		$frm = $div->addForm();
 		$frm["action"]= $this->getUri("send_mail");
@@ -124,7 +123,6 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$this->buildContactForm($frm);
 		$frm->div()->setAttributes(array("class"=>"contact_requested_field"))->Content = R::ngets("msg.requestedfield");
 		$frm->addInput("btn_send", "submit", R::ngets("btn.sendmail"));
-
-
+		return $this;
 	}
 } 

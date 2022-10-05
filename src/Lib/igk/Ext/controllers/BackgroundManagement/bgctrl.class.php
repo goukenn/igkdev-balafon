@@ -40,11 +40,7 @@
 				// $this->View();
 			// }
 		// }
-		// protected function initTargetNode()
-		// {
-			// $this->m_configTargetNode =  igk_create_node("div")->setAttributes(array("class"=>strtolower($this->getName())));
-			// return igk_create_node("div");
-		// }
+	
 
 		// public function getConfigPage()
 		// {

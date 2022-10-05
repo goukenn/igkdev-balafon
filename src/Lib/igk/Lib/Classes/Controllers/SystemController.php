@@ -54,7 +54,7 @@ final class SystemController extends NonVisibleControllerBase{
         $i=0;
         if($this->m_fontList != null){
             foreach($this->m_fontList->fonts as $k=>$v){
-                $f=igk_io_dir($this->getFontDir()."/".basename($v));
+                $f=igk_dir($this->getFontDir()."/".basename($v));
                 $uri=$this->getUri("installfont_ajx");
                 $cdiv=$div->div()->setAttributes(array(
                     "style"=>"font-family: '".$k."';",
@@ -115,7 +115,7 @@ final class SystemController extends NonVisibleControllerBase{
                 $u=igk_getv(explode("?", $u), 0);
                 if(!igk_io_invoke_uri($u, 0)){
                     igk_ilog_assert(!igk_sys_env_production(), "Failed to invoke uri - ".$u);
-                }  
+                }          
                 HtmlRenderer::RenderDocument($doc, 1, null);
             } else {
                 igk_do_response(new JsonResponse([
@@ -176,7 +176,7 @@ final class SystemController extends NonVisibleControllerBase{
             $file=$this->m_fontList->fonts[$n];
             $target=igk_io_currentrelativepath(IGK_RES_FOLDER."/Fonts/".basename($file));
             copy($file, $target);
-            igk_app()->getDoc()->Theme->addFont($n, igk_io_dir(igk_io_basepath($target)));
+            igk_app()->getDoc()->Theme->addFont($n, igk_dir(igk_io_basepath($target)));
             igk_notifyctrl()->addMsgr("msg.fontinstalled");
             return true;
         }

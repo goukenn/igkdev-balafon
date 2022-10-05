@@ -9,6 +9,8 @@ namespace IGK\System\Database\MySQL\Controllers;
 ///<summary>Represente class: IGKMySQLDataCtrl</summary>
 
 use IGK\Controllers\BaseController;
+use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Html\Dom\HtmlNode;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
@@ -248,21 +250,21 @@ class MySQLDataController extends BaseController{
     /**
     * 
     */
-    public function getDataAdapterName(){
+    public function getDataAdapterName():string{
         return IGK_MYSQL_DATAADAPTER;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function getDataTableInfo(){
+    public function getDataTableInfo(): ?DbModelDefinitionInfo{
         return null;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function getDataTableName(){
+    public function getDataTableName(): ?string{
         return null;
     }
     public function getCanInitDb(){
@@ -289,10 +291,15 @@ class MySQLDataController extends BaseController{
     }
     ///<summary></summary>
     /**
-    * 
+    * not visible controller
     */
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         return false;
+    }
+    protected function initTargetNode(): ?HtmlNode
+    {
+       //do nothing
+       return null;
     }
      
     ///<summary></summary>

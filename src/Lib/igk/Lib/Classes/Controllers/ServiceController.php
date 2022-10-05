@@ -6,7 +6,7 @@
 
 namespace IGK\Controllers;
 
-use IGKApplicationLoader;
+use ApplicationLoader;
 
 /**
  * used to register service

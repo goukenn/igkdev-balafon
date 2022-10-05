@@ -23,11 +23,11 @@ class HtmlNodeBuildTest extends BaseTestCase{
 
     function test_bind_expression(){
         $s = '<div *for="range(1,2)">info :{{ $raw }}</div>';
-        $d = igk_create_node("div");       
+        $d = igk_create_node("div");  
         $d->load($s, (object)[
             "raw"=>(object)[],
             "ctrl"=>null
-        ]);
+        ]); 
         $this->assertEquals('<div><div>info :1</div><div>info :2</div></div>',
         $d->render());
     }

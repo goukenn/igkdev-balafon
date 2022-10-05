@@ -15,16 +15,55 @@ if (file_exists(IGK_LIB_DIR."/igk_version.php")){
 require_once IGK_LIB_DIR."/igk_constants.php";
 require_once IGK_LIB_DIR."/igk_config.php";
 require_once IGK_LIB_DIR."/igk_core.php";
+
+require_once IGK_LIB_DIR."/Lib/functions-helpers/conf.php"; 
+require_once IGK_LIB_DIR."/Lib/functions-helpers/environment.php"; 
+require_once IGK_LIB_DIR."/Lib/functions-helpers/engine.php"; 
+require_once IGK_LIB_DIR."/Lib/functions-helpers/reflection.php"; 
+require_once IGK_LIB_DIR."/Lib/functions-helpers/debug.php"; 
+require_once IGK_LIB_DIR."/Lib/functions-helpers/sys.php"; 
+require_once IGK_LIB_DIR."/Lib/functions-helpers/io.php"; 
 require_once IGK_LIB_DIR."/igk_functions.php";
 
-require_once IGK_LIB_CLASSES_DIR."/interfaces.php";
-require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
-require_once IGK_LIB_CLASSES_DIR."/IGKEnvironment.php";  
-require_once IGK_LIB_CLASSES_DIR."/IGKServer.php";  
-require_once IGK_LIB_CLASSES_DIR."/IGKApplicationLoader.php";  
-require_once IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php";  
-require_once IGK_LIB_CLASSES_DIR."/IGKApplication.php";  
-require_once IGK_LIB_CLASSES_DIR."/IGKAppContext.php";  
+
+
+ 
+//----------------------------------------------------------------------------------
+// controller requirement
+//----------------------------------------------------------------------------------
+require_once IGK_LIB_CLASSES_DIR.'/interfaces.php';
+require_once IGK_LIB_CLASSES_DIR.'/IGKObject.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/ILibaryController.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerUriTrait.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/RootControllerBase.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/BaseController.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerTypeBase.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/PageControllerBase.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/ApplicationController.php';
+ 
+
+// require_once '../application/Lib/igk/Lib/Classes/IGKSession.php';
+// application requirement
+require_once IGK_LIB_CLASSES_DIR.'/ApplicationLoader.php'; 
+require_once IGK_LIB_CLASSES_DIR.'/IGKApplication.php';
+require_once IGK_LIB_CLASSES_DIR.'/IGKApp.php';
+
+// environment management
+require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php");
+require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
+
+
+
+
+
+// require_once IGK_LIB_CLASSES_DIR."/interfaces.php";
+// require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
+// require_once IGK_LIB_CLASSES_DIR."/IGKEnvironment.php";  
+// require_once IGK_LIB_CLASSES_DIR."/IGKServer.php";  
+// require_once IGK_LIB_CLASSES_DIR."/ApplicationLoader.php";  
+// require_once IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php";  
+// require_once IGK_LIB_CLASSES_DIR."/IGKApplication.php";  
+// require_once IGK_LIB_CLASSES_DIR."/IGKAppContext.php";  
 // require_once IGK_LIB_CLASSES_DIR."/IGKAppType.php";  
 // require_once IGK_LIB_CLASSES_DIR."/IGKObject.php";  
 // require_once IGK_LIB_CLASSES_DIR."/IGKApp.php";  

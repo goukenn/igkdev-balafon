@@ -12,6 +12,7 @@ Description: control that will host every article and navigate thru them by conf
 //controller code class declaration
 //file is a part of the controller tab list
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
@@ -23,7 +24,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 	}
 	//@@@ init target node
-	protected function initTargetNode(){
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		return $node;
 	}
@@ -62,7 +63,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		$t["clanim_NAV_AUTOPERIOD"] = igk_getr("clanim_NAV_AUTOPERIOD");
 	} 
 	//@@@ parent view control
-	public function View(){
+	public function View():BaseController{
 		$this->TargetNode->clearChilds();
 		$c = new IGKJS_horizontalPane($this->TargetNode);
 		$this->buildPage($c);
@@ -75,6 +76,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		$c->flush();
 		$this->_incViewfile("default");
 		$this->_onViewComplete();
+		return $this;
 	}
 
 	protected function buildPage($pane){//build page

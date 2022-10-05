@@ -14,7 +14,7 @@ use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\MaintenanceHelper;
 use IGK\System\Html\HtmlReader;
-use IGKControllerManagerObject;
+
 use SuccessMiddleWare as GlobalSuccessMiddleWare;
 
 use function igk_resources_gets as __;
@@ -78,7 +78,7 @@ class ClearCacheMiddleWare extends InstallerActionMiddleWare
         $l = $this->getServiceInfo()->Listener;        
         if (($l->installDir == IGK_LIB_DIR) && is_dir($cachedir = $l->CacheDir)){
             $l->write("remove cache folder");
-            IGKControllerManagerObject::ClearCache();
+            \IGK\Helper\SysUtils::ClearCache();
             IO::RmDir($cachedir);            
         }
         $this->next();
@@ -169,7 +169,7 @@ class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
 
         $service->Listener->write(__("extracting..."));
         $is_dev = igk_environment()->isDev();
-        if (!igk_zip_unzip(igk_html_uri($zip), $_ind, function ($e) use ($service, $is_dev) {
+        if (!igk_zip_unzip(igk_uri($zip), $_ind, function ($e) use ($service, $is_dev) {
             if (preg_match("#^Lib/igk#", $e)) {
                 $is_dev && $service->Listener->write("file:" . $e);
                 return true;

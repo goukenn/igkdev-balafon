@@ -33,7 +33,7 @@ final class HtmlDefaultMainPage extends HtmlNode
         $n = $this->container()->addCol('fitw')->addRow();
         $n->setClass("default-home-page")->addObData(
             function () {
-                if ($f = igk_env_file(IGK_LIB_DIR . "/Articles/startapp/default.homepage." . R::GetCurrentLang(), ".phtml")) {
+                if ($f = igk_env_file(IGK_LIB_DIR . "/Articles/startapp/default.homepage." . R::GetCurrentLang(), IGK_VIEW_FILE_EXT)) {
                     include($f);
                 }
             },

@@ -5,17 +5,22 @@
 // @desc: 
 
 ///<summary>represent blog platform </summary>
+
+use IGK\Models\DbModelDefinitionInfo;
+use IGK\Resources\R;
+
 abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	public function __construct(){
 		parent::__construct();
 	}
 	//
-	public function getDataTableInfo(){
+	public function getDataTableInfo(): ?DbModelDefinitionInfo{
+		return null;
 	}
 	protected function initComplete($context=null){
 		parent::initComplete();
-		$k = "blog(/:function(/:params+)?)?";
+		$k = "^/blog(/:function(/:params+)?)?";
 		igk_sys_ac_register($k, $this->getUri("evaluateUri"));
 	}
 	public function evaluateUri(){

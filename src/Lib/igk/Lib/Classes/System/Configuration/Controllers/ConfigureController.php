@@ -9,19 +9,18 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Helper\IO;
+use IGK\Server; 
 use IGK\System\CronJob;
 use IGK\System\Html\Dom\HtmlConfigContentNode;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\WinUI\Menus\MenuItem;
-use IGKAppConfig;
-use IGKControllerManagerObject;
-use IGKEvents; 
-use IGKOb;
-use IGKResourceUriResolver;
-use IGKServer;
+use IGKAppConfig; 
+use IGKEvents;  
+use IGKResourceUriResolver; 
 use IGKSubDomainManager; 
 use IGKHostParam;
 use IGKValidator;
@@ -52,6 +51,7 @@ final class ConfigureController extends BaseController implements IConfigControl
     protected function getDataSchemaFile(){
         return implode("/", [IGK_LIB_DIR,IGK_DATA_FOLDER, IGK_SCHEMA_FILENAME]); 
     }
+    
     /**
      * configuration controller
      * @return object 
@@ -60,14 +60,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         return (object)[];
     }
 
-    ///<summary>.ctr conig controller</summary>
-    /**
-     * .ctr conig controller
-     */
-    public function __construct()
-    {
-        parent::__construct(); 
-    }
+   
     ///<summary></summary>
     ///<param name="n"></param>
     /**
@@ -76,12 +69,12 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     public function __get($n)
     {
-
         /// TASK: error when handle property on configuration
         if (igk_environment()->isDev()){
             igk_trace();
             igk_dev_wln_e("CallDirect Magic Property  : " . __CLASS__ . " try get [ {$n} ] ");
         }
+        return parent::__get($n);
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -323,24 +316,7 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_navto_home(null);
         igk_exit();
     }
-    ///<summary></summary>
-    /**
-     * 
-     */
-    public function cc_controllerschema()
-    {
-        igk_app()->getControllerManager()->cm_controllerschema();
-    }
-    ///<summary>view current controller hierachi</summary>
-    ///<obselete />
-    /**
-     * view current controller hierachi
-     * @deprecated removed 
-     */
-    public function cc_view_controllerschema_ajx()
-    {
-        igk_wln_e(__METHOD__, __FILE__ . ":" . __LINE__, "obselete");
-    }
+    
     ///<summary></summary>
     ///<param name="user"></param>
     /**
@@ -427,8 +403,8 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     public function clearcache()
     {
-        if (IGKServer::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
-            IGKControllerManagerObject::ClearCache();
+        if (Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
+            \IGK\Helper\SysUtils::ClearCache();
         }
         if (igk_is_ajx_demand()) {
             igk_ajx_toast(__("Clear cache success"), "igk-success");
@@ -518,7 +494,7 @@ final class ConfigureController extends BaseController implements IConfigControl
                     $cf = igk_io_basedir("__lib.def");
                     if (file_exists($cf))
                         unlink($cf);
-                    IGKControllerManagerObject::ClearCache();
+                    \IGK\Helper\SysUtils::ClearCache();
                     //IGKSubDomainManager::StoreBaseDomain($this, $bDomain);
                     $r = true;
                 }
@@ -549,7 +525,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $f = ""; 
         $rep = igk_create_node("response");
         if (!empty($f)) {
-            $dir = igk_io_dir(IGK_LIB_DIR . "/tmp");
+            $dir = igk_dir(IGK_LIB_DIR . "/tmp");
             igk_io_createdir($dir);
             $fn = tempnam($dir, "cnf");
             $k = $fn . ".zip";
@@ -809,16 +785,17 @@ EOF;
      * @param mixed $redirect the default value is true
      */
     public function connectToConfig($u = null, $pwd = null, $redirect = true)
-    {
+    { 
         $adm = null;
         $adm_pwd = null; 
-        $is_connected = $this->getIsConnected(); 
+        $is_connected = $this->getIsConnected();    
+        $is_valid_cref = igk_valid_cref(1);
+ 
 
-        if (!$is_connected && igk_server()->method("POST") && igk_valid_cref(1)) {
+        if ( !$is_connected && igk_server()->method("POST") &&  $is_valid_cref) {
             if (!igk_sys_env_production()) {
                 $u = $u == null ? "admin" : "";
-            }
-            $app = igk_app();
+            } 
             $not = igk_notifyctrl("connexion:frame");
             $u = ($u == null) ? strtolower(igk_getr("clAdmLogin", $u)) : $u;
             $pwd = ($pwd == null) ? strtolower(md5(igk_getr("clAdmPwd", $pwd))) : md5($pwd);
@@ -836,7 +813,8 @@ EOF;
                         "csrf" => "igk-" . (rand() + time())
                     );
                     $obj_u = igk_sys_create_user($us);
-                    $this->setConfigUser($obj_u);
+                    // $obj_u->startAt = date(IGK_DATETIME_FORMAT);
+                    $this->setConfigUser($obj_u); 
                     $this->_send_notification_mail(); 
                     $is_connected = 1; 
                 } else {
@@ -849,10 +827,10 @@ EOF;
                 igk_set_header(500);
                 igk_wln_e(__("Mandatory failed"));
             }
-        }
+        } 
         if ($redirect) {
-            igk_navto("./");
-        }
+           igk_navto("./");
+        } 
     }  
     ///<summary></summary>
     /**
@@ -935,12 +913,12 @@ EOF;
     {
         return IGK_LIB_DIR . "/" . IGK_ARTICLES_FOLDER;
     }
-    ///<summary></summary>
+    ///<summary>get configuration user</summary>
     /**
-     * 
+     * get config user
      */
     public function getConfigUser()
-    {
+    { 
         return $this->getParam(self::CFG_USER); 
     }
     ///<summary></summary>
@@ -987,7 +965,7 @@ EOF;
     /**
      * 
      */
-    public function getIsVisible()
+    public function getIsVisible():bool
     {
         return $this->getIsAvailable() && igk_const_defined("IGK_CONFIG_PAGE", 1);
     }
@@ -1052,12 +1030,16 @@ EOF;
      
     ///<summary></summary>
     /**
-     * 
+     * get selected controller instance
      */
     public function getSelectedConfigCtrl()
     {        
-        if (!empty($sl = $this->getConfigSettings()->SelectedController))
-            return igk_getctrl($sl);
+        if (!empty($sl = $this->getConfigSettings()->SelectedController)){
+            if (!($p = igk_getctrl($sl,false))){
+                $this->getConfigSettings()->SelectedController = null;
+            }
+            return $p;
+        }
     }
     ///<summary></summary>
     /**
@@ -1341,7 +1323,7 @@ EOF;
         /**
             * 
             */
-        protected function initTargetNode()
+        protected function initTargetNode():HtmlNode
         {
             $this->setParam(IGK_KEY_CSS_NOCLEAR, 1);
             $node = igk_create_node("div")->setAttribute("class", "igk-cnf-page fit igk-parentscroll igk-powered-viewer overflow-y-a");
@@ -1772,22 +1754,23 @@ EOF;
         public function update_defaultlang()
         {
             $app = igk_app();
-            $app->getConfigs()->default_lang = igk_getr("cldefaultLang", "Fr");
+            $cnf = $app->getConfigs();
+            $cnf->default_lang = igk_getr("cldefaultLang", "Fr");
             igk_save_config();
             igk_notifyctrl()->addMsgr("msg.update_defaultlang");
             $this->View();
-            igk_navtocurrent('?l=' . $app->getConfigs()->default_lang);
+            igk_navtocurrent('?l=' . $cnf->default_lang);
         }
 
         public function getCtrlFile($path)
         {
             if (igk_realpath($path) == $path)
                 return $path;
-            return igk_io_dir(IGK_LIB_DIR . DIRECTORY_SEPARATOR . $path);
+            return igk_dir(IGK_LIB_DIR . DIRECTORY_SEPARATOR . $path);
         }
         public function getStylesDir()
         {
-            return igk_io_dir(IGK_LIB_DIR . "/Styles");
+            return igk_dir(IGK_LIB_DIR . "/Styles");
         }
         ///<summary></summary>
         /**
@@ -1816,25 +1799,23 @@ EOF;
             $this->View();
             igk_navtocurrent();
         }
-        private static function GetConfigEntryData(){
-            
-            $s = "^/Configs(/:lang)?(" . IGK_REG_ACTION_METH . ")?(;(:options))?";
+        private static function GetConfigEntryData(){            
+            $s = "^/Configs(/:lang)?(" . IGK_REG_ACTION_METH_OPTIONS . ")?";
             $uri = igk_io_request_uri();
             $b = igk_sys_ac_create_pattern(null, $uri, $s);
             if ($b->matche($uri)) {
                 return $b->getQueryParams();
             }
-            return [];
-            
+            return [];            
         }
         ///<summary>base configuration view</summary>
         /**
         * base configuration view
         */
-        public function View()
+        public function View() : BaseController
         {  
             if (!$this->getIsVisible() || igk_get_env(IGK_KEY_VIEW_FORCED)) {
-                return;
+                return $this;
             }  
             $data = $this->getEnvParam("CNFDATA") ?? self::GetConfigEntryData();
             if (isset($data["lang"]) && !empty($data["lang"])) {
@@ -1866,14 +1847,14 @@ EOF;
                 default:
                     $app->getDoc()->getBody()["class"] = "+igk-client-page -igk-cnf-body -google-Roboto";
                     igk_app()->settings->appInfo->store("config", null);
-                    return;
+                    return $this;
             }
 
             $t->clearChilds();
             if ($this->getIsAvailable()) {
                 if (igk_agent_isie() && igk_agent_ieversion() < 7) {
                     $this->__NoIE6supportView();
-                    return;
+                    return $this;
                 }
                 // + | -------------------------------------------------------------
                 // + | include configuration style
@@ -1915,6 +1896,7 @@ EOF;
                 }
             }
             $this->_onViewComplete();
+            return $this;
         }
         ///<summary></summary>
         /**

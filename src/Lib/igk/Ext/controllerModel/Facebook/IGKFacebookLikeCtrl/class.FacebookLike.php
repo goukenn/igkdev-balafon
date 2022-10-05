@@ -6,6 +6,7 @@
 
 ///</summary>controller used to a a like on page � the target points</summary>
 
+use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
 /** @package  */
@@ -26,16 +27,15 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 		return "COMMUNITY";
 	}
 
-	public function View()
+	public function View():BaseController
 	{
-
-		extract($this->getSystemVars());
+		$t = $this->getTargetNode();
 		$t->clearChilds();
 		$c = $t->Add("div");
 $c->Content = <<<EOF
 <iframe src="http://www.facebook.com/plugins/like.php?href={$this->Configs->clFacebookUri}&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
 EOF;
-
+return $this;
 	}
 }
 
@@ -47,7 +47,7 @@ implements IIGKHtmlUriItem
 	public function getUri(){ return $this->m_uri; }
 	public function setUri($v) { $this->m_uri = $v; return $this;}
 
-	public function View(){
+	public function View() {
 		$this->clearChilds();
         //$uri = $this->m_uri;
 		$c = $this->Add("div");
@@ -57,8 +57,7 @@ implements IIGKHtmlUriItem
 $href = htmlentities($this->m_uri);
 $c->Content = <<<EOF
 <iframe src="//www.facebook.com/plugins/like.php?href={$href}&layout=button_count&action=like" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:65px;" allowTransparency="true"></iframe>
-EOF;
-
+EOF; 
 
 	} 
 	public function __construct()

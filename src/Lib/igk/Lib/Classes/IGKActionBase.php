@@ -13,7 +13,7 @@ use IGK\Actions\Dispatcher;
 use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerParams;
+use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\ActionHelper;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Html\Dom\HtmlItemBase;
@@ -221,7 +221,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + : -----------------------------------------
         if (is_numeric($name)) {
             array_unshift($arguments, $name);
-            $name = "index";
+            $name = "index";           
             if (method_exists($this, $fc = $name)) {
                 return $this->$fc(...$arguments);
             }
@@ -241,14 +241,14 @@ abstract class IGKActionBase implements IActionProcessor
         //+ | ------------------------------------------------------------------------------------
         //+ | dispatch to verb method    
         //+ |
-        $verb = strtolower(igk_server()->REQUEST_METHOD);
+        $verb = strtolower(igk_server()->REQUEST_METHOD ?? 'get');
         if (method_exists($this, $fc = $name . "_" . $verb)) {
             $arguments = Dispatcher::GetInjectArgs(new ReflectionMethod($this, $fc), $arguments);
             return $this->$fc(...$arguments);
         } else if ($verb == "options") {
             // handle default method option
             //options request ...
-            $rep = new WebResponse("/Options:data", 200, [
+            $rep = new WebResponse("/Options:data,request_uri:".igk_io_request_uri(), 200, [
                 "Content-Type: text/html",
                 "Access-Control-Allow-Origin: ".igk_configs()->get("access-control-allow-origin", "*"),
                 "Access-Control-Allow-Methods: ".igk_configs()->get("access-control-allow-methods", "*"),
@@ -386,7 +386,7 @@ abstract class IGKActionBase implements IActionProcessor
                     }
                     $c = $object->$actionMethod(...$args);
                 }
-                $object->getController()->{ControllerParams::ActionViewResponse} = $c;
+                $object->getController()->{ControllerEnvParams::ActionViewResponse} = $c;
 
                 // nav if redirecting
                 if ($redirect = igk_getr("::redirect")) {

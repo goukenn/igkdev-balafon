@@ -8,6 +8,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\Helper\NotifyHelper;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
@@ -16,20 +17,18 @@ use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\WinUI\Menus\MenuItem;
-use IGK\System\WinUI\PageLayout;
 use IGK\System\WinUI\Views;
 
 use function igk_resources_gets as __;
 
 class AuthorisationController extends ConfigControllerBase{
-    public function getName()
-    {
-        return  __CLASS__;
+    public function getName(){
+        return  IGK_AUTH_CTRL;
     }
     public function getIsAvailable(){
         return true;
     }
-    public function getIsVisible()
+    public function getIsVisible():bool
     {
         return true;
     }
@@ -426,18 +425,12 @@ class AuthorisationController extends ConfigControllerBase{
     }
    
      
-    ///<summary>Represente getDataTableInfo function</summary>
-    /**
-    * Represente getDataTableInfo function
-    */
-    public function getDataTableInfo(){
-        return null;
-    }
+    
     ///<summary>Represente getDataTableName function</summary>
     /**
     * Represente getDataTableName function
     */
-    public function getDataTableName(){
+    public function getDataTableName(): ?string{
         return Groupauthorizations::table(); 
     }
     ///<summary>Represente IsUserAuthorized function</summary>
@@ -464,16 +457,14 @@ class AuthorisationController extends ConfigControllerBase{
     /**
     * Represente View function
     */
-    public function View(){ 
+    public function View():BaseController{ 
+        $t = $this->getTargetNode();
         if(!$this->getIsVisible()){ 
-            $this->TargetNode->remove();
-            return;
-        } 
-		
-		$cnf = $this->getConfigNode();
-		$t = $this->getTargetNode();
-        $t->add($cnf); 
-     
+            $t->remove();
+            return $this;
+        } 		
+		$cnf = $this->getConfigNode();	
+        $cnf->add($t);      
         $t->ClearChilds();
         $box=$this->viewConfig($t, "title.manageauth", ".help/auth.managerdesc");
         $box->notifyhost("auth");
@@ -484,6 +475,7 @@ class AuthorisationController extends ConfigControllerBase{
             $tab->addTabPage(__("CheckAuth"), $buri."/checkauth"); 
             $tab->select(HtmlComponents::GetParam($this, "auth-tab", 0));
         });
+        return $this;
 		// return;
         // $row=$box->addRow();
         // $frm=$row->addCol()->addForm();

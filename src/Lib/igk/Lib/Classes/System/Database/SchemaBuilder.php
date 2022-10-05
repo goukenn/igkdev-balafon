@@ -38,12 +38,12 @@ class SchemaBuilder implements ArrayAccess{
     /**
      * create a table
      * @param string $table 
-     * @param mixed $desc 
+     * @param ?string $desc 
      * @return SchemaTableBuilder 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public function createTable(string $table, $desc=null){
+    public function createTable(string $table, ?string $desc=null){
         $n = $this->_output->add(DbSchemas::DATA_DEFINITION);
         $n["TableName"] = $table;
         $n["Description"] = $desc;
@@ -65,12 +65,13 @@ class SchemaBuilder implements ArrayAccess{
     /**
      * add string comment
      * @param string $comment 
-     * @return void 
+     * @return HtmlCommentNode 
      */
-    public function comment(string $comment){
+    public function comment(?string $comment=null): HtmlCommentNode{
         $n = new HtmlCommentNode();
         $n->setContent($comment);
         $this->_output->add($n);
+        return $n;
     }
     // 
     protected function _access_OffsetSet($n,$v){

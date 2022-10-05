@@ -8,7 +8,8 @@
 
 namespace IGK\System\Html\XML;
 
-use IGK\System\Html\Dom\HtmlItemBase; 
+use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\HtmlRenderer;
 
 /**
  * xml special comment
@@ -27,7 +28,15 @@ class XmlComment extends HtmlItemBase{
     }
     public function render($options=null){ 
         if (igk_getv($options, "NoComment"))
-            return null;        
-        return "<!-- " .trim($this->getContent()). " -->";
+            return null;   
+        $depth = "";
+        if (igk_getv($options, "Indent")){
+            $depth = str_repeat("\t", igk_getv($options, "Depth", 1)-2);
+        }
+        return $depth."<!-- " .trim($this->getContent()). " -->";
+    }
+    public function getCanRenderTag()
+    {
+        return false;
     }
 }

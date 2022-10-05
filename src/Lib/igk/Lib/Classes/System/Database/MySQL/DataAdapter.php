@@ -31,7 +31,14 @@ class DataAdapter extends DataAdapterBase
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
 
-
+    /**
+     * check that a constraint exists
+     * @param string $name 
+     * @return bool 
+     */
+    function constraintExists(string $name):bool{
+        return false;
+    }
     public function supportGroupBy()
     {
         return true;

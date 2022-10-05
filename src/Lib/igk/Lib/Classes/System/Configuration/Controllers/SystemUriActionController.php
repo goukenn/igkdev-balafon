@@ -12,6 +12,7 @@
 namespace IGK\System\Configuration\Controllers;
 
 use Exception;
+use IGK\Controllers\BaseController;
 use IGK\Models\Systemuri;
 use IGK\System\Html\HtmlRenderer;
 use IGKException;
@@ -21,9 +22,10 @@ use IIGKUriActionListener;
 final class SystemUriActionController extends ConfigControllerBase implements IIGKUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
+    const CACHE_FILE = '.routes.cache';
     private static $sm_actions, $sm_routes;
     public static function GetCacheFile(){
-        return igk_io_cachedir()."/.routes.cache";
+        return igk_io_cachedir()."/".self::CACHE_FILE;
     }
    
     private static function _RegActions(SystemUriActionController $controller){
@@ -120,7 +122,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     }
     
     ///<summary></summary>
-    public function getDataTableName(){
+    public function getDataTableName(): ?string{
         return igk_db_get_table_name(IGK_TB_SYSTEMURI);
     }
     ///<summary></summary>
@@ -136,7 +138,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function getPatternInfo(){
         return igk_get_env(IGK_ENV_URI_PATTERN_KEY);
     }
-    public function getUseDataSchema(){
+    public function getUseDataSchema():bool{
         return false;
     }
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
@@ -217,7 +219,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             $route[$k]=$v;
         }  
         // + | -----------------------------------------------------------------------
-        /// TODO :  SELECT  * DB ROUTE LOOP FAILED, infinite loop
+        // + | TODO :  SELECT  * DB ROUTE LOOP FAILED, infinite loop
         // + | -----------------------------------------------------------------------
         if (!igk_configs()->get("no_db_route")){        
             try {
@@ -474,12 +476,12 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         }
     }
     ///<summary></summary>
-    public function View(){
+    public function View():BaseController{
+        $c=$this->getTargetNode();
         if(!$this->getIsVisible()){
-            igk_html_rm($this->TargetNode);
-            return;
+            $c->remove();
+            return $this;
         }
-        $c=$this->TargetNode;
         $this->ConfigNode->add($c);
         $c=$c->clearChilds()->addPanelBox();
         igk_html_add_title($c, "title.SystemUriView");
@@ -496,6 +498,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             $li->add("span", array("class"=>"igk-col-4-2 no-overflow"))->Content=$k;
             $li->add("span", array("class"=>"igk-col-4-2"))->Content=$v;
         }
+        return $this;
     }
   
 }

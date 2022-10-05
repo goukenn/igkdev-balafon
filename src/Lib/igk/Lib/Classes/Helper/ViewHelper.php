@@ -39,7 +39,7 @@ class ViewHelper
     }
     private static function _GetIncFile($file){        
         $c = self::Dir()."/".$file;
-        if (file_exists($c) || ($c.= ".phtml"))
+        if (file_exists($c) || file_exists($c.= IGK_VIEW_FILE_EXT))
             return $c;
         igk_die("inc [".$file."] file not found");        
     }
@@ -136,17 +136,24 @@ class ViewHelper
             $params = func_get_arg(1);
         }
         extract(self::GetViewArgs(), EXTR_SKIP); 
+        if (!isset($ctrl)){
+            igk_die('$ctrl not found from GetViewArgs');
+        }
         extract($ctrl->getExtraArgs(), EXTR_SKIP);
         $_tab = get_defined_vars(); 
         $g = (function(){
             extract(func_get_arg(1));
             return include(func_get_arg(0));
         })->bindTo($ctrl);
-        if (!file_exists($file = func_get_arg(0))){
+        if (!is_file($file = func_get_arg(0))){
             file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: ".$file);
         }
         return $g($file, $_tab);
-        // return include(self::Dir().func_get_arg(0));
+    }
+    public static function View($file, $args=[]){
+        if (self::Include($file, $args)){
+            return self::CurrentCtrl()->getTargetNode()->render();
+        }
     }
     public static function RequireOnce($file){
         if (!file_exists($file = func_get_arg(0))){
@@ -156,7 +163,7 @@ class ViewHelper
         $g = (function(){
             extract(self::GetViewArgs(), EXTR_SKIP); 
             extract($ctrl->getExtraArgs(), EXTR_SKIP);
-            require_once(func_get_arg(0));
+            return require_once(func_get_arg(0));
         })->bindTo($ctrl);
         return $g($file);
     }
@@ -177,9 +184,6 @@ class ViewHelper
                 $entry_is_dir = (strlen($s) > 0) && $s[0] == "/";
             }
         }
-
-        
-
         if (!$entry_is_dir) {
             // + | --------------------------------------------------------
             // + | Sanitize request uri
@@ -204,9 +208,10 @@ class ViewHelper
      * get included file directory
      * @return string 
      * @throws IGKException 
+     * @throws Deprecated 
      */
     public static function Dir(?string $path=null)
-    {
+    {        
         return dirname(self::File()).($path ? $path : "");
     }
     /**
@@ -247,18 +252,18 @@ class ViewHelper
     } 
 
     /**
-     * return variable passed on a top view 
-     * @param mixed $param 
-     * @param mixed $default 
+     * return variable passed on a top view.
+     * @param ?string $param by passing null you ask to get all data
+     * @param mixed $default by passing a key to param return the default value 
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetViewArgs($param=null,$default=null){
-        $t =  igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
+    public static function GetViewArgs(?string $param=null,$default=null){
+        $t = igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
         if (!is_null($param) && $t ){
             return igk_getv($t, $param, $default);
         }
-        return $t;
+        return $t ?? [];
     } 
   
     public static function GetUriHelper($fname){
@@ -285,7 +290,10 @@ class ViewHelper
      * @return string  
      */
     public static function GetView(?string $path=null){
-        return implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
+        $f = implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
+        !is_file($f) && ($f.='.phtml');
+        return $f;
+        // return implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
     }
 
 
@@ -306,9 +314,9 @@ class ViewHelper
         $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
         $f = $f . $ext; 
         if (!empty($ext)) {
-            $s = 1;
+            $ts = 1;
             $_views = array_filter(explode("/", $view));
-            while ($s && (count($_views) > 0) && ($f != $viewDir)) {
+            while ($ts && (count($_views) > 0) && ($f != $viewDir)) {
                
                 if (preg_match($ext_regex, $f) && is_file($f)) {
                     return $f;
@@ -325,19 +333,15 @@ class ViewHelper
                     }
                 }
             }
-            if ($s) {
-                $f =  $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
-            }
+            // if ($s) {
+                $s =  $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
+            //}
         }else {
             if (!$checkfile || ($checkfile && is_file($f))){                
                 $s = $f;
             }
         }
-       //  igk_debug("check file ".$f);
-        // igk_debug_wln("found ? ".$s, $f, "kkdjdjd: ", $s, $ext);
-        // if ($s && $checkfile && is_file($f)){
-        //     return $f;           
-        // }
+     
         return $s;
     }
 }

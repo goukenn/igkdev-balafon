@@ -11,6 +11,7 @@ use IGKException;
 
 ///<summary>String utility helper </summary>
 abstract class StringUtility{
+    const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /**
      * check if uri start with compare
      * @param string $haystack source uri
@@ -230,5 +231,34 @@ abstract class StringUtility{
         }
         else
             return substr($chaine, $start);
+    }
+
+    /**
+     * read identifier token
+     * @param string $hastack 
+     * @param int $offset 
+     * @param string $token 
+     * @return string 
+     */
+    public static function ReadIdentifier(string $hastack, int & $offset=1, string $token=self::IDENTIFIER_TOKEN):string{
+        $s ="";
+        $ln = strlen($hastack);
+        while( ($offset<$ln) && (strpos($token, $ch =  $hastack[$offset])!==false)){
+            $offset++;
+            $s .=$ch;
+        }
+        return $s;
+    }
+    /**
+     * indent line 
+     * @param string $data 
+     * @param string $tab 
+     * @return string 
+     */
+    public static function IndentContent(string $data, $tab = "\t"){
+        $data = implode("\n", array_map(function ($s) use($tab) {
+            return $tab.$s;
+        }, explode("\n", $data)));
+        return $data;
     }
 }

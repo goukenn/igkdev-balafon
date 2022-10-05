@@ -19,6 +19,8 @@ use IGKType;
 use ReflectionException;
 use ReflectionFunction;
 
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerEnvParams.php';
+require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
 ///<summary>represent a root controller entry</summary>
 /**
  * represent a root controller entry
@@ -62,9 +64,27 @@ abstract class RootControllerBase extends IGKObject{
     protected final function getIsSystemController(){       
         return  !empty(strstr($this->getDeclaredDir(), IGK_LIB_DIR));
     }
-	public static function IsSystemController( RootControllerBase $controller){
+    /**
+     * check if controller is a system controller
+     * @param RootControllerBase $controller 
+     * @return bool 
+     */
+	public static function IsSystemController( RootControllerBase $controller):bool{
 		return $controller->getIsSystemController();
 	}
+    /**
+     * check if controller is included controller
+     * @param RootControllerBase $controller 
+     * @return bool 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function IsIncludedController( RootControllerBase $controller):bool{
+        $dir = igk_io_collapse_path($controller->getDeclaredDir());
+        $o  =  igk_io_collapse_path(IGK_LIB_DIR . "/Ext");        
+        return strstr($dir, $o);        
+    }
     /**
      * return registrated macro function 
      */
@@ -107,8 +127,8 @@ abstract class RootControllerBase extends IGKObject{
 			];
 		}  
         if ($name == "invokeMacros"){
-            $c = $arguments[1];
             $name = $arguments[0];
+            $c = $arguments[1];
             $v_macro = 1;
             $arguments = array_slice($arguments, 2) ?? [];
         }
@@ -164,8 +184,7 @@ abstract class RootControllerBase extends IGKObject{
      * @return mixed 
      */
     public function __get($name){
-        if(method_exists($this, $fc = "get".ucfirst($name))){ 
-      
+        if(method_exists($this, $fc = "get".ucfirst($name))){       
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
         }
         return $this->getEnvParam($name);
@@ -179,7 +198,11 @@ abstract class RootControllerBase extends IGKObject{
      */
     public function __set($name, $value){
         if (!$this->_setIn($name, $value)){   
-           $this->setEnvParam($name, $value);
+           // self::$sm_bindController = $this;
+           // passing object to setEnvParam - no getctrl required
+           $this->__callStatic('invokeMacros', ['setEnvParam', $this, $name, $value]);
+           // setEnvParam($name, $value);
+           // self::$sm_bindController = null;
         }
         return $this;
     }
@@ -275,7 +298,7 @@ abstract class RootControllerBase extends IGKObject{
     * @param mixed $fullname
     */
     public function getArticleFull($fullname){
-        return igk_io_dir($this->getArticlesDir()."/".$fullname);
+        return igk_dir($this->getArticlesDir()."/".$fullname);
     }
     ///<summary></summary>
     ///<param name="name"></param>
@@ -293,7 +316,7 @@ abstract class RootControllerBase extends IGKObject{
     * 
     */
     public function getArticlesDir(){  
-        return igk_io_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
+        return igk_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
     }
         ///<summary></summary>
     /**

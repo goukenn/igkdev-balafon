@@ -48,7 +48,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static int count(?array $conditions) macros function
  * @method static object|null createFromCache() macros function
  * @method static static createCondition() macros function create condition object
- * @method static ?static createIfNotExists(object $object, ?mixed $condition) macros function: create if not exists
+ * @method static ?static createIfNotExists($data_condition, ?mixed $extra=null) macros function: create if not exists
  * @method static string display() macros function return a string used for display
  * @method static array|Iterable|null formFields($edit=false, ?array $unsetKeys=null) macros function
  * @method static array formSelectData() macros function : form selection data
@@ -326,14 +326,17 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
             if (igk_environment()->isDev()){
-                igk_trace();
-                igk_wln(__FILE__ . ":" . __LINE__, 
-                "raw is null",
-                get_class($this), 
-                $raw,
-                $this->controller, $this->getTable());
+              
+                igk_wln(["access"=>__FILE__ . ":" . __LINE__, 
+                "msg"=>"raw is null",
+                "class"=>get_class($this), 
+                "data"=>$raw,
+                "controller"=>$this->controller, 
+                "table"=>$this->getTable(), 
+                "dummy"=>$this->raw,               
+                ]);
             } 
-            die("Failed to create dbrow: " . $this->getTable());
+            throw new \IGKException("Failed to create dbrow: " . $this->getTable());
         }
         // + | ----------------------------------------------------------
         // + | copy raw if not instance 
@@ -426,6 +429,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         $ctrl = $this->getTableInfoController(); 
         $r =  $ctrl::getDataTableDefinition($this->getTable());
+        if (is_null($r) && igk_environment()->isDev()){
+            igk_wln_e("column info can't be resolved for ", $this->getTable());
+        }
         return $r->columnInfo;
     }
     protected function getTableInfoController(){
@@ -530,10 +536,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 }
             }
             require_once(__DIR__ . "/DefaultModelEntryExtensions.pinc");
+            // 
+            // init all model so that will be 
+            //
             igk_hook(IGKEvents::HOOK_MODEL_INIT, []);
         }
-        $_instance_class = static::CreateMockInstance(static::class);
-      
+        $_instance_class = static::CreateMockInstance(static::class);      
         if ($fc = igk_getv(self::$macros, $name)) {
             $bind = 1;
             if (is_array($fc)) {
@@ -574,9 +582,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if (method_exists($c, $name)) {
             return $c->$name(...$arguments);
         }
-        igk_dev_wln(array_keys(self::$macros));
-        igk_wln("call :".$name);
-        igk_trace();
+        if (igk_environment()->isDev()){
+            igk_dev_wln(array_keys(self::$macros));
+            igk_wln("call :".$name);
+            igk_trace();
+        }
         die("ModelBase: failed to call [" . $name . "] - ".static::class);
     }
     private static function _InvokeMacros($macros, $name, $instance, $arguments, & $failed=false){

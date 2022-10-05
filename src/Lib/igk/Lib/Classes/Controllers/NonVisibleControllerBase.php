@@ -14,7 +14,7 @@ use IGKException;
 * Represente NonVisibleControllerBase class
 */
 abstract class NonVisibleControllerBase extends BaseController {
-    public function getDataTableName(){ 
+    public function getDataTableName(): ?string{ 
         return null;
     }
     ///<summary></summary>
@@ -42,21 +42,21 @@ abstract class NonVisibleControllerBase extends BaseController {
     /**
     * 
     */
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         return false;
     }
     ///<summary></summary>
     /**
     * 
     */
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return null;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function View(){
+    public function View():BaseController{
         throw new IGKException("Not implement");
     }
     public function IsFunctionExposed($func){        

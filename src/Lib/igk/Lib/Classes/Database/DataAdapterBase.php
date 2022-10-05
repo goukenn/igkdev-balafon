@@ -523,7 +523,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             // \IGK\System\Database\MySQLDataAdapter::class, true);
 
             foreach(get_declared_classes() as $k=>$v){
-                $cl = basename(igk_html_uri($v));
+                $cl = basename(igk_uri($v));
                 
                 if(preg_match($n, $cl)){ 
                     // igk_wln(__FILE__.":".__LINE__, $v);

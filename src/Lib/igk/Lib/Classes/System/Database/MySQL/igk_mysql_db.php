@@ -22,7 +22,7 @@ define('MYSQL_DB_DRIVER', 1);
 require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
  
-$file = (new ReflectionClass(\IGK\System\DataBase\MySQL\DataAdapterBase::class))->getFileName();
+$file = (igk_sys_reflect_class(\IGK\System\DataBase\MySQL\DataAdapterBase::class))->getFileName();
 
 
 require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
@@ -466,6 +466,6 @@ DbQueryDriver::Init(function (&$conf) {
     $conf[$n]["func"] = $t;
 });
 
-require_once __DIR__ . "/Controllers/DbConfigController.php";
+// require_once __DIR__ . "/Controllers/DbConfigController.php";
 
 ConfigControllerRegistry::Register(\IGK\System\Database\MySQL\Controllers\DbConfigController::class, IGK_MYSQL_DB_CTRL);

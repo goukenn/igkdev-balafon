@@ -8,7 +8,7 @@
 namespace  IGK\System\Console;
 
 use IGK\System\Console\Commands\DbCommandHelper;
-use IGKControllerManagerObject;
+
 use IGKException;
 
 abstract class AppExecCommand extends AppCommand{

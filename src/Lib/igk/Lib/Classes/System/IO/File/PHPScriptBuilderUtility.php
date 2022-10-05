@@ -29,12 +29,8 @@ abstract class PHPScriptBuilderUtility
      * @param string $source source
      * @return string 
      */
-    public static function RemoveComment(string $source){
-         
-        // phpinfo();
-        
-         
-
+    public static function RemoveComment(string $source){         
+        // phpinfo(); 
         $comments = \token_get_all($source);
         $src = implode("", array_map(function($m){
             if (is_array($m)){

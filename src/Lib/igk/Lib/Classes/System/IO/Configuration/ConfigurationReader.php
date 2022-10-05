@@ -91,7 +91,7 @@ class ConfigurationReader
         $value = null;
 
         $fc_bind = function(& $list, $name, $value){
-            if (!is_null($name)){
+            if (!is_null($name) && !empty($name)){
                 $obj = new ConfigurationObject;
                 $obj->key = self::RmStringMark($name);
                 $obj->value = self::RmStringMark($value);
@@ -149,7 +149,7 @@ class ConfigurationReader
     }
     public static function RmStringMark($str){
         if (!is_null($str) && !empty($g = trim($str))){
-            if (preg_match("/^('|\")(.)*\\1/", $g, $tab)){                
+            if (preg_match("/^('|\")(.)*\\1$/", $g, $tab)){                
                 $str = trim($g, $tab[1]);
             }
         }
@@ -183,11 +183,8 @@ class ConfigurationReader
             switch($ch){
                 case '"':
                 case "'":
-                    if (empty($d))
-                        return igk_str_read_brank($this->m_text, $this->m_offset, $ch, $ch,null,1, 1);
-                    else {
-                        $this->m_errors[] = "read name false";
-                    }
+                    // litteral consideration
+                    $d.= igk_str_read_brank($this->m_text, $this->m_offset, $ch, $ch,null,1, 1);                   
                 break;
                 default:
                     if (is_null($d)){

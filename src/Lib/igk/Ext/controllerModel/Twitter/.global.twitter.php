@@ -7,6 +7,8 @@
 
 function igk_html_node_twitterFollowUs($id, $showcount=0){
 	//followus
+	igk_trace();
+	igk_wln_e("die");
 	$n = igk_create_xmlnode("a");
 	$n["class"]="twitter-follow-button";
 	$n["data-show-count"]=$showcount?"true":"false";

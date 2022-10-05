@@ -29,7 +29,7 @@ abstract class IGKSysUtil
     /**
      * get model full type name 
      * @param string $table table name to get 
-     * @param ?BaseController $controller the controller 
+     * @param ?BaseController $controller controller in use to resolve the model type name
      * @return string 
      */
     public static function GetModelTypeName(string $t, ?BaseController $ctrl = null): string

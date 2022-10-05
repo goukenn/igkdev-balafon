@@ -7,17 +7,21 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
+use IGK\Helper\Activator;
 use IGKException;
 use IGK\Helper\IO;
 use IGK\Helper\MenuUtils;
 use IGK\Helper\SysUtils;
+use IGK\Models\DbModelDefinitionInfo;
 use IGK\Resources\R;
+use IGK\Server;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\WinUI\Menus\MenuHostControl;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKEvents;
-use IGKServer;
 use IGKValidator;
 
 use function igk_resources_gets as __;
@@ -330,7 +334,7 @@ final class MenuController extends ConfigControllerBase
         $v_confctrl = igk_getconfigwebpagectrl();
 
         /// TASK: INIT Configuration Controllers
-        $v_load_controller = SysUtils::GetConfigurationControllers();
+        $v_load_controller = ConfigControllerRegistry::ResolvAndInitControllers();
 
         $ctab = $v_confctrl->initConfigMenu();
 
@@ -341,8 +345,7 @@ final class MenuController extends ConfigControllerBase
             if ($v !== $v_confctrl) {
                 if (!($v instanceof ConfigControllerBase) || !$v->getIsConfigPageAvailable())
                     continue;
-                $cm = $v->initConfigMenu(); 
-
+                $cm = $v->initConfigMenu();  
                 if ($cm !== null) {
                     $v_ctab = array_merge($v_ctab, $cm);
                 }
@@ -507,7 +510,7 @@ EOF;
      */
     public function getConfigCurrentPage()
     {
-        return $this->getFlag("m_CurrentPage");
+        return $this->getParam("m_CurrentPage");
     }
     ///<summary>get config menu node</summary>
     /**
@@ -515,7 +518,7 @@ EOF;
      */
     public function getConfigMenu()
     {
-        return $this->getFlag(self::CONFIG_MENU_FLAG);
+        return $this->getParam(self::CONFIG_MENU_FLAG);
     }
     ///<summary></summary>
     /**
@@ -531,7 +534,7 @@ EOF;
      */
     public function getConfigSelectedGroup()
     {
-        return $this->getFlag(self::CONFIG_SELECTED_GROUP);
+        return $this->getParam(self::CONFIG_SELECTED_GROUP);
     }
     ///<summary></summary>
     /**
@@ -539,7 +542,7 @@ EOF;
      */
     public function getConfigSelectedMenu()
     {
-        return $this->getFlag(self::CONFIG_SELECTED_MENU);
+        return $this->getParam(self::CONFIG_SELECTED_MENU);
     }
     ///<summary></summary>
     /**
@@ -547,7 +550,7 @@ EOF;
      */
     public function getConfigSelectedPage()
     {
-        return $this->getFlag(self::CONFIG_SELECTED_PAGE);
+        return $this->getParam(self::CONFIG_SELECTED_PAGE);
     }
     ///<summary></summary>
     /**
@@ -567,7 +570,7 @@ EOF;
      */
     public function getCurrentPage()
     {
-        return $this->getFlag("currentPage", igk_app()->getConfigs()->get("menu_defaultPage", IGK_DEFAULT_VIEW));
+        return $this->getParam("currentPage", igk_app()->getConfigs()->get("menu_defaultPage", IGK_DEFAULT_VIEW));
     }
     ///<summary></summary>
     /**
@@ -575,7 +578,7 @@ EOF;
      */
     public function getCurrentPageIndex()
     {
-        return $this->getFlag("currentPageIndex", 0);
+        return $this->getParam("currentPageIndex", 0);
     }
 
 
@@ -583,9 +586,9 @@ EOF;
     /**
      * return data table info
      */
-    public function getDataTableInfo()
+    public function getDataTableInfo(): ?DbModelDefinitionInfo
     {
-        return array(
+        return Activator::CreateNewInstance(DbModelDefinitionInfo::class,  array(
             new DbColumnInfo(array(
                 IGK_FD_NAME => IGK_FD_NAME,
                 IGK_FD_TYPE => "VARCHAR",
@@ -615,13 +618,13 @@ EOF;
                 IGK_FD_TYPELEN => 1,
                 "clDefault" => 1
             ))
-        );
+        ));
     }
     ///<summary></summary>
     /**
      * 
      */
-    public function getDataTableName()
+    public function getDataTableName(): ?string
     {
         return '%prefix%globalmenu';
     }
@@ -769,7 +772,7 @@ EOF;
         }
         return 0;
     }
-    public function getDataAdapterName()
+    public function getDataAdapterName():string
     {
         return IGK_CSV_DATAADAPTER;
     }
@@ -777,7 +780,7 @@ EOF;
     /**
      * 
      */
-    protected function initTargetNode()
+    protected function initTargetNode():HtmlNode
     {
         $ul = igk_create_node("ul");
         return $ul;
@@ -1168,7 +1171,7 @@ EOF;
                 $this->m_menu_selected["class"] = "+igk-menu_selected";
             }
         } else {
-            if (IGKServer::IsLocal()) {
+            if (Server::IsLocal()) {
                 igk_notifyctrl()->addError("[web_global_menu] not define [" . $page . "] - " . igk_io_request_uri());
             }
         }
@@ -1196,7 +1199,7 @@ EOF;
      */
     public function setConfigSelectedMenu($menu)
     {
-        $this->setFlag(self::CONFIG_SELECTED_MENU, $menu);
+        $this->setParam(self::CONFIG_SELECTED_MENU, $menu);
     }
     ///<summary></summary>
     ///<param name="page"></param>
@@ -1206,7 +1209,7 @@ EOF;
      */
     public function setConfigSelectedPage($page)
     {
-        $this->setFlag(self::CONFIG_SELECTED_PAGE, $page);
+        $this->setParam(self::CONFIG_SELECTED_PAGE, $page);
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -1215,7 +1218,7 @@ EOF;
      * @param mixed $n
      */
     // public function setconfigTargetNode($n){
-    //     $this->setFlag("m_configTargetNode", $n);
+    //     $this->setParam("m_configTargetNode", $n);
     //     return $this;
     // }
     ///<summary></summary>
@@ -1362,7 +1365,7 @@ EOF;
     protected function getIsAvailable(){
         return false;
     }
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         return false;
     }
     public function getIsConfigPageAvailable(){
@@ -1372,34 +1375,33 @@ EOF;
     /**
      * 
      */
-    public function View()
-    {
-        $t = $this->TargetNode;
-        $t->clearChilds();
-        return;
+    public function View():BaseController
+    {         
+        return $this;
 
-        if (!$this->getIsVisible()) {
-            if (!$this->ConfigCtrl->IsConfiguring) {
-                $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);
-            }
-            igk_html_rm($t);
-            $t->clearChilds();
-        } else {
-            if (igk_sys_ischanged(self::MENU_CHANGE_KEY, $this->m_menuChangedState)) {
-                $this->_LoadMenu();
-            }
-            $this->ConfigNode->add($t);
-            $t->clearChilds();
-            $box = $t->addPanelBox();
-            $box->addSectionTitle(4)->Content = __("Menu");
-            $this->MenuConfig($box->div());
-            //
-            // Configure custom menu 
-            // 
-            $v_mdiv = $box->div();
-            $v_mdiv["class"] = "alignt marg4";
-            $this->_m_otherMenuView($v_mdiv);
-        }
-        $this->_onViewComplete();
+        // if (!$this->getIsVisible()) {
+        //     if (!$this->ConfigCtrl->IsConfiguring) {
+        //         $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);
+        //     }
+        //     igk_html_rm($t);
+        //     $t->clearChilds();
+        // } else {
+        //     if (igk_sys_ischanged(self::MENU_CHANGE_KEY, $this->m_menuChangedState)) {
+        //         $this->_LoadMenu();
+        //     }
+        //     $this->ConfigNode->add($t);
+        //     $t->clearChilds();
+        //     $box = $t->addPanelBox();
+        //     $box->addSectionTitle(4)->Content = __("Menu");
+        //     $this->MenuConfig($box->div());
+        //     //
+        //     // Configure custom menu 
+        //     // 
+        //     $v_mdiv = $box->div();
+        //     $v_mdiv["class"] = "alignt marg4";
+        //     $this->_m_otherMenuView($v_mdiv);
+        // }
+        // $this->_onViewComplete();
+        // return $this;
     }
 }

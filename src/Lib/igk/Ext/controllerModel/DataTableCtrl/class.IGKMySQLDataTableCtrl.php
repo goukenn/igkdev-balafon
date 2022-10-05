@@ -23,11 +23,11 @@ abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase
 			"clParentCtrl"
 		);
 	}
-	public function getIsVisible(){
+	public function getIsVisible():bool {
 		return false;
 	}
 
-	public function getDataAdapterName(){
+	public function getDataAdapterName():string{
 		return IGK_MYSQL_DATAADAPTER;
 	}
 	public function getName(){

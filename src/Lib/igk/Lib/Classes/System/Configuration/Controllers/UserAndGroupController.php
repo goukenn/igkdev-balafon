@@ -6,6 +6,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\Helper\NotifyHelper;
 use IGK\Helper\StringUtility;
 use IGK\Helper\SysUtils;
@@ -28,6 +29,9 @@ use function igk_resources_gets as __;
  * @package IGK\System\Configuration\Controllers
  */
 class UserAndGroupController extends ConfigControllerBase{
+    public function getName(){
+        return "{ab6f9000-610f-3695-b431-9eb85149d777}";
+    }
     public function getIsConfigPageAvailable(){
         return true;
     }
@@ -41,10 +45,11 @@ class UserAndGroupController extends ConfigControllerBase{
             )
         ];
     }
-    public function View(){
+    public function View():BaseController{
         $t = $this->getTargetNode();
         $t->clearChilds();
         $t->panelbox()->host(static::class."::Presentation", $this);
+        return $this;
     }
     public static function Presentation($t, $ctrl){
         $t->h2()->Content = __("User's group");

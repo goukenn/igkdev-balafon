@@ -52,7 +52,7 @@ abstract class ModelEntryExtension
      */
     public static function name(ModelBase $model)
     {
-        return basename(igk_io_dir(get_class($model)));
+        return basename(igk_dir(get_class($model)));
     }
     /**
      * return the instance model
@@ -84,10 +84,8 @@ abstract class ModelEntryExtension
      */
     public static function create(ModelBase $model, $raw = null, bool $update = true)
     {
-
         $cl = get_class($model);
         $c = new $cl($raw);
-
         if ($craw = $c->to_array()) {
             $g = $c->insert($craw, $update);
             if (($g !== false) && ($g !== null)) {
@@ -140,6 +138,13 @@ abstract class ModelEntryExtension
         return $v->_cache;
     }
 
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $condition 
+     * @param mixed $extra 
+     * @return null|ModelBase|bool 
+     */
     public static function createIfNotExists(ModelBase $model, $condition, $extra = null)
     {
 
@@ -507,8 +512,8 @@ abstract class ModelEntryExtension
     public static function createTable(ModelBase $model)
     {
         $driver = $model->getDataAdapter();
-        $info = $model::getDataTableDefinition();
-        return $driver->createTable($model::table(), igk_getv($info, "tableRowReference"), igk_getv($info, "Description"));
+        $info = $model->getDataTableDefinition();
+        return $driver->createTable($model::table(), igk_getv($info, "tableRowReference"), igk_getv($info, "description"));
     }
 
     /**
@@ -523,14 +528,10 @@ abstract class ModelEntryExtension
         $cl = $model->getFormFields();
         $t = [];
 
-        $inf =  $model->getTableInfo(); //  igk_db_get_table_info($model->getTable());
-        // igk_wln_e($tablekey);
+        $inf =  $model->getTableInfo(); 
         $ctrl = $model->getController();
-        // array_map(function($b)use (& $inf){
-        //     $inf[$b->clName]  = $b;
-        // }, $tablekey["ColumnInfo"]);
-
         $binfo = [];
+        $v_tabinfo = null;
 
         $b = (igk_count($cl) > 0) ? $cl : array_keys($model->to_array());
         // igk_wln_e($model->to_json());
@@ -546,14 +547,23 @@ abstract class ModelEntryExtension
                 $attribs["required"] = "required";
                 $r["required"] = 1;
             }
-
-            if ($info->clLinkType) {
-                $r["type"] = "select";
-                if (!$binf = getv($binfo, $info->clLinkType)) {
-                    $binf = igk_db_get_table_info($info->clLinkType);
-                    $binfo[$info->clLinkType] = $binf;
+            $link = $info->clLinkType;
+            if ($link) {
+                if (is_null($v_tabinfo)){
+                    $v_tabinfo = $ctrl->getDataTableDefinition(null);
                 }
-                if ($v_cl = igk_db_get_model_class_name($info->clLinkType)) {
+                $r["type"] = "select";
+                if (!$binf = getv($binfo, $link)) {
+                    $binf = igk_db_get_table_info($link);
+                    $binfo[$link] = $binf;
+                }
+                $v_cl = null;
+                if ($v_tabinfo->tables[$link]){
+                    $v_cl = $v_tabinfo->tables[$link]->modelClass;
+                }else {
+                    igk_wln_e("link:not found ", $link);
+                }
+                if ($v_cl) {
                     // class defined :
                     $stb = [];
                     foreach ($v_cl::select_all() as $m) {

@@ -7,6 +7,8 @@
 // @file: HtmlDocumentNode.php
 
 namespace IGK\System\Html\Dom;
+
+use IGK\Resources\R;
 use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
 
@@ -14,8 +16,8 @@ use IGKEvents;
 class HtmlDocumentNode extends HtmlItemBase{
     protected $m_head;
     protected $m_body;
-    protected $m_lang = "fr";
     protected $m_id;
+    protected $m_lang = 'fr';
 
     /**
      * define name spaces
@@ -70,8 +72,9 @@ class HtmlDocumentNode extends HtmlItemBase{
         $s = "<!DOCTYPE html>\n";             
         $attr = "";
         $ln = $options->LF;
-        if (!empty($this->m_lang)){
-            $attr = " lang=\"".$this->m_lang."\"";
+        $lang = $this->m_lang;
+        if (!empty($lang)){
+            $attr = " lang=\"".$lang."\"";
         }
         if ($this->namespaces){
             foreach($this->namespaces as $k=>$v)
@@ -94,8 +97,13 @@ class HtmlDocumentNode extends HtmlItemBase{
         $options->Depth = $sdepth+1;
         if (!empty($body = HtmlRenderer::Render($this->m_body, $options))){
             $s = rtrim($s) . $body.$ln;
-        };   
+        };  
+        $content = "";
+        igk_hook(IGKEvents::HOOK_HTML_AFTER_RENDER_BODY, ["doc"=>$this, "content"=>& $content]); 
         $options->Depth = $sdepth;
+        if (!empty($content)){
+            $s.= $content.$ln;
+        }
         $s .= "</html>";
         return $s;
     }

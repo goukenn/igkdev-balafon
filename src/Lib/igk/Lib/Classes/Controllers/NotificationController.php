@@ -170,7 +170,7 @@ final class NotificationController extends BaseController implements IIGKNotifyM
         return $this->m_notifyhost;
     }
     ///<summary></summary>
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $v=new HtmlNotificationItemNode($this, "global");
         return $v;
     }
@@ -317,7 +317,7 @@ EOF;
         }
     }
     ///<summary>Render notification controller</summary>
-    public function View(){
+    public function View():BaseController{
         $t = $this->getTargetNode();
         if(!$this->HasMsg){
             $t->remove();
@@ -329,5 +329,6 @@ EOF;
                 $host->add($t);                
             }
         }
+        return $this;
     }
 }

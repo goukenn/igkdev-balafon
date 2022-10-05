@@ -48,18 +48,18 @@ class IO
             return $f;
         $s = IGK_ARTICLE_TEMPLATE_REGEX;
         if (preg_match($s, $name)) {
-            return igk_io_dir($dir . "/" . $name);
+            return igk_dir($dir . "/" . $name);
         }
         $lang = R::GetCurrentLang();
         foreach (["." . $lang, ""] as $lg) {
             foreach (["phtml", 'html'] as $v) {
-                $f = igk_io_dir($dir . "/{$name}{$lg}.{$v}");
+                $f = igk_dir($dir . "/{$name}{$lg}.{$v}");
                 if (file_exists($f))
                     return $f;
             }
         }
         $ext = igk_get_article_ext();
-        return igk_io_dir($dir . "/" . $name . $ext);
+        return igk_dir($dir . "/" . $name . $ext);
     }
     /**
      * collapse string path
@@ -67,11 +67,11 @@ class IO
      * @return mixed 
      * @throws IGKException 
      */
-    public static function CollapsePath($str)
+    public static function CollapsePath(string $str)
     {
         $tp = array_flip(igk_environment()->getEnvironmentPath());
         krsort($tp);
-        $path = igk_html_uri($str);
+        $path = igk_uri($str);
         foreach ($tp as $c => $t) {
             $gp = [$c];
             if ((($tc = realpath($c)) && ($tc != $c)) || is_link($c)) {
@@ -237,7 +237,7 @@ class IO
         }
         if (is_dir($dir))
             return 1;
-        $d = explode(DIRECTORY_SEPARATOR, igk_io_dir($dir));
+        $d = explode(DIRECTORY_SEPARATOR, igk_dir($dir));
         $s = IGK_STR_EMPTY;
         for ($i = 0; $i < count($d); $i++) {
             if ($root || ($i > 0)) {
@@ -278,8 +278,8 @@ class IO
     {
         $d = igk_app()->CurrentPageFolder;
         if (!empty($d) && ($d != IGK_HOME_PAGEFOLDER))
-            return igk_io_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $d . "/" . $dir));
-        return igk_io_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $dir));
+            return igk_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $d . "/" . $dir));
+        return igk_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $dir));
     }
     ///<summary>get the current base uri according to local specification</summary>
     ///<param name="dir">null or existing fullpath directory or file element. </param>
@@ -303,8 +303,8 @@ class IO
      */
     public static function GetChildRelativePath($source, $destination, $separator = DIRECTORY_SEPARATOR)
     {
-        $doc_root = igk_html_uri($source);
-        $dir = igk_html_uri($destination);
+        $doc_root = igk_uri($source);
+        $dir = igk_uri($destination);
         if (strpos($dir, $doc_root) !== 0)
             return;
         $i = IGKString::IndexOf($dir, $doc_root);
@@ -337,7 +337,7 @@ class IO
         $doc = igk_io_rootdir();
         $cdir = self::GetCurrentDir();
         $bdir = self::GetBaseDir();
-        $dir = igk_io_dir($dir);
+        $dir = igk_dir($dir);
         $i = -1;
         $v_iscurrent = ($bdir == $cdir);
         if ($v_iscurrent) {
@@ -427,13 +427,13 @@ class IO
         // $cdir=self::GetRootUri(rtrim($r_uri, '/'));
         // $is_root=igk_io_basedir_is_root();
         // $bdir=$is_root ? igk_io_baseuri(): self::GetRootUri();
-        // $dir=ltrim(igk_html_uri($dir), $sep);
+        // $dir=ltrim(igk_uri($dir), $sep);
 
         // igk_wln_e(get_defined_vars());
 
         // if(!$is_root){
-        //     $sbdir=igk_html_uri(igk_io_basedir());
-        //     $srdir=igk_html_uri(igk_io_rootdir());
+        //     $sbdir=igk_uri(igk_io_basedir());
+        //     $srdir=igk_uri(igk_io_rootdir());
         //     // igk_wln_e("null", $is_root, IGK_APP_DIR,  "sbdir:".$sbdir, "root:".$srdir, "rootdir is empty ".igk_io_rootdir());
         //     if(strstr($sbdir, $srdir)){
         //         $child=igk_str_rm_last(substr($sbdir, strlen($srdir) + 1), $sep);
@@ -462,7 +462,7 @@ class IO
         //         $sdir=dirname($sdir);
         //         $c++;
         //     }
-        //     return igk_html_uri($h.substr($v_basedir, strlen($sdir) + 1).$sep.$dir);
+        //     return igk_uri($h.substr($v_basedir, strlen($sdir) + 1).$sep.$dir);
         // }
         // else{
         //     $sdir=$cdir;
@@ -475,7 +475,7 @@ class IO
         //     }
         //     if(empty($dir))
         //         return $h;
-        //     return igk_html_uri($h.$dir);
+        //     return igk_uri($h.$dir);
         // }
     }
     ///<summary>tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur</summary>
@@ -630,7 +630,7 @@ class IO
         if (is_dir($dir) === false)
             return null;
         $v_out = array();
-        $dir = rtrim(igk_html_uri($dir), '/');
+        $dir = rtrim(igk_uri($dir), '/');
         $q = 0;
         $dirs = array();
         array_push($dirs, $dir);
@@ -905,7 +905,7 @@ class IO
         $c = IGK_STR_EMPTY;
         if ($i != -1) {
             $dir = substr($dir, $i + strlen($doc_root));
-            $bdir = igk_io_dir($doc_root . $separator . $bdir);
+            $bdir = igk_dir($doc_root . $separator . $bdir);
             $c = igk_io_get_relativepath($bdir, $doc_root);
         }
         $dir = str_replace($bdir, IGK_STR_EMPTY, $dir);
@@ -914,7 +914,7 @@ class IO
         }
         if ($c)
             $dir = $c . $separator . $dir;
-        return igk_html_uri(empty($dir) ? null : self::__fixPath($dir));
+        return igk_uri(empty($dir) ? null : self::__fixPath($dir));
     }
     ///<summary></summary>
     ///<param name="uri" default="IGK_STR_EMPTY"></param>
@@ -982,7 +982,7 @@ class IO
         }
         if ($found) {
             $dir = ltrim(substr($dir, $i + strlen($doc_root)), $separator);
-            return igk_io_dir($p . $dir);
+            return igk_dir($p . $dir);
         }
         return null;
     }
@@ -994,7 +994,7 @@ class IO
      */
     public static function IsAbsolutePath($uri)
     {
-        $uri = igk_io_dir($uri);
+        $uri = igk_dir($uri);
         return file_exists($uri) && ($uri == igk_realpath($uri));
     }
     ///<summary></summary>
@@ -1029,7 +1029,7 @@ class IO
      */
     public static function IsRealAbsolutePath($uri)
     {
-        $uri = igk_io_dir($uri);
+        $uri = igk_dir($uri);
         return !empty($c = igk_realpath($uri));
     }
     ///<summary>read entiere file in one shot. speed for small file</summary>
@@ -1114,7 +1114,7 @@ class IO
             while (($f = readdir($hdir))) {
                 if (($f == ".") || ($f == ".."))
                     continue;
-                $v = igk_io_dir($dir . "/" . $f);
+                $v = igk_dir($dir . "/" . $f);
 
                 if ($callback && !$callback($v)) {
                     continue;
@@ -1169,7 +1169,7 @@ class IO
         while (($f = readdir($hdir))) {
             if (($f == ".") || ($f == ".."))
                 continue;
-            $v = igk_io_dir($dir . "/" . $f);
+            $v = igk_dir($dir . "/" . $f);
             if (is_file($v)) {
                 if (($pattern == null) || preg_match($pattern, $v)) {
                     unlink($v);

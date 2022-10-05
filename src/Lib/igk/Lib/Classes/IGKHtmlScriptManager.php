@@ -6,6 +6,7 @@
 
 ///<summary>Represente class: IGKHtmlScriptManager</summary>
 
+use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlScriptNode;
 
@@ -75,15 +76,14 @@ final class IGKHtmlScriptManager extends IGKObject {
             $s = compact("canbeMerged", "tag", "item");
             $this->m_scripts[$file] = $s;
         }
-        return $s["item"];
- 
+        return $s["item"]; 
     } 
     ///<summary>clear loaded script</summary>
     /**
     * clear loaded script
     */
     public function Clear($tag=null){
-        
+        throw new NotImplementException(__METHOD__);
     }
     ///<summary></summary>
     /**
@@ -97,7 +97,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * 
     */
     public function getAssoc(){
-       
+        throw new NotImplementException(__METHOD__);
     }    
     ///<summary></summary>
     ///<param name="n"></param>
@@ -199,17 +199,5 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function isLoaded($file){
         return isset($this->m_assocTable[$file]);
     }
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
-    /**
-    * 
-    * @param mixed $option the default value is null
-    */
-    public function localScriptRenderCallback($option=null){
-        if(igk_xml_is_mailoptions($option))
-            return;
-
-        // TODO : RENDER SCRIPTS
-        return "<!-- render script -->";        
- }
+    
 }

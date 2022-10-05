@@ -7,9 +7,9 @@
 
 namespace  IGK\System\Configuration\Controllers;
 
-use IGK\Controllers\PageControllerBase;
-use IGK\Database\SQLQueryUtils;
+use IGK\Controllers\BaseController; 
 use IGK\Helper\SysUtils;
+use IGK\Models\DbModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder;
@@ -198,14 +198,14 @@ class UsersConfigurationController extends ConfigControllerBase {
     /**
     * 
     */
-    public function getDataTableInfo(){
+    public function getDataTableInfo(): ?DbModelDefinitionInfo{
         return null;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function getDataTableName(){ 
+    public function getDataTableName(): ?string{ 
         return igk_db_get_table_name(IGK_TB_USERS);
     }
     
@@ -746,7 +746,7 @@ class UsersConfigurationController extends ConfigControllerBase {
             }
             $f=igk_io_basedir()."/pages/signup_confirmation.php";
             if(file_exists($f)){
-                $f=igk_html_uri(igk_io_baseuri()."/".igk_io_basepath($f));
+                $f=igk_uri(igk_io_baseuri()."/".igk_io_basepath($f));
                 igk_hook("user/activate_login", $this);
                 igk_navto($f);
             }
@@ -798,11 +798,11 @@ class UsersConfigurationController extends ConfigControllerBase {
     /**
     * 
     */
-    public function View(){
+    public function View():BaseController{
 		$t = $this->getTargetNode();
         if(!$this->getIsVisible()){
             igk_html_rm($t);
-            return;
+            return $this;
         }
 		$cnf = $this->getConfigNode();
         $cnf->add($t);
@@ -919,10 +919,11 @@ class UsersConfigurationController extends ConfigControllerBase {
         //     $frm->div()->Content = "No User Found";
         // }
          
-        if(igk_is_ajx_demand()){
-            $t->renderAJX();
-            igk_exit();
-        }
+        // if(igk_is_ajx_demand()){
+        //     $t->renderAJX();
+        //     igk_exit();
+        // }
+        return $this;
     }
     public function changeUserPassword($userid, $password, $repassword, & $msg=[]){
         if (igk_is_uri_demand($this->getUri(__FUNCTION__))){

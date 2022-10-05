@@ -8,6 +8,10 @@ namespace IGK\Controllers;
 
 use IGKException;
 
+/**
+ * get system's database info
+ * @package IGK\Controllers
+ */
 class SysDbControllerManager{
     public static function getInstance(){
         static $sm ;
@@ -16,9 +20,7 @@ class SysDbControllerManager{
         }
         return $sm;
     }
-    private function __construct()
-    {
-        
+    private function __construct(){        
     }
     /**
      * return tabldata table definition 
@@ -26,11 +28,11 @@ class SysDbControllerManager{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetDataTableDefinition($table){
+    public static function GetDataTableDefinition(?string $table=null){
         $ctrl = igk_getctrl(SysDbController::class);
         $cnf = null;
         if ($driver = $ctrl->getDataAdapter()){ 
-            $cnf = $driver->getDataTableDefinition($table);         
+            $cnf = $driver->getDataTableDefinition($table);       
         }
         return $cnf;
     }
@@ -39,7 +41,7 @@ class SysDbControllerManager{
      * @param mixed $ctrl 
      * @param mixed $tablename 
      * @return array|\IGK\System\Database\SchemaMigrationInfo [\
-     *      "ColumnInfo"=> []\
+     *      "columnInfo"=> []\
      *      "tableRowReference"=>[]\
      * ]
      * @throws IGKException 

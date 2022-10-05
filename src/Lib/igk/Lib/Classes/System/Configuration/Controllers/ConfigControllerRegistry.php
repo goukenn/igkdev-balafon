@@ -7,11 +7,14 @@
 namespace IGK\System\Configuration\Controllers;
 
 use Exception;
-use IGKControllerManagerObject;
+
 use IGKEvents;
 use IGK\Controllers\IRegisterOnInitController;
+use IGK\Manager\ApplicationControllerManager;
 use IGK\System\Diagnostics\Benchmark;
-
+use IGKException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use ReflectionException;
 
 /**
  * config controller registry
@@ -94,31 +97,53 @@ class ConfigControllerRegistry
         }
         return false;
     }
-    public static function GetResolvController()
+    /**
+     * Get merged system initial controller list with environment loaded config controller.
+     * @return array
+     */
+    public static function GetResolvController():array
     {
         // merge controller view configuration controllers. 
-        $resolv_ctrl = IGKControllerManagerObject::GetResolvController();
+        $resolv_ctrl = ApplicationControllerManager::GetResolvController();
         if ($jump = igk_environment()->get(self::LOADED_CONFIG_CTRL)) {
             $resolv_ctrl = array_merge($resolv_ctrl, $jump); // array_combine(array_keys($jump), array_values($jump)));
         }
         return $resolv_ctrl;
     }
-    public static function GetConfigurationControllers()
+    /**
+     * init controller and resolv controller
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException  
+     */
+    public static function ResolvAndInitControllers()
     {
+        //
+        // load configuration controller 
+        // init all because must be required
+        // 
+        if ($d = igk_environment()->get($key = "init_resolv_ctrls")){
+            return $d;
+        }
+
+       //  igk_die(__METHOD__.":: Not implement get configuration controller - Basics");
+
         $v_load_controller = igk_app()->getControllerManager()->getControllerRef();
+        // igk_wln_e($v_load_controller, __FILE__.":".__LINE__, );
         $resolv_ctrl = self::GetResolvController();
         foreach ($resolv_ctrl as $k => $v) {
             if (!isset($v_load_controller[$v])) {
-                if ($ctrl = igk_getctrl($k, false) ?? igk_init_ctrl($v)) {
+                if ($ctrl = igk_getctrl($k, false)) {
                     $v_load_controller[get_class($ctrl)] = $ctrl;
                 }
             }
         }
-
         igk_hook(IGKEvents::HOOK_CONFIG_CTRL, [
             "loaded" => &$v_load_controller
         ]);
         $v_load_controller = array_unique(array_values($v_load_controller));
+        igk_environment()->set($key, $v_load_controller);
         return $v_load_controller;
     }
 }

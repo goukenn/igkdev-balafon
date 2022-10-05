@@ -45,7 +45,7 @@ final class SharedContentHtmlItemController extends BaseController{
         parent::initComplete();
     }
     ///<summary></summary>
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $c=new HtmlSharedContentNode($this);
         return $c;
     }

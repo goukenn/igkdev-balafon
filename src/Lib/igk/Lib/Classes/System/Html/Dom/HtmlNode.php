@@ -7,6 +7,7 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\Dom\Traits\HtmlNodeTrait;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
@@ -156,6 +157,7 @@ class HtmlNode extends HtmlItemBase
     static $AutoTagNameClass = false;
     const NODE_LIST = "a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr";
     const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext  |live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
+    use HtmlNodeTrait;
     ///<summary></summary>
     ///<param name="eventObj"></param>
     ///<return refout="true"></return>
@@ -214,15 +216,7 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-    /**
-     * force text content
-     * @param string $text 
-     * @return $this 
-     */
-    public function setTextContent(string $text){
-        $this->content = $text;
-        return $this;
-    }
+    
     ///<summary>set the class combination of this item</summary>
     /**
      * set the class combination of this item
@@ -271,16 +265,16 @@ class HtmlNode extends HtmlItemBase
         $this["style"] = new HtmlCssValueAttribute($value);
         return $this;
     } 
-    public function __call($n, $arguments)
-    {
-        if (in_array(strtolower($n), ["address"])) {
-            if ($this->getCanAddChilds()) {
-                $tab = array(strtolower($n), null, $arguments);
-                return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
-            }
-        }
-        return parent::__call($n, $arguments);
-    }
+    // public function __call($n, $arguments)
+    // {
+    //     if (in_array(strtolower($n), ["address"])) {
+    //         if ($this->getCanAddChilds()) {
+    //             $tab = array(strtolower($n), null, $arguments);
+    //             return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
+    //         }
+    //     }
+    //     return parent::__call($n, $arguments);
+    // }
     /*
     address have a special meaning
     public function address(){

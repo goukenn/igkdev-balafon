@@ -429,7 +429,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         if ( $ctrl->getUseDataSchema()) {
             HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_reset_db_ajx")), "db_reset_16x16")->setClass("igk-btn");
         }
-        if (class_exists(ZipArchive::class)) {
+        if (class_exists(\ZipArchive::class)) {
             $btn = igk_html_installer_button($bar, IGK\System\Installers\IGKBalafonProjectInstaller::class, __("Update Project"), "/update?controller=" . urlencode(get_class($ctrl)));
             $btn->setClass("igk-btn");
         }
@@ -795,7 +795,7 @@ EOF;
         $ctrl = $this->SelectedController;
         if (($ctrl == null) || !isset($n))
             return null;
-        $f = igk_io_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
+        $f = igk_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
         if (file_exists($f)) {
             igk_download_file(basename($f), $f);
             igk_exit();
@@ -815,7 +815,7 @@ EOF;
                 igk_notifybox_ajx("controller not selected");
                 return null;
             }
-            $f = igk_io_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
+            $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         }
         if (file_exists($f)) {
             if (igk_qr_confirm()) {
@@ -913,7 +913,7 @@ EOF;
         $ctrl = $this->SelectedController;
         if (($ctrl == null) || !isset($n))
             return null;
-        $f = igk_io_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
+        $f = igk_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
         if (file_exists($f)) {
             if (igk_qr_confirm()) {
                 if (file_exists($f))
@@ -1000,7 +1000,7 @@ EOF;
             if (($ctrl == null) || !isset($n))
                 return null;
             if ($mode == 0)
-                $f = igk_io_dir($ctrl->getArticlesDir() . "/" . $n);
+                $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         }
         if ($force || file_exists($f)) {
             $articleid = $this->_getarticleid();
@@ -1027,7 +1027,7 @@ EOF;
     public function ca_edit_articlewtiny()
     {
         $q = igk_getr("q");
-        $h = igk_html_uri(IGK_APP_DIR . base64_decode($q));
+        $h = igk_uri(IGK_APP_DIR . base64_decode($q));
         if (file_exists($h)) {
             if (igk_server()->method("POST")) {
                 if (igk_getr("btn_save")) {
@@ -1077,7 +1077,7 @@ EOF;
             return null;
         }
         if ($mode == 0)
-            $f = igk_io_dir($ctrl->getArticlesDir() . "/" . $n);
+            $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         else
             $f = base64_decode($n);
         if ($force || file_exists($f)) {
@@ -1110,7 +1110,7 @@ EOF;
         if (($ctrl == null) || !isset($n))
             return null;
         if ($mode == 0)
-            $f = igk_io_dir($ctrl->getArticlesDir() . "/" . $n);
+            $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         else
             $f = base64_decode($n);
         if (file_exists($f)) {
@@ -1143,7 +1143,7 @@ EOF;
         $ctrl = $name == null ? igk_getctrl($this->SelectedController, false) : igk_getctrl($name, false);
         if ($ctrl == null)
             return null;
-        $f = igk_io_dir($ctrl->getDeclaredFileName());
+        $f = igk_dir($ctrl->getDeclaredFileName());
         if (file_exists($f)) {
             $frame = igk_create_node("div");
             $frame->clearChilds();
@@ -1322,7 +1322,7 @@ EOF;
         $n = igk_getr("n");
         if (($ctrl == null) || !isset($n))
             return null;
-        $f = igk_io_dir($ctrl->getViewDir() . "/" . $n);
+        $f = igk_dir($ctrl->getViewDir() . "/" . $n);
         if (file_exists($f)) {
             $frame = igk_html_frame($this, "frame_edit_view", "#" . $this->_getviewid());
             $frame->clearChilds();
@@ -1655,10 +1655,7 @@ EOF;
     {
         $uri = base64_decode(igk_getr("uri"));
         igk_loadr($uri);
-        if (igk_app()->getControllerManager()->InvokeUri($uri, false)) {
-            igk_app()->getControllerManager()->ViewControllers();
-            igk_app()->Doc->body->renderAJX();
-        }
+        igk_app()->getControllerManager()->invokeUri($uri, true);
     }
     ///<summary> handle view tab information </summary>
     public function controller($view = "infotab")
@@ -1680,7 +1677,7 @@ EOF;
         $ctrl = $this->SelectedController;
         if (($ctrl == null) || !isset($n))
             return null;
-        $f = igk_io_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
+        $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         if (file_exists($f)) {
             igk_download_file(basename($f), $f);
             igk_navtocurrent();
@@ -1694,7 +1691,7 @@ EOF;
         $ctrl = $this->SelectedController;
         if (($ctrl == null) || !isset($n))
             return null;
-        $f = igk_io_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
+        $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         $_FRAMENAME = "frame_drop_article_confirmation";
         if (file_exists($f)) {
             if (igk_qr_confirm()) {
@@ -1962,7 +1959,7 @@ EOF;
         }
     }
     ///<summary></summary>
-    public function View()
+    public function View():BaseController
     {
         $t = $this->TargetNode;
         if ($this->getIsVisible()) {
@@ -1987,6 +1984,7 @@ EOF;
             $this->TargetNode->clearChilds();
             igk_html_rm($this->TargetNode);
         }
+        return $this;
     }
     ///<summary></summary>
     public function view_frame_complete()

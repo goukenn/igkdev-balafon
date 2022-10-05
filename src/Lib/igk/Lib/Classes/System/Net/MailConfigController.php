@@ -11,16 +11,15 @@
 namespace IGK\System\Net;
 use function igk_resources_gets as __;
 
+use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
-
+/**
+ * mail configuration controller
+ * @package IGK\System\Net
+ */
 class MailConfigController extends ConfigControllerBase{
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="func"></param>
-    public function addMailSendEvent($obj, $func){
-        igk_die(__METHOD__." Not Obselete");
-    }
+   
     ///<summary></summary>
     public function getConfigPage(){
         return "mailserver";
@@ -62,6 +61,8 @@ class MailConfigController extends ConfigControllerBase{
         igk_sys_force_view();
         igk_navtocurrent();
     }
+    
+    
     ///<summary></summary>
     public function mail_testmail(){
       
@@ -211,15 +212,15 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
-    public function View(){ 
+    public function View():BaseController{ 
+        $c=$this->getTargetNode();
         if(!$this->getIsVisible()){
-            igk_html_rm($this->TargetNode);
-            return;
+            igk_html_rm($c);
+            return $this;
         }
 
         $cnf = igk_app()->getConfigs(); 
-
-        $c=$this->getTargetNode();
+ 
         $this->getConfigNode()->add($c);
 
         $c=$c->ClearChilds()->addPanelBox();
@@ -276,5 +277,6 @@ EOF;
         if($rp=igk_get_env("replace_uri")){
             $c->addObData(function() use ($rp){igk_ajx_replace_uri($rp);});
         }
+        return $this;
     }
 }

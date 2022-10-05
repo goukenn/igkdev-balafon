@@ -141,14 +141,14 @@ $gr=$g->addRow();
 $gr->addCol("igk-col-3-1 igk-xsm-dispn igk-sm-dispn")->div()->Content = igk_svg_use("balafon_logo"); // "license_logo");
 $dvr=$gr->addCol("igk-col-3-2 igk-sm-fitw igk-xsm-fitw")->div();
 $dvr->addQuote()->addSectionTitle(4)->Content=__("Licence");
-$dvr->addReadOnlyTextZone(igk_io_dir(IGK_LIB_DIR."/license.txt"))->setStyle("height: 320px; font-size:0.88em;padding:10px; ");
+$dvr->addReadOnlyTextZone(igk_dir(IGK_LIB_DIR."/license.txt"))->setStyle("height: 320px; font-size:0.88em;padding:10px; ");
 
 /*
 
 $box["igk:data"]="{closeBySubmit:1, noClose:1}";
 $box["class"]="no-close";
 $c=$box->addDialogBoxContent()->setStyle("background-color:#fdfdfd");
-$f=igk_io_dir(IGK_LIB_DIR."/license.txt");
+$f=igk_dir(IGK_LIB_DIR."/license.txt");
 $dv=$c->addRow()->div();
 $dv->addNotifyHost("wizeinstall");
 $frm=$dv->addForm();

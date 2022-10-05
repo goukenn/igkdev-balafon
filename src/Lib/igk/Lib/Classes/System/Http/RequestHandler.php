@@ -118,6 +118,11 @@ class RequestHandler
      */
     public function handle_uri($u = null)
     {
+        // igk_trace();
+        // if (igk_env_count(__METHOD__)>2){
+        //     igk_exit();
+        // }
+        // igk_wln("in flow ", __METHOD__, igk_env_count(__METHOD__));
         if (igk_environment()->get("sys://notsystemurihandle")) {
             return;
         }
@@ -171,18 +176,14 @@ class RequestHandler
      */
     public function handle_ctrl_request_uri($u = null, $defaultBehaviour = 1)
     {
-        
         if (igk_environment()->handle_ctrl_request){
             return 1;
         }
         if (igk_environment()->get("sys://notsystemurihandle"))
             return;
         $c = igk_getr("c");
-        $f = igk_getr("f");
- 
+        $f = igk_getr("f"); 
         $app = igk_app();
-       
-        
         if ($c && $f) {
             $f = str_replace("-", "_", $f);
             $arg = array();
@@ -227,7 +228,7 @@ class RequestHandler
                 self::getInstance()->m_ctrl_request = null; 
                 igk_environment()->set(IGK_ENV_INVOKE_ARGS, null);
                 igk_environment()->set(IGK_ENV_REQUEST_METHOD, null);
-                if ($defaultBehaviour && $v_isajx) {
+                if ($defaultBehaviour && $v_isajx) {  
                     igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
                     igk_environment()->isAJXDemand = null;
                     igk_do_response($response);
@@ -258,8 +259,7 @@ class RequestHandler
             die("already call redirection");
         }
         define("IGK_REDIRECTION", 1);
-
-        IGKApp::StartEngine($application, 0);
+        // IGKApp::StartEngine($application, 0);
         igk_environment()->write_debug("Redirect engine start : ".igk_sys_request_time());
         $defctrl = igk_get_defaultwebpagectrl();
 
@@ -338,7 +338,7 @@ class RequestHandler
                 $_REQUEST["p"] = $page;
                 $_REQUEST["l"] = $lang;
                 $_REQUEST["from_error"] = true;
-                $app->getControllerManager()->InvokeUri();
+                $app->getControllerManager()->invokeUri();
                 HtmlRenderer::RenderDocument();
                 igk_exit();
             }

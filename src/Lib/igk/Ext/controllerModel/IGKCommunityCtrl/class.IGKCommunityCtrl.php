@@ -8,8 +8,11 @@
 //file is a part of the controller tab list
 ///<summary>used to manage comomunity site</summary>
 
+use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
+use IGK\Helper\Activator;
 use IGK\Models\Community;
+use IGK\Models\DbModelDefinitionInfo;
 
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 {
@@ -30,12 +33,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 		igk_notification_unreg_event("sys://events/community", "igk_community_init_node_callback");
 		igk_db_unreg_sys_ctrl("community");
 	}
-	//@@@ init target node
-	protected function initTargetNode()
-	{
-		$node =  parent::initTargetNode();
-		return $node;
-	}
+	 
 	public function getCanAddChild()
 	{
 		return false;
@@ -49,28 +47,28 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 		return false;
 	}
 
-	protected function getUseDataSchema()
+	public function getUseDataSchema():bool
 	{
-		return 0;
+		return false;
 	}
 
 	public function getCanEditDataTableInfo()
 	{
 		return false;
 	}
-	public function getDataTableName()
+	public function getDataTableName(): ?string
 	{
 		return "%prefix%site_community";
 	}
-	public function getDataTableInfo()
+	public function getDataTableInfo(): ?DbModelDefinitionInfo
 	{
-		return array(
+		return Activator::CreateNewInstance(DbModelDefinitionInfo::class, array(
 			new DbColumnInfo(array(IGK_FD_NAME => IGK_FD_ID, IGK_FD_TYPE => "Int", "clAutoIncrement" => true, IGK_FD_TYPELEN => 10, "clIsUnique" => true, "clIsPrimary" => true)),
 			new DbColumnInfo(array(IGK_FD_NAME => "clCommunity_Id", IGK_FD_TYPE => "Int", "clIsUnique" => true, "clLinkType" => "tbigk_community")),
 			new DbColumnInfo(array(IGK_FD_NAME => "clLink", IGK_FD_TYPE => "Text", "clDescription" => "Url to community")),
 			new DbColumnInfo(array(IGK_FD_NAME => "clImageKey", IGK_FD_TYPE => "VarChar", IGK_FD_TYPELEN => 30)),
 			new DbColumnInfo(array(IGK_FD_NAME => "clAvailable", IGK_FD_TYPE => "Int", "clNotNull" => 1))
-		);
+		));
 	}
 	public static function initDb($force = false)
 	{
@@ -81,9 +79,10 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 
 
 	//@@@ parent view control
-	public function View()
-	{
-		return;
+	public function View():BaseController
+	{	
+		// do nothing
+		return $this;
 	}
 	public function loadCommunityNode($n)
 	{

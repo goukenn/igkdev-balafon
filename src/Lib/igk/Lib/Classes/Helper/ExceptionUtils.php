@@ -80,7 +80,7 @@ abstract class ExceptionUtils
         $style_link = "";
         if (file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
             $style_link .= "<!-- style link  -->";
-            $style_link .= "<link rel=\"stylesheet\" href='" . igk_html_uri(igk_io_baseuri() . "/" . igk_io_baserelativepath($d)) . "'/>";
+            $style_link .= "<link rel=\"stylesheet\" href='" . igk_uri(igk_io_baseuri() . "/" . igk_io_baserelativepath($d)) . "'/>";
             $style_link .= "<!-- end:style link  -->";
             $trace_css .= "body h1{ font-family: 'Roboto', arial, sans-serif; font-weight: 100; }";
         }

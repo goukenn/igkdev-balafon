@@ -29,7 +29,7 @@ class FileWriter{
         if(empty($filename)){
             igk_die(__FUNCTION__." Filename is empty or null");
         }
-        $filename=igk_io_dir($filename);
+        $filename=igk_dir($filename);
         if(!is_dir(dirname($filename))){
             if(!IO::CreateDir(dirname($filename)))
                 return false;
@@ -75,7 +75,7 @@ class FileWriter{
         if (empty($dirname)){
             igk_die("dir name is empty");
         }
-        $dirname = igk_io_dir($dirname);  
+        $dirname = igk_dir($dirname);  
         if(preg_match("/^phar:/i", $dirname)){
             igk_die("InvalidOperation#1200");
         }

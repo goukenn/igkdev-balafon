@@ -60,19 +60,21 @@ abstract class CssUtils
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-    public static function InitBindingCssFile(BaseController $ctrl, \IGKHtmlDoc $document,  string $file, 
+    public static function InitBindingCssFile(BaseController $ctrl,
+        //  \IGKHtmlDoc $document,  
+        HtmlDocTheme $theme, 
+        string $file, 
         bool $cssRendering,
         bool $temp = false,
         bool $raiseHook=true)
     {   
         if (is_file($file)) {
             // if (!defined("IGK_FORCSS")) { 
-            if (!$cssRendering) { 
-                // igk_wln("binding ...".$temp);
-                // igk_css_reg_global_tempfile($file, $document->getTheme(), $ctrl, $temp);
-                igk_css_reg_global_style_file($file, $document->getTheme(), $ctrl, $temp);// $document->getSysTheme(), $ctrl, $temp);
+            if (!$cssRendering){  
+                igk_css_reg_global_style_file($file, $theme, $ctrl, $temp);
+                // $document->getSysTheme(), $ctrl, $temp);
             } else { 
-                igk_css_bind_file($document, $ctrl, $file);
+                igk_css_bind_file($theme, $ctrl, $file);
             }
             if ($raiseHook){
                 igk_hook(IGKEvents::HOOK_BIND_CTRL_CSS, ["sender" => $ctrl, "type" => "css"]);
@@ -106,7 +108,7 @@ abstract class CssUtils
             } 
             foreach ($g as $v) {
                 igkOb::Start();
-                igk_css_bind_file($v->host, igk_io_expand_path($v->file), $bvtheme);
+                igk_css_bind_file($bvtheme, null, igk_io_expand_path($v->file));
                 $m = igk_css_treat(igkOb::Content(), $themeexport, $sys, $sys);
                 igkOb::Clear();
                 if (!empty($m)) {
@@ -151,7 +153,7 @@ abstract class CssUtils
         return $theme->getDef();
     }
     public static function Include($file, $ctrl, $theme){
-        $context = \IGK\Css\IGKCssContext::Init($ctrl, $theme);
+        $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
         require_once __DIR__."/theme_functions.php";
 
         $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
@@ -168,6 +170,7 @@ abstract class CssUtils
             } else
                 $n = $ctrl;
             $css_m = $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
+            // in case need to  register component auto load component
             $ctrl::register_autoload();
             unset($n);
         }

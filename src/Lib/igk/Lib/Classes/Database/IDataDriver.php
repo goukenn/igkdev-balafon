@@ -60,4 +60,11 @@ interface IDataDriver{
     function getCreateTableFormat(?array $options=null): ?string;
 
     function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname):string;
+
+    /**
+     * check that a constraint exists
+     * @param string $name 
+     * @return bool 
+     */
+    function constraintExists(string $name):bool;
 }

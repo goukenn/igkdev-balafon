@@ -43,7 +43,7 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         $g.= $this->doc->getTheme()->get_css_def();  
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles){
-            igk_css_bind_theme_files($this->doc, $inlineTheme, $v_bindTempFiles);
+            igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
         }
 
         $g .= $inlineTheme->get_css_def(true);

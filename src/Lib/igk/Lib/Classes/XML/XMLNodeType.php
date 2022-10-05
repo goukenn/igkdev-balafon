@@ -18,6 +18,8 @@ abstract class XMLNodeType{
     const NONE=-1;
     const PROCESSOR=2;
     const TEXT=6;
+    const INNER_TEXT = 7;
+
     ///<summary></summary>
     ///<param name="i"></param>
     public static function GetString($i){
@@ -38,6 +40,8 @@ abstract class XMLNodeType{
             return "TEXT";
             case self::DOCTYPE:
             return "DOCTYPE";
+            case self::INNER_TEXT:
+            return 'INNER_TEXT';
         }
         return "UNKNOWN";
     }

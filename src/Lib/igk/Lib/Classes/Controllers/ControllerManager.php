@@ -9,7 +9,7 @@ namespace IGK\Controllers;
 
 use IGK\Helper\IO;
 use IGK\Resources\R;
-use IGKControllerManagerObject;
+
 use IGKControllerTypeManager;
 
 ///<summary>Controller used to manage controllers</summary>
@@ -186,6 +186,7 @@ $entry_ns = $entry_ns ? "protected function getEntryNamespace(){ return {$param[
 // @copyright: {$param["copyright"]}
 // @type: controller
 //***
+use IGK\\Controllers\\BaseController;
 
 ///<summary>{$param["summary"]}</summary>
 /**
@@ -207,7 +208,7 @@ class $name extends {$param["extend"]}{
 	// }
 
 	///<summary> init target node </summary>
-	// protected function initTargetNode(){
+	// protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 	// 	\$node =  parent::initTargetNode();
 	// 	return \$node;
 	// }
@@ -217,8 +218,8 @@ class $name extends {$param["extend"]}{
     /**
      * override to handle view mecanism
      * */
-	//public function View(){
-	//	parent::View();
+	//public function View():BaseController{
+	//	return parent::View();
 	//}
 
     //----------------------------------------
@@ -277,7 +278,7 @@ OEF;
                     $i=IGKControllerManagerObject::getInstance(); 
                     if ($r=is_string($n) ? $i->dropControllerByName($n): $i->dropController($n)){
                         // reset controller cache
-                        IGKControllerManagerObject::ClearCache();
+                        \IGK\Helper\SysUtils::ClearCache();
                     }
                 }
             }

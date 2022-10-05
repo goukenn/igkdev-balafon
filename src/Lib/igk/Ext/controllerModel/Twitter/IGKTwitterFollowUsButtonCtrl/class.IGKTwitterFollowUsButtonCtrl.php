@@ -11,6 +11,7 @@ author: cad BONDJE DOUE
 license : licence.txt
 */
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\Resources\R;
 
@@ -32,7 +33,7 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 		);
 		//return array("clShowDataCount");
 	}
-	protected function initTargetNode(){
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		return parent::initTargetNode();
 	}
 	protected function initComplete($context=null){
@@ -50,10 +51,10 @@ EOF
 		}
 
 	}
-	public function View(){
+	public function View():BaseController{
+		$t = $this->getTargetNode();
 		if ($this->getIsVisible())
-		{
-			extract($this->getSystemVars());
+		{ 
 			$t->clearChilds();
 			$show_count = igk_parsebool(igk_getv($this->Configs,"clShowDataCount", false));
 			$t->add("a", array(
@@ -65,7 +66,8 @@ EOF
 			));
 		}
 		else
-			igk_html_rm($this->getTargetNode());
+			$t->remove();
+		return $this;
 	}
 	public function getlang()
 	{
@@ -75,7 +77,5 @@ EOF
 			return strtolower($l);
 		}
 		return null;
-
 	}
-}
-?>
+} 

@@ -21,6 +21,7 @@ class Benchmark{
     public  static $Enabled;
     private $mark = [];
     private $m_configs;
+    const REQUEST_PARAM = "IGK_BENCHMARK";
     private function __construct(){  
         $this->m_configs = new BenchmarkOptions();
         $this->m_configs->dieOnError = false;

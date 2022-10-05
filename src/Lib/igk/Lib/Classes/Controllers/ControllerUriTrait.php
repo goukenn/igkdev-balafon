@@ -16,7 +16,7 @@ trait ControllerUriTrait {
     */
     public function getUri(?string $function=null){
         $out=[];
-        $out["c"]= strtolower($this->getName());
+        $out["c"]= $this->getName();
         $g = "";
         if($function){
             $t=explode("&", $function);

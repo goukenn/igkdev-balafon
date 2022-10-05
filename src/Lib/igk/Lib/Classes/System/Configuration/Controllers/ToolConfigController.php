@@ -7,6 +7,7 @@
 
 namespace  IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGKFv;
 use \IGK\System\Configuration\Controllers\ToolHost;
@@ -17,7 +18,9 @@ use function igk_resources_gets as __;
 * Represente IGKToolsCtrl class
 */
 final class ToolConfigController extends ConfigControllerBase {
- 
+    public function getName(){
+        return IGK_TOOLS_CTRL;
+    }
     ///<summary>Represente getConfigPage function</summary>
     /**
     * Represente getConfigPage function
@@ -65,11 +68,11 @@ final class ToolConfigController extends ConfigControllerBase {
     /**
     * Represente View function
     */
-    public function View(){ 
-        $t=$this->TargetNode;
+    public function View():BaseController{ 
+        $t=$this->getTargetNode();
         if(!$this->getIsVisible()){
             $t->remove();
-            return;
+            return $this;
         }
 
         $v_ct=$this->getm_tools()->getTools();
@@ -98,6 +101,7 @@ final class ToolConfigController extends ConfigControllerBase {
                 $v->showTool($d->addDiv()->setAttribute("class", "dispib floatl marg4"));
             }
         }
+        return $this;
     }
     
     ///<summary>Represente view_tools_ajx function</summary>

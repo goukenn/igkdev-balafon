@@ -19,7 +19,7 @@ function igk_sys_gen_global_sitemap($store=0){
 		// foreach($pages as $k=>$v)
 		// {
 			// $url = $n->addNode("url");
-			// $url->add("loc")->Content = igk_html_uri($buri."/".$v);
+			// $url->add("loc")->Content = igk_uri($buri."/".$v);
 		// }
 		$ac = igk_getctrl(IGK_SYSACTION_CTRL);
 		$actions = $ac->getActions();

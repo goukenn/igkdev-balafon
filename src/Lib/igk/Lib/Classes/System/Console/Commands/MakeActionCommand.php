@@ -90,7 +90,7 @@ class MakeActionCommand extends AppExecCommand{
             $author, $ns, $type){          
             $content = $this->_getContent(); 
             $builder = new PHPScriptBuilder();
-            $fname = $actionName.".phtml";           
+            $fname = $actionName.IGK_VIEW_FILE_EXT;           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
             ->author($author)
             ->namespace($ns)
@@ -103,7 +103,7 @@ class MakeActionCommand extends AppExecCommand{
         };
 
         CommandsUtility::BindFiles($command, $bind, property_exists($command->options, "--force"));
-        IGKControllerManagerObject::ClearCache(); 
+        \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("Done - Make Action");
     }
     private function _getContent(){

@@ -10,6 +10,7 @@ file : class.IGKPDFViewerCtrl.php
 author:C.A.D. BONDJE DOUE
 */
 
+use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
 igk_bind_attribute("class","IGKPDFViewerCtrl", new IGKControllerTypeAttribute());
@@ -59,7 +60,7 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getCanAddChild(){
 		return false;
 	}
-	protected function initTargetNode(){
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$n = parent::initTargetNode();
 		$pdf = new IGKHtmlPdfViewNode($this);
 		$n->add(	$pdf);
@@ -67,11 +68,12 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 
 		return $n;
 	}
-	public function View(){
+	public function View():BaseController{
 		if (!$this->IsVisible)
 		{
 			igk_html_rm($this->TargetNode);
 		}
+		return $this;
 	}
 	public function render_pdf_ajx()
 	{

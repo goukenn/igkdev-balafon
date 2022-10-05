@@ -18,11 +18,7 @@ use IGKViewMode;
 use IIGKUriActionRegistrableController;
 use IIGKWebPageController;
 
-abstract class DefaultPageController extends PageControllerBase implements IIGKUriActionRegistrableController, IIGKWebPageController{
-    ///<summary></summary>
-    public function __construct(){
-        parent::__construct();
-    }
+abstract class DefaultPageController extends PageControllerBase implements IIGKUriActionRegistrableController, IIGKWebPageController{    
     
     ///<summary>default handle uri global uri</summary>
     /**
@@ -181,7 +177,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         return IGK_STR_EMPTY;
     }
     ///<summary></summary>
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         if(igk_sys_is_subdomain() && igk_sys_domain_control($this)){
             return true;
         }
@@ -238,7 +234,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         }
     }
     ///<summary></summary>
-    protected function initTargetNode(){
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $t=parent::initTargetNode();
         $k=IGK_CSS_DEFAULT_STYLE_FUNC_KEY;
         $t->setCallback($k, "return 'igk-page';");
@@ -322,13 +318,13 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $this->m_pageview=$value;
     }
     ///<summary>default page render view</summary>
-    public function View(){
+    public function View():BaseController{
         $t=$this->TargetNode;
         $doc=igk_app()->getDoc();
         $menu_ctrl=igk_getctrl(IGK_MENU_CTRL);
         if(!$menu_ctrl || !$this->getIsVisible()){
             $t->remove();
-            return;
+            return $this;
         }
         else if($this->getEnvParam("from") == null){
             $doc->body->addBodyBox()->clearChilds()->add($t);
@@ -345,5 +341,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $this->m_init=true;
         $this->_renderViewFile($view);         
         $this->_onViewComplete();
+        return $this;
     }
 }

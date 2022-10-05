@@ -607,14 +607,14 @@ final class IGKApiFunctionCtrl extends ApplicationController {
     /**
     * 
     */
-    public function getIsVisible(){
+    public function getIsVisible():bool{
         return false;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function getName(){
+    public function getName():string{
         return IGK_API_CTRL;
     }
     public function getAppName(){
@@ -625,7 +625,7 @@ final class IGKApiFunctionCtrl extends ApplicationController {
     * 
     */
     public function getRegUriAction(){
-        return IGK_API_URI.IGK_REG_ACTION_METH."(;(:options))?";
+        return IGK_API_URI.IGK_REG_ACTION_METH_OPTIONS;
     }
     ///<summary></summary>
     /**

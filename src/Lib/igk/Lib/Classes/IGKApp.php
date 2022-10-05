@@ -9,10 +9,15 @@
 
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
-use IGK\System\Html\HtmlRenderer;
-use IGK\System\Http\RequestHandler;
+use IGK\Manager\ApplicationControllerManager;
+use IGK\Manager\IApplicationControllerManager;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\HookHandler; 
 use IGK\System\IO\Path;
+use function igk_resources_gets as __; 
 
+require_once IGK_LIB_CLASSES_DIR.'/IGKEvents.php';
+require_once IGK_LIB_CLASSES_DIR.'/IGKAppContext.php';
 /**
  * 
  * @package IGK
@@ -57,16 +62,16 @@ class IGKApp extends IGKObject
     {
         return self::$sm_instance;
     }
-    private function __construct()
-    {
+    private function __construct(){
         
     }
     /** 
      * create controller manager
-     * @return IGKControllerManagerObject
+     * @return IApplicationControllerManager
      */
-    protected function createControllerManager(): IGKControllerManagerObject{
-        return IGKControllerManagerObject::getInstance();
+    protected function createControllerManager(): IApplicationControllerManager{
+        //:: return IGKControllerManagerObject::getInstance();
+        return new ApplicationControllerManager($this, $this->m_appInfo);
     }
 
     public function __toString()
@@ -85,31 +90,33 @@ class IGKApp extends IGKObject
         }
     }
     public function getSettings(){
-        $app_key = "igk";
+
+        $app_key = IGK_APP_SESSION_KEY;
         $use_session = $this->getApplication()->lib("session");
+        $v_bstart = null;        
         //$reset = 0;
-        if ($this->m_settings && $use_session && (!isset($_SESSION[$app_key]) || ($_SESSION[$app_key] !==  $this->m_settings->getInfo())) ){
+        if ($this->m_settings && $use_session && isset($_SESSION) && (!isset($_SESSION[$app_key]) || ($_SESSION[$app_key] !==  $this->m_settings->getInfo())) ){
+            $v_bstart = $this->m_settings;
             $this->m_settings = null; 
-            igk_hook(IGKEvents::HOOK_APP_SETTING_RESET, [$this]); 
+            igk_hook(IGKEvents::HOOK_APP_SETTING_RESET, [$this,session_id()]); 
         }
         if ($this->m_settings  === null){
             if ($use_session) {
-                $v_setting_info = igk_create_session_instance($app_key, function(){
-                    $a = call_user_func_array([$this, 'createAppInfo'], []);
+                $v_setting_info = igk_create_session_instance($app_key, function()use(& $v_bstart){
+                    $a =  ($v_bstart ? $v_bstart->getInfo() : null) ?? $this->createAppInfo();
                     $a->{IGK_SESSION_ID} = session_id();
+                    $a->{IGK_APP_INFO_TYPE} = IGKAppInfoType::Session; 
                     return $a;
                 });
-
-    
-
+                
             } else {
                 $v_setting_info = $this->createAppInfo();
             }
-            $this->m_settings = new IGKAppSetting($v_setting_info);  
+            $this->m_settings = new IGKAppSetting($v_setting_info);             
             if (!$this->m_settings->appInfo->loaded){
                 $this->m_settings->appInfo->loaded = 1;
             }
-        }        
+        }   
         return $this->m_settings;
     }
     ///<summary>get environment base controller</summary>
@@ -166,7 +173,7 @@ class IGKApp extends IGKObject
             $buri=igk_io_baseuri();
             $fulluri=igk_getv(explode("?", igk_io_fullrequesturi()), 0);
             if($buri != $fulluri){
-                $ba=igk_io_dir(substr(igk_str_rm_last($fulluri, '/'), strlen($buri) + 1));
+                $ba=igk_dir(substr(igk_str_rm_last($fulluri, '/'), strlen($buri) + 1));
                 if((strlen($ba) > 0) && is_dir(igk_io_basedir($ba))){
                     return $ba;
                 }
@@ -177,7 +184,7 @@ class IGKApp extends IGKObject
                 return IGK_CURRENT_PAGEFOLDER;
             }
             $cdir=IO::GetCurrentDir();
-            $bdir=IO::GetBaseDir();
+            $bdir=IO::GetBaseDir(); 
             if($cdir != $bdir)
                 return IO::GetChildRelativePath($bdir, $cdir);
         }
@@ -221,7 +228,7 @@ class IGKApp extends IGKObject
     }
     /**
      * get controller manager instance 
-     * @return IGKControllerManagerObject controller manager
+     * @return \IGK\Controllers\IControllerManagerObject controller manager
      * @throws IGKException 
      */
     public function getControllerManager(){
@@ -273,19 +280,22 @@ class IGKApp extends IGKObject
         // | --------------------------------------------------------------
         // | init environment
         // |
-        if ( self::$sm_instance !=null)    {
+        if ( self::$sm_instance !=null){
+            igk_trace();
             igk_die("App already started...");
         }
-        
         igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());
-        if (!$app->getNoEnviroment()){
-            IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir());        
-        }   
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
         $manager = self::$sm_instance->getControllerManager();
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
-        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);        
+        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting); 
+        if (!$app->getNoEnvironment()){
+            IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir(), self::$sm_instance);        
+        }   
+        self::_InitHookLogic($_hookArgs);   
+    }
+    private static function _InitHookLogic($_hookArgs){
         IGKEvents::hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
         // + |--------------------------------------------------------------
         // + | HOOK application initialize 
@@ -299,12 +309,10 @@ class IGKApp extends IGKObject
         \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015); 
         self::$sm_instance->m_initialized = true;
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
-
-        $manager->complete();
     }
 
     /**
-     * 
+     * Run Api Engine context
      * @param IGKApplicationBase $app 
      * @return static 
      */
@@ -335,6 +343,7 @@ class IGKApp extends IGKObject
             IGK_SESSION_ID => "",
             IGK_APP_REQUEST_URI => igk_getv($_SERVER, "REQUEST_URI"),
             IGK_APP_CURRENT_DOC_INDEX_ID => -1,
+            IGK_APP_INFO_TYPE => IGKAppInfoType::Local,
             "appInfo" => (new IGKAppInfoStorage())->getData() 
         ];
     }
@@ -359,4 +368,60 @@ class IGKApp extends IGKObject
     public function getService(string $serviceName){
         return IGKServices::Get($serviceName);
     }
+
+    //-------------------------------------------------------------------------------------
+    // |+ self hosted application context
+
+    private $m_context;
+
+    /**
+     * get the current definition context
+     * @return ?string
+     */
+    public function getContext(): ?string{
+        return $this->m_context;
+    }
+    /**
+     * init application in self hosted
+     * @return IGKApp 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function Init(){
+        if (!is_null(self::$sm_instance)){
+            igk_die('application already initialized : '.self::$sm_instance->m_context );
+        }
+        self::$sm_instance = new static;
+        self::$sm_instance->m_context = __METHOD__;
+        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting);        
+        $_hookArgs = ["app"=>self::$sm_instance];
+        $callback = ['invoke'];
+        $g = new HookHandler([self::class, 'BootLogicCallback'], [
+            "hookArgs"=>$_hookArgs,
+            "callback"=> & $callback
+        ]);
+        array_unshift($callback, $g);       
+        igk_reg_hook(IGKEvents::HOOK_APP_BOOT, $callback);
+        return self::$sm_instance;
+    }
+    /**
+     * hook logic callback
+     * @param mixed $e 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function BootLogicCallback($e){        
+        $app = $e->args[0];
+        $_hookArgs = $e->args[1]['hookArgs'];
+        $_callback = $e->args[1]['callback'];
+        self::$sm_instance->m_application = $app;
+        igk_unreg_hook(IGKEvents::HOOK_APP_BOOT, $_callback);
+        IGKAppSystem::LoadEnvironment(self::$sm_instance); 
+        self::_InitHookLogic($_hookArgs);        
+    }
 }
+
+ 

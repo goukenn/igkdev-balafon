@@ -11,7 +11,7 @@ use IGK\Resources\IGKLangExpression;
 use IGKObject;
 use IGKAppContext;
 use IGK\Resources\IGKLangKey;
-use IGKControllerManagerObject;
+
 use IGK\Resources\IGKLangResDictionary;
 use IGK\System\Console\Logger;
 use IGKAppType; 
@@ -328,12 +328,12 @@ EOF;
         $f=null;
         $tfile=array();
         if($files === null){
-            $f=igk_io_dir($v->GetCurrentLangPath($gdir));
+            $f=igk_dir($v->GetCurrentLangPath($gdir));
             $tfile[]=$f;
         }
         else{
             foreach($files as $c){
-                $sfile=igk_io_dir($gdir."/".$c);
+                $sfile=igk_dir($gdir."/".$c);
                 if((!file_exists($sfile)) && !file_exists($sfile=self::GetCurrentLang().IGK_LANG_FILE_EXTENSION)){
                     continue;
                 }
@@ -346,7 +346,7 @@ EOF;
                 $_instance->m_langFiles[$f]=1;
             }
             else{
-                $lang=igk_io_dir($gdir."/".R::GetCurrentLang().".xml");
+                $lang=igk_dir($gdir."/".R::GetCurrentLang().".xml");
                 if(file_exists($lang)){
                     R::LoadLangFileXml($lang);
                     $_instance->m_langFiles[$f]=1;
@@ -499,14 +499,14 @@ EOF;
     */
     public static function RegLangCtrl($ctrl){
         $_instance=self::getInstance();
-        $v=self::getInstance();
+       
         if($_instance->m_langctrl == null)
             $_instance->m_langctrl=array();
         if($_instance->m_langFiles == null)
             $_instance->m_langFiles=array();
-        if($ctrl && !IGKControllerManagerObject::IsSystemController($ctrl) && !isset($_instance->sm_langctrl[ $name = $ctrl->getName()])){
+        if($ctrl && !BaseController::IsSystemController($ctrl) && !isset($_instance->sm_langctrl[ $name = $ctrl->getName()])){
             $_instance->m_langctrl[$name]=$ctrl;
-            if($v->m_langloaded){
+            if($_instance->m_langloaded){
                 self::LoadCtrlLang($ctrl); 
             }
         }

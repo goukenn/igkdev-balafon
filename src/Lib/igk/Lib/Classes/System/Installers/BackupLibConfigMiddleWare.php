@@ -21,6 +21,7 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
         return __("backup library configuration");
     }
     public function invoke(){
+      
         $service = $this->getServiceInfo();        
         $f = implode("/", [$service->Listener->LibDir, IGK_DATA_FOLDER, "config.xml"]);
         

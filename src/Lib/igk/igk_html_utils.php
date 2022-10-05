@@ -610,17 +610,7 @@ function igk_html_buildmenu_ul($tab, $ul, $selected = null)
         $a->setAttribute('href', $v)->Content = __("menu.{$k}");
     }
 }
-///<summary></summary>
-/**
- * 
- */
-function igk_html_cookie_warn()
-{
-    $o = "<div class=\"posfix\">";
-    $o .= "____TODO: cookie warning___";
-    $o .= "</div>";
-    echo $o;
-}
+
 ///<summary></summary>
 ///<param name="ctrl"></param>
 /**
@@ -1355,7 +1345,9 @@ function igk_html_wtag(?string $tag, string $content, $attribs = null, $forcexml
     }
 
     if ($has_tag) {
-        $o = "<" . $tag . " " . $attr;
+        $o = "<" . $tag;
+        if ($attr)
+            $o.= " " . $attr;
         if (!$forcexml && empty($content)) {
             $o .= "/>";
         } else {
@@ -1439,11 +1431,11 @@ function igk_html_form_login_fields()
  */
 function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = "agree", ?string $uri = null)
 {
-    if (!isset($_COOKIE[$cookiename])) {
+    if (!isset($_COOKIE[$cookiename])){
         $t->div()->setId("cookie-agree")->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
             ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
                 $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
-                    ->setStyle("width:16px; height:16px;")->on('click', "igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}')");
+                    ->setStyle("width:16px; height:16px;")->on('click', "igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
                 $h->article(
                     $ctrl,
                     $article,

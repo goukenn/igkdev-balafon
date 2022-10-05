@@ -10,6 +10,7 @@ use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Helper\IO ;
 use IGK\Resources\R;
+use IGK\Server;
 use IGK\System\IO\FileSystem;
 use IGK\System\Providers\ClassProvider;
 
@@ -379,14 +380,17 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
         if(array_key_exists($env_mode, self::$env_keys)){
             $env_mode = self::$env_keys[$env_mode];
         }
-        return IGKServer::getInstance()->ENVIRONMENT == $env_mode;
+        return igk_server()->ENVIRONMENT == $env_mode;
     }
     /**
      * helper
      * @return bool 
      */
     public function isDev():bool{
-        return $this->is("DEV");
+        return $this->is(self::DEV_ENV);
+    }
+    public function isOPS():bool{
+        return $this->is(self::OPS_ENV);
     }
     ///<summary>get if environment is in debug mode</summary>
     /**
@@ -411,14 +415,14 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     * environment full name
     */
     public function name(){
-        return IGKServer::getInstance()->ENVIRONMENT;
+        return igk_server()->ENVIRONMENT;
     } 
     ///<summary>environment short name</summary>
     /**
     * environment short name
     */
     public function keyName(){
-        return self::ResolvEnvironment(IGKServer::getInstance()->ENVIRONMENT);
+        return self::ResolvEnvironment($this->name());
     }
     ///<summary></summary>
     ///<param name="i"></param>
@@ -507,7 +511,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
         $this->set(get_class($ctrl).'/bypass_method', $bypass);   
     }
 
-    public function get_file($file, $ext=".phtml"){ 
+    public function get_file($file, $ext=IGK_VIEW_FILE_EXT){ 
         $n = ".".strtolower($this->name()); 
         foreach([$n, ""] as $k){
             if (file_exists($f = $file.$k.$ext)){

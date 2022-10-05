@@ -55,7 +55,13 @@ class Loader{
         return $found; 
     }
     public function _final($f){
-        $this->registerMissings[] = $f;      
+        $this->registerMissings[$f] = $f;      
         Logger::info("missing : ".$f);
+        // if (igk_environment()->isDEv()){
+        //     igk_trace();
+        //     igk_wln("missing class : ".$f);
+        // }else{
+        //     igk_ilog("missing class : ".$f);
+        // }
     }
 }

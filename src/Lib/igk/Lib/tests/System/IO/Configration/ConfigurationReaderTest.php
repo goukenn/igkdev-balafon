@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 
 /**
  * test configuration reader function 
- * @package IGK\Test\System\IO\Configuration
+ * @package IGK\Test\System\IO\Configuration 8
  */
 class ConfigurationReaderTest extends BaseTestCase {
     public function test_read_connexion_string(){

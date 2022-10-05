@@ -4,30 +4,12 @@
 // @date: 20220803 13:48:59
 // @desc: 
 
-
+use IGK\Controllers\BaseController;
+use IGK\Helper\IO;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\Dom\CanvaZoneNode;
 use IGK\System\Html\Dom\HtmlNode; 
 
-class IGKCanvaZoneNode extends HtmlNode
-{
-	private $m_ctrl;
-
-	public function __construct($ctrl){
-		parent::__construct("canvas");
-		$this->m_ctrl = $ctrl;
-		$this["width"] = "320px";
-		$this ["height"] = "500px;";
-	}
-	public function innerHTML(& $xmlOption=null)
-	{
-		$o = parent::innerHTML($xmlOption);
-		$script =  HtmlNode::CreateWebNode("script");
-		$script->Content = "window.igk.winui.canva.initctrl('".$this->m_ctrl->getUri("getCanvaRendering")."');";
-		$o .= $script->render();
-		return $o;
-	}
-}
-
-igk_bind_attribute("class", IGKCanvaZoneCtrl::class, new IGKControllerTypeAttribute());
 /*
 represent a canva zone controller type
 */
@@ -39,25 +21,35 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 	protected function initComplete($context=null){
 		parent::initComplete();
-		igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
+		igk_die("initialize canvas node js");
+		// igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 	}
 	public function getCanAddChild(){
 		return false;
 	}
-	protected function initTargetNode(){
+	protected function initTargetNode():?HtmlNode{
 		$n = parent::initTargetNode();
-		$this->m_canva = new IGKCanvaZoneNode($this);
-		$this->m_canva->setId($this->Name."_canva");
-		$this->m_canva["class"] = strtolower($this->Name."_canva");
+		$this->m_canva = new CanvaZoneNode($this);
+		$_id = igk_css_str2class_name( strtolower($this->getName()."_canva"));
+		$this->m_canva->setId($_id);
+		$this->m_canva["class"] = $_id;
 		$n->add($this->m_canva);
 		return $n;
 	}
-	public function View(){
+	public function View():BaseController{
 		if (!$this->IsVisible)
 		{
 			igk_html_rm($this->TargetNode);
 		}
+		return $this;
 	}
+	/**
+	 * 
+	 * @return never 
+	 * @throws IGKException 
+	 * @throws ArgumentTypeNotValidException 
+	 * @throws ReflectionException 
+	 */
 	public function getCanvaRendering(){
 		//override this method to render on canvas
 		//exit for rectangle

@@ -28,7 +28,7 @@ use IGK\System\Html\XML\XmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\XML\XMLNodeType;
 use IGKException;
-
+ 
 /**
  * abstract html item base
  */
@@ -55,6 +55,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 
     protected $tagname;
 
+    /**
+     * current node content
+     * @var mixed
+     */
     protected $content = null;
 
     /**
@@ -71,7 +75,15 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 
     protected $m_callexclude = [];
 
-
+    /**
+     * set text content
+     * @param null|string $content 
+     * @return $this 
+     */
+    public function setTextContent(?string $content){
+        $this->content = $content;
+        return $this;
+    }
     protected function setInitNodeTypeInfo(HtmlInitNodeInfo $info)
     {
         $this->setFlag(self::FLAG_INIT, $info);
@@ -211,9 +223,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
      * 
      */
-    public function isEmptyTag()
+    public function isEmptyTag() : bool
     {
-        return igk_html_emptytag($this->getTagName());
+        if (!empty($n =$this->getTagName()))
+            return isset(HtmlOptions::$EmptyTag[strtolower($n)]);
+        return true;
     }
 
     public function getHasChilds()
@@ -391,12 +405,44 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return is_string($value) && $this->getCanAddChilds() && HtmlUtils::IsHtmlContent($value)
             && (!($ctx = HtmlLoadingContext::GetCurrentContext()) || $ctx->load_content);
     }
+    /**
+     * load content.
+     * @param array|mixed $value 
+     * @return $this 
+     * @throws IGKException 
+     */
     public function setContent($value)
     {
-        if ($this->getcanLoadContent($value)) {
-            $this->load($value);
-        } else {
-            $this->content = $value;
+        if (func_num_args()>1){
+            $tab = func_get_args();
+            while(count($tab)>0){
+                if (!($q = array_shift($tab))){
+                    continue;
+                } 
+                if (is_array($q)){
+                    $this->obdata($q);
+                    continue;
+                } 
+                if ($q instanceof self){
+                    $this->add($q);
+                    continue;
+                }              
+                if ($this->getcanLoadContent($q)){
+                    $this->load($q);
+                }else{
+                    if (!empty($this->content)){
+                        $this->content .= $q;    
+                    }else{
+                        $this->content = $q;
+                    }
+                }
+            }
+        }else{
+            if ($this->getcanLoadContent($value)) {
+                $this->load($value);
+            } else {
+                $this->content = $value;
+            }
         }
         return $this;
     }
@@ -450,8 +496,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (method_exists($this, $fc = "get" . ucfirst($name))) {
             return call_user_func_array([$this, $fc], []);
         }
-        igk_trace();
-        igk_wln_e("try to get ", get_class($this),  $name);
+        igk_environment()->isDev() && igk_trace();
+        igk_dev_wln_e("try to get ", get_class($this),  $name);
     }
     public function __set($key, $value)
     {
@@ -764,10 +810,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return null;
     }
     public function __call($name, $arguments)
-    {
+    { 
+
         if ($name === "set") {
-            igk_trace();
-            igk_exit();
+            igk_dev_wln_e('magic call with "set" only name is not allowed.');
+            igk_environment()->isDev() && igk_trace();
+            igk_die("not allowed");
         }
         if (in_array($name, $this->m_callexclude)) {
             return 0;
@@ -921,6 +969,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public static function CreateWebNode($n, $attributes = null, $indexOrArgs = null)
     { 
+        //:: for debug speed  
+
         if ($n = HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)) {
             if ($attributes) {
                 $n->setAttributes($attributes);

@@ -214,7 +214,7 @@ class RouteActionHandler extends RouteHandler
         $t = $route->gettype();
         $c = "";
         if (class_exists($t)){
-            $bname = basename(igk_io_dir($t));
+            $bname = basename(igk_dir($t));
             $c = strtolower(igk_preg_match("/^(?P<name>(.)+)(Action)$/", $bname, "name",0));                                
             if (!empty($c)){
                 $c = $c.$route->getPathUri();

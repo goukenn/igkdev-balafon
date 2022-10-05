@@ -10,7 +10,9 @@
 
 ///<summary>Represente class: IGKAppleIconCtrl</summary>
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
+use IGK\System\Html\Dom\HtmlNode;
 
 /**
 * Represente IGKAppleIconCtrl class
@@ -43,13 +45,14 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     * 
     */
     public function getCanAddChild(){
+    
         return false;
     }
     ///<summary></summary>
     /**
     * 
     */
-    public function getisVisisble(){
+    public function getIsVisisble():bool{
         return true;
     }
     ///<summary></summary>
@@ -89,7 +92,9 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     /**
     * 
     */
-    protected function initTargetNode(){}
+    protected function initTargetNode(): ?HtmlNode{
+        return null;
+    }
     ///<summary></summary>
     ///<param name="t" ref="true"></param>
     /**
@@ -100,9 +105,9 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
         $t["clAppleIconUri"]=igk_getr("clAppleIconUri");
         $t["clAppleTouchIconType"]=igk_getr("clAppleTouchIconType");
     }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function View(){}
+  
+    public function View():BaseController{
+        // DO NOTHING
+        return $this;
+    }
 }

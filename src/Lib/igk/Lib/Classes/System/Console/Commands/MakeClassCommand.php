@@ -38,7 +38,7 @@ class MakeClassCommand extends AppExecCommand{
         $ns = igk_getv($command->options, "--ns", "IGK");
         $dir = ""; 
         if (!empty($path)){
-            $dir = rtrim(igk_html_uri($path), '/');
+            $dir = rtrim(igk_uri($path), '/');
         }else{
             if (!empty($ctrl) && ($ctrl = igk_getctrl($ctrl, false))){
                 $dir = $ctrl::classdir();
@@ -48,8 +48,8 @@ class MakeClassCommand extends AppExecCommand{
             }
         }
         //igk_wln("classPath:", $classPath);
-        $g = igk_io_dir($classPath);
-        if (strpos($g, $gs = igk_io_dir($ns)."/")===0){
+        $g = igk_dir($classPath);
+        if (strpos($g, $gs = igk_dir($ns)."/")===0){
             $g = ltrim(substr($g, strlen($gs)), "/");
         }
         //if ($ctrl){
@@ -59,7 +59,7 @@ class MakeClassCommand extends AppExecCommand{
         $ns = ltrim(str_replace("/", "\\", $ns ), "\\");
     
 
-        $fname = igk_io_dir($g);
+        $fname = igk_dir($g);
         if (!preg_match('/\.php$/', $fname)){
             $fname .= ".php";
         }

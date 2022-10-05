@@ -54,7 +54,7 @@ abstract class BalafonMiddleware{
             return null;
         if(class_exists($cl=$name) || (class_exists($cl="IGK".$name."Middleware"))){
             if(is_subclass_of($cl, __CLASS__)){
-                $_ref=new ReflectionClass($cl);
+                $_ref=igk_sys_reflect_class($cl);
                 $cp=0;
                 $middle=null;
                 if(($ctr=$_ref->getConstructor()) && (($cp=$ctr->getNumberOfRequiredParameters()) > 0)){

@@ -17,4 +17,11 @@ interface ICssResourceResolver{
      * @return null|string 
      */
     function resolve(string $path): ?string;
+
+    /**
+     * resolv color
+     * @param string $keyValue 
+     * @return null|string 
+     */
+    function resolveColor(string $keyValue): ?string;
 }

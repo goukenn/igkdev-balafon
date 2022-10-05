@@ -8,6 +8,7 @@
 namespace IGK\System\Library;
 
 use IGK\Helper\IO;
+use IGK\Resources\R;
 use IGK\System\IO\Path;
 use IGK\System\Http\RequestHeader;
 use IGKEvents;
@@ -24,6 +25,8 @@ class session extends \IGKLibraryBase{
         // initialize function
         require_once IGK_LIB_CLASSES_DIR ."/IGKSessionFileSaveHandler.php";
         require_once __DIR__."/Session/.functions.pinc";  
+        require_once IGK_LIB_CLASSES_DIR."/Controllers/SessionController.php";
+
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
             $this->start(); 
         }); 
@@ -149,10 +152,26 @@ class session extends \IGKLibraryBase{
      */
     public function unlink($id){
         $d = ini_get("session.save_path");
-        $f = igk_io_dir($d . "/" . IGK_SESSION_FILE_PREFIX . $id);
+        $f = igk_dir($d . "/" . IGK_SESSION_FILE_PREFIX . $id);
         if (file_exists($f)) {
             return unlink($f);
         }
         return false;
+    }
+
+    /**
+     * change to session id
+     * @param mixed $newid 
+     * @return bool 
+     * @throws IGKException 
+     */
+    public function changeTo($newid):bool{
+        $m_sid = session_id();
+        if (empty($m_sid))
+            return false;
+        session_write_close();
+        $_SESSION  =[];
+        $this->restart($newid);
+        return count($_SESSION);
     }
 }

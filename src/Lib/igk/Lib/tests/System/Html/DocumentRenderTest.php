@@ -17,46 +17,37 @@ class DocumentRenderTest extends BaseTestCase{
 
     function test_element_script_inner(){
         $s = new HtmlNode("data");
-
+ 
         $s->load(<<<EOF
 <template lang="">
     <div>
         information introduction 
     </div>
 </template>
-<script>
+<script type='ts' language='javascript'>
 export default {
 }
 </script>
-<style lang="">
-    alert("ok")
+<style lang="fr">
+    body{
+        background-color:red;
+    }
 </style>
 EOF
 );
-        $v = $s->getElementsByTagName("script")[0]; 
-        $g = trim($v->getinnerHtml());
-        $this->assertEquals("export default {\n}", $g);
+$v = $s->getElementsByTagName("script")[0]; 
+$g = trim($v->getinnerHtml());
+ 
+        $this->assertEquals("export default {\n}", $g, 'inner string not read');
     }
     function test_must_close_non_html_tag(){
         $c = new HtmlNode("router-view");
-        $this->assertEquals("<router-view></router-view>",
+        $this->assertEquals(
+            "<router-view></router-view>",
             $c->render()
         );
     }
-    // function test_render_indent_document(){
-    //     $doc = new HtmlDocumentNode();
-    //     $options = (object)[
-    //         "Indent"=>true, 
-    //     ];
-    //     igk_setting()->no_page_cache = true;
-    //     // $doc->getBody()->setIsVisible(false);
-    //     $s = $doc->render($options);
-    //     $this->assertEquals(
-    //         "",
-    //         $s,
-    //         "Render document : failed"
-    //     );
-    // }
+   
 
 
     function test_current_relative_uri(){
@@ -139,19 +130,19 @@ EOF
 
     function test_render_no_tagnode(){
         $doc = new HtmlNode("div");
-        $doc->notagnode()->div()->Content = "Sample";
+        $doc->div()->Content = "Sample";
         $options = (object)[
             "Indent"=>true, 
         ];
         igk_setting()->no_page_cache = true; 
-        $s = $doc->render($options);
+        $s = $doc->render($options);   
         $this->assertEquals(
             <<<EOF
 <div>
 \t<div>Sample</div>
 </div>
 EOF,
-            $s,
+            trim($s),
             "Render document : failed"
         );
     }

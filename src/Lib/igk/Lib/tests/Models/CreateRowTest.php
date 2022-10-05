@@ -30,11 +30,11 @@ class CreateRowTest extends BaseTestCase{
         if (!$def = $ad->getDataTableDefinition($table)){
             $this->fail("Can't get table definition");
         }
-       if (!($row = DbSchemas::CreateRow($table, $def["Controller"]))){
+       if (!($row = DbSchemas::CreateRow($table, $def["controller"]))){
             $this->fail("failed to create row");
        } 
        $this->assertEquals(
-           array_keys($def["ColumnInfo"]), 
+           array_keys($def["columnInfo"]), 
            array_keys((array)$row),
            "column definition mismatch" 
         ); 
@@ -75,7 +75,8 @@ class CreateRowTest extends BaseTestCase{
         //     $gram->createTableQuery(Users::table(), (object)$defs["ColumnInfo"])
         // );
         //var_dump((object)$defs["ColumnInfo"]);
-        $defs = table_enum::getDataTableDefinition()->tableRowReference; 
+        $e = new table_enum;
+        $defs = $e->getDataTableDefinition()->tableRowReference; 
         //  SysDbControllerManager::GetDataTableDefinition();
         $this->assertEquals(
             "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) AUTO_INCREMENT,`clName` Enum('1','2','3') NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",

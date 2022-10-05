@@ -9,7 +9,8 @@
 // | default uri handler
 //----------------------------------------------------------------------------
 
-use IGK\Helper\IO; 
+use IGK\Helper\IO;
+use IGK\Server;
 use IGK\System\Http\RequestHandler; 
 
 
@@ -230,7 +231,7 @@ IGKRoutes::Register("^/!/lib/(:path+)[%q%]", function($path, $version=null){
 IGKRoutes::Register("^/robots.txt$", function(){
     
     $headers = [];
-    $a = IGKServer::getInstance()->HTTP_USER_AGENT;    
+    $a = Server::getInstance()->HTTP_USER_AGENT;    
     
     //if (preg_match("/Chrome-Lighthouse/", $a)){      
         //}

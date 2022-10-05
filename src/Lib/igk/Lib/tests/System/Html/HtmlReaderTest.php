@@ -28,7 +28,7 @@ class HtmlReaderTest extends BaseTestCase{
         $n = igk_create_notagnode();
  
         // $src = file_get_contents(igk_io_projectdir()."/L81/Views/dashboard/settings.phtml");
-        $src = "<?php\necho 'bonjour';\n//\"\n\necho 'sample'; ";
+        $src = "<?php\necho 'bonjour';\n//\"\n\necho 'sample';";
         $n->load($src);
         $this->assertEquals(
             "<?php\necho 'bonjour';\n//\"\n\necho 'sample';",

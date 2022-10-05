@@ -26,7 +26,7 @@ abstract class InitBase{
     private static function _initConstantModel(string $classname, $modelclass,  ?BaseController $owner=null, callable $callback=null){
         $cl = null;
         if ($owner)
-            $cl = $owner::name(igk_html_uri(get_class($owner)));
+            $cl = $owner::name(igk_uri(get_class($owner)));
         $auths = igk_reflection_get_constants($classname); 
         foreach($auths as $v){
             $tab = $callback ? $callback($v, $cl) : [

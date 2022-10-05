@@ -9,16 +9,23 @@
 // desc: install site
 //
 
-use IGK\System\Configuration\Controllers\ConfigControllerBase;
-use IGK\System\Installers\InstallerUtils;
+use IGK\Controllers\BaseController;
+use IGK\System\Configuration\Controllers\ConfigControllerBase; 
 use IGK\System\Installers\InstallSite;
 use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 
-
+/**
+ * install site configs
+ * @package 
+ */
 class IGKInstallSiteConfig extends ConfigControllerBase
 {
+	const REF_NAME = "{31f1fa34-33ef-a96c-08c8-f15dc54fadef}";
+	public function getName(){
+		return  self::REF_NAME;
+	} 
 	public function install($folder = null, $packagefolder = null)
 	{
 		if ($packagefolder === null) {
@@ -27,7 +34,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 		if ($folder == null) {
 			// install request
 			if (igk_server()->method("POST") && igk_valid_cref(1)) {
-				$folder = igk_html_uri(igk_getr("rootdir", $folder));
+				$folder = igk_uri(igk_getr("rootdir", $folder));
 				$packagefolder = igk_getr("packagedir", $packagefolder);
 			}
 		}
@@ -72,12 +79,12 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 			)
 		];
 	}
-	public function View()
+	public function View():BaseController
 	{
 		$t = $this->getTargetNode();
 		$t->clearChilds();
 		if (!$this->getIsConfigPageAvailable())
-			return;
+			return $this;
 		if ($this->getEnvParam("replaceuri"))
 			$t->addReplaceUri($this->getUri("ShowConfig"));
 		$c = $t->addPanelBox();
@@ -102,5 +109,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 		$div->article($this, "help.installer.tips");
 		$_ac_bar = $form->addActionBar();
 		$_ac_bar->addInput("btn.send", "submit", __("Install"));
+		return $this;
 	}
 }

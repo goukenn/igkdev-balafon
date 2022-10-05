@@ -5,11 +5,12 @@
 // @date: 20220425 11:22:28
 // @desc: default configuration page
 
-// IGKServer::RemoteIp();
+// Server::RemoteIp();
 // :domain info
 //TODO: CACHE TOOL
 
 use IGK\Resources\R;
+use IGK\Server;
 
 use function igk_resources_gets as __;
 igk_require_module(\igk\ovh::class, null, 0, 0);
@@ -40,10 +41,10 @@ if (function_exists("apache_get_version"))
 $ul->li()->Content = "ServerName : " . igk_server_name();
 $ul->li()->Content = "OS : " . PHP_OS;
 $ul->li()->Content = "OS Details: " . php_uname();
-$ul->li()->Content = "UserAgent : " . igk_getv($_SERVER, "HTTP_USER_AGENT");
-$ul->li()->Content = "ServerIP: " . IGKServer::ServerAddress();
-$ul->li()->Content = "RemoteIP : " . IGKServer::RemoteIp();
-$ul->li()->Content = "IsLocal : " . igk_parsebool(IGKServer::IsLocal());
+$ul->li()->Content = "UserAgent : " . IGKUserAgent::Agent();
+$ul->li()->Content = "ServerIP: " . Server::ServerAddress();
+$ul->li()->Content = "RemoteIP : " . Server::RemoteIp();
+$ul->li()->Content = "IsLocal : " . igk_parsebool(Server::IsLocal());
 $ul->li()->Content = "BaseDir : " . igk_io_basedir();
 $ul->li()->Content = "LibDir : " . IGK_LIB_DIR;
 $ul->li()->Content = "Environment: " . igk_environment()->name();
@@ -206,7 +207,7 @@ $frm["class"] = "dispib btn-form";
 $frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"));
 $dv = $fx->div()->setClass("btn-form igk-action-group");
 $dv->addABtn(igk_io_baseuri() . "/Configs!Settings")->setclass("clsubmit igk-btn-default dispib")->Content = __("General Configuration");
-if (IGKServer::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
+if (Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
     $dv->add('a')->setClass("clsubmit igk-btn igk-btn-default dispib")->setAttribute("href", $ctrl->getUri("clearcache"))
         //->setAttribute("onclick", "javascript: ns_igk.ajx.get(this.href+'&ajx=1', null,{src:this,complete:function(xhr){ ns_igk.ajx.fn.prepend_to(xhr,this.src.parentNode); }});  return false;")
         ->Content = __("Clear cache");

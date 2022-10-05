@@ -52,7 +52,7 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return null;
 	}
-	public function getDataAdapterName(){
+	public function getDataAdapterName():string{
 		return IGK_MYSQL_DATAADAPTER;  
 	}
 	public function getDBEntries()
@@ -137,12 +137,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		if ($update)
 		$this->update($this->m_caddyinfo);
 	}
-	public function View()
-	{
-		parent::View();
-
-	}
-	public function getIsVisible(){
+	 
+	public function getIsVisible():bool{
 		return true;
 	}
 

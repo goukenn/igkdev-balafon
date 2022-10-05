@@ -58,7 +58,7 @@ final class DbColumnInfo extends IGKObject {
                 $this->clDefaultLinkExpression = $this->clDefault;
             }
             $this->clDefault = null;
-        }  
+        } 
     }
     public function getIsRefId(){
         return preg_match("/int/i", $this->clType ) && $this->clAutoIncrement && $this->clIsPrimary;

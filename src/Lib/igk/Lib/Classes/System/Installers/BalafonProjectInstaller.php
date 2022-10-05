@@ -26,7 +26,7 @@ class BalafonProjectInstaller extends BalafonInstaller{
         $service->CoreZip = $this->zipfile; // igk_app()->session->getParam($key);
         $service->LibDir =  IGK_LIB_DIR;
         $service->controller = $this->controller;
-        $service->project_name = igk_str_snake(basename(igk_io_dir(get_class($this->controller))));
+        $service->project_name = igk_str_snake(basename(igk_dir(get_class($this->controller))));
         $service->intall_dir =  $this->controller->getDeclaredDir(); 
         
         //igk_ilog("init project installer: ".$this->zipfile);
@@ -91,7 +91,7 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         if(!file_exists($zip=$core_zip)){
             return;
 		}
-        if(!igk_zip_unzip(igk_html_uri($zip), dirname($dir), "#^".$project_name."#")){
+        if(!igk_zip_unzip(igk_uri($zip), dirname($dir), "#^".$project_name."#")){
             return;
         }
         $temp_dir = $this->getServiceInfo()->Listener->TempDir;

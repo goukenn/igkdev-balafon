@@ -7,20 +7,19 @@
 
 namespace IGK\System\Html\Dom;
 
-use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use ArrayAccess;
 use Exception;
-use IGK\Css\CssColorDef;
-use IGK\Css\CssThemeCompiler;
+use IGK\Controllers\BaseController;
+use IGK\Css\CssColorDef; 
 use IGK\Css\ICssResourceResolver;
-use IGKCssDefaultStyle;
+use IGK\Css\ICssStyleContainer; 
+use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
+use IGKCssDefaultStyle;
 use IGKMedia;
 use IGKOb;
 use IGKObjectGetProperties;
 use IGKHtmlDoc;
-use IGK\Css\ICssStyleContainer;
-use IGK\System\Html\Css\CssUtils;
 use IGKException;
 
 ///<summary>represent a document themes</summary>
@@ -29,9 +28,13 @@ use IGKException;
  * @method ?array getTempFile() get tempory loading files
  */
 final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, ICssStyleContainer
-{
-    const REGKEY = "HtmlDocTheme";
+{ 
+    const MEDIA_KEY = "medias";
     private $m_document;
+    /**
+     * media definition
+     * @var ?IGKCssDefaultStyle
+     */
     private $m_def;
     private $m_id;
     private $m_medias;
@@ -153,7 +156,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
     public function bindFile($file)
     {
-        igk_css_bind_file(igk_app()->getDoc(), null, $file, $this);
+        igk_css_bind_file($this, null, $file, $this);
     }
     ///<summary>convert data to array</summary>
     /**
@@ -171,7 +174,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             $medias[$id] = $def;          
         }
         if (0 != count($medias)) {
-            $out["medias"] = $medias;
+            $out[self::MEDIA_KEY] = $medias;
         }
         return $out;
     }
@@ -184,9 +187,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function load_data(array $data)
     {
-
         $this->m_def->load_data($data);
-        if ($medias = igk_getv($data, "medias")) {
+        if ($medias = igk_getv($data, self::MEDIA_KEY)) {
             //$this->m_medias = $medias;
             foreach ($medias as $id => $m) {
                 $v_m = igk_getv($this->m_medias, $id);
@@ -230,8 +232,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $builder = new \IGK\Css\CssThemeResolver();
         $builder->theme = $this;
         $builder->parent = $systheme;
-        $builder->resolver = $resourceResolver;
-    
+        $builder->resolver = $resourceResolver;    
         $this->m_resolver = $builder;
 
         $s = $def->getSymbols();
@@ -242,7 +243,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 if (file_exists($k)) {
                     $rk = igk_realpath($k);
                     if ($v_cacherequire) {
-                        $tb[] = "./" . igk_html_uri(igk_io_basepath($k));
+                        $tb[] = "./" . igk_uri(igk_io_basepath($k));
                     } else
                         $tb[] = igk_io_fullpath2fulluri($k);
                 }
@@ -288,7 +289,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         }
         if ($def->getHasRules()) {
             $out .= "/* <!-- Rules --> */" . $lineseparator;
-            $out .= $def->getRulesString($lineseparator, $themeexport, $systheme) . $lineseparator;
+            $out .= $def->getRulesString($lineseparator, $themeexport, $systheme);
             $out .= "/* <!-- end:Rules --> */\n";
         }
 
@@ -323,7 +324,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             igk_usort($keys, "igk_key_sort");
             foreach ($keys as $k) {
                 $v = $tab[$k];
-                $kv = trim($builder->treat($v));
+                $kv = trim($builder->treat($v, $themeexport));
                 if (!empty($kv)) {
                     if (strpos($k, "#") === 0)
                         $out .= $k . "{" . $kv . "}" . $lineseparator;
@@ -342,7 +343,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 foreach ($v_csstmpfiles as $k) {
                     $k = igk_io_expand_path($k);
                     IGKOb::Start();
-                    igk_css_bind_file($doc, null, $k, $vtemp);
+                    igk_css_bind_file($vtemp, null, $k);
                     $m = IGKOb::Content();
                     IGKOb::Clear();
                     $h = $vtemp->get_css_def($minfile, $themeexport);
@@ -362,6 +363,43 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
 
         $this->m_resolver = null;
         return $out;
+    }
+    
+    /**
+     * map theme to definition
+     * @param mixed $mapper 
+     * @return void 
+     */
+    public function map($mapper, $systheme, $resourceResolver){
+        $def = $this->def;
+        $builder = new \IGK\Css\CssThemeResolver();
+        $builder->theme = $this;
+        $builder->parent = $systheme;
+        $builder->resolver = $resourceResolver;
+        $themeexport = false;
+        if ($attr = $def->getAttributes()) {
+            foreach ($attr as $k => $v) {
+                if (empty($v))
+                    continue;
+                $kv = trim($builder->treat($v, $themeexport));
+                if (!empty($kv)) {
+                    $mapper("def", $k , $kv);
+                    $tv = 1;
+                }
+            }
+        }
+        if ($this->m_medias) {            
+            foreach ($this->m_medias as $k => $v) {
+                // map keys
+                $m = $v->def;
+                if (empty($m)) continue;
+                $pm = [];
+                foreach($m as $t=>$s){
+                    $pm[$t] = $builder->treat($s, $themeexport);
+                }
+                $mapper("media", self::GetMediaName($k), $pm);               
+            } 
+        }
     }
     ///<summary></summary>
     /**
@@ -645,8 +683,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                     $out .= $g . $el;
                     $out .= "}" . $el;
                 }
-            }
-            //igk_wln_e("the el ".$minfile, $el);
+            } 
         }
         return rtrim($out);
     }
@@ -833,7 +870,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         }
         $s = null;
         if (isset(self::$SM_MEDIAKEY[$idk])) {
-            $g = self::$SM_MEDIAKEY[$idk];
+            $g = trim(self::$SM_MEDIAKEY[$idk]);
             $s = IGK_CSS_MEDIA_TYPE_CLASS . "{z-index:{$idk}; content:'{$g}'}";
         }
         return $s;
@@ -874,17 +911,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function getRegChangedKey()
     {
-        return self::REGKEY . "_" . $this->Name;
+        return __CLASS__ . "_" . $this->Name;
     }
     ///<summary></summary>
     ///<return refout="true"></return>
     /**
-     * 
+     * get rules attached to theme definition
      * @return mixed|array rules
      */
-    public function &getrules()
+    public function & getRules()
     {
-        $q = $this;
         $sd = &$this->m_def->getRules();
         return $sd;
     }
@@ -951,7 +987,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
     ///<summary></summary>
     /**
-     * 
+     * output 
      */
     public function output()
     {
@@ -1056,7 +1092,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         } 
         // $this->ft->Clear();
         // $this->properties->Clear();
-        if ($rule = & $this->getrules()){
+        if ($rule = & $this->getRules()){
             array_splice($rule,0, count($rule));
         } 
         if ($this->m_medias)
@@ -1131,11 +1167,7 @@ EOF;
             unset($p[$name]);
         }else{
             $p[$name] = $value;
-        }
-        // igk_wln("set property ", $name, $value, $p);
-        // var_dump($this->def);
-        // igk_wln("??? ", $this->def === $this->m_def);
-        // exit;
+        } 
     }
  ///<summary></summary>
     ///<return refout="true"></return>

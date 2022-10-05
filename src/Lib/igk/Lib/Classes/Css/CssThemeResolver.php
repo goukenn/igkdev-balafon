@@ -276,9 +276,13 @@ class CssThemeResolver
         }
         $chainColorCallback = 
         //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
-        function ($value) use (&$chainColors, $v_designmode) {
+        function ($value, & $resolved=null) use (&$chainColors, $v_designmode) {
             $tab = explode(",", $value);
             $v = trim($tab[0]);
+            if ($this->resolver && ($s = $this->resolver->resolveColor($v))){
+                $resolved = true;
+                return $s;
+            }
             $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
             if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
                 $s = igk_css_design_color_value($v, null, $v_designmode);
@@ -365,7 +369,7 @@ class CssThemeResolver
                 if ($themeexport){
                    //  $r = ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : null;
                     $v = str_replace($v_m, 
-                        ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : null, 
+                        ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : "", 
                         $v);
 
                 }else{
@@ -383,10 +387,10 @@ class CssThemeResolver
                 break;
             case self::ATTR_BACKGROUND_RESOURCE: 
                 igk_wln_e("theme export");
-                $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "');" : ""), $v);
+                $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_uri($value) . "');" : ""), $v);
                 break;
             case self::ATTR_URI: 
-                $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_html_uri($value) . "')" : ""), $v);
+                $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_uri($value) . "')" : ""), $v);
                 break;
             case self::ATTR_SYS_BGCL: 
                 $tv = explode(",", $value);
@@ -433,7 +437,7 @@ class CssThemeResolver
                 $v = str_replace($v_m, $ncl . $a, $v);
                 break;
             case self::ATTR_FOREGROUND_COLOR:
-                $v = str_replace($v_m, $this->_get_fcl($chainColorCallback($value)), $v);
+                $v = str_replace($v_m, $this->_get_fcl($chainColorCallback($value, $resolved)), $v);
                 break;
             case self::ATTR_BACKGROUND_COLOR:
                 $ncl = $chainColorCallback($value);
@@ -513,15 +517,17 @@ class CssThemeResolver
     }
     private function _resolve_res(string $value):?string {
         $tf = null;
-        if (is_file($value)){
-            $tf = $value;                     
-        }
-        else{
-            if ($tf = R::GetImgResUri($value, $path)){
-                $tf = $path;
+        if ($this->resolver){
+            if (is_file($value)){
+                $tf = $value;                     
             }
+            else{
+                if ($tf = R::GetImgResUri($value, $path)){
+                    $tf = $path;
+                }
+            }
+            $tf = $this->resolver->resolve($tf);   
         }
-        $tf = $this->resolver->resolve($tf);   
         return $tf;
     }
     /**
@@ -554,7 +560,11 @@ class CssThemeResolver
         // igk_css_get_bgcl($ncl, $gtheme, $systheme),
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
-    protected function _get_fcl($value){
+    protected function _get_fcl($value, $resolved=false){   
+      
+        if ($resolved){
+            return sprintf("color: %s;", $value);
+        }
         return igk_css_get_fcl($value, $this->theme, $this->parent);
     }
 }

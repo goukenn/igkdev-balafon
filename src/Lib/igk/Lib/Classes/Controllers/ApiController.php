@@ -37,7 +37,7 @@ abstract class ApiController extends ControllerTypeBase{
         $response->cache = igk_app()->getApplication()->options("allow_cache_page");
         $response->output(); 
     }
-    public function view(){
+    public function View():BaseController {
         return $this->index(...func_get_args());
     }
 }

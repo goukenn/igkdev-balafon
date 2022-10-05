@@ -53,8 +53,8 @@ class NewClassSQLCommand extends AppExecCommand{
         )
         ->namespace(igk_ns_name($ns))
         ->name(
-            basename(igk_html_uri($controller))
-        )->file(igk_html_uri($path.".php")) ->desc($desc);
+            basename(igk_uri($controller))
+        )->file(igk_uri($path.".php")) ->desc($desc);
 
   
        // igk_wln_e(func_get_args(), $dir, $builder->render(), $file);

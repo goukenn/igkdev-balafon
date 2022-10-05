@@ -27,20 +27,20 @@ return [
     IGK_NOTIFICATION_CTRL=>\IGK\Controllers\NotificationController::class,
     IGK_CA_CTRL => \IGK\System\Configuration\Controllers\ControllerAndArticlesController::class,
     IGK_FRAME_CTRL=> \IGK\Controllers\FrameDialogController::class,
-    IGK\Controllers\UserGroupController::class=>IGK\Controllers\UserGroupController::class,
+    IGK_USERGROUP_CTRL=>\IGK\Controllers\UserGroupController::class,
     // IGK_MYSQL_DB_CTRL=>\IGK\System\Database\MySQL\Controllers\DbConfigController::class,
-    IGK_MAIL_CTRL=>\IGK\System\Net\MailConfigController::class,
     IGK_COMPOSER_CTRL=>\IGK\System\Configuration\Controllers\ComposerController::class,
 
     // "igk5Cconfiguration5Cauthorisationcontroller"=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
-    "ca"=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
-    "cb"=>\IGK\System\Configuration\Controllers\UserAndGroupController::class,
+    IGK_AUTH_CTRL=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
+    // IGK_AUTH_CTRL=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
+    IGK_USER_GROUPS_CTRL=>\IGK\System\Configuration\Controllers\UserAndGroupController::class,
     IGK_CTRL_TOOLS => \IGK\System\Configuration\Controllers\ToolConfigController::class,
     IGK_CTRL_SESSION_MANAGER => \IGK\System\Configuration\Controllers\SessionManagerController::class, 
     IGK_CB_REF_CTRL => \IGK\Controllers\ReferenceModelController::class,
     IGK_CTRL_MANAGER => \IGK\Controllers\ControllerManager::class,
     IGK_MAIL_CTRL=>\IGK\System\Net\MailConfigController::class,
+    IGK_TOOLS_CTRL=>\IGK\System\Configuration\Controllers\ToolConfigController::class,
 
-
-    "{913FC762-B3A1-9ADB-17F9-97DE7DD3271F}"=>\igkdev\app\JobSearch\JobSearchController::class,
+    // "{913FC762-B3A1-9ADB-17F9-97DE7DD3271F}"=>\igkdev\app\JobSearch\JobSearchController::class,
 ];

@@ -9,6 +9,11 @@ namespace IGK\System\Html\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
+/**
+ * parse css litteral to object definition
+ * @package IGK\System\Html\Css
+ * 
+ */
 class CssParser implements ArrayAccess{
     private $source;
     private $definition;
@@ -57,14 +62,14 @@ class CssParser implements ArrayAccess{
                 case '{':
                     if ($mode==0){
                         if (empty($rv = trim($rv))){
-                            die("not sected");
+                            igk_die("no selector found.");
                         }
                         $mode = 1;
                         $name = $rv;
                         $selector.=$name;
                         $rv = '';     
                     }else {
-                        die("start not allowed");
+                        igk_die("start not allowed");
                     }
                     break;
                 case ':':

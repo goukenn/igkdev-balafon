@@ -17,7 +17,7 @@ class IGKSessionFileSaveHandler{
     ///<summary></summary>
     ///<param name="id"></param>
     private function _getFile($id){
-        return igk_html_uri(implode(DIRECTORY_SEPARATOR, [$this->savePath, IGK_SESSION_FILE_PREFIX.$id]));
+        return igk_uri(implode(DIRECTORY_SEPARATOR, [$this->savePath, IGK_SESSION_FILE_PREFIX.$id]));
     }
     ///<summary></summary>
     public function close(){

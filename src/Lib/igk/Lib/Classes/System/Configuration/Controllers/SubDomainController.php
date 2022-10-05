@@ -10,6 +10,7 @@
 
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\Models\Subdomains;
 use IGKSubDomainManager;
@@ -277,7 +278,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     ///<summary></summary>
-    public function View()
+    public function View():BaseController
     {
         $t = $this->TargetNode;
         if (!$this->getIsVisible()) {
@@ -286,6 +287,7 @@ final class SubDomainController extends ConfigControllerBase
             $box = $t->clearChilds()->addPanelBox()->div();
             igk_include_view($this, $box, "subdomain.config");
         }
+        return $this;
     }
     protected function subdomain_view($n)
     {

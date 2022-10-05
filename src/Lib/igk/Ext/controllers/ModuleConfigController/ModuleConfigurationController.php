@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
+use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Paginator;
@@ -33,16 +33,17 @@ class ModuleConfigurationController extends ConfigControllerBase{
     public function getConfigGroup(){
         return "controller";
     }    
-    public function View(){
+    public function View():BaseController{
         if (!$this->getIsVisible())
 		{
 			igk_html_rm($this->TargetNode);
-			return;
+			return $this;
 		}
         $t = $this->getTargetNode()->clearChilds();
         $box = $t->panelbox();
         $box->h1()->Content = __("Modules");
         $box->div()->ajxuriloader($this->getUri("module_view"));
+        return $this;
     }
     public function module_view(){
         

@@ -146,7 +146,7 @@ define('IGK_STYLE_FLAG', 112);
 define('IGK_SUBDOMAIN_CTRL', 113);
 define('IGK_SUBDOMAIN_CTRL_INFO', 114);
 define('IGK_SVG_REGNODE_KEY', 115);
-define('IGK_TOOLS_CTRL', 116);
+
 define('IGK_VERSION_ID', 117);
 define('IGK_VIEW_ARGS', 118);
 define('IGK_VIEW_MODE_FLAG', 119);
@@ -173,6 +173,7 @@ define('IGK_ENV_CONFIG_ENTRIES', 197);
 // application info : request uri
 define('IGK_APP_REQUEST_URI', 198);
 define('VIEW_EXTRA_ARGS', 199);
+define('IGK_APP_INFO_TYPE', 200);
 
 define("IGK_ENV_SESS_DOM_LIST", 0x201);
 define("IGK_CUSTOM_CTRL_PARAM", 0x400);
@@ -181,18 +182,21 @@ define("IGK_CUSTOM_CTRL_PARAM", 0x400);
 define("IGK_ENV_KEY", 0xE0);
 
 
-define("IGK_ENV_REQUIREMENT_KEY", 200);
+define('IGK_ENV_REQUIREMENT_KEY', 200);
 define('IGK_DOCUMENT_CLASS', 201);
 define('IGK_ENV_TRACE_LEVEL', 202);
 define('IGK_ENV_QUERY_LIST', 203);
 
-define("IGK_HTML_NOTAG_ELEMENT", "NoTagNode");
+define('IGK_HTML_NOTAG_ELEMENT', "NoTagNode");
 
-
+/**
+ * basic user setting.
+ */
+define('IGK_USER_SETTING', 0xE00);
 //+ -----------------------------------------------------------------------
 //+ flags value
 //+ -----------------------------------------------------------------------
-//+ define('IGK_ACTION_CTRL', '1');
+
 //+ define('IGK_APP', '1');
 //+ define('IGK_APP_PLUGIN', '1');
 //+ define('IGK_BASE_DIR', '1');
@@ -310,7 +314,7 @@ define("IGK_CSS_DEFAULT_STYLE_FUNC_KEY", 'sys://css/function/defaultStyle');
 define("IGK_DEFAULT_LANG_FOLDER", IGK_LIB_DIR . "/Default/Lang/");
 
 define("IGK_SESSION_FILE_PREFIX", "blf_sess_");
-define("IGK_APP_SESSION_KEY", "igk");
+defined('IGK_APP_SESSION_KEY') || define("IGK_APP_SESSION_KEY", "igk");
 define("IGK_LOG_SYS", "BLF");
 define("IGK_COMPONENT_NAMESFILE", IGK_LIB_DIR . "/Data/References/Components/Inc/names.pinc");
 define("IGK_DEFAULT_THEME_ID", "theme://document");
@@ -405,14 +409,14 @@ define("IGK_LANG_FILE_EXTENSION", ".presx");
 // define("IGK_COMPONENT_ID_PARAM", IGK_NODE_FLAG + 27);
 // define("IGK_KEY_LASTDOC", IGK_NODE_FLAG + 41);
 // define("IGK_KEY_SYSDB_CTRL", IGK_NODE_FLAG + 42);
-define("IGK_OBJ_TYPE_FD", "T");
+define('IGK_OBJ_TYPE_FD', "T");
 // define("IGK_OBJ_TYPE_CLASS", 1);
 // define("IGK_OBJ_TYPE_CALLBACK", 2);
 // define("IGK_OBJ_TYPE_FUNC", 4);
 // define("IGK_OBJ_TYPE_EXPRESSION", 3);
 // define("IGK_OBJ_TYPE_NODE", 6);
 // define("IGK_OBJ_TYPE_FILE", 7);
-define("IGK_LANG_FILE_PREFIX", "lang.");
+define('IGK_LANG_FILE_PREFIX', "lang.");
 //+ controller session parameter
 //+ controller environment parameter
 // define("IGK_CTRL_LANG", 3);
@@ -495,7 +499,8 @@ define("IGK_SCHEMA_FILENAME", "data.schema.xml");
 define("IGK_SITEMAP_FUNC", "sitemap");
 define("IGK_EVALUATE_URI_FUNC", "evaluateUri");
 define("IGK_INITENV_FUNC", "InitEnvironment");
-define("IGK_DATETIME_FORMAT", "Y-d-m_H:i:s");
+// define("IGK_DATETIME_FORMAT", "Y-d-m_H:i:s");
+define("IGK_DATETIME_FORMAT", "Y-m-d_H:i:s");
 //    define("IGK_COMPONENT_REG_FUNC_KEY", "sys://components/functions");
 //    define("IGK_CURRENT_DOC_PARAM_KEY", "sys://current_document");
 define("IGK_COLUMN_TAGNAME", "Column");
@@ -573,7 +578,7 @@ define("IGK_CTRL_DBCONF_FILE", "data.xml");
 define("IGK_CTRL_BASE", IGK\Controllers\BaseController::class);
 define("IGK_HTML_BINDING_EVAL_CONTEXT", "igk:evaluation_context");
 
-// define("IGK_VIEW_OPTIONS", 0xa002); 
+ 
 define("IGK_STYLE_FOLDER", "Styles");
 define("IGK_ARTICLES_FOLDER", "Articles");
 define("IGK_VIEW_FOLDER", "Views");
@@ -625,112 +630,117 @@ define("IGK_HTML_NODE_REGEX", "/^IGKHtml(?<name>(.)+)Item$/i");
 /**
  * configuration controller 
  */
-define("MODULE_CNF_CTRL", "{14166020-7B69-1DDD-CC2A-6E701570D1B5}");
-define("IGK_SYS_CTRL", "c_sysc");
-define("IGK_SYS_PAGE_CTRL", "c_syspc");
-define("IGK_HUMAN_CTRL", "c_sys_hc");
-define("SYS_CTRL_BASE", 0x0F);
-define("IGK_SYS_API_CTRL", "c_api");
-define("IGK_INFOS_CTRL", "c_info");
-define("IGK_SYSDB_CTRL", "c_sysdbc");
-define("IGK_MENU_CTRL", "c_mn");
-define("IGK_FRAME_CTRL", "c_fr");
-define("IGK_PIC_RES_CTRL", "c_pi");
-define("IGK_CONF_CTRL", "c_cf");
-define("IGK_NOTIFICATION_CTRL", "c_nt");
-define("IGK_CHANGE_MAN_CTRL", "c_chm");
-define("IGK_CTRL_MANAGER", "c_cm");
-define("IGK_CTRL_TOOLS", "{912679e9-ad55-936d-27ee-73a76e54f49b}");
-define("IGK_CTRL_SESSION_MANAGER", "{5d1f178b-7734-102c-e649-4dc74edcf296}");
-define("IGK_SESSION_CTRL", "{78c6c622-f002-cb20-f30f-db9c31edf853}"); // "c_sc
-define("IGK_ERROR_CTRL", "c_er");
-define("IGK_THEME_CTRL", "c_th");
-define("IGK_FILE_MAN_CTRL", "c_fm");
-define("IGK_PALETTE_CTRL", "c_pl");
-define("IGK_USERVARS_CTRL", "c_uv");
-define("IGK_CA_CTRL", "c_ac");
-define("IGK_DATA_TYPE_CTRL", "c_dtp");
-define("IGK_SYSACTION_CTRL", "c_ua");
-define("IGK_LANG_CTRL", "c_l");
-define("IGK_LOG_CTRL", "c_lo");
-define("IGK_CUSTOM_CTRL_MAN_CTRL", "c_cu");
-define("IGK_LAYOUT_CTRL", "c_ly");
-define("IGK_COMPONENT_MANAGER_CTRL", "c_com");
-define("IGK_REFERENCE_CTRL", "c_rf");
-define("IGK_MAIL_CTRL", "{DE18F39A-4474-A8C1-76F6-673D8858468B}");
-define("IGK_COMPOSER_CTRL", "c_composer");
-define("IGK_USER_CTRL", "c_u");
-define("IGK_SCRIPT_CTRL", "c_scpt");
-define("IGK_DEBUG_CTRL", "c_debug");
-define("IGK_MYSQL_DB_CTRL", "c_mysql");
-define("IGK_CB_REF_CTRL", "c_cbref");
-define("IGK_UCB_REF_CTRL", "c_ucbref");
-define("IGK_SHARED_CONTENT_CTRL", "c_shc");
-define("IGK_DOC_CTRL", "c_docs");
-define("IGK_BDCONFIGS_CTRL", "c_configs");
-define("IGK_FILEMAN_CTRL", "c_fman");
-define("IGK_SUBDOMAINNAME_CTRL", "c_subdom");
-define("IGK_PAGEMAN_CTRL", "c_pgman");
-define("IGK_LANGUAGE_CTRL", "c_lang");
-define("IGK_CACHE_CTRL", "{EDE0378F-A1C5-571E-AA66-A2A47CFC3A40}");
+define('IGK_SYS_PAGE_CTRL', "c_syspc");
+define('IGK_HUMAN_CTRL', "c_sys_hc");
+define('SYS_CTRL_BASE', 0x0F);
+define('IGK_SYS_API_CTRL', "c_api");
+define('IGK_INFOS_CTRL', "c_info");
+define('IGK_CHANGE_MAN_CTRL', "c_chm");
 
-// define("IGK_OTHER_MENU_CTRL", SYS_CTRL_BASE + 1);
-// define("IGK_MSBOX_CTRL", SYS_CTRL_BASE + 2);
-// define("IGK_DATA_ADAPTER_CTRL", SYS_CTRL_BASE + 3);
-// define("IGK_CTRL_IDENTIFIER", 0xB1);
-define("IGK_AJX_METHOD_SUFFIX", "_ajx");
-define("IGK_CONFIRM_TITLE", "title.confirm");
-define("IGK_PAGE_TITLE", "title.default.webpage");
-define("IGK_MSG_DELETEALLFONT_QUESTION", "Msg.DeleteAllFontQuestion");
-define("IGK_MSG_DELETEFILE_QUESTION", "Msg.DELETEFILEQUESTION");
-define("IGK_MSG_DELETEDIR_QUESTION", "Msg.DELELETEDIRQUESTION");
-define("IGK_MSG_DELETECTRL_QUESTION", "Msg.DELETECTRLQUESTION");
-define("IGK_MSG_ALLPICS_QUESTION", "Msg.DELETEALLPICSQUESTION");
-define("IGK_MSG_DELETEMENU_QUESTION", "Msg.DELETEALLMENUQUESTION");
-define("IGK_DELETEALLTABLE_QUESTION", "Msg.DELETEALLTABLEQUESTION");
-define("IGK_MSG_DELETEALLDATABASEBACKUP_QUESTION", "Msg.DELETEALLDATABASEBACKUPQUESTION");
-define("IGK_MSG_DELETESINGLETABLE_QUESTION", "Msg.DELETESINGLETABLEQUESTION_1");
-define("IGK_MSG_DELETEABACKUPFILE_QUESTION", "Msg.DELETEABACKUPFILEQUESTION");
-define("IGK_MSG_RESTOREBACKUPFILE_QUESTION", "Msg.RESTOREBACKUPFILEQUESTION");
-define("IGK_MSG_DROPALL_QUESTION", "Msg.DROPALLQUESTION");
-define("IGK_CONF_PAGE_TITLE", "title.CONFIGPAGE");
-define("IGK_ALL_LANG", "all-lang");
-define("IGK_ENTRY_FILES", "index.php,index.phtml,index.ptml,main.php");
-define("IGK_TB_GROUPS", "%prefix%groups");
-define("IGK_TB_REF_MODELS", "%prefix%reference_models");
-define("IGK_TB_USERS", "%prefix%users");
-define("IGK_TB_INFOS", "%prefix%infos");
-define("IGK_TB_USER_REF_MODELS", "%prefix%users_reference_models");
-define("IGK_TB_USER_INFOS", "%prefix%user_infos");
-define("IGK_TB_USER_INFO_TYPES", "%prefix%user_info_types");
-define("IGK_TB_WHO_USES", "%prefix%who_uses");
-define("IGK_TB_AUTHORISATIONS", "%prefix%authorizations");
-define("IGK_TB_SUBDOMAINS", "%prefix%subdomains");
-define("IGK_TB_USERGROUPS", "%prefix%usergroups");
-define("IGK_TB_GROUPAUTHS", "%prefix%groupauthorizations");
-define("IGK_TB_GUIDS", "%prefix%guids");
-define("IGK_TB_DATATYPES", "%prefix%data_types");
-define("IGK_TB_HUMAN", "%prefix%humans");
-define("IGK_TB_CONFIGS", "%prefix%configurations");
-define("IGK_TB_COMMUNITY", "%prefix%community");
-define("IGK_TB_SYSTEMURI", "%prefix%systemuri");
-define("IGK_TB_COOKIESTORE", "%prefix%cookie_storages");
-define("IGK_TB_MIGRATIONS", "%prefix%migrations");
-define("IGK_TB_TEMPLATES", "%prefix%templates");
-define("IGK_START_COMMENT", "/*");
-define("IGK_END_COMMENT", "*/");
-define("IGK_IPV4_REGEX", "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(:[0-9]+)?$/i");
-define("IGK_CSS_TREAT_REGEX", '/\[\s*(?P<name>[\w\-]+)\s*:\s*(?P<value>([a-zA-Z0-9_,\/\\\.\- \(\)%:\#\!]+|[^\]]+))\s*\](?P<stop>(\s*(,|;)))?/i');
-define("IGK_CSS_TREAT_REGEX_2", '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*\}\s*(;)*/i');
+define('IGK_ERROR_CTRL', "c_er");
+define('IGK_THEME_CTRL', "c_th");
+define('IGK_FILE_MAN_CTRL', "c_fm");
+define('IGK_PALETTE_CTRL', "{b1ce0523-aa7f-fbc8-ad7c-a6fc391338e9}");
+define('IGK_USERVARS_CTRL', "c_uv");
+define('IGK_DATA_TYPE_CTRL', "c_dtp");
+define('IGK_LANG_CTRL', "c_l");
+define('IGK_LOG_CTRL', "c_lo");
+define('IGK_CUSTOM_CTRL_MAN_CTRL', "c_cu");
+define('IGK_LAYOUT_CTRL', "c_ly");
+define('IGK_REFERENCE_CTRL', "c_rf");
+define('IGK_SCRIPT_CTRL', "c_scpt");
+define('IGK_UCB_REF_CTRL', "c_ucbref");
+define('IGK_SHARED_CONTENT_CTRL', "c_shc");
+define('IGK_DOC_CTRL', "c_docs");
+define('IGK_BDCONFIGS_CTRL', "c_configs");
+define('IGK_FILEMAN_CTRL', "c_fman");
+define('IGK_PAGEMAN_CTRL', "c_pgman");
+define('IGK_FRAME_CTRL', "{a4131596-fa31-499e-758d-bdf45da0f918}");
+define('IGK_PIC_RES_CTRL', "{0ff2ac71-ef43-86bc-c73a-39c9f76b19c9}");
+define('IGK_USER_GROUPS_CTRL', "{7d545f74-a157-106e-aa29-df64c4346b96}");
+define('IGK_SYS_CTRL', "{0b3a8f0c-9030-fb31-e150-5f1f2e224a39}");
+define('MODULE_CNF_CTRL', "{14166020-7B69-1DDD-CC2A-6E701570D1B5}");
+define('IGK_SYSDB_CTRL', "{f9c1857e-eef2-f762-e56d-be7be1a58b4f}" );
+define('IGK_MENU_CTRL', "{dc5acdce-638f-5004-00cf-e4344277689a}");
+define('IGK_CONF_CTRL', "{a4918130-ce95-8e6b-c4a0-7b906dcf8c51}");
+define('IGK_NOTIFICATION_CTRL', "{74c38caa-5a96-b14f-a627-9972c4273741}");
+define('IGK_CTRL_MANAGER', "{de8aac7f-cec1-821e-5ed2-e0dc4f38cada}");
+define('IGK_CTRL_TOOLS', "{912679e9-ad55-936d-27ee-73a76e54f49b}");
+define('IGK_CTRL_SESSION_MANAGER', "{5d1f178b-7734-102c-e649-4dc74edcf296}");
+define('IGK_CA_CTRL', "{a9664083-ae06-9b92-1e8b-65b1b2b46d9a}");
+define('IGK_SYSACTION_CTRL', "{ebae0f37-f193-5ecf-3300-81e7a6cddf69}");
+define('IGK_COMPONENT_MANAGER_CTRL', "{1dc02db3-b214-2bd7-8c56-8e6149617328}");
+define('IGK_DEBUG_CTRL', "{826befbf-9dd7-edf2-c70e-79c07f14803a}");
+define('IGK_CB_REF_CTRL', "{cf13442f-c787-3a9f-f184-d424beb334f2}");
+define('IGK_LANGUAGE_CTRL', "{6ee01cf0-ee68-428e-cb01-2576862a40a6}");
+define('IGK_SESSION_CTRL', "{78c6c622-f002-cb20-f30f-db9c31edf853}"); 
+define('IGK_TOOLS_CTRL', '{45adbc77-bd7b-a3b6-6db3-34a0624f117d}');
+define('IGK_USER_CTRL', "{c6d43450-9e1c-ae9e-432d-f99557a004c7}");
+define('IGK_MYSQL_DB_CTRL', "{8c8d510a-63d4-5bd9-b5d0-413d5b7dc0bb}");
+define('IGK_SUBDOMAINNAME_CTRL', "{7228a553-6d08-cf77-e4a7-d4a966901b44}");
+define('IGK_CACHE_CTRL', "{ede0378f-a1c5-571e-aa66-a2a47cfc3a40}");
+define('IGK_AUTH_CTRL', "{e6416c6b-ba4a-32dc-8de8-8fdbea042593}");
+define('IGK_MAIL_CTRL', "{de18f39a-4474-a8c1-76f6-673d8858468b}");
+define('IGK_COMPOSER_CTRL', "{f50822d4-a0db-4bea-0a09-c254bfe4aedf}");
+define('IGK_USERGROUP_CTRL', "{f73dbe59-2357-de3c-b19f-a2cdefbb194d}");
+
+// defi'e'"IGK_OTHER_MENU_CTRL", SYS_CTRL_BASE + 1);
+// defi'e'"IGK_MSBOX_CTRL", SYS_CTRL_BASE + 2);
+// defi'e'"IGK_DATA_ADAPTER_CTRL", SYS_CTRL_BASE + 3);
+// defi'e'"IGK_CTRL_IDENTIFIER", 0xB1);
+define('IGK_AJX_METHOD_SUFFIX', "_ajx");
+define('IGK_CONFIRM_TITLE', "title.confirm");
+define('IGK_PAGE_TITLE', "title.default.webpage");
+define('IGK_MSG_DELETEALLFONT_QUESTION', "Msg.DeleteAllFontQuestion");
+define('IGK_MSG_DELETEFILE_QUESTION', "Msg.DELETEFILEQUESTION");
+define('IGK_MSG_DELETEDIR_QUESTION', "Msg.DELELETEDIRQUESTION");
+define('IGK_MSG_DELETECTRL_QUESTION', "Msg.DELETECTRLQUESTION");
+define('IGK_MSG_ALLPICS_QUESTION', "Msg.DELETEALLPICSQUESTION");
+define('IGK_MSG_DELETEMENU_QUESTION', "Msg.DELETEALLMENUQUESTION");
+define('IGK_DELETEALLTABLE_QUESTION', "Msg.DELETEALLTABLEQUESTION");
+define('IGK_MSG_DELETEALLDATABASEBACKUP_QUESTION', "Msg.DELETEALLDATABASEBACKUPQUESTION");
+define('IGK_MSG_DELETESINGLETABLE_QUESTION', "Msg.DELETESINGLETABLEQUESTION_1");
+define('IGK_MSG_DELETEABACKUPFILE_QUESTION', "Msg.DELETEABACKUPFILEQUESTION");
+define('IGK_MSG_RESTOREBACKUPFILE_QUESTION', "Msg.RESTOREBACKUPFILEQUESTION");
+define('IGK_MSG_DROPALL_QUESTION', "Msg.DROPALLQUESTION");
+define('IGK_CONF_PAGE_TITLE', "title.CONFIGPAGE");
+define('IGK_ALL_LANG', "all-lang");
+define('IGK_ENTRY_FILES', "index.php,index.phtml,index.ptml,main.php");
+define('IGK_TB_GROUPS', "%prefix%groups");
+define('IGK_TB_REF_MODELS', "%prefix%reference_models");
+define('IGK_TB_USERS', "%prefix%users");
+define('IGK_TB_INFOS', "%prefix%infos");
+define('IGK_TB_USER_REF_MODELS', "%prefix%users_reference_models");
+define('IGK_TB_USER_INFOS', "%prefix%user_infos");
+define('IGK_TB_USER_INFO_TYPES', "%prefix%user_info_types");
+define('IGK_TB_WHO_USES', "%prefix%who_uses");
+define('IGK_TB_AUTHORISATIONS', "%prefix%authorizations");
+define('IGK_TB_SUBDOMAINS', "%prefix%subdomains");
+define('IGK_TB_USERGROUPS', "%prefix%usergroups");
+define('IGK_TB_GROUPAUTHS', "%prefix%groupauthorizations");
+define('IGK_TB_GUIDS', "%prefix%guids");
+define('IGK_TB_DATATYPES', "%prefix%data_types");
+define('IGK_TB_HUMAN', "%prefix%humans");
+define('IGK_TB_CONFIGS', "%prefix%configurations");
+define('IGK_TB_COMMUNITY', "%prefix%community");
+define('IGK_TB_SYSTEMURI', "%prefix%systemuri");
+define('IGK_TB_COOKIESTORE', "%prefix%cookie_storages");
+define('IGK_TB_MIGRATIONS', "%prefix%migrations");
+define('IGK_TB_TEMPLATES', "%prefix%templates");
+define('IGK_START_COMMENT', "/*");
+define('IGK_END_COMMENT', "*/");
+define('IGK_IPV4_REGEX', "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(:[0-9]+)?$/i");
+define('IGK_CSS_TREAT_REGEX', '/\[\s*(?P<name>[\w\-]+)\s*:\s*(?P<value>([a-zA-Z0-9_,\/\\\.\- \(\)%:\#\!]+|[^\]]+))\s*\](?P<stop>(\s*(,|;)))?/i');
+define('IGK_CSS_TREAT_REGEX_2', '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*\}\s*(;)*/i');
 // define("IGK_CSS_CHILD_EXPRESSION_REGEX", "/\s*\((sys)?:(?P<name>([a-z0-9_\-\.]+))\)\s*/i");
 //add ; on selection 
-define("IGK_CSS_CHILD_EXPRESSION_REGEX", "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
-define("IGK_SUBDOMAIN_URI_NAME_REGEX", "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
-define("IGK_ALL_REGEX", "/(.)*/i");
-define("IGK_VIEW_FILE_EXT_REGEX", "phtml|bvhtml");
-define("IGK_VIEW_FILE_END_REGEX", "/(.)+(\.(" . IGK_VIEW_FILE_EXT_REGEX . "))?$/i");
-define("IGK_APP_LOGO", "/" . IGK_RES_FOLDER . "/Img/app_logo.png");
-
+define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
+define('IGK_SUBDOMAIN_URI_NAME_REGEX', "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
+define('IGK_ALL_REGEX', "/(.)*/i");
+define('IGK_VIEW_FILE_EXT', '.phtml');
+define('IGK_VIEW_FILE_EXT_REGEX', "phtml|bvhtml");
+define('IGK_VIEW_FILE_END_REGEX', "/(.)+(\.(" . IGK_VIEW_FILE_EXT_REGEX . "))?$/i");
+define('IGK_APP_LOGO', "/" . IGK_RES_FOLDER . "/Img/app_logo.png");
 
 // define("IGK_PAGE_CONF_CTRL", 10);
 
@@ -789,6 +799,6 @@ define("IGK_ENV_GLOBAL_SCRIPT_KEY", "sys://globalscript");
 // }
 // }
 
-defined("IGK_PWD_PREFIX") || define("IGK_PWD_PREFIX", "(!)8Zmb90-&");
-define("IGK_LIB_CLASSES_DIR", IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);
-defined("IGK_CONF_DEF_PWD") || define("IGK_CONF_DEF_PWD", "admin123");
+defined('IGK_PWD_PREFIX') || define("IGK_PWD_PREFIX", "(!)8Zmb90-&");
+define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);
+defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin123");

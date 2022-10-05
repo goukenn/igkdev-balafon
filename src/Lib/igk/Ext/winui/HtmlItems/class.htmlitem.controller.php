@@ -9,7 +9,7 @@
 use IGK\Controllers\NonVisibleControllerBase;
 
 final class HtmlNodeController extends NonVisibleControllerBase{
-    public function getDataTableName(){
+    public function getDataTableName(): ?string{
         return null;
     }
 } 

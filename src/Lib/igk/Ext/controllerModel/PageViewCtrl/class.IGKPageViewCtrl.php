@@ -4,6 +4,8 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
+use IGK\Controllers\BaseController;
+
 abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
@@ -22,7 +24,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		return null;
 	}
 	//@@@ init target node
-	protected function initTargetNode(){
+	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		$this->m_viewZone = $node->div();
 		igk_css_regclass(".pageview", "{sys:dispib,alignl,alignt,fitw} max-width:1024px; padding:4px;");
@@ -32,7 +34,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getCanAddChild(){
 		return true;
 	}
-	public function View()
+	public function View():BaseController
 	{
 		if ($this->IsVisible)
 		{
@@ -53,6 +55,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		else{
 			igk_html_rm($this->TargetNode);
 		}
+		return $this;
 	}
 	protected function _showChild($targetnode=null)
 	{

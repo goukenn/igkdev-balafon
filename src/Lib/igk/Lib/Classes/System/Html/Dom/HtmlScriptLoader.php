@@ -8,8 +8,10 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\Helper\IO;
+use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
+use IGK\System\IO\StringBuilder;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
@@ -60,8 +62,11 @@ class HtmlScriptLoader{
      * @throws IGKException 
      */
     public static function LoadScripts($tab, $options=null, $production=false, $exclude_dir=[], $cachePath="corejs:/igk.js", $defer=0){
- 
-
+  
+        // echo "<pre>";
+        // print_r($tab);
+        // echo "</pre>";
+        // igk_wln_e("loadscript _", $tab);
         $no_page_cache = igk_setting()->no_page_cache();
         $out = ""; 
         $uri = igk_server()->REQUEST_URI ?? "";
@@ -79,7 +84,7 @@ class HtmlScriptLoader{
         $resolverfc = null;
         $tag = null;
         $s = "";
-        $lf = $options->LF;
+        $lf = $options ? $options->LF : "";
         $tabstop = HtmlRenderer::GetTabStop($options);        
         $production_file  = ""; 
         if (!$production) {
@@ -95,7 +100,8 @@ class HtmlScriptLoader{
                     case ".js";
                         $u .= "?v=" . IGK_VERSION;
                         $s .= $tabstop."<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
-                        if (($tag != "igk") || $defer) {
+                        $defer = $defer || (($tag=="igk" ) && (basename($f) != "igk.js"));
+                        if ($defer) { // ($tag != "igk") &&  || $defer) {
                             $s .= " defer";
                         }
                         $s .= " ></script>".$lf;
@@ -107,16 +113,21 @@ class HtmlScriptLoader{
             if (!$no_page_cache  && file_exists($production_file)){                
                 return file_get_contents($production_file);
             }
-            $resolverfc = function ($f) use (&$s) {
+            $assets = [];
+            $resolverfc = function ($f) use (&$s, & $assets) {
+                if (strpos(basename($f), '.')===0){ 
+                    return;
+                }
                 $ext = Path::GetExtension($f);
                 $F = igk_io_collapse_path($f);
                 switch (($ext)) {
                     case ".js";
-                        $s.= IGK_START_COMMENT."F: ". $F."".IGK_END_COMMENT.IGK_LF;
+                        $s .= IGK_START_COMMENT."F: ". $F."".IGK_END_COMMENT.IGK_LF;
                         $s .= file_get_contents($f);
                         break;
                     default:
                         //resolv to asset folder
+                        $assets[] = $f;
                         break;
                 }
             };
@@ -144,17 +155,41 @@ class HtmlScriptLoader{
                 igk_js_minify($out),
                 $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR."/Inc/js/eval.js")) : "igk.js.initEmbededScript()"
             ];
-            $out = $tabstop."<script type=\"text/javascript\" language=\"javascript\" defer >\n//<![CDATA[".$pif[0]."]]>\n</script>".$lf;
-            $out.= $tabstop."<script type=\"text/javascript\" language=\"javascript\" defer >\n".$pif[1]."\n</script>".$lf;
+            $out = $tabstop."<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[".$pif[0]."]]>\n</script>".$lf;
+            $out.= $tabstop."<script type=\"text/javascript\" language=\"javascript\" >\n".$pif[1]."\n</script>".$lf;
             if (!$no_page_cache){
-                // IO::WriteToFile($production_file, $out);
-                // $path = IGKCaches::js_filesystem()->getCacheFilePath("corejs-dist:/igk.js", ".js");
                 IO::WriteToFile($production_file, $out);
             }
         } 
         return $out;
     }
 
+    /**
+     * 
+     * @param string $file 
+     * @param string $uri 
+     * @return string 
+     * @throws IGKException 
+     */
+    public static function GetModuleInlineScriptContent(string $file, $uri = "/"){
+        $sb = new StringBuilder; 
+        $sb->appendLine("(function(){");        
+        $mod_info = [
+            "path"=>igk_io_collapse_path($file),
+            "uri"=>$uri
+        ];
+        $sb->appendLine("const __MODULE__ = ".json_encode((object)$mod_info, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . ";");
+        $sb->appendLine(file_get_contents($file));
+        $sb->appendLine("})();");
+        return "".$sb;
+    }
 
- 
+    /**
+     * get core script exception
+     * @return never 
+     * @throws NotImplementException 
+     */
+    public static function GetCoreScriptInlineContent(){
+        throw new NotImplementException(__METHOD__);
+    }
 }

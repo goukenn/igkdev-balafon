@@ -8,17 +8,16 @@
 namespace IGK\System\Console;
 
 use Exception;
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTask;
-use IGK\Helper\IO;
-use IGK\Helper\StringUtility;
-use IGK\Models\Crons;
+use IGK\Helper\IO; 
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Database\DbUtils;
-use IGK\System\Diagnostics\Benchmark;
+use IGK\System\Html\Dom\HtmlCtrlNode;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlRenderer;
-use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\System\Process\CronJobProcess;
+use IGK\System\IO\File\PHPScriptBuilder; 
 use IGKApp;
 use IGKApplicationBase;
 use IGKConstants;
@@ -530,13 +529,57 @@ class BalafonApplication extends IGKApplicationBase
                     }
                     return 0;
                 };
-            }, [
+            },            
+            [
                 "desc"=>__("run script by loading"),
                 "help"=>function(){
                     Logger::info("\n--run [options] scriptfile\n");
                 }
             ]
             ],
+            "--compile" => [function ($v, $command=null) {
+                $command->exec = function ($command, ?string $file=null, ?string $controller=null) {
+                    if (empty($file)){
+                        Logger::danger(__("args: require file"));
+                        return false;
+                    }
+                    try {
+                        if (file_exists($file)) {
+                            $options = [
+                                "engine"=>"balafonCompiler",
+                                "context"=>"xml"
+                            ];
+                            if ($controller){
+                                $controller = igk_getctrl($controller);
+                            }
+                            if ($controller){
+                                $t = new HtmlCtrlNode($controller, "div");
+                            }else{
+                                $t = new HtmlNode("div");
+                            }
+                            // include($file);
+                            $s = $t->render();
+                            echo "<?php";
+                            echo $s;
+                        } else {
+                            Logger::danger(__("[ compile file ] file not found"));
+                        }
+                    } catch (Throwable $ex) {
+                        Logger::danger(":" . $ex->getMessage());
+                        // igk_show_exception_trace($ex);
+                        array_map(function($t){
+                            echo $t["file"].":".$t["line"]."\n";
+                        },$ex->getTrace());
+                        return false;
+                    }
+                    return 0;
+                };
+            }, [
+                "desc"=>"compile view file",
+                "help"=>function(){
+                    Logger::info('usage : balafon --compile file [controller]');
+                }
+            ]],
             "--run:tac"=>[function(){
                 // terminal action command
                 Logger::success("terminal action command \n");

@@ -4,14 +4,12 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\HtmlReader;
 
 abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
-
 	public static function GetAdditionalConfigInfo()
 	{
 		return array(
@@ -23,16 +21,11 @@ abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBa
 	public function getCanAddChild()
 	{
 		return false;
-	}
-	protected function initTargetNode()
-	{
-		$n = parent::initTargetNode();
-		return $n;
-	}
-	public function View()
+	}	 
+	public function View():BaseController
 	{
 
-		$s = igk_html_uri(igk_io_baseuri() . "/" . $this->Configs->clXabUri);
+		$s = igk_uri(igk_io_baseuri() . "/" . $this->Configs->clXabUri);
 		$w  = $this->Configs->clPrimaryWidth;
 		$h  = $this->Configs->clPrimaryHeight;
 		$t  = HtmlReader::Load(
@@ -57,6 +50,7 @@ OEF
 		if (!$this->IsVisible) {
 			igk_html_rm($this->TargetNode);
 		}
+		return $this;
 	}
 
 	protected  function _showChild($targetnode = null)

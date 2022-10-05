@@ -19,7 +19,7 @@ $g_src = <<<EOF
 <?php
 \$c = [ "" ];
 EOF;
-
+        error_clear_last();
         igk_io_w2file($temp, $g_src);
         $s = 0; 
         $g = explode("\n", BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp));        
@@ -41,6 +41,7 @@ $x = <<<HTML
     <div>hello the 'bbb </div>
 HTML;
 PHP;
+error_clear_last();
         igk_io_w2file($temp, $g_src);
  
         $out = BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp, null, true);
@@ -56,6 +57,7 @@ EDF, rtrim($out), "failed");
 
     public function test_compile_with_litteral_nowdoc(){
         $temp = @tempnam( "tutest","test");
+        error_clear_last();
         // $t->section()->article($ctrl, "styles/corecss.template", [(object)[ 
         //     "description"=>
         $g_src = <<<'PHP'

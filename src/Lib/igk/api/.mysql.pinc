@@ -81,8 +81,7 @@ function igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix=""){
             if ($n == "updated_at"){
                 $cl["clUpdateFunction"] = "NOW()";
             }
-        }
-        //igk_wln_e("binding ..... ".$n);
+        } 
     }
     //+ insert and update function ignored
     return $cl;

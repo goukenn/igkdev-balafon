@@ -13,7 +13,7 @@ use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 
 function igk_hpane_get_dir_uri($f){
-	return igk_html_uri(igk_io_baseRelativePath(dirname($f)));
+	return igk_uri(igk_io_baseRelativePath(dirname($f)));
 }
 ///<summary>horizontal pane panel used to add animation pane on a target node</summary>
 final class IGKJS_HorizontalPane extends IGKObject

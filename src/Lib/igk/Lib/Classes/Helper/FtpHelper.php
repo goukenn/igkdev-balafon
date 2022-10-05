@@ -25,13 +25,13 @@ class FtpHelper
      */
     public static function CreateDir($ftpresourse, string $directory)
     {
-        $dir = array_filter(explode('/', igk_html_uri($directory)));
+        $dir = array_filter(explode('/', igk_uri($directory)));
         $bckdir = ftp_pwd($ftpresourse);
         $r = true;
         while ($r && ($_m = array_shift($dir))) {
             if (!@ftp_chdir($ftpresourse, $_m)) {
                 error_clear_last();
-                if (ftp_mkdir($ftpresourse, $_m) === false) {
+                if (@ftp_mkdir($ftpresourse, $_m) === false) {
                     $r = false;
                     continue;
                 }

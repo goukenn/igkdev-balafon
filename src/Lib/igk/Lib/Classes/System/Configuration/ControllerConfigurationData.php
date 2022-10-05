@@ -100,7 +100,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     * @return string 
     */
     public function getConfigFile(){
-        return igk_io_dir($this->ctrl->getConfigFile());
+        return igk_dir($this->ctrl->getConfigFile());
     }
     ///<summary></summary>
     ///<param name="t"></param>

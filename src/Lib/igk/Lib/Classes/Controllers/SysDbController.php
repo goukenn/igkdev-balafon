@@ -9,16 +9,19 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\Controllers;
- 
-use IGK\System\Database\MySQL\Controllers\MySQLDataController; 
-use IGKApp;
-use IGKControllerManagerObject;
+
+use IGK\System\Database\IDatabaseHost;
+use IGK\System\Database\MySQL\Controllers\MySQLDataController;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\DeprecatedMethodException;
+use IGKException;
+use ReflectionException;
 
 /**
  * system db controller
  * @package IGK\Controllers
  */
-final class SysDbController extends NonVisibleControllerBase{
+final class SysDbController extends NonVisibleControllerBase implements IDatabaseHost{
     ///<summary>Represente dropDb function</summary>
     protected static function dropDb(){
         $c=igk_getctrl(__CLASS__, false);
@@ -71,30 +74,14 @@ final class SysDbController extends NonVisibleControllerBase{
      * get use of data schema
      * @return true 
      */
-    protected function getUseDataSchema(){
+    public function getUseDataSchema():bool{
         return true;
     }
     
      
     public function getDataDir(){
         return IGK_LIB_DIR."/".IGK_DATA_FOLDER;
-    }
-    ///<summary>Represente Init function</summary>
-    public static function Init(){
-        igk_wln_e(__FILE__.":".__LINE__,  __METHOD__);
-        $c=igk_create_session_instance(__CLASS__, function(){
-            $g=new self();
-            IGKControllerManagerObject::getInstance()->registerController($g, 
-            "sys.dbcontroller",
-            !IGKApp::IsInit());
-            return $g;
-        });
-        return $c;
-    }
-
-    public function __construct()
-    { 
-    }
+    }      
     ///<summary></summary>
     protected function initComplete($context=null){
         parent::initComplete();

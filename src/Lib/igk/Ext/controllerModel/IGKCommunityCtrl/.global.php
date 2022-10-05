@@ -77,19 +77,19 @@ function igk_community_get_follow_entries($cnf){
 
 
 
-igk_community_register_followus_service("twitter", function($cmd, $t,$v=null, $name=null){
-	$targs = [];
-	switch($cmd){
-		case "edit":
-			$t->addInput("cl".$name,"text", igk_conf_get($v,'twitter'));
-		break;
-		case "getlink":
-			if (isset($v->twitter))
-			return "https://twitter.com/".$v->twitter;
-		default: //view
-			$t->addTwitterFollowUsButton(igk_getv($targs,0));
-		break;
-	}
-	return null;
-});
+// igk_community_register_followus_service("twitter", function($cmd, $t,$v=null, $name=null){
+// 	$targs = [];
+// 	switch($cmd){
+// 		case "edit":
+// 			$t->addInput("cl".$name,"text", igk_conf_get($v,'twitter'));
+// 		break;
+// 		case "getlink":
+// 			if (isset($v->twitter))
+// 			return "https://twitter.com/".$v->twitter;
+// 		default: //view
+// 			$t->addTwitterFollowUsButton(igk_getv($targs,0));
+// 		break;
+// 	}
+// 	return null;
+// });
  

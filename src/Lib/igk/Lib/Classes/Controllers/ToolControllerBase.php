@@ -71,5 +71,7 @@ abstract class ToolControllerBase extends BaseController{
         $a->div()->Content=__("tool.".$this->Name);
     }
     ///<summary></summary>
-    public function View(){    }
+    public function View():BaseController{ 
+        return $this;
+    }
 }

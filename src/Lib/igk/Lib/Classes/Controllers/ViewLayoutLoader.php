@@ -7,9 +7,14 @@
 
 namespace IGK\Controllers;
 
+use Exception;
 use IGK\Helper\ViewHelper;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKEnvironment;
+use IGKException;
+use ReflectionException;
 
 use function igk_resources_gets as __;
 
@@ -36,7 +41,17 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
             igk_reg_hook("filter-menu-item", [$this->controller, "menuFilter"]);
         } 
     }
-
+    /**
+     * include file in layout
+     * @param string $file 
+     * @param null|array $args 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     * @throws Exception 
+     */
     public function include($file, $args){
         $response = null; 
         $no_layout = false;
@@ -56,5 +71,14 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
     public function getPageTitle(string $title){
         return sprintf("%s - [%s]", $title,  $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
     }
-
+    public function loginForm(){
+        return function($b){
+            $form = igk_create_node("form");
+            $form->fields([
+                "login"=>["type"=>"text"],
+                "pwd"=>["type"=>"password"]
+            ]);
+            $b->add($form);        
+        };
+    }
 }

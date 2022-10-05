@@ -2,8 +2,8 @@
 namespace IGK\Controllers;
 
 use Exception;
-use IGK\Helper\IO;
-use IGKApplicationLoader;
+use IGK\Helper\IO; 
+use IGK\ApplicationLoader;
 use TypeError;
 
 // @author: C.A.D. BONDJE DOUE
@@ -137,10 +137,10 @@ final class ApplicationModuleController extends BaseController{
                 $fc = "";
                 if (!empty($entry_ns) && (strpos( $n, $entry_ns)===0)){
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
-                    if (file_exists($fc = igk_io_dir($libdir."/".$cl.".php"))){
+                    if (file_exists($fc = igk_dir($libdir."/".$cl.".php"))){
                         include($fc);
-                        if (!class_exists($n, false) && !interface_exists($n, false)){               
-                            igk_die("file loaded but class $cl does not exists");
+                        if (!class_exists($n, false) && !interface_exists($n, false) && !trait_exists($n, false)){               
+                            igk_die("file loaded but {$n}, interface or trait not exists");
                         }
                         return 1;
                     }
@@ -161,7 +161,7 @@ final class ApplicationModuleController extends BaseController{
                 } 
             };
 
-            IGKApplicationLoader::RegisterAutoload($fc, $libdir);
+            ApplicationLoader::RegisterAutoload($fc, $libdir);
         }
     }
     ///<summary></summary>
@@ -193,7 +193,7 @@ final class ApplicationModuleController extends BaseController{
             $this->reg_function($name, $callback);
         };
         try{
-            igk_dev_ilog("init module: ".$this->getName());
+            // igk_dev_ilog("init module: ".$this->getName());
             $data = eval("?>".$s);
         }
         catch(TypeError $error){
@@ -322,7 +322,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     */
     public function getName(){
-        return strtolower(str_replace("/", ".", igk_html_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
+        return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -412,12 +412,13 @@ final class ApplicationModuleController extends BaseController{
         return $this->getEnvParam($name, $default);
     }
 
-    public function view(){
+    public function View(): BaseController{
         if ($this->methodExists(__FUNCTION__)){
             $fc = igk_getv($this->m_fclist, __FUNCTION__);
             $args = func_get_args();
             $fc(...$args); 
         }
+        return $this;
     }
     /**
      * disable static call on module
@@ -433,7 +434,7 @@ final class ApplicationModuleController extends BaseController{
      * use allway schema to update the user
      * @return true 
      */
-    public function getUseDataSchema(){ 
+    public function getUseDataSchema():bool{ 
         return true;
     }
     public function getDataSchemaFile(){

@@ -9,9 +9,9 @@ namespace IGK\System\Http;
 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use Exception;
+use IGK\Server;
 use IGK\System\IO\Path;
-use IGKException;
-use IGKServer;
+use IGKException; 
 use ReflectionException;
 
 class ConfigurationPageHandler
@@ -63,7 +63,7 @@ class ConfigurationPageHandler
                 define("IGK_CONFIG_PAGE", 1);
             define("IGK_CURRENT_PAGEFOLDER", IGK_CONFIG_PAGEFOLDER);
             $script = $_SERVER["SCRIPT_NAME"];
-            $dir = igk_str_rm_last(igk_html_uri(dirname($script)), '/');
+            $dir = igk_str_rm_last(igk_uri(dirname($script)), '/');
             if (empty($dir) && $v_path) {
                 $dir .= $script;
             }
@@ -80,14 +80,14 @@ class ConfigurationPageHandler
             // igk_wln_e("query : ", $query,   $_SERVER["REQUEST_URI"]);
             // $_SERVER["REQUEST_URI"]=$dir."/".IGK_CONFIG_PAGEFOLDER."{$rq_path}";
             unset($_SERVER["PHP_SELF"]); //=$dir."/".IGK_CONFIG_PAGEFOLDER."/DTA";
-            IGKServer::getInstance()->prepareServerInfo();
-            if (is_callable($engine)) {
-                $engine(false);
-            } else {
-                $engine->runEngine(false);
-            }
-
-            igk_sys_config_view($file);
+            Server::getInstance()->prepareServerInfo();
+            require_once IGK_LIB_DIR. '/igk_html_utils.php';
+            // if (is_callable($engine)) {
+            //     $engine(false);
+            // } else {
+            //     $engine->runEngine(false);
+            // }
+            igk_sys_config_view($file); 
             igk_exit();
         } 
     }

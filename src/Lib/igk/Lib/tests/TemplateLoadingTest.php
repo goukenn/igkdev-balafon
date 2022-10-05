@@ -13,25 +13,24 @@ class TemplateLoadingTest extends BaseTestCase{
     public function test_loading_data(){
   
         $s = <<<EOF
-        <div *visible="false" id="test">
-<a class="igk-ajx-pickfile" igk:data="{'accept':'image/*,.jpg,.jpeg,.png'}">
-        <igk:attr-expression *igk:uri="\$ctrl->getAppUri('dashboard/edit_picture.form/'.\$raw->clId)" />
-        <igk:usesvg igk:args="camera-outline" *title="'edit profile photo' | lang" />
-</a>
+<div *visible="false" id="test">
+    <a class="igk-ajx-pickfile" igk:data="{'accept':'image/*,.jpg,.jpeg,.png'}">
+            <igk:attr-expression *igk:uri="\$ctrl->getAppUri('dashboard/edit_picture.form/'.\$raw->clId)" />
+            <igk:usesvg igk:args="camera-outline" *title="'edit profile photo' | lang" />
+    </a>
 </div>
 EOF;
 $n = igk_create_node("div");
 $n->load($s, (object)[
-    "Context"=>HtmlContext::XML,
+    "context"=>HtmlContext::XML,
     "raw"=>(object)[
         "data"=>"ok", 
         "clId"=>"1"
     ],
     "ctrl"=>\IGK\Tests\Controllers\TestController::ctrl()
-]);
-$m = $n->render();
-
-$this->assertEquals($m, "<div></div>", "loading failed");
+]); 
+$m = $n->render((object)["Indent"=>false]);
+$this->assertEquals("<div></div>", $m, "loading failed");
 
     }
     public function test_visibile_attribute(){

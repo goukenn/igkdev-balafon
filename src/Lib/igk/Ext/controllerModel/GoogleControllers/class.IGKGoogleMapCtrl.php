@@ -10,6 +10,7 @@
 
 ///<summary>Represente class: IGKGoogleMapCtrl</summary>
 
+use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
@@ -46,7 +47,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
     /**
     * 
     */
-    public function View(){
+    public function View():BaseController{
         $t=$this->TargetNode;
         $t->clearChilds();
         $lnk=igk_getv($this->Configs, "clGoogleMapUrl", "http://www.google.fr");
@@ -54,120 +55,6 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
 <iframe class="noborder googlemap_map" src="{$lnk}"></iframe>
 EOF;
         $t->Load($s);
+        return $this;
     }
 }
-///<summary>Represente class: IGKHtmlGoogleMapNodeItem</summary>
-/**
-* Represente IGKHtmlGoogleMapNodeItem class
-*/
-final class IGKHtmlGoogleMapNodeItem extends HtmlNode{
-    private $m_key;
-    private $m_location;
-    private $m_query;
-    private $m_type;
-    ///<summary></summary>
-    ///<param name="opt" default="null"></param>
-    /**
-    * 
-    * @param mixed $opt the default value is null
-    */
-    protected function __acceptRender($opt=null){
-        $this->initView();
-        return parent::__AcceptRender($opt);
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function __construct(){
-        parent::__construct("div");
-        $this["class"]="igk-winui-google-map";
-        $this->m_type="place";
-        $this->m_key="AIzaSyDDOfGXjfMVZOFoAESJ3ON0bZyiJpnXBqc";
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getKey(){
-        return $this->m_key;
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getLocation(){
-        return $this->m_location;
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getQuery(){
-        return $this->m_query;
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getType(){
-        return $this->m_type;
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function initView(){
-        $this->clearChilds();
-        $key=$this->getKey();
-        $t=$this->getType();
-        $q=$this->Location;
-        $lnk="https://www.google.com/maps/embed/v1/{$t}?key={$key}&q={$q}";
-        if(igk_sys_env_production() && $lnk){
-            $s=<<<EOF
-<iframe class="no-border1 googlemap_map fitw" src="{$lnk}" frameborder="0" ></iframe>
-EOF;
-            $this->Load($s);
-        }
-    }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    /**
-    * 
-    * @param mixed $v
-    */
-    public function setKey($v){
-        $this->m_key=$v;
-        return $this;
-    }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    /**
-    * 
-    * @param mixed $v
-    */
-    public function setLocation($v){
-        $this->m_location=$v;
-        return $this;
-    }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    /**
-    * 
-    * @param mixed $v
-    */
-    public function setQuery($v){
-        $this->m_query=$v;
-        return $this;
-    }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    /**
-    * 
-    * @param mixed $v
-    */
-    public function setType($v){
-        $this->m_type=$v;
-        return $this;
-    }
-} 

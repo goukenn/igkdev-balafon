@@ -1,0 +1,249 @@
+<?php
+
+
+///<summary>Convert string argument to array list. in context</summary>
+///<param name="s">parameter to convert</param>
+///<param name="context">context object that will parameter to convert</param>
+/**
+ * Convert string argument to array list. in context
+ * @param mixed $s parameter to convert
+ * @param mixed $context context object that will parameter to convert
+ */
+function igk_engine_get_attr_arg($s, $context = null)
+{
+    $tb = igk_engine_read_args($s);
+    if ((count($tb) == 0) || !is_object($context)) {
+        return $tb;
+    }
+    $m = null;
+    if ($context && (is_object($context) || is_array($context))) {
+        $__g_context = (array)$context;
+        extract($__g_context);
+        unset($__g_context);
+        $cs = array_keys((array)$context);
+        $m = igk_str_join_tab(array_values($cs), '|', false);
+        $rgx = "#^\[\[:@(?P<name>((" . $m . ")))(?P<data>(.)+)?\]\]$#i";
+        $paramvar_rgx = "#@(?P<name>((" . $m . ")))#i";
+        $callback = function ($m, $n) {
+            if (isset($m["name"])) {
+                return "\$" . $m["name"];
+            }
+            return "null";
+        };
+        for ($k = 0; $k < igk_count($tb); $k++) {
+            $mk = trim($tb[$k]);
+            if (preg_match_all($rgx, $mk, $stt)) {
+                $n = $stt['name'][0];
+                $d = $stt['data'][0];
+                $d = preg_replace_callback($paramvar_rgx, $callback, $d);
+                if (!empty($d)) {
+                    $s = "\$context->" . $n . $d;
+                    $m = "return {$s};";
+                    igk_set_env(IGK_LAST_EVAL_KEY, $m);
+                    $tb[$k] = @eval($m);
+                } else {
+                    $tb[$k] = $context->$n;
+                }
+            } else {
+                if (preg_match('/^(\[|array\s*\()/i', $mk)) {
+
+                    if ($gc = @eval("return " . $mk . ";")) {
+                        $tb[$k] = $gc;
+                    } else {
+                        igk_dev_wln_e(__FILE__ . ":" . __LINE__, "Action not available [[:@]] " . $mk, $cs, $gc, $k);
+                        $tb[$k] = @eval("return " . $mk . ";");
+                    }
+                }
+            }
+        }
+    }
+    return $tb;
+}
+
+///<summary>retrieve argument splitting</summary>
+/**
+ * retrieve argument splitting
+ */
+function igk_engine_read_args($s)
+{
+    if (empty($s))
+        return [];
+    $s = html_entity_decode($s);
+    $args = [];
+    $ln = strlen($s);
+    $c = 0;
+    $v = "";
+    while ($c < $ln) {
+        $ch = $s[$c];
+        switch ($ch) {
+            case "'":
+            case '"':
+                $k = trim($v . igk_str_read_brank($s, $c, $ch, $ch, null, 1));
+                if ($k[0] == "@") {
+                    $k = substr($k, 2, -1);
+                } else {
+                    $k = substr($k, 1, -1);
+                }
+                $v = "";
+                $args[] = $k;
+                break;
+            case "{":
+                $args[] = igk_str_read_brank($s, $c, "}", "{");
+                $v = "";
+                break;
+            case "(":
+                $v .= igk_str_read_brank($s, $c, ")", "(");
+                break;
+            case "[":
+                $args[] = igk_str_read_brank($s, $c, "]", "[");
+                break;
+            case ",":
+                if (strlen($v = trim($v)))
+                    $args[] = $v;
+                $v = "";
+                break;
+            default:
+                $v .= $ch;
+                break;
+        }
+        $c++;
+    }
+    if (strlen($v = trim($v)) > 0)
+        $args[] = $v;
+    return $args;
+}
+
+
+///<summary>bind attributes</summary>
+///<param name="reader"></param>
+///<param name="attr"></param>
+///<param name="value"></param>
+///<param name="context" default="null"></param>
+///<param name="storecallback" default="null"></param>
+/**
+ * get tempory binding attributes
+ * @param mixed $reader 
+ * @param mixed $attr 
+ * @param mixed $value 
+ * @param mixed $context 
+ * @param mixed $storecallback 
+ */
+function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null, $storecallback = null)
+{
+
+    if ($context == null) {
+        $context = $reader->context;
+    }
+    //+ bind root context
+    $context = igk_get_attrib_raw_context($context);
+    if ($context === null) {
+        $context = "[context]::" . __FUNCTION__;
+    }
+    $g = igk_get_template_bindingattributes();
+    if (isset($g[$attr])) {
+        $inf = $g[$attr];
+        $value = html_entity_decode($value);
+
+        list($k, $v) = $inf($reader, $attr, $value, $context, $storecallback);
+        if ($k && $v && $storecallback) {
+            $storecallback($k, $v);
+        }
+        return true;
+    }
+    return false;
+}
+
+///<summary>Represente igk_get_attrib_raw_context function</summary>
+///<param name="n_context"></param>
+/**
+ * retrieve binding attribute info
+ * @param mixed $context 
+ */
+function igk_get_attrib_raw_context($context)
+{
+    $o = igk_get_article_root_context();
+
+    if ($o == null) {
+        // not in root context
+        if ($context && !($context instanceof \IGK\System\Html\Templates\BindingContextInfo)) {
+            return \IGK\Helper\Activator::CreateNewInstance(\IGK\System\Html\Templates\BindingContextInfo::class, $context);
+        }
+        return $context;
+        // old was null
+    }
+    $raw = null;
+    if (is_object($context) && property_exists($context, 'raw')) {
+        $raw = is_array($context->raw) && array_key_exists("raw", $context->raw) ? $context->raw["raw"] : $context->raw;
+    } else {
+        if (is_array($context)) {
+            $raw = igk_getv($context, "raw");
+        } else {
+            if (igk_environment()->isDev()) {
+                igk_trace();
+                igk_wln_e("BLF: context does't provide a raw object", $context);
+                igk_exit();
+            }
+        }
+    }
+    return [
+        "ctrl" => $o->ctrl,
+        "raw" => $raw,
+        "root_context" => (object)[
+            "ctrl" => $o->ctrl,
+            "raw" => IGKRawDataBinding::Create($o->raw)
+        ]
+    ];
+}
+
+
+///<summary>article priority root context</summary>
+/**
+ * article priority root context
+ */
+function igk_get_article_root_context()
+{
+    $g = igk_get_env(IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);
+    if (is_array($g) && (count($g) > 0)) {
+        $c = $g[0]["data"];
+        return $c;
+    }
+    return null;
+}
+
+
+///<summary>get template binding attribute</summary>
+/**
+ * get template binding attribute
+ */
+function igk_get_template_bindingattributes()
+{
+    static $binding = null;
+    if (!($o = igk_get_env($key = "sys://template/bindingProperties"))) {
+        if (($binding === null) && file_exists($file = IGK_LIB_DIR . "/Inc/igk_default_template_register.php")) {
+            include_once($file);
+            $binding = 1;
+            $o = igk_get_env($key);
+        }
+    }
+    return $o;
+}
+
+///<summary>register template binding attributes</summary>
+///<param name="$name">comma separated string of identifier for binding attribute</param>
+///<param name="$callback">the callback</summary>
+/**
+ * register template binding attributes
+ * @param mixed $$name comma separated string of identifier for binding attribute
+ * @param mixed $$callback the callback
+ */
+function igk_reg_template_bindingattributes($name, $callback)
+{
+    $key = "sys://template/bindingProperties";
+    if (!($g = igk_get_env($key))) {
+        $g = array();
+    }
+    foreach (array_filter(explode(",", strtolower($name))) as $k) {
+        $g[trim($k)] = $callback;
+    }
+    igk_set_env($key, $g);
+}

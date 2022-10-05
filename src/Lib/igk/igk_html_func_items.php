@@ -7,6 +7,7 @@
 
 use IGK\Controllers\BaseController;
 use IGK\Database\IDbArrayResult;
+use IGK\Helper\ViewHelper;
 use IGK\Models\Users;
 use IGK\System\Html\Dom\Factory;
 use function igk_resources_gets as __;
@@ -36,7 +37,7 @@ use IGK\System\Number;
 
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/HtmlHeaderLinkHost.php");
-
+require_once(IGK_LIB_DIR . "/igk_html_utils.php");
 
 function igk_html_node_dl(){
     return new \IGK\System\Html\Dom\HtmlDocumentListNode();
@@ -445,7 +446,8 @@ function igk_html_node_menu(
         }
     }
     $tarray = array(["menu" => $tab, "c" => null, "ul" => $ul]);
-    $user = $user ?? Users::currentUser();
+    // igk_wln_e("denie", ViewHelper::GetViewArgs("auth"));
+    $user = $user ?? ViewHelper::GetViewArgs("auth") ;// ?? Users::currentUser();
     $c = 0;
     while ($q = array_pop($tarray)) {
         $c = $q["c"];
@@ -2008,7 +2010,7 @@ function igk_html_node_galleryfolder($ctrl, $folder, $ignorethumb = 1)
     $n = igk_create_node("div");
     $n["class"] = "igk-gallery-folder";
     if (is_dir($folder)) {
-        $thumb = igk_html_uri($folder . "/.thumb");
+        $thumb = igk_uri($folder . "/.thumb");
         $resolver = IGKResourceUriResolver::getInstance();
         foreach (igk_io_getfiles($folder) as $img) {
             if ($ignorethumb && strstr($img, $thumb)) {
@@ -4513,9 +4515,9 @@ function igk_html_node_ajxtabcomponent($host, $name)
 /**
  * include local file as javascript
  */
-function igk_html_node_include_js($file)
+function igk_html_node_include_js(string $file)
 {
-    if ($f = igk_html_parent_node()) {
+    if (($f = igk_html_parent_node()) && is_file($file)) {
         $d = igk_create_xmlnode("script");
         $d["type"] = "balafon/js-include";
         $d["class"] = "igk-winui-balafon-js-inc";
@@ -4527,6 +4529,9 @@ function igk_html_node_include_js($file)
             )), "]]>"
         ]);
         $f->add($d);
+    } else {
+        igk_trace();
+        die("not allowed");
     }
     return $f;
 }
@@ -4865,11 +4870,11 @@ function igk_html_node_bindscript($data, $uri, $name, ?bool $production = null)
         ];
     }
     $fc = function () use ($data, $uri, $name, $production) {
-        echo \IGK\System\Html\Dom\HtmlCoreJSScriptsNode::GetScriptContent(
+        echo \IGK\System\Html\Dom\HtmlScriptLoader::LoadScripts(
             $data,
             $uri,
             $name,
-            $production == null ? igk_environment()->is("OPS") : $production
+            $production == null ? igk_environment()->isOPS() : $production
         );
     };
     if ($p) {
@@ -5004,5 +5009,13 @@ function igk_html_node_app_hearder_bar(BaseController $controller){
     $n = igk_create_node("div");
     $n["class"] = "igk-app-header-bar displfex pad-4";
     $n->h1()->Content = $controller->getConfig("clAppTitle");
+    return $n;
+}
+function igk_html_node_app_login_form(BaseController $controller, ?string $entryfname){
+    $n = igk_create_notagnode();
+
+    $g = $controller->getLoader()->getLayout()->loginForm();
+
+    // igk_app_login_form($controller, $n, $entryfname);
     return $n;
 }

@@ -12,6 +12,7 @@ use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
 
+ 
 if(defined ('GOOGLE_MODULE') || !function_exists("igk_curl_post_uri")){
     return ;
 } else {
@@ -50,7 +51,7 @@ function igk_google_css_setfont(& $theme, $family, $extra="sans-serif"){
  * @param mixed $bool$temp  attached temporaly
  */
 function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans-serif')
-{ 
+{  
     $size = igk_google_get_font_sizes($family, $size);
     $g = trim($family);
     if (empty($g)) {
@@ -65,7 +66,7 @@ function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra='sans
         $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
     }
     $theme = $doc->getTheme();
-    if(igk_environment()->is("OPS")){
+    if(igk_environment()->isOPS()){
         $theme = $doc->getInlineTheme();
     } 
     igk_google_css_setfont($theme->def, $family, $extra);
@@ -78,8 +79,7 @@ function igk_google_bindfont($theme, $family, $size = null)
         igk_die("font name is empty");
     }
     $size = igk_google_get_font_sizes($family, $size);
-    $key = igk_google_font_api_uri($g, $size);
-    //igk_wln_e("ky ". $key);
+
     // $theme->addFont("google")
     $n = str_replace(" ", "-", $family);
     $theme->def[".google-" . $n] = "font-family: '{$family}', sans-serif;";
@@ -150,7 +150,7 @@ function igk_google_font_api_uri($n = null, $size = null)
  */
 function igk_google_get_css_fontfile($family)
 {
-    return igk_io_dir(igk_google_get_fontdir() . "/" . igk_google_condensedfamilyname($family) . ".css");
+    return igk_dir(igk_google_get_fontdir() . "/" . igk_google_condensedfamilyname($family) . ".css");
 }
 ///<summary></summary>
 ///<param name="folderid"></param>
@@ -185,7 +185,7 @@ function igk_google_get_font($ft = "Open Sans", $dir = null)
             if (isset($files[$v])) {
                 continue;
             }
-            $files[$v] = igk_io_dir($dir . "/" . basename($v)); 
+            $files[$v] = igk_dir($dir . "/" . basename($v)); 
         }
     }
     igk_ilog(json_encode(["the output : ", $g]));
@@ -197,7 +197,7 @@ function igk_google_get_font($ft = "Open Sans", $dir = null)
  */
 function igk_google_get_fontdir()
 {
-    return igk_io_dir(igk_io_basedir() . "/" . IGK_RES_FOLDER . "/fonts/google");
+    return igk_dir(igk_io_basedir() . "/" . IGK_RES_FOLDER . "/fonts/google");
 }
 function igk_google_data_dir()
 {
@@ -547,14 +547,14 @@ IGKRoutes::Register(
     function ($u, $f) {
         @session_write_close();
         $fdir = igk_google_get_fontdir();
-        $file = igk_io_dir($fdir . $f);
+        $file = igk_dir($fdir . $f);
         if (file_exists($file)) {
             header("Content-Type:text/plain");
             igk_header_content_file($f);
             igk_wl(igk_io_read_allfile($file));
             igk_exit();
         }
-        $file = igk_io_dir($fdir . $u . ".xft");
+        $file = igk_dir($fdir . $u . ".xft");
         if (file_exists($file)) {
             $g = igk_zip_unzip_entry($file, $f);
             igk_header_content_file($f);
@@ -603,7 +603,7 @@ IGKRoutes::Register(
 
                 if (file_exists($file) || igk_google_installfont($f, $sizes, $file)) {
                     $ref = igk_io_baserelativepath($file);
-                    $uri = igk_io_baseuri() . "/" . igk_html_uri($ref);
+                    $uri = igk_io_baseuri() . "/" . igk_uri($ref);
                     $tf = igk_io_basedir() . "/" . $ref;
                     if (file_exists($tf)) {
                         igk_navto($uri);
@@ -664,7 +664,7 @@ igk_register_service("google", "googlemap", function ($cmd, $t, $config = null) 
     }
     return null;
 }); 
-igk_sys_reg_referencedir(__FILE__, igk_io_dir(dirname(__FILE__) . "/Data/References"));
+igk_sys_reg_referencedir(__FILE__, igk_dir(dirname(__FILE__) . "/Data/References"));
 
 
 // components

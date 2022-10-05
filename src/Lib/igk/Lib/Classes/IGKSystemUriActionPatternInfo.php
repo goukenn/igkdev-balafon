@@ -25,7 +25,7 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
     ///<summary></summary>
     ///<param name="uri" default="null"></param>
     public function matche($uri=null){
-        $uri=$uri ?? $this->uri;
+        $uri=$uri ?? $this->uri; 
         if($uri && preg_match($this->pattern, $uri)){
             $this->uri=$uri;
             return true;

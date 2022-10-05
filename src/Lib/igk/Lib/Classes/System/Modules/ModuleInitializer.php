@@ -24,6 +24,6 @@ class ModuleInitializer{
         $this->m_modules[$this->_get_key($path)] = $module;
     }
     protected function _get_key(string $path){
-        return "sys://modules/" . strtolower(str_replace("/", ".", igk_html_uri($path)));
+        return "sys://modules/" . strtolower(str_replace("/", ".", igk_uri($path)));
     }
 }

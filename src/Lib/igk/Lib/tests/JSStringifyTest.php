@@ -4,15 +4,13 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
-use igk\js\VueJS\IO\JSExpression;
-use igk\js\VueJS\Route;
+use igk\js\common\JSExpression;
 use IGK\Tests\BaseTestCase;
 
 class JSStringifyTest extends BaseTestCase{
     protected function setUp():void{
         parent::setUp();
-        igk_require_module(igk\js\VueJS::class);
+        igk_require_module(igk\js\common::class);
     }
     public function test_stringify_data(){
         $g = JSExpression::Stringify([
@@ -26,13 +24,14 @@ class JSStringifyTest extends BaseTestCase{
         $data = [
             "template"=>"the template",
             // component GUARD
-            "beforeRouteEnter(to, from, next)"=>"{ /*meth one*/} ",              
-            "beforeRouteLeave(to, from)"=>"{ /*meth two*/}"  
+            "beforeRouteEnter(to, from, next){ /*meth one*/}",              
+            "beforeRouteLeave(to, from){ /*meth two*/}"  
         ];
         $g = JSExpression::Stringify($data, (object)[
             "objectNotation"=>1
         ]);
-        $this->assertEquals('{"template":"the template", beforeRouteEnter(to, from, next){ /*meth one*/}, beforeRouteLeave(to, from){ /*meth two*/}}', $g,
+        $this->assertEquals('{"template":"the template", beforeRouteEnter(to, from, next){ /*meth one*/}, beforeRouteLeave(to, from){ /*meth two*/}}', 
+        $g,
         "rule: method definition as key => method_expression"
         );
     }
@@ -63,25 +62,25 @@ class JSStringifyTest extends BaseTestCase{
         );
     }
 
-    public function test_express_route(){
-        $route = new Route(["path"=>'/home', 
-                "name"=>"home", 
-                "beforeEnter"=>"console.debug('enter');",  
-                "component"=>[
-                "template"=>"<div> The home page</div>"
-            ]]);
+    // public function test_express_route(){
+    //     $route = new Route(["path"=>'/home', 
+    //             "name"=>"home", 
+    //             "beforeEnter"=>"console.debug('enter');",  
+    //             "component"=>[
+    //             "template"=>"<div> The home page</div>"
+    //         ]]);
 
-            $this->assertEquals('{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}', 
-                $route->stringify(),
-            "Epress route data ");
+    //         $this->assertEquals('{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}', 
+    //             $route->stringify(),
+    //         "Epress route data ");
 
-        $g = JSExpression::Stringify([
-            "route"=>$route
-        ], (object)[
-            "objectNotation"=>1
-        ]);
-        $this->assertEquals('{"route":{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}}', 
-            $g,
-        "by function ");            
-    }
+    //     $g = JSExpression::Stringify([
+    //         "route"=>$route
+    //     ], (object)[
+    //         "objectNotation"=>1
+    //     ]);
+    //     $this->assertEquals('{"route":{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}}', 
+    //         $g,
+    //     "by function ");            
+    // }
 }

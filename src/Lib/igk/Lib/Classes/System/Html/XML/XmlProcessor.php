@@ -16,7 +16,7 @@ final class XmlProcessor extends XmlNode{
         parent::__construct($type);
     }
     ///<summary></summary>
-    public function getCanAddChild(){
+    public function getCanAddChilds(){        
         return false;
     }
     ///<summary></summary>

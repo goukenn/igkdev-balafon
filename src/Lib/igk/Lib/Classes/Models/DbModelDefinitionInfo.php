@@ -27,25 +27,25 @@ class DbModelDefinitionInfo implements ArrayAccess{
      * basic column info
      * @var mixed
      */
-    var $ColumnInfo;
+    var $columnInfo;
 
     /**
      * column init entries
      * @var ?array
      */
-    var $Entries;
+    var $entries;
 
     /**
      * 
      * @var ?string table description
      */
-    var $Description;
+    var $description;
 
     /**
      * controller that reference this model definition
      * @var mixed
      */
-    var $Controller;
+    var $controller;
 
     function _access_OffsetSet($n, $v){
         $this->$n = $v;

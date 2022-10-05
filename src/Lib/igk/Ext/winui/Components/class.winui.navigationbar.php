@@ -11,7 +11,7 @@
 * requirement : Scripts/winui/igk.winui.navigationbar.js
 **/
 
-$s  = igk_io_dir(IGK_LIB_DIR."/Scripts/winui/igk.winui.navigationbar.js");
+$s  = igk_dir(IGK_LIB_DIR."/Scripts/winui/igk.winui.navigationbar.js");
 
 // if (file_exists($s) == false)
 // {

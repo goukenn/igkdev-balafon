@@ -158,7 +158,7 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         igk_ilog("installer recieve file ...");
         $file = igk_io_sys_tempnam("igk");
         rename($file, $file = $file . ".zip");
-        igk_app()->session->setParam(self::INSTALLER_KEY, igk_html_uri($file));
+        igk_app()->session->setParam(self::INSTALLER_KEY, igk_uri($file));
 
         igk_ilog("installer session : ". igk_app()->session->getParam(self::INSTALLER_KEY));
 

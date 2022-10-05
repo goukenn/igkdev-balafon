@@ -10,6 +10,7 @@ file: class.IGKNavigationMenuBar
 */
 ///<summary>represent a navigation menu bar</summary>
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;
 
@@ -19,11 +20,10 @@ abstract class IGKNavigationMenuBarCtrl extends \IGK\Controllers\ControllerTypeB
 	{
 		return array("clSpeed"=>new ExtraControllerProperty("text", 1000));
 	}
-	public function View(){
+	public function View():BaseController{
 		if ($this->IsVisible)
 		{
-			$this->TargetNode->clearChilds();
-			extract($this->getSystemVars());
+			$t = $this->TargetNode->clearChilds();			
 			$ul =$t->add("ul");
 			$v_dummy =  HtmlNode::CreateWebNode("dummy");
 			$v_output = igk_html_article($this, "default", $v_dummy);
@@ -46,5 +46,6 @@ abstract class IGKNavigationMenuBarCtrl extends \IGK\Controllers\ControllerTypeB
 		else{
 			$this->TargetNode->remove();
 		}
+		return $this;
 	}
 } 

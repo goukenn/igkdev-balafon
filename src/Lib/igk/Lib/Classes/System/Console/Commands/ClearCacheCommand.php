@@ -8,7 +8,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKControllerManagerObject;
+
 
 class ClearCacheCommand extends AppExecCommand{
     var $command = "--clearcache";
@@ -22,7 +22,7 @@ class ClearCacheCommand extends AppExecCommand{
     { 
         //defined("NO")
         Logger::print("Cache directory : ".igk_io_cachedir());  
-        IGKControllerManagerObject::ClearCache();
+        \IGK\Helper\SysUtils::ClearCache();
         Logger::success("done");
     }
     

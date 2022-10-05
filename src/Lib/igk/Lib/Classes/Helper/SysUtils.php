@@ -14,6 +14,7 @@ use IGKEvents;
 use IGKException;
 use ReflectionMethod;
 use IGK\Controllers\BaseController;
+use IGK\System\Console\Logger;
 
 class SysUtils{
     /**
@@ -92,16 +93,7 @@ class SysUtils{
         if (is_array($n))
             return $n;
         return $n->to_array();
-    }
-
-    /**
-     * get configuration controllers
-     * @return mixed 
-     * @throws IGKException 
-     */
-    public static function GetConfigurationControllers(){
-        return ConfigControllerRegistry::GetConfigurationControllers();        
-    }
+    } 
 
      ///<summary>Notifify message</summary>
      public static function Notify($message, $type="default"){
@@ -201,5 +193,29 @@ class SysUtils{
      */
     public static function GetApplicationLibrary(string $name){
         return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
+    }
+
+     ///JUST: store to controller
+    ///<summary>clear cache for base dir</summary>
+    /**
+     * clear cache for base dir
+     */
+    public static function ClearCache($bdir = null, $init = 0)
+    {
+        $t = null;
+        if ($bdir == null)
+            $bdir = igk_io_cachedir();
+        $init && !defined("IGK_INIT_SYSTEM") && define("IGK_INIT_SYSTEM", 1);
+        // + | Clear assets folder
+        if (is_dir($assets = igk_io_basedir() . "/" . IGK_RES_FOLDER)) {
+            Logger::info("remove cache: " . $assets);
+            IO::RmDir($assets);
+        }
+        if (is_dir($bdir)) {
+            Logger::info("rm :" . $bdir);
+            IO::RmDir($bdir);
+            igk_io_w2file($bdir . "/.htaccess", "deny from all", false);
+            igk_hook("sys://cache/clear");
+        }
     }
 }

@@ -26,8 +26,9 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
 use IGK\System\Http\RequestResponse;
-use IGK\System\Http\WebResponse;
-use IGKApplicationLoader;
+use IGK\System\Http\WebResponse; 
+use IGK\ApplicationLoader;
+use IGK\System\Database\IDatabaseHost;
 use IGKEnvironment;
 use IGKResourceUriResolver;
 use IGKSysUtil as sysutil;
@@ -103,15 +104,18 @@ abstract class ControllerExtension
      * @param BaseController $ctrl 
      * @return array 
      */
-    public static function getViews(BaseController $ctrl, bool $withHidden = false): array
+    public static function getViews(BaseController $ctrl, bool $withHidden = false, bool $recursive=false): array
     {
         $gf = $ctrl->getViewDir();
         $tab = [];
         $ln = strlen($gf);
-        foreach (IO::GetFiles($gf, "/\.phtml/i", true) as $bf) {
+        foreach (IO::GetFiles($gf, "/\.phtml/i", $recursive) as $bf) {
             $n = substr($bf, $ln + 1);
             $p = dirname($n);
             $tn = igk_io_basenamewithoutext($n);
+            if (empty($tn)){
+                continue;
+            }
             if (!$withHidden) {
                 if ($tn[0] == '.') // hidden view
                     continue;
@@ -148,7 +152,7 @@ abstract class ControllerExtension
      */
     public static function getErrorViewFile(BaseController $controller, $code)
     {
-        if (file_exists($f = $controller->getViewDir() . "/.error/" . $code . ".phtml")) {
+        if (file_exists($f = $controller->getViewDir() . "/.error/" . $code . IGK_VIEW_FILE_EXT)) {
             return $f;
         }
         // igk_wln_e(
@@ -539,25 +543,23 @@ abstract class ControllerExtension
      */
     public static function InitDataBaseModel(BaseController $ctrl, $force = false)
     {
-        $core_model_base = igk_html_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
+        $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
         $c = $ctrl->getClassesDir() . "/Models/";
-        $tb = $ctrl->getDataTableInfo();
-        // $ns = igk_db_get_table_name("%prefix%", $ctrl);
-        $base_f = igk_html_uri($c . "ModelBase.php");
-
+        $v_def = $ctrl->getDataTableDefinition(null);
+        if (is_null($v_def)){
+            igk_environment()->isDev() && igk_die("definition not provided for ". $ctrl->getName().":".$ctrl->getDeclaredDir());
+            return false;
+        }
+        $tb = $v_def->tables;
+        $base_f = igk_uri($c . "ModelBase.php");
         if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
             igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
         }
-        if ($tb) {
-            // igk_wln_e(json_encode($tb, JSON_PRETTY_PRINT));
-
-            foreach ($tb as $k => $v) {
+        if ($tb){
+            foreach ($tb as $v) {
                 // remove prefix
                 $table = $v->defTableName;
-                $name = basename(igk_html_uri(sysutil::GetModelTypeName($table)));
-
-                // igk_wln_e("table:".$k . " ". $name);
-                // generate class name 
+                $name = basename(igk_uri(sysutil::GetModelTypeName($table)));
                 $file = $c . $name . ".php";
                 if (!$force && file_exists($file)) {
                     continue;
@@ -653,20 +655,20 @@ abstract class ControllerExtension
         }
     }
     public static function register_autoload(BaseController $ctrl)
-    {
-        // die(__METHOD__ . " - not implement - ");
+    {         
         $ns = $ctrl->getEntryNameSpace();
         $cldir = $ctrl->getClassesDir();
-        $loader =  IGKApplicationLoader::getInstance();
-        $loader->registerLoading($ns, $cldir);
-        if (defined('IGK_TEST_INIT')) {
-            $cldir = $ctrl->getTestClassesDir();
-            $loader->registerLoading($ns . "\\Tests", $cldir);
+        $loader =  ApplicationLoader::getInstance();
+        if ($loader->registerLoading($ns, $cldir)){ 
+            if (defined('IGK_TEST_INIT')) {
+                $cldir = $ctrl->getTestClassesDir();
+                $loader->registerLoading($ns . "\\Tests", $cldir);
+            }
+            if (file_exists($_auto_file = dirname($cldir) . "/autoload.php")) {
+                require_once($_auto_file);
+            }
+            igk_hook($ctrl::hookName("register_autoload"), [$ctrl]);
         }
-        if (file_exists($_auto_file = realpath($cldir . "/../autoload.php"))) {
-            require_once($_auto_file);
-        }
-        igk_hook($ctrl::hookName("register_autoload"), [$ctrl]);
     }
     public static function ns(BaseController $ctrl, $path)
     {
@@ -687,7 +689,7 @@ abstract class ControllerExtension
     {
         $cl = $ctrl::ns($path);
         $ctrl::register_autoload();
-        if (class_exists($cl, false) || IGKApplicationLoader::TryLoad($cl)) {
+        if (class_exists($cl, false) || ApplicationLoader::TryLoad($cl)) {
             return $cl;
         }
         return null;
@@ -850,10 +852,9 @@ abstract class ControllerExtension
     }
 
     /**
-     * get array ove view argument
+     * get array view argument
      */
-    public static function getViewArgs(BaseController $ctrl)
-    {
+    public static function getViewArgs(BaseController $ctrl){
         $view_args = [];
         foreach ($ctrl->getSystemVars() as $k => $v) {
             $view_args[$k] = $v;
@@ -887,7 +888,7 @@ abstract class ControllerExtension
      * @return mixed 
      * @throws IGKException 
      */
-    public static function getExtraArgs(BaseController $ctrl, ?string $name = null, $default = null)
+    public static function getExtraArgs(BaseController $ctrl, ?string $name = null, $default = [])
     {
         if ($g = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS)) {
             return is_null($name) ? $g : igk_getv($g, $name, $default);
@@ -906,9 +907,7 @@ abstract class ControllerExtension
     public static function login(BaseController $ctrl, $user = null, $pwd = null, $nav = true)
     {
         $u = $user;
-        // igk_trace();
-        // igk_wln_e(__FILE__.":".__LINE__,  "login, $user, $pwd" , $ctrl->User, "uri?".igk_app_is_uri_demand($ctrl, __FUNCTION__));
-
+        
         if (!igk_environment()->viewfile && igk_app_is_uri_demand($ctrl, __FUNCTION__) && file_exists($file = $ctrl->getViewFile(__FUNCTION__, false))) {
             $ctrl->loader->view($file, compact("u", "pwd", "nav"));
             return false;
@@ -1304,21 +1303,23 @@ abstract class ControllerExtension
     {
         $table = null;
         if (!$controller->getConfigs()->clDataSchema) {
-
             if (is_null($table = $controller->getDataTableName()))
                 return;
         }
 
 
         $f = $controller->getDbConstantFile();
-        $tb = $controller->getDataTableInfo();
+        $tb = $controller->getDataTableDefinition(null);
+        if ($tb){
+            $tb = $tb->tables;
+        }
 
 
         $s = "<?php" . IGK_LF;
         $s .= "// Balafon : generated db constants file" . IGK_LF;
         $s .= "// date: " . date(\IGKConstants::MYSQL_DATETIME_FORMAT) . IGK_LF;
         // generate class constants definition
-        $cl = igk_html_uri(get_class($controller));
+        $cl = igk_uri(get_class($controller));
         $ns = dirname($cl);
 
         if (!empty($ns) && ($ns != ".")) {
@@ -1381,42 +1382,42 @@ abstract class ControllerExtension
         return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl);
     }
     /**
-     * get data table definition
+     * controller get data table definition
      */
-    public static function getDataTableDefinition(BaseController $ctrl, $tablename)
+    public static function getDataTableDefinition(BaseController $ctrl, ?string $tablename=null)
     {
+        if (!($ctrl instanceof IDatabaseHost)){
+            return null;
+        }
         if ($ctrl->getUseDataSchema()) {
             $info = null;
-            if (!($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
+            if ( is_null($tablename) || !($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
+                // igk_wln_e("using .... stry loading schema");
                 if ($schema = self::loadDataFromSchemas($ctrl)) {
+                    if (is_null($tablename)){
+                        return $schema;
+                    }
                     if (isset($schema->tables[$tablename])) {
-                        $info = &$schema->tables[$tablename];
-                        // $debug && igk_wln_e(__FILE__.":".__LINE__, $ctrl, 
-                        // $schema,
-                        // $tablename,$info, array_keys((array)$info) );
+                        $info = &$schema->tables[$tablename];                         
                         if (!isset($info->tableRowReference)) {
                             //
                             // + | update data with table's row model reference info
                             //
                             $info->tableRowReference = igk_array_object_refkey($info->columnInfo, IGK_FD_NAME);
                         }
-                        \IGK\Database\DbSchemaDefinitions::RegisterDataTableDefinition($ctrl->getDataAdapterName(), $tablename, $info);
-                    }
+                        //\IGK\Database\DbSchemaDefinitions::RegisterDataTableDefinition($ctrl->getDataAdapterName(), $tablename, $schema);
+                    } 
                 }
             }
-            if ($info) {
-                // $m =  & \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename);
-                igk_hook(\IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename" => $tablename, "info" => &$info]);
-                // igk_wln_e("check???", 
-                //  $info["ColumnInfo"] === $m["ColumnInfo"]
-                // //  ,  \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename)
-                // );
+            if ($info) {    
+                $info->controller = $ctrl;            
+                igk_hook(\IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename" => $tablename, "info" => &$info]);              
             }
             return $info;
         } else {
-            if ($ctrl->getDataTableName() == $tablename) {
-                $clinfo = $ctrl->getDataTableInfo();
-
+            $v_single_table = $ctrl->getDataTableName();
+            if (!is_null($v_single_table)&& ($v_single_table == $tablename) && 
+                ($clinfo = $ctrl->getDataTableInfo()) ) {                
                 $cinfo = (object)[
                     "columnInfo" => $clinfo,
                     "tableRowReference" =>  igk_array_object_refkey($clinfo, IGK_FD_NAME)
@@ -1466,9 +1467,12 @@ abstract class ControllerExtension
         return $obj;
     }
 
-
-    public static function getIsVisible(BaseController $controller)
-    {
+    /**
+     * controller registrated in not visible list;
+     * @param BaseController $controller 
+     * @return bool 
+     */
+    public static function getIsVisible(BaseController $controller): bool{
         return !igk_environment()->isInArray(IGKEnvironment::NOT_VISIBLE_CTRL, get_class($controller));
     }
 
@@ -1497,13 +1501,12 @@ abstract class ControllerExtension
     /**
      * bind controller style to document
      */
-    public static function bindCssStyle(BaseController $controller, ?\IGKHtmlDoc $doc = null, bool $cssRendering = true)
+    public static function bindCssStyle(BaseController $controller, ?\IGK\System\Html\Dom\HtmlDocTheme $theme = null, bool $cssRendering = false)
     {
-        $doc = $doc ?? self::getCurrentDoc($controller);
-        if ($doc && !empty($file = $controller->getPrimaryCssFile())) {
-            return igk_ctrl_bind_css_file($controller, $doc, $file, $cssRendering, 0);
-        }
-        igk_wln_e("no bind " . $file);
+        $theme = $theme ?? self::getCurrentDoc($controller)->getTheme();
+        if ($theme && !empty($file = $controller->getPrimaryCssFile()) && is_file($file)) {
+            return igk_ctrl_bind_css_file($controller, $theme, $file, $cssRendering, 0);
+        } 
     }
     /**
      * project used controller's
@@ -1695,8 +1698,7 @@ abstract class ControllerExtension
      */
     public static function pcss(BaseController $controller, $fname, $document = null)
     {
-        if (is_null($document)) {
-            //$document = igk_view_args() ?? die("document not found");
+        if (is_null($document)) { 
             $document = $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? die("document not found");
         }
         if (is_string($fname)) {
@@ -1713,7 +1715,7 @@ abstract class ControllerExtension
                 $f .= "." . IGK_DEFAULT_STYLE_EXT;
             }
             if (file_exists($f)) {
-                $document->getTheme()->addTempStyle($controller, $f);
+                $document->getTheme()->addTempFile($controller, $f);
                 $c++;
             }
         }
@@ -1776,7 +1778,7 @@ abstract class ControllerExtension
      */
     public static function initGroups(BaseController $controller, array $groups)
     {
-        $cl = $controller->getName() ?? "/" . igk_html_uri(get_class($controller));
+        $cl = $controller->getName() ?? "/" . igk_uri(get_class($controller));
         foreach ($groups as $value) {
             $name = $controller::name($value);
             $group = Groups::createIfNotExists(["clName" => $name, "clController" => $cl]);
@@ -1803,8 +1805,7 @@ abstract class ControllerExtension
      */
     public static function getActionHandler(BaseController $controller, string $name)
     {
-
-        if ($controller->{ControllerParams::NoActionHandle})
+        if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
 
         if (igk_env_count(__METHOD__ . $name) > 1) {
@@ -1843,8 +1844,8 @@ abstract class ControllerExtension
             if (!empty($ns) && (strpos($cl, $ns . "\\") === 0)) {
                 $fcl = substr($cl, $sublen);
             }
-            $f = igk_io_dir(implode("/", [$classdir, $fcl . ".php"]));
-            // igk_wln("try : ".$f);
+            $f = igk_dir(implode("/", [$classdir, $fcl . ".php"]));
+            // igk_wln("try : ".$cl, " ", $f);
             if (file_exists($f) && class_exists($cl)) {
                 return $cl;
             }

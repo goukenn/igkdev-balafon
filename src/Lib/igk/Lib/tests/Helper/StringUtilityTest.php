@@ -60,18 +60,15 @@ class StringUtilityTest extends BaseTestCase
     }
 
     public function test_get_uri_value(){
-        $c = \IGK\System\Configuration\Controllers\AuthorisationController::ctrl();
-
-        $l = '<a href="'.$c->getUri("showConfig").'"></a>';
-        $n = igk_create_notagnode();
-        // $n->load($l);
+        $c = \IGK\System\Configuration\Controllers\AuthorisationController::ctrl(); 
+        $n = igk_create_notagnode(); 
         $p = [];
         $menu = new MenuItem("data", "", $c->getUri("showConfig"));
         MenuUtils::InitMenu($n, 
             $menu
         , $p);
         $this->assertEquals(
-            '<li><a href="./?c=igk%5Csystem%5Cconfiguration%5Ccontrollers%5Cauthorisationcontroller&f=showConfig">menu.data</a></li>',
+            '<li><a href="./?c='. \urlencode($c->getName()).'&f=showConfig">menu.data</a></li>',
             $n->render()
         ); 
     }

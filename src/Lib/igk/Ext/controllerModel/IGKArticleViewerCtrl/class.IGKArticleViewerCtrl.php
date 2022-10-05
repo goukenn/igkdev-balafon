@@ -10,15 +10,18 @@
 *script :
 */
 
+use IGK\Controllers\BaseController;
+use IGK\System\Html\Dom\HtmlNode;
+
 igk_js_bind_script_folder(dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 
 abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
 	protected function initComplete($context=null){
-		parent::initComplete();
+		parent::initComplete($context);
 	}
-	public function View(){
+	public function View():BaseController{
 		$t = $this->TargetNode;
 		$t->clearChilds();
 		if ($this->isVisible)
@@ -35,6 +38,7 @@ abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 		else{
 			$t->TargetNode->div()->Content = "No target item";
 		}
+		return $this;
 	}
 
 }

@@ -63,7 +63,7 @@ class IGKInstallSiteTool extends ToolControllerBase{
         igk_io_symlink(dirname(IGK_LIB_DIR), $appdir."/Lib");
         $dir=$root."/public";
         IO::CreateDir($dir);
-        $appdir=igk_html_uri($appdir);
+        $appdir=igk_uri($appdir);
         $sb = new StringBuilder();
         $sb->appendLine(InstallerUtils::GetEntryPointSource([
             "app_dir"=>$appdir,

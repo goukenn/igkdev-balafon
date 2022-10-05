@@ -24,8 +24,7 @@ use ReflectionClass;
 abstract class PageControllerBase extends ControllerTypeBase 
     implements IIGKUriActionRegistrableController, ILibaryController
 {
-
-    const PAGE_CONSTANT=IGKSession::BASE_SESS_PARAM + 0xA0;
+    const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
     const PAGE_USER=self::PAGE_CONSTANT + 1;
 
@@ -34,7 +33,7 @@ abstract class PageControllerBase extends ControllerTypeBase
      * init view
      * */
     protected function _initView(){ 
-        $this->register_autoload();        
+        $this->register_autoload();
         parent::_initView();
     }
     ///<summary>get buffer output</summary>

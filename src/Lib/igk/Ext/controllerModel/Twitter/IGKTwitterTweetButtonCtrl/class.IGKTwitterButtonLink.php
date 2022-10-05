@@ -8,6 +8,7 @@
 description: use to share a link to twitter
 */
 
+use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 
 abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerTypeBase
@@ -29,10 +30,9 @@ abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerType
 	}
 	 
 
-	public function View()
+	public function View():BaseController
 	{
-
-		extract($this->getSystemVars());
+		$t = $this->getTargetNode();
 		$t->clearChilds();
 		$c = $t->Add("div");
 		$tweet = R::ngets("lb.tweet");
@@ -41,6 +41,6 @@ $c->Content = <<<EOF
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="{$this->Configs->clTwitterUri}" data-lang="{$l}" >{$tweet->getValue()}</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 EOF;
-
+return $this;
 	}
 } 

@@ -7,6 +7,7 @@
 
 use function igk_resources_gets as __;
 
+use IGK\Controllers\BaseController;
 use IGK\Models\Community;
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -160,12 +161,12 @@ final class IGKCommunityLink extends ConfigControllerBase
 			return $ctrl->getDataTableName();
 		return null;
 	}
-	public function View(){
+	public function View():BaseController{
 		$c = $this->TargetNode;
 		if (!$this->IsVisible)
 		{
 			igk_html_rm($c);
-			return;
+			return $this;
 		}
 		$table = $this->getCommunityTable();
 		// $c->add($this->ConfigNode);
@@ -173,7 +174,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		igk_html_add_title($c->div(),"title.configure.community");
 		if ($table == null){
 			$c->div()->setClass("igk-danger")->Content = R::ngets("msg.community.addrequired");
-			return;
+			return $this;
 		}
 
 		$frm = $c->addForm();
@@ -244,6 +245,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 			 $frm->addBtn("btn_send", R::ngets("btn.update"));
 
 		} 
+		return $this;
 	}
 
 

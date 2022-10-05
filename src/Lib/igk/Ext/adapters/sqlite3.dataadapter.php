@@ -221,6 +221,16 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_list;
     private static $sm_sql;
 
+
+      /**
+     * check that a constraint exists
+     * @param string $name 
+     * @return bool 
+     */
+    function constraintExists(string $name):bool{
+        return false;
+    }
+    
        /**
      * create able info query
      * @param SQLGrammar $grammar 

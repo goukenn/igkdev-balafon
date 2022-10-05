@@ -40,7 +40,7 @@ define("IGK_INDEX_FILE", __FILE__);
 define('IGK_APP_DIR', $dir);
 define('IGK_NO_TRACELOG',1);
 include_once('Lib/igk/igk_framework.php');
-define("IGK_MAIN_FILE", igk_html_uri(PHar::running(false)));
+define("IGK_MAIN_FILE", igk_uri(PHar::running(false)));
 
 
  

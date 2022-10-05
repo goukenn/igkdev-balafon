@@ -31,6 +31,7 @@ class IGKEvents extends IGKObject
     const HOOK_DB_INIT_COMPLETE = "db_init_complete";
     const HOOK_DB_INIT_ENTRIES = "db_init_entries";
     const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
+    const HOOK_HTML_AFTER_RENDER_BODY="html_after_render_body";
     const HOOK_HTML_BODY = "html_body";
     const HOOK_HTML_FOOTER = "html_footer";
     const HOOK_HTML_HEAD = "html_head";
@@ -39,6 +40,7 @@ class IGKEvents extends IGKObject
     const HOOK_SCRIPTS = "html_load_scripts";
     const HOOK_USER_ADDED = "sys_user_added";
     const HOOK_USER_EXISTS = "sys_user_exists";
+    const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";
     const HOOK_MODEL_INIT = "db_init_model_macros";
     const HOOK_AUTLOAD_CLASS = "sys_autoload_class";

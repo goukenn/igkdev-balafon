@@ -58,9 +58,9 @@ class MakeViewCommand extends AppExecCommand{
 
         $bind = [];
 
-        $bind[$dir."/{$viewname}.phtml"] = function($file)use($viewname, $author){           
+        $bind[$dir."/{$viewname}".IGK_VIEW_FILE_EXT] = function($file)use($viewname, $author){           
             $builder = new PHPScriptBuilder();
-            $fname = $viewname.".phtml";
+            $fname = $viewname.IGK_VIEW_FILE_EXT;
             $builder->type("function")->name($viewname)
             ->author($author)
             ->defs("\$t->clearChilds();")
@@ -79,7 +79,7 @@ class MakeViewCommand extends AppExecCommand{
             }
         }
         
-        IGKControllerManagerObject::ClearCache(); 
+        \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }
     public function help(){ 

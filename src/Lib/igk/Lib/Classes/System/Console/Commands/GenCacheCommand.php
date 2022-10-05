@@ -48,7 +48,7 @@ class GenCacheCommand extends AppExecCommand{
 
         ]);
      
-        igk_io_w2file( $file = igk_io_dir(implode(DIRECTORY_SEPARATOR, [igk_io_cachedir()."/pages", $path])), $data);
+        igk_io_w2file( $file = igk_dir(implode(DIRECTORY_SEPARATOR, [igk_io_cachedir()."/pages", $path])), $data);
         Logger::success("done: ".$file);
     }
 }

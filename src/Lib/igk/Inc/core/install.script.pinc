@@ -23,7 +23,7 @@ if (!function_exists("igk_count")) {
     }
 }
 if (!function_exists("igk_io_dir")) {
-    function igk_io_dir($dir, $separator = DIRECTORY_SEPARATOR)
+    function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         if ($dir === null){          
             return $dir;
@@ -57,7 +57,7 @@ if (!function_exists("igk_io_rmdir")) {
             while (($f = readdir($hdir))) {
                 if (($f == ".") || ($f == ".."))
                     continue;
-                $v = igk_io_dir($dir . "/" . $f);
+                $v = igk_dir($dir . "/" . $f);
 
                 if ($callback && !$callback($v)) {
                     continue;

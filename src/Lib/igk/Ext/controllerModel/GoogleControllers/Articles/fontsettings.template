@@ -1,0 +1,8 @@
+<h2>
+    {{ "Google's installed font" }}
+</h2>
+<ul class="google font-list">
+    <li *for="$raw['fontlist']">
+        <span class="block"> A: {{ $raw }}</span>
+    </li>
+</ul>

@@ -8,6 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\WinUI\Menus\MenuItem;
 
@@ -22,7 +23,7 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     * 
     */
     protected function getConfigFile(){
-        return igk_io_dir($this->getDataDir()."/google.".IGK_CTRL_CONF_FILE);
+        return igk_dir($this->getDataDir()."/google.".IGK_CTRL_CONF_FILE);
     }
     ///<summary></summary>
     /**
@@ -89,30 +90,40 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         igk_ajx_redirect();
         igk_navto_referer();
     }
+   
     ///<summary></summary>
     /**
     * 
     */
     public function showConfig(){
         parent::showConfig();
-        $cnf = $this->getConfigNode();
+        if (!$this->getIsVisible()){
+            return;
+        }
+        $lang = [];
+        $lang["fr"]["code"]="Utilisez <code class=\"dispib\"> igk_google_addfont(\$doc, \$name)</code> pour inscrire la police de google dans le project";
+        $lang["fr"]['moreinfo']="pour plus d'information visité le site <a href='https://fonts.google.com/' title='google font'>https://fonts.google.com/</a>";
+        $lang["en"]["code"]="use <code class=\"dispib\"> igk_google_addfont(\$doc, \$name)</code> to add google's inline font";
+        $lang["en"]['moreinfo']="For more information please visit <a href='https://fonts.google.com/' title='google font'>https://fonts.google.com/</a>";
 
-        $box = $cnf->addPanelBox();
-        // $box->div()->Content = "OK ".igk_env_count(__FILE__);
-        // $box->div()->obdata(function(){
-        //     igk_trace();
-        // });
-		// $box->div()->setClass("igk-title-4")->setStyle("line-height:1; margin-bottom:1em")->Content = __("Google Setss tings");
+        $lkey = R::GetCurrentLang();
+        if (!in_array($lkey, array_keys($lang))){
+            $lkey = igk_configs()->get('default_lang', 'en');
+        }
 
-        $box= $cnf->addPanelBox();
-        $box->div()->h2()->Content = "Google's Font Setting";
-        // $box->panelbox()->Content = "...";
-        $box->panelbox()->Content = "use <code class=\"dispib\"> igk_google_addfont(\$doc, \$name)</code> to add google's inline font";
+        // $this->_selectConfigView($this);
+        $t = $this->getTargetNode();
+        $box = $this->getConfigNode()->panelbox();
+        $box->add($t);
+        $t->h2()->Content = __("Google's Font Setting"); 
+        $t->div()->Content = $lang[$lkey]['code'];
+        $t->div()->Content = igk_getv($lang[$lkey], 'moreinfo');
         igk_css_reg_global_tempfile(dirname(__FILE__)."/Styles/google.font.css");
+        if ($ftlist = $this->getfontlist()){
+            $t->div()->setClass('googel-install-ft')->article($this, $this->getDeclaredDir()."/Articles/fontsettings.template", ['fontlist'=>$ftlist]);
+            // $t->div()->Content = $this->getDeclaredDir("fontsettings.template");
 
-        $box->ctrlview("fontsettings", $this, ['fontlist'=>$this->getfontlist()]);
-
-
+        }
     }
 	public function resave(){
 		igk_google_store_setting();
