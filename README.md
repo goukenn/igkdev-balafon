@@ -1,7 +1,7 @@
 # Balafon
 Balafon php web framework
-## INSTALL
-pre-requis : 
+### INSTALL
+prerequisites
 
 ```
 php7.3+ - Apache
@@ -12,7 +12,7 @@ php-curl
 php-mysqli
 ```
 
-## FOR Apache
+### FOR Apache
 Apache serveur avec module rewrite
 ```
 a2enmod rewrite
