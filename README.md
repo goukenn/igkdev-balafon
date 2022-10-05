@@ -1,6 +1,6 @@
 # Balafon
 Balafon php web framework
-### INSTALL
+## INSTALL
 prerequisites
 
 ```
@@ -12,18 +12,27 @@ php-curl
 php-mysqli
 ```
 
-### FOR Apache
+### For AAPACHE
 Apache serveur avec module rewrite
 ```
 a2enmod rewrite
 a2enmod ssl
 ```
 
-## IN DOCKER 
+## In DOCKER 
 
 ## Concepts
 
-## Views
+### Controllers
+
+### Projects
+### Views
+### Modules
+
+### PCSS Binding
+
+### Article - Template - Binding
+
 
 ## Data Adapter
 
