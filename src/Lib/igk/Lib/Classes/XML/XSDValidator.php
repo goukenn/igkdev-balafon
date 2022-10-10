@@ -14,19 +14,19 @@ class XSDValidator
 {
     /**
      * validate with source 
-     * @param mixed $source xml source
-     * @param mixed $xsd xsd source
+     * @param string $source xml source
+     * @param string $xsd xsd source
      * @param mixed|null $error allow error
      * @return bool|void return true if succeed
      */
-    public static function ValidateSource($source, $xsd, &$error = null)
+    public static function ValidateSource(string $source, string $xsd, array & $error = null)
     {
-
         $dom = new DOMDocument;
         $dom->loadXml($source);
         if ($error !== null) {
             libxml_use_internal_errors(true);
         }
+        
         if ($success = !$dom->schemaValidateSource($xsd)) {
             $errors = libxml_get_errors();      
             foreach ($errors as $error) {
@@ -46,5 +46,21 @@ class XSDValidator
         }
         return !$success;
         
+    }
+    /**
+     * @return ?bool
+     */
+    public static function ValidateSourceUri(string $source, string $uri): ?bool{
+       
+        
+        if ($g = @file_get_contents($uri)){
+            if (!XSDValidator::ValidateSource($source, $g)){
+                igk_ilog(" not a good validator ");
+                return false;
+            }
+            return true;
+        }
+        error_clear_last();       
+        return null;
     }
 }

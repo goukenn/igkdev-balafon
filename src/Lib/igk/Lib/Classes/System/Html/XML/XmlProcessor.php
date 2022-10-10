@@ -9,10 +9,17 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
 
+use IGK\System\Html\HtmlRenderer;
+
 final class XmlProcessor extends XmlNode{
     ///<summary></summary>
     ///<param name="type"></param>
-    public function __construct($type){
+    /**
+     * 
+     * @param mixed $type processor type 
+     * @return void 
+     */
+    public function __construct(string $type="xml"){
         parent::__construct($type);
     }
     ///<summary></summary>
@@ -27,7 +34,7 @@ final class XmlProcessor extends XmlNode{
     ///<param name="options" default="null"></param>
     public function render($options=null){
         $c="<?".$this->TagName." ";
-        $c .= $this->getAttributeString(null);
+        $c .= HtmlRenderer::GetAttributeString($this, $options);
         $c .= "?>";
         return $c;
     }

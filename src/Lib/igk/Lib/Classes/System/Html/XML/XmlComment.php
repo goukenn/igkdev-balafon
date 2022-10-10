@@ -28,12 +28,8 @@ class XmlComment extends HtmlItemBase{
     }
     public function render($options=null){ 
         if (igk_getv($options, "NoComment"))
-            return null;   
-        $depth = "";
-        if (igk_getv($options, "Indent")){
-            $depth = str_repeat("\t", igk_getv($options, "Depth", 1)-2);
-        }
-        return $depth."<!-- " .trim($this->getContent()). " -->";
+            return null;    
+        return "<!-- " .trim($this->getContent()). " -->";
     }
     public function getCanRenderTag()
     {

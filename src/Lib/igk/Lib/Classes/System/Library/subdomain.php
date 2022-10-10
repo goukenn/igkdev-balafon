@@ -33,7 +33,10 @@ class subdomain{
         }
         if (!defined('IGK_CONFIG_PAGE') && !igk_is_cmd() && !IGKValidator::IsIPAddress(igk_server()->SERVER_NAME)){
 
-            igk_reg_hook(IGKEvents::HOOK_APP_BOOT, [$this, 'bootapp']);        
+            // igk_reg_hook(IGKEvents::HOOK_APP_BOOT, [$this, 'bootapp']);    
+            igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
+                $this->bootapp();
+            });    
             return true;
         }
         return false;

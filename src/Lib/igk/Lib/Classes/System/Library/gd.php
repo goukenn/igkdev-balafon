@@ -15,6 +15,7 @@ class gd extends \IGKLibraryBase{
         if(!extension_loaded("gd")){   
             return false;
         }
+ 
         require_once IGK_LIB_DIR."/igk_gd.php";
         return class_exists(IGKGD::class);
         

@@ -18,6 +18,12 @@ final class IGKConstants{
     const DEFAULT_TIME_ZONE = 'Europe/Brussels';
     const MODEL_TABLE_REGEX = "/%(?P<name>((sys)?prefix|year))%/i"; 
 
+
+ 
+    const SITEMAP_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd";
+    const SITEMAP_INDEX_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd";
+    const SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9";   
+
     /**
      * get the core version 
      * @return string 

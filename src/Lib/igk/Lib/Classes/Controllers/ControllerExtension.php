@@ -1652,6 +1652,7 @@ abstract class ControllerExtension
             $response = new ControllerRequestNotFoundRequestResponse($uri, $controller);
             $response->code = 500;
             $response->message = $ex->getMessage();
+            
         } finally {
             // restore
             $_GET = $state[0];

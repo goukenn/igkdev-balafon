@@ -664,7 +664,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $furi = $this->getAppUri($fname);
         $dir = $file ? dirname($file) : null;
         $cview = $this->getCurrentView();
-        $entryuri = igk_io_view_entry_uri($this, $fname);
+        $entry_uri = igk_io_view_entry_uri($this, $fname);
         return get_defined_vars();
     }
     ///<summary></summary>

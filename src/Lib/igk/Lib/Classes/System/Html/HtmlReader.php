@@ -812,7 +812,11 @@ final class HtmlReader extends IGKObject
                     break;
                 case XMLNodeType::INNER_TEXT:
                     // must set as inner text
-                    !$cnode && die("can't set inner text on non detected node");
+                    if (!$cnode){
+                        igk_trace();
+                        echo $reader->m_text;
+                        die("can't set inner text on non detected node");
+                    }
                     if (!empty($g = $reader->getValue())){
                         $cnode->setTextContent($g);
                     }

@@ -9,6 +9,8 @@ namespace IGK\System\Html\Css;
 
 use Exception;
 use IGK\Controllers\BaseController;
+use IGK\Css\CssThemeOptions;
+use IGK\Css\CssThemeRenderer;
 use IGK\Css\IGKCssColorHost;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -16,6 +18,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
+use IGK\System\Http\CookieManager;
 use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
@@ -31,18 +34,135 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
  */
 abstract class CssUtils
 {
-    public static function InitSysGlobal(\IGKHtmlDoc $doc){
+    /**
+     * generate single theme value
+     * @param BaseController $controller 
+     * @param string $theme 
+     * @return string|false 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     * @throws CssParserException 
+     */
+    public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME )
+    {
+        $opt = new CssThemeOptions;
+        $opt->theme_name = $theme;
+        $theme = new HtmlDocTheme(null, "temp", "temporary");
+        $systheme = igk_app()->getDoc()->getSysTheme();
+        // set options before bind style
+        $theme->setRenderOptions($opt);
+        igk_css_bind_sys_global_files($systheme);
+        igk_css_load_theme($theme);
+        $controller->bindCssStyle($theme, true);
+        ob_start();
+        echo "/* CSS theme */";
+        echo implode("\n", [
+            $systheme->get_css_def(true, true),
+            $theme->get_css_def(true, true)
+        ]);
+        $r = ob_get_contents();
+        ob_clean();
+        $theme->setRenderOptions(null);
+        return $r;
+    }
+
+    /**
+     * get theme by selecting primary theme
+     * @param BaseController $controller 
+     * @param string $primaryTheme 
+     * @return string|false 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     * @throws CssParserException 
+     */
+    public static function GenCssWithThemeSupport(BaseController $controller, string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME )
+    {
+        $systheme = igk_app()->getDoc()->getSysTheme();
+        igk_css_bind_sys_global_files($systheme);
+        $def = [];
+        $def = array_merge($def, self::AppendDataTheme($controller, $primaryTheme));        
+        ob_start();
+        echo "/* CSS theme */";
+        echo implode("\n", array_merge([
+            $systheme->get_css_def(true, true),
+        ], $def)
+        );
+        $r = ob_get_contents();
+        ob_clean();
+        // $theme->setRenderOptions(null);
+        return $r;
+    }
+    /**
+     * 
+     * @param mixed $controller 
+     * @param mixed $theme 
+     * @param mixed $primaryTheme 
+     * @return array 
+     * @throws IGKException 
+     */
+    public static function AppendDataTheme($controller, string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME){
+        $def = [];  
+        // $def[] = $srctheme->get_css_def();
+        // $gg = $srctheme->getDef();
+        // $ttab = $gg->getAttributes();
+        foreach (["light", "dark"] as   $theme_name) {
+           
+            $opt = new CssThemeOptions;
+            $opt->theme_name = $theme_name;
+            $theme = new HtmlDocTheme(null, "temp", "temporary");
+            $is_primaryTheme = $primaryTheme == $theme_name;
+            // set options before bind style
+            $theme->setRenderOptions($opt);
+            igk_css_load_theme($theme);
+            $controller->bindCssStyle($theme, true);
+            $g = $theme->getDef();
+            $tab = $g->getAttributes();
+            $lk = "html[data-theme=$theme_name] ";
+            array_map(function ($v, $k) use ($g, $theme_name, $is_primaryTheme, $lk) {
+               // + | ignore case 
+                if (empty($v) || (strpos($k, 'html[data-theme=')!==false) || !preg_match(IGK_CSS_TREAT_REGEX, $v)){                    
+                    return null;
+                }
+                $key = self::_Prekeys($k, $lk);
+                $g[$key] = $v;
+                if (!$is_primaryTheme) {
+                    $g[$k] = null;
+                } 
+            }, $tab, array_keys($tab)); 
+
+            $def[] = $theme->get_css_def(true, true);
+        } 
+        return $def;
+    }
+    private static function _Prekeys($tab, $keys){
+        $lk = explode(",", $tab);
+        $lk = implode(",", array_map(function($a)use($keys){
+            $a = ltrim($a);
+            // for :root trim space
+            if (strlen($a)>0 && ($a[0]==':')){
+                $keys = trim($keys);
+            }
+            return $keys.$a;
+        }, $lk));
+        return $lk;
+    }
+    public static function InitSysGlobal(\IGKHtmlDoc $doc)
+    {
         $clear = 0;
         $sys = $doc->getSysTheme();
-        if (!$sys->getinitGlobal()){
-            $sys->initSysGlobal(); 
+        if (!$sys->getinitGlobal()) {
+            $sys->initSysGlobal();
             $clear = 1;
-            if (!defined("IGK_FORCSS")){
-                register_shutdown_function(function()use($sys){
+            if (!defined("IGK_FORCSS")) {
+                register_shutdown_function(function () use ($sys) {
                     $sys->resetSysGlobal();
                 });
             }
-        } 
+        }
         return $clear;
     }
     /**
@@ -60,23 +180,24 @@ abstract class CssUtils
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-    public static function InitBindingCssFile(BaseController $ctrl,
+    public static function InitBindingCssFile(
+        BaseController $ctrl,
         //  \IGKHtmlDoc $document,  
-        HtmlDocTheme $theme, 
-        string $file, 
+        HtmlDocTheme $theme,
+        string $file,
         bool $cssRendering,
         bool $temp = false,
-        bool $raiseHook=true)
-    {   
+        bool $raiseHook = true
+    ) {
         if (is_file($file)) {
             // if (!defined("IGK_FORCSS")) { 
-            if (!$cssRendering){  
+            if (!$cssRendering) {
                 igk_css_reg_global_style_file($file, $theme, $ctrl, $temp);
                 // $document->getSysTheme(), $ctrl, $temp);
-            } else { 
+            } else {
                 igk_css_bind_file($theme, $ctrl, $file);
             }
-            if ($raiseHook){
+            if ($raiseHook) {
                 igk_hook(IGKEvents::HOOK_BIND_CTRL_CSS, ["sender" => $ctrl, "type" => "css"]);
             }
         }
@@ -92,20 +213,20 @@ abstract class CssUtils
      */
     public static function GetInlineStyleRendering($doc, bool $themeexport)
     {
-        
+
         $bvtheme = new HtmlDocTheme($doc, "temp://files", false);
         $out = "";
-        $g = $doc->getTheme()->getInlineStyle(true);          
+        $g = $doc->getTheme()->getInlineStyle(true);
         // igk_wln_e("inline style renderegin ??? ", $doc->getParam('change'), $g);
         // igk_wln("inline rendering", $g);
         // + | reset parameter        
         $sys = $doc->getSysTheme();
         $clear = 0;
         if ($g) {
-            if (!$sys->getinitGlobal()){
+            if (!$sys->getinitGlobal()) {
                 $sys->initSysGlobal();
                 $clear = 1;
-            } 
+            }
             foreach ($g as $v) {
                 igkOb::Start();
                 igk_css_bind_file($bvtheme, null, igk_io_expand_path($v->file));
@@ -114,7 +235,7 @@ abstract class CssUtils
                 if (!empty($m)) {
                     $out .= $m;
                 }
-            }  
+            }
         }
         $o = "";
         if (!empty($out)) {
@@ -123,7 +244,7 @@ abstract class CssUtils
         $o .= $bvtheme->get_css_def(false, false, null, $doc);
         if ($clear)
             $sys->resetSysGlobal();
-            
+
         if (!empty($o)) {
             $s = igk_create_node("style");
             $s["id"] = "tempsp";
@@ -140,21 +261,34 @@ abstract class CssUtils
      * @return void 
      * @throws IGKException 
      */
-    public static function AppendInlineStyle(string $file){
+    public static function AppendInlineStyle(string $file)
+    {
         $ctrl = igk_get_current_base_ctrl();
-        if ($doc = ViewHelper::CurrentDocument()){ 
-           $doc->getTheme()->addInlineStyle($ctrl, $file); 
+        if ($doc = ViewHelper::CurrentDocument()) {
+            $doc->getTheme()->addInlineStyle($ctrl, $file);
         }
     }
 
 
-    public static function GetFileContent(string $file, $ctrl, $theme){
+    public static function GetFileContent(string $file, $ctrl, $theme)
+    {
         self::Include($file, $ctrl, $theme);
         return $theme->getDef();
     }
-    public static function Include($file, $ctrl, $theme){
+    /**
+     * include binding files
+     * @param string $file 
+     * @param ?BaseController $ctrl 
+     * @param HtmlDocTheme $theme 
+     * @return void 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function Include(string $file, ?BaseController $ctrl=null, 
+    HtmlDocTheme  $theme, ?string $theme_name=null)
+    {
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
-        require_once __DIR__."/theme_functions.php";
+        require_once __DIR__ . "/theme_functions.php";
 
         $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
         $sm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
@@ -175,25 +309,42 @@ abstract class CssUtils
             unset($n);
         }
         $def = $theme->def;
-        $cltab = & $theme->getCl();
-        $cl = IGKCssColorHost::Create($cltab); 
+        $cltab = &$theme->getCl();
+        $cl = IGKCssColorHost::Create($cltab);
         $prop = &$theme->getProperties();
         $referer = igk_server()->get("HTTP_REFERER", "igk://system");
         igk_environment()->push(IGKEnvironmentConstants::CSS_UTIL_ARGS, get_defined_vars());
+        $pt = $theme->getRenderOptions();
+        if (is_null($pt)) {
+            $pt = new CssThemeOptions;
+            $pt->theme_name = $theme_name ?? igk_getr("theme_name", 
+            CssSession::getInstance()->theme_name ?? 
+            CookieManager::getInstance()->get('theme_name')            
+            ?? CssThemeOptions::DEFAULT_THEME_NAME);
+            $theme->setRenderOptions($pt);
+        }
+
+      
+
+        igk_include_if_exists(
+            dirname($file) . "/themes/" . $theme->getRenderOptions()->theme_name . ".theme.pcss",
+            get_defined_vars()
+        );
         include($file);
         igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);
 
-        $cltab = & $theme->getCl();
+        $cltab = &$theme->getCl();
         $cl = IGKCssColorHost::Create($cltab);
         if (isset($root) && is_array($root)) {
-            $v_root = igk_getv($def, ":root" , "");
-            foreach ($root as $k => $v) {
-                if (empty($v))
-                    continue;
-                $v_root .= $k . ":" . $v . ";";
-                igk_set_env_keys("sys://css/vars", $k, $v);
-            }
-            $def[":root"] = $v_root;
+            $v_root = igk_getv($def, ":root", "");
+            $v_root = implode(";", array_map(
+                 function($a ,$b){
+                    igk_set_env_keys("sys://css/vars", $b, $a);
+                    return $b.":".$a;
+                 },
+                 $root, array_keys($root)));            
+            $def[":root"] = $v_root; 
+            unset($v_root);
         }
     }
 }

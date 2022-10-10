@@ -4,7 +4,9 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
+use IGK\Css\CssThemeOptions;
 use IGK\Resources\R;
+use IGK\System\Html\Css\CssSession;
 use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
 use IGK\System\Html\Dom\HtmlDocCoreStyle;
@@ -14,6 +16,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\HtmlMetaManager;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Http\CookieManager;
 use IGK\System\Http\IHeaderResponse;
 
 /**
@@ -171,10 +174,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     }
     /**
      * 
-     * @param string $theme dark|light
+     * @param ?string $theme dark|light
      * @return $this 
      */
-    public function setDefaultTheme(string $theme){
+    public function setDefaultTheme(?string $theme){
         $this->m_page_theme = $theme;
         return $this;
     }
@@ -262,11 +265,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         parent::__construct();
         $this->m_id = $id; 
         $this->m_theme= new HtmlDocTheme($this, "css:public");
-        $this->m_privatetheme= new HtmlDocTheme($this, "css:private");
-        $this->m_page_theme = "dark";
-
+        $this->m_privatetheme= new HtmlDocTheme($this, "css:private"); 
         $this->setFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG, $this->prepareScriptManager());
-       
         $this->getHead()->add(new GlobalScriptManagerHostNode());
         $this->_addCoreCss();
         $this->setup_document();
@@ -622,8 +622,13 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     }
     public function headerExtraAttribute(){
         $attr = "";
-        if ($this->m_page_theme)
-            $attr .= "data-theme=\"".$this->m_page_theme."\" ";
+
+        $theme_name = $this->m_page_theme ??  
+        CssSession::getInstance()->theme_name ?? 
+        CookieManager::getInstance()->get('theme_name')            
+        ?? CssThemeOptions::DEFAULT_THEME_NAME;
+        if ($theme_name)
+            $attr .= "data-theme=\"".$theme_name."\" ";
         if ($this->m_dir){
             $attr .= "dir=\"".$this->m_dir."\" ";
         }

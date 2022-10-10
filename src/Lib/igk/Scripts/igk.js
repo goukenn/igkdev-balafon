@@ -4554,8 +4554,11 @@ Name:balafon.js
             }
             return this;
         },
-        setSize: function(w, h) { if (h == null) h = w;
-                this.setCss({ "width": w, "height": h }); return this; }
+        setSize: function(w, h) {
+                if (h == null) h = w;
+                this.setCss({ "width": w, "height": h });
+                return this;
+            }
             // -------------- GET PROPERTIES
             ,
         getAttribute: function(value) {
@@ -4570,10 +4573,20 @@ Name:balafon.js
         getPixel: function(propName, o) { // return a pixel value
             return igk.getPixel(this.getComputedStyle(propName), o || this.o, propName);
         },
-        appendChild: function(name) { var item = null; if (typeof(name) == "string") { item = document.getElementById(name); } else { item = name; } if (item != null) { var s = $igk(item);
-                this.o.appendChild(s.o); return s; } },
-        appendNChild: function(tagname) { var item = this.createElement(tagname);
-            this.appendChild(item); return item; },
+        appendChild: function(name) {
+            var item = null;
+            if (typeof(name) == "string") { item = document.getElementById(name); } else { item = name; }
+            if (item != null) {
+                var s = $igk(item);
+                this.o.appendChild(s.o);
+                return s;
+            }
+        },
+        appendNChild: function(tagname) {
+            var item = this.createElement(tagname);
+            this.appendChild(item);
+            return item;
+        },
         insertBefore: function(item) {
             // this.o.insertBefore(i,j); 
             // @ item to add
@@ -4613,8 +4626,10 @@ Name:balafon.js
             });
             return r;
         },
-        prependChild: function(node) { if (this.o.firstChild) this.o.insertBefore(node, this.o.firstChild);
-            else { this.o.appendChild(node); } },
+        prependChild: function(node) {
+            if (this.o.firstChild) this.o.insertBefore(node, this.o.firstChild);
+            else { this.o.appendChild(node); }
+        },
         reg_event: function(method, func, opts) {
             if (this.o.each) {
                 this.o.each(this.reg_event, arguments);
@@ -4751,10 +4766,14 @@ Name:balafon.js
     __prop.getscrollLeft = function() { if (this.o.pageXOffset) { return this.o.pageXOffset; } else if (this.o.scrollLeft) return this.o.scrollLeft; return 0; };
     __prop.getscrollTop = function() { if (this.o.pageYOffset) { return this.o.pageYOffset; } else if (this.o.scrollTop) return this.o.scrollTop; return 0; };
     __prop.getscrollLocation = function(targetParent) { return igk.winui.GetScrollPosition(this.o, targetParent); };
-    __prop.getscrollMaxTop = function() { if (this.o.scrollTopMax) return this.o.scrollTopMax;
-        else return this.o.offsetHeight; };
-    __prop.getscrollMaxLeft = function() { if (this.o.scrollLeftMax) return this.o.scrollLeftMax;
-        else return this.o.offsetWidth; };
+    __prop.getscrollMaxTop = function() {
+        if (this.o.scrollTopMax) return this.o.scrollTopMax;
+        else return this.o.offsetHeight;
+    };
+    __prop.getscrollMaxLeft = function() {
+        if (this.o.scrollLeftMax) return this.o.scrollLeftMax;
+        else return this.o.offsetWidth;
+    };
     // -------------- WINDOW function
     __prop.createElement = function(tagname) {
         if (this.o.namespaceURI == null) {
@@ -7062,12 +7081,14 @@ Name:balafon.js
     });
     // web utility functions
     createNS("igk.web", {
-        setcookies: function(name, value, exdays) {
+        setcookies: function(name, value, exdays, path) {
             var exdate = new Date();
             if (exdays)
                 exdate.setDate(exdate.getDate() + exdays);
             var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
             c_value += "; SameSite=Strict";
+            if (path)
+                c_value += "; Path=" + path;
             document.cookie = name + "=" + c_value;
         },
         getcookies: function(name) {
@@ -9225,10 +9246,14 @@ Name:balafon.js
             // update size for draggin
             var pt = igk.winui.GetRealScreenPosition(dialog);
             var adjusted = false;
-            if (pt.x < 0) { pt.x = 0;
-                adjusted = !0; }
-            if (pt.y < 0) { pt.y = 0;
-                adjusted = !0; }
+            if (pt.x < 0) {
+                pt.x = 0;
+                adjusted = !0;
+            }
+            if (pt.y < 0) {
+                pt.y = 0;
+                adjusted = !0;
+            }
             if (adjusted) {
                 dialog.style.margin = "0"; // remove marging			
                 dialog.style.left = pt.x + "px";
@@ -9291,10 +9316,14 @@ Name:balafon.js
                     var adjustedx = false;
                     var adjustedy = false;
                     if (this.locToScreen) {
-                        if (pt.x < 0) { pt.x = 0;
-                            adjustedx = true; }
-                        if (pt.y < 0) { pt.y = 0;
-                            adjustedy = true; }
+                        if (pt.x < 0) {
+                            pt.x = 0;
+                            adjustedx = true;
+                        }
+                        if (pt.y < 0) {
+                            pt.y = 0;
+                            adjustedy = true;
+                        }
                         if (this.box.offsetParent) {
                             if (!adjustedx)
                                 if ((pt.x + this.box.clientWidth) >= this.box.offsetParent.clientWidth) {
@@ -12358,8 +12387,12 @@ Name:balafon.js
                 // t:target
                 if (!t)
                     return;
-                igk.ajx.get(u, null, function(xhr) { if (this.isReady()) { this.setResponseTo(t);
-                        igk.ajx.fn.initnode(t); } });
+                igk.ajx.get(u, null, function(xhr) {
+                    if (this.isReady()) {
+                        this.setResponseTo(t);
+                        igk.ajx.fn.initnode(t);
+                    }
+                });
             },
             replace_body: function(xhr) {
                 if (this.isReady()) {
@@ -12674,10 +12707,12 @@ Name:balafon.js
             this.height = h ? w : 0;
             this.toString = function() { return "igk.math.rectangle[" + this.x + "," + this.y + "," + this.width + "," + this.height + "]"; };
             this.isEmpty = function() { return (this.width == 0) || (this.height == 0); };
-            this.inflate = function(x, y) { this.x -= x;
+            this.inflate = function(x, y) {
+                this.x -= x;
                 this.y -= y;
                 this.width += 2 * x;
-                this.height += 2 * y; };
+                this.height += 2 * y;
+            };
         }
     });
     createNS("igk.utils", {
@@ -13625,8 +13660,10 @@ Name:balafon.js
             $igk(this.view).setProperties({ "class": "dark_op90" });
             igk_setcss_bound(this.view, this.bound);
             this.o.view.appendChild(this.view);
-            this.setBound = function(rc) { this.bound = rc;
-                igk_setcss_bound(this.view, this.bound); }
+            this.setBound = function(rc) {
+                this.bound = rc;
+                igk_setcss_bound(this.view, this.bound);
+            }
         }
     });
     createNS("igk.winui.rectangleSelector", {
@@ -16563,8 +16600,10 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function(n, v) {
             if (m) {
                 window.igk.ajx.postform(q,
                     q.getAttribute('action'),
-                    function(xhr) { if (this.isReady()) { if (xhr.responseText.length > 0) { this.setResponseTo(m); } }
-                        q.reset(); },
+                    function(xhr) {
+                        if (this.isReady()) { if (xhr.responseText.length > 0) { this.setResponseTo(m); } }
+                        q.reset();
+                    },
                     false);
                 if (clf) {
                     q['igk:framebox'].close();
@@ -18314,6 +18353,11 @@ igk.ready(function() {
             console.debug('[BJS] -/!\v properties ' + item + ' not defined');
         }
     }
+
+    function _get_html_theme() {
+        var d = document.getElementsByTagName('html')[0];
+        return d.getAttribute('data-theme');
+    }
     igk.system.createNS("igk.css", {
         changeDocumentTheme(n) {
             var d = document.getElementsByTagName('html')[0];
@@ -18325,6 +18369,8 @@ igk.ready(function() {
                 }
             }
             d.setAttribute('data-theme', n);
+            igk.cookies.set('theme_name', n);
+            igk.log(`>change cookie ${n}`);
             return n;
         },
         getStyleSelectorList(index) {
@@ -18656,6 +18702,23 @@ igk.ready(function() {
                 device: igk.css.getDevice()
             });
         };
+        // support theme changement
+        function __checkMediaTheme() {
+            const cTheme = _get_html_theme();
+            let m = window.matchMedia('(prefers-color-scheme: dark)');
+            if (!cTheme) {
+                igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
+            }
+            m.addEventListener('change', (e) => {
+                igk.css.changeDocumentTheme(e.matches ? 'dark' : 'light');
+            });
+        };
+
+        if (window.matchMedia) {
+            __checkMediaTheme();
+        }
+
+
         B.addClass(m_c);
         __raiseMedia(m_c);
         igk.winui.reg_event(window, 'resize', __checkMedia);
@@ -22004,8 +22067,10 @@ igk.system.createNS("igk.system", {
                 var r = this.getAttribute("href");
                 switch (r) {
                     case "::close":
-                        this.reg_event("click", function(evt) { evt.preventDefault();
-                            g.close(evt); });
+                        this.reg_event("click", function(evt) {
+                            evt.preventDefault();
+                            g.close(evt);
+                        });
                         break;
                 }
             });
@@ -23019,4 +23084,28 @@ igk.system.createNS("igk.system", {
             return c;
         }
     })
+})();
+
+
+/// cookies management
+
+(function() {
+    // on init before set the properties ste the properties cookies name readonly
+    let sC = null;
+    const appCookies = igk.cookieName || 'blf-c';
+    igk.system.createNS("igk.cookies", {
+        set(n, v) {
+            if (!sC) {
+                let l = igk.web.getcookies(appCookies);
+                if (l) {
+                    sC = JSON.parse(l) || {};
+                } else {
+                    sC = {};
+                }
+            }
+            sC[n] = v;
+            igk.web.setcookies(appCookies, JSON.stringify(sC), undefined, "/");
+            return sC;
+        }
+    });
 })();

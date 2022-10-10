@@ -11,9 +11,6 @@ if(!extension_loaded("gd")){
     return;
 }
 define("IGK_GD_SUPPORT", 1);
-?><?php
-
-
 
 ///<summary></summary>
 ///<param name="src"></param>

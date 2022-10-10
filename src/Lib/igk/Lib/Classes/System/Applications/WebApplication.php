@@ -13,6 +13,7 @@ use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\ConfigurationPageHandler;
@@ -38,17 +39,18 @@ class WebApplication extends IGKApplicationBase
 
     private function runEngine($render = true)
     {
+        throw new NotImplementException(__METHOD__);
         // + | ------------------------------------------------------------
         // + | start engine index
         // + | ------------------------------------------------------------      
         // Benchmark::mark(__METHOD__);
-        IGKApp::StartEngine($this);
-        // Benchmark::expect(__METHOD__, 0.5); 
-        RequestHandler::getInstance()->handle_ctrl_request_uri();
-        if ($render) {
-            // render document
-            HtmlRenderer::RenderDocument(igk_app()->getDoc());
-        }
+        // IGKApp::StartEngine($this);
+        // // Benchmark::expect(__METHOD__, 0.5); 
+        // RequestHandler::getInstance()->handle_ctrl_request_uri();
+        // if ($render) {
+        //     // render document
+        //     HtmlRenderer::RenderDocument(igk_app()->getDoc());
+        // }
     }
     /**
      * bootstrap application
@@ -58,7 +60,7 @@ class WebApplication extends IGKApplicationBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function bootstrap($bootoptions = null)
+    public function bootstrap($bootoptions = null, $loader=null)
     {
         // clean header
         if (!igk_environment()->isDev()) {
@@ -66,7 +68,17 @@ class WebApplication extends IGKApplicationBase
             // header_remove("X-Powered-By");
             // header_remove("Server");
         } 
-        IGKApp::Init();
+        // 
+        // + |  before init application dispactch to uri handler 
+        // $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
+        // isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
+
+        IGKApp::Init();  
+
+        $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
+        isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
+
+
         // enable benchmark        
         Benchmark::Activate(
             igk_environment()->isDev() && igk_getr(Benchmark::REQUEST_PARAM),
@@ -124,6 +136,8 @@ class WebApplication extends IGKApplicationBase
                 $this->setDefaultController($c);
             }
         }
+
+      
     }
     /**
      * shortcut to set system default controller

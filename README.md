@@ -10,6 +10,7 @@ module php requis
 php-zip
 php-curl
 php-mysqli
+php-gd
 ```
 
 ### For AAPACHE
@@ -17,6 +18,7 @@ Apache serveur avec module rewrite
 ```
 a2enmod rewrite
 a2enmod ssl
+a2enmod header
 ```
 
 ### In DOCKER 

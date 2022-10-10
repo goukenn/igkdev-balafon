@@ -132,7 +132,7 @@ class ViewEnvironmentArgs{
      * define entry uri
      * @var mixed
      */
-    var $entryuri;
+    var $entry_uri;
 
     /**
      * base directory 

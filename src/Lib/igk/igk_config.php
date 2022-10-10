@@ -315,6 +315,7 @@ define("IGK_DEFAULT_LANG_FOLDER", IGK_LIB_DIR . "/Default/Lang/");
 
 define("IGK_SESSION_FILE_PREFIX", "blf_sess_");
 defined('IGK_APP_SESSION_KEY') || define("IGK_APP_SESSION_KEY", "igk");
+defined('IGK_DEFAULT_APP_COOKIE_NAME') || define('IGK_DEFAULT_APP_COOKIE_NAME', 'blf-c');
 define("IGK_LOG_SYS", "BLF");
 define("IGK_COMPONENT_NAMESFILE", IGK_LIB_DIR . "/Data/References/Components/Inc/names.pinc");
 define("IGK_DEFAULT_THEME_ID", "theme://document");

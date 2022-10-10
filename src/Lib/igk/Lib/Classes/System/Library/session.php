@@ -28,6 +28,7 @@ class session extends \IGKLibraryBase{
         require_once IGK_LIB_CLASSES_DIR."/Controllers/SessionController.php";
 
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
+            // igk_wln("start session .... ");
             $this->start(); 
         }); 
         // register_shutdown_function(function(){

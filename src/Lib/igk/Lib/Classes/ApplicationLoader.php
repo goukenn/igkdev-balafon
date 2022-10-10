@@ -9,10 +9,12 @@ namespace IGK;
 use IGK\Helper\IO;
 use IGK\System\IO\Path as IGKPath;
 use IGK\helper\StringUtility;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Traits\ClassFileVersionLoaderTrait;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
+use ReflectionException;
 
 require_once IGK_LIB_CLASSES_DIR . '/System/Traits/ClassFileVersionLoaderTrait.php';
 require_once IGK_LIB_CLASSES_DIR . '/Server.php';
@@ -200,14 +202,14 @@ class ApplicationLoader
         $this->callables[] = get_defined_vars();
         $this->sorted = 1;
     }
-    public function registerLoading($entryNS, $classdir, $priority = 20, &$refile = null):bool
+    public function registerLoading($entryNS, $classdir, $priority = 20, &$refile = null): bool
     {
         $cl = &igk_environment()->createArray(IGKEnvironment::AUTO_LOAD_CLASS);
         if (!isset($cl[$classdir])) {
             $auto_register = false;
             $cl[$classdir] = compact("entryNS", "refile", "auto_register");
             $this->Load(function ($n) use ($classdir, &$cl) {
-                $e_ns = igk_getv($cl[$classdir], "entryNS");               
+                $e_ns = igk_getv($cl[$classdir], "entryNS");
                 $g = self::_TryLoadClasses([$n], $classdir, $e_ns, false, false);
                 return $g;
             }, $priority, $classdir, $entryNS);
@@ -286,8 +288,8 @@ class ApplicationLoader
     {
         $included = null;
         $v_coreload  = !self::$sm_instance->_coreload;
-        if ($v_coreload){ 
-            $included = & self::$sm_instance->_included;          
+        if ($v_coreload) {
+            $included = &self::$sm_instance->_included;
         } else {
             $included = [];
         }
@@ -309,7 +311,7 @@ class ApplicationLoader
         }
         $force_load = true;
         $core_ns = "IGK/";
-        $php_ext = ".php"; 
+        $php_ext = ".php";
 
         while ($cdir = array_shift($path)) {
             if (!is_dir($cdir)) {
@@ -317,13 +319,13 @@ class ApplicationLoader
             }
             while ($result &&  ($classname = array_shift($classnames)) !== null) {
                 //if (! $v_coreload ){
-                    if ($tpath = self::$sm_instance->getRegisterClass($classname)) {
-                        $found = true;
-                        require_once($tpath); 
-                        $result = $result && $found;
-                        break;
-                    }
-                    //} 
+                if ($tpath = self::$sm_instance->getRegisterClass($classname)) {
+                    $found = true;
+                    require_once($tpath);
+                    $result = $result && $found;
+                    break;
+                }
+                //} 
                 // load class method
                 if ($force_load || (!class_exists($classname, false) && !trait_exists($classname, false) && !interface_exists($classname, false))) {
                     // igk_ilog("tryload:".$classname);
@@ -345,13 +347,13 @@ class ApplicationLoader
                             $ext = ".{$version}" . $ext;
                             $files[] = $cdir . "/" . $f . $ext;
                             $files[] = $cdir . "/{$version}/" . $f . $php_ext;
-                        } 
+                        }
                         while ($cf = array_shift($files)) {
                             if (isset($included[$cf]) || !is_file($cf)) {
                                 continue;
                             }
-                             
-                            require_once($cf);                           
+
+                            require_once($cf);
                             if (
                                 !class_exists($n, false) && !interface_exists($n, false)
                                 && !trait_exists($n, false)
@@ -362,8 +364,8 @@ class ApplicationLoader
                                 }
                                 $result = false;
                             }
-                           
-                            if ($auto_register){
+
+                            if ($auto_register) {
                                 // first version file founded
                                 $included[$cf] = $cf;
                                 if ($v_coreload) {
@@ -387,6 +389,8 @@ class ApplicationLoader
     {
         return self::LoadClasses([$classname]);
     }
+
+
     /**
      * boot loading application
      * @param string $type default is 'web'
@@ -410,8 +414,8 @@ class ApplicationLoader
             $boot = true;
         }
         // + | Initialize environment  
-        if ($boot) {            
-            $file = self::$sm_instance->getCacheFile();            
+        if ($boot) {
+            $file = self::$sm_instance->getCacheFile();
             if (is_file($file)) {
                 include($file);
             } else {
@@ -431,65 +435,102 @@ class ApplicationLoader
                     \IGKIterator::class,
                     \IGKUserInfo::class,
                     \IIGKArrayObject::class,
-                    \IGKResourceUriResolver::class, 
+                    \IGKResourceUriResolver::class,
                 ]);
                 self::$sm_instance->_changed = true;
             }
-            self::$sm_instance->_coreload = true;          
+            self::$sm_instance->_coreload = true;
         }
         //return null;
-        ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: ".$type);        
+        ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: " . $type);
         if ($boot) {
-
-            $app->bootstrap($bootoptions);
-            // igk_wln_e("bootstrap.... ", $boot );
-            // + |-----------------------------------------------------------------------
-            // + | mandatory constants protected base constant
-            // + |         
-            $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
-
-            if (!defined('IGK_APP_DIR')) {
-                $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
-                define("IGK_APP_DIR", $dir);
-            }
-            if (!defined('IGK_BASE_DIR')) {
-                define("IGK_BASE_DIR", $bdir);
-            }
-            if (!defined("IGK_PROJECT_DIR")) {
-                $dir = !empty($dir = $srv->IGK_PROJECT_DIR) && is_dir($dir) ? $dir : StringUtility::Dir(IGK_APP_DIR . "/" . IGK_PROJECTS_FOLDER);
-                define("IGK_PROJECT_DIR", $dir);
-            }
-            if (!defined("IGK_MODULE_DIR")) {
-                if (!empty($dir = $srv->IGK_MODULE_DIR) && is_dir($dir))
-                    define("IGK_MODULE_DIR", $dir);
-            }
-            if (!defined("IGK_PACKAGE_DIR")) {
-                define("IGK_PACKAGE_DIR", IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
-            }
-
-            if (!defined("IGK_MODULE_DIR")) {
-                define("IGK_MODULE_DIR", IGK_PACKAGE_DIR . "/" . IGK_MODULE_FOLDER);
-            }
-            if (defined('IGK_SESS_DIR') && (is_dir(IGK_SESS_DIR) || IO::CreateDir(IGK_SESS_DIR))) {
-                ini_set("session.save_path", IGK_SESS_DIR);
-            }
-            self::$sm_instance->path = IGKPath::getInstance();
-            $package_dir = self::$sm_instance->path->getPackagesDir();
-            // + | -----------------------------------------------------
-            // + | Autoloading composer packages
-            // + | 
-            if (is_file($package_dir . "/composer.json") && is_file($package_dir . "/vendor/autoload.php")) {
-                igk_environment()->getComposerLoader()->register($package_dir . "/vendor/autoload.php");
-                // preload spl loading class
-                // spl_autoload_unregister($initialize["spl_auto_loader"]);
-                // require_once($package_dir . "/vendor/autoload.php");
-                // spl_autoload_register($initialize["spl_auto_loader"], true, true);
-            }
-            igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]);
+            $app->bootstrap($bootoptions, function()use($app){ 
+                self::$sm_instance->bootApp($app);
+            });
+            self::$sm_instance->bootApp($app);
         }
         // + | -----------------------------------------------------
         // + | return the application 
         // + |  
         return $app;
+    }
+    /**
+     * boot application loader 
+     * @param mixed $app 
+     * @return never 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function bootApp($app){
+ 
+        if (self::$sm_instance->_resolvConstant()){            
+            igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]); 
+        }
+    }
+    /**
+     * resolv_constant
+     * @return bool 
+     * @throws IGKException 
+     */
+    private function _resolvConstant()
+    {
+        if (!empty($this->path)){
+            return false;
+        }
+        self::InitConstants();       
+        $this->path = IGKPath::getInstance();
+        $package_dir = $this->path->getPackagesDir();
+        // + | -----------------------------------------------------
+        // + | Autoloading composer packages
+        // + | 
+        if (is_file($package_dir . "/composer.json") && is_file($package_dir . "/vendor/autoload.php")) {
+            igk_environment()->getComposerLoader()->register($package_dir . "/vendor/autoload.php");
+            // preload spl loading class
+            // spl_autoload_unregister($initialize["spl_auto_loader"]);
+            // require_once($package_dir . "/vendor/autoload.php");
+            // spl_autoload_register($initialize["spl_auto_loader"], true, true);
+        }
+        return true;
+    }
+    /**
+     * init application lodader constrants 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function InitConstants(){        
+        $srv = igk_server();
+        // igk_wln_e("bootstrap.... ", $boot );
+        // + |-----------------------------------------------------------------------
+        // + | mandatory constants protected base constant
+        // + |         
+        $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
+
+        if (!defined('IGK_APP_DIR')) {
+            $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
+            define("IGK_APP_DIR", $dir);
+        }
+        if (!defined('IGK_BASE_DIR')) {
+            define("IGK_BASE_DIR", $bdir);
+        }
+        if (!defined("IGK_PROJECT_DIR")) {
+            $dir = !empty($dir = $srv->IGK_PROJECT_DIR) && is_dir($dir) ? $dir : StringUtility::Dir(IGK_APP_DIR . "/" . IGK_PROJECTS_FOLDER);
+            define("IGK_PROJECT_DIR", $dir);
+        }
+        if (!defined("IGK_MODULE_DIR")) {
+            if (!empty($dir = $srv->IGK_MODULE_DIR) && is_dir($dir))
+                define("IGK_MODULE_DIR", $dir);
+        }
+        if (!defined("IGK_PACKAGE_DIR")) {
+            define("IGK_PACKAGE_DIR", IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
+        }
+
+        if (!defined("IGK_MODULE_DIR")) {
+            define("IGK_MODULE_DIR", IGK_PACKAGE_DIR . "/" . IGK_MODULE_FOLDER);
+        }
+        if (defined('IGK_SESS_DIR') && (is_dir(IGK_SESS_DIR) || IO::CreateDir(IGK_SESS_DIR))) {
+            ini_set("session.save_path", IGK_SESS_DIR);
+        }
+
     }
 }

@@ -276,7 +276,7 @@ class IGKApp extends IGKObject
      * @return void 
      */
     public static function StartEngine(IGKApplicationBase $app, $render = 1)
-    {       
+    {              
         // | --------------------------------------------------------------
         // | init environment
         // |
@@ -287,7 +287,6 @@ class IGKApp extends IGKObject
         igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
-        $manager = self::$sm_instance->getControllerManager();
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
         igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting); 
         if (!$app->getNoEnvironment()){
@@ -413,13 +412,16 @@ class IGKApp extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function BootLogicCallback($e){        
+    public static function BootLogicCallback($e){       
         $app = $e->args[0];
         $_hookArgs = $e->args[1]['hookArgs'];
         $_callback = $e->args[1]['callback'];
-        self::$sm_instance->m_application = $app;
         igk_unreg_hook(IGKEvents::HOOK_APP_BOOT, $_callback);
+        self::$sm_instance->m_application = $app;
+        self::$sm_instance->m_initialized = __METHOD__;
+        // boot environment - environment can handle request logic 
         IGKAppSystem::LoadEnvironment(self::$sm_instance); 
+        // init hook logics
         self::_InitHookLogic($_hookArgs);        
     }
 }

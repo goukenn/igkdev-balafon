@@ -11,16 +11,26 @@ use IGK\Helper\IO;
 
 class CoreControllerTest extends ControllerBaseTestCase
 {
+    static $sm_dir;
     public function __construct()
     {
         $g = TestController::ctrl();
         parent::__construct($g);
     }
     public function setup(): void
+    {        
+        $this->controller::setEnvParam("DeclaredDir", self::$sm_dir); 
+    }
+    public static function setUpBeforeClass(): void
     {
         $sdir = sys_get_temp_dir()."/testController";
         IO::CreateDir($sdir);
-        $this->controller::setEnvParam("DeclaredDir", $sdir); 
+        IO::CreateDir($sdir."/Views");
+        self::$sm_dir = $sdir;
+    }
+    public static function tearDownAfterClass(): void
+    {
+        @unlink(self::$sm_dir);
     }
     public function test_get_view_file_name()
     {

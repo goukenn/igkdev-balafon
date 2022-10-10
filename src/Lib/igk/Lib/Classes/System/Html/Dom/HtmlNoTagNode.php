@@ -5,24 +5,23 @@
 // @desc: 
 
 namespace IGK\System\Html\Dom; 
-///<summary>Represente class: IGKHtmlNoTagNode</summary>
+///<summary>no tag definition</summary>
 /**
-* no definition 
+* no tag definition 
 */
 class HtmlNoTagNode extends HtmlNode{
     ///<summary></summary>
     /**
-    * 
+    * .ctr
     */
     public function __construct(){
         parent::__construct("igk:notagnode");
     }
     ///<summary></summary>
     /**
-    * 
+    * can render tag
     */
     public function getCanRenderTag(){ 
         return false;
-    }
-    
+    }    
 }

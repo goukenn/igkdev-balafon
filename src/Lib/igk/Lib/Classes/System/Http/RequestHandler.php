@@ -169,7 +169,7 @@ class RequestHandler
     }
     /**
      * handle application request uri
-     * @param mixed $u 
+     * @param mixed $u ?c=controller_id&f=function_to_handle
      * @param int $defaultBehaviour 
      * @return int|void|null|false 
      * @throws IGKException 
@@ -258,8 +258,7 @@ class RequestHandler
         if (defined('IGK_REDIRECTION')) {
             die("already call redirection");
         }
-        define("IGK_REDIRECTION", 1);
-        // IGKApp::StartEngine($application, 0);
+        define("IGK_REDIRECTION", 1); 
         igk_environment()->write_debug("Redirect engine start : ".igk_sys_request_time());
         $defctrl = igk_get_defaultwebpagectrl();
 

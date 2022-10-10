@@ -545,8 +545,9 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         else
             igk_die("Operation not  allowed ".__FUNCTION__);
     }
-    ///raise the session UpdateEVent
+    ///
     /**
+    * raise the session UpdateEVent
     */
     public function update(){    
         $this->__set(IGKSession::IGK_REDIRECTION_SESS_PARAM, null);
@@ -563,5 +564,34 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }else {
             $this->m_sessionParams[self::SESS_SERVICE] =$service; 
         }
+    } 
+
+    /**
+     * update store value
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return mixed 
+     */
+    public function updateValue($key, $value){
+        $rt = $this->$key;
+        if (is_callable($value)){
+            $rt = $value($rt);
+        } else {
+            if (!$rt){
+                $rt = $value;
+            }
+        }
+        $this->$key = $rt;
+        return $rt;
+    }
+    /**
+     * get session id
+     * @return string|false|int 
+     */
+    public function session_id(){
+        if (igk_app()->getApplication()->lib("session")){
+            return session_id();
+        }
+        return -1;
     }
 }

@@ -47,7 +47,6 @@ class ProjectCheckViewCommand extends AppExecCommand{
 
         // $file = $ctrl->getViewFile('.forms/enterprise');
         // $r = [];
-        // igk_debug(1);
         // $file2 = $ctrl->getViewFile('default8.phtml', 1, $r); // $this->getViewFile($v, 1, $params)
         // igk_wln_e($file, $file2, "------------------");
 

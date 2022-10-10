@@ -4,6 +4,13 @@
 // @date: 20220803 13:51:47
 // @desc: 
 
+/**
+ * get cookie manage
+ * @return mixed 
+ */
+function igk_cookies(){
+    return \IGK\System\Http\CookieManager::getInstance();
+}
 
 ///<summary></summary>
 /**

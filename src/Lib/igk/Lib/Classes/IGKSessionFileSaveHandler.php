@@ -73,6 +73,7 @@ class IGKSessionFileSaveHandler{
     ///<param name="data"></param>
     public function write($id, $data){
         $f=$this->_getFile($id);
+        // igk_ilog("write _session ".$id. " : ".igk_io_request_uri());
         return igk_io_w2file($f, $data);
     }
 }

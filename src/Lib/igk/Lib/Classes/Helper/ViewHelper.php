@@ -120,6 +120,7 @@ class ViewHelper
     /**
      * include sub view. from current controller view context
      * @return mixed 
+     * @param string $file file to include
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 

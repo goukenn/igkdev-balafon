@@ -1235,7 +1235,7 @@ class IO
         }
         $_viewdir = $start;
         $od = rtrim($start, "/");
-        if ($dir = opendir($_viewdir)) {
+        if ($dir = @opendir($_viewdir)) {
             $cp = array_filter(explode("/", $path));
             while ($dir && ($tq = array_shift($cp))) {
                 $q = strtolower($tq);
@@ -1261,8 +1261,8 @@ class IO
                     break;
                 }
             }
+            closedir($dir);
         }
-        if ($dir) closedir($dir);
         return $od;
     }
 }

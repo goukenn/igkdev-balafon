@@ -93,12 +93,7 @@ class CssThemeResolver
             // initialize 
             $this->start = igk_sys_request_time();
             $this->cldef = &igk_css_get_treat_colors($this->parent ? $this->parent->getDef()->getCl() : []);
-        } else {            
-            // $duration = (($mt = igk_sys_request_time()) - $this->start);
-            // igk_dev_ilog(sprintf("css_duration : %s/%s", $duration, $mt));
-        }
-
-        // $reg = IGK_CSS_TREAT_REGEX;
+        }  
         $reg3 = IGK_CSS_CHILD_EXPRESSION_REGEX;
         $match = array();
         $gtheme = $theme = $this->theme;
@@ -208,7 +203,7 @@ class CssThemeResolver
         return $v;
     }
     /**
-     * treat value
+     * treat css  value
      */
     public function treat_value(string $v, bool $themeexport)
     {
@@ -437,6 +432,7 @@ class CssThemeResolver
                 $v = str_replace($v_m, $ncl . $a, $v);
                 break;
             case self::ATTR_FOREGROUND_COLOR:
+                $resolved = false;
                 $v = str_replace($v_m, $this->_get_fcl($chainColorCallback($value, $resolved)), $v);
                 break;
             case self::ATTR_BACKGROUND_COLOR:

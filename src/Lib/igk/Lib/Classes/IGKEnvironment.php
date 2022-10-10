@@ -22,6 +22,7 @@ use function igk_getv as getv;
 * use to manage Server Environment configuration poperties
 * @property string $subdomainctrl current subdomain controller
 * @property string $basectrl base controller
+* @property string $cookie_name base controller
 * @property int    $querydebug activate of not the query debug
 * @property array  $db_adapter get registered data adapters
 * @property bool $no_lib_cache no library cache
@@ -636,5 +637,20 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     }
     public function getComposerLoader(){
         return self::GetClassInstance("composer:loader");
+    }
+    /**
+     * get application cookie name
+     */
+    public function getCookieName(){
+        return $this->get('cookie_name', IGK_DEFAULT_APP_COOKIE_NAME);
+    }
+    /**
+     * set application cookie Name 
+     * @param string $name 
+     * @return $this 
+     */
+    public function setCookieName(string $name){
+        $this->set('cookie_name', $name);
+        return $this;
     }
 }

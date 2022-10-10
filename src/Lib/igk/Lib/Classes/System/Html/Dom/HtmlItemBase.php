@@ -1278,7 +1278,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<param name="options" default="null"></param>
     /**
      * 
-     * @param mixed $options the default value is null
+     * @param object $options the default value is null
+     * @param bool $exit stop on exists
      */
     public function renderXML($options = null, $exit = 1)
     {

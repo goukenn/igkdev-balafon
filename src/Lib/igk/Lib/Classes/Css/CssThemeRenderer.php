@@ -111,7 +111,7 @@ class CssThemeRenderer
 
         $theme = $doc->getTheme();
         if ($this->controller) {
-            $this->controller->bindCssStyle($doc, true);
+            $this->controller->bindCssStyle($theme, true);
         }
 
         if (!$no_systheme) {

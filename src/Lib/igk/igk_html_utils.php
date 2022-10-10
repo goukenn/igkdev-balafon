@@ -6,11 +6,13 @@
 
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
+use IGK\System\Html\Converters\Converter;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\FormBuilder;
 use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Http\CookieManager;
 
 use function igk_resources_gets as __;
 
@@ -1429,22 +1431,44 @@ function igk_html_form_login_fields()
  * @param null|string $uri if not provided the controller must handle /cookie-details request
  * @return void 
  */
-function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = "agree", ?string $uri = null)
+function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieManager::agree, ?string $uri = null, ?string $id = "cookie-agree" )
 {
-    if (!isset($_COOKIE[$cookiename])){
-        $t->div()->setId("cookie-agree")->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
+    if (!CookieManager::getInstance()->get($cookiename)){
+        $t->div()->setId($id)->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
             ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
                 $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
-                    ->setStyle("width:16px; height:16px;")->on('click', "igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
+                    ->setStyle("width:16px; height:16px;")->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
                 $h->article(
                     $ctrl,
                     $article,
                     ["home_cookie" => $uri ?? $ctrl::uri("cookie-details")]
                 );
-                $h->script()->Content = "igk.ctrl.cookie_agree.init('#cookie-agree', '{$cookiename}');";
+                $h->script()->Content = "(a=igk.ctrl.cookie_agree) && a.init('#cookie-agree', '{$cookiename}');";
             }, $ctrl, $article, $uri, $cookiename);
     }
 }
 
 igk_load_library("html_ob");
 igk_load_library("html_json");
+
+
+/**
+ * helper: convert object to xml representation.
+ * @param mixed $o 
+ * @param int $ignoreEmpty 
+ * @param string $tag 
+ * @param string $numeric_array_tag 
+ * @return HtmlItemBase 
+ * @throws IGKException 
+ */
+function igk_html_conv2html($o, $ignoreEmpty=1, $tag="notagnode", $numeric_array_tag="item"){
+    // + | object to html presentation
+    // + | by default convert name=>value to <name>value</name>
+    // + | for non assiated array must convert to <numeric_array_tag>value<numeric_array_tag>
+    // + | if value object or render support 
+    $conv = new Converter;
+    $conv->ignoreEmpty = $ignoreEmpty;
+    $conv->tag = $tag;
+    $conv->numeric_array_tag = $numeric_array_tag;    
+    return $conv->Convert($o);
+}

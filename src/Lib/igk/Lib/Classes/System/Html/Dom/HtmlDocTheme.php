@@ -10,7 +10,8 @@ namespace IGK\System\Html\Dom;
 use ArrayAccess;
 use Exception;
 use IGK\Controllers\BaseController;
-use IGK\Css\CssColorDef; 
+use IGK\Css\CssColorDef;
+use IGK\Css\CssThemeOptions;
 use IGK\Css\ICssResourceResolver;
 use IGK\Css\ICssStyleContainer; 
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
@@ -42,8 +43,26 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     private $m_istemp;
     private $m_resolver;
     private $m_initGlobal;
+    private $m_options;
     private static $MEDIA;
     private static $SM_MEDIAKEY;
+
+    /**
+     * get the redering options
+     */
+    public function getRenderOptions(){
+        return $this->m_options;
+    }
+    /**
+     * set the rendering options
+     * @param null|CssThemeOptions $options 
+     * @return $this 
+     */
+    public function setRenderOptions(?CssThemeOptions $options=null){
+        $this->m_options = $options;
+        return $this;
+    }
+
     /**
      * get if is init global
      */
@@ -288,9 +307,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 $out .= "/* <!-- Fonts --> */" . $lineseparator . $s . $ft_def;
         }
         if ($def->getHasRules()) {
-            $out .= "/* <!-- Rules --> */" . $lineseparator;
+            !$themeexport && $out .= "/* <!-- Rules --> */" . $lineseparator;
             $out .= $def->getRulesString($lineseparator, $themeexport, $systheme);
-            $out .= "/* <!-- end:Rules --> */\n";
+            !$themeexport && $out .= "/* <!-- end:Rules --> */".$lineseparator;
         }
 
         $s = "";
@@ -307,9 +326,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             }
         }
         if ($tv) {
-            $out .= "/* <!-- Attributes --> */" . $lineseparator;
+            !$themeexport && $out .= "/* <!-- Attributes --> */" . $lineseparator;
             $out .= rtrim($s) . $lineseparator;;
-            $out .= "/* <!-- end:Attributes --> */" . $lineseparator;
+            !$themeexport && $out .= "/* <!-- end:Attributes --> */" . $lineseparator;
         }
         $res = $this->res;
         if (!$themeexport) {

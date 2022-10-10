@@ -415,6 +415,9 @@ function igk_io_applicationdir()
  */
 function igk_is_cmd()
 {
+    if (isset($_SERVER["SERVER_PROTOCOL"])){
+        return false;
+    }
     return ((isset($_SERVER["argv"]) && !isset($_SERVER["SERVER_PROTOCOL"]))) || igk_environment()->get("sys://func/" . __FUNCTION__);
 }
 function igk_set_cmd($v = 1)
@@ -1866,4 +1869,101 @@ function igk_php_sversion(?string $version=PHP_VERSION):string{
     } 
     $version = preg_split("/[^0-9\.]/i", $version)[0];
     return implode('.', array_slice(explode('.', $version), 0,2));
+}
+
+///<summary></summary>
+///<param name="code"></param>
+///<param name="message" default=""></param>
+/**
+ * 
+ * @param mixed $code response mesage code
+ * @param mixed $message custom message to add to response
+ * @param array headers list of extra header entries
+ */
+function igk_set_header($code, $message = "", $headers = [])
+{
+    if (igk_is_cmd())
+        return false;
+    static $fcall = null;
+    if ($fcall === null)
+        $fcall = 0;
+    $message = trim($message);
+    if (!empty($message))
+        $message = ";" . $message;
+    $message .= ";" . IGK_FRAMEWORK . ": " . IGK_CODE_NAME . " - " . IGK_VERSION;
+    $h = igk_get_allheaders();
+    $new = 1;
+    if (($o = igk_getv($h, "ORIGIN")) && ($ref = igk_getv($h, "REFERER"))) {
+        if (rtrim($o, "/") == rtrim($ref, "/")) {
+            $new = 0;
+        }
+    }
+    $msg = igk_get_header_status($code);
+    $txt = "Status: {$code} $msg";
+    if (!$fcall) {
+        if ($new) {
+            header($msg);
+            header($txt, 1);
+            header(IGK_FRAMEWORK . ":" . IGK_CODE_NAME . "-" . IGK_VERSION);
+        }
+    } else {
+        header($txt, 1, $code);
+    }
+    igk_environment()->isDev() && header("srv-msg:" . $message);
+    if ($headers)
+        foreach ($headers as $k) {
+            header($k);
+        }
+    $fcall = 1;
+}
+
+///<summary>bind my how header</summary>
+/**
+ * bind my how header
+ */
+function igk_get_allheaders()
+{
+    return igk_get_env(__FUNCTION__, function () {
+        $tab = array();
+        if (function_exists("getallheaders")) {
+            $t = getallheaders();
+            foreach ($t as $k => $v) {
+                $k = strtoupper(str_replace('-', '_', $k));
+                $tab[$k] = $v;
+            }
+        }
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $name = str_replace(' ', '-', substr($name, 5));
+                $tab[$name] = $value;
+            } else if ($name == "CONTENT_TYPE") {
+                $tab["Content-Type"] = $value;
+            } else if ($name == "CONTENT_LENGTH") {
+                $tab["Content-Length"] = $value;
+            }
+        }
+        return $tab;
+    });
+}
+///<summary>Represente igk_get_header_status function</summary>
+///<param name="code"></param>
+/**
+ * Represente igk_get_header_status function
+ * @param mixed $code 
+ */
+function igk_get_header_status($code)
+{
+    return \IGK\System\Http\StatusCode::GetStatus($code);
+}
+
+///<summary>specifu cache output</summary>
+/**
+ * specifu cache output
+ */
+function igk_header_cache_output($second = 3600)
+{
+    $ts = gmdate("D, d M Y H:i:s", time() + $second) . " GMT";
+    header("Expires: {$ts}");
+    header("Pragma: cache");
+    header("Cache-Control: max-age={$second}, public");
 }

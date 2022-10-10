@@ -20,6 +20,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_dbname;
     private $m_fhandle;
 
+    public function constraintExists(string $name): bool {
+        return false;
+    }
+
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string {
         return "";
     }

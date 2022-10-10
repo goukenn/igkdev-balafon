@@ -35,8 +35,6 @@ function igk_sys_gen_global_sitemap($store=0){
 		$options->Indent=1;
 		$uri = igk_io_baseUri()."/Lib/igk/Styles/sitemap.xsl";
 		igk_wl(igk_xml_header());
-
-
 		//!!!!!immportant note xml-stylesheet not working use xsl-stylesheet
 
 igk_wl(<<<EOF

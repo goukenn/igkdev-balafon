@@ -7,4 +7,5 @@
 
 final class IGKViewActionsConstants{
     const HANDLE_ERROR = "(@error)";
+    const HANDLE_DEFAULT = "(@default)";
 }

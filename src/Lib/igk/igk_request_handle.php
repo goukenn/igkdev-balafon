@@ -20,7 +20,6 @@ IGKRoutes::Register("^/favicon.ico[%q%]", function(){
         ["Content-Type: image/png",
         "Cache-Control: max-age=31536000"]
     );
-    // header("Content-Type: image/png");
     include(IGK_LIB_DIR."/Default/R/Img/balafon.ico");
     igk_exit();
 }

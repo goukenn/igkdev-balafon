@@ -175,6 +175,11 @@ class HtmlRenderer
             return self::GetValue($o);
         }
     }
+    private static function reduceDepth($options, $tag=null){
+        
+        $options->Depth = max(0, $options->Depth - 1);
+        igk_debug_wln("\nreduct to : ".$options->Depth.": ".$tag);
+    }
     /**
      * a way to render node
      */
@@ -192,14 +197,16 @@ class HtmlRenderer
         $reflect = [];
         $ln = $options->LF;
         $engine = igk_getv($options, "Engine");
-        $level = $options->Depth;  
         $tab_start = false;
         if ($options->header){
             $s = self::_GetHeader($options->header);
             $options->header = null;
         }
 
-        while (($q = array_pop($tab)) && !$options->Stop) {
+        while ( (count($tab)> 0) && !$options->Stop) {
+            if (!($q = array_pop($tab))){
+                continue;
+            }
             $tag = null;
             $i = null;
             if (is_array($q))
@@ -223,10 +230,10 @@ class HtmlRenderer
                         unset($options->__append__);
                     }
                 }
-                $options->Depth++;
+                
                 if ($engine) {
                     $s .= $engine->render($i, $options);
-                    $options->Depth = max($level, $options->Depth - 1);
+                    self::reduceDepth($options, 'engine');   
                     continue;
                 }
                 if ($options->Source !== $i) {
@@ -238,27 +245,27 @@ class HtmlRenderer
                         if (!empty($v_c = $i->render($options))) {
                             $s .=  $v_c.$ln;
                         }
-                        $options->Depth = max(0, $options->Depth - 1);
+                        self::reduceDepth($options, 'reflec_class');   
                         continue;
                     }
                 }
-
-
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
                 $havTag = !empty($tag);
                 $tab_start = false;
+                if (!$havTag) {
+                    self::reduceDepth($options, 'notagnode'); 
+                    $s = rtrim($s).$ln.self::GetTabStop($options); 
+                }
+
                 if ($havTag) {
                     $s .= "<" . $tag . "";
                     // render attribute 
                     if (!empty($attr = static::GetAttributeString($i,  $options))) {
                         $s .= " " . rtrim($attr);
                     }
-                } else {
-                    // + | do not progress depth because item do not have tag presentation
-                    $options->Depth = max($level, $options->Depth - 1);
-                }
-
+                } 
+                $options->Depth++;
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options); 
 
@@ -302,19 +309,19 @@ class HtmlRenderer
             } else {
                 $tag = $q["tag"];
             }
-            $options->Depth = max($level, $options->Depth - 1);
             if (!empty($tag)) {
+                self::reduceDepth($options);   
                 if ($q["close_tag"]) {
                     if ($ln && $q["have_childs"] && ($options->Depth > 0)) {
                         $s = rtrim($s) . $ln . self::GetTabStop($options);
                     }
-                    $s .=  "</" . $tag . ">" . $ln;
+                    $s .=  "</" . $tag .">" . $ln;
                 } else {
                     $s .= "/>" . $ln;
                 }
             }
         } 
-        return $s;
+        return rtrim($s);
     }
     public static function MailThemeRendering(HtmlItemBase $item, & $attribs=[],  $options= null){
          //for mail rendering attribures

@@ -67,7 +67,7 @@ PHP,
 #{{% @MainLayout }} 
 echo 'bonjour';
 PHP;
- igk_debug(true);
+ 
 $g = BalafonViewCompiler::CompileSource($src, (object)[
     "layout"=>new \IGK\System\WinUI\PageLayout
 ]); 

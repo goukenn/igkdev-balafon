@@ -15,17 +15,12 @@ class MakeProjectTest extends BaseTestCase{
         $build["version"] = "1.0";
         $build["author"] = "C.A.D BONDJE DOUE";
         $build["createAt"] = '20130101 12:00:00';
-        $c = $build->comment("data schema");
-        igk_debug(true);
-        $out = $build->render((object)["Context"=>"XML", "Indent"=>true]);
-
-        igk_wln_e(__FILE__.":".__LINE__, $out);
-
-
+        $c = $build->comment("data schema"); 
+        $out = $build->render((object)["Context"=>"XML", "Indent"=>true]); 
         $this->assertEquals(
-            <<<'XML'
+            <<<XML
 <data-schemas version="1.0" author="C.A.D BONDJE DOUE" createAt="20130101 12:00:00">
-    <!-- data schema -->
+\t<!-- data schema -->
 </data-schemas>
 XML,
 $out,

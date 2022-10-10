@@ -97,5 +97,17 @@ HTML
         );
 
     }
+
+
+    public function test_render_indent(){
+        $n = igk_create_node("sample");
+        $n->notagnode()->div()->Content = "Hello";
+        $this->assertEquals(<<<HTML
+<sample>
+\t<div>Hello</div>
+</sample>
+HTML,
+ $n->render((object)["Indent"=>true]));
+    }
    
 }
