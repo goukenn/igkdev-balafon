@@ -178,7 +178,7 @@ class HtmlRenderer
     private static function reduceDepth($options, $tag=null){
         
         $options->Depth = max(0, $options->Depth - 1);
-        igk_debug_wln("\nreduct to : ".$options->Depth.": ".$tag);
+        // igk_debug_wln("\nreduct to : ".$options->Depth.": ".$tag);
     }
     /**
      * a way to render node

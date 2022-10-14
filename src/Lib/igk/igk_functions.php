@@ -2065,13 +2065,11 @@ function igk_createforminput($name, $attributes = null, $index = null)
  */
 function igk_createloading_context($ctrl, $raw = null)
 {
-    $t = [];
-    $t["ctrl"] = isset($ctrl) ? $ctrl : null;
-    $t["raw"] = $raw;
-    $t["load_expression"] = true;
-    if (count($t) > 0)
-        return (object)$t;
-    return null;
+    $t = new \IGK\System\Html\HtmlLoadingContextOptions;    
+    $t->ctrl = isset($ctrl) ? $ctrl : null;
+    $t->raw = $raw;
+    $t->load_expression = true;
+    return $t;
 }
 ///<summary>shorcut to create a balafon web node</summary>
 /**
@@ -6930,9 +6928,7 @@ function igk_db_view_result_node($result, $uri, $selected, $max = -1, $target = 
  */
 function igk_debug(?bool $d = null)
 {
-    igk_environment()->set(IGKEnvironment::DEBUG, $d);
-    igk_trace();
-    igk_wln_e("done");
+    igk_environment()->set(IGKEnvironment::DEBUG, $d); 
 }
 ///<summary></summary>
 ///<param name="msg"></param>
@@ -11122,7 +11118,7 @@ function igk_html_array_attrs($tab)
  * @param mixed $evalExpression 
  * @param mixed $articleoptions 
  */
-function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
+function igk_html_article_bck(BaseController $ctrl, $name, $target, $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
 {
     $f = $name;
     $n = null;
@@ -11190,6 +11186,86 @@ function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $t
     // $n->setFlag("NO_CHILD", 1);
     return $n;
 }
+
+function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
+{
+    $f = $name;
+    $n = null;
+    $d = dirname($name);
+    if (!file_exists($f)) {
+        if (!empty($d) && ($d != ".") && is_dir($d) || (strpos($d, igk_io_basedir()) === 0)) {
+            $f = $ctrl->getArticleInDir(basename($name), $d);
+            if (!is_dir($d) && !IO::CreateDir($d)) {
+                igk_ilog(__FUNCTION__ . " create directory [{$d}] failed.");
+                return;
+            }
+        } else {
+            if (!file_exists($name) && ($ctrl != null))
+                $f = $ctrl->getArticle($name);
+            else
+                return;
+        }
+    }
+    if ($forcecreation && !file_exists($f)) {
+        igk_io_save_file_as_utf8_wbom($f, IGK_STR_EMPTY, true);
+    }
+    if (($target == null) && ($tagname == null)) {
+        return;
+    }
+    if ($tagname == null) {
+        $n = $target;
+    } else {
+        $n = $target->add($tagname);
+    }
+    // igk_trace();
+    // igk_exit();
+    $tn = new \IGK\System\Html\Dom\HtmlBindingArticleNode;
+    $tn->file = $f;
+    $tn->data = $data;
+    $tn->ctrl = $ctrl;
+    $tn->target = $n;
+    $n->add($tn);
+    return $tn;
+
+    if ($n == null)
+        igk_die(__FUNCTION__ . "::target is null");
+    if (is_file($f) && !empty($content = igk_io_read_allfile($f))) {
+        $ldcontext = igk_init_binding_context($n, $ctrl, $data);
+        igk_push_article_chain($f, $ldcontext);
+        igk_html_bind_article_content($n, $content, $data, $ctrl, basename($f), true, $ldcontext);
+        if ($articleoptions) {
+            igk_html_article_options($ctrl, $n, $f);
+        }
+        igk_pop_article_chain();
+        $n->setFlag("NO_CHILD", 1);
+    }
+
+    // $ldcontext = igk_createloading_context($ctrl, $data);
+    // //$ldcontext->Context = __FUNCTION__;
+    // $ldcontext->engineNode = $n;
+    // $c = HtmlLoadingContext::GetCurrentContext();
+    // if ($c && !$c->load_expression)
+    //     $ldcontext->load_expression = false;
+    // igk_push_article_chain($f, $ldcontext);
+    // if (!is_dir($f) && file_exists($f)) {
+    //     $content = igk_io_read_allfile($f);
+
+    //     if ($evalExpression) {
+    //         $content = igk_html_eval_global_script($content, $ctrl, $data, basename($f));
+    //     }
+    //     if (!empty($content)) {
+    //         $n->load($content, $ldcontext);
+    //     }
+    //     igk_html_treatinput($n);
+    // }
+    // if ($articleoptions) {
+    //     igk_html_article_options($ctrl, $n, $f);
+    // }
+    // igk_pop_article_chain();
+    // $n->setFlag("NO_CHILD", 1);
+    return $n;
+}
+
 /**
  * init loading context 
  */
@@ -11915,7 +11991,7 @@ function igk_html_databinding_read_obj_litteral(&$obj, $value, $ctrl, $row)
  * @param mixed $$row row data to pass
  * @param mixed $$ctx extra context data. 
  */
-function igk_html_databinding_treatresponse($rep, $ctrl, $raw, $ctx = null, $a = 0)
+function igk_html_databinding_treatresponse($rep, $ctrl, $raw, $ctx = null, $a = 0, $transformEval=false)
 {
     if (!is_string($rep)) {
         igk_die("operation not allowed. \$rep is not a string");
@@ -11976,7 +12052,11 @@ function igk_html_databinding_treatresponse($rep, $ctrl, $raw, $ctx = null, $a =
                     $m = igk_html_php_eval($args, $ctrl, $raw, $rm, $a);
                     if ($m && !is_string(($m))) {
                         if (is_array($m)) {
-                            $m = "[array_expression]";
+                            if ($transformEval){
+                                $m="<?= \$raw ?>";
+                            } else {                            
+                                $m = "[array_expression]";
+                            }
                         } else if (is_object($m)) {
                             if (method_exists($m, "__toString"))
                                 $m = (string)$m; // get_class($m) . "]";
@@ -12915,12 +12995,12 @@ function igk_html_php_eval($obj, $ctrl, $raw, $expression, $a = 0)
     if (($expression == null) || empty($expression))
         return null;
     $bindingInfo = igk_get_env("sys://html-data");
-    $key = null;
+    // $key = null;
     if ($bindingInfo)
         $key = $bindingInfo->key;
     try {
-        $trimExpression = trim($expression);
-        $piped = 0;
+        // $trimExpression = trim($expression);
+        // $piped = 0;
         igk_html_get_expression($expression, $tab);
         $v = $tab["value"];
         $pipe = $tab["pipe"];
@@ -12930,6 +13010,7 @@ function igk_html_php_eval($obj, $ctrl, $raw, $expression, $a = 0)
                 $v = substr($v, 1);
             }
         }
+        $src_expression = $v;
         if (!(strpos($v, "return ") === 0)) {
             $v = "return " . $v;
             if (!IGKString::EndWith($v, ";"))
@@ -12940,7 +13021,13 @@ function igk_html_php_eval($obj, $ctrl, $raw, $expression, $a = 0)
         if ($obj && is_array($obj)) {
             $raw = array_merge($obj, ["raw" => $raw]);
         }
-        $m = igk_eval_in_context($v, $ctrl, $raw);
+        // igk_debug_wln_e("data: ".$v, $raw);
+        if ($raw instanceof \IGK\System\Html\HtmlBindingRawTransform){
+            $raw->data = $src_expression;
+            $m = $raw;
+        } else {
+            $m = igk_eval_in_context($v, $ctrl, $raw);
+        }
         igk_eval_last_script(null);
         $c = IGKOb::Content();
         IGKOb::Clear();
@@ -12978,14 +13065,21 @@ function igk_html_php_evallocalized_expression($expression, $tab = null)
     }
     $v = igk_getv($tab, "v");
     $pipe = igk_getv($tab, "pipe");
-    if (empty($v) && (!is_numeric($v))) {
-        return '';
-    }
-    if (is_string($v) && !igk_getv($tab, 'a')) {
-        $v = __($v);
-    }
-    if ($pipe) {
-        $v = igk_str_pipe_value($v, $pipe);
+    // igk_wln( __FILE__.":".__LINE__, "v", $v, $pipe , $tab, $expression);
+    if ($v instanceof \IGK\System\Html\HtmlBindingRawTransform){
+        $v->pipe = $pipe ? trim($pipe): null;
+        $v = "".$v;
+        // igk_wln_e("finish with : ", $v);
+    }else{    
+        if (empty($v) && (!is_numeric($v))) {
+            return '';
+        }
+        if (is_string($v) && !igk_getv($tab, 'a')) {
+            $v = __($v);
+        }
+        if ($pipe) {
+            $v = igk_str_pipe_value($v, $pipe);
+        }
     }
     return $v;
 }
@@ -21152,6 +21246,7 @@ function igk_str_pipe_data($src, $removequote = 0)
  */
 function igk_str_pipe_value($v, $pipe)
 {
+  
     $tpipe = explode('|', $pipe);
     $loc_t = igk_reg_pipe(null);
     foreach ($tpipe as $s) {

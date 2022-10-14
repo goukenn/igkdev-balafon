@@ -18,6 +18,12 @@ class HtmlDocumentNode extends HtmlItemBase{
     protected $m_body;
     protected $m_id;
     protected $m_lang = 'fr';
+    protected $tagname = 'igk-document';
+
+
+    public function __debugInfo(){
+        return [];
+    }
 
     /**
      * define name spaces

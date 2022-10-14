@@ -141,6 +141,12 @@ class ViewEnvironmentArgs{
     var $dir;
 
     /**
+     * data to pass by default to article
+     * @var mixed
+     */
+    var $data;
+
+    /**
      * get context view argument
      * @param BaseController $controller 
      * @param string $file 
@@ -169,6 +175,10 @@ class ViewEnvironmentArgs{
         $controller->_get_extra_args($file);
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
+    }
+    public function __isset($name)
+    { 
+        return property_exists($this, $name);
     }
     public function __toString(){
         return __CLASS__;

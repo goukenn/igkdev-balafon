@@ -969,8 +969,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public static function CreateWebNode($n, $attributes = null, $indexOrArgs = null)
     { 
-        //:: for debug speed  
-
         if ($n = HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)) {
             if ($attributes) {
                 $n->setAttributes($attributes);

@@ -655,8 +655,7 @@ class IO
                 return preg_match($match, $f);
             };
         } else if ($iscallable) {
-            $_include_match = function ($f) use ($match, &$excludedir) {
-                // echo "bind......";
+            $_include_match = function ($f) use ($match, &$excludedir) { 
                 return $match($f, $excludedir);
             };
         }

@@ -191,7 +191,8 @@ function igk_get_attrib_raw_context($context)
         "root_context" => (object)[
             "ctrl" => $o->ctrl,
             "raw" => IGKRawDataBinding::Create($o->raw)
-        ]
+        ],
+        "transformToEval"=>$o->transformToEval
     ];
 }
 

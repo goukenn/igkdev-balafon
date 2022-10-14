@@ -1054,6 +1054,32 @@ foreach (["2" => "8px"] as $k => $v) {
 foreach (["2" => "8px", "4"=>"16px"] as $k => $v) {
     $def[".mar-b-" . $k] = "margin-bottom: " . $v . ";";
 }
+foreach([
+    1=>(object)["size"=>"96px"],
+    2=>(object)["size"=>"60px"],
+    3=>(object)["size"=>"48px"],
+    4=>(object)["size"=>"34px"],
+    5=>(object)["size"=>"24px"],
+    6=>(object)["size"=>"20px"],
+    10=>(object)["size"=>"96px"],
+    11=>(object)["size"=>"96px"],
+] as $k=>$v){
+    if ($k<10){
+        $def[".ft-level-".$k] = 
+        $def[".h".$k] = "font-size: {$v->size};";
+        continue;
+    }
+}
+
+$def[".ft-w-1"] = "font-weight: 100;";
+$def[".ft-w-2"] = "font-weight: 100;";
+$def[".ft-w-3"] = "font-weight: 300;";
+$def[".ft-w-4"] = "font-weight: 400;";
+$def[".ft-w-5"] = "font-weight: 500;";
+$def[".ft-w-6"] = "font-weight: 600;";
+$def[".ft-w-7"] = "font-weight: 700;";
+$def[".ft-w-8"] = "font-weight: 800;";
+$def[".ft-w-9"] = "font-weight: 900;";
 
 foreach ([
         "1" => "17px",

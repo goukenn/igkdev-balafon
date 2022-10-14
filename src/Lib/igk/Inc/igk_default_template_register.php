@@ -70,6 +70,7 @@ function igk_template_get_piped_value($rv, $context){
         }
         throw $ex;
     }
+    igk_debug_wln_e("pipe....");
 	$v = igk_str_pipe_value($v, $pipe);
 	return $v;
 }
@@ -109,15 +110,21 @@ function igk_template_update_class_piped_expression($n, $attr, $v, $context, $se
    })(HtmlUtils::GetAttributeValue($v, $context, true));
  
 }
-
+ 
 // * --------------------------------------------------------------------------------------
 // for loop : *for
 // * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context, $setattrib){
     $g=(function($script) use ($context){
+        // igk_trace();
+        // igk_exit();
+        if (!is_string($context) && igk_getv($context,'transformToEval')){  
+            // igk_trace();
+            
+            return [ new \IGK\System\Html\HtmlBindingRawTransform("raw") ];
+        }        
         extract(igk_to_array($context));  
-        return @eval((function(){
-           
+        return @eval((function(){           
             if (func_num_args()==1)
                 return "return ".func_get_arg(0).";"; 
             

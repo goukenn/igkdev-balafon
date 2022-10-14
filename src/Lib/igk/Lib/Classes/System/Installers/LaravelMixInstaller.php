@@ -7,6 +7,7 @@ namespace IGK\System\Installers;
 
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
+use IGK\System\Shell\OsShell;
 use IGKException;
 
  
@@ -61,9 +62,7 @@ EOF;
                 ]
             ];
             igk_io_w2file($file, json_encode($js_data, JSON_PRETTY_PRINT));
-        }
-
-
+        } 
         
         $file = igk_glue("/", $installdir, "webpack.mix.js");
         // igk_io_w2file($file, $out);

@@ -11,6 +11,19 @@ namespace IGK\System\Runtime\Compiler;
 * @package IGK\System\Runtime\Compiler
 */
 class BalafonViewCompilerResult{
+    /**
+     * ouput result
+     */
     var $source;
+
+    /**
+     * duration
+     * @var mixed
+     */
     var $duration;
+    /**
+     * ouput read options
+     * @var BalafonViewCompilerReadOptions
+     */
+    var $readOptions;
 }

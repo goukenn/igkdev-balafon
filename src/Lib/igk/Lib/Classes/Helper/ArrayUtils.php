@@ -11,6 +11,16 @@ namespace IGK\Helper;
 class ArrayUtils{
     ///<sumamry> clear table</summary>
     public static function Clean (array & $table){
-        $table = []; 
+        $table = [];  
+    }
+    public static function ArgumentsMap($a){
+        if (is_string($a)){
+            return escapeshellarg($a);
+        }
+        if (is_numeric($a))
+            return $a;
+        if (is_array($a)){
+            return var_export($a, true);
+        }
     }
 }

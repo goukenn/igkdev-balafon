@@ -64,6 +64,7 @@ foreach(["IGK_NO_DBCACHE"] as $k){
         define($k, $t);                
     }
 }
+unset($k,$t, $appdir);
 defined("IGK_PROJECT_DIR") || define("IGK_PROJECT_DIR", IGK_APP_DIR."/Projects");           
  
 require_once(__DIR__."/PhpUnitApplication.php");
@@ -75,10 +76,5 @@ igk_environment()->setArray("extra_config", "configFiles", ["unittest"]);
 ApplicationFactory::Register("phpunit", PhpUnitApplication::class);
 
 
-// 
-// //.session start for testing
-// $s = session_start();
-// // initialize application static folder
-$app = ApplicationLoader::Boot("phpunit"); 
-
-$app->run(__FILE__, false);
+//run php unit
+ApplicationLoader::Boot("phpunit")->run(__FILE__, false);

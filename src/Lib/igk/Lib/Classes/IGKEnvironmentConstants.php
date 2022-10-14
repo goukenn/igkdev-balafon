@@ -44,6 +44,10 @@ abstract class IGKEnvironmentConstants{
      const VIEW_FILE_CACHES = "viewFileCaches";
      const IGNORE_JS_DIR = self::CURRENT_CTRL+13; // "sys://lib/ignorejsdir";
 
+     // store component initiators environment - for speed up node creation
+     const COMPONENT_INITIATORS = "component_initiators";
+
+     // environment list
      const DEV_ENV = "DEV";
      const OPS_ENV = "OPS";
      const TST_ENV = "TST";

@@ -81,10 +81,7 @@ class InstallSiteCommand extends AppExecCommand
         $init = property_exists($command->options, "-init");
         $root_dir = igk_getv($command->options, "--root_dir", null);
         $is_primary = 1;
-        $cache_dir = igk_io_cachedir();
-      
-
-        
+        $cache_dir = igk_io_cachedir(); 
 
         if (empty($root_dir)) {
             $root_dir = $install_dir;

@@ -61,9 +61,11 @@ class InstallSite
             return false;
         }
         $c_root = StringUtility::Uri(implode("/", array_filter([$src, ltrim(igk_io_get_relativepath($src, $options["rootdir"]), './')])));
+        // + | ---------------------------------------------------
+        // + | primary installation  
+        // + |  :is when all folder is exposed to public directory
+        // + | 
         $is_primary = $src == $c_root;     
- 
-
         $c_public = "";
         $c_app = "";
         if (!$is_primary) {
@@ -71,10 +73,6 @@ class InstallSite
             $c_app = ltrim(igk_io_get_relativepath($folder, $src . "/application"), "./");
             $c_base = ltrim(igk_io_get_relativepath($folder, $src), "./");
             $c_public = ltrim(igk_io_get_relativepath($folder, $c_root), "./");
-
-
-
-
             igk_io_createdir($src . "/application");
             igk_io_createdir($src . "/public");
             igk_io_createdir($src . "/temp");
@@ -101,7 +99,6 @@ class InstallSite
             // generate git ignore
             igk_io_w2file($folder . "/.gitignore", implode("\n", $configs));
         }
-
         // generate phpunit-watcher file
         if (!$is_primary) {
             // + | -----------------------------------------------------------
@@ -283,7 +280,7 @@ EOF
             }
         }
 
-
+        // generateo configuration 
         if (!$is_primary) {
             if (!file_exists($file = $folder."/".AppConfigs::ConfigurationFileName)){
                 // generate configuration file  
@@ -293,6 +290,18 @@ EOF
                 igk_io_w2file($file, $c->render($opts));
             }
         }
+        // + | -------------------------------------------------------------------------------------------
+        // + | generate balafon shortcut 
+        if (!$is_primary){
+            if (file_exists($f = $app_folder."/Lib/igk/bin/balafon")){
+                $t = $src."/../balafon";
+                if (!is_file($t) && @symlink($f, $t)){
+                    @chmod($t, 0774);
+                }
+            }
+        }
+
+
         // + | ------------------------------------------------------------------------------------------
         // + | post install site 
         // + |

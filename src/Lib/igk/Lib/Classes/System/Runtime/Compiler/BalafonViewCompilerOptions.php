@@ -28,4 +28,10 @@ class BalafonViewCompilerOptions{
      * @var ?IGKHtmlDoc
      */
     var $document;
+
+    /**
+     * view arguments
+     * @var ?ViewEnvironmentArgs
+     */
+    var $view_args;
 }

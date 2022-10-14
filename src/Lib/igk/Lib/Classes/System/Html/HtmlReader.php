@@ -24,6 +24,7 @@ use IGK\System\Html\Dom\HtmlProcessInstructionNode;
 use IGK\System\Html\HtmlTemplateReaderDataBinding;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\XML\XmlNode;
+use IGK\System\IO\StringBuilder;
 use IGK\XML\XMLNodeType;
 use IGKException;
 use IGKObject;
@@ -68,7 +69,21 @@ final class HtmlReader extends IGKObject
                 if ($cnode->getIsVisible()) {
                     if ($data) {
                         $v_bind = new HtmlTemplateReaderDataBinding($cnode, $src, $ctrl, $data);
-                        $engine .= $v_bind->treat(); 
+                        $v_ts = $v_bind->treat(); 
+                        if ($reader->m_context->transformToEval )
+                        {
+                            $sb = new StringBuilder;
+                            $sb->appendLine('<?php');
+                            $sb->append("foreach(\$context_raw as \$index=>\$raw){");
+                            $sb->append($v_ts);
+                            $sb->appendLine("<php } ?>");
+                            $v_ts = $sb;
+
+
+                        } 
+                        $engine .= $v_ts;
+                        
+                        //igk_debug_wln_e("binding data ", $data, $n_context, $src, $engine);
                     }
                 }
                 igk_set_env("sys:://expression_context", null);
@@ -345,7 +360,11 @@ final class HtmlReader extends IGKObject
                         if (!isset($n_context->raw)) {
                             igk_die("raw not defined in reading context");
                         }
-                        $sdata = igk_html_databinding_treatresponse($_e, $n_context->ctrl, igk_get_attrib_raw_context($n_context), null, $_b);
+                        
+                        $sdata = igk_html_databinding_treatresponse($_e, $n_context->ctrl, 
+                            igk_get_attrib_raw_context($n_context), null, $_b, 
+                            $n_context->transformToEval
+                        );
                     }
                     $v .= $sdata;
                 } else {
@@ -1189,9 +1208,10 @@ final class HtmlReader extends IGKObject
                 if (preg_match("/^@igk:expression/", $k)) {
                     $v_self->m_attribs[$k] = $v_expressions[HtmlUtils::GetAttributeValue($_v, $v_context)];
                 } else {
+                    // igk_debug_wln_e(__FILE__.":".__LINE__, $k, $_v);
                     if (!igk_engine_temp_bind_attribute($binfo, $k, $_v, $v_context, $fc_attrib)) {
                         if ((strlen($k) > 2) && preg_match("/^\*\*[^\*]/i", $k)) {
-                            //+ |match double attribute. **test
+                            //+ |  match double attribute. **test
                             $v_self->m_attribs["[" . substr($k, 2) . "]"] = HtmlUtils::GetAttributeValue($_v, $v_context, true);
                         } else {
                             $v_self->m_attribs[$k] = $_v;

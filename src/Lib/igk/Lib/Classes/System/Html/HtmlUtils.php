@@ -10,14 +10,17 @@ namespace IGK\System\Html;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\IGlobalFunction;
 use IGK\Resources\R;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\XML\XmlNode;
+use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionFunction;
 
 use function igk_resources_gets as __;
@@ -582,7 +585,7 @@ abstract class HtmlUtils extends DomNodeBase
         }
 
         if ($initiator == null) {
-            $initiator = igk_environment()->createArray("component_initiators");
+            $initiator = igk_environment()->createArray(IGKEnvironmentConstants::COMPONENT_INITIATORS);
         }
         if ($v_info = igk_getv($initiator, $name)) {
             $v_info["context"] = $context;
@@ -728,6 +731,15 @@ abstract class HtmlUtils extends DomNodeBase
         return $c;
     }
 
+    /**
+     * filter node element hook call.
+     * @param HtmlItemBase $node 
+     * @param array $args 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function FilterNode(HtmlItemBase &$node, array $args)
     {
         $options = IGKEvents::CreateHookOptions();
@@ -735,6 +747,14 @@ abstract class HtmlUtils extends DomNodeBase
             $node = $g;
         }
     }
+    /**
+     * hook filter pre create element 
+     * @param mixed $args 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function PrefilterNode($args){
         $options = IGKEvents::CreateHookOptions();
         return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options);// ["output" => null]);
