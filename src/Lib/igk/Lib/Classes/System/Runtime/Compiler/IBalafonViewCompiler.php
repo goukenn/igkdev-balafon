@@ -16,4 +16,20 @@ interface IBalafonViewCompiler{
      * @return ?string 
      */
     function output(): ?string;
+
+    /**
+     * append compiler result
+     * @param string $result 
+     * @return mixed 
+     */
+    function append(string $result);
+
+    /**
+     * compile blocks
+     * @param array $codeblocks 
+     * @param bool $extract 
+     * @param bool $header code block header 
+     * @return mixed 
+     */
+    function compile( array $codeblocks,bool $extract = true, ?string $header =null);
 }

@@ -29,6 +29,22 @@ a2enmod header
 
 ### Projects
 ### Views
+
+Views are ".phtml" files located in Project's Views folder. 
+
+#### Views options
+passing layout compilation view is to 
+```php
+//%{{ expression }}
+```
+where expression can be 
+| Name  | Description |
+| ----- | ------------ |
+| @MainLayout| |
+| @Import('*other views - to important and to compile*')| |
+| @Include('*inclusion not to be compiled*') | |
+
+
 ### Modules
 
 ### PCSS Binding

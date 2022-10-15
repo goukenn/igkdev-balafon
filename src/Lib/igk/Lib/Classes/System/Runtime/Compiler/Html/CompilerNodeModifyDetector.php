@@ -10,17 +10,25 @@ use IGK\System\Html\Dom\HtmlNode;
 /**
  * detect modification node
  * @package IGK\System\Runtime\Compiler\Html
+ * @parametter clearFlag
  */
 class CompilerNodeModifyDetector extends HtmlNode
 {
     private $m_modify = false;
     protected $tagname = "igk:compiler-modifynode-detector";
-
+    private $m_freezeClearModify = false;
     static $sm_sys_modify = false;
     static $sm_filter_callback = null;
+
+    const CLEAR_FLAG_PARAM = "clearFlag";
+
     public function clearChilds()
     {
-        $this->m_modify  = false;
+        if (!$this->m_freezeClearModify){
+            $this->m_modify  = false;
+        } else {             
+            $this->setParam(self::CLEAR_FLAG_PARAM, true); 
+        }
         return parent::clearChilds();
     }
     public function __get($n)
@@ -39,6 +47,12 @@ class CompilerNodeModifyDetector extends HtmlNode
     public function getModify(): bool
     {
         return $this->m_modify || ($this->getChildCount() > 0);
+    }
+    public function getFreezeClearModify(){
+        return $this->m_freezeClearModify;
+    }
+    public function setFreezeClearModify(bool $freeze){
+        $this->m_freezeClearModify = $freeze;
     }
     public function _access_OffsetSet($n, $v)
     {

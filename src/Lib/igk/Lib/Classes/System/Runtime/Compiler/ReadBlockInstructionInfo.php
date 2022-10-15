@@ -4,6 +4,7 @@
 // @date: 20221013 11:35:14
 namespace IGK\System\Runtime\Compiler;
 
+use IGK\System\Runtime\Compiler\Html\ConditionBlockNode;
 
 ///<summary></summary>
 /**
@@ -11,9 +12,25 @@ namespace IGK\System\Runtime\Compiler;
 * @package IGK\System\Runtime
 */
 class ReadBlockInstructionInfo{
+    /**
+     * type of the code block if|try|function|while|for|foreach|do|catch|swicth|
+     * @var string
+     */
     var $type;
+    /**
+     * name of the block
+     * @var ?string 
+     */
     var $name;
+    /**
+     * started depth
+     * @var mixed
+     */
     var $depth;
+    /**
+     * name support flag
+     * @var mixed
+     */
     var $nameSupport;
     /**
      * source code of the block
@@ -36,7 +53,11 @@ class ReadBlockInstructionInfo{
      */
     var $endConditionDepth=null;
 
-    var $blockFlag;
+    /**
+     * contained block start with {}.  if false single line block
+     * @var bool
+     */
+    var $blockFlag = false;
 
     var $condition;
 
@@ -64,6 +85,12 @@ class ReadBlockInstructionInfo{
      */
     var $codeBlocks = [];
 
+    /**
+     * list of struct defined
+     * @var array
+     */
+    var $structs = [];
+
     public function isReadingCondition():bool{
         return $this->endConditionFlag && !is_null($this->endConditionDepth);
     }
@@ -90,7 +117,18 @@ class ReadBlockInstructionInfo{
     public function addCompiledSource(string $source){
         $this->source_buffer .= $source."\n";
     }
-    public function compile(){
-
+    /**
+     * return compile result
+     * @return ?string 
+     */
+    public function compile():?string{
+        if (empty($this->compile_result)){
+            return null;
+        }
+        $n = new ConditionBlockNode;
+        $n->type = $this->type;
+        $n->output = $this->compile_result;
+        $n->condition = $this->condition;
+        return $n->render();
     }
 }

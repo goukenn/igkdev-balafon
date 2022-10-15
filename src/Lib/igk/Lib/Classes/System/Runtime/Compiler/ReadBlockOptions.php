@@ -13,6 +13,8 @@ namespace IGK\System\Runtime\Compiler;
 class ReadBlockOptions
 {
     var $depth = 0; // " => 0, // depth 
+
+
     /**
      * current reading block
      * @var ?ReadBlockInstructionInfo
@@ -24,6 +26,11 @@ class ReadBlockOptions
     var $nextRequest = null; // " => null, //next value request,
     var $appendNext = null; // " =>null
 
+    /**
+     * detect if a call to exit block, exit detected
+     * @var bool|array
+     */
+    var $exitDetected = false;
     /**
      * 
      * is in buffer modee . buffer and 
@@ -56,6 +63,12 @@ class ReadBlockOptions
      */
     var $namespace;
 
+    /**
+     * uses in this namespace
+     * @var ?array
+     */
+    var $uses;
+
     var $flag = null;
 
     var $flagOption;
@@ -77,4 +90,16 @@ class ReadBlockOptions
      * @var ReadBlockExpressionInfo[]|Array<ReadBlockExpressionInfo> expression buffer
      */
     var $expressions = [];
+
+    /**
+     * 
+     * @var ?IBalafonViewCompiler
+     */
+    var $compiler = null;
+
+    /**
+     * store view structures 
+     * @var array
+     */
+    var $structs = [];
 }

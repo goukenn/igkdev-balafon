@@ -31,19 +31,22 @@ class ConditionBlockNode extends HtmlNode{
                 return $a->render();
             }, $tc));
         }
+        if (method_exists($this, $fc = "render".ucfirst($this->type))){
+            return call_user_func_array([$this, $fc], [$out]);
+        }
+        return $this->render_CodeBlock($this->type, $out);
+    }
+    public function render_CodeBlock($type, $out){
         $t_pos = false;
         $_out = !empty($this->output) ? trim($this->output) : "";
-        $_header = true;
         if (empty($_out)){
-            $t_pos = strpos($_out, "<?php");
-            if ($t_pos === 0){
-                $_header = false;
-            }
+            $t_pos = strpos($_out, "<?php");           
         }
 
         $sb = new StringBuilder();
         $sb->append("<?php ");        
-        $sb->append(sprintf('if %s: ',$this->condition)); 
+        $sb->append(sprintf('%s%s:', $this->type, $this->condition)); 
+        $endtag = "end".$this->type.";";
         $check = true;
         if (!empty($out)){
             $sb->append("?>".$out);
@@ -57,29 +60,22 @@ class ConditionBlockNode extends HtmlNode{
                 $sb->appendLine("?>");
             }else {
                 $sb->appendLine(($check ? "\n": "?>").$_out);
-            }
-            // if ($check){
-            //     if (strpos($_out, "<?php")===0){
-            //         $_out = substr($_out, 5);
-            //         $sb->appendLine($_out);
-            //     }else {
-            //         $sb->appendLine(" ? >".$_out);
-            //     }
-            // }else {
-            //     $sb->appendLine($_out);
-            // }
+            }          
             $last = strrpos($_out, "<?php");
             if ($last === (strlen($_out)-5)){
-                $sb->append('endif; ?>');
+                $sb->append($endtag.' ?>');
             }else{
-                $sb->appendLine('<?php endif; ?>');
+                $sb->append("<?php\n".$endtag.' ?>');
             } 
         } else {
             if (!$check)
-                $sb->append('<?php endif; ?>');
+                $sb->append('<?php '.$endtag.' 3?>');
             else 
-                $sb->appendLine('?>\n<?php endif; ?>'); 
+                $sb->appendLine('?>\n<?php '.$endtag.'8 ?>'); 
         }
         return $sb."";
+    }   
+    public function renderIf($out){
+        return $this->render_CodeBlock($this->type, $out);        
     }
 }

@@ -51,22 +51,21 @@ class BalafonViewCompiler2 implements IBalafonViewCompiler{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public function compile(array $blockInstructions, bool $extract = true){
+    public function compile(array $blockInstructions, bool $extract = true, ?string $header = null){
         
         $v_compiler = new BalafonViewCompileInstruction;
         $v_compiler->data = $blockInstructions;
         $v_compiler->variables = & $this->variables;
-        $v_compiler->extract = $extract;
-
-        return $v_compiler->compile();
-        // $node = new ConditionBlockNode() ;
-        // $node->type = "if";// $read_block_info->type;
-        // $node->output = $g;
-        // $node->condition = "(\$data)";//$read_block_info->condition;
-        // $_g = $node->render();
-        // igk_wln_e(__FILE__.":".__LINE__,  "result: ", $g, "output:", $_g);
+        $v_compiler->extract = $extract; 
+        $v_compiler->header = $header;
+        return $v_compiler->compile(); 
     }
-    public function append(string $txt){
-        
+    /**
+     * append source result
+     * @param string $src 
+     * @return mixed 
+     */
+    public function append(string $src){
+        $this->_output .= $src;
     }
 }

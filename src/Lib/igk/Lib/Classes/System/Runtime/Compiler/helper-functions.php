@@ -1,5 +1,7 @@
 <?php
 
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Runtime\Compiler\ViewExpressionArgHelper;
 use IGK\System\ViewVarExpression;
 use IGK\System\ViewEnvironmentArgs; 
 use IGK\System\ViewExtractArgHelper;
@@ -34,8 +36,16 @@ if (!function_exists('igk_php_expression')){
 
 
 if (!function_exists('igk_express_arg')){
-    function igk_express_arg($expression){ 
-        return '<?= $'.$expression.' ?>';
+    function igk_express_arg($expression){         
+        $p = ViewExpressionArgHelper::GetVar($expression);
+        if ($p instanceof HtmlNode){
+            return $p;
+        }
+        if ($expression == ViewExpressionArgHelper::SETTER_VAR){
+            return $p;
+        }
+        igk_wln_e("the expression", $expression, ViewExpressionArgHelper::SETTER_VAR);
+        return '<?= $'.$expression.' /* igk_express_arg */ ?>';
     }
 }
 
@@ -76,7 +86,7 @@ if (!function_exists('igk_express_litteral_var')){
      * @return string 
      */
     function igk_express_litteral_var(string $name){  
-        return '<?= $'.$name.' ?>';
+        return '<?= $'.$name.' /* litteral var */ ?>';
     }
 }
 

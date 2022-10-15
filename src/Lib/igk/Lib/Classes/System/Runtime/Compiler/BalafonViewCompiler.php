@@ -180,20 +180,7 @@ class BalafonViewCompiler
         if ($data->readOptions->exitDetected) {
             igk_debug_wln_e("exit detected - possibility - render directly or do response - :" . $data->readOptions->exitDetected);
         }
-        // igk_debug_wln("before: ======================", $data->source, "detectVariables", $data->readOptions->detectVariables);
-        // $_buffer = self::EvaluateCompiledSource($data->source, $this->controller, $this->args, $data->readOptions->detectVariables);
-        // $_output = $this->args->t->render();
-
-        // igk_wln_e(
-        //     "inner eval ",
-        //     $data->source,
-        //     "buffer:",
-        //     $_buffer,
-        //     "declaration:",
-        //     $declaration,
-        //     "output:",
-        //     $_output
-        // );
+         
     }
     /**
      * 

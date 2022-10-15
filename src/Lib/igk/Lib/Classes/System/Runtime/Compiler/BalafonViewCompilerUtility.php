@@ -7,6 +7,7 @@ namespace IGK\System\Runtime\Compiler;
 use IGK\Controllers\SysDbController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\Html\CompilerNodeModifyDetector;
 use IGK\System\Runtime\Compiler\ReadBlockInstructionInfo;
 use IGK\System\ViewEnvironmentArgs;
@@ -20,13 +21,20 @@ use ReflectionException;
  */
 abstract class BalafonViewCompilerUtility
 {
-
+    // + | ----------------------------------------------------------------------------------
+    // + | reading flags
+    // + |
     const VAR_READ = "VAR_READ";
     const CHANGE_BUFFER = "CHANGE_BUFFER";
     const RESTORE_BUFFER = "RESTORE_BUFFER";
-    const VAR_OPERATOR = '.,+,-,--,++,|,||,*,/,%,&,&&,^,==,===,!=,!===,~';
+    const USE_READ = 'READ_USE';
+    const NS_READ = 'NS_READ';
+    const READ_STRUCT = 'STRUCT_READ';
 
-    private static $DEBUG= 0;
+    // + | ----------------------------------------------------------------------------------
+    // + | operator lists
+    const VAR_OPERATOR = '.,+,-,--,++,|,||,*,/,%,&,&&,^,==,===,!=,!===,~,as,instanceof,=>';
+
     /**
      * check block block modification
      * @param string $source 
@@ -98,110 +106,14 @@ abstract class BalafonViewCompilerUtility
      * @param ?IBalafonViewCompiler $compiler
      * @return bool|array 
      */
-    public static function GetInstructionsList(string $code, $root = true, IBalafonViewCompiler &$compiler = null)
+    public static function GetInstructionsList(string $code, $root = true, ?IBalafonViewCompiler $compiler = null)
     {
         $v_tab = [];
         if (strpos($code, "<?php") !== 0) {
             $code = "<?php\n" . $code;
         }
         $v_with = false;
-        $fc_append_instruct = function (&$v_instruction, &$v_tab, $value, $v_with, ReadBlockOptions $options)  {
-            if ($v_with) {
-                $v_instruction .= $value;
-                $blockinfo = $options->blockInfo;
-                if ($blockinfo) {
-                    if ($blockinfo->canAppendCode()) {
-                        if (!empty($blockinfo->code) || !empty(trim($value))) {
-                            $blockinfo->code .= $value;
-                            if (!$options->buffering){
-                                $blockinfo->to_compile_code_buffer .= $value; 
-                            } else {
-                                // igk_debug_wln("--------------------------------------add to buffer list ......");
-                                $options->bufferLists["block_info_buffer_list"] = & $blockinfo->to_compile_code_buffer;
-                            }
-                        }
-                    } else {
-                        if (!$blockinfo->nameSupport && $blockinfo->endConditionFlag) {
-                            if (!empty($blockinfo->condition) || !empty(trim($value)))
-                                $blockinfo->condition .= $value;
-                        }
-                    }
-                }
 
-                switch ($value) {
-                    case ";":
-                        self::_InstructionAddCodeBlock($options, $v_tab, $v_instruction);
-                        break;
-                    case '(':
-                        $options->expressionConditionDepth++;
-                        if ($blf = $options->blockInfo) {
-                            // end name reading if name support
-                            if ($blf->nameSupport) {
-                                $blf->nameSupport = false;
-                            } 
-                            // mark condition/argument read read start -                        
-                            if ($blf->endConditionFlag && is_null($blf->endConditionDepth)) {
-                                $blf->endConditionDepth = $options->expressionConditionDepth-1;                                                              
-                            }
-                            // check if still reading condition
-                            if ($blf->isReadingCondition()){
-                                // igk_debug_wln(__FILE__.":".__LINE__, "---------------------------read condition... ");
-                                break;
-                            }
-
-                        }
-                        if ($options->expressionConditionDepth == 1) {
-                            $exblock = new ReadBlockExpressionInfo;
-                            $options->expressionBuffer = &$exblock->buffer;
-                            $options->expressionBuffer = $value;
-                            $options->flag = self::CHANGE_BUFFER;
-                            $options->expressions[] = $exblock; 
-                            // $v_instruction .= "java";
-                        }
-                        break;
-                    case ')':
-                        $options->expressionConditionDepth--;
-                        if ($blf = $options->blockInfo) {
-                            if ($blf->endConditionFlag) {
-                                if ($blf->endConditionDepth ==  $options->expressionConditionDepth) {
-                                    $blf->endConditionFlag = false;
-                                }
-                                // igk_debug_wln(__FILE__.":".__LINE__, "---------------close but continue read condition : ?[".
-                                // $blf->endConditionFlag
-                                // ."] ");
-                                break;
-                            }
-                        }
-                       // igk_wln_e("finisht---------------close but continue read condition ");
-                        if ($options->expressionConditionDepth === 0) {
-                            self::_InstructionEndExpresion($options);                           
-                        }
-                        break;
-                    case "{":
-                        $options->depth++;
-                        if ($blockinfo) {
-                            $blockinfo->blockFlag = true;
-                        }
-                        break;
-                    case "}":
-                        $options->depth--;
-                        if ($options->blockInfo) {
-                            if ($options->blockInfo->type == "function") {
-                                // must end with }; or })(
-                                if (empty($options->blockInfo->name)) {
-                                    $options->nextRequest = [";", ")"];
-                                    $options->appendNext = ";";
-                                }
-                            }
-                            if ($options->blockInfo->depth == $options->depth) {
-                                // END BLOCK READ:
-                                self::_InstructionEndBlockRead($options);
-                            }
-                        }
-                        break;
-                }
-            }
-        };
         $ctab = token_get_all($code);
         $lvalue = "";
         $ltoken = null;
@@ -212,8 +124,6 @@ abstract class BalafonViewCompilerUtility
         $flag = &$options->flag;
         $v_buffer = &$options->buffer;
 
-
-
         while (count($ctab) > 0) {
             $value = array_shift($ctab);
             $id = null;
@@ -222,111 +132,165 @@ abstract class BalafonViewCompilerUtility
                 $value = $value[1];
             }
             igk_debug_wln("token:" . ($id ? token_name($id) : "::") . ":" . $value);
-
-            //checking for value buffer
-            if ($flag == self::CHANGE_BUFFER) {
-                $v_buffer = &$options->expressionBuffer;
-                $options->buffering = true;
-                $flag = null;
-            }
-            // restore buffer
-            if ($flag == self::RESTORE_BUFFER) {
-                $v_buffer = &$options->buffer; 
-                $options->buffering = null; 
-                $flag = null;
-                // igk_debug_wln(__FILE__.":".__LINE__,  "------------------------------------restoring buffer", $v_buffer);
-            }
-            if ($flag == 'NS_READ') {
-                switch ($id) {
-                    case T_NAME_QUALIFIED:
-                        $options->namespace = $value;
-                        break;
-                    default:
-                        switch ($value) {
-                            case ";":
-                                $v_tab[] = (object)["value" => sprintf("namespace %s;", $options->namespace)];
-                                $flag = null;
-                                break;
-                            case "{":
-                                $options->blockInfo = new ReadBlockInstructionInfo("namespace");
-                                $options->blockInfo->depth  = $options->depth;
-                                $options->blocks[] = $options->blockInfo;
-                                $flag = null;
-                                break;
-                        }
-                }
-                continue;
-            }
-
-            if ($flag == self::VAR_READ) {
-                $append_value = false;
-                $add_express = ($id == T_ENCAPSED_AND_WHITESPACE) || ('"' == $value);
-                if ($add_express) {
-                    $flag = null;
-                    $x = sprintf('%s', $options->flagOption->express);
-                    $fc_append_instruct($v_buffer, $v_tab, $x, $v_with, $options);
-                    $options->flagOption = null;
-                    $append_value = true;
-                } else {
-                    switch ($value) {
-                        case "=":
-                            // leave the value write context
-                            $flag = null;
-                            $v_x = sprintf('$%s ', $options->flagOption->name);
-                            $fc_append_instruct($v_buffer, $v_tab, $v_x, $v_with, $options);
-                            $options->flagOption = null;
-                            $append_value = true;
-                            // igk_wln_e("data: ", $v_instruction, $value);
-                            break;
-                            //    igk_wln_e("concating after....");
-                            // break;
-                        case ".":
-                            igk_wln_e("concate found");
-                            break;
-                        case "(":
-                        case "->":
-                        case "?":
-                        case ":":
-                        case ";":
-                        case "++":
-                        case "--":
-                        case "+":
-                        case "%":
-                        case ")":
-                            $flag = null;
-                            $x = "";
-                            // igk_debug_wln("concat: ?????????\n", $options->flagOption);
-                            if ($options->flagOption->contact) {
-                                $x = sprintf('%s', $options->flagOption->express);
-                            } else {
-                                $x = sprintf('$%s', $options->flagOption->name);
+            if ($flag) {
+                // + | flag management 
+                if ($flag == self::READ_STRUCT) {
+                    $foptions = $options->flagOption;
+                    $foptions->buffer .= $value;
+                    switch ($id) {
+                        case T_STRING:
+                            if (empty($foptions->name)) {
+                                $foptions->name = $value;
                             }
-                            $fc_append_instruct($v_buffer, $v_tab, $x, $v_with, $options);
-                            $options->flagOption = null;
-                            $append_value = true;
                             break;
                         default:
-                            switch ($id) {
-                                case T_WHITESPACE:
-                                    $options->flagOption->space = 1;
+                            switch ($value) {
+                                case '{':
+                                    $foptions->depth++;
                                     break;
-                                default:
-                                    $flag = null;
-                                    $x = sprintf('$%s', $options->flagOption->name);
-                                    $fc_append_instruct($v_buffer, $v_tab, $x, $v_with, $options);
-                                    $options->flagOption = null;
-                                    $append_value = true;
+                                case '}':
+                                    $foptions->depth--;
+                                    if ($foptions->depth == 0) {
+                                        if ($foptions->blockInfo) {
+                                            $foptions->blockInfo->structs[$foptions->type][] = $foptions;
+                                        } else {
+                                            $options->structs[$foptions->type][] = $foptions;
+                                        }
+                                        $flag = null;
+                                        $options->flagOption = null;
+                                    }
                                     break;
                             }
-                            break;
                     }
+                    continue;
                 }
-                if ($append_value) {
-                    $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
-                }
-                continue;
-            }
 
+                //checking for value buffer
+                if ($flag == self::CHANGE_BUFFER) {
+                    $v_buffer = &$options->expressionBuffer;
+                    $options->buffering = true;
+                    $flag = null;
+                }
+                // restore buffer
+                if ($flag == self::RESTORE_BUFFER) {
+                    $v_buffer = &$options->buffer;
+                    $options->buffering = null;
+                    $flag = null;
+                    // igk_debug_wln(__FILE__.":".__LINE__,  "------------------------------------restoring buffer", $v_buffer);
+                }
+                if ($flag == self::NS_READ) {
+                    switch ($id) {
+                        case T_NAME_QUALIFIED:
+                        case T_STRING:
+                            $options->namespace = $value;
+                            break;
+                        default:
+                            switch ($value) {
+                                case ";":
+                                    // $v_tab[] = (object)["value" => sprintf("namespace %s;", $options->namespace)];
+                                    $flag = null;
+                                    break;
+                                case "{":
+                                    $options->blockInfo = new ReadBlockInstructionInfo("namespace");
+                                    $options->blockInfo->depth  = $options->depth;
+                                    $options->blocks[] = $options->blockInfo;
+                                    $flag = null;
+                                    break;
+                            }
+                    }
+                    continue;
+                }
+
+                if ($flag == self::USE_READ) {
+                    switch ($id) {
+                        case T_NAME_QUALIFIED:
+                        case T_NAME_FULLY_QUALIFIED:
+                            $options->uses[$value] = $value;
+                            $options->flagOption = ["name" => $value, "alias" => false];
+                            break;
+                        case T_AS:
+                            $options->flagOption["alias"] = true;
+                            break;
+                        case T_STRING:
+                            $options->uses[$options->flagOption["name"]] = $value;
+                            break;
+                        default:
+                            switch ($value) {
+                                case ';':
+                                    $options->flagOption = null;
+                                    $flag = null;
+                                    break;
+                            }
+                    }
+                    continue;
+                }
+
+                if ($flag == self::VAR_READ) {
+                    $append_value = false;
+                    $add_express = ($id == T_ENCAPSED_AND_WHITESPACE) || ('"' == $value);
+                    // igk_wln_e("var read ... ", $add_express, $id, $value);
+                    if ($add_express) {
+                        $flag = null;
+                        $x = sprintf('%s', $options->flagOption->express);
+                        self::_InstructAppendInstruct($v_buffer, $v_tab, $x, $v_with, $options);
+                        $options->flagOption = null;
+                        $append_value = true;
+                    } else {
+                        switch ($value) {
+                            case "=":
+                                // leave the value write context
+                                $flag = null;
+                                $v_x = sprintf('$%s ', $options->flagOption->name);
+                                // + | stransform to setter expression
+                                $v_x = sprintf('$%s[\'%s\'] ', ViewExpressionArgHelper::SETTER_VAR, $options->flagOption->name);
+                                self::_InstructAppendInstruct($v_buffer, $v_tab, $v_x, $v_with, $options);
+                                $options->flagOption = null;
+                                $append_value = true;
+                                // igk_wln_e("commillllle", $v_x);
+                                break;
+                            case ".":
+                                igk_wln_e("concate found");
+                                break;
+                            case "(":
+                            case "->":
+                            case "?":
+                            case ":":
+                            case ";":
+                            case "++":
+                            case "--":
+                            case "+":
+                            case "%":
+                            case ")":
+                                $flag = null;
+                                $x = "";
+                                // igk_debug_wln("concat: ?????????\n", $options->flagOption);
+                                if ($options->flagOption->contact) {
+                                    $x = sprintf('%s', $options->flagOption->express);
+                                } else {
+                                    $x = sprintf('$%s', $options->flagOption->name);
+                                }
+                                self::_InstructAppendInstruct($v_buffer, $v_tab, $x, $v_with, $options);
+                                $options->flagOption = null;
+                                $append_value = true;
+                                break;
+                            default:
+                                if ($id != T_WHITESPACE){
+                                    $options->flagOption->space = 0;
+                                    $flag = null;
+                                    $x = sprintf('$%s', $options->flagOption->name);
+                                    self::_InstructAppendInstruct($v_buffer, $v_tab, $x, $v_with, $options);
+                                    $options->flagOption = null;
+                                    $append_value = true;
+                                }
+                                break;
+                        }
+                    }
+                    if ($append_value) {
+                        self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
+                    }
+                    continue;
+                }
+            }
             self::_InstructionListNextRequestHandle($options, $value, $v_buffer);
 
             switch ($id) {
@@ -334,12 +298,30 @@ abstract class BalafonViewCompilerUtility
                     if (!empty($options->namespace))
                         return false;
                     $options->namespace = true;
-                    $flag = 'NS_READ';
+                    $flag = self::NS_READ;
+                    break;
+                case T_USE:
+                    if ((!$options->blockInfo) && ($options->depth == 0)) {
+                        $flag = self::USE_READ;
+                        empty($options->uses) && $options->uses = [];
+                    }
+                    break;
+                case T_COMMENT: 
+                    if ($options->depth===0){
+                        if (preg_match("/%\s*{\{%(?P<expression>.+)\}\}/", $value, $data)) {
+                            $options->compiler->evaluationComment(trim($data['expression']));
+                        }
+                    } 
                     break;
                 case T_CLASS:
                 case T_INTERFACE;
                 case T_TRAIT:
-                    return false;
+                    $flag = self::READ_STRUCT;
+                    $options->flagOption = new ReadStructInfo($value);
+                    $options->flagOption->modifiers = $options->modifiers;
+                    $options->flagOption->blockInfo = $options->blockInfo;
+                    $options->modifiers = [];
+                    break;
                 case T_ABSTRACT:
                 case T_PRIVATE:
                 case T_PROTECTED:
@@ -358,7 +340,7 @@ abstract class BalafonViewCompilerUtility
                 case T_ELSEIF:
                     self::_InstructCompileBlock($options, $compiler);
                     // start with try/instruction
-                    $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
+                    self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
                     $options->blockInfo = new ReadBlockInstructionInfo($value);
                     $options->blockInfo->depth  = $options->depth;
                     $options->blocks[] = $options->blockInfo;
@@ -373,7 +355,7 @@ abstract class BalafonViewCompilerUtility
                     if ($root && empty(trim($v_buffer))) {
                         return false;
                     }
-                    $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
+                    self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
                     $options->blockInfo = new ReadBlockInstructionInfo($value);
                     $options->blockInfo->depth = $options->depth;
                     $options->blocks[] = $options->blockInfo;
@@ -390,11 +372,11 @@ abstract class BalafonViewCompilerUtility
                             $binfo->nameSupport = null;
                         }
                     }
-                    $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
+                    self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
                     break;
                 case T_OPEN_TAG:
                     if ($v_with) {
-                        $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
+                        self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
                     }
                     $v_with = true;
                     break;
@@ -405,33 +387,42 @@ abstract class BalafonViewCompilerUtility
                             $compiler->variables[$name] = null;
                         }
                     }
-                    $_bracket = (!$lvalue != '.') && (($lvalue == '"') || in_array($ltoken, [T_ENCAPSED_AND_WHITESPACE]));
-                    if ($_bracket || ($ltoken == T_CURLY_OPEN)) {
+                    $blf = $options->blockInfo;
+                    if (!$blf || !$blf->isReadingCondition()) {
 
-                        $value = "\$___IGK_PHP_EXPRESS_VAR___('" . $name . "')";
-                        if ($_bracket) {
-                            $value = sprintf('{%s}', $value);
-                        }
-                    } else {
-                        if (!empty($options->expressions)) {
-                            $options->expressions[0]->detectVars[$name] = $options->flagOption;
+                        $_bracket = (!$lvalue != '.') && (($lvalue == '"') || in_array($ltoken, [T_ENCAPSED_AND_WHITESPACE]));
+                        if ($_bracket || ($ltoken == T_CURLY_OPEN)) {
+                            $value = "\$___IGK_PHP_EXPRESS_VAR___('" . $name . "')";
+                            if ($_bracket) {
+                                $value = sprintf('{%s}', $value);
+                            }
                         } else {
-                            $options->flag = self::VAR_READ;
-                            $options->flagOption = (object)[
-                                "name" => $name,
-                                "express" => "igk_express_var('" . $name . "')",
-                                "encapsed_express" => "\$___IGK_PHP_EXPRESS_VAR___('" . $name . "')",
-                                "contact" => in_array($lvalue, explode(',', self::VAR_OPERATOR)),
-                            ];
-                            $value = "";
+                            if (!empty($options->expressions)) {
+                                $options->expressions[0]->detectVars[$name] = $options->flagOption;
+                            } else {
+                                $options->flag = self::VAR_READ;
+                                $options->flagOption = (object)[
+                                    "name" => $name,
+                                    "express" => "igk_express_var('" . $name . "')",
+                                    "encapsed_express" => "\$___IGK_PHP_EXPRESS_VAR___('" . $name . "')",
+                                    "contact" => in_array($lvalue, explode(',', self::VAR_OPERATOR)),
+                                    "space" => false
+                                ];
+                                // igk_wln_e("the var: ",$value, $options->flagOption);
+                                $value = "";
+                            }
                         }
                     }
-                    $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
+                    self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
                     break;
                 case T_BREAK:
                 case T_CONTINUE:
                 default:
-                    $fc_append_instruct($v_buffer, $v_tab, $value, $v_with, $options);
+                    if ((T_EXIT == $id) || ((T_STRING == $id) && (($value == "igk_exit") || ($value == 'igk_do_response')))) {
+                        !is_array($options->exitDetected) && $options->exitDetected = [];
+                        $options->exitDetected[$value] = $value;
+                    }
+                    self::_InstructAppendInstruct($v_buffer, $v_tab, $value, $v_with, $options);
                     break;
             }
             // last real value 
@@ -456,7 +447,189 @@ abstract class BalafonViewCompilerUtility
             }
         }
 
+        if ($compiler) {
+            $header = self::_GenerateSourceCode($options, $v_tab, $compiler);
+        }
+
         return $v_tab;
+    }
+    /**
+     * gerete compilations sources code 
+     * @param mixed $options 
+     * @param mixed $tab 
+     * @param mixed $compiler 
+     * @return string 
+     * @throws IGKException 
+     */
+    private static function _GenerateSourceCode($options, $tab, $compiler): string
+    {
+
+        $header = new StringBuilder;
+        $header->appendLine("<?php");
+        $cheader = new StringBuilder;
+        if ($options->namespace) {
+            $header->appendLine("");
+            $header->appendLine(sprintf("namespace %s;\n", $options->namespace));
+        }
+        if ($options->uses) {
+            ksort($options->uses);
+            foreach ($options->uses as $use => $alias) {
+                $header->appendLine(sprintf("use %s;", $use == $alias ? $use : $use . " as " . $alias));
+            }
+            $header->appendLine("");
+        }
+        $cheader->appendLine($header . "");
+        if ($structs = $options->structs) {
+            foreach (["interface", "trait", "class"] as $m) {
+                if (is_null($def = igk_getv($structs, $m))) {
+                    continue;
+                }
+                ksort($def);
+                foreach ($def as $tm) {
+                    $mod = trim(implode(" ", $tm->modifiers));
+                    $header->appendLine(sprintf("%s", $mod . $tm->type . $tm->buffer) . "\n");
+
+                    // because class can't be decalared for multiple evaluation need to protect
+                    switch ($tm->type) {
+                        case "class":
+                            $cheader->appendLine(sprintf("if (!class_exists(%s::class)){\n%s }", $tm->name, $mod . $tm->type . $tm->buffer) . "\n");
+                            break;
+                        case "interface":
+                            $cheader->appendLine(sprintf("if (!interface_exists(%s::class)){\n%s }", $tm->name, $mod . $tm->type . $tm->buffer) . "\n");
+                            break;
+                        case "trait":
+                            $cheader->appendLine(sprintf("if (!trait_exists(%s::class)){\n%s }", $tm->name, $mod . $tm->type . $tm->buffer) . "\n");
+                            break;
+                    }
+                }
+            }
+        }
+        // $tab = array_map(function($a){
+        //     if ($a instanceof ReadBlockInstructionInfo){
+
+
+        //         igk_wln_e("compile block;");
+        //     }
+        //     return $a;
+        // }, $tab);
+
+        $g = $compiler->compile($tab, true, $cheader . "");
+        igk_wln_e(
+            __FILE__ . ":" . __LINE__,
+            var_dump($tab),
+            "compiled result",
+            $header . "",
+            "// the proper result : \n" . $g
+        );
+        return $header . "";
+    }
+
+    /**
+     * 
+     * @param mixed $v_instruction 
+     * @param mixed $v_tab 
+     * @param mixed $value 
+     * @param mixed $v_with 
+     * @param ReadBlockOptions $options 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    private static function _InstructAppendInstruct(&$v_instruction, &$v_tab, $value, $v_with, ReadBlockOptions $options)
+    {
+        if ($v_with) {
+            $v_instruction .= $value;
+            $blockinfo = $options->blockInfo;
+            if ($blockinfo) {
+                if ($blockinfo->canAppendCode()) {
+                    if (!empty($blockinfo->code) || !empty(trim($value))) {
+                        $blockinfo->code .= $value;
+                        if (!$options->buffering) {
+                            $blockinfo->to_compile_code_buffer .= $value;
+                        } else {
+                            // igk_debug_wln("--------------------------------------add to buffer list ......");
+                            $options->bufferLists["block_info_buffer_list"] = &$blockinfo->to_compile_code_buffer;
+                        }
+                    }
+                } else {
+                    if (!$blockinfo->nameSupport && $blockinfo->endConditionFlag) {
+                        if (!empty($blockinfo->condition) || !empty(trim($value)))
+                            $blockinfo->condition .= $value;
+                    }
+                }
+            }
+
+            switch ($value) {
+                case ";":
+                    self::_InstructionAddCodeBlock($options, $v_tab, $v_instruction);
+                    break;
+                case '(':
+                    $options->expressionConditionDepth++;
+                    if ($blf = $options->blockInfo) {
+                        // end name reading if name support
+                        if ($blf->nameSupport) {
+                            $blf->nameSupport = false;
+                        }
+                        // mark condition/argument read read start -                        
+                        if ($blf->endConditionFlag && is_null($blf->endConditionDepth)) {
+                            $blf->endConditionDepth = $options->expressionConditionDepth - 1;
+                        }
+                        // check if still reading condition
+                        if ($blf->isReadingCondition()) {
+                            break;
+                        }
+                    }
+                    if ($options->expressionConditionDepth == 1) {
+                        $exblock = new ReadBlockExpressionInfo;
+                        $options->expressionBuffer = &$exblock->buffer;
+                        $options->expressionBuffer = $value;
+                        $options->flag = self::CHANGE_BUFFER;
+                        $options->expressions[] = $exblock;
+                    }
+                    break;
+                case ')':
+                    $options->expressionConditionDepth--;
+                    if ($blf = $options->blockInfo) {
+                        if ($blf->endConditionFlag) {
+                            if ($blf->endConditionDepth ==  $options->expressionConditionDepth) {
+                                $blf->endConditionFlag = false;
+                            }
+                            // igk_debug_wln(__FILE__.":".__LINE__, "---------------close but continue read condition : ?[".
+                            // $blf->endConditionFlag
+                            // ."] ");
+                            break;
+                        }
+                    }
+                    // igk_wln_e("finisht---------------close but continue read condition ");
+                    if ($options->expressionConditionDepth === 0) {
+                        self::_InstructionEndExpresion($options);
+                    }
+                    break;
+                case "{":
+                    $options->depth++;
+                    if ($blockinfo) {
+                        $blockinfo->blockFlag = true;
+                    }
+                    break;
+                case "}":
+                    $options->depth--;
+                    if ($options->blockInfo) {
+                        if ($options->blockInfo->type == "function") {
+                            // must end with }; or })(
+                            if (empty($options->blockInfo->name)) {
+                                $options->nextRequest = [";", ")"];
+                                $options->appendNext = ";";
+                            }
+                        }
+                        if ($options->blockInfo->depth == $options->depth) {
+                            // END BLOCK READ:
+                            self::_InstructionEndBlockRead($options, $v_tab);
+                        }
+                    }
+                    break;
+            }
+        }
     }
     /**
      * add code block.
@@ -468,23 +641,33 @@ abstract class BalafonViewCompilerUtility
     private static function _InstructionAddCodeBlock(ReadBlockOptions $options, &$v_tab, &$v_instruction)
     {
         $g = trim($v_instruction);
-        // igk_debug_wln(__FILE__.":".__LINE__, "------------------add instruction block", $g,
-            //        $options->blockInfo->to_compile_code_buffer);
+        // igk_wln_e(
+        //     __FILE__ . ":" . __LINE__,
+        //     "------------------add instruction block",
+        //     $g,
+        //     "to compile ",
+        //     $options->blockInfo->to_compile_code_buffer,
+        //     "data:",
+        //     $options->blockInfo
+        // );
         if (!empty($g)) {
             if (!$options->blockInfo) {
-                $v_block = (object)["value" => $g];
+                $v_block = new ReadBlockResult($g, 1); // (object)["value" => $g];
                 $v_tab[] = $v_block;
                 $v_instruction = "";
+            } else {
+                $g = ltrim($options->blockInfo->to_compile_code_buffer, "{");
+                $g = rtrim($g, "}");
+                if (!empty($g = trim($g))) {
+                    $v_block = new ReadBlockResult($g, 2); // (object)["value" => $g];
+                    $options->blockInfo->codeBlocks[] = $v_block;
+                }
+                $options->blockInfo->to_compile_code_buffer = "";
+                if (!$options->blockInfo->blockFlag) {
+                    //compile and end block definition
+                    self::_InstructionEndBlockRead($options, $v_tab);
+                }
             }
-        }
-        if ($options->blockInfo) {
-            $g = ltrim($options->blockInfo->to_compile_code_buffer, "{");
-            $g = rtrim($g, "}");
-            if (!empty($g = trim($g))) {
-                $v_block = (object)["value" => $g];
-                $options->blockInfo->codeBlocks[] = $v_block;
-            }
-            $options->blockInfo->to_compile_code_buffer = "";
         }
     }
     private static function _InstructionListNextRequestHandle(ReadBlockOptions $options, $value, string &$v_instruction)
@@ -505,19 +688,44 @@ abstract class BalafonViewCompilerUtility
             $options->nextRequest = null;
         }
     }
-    private static function _InstructionEndBlockRead(ReadBlockOptions $options)
+    private static function _InstructionEndBlockRead(ReadBlockOptions $options, &$v_tab)
     {
+        // igk_debug_wln("-------------------------------------instruct end block read");
         $blockinfo = array_pop($options->blocks);
         if ($blockinfo) {
-            self::_InstructCompileBlock($options);
-            // igk_debug_wln_e("the first block ", $blockinfo);
-        }
+            // igk_wln_e(__FILE__.":".__LINE__,  $blockinfo, count($options->blocks));
+            if (($c = count($options->blocks)) === 0) {
+                $v_tab[] = $blockinfo;
+                $options->blockInfo = null;
+                $options->buffer = "";
+                // var_dump($v_tab);
+                // igk_wln_e(__FILE__.":".__LINE__, "------------------- end block ", $v_tab[2] === $blockinfo, $options, "count:". igk_env_count(__FUNCTION__));
+            } else {
 
-        if (($c = count($options->blocks)) > 0) {
-            $options->blockInfo = $options->blocks[$c - 1];
-        } else {
-            $options->blockInfo = null;
+                $options->blockInfo = $options->blocks[$c - 1];
+                $options->blockInfo->codeBlocks = $blockinfo;
+
+                igk_wln_e(__FILE__ . ":" . __LINE__,  "done", $options->blockInfo->codeBlocks);
+            }
         }
+        // $blockinfo = array_pop($options->blocks);
+        // $compiler = $options->compiler;
+        // $compile_result = "";
+        // if ($blockinfo) {
+        //     self::_InstructCompileBlock($options);
+        //     $compile_result = $blockinfo->compile_result;
+        // }
+        // if (($c = count($options->blocks)) > 0) {
+        //     $options->blockInfo = $options->blocks[$c - 1];
+        //     $options->blockInfo->compile_result .= $compile_result;
+        // } else {
+        //     if ($blockinfo) {
+        //         if (!empty($result = $blockinfo->compile())) {
+        //             $compiler && $compiler->append($result);
+        //         }
+        //     }
+        //     $options->blockInfo = null;
+        // }
     }
     /**
      * compile block
@@ -529,31 +737,31 @@ abstract class BalafonViewCompilerUtility
      */
     private static function _InstructCompileBlock(ReadBlockOptions $options)
     {
-        $listener = $options->compiler;
-        if ($options->blockInfo && $listener) {
-            $result = $listener->compile($options->blockInfo->codeBlocks);
-            igk_debug_wln_e(
-                __FILE__.":".__LINE__, 
-                "to compile: ", $options->blockInfo, 
-                "result: ", 
-                $result,
-            );
-            $options->blockInfo->compile_result .= $result;
-            $options->blockInfo->to_compile_code_buffer = "";
-        }
+        // $listener = $options->compiler;
+        // if ($options->blockInfo && $listener) {
+        //     $result = $listener->compile($options->blockInfo->codeBlocks);
+        //     // igk_debug_wln_e(
+        //     //     __FILE__.":".__LINE__, 
+        //     //     "to compile: ", $options->blockInfo, 
+        //     //     "result: ", 
+        //     //     $result,
+        //     // );
+        //     $options->blockInfo->compile_result .= $result;
+        //     $options->blockInfo->to_compile_code_buffer = "";
+        // }
     }
 
-    private static function _InstructionEndExpresion(ReadBlockOptions $options){
+    private static function _InstructionEndExpresion(ReadBlockOptions $options)
+    {
         $options->flag = self::RESTORE_BUFFER;
         $exblock = array_pop($options->expressions);
-        if (!empty($exblock->detectVars)){
+        if (!empty($exblock->detectVars)) {
             // check if is method - request
-            if (preg_match("/".IGK_IDENTIFIER_PATTERN."\s*\($/", $options->buffer))
-            {
-                foreach(array_keys($exblock->detectVars) as $n){
-                    $exblock->buffer = str_replace('$'.$n, 'igk_express_arg("'.$n.'")', $exblock->buffer);
+            if (preg_match("/" . IGK_IDENTIFIER_PATTERN . "\s*\($/", $options->buffer)) {
+                foreach (array_keys($exblock->detectVars) as $n) {
+                    $exblock->buffer = str_replace('$' . $n, 'igk_express_arg("' . $n . '")', $exblock->buffer);
                 }
-                $exblock->buffer = ltrim($exblock->buffer,"(");
+                $exblock->buffer = ltrim($exblock->buffer, "(");
                 $options->buffer .=  $exblock->buffer;
                 self::_InstructAppendBuffering($options, $exblock->buffer);
                 unset($options->expressionBuffer); // = null;
@@ -564,32 +772,32 @@ abstract class BalafonViewCompilerUtility
             // igk_debug_wln(__FILE__.":".__LINE__,  "----------------------------variable detected", 
             //     "optionbuffer", $options->buffer );
 
-            foreach(array_keys($exblock->detectVars) as $n){
-                $exblock->buffer = str_replace('$'.$n, 'igk_express_var("'.$n.'")', $exblock->buffer);
+            foreach (array_keys($exblock->detectVars) as $n) {
+                $exblock->buffer = str_replace('$' . $n, 'igk_express_var("' . $n . '")', $exblock->buffer);
             }
 
 
-            $exblock->buffer = rtrim(ltrim($exblock->buffer , "("),")");
+            $exblock->buffer = rtrim(ltrim($exblock->buffer, "("), ")");
             $tmp_buffer = "igk_express_eval('" . $exblock->buffer . "'))";
-            $options->buffer .= $tmp_buffer; 
-            self::_InstructAppendBuffering($options, $tmp_buffer); 
+            $options->buffer .= $tmp_buffer;
+            self::_InstructAppendBuffering($options, $tmp_buffer);
         } else {
             // no var detected just leave at its
-            $options->buffer .= $tmp_buffer = ltrim($exblock->buffer,"("); 
+            $options->buffer .= $tmp_buffer = ltrim($exblock->buffer, "(");
             self::_InstructAppendBuffering($options, $tmp_buffer);
         }
-       
+
         unset($options->expressionBuffer); // = null;
         $options->expressionBuffer = "";
-       
     }
 
-    private static function _InstructAppendBuffering(ReadBlockOptions $options, string $buffering){
+    private static function _InstructAppendBuffering(ReadBlockOptions $options, string $buffering)
+    {
         // reference important to update the buffer list with 
-        foreach($options->bufferLists as & $k){
-            $k.= $buffering;
+        foreach ($options->bufferLists as &$k) {
+            $k .= $buffering;
         }
         // igk_wln_e(__FILE__.":".__LINE__, " ---------------------------------- restore buffer list ", $k, $options->bufferLists );
         $options->bufferLists = [];
-    } 
+    }
 }

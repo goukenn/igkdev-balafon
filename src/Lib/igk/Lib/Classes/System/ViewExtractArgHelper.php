@@ -7,7 +7,7 @@ namespace IGK\System;
 
 ///<summary></summary>
 /**
-* 
+* expression view helper
 * @package IGK\System
 */
 class ViewExtractArgHelper{
