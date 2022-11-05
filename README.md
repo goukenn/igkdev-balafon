@@ -33,11 +33,16 @@ a2enmod header
 Views are ".phtml" files located in Project's Views folder. 
 
 #### Views options
-passing layout compilation view is to 
+
+passing parameters to layout
+
 ```php
-//%{{ expression }}
+//#{{% expression %}}
 ```
-where expression can be 
+
+
+##### default expression
+
 | Name  | Description |
 | ----- | ------------ |
 | @MainLayout| |
@@ -59,4 +64,7 @@ where expression can be
 - 20220714
     + add igk_css_request_ctrl global function 
     + OPS update css dynamic file from controller
+
+
+@ C.A.D BONDJE DOUE
 
