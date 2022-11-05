@@ -167,11 +167,11 @@ class ConfigurationReader
     }
     private function _readName(): ?string
     {
-        return $this->_readData($this->separator);
+        return trim($this->_readData($this->separator) ?? '');
     }
     private function _readValue(): ?string
     {
-        return $this->_readData($this->delimiter);;
+        return trim($this->_readData($this->delimiter) ?? '');
     }
     private function _readData(string $end){
         /**

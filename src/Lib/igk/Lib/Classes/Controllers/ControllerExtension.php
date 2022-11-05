@@ -6,6 +6,7 @@
 
 namespace IGK\Controllers;
 
+use com\igkdev\projects\app_balafon\Database\InitDbSchemaBuilder;
 use Exception;
 use IGK\Database\DbLinkExpression;
 use IGK\Models\Migrations;
@@ -28,6 +29,10 @@ use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
 use IGK\System\Http\RequestResponse;
 use IGK\System\Http\WebResponse; 
 use IGK\ApplicationLoader;
+use IGK\Database\SchemaBuilder\DiagramEntityAssociation;
+use IGK\Database\SchemaBuilder\DiagramVisitor;
+use IGK\Database\SchemaBuilder\SchemaDiagramVisitor;
+use IGK\Helper\SysUtils;
 use IGK\System\Database\IDatabaseHost;
 use IGKEnvironment;
 use IGKResourceUriResolver;
@@ -43,6 +48,9 @@ use Throwable;
  */
 abstract class ControllerExtension
 {
+    public static function getBaseDir(BaseController $ctrl){
+        return null;
+    }
     /**
      * extends to get the base controller from class
      * @param BaseController $ctrl 
@@ -64,18 +72,18 @@ abstract class ControllerExtension
     ///<param name="fname"></param>
     ///<param name="css_def" default="null"></param>
     /**
-     * 
-     * @param mixed $t
+     * bind target node
+     * @param HtmlNode $t
      * @param mixed $fname
      * @param mixed $css_def the default value is null
      */
-    public static function bindNodeClass(BaseController $ctrl, $t, $fname, $css_def = null)
+    public static function bindNodeClass(BaseController $ctrl, HtmlNode $t, $fname, $css_def = null)
     {
 
         $classdef = igk_css_str2class_name($fname) . ($css_def ? " " . $css_def : "");
         if ($ctrl->getEnvParam(IGK_KEY_CSS_NOCLEAR) == 1)
             return;
-
+  
         $c = $t["class"];
         if ($c) {
             $c->Clear();
@@ -516,7 +524,7 @@ abstract class ControllerExtension
         return true;
     }
     /**
-     * resolv table name
+     * resolv table name to class model
      * @param BaseController $ctrl 
      * @param string $table 
      * @return string 
@@ -654,6 +662,14 @@ abstract class ControllerExtension
             igk_io_w2file($c, $builder->render());
         }
     }
+    /**
+     * register autoload class for controller
+     * @param BaseController $ctrl 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function register_autoload(BaseController $ctrl)
     {         
         $ns = $ctrl->getEntryNameSpace();
@@ -706,6 +722,23 @@ abstract class ControllerExtension
     }
 
     /**
+     * get entry namespace
+     * @param BaseController $ctrl 
+     * @return void 
+     */
+    public static function getEntryNamespace(BaseController $ctrl)
+    {
+        if (BaseController::IsSystemController($ctrl)){
+            return \IGK::class;
+        }
+        $ns = dirname(igk_dir(get_class($ctrl)));
+        if ($ns != ".") {
+            return str_replace("/", "\\", $ns);
+        }
+        return SysUtils::GetProjectEntryNamespace($ctrl->getDeclaredDir());
+    }
+
+    /**
      * 
      * @param mixed $cinfo 
      * @return string 
@@ -719,6 +752,18 @@ abstract class ControllerExtension
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
+    /**
+     * get model source declaration
+     * @param mixed $name 
+     * @param mixed $table 
+     * @param mixed $columnInfo 
+     * @param mixed $ctrl 
+     * @param null|string $comment 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     private static function GetModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl, ?string $comment = null)
     {
         $ns =  self::ns($ctrl, "");
@@ -758,7 +803,7 @@ abstract class ControllerExtension
                     $key = $cinfo->clName;
                 }
             }
-            if ($cinfo->getIsRefID()) {
+            if ($cinfo->getIsRefId()) {
                 $refkey = $cinfo->clName;
             }
 
@@ -770,9 +815,6 @@ abstract class ControllerExtension
         }
 
         $args = sysutil::DBGetPhpDocModelArgEntries($columnInfo->columnInfo, $ctrl);
-
-
-
 
         if ($args) {
             $t_args = implode(", ", $args);
@@ -1059,7 +1101,7 @@ abstract class ControllerExtension
         if ($force || $ctrl->getCanInitDb()) {
 
 
-            if (!$ctrl->getConfigs()->clDataSchema) {
+            if (!$ctrl->getUseDataSchema()) {
                 $db = self::getDataAdapter($ctrl);
                 if (
                     !empty($table = $ctrl->getDataTableName()) &&
@@ -1119,7 +1161,7 @@ abstract class ControllerExtension
     }
 
     /**
-     * retrieve the configs
+     * retrieve cached the configs
      * @param BaseController $controller 
      * @param string $name 
      * @param mixed $default 
@@ -1128,7 +1170,8 @@ abstract class ControllerExtension
      */
     public static function getConfig(BaseController $controller, string $name, $default = null)
     {
-        return $controller->getConfigs()->get($name, $default);
+        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($controller, $name, $default);
+        // return $controller->getConfigs()->get($name, $default);
     }
 
     /**
@@ -1272,22 +1315,27 @@ abstract class ControllerExtension
      */
     public static function initDbFromSchemas(BaseController $controller)
     {
-
-        $r = $controller->loadDataAndNewEntriesFromSchemas();
-        if (!$r)
-            return;
-        $tb = $r->Data;
         $db = self::getDataAdapter($controller);
-        if ($db) {
-            if ($db->connect()) {
-                igk_db_init_dataschema($controller, $r, $db);
-                $db->close();
-            } else {
-                igk_ilog("/!\\ connexion failed ");
-            }
-        } else {
-            igk_log_write_i(__FUNCTION__, "no adapter found");
+        if (!$db || !$db->connect()) {
+            return false;
         }
+        // init load a schema
+        $r = $controller->loadDataAndNewEntriesFromSchemas();
+
+        // if ($cl = self::resolvClass($controller, \Database\InitDbSchemaBuilder::class)){
+        //     // resolv core entries 
+        //     $b = new $cl();
+        //     $tr = DiagramEntityAssociation::LoadFromXMLSchema($r);
+        //     $b->up($tr); 
+        //     $tr->render(new SchemaDiagramVisitor($controller, $r));
+        // } 
+        if (!$r){
+            $db->close();
+            return false;
+        }
+        $tb = $r->Data;  
+        igk_db_init_dataschema($controller, $r, $db);
+        $db->close(); 
         return $tb;
     }
 
@@ -1302,7 +1350,7 @@ abstract class ControllerExtension
     public static function initDbConstantFiles(BaseController $controller)
     {
         $table = null;
-        if (!$controller->getConfigs()->clDataSchema) {
+        if (!$controller->getConfig(IGK_CTRL_CNF_USE_DATASCHEMA)) {
             if (is_null($table = $controller->getDataTableName()))
                 return;
         }
@@ -1383,13 +1431,15 @@ abstract class ControllerExtension
     }
     /**
      * controller get data table definition
+     * @return ?stdClass { $tableRowReference, $columnInfo }
      */
     public static function getDataTableDefinition(BaseController $ctrl, ?string $tablename=null)
     {
         if (!($ctrl instanceof IDatabaseHost)){
             return null;
         }
-        if ($ctrl->getUseDataSchema()) {
+  
+        if ($ctrl->getUseDataSchema()){
             $info = null;
             if ( is_null($tablename) || !($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 // igk_wln_e("using .... stry loading schema");
@@ -1809,10 +1859,10 @@ abstract class ControllerExtension
         if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
 
-        if (igk_env_count(__METHOD__ . $name) > 1) {
-            igk_trace();
-            igk_die(__METHOD__ . " call twice " . $name);
-        }
+        // if (igk_env_count(__METHOD__ . $name) > 1) {
+        //     igk_trace();
+        //     igk_die(__METHOD__ . " call twice " . $name);
+        // }
 
         if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
             $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");

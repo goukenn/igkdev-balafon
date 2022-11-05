@@ -37,6 +37,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Facades/Facade.php";
 
  
 
+require_once IGK_LIB_DIR . "/Lib/functions-helpers/array.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/engine.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/reflection.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/debug.php";

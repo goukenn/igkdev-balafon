@@ -34,7 +34,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static object|null insertIfNotExists(?array condition = null, ?array options = null) macros:Insert if condition not meet.
  * @method static object|null insert() macros function - DefaultModelEntryExtension
  * @method static array|null select(?array $condition=null) macros function - DefaultModelEntryExtension
- * @method static array|null select_all(?array $condition=null, null|array|DbQueryOptions $options=null) macros function  
+ * @method static array|array<static>|null select_all(?array $condition=null, null|array|DbQueryOptions $options=null) macros function  
  * @method static bool drop() macros function drop table 
  * @method static bool createTable() macros function create table if not exists
  * @method static bool delete(null|array|object $condition) macros function delete table's entries

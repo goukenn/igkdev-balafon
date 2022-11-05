@@ -132,6 +132,9 @@ abstract class RootControllerBase extends IGKObject{
             $v_macro = 1;
             $arguments = array_slice($arguments, 2) ?? [];
         }
+        if (!$c && (count($arguments)>0) && ($arguments[0] instanceof BaseController)){
+            $c = array_shift($arguments);
+        }
 		$c = $c ? $c : igk_getctrl(static::class); 
 		
 		if (isset(self::$macros[$name])){
@@ -175,6 +178,7 @@ abstract class RootControllerBase extends IGKObject{
         if (method_exists($this, $name) && (in_array(strtolower($name), ["initcomplete"]))){
             return call_user_func_array([$this, $name], $argument);
         }
+        array_unshift($argument, $this);
         return static::__callStatic($name, $argument);
     }
 
@@ -337,8 +341,7 @@ abstract class RootControllerBase extends IGKObject{
      * override this to initialize context
      * @return void 
      */
-    protected function initComplete($context = null){    
-        
+    protected function initComplete($context = null){
     }
 
    

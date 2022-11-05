@@ -2,6 +2,8 @@
 // @file : igk_db_ctrl_initdb
 // @author: C.A.D. BONDJE DOUE
 // @desc: 
+
+use IGK\Database\DbSchemaDefinitions;
 use IGK\System\Console\Logger;
 
 if(!$force && !$controller->getCanInitDb()){
@@ -21,6 +23,7 @@ else{
     Logger::info("init from db schemas ...");
     $bck=igk_get_env(IGK_ENV_DB_INIT_CTRL);
     igk_set_env(IGK_ENV_DB_INIT_CTRL, $controller);
+    DbSchemaDefinitions::UnregisterCache($controller);
     $controller->initDbFromSchemas();
     $controller->initDbConstantFiles();
     $controller::InitDataBaseModel($force);

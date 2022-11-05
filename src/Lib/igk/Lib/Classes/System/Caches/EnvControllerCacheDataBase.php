@@ -36,11 +36,16 @@ class EnvControllerCacheDataBase{
             if (!isset($this->serie[$n])){
                 $this->serie[$n] = [];
             }
+            $to_seri = (object)["tables"=>[]];
             // unset controller for storage
-            foreach($def->tables as $v){
-                unset($v->controller);
+            foreach($def->tables as $k=>$v){
+                $m = (array)$v;
+                unset($m["controller"]);
+                unset($m["entries"]);
+                unset($m["tableRowReference"]);
+                $to_seri->tables[$k] = $m;
             }       
-            $this->serie[$n][$cl] = json_decode(Utility::TO_JSON($def, [
+            $this->serie[$n][$cl] = json_decode(Utility::TO_JSON($to_seri, [
                 'ignore_empty'=>1
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));           
         }

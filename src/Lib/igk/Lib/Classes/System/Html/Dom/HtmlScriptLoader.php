@@ -100,10 +100,11 @@ class HtmlScriptLoader{
                     case ".js";
                         $u .= "?v=" . IGK_VERSION;
                         $s .= $tabstop."<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
-                        $defer = $defer || (($tag=="igk" ) && (basename($f) != "igk.js"));
-                        if ($defer) { // ($tag != "igk") &&  || $defer) {
+                        $is_core = (($tag=="igk" ) && (basename($f) == "igk.js"));
+                        $defer = $defer || !$is_core; // (($tag=="igk" ) && (basename($f) != "igk.js"));
+                        if ($defer) { 
                             $s .= " defer";
-                        }
+                        }  
                         $s .= " ></script>".$lf;
                         break;
                 }

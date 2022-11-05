@@ -13,7 +13,9 @@ trait ArrayAccessSelfTrait{
         $this->_access_OffsetSet($n, $v);
     }
     function offsetGet(mixed $n):mixed{
-        return $this->_access_OffsetGet($n);
+        $g =  $this->_access_OffsetGet($n);
+
+        return $g;
     }
     function offsetUnset(mixed $n):void{
         $this->_access_OffsetUnset($n);

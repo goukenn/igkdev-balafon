@@ -7,6 +7,7 @@
 namespace IGK\Tests\System\Html;
 
 use Exception;
+use IGK\Helper\Activator;
 use IGK\Tests\BaseTestCase;
 use IGKException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
@@ -61,6 +62,40 @@ class HtmlReaderTest extends BaseTestCase{
         $n->load("<div><igk:attr-expression id='info' /><igk:usesvg igk:args='data' title='data'/></div>");
         $this->assertEquals(
             '<div><div id="info"><span title="data"></span></div></div>',
+            $n->render(),
+            "not resolved"
+        ); 
+    }
+
+    public function test_bind_expression(){
+        $n = igk_create_node("div");
+        $c = new \IGK\System\Html\HtmlBindingContextOptions();
+        $c->transformToEval = true;  
+        $n->load('<<?= $x ?>>info</<?= $x ?>>', $c);
+        $this->assertEquals(
+            '<div><<?= $x ?>>info</<?= $x ?>></div>',
+            $n->render(),
+            "not resolved"
+        ); 
+    }
+    public function test_bind_expression_block(){
+        $n = igk_create_node("div");
+        $c = new \IGK\System\Html\HtmlBindingContextOptions();
+        $c->transformToEval = true;  
+        $n->load('<block-<?= $x ?>>info</block-<?= $x ?>>', $c);
+        $this->assertEquals(
+            '<div><block-<?= $x ?>>info</block-<?= $x ?>></div>',
+            $n->render(),
+            "not resolved"
+        ); 
+    }
+    public function test_bind_expression_block_middle(){
+        $n = igk_create_node("div");
+        $c = new \IGK\System\Html\HtmlBindingContextOptions();
+        $c->transformToEval = true;  
+        $n->load('<block-<?= $x ?>-sample>info</block-<?= $x ?>-sample>', $c);
+        $this->assertEquals(
+            '<div><block-<?= $x ?>-sample>info</block-<?= $x ?>-sample></div>',
             $n->render(),
             "not resolved"
         ); 

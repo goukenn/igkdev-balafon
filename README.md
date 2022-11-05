@@ -41,8 +41,8 @@ where expression can be
 | Name  | Description |
 | ----- | ------------ |
 | @MainLayout| |
-| @Import('*other views - to important and to compile*')| |
-| @Include('*inclusion not to be compiled*') | |
+| @Import('*other views - compile, file*')| |
+| @Include('*include file not compile*') | |
 
 
 ### Modules

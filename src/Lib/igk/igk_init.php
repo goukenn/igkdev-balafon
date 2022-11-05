@@ -46,7 +46,7 @@ if (!igk_is_function_disable("shell_exec")) {
             igk_exit();
         }
     } else {
-        echo "complete.\n";
+        echo "init complete.\n";
     }
 } else {
     echo "shell_exec is disabled on this server.";

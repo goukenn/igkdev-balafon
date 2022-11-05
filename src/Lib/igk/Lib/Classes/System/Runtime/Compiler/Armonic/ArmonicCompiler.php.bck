@@ -1,0 +1,674 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: ArmonicCompiler.php
+// @date: 20221019 16:07:57
+namespace IGK\System\Runtime\Compiler\Armonic;
+
+use IGK\System\IO\StringBuilder;
+use IGK\System\Runtime\Compiler\TokenCompilerBase;
+use IGK\System\Runtime\Compiler\CompilerFlagState;
+use IGK\System\Runtime\Compiler\ICompiler;
+use IGK\System\Runtime\Compiler\ICompilerTokenHandler;
+use IGK\System\Runtime\Compiler\ReadTokenOptions;
+use IGK\System\Runtime\Compiler\ReadTokenStructFunctionInfo;
+use IGK\System\Runtime\Compiler\ReadTokenStructInfo;
+use IGK\System\Runtime\Compiler\ReadTokenUtility;
+use IGK\System\Runtime\Compiler\Traits\CompilerTokenBracketTrait;
+use IGK\System\Runtime\Compiler\Traits\CompilerTokenCommentHandlerTrait;
+use IGK\System\Runtime\Compiler\Traits\CompilerTokenReadStructHandler;
+use IGK\System\Runtime\Compiler\Traits\CompilerTokenTrait;
+use IGKException;
+use Illuminate\View\Compilers\Compiler;
+use PhpOption\Option;
+
+///<summary></summary>
+/**
+ * 
+ * @package IGK\System\Runtime\Compiler\Armonic
+ */
+class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerTokenHandler
+{
+    use CompilerTokenTrait;
+    use CompilerTokenBracketTrait;
+    use CompilerTokenCommentHandlerTrait;
+    use CompilerTokenReadStructHandler;
+
+    var $author;
+
+    var $description;
+
+    /**
+     * descriptor regex
+     * @var string
+     */
+    var $describComment = "#//\s*@(?P<name>(description|desc|author|file|filename|date|link|license|version)):#i";
+
+    /**
+     * merge variable
+     * @var false
+     */
+    var $mergeVariable = false;
+    /**
+     * primary options to set
+     * @var ReadTokenOptions
+     */
+    var $options;
+
+    protected function endHandleToken($options)
+    {
+        $this->_handleEndStructInfo($options);
+    }
+
+    private function _handleEndStructInfo(ReadTokenOptions $options)
+    {
+        $v_info = $options->struct_info;
+        if ($v_info && $v_info->readCode && ($options->depth == $v_info->depth)) {
+            // + | build buffer            
+            $v_info->buffer = rtrim($v_info->buffer, '})');
+            $v_info->buildBuffer($options);
+            // igk_wln_e("done", $v_info->output());
+            if ($v_info->popBuffer) {
+                $this->popBuffer($options);
+            }
+            if ($v_info->updateParentBuffer()) {
+                $options->buffer .= $v_info->output();
+            }
+            // update parent struct
+            $options->struct_info = $v_info->parent;
+        }
+    }
+
+    public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
+    {
+        $stop = false;
+        $this->_handleEndStructInfo($options);
+        $flag = &$options->flag;
+        $v_buffer = &$options->buffer;
+
+        if (($id == T_WHITESPACE) || (empty(trim($value)))) {
+            if ($options->skipWhiteSpace) {
+                $value = "";
+            } else {
+                $options->skipWhiteSpace = 1;
+                $value = count(explode("\n", $value)) > 2 ? "\n" : " ";
+            }
+        } else {
+            $options->skipWhiteSpace = 0;
+        }
+
+        if ($flag) {
+            if ($this->HandleFlag($flag, $options, $id, $value)) {
+                return !$stop;
+            }
+        }
+        switch ($id) {
+            case T_OPEN_TAG:
+                if ($options->startReadFlag) {
+                    // get definition list
+                    $options->flag = CompilerFlagState::READ_DESC_COMMENT;
+                    $options->skipWhiteSpace = 1;
+                } else {
+                    $v_buffer .= $value;
+                }
+                break;
+            case T_OPEN_TAG_WITH_ECHO:
+                break;
+            case T_NAMESPACE:
+                if ($options->depth == 0) {
+                    $options->flag = CompilerFlagState::READ_NAMESPACE;
+                }
+                break;
+            case T_USE:
+                if ($options->depth == 0) {
+                    $options->flag = CompilerFlagState::READ_GLOBAL_USE;
+                } else {
+                    $options->flag  = CompilerFlagState::READ_CLASS_USE;
+                }
+                break;
+            case T_COMMENT:
+                break;
+            case T_DOC_COMMENT:
+                $this->options->docComments = $value;
+                break;
+            case T_ABSTRACT:
+            case T_FINAL:
+            case T_STATIC:
+            case T_PUBLIC:
+            case T_PRIVATE:
+            case T_PROTECTED:
+            case T_CONST:
+            case T_VAR:
+                $this->options->modifiers[] = $value;
+                if ($id == T_CONST){
+                    $this->options->flag = CompilerFlagState::READ_CONST;
+                }
+                break;
+            case T_CLASS:
+            case T_TRAIT:
+            case T_INTERFACE:
+                $v_struct_info = new ReadTokenStructInfo($value);
+                $v_struct_info->comment = $options->comment;
+                $v_struct_info->modifiers = $options->modifiers;
+                $v_struct_info->parent = $options->struct_info;
+                $v_struct_info->depth = $options->depth;
+                $this->_resetComment($options);
+                $flag = $id == T_CLASS ? CompilerFlagState::READ_CLASS : CompilerFlagState::READ_STRUCT;
+                $options->structs[$value][] = $v_struct_info;
+                $options->flagOptions = ["op" => "name"];
+                $options->struct_info = $v_struct_info;
+                break;
+            case T_FUNCTION:
+                $v_struct_info = new ReadTokenStructFunctionInfo($value);
+                $v_struct_info->depth = $options->depth;
+                $v_struct_info->comment = $options->comment;
+                $v_struct_info->modifiers = $options->modifiers;
+                $v_struct_info->parent = $options->struct_info;
+                $this->_resetComment($options);
+                $flag = CompilerFlagState::READ_FUNCTION;
+                $options->flagOptions = $v_struct_info->initFlagOption($options);
+                $options->struct_info = $v_struct_info;
+                break;
+            case T_RETURN:
+                if ($options->depth == 0) {
+                    $stop = true;
+                    $options->returnDetectedFlag = true;
+                }
+                $v_buffer .= $value;
+                break;
+            case T_VARIABLE:
+                $this->addChainVariable($options, $id, $value);                
+                break;
+            default:
+                // by default             
+                $v_buffer .= $value;
+                $this->_checkBracket($options, $value);
+                break;
+        }
+        return !$stop;
+    }
+    public function addChainVariable($options, $id, $value){
+        $name = substr($value, 1);
+        if ($options->struct_info) {
+            if ($options->struct_info->type == 'interface') {
+                igk_die("variable not allowed in interface", true);
+            }
+            $var_info=$this->_createVariable($name, $options);          
+            $options->struct_info->variables[] = $var_info;
+        } else if ($options->depth == 0){
+            $var_info=$this->_createVariable($name, $options);            
+        }
+        else {
+            igk_die("read variables failed");
+        }
+    }
+    protected function _createVariable($name, ReadTokenOptions $options){
+        $var_info = (object)[
+            "name" => $name,
+            'modifiers'=>$options->modifiers,
+            'default'=>null,
+            'buffer'=>'',
+            'mod'=>''
+        ];
+        $options->flag = CompilerFlagState::READ_VARIABLE;
+        $options->flagOptions = ["var"=> $var_info];
+        return $var_info;
+    }
+    // protected function _checkBracket($options, $value)
+    // {
+    //     // update branket value
+    //     switch ($value) {
+    //         case '{':
+    //         case '(':
+    //         case '[':
+    //             $options->depth++;
+    //             break;
+    //         case '}':
+    //         case ')':
+    //         case ']':
+    //             $options->depth--;
+    //             break;
+    //     }
+    // }
+    protected function _resetComment($options)
+    {
+        $options->modifiers = [];
+        $options->comment = null;
+    }
+    /**
+     * handle flag
+     * @param mixed $flag 
+     * @param ReadTokenOptions $options 
+     * @param null|string $id 
+     * @param string $value 
+     * @return void 
+     */
+    public function HandleFlag(&$flag, ReadTokenOptions $options, ?string $id, string $value)
+    {
+
+        if ($flag == CompilerFlagState::READ_CONST) {
+            return $this->handleReadConst($flag, $options, $id, $value);
+        }
+
+        if ($flag == CompilerFlagState::READ_DESC_COMMENT) {
+            return $this->handleDescriptionComment($flag, $options, $id, $value);
+        }
+        if ($flag == CompilerFlagState::READ_VARIABLE) {
+            return $this->handleReadVariable($flag, $options, $id, $value);
+        }
+        // + | read function
+        if ($flag == CompilerFlagState::READ_FUNCTION) {
+            return $this->handleReadFunction($flag, $options, $id, $value);
+        }
+        // + | read struct
+        if ($flag == CompilerFlagState::READ_STRUCT) {
+            return $this->handleReadClass($flag, $options, $id, $value);
+        }
+        // + | read class 
+        if ($flag == CompilerFlagState::READ_CLASS) {
+            return $this->handleReadClass($flag, $options, $id, $value);
+        }
+        // + | read class use 
+        if ($flag == CompilerFlagState::READ_CLASS_USE) {
+            return $this->handleGlobalUseFlag($flag, $options, $id, $value);
+        }
+        // + | use global uses
+        if ($flag == CompilerFlagState::READ_GLOBAL_USE) {
+            return $this->handleGlobalUseFlag($flag, $options, $id, $value);
+        }
+        // + | read namespace 
+        if ($flag == CompilerFlagState::READ_NAMESPACE) {
+            if ($id == T_STRING) {
+                if (!empty($options->namespace) && !$options->isNamespaceBlock) {
+                    igk_die("namespace declaration not valid");
+                }
+                $options->namespace = $value;
+            } else switch ($value) {
+                case ';':
+                    // end resource
+                    $flag = null;
+                    break;
+                case '{':
+                    // namespace block
+                    $options->isNamespaceBlock = true;
+                    break;
+            }
+        }
+        return true;
+    }
+
+    protected function handleDescriptionComment(&$flag, ReadTokenOptions $options, $id, $value)
+    {
+        switch ($id) {
+            case T_COMMENT:
+                if (preg_match($this->describComment, $value)) {
+                    $options->describeComments[] = $value;
+                } else {
+                    $flag = null;
+                    return false;
+                }
+                break;
+            case T_WHITESPACE:
+                break;
+            default:
+                if (!empty(trim($value))) {
+                    $flag = null;
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+    /**
+     * 
+     * @param mixed $flag 
+     * @param ReadTokenOptions $options 
+     * @param mixed $id 
+     * @param mixed $value 
+     * @return bool 
+     */
+    protected function handleReadVariable(&$flag, ReadTokenOptions $options, $id, $value): bool
+    {
+        switch ($id) {
+            case T_VARIABLE:
+                // + | chain variable
+                $this->addChainVariable($options, $id, $value);
+                break;
+            case T_STRING:
+                if (in_array('const', $options->flagOptions['var']->modifiers)){
+                    $options->flagOptions['var']->name = $value;
+                    $options->flagOptions['var']->constant = true;
+                }
+                break;
+            default:
+                switch ($value) {
+                    case ';':
+                        $data = $options->flagOptions['var']->buffer;
+                        $flag = null;
+                        $options->flagOptions['var']->default = trim($data);
+                        if ($options->struct_info == null){
+                            $options->buffer.= ReadTokenUtility::GenerateVariables(
+                                [$options->flagOptions['var']]
+                            , $this->mergeVariable);
+                            $options->skipWhiteSpace = 1;
+                        }
+                        $options->flagOptions = null;
+                        $this->_resetComment($options); 
+                        break;
+                    case '=':
+                        break;
+                    default:
+                        if (!empty($value) && isset($options->flagOptions['var'])){
+                            $options->flagOptions['var']->buffer .= $value;
+                        }
+                        break;
+                }
+                break;
+        }
+        return true;
+    }
+
+    protected function handleReadConst(&$flag, ReadTokenOptions $options, $id, $value){
+        if (is_null($options->flagOptions)){            
+            if ($options->struct_info) {
+                if ($options->struct_info->type == 'interface') {
+                    igk_die("const not allowed in interface");
+                }
+                $var_info = (object)[
+                    "name" => '',
+                    'modifiers'=>$options->modifiers,
+                    'default'=>null,
+                    'buffer'=>'',
+                    'isConst'=>true,
+                    'mod'=>''
+                ];
+                $options->flag = CompilerFlagState::READ_CONST;
+                $options->flagOptions = ["var"=> & $var_info, 'op'=>'name'];
+                $options->struct_info->variables[] = $var_info;
+            }
+        }
+        switch ($id) {
+            case T_STRING:  
+                if ($options->flagOptions['op'] == 'name'){
+                    $options->flagOptions["var"]->name = $value;       
+                    $options->flagOptions['op'] = 'def';
+                }else {
+                    $options->flagOptions["var"]->buffer .= $value; 
+                }
+                break;            
+            default:
+                switch ($value) {
+                    case ';':
+                        $options->flag = null;
+                        $options->flagOptions["var"]->default = 
+                        trim($options->flagOptions["var"]->buffer);
+                        $options->flagOptions = null;
+                        $this->_resetComment($options);
+                        break;
+                    case '=':
+                        break;
+                    default:
+                        $options->flagOptions["var"]->buffer .= $value;
+                        break;
+                }
+                break;
+        }
+        return true;
+    }
+    /**
+     * 
+     * @param mixed $flag 
+     * @param ReadTokenOptions $options 
+     * @param mixed $id 
+     * @param mixed $value 
+     * @return bool 
+     */
+    protected function handleReadFunction(&$flag, ReadTokenOptions $options, $id, $value): bool
+    {
+        /**
+         * @var ReadTokenStructFunction $struct
+         */
+        $struct = $options->struct_info;
+        $flagOption = &$options->flagOptions;
+        $buffer = &$struct->buffer;
+        switch ($id) {
+            case T_STRING:
+                if (!$struct->readCode) {
+                    switch ($flagOption['op']) {
+                        case 'name':
+                            $struct->name = $value;
+                            $flagOption['op'] = 'arg';
+                            break;
+                        case 'return':
+                            $struct->return = $value;
+                            $flagOption['op'] = 'block';
+                            break;
+                        case 'arg':
+                        default:
+                            $buffer .= $value;
+                            if ($flagOption['op'] == 'arg') {
+                                $d = trim($value);
+                                if (!empty($d)) {
+                                    if ($d == '=') {
+                                        // start reading constant
+                                        $flagOption["argType"] = 1;
+                                    } else {
+                                        // reading type
+                                        if ($flagOption["argType"]) {
+                                            $struct->args[$flagOption['argName']]["default"] = $d;
+                                            $flagOption["argType"] = null;
+                                            $flagOption["type"] = null;
+                                        } else {
+                                            $flagOption["type"] = $d;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+                if (!$struct->readCode && ($flagOption['op'] == 'name')) {
+                }
+                break;
+            case T_USE: // for anonymous
+                break;
+            case T_VARIABLE:
+                // detect variable in declaration
+                $name = substr($value, 1);
+                if ($flagOption["op"] == "arg") {
+                    $struct->args[$name] = [
+                        "type" => igk_getv($flagOption, "type"),
+                        "default" => null
+                    ];
+                    $flagOption['argName'] = $name;
+                    $flagOption["type"] = null;
+                }
+                if (substr($buffer, -1) == ',') { // space variable after detections
+                    $buffer .= ' ';
+                }
+                $buffer .= $value;
+                break;
+            default:
+                switch ($value) {
+                    case ':':
+                        // read return type
+                        $flagOption['op'] = 'return';
+                        break;
+                    case '(':
+                        // start read condition 
+                        $v_op = $flagOption['op'];
+                        if (($v_op == 'arg') || ($v_op == 'name')) {
+                            $flagOption["condition"] = true;
+                            $flagOption['op'] = 'arg';
+                            $flagOption['depth'] = $options->depth;
+                        }
+                        break;
+                    case ')':
+                        // finish read condition - or uses in case of anonymous
+                        if ($flagOption['depth'] == ($options->depth - 1)) {
+                            if ($flagOption["condition"]) {
+                                // first read condition
+                                $struct->condition = trim($struct->buffer);
+                                if (empty($struct->name)) {
+                                    $flagOption['op'] = 'useOrBlock';
+                                } else {
+                                    $flagOption['op'] = 'block';
+                                }
+                            } else {
+                                if ($struct->getIsAnonymous()) {
+                                    $struct->uses = trim($struct->buffer);
+                                    $flagOption['op'] = 'block';
+                                } else {
+                                    igk_die("syntax not valid");
+                                }
+                            }
+                            $struct->buffer = "";
+                            $flagOption["condition"] = false;
+                        }
+                        break;
+                    case '{':
+                        $struct->readCode = true;
+                        // start reading code 
+                        $options->flagOptions = null;
+                        $flag = null;
+                        $this->pushBuffer($options, $struct->buffer);
+                        $struct->popBuffer = true;
+                        $this->_attachFuncToParent($options, $struct);
+
+                        break;
+                    case ';':
+                        if (!$struct->readCode) {
+                            // detect non body class
+                            $this->_attachFuncToParent($options, $struct);
+                            if (
+                                !empty($struct->name) &&
+                                (in_array('abstract', $struct->modifiers) ||
+                                    ($struct->parent && ($struct->parent->type == 'interface')
+                                    ))
+                            ) {
+                                $struct->isAbstract = true;
+                                $struct->readCode  = true;
+
+                                $options->flagOptions = null;
+                                $flag = null;
+                                $this->_handleEndStructInfo($options);
+                                //igk_wln_e("abstract detection ... ");
+                            } else {
+                                igk_die("not a valid syntax in function declaration");
+                            }
+                        }
+                        break;
+                    default:
+                        if (($flagOption['op'] == 'name') && ($value == "&")) {
+                            $struct->refFunc = true;
+                        } else {
+                            $struct->buffer .= $value;
+                        }
+                        break;
+                }
+                $this->_checkBracket($options, $value);
+        }
+        return true;
+    }
+    protected function _attachFuncToParent($options, $struct)
+    {
+        if (!$struct->getIsAnonymous()) {
+            // attach to parent only if not anonymous
+            if ($struct->parent) {
+                $struct->parent->structs[$struct->type][] = $struct;
+            } else {
+                $options->structs[$struct->type][] = $struct;
+            }
+        }
+    }
+    protected function pushBuffer($options, &$buffer)
+    {
+        $bckBuffer =  &$options->buffer;
+        // change buffer
+        array_push($options->buffers, $bckBuffer);
+        $options->buffer = &$buffer;
+    }
+    protected function popBuffer($options)
+    {
+        if (count($options->buffers) != 0) {        
+            $buffer = array_pop($options->buffers);
+            if (!is_null($buffer))
+                $options->buffer = &$buffer;
+            else {
+                unset($options->buffer);
+                $options->buffer = "";
+            }
+        } 
+    } 
+   
+    /**
+     * compile source
+     * @param string $source 
+     * @return null|string 
+     * @throws IGKException 
+     */
+    public function compileSource(string $source): ?string
+    {
+        $this->parseToken($source);
+
+        return $this->mergeSourceCode();
+    }
+
+   
+
+    private function mergeSourceCode()
+    {
+        $sb = new StringBuilder();
+        $options = $this->options;
+        $sb->appendLine("<?php");
+
+        if ($options->describeComments) {
+            $sb->appendLine(implode("\n", $options->describeComments));
+            $sb->appendLine();
+        }
+
+        if ($options->namespace) {
+            $sb->appendLine("");
+            $sb->appendLine("namespace " . $options->namespace . ";");
+        }
+
+        if ($uses = $options->uses) {
+            ksort($uses);
+            $sb->appendLine("");
+            foreach ($uses as $k => $v) {
+                $s = "";
+                if ($v != $k) {
+                    $s = " as " . $v;
+                }
+                $sb->appendLine("use " . $k . $s . ";");
+            }
+        }
+
+        if ($structs = $options->structs) {
+            $sb->appendLine();
+            $sb->appendLine($this->_generateStructs($structs));
+        }
+
+        $sb->appendLine($options->buffer);
+        return rtrim($sb . "");
+    }
+
+    /**
+     * 
+     * @param mixed $structs 
+     * @param mixed $cheader protected header
+     * @return string 
+     * @throws IGKException 
+     */
+    protected function _generateStructs($structs, ?StringBuilder $cheader = null)
+    {
+        return ReadTokenUtility::GenerateStruct($structs, $cheader);
+    }
+
+    public function compileFile(string $file): ?string
+    {
+        if (!empty($file) && is_file($file)) {
+            return $this->compileSource(file_get_contents($file));
+        }
+        return null;
+    }
+}

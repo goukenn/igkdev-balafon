@@ -1826,45 +1826,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      * @param mixed $tablename
      * @param mixed $global the default value is true
      */
-
-    // public function getDataTableDefinition($tablename, $global = true)
-    // {
-    //     $found = false;
-    //     $def = null;
-    //     $adName = $this->getDataAdapterName();
-    //     if (!isset(self::$sm_tabinfo[$adName])) {
-    //         $tab = [];
-    //         self::$sm_tabinfo[$adName] = &$tab;
-    //     } else {
-    //         $tab = &self::$sm_tabinfo[$adName];
-    //     }
-    //     if ($info = igk_getv($tab, $tablename)) {
-    //         return $info;
-    //     }
-    //     // igk_dev_wln_e(__FILE__.":".__LINE__, $tablename);
-    //     if ($info = &\IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($adName, $tablename)) {
-    //         $tab[$tablename] = $info;
-    //         igk_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename" => $tablename, "info" => &$info]);
-    //         return $info;
-    //     }
-
-
-    //     if ($ctrl_s = igk_app()->getControllerManager()->getControllers()) {
-    //         foreach ($ctrl_s as $c) {
-    //             if (($c === $this) || ($c->getDataAdapterName() != $adName))
-    //                 continue;
-    //             if ($def = $c->getDataTableDefinition($tablename)) {
-    //                 $found = true;
-    //                 $tab[$tablename] = $def;
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     if ($found) {
-    //         return $def;
-    //     }
-    //     igk_dev_wln("no definition found for " . $tablename);
-    // }
+ 
 
     ///<summary></summary>
     /**

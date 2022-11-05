@@ -319,9 +319,9 @@ class IO
         }
         return empty($dir) ? null : self::__fixPath($dir, $separator);
     }
-    ///<summary></summary>
+    ///<summary>current directory</summary>
     /**
-     * 
+     * get current directory
      */
     public static function GetCurrentDir()
     {
@@ -1234,12 +1234,12 @@ class IO
         }
         $_viewdir = $start;
         $od = rtrim($start, "/");
-        if ($dir = @opendir($_viewdir)) {
+        if ($hdir = @opendir($_viewdir)) {
             $cp = array_filter(explode("/", $path));
-            while ($dir && ($tq = array_shift($cp))) {
+            while ($hdir && ($tq = array_shift($cp))) {
                 $q = strtolower($tq);
                 $found = false;
-                while (false !== ($cdir = readdir($dir))) {
+                while (false !== ($cdir = readdir($hdir))) {
                     if (strtolower($cdir) == $q) {
                         $found = true;
                         $od .= "/" . $cdir;
@@ -1247,10 +1247,10 @@ class IO
                     }
                 }
                 if ($found) {
-                    closedir($dir);
-                    $dir = null;
+                    closedir($hdir);
+                    $hdir = null;
                     if (is_dir($od)) {
-                        ($dir = opendir($od)) || igk_die("failed to open : " . $od);
+                        ($hdir = opendir($od)) || igk_die("failed to open : " . $od);
                     }
                 } else {
                     if (!$mustExist) {
@@ -1260,7 +1260,7 @@ class IO
                     break;
                 }
             }
-            closedir($dir);
+            $hdir && closedir($hdir);
         }
         return $od;
     }

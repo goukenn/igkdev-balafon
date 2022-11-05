@@ -8,6 +8,7 @@
 namespace IGK\System\Html;
 
 use IGK\Controllers\BaseController;
+use IGK\Helper\Activator;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGKException;
@@ -43,10 +44,10 @@ class HtmlTemplateReaderDataBinding{
         $script_obj = igk_html_databinding_getobjforscripting($ctrl);
         $v_gtag = $cnode->getCanRenderTag() ? $cnode->tagName : null;         
         foreach($data as $key=>$raw){
-            $c= $this->treat_content(["type"=>"loop", "key"=>$key, "value"=>$raw, "raw"=>$raw]); 
+            $c= $this->_treat_content(["type"=>"loop", "key"=>$key, "value"=>$raw, "raw"=>$raw, "transformToEval"=>true]);             
             if($c){
                 $attribs = $cnode->getAttributes()->to_array();  
-                $engine .= trim(igk_html_wtag($v_gtag, trim($c->render()), $attribs,
+                $engine .= trim(igk_html_wtag($v_gtag, $c->render(), $attribs,
                     $cnode->closeTag()
                 )); 
             }
@@ -61,11 +62,12 @@ class HtmlTemplateReaderDataBinding{
       * @param array $data 
       * @return HtmlNoTagNode 
       */
-    private function treat_content(array $data){
-        $ldcontext = (object)array_merge([
+    private function _treat_content(array $data){
+        $ldcontext = Activator::CreateNewInstance( HtmlBindingContextOptions::class, (object)array_merge([
+            "_data_type"=>__FUNCTION__,
             "ctrl"=>$this->ctrl, 
             "engineNode"=>$this->node
-        ], $data);
+        ], $data));
         $target = igk_create_notagnode();
         $target->Load($this->source, $ldcontext);
         return $target;

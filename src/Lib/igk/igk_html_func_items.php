@@ -51,7 +51,7 @@ function igk_html_node_dl(){
   */
 function igk_html_node_assertnode(bool $condition,  ...$args){
     if (!($p = igk_html_parent_node())){
-        die("assert node must be set to a parent");
+        igk_die("assert node must be set to a parent");
     }
     return new \IGK\System\Html\Dom\HtmlAssertNode($condition, $p, ...$args);
 }
@@ -187,21 +187,26 @@ function igk_html_node_hooknode($hook, ?string $context=null)
     $n = new IGK\System\Html\Dom\HtmlHookNode($hook, $context);
     return $n;
 }
-function igk_html_node_extends($parentview)
-{
-    $p = igk_html_parent_node() ?? die("parent required");
-    throw new IGKException("Not implemnts");
-}
+// function igk_html_node_extends($parentview)
+// {
+//     $p = igk_html_parent_node() ?? igk_die("parent required");
+//     throw new IGKException("Not implemnts");
+// }
 
 ///<summary>helper: loop thru array</summary>
 /**
- * helper: loop thru array<
+ * helper: loop thru array . or template binding
+ * @param mixed|int|Iterable|IViewExpressionArg $array iterable
+ * @param ?callable $callback  
  */
-function igk_html_node_loop(Iterable $array, ?callable $callback = null)
+function igk_html_node_loop($array, ?callable $callback = null)
 {
     require_once IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlLooperNode.php';
-
-    $p = igk_html_parent_node() ?? die("parent required");
+    if (is_integer($array)){
+        ( $array <= 0) && igk_die("range not valid");
+        $array = range(0, $array-1);
+    }
+    $p = igk_html_parent_node() ?? igk_die("loop : parent node required");
     $c = new HtmlLooperNode($array, $p);
     if ($callback) { 
         $c->host($callback);
@@ -936,7 +941,7 @@ function igk_html_node_arraylist($list, $tag = "li", $callback = null)
 }
 ///<summary>bind article</summary>
 /**
- * bind article
+ * bind article - article
  */
 function igk_html_node_article(?BaseController $ctrl=null, ?string $name=null, $raw = [], $showAdminOption = 1)
 {
@@ -4530,8 +4535,8 @@ function igk_html_node_include_js(string $file)
         ]);
         $f->add($d);
     } else {
-        igk_trace();
-        die("not allowed");
+        // igk_trace();
+        igk_die("include js not allowed not allowed");
     }
     return $f;
 }

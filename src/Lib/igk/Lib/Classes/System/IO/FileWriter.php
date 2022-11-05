@@ -36,7 +36,7 @@ class FileWriter{
         }
         if(!$overwrite && is_file($filename)){
             return false;
-        } 
+        }  
         // if ($filename === "/var/www/html/sites/HomeNotify/src/application/Caches/.controller.cache"){
         //     igk_ilog("file: ".$filename);
         //     igk_trace();
@@ -48,7 +48,7 @@ class FileWriter{
             return false;
         }
         // $v_iempty=empty($content);
-        fwrite($hf, $content);
+        fwrite($hf, $content ?? '');
         fflush($hf);
         fclose($hf);
         if($chmod && igk_environment()->isUnix()){  

@@ -43,7 +43,7 @@ abstract class IGKServiceController
     }
     ///<summary>Represente _initCssStyle function</summary>
     protected function initCssStyle(){                    
-        igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument(), dirname(__FILE__)."/Styles/default.pcss", 1);  
+        igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument()->getTheme(), dirname(__FILE__)."/Styles/default.pcss", 1);  
         ControllerExtension::bindCssStyle($this);
     }
     protected function _configureDocument($doc){

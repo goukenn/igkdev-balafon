@@ -21,6 +21,10 @@ class CompileTestController extends TestController
     public function getAppUri(?string $m = null): string
     {
         return "testuri://" . $m;
+    }    
+    protected function getBaseDir():?string{
+        return $this->entryDir;
     }
+    
 }
 

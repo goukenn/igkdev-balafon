@@ -285,8 +285,8 @@ abstract class IGKSysUtil
             $t = "int|" . self::GetLinkType($info->clLinkType, $info->clNotNull, $ctrl);
         }
         $extra = "";
-        if ($extra && $info->clDefault) {
-            $extra = " =\"" . $info->clDefault . "\"";
+        if ($info->clDefault) {
+            $extra .= " =\"" . $info->clDefault . "\"";
         }
         return $t . " \$" . $name . $extra;
     }
@@ -334,8 +334,10 @@ abstract class IGKSysUtil
         } else {
             // retrieve model 
             $list = [];
-            if ($ctrl)
+            if ($ctrl){
                 $list[] = $ctrl;
+                $type = igk_db_get_table_name($type, $ctrl);
+            }
             if (SysDbController::ctrl() !== $ctrl) {
                 $list[] = SysDbController::ctrl();
             }

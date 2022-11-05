@@ -69,12 +69,13 @@ class FileSystem extends CoreFileSystem{
 
     /**
      * check if path expired 
-     * @param string $path 
+     * @param string $path path to filesystem resources
+     * @param ?string $ext extension
      * @return bool 
      */
-    public function cacheExpired(string $path){
+    public function cacheExpired(string $path, ?string $ext=".php"){
         $p = filemtime($path);
-        if (file_exists($file = $this->getCacheFilePath($path))){
+        if (file_exists($file = $this->getCacheFilePath($path, $ext))){
             return filemtime($file) < $p;
         }
         return true;

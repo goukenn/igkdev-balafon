@@ -120,7 +120,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $this->setEnvParam("conf://initPageConfig", 1);
         $bbox = $app->Doc->body->getBodyBox();
         $bbox->clearChilds();
-        switch ($app->CurrentPageFolder) {
+        switch ($app->getCurrentPageFolder()) {
             case IGK_CONFIG_PAGEFOLDER:
                 $s = "-igk-client-page +igk-cnf-body +google-Roboto";
                 if (igk_is_conf_connected())
@@ -176,7 +176,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $bbox->clearChilds(); 
         $app->Doc->body["class"] = "+igk-client-page -igk-cnf-body";
 
-        switch ($app->CurrentPageFolder) {
+        switch ($app->getCurrentPageFolder()) {
             case "home":
                 $defctrl = igk_get_defaultwebpagectrl();
                 if ($defctrl != null) {
@@ -852,8 +852,7 @@ EOF;
     /**
      * 
      */
-    public function getConfigFrame()
-    {
+    public function getConfigFrame(){        
         return $this->getEnvParam("configFrame");
     }
     ///<summary></summary>

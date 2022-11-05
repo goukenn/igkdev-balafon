@@ -66,9 +66,7 @@ class WebResponse extends RequestResponse{
         ob_start();   
         $this->render();
         $s = ob_get_clean();   
-        $zip = igk_server()->accepts(["gzip"]);
-        // header("HTTP/2.0 200 OK", 0);
-        // $this->_setHeader(); 
+        $zip = 0 && igk_server()->accepts(["gzip"]);
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI

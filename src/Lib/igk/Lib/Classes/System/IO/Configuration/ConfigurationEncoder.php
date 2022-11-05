@@ -6,10 +6,18 @@
 // @desc: 
 namespace IGK\System\IO\Configuration;
 
+/**
+ * 
+ * @package IGK\System\IO\Configuration
+ */
 class ConfigurationEncoder{
     var $separator = '=';
     var $delimiter = ',';
-
+    /**
+     * encode data
+     * @param mixed $data 
+     * @return string 
+     */
     public function encode($data){
         $sb = '';
         $sep = '';
@@ -19,8 +27,7 @@ class ConfigurationEncoder{
             $sb.=$this->separator;
             $sb.= is_numeric($v)? $v : $v;
             $sep = $this->delimiter;
-        }
-
+        } 
         return $sb;
     }
 }

@@ -398,12 +398,12 @@ class BalafonApplication extends IGKApplicationBase
                     // migrate module 
 
                 };
-            }, __("migrate your database"), "db"],
+            }, __("migrate your database"),
+                 "db"],
             "--db:initdb" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = "") {
                     $c = null;
-                    DbCommandHelper::Init($command);
-                    $c = igk_app()->getControllerManager()->getControllers();
+                    DbCommandHelper::Init($command); 
                     if (!empty($ctrl)) {
                         if (!($c = igk_getctrl($ctrl, false))) {
                             Logger::danger("no controller found: " . $ctrl);
@@ -414,7 +414,7 @@ class BalafonApplication extends IGKApplicationBase
                         $c = igk_app()->getControllerManager()->getControllers();
                         usort($c, DbUtils::OrderController);
                         if ($b = IGKModuleListMigration::CreateModulesMigration()){
-                            $c =  array_merge($c, [$b]); 
+                            $c = array_merge($c, [$b]); 
                         } 
                     }
                     if ($c) {
@@ -431,7 +431,7 @@ class BalafonApplication extends IGKApplicationBase
                 };
                 return 0;
             }, [
-                "desc" => __("initialize database"),
+                "desc" => __("init databases"),
                 "help" => function () {
                     Logger::print("Init Database");
                     Logger::print("--db:initdb [options] controller");
@@ -441,7 +441,9 @@ class BalafonApplication extends IGKApplicationBase
                 $command->exec = function ($command) {
                     DbCommandHelper::Init($command);
                     if ($c = igk_getctrl(IGK_SYSDB_CTRL, false)) {
+                        Logger::info("init system's database");
                         $c::Invoke($c, 'initDb');
+                        Logger::success("done"); 
                     }
                     return 0;
                 };
@@ -537,49 +539,49 @@ class BalafonApplication extends IGKApplicationBase
                 }
             ]
             ],
-            "--compile" => [function ($v, $command=null) {
-                $command->exec = function ($command, ?string $file=null, ?string $controller=null) {
-                    if (empty($file)){
-                        Logger::danger(__("args: require file"));
-                        return false;
-                    }
-                    try {
-                        if (file_exists($file)) {
-                            $options = [
-                                "engine"=>"balafonCompiler",
-                                "context"=>"xml"
-                            ];
-                            if ($controller){
-                                $controller = igk_getctrl($controller);
-                            }
-                            if ($controller){
-                                $t = new HtmlCtrlNode($controller, "div");
-                            }else{
-                                $t = new HtmlNode("div");
-                            }
-                            // include($file);
-                            $s = $t->render();
-                            echo "<?php";
-                            echo $s;
-                        } else {
-                            Logger::danger(__("[ compile file ] file not found"));
-                        }
-                    } catch (Throwable $ex) {
-                        Logger::danger(":" . $ex->getMessage());
-                        // igk_show_exception_trace($ex);
-                        array_map(function($t){
-                            echo $t["file"].":".$t["line"]."\n";
-                        },$ex->getTrace());
-                        return false;
-                    }
-                    return 0;
-                };
-            }, [
-                "desc"=>"compile view file",
-                "help"=>function(){
-                    Logger::info('usage : balafon --compile file [controller]');
-                }
-            ]],
+            // "--compile" => [function ($v, $command=null) {
+            //     $command->exec = function ($command, ?string $file=null, ?string $controller=null) {
+            //         if (empty($file)){
+            //             Logger::danger(__("args: require file"));
+            //             return false;
+            //         }
+            //         try {
+            //             if (file_exists($file)) {
+            //                 $options = [
+            //                     "engine"=>"balafonCompiler",
+            //                     "context"=>"xml"
+            //                 ];
+            //                 if ($controller){
+            //                     $controller = igk_getctrl($controller);
+            //                 }
+            //                 if ($controller){
+            //                     $t = new HtmlCtrlNode($controller, "div");
+            //                 }else{
+            //                     $t = new HtmlNode("div");
+            //                 }
+            //                 // include($file);
+            //                 $s = $t->render();
+            //                 echo "<?php";
+            //                 echo $s;
+            //             } else {
+            //                 Logger::danger(__("[ compile file ] file not found"));
+            //             }
+            //         } catch (Throwable $ex) {
+            //             Logger::danger(":" . $ex->getMessage());
+            //             // igk_show_exception_trace($ex);
+            //             array_map(function($t){
+            //                 echo $t["file"].":".$t["line"]."\n";
+            //             },$ex->getTrace());
+            //             return false;
+            //         }
+            //         return 0;
+            //     };
+            // }, [
+            //     "desc"=>"compile view file",
+            //     "help"=>function(){
+            //         Logger::info('usage : balafon --compile file [controller]');
+            //     }
+            // ]],
             "--run:tac"=>[function(){
                 // terminal action command
                 Logger::success("terminal action command \n");

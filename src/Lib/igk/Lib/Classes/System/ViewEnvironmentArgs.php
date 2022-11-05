@@ -8,15 +8,20 @@
 
 namespace IGK\System;
 
+use ArrayAccess;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
+use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * represent view environment args - shared  accross views definition
  * @package 
  */
-class ViewEnvironmentArgs{
+class ViewEnvironmentArgs implements ArrayAccess{
+    use ArrayAccessSelfTrait;
     /**
      * target node 
      */
@@ -141,16 +146,26 @@ class ViewEnvironmentArgs{
     var $dir;
 
     /**
+     * view layout
+     * @var mixed
+     */
+    var $layout;
+
+    /**
      * data to pass by default to article
      * @var mixed
      */
     var $data;
 
-    /**
-     * get context view argument
-     * @param BaseController $controller 
-     * @param string $file 
+    /** 
+     * get context view argument  
+     * @param BaseController $controller source controller
+     * @param string $file to view
+     * @param string $context context id 
      * @return static 
+     * @throws NotFoundExceptionInterface 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
      * @throws IGKException 
      */
     public static function GetContextViewArgument(BaseController $controller, string $file, string $context){
@@ -168,11 +183,15 @@ class ViewEnvironmentArgs{
         $params = isset($params) ? $params : array();
         $query_options = $controller->getEnvParam(IGK_VIEW_OPTIONS);
         $is_direntry = (count($params) == 0) && igk_str_endwith(explode('?', igk_io_request_uri())[0], '/');
-        $controller->bindNodeClass($t, $fname, strtolower((isset($css_def) ? " " . $css_def : "")));
+        if ($t){
+            $controller->bindNodeClass($t, $fname, strtolower((isset($css_def) ? " " . $css_def : "")));
+        }
         $doc->body["class"] = "-custom-thumbnail";
         $doc->title = igk_configs()->website_title();
         $ob_level = ob_get_level();
         $controller->_get_extra_args($file);
+        if (!isset($layout))
+            $layout = $controller->getViewLoader();  
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }
@@ -183,4 +202,20 @@ class ViewEnvironmentArgs{
     public function __toString(){
         return __CLASS__;
     }
+
+    protected function _access_OffsetGet($n){
+        if (property_exists($this,$n)){
+            return $this->$n;
+        }
+    }
+    protected function _access_OffsetSet($n, $v){
+        if (property_exists($this,$n)){
+            $this->$n = $v;
+        }
+    }
+    protected function _access_offsetExists($n){
+        return (property_exists($this,$n));
+    }
+
+
 }

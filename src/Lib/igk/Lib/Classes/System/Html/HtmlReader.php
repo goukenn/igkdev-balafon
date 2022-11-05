@@ -69,20 +69,19 @@ final class HtmlReader extends IGKObject
                 if ($cnode->getIsVisible()) {
                     if ($data) {
                         $v_bind = new HtmlTemplateReaderDataBinding($cnode, $src, $ctrl, $data);
-                        $v_ts = $v_bind->treat(); 
-                        if ($reader->m_context->transformToEval )
-                        {
+                        $v_ts = $v_bind->treat();
+                        if ($reader->m_context->transformToEval) {
+                            // $v_expression = $reader->m_context->hookExpression ?? '$context_raw';
+                            $v_expression = $reader->m_context->hookExpression ?? '$data';
+                            $v_comment = igk_is_debug() ? '/* ' . __METHOD__ . ' */ ' : "";
                             $sb = new StringBuilder;
                             $sb->appendLine('<?php');
-                            $sb->append("foreach(\$context_raw as \$index=>\$raw){");
+                            $sb->append("foreach($v_expression as \$index=>\$raw$v_comment):\n?>");
                             $sb->append($v_ts);
-                            $sb->appendLine("<php } ?>");
+                            $sb->appendLine("<?php\nendforeach;\n?>");
                             $v_ts = $sb;
-
-
-                        } 
+                        }
                         $engine .= $v_ts;
-                        
                         //igk_debug_wln_e("binding data ", $data, $n_context, $src, $engine);
                     }
                 }
@@ -114,7 +113,7 @@ final class HtmlReader extends IGKObject
         $this->m_resolvValues = array();
         $this->m_attribs = null;
         $this->m_nodes = array();
-        $this->m_length = strlen($text);   
+        $this->m_length = strlen($text);
     }
     ///<summary></summary>
     ///<param name="text"></param>
@@ -141,6 +140,43 @@ final class HtmlReader extends IGKObject
         }
         return $m;
     }
+    /**
+     * read name
+     * @param mixed $text 
+     * @param mixed $length length to read
+     * @param mixed $offset move position to the last read char
+     * @param mixed $eval_context 
+     * @param bool $expressionRead 
+     * @return string 
+     */
+    private static function _ReadName($text, $length, &$offset, $eval_context, &$expressionRead = false)
+    {
+
+        $expressionRead = false;
+        $name = "";
+        $length = !$length ? strlen($text) : max($length, strlen($text));
+        while ($offset < $length) {
+            $ch = $text[$offset];
+            if (strpos(IGK_IDENTIFIER_TAG_CHARS, $ch) === false) {
+                if ($eval_context) {
+                    if (strpos($text, "<?=", $offset) === $offset) {
+                        if (($gpos = strpos($text, "?>", $offset)) > $offset) {
+                            $v_txt = substr($text, $offset, ($gpos - $offset) + 2);
+                            $name .= $v_txt;
+                            $offset = $gpos + 2;
+                            $expressionRead = true;
+                            // igk_debug_wln_e(__FILE__.":".__LINE__, "reader ", $eval_context, $text, $name);
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+            $name .= $ch;
+            $offset++;
+        }
+        return $name;
+    }
     ///<summary></summary>
     ///<param name="reader"></param>
     ///<param name="text"></param>
@@ -156,19 +192,8 @@ final class HtmlReader extends IGKObject
         $tpos = 0;
         $intag = 0;
         $replace_expression = 1;
-        $read_name = function ($text, $ln, &$offset) {
-            $name = "";
-            while ($offset < $ln) {
-                $ch = $text[$offset];
-                if (strpos(IGK_IDENTIFIER_TAG_CHARS, $ch) === false) {
-                    $offset--;
-                    break;
-                }
-                $name .= $ch;
-                $offset++;
-            }
-            return $name;
-        };
+        $eval_context = $reader->m_context->transformToEval ?? false;
+        $expressionRead = false; 
         $tnames = [$tag];
         while ($end && ($offset < $ln)) {
             $ch = $text[$offset];
@@ -192,7 +217,10 @@ final class HtmlReader extends IGKObject
                     break;
                 case "<":
                     if ($intag) {
-                        igk_die("xml reading : enter tag not valid: " . $offset);
+                        igk_trace();
+                        igk_die(
+                            sprintf("[BLF] - xml reading : enter tag not valid: %s \nat %s" , $text, 
+                            substr($text, $offset)));
                     }
                     $intag = 1;
                     $tpos = strlen($v);
@@ -200,23 +228,26 @@ final class HtmlReader extends IGKObject
                     $tch = null;
                     ($offset + 1 < $ln) && (($tch = $text[$offset + 1]));
                     switch ($tch) {
-                        case "/": {
+                        case "/": { // detect end tag --- 
                                 $v .= $tch;
                                 $offset += 2;
-                                $name = $read_name($text, $ln, $offset);
+                                $name = self::_ReadName($text, $ln, $offset, $eval_context, $expressionRead);
+                                // igk_debug_wln_e(__FILE__.":".__LINE__,  "at end read name ", $name, $level, $tag, $text[$offset]);
                                 if (empty($name) || (($tmix = array_pop($tnames)) != $name)) {
                                     igk_die("xml reading not valid : " . $tmix . " # " . $name . " level " . $level);
                                 }
                                 $v .= $name;
                                 if (($level == 0) && ($name == $tag)) {
                                     $end = 2;
+                                    $intag = 0;  
                                 } else {
                                     $level--;
                                 }
+                                $offset--;
                             }
                             break;
                         case "!":
-                            $start = $offset;
+                            // $start = $offset;
                             //+ Skip comment
 
                             if (($pp = strpos($text, "-->", $offset)) !== null) {
@@ -226,13 +257,24 @@ final class HtmlReader extends IGKObject
                             break;
                         default:
                             $offset++;
-                            $name = $read_name($text, $ln, $offset);
+                            $name = self::_ReadName($text, $ln, $offset, $eval_context, $expressionRead);
+                            // igk_wln_e("read name ", $name, $offset, $text[$offset]);
                             if (empty($name)) {
-                                igk_wln_e(__FILE__ . ":" . __LINE__, "start tag is not a valid start tag", igk_html_wtag("textarea", $v . substr($text, $offset, 10) . "...\n-----------\n" . $text), "name is empty : offset : " . $offset . " tag  : " . $tag . " level: " . $level);
+                                igk_wln_e(
+                                    __FILE__ . ":" . __LINE__,
+                                    "start tag is not a valid start tag",
+                                    igk_html_wtag("textarea", $v . substr($text, $offset, 10) . "...\n-----------\n" . $text),
+                                    "name is empty : offset : " . $offset . " tag  : " . $tag . " level: " . $level
+                                );
                             }
+                            if ($expressionRead) {
+                                $name = new HtmlTagExpressionName($name);
+                            }
+                            // igk_wln_e("the name ", $name, substr($text, $offset, 5));
                             array_push($tnames, $name);
                             $level++;
                             $v .= $name;
+                            $offset--;
                             break;
                     }
                     break;
@@ -260,7 +302,8 @@ final class HtmlReader extends IGKObject
         }
         $v = substr($v, 0, $tpos);
         if (($intag) || (count($tnames) > 0)) {
-            igk_die("failed to read data");
+            igk_die(sprintf("Syntax error intag but failed read data. %s, offset: %s",
+             $reader->m_text, $reader->m_text[$reader->m_offset-1]));
         }
         return $v;
     }
@@ -360,9 +403,13 @@ final class HtmlReader extends IGKObject
                         if (!isset($n_context->raw)) {
                             igk_die("raw not defined in reading context");
                         }
-                        
-                        $sdata = igk_html_databinding_treatresponse($_e, $n_context->ctrl, 
-                            igk_get_attrib_raw_context($n_context), null, $_b, 
+
+                        $sdata = igk_html_databinding_treatresponse(
+                            $_e,
+                            $n_context->ctrl,
+                            igk_get_attrib_raw_context($n_context),
+                            null,
+                            $_b,
                             $n_context->transformToEval
                         );
                     }
@@ -434,7 +481,7 @@ final class HtmlReader extends IGKObject
     {
         if ((self::GetOpenerContext() == self::READ_XML) || (isset($reader->context) && ($reader->context == HtmlContext::XML))) {
             // $n = self::CreateNode($name, $pargs);
-            igk_debug_wln_e("create expression node : ", "igk:expression-node");
+            // igk_debug_wln_e("create expression node : ", "igk:expression-node");
             $n = new XmlNode($name);
             if ($pargs) {
                 $n->setAttributes($pargs);
@@ -619,7 +666,14 @@ final class HtmlReader extends IGKObject
                         $v_v .= $v_ch;
                     } else {
                         igk_trace();
-                        die("syntax error: expression tag not allowed in attribute definition: $mode " . $v);
+                        die(sprintf("%s - name:%s",
+                            sprintf(
+                            "Syntax error: expression tag not allowed in attribute definition: %s, mode:%s, offset:%s\n%s",
+                            $v,
+                            $mode,
+                            $reader->m_offset,
+                            $reader->m_text
+                        ), $reader->m_name));
                     }
                     break;
                 case "=":
@@ -643,7 +697,6 @@ final class HtmlReader extends IGKObject
                             }
                         }
                     }
-
                     break;
                 default:
                     if ($mode == 0) {
@@ -697,8 +750,7 @@ final class HtmlReader extends IGKObject
         $cnode = null;
         $pnode = null;
         self::_PushContext(($reader->m_context != null) ? $reader->m_context : self::READ_XML);
-
-        // + | }
+        // + | 
         $v_tags = array();
         $_shift_setting = function ($n, $cnode, &$v_tags, &$krsv) {
             if (igk_count($v_tags) <= 0)
@@ -714,7 +766,6 @@ final class HtmlReader extends IGKObject
 
 
         while ($reader->Read()) {
-
             switch ($reader->NodeType) {
                 case XMLNodeType::ELEMENT:
                     $name = $reader->Name();
@@ -831,12 +882,10 @@ final class HtmlReader extends IGKObject
                     break;
                 case XMLNodeType::INNER_TEXT:
                     // must set as inner text
-                    if (!$cnode){
-                        igk_trace();
-                        echo $reader->m_text;
+                    if (!$cnode) { 
                         die("can't set inner text on non detected node");
                     }
-                    if (!empty($g = $reader->getValue())){
+                    if (!empty($g = $reader->getValue())) {
                         $cnode->setTextContent($g);
                     }
                     $reader->NodeType = XMLNodeType::ENDELEMENT;
@@ -1198,10 +1247,11 @@ final class HtmlReader extends IGKObject
     {
         return $this->m_procTagClose;
     }
-    private function _getAttribuReaderCallback($binfo,  $fc_attrib, &$v_expressions, $context=null){
-        $v_context = $context ?? $this->m_context; 
+    private function _getAttribuReaderCallback($binfo,  $fc_attrib, &$v_expressions, $context = null)
+    {
+        $v_context = $context ?? $this->m_context;
         $v_fc = null;
-        $v_self = $this; 
+        $v_self = $this;
 
         if ($v_context != HtmlContext::XML) {
             $v_fc = function ($k, $_v) use ($v_self, $binfo, $v_context, $fc_attrib, &$v_expressions) {
@@ -1250,9 +1300,7 @@ final class HtmlReader extends IGKObject
         $this->m_attribs = array();
         $v = IGK_STR_EMPTY;
         $v_c = strlen($this->m_text);
-        $fc_attrib = function ($k, $v) {
-            $this->m_attribs[$k] = $v;
-        };
+
         if ($_tagRegexValueRgx === null) {
             $_tagRegexValueRgx = self::GetAttributeRegex();
         }
@@ -1262,6 +1310,11 @@ final class HtmlReader extends IGKObject
             $c = $this->m_text[$this->m_offset];
             switch ($c) {
                 case "<":
+                    if ($v_enter) {
+                        $this->_readElement();
+                        return true;
+                        // igk_wln_e("already enter on tagnode", $this->ReadName());
+                    }
                     $v_enter = true;
                     break;
                 case "?":
@@ -1338,18 +1391,18 @@ final class HtmlReader extends IGKObject
                     break;
                 default:
                     if (!$v_enter) {
-                        if ($this->m_nodetype == XMLNodeType::ELEMENT) {                      
+                        if ($this->m_nodetype == XMLNodeType::ELEMENT) {
                             $tag = strtolower($this->m_name);
                             switch ($tag) {
                                 case "script":
-                                case "style": 
-                                     $v = self::__readSkipContent($this, $this->m_text, $this->m_offset, $tag); 
+                                case "style":
+                                    $v = self::__readSkipContent($this, $this->m_text, $this->m_offset, $tag);
                                     $this->m_name = $tag;
                                     $this->m_v = $v;
-                                    $this->m_nodetype = XMLNodeType::INNER_TEXT;                                
-                                    return true; 
+                                    $this->m_nodetype = XMLNodeType::INNER_TEXT;
+                                    return true;
                                 default:
-                                    $c = $this->__readTextValue($v); 
+                                    $c = $this->__readTextValue($v);
                                     return $c;
                             }
                         } else {
@@ -1367,35 +1420,7 @@ final class HtmlReader extends IGKObject
                             return $this->__readTextValue();
                         }
                     } else {
-                        $this->m_name = $this->ReadName();
-                        $this->m_v = null;
-                        $this->m_nodetype = XMLNodeType::ELEMENT;
-                        $this->m_isEmpty = false;
-                        $this->m_hasAttrib = false;
-                        // $v_end = false;
-                        $v = IGK_STR_EMPTY;
-                        // $v_readname = false;
-                        // $v_readvalue = false;
-                        // $v_attribname = null;
-                        // $v_ch = null;
-                        // $v_startattribvalue = false;
-                        // $v_attribmatch = IGK_STR_EMPTY;
-                        // $v_bracketstart = false;
-                        // $v_bracketch = "";
-                        $v_expressions = array();
-                        $v_tattribs = [];
-                        $binfo = $this->getBindingInfo();
-                        $v_fc = $this->_getAttribuReaderCallback($binfo, $fc_attrib, $v_expressions);
-                        if (self::_ReadAttributes($this, $v, $v_tattribs, $v_fc) && !empty($v)) {
-                            $this->m_hasAttrib = true;
-                            $skip_visible = (array_key_exists("igk:isvisible", $this->m_attribs) && ($this->m_attribs["igk:isvisible"] == false));
-                            if ($skip_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
-                                $content = self::__readSkipContent($this, $this->m_text, $this->m_offset, $this->m_name);
-                                $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $skip_visible ? null : array_merge(["content" => $content], $binfo->getInfoArray());
-                                $this->m_isEmpty = true;
-                                
-                            }
-                        }
+                        $this->_readElement();
                         return true;
                     }
             }
@@ -1408,10 +1433,43 @@ final class HtmlReader extends IGKObject
         }
         return false;
     }
+    private function _readElement() : bool 
+    {
+        $fc_attrib = function ($k, $v) {
+            $this->m_attribs[$k] = $v;
+        };
+        $this->m_name = $this->ReadName();
+        if (empty($this->m_name)){
+            igk_debug_wln_e(__FILE__.":".__LINE__,  "empty name ", $this->m_text, $this->m_context);
+        } 
+        //$this->m_offset++;
+        // igk_wln_e(__FILE__.":".__LINE__,  "empty name ", $this->m_text, "last char:", $this->m_text[$this->m_offset]);
+
+        $this->m_v = null;
+        $this->m_nodetype = XMLNodeType::ELEMENT;
+        $this->m_isEmpty = false;
+        $this->m_hasAttrib = false;
+        $this->m_attribs = []; 
+        $v = IGK_STR_EMPTY; 
+        $v_expressions = array();
+        $v_tattribs = [];
+        $binfo = $this->getBindingInfo();
+        $v_fc = $this->_getAttribuReaderCallback($binfo, $fc_attrib, $v_expressions);
+        if (!empty($this->m_name) && self::_ReadAttributes($this, $v, $v_tattribs, $v_fc) && !empty($v)) {
+            $this->m_hasAttrib = true;
+            $skip_visible = (array_key_exists("igk:isvisible", $this->m_attribs) && ($this->m_attribs["igk:isvisible"] == false));
+            if ($skip_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
+                $content = self::__readSkipContent($this, $this->m_text, $this->m_offset, $this->m_name);
+                $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $skip_visible ? null : array_merge(["content" => $content], $binfo->getInfoArray());
+                $this->m_isEmpty = true;
+            }
+        }
+        return true;
+    }
     private function _setText(?string $value = "")
     {
         $this->m_v = $value;
-        $this->m_nodetype = XMLNodeType::TEXT; 
+        $this->m_nodetype = XMLNodeType::TEXT;
     }
     ///<summary>Represente ReadAttributes function</summary>
     ///<param name="value"></param>
@@ -1422,12 +1480,10 @@ final class HtmlReader extends IGKObject
     ///read tag name
     public function ReadName()
     {
-        $v = IGK_STR_EMPTY;
-        while ($this->CanRead() && preg_match("/" . IGK_TAGNAME_CHAR_REGEX . "/i", $this->m_text[$this->m_offset])) {
-            $v .= $this->m_text[$this->m_offset];
-            $this->m_offset++;
-        }
-        return $v;
+        $v_evaltransform = is_object($this->m_context) ? igk_getv($this->m_context, "transformToEval", false) : false;
+        $n = self::_ReadName($this->m_text, strlen($this->m_text), $this->m_offset, $v_evaltransform, $expressRead);
+       
+        return $n;
     }
     ///<summary>Represente ReadProcessText function</summary>
     ///<param name="reader"></param>
@@ -1500,23 +1556,23 @@ final class HtmlReader extends IGKObject
                 case '<':
                     // detect HEREDOC and now doc
                     $pos = preg_match("#\<\<('|\")?(?P<name>[\w]+)(\\1)?$#im", $reader->m_text, $tab, PREG_OFFSET_CAPTURE,  $reader->m_offset);
-                    if ($pos){
+                    if ($pos) {
                         //igk_wln_e("detect:");
                         $name = $tab['name'][0];
                         $cois = $tab[0][1];
-                        if ($cois == $reader->m_offset){
-                            $ln = strlen($tab[0][0]); 
-                            if (preg_match("/^".$name."($|;|,|\)|])/m", $reader->m_text, $tab, PREG_OFFSET_CAPTURE,  $cois + $ln)){
-                                $xoff = $tab[0][1]+strlen($tab[0][0]);
-                                $v .= substr($reader->m_text, $cois, $tab[0][1]+strlen($tab[0][0]) - $cois);
-                                
+                        if ($cois == $reader->m_offset) {
+                            $ln = strlen($tab[0][0]);
+                            if (preg_match("/^" . $name . "($|;|,|\)|])/m", $reader->m_text, $tab, PREG_OFFSET_CAPTURE,  $cois + $ln)) {
+                                $xoff = $tab[0][1] + strlen($tab[0][0]);
+                                $v .= substr($reader->m_text, $cois, $tab[0][1] + strlen($tab[0][0]) - $cois);
+
                                 $reader->m_offset = $xoff;
                                 // continue 2; 
                             } else {
                                 die("HEREDOC NOT CLOSED");
-                            }  
+                            }
                         }
-                    } 
+                    }
                     break;
             }
 
@@ -1525,7 +1581,7 @@ final class HtmlReader extends IGKObject
                 $bind = true;
                 break;
             }
-        } 
+        }
         if ($bind || preg_match("/^(php|xml|=)/", $v)) {
             $reader->m_name = null;
             $reader->m_v = $v;

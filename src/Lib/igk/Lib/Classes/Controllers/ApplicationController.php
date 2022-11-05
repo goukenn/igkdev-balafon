@@ -662,7 +662,7 @@ EOF;
             $param = array($param);
         }
         if (empty($c) &&  $viewdefault) {
-            $this->renderDefaultDoc(igk_conf_get($this->Configs, "/default/document", 'default'));
+            $this->renderDefaultDoc($this->getConfig("/default/document", 'default'));
             igk_exit();
         }
         $doc = $this->getAppDocument();
@@ -723,7 +723,9 @@ EOF;
     }
     protected function initMacros()
     {
-        $cl = $this::resolvClass("Database/InitMacros");
+        if (is_null($cl = $this::resolvClass("Database/InitMacros"))){
+            return;
+        }
         $m = new $cl();
         $m->run(igk_app()->getApplication()->getBuilder());
     }
@@ -733,18 +735,19 @@ EOF;
      * @throws IGKException 
      */
     protected function _initMacros()
-    {
-        if (is_file($f = $this->getClassesDir() . "/Database/InitMacros.php")) {
-            include_once($f);
-            // $this::register_autoload();
-            if (\IGK\Models\ModelBase::IsMacrosInitialize()) {
+    {  
+        if (self::IsSysController(static::class)){
+            return;
+        }      
+        require_once($this->getClassesDir() . "/Database/InitMacros.php");
+        if (\IGK\Models\ModelBase::IsMacrosInitialize()) {
+            $this->initMacros();
+        } else {
+            igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
                 $this->initMacros();
-            } else {
-                igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
-                    $this->initMacros();
-                });
-            }
+            });
         }
+        
     }
     protected function _registerApp()
     {
@@ -771,7 +774,7 @@ EOF;
         parent::initComplete();
         $this->_initMacros();
         $this->_registerApp();
-        $this->register_action();
+        $this->_registerAction();
         if (!isset(self::$INIT)) {
             igk_reg_hook(IGK_EVENT_DROP_CTRL, "igk_app_ctrl_dropped_callback");
             self::$INIT = true;
@@ -923,9 +926,8 @@ EOF;
     /**
      * register action bind
      */
-    protected final function register_action()
+    protected final function _registerAction()
     {
-
         $k = $this->getEnvParam("appkeys");
         if (!empty($k)) {
             igk_sys_ac_unregister($k);
@@ -955,7 +957,7 @@ EOF;
             igk_die("/!\\ app document match the global document. That is not allowed");
         }
         $wt = igk_app()->getConfigs()->get("website_title", igk_server()->SERVER_NAME);
-        $title  = $this->getConfigs()->get(IGK_CTRL_CNF_TITLE);
+        $title  = $this->getConfig(IGK_CTRL_CNF_TITLE);
         if (!empty($title))
             $title = __("title.app_2", $title, $wt); // igk_configs()->website_title);
         else {
@@ -1060,7 +1062,7 @@ EOF;
         $cp = call_user_func_array([parent::class, __FUNCTION__], []);
         igk_environment()->bypass_method($this, null);
         if ($cp) {
-            $this->register_action();
+            $this->_registerAction();
         }
         return $cp;
     }

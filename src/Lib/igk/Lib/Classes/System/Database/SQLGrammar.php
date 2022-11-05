@@ -410,11 +410,16 @@ class SQLGrammar implements IDbQueryGrammar
      * @return bool
      */
     public function exist_column($table, $column, $db = null)
-    {
+    {       
         $adapter  = $this->m_driver;
-        $db = $db ?? $adapter->getDbName();
-        $r = $adapter->sendQuery($q = "SELECT * FROM information_schema.COLUMNS " .
-            "WHERE TABLE_NAME='$table' and TABLE_SCHEMA='$db' AND COLUMN_NAME='$column'");
+        $db = $db ?? $adapter->getDbName() ?? igk_die("no db name");
+        $q = sprintf("SELECT * FROM information_schema.COLUMNS " .
+            "WHERE TABLE_NAME='%s' and TABLE_SCHEMA='%s' AND COLUMN_NAME='%s'",
+            $adapter->escape_string($table),
+            $adapter->escape_string($db),
+            $adapter->escape_string($column));
+
+        $r = $adapter->sendQuery($q);
         $row = null;
         if ($r) {
             if ($r->ResultTypeIsBoolean()) {

@@ -7,23 +7,20 @@
 
 namespace IGK\Database;
 
+use IGK\Database\Traits\DbColumnInfoMethodTrait;
+use IGK\Database\Traits\DbColumnInfoTrait;
 use IGKObject;
 use IGKSysUtil;
-require_once __DIR__."/DbColumnInfoTrait.php";
+
+require_once __DIR__."/Traits/DbColumnInfoTrait.php";
 ///<summary>Represente class: DbColumnInfo</summary>
 /**
 * Represente DbColumnInfo class
 */
-final class DbColumnInfo extends IGKObject {
+final class DbColumnInfo extends IGKObject implements IDbColumnInfo{
     use DbColumnInfoTrait;
-    /**
-     * check if support type length
-     * @param mixed $t 
-     * @return int|false 
-     */
-    public static function SupportTypeLength($t){
-        return preg_match("/(int|varchar|char|enum)/i", strtolower($t));
-    }
+    use DbColumnInfoMethodTrait;
+    
     ///<summary></summary>
     ///<param name="array" default="null"></param>
     /**
@@ -60,9 +57,7 @@ final class DbColumnInfo extends IGKObject {
             $this->clDefault = null;
         } 
     }
-    public function getIsRefId(){
-        return preg_match("/int/i", $this->clType ) && $this->clAutoIncrement && $this->clIsPrimary;
-    }
+  
     ///<summary> return a filtered array of property</summary>
     /**
      * return a filtered array of property
@@ -169,14 +164,7 @@ final class DbColumnInfo extends IGKObject {
             "clAutoIncrement"=>true
         ));
     }
-    ///<summary>get if this is unsigned type</summary>
-    /**
-     * get if this is unsigned type
-     * @return int|false 
-     */
-    public function IsUnsigned(){
-        return preg_match("/u((big|smal|tiny)?int)/i", $this->clType);
-    }
+   
 
     ///<summary> get row default value</summary>
     /**
@@ -184,7 +172,7 @@ final class DbColumnInfo extends IGKObject {
      * @param DbColumnInfo $v 
      * @return int|string 
      */
-    public static function GetRowDefaultValue(DbColumnInfo $v){
+    public static function GetRowDefaultValue(IDbColumnInfo $v){
         if ($v->clNotNull) {
             switch (strtolower($v->clType)) {
                 case "int":

@@ -165,7 +165,9 @@ $content .= ("<div style='height:100%' > ");
                     $tv = $v;
                     if (is_array($tv)){
                         $tv = "ARRAY[]";
-                    };
+                    } else if (is_object($tv)){
+                        $tv = "OBJECT<".get_class($tv).">";
+                    }
                     $content.= "<tr>";
                     $content.= "<td>".$k;
                     $content.= "</td>";

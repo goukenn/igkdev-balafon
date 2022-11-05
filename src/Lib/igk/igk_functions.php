@@ -61,7 +61,7 @@ use IGK\Helper\StringUtility;
 use IGK\Server;
 use IGK\System\Console\Commands\SitemapGeneratorCommand;
 use IGK\System\Html\HtmlLoadingContext;
-
+use IGK\System\Http\RequestHandler;
 
 ///<summary></summary>
 /**
@@ -5084,7 +5084,7 @@ function igk_db_drop_ctrl_db($ctrl, $tb = null, $fc = null)
         }
         return;
     }
-    if (!igk_getv($ctrl->getConfigs(), "clDataSchema")) {
+    if (!$ctrl->getUseDataSchema()){
         $db = igk_get_data_adapter($ctrl, true);
         if ($db && $db->connect()) {
             $db->dropTable($ctrl->getDataTableName());
@@ -8083,7 +8083,7 @@ function igk_frame_add_confirm($ctrl, $id, $uri = null, $closeuri = ".", $title 
             HtmlUtils::AddBtnLnk($acbar, __("btn.cancel"), "javascript: " . igk_js_post_frame_cmd($canceluri) . " this['igk:framebox'].close(); return false;");
             break;
     }
-    if ($ctrl->CurrentPageFolder == "Configs") {
+    if ($ctrl->getCurrentPageFolder() == IGK_CONFIG_MODE) {
         $frame["class"] = "+igk-cnf-framebox";
     }
     return $frame;
@@ -8916,8 +8916,8 @@ function igk_get_current_base_ctrl()
 function igk_get_current_base_uri($dir = null, $secured = false)
 {
     $igk = igk_app();
-    if ($igk->CurrentPageFolder != IGK_HOME_PAGEFOLDER)
-        $out = igk_io_baseuri($igk->CurrentPageFolder, $secured);
+    if ($igk->getCurrentPageFolder() != IGK_HOME_PAGEFOLDER)
+        $out = igk_io_baseuri($igk->getCurrentPageFolder(), $secured);
     else
         $out = igk_io_baseuri(null, $secured);
     if ($dir)
@@ -11217,52 +11217,55 @@ function igk_html_article(BaseController $ctrl, $name, $target, $data = null, $t
     } else {
         $n = $target->add($tagname);
     }
-    // igk_trace();
-    // igk_exit();
-    $tn = new \IGK\System\Html\Dom\HtmlBindingArticleNode;
-    $tn->file = $f;
-    $tn->data = $data;
-    $tn->ctrl = $ctrl;
-    $tn->target = $n;
-    $n->add($tn);
-    return $tn;
-
-    if ($n == null)
-        igk_die(__FUNCTION__ . "::target is null");
-    if (is_file($f) && !empty($content = igk_io_read_allfile($f))) {
-        $ldcontext = igk_init_binding_context($n, $ctrl, $data);
-        igk_push_article_chain($f, $ldcontext);
-        igk_html_bind_article_content($n, $content, $data, $ctrl, basename($f), true, $ldcontext);
-        if ($articleoptions) {
-            igk_html_article_options($ctrl, $n, $f);
-        }
-        igk_pop_article_chain();
-        $n->setFlag("NO_CHILD", 1);
+    
+    if (igk_environment()->caching_result){        
+        ///  TODO: CAHING ARTICLE REQUEST 
+        $tn = new \IGK\System\Html\Dom\HtmlBindingArticleNode;
+        $tn->file = $f;
+        $tn->data = $data;
+        $tn->ctrl = $ctrl;
+        $tn->target = $n;
+        $tn->caching = true;
+        $n->add($tn);
+        return $tn;
     }
 
-    // $ldcontext = igk_createloading_context($ctrl, $data);
-    // //$ldcontext->Context = __FUNCTION__;
-    // $ldcontext->engineNode = $n;
-    // $c = HtmlLoadingContext::GetCurrentContext();
-    // if ($c && !$c->load_expression)
-    //     $ldcontext->load_expression = false;
-    // igk_push_article_chain($f, $ldcontext);
-    // if (!is_dir($f) && file_exists($f)) {
-    //     $content = igk_io_read_allfile($f);
+    // if ($n == null)
+    //     igk_die(__FUNCTION__ . "::target is null");
+    // if (is_file($f) && !empty($content = igk_io_read_allfile($f))) {
+    //     $ldcontext = igk_init_binding_context($n, $ctrl, $data);
+    //     igk_push_article_chain($f, $ldcontext);
+    //     igk_html_bind_article_content($n, $content, $data, $ctrl, basename($f), true, $ldcontext);
+    //     if ($articleoptions) {
+    //         igk_html_article_options($ctrl, $n, $f);
+    //     }
+    //     igk_pop_article_chain();
+    //     $n->setFlag("NO_CHILD", 1);
+    // }
 
-    //     if ($evalExpression) {
-    //         $content = igk_html_eval_global_script($content, $ctrl, $data, basename($f));
-    //     }
-    //     if (!empty($content)) {
-    //         $n->load($content, $ldcontext);
-    //     }
-    //     igk_html_treatinput($n);
-    // }
-    // if ($articleoptions) {
-    //     igk_html_article_options($ctrl, $n, $f);
-    // }
-    // igk_pop_article_chain();
-    // $n->setFlag("NO_CHILD", 1);
+    $ldcontext = igk_createloading_context($ctrl, $data);
+    //$ldcontext->Context = __FUNCTION__;
+    $ldcontext->engineNode = $n;
+    $c = HtmlLoadingContext::GetCurrentContext();
+    if ($c && !$c->load_expression)
+        $ldcontext->load_expression = false;
+    igk_push_article_chain($f, $ldcontext);
+    if (!is_dir($f) && file_exists($f)) {
+        $content = igk_io_read_allfile($f);
+
+        if ($evalExpression) {
+            $content = igk_html_eval_global_script($content, $ctrl, $data, basename($f));
+        }
+        if (!empty($content)) {
+            $n->load($content, $ldcontext);
+        }
+        igk_html_treatinput($n);
+    }
+    if ($articleoptions) {
+        igk_html_article_options($ctrl, $n, $f);
+    }
+    igk_pop_article_chain();
+    $n->setFlag("NO_CHILD", 1);
     return $n;
 }
 
@@ -14013,42 +14016,13 @@ function igk_include_view($ctrl, $target, $file, $args = null, $create = false)
  * @param mixed $ctrl 
  * @param mixed $file 
  */
-function igk_include_view_file($ctrl, $file)
+function igk_include_view_file($ctrl, $file, $no_cache=false)
 {
-    $args = array_slice(func_get_args(), 2);
+    $args = array_slice(func_get_args(), 3);
     $cache = igk_cache()::view();
     $key = IGKEnvironmentConstants::VIEW_FILE_CACHES;
     igk_environment()->push($key, $file);
-    $no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view;
-
-    if ($no_cache) {
-        array_unshift($args, $file);
-    } else {
-        $_f = $cache->getCacheFilePath($file);
-        if ($cache->cacheExpired($file)) {
-            // + | ---------------------------------------------------------------
-            // + | Build cache view from article file 
-            // + | 
-            $output = BalafonCacheViewCompiler::Compile($ctrl, $file, $args);
-
-            // $option = igk_create_view_builder_option();
-            // $node = igk_create_notagnode();
-            // igk_html_article($ctrl, $file, $node, $args, null, false, true, false);
-            // ob_start();
-            // $output = $node->render($option);
-            // $src = ob_get_clean();
-            // $_f = $cache->getCacheFilePath($file);
-            // $extra = igk_view_builder_extra($file, $option);
-            // $extra = empty($output) ?  trim($extra) : $extra; 
-            // $_f = $cache->getCacheFilePath($file);
-            // igk_wln_e( __FILE__.":".__LINE__, "caching: ", compact("output"));
-            // igk_io_w2file($_f, $output . $src . $extra);
-            igk_io_w2file($_f, $output);
-        }
-        array_unshift($args, $_f);
-    }
-
-    // }
+    
     $_bindfc = (function () {
         if ((func_num_args() >= 2) && (is_array(func_get_arg(1)))) {
             extract(func_get_arg(1));
@@ -14057,6 +14031,29 @@ function igk_include_view_file($ctrl, $file)
         extract($this->getExtraArgs(), EXTR_SKIP);
         return include(func_get_arg(0));
     })->bindTo($ctrl);
+
+
+    // $no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfig('no_auto_cache_view');
+
+    if ($no_cache) {
+        array_unshift($args, $file);
+    } else {
+        $_f = $cache->getCacheFilePath($file);
+        $_bindfc = BalafonCacheViewCompiler::GetBindViewCompilerHandler($ctrl); 
+        if ($cache->cacheExpired($file)) {
+            // + | ---------------------------------------------------------------
+            // + | Build cache view from article file 
+            // + | 
+            $output = BalafonCacheViewCompiler::Compile($ctrl, $file, $args);
+
+            // $output2 = BalafonCacheViewCompiler::ViewCompile($ctrl, $file, $args);
+
+            
+            igk_io_w2file($_f, $output);
+            // igk_io_w2file($_f, $output2);
+        }
+        array_unshift($args, $_f);
+    }
     $response = null;
     try {
         $response = $_bindfc(...$args);
@@ -14651,6 +14648,25 @@ function igk_io_check_request_file($uri, $failedcallback = null)
 function igk_io_collapse_path(string $str)
 {
     return IO::CollapsePath($str);
+}
+/**
+ * transform collapse path to constant 
+ */
+function igk_io_collapse_const_path(string $str, array $keys=["%app%"=>"IGK_APP_DIR"]){
+    if ($path = igk_io_collapse_path($str)){
+        foreach($keys as $k=>$v){
+            $path = str_replace($k, "[".$v."]|", $path);
+        };
+        return implode(" . ", array_map(function($a){
+            if ($a[0]=="["){
+                $a = substr($a, 1, -1);
+            }
+            if (defined($a)){
+                return $a;
+            }
+            return escapeshellarg($a);
+        }, explode("|", $path)));
+    }
 }
 ///<summary>combine path</summary>
 ///<param name="list*">list of string arguments</param>
@@ -21184,7 +21200,7 @@ function igk_str_ns($n)
     $n = str_replace(".", "\\", $n);
     $n = str_replace("/", "\\", $n);
     $n = preg_replace("/[^0-9a-z\\\\_]/i", "_", $n);
-    return implode("", array_filter(explode("_", str_replace(" ", "_", str_replace("/", "\\", $n)))));
+    return implode("_", array_filter(explode("_", str_replace(" ", "_", str_replace("/", "\\", $n)))));
 }
 ///<summary>Represente igk_str_pipe_args function</summary>
 ///<param name="src"></param>
@@ -23059,6 +23075,7 @@ function igk_sys_config_view($file)
         $doc = $igk->getDoc();
         $cnf = igk_getconfigwebpagectrl();
         if ($cnf) {
+            RequestHandler::getInstance()->handle_ctrl_request_uri();
             $cnf->View();
         }
         if ($doc) {

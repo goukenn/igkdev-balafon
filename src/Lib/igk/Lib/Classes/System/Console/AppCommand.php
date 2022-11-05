@@ -108,6 +108,7 @@ abstract class AppCommand {
                 // $cmd = null; // self::Create("");
                 // $init_command->exec($app);
                 Logger::info("command file not present ". $file);
+                Logger::info("please run with  --command:init to initialize the file ");
             }
         }
 
@@ -144,7 +145,6 @@ abstract class AppCommand {
         if ($d = $this->desc){
             Logger::print($d. PHP_EOL); 
         }
-
         $this->showUsage();
         $this->showOptions();
         Logger::print("");

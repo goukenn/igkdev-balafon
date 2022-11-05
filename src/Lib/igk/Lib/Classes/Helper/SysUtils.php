@@ -18,6 +18,20 @@ use IGK\System\Console\Logger;
 
 class SysUtils{
     /**
+     * get default project entry namespace
+     * @param string $dir 
+     * @return string 
+     * @throws IGKException 
+     */
+    public static function GetProjectEntryNamespace(string $dir){
+        $path = igk_io_collapse_path($dir);
+        $path = igk_str_ns(str_replace("%project%/", "", $path));
+        return sprintf("%s\\%s", defined('IGK_PROJECT_DEFAULT_NS') ? 
+            constant('IGK_PROJECT_DEFAULT_NS'): 
+            \com\igkdev\projects::class, 
+            $path);
+    }
+    /**
      * get site title
      * @param string $title 
      * @return string 

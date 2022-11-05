@@ -61,7 +61,9 @@ final class CacheConfigs{
                 }
                 return $defaut;
             }
-        }   
+        } else if (!file_exists($cnf)) {
+            $controller->getConfigs()->storeConfig();            
+        }
         $v = $controller->getConfigs()->get($name, $defaut);
         return self::registerCache($controller, $name, $v);
     }

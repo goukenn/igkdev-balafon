@@ -116,7 +116,9 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     public function getIsVisible(): bool{
         $app=igk_app();
         $cnf=$this->ConfigCtrl;
-        $v=(($app->CurrentPageFolder == IGK_CONFIG_MODE) && ($cnf) && ($cnf->getSelectedConfigCtrl() === $this) && ($cnf->getIsConnected()));
+        // ($app->CurrentPageFolder == IGK_CONFIG_MODE) && 
+        // $v=($cnf && ($cnf->getSelectedConfigCtrl() === $this) && 
+        $v = $cnf->getIsConnected();
         return $v;
     }
     ///<summary></summary>
@@ -185,6 +187,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     * base show Configuration of the controller
     */
     public function showConfig(){
+       
         $_t=$this->getTargetNode();
 		$e_key  = "sys://config/selectedview";
         $this->ConfigCtrl->setSelectedConfigCtrl($this, get_class($this)."::showConfig");      
@@ -197,6 +200,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
             if($_cnf_node=$this->getConfigNode()){ 
                 $_cnf_node->clearChilds();
                 $_cnf_node->add($_t);
+                // $_cnf_node->div()->Content = "DEBUG ::::".get_class($this);
                 igk_set_env($e_key, $this); 
             }
         }

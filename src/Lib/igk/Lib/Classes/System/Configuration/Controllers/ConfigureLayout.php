@@ -20,4 +20,7 @@ class ConfigureLayout{
         $n->h1()->Content = __("BALAFON &gt; configuration");
         $n->div()->setStyle("margin-right:10px")->Content= __("Welcome, {0}", igk_configs()->admin_login);
     }
+    public function __toString(){
+        return 'layout';
+    }
 }

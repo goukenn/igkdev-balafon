@@ -24,8 +24,4 @@ class ViewVarExpression{
     public function __call($name, $arguments){
         return call_user_func_array([$this->value, $name], $arguments);
     }
-    public function __toString()
-    {
-        return '8';
-    }
 }

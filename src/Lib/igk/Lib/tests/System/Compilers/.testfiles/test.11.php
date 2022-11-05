@@ -1,51 +1,39 @@
 <?php
-namespace Sample;
 
-use \IGK\Actions as action;
-use \IGK\Helper\ViewHelper;
-use \IGK\BMC\Filters\ButtonFilter;
-
-//%{{# @MainLayout }}
-
-echo ViewHelper::Dir();
-$t->clearChilds();
-$a = "556";
-
-// $___IGK_PHP_SETTER___['a'] = igk_create_node("div");// $t->clearChilds()->bodybox();
-
-// $___IGK_PHP_SETTER___['a']->p()->Content = "Sample";
-// $___IGK_PHP_SETTER___['a']->li()->Content = "the li";
-// $___IGK_PHP_SETTER___['x'] = 'data-'.(80);
-// // igk_wln_e("the setter : === ", $a ); // $___IGK_PHP_SETTER___['a']);
-// // $__IGK_PHP_SETTER__['a']->Content = "sample a";
-// $t->add($a)->p()->Content = $x;
-// $t->div()->Content = "OK";
-
-
-
-// interface JOGO{
-//     function base();
-// }
-
-// if (!class_exists("Domino")){
-//     class Domino{
-//         var $x;
-//         var $y;
+// if (!class_exists('A'))
+// {
+// class A {
+//     function mardi(){
+//         return __FUNCTION__;
 //     }
-//     $t->div()->setClass("sample inblock")->Content = "In block-----";
 // }
+// $x = "30"; 
+// // jump
+// // $y = 45;
+// $z = ["zzze R", "data"];
+// $tagname = "monaco";
 
-// $t->div()->Content = "Marco";
+// if ($y == 45)
+// {
 
 
-// class MyClass{
-
+//     $t["class"] = "google-Roboto";
+//     $t->loop($z)->div()->add($tagname)->Content = "My Presentation {{ \$raw | upper }}";
+// }   
+// $t->div()->Content = "Presentation";
+// $t->div()->Content = "%execution_time%";
 // }
+// $x = 10;
+// $y = "118 - ".$x;
 
+// $t->setClass("info google-Roboto");
+// $d = igk_create_node("div");
+// $d->div()->ul()->loop(range(1, 10))->li()->Content = "data {{ \$raw }}";
+// $t->div()->Content = ("Hello ".$x) . $y;
+// $t->div()->add($d);
 
-// trait MyTrait{
-//     var $x= 8;
-// }
+// OK 1
+// $t->load('<<?= $x ? >>data</<?= $x ? >>', (object)["transformToEval"=>true]);
 
-
-// $t->p()->Content = "POLO";
+$t->loop($x)->div()->Content = "ONE - {{ \$raw }}";
+$t->div()->Content = "%execution_time%";

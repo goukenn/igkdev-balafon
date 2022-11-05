@@ -76,6 +76,9 @@ class SchemaMigration
         foreach ($n->getElementsByTagName(DbSchemas::DATA_DEFINITION) as $v) {
             $c = array();
             $tb = $stb = $v["TableName"];
+            if (empty($tb)){
+                continue;
+            }
             if ($resolvname)
                 $tb = IGKSysUtil::DBGetTableName($stb, $ctrl);
             foreach ($v->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {

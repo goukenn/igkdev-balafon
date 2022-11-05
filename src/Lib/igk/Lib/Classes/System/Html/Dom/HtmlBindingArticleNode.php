@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\System\IO\StringBuilder;
+use IGK\System\Runtime\Compiler\CompilerConstants;
 
 ///<summary></summary>
 /**
@@ -18,6 +19,11 @@ class HtmlBindingArticleNode extends HtmlNode{
     var $data;
     var $index;
     var $target;
+    /**
+     * bool caching result 
+     * @var false
+     */
+    var $caching = false;
 
     // binding counter:
 
@@ -29,7 +35,7 @@ class HtmlBindingArticleNode extends HtmlNode{
     public function __construct(){
         parent::__construct(); 
         $this->index = self::$sm_Count;
-        self::$sm_Count++;
+        self::$sm_Count++;  
     }
     function getCanRenderTag():bool{
         return false;
@@ -40,16 +46,32 @@ class HtmlBindingArticleNode extends HtmlNode{
     }
     public function render($options = null)
     {  
-        $this->target = igk_create_notagnode();       
-        $sb = new StringBuilder;
-        $index= intval($this->index); 
-        $this->_bind();
-        $sb->appendLine("<?php");
-        $is_array = is_array($this->data) && !isset($this->data["raw"]);
-        $is_array && $sb->append("foreach(\$rawdata[$index] as \$index=>\$raw){ \$context_raw = \$raw; ?>");
-        $sb->append($this->target->render());
-        $is_array &&  $sb->appendLine("<?php } ?>");       
-        return $sb;
+        // + | --------------------------------------------------------------------
+        // + | RENDER BINDING NODE
+        // + |
+        if ($this->caching){
+            $this->target = igk_create_notagnode();       
+            $sb = new StringBuilder;
+            $index= intval($this->index); 
+            $this->_bind();
+            $sb->appendLine("<?php");
+            // render binding node 
+            $is_array = is_array($this->data) && !isset($this->data["raw"]);
+            // + | --------------------------------------------------------------------
+            // + | BINDING ARTICLE CONFIGURATION
+            // + |
+            $param = '$'.CompilerConstants::BINDING_DATA_CONTEXT_VAR;
+            $is_array && $sb->appendLine(
+                [
+                    "foreach(/* render binding node */ {$param}[$index] as \$index=>\$raw):",
+                    "\$context_raw = \$raw;"
+                ]
+            );
+
+            $sb->appendLine("?>".$this->target->render());
+            $is_array &&  $sb->append("<?php endforeach;\n?>");       
+            return $sb;
+        }
     }
     private function _bind(){
         $f = $this->file;
@@ -60,7 +82,6 @@ class HtmlBindingArticleNode extends HtmlNode{
         if (is_file($f) && !empty($content = igk_io_read_allfile($f))) {
             $ldcontext = igk_init_binding_context($n, $ctrl, $data);
             $ldcontext->transformToEval = true;
-
             igk_push_article_chain($f, $ldcontext);
             igk_html_bind_article_content($n, $content, $data, $ctrl, basename($f), true, $ldcontext);
             if ($articleoptions) {
@@ -70,4 +91,5 @@ class HtmlBindingArticleNode extends HtmlNode{
             $n->setFlag("NO_CHILD", 1);
         }
     }
+ 
 }

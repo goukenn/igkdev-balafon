@@ -7,7 +7,11 @@
 namespace IGK\System\Console;
 
 abstract class AppCommandConstant{
-    public static function GetCacheFile(){
-        return igk_io_applicationdir()."/.Caches/.command.list.php";
+    /**
+     * get cache file 
+     * @return string 
+     */
+    public static function GetCacheFile():string{
+        return IGK_LIB_DIR."/.Caches/.command.list.php";
     }
 }

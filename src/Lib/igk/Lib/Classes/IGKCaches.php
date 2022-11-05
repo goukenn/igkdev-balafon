@@ -76,6 +76,7 @@ final class IGKCaches
      */
     public static function CacheUri($controller = null, ?string $requestUri = null)
     {
+        
         $o = "";
         if ($controller === null) {
             if ($ctrl = igk_get_defaultwebpagectrl()) {
@@ -98,7 +99,7 @@ final class IGKCaches
         if ($zip) {
             $uri .= "_zip";
         }
-        return [$uri, $zip];
+        return [$uri, $zip, $controller];
     }
     /**
      * check if cache 

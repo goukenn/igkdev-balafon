@@ -19,6 +19,14 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
         parent::__construct();
         if ($c = igk_getv($_ENV, "IGK_TEST_MODULE")){
             $this->controller = igk_getctrl($c);
+        }else{
+            $this->controller = $this->getModule();
+            $this->controller->auto_load_register();
         }
     }
+    /**
+     * get module 
+     * @return mixed 
+     */
+    abstract protected function getModule();
 }

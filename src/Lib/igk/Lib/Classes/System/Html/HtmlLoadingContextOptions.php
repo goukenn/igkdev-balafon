@@ -34,4 +34,10 @@ class HtmlLoadingContextOptions{
      * @var bool
      */
     var $transformToEval;
+
+    /**
+     * expression to use in hook - loop 
+     * @var mixed
+     */
+    var $hookExpression;
 }

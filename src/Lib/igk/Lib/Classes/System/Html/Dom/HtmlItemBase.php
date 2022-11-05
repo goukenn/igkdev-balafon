@@ -413,6 +413,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public function setContent($value)
     {
+        // igk_debug_wln(__FILE__.":".__LINE__,  "setting node ....------".$value);
         if (func_num_args()>1){
             $tab = func_get_args();
             while(count($tab)>0){
@@ -544,7 +545,22 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function add($n, $attributes = null, $args = null)
     {
         $skip = false;
-        if (is_string($n)) {
+        // igk_debug_wln("data : ", $n);
+        // compilation node add
+        if ($n instanceof \IGK\System\Runtime\Compiler\ViewExpressArg){
+            $n = $n->createExpressionNode();
+        }
+        if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression){
+            $v = \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression::GetRealValue($n);
+            // if ($v instanceof self){
+            //     $n = $v;
+            // }
+            // else {
+                $n = $n->createExpressionNode();
+            // }
+        }
+         
+        if (is_string($n)){
             igk_html_push_node_parent($this);
             $n = static::CreateWebNode($n, $attributes, $args);
             $skip = igk_html_is_skipped();

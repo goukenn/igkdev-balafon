@@ -258,7 +258,7 @@ PHP,
 
         $n = new BalafonViewCompileInstruction;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$x = 100;"]
         ];
         $tab =  ["x" => null];
@@ -275,7 +275,7 @@ PHP,
 
         $n = new BalafonViewCompileInstruction;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$t->div()->Content = 'information';"]
         ];
         $tab =  ["x" => null, "t" => igk_create_node("div")];
@@ -293,7 +293,7 @@ PHP,
 
         $n = new BalafonViewCompileInstruction;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$t->div()->Content = 'information:'. igk_express_var('x')"]
         ];
         $tab =  ["x" => 8, "t" => igk_create_node("div")];
@@ -312,7 +312,7 @@ PHP,
         $n = new BalafonViewCompileInstruction;
         $n->extract = true;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$t->div()->Content = 'information:'. igk_express_var('x');"]
         ];
         $tab =  ["x" => 8, "t" => igk_create_node("div")];
@@ -338,7 +338,7 @@ PHP,
         $n = new BalafonViewCompileInstruction;
         $n->extract = true;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$t->div()->Content = 'information:'. igk_express_var('x')->info;"]
         ];
         $tab =  ["x" => (object)["info" => 88], "t" => igk_create_node("div")];
@@ -357,7 +357,7 @@ PHP,
         $n = new BalafonViewCompileInstruction;
         $n->extract = true;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$t->div()->Content = 'information:'. igk_express_var('x')->call(\"base\") .'88';"]
         ];
         $tab =  ["x" => (object)["info" => 88], "t" => igk_create_node("div")];
@@ -375,7 +375,7 @@ PHP,
 
         $n = new BalafonViewCompileInstruction;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$t->div()->Content = \"information: {\$___IGK_PHP_EXPRESS_VAR___('x')}\";"]
         ];
         $tab =  ["x" => 8, "t" => igk_create_node("div")];
@@ -392,7 +392,7 @@ PHP,
 
         $n = new BalafonViewCompileInstruction;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$m = 'presentation' ?>The html content<?php ;"]
         ];
         $tab =  ["x" => 8, "t" => igk_create_node("div")];
@@ -410,7 +410,7 @@ PHP,
 
         $n = new BalafonViewCompileInstruction;
         $ctrl = new CompileTestController;
-        $n->data = [
+        $n->instructions = [
             (object)["value" => "\$m = '8';"],
             (object)["value" => "\$t->div()->Content = 'ok';"]
         ];

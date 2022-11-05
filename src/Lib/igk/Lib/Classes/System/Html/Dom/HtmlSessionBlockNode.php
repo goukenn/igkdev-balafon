@@ -74,7 +74,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $ul->li()->Content="PHP VERSION : ". PHP_VERSION;
             $ul->li()->Content="CurrentLang : ". R::GetCurrentLang();
             $ul->li()->Content="CurrentPage : ". igk_app()->CurrentPage;
-            $ul->li()->Content="CurrentFolder : ". igk_app()->CurrentPageFolder;
+            $ul->li()->Content="CurrentFolder : ". igk_app()->getCurrentPageFolder();
             $ul->li()->Content="ViewMode : ". IGKViewMode::GetSystemViewMode();
             $ul->li()->Content="Environment : ". array("development", "production")[igk_sys_env_production()];
             if ($_id = session_id()){

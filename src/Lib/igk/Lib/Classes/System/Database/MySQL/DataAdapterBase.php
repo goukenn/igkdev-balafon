@@ -354,14 +354,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * 
      */
     public function getDbName(): ?string
-    {
-        if (is_null($this->m_dbname)){
-            // must define database name
-            if (igk_environment()->isDev()){
-                // igk_trace();
-                igk_wln_e(__FILE__.":".__LINE__,  "DB Name is empty::::failed to connect ");
-            }
-        }
+    {       
         return $this->m_dbname;
     }
     ///<summary></summary>
@@ -402,7 +395,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
      * 
      */
-    public function getIsConnect()
+    public function getIsConnect():bool
     {
         return $this->m_dbManager->getIsConnect();
     }

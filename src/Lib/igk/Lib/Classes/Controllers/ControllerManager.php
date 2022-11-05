@@ -9,7 +9,7 @@ namespace IGK\Controllers;
 
 use IGK\Helper\IO;
 use IGK\Resources\R;
-
+use IGKControllerManagerObject;
 use IGKControllerTypeManager;
 
 ///<summary>Controller used to manage controllers</summary>
@@ -97,7 +97,7 @@ final class ControllerManager extends NonVisibleControllerBase {
             $t["clTargetNodeIndex"]=igk_getr("clTargetNodeIndex");
             $t["clVisiblePages"]=igk_getr("clVisiblePages");
             $t["clDescription"]=igk_getr("clDescription");
-            $t["clDataSchema"]=igk_getr("clDataSchema");
+            $t[IGK_CTRL_CNF_USE_DATASCHEMA]=igk_getr(IGK_CTRL_CNF_USE_DATASCHEMA);
             $t["clAppName"] = igk_getr("clAppName");
             $o = call_user_func_array(array($type, "SetAdditionalConfigInfo"), array(& $t));
             if($type == IGKDefaultPageController::class){
@@ -133,7 +133,7 @@ final class ControllerManager extends NonVisibleControllerBase {
                 igk_io_save_file_as_utf8($ctrl->getArticle(IGK_DEFAULT), R::ngets("default.articlev_1", $n)->getValue());
             }
 			
-			if ($t["clDataSchema"]){
+			if ($t[IGK_CTRL_CNF_USE_DATASCHEMA]){
 				igk_io_w2file($folder."/".IGK_DATA_FOLDER."/".IGK_SCHEMA_FILENAME, "<".IGK_SCHEMA_TAGNAME." />"); 
 			}
             igk_sys_cache_lib_files();

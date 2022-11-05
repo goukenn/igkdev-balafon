@@ -82,11 +82,7 @@ class ConfigurationPageHandler
             unset($_SERVER["PHP_SELF"]); //=$dir."/".IGK_CONFIG_PAGEFOLDER."/DTA";
             Server::getInstance()->prepareServerInfo();
             require_once IGK_LIB_DIR. '/igk_html_utils.php';
-            // if (is_callable($engine)) {
-            //     $engine(false);
-            // } else {
-            //     $engine->runEngine(false);
-            // }
+             
             igk_sys_config_view($file); 
             igk_exit();
         } 

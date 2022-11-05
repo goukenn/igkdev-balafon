@@ -39,11 +39,13 @@ class ApplicationControllerManager implements IApplicationControllerManager
         $this->m_app = $application;
     }
 
-    public function getRegistratedNamedController(string $name): ?BaseController { 
+    public function getRegistratedNamedController(string $name): ?BaseController
+    {
         throw new NotImplementException(__METHOD__);
     }
 
-    public function registerNamedController(string $name, BaseController $controller) { 
+    public function registerNamedController(string $name, BaseController $controller)
+    {
         throw new NotImplementException(__METHOD__);
     }
 
@@ -73,10 +75,10 @@ class ApplicationControllerManager implements IApplicationControllerManager
         if ($n instanceof BaseController) {
             return $n;
         }
-        if (is_string($n) && ($ctrl = igk_getv($this->m_controllers, $n))) {
+        if (is_string($n) && ($ctrl = igk_getv($this->m_controllers, igk_str_ns($n)))) {
             return $ctrl;
-        } 
-        $resolv_controler = & self::GetResolvController();
+        }
+        $resolv_controler = &self::GetResolvController();
 
         // igk_wln_e(__FILE__.":".__LINE__,  "the [{$n}]", $resolv_controler);
         if ($env_controller = igk_environment()->get(ConfigControllerRegistry::LOADED_CONFIG_CTRL)) {
@@ -86,7 +88,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
         $cl = igk_getv($resolv_controler, $n);
         if ($cl) {
             $ctrl = new $cl();
-            $this->register($ctrl);             
+            $this->register($ctrl);
             return $ctrl;
         }
         if (is_string($n) && class_exists($n) && is_subclass_of($n, BaseController::class)) {
@@ -140,6 +142,10 @@ class ApplicationControllerManager implements IApplicationControllerManager
      */
     public function register(BaseController $controller): bool
     {
+        // + | --------------------------------------------------------------------
+        // + | CALL init complete took too long
+        // + |
+        
         $c = get_class($controller);
         if ($this->notPresent($controller)) {
             $cl = get_class($controller);
@@ -149,8 +155,8 @@ class ApplicationControllerManager implements IApplicationControllerManager
             ApplicationLoader::getInstance()->registerClass(
                 igk_reflection_getdeclared_filename($cl),
                 $cl
-            );
-            BaseController::Invoke($controller, self::INIT_METHOD, [__METHOD__]);
+            ); 
+            BaseController::Invoke($controller, self::INIT_METHOD, [__METHOD__]);            
             return true;
         }
         return false;
@@ -275,7 +281,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * list of user controllers
      * @return array 
      */
-    public function getUserControllers():array
+    public function getUserControllers(): array
     {
         $tab = $this->getControllers();
         $out = array();

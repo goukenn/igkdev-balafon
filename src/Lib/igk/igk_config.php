@@ -26,6 +26,8 @@ define('IGK_NO_TRACELOG', 1);
 // + define('IGK_ENV_PRODUCTION', 1);
 // + | global disable view cache
 // + define("IGK_NO_VIEW_CACHE", 1);
+// + |
+// + define('IGK_PROJECT_DEFAULT_NS', \com\igkdev\projects::class);
 
 // + | global disable handle page cache
 // + defined"IGK_NO_PAGE_CACHE") || define("IGK_NO_PAGE_CACHE", 1);
@@ -460,7 +462,7 @@ define("IGK_MENUS_REGEX", "/menu(?P<name>(.)+)conf.csv/i");
 define("IGK_PHP_RESERVEDNAME_REGEX", "/^((a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|" . "(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|" . "(__halt_compiler|break|list|(x)?or|var|while))$/i");
 define("IGK_IDENTIFIER_RX", "([a-z]|[_]+[a-z0-9])([a-z0-9_]*)");
 define("IGK_IDENTIFIER_PATTERN", "[a-z_][a-z0-9_]*");
-define("IGK_IDENTIFIER_TAG_CHARS", "_:0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+define("IGK_IDENTIFIER_TAG_CHARS", "_:-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 define("IGK_XML_IDENTIFIER_RX", "([a-z]+:)*([a-z]|[_]+[a-z0-9])([a-z0-9_-]*)");
 define("IGK_ISIDENTIFIER_REGEX", "/^" . IGK_IDENTIFIER_RX . "$/i");
 define("IGK_IS_NS_IDENTIFIER_REGEX", "/^((_*[0-9a-z][0-9a-z_]*)\\\\)+(_*[0-9a-z][0-9a-z_]*)$/i");
@@ -546,6 +548,7 @@ define("IGK_CTRL_CNF_APPNAME", "clAppName");
 define("IGK_CTRL_CNF_BASEURIPATTERN", "clBasicUriPattern");
 define("IGK_CTRL_CNF_TABLEPREFIX", "clDataTablePrefix");
 define("IGK_CTRL_CNF_APPNOTACTIVE", "clAppNotActive");
+define("IGK_CTRL_CNF_USE_DATASCHEMA", "clDataSchema");
 //    define("IGK_SESS_UNKCOLOR_KEY", "sys://session/theme/UnknownColor");
 define('IGK_HTML_EMAIL_PATTERN', "[0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*@(.)+\.([a-zA-Z]{2,})");
 define('IGK_HTML_PHONE_PATTERN', "[0-9]{6,14}");

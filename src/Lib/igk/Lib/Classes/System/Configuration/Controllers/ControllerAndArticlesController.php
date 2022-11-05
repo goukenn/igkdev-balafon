@@ -640,8 +640,8 @@ EOF;
         $ul->add($p); 
         $this->_ca_add_adapter($ul->li(), "clDataAdapterName", IGK_MYSQL_DATAADAPTER);
         $li = $ul->li();
-        $li->addLabel("clDataSchema");
-        $sl = $li->addSelect('clDataSchema');
+        $li->addLabel(IGK_CTRL_CNF_USE_DATASCHEMA);
+        $sl = $li->addSelect(IGK_CTRL_CNF_USE_DATASCHEMA);
         foreach (['true', 'false'] as $k) {
             $op = $sl->addOption();
             $op["value"] = $k == 'true' ? 1 : 0;

@@ -280,6 +280,5 @@
                 <Column clName="clml_update_at" clType="DATETIME" clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true"  />    
             </addColumn>            
         </Migration>
-
     </Migrations> 
 </data-schemas>

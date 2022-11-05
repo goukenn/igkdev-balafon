@@ -6,6 +6,7 @@
 
 namespace IGK\Database;
 
+use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 
 abstract class DbSchemaDefinitions{
@@ -24,24 +25,11 @@ abstract class DbSchemaDefinitions{
      * @return mixed 
      */
     public static function & GetDataTableDefinition(string $ad_name, string $table){
-        $i = 0;
-        if (is_null(self::$sm_def)){
-            if (is_file($file = igk_io_cachedir()."/".self::CACHE_FILE)){
-                $s = file_get_contents($file);
-                if (!empty($s)){
-                    if (($g = unserialize($s)) === false){
-                        @unlink($s);
-                    }else{
-                        self::$sm_def = $g;
-                        $i=1;
-                    }
-                }
-            }
-            !$i && (self::$sm_def = []);
-            self::$sm_def["resolved"] = [];
-        }        
-        $key = sha1($ad_name.":".$table);
-        if ($info = igk_getv(self::$sm_def["resolved"], $key)){
+ 
+        $v_resolveKey = "resolved";
+        self::_InitFromCache();       
+        $key = self::_GetResolKey($ad_name, $table);
+        if ($info = igk_getv(self::$sm_def[$v_resolveKey], $key)){
             return $info[0];
         }        
         $result = null;         
@@ -54,19 +42,37 @@ abstract class DbSchemaDefinitions{
                         $inftable->columnInfo = array_map([self::class, 'ToColumnInfoDefinition'], (array) $inftable->columnInfo);
                         $inftable->tableRowReference = igk_array_object_refkey($inftable->columnInfo, IGK_FD_NAME);
                     } 
-                    self::$sm_def["resolved"][$key] = [
+                    self::$sm_def[$v_resolveKey][$key] = [
                         $inftable, $ctrl
                     ];
-                    $result = $inftable;
-                    // if ($table == 'tbigk_users'){
-                    //     igk_debug_wln(__FILE__.":".__LINE__, $result);
-                    // }
-                    // igk_debug_wln("get definition d ".$table. " init ".$i);
+                    $result = $inftable; 
                     break;
                 }
             } 
         }
         return $result;
+    }
+    private static function _InitFromCache(){
+        $v_resolveKey = "resolved";
+        if (is_null(self::$sm_def)){
+            // + | LOAD FROM DB CACHE
+            if (is_file($file = igk_io_cachedir()."/".self::CACHE_FILE)){
+                $s = file_get_contents($file);
+                if (!empty($s)){
+                    if (($g = unserialize($s)) === false){
+                        @unlink($s);
+                    }else{
+                        self::$sm_def = $g;
+                        $i=1;
+                    }
+                }
+            }
+            !$i && (self::$sm_def = []);
+            self::$sm_def[$v_resolveKey] = [];
+        }        
+    }
+    private static function _GetResolKey($ad_name, $table){
+        return sha1($ad_name.":".$table);
     }
     static function ToColumnInfoDefinition($m){        
         return new DbColumnInfo((array)$m);
@@ -83,5 +89,19 @@ abstract class DbSchemaDefinitions{
             self::$sm_def[$ad_name] = [];
         }
         self::$sm_def[$ad_name][$table] = & $info; 
+    }
+    /**
+     * remove all from cache
+     * @param BaseController $controller 
+     * @return bool 
+     */
+    public static function UnregisterCache(BaseController $controller){
+        self::_InitFromCache();       
+        $ad_name = $controller->getDataAdapterName();
+        if ($p = igk_getv(self::$sm_def, $ad_name)){
+            unset($p[ get_class($controller)]);
+            self::$sm_def[$ad_name] = $p;
+        }  
+        return true;
     }
 }

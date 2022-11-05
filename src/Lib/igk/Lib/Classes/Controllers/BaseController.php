@@ -111,7 +111,7 @@ use function igk_resources_gets as __;
  * @method static string loadMigrationFile() macros function 
  * @method bool checkUser(bool $redirect, ?string $redirectUri=null ) macros function check if user or navigate
  * @method static string getErrorViewFile(int code) macros function get controller error file
- * @method static mixed getConfig(string $name, default=null) macros function get config setting
+ * @method static mixed getConfig(string $name, mixed $default=null) macros function get config setting
  * @method static mixed js(string $name, default=null) macros function load inline js script
  * @method static mixed pcss(string $name, default=null) macros function load temp inline pcss
  * @method static mixed getViews(bool $withHiddenFile, bool $recursive=false) macros function load temp inline pcss
@@ -153,17 +153,17 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     //         return null;
     //     return ControllerExtension::getActionHandler($this, $name);
     // }
-    protected function getEntryNamespace()
-    { 
-        if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)) {
-            return \IGK::class;
-        }
-        $ns = dirname(igk_dir(get_class($this)));
-        if ($ns != ".") {
-            return str_replace("/", "\\", $ns);
-        }
-        return null;
-    }
+    // protected function getEntryNamespace()
+    // { 
+    //     if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)) {
+    //         return \IGK::class;
+    //     }
+    //     $ns = dirname(igk_dir(get_class($this)));
+    //     if ($ns != ".") {
+    //         return str_replace("/", "\\", $ns);
+    //     }
+    //     return null;
+    // }
     ///<summary></summary>
     /**
      * @return object 
@@ -714,7 +714,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @param string &extra view extension
      * @return string view file path
      */
-    public function getViewFile($view, $checkfile = 1, &$param = null)
+    public function getViewFile(string $view, $checkfile = 1, &$param = null)
     {
         $extension = IGK_DEFAULT_VIEW_EXT;
         $_viewdir = $this->getViewDir();
@@ -733,6 +733,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 return $view;
             }
         }
+        
         $f = igk_uri(rtrim($_viewdir . "/" . $view, '/'));
         // + | get fname to UNIX PATH
         $f = IO::GetUnixPath("/" . $view, false, $_viewdir) ?? $f;
@@ -860,6 +861,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function initTargetNode(): ?HtmlNode
     {
+        // igk_debug_wln_e(__FILE__.":".__LINE__,  "init target node .....");
         $tagName = igk_sys_getconfig("app_default_controller_tag_name", "div");
         $div = new HtmlCtrlNode($this, $tagName);
         $div["id"] = igk_css_str2class_name(strtolower($this->getName()));
@@ -1183,7 +1185,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
             return false;
         }
-        return igk_getv($this->getConfigs(), "clDataSchema", false);
+        return $this->getConfig(IGK_CTRL_CNF_USE_DATASCHEMA, false);
     }
     public function setTargetNode($node)
     {

@@ -21,7 +21,7 @@ class PageLayout{
      */
     var $options = [];
     /**
-     * store views layout
+     * store custom view layout
      * @var mixed
      */
     var $viewDir;

@@ -221,6 +221,14 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_list;
     private static $sm_sql;
 
+    /**
+     * 
+     * @return bool 
+     */
+    public function getIsConnect(): bool {
+        return !is_null($this->getSql());
+     }
+
 
       /**
      * check that a constraint exists
@@ -254,8 +262,8 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
 
     public function getDataValue($value, $tinf) { }
 
-    public function getDbName(): ?string {
-        return "sqlite3-file://";
+    public function getDbName(): ?string {        
+        return $this->getIsConnect() ? "sqlite3-file://".$this->fname : null;        
      }
     public function getFilter(): bool
     {
@@ -338,7 +346,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
             }
         }
         $fulln="";
-        $sql=$this->fname ? $this->getSql(): null;
+        $sql= $this->fname ? $this->getSql(): null;
         $c=0;
         if(!$sql){
             if($this->m_creator){

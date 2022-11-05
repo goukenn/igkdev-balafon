@@ -6,6 +6,7 @@
 
 namespace IGK;
 
+use Closure;
 use IGK\Helper\IO;
 use IGK\System\IO\Path as IGKPath;
 use IGK\helper\StringUtility;
@@ -532,5 +533,32 @@ class ApplicationLoader
             ini_set("session.save_path", IGK_SESS_DIR);
         }
 
+    }
+    /**
+     * core test classes loader callback
+     * @return Closure 
+     */
+    public static function TestClassesLoaderCallback(){
+        return  function($n){    
+            $fix_path = function($p, $sep=DIRECTORY_SEPARATOR){
+                if ($sep=="/"){
+                    return str_replace("\\", "/", $p);
+                }  
+                return str_replace("/", "\\", $p);
+            };
+            $dir = IGK_LIB_DIR."/Lib/Tests/";
+            if (strpos($n, $ns= \IGK\Tests::class)===0){
+                $cl = substr($n, strlen($ns)+1);
+                $f = $fix_path($dir.$cl.".php");       
+                if (file_exists($f)){
+                    include($f);
+                    if (!class_exists($n, false)){
+                        throw new \Exception("File exists but class not present");
+                    }
+                    return 1;
+                }
+            } 
+            return 0;
+        };
     }
 }

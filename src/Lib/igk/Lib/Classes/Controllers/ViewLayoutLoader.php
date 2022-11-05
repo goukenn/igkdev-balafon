@@ -11,6 +11,7 @@ use Exception;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\HtmlRenderer;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKEnvironment;
 use IGKException;
@@ -28,11 +29,23 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
     var $footer;   
 
+    /**
+     * const to store page layout param.
+     */
     const LAYOUT_PAGE_PARAM  = "@PageLayout";
+    /**
+     * const to pass parameter beetween each include views.
+     */
+    const PAGE_PARAM = "@PageParams";
+    /**
+     * const activate the main layout param
+     */
+    const MAIN_LAYOUT_PARAM = "@MainLayout";
 
     public function __construct(BaseController $controller)
-    {
+    { 
         parent::__construct($controller);    
+        $this->MainLayout = "JUMMM3";
     }
     protected function initialize(){
         $this->header =  $this ->controller->getViewDir()."/.header.pinc";
@@ -40,6 +53,18 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         if (method_exists($this->controller, "menuFilter")){
             igk_reg_hook("filter-menu-item", [$this->controller, "menuFilter"]);
         } 
+    }
+    /**
+     * interupt inclusion
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function interup(){
+
+        HtmlRenderer::RenderDocument(igk_app()->getDoc()); 
+        igk_exit();
     }
     /**
      * include file in layout
@@ -53,24 +78,36 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      * @throws Exception 
      */
     public function include($file, $args){
-        $response = null; 
-        $no_layout = false;
+  
+        $response = null;
+        $ctrl =  $this->controller;  
         $this->controller->setExtraArgs(["layout"=>$this]);
+        $v_main = $this->{'@MainLayout'};
+        $no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfig('no_auto_cache_view');
 
-        $args["doc"]->title =  __("{0} - [{1}]", __("title.{$args['fname']}")  , $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
-        if (!$no_layout && $this->exists($this->header)){
-            igk_include_view_file($this->controller, $this->header, $args);   
+        $args["doc"]->title =  __("{0} - [{1}]", __("title.{$args['fname']}")  , $this->controller->getConfig('clAppTitle', igk_configs()->website_domain));
+        if (!$v_main &&  $this->exists($this->header)){
+            $response .= igk_include_view_file($this->controller, $this->header, true, $args);   
         }
-        $response = igk_include_view_file($this->controller, $file, $args);
-        $no_layout = $this->Configs[self::LAYOUT_PAGE_PARAM];
-        if (!$no_layout && $this->exists($this->footer)){
-            igk_include_view_file($this->controller, $this->footer, $args);
+        $response .= igk_include_view_file($this->controller, $file, 
+        $no_cache,
+        $args);        
+        if (!$v_main &&  $this->exists($this->footer)){
+            $response .= igk_include_view_file($this->controller, $this->footer, true, $args);
         }
         return $response;
     }
-    public function getPageTitle(string $title){
+    /**
+     * get page title 
+     * @return string
+     */
+    public function getPageTitle(string $title):string{
         return sprintf("%s - [%s]", $title,  $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
     }
+    /**
+     * login form callback
+     * @return callable
+     */
     public function loginForm(){
         return function($b){
             $form = igk_create_node("form");

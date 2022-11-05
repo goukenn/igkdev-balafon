@@ -38,7 +38,7 @@ class Loader{
         $bck = spl_autoload_functions();
         // clean all 
         array_map(\spl_autoload_unregister::class, $bck);
-        $gfc = spl_autoload_functions();
+        // $gfc = spl_autoload_functions();
         require_once($this->package_file); 
         $nfc = spl_autoload_functions();
         $found = 0;
@@ -56,12 +56,6 @@ class Loader{
     }
     public function _final($f){
         $this->registerMissings[$f] = $f;      
-        Logger::info("missing : ".$f);
-        // if (igk_environment()->isDEv()){
-        //     igk_trace();
-        //     igk_wln("missing class : ".$f);
-        // }else{
-        //     igk_ilog("missing class : ".$f);
-        // }
+        Logger::danger("missing : ".$f); 
     }
 }

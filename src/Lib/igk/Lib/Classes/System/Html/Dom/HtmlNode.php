@@ -243,6 +243,8 @@ class HtmlNode extends HtmlItemBase
 
     public function clear()
     {
+        $this->getAttributes()->clear();
+        $this->clearChilds();
         return $this;
     }
     ///<summary></summary>

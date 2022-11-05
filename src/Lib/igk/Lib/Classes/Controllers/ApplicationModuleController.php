@@ -157,10 +157,8 @@ final class ApplicationModuleController extends BaseController{
                             } 
                         } 
                     }
-
                 } 
             };
-
             ApplicationLoader::RegisterAutoload($fc, $libdir);
         }
     }
@@ -192,9 +190,11 @@ final class ApplicationModuleController extends BaseController{
         $reg=function($name, $callback){
             $this->reg_function($name, $callback);
         };
+        $definition = (array)json_decode(file_get_contents($this->m_dir."/module.json"));
         try{
             // igk_dev_ilog("init module: ".$this->getName());
             $data = eval("?>".$s);
+            $data = array_merge($data??[], $definition);
         }
         catch(TypeError $error){
             throw $error; 

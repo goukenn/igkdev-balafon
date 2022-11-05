@@ -132,8 +132,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 400)
             }
         }
         error_log($msg);
-        // + | Last Exception    
-        igk_wl_e($msg)     ;
+        // + | Last Exception  
         throw new IGKException($msg, $code);
     } else {
         ob_clean();
@@ -847,7 +846,7 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0)
 
         $o .= "<tr style=\"background-color: \">";
         $o .= "<th>&nbsp;</th>";
-        $o .= "<th>" . __("Line") . "</th>";
+        //$o .= "<th>" . __("Line") . "</th>";
         $o .= "<th>" . __("File") . "</th>";
         $o .= "<th>" . __("Function") . "</th>";
         $o .= "<th>" . __("In") . "</th>";
@@ -862,14 +861,15 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0)
         $c = igk_getv($callers[$i], "class", "__global");
         $o .= "<tr style=\"background-color: ".$colors[ $i % 2] ."; border-bottom: 2px solid #f3f3f3; \">";
         $o .= "<td style=\"{$tds}\">" . $tc . "</td>";
-        $o .= "<td style=\"{$tds}\">" . igk_getv($callers[$i], "line") . "</td>";
-        $o .= "<td style=\"{$tds}\">";
+        $ln = igk_getv($callers[$i], "line");
+        //$o .= "<td style=\"{$tds}\">" . $ln . "</td>";
+        $o .= "<td style=\"{$tds}\" onclick='window.getSelection().selectAllChildren(this);'>";
         $g = igk_getv($callers[$i], "file");
         if ($_base_path && $g) {
             $g = igk_io_collapse_path($g);  
         }
         $o .= $g;
-
+        $o .= ":".$ln;
         $o .= "</td>";
         $o .= "<td style=\"{$tds}\">" . $f . "</td>";
         $o .= "<td style=\"{$tds}\">" . $c . "</td>";
@@ -1141,15 +1141,8 @@ function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_
  */
 function igk_get_defaultwebpagectrl()
 {
-    if ($c = igk_app()->getControllerManager()){
-        if ($def = $c->getDefaultController()){
-            return $def;
-        }
-    }
-    if ($n = igk_configs()->get("default_controller")){
-        return igk_getctrl($n, false);
-    }  
-    return null;
+    return igk_app()->getControllerManager()->getDefaultController()
+    ?? igk_getctrl(igk_configs()->get("default_controller") ?? "", false); 
 }
 
 ///<summary>get object with igk Xpath selection model</summary>
@@ -1641,12 +1634,11 @@ function igk_io_is_subdir($p, $c)
  * return default configuration settings
  */
 function igk_sys_getdefaultctrlconf()
-{
-  
+{  
     return array(
         "clVersion"=>"1.0",
         "clDataAdapterName" => igk_configs()->get("default_dataadapter", IGK_CSV_DATAADAPTER),
-        "clDataSchema" => false,
+        IGK_CTRL_CNF_USE_DATASCHEMA => false,
         "clDisplayName" => null,
         "clRegisterName" => null,   // register name will be converted as entry namespace
         "clParentCtrl" => null,

@@ -9,6 +9,8 @@ namespace IGK\Database;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
+use IGK\Database\SchemaBuilder\DiagramEntityAssociation;
+use IGK\Database\SchemaBuilder\SchemaDiagramVisitor;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\XML\XmlNode;
@@ -82,9 +84,22 @@ abstract class DbSchemas{
         if (!file_exists($file)) {
             return null;
         }
-        $data = igk_getv(self::$sm_schemas, $file);
+        $data = null;
+        if (isset(self::$sm_schemas[$file])){
+            $data = self::$sm_schemas[$file];
+        }     
         if (!$data){
             $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname);
+            // + init Check and update data
+
+            if ($cl = $ctrl::resolvClass($ctrl, \Database\InitDbSchemaBuilder::class)){
+                // resolv core entries 
+                $b = new $cl();
+                $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
+                $b->up($tr); 
+                $tr->render(new SchemaDiagramVisitor($ctrl, $data));
+            } 
+
             self::$sm_schemas[$file] = ["controller"=>$ctrl, "definition"=>$data];
         }else {            
             $data = $data["definition"];
@@ -156,6 +171,13 @@ abstract class DbSchemas{
             return self::CreateObjFromInfo($inf, $dataobj);
         }
     }
+    /**
+     * 
+     * @param string $tablename 
+     * @param null|BaseController $ctrl 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function GetTableRowReference(string $tablename, ?BaseController $ctrl=null){
         $g = SysDbControllerManager::GetDataTableDefinitionFormController($ctrl, $tablename);
         if ($g){  
@@ -170,10 +192,10 @@ abstract class DbSchemas{
         if ($tableRowReference) {
             $obj = igk_createobj();
             foreach ($tableRowReference as $k => $v) {
-                if (!($v instanceof DbColumnInfo)){
+                if (!($v instanceof IDbColumnInfo)){
                     if (igk_environment()->isDev()){                        
                         igk_trace(); 
-                        igk_dev_wln_e("failed : tableRowReference ", $tableRowReference);
+                        igk_dev_wln_e("failed : tableRowReference is not a IDbColumnInfo", $tableRowReference);
                     }
                     continue;
                 }

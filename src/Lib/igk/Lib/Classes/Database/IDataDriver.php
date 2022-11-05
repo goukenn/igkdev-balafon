@@ -14,7 +14,16 @@ use IGK\System\Database\SQLGrammar;
  * @package 
  */
 interface IDataDriver{
+    /**
+     * get the db name. failed in case of no connection to db
+     * @return null|string 
+     */
     function getDbName():?string;
+    /**
+     * get if driver is connected
+     * @return bool 
+     */
+    function getIsConnect(): bool;
     function getFilter():bool;
     function isTypeSupported(string $type):bool;
     function escape($column):string;
@@ -27,10 +36,25 @@ interface IDataDriver{
 
     function sendQuery(string $query);
 
+    /**
+     * get data value
+     * @param mixed $value 
+     * @param mixed $tinf 
+     * @return mixed 
+     */
     function getDataValue($value, $tinf);
 
+    /**
+     * check if data type support length
+     * @param string $type 
+     * @return bool 
+     */
     function getIsLengthData(string $type) : bool;
 
+    /**
+     * get if support engine
+     * @return bool 
+     */
     function getEngineSupport():bool;
 
     function createAlterTableFormat():string;
@@ -59,6 +83,13 @@ interface IDataDriver{
      */
     function getCreateTableFormat(?array $options=null): ?string;
 
+    /**
+     * create table info query
+     * @param SQLGrammar $grammar 
+     * @param string $table 
+     * @param string $dbname 
+     * @return string 
+     */
     function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname):string;
 
     /**

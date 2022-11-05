@@ -20,6 +20,9 @@ class DbUtils{
         if (get_class($a) == \IGK\Controllers\SysDbController::class){                    
             return -1;
         }
+        if (get_class($b) == \IGK\Controllers\SysDbController::class){                    
+            return -1;
+        }
         if (RootControllerBase::IsSystemController($a)){
             if (RootControllerBase::IsSystemController($b)){
                 return strcmp(get_class($a), get_class($b));

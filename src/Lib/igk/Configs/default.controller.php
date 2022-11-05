@@ -9,7 +9,7 @@
  */
 return array(
     "clDataAdapterName" => IGK_CSV_DATAADAPTER,
-    "clDataSchema" => false,
+    IGK_CTRL_CNF_USE_DATASCHEMA => false,
     "clDisplayName" => null,
     "clRegisterName" => null,
     "clParentCtrl" => null,

@@ -165,8 +165,8 @@ class WebApplication extends IGKApplicationBase
     {
         $srv = igk_server();
         $requestHandler = RequestHandler::getInstance();
-        // 1. handle controller
-        $requestHandler->handle_ctrl_request_uri();
+        // 1. handle controller first
+        // $requestHandler->handle_ctrl_request_uri();
 
         $_redirectArgs = ["igk_index_file" => $file];
         $access_file = ["/Lib/igk/igk_init.php"];
@@ -232,7 +232,7 @@ class WebApplication extends IGKApplicationBase
             // 
             // configuration handle
             //
-            if (!igk_configs()->get("noWebConfiguration")) {
+            if (0 && !igk_configs()->get("noWebConfiguration")) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info);
@@ -280,7 +280,10 @@ class WebApplication extends IGKApplicationBase
             igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
             igk_exit();
         }
-        igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
+        // igk_environment()->isOPS() && $render && 
+        // IGKCaches::HandleCache();
+        // igk_trace();
+        // igk_wln_e(__FILE__.":".__LINE__,  "end cache");
         try {
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
             $this->handleRequest($file, $render);

@@ -26,8 +26,7 @@ $doc->getMetas()->keywords = "balafon, configs, configspage";
 $doc->title = sprintf("%s - [%s]",
 __("Your BALAFON web App - admin dashboard"),
    igk_configs()->website_domain
-);
- ;
+); 
 if (igk_environment()->isDev() && (igk_env_count(__FILE__)>1)){
     igk_dev_wln_e("config layout call twice");
 }
@@ -38,7 +37,6 @@ if (igk_environment()->isDev() && (igk_env_count(__FILE__)>1)){
 
 
 $layout = new ConfigureLayout($ctrl);
-
 $confframe=$ctrl->getConfigFrame(); 
 ($cl=$t["class"]) && $cl->clear();
 $t["class"]="igk-cnf-page"; 

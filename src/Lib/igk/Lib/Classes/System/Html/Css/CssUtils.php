@@ -285,7 +285,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      */
     public static function Include(string $file, ?BaseController $ctrl=null, 
-    HtmlDocTheme  $theme, ?string $theme_name=null)
+    HtmlDocTheme  $theme=null, ?string $theme_name=null)
     {
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
         require_once __DIR__ . "/theme_functions.php";

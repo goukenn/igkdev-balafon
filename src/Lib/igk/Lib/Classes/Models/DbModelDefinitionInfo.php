@@ -10,7 +10,7 @@ namespace IGK\Models;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 /**
- * represent column info description. use in a spécif model. without use data schema
+ * represent database's column info. use in a model. without use data schema
  * @package IGK\Models
  */
 class DbModelDefinitionInfo implements ArrayAccess{

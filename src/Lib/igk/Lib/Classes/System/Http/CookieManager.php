@@ -36,8 +36,9 @@ class CookieManager{
     }
     private function _getdata(){
         $v_c = igk_environment()->getCookieName();
-        if (is_null($this->m_data) || ($v_c != $this->m_name)){
-            if (!($d = json_decode(igk_getv($_COOKIE, $v_c)))){
+        if ($_COOKIE  && is_null($this->m_data) || ($v_c != $this->m_name)){
+            $ck = igk_getv($_COOKIE, $v_c);
+            if (!$ck || !($d = json_decode($ck))){
                 $d = [];
             } 
             $this->m_data = $d;
