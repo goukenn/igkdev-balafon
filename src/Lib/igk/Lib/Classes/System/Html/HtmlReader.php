@@ -1247,7 +1247,7 @@ final class HtmlReader extends IGKObject
     {
         return $this->m_procTagClose;
     }
-    private function _getAttribuReaderCallback($binfo,  $fc_attrib, &$v_expressions, $context = null)
+    private function _getAttributeReaderCallback($binfo,  $fc_attrib, &$v_expressions, $context = null)
     {
         $v_context = $context ?? $this->m_context;
         $v_fc = null;
@@ -1454,7 +1454,7 @@ final class HtmlReader extends IGKObject
         $v_expressions = array();
         $v_tattribs = [];
         $binfo = $this->getBindingInfo();
-        $v_fc = $this->_getAttribuReaderCallback($binfo, $fc_attrib, $v_expressions);
+        $v_fc = $this->_getAttributeReaderCallback($binfo, $fc_attrib, $v_expressions);
         if (!empty($this->m_name) && self::_ReadAttributes($this, $v, $v_tattribs, $v_fc) && !empty($v)) {
             $this->m_hasAttrib = true;
             $skip_visible = (array_key_exists("igk:isvisible", $this->m_attribs) && ($this->m_attribs["igk:isvisible"] == false));

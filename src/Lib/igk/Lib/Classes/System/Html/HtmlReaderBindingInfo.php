@@ -15,7 +15,7 @@ namespace IGK\System\Html;
  * @package IGK\System\Html
  */
 final class HtmlReaderBindingInfo{
-    const PATH=__CLASS__.'::Construct';
+    const PATH = __CLASS__.'::Construct';
     ///<summary></summary>
     ///<param name="_reader"></param>
     ///<param name="listener" default="null"></param>

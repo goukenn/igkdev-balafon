@@ -25,6 +25,7 @@ use IGKValidator;
 class subdomain{
     var $subdomain;
     var $subdomainInfo;
+    var $boot_args; 
     public function init():bool{
         require_once IGK_LIB_CLASSES_DIR."/IGKSubDomainManager.php";
 
@@ -34,16 +35,18 @@ class subdomain{
         if (!defined('IGK_CONFIG_PAGE') && !igk_is_cmd() && !IGKValidator::IsIPAddress(igk_server()->SERVER_NAME)){
 
             // igk_reg_hook(IGKEvents::HOOK_APP_BOOT, [$this, 'bootapp']);    
-            igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
+            igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($e){
+                $this->boot_args = $e;
                 $this->bootapp();
-            });    
+            }, IGKEvents::P_SUBDOMAIN_PRIORITY);    
             return true;
         }
         return false;
     }
     public function bootapp(){
         IGKSubDomainManager::Init();
-        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($c){            
+        $c = $this->boot_args;
+        // igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($c){            
             $app = $c->args["app"]->getApplication();
             if (!$app->lib("subdomain") ||
                 ($app->getLibrary()->subdomain !== $this)
@@ -58,7 +61,7 @@ class subdomain{
             igk_reg_hook(IGKEvents::HOOK_AFTER_INIT_APP , function(){              
                 $this->__checkSubDomain();
             });
-        }, 100);
+        //}, 100);
     }
 
     ///<summary></summary>
@@ -71,10 +74,9 @@ class subdomain{
         if(igk_io_handle_system_command($uri)){
             igk_exit();
         }
-        igk_sys_handle_ctrl_request_uri($uri); 
         $row=null;
-        $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row);
-     
+        $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row); 
+      
         if($subdomain_ctrl !== false){
             $v_ruri=igk_io_base_request_uri();
             // $this->setSubDomainCtrl($subdomain_ctrl ) ;
@@ -93,6 +95,10 @@ class subdomain{
                 if(!empty($e=trim($row->clView)))
                 $entry="/".$e;
             }
+
+            require_once IGK_LIB_DIR . "/igk_request_handle.php";       
+            igk_sys_handle_ctrl_request_uri($uri); 
+
             $page="{$entry}".$uri;
             $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL);
             $k=IGK_REG_ACTION_METH;
@@ -131,7 +137,7 @@ class subdomain{
                 if(igk_server()->REQUEST_PATH == '/'){
                     $msg=__("Subdomain not accessible : {0}", $s);
                     if($def_ctrl=igk_get_defaultwebpagectrl()){
-                        throw new IGKException($msg, 500);
+                        $def_ctrl->handleException(new IGKException($msg, 500), "subomain"); //.$def_ctrl->getTitle());
                     }
                     else{
                         igk_set_header(500);
@@ -139,9 +145,7 @@ class subdomain{
                     }
                 }
             }
-        }
-        // $this->setSubDomainCtrl(null);
-        // $this->setSubDomainCtrlInfo(null);
+        }      
         $this->subdomain = null;
         $this->subdomainInfo = null; 
     }

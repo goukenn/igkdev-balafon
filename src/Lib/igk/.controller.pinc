@@ -30,6 +30,7 @@ return [
     IGK_USERGROUP_CTRL=>\IGK\Controllers\UserGroupController::class,
     // IGK_MYSQL_DB_CTRL=>\IGK\System\Database\MySQL\Controllers\DbConfigController::class,
     IGK_COMPOSER_CTRL=>\IGK\System\Configuration\Controllers\ComposerController::class,
+    IGK_USER_AND_GROUP_CTRL=>\IGK\System\Configuration\Controllers\UserAndGroupController::class,
 
     // "igk5Cconfiguration5Cauthorisationcontroller"=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
     IGK_AUTH_CTRL=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
@@ -41,6 +42,7 @@ return [
     IGK_CTRL_MANAGER => \IGK\Controllers\ControllerManager::class,
     IGK_MAIL_CTRL=>\IGK\System\Net\MailConfigController::class,
     IGK_TOOLS_CTRL=>\IGK\System\Configuration\Controllers\ToolConfigController::class,
+    MODULE_CNF_CTRL=>\ModuleConfigurationController::class,
 
     // "{913FC762-B3A1-9ADB-17F9-97DE7DD3271F}"=>\igkdev\app\JobSearch\JobSearchController::class,
 ];

@@ -9,6 +9,7 @@ namespace IGK\System\Html;
 
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlExpressionNode;
 use IGK\System\Html\Dom\HtmlItemBase;
@@ -16,6 +17,7 @@ use IGK\System\Http\IHeaderResponse;
 use IGKApp;
 use IGKException;
 use IGKHtmlDoc;
+use ReflectionException;
 use ReflectionMethod;
 
 function rgtrim($v)
@@ -248,6 +250,9 @@ class HtmlRenderer
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
+                            if (is_object($v_c )){
+                                igk_wln_e("object return ", get_class($i), $v_c);
+                            }
                             $s .=  $v_c . $ln;
                         }
                         self::reduceDepth($options, 'reflec_class');
@@ -370,17 +375,33 @@ class HtmlRenderer
             }
         }
     }
+    /**
+     * 
+     * @param HtmlItemBase $item 
+     * @param mixed $options 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GetAttributeString(HtmlItemBase $item, $options)
     {
-
+        $filter = $item->getPrefilterAttribute();
         $attribs = $item->getAttributes();
+        if ($filter && $attribs){
+            $v_fattribs = new HtmlFilterAttributeArray($attribs);
+            $attribs = $filter->filter($v_fattribs); 
+        }
+
         $out = IGK_STR_EMPTY;
         igk_get_defined_ns($item, $out, $options);
         if ($options && ($options->Context == "mail")) {
             self::MailThemeRendering($item, $attribs, $options);
         }   
         if ($item->getHasAttributes()) {
-            $v_attrib = $item->getAttributes();
+            $v_attrib = $attribs;  
             if (is_array($v_attrib)) {
                 igk_dev_wln_e(
                     __FILE__ . ":" . __LINE__,
@@ -395,50 +416,8 @@ class HtmlRenderer
             if (!empty($out)) {
                 $out .= " ";
             }
-            foreach ($attrs as $k => $v) {
-                if (($k == "@activated") && is_array($v)) {
-                    //$out .= " ";
-                    foreach ($v as $ak => $av) {
-                        $out .= $ak . " ";
-                    }
-                    continue;
-                }
-                $v_is_obj = is_object($v);
-                if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
-                    // if(!empty($out))
-                    //     $out .= " ";
-                    $out .= $k . " ";
-                    continue;
-                }
-
-                $r = (is_object($v) && ($v instanceof HtmlExpressionAttribute));
-                if ($r)
-                    $c = $v->getValue();
-                else {
-                    if (is_array($v)) {
-                        igk_wln_e("/!\\ don't send array as attribute: ", $k, $v);
-                    }
-                    if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
-                        if (!empty($cv = $v->getValue()) || is_string($cv)) {
-                            $out .= $k . "=\"" . $cv . "\" ";
-                        }
-                        continue;
-                    } else {
-                        $c = static::GetStringAttribute($v, $options);
-                    }
-                }
-                if (is_numeric($c) || !empty($c)) {
-                    // if(!empty($out))
-                    //     $out .= " ";
-                    if ($options && !$r && igk_getv($options, "DocumentType") == 'xml') {
-                        $c = str_replace('&', '&amp;', $c);
-                    }
-                    if ($r) {
-                        $out .= $c . " ";
-                    } else
-                        $out .= $k . "=" . $c . " ";
-                }
-            }
+            $out .= self::GetAttributeArrayToString($attrs , $options);
+           
         }
         $event = $item->getFlag(HtmlItemBase::EVENTS);
         if ($event) {
@@ -449,6 +428,54 @@ class HtmlRenderer
             $out .= $s;
         }
         return  rtrim($out);
+    }
+    public static function GetAttributeArrayToString($attrs , $options=null){
+        $out = "";
+        foreach ($attrs as $k => $v) {
+            if (($k == "@activated") && is_array($v)) {
+                //$out .= " ";
+                foreach ($v as $ak => $av) {
+                    $out .= $ak . " ";
+                }
+                continue;
+            }
+            $v_is_obj = is_object($v);
+            if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
+                // if(!empty($out))
+                //     $out .= " ";
+                $out .= $k . " ";
+                continue;
+            }
+
+            $r = (is_object($v) && ($v instanceof HtmlExpressionAttribute));
+            if ($r)
+                $c = $v->getValue();
+            else {
+                if (is_array($v)) {
+                    igk_wln_e("/!\\ don't send array as attribute: ", $k, $v);
+                }
+                if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
+                    if (!empty($cv = $v->getValue()) || is_string($cv)) {
+                        $out .= $k . "=\"" . $cv . "\" ";
+                    }
+                    continue;
+                } else {
+                    $c = static::GetStringAttribute($v, $options);
+                }
+            }
+            if (is_numeric($c) || !empty($c)) {
+                // if(!empty($out))
+                //     $out .= " ";
+                if ($options && !$r && igk_getv($options, "DocumentType") == 'xml') {
+                    $c = str_replace('&', '&amp;', $c);
+                }
+                if ($r) {
+                    $out .= $c . " ";
+                } else
+                    $out .= $k . "=" . $c . " ";
+            }
+        }
+        return $out;
     }
 
     /**

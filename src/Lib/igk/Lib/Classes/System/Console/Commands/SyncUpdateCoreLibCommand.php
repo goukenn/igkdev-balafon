@@ -55,7 +55,8 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ]));
         // $sb->appendLine("print_r(\$_REQUEST); \n exit;");
         $sb->appendLine("?>".file_get_contents(IGK_LIB_DIR."/Inc/core/install.script.pinc"));
-        $sb->appendLine("echo 'finish install'; @unlink(__FILE__);");
+        $sb->appendLine("echo 'finish install';");
+        $sb->appendLine("@unlink(__FILE__);");
 
         $builder = new PHPScriptBuilder();
         $builder->type("function")
@@ -73,7 +74,8 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
             [
                 "install_dir"=>$install_dir,
                 "token"=>$token,
-                "app_dir"=>$setting["application_dir"]
+                "app_dir"=>$setting["application_dir"],
+                "home_dir"=>$setting["home_dir"],
             ], null, [
             "install-token"=>$token
         ]);
@@ -85,12 +87,13 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         if (($status = igk_curl_status())== 200){
             Logger::info("curl response \n". App::gets(App::BLUE, $response));
             $rep = json_decode($response);
-            if (!$rep->error){
+            if ($rep && !$rep->error){
                 Logger::success("update core lib success");
             }
         }else {
             Logger::danger("install script failed");
             Logger::info( "status : ".$status); 
+            Logger::print(json_encode($response));
         }        
         error_clear_last();
     }

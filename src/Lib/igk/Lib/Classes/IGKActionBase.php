@@ -374,9 +374,6 @@ abstract class IGKActionBase implements IActionProcessor
                     }
                     unset($verb);
                 }
-
-
-
                 $_is_middelwire = $object instanceof MiddlewireActionBase;
                 if ($_is_middelwire) {
                     $c =  $object->__call($actionMethod, $args);

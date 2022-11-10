@@ -5,8 +5,8 @@
 // @date: 20210422 06:53:24
 namespace IGK\System\DataBase;
 
-use Exception;
-use DbColumnInfo;
+use Exception; 
+use IGK\Database\DbColumnInfo;
 
 class SchemaBuilderHelper{
     protected $_output;
@@ -29,7 +29,7 @@ class SchemaBuilderHelper{
                 }
             }
             catch(Exception $ex){
-                igk_dev_wln_e(__FILE__.":".__LINE__."some error", $ex->getMessage());
+                igk_dev_wln("\n",__FILE__.":".__LINE__." migrate error : ", $ex->getMessage());
             }
         }
         return false;
@@ -44,7 +44,7 @@ class SchemaBuilderHelper{
                 return true;
             }
             catch(Exception $ex){
-                igk_dev_wln_e(__FILE__.":".__LINE__.":some error", $ex->getMessage());
+                igk_dev_wln("\n",__FILE__.":".__LINE__." downgrade error : ", $ex->getMessage());
             }
         }
         return false;

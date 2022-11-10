@@ -21,7 +21,7 @@ define("IGK_API_URI", "^/api/v2");
 /**
 * Represente IGKApiFunctionCtrl class
 */
-final class IGKApiFunctionCtrl extends ApplicationController {
+final class ApiFunctionController extends ApplicationController {
     public $message=array();
     ///<summary></summary>
     /**

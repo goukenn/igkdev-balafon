@@ -14,6 +14,7 @@ use IGK\Helper\IO;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Database\DbUtils;
+use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\Html\Dom\HtmlCtrlNode;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlRenderer;
@@ -43,6 +44,8 @@ class BalafonApplication extends IGKApplicationBase
      * @var mixed
      */
     public $configs;
+
+    public $environment;
 
     public static function FilterArgs($a)
     {
@@ -82,8 +85,7 @@ class BalafonApplication extends IGKApplicationBase
         }
     }
     public function bootstrap()
-    {
-       
+    {      
         // + | because prefilter command line args
         global $argv, $argc;
  
@@ -102,7 +104,7 @@ class BalafonApplication extends IGKApplicationBase
   
         $configFile = self::GetTopLevelConfigFile($bdir);
 
-        // igk_wln_e("loading config file : ", $configFile, $bdir, $_SERVER, getcwd());
+        // igk_wln_e("loading config file : ", $configFile);
         try {
             if (!empty($configFile) && file_exists($configFile)) {                
                 $wd = dirname($configFile);
@@ -132,6 +134,8 @@ class BalafonApplication extends IGKApplicationBase
                         IO::RmDir($wd);
                     }
                 });
+                defined('IGK_NO_LIB_CACHE') || define('IGK_NO_LIB_CACHE', 1);
+               //  igk_wln_e(__FILE__.":".__LINE__,  "loading config file : ", $configFile, $wd, sys_get_temp_dir());
             }
         } catch (Exception $ex) {
             igk_wln_e("boostrap-application error : .... " . $ex->getMessage());
@@ -168,12 +172,15 @@ class BalafonApplication extends IGKApplicationBase
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
 
-    public function getPrimaryCommand()
+    /**
+     * return primary command array
+     * @return array
+     */
+    public function getPrimaryCommand():array
     {
-
-        //--------------------------------------------------------
-        // + define basics balafon command
-        //
+        // + |--------------------------------------------------------
+        // + | balafon primary command
+        // + |        
         $command = [
             "--wdir" => [null, __("set startup working directory") . "\n--wdir:path_to_working_dir"],
             "--debug" => [
@@ -412,17 +419,25 @@ class BalafonApplication extends IGKApplicationBase
                         $c = [$c];
                     } else {
                         $c = igk_app()->getControllerManager()->getControllers();
-                        usort($c, DbUtils::OrderController);
+                        // usort($c, DbUtils::OrderController);
                         if ($b = IGKModuleListMigration::CreateModulesMigration()){
                             $c = array_merge($c, [$b]); 
                         } 
+                        $cl = DbConfigController::ctrl();
+                        if ($k = array_search($cl, $c)){
+                            unset($c[$k]);
+                        }
+                        array_unshift($c, $cl);
                     }
                     if ($c) {
                         foreach ($c as $m) {
+                            $cl = get_class($m);
                             if ($m->getCanInitDb()) {
-                                Logger::info("init: " . get_class($m));
+                                Logger::info("init: " . $cl);
                                 $m::initDb();
-                                Logger::success("complete: " . get_class($m));
+                                Logger::success("complete: " . $cl);
+                            } else {
+                                Logger::warn("can't initdb of ". $cl);
                             }
                         }
                         return 1;
@@ -640,10 +655,11 @@ class BalafonApplication extends IGKApplicationBase
                 // + | --------------------------------------------------------------
                 // + | initialize environment configuration
                 function ($arg, $command) {
+                    Logger::info("--init");
                     $file = getcwd() . "/" .AppConfigs::ConfigurationFileName;
                     $options = igk_getv($command, "options") ?? new stdClass();
                     if (file_exists($file) && !property_exists($options, "--force")) {
-                        Logger::print("already initialized");
+                        Logger::danger("Balafon already initialized configuration.");
                         return;
                     }
                     $init_data = igk_create_xmlnode("balafon");
@@ -655,6 +671,7 @@ class BalafonApplication extends IGKApplicationBase
                         $primary = property_exists($options, "--primary");
                         $app_dir = $primary ? "./" :  "src/application";
                         $public_dir = $primary ? "./" : "src/public";
+                        $sess_dir = $primary ? null : 'src/sesstemp';
                    
 
                         $init_data->env()->setAttributes(["name" => "IGK_BASE_URI", "value" => "//localhost"]);
@@ -666,6 +683,9 @@ class BalafonApplication extends IGKApplicationBase
                         $init_data->env()->setAttributes(["name" => "IGK_PACKAGE_DIR", "value" => $sapp_dir."/Packages"]);
                         $init_data->env()->setAttributes(["name" => "IGK_MODULE_DIR", "value" => $sapp_dir."/Packages/Modules"]);
                         $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" => $sapp_dir."/Packages/vendor"]);
+                        if ($sess_dir)
+                            $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" => $sapp_dir."/Packages/vendor"]);
+                            
                         igk_io_createdir($app_dir);
                         igk_io_createdir($public_dir);
                         if (!file_exists($lib = $app_dir."/Lib/igk")){

@@ -38,7 +38,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo{
                 if(!array_key_exists($k, $t)){
                     continue;
                 }
-                if(preg_match("/^(false|true)$/i", $v)){
+                if($v && preg_match("/^(false|true)$/i", $v)){
                     $v=igk_getbool($v);
                 }
                 $this->$k=$v;

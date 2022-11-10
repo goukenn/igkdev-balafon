@@ -186,13 +186,18 @@ final class ApplicationModuleController extends BaseController{
     */
     private function _init($c=null){
         $s=igk_io_read_allfile($c ?? $this->m_dir."/.module.pinc");
+        // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
+        // + | 
+ 
         $reg=function($name, $callback){
             $this->reg_function($name, $callback);
         };
-        $definition = (array)json_decode(file_get_contents($this->m_dir."/module.json"));
-        try{
-            // igk_dev_ilog("init module: ".$this->getName());
+        if (!is_file($file = $this->m_dir."/module.json")){
+            igk_die("module.json is missing in ".$this->m_dir);
+        }
+        $definition = (array)json_decode(file_get_contents($file));
+        try{ 
             $data = eval("?>".$s);
             $data = array_merge($data??[], $definition);
         }

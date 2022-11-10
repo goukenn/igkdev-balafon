@@ -68,7 +68,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
         }
         if($bck_def)
             $options->Depth = $bck_def;
-        return $sb;
+        return $sb.'';
     }
     /**
      * get core script folders

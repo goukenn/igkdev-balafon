@@ -34,6 +34,7 @@ use IGK\Database\SchemaBuilder\DiagramVisitor;
 use IGK\Database\SchemaBuilder\SchemaDiagramVisitor;
 use IGK\Helper\SysUtils;
 use IGK\System\Database\IDatabaseHost;
+use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGKEnvironment;
 use IGKResourceUriResolver;
 use IGKSysUtil as sysutil;
@@ -541,7 +542,14 @@ abstract class ControllerExtension
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $name;
     }
-
+    private static function _GetEntryModelDirectory(BaseController $ctrl){
+        $cldir = $ctrl->getClassesDir() ;
+        if ($ctrl instanceof DbConfigController){
+            $cldir = IGK_LIB_CLASSES_DIR ;
+        }
+        $c  = $cldir . "/Models/";
+        return $c;
+    }
     /**
      * initialize controller database models
      * @param BaseController $ctrl 
@@ -551,8 +559,8 @@ abstract class ControllerExtension
      */
     public static function InitDataBaseModel(BaseController $ctrl, $force = false)
     {
-        $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
-        $c = $ctrl->getClassesDir() . "/Models/";
+        $c  = self::_GetEntryModelDirectory($ctrl);
+        $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");        
         $v_def = $ctrl->getDataTableDefinition(null);
         if (is_null($v_def)){
             igk_environment()->isDev() && igk_die("definition not provided for ". $ctrl->getName().":".$ctrl->getDeclaredDir());
@@ -583,7 +591,8 @@ abstract class ControllerExtension
     public static function InitDataInitialization(BaseController $ctrl, $force = false)
     {
         //init database models
-        $c = $ctrl->getClassesDir() . "/Database/InitData.php";
+        $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR) 
+         . "/Database/InitData.php";
         if ($force || !file_exists($c)) {
             $ns = $ctrl::ns("Database");
             $builder = new PHPScriptBuilder();
@@ -608,12 +617,12 @@ abstract class ControllerExtension
     {
         //init database models
         // $force = 1;
-        $c = $ctrl->getClassesDir() . "/Database/Seeds/DataBaseSeeder.php";
+        $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR) 
+         . "/Database/Seeds/DataBaseSeeder.php";
+        // $c = $ctrl->getClassesDir() . "/Database/Seeds/DataBaseSeeder.php";
         if ($force || !file_exists($c)) {
 
             $ns = $ctrl::ns("Database/Seeds");
-
-
             $builder = new PHPScriptBuilder();
             $builder->type("class")
                 ->name("DataBaseSeeder")
@@ -626,6 +635,8 @@ abstract class ControllerExtension
                     "\n",
                     [
                         "public function run(){",
+                            "// + | DATABASE Seeder",
+                            "// + | [model]::factory(number)->create();",
                         "}"
                     ]
                 ));
@@ -635,13 +646,11 @@ abstract class ControllerExtension
     public static function InitDataFactory(BaseController $ctrl, $force = false)
     {
         //init database models
-
-        $c = $ctrl->getClassesDir() . "/Database/Factories/FactoryBase.php";
+        $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR) 
+        . "/Database/Factories/FactoryBase.php"; 
         if ($force || !file_exists($c)) {
 
             $ns = $ctrl::ns("Database/Factories");
-
-
             $builder = new PHPScriptBuilder();
             $builder->type("class")
                 ->name("FactoryBase")
@@ -686,11 +695,20 @@ abstract class ControllerExtension
             igk_hook($ctrl::hookName("register_autoload"), [$ctrl]);
         }
     }
+    /**
+     * get entry namespace
+     * @param BaseController $ctrl 
+     * @param mixed $path 
+     * @return string 
+     */
     public static function ns(BaseController $ctrl, $path)
     {
         $cl = ltrim($path, "/");
-        if ($ns = $ctrl->getEntryNamespace()) {
-            $cl = implode("/", array_filter([$ns, $cl]));
+        if ($ns = $ctrl->getEntryNamespace()){
+            if (strpos($cl, $ns)!==0){
+                //start with entry namespace
+                $cl = implode("/", array_filter([$ns, $cl]));
+            }
         }
         $cl = str_replace("/", "\\", $cl);
         return $cl;
@@ -703,7 +721,7 @@ abstract class ControllerExtension
      */
     public static function resolvClass(BaseController $ctrl, $path)
     {
-        $cl = $ctrl::ns($path);
+        $cl = self::ns($ctrl, $path);
         $ctrl::register_autoload();
         if (class_exists($cl, false) || ApplicationLoader::TryLoad($cl)) {
             return $cl;
@@ -1888,15 +1906,13 @@ abstract class ControllerExtension
         $sublen = 1;
         if (!empty($ns)) {
             $sublen += strlen($ns);
-        }
-
+        } 
         while ($cl = array_shift($t)) {
             $fcl = $cl;
             if (!empty($ns) && (strpos($cl, $ns . "\\") === 0)) {
                 $fcl = substr($cl, $sublen);
             }
-            $f = igk_dir(implode("/", [$classdir, $fcl . ".php"]));
-            // igk_wln("try : ".$cl, " ", $f);
+            $f = igk_dir(implode("/", [$classdir, $fcl . ".php"]));             
             if (file_exists($f) && class_exists($cl)) {
                 return $cl;
             }
@@ -1906,6 +1922,7 @@ abstract class ControllerExtension
 
     public static function showError(BaseController $controller, string $message, string $title, $code = 400)
     {
+        
         $out = <<<HTML
 <html>
     <head>
@@ -1916,6 +1933,19 @@ abstract class ControllerExtension
     </body>
 </html>
 HTML;
+ 
         igk_do_response(new WebResponse($out, $code));
+    }
+
+    /**
+     * handle execption
+     * @param BaseController $controller 
+     * @param Exception $ex 
+     * @return void 
+     * @throws IGKException 
+     */
+    public function handleException(BaseController $controller, Exception $ex, string $title){
+         
+        self::showError($controller, $ex->getMessage(), $title, $ex->getCode());
     }
 }

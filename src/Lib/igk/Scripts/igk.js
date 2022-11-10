@@ -21202,6 +21202,12 @@ igk.system.createNS("igk.system", {
             n.o.removeAttribute("igk:uri");
             q = n;
         }
+        if (q.o.classList.contains('btn') !== 1) {
+            if (q.o.nextSibling.nodeType == q.o.TEXT_NODE) {
+                q.add('div').setHtml(q.o.nextSibling.textContent);
+                $igk(q.o.nextSibling).remove();
+            }
+        }
         q.reg_event('click', function(evt) {
             evt.preventDefault();
             evt.stopPropagation();

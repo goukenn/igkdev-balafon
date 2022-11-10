@@ -97,9 +97,12 @@ class RouteHandler
         $this->route = $route;
         return $this;
     }
-
+    /**
+     * get if auth is required
+     * @return bool 
+     */
     public function isAuthRequired(){
-        return is_array($this->auth) && !empty($this->auth);
+        return !empty($this->auth);
     }
 
  /**
@@ -167,7 +170,11 @@ class RouteHandler
         $this->path = $path;
         $this->controller = $controller;
     }
-    public function isUserRequired(){
+    /**
+     * get if user required;
+     * @return bool 
+     */
+    public function isUserRequired(){     
         return $this->user_required;
     }
     /**
@@ -339,7 +346,7 @@ class RouteHandler
      * @param bool $strict autorisation requirement
      * @return static 
      */
-    public function auth($name, bool $strict=false)
+    public function auth($name, bool $strict=true)
     {
         $this->auth = $name;
         $this->auth_requirement = $strict;

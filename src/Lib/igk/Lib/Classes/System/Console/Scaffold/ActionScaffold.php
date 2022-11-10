@@ -9,6 +9,7 @@ namespace IGK\System\Console\Scaffold;
 
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
+use IGK\System\Console\App;
 use IGK\System\Console\Commands\MakeActionCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
@@ -26,15 +27,20 @@ class ActionScaffold extends ScaffoldBase
         }
         $this->run($command, ...array_slice(func_get_args(), 1));
     }
-    protected function showHelp($command)
+    public function showHelp($command)
     {
-        Logger::print("--model:[model_name]\tSet the model");
-        Logger::print("--force \tfoce model create the model");
+        Logger::print(App::gets(App::BLUE_I, "params"));
+        Logger::print('$controller $name [--action|--model] [--force]');
+        
+        Logger::print("--action:[action_name]\r\t\t\tset the model");
+        Logger::print("--model:[model_name]\r\t\t\tset the model");
+        Logger::print("--force \r\t\t\tfoce model creation");
     }
     protected function run($command, $controller = null, ?string $name=null)
     {
         $model = igk_getv($command->options, "--model");
         $is_force = property_exists($command->options, "--force");
+        $action_name = igk_getv($command->options, "--action");
 
 
         if (is_null($controller)) {
@@ -81,6 +87,11 @@ class ActionScaffold extends ScaffoldBase
         Utility::BindFiles($command, $bind, $is_force);
         if ($model) {
             $action = new MakeActionCommand();
+            $action->uses = function()use($model){
+                $m_cl = get_class($model);
+                $ctrl_type = BaseController::class;
+                return [$m_cl, $ctrl_type];
+            };
             $action->definition = function () use ($model) {
                 $m_cl = get_class($model);
                 $ctrl_type = BaseController::class;
@@ -104,21 +115,28 @@ public function get(?int \$index=null){
 protected function delete_post(\\${m_cl} \$item){
     \$n = \$this->model::name();
     return \$this->handleBool(\$item::delete(),
-				sprintf(__("%s %s removed"), \$n , \$item->id()),
-				sprintf(__("%s %s not removed"), \$n, \$item->id())
-			);
-    //return \$item->delete(); 
+        sprintf(__("%s %s removed"), \$n , \$item->id()),
+        sprintf(__("%s %s not removed"), \$n, \$item->id())
+	); 
 }
 protected function update_post(\\${m_cl} \$item, \$model){
     if (\$data = json_decode(igk_io_get_uploaded_data())){
+        \$item->bind(\$data); 
         \$item->save();
     }
+    return \$item;
 }
 protected function update_patch(\\${ctrl_type} \$item){
+    return \$item;
 }
 EOF;
             };
             $action->exec($command, get_class($ctrl), $name);
+        }
+        else if ($action_name){
+            Logger::info("generate action");
+            $action = new MakeActionCommand();
+            $action->exec($command, get_class($ctrl), $action_name);
         }
 
         Logger::success("Done. " . igk_sys_request_time());

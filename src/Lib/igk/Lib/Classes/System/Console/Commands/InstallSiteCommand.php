@@ -42,7 +42,8 @@ class InstallSiteCommand extends AppExecCommand
         "--session:[dir]" => "session temp directory",
         "--usergroup:[u:group]" => "set user and group. --usergroup:\"www-data:www-data\"",
         "--laravel-mix" => "flag enable laravel-mix",
-        "-init" => "init flag balafon configuration"
+        "--init-config" => "init flag balafon configuration",
+        "--uri:[url]"=>"base uri",
     ];
     public function exec($command, $install_dir = "", $viewname = "")
     {
@@ -74,11 +75,13 @@ class InstallSiteCommand extends AppExecCommand
         $session = igk_getv($command->options, "--session",  null);
         $appdir = igk_getv($command->options, "--appdir",  null);
         $projects = igk_getv($command->options, "--projects", null);
-        $environment = igk_getv($command->options, "--environment", "development");
+        $environment = igk_getv($command->options, "--environment", igk_app()->getApplication()->environment ?? igk_environment()->name());
+        $base_uri = igk_getv($command->options, "--uri", "localhost");
+
         $listen = igk_getv($command->options, "--listen", 80);
         $apachedir = igk_getv($command->options, "--apache", null);
         $ugroup = igk_getv($command->options, "--usergroup", null) ?? $this->getUserGroup();
-        $init = property_exists($command->options, "-init");
+        $init = property_exists($command->options, "--init-config");
         $root_dir = igk_getv($command->options, "--root_dir", null);
         $is_primary = 1;
         $cache_dir = igk_io_cachedir(); 
@@ -110,7 +113,8 @@ class InstallSiteCommand extends AppExecCommand
                 "force" => $force,
                 "user:group" => $ugroup,
                 "is_primary" => $is_primary,
-                "is_laravel_mix" => property_exists($command->options, "--laravel-mix")
+                "is_laravel_mix" => property_exists($command->options, "--laravel-mix"),
+                "base_uri"=>$base_uri
             ]
         )) {
             if (igk_environment()->isUnix() && (get_current_user() == "root")) {
@@ -121,8 +125,13 @@ class InstallSiteCommand extends AppExecCommand
                 `chmod -R 775 *`;
             }
             if ($init) {
+                // + | passing init command
                 igk_environment()->balafon_author = $author;
-                $command->app::Exec($command->app, ["--init"]);
+                $i_cmd = ["--init"];
+                if (property_exists($command->options, "--force")){
+                    $i_cmd[] = "--force";
+                }
+                $command->app::Exec($command->app, $i_cmd);
             }
             Logger::success("install a site at " . $install_dir . "\n");
             Logger::warn("Please if you target apache web server please restart it.");

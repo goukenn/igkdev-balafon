@@ -19,7 +19,8 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKAppConfig; 
-use IGKEvents;  
+use IGKEvents;
+use IGKException;
 use IGKResourceUriResolver; 
 use IGKSubDomainManager; 
 use IGKHostParam;
@@ -1485,22 +1486,26 @@ EOF;
         ///<param name="obj"></param>
         ///<param name="method" default="null"></param>
         /**
-            * 
-            * @param mixed $obj
-            * @param mixed $method the default value is null
-            */
+        * 
+        * @param mixed $obj
+        * @param mixed $method the default value is null
+        * @deprecated
+        */
         public function removeConfigUserChangedEvent($obj, $method = null)
         {
             igk_die(__METHOD__ . " Obselete");
         }
-        ///<summary></summary>
+        ///<summary>reset configuration setting</summary>
         /**
-            * 
-            */
+         * reset configuration setting
+         * @return void 
+         * @throws IGKException 
+         */
         public function resetconfig()
         {
             if (igk_qr_confirm()) {
-                @unlink(igk_io_currentrelativepath("Data/configure"));
+                $f = igk_io_basedatadir("/configure");
+                @unlink($f);
                 igk_getctrl(IGK_MYSQL_DB_CTRL)->initSDb(false);
                 $this->reconnect();
             } else {

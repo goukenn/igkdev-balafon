@@ -20,7 +20,21 @@ use IGK\System\Caches\EnvControllerCacheList;
 ///<summary> manage application system</summary>
 class IGKAppSystem
 {
-
+    /**
+     * check if configuration file is initialize
+     * @return bool 
+     */
+    public static function IsConfigured():bool{
+        if (!IGKApp::IsInit()){
+            return false;
+        }        
+        return file_exists(self::_GetConfigFile());
+    }
+    private static function _GetConfigFile(){
+        $path = Path::getInstance();
+        $path->getDataDir();
+        return implode("/", [$path->getDataDir(), "configure"]);
+    }
     /**
      * init application environment
      * @param string $dirname 
@@ -43,10 +57,9 @@ class IGKAppSystem
         $path = Path::getInstance();
         $project_dir = igk_io_projectdir();
         $app_dir = igk_io_applicationdir();
-        $confFILE = StringUtility::UriCombine($path->getDataDir(), "configure");
+        $confFILE = self::_GetConfigFile(); 
 
         /// TODO: force init
-
         if (!(defined('IGK_INIT') && IGK_INIT) && file_exists($confFILE)) {
             foreach ([igk_io_cachedir(), igk_io_basedir() . "/" . IGK_RES_FOLDER] as $cdir) {
                 !is_dir($cdir) && IO::Createdir($cdir);
@@ -65,18 +78,12 @@ class IGKAppSystem
         if (!is_dir($dirname) || !($hdir = opendir($dirname)))
             return;
         closedir($hdir);
-
-
         igk_environment()->set(IGKEnvironment::INIT_APP, 1);
-
-
         $idx = $path->getBaseDir() . "/index.php";
         if (!file_exists($idx)) {
             $indexsrc = igk_getbaseindex_src(IGK_LIB_FILE);
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
-
-
         $ips = igk_server_name();
         self::InstallDir($idx, $app_dir, $dirname, $project_dir, $path->getDataDir(), $path->getSysDataDir(), [
             "domain_name" => !IGKValidator::IsIPAddress($ips) ? $ips : IGK_DOMAIN,

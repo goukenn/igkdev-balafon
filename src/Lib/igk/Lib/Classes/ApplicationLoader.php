@@ -87,9 +87,9 @@ class ApplicationLoader
         register_shutdown_function(function () {
             // igk_wln("shut down --- ",$this->_changed, $this->_included);
             // error_log("[IGK] - application loader shut down");
-            if (!defined("IGK_BASE_DIR")) {
+            if (!defined("IGK_BASE_DIR") || defined('IGK_NO_LIB_CACHE')) {
                 return;
-            }
+            } 
             if ($this->_changed) {
                 $m = implode("\n", array_map(function ($m) {
                     if (strpos($m, IGK_LIB_CLASSES_DIR) == 0) {
@@ -101,9 +101,10 @@ class ApplicationLoader
             }
             if (igk_getv($this->_load_classes, "c")) {
                 unset($this->_load_classes["c"]);
-                $path = igk_io_cachedir() . "/.classes.cache";
+                $core_cl = $this->getClassesCacheFiles();
+                $path = igk_io_cachedir() . "/".basename($core_cl);
                 igk_io_w2file($path, serialize($this->_load_classes));
-                igk_io_symlink($path, $this->getClassesCacheFiles());
+                igk_io_symlink($path, $core_cl);
             }
             igk_hook(IGKEvents::HOOK_SHUTDOWN, [$this]);
         });
@@ -430,6 +431,7 @@ class ApplicationLoader
                     \IGK\System\Polyfill\IteratorTrait::class,
                     \IGK\System\Polyfill\ScriptAssocArrayAccessTrait::class,
                     \IGK\System\Polyfill\JsonSerializableTrait::class,
+                    \IGK\System\Polyfill\EventPropertyArrayAccessTrait::class,
                     \IGK\System\Configuration\ConfigArrayAccessTrait::class,
                     \IGK\Controllers\ControllerUriTrait::class,
                     \IGK\System\IO\FileSystem::class,

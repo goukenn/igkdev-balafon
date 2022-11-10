@@ -30,7 +30,7 @@ use function igk_resources_gets as __;
  */
 class UserAndGroupController extends ConfigControllerBase{
     public function getName(){
-        return "{ab6f9000-610f-3695-b431-9eb85149d777}";
+        return IGK_USER_AND_GROUP_CTRL;
     }
     public function getIsConfigPageAvailable(){
         return true;

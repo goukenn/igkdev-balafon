@@ -83,6 +83,8 @@ class ConfigurationPageHandler
             Server::getInstance()->prepareServerInfo();
             require_once IGK_LIB_DIR. '/igk_html_utils.php';
              
+            // + | priority to handling controller request             
+            RequestHandler::getInstance()->handle_ctrl_request_uri();
             igk_sys_config_view($file); 
             igk_exit();
         } 

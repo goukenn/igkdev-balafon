@@ -1000,8 +1000,12 @@ abstract class ModelEntryExtension
     private static function _Add(ModelBase $model, bool $check, $params)
     {
         $info =  $model->getTableInfo();
+        $controller = $model->getController();
+        if (is_null($controller )){
+            igk_die("basic info principal ". get_class($model));
+        }
         if ($params && !is_array($params)) {
-            $args = IGKSysUtil::DBGetPhpDocModelArgEntries($info, $model->getController());
+            $args = IGKSysUtil::DBGetPhpDocModelArgEntries($info, $controller);
             $row = $model::createEmptyRow();
             $g = array_keys($args);
             $index = 0;

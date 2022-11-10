@@ -9,12 +9,10 @@
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
-use IGK\Database\DbSchemas;
 use IGK\Database\SQLQueryUtils;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\StringBuilder;
 
 /**
  * 
@@ -253,7 +251,12 @@ abstract class IGKSysUtil
         return $t;
     }
 
-
+    /**
+     * 
+     * @param array $inf 
+     * @param BaseController $ctrl 
+     * @return array 
+     */
     public static function DBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl)
     {
         $tab = [];
@@ -273,11 +276,21 @@ abstract class IGKSysUtil
         $tab = array_combine($tab, $tab);
         $g = array_map(function ($i) use ($inf, $ctrl) {
             return self::GetPhpDoPropertyType($i, $inf[$i], $ctrl, true);
-        },  $tab);
+        }, $tab);
         return $g;
     }
-
-    public static function GetPhpDoPropertyType($name, $info, $ctrl, $extra = false)
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $info 
+     * @param BaseController $ctrl 
+     * @param bool $extra 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetPhpDoPropertyType($name, $info, BaseController $ctrl, $extra = false)
     {
 
         $t = self::ConvertToPhpDocType($info->clType);

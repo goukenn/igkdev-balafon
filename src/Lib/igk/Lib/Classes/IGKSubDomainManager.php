@@ -10,6 +10,7 @@
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Models\Subdomains;
+use IGK\System\Database\MySQL\Controllers\DbConfigController;
 
 /**
 * subdomain manager
@@ -18,6 +19,7 @@ final class IGKSubDomainManager extends IGKObject{
     private static $sm_instance;
     private static $sm_isSubDomain;
     private static $sm_subDomainName;
+    private static $sm_cached_domains;
     ///<summary></summary>
     /**
     * 
@@ -46,6 +48,9 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return false;
     }
+    private static function GetCacheFile(){
+        return igk_io_cachedir()."/.domains.cache";
+    }
     ///<summary>get the domain controller or return false</summary>
     /**
     * get the domain controller or return false
@@ -55,38 +60,72 @@ final class IGKSubDomainManager extends IGKObject{
             return false;
         }
         $subdomain= IGKSubDomainManager::SubDomainUriName($uri);
-        $t=$this->getRegList();
+        $cache_file = self::GetCacheFile();
+        if (is_null(self::$sm_cached_domains)){
+            if (is_file($cache_file)){
+                if ((self::$sm_cached_domains = unserialize(file_get_contents($cache_file))) ===false){
+                    self::$sm_cached_domains = [];
+                }
+            }
+        }
+     
+        $t = array_merge(self::$sm_cached_domains, $this->getRegList());        
+        $cl = DbConfigController::resolvClass(Subdomains::class); 
+     // igk_wln_e("the cl ", $cl,DbConfigController::ctrl()->getEntryNamespace(),  class_exists(Subdomains::class, false));
+
         if(!empty($subdomain)){
             $s=$subdomain;
             if (is_callable($t)){
                 igk_die("Rgister list is a callable");
             }
-
             if(isset($t[$s])){
-                $c=$t[$s];
-                $row=$c->row;
-                return $c->ctrl;
+                $c =$t[$s];
+                $row = (object)$c;
+                return igk_getctrl($row->clCtrl, false);
             }
+            // igk_debug(1);
+            // igk_environment()->querydebug = 1;
+            // $v_start = igk_sys_request_time();
+            // $q = "SELECT * FROM `tbigk_subdomains` WHERE `clName`='tonerafrika'";
+            // $c = mysqli_connect("mysql", "root", "rootbonaje", "igkdev.dev");
+            // if ($rep = mysqli_query($c, $q)){
+            //     while($p = mysqli_fetch_assoc($rep)){
+            //         igk_wln("\n", $p);
+            //     }
+            // }
+            // mysqli_close($c);
+            // $v_duration = igk_sys_request_time() - $v_start;
+            // igk_wln("duration ", $v_duration, $t);
+
+            // $v_start = igk_sys_request_time();
+            // $g = Subdomains::select_row([
+            //     "clName"=>$subdomain
+            // ]);
+            // $v_duration = igk_sys_request_time() - $v_start;
+            // igk_wln( __FILE__.":".__LINE__, "\n\n vs one", $v_duration, $g);
+            // igk_exit();
+
+            // $v_start = igk_sys_request_time();
+            // $g = Subdomains::select_row([
+            //     "clName"=>$subdomain
+            // ]);
+            // $v_duration = igk_sys_request_time() - $v_start;
+            // igk_wln_e( __FILE__.":".__LINE__, "\n\nvs", $v_duration, $g);
+
             if ($raw = Subdomains::select_row([
                 "clName"=>$subdomain
             ])){
+                // $v_duration = igk_sys_request_time() - $v_start;
+                // igk_wln_e("duration ", $v_duration, $t);
+
                 if ($ctrl = igk_getctrl($raw->clCtrl, false)){
                     $row = $raw;
                     $this->reg_domain($subdomain, $raw->clCtrl, $raw);
+                    self::$sm_cached_domains[$subdomain] = $raw->to_array();
+                    igk_io_w2file($cache_file, serialize(self::$sm_cached_domains));
                     return $ctrl;
                 }
-            } 
-            // $row=null;
-            // $domctrl=igk_getctrl(IGK_SUBDOMAINNAME_CTRL);
-            // if(!$domctrl){
-            //     igk_die("domain controller not found + single application ".igk_sys_getconfig("force_single_controller_app"));
-            // }
-            // $c=$domctrl->getDomainCtrl($s, $row);
-            // if(($c !== null)){
-            //     if(!$this->reg_domain($s, $c, $row))
-            //         igk_die("/!\\ Fatal can't register function");
-            //     return $c;
-            // }
+            }  
         }
         return false;
     }

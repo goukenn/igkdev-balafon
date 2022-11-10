@@ -76,4 +76,10 @@ class HtmlRendererOptions{
      * @var mixed
      */
     var $header;
+
+    /**
+     * rendering context, ?|template| in RenderingContext
+     * @var ?string
+     */
+    var $renderingContext;
 }

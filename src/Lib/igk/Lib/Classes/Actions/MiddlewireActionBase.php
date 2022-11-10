@@ -116,18 +116,18 @@ abstract class MiddlewireActionBase extends IGKActionBase{
             // must use the route technique to validate the path
              
             foreach($routes as $v){   
-                // igk_dev_wln("name: ". $v->getName() . " root:  vs $path ".PHP_EOL);
+                // igk_dev_wln_e(__FILE__.":".__LINE__,  "name: ". $v->isAuthRequired());
                 if ($v->match($path, igk_server()->REQUEST_METHOD)){  
                     if ($v->isUserRequired()){
                         if (!$user){
-                            throw new IGKException("User required to match the rule", 402);
+                            throw new IGKException("User required.", 402);
                         }
                     }               
                     if($v->isAuthRequired()){
                         if ($user && !$v->isAuth($user)){
-                            throw new IGKException("Route access not allowed");
+                            throw new IGKException("Route access not allowed.");
                         } else if (!$user){
-                            throw new IGKException("User required to match the rule");
+                            throw new IGKException("Role require an user.");
                         }
                     }
                     $v->setUser($user);

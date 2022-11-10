@@ -533,7 +533,8 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     */
     public function setUser($user, $context){
         $u=$this->getUser();
-        if(($context !== null) && ($context === igk_getctrl(IGK_USER_CTRL))){
+    
+        if(($context !== null) && ($context == igk_getctrl(IGK_USER_CTRL))){
             if($u !== $user){
                 if ($user && (get_class($user) !== IGKUserInfo::class)){
                     $user = igk_sys_create_user($user);
@@ -542,8 +543,9 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
                 $this->_onUserChanged();
             }
         }
-        else
+        else{
             igk_die("Operation not  allowed ".__FUNCTION__);
+        }
     }
     ///
     /**

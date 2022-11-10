@@ -9,8 +9,10 @@ namespace IGK\System\Html\Dom;
 
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
+use IGK\Helper\SysUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Html\RenderingContext;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\CompilerConstants;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
@@ -44,39 +46,40 @@ class HtmlLooperNode extends HtmlItemBase{
         }
         $v_childrend = $this->getChilds();
         $c = $v_childrend->count(); 
+        $v_out = null;
         $ctrl = $this->controller ?? ViewHelper::CurrentCtrl()  ?? SysDbController::ctrl();     
         if ($c){
             // template rendering 
             $sb = new StringBuilder;
-            foreach($v_childrend->to_array() as $c){
-                $c["*for"] = "\$raw";
-                $sb->append(HtmlRenderer::Render($c));
-            }
-           
+            $t_options = clone($options);
+            $t_options->renderingContext = RenderingContext::TEMPLATE;
+            foreach($v_childrend->to_array() as $tc){
+                $tc["*for"] = "\$raw";
+                $sb->append(HtmlRenderer::Render($tc, $t_options));
+            } 
             $n = igk_create_notagnode(); 
             if ($this->args instanceof IViewExpressionArg){
                 $hook_expression = $this->args->getExpression();                 
                 self::HostChain($n, $sb."", $this->args, $ctrl, $hook_expression);
-                $out = $n->render(); 
-                $c = $out;
+                $v_out  = $n->render();  
             } else { 
                 $hook_expression = CompilerConstants::LOOP_CONTEXT_DATA_VAR; 
                 self::HostChain($n, $sb."", $this->args, $ctrl, '$'.$hook_expression);
-                $out = $n->render();  
-                if (is_array($this->args)){
-                    ob_start();
-                    extract(
-                        [
-                            $hook_expression => $this->args,
-                            "raw"=>$this->args,
-                        ]);  
-                              
-                    eval("?>".$out);
-                    $c = ob_get_contents();
+                $v_out  = $n->render();  
+                $v_targs = is_array($this->args) ? $this->args : 0;
+                if ($v_targs){
+                    ob_start();                    
+                    SysUtils::Eval($v_out, [
+                        $hook_expression => $this->args,
+                        "raw"=>$this->args,
+                    ]); 
+                    $v_out = ob_get_contents(); 
                     ob_end_clean();
-                } 
-            }
-            return $c;
+                } else {
+                   $v_out=null;
+                }
+            } 
+            return $v_out;
         }
         return null; 
     }

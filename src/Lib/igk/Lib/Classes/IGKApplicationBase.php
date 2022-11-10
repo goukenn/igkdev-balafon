@@ -48,7 +48,7 @@ abstract class IGKApplicationBase{
     }
     /**
      * get library list
-     * @return mixed 
+     * @return ?IGKObjectStorage 
      */
     public function getLibrary(){
         return $this->m_library;

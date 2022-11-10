@@ -738,13 +738,18 @@ EOF;
     {  
         if (self::IsSysController(static::class)){
             return;
-        }      
-        require_once($this->getClassesDir() . "/Database/InitMacros.php");
+        }       
         if (\IGK\Models\ModelBase::IsMacrosInitialize()) {
             $this->initMacros();
         } else {
-            igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
-                $this->initMacros();
+            igk_reg_hook($this::hookName("register_autoload"), function(){
+            // igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
+                // $op_start = igk_sys_request_time();
+                if (\IGK\Models\ModelBase::IsMacrosInitialize()){
+                    $this->initMacros();
+                }
+                // igk_ilog("init macros duration: ". (igk_sys_request_time() - $op_start) . " ".
+                // get_class($this));
             });
         }
         

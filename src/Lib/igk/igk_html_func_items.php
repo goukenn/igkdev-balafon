@@ -16,6 +16,7 @@ use IGK\System\Html\Dom\HtmlANode;
 use IGK\System\Html\Dom\HtmlAssertNode;
 use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Html\Dom\HtmlComponents;
+use IGK\System\Html\Dom\HtmlConditionNode;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlLooperNode;
 use IGK\System\Html\Dom\HtmlMemoryUsageInfoNode;
@@ -834,7 +835,7 @@ function igk_html_node_ajxpaginationview($baseuri, $total, $perpage, $selected =
  * ajx div component used to load a file
  * @param mixed $paramjson data. {accept:'image/*, text/xml', start:callback, progress:callback}
  */
-function igk_html_node_ajxpickfile($uri, $param = null)
+function igk_html_node_ajxpickfile(string $uri, ?string $param = null)
 {
     $u = igk_create_node('input');
     $u["type"] = "file";
@@ -2394,7 +2395,7 @@ function igk_html_node_jslogger()
 }
 function igk_html_node_script($script = null, $version = null)
 {
-    return new IGK\System\html\Dom\HtmlScriptNode($script, $version);
+    return new \IGK\System\Html\Dom\HtmlScriptNode($script, $version);
 }
 ///<summary>used to call ready invoke</summary>
 /**
@@ -5023,4 +5024,22 @@ function igk_html_node_app_login_form(BaseController $controller, ?string $entry
 
     // igk_app_login_form($controller, $n, $entryfname);
     return $n;
+}
+
+/**
+ * use to create if node
+ * @param string $condition 
+ * @return HtmlConditionNode<mixed, string> 
+ */
+function igk_html_node_if(string $condition){
+    $g = new HtmlConditionNode;
+    $g['*visible'] = $condition;
+    return $g;
+}
+/**
+ * helper to create igk:if-condition node
+ */
+function igk_html_node_if_condition(){    
+    $g = new HtmlConditionNode;
+    return $g;
 }

@@ -11,19 +11,24 @@ use Exception;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
 
+/**
+ * 
+ */
 abstract class ExceptionUtils
 {
+    /**
+     * 
+     */
     public static function ShowException(Exception $Ex, $file = null, $line = null, $title = null)
     {
         // $ex_output = "";
         // $ex_output .= "<h2>" . $ex->getMessage() . "</h2>";
-        // echo $ex_output; 
-
+        // echo $ex_output;  
         if (!$Ex)
             return;
         $content = "";
         $traces = $Ex->getTrace();
-        if (igk_is_cmd()) {
+        if (igk_is_cmd()){
             igk_show_trace();
             $out = "";
             $out .= "/!\\ ".IGK_PLATEFORM_NAME."-ERROR\n" . IGK_LF;
@@ -39,13 +44,16 @@ abstract class ExceptionUtils
         }
         if (igk_is_class_subclass_of($Ex, \IGK\System\Http\RequestException::class)) {
             $error = new \IGK\System\Http\ErrorRequestResponse($Ex->getCode());
-            $error->message = ["request_uri" => igk_io_request_uri(), "display" => $Ex->getMessage()];
+            $error->message = [
+                "request_uri" => igk_io_request_uri(), 
+                "display" => $Ex->getMessage(),
+            ];
             echo $error->render();
             igk_exit();
         }
         $tab = array();
         $tab["fr"]["title.fatalError"] = "Not found";
-        $tab["fr"]["go.home"] = "Home";
+        $tab["fr"]["go.home"] = "Accueil";
         $tab["en"]["title.fatalError"] = "Not found";
         $tab["en"]["go.home"] = "Home";
         $r = function ($s) use ($tab) {

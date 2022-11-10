@@ -60,6 +60,7 @@ use function igk_resources_gets as __;
 use IGK\Helper\StringUtility;
 use IGK\Server;
 use IGK\System\Console\Commands\SitemapGeneratorCommand;
+use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Http\RequestHandler;
 
@@ -1422,7 +1423,8 @@ function igk_clearall_cookie()
  */
 function igk_close_session()
 {
-    if ($sess = igk_app()->getApplication()->getLibrary("session")) {
+    if ($sess = igk_app()->getApplication()->getLibrary()->session) {
+         
         $sess->close();
     }
 }
@@ -2343,6 +2345,7 @@ function igk_css($text)
 /**
  * 
  * @param mixed $dir base directory
+ * @deprecated use an application instance @run insteed
  */
 function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
 {
@@ -2421,7 +2424,8 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         if ($subctrl = IGKSubDomainManager::GetSubDomainCtrl()) {
             $ctrl = $subctrl;
         }
-    }
+    } 
+    // igk_wln_e("the controller ....", $ctrl);
     // check for refered controller 
     if (!$ctrl && $ref) {
         igk_set_session_redirection($ref);
@@ -2509,7 +2513,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
             null
         );
         echo "\n\n";
-        if ($def = \IGK\System\Html\Css\CssUtils::AppendDataTheme($ctrl, $vtheme, "light")){
+        if ($ctrl && ($def = \IGK\System\Html\Css\CssUtils::AppendDataTheme($ctrl, $vtheme, "light"))){
             echo implode("", $def);
         }
         // igk_dev_wln_e(__FILE__.":".__LINE__, $def);
@@ -7339,12 +7343,7 @@ function igk_display_error($a)
  * @param mixed $r 
  */
 function igk_do_response($r)
-{
-    // if (igk_is_ajx_demand()){
-    //     igk_trace();
-    //     igk_exit();
-    // }
-
+{ 
     \IGK\System\Http\Response::HandleResponse($r);
     return $r;
 }
@@ -9149,12 +9148,12 @@ function igk_get_domain($n)
 /**
  * extract root domain from uri
  */
-function igk_get_domain_name($n)
+function igk_get_domain_name(string $n):?string
 {
     if (preg_match_all(IGK_DOMAIN_NAME_REGEX, $n, $v)) {
         return $v["domain"][0];
     }
-    return IGK_STR_EMPTY;
+    return null;
 }
 ///<summary>get all environment variable that match the pattern</summary>
 /**
@@ -9654,22 +9653,26 @@ function igk_get_modules()
 {
     $modir = igk_get_module_dir();
     $ln = strlen($modir) + 1;
-    $d = igk_io_cachedir() . "/.modules.json";
+    $d = ApplicationModules::GetCacheFile();   
     if (!file_exists($d)) {
         $modules = igk_io_getfiles($modir, "/\/module\.json$/");
         $tlist = [];
-        foreach ($modules as $f) {
-            $name = substr(dirname($f), $ln);
-            $obj = json_decode(file_get_contents($f));
-            if ($obj && igk_is_valid_module_info($obj)) {
-                if ($obj->name != $name) {
-                    igk_dev_wln("not a valid name :" . $name . " vs " . $obj->name);
+        if ($modules){
+            foreach ($modules as $f) {
+                $name = substr(dirname($f), $ln);
+                $obj = json_decode(file_get_contents($f));
+                if ($obj && igk_is_valid_module_info($obj)) {
+                    if ($obj->name != $name) {
+                        igk_dev_wln("not a valid name :" . $name . " vs " . $obj->name);
+                    }
+                    $tlist[$name] = $obj;
                 }
-                $tlist[$name] = $obj;
             }
         }
         ksort($tlist);
-        igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
+        if (!defined('IGK_NO_LIB_CACHE')){
+            igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
+        }
         return $tlist;
     }
     $cf = json_decode(igk_io_read_allfile($d));
@@ -18361,6 +18364,15 @@ function igk_parsebools($b)
 {
     return __("V." . igk_parsebool($b));
 }
+/**
+ * get bool value
+ */
+function igk_bool_val($v){
+    if ($v && in_array(strtolower($v), ['true', 'false','1','0'])){
+        $v = (bool)preg_match("/(true|1)/i", $v);
+    }
+    return (bool)boolval($v);
+}
 ///<summary>used to parse string value to compatible xml value.</summary>
 /**
  * used to parse string value to compatible xml value.
@@ -19770,7 +19782,7 @@ function igk_require_module($modulename, callable $init = null, $loadall = 1, $d
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
     if (!file_exists($dir)) {
         if ($die)
-            throw new \IGKException(__FUNCTION__ . "::module <b>{$modulename}</b> missing " . $dir, 500);
+            throw new \IGKException(__FUNCTION__ . "::module <b>{$modulename}</b> missing " . igk_io_collapse_path($dir), 500);
         return null;
     }
 
@@ -19781,6 +19793,7 @@ function igk_require_module($modulename, callable $init = null, $loadall = 1, $d
     $ext_regex = "/(.)*\.php$/";
     $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
     $excludedir = igk_default_ignore_lib($dir);
+    $excludedir = array_merge(igk_environment()->{$excluded_key} ?? [], $excludedir ??[]);
     $IGK_ENV->set($excluded_key,  $excludedir);
     $exclude_files = [igk_uri($dir . "/index.php")];
     if ($loadall) {
@@ -20772,8 +20785,8 @@ function igk_start_session($reset = 0)
         return;
     }
     $cookieName = session_name();
-    if (defined('IGK_SESS_DIR') && IO::CreateDir(IGK_SESS_DIR)) {
-        ini_set("session.save_path", IGK_SESS_DIR);
+    if (defined('IGK_SESS_DIR') && IO::CreateDir($ts = constant('IGK_SESS_DIR'))) {
+        ini_set("session.save_path", $ts);
         IGKSessionFileSaveHandler::Init();
     }
     ini_set("session.cookie_same", "Strict");
@@ -22204,7 +22217,7 @@ function igk_str_remove_empty_line($str)
  * @param string $str string
  * @return string 
  */
-function igk_str_remove_lines($str)
+function igk_str_remove_lines(string $str)
 {
     return StringUtility::SanitizeLine($str);
 }
@@ -22869,8 +22882,6 @@ function igk_sys_balafon_js($doc, $debug = false)
         }
     }
     $c = $doc->ScriptManager->getMergedContent();
-    $tassoc = $doc->ScriptManager->getAssoc();
-    $buri = igk_io_baseuri();
     $const = "constant";
     $header = "//author: C.A.D. BONDJE DOUE" . IGK_LF;
     $header .= "//libname: balafon.js" . IGK_LF;
@@ -23958,6 +23969,7 @@ function igk_sys_js_exclude_dir(): array
  */
 function igk_sys_lib_ignore($dir)
 {
+
     $key = IGKEnvironment::IGNORE_LIB_DIR;
     $d = igk_get_env($key);
     if (!$d) {

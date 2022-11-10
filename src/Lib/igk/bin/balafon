@@ -46,14 +46,12 @@ $app = ApplicationLoader::Boot("balafon");
 
 $command = $app->getPrimaryCommand();
  
-
- 
 //-----------------------------------------------------------------------------
 // | handle default
 // |
 
 if (isset($argv[1]) && $argv[1]=="--init"){
-    //-----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     // | initialize balafon configuration 
     // |
     $fc = $command["--init"][0];
@@ -75,14 +73,12 @@ if (isset($argv[1]) && $argv[1]=="--init"){
 if (in_array("--debug", $argv)){
     $fc = $command["--debug"][0];
     $fc([], $command);
-} 
-
- 
-
+}  
 //--------------------------------------------------------------------------------
 // | Run the application
 // |
 $app->command = $command;
+$app->environment = igk_environment()->name(); 
 // | run application
 // |
 $status = $app->run(__FILE__, false);

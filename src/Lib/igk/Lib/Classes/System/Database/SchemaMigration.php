@@ -10,6 +10,7 @@ namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbRelation;
 use IGK\Database\DbSchemas;
+use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\XML\XmlNode;
 use IGKSysUtil;
 
@@ -194,7 +195,7 @@ class SchemaMigration
 
     /**
      * 
-     * @param XmlNode $node schema node 
+     * @param DomNodeBase $node schema node 
      * @param mixed $result table response
      * @param null|array $tables 
      * @param mixed $tbrelations 
@@ -204,7 +205,7 @@ class SchemaMigration
      * @param bool $reload 
      * @return static 
      */
-    public static function LoadSchema (XmlNode $node, & $result, ?array & $tables=null,  &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false ){
+    public static function LoadSchema (DomNodeBase $node, & $result, ?array & $tables=null,  &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false ){
         $mi = new static;
         $mi->node = $node;
         $mi->table = &$tables;

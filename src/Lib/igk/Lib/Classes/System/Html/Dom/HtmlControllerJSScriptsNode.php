@@ -29,7 +29,7 @@ class HtmlControllerJSScriptsNode extends HtmlNode{
         $this->tagname = "igk-controller-js";
     } 
 
-    public function render($options = null){
+    public function render($options = null):?string{
         $ctrl = ViewHelper::BaseController();
         if (is_null($ctrl)){
             return null;
@@ -46,7 +46,7 @@ class HtmlControllerJSScriptsNode extends HtmlNode{
         $is_dev && $sb->appendLine("<!-- controller:js -->");  
         $sb->appendLine($src);
         $is_dev && $sb->appendLine("<!-- end:controller:js -->");
-        return $sb;
+        return $sb.'';
     }
 
 }

@@ -11,5 +11,5 @@ namespace IGK\System\Configuration\Controllers;
  * @package IGK\System\Configuration\Controllers
  */
 abstract class ConfigsGroups{
-    const admin = "administration";
+    const admin = "admin";
 }

@@ -97,6 +97,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * 
     */
     public function getAssoc(){
+        igk_trace();
         throw new NotImplementException(__METHOD__);
     }    
     ///<summary></summary>
@@ -175,6 +176,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param mixed $file
     */
     public function getScript($file){
+        igk_wln("get scripts ".$file);
         $tasc=$this->getAssoc();
         if($tasc && isset($tasc[$file]))
             return $this->$tasc[$file];

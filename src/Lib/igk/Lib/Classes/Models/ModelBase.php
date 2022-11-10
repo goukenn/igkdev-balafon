@@ -529,17 +529,17 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
 
             self::$macros = & $macros; 
             // register call extension
-            $f = igk_sys_reflect_class(ModelEntryExtension::class);
-            foreach ($f->getMethods() as $k) {
-                if ($k->isStatic()) {
-                    self::$macros[$k->getName()] = [ModelEntryExtension::class, $k->getName()];
-                }
-            }
+            // $f = igk_sys_reflect_class(ModelEntryExtension::class);
+            // foreach ($f->getMethods() as $k) {
+            //     if ($k->isStatic()) {
+            //         self::$macros[$k->getName()] = [ModelEntryExtension::class, $k->getName()];
+            //     }
+            // }
             require_once(__DIR__ . "/DefaultModelEntryExtensions.pinc");
-            // 
-            // init all model so that will be 
-            //
-            igk_hook(IGKEvents::HOOK_MODEL_INIT, []);
+            // + | ----------------------------------------------------
+            // + | init all model so that will be 
+            // + |
+            igk_hook(IGKEvents::HOOK_MODEL_INIT, [static::class]);
         }
         $_instance_class = static::CreateMockInstance(static::class);      
         if ($fc = igk_getv(self::$macros, $name)) {
@@ -613,6 +613,18 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }
+        $f = igk_sys_reflect_class(ModelEntryExtension::class);
+        if (method_exists(ModelEntryExtension::class, $name)){
+            $fc = [ModelEntryExtension::class, $name];
+            self::$macros[$name] = $fc; // [ModelEntryExtension::class, $name];
+            $instance && array_unshift($arguments, $instance);
+            return $fc(...$arguments);
+        }
+        // foreach ($f->getMethods() as $k) {
+        //     if ($k->isStatic()) {
+        //         self::$macros[$k->getName()] = [ModelEntryExtension::class, $k->getName()];
+        //     }
+        // }
         $failed = true;
     }
     /**

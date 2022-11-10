@@ -5,8 +5,7 @@
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands;
-
-use IGK\Controllers\BaseController;
+ 
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
@@ -20,7 +19,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $command = "--sync:project";
     var $desc = "sync project through ftp configuration";
     var $category = "sync";
-    var $help = "--[list|restore[:foldername] --clearcache  --zip";
+    var $help = "--[list|restore[:foldername]] [--clearcache] [--zip]";
     
     /**
      * use zip to indicate 
@@ -29,7 +28,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $use_zip;
     private $remove_cache = false;
 
-    public function exec($command, ?string $module = null)
+    public function exec($command, ?string $project = null)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
@@ -43,16 +42,16 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         $this->use_zip = property_exists($options, "--zip");
 
 
-        if (is_null($module)) {
+        if (is_null($project)) {
             Logger::danger("project name is required");
             return -1;
         }
-        if (!is_dir($pdir = igk_io_projectdir() . "/${module}")) {
+        if (!is_dir($pdir = igk_io_projectdir() . "/${project}")) {
             Logger::danger("project not found");
             return -2;
         }
         $pdir = IO::GetUnixPath($pdir, true);
-        $module = basename($pdir);
+        $project = basename($pdir);
 
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
@@ -60,10 +59,10 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         switch ($arg) {
             case "l":
                 // list release
-                $this->_listRelease($h, $setting["release"], $module);
+                $this->_listRelease($h, $setting[self::RELEASE_DIR], $project);
                 break;
             case "r":
-                $this->_restoreRelease($h, $module, $setting);
+                $this->_restoreRelease($h, $project, $setting);
                 break;
             default:
                 if ($this->use_zip) {
@@ -84,21 +83,27 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 } else {
 
                     // sync project
+                    $path_key = self::PROJECT_DIR;
+                    if (is_null($setting[$path_key])){
+                        igk_die("[project_dir] is required" );
+                    }
+
                     $exclude = [];
-                    $g = ftp_nlist($h, $setting["path"]);
-                    $o_dir = $setting["path"] . "/" . $module;
-                    if (!in_array($module, $g)) {
+                    $g = ftp_nlist($h, $setting[$path_key]);
+                    $o_dir = $setting[$path_key] . "/" . $project;
+                    if (!in_array($project, $g)) {
                         // upload project if not found
                         Logger::info("project not found in " . $setting["server"]);
                     } else {
+                        $rsdir = $setting[self::RELEASE_DIR];
                         // move current folder to release
-                        ftpHelper::CreateDir($h, $bckdir = $setting["release"] . "/" . $module . date("YmdHis"));
+                        ftpHelper::CreateDir($h, $bckdir = $rsdir. "/" . $project . date("YmdHis"));
                         Logger::info("rename " . $o_dir . " " . $bckdir);
                         ftp_rename($h, $o_dir, $bckdir);
                     }
-                    ftpHelper::CreateDir($h, $setting["path"]);
-                    ftp_chdir($h, $setting["path"]);
-                    @ftp_mkdir($h, $module);
+                    ftpHelper::CreateDir($h, $setting[$path_key]);
+                    ftp_chdir($h, $setting[$path_key]);
+                    @ftp_mkdir($h, $project);
                     $cdir = [];
 
                     $fc = function ($f, array &$excludedir = null) use ($exclude_file_extension) {                       
@@ -123,18 +128,13 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
                         $g = substr($f, strlen($pdir));
                         if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
-                            ftpHelper::CreateDir($h, dirname($module . $g));
+                            ftpHelper::CreateDir($h, dirname($project . $g));
                             array_push($cdir, $_cdir);
-                        }
-                        if (preg_match("/\.DS_Store$/", $f)){
-                            igk_wln_e("match : ".$f);
-                            igk_exit();
-                        }
+                        } 
                         Logger::print("upload : " . $f);
                         ftp_put($h, $o_dir . $g, $f, FTP_BINARY);
                     }
-                    $this->removeCache($h, $setting["application_dir"]);
-
+                    $this->removeCache($h, $setting[self::APP_DIR]);
                     Logger::success("sync project ... " . $o_dir);
                 }
                 break;
@@ -185,7 +185,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     {
 
         $projectPath = $setting["path"];
-        $path = $setting["release"];
+        $path = $setting[self::RELEASE_DIR];
         $bckdir = $path;
         if (!@ftp_chdir($ftp, $bckdir)) {
             Logger::info("no release folder found");

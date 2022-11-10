@@ -92,9 +92,9 @@ class SystemFileCache extends CommonCache{
                 igk_get_env_lib_loaded(true);
             }
             catch(Exception $ex){
-                igk_ilog("[ ".__FUNCTION__." ]- can't load files...[".$f."]".$ex->getMessage());
-                igk_show_exception($ex);
-                igk_wln_e("LoadLibError", $ex->getMessage());
+                // igk_ilog("[ ".__FUNCTION__." ]- can't load files...[".$f."]".$ex->getMessage());
+                // igk_show_exception($ex);
+                igk_wln_e("LoadLibError", $f, $ex->getMessage());
             }
         }
         return $v;

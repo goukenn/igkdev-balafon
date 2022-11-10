@@ -135,9 +135,7 @@ class WebApplication extends IGKApplicationBase
             if ($c = $options->controller) {
                 $this->setDefaultController($c);
             }
-        }
-
-      
+        }  
     }
     /**
      * shortcut to set system default controller
@@ -229,10 +227,11 @@ class WebApplication extends IGKApplicationBase
                 igk_exit();
             }
             $requestHandler->handle_route($path_info);
-            // 
-            // configuration handle
+            // + |-------------------------------------------------------
+            // + | configuration handle
             //
-            if (0 && !igk_configs()->get("noWebConfiguration")) {
+           // igk_wln_e( __FILE__.":".__LINE__, "configuration", $path_info);
+            if (!igk_configs()->get("noWebConfiguration")) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info);
@@ -280,10 +279,9 @@ class WebApplication extends IGKApplicationBase
             igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
             igk_exit();
         }
-        // igk_environment()->isOPS() && $render && 
-        // IGKCaches::HandleCache();
-        // igk_trace();
-        // igk_wln_e(__FILE__.":".__LINE__,  "end cache");
+        // + | handle cache
+        igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
+        
         try {
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
             $this->handleRequest($file, $render);

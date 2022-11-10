@@ -30,7 +30,7 @@ class session extends \IGKLibraryBase{
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
             // igk_wln("start session .... ");
             $this->start(); 
-        }); 
+        },  IGKEvents::P_SESSION_PRIORITY); 
         // register_shutdown_function(function(){
             // $header = new RequestHeader(); 
             // if (($id = session_id()) && ($header->PRAGMA == 'no-cache')){

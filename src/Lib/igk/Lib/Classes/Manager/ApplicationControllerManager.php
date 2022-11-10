@@ -300,4 +300,16 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return $out;
     }
+
+    /**
+     * invoke pattern
+     * @param mixed $pattern 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ControllerNotFoundException 
+     */
+    public function InvokePattern($pattern)
+    {
+        return $this->InvokeUri($pattern->value, 1, $pattern);
+    }
 }

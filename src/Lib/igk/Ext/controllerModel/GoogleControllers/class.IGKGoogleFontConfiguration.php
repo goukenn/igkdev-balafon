@@ -43,8 +43,8 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     /**
     * 
     */
-    private function getfontlist(){
-        $r=igk_google_settings();
+    private function getfontlist(){        
+        $r = igk_google_settings();
         $fonts=igk_conf_get($r, "fonts");
         $t=(array)($fonts);
         return array_keys($t);
@@ -54,7 +54,7 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     * 
     */
     public function getName(){
-        return "com.igkdev.googlefont";
+        return __CLASS__; 
     }
     ///<summary></summary>
     /**

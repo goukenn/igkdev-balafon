@@ -20,6 +20,11 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_dbname;
     private $m_fhandle;
 
+    public function getIsConnect(): bool {
+        /** allway return true*/
+        return true;
+    }
+
     public function constraintExists(string $name): bool {
         return false;
     }

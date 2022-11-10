@@ -26,6 +26,8 @@ class Path{
     protected $sys_data_dir; 
     protected $css_path;
 
+    protected $home_dir;
+
 
     private static $sm_instance; 
 
@@ -65,6 +67,16 @@ class Path{
         $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR , "vendor");
         $this->sys_data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
         $this->data_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_DATA_FOLDER);
+
+        // used to resolve symbolic links
+        $this->home_dir = igk_getv($_SERVER, "HOME", "~");
+    }
+    /**
+     * get home dir
+     * @return null|string 
+     */
+    public function getHomdeDir(): ?string{
+        return $this->home_dir; 
     }
     private function __construct(){
         $this->prepareData();

@@ -171,7 +171,6 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
         $data = ["db_logs_msg" => $msg];
         if ($tag)
             $data["db_logs_tags"] = $tag;
-        //$r =  \IGK\Models\DbLogs::create($data);
         $logger = null;
         //return $r;
     }

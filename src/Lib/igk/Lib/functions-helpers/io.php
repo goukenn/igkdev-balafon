@@ -53,7 +53,6 @@ function igk_io_symlink($target, $link)
         if (!($r = IO::SymLink($target, $link))) {
             igk_ilog("unix symlink failed: source: " . $target . " cibling: " . $link);
             if (igk_environment()->isDev()) {
-
                 igk_trace();
                 igk_wln_e("failed to create symlink "); ///fileexists? " . file_exists($target), "realtarget:" . realpath($target), "failed; " . $target, " cibling " . $link);
             }

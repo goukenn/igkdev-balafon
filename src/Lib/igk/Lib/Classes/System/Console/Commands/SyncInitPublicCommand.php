@@ -8,7 +8,9 @@ namespace IGK\System\Console\Commands;
 
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Installers\InstallerUtils;
+use IGKException;
 
 /**
  * clear cache in ftp sync server */
@@ -33,7 +35,22 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
 
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
-
+        self::InstallFolder($h, $pdir, $uri);
+       
+        ftp_close($h);
+        Logger::info("done"); 
+        error_clear_last();
+    }
+    /**
+     * 
+     * @param mixed $h resource
+     * @param mixed $pdir public dir
+     * @param mixed $uri  uri access
+     * @return void 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function InstallFolder($h, string $pdir, string $uri){
         $index_temp = igk_io_sys_tempnam("blfcore");
         $access_temp = igk_io_sys_tempnam("blfcore");
         $is_primary = false;
@@ -49,19 +66,12 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
             igk_getbase_access($pdir)
         );
 
+        FtpHelper::CreateDir($h, $pdir."/assets");
 
         ftp_put($h,$pdir."/index.php", $index_temp );
-        ftp_put($h,$pdir."/.htaccess", $access_temp );
-
-
-
+        ftp_put($h,$pdir."/.htaccess", $access_temp ); 
         igk_curl_post_uri($uri, null, null, ["sync-command"=>true, "token"=>$token]);
         unlink($index_temp);
-        unlink($access_temp);
-        
- 
-            Logger::info("done"); 
-        ftp_close($h);
-        error_clear_last();
+        unlink($access_temp); 
     }
 }

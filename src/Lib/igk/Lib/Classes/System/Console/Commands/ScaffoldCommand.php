@@ -62,21 +62,39 @@ class ScaffoldCommand extends AppExecCommand
         return $result;
 
     }
-    public function help()
+    public function help(...$args)
     {
         Logger::print("-");
         Logger::info("Scaffold command");
-        Logger::print("-\n");
+        Logger::print("-");
+        if ($args){
+            $action = $args[0];
+
+            $scaffold_tab = array_merge(self::$sm_scaffold,
+             igk_environment()->get("scaffold_commands", [])
+            );
+            if ($c = igk_getv($scaffold_tab, $action)){
+                $m = new $c();
+                Logger::print(
+                    "Usage : " . App::gets(App::GREEN, $this->command) . " ".
+                    App::gets(App::BLUE_I, $action) 
+                    . " [options]"
+                ); 
+                Logger::print('');
+                $m->showHelp($this->command);
+                Logger::print('');
+            }
+            return;
+        }
         Logger::print(
             "Usage : " . App::gets(App::GREEN, $this->command) . " ".
             App::gets(App::BLUE_I, "type") 
             . " [options]"
-        );
-        Logger::print("\n");
-
-        Logger::print("list of registrated types");
-        
-        Logger::print("\n");
+        ); 
+    
+        Logger::print("");
+        Logger::print("list of registrated types");        
+        Logger::print("");
 
 
         array_map(function($a){

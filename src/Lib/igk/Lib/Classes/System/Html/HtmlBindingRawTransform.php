@@ -7,7 +7,7 @@ namespace IGK\System\Html;
 
 ///<summary></summary>
 /**
-* 
+* use to transform binding data
 * @package IGK\System\Html
 */
 class HtmlBindingRawTransform{
@@ -26,13 +26,25 @@ class HtmlBindingRawTransform{
      * @var mixed
      */
     var $pipe;
+
+    var $root_context;
+
+    /**
+     * controller
+     * @var ?BaseController 
+     */
+    var $controller;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
     public function __toString()
     {
         $s = ltrim($this->data);
         if (strpos($s, "return ")){
             $s = substr($s, 7);
         }
-
         return empty($this->pipe)?  "<?= $s ?>" : "<?= igk_str_pipe_value($s, '{$this->pipe}') ?>";
     }
 }

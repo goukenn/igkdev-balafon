@@ -87,5 +87,4 @@ class ModuleConfigurationController extends ConfigControllerBase{
         return $t;
     }
 }
-
 // igk_reg_configuration(ModuleConfigController::class);

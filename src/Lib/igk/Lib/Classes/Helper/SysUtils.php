@@ -15,8 +15,27 @@ use IGKException;
 use ReflectionMethod;
 use IGK\Controllers\BaseController;
 use IGK\System\Console\Logger;
+use TypeError;
 
 class SysUtils{
+    /**
+     * evaluate source
+     * @return void 
+     */
+    public static function Eval(){
+        extract(func_get_arg(1));
+        try{
+            eval("?>".func_get_arg(0));
+        }catch (TypeError $error){
+            throw new IGKException('eval failed', 500, $error);
+        }
+    }
+    public static function Include(){
+        if ((func_num_args()==2) && (is_array(func_get_arg(1)))){
+            extract(func_get_arg(1));
+        }
+        include(func_get_arg(0));
+    }
     /**
      * get default project entry namespace
      * @param string $dir 
@@ -231,5 +250,22 @@ class SysUtils{
             igk_io_w2file($bdir . "/.htaccess", "deny from all", false);
             igk_hook("sys://cache/clear");
         }
+    }
+
+    /**
+     * resolv link path
+     * @param string $rp 
+     * @return string 
+     * @throws IGKException 
+     */
+    public static function ResolvLinkPath(string $rp){
+
+        if (is_null(igk_server()->HOME) && ($p = igk_configs()->get('access_home_dir', '/homez.1612/tonerag'))){
+            $home_dir = "/home/".igk_server()->USER;
+            if (strpos($rp, $home_dir) === 0 ){
+                $rp = $p."/".substr($rp , strlen($home_dir)+1);
+            }
+        }
+        return $rp;
     }
 }

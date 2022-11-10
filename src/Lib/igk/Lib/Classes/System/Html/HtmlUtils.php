@@ -34,6 +34,29 @@ require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
  */
 abstract class HtmlUtils extends DomNodeBase
 {
+    public static function PrefilterAttribute($tagname, $attributes){
+        $attributes["%__tag__%"] = $tagname;
+        igk_hook(IGKEvents::HOOK_HTML_PRE_FILTER_ATTRIBUTE, [$attributes]);
+        unset($attributes["%__tag__%"]);
+        return $attributes;
+    }
+    /**
+     * get attribute string
+     * @param mixed $tagname 
+     * @param mixed $attribute 
+     * @param mixed $options 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetFilteredAttributeString($tagname, $attribute, $options=null):?string{
+        $attrib = new HtmlFilterAttributeArray($attribute);
+        $attrib = HtmlUtils::PrefilterAttribute("label", $attrib);
+        if ($attrib->count()>0){
+            return ' '.HtmlRenderer::GetAttributeArrayToString($attrib, $options);
+        }
+    }
 
     /**
      * get full query ars

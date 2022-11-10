@@ -57,12 +57,13 @@ class WebResponse extends RequestResponse{
             }
         }
     }
-    public function output(){
+    public function output(){        
         $cache = $this->cache;
         // + | priority to document cache setting
         if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
             $cache = !$this->node->noCache; 
         } 
+        $this->_setHeader();
         ob_start();   
         $this->render();
         $s = ob_get_clean();   

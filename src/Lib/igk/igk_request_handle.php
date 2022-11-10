@@ -12,7 +12,7 @@
 use IGK\Helper\IO;
 use IGK\Server;
 use IGK\System\Http\RequestHandler; 
-
+ 
 
 IGKRoutes::Register("^/favicon.ico[%q%]", function(){  
     igk_set_header(200, 
@@ -191,7 +191,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
     }catch(Exception $ex){
         header("Content-Type: text/css");
         if (igk_environment()->isDev()){
-            echo "/* Exception : ".$ex->getMessage(). "*/\n";
+            echo "/* Exception : ".$ex->getMessage(). " */\n";
         }
         echo "body{background-color: red !important; }";
     }

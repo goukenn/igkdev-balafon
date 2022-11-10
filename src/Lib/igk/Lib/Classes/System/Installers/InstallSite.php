@@ -51,7 +51,7 @@ class InstallSite
     {
         $core = IGK_LIB_FILE;
         $src = rtrim($folder, "/");
-
+        $is_dev = ($environment=='development');
         if (file_exists($src) && !igk_getv($options, "force")) {
             Logger::danger("directory exists.");
             return false;
@@ -60,7 +60,9 @@ class InstallSite
         if (!igk_io_createdir($src)) {
             return false;
         }
+        $v_is_unix = igk_environment()->isUnix();
         $c_root = StringUtility::Uri(implode("/", array_filter([$src, ltrim(igk_io_get_relativepath($src, $options["rootdir"]), './')])));
+        $base_uri = igk_getv($options, "base_uri", "localhost");
         // + | ---------------------------------------------------
         // + | primary installation  
         // + |  :is when all folder is exposed to public directory
@@ -76,31 +78,31 @@ class InstallSite
             igk_io_createdir($src . "/application");
             igk_io_createdir($src . "/public");
             igk_io_createdir($src . "/temp");
-            igk_io_createdir($src . "/logs");
             igk_io_createdir($src . "/crons");
-            igk_io_createdir($src . "/test");
-            $configs = [
-                "**/.vscode/**",
-                "**/node_modules/**",
-                "**/.DS_Store",
-                "**/.gitignore",
-                ".gitignore",
-                "vhost.conf",
-                "balafon.config.xml",
-                "phpunit.xml.dist",
-                "phpunit-watcher.yml",
-                "{$c_app}/**",
-                "{$c_app}/Projects/**/Data/**",
-                "{$c_base}/sesstemp/**",
-                "{$c_public}/**",
-                "releases/"
-            ];
-
-            // generate git ignore
-            igk_io_w2file($folder . "/.gitignore", implode("\n", $configs));
+            igk_io_createdir($src . "/tests");
+            if ($is_dev  && !file_exists($gitignore = $folder . "/.gitignore")){
+                $configs = [
+                    "**/.vscode/**",
+                    "**/node_modules/**",
+                    "**/.DS_Store",
+                    "**/.gitignore",
+                    ".gitignore",
+                    "vhost.conf",
+                    "balafon.config.xml",
+                    "phpunit.xml.dist",
+                    "phpunit-watcher.yml",
+                    "{$c_app}/**",
+                    "{$c_app}/Projects/**/Data/**",
+                    "{$c_base}/sesstemp/**",
+                    "{$c_public}/**",
+                    "releases/"
+                ];
+                // generate git ignore
+                igk_io_w2file($gitignore, implode("\n", $configs));
+            }
         }
         // generate phpunit-watcher file
-        if (!$is_primary) {
+        if (!$is_primary && $is_dev ) {
             // + | -----------------------------------------------------------
             // + | for phpunit-watcher
             igk_io_w2file($folder . "/phpunit-watcher.yml", implode("\n", [
@@ -186,8 +188,8 @@ class InstallSite
             igk_io_createdir($lnk);
             InstallerUtils::NoAccessDir($lnk, 1);
         }
-
-        if (!empty($sessiondir = igk_getv($options, "sessiondir")) && !is_link(
+        // + | create a link to session directory
+        if (!empty($sessiondir = igk_getv($options, "sessiondir")) && is_dir($sessiondir) && !is_link(
             $lnk = $src . "/sesstemp/"
         )) {
             symlink($sessiondir, $lnk);
@@ -204,22 +206,18 @@ class InstallSite
  
 
         IGKAppSystem::InstallDir($index, 
-        $app_folder, 
-        dirname($index), 
-        $app_folder."/".IGK_PROJECTS_FOLDER,
-        $app_folder."/".IGK_DATA_FOLDER,
-        $app_folder."/Lib/igk/".IGK_DATA_FOLDER,
-        ["domain_name"=>"localhost"]
+            $app_folder, 
+            dirname($index), 
+            $app_folder."/".IGK_PROJECTS_FOLDER,
+            $app_folder."/".IGK_DATA_FOLDER,
+            $app_folder."/Lib/igk/".IGK_DATA_FOLDER,
+            ["domain_name"=>$base_uri ]
         );
         
 
-        if (!$is_primary) {
+        if (!$is_primary && $is_dev) {
             // + | ----------------------------------------------------------------
-            // + | generate vhost
-
-            if (empty($environment)) {
-                $environment = "development";
-            }
+            // + | generate vhost            
             $tport = "80";
             if (is_numeric($listen) && (strlen($listen) >= 4)) {
                 $tport = $listen;
@@ -269,22 +267,22 @@ AddEncoding deflate js
 </VirtualHost>
 EOF
             );
-            if (in_array(PHP_OS, ["UNIX","DARWING"])){
-                // create vhost link on apache
-                $vhost_dir = rtrim(igk_getv($options, "apachedir", "/private/etc/apache2/other"), "/");
-                // igk_wln_e("vshot", $vhost_dir, $options);                
-                if (is_dir($vhost_dir)) {
-                    $conf_file = $vhost_dir . "/vhost-" . sha1($folder) . ".conf";
-                    @symlink($t_conf_file, $conf_file);
-                }
-            }
+            // if ($v_is_unix && $is_dev){
+            //     // create vhost link on apache
+            //     $vhost_dir = rtrim(igk_getv($options, "apachedir", "/private/etc/apache2/other"), "/");
+            //     // igk_wln_e("vshot", $vhost_dir, $options);                
+            //     if (is_dir($vhost_dir)) {
+            //         $conf_file = $vhost_dir . "/vhost-" . sha1($folder) . ".conf";
+            //         @symlink($t_conf_file, $conf_file);
+            //     }
+            // }
         }
 
-        // generateo configuration 
+        // generate configuration 
         if (!$is_primary) {
             if (!file_exists($file = $folder."/".AppConfigs::ConfigurationFileName)){
                 // generate configuration file  
-                $c = \IGK\System\Console\Utils::GenerateConfiguration($c_public, $c_app);
+                $c = \IGK\System\Console\Utils::GenerateConfiguration($c_public, $c_app, $base_uri);
                 $opts = HtmlRenderer::CreateRenderOptions();
                 $opts->Indent = true;
                 igk_io_w2file($file, $c->render($opts));
@@ -309,7 +307,7 @@ EOF
         // + | ------------------------------------------------------------------------------------------
         // + | after install change if possible the user group
         // + |
-        if (igk_environment()->isUnix() && (get_current_user() == "root")){
+        if ($v_is_unix && (get_current_user() == "root")){
             if ($ug = igk_getv($options, "user:group", "www-data:www-data")) {
                 `chown -R ${ug} ${folder}`;
                 `chmod -R 775 ${folder}`;

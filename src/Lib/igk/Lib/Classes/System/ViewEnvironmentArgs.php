@@ -12,9 +12,7 @@ use ArrayAccess;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-use IGKException;
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
+use IGKException; 
 
 /**
  * represent view environment args - shared  accross views definition
@@ -162,10 +160,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @param BaseController $controller source controller
      * @param string $file to view
      * @param string $context context id 
-     * @return static 
-     * @throws NotFoundExceptionInterface 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
+     * @return static  
      * @throws IGKException 
      */
     public static function GetContextViewArgument(BaseController $controller, string $file, string $context){

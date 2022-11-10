@@ -36,6 +36,8 @@ class IGKEvents extends IGKObject
     const HOOK_HTML_FOOTER = "html_footer";
     const HOOK_HTML_HEAD = "html_head";
     const HOOK_HTML_META = "html_meta";
+    const HOOK_HTML_PRE_FILTER_ATTRIBUTE = "html_prefilter_attribute";
+    
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";
     const HOOK_USER_ADDED = "sys_user_added";
@@ -55,6 +57,9 @@ class IGKEvents extends IGKObject
     const HOOK_INSTALL_SITE = "sys_install_site";
     const HOOK_INIT_GLOBAL_MATERIAL_FILTER = "sys_init_gobal_material_filter";
     const HOOK_MAIL_REGISTER = "sys_hook_mail_register";
+
+    const P_SUBDOMAIN_PRIORITY = 0;
+    const P_SESSION_PRIORITY = 100;
 
     public static function CreateHookOptions():IHookOptions{
         return new HookOptions();

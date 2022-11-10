@@ -10,9 +10,10 @@ namespace IGK\System\Console;
  * @package IGK\System\Console
  */
 class Utils{
-    public static function GenerateConfiguration($public_dir, $app_dir){
+    public static function GenerateConfiguration($public_dir, $app_dir, $base_uri="//localhost"){
         $init_data = igk_create_xmlnode("balafon");
-        $init_data->env()->setAttributes(["name" => "IGK_BASE_URI", "value" => "//localhost"]);
+        $base_uri = igk_get_domain_name($base_uri) ?? '//localhost';
+        $init_data->env()->setAttributes(["name" => "IGK_BASE_URI", "value" => $base_uri]);
         $init_data->env()->setAttributes(["name" => "IGK_DOCUMENT_ROOT", "value" => $public_dir]);
         $init_data->env()->setAttributes(["name" => "IGK_BASE_DIR", "value" => $public_dir]);
         $init_data->env()->setAttributes(["name" => "IGK_APP_DIR", "value" => $app_dir]);

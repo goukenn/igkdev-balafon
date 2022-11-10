@@ -41,6 +41,12 @@ class MakeActionCommand extends AppExecCommand{
      * @var callable
      */
     var $definition; // definition callback
+
+    /**
+     * array of uses
+     * @var ?array|?string
+     */
+    var $uses;
     /**
      * @var string $controller Controller
      * @var string $actionName the action to create 
@@ -89,9 +95,11 @@ class MakeActionCommand extends AppExecCommand{
         $bind[$dir."/Actions/{$path}Action.php"] = function($file)use($actionName, 
             $author, $ns, $type){          
             $content = $this->_getContent(); 
+            $v_uses = $this->_getUses() ?? [];
             $builder = new PHPScriptBuilder();
             $fname = $actionName.IGK_VIEW_FILE_EXT;           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
+            ->uses($v_uses)
             ->author($author)
             ->namespace($ns)
             ->defs($content)
@@ -111,7 +119,12 @@ class MakeActionCommand extends AppExecCommand{
             return $def();
         }
         return "";
-
+    }
+    private function _getUses(){
+        if ($uses = $this->uses){
+            return $uses();
+        }
+        return [];
     }
     public function help(){
         Logger::print("-");

@@ -151,15 +151,17 @@ function igk_resources_gets($text, $default = null)
 {
     return call_user_func_array(array(R::class, 'gets'), func_get_args());
 }
-///<summary> get value in array</summary>
-///<param name="default"> mixed, default value or callback expression </param>
-/**
- *  get value in array
- * @param mixed default value or callback expression
- */
-function igk_getv($array, $key, $default = null)
-{
-    return igk_getpv($array, array($key), $default);
+if (!function_exists('igk_getv')){
+    ///<summary> get value in array</summary>
+    ///<param name="default"> mixed, default value or callback expression </param>
+    /**
+     *  get value in array
+     * @param mixed default value or callback expression
+     */
+    function igk_getv($array, $key, $default = null)
+    {
+        return igk_getpv($array, array($key), $default);
+    }
 }
 /**
  * from laravel helper get request object 
@@ -1405,13 +1407,15 @@ function igk_get_tab_value($tab, $key, $value = null)
     return $value;
 }
 
-///<summary> get request value</summary>
-/**
- *  get request value
- */
-function igk_getr($key, $value = null)
-{
-    return igk_get_tab_value($_REQUEST, $key, $value);
+if (!function_exists('igk_getr')){
+    ///<summary> get request value</summary>
+    /**
+     *  get request value
+     */
+    function igk_getr($key, $value = null)
+    {
+        return igk_get_tab_value($_REQUEST, $key, $value);
+    }
 }
 
 ///<summary>get GET value</summary>

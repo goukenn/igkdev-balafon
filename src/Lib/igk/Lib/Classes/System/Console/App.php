@@ -10,8 +10,10 @@ namespace IGK\System\Console;
 use IGK\System\Configuration\XPathConfig;
 use Closure;
 use Exception;
-use IGK\Helper\IO;  
-use IGKAppType;  
+use IGK\Helper\IO;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGKAppType;
+use IGKException;
 use stdClass;
 use Throwable; 
  
@@ -119,7 +121,14 @@ class App{
         $tab = array_slice(igk_server()->argv, 1);
         return self::Exec($app, $tab); 
     }
-
+    /**
+     * execute argument
+     * @param App $app 
+     * @param array $args 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public static function Exec(App $app, array $args){
         $command = $app->command;
         $cnf = $app->getConfigs();
@@ -210,12 +219,14 @@ class App{
             $action = $command->exec; //($v, $command, implode(":", array_slice($c,1)));
             if ($action){
                 if (property_exists($command->options, "--help")){  
-                    $app->showHelp($command->command[0]);
+                    $app->showHelp($command->command[0], ...array_slice($command->command, 1));
                     return 0;
                 }
                 return $action($command , ...$args); 
             }else{
-                Logger::danger("BLF: no action found");              
+                if ($tab){
+                    Logger::danger("BLF: no action found");  
+                }
             }
         } catch (Exception $ex){
             $app->print(self::gets(self::RED, "BALAFON Error : "). $ex->getMessage());
@@ -259,7 +270,7 @@ class App{
                     }  
                 }else{
                     if (isset($cmd[0][0])){
-                        $cmd[0][0]->help();
+                        $cmd[0][0]->help(...array_slice(func_get_args(), 1));
                     }
                 }
             }

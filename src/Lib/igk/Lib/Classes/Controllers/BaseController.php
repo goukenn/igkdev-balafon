@@ -137,33 +137,14 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     const VIEW_ARGS = IGK_VIEW_ARGS;
     const VIEW_EXTRA_ARGS = VIEW_EXTRA_ARGS;
 
-
     /**
      * 
      * @var mixed
      */
 
     private static $sm_sysController = [];
-    // /**
-    //  * get action handler
-    //  */
-    // protected function getActionHandler(string $name)
-    // {
-    //     if (property_exists($this, ControllerParams::NoActionHandle) && $this->{ControllerParams::NoActionHandle})
-    //         return null;
-    //     return ControllerExtension::getActionHandler($this, $name);
-    // }
-    // protected function getEntryNamespace()
-    // { 
-    //     if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)) {
-    //         return \IGK::class;
-    //     }
-    //     $ns = dirname(igk_dir(get_class($this)));
-    //     if ($ns != ".") {
-    //         return str_replace("/", "\\", $ns);
-    //     }
-    //     return null;
-    // }
+  
+    
     ///<summary></summary>
     /**
      * @return object 
@@ -376,8 +357,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 (igk_server()->CONTENT_TYPE == "application/json"),
                 true
             );
-            unset($handlerArgs);
-
+            unset($handlerArgs); 
             return $r;
         }
     }
@@ -399,7 +379,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             igk_set_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS, $viewargs);
          
             try {
-                $this->handleAction($fname, $params);
+                $viewargs['data'] = $this->handleAction($fname, $params);
             } catch (\Exception $ex) {
                 // + | handler failed or thro an exception. 
                 // + | method no present
@@ -421,7 +401,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 return;
             }
 
-      
+            $viewargs['data'] = $this->getEnvParam(ControllerEnvParams::ActionViewResponse);      
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;  
@@ -472,7 +452,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $data = [];
         if (igk_is_included_view($file)) {
             $tab = igk_get_env(IGKEnvironment::CTRL_CONTEXT_SOURCE_VIEW_ARGS);
-            $data["source_args"] = $tab[spl_object_hash($this)];
+            $data["source_args"] = $tab ? igk_getv($tab, spl_object_hash($this)): null;
         }
         return $data;
     }

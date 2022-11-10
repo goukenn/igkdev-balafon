@@ -8,6 +8,7 @@ namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGKEvents;
 
 use function igk_resources_gets as __;
 
@@ -26,12 +27,16 @@ class FormBuilder
         "json" => "text",
         "radio" => "radio",
         "checkbox" => "checkbox",
-        "file" => "file"
+        "file" => "file",
+        "hidden"=>"hidden"
     ];
     private static $ResolvClass = [
-        "float" => "number",
-        "double" => "number",
-        "int" => "integer"
+        "float" => "igk-form-control number",
+        "double" => "igk-form-control number",
+        "int" => "igk-form-control integer",
+        "text"=>'igk-form-control text',
+        "mail"=>'igk-form-control mail',
+        "url"=>'igk-form-control url'
     ];
     public function build($formFields, $render = 0, $engine = null, $tag = "div")
     {
@@ -148,7 +153,10 @@ class FormBuilder
                 $o = rtrim($o) . ">";
             }
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
-                $o .= "<label for='{$k}'>" . ucfirst(igk_getv($v, "label_text", __($k))) . "</label>";
+                $g = HtmlUtils::GetFilteredAttributeString("label", [
+                    'class'=>"igk-form-label"
+                ]);
+                $o .= "<label for='{$k}'$g>" . ucfirst(igk_getv($v, "label_text", __($k))) . "</label>";
             }
             switch ($_type) {
                 case "fieldset":
@@ -167,7 +175,7 @@ class FormBuilder
                     break;
                 case "radiogroup":
                     $o .= '<' . $tag . ' style="display:inline-block;">';
-                    foreach ($v["data"] as $kk => $vv) {
+                    foreach ($v["data"] as $kk => $vv) {                       
                         $o .= '<span >' . __($kk) . '</span><input type="radio" name="' . $k . '"' . $_id . ' value="' . $vv . '" />';
                     }
                     $o .= "</{$tag}>";
@@ -227,35 +235,50 @@ class FormBuilder
                 case "hidden":
                 case "password":
                 default:
-                    if (empty($_id))
+                    if (empty($_id)){
+                        $v['id'] = $_id;
                         $_id = ' id="' . $k . '"';
+                    }
                     $_vt = "";
                     if (!empty($_value) || ($_value == "0"))
                         $_vt = "value=\"{$_value}\"";
 
                     $_otype = igk_getv($ResolvType, $_type, "text");
                     $def_type = igk_getv($ResolvClass, $_type, $_type);
-                    $o .= "<input type=\"{$_otype}\" {$_vt} {$_name}{$_id} ";
-                    if (isset($v["maxlength"])) {
-                        $o .= "maxlength=\"{$v["maxlength"]}\" ";
+                    $o .= "<input"; //type=\"{$_otype}\" {$_vt} {$_name}{$_id} ";
+                    $keys = ['maxlength','pattern', 'placeholder'];
+                    $tattrib = ["name"=>$k]; 
+                    foreach($keys as $kk){
+                        $tattrib[$kk] = igk_getv($v, $kk);
                     }
-                    if (isset($v["pattern"])) {
-                        $o .= "pattern=\"{$v["pattern"]}\" ";
-                    }
-                    if (isset($v["placeholder"])) {
-                        $o .= "placeholder=\"{$v["placeholder"]}\" ";
-                    }
+                    // if (isset($v["maxlength"])) {
+                    //     $o .= "maxlength=\"{$v["maxlength"]}\" ";
+                    // }
+                    // if (isset($v["pattern"])) {
+                    //     $o .= "pattern=\"{$v["pattern"]}\" ";
+                    // }
+                   
                     if (isset($v["attribs"]))
                         $v["attribs"]["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
                     else {
                         $v["attribs"]["class"] = $def_type;
                     }
-                    $load_attr($v, $o);
+                    
 
+                    // $class = $v["attribs"]["class"];
+                    $jp = [                        
+                        "type"=> $_otype, 
+                        "id"=>$v["id"],
+                        "value"=>$_value,
+                        // "class"=>new HtmlCssClassValueAttribute(),
+                    ] + $tattrib;
+                    $attrib = new HtmlFilterAttributeArray($jp);
+                    $attrib["class"] = $v["attribs"]["class"];
                     if ($_is_required) {
-                        $o .= 'required="1" ';
+                        $attrib["required"] = 1;
                     }
-
+                    $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
+                    $o .=' '.HtmlRenderer::GetAttributeArrayToString($attrib);                  
                     $o .= "/>";
 
                     if (isset($v["tips"])) {

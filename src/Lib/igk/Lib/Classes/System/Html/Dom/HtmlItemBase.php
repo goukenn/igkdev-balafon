@@ -45,8 +45,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     const ITERATOR = 3;
     const OWNER = 4;
     const CALLBACK_SUFFIX = "Params";
-
     const FLAG_INIT = IGK_NODETYPE_FLAG;
+    const PREFILTER_ATTRIBUTE = 5;
     /**
      * property flag container
      * @var array
@@ -54,6 +54,14 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     private $_f = [];
 
     protected $tagname;
+
+    public function setPrefilterAttribute(?IHtmlPrefilterAttribute $attribFilter){
+        $this->setParam(self::PREFILTER_ATTRIBUTE, $attribFilter);
+        return $this;
+    }
+    public function getPrefilterAttribute(): ?IHtmlPrefilterAttribute{
+        return $this->getParam(self::PREFILTER_ATTRIBUTE);
+    }
 
     /**
      * current node content

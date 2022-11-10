@@ -25,14 +25,20 @@ use function igk_getv as getv;
 * @property string $cookie_name base controller
 * @property int    $querydebug activate of not the query debug
 * @property array  $db_adapter get registered data adapters
-* @property bool $no_lib_cache no library cache
+* @property bool   $no_lib_cache no library cache
 * @property null|array $extra_config extra configuration file
-* @property bool $handle_ctrl_request flag that handle controller request . subdomain usage
-* @property bool $isAJXDemand flag that handle controller request . subdomain usage
-* @property bool $no_handle_error flag that allow environment to handle exception
+* @property bool   $handle_ctrl_request flag that handle controller request . subdomain usage
+* @property bool   $isAJXDemand flag that handle controller request . subdomain usage
+* @property bool   $no_handle_error flag that allow environment to handle exception
 */
 final class IGKEnvironment extends IGKEnvironmentConstants{
     private static $sm_instance;
+
+    /**
+     * key name
+     * @var ?string
+     */
+    private $m_keyname;
     /**
      * environment properties
      * @var array
@@ -273,6 +279,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     * @param mixed $v
     */
     public function __set($n, $v){
+        
         if (method_exists($this, $fc = "set".$n)){
             $this->$fc($v);            
         } else{
@@ -423,7 +430,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants{
     * environment short name
     */
     public function keyName(){
-        return self::ResolvEnvironment($this->name());
+        return $this->m_keyname ?? $this->m_keyname = self::ResolvEnvironment($this->name());
     }
     ///<summary></summary>
     ///<param name="i"></param>

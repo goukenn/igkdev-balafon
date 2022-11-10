@@ -1,0 +1,228 @@
+<?php
+
+use IGK\ApplicationFactory;
+use IGK\ApplicationLoader;
+use IGK\Helper\IO;
+
+if (!function_exists("igk_getr")) {
+    function igk_getr($n, $default = null)
+    {
+        if (isset($_REQUEST[$n])) {
+            return $_REQUEST[$n];
+        }
+        return $default;
+    }
+}
+
+if (!function_exists("igk_install_site")){
+    function igk_install_site($corelib, $entryfile, $args, $exit=true, $production=true){     
+        global $argv, $argc;   
+        $argv = $args;
+        $argc = count($argv);
+
+        $_SERVER["argv"] = $argv;
+        $_SERVER["argc"] = $argc;
+        unset($_SERVER["REQUEST_URI"]);
+
+        require_once($corelib);
+        require_once(IGK_LIB_CLASSES_DIR."/interfaces.php");
+        require_once(IGK_LIB_CLASSES_DIR."/IGKObject.php");
+        require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php");
+        require_once(IGK_LIB_CLASSES_DIR."/Resources/R.php");
+        require_once(IGK_LIB_CLASSES_DIR."/System/Console/App.php");
+        require_once(IGK_LIB_CLASSES_DIR."/System/Console/BalafonApplication.php");
+        require_once(IGK_LIB_CLASSES_DIR."/System/Console/Logger.php");
+        require_once(IGK_LIB_CLASSES_DIR."/System/Console/ConsoleLogger.php");
+        require_once(IGK_LIB_CLASSES_DIR."/ApplicationFactory.php");
+        require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php");
+        require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
+        require_once(IGK_LIB_CLASSES_DIR."/Server.php");
+        // loader
+        require_once(IGK_LIB_CLASSES_DIR."/ApplicationLoader.php");
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/conf.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/environment.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/engine.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/reflection.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/debug.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/sys.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/io.php"); 
+        require_once(IGK_LIB_DIR."/igk_functions.php"); 
+        
+        ignore_user_abort(false);
+        $_SERVER["HTTP_USER_AGENT"] = "balafon - CLI";
+        // + | ---------------------------------------------------------------------------------- 
+        // + | register application type
+        // + |
+        ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
+        
+        /**
+         * @var \IGK\System\Console\BalafonApplication $app 
+         */
+        $app = ApplicationLoader::Boot("balafon");
+        
+        $command = $app->getPrimaryCommand(); 
+
+        //-----------------------------------------------------------------------------
+        // + | handle default
+        // + |
+        if (isset($argv[1]) && $argv[1]=="--init"){
+            //-------------------------------------------------------------------------
+            // | initialize balafon configuration 
+            // |
+            $fc = $command["--init"][0];
+            $carg = [];
+            if (in_array("--noconfig", $argv)){
+                $carg["--noconfig"] = 1;
+            }
+            if (in_array("--force", $argv)){
+                $carg["--force"] = 1;
+            }
+            if (in_array("--primary", $argv)){
+                $carg["--primary"] = 1;
+            }
+            $command["options"] = (object)$carg;
+            $command["argv"] = $argv;
+            $fc([], $command); 
+            exit(0); 
+        }
+        if (in_array("--debug", $argv)){
+            $fc = $command["--debug"][0];
+            $fc([], $command);
+        }  
+        // + | --------------------------------------------------------------------------------
+        // + | Run the application
+        // + |
+        $app->command = $command;
+        $app->environment = igk_environment()->name();
+        $status = $app->run($entryfile, false);
+        //--------------------------------------------------------------------------------
+        // | finish with status code
+        // |
+        if ($exit)
+            exit($status);
+    }
+}
+
+class InstallerResponse
+{
+    var $code;
+    /**
+     * installer response header
+     * @var array
+     */
+    var $header = [];
+    public function __construct()
+    {
+        $this->code = 200;
+    }
+    public function setHeader()
+    {
+        $reponses = [
+            "200" => "HTTP/1.0 200 OK",
+            "404" => "HTTP/1.0 404 Not Found",
+            "500" => "HTTP/1.0 500 Server misconfiguration",
+            "503" => "HTTP/1.0 500 Installer Directory is link",
+        ];
+        $msg = $reponses[$this->code];
+        header($msg);
+        foreach ($this->header as $k) {
+            header($k);
+        }
+    }
+    public function die(string $msg, $code = 200)
+    {
+        $this->code = $code;
+        $this->setHeader();
+        die($msg);
+    }
+    /**
+     * send response
+     * @param mixed $data 
+     * @param string $contentType 
+     * @return never 
+     */
+    public function response($data, $contentType = "text/html")
+    {
+        $this->header[] = "Content-Type: " . $contentType;
+        $this->code = 200;
+        $this->setHeader();
+        echo $data;
+        exit;
+    }
+}
+
+$response = new InstallerResponse();
+if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
+    $response->die("request method not match", 500);
+}
+
+$production = isset($_SERVER["ENVIRONMENT"]) ? $_SERVER["ENVIRONMENT"] == 'production' : false;
+$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
+$corelib = igk_getr('corelib'); // library relative to home 
+$app_dir = igk_getr('app_dir'); // application dir relative to %home
+$root_dir = igk_getr('root_dir'); // public dir relative to %home
+$site_dir = igk_getr('site_dir');
+$base_uri = igk_getr('base_uri', isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : "localhost");
+$token = igk_getr('token');
+$install_dir = implode("/", [$home, ltrim($corelib, '/')]);
+$app_dir = implode("/", [$home, ltrim($app_dir, '/')]);
+$root_dir = implode("/", [$home, ltrim($root_dir, '/')]);
+$site_dir = implode("/", [$home, ltrim($site_dir, '/')]);
+
+ 
+
+ 
+
+// print_r(compact('site_dir', 'app_dir', 'root_dir', 'home'));
+
+
+
+$_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
+// + | make symbolic link
+if (!is_link($link = $app_dir . "/Lib/igk")) {
+    @symlink($install_dir, $link);
+}
+$v_blf_cmd = "{$install_dir}/bin/balafon";
+if (file_exists($v_blf_cmd)) {
+    @chmod($v_blf_cmd, 0775);
+    
+    // + | install with balafon command
+    $bck = getcwd();    
+    if (is_dir($site_dir))
+        chdir($site_dir);
+    $dv = null; //$_ISUNIX ? " > /dev/null" : "";
+    $cmd = "{$v_blf_cmd} --install-site --root_dir:{$root_dir} --application:{$app_dir}{$dv}";
+    $result = `$cmd`; // exec('/bin/bash -c "/usr/local/php7.4/lib/php -v"', $output, $code);
+    if (is_null($result)){ 
+        // ini_set('display_errors', 1);
+        // error_reporting(-1);
+        ob_start();
+        $root_dir = substr($root_dir, strlen($site_dir)+1);
+        $app_dir = substr($app_dir, strlen($site_dir)+1);
+        igk_install_site($app_dir."/Lib/igk/igk_framework.php", __FILE__, [
+            "balafon-shell",            
+            "--install-site",
+            "--root_dir:{$root_dir}",
+            "--application:{$app_dir}",
+            "--uri:{$base_uri}",
+        ], false, $production);
+        IO::RmDir($site_dir."./Caches");
+        $content = ob_get_contents();
+        ob_end_clean();
+    }    
+    chdir($bck);
+}
+
+// + | unlink script 
+@unlink(__FILE__);
+ 
+function_exists('opcache_reset') && opcache_reset();
+error_clear_last();
+$response->response(json_encode((object)[
+    "message" => "finish",
+    "app_dir" => $app_dir,
+    "corelib" => $corelib,
+    "home" => $home,
+    "cmd" => $cmd,
+    "install_result" => $result,
+]), "application/json");

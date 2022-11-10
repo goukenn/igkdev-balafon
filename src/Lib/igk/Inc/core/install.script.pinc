@@ -25,21 +25,20 @@ if (!function_exists("igk_count")) {
 if (!function_exists("igk_io_dir")) {
     function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
-        if ($dir === null){          
+        if ($dir === null) {
             return $dir;
         }
-        $d=$separator;     
-        $out=IGK_STR_EMPTY;
-        if(ord($d) == 92){
-            $out=preg_replace("/\//", '\\', $dir);
-            $out=str_replace("\\", "\\", $out);
+        $d = $separator;
+        $out = IGK_STR_EMPTY;
+        if (ord($d) == 92) {
+            $out = preg_replace("/\//", '\\', $dir);
+            $out = str_replace("\\", "\\", $out);
+        } else {
+            $d = "/[\\\\]/";
+            $out = preg_replace($d, '/', $dir);
+            $out = str_replace("//", "/", $out);
         }
-        else{
-            $d="/[\\\\]/";
-            $out=preg_replace($d, '/', $dir);
-            $out=str_replace("//", "/", $out);
-        }
-        return $out; 
+        return $out;
     }
 }
 if (!function_exists("igk_io_rmdir")) {
@@ -95,7 +94,23 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-
+class InstallerHelper
+{
+    public static function GetFiles(string $dir, $pattern)
+    {
+        $out = null;
+        if ($hdir = opendir($dir)) {
+            while ($m = readdir($hdir)) {
+                if (preg_match($pattern, $m)) {
+                    if (is_null($out)) $out = [];
+                    $out[] = $m;
+                }
+            }
+            closedir($hdir);
+        }
+        return $out;
+    }
+}
 class InstallerResponse
 {
     var $code;
@@ -128,7 +143,7 @@ class InstallerResponse
         $this->setHeader();
         die($msg);
     }
-    public function Response($data, $contentType = "text/html")
+    public function response($data, $contentType = "text/html")
     {
         $this->header[] = "Content-Type: " . $contentType;
         $this->code = 200;
@@ -141,19 +156,18 @@ class InstallerResponse
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
 defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
 
-$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : "/";
-$corelib =  isset($corelib) ? $corelib : 
- ($glib = igk_getr("corelib") ? implode("/", [$home, trim($glib, "/")]) :  __DIR__ . "/corelib.zip");
+$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
+$corelib =  isset($corelib) ? $corelib : ($glib = igk_getr("corelib") ? implode("/", [$home, trim($glib, "/")]) :  __DIR__ . "/corelib.zip");
 
 $response = new InstallerResponse();
 $install_dir = "";
 $app_dir = null;
 $steps = [];
 
-if(!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")){
+if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
 }
-if (!($tk = igk_getr("token")) || ($token != $tk)){
+if (!($tk = igk_getr("token")) || ($token != $tk)) {
     $response->die("missing token", 500);
 }
 
@@ -169,27 +183,71 @@ if (!file_exists($corelib)) {
 
 $install_dir = igk_getr("install_dir");
 if ($install_dir)
-    $install_dir = implode("/", [$home, trim($install_dir,"/")]);
+    $install_dir = implode("/", array_filter([$home == '/' ? null : $home, trim($install_dir, "/")]));
 else
     $install_dir = __DIR__ . "/../application/Lib/igk";
 
-if (is_link($install_dir)){
+if (is_link($install_dir)) {
     $response->die("directory link to ", 503);
 }
+if (is_dir($install_dir) && !igk_getr('no_backup')) {
+    // + | -----------------------------------------
+    // + | backupd - lib
+    // + | 
+    $tmp_name = tempnam($install_dir . "/../", "bck." . basename($install_dir));
+    $archive = new \ZipArchive();
+    if ($archive->open($tmp_name, ZipArchive::CREATE)) {
+        $thdir = [$install_dir];
+        $ln = strlen($install_dir);
+        while (count($thdir) > 0) {
+            $q = array_shift($thdir);
+            if ($hdir = opendir($q)) {
 
-if (!is_dir($install_dir) && !@mkdir($install_dir, 0777, true)) {
-    $response->die("failed created dir: ".$install_dir, 500);
+                $path = substr($q, $ln);
+                while ($m = readdir($hdir)) {
+                    if (($m == ".") || ($m == "..")) {
+                        continue;
+                    }
+                    $f = $q . "/" . $m;
+                    if (is_file($f)) {
+                        $archive->addFile($f, $path . "/" . $m);
+                        // echo "load ".$f."\n";
+                    } else if (is_dir($f)) {
+                        array_push($thdir, $f);
+                    }
+                }
+                closedir($hdir);
+            }
+        }
+    }
+    $archive->close();
+    $cid = 'bck.' . date("Ymd");
+
+    if ($t_pdir = InstallerHelper::GetFiles(dirname($tmp_name), "/^" . $cid . "/")) {
+        rsort($t_pdir);
+        $g = substr($t_pdir[0], strlen($cid) + 1);
+        $cid .= "-" . (intval(substr($g, 0, strpos($g, "."))) + 1);
+    } else {
+        $cid .= "-1";
+    }
+    $o = rename($tmp_name, $opath = dirname($tmp_name) . "/" . $cid . ".zip");
+    // echo "renamed : ".$opath. " final : ".$o;
+    // print_r($t_pdir);
+    // $response->die("complete");
+} else {
+    if (!is_dir($install_dir) && !@mkdir($install_dir, 0775, true)) {
+        $response->die("failed created dir: " . $install_dir, 500);
+    }
 }
 
+if (!($install_dir = realpath($install_dir))) {
+    $response->die("install_dir missing", 500);
+}
 $app_dir = igk_getr("app_dir");
-$install_dir = realpath($install_dir);
 $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 @unlink($temp_dir);
 @unlink($install_dir);
 mkdir($temp_dir);
-
-
-
 $version = 0;
 $author = 0;
 $appName;
@@ -235,10 +293,10 @@ if ($archive->open($corelib)) {
         rename($temp_dir . "/Lib/igk/", $install_dir);
         igk_io_rmdir($temp_dir);
         unset($temp_dir);
-        if (isset($app_dir)){
+        if (isset($app_dir)) {
             $steps[] = "clear caches";
             $app_dir = implode("/", [$home, trim($app_dir, "/")]);
-            igk_io_rmdir($app_dir."/.Caches");
+            igk_io_rmdir($app_dir . "/.Caches");
         }
     }
 } else {
@@ -248,4 +306,4 @@ $_vart = compact("error", "install_dir", "count_file", "author", "version", "app
 if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;
 }
-$response->Response(json_encode((object)$_vart, JSON_UNESCAPED_SLASHES), "application/json");
+$response->response(json_encode((object)$_vart, JSON_UNESCAPED_SLASHES), "application/json");

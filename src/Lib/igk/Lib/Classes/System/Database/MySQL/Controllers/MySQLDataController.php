@@ -10,19 +10,18 @@ namespace IGK\System\Database\MySQL\Controllers;
 
 use IGK\Controllers\BaseController;
 use IGK\Models\DbModelDefinitionInfo;
-use IGK\System\Html\Dom\HtmlNode;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use IGK\System\Html\Dom\HtmlNode; 
 
 /**
 * Represente IGKMySQLDataCtrl class
 */
 class MySQLDataController extends BaseController{
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function __construct(){
-        parent::__construct();
+    protected function getAutoGenerateModels(){
+        return false;
+    }
+    public function getUseDataSchema(): bool
+    {
+        return false;
     }
     ////!\ not realible
     ///<summar>/!\ delete all table from data base. return a node of</summary>
@@ -267,6 +266,10 @@ class MySQLDataController extends BaseController{
     public function getDataTableName(): ?string{
         return null;
     }
+    /**
+     * disable use of init database
+     * @return false 
+     */
     public function getCanInitDb(){
         return false;
     }

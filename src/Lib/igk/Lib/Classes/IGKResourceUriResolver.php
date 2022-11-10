@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 
 use function igk_resources_gets as __;
@@ -144,6 +145,8 @@ class IGKResourceUriResolver
                 if (!file_exists($o) && !is_link($o)) {
                     $odir = dirname($o);
                     if (IO::CreateDir($odir)) {
+                        
+                        $rp = SysUtils::ResolvLinkPath($rp);
                         if (!file_exists($o) && !($outlink = igk_io_symlink($rp, $o))) {
                             igk_ilog(__("Failed to create symbolic link - 2 - ") . " " . $rp . '==$gt; ' . $o . " ? " . is_link($o) . " = " . $outlink);
                             return null;

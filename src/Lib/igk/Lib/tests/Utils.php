@@ -35,16 +35,17 @@ class Utils{
             $test->fail("controller not created");
             return false;
         }
+        $tables = $controller->getTables();
         $model = $model ?? $controller->getDb(); 
-        if ($tb=igk_db_get_ctrl_tables($controller)){
-            foreach($tb as $k){                
-                $test->assertTrue(
-                        $model->select_count(null,$k) !== -1                        
-                        , "Table $k not present");
-            } 
-        }else {
-            $test->fail("no tables : ".get_class($controller));
-        }
+        // if ($tb=igk_db_get_ctrl_tables($controller)){
+        //     foreach($tb as $k){                
+        //         $test->assertTrue(
+        //                 $model->select_count(null,$k) !== -1                        
+        //                 , "Table $k not present");
+        //     } 
+        // }else {
+        //     $test->fail("no tables : ".get_class($controller));
+        // }
 
     }
     public static function PostView(BaseController $controller, $view="default", $params=null){

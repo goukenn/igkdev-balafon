@@ -54,9 +54,11 @@ abstract class DbSchemaDefinitions{
     }
     private static function _InitFromCache(){
         $v_resolveKey = "resolved";
+        $i = 0;
         if (is_null(self::$sm_def)){
             // + | LOAD FROM DB CACHE
-            if (is_file($file = igk_io_cachedir()."/".self::CACHE_FILE)){
+            // igk_debug_wln("load from cache ....");
+            if ( is_file($file = igk_io_cachedir()."/".self::CACHE_FILE)){
                 $s = file_get_contents($file);
                 if (!empty($s)){
                     if (($g = unserialize($s)) === false){

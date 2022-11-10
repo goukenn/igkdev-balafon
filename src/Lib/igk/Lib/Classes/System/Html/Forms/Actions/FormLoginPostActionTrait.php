@@ -62,4 +62,8 @@ trait FormLoginPostActionTrait
             igk_navto($redirect);
         } 
     }
+    public function logout(){
+        $this->getController()->logout(1);        
+        igk_navto($this->getController()->uri(''));
+    }
 }

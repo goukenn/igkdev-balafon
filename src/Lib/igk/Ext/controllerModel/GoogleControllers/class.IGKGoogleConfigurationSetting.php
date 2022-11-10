@@ -15,7 +15,7 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 
 	public function getConfigPage(){return "google.sdk";}
 	public function getConfigGroup(){return "google";}
-	public function getName(){return "com.igkdev.googleapi"; }
+	 
 	public function initConfigMenu(){
 		return array(
 			(new MenuItem($this->ConfigPage, $this->ConfigPage, $this->getUri("showConfig")))->setGroup($this->ConfigGroup),
@@ -34,9 +34,11 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 		$frm = $box->div()->addForm();
 		$frm["action"] = $this->getUri("storeApiKey");
 		$frm->add("label")->Content = __("API KEY");
-		$frm->addInput("clApiKey", "text", igk_google_apikey())->setAttribute("placeholder", __("google api key"));
-
-		$frm->addActionBar()->addInput("btn.valid", "submit", __("Update"));
+		$frm->addInput("clApiKey", "text", igk_google_apikey())
+		->setClass('igk-form-control igk-form-input-pwd')
+		->setAttribute("placeholder", __("google api key"));
+		$frm->addActionBar()->addInput("btn.valid", "submit", __("Update"))
+		->setClass("igk-btn-primary");
 	}
 	public function storeApiKey(){
 		if (!igk_is_conf_connected()){

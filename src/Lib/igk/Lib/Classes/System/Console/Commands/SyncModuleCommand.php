@@ -11,6 +11,7 @@ use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
+use IGK\System\Controllers\ApplicationModules;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 
@@ -60,9 +61,10 @@ class SyncModuleCommand extends SyncAppExecCommandBase
 
 
         Logger::info("Sync all modules");
-
+        if ($cache_file = ApplicationModules::GetCacheFile()){
         // remove json modules cache file files
-        @unlink(igk_io_cachedir() . "/.modules.json");
+            @unlink($cache_file);
+        }
 
         $tab = igk_get_modules();
 

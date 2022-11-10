@@ -8,6 +8,7 @@
 namespace IGK\System\Http;
  
 use IGK\Controllers\BaseController;
+use IGK\Helper\SysUtils;
 use IGK\System\Database\IUserProfile;
 use IGKException;
 
@@ -80,10 +81,9 @@ class Route
     {
         if (file_exists($cf = $controller::configFile("routes"))) {
             self::$sm_controller = $controller;
-            $inc = function () {
-                include_once(func_get_arg(0));
-            };
-            $inc($cf);
+            SysUtils::Include($cf, [
+                "ctrl"=>$controller
+            ]);
         }
     }
     /**

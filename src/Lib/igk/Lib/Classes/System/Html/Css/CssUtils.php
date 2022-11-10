@@ -122,7 +122,7 @@ abstract class CssUtils
             $g = $theme->getDef();
             $tab = $g->getAttributes();
             $lk = "html[data-theme=$theme_name] ";
-            array_map(function ($v, $k) use ($g, $theme_name, $is_primaryTheme, $lk) {
+            array_map(function ($v, $k) use ($g, $is_primaryTheme, $lk) {
                // + | ignore case 
                 if (empty($v) || (strpos($k, 'html[data-theme=')!==false) || !preg_match(IGK_CSS_TREAT_REGEX, $v)){                    
                     return null;

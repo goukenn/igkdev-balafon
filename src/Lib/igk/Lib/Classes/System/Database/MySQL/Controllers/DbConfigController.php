@@ -69,6 +69,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     function getDataTableInfo(): ?DbModelDefinitionInfo{
         return igk_getctrl(SysDbController::class)->getDataTableInfo();
     }
+    // function getCanInitDb(){        
+    //     return false;
+    // }
 
 
     ///<summary></summary>
@@ -2223,7 +2226,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $cnf->db_name = $dbname;
         $cnf->db_port = $dbPort;
         igk_save_config();
-        igk_resetr();
         igk_notifyctrl()->addSuccessr("msg.databaseinfoupdated");
         try {
             if ($db = igk_get_data_adapter($this)) {
@@ -2232,7 +2234,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         } catch (\Exception $ex) {
             igk_ilog(__("failed to reset and connect to db: " . $ex->getMessage()));
         }
-        $this->View(); 
+        igk_resetr();
+        $this->View();  
         igk_navtocurrent(); 
     }
     

@@ -41,6 +41,7 @@ $_SERVER["DOCUMENT_ROOT"] = IGK_BASE_DIR;
 $_SERVER["SERVER_NAME"] = "local.test.com";
 $_SERVER["SERVER_PORT"] = "8801"; 
 $_SERVER["HTTP_USER_AGENT"] = "local.test.agent";
+unset($_SERVER["REQUEST_URI"]);
 
 // + | ---------------------------------------------------------------------------------------------------
 // + | ensure constant from $_ENV
