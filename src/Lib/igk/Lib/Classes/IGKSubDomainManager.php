@@ -82,9 +82,7 @@ final class IGKSubDomainManager extends IGKObject{
                 $c =$t[$s];
                 $row = (object)$c;
                 return igk_getctrl($row->clCtrl, false);
-            }
-            // igk_debug(1);
-            // igk_environment()->querydebug = 1;
+            } 
             // $v_start = igk_sys_request_time();
             // $q = "SELECT * FROM `tbigk_subdomains` WHERE `clName`='tonerafrika'";
             // $c = mysqli_connect("mysql", "root", "rootbonaje", "igkdev.dev");

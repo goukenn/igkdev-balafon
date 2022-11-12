@@ -7,6 +7,7 @@
 
 use IGK\System\Console\Logger;
 use IGK\Controllers\BaseController;
+use IGK\System\Caches\EnvControllerCacheDataBase;
 
 // + | --------------------------------------------------------------------
 // + | RESET DATABASE
@@ -37,26 +38,33 @@ if(!$s){
     return -2;
 }  
 $deflog = igk_environment()->get(__FILE__);
-
-if ($deflog===null){
+$ad=igk_get_data_adapter($controller);
+if ($deflog===null){ 
 Logger::print("db-name: ".igk_configs()->db_name);
 Logger::print("db-server: ".igk_configs()->db_server);
-Logger::print("dropdb ... ". ($force ? "force" : ""));
+Logger::print("dropdb ... ". ($force ? "--force" : ""));
+Logger::print("dataadapter: ". $controller->getDataAdapterName());
+Logger::print("isconnect: ". $ad->isConnect());
+Logger::print("name: ". get_class($ad));
 igk_environment()->set(__FILE__, 1);
 }else{
     $deflog++;
 }
-$controller::dropDb(false, $force); 
-$ad=igk_get_data_adapter($controller);
+$controller::dropDb(false, $force);  
 $ad->initForInitDb();
 igk_set_env("sys://db_init_table/ctrl", $controller);
 Logger::print("initdb");
 $controller::initDb($force);
-
 $ad->flushForInitDb();
 igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($controller));
 igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$controller]);
+$ad->close();
+$file = igk_io_cachedir() . "/" . EnvControllerCacheDataBase::FILE;
+if (file_exists($file)){
+    @unlink($file);
+}
 
+// igk_wln_e('kjd::finish > ', $controller->getDataAdapter()->openCount());
 if ($deflog>0){
     $deflog--;
 }

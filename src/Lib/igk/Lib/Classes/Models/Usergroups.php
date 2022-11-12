@@ -1,9 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Usergroups.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
@@ -11,9 +11,12 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|TbigkUsers|int $clUser_Id
-* @property mixed|TbigkGroups|int $clGroup_Id*/
+* @property int $clId
+* @property int|\IGK\Models\Users $clUser_Id
+* @property int|\IGK\Models\Groups $clGroup_Id
+* @method static ?self Add(int|\IGK\Models\Users $clUser_Id, int|\IGK\Models\Groups $clGroup_Id) add entry helper
+* @method static ?self AddIfNotExists(int|\IGK\Models\Users $clUser_Id, int|\IGK\Models\Groups $clGroup_Id) add entry if not exists. check for unique column.
+* */
 class Usergroups extends ModelBase{
 	/**
 	* table's name

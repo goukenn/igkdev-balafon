@@ -1,20 +1,23 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Apps.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>manage download time application.</summary>
 /**
-* 
+* manage download time application.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|varchar $clDownloadTime
-* @property mixed|datetime $clLast*/
+* @property int $clId
+* @property string $clName
+* @property string $clDownloadTime
+* @property string|datetime $clLast
+* @method static ?self Add(string $clName, string $clDownloadTime, string|datetime $clLast) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clDownloadTime, string|datetime $clLast) add entry if not exists. check for unique column.
+* */
 class Apps extends ModelBase{
 	/**
 	* table's name

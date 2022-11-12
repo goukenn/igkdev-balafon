@@ -101,9 +101,8 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param mixed|array|IDbSendQueryOptions $option null or array key of object 
      * @return mixed|object|null
      */
-    private function _sendQuery($query, $options = null)
-    {
-        return $this->getSender()->sendQuery($query, $options);
+    private function _sendQuery($query, $options = null, bool $autoclose=false){
+        return $this->getSender()->sendQuery($query, true, $options, null, $autoclose);
     }
     ///<summary></summary>
     /**
@@ -189,6 +188,10 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         if ($this->m_isconnect && $this->m_resource) {
             if (@$this->m_resource->ping()) {
                 $this->m_openCount++;
+                // if ($this->m_openCount > 2){
+                //     igk_trace();
+                //     igk_wln_e("open count : ".$this->m_openCount);
+                // }
                 igk_set_env("lastCounter", igk_ob_get_func('igk_trace'));
                 return true;
             }
@@ -199,10 +202,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             igk_die("[igk] The connection was not closed properly :::ping failed : " .
                 $lcount . " <br />");
         } 
-        $r = igk_db_connect($this); 
-        
-        
-
+        $r = igk_db_connect($this);  
 
         if (igk_db_is_resource($r) && $this->initialize($r)) {
             $this->m_isconnect = true;
@@ -217,8 +217,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
 
         }
         $this->m_isconnect = false;
-        $this->m_resource = null;
-
+        $this->m_resource = null; 
         return false;
     }
  
@@ -276,7 +275,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param mixed $dbuser the default value is "root"
      * @param mixed $dbpwd the default value is ""
      */
-    public static function Create(?array $options = null)
+    public static function Create(?array $options = null, & $error = null)
     {
 
         static $driver_storage;
@@ -315,6 +314,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $out->connect();
         } catch (\Exception $_) { 
             $out->m_isconnect = false;
+            $error = $_->getMessage();
             // remove last error in case last error - 
             if (igk_is_cmd() && error_get_last()) {
                 error_clear_last();
@@ -346,7 +346,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         if (!$this->getIsConnect())
             return false;
         // + | ------------------- 
-        return $this->sendQuery("CREATE DATABASE IF NOT EXISTS `" . $this->escape_string($db) . "` ");
+        return $this->sendQuery("CREATE DATABASE IF NOT EXISTS `" . $this->escape_string($db) . "`;", true );
     }
     ///<summary>create table</summary>
     /**
@@ -816,36 +816,43 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     /**
      * send query and return resources
      * @param mixed $query
-     * @param mixed $throwex the default value is true
+     * @param bool|option $throwex throw 
      * @return resource|null 
      */
-    public function sendQuery($query, $throwex = true)
+    public function sendQuery($query, $throwex = true , $nolog = false)
     {
 
-        $v_nolog = false;
-        if (is_array($throwex)) {
-            $v_nolog = igk_getv($throwex, "no_log", false);
-            $throwex = igk_getv($throwex, "throw");
-        }
+        if (igk_environment()->isDev()){
+            // if ($query==''){
+            //     igk_trace();
+            //     igk_wln_e(__FILE__.":".__LINE__,  $query);
+            // }
+            // if (strstr($query, 'SELECT Count(*) FROM `tbigk_apps`')) {
+            //     igk_wln(
+            //         __FILE__.":".__LINE__, 
+            //         "base ::: ". $this->openCount());                
+            //     // igk_trace(); igk_exit();
+            // }
+            igk_ilog('send - query > '. $query . ' ', 0, false);
+        }  
 
         if (igk_db_is_resource($this->m_resource)) {
             if (igk_environment()->querydebug) {
                 igk_dev_wln("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
-                igk_environment()->write_debug("<span>query &gt; </span>" . $query);
-                
+                igk_environment()->write_debug("<span>query &gt; </span>" . $query); 
             }
-            $this->setLastQuery($query);
+            $this->setLastQuery($query);             
             $t = igk_db_query($query, $this->m_resource);
             $error = "";
             $code = 0;
-            if (!$t && !$v_nolog) {
+            if (!$t && !$nolog) {
                 $error = $this->getDriverError();
                 $code = $this->getDriverErrorCode();
                 $this->m_error = $error;
                 $this->m_errorCode = $code;
                 $log = ["DBQueryError" => $error];
-                if (0 && igk_environment()->isDev()){
+                if (igk_environment()->isDev()){
                     $log = array_merge($log, ["Query" => $query, "File" => __FILE__, "Line"=>__LINE__]);
                 }
                 igk_ilog($log);
@@ -855,7 +862,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                     $t,
                     "<div>/!\\ SQL Query Error : $error </div><div style='font-style:normal;'>" . igk_html_query_parse($query) . "</div>",
                     $code
-                );
+                ); 
             } else if (!$t)
                 return null;
             return $t;
@@ -931,23 +938,20 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      */
     public function tableExists($tablename)
     {
+        
         if (empty($tablename))
-            return false;
+            return false;   
+ 
         try {
-            $s = $this->_sendQuery(
-                "SELECT Count(*) FROM `" . igk_mysql_db_tbname($tablename) . "`",
-                [
-                    "throw" => false,
-                    "no_log" => true
-                ]
-            );
-            // igk_trace();
-            // igk_wln_e("counting .... ", $s);
-            if ($s && ($s->ResultType == "boolean")) {
+            $s = $this->sendQuery(
+                "SELECT Count(*) FROM `" . igk_mysql_db_tbname($tablename) . "`", 
+                true);
+            if (is_bool($s))         
+                return $s;
+            if ($s) {
                 return true;
-            }
-            return $s !== null;
-        } catch (Exception $ex) {
+            } 
+        } catch (Exception $ex) { 
             igk_ilog(__METHOD__ . ":" . $ex->getMessage());
         }
         return false;

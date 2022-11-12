@@ -240,6 +240,7 @@ abstract class DbSchemas{
                 if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName)) {
                     igk_push_env("db_init_schema", __("failed to create [0]", $n));
                     $no_error = 0;
+                    igk_ilog("failed to create ".$n);
                 }
             }
             $adapter->endInitDb();

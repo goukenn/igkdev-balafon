@@ -114,20 +114,27 @@ abstract class MiddlewireActionBase extends IGKActionBase{
         $path =  "/" . trim($path, "/");  
         if (!empty($routes)){
             // must use the route technique to validate the path
-             
-            foreach($routes as $v){   
+             $method = igk_server()->REQUEST_METHOD;
+            foreach($routes as $v){  
                 // igk_dev_wln_e(__FILE__.":".__LINE__,  "name: ". $v->isAuthRequired());
-                if ($v->match($path, igk_server()->REQUEST_METHOD)){  
+                if ($v->match($path, $method)){  
+                    $redirect =  $v->getRedirectTo(); 
                     if ($v->isUserRequired()){
                         if (!$user){
+                            $m = "User required.";
+                            $redirect && $this->_handle_redirect($redirect, 402, $m);                            
                             throw new IGKException("User required.", 402);
                         }
                     }               
                     if($v->isAuthRequired()){
                         if ($user && !$v->isAuth($user)){
-                            throw new IGKException("Route access not allowed.");
+                            $m = "Route access not allowed.";
+                            $redirect && $this->_handle_redirect($redirect, 402, $m);
+                            throw new IGKException($m, 402);
                         } else if (!$user){
-                            throw new IGKException("Role require an user.");
+                            $m = "Role require an user.";
+                            $redirect && $this->_handle_redirect($redirect, 402, $m);
+                            throw new IGKException($m, 402);
                         }
                     }
                     $v->setUser($user);
@@ -157,10 +164,13 @@ abstract class MiddlewireActionBase extends IGKActionBase{
                 } 
             }  
             // + | route not resolved 
-            throw new IGKException(__("Route {0} not resolved", $path), 404);
+            throw new IGKException(__("Route {0} not resolved, in {1} ", $path, get_class($this)), 404);
         }
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments); 
+    }
+    private function _handle_redirect($url, $code, $message){
+        igk_navto($url, $code);
     }
     /**
      * invoke route

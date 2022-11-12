@@ -174,7 +174,7 @@ class SQLGrammar implements IDbQueryGrammar
             if ($tb)
                 $query .= ",";
             $v_name = $v->clName;
-            if (empty($v_clName)) {
+            if (empty($v->clName)) {
                 if (is_numeric($k)) {
                     fdie(__CLASS__ . " :::Error column name must be a string");
                 }
@@ -409,7 +409,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $column 
      * @return bool
      */
-    public function exist_column($table, $column, $db = null)
+    public function exist_column(string $table, string $column, $db = null)
     {       
         $adapter  = $this->m_driver;
         $db = $db ?? $adapter->getDbName() ?? igk_die("no db name");

@@ -15,6 +15,16 @@ use ReflectionException;
 abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    /**
+     * display name
+     * @param string $firstName 
+     * @param string $lastName 
+     * @return string 
+     */
+    public static function DisplayName(string $firstName, string $lastName){
+        return implode(' ', array_filter([$firstName, strtoupper($lastName ?? '')]));
+    }
     /**
      * check if uri start with compare
      * @param string $haystack source uri

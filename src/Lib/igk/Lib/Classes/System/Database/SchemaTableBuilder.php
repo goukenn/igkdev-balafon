@@ -7,12 +7,56 @@
 namespace IGK\System\Database;
 
 use DbColumnInfo;
+use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
 
 /**
  * schema table builder
  * @package IGK\System\Database
  */
-class SchemaTableBuilder extends SchemaBuilderHelper{
+class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEntity{
+
+    public function column(string $id, $type=null, $length=9): IDiagramSchemaEntity {
+        $this->_add_column($id, $type, $length);
+        return $this;
+    }
+
+    public function id(string $id): IDiagramSchemaEntity { 
+        $this->_add_column(
+            $id,'Int',0, null, true, true, true
+        );
+        return $this; 
+    }
+
+    public function varchar(string $id, int $length): IDiagramSchemaEntity { 
+        $this->_add_column(
+            $id,'VarChar', $length, null
+        );
+        return $this;
+     }
+
+    public function address(string $id): IDiagramSchemaEntity { return $this; }
+
+    public function dateUpdate(?string $prefix = null): IDiagramSchemaEntity { return $this; }
+
+    public function link_guuid(string $name, string $table_name, $linkColumn = 'clId', $linkName = null, $notnull = false, bool $unique = false, ?int $uniqueColumn = null, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity { return $this; }
+
+    public function text(string $id): IDiagramSchemaEntity { return $this; }
+
+    public function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity { return $this; }
+
+    public function link(string $name, string $table, ?string $column = null): IDiagramSchemaEntity { return $this; }
+
+    public function int(string $name): IDiagramSchemaEntity { return $this; }
+
+    public function float(string $name): IDiagramSchemaEntity { return $this; }
+
+    public function unique(string $name): IDiagramSchemaEntity { return $this; }
+
+    public function primary(string $name): IDiagramSchemaEntity { 
+        return $this; 
+    }
+
+    public function setDescription(?string $description): IDiagramSchemaEntity { return $this; }
 
 
     /**
@@ -41,7 +85,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper{
         $is_unique = $options ? igk_getv($options, "is_unique") : null;
         $is_unique_column = $options ? igk_getv($options, "is_unique_column") : null;
         $column_member_index = $options ? igk_getv($options, "column_member_index") : null;
-        return $this->column($name, "VarChar",$length, $default, $primarykey, false, $desc, $is_unique, $is_unique_column, 
+        return $this->_add_column($name, "VarChar",$length, $default, $primarykey, false, $desc, $is_unique, $is_unique_column, 
         $column_member_index);
     }
     /**
@@ -58,9 +102,10 @@ class SchemaTableBuilder extends SchemaBuilderHelper{
      * @param null|int $column_member_index 
      * @return $this 
      */
-    public function column($name, $type, $length, $default=null, 
+    protected function _add_column($name, $type, $length, $default=null, 
         $primarykey=false, 
         $auto_increment=false,
+        $not_null = false,
         $desc="null",
         $is_unique=false,  
         $is_unique_column=false,
@@ -71,12 +116,14 @@ class SchemaTableBuilder extends SchemaBuilderHelper{
             "clTypeLength"=>$length,
             "clDescription"=>$desc,
             "clAutoIncrement"=>$auto_increment, 
+            "clNotNull"=>$not_null,
             "clDefault"=>$default,
-            "clIsPrimaryKey"=>$primarykey,
+            "clIsPrimary"=>$primarykey,
             "clIsUnique"=>$is_unique,
             "clIsUniqueColumnMember"=>$is_unique_column,
             "clColumnMemberIndex"=>$column_member_index
         ]);
         return $this;
     }
+
 }

@@ -38,7 +38,7 @@ require_once __DIR__ . "/ModelEntryExtension.php";
  * @method static bool drop() macros function drop table 
  * @method static bool createTable() macros function create table if not exists
  * @method static bool delete(null|array|object $condition) macros function delete table's entries
- * @method static ?static select_row($condition) macros function : select single row
+ * @method static ?static select_row($condition, $options=null) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
  * @method static object|null cacheRow() macros function
@@ -380,8 +380,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
         if (igk_environment()->isDev()) {
             if (!property_exists($this->raw, $name) && (strpos($name, "::") !== 0)) {
-                igk_trace();
-                die("property " . static::class . "::$name not present");
+                igk_trace();                
+                igk_die("property [" . static::class . "::$name] not present");
             }
         }
         return igk_getv($this->raw, $name);
@@ -479,7 +479,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * @throws Exception 
      */
     public static function __callStatic($name, $arguments)
-    {
+    { 
         if (self::$macros === null) {
             // ---------------------------------------------------------------------------
             // + initialize macro definition
@@ -560,6 +560,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
 
         $failed = false;
+      
         $result = self::_InvokeMacros(self::$macros, $name, $_instance_class, $arguments, $failed);
         if (!$failed){
             return $result;

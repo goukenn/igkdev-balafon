@@ -1,21 +1,24 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Partners.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>store local sites partner.</summary>
 /**
-* 
+* store local sites partner.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|varchar $clCategory
-* @property mixed|text $clWebSite
-* @property mixed|text $clDescription*/
+* @property int $clId
+* @property string $clName
+* @property string $clCategory
+* @property string $clWebSite
+* @property string $clDescription
+* @method static ?self Add(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry if not exists. check for unique column.
+* */
 class Partners extends ModelBase{
 	/**
 	* table's name

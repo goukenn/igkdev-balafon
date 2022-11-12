@@ -143,7 +143,7 @@ class ViewHelper
         extract($ctrl->getExtraArgs(), EXTR_SKIP);
         $_tab = get_defined_vars(); 
         $g = (function(){
-            extract(func_get_arg(1));
+            extract(func_get_arg(1)); 
             return include(func_get_arg(0));
         })->bindTo($ctrl);
         if (!is_file($file = func_get_arg(0))){

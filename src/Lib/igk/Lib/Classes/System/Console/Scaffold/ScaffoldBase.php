@@ -13,6 +13,7 @@ namespace IGK\System\Console\Scaffold;
  * @package IGK\System\Console\Scaffold
  */
 abstract class ScaffoldBase{
+  var $description;
   function showHelp($command){ 
   }
   public abstract function exec($command);

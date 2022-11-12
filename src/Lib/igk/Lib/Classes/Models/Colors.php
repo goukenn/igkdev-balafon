@@ -1,19 +1,22 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Colors.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>use to store named colors.</summary>
 /**
-* 
+* use to store named colors.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|varchar $clValue*/
+* @property int $clId
+* @property string $clName
+* @property string $clValue
+* @method static ?self Add(string $clName, string $clValue) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clValue) add entry if not exists. check for unique column.
+* */
 class Colors extends ModelBase{
 	/**
 	* table's name

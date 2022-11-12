@@ -1,33 +1,36 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>User's tables</summary>
 /**
-* 
+* User's tables
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clLogin
-* @property mixed|varchar $clPwd
-* @property mixed|varchar $clFirstName
-* @property mixed|varchar $clLastName
-* @property mixed|text $clDisplay
-* @property mixed|varchar $clLocale
-* @property mixed|varchar $clPicture
-* @property mixed|enum $clLevel
-* @property mixed|int $clStatus
-* @property mixed|datetime $clDate
-* @property mixed|datetime $clLastLogin
-* @property mixed|TbigkUsers|int $clParent_Id
-* @property mixed|varchar $clClassName
-* @property mixed|datetime $clcreate_at
-* @property mixed|datetime $clupdate_at
-* @property mixed|varchar $clGuid*/
+* @property int $clId
+* @property string $clLogin
+* @property string $clPwd
+* @property string $clFirstName
+* @property string $clLastName
+* @property string $clDisplay
+* @property string $clLocale ="fr"
+* @property string $clPicture
+* @property string $clLevel
+* @property int $clStatus ="-1"
+* @property string|datetime $clDate ="CURRENT_TIMESTAMP"
+* @property string|datetime $clLastLogin
+* @property int|?\IGK\Models\Users $clParent_Id
+* @property string $clClassName
+* @property string|datetime $clcreate_at ="CURRENT_TIMESTAMP"
+* @property string|datetime $clupdate_at ="CURRENT_TIMESTAMP"
+* @property string $clGuid
+* @method static ?self Add(string $clLogin, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clGuid, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $clLogin, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clGuid, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* */
 class Users extends ModelBase{
 	/**
 	* table's name

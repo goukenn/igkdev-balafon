@@ -53,7 +53,7 @@ return [
 'meta_title'=>"igkdev.be",
 'powered_messae'=>"",
 'show_debug'=>"0",
-'show_powered'=>"1",
+'no_powered_message'=>0,
 'default_controller'=>null, 
 'website_adminmail'=>"bondje.doue@igkdev.com",
 'website_domain'=>"igkdev.com",

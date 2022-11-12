@@ -1121,7 +1121,25 @@ $def["ul.number li"] = "list-style-type:decimal;";
 // + | --------------------------------------------------------------------
 // + | MENU
 // + |
-
 $def['.igk-menu .m-l span'] = '{sys: no-wrap}';
+
+
+// + | --------------------------------------------------------------------
+// + | SVG BUTTON
+// + |
+$def['.btn-32'] = 'width:32px; height:32px; display: inline-block';
+$def['.btn-32 > svg'] = '{sys:fit}';
+
+// + | --------------------------------------------------------------------
+// + | igk-winui-context-menu
+// + |
+$contex_menu_zindex = 100;
+$def['.igk-winui-context-menu'] = '{sys:dispn, posab, alignr} z-index: '.$contex_menu_zindex.'; right: 10px;';
+$def['*:hover > .igk-winui-context-menu'] = 'display: block;';
+$def['.igk-winui-context-menu:hover'] = 'display: block;';
+$def['.igk-winui-context-menu a'] = "";
+
+// disable auto on btn default margin
+$def['.igk-btn.margin-i'] = 'margin:inherit';
 
 // $def["body"] = "background-color:aqua !important;[res:add_32x32]";

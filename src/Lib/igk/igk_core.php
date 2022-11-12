@@ -85,6 +85,8 @@ function igk_zip_output_type($forcegzip=0){
 ///<summary>write zipped output to buffer</summary>
 function igk_zip_output($c, $forcegzip = 0, $header = 1, &$type = null)
 {
+    igk_trace();
+    igk_wln_e("data", ob_get_contents());
     $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
     if (!$forcegzip && strstr($accept, "deflate") && function_exists("gzdeflate")) {
         if ($header) {
@@ -633,7 +635,6 @@ function igk_wln($msg = "")
     //}
     /// BIND TRACE IF - do not include file for speed 
     // igk_trace();
-
     igk_bind_trace(3);
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
@@ -1049,8 +1050,8 @@ function igk_getctrl(string $name, $throwex = 1)
  * @return void 
  * @throws IGKException 
  */
-function igk_ilog($message, ?string $tag=null, $traceindex=0){
-    IGKLog::Append($message, $tag, $traceindex);
+function igk_ilog($message, ?string $tag=null, $traceindex=0, $dblog = true){
+    IGKLog::Append($message, $tag, $traceindex, $dblog);
 }
 
 // + | IO shortcut

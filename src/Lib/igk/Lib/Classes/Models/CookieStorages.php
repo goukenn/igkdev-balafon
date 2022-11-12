@@ -1,9 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: CookieStorages.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
@@ -11,10 +11,13 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clIdentifier
-* @property mixed|varchar $clName
-* @property mixed|datetime $clDateTime*/
+* @property int $clId
+* @property string $clIdentifier
+* @property string $clName
+* @property string|datetime $clDateTime
+* @method static ?self Add(string $clIdentifier, string $clName, string|datetime $clDateTime) add entry helper
+* @method static ?self AddIfNotExists(string $clIdentifier, string $clName, string|datetime $clDateTime) add entry if not exists. check for unique column.
+* */
 class CookieStorages extends ModelBase{
 	/**
 	* table's name

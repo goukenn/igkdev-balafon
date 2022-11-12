@@ -98,9 +98,12 @@ class FileWriter{
                         chmod($dirname, $s_mode);
                     }
                 }else{
-                    if (igk_environment()->isDev())
+                    if (igk_environment()->isDev()){
                         igk_trace();
-                    igk_dev_wln_e("failed to create directory: ".$dirname, error_get_last());
+                        igk_dev_wln_e("failed to create directory: ".$dirname, error_get_last());
+                    }else{
+                        igk_ilog('faile to create '.$dirname);
+                    }
                     throw new IGKException("failed to create ".$dirname); 
                 }
             }

@@ -52,8 +52,7 @@ class MakeFactoryCommand extends AppExecCommand
         if ($g = $ctrl::model($modelname)){
             $fields = (array)$g::createEmptyRow();
         }
-        $fields = var_export($fields, true);      
- 
+        $fields = var_export($fields, true);   
 
         $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns, $fields) {
             $builder = new PHPScriptBuilder();

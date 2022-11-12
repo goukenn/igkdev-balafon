@@ -25,6 +25,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
+use IGK\System\Modules\ModuleManager;
 use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKEnvironment; 
@@ -327,28 +328,44 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
-            ($handler = $this->getActionHandler($fname))
+            ($handler = $this->getActionHandler($fname, ))
         ) {
-            // igk_dev_wln_e("current handler : ".$handler);
             // $is_default_action = $handler== $this->resolvClass("Actions/DefaultAction");            
             // check for source user
             $this->checkUser(false);
             // traitement before passing args to handlers
             $handlerArgs = $params;
+            $_index = $handler->defaultEntryMethod ?? 'index';
+            if (strpos($fname,'/')!==false)
+            {
+                $t = explode('/', $fname); 
+                while(count($t)>1){
+                    $np = array_pop($t);
+                    if (strtolower($np.'action') != 
+                        strtolower(basename(igk_uri($handler))))
+                        {
+                            array_unshift($handlerArgs, $np);
+                            break;
+                        }
+                }
+            }
             // igk_dev_wln(__FILE__.":".__LINE__,  $handlerArgs);
             if (count($handlerArgs) == 0) {
                 // no parameter pass to index method of the action handler
                 if (!ActionHelper::HandleArgs($fname, $handlerArgs)) {
-                    $handlerArgs = ["index"];
+                    $handlerArgs = [$_index];
                 }
             } else if (is_numeric(array_keys($handlerArgs)[0]) && is_numeric($handlerArgs[0])) {
                 // + | passing numeric data to index
-                array_unshift($handlerArgs, "index");
+                array_unshift($handlerArgs, $_index);
             } else {
-                if ($handler == $this->resolvClass("Actions/DefaultAction")) {
+                if ($handler == $this->resolvClass('/Actions/DefaultAction')) {
                     ActionHelper::HandleArgs($fname, $handlerArgs);
                 }
             }
+            
+            
+            
            $r = $handler::Handle(
                 $this,
                 $fname,
@@ -357,6 +374,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 (igk_server()->CONTENT_TYPE == "application/json"),
                 true
             );
+            // igk_dev_wln_e( __FILE__.":".__LINE__, 
+            //      "current handler : ".$handler, 
+            //     $fname, $handlerArgs, $params);
+
             unset($handlerArgs); 
             return $r;
         }
@@ -402,6 +423,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
 
             $viewargs['data'] = $this->getEnvParam(ControllerEnvParams::ActionViewResponse);      
+            $viewargs['user'] = $this->getUser();
+            igk_set_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS, $viewargs);
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;  
@@ -822,11 +845,11 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
     }
 
-    ///<summary></summary>
+    ///<summary>get initialize target node </summary>
     /**
-     * 
+     * get initialize target node 
      */
-    public function getTargetNode()
+    public function getTargetNode(): ?HtmlNode
     {
         $b = $this->getEnvParam(IGK_CTRL_TG_NODE) ?? (function () {
             $g = $this->initTargetNode();
@@ -945,14 +968,34 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         return $t;
     }
 
-    ///<summary>Initialize view setting - before renderging </summary>
+    ///<summary>Initialize view setting - before rendering </summary>
     /**
-     * Initialize view setting - before renderging
+     * Initialize view setting - before rendering
      */
     protected function _initView()
     {    
+        // + | --------------------------------------------------------------------
+        // + | register lang
+        // + |
+        
         R::RegLangCtrl($this);
+        // + | --------------------------------------------------------------------
+        // + | bind style
+        // + |
+
         $this->bindCssStyle();
+
+        // + | --------------------------------------------------------------------
+        // + | bind modules with current document
+        // + |
+        
+        $modules = igk_environment()->getModulesManager()->getAutoloadModules();
+
+        if ($modules && ($doc = $this->getCurrentDoc())){
+            foreach($modules as $mod){
+                ModuleManager::InitDoc($doc, $mod);
+            }
+        }
     }
     ///<summary>set the flag</summary>
     /**

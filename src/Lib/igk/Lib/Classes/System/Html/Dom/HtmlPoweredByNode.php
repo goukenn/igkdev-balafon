@@ -25,7 +25,7 @@ class HtmlPoweredByNode extends HtmlNode{
     }
     public function getIsVisible()
     {
-        return !IGKApp::GetConfig("hide_powered") && !empty($this->getContent());
+        return !IGKApp::GetConfig("no_powered_message") && !empty($this->getContent());
     }
     private function __construct()
     {
@@ -44,9 +44,12 @@ class HtmlPoweredByNode extends HtmlNode{
     }
     protected function __AcceptRender($options = null)
     {  
+        if (!$this->getIsVisible()){
+            return false;
+        }
         $doc = null;
         $options && ($doc = igk_getv($options, "Document"));
-        if ($doc && $doc->noPowered){
+        if ($doc && $doc->getNoPowered()){
             return false;
         }   
         return true;

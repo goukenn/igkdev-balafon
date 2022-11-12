@@ -7,6 +7,7 @@
 
 namespace IGK\System\Console\Commands;
 
+use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -96,6 +97,14 @@ class MySQLCommand extends AppExecCommand
                 }
                 return 1;
             case "dropdb":
+                $sysdb = SysDbController::ctrl();
+                if ($index = array_search(DbConfigController::ctrl(), $c)){
+                    unset($c[$index]);
+                }
+                if ($index = array_search($sysdb, $c)){
+                    unset($c[$index]);
+                }
+                array_push($c, $sysdb);
                 foreach ($c as $m) {
                     if ($m->getCanInitDb() && ($m->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
                         Logger::info("drop: " . get_class($m));

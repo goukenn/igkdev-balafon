@@ -18,6 +18,7 @@ class FormBuilder
     var $datasource;
     static $ResolvType = [
         "number" => "text",
+        "tel"=>"text",
         "float" => "text",
         "int" => "text",
         "email" => "email",
@@ -36,7 +37,8 @@ class FormBuilder
         "int" => "igk-form-control integer",
         "text"=>'igk-form-control text',
         "mail"=>'igk-form-control mail',
-        "url"=>'igk-form-control url'
+        "url"=>'igk-form-control url',
+        "password"=>'igk-form-control password',
     ];
     public function build($formFields, $render = 0, $engine = null, $tag = "div")
     {
@@ -156,7 +158,9 @@ class FormBuilder
                 $g = HtmlUtils::GetFilteredAttributeString("label", [
                     'class'=>"igk-form-label"
                 ]);
-                $o .= "<label for='{$k}'$g>" . ucfirst(igk_getv($v, "label_text", __($k))) . "</label>";
+                //target id 
+                $t_id = igk_getv($v, "id", $k);
+                $o .= "<label for='{$t_id}'$g>" . ucfirst(igk_getv($v, "label_text", __($k))) . "</label>";
             }
             switch ($_type) {
                 case "fieldset":
@@ -180,6 +184,7 @@ class FormBuilder
                     }
                     $o .= "</{$tag}>";
                     break;
+                            
                 case "datalist":
                     if (empty($_id)) {
                         $_id = " id=\"{$k}\"";
@@ -237,19 +242,28 @@ class FormBuilder
                 default:
                     if (empty($_id)){
                         $v['id'] = $_id;
-                        $_id = ' id="' . $k . '"';
+                       // $_id = ' id="' . $k . '"';
                     }
-                    $_vt = "";
-                    if (!empty($_value) || ($_value == "0"))
-                        $_vt = "value=\"{$_value}\"";
-
+                    // $_vt = "";
+                    if (!empty($_value) || ($_value == "0")){
+                        $v['value']=$_value;
+                    }
+                    // $_vt = "value=\"{$_value}\"";
                     $_otype = igk_getv($ResolvType, $_type, "text");
                     $def_type = igk_getv($ResolvClass, $_type, $_type);
                     $o .= "<input"; //type=\"{$_otype}\" {$_vt} {$_name}{$_id} ";
-                    $keys = ['maxlength','pattern', 'placeholder'];
+                    $keys = ['id', 'value', 'maxlength','pattern', 'placeholder'];
+                    if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])){
+                        array_pop($keys);
+                        $keys[] = 'checked';
+                    }
                     $tattrib = ["name"=>$k]; 
                     foreach($keys as $kk){
                         $tattrib[$kk] = igk_getv($v, $kk);
+                    }
+                    if (!$no_place_holder && empty($tattrib['placeholder'])){
+                        //igk_wln_e(get_defined_vars());
+                        $tattrib['placeholder'] = __($k);
                     }
                     // if (isset($v["maxlength"])) {
                     //     $o .= "maxlength=\"{$v["maxlength"]}\" ";
@@ -312,12 +326,37 @@ class FormBuilder
                 }
             }
             if (($cpos = strrpos($k, "[]")) !== false) {
+                // + | --------------------------------------------------------------------
+                // + | FORM FIELD DEFINITION
+                // + |                
                 $name = substr($k, 0, $cpos);
-                $ct = count($v);
-                for ($i = 0; $i < $ct; $i++) {
-                    $b = $v[$i];
-                    $b["name"] = $k;
-                    $bindValue($o, $fieldset, $name, $b);
+                if (is_array($v)){
+                    $ct = count($v);
+                    for ($i = 0; $i < $ct; $i++) {
+                        $b = $v[$i];
+                        if ($b instanceof FormFieldAttribute){
+                            $b->attribs;
+                            continue;
+                        }
+                        $b["name"] = $k;
+                        $bindValue($o, $fieldset, $name, $b);
+                    }
+                } else if ($v instanceof FormFieldAttribute){
+                    $data = $v->attribs;
+                    $v_fname = igk_getv($data, 'name', $k);
+                    $v_ftype = $data['type'];
+                    $data = $data['data'];
+                    if ($data){
+                        $c = 0;
+                        foreach($data as $c_data){
+                            $c_data['name'] = $v_fname;
+                            $c_data['type'] = $v_ftype;
+                            if (empty($c_data['id']))
+                                $c_data['id'] =  $name.'-'.$c;
+                            $bindValue($o, $fieldset, $v_fname, $c_data);
+                            $c++;
+                        }
+                    }
                 }
                 continue;
             }

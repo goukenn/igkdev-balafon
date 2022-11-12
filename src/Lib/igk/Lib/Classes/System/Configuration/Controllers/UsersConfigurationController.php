@@ -108,11 +108,11 @@ class UsersConfigurationController extends ConfigControllerBase {
                     "clLogin"=>$log."@".igk_configs()->website_domain
                 ]
             ];            
+        } else {
+            $condition['clLogin'] = $log;
         }
-        $condition["clPwd"] = IGKSysUtil::Encrypt($pwd);
-
-  
-
+        $crypt_pwd = IGKSysUtil::Encrypt($pwd);
+        $condition["clPwd"] = $crypt_pwd; 
         if ($r = Users::select_row($condition)){
             if($r->clStatus == 1){
                 igk_app()->session->lastLogin = $r->clLastLogin;
@@ -131,16 +131,15 @@ class UsersConfigurationController extends ConfigControllerBase {
                 $this->app->Session->ErrorString="[connectfailed] : status of the requested user is not activated";
             }
             return false;
-        }
- 
-
-        $e=  Users::query_all();
+        }  
+        $e = Users::query_all([], [
+            "Columns"=>["clLogin", "clPwd"]
+        ]);
         if($e){
             if(!preg_match("/@(.)+$/i", $log)){
                 $log=$log."@".igk_configs()->website_domain;
-            }
-            
-            $tab=array("clLogin"=>$log, "clPwd"=>IGKSysUtil::Encrypt($pwd));
+            }            
+            $tab= ["clLogin"=>$log, "clPwd"=>$crypt_pwd];
             $t=$e->searchEqual($tab);
             if($t && is_object($t)){
                 if($t->clStatus == 1){
@@ -996,16 +995,15 @@ class UsersConfigurationController extends ConfigControllerBase {
 
         $form->div()->setStyle("margin-bottom:2.1em")->Content = igk_user_fullname($rid);
 
-        $form->addFields([
+        $form->span()->fields([
             "pwd"=>["type"=>"password", "label_text"=>__("Password")],
             "rpwd"=>["type"=>"password", "label_text"=>__("Re-Password")],
             "id"=>["type"=>"hidden", "value"=>$id],
         ]);
-
         $form->addActions([
             "btn.ok"=>["value"=>__("Modify"), "type"=>"submit", "attribs"=>["class"=>"igk-btn igk-default"]]
         ]);
-        igk_ajx_panel_dialog(__("Change User's Password"), $form);
+        igk_ajx_panel_dialog(__("Change user's Password"), $form);
         SysUtils::exitOnAJX();
     }
 

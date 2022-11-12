@@ -78,7 +78,7 @@ class SchemaBuilder implements ArrayAccess{
         $this->_output[$n] = $v;
     }
     //
-    protected function _access_OffsetGet($n,$v){
+    protected function _access_OffsetGet($n){
         return $this->_output[$n];
     }
     //

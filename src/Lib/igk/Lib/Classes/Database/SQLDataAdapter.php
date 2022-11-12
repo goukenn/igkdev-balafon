@@ -212,9 +212,9 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     * @param mixed $options callback or igk_db_create_opt_obj()
     * @return object query result
     */
-    public function select($tbname, $where=null, $options=null, $throwex=false){
+    public function select($tbname, $where=null, $options=null, $throwex=false, $autoclose=false){
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);		
-        return $this->sendQuery($query, $throwex, $options);   
+        return $this->sendQuery($query, $throwex, $options, $autoclose);   
     }
     ///<summary></summary>
     ///<param name="tbname"></param>

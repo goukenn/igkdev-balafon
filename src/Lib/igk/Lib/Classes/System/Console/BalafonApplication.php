@@ -374,39 +374,7 @@ class BalafonApplication extends IGKApplicationBase
                     }
                     return -1;
                 };
-            }, __("seed your database with data"), "db"],
-            "--db:migrate" => [function ($v, $command) {
-                $command->exec = function ($command, $ctrl = null) {
-                    DbCommandHelper::Init($command);
-                    if (!is_null($ctrl ) && ($c = igk_getctrl($ctrl, false))) {
-                        $c = [$c];
-                    } else {
-                        $c = igk_sys_getall_ctrl();
-
-                        if (($ctrl === null) && ($modules = igk_get_modules())) {
-                            $list = array_filter(array_map(function ($c, $k) {
-                                if ($mod = igk_get_module($k)) {
-                                    return $mod;
-                                }
-                            }, $modules, array_keys($modules)));
-
-                            $c = array_merge($c, [IGKModuleListMigration::Create($list)]);
-                        }
-                    }
-                    foreach ($c as $t) {
-                        $cl = get_class($t);
-                        Logger::info("migrate..." . $cl);
-                        if ($t::migrate()) {
-                            Logger::success("migrate:" . $cl);
-                        }else {
-                            Logger::danger("failed to migrate : ". $cl);
-                        }
-                    }
-                    // migrate module 
-
-                };
-            }, __("migrate your database"),
-                 "db"],
+            }, __("seed your database with data"), "db"],        
             "--db:initdb" => [function ($v, $command) {
                 $command->exec = function ($command, $ctrl = "") {
                     $c = null;
@@ -536,6 +504,7 @@ class BalafonApplication extends IGKApplicationBase
                     }
                     try {
                         if (file_exists($file)) {
+                            DbCommandHelper::Init($command);
                             include($file);
                         } else {
                             Logger::danger(__("[ run file ] file not found"));

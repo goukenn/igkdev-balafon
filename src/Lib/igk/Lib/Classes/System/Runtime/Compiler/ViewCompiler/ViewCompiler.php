@@ -90,9 +90,9 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
 
     /**
      * instruction blocks
-     * @var array
+     * @var ?ViewInstructionBlock
      */
-    var $instruction_blocks = [];
+    var $instruction_blocks;
 
     /**
      * instruction buffer
@@ -143,6 +143,11 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
    
     const BLOCK_TRIM_CHAR = ViewCompilerConstants::BLOCK_TRIM_CHAR;
 
+    public function __construct()
+    {
+        // parent::__construct();
+        $this->instruction_blocks = new ViewInstructionBlock;
+    }
 
     /**
      * evaluate comment with compiler handler
@@ -157,7 +162,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         if (is_null($this->m_compile_handler)) {
             $this->m_compile_handler = $this->_createCompileHandler() ?? igk_die("failed to create compile handler");
         }
-
         $this->m_output .= $this->m_compile_handler->evaluate($data);
     }
     /**
@@ -514,13 +518,17 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 if (!$options->struct_info) {
                     $fop = $options->flagOptions;
                     if ($fop) {
-                        $fop->buffer .= trim($value);
+                        if (substr($fop->buffer,-1)=="\n"){
+                            $fop->buffer = substr($fop->buffer, 0, -1);
+                        }
+                        $fop->buffer .= trim($value)."\n";
                         $options->skipWhiteSpace = false;
                     } else {
                         $this->instruction_blocks[] = $value;
                     }
                 }
             }
+
         }
         return true;
     }

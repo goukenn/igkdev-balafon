@@ -36,7 +36,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     }
 
 
-    public function createAlterTableFormat(?array $options=null):string{
+    public function createAlterTableFormat(?array $options=null):string{       
         return "ALTER TABLE %s ADD %sFOREIGN KEY (%s) REFERENCES %s ON DELETE RESTRICT ON UPDATE RESTRICT;";
     }
 
@@ -175,9 +175,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @param string $query 
      * @param bool $throwex indicate to throw exception on error
      * @param mixed $options extra option to pass
+     * @param bool $autoclose close the connection
      * @return null|bool|IDbQueryResult result data
      */
-    public function sendQuery($query, $throwex=true, $options=null){}
+    public function sendQuery($query, $throwex=true, $options=null, $autoclose=false){ 
+    }
     /**
      * 
      * @return null|IDbQueryGrammar grammar object

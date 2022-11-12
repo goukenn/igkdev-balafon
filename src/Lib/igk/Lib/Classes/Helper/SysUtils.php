@@ -25,6 +25,7 @@ class SysUtils{
     public static function Eval(){
         extract(func_get_arg(1));
         try{
+            // igk_ilog('eval : '. func_get_arg(0));
             eval("?>".func_get_arg(0));
         }catch (TypeError $error){
             throw new IGKException('eval failed', 500, $error);

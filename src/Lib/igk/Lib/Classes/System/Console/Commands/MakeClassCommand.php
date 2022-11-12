@@ -114,6 +114,8 @@ class MakeClassCommand extends AppExecCommand
                 ->desc($desc);
             igk_io_w2file($file, $builder->render());
             Logger::success("output: " . $file);
+            Logger::success("duration : " . igk_sys_request_time());
+
             return 200;
         } else {
             Logger::danger("file already exists : " . $file);

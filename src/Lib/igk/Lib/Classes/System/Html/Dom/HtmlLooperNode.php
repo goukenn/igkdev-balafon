@@ -72,6 +72,7 @@ class HtmlLooperNode extends HtmlItemBase{
                     SysUtils::Eval($v_out, [
                         $hook_expression => $this->args,
                         "raw"=>$this->args,
+                        "ctrl"=> $ctrl 
                     ]); 
                     $v_out = ob_get_contents(); 
                     ob_end_clean();

@@ -121,7 +121,8 @@ class SchemaMigration
                     if (empty($fc = $c->tagName) || ($c instanceof \IGK\System\Html\Dom\HtmlCommentNode))
                         continue;
                     $item = $v_m->$fc()->load($c);
-                    switch (strtolower($fc)) {
+                    $key = strtolower($fc);
+                    switch ($key) {
                         case "addcolumn":
                             $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                             $tabcl = &$tables[$tb]->columnInfo;
@@ -153,9 +154,16 @@ class SchemaMigration
                             $tabcl[$column->clName] = $column;
                             unset($tabcl[$item->name]);
                             break;
-                            // case "altercolumn":
-                            // use change column definition
-                            //    break;
+                        case 'createtable':
+                            $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
+                            $tables[$tb] = (object)["columnInfo"=>$item->columns];
+                            break;
+                        default:
+                            
+                            //igk_wln_e(__FILE__.":".__LINE__,  "ok".$key, $item);
+
+                            break;
+                          
                     }
                 }
                 $migrations[] = $v_m;

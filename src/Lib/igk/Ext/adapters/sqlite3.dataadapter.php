@@ -220,6 +220,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_connexions;
     private static $sm_list;
     private static $sm_sql;
+    private $m_inTransaction = false;
 
     /**
      * 
@@ -300,6 +301,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     */
     public function beginTransaction(){
         $this->sql->exec("BEGIN TRANSACTION");
+        $this->m_inTransaction = true;
     }
     ///<summary></summary>
     /**
@@ -322,6 +324,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     */
     public function commit(){
         $this->sql->exec("COMMIT");
+        if ($this->m_inTransaction){
+            $this->m_inTransaction = false;
+            $this->close();
+        }
     }
     ///<summary>mixed. controller| filename |data value<summary>
     /**
@@ -981,6 +987,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     */
     public function rollback(){
         $this->sql->exec("ROLLBACK");
+        if ($this->m_inTransaction){
+            $this->m_inTransaction = false;
+            $this->close();
+        }
     }
     ///<summary></summary>
     ///<param name="query"></param>
@@ -991,7 +1001,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     * @param mixed $tbname the default value is null
     * @return null|IGK\Database\DbQueryResult
     */
-    public function sendQuery($query, $throwex=true, $options=null){
+    public function sendQuery($query, $throwex=true, $options=null, $autoclose=false){
         $sql=$this->getSql();
         $tbname = $this->getDatabaseFileName();
         $r=null;

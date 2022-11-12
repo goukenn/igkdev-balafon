@@ -79,6 +79,12 @@ class RouteHandler
      */
     protected $user_required;
 
+    /**
+     * redirect path 
+     * @var ?string
+     */
+    protected $m_redirect_uri;
+
     public function getRoute()
     {
         return $this->route;
@@ -365,6 +371,18 @@ class RouteHandler
     public function userRequired(bool $require){
         $this->user_required = $require;
         return $this;
+    }
+    /**
+     * redirect in case of authentication failed
+     * @param mixed $url 
+     * @return void 
+     */
+    public function redirectTo(string $url){
+        $this->m_redirect_uri = $url;
+        return $this;
+    }
+    public function getRedirectTo(){
+        return $this->m_redirect_uri;
     }
     /**
      * activate strict dir

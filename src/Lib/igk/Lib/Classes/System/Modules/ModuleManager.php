@@ -8,16 +8,25 @@
 namespace IGK\System\Modules;
 
 use IGK\Controllers\ApplicationModuleController;
+use IGK\System\Controllers\ApplicationModules;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGKException;
+use IGKHtmlDoc;
+
+use function PHPSTORM_META\map;
 
 /**
  * manager module
  * 
  */
-class ModuleManager{
+class ModuleManager
+{
     /**
      * @var array
      */
     private $m_modules;
+
+    private $m_boot_modules = [];
     /**
      * 
      * @var ModuleInitializer
@@ -33,17 +42,18 @@ class ModuleManager{
      * reset the loaded module and return previous backup
      * @return array 
      */
-    public function reset(){
+    public function reset()
+    {
         $bck = array_combine(array_keys($this->m_modules), array_values($this->m_modules));
         $this->m_modules = [];
         $this->m_init->reset();
         return $bck;
     }
-    public function restore(array $tab){
+    public function restore(array $tab)
+    {
         $this->m_modules = $tab;
         foreach ($tab as $value) {
-            if ($value instanceof ApplicationModuleController)
-            {
+            if ($value instanceof ApplicationModuleController) {
                 $path = $value->getName();
                 $this->m_init->register($path, $value);
             }
@@ -53,18 +63,21 @@ class ModuleManager{
      * get reference to modules list
      * @return array 
      */
-    public function & get(){
+    public function &get()
+    {
         return $this->m_modules;
     }
-    public function count(){
+    public function count()
+    {
         return igk_count($this->m_modules);
     }
     /**
      * return initialized modules 
      * @return ModuleInitializer 
      */
-    public function init(){
-        if (is_null($this->m_init)){
+    public function init()
+    {
+        if (is_null($this->m_init)) {
             die("initializer not created");
         }
         return $this->m_init;
@@ -73,7 +86,131 @@ class ModuleManager{
      * create module inistializer
      * @return ModuleInitializer 
      */
-    protected function _createModuleInitializer(){
+    protected function _createModuleInitializer()
+    {
         return new ModuleInitializer;
+    }
+    /**
+     * get installed modules
+     * @return null|array 
+     * @throws IGKException 
+     */
+    public static function GetInstalledModules(): ?array
+    {
+        
+        $modir = igk_get_module_dir();
+        $ln = strlen($modir) + 1;
+        $d = ApplicationModules::GetCacheFile();
+        if (!file_exists($d)) {
+            $modules = igk_io_getfiles($modir, "/\/module\.json$/");
+            $tlist = [];
+            if ($modules) {
+                foreach ($modules as $f) {
+                    $name = substr(dirname($f), $ln);
+                    $obj = json_decode(file_get_contents($f));
+                    if ($obj && igk_is_valid_module_info($obj)) {
+                        if ($obj->name != $name) {
+                            igk_dev_wln("not a valid name :" . $name . " vs " . $obj->name);
+                        }
+                        $tlist[$name] = $obj;
+                    }
+                }
+            }
+            ksort($tlist);
+            if (!defined('IGK_NO_LIB_CACHE')) {
+                igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
+            }
+            return $tlist;
+        }
+        $cf = json_decode(igk_io_read_allfile($d));
+        return (array)$cf;
+    }
+    public static function GetAutoloadModules(): ?array
+    {
+        $manager = igk_environment()->getModulesManager();
+        if ($manager instanceof self)
+            return $manager->m_boot_modules;
+        return $manager->getAutoloadModules();
+    }
+    /**
+     * retrieve required modules
+     * @return null|array 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function GetRequiredModules(): ?array
+    {
+        if ($mod = igk_environment()->require_modules()) {
+            unset($mod['::files']);
+        }
+        return $mod;
+    }
+    /**
+     * bootstrap modules
+     * @return void 
+     */
+    public static function Bootstrap()
+    { 
+        $boot_cache = igk_io_cachedir()."/.modules.boot.cache";
+        if (file_exists($boot_cache)){
+            if (($seri = unserialize(file_get_contents($boot_cache)))!==false){
+                foreach($seri as $k){
+                    self::_BootModule($k);
+                }
+                return;
+            }
+        }
+
+        $f = ApplicationModules::GetCacheFile();
+        if (file_exists($f)) {
+            $tab = (array)json_decode(file_get_contents($f));
+        } else {
+            $tab = self::GetInstalledModules();
+        } 
+        if ($tab) {
+            $info = array_filter(array_map(function ($a) {
+                if (igk_getv($a, 'autoload')){
+                    self::_BootModule($a->name);
+                    return $a;
+                }
+                return null;
+            }, $tab));
+
+            igk_io_w2file($boot_cache, serialize(array_keys($info)));
+        }
+    }
+    private static function _BootModule($n){
+        $mod = igk_require_module($n, function () {
+            return true;
+        });
+        $mod->boot = true;
+        $manager = igk_environment()->getModulesManager();
+        $manager->registerBoot($mod);
+        return $mod;
+
+    }
+    /**
+     * register boot module
+     * @param ApplicationModuleController $module 
+     * @return bool 
+     */
+    public function registerBoot(ApplicationModuleController $module):bool{
+        if (array_search($module, $this->m_boot_modules)===false){
+            $this->m_boot_modules[] = $module;
+            return true;
+        }
+        return false;
+    }
+    /**
+     * initialize document
+     * @param IGKHtmlDoc $doc 
+     * @param ApplicationModuleController $module 
+     * @return void 
+     */
+    public static function InitDoc(IGKHtmlDoc $doc, ApplicationModuleController $module){
+        if ($module->boot){
+            $module->boot = false;
+            $module->initDoc($doc);
+        }
     }
 }

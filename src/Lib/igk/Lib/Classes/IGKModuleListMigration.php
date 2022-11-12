@@ -39,8 +39,15 @@ final class IGKModuleListMigration extends BaseController{
         foreach(self::$sm_list as $l){
             Logger::info("migrate .... ".$l->getName());
             self::$sm_instance->host = $l;
-            ControllerExtension::migrate(self::$sm_instance);
+            try{
+                ControllerExtension::migrate(self::$sm_instance);
+            }
+            catch(Exception $ex){
+                Logger::danger("error ... ".$ex->getMessage());
+                return false;
+            }
         }
+        return true;
     }
     public static function resetDb($navigate=false, $force=false){
         self::$sm_instance = new self();

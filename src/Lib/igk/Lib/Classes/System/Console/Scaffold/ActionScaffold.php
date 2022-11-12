@@ -18,6 +18,7 @@ use ModelBase;
 
 class ActionScaffold extends ScaffoldBase
 {
+    var $description = "generate REST action";
     public function exec($command, $controller = null, ?string $name = null)
     {
 

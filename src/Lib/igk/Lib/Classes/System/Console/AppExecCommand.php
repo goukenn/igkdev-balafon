@@ -63,4 +63,8 @@ abstract class AppExecCommand extends AppCommand{
         }
     }
     public abstract function exec($command);
+
+    protected function GetController($controller, $throwex = 1){
+        return \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
+    }
 }

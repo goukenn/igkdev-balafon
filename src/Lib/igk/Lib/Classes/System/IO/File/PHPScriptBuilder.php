@@ -37,7 +37,8 @@ class PHPScriptBuilder
     }
     public function __call($name, $arguments)
     {
-        $this->$name = $arguments[0];
+        if (isset($arguments[0]))
+            $this->$name = $arguments[0];
         return $this;
     }
     /**

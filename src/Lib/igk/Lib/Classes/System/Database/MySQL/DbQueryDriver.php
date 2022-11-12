@@ -16,13 +16,11 @@ use IGKException;
  */
 class DbQueryDriver extends DatabaseDbQueryDriver {
 
-    public static function Create($options=null){
-        $o = parent::Create($options); 
+    public static function Create($options=null, & $error = null ){
+        $o = parent::Create($options, $error); 
         return $o;
     }    
-    public function connect(){
-        return parent::connect();
-    }
+  
    
     protected function initialize($r){
         $time_zone = igk_configs()->get('date_time_zone', IGKConstants::DEFAULT_TIME_ZONE);
@@ -49,7 +47,7 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         if (!$t) {
             $this->m_error = igk_mysql_db_error($this->m_resource);
             $d = igk_mysql_db_errorc($this->m_resource);
-            $m = $em = $this->getError();
+            $m = $em = $this->getError(); 
             if (!igk_is_cmd()) {
                 $m = "<div><div class=\"igk-title-4 igk-danger\" >/!\\ " . __CLASS__ . " Error</div><div>" . $em . "</div>" . "<div>Code: " . $d . "</div>" . "<div>Message: <i>" . $msg . "</i></div></div>";
             } else {
@@ -64,12 +62,14 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
             switch ($d) {
                 case 1062:
                     // + | duplicate entry error Code 
-                case 1146:
-                    // + | 
-                    return null;
-            }
+                case 1146: 
+                    // + | table not found
+                        // make compatible with mysql 8.to raise error
+                        throw new IGKException("table not found: ".$m);
+                    break;
+            }       
             igk_push_env("sys://adapter/sqlerror", $m);
-            if (!igk_sys_env_production()) {
+            if (igk_environment()->isDev()) {
                 throw new IGKException($m);
             }
         }

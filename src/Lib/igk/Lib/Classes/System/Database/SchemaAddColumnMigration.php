@@ -6,7 +6,11 @@
 namespace IGK\System\Database;
 
 use IGK\Database\DbColumnInfo;
-
+use IGK\System\Html\XML\XmlNode;
+/**
+ * update migrations
+ * @package IGK\System\Database
+ */
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "after"];
 
@@ -19,8 +23,11 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         foreach($childs as $c){
-            $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
-            $this->columns[]=$cl; 
+            $tc = $c->getTagName();
+            if (!empty($tc) && (strtolower($tc) == 'column')){
+                $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
+                $this->columns[]=$cl; 
+            }
         }   
     }
     public function up(){ 
@@ -28,6 +35,9 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         foreach($this->columns as $cl){
+            if (is_null($cl->clName)){
+                continue;
+            }
             $ctrl::db_add_column($tb, $cl, $this->after);
         }
     }

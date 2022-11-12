@@ -1,21 +1,24 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Logginattempts.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Store migrations</summary>
 /**
-* 
+* Store migrations
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $logginattempts_login
-* @property mixed|int $logginattempts_try
-* @property mixed|datetime $logginattempts_createAt
-* @property mixed|datetime $logginattempts_updateAt*/
+* @property int $clId
+* @property string $logginattempts_login
+* @property int $logginattempts_try
+* @property string|datetime $logginattempts_createAt ="NOW()"
+* @property string|datetime $logginattempts_updateAt
+* @method static ?self Add(string $logginattempts_login, int $logginattempts_try, string|datetime $logginattempts_updateAt, string|datetime $logginattempts_createAt ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $logginattempts_login, int $logginattempts_try, string|datetime $logginattempts_updateAt, string|datetime $logginattempts_createAt ="NOW()") add entry if not exists. check for unique column.
+* */
 class Logginattempts extends ModelBase{
 	/**
 	* table's name

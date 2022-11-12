@@ -35,6 +35,7 @@ abstract class IGKActionBase implements IActionProcessor
      */
     protected $ctrl;
     protected $context;
+    protected $defaultEntryMethod = 'index';
 
     /**
      * handle exit and force do_response
@@ -63,6 +64,13 @@ abstract class IGKActionBase implements IActionProcessor
 
     protected $notify_name;
 
+    /**
+     * get default entry method
+     * @return string 
+     */
+    public function getDefaultEntryMethod(){
+        return $this->defaultEntryMethod;
+    }
     public function __construct()
     {
         if (empty($this->notify_name)) {
@@ -219,9 +227,10 @@ abstract class IGKActionBase implements IActionProcessor
         // + : -----------------------------------------
         // + : fallback to index if numeric name is call 
         // + : -----------------------------------------
+    
         if (is_numeric($name)) {
             array_unshift($arguments, $name);
-            $name = "index";           
+            $name = $this->defaultEntryMethod;           
             if (method_exists($this, $fc = $name)) {
                 return $this->$fc(...$arguments);
             }
@@ -409,8 +418,7 @@ abstract class IGKActionBase implements IActionProcessor
         $c = $this->getController();
         if ($c && ($f = $c::getErrorViewFile($code)) && file_exists($f)) {
             return $c::viewError($code);
-        }
-
+        } 
         igk_dev_wln_e(__FILE__ . ":" . __LINE__,  "No handle error: ", compact("code", "f", "params"));
     }
 

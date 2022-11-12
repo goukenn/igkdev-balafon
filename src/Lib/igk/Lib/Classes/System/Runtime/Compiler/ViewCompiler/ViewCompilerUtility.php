@@ -38,6 +38,9 @@ abstract class ViewCompilerUtility
         $p = $q = null;
         $n = [];
         $depth = 0;
+        if ($tab instanceof ViewInstructionBlock){
+            $tab = & $tab->getBlockReference();
+        }
         while (count($tab) > 0) {
             $q = array_shift($tab);
             if (is_string($q)) {
@@ -94,6 +97,9 @@ abstract class ViewCompilerUtility
          * @var ?object $p
          */
         $tab = $blocks;
+        if ($tab instanceof ViewInstructionBlock){
+            $tab = & $tab->getBlockReference();
+        }
         $p = null;
         $q = null;
         $n = [];
@@ -121,7 +127,7 @@ abstract class ViewCompilerUtility
         }
 
         $blockCompiler->variables = $vars;
-
+       
         $init = CompilerNodeModifyDetector::Init();
         $ss = null;
         while (count($tab) > 0) {

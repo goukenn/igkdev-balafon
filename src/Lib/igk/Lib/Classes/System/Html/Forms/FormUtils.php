@@ -1,0 +1,53 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: FormUtils.php
+// @date: 20221111 14:05:40
+namespace IGK\System\Html\Forms;
+
+use IGKException;
+
+///<summary></summary>
+/**
+ * 
+ * @package IGK\System\Html\Forms
+ */
+class FormUtils
+{
+    /**
+     * build select data
+     * @param mixed $list 
+     * @param mixed $key 
+     * @param mixed $name 
+     * @param mixed $options 
+     * @return array 
+     * @throws IGKException 
+     */
+    public static function SelectData($list, $key, $name, $options = null)
+    {
+        $selected = $options ? igk_getv($options, 'selected') : null;
+        $callback = $options ? igk_getv($options, 'callback') : null;
+        $empty = $options ? igk_getv($options, 'empty') : null;
+        $data = [];
+        if ($list)
+        foreach ($list as $m) {
+            if ($callback) {
+                if ($g = $callback($m)) {
+                    $data[] = $g;
+                }
+                continue;
+            }
+            $g = ["i" => $m->{$key}, "t" => $m->$name];
+            if ((is_callable($selected) && $selected($m)) || ($selected && ($selected == $g["i"]))) {
+                $g["selected"] = true;
+            }
+            $data[] = $g;
+        }
+        usort($data, function($a, $b){
+            return strcasecmp($a['t'], $b['t']);
+        });
+        if ($empty){
+            array_unshift($data, ['i'=>-1, 't'=> igk_getv($empty, 'text', '---')]);
+        }
+        return $data;
+    }
+}

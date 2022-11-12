@@ -1,9 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UsersReferenceModels.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
@@ -11,10 +11,13 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|TbigkUsers|int $clUser_Id
-* @property mixed|varchar $clModel
-* @property mixed|int $clNextValue*/
+* @property int $clId
+* @property int|\IGK\Models\Users $clUser_Id
+* @property string $clModel
+* @property int $clNextValue
+* @method static ?self Add(int|\IGK\Models\Users $clUser_Id, string $clModel, int $clNextValue) add entry helper
+* @method static ?self AddIfNotExists(int|\IGK\Models\Users $clUser_Id, string $clModel, int $clNextValue) add entry if not exists. check for unique column.
+* */
 class UsersReferenceModels extends ModelBase{
 	/**
 	* table's name

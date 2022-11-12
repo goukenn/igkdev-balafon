@@ -1,9 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UserInfos.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
@@ -11,11 +11,14 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|TbigkUsers|int $clUser_Id
-* @property mixed|TbigkUserInfoTypes|int $clUserInfoType_Id
-* @property mixed|varchar $clValue
-* @property mixed|varchar $clDescription*/
+* @property int $clId
+* @property int|\IGK\Models\Users $clUser_Id
+* @property int|\IGK\Models\UserInfoTypes $clUserInfoType_Id
+* @property string $clValue
+* @property string $clDescription
+* @method static ?self Add(int|\IGK\Models\Users $clUser_Id, int|\IGK\Models\UserInfoTypes $clUserInfoType_Id, string $clValue, string $clDescription) add entry helper
+* @method static ?self AddIfNotExists(int|\IGK\Models\Users $clUser_Id, int|\IGK\Models\UserInfoTypes $clUserInfoType_Id, string $clValue, string $clDescription) add entry if not exists. check for unique column.
+* */
 class UserInfos extends ModelBase{
 	/**
 	* table's name

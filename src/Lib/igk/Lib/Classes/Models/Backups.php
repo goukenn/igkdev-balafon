@@ -1,9 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Backups.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
@@ -11,12 +11,15 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $backup_type
-* @property mixed|text $backup_class
-* @property mixed|text $backup_path
-* @property mixed|datetime $backup_create_at
-* @property mixed|datetime $backup_update_at*/
+* @property int $clId
+* @property string $backup_type
+* @property string $backup_class
+* @property string $backup_path
+* @property string|datetime $backup_create_at
+* @property string|datetime $backup_update_at
+* @method static ?self Add(string $backup_type, string $backup_class, string $backup_path, string|datetime $backup_create_at, string|datetime $backup_update_at) add entry helper
+* @method static ?self AddIfNotExists(string $backup_type, string $backup_class, string $backup_path, string|datetime $backup_create_at, string|datetime $backup_update_at) add entry if not exists. check for unique column.
+* */
 class Backups extends ModelBase{
 	/**
 	* table's name

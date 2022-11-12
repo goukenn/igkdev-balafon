@@ -20,6 +20,7 @@ class EnvControllerCacheDataBase{
     const FILE = DbSchemaDefinitions::CACHE_FILE;
     var $serie = [];
     var $file;
+    private $m_controllers;
     private $m_sysdb;
     public function __construct(?string $file, ?SysDbController $sysdb=null)
     {
@@ -30,7 +31,13 @@ class EnvControllerCacheDataBase{
         $this->m_sysdb = $sysdb;
     }
     public function update(BaseController $controller){ 
-        if ($def = $controller::getDataTableDefinition()){
+        if ($controller->getCanInitDb()){
+            return;
+        }
+        $this->m_controllers[] = $controller;
+    }
+    private function __onshutdown($controller){
+        if ($def = $controller::getDataTableDefinition()){            
             $cl = get_class($controller);
             $n = $controller->getDataAdapterName();
             if (!isset($this->serie[$n])){
@@ -56,7 +63,15 @@ class EnvControllerCacheDataBase{
      * @throws IGKException 
      */
     public function complete(){   
-        if ($this->file)
-            igk_io_w2file($this->file, serialize($this->serie));        
+        if ($this->file){
+            register_shutdown_function(
+                function(){
+                    foreach($this->m_controllers as $c){
+                        $this->__onshutdown($c);
+                    }
+                    igk_io_w2file($this->file, serialize($this->serie));        
+                }
+            );
+        }
     }
 }

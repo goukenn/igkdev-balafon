@@ -1,21 +1,24 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>store plugins.</summary>
 /**
-* 
+* store plugins.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|text $clEmail
-* @property mixed|datetime $clRelease
-* @property mixed|text $clVersion*/
+* @property int $clId
+* @property string $clName
+* @property string $clEmail
+* @property string|datetime $clRelease
+* @property string $clVersion
+* @method static ?self Add(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry if not exists. check for unique column.
+* */
 class Plugins extends ModelBase{
 	/**
 	* table's name

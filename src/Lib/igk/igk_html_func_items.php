@@ -441,6 +441,7 @@ function igk_html_node_menu(
     if (!is_array($tab)) {
         igk_die("must set an array of menu items");
     }
+    $tab = array_filter($tab);    
     $ul = igk_create_node($tag);
     $ul["class"] = "igk-menu";
     if ($uriListener) {
@@ -461,15 +462,29 @@ function igk_html_node_menu(
         $ul = $q["ul"];
 
         foreach ($tab as $i => $v) {
+            if (is_integer($i)){
+                $skip = false;
+                if (is_string($v)){
+                    // + | --------------------------------------------------------------------
+                    // + | speclial possibility means
+                    // + |
+                    switch($v){
+                        case '-': // menu-seperator
+                            $ul->li()->setClass('m-sep');
+                            $skip = true;
+                            break;
+                    }
+                }
+                if ($skip)
+                    continue;
+            }
             if ($auth = igk_getv($v, "auth")) {
-
                 if ((is_bool($auth) && !$auth) ||
                     ((is_string($auth) || is_array($auth)) && (!$user || !$user->auth($auth)))
                 ) {
                     continue;
                 }
             }
-
             $li = $ul->add($item)->setClass("m-l");
             if ($callback)
                 $callback(1, $li);

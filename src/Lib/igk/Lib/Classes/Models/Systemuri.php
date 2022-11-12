@@ -1,19 +1,22 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Systemuri.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>store system uri.</summary>
 /**
-* 
+* store system uri.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|varchar $clUri*/
+* @property int $clId
+* @property string $clName
+* @property string $clUri
+* @method static ?self Add(string $clName, string $clUri) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clUri) add entry if not exists. check for unique column.
+* */
 class Systemuri extends ModelBase{
 	/**
 	* table's name

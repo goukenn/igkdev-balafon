@@ -48,12 +48,19 @@ class ResetDbCommand extends AppExecCommand{
                 return -1;
             }
         } else {
-            $c = igk_app()->getControllerManager()->getControllers(); 
-
-            usort($c, DbUtils::OrderController);
+            $c = igk_app()->getControllerManager()->getControllers();             
             if ($b = IGKModuleListMigration::CreateModulesMigration()){
                 $c =  array_merge($c, [$b]); 
             } 
+            $sysdb = SysDbController::ctrl();
+            if ($index = array_search($sysdb, $c)){
+                unset($c[$index]);
+            }
+            // all database logic.
+            // if ($index = array_search($sysdb, $c)){
+            //     unset($c[$index]);
+            // }
+            // array_unshift($c, $sysdb);
         }
         if ($c) {
             foreach ($c as $m) {

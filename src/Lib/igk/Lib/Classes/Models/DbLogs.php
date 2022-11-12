@@ -1,21 +1,24 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>store system's log</summary>
 /**
-* 
+* store system's log
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|text $db_logs_msg
-* @property mixed|int $db_logs_status
-* @property mixed|datetime $db_logs_createAt
-* @property mixed|text $db_logs_tags*/
+* @property int $clId
+* @property string $db_logs_msg
+* @property int $db_logs_status
+* @property string|datetime $db_logs_createAt
+* @property string $db_logs_tags
+* @method static ?self Add(string $db_logs_msg, int $db_logs_status, string|datetime $db_logs_createAt, string $db_logs_tags) add entry helper
+* @method static ?self AddIfNotExists(string $db_logs_msg, int $db_logs_status, string|datetime $db_logs_createAt, string $db_logs_tags) add entry if not exists. check for unique column.
+* */
 class DbLogs extends ModelBase{
 	/**
 	* table's name

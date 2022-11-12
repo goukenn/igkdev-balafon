@@ -47,13 +47,13 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param string $name 
      * @param int $length 
      * @return $this 
-     */
-    public function email($prefix, $name = "Email", $length = 50)
+     */    
+    public function email($name = "Email", $length=50, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([
-
             [
-                "clName" => $prefix . $name, "clType" => "VarChar",
+                "clName" => $name, 
+                "clType" => "VarChar",
                 "clTypeLength" => $length,
                 "clInputType" => "email"
             ]
@@ -170,7 +170,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clDefault" => $default, "clDescription" => $description, "clInputType" => $inputtype, "clNotNull" => $notnull
         ]]);
     }
-
+    
     /**
      * add varchar column
      * @param string $name 
@@ -228,6 +228,21 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clInputType" => $inputtype, "clNotNull" => $notnull, "clLinkConstraintName" => $linkName
         ]]);
     }
+    /**
+     * 
+     * @param string $name 
+     * @param string $table_name 
+     * @param string $linkColumn 
+     * @param mixed $linkName 
+     * @param bool $notnull 
+     * @param bool $unique 
+     * @param null|int $uniqueColumn 
+     * @param string $inputtype 
+     * @param int $default 
+     * @param mixed $description 
+     * @return IDiagramSchemaEntity 
+     * @throws IGKException 
+     */
     public function link_guuid(string $name, string $table_name, $linkColumn = 'clId', $linkName = null, 
         $notnull = false,
         bool $unique=false,

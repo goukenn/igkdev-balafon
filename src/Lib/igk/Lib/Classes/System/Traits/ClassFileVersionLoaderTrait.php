@@ -9,15 +9,27 @@ namespace IGK\System\Traits;
 
 use IGKException;
 
+
+// + | ----------------------------------------------------------------------
+// + | to make balafon compatible with php version spécific some file must be
+// + | chached and loaded when it's necessary. 
+// + | to avoid mixed between application shared core. need to cache file app
+// + | classes on application cache folder.
+// + |
+
 /**
  * loading version trait
  */
 trait ClassFileVersionLoaderTrait
 {
     private $_load_classes = [];
-    public function getClassesCacheFiles()
-    {
-        return IGK_LIB_DIR . "/.Caches/.classes.cache";
+   
+    /**
+     * get local application classes cache file
+     * @return string 
+     */
+    public static function GetLocalAppClassesCacheFile(){
+        return igk_io_cachedir() . "/.classes.cache";
     }
     public function registerClass(string $file, string $classname, ?string $version = null)
     {
@@ -55,15 +67,17 @@ trait ClassFileVersionLoaderTrait
         $this->_load_classes["c"] = 1;
     }
     private function _initClassRegister()
-    {
-        if (is_file($fc = $this->getClassesCacheFiles())) {
+    {      
+        if (is_file($fc = self::GetLocalAppClassesCacheFile())) {
             if (($src = @file_get_contents($fc))!== false){
                 $this->_load_classes = unserialize($src); 
             }
         }
     }
+
+
     /**
-     * 
+     * get register class 
      * @param string $classname 
      * @return ?string the registrated class 
      * @throws IGKException 
@@ -72,8 +86,7 @@ trait ClassFileVersionLoaderTrait
     {       
         if (!empty($this->_load_classes) && !is_null($index = igk_getv($this->_load_classes["cl"], $classname))) {
             $finfo = $this->_load_classes["files"][$index];
-            $version = igk_php_sversion($version); 
-            // igk_debug_wln("finfo ", $finfo, "::::".$version); 
+            $version = igk_php_sversion($version);  
             if ($tv = igk_getv($this->_load_classes["versions"], $index)) {
                 // check for version to match
                 list($major, $minor) = explode('.', $version);

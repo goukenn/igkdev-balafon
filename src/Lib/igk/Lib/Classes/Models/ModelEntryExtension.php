@@ -240,6 +240,9 @@ abstract class ModelEntryExtension
         if ($data = $driver->select($model->getTable(), $conditions, $options)) {
             foreach ($data->getRows() as $row) {
                 $c = new $cl($row->to_array());
+                // igk_debug_wln_e(
+                //     __FILE__.":".__LINE__, 
+                //     $row->to_array(), $c->to_array());
                 $tab[] = $c;
             }
         }
@@ -286,13 +289,24 @@ abstract class ModelEntryExtension
         }
         return $r;
     }
-    public static function select_row(ModelBase $model, $conditions, $options = null)
+    /**
+     * select sigle row
+     * @param ModelBase $model 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return object|null 
+     * @throws IGKException 
+     */
+    public static function select_row(ModelBase $model, $conditions, $options = null, $autoclose = false)
     {
         $cl = get_class($model);
+        
         if (is_numeric($conditions)) {
             $conditions = [$model->getPrimaryKey() => $conditions];
-        }
-        $r = $model->getDataAdapter()->select($model->getTable(), $conditions, $options);
+        } 
+
+        $r = $model->getDataAdapter()->select($model->getTable(), $conditions, $options, $autoclose);
+
         if ($r && $r->RowCount == 1) {
             $g = $r->getRowAtIndex(0);
             $g->{"sys:table"} = $model->getTable();
@@ -489,6 +503,9 @@ abstract class ModelEntryExtension
         return $data;
     }
 
+    /**
+     * column keys
+     */
     public static function colKeys(ModelBase $model)
     {
         if ($tablekey = igk_db_get_table_info($model->getTable())) {
@@ -925,7 +942,7 @@ abstract class ModelEntryExtension
         $res = $driver->createFetchResult($query, $model);
         $driver->sendQuery($query, false, array_merge($options ?? [], [
             IGKQueryResult::RESULTHANDLER => $res
-        ]));
+        ]), null, false);
         return $res;
     }
     public static function get_insert_query(ModelBase $model)

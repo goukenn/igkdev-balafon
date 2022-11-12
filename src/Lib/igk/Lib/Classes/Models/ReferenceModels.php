@@ -1,19 +1,22 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ReferenceModels.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Store reference domain</summary>
 /**
-* 
+* Store reference domain
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clModel
-* @property mixed|int $clNextValue*/
+* @property int $clId
+* @property string $clModel
+* @property int $clNextValue
+* @method static ?self Add(string $clModel, int $clNextValue) add entry helper
+* @method static ?self AddIfNotExists(string $clModel, int $clNextValue) add entry if not exists. check for unique column.
+* */
 class ReferenceModels extends ModelBase{
 	/**
 	* table's name

@@ -1,21 +1,24 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: WhoUses.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Track who use the framework</summary>
 /**
-* 
+* Track who use the framework
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clWebSite
-* @property mixed|int $clState
-* @property mixed|datetime $clDateTime
-* @property mixed|varchar $clIP*/
+* @property int $clId
+* @property string $clWebSite
+* @property int $clState
+* @property string|datetime $clDateTime
+* @property string $clIP
+* @method static ?self Add(string $clWebSite, int $clState, string|datetime $clDateTime, string $clIP) add entry helper
+* @method static ?self AddIfNotExists(string $clWebSite, int $clState, string|datetime $clDateTime, string $clIP) add entry if not exists. check for unique column.
+* */
 class WhoUses extends ModelBase{
 	/**
 	* table's name

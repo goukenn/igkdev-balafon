@@ -1,24 +1,27 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Store cron job</summary>
 /**
-* 
+* Store cron job
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $crons_name
-* @property mixed|varchar $crons_process
-* @property mixed|text $crons_script
-* @property mixed|json $crons_options
-* @property mixed|text $crons_class
-* @property mixed|datetime $crons_create_at
-* @property mixed|datetime $crons_update_at*/
+* @property int $clId
+* @property string $crons_name
+* @property string $crons_process
+* @property string $crons_script
+* @property string $crons_options
+* @property string $crons_class
+* @property string|datetime $crons_create_at ="CURRENT_TIMESTAMP"
+* @property string|datetime $crons_update_at ="CURRENT_TIMESTAMP"
+* @method static ?self Add(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* */
 class Crons extends ModelBase{
 	/**
 	* table's name

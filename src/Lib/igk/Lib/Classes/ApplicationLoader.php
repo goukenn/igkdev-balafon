@@ -19,6 +19,7 @@ use ReflectionException;
 
 require_once IGK_LIB_CLASSES_DIR . '/System/Traits/ClassFileVersionLoaderTrait.php';
 require_once IGK_LIB_CLASSES_DIR . '/Server.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/IO/Path.php';
 
 ///<summary>core application loader </summary>
 /**
@@ -98,22 +99,17 @@ class ApplicationLoader
                     return "require_once " . $m . ";";
                 }, $this->_included));
                 igk_io_w2file($this->getCacheFile(), "<?php\n" . $m . "");
-            }
-            if (igk_getv($this->_load_classes, "c")) {
-                unset($this->_load_classes["c"]);
-                $core_cl = $this->getClassesCacheFiles();
-                $path = igk_io_cachedir() . "/".basename($core_cl);
-                igk_io_w2file($path, serialize($this->_load_classes));
-                igk_io_symlink($path, $core_cl);
+           
+                if (igk_getv($this->_load_classes, "c")) {
+                    unset($this->_load_classes["c"]);
+                    $path = self::GetLocalAppClassesCacheFile();              
+                    igk_io_w2file($path, serialize($this->_load_classes));                
+                }
             }
             igk_hook(IGKEvents::HOOK_SHUTDOWN, [$this]);
-        });
-        $this->_initClassRegister();
-    }
-    // private $_load_classes = [];
-    // public function getClassesCacheFiles(){
-    //     return IGK_LIB_DIR . "/.Caches/.classes.cache";
-    // }
+        });        
+    } 
+   
     /**
      * register class 
      * @param string $file 
@@ -444,6 +440,7 @@ class ApplicationLoader
             }
             self::$sm_instance->_coreload = true;
         }
+  
         //return null;
         ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: " . $type);
         if ($boot) {
@@ -451,7 +448,9 @@ class ApplicationLoader
                 self::$sm_instance->bootApp($app);
             });
             self::$sm_instance->bootApp($app);
-        }
+        } 
+        // + | init local application register 
+        self::$sm_instance->_initClassRegister();
         // + | -----------------------------------------------------
         // + | return the application 
         // + |  
@@ -497,7 +496,7 @@ class ApplicationLoader
         return true;
     }
     /**
-     * init application lodader constrants 
+     * init application constants 
      * @return void 
      * @throws IGKException 
      */

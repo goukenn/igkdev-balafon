@@ -125,7 +125,10 @@ class MySQLDataController extends BaseController{
             $adapter->selectdb($dbname);
             $r=true;
             foreach($tablelist as $ktbname=>$k){
-                if(!$adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($ktbname)."` ")->Success){
+                if (!
+                    ($c = $adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($ktbname)."`;")) || 
+                    $c->Success
+                ){
                     if($node)
                         $node->addNotifyBox("danger")->Content="Table ".$ktbname. " not deleted ".igk_mysql_db_error();
                     $r=false;
@@ -164,8 +167,12 @@ class MySQLDataController extends BaseController{
     public static function DropTableRelation($adapter, $tbname, $dbname, $tablelist=null, & $deleted=null, $node=null){
         $d=$adapter;
         $bck=$dbname;
+       
         $rp = $d->selectdb("information_schema"); 
-        $h=$d->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';");
+        $h=$d->sendQuery(
+            "SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';",
+            true, null, false
+        );
         // $g = $d->sendQuery("SELECT DATABASE() as dbName");
         // var_dump($g->getRows());
         // igk_wln_e("esources ", igk_environment()->get("mysql_resource"), 

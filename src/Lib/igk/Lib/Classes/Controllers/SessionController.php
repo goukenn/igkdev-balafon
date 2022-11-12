@@ -147,16 +147,25 @@ final class SessionController extends BaseController{
         $rs=igk_getv($_COOKIE, $n);
         if(!empty($rs)){ 
             try {
-                $uid=igk_getv(explode(':', $rs), 0);
-                $v=igk_user_info(IGK_UINFO_TOKENID, $uid);
-                $d=substr($rs, strlen($uid) + 1);
+                $uid = igk_getv(explode(':', $rs), 0);
+                $v = igk_user_info(IGK_UINFO_TOKENID, $uid);
+                $d = substr($rs, strlen($uid) + 1);
+                /// TODO : TOKEN USER - RESOLUTION
+                // igk_wln_e(__FILE__.":".__LINE__, "the token:", $v, $d);
                 if($v && ($v->clValue == $d)){
                     $r=igk_get_user($uid);
                     if($r){
                         igk_getctrl(IGK_USER_CTRL)->setUser($r);
                         igk_user_store_tokenid($r);
                     }
-                }
+                } else {
+                    
+                    unset($_COOKIE[$rs]);
+                    igk_getctrl(IGK_USER_CTRL)->setUser(null);
+                    igk_clear_cookie('uid');
+                    // igk_wln_e("token not found".$n, $_COOKIE, $rs, $_SESSION);
+
+                } 
             }
             catch(\Exception $db){
                 igk_ilog("possible db connection failed");

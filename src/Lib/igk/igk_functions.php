@@ -1386,7 +1386,7 @@ function igk_clear_cookie($n)
 {
     $m = igk_get_cookie_name(igk_sys_domain_name() . "/" . $n);
     $rs = igk_getv($_COOKIE, $m);
-    igk_set_cookie($n, "", 1, time() - (7 * 24 * 60));
+    igk_set_cookie($n, null, 1, time() - (7 * 24 * 60));
     if ($rs)
         unset($_COOKIE[$m]);
 }
@@ -9651,32 +9651,7 @@ function igk_get_module_name($dir)
  */
 function igk_get_modules()
 {
-    $modir = igk_get_module_dir();
-    $ln = strlen($modir) + 1;
-    $d = ApplicationModules::GetCacheFile();   
-    if (!file_exists($d)) {
-        $modules = igk_io_getfiles($modir, "/\/module\.json$/");
-        $tlist = [];
-        if ($modules){
-            foreach ($modules as $f) {
-                $name = substr(dirname($f), $ln);
-                $obj = json_decode(file_get_contents($f));
-                if ($obj && igk_is_valid_module_info($obj)) {
-                    if ($obj->name != $name) {
-                        igk_dev_wln("not a valid name :" . $name . " vs " . $obj->name);
-                    }
-                    $tlist[$name] = $obj;
-                }
-            }
-        }
-        ksort($tlist);
-        if (!defined('IGK_NO_LIB_CACHE')){
-            igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
-        }
-        return $tlist;
-    }
-    $cf = json_decode(igk_io_read_allfile($d));
-    return (array)$cf;
+    return \IGK\System\Modules\ModuleManager::GetInstalledModules();   
 }
 ///<summary>create a new data adapter from existing</summary>
 /**
@@ -10223,9 +10198,9 @@ function igk_get_type($n)
  * 
  * @param mixed $uid 
  */
-function igk_get_user($uid)
+function igk_get_user($uid, ?array $options=null)
 {
-    return IGK\Models\Users::select_row($uid);
+    return IGK\Models\Users::select_row($uid, $options);
 }
 ///<summary></summary>
 ///<param name="login"></param>
@@ -19330,6 +19305,7 @@ function igk_reg_pipe($mixed, $callback = null)
 {
     $k = "sys://localizedpipe";
     $tab = igk_get_env($k, function () {
+        // @igk_comment: init binding expression
         return \IGK\System\Html\Templates\BindingPipeExpressionInfo::CreateNewDefinition();
     });
     if ($mixed) {
@@ -19348,7 +19324,8 @@ function igk_reg_pipe($mixed, $callback = null)
  */
 function igk_reg_session_event($name, $callback)
 {
-    igk_debug_wln(__FUNCTION__ . " " . $name);
+    // igk_debug_wln( __FILE__.':'.__LINE__,  __FUNCTION__ . " " . $name);
+    
     $ctx = igk_current_context();
     $e = strpos("running|starting", $ctx) !== false;
     $key = "sys://global_events";
@@ -19804,7 +19781,7 @@ function igk_require_module($modulename, callable $init = null, $loadall = 1, $d
             "module_files"
         );
         if ($files) {
-            array_map(function ($f) {
+            $files = array_map(function ($f) {
                 require_once igk_io_expand_path(trim($f));
             }, $files);
         } else {
@@ -19856,8 +19833,8 @@ function igk_require_module($modulename, callable $init = null, $loadall = 1, $d
     igk_pop_env(IGKEnvironmentConstants::MODULES);
     $mod = igk_init_module($modulename, $init);
     // igk_debug_wln("the module loads", $mkey, $g);
+    $g[$mkey] = $mod;
     if (igk_count($f) > 0) {
-        $g[$mkey] = $mod;
         $g["::files"][$mkey] = $f;
     }
     // Benchmark::expect("loading::" . $modulename, $expected_time);
@@ -20756,7 +20733,7 @@ function igk_src_code($src, $start, $end)
 }
 ///<summary>start app session</summary>
 /**
- * start app session
+ * start app session - helper
  */
 function igk_start_session($reset = 0)
 {
@@ -25320,6 +25297,20 @@ function igk_uri_rquery()
 {
     return igk_getv($_SERVER, 'REQUEST_QUERY');
 }
+/**
+ * uri sanitize value
+ */
+function igk_uri_sanitize($v){
+    return urlencode(str_replace(';', '_%', $v));
+}
+/**
+ * reverse uri sanitize
+ */
+function igk_uri_unsanitize($v){
+    $v = urldecode($v);
+    $v = str_replace('_%',';', $v);
+    return $v;
+}
 ///<summary></summary>
 ///<param name="packagename"></param>
 /**
@@ -25463,33 +25454,37 @@ function igk_user_get_env_param($u)
 ///<param name="uid" default="null"></param>
 /**
  * 
- * @param mixed $inf 
+ * @param string $inf 
  * @param mixed $uid 
  */
-function igk_user_info($inf, $uid = null)
+function igk_user_info(string $inf, $uid = null)
 {
-    $u = $uid == null ? igk_app()->session->User : igk_get_user($uid);
+    $u = $uid == null ? igk_app()->session->getUser() : igk_get_user($uid, ['Columns'=>'clId']);
     if ($u == null)
         return null;
-    $ctrl = igk_getctrl(IGK_SYSDB_CTRL);
-    $v = igk_db_table_select_where(igk_db_get_table_name(IGK_TB_USER_INFO_TYPES), array(IGK_FD_NAME => $inf), $ctrl);
+     
+    $ctrl = igk_getctrl(IGK_SYSDB_CTRL); 
+    $v = \IGK\Models\UserInfoTypes::select_all([IGK_FD_NAME => $inf]);   
     $r = null;
-    if ($v != null) {
-        $r = $v->getRowAtIndex(0);
+    if ($v !== null) {
+        $r = igk_getv($v, 0); // ->getRowAtIndex(0);
+        
         if ($r == null)
             return null;
-        $v_n = $r->clCardinality;
-        $v_q = igk_db_table_select_where(igk_db_get_table_name(IGK_TB_USER_INFOS), array("clUserInfoType_Id" => $r->clId, "clUser_Id" => $u->clId), $ctrl);
+        // $v_q = igk_db_table_select_where(igk_db_get_table_name(IGK_TB_USER_INFOS), array("clUserInfoType_Id" => $r->clId, "clUser_Id" => $u->clId), $ctrl);
+        $v_q = \IGK\Models\UserInfos::select_all(["clUserInfoType_Id" => $r->clId, "clUser_Id" => $u->clId]);
+        $v_n = $r ? $r->clCardinality : 'infinity'; 
         switch ($v_n) {
             case 0:
+            case 'infinity':
                 $tab = array();
-                foreach ($v_q->Rows as $v) {
+                foreach ($v_q  as $v) {
                     $tab[] = igk_user_build_info($r, $inf, $v, $ctrl);
                 }
                 return $tab;
             case 1:
-                if ($v_q->RowCount > 0) {
-                    $v = $v_q->getRowAtIndex(0);
+                if (igk_count($v_q) > 0) {
+                    $v = igk_getv($v_q, 0);
                     return igk_user_build_info($r, $inf, $v, $ctrl);
                 }
                 return null;
@@ -25497,9 +25492,9 @@ function igk_user_info($inf, $uid = null)
                 if ($v_n < 0) {
                     igk_die("error on data cardinality ");
                 }
-                $v_tk = min($v_n, $v_q->RowCount);
+                $v_tk = min($v_n, igk_count($v_q));
                 $tab = array();
-                foreach ($v_q->Rows as $v) {
+                foreach ($v_q as $v) {
                     $tab[] = igk_user_build_info($r, $inf, $v, $ctrl);
                     $v_tk--;
                     if ($v_tk <= 0)
@@ -25508,6 +25503,8 @@ function igk_user_info($inf, $uid = null)
                 return $tab;
         }
     }
+    igk_trace();
+    igk_exit();
     return "no";
 }
 ///<summary>check if password require ok</summary>
@@ -25815,10 +25812,13 @@ function igk_valid_cref($regenerate = 0, $throwex = 0)
 {
     $sess = igk_app()->getSession();
     $cref = base64_encode($sess->getCRef());
-
+    
     $result = (igk_getr($cref) == 1);
     if ($regenerate) {
         $sess->generateCref();
+    }
+    if (!$result && igk_environment()->isDev() && igk_getr('dev-valid-cref')){
+        $result = 1;
     }
     if (!$result && $throwex) {
         throw new \IGK\System\Exceptions\CrefNotValidException();

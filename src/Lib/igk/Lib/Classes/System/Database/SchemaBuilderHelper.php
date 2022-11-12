@@ -7,6 +7,8 @@ namespace IGK\System\DataBase;
 
 use Exception; 
 use IGK\Database\DbColumnInfo;
+use IGK\System\Console\Logger;
+use IGKException;
 
 class SchemaBuilderHelper{
     protected $_output;
@@ -20,7 +22,12 @@ class SchemaBuilderHelper{
             $m[$k] = $v;
         }  
     }
-
+    /**
+     * migrate utility methods
+     * @param mixed|array|object $options with migrations fields. 
+     * @return false 
+     * @throws IGKException 
+     */
     public static function Migrate($options){
         if ($m = igk_getv($options, "migrations")){ 
             try{
@@ -29,12 +36,18 @@ class SchemaBuilderHelper{
                 }
             }
             catch(Exception $ex){
-                igk_dev_wln("\n",__FILE__.":".__LINE__." migrate error : ", $ex->getMessage());
+                Logger::danger(implode('\n', [__FILE__.":".__LINE__,"migrate error : " . $ex->getMessage()]));
             }
         }
         return false;
     }
-    public static function Downgrade($options){
+    /**
+     * downgrade utility 
+     * @param ixed|array|object $options with migrations fields. 
+     * @return bool 
+     * @throws IGKException 
+     */
+    public static function Downgrade( $options){
         if ($m = igk_getv($options, "migrations")){ 
             try{
                 $m = array_reverse($m);
@@ -49,4 +62,5 @@ class SchemaBuilderHelper{
         }
         return false;
     }
+    
 }

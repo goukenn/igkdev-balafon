@@ -69,4 +69,16 @@ class SystemUserProfile implements IUserProfile
     public static function GetUserProfile($ctrl){
         return $ctrl->getUser();
     }
+    /**
+     * to string name profile
+     * @return mixed 
+     */
+    public function __toString()
+    {
+        return $this->clLogin;
+    }
+    /** display full name */
+    public function display(){
+        return implode(' ', array_filter([$this->clFirstName, $this->clLastName]));
+    }
 }

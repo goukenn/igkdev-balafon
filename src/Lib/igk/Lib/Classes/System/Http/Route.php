@@ -81,8 +81,12 @@ class Route
     {
         if (file_exists($cf = $controller::configFile("routes"))) {
             self::$sm_controller = $controller;
+            $user = Route::user();
+            // $is_admin = $user && $user->getIsAdmin();
             SysUtils::Include($cf, [
-                "ctrl"=>$controller
+                "ctrl"=>$controller,
+                "user"=>Route::user(),
+                "is_admin"=>0,
             ]);
         }
     }

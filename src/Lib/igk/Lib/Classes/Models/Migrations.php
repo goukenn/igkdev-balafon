@@ -1,19 +1,22 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Migrations.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Store migrations</summary>
 /**
-* 
+* Store migrations
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $migration_name
-* @property mixed|int $migration_batch*/
+* @property int $clId
+* @property string $migration_name
+* @property int $migration_batch
+* @method static ?self Add(string $migration_name, int $migration_batch) add entry helper
+* @method static ?self AddIfNotExists(string $migration_name, int $migration_batch) add entry if not exists. check for unique column.
+* */
 class Migrations extends ModelBase{
 	/**
 	* table's name

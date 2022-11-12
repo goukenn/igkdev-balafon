@@ -1,22 +1,25 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UserInfoTypes.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>store use information types.</summary>
 /**
-* 
+* store use information types.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|varchar $clDataType
-* @property mixed|varchar $clRegex
-* @property mixed|int $clCardinality
-* @property mixed|int $clType*/
+* @property int $clId
+* @property string $clName
+* @property string $clDataType
+* @property string $clRegex
+* @property int $clCardinality
+* @property int $clType
+* @method static ?self Add(string $clName, string $clDataType, string $clRegex, int $clCardinality, int $clType) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clDataType, string $clRegex, int $clCardinality, int $clType) add entry if not exists. check for unique column.
+* */
 class UserInfoTypes extends ModelBase{
 	/**
 	* table's name

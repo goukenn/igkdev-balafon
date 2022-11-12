@@ -64,16 +64,19 @@ class WebResponse extends RequestResponse{
             $cache = !$this->node->noCache; 
         } 
         $this->_setHeader();
+        
         ob_start();   
         $this->render();
-        $s = ob_get_clean();   
-        $zip = 0 && igk_server()->accepts(["gzip"]);
+        $s = ob_get_clean(); 
+        /// TODO: disable gzip          
+        $v_zip = $zip =  0 && igk_server()->accepts(["gzip"]);
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
             list($uri, $zip) = IGKCaches::CacheUri();                      
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
+            $zip = $zip && $v_zip;
             if ($zip){
                 ob_start();
                 igk_zip_output($s, 0, 1);

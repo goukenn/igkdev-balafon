@@ -441,11 +441,11 @@ abstract class ControllerExtension
     }
     public static function migrate(BaseController $ctrl, $classname = null)
     {
-
-        if ($ctrl->getUseDataSchema()) {
+        if ($ctrl->getUseDataSchema() && $ctrl->getCanInitDb()) {
             $file = $ctrl::getDataSchemaFile();
             $f = igk_db_load_data_schemas($file, $ctrl);
             if ($m = igk_getv($f, "migrations")) {
+                
                 try {
                     foreach ($m as $t) {
                         $t->upgrade();
@@ -455,8 +455,8 @@ abstract class ControllerExtension
                     return false;
                 }
             }
+            self::loadMigrationFile($ctrl);
         }
-        self::loadMigrationFile($ctrl);
         return true;
     }
 
@@ -571,21 +571,23 @@ abstract class ControllerExtension
         if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
             igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
         }
+        $factory = [];
         if ($tb){
             foreach ($tb as $v) {
                 // remove prefix
                 $table = $v->defTableName;
                 $name = basename(igk_uri(sysutil::GetModelTypeName($table)));
                 $file = $c . $name . ".php";
+                $factory[] = $name;
                 if (!$force && file_exists($file)) {
                     continue;
                 }
                 igk_io_w2file($file, self::GetModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
             }
         }
-        self::InitDataInitialization($ctrl, false);
-        self::InitDataSeeder($ctrl, false);
-        self::InitDataFactory($ctrl, false);
+        self::InitDataInitialization($ctrl, $force);
+        self::InitDataFactory($ctrl, $force, $factory);
+        self::InitDataSeeder($ctrl, $force);
     }
 
     public static function InitDataInitialization(BaseController $ctrl, $force = false)
@@ -593,7 +595,7 @@ abstract class ControllerExtension
         //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR) 
          . "/Database/InitData.php";
-        if ($force || !file_exists($c)) {
+        if (!file_exists($c)) {
             $ns = $ctrl::ns("Database");
             $builder = new PHPScriptBuilder();
             $builder->type("class")
@@ -643,7 +645,7 @@ abstract class ControllerExtension
             igk_io_w2file($c, $builder->render());
         }
     }
-    public static function InitDataFactory(BaseController $ctrl, $force = false)
+    public static function InitDataFactory(BaseController $ctrl, bool $force = false, ?array $factories=null)
     {
         //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR) 
@@ -669,6 +671,10 @@ abstract class ControllerExtension
                     []
                 ));
             igk_io_w2file($c, $builder->render());
+        }
+
+        if ($factories){
+
         }
     }
     /**
@@ -967,8 +973,14 @@ abstract class ControllerExtension
     public static function login(BaseController $ctrl, $user = null, $pwd = null, $nav = true)
     {
         $u = $user;
-        
-        if (!igk_environment()->viewfile && igk_app_is_uri_demand($ctrl, __FUNCTION__) && file_exists($file = $ctrl->getViewFile(__FUNCTION__, false))) {
+        // + | --------------------------------------------------------------------
+        // + | preserve application to send to file login view if exists
+        // + |
+        $v_view = __FUNCTION__;
+        if (!igk_environment()->viewfile && igk_app_is_uri_demand($ctrl, $v_view) 
+                && file_exists($file = $ctrl->getViewFile($v_view, false))
+                && (igk_io_basenamewithoutext($file) == $v_view)
+            ){
             $ctrl->loader->view($file, compact("u", "pwd", "nav"));
             return false;
         }
@@ -1134,8 +1146,7 @@ abstract class ControllerExtension
             } else {
                 $tb = $ctrl::loadDataFromSchemas();
                 $db = self::getDataAdapter($ctrl);
-                if ($db) {
-                    if ($db->connect()) {
+                if ($db && $db->connect()) {                    
                         $v_tblist = [];
                         if ($tables = igk_getv($tb, "tables")) {
                             foreach (array_keys($tables) as $k) {
@@ -1143,10 +1154,9 @@ abstract class ControllerExtension
                             }
                         }
                         $func();
-                        $db->dropTable($v_tblist);
-                        $db->close();
+                        $db->dropTable($v_tblist); 
                         $_vinit = 1;
-                    }
+                    $db->close();
                 }
             }
         }
@@ -1906,7 +1916,7 @@ abstract class ControllerExtension
         $sublen = 1;
         if (!empty($ns)) {
             $sublen += strlen($ns);
-        } 
+        }  
         while ($cl = array_shift($t)) {
             $fcl = $cl;
             if (!empty($ns) && (strpos($cl, $ns . "\\") === 0)) {

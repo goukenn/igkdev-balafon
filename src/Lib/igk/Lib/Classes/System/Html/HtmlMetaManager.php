@@ -28,7 +28,16 @@ final class HtmlMetaManager extends IGKObject{
     const META_KEYWORDS=self::META_AUTHOR + 0x3;
     const META_GENERATOR=self::META_AUTHOR + 0x5;
     const META_VIEWPORT=self::META_AUTHOR + 0x6;
+    /**
+     * single meta name
+     * @var mixed
+     */
     private $m_metas;
+    /**
+     * for key metas
+     * @var mixed
+     */
+    private $m_key_metas = []; 
     ///<summary>ownerDoc is used to initialize data</summary>
     public function __construct(){
         $this->_initMetas();
@@ -121,7 +130,9 @@ final class HtmlMetaManager extends IGKObject{
                 $m["name"] = $name;
                 $m["content"] = $meta;
                 $meta = $m;
-            } 
+            } else if (is_array($meta)){
+                $meta = (object)["attributes"=>$meta];
+            }
             $this->m_metas[$name]= HtmlUtils::GetAttributes($meta->attributes);
             $this->m_metas[$name]["changed"]=1;
             return 1;
@@ -180,7 +191,34 @@ final class HtmlMetaManager extends IGKObject{
             }
             $o .= "/>";
         }
+        foreach($this->m_key_metas as $k => $v){
+            while(count($v)>0){
+                $q = array_shift($v);
+                $o .= $LF.$DEPTH."<meta ";
+                $o .= sprintf("name=\"%s\"", HtmlUtils::GetAttributeValue($k));                
+                $o .= " ".HtmlRenderer::GetAttributeArrayToString($q);
+                $o .= "/>";
+            }
+        }
         return $o;// .$s;
+    }
+    /**
+     * 
+     * @param mixed $name key metas
+     * @param array $attributes assoc array
+     * @return void 
+     */
+    public function appendKeyMeta($name, array $attributes){
+      
+        if (!isset($this->m_key_metas[$name])){
+            $this->m_key_metas[$name] = [];
+        }
+        
+        $this->m_key_metas[$name][] = $attributes;
+        return $this;
+    }
+    public function clearKeyMeta(){
+        $this->m_key_metas = [];
     }
     ///<summary></summary>
     ///<param name="name"></param>

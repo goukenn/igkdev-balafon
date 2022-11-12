@@ -25,6 +25,7 @@ use IGKApplicationBootOptions;
 use IGKCaches;
 use IGKEvents;
 use IGKException;
+use ModuleManager;
 use ReflectionException;
 use TypeError;
 
@@ -128,6 +129,13 @@ class WebApplication extends IGKApplicationBase
         });
         igk_reg_hook(IGKEvents::HOOK_MK_LINK, function () {
             igk_internal_reslinkaccess();
+        });
+
+        // + | --------------------------------------------------------------------
+        // + | boot modules
+        // + |
+        igk_reg_hook(IGKEvents::HOOK_APP_BOOT, function(){
+            \IGK\System\Modules\ModuleManager::Bootstrap();
         });
 
         if ($bootoptions) {
@@ -272,6 +280,11 @@ class WebApplication extends IGKApplicationBase
      */
     public function run(string $file, $render = 1)
     {
+        if (igk_environment()->isDev()){
+            // igk_ilog('run:');
+            // igk_debug(1);
+            // igk_environment()->querydebug = defined('IGK_QUERY_DEBUG') ? constant('IGK_QUERY_DEBUG') : null;
+        }
         $this->file = $file;
         // -- config 
         $config = igk_configs();
@@ -280,7 +293,7 @@ class WebApplication extends IGKApplicationBase
             igk_exit();
         }
         // + | handle cache
-        igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
+        // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
         
         try {
             require_once IGK_LIB_DIR . "/igk_request_handle.php";

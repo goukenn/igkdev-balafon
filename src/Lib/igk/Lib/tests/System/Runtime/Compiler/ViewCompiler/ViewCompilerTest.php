@@ -299,4 +299,33 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    public function test_comment_specifics(){
+        $compiler = new ViewCompiler;
+        $compiler->variables = [           
+        ];
+        $compiler->options = (object)[
+            "t"=>igk_create_node("div"),
+            "ctrl"=>SysDbController::ctrl()
+        ]; 
+        $compiler->forCache = false;
+        $src = $compiler->compileSource($this->_source(
+            '// + | ----',                
+            '// + | demo',                
+            '// + | ',            
+            'echo "Hello";',      
+        ));
+        //igk_wln_e("the source ", $src);
+        $this->assertEquals(
+            $this->_source(                  
+                '// + | ----',                
+                '// + | demo',                
+                '// + |',                
+                '',                
+                'echo "Hello";',                
+            ),
+            $src,
+            "failed to get data: ".__METHOD__
+        );
+    }
 }

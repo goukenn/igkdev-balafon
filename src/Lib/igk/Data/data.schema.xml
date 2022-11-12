@@ -5,6 +5,7 @@
             <Row clName="PhoneNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
             <Row clName="GSMNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
             <Row clName="Email" clDataType="email" clRegex="" clCardinality="0" clType="1" />
+            <Row clName="TOKENID" clDataType="text" clRegex="" clCardinality="1" clType="1" />
         </Rows>
         <Rows For="%prefix%community">
             <Row clName="facebook" clValueType="uri" />

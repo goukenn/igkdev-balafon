@@ -23,6 +23,7 @@ final class ApplicationModuleController extends BaseController{
     private $m_src;             // source code 
     private $m_initializer;     // used to extend module class properties
     private $m_configs;         // configuration 
+    var $boot;
     public function config($name, $default=null){
         return igk_conf_get($this->m_configs, $name, $default, 1);
     }

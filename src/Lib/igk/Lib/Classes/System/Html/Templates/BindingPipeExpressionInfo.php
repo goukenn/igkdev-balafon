@@ -65,6 +65,8 @@ class BindingPipeExpressionInfo{
                 return $v;
             }, "currency" => function ($v, $options = null) {
                 return sprintf('%.2f', $v) . " EUR";
+            }, 'urlencode' => function ($v){
+                return urlencode($v);
             }
         ];
     }

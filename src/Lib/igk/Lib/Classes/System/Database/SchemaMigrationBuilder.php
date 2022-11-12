@@ -7,6 +7,10 @@ namespace IGK\System\DataBase;
 
 use IGK\Database\DbSchemas;
 
+/**
+ * schema migration builder
+ * @package IGK\System\DataBase
+ */
 class SchemaMigrationBuilder extends SchemaBuilderHelper{
   
     private $is_migration;
@@ -30,6 +34,13 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper{
         $d->is_migration = 1;
         return $d;
     }
+    /**
+     * add columns
+     * @param mixed $table 
+     * @param null|array $options 
+     * @param mixed $after 
+     * @return $this 
+     */
     public function addColumn($table, ?array $options=null, $after=null){
         if ($this->is_migration){
             $b = $this->_output->add("addColumn");
@@ -43,6 +54,13 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper{
         $this->migration()->addColumn($table, $options, $after);
         return $this;
     }
+    /**
+     * 
+     * @param mixed $table 
+     * @param mixed $column 
+     * @param array $options 
+     * @return $this|void 
+     */
     public function changeColumn($table, $column, array $options){
         if ($this->is_migration){
             $b = $this->_output->add("changeColumn");
@@ -74,6 +92,35 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper{
             return $this;
         }
         $this->migration()->removeColumn($table, $colname);
+        return $this;
+    }
+
+    /**
+     * create table migration
+     * @param string $table 
+     * @return SchemaTableBuilder 
+     */
+    public function createTable(string $table): SchemaTableBuilder{
+        if ($this->is_migration){
+            $b = $this->_output->add(__FUNCTION__);
+            $b["table"]= $table;
+            $s = SchemaTableBuilder::Create($b, $this->_schema);
+            return $s;
+        }
+        return $this->migration()->createTable($table);
+    }
+    /**
+     * delete table migration
+     * @param string $table 
+     * @return mixed 
+     */
+    public function deleteTable(string $table){
+        if ($this->is_migration){
+            $b = $this->_output->add(__FUNCTION__);
+            $b["table"]= $table;
+            return $b;
+        }
+        $this->migration()->deleteTable($table);
         return $this;
     }
 }

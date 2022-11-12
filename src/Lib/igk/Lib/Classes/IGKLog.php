@@ -68,7 +68,7 @@ final class IGKLog extends IGKObject
      * @param mixed $tag
      * @param mixed $traceindex
      */
-    public static function Append($msg, $tag = null, $traceindex = 0)
+    public static function Append($msg, $tag = null, $traceindex = 0, $dblog=true)
     {
         if (self::$sm_loggin){
             igk_die("try to log when appending...log message");
@@ -116,10 +116,10 @@ final class IGKLog extends IGKObject
             error_log("[{$tag}] - $msg");
         }
 
-        // +| ---------------------------------------------------
-        // +| log running data to running app
-       
-        if (self::CanDBLog()){            
+        // + | ---------------------------------------------------
+        // + | log running data to running app
+        // + |
+        if ($dblog && self::CanDBLog()){            
             \IGK\Models\DbLogs::add($msg, $tag, 0);            
         }
         igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());

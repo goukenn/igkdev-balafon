@@ -34,6 +34,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
     private $m_time;
     private static $sm_emptyResult;
     protected $m_dbManager;
+    /**
+     * in transaction
+     * @var false
+     */
+    protected $inTransaction = false;
 
 
 
@@ -86,7 +91,8 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     public function beginTransaction()
     {
-        $this->sendQuery("START TRANSACTION");
+        $this->sendQuery("START TRANSACTION", true, null, false);
+        $this->inTransaction = true;
     }
     ///<summary></summary>
     ///<param name="leaveOpen" default="false"></param>
@@ -129,6 +135,8 @@ abstract class DataAdapterBase extends SQLDataAdapter
     public function commit()
     {
         $this->sendQuery("COMMIT");
+        $this->close();
+        $this->inTransaction = false;
     }
     ///<summary></summary>
     ///<param name="array"></param>

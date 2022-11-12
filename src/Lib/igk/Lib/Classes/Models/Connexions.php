@@ -1,20 +1,23 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connexions.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Store started connexions</summary>
 /**
-* 
+* Store started connexions
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|TbigkUsers|int $clUser_Id
-* @property mixed|datetime $clDateTime
-* @property mixed|varchar $clFrom*/
+* @property int $clId
+* @property int|\IGK\Models\Users $clUser_Id
+* @property string|datetime $clDateTime
+* @property string $clFrom
+* @method static ?self Add(int|\IGK\Models\Users $clUser_Id, string|datetime $clDateTime, string $clFrom) add entry helper
+* @method static ?self AddIfNotExists(int|\IGK\Models\Users $clUser_Id, string|datetime $clDateTime, string $clFrom) add entry if not exists. check for unique column.
+* */
 class Connexions extends ModelBase{
 	/**
 	* table's name

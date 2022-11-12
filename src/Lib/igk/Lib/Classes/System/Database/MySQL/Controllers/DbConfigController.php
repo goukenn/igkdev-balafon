@@ -47,6 +47,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     static $sm_tabinfo;
 
     
+    public function getCanInitDb(){
+        return false;
+    }
       /**
      * indicate if use data schema
      * @return bool 
@@ -737,6 +740,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     public function pCleanTable()
     {
+   
         $ad = $this->getDataAdapter();
         $q = igk_configs()->get("db_prefix", "tbigk_") . "%";
         // $q = "%\\\\_%";
@@ -747,14 +751,15 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $op = "NOT"; //igk_getr("not") ? "NOT" :  "";
 
         $q = $ad->escape_string($q);
-        $field = "tables_in_{$dbname}";
-        $rg = $ad->sendQuery("SHOW TABLES WHERE tables_in_{$dbname} {$op} LIKE '$q'");
+        $field = "tables_in_{$dbname}";        
+        $rg = $ad->sendQuery("SHOW TABLES WHERE `$field` {$op} LIKE '$q'");
+ 
         if ($rg && ($rg->getRowCount() > 0)) {
             $field = ucfirst($field);
             $ad->stopRelationChecking();
             $ad->beginTransaction();
             foreach ($rg->getRows() as $r) {
-                igk_dev_wln($r->$field);
+                // igk_dev_wln($r->$field);
                 $ad->sendQuery("DROP TABLE `" . $ad->escape_string($r->$field) . "`");
             }
             $ad->commit();
@@ -1503,7 +1508,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         if (igk_server()->method("POST") && igk_qr_confirm()) {
             $this->db_drop_sys_tables();
-            igk_environment()->querydebug = 1;
+            // igk_environment()->querydebug = 1;
             $this->pinitSDb(false);
             if (igk_is_ajx_demand()) {
                 $this->View();
@@ -1992,6 +1997,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      */
     public function initSDb($view = true, $nav = true)
     {
+        // + | --------------------------------------------------------------------
+        // + | init system database 
+        // + |
+        
         $ad = igk_get_data_adapter($this, true);
         if ($ad) {
             igk_set_env("sys://Db/NODBSELECT", 1);
@@ -2020,11 +2029,17 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             if (function_exists($global_fc = "InitDb")) {
                 call_user_func_array($global_fc, []);
             } else {
-                $ad_n = $this->getDataAdapterName();
-                // $v_ctab = igk_app()->getControllerManager()->getControllers();
+                $ad_n = $this->getDataAdapterName();                
                 $v_cctab = ConfigControllerRegistry::ResolvAndInitControllers();
-                usort($v_cctab, DbUtils::OrderController); 
-
+                // usort($v_cctab, DbUtils::OrderController); 
+                if (($index = array_search($this, $v_cctab))>0){
+                    unset($v_cctab[$index]); 
+                };
+                $sysdb =  SysDbController::ctrl();
+                if (($index = array_search($sysdb, $v_cctab))>0){
+                    unset($v_cctab[$index]);
+                    array_unshift($v_cctab, $sysdb); 
+                }              
                 foreach ($v_cctab as $k) {
                     if (($k == $this) || ($k->getDataAdapterName() != $ad_n))
                         continue;

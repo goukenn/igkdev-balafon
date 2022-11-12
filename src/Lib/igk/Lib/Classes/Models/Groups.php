@@ -1,20 +1,23 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Groups.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>Store framework groups</summary>
 /**
-* 
+* Store framework groups
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clName
-* @property mixed|varchar $clDescription
-* @property mixed|varchar $clController*/
+* @property int $clId
+* @property string $clName
+* @property string $clDescription
+* @property string $clController
+* @method static ?self Add(string $clName, string $clDescription, string $clController) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clController) add entry if not exists. check for unique column.
+* */
 class Groups extends ModelBase{
 	/**
 	* table's name

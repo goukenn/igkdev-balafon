@@ -98,13 +98,15 @@ class session extends \IGKLibraryBase{
         if(!empty($dom))
             $opts["domain"]=$dom;
         if(count($opts) > 0){
+            $set_loc = true;
             if(version_compare(PHP_VERSION, IGK_PHP_MIN_VERSION, ">=")){
                 if(!session_set_cookie_params($opts)){
-                    igk_ilog("set cookie options failed");
-                    igk_ilog($opts);
+                    igk_ilog("set cookie options failed", "sesslib");                    
+                }else {
+                    $set_loc = false;
                 }
             }
-            else{
+            if ($set_loc){
                 session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
             }
         }

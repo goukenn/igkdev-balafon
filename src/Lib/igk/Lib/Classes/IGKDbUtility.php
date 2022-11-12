@@ -206,7 +206,6 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     public function connect(){
         if(!$this->m_ad)
             $this->m_ad=$this->initDataAdapter();
-
         return $this->m_ad && $this->m_ad->connect($this->m_Ctrl);
     }
     ///<summary></summary>

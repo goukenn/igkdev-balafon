@@ -1,24 +1,27 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Mailinglists.php
-// @desc: model file
-// @date: 20220802 21:32:00
+// @date: 20221111 21:30:07
 namespace IGK\Models;
+
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>store mailing lists.</summary>
 /**
-* 
+* store mailing lists.
 * @package IGK\Models
-* @property mixed|int $clId
-* @property mixed|varchar $clEmail
-* @property mixed|int $clState
-* @property mixed|text $clSource
-* @property mixed|varchar $clml_locale
-* @property mixed|text $clml_agent
-* @property mixed|datetime $clml_create_at
-* @property mixed|datetime $clml_update_at*/
+* @property int $clId
+* @property string $clEmail
+* @property int $clState
+* @property string $clSource
+* @property string $clml_locale ="en"
+* @property string $clml_agent
+* @property string|datetime $clml_create_at
+* @property string|datetime $clml_update_at
+* @method static ?self Add(string $clEmail, int $clState, string $clSource, string $clml_agent, string|datetime $clml_create_at, string|datetime $clml_update_at, string $clml_locale ="en") add entry helper
+* @method static ?self AddIfNotExists(string $clEmail, int $clState, string $clSource, string $clml_agent, string|datetime $clml_create_at, string|datetime $clml_update_at, string $clml_locale ="en") add entry if not exists. check for unique column.
+* */
 class Mailinglists extends ModelBase{
 	/**
 	* table's name

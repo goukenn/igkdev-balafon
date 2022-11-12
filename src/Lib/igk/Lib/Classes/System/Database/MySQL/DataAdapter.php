@@ -115,13 +115,16 @@ class DataAdapter extends DataAdapterBase
         static $supportedList;
         if ($supportedList === null) {
             $supportedList = [];
-            if ($g = $this->sendQuery(self::SELECT_DATA_TYPE_QUERY)) {
+            if ($g = $this->sendQueryAndLeaveOpen(self::SELECT_DATA_TYPE_QUERY)) {
                 foreach ($g->getRows() as $r) {
                     $supportedList[] = strtolower($r->type);
                 }
             }
         }
         return in_array(strtolower($type), $supportedList);
+    }
+    public function sendQueryAndLeaveOpen(string $query){
+        return $this->sendQuery($query, true, null, false);
     }
     /**
      * allow supported default value
@@ -141,14 +144,16 @@ class DataAdapter extends DataAdapterBase
         if (class_exists(DbQueryDriver::class)) {
             $this->makeCurrent();
             $cnf = $this->app->Configs;
+            $error =null;
             $s = DbQueryDriver::Create([
                 "server" => $cnf->db_server,
                 "user" => $cnf->db_user,
                 "pwd" => $cnf->db_pwd,
                 "port" => $cnf->db_port
-            ]);
+            ],  $error );
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
+                error_log($error);
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
@@ -159,10 +164,14 @@ class DataAdapter extends DataAdapterBase
     }
     public function escape_string($v): string
     {
+        if (is_null($v)){
+            igk_trace();
+            igk_exit();
+        }
         if (is_object($v)) {
             $v = "" . $v;
         }
-        $v = stripslashes($v);
+        $v = stripslashes($v??'');
         $b = $this->getResId();
         if ($b) {
             return mysqli_real_escape_string($b, $v);
@@ -292,16 +301,15 @@ class DataAdapter extends DataAdapterBase
     {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect())  {
 
-            if (!$this->tableExists($tablename)) {
-                // igk_debug_wln("en:", __FILE__.":".__LINE__,  get_class($this->m_dbManager));
-                // igk_wln_e("try:::::consolll");                
+            if (!($response = $this->tableExists($tablename))) {
+                igk_debug_wln("en:", __FILE__.":".__LINE__);                    
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $this->DbName);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
                 }
                 return $s;
-            }
+            } 
         }
         return false;
     }
@@ -420,6 +428,12 @@ class DataAdapter extends DataAdapterBase
         return null;
     }
 
+    public function commit(){
+        parent::commit();
+    }
+
+  
+
     public function getColumnInfo(string $table, ?string $dbname = null)
     {
         $data =  $this->getGrammar()->get_column_info($table, $dbname);
@@ -475,26 +489,30 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $options extra option. used by query result
      * @return DbQueryResult|\Iterable|null|bool
      */
-    public function sendQuery($query, $throwex = true, $options = null)
+    public function sendQuery($query, $throwex = true, $options = null, $autoclose = false)
     {
         $listener = $this->queryListener ?? $this->m_dbManager;
+        $r = null;
         if ($listener) {
             $options = $options ?? (object)[];
             $r = $listener->sendQuery($query, $throwex, $options);
-            if ($r === false)
-                return false;
+            // if ($r === false)
+            //     return false;
             if ($r instanceof DbQueryResult) {
                 return $r;
             }
-
             if ($r !== null) {
                 if ($res = igk_getv($options, IGKQueryResult::RESULTHANDLER)) {
-                    return $res->handle($r);
+                    $r = $res->handle($r);
+                }else {
+                    $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
                 }
-                return IGKMySQLQueryResult::CreateResult($r, $query, $options);
             }
         }
-        return null;
+        if ($autoclose && !$this->inTransaction){
+            $this->close();
+        }
+        return $r;
     }
     public function sendMultiQuery($query, $throwex = true)
     {
