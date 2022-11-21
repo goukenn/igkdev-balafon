@@ -20,7 +20,7 @@ interface IDiagramSchemaEntity
     function id(string $id): IDiagramSchemaEntity;
     function varchar(string $id, int $length): IDiagramSchemaEntity;
     function address(string $id): IDiagramSchemaEntity;
-    function dateUpdate(?string $prefix=null): IDiagramSchemaEntity;
+    function dateUpdate(?string $prefix = null): IDiagramSchemaEntity;
     /**
      * 
      * @param string $name 
@@ -47,11 +47,20 @@ interface IDiagramSchemaEntity
         $default = 0,
         $description = null
     ): IDiagramSchemaEntity;
-    function column(string $id, $type='Int', $length=9): IDiagramSchemaEntity;
+    function column(string $id, $type = 'Int', $length = 9): IDiagramSchemaEntity;
     function text(string $id): IDiagramSchemaEntity;
-    function email($name = "Email", $length=30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity;
-    function link(string $name, string $table, ?string $column = null): IDiagramSchemaEntity;
-    function int(string $name): IDiagramSchemaEntity;
+    function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity;
+    function link(
+        string $name,
+        string $table,
+        ?string $column = null,
+        $linkName = null,
+        $notnull = false,
+        $inputtype = "",
+        $default = 0,
+        $description = null
+    ): IDiagramSchemaEntity;
+    function int(string $name, int $length = 9): IDiagramSchemaEntity;
     function float(string $name): IDiagramSchemaEntity;
     function unique(string $name): IDiagramSchemaEntity;
     function primary(string $name): IDiagramSchemaEntity;

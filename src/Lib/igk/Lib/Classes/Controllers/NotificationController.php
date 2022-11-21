@@ -20,6 +20,7 @@ use function igk_resources_gets as __;
 
 final class NotificationController extends BaseController implements IIGKNotifyMessage {
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
+    private $m_marks;
     ///<summary>Represente __call function</summary>
     ///<param name="name"></param>
     ///<param name="c"></param>
@@ -177,9 +178,10 @@ final class NotificationController extends BaseController implements IIGKNotifyM
     ///<summary></summary>
     ///<param name="tagid"></param>
     public function mark($tagid){
-        if($this->m_marks == null)
+        if($this->m_marks == null){
             $this->m_marks=array();
-        $this->m_marks[$tagid ]=1;
+        }
+        $this->m_marks[$tagid]=1;
     }
     ///<summary>Render Noticiation node</summary>
     ///<param name="n"></param>

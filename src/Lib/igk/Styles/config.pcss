@@ -432,9 +432,7 @@ $def[".igk-cnf-content form"] = "width:100%;";
 
 
 
-
-$def[$page." .cltext, .igk-cnf-page .clpassword, .igk-cnf-page .clemail, .igk-cnf-page select"] = "padding:4px; width:180px; margin-bottom:0.5em";
-
+ $def[$page. " .webmail-config .section"] = "margin-top:2em";
 
 $def[$page." .cltextarea"] = "width: {$areasize}; height : 300px; white-space: nowrap; ";
 $def[$page." .cllabel"] = "display:inline-block; width: 150px; min-height: 32px; vertical-align:top;  line-height:normal;";
@@ -492,8 +490,9 @@ $def[":root"] .= "--config-mmenu-CatFontSize: 18pt;";
 
 
 $e = $page." .igk-adm-login-form .igk-adm-logo";
-$def[$page." .igk-adm-login-form .igk-adm-logo"] = 
+$def[$e] = 
 "background-color:[var:--igk-config-logo__background, white]; margin:-32px; padding:32px;text-align:center; ";
+$def[$e." svg"] = "width:initial; height:initial;";
 
 
 $sm_screen[$page." .igk-adm-login-form"] = "{sys:fit} margin:0px auto; padding:0px;";

@@ -6,6 +6,7 @@
 
 namespace IGK\Models;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbQueryCondition;
 use IGK\System\Database\QueryBuilder;
@@ -82,12 +83,12 @@ abstract class ModelEntryExtension
      * @param bool $idresult 
      * @return null|object 
      */
-    public static function create(ModelBase $model, $raw = null, bool $update = true)
+    public static function create(ModelBase $model, $raw = null, bool $update = true, bool $throwException = true)
     {
         $cl = get_class($model);
         $c = new $cl($raw);
         if ($craw = $c->to_array()) {
-            $g = $c->insert($craw, $update);
+            $g = $c->insert($craw, $update, $throwException);
             if (($g !== false) && ($g !== null)) {
                 if ($g instanceof $model) {
                     $c->updateRaw($g);
@@ -106,7 +107,6 @@ abstract class ModelEntryExtension
      */
     public static function createEmptyRow(ModelBase $model)
     {
-
         $ctrl = $model->getController();
         return DbSchemas::CreateRow($model->getTable(), $ctrl);
     }
@@ -142,7 +142,7 @@ abstract class ModelEntryExtension
      * 
      * @param ModelBase $model 
      * @param mixed $condition 
-     * @param mixed $extra 
+     * @param mixed $extra append field conditions
      * @return null|ModelBase|bool 
      */
     public static function createIfNotExists(ModelBase $model, $condition, $extra = null)
@@ -154,7 +154,7 @@ abstract class ModelEntryExtension
                 foreach ($extra as $k => $v) {
                     $condition->$k = $v;
                 }
-            }
+            } 
             return $model::create($condition);
         }
         return $row;
@@ -307,7 +307,7 @@ abstract class ModelEntryExtension
 
         $r = $model->getDataAdapter()->select($model->getTable(), $conditions, $options, $autoclose);
 
-        if ($r && $r->RowCount == 1) {
+        if ($r && $r->getRowCount() == 1) {
             $g = $r->getRowAtIndex(0);
             $g->{"sys:table"} = $model->getTable();
             return new $cl($g->to_array(), 0, true);
@@ -325,6 +325,14 @@ abstract class ModelEntryExtension
         }
         return null;
     }
+    /**
+     * send a select query 
+     * @param ModelBase $model 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return null|DbQueryResult 
+     * @throws IGKException 
+     */
     public static function select_query(ModelBase $model, $conditions = null, $options = null)
     {
         return $model->getDataAdapter()->select($model->getTable(), $conditions, $options);
@@ -406,16 +414,20 @@ abstract class ModelEntryExtension
      * @return null|ModelBase|bool 
      * @throws IGKException 
      */
-    public static function insert(ModelBase $model, $entries, $update = true)
+    public static function insert(ModelBase $model, $entries, $update = true, bool $throwException=true)
     {
-
         $ad = $model->getDataAdapter();
-
-        if ($ad->insert($model->getTable(), $entries, $model->getTableInfo())) {
+        $info = $model->getTableInfo();
+        if ($ad->insert($model->getTable(), $entries, $info, $throwException)) {
             if ($update) {
                 $ref_id = $model->getRefId();
                 if (($id = $ad->last_id()) && ($id !== -1)) {
                     // because selection : last_id missing 
+                    if ($id =='puId'){
+                        igk_debug_wln_e($id , get_class($model));
+                    }
+                    $model->$ref_id = $id;
+                    $model->isNew();
                     $s = $model::select_row([$ref_id => $id]);
                     if ($s && is_object($entries)) {
                         foreach ($s->to_array() as $k => $v) {
@@ -436,6 +448,10 @@ abstract class ModelEntryExtension
     public static function last_error(ModelBase $model)
     {
         return $model->getDataAdapter()->last_error();
+    }
+    public static function tableExists(ModelBase $model):bool{
+        $table = $model::table();
+        return $model->getDataAdapter()->tableExists($table);
     }
     /**
      * send query 
@@ -529,7 +545,7 @@ abstract class ModelEntryExtension
     public static function createTable(ModelBase $model)
     {
         $driver = $model->getDataAdapter();
-        $info = $model->getDataTableDefinition();
+        $info = $model->getDataTableDefinition();        
         return $driver->createTable($model::table(), igk_getv($info, "tableRowReference"), igk_getv($info, "description"));
     }
 
@@ -692,8 +708,8 @@ abstract class ModelEntryExtension
      * @param mixed $id
      * @return object|ModelBase|null 
      */
-    public static function Get(ModelBase $model, $column, $id, $autoinsert = null)
-    {
+    public static function Get(ModelBase $model, $column=null, $id=null, $autoinsert = null)
+    { 
         if ($id instanceof $model) {
             return $id;
         }
@@ -1019,10 +1035,10 @@ abstract class ModelEntryExtension
         $info =  $model->getTableInfo();
         $controller = $model->getController();
         if (is_null($controller )){
-            igk_die("basic info principal ". get_class($model));
+            igk_die(__FUNCTION__." failed:[controller] is null model name = ". get_class($model));
         }
         if ($params && !is_array($params)) {
-            $args = IGKSysUtil::DBGetPhpDocModelArgEntries($info, $controller);
+            $args = IGKSysUtil::DBGetPhpDocModelArgEntries((array)$info, $controller);
             $row = $model::createEmptyRow();
             $g = array_keys($args);
             $index = 0;
@@ -1074,5 +1090,19 @@ abstract class ModelEntryExtension
             }
         }
         return array_unique($g, SORT_REGULAR);
+    }
+    /**
+     * dump export data
+     * @param ModelBase $model 
+     * @param null|array $data 
+     * @return string|null 
+     * @throws Exception 
+     */
+    public static function dump_export(ModelBase $model , ?array $data=null ){
+        $row = $model->createEmptyRow();
+        if ($data){
+            igk_full_fill($row, $data);
+        }
+        return var_export($row , true);
     }
 }

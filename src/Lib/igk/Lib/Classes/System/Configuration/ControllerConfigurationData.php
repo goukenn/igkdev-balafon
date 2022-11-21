@@ -13,6 +13,7 @@ use IGK\Controllers\RootControllerBase;
 use IGK\System\Html\HtmlContext;
 use IGK\XML\XMLNodeType;
 use IGKEnvironment;
+use IGKException;
 use IGKObject;
 use function igk_resources_gets as __;
  
@@ -112,14 +113,12 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         $f= $file ?? $this->getConfigFile();
         $def = null; 
         if(!is_null($f) && file_exists($f)){
-            /// TODO : Load configuration setting
-            // igk_ilog("init configuration data:".$f);
+            
+            igk_environment()->task = 'load-config: '.$f;
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
-            $div = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");    
-         
-            $div->loadFile($f, HtmlContext::XML, null);
-           
-            $d=igk_getv($div->getElementsByTagName("config"), 0);
+            $confNode = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");             
+            $confNode->loadFile($f, HtmlContext::XML, null);           
+            $d=igk_getv($confNode->getElementsByTagName("config"), 0);
             if($d){
                 foreach($d->Childs as $k){
                     if ($k->getNodeType() == XMLNodeType::COMMENT){
@@ -141,7 +140,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
             if ($m = igk_getv($t, "env.".$def)){  
                 foreach($m as $c=>$p){
                     if (strpos($c, "env.")===0){
-                        die("invalid xml configuration file");
+                        igk_die("invalid xml configuration file env can't containt env");
                     }
                     $t->$c = $p;
                 } 
@@ -209,6 +208,13 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
             return igk_io_w2file($this->getConfigFile(), $data, true);
         }
     }
+    /**
+     * get will resolv the config
+     * @param mixed $xpath 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function get($xpath, $default= null){
         $v = igk_conf_get($this->m_configs, $xpath, $default);
         if (is_object($v) && ($v instanceof SysConfigExpression)){

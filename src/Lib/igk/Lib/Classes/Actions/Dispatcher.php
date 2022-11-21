@@ -22,7 +22,7 @@ use IGK\System\Http\WebResponse;
 use IGK\System\IInjectable;
 use IGK\System\Regex\MatchPattern;
 use IGK\System\Services\InjectorProvider;
-use IGKActionBase;
+use IGK\Actions\ActionBase;
 use IGKType;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
@@ -46,7 +46,7 @@ class Dispatcher implements IActionProcessor
      * @param null|IGKActionBase $host 
      * @return void 
      */
-    public function __construct(?IGKActionBase $host)
+    public function __construct(?ActionBase $host)
     {
         $this->host = $host;
     }
@@ -172,6 +172,12 @@ class Dispatcher implements IActionProcessor
             $c = $arg; 
 
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
+                if ($type == 'string'){
+                    
+                    $targs[] = $c;
+                    $i++;
+                    continue;
+                }
                 if ($type == "array") {
                     $c = $c ? explode(",", $c) : []; // implode(",", $args[$i]);                                    
                 } else {

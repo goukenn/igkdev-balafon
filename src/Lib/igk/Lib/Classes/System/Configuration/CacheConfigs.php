@@ -50,7 +50,11 @@ final class CacheConfigs
         if (self::$sm_instance == null) {
             self::$sm_instance = new self();
             if (file_exists($file = self::$sm_instance->getCacheFile())) {
-                self::$sm_instance->cacheOptions = unserialize(file_get_contents($file));
+                if (($g = unserialize(file_get_contents($file))) !== false){
+                    self::$sm_instance->cacheOptions = $g; 
+                } else {
+                    self::$sm_instance->cacheOptions = new stdClass;
+                }
                 self::$sm_instance->mtime = filemtime($file);
             } else {
                 self::$sm_instance->cacheOptions = (object)[];
@@ -89,6 +93,28 @@ final class CacheConfigs
             $v = (bool)preg_match("/(true|1)/i", $v);
         }
         return self::registerCache($controller, $name, $v);
+    }
+    /**
+     * replace login service
+     * @param BaseController $controller 
+     * @param mixed $name 
+     * @param mixed $value 
+     * @return void 
+     */
+    public static function SetCachedOption(BaseController $controller, $name, $value){
+        $i = self::getInstance();
+        $options = igk_getv($i->cacheOptions, get_class($controller));
+        $keyname = strtolower(igk_environment()->keyName());
+        if ($options && property_exists($options, $keyname)) {
+            if (($envkeys = $options->$keyname) && property_exists($envkeys, $name)) {
+                $envkeys->$name = $value; 
+                return true;
+            }
+            // return $defaut;
+        } else if ($options){
+                $options->$name= $value;
+                return true;
+        }
     }
     public static function registerCache(BaseController $controller, $name, $value)
     {

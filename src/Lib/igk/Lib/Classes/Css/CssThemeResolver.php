@@ -15,14 +15,14 @@ class CssThemeResolver
 {
 
     /**
-     * main theme
+     * current theme
      * @var mixed
      */
     var $theme;
 
     /**
      * parent theme
-     * @var mixed
+     * @var ?HtmlDocTheme
      */
     var $parent;
 

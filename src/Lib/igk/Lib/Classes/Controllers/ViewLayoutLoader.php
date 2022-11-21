@@ -25,9 +25,22 @@ use function igk_resources_gets as __;
  */
 class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
  
+    /**
+     * 
+     * @var mixed
+     */
     var $header;
 
+    /**
+     * footer view 
+     * @var mixed
+     */
     var $footer;   
+
+    /***
+     * default title 
+     */
+    var $title;
 
     /**
      * const to store page layout param.
@@ -77,7 +90,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      * @throws EnvironmentArrayException 
      * @throws Exception 
      */
-    public function include($file, $args){
+    public function include(string $file, ?array $args = null){
   
         $response = null;
         $ctrl =  $this->controller;  
@@ -85,15 +98,18 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         $v_main = $this->{'@MainLayout'};
         $no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfig('no_auto_cache_view');
 
-        $args["doc"]->title =  __("{0} - [{1}]", __("title.{$args['fname']}")  , $this->controller->getConfig('clAppTitle', igk_configs()->website_domain));
+        
+
+        $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
+
         if (!$v_main &&  $this->exists($this->header)){
-            $response .= igk_include_view_file($this->controller, $this->header, true, $args);   
+            igk_include_view_file($this->controller, $this->header, true, $args);   
         }
-        $response .= igk_include_view_file($this->controller, $file, 
+        $response = igk_include_view_file($this->controller, $file, 
         $no_cache,
         $args);        
         if (!$v_main &&  $this->exists($this->footer)){
-            $response .= igk_include_view_file($this->controller, $this->footer, true, $args);
+            igk_include_view_file($this->controller, $this->footer, true, $args);
         }
         return $response;
     }
@@ -101,8 +117,12 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      * get page title 
      * @return string
      */
-    public function getPageTitle(string $title):string{
-        return sprintf("%s - [%s]", $title,  $this->controller->getConfigs()->get('clAppTitle', igk_configs()->website_domain));
+    public function getPageTitle(string $title, $main=false):string{
+
+        return $main ? 
+            sprintf("%s ", $title):
+            sprintf("%s - [ %s ]", $title, 
+            $this->controller->getConfig('clAppTitle', igk_configs()->website_domain));
     }
     /**
      * login form callback

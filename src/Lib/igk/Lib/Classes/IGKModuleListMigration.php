@@ -4,86 +4,298 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
+use IGK\Database\DbModuleReferenceTable;
+use IGK\Database\DbSchemas;
+use IGK\Database\DbSchemasConstants;
+use IGK\System\Caches\EnvControllerCacheDataBase;
 use IGK\System\Console\Logger;
+use IGK\System\Database\DatabaseInitializer;
+use IGK\System\Database\MigrationHandler;
+use IGK\System\Database\Traits\DbCreateTableReferenceTrait;
 
-final class IGKModuleListMigration extends BaseController{
+/**
+ * single use class pattern 
+ * @package 
+ */
+final class IGKModuleListMigration extends BaseController implements IDbGetTableReferenceHandler
+{
+    use DbCreateTableReferenceTrait;
+    
     private static $sm_list;
     private static $sm_instance;
-    private $host;
+    private $m_host;
+    private $m_list;
+    private $m_loaded = [];
+    private $m_definition;
+    private $m_initializer;
     private function __construct()
     {
-        
     }
-    public static function Create(array $list){
 
-        self::$sm_list = $list;
+    
+    /**
+     * get host model
+     * @return mixed 
+     */
+    public function getHost(){
+        return $this->m_host;
+    }
+   
+    /**
+     * check that schema file exit
+     * @return bool 
+     */
+    public function getUseDataSchema():bool{
+        $file = $this->m_host->getDataSchemaFile();
+        if (file_exists($file)){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * schema migration list 
+     * @param array $list 
+     * @return IGKModuleListMigration 
+     */
+    public static function Create(array $list)
+    {
         $g = new self();
+        $g->m_list = $list;
         return $g;
-    }  
-    public static function CreateModulesMigration(){
-        if ( $modules = igk_get_modules()){
-            $list = array_filter( array_map(function($c, $k){
-                if ($mod = igk_get_module($k)){
+    }
+    /**
+     * create a molude migration context
+     * @return IGKModuleListMigration|null 
+     * @throws IGKException 
+     */
+    public static function CreateModulesMigration()
+    {
+        if ($modules = igk_get_modules()) {
+            $list = array_filter(array_map(function ($c, $k) {
+                if ($mod = igk_get_module($k)) {
                     return $mod;
                 }
             }, $modules, array_keys($modules)));
-            return self::Create($list);       
+            return self::Create($list);
         }
+        return null;
     }
-    public static function migrate(){
-        Logger::print("migrate modules ");
+    public static function migrate()
+    {
+        Logger::info("Modules migration...");
         self::$sm_instance = new self();
-        foreach(self::$sm_list as $l){
-            Logger::info("migrate .... ".$l->getName());
-            self::$sm_instance->host = $l;
-            try{
-                ControllerExtension::migrate(self::$sm_instance);
-            }
-            catch(Exception $ex){
-                Logger::danger("error ... ".$ex->getMessage());
+        if (self::$sm_list)
+        foreach (self::$sm_list as $l) {
+                Logger::info("migrate .... " . $l->getName());
+                self::$sm_instance->m_host = $l;
+            try {
+                ControllerExtension::migrate(self::$sm_instance );
+            } catch (Exception $ex) {
+                Logger::danger("error ... " . $ex->getMessage());
                 return false;
             }
         }
         return true;
     }
-    public static function resetDb($navigate=false, $force=false){
+    /**
+     * wrapper
+     * @param bool $navigate 
+     * @param bool $force 
+     * @return true 
+     * @throws IGKException 
+     */
+    public static function resetDb($navigate = false, $force = false)
+    {
         self::$sm_instance = new self();
         $fc = BaseController::getMacro("resetDb");
-        foreach(self::$sm_list as $l){
-            Logger::info("reset module db .... ".$l->getName());
-            self::$sm_instance->host = $l;
+        foreach (self::$sm_list as $l) {
+            Logger::info("reset module db .... " . $l->getName());
+            self::$sm_instance->m_host = $l;
             $fc(self::$sm_instance, $navigate, $force);
-            ControllerExtension::migrate(self::$sm_instance);
-        } 
+            ControllerExtension::migrate($l);
+        }
         return true;
     }
-    public function __call($n, $argument){ 
-        if ($this->host){
-            return call_user_func_array([$this->host, $n ],  $argument);
-        }
-        else {
-            if (igk_environment()->isDev()){
-                igk_trace();
-                igk_wln_e("try call :::".$n);
+    private static function invokeExtension($method, $navigate = false, $force = false)
+    {
+        self::$sm_instance = new self();
+        if ($fc = BaseController::getMacro($method)) {
+
+            foreach (self::$sm_list as $l) {
+                Logger::info(" module db .... [ " . $method . ' ] > ' . $l->getName());
+                self::$sm_instance->m_host = $l;
+                $fc(self::$sm_instance, $navigate, $force);
+                ControllerExtension::migrate($l);
             }
+        }
+    }
+    public function __call($n, $argument)
+    {
+        if ($this->m_host) {
+            return call_user_func_array([$this->m_host, $n],  $argument);
+        } 
+        else {
+            if (is_null($this->m_list )){
+                return;
+            }
+            foreach($this->m_list as $h){
+                $p = $argument;
+
+                if (method_exists($h, $n)) {
+                    $h->$n(...$p);
+                    continue;
+                }
+                if (method_exists(ControllerExtension::class, $n)) {
+                    array_unshift($p, $h);
+                    ControllerExtension::$n(...$p); 
+                }
+            }
+             
         }
     }
     public static function __callStatic($name, $arguments)
     {
-        if (method_exists(ControllerExtension::class, $name)){
-            array_unshift($arguments, self::$sm_instance->host);
+        if (method_exists(ControllerExtension::class, $name)) {
+            if (self::$sm_instance->host) {
+                array_unshift($arguments, self::$sm_instance->host);
+            }
             return ControllerExtension::$name(...$arguments);
         }
         return null;
     }
-    public function getCanInitDb(){
+    /**
+     * can init database
+     * @return bool 
+     */
+    public function getCanInitDb(): bool
+    {
         return true;
     }
-    public function register_autoload(){
-
+    public function register_autoload()
+    {
     }
-    
+    public static function dropDb($navigate = 1, $force = 0)
+    {
+        self::invokeExtension(__FUNCTION__, $navigate, $force);
+    }
+    /**
+     * no table definition for migration
+     * @return null 
+     */
+    public function getDataTableDefinition(){
+        return null;
+    }
+    /**
+     * module must only run a migration process
+     * @return void 
+     */
+    public static function InitMigration(){
+            if (!count(self::$sm_list)){
+                return;
+            }
+            // + | --------------------------------------------------------------------
+            // + | reset database
+            // + |            
+            IGKModuleListMigration::resetDb(false, true);
+            // + | --------------------------------------------------------------------
+            // + | migrate module to use data if active
+            // + |            
+            IGKModuleListMigration::Migrate();        
+    }
+    public static function resolvClass(BaseController $ctrl , $path){
+        if ( $ctrl instanceof self){
+            return $ctrl->m_host->resolvClass($path);
+        }
+        return null;
+    }
+    /**
+     * downgrade 
+     * @return void 
+     */
+    public static function downgrade(){
+        self::$sm_instance = new self();
+        if (self::$sm_list )
+        foreach(self::$sm_list as $t){
+            self::$sm_instance->m_host = $t; 
+            $c = new MigrationHandler($t);
+            $c->down();
+
+            if (file_exists($file = $t->getDataSchemaFile())){
+                igk_db_load_data_schemas($file, self::$sm_instance, true, DbSchemasConstants::Downgrade);              
+            }
+        } 
+    }
+    public static function getDataSchemaFile(){
+        if (self::$sm_instance){
+            return self::$sm_instance->m_host->getDataSchemaFile();
+        }
+    }
+    /**
+     * schema definition info 
+     * @param object|IDbSchemaDefinitionResult $definition definition source
+     * @return void 
+     * @throws IGKException 
+     */
+    public function loadMigrationSchema(DatabaseInitializer $initializer, $operation = DbSchemasConstants::Migrate){
+        $this->m_initializer = $initializer;
+        foreach($this->m_list as $t){           
+            if (!($t instanceof ApplicationModuleController) && (!$t->getCanInitDb() || !$t->getUseDataSchema() )){
+                continue;
+            }
+            $adname = $t->getDataAdapterName();
+            if (file_exists($file = $t->getDataSchemaFile())){
+                $this->m_host = $t;
+                $initializer->loadSchemaDefinition(
+                    $file,
+                    $this, 
+                    $operation,
+                    $t
+                );                
+            }
+        }
+        $this->m_host = null;
+        $this->m_list = null;
+        unset($this->m_loaded);
+        unset( $this->m_list);
+        return $this->m_definition;
+    }
+    public function resolvTableDefinition(string $table) {
+        static $rstable ;
+
+        if ($rstable === null ){
+            $rstable = [];
+        }
+        if ($p = igk_getv($rstable, $table)){
+            return $p;
+        }
+        $tab = $this->m_initializer->definitions
+        [$this->m_initializer->resolv]->tables;
+        
+        foreach($tab as $m){
+            if ($table == $m->tableName){                
+                $rstable[$table] = $m;
+                return $m;
+            }
+        } 
+        return null;
+    }
+    public function getEnvParam($key){
+        $key = $this->getEnvKey($key);
+        return igk_getv($this->m_loaded, $key);
+    }
+    public function getEnvKey($key){
+        return $this->m_host->getName()."/".$key;
+    }
+
+    public function __toString()
+    {
+        if ($this->m_host){
+            return sprintf("%s - [%s]", __CLASS__
+            , $this->m_host->getName());
+        }
+        return __CLASS__ ;
+    }
 }

@@ -6,24 +6,37 @@
 
 namespace IGK\System;
 
-use IGK\Models\Crons;
-use IGK\Models\DbLogs;
+use IGK\Helper\SysUtils;
+use IGK\Helper\Utility;
+use IGK\Models\Crons; 
 use IGK\System\Console\Logger;
 use IGK\System\Process\CronJobProcess;
 use Throwable;
 
+/**
+ * 
+ * @package IGK\System
+ */
 class CronJob{
+    /**
+     * provider
+     * @var mixed
+     */
     var $provider; 
+    /**
+     * controller
+     * @var ?string
+     */
     var $ctrl;
+
     public function execute(){
 
         try {
             igk_ilog("run cron - " . date("Ymd H:i:s"));            
             Logger::info("#run:cron");         
-            $ctrl = $this->ctrl;
+            $ctrl = $this->ctrl ?? SysUtils::GetControllerByName($this->ctrl, false);
             if ($this->provider){
-                if ($provider = CronJobProcess::GetJobProcessProvider($this->provider)){
-                    $ctrl &&  ($ctrl = igk_getctrl($ctrl, false));                                
+                if ($provider = CronJobProcess::GetJobProcessProvider($this->provider)){                                              
                     if ($provider->exec("sys:invoke", null, $ctrl)){
                         Logger::success(__("success : {0} ", $provider));
                         return 0;
@@ -43,8 +56,7 @@ class CronJob{
             if ($ctrl &&  ($ctrl = igk_getctrl($ctrl, false))) {
                 $condition["crons_class"] = get_class($ctrl);
             } 
-            $rows = Crons::select_all($condition);
-            
+            $rows = Crons::select_all($condition);  
             
             foreach ($rows as $r) {         
 

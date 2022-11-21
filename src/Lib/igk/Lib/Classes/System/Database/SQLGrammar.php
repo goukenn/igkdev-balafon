@@ -19,8 +19,10 @@ use function igk_resources_gets as __;
 
 use function PHPUnit\Framework\isNull;
 
+use IGK\Database\DbColumnInfo;
 use IGK\Database\DbExpression;
 use IGK\Database\IDataDriver;
+use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\QueryBuilderConstant as queryConstant;
@@ -471,7 +473,7 @@ class SQLGrammar implements IDbQueryGrammar
                 $number = true;
                 $query .= "(" . $adapter->escape_string($v->clTypeLength) . ")";
             }
-        } else if ($type == "Enum") {
+        } else if ($s == "enum") {
             $query .= "(" . implode(",", array_map(function ($i) {
                 return "'" . $this->m_driver->escape_string($i) . "'";
             }, array_filter(explode(",", $v->clEnumValues), function ($c) {
@@ -527,13 +529,13 @@ class SQLGrammar implements IDbQueryGrammar
         }
         $rtbname = $this->m_driver->escape_string($tbname);
         $_tbname = $this->m_driver->escape_table_name($rtbname);
-
         $query = "INSERT INTO " . $_tbname . "(";
         $v_v = "";
         $v_c = 0;
-
-
+        
+        
         $tvalues = static::GetValues($this->m_driver, $values, $tableInfo);
+    
         // igk_debug_wln_e(__FILE__.":".__LINE__,  $tvalues, $values);
         foreach ($tvalues as $k => $v) {
             if ($v_c != 0) {
@@ -545,7 +547,8 @@ class SQLGrammar implements IDbQueryGrammar
 
             if ($tableInfo) {
                 // | get value 
-                $v_v .= "" . static::GetValue($this->m_driver, $rtbname, $tableInfo, $k, $v);
+                $tinf = getv($tableInfo, $k);
+                $v_v .= "" . static::GetValue($this->m_driver, $rtbname, $tinf, $k, $v);
             } else {
                 if ($v === null) {
                     $v_v .= "NULL ";
@@ -556,7 +559,7 @@ class SQLGrammar implements IDbQueryGrammar
             }
         }
         $query .= ") VALUES (" . $v_v . ");";
-
+        // igk_wln_e(__FILE__.":".__LINE__, 'insert finfo', $values, $tableInfo, $tvalues, $query);
         return $query;
     }
     /**
@@ -593,10 +596,11 @@ class SQLGrammar implements IDbQueryGrammar
         foreach ($tvalues as $k => $v) {
             if ($id && ($k == self::FD_ID) || (strpos($k, ":") !== false))
                 continue;
+            $tinf = getv($tableInfo, $k);
             if ($t == 1)
                 $out .= ",";
             if ($tableInfo) {
-                $out .= "`" . $driver->escape_string($k) . "`=" . self::GetValue($this->m_driver, $rtbname, $tableInfo, $k, $v, "u");
+                $out .= "`" . $driver->escape_string($k) . "`=" . self::GetValue($this->m_driver, $rtbname, $tinf, $k, $v, "u");
             } else {
                 $out .= "`" . $driver->escape_string($k) . "`=";
                 if (!empty($v) && is_integer($v)) {
@@ -652,19 +656,19 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $value
      * @param mixed $type the default value is "i"
      */
-    public static function GetValue($driver, $tbname, $tableInfo, $columnName, $value, $type = "i")
+    public static function GetValue($driver, $tbname, IDbColumnInfo $tinf, $columnName, $value, $type = "i")
     {
-        $tinf = getv($tableInfo, $columnName);
-        $def = static::AllowedDefValue();
-
+        
         if ($tinf === null) {
             fdie("can't get column: {$columnName} info in table: {$tbname}");
         }
+        $def = static::AllowedDefValue();
         if (!empty($tinf->clLinkType) && is_string($value) && (strpos($value, ".") !== false)) {
             if ($v = $driver->GetExpressQuery($value, $tinf)) {
                 return $v;
             }
         }
+       
         if ($value instanceof DbExpression){ 
             return $value->getValue((object)[
                 "grammar"=>$driver,
@@ -675,6 +679,8 @@ class SQLGrammar implements IDbQueryGrammar
         if ($value instanceof ModelBase){
             return $value->id();
         }
+
+
 
         if ((is_integer($value))) {
             if (($value === 0) && !empty($tinf->clLinkType) && !$tinf->clNotNull) {
@@ -688,7 +694,7 @@ class SQLGrammar implements IDbQueryGrammar
                     }
                 }
             }
-            if ($tinf->clType == "Enum") {
+            if (strtolower($tinf->clType) == "enum") {
                 return "'" . $driver->escape_string($value) . "'";
             }
             return $value;
@@ -699,7 +705,7 @@ class SQLGrammar implements IDbQueryGrammar
                 if (json_last_error()){
                     igk_die("value not a valid json");
                 }
-                return "'".str_replace('\\"', '\\\\"', json_encode($deco, JSON_UNESCAPED_SLASHES))."'";
+                return "'".$driver->escape_string(str_replace('\\"', '\\\\"', json_encode($deco, JSON_UNESCAPED_SLASHES)))."'";
                  
             }
             if ($data= json_encode($value, JSON_UNESCAPED_SLASHES)){
@@ -712,10 +718,11 @@ class SQLGrammar implements IDbQueryGrammar
         } else if (($type != "i") && $tinf->clUpdateFunction) {
             $of = $tinf->clUpdateFunction;
         }
-
-        if (($value === null) || ($value == $tinf->clDefault) || (($value !== '0') && empty($value))) {
+     
+        if (($value === null) || ($value === $tinf->clDefault) || (($value !== '0') && empty($value))) {
             if ($tinf->clNotNull) {
-
+ // + allow null value
+ 
                 if ($tinf->clDefault !== null) {
                     if (is_integer($tinf->clDefault)) {
                         return $tinf->clDefault;
@@ -756,8 +763,7 @@ class SQLGrammar implements IDbQueryGrammar
                         return sprintf($of, $value);
                 }
             }
-            // + allow null value
-
+           
 
             if (preg_match("/(date(time)?|timespan)/i", $tinf->clType)) {
                 if (strtolower($of) == 'now()') {
@@ -779,7 +785,7 @@ class SQLGrammar implements IDbQueryGrammar
                 }
             }
 
-
+          
             if ($of != 'NULL') {
                 $gt = explode("(", $of);
                 $pos = strtoupper(array_shift($gt));
@@ -794,11 +800,12 @@ class SQLGrammar implements IDbQueryGrammar
             }
             return 'NULL';
         }
-
+      
         if (empty($value)) {
             if (!$tinf->clNotNull || ($tinf->clAutoIncrement && strtolower($tinf->clType) == 'int'))
                 return 'NULL';
         }
+      
         if (is_object($value)) {
             if ($s = $driver->getObjValue($value)) {
                 return $s;
@@ -816,8 +823,8 @@ class SQLGrammar implements IDbQueryGrammar
             }
         }
         $value = $driver->getDataValue($value, $tinf);
-        if (is_object($value)){
-            igk_wln_e($value);
+        if (!is_string($value)){
+             igk_wln_e(__FILE__.":".__LINE__, $tinf->clName,  $value);
         }
         return "'" . $driver->escape_string($value) . "'";
     }
@@ -841,7 +848,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
-    protected static function GetValues($driver, $values, $tableInfo, $update = 0)
+    protected static function GetValues($driver, $values, & $tableInfo, $update = 0)
     {
         $tvalues = new stdClass();
 
@@ -852,10 +859,18 @@ class SQLGrammar implements IDbQueryGrammar
             $values = (object)$values;
         if ($tableInfo) {
             $filter = $driver->getFilter();
+            $keys = [];
             foreach ($tableInfo as $k => $v) {
-                if (empty($k)) {
-                    die("key is null or empty");
+                if (is_numeric($k)) {
+                    $k = $v->clName;
                 }
+                // if ($k == 'clLastLogin'){
+                //     igk_wln('last login', __FILE__.":".__LINE__);
+                // }
+                if (isset($keys[$k])){
+                    igk_die('column key already defined '.$k);
+                }
+                $keys[$k] = $v;
                 if (!is_object($v)) {
                     igk_trace();
                     igk_wln_e(__FILE__ . ":" . __LINE__, 'not an object, ',  $v);
@@ -899,9 +914,29 @@ class SQLGrammar implements IDbQueryGrammar
                     if (empty($values->{$k}) && $v->clNotAllowEmptyString){
                         igk_die("value passed to $k is an empty string");
                     }
-                    $tvalues->$k = $values->{$k};
+                    $pv = $values->{$k};
+                    // primary type
+                    if (strtolower($v->clType)=='enum'){
+                        $pv = ''.$pv;
+                    }
+                    if (strtolower($v->clType) == 'datetime')
+                    {
+                        if (empty($pv)){
+                            if (!$v->clNotNull)                        
+                            {
+                                $pv = 'NULL';
+                            }
+                            else{ 
+                                $pv = null; // $v->clDefault ?? 'CURRENT_TIME_SPAN'; //NOW()';//2000-01-01 00:00:00';
+                            }
+                        }
+                    }
+
+                    $tvalues->$k = $pv;
                 }                
             }
+            // update keys
+            $tableInfo = $keys;
         } else {
             $tvalues = $values;
         }

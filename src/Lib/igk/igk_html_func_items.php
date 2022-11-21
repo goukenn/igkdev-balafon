@@ -475,6 +475,14 @@ function igk_html_node_menu(
                             break;
                     }
                 }
+                if (is_array($v)){
+                    // + | --------------------------------------------------------------------
+                    // + | special array must contains a key name fields
+                    // + | 
+                    ($n = igk_getv($v,'name')) || igk_die("menu item array must have a 'name' key");
+
+                    $i = $n;
+                }
                 if ($skip)
                     continue;
             }
@@ -2408,6 +2416,11 @@ function igk_html_node_jslogger()
     $n["class"] = "igk-winui-js-logger";
     return $n;
 }
+function igk_html_node_jswaiter(){
+    $n = igk_create_node("div");
+    $n["class"] = "igk-winui-js-waiter";
+    return $n;
+}
 function igk_html_node_script($script = null, $version = null)
 {
     return new \IGK\System\Html\Dom\HtmlScriptNode($script, $version);
@@ -2774,7 +2787,7 @@ function igk_html_node_notification($nodeType = "div", $notifyName = null)
 /**
  * used to bind notify global ctrl message
  */
-function igk_html_node_notifyhost($name = "::global", $autohide = 1)
+function igk_html_node_notifyhost($name = "::global", ?bool $autohide = null)
 {
     return new \IGK\System\Html\Dom\HtmlNotifyResponse($name, $autohide);
 }
@@ -4956,7 +4969,9 @@ function igk_html_node_load_array(array $items, string $tag='div'){
     });
     return $n;
 }
-
+/**
+ * create table view node
+ */
 function igk_html_node_dbTableView($tabResult,$theader=null, $header_prefix="header."){
     $n = igk_create_notagnode();
     $is_filter = $theader instanceof \IGK\System\Views\IDbTableViewFilter;
@@ -4969,8 +4984,15 @@ function igk_html_node_dbTableView($tabResult,$theader=null, $header_prefix="hea
         $table = $n->table();
         $header = null;
         $header_node = null; 
+        // if (!$is_filter){
+        //    if (is_array($theader)){
+        //         $_lheader = array_fill_keys($theader);
+        //    }
+        // } 
 
         foreach($tabResult as $r){ 
+            if (!$r)
+                continue;
             if ($r instanceof IDbArrayResult){
                 $r = $r->to_array();
             } else if (!is_array($r)) {
@@ -4984,8 +5006,12 @@ function igk_html_node_dbTableView($tabResult,$theader=null, $header_prefix="hea
                 }
                 else if ($is_filter){
                     $_lheader= $theader->getHeaderList($r);
-                }
-                
+                }  else {
+                    if (is_string($theader)){
+                        $theader = explode('|', $theader);
+                    }
+                    $_lheader = $theader;
+                }              
                 foreach( $_lheader as $k){
                     $header[$k] = $k;
                     $header_node->th()->Content = __($header_prefix.$k);

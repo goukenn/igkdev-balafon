@@ -1,8 +1,9 @@
 "use strict";
 
-(function () {
+(function() {
     var selectors = {};
     var _ids = {};
+
     function uid() {
         return (performance.now().toString(36) + Math.random().toString(36)).replace(/\./g, "");
     };
@@ -36,10 +37,11 @@
             q.o.setAttribute("style", s);
         else
             q.o.removeAttribute("style");
-       
+
         r = (r == "0px") ? q.o.scrollHeight + "px" : r;
         return r;
     };
+
     function _change_a(a, sub) {
 
         a.addClass({
@@ -47,7 +49,7 @@
         });
     };
 
-  
+
     igk.system.createNS("igk.winui.menu.accordeonMenu", {
         /**
          * init accordeonMenu accordeons menu
@@ -68,7 +70,7 @@
                     _addcss(_id).o.sheet.addRule(_id + ".expand", "height:" + mh);
                     selectors[_id] = { 'maxHeight': mh };
                 }
-                //console.debug( "max: ", sub.getComputedStyle("height") , sub.o.offsetHeight, sub.o, _id); 
+                // console.debug( "max: ", sub.getComputedStyle("height") , sub.o.offsetHeight, sub.o, _id); 
                 sub.toggleClass("expand");
                 if (sub != expand_item) {
                     if (expand_item) {
@@ -87,15 +89,15 @@
                 if (g) {
                     _change_a(g, sub);
                     expand_item_a = g;
-                    //console.debug('set class ', g.o.className, "support ", sub.supportClass("expand"));
+                    // console.debug('set class ', g.o.className, "support ", sub.supportClass("expand"));
                 }
                 //}
                 // console.debug('change');
-        
+
             };
-            q.qselect('a').each_all(function (a) {
+            q.qselect('a').each_all(function(a) {
                 var a = this;
-                a.on("click", function (e) {
+                a.on("click", function(e) {
                     var sub = a.o.nextSibling || $igk(a.o.parentNode).select('ul').first();
                     if (sub) {
                         sub = $igk(sub);

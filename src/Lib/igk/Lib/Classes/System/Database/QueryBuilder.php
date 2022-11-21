@@ -8,9 +8,12 @@ namespace IGK\System\Database;
 
 use IGK\Models\ModelBase;
 use IGK\Database\DbExpression;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use IGKQueryResult;
+use IGKSysUtil;
 use QueryOptions;
+use ReflectionException;
 
 /**
  * use to build query
@@ -100,8 +103,7 @@ class QueryBuilder
      * @return $this 
      */
     public function join(array $join)
-    {
-        // igk_wln_e(array_keys($join));
+    { 
         foreach(array_keys($join) as $k){
             if (is_numeric($k)){
                 igk_die("not a valid table key : ".$k);
@@ -111,6 +113,15 @@ class QueryBuilder
         }
         return $this;
     }
+    /**
+     * set joint left
+     * @param string $table table name to joint
+     * @param string $condition condition expression ... on ... for mysql
+     * @return $this 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function join_left(string $table, string $condition)
     {
         return $this->join([
@@ -163,6 +174,11 @@ class QueryBuilder
         $this->m_options["OrderBy"] = $order;
         return $this;
     }
+    /**
+     * add distinct flag - cause id of raw to reset 
+     * @param bool $distinct 
+     * @return $this 
+     */
     public function distinct(bool $distinct = true)
     {
         if ($distinct)
@@ -226,11 +242,12 @@ class QueryBuilder
      * @return bool|?IDbQueryResult result
      * @throws IGKException 
      */
-    public function execute($throwOnError=true, $options=null)
+    public function execute($throwOnError=true, $options=null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
-        if (!empty($query = $this->get_query())) {
-            igk_debug_wln($this->m_with);
+        if (!empty($query = $this->get_query()) && $driver->connect()) {
+            // igk_debug_wln($this->m_with);
+            $n = $driver->getIsConnect() ? -1 : $driver->connect();
             if (!empty($this->m_with)){
                 $old_callback = !$options ? null : igk_getv($options, "@callback");
                 $options = [
@@ -244,18 +261,28 @@ class QueryBuilder
                 ];
 
             }
-            return $driver->sendQuery($query, $throwOnError, $options);
+            $response =  $driver->sendQuery($query, $throwOnError, $options, false);
+            if ((($n==-1)&& $autoclose) || (($n != -1) && ($autoclose))){
+                $driver->close();
+            }
+            return $response;
         }
         return false;
     }
-    private static function _BuildRefWith($v, $row, $model, $with){
-        $tab = \IGK\Models\ModelBase::RegisterModels();
-        $ref = $tab[$model->getTable()]->ref;
-        $links = array_filter(array_map(function($a){ 
+    private static function _GetLinks($ref ,    $ctrl, ?string $table=null, string $property = null ){
+        return array_filter(array_map(function($a)use($ctrl, $table, $property ){ 
             if (!$a->clLinkType)
                 return null;
-            return [$a->clLinkType, $a->clLinkColumn]; 
+            return [ IGKSysUtil::DBGetTableName($a->clLinkType, $ctrl), $a->clLinkColumn, $table, $property]; 
         }, $ref));
+    }
+    private static function _BuildRefWith($v, $row, $model, $with){
+        $tab = \IGK\Models\ModelBase::RegisterModels();
+        $t_root = $model->getTable();
+        $ref = $tab[$t_root]->ref;
+        $ctrl = $model->getController();
+        $links = self::_GetLinks($ref,    $ctrl);
+        $linktab = [$t_root=>1];
      
         foreach($with as $k=>$vv){
             $w_table = $vv;
@@ -266,18 +293,39 @@ class QueryBuilder
             if (isset($tab[$w_table])){
                 $w_mod = $tab[$w_table]->model::model();
             }
+            if (!isset($links[$w_table])){
+                $links = array_merge($links, self::_GetLinks($tab[$w_table]->ref, $ctrl, $w_table, $w_prop));
+                $linktab[$w_table] = 1;
+            }
+        }
+            
             foreach($links as $cl=>$info){
                 list($table, $clname) = $info;
+                $ctable = igk_getv($info, 2);
+                $property = igk_getv($info, 3);
                 if ($table == $w_table){
                     $clname = $clname ?? $w_mod->getPrimaryKey();                                  
                     if ($dd = $v->$cl){
                         $g = $w_mod::cacheRow([$clname=>$dd]); 
                         $row->$w_prop = $g;
                     }
-                    break;
+                    // break;
+                } else {
+                    if ($v->columnExists($cl) && $ctable){
+                        // column exists
+                        $z_mod = $tab[$ctable]->model::model();
+                        $idcl = $z_mod->getPrimaryKey();   
+                        $g = $z_mod::cacheRow([$idcl=>$v->$idcl]); 
+                        $row->$property = $g;
+
+                        // if ($ctable = igk_getv($info, 2)){
+
+                        // }
+                        // igk_wln_e("found .... ".$cl);
+                    }
                 }
             }
-        }
+         
         return $row;
     }
     /**

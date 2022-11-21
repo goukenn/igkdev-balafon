@@ -8,6 +8,7 @@
 ///<summary>subdomain manager</summary>
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Models\Subdomains;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -62,17 +63,18 @@ final class IGKSubDomainManager extends IGKObject{
         $subdomain= IGKSubDomainManager::SubDomainUriName($uri);
         $cache_file = self::GetCacheFile();
         if (is_null(self::$sm_cached_domains)){
+            self::$sm_cached_domains = [];
             if (is_file($cache_file)){
                 if ((self::$sm_cached_domains = unserialize(file_get_contents($cache_file))) ===false){
                     self::$sm_cached_domains = [];
                 }
             }
         }
-     
-        $t = array_merge(self::$sm_cached_domains, $this->getRegList());        
-        $cl = DbConfigController::resolvClass(Subdomains::class); 
-     // igk_wln_e("the cl ", $cl,DbConfigController::ctrl()->getEntryNamespace(),  class_exists(Subdomains::class, false));
-
+        
+        $t = array_merge(self::$sm_cached_domains, $this->getRegList()?? []);  
+         
+        $cl = SysDbController::resolvClass(Subdomains::class); 
+    
         if(!empty($subdomain)){
             $s=$subdomain;
             if (is_callable($t)){

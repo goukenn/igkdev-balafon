@@ -90,7 +90,7 @@ define('IGK_ENV_URI_PATTERN_KEY', 53);
 define('IGK_ENV_WIDGETS_KEY', 54);
 define('IGK_FIRSTUSE_FLAG', 55);
 define('IGK_HOOK_DB_CHANGED', 56);
-define('IGK_HOOK_DB_TABLECREATED', 57);
+// define('IGK_HOOK_DB_TABLECREATED', 57);
 define('IGK_INVOKE_URI_CTRL', 58);
 define('IGK_ISDISPOSING_FLAG', 59);
 define('IGK_ISINIT_FLAG', 60);
@@ -629,6 +629,7 @@ define("IGK_DEFAULT_VIEW_FILE", IGK_DEFAULT_VIEW . "." . IGK_DEFAULT_VIEW_EXT);
 define("IGK_INC_VIEWS_FUNC", IGK_LIB_DIR . "/Inc/igk_views_func.pinc");
 define("IGK_HTML_CLASS_NODE_FORMAT", "IGKHtml{0}Item");
 define("IGK_HTML_NODE_REGEX", "/^IGKHtml(?<name>(.)+)Item$/i");
+define("IGK_INIT_DB_METHOD", "initDb");
 
 
 /**

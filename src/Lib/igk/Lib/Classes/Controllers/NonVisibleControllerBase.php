@@ -7,6 +7,7 @@
 namespace IGK\Controllers;
 
 use IGK\Controllers\BaseController;
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGKException;
 
 ///<summary>Represente class: NonVisibleControllerBase</summary>
@@ -14,9 +15,8 @@ use IGKException;
 * Represente NonVisibleControllerBase class
 */
 abstract class NonVisibleControllerBase extends BaseController {
-    public function getDataTableName(): ?string{ 
-        return null;
-    }
+    use NoDbActiveControllerTrait;
+   
     ///<summary></summary>
     /**
     * 

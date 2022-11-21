@@ -20,6 +20,7 @@ use IGK\Helper\StringUtility;
 * @property string $HTTP_HOST server HTTP_HOST
 * @property string $HTTP_IGK_AJX to detect ajx demand
 * @property string $HTTP_IGK_AJX_APP to detect application that request ajx demand
+* @property string $HTTP_USER_AGENT server user agent
 * @property bool $IS_WEBAPP to detect application that request ajx demand
 */
 final class Server{
@@ -42,7 +43,7 @@ final class Server{
     public static function IsLocal(){
         $v_saddr=self::ServerAddress();
         $v_srddr=self::RemoteIp();
-        $v=($v_srddr == "::1") || ($v_saddr == $v_srddr) || preg_match("/^127\.(.)/i", $v_saddr);
+        $v=($v_srddr == "::1") || ($v_saddr == $v_srddr) || ($v_saddr && preg_match("/^127\.(.)/i", $v_saddr));
         return $v;
     }
     ///<summary></summary>
@@ -242,7 +243,7 @@ final class Server{
          // + | internal stus code
         $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
         $this->IS_WEBAPP = isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['DOCUMENT_ROOT']);
-       //  igk_wln_e($_SERVER,    $this->IS_WEBAPP);
+       
     }
     public function GetRootUri($secured=false){
         // return "";

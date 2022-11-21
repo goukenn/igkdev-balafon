@@ -30,7 +30,7 @@ class ActionScaffold extends ScaffoldBase
     }
     public function showHelp($command)
     {
-        Logger::print(App::gets(App::BLUE_I, "params"));
+        Logger::print(App::Gets(App::BLUE_I, "params"));
         Logger::print('$controller $name [--action|--model] [--force]');
         
         Logger::print("--action:[action_name]\r\t\t\tset the model");

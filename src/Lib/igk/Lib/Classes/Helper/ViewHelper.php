@@ -12,6 +12,7 @@
 namespace IGK\Helper;
 
 use Closure;
+use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEnvironment;
@@ -30,6 +31,31 @@ use ReflectionException;
 class ViewHelper
 {
     const ARG_KEY = "sys://io/query_args";
+
+    /**
+     * must handle a form class 
+     * @param string $name 
+     * @param ActionFormOptions|array $name 
+     * @return null|callable 
+     */
+    public static function Form(string $name, $options = null){ 
+        //get action handler
+        $handler = self::GetViewArgs("action_handler"); 
+        if ($handler){
+            if ($options)
+                if (is_array($options)){
+                    $options = Activator::CreateNewInstance(ActionFormOptions::class, $options);
+                } 
+            if (method_exists($handler,'Form')){ 
+                // call a static form 
+                return $handler::Form($name, $options);
+            }
+        }
+        return function($n){
+            if (!igk_environment()->isOPS())
+                $n->div()->panel('igk-danger')->Content = __('handler not found');
+        };
+    }
 
     private static function _GetIncArgs($args=null){
 

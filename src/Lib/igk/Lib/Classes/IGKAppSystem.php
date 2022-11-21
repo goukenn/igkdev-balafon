@@ -15,6 +15,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SessionController;
 use IGK\Controllers\SysDbController;
+use IGK\Helper\SysUtils;
 use IGK\System\Caches\EnvControllerCacheList;
 
 ///<summary> manage application system</summary>
@@ -226,35 +227,15 @@ class IGKAppSystem
         // + | --------------------------------------------------------------------
         // + | LOAD DB SCHEMA CACHE
         // + |
-
-        if (!is_file($file = igk_io_cachedir() . "/" . EnvControllerCacheDataBase::FILE)){
-            $sysdb = igk_getctrl(SysDbController::class);
-            $c->add(new EnvControllerCacheDataBase($file, $sysdb));
-        }
+        // EnvControllerCacheDataBase::RegisterToChain($c);
+      
 
         // + | --------------------------------------------------------------------
         // + | LOAD CONTROLLER LISTS
         // + |
-        $tab =  EnvControllerCacheList::GetControllersClasses();        
-        foreach ($tab as $cl) {
-            if (is_subclass_of($cl, BaseController::class)) {
-                // register controller
-                $g = igk_sys_reflect_class($cl);
-                if ($g->isAbstract() || !$g->getConstructor()->isPublic()) {
-                    continue;
-                }
-                $o = new $cl();
-                $manager->register($o);
-                $rfile = $g->getFileName();
-                $loader->registerClass(
-                    $rfile,
-                    $cl,
-                    ""
-                );
-                $c->update($o);
-            }
-        }
-        $c->complete();
+        $tab =  EnvControllerCacheList::GetControllersClasses(); 
+        $c->load($tab, $manager, $loader);    
+     
     }
     private function __construct()
     {

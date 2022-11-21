@@ -16,6 +16,7 @@ use IGK\System\Html\RenderingContext;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\CompilerConstants;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
+use IGK\System\ViewDataArgs;
 use IGKException;
 
 /**
@@ -65,9 +66,13 @@ class HtmlLooperNode extends HtmlItemBase{
             } else { 
                 $hook_expression = CompilerConstants::LOOP_CONTEXT_DATA_VAR; 
                 self::HostChain($n, $sb."", $this->args, $ctrl, '$'.$hook_expression);
-                $v_out  = $n->render();  
-                $v_targs = is_array($this->args) ? $this->args : 0;
-                if ($v_targs){
+                $v_out  = $n->render();
+                if ($this->args instanceof ViewDataArgs)  {
+                    $v_targs = ViewDataArgs::GetData($this->args);
+                }else{
+                    $v_targs = is_array($this->args) ? $this->args : 0;
+                }
+                if ($v_targs){ 
                     ob_start();                    
                     SysUtils::Eval($v_out, [
                         $hook_expression => $this->args,

@@ -7,7 +7,7 @@ igk.ready(function(){
 	q.select('.e').each(function(){
 		// console.debug('reg event');
 		this.reg_event("dblclick", function(){
-			 //console.debug("on dbl click");
+			 // console.debug("on dbl click");
 			 if (e_!=null){
 				 if (e_.t==this)
 					 return;

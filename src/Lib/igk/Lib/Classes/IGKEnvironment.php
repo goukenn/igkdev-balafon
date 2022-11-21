@@ -30,6 +30,9 @@ use function igk_getv as getv;
  * @property bool   $handle_ctrl_request flag that handle controller request . subdomain usage
  * @property bool   $isAJXDemand flag that handle controller request . subdomain usage
  * @property bool   $no_handle_error flag that allow environment to handle exception
+ * @property bool   $NO_DB_LOG flag disable log in database
+ * @property bool   $NO_PROJECT_AUTOLOAD flag disable file autoload. on project register
+ * @property ?IGKActionBase $action_handler_instance 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants
 {

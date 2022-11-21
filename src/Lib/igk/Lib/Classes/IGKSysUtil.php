@@ -10,8 +10,12 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
 use IGK\Database\SQLQueryUtils;
+use IGK\Helper\ArrayUtils;
+use IGK\Helper\Database;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Caches\DBCaches;
+use IGK\System\Database\DbUtils;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
 /**
@@ -20,14 +24,22 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  */
 abstract class IGKSysUtil
 {
+    const PRIMARY_PWD = '#_12549@abcdkqors';
     private function __construct()
     {
+    }
+    /**
+     * shuffle password files
+     * @return string 
+     */
+    public static function GeneratePWD(){
+        return substr(str_shuffle(self::PRIMARY_PWD), 0, 9);
     }
 
     /**
      * get model full type name 
      * @param string $table table name to get 
-     * @param ?BaseController $controller controller in use to resolve the model type name
+     * @param ?BaseController $controller controller in use to the model type name
      * @return string 
      */
     public static function GetModelTypeName(string $t, ?BaseController $ctrl = null): string
@@ -227,6 +239,7 @@ abstract class IGKSysUtil
      */
     public static function DBGetTableName(string $table, ?BaseController $ctrl = null)
     {
+     
         $v = IGKConstants::MODEL_TABLE_REGEX;
         $t = preg_replace_callback(
             $v,
@@ -262,7 +275,14 @@ abstract class IGKSysUtil
         $tab = [];
         $require = [];
         $optional = [];
+        $skeys = [];
         foreach ($inf as $column => $prop) {
+            if (is_integer($column))
+            {
+                $column = $prop->clName;
+            }
+            $skeys[$column] = $prop;
+
             if ($prop->clAutoIncrement) {
                 continue;
             }
@@ -271,11 +291,13 @@ abstract class IGKSysUtil
                 continue;
             }
             $require[] = $column;
+            
         }
         $tab = array_merge($require, $optional);
-        $tab = array_combine($tab, $tab);
-        $g = array_map(function ($i) use ($inf, $ctrl) {
-            return self::GetPhpDoPropertyType($i, $inf[$i], $ctrl, true);
+        $tab = array_combine($tab, $tab); 
+
+        $g = array_map(function ($i) use ($ctrl, $skeys) {
+            return self::GetPhpDoPropertyType($i, $skeys[$i], $ctrl, true);
         }, $tab);
         return $g;
     }
@@ -291,8 +313,7 @@ abstract class IGKSysUtil
      * @throws ReflectionException 
      */
     public static function GetPhpDoPropertyType($name, $info, BaseController $ctrl, $extra = false)
-    {
-
+    { 
         $t = self::ConvertToPhpDocType($info->clType);
         if ($info->clLinkType) {
             $t = "int|" . self::GetLinkType($info->clLinkType, $info->clNotNull, $ctrl);
@@ -301,6 +322,9 @@ abstract class IGKSysUtil
         if ($info->clDefault) {
             $extra .= " =\"" . $info->clDefault . "\"";
         }
+        // + | --------------------------------------------------------------------
+        // + | comment 
+        // + | 
         return $t . " \$" . $name . $extra;
     }
 
@@ -355,14 +379,25 @@ abstract class IGKSysUtil
                 $list[] = SysDbController::ctrl();
             }
             while ($q = array_shift($list)) {
-                if ($gu = SysDbControllerManager::GetDataTableDefinitionFormController($q, $type)) {
+                // if ($gu = SysDbControllerManager::GetDataTableDefinitionFormController($q, $type)) {
+                if ($gu = DBCaches::GetTableInfo($type, $q)) {
                     break;
                 }
             }
             if (is_null($gu)) {
-                igk_die(sprintf("try to retrieve null %s ", $type));
+                // $gm = Database::GetInfo($type);
+                $g = DBCaches::GetInfo($type); 
+                if (is_null($g)){
+                    igk_die(sprintf("dadata base do not retrieve [%s] data table info.", $type));
+                } else {
+                     # build - schema migration info
+
+                }
             }
             if (!isset($gu->modelClass)) {
+                if (!isset($gu->defTableName)){
+                    $gu->defTableName = DbUtils::ResolvDefTableTypeName($type, $ctrl);  
+                } 
                 $gu->modelClass = IGKSysUtil::GetModelTypeName($gu->defTableName, $ctrl);
             }
             $t .=  $gu->modelClass;
@@ -371,6 +406,9 @@ abstract class IGKSysUtil
     }
     public static function ConvertToPhpDocType($type)
     {
+        if (is_null($type)){
+            return 'string';
+        }
         return igk_getv([
             "varchar" => "string",
             "int" => "int",

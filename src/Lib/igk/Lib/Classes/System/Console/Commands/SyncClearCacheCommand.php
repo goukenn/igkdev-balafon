@@ -23,7 +23,7 @@ class SyncClearCacheCommand extends SyncAppExecCommandBase
         if (!is_object($h = $this->connect($setting["server"],$setting["user"], $setting["password"]))){
             return $h;
         }
-        Logger::info("remove cache");
+        Logger::info(sprintf("remove cache from ftp://%s%s",$setting["server"], $setting["application_dir"]));
         $this->removeCache($h, $setting["application_dir"]);
         ftp_close($h);
         error_clear_last();

@@ -9,6 +9,14 @@ namespace IGK\Helper;
 
 
 class ArrayUtils{
+    public static function FillKeyWithProperty(array & $table, $property){
+        $t = [];
+        foreach($table as $ak){
+            $key = igk_getv($ak, $property);
+            $t[$key] = $ak;
+        }
+        $table =  $t;
+    }
     ///<sumamry> clear table</summary>
     public static function Clean (array & $table){
         $table = [];  

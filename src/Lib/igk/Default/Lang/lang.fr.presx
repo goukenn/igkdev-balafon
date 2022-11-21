@@ -1,7 +1,8 @@
 <?php
 //Balafon Generated language file
-
+$l['title.subdomain.config'] = 'Configuration - %s';
 $l["title.dropController"] = "Confirmer";
+$l["Registration"] = "Inscription";
 $l["Back to {0}"] = "Retour à la page : {0}";
 $l["failed to connect or select {0}'s databases"] = "Impossible de selectionner ou de se connecter à la base de données {0}";
 $l["menu.clearcache"] = "Supprimer la cache";
@@ -15,7 +16,7 @@ $l["Clear cache"] = "Supprimer la cache";
 $l["add"] = "Ajoutez";
 $l["lb.clView"] = "Vue";
 $l["add news"] = "Ajouter";
-$l["title.menuController"]="Menu";
+$l["title.menuController"] = "Menu";
 $l["add task"] = "Ajouter une tâche";
 $l["adl.btn.addenterprise"] = "Ajouter";
 $l["adl.btn.addprestation"] = "Ajouter une prestation";
@@ -361,7 +362,7 @@ $l["enum.particular"] = "Particulier";
 $l["enum.sizeunit.b"] = "o";
 $l["enum.sizeunit.gb"] = "Go";
 $l["enum.sizeunit.kb"] = "Ko";
-$l["enum.sizeunit.mb"] = "Mo"; 
+$l["enum.sizeunit.mb"] = "Mo";
 $l["enum.sizeunit.tb"] = "To";
 $l["enum.true"] = "Vraie";
 $l["enum.unpaid"] = "Impayé";
@@ -1553,6 +1554,18 @@ $l["title.welcome"] = "Bienvenue";
 $l["title.welcome_1"] = "Bienvenue - [{0}]";
 $l["title.welcomeinstallwizard"] = "Assistant d'installation";
 $l["title.wizeinstall"] = "Assistant d'installation";
+$l["title.forgotPassword"] = "Reinitialiser le mot de passe";
+$l["Change user's Password"] = "Modifier le mot de passe";
+$l["modify"] = "Modifier";
+$l["Subscribe"] = "S'enregistrer";
+$l["Accept"] = "Accepter";
+$l["Repassword"] = "confirmer le mot de passe";
+$l["usage condition"] = "conditions d'utilisation";
+$l['accept <a href="%s"> usage condition </a>'] = "accepter les <a href=\"%s\">conditions d'utilisation</a>";
+$l['account'] = "compte";
+$l['email'] = "courriel";
+
+
 $l["to"] = "A";
 $l["tool.app_balafon_geninstaller_tool"] = "Installeur";
 $l["tool.app_balafon_installnewsite_tool"] = "Nouveau site";
@@ -1566,7 +1579,7 @@ $l["tooltip.controller.registername"] = "Nom d'enregistrement du contrôleur dan
 $l["tooltip.pleaseenteryourmessage"] = "Votre message";
 $l["tuesday"] = "Mardi";
 $l["txt.totalamount_2"] = "{0} {1}";
-$l["update"] = "Mis à jour";
+$l["update"] = "Enregistrer";
 $l["btn.update"] = "Envoyer";
 $l["check.connexion"] = "Envoyer";
 $l["v.false"] = "Non";
@@ -1670,7 +1683,7 @@ $l["Next"] = "Suivant";
 //: lang setting format
 $l["@sysconfig:datetime_format"] = "d-m-Y H:i";
 $l["Clear session"] = "Supprimer la session";
- 
+
 $l["members"] = "Membres";
 
 
@@ -1682,3 +1695,17 @@ $l["Last"] = "Dernier";
 $l["Delete"] = "Supprimer";
 $l["Cancel"] = "Annuler";
 
+
+$l["Mail setting's updated"] = 'configuration des informations du serveur Mail mis à jour'; 
+$l["mail.Useauth"] = "Utiliser l'authentication ssl/tsl pour l'envoie de mail";
+$l['clMailUser']= 'Compte mail';
+$l['clMailPwd']= 'Mot de passe';
+$l['ClAuth']= 'Autorisation';
+$l['clMailPwdConfirm']= 'Re - Mot de passe';
+$l['clContactTo']= 'Contact';
+$l['confirm password']= 'Confirmer le mot de passe';
+
+$l['email'] = "courriel";
+$l['lb.clguid'] = 'Identifiant numérique';
+$l['lb.clcreate_at'] = 'Créer le';
+$l['lb.clupdate_at'] = 'Dernière mis à jour';

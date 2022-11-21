@@ -12,7 +12,7 @@ use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKActionBase;
+use IGK\Actions\ActionBase;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
@@ -130,7 +130,7 @@ class MakeActionCommand extends AppExecCommand{
         Logger::print("-");
         Logger::info("Make new Balafon's PROJECT action");
         Logger::print("-\n");
-        Logger::print("Usage : ". App::gets(App::GREEN, $this->command). " ctrl name [options]" );
+        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " ctrl name [options]" );
         Logger::print("\n\n");
     }
 }

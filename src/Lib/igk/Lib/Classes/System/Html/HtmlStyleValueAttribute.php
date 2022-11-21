@@ -60,9 +60,13 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     ///<summary></summary>
     ///<param name="value"></param>
     public function setValue($value){
-        if(($value == null) || is_string($value) || ($value instanceof HtmlCssValueAttribute))
+        if ($value instanceof HtmlStyleValueAttribute){
+            $this->m_o = ''.$value;
+            return $this;
+        }
+        if(($value == null) || is_string($value) || ($value instanceof IHtmlStyleAtribute))
             $this->m_v=$value;
-        else{
+        else{            
             igk_die("no value allowed ".$value. " target :".get_class($this->m_target));
         }
     }

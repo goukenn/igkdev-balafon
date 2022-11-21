@@ -193,7 +193,7 @@ function igk_api_mysql_about($api){
     $doc->Title="MySQL Utility - About - [BALAFON]";
     $bbox=$doc->body->addBodyBox();
     $dv=$bbox->div()->container();
-    $dv->div()->addSectionTitle(4)->Content=R::gets("MySQL Utility Api Service");
+    $dv->div()->addSectionTitle(4)->Content=R::Gets("MySQL Utility Api Service");
     $ul=$dv->div()->addUl();
     $ul->li()->Content=IGK_AUTHOR;
     $ul->li()->Content="Version :".IGKMySQLUtilityConstant::VERSION;

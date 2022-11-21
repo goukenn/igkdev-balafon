@@ -22,6 +22,9 @@ use ReflectionException;
  * @package IGK\Controllers
  */
 final class SysDbController extends NonVisibleControllerBase implements IDatabaseHost{
+    public function getCanInitDb(){
+        return true;
+    }
     ///<summary>Represente dropDb function</summary>
     protected static function dropDb(){
         $c=igk_getctrl(__CLASS__, false);

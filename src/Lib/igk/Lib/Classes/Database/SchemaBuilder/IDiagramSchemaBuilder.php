@@ -21,5 +21,5 @@ interface IDiagramSchemaBuilder{
 
     function getTablePrefix():string;
 
-    function getTableName(string $name): string;
+    function getPrefixTable(string $name): string;
 }

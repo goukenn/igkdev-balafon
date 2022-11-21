@@ -33,8 +33,8 @@ class Request implements IInjectable
     }
     public function getUploadedData(){
         if (!$this->prepared){
-            $this->js_data = igk_io_get_uploaded_data();
-        }
+            $this->js_data = igk_io_get_uploaded_data(); 
+        }  
         return $this->js_data;
     }
     /**
@@ -44,7 +44,7 @@ class Request implements IInjectable
     public function getJsonData(){
         $this->getUploadedData();
         if ($this->js_data !== null){
-            //try to convert josn data data;
+            //try to convert json data => data;
             return json_decode($this->js_data);
         } 
         return $this->js_data;

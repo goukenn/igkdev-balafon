@@ -28,8 +28,6 @@ trait ProjectAssetHandlerTrait{
             $response->cache_output(igk_configs()->assets_cache_output());
             $response->output(); 
         } 
-        throw new PageNotFoundException();            
-         
-         
+        throw new PageNotFoundException();    
     }
 }

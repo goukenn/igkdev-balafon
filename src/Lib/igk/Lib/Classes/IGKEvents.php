@@ -27,9 +27,17 @@ class IGKEvents extends IGKObject
     const HOOK_AFTER_INIT_APP = "after_init_app";
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
     const HOOK_CSS_REG = "css_class_reg";
+    // + | --------------------------------------------------------------------
+    // + | DB QUERY
+    // + |
+    
     const HOOK_DB_DATA_ENTRY = "db_dataentry";
+    const HOOK_DB_INIT_START = "db_init_start";
     const HOOK_DB_INIT_COMPLETE = "db_init_complete";
     const HOOK_DB_INIT_ENTRIES = "db_init_entries";
+    const HOOK_DB_TABLECREATED = "db_table_created";
+    const HOOK_DB_POST_GROUP = "db_post_db_create_database_list";
+
     const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
     const HOOK_HTML_AFTER_RENDER_BODY="html_after_render_body";
     const HOOK_HTML_BODY = "html_body";
@@ -40,8 +48,21 @@ class IGKEvents extends IGKObject
     
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";
+    // + | --------------------------------------------------------------------
+    // + | USER MANAGEMENT HOOK
+    // + |
+    
     const HOOK_USER_ADDED = "sys_user_added";
     const HOOK_USER_EXISTS = "sys_user_exists";
+    const HOOK_USER_LOGIN = "sys_user_login";
+    const HOOK_USER_LOGOUT = "sys_user_logout";
+    const HOOK_USER_ACTIVATED = "sys_user_status_changed";
+    const HOOK_USER_DELETE = "sys_user_delete";    
+    // + | --------------------------------------------------------------------
+    // + | DB HOOK
+    // + |
+    const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
+
     const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";
     const HOOK_MODEL_INIT = "db_init_model_macros";
@@ -60,7 +81,7 @@ class IGKEvents extends IGKObject
 
     const P_SUBDOMAIN_PRIORITY = 0;
     const P_SESSION_PRIORITY = 100;
-
+    
     public static function CreateHookOptions():IHookOptions{
         return new HookOptions();
     }

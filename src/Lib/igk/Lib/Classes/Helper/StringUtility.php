@@ -6,24 +6,50 @@
 
 namespace IGK\Helper;
 
+use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
 use IGKException;
 use ReflectionException;
 
-///<summary>String utility helper </summary>
+///<summary>String utility helper. store string help function  </summary>
+/**
+ * 
+ * @package IGK\Helper
+ */
 abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    public static function AuthorizationPath(string $name, ?string $controller):string{
+        return implode("@", array_filter([ $controller, $name]));
+    }
+    /**
+     * helper to retrieve key name
+     * @param BaseController $controller 
+     * @return string 
+     */
+    public static function GetControllerKeyName(BaseController $controller):string{
+        return igk_uri(get_class($controller));
+    }
+    public static function GetApplicationMailTitle(BaseController $controller, ?string $title=null){
+        return $title ?? 
+        $controller->getConfig('domain') ?? 
+        igk_configs()->system_mail_title ?? 
+        igk_configs()->domain;    
+    }
     /**
      * display name
      * @param string $firstName 
      * @param string $lastName 
-     * @return string 
+     * @return string|null 
      */
-    public static function DisplayName(string $firstName, string $lastName){
-        return implode(' ', array_filter([$firstName, strtoupper($lastName ?? '')]));
+    public static function DisplayName(?string $firstName=null, ?string $lastName=null):?string{
+        $r = null;
+        if ($d = array_filter([$firstName, strtoupper($lastName ?? '')])){
+            $r = implode(' ', $d);
+        }
+        return $r;
     }
     /**
      * check if uri start with compare

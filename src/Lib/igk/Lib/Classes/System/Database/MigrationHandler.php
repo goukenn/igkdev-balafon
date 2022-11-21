@@ -5,13 +5,15 @@
 namespace IGK\System\Database;
 
 use IGK\Controllers\BaseController;
+use IGK\Helper\ArrayUtils;
 use IGK\Helper\IO;
+use IGK\Models\Migrations;
 use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlReader;
 
 ///<summary></summary>
 /**
-* 
+* use to run migration on php class file 
 * @package IGK\System\Database
 */
 class MigrationHandler{
@@ -33,8 +35,10 @@ class MigrationHandler{
         $ctrl = $this->m_controller;
         $dir = $ctrl->getClassesDir()."/Database/Migrations";
         $match = '/\/migration_[0-9]+_(?P<name>.+)\.php$/';
-        $files = IO::GetFiles($dir, $match);
-        sort($files);      
+        if ($files = IO::GetFiles($dir, $match)){
+            sort($files);      
+
+        }
         return $files;
     }
     public function up(){
@@ -45,6 +49,12 @@ class MigrationHandler{
     }
     public function migrate(string $method){
         $files = $this->getfiles();
+        if (empty($files)){
+            return;
+        }
+        if (!Migrations::model()->getDataAdapter()->getIsConnect()){
+            return;
+        }
         $ctrl = $this->m_controller;
         $ns = $ctrl::ns('Database/Migrations');
         $tabcl = get_declared_classes();
@@ -53,13 +63,45 @@ class MigrationHandler{
         $tabc = count($tabcl);
         $match = self::match;
         $builder = new SchemaBuilder;        
-        $schema =   $builder->migrations();
+        $schema =  $builder->migrations();
+        $migrations = null;
+        try{
+            if (Migrations::model()->tableExists()){
+                $migrations = Migrations::select_all();
+            }
+            else{
+                // + | --------------------------------------------------------------------
+                // + | no migration available
+                // + |                
+                return;
+            }
+        } catch(\Exception $ex){
+            return;
+        }
+        ArrayUtils::FillKeyWithProperty($migrations, 'migration_name'); 
+        $updates = [];
+        $insert = [];
         foreach($files as $c){
+            $migration_name = igk_io_basenamewithoutext($c);
+            if (isset($migrations[$migration_name])){
+                if ($migrations[$migration_name]->migration_batch){
+                    continue;
+                }
+                $migrations[$migration_name]->migration_batch = 1;
+                $updates[] = $migrations[$migration_name];
+            }else{
+                $row = \IGK\Models\Migrations::createEmptyRow();
+                $row->migration_name = $migration_name;
+                $row->migration_batch = 1;
+                $row->migration_controller = $ctrl->getName();
+                $insert[] = $row;
+            }
+
             preg_match($match, $c, $tab);
             $name = $tab['name'];
-            include $c;
             self::_GetRealClassName($name, $tabc);          
-            Logger::print('file: '.$c);
+            include_once $c;
+            Logger::print('migration file: '.$c);
             $cl = igk_ns_name($ns."/".$name);            
             if (class_exists($cl, false)){
                 $cl = new $cl();
@@ -67,13 +109,17 @@ class MigrationHandler{
             }else {
                 igk_die('include file no class found .'.$name);
             }
-        }
-        Logger::info($builder->render());        
-        // $builder->$method($this->controller);
+        }         
         $node = HtmlReader::Load($builder->render(), "xml"); 
         $tab = igk_db_load_data_schemas_node($node, $this->m_controller); 
         if ($tab){
             SchemaBuilderHelper::Migrate($tab);
+        }
+        foreach ($insert as $key => $value) {
+            Migrations::insert($value);
+        }
+        foreach ($updates as $key => $value) {
+            Migrations::update($value);
         }
     }
 }

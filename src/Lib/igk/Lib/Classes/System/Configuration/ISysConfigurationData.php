@@ -8,7 +8,6 @@
 
 namespace IGK\System\Configuration;
 
-
 /*
 * @property bool $BootStrap
 * @property bool $BootStrap.Enabled
@@ -88,4 +87,5 @@ namespace IGK\System\Configuration;
 * @property bool $website_title
 */
 interface ISysConfigurationData{
+
 }

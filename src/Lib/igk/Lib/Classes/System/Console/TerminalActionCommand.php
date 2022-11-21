@@ -29,7 +29,7 @@ class TerminalActionCommand{
     protected $commands = [];
     public function run(){
         $result = 0;
-
+         
         do{
             $command = readline($this->prompt);
             $e = $command != "quit";

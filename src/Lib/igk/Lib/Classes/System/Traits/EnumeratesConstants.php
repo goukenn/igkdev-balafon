@@ -5,9 +5,11 @@
 // @desc: 
 
 namespace IGK\System\Traits;
+ 
 
-use ReflectionClass;
-
+/**
+ * enumerate constant values 
+ */
 trait EnumeratesConstants{
     public static function GetConstants(){
         $ref = igk_sys_reflect_class(static::class);
@@ -19,5 +21,8 @@ trait EnumeratesConstants{
     public static function GetConstantValue($k){
         $ref = igk_sys_reflect_class(static::class);
         return $ref->getConstant($k);
+    }
+    public static function GetName($ctrl){
+        return $ctrl::name("");
     }
 }

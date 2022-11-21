@@ -66,6 +66,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		$obj = igk_db_getobj($this->getDataTableInfo());
 		$obj->clLogin = $login;
 		$obj->clPwd = $pwd;
+		igk_wln_e(__FILE__.":".__LINE__,  'the store pwd: ', $pwd);
 
 		$s = Users::select_row(array("clLogin"=>$login, "clPwd"=>$pwd));
 

@@ -19,8 +19,7 @@ abstract class ViewCallback{
         if (!($ctrl = ViewHelper::CurrentCtrl())){
             igk_die("can't call it on on view context");
         }
-        $layout = $ctrl->getViewLoader();
-        // igk_wln_e("current.....", $layout);
+        $layout = $ctrl->getViewLoader(); 
         if (method_exists($layout, $name)){
             $lc = new ViewLayoutCaller;
             $lc->name = $name;

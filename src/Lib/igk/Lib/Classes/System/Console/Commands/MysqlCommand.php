@@ -176,10 +176,8 @@ class MySQLCommand extends AppExecCommand
         if (!($ctrl && ($ctrl = igk_getctrl($ctrl, false)))) {
             return -1;
         }
-        Logger::info("preview create query");
-
+        Logger::info("# preview create query");
         igk_environment()->mysql_query_filter = 1;
-
         if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
             $ad->setSendDbQueryListener($this);
             $tb = igk_db_get_table_name($table, $ctrl);

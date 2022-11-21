@@ -84,7 +84,7 @@ class FileWriter{
         $pdir=array($dirname);
         $s_mode = is_string($mode) ? octdec($mode) : $mode;
         $is_unix = igk_environment()->isUnix();
-        igk_debug_wln("createdir: ".$dirname."\n");
+        // igk_debug_wln("createdir: ".$dirname."\n");
         while($dirname=array_pop($pdir)){            
             if(is_dir($dirname))
                 continue;

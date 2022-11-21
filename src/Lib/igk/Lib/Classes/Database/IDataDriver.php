@@ -14,6 +14,7 @@ use IGK\System\Database\SQLGrammar;
  * @package 
  */
 interface IDataDriver{
+    function insert($table, $entries, bool $throwException=true);
     /**
      * get the db name. failed in case of no connection to db
      * @return null|string 
@@ -26,15 +27,15 @@ interface IDataDriver{
     function getIsConnect(): bool;
     function getFilter():bool;
     function isTypeSupported(string $type):bool;
-    function escape($column):string;
-    function escape_string($v):string;
+    function escape(?string $column=null):string;
+    function escape_string(?string $v=null):string;
     function escape_table_name(string $v):string;
     function escape_table_column(string $v):string;
-    function pushRelations($tbname, $v);
+    function pushRelations(string $tbname, $v);
     function supportDefaultValue(string $type):bool;
     function isAutoIncrementType(string $type):bool;
-
-    function sendQuery(string $query);
+    function tableExists(string $table): bool;
+    function sendQuery(string $query, $throwex=true, $options=null, $autoclose=false);
 
     /**
      * get data value

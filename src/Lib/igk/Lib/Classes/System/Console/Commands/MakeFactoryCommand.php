@@ -88,7 +88,7 @@ class MakeFactoryCommand extends AppExecCommand
         Logger::print("-");
         Logger::info("Make new db modeul utility");
         Logger::print("-\n");
-        Logger::print("Usage : " . App::gets(App::GREEN, $this->command) . " ctrl name [options]");
+        Logger::print("Usage : " . App::Gets(App::GREEN, $this->command) . " ctrl name [options]");
         Logger::print("\n\n");
     }
 }

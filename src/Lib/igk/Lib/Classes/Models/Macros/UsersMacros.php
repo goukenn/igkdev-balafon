@@ -10,9 +10,12 @@ namespace IGK\Models\Macros;
 
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
-use IGK\System\Number;
 use IGKException;
 
+/**
+ * use macros
+ * @package IGK\Models\Macros
+ */
 class UsersMacros {
     /**
      * register user helpers

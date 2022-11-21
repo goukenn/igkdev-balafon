@@ -63,8 +63,7 @@ class HtmlExpressionNode extends HtmlNode{
             }
             if(empty($_e=trim($_e))){
                 return "";
-            }
-            // $_e = "data : {{\\\$raw }}";
+            } 
             $sout=igk_html_databinding_treatresponse($_e, $this->ctrl, $this->raw, null);
             if($shift){
                 $script_obj->resetShift();

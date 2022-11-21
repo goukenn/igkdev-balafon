@@ -16,18 +16,20 @@ class FormUtils
     /**
      * build select data
      * @param mixed $list 
-     * @param mixed $key 
-     * @param mixed $name 
+     * @param mixed $key key used for the value : i
+     * @param mixed $display key used for display: t
      * @param mixed $options 
      * @return array 
      * @throws IGKException 
-     */
-    public static function SelectData($list, $key, $name, $options = null)
+     */    
+    public static function SelectData($list, $key, $display, $options = null)
     {
         $selected = $options ? igk_getv($options, 'selected') : null;
         $callback = $options ? igk_getv($options, 'callback') : null;
         $empty = $options ? igk_getv($options, 'empty') : null;
+        $offset = $options ? igk_getv($options, 'offset') : 0;
         $data = [];
+        
         if ($list)
         foreach ($list as $m) {
             if ($callback) {
@@ -36,17 +38,19 @@ class FormUtils
                 }
                 continue;
             }
-            $g = ["i" => $m->{$key}, "t" => $m->$name];
+            $g = ["i" => $key ? $m->{$key} : count($data) + $offset, "t" => $m->$display];
             if ((is_callable($selected) && $selected($m)) || ($selected && ($selected == $g["i"]))) {
                 $g["selected"] = true;
             }
             $data[] = $g;
         }
-        usort($data, function($a, $b){
-            return strcasecmp($a['t'], $b['t']);
-        });
+        if (!igk_getv($options, 'no_sort_text')){
+            usort($data, function($a, $b){
+                return strcasecmp($a['t'], $b['t']);
+            });
+        }
         if ($empty){
-            array_unshift($data, ['i'=>-1, 't'=> igk_getv($empty, 'text', '---')]);
+            array_unshift($data, ['i'=>igk_getv($empty, 'value', -1), 't'=> igk_getv($empty, 'text', '---')]);
         }
         return $data;
     }

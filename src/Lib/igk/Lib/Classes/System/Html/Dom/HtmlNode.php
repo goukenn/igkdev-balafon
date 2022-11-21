@@ -19,12 +19,12 @@ use function igk_resources_gets as __;
 /**
  * 
  * @package IGK\System\Html\Dom
- * @method HtmlNode div() add div
- * @method HtmlNode container() add a div container
- * @method HtmlFormNode form() add a div form
- * @method HtmlFormNode table() add a div form
- * @method HtmlNode br() add break node
- * @method HtmlNode p() add paragraph node 
+ * @method self div() add div
+ * @method self container() add a div container
+ * @method self form() add a div form
+ * @method self table() add a div form
+ * @method self br() add break node
+ * @method self p() add paragraph node 
  * @method self a() create a html 'a' node 
  * @method self abbr() create a html 'abbr' node 
  * @method self acronym() create a html 'acronym' node 
@@ -151,6 +151,8 @@ use function igk_resources_gets as __;
  * @method self var() create a html 'var' node 
  * @method self video() create a html 'video' node 
  * @method self wbr() create a html 'wbr' node 
+ * @method self load() load contents 
+ * @method self getChilds() get loaded childs
  */
 class HtmlNode extends HtmlItemBase
 {
@@ -267,6 +269,7 @@ class HtmlNode extends HtmlItemBase
                 return implode(":", [$k, $a]);
             }, $value, array_keys($value))));
         }
+        
 
         if (0 === strpos($value, '+/')) {
             $s = $this["style"]."";

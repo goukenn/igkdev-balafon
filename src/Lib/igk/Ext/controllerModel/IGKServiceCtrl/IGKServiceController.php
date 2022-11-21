@@ -91,7 +91,7 @@ abstract class IGKServiceController
         $this->regSystemVars(array("services"=>$this->getServices()));
         $bck=$this->TargetNode;
         $this->setTargetNode($t);
-        $this->_include_file_on_context($f);
+        $this->_include_view($f);
         $this->setTargetNode($bck);
         $doc->body->getBodyBox()->add($t);
         $doc->renderAJX();

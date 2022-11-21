@@ -94,14 +94,16 @@ class MakeClassCommand extends AppExecCommand
             $ns .= "/" . $_ir;
         }
         $ns = ltrim(str_replace("/", "\\", $ns), "\\");
-
-
-
         $fname = igk_dir($g);
         if (!preg_match('/\.php$/', $fname)) {
             $fname .= ".php";
         }
-        if (!file_exists($file = $dir . "/" . $fname) || $force) {
+        $file = $dir . "/" . $fname;
+        // Logger::success("output: " . igk_io_basedir());
+        // Logger::success("output: " . $file);
+        // Logger::success("output: " . getcwd());
+        // exit;
+        if (!file_exists($file) || $force) {
             $name = igk_str_ns(igk_io_basenamewithoutext($file));
             $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
             $builder = new PHPScriptBuilder();
@@ -113,7 +115,7 @@ class MakeClassCommand extends AppExecCommand
                 ->name($name)
                 ->desc($desc);
             igk_io_w2file($file, $builder->render());
-            Logger::success("output: " . $file);
+            Logger::success("output: " . $file); 
             Logger::success("duration : " . igk_sys_request_time());
 
             return 200;

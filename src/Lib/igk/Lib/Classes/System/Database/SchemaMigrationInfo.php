@@ -22,6 +22,8 @@ class SchemaMigrationInfo implements ArrayAccess{
     var $entries;
     var $tableRowReference;
     var $modelClass;
+    var $tableName;
+    var $definitionResolver;
 
     public function _access_OffsetGet($n){
         if (property_exists($this, $n)){

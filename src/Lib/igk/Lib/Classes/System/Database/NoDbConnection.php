@@ -88,4 +88,10 @@ class NoDbConnection{
     { 
         return null;        
     }
+    public function tableExists():bool{
+        return false;
+    }
+    public function getIsConnect():bool{
+        return false;
+    }
 }

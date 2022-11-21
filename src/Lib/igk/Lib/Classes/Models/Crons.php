@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
-// @date: 20221111 21:30:07
+// @date: 20221121 16:32:44
 namespace IGK\Models;
 
 
@@ -17,10 +17,11 @@ use IGK\Models\ModelBase;
 * @property string $crons_script
 * @property string $crons_options
 * @property string $crons_class
+* @property int $crons_status
 * @property string|datetime $crons_create_at ="CURRENT_TIMESTAMP"
 * @property string|datetime $crons_update_at ="CURRENT_TIMESTAMP"
-* @method static ?self Add(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry helper
-* @method static ?self AddIfNotExists(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* @method static ?self Add(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, int $crons_status, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, int $crons_status, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * */
 class Crons extends ModelBase{
 	/**

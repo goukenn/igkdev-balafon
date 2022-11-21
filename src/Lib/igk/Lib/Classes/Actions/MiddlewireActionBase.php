@@ -13,7 +13,7 @@ use IGK\System\Http\RedirectRequestResponse;
 use IGK\System\Http\Request;
 use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
-use IGKActionBase;
+use IGK\Actions\ActionBase;
 use IGKException;
 use Reflection;
 use ReflectionMethod;
@@ -24,7 +24,7 @@ use function igk_resources_gets as __;
  * use to process method with specific checkMiddle - route 
  * @package IGK\Actions
  */
-abstract class MiddlewireActionBase extends IGKActionBase{
+abstract class MiddlewireActionBase extends ActionBase{
     /**
      * default user
      * @var mixed
@@ -114,7 +114,7 @@ abstract class MiddlewireActionBase extends IGKActionBase{
         $path =  "/" . trim($path, "/");  
         if (!empty($routes)){
             // must use the route technique to validate the path
-             $method = igk_server()->REQUEST_METHOD;
+             $method = igk_server()->REQUEST_METHOD; 
             foreach($routes as $v){  
                 // igk_dev_wln_e(__FILE__.":".__LINE__,  "name: ". $v->isAuthRequired());
                 if ($v->match($path, $method)){  

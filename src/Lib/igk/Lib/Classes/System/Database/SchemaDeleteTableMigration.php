@@ -10,21 +10,19 @@ namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
 
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
-    protected $fill_properties = ["table", "column"];
- 
+    protected $fill_properties = ["table"]; 
     // source column to restore
  
     var $columns = [];
-    public function up(){
-    
+    public function up(){    
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
-        $ctrl->getDataAdapter()->dropTable($tb);
-       
+        $ctrl->getDataAdapter()->dropTable($tb);       
     }
     public function down()
     {  
         //restore current table definition
+        igk_die("c'ant restore");
     }
 
     protected function loadChilds($childs){

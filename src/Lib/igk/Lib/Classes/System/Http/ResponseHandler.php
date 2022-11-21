@@ -9,19 +9,22 @@ namespace IGK\System\Http;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\JsonResponse;
 use IGK\System\Http\WebResponse;
+use IGK\System\IO\StringBuilder;
 
 /**
  * response handler
  * @package IGK\System\Http\ReponseHandler
  */
-class ResponseHandler{
+class ResponseHandler
+{
     /**
      * handle response
      * @param mixed $r 
      * @return mixed 
      * @throws IGKException 
      */
-    public function HandleReponse($r){
+    public function HandleReponse($r)
+    {
         $e = 0;
         if (is_object($r) && ($r instanceof \IGK\System\Http\IResponse)) {
             ob_get_level() &&  ob_clean();
@@ -34,8 +37,28 @@ class ResponseHandler{
             $e = 1;
         } else if (is_array($r) || is_object($r)) {
             ob_get_level() &&  ob_clean();
-            $b = new JsonResponse($r);
-            $b->output();
+            switch (igk_server()->CONTENT_TYPE) {
+                case 'application/xml':
+                    $r = igk_xml_render('response', $r);
+                    $b = new WebResponse($r);
+                    $b->output();
+                    break;
+                case 'text/html':
+                    $sb = new StringBuilder();  
+                    $header = '';
+                    $sb->appendLine('response:');
+                    foreach($r as $k=>$v){
+                        $ds = is_object($v) || is_array($v) ? json_encode($v) : $v;
+                        $sb->appendLine("\t".$k .": " .$ds);
+                    }
+                    $b = new WebResponse($sb.'');
+                    $b->output();
+                    break;
+                default:
+                    $b = new JsonResponse($r);
+                    $b->output();
+                    break;
+            }
             $e = 1;
         }
         // stop : on exit

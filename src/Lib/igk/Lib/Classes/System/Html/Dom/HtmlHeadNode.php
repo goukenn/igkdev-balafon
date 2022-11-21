@@ -12,6 +12,7 @@ use IGKEvents;
 class HtmlHeadNode extends HtmlNode{
     protected $tagname = "head";
     private $m_title; 
+    private $m_scripts = [];
 
     public function setTitle($value){
         if ($this->m_title == null){
@@ -30,7 +31,10 @@ class HtmlHeadNode extends HtmlNode{
     public function getPreload(){
         return HtmlHeadPreloadNode::getItem();
     }
-
+    public function load_scripts(?array  $list, bool $temp = false){
+        $this->m_scripts = $list;
+        return $this;
+    }
     ///<summary></summary>
     ///<param name="options" default="null"></param>
     /**
@@ -44,6 +48,7 @@ class HtmlHeadNode extends HtmlNode{
             HtmlHeadBaseUriNode::getItem(),
             HtmlFaviconNode::getItem(), 
             HtmlHeadPreloadNode::getItem(),
+            HtmlExtraHeaderScriptHost::Create($this->m_scripts)
         );
         $is_document = isset($options->Document);
         if($is_document){

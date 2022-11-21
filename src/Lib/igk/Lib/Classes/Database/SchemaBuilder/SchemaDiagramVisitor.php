@@ -27,6 +27,7 @@ class SchemaDiagramVisitor extends DiagramVisitor{
         $t->description = $entity->getDescription();
         $t->defTableName = $tb = $entity->getName();
         $tb = IGKSysUtil::DBGetTableName($tb, $this->m_ctrl);
+        $t->tableName = $tb;
         // $this->m_data->tables[$entity->getName()] = $t;
         $this->m_data->tables[$tb] = $t;
     }

@@ -6,6 +6,7 @@
 
 use IGK\Css\CssThemeOptions;
 use IGK\Resources\R;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Css\CssSession;
 use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
@@ -36,6 +37,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     private $m_baseuri;
     private $m_noCache;
     private $m_noCoreScript;
+    private $m_can_add;
 
     public function getnoFontInstall(){
         if (property_exists($this, "noFontInstall"))
@@ -261,8 +263,19 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     public function addScript($file=null, $tag=null, $canbeMerged=true){       
         return $this->ScriptManager->addScript($file, $canbeMerged, $tag);
     }
+
+    /**
+     * 
+     * @param mixed $id 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     private function __construct($id){
+        $this->m_can_add = true;
         parent::__construct();
+        $this->m_can_add = false;
         $this->m_id = $id; 
         $this->m_theme= new HtmlDocTheme($this, "css:public");
         $this->m_privatetheme= new HtmlDocTheme($this, "css:private"); 
@@ -271,6 +284,15 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         $this->_addCoreCss();
         $this->setup_document();
         igk_hook(IGK_ENV_NEW_DOC_CREATED, array(igk_app(), $this));
+        
+    }
+    public function getCanAddChilds(){
+        return $this->m_can_add; 
+    }
+
+    protected function _Add($n, $force=false){
+    
+        return parent::_Add($n, $force);
     }
 
     /**
@@ -343,9 +365,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         $this->setFlag(self::IGK_DOC_FAVICON_FLAG, $uri);
         return $this;
     }
-    ///<summary></summary>
+    ///<summary>get favicon</summary>
     /**
-    * 
+    * get favicon
     */
     public function getFavicon(){
         return $this->getFlag(self::IGK_DOC_FAVICON_FLAG);

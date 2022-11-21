@@ -4,7 +4,6 @@
 // @date: 01/01/2013
 // @desc: core lib entry file 
 
-use IGK\ApplicationLoader;
 
 defined("IGK_FRAMEWORK") && die("Framework already define");
 define("IGK_FRAMEWORK", "IGKDEV-WFM");
@@ -30,12 +29,8 @@ require_once(IGK_LIB_CLASSES_DIR . "/Server.php");
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";  
 require_once IGK_LIB_CLASSES_DIR . "/System/Facades/Facade.php";
 
-
-
 // $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
 // isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"]);
-
- 
 
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/array.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/engine.php";
@@ -45,9 +40,6 @@ require_once IGK_LIB_DIR . "/Lib/functions-helpers/sys.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/io.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/css.php";
 require_once IGK_LIB_DIR . "/igk_functions.php";
-
-
-
 
 //----------------------------------------------------------------------------------
 // controller requirement
@@ -68,35 +60,6 @@ require_once IGK_LIB_CLASSES_DIR . '/Controllers/ApplicationController.php';
 require_once IGK_LIB_CLASSES_DIR . '/ApplicationLoader.php';
 require_once IGK_LIB_CLASSES_DIR . '/IGKApplication.php';
 require_once IGK_LIB_CLASSES_DIR . '/IGKApp.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Applications/HookRegister.php';
 
-// environment management
-// require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php");
-// require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php");
-
-
-
-
-
-// require_once IGK_LIB_CLASSES_DIR."/interfaces.php";
-// require_once IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php";
-// require_once IGK_LIB_CLASSES_DIR."/IGKEnvironment.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKServer.php";  
-// require_once IGK_LIB_CLASSES_DIR."/ApplicationLoader.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKApplication.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKAppContext.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKAppType.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKObject.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKApp.php";  
-// require_once IGK_LIB_CLASSES_DIR."/IGKEvents.php";    
-// require_once IGK_LIB_CLASSES_DIR."/IGKAppConfig.php";    
-// require_once IGK_LIB_CLASSES_DIR."/Controllers/RootControllerBase.php";  
-// require_once IGK_LIB_CLASSES_DIR."/Controllers/ControllerUriTrait.php";  
-// require_once IGK_LIB_CLASSES_DIR."/Controllers/BaseController.php";  
-// require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";  
-// require_once IGK_LIB_CLASSES_DIR."/System/IO/Path.php";  
-
-
-// $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
-// isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"]);
-
+\IGK\System\Applications\HookRegister::Init();

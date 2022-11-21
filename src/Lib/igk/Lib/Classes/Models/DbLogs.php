@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @date: 20221111 21:30:07
+// @date: 20221121 16:32:44
 namespace IGK\Models;
 
 
@@ -14,10 +14,11 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $db_logs_msg
 * @property int $db_logs_status
-* @property string|datetime $db_logs_createAt
+* @property string|datetime $db_logs_createAt ="NOW()"
 * @property string $db_logs_tags
-* @method static ?self Add(string $db_logs_msg, int $db_logs_status, string|datetime $db_logs_createAt, string $db_logs_tags) add entry helper
-* @method static ?self AddIfNotExists(string $db_logs_msg, int $db_logs_status, string|datetime $db_logs_createAt, string $db_logs_tags) add entry if not exists. check for unique column.
+* @property string|datetime $db_logs_updateAt ="NOW()"
+* @method static ?self Add(string $db_logs_msg, int $db_logs_status, string $db_logs_tags, string|datetime $db_logs_createAt ="NOW()", string|datetime $db_logs_updateAt ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $db_logs_msg, int $db_logs_status, string $db_logs_tags, string|datetime $db_logs_createAt ="NOW()", string|datetime $db_logs_updateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class DbLogs extends ModelBase{
 	/**

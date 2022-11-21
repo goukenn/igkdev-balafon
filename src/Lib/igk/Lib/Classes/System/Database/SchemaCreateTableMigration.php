@@ -10,7 +10,7 @@ namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
 
 class SchemaCreateTableMigration extends SchemaMigrationItemBase{
-    protected $fill_properties = ["table", "column"];
+    protected $fill_properties = ["table", "description" ];
  
     // source column to restore
  
@@ -40,8 +40,14 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         foreach($childs as $c){
-            $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
-            $this->columns[]=$cl; 
+            $tagname = $c->getTagName() ?? '';
+            if (empty(trim($tagname))){
+                continue;
+            }
+            if (strtolower($tagname) == 'column'){
+                $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
+                $this->columns[]=$cl; 
+            }
         }    
     }
 }

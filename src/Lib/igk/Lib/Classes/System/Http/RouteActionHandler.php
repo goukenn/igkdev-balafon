@@ -109,10 +109,17 @@ class RouteActionHandler extends RouteHandler
     /**
      * check if user is allowed agains this auth
      * @param Users $user 
-     * @return mixed 
+     * @return bool
      */
-    public function isAuth(Users $user)
+    public function isAuth(Users $user) : bool
     { 
+        // + | --------------------------------------------------------------------
+        // + | check in amount if bool value is passed
+        // + |
+        
+        if (is_bool($this->auth)){
+            return $this->auth;
+        }
         if ($user && !empty($this->auth)) {
             $r = $user->auth($this->auth, $this->auth_requirement);
             return $r;

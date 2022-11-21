@@ -11,30 +11,144 @@
 
 namespace IGK\Helper;
 
+use DateInterval;
+use IGK\Actions\ActionBase;
+use IGKActionBase;
+use IGK\Controllers\BaseController;
+use IGK\Models\RegistrationLinks;
+use IGK\Models\Users;
+use IGK\System\Net\Mail;
+use IGK\System\Process\CronJobProcess;
+use IGKEvents;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+use IGKException;
+use IGKValidator;
 use ReflectionMethod;
 
 /**
  * action helper
  * @package IGK\Helper
  */
-abstract class ActionHelper{
+abstract class ActionHelper
+{
+    /**
+     * 
+     * @param Users $u user ask to change password
+     * @param string $password password
+     * @param string $repassword confirm password
+     * @param mixed $not notification handler
+     * @return IGK\Models\IIGKQueryResult|false 
+     */
+    public static function ChangePassword(Users $u, string $password, string $repassword, $not = null){
+        $not = $not ?? igk_notifyctrl();
+        if ($password) {
+            if ($password == $repassword) {
+                if (IGKValidator::IsValidPwd($password)) {
+                    if ($u = \IGK\Models\Users::update(
+                        ['clPwd' => $password],
+                        ['clId' => $u->clId]
+                    )) {
+                        $not->success('password changed');
+                        return $u;
+                    } else {
+                        $not->danger('password not changed');
+                    }
+                } else {
+                    $not->danger('not a valid passord');
+                }
+            } else {
+                $not->danger('password mismatch');
+            }
+        } else {
+            $not->danger('password is empty');
+        }
+        return false;
+    }
+    /**
+     * 
+     * @param mixed $token 
+     * @return null|RegistrationLinks 
+     */
+    public static function GetAliveToken($token){
+        $row = RegistrationLinks::select_row([
+            'regLinkToken' => $token,
+            'regLinkAlive' => 1
+        ]);
+        return $row;
+    }
+    public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null ){
+        
+        if ($row = $regLink ?? self::GetAliveToken($token)) {
+            $format = IGK_MYSQL_DATETIME_FORMAT;
+            $now = date_create_from_format($format, date($format));
+            $pass = date_create_from_format($format, date($row->regLinkUpdate_at));
+            $diff = $now->diff($pass);
+            $interval =  new DateInterval('P3D');
+            $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
+            $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
+            /// TODO: ACTIVATE ACCOUNT
+            // if ( $d < $m){
+            if ($r = \IGK\Models\Users::update(
+                ["clStatus" => 1],
+                ['clGuid' => $row->regLinkUserGuid]
+            )) {
+                $row->regLinkAlive = 0;
+                $row->regLinkActivate = date($format);
+                $row->save();
+                igk_hook(IGKEvents::HOOK_USER_ACTIVATED, [
+                    "ctrl" => $ctrl,
+                    "row" => $r,
+                    "status" => 1
+                ]);
+                return $row;
+            }
+        }
+    }
     //do nothing
     /**
      * used to pass empty anonymous
      * @return callable 
      */
-    public static function Nothing(): callable{
-        return function(){
+    public static function Nothing(): callable
+    {
+        return function () {
             // nothing call back method
         };
+    }
+    /**
+     * helper: Handle action call
+     * @param string $actionClassName 
+     * @param BaseController $controller 
+     * @param string $fname 
+     * @param array $params 
+     * @param bool $auto_exit 
+     * @return mixed 
+     */
+    public static function HandleAction(
+        string $actionClassName,
+        BaseController $controller,
+        string $fname,
+        array $params,
+        $auto_exit = true
+    ) {
+        if (class_exists($actionClassName) && (is_subclass_of($actionClassName, IGKActionBase::class))){
+            return $actionClassName::Handle(
+                $controller,
+                $fname,
+                $params,
+                $auto_exit
+            );
+        }
     }
     /**
      * sanitize method name
      * @param string $name 
      * @return string 
      */
-    public static function SanitizeMethodName(?string $name){
-        if ($name===null){
+    public static function SanitizeMethodName(?string $name)
+    {
+        if ($name === null) {
             return $name;
         }
         $name = trim(preg_replace("/[^0-9\w]/", "_", $name));
@@ -47,13 +161,14 @@ abstract class ActionHelper{
      * @param mixed $args 
      * @return void 
      */
-    public static function BindRequestArgs($object, $action, & $args){
-        $g = new ReflectionMethod($object, $action);  
+    public static function BindRequestArgs($object, $action, &$args)
+    {
+        $g = new ReflectionMethod($object, $action);
         if (($g->getNumberOfRequiredParameters() == 1) && ($cl = $g->getParameters()[0]->getType()) && igk_is_request_type($cl)) {
             $req = \IGK\System\Http\Request::getInstance();
             $req->setParam($args);
             $args = [$req];
-        } 
+        }
     }
     /**
      * handle args helper 
@@ -61,7 +176,8 @@ abstract class ActionHelper{
      * @param array $handleArgs 
      * @return bool 
      */
-    public static function HandleArgs(string $fname , array & $handlerArgs, string $entryName=IGK_DEFAULT):bool{        
+    public static function HandleArgs(string $fname, array &$handlerArgs, string $entryName = IGK_DEFAULT): bool
+    {
         if ((strpos($fname, "/") !== false) && !igk_str_endwith($fname, $entryName)) {
             if (!empty($tb = array_slice(explode("/", $fname), -1)[0])) {
                 array_unshift($handlerArgs, $tb);
@@ -69,5 +185,104 @@ abstract class ActionHelper{
             return true;
         }
         return false;
+    }
+
+    /**
+     * helper: get action current model 
+     * @param ActionBase $action 
+     * @return null|Users 
+     */
+    public static function CurrentActionUserModel(ActionBase $action) : ?Users{
+        $ret = null;
+        $ctrl = $action->getController();
+        if ($profile = $ctrl->getUser()){
+            $ret = $profile->systemModel();
+        }
+        return $ret;
+    }
+
+    /**
+     * send mail helper 
+     * @param BaseController $controller 
+     * @param string $to 
+     * @param null|string $from 
+     * @param string $title 
+     * @param string $msg 
+     * @param array|null $options 
+     * @return false|void 
+     * @throws NotFoundExceptionInterface  
+     * @throws ContainerExceptionInterface  
+     * @throws IGKException 
+     */
+    public static function SendMail(BaseController $controller, string $to, ?string $from, 
+        string $title, string $msg, array $options=null, ?string $mail_title=null){
+        
+        if (empty($v_sysmail_account = igk_configs()->mail_user)){
+            return false;
+        }
+
+        $info = (object)array_merge([
+            "to" => $to, 
+            "title" => $title,
+            "msg" =>$msg,
+        ], $options ??  []);
+
+        $v_reg_info = CronJobProcess::Register("mail", "mail.register.php", $info, 
+            $controller);
+
+        if (!$v_reg_info){
+            igk_ilog('failed to register cron job mail process');
+            return false;
+        }
+
+        $mail = new Mail();
+        $mail->addTo($to);
+        $mail_title = StringUtility::GetApplicationMailTitle($controller, $mail_title);
+        if ($mail_title)
+            $from = sprintf('"%s" <%s>', $mail_title, $v_sysmail_account);
+        else 
+            $from = sprintf('%s', $v_sysmail_account);
+        $mail->From = $from;
+        $mail->setHtmlMsg($info->msg);
+        $mail->setTitle($info->title);
+
+        if ($cc = igk_getv($info, 'gcc')){
+            $mail->addToGCC($cc);
+        }
+        if ($cc = igk_getv($info, 'cc')){
+            $mail->addToCC($cc);
+        }
+
+        $rep = $v_reg_info && $mail->sendMail();
+        if ($rep) {
+            $v_reg_info->crons_status = 1;
+            $v_reg_info->save();
+        } 
+        return $v_reg_info;
+    }
+
+    /**
+     * generate a geristration link token
+     * @param Users $user 
+     * @param null|string $prefix 
+     * @return mixed 
+     */
+    public static function GenerateUserRegistrationLinkToken(Users $user, ?string $prefix=null){
+        $token = igk_encrypt($user->clLogin . 
+         ($prefix ?? $user->clLogin . date('Ymd') . time()));
+        if (!($row = RegistrationLinks::select_row([
+            "regLinkUserGuid" => $user->clGuid,
+        ]))) {
+            RegistrationLinks::insert([
+                "regLinkToken" => $token,
+                "regLinkUserGuid" => $user->clGuid,
+                "regLinkActivate" => null,
+                "regLinkAlive" => 1
+            ]);
+        } else {
+            $row->regLinkToken = $token;
+            $row->save();
+        }
+        return $token;
     }
 }

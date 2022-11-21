@@ -105,5 +105,12 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	public function _iterator_valid (){
 		return $this->it_key < count($this->it_keys);
 	}
-   
+	/**
+	 * check column exists
+	 * @param mixed $name 
+	 * @return bool 
+	 */
+    public function columnExists($name):bool{
+		return key_exists($name, $this->m_rows);
+	}
 }

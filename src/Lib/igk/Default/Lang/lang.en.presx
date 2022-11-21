@@ -570,3 +570,6 @@ $l["title.pleasewait"] =  "Update please wait";
 $l["msg.uptodaterequired"] =  "Core update is required";
 $l["msg.loadingcomplete"] =  "loading complete";
 $l["title.OS"] =  "operate";
+
+
+$l["title.forgotPassword"] = "Reset password";

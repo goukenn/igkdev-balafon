@@ -100,8 +100,8 @@ class ScaffoldCommand extends AppExecCommand
             if ($c = igk_getv($scaffold_tab, $action)){
                 $m = new $c();
                 Logger::print(
-                    "Usage : " . App::gets(App::GREEN, $this->command) . " ".
-                    App::gets(App::BLUE_I, $action) 
+                    "Usage : " . App::Gets(App::GREEN, $this->command) . " ".
+                    App::Gets(App::BLUE_I, $action) 
                     . " [options]"
                 ); 
                 Logger::print('');
@@ -111,8 +111,8 @@ class ScaffoldCommand extends AppExecCommand
             }
         }
         Logger::print(
-            "Usage : " . App::gets(App::GREEN, $this->command) . " ".
-            App::gets(App::BLUE_I, "type") 
+            "Usage : " . App::Gets(App::GREEN, $this->command) . " ".
+            App::Gets(App::BLUE_I, "type") 
             . " [options]"
         ); 
     

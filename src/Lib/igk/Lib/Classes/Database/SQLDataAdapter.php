@@ -89,7 +89,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         // $grammar->driver = $this;
         return $grammar;
     }
-    public function escape($str):string{
+    public function escape(?string $str=null):string{
         return igk_db_escape_string($str);
     }
     /**

@@ -8,12 +8,14 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Exceptions\OperationNotAllowedException;
+
 use function igk_resources_gets as __;
 
 
 class IGKNotifyStorage{
     private $m_name, $tab;
-    var $autohide;
+    private $m_autohide;
     ///<summary>Represente __call function</summary>
     ///<param name="name"></param>
     ///<param name="args"></param>
@@ -22,55 +24,72 @@ class IGKNotifyStorage{
             return $this->$fc(...$args);
         }
         else{
-            if(count($args) > 0)
+            if(count($args) > 0){
                 $this->tab[]=["type"=>"igk-".$name, "msg"=>$args[0]];
+                return $this;
+            }
         }
+        throw new OperationNotAllowedException('notifyStorage');
     }
     ///<summary>ctr.</summary>
     private function __construct(){    }
+
+    public function addDanger($msg){
+        return $this->addError(...func_get_args());        
+    }
+
     ///<summary>Represente addError function</summary>
     ///<param name="msg"></param>
     public function addError($msg){
         $this->tab[]=["type"=>"igk-danger", "msg"=>$msg];
+        return $this;
     }
     ///<summary>Represente addErrorr function</summary>
     ///<param name="msg"></param>
     public function addErrorr($msg){
         $this->addError(__($msg));
+        return $this;
     }
     ///<summary>Represente addMsg function</summary>
     ///<param name="msg"></param>
-    public function addMsg($msg){
-        $this->tab[]=["type"=>"igk-default", "msg"=>$msg];
+    public function addMsg($msg, ?string $type='igk-defaul'){
+        $this->tab[]=["type"=>$type, "msg"=>$msg];
+        return $this;
     }
     ///<summary>Represente addMsgr function</summary>
     ///<param name="msg"></param>
     public function addMsgr($msg){
         $this->addMsg(__($msg));
+        return $this;
     }
     ///<summary>Represente addSuccess function</summary>
     ///<param name="msg"></param>
     public function addSuccess($msg){
         $this->tab[]=["type"=>"igk-success", "msg"=>$msg];
+        return $this;
     }
     ///<summary>Represente addSuccessr function</summary>
     ///<param name="msg"></param>
     public function addSuccessr($msg){
         $this->tab[]=["type"=>"igk-success", "msg"=>__($msg)];
+        return $this;
     }
     ///<summary>Represente addWarning function</summary>
     ///<param name="msg"></param>
     public function addWarning($msg){
         $this->tab[]=["type"=>"igk-warning", "msg"=>$msg];
+        return $this;
     }
     ///<summary>Represente addWarningr function</summary>
     ///<param name="msg"></param>
     public function addWarningr($msg){
         $this->tab[]=["type"=>"igk-warning", "msg"=>__($msg)];
+        return $this;
     }
     ///<summary>Represente clear function</summary>
     public function clear(){
         array_splice($this->tab, 0);
+        return $this;
     }
     ///<summary>Represente Create function</summary>
     ///<param name="tab" ref="true"></param>
@@ -82,8 +101,8 @@ class IGKNotifyStorage{
         $cl=__CLASS__;
         $o=new $cl();
         $o->tab=& $tab;
-        $o->m_name=$name;
-        $o->autohide=true;
+        $o->m_name = $name;
+        $o->m_autohide=true;
         return $o;
     }
     ///<summary>Represente getName function</summary>
@@ -92,7 +111,7 @@ class IGKNotifyStorage{
     }
     ///<summary>Represente getTab function</summary>
     ///<return refout="true"></return>
-    public function & getTab(){
+    public function & getTab(){  
         return $this->tab;
     }
     ///<summary>Represente renderAJX function</summary>
@@ -102,11 +121,16 @@ class IGKNotifyStorage{
     }
     ///<summary>Represente setAutohide function</summary>
     ///<param name="hide"></param>
-    public function setAutohide($hide){
-        $this->autohide=$hide;
+    public function setAutohide(bool $hide){
+        $this->m_autohide = $hide;
+        return $this;
+    }
+    public function getAutohide(){
+        return $this->m_autohide;        
     }
     ///<summary> set response</summary>
     public function setResponse(array $data){
         $this->tab=[$data];
+        return $this;
     }
 }

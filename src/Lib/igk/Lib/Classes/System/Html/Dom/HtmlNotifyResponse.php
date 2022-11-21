@@ -7,12 +7,29 @@
 
 namespace IGK\System\Html\Dom;
 
-
+/**
+ * return a notify response
+ * @package IGK\System\Html\Dom
+ */
 class HtmlNotifyResponse extends HtmlNode{
     protected $tagname = "div";
     private $autohide;
     private $name;
-    public function __construct($name, $autohide=1)
+    private $m_notifytype;
+    /**
+     * set the autohide 
+     * @param null|bool $autohide 
+     * @return void 
+     */
+    public function setAutohide(?bool $autohide){
+        $this->autohide = $autohide;
+        return $this;
+    }
+    public function setNotifyType($type){
+        $this->m_notifytype = $type;
+        return $this;
+    }
+    public function __construct($name, ?bool $autohide=null)
     {
         $this->autohide = $autohide;
         $this->name = $name;
@@ -37,21 +54,34 @@ class HtmlNotifyResponse extends HtmlNode{
     {
         return ($not = igk_notifyctrl($this->name)) && ($t = $not->getTab()) && (count($t)> 0);
     }
+    protected function __AcceptRender($options=null){
+        if (!$this->getIsVisible()){
+            return false;
+        }
+        $not = igk_notifyctrl($this->name);
+        if ((is_null($this->autohide) && !$not->getAutohide()) || (is_bool($this->autohide) &&  !$this->autohide)){ 
+            $this["class"] = '-anim-autohide';
+        } 
+        else 
+            $this["class"] = '+anim-autohide'; 
+        return true;
+    }
     public function getRenderedChilds($options = null)
     {
         $not = igk_notifyctrl($this->name);
         $c = [];
-        $tab=$not->getTab();
+        $tab = & $not->getTab();
         if(is_array($tab) && (count($tab) > 0)){
             foreach($tab as $inf){
                 if(isset($inf["type"]) && isset($inf["msg"])){
-                    $d = new HtmlNode("div");
+                    $d = igk_create_node("div");
                     $d->setClass("igk-panel ".$inf["type"])->Content=$inf["msg"];
-                    $c[] = $d ; 
+                    $c[] = $d; 
                 }
             }
-            $not->clear();            
         }
+        $tab = [];
+        $not->clear();             
         return $c;
     }
 }

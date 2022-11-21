@@ -9,8 +9,11 @@
 ///<summary>Represente class: IGKLog</summary>
 
 use IGK\Database\DataAdapterBase;
+use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
 use IGK\System\Exceptions\NotImplementException;
+ 
 
 /**
  * Represente IGKLog class
@@ -71,7 +74,11 @@ final class IGKLog extends IGKObject
     public static function Append($msg, $tag = null, $traceindex = 0, $dblog=true)
     {
         if (self::$sm_loggin){
-            igk_die("try to log when appending...log message");
+            // igk_die(\json_encode([
+            //     "error"=>"try to log when appending...log message",
+            //     "message"=>$msg
+            // ]));
+            return;
         }
         self::$sm_loggin = true;
         // + igk_wln($msg);
@@ -82,10 +89,7 @@ final class IGKLog extends IGKObject
                 igk_ilog_trace(igk_trace_function(2 + $traceindex));
                 $msg = array("msg" => $msg, "trace" => igk_ilog_get_trace());
             }
-        }
-
-
-       
+        }  
         $f = "";
         if (!($f = igk_const("IGK_LOG_FILE")))
             $f = igk_ilog_file();
@@ -119,11 +123,27 @@ final class IGKLog extends IGKObject
         // + | ---------------------------------------------------
         // + | log running data to running app
         // + |
-        if ($dblog && self::CanDBLog()){            
-            \IGK\Models\DbLogs::add($msg, $tag, 0);            
-        }
+        self::WriteDbLog($msg, $tag, $dblog);
         igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());
         self::$sm_loggin = false;
+    }
+
+    public static function WriteDbLog($msg, $tag, $dblog){
+        if ($dblog && self::CanDBLog()){  
+            try{          
+                \IGK\Models\DbLogs::create([
+                    'db_logs_msg'=>$msg,
+                    'db_logs_tag'=>$tag,
+                    'db_logs_status'=>0
+                ], false, false);            
+            } catch(TypeError $ex ){
+                igk_dev_wln_e(__FILE__.":".__LINE__,  $ex->getMessage());
+            }
+            catch(Exception $ex ){
+                ExceptionUtils::ShowException($ex);
+                igk_dev_wln_e(__FILE__.":".__LINE__, "handle exception for query ",  $ex->getMessage());
+            }
+        }
     }
     /**
      * check if can write log to database
@@ -131,7 +151,8 @@ final class IGKLog extends IGKObject
      * @throws IGKException 
      */
     public static function CanDBLog(){
-        $g = !igk_environment()->get("NoDBLog") && !igk_configs()->no_db_log && igk_app();
+
+        $g = !igk_environment()->NO_DB_LOG && !igk_configs()->no_db_log && igk_app();
         if ($g){
             $db = igk_configs()->get("default_dataadapter");
             return $db && DataAdapterBase::IsRegister($db);

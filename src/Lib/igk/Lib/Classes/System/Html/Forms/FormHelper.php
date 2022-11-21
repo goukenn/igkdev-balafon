@@ -7,6 +7,7 @@
 namespace IGK\System\Html\Forms;
 
 use Closure;
+use IGKException;
 
 /**
  * helper to get basic hml form
@@ -29,4 +30,39 @@ class FormHelper{
     public static function __callStatic($name, $args){
         return null;
     }
+    /**
+     * 
+     * @param mixed $data 
+     * @param string $key key used for display
+     * @param string $name key used for display 
+     * @param null|array $options 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function SelectOptions($data, string $key, string  $name,?array $options=null){
+        if ($options && !key_exists('no_sort_text', $options))
+            $options['no_sort_text'] = 1;
+ 
+        $data = FormUtils::SelectData($data, $key, $name, $options);
+     
+        return implode("", array_map(self::_InitOption($options), $data));
+    }
+    /**
+     * 
+     * @param mixed $options 
+     * @return Closure 
+     */
+    public static function  _InitOption($options){
+        //
+        
+        return function ($d)use($options){
+            $k_data = "";
+            $bas = isset($options["selected"]) ? $options["selected"] : null;
+            if (isset($options["data"]) && is_string($m_data = $options["data"])) {
+                $k_data = " data=\"" . $m_data . "\" ";
+            }
+            return '<option value="'.$d['i'].'"'.$k_data.'>'.$d['t'].'</option>';
+        };
+    }
+
 }

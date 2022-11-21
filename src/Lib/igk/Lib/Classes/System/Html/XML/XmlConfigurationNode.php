@@ -7,11 +7,46 @@
 
 namespace IGK\System\Html\XML;
 
+use IGK\System\Html\HtmlUtils;
 
 class XmlConfigurationNode extends XmlNode{
     public function __construct($tagname)
     {
         parent::__construct($tagname);
+    }
+    /**
+     * override from copy
+     * @param mixed $n 
+     * @param mixed $attributes 
+     * @param mixed $indexOrargs 
+     * @return $this 
+     */
+    public function add($n, $attributes = null, $indexOrargs = null){
+        if (!($n instanceof self))
+        {
+            if (is_string($n)){
+                $n = self::CreateWebNode($n, $attributes, $indexOrargs);
+                parent::add($n);
+                return $n;
+            }
+            else {
+                if (!empty($t = $n->getTagName()))
+                {
+                    $g = new self($t);
+                    $g->setAttributes($n->getAttributes()->to_array());
+                    $childs = $n->childs->to_array();
+                    parent::add($g);
+                    // copy children
+                    HtmlUtils::CopyNode($g, $childs, function($n){
+                        return new self($n);
+                    });                  
+                    return $g;
+                }                
+            }
+
+            /** */
+        }
+        return parent::add($n, $attributes, $indexOrargs);
     }
     public static function CreateWebNode($name, $attributes = null, $indexOrargs = null)
     {

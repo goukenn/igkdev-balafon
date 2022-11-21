@@ -28,7 +28,7 @@ function igk_subdomain_fc_inflate($tab, $t, $data=null, $mode=1){
     $i=$dv->addSLabelInput("clName", "text", $data ? $data->clName: null);
     igk_html_set_ToolTip($i, R::ngets("tip.domain.name"));
     $dv->div()->space();//()->setContent(IGK_HTML_SPACE);
-    $dv->addLabel('clCtrl')->Content=R::gets("Controller");
+    $dv->addLabel('clCtrl')->Content=R::Gets("Controller");
     $sl=$dv->add("select");
     $sl->setId("clCtrl");
     $sl->setClass("igk-form-control")->setStyle("margin-bottom:1em");

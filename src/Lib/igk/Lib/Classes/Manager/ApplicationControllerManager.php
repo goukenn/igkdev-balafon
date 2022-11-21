@@ -16,6 +16,7 @@ use IGK\System\Exceptions\ControllerNotFoundException;
 use IGKApp;
 use IGKException;
 use IGK\Helper\StringUtility as str;
+use IGK\Helper\SysUtils;
 use IGK\System\Exceptions\NotImplementException;
 
 /**
@@ -41,12 +42,12 @@ class ApplicationControllerManager implements IApplicationControllerManager
 
     public function getRegistratedNamedController(string $name): ?BaseController
     {
-        throw new NotImplementException(__METHOD__);
+        return SysUtils::GetControllerByName($name, false); 
     }
 
     public function registerNamedController(string $name, BaseController $controller)
     {
-        throw new NotImplementException(__METHOD__);
+        return null;
     }
 
     public function getDefaultController(): ?BaseController

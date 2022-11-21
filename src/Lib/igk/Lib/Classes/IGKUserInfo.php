@@ -29,7 +29,8 @@ class IGKUserInfo extends IGKObject{
      * @param bool $strict 
      * @return mixed 
      */
-    public function auth($name, $strict=false){        
+    public function auth($name, $strict=false){      
+        
         return IGK\Models\Users::createFromCache($this)->auth($name, $strict);
     }
     ///<summary>Represente fullname function</summary>
@@ -125,5 +126,12 @@ class IGKUserInfo extends IGKObject{
     }
     public function to_array(){
         return (array)$this;
+    }
+    /**
+     * retrieve the model
+     * @return object|null 
+     */
+    public function model(){
+        return IGK\Models\Users::createFromCache($this);
     }
 }

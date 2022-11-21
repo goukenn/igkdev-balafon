@@ -151,7 +151,7 @@ class InstallSiteCommand extends AppExecCommand
         Logger::info("Install site");
         Logger::print("-\n");
         Logger::print(
-            "Usage : " . App::gets(App::GREEN, $this->command) .
+            "Usage : " . App::Gets(App::GREEN, $this->command) .
                 " install_directory [options]"
         );
         Logger::print("\n\n");

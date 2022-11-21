@@ -222,13 +222,14 @@ final class R extends IGKObject {
     /**
     * get string expression
     */
-    public static function gets(string $key){
+    public static function Gets(string $key){
         if(igk_current_context() == IGKAppContext::initializing){ 
             if (igk_environment()->get("app_type") == IGKAppType::balafon){            
                 return Logger::Resources($key);
             }
             return $key;
         }
+       
         $i=self::getInstance();    
         $t=$key;
         if(isset($i->langRes[$t])){
@@ -443,7 +444,7 @@ EOF;
         if(self::$sm_keyVAR == null)
             self::$sm_keyVAR=array();
         $T=strtolower($key);
-        $default=self::gets($T);
+        $default=self::Gets($T);
         $args=array();
         if(func_num_args() > 1){
             $t=func_get_args();

@@ -27,7 +27,7 @@ use function igk_resources_gets as __;
  * 
  * 
  */
-final class ConfigData
+class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
 {
     /**
      * configuration controller

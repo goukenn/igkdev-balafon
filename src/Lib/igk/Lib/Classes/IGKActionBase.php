@@ -15,10 +15,9 @@ use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\ActionHelper;
+use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Html\Dom\HtmlItemBase;
-use IGK\System\Html\HtmlRenderer;
-use IGK\System\Http\IResponse;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\Route;
@@ -29,14 +28,23 @@ use IGK\System\Http\WebResponse;
  */
 abstract class IGKActionBase implements IActionProcessor
 {
+    const INIT_TRAIT_PREFIX =   '_init_trait_' ;
     /**
      * 
      * @var BaseController
      */
     protected $ctrl;
+    
     protected $context;
+
     protected $defaultEntryMethod = 'index';
 
+    protected $fname = '';
+    /**
+     * store error message
+     * @var array
+     */
+    protected $errors = [];
     /**
      * handle exit and force do_response
      * @var bool 
@@ -64,6 +72,17 @@ abstract class IGKActionBase implements IActionProcessor
 
     protected $notify_name;
 
+    /**
+     * change the controller
+     * @param null|BaseController $controller 
+     * @return void 
+     */
+    public function setController(?BaseController $controller){        
+        if ($controller)
+            $this->initialize($controller);
+        $this->ctrl = $controller;
+
+    }
     /**
      * get default entry method
      * @return string 
@@ -140,8 +159,16 @@ abstract class IGKActionBase implements IActionProcessor
      * @param mixed $ctrl
      */
     protected function initialize(BaseController $ctrl)
-    {
+    {        
         $this->ctrl = $ctrl;
+        $this->fname = ViewHelper::GetViewArgs('fname');
+        $traits = class_uses(static::class);
+        foreach($traits as $f){
+            $n = basename(igk_uri($f)); 
+            if (method_exists($this, $fc = self::INIT_TRAIT_PREFIX.$n)){
+                $this->$fc($ctrl);  
+            }
+        } 
         return $this;
     }
     ///<summary>for action return the current user id</summary>
@@ -173,10 +200,12 @@ abstract class IGKActionBase implements IActionProcessor
         $o->initialize($ctrl);
         return $o;
     }
-
+   
     public static function __callStatic($name, $arguments)
     {
-        return (new static)->$name(...$arguments);
+        $c =  (new static);
+        igk_environment()->action_handler_instance = $c ; 
+        return $c->$name(...$arguments);
     }
     /**
      * parameter mixing handle fonction
@@ -191,7 +220,6 @@ abstract class IGKActionBase implements IActionProcessor
      */
     protected function Handle($fname, $args, $exit = 1, $flag = 0)
     {
-        // igk_wln($fname, $args, $exit, __FILE__.":".__LINE__, );
         $ctrl = null;
         if ($fname instanceof BaseController) {
             if (func_num_args() < 3) {
@@ -279,10 +307,20 @@ abstract class IGKActionBase implements IActionProcessor
     {
         return IGK\Actions\Dispatcher::class;
     }
-
+    /**
+     * get controller
+     * @return BaseController 
+     */
     public function getController()
     {
         return $this->ctrl;
+    }
+    /**
+     * get current user profile
+     * @return object 
+     */
+    protected function currentUser(){
+        return $this->getController()->getUser();
     }
     public function __get($n)
     {
@@ -295,7 +333,7 @@ abstract class IGKActionBase implements IActionProcessor
     /**
      * 
      * @param mixed $viewname 
-     * @param array|object|self $arrayList action list, object dispatcher, IGKActionBase
+     * @param array|object|self $arrayList action list, object dispatcher, ActionBase
      * @param mixed $params param to pass
      * @param int $exit must stop after execute
      * @param int $flag extra flag
@@ -394,12 +432,18 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 $object->getController()->{ControllerEnvParams::ActionViewResponse} = $c;
 
-                // nav if redirecting
-                if ($redirect = igk_getr("::redirect")) {
-                    igk_navto($redirect);
+                $_host = $object->getHost();
+                // + | --------------------------------------------------------------------
+                // + | force redirection before render comment
+                // + |
+                if (!empty($_host->redirect)){
+                    igk_navto($_host->redirect);
                 }
-                // CHECK EXIT FOR DO RESPONSE                  
-                if ($exit || ($object->getHost()->_handleResponse($c))) {
+                // + | --------------------------------------------------------------------
+                // + | CHECK EXIT FOR DO RESPONSE   
+                // + |               
+                //                
+                if ($exit || ($_host->_handleResponse($c))) {
                     return igk_do_response($c);
                 }
             } catch (IGK\System\Http\RequestException $ex) {

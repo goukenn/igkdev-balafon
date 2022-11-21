@@ -8,8 +8,9 @@ namespace IGK\System\Html\Dom;
 
 use IGK\Css\CssThemeCompiler;
 use IGK\System\Html\IHtmlGetValue;
+use IGK\System\Html\IHtmlStyleAtribute;
 
-class HtmlCssValueAttribute implements IHtmlGetValue{
+class HtmlCssValueAttribute implements IHtmlStyleAtribute{
     var $value;
 
     public function __construct(string $value)

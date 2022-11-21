@@ -21,6 +21,8 @@ abstract class ExceptionUtils
      */
     public static function ShowException(Exception $Ex, $file = null, $line = null, $title = null)
     {
+        // igk_trace();
+        // igk_wln_e("handler ...");
         // $ex_output = "";
         // $ex_output .= "<h2>" . $ex->getMessage() . "</h2>";
         // echo $ex_output;  

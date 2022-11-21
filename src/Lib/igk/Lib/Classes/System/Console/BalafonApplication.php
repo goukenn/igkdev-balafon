@@ -10,18 +10,26 @@ namespace IGK\System\Console;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTask;
-use IGK\Helper\IO; 
+use IGK\Controllers\SysDbController;
+use IGK\Database\DbSchemaDefinitions;
+use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
+use IGK\System\Caches\EnvControllerCacheDataBase;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
+use IGK\System\Console\Commands\ServerCommandHelper;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\Html\Dom\HtmlCtrlNode;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlRenderer;
-use IGK\System\IO\File\PHPScriptBuilder; 
+use IGK\System\IO\File\PHPScriptBuilder;
+use IGK\System\SystemUserProfile;
+use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
 use IGKConstants;
+use IGKEnvironment;
 use IGKModuleListMigration;
 use stdClass;
 use Throwable;
@@ -100,6 +108,7 @@ class BalafonApplication extends IGKApplicationBase
         defined('IGK_FRAMEWORK_ATOMIC') || define('IGK_FRAMEWORK_ATOMIC', 1);
         $wd = $bdir = $this->basePath;        
         igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"]  = "BalafonCLI";
+        igk_server()->REMOTE_ADDR = $_SERVER["REMOTE_ADDR"]  = "0.0.0.0";
  
   
         $configFile = self::GetTopLevelConfigFile($bdir);
@@ -143,7 +152,12 @@ class BalafonApplication extends IGKApplicationBase
         defined('IGK_APP_DIR') || define("IGK_APP_DIR", $wd);
         defined('IGK_BASE_DIR') || define("IGK_BASE_DIR", $wd); 
         // setup the log folder
-        if (!defined('IGK_LOG_FILE') && ($logFolder  = $this->configs->logFolder)) {
+        if (!defined('IGK_LOG_FILE') && ($logFolder = $this->configs->logFolder)) {
+            if (is_dir($logFolder)){
+                $logFolder = realpath($logFolder);
+            }else{
+                $logFolder = getcwd()."/".ltrim($logFolder, '/');
+            }
             define('IGK_LOG_FILE', $logFolder . "/." . igk_environment()->getToday(). ".cons.log");
         }
         igk_loadlib(dirname(__FILE__) . "/Commands");
@@ -391,18 +405,14 @@ class BalafonApplication extends IGKApplicationBase
                         if ($b = IGKModuleListMigration::CreateModulesMigration()){
                             $c = array_merge($c, [$b]); 
                         } 
-                        $cl = DbConfigController::ctrl();
-                        if ($k = array_search($cl, $c)){
-                            unset($c[$k]);
-                        }
-                        array_unshift($c, $cl);
+                        SysUtils::PrependSysDb($c);
                     }
                     if ($c) {
                         foreach ($c as $m) {
                             $cl = get_class($m);
                             if ($m->getCanInitDb()) {
-                                Logger::info("init: " . $cl);
-                                $m::initDb();
+                                Logger::info("init: " . $cl); 
+                                $m::initDb(); 
                                 Logger::success("complete: " . $cl);
                             } else {
                                 Logger::warn("can't initdb of ". $cl);
@@ -420,17 +430,28 @@ class BalafonApplication extends IGKApplicationBase
                     Logger::print("--db:initdb [options] controller");
                 }
             ], "db"],
-            "--dbsys:initdb" => [function ($v, $command) {
-                $command->exec = function ($command) {
-                    DbCommandHelper::Init($command);
-                    if ($c = igk_getctrl(IGK_SYSDB_CTRL, false)) {
-                        Logger::info("init system's database");
-                        $c::Invoke($c, 'initDb');
-                        Logger::success("done"); 
-                    }
-                    return 0;
-                };
-            }, __("initialize system database"), "db"],
+            // "--dbsys:initdb" => [function ($v, $command) {
+            //     $command->exec = function ($command) {
+            //         DbCommandHelper::Init($command);
+            //         if ($c = igk_getctrl(IGK_SYSDB_CTRL, false)) {
+            //             Logger::info("init system's database"); 
+            //             $ad = SysDbController::ctrl()->getDataAdapter();
+            //             $ad->sendQuery('DROP DATABASE IF EXISTS `igkdev.dev`;');
+            //             $ad->sendQuery('CREATE DATABASE IF NOT EXISTS `igkdev.dev`;');
+            //             DbSchemaDefinitions::ResetCache(); 
+            //             if ($migrations = IGKModuleListMigration::CreateModulesMigration()){
+            //                  $migrations::downgrade();
+            //             }
+            //             $c::Invoke($c, IGK_INIT_DB_METHOD);
+            //             // if ($migrations){
+            //             //     $migrations::migrate(); 
+            //             // }
+            //             EnvControllerCacheDataBase::StoreCache(false);  
+            //             Logger::success("done"); 
+            //         }
+            //         return 0;
+            //     };
+            // }, __("initialize system database"), "db"],
             "--controller:list" => [function ($v, $command) {
                 $command->exec = function ($command, $pattern = ".+") {
                     Logger::print("");
@@ -502,15 +523,57 @@ class BalafonApplication extends IGKApplicationBase
                         Logger::danger(__("args: require file"));
                         return false;
                     }
+                    DbCommandHelper::Init($command);
+                    ServerCommandHelper::Init($command);
+                    if ($ctrl = igk_getv($command->options, '--controller')){
+                        $ctrl = SysUtils::GetControllerByName($ctrl, true);
+                    } 
+                    $user = null;
+                    $ctrl = $ctrl ?? SysDbController::ctrl();
+                    igk_environment()->set(IGKEnvironment::CURRENT_CTRL, $ctrl);
+
+                    $ctrl::register_autoload();
+                    if ($id = intval(igk_getv($command->options, '--user'))){
+                        if ($user = \IGK\Models\Users::Get('clId', $id)){
+                            $ctrl::login($user, null, false);
+                        }
+                    }
+                    $args = ViewEnvironmentArgs::GetContextViewArgument($ctrl,__FILE__, 'balafon');
+                    $params = [];
+                    $args->params = & $params;
+                    // if (property_exists($command->options, '--user')){
+                    //     if ($id = intval(igk_getv($command->options, '--user'))){
+                    //         $row = \IGK\Models\Users::select_row($id);                            
+                    //         $params['user'] = SystemUserProfile::Create($row);
+                    //     }
+                    // } 
                     try {
                         if (file_exists($file)) {
-                            DbCommandHelper::Init($command);
-                            include($file);
+                            DbCommandHelper::Init($command); 
+                            $result = SysUtils::Include($file, array_merge([
+                                "ctrl"=> $ctrl ,
+                                "user"=> $user,  
+                            ], (array)$args) );
+
+                            if ($result){
+                                Logger::print("--- response ---- ");
+                                if (is_string($result)){
+                                    Logger::print($result);
+                                }else{
+                                    var_dump($result);
+                                }
+                            }
                         } else {
                             Logger::danger(__("[ run file ] file not found"));
                         }
                     } catch (Throwable $ex) {
-                        Logger::danger(":" . $ex->getMessage());
+                        
+                        Logger::danger(":" . 
+                            implode(':', [$ex->getMessage(). " ". 
+                            $ex->getTrace()[1]['file'],
+                            $ex->getTrace()[1]['line'],
+                            ])
+                        );
                         return false;
                     }
                     return 0;
@@ -519,7 +582,12 @@ class BalafonApplication extends IGKApplicationBase
             [
                 "desc"=>__("run script by loading"),
                 "help"=>function(){
-                    Logger::info("\n--run [options] scriptfile\n");
+                    Logger::info(implode("\n", [
+                        "\n--run [options] [dbcommand] scriptfile\n--controller:[targetController]",
+                        "--user:id\r\t\t\tglobal user to use",
+                        // "--param:name=value\r\t\t\tparameter to pass"
+                    ]
+                ));
                 }
             ]
             ],
@@ -566,9 +634,12 @@ class BalafonApplication extends IGKApplicationBase
             //         Logger::info('usage : balafon --compile file [controller]');
             //     }
             // ]],
-            "--run:tac"=>[function(){
+            "--run:tac"=>[function($v , $command){
                 // terminal action command
+                Logger::print('start : '.$v);
                 Logger::success("terminal action command \n");
+                DbCommandHelper::Init($command);
+                ServerCommandHelper::Init($command);
                 $c = new TerminalActionCommand;
                 return $c->run();   
             }, [

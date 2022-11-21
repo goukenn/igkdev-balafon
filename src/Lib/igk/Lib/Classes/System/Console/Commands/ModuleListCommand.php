@@ -44,7 +44,7 @@ class ModuleListCommand extends AppExecCommand{
             $tag .= "\t";
             $mod = igk_get_module($k);
             if (!$mod){
-                $f.= $tag.App::gets( App::RED, "module not found");
+                $f.= $tag.App::Gets( App::RED, "module not found");
             }else {
                 $f .= $tag.$mod->getDeclaredDir().":".$mod->config("entry_NS"); 
             }

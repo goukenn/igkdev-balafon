@@ -7,6 +7,7 @@ namespace IGK\System\Html\Dom\Traits;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlOptions;
 use IGK\System\Html\HtmlStyleValueAttribute;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -16,7 +17,14 @@ use IGK\System\Html\HtmlStyleValueAttribute;
 trait ClassAndStyleOffsetTrait{
 
     
-    public function _access_OffsetSet($k, $v)
+    /**
+     * set property
+     * @param mixed $k 
+     * @param mixed $v 
+     * @return void|$this 
+     * @throws IGKException 
+     */
+    protected function _access_OffsetSet($k, $v)
     { 
 
         if ($v === null) {

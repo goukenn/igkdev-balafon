@@ -14,6 +14,12 @@ use IGK\System\Console\Logger;
  * @package IGK\System\Console\Commands
  */
 abstract class DbCommandHelper{
+    public static function GetUsageCommandHelp():array{
+        $tab = self::GetDbCommandsProperties();
+        $tab = array_fill_keys(array_keys($tab), null );
+        
+        return $tab;
+    }
     public static function GetDbCommandsProperties(){
         return [
             "-db_name"=>"db_name",

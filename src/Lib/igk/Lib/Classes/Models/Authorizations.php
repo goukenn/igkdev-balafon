@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Authorizations.php
-// @date: 20221111 21:30:07
+// @date: 20221121 16:32:44
 namespace IGK\Models;
 
 
@@ -15,8 +15,10 @@ use IGK\Models\ModelBase;
 * @property string $clName
 * @property string $clController
 * @property string $clDescription
-* @method static ?self Add(string $clName, string $clController, string $clDescription) add entry helper
-* @method static ?self AddIfNotExists(string $clName, string $clController, string $clDescription) add entry if not exists. check for unique column.
+* @property string|datetime $clCreate_at ="NOW()"
+* @property string|datetime $clUpdate_at ="NOW()"
+* @method static ?self Add(string $clName, string $clController, string $clDescription, string|datetime $clCreate_at ="NOW()", string|datetime $clUpdate_at ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clController, string $clDescription, string|datetime $clCreate_at ="NOW()", string|datetime $clUpdate_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Authorizations extends ModelBase{
 	/**

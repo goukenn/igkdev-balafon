@@ -39,6 +39,7 @@ class FormBuilder
         "mail"=>'igk-form-control mail',
         "url"=>'igk-form-control url',
         "password"=>'igk-form-control password',
+        "email"=>'igk-form-control email'
     ];
     public function build($formFields, $render = 0, $engine = null, $tag = "div")
     {
@@ -154,12 +155,16 @@ class FormBuilder
                 }
                 $o = rtrim($o) . ">";
             }
+            $t_id = igk_getv($v, "id", $k);
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
                 $g = HtmlUtils::GetFilteredAttributeString("label", [
                     'class'=>"igk-form-label"
                 ]);
-                //target id 
-                $t_id = igk_getv($v, "id", $k);
+                //target id  
+                // if (strstr($t_id, 'cartridge')){
+                //     igk_trace();
+                //     igk_wln_e(strstr($t_id, 'cartridge'));
+                // }
                 $o .= "<label for='{$t_id}'$g>" . ucfirst(igk_getv($v, "label_text", __($k))) . "</label>";
             }
             switch ($_type) {
@@ -209,6 +214,7 @@ class FormBuilder
                     if (isset($v["data"]) && is_string($m_data = $v["data"])) {
                         $k_data = "data=\"" . $m_data . "\" ";
                     }
+                    $_id = ' id="'.$t_id.'"';
                     // if ($bas){
                     //     $k_data.= "selected=\"{$bas}\" ";
                     // }
@@ -241,8 +247,7 @@ class FormBuilder
                 case "password":
                 default:
                     if (empty($_id)){
-                        $v['id'] = $_id;
-                       // $_id = ' id="' . $k . '"';
+                        $v['id'] = $t_id;
                     }
                     // $_vt = "";
                     if (!empty($_value) || ($_value == "0")){
@@ -332,14 +337,17 @@ class FormBuilder
                 $name = substr($k, 0, $cpos);
                 if (is_array($v)){
                     $ct = count($v);
+                    $jc = 0;
                     for ($i = 0; $i < $ct; $i++) {
                         $b = $v[$i];
                         if ($b instanceof FormFieldAttribute){
                             $b->attribs;
                             continue;
                         }
-                        $b["name"] = $k;
+                        $b['id']= $name.str_pad($jc.'', 2, STR_PAD_LEFT, '0');
+                        $b["name"] = $k;                       
                         $bindValue($o, $fieldset, $name, $b);
+                        $jc++;
                     }
                 } else if ($v instanceof FormFieldAttribute){
                     $data = $v->attribs;

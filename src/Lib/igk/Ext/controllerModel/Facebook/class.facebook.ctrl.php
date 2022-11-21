@@ -6,9 +6,11 @@
 
 
 use IGK\Controllers\NonVisibleControllerBase;
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 class IGKfacebookCtrl extends NonVisibleControllerBase{
-
+	use NoDbActiveControllerTrait;
+	
 	public function getcanAddChild(){
 		return false;
 	}

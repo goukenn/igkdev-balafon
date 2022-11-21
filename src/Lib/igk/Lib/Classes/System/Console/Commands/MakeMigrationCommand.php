@@ -30,7 +30,14 @@ class MakeMigrationCommand extends AppExecCommand{
 
     public function showUsage()
     {
-        Logger::print('--migrate controller action [option]');
+        Logger::print('--migrate action [controller] [options]');
+        Logger::info('');
+        Logger::info('some action command: ');
+        foreach(get_class_methods(self::class) as $n){
+            if (strpos($n,'migrate_') === 0){
+                Logger::print("\t".substr($n, 8));
+            }
+        }
     }
     /**
      * migrate exec command
@@ -46,10 +53,10 @@ class MakeMigrationCommand extends AppExecCommand{
         if ($mcontroller = igk_getv($command->options, '--controller')){
             // second parameter is action 
             // $action = $controller;
-            $ctrl = self::GetController($mcontroller);
+            $ctrl = self::getController($mcontroller);
             $offset = 2;
         } else {
-            $ctrl = self::GetController($controller, false) ?? SysDbController::ctrl(); 
+            $ctrl = ($controller ? self::getController($controller, false): null) ?? SysDbController::ctrl(); 
             $offset = 3;             
         }
         if ($action)

@@ -7,6 +7,8 @@
 
 namespace IGK\System\Html;
 
+use Closure;
+use Countable;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\IGlobalFunction;
 use IGK\Resources\R;
@@ -19,6 +21,7 @@ use IGK\System\Html\XML\XmlNode;
 use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
+use Nette\Utils\Callback;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -34,7 +37,142 @@ require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
  */
 abstract class HtmlUtils extends DomNodeBase
 {
-    public static function PrefilterAttribute($tagname, $attributes){
+    public static function HostNode(HtmlNode $p, callable $callback, ...$args ){
+        array_unshift($args, $p);
+        ob_start() ;
+        if ($response = $callback(...$args)) {
+            if (is_array($response)) {
+                $p->text(igk_ob_get($response));
+            } else {
+                $p->text($response);
+            }
+        }
+        if (!empty($response = ob_get_clean())) {
+            if (is_array($response)) {
+                $p->text(igk_ob_get($response));
+            } else {
+                $p->text($response);
+            }
+        }
+    }
+    private static function _copy_node_create_node_callback(string $tagname){
+        return igk_create_node($tagname);
+    }
+    /**
+     * copy node 
+     * @param mixed $g 
+     * @param array|mixed $childs 
+     * @param callable $callback 
+     * @return mixed 
+     */
+    public static function CopyNode($g, $childs, ?callable $callback=null, & $T = 0) 
+    {
+        // if (!igk_is_debug()){
+        //     array_map(function($a)use($g){ $g->add($a); } , $childs);
+        //     return ;
+        // }
+        if ($callback === null){
+            $callback = Closure::fromCallable([self::class, '_copy_node_create_node_callback']);
+        }
+        $p = null;
+        $pr = [];
+        $pnode = $g;
+        $T = 0;
+        while (count($childs) > 0) {
+            // add child 
+            $q = array_shift($childs);
+            if ($q === $g){
+                igk_die('item was childs in list'. $q->render());
+                continue;
+            }
+            if ($q === $p){
+                $tp = array_pop($pr);
+                $p = $tp[0];
+                $pnode = $tp[1]; 
+                continue;
+            } else {
+                $t = $q->getTagName();
+                if (!empty($t)){
+                    $gg = $callback($t); 
+                    $gg->setAttributes($q->getAttributes()->to_array());
+                    $pnode->add($gg);
+                    if (!empty(trim($s = $q->getContent() ?? ''))) {
+                        $gg->setContent($s);
+                    }
+                    // childs part
+                     $rchilds = $q->getChilds();
+                    if ($rchilds && ($qt = $rchilds->to_array())){
+                        $pr[] = [$p, $pnode];
+                        $p = $gg;
+                        array_unshift($childs, $p);
+                        array_unshift($childs, ...$qt);
+                        $pnode = $p;
+                    }
+
+                }else {
+                    if (!empty(trim($s = $q->getContent() ?? ''))){
+                        $pnode->text($s); 
+                    }
+                }
+            }
+
+            // if ($q === $p) {
+            //     $p = array_pop($pr);
+            //     if (empty($pr)) {
+            //         $pnode = $g;
+            //     } else {
+            //         $p = igk_array_last($pr);
+
+            //         if ($p) {
+            //             list($p, $pnode) = $p;
+            //         } else {
+            //             $pnode = $g;
+            //         }
+            //     }
+            // } else {
+            //     $t = $q->getTagName();
+            //     if (!empty($t)) {
+            //         $gg = $callback($t); // new self($t);
+            //         $gg->setAttributes($q->getAttributes()->to_array());
+            //         $pnode->add($gg);
+            //         if (!empty(trim($s = $q->getContent() ?? ''))) {
+            //             $gg->setContent($s);
+            //         }
+            //         $qt = $q->childs->to_array();
+            //         if ($qt) {
+            //             $pr[] = [$p, $gg];
+            //             $p = $gg;
+            //             array_unshift($childs, $p);
+            //             array_unshift($childs, ...$qt);
+            //             $pnode = $gg;
+            //         }
+            //     }
+            // }
+            $T++;
+        }
+        return $g;
+    }
+     ///<summary>copy child by rendering</summary>
+    ///<param name="item">cibling item</param>
+    ///<param name="target">target node </param>
+    /**
+     * copy child by rendering
+     * @param DomNodeBase $item cibling item
+     * @param DomNodeBase $target where to load
+     */
+    public static function CopyChilds(HtmlNode $item, HtmlNode $target)
+    {
+        if (($item == null) || ($target == null) || !$item->HasChilds)
+            return false;
+        if ($childs = $item->getChilds()) {
+            foreach ($childs as $k) {
+                $target->load($k->render());
+            }
+        }
+        return true;
+    }
+    public static function PrefilterAttribute($tagname, $attributes)
+    {
         $attributes["%__tag__%"] = $tagname;
         igk_hook(IGKEvents::HOOK_HTML_PRE_FILTER_ATTRIBUTE, [$attributes]);
         unset($attributes["%__tag__%"]);
@@ -50,11 +188,12 @@ abstract class HtmlUtils extends DomNodeBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetFilteredAttributeString($tagname, $attribute, $options=null):?string{
+    public static function GetFilteredAttributeString($tagname, $attribute, $options = null): ?string
+    {
         $attrib = new HtmlFilterAttributeArray($attribute);
         $attrib = HtmlUtils::PrefilterAttribute("label", $attrib);
-        if ($attrib->count()>0){
-            return ' '.HtmlRenderer::GetAttributeArrayToString($attrib, $options);
+        if ($attrib->count() > 0) {
+            return ' ' . HtmlRenderer::GetAttributeArrayToString($attrib, $options);
         }
     }
 
@@ -138,7 +277,7 @@ abstract class HtmlUtils extends DomNodeBase
     public static function ToArray($n)
     {
         if (is_array($n))
-            return $n;       
+            return $n;
         return  method_exists($n, "to_array") ? $n->to_array() : null;
     }
     public static function GetAttributes($attr)
@@ -274,23 +413,7 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $frm;
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
-    ///<param name="target"></param>
-    /**
-     * 
-     * @param mixed $item
-     * @param mixed $target
-     */
-    public static function CopyChilds($item, $target)
-    {
-        if (($item == null) || ($target == null) || !$item->HasChilds)
-            return false;
-        foreach ($item->getChilds() as $k) {
-            $target->Load($k->render());
-        }
-        return true;
-    }
+   
     ///used to create sub menu in category
     /**
      */
@@ -334,12 +457,12 @@ abstract class HtmlUtils extends DomNodeBase
      * @param mixed $context the default value is null
      * @param bool $expression read in expression
      */
-    public static function GetAttributeValue($c, $context = null, bool $expression=false)
+    public static function GetAttributeValue($c, $context = null, bool $expression = false)
     {
         if (is_null($s = self::GetValue($c))) return null;
         $q = trim($s);
         $v_h = "\"";
-        if (!$expression){
+        if (!$expression) {
             if (preg_match("/^\'/", $q) && preg_match("/\'$/", $q)) {
                 $v_h = "'";
             }
@@ -598,12 +721,12 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    {    
+    {
         require_once IGK_LIB_DIR . "/igk_html_func_items.php";
-         
+
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
 
-        if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))){
+        if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))) {
             return $p;
         }
 
@@ -721,7 +844,7 @@ abstract class HtmlUtils extends DomNodeBase
                             ]);
                         }
                     } else {
-                        if (igk_is_debug()){
+                        if (igk_is_debug()) {
                             igk_trace();
                         }
                         igk_die("add <b>{$name}</b> : number of required parameters mismatch. Expected {$v_rp} but " . $v_pcount . " passed");
@@ -739,7 +862,7 @@ abstract class HtmlUtils extends DomNodeBase
                     $context = $inf["context"];
                     if ($context == HtmlContext::Html) {
                         $c = new HtmlNode($name);
-                        if (HtmlNode::$AutoTagNameClass){
+                        if (HtmlNode::$AutoTagNameClass) {
                             $c["class"] = $name;
                         }
                         self::FilterNode($c,  ["node" => $c, "tagname" => $name]);
@@ -778,43 +901,40 @@ abstract class HtmlUtils extends DomNodeBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function PrefilterNode($args){
+    public static function PrefilterNode($args)
+    {
         $options = IGKEvents::CreateHookOptions();
-        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options);// ["output" => null]);
+        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options); // ["output" => null]);
     }
     ///<summary></summary>
     ///<param name="vsystheme"></param>
     /**
-     * 
+     * init theme
      * @param mixed $vsystheme
      */
     public static function InitSystemTheme($vsystheme)
-    {
-        // igk_ilog("init sys theme ". igk_env_count(__METHOD__));
-        $vsystheme->Name = "igk_system_theme";
-        // if (defined("IGK_FORCSS")){
-        //     return; 
-        // }
+    { 
+        $vsystheme->Name = "igk_system_theme"; 
         $vsystheme->def->Clear();
         $d = $vsystheme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
         $d = $vsystheme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
         $d = $vsystheme->reg_media("(max-width:700px)");
-       
+
         $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
         if (file_exists($v_cache_file)) {
             igk_css_include_cache($v_cache_file, $lfile);
         } else {
             $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles() ?? ""));
             $options = null;
-            if (IGlobalFunction::Exists("igk_global_init_material")){
-                $options = (object)["file"=>& $lfile];
+            if (IGlobalFunction::Exists("igk_global_init_material")) {
+                $options = (object)["file" => &$lfile];
                 IGlobalFunction::igk_global_init_material($options);
             }
 
-            if (!$options || !igk_getv($options, "handle")){ 
-                igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [& $lfile]);
-               
-                if (count($lfile) == 0 ){
+            if (!$options || !igk_getv($options, "handle")) {
+                igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [&$lfile]);
+
+                if (count($lfile) == 0) {
                     $lfile[] = igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
                     $lfile[] = igk_get_env("sys://css/file/global_color", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
                     $lfile[] = igk_get_env("sys://css/file/global_template", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
@@ -847,7 +967,8 @@ abstract class HtmlUtils extends DomNodeBase
      * @param string $content 
      * @return bool 
      */
-    public static function IsHtmlContent(string $content) : bool {
+    public static function IsHtmlContent(string $content): bool
+    {
         return preg_match("#\<(?P<tagname>[\w][0-9_\-\w:]*)( (.+)?)?>#", $content);
     }
 }

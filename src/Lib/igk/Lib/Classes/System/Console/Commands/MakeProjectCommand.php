@@ -260,6 +260,7 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
 
+        $this->_initConfigurationFile($bind, $dir, get_defined_vars());
         // configuration 
         $bind[$dir . "/" . IGK_CONF_FOLDER . "/routes.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
@@ -498,7 +499,25 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
     }
-
+    private function _initConfigurationFile(& $bind , $dir , $options){
+        $dir = $dir . "/" . IGK_CONF_FOLDER ;
+        $bind[$dir."/profiles.php"] = function($file)use($options){
+            $cl = $options['fullClassName'];
+            $sb = new StringBuilder;
+            $builder = new PHPScriptBuilder;
+            $sb->appendLine('return [];');
+            $builder->type('function')
+            ->defs($sb.'')
+            ->uses([
+                $cl => 'ctrl'
+            ])
+            ->desc(implode("\n",[
+                 'profile list usage' ,
+                 'array of profiles=>[auth-group]'
+            ]));
+            igk_io_w2file($file, $builder->render());
+        };
+    }
 
     ///<summary>Represente help function</summary>
     public function help()
@@ -507,10 +526,10 @@ EOF;
         Logger::info("Make new Balafon PROJECT");
         Logger::print("-\n");
         Logger::print("Usage : ");
-        Logger::print(App::gets(App::GREEN, $this->command) . Logger::TabSpace . " name [options]\n");
+        Logger::print(App::Gets(App::GREEN, $this->command) . Logger::TabSpace . " name [options]\n");
         Logger::info("Options");
         foreach ($this->options as $k => $v) {
-            Logger::print(App::gets(App::GREEN, $k) . Logger::TabSpace . " $v \n");
+            Logger::print(App::Gets(App::GREEN, $k) . Logger::TabSpace . " $v \n");
         }
         Logger::print("");
     }

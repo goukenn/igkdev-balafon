@@ -141,7 +141,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 		//return $frame;
 
 		igk_ajx_notify_dialog(
-			R::gets("title.addCommunity"),
+			R::Gets("title.addCommunity"),
 			$dv,
 			"default domain-conf-z"
 			);

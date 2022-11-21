@@ -9,15 +9,21 @@
 namespace IGK\System\Configuration\Controllers;
 
 use IGK\Controllers\BaseController;
+use IGK\Helper\Authorization;
 use IGK\Helper\NotifyHelper;
+use IGK\Helper\SysUtils;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
+use IGK\Models\Groups;
 use IGK\Models\Users;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlComponents;
+use IGK\System\Html\Forms\FormHelper;
+use IGK\System\Html\Forms\FormUtils;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
+use IGKSysUtil;
 
 use function igk_resources_gets as __;
 
@@ -113,10 +119,8 @@ class AuthorisationController extends ConfigControllerBase{
     * Represente auth function
     */
     public function auth(){ 
-        $r = igk_create_notagnode(); 
-
+        $r = igk_create_notagnode();
         $r->balafonJS()->Content = "igk.winui.ajx.lnk.host = igk.dom.body().qselect('.igk-tabcontrol .igk-tabcontent').first();";
-
         $d = $r->div(); 
         $frm= $d->div()->setClass("auth-page")->form();
         $frm->notifyhost("auth");
@@ -127,6 +131,7 @@ class AuthorisationController extends ConfigControllerBase{
         $tr=$table->addTr();
         $tr->th()->addSpace();
         $tr->th()->setClass("fitw")->Content=R::ngets("lb.clName");
+        $tr->th()->setClass("fitw")->Content= __("Controller");
         $tr->th()->addSpace();
         $tr->th()->addSpace();
         
@@ -134,6 +139,7 @@ class AuthorisationController extends ConfigControllerBase{
             $tr=$table->addTr();
             $tr->td()->addInput("clAuths[]", "checkbox");
             $tr->td()->Content=$v->clName;
+            $tr->td()->Content=$v->clController;
             HtmlUtils::AddImgLnk($tr->td(), igk_js_post_frame($this->getUri("auth_edit_frame_ajx&clId=".$v->clId)), "edit_16x16");
             HtmlUtils::AddImgLnk($tr->td(), igk_js_post_frame($this->getUri("auth_delete_authorisation_ajx&clId=".$v->clId)), "drop_16x16");
         });
@@ -408,6 +414,16 @@ class AuthorisationController extends ConfigControllerBase{
 
 
         $r= Users::select_all(); // igk_db_table_select_where(IGK_TB_USERS, null, $this);
+        $cg = Authorizations::select_all(['!clController'=>null], ['Distinct'=>true, 'OrderBy'=>[
+            'clController'
+        ],  'Columns'=>[
+            'clController',            
+        ]]);
+        $data = FormUtils::SelectData($cg, null, 'clController',[
+            'empty'=>['text'=>'no controller', 'value'=>0],
+            'offset'=>1
+        ]);
+ 
         $select->add("option");
         if($r) foreach($r as  $v){
             if($v->clLastName == "IGKSystem")
@@ -417,10 +433,12 @@ class AuthorisationController extends ConfigControllerBase{
             $fn=trim(igk_user_fullname($v));
             $opt->Content=(empty($fn) ? "NoName://[".$v->clLogin."]": $fn);
         }
-        $li=$ul->addLi();
-        $li->addLabel()->Content=__("Autorisation");
-        $li->div()->addInput("clAuth", "text", "")->setStyle("width: 100%");
-        $frm->addInput("btn.input", "submit", __("Check autorisation"));
+        $ul->fields([
+            'clAuth'=>[],
+            // 'clController'=>[],
+            'clController'=>['type'=>'select', 'data'=>$data]
+        ]); 
+        $frm->actionbar(FormHelper::submit()); // null, __("Check autorisation")));
         return $d;
     }
    
@@ -472,54 +490,99 @@ class AuthorisationController extends ConfigControllerBase{
             $buri=igk_register_temp_uri(__CLASS__);
             $tab=$c->component($this, HtmlComponents::AJXTabControl , "auth-tab");
             $tab->addTabPage(__("Authorization"), $buri."/auth");
+            $tab->addTabPage(__("Auth Management"), $buri."/auth_management_ajx");
             $tab->addTabPage(__("CheckAuth"), $buri."/checkauth"); 
             $tab->select(HtmlComponents::GetParam($this, "auth-tab", 0));
         });
-        return $this;
-		// return;
-        // $row=$box->addRow();
-        // $frm=$row->addCol()->addForm();
-        // $frm["action"]=$this->getUri("auth_check_auth");
-        // $frm["class"]="dispb";
-        // igk_notify_sethost($frm->div(), "notify:checkauth");
-        // $ul=$frm->add("ul");
-        // $li=$ul->addLi();
-        // $li->addLabel()->Content=R::ngets("lb.users");
-        // $select=$li->addSelect("clUser");
-        // $r=igk_db_table_select_where(IGK_TB_USERS, null, $this);
-        // $select->add("option");
-        // if($r) foreach($r->Rows as $k=>$v){
-        //     if($v->clLastName == "IGKSystem")
-        //         continue;
-        //     $opt=$select->add("option");
-        //     $opt["value"]=$v->clId;
-        //     $fn=trim(igk_user_fullname($v));
-        //     $opt->Content=(empty($fn) ? "NoName://[".$v->clLogin."]": $fn);
-        // }
-        // $li=$ul->addLi();
-        // $li->addLabel()->Content=__("clAuth");
-        // $li->div()->addInput("clAuth", "text", "")->setStyle("width: 100%");
-        // $frm->addInput("btn.input", "submit", R::ngets("btn.CheckAuth"));
-        // $frm=$row->addCol("igk-col")->addForm();
-        // igk_notify_sethost($frm->div());
-        // $this->_auth_options($frm);
-        // $table=$frm->div()->setClass("overflow-x-a")->addTable();
-        // $table["class"]="igk-table igk-table-hover";
-        // $r=igk_db_table_select_where(IGK_TB_AUTHORISATIONS, null, $this);
-        // $tr=$table->addTr();
-        // $tr->add("th")->addSpace();
-        // $tr->add("th")->setClass("fitw")->Content=R::ngets("lb.clName");
-        // $tr->add("th")->addSpace();
-        // $tr->add("th")->addSpace();
-        // if($r){
-        //     foreach($r->Rows as $k=>$v){
-        //         $tr=$table->addTr();
-        //         $tr->addTd()->addInput("clAuths[]", "checkbox");
-        //         $tr->addTd()->Content=$v->clName;
-        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($this->getUri("auth_edit_frame_ajx&clId=".$v->clId)), "edit_16x16");
-        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($this->getUri("auth_delete_authorisation_ajx&clId=".$v->clId)), "drop_16x16");
-        //     }
-        // }
-        // $this->_auth_options($frm); 
+        return $this;		 
+    }
+    public function auth_management_ajx(){
+        $g = igk_get_robj('user|group|owner');
+        $buri=igk_register_temp_uri(__CLASS__);
+        if (1 && igk_valid_cref() && igk_server()->method('POST')){
+            $ctrl = $g->owner; 
+            $g->user = Users::select_row(["@@clLogin"=>$g->user]);
+            $r = false;
+            if ($ctrl && ($ctrl = SysUtils::GetControllerByName($ctrl, false))){
+                // igk_wln_e("try , ", $g, $ctrl);
+                $r = Authorization::BindUserToGroup($ctrl, $g->user, $g->group);
+                echo '->attached';
+            }
+            igk_notifyctrl(__METHOD__)->msg('register to group ');
+            // igk_wln($n->renderAJX());
+            igk_wln_e("finish");
+            igk_navto($buri."/".__FUNCTION__);
+        }
+        $n = igk_create_node('div');
+        $g = Authorizations::prepare()
+        ->distinct(true)
+        ->Columns(['clController'])
+        ->execute();
+        $buri=igk_register_temp_uri(__CLASS__);
+        $g_group_uri = $buri.'/list_group_ajx';
+        
+        $frm = $n->form($buri."/".__FUNCTION__);
+        $frm->div()->notifyhost(__FUNCTION__);
+        $frm->ajx();
+        $frm->fields([
+            "user"=>[],
+            "owner"=>[
+                'type'=>'select',
+                'attribs'=>[
+                    'data-uri'=>$g_group_uri,
+                    // 'onchange'=>"ns_igk.ajx.post('".$g_group_uri."?v='+this.value, true, '#group')"
+                ],
+                'attribs'=>['id'=>"owner"],
+                'data'=>FormUtils::SelectData($g->to_array(), 'clController', 'clController')
+            ], 
+            "group"=>[
+                'type'=>'select',                
+                'data'=>[],
+                'attribs'=>['id'=>"group"]
+            ],
+        ]);
+        $frm->actionbar(FormHelper::submit());
+        $frm->cref();
+        $frm->script()->Content = <<<'JS'
+(function(){
+    let xhr = 0;
+    let _NS = igk.system.createNS('igk.ctrl.auth', {
+        init(){
+            const q = $igk('#owner').first();
+            if (q){
+                let u = q.o.getAttribute('data-uri');
+                if (u){
+                    _NS.update.apply(q.o); 
+                }
+                q.on('change', _NS.update);
+            }
+        },
+        update(){
+            let u = this.getAttribute('data-uri');
+            if (this.value){
+                if (xhr)
+                    xhr.abort();
+                xhr = igk.ajx.post(u+'?v='+this.value, true, '#group');
+            }
+        }          
+    });
+    igk.ready(_NS.init);
+})();
+JS;
+         
+        return $n;
+    }
+    public function list_group_ajx(){
+        $g = igk_getr("v");
+        $g = Groups::prepare()
+        ->distinct(true)
+        ->Columns(['clName', 'clName'])
+        ->where(["clController"=>$g])
+        ->execute();
+        $n = igk_create_notagnode();
+        $n->Content = FormHelper::SelectOptions($g->to_array(), "clId", "clName");
+        
+        return $n;
+
     }
 }

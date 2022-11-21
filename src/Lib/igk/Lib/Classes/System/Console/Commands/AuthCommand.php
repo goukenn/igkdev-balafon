@@ -64,13 +64,13 @@ class AuthCommand extends AppExecCommand
             case "groups": // view groups
                 Logger::info("member of : ");
                 array_map(function ($a) {
-                    Logger::print(":> " . App::gets(App::AQUA, $a->clName));
+                    Logger::print(":> " . App::Gets(App::AQUA, $a->clName));
                 }, (!$g ? null : $g->groups()) ?? []);
                 break;
             case "auths":
                 Logger::info("auths : ");
                 array_map(function ($a) {
-                    Logger::print(":>" .  App::gets(App::AQUA, $a->name));
+                    Logger::print(":>" .  App::Gets(App::AQUA, $a->name));
                 }, (!$g ?null: $g->auths()) ?? []);
                 // igk_wln_e($g->getRows());
                 break;

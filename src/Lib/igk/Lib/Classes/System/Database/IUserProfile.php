@@ -7,15 +7,19 @@
 
 namespace IGK\System\Database;
 
+use IGK\Controllers\BaseController;
+
 /**
  * represent user's application profile 
  * @package 
  */
 interface IUserProfile{
+
+    function getController(): ?BaseController;
     /**
      * check authorization for user
      * @param mixed $type 
      * @return bool 
      */
-    function auth($type):bool;
+    function auth($type):bool; 
 }

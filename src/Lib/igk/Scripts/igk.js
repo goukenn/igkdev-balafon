@@ -12134,7 +12134,7 @@ Name:balafon.js
                 f.setAttribute("method", "POST");
                 f.setAttribute("enctype", "multipart/form-data");
                 for (var i in data) {
-                    //console.debug(typeof(data[i]));
+                    // console.debug(typeof(data[i]));
                     f.add("input").setAttribute("name", i)
                         .setAttribute("value", (typeof(data[i]) == 'object') ? JSON.stringify(data[i]) : data[i]);
                 }
@@ -12458,10 +12458,10 @@ Name:balafon.js
             },
             replace_or_append_to_body: function(xhr) {
                 // replace_or_append_to_body
-                //console.debug("start data");
+                // console.debug("start data");
                 if (this.isReady()) {
                     // get body only content
-                    //console.debug("start data is ready : "+xhr.responseText);
+                    // console.debug("start data is ready : "+xhr.responseText);
                     // igk.log.write("data : "+xhr.responseStatus);
                     // igk.log.write("state : "+xhr.readyState);
                     var g = igk.utils.getBodyContent(xhr.responseText, 1);
@@ -15530,7 +15530,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function(n, v) {
         var last = 0;
         func.badge = function(evt) {
             if ((evt.timeStamp - last) < 500) {
-                //console.debug("change type");
+                // console.debug("change type");
                 var h = igk.winui.events.createEvent("dbltouch", {});
                 //evt.type ="dbltouch";
                 func.apply($igk(item).o, [h]);
@@ -15662,7 +15662,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function(n, v) {
                         igk.winui.unreg_system_event(item, "touchend", c.bind);
                     }
                     var o = igk.winui.unreg_system_event(item, "click", c.bind);
-                    //console.debug("unbind event : "+ 
+                    // console.debug("unbind event : "+ 
                     _unbindEventData(c, n);
                     return o;
                 }
@@ -15717,7 +15717,7 @@ igk.ctrl.bindAttribManager("igk-js-bind-select-to", function(n, v) {
                         igk.winui.unreg_system_event(item, "doubletouchend", c.bind);
                     }
                     var o = igk.winui.unreg_system_event(item, "dblclick", c.bind);
-                    //console.debug("unbind event : "+ 
+                    // console.debug("unbind event : "+ 
                     _unbindEventData(c, n);
                     return o;
                 }
@@ -19704,7 +19704,7 @@ igk.ready(
             }
         }).reg_event("mousewheel", function(evt) {
             // if (!igk.features.supportPassive){
-            //console.debug("wheel");
+            // console.debug("wheel");
             evt.stopPropagation();
             evt.preventDefault();
             // }
@@ -21203,7 +21203,8 @@ igk.system.createNS("igk.system", {
             q = n;
         }
         if (q.o.classList.contains('btn') !== 1) {
-            if (q.o.nextSibling.nodeType == q.o.TEXT_NODE) {
+
+            if (q.o.nextSibling && (q.o.nextSibling.nodeType == q.o.TEXT_NODE)) {
                 q.add('div').setHtml(q.o.nextSibling.textContent);
                 $igk(q.o.nextSibling).remove();
             }
@@ -21247,7 +21248,7 @@ igk.system.createNS("igk.system", {
             };
             cp.start = p ? p.start : null;
             cp.accept = p ? p.accept : null;
-            //console.debug(cp);
+            // console.debug(cp);
             igk.system.io.pickfile(u, cp);
         });
     }, {

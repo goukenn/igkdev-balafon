@@ -82,24 +82,28 @@ Users::registerMacro("currentUser", MacrosHelper::currentUser());
 
 
 // --------------------------------------------------------------
-// get current users auths 
+// get current users auths list
 // --------------------------------------------------------------
 Users::registerMacro("auths", function(){
+    $user = $this;
     $joint = [
+        Groupauthorizations::table()=>[
+            Groupauthorizations::column("clGroup_Id")."=".Usergroups::column("clGroup_Id")
+        ],
         Authorizations::table()=>[Authorizations::column("clId")."=".Groupauthorizations::column("clAuth_Id")],
-        //Groupauthorizations::table()=>[Groupauthorizations::column("clGroup_Id")."=".Authorizations::column(("clId"))],
-        UserGroups::table()=>[UserGroups::table("clUser_Id")."=".$this->clId]
-    ];
-    // igk_html_pre($joint);
-    // igk_wln_e($joint);
-    $g = Groupauthorizations::prepare()
+    ]; 
+    $g = Usergroups::prepare()
     ->join($joint)
     ->distinct(true)
     ->where([
-        'clGrant'=>1
+        'clGrant'=>1,
+        Usergroups::column('clUser_Id')=>$user->clId
     ])
-    ->columns([Authorizations::column("clName")=>"name",
-    Authorizations::column("clController")=>"controller"])
+    ->columns([
+        Authorizations::column("clName")=>"name",
+        Authorizations::column("clController")=>"controller",
+        Authorizations::column("*"),
+    ])
     ->orderBy(["name"])
     ->execute();
     if ($g){
@@ -165,14 +169,18 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
 
 \IGK\Models\DbLogs::registerMacro("add", function(string $msg, ?string $tag=null){ 
     // + | because database can failed
+    
     static $logger;
+    if (igk_environment()->NO_DB_LOG){
+        return;
+    }
+    igk_wln_e("loggin ... ");
     if (!$logger){
         $logger = 1;
         $data = ["db_logs_msg" => $msg];
         if ($tag)
             $data["db_logs_tags"] = $tag;
-        $logger = null;
-        //return $r;
+        $logger = null;      
     }
     return false;
 });

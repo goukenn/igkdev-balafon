@@ -62,6 +62,7 @@ class UserAndGroupController extends ConfigControllerBase{
         $tr=$table->tr();
         $tr->th()->setAttributes(array("style"=>"width:16px;"))->addSpace();
         $tr->th()->Content= __("Name");
+        $tr->th()->Content= __("Controller");
         $tr->th()->setAttributes(array("class"=>"fitw"))->Content = __("Users");
         $tr->th()->setAttributes(array("style"=>"width:16px;"))->Content=IGK_HTML_SPACE;
         $tr->th()->setAttributes(array("style"=>"width:16px;"))->Content=IGK_HTML_SPACE;
@@ -71,6 +72,7 @@ class UserAndGroupController extends ConfigControllerBase{
             $tr=$table->addTr();
             $tr->addTd()->addInput("r", "checkbox", $v->clId);
             $tr->addTd()->Content=$v->clName;
+            $tr->addTd()->Content=$v->clController;
             $tr->addTd()->Content="0";
             $tr->td()->ajxa($ctrl->getUri("group_view_user&clId=".$v->clId))->Content =
             igk_svg_use("user");            

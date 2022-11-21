@@ -6,6 +6,7 @@
 // @desc: user profile
 namespace IGK\System;
 
+use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\Database\IUserProfile;
 
@@ -36,8 +37,12 @@ class SystemUserProfile implements IUserProfile
     {
     }
 
+    public function getController(): ?BaseController {
+        return null;
+    }
+
     public function auth($type): bool {
-        return $this->m_profile->auth();
+        return $this->m_profile->auth($type);
     }
     /**
      * create user profile from info
@@ -45,7 +50,10 @@ class SystemUserProfile implements IUserProfile
      * @return static 
      */
     public static function Create($userInfo)
-    { 
+    {   
+        if (is_null($userInfo)){
+            return null;
+        }
         $c = Activator::CreateNewInstance(function () {
             return new static;
         }, $userInfo->to_array());

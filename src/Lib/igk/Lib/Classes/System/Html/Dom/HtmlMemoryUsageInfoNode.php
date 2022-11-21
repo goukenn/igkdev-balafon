@@ -60,7 +60,7 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
             $r->add("td")->Content=method_exists($v, "getId") ? $v->getId(): "-";
             $r->add("td")->Content=method_exists($v, "getOwner") ? $v->getOwner()->toString(): "-";
         }
-        igk_ajx_notify_dialog(R::gets("title.componentinfo"), $d);
+        igk_ajx_notify_dialog(R::Gets("title.componentinfo"), $d);
         igk_exit();
     }
     ///<summary>Get componsent strings </summary>

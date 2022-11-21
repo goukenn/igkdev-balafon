@@ -155,7 +155,7 @@ abstract class CssUtils
         $clear = 0;
         $sys = $doc->getSysTheme();
         if (!$sys->getinitGlobal()) {
-            $sys->initSysGlobal();
+            $sys->initGlobalDefinition();
             $clear = 1;
             if (!defined("IGK_FORCSS")) {
                 register_shutdown_function(function () use ($sys) {
@@ -189,11 +189,9 @@ abstract class CssUtils
         bool $temp = false,
         bool $raiseHook = true
     ) {
-        if (is_file($file)) {
-            // if (!defined("IGK_FORCSS")) { 
+        if (is_file($file)) { 
             if (!$cssRendering) {
-                igk_css_reg_global_style_file($file, $theme, $ctrl, $temp);
-                // $document->getSysTheme(), $ctrl, $temp);
+                igk_css_reg_global_style_file($file, $theme, $ctrl, $temp); 
             } else {
                 igk_css_bind_file($theme, $ctrl, $file);
             }
@@ -224,7 +222,7 @@ abstract class CssUtils
         $clear = 0;
         if ($g) {
             if (!$sys->getinitGlobal()) {
-                $sys->initSysGlobal();
+                $sys->initGlobalDefinition();
                 $clear = 1;
             }
             foreach ($g as $v) {

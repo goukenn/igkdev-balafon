@@ -5,13 +5,16 @@
 // @desc: 
 
 namespace IGK\System\Html\Dom;
- 
+
+use IGK\System\Html\HtmlUtils;
+
 ///<summary>igk framework form</summary>
 /**
-* igk framework form
-*/
-final class HtmlFormNode extends HtmlNode {
-    const URLEncoded="application/x-www-form-urlencoded";
+ * igk framework form
+ */
+final class HtmlFormNode extends HtmlNode
+{
+    const URLEncoded = "application/x-www-form-urlencoded";
     private $bodydiv;
     private $footdiv;
     private $m_definition;
@@ -22,11 +25,12 @@ final class HtmlFormNode extends HtmlNode {
     ///<summary></summary>
     ///<param name="o" default="null"></param>
     /**
-    * 
-    * @param mixed $o the default value is null
-    */
-    protected function __AcceptRender($o=null){
-        $e=$this->topdiv->Content;
+     * 
+     * @param mixed $o the default value is null
+     */
+    protected function __AcceptRender($o = null)
+    {
+        $e = $this->topdiv->Content;
         $this->topdiv->setIsVisible(!empty($e) && !$this->m_notitle);
         $this->footdiv->setIsVisible($this->footdiv->gethasContent() && !$this->m_nofoot);
         return true;
@@ -35,37 +39,39 @@ final class HtmlFormNode extends HtmlNode {
     ///<param name="notitle" default="false"></param>
     ///<param name="nofoot" default="true"></param>
     /**
-    * 
-    * @param mixed $notitle the default value is false
-    * @param mixed $nofoot the default value is true
-    */
-    public function __construct($action=".", $method="POST", $notitle=false, $nofoot=true){
+     * 
+     * @param mixed $notitle the default value is false
+     * @param mixed $nofoot the default value is true
+     */
+    public function __construct($action = ".", $method = "POST", $notitle = false, $nofoot = true)
+    {
         parent::__construct("form");
-        $this->Method=$method;
-        $this->Action=$action;
-        $this->m_encType=true;
-        $this->m_notitle=$notitle;
-        $this->m_nofoot=$nofoot;
-        $this["class"]="igk-form"; 
-        $this->topdiv=new HtmlFormTitleNode();
-        $this->bodydiv=igk_create_node("div")->setAttributes(["class"=>'content']);
-        $this->footdiv=igk_create_node("div")->setAttributes(["class"=>"foot"]);
-        $this->m_definition=new HtmlFormInnerNode($this);
+        $this->Method = $method;
+        $this->Action = $action;
+        $this->m_encType = true;
+        $this->m_notitle = $notitle;
+        $this->m_nofoot = $nofoot;
+        $this["class"] = "igk-form";
+        $this->topdiv = new HtmlFormTitleNode();
+        $this->bodydiv = igk_create_node("div")->setAttributes(["class" => 'content']);
+        $this->footdiv = igk_create_node("div")->setAttributes(["class" => "foot"]);
+        $this->m_definition = new HtmlFormInnerNode($this);
         $this->m_definition->Add($this->topdiv);
         $this->m_definition->Add($this->bodydiv);
         $this->m_definition->Add($this->footdiv);
-        
+
         parent::_Add($this->m_definition);
     }
     ///<summary></summary>
     ///<param name="item"></param>
     ///<param name="index" default="null"></param>
     /**
-    * 
-    * @param mixed $item
-    * @param mixed $index the default value is null
-    */
-    protected function _Add($item, $index=null){
+     * 
+     * @param mixed $item
+     * @param mixed $index the default value is null
+     */
+    protected function _Add($item, $index = null)
+    {
         return $this->bodydiv->_Add($item);
     }
     ///<summary></summary>
@@ -73,182 +79,208 @@ final class HtmlFormNode extends HtmlNode {
     ///<param name="attributes" default="null"></param>
     ///<param name="index" default="null"></param>
     /**
-    * 
-    * @param mixed $nameoritem
-    * @param mixed $attributes the default value is null
-    * @param mixed $index the default value is null
-    */
-    public function add($nameoritem, $attributes=null, $index=null){
+     * 
+     * @param mixed $nameoritem
+     * @param mixed $attributes the default value is null
+     * @param mixed $index the default value is null
+     */
+    public function add($nameoritem, $attributes = null, $index = null)
+    {
         return $this->bodydiv->add($nameoritem, $attributes, $index);
     }
     ///<summary>input environement confirmation</summary>
     /**
-    * input environement confirmation
-    */
-    public function addConfirm($v=1){
+     * input environement confirmation
+     */
+    public function addConfirm($v = 1)
+    {
         return $this->addInput("confirm", "hidden", $v);
     }
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="v"></param>
     /**
-    * 
-    * @param mixed $n
-    * @param mixed $v
-    */
-    public function addHidden($n, $v){
+     * 
+     * @param mixed $n
+     * @param mixed $v
+     */
+    public function addHidden($n, $v)
+    {
         return $this->addInput($n, "hidden", $v);
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function addToken(){
-        $tokenid=igk_html_form_tokenid();
-        $i=$this->add('input');
-        $i["name"]=$tokenid;
-        $i["value"]=1;
-        $i["type"]="hidden";
+     * 
+     */
+    public function addToken()
+    {
+        $tokenid = igk_html_form_tokenid();
+        $i = $this->add('input');
+        $i["name"] = $tokenid;
+        $i["value"] = 1;
+        $i["type"] = "hidden";
         return $i;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function ClearChilds(){
+     * 
+     */
+    public function ClearChilds()
+    {
         $this->bodydiv->clearChilds();
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getAction(){
+     * 
+     */
+    public function getAction()
+    {
         return $this["action"];
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getBox(){
+     * 
+     */
+    public function getBox()
+    {
         return $this->bodydiv;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getContent(){
+     * 
+     */
+    public function getContent()
+    {
         return null;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getEncType(){
+     * 
+     */
+    public function getEncType()
+    {
         return $this->m_encType;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getFooter(){
+     * 
+     */
+    public function getFooter()
+    {
         return $this->footdiv;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getMethod(){
+     * 
+     */
+    public function getMethod()
+    {
         return $this["method"];
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getNoFoot(){
+     * 
+     */
+    public function getNoFoot()
+    {
         return $this->m_nofoot;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getNoTitle(){
+     * 
+     */
+    public function getNoTitle()
+    {
         return $this->m_notitle;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getTitle(){
+     * 
+     */
+    public function getTitle()
+    {
         return $this->topdiv->Content;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * 
-    * @param mixed $value
-    */
-    public function setAction($value){
+     * 
+     * @param mixed $value
+     */
+    public function setAction($value)
+    {
         $this->setAttribute("action", $value);
         return $this;
     }
     ///<summary></summary>
     ///<param name="v"></param>
     /**
-    * 
-    * @param mixed $v
-    */
-    public function setContent($v){
+     * 
+     * @param mixed $v
+     */
+    public function setContent($v)
+    {
         $this->bodydiv->setContent($v);
         return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * 
-    * @param mixed $value
-    */
-    public function setEncType($value){
-        $this->m_encType=$value;
+     * 
+     * @param mixed $value
+     */
+    public function setEncType($value)
+    {
+        $this->m_encType = $value;
         return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * 
-    * @param mixed $value
-    */
-    public function setMethod($value){
+     * 
+     * @param mixed $value
+     */
+    public function setMethod($value)
+    {
         $this->setAttribute("method", $value);
         return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * 
-    * @param mixed $value
-    */
-    public function setNoFoot($value){
-        $this->m_nofoot=$value;
+     * 
+     * @param mixed $value
+     */
+    public function setNoFoot($value)
+    {
+        $this->m_nofoot = $value;
         return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * 
-    * @param mixed $value
-    */
-    public function setNoTitle($value){
-        $this->m_notitle=$value;
+     * 
+     * @param mixed $value
+     */
+    public function setNoTitle($value)
+    {
+        $this->m_notitle = $value;
         return $this;
     }
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-    * set for mtitle
-    * @param mixed $value
-    */
-    public function setTitle($value){
-        $this->topdiv->Content=$value;
+     * set for mtitle
+     * @param mixed $value
+     */
+    public function setTitle($value)
+    {
+        $this->topdiv->Content = $value;
+        return $this;
+    }
+    public function host(callable $callback, ...$args)
+    {
+        HtmlUtils::HostNode($this, $callback, ...$args);
         return $this;
     }
 }

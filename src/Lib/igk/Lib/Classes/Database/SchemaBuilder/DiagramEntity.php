@@ -52,7 +52,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     {
         return $this->addProperties([
             [
-                "clName" => $name, 
+                "clName" => empty($name) ?? 'Email', 
                 "clType" => "VarChar",
                 "clTypeLength" => $length,
                 "clInputType" => "email"
@@ -220,11 +220,16 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @return IDiagramSchemaEntity 
      * @throws IGKException 
      */
-    public function link(string $name, $table_name, $linkColumn = 'clId', $linkName = null, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
+    public function link(string $name, string $table, ?string $column = null, $linkName = null, $notnull = false,
+    $inputtype = "", $default = 0, $description = null
+    ): IDiagramSchemaEntity
+    //(string $name, $table_name, $linkColumn = 'clId', $linkName = null, $notnull = false, 
+   // $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
             "clName" => $name, "clType" => "Int",
-            "clDefault" => $default, "clDescription" => $description, "clLinkType" => $table_name, "clLinkColumn" => $linkColumn,
+            "clDefault" => $default, "clDescription" => $description, "clLinkType" => $table, 
+            "clLinkColumn" => $column,
             "clInputType" => $inputtype, "clNotNull" => $notnull, "clLinkConstraintName" => $linkName
         ]]);
     }

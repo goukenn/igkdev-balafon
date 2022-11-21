@@ -138,7 +138,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         ftp_close($h);
 
         if (($status = igk_curl_status()) == 200) {
-            Logger::info("curl response \n" . App::gets(App::BLUE, $response));
+            Logger::info("curl response \n" . App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
             if (!$rep->error) {
                 Logger::success("install complete");

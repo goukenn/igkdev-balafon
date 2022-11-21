@@ -5,7 +5,8 @@
 // @date: 20210422 06:53:24
 namespace IGK\System\DataBase;
 
-use Exception; 
+use Exception;
+use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Console\Logger;
 use IGKException;
@@ -13,31 +14,40 @@ use IGKException;
 class SchemaBuilderHelper{
     protected $_output;
     protected $_schema;
+    private $m_inf = [];
 
+    public function getDefinition($n){
+        return igk_getv($this->m_inf, $n);
+    }
     protected function _addcolumnAttributes($attributes, $node=null){
         $node = $node ?? $this->_output;
         $c = new DbColumnInfo($attributes);
         $m = $node->add("Column");
         foreach($c as $k=>$v){
             $m[$k] = $v;
-        }  
+        } 
+        $this->m_inf[$c->clName] = $c;
     }
     /**
      * migrate utility methods
-     * @param mixed|array|object $options with migrations fields. 
+     * @param mixed|array|object $options with 'migrations' fields. 
      * @return false 
      * @throws IGKException 
      */
-    public static function Migrate($options){
+    public static function Migrate($options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{
                 foreach($m as $t){
+                    if ($controller){ 
+                        $t->controller = $controller;
+                    }
                     $t->upgrade(); 
                 }
             }
             catch(Exception $ex){
                 Logger::danger(implode('\n', [__FILE__.":".__LINE__,"migrate error : " . $ex->getMessage()]));
             }
+            return true;
         }
         return false;
     }
@@ -47,11 +57,14 @@ class SchemaBuilderHelper{
      * @return bool 
      * @throws IGKException 
      */
-    public static function Downgrade( $options){
+    public static function Downgrade( $options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{
                 $m = array_reverse($m);
                 foreach($m as $t){
+                    if ($controller){ 
+                        $t->controller = $controller;
+                    }
                     $t->downgrade(); 
                 }
                 return true;

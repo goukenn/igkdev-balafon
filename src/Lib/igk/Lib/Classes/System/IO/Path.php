@@ -64,7 +64,7 @@ class Path{
         }
         http_build_query($b);
         $this->css_path = str_helper::uri(implode("/", [IGK_RES_FOLDER,IGK_STYLE_FOLDER,"balafon.css?". http_build_query($b)]));    
-        $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR , "vendor");
+        $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_PACKAGES_FOLDER."/vendor");
         $this->sys_data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
         $this->data_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_DATA_FOLDER);
 

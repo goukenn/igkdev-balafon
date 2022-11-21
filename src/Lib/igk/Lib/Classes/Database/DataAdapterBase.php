@@ -7,6 +7,7 @@
 
 namespace IGK\Database;
 
+use IGKException;
 use IGKObject;
 
 use function igk_ilog as _log;
@@ -21,7 +22,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     // + | register user
     private static $sm_regAdapter;
     protected $m_name;
-    private $m_relations;
+    protected $m_relations;
     protected static $LENGTHDATA = ["int","varchar","char", "decimal"];
 
     public function getEngineSupport():bool{
@@ -97,12 +98,21 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
         $this->m_relations = (object)["relations"=>[], "entries"=>[], "ctrl"=>$ctrl];
     }
     public function endInitDb(){
+        if (is_null($this->m_relations)){
+            igk_trace();
+            igk_dev_wln_e("please call beginInitDb first");
+        }
         $_grammar = $this->getGrammar();
         $links = [];
         if ($this->m_relations->relations){
             foreach($this->m_relations->relations as $tbname=>$r){
                 foreach($r as $m=>$p){
                     $c = clone($p["column"]);
+                    // if (strstr($tbname, 'prospection')){
+                    // Prospection ERROR
+                    //     $p["ctrl"] 
+                    //     igk_dev_wln("failed...".get_class($p["ctrl"]));
+                    // }
                     $c->clLinkType = igk_db_get_table_name($c->clLinkType, $p["ctrl"]);
                     if (! $this->sendQuery($query = $_grammar->add_foreign_key( $tbname, $c))){
                         _log(implode("\n", ["query failed: ",$query, $this->last_error()]));
@@ -114,10 +124,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
                         $links[$tbname][$c->clLinkType] = 0;
 
                     }   
-                    if (!isset( $links[$tbname][$c->clLinkType])){
-                        igk_trace();
-                        igk_wln($tbname, $c->clLinkType, $links[$tbname]);
-                        igk_exit();
+                    if (!isset( $links[$tbname][$c->clLinkType])){                        
+                        igk_dev_wln_e('prop! to fix', $tbname, $c->clLinkType, $links[$tbname]);                        
                     }
                     $links[$tbname][$c->clLinkType]++;
                 }
@@ -152,19 +160,14 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
                } 
             }
         }
-        $this->m_relation = null;
+        // unset($this->m_relations);
+        $this->m_relations = null;
     }
 
     ///<summary>retrieve the adapter name</summary>
     public function getName(){
         return $this->m_name;
-    }
-    /**
-     * escape string
-     * @param string $s string to escape
-     * @return string 
-     */
-	public abstract function escape_string($v):string;
+    }    
     /**
      * get last error
      * @return mixed 
@@ -466,9 +469,19 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     */
     public function initForInitDb(){}
 
-	///<summary>insert </summary>
-    public function insert($table, $entries){
-        igk_ilog(__CLASS__. " - [warning] :::: must be overrided");
+	///<summary> insert </summary>
+    /**
+     * primary insert class 
+     * @param mixed $table 
+     * @param mixed $entries 
+     * @param bool $throwException 
+     * @return false 
+     * @throws IGKException 
+     */
+    public function insert($table, $entries, bool $throwException=true){
+        if ($throwException){
+            throw new IGKException(__CLASS__. " - [warning] :::: must be overrided");
+        }
         return false;
     }
     ///<summary></summary>

@@ -69,12 +69,7 @@ class CreateRowTest extends BaseTestCase{
  
         $defs = SysDbControllerManager::GetDataTableDefinitionFormController(null , Users::table()); // getDataTableDefinition(); 
 
-       // igk_wln_e("defs:", $defs);
-        // $this->assertEquals(
-        //     "data: is : ",
-        //     $gram->createTableQuery(Users::table(), (object)$defs["ColumnInfo"])
-        // );
-        //var_dump((object)$defs["ColumnInfo"]);
+       
         $e = new table_enum;
         $defs = $e->getDataTableDefinition()->tableRowReference; 
         //  SysDbControllerManager::GetDataTableDefinition();

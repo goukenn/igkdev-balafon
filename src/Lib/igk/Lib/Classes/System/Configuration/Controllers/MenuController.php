@@ -10,12 +10,9 @@ namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
-use IGKException;
 use IGK\Helper\IO;
 use IGK\Helper\MenuUtils;
-use IGK\Helper\SysUtils;
 use IGK\Models\DbModelDefinitionInfo;
-use IGK\Resources\R;
 use IGK\Server;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
@@ -23,6 +20,7 @@ use IGK\System\WinUI\Menus\MenuHostControl;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKEvents;
 use IGKValidator;
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 use function igk_resources_gets as __;
 
@@ -32,6 +30,7 @@ use function igk_resources_gets as __;
  */
 final class MenuController extends ConfigControllerBase
 {
+    use NoDbActiveControllerTrait;
     const CONFIG_MENU_FLAG = 0xa02;
     const CONFIG_SELECTED_GROUP = 0xa03;
     const CONFIG_SELECTED_MENU = 0xa04;
@@ -40,9 +39,7 @@ final class MenuController extends ConfigControllerBase
     const SYSTEM_MENU_FLAG = 0xa01;
     const USER_MENU_FLAG = 0xa0a;
 
-    protected function getCanInitDb(){
-        return false;
-    }
+     
     /**
      * state changed
      * @var mixed

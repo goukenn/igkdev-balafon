@@ -20,7 +20,6 @@ class CronJobProcessMailProvider extends CronJobProcessProviderBase
     }
     public function exec($name, $options, ?BaseController $ctrl = null)
     {
-
         if ($mails = Mails::select_all(["mail_status" => 0])) {
             $base_from = igk_configs()->mail_contact;
             foreach ($mails as $mail) {

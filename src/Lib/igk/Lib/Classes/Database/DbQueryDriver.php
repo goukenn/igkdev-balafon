@@ -31,7 +31,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     private $m_adapter;
     private $m_closeCallback;
     private $m_dbpwd;
-    private $m_dbselect;
+    // private $m_dbselect;
     private $m_dbport; // store the port
     private $m_dbserver;
     private $m_dbuser;
@@ -362,7 +362,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 if ($entries) {
                     $this->m_adapter->pushEntries($tbname, $entries, $columninfo);
                 }
-                igk_hook(IGK_HOOK_DB_TABLECREATED, [$this, $tbname]);
+                igk_hook(IGKEvents::HOOK_DB_TABLECREATED, [$this, $tbname]);
                 return true;
             }
         }
@@ -822,18 +822,12 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     public function sendQuery($query, $throwex = true , $nolog = false)
     {
 
-        if (igk_environment()->isDev()){
-            // if ($query==''){
-            //     igk_trace();
-            //     igk_wln_e(__FILE__.":".__LINE__,  $query);
+        if (igk_environment()->isDev()){    
+            //igk_ilog('send - query > '. $query . ' ', 0, false);
+            // if ($query == 'ALTER TABLE `igkdev.dev`.`tbigk_prospections` ADD FOREIGN KEY (prsopid) REFERENCES `igkdev.dev`.`tbigk_users`(`puId`) ON DELETE RESTRICT ON UPDATE RESTRICT;')       {
+            // if (strstr($query,'fb_user_id')){ // `igkdev.dev`.`tbigk_prospections` ADD FOREIGN KEY (prsopid) REFERENCES `igkdev.dev`.`tbigk_users`(`puId`) ON DELETE RESTRICT ON UPDATE RESTRICT;')       {
+            //     igk_dev_wln_e(__FILE__.":".__LINE__,  $query, "prospector query error");
             // }
-            // if (strstr($query, 'SELECT Count(*) FROM `tbigk_apps`')) {
-            //     igk_wln(
-            //         __FILE__.":".__LINE__, 
-            //         "base ::: ". $this->openCount());                
-            //     // igk_trace(); igk_exit();
-            // }
-            igk_ilog('send - query > '. $query . ' ', 0, false);
         }  
 
         if (igk_db_is_resource($this->m_resource)) {
@@ -842,7 +836,11 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
                 igk_environment()->write_debug("<span>query &gt; </span>" . $query); 
             }
-            $this->setLastQuery($query);             
+            $this->setLastQuery($query);    
+            // + | --------------------------------------------------------------------
+            // + | depend on the quere engine can throw exception : data missing
+            // + |
+                    
             $t = igk_db_query($query, $this->m_resource);
             $error = "";
             $code = 0;
@@ -936,7 +934,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * 
      * @param mixed $tablename
      */
-    public function tableExists($tablename)
+    public function tableExists($tablename): bool
     {
         
         if (empty($tablename))
@@ -952,7 +950,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 return true;
             } 
         } catch (Exception $ex) { 
-            igk_ilog(__METHOD__ . ":" . $ex->getMessage());
+            igk_ilog($s = __METHOD__ . ":" . $ex->getMessage());
         }
         return false;
     }

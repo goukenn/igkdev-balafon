@@ -174,6 +174,9 @@ abstract class RootControllerBase extends IGKObject{
         }
 	}
 	public function __call($name, $argument){
+        // if ($name == 'danger'){
+        //     igk_wln_e("do");
+        // }
         // + | by pass method propected call
         if (method_exists($this, $name) && (in_array(strtolower($name), ["initcomplete"]))){
             return call_user_func_array([$this, $name], $argument);
@@ -240,9 +243,10 @@ abstract class RootControllerBase extends IGKObject{
                 $function=substr($function, strlen($g));
             }
         }
-        if($function)
-            return rtrim(igk_io_baseuri(), '/')."/".$function;
-        return igk_io_baseuri();
+        $v_buri = igk_io_baseuri() ?? '';
+        if($function && $v_buri)
+            return rtrim($v_buri, '/')."/".$function;
+        return $v_buri;
     }
     ///<summary></summary>
     ///<param name="name"></param>
@@ -362,16 +366,6 @@ abstract class RootControllerBase extends IGKObject{
         if (is_null($args))
             $args = [];
         return call_user_func_array([$instance, $method], $args);
-        // if(method_exists($instance, $method)){
-        //     if($args == null){
-        //         return $instance->$method();
-        //     }
-        //     else{
-        //         return $instance->$method(...$args); 
-        //     }
-        // }else {
-        //     return static::__call($name, $args);
-        // }
-        // return null;
+      
     }
 }

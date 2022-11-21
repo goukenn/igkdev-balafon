@@ -13,6 +13,7 @@ use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
+use IGK\System\Console\Logger;
 use IGKException;
 use IGKQueryResult;
 use ModelBase;
@@ -162,16 +163,16 @@ class DataAdapter extends DataAdapterBase
         }
         return null;
     }
-    public function escape_string($v): string
+
+    public function escape_string(?string $v=null): string
     {
         if (is_null($v)){
-            igk_trace();
-            igk_exit();
+            return 'NULL';
         }
         if (is_object($v)) {
             $v = "" . $v;
         }
-        $v = stripslashes($v??'');
+        $v = stripslashes($v ?? '');
         $b = $this->getResId();
         if ($b) {
             return mysqli_real_escape_string($b, $v);
@@ -302,11 +303,14 @@ class DataAdapter extends DataAdapterBase
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect())  {
 
             if (!($response = $this->tableExists($tablename))) {
-                igk_debug_wln("en:", __FILE__.":".__LINE__);                    
+                igk_ilog('db try to create table > '.$tablename);
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $this->DbName);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
+                }else{
+                    igk_ilog(sprintf('db [%s] success', $tablename));
+                    Logger::success(sprintf('db - create table - '.$tablename));
                 }
                 return $s;
             } 
@@ -368,15 +372,15 @@ class DataAdapter extends DataAdapterBase
     ///<param name="entry"></param>
     ///<param name="tableinfo" default="null"></param>
     /**
-     * 
+     * adapter send query with grammar helper
      * @param mixed $tablename
      * @param mixed $entry
      * @param mixed $tableinfo the default value is null
      */
-    public function insert($tablename, $entry, $tableinfo = null)
-    {
+    public function insert($tablename, $entry, $tableinfo = null, bool $throwException=true, $options=null, $autoclose=false)
+    { 
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
-            return $this->sendQuery($query);
+            return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
     }
     ///<summary>insert array in items by building as semi-column separated query</summary>
@@ -505,7 +509,11 @@ class DataAdapter extends DataAdapterBase
                 if ($res = igk_getv($options, IGKQueryResult::RESULTHANDLER)) {
                     $r = $res->handle($r);
                 }else {
-                    $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
+                    if (!is_bool($r)){
+                        $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
+                    }else {
+                        $r = new BooleanQueryResult($r);
+                    }
                 }
             }
         }
@@ -553,7 +561,7 @@ class DataAdapter extends DataAdapterBase
      * 
      * @param mixed $tablename
      */
-    public function tableExists($tablename)
+    public function tableExists(string $tablename):bool
     {
         return $this->m_dbManager->tableExists($tablename);
     }

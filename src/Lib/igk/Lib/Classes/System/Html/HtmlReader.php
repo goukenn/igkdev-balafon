@@ -18,6 +18,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\XML\XMLExpressionAttribute;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Console\Logger;
 use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Html\Dom\HtmlDoctype;
 use IGK\System\Html\Dom\HtmlProcessInstructionNode;
@@ -38,7 +39,9 @@ final class HtmlReader extends IGKObject
     const READ_XML =  "XML";
     const READ_HTML = "HTML";
     const LOAD_EXPRESSION = "LoadExpression";
-    private $m_attribs, $m_context, $m_contextLevel, $m_hasAttrib, $m_hfile, $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v;
+    private $m_attribs, $m_context, $m_contextLevel, $m_hasAttrib, $m_hfile, 
+    $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v,
+    $m_self_close;
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
     static $ss;
@@ -217,7 +220,7 @@ final class HtmlReader extends IGKObject
                     break;
                 case "<":
                     if ($intag) {
-                        igk_trace();
+                       
                         igk_die(
                             sprintf("[BLF] - xml reading : enter tag not valid: %s \nat %s" , $text, 
                             substr($text, $offset)));
@@ -260,12 +263,18 @@ final class HtmlReader extends IGKObject
                             $name = self::_ReadName($text, $ln, $offset, $eval_context, $expressionRead);
                             // igk_wln_e("read name ", $name, $offset, $text[$offset]);
                             if (empty($name)) {
-                                igk_wln_e(
-                                    __FILE__ . ":" . __LINE__,
-                                    "start tag is not a valid start tag",
-                                    igk_html_wtag("textarea", $v . substr($text, $offset, 10) . "...\n-----------\n" . $text),
-                                    "name is empty : offset : " . $offset . " tag  : " . $tag . " level: " . $level
-                                );
+                                // operator < detected
+                                // igk_wln_e(
+                                //     __FILE__ . ":" . __LINE__,
+                                //     "start tag is not a valid start tag",
+                                //     '...'.substr($text, $offset-10, 30) . "...",
+                                //     'is skiping '.$this->m_skip,
+                                //     "name is empty : offset : " . $offset . " tag  : " . $tag . " level: " . $level
+                                // );
+                                $v .= $tch;
+                                $intag = false;
+                                // igk_wln_e(" :$name:data");
+                                break;
                             }
                             if ($expressionRead) {
                                 $name = new HtmlTagExpressionName($name);
@@ -769,8 +778,18 @@ final class HtmlReader extends IGKObject
             switch ($reader->NodeType) {
                 case XMLNodeType::ELEMENT:
                     $name = $reader->Name();
+                    // Logger::print('reader : '.$name . ' '.$reader->m_offset);
                     if (empty($name)) {
                         break;
+                    }
+                    if ($reader->m_self_close){
+                        // @previous element is self closing 
+                        if ($cnode){
+                            $cnode = $cnode->getParentNode();
+                        }else {
+                            $cnode = $pnode;
+                        }
+                        $reader->m_self_close = false;
                     }
                     $cattr = $reader->Attribs();
 
@@ -1315,6 +1334,7 @@ final class HtmlReader extends IGKObject
                         return true;
                         // igk_wln_e("already enter on tagnode", $this->ReadName());
                     }
+                   
                     $v_enter = true;
                     break;
                 case "?":
@@ -1394,10 +1414,23 @@ final class HtmlReader extends IGKObject
                         if ($this->m_nodetype == XMLNodeType::ELEMENT) {
                             $tag = strtolower($this->m_name);
                             switch ($tag) {
-                                case "script":
-                                case "style":
-                                    $v = self::__readSkipContent($this, $this->m_text, $this->m_offset, $tag);
+                                case 'link':
+                                case 'input':
+                                case 'img':
+                                    // + | --------------------------------------------------------------------
+                                    // + | this item can self close without the /> tag in html context
+                                    // + |
+                                    // igk_wln_e('dected --> '.$tag);
+                                    $this->m_self_close = true;
+                                    $this->m_isEmpty = true;                                    
+                                    break;
+
+                                case 'script':
+                                case 'style':
+                                case 'textarea':
+                                case 'code':
                                     $this->m_name = $tag;
+                                    $v = self::__readSkipContent($this, $this->m_text, $this->m_offset, $tag);
                                     $this->m_v = $v;
                                     $this->m_nodetype = XMLNodeType::INNER_TEXT;
                                     return true;

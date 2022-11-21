@@ -4,8 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
-use IGK\Cache\SystemFileCache;
+ 
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Diagnostics\Benchmark;
  
@@ -29,8 +28,7 @@ class IGKCssApplication extends IGKApplicationBase
         // $this->library("session");
         $this->library("mysql");         
         Benchmark::$Enabled = false;
-        require_once IGK_LIB_CLASSES_DIR . "/Css/CssContext.php";
-        // IGKAppSystem::LoadEnvironment(igk_app()); 
+        require_once IGK_LIB_CLASSES_DIR . "/Css/CssContext.php";     
     }
 
     /**

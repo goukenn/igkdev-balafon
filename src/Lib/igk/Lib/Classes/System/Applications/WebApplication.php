@@ -267,6 +267,8 @@ class WebApplication extends IGKApplicationBase
             $requestHandler->redirect($this, $_redirectArgs);
             igk_exit();
         }
+        // : hanling core request uri
+        RequestHandler::getInstance()->handle_ctrl_request_uri(); 
     }
     /**
      * run application
@@ -280,17 +282,21 @@ class WebApplication extends IGKApplicationBase
      */
     public function run(string $file, $render = 1)
     {
-        if (igk_environment()->isDev()){
+        // if (igk_environment()->isDev()){
             // igk_ilog('run:');
             // igk_debug(1);
             // igk_environment()->querydebug = defined('IGK_QUERY_DEBUG') ? constant('IGK_QUERY_DEBUG') : null;
-        }
+        // }
         $this->file = $file;
         // -- config 
         $config = igk_configs();
-        if ($config->force_secure_redirection && ($sport = $config->secure_port ?? 443) && (igk_server()->SERVER_PORT != $sport)) {
-            igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
-            igk_exit();
+        if ($config->force_secure_redirection) {            
+            $tp = igk_server()->SERVER_PORT;
+            $sport = array_map('trim', array_filter(explode(',', $config->secure_port ?? 443)));            
+            if (!in_array($tp, $sport)){
+                igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
+                igk_exit();
+            }
         }
         // + | handle cache
         // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();

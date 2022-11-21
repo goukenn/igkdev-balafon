@@ -37,10 +37,10 @@ class ServeActionCommand extends AppExecCommand{
         Logger::print("-");
         Logger::info("Serve Project");
         Logger::print("-\n");
-        Logger::print("Usage : ". App::gets(App::GREEN, $this->command). " ctrl name [options]" );
+        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " ctrl name [options]" );
 
-        Logger::print("-p:". App::gets(App::GREEN, $this->command). " port number to use default is5000" );
-        Logger::print("-basedir:". App::gets(App::GREEN, $this->command). " set public directory" );
+        Logger::print("-p:". App::Gets(App::GREEN, $this->command). " port number to use default is5000" );
+        Logger::print("-basedir:". App::Gets(App::GREEN, $this->command). " set public directory" );
 
         Logger::print("\n\n");
     }

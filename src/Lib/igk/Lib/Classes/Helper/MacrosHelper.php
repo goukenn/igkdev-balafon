@@ -15,6 +15,7 @@ use IGK\Models\Groupauthorizations;
 use IGK\Models\Users;
 use IGKEvents;
 use IGKObjStorage;
+use ModelBase;
 
 /**
  * macro helper expressions
@@ -60,30 +61,36 @@ class MacrosHelper
     }
 
 
-    private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false){
+    private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
         /// MARK: auth users 
         // if (igk_environment()->isDev())
         //     return true;
         /**
          * @var ModelBase $q; current model object 
          * */
+        if ($user->is_mock()){
+            return false;
+        }
         $q = $user;
+        $key = \IGK\Models\ModelBase::AuthKey;
+        $is_auth = false;
         if (!is_array($auths)) {
             if (!is_string($auths)) {
                 return false;
             }
             $auths = [$auths];
         } 
-        $data = $q->to_array();
-        if (($g = $q->{"::auth"}) === null) {
+        // $data = $q->to_array();
+        if (($g = $q->{$key}) === null) {
             $g = [];
             if ($q->clId !==null){
-                if ($b = Groupauthorizations::getUserAuths($q->clId)) {
+                if ($b = $user->auths()) {
+                    // ::getUserAuths($q->clId)
                     foreach ($b as $t) {
-                        $g[] = $t->auth_name;
-                    }
+                        $g[] = $t->name;
+                    } 
                 }
-                $q->set("::auth", $g);
+                $q->set($key, $g);
             } else 
                 return false;
         }

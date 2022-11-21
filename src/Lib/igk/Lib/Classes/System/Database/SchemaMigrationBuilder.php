@@ -11,9 +11,14 @@ use IGK\Database\DbSchemas;
  * schema migration builder
  * @package IGK\System\DataBase
  */
-class SchemaMigrationBuilder extends SchemaBuilderHelper{
+class SchemaMigrationBuilder extends SchemaBuilderHelper {
   
     private $is_migration;
+    private $table_prefix;
+
+    public function getPrefixTable(string $table): string{
+        return sprintf("%s%s", $this->table_prefix, $table);
+    }
     public static function Create($node, $schema){
         $c = new static();
         $c->_output = $node;

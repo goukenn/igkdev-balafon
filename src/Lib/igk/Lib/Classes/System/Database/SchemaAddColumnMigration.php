@@ -14,6 +14,7 @@ use IGK\System\Html\XML\XmlNode;
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "after"];
 
+    
     /**
      * list of column info
      */
@@ -29,8 +30,11 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
                 $this->columns[]=$cl; 
             }
         }   
+        
     }
     public function up(){ 
+        // igk_trace();
+        // igk_wln_e("calling up");
 
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
@@ -38,7 +42,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             if (is_null($cl->clName)){
                 continue;
             }
-            $ctrl::db_add_column($tb, $cl, $this->after);
+            $ctrl->db_add_column($tb, $cl, $this->after);
         }
     }
     public function down(){

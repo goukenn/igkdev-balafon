@@ -9,11 +9,14 @@ use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
 use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 include_once __DIR__."/IGKBillingConstants.php";
 
 final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic data
 {
+	use NoDbActiveControllerTrait;
+	
 	private function getBilling(){
 		return igk_getctrl(IGKBillingConstants::BILL_CTRL, false);
 	}

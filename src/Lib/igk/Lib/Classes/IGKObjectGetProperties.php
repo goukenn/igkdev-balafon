@@ -34,7 +34,7 @@ abstract class IGKObjectGetProperties{
     public function __set($key, $v){
         $nk="set".$key;
         if(method_exists($this, $nk)){
-             call_user_func_array(array($this, $nk), array($v));
+            return call_user_func_array(array($this, $nk), array($v));
         }
     }
 }

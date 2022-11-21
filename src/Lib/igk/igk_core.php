@@ -84,9 +84,7 @@ function igk_zip_output_type($forcegzip=0){
 }
 ///<summary>write zipped output to buffer</summary>
 function igk_zip_output($c, $forcegzip = 0, $header = 1, &$type = null)
-{
-    igk_trace();
-    igk_wln_e("data", ob_get_contents());
+{ 
     $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
     if (!$forcegzip && strstr($accept, "deflate") && function_exists("gzdeflate")) {
         if ($header) {
@@ -145,13 +143,35 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 400)
 }
 ///<summary>shortcut to resource get __</summary>
 /**
- * shortcut to resource get __
- * @param string $text formatted key
+ * helper: shortcut to resource get __
+ * @param string|array<string> $text formatted key
  * @param string|null $default default value
  */
 function igk_resources_gets($text, $default = null)
 {
-    return call_user_func_array(array(R::class, 'gets'), func_get_args());
+    $args = func_get_args();
+    if (is_array($text)){
+        $m = array_slice($args, 1);
+        // $m = array_fill_keys(array_keys($m), $m);
+        $text = implode('', array_filter(array_map(function($a)use($m){
+            return igk_resource_gets_map($a, $m);
+        }, $text)));
+        $args[0] = $text;  
+    }
+    return call_user_func_array(array(R::class, 'Gets'), $args);
+}
+ /**
+  * helper: resource map string
+  * @param null|string $a 
+  * @param array $args 
+  * @return mixed 
+  */
+function igk_resource_gets_map(?string $a, array $args){
+    if (igk_is_null_or_empty($a) || empty(($a = trim($a)))){
+        return $a;
+    } 
+    array_unshift($args, $a);
+    return call_user_func_array(array(R::class, 'Gets'), $args);
 }
 if (!function_exists('igk_getv')){
     ///<summary> get value in array</summary>
@@ -372,6 +392,31 @@ function igk_io_inject_uri_arg($uri, $name, &$fragment = null)
     return $uri;
 }
 /**
+ * helper : append query helper 
+ * @param string $uri 
+ * @param mixed $param 
+ * @return string 
+ */
+function igk_io_append_query(string $uri, $param){
+    $uri_info = parse_url($uri);
+    $query = [];
+    if (isset($uri_info['query'])){
+        parse_str($uri_info['query'], $query);
+    }
+    if (is_string($param)){
+        $q = [];
+        parse_str($param, $q);        
+        $query = array_merge($query, $q);
+    } else {
+        $query = array_merge($query, $param);
+    }     
+
+    $s = !empty($query) ?  http_build_query($query): "";    
+    if ($s)
+        return explode("?", $uri)[0].'?'.$s;
+    return $uri;
+}
+/**
  * build info query args
  */
 function igk_io_build_uri($uri, ?array $query = null, &$fragment = null)
@@ -427,6 +472,11 @@ function igk_set_cmd($v = 1)
 {
     igk_environment()->set("sys://func/igk_is_cmd", $v);
 }
+/**
+ * helper: is null or empty
+ * @param mixed $c 
+ * @return bool 
+ */
 function igk_is_null_or_empty($c)
 {
     return (is_null($c)) || empty($c);
@@ -802,6 +852,12 @@ function igk_app_is_uri_demand($app, $function)
     return (igk_io_currentUri() == $app->getAppUri($function));
 }
 ///<summary>encrypt in sha256 </summary>
+/**
+ * helper: shortcut to IGKSysUtil::Encrypt method
+ * @param mixed $data 
+ * @param mixed $prefix 
+ * @return string|false 
+ */
 function igk_encrypt($data, $prefix = null)
 {
     return IGKSysUtil::Encrypt($data, $prefix);
@@ -1051,6 +1107,7 @@ function igk_getctrl(string $name, $throwex = 1)
  * @throws IGKException 
  */
 function igk_ilog($message, ?string $tag=null, $traceindex=0, $dblog = true){
+ 
     IGKLog::Append($message, $tag, $traceindex, $dblog);
 }
 
@@ -1125,7 +1182,7 @@ function igk_sys_getconfig($name, $defaultvalue = null)
 ///<param name="chmod" default="IGK_DEFAULT_FILE_MASK"></param>
 ///<param name="type" default="w+"></param>
 /**
- * 
+ * retrieve 
  * @param mixed $file
  * @param mixed $content
  * @param mixed $overwrite the default value is true
@@ -1151,9 +1208,18 @@ function igk_get_defaultwebpagectrl()
 ///<summary>get object with igk Xpath selection model</summary>
 /**
  * get object with igk Xpath selection model
+ * syntaxe : 
  */
 function igk_conf_get($conf, $path, $default = null, $strict = 0)
 {
+    // + | --------------------------------------------------------------------
+    // + | xpath description definition - helper 
+    // + | for every item in conf that match the rule get a value. 
+    // + | 
+    // + | 
+    // + | 
+
+    
     $tab = null;
     $tobj = array();
     array_push($tobj, array('o' => $conf, 'path' => $path));
@@ -1486,10 +1552,7 @@ function igk_io_arg_from($f)
     return $arg;
 }
 
-///<summary>return the controller registrated class</summary>
-/**
- * return the controller registrated class
- */
+ 
  
  
  
@@ -1963,4 +2026,19 @@ function igk_header_cache_output($second = 3600)
     header("Expires: {$ts}");
     header("Pragma: cache");
     header("Cache-Control: max-age={$second}, public");
+}
+
+/**
+ * full fill data with 
+ */
+function igk_full_fill(& $sdata, $tdata){
+    if (is_array($sdata)){
+        foreach($sdata as $k=>$v){
+            $data[$k] = igk_getv($tdata, $k, $v);
+        }
+        return;
+    }
+    foreach($sdata as $k=>$v){
+        $sdata->$k = igk_getv($tdata, $k, $v);
+    }
 }

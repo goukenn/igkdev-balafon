@@ -3,8 +3,16 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: CssDevice.php
 // @date: 20220422 12:32:13
-// @desc: css device helper
+// @desc: css device helper -- 
+// 
   
+// + | --------------------------------------------------------------------
+// + | group media type in on device so we can 
+// + | make them device operate at once
+// + | implement it in a .pcss file in case you whant to use it.
+// + |
+// + | > create and instance an mege it
+// + | > sample : $mobile = new CssDevice($sm_screen, $xsm_screen); 
 
 namespace IGK\Css;
 
@@ -28,7 +36,11 @@ class CssDevice implements ICssSupport, ArrayAccess{
     {
         $this->m_devices = $devices;
     }
-
+    /**
+     * support device css rule 
+     * @param string $rule 
+     * @return mixed 
+     */
     public function supports(string $rule) {  
         $rule = $this->m_devices[0]->supports($rule);
         if ($rule){

@@ -13,7 +13,8 @@ use IGK\Controllers\BaseController;
 use IGK\Css\CssColorDef;
 use IGK\Css\CssThemeOptions;
 use IGK\Css\ICssResourceResolver;
-use IGK\Css\ICssStyleContainer; 
+use IGK\Css\ICssStyleContainer;
+use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKCssDefaultStyle;
@@ -46,6 +47,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     private $m_options;
     private static $MEDIA;
     private static $SM_MEDIAKEY;
+    /**
+     * change the id of this doc theme
+     * @param null|string $id 
+     * @return void 
+     */
+    public function setId(?string $id){
+        $this->m_id = $id;
+        return $this;
+    }
 
     /**
      * get the redering options
@@ -77,9 +87,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         return CssColorDef::getInstance();
     }
     /**
-     * initialize global sys theme
+     * initialize global theme definition
      */
-    public function initSysGlobal(){
+    public function initGlobalDefinition(){
         if (!$this->getInitGlobal()){
             igk_css_bind_sys_global_files($this);
             igk_css_load_theme($this);
@@ -673,16 +683,19 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @param ?ICssResourceResolver $resourceResolver
      * @param mixed $doc the default value is null
      */
-    public function get_css_def(bool $minfile = false, bool $themeexport = false,  ?ICssResourceResolver $resourceResolver=null, $doc = null)
+    public function get_css_def(bool $minfile = false, bool $themeexport = false, 
+        ?ICssResourceResolver $resourceResolver=null, $doc = null,
+        ?DomHtmlDocTheme $parent = null)
     {
        // igk_wln("minfile = ".$minfile);
         $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
         $is_root = false;
         $doc = $doc ?? $this->m_document ?? igk_app()->getDoc();
+        $v_parent = $parent ?? $this->parent;
 
         $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
-        $parent = $is_root ? null : (($this->parent instanceof self) && ($this->parent !== $this) ? $this->parent : $systheme);
+        $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);

@@ -82,7 +82,7 @@ function igk_sql3lite_error_code(){
 * 
 * @param mixed $str
 */
-function igk_sql3lite_escapestring($str){
+function igk_sql3lite_escapestring(?string $str = null){
     $sq=IGKSQLite3DataAdapter::GetCurrent();
     igk_assert_die($sq->sql === null, 'SQLite3 Error : Sql is null');
     return $sq->sql->escapeString($str);
@@ -229,7 +229,11 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     public function getIsConnect(): bool {
         return !is_null($this->getSql());
      }
-
+     public function tableExists(string $table): bool
+     {
+        // TODO: need implement table exists 
+        return false;
+     }
 
       /**
      * check that a constraint exists
@@ -287,7 +291,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         return null;
     }
 
-	public function escape_string($v):string{
+	public function escape_string(?string $v=null):string{
         $v = stripslashes($v);
 		return $this->sql->escapeString($v);
 	}

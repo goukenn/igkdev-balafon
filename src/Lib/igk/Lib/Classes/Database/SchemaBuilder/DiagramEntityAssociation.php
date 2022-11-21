@@ -40,8 +40,12 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder{
     public function getEntityKeys(){
         return array_keys($this->m_entities);
     }
-
-    public function getTableName(string $table): string{
+    /**
+     * addd prefix to table
+     * @param string $table 
+     * @return string 
+     */
+    public function getPrefixTable(string $table): string{
         return sprintf("%s%s", $this->table_prefix, $table);
     }
     /**

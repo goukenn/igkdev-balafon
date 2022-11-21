@@ -14,7 +14,13 @@ use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
  * @package IGK\System\Database
  */
 class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEntity{
+    
+    public function int(string $name, int $length = 9): IDiagramSchemaEntity {
+        $this->column($name, 'Int', $length);
+        return $this;
+     }
 
+    // public function int(string $name): IDiagramSchemaEntity { return $this; }
     public function column(string $id, $type=null, $length=9): IDiagramSchemaEntity {
         $this->_add_column($id, $type, $length);
         return $this;
@@ -44,9 +50,26 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
 
     public function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity { return $this; }
 
-    public function link(string $name, string $table, ?string $column = null): IDiagramSchemaEntity { return $this; }
+    public function link( string $name,
+    string $table,
+    ?string $column = null,
+    $linkName = null,
+    $notnull = false,
+    $inputtype = "",
+    $default = 0,
+    $description = null): IDiagramSchemaEntity { 
+        $length = 0;
+        $isunique = false; 
+        $this->_add_column(
+            $name, 
+             'VarChar', $length, null, true, false, $notnull,
+             $description, 
+             $isunique,  
+        );
+        return $this; 
+    }
 
-    public function int(string $name): IDiagramSchemaEntity { return $this; }
+    
 
     public function float(string $name): IDiagramSchemaEntity { return $this; }
 
@@ -66,7 +89,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
      * @return SchemaTableBuilder 
      */
     public static function Create($node, $schema){
-        $c = new SchemaTableBuilder();
+        $c = new static();
         $c->_output = $node;
         $c->_schema = $schema;
         return $c;

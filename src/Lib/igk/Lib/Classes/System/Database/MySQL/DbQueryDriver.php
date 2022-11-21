@@ -63,14 +63,14 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
                 case 1062:
                     // + | duplicate entry error Code 
                 case 1146: 
-                    // + | table not found
+                        // + | table not found
                         // make compatible with mysql 8.to raise error
-                        throw new IGKException("table not found: ".$m);
+                        // throw new IGKException("custom table not found: ".$m);
                     break;
             }       
             igk_push_env("sys://adapter/sqlerror", $m);
             if (igk_environment()->isDev()) {
-                throw new IGKException($m);
+                throw new \IGKException($m);
             }
         }
     }

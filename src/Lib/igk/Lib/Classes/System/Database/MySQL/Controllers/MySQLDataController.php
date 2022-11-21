@@ -10,19 +10,19 @@ namespace IGK\System\Database\MySQL\Controllers;
 
 use IGK\Controllers\BaseController;
 use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Html\Dom\HtmlNode; 
 
 /**
 * Represente IGKMySQLDataCtrl class
 */
 class MySQLDataController extends BaseController{
+    use NoDbActiveControllerTrait;
+
     protected function getAutoGenerateModels(){
         return false;
     }
-    public function getUseDataSchema(): bool
-    {
-        return false;
-    }
+   
     ////!\ not realible
     ///<summar>/!\ delete all table from data base. return a node of</summary>
     /**
@@ -46,7 +46,7 @@ class MySQLDataController extends BaseController{
             $d->selectdb($dbname);
             $c=0;
             foreach($tablelist as $tbname=>$k){
-                if(!$d->sendQuery("DROP Table IF EXISTS `".igk_db_escape_string($tbname)."` ")->Success){
+                if(!$d->sendQuery("DROP Table IF EXISTS `".igk_db_escape_string($tbname)."` ")->success()){
                     $node->addNotifyBox("danger")->Content="Table ".$tbname. " not deleted ".igk_mysql_db_error();
                 }
                 $c++;
@@ -124,16 +124,18 @@ class MySQLDataController extends BaseController{
             }
             $adapter->selectdb($dbname);
             $r=true;
+            $adapter->stopRelationChecking();
             foreach($tablelist as $ktbname=>$k){
                 if (!
                     ($c = $adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($ktbname)."`;")) || 
-                    $c->Success
+                    $c->success()
                 ){
                     if($node)
                         $node->addNotifyBox("danger")->Content="Table ".$ktbname. " not deleted ".igk_mysql_db_error();
                     $r=false;
                 }
             }
+            $adapter->restoreRelationChecking();
             igk_hook(IGK_NOTIFICATION_DB_TABLEDROPPED, [$adapter, $tbname]);
 
         }
@@ -141,7 +143,7 @@ class MySQLDataController extends BaseController{
             $delete=null;
             self::DropTableRelation($adapter, $tbname, $dbname, null, $delete, $node);
             $g = $adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($tbname)."` ");
-            if(!$g || !$g->Success){
+            if(!$g || !$g->success()){
                 igk_notifyctrl()->addErrorr("Table ".$tbname. " not deleted ".igk_mysql_db_error());
                 return false;
             }
@@ -190,13 +192,13 @@ class MySQLDataController extends BaseController{
                     case "FOREIGN KEY":
                     if(!isset($deleted[$ns])){
                         $q="ALTER TABLE `".$n->TABLE_NAME."` DROP ".$nt." `".$ns."`";
-                        if(!$d->sendQuery($q)->Success()){
+                        if(!$d->sendQuery($q)->success()){
                             if($node)
                                 $node->addNotifyBox("danger")->Content=$q." ".igk_mysql_db_error();
                         }
                         if($nt !== "FOREIGN KEY"){
                             $q="ALTER TABLE `".$n->TABLE_NAME."` DROP INDEX `".$ns."`";
-                            if(!$d->sendQuery($q)->Success()){
+                            if(!$d->sendQuery($q)->success()){
                                 if($node)
                                     $node->addNotifyBox("danger")->Content=$q." ".igk_mysql_db_error();
                             }
@@ -263,23 +265,8 @@ class MySQLDataController extends BaseController{
     /**
     * 
     */
-    public function getDataTableInfo(): ?DbModelDefinitionInfo{
-        return null;
-    }
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function getDataTableName(): ?string{
-        return null;
-    }
-    /**
-     * disable use of init database
-     * @return false 
-     */
-    public function getCanInitDb(){
-        return false;
-    }
+   
+  
     ///<summary></summary>
     ///<param name="tbname"></param>
     /**

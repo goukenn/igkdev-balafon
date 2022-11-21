@@ -38,6 +38,11 @@ final class ConfigureController extends BaseController implements IConfigControl
     const CONNEXION_FRAME = IGK_CONNEXION_FRAME;
     const CFG_USER = IGK_CFG_USER;
     private $m_configSetting; 
+    protected function getCanInitDb():bool{
+        return false;
+
+    }
+    
     public function getViewDir()
     {
         if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
@@ -226,19 +231,20 @@ final class ConfigureController extends BaseController implements IConfigControl
         $app = igk_app();
         if ($app->getConfigs()->informAccessConnection) {
             $to = $app->getConfigs()->website_adminmail;
-            if ($to) {
+            /// TODO: NOTIFICATION __ 
+            // if ($to) {
               
-                $d = new \IGK\System\Html\Mail\NotifyConnexionMailDocument($this); 
-                $opt = HtmlRenderer::CreateRenderOptions();
-                $opt->Context = "mail";
-                $opt->NoStoreRendering = 1; 
-                if (!igk_mail_sendmail($to, "no-reply@" . igk_configs()->website_domain, 
-                __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
-                    igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
-                }
-            } else {
-                igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "/!\\ Can't send mail notification"]));
-            }
+            //     $d = new \IGK\System\Html\Mail\NotifyConnexionMailDocument($this); 
+            //     $opt = HtmlRenderer::CreateRenderOptions();
+            //     $opt->Context = "mail";
+            //     $opt->NoStoreRendering = 1; 
+            //     if (!igk_mail_sendmail($to, "no-reply@" . igk_configs()->website_domain, 
+            //     __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
+            //         igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
+            //     }
+            // } else {
+            //     igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "/!\\ Can't send mail notification"]));
+            // }
         }
     }
     ///<summary></summary>
@@ -702,7 +708,7 @@ igk.ready(function(){
 
 	q.select('.e').each(function(){ 
 		this.reg_event("dblclick", function(){
-			 //console.debug("on dbl click");
+			 // console.debug("on dbl click");
 			 if (e_!=null){
 				 if (e_.t==this)
 					 return;

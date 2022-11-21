@@ -166,4 +166,11 @@ trait DbColumnInfoTrait {
        * @var mixed
        */
       var $clNotAllowEmptyString;
+
+      /**
+       * indicate that the fields is used by other controller. \
+       * system used that field for migrations purpose.
+       * @var ?array of used controller other thant the host
+       */
+      var $clIsUsedBy;
 }

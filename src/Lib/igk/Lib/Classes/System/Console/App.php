@@ -81,7 +81,8 @@ class App{
             print_r($error);
         });
       
-
+        igk_environment()->NO_DB_LOG = 1;
+        igk_environment()->NO_SESSION = 1;
         igk_environment()->set("app_type", IGKAppType::balafon);
         igk_environment()->set("workingdir", $wdir); 
         $app->basePath = $basePath;
@@ -229,7 +230,9 @@ class App{
                 }
             }
         } catch (Exception $ex){
-            $app->print(self::gets(self::RED, "BALAFON Error : "). $ex->getMessage());
+            $app->print('--');
+            $app->print(self::Gets(self::RED, "BALAFON Command Error : "). $ex->getMessage());
+            $app->print('--');
             igk_show_exception_trace($ex->getTrace(), 0);
             igk_exit();
         }
@@ -278,9 +281,9 @@ class App{
         }
         $this->print("BALAFON CLI-UTILITY");;
         $this->print("Author: C.A.D. BONDJE DOUE");
-        $this->print(sprintf("Version:  %s", self::gets(self::GREEN, $this->version)));
+        $this->print(sprintf("Version:  %s", self::Gets(self::GREEN, $this->version)));
         $this->print(""); 
-        $this->print(self::gets(self::YELLOW, "Usage:"));
+        $this->print(self::Gets(self::YELLOW, "Usage:"));
         $this->print("\tbalafon [command] [options] [arguments]");
         $this->print("");
         $this->print("");
@@ -330,7 +333,7 @@ class App{
      * @param mixed $s 
      * @return string 
      */
-    public static function gets($color, $s){
+    public static function Gets($color, $s){
         return $color.$s."\e[0m";
     }
 

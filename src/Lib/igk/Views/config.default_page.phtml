@@ -15,7 +15,7 @@ use IGK\Server;
 use function igk_resources_gets as __;
 igk_require_module(\igk\ovh::class, null, 0, 0);
 
-
+// igk_wln_e( \IGK\System\Modules\ModuleManager::GetRequiredModules());
 $ctrl->setSelectedConfigCtrl(null);
 
 $box = igk_html_ctrl_view_config($ctrl, $cnf_n, "title.frameworkInfo", null);

@@ -7,6 +7,7 @@
 
 namespace IGK\Helper;
 
+use Error;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGKApp;
@@ -14,10 +15,24 @@ use IGKEvents;
 use IGKException;
 use ReflectionMethod;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\System\Console\Logger;
 use TypeError;
 
 class SysUtils{
+    /**
+     * prepent sys db controller 
+     * @param array $c 
+     * @return void 
+     */
+    public static function PrependSysDb(array & $c){
+        $sysdb = SysDbController::ctrl();
+        // prepend sys deb 
+        if ( false!== ($key = array_search($sysdb, $c))){
+            unset($c[$key]);
+        }
+        array_unshift($c, $sysdb);
+    }
     /**
      * evaluate source
      * @return void 
@@ -25,17 +40,19 @@ class SysUtils{
     public static function Eval(){
         extract(func_get_arg(1));
         try{
-            // igk_ilog('eval : '. func_get_arg(0));
+            // igk_ilog( __FILE__.":".__LINE__,  'eval : '. func_get_arg(0));
             eval("?>".func_get_arg(0));
         }catch (TypeError $error){
             throw new IGKException('eval failed', 500, $error);
+        } catch (Error $error){
+            igk_wln_e("error ", $error->getMessage());
         }
     }
     public static function Include(){
         if ((func_num_args()==2) && (is_array(func_get_arg(1)))){
             extract(func_get_arg(1));
         }
-        include(func_get_arg(0));
+        return include(func_get_arg(0));
     }
     /**
      * get default project entry namespace

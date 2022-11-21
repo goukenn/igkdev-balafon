@@ -9,11 +9,15 @@
 namespace IGK\System\Configuration\Controllers;
 
 use IGK\Controllers\BaseController;
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\WinUI\Menus\MenuItem;
 
 use IGKEvents;
+use IGKException;
 use IIGKConfigController;
+use ReflectionException;
 
 use function igk_resources_gets as __; 
 
@@ -24,6 +28,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigCon
 * Represente ConfigControllerBase class
 */
 abstract class ConfigControllerBase extends BaseController implements IConfigController {
+    use NoDbActiveControllerTrait;
     public function getName()
     {
         return strtolower(static::class);
@@ -54,7 +59,15 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return parent::getDataDir();
     }
-
+    /**
+     * allways no no_auto_cache_view
+     * @param mixed $name 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function getConfig($name, $default=null){         
         return igk_getv([
             "no_auto_cache_view"=>"1",

@@ -9,8 +9,11 @@
 namespace IGK\System\Console;
 use IGK\System\Console\AppCommandConstant;
 use IGK\System\Console\Commands\InitCommand;
+use IGKException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use ReflectionClass;
-
+use ReflectionException;
 
 require_once(__DIR__."/AppCommandConstant.php");
 
@@ -51,7 +54,15 @@ abstract class AppCommand {
         $o->callable = $callable;
         igk_push_env(self::ENV_KEY, $o);
     }
-    public static function GetCommands($app){
+    /**
+     * get store command
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function GetCommands(){
         static $loaded_command = null;
         if ($loaded_command === null){
 
@@ -110,8 +121,7 @@ abstract class AppCommand {
                 Logger::info("command file not present ". $file);
                 Logger::info("please run with  --command:init to initialize the file ");
             }
-        }
-
+        } 
         return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 
     }
     /**
@@ -159,7 +169,12 @@ abstract class AppCommand {
         }
         Logger::info("Options");
         foreach($opts as $k=>$v){
-            Logger::print( App::gets(App::GREEN, $k). Logger::TabSpace. " {$v}". PHP_EOL); 
+            if (empty($v) && (strpos($k, '+')===0)){
+                Logger::print(App::Gets(App::AQUA, $k));     
+                Logger::print('');
+                continue;
+            }
+            Logger::print( App::Gets(App::GREEN, $k). Logger::TabSpace. " {$v}". PHP_EOL); 
         }
         Logger::print("");
     }

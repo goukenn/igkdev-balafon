@@ -1,9 +1,12 @@
 <?php
 namespace IGK\Controllers;
 
+use Error;
 use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
+use IGK\System\Exceptions\ApplicationModuleInitException;
+use Throwable;
 use TypeError;
 
 // @author: C.A.D. BONDJE DOUE
@@ -32,7 +35,7 @@ final class ApplicationModuleController extends BaseController{
         return null;
     }
     public static function IsModule($controllerClass){
-        return is_object($controllerClass) && (get_class($controllerClass) == static::class) && strstr($controllerClass->getDeclaredDir(), igk_get_module_dir(),);
+        return is_object($controllerClass) && (get_class($controllerClass) == static::class) && strstr($controllerClass->getDeclaredDir(), igk_get_module_dir());
     }
     /**
      * check if this module extends methods
@@ -135,6 +138,7 @@ final class ApplicationModuleController extends BaseController{
             $libdir=$classLib;  
             
             $fc = function($n)use($entry_ns, $libdir){ 
+                // igk_wln("try load ".$n . " ".$this->getName());
                 $fc = "";
                 if (!empty($entry_ns) && (strpos( $n, $entry_ns)===0)){
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
@@ -186,6 +190,7 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $c the default value is null
     */
     private function _init($c=null){
+ 
         $s=igk_io_read_allfile($c ?? $this->m_dir."/.module.pinc");
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
@@ -203,12 +208,24 @@ final class ApplicationModuleController extends BaseController{
             $data = array_merge($data??[], $definition);
         }
         catch(TypeError $error){
-            throw $error; 
+            throw new ApplicationModuleInitException($this, 500, $error);            
         }
-        $this->m_src=$s;
+        catch(Error $ex){
+            // catch fatal - error
+            throw new ApplicationModuleInitException($this, 500, $ex);            
+        }
+        catch(Throwable $ex){
+            throw new ApplicationModuleInitException($this, 500, $ex);            
+        }
+        $this->m_src = $s;
         if ($data){
             $this->m_configs = $data; 
         }
+        // + | --------------------------------------------------------------------
+        // + | unset source for production
+        // + |
+        
+        unset($this->m_src);
     }
     ///<summary></summary>
     ///<param name="configs" ref="true"></param>
@@ -446,7 +463,13 @@ final class ApplicationModuleController extends BaseController{
     public function getDataSchemaFile(){
         return ControllerExtension::getDataSchemaFile($this);
     }
-
+    /**
+     * all module can participate to init db by default
+     * @return bool 
+     */
+    public function getCanInitDb():bool{
+        return true;
+    }
     public function __toString()
     {
         return sprintf("%s - [%s]", __CLASS__, $this->getName());

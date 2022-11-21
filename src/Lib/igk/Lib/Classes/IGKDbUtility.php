@@ -184,12 +184,12 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     /**
     * 
     */
-    public function close(){
+    public function close(bool $leaveopen=true){
         if($this->m_ad){
-            $this->m_ad->close();
-            if($this->m_ad->OpenCount()<=0){
-                $this->m_ad=null;
-            }
+            $this->m_ad->close($leaveopen);
+            // if($this->m_ad->OpenCount()<=0){
+            $this->m_ad=null;
+            //}
         }
     }
     ///<summary></summary>
@@ -725,7 +725,7 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     * 
     * @param mixed $table
     */
-    public final function tableExists($table){
+    public final function tableExists($table): bool{
         return $this->getAd()->tableExists($table); 
     }
    

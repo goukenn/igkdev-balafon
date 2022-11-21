@@ -155,6 +155,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
      */
     var $data;
 
+    /**
+     * get or set the action handler
+     * @var mixed
+     */
+    var $action_handler;
+
     /** 
      * get context view argument  
      * @param BaseController $controller source controller

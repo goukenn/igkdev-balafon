@@ -25,7 +25,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             return $h;
         }
         $sess_dir = $setting[self::SESSION_DIR] ?? $setting[self::APP_DIR]."/../sesstemp"; //  ?? igk_die("no session dir provided");
-        Logger::info("remove all lived session");
+        Logger::info("remove all lived session : ". $sess_dir);
         igk_set_timeout(0);
         $this->emptyDir($h, $sess_dir); 
         ftp_close($h);

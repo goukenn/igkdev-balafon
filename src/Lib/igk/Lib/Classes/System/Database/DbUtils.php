@@ -7,7 +7,9 @@
 
 namespace IGK\System\Database;
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
+use IGK\Controllers\SysDbController;
 
 class DbUtils{
 
@@ -30,5 +32,15 @@ class DbUtils{
         }
         return 1; 
             
+    }
+    public static function ResolvDefTableTypeName(string $table, BaseController $controller){
+        $sys_prefix = igk_configs()->db_prefix ;
+        $prefix = 
+        ($controller instanceof SysDbController) ? $sys_prefix:
+        $controller->getConfig('clDataTablePrefix', $sys_prefix );
+        if ($prefix && (strpos($table, $prefix)===0)){
+            $table = '%prefix%'.substr($table, strlen($prefix));
+        }
+        return $table;
     }
 }

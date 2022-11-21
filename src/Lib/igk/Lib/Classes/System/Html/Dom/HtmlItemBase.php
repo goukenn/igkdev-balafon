@@ -505,7 +505,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (method_exists($this, $fc = "get" . ucfirst($name))) {
             return call_user_func_array([$this, $fc], []);
         }
-        igk_environment()->isDev() && igk_trace();
+        // igk_environment()->isDev() && igk_trace();
         igk_dev_wln_e("try to get ", get_class($this),  $name);
     }
     public function __set($key, $value)
@@ -552,8 +552,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
     public function add($n, $attributes = null, $args = null)
     {
-        $skip = false;
-        // igk_debug_wln("data : ", $n);
+        $skip = false; 
         // compilation node add
         if ($n instanceof \IGK\System\Runtime\Compiler\ViewExpressArg){
             $n = $n->createExpressionNode();
@@ -895,15 +894,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 }
             }
             if (igk_environment()->isDev()) {
-                if (strpos($name, "get") === 0) {
-                    igk_trace();
-                    igk_wln("'try to call : " . __METHOD__ . " " . $name);
-                    die("'try to call : " . __METHOD__ . " " . $name);
+                if (strpos($name, "get") === 0) { 
+                    igk_die("'try to call : " . __METHOD__ . " " . $name);
                 }
-                if (strpos($name, "set") === 0) {
-                    igk_trace();
-                    igk_wln("tag: ", $this->getTagName());
-                    die("'try to call : " . __METHOD__ . " " . $name);
+                if (strpos($name, "set") === 0) { 
+                    igk_die("'try to call : " . __METHOD__ . " " . $name);
                 }
             }
             foreach (["get", "add"] as $prefix) {
@@ -921,7 +916,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (igk_environment()->is('DEV')) {
             igk_wln(__FILE__ . ":" . __LINE__,  get_class($this));
             igk_trace();
-            die("call_expression not allowed. " . $name);
+            igk_die("call_expression not allowed. " . $name);
         }
     }
     public function getHasAttributes()

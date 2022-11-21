@@ -5,11 +5,15 @@
 // @date: 20221111 22:30:40
 // @desc: 
 
+use IGK\Controllers\SysDbController;
+use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
+use IGK\System\Database\MigrationHandler;
 
-class DbMigrateCommand extends AppExecCommand{
+class DbMigrateCommand extends AppExecCommand
+{
 
     var $command = '--db:migrate';
 
@@ -22,9 +26,10 @@ class DbMigrateCommand extends AppExecCommand{
         Logger::info('migrate utility command');
     }
 
-    public function exec($command, $ctrl=null) {
+    public function exec($command, $ctrl = null)
+    {
         DbCommandHelper::Init($command);
-        if (!is_null($ctrl ) && ($c = igk_getctrl($ctrl, false))) {
+        if (!is_null($ctrl) && ($c = igk_getctrl($ctrl, false))) {
             $c = [$c];
         } else {
             $c = igk_sys_getall_ctrl();
@@ -35,23 +40,26 @@ class DbMigrateCommand extends AppExecCommand{
                         return $mod;
                     }
                 }, $modules, array_keys($modules)));
-
+                SysUtils::PrependSysDb($c);
                 $c = array_merge($c, [IGKModuleListMigration::Create($list)]);
             }
         }
         foreach ($c as $t) {
             $cl = get_class($t);
             Logger::info("migrate..." . $cl);
-            if ($t::migrate()) {
-                Logger::success("migrate:" . $cl);
-            }else {
-                Logger::danger("failed to migrate : ". $cl);
+            if ($t->getCanInitDb()) {
+                if ($t::migrate()) {
+                    Logger::success("migrate:" . $cl);
+                    $migHandle = new MigrationHandler($t);
+                    $migHandle->up(); 
+                } else {
+                    Logger::danger("failed to migrate : " . $cl);
+                }
             }
         }
+        $s = \IGK\Models\Migrations::AddIfNotExists('migration_'.date('Ymd'), 1);    
         // migrate module 
 
 
     }
-
-    
 }

@@ -35,7 +35,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
         $install_dir = $setting["lib_dir"] ?? "../application/Lib/igk";
-        Logger::info("update core lib");
+        Logger::info(sprintf("update core lib to [ %s ]", $setting["server"]));
 
         // copy libzip to public folder 
         // copy exec script to public folder
@@ -85,10 +85,13 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         FtpHelper::RmFile($h,$install);
         ftp_close($h);
         if (($status = igk_curl_status())== 200){
-            Logger::info("curl response \n". App::gets(App::BLUE, $response));
+            Logger::info("curl response \n". App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
             if ($rep && !$rep->error){
                 Logger::success("update core lib success");
+                if ($setting['site_uri']){
+                    Logger::print('you can navigate to: '. $setting['site_uri']);
+                }
             }
         }else {
             Logger::danger("install script failed");

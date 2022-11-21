@@ -5,8 +5,12 @@
 // @desc: 
 
 ///<summary>represent used to store common primary articles and templates</summary>
+
+use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
+
 abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
 {
+	use NoDbActiveControllerTrait;
 	public function __construct(){
 		parent::__construct();
 	}

@@ -231,13 +231,7 @@ trait HtmlNodeTrait{
 	// public function arraylist($list,$tag='',$callback=null){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// /**
-	//  * bind article
-	//  */
-	// public function article(?\IGK\Controllers\BaseController $ctrl=null,?string $name=null,$raw=array (
-	// ),$showAdminOption=1){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+ 
 	// /**
 	//   * 
 	//   * @param bool $condition 
@@ -839,15 +833,8 @@ trait HtmlNodeTrait{
 	// public function form($uri='',$method='',$notitle=false,$nofoot=false){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// /**
-	//  * post urit using data form
-	//  * @param string $uri 
-	//  * @return HtmlANode<mixed, mixed> 
-	//  * @throws IGKException 
-	//  */
-	// public function form_post(string $uri){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+	
+ 
 	// /**
 	//  * create winui-formactionbutton
 	//  * @param mixed $id

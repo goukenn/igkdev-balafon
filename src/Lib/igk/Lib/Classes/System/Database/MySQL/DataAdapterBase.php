@@ -188,7 +188,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $dbname = $dbnamemix;
 
         if (!$dbs && $selectdb) {
-            $dbname = $dbname == null ? $this->app->Configs->db_name : $dbname;
+            $dbname = is_null($dbname) ? $this->app->Configs->db_name : $dbname;
             if (!$this->selectdb($dbname)) {
                 $this->close();
                 return false;
@@ -199,6 +199,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     private function _setDbName($dbname){
         $this->m_dbname = $dbname; 
+        $this->m_dbManager->db_name = $dbname;
     }
     ///<summary></summary>
     ///<param name="dbserver"></param>

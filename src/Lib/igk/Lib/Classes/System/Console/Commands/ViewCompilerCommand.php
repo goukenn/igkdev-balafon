@@ -15,6 +15,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Runtime\Compiler\CompilerConstants;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompiler;
+use IGK\System\ViewDataArgs;
 use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\PageLayout;
 use IteratorAggregate;
@@ -107,46 +108,3 @@ class NoDataProvided implements ArrayAccess
     }
 }
 
-/**
- * encapsulate data to pass to view
- * @package IGK\System\Console\Commands
- */
-class ViewDataArgs implements ArrayAccess, IteratorAggregate
-{
-    use ArrayAccessSelfTrait;
-    private $m_data;
-
-    public function getIterator(): Traversable
-    {
-        return new ArrayIterator($this->m_data, 0);
-    }
-
-    public function _access_OffsetGet($index)
-    {
-        return igk_getv($this->m_data, $index);
-    }
-    public function __get($name)
-    {
-        return igk_getv($this->m_data, $name);
-    }
-
-    public function __construct($data)
-    {
-        $this->m_data = $data;
-    }
-    /**
-     * return the string result
-     * @return string|false 
-     */
-    public function __toString()
-    {
-        return json_encode($this->m_data);
-    }
-
-    public function __call($name, $arguments)
-    {
-        if (is_object($this->m_data)) {
-            return call_user_func_array([$this->m_data, $name], $arguments);
-        }
-    }
-}
