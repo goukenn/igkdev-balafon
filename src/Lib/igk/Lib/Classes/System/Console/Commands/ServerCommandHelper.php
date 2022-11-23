@@ -34,6 +34,7 @@ abstract class ServerCommandHelper
             "-srv_country_name" => "country_name",
             "-srv_region" => "region",
             "-srv_request" => "request", // request args
+            "-srv_baseuri" => "base_uri", // set command environment base uri
 
         ];
     }
@@ -74,6 +75,9 @@ abstract class ServerCommandHelper
         if ($r = $cnf->{'request'}){
             parse_str($r, $tab);
             $_REQUEST = $tab;
+        }
+        if (property_exists($command->options, '-srv_baseuri')){            
+            igk_environment()->setBaseUri($cnf->{'base_uri'} ?? '');
         }
         igk_server()->prepareServerInfo();
         igk_server()->IS_WEBAPP = 0;

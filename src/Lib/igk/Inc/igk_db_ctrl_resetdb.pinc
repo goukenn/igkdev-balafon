@@ -6,8 +6,7 @@
 
 
 use IGK\System\Console\Logger;
-use IGK\Controllers\BaseController;
-use IGK\System\Caches\EnvControllerCacheDataBase;
+use IGK\Controllers\BaseController; 
 
 // + | --------------------------------------------------------------------
 // + | RESET DATABASE
@@ -66,10 +65,7 @@ $controller::initDb($force);
 $db->flushForInitDb();
 igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($controller));
 igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$controller]);
-$file = igk_io_cachedir() . "/" . EnvControllerCacheDataBase::FILE;
-if (file_exists($file)){
-    @unlink($file);
-}
+ 
 
 // igk_wln_e('kjd::finish > ', $controller->getDataAdapter()->openCount());
 if ($deflog>0){

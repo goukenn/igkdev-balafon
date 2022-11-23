@@ -11,5 +11,7 @@ namespace IGK\System\Regex;
  * @package IGK\System\Regex
  */
 class RegexConstant{
+    const VERSION_CHECK = '(?P<version>[0-9]+(\.[0-9]+){0,3})';
     const INT_REGEX = "/^[0-9]+$/i";
+
 }

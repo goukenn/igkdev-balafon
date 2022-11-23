@@ -13,15 +13,17 @@ use IGK\System\Html\Css\CssStyle;
 use IGK\System\Html\Dom\HtmlCssValueAttribute;
 
 final class HtmlStyleValueAttribute extends HtmlAttributeValue{
-    private $m_o, $m_v;
+    private $m_o;
+    protected $value;
     ///<summary></summary>
     ///<param name="target"></param>
     public function __construct($target){
         $this->m_o=$target;
     }
+   
     ///<summary></summary>
     public function __sleep(){
-        if(empty($this->m_v)){
+        if(empty($this->value)){
             return array();
         }
         return array("m_v", "m_o");
@@ -48,12 +50,12 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
                 $style->Load($s, 1, $p);
             $opt .= igk_css_get_style_from_map($this->m_target, $options, $style);
         }
-        if(!empty($opt) && !empty($this->m_v))
+        if(!empty($opt) && !empty($this->value))
             $opt .= " ";
-            if (is_object($this->m_v)){
-                $opt .= $this->m_v->getValue($options);
+            if (is_object($this->value)){
+                $opt .= $this->value->getValue($options);
             } else {
-                $opt=$opt.$this->m_v;
+                $opt=$opt.$this->value;
             }
         return empty($opt) ? null: $opt;
     }
@@ -61,11 +63,11 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     ///<param name="value"></param>
     public function setValue($value){
         if ($value instanceof HtmlStyleValueAttribute){
-            $this->m_o = ''.$value;
+            $this->value = ''.$value;
             return $this;
         }
         if(($value == null) || is_string($value) || ($value instanceof IHtmlStyleAtribute))
-            $this->m_v=$value;
+            $this->value=$value;
         else{            
             igk_die("no value allowed ".$value. " target :".get_class($this->m_target));
         }

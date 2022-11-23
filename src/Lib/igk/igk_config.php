@@ -327,7 +327,7 @@ define("IGK_DIE_DEFAULT_MSG", "die call");
 // define("IGK_LOG_VERBOSITY_SOURCE_LOCATION", 2);
 // define("IGK_LOG_VERBOSITY", 3);
 define("IGK_DB", "Db");
-define("IGK_INIT_COMPLETE_METHOD", "InitComplete");
+define("IGK_INIT_COMPLETE_METHOD", "initComplete");
 define("IGK_PROTECT_ACCESS", "defined('IGK_FRAMEWORK') || die('direct access not allowed');\n");
 define("IGK_KEY_APP", "igk");
 //    define("IGK_KEY_GLOBALVARS", "sys://igk/globalvars");

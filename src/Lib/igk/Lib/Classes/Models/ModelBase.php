@@ -7,22 +7,7 @@
 
 namespace IGK\Models;
 
-use ArrayAccess;
-use Closure;
-use Exception;
-use IGK\Controllers\SysDbController;
-use IGK\Database\DbSchemas;
-use IGK\Database\IDbArrayResult;
-use IGK\Helper\Database;
-use IGK\Helper\Utility;
-use IGK\System\Caches\DBCaches;
-use IGK\System\Polyfill\ArrayAccessSelfTrait;
-use IGK\System\Polyfill\JsonSerializableTrait;
-use IGKEvents;
-use IGKException;
-use IGKSysUtil;
-use Illuminate\Auth\Events\Failed;
-use JsonSerializable;
+ 
 
 require_once __DIR__ . "/Inc/ModelEntryExtension.php";
 

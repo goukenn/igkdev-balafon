@@ -12,16 +12,20 @@ use IGK\Database\DbColumnInfo;
 use IGK\Database\DbQueryDriver;
 use IGK\Database\DbSchemas;
 use IGK\Database\SQLDataAdapter;
-use IGK\Helper\IO;
-use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\Helper\IO; 
+use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\SQLGrammar;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
 define("IGK_SQL3LITE_KN_TABLE_KEY", IGK_SQL3LITE_KN."::/tableName");
 define("IGK_SQL3LITE_KN_QUERY_KEY", IGK_SQL3LITE_KN."::/query");
 define("IGK_SQL3LITE_TYPE_NAME_INDEX", 2);
 define("IGK_SQL3LITE_NAME_INDEX", 1);
+
+require_once __DIR__ .'/SQL3QueryResult.php';
 ///<summary></summary>
 ///<param name="r"></param>
 ///<param name="info" default="null" ref="true"></param>
@@ -156,6 +160,10 @@ function igk_sql3lite_fetch_field($r, $requiretable=1){
 function igk_sql3lite_fetch_row($r){
     return $r->fetchArray(SQLITE3_NUM);
 }
+
+function igk_sql3lite_fetch_assoc($r){
+    return $r->fetchArray(SQLITE3_ASSOC);
+}
 ///<summary></summary>
 /**
 * 
@@ -194,7 +202,8 @@ function igk_sql3lite_num_rows($t){
 * @param mixed $d
 */
 function igk_sql3lite_tosql_data($d){
-    if(!preg_match_all("/(?P<type>([^\(\)])+)(\((?P<number>[0-9]+)\))?/i", $d, $tab))
+    
+    if(is_null($d) || !preg_match_all("/(?P<type>([^\(\)])+)(\((?P<number>[0-9]+)\))?/i", $d, $tab))
         return "unknown";
     $d=igk_getv($tab["type"], 0);
     switch(strtolower($d)){
@@ -214,6 +223,7 @@ function igk_sql3lite_tosql_data($d){
 */
 class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private $fname;
+    private $m_base_file_name;
     private $m_creator;
     private $m_current;
     protected static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
@@ -229,10 +239,21 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     public function getIsConnect(): bool {
         return !is_null($this->getSql());
      }
+     /**
+      * check for table exists
+      * @param string $table 
+      * @return bool 
+      * @throws IGKException 
+      * @throws EnvironmentArrayException 
+      */
      public function tableExists(string $table): bool
      {
         // TODO: need implement table exists 
-        return false;
+        //$this->sendQuery('SELECT count(*) FROM '.$table.';');
+        $g = @$this->sql->exec('SELECT count(*) FROM '.$table );
+        if (!$g)
+            error_clear_last();
+        return $g;
      }
 
       /**
@@ -353,6 +374,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
             }
             else if(is_string($dbname)){
                 $this->fname=$dbname;
+                $this->m_base_file_name = $this->getDatabaseFileName();
             }
         }
         $fulln="";
@@ -443,7 +465,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     * @param mixed $info the default value is null
     */
     public function CreateEmptyResult($result=null, $query=null, $info=null){
-        $r=IGKMySQLQueryResult::CreateResult($result, $query, $info);
+        $r= SQLite3Result::CreateResult($result, $query, $info);
         return $r;
     }
     ///<summary></summary>
@@ -463,7 +485,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
             "adapterName"=>IGK_SQL3LITE_KN,
             "query"=>$query
         ), (array)$obj ?? []);
-        return IGKMySQLQueryResult::CreateResult(new sql3literesult($r), $query, $inf);
+        return AdapterQueryResult::CreateResult(new sql3literesult($r), $query, $inf);
     }
     ///<summary></summary>
     ///<param name="tbname"></param>
@@ -518,8 +540,11 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
             $v_name=igk_db_escape_string($v->clName);
             $query .= "`".$v_name."` ";
             $type=igk_getev($v->clType, "Int");
-            if(($type == "Int") && ($v->clLinkType || $v->clAutoIncrement))
+            if((strtolower($type) == "int") && ($v->clLinkType || $v->clAutoIncrement)){
                 $type="INTEGER";
+                $v->clIsIndex = 0;
+                $v->clIsUnique = 0;
+            }
             $query .= igk_db_escape_string($type);
             $s=strtolower($type);
             $number=false;
@@ -712,11 +737,15 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     * get entry database name
     */
     public function getDatabaseFileName(){
+        if (!is_null($this->m_base_file_name)){
+            return $this->m_base_file_name;
+        }
         $r=$this->sendQuery('PRAGMA database_list', ':global:');
         $f=null;
-        if($r && ($r->RowCount == 1)){
-            $f=$r->getRowAtIndex(0)->file;
+        if($r && ($inf = $r->getRowAtIndex(0))){
+            $f = $inf['file'];
         }
+        $this->m_base_file_name = $f;
         return $f;
     }
     ///<summary></summary>
@@ -1006,9 +1035,16 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     * @return null|IGK\Database\DbQueryResult
     */
     public function sendQuery($query, $throwex=true, $options=null, $autoclose=false){
+        if (is_null($query)){
+            return false;
+        }
+        $this->makeCurrent();
         $sql=$this->getSql();
-        $tbname = $this->getDatabaseFileName();
+        $tbname = $this->m_base_file_name;
         $r=null;
+        if (igk_is_debug()){
+            Logger::print('query > '.$query);
+        }
         if(preg_match("/^(INSERT|UPDATE|DELETE|CREATE|DROP)/i", $query)){
             !($r=@$sql->exec($query)) && igk_die("query failed . ".$query. " error ".$this->sql->lastErrorMsg());
             return $r;
@@ -1083,6 +1119,32 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         self::GetCurrent();
         array_unshift(self::$sm_list, $l);
     }
+
+    /**
+     * direct select all 
+     * @param string $table 
+     * @param mixed $conditions 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function select_all(string $table, $conditions=null){
+        $r = $this->select($table, $conditions, null, false, false);
+        if ($r && $r->fetch_all()){
+            return $r->getRows();
+        }
+        return null;
+    }
+     
+    public function select_row(string $table, $conditions=null){
+        $r = $this->select($table, $conditions, null, false, false);
+        if ($r && ($f = $r->getRowAtIndex(0))){
+            return $f;
+        }
+    }
+    public function fetch_assoc($a){
+        return null;
+    }
+   
 }
 
 
@@ -1137,6 +1199,7 @@ class sql3literesult{
         $this->Columns=array();
         $this->Rows=array();
     }
+
     ///<summary></summary>
     /**
     * 
@@ -1161,6 +1224,7 @@ DbQueryDriver::Init(function(& $conf){
     $t["num_fields"]="igk_sql3lite_num_fields";
     $t["fetch_field"]="igk_sql3lite_fetch_field";
     $t["fetch_row"]="igk_sql3lite_fetch_row";
+    $t["fetch_assoc"]="igk_sql3lite_fetch_assoc";
     $t["close"]="igk_sql3lite_close";
     $t["error"]="igk_sql3lite_error";
     $t["errorc"]="igk_sql3lite_error_code";

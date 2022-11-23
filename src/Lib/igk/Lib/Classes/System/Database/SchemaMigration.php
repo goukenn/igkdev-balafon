@@ -223,7 +223,7 @@ class SchemaMigration
             case DbSchemasConstants::OP_ADD_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 if (is_null($tables[$tb])){
-                    igk_wln_e("try to get ".$tb);
+                    igk_wln_e("try to get migration ".$tb);
                 }
                 $tabcl = &$tables[$tb]->columnInfo;
                 $after = $item->after;

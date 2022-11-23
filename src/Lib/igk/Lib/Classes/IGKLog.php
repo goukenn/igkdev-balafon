@@ -73,17 +73,11 @@ final class IGKLog extends IGKObject
      */
     public static function Append($msg, $tag = null, $traceindex = 0, $dblog=true)
     {
-        if (self::$sm_loggin){
-            // igk_die(\json_encode([
-            //     "error"=>"try to log when appending...log message",
-            //     "message"=>$msg
-            // ]));
+        if (self::$sm_loggin){          
             return;
         }
         self::$sm_loggin = true;
-        // + igk_wln($msg);
-        // + igk_trace();
-        // + igk_exit();
+
         if (!defined('IGK_NO_TRACELOG')) {
             if (!igk_sys_env_production()) {
                 igk_ilog_trace(igk_trace_function(2 + $traceindex));

@@ -111,7 +111,7 @@ abstract class ControllerExtension
      */
     public static function asset(BaseController $ctrl, $path)
     {
-        $f = implode("/", [$ctrl->getDataDir(), IGK_RES_FOLDER, $path]);
+        $f = $ctrl->getAssetsDir(); 
         if (!file_exists($f))
             return null;
         $t = IGKResourceUriResolver::getInstance()->resolve($f);
@@ -119,6 +119,9 @@ abstract class ControllerExtension
             igk_ilog("Can't resolv file " . $f . " " . $t);
         }
         return $t;
+    }
+    public static function getAssetsDir(BaseController $ctrl, ?string $path = null){
+        return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, $path]));
     }
     /**
      * return an array of views
@@ -474,14 +477,18 @@ abstract class ControllerExtension
             $file = $ctrl->getDataSchemaFile();
             $f = igk_db_load_data_schemas($file, $ctrl);
             if ($m = igk_getv($f, "migrations")) {
-
+                $v_upgrade = false;
                 try {
                     foreach ($m as $t) {
+                        $v_upgrade = true;
                         $t->upgrade();
                     }
                 } catch (Exception $ex) {
                     Logger::danger(sprintf("some error : %s", $ex->getMessage()));
                     return false;
+                }
+                if ($v_upgrade){
+                    // upgrade model file definition
                 }
             }
         }
@@ -602,9 +609,9 @@ abstract class ControllerExtension
         if ($tb) {
             foreach ($tb as $v) {
                 // remove prefix
-                $table = igk_getv($v, DbColumnInfoPropertyConstants::DefTableName);
-                if (!empty($table)) {
-                    $name = basename(igk_uri(sysutil::GetModelTypeName($table)));
+                $table = null; 
+                $name = sysutil::GetModelTypeNameFromInfo($v, $table);
+                if (!empty($name)) {                    
                     $file = $c . $name . ".php";
                     $factory[] = $name;
                     if (!$force && file_exists($file)) {
@@ -1532,7 +1539,7 @@ abstract class ControllerExtension
     {
         if (defined('IGK_DB_GRANT_CAN_INIT') || igk_is_cmd())
             return true;
-        return igk_is_conf_connected();
+        return igk_is_conf_connected() || DBCaches::InitRequest();
     }
 
     /**

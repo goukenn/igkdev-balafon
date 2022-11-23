@@ -9,13 +9,9 @@ use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\IO\Path;
 use IGK\Cache\SystemFileCache as IGKSysCache;
-use IGK\System\Caches\EnvControllerCacheDataBase;
+use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\InitEnvControllerChain;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\Controllers\BaseController;
-use IGK\Controllers\SessionController;
-use IGK\Controllers\SysDbController;
-use IGK\Helper\SysUtils;
+use IGK\System\Exceptions\ArgumentTypeNotValidException; 
 use IGK\System\Caches\EnvControllerCacheList;
 
 ///<summary> manage application system</summary>
@@ -234,7 +230,10 @@ class IGKAppSystem
         // + | LOAD CONTROLLER LISTS
         // + |
         $tab =  EnvControllerCacheList::GetControllersClasses(); 
-        $c->load($tab, $manager, $loader);    
+        $c->load($tab, $manager, $loader); 
+        // igk_wln_e(
+        //     __FILE__.":".__LINE__, 
+        //     'init controller cache list ....', $tab, DBCaches::GetCacheData());
      
     }
     private function __construct()

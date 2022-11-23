@@ -5,8 +5,11 @@
 // @date: 20221111 22:30:40
 // @desc: 
 
+use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\SysUtils;
+use IGK\System\Caches\DBCaches;
+use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
@@ -29,6 +32,7 @@ class DbMigrateCommand extends AppExecCommand
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
+        
         if (!is_null($ctrl) && ($c = igk_getctrl($ctrl, false))) {
             $c = [$c];
         } else {
@@ -57,8 +61,14 @@ class DbMigrateCommand extends AppExecCommand
                 }
             }
         }
-        $s = \IGK\Models\Migrations::AddIfNotExists('migration_'.date('Ymd'), 1);    
-        // migrate module 
+        $s = \IGK\Models\Migrations::AddIfNotExists('migration_'.date('Ymd'), 1);  
+        // update all model files 
+        DBCaches::Reset();
+        $data = DBCaches::GetCacheData();
+        $initalizer = DBCachesModelInitializer::Init($data);
+
+        $initalizer->bootStrap(true);
+ 
 
 
     }

@@ -40,8 +40,11 @@ final class HtmlReader extends IGKObject
     const READ_HTML = "HTML";
     const LOAD_EXPRESSION = "LoadExpression";
     private $m_attribs, $m_context, $m_contextLevel, $m_hasAttrib, $m_hfile, 
-    $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v,
-    $m_self_close;
+    $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v;
+    // $m_self_close;
+    private $m_self_closing_items = [
+        HtmlContext::Html=>['input', 'link', 'img' ,'meta'],
+    ];
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
     static $ss;
@@ -782,15 +785,15 @@ final class HtmlReader extends IGKObject
                     if (empty($name)) {
                         break;
                     }
-                    if ($reader->m_self_close){
-                        // @previous element is self closing 
-                        if ($cnode){
-                            $cnode = $cnode->getParentNode();
-                        }else {
-                            $cnode = $pnode;
-                        }
-                        $reader->m_self_close = false;
-                    }
+                    // if ($reader->m_self_close){
+                    //     // @previous element is self closing 
+                    //     if ($cnode){
+                    //         $cnode = $cnode->getParentNode();
+                    //     }else {
+                    //         $cnode = $pnode;
+                    //     }
+                    //     $reader->m_self_close = false;
+                    // }
                     $cattr = $reader->Attribs();
 
                     if ($caller_context == self::LOAD_EXPRESSION) {
@@ -1176,9 +1179,11 @@ final class HtmlReader extends IGKObject
     ///<param name="context" default="null"></param>
     ///<param name="listener" default="null"></param>
     /**
-     * 
+     * @param string $text content to load  
+     * @param const $listener environment context HTML|XML
+     * @param callable $listener creator to call 
      */
-    public static function Load(string $text, $context = null, $listener = null)
+    public static function Load(string $text,  $context = null, callable $listener = null)
     {
         $tab_doc = null;
         $b_context = false;
@@ -1332,9 +1337,7 @@ final class HtmlReader extends IGKObject
                     if ($v_enter) {
                         $this->_readElement();
                         return true;
-                        // igk_wln_e("already enter on tagnode", $this->ReadName());
-                    }
-                   
+                    }                   
                     $v_enter = true;
                     break;
                 case "?":
@@ -1413,18 +1416,7 @@ final class HtmlReader extends IGKObject
                     if (!$v_enter) {
                         if ($this->m_nodetype == XMLNodeType::ELEMENT) {
                             $tag = strtolower($this->m_name);
-                            switch ($tag) {
-                                case 'link':
-                                case 'input':
-                                case 'img':
-                                    // + | --------------------------------------------------------------------
-                                    // + | this item can self close without the /> tag in html context
-                                    // + |
-                                    // igk_wln_e('dected --> '.$tag);
-                                    $this->m_self_close = true;
-                                    $this->m_isEmpty = true;                                    
-                                    break;
-
+                            switch ($tag) { 
                                 case 'script':
                                 case 'style':
                                 case 'textarea':
@@ -1453,7 +1445,7 @@ final class HtmlReader extends IGKObject
                             return $this->__readTextValue();
                         }
                     } else {
-                        $this->_readElement();
+                        $this->_readElement(); 
                         return true;
                     }
             }
@@ -1473,7 +1465,8 @@ final class HtmlReader extends IGKObject
         };
         $this->m_name = $this->ReadName();
         if (empty($this->m_name)){
-            igk_debug_wln_e(__FILE__.":".__LINE__,  "empty name ", $this->m_text, $this->m_context);
+            Logger::danger(__FILE__.":".__LINE__,  "empty name ", $this->m_context);
+            return false;
         } 
         //$this->m_offset++;
         // igk_wln_e(__FILE__.":".__LINE__,  "empty name ", $this->m_text, "last char:", $this->m_text[$this->m_offset]);
@@ -1497,7 +1490,19 @@ final class HtmlReader extends IGKObject
                 $this->m_isEmpty = true;
             }
         }
+        if ($this->_isSelfClosedElement()){
+            $this->m_isEmpty = 1;
+        } 
         return true;
+    }
+    private function _isSelfClosedElement(){
+        if (is_string($this->m_context)){
+            
+            if ($tab = igk_getv($this->m_self_closing_items, $this->m_context)){
+                return in_array($this->m_name, $tab);
+            }
+        }
+        return false;
     }
     private function _setText(?string $value = "")
     {

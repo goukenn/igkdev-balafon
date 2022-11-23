@@ -18,8 +18,9 @@ trait ProjectAssetHandlerTrait{
      * @return mixed 
      */
     public function assets(){
-        $f = implode("/", array_merge([$this->getController()->getDataDir(), __FUNCTION__],func_get_args()));       
-        // igk_wln_e("domain:::");
+        $f = implode("/", array_merge([$this->getController()->getDataDir(), __FUNCTION__],
+        func_get_args()));       
+        // igk_wln_e("domain:::", $f, file_exists($f));
         if (file_exists($f)){
             $mime = igk_getv(igk_header_mime(), igk_io_path_ext($f), "text/plain");  
             // igk_wln_e("data ", igk_io_path_ext($f), $mime)  ;        

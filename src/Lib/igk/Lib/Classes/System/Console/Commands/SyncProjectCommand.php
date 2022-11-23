@@ -5,10 +5,18 @@
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands;
- 
+
+use IGK\Controllers\BaseController;
+use IGK\Helper\BackupUtility;
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
+use IGK\System\IO\Path;
+
+// + | --------------------------------------------------------------------
+// + | sync project : 
+// + | > --sync:project Folder|Controller [options]
+// + |
 
 /**
  * sync ftp project
@@ -19,8 +27,11 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $command = "--sync:project";
     var $desc = "sync project through ftp configuration";
     var $category = "sync";
-    var $help = "--[list|restore[:foldername]] [--clearcache] [--zip]";
-    
+    var $help = "ftp sync project";
+    var $options = [
+        '--[list|restore[:foldername]] [--clearcache] [--zip]' => '',
+        '--comment:[_litteral_]'=>'comment litteral to pass when backup the project',
+    ];
     /**
      * use zip to indicate 
      * @var bool
@@ -43,16 +54,25 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 
 
         if (is_null($project)) {
-            Logger::danger("project name is required");
+            Logger::danger("project name or controller is required");
             return -1;
         }
-        if (!is_dir($pdir = igk_io_projectdir() . "/${project}")) {
-            Logger::danger("project not found");
-            return -2;
+        $pdir = null;
+        if ($ctrl = self::GetController($project, false)){
+            if (BaseController::IsSysController($ctrl)){
+                Logger::danger("can't sync system controller");
+                return -3;
+            }            
+            $pdir = $ctrl->getDeclaredDir();
+
+        } else {
+            if (!is_dir($pdir = igk_io_projectdir() . "/${project}")) {
+                Logger::danger("project not found");
+                return -2;
+            }
         }
         $pdir = IO::GetUnixPath($pdir, true);
         $project = basename($pdir);
-
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
         }
@@ -65,9 +85,13 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 $this->_restoreRelease($h, $project, $setting);
                 break;
             default:
+                if ($ctrl){
+                    Logger::info('backup project before upload .... ');
+                    $comment = igk_getv($command->options, '--comment');
+                    BackupUtility::BackupProject($ctrl, $comment);
+                }  
                 if ($this->use_zip) {
                     $controller = null;
-
                     // get project in pdir
                     foreach (igk_sys_project_controllers() as $c) {
                         if ($pdir == $c->getDeclaredDir()) {
@@ -214,5 +238,10 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         igk_sys_zip_project($controller, $file);
         Logger::info("done : " . $file);
         return $file;
+    }
+
+    public function showUsage(){
+        parent::showUsage();
+        Logger::print("--sync:project controller|project [--name:ref-config-name]" );
     }
 }

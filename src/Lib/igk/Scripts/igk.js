@@ -18702,7 +18702,9 @@ igk.ready(function() {
                 device: igk.css.getDevice()
             });
         };
-        // support theme changement
+        // + | theme manage change theme detections
+        // + | register to (prefers-color-scheme: dark)
+        // + |
         function __checkMediaTheme() {
             const cTheme = _get_html_theme();
             let m = window.matchMedia('(prefers-color-scheme: dark)');

@@ -350,7 +350,24 @@ class ViewHelper
                 } else {
                     $bname = basename($f);
                     $f = dirname($f);
-                    if (($bname != IGK_DEFAULT_VIEW_FILE) && (file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
+                    $checks = [
+                        $f."/".$bname,
+                        $f."/".$bname.".".$extension
+                    ];
+                    while(count($checks)>0){
+                        $rdir = array_shift($checks);                        
+                        if (is_file($rdir)){
+                            return $rdir;
+                        }
+                        if (is_dir($rdir)){
+                            if (file_exists($c = $rdir."/".IGK_DEFAULT_VIEW)){
+                                return $c;
+                            }
+                        }
+                    }
+
+                    if (($bname != IGK_DEFAULT_VIEW_FILE) && (
+                        file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
                         if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
                             array_unshift($param, array_pop($_views));
                         }

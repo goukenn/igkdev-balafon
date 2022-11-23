@@ -7,6 +7,29 @@
 
 use IGK\Helper\IO;
 
+
+/**
+ * 
+ * @param string $path 
+ * @return string 
+ */
+function igk_io_flatten(string $path){
+    $c = igk_uri($path);
+    $j = explode("../", $c);
+    $path = $j[0];
+    array_shift($j);
+    while(count($j)>0){
+        $cp = array_shift($j);
+        $path = dirname($path);
+        if ($cp){
+            $path .= '/'.$cp;
+        }
+    }
+    $path = str_replace('./', '', $path);
+    return $path;
+}
+
+
 /**
  * read all file's content
  * @param mixed $f 

@@ -21,13 +21,24 @@ class SchemaDiagramVisitor extends DiagramVisitor{
         $this->m_ctrl = $controller;
         $this->m_data = $schemaInfo;
     }
+    /**
+     * visit diagram 
+     * @param mixed $entity 
+     * @return void 
+     */
     public function visitDiagramEntity($entity){
+        $tb = $entity->getName();
+        $tb = IGKSysUtil::DBGetTableName($tb, $this->m_ctrl);
+        // + | --------------------------------------------------------------------
+        // + | init schema migration info
+        // + |
+        
         $t = new SchemaMigrationInfo;
         $t->columnInfo =  $entity->getProperties();
         $t->description = $entity->getDescription();
-        $t->defTableName = $tb = $entity->getName();
-        $tb = IGKSysUtil::DBGetTableName($tb, $this->m_ctrl);
+        $t->defTableName = $tb;
         $t->tableName = $tb;
+        $t->controller = $this->m_ctrl;
         // $this->m_data->tables[$entity->getName()] = $t;
         $this->m_data->tables[$tb] = $t;
     }

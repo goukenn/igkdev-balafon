@@ -773,6 +773,7 @@ EOF;
     ///<summary>init complete</summary>
     /**
      * init application complete    
+     * @param mixed $context init object context 
      */
     protected function initComplete($context = null)
     {

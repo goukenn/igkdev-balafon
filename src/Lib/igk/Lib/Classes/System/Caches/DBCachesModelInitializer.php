@@ -8,22 +8,30 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
+use IGK\Database\DbColumnInfoPropertyConstants;
 use IGK\Helper\Database;
 use IGK\Helper\SysUtils;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGKException;
 use IGKSysUtil;
 
 ///<summary></summary>
 /**
-* 
+* job is to initialize model data definition class
 * @package IGK\System\Caches
 */
 class DBCachesModelInitializer{
     private $tableInfo;
     private $m_loaded = [];
 
+    /**
+     * Init initializer with loaded Playr array 
+     * @param mixed $plist 
+     * @return DBCachesModelInitializer 
+     * @throws IGKException 
+     */
     public static function Init($plist){
         $item = new self;
         $item->tableInfo = $plist;
@@ -31,14 +39,20 @@ class DBCachesModelInitializer{
         $item->bootStrap();
         return $item;       
     }
-    public function bootStrap(){
+    /**
+     * boot and init model base
+     * @param bool $force 
+     * @return void 
+     * @throws IGKException 
+     */
+    public function bootStrap(bool $force=false){
         $current = SysDbController::ctrl();
         $plist = (object)['tables'=>[], 'defs'=>[]];
         foreach($this->tableInfo as $ab){
             if ($ab->controller != $current){
                 ControllerExtension::InitDataBaseModel(
                     $current,
-                    $plist->tables);
+                    $plist->tables, $force);
                 $this->_loadDef($current,  $plist->defs);
                 $current = $ab->controller;
                 $plist->tables = [];
@@ -50,12 +64,20 @@ class DBCachesModelInitializer{
             if (is_null($ab->definitionResolver)){
                 $ab->definitionResolver = $this;
             }
+            if (is_null($ab->modelClass )){
+                $table = igk_getv($ab, DbColumnInfoPropertyConstants::DefTableName);
+                $table = basename(igk_uri(IGKSysUtil::GetModelTypeName($table), $current));
+                $ns = $current::ns('');
+                // $current->resolvClass('Models/'.$table);
+                $ab->modelClass = $ns."\\Models\\".$table;
+            }
+
             $plist->tables[$ab->tableName] = $ab;
             $plist->defs[$ab->tableName] = $ab;
         }
         ControllerExtension::InitDataBaseModel(
             $current,
-            $plist->tables);
+            $plist->tables, $force);
         $this->_loadDef($current,  $plist->defs);
         $plist->tables = [];
         $plist->defs = [];
@@ -163,7 +185,9 @@ class DBCachesModelInitializer{
             ->doc($comment)
             ->phpdoc(rtrim($php_doc) . "\n")
             ->uses($uses);
-
+        if (empty($columnInfo->modelClass)){
+            $columnInfo->modelClass =    $base_ns . "\\".$name;
+        }
         $cf = $builder->render();
         return $cf;
     }
@@ -268,12 +292,17 @@ class DBCachesModelInitializer{
                 $list[] = SysDbController::ctrl();
             }
             while ($q = array_shift($list)) {
-                if ($gu = igk_getv($this->m_loaded[get_class($q)], $type)) {
+                if (isset($g[$type])){
+                    $gu = $g[$type];
+                    break;
+                }
+
+                if (isset($this->m_loaded[get_class($q)]) && ($gu = igk_getv($this->m_loaded[get_class($q)], $type)) ){
                     break;
                 }
             }
             if (is_null($gu)) {
-                $gm = Database::GetInfo($type);
+                // $gm = Database::GetInfo($type);
                 igk_die(sprintf("try to retrieve null %s ", [$type]));
             }
             if (!isset($gu->modelClass)) {

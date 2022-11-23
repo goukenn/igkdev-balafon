@@ -5,14 +5,10 @@
 // @desc: 
 
 namespace IGK\Database;
-
-use Closure;
+ 
 use Exception;
-use IGK\Controllers\BaseController;
-use IGK\Helper\Activator;
-use IGK\System\Caches\DBCaches;
-use IGK\System\Caches\EnvControllerCacheDataBase;
-use IGK\System\Caches\EnvControllerCacheList;
+use IGK\Controllers\BaseController; 
+use IGK\System\Caches\DBCaches; 
 use IGKException;
 
 abstract class DbSchemaDefinitions

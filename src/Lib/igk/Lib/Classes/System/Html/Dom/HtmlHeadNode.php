@@ -42,27 +42,33 @@ class HtmlHeadNode extends HtmlNode{
     * @param mixed $options the default value is null
     */
     protected function __getRenderingChildren($options=null){
+       // + | --------------------------------------------------------------------
+       // + | for good header processing item order are important
+       // + |
        
         $v=parent::__getRenderingChildren($options);
+        $is_document = isset($options->Document);
+        // + 1. meta first
+        if($is_document){
+            if($meta=$options->Document->getMetas()){
+                if (!$v) $v = [];
+                array_unshift($v, $meta);
+            } 
+        }
         $t=array(
             HtmlHeadBaseUriNode::getItem(),
             HtmlFaviconNode::getItem(), 
-            HtmlHeadPreloadNode::getItem(),
-            HtmlExtraHeaderScriptHost::Create($this->m_scripts)
+            HtmlHeadPreloadNode::getItem(),          
         );
-        $is_document = isset($options->Document);
-        if($is_document){
-            if($meta=$options->Document->getMetas()){
-                $t[]=$meta;
-            } 
-            if (!($doc = igk_getv($options, "Document")) || !($doc->noCoreScript)){
-                $t[] = HtmlCoreJSScriptsNode::getItem();
-                $t[] = HtmlControllerJSScriptsNode::getItem();                
-            }
+        if (!($doc = igk_getv($options, "Document")) || !($doc->noCoreScript)){
+            $t[] = HtmlCoreJSScriptsNode::getItem();
+            $t[] = HtmlControllerJSScriptsNode::getItem();                
         }
-
+        if ($this->m_scripts){
+            $t[] = HtmlExtraHeaderScriptHost::Create($this->m_scripts);
+        }
         if(is_array($v))
-        $t=array_merge($t, $v);        
+            $t=array_merge($v, $t);        
         // to load extra item on 
         $t[] =new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, "head");
         return $t;

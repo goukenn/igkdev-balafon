@@ -287,24 +287,22 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     protected function _initialize($raw = null, $mock = 0, $unset = false)
     {
+        $t =  $this->getTable();       
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
+            $r =  DBCaches::GetCacheData();
             if (igk_environment()->isDev()) {
-                $t =  $this->getTable();
-                $r =  DBCaches::GetInfo($t, 
-                    igk_getctrl($this->controller, false) ?? SysDbController::ctrl()
-                );
                 igk_wln([
                     "access" => __FILE__ . ":" . __LINE__,
                     "msg" => "raw is null",
                     "class" => get_class($this),
                     "data" => $raw,
                     "controller" => $this->controller,
-                    "table" => $this->getTable(),
+                    "table" => $t,
                     "dummy" => $this->raw,
                 ]);
             }
-            throw new \IGKException("Failed to create dbrow: " . $this->getTable());
+            throw new \IGKException("Failed to create dbrow: missing table definition " . $t);
         }
         // + | ----------------------------------------------------------
         // + | copy raw if not instance 

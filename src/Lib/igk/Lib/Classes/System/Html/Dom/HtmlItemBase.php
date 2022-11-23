@@ -504,9 +504,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         if (method_exists($this, $fc = "get" . ucfirst($name))) {
             return call_user_func_array([$this, $fc], []);
-        }
-        // igk_environment()->isDev() && igk_trace();
-        igk_dev_wln_e("try to get ", get_class($this),  $name);
+        } 
+        // igk_dev_wln_e("try to get ", get_class($this),  $name);
     }
     public function __set($key, $value)
     {
@@ -1444,9 +1443,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<param name="name"></param>
     ///<return refout="true"></return>
     /**
-     * 
-     * @param mixed $name
-     * @return mixed|array list of element by tagname not implement
+     * search for item by tagname
+     * @param string|callable $name tag to search
+     * @return mixed|array  | * list of element by tagname not implement
      */
     public function getElementsByTagName($name)
     {
@@ -1456,6 +1455,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $s = strtolower($name);
         $c = $this->getChilds();
         $ctab = [$this];
+        $fc = $name;
+        if (is_string($name)){
+            $fc = function($n)use($name){
+                return $n->getTagName()== $name;
+            };
+        }
 
         while ($q = array_shift($ctab)) {
             $c = $q->getChilds();
@@ -1472,18 +1477,24 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     }
                 }
             } else {
-                foreach ($c_c as $t) {
-                    if ($_tagname = $t->getTagName()) {
-                        $_tagname = strtolower($_tagname);
+                // seach in chills 
+                // + | --------------------------------------------------------------------
+                // + | update search with path aglo expression 
+                // + |
+                
+                $result = [];
+                while(count($c_c)>0){
+                    $p = array_shift($c_c);
+                    if ($fc($p)){
+                        $result[] = $p;
                     }
-                    if ($_tagname == $s) {
-                        $tab[] = $t;
-                    }
-                    $p = $t->getChilds();
-                    if ($p) {
-                        $ctab = array_merge($ctab, $p->to_array());
+                    if ($ct = $p->getChilds()){
+                        if ($cp = $ct->to_array())
+                            array_unshift($c_c, ...$cp);
                     }
                 }
+                return $result;
+               
             }
         }
         // igk_wln_e("result ", $name, $tab,$tab[0]->render());

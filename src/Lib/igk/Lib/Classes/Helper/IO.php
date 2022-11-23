@@ -10,10 +10,10 @@ use Exception;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\FileWriter; 
+use IGK\System\IO\FileWriter;
 use IGKException;
 use ReflectionException;
-use function igk_resources_gets as __; 
+use function igk_resources_gets as __;
 
 
 /**
@@ -22,6 +22,42 @@ use function igk_resources_gets as __;
  */
 class IO
 {
+
+ 
+
+    /**
+     * pattern with version inside
+     * @param mixed $path 
+     * @param string $pattern 
+     * @return string|null 
+     * @throws IGKException 
+     */
+    public static function CheckFileVersion($path, $pattern = '/^balafon\.(?P<version>[0-9]+(\.[0-9]+){0,3})/')
+    {
+        $dir = dirname($path);
+        $v = null;
+        $files = IO::GetFiles($dir, function ($s) use ($pattern) {
+            return preg_match($pattern, basename($s));
+        });
+        if (count($files) > 0) {
+            usort($files, function($a, $b)use($pattern){
+                $va = igk_preg_match($pattern, basename($a), 'version');
+                $vb = igk_preg_match($pattern, basename($b), 'version');
+                return version_compare($vb, $va);
+            });
+            $version = igk_preg_match($pattern, basename($files[0]), "version");
+            $v = explode(".", $version);
+        }
+        if (!is_null($v)) {
+            $incVersion = intval(array_pop($v));
+            $incVersion++;
+            array_push($v, $incVersion);
+            return implode('.', $v);
+        }
+        return null;
+    }
+
+
 
     /**
      * resolv path constant
@@ -177,7 +213,7 @@ class IO
      */
     public static function CopyFiles($inputDir, $outputDir, $recursive = false, $overwrite = false)
     {
-        $ddir = [["d"=>$inputDir,"path"=>$outputDir]];
+        $ddir = [["d" => $inputDir, "path" => $outputDir]];
         $sep = '/';
         $ln = strlen($inputDir);
 
@@ -186,7 +222,7 @@ class IO
             $outputDir = $q["path"];
 
             $hdir = opendir($inputDir);
-            if ($hdir) { 
+            if ($hdir) {
                 while (($r = readdir($hdir))) {
                     if ($r == "." || ($r == ".."))
                         continue;
@@ -195,17 +231,17 @@ class IO
                     if (is_dir($f)) {
                         self::CreateDir($p);
                         if ($recursive) {
-                            array_push($ddir, ["d"=>$f, "path"=>$p]);
+                            array_push($ddir, ["d" => $f, "path" => $p]);
                         }
                         continue;
                     }
                     if (!is_file($p) || $overwrite) {
-                        if ($overwrite && is_file($p)){
+                        if ($overwrite && is_file($p)) {
                             unlink($p);
                         }
-                        self::CreateDir(dirname($p));                  
-                        copy($f, $p);                           
-                    } 
+                        self::CreateDir(dirname($p));
+                        copy($f, $p);
+                    }
                 }
                 closedir($hdir);
             }
@@ -626,7 +662,7 @@ class IO
      * @param callable $callback callback called* $excludedir the default value is null
      */
     public static function GetFiles($dir, $match, $recursive = false, ?array &$excludedir = null, ?callable $callback = null)
-    { 
+    {
         if (is_dir($dir) === false)
             return null;
         $v_out = array();
@@ -655,7 +691,7 @@ class IO
                 return preg_match($match, $f);
             };
         } else if ($iscallable) {
-            $_include_match = function ($f) use ($match, &$excludedir) { 
+            $_include_match = function ($f) use ($match, &$excludedir) {
                 return $match($f, $excludedir);
             };
         }
@@ -673,12 +709,12 @@ class IO
                             //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
                             if ($mdata == -1) {
                                 continue;
-                            } 
+                            }
                             $v_out[] = $f;
                             $callback && $callback($f);
                         }
-                    } else {                        
-                        if (!($ignore_hidden && (strpos($r, ".")===0)) && !$fc($f, $r, $excludedir) && $recursive) {
+                    } else {
+                        if (!($ignore_hidden && (strpos($r, ".") === 0)) && !$fc($f, $r, $excludedir) && $recursive) {
                             array_push($dirs, $f);
                         }
                     }

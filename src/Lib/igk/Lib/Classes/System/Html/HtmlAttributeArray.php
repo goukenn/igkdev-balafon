@@ -74,6 +74,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
     protected function _access_OffsetGet($n)
     {
+      
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {
             return $this->m_protectedList[$n];
         }
@@ -81,6 +82,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
     protected function _access_OffsetSet($n, $v)
     {
+      
         if (!is_null($this->add_listener)) {
             $fc = $this->add_listener;
             $fc($n) || igk_die("can't update attribute : " . $n);

@@ -12594,7 +12594,8 @@ function igk_html_get_system_uri($link, $option = null, $webapp = null)
 {
     $webapp = $webapp ?? igk_is_webapp();
     if ($option && !isset($option->StandAlone)) {
-        igk_die("No StandAlone in options query");
+        $option->StandAlone = 1;
+        // igk_die("No StandAlone in options query");
     }
     $src = "";
 
@@ -17762,8 +17763,8 @@ function igk_navto($uri, $headerStatus = null)
     if (!igk_is_webapp()) {
         return;
     }
-    igk_trace();
-    igk_wln_e("navto :::".$uri);
+    // igk_trace();
+    // igk_wln_e("navto :::".$uri);
     if (($headerStatus !== null) && $headerStatus) {
         // igk_ilog("the status " . ($headerStatus == null));
         igk_set_header($headerStatus);
@@ -24777,6 +24778,7 @@ function igk_sys_zip_project($controller, $path, $author = IGK_AUTHOR, ?array $m
     if (file_exists($path)) {
         @unlink($path);
     }
+    IO::CreateDir(dirname($path));
     if ($zip->open($path, ZIPARCHIVE::CREATE)) {
         $g = is_string($controller) ? $controller : $controller->getDeclaredDir();
         $prjname = is_string($controller) ? basename($g) :

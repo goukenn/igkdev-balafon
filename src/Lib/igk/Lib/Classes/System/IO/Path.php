@@ -25,7 +25,7 @@ class Path{
     protected $data_dir;
     protected $sys_data_dir; 
     protected $css_path;
-
+    protected $backup_dir;
     protected $home_dir;
 
 
@@ -41,13 +41,21 @@ class Path{
     }
     /**
      * get system path instance
-     * @return Path path instance
+     * @return self path instance
      */
     public static function getInstance(){
         if (self::$sm_instance===null){
             self::$sm_instance = new static(); 
         }
         return self::$sm_instance;
+    }
+
+    /**
+     * get the backup directory
+     * @return mixed 
+     */
+    public function getBackupDir(){
+        return $this->backup_dir;
     }
     public function prepareData(){
  
@@ -63,11 +71,15 @@ class Path{
             $b["XDEBUG_TRIGGER"] = 1;
         }
         http_build_query($b);
-        $this->css_path = str_helper::uri(implode("/", [IGK_RES_FOLDER,IGK_STYLE_FOLDER,"balafon.css?". http_build_query($b)]));    
+        $this->css_path = '/'.str_helper::uri(implode("/", [IGK_RES_FOLDER,IGK_STYLE_FOLDER,"balafon.css?". http_build_query($b)]));    
         $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_PACKAGES_FOLDER."/vendor");
         $this->sys_data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
-        $this->data_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_DATA_FOLDER);
-
+        $this->data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
+        if (defined('IGK_BACKUP_DIR')){
+            $this->backup_dir = constant('IGK_BACKUP_DIR');
+        } else {
+            $this->backup_dir =str_helper::UriCombine($this->data_dir , 'Backup');
+        }
         // used to resolve symbolic links
         $this->home_dir = igk_getv($_SERVER, "HOME", "~");
     }
@@ -179,7 +191,7 @@ class Path{
      */
     public function baseuri($dir = null, $secured = null, &$path = null)
     {
-        if ($baseURI = igk_environment()->get("baseURI")){
+        if (!is_null($baseURI = igk_environment()->get("baseURI"))){
             return implode("/", array_filter([$baseURI, $dir]));
         }
         $secured = $secured === null ? igk_getv($_SERVER, 'HTTPS') == 'on' : $secured;

@@ -9,6 +9,7 @@
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
+use IGK\Database\DbColumnInfoPropertyConstants;
 use IGK\Database\SQLQueryUtils;
 use IGK\Helper\ArrayUtils;
 use IGK\Helper\Database;
@@ -52,6 +53,19 @@ abstract class IGKSysUtil
         $name = preg_replace("/\\s/", "_", $t);
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $_NS . $name;
+    }
+    /**
+     * return model type name
+     * @param mixed $tableinfo with defTableName key property
+     * @return null|string 
+     * @throws IGKException 
+     */
+    public static function GetModelTypeNameFromInfo($tableinfo, & $table = null) :?string{
+        $table = igk_getv($tableinfo, DbColumnInfoPropertyConstants::DefTableName);
+        if (!empty($table)) {
+            return basename(igk_uri(self::GetModelTypeName($table)));
+        }
+        return null; 
     }
     public static function Encrypt($data, $prefix = null)
     {
@@ -365,7 +379,7 @@ abstract class IGKSysUtil
 
         if (isset($g[$type])) {
             if (!isset($g[$type]->model)) {
-                igk_die(" model class not definited.");
+                igk_die(" model class defined.");
             }
             $t .= $g[$type]->model;
         } else {

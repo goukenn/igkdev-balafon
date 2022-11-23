@@ -9,7 +9,9 @@ namespace IGK\System\Configuration;
 use AppBootstrapController;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ControllerHelper;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
+use ReflectionException;
 use stdClass;
 
 require_once IGK_LIB_CLASSES_DIR."/Helper/ControllerHelper.php";
@@ -65,8 +67,18 @@ final class CacheConfigs
         }
         return self::$sm_instance;
     }
+    /**
+     * get cached options 
+     * @param BaseController $controller 
+     * @param mixed $name 
+     * @param mixed $defaut 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GetCachedOption(BaseController $controller, $name, $defaut = null)
-    {
+    { 
         $i = self::getInstance();
         $cnf = ControllerHelper::getConfigFile($controller) ?? igk_die("configure file is missing");
         // if (!$i->changed || !($i->mtime < filemtime($cnf)))

@@ -192,7 +192,8 @@ abstract class DbSchemas
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
     { 
-        $v_info = self::GetTableRowReference($tablename, $ctrl, $dataobj);
+        
+        $v_info = DBCaches::GetInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
         if ($v_info) { 
             return self::CreateObjFromInfo($v_info, $dataobj);
         }

@@ -68,9 +68,12 @@ class HtmlDocumentNode extends HtmlItemBase{
     public function getFavicon(){
         return null;
     }
-    public function __construct(){
-        $this->m_head = $this->add(new HtmlHeadNode());
-        $this->m_body = $this->add(new HtmlBodyNode());
+    /**
+     * use igkdoc to handle theme
+     */
+    public function __construct(?HtmlItemBase $head = null, ?HtmlItemBase $body = null){
+        $this->m_head = $head ?? $this->add(new HtmlHeadNode());
+        $this->m_body = $body ?? $this->add(new HtmlBodyNode());
     }
     public function render($options=null){
         HtmlRenderer::DefOptions($options); 

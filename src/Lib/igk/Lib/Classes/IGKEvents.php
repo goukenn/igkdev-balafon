@@ -13,15 +13,22 @@ use IGK\IHookOptions;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
 /**
- * represent a event method pointer
+ * represent app - system - controller - public hook
  */
 class IGKEvents extends IGKObject
 {
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
-    const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_SESS_START = "sys_session_start";
+    
+    // + | --------------------------------------------------------------------
+    // + | Application constant 
+    // + |  
+    const HOOK_APP_SHUTDOWN = 'app_shutdown'; 
     const HOOK_APP_PRESENTATION = 0xa01;
+    const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
+
+
     const HOOK_INIT_APP = "init_app";
     const HOOK_BEFORE_INIT_APP = "before_init_app";
     const HOOK_AFTER_INIT_APP = "after_init_app";
@@ -70,10 +77,14 @@ class IGKEvents extends IGKObject
     const HOOK_VIEW_MODE_CHANGED = "config_view_mode_changed";
     const HOOK_CONFIG_CTRL = "config_get_configs";
     const HOOK_DEBUGGER_VIEW = "debugger_view";
+    // + | --------------------------------------------------------------------
+    // + | CONTROLLER HOOK
+    // + |    
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
+    const HOOK_CONTROLER_LOADED = 'on_controller_loaded';
+
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
-    const HOOK_SHUTDOWN = "app_shutdown";
     const HOOK_LOG_APPEND = "sys_log_append_msg";
     const HOOK_INSTALL_SITE = "sys_install_site";
     const HOOK_INIT_GLOBAL_MATERIAL_FILTER = "sys_init_gobal_material_filter";

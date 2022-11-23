@@ -41,9 +41,10 @@ class RequestViewCommand extends AppExecCommand{
             "--render-context:[]"=>"set rendering context. default is XML",        
             "+ Server Request COMMAND"=>"",
         ];
-        array_push($opts, ...DbCommandHelper::GetUsageCommandHelp());
+        $def = DbCommandHelper::GetUsageCommandHelp();
+        array_push($opts, $def);
         array_push($opts, ["+ DB Request COMMAND"=>""]);
-        array_push($opts, ...ServerCommandHelper::GetUsageCommandHelp());
+        array_merge($opts,ServerCommandHelper::GetUsageCommandHelp());
         
         parent::showOptions();
     }

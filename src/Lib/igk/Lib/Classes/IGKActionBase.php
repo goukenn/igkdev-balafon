@@ -17,17 +17,21 @@ use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ActionNotFoundException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\Route;
 use IGK\System\Http\WebResponse;
+use IGK\System\Traits\InjectableTrait;
 
 /**
  * Represente view's action definition
  */
 abstract class IGKActionBase implements IActionProcessor
 {
+    use InjectableTrait;
+    
     const INIT_TRAIT_PREFIX =   '_init_trait_' ;
     /**
      * 
@@ -69,8 +73,9 @@ abstract class IGKActionBase implements IActionProcessor
     protected $defineHandle = [
         self::FAILED_STATUS => "handleError"
     ];
-
     protected $notify_name;
+
+   
 
     /**
      * change the controller
@@ -280,8 +285,8 @@ abstract class IGKActionBase implements IActionProcessor
         //+ |
         $verb = strtolower(igk_server()->REQUEST_METHOD ?? 'get');
         if (method_exists($this, $fc = $name . "_" . $verb)) {
-            $arguments = Dispatcher::GetInjectArgs(new ReflectionMethod($this, $fc), $arguments);
-            return $this->$fc(...$arguments);
+            return $this->_dispatchAndInvoke($fc, $arguments);
+       
         } else if ($verb == "options") {
             // handle default method option
             //options request ...
@@ -369,14 +374,18 @@ abstract class IGKActionBase implements IActionProcessor
         return $b;
     }
     /**
-     * determine if do response must be call for the response
+     * determine if handling response 
      * @param mixed $response 
      * @return bool 
      * @throws IGKException 
      */
     protected function _handleResponse($response): bool
     {
-        return (igk_is_ajx_demand() && ($response instanceof HtmlItemBase));
+        // + | --------------------------------------------------------------------
+        // + | by default in ajx context and not null 
+        // + |
+        
+        return (igk_is_ajx_demand() && !is_null($response));
     }
     /**
      * Handle action

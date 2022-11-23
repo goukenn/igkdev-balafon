@@ -365,6 +365,13 @@ class SQLGrammar implements IDbQueryGrammar
         );
         return $query;
     }
+    /**
+     * create add column alter query
+     * @param mixed $table 
+     * @param mixed $info 
+     * @param mixed $after 
+     * @return string 
+     */
     public function add_column($table, $info, $after = null)
     {
         $q = "ALTER TABLE ";
@@ -378,6 +385,14 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $q;
     }
+    /**
+     * create alter table query 
+     * @param mixed $table 
+     * @param mixed $info 
+     * @param mixed $after 
+     * @return string 
+     * @throws IGKException 
+     */
     public function rm_column($table, $info, $after = null)
     {
         $name = is_object($info) ? getv($info, "clName") : $info;
@@ -850,13 +865,21 @@ class SQLGrammar implements IDbQueryGrammar
      */
     protected static function GetValues($driver, $values, & $tableInfo, $update = 0)
     {
+
+
+
+
         $tvalues = new stdClass();
 
         if (is_object($values) && method_exists($values, "to_array")) {
             $values = $values->to_array();
         }
+        if (is_object($values)){
+            $values = SQLObjectDef::Resolve($values, !$update);
+        }
         if (is_array($values))
             $values = (object)$values;
+
         if ($tableInfo) {
             $filter = $driver->getFilter();
             $keys = [];

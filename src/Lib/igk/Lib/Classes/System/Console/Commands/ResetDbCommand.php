@@ -12,8 +12,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemaDefinitions;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Database;
-use IGK\System\Caches\DBCaches;
-use IGK\System\Caches\EnvControllerCacheDataBase;
+use IGK\System\Caches\DBCaches; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
@@ -110,9 +109,7 @@ class ResetDbCommand extends AppExecCommand
                     return call_user_func_array([get_class($b), $func], $arguments);
                 }
         );
-
-        EnvControllerCacheDataBase::ResetCache();
-     
+ 
         // + | --------------------------------------------------------------------
         // + | 1. downgrade 
         // + |

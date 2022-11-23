@@ -367,9 +367,22 @@
         </Migration>
         <Migration>
             <addColumn table="%prefix%db_logs">
-                <Column clName="db_logs_updateAt" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />                
+                <Column clName="db_logs_updateAt" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </addColumn>
         </Migration>
 
+
+        <Migration>
+            <renameColumn table="%prefix%mailinglists" column="clEmail" new_name="clml_email" />
+            <renameColumn table="%prefix%mailinglists" column="clState" new_name="clml_state" />
+        </Migration>
+        <Migration>
+            <renameColumn table="%prefix%mailinglists" column="clml_Source" new_name="clml_source" />
+        </Migration>
+        <Migration>
+            <addColumn table="%prefix%mailinglists" after='clml_locale'>
+                <Column clName="clml_init" clType="text" />
+            </addColumn>
+        </Migration>
     </Migrations>
 </data-schemas>

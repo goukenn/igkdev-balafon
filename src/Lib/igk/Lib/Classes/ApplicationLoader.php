@@ -106,7 +106,7 @@ class ApplicationLoader
                     igk_io_w2file($path, serialize($this->_load_classes));                
                 }
             }
-            igk_hook(IGKEvents::HOOK_SHUTDOWN, [$this]);
+            igk_hook(IGKEvents::HOOK_APP_SHUTDOWN, [$this]);
         });        
     } 
    

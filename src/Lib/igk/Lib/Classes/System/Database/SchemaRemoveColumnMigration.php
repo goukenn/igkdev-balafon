@@ -5,7 +5,10 @@
 // @date: 20210422 09:09:36
 namespace IGK\System\DataBase;
 
-
+/**
+ * use to remove column
+ * @package IGK\System\DataBase
+ */
 class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "column"];
     public $columnInfo;

@@ -11,6 +11,7 @@ use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Activator;
 use IGK\Helper\Database;
+use IGK\Helper\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\DbUtils;
@@ -24,11 +25,31 @@ use IGKException;
 * @package IGK\System\Caches
 */
 class DBCaches{
-
+    const CACHE_FILE_NAME = '.data-schema.definition.cache';
     
     private static $sm_instance;
 
     private $m_db_initializer;
+
+    private $m_db_init_request;
+
+    /**
+     * store controller loaded definition
+     * @var array
+     */
+    private $m_db_defs = [];
+
+    /**
+     * init db request 
+     * @return mixed 
+     */
+    public static function InitRequest(){
+        return self::getInstance()->m_db_init_request;
+    }
+
+    public static function GetCacheFile(){
+        return igk_io_cachedir().'/'.self::CACHE_FILE_NAME;
+    }
 
 
     public static function GetCacheData(){
@@ -126,7 +147,7 @@ class DBCaches{
     private function _clearAndReload(){
         $this->_clear();
         $this->m_init = false;
-        if (file_exists($file = EnvControllerCacheDataBase::GetCacheFile()))
+        if (file_exists($file = self::GetCacheFile()))
             @unlink($file);
 
         DbSchemas::ResetSchema();
@@ -141,16 +162,16 @@ class DBCaches{
         // + |
         $sysctrl = SysDbController::ctrl();        
         if (!$this->m_init){
-            if (is_file($file = EnvControllerCacheDataBase::GetCacheFile())){
+            if (is_file($file = self::GetCacheFile())){
                 $data = unserialize(file_get_contents($file));
                 if ($data !== false){
                     $ad_name = $sysctrl->getDataAdapterName();
-                    $trdata = igk_getv($data, $ad_name);
+                    $trdata = igk_getv($data->{'0'}, $ad_name);
                     foreach($trdata as $ctrl => $v){
                         if (!($gctrl = igk_getctrl($ctrl, false))){
                             continue;
                         }
-                        foreach($v as $table_n => $d)
+                        foreach($v as  $d)
                         { 
                         $rdata[$d->tableName] = Activator::CreateNewInstance(SchemaMigrationInfo::class,  [
                             'columnInfo'=>array_map(function($a){
@@ -161,21 +182,19 @@ class DBCaches{
                             'controller'=>$gctrl,
                             'tableName'=>$d->tableName
                             ]);
-
                         }
                     }
- 
                     $this->m_tableInfo = $rdata; 
+                    $this->m_db_defs =  $trdata;
                     $this->m_init = 1;
                     return;
                 }
             }
-        }
-      
-
+        } 
         // initialize system controller
         $this->m_init = 1;
         $this->m_initializing = 1;
+        $this->m_db_init_request = 1;
         igk_environment()->NO_PROJECT_AUTOLOAD = 1;
         $db = new DatabaseInitializer; 
         $definition = $db->init($sysctrl);
@@ -208,21 +227,26 @@ class DBCaches{
         // + | --------------------------------------------------------------------
         // + | load to speed loading
         // + |
-        EnvControllerCacheDataBase::CacheData($this->m_tableInfo);        
+        self::CacheData($this->m_tableInfo);        
         // check and init model class 
         $this->m_initializing = false; 
+        $this->m_db_init_request= false;
         igk_environment()->NO_PROJECT_AUTOLOAD = null;
     
         // + | --------------------------------------------------------------------
         // + | check and init data model 
         // + |
-        
-        $plist = (object)['tables'=>[]];
         Logger::warn("check for data models files");
-        DBCachesModelInitializer::Init($this->m_tableInfo);
-  
+        DBCachesModelInitializer::Init($this->m_tableInfo);  
         igk_hook('db_caches initialized', []);
         // @igk_ serialize - the data to speed loading         
+    }
+    /**
+     * get stored controller table info definitions
+     * @return array 
+     */
+    public function getDefs(){
+        return $this->m_db_defs;
     }
     /**
      * resolve according to criteria
@@ -249,8 +273,28 @@ class DBCaches{
          */
         $ref_def = igk_getv($this->m_tableInfo, $table);
         if (!$ref_def){
-            Logger::danger('table not found : '.$table);
-            return null;
+
+            // + | --------------------------------------------------------------------
+            // + | maybe not already loaded - try load definition
+            // + |
+            $this->m_db_init_request = true;
+            $requests_def = null;
+            if ($controller && $controller->getCanInitDb()){
+
+                $db = new DatabaseInitializer; 
+                $definition = $db->init($controller);
+                if (isset($definition->tables[$table])){
+                    // table definition found - 
+                    $this->m_tableInfo = array_merge($this->m_tableInfo, $definition->tables);
+                    $requests_def = $definition->tables[$table];
+                    self::CacheData($this->m_tableInfo);
+                }
+            }
+            $this->m_db_init_request = false;
+            if (!$requests_def){
+                Logger::danger('table not found : '.$table);
+            }
+            return $requests_def;
         }
         if (empty($ref_def->tableRowReference)){        
             //
@@ -261,5 +305,44 @@ class DBCaches{
         }
         return $ref_def->tableRowReference;
 
+    }
+
+    private static function _UnsetPropertiesDefinition($m){
+        if (is_object($m)){
+            $m = (array)$m;
+        }
+     
+        $keys = array_keys((array)$m);
+        $var = get_class_vars(SchemaMigrationInfo::class);
+        $allowed = array_keys($var); // [ 'columnInfo', 'defTableName', 'description', 'tableName', 'defTableName'];
+        foreach($keys  as $p){
+            if (!in_array($p, $allowed)){
+                unset($m[$p]);
+            }
+        }  
+        return $m;
+    }
+    public static function CacheData($data){
+        $g =  (object)['m_serie'=>[]];
+        
+        foreach($data as $k=>$m){
+            $cl = $m->controller;
+            if (is_null($cl)){
+                igk_wln_e("bad null found");
+            }
+            $ad = $cl->getDataAdapterName();
+            $m = self::_UnsetPropertiesDefinition((array)$m);
+            $cl_name = get_class($cl);
+            if (!isset($g->m_serie[$ad]))
+                $g->m_serie[$ad] = [];
+            if (!isset($g->m_serie[$ad][$cl_name])){
+                $g->m_serie[$ad][$cl_name] = [];
+            }
+            $g->m_serie[$ad][$cl_name][$k] = $m;
+        }
+        igk_io_w2file(self::GetCacheFile(), serialize(json_decode(Utility::TO_JSON(
+            [$g->m_serie, 'generate'=>date('Ymd')], [
+            'ignore_empty' => 1
+        ]))));
     }
 }

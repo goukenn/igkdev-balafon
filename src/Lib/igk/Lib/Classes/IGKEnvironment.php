@@ -38,6 +38,9 @@ final class IGKEnvironment extends IGKEnvironmentConstants
 {
     private static $sm_instance;
 
+    public function getAuthor(){
+        return igk_configs()->get('author', IGK_AUTHOR);
+    }
     /**
      * key name
      * @var ?string
@@ -472,11 +475,21 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     }
     ///<summary>environment short name</summary>
     /**
-     * environment short name
+     * environment - started short name
      */
     public function keyName()
     {
-        return $this->m_keyname ?? $this->m_keyname = self::ResolvEnvironment($this->name());
+        if (is_null($this->m_keyname)){
+            $this->m_keyname = self::ResolvEnvironment($this->name());
+        } 
+        return $this->m_keyname; 
+    }
+    /**
+     * alway resolve the key name depending on environment state
+     * @return int|string|false 
+     */
+    public function resolvKeyName(){
+        return self::ResolvEnvironment($this->name());
     }
     ///<summary></summary>
     ///<param name="i"></param>
