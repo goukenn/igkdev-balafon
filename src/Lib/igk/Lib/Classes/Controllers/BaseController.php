@@ -13,11 +13,12 @@ use IGK\Helper\Activator;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO; 
 use IGK\Helper\ViewHelper;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Resources\R;
 use IGK\Server;
 use IGK\System\Configuration\ControllerConfigurationData;
 use IGK\System\Console\Logger;
+use IGK\System\Database\SchemaMigrationInfo;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Html\Dom\HtmlCtrlNode;
@@ -41,10 +42,11 @@ use function igk_resources_gets as __;
 
 /**
  * @package IGK\Controllers
+ * @method static void article(string $articlePath, array $data) marcos function . bind article with data. 
  * @method static bool getCanInitDb() check if this controller entry can init database
  * @method static bool initDb(bool $force) macros method. init controller database
  * @method static string name(string $path) macros method. get resolved key name
- * @method static void InitDataBaseModel(definition, $bool) macros function
+ * @method static void InitDataBaseModel(array $definition, bool force) macros function
  * @method static InitDataFactory() macros function
  * @method static InitDataInitialization() macros function
  * @method static InitDataSeeder() macros function
@@ -101,8 +103,8 @@ use function igk_resources_gets as __;
  * @method static bool login(user, passwd, nav) macros function. try login with the user
  * @method static void logout() macros function
  * @method static void migrate() macros function
- * @method static object|null modelUtility() macros function
- * @method static void string name(?string path) macros function
+ * @method static ?ModelBase model(string $modelName) macros function search for model by name. 
+ * @method static object|null modelUtility() macros function 
  * @method static void notifyKey() macros function
  * @method static string ns(string $path) macros function
  * @method static void register_autoload() macros function register macros function
@@ -376,6 +378,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                     ActionHelper::HandleArgs($fname, $handlerArgs);
                 }
             }   
+           // igk_wln_e($fname, $handlerArgs);
            $r = $handler::Handle(
                 $this,
                 $fname,
@@ -413,7 +416,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                     igk_navto($redirect);                    
                 } 
                
-                // igk_wln_e("try redirect", $redirect);
+                // igk_wln_e("try redirect", $action_handler, $handle_response, $fname,$params);
             } catch (\Exception $ex) {
                 // + | handler failed or thro an exception. 
                 // + | method no present
@@ -428,7 +431,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                     igk_exit();
                 }
                 igk_ilog("!Action Handler failed :",null, 0, false);
-                igk_wln_e("!Action Handler failed ", $ex->getMessage());
+                igk_dev_wln_e("!Action Handler failed ", $ex->getMessage());
                 //throw new ActionHandlerException($action_handler, $fname);
             }
             // + | ----------------------------------------------------------------
@@ -595,9 +598,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function getPrimaryCssFile()
     {
-        // $prima_file = $this->getConfigs()->get("PrimaryStyle", "default.pcss");
+        // $prima_file = $this->getConfig("PrimaryStyle", "default.pcss");
 
-        return implode("/", [$this->getStylesDir(), "default.pcss"]);// $this->getConfigs()->get("PrimaryStyle", "default.pcss")]);
+        return implode("/", [$this->getStylesDir(), "default.pcss"]);// $this->getConfig("PrimaryStyle", "default.pcss")]);
     }
     ///<summary></summary>
     /**
@@ -1183,12 +1186,12 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     /**
      * return controller table info
      */
-    public function getDataTableInfo(): ?DbModelDefinitionInfo
+    public function getDataTableInfo(): ?IModelDefinitionInfo
     {   $tb = null;
         if ($this->getUseDataSchema()) {
             $def = $this->getDataTableDefinition(null);
-            if (!($def instanceof DbModelDefinitionInfo)){
-                $def = Activator::CreateNewInstance(DbModelDefinitionInfo::class, $def, true);
+            if (!($def instanceof IModelDefinitionInfo)){
+                $def = Activator::CreateNewInstance(SchemaMigrationInfo::class, $def, true);
             }
             $tb = $def;
         }

@@ -117,29 +117,30 @@ abstract class UserProfileBase implements ICustomUserProfile{
      */
     public function memberOf(){
         $mod = $this->systemModel(); 
-        $gtable = Groups::table();
-        $ugtable =Usergroups::table(); 
-        $c = Usergroups::prepare()
-            ->join_left($mod->table(), Usergroups::column('clUser_Id').' = '.$mod->column('clId'))
-            ->join_left($gtable, Groups::column('clId').' = '.Usergroups::column('clGroup_Id'))
-            ->where(['clGuid'=>$mod->clGuid])
-            ->distinct()
-            ->columns([
-                Groups::column('*'),
-                // Groups::column('clId') => 'groupId',
-                // Groups::column('clName') => 'groupName',
-                // 'clLogin',
-                // 'clGuid',
-                // $mod->column('clId')
-            ]
-            )->orderBy([Groups::column('clId')=>'ASC'])
-            // ->get_query();
-// igk_wln_e($c);
-            ->execute(false);
-        if ($c){
-            return $c->to_array();
-        }
-        return null; 
+        return $mod->memberOf();
+//         $gtable = Groups::table();
+//         $ugtable =Usergroups::table(); 
+//         $c = Usergroups::prepare()
+//             ->join_left($mod->table(), Usergroups::column('clUser_Id').' = '.$mod->column('clId'))
+//             ->join_left($gtable, Groups::column('clId').' = '.Usergroups::column('clGroup_Id'))
+//             ->where(['clGuid'=>$mod->clGuid])
+//             ->distinct()
+//             ->columns([
+//                 Groups::column('*'),
+//                 // Groups::column('clId') => 'groupId',
+//                 // Groups::column('clName') => 'groupName',
+//                 // 'clLogin',
+//                 // 'clGuid',
+//                 // $mod->column('clId')
+//             ]
+//             )->orderBy([Groups::column('clId')=>'ASC'])
+//             // ->get_query();
+// // igk_wln_e($c);
+//             ->execute(false);
+//         if ($c){
+//             return $c->to_array();
+//         }
+//         return null; 
         
     }
     

@@ -13,5 +13,7 @@ namespace IGK\System\Regex;
 class RegexConstant{
     const VERSION_CHECK = '(?P<version>[0-9]+(\.[0-9]+){0,3})';
     const INT_REGEX = "/^[0-9]+$/i";
+    const GUID_CHECK = "(?P<brack>\{)?(?P<guid>[0-9a-f]+(-[0-9a-f]+){4})(?(brack)\}|)";
+    const GUID_REGEX = "/".self::GUID_CHECK."/i";
 
 }

@@ -9,6 +9,18 @@ namespace IGK\Helper;
 
 
 class ArrayUtils{
+    /**
+     * 
+     * @param array $table 
+     * @param mixed $property 
+     * @return void 
+     */
+    public static function PrependAfterSearch(array & $array, $search){
+        if (($index = array_search($search, $array))!==false){
+            unset($array[$index]);
+            array_unshift($array, $search);
+        }
+    }
     public static function FillKeyWithProperty(array & $table, $property){
         $t = [];
         foreach($table as $ak){

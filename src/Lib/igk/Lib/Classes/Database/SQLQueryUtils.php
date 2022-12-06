@@ -204,6 +204,7 @@ class SQLQueryUtils{
             if($adapter->isTypeSupported('datetime')){
                 return "datetime";
             }
+            break;
         }
         return "text";
     }

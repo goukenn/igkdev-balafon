@@ -7,9 +7,9 @@
 
 use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;
-use IGK\Helper\Activator;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\Helper\Activator; 
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
+use IGK\System\Models\IModelDefinitionInfo;
 
 include_once __DIR__."/IGKBillingConstants.php";
 
@@ -27,9 +27,9 @@ final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic d
 		} 
 		return igk_getv($m, "DataTableName", "%prefix%_billing")."_details";
 	}
-	public function getDataTableInfo():?DbModelDefinitionInfo
+	public function getDataTableInfo():?IModelDefinitionInfo
 	{
-	return Activator::CreateNewInstance(DbModelDefinitionInfo::class,  array(
+	return Activator::CreateNewInstance(SchemaMigrationInfo::class,  array(
 		new DbColumnInfo(array(IGK_FD_NAME=>IGK_FD_ID, IGK_FD_TYPE=>"Int","clAutoIncrement"=>true,IGK_FD_TYPELEN=>10, "clIsUnique"=>true, "clIsPrimary"=>true)),
 		new DbColumnInfo(array(IGK_FD_NAME=>"clBillId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>10)),
 		new DbColumnInfo(array(IGK_FD_NAME=>"clUId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>10)),

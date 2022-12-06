@@ -123,7 +123,7 @@ class InitCommand extends AppExecCommand
             $i = 1;
         }
         $defs .= PHP_EOL . "];";
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+        $author = $this->getAuthor($command);
         $builder = new PHPScriptBuilder();
         $builder->type("function")
             ->author($author)

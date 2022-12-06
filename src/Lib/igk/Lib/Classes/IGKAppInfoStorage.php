@@ -17,7 +17,7 @@
  }
 
 /**
- * application info storage
+ * application session info storage. help reduce the coast of session file 
  * @package IGK
  * @property array $controllers;
  * @property array $documents
@@ -28,15 +28,23 @@
  */
 class IGKAppInfoStorage extends IGKObject{
     var $data;
+
     public function __construct(?object $o=null){
-        $o = $o ?? (object)[
+        $o = $o ?? $this->createSessionInfoStorage();
+        $this->data = $o;        
+    }
+   /**
+    * 
+    * @return object 
+    */
+    protected function createSessionInfoStorage(){
+        return (object)[
             "controllers" => [],
             "documents" => [],
             "session"=> [],
             "ctrlParams"=>[],
             "components" => igk_prepare_components_storage()
         ];
-        $this->data = $o;        
     }
     public function & getData(){
         return $this->data;

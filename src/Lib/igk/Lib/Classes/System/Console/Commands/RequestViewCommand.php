@@ -82,7 +82,8 @@ class RequestViewCommand extends AppExecCommand{
         }
         igk_configs()->default_controller = $ctrl->getName();
         $ctrl->setConfig('no_auto_cache_view', property_exists($command->options, '--no-cache'));
-        $ctrl->setCurrentView($path);
+        $this->doRequest($command, $path);
+      
 
         if ($render){ 
             $xml_render_option = (object)[
@@ -92,8 +93,14 @@ class RequestViewCommand extends AppExecCommand{
             $ctrl->getTargetNode()->renderAJX($xml_render_option);
             echo "\n";
         } 
+        error_clear_last();
         igk_dev_wln(__FILE__.":".__LINE__);
         Logger::info('done');
     }
-
+    public function doRequest($command, $path){
+        $ctrl = self::GetController(igk_configs()->default_controller, false)
+        ?? igk_die("no controller found");
+        
+        $ctrl->setCurrentView($path);
+    }
 }

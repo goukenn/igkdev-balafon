@@ -74,7 +74,7 @@ class MakeProjectCommand extends AppExecCommand
         Logger::info(__("Make project ... {0}",  $controller));
 
 
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+        $author = $this->getAuthor($command);
         $type = igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
         $e_ns = igk_getv($command->options, "--entryNamespace", null);
         $desc = igk_getv($command->options, "--desc", null);

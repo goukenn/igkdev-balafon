@@ -60,7 +60,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         return true;
      }
 
-    public function escape($column): string {
+    public function escape(?string $column=null): string {
         return $column;
      }
 
@@ -108,8 +108,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      * @param mixed $v 
      * @return string 
      */
-	public function escape_string($v):string{
-        // same as XMLDataAdapter
+	public function escape_string(?string $v = null):string{
+        // same as XMLDataAdapter 
+  
         $v = stripslashes($v);
         return addslashes($v); 
 	}

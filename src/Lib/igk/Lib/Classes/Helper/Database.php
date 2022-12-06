@@ -8,7 +8,7 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemaDefinitions;
 use IGK\Database\DbSchemasConstants;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\MigrationHandler;
@@ -83,7 +83,8 @@ class Database{
        /**
      * only for system an core
      * @param BaseController $controller 
-     * @param bool $force 
+     * @param array $definition table definition 
+     * @param bool $force force to init logic
      * @return void 
      */
     public static function InitDbCoreLogic(BaseController $controller, $definitions, bool $force )

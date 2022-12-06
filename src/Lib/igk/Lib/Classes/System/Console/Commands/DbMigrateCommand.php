@@ -22,22 +22,23 @@ class DbMigrateCommand extends AppExecCommand
 
     var $category = 'db';
 
-    var $description = 'migration command';
+    var $desc = 'migration command';
 
     public function help()
     {
         Logger::info('migrate utility command');
+        Logger::warning(sprintf('%s action command', $this->command));
+        parent::help();
     }
 
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
         
-        if (!is_null($ctrl) && ($c = igk_getctrl($ctrl, false))) {
+        if (!is_null($ctrl) && ($c = self::GetController($ctrl, false))) {
             $c = [$c];
         } else {
             $c = igk_sys_getall_ctrl();
-
             if (($ctrl === null) && ($modules = igk_get_modules())) {
                 $list = array_filter(array_map(function ($c, $k) {
                     if ($mod = igk_get_module($k)) {
@@ -61,15 +62,11 @@ class DbMigrateCommand extends AppExecCommand
                 }
             }
         }
-        $s = \IGK\Models\Migrations::AddIfNotExists('migration_'.date('Ymd'), 1);  
-        // update all model files 
-        DBCaches::Reset();
-        $data = DBCaches::GetCacheData();
-        $initalizer = DBCachesModelInitializer::Init($data);
-
-        $initalizer->bootStrap(true);
- 
-
-
+        // $s = \IGK\Models\Migrations::AddIfNotExists('migration_'.date('Ymd'), 1);  
+        // // update all model files 
+        // DBCaches::Reset();
+        // $data = DBCaches::GetCacheData();
+        // $initalizer = DBCachesModelInitializer::Init($data);
+        // $initalizer->bootStrap(true);
     }
 }

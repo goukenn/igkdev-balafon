@@ -63,6 +63,7 @@ use IGK\System\Console\Commands\SitemapGeneratorCommand;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Http\RequestHandler;
+use IGK\System\Http\WebResponse;
 
 ///<summary></summary>
 /**
@@ -238,10 +239,15 @@ function igk_ajx_panel_dialog($title, $d, $closeBtn = 'drop', $callback = null)
 {
     $dv = igk_create_node('div');
     $dialog = $dv->paneldialog($title, $d, is_array($closeBtn) ? $closeBtn : ["closeBtn" => $closeBtn]);
+    if (is_array($closeBtn)){
+        unset($closeBtn['closeBtn']);
+        $dialog->setAttributes($closeBtn);
+    }
     if (is_callable($callback)) {
         $callback($dialog);
     }
     $dialog->renderAJX();
+    return $dv;
 }
 ///<summary></summary>
 /**
@@ -2322,12 +2328,10 @@ function igk_css_request_ctrl(?string $ref = null, ?string $uri = null)
     $uri = $uri ?? igk_io_baseuri();
     $ref = $ref ?? igk_io_baseuri();
     if (!empty($ref) && strpos($ref, $uri) === 0) {
-        $ruri = explode("?", substr($ref, strlen($uri)))[0];
-        // igk_debug_wln("request uri", $ruri);
+        $ruri = explode("?", substr($ref, strlen($uri)))[0]; 
         if ($ac = igk_getctrl(IGK_SYSACTION_CTRL, false)) {
             $ctrl = $ac::GetMatchCtrl($ruri);
-            // echo "/* path uri : ".$ruri." detected .... " .$ctrl . "*/\n";
-            // exit;
+           
         }
     }
     return $ctrl;
@@ -2344,12 +2348,13 @@ function igk_css($text)
 ///<summary></summary>
 ///<param name="dir"></param>
 /**
- * 
- * @param mixed $dir base directory
- * @deprecated use an application instance @run insteed
+ * @param mixed $dir base directory 
  */
 function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
 {
+    // + |
+    // + | ENTRY DYNAMIC CSS
+    // + | 
     require_once IGK_LIB_CLASSES_DIR . "/IGKGlobalColor.php";
     require_once IGK_LIB_CLASSES_DIR . "/Css/CssThemeCompiler.php";
     require_once IGK_LIB_CLASSES_DIR . "/System/IInjectable.php";
@@ -2359,11 +2364,10 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
     require_once IGK_LIB_CLASSES_DIR . "/System/Http/WebResponse.php";
     require_once IGK_LIB_CLASSES_DIR . "/Css/CssCoreResponse.php";
 
-/// TODO:: APPLICATION CSS RUNNING
+    /// TODO:: CSS RUNNING
 
     $sess_id = session_id();
-    // @session_write_close();
-    header("Content-Type: text/css");
+    // @session_write_close();    
     $debug = $debug ?? (igk_environment()->isDev() || igk_server_is_local());
     $minfile = is_null($minfile) ? igk_environment()->isOPS() : $minfile;
     $ctrl = null;
@@ -2371,6 +2375,8 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
     $vtheme = null;
     $ref = null;
     $doc = null;
+    $v_no_theme_rendering = false;
+  
 
     $c = igk_getr("Cache");
     if ($c) {
@@ -2398,6 +2404,20 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
     IGKOb::CleanAndStart();
     $defctrl = igk_get_defaultwebpagectrl();
     $ref = igk_server()->HTTP_REFERER;
+    // + | ---------------------------------------------------------------------
+    // + | when the dev tool is open the request may not send the HTTP_REFERER . 
+    // + | check in session that the there was an previews request http_referer 
+    // + | to help debugging 
+    // + | -
+    // + | -
+    if (!$ref){
+        $ref = igk_app()->session->referer;
+    }else {
+        // update the referer
+        igk_app()->session->referer = $ref;
+    }
+
+
     $no_web_config = igk_configs()->get("noWebConfiguration");
 
     if (!$no_web_config) {
@@ -2427,7 +2447,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
             $ctrl = $subctrl;
         }
     } 
-    // igk_wln_e("the controller ....", $ctrl);
+    // igk_dev_wln_e("the controller ....", $ctrl, $ref);
     // check for refered controller 
     if (!$ctrl && $ref) {
         igk_set_session_redirection($ref);
@@ -2440,11 +2460,12 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
                 $luri = $buri . igk_getv(parse_url($ref), "path", "/");
                 $is_ref_cache = igk_configs()->allow_page_cache &&  IGKCaches::IsCachedUri($luri);
             }
-            echo "/* detect ops " . $buri . " is cache ref " . $is_ref_cache . "  \nluri:" . $luri . " \n*/\n";
+            // echo "/* detect ops " . $buri . " is cache ref " . $is_ref_cache . "  \nluri:" . $luri . " \n*/\n";
         }
         if (!$ctrl) {
             $ctrl = igk_css_request_ctrl($ref);
         }
+       // igk_dev_wln_e("ref  controller ....", $ctrl, $ref);
     }
     if (!$doc) {
         if ($ctrl) {
@@ -2455,6 +2476,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         }
         $doc_id = igk_app()->settings->CurrentDocumentIndex;
     }
+    echo '@charset "utf-8";'."\n";
     if ($debug) {
         echo ("/* ------------------------------------------------ */\n");
         echo ("/* BALAFON Css DEBUG INFO : */\n");
@@ -2468,9 +2490,9 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         igk_set_env("sys://css/cleartemp", __FUNCTION__);
         $vsystheme = $doc->getSysTheme();
         $vtheme = $doc->getTheme();
-        $vdef = $vtheme->getDef();
-        // echo "theme exit; { $doc_id } \n ";
-        // print_r($vtheme->getDef());
+        $vdef = $vtheme->getDef();  
+        
+        $v_no_theme_rendering = $vtheme->getDef()->unsetStyleFlag('no_theme_rendering');
 
         // + | ----------------------------------------------------
         // + | get binding temporary theme that need to be included
@@ -2481,15 +2503,14 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         $v_tempFiles = $vdef->getTempFiles(1);
         $seridata = $vtheme->to_array();
         $vtheme->reset();
-        @session_write_close();
- 
-       
+        @session_write_close();       
 
         $vtheme->load_data($seridata);
         // + | ----------------------------------------------------
         // + | bind controller definition   
-        if ($ctrl) {
-            // attach temps files 
+        if ($ctrl && !$v_no_theme_rendering) {
+
+            // + | attach temp files first the first time
             $ctrl->bindCssStyle($vtheme, true); 
         }
         if ($v_binTempFiles) {
@@ -2505,6 +2526,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         if (igk_configs()->css_view_state) {
             echo ("/* document " . $ref . "::::*/  body:before{content:'referer {$ref} cached: {$is_ref_cache} {$doc_id} controller : {$ctrl} ';}");
         }
+  
         $no_systheme = \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
             $vsystheme,
             $doc->getId(),
@@ -2514,10 +2536,11 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
             false,
             null
         );
-        echo "\n\n";
-        if ($ctrl && ($def = \IGK\System\Html\Css\CssUtils::AppendDataTheme($ctrl, $vtheme, "light"))){
+        echo "/* -- */\n\n";
+        if ($ctrl && !$v_no_theme_rendering && ($def = \IGK\System\Html\Css\CssUtils::AppendDataTheme($ctrl, $vtheme, "light"))){
             echo implode("", $def);
         }
+   
         // igk_dev_wln_e(__FILE__.":".__LINE__, $def);
         //igk_css_render_balafon_style($doc, $no_systheme);
     } else {
@@ -2554,14 +2577,14 @@ function igk_css_bind_color_request($callback)
     igk_set_env("sys://css/bind_colorrequest", $callback);
 }
 ///<summary>bind css file</summary>
-///<param name="ctrl">the global controller used to bind the css theme file</param>
-///<param name="f">access to file name</param>
 ///<param name="theme">for binding</param>
+///<param name="ctrl">the global controller used to bind the css theme file</param>
+///<param name="f">access to file</param>
 /**
  * bind css file
- * @param mixed $ctrl the global controller used to bind the css theme file
- * @param mixed $f access to file name
- * @param mixed $theme for binding
+ * @param HtmlDocTheme $theme for binding
+ * @param BaseController $ctrl the global controller used to bind the css theme file
+ * @param string $f access file
  */
 function igk_css_bind_file(HtmlDocTheme $theme, ?BaseController $ctrl, string $f)
 {
@@ -3621,7 +3644,7 @@ function igk_css_get_core_comment($id = null)
 {
     $o = "/*\r\nBalafon.css Dynamic css-defition \r" . IGK_LF;
     $o .= igk_css_header_comment();
-    $o .= "\r\n*/";
+    $o .= "\r\n*/\n";
     if ($id) {
         $o .= "\r\n/* info: { id: " . $id . " }*/" . IGK_LF;
     }
@@ -7285,7 +7308,7 @@ function igk_display_error($a)
 ///<param name="r"></param>
 /**
  * helper: handler response
- * @param mixed $r 
+ * @param mixed|array|object $r response to handle
  */
 function igk_do_response($r)
 { 
@@ -9565,22 +9588,23 @@ function igk_get_module($id)
 }
 ///<summary></summary>
 /**
- * 
+ * helper: get module directory 
  */
 function igk_get_module_dir()
 {
-    if (defined("IGK_MODULE_DIR")) {
-        return IGK_MODULE_DIR;
-    }
-    return igk_get_packages_dir() . "/Modules---";
+    return Path::getInstance()->getModuleDir();
+//     if (defined("IGK_MODULE_DIR")) {
+//         return IGK_MODULE_DIR;
+//     }
+//     return igk_get_packages_dir() . "/Modules";
 }
 ///<summary></summary>
 ///<param name="dir"></param>
 /**
- * 
- * @param mixed $dir 
+ * retrieve module name by real module directory
+ * @param string $dir 
  */
-function igk_get_module_name($dir)
+function igk_get_module_name(string $dir)
 {
     $moddir = realpath(igk_get_module_dir());
     $dir = realpath($dir);
@@ -9853,7 +9877,11 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
         };
     } else {
         if (is_string($m)) {
-            $rgx = "/" . $m . "/i";
+            if (strpos($m, '|')!==false){
+                $t = array_fill_keys(explode('|', $m), null);
+            }
+            $m = str_replace("-", '(_|-)', $m);
+            $rgx = "/^(" . $m . ")$/i";
             $callbackfilter = function ($k, $rp) use ($rgx) {
                 $p = preg_match($rgx, $k);
                 if ($p && $rp) {
@@ -9861,9 +9889,7 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
                 }
                 return $p;
             };
-            if (strpos($m, '|')!==false){
-                $t = array_fill_keys(explode('|', $m), null);
-            }
+           
         } else if (is_array($m)) {
             $t = array_fill_keys($m, null);
             $callbackfilter = function (&$k, $v, $rp) use ($m) {
@@ -9882,6 +9908,7 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
            // igk_wln("call ", $nk,  $v, $callbackfilter);
             if (is_callable($_fc_)
                 && $_fc_($nk, $v, $replace)) {
+                $nk = str_replace("-", "_", $nk);
                 $t[$nk] = igk_str_quotes($v);
             }
         }
@@ -10849,6 +10876,9 @@ function igk_header_mime()
  */
 function igk_header_no_cache()
 {
+    if (headers_sent()){
+        return;
+    }
     $t = "Thu, 04 Aug 1983 21:00:00 GMT";
     header("Expires: " . $t);
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -18429,13 +18459,18 @@ function igk_pattern_matcher_get_pattern($s)
 ///<summary></summary>
 ///<param name="m"></param>
 /**
- * 
+ * helper: important helper to resolve uri
  * @param mixed $m 
  */
 function igk_pattern_matcher_matchcallback($m)
 {
+    
     $n = $m["name"];
-    switch (strtolower($n)) {
+    switch (strtolower($n)){
+        case 'verbs':
+            // + | add verbs specic support
+            $tm = "(?P<" . $n . ">(get|post|options|head|delete))";
+            break;
         case "options":
             $tm = "(?P<" . $n . ">([^;]+=[^;]+;?)+)";
             break;
@@ -20383,7 +20418,7 @@ function igk_set_session_redirection($uri = null, $reset = 1)
  * set execution timeout helper
  * @param int $t 
  */
-function igk_set_timeout($t)
+function igk_set_timeout(int $t)
 {
     ini_set("max_execution_time", $t);
 }
@@ -21331,7 +21366,7 @@ function igk_str_read_bracket_source_code($treat, &$goptions = null)
  * @param mixed $ln ln: size to read
  * @param mixed $escaped if end char must consider escape
  */
-function igk_str_read_brank($exp, &$c, $end = "]", $start = "[", $ln = null, $escaped = 0, $autoclose = 1)
+function igk_str_read_brank($exp, int &$c, $end = "]", $start = "[", $ln = null, $escaped = 0, $autoclose = 1)
 {
     $iv = "";
     $ln = $ln ?? strlen($exp);
@@ -21349,7 +21384,9 @@ function igk_str_read_brank($exp, &$c, $end = "]", $start = "[", $ln = null, $es
     $eh = 0;
     while ($ln > $c) {
         $ch = $exp[$c];
-        if (!$eh && !(($ch != $end) || ($deep > 0) || ($g = $eh))) {
+       // $g = $eh;
+       // igk_wln_e("is empty - ".$g);
+        if (!$eh && !(($ch != $end) || ($deep > 0))) {
             break;
         }
         if ($eh) {
@@ -22196,7 +22233,7 @@ function igk_str_repeat($p, $c)
 /**
  * remove all parttern
  */
-function igk_str_rm_last($str, $pattern)
+function igk_str_rm_last(string $str, string $pattern)
 {
     $c = strlen($pattern);
     if ($c == 1) {
@@ -22215,7 +22252,7 @@ function igk_str_rm_last($str, $pattern)
  * @param mixed $str 
  * @param mixed $pattern 
  */
-function igk_str_rm_start($str, $pattern)
+function igk_str_rm_start(string $str,string $pattern)
 {
     if ($pattern != null) {
         $c = strlen($pattern);
@@ -22229,7 +22266,7 @@ function igk_str_rm_start($str, $pattern)
 /**
  * convert to snake version
  */
-function igk_str_snake($str)
+function igk_str_snake(string $str)
 {
     $out = $str;
     if (count($g = preg_split("/[A-Z]/", $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE)) > 1) {
@@ -22451,7 +22488,7 @@ function igk_svg_bind_callable_list($n, $m)
 {
     $list = $m->getTempFlag("svg-list");
     if ($list) {
-        $o = '<div class="igk-svg-lst" style="display:none">';
+        $o = '<div class="igk-svg-lst">';
         foreach ($list as $k => $v) {
             if (!file_exists($v))
                 continue;
@@ -22696,6 +22733,9 @@ function igk_svg_use($name, $context = null)
 ///<summary>create uri system pattern info</summary>
 /**
  * create uri system pattern info
+ * @param string $controller can be : 
+ * @param string $uri can be : 
+ * @param string $pattern can be : 
  */
 function igk_sys_ac_create_pattern($ctrl, $uri, $methodpattern = IGK_REG_ACTION_METH)
 {
@@ -23037,6 +23077,7 @@ function igk_sys_config_view($file)
             igk_header_no_cache();
             HtmlRenderer::RenderDocument($doc, false, $cnf);
         } else {
+            igk_do_response(WebResponse::Create('Configs: Misconfiguration', 500));
             igk_set_header(500, "Configs Misconfiguration.");
             igk_error_page404("Configs Misconfiguration.");
         }

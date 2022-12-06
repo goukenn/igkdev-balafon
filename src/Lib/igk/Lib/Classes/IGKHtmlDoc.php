@@ -300,6 +300,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
      * @return HtmlDocTheme 
      */
     public function getInlineTheme(){
+        
         $id = spl_object_id($this);
         $key = "doc://".$id."/inline_theme";
         if ($theme = igk_environment()->get($key)){
@@ -461,8 +462,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     ///<summary>load temp extra script file. must be called out of rendering context. /!\\ Before</summary>
     /**
     * load temp extra script file. must be called out of rendering context. /!\\ Before
+    * @var string $file file or uri
     */
-    public function addTempScript($file){  
+    public function addTempScript(string $file){  
         if(!IGKValidator::IsUri($file))
             $file=igk_dir($file);
         $t=$this->ScriptManager->getTempScripts();
@@ -475,6 +477,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
             $this->m_head->add($n);
             return $n;
         } 
+        if (is_file($file)){
+            $file = IGKResourceUriResolver::getInstance()->resolve($file);   
+        }
         $sc=$this->m_head->addScript($file); 
         $t->temp[$file]=$sc;
         $sc->setIsTemp($t);
@@ -626,7 +631,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * @param mixed $name
     * @return mixed|array
     */
-    public function getElementsByTagName($name){
+    public function getElementsByTagName($name, bool $stop_first = false)
+    {
         $n=strtolower($name);
         $tab=array();
         if($n == "head"){
@@ -637,8 +643,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
             $tab []=$this->m_body;
             return $tab;
         }
-        $tab1=$this->m_head->getElementsByTagName($name);
-        $tab2=$this->m_body->getElementsByTagName($name);
+        $tab1=$this->m_head->getElementsByTagName($name, $stop_first);
+        $tab2=$this->m_body->getElementsByTagName($name, $stop_first);
         $h=array_merge($tab1, $tab2);
         return $h;
     }

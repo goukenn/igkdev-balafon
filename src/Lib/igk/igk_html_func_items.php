@@ -12,6 +12,7 @@ use IGK\Models\Users;
 use IGK\System\Html\Dom\Factory;
 use function igk_resources_gets as __;
 use IGK\Resources\R;
+use IGK\System\Html\Dom\Component\ActionGroupComponent;
 use IGK\System\Html\Dom\HtmlANode;
 use IGK\System\Html\Dom\HtmlAssertNode;
 use IGK\System\Html\Dom\HtmlCommentNode;
@@ -2189,7 +2190,10 @@ function igk_html_node_igkgloballangselector()
     $sl->setCallback('AcceptRender', igk_io_get_script(IGK_LIB_DIR . "/Inc/html/globallang_accept_render.pinc"));
     return $dv;
 }
-
+/**
+ * create comment node
+ * @return HtmlCommentNode 
+ */
 function igk_html_node_comment()
 {
     return new HtmlCommentNode();
@@ -3373,7 +3377,7 @@ function igk_html_node_singlerowcol($col = null)
     return null;
 }
 
-function igk_html_node_form($uri = ".", $method = "POST", $notitle = false, $nofoot = false)
+function igk_html_node_form(?string $uri = ".", string $method = "POST", bool $notitle = false, bool $nofoot = false)
 {
     $c = new \IGK\System\Html\Dom\HtmlFormNode($uri, $method, $notitle, $nofoot);
     return $c;
@@ -4391,11 +4395,13 @@ function igk_html_node_nbsp()
     }
     return $c;
 }
+/**
+ * utility helper create an action group .
+ * @return ActionGroupComponent 
+ */
 function igk_html_node_actiongroup()
-{
-    $c = igk_create_node("div");
-    $c["class"] = "igk-action-group";
-    return $c;
+{   
+    return new \IGK\System\Html\Dom\Component\ActionGroupComponent();
 }
 
 

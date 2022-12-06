@@ -17,5 +17,14 @@ class UriDectectorMatch{
     var $query;
     var $hash;
     var $uri; 
+    /**
+     * base uri or reference uri
+     * @var mixed
+     */
+    var $fromUri;
+
+    public function getBaseUri(){
+        return $this->fromUri ?  dirname($this->fromUri) : null; 
+    }
 
 }

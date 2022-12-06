@@ -23,6 +23,7 @@ use IGK\Helper\SysUtils;
 use IGK\Manager\ApplicationControllerManager;
 use IGK\Server;
 use IGK\System\IO\Path;
+use IGK\System\Regex\RegexConstant;
 
 use function igk_resources_gets  as __;
 
@@ -52,7 +53,7 @@ function igk_environment()
  *  @throws Exception
  *  @endcode exit
  */
-function igk_exit($close = 1, $clean_buffer = 0)
+function igk_exit($close = 1)
 {   
     
     if (igk_environment()->isAJXDemand){
@@ -83,7 +84,16 @@ function igk_zip_output_type($forcegzip=0){
     return $type;
 }
 ///<summary>write zipped output to buffer</summary>
-function igk_zip_output($c, $forcegzip = 0, $header = 1, &$type = null)
+/**
+ * zip content and output
+ * @param string $c content to string 
+ * @param int|bool $forcegzip forcing gzip - no dectection 
+ * @param int|bool $header write header 
+ * @param mixed $type 
+ * @return void 
+ * @throws IGKException 
+ */
+function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = null)
 { 
     $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
     if (!$forcegzip && strstr($accept, "deflate") && function_exists("gzdeflate")) {
@@ -185,6 +195,20 @@ if (!function_exists('igk_getv')){
         return igk_getpv($array, array($key), $default);
     }
 }
+if (!function_exists('igk_getv_nil')){
+    ///<summary>helper : get value or nil if empty</summary>
+    ///<param name="default"helper : get value or nil if empty</param>
+    /**
+     * helper : get value or nil if empty
+     * @param mixed default value or callback expression
+     */
+    function igk_getv_nil($array, $key, $default = null)
+    {
+        return empty($c = igk_getpv($array, array($key), $default)) ? null : $c;
+    }
+}
+
+
 /**
  * from laravel helper get request object 
  * @param mixed $ob 
@@ -462,7 +486,7 @@ function igk_io_applicationdir()
  * detect that the environment in on command line mode
  */
 function igk_is_cmd()
-{
+{ 
     if (isset($_SERVER["SERVER_PROTOCOL"])){
         return false;
     }
@@ -803,7 +827,7 @@ function igk_wln_e($msg = "")
 {     
     igk_environment()->set('TRACE_LEVEL', 3);
     // igk_trace();
-    // exit;
+    // ;exit;
     call_user_func_array('igk_wln', func_get_args()); 
     igk_exit();
 }
@@ -922,7 +946,7 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0)
         $o .= "<td style=\"{$tds}\">" . $tc . "</td>";
         $ln = igk_getv($callers[$i], "line");
         //$o .= "<td style=\"{$tds}\">" . $ln . "</td>";
-        $o .= "<td style=\"{$tds}\" onclick='window.getSelection().selectAllChildren(this);'>";
+        $o .= "<td style=\"{$tds}\" class=\"clip_click\" >";
         $g = igk_getv($callers[$i], "file");
         if ($_base_path && $g) {
             $g = igk_io_collapse_path($g);  
@@ -941,6 +965,7 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0)
     }
     $o .= "</table>" . $sep;
     $o .= "</div>" . $sep;
+    $o .= "<script type=\"text/javascript\"> var ct = document.querySelectorAll('.clip_click').forEach(function(i) { i.addEventListener('click', function() { window.getSelection().selectAllChildren(this);});}); </script>";
     echo $o;
 }
 /**
@@ -1353,17 +1378,28 @@ function igk_io_fullrequesturi()
  * @return bool 
  * @throws IGKException 
  */
-function igk_io_handle_system_command(string $uri )
-{
-    $rx="#^(".igk_io_baseuri().")?\/!@(?P<type>".IGK_IDENTIFIER_RX.")\/(\/)?(?P<ctrl>".IGK_FQN_NS_RX.")\/(?P<function>".IGK_IDENTIFIER_RX.")(\/(?P<args>(.)*))?$#i";
-    $c=preg_match_all($rx, explode("?", $uri)[0], $ctab);
+function igk_io_handle_system_command(string $uri ): bool
+{ 
+    $ctrl_check = "(".RegexConstant::GUID_CHECK."|".IGK_FQN_NS_RX.")";
+    $rx="#^(".igk_io_baseuri().")?\/!@(?P<type>".IGK_IDENTIFIER_RX.")\/(\/)?(?P<ctrl>".$ctrl_check.")\/(?P<function>".IGK_IDENTIFIER_RX.")(\/(?P<args>(.)*))?$#i";
+    $c=preg_match_all($rx, explode("?", $uri)[0], $ctab);    
     if($c > 0){
+        if ($guid = igk_getv($ctab['guid'], 0)){
+            if ($ctab["ctrl"][0] == $guid){
+                $ctab["ctrl"][0] = '{'.$guid.'}';
+            }
+        } 
         igk_getctrl(IGK_SYSACTION_CTRL)->invokePageAction($ctab["type"][0], $ctab["ctrl"][0], $ctab["function"][0], explode("?", $ctab["args"][0])[0]);
         return true;
     }
     return false;
 }
-
+/**
+ * helper : handle request uri
+ * @param ?string|mixed $uri request string or request object  
+ * @return void 
+ * @throws IGKException 
+ */
 function igk_sys_handle_uri($uri = null)
 {
     return RequestHandler::getInstance()->handle_uri($uri);
@@ -1941,9 +1977,10 @@ function igk_php_sversion(?string $version=PHP_VERSION):string{
  * @param array headers list of extra header entries
  */
 function igk_set_header($code, $message = "", $headers = [])
-{
-    if (igk_is_cmd())
-        return false;
+{ 
+    if (igk_is_cmd() || headers_sent())
+    return false;
+    // igk_wln_e('need ->headers', igk_is_cmd(),  headers_sent());
     static $fcall = null;
     if ($fcall === null)
         $fcall = 0;

@@ -226,6 +226,7 @@ abstract class DbSchemas
         foreach ($tableRowReference as $k => $v) {
             if (!($v instanceof IDbColumnInfo)) {
                 if (igk_environment()->isDev()) {
+                    igk_trace();
                     igk_dev_wln_e("failed : tableRowReference value is not a IDbColumnInfo", $tableRowReference);
                 }
                 continue;

@@ -34,6 +34,7 @@ class FormBuilder
     private static $ResolvClass = [
         "float" => "igk-form-control number",
         "double" => "igk-form-control number",
+        "number"=>'igk-form-control number',
         "int" => "igk-form-control integer",
         "text"=>'igk-form-control text',
         "mail"=>'igk-form-control mail',
@@ -278,21 +279,24 @@ class FormBuilder
                     // }
                    
                     if (isset($v["attribs"]))
-                        $v["attribs"]["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
+                        $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
                     else {
-                        $v["attribs"]["class"] = $def_type;
+                        $tattrib["class"] = $def_type;
                     }
-                    
+                    // filter attribs
+                    unset($v["attribs"]["class"]);
+                    if ($p = igk_getv($v, 'attribs')){
+                        $tattrib = array_merge($tattrib, $p ?? [] );                         
+                    }
 
-                    // $class = $v["attribs"]["class"];
                     $jp = [                        
-                        "type"=> $_otype, 
+                        "type"=> $_otype,
                         "id"=>$v["id"],
                         "value"=>$_value,
                         // "class"=>new HtmlCssClassValueAttribute(),
                     ] + $tattrib;
                     $attrib = new HtmlFilterAttributeArray($jp);
-                    $attrib["class"] = $v["attribs"]["class"];
+                    //$attrib["class"] = $v["attribs"]["class"];
                     if ($_is_required) {
                         $attrib["required"] = 1;
                     }

@@ -9,6 +9,10 @@ namespace IGK\Models\Macros;
 
 use IGKObject;
 
+/**
+ * reference object value 
+ * @package IGK\Models\Macros
+ */
 class ReferenceObj extends IGKObject{
     private $_ref;
 
@@ -21,11 +25,18 @@ class ReferenceObj extends IGKObject{
     public function getNextValue(){
         return $this->_ref->clNextValue;
     }
-
+    /**
+     * update value 
+     * @return void 
+     */
     public function update(){
         $update = $this->_ref->update;
         $update();
     }
+    /**
+     * get next value
+     * @return mixed 
+     */
     public function getValue(){
         return $this->_ref->value;
     }

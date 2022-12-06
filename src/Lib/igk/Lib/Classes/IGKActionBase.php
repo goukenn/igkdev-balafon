@@ -15,6 +15,7 @@ use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\ActionHelper;
+use IGK\Helper\ExceptionUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -461,6 +462,8 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             } catch (Throwable $ex) {
+                // igk_wln_e($ex->getMessage());
+               // ExceptionUtils::ShowException($ex); 
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

@@ -7,6 +7,7 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\Traits\HostableItemTrait;
 
 ///<summary>igk framework form</summary>
 /**
@@ -14,6 +15,7 @@ use IGK\System\Html\HtmlUtils;
  */
 final class HtmlFormNode extends HtmlNode
 {
+    use HostableItemTrait; 
     const URLEncoded = "application/x-www-form-urlencoded";
     private $bodydiv;
     private $footdiv;
@@ -278,9 +280,5 @@ final class HtmlFormNode extends HtmlNode
         $this->topdiv->Content = $value;
         return $this;
     }
-    public function host(callable $callback, ...$args)
-    {
-        HtmlUtils::HostNode($this, $callback, ...$args);
-        return $this;
-    }
+    
 }

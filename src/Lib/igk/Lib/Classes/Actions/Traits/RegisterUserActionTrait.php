@@ -3,20 +3,17 @@
 // @file: RegisterUserActionTrait.php
 // @date: 20221114 18:28:41
 namespace IGK\Actions\Traits;
-
-use DateInterval;
+ 
 use Exception;
-use IGK\Actions\SystemUserActionContants;
-use IGK\Controllers\BaseController;
+use IGK\Actions\SystemUserActionContants; 
 use IGK\Helper\ActionHelper;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGK\Helper\StringUtility;
-use IGK\Helper\ViewHelper;
-use IGK\Models\Macros\UsersMacros;
-use IGK\Models\RegistrationLinks;
+use IGK\Helper\ViewHelper; 
 use IGK\Models\Users;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\Forms\Actions\Traits\FormLoginActionTrait;
 use IGK\System\Html\Forms\FormHelper;
 use IGK\System\Net\Mail;
 use IGK\System\Process\CronJobProcess;
@@ -28,8 +25,7 @@ use IGKValidator;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
-use ReflectionException;
-use TBN\Models\Registration;
+use ReflectionException; 
 
 use function igk_resources_gets as __;
 
@@ -43,6 +39,7 @@ trait RegisterUserActionTrait
     use LoginLogoutActionTrait;
     use NotifyActionTrait;
     use SysUserPasswordManagementActionTrait;
+    use FormLoginActionTrait;
 
     var $registerOptions = [];
     var $registerController = null;
@@ -144,12 +141,8 @@ trait RegisterUserActionTrait
      * @param mixed $login 
      * @return object 
      * @throws IGKException 
-     * @throws BindingResolutionException 
-     * @throws BindingResolutionException 
-     * @throws NotFoundExceptionInterface 
-     * @throws NotFoundExceptionInterface 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
+     * @throws BindingResolutionException  
+     * @throws NotFoundExceptionInterface   
      * @throws ContainerExceptionInterface 
      * @throws Exception 
      * @throws CssParserException 
@@ -223,20 +216,7 @@ trait RegisterUserActionTrait
             $content = file_get_contents($file);
         }
         $token = ActionHelper::GenerateUserRegistrationLinkToken($user);
-        // $token = igk_encrypt($user->clLogin . date('Ymd') . time());
-        // if (!($row = RegistrationLinks::select_row([
-        //     "regLinkUserGuid" => $user->clGuid,
-        // ]))) {
-        //     RegistrationLinks::insert([
-        //         "regLinkToken" => $token,
-        //         "regLinkUserGuid" => $user->clGuid,
-        //         "regLinkActivate" => null,
-        //         "regLinkAlive" => 1
-        //     ]);
-        // } else {
-        //     $row->regLinkToken = $token;
-        //     $row->save();
-        // }
+        
         $uri = $registerUri ?? $ctrl::uri('activate?token=' . $token);
         $n = $node->span()->h2();
         $n->Content = $domain;
@@ -247,7 +227,7 @@ trait RegisterUserActionTrait
             'registration_link' => $uri,
             'domain' => $domain,
             'date' => date('Y-m-d')
-        ];
+        ]; 
         $c = $file ? ArticleContentBindingHelper::BindContent($content, $info) : null;
         $n->loop([$user])->div()->Content = $c;
         return $node->render();
@@ -323,43 +303,7 @@ trait RegisterUserActionTrait
         });
     }
 
-    protected function form_login($form, $options = null)
-    {
-        $t = $form;
-        $ctrl = ViewHelper::CurrentCtrl();
-        $fname = ViewHelper::GetViewArgs('fname');
-        $this->registerUserActionAuthSocialUri = $ctrl->getAppUri($fname . "/connect");
-        $form->div()->h1()->Content = __("Login");
-        $form->cref();
-        $form->confirm();
-        $t->notifyHost();
-        $t->fields([
-            "login" => ['required'=>true],
-            "password" => ["type" => "password", 'required'=>true]
-        ]);
-        $t->actionbar(FormHelper::submit());
-        if (SignProvider::IsRegistered()) {
-            $t->div()->setClass("sep")->Content = __("--- OR --- ");
-            $t->div()->setClass('igk-social-login-button-container')->yield(
-                LoginServiceEvents::LoginWithSocialButton,
-                [
-                    "controller" => $ctrl,
-                    "redirect_uri" => $this->registerUserActionAuthSocialUri,
-                    "app_name" => "tonerafrika"
-                ]
-            );
-        }
-        $t->div()->actionbar(function ($a) {
-            $ctrl = ViewHelper::CurrentCtrl();
-            $a['class'] = '+footer';
-            $a->a($ctrl::uri('registerLogin'))->Content = __("register");
-            $a->space();
-            if ($this->registerUserActionForgotPasswordUri)
-            $a->a($ctrl::uri($this->registerUserActionForgotPasswordUri))
-                ->setClass('underline')
-                ->Content = __("Forgot password ?");
-        });
-    }
+ 
     /**
      * activate user account
      */

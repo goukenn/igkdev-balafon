@@ -214,7 +214,6 @@ abstract class DbSchemaDefinitions
         self::$sm_def = [];
         self::$sm_init = false;
         self::$sm_init_cache = false;
-        $resetDbCache && DbSchemas::ResetSchema();
-        $resetDbCache && EnvControllerCacheDataBase::ResetCache();
+        $resetDbCache && DbSchemas::ResetSchema(); 
     }
 }

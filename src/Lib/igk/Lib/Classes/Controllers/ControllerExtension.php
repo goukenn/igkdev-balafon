@@ -30,12 +30,8 @@ use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
 use IGK\System\Http\RequestResponse;
 use IGK\System\Http\WebResponse;
 use IGK\ApplicationLoader;
-use IGK\Controllers\Traits\ControllerAtricleManagerExtensionTrait;
-use IGK\Database\DbColumnInfoPropertyConstants;
-use IGK\Database\DbSchemasConstants;
-use IGK\Database\SchemaBuilder\DiagramEntityAssociation;
-use IGK\Database\SchemaBuilder\DiagramVisitor;
-use IGK\Database\SchemaBuilder\SchemaDiagramVisitor;
+use IGK\Controllers\Traits\ControllerAtricleManagerExtensionTrait; 
+use IGK\Database\DbSchemasConstants; 
 use IGK\Helper\DbUtilityHelper;
 use IGK\Helper\SysUtils;
 use IGK\System\Caches\DBCaches;
@@ -63,6 +59,13 @@ abstract class ControllerExtension
     public static function getBaseDir(BaseController $ctrl)
     {
         return null;
+    }
+    public static function resolveAssets(BaseController $ctrl, array $assets){
+        $dir = $ctrl->getAssetsDir();
+        $i = IGKResourceUriResolver::getInstance();
+        foreach($assets as $a){
+            $i->resolve($dir."/".$a);
+        }
     }
     /**
      * extends to get the base controller from class
@@ -106,12 +109,12 @@ abstract class ControllerExtension
     /**
      * resolv asset path
      * @param BaseController $ctrl 
-     * @param mixed $path 
+     * @param string $path 
      * @return mixed 
      */
-    public static function asset(BaseController $ctrl, $path)
+    public static function asset(BaseController $ctrl, string $path)
     {
-        $f = $ctrl->getAssetsDir(); 
+        $f = $ctrl->getAssetsDir($path);
         if (!file_exists($f))
             return null;
         $t = IGKResourceUriResolver::getInstance()->resolve($f);
@@ -120,8 +123,15 @@ abstract class ControllerExtension
         }
         return $t;
     }
-    public static function getAssetsDir(BaseController $ctrl, ?string $path = null){
-        return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, $path]));
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param null|string $path 
+     * @return string 
+     */
+    public static function getAssetsDir(BaseController $ctrl, ?string $path = null)
+    {
+        return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, ltrim($path ?? '', '/')]));
     }
     /**
      * return an array of views
@@ -417,7 +427,8 @@ abstract class ControllerExtension
      * @param string $name 
      * @return mixed 
      */
-    public static function authName(BaseController $ctrl, string $name):string{
+    public static function authName(BaseController $ctrl, string $name): string
+    {
         return StringUtility::AuthorizationPath($name, get_class($ctrl));
     }
 
@@ -487,7 +498,7 @@ abstract class ControllerExtension
                     Logger::danger(sprintf("some error : %s", $ex->getMessage()));
                     return false;
                 }
-                if ($v_upgrade){
+                if ($v_upgrade) {
                     // upgrade model file definition
                 }
             }
@@ -598,26 +609,26 @@ abstract class ControllerExtension
     public static function InitDataBaseModel(BaseController $ctrl, array $definitions,  $force = false)
     {
         $c  = self::_GetEntryModelDirectory($ctrl);
-        $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");  
-        $tb = $definitions; 
+        $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
+        $tb = $definitions;
         $base_f = igk_uri($c . "ModelBase.php");
         if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
-            Logger::info("generate : " . $base_f);
+            Logger::info("generate base model : " . $base_f);
             igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
         }
         $factory = [];
         if ($tb) {
             foreach ($tb as $v) {
                 // remove prefix
-                $table = null; 
+                $table = null;
                 $name = sysutil::GetModelTypeNameFromInfo($v, $table);
-                if (!empty($name)) {                    
+                if (!empty($name)) {
                     $file = $c . $name . ".php";
                     $factory[] = $name;
                     if (!$force && file_exists($file)) {
                         continue;
                     }
-                    if ($definitionHandler = $v->definitionResolver){
+                    if ($definitionHandler = $v->definitionResolver) {
                         Logger::info("generate model : " . $file);
                         igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
                     }
@@ -734,24 +745,25 @@ abstract class ControllerExtension
                 $loader->registerLoading($ns . "\\Tests", $cldir);
             }
             $_auto_file = dirname($cldir) . "/autoload.php";
-            if (file_exists($_auto_file)){
-                if (!igk_environment()->NO_PROJECT_AUTOLOAD ){
+            if (file_exists($_auto_file)) {
+                if (!igk_environment()->NO_PROJECT_AUTOLOAD) {
                     require_once($_auto_file);
                 } else {
-                    $fc = function($e)use($ctrl, $_auto_file){
+                    $fc = function ($e) use ($ctrl, $_auto_file) {
                         self::_InitDbComplete($ctrl, $_auto_file, $e);
                     };
-                    igk_reg_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, $fc); 
+                    igk_reg_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, $fc);
                     $ctrl->setEnvParam("register_autoload_callback", $fc);
                 }
             }
             igk_hook($ctrl::hookName("register_autoload"), [$ctrl]);
         }
     }
-    private static function _InitDbComplete(BaseController $ctrl, string $file,  $e){
+    private static function _InitDbComplete(BaseController $ctrl, string $file,  $e)
+    {
         require_once($file);
         $fc = $ctrl->getEnvParam("register_autoload_callback");
-        $fc && igk_unreg_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, $fc); 
+        $fc && igk_unreg_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, $fc);
         $ctrl->setEnvParam("register_autoload_callback", null);
     }
     /**
@@ -795,7 +807,7 @@ abstract class ControllerExtension
     }
     public static function getDisplayName(BaseController $ctrl)
     {
-        return $ctrl->getConfigs()->get("clDisplayName", get_class($ctrl));
+        return $ctrl->getConfig("clDisplayName", get_class($ctrl));
     }
 
     /**
@@ -829,7 +841,7 @@ abstract class ControllerExtension
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
-   
+
     private static function GetDefaultModelBaseSource(BaseController $ctrl)
     {
         $o = "";
@@ -960,9 +972,9 @@ abstract class ControllerExtension
                 // TODO : CONNECT
                 // $v_uctrl->canConnect($ip, $u, $pwd, $agent)
                 // igk_wln_e("connect with login and pwd", $ip, $agent,  $ip);
-                
+
                 if ($v_uctrl->connect($u, $pwd)) {
-                    igk_ilog('login connect: > '.$u); 
+                    igk_ilog('login connect: > ' . $u);
                     // + | --------------------------------------------------------------------
                     // + | init controller user 
                     // + |                     
@@ -970,16 +982,16 @@ abstract class ControllerExtension
                     $f = 1;
                 } else {
                     Logger::danger('connection failed');
-                    igk_ilog('login failed: > '.$u);
-                } 
+                    igk_ilog('login failed: > ' . $u);
+                }
             }
         }
-        if ($f) { 
+        if ($f) {
             $user = $ctrl->getUser();
             $uid = $user->clId;
             $user->bclLastLogin = $user->clLastLogin;
             $user->clLastLogin = date(\IGKConstants::MYSQL_DATETIME_FORMAT);
- 
+
             $u = \IGK\Models\Users::update(
                 [
                     "clLastLogin" => $user->clLastLogin,
@@ -1007,7 +1019,6 @@ abstract class ControllerExtension
         }
 
         if ($nav) {
-            igk_wln_e("no navigation");
             if ($f) {
                 ($b = igk_getr("goodUri")) || ($b = $ctrl->getAppUri());
                 igk_navto($b);
@@ -1018,7 +1029,7 @@ abstract class ControllerExtension
                     igk_exit();
                 }
             }
-        } 
+        }
         return $ctrl->getUser() !== null;
     }
     public static function classdir(BaseController $controller)
@@ -1078,16 +1089,16 @@ abstract class ControllerExtension
     {
         $r = true;
         $u = igk_app()->session->getUser();
-        $ku = $controller->getUser(); 
+        $ku = $controller->getUser();
 
         if ($ku == null) {
             if ($u != null) {
                 // check existance of the user
-                if (!is_null(\IGK\Models\Users::GetCache("clGuid", $u->clGuid))){                    
+                if (!is_null(\IGK\Models\Users::GetCache("clGuid", $u->clGuid))) {
                     $controller->User = $controller->initUserFromSysUser($u);
-                }else{
+                } else {
                     $r = false;
-                    if ($u){
+                    if ($u) {
                         // provided user not exists in cache database 
                         // igk_app()->session->setUser(null);
                         $controller::logout();
@@ -1122,7 +1133,7 @@ abstract class ControllerExtension
             // + | --------------------------------------------------------------------
             // + | raise utility command
             // + |
-            DbUtilityHelper::InvokeOnStartDropTable($ctrl, true);            
+            DbUtilityHelper::InvokeOnStartDropTable($ctrl, true);
             igk_hook(IGKEvents::HOOK_DB_START_DROP_TABLE, $ctrl);
         };
         $_vinit = 0;
@@ -1143,17 +1154,17 @@ abstract class ControllerExtension
             } else {
                 $tb = $ctrl::loadDataFromSchemas();
                 $db = self::getDataAdapter($ctrl);
-                if ($db && $db->connect()) { 
+                if ($db && $db->connect()) {
                     $migHandle = new MigrationHandler($controller);
-                    $migHandle->down(); 
-                  
+                    $migHandle->down();
+
                     $v_tblist = [];
                     if ($tables = igk_getv($tb, "tables")) {
                         foreach (array_keys($tables) as $k) {
                             $v_tblist[$k] = $k;
                         }
                     }
-                    $func();                     
+                    $func();
                     $db->dropTable($v_tblist);
                     $_vinit = 1;
                     $db->close();
@@ -1171,7 +1182,7 @@ abstract class ControllerExtension
     public static function logout(BaseController $ctrl, $navigate = 1)
     {
         igk_app_is_uri_demand($ctrl, __FUNCTION__);
-        $user = $ctrl->getUser(); 
+        $user = $ctrl->getUser();
         igk_getctrl(IGK_USER_CTRL)->logout();
         if ($user) {
             $server = igk_server();
@@ -1213,7 +1224,7 @@ abstract class ControllerExtension
      */
     public static function getConfig(BaseController $controller, string $name, $default = null)
     {
-        if ($name == 'no_auto_cache_view'){
+        if ($name == 'no_auto_cache_view') {
             return 1;
         }
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($controller, $name, $default);
@@ -1236,7 +1247,7 @@ abstract class ControllerExtension
         if (empty($tbname)) {
             return false;
         }
-        $v_tab = $controller->getDataTableInfo(); // ?? igk_db_get_table_info($tbname);
+        $v_tab = $controller->getDataTableInfo(); 
 
         if (!$v_tab)
             return;
@@ -1401,7 +1412,7 @@ abstract class ControllerExtension
         if (!$controller->getConfig(IGK_CTRL_CNF_USE_DATASCHEMA)) {
             if (is_null($table = $controller->getDataTableName()))
                 return;
-        }   
+        }
         $f = $controller->getDbConstantFile();
         $tb = $controller->getDataTableDefinition(null);
         if ($tb) {
@@ -1448,10 +1459,15 @@ abstract class ControllerExtension
         igk_io_w2file($f, $s, true);
         include_once($f);
     }
-
-    public static function storeConfigSettings(BaseController $ctrl)
-    {
-
+    /**
+     * store configuration setting
+     * @param BaseController $ctrl 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function storeConfigSettings(BaseController $ctrl){
         return $ctrl->getConfigs()->storeConfig();
     }
 
@@ -1484,7 +1500,7 @@ abstract class ControllerExtension
         // + | --------------------------------------------------------------------
         // + | GET DB TABLE DEFINITION EXTENSION
         // + |
-        
+
         if (!($ctrl instanceof IDatabaseHost)) {
             return null;
         }
@@ -1492,7 +1508,7 @@ abstract class ControllerExtension
         if ($ctrl->getUseDataSchema()) {
             $info = null;
             if (DBCaches::IsInitializing())
-                return; 
+                return;
             if (is_null($tablename) || !($info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 // load the actual state of the dataschema - everything up 
                 if ($schema = self::loadDataFromSchemas($ctrl, true, DbSchemasConstants::None)) {

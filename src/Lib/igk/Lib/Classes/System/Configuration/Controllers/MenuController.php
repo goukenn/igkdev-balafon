@@ -12,7 +12,7 @@ use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
 use IGK\Helper\IO;
 use IGK\Helper\MenuUtils;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Server;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
@@ -583,7 +583,7 @@ EOF;
     /**
      * return data table info
      */
-    public function getDataTableInfo(): ?DbModelDefinitionInfo
+    public function getDataTableInfo(): ?IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(DbModelDefinitionInfo::class,  array(
             new DbColumnInfo(array(

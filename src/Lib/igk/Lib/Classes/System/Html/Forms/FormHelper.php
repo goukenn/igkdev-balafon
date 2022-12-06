@@ -43,8 +43,8 @@ class FormHelper{
         if ($options && !key_exists('no_sort_text', $options))
             $options['no_sort_text'] = 1;
  
-        $data = FormUtils::SelectData($data, $key, $name, $options);
-     
+       $data = FormUtils::SelectData($data, $key, $name, $options); 
+    
         return implode("", array_map(self::_InitOption($options), $data));
     }
     /**
@@ -59,10 +59,32 @@ class FormHelper{
             $k_data = "";
             $bas = isset($options["selected"]) ? $options["selected"] : null;
             if (isset($options["data"]) && is_string($m_data = $options["data"])) {
-                $k_data = " data=\"" . $m_data . "\" ";
+                $k_data = " data=\"" . $m_data . "\"";
+            }
+            if ($bas && ($bas == $d['i'])){
+                
+                // igk_wln_e("selected ".$bas, $d['i']);
+                $k_data.= ' selected="selected"';
             }
             return '<option value="'.$d['i'].'"'.$k_data.'>'.$d['t'].'</option>';
         };
     }
 
+    /**
+     * helper : create a month selection
+     * @param null|string $year 
+     * @return array 
+     */
+    public static function YearMounthSelection(?string $year = null){
+        $d = [];
+        if (is_null($year)){
+            $year = date('Y');
+        }
+        foreach(range(1, 12)as $k){
+            $k = str_pad($k, 1,"0", STR_PAD_LEFT);
+            $pb= date_create_from_format("Ym", $year.$k);
+            $d[] = ['t'=>$pb->format("F"), 'i'=>$k];
+        }
+        return $d;
+    }
 }

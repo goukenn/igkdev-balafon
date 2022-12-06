@@ -4,7 +4,7 @@
 // @date: 20221104 13:21:22
 namespace IGK\Database\SchemaBuilder;
 
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGKSysUtil;
 use stdClass;
@@ -27,8 +27,8 @@ class SchemaDiagramVisitor extends DiagramVisitor{
      * @return void 
      */
     public function visitDiagramEntity($entity){
-        $tb = $entity->getName();
-        $tb = IGKSysUtil::DBGetTableName($tb, $this->m_ctrl);
+        $defTableName = $entity->getName();
+        $tb = IGKSysUtil::DBGetTableName($defTableName, $this->m_ctrl);
         // + | --------------------------------------------------------------------
         // + | init schema migration info
         // + |
@@ -36,7 +36,7 @@ class SchemaDiagramVisitor extends DiagramVisitor{
         $t = new SchemaMigrationInfo;
         $t->columnInfo =  $entity->getProperties();
         $t->description = $entity->getDescription();
-        $t->defTableName = $tb;
+        $t->defTableName = $defTableName;
         $t->tableName = $tb;
         $t->controller = $this->m_ctrl;
         // $this->m_data->tables[$entity->getName()] = $t;

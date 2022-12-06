@@ -16,7 +16,7 @@ use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 
 ($s_ctrl == null) && igk_die("selected controller not found");
-$div=$t;
+    $div=$t;
 if (!igk_is_ajx_demand())
 $div->add("h3")->Content = __("Views for {0}", $s_ctrl->getName());
 $div->add(new HtmlSearchNode($ctrl->getUri("search_view#frm_ctrl_view"), null, "m_search_view"));
@@ -30,9 +30,7 @@ if(method_exists($ctrl, "ListViewFile")){
     $t=$s_ctrl->ListViewFile();
 }
 else{
-    list($t, $ln) = IGKControllerHelper::GetViewFiles($s_ctrl);
-
-
+    $t = $s_ctrl->getViews(); 
 }
 if($t && count($t) > 0){
     sort($t);

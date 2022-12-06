@@ -50,7 +50,7 @@ class MakeMigrationCommand extends AppExecCommand{
     public function exec($command, ?string $action = null, ?string $controller = null ) { 
    
         $offset = 2;
-        if ($mcontroller = igk_getv($command->options, '--controller')){
+        if ($mcontroller = igk_getv_nil($command->options, '--controller')){
             // second parameter is action 
             // $action = $controller;
             $ctrl = self::getController($mcontroller);

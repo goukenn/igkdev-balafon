@@ -20,8 +20,8 @@ class Authorization{
     /**
      * bind user to group
      * @param BaseController $controller 
-     * @param Users $user 
-     * @param string $group 
+     * @param Users $user system user 
+     * @param string $group controller group without the start key identification. 
      * @return object|null|false 
      */
     public static function BindUserToGroup(BaseController $controller, Users $user, string $group){
@@ -32,6 +32,20 @@ class Authorization{
         }
         $gid = $gid->clId;
         $gp =  Usergroups::insertIfNotExists([
+            'clUser_Id' => $user->clId,
+            'clGroup_Id' => $gid,
+        ]);
+        return $gp;
+    }
+
+    public static function UnbindUserToGroup(BaseController $controller, Users $user, string $group){
+        $keyname = StringUtility::GetControllerKeyName($controller);
+        $gid = Groups::createIfNotExists(["clName"=>$group, "clController"=>$keyname]);
+        if (!$gid){
+            return false;
+        }
+        $gid = $gid->clId;
+        $gp =  Usergroups::delete([
             'clUser_Id' => $user->clId,
             'clGroup_Id' => $gid,
         ]);

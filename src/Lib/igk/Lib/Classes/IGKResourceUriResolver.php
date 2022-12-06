@@ -284,7 +284,7 @@ class IGKResourceUriResolver
     ///<summary>resolveOnly  file</summary>
     ///<param name="file"></param>
     ///<param name="notresolved" ref="true"></param>
-    public function resolveOnly($file, &$notresolved = 0)
+    public function resolveOnly(string $file, &$notresolved = 0)
     {
         $fulluri = $this->fulluri || igk_is_ajx_demand();
         $notresolved = 0;
@@ -294,7 +294,7 @@ class IGKResourceUriResolver
         $uri = "";
         if (!igk_io_is_subdir($bdir, $rp)) {
             $tab = $this->environment;
-            $v_brpath = igk_io_baserelativepath($rp);
+            // $v_brpath = igk_io_baserelativepath($rp);
             foreach ($tab as $i => $j) {
                 if (igk_io_is_subdir($i, $rp)) {
                     $s = $j;
@@ -304,7 +304,7 @@ class IGKResourceUriResolver
                         $chain = $b($n, $rp);
                     } else {
                         $chain = igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
-                        $o = igk_io_basedir($chain);
+                       //$o = igk_io_basedir($chain);
                     }
                     if ($fulluri)
                         return igk_io_baseuri($chain);
@@ -315,7 +315,7 @@ class IGKResourceUriResolver
             if ($gs_uri) {
                 $gs_uri = preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
                 $chain = igk_uri(IGK_RES_FOLDER . "/" . $gs_uri);
-                $o = igk_io_basedir($chain);
+                // $o = igk_io_basedir($chain);
                 $outlink = null;
                 if ($fulluri) {
                     $outlink = igk_io_baseuri($chain);

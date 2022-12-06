@@ -88,6 +88,7 @@ class ResetDbCommand extends AppExecCommand
                 } else {
                     Logger::success("complete: [".$n."]");
                     $droped[] = $m;
+                    DBCaches::Update($m, true);
                 }
             }
         }
@@ -141,12 +142,10 @@ class ResetDbCommand extends AppExecCommand
         Logger::success("resetdb - all - complete"); 
         return true;
     }
-    public function seedController(){
-        $commands = $this->GetCommands();
-        // if ($seed) {
-        //     $seed = $command->app->command["--db:seed"];
-        //     $fc = $seed["0"];
-        //     $fc("resetdb", $command);
-        // }
+    public function seedController($command){ 
+        $seed = $command->app->command["--db:seed"];
+        $fc = $seed["0"];
+        $fc("resetdb", $command);
+    
     }
 }

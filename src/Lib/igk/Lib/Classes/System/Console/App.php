@@ -30,11 +30,11 @@ class App{
     const PURPLE = "\e[3;35m";
     const AQUA = "\e[3;36m";
     const END = "\e[0m";
-    /**
+    /*
      * application version
      * @var string
      */
-    public $version = "0.1.1";
+    const version = "0.1.2";
     /**
      * available command
      * @var mixed
@@ -281,7 +281,7 @@ class App{
         }
         $this->print("BALAFON CLI-UTILITY");;
         $this->print("Author: C.A.D. BONDJE DOUE");
-        $this->print(sprintf("Version:  %s", self::Gets(self::GREEN, $this->version)));
+        $this->print(sprintf("Version:  %s", self::Gets(self::GREEN, self::version)));
         $this->print(""); 
         $this->print(self::Gets(self::YELLOW, "Usage:"));
         $this->print("\tbalafon [command] [options] [arguments]");

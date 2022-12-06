@@ -35,24 +35,24 @@ class BindingPipeExpressionInfo{
                 return date($format, $t);
             }, "trim" => function ($v) {
                 return trim($v);
-            }, "uppercase" => function ($v) {
+            }, 'uppercase' => function ($v) {
                 return strtoupper($v);
-            }, "lowercase" => function ($v) {
+            }, 'lowercase' => function ($v) {
                 return strtolower($v);
-            }, "utf8" => function ($v) {
+            }, 'utf8' => function ($v) {
                 return utf8_decode($v);
-            }, "lang" => function ($v) {
+            }, 'lang' => function ($v) {
                 return __($v);
-            }, "json" => function ($v) {
+            }, 'json' => function ($v) {
                 return json_encode($v);
-            }, "date" => function ($v, $options = null) {
+            }, 'date' => function ($v, $options = null) {
                 $v = strtotime($v);
                 if ($options) {
                     $fmt = igk_getv($options, "fmt");
                     $v = date($fmt, $v);
                 }
                 return $v;
-            }, "mysqldate" => function ($v) {
+            }, 'mysqldate' => function ($v) {
                 $v = strtotime($v);
                 if ($v) {
                     return date(IGK_MYSQL_DATETIME_FORMAT, $v);

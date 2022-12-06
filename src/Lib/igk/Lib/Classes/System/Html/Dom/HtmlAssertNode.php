@@ -7,6 +7,8 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\Traits\HostableItemTrait;
+
 /**
  * summary html array looper.
  * Help write view and article template without the php foreach loop
@@ -15,6 +17,7 @@ namespace IGK\System\Html\Dom;
  *              });
  */
 class HtmlAssertNode extends HtmlItemBase{
+    use HostableItemTrait;
     private $condition;
     private $node;  
     private $callback;
@@ -30,20 +33,7 @@ class HtmlAssertNode extends HtmlItemBase{
     { 
         return $this->condition;
     }
-    /**
-     * set renderging host
-     * @param callable $callback 
-     * @return void 
-     */
-    public function host(callable $callback, ...$args){       
-        $this->callback = $callback;
-        $this->args = $args;
-        if ($this->callback){
-            $fc = $this->callback;
-            $fc($this->node, ...$this->args);
-        }
-        return $this;
-    }   
+     
     protected function __getRenderingChildren($options =null){
         // before render the childeren . bind callback 
         return parent::__getRenderingChildren($options);

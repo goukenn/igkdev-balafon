@@ -14,5 +14,5 @@ class CssCoreResponse extends WebResponse{
         parent::__construct($content, 200, [
             "Content-Type: text/css"
         ]);
-    }
+    } 
 }

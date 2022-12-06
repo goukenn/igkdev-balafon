@@ -37,7 +37,7 @@ class MakeViewCommand extends AppExecCommand{
             return false;
         } 
         Logger::info("make view ...".$controller);
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+        $author = $this->getAuthor($command);
                    
         $action = property_exists($command->options, "--action");
         $is_dir = property_exists($command->options, "--dir");
@@ -86,7 +86,7 @@ class MakeViewCommand extends AppExecCommand{
         Logger::print("-");
         Logger::info("Make new Balafon's PROJECT view");
         Logger::print("-\n");
-        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " ctrl name [options]" );
+        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " controller name [options]" );
         Logger::print("\n\n");
     }
 }

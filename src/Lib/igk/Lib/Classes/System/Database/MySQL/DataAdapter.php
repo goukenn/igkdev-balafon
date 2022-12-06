@@ -14,6 +14,7 @@ use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKException;
 use IGKQueryResult;
 use ModelBase;
@@ -111,6 +112,13 @@ class DataAdapter extends DataAdapterBase
     {
         parent::__construct($ctrl);
     }
+    /**
+     * check if driver support typ
+     * @param string $type 
+     * @return bool 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public function isTypeSupported($type): bool
     {
         static $supportedList;
@@ -310,7 +318,7 @@ class DataAdapter extends DataAdapterBase
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
                 }else{
                     igk_ilog(sprintf('db [%s] success', $tablename));
-                    Logger::success(sprintf('db - create table - '.$tablename));
+                    Logger::success(sprintf('db - create table - '.$tablename .' - success'));
                 }
                 return $s;
             } 
@@ -431,13 +439,13 @@ class DataAdapter extends DataAdapterBase
         }
         return null;
     }
+    public function select_all(string $table, ?array $conditions=null){
+        return $this->select($table, $conditions);
+    }
 
     public function commit(){
         parent::commit();
     }
-
-  
-
     public function getColumnInfo(string $table, ?string $dbname = null)
     {
         $data =  $this->getGrammar()->get_column_info($table, $dbname);

@@ -7,10 +7,16 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CssParserException;
+use Exception;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Css\CssUtils;
+use IGKException;
+use ReflectionException;
 
 /**
- * for rendering inline css tempory file
+ * for rendering inline-css tempory file
  * @package IGK\System\Html\Dom
  */
 class HtmlDocumentCssHostNode extends HtmlNode{
@@ -31,28 +37,39 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     {
         return false;
     }
+    /**
+     * render inline css node
+     * @param mixed $options 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws CssParserException 
+     * @throws Exception 
+     * @throws EnvironmentArrayException 
+     */
     public function render($options = null)
     {     
-        
-        
         $clear = CssUtils::InitSysGlobal($this->doc);       
         $inlineTheme = $this->doc->getInlineTheme();
         $s = CssUtils::GetInlineStyleRendering($this->doc, false);
         
-        $g = "";
-        $g.= $this->doc->getTheme()->get_css_def();  
+        $theme = $this->doc->getTheme();
+        $g = ""; 
+        $g.= $theme->get_css_def();
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles){
-            igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
+           igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
         }
-
         $g .= $inlineTheme->get_css_def(true);
         $vs = igk_create_node("style");
         $vs->text("\n".$g);
-        $s.= $vs->render();   
+        $s.= $vs->render()."\n<!-- end:inline style -->";   
+       
         if ($clear){
             $this->doc->getSysTheme()->resetSysGlobal();
-        } 
+            $theme->getDef()->clear(); 
+        }  
         return $s;        
     }
 

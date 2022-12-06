@@ -13,6 +13,7 @@ use IGK\System\Database\QueryBuilder;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbQueryResult;
+use IGK\Help\MapHelper;
 use IGK\Models\Caches\CacheModels;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -524,15 +525,36 @@ abstract class ModelEntryExtension
      */
     public static function colKeys(ModelBase $model)
     {
-        if ($tablekey = igk_db_get_table_info($model->getTable())) {
+        $rinfo = $model->getTableInfo(); 
+        if ($tablekey = $rinfo) {
             $inf = [];
             array_map(function ($b) use (&$inf) {
                 $inf[$b->clName]  = $b;
-            }, $tablekey["ColumnInfo"]);
+            }, $tablekey);
             return array_keys($inf);
         }
         return null;
     }
+    /// TODO: Create A mapper over a model 
+    // + | Create A mapper over a model 
+    /**
+     * create a mapper to map columns to keys 
+     * @param ModelBase $model 
+     * @param array $keys 
+     * @return void 
+     * @throws IGKException 
+     */
+    // public static function map(ModelBase $model, array $keys){
+    //     $cols = self::colKeys($model);
+    //     $tab = [];
+    //     $i = 0;
+    //     foreach($cols as $k){            
+    //         $tab[$k] = igk_getv($keys, $i, $k); 
+    //         $i++;
+    //     }
+    //     return new MapHelper()
+
+    // }
 
     /**
      * drop the table

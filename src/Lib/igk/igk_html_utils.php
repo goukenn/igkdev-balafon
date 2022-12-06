@@ -1437,7 +1437,8 @@ function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieMana
         $t->div()->setId($id)->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
             ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
                 $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
-                    ->setStyle("width:16px; height:16px;")->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
+                    ->setClass('size-16')
+                    ->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
                 $h->article(
                     $ctrl,
                     $article,

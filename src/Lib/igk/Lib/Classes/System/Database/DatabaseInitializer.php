@@ -17,10 +17,14 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Database\Traits\DbCreateTableReferenceTrait;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Database\IDbResolveLinkListener;
 use IGKEvents;
 use IGKException;
 use IGKModuleListMigration;
 use IGKType;
+use ReflectionException;
 use ReflectionMethod;
 
 ///<summary></summary>
@@ -28,13 +32,24 @@ use ReflectionMethod;
  * 
  * @package IGK\System\Database
  */
-class DatabaseInitializer implements IDbGetTableReferenceHandler
+class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLinkListener
 {
     use DbCreateTableReferenceTrait;
     private $m_hostController;
     private $m_defs = [];
     private $m_parentController;
     private $m_controllers = [];
+    /**
+     * store.
+     * @var mixed
+     */
+    private $m_resolvedLinks;
+
+    /**
+     * store. 
+     * @var array
+     */
+    private $m_init_tables = [];
     /**
      * store tables definitions
      * @var array
@@ -124,11 +139,21 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler
     {
         return igk_getv($this->definitions, $adaptername);
     }
-    public function upgrade(BaseController $controller, $definition, ?DatabaseInitializer $caches = null)
+    /**
+     * upgrade all table definition 
+     * @param BaseController $controller 
+     * @param array $definition schemas definition tables to upgrate
+     * @param null|DatabaseInitializer $caches 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public function upgrade(BaseController $controller, array $definition, ?DatabaseInitializer $caches = null)
     {
         igk_hook(IGKEvents::HOOK_DB_INIT_START, ['initializer' => $this, 'method' => 'upgrade']);
         $rs = $definition;
-        $ad = $controller->getDataAdapterName();
         $post_install = [];
         $count = 0;
         $current = $controller;
@@ -136,7 +161,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler
         $plist = (object)['tables' => []];
         foreach ($rs  as $name => $tbinfo) {
             $count++;
-            $ctrl = $tbinfo->controller;             
+            $ctrl = $tbinfo->controller;
             if ($ctrl instanceof ApplicationModuleController) {
                 $post_install[] = [$ctrl, $tbinfo, $this->m_parentController];
                 continue;
@@ -160,10 +185,63 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler
 
         if ($caches) {
             array_map(function ($a) {
+                // 
+                $ad = $a[0]->getDataAdapter();
+                if ($ad && isset($a[1])) {
+                    $info = (object)$a[1];
+                    $this->m_resolvedLinks = (object)[
+                        'resolved'=>[],
+                        'tables'=>$info->tables,
+                        'adapter'=>$ad,
+                    ];                      
+                    $ad->resolveLinkListener = $this;
+
+                    foreach ($info->tables  as $table => $tbinfo) {
+                        if (isset($this->m_resolvedLinks->resolved[$table])){
+                            continue;
+                        }
+                        if ($tbinfo->entries) {
+                            $this->_load_entries($ad, $table, $tbinfo->entries, $tbinfo->columnInfo);
+                        }
+                        $this->m_resolvedLinks->resolved[$table] = 1;
+                        $this->m_init_tables[$table] = 1;
+                    }
+                    $ad->resolveLinkListener = null;
+                }  
                 return Database::InitDataEntries($a[0]);
             }, $caches->m_defs);
         }
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, []);
+    }
+    private function _load_entries($ad, $tableName, $entries, $columnInfo){
+        foreach ($entries as $row) {
+            $ad->insert($tableName, $row, $columnInfo);
+        }
+    }
+    public function resolve(string $linkTable): bool{
+        if (isset($this->m_resolvedLinks->resolved[$linkTable])){
+            return true;
+        }
+        // resolve 
+        // $dependency = [];
+        $ad = $this->m_resolvedLinks->adapter;
+        if (isset($this->m_resolvedLinks->tables[$linkTable])){
+           // first load resolved links tab  
+           $g = $this->m_resolvedLinks->tables[$linkTable];
+           if ($g->entries){
+                $this->_load_entries($ad, $linkTable, $g->entries, $g->columnInfo);
+           }
+           $this->m_resolvedLinks->resolved[$linkTable] = 1;
+           return true;
+        } else {
+            // + | depend on table that is not in controller scope
+            if (isset($this->m_init_tables[$linkTable])){
+                $this->m_resolvedLinks->resolved[$linkTable] = 1;
+                return true;
+            }
+            igk_die("die : table not in scope - ".$linkTable);
+        }
+        return false;
     }
     private function _MigrateModuleCallback(BaseController $a, $info,  $parent)
     {
@@ -268,10 +346,16 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler
             }
         }
     }
+    /**
+     * load module migration
+     * @param string $op 
+     * @return void 
+     * @throws IGKException 
+     */
     public function loadSystemModules(string $op = DbSchemasConstants::Migrate)
     {
         if ($migrations = IGKModuleListMigration::CreateModulesMigration()) {
-            $migrations->loadMigrationSchema($this);
+            $migrations->loadMigrationSchema($this, $op);
         }
     }
 }

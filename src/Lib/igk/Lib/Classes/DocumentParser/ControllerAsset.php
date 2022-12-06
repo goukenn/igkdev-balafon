@@ -273,8 +273,8 @@ class ControllerAsset
         }
 
         $options = new HtmlRendererOptions;
-        $options->Indent = 0;
-        $options->StandAlone = 0;
+        $options->Indent = 1;
+        $options->StandAlone = 10;
         $options->noComment = 1;
         $src = $pnode->render($options);
 

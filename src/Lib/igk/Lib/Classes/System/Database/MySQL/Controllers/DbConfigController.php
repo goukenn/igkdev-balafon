@@ -9,18 +9,21 @@ namespace IGK\System\Database\MySQL\Controllers;
 
 use Exception;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Database;
 use IGK\Helper\IO;
+use IGK\Helper\NotifyHelper;
 use IGK\Helper\StringUtility;
 use IGK\Models\Apps;
 use IGK\Models\DbLogs;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Resources\R;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
+use IGK\System\Configuration\Controllers\ControllerAndArticlesController;
 use IGK\System\Console\Commands\ResetDbCommand;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\IDatabaseHost;
@@ -75,9 +78,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
      * return data definition. \
      * if getUseDataSchema() return false
-     * @return null|DbModelDefinitionInfo 
+     * @return  ?IModelDefinitionInfo 
      */
-    function getDataTableInfo(): ?DbModelDefinitionInfo
+    function getDataTableInfo(): ?IModelDefinitionInfo
     {
         return igk_getctrl(SysDbController::class)->getDataTableInfo();
     }
@@ -125,12 +128,14 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_exit();
         }
         if (preg_match("/^SELECT /i", $q)) {
+            // counting  
             $g = $mysql->sendQuery("SELECT COUNT(*) as count FROM (" . $mysql->escape_string($q) . ") as dummy");
             if ($g) {
                 $r = $g->getRowAtIndex(0);
                 if ($r && ($r->count > 50)) {
-                    $q .= " Limit 1, 50";
+                    $q .= "Order DESC Limit 1, 50 ";
                 }
+                $data = $mysql->sendQuery($q);
             }
         }
         if ($q) {
@@ -146,6 +151,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     ->setStyle("min-height:80px; line-height:1")
                     ->tablehost()->setClass("posab fit overflow-y-a")
                     ->addDbResult($g, $uri, $selected, igk_configs()->db_query_page_result ?? 50, "#query-s-r");
+                if ($data) {
+                    $dv->dbTableView($data->getRows());
+                }
                 $dv->renderAJX();
             } else {
                 if ($error = $mysql->getError()) {
@@ -658,11 +666,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $cnf = igk_configs();
         $frm->addFields(
             [
-                "dbServer" => [ "attribs" => ["class" => "igk-form-control required", "placeholder" => __("Server"), "value" => $cnf->db_server]],
-                "dbUser" =>   [ "attribs" => ["class" => "igk-form-control", "placeholder" => __("user"), "value" => $cnf->db_user]],
-                "dbPasswd" => [ "type" => "password", "attribs" => ["class" => "igk-form-control", "placeholder" => __("password"), "value" => null]],
-                "dbName" =>   [ "attribs" => ["class" => "igk-form-control", "placeholder" => __("dbname"), "value" => $cnf->db_name]],
-                "dbPort" =>   [ "attribs" => ["class" => "igk-form-control", "placeholder" => __("dbport"), "value" => $cnf->db_port]],
+                "dbServer" => ["attribs" => ["class" => "igk-form-control required", "placeholder" => __("Server"), "value" => $cnf->db_server]],
+                "dbUser" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("user"), "value" => $cnf->db_user]],
+                "dbPasswd" => ["type" => "password", "attribs" => ["class" => "igk-form-control", "placeholder" => __("password"), "value" => null]],
+                "dbName" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("dbname"), "value" => $cnf->db_name]],
+                "dbPort" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("dbport"), "value" => $cnf->db_port]],
             ]
         );
 
@@ -693,10 +701,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $frm["igk-ajx-form-target"] = "#query-s-r";
         $row = $frm->row();
         $row->col("igk-col-12-9")->div()->addTextArea()->setId("clQuery")->setClass("igk-form-control fitw-i")->setStyle("height:150px")
-        ->Content = igk_getr('clQuery') ?? "Select * From `table` ";        
+            ->Content = igk_getr('clQuery') ?? "Select * From `table` ";
         $ul = $row->col("igk-col-12-3")->div()->setId("query_helper")->ul();
-   
-        try { 
+
+        try {
             if ($r = $this::db_query("SHOW TABLES", false)) {
                 $g = $r->getColumns();
                 $clname = $g[0]->name;
@@ -705,13 +713,13 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 });
                 $ul->setStyle("max-height: 150px; overflow-x:clip; overflow-y:auto;");
             }
-         
+
             $acb = $frm->addActionBar();
             $acb->addInput("btn.send", "submit", __("btn.send"))->setClass("-clsubmit +igk-btn igk-btn-default");
         } catch (TypeError $error) {
-            $dv->div()->setId("query-s-r")->setClass("fitw-i"); 
             $ul->panelbox()->setclass('igk-danger')->Content = __("failed to get tables from MySQL database");
         }
+        $dv->div()->setId("query-s-r")->setClass("fitw-i");
     }
     ///<summary></summary>
     ///<param name="zdiv"></param>
@@ -941,42 +949,50 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
      * backup table associated to a controller
      */
-    public function db_backup_tables($ctrl, $outtag, $dbname = null, $storetableinfo = true)
+    public function db_backup_tables(BaseController $controller, ?string $outtag=null, $dbname = null, $storetableinfo = true)
     {
-        $tables = $this->getTablesFor($ctrl);
+        // + | --------------------------------------------------------------------
+        // + | long task
+        // + |
+        
+        igk_set_timeout(0);
 
-        if (!is_array($tables))
-            return;
-        $ad = igk_get_data_adapter($this, true);
-        if ($ad && $ad->connect($dbname)) {
-            $e = $outtag->addNode(IGK_ENTRIES_TAGNAME);
-            foreach ($tables as  $v) {
-                $tabinfo = $this->getDataTableDefinition($v, false);
+        $def = DBCaches::Update($controller) ?? igk_die('no definition found');
+        $tables = $def->tables;
+        $ad = $controller::getDataAdapter();
+        $outtag = igk_create_node($outtag ?? IGK_SCHEMA_TAGNAME );
+        $e = $outtag->add(IGK_ENTRIES_TAGNAME);
+        if ((count($tables) > 0) && $ad && $ad->connect()) {
+            $ad->setForeignKeyCheck(false);
+            foreach ($tables as $table => $tabinfo) {
                 if (!$tabinfo)
                     continue;
-                if ($storetableinfo) {
-                    $def = $outtag->addNode(DbSchemas::DATA_DEFINITION);
-                    $def["TableName"] = $v;
-                    foreach ($tabinfo as $ck => $c) {
-                        switch ($ck) {
-                            case "Description":
-                                break;
-                            default:
-                                foreach ($c as  $nn) {
-                                    $col = $def->add(IGK_COLUMN_TAGNAME);
-                                    $col->setAttributes($nn);
-                                }
-                                break;
-                        }
-                    }
-                }
-                $table = $e->addNode($v);
-                $r = $ad->selectAll($v);
-                foreach ($r->Rows as $m => $n) {
-                    $table->addNode(IGK_ROW_TAGNAME)->setAttributes($n);
-                }
+                $this->_store_info($outtag, $table, $tabinfo, $e, $ad, $storetableinfo);
             }
+            $ad->setForeignKeyCheck(true);
             $ad->close();
+            return true;
+        }
+    }
+
+    function _store_info($node, $table, $tabinfo, $e, $ad, $storetableinfo = true)
+    {
+        if ($storetableinfo) {
+            $def = $node->add(DbSchemas::DATA_DEFINITION);
+            $def["TableName"] = $tabinfo->tableName;
+            $def["Description"] = $tabinfo->description;
+            foreach ($tabinfo->columnInfo as $ck => $c) {
+                            
+                $col = $def->add(IGK_COLUMN_TAGNAME);
+                $col->setAttributes((array)$c);
+                   
+            }
+        }
+        $table = $e->addNode($tabinfo);
+        if ($r = $ad->selectAll($tabinfo->tableName)){
+            foreach ($r->Rows as $m => $n) {
+                $table->addNode(IGK_ROW_TAGNAME)->setAttributes($n);
+            }
         }
     }
     ///<summary></summary>
@@ -1204,14 +1220,14 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             return;
         }
         igk_ilog("START: drop system database...");
-        $time = igk_start_time(__METHOD__); 
+        $time = igk_start_time(__METHOD__);
         $adapter->initForInitDb();
         $adapter->setForeignKeyCheck(0);
         foreach ($tables as $t) {
             $adapter->dropTable($t->table);
         }
         $adapter->setForeignKeyCheck(1);
-        $adapter->flushForInitDb(); 
+        $adapter->flushForInitDb();
         igk_ilog("END: drop system database " . igk_execute_time(__METHOD__, $time));
         $ldtables = [];
     }
@@ -1220,16 +1236,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
      * drop table associated to a controller
      */
-    public function db_drop_tables($ctrl, $dbname = null)
+    public function db_drop_tables(BaseController $ctrl, $dbname = null)
     {
-        $tables = $this->getTablesFor($ctrl);
-        if (!is_array($tables))
-            return;
-        $ad = igk_get_data_adapter($ctrl, true);
-        if ($ad && $ad->connect($dbname)) {
-            $ad->dropTable($tables);
-            $ad->close();
-        }
+        return DbUtils::DropControllerTables($ctrl, $dbname);
     }
     ///<summary></summary>
     ///<param name="dbname" default="null"></param>
@@ -1523,7 +1532,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         if (RequestHandler::IsHandling($this->getUri(__FUNCTION__)) && !igk_is_conf_connected()) {
             throw new NotAllowedRequestException();
         }
-        if (igk_server()->method("POST") && igk_qr_confirm()) { 
+        if (igk_server()->method("POST") && igk_qr_confirm()) {
             $this->db_drop_sys_tables();
             $this->pinitSDb(false);
             if (igk_is_ajx_demand()) {
@@ -2104,10 +2113,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         set_time_limit(0);
         igk_set_env(__FUNCTION__, 1);
         igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
-        IO::RmDir(IGK_APP_DIR . "/Caches/db"); 
+        IO::RmDir(IGK_APP_DIR . "/Caches/db");
         DBCaches::Reset();
         //Database::InitSystemDb();
-        
+
         $command = new ResetDbCommand;
         if ($command->globalResetDatabase(true, false)) {
             $this->notifyctrl()->success(__("init system database"));
@@ -2282,7 +2291,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      * 
      */
     public function View(): BaseController
-    {  
+    {
         if (igk_is_ajx_demand()) {
             $p = igk_getr("v", null);
             if (!empty($p)) {
@@ -2347,11 +2356,12 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
 
         // system used download application
         igk_reg_hook(IGK_NOTIFICATION_APP_DOWNLOADED, function ($e) {
-            $appName = $e->args["name"]; 
+            $appName = $e->args["name"];
             // manual store db log
             IGKLog::WriteDbLog(
                 "download app - " . $appName,
-                "APP_DOWNLOAD" , true
+                "APP_DOWNLOAD",
+                true
             );
             if ($s = Apps::select_row(array("clName" => $appName))) {
                 $t =  Number::FromBase($s->clDownloadTime, 36);
@@ -2366,5 +2376,95 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 ));
             }
         });
+
+        $g = ControllerAndArticlesController::ctrl();
+        igk_reg_hook($g::hookName(ControllerAndArticlesController::hookControllerConfigOptionName), function (
+            $e
+        ) {
+            extract($e->args);
+            if ($ctrl->getCanInitDb() && ($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
+                $this->setParam('ctrl', get_class($ctrl));
+                $group = $target->actiongroup();
+                $group->setClass('mysql');
+                $group->input('btn', 'button', __('mysql - migrate'))
+                    ->on('click', igk_js_post_frame($this->getUri("db-migrate-controller")));
+                $group->input('btn', 'button', __('mysql - resetdb'))
+                    ->on('click', igk_js_post_frame($this->getUri("db-resetdb-controller")));
+
+                $group->input('btn', 'button', __('mysql - backup'))
+                    ->on('click', igk_js_post_frame($this->getUri("db-backup-controller")));
+
+                $group->input('btn', 'button', __('mysql - dropdb'))
+                    ->on('click', igk_js_post_frame($this->getUri("db-dropdb-controller")));
+            } else
+                $this->setParam('ctrl', null);
+        });
+    }
+    private function _db_check_command($method)
+    {
+        if (!igk_is_conf_connected()) {
+            throw new NotAllowedRequestException();
+        }
+        $ctrl = igk_getctrl($this->getParam('ctrl'));
+        return $ctrl;
+    }
+    public function db_migrate_controller()
+    {
+        $ctrl = $this->_db_check_command(__FUNCTION__);
+        NotifyHelper::Notify(
+            __FUNCTION__,
+            $ctrl::migrate(),
+            'update migration',
+            'failed to register'
+        );
+    }
+    public function db_resetdb_controller()
+    {
+        $ctrl = $this->_db_check_command(__FUNCTION__);
+        NotifyHelper::Notify(
+            __FUNCTION__,
+            $this->_resetdb($ctrl),
+            'reset db success',
+            'failed to register'
+        );
+    }
+
+    public function db_dropdb_controller()
+    {
+        $ctrl = $this->_db_check_command(__FUNCTION__);
+        NotifyHelper::Notify(
+            __FUNCTION__,
+            $this->_dropdb($ctrl),
+            'drop controller db complete',
+            'failed to drop tables'
+        );
+    }
+    public function db_backup_controller()
+    {
+        $ctrl = $this->_db_check_command(__FUNCTION__);
+        NotifyHelper::Notify(
+            __FUNCTION__,
+            $this->_backup($ctrl),
+            'backup db complete',
+            'failed to backup'
+        );
+    }
+    /**
+     * reset single db logic
+     * @param BaseController $controller 
+     * @return bool 
+     * @throws IGKException 
+     */
+    private function _resetdb(BaseController $controller): bool
+    {
+        return DbUtils::ResetControllerDb($controller);
+    }
+    private function _dropdb(BaseController $controller): bool
+    {
+        return $this->db_drop_tables($controller);
+    }
+    private function _backup(BaseController $controller): bool
+    {
+        return $this->db_backup_tables($controller, "backup");
     }
 }

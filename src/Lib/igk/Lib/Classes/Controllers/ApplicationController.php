@@ -288,7 +288,7 @@ implements IDatabaseHost
             igk_exit();
         }
         $doc = $this->getAppDocument();
-        $doc->Title = R::ngets("title.app_2", "Functions " . $this->getConfigs()->get(IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
+        $doc->Title = R::ngets("title.app_2", "Functions " . $this->getConfig(IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
         $d = $bodybox = $doc->body->getBodyBox();
         $d->clearChilds();
         $m = $d->div()->div()->container();
@@ -387,7 +387,7 @@ EOF;
      */
     public function getAppName()
     {
-        return $this->getConfigs()->get(IGK_CTRL_CNF_APPNAME, static::class);
+        return $this->getConfig(IGK_CTRL_CNF_APPNAME, static::class);
     }
     ///<summary>get if this application is not active</summary>
     /**
@@ -395,7 +395,7 @@ EOF;
      */
     public function getAppNotActive()
     {
-        return $this->getConfigs()->get(IGK_CTRL_CNF_APPNOTACTIVE);
+        return $this->getConfig(IGK_CTRL_CNF_APPNOTACTIVE);
     }
     ///<summary></summary>
     ///<return refout="true"></return>
@@ -427,7 +427,7 @@ EOF;
      */
     public function getAppTitle()
     {
-        return $this->getConfigs()->get(IGK_CTRL_CNF_TITLE);
+        return $this->getConfig(IGK_CTRL_CNF_TITLE);
     }
 
     ///<summary>Basic uri pattern</summary>
@@ -499,7 +499,7 @@ EOF;
      */
     public function getDataTablePrefix()
     {
-        return $this->getConfigs()->get(IGK_CTRL_CNF_TABLEPREFIX);
+        return $this->getConfig(IGK_CTRL_CNF_TABLEPREFIX);
     }
     ///<summary></summary>
     /**
@@ -962,7 +962,7 @@ EOF;
         if ($d === igk_app()->getDoc()) {
             igk_die("/!\\ app document match the global document. That is not allowed");
         }
-        $wt = igk_app()->getConfigs()->get("website_title", igk_server()->SERVER_NAME);
+        $wt = igk_app()->getConfig("website_title", igk_server()->SERVER_NAME);
         $title  = $this->getConfig(IGK_CTRL_CNF_TITLE);
         if (!empty($title))
             $title = __("title.app_2", $title, $wt); // igk_configs()->website_title);
@@ -994,7 +994,7 @@ EOF;
             include($f);
         } else {
             $d = $this->getAppDocument();
-            $d->Title = R::ngets("title.app_2", $this->getConfigs()->get(IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
+            $d->Title = R::ngets("title.app_2", $this->getConfig(IGK_CTRL_CNF_TITLE), $this->App->Configs->website_title);
             $div = $d->Body->add("div");
             $div->add("div", array("class" => "igk-title"))->Content = R::ngets("Title.Error");
             $div->add("div", array("class" => "igk-notify igk-notify-danger"))->Content = "No function $c found";

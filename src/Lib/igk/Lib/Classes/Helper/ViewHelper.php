@@ -20,6 +20,7 @@ use IGKEnvironmentConstants;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
+use function igk_resources_gets as __;
 
 /**
  * view helper class 
@@ -52,8 +53,10 @@ class ViewHelper
             }
         }
         return function($n){
-            if (!igk_environment()->isOPS())
-                $n->div()->panel('igk-danger')->Content = __('handler not found');
+            if (!igk_environment()->isOPS()){
+                $n->div()->panel('igk-danger')->Content = __('Action handler not found');
+                $n->div()->Content =  self::GetViewArgs("action_handler");
+            }
         };
     }
 

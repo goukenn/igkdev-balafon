@@ -80,9 +80,7 @@ class Route
     public static function LoadConfig(BaseController $controller)
     {
         if (file_exists($cf = $controller::configFile("routes"))) {
-            self::$sm_controller = $controller;
-            $user = Route::user();
-            // $is_admin = $user && $user->getIsAdmin();
+            self::$sm_controller = $controller;  
             SysUtils::Include($cf, [
                 "ctrl"=>$controller,
                 "user"=>Route::user(),
@@ -138,10 +136,10 @@ class Route
      * register action provider
      * @param string $actionClass 
      * @param string $path path or class 
-     * @param mixed $handleClass 
+     * @param string|array|callable $handleClass method or action
      * @return RouteActionHandler|RouteHandler 
      */
-    public static function RegisterAction(string $actionClass, string $path, ?string $handleClass=null)
+    public static function RegisterAction(string $actionClass, string $path, $handleClass=null)
     { 
         /**
          * two type of returned data. depend on argument
@@ -182,7 +180,7 @@ class Route
     {
         $verbs = explode('|', self::SUPPORT_VERBS);
 
-        if (in_array($v = strtoupper($name), $verbs)) {
+        if (in_array($v = strtoupper($name), $verbs)) { 
             $fc = static::RegisterAction(...$arguments);
             $fc->setVerb([$v]); 
             return $fc;

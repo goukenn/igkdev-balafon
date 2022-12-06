@@ -11,6 +11,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
+use IGK\Resources\R;
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
@@ -40,18 +41,7 @@ class WebApplication extends IGKApplicationBase
 
     private function runEngine($render = true)
     {
-        throw new NotImplementException(__METHOD__);
-        // + | ------------------------------------------------------------
-        // + | start engine index
-        // + | ------------------------------------------------------------      
-        // Benchmark::mark(__METHOD__);
-        // IGKApp::StartEngine($this);
-        // // Benchmark::expect(__METHOD__, 0.5); 
-        // RequestHandler::getInstance()->handle_ctrl_request_uri();
-        // if ($render) {
-        //     // render document
-        //     HtmlRenderer::RenderDocument(igk_app()->getDoc());
-        // }
+        throw new NotImplementException(__METHOD__);        
     }
     /**
      * bootstrap application
@@ -65,9 +55,7 @@ class WebApplication extends IGKApplicationBase
     {
         // clean header
         if (!igk_environment()->isDev()) {
-            header_remove(null);
-            // header_remove("X-Powered-By");
-            // header_remove("Server");
+            header_remove(null); 
         } 
         // 
         // + |  before init application dispactch to uri handler 
@@ -300,8 +288,11 @@ class WebApplication extends IGKApplicationBase
         }
         // + | handle cache
         // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
-        
         try {
+            $uri=igk_io_fullrequesturi();
+            if(igk_io_handle_system_command($uri)){
+                igk_exit();
+            } 
             require_once IGK_LIB_DIR . "/igk_request_handle.php";
             $this->handleRequest($file, $render);
             if ($render) {

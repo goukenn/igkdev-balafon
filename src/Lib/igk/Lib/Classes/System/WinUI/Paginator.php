@@ -8,6 +8,9 @@
 
 namespace IGK\System\WinUI;
 
+use IGK\System\Html\HtmlUtils;
+use IGK\System\IO\StringBuilder;
+
 /**
  * simple pagination class helper
  */
@@ -34,5 +37,24 @@ class Paginator{
     public function get_limit(){
         $c = $this->get_limit_raw();
         return sprintf("Limit %s,%s", $c[0], $c[1]);
+    }
+    public function set_total($v){
+        $this->maxEntry = $v;
+    }
+    public function page_links(){
+        // TODO: Generate page links 
+        $sb = new StringBuilder;
+        // $sb->appendLine("generate page links --");
+        $i =1;
+        $attribs = "";
+        $attribs = HtmlUtils::GetFilteredAttributeString("li", [
+            'class'=>"igk-paginator-item"
+        ]);
+        $url = "";
+        $s = "<li".$attribs.">";
+        $s.= "<a class=\"link\" href=\"$url\" >$i</a>";
+        $s.= "</li>";
+        $sb->append($s);
+        return $sb.'';
     }
 }

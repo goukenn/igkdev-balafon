@@ -33,6 +33,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
 { 
     const MEDIA_KEY = "medias";
     private $m_document;
+    private $m_root_ref;
     /**
      * media definition
      * @var ?IGKCssDefaultStyle
@@ -47,6 +48,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     private $m_options;
     private static $MEDIA;
     private static $SM_MEDIAKEY;
+
+    /**
+     * get support on definition
+     * @param string $condition 
+     * @return mixed 
+     */
+    public function supports(string $condition){
+        return $this->getdef()->supports($condition);
+    }
     /**
      * change the id of this doc theme
      * @param null|string $id 
@@ -72,6 +82,20 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $this->m_options = $options;
         return $this;
     }
+    public function setThemeColor($color, $value, $themeName='light', $def=null){
+        $def = $def ?? $this->getdef();
+        $root = & $this->getRootReference();
+      
+        $root['--'.$themeName.'-color-'.$color] = $value;
+        
+    }
+    public function & getRootReference(){
+        return $this->m_root_ref;
+    }
+    public function setRootReference(& $ref){
+        $this->m_root_ref = & $ref;        
+    }
+
 
     /**
      * get if is init global
@@ -333,12 +357,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                     $s .= $k . "{" . $kv . "}" . $lineseparator;
                     $tv = 1;
                 }
-            }
+            }  
         }
         if ($tv) {
-            !$themeexport && $out .= "/* <!-- Attributes --> */" . $lineseparator;
+            !$themeexport && ($out .= "/* <!-- Attributes --> */" . $lineseparator);
             $out .= rtrim($s) . $lineseparator;;
-            !$themeexport && $out .= "/* <!-- end:Attributes --> */" . $lineseparator;
+            !$themeexport && ($out .= "/* <!-- end:Attributes --> */" . $lineseparator);
         }
         $res = $this->res;
         if (!$themeexport) {
@@ -697,6 +721,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $is_root = $this === $systheme;
         $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
+        // if (igk_is_debug()){
+        //     igk_wln("export parent ", $parent, $this->getCl());
+        // }
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
 
@@ -1108,22 +1135,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     
     ///<summary>reset all media</summary>
     /**
-     * reset all media
+     * reset all media definition 
      */
     public function reset($save = false)
-    {
-        // igk_trace();
-        // igk_wln(__FILE__.':'.__LINE__, "reset call");
-        // exit;
-        
+    { 
         $this->def->Clear();
         $cl = & $this->getCl();//->Clear();
         array_slice($cl, count($cl));
         if ($res = $this->res){            
             array_splice($res, 0, count($res));
-        } 
-        // $this->ft->Clear();
-        // $this->properties->Clear();
+        }  
         if ($rule = & $this->getRules()){
             array_splice($rule,0, count($rule));
         } 
@@ -1136,16 +1157,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
     ///<summary></summary>
     /**
-     * 
+     * clear all - 
      */
     public function resetAll()
     {
-
-        $this->def->Clear();
-        $cl = $this->def->getCl();
+        $this->def->Clear(); 
         $this->m_medias = array();
         $this->_initMedia($this->m_id);
     }
+    
     ///<summary></summary>
     ///<param name="file" default="null"></param>
     /**

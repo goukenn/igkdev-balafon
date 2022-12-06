@@ -25,6 +25,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     protected $m_relations;
     protected static $LENGTHDATA = ["int","varchar","char", "decimal"];
 
+    /**
+     * get tor set the resolve link listener 
+     * @var ?IDbResolveLinkListener
+     */
+    var $resolveLinkListener;
+
     public function getEngineSupport():bool{
         return true;
     }
@@ -198,6 +204,13 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @return string|null 
      */
     public function GetExpressQuery($express, $tinf){
+
+        if ($this->resolveLinkListener){
+            if (!$this->resolveLinkListener->resolve($tinf->clLinkType)){
+                return null;
+            }
+        }
+
         $b = explode(".", $express);
         $value = implode(".", array_slice($b, 1));
         if ($nvalue = igk_regex_get("/\[(?P<value>([^\]]+))\]/", "value", $value)){

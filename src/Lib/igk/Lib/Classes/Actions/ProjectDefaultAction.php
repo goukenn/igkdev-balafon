@@ -15,7 +15,7 @@ use IGK\System\Http\WebFileResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\MimeType;
 
-abstract class ProjectDefaultAction extends \IGKActionBase{
+abstract class ProjectDefaultAction extends ActionBase{
     use ProjectAssetHandlerTrait;
     /**
      * manifest cache output

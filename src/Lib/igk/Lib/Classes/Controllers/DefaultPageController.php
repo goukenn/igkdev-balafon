@@ -168,7 +168,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     }
     ///get the name of the page that control this controller
     public function getBasicUriPattern(){
-        return $this->getConfigs()->get(IGK_CTRL_CNF_BASEURIPATTERN);
+        return $this->getConfig(IGK_CTRL_CNF_BASEURIPATTERN);
     }
     ///<summary></summary>
     public function getExtraTitle(){

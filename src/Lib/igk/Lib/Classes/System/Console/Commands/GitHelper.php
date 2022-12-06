@@ -52,7 +52,7 @@ class GitHelper
             igk_io_w2file(
                 $file,
                 implode("\n", [
-                    "** {$name}",
+                    "# {$name}",
                     "$desc ",
                     "@" . str_replace(" ", "", $author)
                 ])

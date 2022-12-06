@@ -22,12 +22,17 @@ class MapHelper{
             return igk_getv($a, $n);
         };
     }
+    /**
+     * for mat map field
+     * @param mixed $n 
+     * @return Closure 
+     */
     public static function Format($n){
         return function($a)use($n){
             $content = $n;
             foreach($a as $k=>$v){
                 $content = preg_replace_callback(
-                    "#\{\{\s*".$k."\s*\}\}#"
+                    "#\{\{\s*".$k."\s*(\|\s*(?P<pipe>.+)?\}\}#"
                     ,function()use($v){
                         return $v;
                     }

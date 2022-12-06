@@ -9,7 +9,7 @@ namespace IGK\Tests\Models;
 
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\IModelDataDefinition;
 use IGK\Models\ModelBase;
 use IGK\System\Database\IOneTableDataBaseDefinition;

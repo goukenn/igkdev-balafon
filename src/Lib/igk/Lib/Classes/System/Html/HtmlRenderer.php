@@ -452,7 +452,8 @@ class HtmlRenderer
                 $c = $v->getValue();
             else {
                 if (is_array($v)) {
-                    igk_wln_e("/!\\ don't send array as attribute: ", $k, $v);
+                    igk_environment()->isDev() && igk_trace();
+                    igk_dev_wln_e("/!\\ don't send array [$k] as attribute: ", $k, $v);
                 }
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                     if (!empty($cv = $v->getValue()) || is_string($cv)) {

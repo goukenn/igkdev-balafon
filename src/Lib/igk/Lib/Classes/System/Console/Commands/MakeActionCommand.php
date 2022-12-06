@@ -13,6 +13,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Actions\ActionBase;
+use IGKActionBase;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
@@ -60,11 +61,11 @@ class MakeActionCommand extends AppExecCommand{
             return false;
         } 
         Logger::info("make action ...".$controller);
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
-        $type = igk_str_ns(igk_getv($command->options, "--type", IGKActionBase::class));
+        $author = $this->getAuthor($command);
+        $type = igk_str_ns(igk_getv($command->options, "--type", ActionBase::class));
         $type = igk_getv([
             "project"=>ProjectDefaultAction::class,
-            "def"=>IGKActionBase::class,
+            "def"=>ActionBase::class,
             "middlewire"=>MiddlewireActionBase::class
         ], strtolower($type), $type);
         
@@ -73,7 +74,7 @@ class MakeActionCommand extends AppExecCommand{
             Logger::danger("controller $controller not found");
             return false;
         }
-        if (!$type || !class_exists($type) || !(($type==IGKActionBase::class) || is_subclass_of($type, IGKActionBase::class))){
+        if (!$type || !class_exists($type) || !(($type==ActionBase::class) || is_subclass_of($type, ActionBase::class))){
             Logger::danger("type class not found : [$type] ");
             return false;
         }
@@ -130,7 +131,7 @@ class MakeActionCommand extends AppExecCommand{
         Logger::print("-");
         Logger::info("Make new Balafon's PROJECT action");
         Logger::print("-\n");
-        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " ctrl name [options]" );
+        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " controller name [options]" );
         Logger::print("\n\n");
     }
 }

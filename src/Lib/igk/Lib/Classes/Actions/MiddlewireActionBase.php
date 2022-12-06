@@ -179,6 +179,7 @@ abstract class MiddlewireActionBase extends ActionBase{
      * @return void 
      */
     protected function invoke($route, $args){
+        igk_ilog('invoke route: ' . $route );
     }
    
 }

@@ -106,7 +106,7 @@ abstract class AppCommand {
                         if (!class_exists($ctrl)){
                             die("class [".$ctrl ."] not found or is abstract".$b);
                         }
-                        if ((igk_sys_reflect_class($ctrl))->isAbstract())
+                        if ((igk_sys_reflect_class($ctrl))->isAbstract() || !is_subclass_of($ctrl, __CLASS__))
                             continue; 
                         $b = new $ctrl();
                         $loaded_command[$b->command] = $b;  
@@ -186,5 +186,13 @@ abstract class AppCommand {
                 }
             }
         
+    }
+    /**
+     * retrieve command author
+     * @param mixed $command 
+     * @return mixed 
+     */
+    public function getAuthor($command){
+        return $command->app->getConfigs()->get("author", IGK_AUTHOR);
     }
 }

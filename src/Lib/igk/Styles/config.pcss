@@ -4,16 +4,17 @@
 // css configuration page
 $page = ".igk-cnf-page";
 $areasize = "420px";
-// $def->clear(); 
+// igk_wln_e($def);
+$def->clear(); 
 // because of clear on theme make errors
 // reg file type color
-// include config mode
-// $theme->data =  "CONFIG.";
+// include config mode   
 
-include(dirname(__FILE__)."/config.dark.pcss");
-
+ 
 //color definition
-$cl["configBackgroundColor"]= "transparent";  
+$cl["configBackgroundColor"]= "indigo";  
+$def['body.igk-body '.$page] = 'background-color: [cl:configBackgroundColor];'; 
+
 $cl["configColor"]="#222";
 $cl["configMenuHoverColor"] = "#fff";
 $cl["configMenuColor"] = "#222";
@@ -56,8 +57,13 @@ $cl["configMenuHeadingHoverColor"] = "#eee";
 $cl["configLoginLogoBackgroundColor"] = "white";
 $cl["configMenuBorder"] = "white";
 
+// if ($theme_name == 'dark')
+include __DIR__."/config.dark.pcss";
+
+ 
 
 
+$def[$page] = "background-color:red;";
 $def[".igk-cnf-content .igk-panel-box"] = "[bgcl:configPanelBoxBackgroundColor]";
 $def[".igk-cnf-content > div > .igk-panel-box"] = " {sys:posr} width: 100%; overflow:hidden;";
 $def[$page." .igk-col-view-box"] = "{sys:no-border} [bgcl:configPanelBoxBackgroundColor]";
@@ -475,8 +481,7 @@ $e = $page." .igk-adm-login-form";
 // $def["button#connect.igk-bmc-button"] = "margin: initial; margin-right:auto;";
 // $def["button#connect.igk-bmc-button +  .igk-btn"] = "margin: initial; margin-left:auto;";
 
-// $def[$e." .igk-winui-bmc-shape"] = "{sys:fitw}".<<<EOF
-// [varp:--igk-winui-bmc-shape__bgcolor: {$cl["configBackgroundColor"]}]
+// $def[$e." .igk-winui-bmc-shape"] = "{sys:fitw}".<<<EOF 
 // [varp:--igk-winui-bmc-shape__corner_bl_rx:0px !important]
 // [varp:--igk-winui-bmc-shape__corner_bl_ry:0px !important]
 // [varf: background-color:[var:--igk-winui-bmc-shape__bgcolor];]
@@ -681,7 +686,7 @@ $def[$page." #c_ml .igk-form .content > div"] =  "display: flex;";
 $def[$page." #c_ml .igk-form .content > div > label"] =  "align-self: start; padding-top: 10px";
 
 
-$def[$page." .igk-btn .igk-ajx-pickfile"] = "padding-left: 10px;";
+ 
 $def[$page." .igk-btn .igk-ajx-pickfile:hover"] = "background-color:transparent !important; color:inherit;";
 $def[$page." .igk-btn.igk-btn-core-update" ] = "[bgcl:configButtonColor, #247397]";
 
@@ -703,3 +708,7 @@ $cl["loginFormBgColor"] = "indigo";
 /// TODO: udate configuration presentation 
 // + | 2022 configuration page
 $def[$page .' .igk-form-control'] = "border-radius:4px;";
+
+$def[".igk-panel-box"] = 
+$def[".igk-panel-box.home-cnf"] = 
+$def[".igk-panel-box.home-cnf > .igk-panel-box "] = "border:none;";

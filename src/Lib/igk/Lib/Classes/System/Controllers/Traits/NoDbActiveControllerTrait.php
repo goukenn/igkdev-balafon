@@ -8,10 +8,10 @@
 
 namespace IGK\System\Controllers\Traits;
 
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 
 trait NoDbActiveControllerTrait{
-    public function getDataTableInfo(): ?DbModelDefinitionInfo{
+    public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
     ///<summary></summary>

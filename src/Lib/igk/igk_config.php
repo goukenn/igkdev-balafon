@@ -436,7 +436,7 @@ define("IGK_CSS_XXLG_SCREEN", 1600);
 define("IGK_CSS_CTN_LG_SIZE", 844);
 define("IGK_CSS_CTN_XLG_SIZE", 1280);
 define("IGK_CSS_CTN_XXLG_SIZE", 1580);
-define("IGK_PWD_LENGTH", 8);
+defined('IGK_PWD_LENGTH') || define("IGK_PWD_LENGTH", 8);
 //    define("IGK_AJX_BINDSTYLES", "sys://css/ajx/temp/files");
 //    define("IGK_COMPONENT_ID_KEY", "sys://component/id");
 define("IGK_ENCODINGTYPE", "text/html; charset=utf-8");

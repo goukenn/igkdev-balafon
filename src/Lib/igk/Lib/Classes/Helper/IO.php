@@ -22,9 +22,35 @@ use function igk_resources_gets as __;
  */
 class IO
 {
+    /**
+     * create a IgnoreHiddenDirAndFile 
+     */
+    public static function IgnoreHiddenDirAndFileCallback(){
+        return function($f){
+            if (strpos(basename(dirname($f)), '.')===0){
+                return false;
+            }
+            if (strpos(basename($f), '.')===0){
+                return false;
+            }
+            return true;
+        };
+    }
+    /**
+     * create a tempory directory 
+     * @param string $prefix 
+     * @return string|false|void 
+     * @throws IGKException 
+     */
+    public static function CreateTempDir(string $prefix){
+        $tempdir = sys_get_temp_dir();
+        $n = tempnam($tempdir, $prefix);
+        @unlink($n);
+        if (self::CreateDir($n)){
+            return $n;
+        }
 
- 
-
+    }
     /**
      * pattern with version inside
      * @param mixed $path 
@@ -408,6 +434,9 @@ class IO
     {
         $rootdir = igk_io_rootdir();
         $bdir = igk_io_basedir();
+        if (empty($rootdir)){
+            return null;
+        }
         if ($path === null) {
             $path = igk_io_request_uri();
         }
@@ -441,78 +470,7 @@ class IO
             }
             return $p . ltrim($dir, "/");
         }
-        return null;
-
-        // die("not implement ". __FILE__);
-        // igk_wln(
-        //     "root_c  = ".self::GetRootRelativePath($dir),
-        //     "rootdir = ".igk_io_rootdir(),
-        //     "basedir = ".igk_io_basedir(),
-        //     "request = ".self::GetRequestBaseUri(),
-        //     "base--  = ".self::GetRootUri(self::GetRequestBaseUri()),
-        //     "rrq     = ".igk_io_request_uri()
-        // );
-
-        // $__dir=$dir;
-        // $v_basedir=igk_io_basedir();
-        // $r_uri=null;
-        // $v_isdir=true;
-        // $sep="/";
-        // $r_uri= self::GetRequestBaseUri(); // igk_getv(explode("?", igk_io_request_uri()), 0);
-        // $v_isdir=IGKString::EndWith($r_uri, '/');
-        // $cdir=self::GetRootUri(rtrim($r_uri, '/'));
-        // $is_root=igk_io_basedir_is_root();
-        // $bdir=$is_root ? igk_io_baseuri(): self::GetRootUri();
-        // $dir=ltrim(igk_uri($dir), $sep);
-
-        // igk_wln_e(get_defined_vars());
-
-        // if(!$is_root){
-        //     $sbdir=igk_uri(igk_io_basedir());
-        //     $srdir=igk_uri(igk_io_rootdir());
-        //     // igk_wln_e("null", $is_root, IGK_APP_DIR,  "sbdir:".$sbdir, "root:".$srdir, "rootdir is empty ".igk_io_rootdir());
-        //     if(strstr($sbdir, $srdir)){
-        //         $child=igk_str_rm_last(substr($sbdir, strlen($srdir) + 1), $sep);
-        //         $dir=$child.$sep.$dir;
-        //     }
-        //     else{               
-        //         return null;
-        //     }
-        // }
-        // $i=-1;
-
-        // if($bdir == $cdir){
-        //     if(empty($dir))
-        //         return "./";
-        //     return self::GetRootRelativePath($dir);
-        // }
-        // $i=IGKString::IndexOf($cdir, $bdir);
-        // $c=0;
-        // $h="";
-        // if(($lv=igk_io_dir_level()) > 0){
-        //     $h=str_repeat("../", $lv);
-        // }
-        // if(($sdir=IGK_BASE_DIR) != $v_basedir){
-        //     while($sdir != "." && !strstr($v_basedir, $sdir)){
-        //         $h .= "../";
-        //         $sdir=dirname($sdir);
-        //         $c++;
-        //     }
-        //     return igk_uri($h.substr($v_basedir, strlen($sdir) + 1).$sep.$dir);
-        // }
-        // else{
-        //     $sdir=$cdir;
-        //     $counter=0;
-        //     while(!empty($sdir) && ($sdir != $bdir)){
-        //         $h .= "../";
-        //         $sdir=dirname($sdir);
-        //         if($sdir == ".")
-        //             break;
-        //     }
-        //     if(empty($dir))
-        //         return $h;
-        //     return igk_uri($h.$dir);
-        // }
+        return null;      
     }
     ///<summary>tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur</summary>
     /**
@@ -710,8 +668,10 @@ class IO
                             if ($mdata == -1) {
                                 continue;
                             }
+                            if ($callback && !$callback($f)){
+                                continue;
+                            }
                             $v_out[] = $f;
-                            $callback && $callback($f);
                         }
                     } else {
                         if (!($ignore_hidden && (strpos($r, ".") === 0)) && !$fc($f, $r, $excludedir) && $recursive) {

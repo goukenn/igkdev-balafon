@@ -78,7 +78,7 @@ class MySQLCommand extends AppExecCommand
                     $d,
                     JSON_PRETTY_PRINT
                 ));
-                exit;
+                igk_exit();
                 break;
             case "export_schema":
                 // export global schema

@@ -123,7 +123,9 @@ class SQLGrammar implements IDbQueryGrammar
             "utinyint" => "TinyINT",
             "date" => "Date",
             "enum" => "Enum",
-            "json" => "JSON"
+            "json" => "JSON",
+            "datetime"=>"datetime",
+            "timestamp"=>"timestamp",
         ], $t = strtolower($t), $t);
     }
     public static function fallbackType($t, $adapter)
@@ -138,6 +140,12 @@ class SQLGrammar implements IDbQueryGrammar
                 if ($adapter->isTypeSupported('datetime')) {
                     return "datetime";
                 }
+                break;
+            case 'timestamp':
+                if ($adapter->isTypeSupported('int')) {
+                    return "int";
+                }
+                break;
         }
         return "text";
     }
@@ -467,6 +475,13 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return null;
     }
+    /**
+     * get grammar column definition
+     * @param mixed $v 
+     * @param bool $nocomment 
+     * @return string 
+     * @throws IGKException 
+     */
     public function getColumnInfo($v, $nocomment = false)
     {
         $adapter  = $this->m_driver;
@@ -838,7 +853,7 @@ class SQLGrammar implements IDbQueryGrammar
             }
         }
         $value = $driver->getDataValue($value, $tinf);
-        if (!is_string($value)){
+        if (is_object($value) || is_array($value)){
              igk_wln_e(__FILE__.":".__LINE__, $tinf->clName,  $value);
         }
         return "'" . $driver->escape_string($value) . "'";
@@ -864,11 +879,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @throws IGKException 
      */
     protected static function GetValues($driver, $values, & $tableInfo, $update = 0)
-    {
-
-
-
-
+    {  
         $tvalues = new stdClass();
 
         if (is_object($values) && method_exists($values, "to_array")) {
@@ -884,6 +895,7 @@ class SQLGrammar implements IDbQueryGrammar
             $filter = $driver->getFilter();
             $keys = [];
             foreach ($tableInfo as $k => $v) {
+                $pv = '';
                 if (is_numeric($k)) {
                     $k = $v->clName;
                 }

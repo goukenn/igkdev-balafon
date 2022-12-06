@@ -4,6 +4,7 @@
 // @date: 20221111 14:05:40
 namespace IGK\System\Html\Forms;
 
+use IGK\Helper\ArticleContentBindingHelper;
 use IGKException;
 
 ///<summary></summary>
@@ -38,7 +39,24 @@ class FormUtils
                 }
                 continue;
             }
-            $g = ["i" => $key ? $m->{$key} : count($data) + $offset, "t" => $m->$display];
+            $text = '';
+            if (is_callable($display)){
+                $text = $display($m);
+            } else if (is_string($display)){
+                if (property_exists($display, $m)){
+                    $text =  $m->$display;
+                }else {
+                    $g = ArticleContentBindingHelper::GetData($m); 
+                    if (key_exists($display, $g)){
+                        $text = $g[$display];
+                    } else{
+                        $text = ArticleContentBindingHelper::BindContent($display, $g );
+                    }
+                }
+            }
+
+
+            $g = ["i" => $key ? $m->{$key} : count($data) + $offset, "t" =>  $text];
             if ((is_callable($selected) && $selected($m)) || ($selected && ($selected == $g["i"]))) {
                 $g["selected"] = true;
             }

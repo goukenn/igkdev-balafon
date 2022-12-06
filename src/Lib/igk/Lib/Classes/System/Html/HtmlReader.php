@@ -42,9 +42,8 @@ final class HtmlReader extends IGKObject
     private $m_attribs, $m_context, $m_contextLevel, $m_hasAttrib, $m_hfile, 
     $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v;
     // $m_self_close;
-    private $m_self_closing_items = [
-        HtmlContext::Html=>['input', 'link', 'img' ,'meta'],
-    ];
+    private $m_self_closing_items;
+    private $m_errors = [];
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
     static $ss;
@@ -120,6 +119,9 @@ final class HtmlReader extends IGKObject
         $this->m_attribs = null;
         $this->m_nodes = array();
         $this->m_length = strlen($text);
+        $this->m_self_closing_items = [
+            HtmlContext::Html=> explode("|", HtmlContext::EmptyTags)
+        ];
     }
     ///<summary></summary>
     ///<param name="text"></param>
@@ -201,6 +203,76 @@ final class HtmlReader extends IGKObject
         $eval_context = $reader->m_context->transformToEval ?? false;
         $expressionRead = false; 
         $tnames = [$tag];
+        if ($tag == 'script'){
+            // + | read until end </script> found
+            $stag = 0;
+            $tpos = 0;
+            $bpos = $offset;
+            $skip_space = 0;
+            while ($end && ($offset < $ln)) {
+                $ch = $text[$offset];
+                switch($ch){
+                    case '<':
+                        $stag = 1;
+                        $tpos = $offset;
+                        break;
+                    case '>':
+                        if ($stag == 2){
+                            $end =  0;                            
+                        }
+                        break;
+                    case '/':
+                        if ($stag){
+                            $v .= $ch;
+                            $offset++;
+                            $name = self::_ReadName($text, $ln, $offset, $eval_context, $expressionRead);
+                            if ($name == $tag){
+                                $stag = 2;
+                            }
+                            $v .= $name;
+                            $ch = '';
+                            $offset--;
+                        }
+                        break;
+                    case "'":
+                    case '"':
+                    case '`': // + | multiline litteral string
+                        $v .=  igk_str_read_brank($text, $offset, $ch, $ch, null, 1);
+                        $ch = '';
+                    break;
+                    case ' ':
+                        if ($skip_space ){
+                            $ch ='';
+                        }
+                        $skip_space = 1;
+                        break;
+                    case "\t":
+                        if (!$skip_space ){
+                            $v .= $ch;
+                        }
+                        $ch = '';
+                        $skip_space = 1;
+                        break;
+                    default:
+                        $stag = 0;
+                        break;
+                }
+                $offset++;
+                $v .= $ch;
+                if ($skip_space && !empty($ch)){
+                    $skip_space = 0;
+                }
+                // if (strstr($v, 'opt-in')){
+                //     igk_wln("ok");
+                // }
+            }
+            if (!$end)
+                $v = substr($v, 0, $tpos-$bpos);
+            return $v;
+
+        }
+
+        // + | read tag until matching end tag found </script> found
         while ($end && ($offset < $ln)) {
             $ch = $text[$offset];
             switch ($ch) {
@@ -222,11 +294,10 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case "<":
-                    if ($intag) {
-                       
+                    if ($intag){                       
                         igk_die(
-                            sprintf("[BLF] - xml reading : enter tag not valid: %s \nat %s" , $text, 
-                            substr($text, $offset)));
+                            sprintf("[BLF] - xml reading : enter tag not valid.\nat %s", 
+                            substr($text, $offset -10, 30)));
                     }
                     $intag = 1;
                     $tpos = strlen($v);
@@ -240,6 +311,7 @@ final class HtmlReader extends IGKObject
                                 $name = self::_ReadName($text, $ln, $offset, $eval_context, $expressionRead);
                                 // igk_debug_wln_e(__FILE__.":".__LINE__,  "at end read name ", $name, $level, $tag, $text[$offset]);
                                 if (empty($name) || (($tmix = array_pop($tnames)) != $name)) {
+                                    igk_dev_wln('error :: not matching tag ', $tmix, $name); 
                                     igk_die("xml reading not valid : " . $tmix . " # " . $name . " level " . $level);
                                 }
                                 $v .= $name;
@@ -264,25 +336,15 @@ final class HtmlReader extends IGKObject
                         default:
                             $offset++;
                             $name = self::_ReadName($text, $ln, $offset, $eval_context, $expressionRead);
-                            // igk_wln_e("read name ", $name, $offset, $text[$offset]);
-                            if (empty($name)) {
-                                // operator < detected
-                                // igk_wln_e(
-                                //     __FILE__ . ":" . __LINE__,
-                                //     "start tag is not a valid start tag",
-                                //     '...'.substr($text, $offset-10, 30) . "...",
-                                //     'is skiping '.$this->m_skip,
-                                //     "name is empty : offset : " . $offset . " tag  : " . $tag . " level: " . $level
-                                // );
+                     
+                            if (empty($name)) { 
                                 $v .= $tch;
-                                $intag = false;
-                                // igk_wln_e(" :$name:data");
+                                $intag = false; 
                                 break;
                             }
                             if ($expressionRead) {
                                 $name = new HtmlTagExpressionName($name);
-                            }
-                            // igk_wln_e("the name ", $name, substr($text, $offset, 5));
+                            } 
                             array_push($tnames, $name);
                             $level++;
                             $v .= $name;
@@ -307,7 +369,7 @@ final class HtmlReader extends IGKObject
                     $v .= $ch;
                     break;
                 default:
-                    $v .= $ch;
+                    $v .= $ch;                    
                     break;
             }
             $offset++;
@@ -589,6 +651,10 @@ final class HtmlReader extends IGKObject
         $escape = false;
         $pro_expr = "";
         $expr_attrib = false;
+        // if (igk_environment()->check_attributes){
+        //     igk_dev_wln("check attributes :::: ", __FILE__.":".__LINE__ );
+        // }
+
         while (!$end && $reader->CanRead()) {
             $v_ch = $reader->m_text[$reader->m_offset];
             $reader->m_offset++;
@@ -631,33 +697,42 @@ final class HtmlReader extends IGKObject
                 case "\"":
                     if ($mode == 0) {
                         igk_wln($attribs);
-                        die("not valid attribute read not vaid: [$v] - {$v_n} - $mode");
+                        igk_die(
+                            implode("\n", [
+                                "not valid attribute read not vaid: [$v] - {$v_n} - $mode ".
+                                "offset : ".$reader->m_offset
+                            ])
+                        );
                     }
-                    // if (igk_is_debug()){
-                    //     echo __FILE__.":".__LINE__. "debug ing";
+                   // + | important move back before read brank
+                    $reader->m_offset--;
+                    $v_v = trim(igk_str_read_brank($reader->m_text, $reader->m_offset, $v_ch, $v_ch, null, false,true), $v_ch);
+                    $v.= $v_v.$v_ch;
+                    // $reader->m_offset = $start;
+                    // // if (igk_is_debug()){
+                    // //     echo __FILE__.":".__LINE__. "debug ing";
+                    // // }
+                    // $escaped = false;
+                    // while ($c_pos = strpos($reader->m_text, $v_ch, $start)) {
+                    //     $start = $c_pos;
+                    //     if ($reader->m_text[$c_pos - 1] == "\\") {
+                    //         // is escaped
+                    //         $escaped = true;
+                    //         $start++;
+                    //         continue;
+                    //     }
+                    //     break;
                     // }
-                    $start = $reader->m_offset;
-                    $escaped = false;
-                    while ($c_pos = strpos($reader->m_text, $v_ch, $start)) {
-                        $start = $c_pos;
-                        if ($reader->m_text[$c_pos - 1] == "\\") {
-                            // is escaped
-                            $escaped = true;
-                            $start++;
-                            continue;
-                        }
-                        break;
-                    }
-                    if ($c_pos === false) {
-                        die("close bracket not found");
-                    }
-                    $v_v =  substr($reader->m_text, $reader->m_offset, -$reader->m_offset + $c_pos);
-                    if ($escaped) {
-                        $v_v = stripslashes($v_v);
-                    }
+                    // if ($c_pos === false) {
+                    //     die("close bracket not found");
+                    // }
+                    // $v_v =  substr($reader->m_text, $reader->m_offset, -$reader->m_offset + $c_pos);
+                    // if ($escaped) {
+                    //     $v_v = stripslashes($v_v);
+                    // }
 
 
-                    $reader->m_offset = $start + 1;
+                    $reader->m_offset ++;//= $start + 1;
                     $attribs[$v_n] = $v_v;
                     if ($callback) {
                         if ($expr_attrib) {
@@ -676,21 +751,25 @@ final class HtmlReader extends IGKObject
                     $protag = 1;
                     if ($mode == 2) {
                         $v_v .= $v_ch;
-                    } else {
-                        igk_trace();
-                        die(sprintf("%s - name:%s",
+                    } else {                      
+                        igk_ilog(sprintf("%s - name:%s",
                             sprintf(
                             "Syntax error: expression tag not allowed in attribute definition: %s, mode:%s, offset:%s\n%s",
                             $v,
                             $mode,
                             $reader->m_offset,
-                            $reader->m_text
+                            substr($reader->m_text, $reader->m_offset -10, 20),
                         ), $reader->m_name));
+                        $reader->m_errors[] = 'Syntax error : try read tag on attribute';
+                        $end = true;
+                        $reader->m_offset - 1;
+                        return true;
                     }
                     break;
                 case "=":
                     if (($mode == 0) || ($mode == 1)) {
                         $mode = 2;
+                        // $v_n = trim($v_v);
                         $v_v = "";
                     }
                     break;
@@ -905,7 +984,11 @@ final class HtmlReader extends IGKObject
                 case XMLNodeType::INNER_TEXT:
                     // must set as inner text
                     if (!$cnode) { 
-                        die("can't set inner text on non detected node");
+                        header("Content-Type: text/plain");
+                        igk_die("can't set inner text on non detected node :\n ".
+                        "offset: ".$reader->m_offset."\n\n".
+                         substr($reader->m_text, 
+                         $reader->m_offset, 40)."\n\n");
                     }
                     if (!empty($g = $reader->getValue())) {
                         $cnode->setTextContent($g);
@@ -934,6 +1017,9 @@ final class HtmlReader extends IGKObject
                     break;
                 case XMLNodeType::ENDELEMENT:
                     $n = $reader->Name();
+                    if ($n == 'Live'){
+                        igk_wln('tag end with live');
+                    }
                     // $tnode = $cnode;
                     if ($cnode) {
                         $t = $cnode->TagName;
@@ -1333,7 +1419,7 @@ final class HtmlReader extends IGKObject
         while ($this->CanRead()) {
             $c = $this->m_text[$this->m_offset];
             switch ($c) {
-                case "<":
+                case '<':
                     if ($v_enter) {
                         $this->_readElement();
                         return true;
@@ -1391,6 +1477,8 @@ final class HtmlReader extends IGKObject
                                     $this->m_name = null;
                                     $this->m_v = $v;
                                     $this->m_nodetype = XMLNodeType::DOCTYPE;
+                                    $this->m_isEmpty = true;
+                                    $v_enter= false;
                                     return true;
                                 }
                             }

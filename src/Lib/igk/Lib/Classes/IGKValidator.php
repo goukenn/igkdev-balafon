@@ -11,6 +11,7 @@
 */
 final class IGKValidator extends IGKObject {
     const INT_REGEX= \IGK\System\Regex\RegexConstant::INT_REGEX; 
+    const PWD_MIN_LENGTH = IGK_PWD_LENGTH;
     private $sm_cibling;
     private $sm_enode;
     private static $sm_instance;
@@ -158,6 +159,15 @@ final class IGKValidator extends IGKObject {
     public static function IsGUID(string $v){
         return preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
     }
+    /**
+     * check password validity confirmation
+     */
+    public static function ValidatePassword($pwd, $rpwd): bool{
+        if ($pwd && ($pwd == $rpwd)){
+            return self::IsValidPwd($pwd);
+        }
+        return false;
+    }
     ///<summary></summary>
     ///<param name="v"></param>
     /**
@@ -220,7 +230,13 @@ final class IGKValidator extends IGKObject {
     * @param mixed $o
     */
     public static function IsValidPwd($o){
-        if((is_string($o) && strlen($o)>=6)){
+
+        // preg_match_all("/n(?=j)/", "bonjonurna" , $tab, PREG_OFFSET_CAPTURE);
+        // print_r($tab);
+        // igk_wln_e($tab);
+
+
+        if((is_string($o) && strlen($o)>=self::PWD_MIN_LENGTH)){
             return true;
         }
         return false;

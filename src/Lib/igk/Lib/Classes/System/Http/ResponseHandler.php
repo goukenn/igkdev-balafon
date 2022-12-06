@@ -44,8 +44,7 @@ class ResponseHandler
                     $b->output();
                     break;
                 case 'text/html':
-                    $sb = new StringBuilder();  
-                    $header = '';
+                    $sb = new StringBuilder(); 
                     $sb->appendLine('response:');
                     foreach($r as $k=>$v){
                         $ds = is_object($v) || is_array($v) ? json_encode($v) : $v;

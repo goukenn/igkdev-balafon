@@ -33,7 +33,7 @@ class MakeSeederCommand extends AppExecCommand
             return false;
         }
         Logger::info("make seeder class ... " . $controller);
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+        $author = $this->getAuthor($command);
 
         $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl) {
@@ -81,7 +81,7 @@ class MakeSeederCommand extends AppExecCommand
         Logger::print("-");
         Logger::info("Make db module utility");
         Logger::print("-\n");
-        Logger::print("Usage : " . App::Gets(App::GREEN, $this->command) . " ctrl name [options]");
+        Logger::print("Usage : " . App::Gets(App::GREEN, $this->command) . " controller name [options]");
         Logger::print("\n\n");
     }
 }

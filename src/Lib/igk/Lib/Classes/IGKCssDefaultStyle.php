@@ -24,7 +24,40 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     const PROPERTIES=0;
     const SYMBOLS_RULE=3;
     const TEMP_FILES_RULE=8;
+    const SET_FLAG=19;
     private $_;
+
+   public function setStyleFlag(string $name, $value){
+       if (isset($this->_[self::SET_FLAG])){        
+            $s = & $this->_[self::SET_FLAG];
+            $s[$name] = $value;
+       } else {
+            if (!is_null($value)){
+                $s = [];
+                $s[$name] = $value;
+                $this->_[self::SET_FLAG] = $s; // new array 
+            }
+       }
+        return $this;
+   }
+   /**
+    * get the stored value and unset it 
+    * @param string $name 
+    * @return mixed 
+    * @throws IGKException 
+    */
+   public function unsetStyleFlag(string $name){
+        $v = null;
+        if (isset($this->_[self::SET_FLAG])){
+            $s = & $this->_[self::SET_FLAG];
+            $v = igk_getv($s, $name);
+            unset($s[$name]);
+            if (count($s)<=0){
+                unset($this->_[self::SET_FLAG]);
+            }
+        }
+        return $v;
+    }
     ///<summary></summary>
     public function __construct(& $setting){
         $this->_=& $setting;
@@ -59,12 +92,14 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     ///<summary></summary>
     ///<param name="n"></param>
     public function __get($n){
+    
         igk_die(__METHOD__." not allowed [{$n}] : ");
     }
-    ///<summary></summary>
-    public function __serialize(){
-        return [serialize(array_filter($this->_))];
-    }
+    // ///<summary></summary>
+    // public function __serialize(){
+    //     igk_ilog('serialize data'); 
+    //     return [serialize(array_filter($this->_))];
+    // }
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="v"></param>
@@ -99,7 +134,8 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
         self::PARAMS_RULE,
         self::PROPERTIES,
         self::SYMBOLS_RULE,
-        self::TEMP_FILES_RULE
+        self::TEMP_FILES_RULE,
+        self::SET_FLAG,
         ] as $t){
             if (isset($data[$t]) && is_array($g = $data[$t])){
                 $this->_[$t] = $g;
@@ -108,12 +144,14 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     }
     ///<summary></summary>
     ///<param name="seri"></param>
-    public function __unserialize($seri){
-        if(is_array($seri)){
-            $seri=$seri[0];
-        }
-        $this->_=unserialize($seri) ?? [];
-    }
+    // public function __unserialize($seri){
+    //     igk_trace();
+    //     igk_wln_e("unserie ....");
+    //     if(is_array($seri)){
+    //         $seri=$seri[0];
+    //     }
+    //     $this->_=unserialize($seri) ?? [];
+    // }
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="expression"></param>
@@ -122,13 +160,43 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
         $rule[$name]=$expression;
     }
     ///<summary></summary>
-    public function Clear(){
-        // if (igk_is_debug()){
-        //     igk_trace();
-        //     igk_debug_wln_e("clear all data ");
-        // }
-        if($this->_) while(count($this->_) > 0)
-            array_pop($this->_);
+    public function clear(){
+        
+        if($this->_) {
+            // $_color = null;
+            // if (isset($this->_[self::COLORS_RULE])){
+            //     $_color = & $this->_[self::COLORS_RULE];
+            // }
+            $_state = igk_getv($this->_, self::SET_FLAG);
+            $keys = array_keys($this->_);
+            $to_reset = [
+                self::COLORS_RULE=>null
+            ];
+            foreach($keys as $k){
+                if (key_exists($k, $to_reset)){
+                    $to_reset[$k] = & $this->_[$k];
+                    $to_reset[$k] = [];
+                    $this->_[$k] = & $to_reset[$k];
+                } else {
+                    unset($this->_[$k]);
+                }
+            }
+            // while(count($this->_) > 0){
+            //     igk_wln('the key ', key($this->_));
+            //     array_shift($this->_);
+            // }
+            // restore color rules 
+            if ($_state){
+                // + | restore state flag
+                $this->_[self::SET_FLAG] = $_state;
+            }
+            // if (!is_null($_color)){ 
+            //     // clear color rule and restore reference
+            //     $_color = [];
+            //     $this->_[self::COLORS_RULE] = & $_color;
+            // }
+        }
+          
     }
     ///<summary></summary>
     public function clearFiles(){

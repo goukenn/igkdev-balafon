@@ -267,6 +267,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                 return "";
             }
         }
+        if (!$v->clNotNull){
+            if (!$v->clDefault){
+                return null;
+            }
+        }
         return $v->clDefault;
     }
 }

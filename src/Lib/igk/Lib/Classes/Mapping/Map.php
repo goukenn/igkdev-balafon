@@ -25,4 +25,9 @@ class Map{
         }
         return $target;
     }
+    public static function GetMapInfo(string $property){
+        return function($a)use($property){
+            return igk_getv($a, $property);
+        };
+    }
 }

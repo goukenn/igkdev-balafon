@@ -12,7 +12,7 @@ use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
 use IGK\Models\Community;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 {
@@ -60,7 +60,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return "%prefix%site_community";
 	}
-	public function getDataTableInfo(): ?DbModelDefinitionInfo
+	public function getDataTableInfo(): ?IModelDefinitionInfo
 	{
 		return Activator::CreateNewInstance(DbModelDefinitionInfo::class, array(
 			new DbColumnInfo(array(IGK_FD_NAME => IGK_FD_ID, IGK_FD_TYPE => "Int", "clAutoIncrement" => true, IGK_FD_TYPELEN => 10, "clIsUnique" => true, "clIsPrimary" => true)),

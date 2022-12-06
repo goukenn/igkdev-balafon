@@ -316,11 +316,11 @@ EOF;
     }
     ///<summary>Represente getServiceDescription function</summary>
     public function getServiceDescription(){
-        return $this->getConfigs()->get( "clServiceDescription");
+        return $this->getConfig( "clServiceDescription");
     }
     ///<summary>Represente getServiceName function</summary>
     public function getServiceName(){
-        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, "clServiceName"); // strtolower($this->getConfigs()->get( "clServiceName"));
+        return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, "clServiceName"); // strtolower($this->getConfig( "clServiceName"));
     }
     ///<summary>Represente getServices function</summary>
     public final function getServices(){

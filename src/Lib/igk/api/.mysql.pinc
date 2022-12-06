@@ -269,9 +269,6 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
             $s_type = strtolower($vv->clType);
             $t_type = strtolower($v_btest->clType);
             if (($s_type != $t_type) && !(($s_type == "date") && in_array($t_type, ["datetime"])) ){
-
-               
-
                 $err->add("msg")->Content=
                         sprintf("Column [%s::%s] type not --- match. Expected %s but %s found",
                         $tbname, $vv->clName,

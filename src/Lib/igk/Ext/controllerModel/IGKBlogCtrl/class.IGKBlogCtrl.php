@@ -6,7 +6,7 @@
 
 ///<summary>represent blog platform </summary>
 
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Resources\R;
 
 abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
@@ -15,7 +15,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 		parent::__construct();
 	}
 	//
-	public function getDataTableInfo(): ?DbModelDefinitionInfo{
+	public function getDataTableInfo(): ?IModelDefinitionInfo{
 		return null;
 	}
 	protected function initComplete($context=null){

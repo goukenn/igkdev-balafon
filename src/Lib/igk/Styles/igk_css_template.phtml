@@ -49,7 +49,7 @@ $def["body div"] = "";
 // $prop= & $theme->getProperties();
 
 $prop["paddingSize"] = $pad2;
-
+$prop["buttonPadding"] = "8px";
 
 
 
@@ -124,6 +124,7 @@ foreach ($screen_resolutions as $scr) {
 
 
 $def["body.igk-body"] = "background-color:[syscl:backgroundColor]; color:[syscl:textColor, #333];";
+$def["body.igk-body.overflow"] = "overflow: auto;"; 
 $def["body.igk-body.xboxone"] = "padding:0px !important; background-color:[syscl:backgroundColor, transparent]";
 
 // + - POWERED VIEW
@@ -338,7 +339,7 @@ $def[".igk-hmenu"] = "";
 $def[".igk-hmenu.floatr, igk-hmenu-floatl"] = "z-index:20";
 $def[".igk-hmenu.igk-btn"] = "margin:auto; padding:8px;";
 $def[".igk-hmenu a"] = "color:[cl:menuColor,#ddd]; [trans:0.5s color]";
-$def[".igk-hmenu a:hover"] = "color:[cl:menuHoverColor,#fff]; font-style:bold;";
+$def[".igk-hmenu a:hover"] = "color:[cl:menuHoverColor,#fff]; font-weight: bold;";
 $def[".igk-hmenu li"] = "[trans: 0.2s background-color]";
 $def[".igk-hmenu > li a"] = "padding:8px;";
 $def[".igk-hmenu > li > ul"] = "[trans:0.5s all] {sys:posab} display:none;  width:auto; min-width:150px; z-index:50; [sysbgcl:submenu-bg] [sysfcl:submenu-fcl] padding:0px;";
@@ -483,15 +484,20 @@ $def[".igk-glyph-home"] = "font-size:1.4em";
 $def[".igk-gohome-btn"] = "opacity: 0.0 !important; position:fixed; right:32px; bottom:32px; overflow:hidden; width:48px; height:48px; z-index:50;";
 $def[".igk-gohome-btn.igk-show"] = "opacity:1.0 !important;";
 $m = array(4, 8, 10, 16, 20, 24, 32);
+$ls = [];
 for ($i = 0; $i < igk_count($m); $i++) {
     $v_ss = $m[$i];
     for ($j = 0; $j < igk_count($mt); $j++) {
         $k = $mt[$j];
         $def[".igk-pad-" . $k[0] . "-" . $v_ss] = "padding-{$k}: " . $v_ss . "px;";
         $def[".igk-mar-" . $k[0] . "-" . $v_ss] = "margin-{$k}: " . $v_ss . "px;";
-        $def[".igk-border-" . $k[0] . "-" . $v_ss] = "border-width: " . $v_ss . "px; border-style: solid; border-color:red;";
+        $cp = ".igk-border-" . $k[0] . "-" . $v_ss;
+        $ls[] = $cp; 
+        $def[$cp] = "border-width: " . $v_ss . "px;";
     }
 }
+$def[implode(",", $ls)] = 'border-style: solid;';
+$ls = [];
 
 $def[".border-s"] = "border: 1px solid [cl:borderColor, #ddd];";
 $def[".border-t-s"] = "border-top: 1px solid [cl:borderColor, #ddd];";
@@ -803,9 +809,9 @@ $def[".igk-webgl-game-surface > .scene"] = "background-color:#444; width:720px; 
 $def[".igk-guide-menu"] = "[trans: width 0.2s] width:0; z-index:20; overflow:hidden; touch-action:none; top:0px !important;";
 $def[".igk-guide-menu.igk-show"] = "width:150px";
 $def[".igk-ajx-pickfile"] = "display:inline-block; cursor:pointer; padding:4px; border-left: 4px solid [syscl:pickfileBorder]; [sysbgcl:pickfileBackground]; margin-right: 1em;";
-$def[".igk-ajx-pickfile:hover"] = "border-color--ingd:[syscl:pickfileHoverBorder]; [sysbgcl:pickfileHoverBackground]; [sysfcl:pickfileHoverColor];";
+$def[".igk-ajx-pickfile:hover"] = "border-color:[syscl:pickfileHoverBorder]; [sysbgcl:pickfileHoverBackground]; [sysfcl:pickfileHoverColor];";
 
-$def[".igk-ajx-pickfile.igk-btn"] = "padding: [prop:buttonPadding];";
+// $def[".igk-ajx-pickfile.igk-btn"] = "padding: [prop:buttonPadding];";
 
 $def[".igk-winui-huebar"] = "display:inline-block; position:relative; background:linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta, red); cursor:pointer;";
 $def[".igk-winui-huebar .cur"] = "position:absolute; width:4px; top:0px; bottom:0px; background-color:white; opacity:0.4;";
@@ -816,6 +822,7 @@ $def[".igk-winui-bg-picturebox"] = "{sys:posab, fit} background-size: cover;";
 $def[".igk-cookie-warn"] = "{sys:no-overflow} padding:{$pad_size}; text-align:center; [trans:height 0.5s ease-in]";
 $def[".igk-cookie-warn .close"] = "{sys:dispib, posab} width:32px; right:32px; margin-top:auto; ";
 $def[".igk-cookie-warn .close svg"] = "{sys:fit}; fill:white";
+$def["code.code-php"] = "--igk-code-php-bg-color: [cl:codeBgColor]; background-color: var(--igk-code-php-bg-color)";
 $def["code.code-php > div"] = "{sys:no-wrap}";
 $def["code.code-php > div span"] = "{sys:no-wrap}";
 $def["code.code-php > div span.s"] = "[sysfcl: phpCodeStringColor, red]";
@@ -834,7 +841,8 @@ $def[".igk-action-bar .igk-btn > svg"] = "width:24px; height:24px; padding:4px; 
 $def[".igk-action-bar a.igk-btn:hover > svg"] = "fill:#54e;";
 $def[".igk-frame-textarea"] = "height:200px; resize:vertical;";
 $def["span.igk-textedit"] = "cursor:pointer; text-decoration-line:underline; text-decoration-style:dashed; text-decoration-color: [syscl:underLineColor]";
-$def["code"] = "{sys:dispib, fitw} overflow-x:auto;";
+$def["code"] = "{sys:dispib}";
+$def["code[lang='php']"] = "{sys:dispb}";
 $def["code[lang='php'] span.ln"] = "background-color:#444;	min-width:3em;";
 $def["code[lang='php'] span.w.r"] = "color: #2577FF;";
 $def["code[lang='php'] span.s"] = "color: #FF5D83;";
@@ -872,6 +880,8 @@ $def[".igk-winui-panel-dialog > .box > .igk-title .close svg"] = "{sys:fit}";
 $def[".igk-winui-panel-dialog::after"] = "content:' '; display:table;";
 $def[".igk-winui-panel-dialog.igk-hide"] = "opacity: 0.0";
 $def[".igk-winui-panel-dialog .igk-title > span"] = "margin-right: 32px";
+$def[".igk-winui-panel-dialog.dispn"] = "display:none; opacity: 0"; 
+ 
 
 
 
@@ -934,6 +944,7 @@ $cl["backgroundColor"] = "transparent";
 $cl["pickfileHoverBackground"] = "indigo";
 $cl["buttonActiveBackground"] = "red";
 $cl["buttonDefaultColor"] = "#444";
+$cl["buttonActiveBgColor"] = "#ca4";
 
 //+ igk-img-host
 
@@ -1016,8 +1027,11 @@ $def[".igk-winui-searchbox .igk-winui-searchbtn"] = "{sys:posab, fith, dispflex,
 $def[".igk-winui-searchbox .igk-winui-searchbtn svg"] = "width: 20px; height: 20px; vertical-align:middle; align-self:center;";
 $def[".igk-winui-searchbox input"] = "padding-left: 32px !important; border-radius: 4px; margin-bottom: 4px !important;";
 
-
+// + | --------------------------------------------------------------------
 // + | action group
+// + |
+// + |
+ 
 $def[".igk-action-group"] = "{sys:dispflex}";
 $def[".igk-action-group > .igk-btn"] =
     $def[".igk-action-group > .igk-form-control"] =
@@ -1143,3 +1157,20 @@ $def['.igk-winui-context-menu a'] = "";
 $def['.igk-btn.margin-i'] = 'margin:inherit';
 
 // $def["body"] = "background-color:aqua !important;[res:add_32x32]";
+
+
+// + | --------------------------------------------------------------------
+// + | Padding definition
+// + |
+foreach([2,4,8, 16,20,24,48] as $k){
+    $def['.pad-'.$k] = 'padding:'.$k.'px;';
+}
+// + | --------------------------------------------------------------------
+// + | size definition
+// + |
+
+foreach([16,24,32,48,64] as $k){
+    $def['.size-'.$k] = 'width:'.$k.'px; height:'.$k.'px;';
+}
+
+$cl['codeBgColor'] = '#686868';

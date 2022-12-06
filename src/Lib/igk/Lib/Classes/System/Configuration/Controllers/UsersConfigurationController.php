@@ -11,7 +11,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\StringUtility;
 use IGK\Helper\SysUtils;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder;
@@ -205,7 +205,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
-    public function getDataTableInfo(): ?DbModelDefinitionInfo
+    public function getDataTableInfo(): ?IModelDefinitionInfo
     {
         return null;
     }

@@ -6,11 +6,8 @@ namespace IGK\System\Caches;
 
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
-use IGK\Controllers\SysDbController;
-use IGK\Controllers\SysDbControllerManager;
-use IGK\Database\DbColumnInfoPropertyConstants;
-use IGK\Helper\Database;
-use IGK\Helper\SysUtils;
+use IGK\Controllers\SysDbController; 
+use IGK\Database\DbColumnInfoPropertyConstants; 
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGK\System\IO\File\PHPScriptBuilder;
@@ -26,17 +23,21 @@ class DBCachesModelInitializer{
     private $tableInfo;
     private $m_loaded = [];
 
+    private function __construct()
+    {
+        
+    }
     /**
-     * Init initializer with loaded Playr array 
-     * @param mixed $plist 
+     * Init initializer with loaded 
+     * @param array $plist array of definition table
      * @return DBCachesModelInitializer 
      * @throws IGKException 
      */
-    public static function Init($plist){
+    public static function Init($plist, bool $force=false){
         $item = new self;
         $item->tableInfo = $plist;
         $item->m_loaded = [];
-        $item->bootStrap();
+        $item->bootStrap($force);
         return $item;       
     }
     /**
@@ -46,14 +47,20 @@ class DBCachesModelInitializer{
      * @throws IGKException 
      */
     public function bootStrap(bool $force=false){
-        $current = SysDbController::ctrl();
+        if (!$this->tableInfo){
+            return;
+        }
+        $current = null;//  SysDbController::ctrl();
         $plist = (object)['tables'=>[], 'defs'=>[]];
         foreach($this->tableInfo as $ab){
+            if (is_null($current)){
+                $current = $ab->controller ?? igk_die('no provided controller');
+            }
             if ($ab->controller != $current){
+                $this->_loadDef($current,  $plist->defs);
                 ControllerExtension::InitDataBaseModel(
                     $current,
                     $plist->tables, $force);
-                $this->_loadDef($current,  $plist->defs);
                 $current = $ab->controller;
                 $plist->tables = [];
                 $plist->defs = [];
@@ -61,10 +68,12 @@ class DBCachesModelInitializer{
             if (isset($plist->tables[$ab->tableName])){
                 Logger::warn("possible re_use table ".$ab->tableName);
             }
-            if (is_null($ab->definitionResolver)){
+  
+
+            if (!isset($ab->definitionResolver) || is_null($ab->definitionResolver)){
                 $ab->definitionResolver = $this;
             }
-            if (is_null($ab->modelClass )){
+            if (!isset($ab->modelClass) || is_null($ab->modelClass )){
                 $table = igk_getv($ab, DbColumnInfoPropertyConstants::DefTableName);
                 $table = basename(igk_uri(IGKSysUtil::GetModelTypeName($table), $current));
                 $ns = $current::ns('');
@@ -75,15 +84,29 @@ class DBCachesModelInitializer{
             $plist->tables[$ab->tableName] = $ab;
             $plist->defs[$ab->tableName] = $ab;
         }
-        ControllerExtension::InitDataBaseModel(
-            $current,
-            $plist->tables, $force);
-        $this->_loadDef($current,  $plist->defs);
+        if ($current ){
+            if (!($current instanceof BaseController)){
+                echo '<pre>';
+                print_r($plist);
+                echo '</pre>';
+                exit;
+            }
+            
+            $this->_loadDef($current,  $plist->defs);
+            ControllerExtension::InitDataBaseModel(
+                $current,
+                $plist->tables, $force);
+        }
         $plist->tables = [];
         $plist->defs = [];
     }
-
-    private function _loadDef($current, $defs){
+    /**
+     * 
+     * @param BaseController $current 
+     * @param mixed $defs 
+     * @return void 
+     */
+    private function _loadDef(BaseController $current, $defs){
         $cl = get_class($current);
         if (!isset($this->m_loaded[$cl])){
             $this->m_loaded[$cl] = [];
@@ -269,6 +292,7 @@ class DBCachesModelInitializer{
      */
     public function getLinkType($type, bool $notnull, ?BaseController $ctrl = null)
     {
+        $gu = null;
         $t = "";
         if (!$notnull) {
             $t .= "?";
@@ -302,8 +326,15 @@ class DBCachesModelInitializer{
                 }
             }
             if (is_null($gu)) {
+                $info = DBCaches::GetTableInfo($type);
+                if (!is_null($info)){
+                    $gu = $info;
+                    $ctrl = $gu->controller;
+                    $this->tableInfo[$type] = $info;
+                } else{
                 // $gm = Database::GetInfo($type);
-                igk_die(sprintf("try to retrieve null %s ", [$type]));
+                    igk_die(sprintf("try to retrieve null [%s] ", $type));
+                }
             }
             if (!isset($gu->modelClass)) {
                 if (!isset($gu->defTableName)){

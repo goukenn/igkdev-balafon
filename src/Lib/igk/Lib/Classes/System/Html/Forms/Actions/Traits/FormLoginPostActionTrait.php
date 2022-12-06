@@ -5,8 +5,10 @@
 // @date: 20220603 06:53:07
 // @desc: form login trait
 
-namespace IGK\System\Html\Forms\Actions;
+namespace IGK\System\Html\Forms\Actions\Traits;
 
+use IGK\Actions\Traits\NotifyActionTrait;
+use IGK\Helper\UriPath;
 use IGK\System\Exceptions\CrefNotValidException;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -18,6 +20,7 @@ use function igk_resources_gets as __;
  */
 trait FormLoginPostActionTrait
 {
+    use NotifyActionTrait;
     /**
      * form default signin view
      * @var string
@@ -59,38 +62,50 @@ trait FormLoginPostActionTrait
      */
     public function login_post()
     {
+        $this->notifyActionName = 'form_login';
         $ctrl = $this->getController();
         $redirect = $ctrl::uri($this->serviceLoginSigninView);
-        // $this->notify(__('you failed to sign in - please try again later or contact the webmaster'),
-        //     'igk-danger');
-        // return;
-        igk_ilog('login_post : call ');
-        
+ 
+        igk_ilog('login_post : call ');  
+      
         $this->getController()->checkUser(false);
-        $redirect =  igk_getr("continue", $this->get_login_redirect_uri());
+
         $pwd = igk_getr("password");
         $u = igk_getr("login");
-        $is_cref = 1 || igk_valid_cref(1);         
+        $is_cref = igk_valid_cref(1);         
         if ($is_cref ){
-            if (!($c = $ctrl::login($u, $pwd, false))) {            
-                igk_ilog('controller login success');
+            igk_ilog('try login >');
+            $this->notify('try login', 'igk-danger');
+            if (!($ctrl::login($u, $pwd, false))) {            
+                igk_ilog('login failed : '.$u);
                 $ctrl->setParam("failed_log", 1);
                 $redirect = $this->get_login_failed_redirect_uri($redirect);       
+                
             }else{
                 igk_ilog('login success: '.$u, 'FORMLOGIN');
-                
+                $redirect = $this->get_login_redirect_uri();
+                 
             }
-        } else {
-            igk_wln('no cref');
+        } else {            
             igk_ilog('cref not valid:', 'FORMLOGIN');
             $redirect = $ctrl::uri($this->serviceLoginSigninView);
             $this->notify(__('you failed to sign in - please try again later or contact the webmaster'),
             'igk-danger');
-        } 
-       
+        }     
+        // + | --------------------------------------------------------------------
+        // + | check action extends 
+        // + |
+        
+        if ($redirect && !UriPath::CheckActionExtend($redirect, 'login')){
+            $this->redirect = $redirect;
+        } else {
+            $this->redirect = $this->getController()->uri('');
+        }        
     }
     public function logout(){
-        $this->getController()->logout(1);        
-        igk_navto($this->getController()->uri(''));
+        $ctrl = $this->getController();
+        $redirect = $ctrl::uri($this->serviceLoginSigninView);
+        $ctrl->logout(1, $redirect);
+        $this->redirect = $redirect;
     }
 }

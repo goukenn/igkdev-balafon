@@ -1116,7 +1116,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public static function LoadInContext($t, string $content, $context = null, callable $creator = null)
     {
         if (is_null($creator)) {
-            $creator = Closure::fromCallable([get_class($t), "LoadingNodeCreator"]);
+            $creator = Closure::fromCallable([get_class($t), \LoadingNodeCreator::class]);
         }
         $expression = false;        
         if ($context ){
@@ -1141,7 +1141,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @throws IGKException 
      */
     public static function LoadingNodeCreator(string $name, ?array $param = null)
-    {
+    { 
         if (strpos($name, 'igk:') === 0) {
             $f = igk_create_node(substr($name, 4), null, $param);
             if ($f)
@@ -1150,8 +1150,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $tb = explode(':', $name);
         if (count($tb) == 1) {
             return new HtmlNode($name);
-        }
-        // return $t::CreateElement(...func_get_args());
+        } 
         return static::CreateWebNode(...func_get_args());
     }
     ///<summary> load file content .xphtml </summary>
@@ -1447,20 +1446,23 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param string|callable $name tag to search
      * @return mixed|array  | * list of element by tagname not implement
      */
-    public function getElementsByTagName($name)
+    public function getElementsByTagName($name, bool $stop_first = false)
     {
         // igk_trace();
         // $name = "menuname";
         $tab = array();
-        $s = strtolower($name);
-        $c = $this->getChilds();
-        $ctab = [$this];
+        $s = '';
         $fc = $name;
         if (is_string($name)){
             $fc = function($n)use($name){
                 return $n->getTagName()== $name;
             };
+            $s = strtolower($name);
+        } else if (!is_callable($name)){
+            igk_die("expect a callable. ");
         }
+        $c = $this->getChilds();
+        $ctab = [$this];
 
         while ($q = array_shift($ctab)) {
             $c = $q->getChilds();
@@ -1477,7 +1479,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     }
                 }
             } else {
-                // seach in chills 
+                // seach in childs 
                 // + | --------------------------------------------------------------------
                 // + | update search with path aglo expression 
                 // + |
@@ -1487,6 +1489,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     $p = array_shift($c_c);
                     if ($fc($p)){
                         $result[] = $p;
+                        if ($stop_first)
+                            break;
                     }
                     if ($ct = $p->getChilds()){
                         if ($cp = $ct->to_array())

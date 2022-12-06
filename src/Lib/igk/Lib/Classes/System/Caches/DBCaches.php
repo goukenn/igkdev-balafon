@@ -4,6 +4,7 @@
 // @date: 20221119 11:34:09
 namespace IGK\System\Caches;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
@@ -16,8 +17,10 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\SchemaMigrationInfo;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
 use IGKException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
@@ -167,6 +170,11 @@ class DBCaches{
                 if ($data !== false){
                     $ad_name = $sysctrl->getDataAdapterName();
                     $trdata = igk_getv($data->{'0'}, $ad_name);
+                    $rdata = [];
+                    if (!$trdata){
+
+                        igk_wln_e("data---:' not found ", $trdata);
+                    }
                     foreach($trdata as $ctrl => $v){
                         if (!($gctrl = igk_getctrl($ctrl, false))){
                             continue;
@@ -180,7 +188,8 @@ class DBCaches{
                             'description'=> igk_getv($d, 'description'),
                             'defTableName'=>igk_getv($d, 'defTableName'),
                             'controller'=>$gctrl,
-                            'tableName'=>$d->tableName
+                            'tableName'=>$d->tableName,
+                            'definitionResolver'=>null
                             ]);
                         }
                     }
@@ -240,6 +249,27 @@ class DBCaches{
         DBCachesModelInitializer::Init($this->m_tableInfo);  
         igk_hook('db_caches initialized', []);
         // @igk_ serialize - the data to speed loading         
+    }
+    /**
+     * update definition 
+     * @param BaseController $controller 
+     * @param bool $storeCache 
+     * @return object 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
+    public static function Update(BaseController $controller, $storeCache=false){
+        $init = new DatabaseInitializer;
+        $definition = $init->init($controller);
+        $v_i = static::getInstance();
+        $v_i->m_tableInfo = array_merge($v_i->m_tableInfo, $definition->tables);
+        if ($storeCache){
+            self::CacheData($v_i->m_tableInfo);
+        }
+        return $definition;
+        
     }
     /**
      * get stored controller table info definitions
@@ -322,7 +352,16 @@ class DBCaches{
         }  
         return $m;
     }
-    public static function CacheData($data){
+    /**
+     * 
+     * @param array $data 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
+    public static function CacheData(array $data){
         $g =  (object)['m_serie'=>[]];
         
         foreach($data as $k=>$m){

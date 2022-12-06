@@ -12,13 +12,13 @@ namespace IGK\XML;
 abstract class XMLNodeType{
     const CDATA=5;
     const COMMENT=3;
-    const DOCTYPE=7;
     const ELEMENT=1;
     const ENDELEMENT=4;
     const NONE=-1;
     const PROCESSOR=2;
     const TEXT=6;
     const INNER_TEXT = 7;
+    const DOCTYPE=8;
 
     ///<summary></summary>
     ///<param name="i"></param>

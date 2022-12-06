@@ -56,10 +56,10 @@ class MakeModuleCommand extends AppCommand{
             $use_git = property_exists($command->options, "--git") || 
                 !property_exists($command->options, "--no-git") ;
             $bind = [];
-            $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+            $author = $this->getAuthor($command);
             $bind[$dir."/.module.pinc"] = function($file, $command, $name){
-                $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
-                $e_ns = str_replace("/", "\\", $name);
+                $author = $this->getAuthor($command);
+                $e_ns = igk_ns_name(str_replace("/", "\\", $name));
 
                 $definition = self::EntryModuleDefinition($author, $e_ns);
                 $builder = new PHPScriptBuilder();
@@ -80,9 +80,7 @@ class MakeModuleCommand extends AppCommand{
             $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_CTRL_CONF_FILE] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_CNF_TAG)->render()); 
             $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_SCHEMA_FILENAME] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_SCHEMA_TAGNAME)->render()); 
             $bind[$dir."/.global.php"] = function($file, $command, $name){              
-                $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
-                $e_ns = str_replace("/", "\\", $name);
- 
+                $author = $this->getAuthor($command);
                 $builder = new PHPScriptBuilder();
                 $builder
                 ->author($author)
@@ -97,7 +95,7 @@ class MakeModuleCommand extends AppCommand{
             $bind[$dir."/module.json"] = function($file, $command, $name){
                 $o = igk_createobj();
                 $o->name = $name;
-                $o->author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+                $o->author = $this->getAuthor($command);
                 $o->version = igk_getv($command->options, "--version", "1.0");
                 $o->require = igk_getv($command->options, "--require");
                 igk_io_w2file($file, json_encode($o, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -115,7 +113,10 @@ class MakeModuleCommand extends AppCommand{
                 ));
                 igk_io_w2file($file, $builder->render());
             };
-
+            // + | --------------------------------------------------------------------
+            // + | for unit testing
+            // + |
+            
             $bind[$dir."/phpunit.xml.dist"] = function($file)use($name){
                 $c_app =  igk_io_expand_path("%lib%");
                 // igk_wln_e(__FILE__.":".__LINE__, $c_app,igk_io_collapse_path($file), igk_io_expand_path(igk_io_collapse_path($file)));

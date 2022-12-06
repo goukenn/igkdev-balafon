@@ -57,6 +57,13 @@ class Path{
     public function getBackupDir(){
         return $this->backup_dir;
     }
+    /**
+     * get module directory
+     * @return mixed 
+     */
+    public function getModuleDir(){
+        return $this->module_dir;
+    }
     public function prepareData(){
  
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);
@@ -87,7 +94,7 @@ class Path{
      * get home dir
      * @return null|string 
      */
-    public function getHomdeDir(): ?string{
+    public function getHomeDir(): ?string{
         return $this->home_dir; 
     }
     private function __construct(){
@@ -189,7 +196,7 @@ class Path{
      * @return string|false|null 
      * @throws IGKException 
      */
-    public function baseuri($dir = null, $secured = null, &$path = null)
+    public function baseuri($dir = null, $secured = null, &$path = null): ?string
     {
         if (!is_null($baseURI = igk_environment()->get("baseURI"))){
             return implode("/", array_filter([$baseURI, $dir]));
@@ -350,6 +357,17 @@ class Path{
         return igk_io_expand_path(
             igk_io_collapse_path($path)
         ); 
+    }
+    /**
+     * combine path 
+     * @param mixed $path 
+     * @return string 
+     */
+    public static function Combine(...$path){
+        return implode(DIRECTORY_SEPARATOR, array_map(self::class."::ForwardTrim", array_filter($path)));
+    }
+    public static function ForwardTrim($a){
+        return rtrim($a, DIRECTORY_SEPARATOR);
     }
 }
  

@@ -30,7 +30,7 @@ class FixLangCommand extends AppExecCommand{
             foreach($l as $k=>$v){
                $o.= "\$l['".addslashes($k)."'] = \"{$v}\";".PHP_EOL;
             }
-            $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+            $author = $this->getAuthor($command);
        
             $builder = new PHPScriptBuilder();
             $builder->desc("lang file")->type("function")

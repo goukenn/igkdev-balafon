@@ -55,15 +55,19 @@ class BackupUtility{
                 
                 $vs = new VersionClass;
                 $vs->version = $gv;
-                if ($rvs = (object)$litedb->select_row($tbname, ['version'=>$gv])){
+                if ($rvs = $litedb->select_row($tbname, ['version'=>$gv])){
+                    $rvs = (object)$rvs;
                     $newComment = [$comment];
                     if (!empty($rvs->comment)){
-                        if ($d = json_decode($rvs->comment))
-                            $newComment = array_merge($newComment, $d);
+                        if ($d = json_decode($rvs->comment, true )){
+                            $d = (array)$d;
+                        }
+                            $newComment = array_merge($newComment, $d??[]);
                         $newComment[] = $rvs->comment;
+
                     }
                     $newComment = json_encode(array_filter($newComment));
-                    $rvs->comment = empty($newComment) ? null : $newComment;
+                    $rvs->comment = ""; //empty($newComment) ? null : $newComment;
                     $vs->updateAt = date('Y-m-d H:i:s');
                     $litedb->update($tbname, $rvs, ['id'=>$rvs->id]);
                

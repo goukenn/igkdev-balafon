@@ -6,13 +6,26 @@
     var _dialog = [];
     var _init = 0;
     var _NS = "igk.winui.controls";
+    var _FC = 0;
+
+    function _trans_end(p) {
+        return function() {
+            if (!p.no_auto_remove) {
+                p.remove();
+            } else {
+                p.addClass("dispn");
+                p.rmClass("igk-hide");
+            }
+            p.unreg_event("transitionend", _FC);
+            _FC = 0;
+        };
+    };
 
     function _closeDialog(b) {
         var p = b || _dialog.pop();
         if (p) {
-            p.addClass("igk-hide").reg_event("transitionend", function() {
-                p.remove();
-            });
+            _FC = _trans_end(p);
+            p.addClass("igk-hide").reg_event("transitionend", _FC);
         }
     };
     var no_close = !1;
@@ -20,7 +33,6 @@
     function _panDialogInit() {
         // console.log('init panel dialog');
         _dialog.push(this);
-
         if (!_init) {
             igk.winui.events.regKeyPress(function(e) {
 
@@ -48,13 +60,12 @@
         }
         var q = this;
         var _idx = _dialog.length - 1;
+        q.no_auto_remove = this.supportClass('dispn');
+        igk.dom.body().add(q);
         //var _rm = q.remove;
         igk.appendChain(q, 'remove', function() {
             q.unreg_event("windowresize", _updating);
         });
-
-
-
         var _closeBtn = this.select(".box .igk-title .close").first();
         if (_closeBtn) {
             _closeBtn.reg_event("click", function(e) {
@@ -157,8 +168,6 @@
     igk.appendProperties(_LNS.panelDialog, {
         close: _closeDialog
     });
-
-
     igk.winui.createPanelDialog = function(t, d) {
         var dd = igk.createNode("div");
         dd.addClass("igk-winui-panel-dialog");
@@ -188,6 +197,5 @@
     };
 
     igk.winui.initClassControl("igk-winui-panel-dialog", _panDialogInit);
-
     igk.winui.closePanelDialog = _closeDialog;
 })();

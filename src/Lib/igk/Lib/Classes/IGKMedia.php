@@ -11,6 +11,10 @@
 use IGK\Css\CssSupport;
 use IGK\Css\ICssStyleContainer;
 
+/**
+ * media management 
+ * @package 
+ */
 final class IGKMedia implements ArrayAccess, ICssStyleContainer{
     use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
     const CUSTOM_COLOR=0x1;

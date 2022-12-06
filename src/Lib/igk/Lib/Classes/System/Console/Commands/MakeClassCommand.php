@@ -36,7 +36,7 @@ class MakeClassCommand extends AppExecCommand
             Logger::danger("classPath can't be empty");
             return -1;
         }
-        $ctrl = igk_getv($command->options, "--controller");
+        $ctrl = igk_getv_nil($command->options, "--controller");
         $extends = igk_getv($command->options, "--extends");
         $desc = igk_getv($command->options, "--desc");
         $force = property_exists($command->options, "--force");
@@ -102,10 +102,10 @@ class MakeClassCommand extends AppExecCommand
         // Logger::success("output: " . igk_io_basedir());
         // Logger::success("output: " . $file);
         // Logger::success("output: " . getcwd());
-        // exit;
+
         if (!file_exists($file) || $force) {
             $name = igk_str_ns(igk_io_basenamewithoutext($file));
-            $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+            $author = $this->getAuthor($command);
             $builder = new PHPScriptBuilder();
             $builder->type($type)
                 ->namespace($ns)

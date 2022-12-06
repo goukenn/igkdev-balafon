@@ -43,7 +43,8 @@ class ReferenceModelsMacros {
             }
         };
 		$raw = null;
-		$v_tmodel = $refmodel == null ? (method_exists($ctrl, "getRefModel") ? $ctrl->getRefModel(): "MDL"): $refmodel;
+		$v_tmodel = $refmodel == null ? 
+		(($ctrl && method_exists($ctrl, "getRefModel")) ? $ctrl->getRefModel(): "MDL") : $refmodel;
 
 		$obj->get_output =  function()use( $obj, $v_tmodel, $base, $ref){
 			$c= $obj->clNextValue;			

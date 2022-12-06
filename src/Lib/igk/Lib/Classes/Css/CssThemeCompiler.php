@@ -110,8 +110,8 @@ class CssThemeCompiler
         if ($css_cache && file_exists($cf)) {
             // + | check if one of included file changed
             $array = $theme->to_array();
-            $data = unserialize(file_get_contents($cf)); // include($cf);
-            $theme->load_data($data);
+            if (($data = unserialize(file_get_contents($cf)))!==false)
+                $theme->load_data($data);
             $mtime = filemtime($cf); 
             $must_recompile = 0;
             if ($cfile = igk_getv($array, IGKCssDefaultStyle::FILES_RULE)) {

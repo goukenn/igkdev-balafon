@@ -36,7 +36,7 @@ class MakeManifestCommand extends AppExecCommand{
         } 
        
         Logger::info("make manifest ...");
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+        $author = $this->getAuthor($command);
         $type = igk_str_ns(igk_getv($command->options, "--type", IGKActionBase::class));
         $is_force = property_exists($command->options, "--force");
           
@@ -74,7 +74,7 @@ class MakeManifestCommand extends AppExecCommand{
         Logger::print("-");
         Logger::info("Make new Balafon's PROJECT action");
         Logger::print("-\n");
-        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " ctrl name [options]" );
+        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " controller name [options]" );
         Logger::print("\n\n");
     }
 }

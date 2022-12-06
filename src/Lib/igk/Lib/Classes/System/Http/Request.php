@@ -91,8 +91,7 @@ class Request implements IInjectable
         $dfile = implode("/", [rtrim(igk_io_rootdir(),"/"), ltrim($file, "/")]);
         if (!file_exists($dfile)){
             // igk_ilog("entry request file is missing.");
-            igk_trace();
-            igk_wln_e($_SERVER);
+            igk_trace(); 
             igk_die("Misconfiguration: entry request is missing. $dfile \n");
         }
         $t = IGKString::Uri(dirname($file));

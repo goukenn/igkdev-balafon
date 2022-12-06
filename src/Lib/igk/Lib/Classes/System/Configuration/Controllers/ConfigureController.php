@@ -2,7 +2,7 @@
 
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConfigureController.php 
-// @desc:  Configuration Controller 
+// @desc:  Configuration Controller page  
 
 namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
@@ -32,6 +32,7 @@ use function igk_resources_gets as __;
 ///<summary>used to manage config manager</summary>
 /**
  *  Configuration Controller
+ * @package IGK\System\Configuration\Controllers
  */
 final class ConfigureController extends BaseController implements IConfigController
 {
@@ -1870,7 +1871,10 @@ EOF;
                 // + | include configuration style
                 // + |
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
-                    $app->getDoc()->getTheme()->addTempFile($f);
+                    // add - in temp file will make base theme to renderering on configuration 
+                    $theme = $app->getDoc()->getTheme();
+                    $theme->addTempFile($f);
+                    $theme->getDef()->setStyleFlag('no_theme_rendering',  true);
                 } 
                  
                 if (!$this->getIsConnected()) {

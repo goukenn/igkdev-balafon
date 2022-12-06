@@ -72,7 +72,7 @@ class FixCssCommand extends AppExecCommand{
             }   
             return $o;             
         };
-        $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
+        $author = $this->getAuthor($command);
         $o = $invoke($f);
         self::ignore_list(true);
             $builder = new PHPScriptBuilder();

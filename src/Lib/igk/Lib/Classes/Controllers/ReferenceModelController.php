@@ -6,7 +6,7 @@
 
 namespace IGK\Controllers;
 
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\ReferenceModels;
 use IGK\System\Number;
 
@@ -34,7 +34,7 @@ final class ReferenceModelController extends NonVisibleControllerBase{
     /**
     * 
     */
-    public function getDataTableInfo(): ?DbModelDefinitionInfo{
+    public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
     ///<summary></summary>
@@ -81,15 +81,6 @@ final class ReferenceModelController extends NonVisibleControllerBase{
             "clModel"=>$v_tmodel,
             "clNextValue"=>$c,
             IGK_FD_ID=>$model ? $model->clId: null
-        ));
-
-
-        // return IGKRefoutModel::Init(array(
-        //     "out"=>$out,
-        //     "ctrl"=>$this,
-        //     "clModel"=>$v_tmodel,
-        //     "clNextValue"=>$c,
-        //     IGK_FD_ID=>$model ? $model->clId: null
-        // ));
+        )); 
     }
 }

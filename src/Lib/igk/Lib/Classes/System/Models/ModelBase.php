@@ -712,4 +712,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         // igk_wln_e("loading", $arguments);
         return static::__callStatic("select_query_rows", $arguments); // ("select_all", $arguments);
     }
+    public function __unset($name)
+    {
+        $this->$name = null;
+        unset($this->raw->$name);
+    }
+    public function __isset($name){
+        return isset($this->raw->$name);        
+    }
 }

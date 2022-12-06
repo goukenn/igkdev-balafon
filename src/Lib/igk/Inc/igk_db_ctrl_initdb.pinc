@@ -6,10 +6,12 @@
 use IGK\Controllers\ControllerExtension;
 use IGK\Database\DbInitManager;
 use IGK\Database\DbSchemaDefinitions;
+use IGK\System\Caches\DBCaches;
+use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 
-if(!$force && !$controller->getCanInitDb()){
+if (!$force && !$controller->getCanInitDb()) {
     // igk_debug_wln("Can't init db ".$controller->Name. " ConfigUserConnected: ".igk_parsebool(igk_is_conf_connected()));
     return;
 }
@@ -17,64 +19,61 @@ $response = false;
 $fcname = "initDb";
 igk_set_env("sys://db/constraint_key", $controller->getInitDbConstraintKey());
 // Logger::print("init db: ".get_class($controller));
-if(!$controller->getUseDataSchema()){ 
+if (!$controller->getUseDataSchema()) {
     Logger::info("init from db function ...");
     $controller::initDbFromFunctions();
     $response = true;
-}
-else{
-    
+} else {
+
     Logger::info("init from db schemas ...");
-    $bck=igk_get_env(IGK_ENV_DB_INIT_CTRL);
-    igk_set_env(IGK_ENV_DB_INIT_CTRL, $controller);    
+    $bck = igk_get_env(IGK_ENV_DB_INIT_CTRL);
+    igk_set_env(IGK_ENV_DB_INIT_CTRL, $controller);
     $tables = [];
-    DbSchemaDefinitions::UnregisterCache($controller); 
-    if ($response = $controller->initDbFromSchemas()){
-    $controller->initDbConstantFiles();
-    ControllerExtension::InitDataBaseModel(
-        $controller,
-        $tables);
-    /// $controller::InitDataBaseModel($force); 
+    DbSchemaDefinitions::UnregisterCache($controller);
+    // igk_debug(1);
+    if ($tables = $controller->initDbFromSchemas()) {
+        $controller->initDbConstantFiles();
+        $db_initializer = DBCachesModelInitializer::Init($tables, $force); 
 
 
-    //initilise manager 
-    // + | --------------------------------------------------------------------
-    // + | BEFORE INIT - APPLICATION
-    // + |
-    if (!(($cl = $controller::resolvClass(Database\DbInitManager::class)) && class_exists($cl, false) 
-        && is_subclass_of($cl, \IGK\Database\DbInitManager::class))){
-        $cl = \IGK\Database\DbInitManager::class;
+        //initilise manager 
+        // + | --------------------------------------------------------------------
+        // + | BEFORE INIT - APPLICATION
+        // + |
+        if (!(($cl = $controller::resolvClass(Database\DbInitManager::class)) && class_exists($cl, false)
+            && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
+            $cl = \IGK\Database\DbInitManager::class;
+        }
+        if ($cl) {
+            (new $cl($controller))->init($controller);
+        }
+        if (($cl = $controller::resolvClass(Database\InitData::class)) && class_exists($cl, false)) {
+            $call = true;
+            // + | Check Init 
+            $c = new ReflectionMethod($cl, "Init");
+            if ($type = $c->getParameters()[0]->getType()) {
+                $call = IGKType::GetName($type) == get_class($controller);
+            }
+            $call && $cl::Init($controller);
+        }
+        igk_set_env(IGK_ENV_DB_INIT_CTRL, $bck);
+        $response = true;
     }
-    if ($cl){
-        (new $cl($controller))->init($controller);
-    }
-    if (($cl = $controller::resolvClass(Database\InitData::class)) && class_exists($cl, false)){ 
-        $call = true;
-        // + | Check Init 
-        $c = new ReflectionMethod($cl, "Init");
-        if ($type = $c->getParameters()[0]->getType()){
-            $call = IGKType::GetName($type)==get_class($controller);
-        }  
-        $call && $cl::Init($controller);
-    } 
-    igk_set_env(IGK_ENV_DB_INIT_CTRL, $bck);
-    $response = true;
 }
-}
-if ($response){
+if ($response) {
     Logger::info("run migration ... handler ");
     $migHandle = new MigrationHandler($controller);
-    $migHandle->up(); 
+    $migHandle->up();
 }
 
- 
+
 DbSchemaDefinitions::Reload($controller);
 function_exists('opcache_reset') && opcache_reset();
 
-igk_set_env(get_class($controller)."::initdb", 1); 
+igk_set_env(get_class($controller) . "::initdb", 1);
 
-if(igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($fcname))){
- 
+if (igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($fcname))) {
+
     igk_is_debug() && igk_ilog("notify message :  IGK_HOOK_DB_CHANGED");
     igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
     igk_navto($controller->getAppUri());

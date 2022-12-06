@@ -4,6 +4,7 @@
 // @date: 20221110 20:58:50
 namespace IGK\System\Actions\Traits;
 
+use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\WebFileResponse;
 
@@ -29,6 +30,7 @@ trait ProjectAssetHandlerTrait{
             $response->cache_output(igk_configs()->assets_cache_output());
             $response->output(); 
         } 
-        throw new PageNotFoundException();    
+        throw new ResourceNotFoundException('resource not found', '');
+        // throw new PageNotFoundException();    //
     }
 }

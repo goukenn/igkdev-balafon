@@ -157,8 +157,8 @@ abstract class HtmlUtils extends DomNodeBase
     ///<param name="target">target node </param>
     /**
      * copy child by rendering
-     * @param DomNodeBase $item cibling item
-     * @param DomNodeBase $target where to load
+     * @param HtmlNode $item cibling item
+     * @param HtmlNode $target where to load
      */
     public static function CopyChilds(HtmlNode $item, HtmlNode $target)
     {
@@ -861,7 +861,7 @@ abstract class HtmlUtils extends DomNodeBase
                     $name = $inf["name"];
                     $context = $inf["context"];
                     if ($context == HtmlContext::Html) {
-                        $c = new HtmlNode($name);
+                        $c = HtmlNode::LoadingNodeCreator($name);                      
                         if (HtmlNode::$AutoTagNameClass) {
                             $c["class"] = $name;
                         }

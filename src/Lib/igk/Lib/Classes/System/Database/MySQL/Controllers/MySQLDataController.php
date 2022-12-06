@@ -9,7 +9,7 @@ namespace IGK\System\Database\MySQL\Controllers;
 ///<summary>Represente class: IGKMySQLDataCtrl</summary>
 
 use IGK\Controllers\BaseController;
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Html\Dom\HtmlNode; 
 

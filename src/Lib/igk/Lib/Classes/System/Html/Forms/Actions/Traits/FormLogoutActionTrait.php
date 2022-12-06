@@ -6,7 +6,7 @@
 // @desc: logout action trait
 
 
-namespace IGK\System\Html\Forms\Actions;
+namespace IGK\System\Html\Forms\Actions\Traits;
 
 /**
  * 

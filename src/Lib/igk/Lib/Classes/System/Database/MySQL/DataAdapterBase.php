@@ -592,11 +592,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
     ///<summary></summary>
     ///<param name="d"></param>
     /**
-     * 
-     * @param mixed $d
+     * set foreign check 
+     * @param int|bool $d
      */
     public function setForeignKeyCheck($d)
     {
+        if (is_bool($d)){
+            $d = $d ? 1 : 0;
+        }
         if (is_integer($d))
             $this->sendQuery("SET foreign_key_checks=" . igk_db_escape_string($d) . ";");
     }

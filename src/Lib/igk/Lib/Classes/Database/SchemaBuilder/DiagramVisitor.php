@@ -10,7 +10,7 @@ namespace IGK\Database\SchemaBuilder;
  * represent a diagram visitor
  * @package igk\db\schemaBuilder
  */
-abstract class DiagramVisitor{
+class DiagramVisitor extends DiagramVisitorBase{
     var $diagram;
 
     public function start():?string{

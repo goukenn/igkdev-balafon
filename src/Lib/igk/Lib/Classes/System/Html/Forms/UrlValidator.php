@@ -9,6 +9,10 @@ namespace IGK\System\Html\Forms;
 use IGKValidator;
 use function igk_resources_gets as __;
 
+/**
+ * validator for url
+ * @package IGK\System\Html\Forms
+ */
 class UrlValidator implements IFormValidator{
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 

@@ -1,7 +1,7 @@
 <?php
 // @file: IGKControllerAndArticlesCtrl.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description: configuration , controller and article controller page
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -27,10 +27,18 @@ use IGKValidator;
 use stdClass;
 use function igk_resources_gets as __;
 
-
+/**
+ * configuration , controller and article controller page
+ * @package IGK\System\Configuration\Controllers
+ */
 final class ControllerAndArticlesController extends ConfigControllerBase
 {
     const SL_SELECTCONTROLLER = 1;
+    /**
+     * hook name when a controller require to config option 
+     */
+    const hookControllerConfigOptionName = 'controllerConfigData';
+
     ///<summary></summary>
     public function __construct()
     {
@@ -419,22 +427,30 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     private function _view_ctrl_options(\IGK\Controllers\BaseController $ctrl, $dv)
     {
         $dv["class"] = "+c-opts";
-        $bar = $dv->addActionBar();
-        HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_add_ctrl_frame_ajx")), "add_16x16")->setClass("igk-btn");
-        HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_edit_ctrl_ajx")), "edit_16x16")->setClass("igk-btn");
-        HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_edit_ctrl_properties_ajx")), "setting_16x16")->setClass("igk-btn");
+        $bar = $dv->actionbar()->setClass('dispflex');
+        $groups = $bar->actiongroup(); 
+        HtmlUtils::AddImgLnk($groups , igk_js_post_frame($this->getUri("ca_add_ctrl_frame_ajx")), "add_16x16")->setClass("igk-btn");
+        HtmlUtils::AddImgLnk($groups , igk_js_post_frame($this->getUri("ca_edit_ctrl_ajx")), "edit_16x16")->setClass("igk-btn");
+        HtmlUtils::AddImgLnk($groups , igk_js_post_frame($this->getUri("ca_edit_ctrl_properties_ajx")), "setting_16x16")->setClass("igk-btn");
         if ($ctrl->CanEditDataTableInfo) {
             HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_edit_db_ajx")), "ico_db_16x16")->setClass("igk-btn");
         }
-        if ( $ctrl->getUseDataSchema()) {
-            HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_reset_db_ajx")), "db_reset_16x16")->setClass("igk-btn");
-        }
+        igk_hook($this::hookName(self::hookControllerConfigOptionName), [
+            'ctrl'=>$ctrl,
+            'owner'=>$this,
+            'target'=>$bar
+        ]);
+        // if ( $ctrl->getUseDataSchema()) {
+        //     HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_reset_db_ajx")), "db_reset_16x16")->setClass("igk-btn");
+        // }
+        $groups = $bar->actiongroup(); 
         if (class_exists(\ZipArchive::class)) {
-            $btn = igk_html_installer_button($bar, IGK\System\Installers\IGKBalafonProjectInstaller::class, __("Update Project"), "/update?controller=" . urlencode(get_class($ctrl)));
-            $btn->setClass("igk-btn");
+            $btn = igk_html_installer_button($groups, IGK\System\Installers\IGKBalafonProjectInstaller::class, __("Update Project"), "/update?controller=" . urlencode(get_class($ctrl)));
+            
         }
-        HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")->setClass("igk-btn");
-        $dv->div()->setId("update_target");
+        $groups->span()->setClass('igk-btn')->setId("update_target");
+        HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")
+        ->setClass("igk-btn");
     }
     ///<summary></summary>
     ///<param name="t"></param>

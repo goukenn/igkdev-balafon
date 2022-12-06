@@ -4,7 +4,7 @@
 // @date: 20220902 13:24:02
 namespace IGK\System\Database;
 
-use IGK\Models\DbModelDefinitionInfo;
+use IGK\System\Models\IModelDefinitionInfo;
 
 ///<summary>database host </summary>
 /**
@@ -25,7 +25,7 @@ interface IDatabaseHost{
     /**
      * return data definition. \
      * if getUseDataSchema() return false
-     * @return null|DbModelDefinitionInfo 
+     * @return null|IModelDefinitionInfo 
      */
-    function getDataTableInfo(): ?DbModelDefinitionInfo;
+    function getDataTableInfo(): ?IModelDefinitionInfo;
 }

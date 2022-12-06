@@ -43,6 +43,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     protected function _setHeader(){             
         if ($this->headers && count($this->headers)>0)
             $this->_treat_header();
+  
         igk_set_header($this->code, self::GetStatus($this->code), $this->headers);  
     }
     abstract function render();

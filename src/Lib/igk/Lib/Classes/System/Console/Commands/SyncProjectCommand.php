@@ -121,7 +121,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     } else {
                         $rsdir = $setting[self::RELEASE_DIR];
                         // move current folder to release
-                        ftpHelper::CreateDir($h, $bckdir = $rsdir. "/" . $project . date("YmdHis"));
+                        ftpHelper::CreateDir($h, $bckdir = $rsdir. "/" . $project . date("Ymd"));
                         Logger::info("rename " . $o_dir . " " . $bckdir);
                         ftp_rename($h, $o_dir, $bckdir);
                     }

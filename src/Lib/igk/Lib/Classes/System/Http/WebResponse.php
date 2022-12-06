@@ -69,7 +69,7 @@ class WebResponse extends RequestResponse{
         $this->render();
         $s = ob_get_clean(); 
         /// TODO: disable gzip          
-        $v_zip = $zip =  0 && igk_server()->accepts(["gzip"]);
+        $v_zip = $zip = igk_server()->accepts(["gzip"]);
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
@@ -78,6 +78,9 @@ class WebResponse extends RequestResponse{
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
             $zip = $zip && $v_zip;
             if ($zip){
+                if (ob_get_level()){
+                    ob_end_clean();
+                } 
                 ob_start();
                 igk_zip_output($s, 0, 1);
                 $s = ob_get_clean();

@@ -8,7 +8,9 @@
 
 namespace IGK\Models\Macros;
 
+use IGK\Models\Groups;
 use IGK\Models\ModelBase;
+use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGKException;
 
@@ -42,5 +44,38 @@ class UsersMacros {
             }
         }
         return $model::create($o);
+    }
+
+    /**
+     * get group that this user is member of
+     * @param Users $model 
+     * @return mixed|array|null
+     */
+    public static function memberOf(Users $model){
+        $mod = $model;
+        if($mod->is_mock()){
+            return null;
+        }
+        $gtable = Groups::table(); 
+        // $ugtable =Usergroups::table(); 
+        $c = Usergroups::prepare()
+            ->join_left($mod->table(), Usergroups::column('clUser_Id').' = '.$mod->column('clId'))
+            ->join_left($gtable, Groups::column('clId').' = '.Usergroups::column('clGroup_Id'))
+            ->where(['clGuid'=>$mod->clGuid])
+            ->distinct()
+            ->columns([
+                Groups::column('*'),
+                // Groups::column('clId') => 'groupId',
+                // Groups::column('clName') => 'groupName',
+                // 'clLogin',
+                // 'clGuid',
+                // $mod->column('clId')
+            ]
+            )->orderBy([Groups::column('clId')."|ASC"]) 
+            ->execute(false);
+        if ($c){
+            return $c->to_array();
+        }
+        return null; 
     }
 }

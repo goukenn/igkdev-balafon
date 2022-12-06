@@ -45,21 +45,20 @@ class HtmlHeadNode extends HtmlNode{
        // + | --------------------------------------------------------------------
        // + | for good header processing item order are important
        // + |
-       
-        $v=parent::__getRenderingChildren($options);
+       $t = [];
+       $v=parent::__getRenderingChildren($options);
         $is_document = isset($options->Document);
         // + 1. meta first
         if($is_document){
-            if($meta=$options->Document->getMetas()){
-                if (!$v) $v = [];
-                array_unshift($v, $meta);
+            if($meta=$options->Document->getMetas()){                
+                array_unshift($t, $meta);
             } 
         }
-        $t=array(
+        $t= array_merge($t, array(
             HtmlHeadBaseUriNode::getItem(),
             HtmlFaviconNode::getItem(), 
             HtmlHeadPreloadNode::getItem(),          
-        );
+        ));
         if (!($doc = igk_getv($options, "Document")) || !($doc->noCoreScript)){
             $t[] = HtmlCoreJSScriptsNode::getItem();
             $t[] = HtmlControllerJSScriptsNode::getItem();                
@@ -68,7 +67,7 @@ class HtmlHeadNode extends HtmlNode{
             $t[] = HtmlExtraHeaderScriptHost::Create($this->m_scripts);
         }
         if(is_array($v))
-            $t=array_merge($v, $t);        
+            $t=array_merge($t, $v);        
         // to load extra item on 
         $t[] =new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, "head");
         return $t;

@@ -19,6 +19,7 @@ use TypeError;
 * @method function initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
+    const INIT_METHOD = "initDoc";
     private $m_dir;
     private $m_doc;
     private $m_fclist;
