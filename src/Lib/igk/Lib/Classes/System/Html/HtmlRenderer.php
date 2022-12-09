@@ -251,7 +251,7 @@ class HtmlRenderer
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
                             if (is_object($v_c )){
-                                igk_wln_e("object return ", get_class($i), $v_c);
+                                igk_dev_wln_e("object return ", get_class($i), $v_c);
                             }
                             $s .=  $v_c . $ln;
                         }

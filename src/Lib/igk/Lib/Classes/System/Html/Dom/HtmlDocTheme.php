@@ -749,19 +749,18 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<summary></summary>
     ///<param name="id"></param>
     /**
-     * 
+     * get register media
      * @param mixed $id
      */
-    public function get_media($id)
+    public function getMedia($id)
     {
         $g = null;
         if (isset($this->m_medias[$id])) {
             $g = &$this->m_medias[$id];
         } else {
             igk_ilog("Media not found {$id}");
-            header("Content-Type:text/html");
-            igk_trace();
-            igk_wln_e("media not found");
+            header("Content-Type:text/html");      
+            igk_dev_wln_e("media not found");
         }
         return $g;
     }
@@ -811,27 +810,27 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<summary>return theme extra smalll media type</summary>
     public function getxsm_screen()
     {
-        return $this->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
+        return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
     }
     ///<summary>return theme smal media type</summary>
     public function getsm_screen()
     {
-        return $this->get_media(HtmlDocThemeMediaType::SM_MEDIA);
+        return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
     }
     ///<summary>return theme large media type</summary>
     public function getlg_screen()
     {
-        return $this->get_media(HtmlDocThemeMediaType::LG_MEDIA);
+        return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
     }
     ///<summary>return theme extra large media type</summary>
     public function getxlg_screen()
     {
-        return $this->get_media(HtmlDocThemeMediaType::XLG_MEDIA);
+        return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
     }
     ///<summary>return theme extra extra large media type</summary>
     public function getxxlg_screen()
     {
-        return $this->get_media(HtmlDocThemeMediaType::XXLG_MEDIA);
+        return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
     }
     ///<summary></summary>
     ///<param name="key" default="null"></param>

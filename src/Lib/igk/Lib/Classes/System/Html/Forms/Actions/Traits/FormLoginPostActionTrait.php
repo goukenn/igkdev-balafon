@@ -102,10 +102,5 @@ trait FormLoginPostActionTrait
             $this->redirect = $this->getController()->uri('');
         }        
     }
-    public function logout(){
-        $ctrl = $this->getController();
-        $redirect = $ctrl::uri($this->serviceLoginSigninView);
-        $ctrl->logout(1, $redirect);
-        $this->redirect = $redirect;
-    }
+  
 }

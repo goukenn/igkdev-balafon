@@ -1567,7 +1567,9 @@ function igk_html_node_defercsslink($href)
             $o = "";
             if ($tm = array_keys($sc)) {
                 $o .= "<script type=\"text/javascript\">";
-                $o .= "(function(igk){ if(!igk)return;igk.ready(function(){ igk.css.loadLinks(" . json_encode($tm) . ");});})(window.igk)";
+                $o .= "(function(igk){ if(!igk)return;igk.ready(function(){ igk.css.loadLinks(" . 
+                    json_encode($tm, JSON_UNESCAPED_SLASHES) 
+                    .");});})(window.igk)";
                 $o .= "</script>";
             }
             $i->Content = $o;
@@ -5089,4 +5091,18 @@ function igk_html_node_if(string $condition){
 function igk_html_node_if_condition(){    
     $g = new HtmlConditionNode;
     return $g;
+}
+/**
+ * create a jumbotron element
+ * @return HtmlItemBase<mixed, string> 
+ * @throws IGKException 
+ */
+function igk_html_node_jumbotron(?string $title=null, $desc = null){
+    $n = igk_create_node('div');
+    $n['class'] = 'igk-jumbotron';
+    if ($title)
+        $n->h1()->Content = $title;
+    if ($desc)
+        $n->div()->Content = $desc;
+    return $n;
 }

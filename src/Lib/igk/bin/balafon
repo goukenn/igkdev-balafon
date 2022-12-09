@@ -8,6 +8,10 @@
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 
+if (!version_compare(PHP_VERSION, "7.0", ">=")){
+    die("mandory version required. 7.0<=");
+}
+
 require_once(__DIR__ . "/../igk_framework.php");
 require_once(IGK_LIB_CLASSES_DIR."/interfaces.php");
 require_once(IGK_LIB_CLASSES_DIR."/IGKObject.php");

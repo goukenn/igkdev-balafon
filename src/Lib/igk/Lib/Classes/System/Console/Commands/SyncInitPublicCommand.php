@@ -50,7 +50,7 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public static function InstallFolder($h, string $pdir, string $uri){
+    public static function InstallFolder($h, string $pdir, string $uri, $no_subdomain=false, $no_webconfig = false){
         $index_temp = igk_io_sys_tempnam("blfcore");
         $access_temp = igk_io_sys_tempnam("blfcore");
         $is_primary = false;
@@ -58,7 +58,9 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
         InstallerUtils::GetEntryPointSource([
             "is_primary" => $is_primary,
             "app_dir" => $is_primary ? '$appdir' : '$appdir."/application"',
-            "project_dir" => 'IGK_APP_DIR."/Projects"'
+            "project_dir" => 'IGK_APP_DIR."/Projects"',
+            "no_subdomain"=>$no_subdomain,
+            "no_webconfig"=>$no_webconfig,
         ]));
         $token = igk_create_guid();
 

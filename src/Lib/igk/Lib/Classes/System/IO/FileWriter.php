@@ -102,7 +102,7 @@ class FileWriter{
                         igk_trace();
                         igk_dev_wln_e("failed to create directory: ".$dirname, error_get_last());
                     }else{
-                        igk_ilog('faile to create '.$dirname);
+                        igk_ilog('fail to create '.$dirname);
                     }
                     throw new IGKException("failed to create ".$dirname); 
                 }

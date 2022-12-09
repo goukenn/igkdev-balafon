@@ -3,6 +3,7 @@
 // desc: installer utility class helper
 namespace IGK\System\Installers;
 
+use IGK\System\IO\StringBuilder;
 use IGKException;
 
 final class InstallerUtils
@@ -37,6 +38,7 @@ final class InstallerUtils
             "{{ @date }}"=> date("Y/m/d H:i:s"),
             "{{ @entry_app_dir }}"=>$is_primary ? "./" : "../",
             "{{ @app_dir }}"=>igk_getv($options, "app_dir"),
+            "{{ @app_config }}"=>self::GetConfigData($options),
             "{{ @project_dir }}"=>igk_getv($options, "project_dir"),
             "{{ @extra_define }}"=> igk_getv($options, "is_primary") ? "" : self::GetExtraDefinition($options),
 
@@ -44,6 +46,16 @@ final class InstallerUtils
             $src = str_replace($k , $v, $src);
         }
         return $src;
+    }
+    public static function GetConfigData(array $options):?string{
+        $sb = new StringBuilder;
+        if (igk_getv($options, "no_subdomain")){
+            $sb->appendLine('define(\'IGK_NO_SUBDOMAIN\', 1);');
+        }
+        if (igk_getv($options, "no_webconfig")){
+            $sb->appendLine('define(\'IGK_NO_WEBCONFIG\', 1);');
+        }
+        return trim($sb.'');
     }
     public static function NoAccessDir($dir, $framework_require = 0){
         $src = "<?php\n";

@@ -93,11 +93,16 @@ abstract class HtmlUtils extends DomNodeBase
             } else {
                 $t = $q->getTagName();
                 if (!empty($t)){
-                    $gg = $callback($t); 
+                    $skip = false;
+                    $gg = $callback($t, $skip); 
                     $gg->setAttributes($q->getAttributes()->to_array());
                     $pnode->add($gg);
                     if (!empty(trim($s = $q->getContent() ?? ''))) {
                         $gg->setContent($s);
+                    }
+                    if ($skip){   
+                        $gg->load($q->getInnerHtml()); 
+                        continue;
                     }
                     // childs part
                      $rchilds = $q->getChilds();
@@ -916,8 +921,8 @@ abstract class HtmlUtils extends DomNodeBase
     { 
         $vsystheme->Name = "igk_system_theme"; 
         $vsystheme->def->Clear();
-        $d = $vsystheme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
-        $d = $vsystheme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
+        $d = $vsystheme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
+        $d = $vsystheme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
         $d = $vsystheme->reg_media("(max-width:700px)");
 
         $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");

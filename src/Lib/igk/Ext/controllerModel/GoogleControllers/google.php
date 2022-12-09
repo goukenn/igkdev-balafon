@@ -83,7 +83,7 @@ if (defined('GOOGLE_MODULE')) {
 
         // $theme->addFont("google")
         $n = str_replace(" ", "-", $family);
-        $theme->def[".google-" . $n] = "font-family: '{$family}', sans-serif;";
+        $theme->def[".google-" . $n] = "/* binding ext */ font-family: '{$family}', sans-serif;";
     }
     function igk_google_get_font_sizes($family, $size = null)
     {

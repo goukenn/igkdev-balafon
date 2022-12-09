@@ -21,10 +21,10 @@ class ThemeBuilderTest extends BaseTestCase
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";
 
-        $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XLG_MEDIA);
+        $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
         $xsm_screen[".info"] = "background-color: indigo;";
 
-        $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
+        $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
         $xsm_screen[".info"] = "background-color: red;";
         return $theme;
     }
@@ -35,10 +35,10 @@ class ThemeBuilderTest extends BaseTestCase
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";
 
-        $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XLG_MEDIA);
+        $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
         $xsm_screen[".info"] = "background-color: red;";
 
-        $sm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
+        $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
         // igk_wln_e("media lllll - ", $sm_screen);
         $sm_screen[".info"] = "background-color: yellow;";
 

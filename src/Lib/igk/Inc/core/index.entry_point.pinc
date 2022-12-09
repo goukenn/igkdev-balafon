@@ -8,6 +8,7 @@
 if (!version_compare(PHP_VERSION, "7.0", ">=")){
     die("mandory version required. 7.0<=");
 }
+{{ @app_config }}
 // + | ----------------------------------------------------
 // + | init definition 
 $appdir = str_replace("\\", "/", realpath("{{ @entry_app_dir }}")); 

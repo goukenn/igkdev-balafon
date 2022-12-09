@@ -61,6 +61,7 @@ use IGK\Helper\StringUtility;
 use IGK\Server;
 use IGK\System\Console\Commands\SitemapGeneratorCommand;
 use IGK\System\Controllers\ApplicationModules;
+use IGK\System\Html\Dom\SvgListNode;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Http\WebResponse;
@@ -2415,12 +2416,9 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
     }else {
         // update the referer
         igk_app()->session->referer = $ref;
-    }
+    }  
 
-
-    $no_web_config = igk_configs()->get("noWebConfiguration");
-
-    if (!$no_web_config) {
+    if (!igk_environment()->noWebConfiguration()) {
         $cnfPath = igk_io_baseuri() . "/" . IGK_CONF_FOLDER;
         // + | --------------------------------------------------
         // + | reset config mode
@@ -3092,7 +3090,7 @@ function igk_css_get_sys_media($id)
     $igk = igk_app();
     if ($igk === null)
         return;
-    return $igk->getDoc()->SysTheme->get_media($id);
+    return $igk->getDoc()->SysTheme->getMedia($id);
 }
 ///<summary></summary>
 ///<param name="theme"></param>
@@ -3240,7 +3238,7 @@ function igk_css_get_font($v)
  */
 function igk_css_get_media($id)
 {
-    return igk_app()->getDoc()->getTheme()->get_media($id);
+    return igk_app()->getDoc()->getTheme()->getMedia($id);
 }
 ///<summary></summary>
 /**
@@ -14035,7 +14033,7 @@ function igk_include_view_file($ctrl, $file, $no_cache=false)
                     if ($src == $file) {
                         return "__CACHE__:" . basename($file) . "." . $line;
                     }
-                    return implode(":", [empty($file) ? null : igk_io_collapse_path($file, $line)]);
+                    return implode(":", [empty($file) ? null : igk_io_collapse_path($file).':'.$line]);
                 }, $ex->getTrace())
             );
         }
@@ -22488,7 +22486,7 @@ function igk_svg_bind_callable_list($n, $m)
 {
     $list = $m->getTempFlag("svg-list");
     if ($list) {
-        $o = '<div class="igk-svg-lst">';
+        $o = '<igk:svg-list class="igk-svg-lst">';
         foreach ($list as $k => $v) {
             if (!file_exists($v))
                 continue;
@@ -22496,7 +22494,7 @@ function igk_svg_bind_callable_list($n, $m)
             $o .= igk_svg_content(igk_io_read_allfile($v));
             $o .= "</" . $k . ">";
         }
-        $o .= "</div>";
+        $o .= "</igk:svg-list>";
         $n->Content = $o;
     }
     return 1;
@@ -22645,7 +22643,7 @@ function igk_svg_register($doc, $name, $file)
     $v_svg_reg_key = "sys://node/svg_regnode";
     $b = $doc ? $doc->getBody() : null;
     $_newfc = function () {
-        $n = igk_create_node("div")->setClass("igk-svg-lst")->setStyle("display:none;");
+        $n = new SvgListNode(); 
         $n->addOnRenderCallback(igk_create_node_callback('igk_svg_callable_list', (object)array("node" => $n)));
         if (igk_environment()->isDev()) {
             $n->comment()->Content = "SVG LIST:";

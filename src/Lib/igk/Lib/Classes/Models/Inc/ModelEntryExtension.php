@@ -605,7 +605,7 @@ abstract class ModelEntryExtension
             $link = $info->clLinkType;
             if ($link) {
                 if (is_null($v_tabinfo)){
-                    $v_tabinfo = $ctrl->getDataTableDefinition(null);
+                    $v_tabinfo = $ctrl->getDataTableDefinition(null) ?? igk_die("global table definition is null");
                 }
                 $r["type"] = "select";
                 if (!$binf = getv($binfo, $link)) {

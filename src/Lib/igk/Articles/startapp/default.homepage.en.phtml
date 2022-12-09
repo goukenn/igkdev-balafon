@@ -35,11 +35,17 @@ $c->addRow()->addCol("igk-col-3-3 igk-col-xsm-3-3  igk-col-sm-3-3")->div()->addO
 	</p>
 
 <div class="mfo" >
-For more information please read the <a href="//igkdev.com/balafon/wiki"> documentation </a>
+For more information please read the <a href="//igkdev.com/balafon/wiki"> Documentation </a>
 </div>
-<div class="mfo">
-	<a href="<?= $buri ?>/Configs">Configuration</a>
-</div>
+<?php
+		if (!igk_environment()->noWebConfiguration()):
+		?> 
+			<div class="mfo">
+				<a class="igk-btn no-border" href="<?= $buri ?>/Configs">Configuration</a>
+			</div>
+		<?php
+		endif;
+		?>
 </div>
 <?php
 });

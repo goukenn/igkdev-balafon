@@ -4,6 +4,7 @@
 // @date: 20221122 19:53:46
 namespace IGK\DocumentParser;
 
+use IGK\System\IO\Path;
 use IGKException;
 
 ///<summary></summary>
@@ -14,6 +15,7 @@ use IGKException;
 class UriDetector
 {
     private $m_regex;
+    const CSS_URL = '/url\s*\((?<path>(((\.)?\.\/|(?P<protocol>[a-z0-9]+):\/\/))[^\)\#\?\,\+\ ]+)(?P<extra>([^\)]+))?\)/i';
     public function __construct()
     {
         $this->_initRegex();
@@ -57,12 +59,13 @@ class UriDetector
     public function cssUrl($src, ?string $from = null)
     {
         $tab =  null;
-        if ($g = preg_match_all('/url\s*\((?<path>((\.)?\.\/|.+:\/\/)[^\)\#\?\,\ ]+)([^\)]+)?\)/i', $src, $out)) {
+        if ($g = preg_match_all(self::CSS_URL, $src, $out)) {
             for ($i = 0; $i < $g; $i++) {
                 $match = new UriDectectorMatch;
-
                 $r = igk_getv($out, 'path');
-                $match->path = $r ? trim(igk_getv($r, $i) ?? '', '"\'') : null; //$v;
+                $gr = $r ? trim(igk_getv($r, $i) ?? '', '"\'') :null;
+                $match->path = $gr ? Path::FlattenPath($gr) : null; //$v;
+               //  $match->match_path = $gr;
 
                 if ($match->path && ($v_tg = parse_url($match->path))) {
                     $match->domain = igk_getv($v_tg, 'host');

@@ -83,7 +83,7 @@ use function igk_resources_gets as __;
  * @method static \IGKHtmlDoc getCurrentDoc() macros function
  * @method static object getDataAdapter() macros function data driver
  * @method static string getDataSchemaFile() macros function
- * @method static ?\IGK\System\DataBase\DbSchemaMigrationInfo getDataTableDefinition(?string tablename=null) macros function
+ * @method static ?\IGK\System\DataBase\DbSchemaMigrationInfo getDataTableDefinition(?string $tablename=null) macros function
  * @method static void getEnvKey() macros function
  * @method static void getEnvParam() macros function
  * @method static void getEnvParamKey() macros function

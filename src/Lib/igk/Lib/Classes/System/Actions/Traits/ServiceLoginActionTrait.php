@@ -4,6 +4,7 @@
 // @date: 20221110 19:53:03
 namespace IGK\System\Actions\Traits;
 
+use IGK\System\Html\Forms\Actions\Traits\FormLoginActionTrait;
 use IGK\System\Services\SignProvider;
 
 ///<summary>trait to declared service login with social provider connection</summary>
@@ -12,7 +13,15 @@ use IGK\System\Services\SignProvider;
 * @package IGK\System\Actions\Traits
 */
 trait ServiceLoginActionTrait{
+    use FormLoginActionTrait;
     protected $serviceLoginSigninView = 'ServiceLogin';
+
+    public function ServiceLogin(){
+        if ($this->currentUser()){
+            $this->redirect = $this->getController()->uri('');
+        }         
+    }
+    
     public function connect(){ 
         // + | --------------------------------------------------------------------
         // + | connection with service providers - autoloaded 

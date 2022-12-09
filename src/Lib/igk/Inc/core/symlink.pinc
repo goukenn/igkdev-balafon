@@ -1,0 +1,40 @@
+<?php
+$response = new InstallerResponse();
+if (!version_compare(PHP_VERSION, "7.0", ">=")){
+    $response->die("mandory version required. 7.0<=".PHP_VERSION);
+}
+if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
+    $response->die("request method not match", 500);
+}
+error_reporting(-1);
+ini_set("display_errors", 1); 
+
+$corelib = igk_getr('corelib'); // library relative to home 
+$app_dir = igk_getr('app_dir'); // application dir relative to %home
+$root_dir = igk_getr('root_dir'); // public dir relative to %home
+$site_dir = igk_getr('site_dir');
+$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
+
+$app_dir."/Lib/igk/igk_framework.php";
+$target = $home."/".ltrim(igk_getr("target") ?? "", "/");
+$dir = $home."/".ltrim(igk_getr("dir") ?? "", "/");
+if (!file_exists($target)){
+    $response->die("target is missing ".$target, 500);
+}
+if (igk_getr('force')){
+    if (is_link($dir)){        
+        @unlink($dir);
+    }
+}
+$rep = "";
+if ($target && !is_file($target) ){
+    $rep = @symlink($target, $dir);
+}
+$response->response(json_encode(
+    [
+        "response"=>$rep,
+        "dir"=>$dir,
+        "target"=>$target
+    ]
+, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), "application/json");
+

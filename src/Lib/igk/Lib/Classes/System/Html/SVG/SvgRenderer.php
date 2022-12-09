@@ -10,6 +10,7 @@ namespace IGK\System\Html\SVG;
 
 use IGK\Helper\IO;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Dom\SvgListNode;
 use IGKEvents;
 
 /**
@@ -92,24 +93,21 @@ class SvgRenderer{
     }
     public static function RenderList($e){
         $options = igk_getv($e->args, "options"); 
-              
+        $is_dev = igk_environment()->isDev();
         if ($list =  self::$RegisterPath){
-            if (igk_environment()->isDev()){
+            if ($is_dev){
                 echo "<!-- SVG LIST -->\n";
             }
-            $n = igk_create_node("div");
-            $n["class"] = "igk-svg-lst";
-            $n["style"] = "display:none";
+            $n = new SvgListNode();
             $n->host(function() use ($list){
                 foreach($list as $k=>$v){
                     echo "<".$k.">";
                     echo igk_svg_content(igk_io_read_allfile($v));
                     echo "</".$k.">";
                 }
-            });
-            
+            });            
             echo $n->render($options);
-            if (igk_environment()->isDev())
+            if ($is_dev)
                 echo "\n<!-- END:SVG LIST -->\n";
         }
         // clear the registrated path

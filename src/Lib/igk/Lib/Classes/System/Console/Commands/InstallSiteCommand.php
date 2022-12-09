@@ -44,6 +44,8 @@ class InstallSiteCommand extends AppExecCommand
         "--laravel-mix" => "flag enable laravel-mix",
         "--init-config" => "init flag balafon configuration",
         "--uri:[url]"=>"base uri",
+        "--no-subdomain"=>"disable subdomain support",
+        "--no-webconfig"=>"disable web configuration",
     ];
     public function exec($command, $install_dir = "", $viewname = "")
     {
@@ -82,6 +84,8 @@ class InstallSiteCommand extends AppExecCommand
         $apachedir = igk_getv($command->options, "--apache", null);
         $ugroup = igk_getv($command->options, "--usergroup", null) ?? $this->getUserGroup();
         $init = property_exists($command->options, "--init-config");
+        
+ 
         $root_dir = igk_getv($command->options, "--root_dir", null);
         $is_primary = 1;
         $cache_dir = igk_io_cachedir(); 
@@ -114,7 +118,10 @@ class InstallSiteCommand extends AppExecCommand
                 "user:group" => $ugroup,
                 "is_primary" => $is_primary,
                 "is_laravel_mix" => property_exists($command->options, "--laravel-mix"),
-                "base_uri"=>$base_uri
+                "base_uri"=>$base_uri,
+                // FLAG CONFIGURATION 
+                "no_subdomain"=>property_exists($command->options, "--no-subdomain"),
+                "no_webconfig"=>property_exists($command->options, "--no-webconfig")."KK"
             ]
         )) {
             if (igk_environment()->isUnix() && (get_current_user() == "root")) {

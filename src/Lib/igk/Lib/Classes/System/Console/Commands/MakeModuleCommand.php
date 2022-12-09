@@ -13,7 +13,7 @@ use IGK\Helper\IO as IGKIO;
 use IGK\Helper\IO;
 use IGK\System\Configuration\CoreGeneration;
 use IGK\System\IO\StringBuilder;
-
+use IGK\System\Modules\Helpers\Utility as modUtility;
 use function igk_resources_gets as __; 
  
 class MakeModuleCommand extends AppCommand{
@@ -30,18 +30,22 @@ class MakeModuleCommand extends AppCommand{
    
     public function run($args, $command)
     {
-        $command->exec = function($command, $name){
+        $command->exec = function($command, ?string $name=null){
+            if (empty($name)){
+                igk_die("name required");
+            }
+            $name = modUtility::SanitizeName($name);
             Logger::print("generate module : " . $command->app::gets($command->app::GREEN, $name));
 
             $dir = igk_uri(igk_get_module_dir()."/".$name);
             $force = property_exists($command->options, "--force"); 
             if (is_dir($dir)){
-                if ($force){
-                    // IO::RmDir($dir);
-                }else{
+                // if ($force){
+                //     // IO::RmDir($dir);
+                // }else{
                     Logger::danger(__("Module already exist"));
                     return -1;
-                }
+                // }
             }
             IO::CreateDir($dir."/".IGK_VIEW_FOLDER);
             IO::CreateDir($dir."/".IGK_STYLE_FOLDER);

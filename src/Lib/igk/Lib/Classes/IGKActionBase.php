@@ -165,10 +165,11 @@ abstract class IGKActionBase implements IActionProcessor
      * @param mixed $ctrl
      */
     protected function initialize(BaseController $ctrl)
-    {        
+    {   
         $this->ctrl = $ctrl;
         $this->fname = ViewHelper::GetViewArgs('fname');
         $traits = class_uses(static::class);
+        
         foreach($traits as $f){
             $n = basename(igk_uri($f)); 
             if (method_exists($this, $fc = self::INIT_TRAIT_PREFIX.$n)){

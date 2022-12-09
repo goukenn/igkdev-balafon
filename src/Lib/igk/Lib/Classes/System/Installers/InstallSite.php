@@ -63,6 +63,7 @@ class InstallSite
         $v_is_unix = igk_environment()->isUnix();
         $c_root = StringUtility::Uri(implode("/", array_filter([$src, ltrim(igk_io_get_relativepath($src, $options["rootdir"]), './')])));
         $base_uri = igk_getv($options, "base_uri", "localhost");
+  
         // + | ---------------------------------------------------
         // + | primary installation  
         // + |  :is when all folder is exposed to public directory
@@ -167,10 +168,10 @@ class InstallSite
         }
         // install vendor dir
         $lnk = $app_folder . "/" . IGK_PACKAGES_FOLDER."/". IGK_VENDOR_FOLDER;
-        if (!empty($moduledir = igk_getv($options, "vendordir")) && !is_link(
+        if (!empty($vdir = igk_getv($options, "vendordir")) && !is_link(
             $lnk
         )) {
-            symlink($moduledir, $lnk);
+            symlink($vdir, $lnk);
         } else {
             igk_io_createdir($lnk);
             InstallerUtils::NoAccessDir($lnk);
@@ -194,13 +195,20 @@ class InstallSite
         )) {
             symlink($sessiondir, $lnk);
         }
+
+        // + | --------------------------------------------------------------------
+        // + | create index file 
+        // + |  
+
         $index = $public_folder . "/index.php";
         igk_io_w2file(
             $index,
             InstallerUtils::GetEntryPointSource([
                 "is_primary" => $is_primary,
                 "app_dir" => $is_primary ? '$appdir' : '$appdir."/application"',
-                "project_dir" => 'IGK_APP_DIR."/Projects"'
+                "project_dir" => 'IGK_APP_DIR."/Projects"',
+                "no_subdomain"=> igk_getv($options, "no_subdomain"),
+                "no_webconfig"=> igk_getv($options, "no_webconfig")
             ])
         );
  

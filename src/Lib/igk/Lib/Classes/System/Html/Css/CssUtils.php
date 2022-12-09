@@ -338,11 +338,11 @@ abstract class CssUtils
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
         require_once __DIR__ . "/theme_functions.php";
 
-        $xsm_screen = $theme->get_media(HtmlDocThemeMediaType::XSM_MEDIA);
-        $sm_screen = $theme->get_media(HtmlDocThemeMediaType::SM_MEDIA);
-        $lg_screen = $theme->get_media(HtmlDocThemeMediaType::LG_MEDIA);
-        $xlg_screen = $theme->get_media(HtmlDocThemeMediaType::XLG_MEDIA);
-        $xxlg_screen = $theme->get_media(HtmlDocThemeMediaType::XXLG_MEDIA);
+        $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
+        $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
+        $lg_screen = $theme->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
+        $xlg_screen = $theme->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
+        $xxlg_screen = $theme->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
         $PTR = $theme->getPrintMedia();
         $css_m = "";
         if ($ctrl) {

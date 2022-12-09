@@ -11,7 +11,28 @@ namespace IGK\System\IO\File;
 
 abstract class PHPScriptBuilderUtility
 {
+    public static function MergeSource(...$sources):?string{
+        if (!$sources)return null;
 
+        $tsrc = "";
+        foreach ($sources as $value) {
+            if (!$value)
+                continue;
+            $src = file_get_contents($value);
+            if (strpos($src, "<?php") === 0){
+                $src = ltrim(substr($src, 5));
+            }
+            $tsrc.=$src;
+        }
+        return "<?php\n".$tsrc;
+    }
+/**
+ * 
+ * @param mixed $data 
+ * @param null|string $fc 
+ * @param null|string $desc 
+ * @return string 
+ */
     public static function GetArrayReturn($data, ?string $fc=null , ?string $desc=null){
         $o  = "<?php\n";
         if ($desc)

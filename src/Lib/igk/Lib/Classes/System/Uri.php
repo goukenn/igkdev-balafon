@@ -107,6 +107,13 @@ class Uri
         return $this->m_path;
     }
     /**
+     * get the domain
+     * @return ?string
+     */
+    public function getDomain(): ?string{
+        return $this->m_domain;
+    }
+    /**
      * get full uri
      * @return string 
      */

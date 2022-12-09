@@ -7,15 +7,16 @@
 namespace IGK\System\IO;
 
 use IGK\Helper\StringUtility as str_helper;
-use IGK\Helper\IO ;
+use IGK\Helper\IO;
 use IGKException;
 
 ///<summary>manage system path</summary>
 ///<note>for better directory manipulation. use t
-class Path{
+class Path
+{
 
     protected $lib_dir;
-    protected $class_dir; 
+    protected $class_dir;
     protected $app_dir;
     protected $package_dir;
     protected $vendor_dir;
@@ -23,18 +24,19 @@ class Path{
     protected $project_dir;
     protected $module_dir;
     protected $data_dir;
-    protected $sys_data_dir; 
+    protected $sys_data_dir;
     protected $css_path;
     protected $backup_dir;
     protected $home_dir;
 
 
-    private static $sm_instance; 
+    private static $sm_instance;
 
-    public static function GetExtension($path){
+    public static function GetExtension($path)
+    {
         if (empty($path))
             return null;
-        if (($pos = strrpos($path, '.'))!==false){
+        if (($pos = strrpos($path, '.')) !== false) {
             return substr($path, $pos);
         }
         return ($t = explode(".", $path)) > 1 ? array_pop($t) : "";
@@ -43,9 +45,10 @@ class Path{
      * get system path instance
      * @return self path instance
      */
-    public static function getInstance(){
-        if (self::$sm_instance===null){
-            self::$sm_instance = new static(); 
+    public static function getInstance()
+    {
+        if (self::$sm_instance === null) {
+            self::$sm_instance = new static();
         }
         return self::$sm_instance;
     }
@@ -54,38 +57,41 @@ class Path{
      * get the backup directory
      * @return mixed 
      */
-    public function getBackupDir(){
+    public function getBackupDir()
+    {
         return $this->backup_dir;
     }
     /**
      * get module directory
      * @return mixed 
      */
-    public function getModuleDir(){
+    public function getModuleDir()
+    {
         return $this->module_dir;
     }
-    public function prepareData(){
- 
+    public function prepareData()
+    {
+
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);
         $this->base_dir = str_helper::Uri(IGK_BASE_DIR);
         $this->lib_dir = str_helper::Uri(IGK_LIB_DIR);
         $this->project_dir = str_helper::Uri(IGK_PROJECT_DIR);
         $this->package_dir = str_helper::Uri(IGK_PACKAGE_DIR);
-        $this->module_dir = str_helper::Uri(IGK_MODULE_DIR); 
+        $this->module_dir = str_helper::Uri(IGK_MODULE_DIR);
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
-        $b = ["v"=>IGK_VERSION];
-        if (igk_environment()->isDev() && igk_getr("XDEBUG_TRIGGER")){
+        $b = ["v" => IGK_VERSION];
+        if (igk_environment()->isDev() && igk_getr("XDEBUG_TRIGGER")) {
             $b["XDEBUG_TRIGGER"] = 1;
         }
         http_build_query($b);
-        $this->css_path = '/'.str_helper::uri(implode("/", [IGK_RES_FOLDER,IGK_STYLE_FOLDER,"balafon.css?". http_build_query($b)]));    
-        $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR , IGK_PACKAGES_FOLDER."/vendor");
+        $this->css_path = '/' . str_helper::uri(implode("/", [IGK_RES_FOLDER, IGK_STYLE_FOLDER, "balafon.css?" . http_build_query($b)]));
+        $this->vendor_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_PACKAGES_FOLDER . "/vendor");
         $this->sys_data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
         $this->data_dir = str_helper::UriCombine(IGK_APP_DIR, IGK_DATA_FOLDER);
-        if (defined('IGK_BACKUP_DIR')){
+        if (defined('IGK_BACKUP_DIR')) {
             $this->backup_dir = constant('IGK_BACKUP_DIR');
         } else {
-            $this->backup_dir =str_helper::UriCombine($this->data_dir , 'Backup');
+            $this->backup_dir = str_helper::UriCombine($this->data_dir, 'Backup');
         }
         // used to resolve symbolic links
         $this->home_dir = igk_getv($_SERVER, "HOME", "~");
@@ -94,21 +100,25 @@ class Path{
      * get home dir
      * @return null|string 
      */
-    public function getHomeDir(): ?string{
-        return $this->home_dir; 
+    public function getHomeDir(): ?string
+    {
+        return $this->home_dir;
     }
-    private function __construct(){
+    private function __construct()
+    {
         $this->prepareData();
     }
-    public function getPackagesDir(){
+    public function getPackagesDir()
+    {
         return $this->package_dir;
     }
     /**
      * 
      * @return string 
      */
-    public function getStyleUri(){ 
-        return $this->baseuri($this->css_path);        
+    public function getStyleUri()
+    {
+        return $this->baseuri($this->css_path);
     }
     public function getApplicationDir()
     {
@@ -126,20 +136,23 @@ class Path{
     {
         return igk_server()->root_dir;
     }
-    public function getBaseDir(){
+    public function getBaseDir()
+    {
         return $this->base_dir;
     }
-    public function getDataDir(){
+    public function getDataDir()
+    {
         return $this->data_dir;
     }
     /**
      * return sys data directory
      * @return mixed 
      */
-    public function getSysDataDir(){
-        return $this->sys_data_dir; 
+    public function getSysDataDir()
+    {
+        return $this->sys_data_dir;
     }
-   
+
 
     /**
      * 
@@ -168,22 +181,22 @@ class Path{
         //     return $dir;
         // return igk_dir($bdir . "/" . $dir);
 
-        $bdir = igk_environment()->get("basedir", $this->base_dir );  
+        $bdir = igk_environment()->get("basedir", $this->base_dir);
         if (!$bdir) {
             return null;
-        } 
+        }
         if ($dir == null)
             return $bdir;
         $l = igk_dir($bdir);
         $_r = null;
         if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
             $rpath = IO::GetRelativePath($hdir, $l);
-            $_r = ($rpath)? igk_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
-        }else{
-             $s = str_replace("\\", "\\\\", $l);
+            $_r = ($rpath) ? igk_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
+        } else {
+            $s = str_replace("\\", "\\\\", $l);
             $egext = "#^(" . $s . ")#";
             $dir = igk_dir($dir);
-                $_r = ($s && preg_match($egext, $dir)) ?
+            $_r = ($s && preg_match($egext, $dir)) ?
                 $dir :  $bdir . "/" . $dir;
         }
         return  !is_null($_r) ? igk_uri($_r) : null;
@@ -198,14 +211,14 @@ class Path{
      */
     public function baseuri($dir = null, $secured = null, &$path = null): ?string
     {
-        if (!is_null($baseURI = igk_environment()->get("baseURI"))){
+        if (!is_null($baseURI = igk_environment()->get("baseURI"))) {
             return implode("/", array_filter([$baseURI, $dir]));
         }
         $secured = $secured === null ? igk_getv($_SERVER, 'HTTPS') == 'on' : $secured;
         $path = null;
         $out = IGK_STR_EMPTY;
         $v_dir = $this->basedir($dir);
-        $root = $this->getRootDir(); 
+        $root = $this->getRootDir();
         if (!($s = strstr($v_dir, $root))) {
             return null;
         }
@@ -279,20 +292,22 @@ class Path{
         }
         return $this->baserelativepath($p, null, $sep);
     }
-    public function baserelativepath($dir, $basedir=null, $sep = DIRECTORY_SEPARATOR){
-        if(empty($dir)){
+    public function baserelativepath($dir, $basedir = null, $sep = DIRECTORY_SEPARATOR)
+    {
+        if (empty($dir)) {
             return IGK_STR_EMPTY;
         }
-        $dir=str_helper::uri($dir);
-        $bdir=str_helper::uri($basedir == null ? $this->basedir(): $basedir);
-        return $this->relativepath($dir, $bdir); 
+        $dir = str_helper::uri($dir);
+        $bdir = str_helper::uri($basedir == null ? $this->basedir() : $basedir);
+        return $this->relativepath($dir, $bdir);
     }
-    public function relativepath($spath, $link){
-        if (is_dir($link)){
-            $link = rtrim($link, "/")."/";
+    public function relativepath($spath, $link)
+    {
+        if (is_dir($link)) {
+            $link = rtrim($link, "/") . "/";
         }
         return self::GetRelativePath(str_helper::uri($spath), str_helper::uri($link));
-        
+
         // $d1 = explode("/", ltrim(str_helper::uri($spath), "/"));
         // $d2 = explode("/", ltrim(str_helper::uri($link), "/"));
         // $i = 0;
@@ -316,58 +331,102 @@ class Path{
      * @param mixed $target 
      * @return string|null 
      */
-    public static function GetRelativePath($source, $target){
-        $source = rtrim($source,"/");
-        $target = rtrim($target,"/");
-        if ($source==$target){
+    public static function GetRelativePath($source, $target)
+    {
+        $source = rtrim($source, "/");
+        $target = rtrim($target, "/");
+        if ($source == $target) {
             return "./";
         }
         $p = [];
-        if (strpos($target, $source) === 0){
+        if (strpos($target, $source) === 0) {
             // target is a child of the source
             $found = 0;
-            while (($ctag = dirname($target)) && ($ctag!= $target)){
+            while (($ctag = dirname($target)) && ($ctag != $target)) {
                 array_unshift($p, basename($target));
                 $target = $ctag;
-                if(strpos($source, $ctag) === 0){
+                if (strpos($source, $ctag) === 0) {
                     $found = 1;
                     break;
                 }
-            } 
-            return "./".implode("/", $p);
+            }
+            return "./" . implode("/", $p);
         }
         $found = 0;
         $cpath = "";
-        while (($ctag = dirname($target)) && ($ctag!= $target)){
+        while (($ctag = dirname($target)) && ($ctag != $target)) {
             array_unshift($p, basename($target));
-            $target = $ctag; 
-            if (strpos($source, $target)===0){
+            $target = $ctag;
+            if (strpos($source, $target) === 0) {
                 $found = 1;
                 break;
-            } 
-        } 
-        if($found){ 
-            $cpath = str_repeat("../",  count(explode("/", ltrim(substr($source, strlen($target)), "/")))); 
-            return $cpath.implode("/", $p);
-        } 
+            }
+        }
+        if ($found) {
+            $cpath = str_repeat("../",  count(explode("/", ltrim(substr($source, strlen($target)), "/"))));
+            return $cpath . implode("/", $p);
+        }
         return null;
     }
 
-    public static function LocalPath(string $path){
+    public static function LocalPath(string $path)
+    {
         return igk_io_expand_path(
             igk_io_collapse_path($path)
-        ); 
+        );
     }
     /**
      * combine path 
-     * @param mixed $path 
+     * @param array $path 
      * @return string 
      */
-    public static function Combine(...$path){
-        return implode(DIRECTORY_SEPARATOR, array_map(self::class."::ForwardTrim", array_filter($path)));
+    public static function Combine(...$path)
+    {
+        $path = array_values($path);
+        if ($path) {
+            $p = rtrim($path[0], DIRECTORY_SEPARATOR);
+            $path = array_slice($path, 1);
+            $path = array_map(self::class . "::TrimDir", $path);
+            array_unshift($path, $p);
+            return igk_uri(implode(DIRECTORY_SEPARATOR, $path));
+        }
+        return null;
     }
-    public static function ForwardTrim($a){
-        return rtrim($a, DIRECTORY_SEPARATOR);
+    /**
+     * trim directory separator
+     * @param mixed $a 
+     * @return string 
+     */
+    public static function TrimDir(?string $a= null, $sep=DIRECTORY_SEPARATOR)
+    {
+        return trim($a ?? '', $sep);
+    }
+    /**
+     * flatten path 
+     * @param string $path 
+     * @return string 
+     */
+    public static function FlattenPath(string $path)
+    {
+        $s = trim($path);
+        if (strpos($s, '../') > 0) {
+            $g = explode('../', $s);
+            $p = "";
+            while (count($g) > 0) {
+                $q = array_shift($g);
+                if (empty($p)) {
+                    $p = $q;
+                    continue;
+                }
+                $p = dirname($p);
+                if (empty($q)) {
+                    continue;
+                } else {
+                    $p .= "/" . $q;
+                }
+            }
+            $s = str_replace("/./", "/", $p);
+        }
+        return $s;
     }
 }
- 

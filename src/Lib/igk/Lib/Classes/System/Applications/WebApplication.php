@@ -227,7 +227,7 @@ class WebApplication extends IGKApplicationBase
             // + | configuration handle
             //
            // igk_wln_e( __FILE__.":".__LINE__, "configuration", $path_info);
-            if (!igk_configs()->get("noWebConfiguration")) {
+            if (!igk_environment()->noWebConfiguration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info);

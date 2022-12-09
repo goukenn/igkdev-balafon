@@ -12,7 +12,13 @@ namespace IGK\System\Html\Forms\Actions\Traits;
  * 
  */
 trait FormLogoutActionTrait{
+    // public function logout(){
+    //     $this->ctrl->logout(1);
+    // }
     public function logout(){
-        $this->ctrl->logout(1);
+        $ctrl = $this->getController();
+        $redirect = $ctrl::uri($this->serviceLoginSigninView);
+        $ctrl->logout(1, $redirect);
+        $this->redirect = $redirect;
     }
 }

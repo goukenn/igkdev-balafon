@@ -101,7 +101,7 @@ final class CacheConfigs
        // + | --------------------------------------------------------------------
        // + | get boolean value
        // + |       
-        if ($v && in_array(strtolower($v), ['true', 'false','1','0'])){
+        if ($v && is_string($v) && in_array(strtolower($v), ['true', 'false','1','0'])){
             $v = (bool)preg_match("/(true|1)/i", $v);
         }
         return self::registerCache($controller, $name, $v);

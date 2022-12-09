@@ -898,10 +898,10 @@ igk.ready(function() {
                         ch = s[inf.pos];
                         switch (ch) {
                             case ' ':
-                                sp.add("span").setHtml("&nbsp;");
+                                sp.add("span").setHtml(" ");
                                 break;
                             case '\t':
-                                sp.add("span").addClass("t").setHtml("&nbsp;");
+                                sp.add("span").addClass("t").setHtml(" ");
                                 break;
                             case '"':
                             case "'":
@@ -5199,7 +5199,7 @@ igk.system.createNS("igk.system", {
     igk.winui.initClassControl("igk-ajx-append-view", __init_function);
 })();
 //---------------------------------------------------------------------------
-// +|igk-svg-lst: svg list image
+// +| igk-svg-lst: svg list image
 // +| igk-svg-lst-i: svg list item
 //---------------------------------------------------------------------------
 (function() {
@@ -5228,8 +5228,13 @@ igk.system.createNS("igk.system", {
     function __initlist() {
         for (var i = 0; i < this.o.childNodes.length; i++) {
             var j = this.o.childNodes[i];
-            if (j.tagName)
-                m_item[j.tagName.toLowerCase()] = $igk(j).select("svg").first();
+            if (j.tagName) {
+                var tn = j.tagName.toLowerCase();
+                if (!(tn in m_item)) {
+                    m_item[tn] = $igk(j).select("svg").first();
+                    // console.log('init list ');
+                }
+            }
         }
         this.remove();
     };

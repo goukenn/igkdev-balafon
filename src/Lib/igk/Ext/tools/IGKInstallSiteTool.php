@@ -69,6 +69,8 @@ class IGKInstallSiteTool extends ToolControllerBase{
             "app_dir"=>$appdir,
             "project_dir"=>$appdir."/Projects",
             "entry_app_dir"=>"../",
+            "no_subdomain"=>true,
+            "no_webconfig"=>true,
         ]));  
         igk_io_w2file($dir."/index.php",  "".$sb);
         if($frame=igk_getr("frame")){

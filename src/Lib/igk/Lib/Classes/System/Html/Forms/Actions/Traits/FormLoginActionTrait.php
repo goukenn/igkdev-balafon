@@ -17,13 +17,15 @@ use IGK\System\Services\SignProvider;
 */
 trait FormLoginActionTrait{
     use ActionFormHandlerTrait;
-    
+    var $formLoginActionRememberMe = true;
+    var $formLoginActionRegisterUri = "registerLogin";
     protected function form_login($form, $options = null)
     {
         $user = ViewHelper::CurrentCtrl()->getUser();
         if ($user){
             return;
         }
+  
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();
         $fname = ViewHelper::GetViewArgs('fname');
@@ -36,6 +38,11 @@ trait FormLoginActionTrait{
             "login" => ['required'=>true],
             "password" => ["type" => "password", 'required'=>true]
         ]);
+        if ($this->formLoginActionRememberMe){
+            $t->fields([
+                "rememberme"=>["type"=>"checkbox", "label_text"=>__("Remember me")]
+            ]);
+        }
         $t->actionbar(FormHelper::submit());
         if (SignProvider::IsRegistered()) {
             $t->div()->setClass("sep")->Content = __("--- OR --- ");
@@ -51,7 +58,7 @@ trait FormLoginActionTrait{
         $t->div()->actionbar(function ($a) {
             $ctrl = ViewHelper::CurrentCtrl();
             $a['class'] = '+footer';
-            $a->a($ctrl::uri('registerLogin'))->Content = __("register");
+            $a->a($ctrl::uri($this->formLoginActionRegisterUri))->Content = __("register");
             $a->space();
             if ($this->registerUserActionForgotPasswordUri)
             $a->a($ctrl::uri($this->registerUserActionForgotPasswordUri))

@@ -42,6 +42,12 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         return igk_configs()->get('author', IGK_AUTHOR);
     }
     /**
+     * check if environment support webconfiguration
+     */
+    public function  noWebConfiguration():?bool{
+        return defined('IGK_NO_WEBCONFIG') || igk_configs()->get("noWebConfiguration");
+    }
+    /**
      * key name
      * @var ?string
      */

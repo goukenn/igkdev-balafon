@@ -10,6 +10,7 @@ namespace IGK\System\Modules;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Modules\Helpers\Utility;
 use IGKException;
 use IGKHtmlDoc;
 
@@ -106,11 +107,12 @@ class ModuleManager
             $tlist = [];
             if ($modules) {
                 foreach ($modules as $f) {
-                    $name = substr(dirname($f), $ln);
+                    $name = self::_SanitizeName(substr(dirname($f), $ln));
                     $obj = json_decode(file_get_contents($f));
+      
                     if ($obj && igk_is_valid_module_info($obj)) {
                         if ($obj->name != $name) {
-                            igk_dev_wln("not a valid name :" . $name . " vs " . $obj->name);
+                            igk_ilog("module not a valid name :" . $name . " vs " . $obj->name);
                         }
                         $tlist[$name] = $obj;
                     }
@@ -124,6 +126,14 @@ class ModuleManager
         }
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
+    }
+    /**
+     * help sanitize name
+     * @param string $dirname 
+     * @return string|string[]|null 
+     */
+    private static function _SanitizeName(string $dirname){
+        return Utility::SanitizeName($dirname);
     }
     public static function GetAutoloadModules(): ?array
     {

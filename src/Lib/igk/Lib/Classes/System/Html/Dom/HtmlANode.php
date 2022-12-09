@@ -38,8 +38,8 @@ class HtmlANode extends HtmlNode
                     $s = ":object";
                 } 
                 $_ass =  sprintf(__("link to %s"), $s);
-                !$this["alt"] && ($this["alt"] = $_ass);
-                !$this["name"] && ($this["name"] = $_ass);
+                // !$this["alt"] && ($this["alt"] = $_ass);
+                // !$this["name"] && ($this["name"] = $_ass);
                 // important title for accessibility 
                 !$this["title"] && ($this["title"] = $_ass);
             }

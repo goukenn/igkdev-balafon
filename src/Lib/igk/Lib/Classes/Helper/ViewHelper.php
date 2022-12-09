@@ -54,7 +54,11 @@ class ViewHelper
         }
         return function($n){
             if (!igk_environment()->isOPS()){
-                $n->div()->panel('igk-danger')->Content = __('Action handler not found');
+                $pan = $n->div()->panel('igk-danger');
+                $pan->Content = __('Action handler not found');
+                $pan->div()->Content = "[".$n."]";
+                igk_trace();
+                igk_exit();
                 $n->div()->Content =  self::GetViewArgs("action_handler");
             }
         };

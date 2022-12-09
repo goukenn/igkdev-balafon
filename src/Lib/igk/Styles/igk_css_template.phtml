@@ -53,9 +53,9 @@ $prop["buttonPadding"] = "8px";
 
 
 
-$ctn_lg = $theme->get_media(HtmlDocThemeMediaType::CTN_LG_MEDIA);
-$ctn_xlg = $theme->get_media(HtmlDocThemeMediaType::CTN_XLG_MEDIA);
-$ctn_xxlg = $theme->get_media(HtmlDocThemeMediaType::CTN_XXLG_MEDIA);
+$ctn_lg = $theme->getMedia(HtmlDocThemeMediaType::CTN_LG_MEDIA);
+$ctn_xlg = $theme->getMedia(HtmlDocThemeMediaType::CTN_XLG_MEDIA);
+$ctn_xxlg = $theme->getMedia(HtmlDocThemeMediaType::CTN_XXLG_MEDIA);
 $ctn_lg[".igk-container"] = "width:" . IGK_CSS_CTN_LG_SIZE . "px";
 $ctn_xlg[".igk-container"] = "width:" . IGK_CSS_CTN_XLG_SIZE . "px";
 $ctn_xxlg[".igk-container"] = "width:" . IGK_CSS_CTN_XXLG_SIZE . "px";
@@ -773,7 +773,7 @@ $sm_screen[".igk-bodybox"] = "overflow-x:hidden !important";
 $def[".igk-truncate.igk-show"] = "text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden; height:2em";
 $def[".igk-truncate-btn a:before"] = "content:attr(data-off);";
 $def[".igk-truncate.igk-show + .igk-truncate-btn a:before"] = "content:attr(data-on);";
-$s = $theme->get_media(HtmlDocThemeMediaType::GT_SM_MEDIA);
+$s = $theme->getMedia(HtmlDocThemeMediaType::GT_SM_MEDIA);
 $xsm_screen[".igk-gtsm-only"] =
 $sm_screen[".igk-gtsm-only"] =
 $xsm_screen[".igk-gtxsm-only"] =

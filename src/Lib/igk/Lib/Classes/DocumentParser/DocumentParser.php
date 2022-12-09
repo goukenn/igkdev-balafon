@@ -11,6 +11,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
@@ -38,6 +39,9 @@ class DocumentParser
     private $m_res_downloaded = [];
     private $m_title;
     private $m_refer_domains = [];
+    private $m_failed = [];
+
+    const REF_TAG = 'link|title|a|script|meta|object|img|video|audio|source|base';
  
     /**
      * target domain 
@@ -59,6 +63,12 @@ class DocumentParser
      * @var false
      */
     var $rootdef = false;
+
+    /**
+     * set document stant alone 
+     * @var true
+     */
+    var $standalone = true;
     /**
      * get loaded style sheet
      * @return array 
@@ -90,6 +100,13 @@ class DocumentParser
     public function getScripts()
     {
         return $this->m_scripts;
+    }
+    /**
+     * get resolved images
+     * @return array 
+     */
+    public function getImages(){
+        return $this->m_imgs;
     }
     /**
      * get document meta
@@ -124,7 +141,7 @@ class DocumentParser
 
         $this->m_node->getElementsByTagName(function ($n) {
             $tn = $n->getTagName();
-            if ($tn && preg_match("/^(link|title|a|script|meta|object|img|video|audio|source)$/i", $tn)) {
+            if ($tn && preg_match("/^(".self::REF_TAG.")$/i", $tn)) {
                 if (method_exists($this, $fc = 'visit_' . $tn)) {
                     $this->$fc($n);
                 }
@@ -151,6 +168,10 @@ class DocumentParser
             $this->m_node->clear();
         }
         $this->m_errors = [];
+    }
+    protected function visit_base($b){
+        $b['href'] = "./";
+        $b->setIsVisible(false);
     }
     protected function visit_title($title)
     {
@@ -245,7 +266,7 @@ class DocumentParser
                 $href = $link['href'];
                 $q = parse_url($href);
                 if (!isset($q['host'])) {
-                    $href = $this->domain . $href;
+                    $href = Path::Combine($this->domain , $href);
                 }
                 $type = $link['rel'];
                 $this->m_stylesheets[] = (object)[
@@ -255,6 +276,7 @@ class DocumentParser
                 ];
                 break;
         }
+        $this->_integrity_check($link);
     }
     /**
      * 
@@ -264,14 +286,46 @@ class DocumentParser
     protected function visit_script($link)
     {
         if (!empty($src = $link['src'])) {
-            $this->m_scripts[] = $src;
+            $v_is_uri = IGKValidator::IsUri($src);
             if ($this->controller) {
-                $link['src'] = new ReferenceAssetHandle($src, $this->controller);
+                if (!$v_is_uri || $this->_isInSameDomain($this->domain, $src)){
+                    $link['src'] = new ReferenceAssetHandle($src, $this->controller);
+                } else if ($v_is_uri){
+                    // output uri non in domain 
+                    $src = ["source"=>$src, "script"=>$link]; 
+                }
             }
+            $this->m_scripts[] = $src;
         } else {
             $this->m_inline_scripts[] = $link->getContent();
         }
+        $this->_integrity_check($link);
+     
     }
+    private function _integrity_check($link){
+        if ($i = $link['integrity']){
+            $link['integrity'] = new ReferenceAttributeHandle($i);
+        }
+        if ($i = $link['crossorigin']){
+            $link['crossorigin'] = new ReferenceAttributeHandle($i);
+        }
+    }
+    private function _getGC($outdir, ?string $file=null){
+        $gc = null;
+        if ($this->controller){
+            $gc = $this->asset_dir ?? $this->controller->uri("/assets");
+            if (($gc == './')&&($file))
+                $gc = $this->_getRelativePathFromFile($file, $outdir);
+        }
+        return $gc;
+    }
+    private function _replaceUriContent(string $src, string $outdir){
+        $uri = new Uri($src);
+        $gc = $this->_getGC($outdir);
+        $src = str_replace($uri->getSiteUri(), Path::Combine($gc, sha1($uri->getDomain())), $src);
+        return $src;
+    }
+
     protected function visit_meta($meta)
     {
         // $content = $link['content'];
@@ -320,7 +374,7 @@ class DocumentParser
      */
     protected function _exportStyleSheets(string $outdir, array &$v_download, string $v_base_host)
     {
-        Logger::print("get stylesheets...");
+        Logger::info("get stylesheets...");
         $v_detector = new UriDetector;
         $dir = $this->routedef ? "" : "/css/";
         foreach ($this->m_stylesheets as $tm) {
@@ -338,12 +392,11 @@ class DocumentParser
                 $path = ltrim(igk_str_rm_start($path, "/css/"), '/');
                 if ($tm->type == 'stylesheet') {
                     $uri_host = igk_getv($q, 'host');
-                    if ($uri_host && ($uri_host != $v_base_host)) {
-                        // $file = $outdir . "/" . sha1($uri_host) . "/" . $path;
+                    if ($uri_host && !$this->_isInSameDomain($uri_host, $v_base_host)) { 
                         $v_uri = new Uri($m);
                         $file = self::_getOutdir($outdir, $v_base_host, $v_uri->getSiteUri()) . "/" . $path;
                     } else {
-                        $file = implode("/", array_filter([rtrim($outdir, '/'), $dir, ltrim($path, '/')]));
+                        $file = Path::Combine(...array_filter([$outdir, $dir, ltrim($path, '/')]));
                     }
                     // igk_dev_wln("file :".$file);
                     if (igk_io_path_ext($file) != 'css') {
@@ -359,8 +412,8 @@ class DocumentParser
                     // + | some style sheet contains external resource
                     // + |
                     if ($uris = $v_detector->cssUrl($c)){
-                        $this->_replaceCssContent($file, $c, $uris, $v_base_host, $outdir);
                         $tp = dirname($file);
+                        $this->_replaceCssContent($file, $c, $uris, $v_base_host, $tp);
                         $v_baseuri = dirname($m);
                         while (count($uris) > 0) {
                             $uri_m = array_shift($uris);
@@ -382,15 +435,18 @@ class DocumentParser
                                 $v_base_path = igk_getv(parse_url($baseuri), "path");
                                 // $gp =  igk_io_flatten($gp);
                                 // $tgp =  igk_io_flatten($tgp);
-                                $this->downloadResource($v_uri, $mp . "/", $v_download, $v_base_path);
+                                $this->_downloadResource($v_uri, $mp . "/", $v_download, $v_base_path);
                             } else {
                                 $g = parse_url($uri_m->path);
                                 $uri_host = igk_getv($g, 'host');
                                 $v_output = $tp . "/";
                                 $v_prefix = null;
-                                if ($uri_host && ($uri_host != $v_base_host)) {
-                                    // $v_output = $outdir . "/" . sha1($uri_host) . "/";
-                                    $v_output = dirname(self::_getOutdir($outdir, $v_base_host, $uri_m->path));
+                                if ($uri_host && ($uri_host != $v_base_host)) { 
+                                    $v_goutdir = self::_getOutdir($outdir, $v_base_host, $uri_m->path);
+                                    if (is_null($v_goutdir)){
+                                        igk_die("dir is null : ".$v_goutdir);
+                                    }
+                                    $v_output = dirname($v_goutdir);
                                     $v_base_path = dirname(igk_getv(parse_url($uri_m->path), "path"));
                                     // igk_wln_e("inline ...");
                                 } else {
@@ -413,7 +469,7 @@ class DocumentParser
                                         igk_dev_wln_e("not found....", $uri_m->path);
                                     }
                                 }
-                                if ($this->downloadResource($uri_m->path, $v_output . "/", $v_download, $v_base_path, $v_prefix, null, $file)) {
+                                if ($this->_downloadResource($uri_m->path, $v_output . "/", $v_download, $v_base_path, $v_prefix, null, $file)) {
                                     $content_type = igk_getv($this->m_last_info, CURLINFO_CONTENT_TYPE);
                                     if ($content_type && (strpos($content_type, "text/css") !== false)) {
                                         // + | get other link to download 
@@ -455,29 +511,44 @@ class DocumentParser
         }
     }
     protected function _update_asset_ref($node, $attribute, string $path){
-        $node[$attribute] = rtrim($this->asset_dir,'/').$path;
+        $node[$attribute] = rtrim($this->asset_dir,'/')."/".ltrim($path, "/");
     }
-    private function _replaceCssContent($file, $v_last_content, $v_tcs_uris, $v_base_host, $outdir)
+    /**
+     * replace css content base uri - and store file
+     * @param mixed $file 
+     * @param mixed $v_last_content 
+     * @param mixed $v_tcs_uris 
+     * @param mixed $v_base_host 
+     * @param mixed $outdir 
+     * @return void 
+     * @throws IGKException 
+     */
+    private function _replaceCssContent($file, $v_last_content, $v_tcs_uris, $v_base_host, string $outdir)
     {
+        $rp = "";
         while (count($v_tcs_uris) > 0) {
             $q = array_shift($v_tcs_uris);
             if ($q->domain) {
                 $uri = new Uri($q->path);
                 $gc = null;
+                $site_uri = $uri->getSiteUri();
                 if ($this->controller){
                     $gc = $this->asset_dir ?? $this->controller->uri("/assets");
                     if ($gc == './')
                         $gc = $this->_getRelativePathFromFile($file, $outdir);
                 }
-                if ($v_base_host!=$q->domain){
-                    $rp = str_replace($uri->getSiteUri(), Path::Combine($gc, sha1($q->domain)), $v_last_content);
-                } else {
-                    $rp = str_replace($uri->getSiteUri(), $gc."/", $v_last_content);
+                if (empty($gc)){
+                    $gc = './';
                 }
-                $v_last_content = $rp;
+                if ($v_base_host!=$q->domain){
+                    $rp = Path::Combine($gc, sha1($q->domain));                    
+                } else {
+                    $rp =  rtrim($gc, "/")."/";
+                }
+                $v_last_content = str_replace($site_uri, $rp, $v_last_content);
             }
         }
-        igk_io_w2file($file, $v_last_content);
+        igk_io_w2file($file, $v_last_content);        
     }
     private function _getRelativePathFromFile($file, $outdir){
         if (strstr($file, $outdir)){
@@ -512,13 +583,14 @@ class DocumentParser
             if (isset($v_download[$m])) {
                 continue;
             }
-
             $mp = $outdir . "/img/";
-            $this->downloadResource($m, $mp, $v_download, null, '/img/');
+            $this->_downloadResource($m, $mp, $v_download, null, '/img/');
         }
+        Logger::success("-done");
         $this->_exportStyleSheets($outdir, $v_download, $v_base_host);
-
+        Logger::success("-done");
         $this->_exportScripts($outdir, $v_download, $v_base_host);
+        Logger::success("-done");
     }
     /**
      * export script
@@ -532,7 +604,10 @@ class DocumentParser
     {
         Logger::info("get scripts...");
         $dir = $this->routedef ? "" : "/js/";
-        foreach ($this->m_scripts as $k => $m) {
+        foreach ($this->m_scripts as $k => $lc) {
+            //$link['src'] = $this->_replaceUriContent($src);
+            $m = is_string($lc)? $lc : $lc['source'];
+            $script  = is_array($lc) ? $lc['script'] : null;
             if (isset($v_download[$m])) {
                 continue;
             }
@@ -551,11 +626,13 @@ class DocumentParser
                 $local = true;
             } else {
                 // not local           
-                $v_output = self::_getOutdir($outdir, $v_base_host, $m) . $dir;
+                $v_output = self::_getOutdir($outdir, $v_base_host, dirname($m)) . $dir;
                 $v_base_path = dirname($path);
+                $v_nuri = $this->_replaceUriContent($m, $outdir);
+                $script['src'] = $v_nuri;
             }
             $file = null;
-            $this->downloadResource($m, rtrim($v_output, "/") . "/", $v_download, $v_base_path, "/js/", "js", $file);
+            $this->_downloadResource($m, rtrim($v_output, "/") . "/", $v_download, $v_base_path, "/js/", "js", $file);
             if (!$local && $file) {
                 if ($this->asset_dir) {
                     $rf = str_replace(
@@ -581,13 +658,26 @@ class DocumentParser
         }
         return null;
     }
-    private function downloadResource($uri, $outdir, &$v_download, $base_path, ?string $prefix = null, ?string $ext = null, &$file = null)
+    /**
+     * download resource 
+     * @param string $uri url to download 
+     * @param string $outdir the output directory 
+     * @param mixed $v_download 
+     * @param mixed $base_path 
+     * @param null|string $prefix 
+     * @param null|string $ext 
+     * @param mixed $file 
+     * @return void|true 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    private function _downloadResource($uri, $outdir, &$v_download, $base_path, ?string $prefix = null, ?string $ext = null, &$file = null)
     {
         if (!IGKValidator::IsUri($uri)) {
             $uri = $this->domain . "/" . ltrim($uri, '/');
         }
 
-        if (isset($v_download[$uri])) {
+        if (isset($v_download[$uri]) || isset($this->m_failed[$uri])) {
             return;
         }
         $g = parse_url($uri);
@@ -620,9 +710,12 @@ class DocumentParser
                     $this->m_last_info = $info;
                     return true;
                 } else {
-                    $this->m_errors[] = 'failed to get ' . $uri;
-                    Logger::danger("failed to get " . $uri);
+                    $this->m_errors[] = 'fail: ' . $uri;
+                    $this->m_failed[$uri] = 1;
+                    Logger::danger("fail: " . $uri);
                 }
+            } else {
+                $this->m_errors[] = igk_curl_status(). ': failed to get ' . $uri;
             }
         }
     }
@@ -646,20 +739,21 @@ class DocumentParser
      * @throws Exception 
      * @throws CssParserException 
      */
-    public function buildView(string $view)
+    public function buildView(string $view, ?BaseController $controller=null, bool $export = true)
     {
         $view = ltrim($view, '/');
-        $controller = $this->controller;
+        $controller = $controller ?? $this->controller ?? igk_die("controller not provided");
         $file = $controller->getViewDir() . "/" . $view;
         if (igk_io_path_ext($file) != IGK_VIEW_FILE_EXT) {
             $file .= IGK_VIEW_FILE_EXT;
-        }
+        
         $outdir = $controller->getAssetsDir();
         $export_dir = $outdir;
         if ($this->standalone) {
             $export_dir .= "/" . $view;
         }
-        $this->exportTo($export_dir);
+        if ($export)
+            $this->exportTo($export_dir);
 
         $builder = new PHPScriptBuilder;
         $sb = new StringBuilder;
@@ -698,11 +792,17 @@ class DocumentParser
             }
         }
         foreach ($this->m_inline_scripts as $src) {
+            if (!$src){
+                continue;
+            }
             $sb->appendLine('$doc->getHead()->script()->Content = (<<<\'JS\'');
-            $sb->appendLine($src);
+            if (is_string($src)){
+                 $sb->appendLine($src);
+            }else{
+                igk_wln_e($src);
+            }
             $sb->appendLine('JS);');
-        }
-
+        } 
         $assets = [];
         $this->m_resources = array_unique(array_filter($this->m_resources));
         sort($this->m_resources);
@@ -719,8 +819,16 @@ class DocumentParser
         if ($body = $this->getBody()) {
             $views = $body[0]->getChilds()->to_array();
             $node = igk_create_notagnode();
-            HtmlUtils::CopyNode($node, $views, function ($n) {
-                return igk_create_node($n);
+            HtmlUtils::CopyNode($node, $views, function ($n, & $skip = false) {
+                $rep = null;
+                if ($n=='svg'){
+                    // copynode 
+                    $rep = new XmlNode($n);
+                    $skip = true;
+                }else{
+                    $rep = igk_create_node($n);
+                }
+                return  $rep;
             });
             // $sb->appendLine('$t->load(<<<\'HTML\'');
             $sb->appendLine('$doc->getBody()->setClass("+overflow")->getBodyBox()->setClass("-overflow-y-a");');
@@ -743,4 +851,5 @@ class DocumentParser
         $builder->defs($sb . '');
         igk_io_w2file($file, $builder->render());
     }
+}
 }

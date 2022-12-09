@@ -18,6 +18,11 @@ class SyncInstallSite extends SyncAppExecCommandBase
     var $category = "sync";
     var $desc = "sync init public folder";
 
+    var $options = [
+        "--no-subdomain"=>"disable subdomain support",
+        "--no-webconfig"=>"disable web configuration",
+    ];
+
     public function exec($command)
     {
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
@@ -53,7 +58,9 @@ class SyncInstallSite extends SyncAppExecCommandBase
 
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
-        SyncInitPublicCommand::InstallFolder($h, $pdir, $uri);
+        $no_subdomain = property_exists($command->options, '--no-subdomain');
+        $no_webconfig = property_exists($command->options, '--no-webconfig');
+        SyncInitPublicCommand::InstallFolder($h, $pdir, $uri, $no_subdomain, $no_webconfig);
 
         if (!$is_base){
              
@@ -62,7 +69,9 @@ class SyncInstallSite extends SyncAppExecCommandBase
             file_put_contents($local_file, file_get_contents(IGK_LIB_DIR."/Inc/core/install-site.pinc"));
             ftp_put($h, $install, $local_file);
             unlink($local_file);
+
             $token = date("Ymd").rand(2, 85).igk_create_guid();
+            
             $response = igk_curl_post_uri($uri."/install-site.php", 
                 [
                     "corelib"=>$setting["lib_dir"],
@@ -71,12 +80,14 @@ class SyncInstallSite extends SyncAppExecCommandBase
                     "home_dir"=>$setting["home_dir"],
                     "root_dir"=>$setting["public_dir"],
                     self::SITE_DIR=>$setting["site_dir"],
+                    "no_subdomain"=>$no_subdomain,
+                    "no_webconfig"=>$no_webconfig,
                 ], null, [
                 "install-token"=>$token
             ]);
 
             if ($response){
-                igk_wln($response);
+                Logger::info($response);
             }
         }
 

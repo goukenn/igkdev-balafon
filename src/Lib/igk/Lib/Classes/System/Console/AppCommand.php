@@ -20,7 +20,7 @@ require_once(__DIR__."/AppCommandConstant.php");
 abstract class AppCommand {
 
     const ENV_KEY = "balafon/command_args";
-
+    const OPTIONS_TAB_SPACE = "\r\t\t\t\t";
     /**
      * register command name
      * @var mixed
@@ -156,6 +156,7 @@ abstract class AppCommand {
             Logger::print($d. PHP_EOL); 
         }
         $this->showUsage();
+        Logger::print("");
         $this->showOptions();
         Logger::print("");
     }
@@ -174,7 +175,7 @@ abstract class AppCommand {
                 Logger::print('');
                 continue;
             }
-            Logger::print( App::Gets(App::GREEN, $k). Logger::TabSpace. " {$v}". PHP_EOL); 
+            Logger::print( App::Gets(App::GREEN, $k). self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
         }
         Logger::print("");
     }

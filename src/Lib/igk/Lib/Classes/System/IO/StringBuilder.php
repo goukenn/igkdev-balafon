@@ -39,7 +39,7 @@ class StringBuilder{
      */
     public function appendLine($text=""){
         $is_array = is_array($text);
-        $tab = is_string($text) ? [$text] : $text;
+        $tab = (is_string($text) ? [$text] : $text) ?? igk_die("not valid argument");
         while(count($tab)>0){
             $text = array_shift($tab);
             if ($this->m_instop){

@@ -153,6 +153,10 @@ class InstallerResponse
 }
 
 $response = new InstallerResponse();
+
+if (!version_compare(PHP_VERSION, "7.0", ">=")){
+    $response->die("mandory version required. 7.0<=".PHP_VERSION);
+}
 if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
 }
@@ -165,6 +169,8 @@ $root_dir = igk_getr('root_dir'); // public dir relative to %home
 $site_dir = igk_getr('site_dir');
 $base_uri = igk_getr('base_uri', isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : "localhost");
 $token = igk_getr('token');
+$no_subdomain = igk_getr('no_subdomain');
+$no_webconfig = igk_getr('no_webconfig');
 $install_dir = implode("/", [$home, ltrim($corelib, '/')]);
 $app_dir = implode("/", [$home, ltrim($app_dir, '/')]);
 $root_dir = implode("/", [$home, ltrim($root_dir, '/')]);
@@ -191,24 +197,32 @@ if (file_exists($v_blf_cmd)) {
     $bck = getcwd();    
     if (is_dir($site_dir))
         chdir($site_dir);
+    $v_args = implode(' ', array_filter([
+        $no_subdomain ? "--no-subdomain" : null,
+        $no_webconfig ? "--no-webconfig" : null,
+    ]));
+
     $dv = null; //$_ISUNIX ? " > /dev/null" : "";
-    $cmd = "{$v_blf_cmd} --install-site --root_dir:{$root_dir} --application:{$app_dir}{$dv}";
+    $cmd = "{$v_blf_cmd} --install-site --root_dir:{$root_dir} --application:{$app_dir} {$v_args}{$dv}";
     $result = `$cmd`; // exec('/bin/bash -c "/usr/local/php7.4/lib/php -v"', $output, $code);
-    if (is_null($result)){ 
+    if (is_null($result) || strstr($result, 'Status: 500 Internal Server Error')){ 
         // ini_set('display_errors', 1);
         // error_reporting(-1);
         ob_start();
         $root_dir = substr($root_dir, strlen($site_dir)+1);
         $app_dir = substr($app_dir, strlen($site_dir)+1);
-        igk_install_site($app_dir."/Lib/igk/igk_framework.php", __FILE__, [
+       
+        $g = igk_install_site($app_dir."/Lib/igk/igk_framework.php", __FILE__,array_merge([
             "balafon-shell",            
             "--install-site",
             "--root_dir:{$root_dir}",
             "--application:{$app_dir}",
-            "--uri:{$base_uri}",
-        ], false, $production);
+            "--uri:{$base_uri}",],
+             explode(" ", $v_args))            
+        , false, $production);
         IO::RmDir($site_dir."./Caches");
         $content = ob_get_contents();
+        $result = ["type"=>"core install", "response"=>$g];
         ob_end_clean();
     }    
     chdir($bck);
@@ -226,4 +240,4 @@ $response->response(json_encode((object)[
     "home" => $home,
     "cmd" => $cmd,
     "install_result" => $result,
-]), "application/json");
+], JSON_UNESCAPED_SLASHES ), "application/json");

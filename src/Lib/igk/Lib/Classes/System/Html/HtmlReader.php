@@ -203,6 +203,8 @@ final class HtmlReader extends IGKObject
         $eval_context = $reader->m_context->transformToEval ?? false;
         $expressionRead = false; 
         $tnames = [$tag];
+        $ch = '';
+        $v_is_multiline_comment_support = in_array($tag,['script', 'style']);
         if ($tag == 'script'){
             // + | read until end </script> found
             $stag = 0;
@@ -210,7 +212,23 @@ final class HtmlReader extends IGKObject
             $bpos = $offset;
             $skip_space = 0;
             while ($end && ($offset < $ln)) {
+                $lch = $ch;
+
                 $ch = $text[$offset];
+
+                if ($v_is_multiline_comment_support && ($ch == '*') && '/'==$lch){
+                    // multi line comment
+                    $next = strpos($text, "*/", $offset);
+                    if ($next !==false){
+                        $v .= substr($text, $offset, ($next+2) - $offset);
+                        $offset = $next+2;
+                    }else{
+                        $v .= substr($text, $offset);
+                        $offset = $ln;
+                    }
+                    //$offset++;
+                    continue;
+                }
                 switch($ch){
                     case '<':
                         $stag = 1;
@@ -232,6 +250,20 @@ final class HtmlReader extends IGKObject
                             $v .= $name;
                             $ch = '';
                             $offset--;
+                        } else {
+                            if ($lch==$ch){
+                                // single line comment dected
+                                if (($pos = strpos($text, "\n", $offset))!==false){
+                                    $v .= substr($text, $offset, $pos+1 - $offset);
+                                    $offset = $pos;
+                                }else{
+                                    $v .= substr($text, $offset)."\n";
+                                    $offset = $ln;
+                                }
+                                $ch = '';
+                                $lch = '';
+                                //igk_wln_e("single line ....", $v);
+                            }
                         }
                         break;
                     case "'":
@@ -253,8 +285,10 @@ final class HtmlReader extends IGKObject
                         $ch = '';
                         $skip_space = 1;
                         break;
+
                     default:
                         $stag = 0;
+                        
                         break;
                 }
                 $offset++;
@@ -274,7 +308,22 @@ final class HtmlReader extends IGKObject
 
         // + | read tag until matching end tag found </script> found
         while ($end && ($offset < $ln)) {
+            $lch = $ch;
             $ch = $text[$offset];
+
+            if ($v_is_multiline_comment_support && ($ch == '*') && ('/'==$lch)){
+                // multi line comment
+                $next = strpos($text, "*/", $offset);
+                if ($next !==false){
+                    $v .= substr($text, $offset, ($next+2) - $offset);
+                    $offset = $next+2;
+                }else{
+                    $v .= substr($text, $offset);
+                    $offset = $ln;
+                }
+                //$offset++;
+                continue;
+            }
             switch ($ch) {
                 case ">":
                     $v .= $ch;
