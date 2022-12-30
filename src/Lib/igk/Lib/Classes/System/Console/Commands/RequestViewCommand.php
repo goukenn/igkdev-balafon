@@ -42,10 +42,10 @@ class RequestViewCommand extends AppExecCommand{
             "+ Server Request COMMAND"=>"",
         ];
         $def = DbCommandHelper::GetUsageCommandHelp();
-        array_push($opts, $def);
-        array_push($opts, ["+ DB Request COMMAND"=>""]);
-        array_merge($opts,ServerCommandHelper::GetUsageCommandHelp());
-        
+        $opts = array_merge($opts, $def);
+        $opts = array_merge($opts, ["+ DB Request COMMAND"=>""]);
+        $opts = array_merge($opts,ServerCommandHelper::GetUsageCommandHelp());
+        $this->options = $opts;
         parent::showOptions();
     }
     public function showUsage(){
@@ -94,8 +94,8 @@ class RequestViewCommand extends AppExecCommand{
             echo "\n";
         } 
         error_clear_last();
-        igk_dev_wln(__FILE__.":".__LINE__);
-        Logger::info('done');
+        // igk_dev_wln(__FILE__.":".__LINE__);
+        // Logger::info('done');
     }
     public function doRequest($command, $path){
         $ctrl = self::GetController(igk_configs()->default_controller, false)

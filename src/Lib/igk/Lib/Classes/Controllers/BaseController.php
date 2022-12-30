@@ -53,8 +53,8 @@ use function igk_resources_gets as __;
  * @method static bool IsEntryController() macros function
  * @method static bool IsFunctionExposed() macros function
  * @method static bool IsUserAllowedTo() macros function - check if current user is allowed to 
- * @method static void asset() macros function
- * @method static string|null asset_content(path) macros function : \
+ * @method static string asset(string $path) macros function resolv asset path
+ * @method static string|null asset_content(string $path) macros function : \
  * get asset content if found in $controller->getDataDir()."/assets" by default
  * @method static string baseUri() macros function
  * @method static bindNodeClass() macros function

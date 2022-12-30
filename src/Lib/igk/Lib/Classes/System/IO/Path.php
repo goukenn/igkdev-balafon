@@ -425,8 +425,9 @@ class Path
                     $p .= "/" . $q;
                 }
             }
-            $s = str_replace("/./", "/", $p);
+            $s = $p;
         }
+        $s = str_replace("/./", "/", $s);
         return $s;
     }
 }

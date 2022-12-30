@@ -6,6 +6,7 @@
 namespace IGK\Tests\DocumentParser;
 
 use IGK\DocumentParser\UriDetector;
+use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
 ///<summary></summary>
@@ -60,13 +61,28 @@ EOF;
         $data = <<<EOF
 background-image :url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/../webfonts/fa-brands-400.svg#fontawesome) format("svg")
 EOF;
-    
-        $uris = $v_detector->cssUrl($data);   
+$uris = $v_detector->cssUrl($data);   
+ $path = Path::FlattenPath($uris[0]->path);
         $this->assertEquals(
             'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.svg',
-            $uris[0]->path, "path flatten");
+            $path, "path flatten"); 
 
- 
+        $rp = $uris[0]->getFlattenReplacement();
+        $this->assertEquals(
+            'url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.svg#fontawesome)',
+            $rp, "after missting flatten"); 
+    }
 
+    public function test_next_css(){
+        $v_detector = new UriDetector;
+        $data = <<<'CSS'
+ div {
+    backgroun-color: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+ }
+.ccueil_bg__EHV6a{background-image:url(/_next/static/media/bg.890002d8.jpg);}
+CSS;
+
+        $uris = $v_detector->cssUrl($data);   
+        $this->assertFalse(is_null($uris), "must detect uris");
     }
 }

@@ -29,7 +29,7 @@ final class SessionManagerController extends ConfigControllerBase{
     */
     public function clearall_ajx(){
         session_destroy();
-        session_write_close();
+        igk_sess_write_close();
 		foreach(igk_get_all_session_files() as $k=>$f){
 			unlink($f);
 		} 
@@ -47,7 +47,7 @@ final class SessionManagerController extends ConfigControllerBase{
         $dt=null;
         $ssid=session_id();
         $v_capp=igk_app();
-        session_write_close();
+        igk_sess_write_close();
         $sess_key=IGK_APP_SESSION_KEY;
         $_SESSION[$sess_key]=null;
         $file="";

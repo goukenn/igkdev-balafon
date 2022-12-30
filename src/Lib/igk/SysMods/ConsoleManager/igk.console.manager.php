@@ -68,7 +68,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase
      */
     public function getIsConfigPageAvailable()
     {
-        return !igk_environment()->is("production");
+        return !igk_environment()->isOPS();
     }
     public function View(): BaseController
     {

@@ -38,6 +38,7 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
+use IGK\System\IO\Path;
 use IGKEnvironment;
 use IGKEvents;
 use IGKResourceUriResolver;
@@ -64,7 +65,10 @@ abstract class ControllerExtension
         $dir = $ctrl->getAssetsDir();
         $i = IGKResourceUriResolver::getInstance();
         foreach($assets as $a){
-            $i->resolve($dir."/".$a);
+            // $a = "/storage6";
+            // $m = 
+            $i->resolve(Path::Combine($dir, $a));            
+            //igk_wln_e("resolve ", $a, $m, $dir);
         }
     }
     /**
@@ -112,9 +116,12 @@ abstract class ControllerExtension
      * @param string $path 
      * @return mixed 
      */
-    public static function asset(BaseController $ctrl, string $path)
+    public static function asset(BaseController $ctrl, ?string $path=null)
     {
-        $f = $ctrl->getAssetsDir($path);
+        $f = $ctrl->getAssetsDir();
+        if ($path){
+            $f = Path::Combine($f, $path);
+        } 
         if (!file_exists($f))
             return null;
         $t = IGKResourceUriResolver::getInstance()->resolve($f);
@@ -164,6 +171,12 @@ abstract class ControllerExtension
         }
         return $tab;
     }
+    /**
+     * retreive the resolved asset forlder directory 
+     * @param BaseController $ctrl 
+     * @return null|string 
+     * @throws IGKException 
+     */
     public static function resolvAssetUri(BaseController $ctrl)
     {
         $f = implode("/", [$ctrl->getDataDir(), IGK_RES_FOLDER]);
@@ -1982,14 +1995,22 @@ abstract class ControllerExtension
 
     public static function showError(BaseController $controller, string $message, string $title, $code = 400)
     {
-
+        $style = file_get_contents(IGK_LIB_DIR."/Styles/errors/exceptions.css");
         $out = <<<HTML
 <html>
     <head>
         <title>${title}</title>
+        <style>${style}</style>
     </head>
     <body>
-        ${message}
+        <div class="flex center">
+            <p>
+                ${message}
+            </p>
+            <p>
+                ${code}
+            </p>
+        </div>
     </body>
 </html>
 HTML;
@@ -2004,12 +2025,18 @@ HTML;
      * @return void 
      * @throws IGKException 
      */
-    public function handleException(BaseController $controller, Exception $ex, string $title)
+    public static function handleException(BaseController $controller, Exception $ex, string $title)
     {
         self::showError($controller, $ex->getMessage(), $title, $ex->getCode());
     }
 
-    public function referer(BaseController $controller)
+    /**
+     * handle referer
+     * @param BaseController $controller 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function referer(BaseController $controller)
     {
         return igk_server()->HTTP_REFERER ?? self::uri($controller, '');
     }

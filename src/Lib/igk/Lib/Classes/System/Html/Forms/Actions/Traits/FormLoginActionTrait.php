@@ -19,13 +19,18 @@ trait FormLoginActionTrait{
     use ActionFormHandlerTrait;
     var $formLoginActionRememberMe = true;
     var $formLoginActionRegisterUri = "registerLogin";
+    var $formLoginActionLogin = 'login';
     protected function form_login($form, $options = null)
     {
         $user = ViewHelper::CurrentCtrl()->getUser();
         if ($user){
             return;
         }
-  
+        if (!($ac=$form['action']) || ($ac=='.')){
+            $form['action'] = $this->formLoginActionLogin ?? 'login';
+        }
+        
+
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();
         $fname = ViewHelper::GetViewArgs('fname');

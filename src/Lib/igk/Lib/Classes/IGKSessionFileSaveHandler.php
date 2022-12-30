@@ -47,7 +47,7 @@ class IGKSessionFileSaveHandler{
         }
         $handler = new self();
         session_set_save_handler([$handler, "open"], [$handler, "close"], array($handler, 'read'), array($handler, 'write'), array($handler, 'destroy'), array($handler, 'gc'));
-        register_shutdown_function('session_write_close');
+        register_shutdown_function('igk_sess_write_close');
     }
     ///<summary></summary>
     ///<param name="savepath"></param>

@@ -2281,7 +2281,12 @@ Name:balafon.js
             }
             return n;
         };
-        igk_appendProp(igk.resources.lang, { "Hello": "Bonjour" });
+        // + | lang to french
+        igk_appendProp(igk.resources.lang, {
+            "Hello": "Bonjour",
+            "Welcome": "Bienvenue",
+            "BalafonJS": "BalafonJS",
+        });
     }
     createNS("igk.system.Db", {
         getIndexedDb: function() {
@@ -7100,6 +7105,7 @@ Name:balafon.js
         },
         createPNS: createPNS,
         getScriptSrc: igk_getScriptSrc,
+        appendProp: igk.appendProperties,
         module() {
             return igk_defineModule.apply(this, arguments);
         },
@@ -7182,18 +7188,6 @@ Name:balafon.js
                 }
             });
             fc.__fullname__ = ns.fullname + '.' + tn;
-            // [x].data = "base";
-            // igk.appendProperties(fc.prototype, {
-            // getTypeFullName: function () {
-            // return ns.fullname + "." + tn;
-            // },
-            // getType:function(){
-            // return tn;
-            // },
-            // isInstanceOf: function (t) {
-            // return this instanceof t;
-            // }
-            // });
             if (typeof(p) == 'string') {
                 var r = igk.system.getNS(p);
                 if (r == null) {
@@ -9942,13 +9936,14 @@ Name:balafon.js
             getCapture: function() { //return the current capture object reference
                 return m_capture;
             },
-            setCapture: function(n) { // set the current capture reference
+            setCapture: function(n, i) { // set the current capture reference
                 // n: target node that handle and capture the mouse. exemple in colorpicker.js script
                 if ((n != null) && (m_capture != n)) {
                     m_capture = n;
-                    if (n.setCapture)
-                        n.setCapture();
-                    else {
+                    let fc = n.setPointerCapture || n.setCapture;
+                    if (fc) {
+                        fc.apply(n, [i]);
+                    } else {
                         //chrome not supporting set capture
                         m_event_capture = true;
                         igk.winui.reg_event(window, "mousemove", __capturemouse);
@@ -9963,12 +9958,25 @@ Name:balafon.js
                     }
                 }
             },
-            releaseCapture: function() { // free capture
-                if (m_capture && m_capture.setCapture) {
-                    m_capture.setCapture(null);
+            releaseCapture: function(e) { // free capture
+                if (!m_capture) {
+                    return;
                 }
-                if (document.releaseCapture)
-                    document.releaseCapture();
+                if (m_capture.setCapture) {
+                    if (m_capture.setPointerCapture) {
+                        m_capture.setPointerCapture(null);
+                    } else {
+                        if (m_capture.setCapture) {
+                            m_capture.setCapture(null);
+                        }
+                    }
+                }
+                if (m_capture.releasePointerCapture) {
+                    m_capture.releasePointerCapture(e);
+                } else {
+                    if (document.releaseCapture)
+                        document.releaseCapture();
+                }
                 if (m_event_capture) {
                     igk.winui.unreg_event(window, "mousemove", __capturemouse);
                     igk.winui.unreg_event(window, "mouseup", __capturemouse);

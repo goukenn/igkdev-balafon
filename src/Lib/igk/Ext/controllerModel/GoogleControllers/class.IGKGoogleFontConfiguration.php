@@ -72,7 +72,7 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     * 
     */
     public function install(){
-        session_write_close();
+        igk_sess_write_close();
         extract(igk_getrs("family", "size"));
 		$k = 0;
 

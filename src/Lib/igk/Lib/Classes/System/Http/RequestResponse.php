@@ -11,6 +11,10 @@ namespace IGK\System\Http;
 use IGK\System\IInjectable;
 use IGKException;
 
+/**
+ * 
+ * @package IGK\System\Http
+ */
 abstract class RequestResponse extends Response implements IInjectable{
  
     /**

@@ -43,7 +43,7 @@ class HtmlNotifyResponse extends HtmlNode{
             $this["class"] = "+anim-autohide";
         }
         if (igk_environment()->isDev()) {
-            $this["title"] = igk_str_ns($this->name);
+            $this["title"] = $this->name;
         } 
     }
     public function getCanAddChilds()

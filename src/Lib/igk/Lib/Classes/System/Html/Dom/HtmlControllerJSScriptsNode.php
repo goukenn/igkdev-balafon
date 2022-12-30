@@ -14,12 +14,14 @@ use IGK\System\IO\StringBuilder;
  * item to auto add controller script node
  * @package IGK\System\Html\Dom
  */
-class HtmlControllerJSScriptsNode extends HtmlNode{
+class HtmlControllerJSScriptsNode extends HtmlNode
+{
 
     static $sm_item;
     use HtmlDocumentOnlyTrait;
 
-    public static function getItem(){
+    public static function getItem()
+    {
         if (self::$sm_item === null)
             self::$sm_item = new static;
         return self::$sm_item;
@@ -27,26 +29,35 @@ class HtmlControllerJSScriptsNode extends HtmlNode{
     private function __construct()
     {
         $this->tagname = "igk-controller-js";
-    } 
+    }
 
-    public function render($options = null):?string{
+    public function render($options = null): ?string
+    {
         $ctrl = ViewHelper::BaseController();
-        if (is_null($ctrl)){
+        if (is_null($ctrl)) {
             return null;
         }
         $gb = realpath($ctrl->getScriptsDir());
-        $is_dev = igk_environment()->isDev();  
+        $is_dev = igk_environment()->isDev();
 
-        $src = HtmlScriptLoader::LoadScripts([
-            [$gb, "ctrl"],
-        ], $options, igk_environment()->isOPS(), 
-        igk_sys_js_exclude_dir(),
-        "ctrljs:/".$ctrl->getName(), 1);
-        $sb = new StringBuilder();
-        $is_dev && $sb->appendLine("<!-- controller:js -->");  
-        $sb->appendLine($src);
-        $is_dev && $sb->appendLine("<!-- end:controller:js -->");
-        return $sb.'';
+        $excludedir = igk_sys_js_exclude_dir(); 
+        $src = HtmlScriptLoader::LoadScripts(
+            [
+                [$gb, "ctrl"],
+            ],
+            $options,
+            igk_environment()->isOPS(),
+            $excludedir,
+            "ctrljs:/" . $ctrl->getName(),
+            1
+        ); 
+        if (!empty($src)) {
+            $sb = new StringBuilder();
+            $is_dev && $sb->appendLine("<!-- controller_js -->");
+            $sb->appendLine($src);
+            $is_dev && $sb->appendLine("<!-- end: controller_js -->");
+            return $sb . '';
+        }
+        return null;
     }
-
 }

@@ -38,7 +38,7 @@ class FtpHelper
                 @ftp_chdir($ftpresourse, $_m);
             }
         }        
-        ftp_chdir($ftpresourse, $bckdir);        
+        @ftp_chdir($ftpresourse, $bckdir);        
         return $r;
     }
 
@@ -65,7 +65,9 @@ class FtpHelper
                     }
                     array_push($sub, $full);
                 }else {
-                    ftp_delete($ftpresourse, $full);
+
+                    $rep = ftp_delete($ftpresourse, $full);
+                    igk_is_debug() && Logger::success("delete : ".$full. " ".$rep);
                 }
             } 
 

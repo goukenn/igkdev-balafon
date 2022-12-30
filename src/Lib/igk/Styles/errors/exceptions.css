@@ -1,0 +1,37 @@
+html,
+body {
+    padding: 0;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {}
+
+.flex {
+    display: flex;
+}
+
+.flex.center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.flex p {
+    align-items: center;
+    border: none;
+    padding: 16px;
+}
+
+.flex p:last-child {
+    border-left: 1px solid black;
+}
+
+body>div {
+    margin: 0 auto -6rem;
+}

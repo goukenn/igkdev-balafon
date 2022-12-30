@@ -141,7 +141,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         if (preg_match("#\.(git(.+)?|".$exclude_file_extension.")$#", $dir)) {
                             return false;
                         }
-                        if (preg_match("#(phpunit(.+(\.(yml|dist)))|\.(vscode|balafon|DS_Store|git(.+)))$#"
+                        if (preg_match("#(phpunit(.+(\.(yml|dist)))|\.(vscode|balafon|DS_Store|git(.+)))|\.(gkds)$#"
                             , $f)) { 
                             return false;
                         }

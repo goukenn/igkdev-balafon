@@ -22,6 +22,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
+use IGK\System\Http\RequestResponse;
 use IGK\System\Http\Route;
 use IGK\System\Http\WebResponse;
 use IGK\System\Traits\InjectableTrait;
@@ -302,7 +303,7 @@ abstract class IGKActionBase implements IActionProcessor
             igk_do_response($rep);  
         }
         if ($this->throwActionNotFound) {
-            throw new ActionNotFoundException("[" . get_class($this) . "]->" . $name);
+            throw new ActionNotFoundException(sprintf("[%s]->%s(...)", get_class($this), $name));
         }
         return false;
     }
@@ -387,7 +388,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + | by default in ajx context and not null 
         // + |
         
-        return (igk_is_ajx_demand() && !is_null($response));
+        return (igk_is_ajx_demand() && !is_null($response)) || ($response instanceof RequestResponse);
     }
     /**
      * Handle action

@@ -18,7 +18,13 @@ class ReplacementObject{
     var $pattern;
     /**
      * replace with data
-     * @var ?string
+     * @var ?string|callable
      */
     var $replace;
+
+    /**
+     * add a callable 
+     * @var ?string
+     */
+    var $type;
 }

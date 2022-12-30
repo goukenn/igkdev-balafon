@@ -92,8 +92,9 @@ class HtmlScriptLoader{
             $resolverfc = function ($f) use ($resolver, &$s, &$tag, $lf, $tabstop, $defer) {               
                 $g = basename($f); 
                 if (strpos($g, ".") === 0){
+                    // + | ignore hidden file
                    return;
-                }
+                } 
                 $ext = Path::GetExtension($f);
                 $u = $resolver->resolve($f);
                 switch (($ext)) {
@@ -137,6 +138,10 @@ class HtmlScriptLoader{
         while ($q = array_shift($tab)) {
             $dir = $q[0];
             $tag = $q[1];
+            if (key_exists($dir, $exclude_dir)){
+                continue;
+            }
+
             $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir);
 
             if (!$no_page_cache && file_exists($cache_path)) {

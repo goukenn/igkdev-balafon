@@ -34,6 +34,11 @@ class Replacement{
      */
     public function replace(string $source): string{
         foreach($this->infos as $v){
+            if ($v->type == 'callback'){
+                $g = $v->replace;
+                $source = preg_replace_callback($v->pattern, $g, $source);
+                continue;
+            }
             if (preg_match($v->pattern, $source)){
                 $source = preg_replace($v->pattern, $v->replace, $source);
             }
@@ -50,6 +55,13 @@ class Replacement{
         $rp = new ReplacementObject();
         $rp->pattern = $pattern;
         $rp->replace = $replace;
+        $this->infos[] = $rp;
+    }
+    public function addCallable(string $pattern, callable $callback){
+        $rp = new ReplacementObject();
+        $rp->pattern = $pattern;
+        $rp->replace = $callback;
+        $rp->type = 'callback';
         $this->infos[] = $rp;
     }
     public function clear(){

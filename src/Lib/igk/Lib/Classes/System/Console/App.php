@@ -11,6 +11,7 @@ use IGK\System\Configuration\XPathConfig;
 use Closure;
 use Exception;
 use IGK\Helper\IO;
+use IGK\System\Console\Commands\InitCommand;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKAppType;
 use IGKException;
@@ -89,6 +90,13 @@ class App{
         $app->configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));        
         $app->boot();
+
+        if (!file_exists(AppCommandConstant::GetCacheFile())){
+            $v_cmd = self::CreateCommand($app);
+            $cmd = new InitCommand();
+            $cmd->exec($v_cmd);  
+            unset($v_cmd);
+        }
 
         $command_args = AppCommand::GetCommands($app);
 
@@ -341,5 +349,15 @@ class App{
     { 
     }
 
-    
+    /**
+     * 
+     * @param App $app 
+     * @return object 
+     */
+    public static function CreateCommand(App $app){
+        return (object)[
+            "app"=>$app,
+            "options"=>(object)[]
+        ];
+    }
 }

@@ -701,6 +701,7 @@ igk.ready(function() {
 // code view surface
 // ----------------------------------------------------------
 (function() {
+    const _R = igk.resources.lang;
     var m_types = ['css', 'php', 'csharp', 'html', 'xml'];
     var m_codes = []; // store code object that currently been transformed
     var m_reg = (function(t) {
@@ -763,14 +764,21 @@ igk.ready(function() {
                 })
                 .on("click", function() {
                     igk.ClipBoard.writeText(s);
+
+                    igk.winui.controls.toast.show(_R("item copied to clipboard"), "igk-success");
+                    // let n = $igk(document.createElement('div'));
+                    // n.addClass('igk-winui-toast');
+                    // n.setHtml("item copied to clipboard");
+                    // n.o.setAttribute("noHide", false);
+                    // igk.dom.body().add(n);
+                    // return n;
                 })
                 .add(igk.svg.useSvg('copy-outline'));
-
-
             q.on('scroll', function(e) {
                 let r = '-' + (q.o.scrollLeft) + 'px';
                 block.o.style.right = r;
             });
+            q.init();
         }
         var m = null;
         if (c) {
@@ -1288,6 +1296,7 @@ igk.ready(function() {
         var d = document.getElementsByTagName('html')[0];
         return d.getAttribute('data-theme');
     }
+    var dynStyle = null;
     igk.system.createNS("igk.css", {
         changeDocumentTheme(n) {
             var d = document.getElementsByTagName('html')[0];
@@ -1593,6 +1602,22 @@ igk.ready(function() {
              * return css properties to check
              */
             return {};
+        },
+        appendDynamicRule(rule, style) {
+            dynStyle = dynStyle || ((document.styleSheets.length > 0) ? document.styleSheets[document.styleSheets.length - 1] : (function() {
+                q = igk.dom.body().add("style");
+                q.o["type"] = "text/css";
+                return q.o.style;
+            })());
+
+            dynStyle.addRule(rule, style);
+        },
+        rmDynamicRule() {
+            if (dynStyle) {
+                //$igk(dynStyle).remove();
+                dynStyle = null;
+                console.log("remove dynStyle");
+            }
         }
     });
     igk.defineProperty(igk.css, "rule", { get: function() { return rule; } });
@@ -5783,11 +5808,12 @@ igk.system.createNS("igk.system", {
 })();
 (function() {
     // auto hide core component
-    igk.winui.initClassControl("anim-autohide", function(c) {
+    igk.winui.initClassControl("anim-autohide", function() {
         var q = this;
         q.reg_event("animationend", function(e) {
+            console.log("anim end", e);
             if (e.animationName == "anim-autohide") {
-                this.remove();
+                q.remove();
             }
         });
     });

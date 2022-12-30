@@ -5,6 +5,7 @@
 namespace IGK\DocumentParser\Controllers;
 
 use IGK\Controllers\BaseController;
+use IGK\System\IO\Path;
 
 ///<summary></summary>
 /**
@@ -26,14 +27,21 @@ class DocumentParserExportViewController extends BaseController{
     }
     public function getViewDir()
     {
-        return $this->m_outdir;
+        return Path::Combine($this->m_outdir, "/Views/");
     }
     public function getDataDir()
     {
-        return $this->m_outdir;
+        return Path::Combine($this->m_outdir, "/Data/");
     }
     public function getStylesDir()
     {        
+        return Path::Combine($this->m_outdir, "/Styles/");
+    }
+    public function getDeclaredDir(): string
+    {
         return $this->m_outdir;
+    }
+    public function getAssetsDir(){
+        return Path::Combine($this->getDataDir(), "/assets");
     }
 }

@@ -132,14 +132,14 @@ class ViewEnvironmentArgs implements ArrayAccess{
     var $auth;
 
     /**
-     * define entry uri
-     * @var mixed
+     * full entry uri
+     * @var ?string
      */
     var $entry_uri;
 
     /**
      * base directory 
-     * @var mixed
+     * @var ?string
      */
     var $dir;
 
@@ -161,6 +161,11 @@ class ViewEnvironmentArgs implements ArrayAccess{
      */
     var $action_handler;
 
+    /**
+     * session data
+     * @var ?IGKSession
+     */
+    var $session;
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -192,7 +197,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $ob_level = ob_get_level();
         $controller->_get_extra_args($file);
         if (!isset($layout))
-            $layout = $controller->getViewLoader();  
+            $layout = $controller->getViewLoader(); 
+        $session = igk_app()->getSession(); 
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

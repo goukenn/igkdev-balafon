@@ -18,10 +18,11 @@ class Uri
     const TEMP_ENV_KEY = "sys://temp_uri";
     private $m_protocol;
     private $m_domain;
+    private $m_port;
     private $m_path;
-    private $m_query;
-    private $m_segment;
+    private $m_query; 
     private $m_options;
+    private $m_fragment;
     /**
      * build a query arg query
      * @param mixed $uri 
@@ -63,6 +64,19 @@ class Uri
         return $cpath;
     }
 
+    public static function FromParseUrl(array $data){
+        $url = "";
+        $url = implode("", array_filter([
+            ($q = igk_getv($data, "scheme"))? $q."://" : null ,
+            ($host = igk_getv($data, "host"))? $host : null ,
+            ($q = igk_getv($data, "port"))? ":".$q : null ,
+            ($host ? "/" : null),
+            ($q = igk_getv($data, "path"))?  $q : null ,
+            ($q = igk_getv($data, "query"))? "?".$q : null 
+        ]));
+        return new Uri($url);
+
+    }
     public static function get(string $name, $default = null)
     {
         return igk_environment()->getArray(self::TEMP_ENV_KEY, $name, $default);
@@ -86,6 +100,8 @@ class Uri
         $n->m_domain = igk_getv($g, "host");
         $n->m_path = igk_getv($g, "path");
         $n->m_protocol = igk_getv($g, "scheme");
+        $n->m_port = igk_getv($g, "port");
+        $n->m_query = igk_getv($g, "query");
     }
     /**
      * get site uri. combine protocol and domain name
@@ -95,7 +111,8 @@ class Uri
     {
         return implode("", array_filter([
             ($this->m_protocol && $this->m_domain) ? $this->m_protocol . "://" : ($this->m_domain ?  "//" : null),
-            $this->m_domain
+            $this->m_domain,
+            (($this->m_port)? ":".$this->m_port:null),
         ]));
     }
     /**

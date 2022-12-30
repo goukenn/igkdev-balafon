@@ -12,6 +12,7 @@ use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\ActionNotFoundException;
+use IGK\System\IO\Path;
 use IGKApp;
 use IGKException;
 use IGKObject;
@@ -245,7 +246,7 @@ abstract class RootControllerBase extends IGKObject{
         }
         $v_buri = igk_io_baseuri() ?? '';
         if($function && $v_buri)
-            return rtrim($v_buri, '/')."/".$function;
+            return igk_uri(Path::Combine($v_buri, $function));
         return $v_buri;
     }
     ///<summary></summary>

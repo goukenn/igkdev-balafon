@@ -622,7 +622,7 @@ function igk_api_mysql_mysql_help($api){
     foreach($tab["name"] as $v){
         $ul->li()->add("a")->setAttribute("href", $api->getAppUri("mysql/".$v))->Content=$v;
     }
-    $dv->menu([])
+    $dv->menus([])
     ->setAttributes(array("type"=>"context", "id"=>"action"))
         ->addmenuitem()->setAttributes([
     "accesskey"=>1,

@@ -69,7 +69,7 @@ abstract class Utility {
      * @return mixed 
      * @throws Exception 
      */
-    public static function To_JSON($raw , $options=null, $json_option = 0){
+    public static function To_JSON($raw , $options=null, $json_option = JSON_UNESCAPED_SLASHES){
         $ignoreempty = igk_getv($options, "ignore_empty", 0);
         $default_output = igk_getv($options, "default_ouput", "{}");
         if(is_string($raw)){
@@ -82,6 +82,8 @@ abstract class Utility {
             }else 
             return $default_output;
         }  
+        // + | backup raw temp 
+        $is_array = is_array($raw);
         $tab = [["r"=>$raw, "t"=>new stdClass()]];
         $root = null;
         while($m = array_shift($tab)){            
@@ -121,6 +123,9 @@ abstract class Utility {
                     }
                 } 
             }
+        }
+        if ($is_array && $root){
+            $root = (array)$root;
         }
         return json_encode($root, $json_option);
     }

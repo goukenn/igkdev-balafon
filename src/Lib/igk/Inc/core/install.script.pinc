@@ -294,7 +294,7 @@ if ($archive->open($corelib)) {
         igk_io_rmdir($temp_dir);
         unset($temp_dir);
         if (isset($app_dir)) {
-            $steps[] = "clear caches";
+            $steps[] = "clear cache";
             $app_dir = implode("/", [$home, trim($app_dir, "/")]);
             igk_io_rmdir($app_dir . "/.Caches");
         }

@@ -112,7 +112,8 @@ class MakeActionCommand extends AppExecCommand{
         };
 
         CommandsUtility::BindFiles($command, $bind, property_exists($command->options, "--force"));
-        \IGK\Helper\SysUtils::ClearCache(); 
+        if(property_exists($command->options, "--clearcache" ))
+            \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("Done - Make Action");
     }
     private function _getContent(){

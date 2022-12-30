@@ -110,14 +110,14 @@ class IGKResourceUriResolver
     }
     ///<summary>resolve existing file to asset resources</summary>
     /**
-     * resolve uri
-     * @param mixed $uri 
+     * resolve path
+     * @param mixed $uri path to resolve
      * @param mixed $options hashed| to hash path key
      * @param int $generate 
      * @return null|string 
      * @throws IGKException 
      */
-    public function resolve(string $uri, $options = null, $generate = 1)
+    public function resolve(string $uri, $options = null, $generate = 1) : ?string
     {
         static $appData = null;
         if (empty($uri))
@@ -129,17 +129,7 @@ class IGKResourceUriResolver
         $chainRes = function ($rp, $j, $n, &$chain) use ($generate, $options) {
             $options = $this->m_options;
             $chain = $this->__hashResPath($j, $n, $options);
-            //  igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
-            // if (!is_null($this->m_hashPath) && igk_getv($options, "hashed")) {
-            //     if (strpos($chain, $this->m_hashPath) === 0) {
-            //         $dir = substr($chain, strlen($this->m_hashPath)+1);
-            //         $v_path = substr($chain, strlen(IGK_RES_FOLDER . "/" . $j ), strlen($this->m_hashPath) - strlen(IGK_RES_FOLDER . "/" . $j ));
-            //         if (strstr($this->m_hashPath, $chain)) {
-            //             // hash no 
-            //             $chain = implode("/", array_filter([IGK_RES_FOLDER , $j , sha1($v_path), $dir]));
-            //         }
-            //     }
-            // }
+           
             $o = igk_io_basedir($chain);
             if ($generate) {
                 if (!file_exists($o) && !is_link($o)) {
@@ -182,9 +172,7 @@ class IGKResourceUriResolver
             $query = "?" . implode("?", array_slice($buri, 1));
         }
         $bdir = igk_io_basedir();
-        $uri = igk_uri($uri);
-
-
+        $uri = igk_uri($uri); 
         if (igk_io_is_subdir($bdir, $uri)) {
             $n_uri = igk_html_get_system_uri($uri, $options) . $query;
             return $n_uri;
@@ -262,7 +250,7 @@ class IGKResourceUriResolver
                 $i = 0;
             $appData = $i;
         }
-        if (!$appData && (($pos = strpos(igk_uri($uri), IGK_LIB_DIR)) === 0)) {
+        if (!$appData && ((strpos(igk_uri($uri), IGK_LIB_DIR)) === 0)) {
             $v = ltrim(substr($uri, strlen(IGK_LIB_DIR)), "/");
             return igk_io_libdiruri($rp, $options) . $v . $query;
         }

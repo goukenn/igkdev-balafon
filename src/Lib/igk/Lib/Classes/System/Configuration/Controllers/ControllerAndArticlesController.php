@@ -1985,6 +1985,7 @@ EOF;
             $t->addReplaceUri();
             $b = $t->div();
             igk_html_article($this, "controller_and_article", $b);
+            $t->div()->Content = igk_io_projectdir();
             $dv = $t->div()->setClass("gc-v");
             $v_tabc = $dv->addComponent($this, HtmlComponents::AJXTabControl, "tab", 1);
             $v_tabc->clearChilds();

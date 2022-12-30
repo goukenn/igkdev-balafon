@@ -127,7 +127,7 @@ class session extends \IGKLibraryBase{
      * @return void 
      */
     public function close(){
-        @session_write_close();
+        @igk_sess_write_close();
     }
     /**
      * destroy session
@@ -172,7 +172,7 @@ class session extends \IGKLibraryBase{
         $m_sid = session_id();
         if (empty($m_sid))
             return false;
-        session_write_close();
+        igk_sess_write_close();
         $_SESSION  =[];
         $this->restart($newid);
         return count($_SESSION);

@@ -46,7 +46,11 @@ final class Server{
         $v=($v_srddr == "::1") || ($v_saddr == $v_srddr) || ($v_saddr && preg_match("/^127\.(.)/i", $v_saddr));
         return $v;
     }
-    ///<summary></summary>
+    ///<summary>get remote ip</summary>
+    /**
+     * get remote ip
+     * @return mixed 
+     */
     public static function RemoteIp(){
         return self::getInstance()->REMOTE_ADDR;
     }

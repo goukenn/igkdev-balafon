@@ -232,7 +232,7 @@ final class HtmlReader extends IGKObject
                 switch($ch){
                     case '<':
                         $stag = 1;
-                        $tpos = $offset;
+                        $tpos = strlen($v); //$offset;
                         break;
                     case '>':
                         if ($stag == 2){
@@ -273,9 +273,10 @@ final class HtmlReader extends IGKObject
                         $ch = '';
                     break;
                     case ' ':
-                        if ($skip_space ){
-                            $ch ='';
+                        if (!$skip_space ){
+                            $v .= $ch;
                         }
+                        $ch ='';
                         $skip_space = 1;
                         break;
                     case "\t":
@@ -301,7 +302,7 @@ final class HtmlReader extends IGKObject
                 // }
             }
             if (!$end)
-                $v = substr($v, 0, $tpos-$bpos);
+                $v = trim(substr($v, 0, $tpos));
             return $v;
 
         }

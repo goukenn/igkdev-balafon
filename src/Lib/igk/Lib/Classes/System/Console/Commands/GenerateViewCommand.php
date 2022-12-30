@@ -18,7 +18,9 @@ class GenerateViewCommand extends AppExecCommand{
     var $options = [
         "--shared"=>"flag: share resources"
     ];
-    var $cat = "tools";
+    var $category = "tools";
+    var $desc = "generate view";
+
 
     public function showUsage(){
         Logger::print(sprintf("%s controller domain [view]", $this->command));
@@ -30,7 +32,7 @@ class GenerateViewCommand extends AppExecCommand{
             igk_die("domain require");
         }
         $g = new DocumentParser;
-        $g->domain = $domain; 
+        $g->uri = $domain; 
         $g->controller = $controller;  
         $g->standalone = property_exists('--shared', $command->options) ? false : true;
 

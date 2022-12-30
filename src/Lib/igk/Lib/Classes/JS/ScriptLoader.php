@@ -36,7 +36,7 @@ class ScriptLoader{
     * @param  $created
     */
     public function Load($doc, $folder, $created){
-        $is_prod=igk_environment()->is("production");
+        $is_prod=igk_environment()->isOPS();
         $files=igk_io_getfiles($this->ctrl->getScriptsDir(), "/\.js$/");
         if(!$is_prod){
             $cache_js=array();

@@ -52,14 +52,11 @@ class ViewHelper
                 return $handler::Form($name, $options);
             }
         }
-        return function($n){
+        return function($n)use($handler){
             if (!igk_environment()->isOPS()){
                 $pan = $n->div()->panel('igk-danger');
-                $pan->Content = __('Action handler not found');
-                $pan->div()->Content = "[".$n."]";
-                igk_trace();
-                igk_exit();
-                $n->div()->Content =  self::GetViewArgs("action_handler");
+                $pan->Content = __('Action handler not found'); 
+                $n->div()->Content =  'Action : '.$handler;
             }
         };
     }
@@ -209,8 +206,12 @@ class ViewHelper
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
-            $g = igk_io_base_request_uri();
-            $entry_is_dir = (strlen($g) > 0) && ($g[0] == "/");
+            $g =igk_io_request_uri();
+            $entry_is_dir = (strlen($g) > 0) && 
+                ($g == '/'.$fname.'/')
+                ;// ($g[0] == "/");
+            // igk_wln_e($g, igk_io_request_uri());
+            // igk_wln_e(__FILE__.":".__LINE__,  "check subdomain entries , " , $appuri, $g, $entry_is_dir,  "=".substr($ruri, strlen($buri)) );
         } else {
             $s = "";
             if (strstr($ruri, $buri)) {
@@ -244,9 +245,12 @@ class ViewHelper
      * @throws IGKException 
      * @throws Deprecated 
      */
-    public static function Dir(?string $path=null)
-    {        
-        return dirname(self::File()).($path ? $path : "");
+    public static function Dir(?string $path=null): ?string
+    {   
+        if ($file = self::File()){
+            return dirname($file).($path ? $path : "");
+        }
+        return null;
     }
     /**
      * get current controller

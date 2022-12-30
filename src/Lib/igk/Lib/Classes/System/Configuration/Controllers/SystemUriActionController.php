@@ -76,7 +76,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $uri=igk_getr("uri");
         $param=igk_getr("param");
         $src=igk_getr("source");
-        session_write_close();
+        igk_sess_write_close();
         if($ctrl !== $this){
             $e=igk_sys_ac_create_pattern($ctrl, $uri);
             $cp=$e->getQueryParams();

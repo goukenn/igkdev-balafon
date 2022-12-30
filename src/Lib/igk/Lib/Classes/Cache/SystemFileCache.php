@@ -63,9 +63,10 @@ class SystemFileCache extends CommonCache{
         $date=igk_date_now();
         $out=implode("\n", ["<?php", "// Balafon lib cache - auto generate", "// @author: C.A.D. BONDJE DOUE", "// date : {$date}", "${init}", "${src}", !empty($data) ? 
         implode("\n", ["foreach([{$data}] as \$k){",
-            "    if (file_exists(\$c = igk_io_expand_path(\$k))){", 
-            "        require_once(\$c);", "    }", 
-            "    else die(\"Cache corruption. File not found: \".\$k);", "}"
+            "if (file_exists(\$c = igk_io_expand_path(\$k))){", 
+            "    require_once(\$c);",
+            "}", 
+            "else die(\"Cache corruption. File not found: \".\$k);", "}"
             ]): "", "${restore}", ]);
         igk_invalidate_opcache($f);
         igk_io_w2file($f, $out);

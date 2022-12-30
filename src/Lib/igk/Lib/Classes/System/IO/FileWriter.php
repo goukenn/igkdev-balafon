@@ -81,6 +81,8 @@ class FileWriter{
         }
         if (is_dir($dirname))
             return true;
+    
+        
         $pdir=array($dirname);
         $s_mode = is_string($mode) ? octdec($mode) : $mode;
         $is_unix = igk_environment()->isUnix();
@@ -92,7 +94,7 @@ class FileWriter{
             $p=dirname($dirname);
             if(empty($p))
                 continue;
-            if(is_dir($p) && !is_file($dirname) && !is_dir($dirname) ){ 
+            if(is_dir($p) && $dirname && !is_file($dirname) && !is_dir($dirname) ){ 
                 if (@mkdir($dirname)){
                     if ($is_unix){
                         chmod($dirname, $s_mode);

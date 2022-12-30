@@ -556,7 +556,7 @@ EOF;
         IGKRoutes::Register(
             "^/!@res/(/)?google/cssfont" . IGK_REG_ACTION_METH . "[%q%]",
             function ($u, $f) {
-                @session_write_close();
+                @igk_sess_write_close();
                 $fdir = igk_google_get_fontdir();
                 $file = igk_dir($fdir . $f);
                 if (file_exists($file)) {
@@ -583,7 +583,7 @@ EOF;
             IGKRoutes::Register(
                 "^/!@res/(/)?getgooglefont[%q%]",
                 function ($c) {
-                    @session_write_close();
+                    @igk_sess_write_close();
                     header("Content-Type: text/css");
                     if (is_array($c)) {
                         $c = igk_getv($c, "query");

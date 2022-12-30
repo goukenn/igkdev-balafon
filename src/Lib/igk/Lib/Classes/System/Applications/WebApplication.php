@@ -58,11 +58,14 @@ class WebApplication extends IGKApplicationBase
             header_remove(null); 
         } 
         // 
-        // + |  before init application dispactch to uri handler 
+        // + |  before init application dispatch to uri handler 
         // $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
         // isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
-
+        
         IGKApp::Init();  
+
+      
+      
 
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
         isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
@@ -76,6 +79,9 @@ class WebApplication extends IGKApplicationBase
         // resource management
         require_once IGK_LIB_CLASSES_DIR.'/Resources/R.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
+
+   
+
         // bootstrap web application
         // + initialize library
         $this->library("subdomain");
@@ -84,6 +90,13 @@ class WebApplication extends IGKApplicationBase
         $this->library("zip");
         $this->library("gd");
         $this->library("curl");
+        
+        if ($loader){
+            $loader();
+            if (!file_exists(igk_io_applicationdir()."/Data/configure")){          
+                igk_initenv(igk_io_applicationdir(), igk_app());
+            }
+        }
         igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
             $fdir = igk_io_cacheddist_jsdir();
             $access = $fdir . "/.htaccess";
@@ -119,6 +132,8 @@ class WebApplication extends IGKApplicationBase
             igk_internal_reslinkaccess();
         });
 
+       
+
         // + | --------------------------------------------------------------------
         // + | boot modules
         // + |
@@ -131,7 +146,9 @@ class WebApplication extends IGKApplicationBase
             if ($c = $options->controller) {
                 $this->setDefaultController($c);
             }
-        }  
+        }
+        
+    
     }
     /**
      * shortcut to set system default controller

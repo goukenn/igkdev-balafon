@@ -22,8 +22,9 @@ class Engine{
      * @return void 
      */
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
+
         $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);
-        $a->Content = $text;
+        $a->Content = $text; 
         igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
     }
 

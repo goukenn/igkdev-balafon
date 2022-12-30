@@ -44,6 +44,17 @@ class ViewDocumentHandler implements IViewCompilerArgument{
         throw new NotImplementException(__CLASS__."::".$name);
     }
     
-
+    public function addTempStyle(){
+        $n = igk_create_node('link');
+        $n["rel"] = "stylesheet";
+        return $n;
+    }
+    public function addTempScript(){
+        $n = igk_create_node('script');
+        return $n;
+    }
+    public function getBody(){
+        return $this->body;
+    }
     
 }

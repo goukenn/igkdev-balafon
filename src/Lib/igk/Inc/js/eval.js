@@ -30,7 +30,7 @@
                     }
                 } catch (e) {
                     // + | handling error 
-                    console.error('Error:igk-winui-balafon-js-inc');
+                    console.error('Error:igk-winui-balafon-js-inc : ' + e.message);
 
                     // console.debug('message: ' + e.message, e.lineNumber + ":" + e.columnNumber);
                     // // view message rule

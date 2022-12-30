@@ -140,7 +140,7 @@ class subdomain{
                 if(igk_server()->REQUEST_PATH == '/'){
                     $msg=__("Subdomain not accessible : {0}", $s);
                     if($def_ctrl=igk_get_defaultwebpagectrl()){
-                        $def_ctrl->handleException(new IGKException($msg, 500), "subomain"); //.$def_ctrl->getTitle());
+                        $def_ctrl->handleException(new IGKException($msg, 500), "subdomain error"); //.$def_ctrl->getTitle());
                     }
                     else{
                         igk_set_header(500);

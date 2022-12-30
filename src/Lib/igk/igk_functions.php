@@ -2367,8 +2367,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
 
     /// TODO:: CSS RUNNING
 
-    $sess_id = session_id();
-    // @session_write_close();    
+    $sess_id = session_id();   
     $debug = $debug ?? (igk_environment()->isDev() || igk_server_is_local());
     $minfile = is_null($minfile) ? igk_environment()->isOPS() : $minfile;
     $ctrl = null;
@@ -2501,7 +2500,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         $v_tempFiles = $vdef->getTempFiles(1);
         $seridata = $vtheme->to_array();
         $vtheme->reset();
-        @session_write_close();       
+        igk_sess_write_close();       
 
         $vtheme->load_data($seridata);
         // + | ----------------------------------------------------
@@ -2530,7 +2529,7 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
             $doc->getId(),
             "sys:global",
             true,
-            false,
+            true,
             false,
             null
         );
@@ -3368,14 +3367,7 @@ function igk_css_load_theme($th = null)
     $t["prop"] = &$th->def->getParams();
     igk_include_file($f, $t);
 }
-///<summary>minify css code source</summary>
-/**
- * minify css code source
- */
-function igk_css_minify($s)
-{
-    return igk_js_minify($s, 0, " :\{\}()");
-}
+ 
 ///<summary>bind css inline file</summary>
 ///<param name="f">full path to pcss file</param>
 /**
@@ -7242,7 +7234,7 @@ function igk_dispatch_call($callable, $obj, $method, $args = array())
 function igk_dispatch_message($source, $c, $params)
 {
     $bck = array("sess_id" => session_id(), "sess" => $_SESSION);
-    session_write_close();
+    igk_sess_write_close();
     $actionctrl = igk_getctrl(IGK_SYSACTION_CTRL);
     $uri = igk_io_baseuri() . "/" . $actionctrl->getUri("dispatchMessage");
     igk_wln(igk_curl_post_uri($uri, array(
@@ -7412,7 +7404,7 @@ function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
 {
     $options = "";
     $created = 0;
-    $is_prod = igk_environment()->is("production");
+    $is_prod = igk_environment()->isOPS();
     if (is_array($folder)) {
         $btab = $folder;
         $folder = igk_getv($btab, "folder");
@@ -8338,7 +8330,7 @@ function igk_get_all_sessions()
     $prefix = igk_get_session_prefix();
     $ssid = session_id();
     $v_capp = igk_app();
-    session_write_close();
+    igk_sess_write_close();
     $sess_key = IGK_APP_SESSION_KEY;
     $_SESSION[$sess_key] = null;
     if (is_dir($d)) {
@@ -8356,7 +8348,7 @@ function igk_get_all_sessions()
                     igk_bind_session_id($id);
                     session_start();
                     $app = $_SESSION[$sess_key];
-                    session_write_close();
+                    igk_sess_write_close();
                     unset($_SESSION[$sess_key]);
                 }
                 if ($app) {
@@ -14337,7 +14329,7 @@ function igk_invoke_in_session($sid, $callback)
     igk_bind_session_id($sid);
     session_start();
     $o = $callback($app);
-    session_write_close();
+    igk_sess_write_close();
     return $o;
 }
 ///<summary></summary>
@@ -15691,11 +15683,11 @@ function igk_io_realpath($dir)
 ///<param name="spath"></param>
 ///<param name="link"></param>
 /**
- * Represente igk_io_relativepath function
- * @param mixed $spath 
- * @param mixed $link 
+ * helper: get relative link
+ * @param string $spath source path
+ * @param string $link target path
  */
-function igk_io_relativepath($path, $link)
+function igk_io_relativepath(string $path, string $link)
 {
     return Path::getInstance()->relativepath($path, $link);
 }
@@ -16921,7 +16913,7 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
 
     $resolver = IGKResourceUriResolver::getInstance();
     $callback = function ($f) use ($resolver) {
-        if (!igk_environment()->is("production")) {
+        if (!igk_environment()->isOPS()) {
             $h = $resolver->resolve($f);
         }
     };
@@ -17368,7 +17360,7 @@ function igk_kill_all_sessions($exclude = null, &$outtab = null)
     $i = 0;
     if (!empty($d) && is_dir($d)) {
         $outtab = $outtab ?? array();
-        session_write_close();
+        igk_sess_write_close();
         $_SESSION = array();
         $_COOKIE = array();
         $f = IO::GetFiles($d, "/^(.)+$/i", false);
@@ -17454,23 +17446,23 @@ function igk_load_classes($tab = [])
     }
     return true;
 }
-///<summary></summary>
-///<param name="dirname"></param>
+///<summary>helper: load controllers </summary>
+///<param name="$dirname">root directory</param>
 /**
- * 
- * @param mixed $dirname 
+ * helper: load controllers 
+ * @param mixed $dirname root directory 
  */
-function igk_loadcontroller($dirname)
+function igk_loadcontroller(string $dirname)
 {
     return igk_loadlib($dirname, ".php");
 }
 ///<summary></summary>
 ///<param name="uri"></param>
 /**
- * 
+ * helper: load request from uri
  * @param mixed $uri 
  */
-function igk_loadr($uri)
+function igk_loadr(string $uri)
 {
     if (count($uri) == 0)
         return;
@@ -17690,12 +17682,18 @@ function igk_mail_stylesheet()
  * Represente igk_map_array_to_str function
  * @param mixed $tab 
  */
-function igk_map_array_to_str($tab)
+function igk_map_array_to_str($tab, $usekey=true)
 {
     $m = "";
     array_map(
-        function ($v, $k) use (&$m) {
-            $m .= '"' . $k . '"=>';
+        function ($v, $k) use (&$m, $usekey) {
+            if ($usekey){
+                if (is_numeric($k)){
+                    $m .=  $k . '=>';
+                }else{
+                    $m .= '"' . $k . '"=>';
+                }
+            }
             if (is_numeric($v)) {
                 $m .= $v;
             } else if (is_string($v)) {
@@ -17707,7 +17705,7 @@ function igk_map_array_to_str($tab)
                     if (is_array($v)) {
                         $m .= json_encode($v);
                     } else {
-                        $m .= $v;
+                        $m .= '"' .$v. '"';
                     }
                 }
             }
@@ -18183,7 +18181,10 @@ function igk_notifyctrl($name = null)
  */
 function igk_ns_name($ns)
 {
-    $ns = implode("", array_map("ucfirst", explode("-", $ns)));
+    $txt = explode("-", $ns);
+    $g = array_slice($txt, 1);
+    $txt = array_splice($txt, 0, 1);
+    $ns = implode("", $txt + array_map("ucfirst", $g));
     return str_replace("/", "\\", $ns);
 }
 ///<summary>clean ob</summary>
@@ -20180,7 +20181,7 @@ function igk_session_update($id, $callback, $close = 1)
     @session_start();
     $callback($id, igk_app());
     if ($close)
-        session_write_close();
+        igk_sess_write_close();
 }
 ///<summary></summary>
 ///<param name="n"></param>
@@ -22569,7 +22570,9 @@ function igk_svg_bindfile($name, $file)
  */
 function igk_svg_callable_list($n, $m)
 {
-    igk_wln_e("loading ......." . __FUNCTION__ . " deprecated");
+    igk_dev_wln_e(
+        __FILE__.":".__LINE__,
+         "loading ......." . __FUNCTION__ . " deprecated");
     // $c = $m->getParam("sys://svg/lists");
     // $g = $m->getParam("sys://svg/file");
     // if ((!$c || igk_count($c) == 0) || !$g) {
@@ -23425,7 +23428,10 @@ function igk_sys_get_all_openedsessionid($checksize = true)
 {
     $tab = array();
     $d = ini_get("session.save_path");
-    if (is_dir($d)) {
+    if (empty($d)){
+        $d = defined('IGK_SESS_DIR')? constant('IGK_SESS_DIR') : null;
+    }
+    if ($d && is_dir($d)) {
         $f = IO::GetFiles($d, "/^(.)+$/i", false);
         if ($f) {
             foreach ($f as $v) {

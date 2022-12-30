@@ -24,10 +24,10 @@ class ClearSessionCommand extends AppExecCommand{
          * @var SessionController $sess
          */
         if ($sess = igk_getctrl(IGK_SESSION_CTRL, false)){
-            Logger::info("Clearing session");
             $tab=igk_sys_get_all_openedsessionid(false);           
+            Logger::info("Clearing session ...".count($tab));
             // $cid=session_id();
-            @session_write_close();
+            @igk_sess_write_close();
             $c=0;
             foreach($tab as $k=>$v){
                 Logger::info("remove ". $v["file"]);

@@ -31,12 +31,16 @@ function igk_subdomain_fc_inflate($tab, $t, $data=null, $mode=1){
     $dv->addLabel('clCtrl')->Content=R::Gets("Controller");
     $sl=$dv->add("select");
     $sl->setId("clCtrl");
-    $sl->setClass("igk-form-control")->setStyle("margin-bottom:1em");
+    $sl->setClass("igk-form-control");
     $ctrl=$data ? $data->clCtrl: null;
+    usort($tab["@base"], function($a , $b){
+        return strcasecmp($a->getName(), $b->getName());
+    });
     foreach($tab["@base"] as  $v){
+        $n = $v->getName();
         $opt=$sl->add("option");
-        $opt->Content=$v->Name;
-        $opt["value"]=$v->Name;
+        $opt->Content=$n;
+        $opt["value"]=$n;
         $opt["class"]="b";
         if($v->Name == $ctrl){
             $opt["selected"]="1";
@@ -48,8 +52,8 @@ function igk_subdomain_fc_inflate($tab, $t, $data=null, $mode=1){
         $rv=$sl->div();
         foreach($g as  $v){
             $opt=$rv->add("option");
-            $opt->Content=$v;
-            $opt["value"]=$v;
+            $opt->Content= "template : ".$v;
+            $opt["value"]= $v;
             $opt["class"]="t";
             if($v == $ctrl){
                 $opt["selected"]="1";

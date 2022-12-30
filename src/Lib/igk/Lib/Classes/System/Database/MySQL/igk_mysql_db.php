@@ -111,7 +111,7 @@ function igk_db_escape_string($v, $r = null)
         $b = $r ; 
         if ($b) {
             if (is_array($v)) {
-                if (!igk_environment()->is("production")) {
+                if (!igk_environment()->isOPS()) {
                     igk_trace();
                     var_dump($v);
                     igk_wln_e("Passing Array not allowed", $v);

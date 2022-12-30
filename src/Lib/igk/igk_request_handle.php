@@ -35,7 +35,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
         igk_set_header(404);
         igk_exit();
     } 
-    session_write_close(); 
+    igk_sess_write_close(); 
     $generate_source = "igk_sys_balafon_js";  
 
     $accept = igk_server()->accepts(["gzip", "deflate"]);
@@ -92,7 +92,7 @@ IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($
     $fc=igk_getv(explode("?", $fc), 0);
     $key="scripts/".$fc;
     $dir=$doc->getParam($key);
-    session_write_close();
+    igk_sess_write_close();
     $strict=igk_getr("strict");
     if(empty($dir)){
         igk_set_header(500);

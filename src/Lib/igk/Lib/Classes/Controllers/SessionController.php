@@ -37,7 +37,7 @@ final class SessionController extends BaseController{
         igk_set_env(IGK_ENV_PAGEFOLDER_CHANGED_KEY, 1);
         $this->View();
         $app->Session->setRedirectTask("modview", 1);
-        session_write_close();
+        igk_sess_write_close();
         igk_navto_referer();
         igk_exit();
     }
@@ -55,7 +55,7 @@ final class SessionController extends BaseController{
         if(igk_is_conf_connected() || igk_server_is_local()){
             $tab=igk_sys_get_all_openedsessionid();
             $cid=session_id();
-            @session_write_close();
+            @igk_sess_write_close();
             $c=0;
             foreach($tab as $k=>$v){
                 if($exclude && ($k == $cid))
@@ -259,7 +259,7 @@ final class SessionController extends BaseController{
         else
             $tab[]=igk_io_baseuri().$this->getUri("RunCron&ctrl=baobabtv");
         $doc=igk_get_document(__METHOD__);
-        session_write_close();
+        igk_sess_write_close();
         IGKOb::Start();
         foreach($tab as $v){
             if(!IGKValidator::IsUri($v) || ($v[0] == "?")){

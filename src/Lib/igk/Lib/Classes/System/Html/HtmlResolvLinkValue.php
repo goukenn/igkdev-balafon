@@ -12,13 +12,16 @@ use IGKValidator;
 
 class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {
     public function getValue($options = null) { 
-        if ($lnk  = $this->value){
-            if (IGKValidator::IsUri($lnk)){
+        if (($lnk = $this->value) && is_string($lnk)) {
+            if ( IGKValidator::IsUri($lnk)){
                 return $lnk;
             }
             if (file_exists($lnk)){
                 return IGKResourceUriResolver::getInstance()->resolve($lnk);
             }
+        }
+        if ($lnk instanceof IHtmlGetValue){
+            return $lnk->getValue($options);
         }
         return $lnk;
     }     

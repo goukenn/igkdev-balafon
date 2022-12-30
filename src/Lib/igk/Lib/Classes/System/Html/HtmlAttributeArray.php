@@ -9,8 +9,10 @@ namespace IGK\System\Html;
 
 use ArrayAccess;
 use IGK\System\Collections\ArrayList;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
+use ReflectionException;
 
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlActiveAttrib.php";
 
@@ -62,7 +64,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
     /**
      * create a array attributes
-     * @param mixed $protectedlist 
+     * @param mixed $protectedlist attribute to protected with data
      * @return void 
      */
     public function __construct(?array $protectedlist = null)
@@ -80,9 +82,17 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return parent::_access_OffsetGet($n);
     }
+    /**
+     * 
+     * @param mixed $n 
+     * @param mixed $v 
+     * @return $this|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function _access_OffsetSet($n, $v)
-    {
-      
+    {      
         if (!is_null($this->add_listener)) {
             $fc = $this->add_listener;
             $fc($n) || igk_die("can't update attribute : " . $n);

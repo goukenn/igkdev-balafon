@@ -27,7 +27,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use function igk_resources_gets as __;
 
 igk_trace();
-igk_die("no available");
+igk_die(__FILE__." Not available");
 /**
  *  System Controllers Managers. store list of different controller table.
  * @deprecated use ApplicationControllerManager instead
@@ -67,6 +67,16 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $this->m_classReg = [];
         $this->m_initEvent = 0;
     }
+
+    public function getUserControllers(): array {
+        return [];
+     }
+
+    public function getRegistratedNamedController(string $name): ?BaseController {
+        return null;
+     }
+
+    public function registerNamedController(string $name, BaseController $controller) { }
 
     public function getDefaultController(): ?BaseController { return null; }
 
@@ -400,14 +410,14 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * get array of initialized controller
      * @return mixed|array controller list 
      */
-    public function getControllers()
+    public function getControllers(): array
     {
         return array_unique(array_values($this->m_tbcontrollers));
     }
-    /**
-     * get controller reference
-     */
-    public function &getControllerRef()
+    // /**
+    //  * get controller reference
+    //  */
+    public function & getControllerRef(): ?array
     {
         return $this->m_tbcontrollers;
     }
@@ -820,60 +830,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $c;
     }
-    ///<summary></summary>
-    ///<param name="controller"></param>
-    // /**
-    //  * 
-    //  * @param mixed $controller
-    //  */
-    // public static function IsIncludedController($controller)
-    // {
-    //     $instance = self::getInstance();
-    //     $dir = null;
-    //     if (is_string($controller)) {
-    //         $controller = strtolower($controller);
-    //         $v = $instance->$controller;
-    //         $dir = dirname($v->getDeclaredFileName());
-    //     } else if (is_object($controller) && igk_reflection_class_extends(get_class($controller), BaseController::class)) {
-    //         $dir = dirname($controller->getDeclaredFileName());
-    //     }
-    //     $o  =  igk_io_basepath(IO::GetDir(IGK_LIB_DIR . "/" . IGK_INC_FOLDER));
-    //     $dir =  igk_io_basepath($dir);
-    //     while ($o && $dir && (strlen($dir) > 0) && !preg_match("/^(\.|\/|\\\\)$/", $dir)) {
-    //         if ($dir === $o) {
-    //             return true;
-    //         }
-    //         $dir = dirname($dir);
-    //         if (($dir == "..") || ($dir == ".")) {
-    //             return false;
-    //         }
-    //     }
-    //     return false;
-    // }
-    ///<summary>true if controller is a system controller otherwise false</summary>
-    ///<param name="controller">controller name or controller instance </param>
-    ///<note>for the plateform SystemController are controller stored in the Global Lib directory or in e </note>
-    /**
-     * true if controller is a system controller otherwise false
-     * @param mixed $controller controller name or controller instance
-     */
-    // public static function IsSystemController($controller)
-    // {
-    //     $instance = self::getInstance();
-    //     if (is_string($controller)) {
-    //         $controller = strtolower($controller);
-    //         $v = $instance->$controller;
-    //         if ($v->getDeclaredFileName() == __FILE__)
-    //             return true;
-    //     }
-    //     $cl = "";
-    //     if (is_object($controller) && ($controller instanceof BaseController)) {
-    //         $v = strstr($controller->getDeclaredFileName(), IGK_LIB_DIR);
-    //         $r = ($v) || \IGK\Controllers\RootControllerBase::IsSystemController($controller) || BaseController::IsSysController($controller);
-    //         return $r;
-    //     }
-    //     return false;
-    // }
+   
     ///<summary>raise init complete event</summary>
     /**
      * raise init complete event
@@ -898,7 +855,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * register controller for specific fonctionnality
      * @deprecated register controller not allowed
      */
-    public function register($name, $ctrl)
+    public function register(BaseController $ctrl)
     {
         $this->m_tbcontrollers[get_class($ctrl)] = $ctrl;
     }

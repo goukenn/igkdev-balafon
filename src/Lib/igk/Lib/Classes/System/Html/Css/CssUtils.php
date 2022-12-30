@@ -140,7 +140,7 @@ abstract class CssUtils
             $controller->bindCssStyle($v_theme, true);
             $g = $v_theme->getDef();
             $tab = $g->getAttributes();
-            $lk = "html[data-theme=$theme_name] ";
+            $lk = "html[data-theme='${theme_name}'] ";
             if ($tab) {
                 array_map(function ($v, $k) use (& $g, $is_primaryTheme, $lk) {
                     $v_ev = false;

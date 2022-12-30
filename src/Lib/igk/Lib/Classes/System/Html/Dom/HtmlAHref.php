@@ -41,7 +41,10 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue{
             if(igk_xml_is_cachingrequired($option)){
                 $s=igk_io_baseuri();
                 if(strstr($bck, $s)){
-                    return "./".ltrim(substr($bck, strlen($s)), '/');
+                    $uri = igk_str_rm_start($bck, $s);
+                    // igk_wln_e("the ruri", $s, $bck, igk_io_base_request_uri(), $uri);
+                    // return "./".ltrim(substr($bck, strlen($s)), '/');
+                    return $uri; // "./".ltrim(substr($bck, strlen($s)), '/');
                 }
             }
             return $bck;

@@ -54,16 +54,14 @@ class MakeModuleCommand extends AppCommand{
             IO::CreateDir($dir."/".IGK_CONF_FOLDER);
             IO::CreateDir($dir."/".IGK_DATA_FOLDER);
             IO::CreateDir($dir."/".IGK_SCRIPT_FOLDER);
-            if (file_exists($dir."/.global.php")){
-                igk_io_w2file($dir."/.global.php", "<?php\n");
-            }
+           
             $use_git = property_exists($command->options, "--git") || 
                 !property_exists($command->options, "--no-git") ;
             $bind = [];
             $author = $this->getAuthor($command);
             $bind[$dir."/.module.pinc"] = function($file, $command, $name){
                 $author = $this->getAuthor($command);
-                $e_ns = igk_ns_name(str_replace("/", "\\", $name));
+                $e_ns = igk_ns_name($name);
 
                 $definition = self::EntryModuleDefinition($author, $e_ns);
                 $builder = new PHPScriptBuilder();
@@ -77,6 +75,7 @@ class MakeModuleCommand extends AppCommand{
                 ->namespace($e_ns);
                 igk_io_w2file($file, $builder->render());
             };
+            $bind[$dir."/.global.php"] = Utility::TouchFileCallback("<?php \n", false); 
             $bind[$dir."/".IGK_STYLE_FOLDER."/default.pcss"] = Utility::TouchFileCallback("<?php \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.js"] = Utility::TouchFileCallback("// default entry script \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.bjs"] = Utility::TouchFileCallback("// default entry to be merge script \n"); 

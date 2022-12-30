@@ -165,8 +165,7 @@ class HtmlNode extends HtmlItemBase
 
     public function __toString()
     {
-       
-        return "die";
+        return $this->render();
     }
     ///<summary></summary>
     ///<param name="eventObj"></param>

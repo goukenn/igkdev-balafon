@@ -443,10 +443,10 @@ $def[".igk-notify-z"] = "min-height:2.1em";
 $def["code.igk-code span.ln"] = "color:#cecece; vertical-align:bottom; margin-right:10px";
 $def["code.igk-code span.ln"] = "{sys:posr} [fcl:codeLineForeColor, #cecece] z-index:10; padding-right:{$pad_size}; [resolv:user-select: none;] display:table-cell !important;";
 $def["code.igk-code span.ln:before"] = "{sys:posab, loc_l} background-color: [cl:codeLineBgColor, #444]; z-index: -1; right:4px; top:-4px; bottom:-4px; margin-left:-12px; content:' ';";
-$def["code.igk-code > div"] = "{sys:disptabr}";
+$def["code.igk-code > div"] = "{sys:disptabr, no-wrap}";
 $def["code.igk-code:before"] = "{sys:posab, loc_a} [bgcl:codeViewBgColor, #eee] content:' '; z-index:-1; ";
-$def["code.igk-code"] = "line-height: 1.4em; {sys:posr, fitw} max-width:100%;";
-$def["code.igk-code span.s"] = "{sys:no-wrap}";
+$def["code.igk-code"] = "line-height: 1.4em; {sys:posr, fitw} max-width:100%; overflow:auto;";
+$def["code.igk-code span.s"] = "{sys:no-wrap, dispib}";
 
 $def[".igk-table"] = "border-collapse: collapse; border-spacing:0px; border:none; padding:0px;";
 $def[".igk-table > tbody  th"] = "{sys:no-wrap};";

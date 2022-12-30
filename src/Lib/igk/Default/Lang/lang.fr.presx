@@ -1617,7 +1617,7 @@ $l["warn.question.dbwillbedestroyed"] = "Attention! toutes les données seront s
 $l["clAuthType"] = "Type";
 $l["lb.subject"] = "Objet";
 
-$l["Subdomain not accessible : {0}"] = "Le sous-domain [{0}] n'est pas accessible.";
+$l["Subdomain not accessible : {0}"] = "Le sous-domaine [{0}] n'est pas accessible.";
 $l["type"] =  "Type";
 $l["firstname"] =  "Prenom";
 $l["lastname"] =  "Nom";

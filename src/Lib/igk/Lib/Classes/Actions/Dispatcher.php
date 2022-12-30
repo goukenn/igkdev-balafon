@@ -63,6 +63,7 @@ class Dispatcher implements IActionProcessor
             self::$sm_macro = [];
             self::$sm_macro["Dispatch"] = function ($fc, ...$args) {
                 $g = new ReflectionFunction($fc); 
+              
                 $args = self::GetInjectArgs($g, $args);                 
                 try {
                     return $fc(...$args);
@@ -204,6 +205,9 @@ class Dispatcher implements IActionProcessor
             }
             $targs[] = $c;
             $i++;
+        }
+        if ($i < count($args)){
+            $targs = array_merge($targs, array_slice($args, $i));
         }
         return $targs;
     }

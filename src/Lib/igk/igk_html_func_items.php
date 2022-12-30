@@ -428,103 +428,102 @@ function igk_html_node_bindMenu($target)
     return $m;
 }
 
-
 ///<summary>build menu </summary>
-function igk_html_node_menu(
-    $tab,
-    $selected = null,
-    $uriListener = null,
-    $callback = null,
-    ?Users $user = null,
-    $tag = "ul",
-    $item = "li"
-) {
-    if (!is_array($tab)) {
-        igk_die("must set an array of menu items");
-    }
-    $tab = array_filter($tab);    
-    $ul = igk_create_node($tag);
-    $ul["class"] = "igk-menu";
-    if ($uriListener) {
-        if (!is_callable($uriListener)) {
-            if (is_object($uriListener) && method_exists($uriListener, "getAppUri")) {
-                $uriListener = [$uriListener, "getAppUri"];
-            } else
-                $uriListener = null;
-        }
-    }
-    $tarray = array(["menu" => $tab, "c" => null, "ul" => $ul]);
-    // igk_wln_e("denie", ViewHelper::GetViewArgs("auth"));
-    $user = $user ?? ViewHelper::GetViewArgs("auth") ;// ?? Users::currentUser();
-    $c = 0;
-    while ($q = array_pop($tarray)) {
-        $c = $q["c"];
-        $tab = $q["menu"];
-        $ul = $q["ul"];
+// function igk_html_node_menu(
+//     $tab,
+//     $selected = null,
+//     $uriListener = null,
+//     $callback = null,
+//     ?Users $user = null,
+//     $tag = "ul",
+//     $item = "li"
+// ) {
+//     if (!is_array($tab)) {
+//         igk_die("must set an array of menu items");
+//     }
+//     $tab = array_filter($tab);    
+//     $ul = igk_create_node($tag);
+//     $ul["class"] = "igk-menu";
+//     if ($uriListener) {
+//         if (!is_callable($uriListener)) {
+//             if (is_object($uriListener) && method_exists($uriListener, "getAppUri")) {
+//                 $uriListener = [$uriListener, "getAppUri"];
+//             } else
+//                 $uriListener = null;
+//         }
+//     }
+//     $tarray = array(["menu" => $tab, "c" => null, "ul" => $ul]);
+//     // igk_wln_e("denie", ViewHelper::GetViewArgs("auth"));
+//     $user = $user ?? ViewHelper::GetViewArgs("auth") ;// ?? Users::currentUser();
+//     $c = 0;
+//     while ($q = array_pop($tarray)) {
+//         $c = $q["c"];
+//         $tab = $q["menu"];
+//         $ul = $q["ul"];
 
-        foreach ($tab as $i => $v) {
-            if (is_integer($i)){
-                $skip = false;
-                if (is_string($v)){
-                    // + | --------------------------------------------------------------------
-                    // + | speclial possibility means
-                    // + |
-                    switch($v){
-                        case '-': // menu-seperator
-                            $ul->li()->setClass('m-sep');
-                            $skip = true;
-                            break;
-                    }
-                }
-                if (is_array($v)){
-                    // + | --------------------------------------------------------------------
-                    // + | special array must contains a key name fields
-                    // + | 
-                    ($n = igk_getv($v,'name')) || igk_die("menu item array must have a 'name' key");
+//         foreach ($tab as $i => $v) {
+//             if (is_integer($i)){
+//                 $skip = false;
+//                 if (is_string($v)){
+//                     // + | --------------------------------------------------------------------
+//                     // + | speclial possibility means
+//                     // + |
+//                     switch($v){
+//                         case '-': // menu-seperator
+//                             $ul->li()->setClass('m-sep');
+//                             $skip = true;
+//                             break;
+//                     }
+//                 }
+//                 if (is_array($v)){
+//                     // + | --------------------------------------------------------------------
+//                     // + | special array must contains a key name fields
+//                     // + | 
+//                     ($n = igk_getv($v,'name')) || igk_die("menu item array must have a 'name' key");
 
-                    $i = $n;
-                }
-                if ($skip)
-                    continue;
-            }
-            if ($auth = igk_getv($v, "auth")) {
-                if ((is_bool($auth) && !$auth) ||
-                    ((is_string($auth) || is_array($auth)) && (!$user || !$user->auth($auth)))
-                ) {
-                    continue;
-                }
-            }
-            $li = $ul->add($item)->setClass("m-l");
-            if ($callback)
-                $callback(1, $li);
-            $uri = is_string($v) ? $v : igk_getv($v, "uri", "#");
-            if ($uriListener) {
-                $uri = $uriListener($uri);
-            }
-            $a = $li->addA($uri);
-            if ($selected && (($selected == $i) || ($selected == igk_getv($v, "selected")))) {
-                $li["class"] = "+selected";
-            }
-            $li["class"] = "+" . igk_css_str2class_name($i);
-            $tr = $a->table()->tr();
-            if ($icon = igk_getv($v, "icon")) {
-                if (is_callable($icon)) {
-                    $icon($tr->td());
-                } else {
-                    $tr->td()->google_icon($icon);
-                }
-            }
-            $tr->td()->span()->Content = igk_getv($v, "text", __($i));
-        }
-    }
-    return $ul;
-}
+//                     $i = $n;
+//                 }
+//                 if ($skip)
+//                     continue;
+//             }
+//             if ($auth = igk_getv($v, "auth")) {
+//                 if ((is_bool($auth) && !$auth) ||
+//                     ((is_string($auth) || is_array($auth)) && (!$user || !$user->auth($auth)))
+//                 ) {
+//                     continue;
+//                 }
+//             }
+//             $li = $ul->add($item)->setClass("m-l");
+//             if ($callback)
+//                 $callback(1, $li);
+//             $uri = is_string($v) ? $v : igk_getv($v, "uri", "#");
+//             if ($uriListener) {
+//                 $uri = $uriListener($uri);
+//             }
+//             $a = $li->addA($uri);
+//             if ($selected && (($selected == $i) || ($selected == igk_getv($v, "selected")))) {
+//                 $li["class"] = "+selected";
+//             }
+//             $li["class"] = "+" . igk_css_str2class_name($i);
+//             $tr = $a->table()->tr();
+//             if ($icon = igk_getv($v, "icon")) {
+//                 if (is_callable($icon)) {
+//                     $icon($tr->td());
+//                 } else {
+//                     $tr->td()->google_icon($icon);
+//                 }
+//             }
+//             $tr->td()->span()->Content = igk_getv($v, "text", __($i));
+//         }
+//     }
+//     return $ul;
+// }
 /**
- * 
+ * build menus node item
  * @param mixed $items 
  * @param mixed $callback subitem menu initialize callback
- * @param string $subtag 
- * @param string $item 
+ * @param string $subtag default subitem group tag 'ul'
+ * @param string $item default 'li' tag
  * @return HtmlItemBase<mixed, string> 
  * @throws IGKException 
  */
@@ -3751,6 +3750,7 @@ function igk_html_node_titlenode($class, $text)
 ///<summary>for toast message</summary>
 /**
  * for toast message
+ * attribute : 
  */
 function igk_html_node_toast()
 {
@@ -4145,7 +4145,7 @@ function igk_lang_display($v)
 ///<summary>function igk_min_script</summary>
 ///<param name="s"></param>
 /**
- * function igk_min_script
+ * helper minify script
  * @param mixed $s
  */
 function igk_min_script($s)
@@ -5104,5 +5104,17 @@ function igk_html_node_jumbotron(?string $title=null, $desc = null){
         $n->h1()->Content = $title;
     if ($desc)
         $n->div()->Content = $desc;
+    return $n;
+}
+
+/**
+ * helper: create a time tag node 
+ * @param null|string $datetime 
+ * @return HtmlItemBase<mixed, null|string> 
+ * @throws IGKException 
+ */
+function igk_html_node_time(?string $datetime=null){
+    $n = igk_create_node("time");
+    $n['datetime'] = $datetime;
     return $n;
 }

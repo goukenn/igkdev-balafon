@@ -228,8 +228,7 @@ class ApplicationLoader
     }
     private function _createAutoLoadClosure()
     {
-        return function ($n) {
-            // igk_wln('app loading ...'.$n. ' - '. igk_sys_request_time());
+        return function ($n) { 
             if ($this->callables) {
                 if ($this->sorted) {
                     usort($this->callables, [$this, '_sort_priority']);
@@ -399,7 +398,7 @@ class ApplicationLoader
     {
         // + protect
         static $initialize;
-        $srv = Server::getInstance();
+        // + | $srv = Server::getInstance();
         $boot = false;
         if ($initialize === null) {
             self::$sm_instance =  new self($type);
@@ -444,12 +443,17 @@ class ApplicationLoader
         //return null;
         ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: " . $type);
         if ($boot) {
-            $app->bootstrap($bootoptions, function()use($app){ 
+            $boot = false;
+            $app->bootstrap($bootoptions, function()use($app, & $boot){ 
                 self::$sm_instance->bootApp($app);
+                $boot = true;
             });
-            self::$sm_instance->bootApp($app);
+            if (!$boot){
+                self::$sm_instance->bootApp($app);
+                //igk_wln_e("not boot");
+            }
         } 
-        // + | init local application register 
+        // + | init application register 
         self::$sm_instance->_initClassRegister();
         // + | -----------------------------------------------------
         // + | return the application 
