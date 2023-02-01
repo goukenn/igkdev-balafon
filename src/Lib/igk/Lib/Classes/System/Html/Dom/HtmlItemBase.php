@@ -228,9 +228,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $attrib;
     }
-    ///<summary></summary>
+    ///<summary>get if this tag is consider as an empty tag</summary>
     /**
-     * 
+     * get if this tag is consider as an empty tag
+     * @return bool
      */
     public function isEmptyTag() : bool
     {
@@ -239,9 +240,20 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return true;
     }
 
-    public function getHasChilds()
+    /**
+     * get if this node contains children
+     * @return bool 
+     */
+    public function getHasChilds():bool
     {
         return igk_count($this->m_childs) > 0;
+    }
+    /**
+     * get if this node is empty
+     * @return bool 
+     */
+    public function isEmpty():bool{
+        return !$this->getHasChilds() && empty(trim($this->getContent() ?? ''));
     }
 
     ///<summary></summary>

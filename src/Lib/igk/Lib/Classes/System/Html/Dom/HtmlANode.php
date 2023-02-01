@@ -26,7 +26,7 @@ class HtmlANode extends HtmlNode
             return false;
         if ($this["onclick"] == null) {
             $bck = $this["href"]->getUri();
-            $kr = is_string($bck) ? $bck : HtmlUtils::GetValue($bck);
+            $kr = (is_string($bck) ? $bck : HtmlUtils::GetValue($bck)) ?? '';
             if (strpos(trim($kr), "javascript") === 0) {
                 $this["onclick"] = $kr . " return false;";
                 $this->m_rdef = 1;

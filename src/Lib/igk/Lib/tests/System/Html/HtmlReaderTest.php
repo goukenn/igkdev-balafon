@@ -3,18 +3,76 @@
 // @filename: HtmlReaderTest.php
 // @date: 20220803 13:48:54
 // @desc: 
+// @cmd : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlReaderTest.php
 
 namespace IGK\Tests\System\Html;
 
 use Exception;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\Activator;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Tests\BaseTestCase;
 use IGKException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
+use ReflectionException;
 
 class HtmlReaderTest extends BaseTestCase{
+
+
+    public function test_html_missing_p_close(){
+        // + | --------------------------------------------------------------------
+        // + | p must be clause .... 
+        // + | 
+        $n = igk_create_notagnode();   
+        $n->load(<<<'HTML'
+<body>
+    <div class="tm-cta3-content-wrapper">
+        <p> Nous offrons des services</p>
+        <p>
+    </div>
+    <div>info</div>
+</body>
+HTML);
+        $this->assertEquals(
+            '<body> <div class="tm-cta3-content-wrapper"> <p> Nous offrons des services</p> <p> </p></div> <div>info</div> </body>',
+            $n->render(),
+            "read comment style not ok"
+        );
+    }
+    /**
+     * 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
+    public function test_html_reading_attr_link_reading(){
+        $n = igk_create_notagnode();   
+        $n->load('<a d-f_0="y:100%;" d-f_0_mask="u:t;y:100%;" d-f_1="e:power0.in;">link</a>');
+        $this->assertEquals(
+            '<a d-f_0="y:100%;" d-f_0_mask="u:t;y:100%;" d-f_1="e:power0.in;">link</a>',
+            $n->render(),
+            "read comment style not ok"
+        );
+
+    }
+    public function test_html_reading_style_comment(){
+        $n = igk_create_notagnode();        
+        $n->load("<style>/** Mega Menu CSS: fs **/</style>");
+        $this->assertEquals(
+            "<style>/** Mega Menu CSS: fs **/</style>",
+            $n->render(),
+            "read comment style not ok"
+        );
+
+    }
+
     function test_read_php_processor(){
         // + | T  
         $n = igk_create_notagnode();
@@ -133,7 +191,7 @@ EOF);
         $ldcontext->engineNode = $n;
 
         $n->Content = (<<<EOF
-<p>{{ \$raw->experience }}</a>
+<p>{{ \$raw->experience }}</p>
 EOF);      
 
 igk_html_article_bind_content(

@@ -543,10 +543,14 @@ abstract class HtmlUtils extends DomNodeBase
     ///<summary>return value according to string</summary>
     /**
      * return value according to string
+     * @return ?string 
      */
-    public static function GetValue($c, $options = null)
+    public static function GetValue($c, $options = null):?string
     {
         $out = IGK_STR_EMPTY;
+        if ($c instanceof IHtmlGetValue){
+            return $c->getValue($options);
+        }
         if (($c == "0") || (is_numeric($c) && ($c === "0")))
             return "0";
         if (is_numeric($c) || (is_string($c) && !empty($c))) {

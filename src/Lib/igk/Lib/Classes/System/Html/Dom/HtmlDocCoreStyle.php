@@ -24,15 +24,7 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
         $o && ($doc = igk_getv($o, "Document"));
         if ($doc && $doc->noCoreCss){
             return false;
-        } 
-        // if ($ctrl = ViewHelper::CurrentCtrl())
-        // {
-        //     // resolve document assets 
-        //     $rc = $ctrl->asset("/main.css");
-
-        //     return false;
-        // }
-
+        }  
         return parent::__AcceptRender($o);
     } 
 }

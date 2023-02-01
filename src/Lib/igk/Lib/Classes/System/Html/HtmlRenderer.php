@@ -475,6 +475,9 @@ class HtmlRenderer
                         );
                         $out .= 'igk:template-attr="'.$vc.'" ';
                     } else {
+                        if (is_object($v_cv )){
+                            $v_cv = "".$v_cv;
+                        }
                         if (!empty($v_cv) || is_string($v_cv)) {
                             $out .= $k . "=\"" . $v_cv . "\" ";
                         }

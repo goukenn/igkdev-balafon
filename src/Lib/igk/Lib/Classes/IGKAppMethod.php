@@ -23,6 +23,8 @@ final class IGKAppMethod{
     const OBJECT_METHOD=1;
     const OBJECT_METHOD_CLOSURE=4;
     private $m_;
+    private $_object;
+    private $_class;
     ///<summary></summary>
     ///<param name="d"></param>
     ///<param name="v"></param>
@@ -149,7 +151,8 @@ final class IGKAppMethod{
     public function getIdKey(){
         $m=$this->getMethodName();
         switch($this->getType()){
-            case self::OBJECT_METHOD:$o=$this->getObject();
+            case self::OBJECT_METHOD:
+                $o=$this->getObject();
             return get_class($o)."::!>".$m."@".spl_object_hash($o);
             case self::CLASS_METHOD:
             return $this->getClass()."::>".$m;

@@ -10,11 +10,16 @@
 
 namespace IGK\System\Html\Dom;
 
+use Exception;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute as DomHtmlCssClassValueAttribute;
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
 use IGKApp;
 use IGKEvents;
+use IGKException;
+use ReflectionException;
 
 final class HtmlCssClassValueAttribute extends HtmlItemAttribute
 {
@@ -48,12 +53,22 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $o = igk_unseri_data($data);
         $tab = explode(" ", $o->v);
         $this->m_classes = array_combine($tab, $tab);
+        /// TODO : TEST UN SERIALISE
         $r = igk_getv($o, "r");
         if ($r) {
             $owner = igk_get_env("sys://serialize/owner");
             $v = 'O:8:"stdClass":1:{s:5:"value";r:1;}';
         }
     }
+    /**
+     * return value string 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function __toString()
     {
         return $this->getValue();

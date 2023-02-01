@@ -846,7 +846,7 @@ final class HtmlReader extends IGKObject
                     break;
                 default:
                     if ($mode == 0) {
-                        if (!empty(trim($v_ch))) {
+                        if (is_numeric($v_ch) || !empty(trim($v_ch))) {
                             $v_n .= $v_ch;
                         } else {
                             if (!empty($v_n)) {
@@ -895,6 +895,7 @@ final class HtmlReader extends IGKObject
          */
         $cnode = null;
         $pnode = null;
+        $name = null;
         self::_PushContext(($reader->m_context != null) ? $reader->m_context : self::READ_XML);
         // + | 
         $v_tags = array();
@@ -918,16 +919,7 @@ final class HtmlReader extends IGKObject
                     // Logger::print('reader : '.$name . ' '.$reader->m_offset);
                     if (empty($name)) {
                         break;
-                    }
-                    // if ($reader->m_self_close){
-                    //     // @previous element is self closing 
-                    //     if ($cnode){
-                    //         $cnode = $cnode->getParentNode();
-                    //     }else {
-                    //         $cnode = $pnode;
-                    //     }
-                    //     $reader->m_self_close = false;
-                    // }
+                    } 
                     $cattr = $reader->Attribs();
 
                     if ($caller_context == self::LOAD_EXPRESSION) {
@@ -1072,9 +1064,7 @@ final class HtmlReader extends IGKObject
                     break;
                 case XMLNodeType::ENDELEMENT:
                     $n = $reader->Name();
-                    if ($n == 'Live'){
-                        igk_wln('tag end with live');
-                    }
+                   
                     // $tnode = $cnode;
                     if ($cnode) {
                         $t = $cnode->TagName;
@@ -1108,7 +1098,17 @@ final class HtmlReader extends IGKObject
                                 $reader->m_nodes = array();
                             }
                         } else {
-                            if (($n == $t) || $cnode->isCloseTag($n) || $reader->IsResolved($cnode, $n)) {
+                            if (($n == $t) || $cnode->closeTag() || $cnode->isCloseTag($n) || $reader->IsResolved($cnode, $n)) {
+                                if ($n!=$t){
+                                    $empty = $cnode->isEmpty();
+                                    if ($cnode->closeTag()){
+                                        $reader->m_errors['warnings'][] = 'missing close tag for : '.$t;
+                                    }
+                                    if (!$empty){
+                                        igk_die("missing close tag for ".$t. " offset:".$reader->m_offset);
+                                    }
+                                    $cnode = $reader->_LoadComplete($cnode, $t);
+                                }
                                 $cnode = $reader->_LoadComplete($cnode, $n);
                             } else {
                                 $rsv = false;
@@ -1578,7 +1578,7 @@ final class HtmlReader extends IGKObject
                                 case 'textarea':
                                 case 'code':
                                     $this->m_name = $tag;
-                                    $v = self::__readSkipContent($this, $this->m_text, $this->m_offset, $tag);
+                                    $v .= self::__readSkipContent($this, $this->m_text, $this->m_offset, $tag);
                                     $this->m_v = $v;
                                     $this->m_nodetype = XMLNodeType::INNER_TEXT;
                                   

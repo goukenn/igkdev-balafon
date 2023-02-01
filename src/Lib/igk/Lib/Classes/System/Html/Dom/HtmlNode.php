@@ -477,7 +477,7 @@ class HtmlNode extends HtmlItemBase
      */
     public function closeTag()
     {
-        $closeTags = HtmlContext::getCloseTagArray();
+        $closeTags = HtmlContext::GetCloseTagArray();
         $n = $this->tagname;
         return in_array($this->tagname, $closeTags) || !in_array($n, $this->_nodeList());
     }

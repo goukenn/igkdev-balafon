@@ -34,7 +34,11 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     }
     public function __toString()
     {
-        return (($rp = $this->getValue()) ? $rp : '/*[no-value]*/');
+        $rv = $this->getValue();
+        if ($rv===null){
+            igk_wln_e(__FILE__.":".__LINE__ , "someting missing for stylevalue attribute ");
+        }
+        return $rv;
     }
     ///<summary></summary>
     function __wakeup(){    }
@@ -48,7 +52,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
             $s=trim($p ? $p->EvalClassStyle(): IGK_STR_EMPTY);
             if(!empty($s))
                 $style->Load($s, 1, $p);
-            $opt .= igk_css_get_style_from_map($this->m_target, $options, $style);
+            $opt .= igk_css_get_style_from_map($this->m_o, $options, $style);
         }
         if(!empty($opt) && !empty($this->value))
             $opt .= " ";
@@ -63,13 +67,13 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     ///<param name="value"></param>
     public function setValue($value){
         if ($value instanceof HtmlStyleValueAttribute){
-            $this->value = ''.$value;
+            $this->value = $value->getValue();
             return $this;
         }
         if(($value == null) || is_string($value) || ($value instanceof IHtmlStyleAtribute))
             $this->value=$value;
         else{            
-            igk_die("no value allowed ".$value. " target :".get_class($this->m_target));
+            igk_die("no value allowed ".$value. " target :".get_class($this->m_o));
         }
     }
 }
