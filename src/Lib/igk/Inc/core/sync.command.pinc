@@ -1,0 +1,56 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: sync.command.pinc
+// @date: 20230106 11:44:06
+// @desc: sync command helper
+
+/**
+ * sync command
+ * @package 
+ */
+class IncCommand{
+    private $home;
+    public function __construct(string $home)
+    {
+        $this->home = $home;
+    }
+    public function clearsession(){
+        $dir = igk_getr('dir');
+        $response = new InstallerResponse;
+        $count = 0;
+        if ($dir){
+            $dir = $this->home."/".$dir;
+        }
+        if (is_dir($dir)){
+            $tab = scandir($dir);
+            $tab = array_slice($tab,2);
+            foreach(scandir($dir) as $p){
+                $f = $dir."/".$p;
+                if (is_file($f)){
+                    @unlink($f);
+                    $count++;
+                }
+            }
+        } else {
+            $response->die("sync: session_dir not found : [".$dir."]");
+        }
+        $response->response(json_encode([
+            "status"=>"OK",
+            "code"=>200,
+            "command"=>__FUNCTION__,
+            "dir"=>$dir,
+            "count"=>$count
+        ], JSON_UNESCAPED_SLASHES));
+    }
+    public function __call($name, $string){
+        $response = new InstallerResponse;
+        $response->die("call to undefined command - ".$name);
+    }
+}
+
+$cmd = new IncCommand($home);
+if ($fc = igk_getr('cmd')){    
+    $cmd->$fc();
+}else{
+    (new InstallerResponse())->die("command not found");
+}

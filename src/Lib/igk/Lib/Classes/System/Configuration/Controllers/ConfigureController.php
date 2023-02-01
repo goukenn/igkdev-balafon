@@ -1366,7 +1366,7 @@ EOF;
             * @param mixed $detroysession the default value is true
             */
         public function logout($redirect = true, $detroysession = true)
-        {
+        {  
             if ($this->getIsConnected()) {
                 $this->setConfigUser(null);
                 $this->setSelectedConfigCtrl(null);

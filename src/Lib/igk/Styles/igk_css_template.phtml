@@ -211,8 +211,7 @@ $def[".igk-collapse"] = "display:none;";
 $def["igk-js-msbox"] = " {sys:fit, igk-parentscroll, igk-powered-viewer, overflow-y-a}";
 $def[".igk-js-notify"] = "max-height:400px; overflow:auto";
 $def[".igk-js-notify-box .igk-js-notify"] = "max-height:400px; overflow:scroll;";
-$def[".igk-js-notify .content-z"] = "{sys:mg-w-a}";
-$def["textarea.no-resize"] = " resize:none;";
+$def[".igk-js-notify .content-z"] = "{sys:mg-w-a}"; 
 $def[".igk-body .err-403 .presentation a"] = "color:#cecece;";
 $def[".igk-body .err-403 .presentation"] = "background-color:#454545;";
 $def[".igk-menu-i"] = "{sys:posr}";
@@ -391,7 +390,13 @@ $def[".igk-action-bar.alignc .igk-btn"] = "float:none !important;";
 $def[".igk-menu-bar"] = "min-height:16px; [sysbgcl:igk-menu-bar-bg] [sysfcl:igk-menu-bar-fcl] padding-top:4px; padding-bottom:4px;";
 $def[".igk-trb"] = "position:relative; background-color:#DEAEEE; cursor:pointer; padding:4px;";
 $def[".igk-trb > .igk-trb-cur"] = "width:0px; min-height:8px; height:100%; [sysbgcl:igk-trb-cur-bg]";
-$def[".igk-trb.igk-dir-up > .igk-trb-cur, .igk-trb.igk-dir-down > .igk-trb-cur"] = "height:auto;min-height:auto;width:100%; background-color:red;";
+$def[".igk-trb.igk-dir-up > .igk-trb-cur, .igk-trb.igk-dir-down > .igk-trb-cur"] = 
+"height:auto;width:100%; background-color:red;";
+
+$support_min_height_auto = $theme->supports('min-height:auto');
+$support_min_height_auto[".igk-trb.igk-dir-up > .igk-trb-cur, .igk-trb.igk-dir-down > .igk-trb-cur"] = 
+"min-height:auto;";
+
 
 $def[".igk-action-bar.igk-pull-right > .igk-separator"] = "display:block; float:right;width:1px; margin-left:40px; height:1px; border-right:1px solid transparent; ";
 $def[".igk-action-bar.igk-pull-right > .igk-separator:after"] = "content:' '; display:table; clear:both;";
@@ -463,7 +468,7 @@ $def[".igk-table-hover > tbody > tr:hover"]
 
 $def["datalist.igk-form-control"] = "display:none !important;";
 $def[".igk-table .igk-form-control"] = "min-width: 150px;";
-$def[".igk-table.igk-table-striped > tbody > tr:nth-child(odd) > td, .igk-table-striped > tbody > tr:nth-child(odd) > th"] = "[bgcl:stripTableEventRowBackgroundColor, #0001] [sysfcl:stripTableEventRowForeColor, #222] ";
+$def[".igk-table.igk-table-striped > tbody > tr:nth-child(odd) > td, .igk-table-striped > tbody > tr:nth-child(odd) > th"] = "[bgcl:stripTableEventRowBackgroundColor, #000000] [sysfcl:stripTableEventRowForeColor, #222] ";
 $def[".igk-table.igk-table-striped > tbody > tr:hover > td"] = "background-color:transparent; color:inherit;";
 $def[".igk-table.igk-table-striped > tbody > tr:nth-child(odd) > th"] = "";
 $def[".igk-table.igk-table-striped > tbody > tr:hover"] = "[sysbgcl:stripTableHoverBackground]";
@@ -526,7 +531,7 @@ $def[".igk-txt-l"] = "text-transform: lowercase !important;";
 $def[".igk-txt-c"] = "text-transform: capitalize !important;";
 $def[".igk-expo"] = "font-size:0.6em; text-align:center; vertical-align:top; display:inline-block;";
 $def[".igk-indice"] = "font-size:0.6em; text-align:center; vertical-align:bottom; display:inline-block;";
-$def[".igk-list-item"] = "margin-bottom:4px;display:block;background-color:#eee;overflow:hidden;";
+$def[".igk-list-item"] = "margin-bottom:4px; display:block; overflow:hidden;";
 $def[".igk-panel"] = "{sys:dispb} [sysfcl:igk-panel-fcl] [sysbgcl:igk-panel-bcl] margin:auto; padding: {$pad1};";
 $def[".igk-btn"] =
     $def[".igk-btn-lnk"] =
@@ -655,7 +660,7 @@ $def[".igk-configpage-editor .close-bar"] = "background-color: #888";
 $def[".igk-configpage-editor .close-bar:hover"] = "background-color: #eee";
 $def[".igk-bodypage"] = "{sys:fitw,fith,posr} overflow:hidden;";
 $def["body .igk-session-block"] = "{sys:posfix} [sysbgcl:sessionBlockBackground] [sysfcl:sessionBlockColor] box-shadow: 0px 4px 16px; border-radius: 4px;";
-$def[".igk-session-block .cllabel"] = "{sys:dispb,alignt,alignl}";
+$def[".igk-session-block .cllabel"] = "{sys:dispib, alignt,alignl}";
 $def[".igk-session-block .action-group"] = "max-height:300px";
 $def[".igk-session-button"] = "[res:session_btn]; [trans: all 0.2s] cursor:pointer; z-index:{$ctrl_session_zindex}; top:0px; opacity:0.1";
 $def[".igk-session-button:hover"] = "opacity:1.0";
@@ -681,7 +686,7 @@ $def[".igk-wc-splitter .w_3"] = "color:#2A2FFF;";
 $def[".igk-wc-splitter .w_4"] = "color:#4FB080;";
 $def[".igk-fragment"] = "white-space: nowrap !important;overflow:hidden;";
 $def[".igk-fragment > .igk-fragment-page"] = "{sys:dispib, alignt, fitw} padding-bottom:32px;";
-$def[".igk-panel-box"] = "background-color: [var:--igk-panelBoxBackgroundColor, #eeed]; line-height:2.1em; border:1px solid #e5e5e5; padding:16px {$pad_size}; text-overflow:ellipsis;";
+$def[".igk-panel-box"] = "background-color: [var:--igk-panelBoxBackgroundColor, #eee]; line-height:2.1em; border:1px solid #e5e5e5; padding:16px {$pad_size}; text-overflow:ellipsis;";
 $def[".igk-android"] = "";
 $def["body.igk-android"] = "height:auto; overflow:auto;";
 $def[".igk-android.lnd-scape"] = "";
@@ -806,7 +811,10 @@ $def[".igk-xml-viewer .attr .n"] = "color:#42a";
 $def[".igk-xml-viewer .attrv"] = "[sysfcl:igk-xml-attrv-fcl]";
 $def[".igk-webgl-game-surface"] = "{sys:dispib}; margin:auto;";
 $def[".igk-webgl-game-surface > .scene"] = "background-color:#444; width:720px; height:409px;";
-$def[".igk-guide-menu"] = "[trans: width 0.2s] width:0; z-index:20; overflow:hidden; touch-action:none; top:0px !important;";
+$def[".igk-guide-menu"] = "[trans: width 0.2s] width:0; z-index:20; overflow:hidden; top:0px !important;";
+$touch_actions = $theme->supports('touch-action:none');
+$touch_actions[".igk-guide-menu"] = 'touch-action:none;';
+
 $def[".igk-guide-menu.igk-show"] = "width:150px";
 $def[".igk-ajx-pickfile"] = "display:inline-block; cursor:pointer; padding:4px; border-left: 4px solid [syscl:pickfileBorder]; [sysbgcl:pickfileBackground]; margin-right: 1em;";
 $def[".igk-ajx-pickfile:hover"] = "border-color:[syscl:pickfileHoverBorder]; [sysbgcl:pickfileHoverBackground]; [sysfcl:pickfileHoverColor];";
@@ -839,8 +847,13 @@ $PTR[".no-print"] = "display:none !important;";
 $def[".igk-action-bar a.igk-btn"] = "line-height:normal;";
 $def[".igk-action-bar .igk-btn > svg"] = "width:24px; height:24px; padding:4px; fill:#777";
 $def[".igk-action-bar a.igk-btn:hover > svg"] = "fill:#54e;";
-$def[".igk-frame-textarea"] = "height:200px; resize:vertical;";
-$def["span.igk-textedit"] = "cursor:pointer; text-decoration-line:underline; text-decoration-style:dashed; text-decoration-color: [syscl:underLineColor]";
+$def[".igk-frame-textarea"] = "height:200px;";
+$theme->supports('resize:vertical')->set('.igk-frame-textarea', 'resize:vertical;');
+
+
+$info = $theme->supports('text-decoration-line: underline');
+$info["span.igk-textedit"] = "cursor:pointer; text-decoration-line:underline;  text-decoration-color: [syscl:underLineColor]; text-decoration-style:dashed;";
+
 $def["code"] = "{sys:dispib}";
 $def["code[lang='php']"] = "{sys:dispb}";
 $def["code[lang='php'] span.ln"] = "background-color:#444;	min-width:3em;";
@@ -999,7 +1012,7 @@ $def[".igk-code.code-php span.litteral"] = "font-style: italic; font-weight:200;
 
 
 // + | 3D Accelarate
-$def[".igk-3d-material"] = "perspective: 1000px;backface-visibility: hidden;transform: translateZ(0);";
+$def[".igk-3d-material"] = "perspective: 1000px; [resolv:backface-visibility: hidden] transform: translateZ(0);";
 
 // + | add mark after label
 $def["form.igk-form div.required label:after"] = "content:'*'; font-weight: bold;";
@@ -1174,3 +1187,5 @@ foreach([16,24,32,48,64] as $k){
 }
 
 $cl['codeBgColor'] = '#686868';
+
+$root['--igk-panelBoxBackgroundColor'] = '0';

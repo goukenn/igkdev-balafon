@@ -5,7 +5,7 @@
 // run: phpunit -c phpunit.xml.dist /Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Lib/Tests/DocumentParser/TestUriDetection.php
 namespace IGK\Tests\DocumentParser;
 
-use IGK\DocumentParser\UriDetector;
+use igk\devtools\DocumentParser\UriDetector; 
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
@@ -15,6 +15,12 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\DocumentParser
 */
 class TestUriDetection extends BaseTestCase{
+
+    public static function setUpBeforeClass(): void
+    {
+        igk_require_module(\igk\devtools::class);
+    }
+
     public function test_ignore_inline_data(){
         $v_detector = new UriDetector;
         $data = "background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e\");";
@@ -84,5 +90,30 @@ CSS;
 
         $uris = $v_detector->cssUrl($data);   
         $this->assertFalse(is_null($uris), "must detect uris");
+    }
+
+    public function test_uri_on_css(){
+        $src = <<<'CSS'
+@font-face {
+	font-family: 'themify';
+	src:url('./fonts/themify.eot?-fvbane');
+	src:url('fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
+		url('fonts/themify.woff?-fvbane') format('woff'),
+		url('fonts/themify.ttf?-fvbane') format('truetype'),
+		url('fonts/themify.svg?-fvbane#themify') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+CSS;
+
+
+$v_detector = new UriDetector;
+// igk_debug(1);
+$uris = $v_detector->cssUrl($src);
+
+$this->assertEquals(5, count($uris));
+
+
     }
 }

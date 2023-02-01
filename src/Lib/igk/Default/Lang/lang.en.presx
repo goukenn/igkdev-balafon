@@ -1,4 +1,6 @@
 <?php
+
+
 $l["menu.console"]="Console";
 $l["menu.Module"]="Modules";
 $l["balafon.warn.nodemonstrationavailable"]="/!\ No demonstration available for that component.";
@@ -573,3 +575,5 @@ $l["title.OS"] =  "operate";
 
 
 $l["title.forgotPassword"] = "Reset password";
+
+$l['country.BE'] = 'Belgium';

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: WhoUses.php
-// @date: 20221203 14:34:18
+// @date: 20230131 13:55:04
 namespace IGK\Models;
 
 
@@ -20,6 +20,11 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clWebSite, int $clState, string|datetime $clDateTime, string $clIP) add entry if not exists. check for unique column.
 * */
 class WhoUses extends ModelBase{
+	const FD_CL_ID="clId";
+	const FD_CL_WEB_SITE="clWebSite";
+	const FD_CL_STATE="clState";
+	const FD_CL_DATE_TIME="clDateTime";
+	const FD_CL_I_P="clIP";
 	/**
 	* table's name
 	*/

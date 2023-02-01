@@ -62,7 +62,7 @@ abstract class HtmlUtils extends DomNodeBase
      * copy node 
      * @param mixed $g 
      * @param array|mixed $childs 
-     * @param callable $callback 
+     * @param callable<string $n, ?DomNodeBase $parent, &$skip = false> $callback callback to call  
      * @return mixed 
      */
     public static function CopyNode($g, $childs, ?callable $callback=null, & $T = 0) 
@@ -94,7 +94,7 @@ abstract class HtmlUtils extends DomNodeBase
                 $t = $q->getTagName();
                 if (!empty($t)){
                     $skip = false;
-                    $gg = $callback($t, $skip); 
+                    $gg = $callback($t, $p , $skip); 
                     $gg->setAttributes($q->getAttributes()->to_array());
                     $pnode->add($gg);
                     if (!empty(trim($s = $q->getContent() ?? ''))) {
@@ -194,9 +194,8 @@ abstract class HtmlUtils extends DomNodeBase
      * @throws ReflectionException 
      */
     public static function GetFilteredAttributeString($tagname, $attribute, $options = null): ?string
-    {
-        $attrib = new HtmlFilterAttributeArray($attribute);
-        $attrib = HtmlUtils::PrefilterAttribute("label", $attrib);
+    {        
+        $attrib = HtmlUtils::PrefilterAttribute("label", new HtmlFilterAttributeArray($attribute));
         if ($attrib->count() > 0) {
             return ' ' . HtmlRenderer::GetAttributeArrayToString($attrib, $options);
         }
@@ -624,11 +623,14 @@ abstract class HtmlUtils extends DomNodeBase
      * @param mixed $id
      * @param mixed $value the default value is null
      * @param mixed $type the default value is "text"
+     * @return \IGK\System\Html\Dom\HtmlNode
      */
     public static function nInput($id, $value = null, $type = "text")
     {
-        $btn = igk_create_node("input")->setAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
-        switch (strtolower($btn["type"])) {
+        $btn = igk_create_node("input")
+            ->setAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
+        $s = igk_getv($btn, 'type')?? '';
+        switch (strtolower($s)){
             case "button":
             case "submit":
             case "reset":
@@ -731,6 +733,10 @@ abstract class HtmlUtils extends DomNodeBase
 
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
 
+        // + | --------------------------------------------------------------------
+        // + | prefilter component creation
+        // + |
+        
         if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))) {
             return $p;
         }
@@ -797,27 +803,7 @@ abstract class HtmlUtils extends DomNodeBase
             return $comp;
         }
         $c = null;
-        // $f = IGKString::Format(IGK_HTML_CLASS_NODE_FORMAT, $name);
-        // if (class_exists($f) && !igk_reflection_class_isabstract($f) && igk_reflection_class_extends($f, $class)) {
-        //     $p = igk_sys_reflect_class($f);
-        //     $tb = array();
-        //     if (is_array($args))
-        //         $tb = $args;
-        //     $initiator[$name] = [
-        //         "type" => "class", "callback" => [$p, "newInstance"], "class" => $f, "count" => 1, "invoke" => function ($inf, $tb) {
-        //             $f = $inf["class"];
-        //             $c = $inf["callback"];
-        //             $o = call_user_func_array($c, $tb);
-        //             if ($o)
-        //                 $c = $o;
-        //             else {
-        //                 $c = new $f();
-        //             }
-        //             return $c;
-        //         }
-        //     ];
-        //     $c = call_user_func_array($initiator[$name]["invoke"], [$initiator[$name], $tb]);
-        // } else {
+        
         if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
             $s = new ReflectionFunction($fc);
             $v_rp = $s->getNumberOfRequiredParameters();
@@ -910,6 +896,11 @@ abstract class HtmlUtils extends DomNodeBase
     {
         $options = IGKEvents::CreateHookOptions();
         return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options); // ["output" => null]);
+    }
+    public static function PostfilterNode(HtmlNode $node){
+        return igk_hook(\IGKEvents::FILTER_POST_CREATE_ELEMENT, [
+            'node'=>$node
+        ]);
     }
     ///<summary></summary>
     ///<param name="vsystheme"></param>

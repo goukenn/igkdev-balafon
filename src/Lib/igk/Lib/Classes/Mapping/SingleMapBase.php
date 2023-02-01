@@ -9,6 +9,5 @@ namespace IGK\Mapping;
 
 
 abstract class SingleMapBase{
-
     abstract function map($data);
 }

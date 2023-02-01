@@ -14,6 +14,11 @@ class HtmlHeadNode extends HtmlNode{
     private $m_title; 
     private $m_scripts = [];
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function setTitle($value){
         if ($this->m_title == null){
             $this->m_title = new HtmlNode("title");
@@ -47,6 +52,7 @@ class HtmlHeadNode extends HtmlNode{
        // + |
        $t = [];
        $v=parent::__getRenderingChildren($options);
+       // igk_wln_e("do", $v);
         $is_document = isset($options->Document);
         // + 1. meta first
         if($is_document){

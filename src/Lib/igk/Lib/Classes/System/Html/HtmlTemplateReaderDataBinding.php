@@ -34,15 +34,17 @@ class HtmlTemplateReaderDataBinding{
      * @throws IGKException 
      */
     public function treat(){
-        $data = $this->data;
-        $script_obj = & $this->m_script;       
+        $data = $this->data;     
         $ctrl = $this->ctrl;
         $cnode = $this->node;
         $engine = ""; 
         // backup attribute
         $bck_attribs = $cnode->getAttributes()->to_array();
-        $script_obj = igk_html_databinding_getobjforscripting($ctrl);
-        $v_gtag = $cnode->getCanRenderTag() ? $cnode->tagName : null;         
+        //$script_obj = igk_html_databinding_getobjforscripting($ctrl);
+        $v_gtag = $cnode->getCanRenderTag() ? $cnode->tagName : null;  
+        // + | --------------------------------------------------------------------
+        // + | binding attribute - $raw with
+        // + |               
         foreach($data as $key=>$raw){
             $c= $this->_treat_content(["type"=>"loop", "key"=>$key, "value"=>$raw, "raw"=>$raw, "transformToEval"=>true]);             
             if($c){

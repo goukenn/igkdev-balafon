@@ -25,11 +25,14 @@ class MakeViewCommand extends AppExecCommand{
     var $desc  = "make new project's view";
 
     var $options = [
+        "--controller:controller"=>"set controller to use",
         "--action"=>"enable action",
         "--dir"=>"enable view dir"
     ]; 
-    public function exec($command, $controller="", $viewname=""){
+    public function exec($command, $controller=null, $viewname=""){
+        $controller = $controller ?? igk_getv($command->options, "--controller");
         if (empty($controller)){
+            Logger::danger("controller required");
             return false;
         } 
         if (empty($viewname)){
@@ -57,16 +60,19 @@ class MakeViewCommand extends AppExecCommand{
         }
 
         $bind = [];
+        $scaffold = igk_getv($command->options, '--scaffold');
 
-        $bind[$dir."/{$viewname}".IGK_VIEW_FILE_EXT] = function($file)use($viewname, $author){           
+        $bind[$dir."/{$viewname}".IGK_VIEW_FILE_EXT] = function($file)use($viewname, $author, $scaffold){  
+            // TODO : FROM Scaffold generate the base document 
+            $src =  "\$t->div()->Content = 'View : $viewname';";        
             $builder = new PHPScriptBuilder();
             $fname = $viewname.IGK_VIEW_FILE_EXT;
             $builder->type("function")->name($viewname)
             ->author($author)
-            ->defs("\$t->clearChilds();")
-            ->doc("view entry point")
+            ->defs()
+            ->docs("view entry point")
             ->file($fname)
-            ->desc("view ".$viewname);
+            ->desc("view : ".$viewname);
             igk_io_w2file( $file,  $builder->render());
         };
 

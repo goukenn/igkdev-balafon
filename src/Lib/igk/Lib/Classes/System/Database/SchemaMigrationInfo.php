@@ -25,16 +25,26 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
     var $modelClass;
     var $tableName;
     var $definitionResolver;
-    // public function __construct()
-    // {
-    //     if (igk_is_debug()){
-    //         igk_dev_wln(__FILE__.":".__LINE__,  "init migration");
-    //     }
-    // }
+    /**
+     * display column property
+     * @var mixed
+     */
+    var $display;
 
+    /**
+     * constant used
+     * @param mixed $n 
+     * @return ?bool
+     */
+    var $constant;
+    
     public function _access_OffsetGet($n){
         if (property_exists($this, $n)){
             return $this->$n;
         }
+    }
+    public function __construct()
+    {
+        
     }
 }

@@ -47,11 +47,9 @@ class SyncSymlinkCommand extends SyncAppExecCommandBase
         $file = tempnam(sys_get_temp_dir(), "blf");
         unlink($file);
 
-        $content = PHPScriptBuilderUtility::MergeSource(
-        
+        $content = PHPScriptBuilderUtility::MergeSource(        
                 IGK_LIB_DIR."/Inc/core/installer-helper.pinc",
-                IGK_LIB_DIR."/Inc/core/symlink.pinc",
-          
+                IGK_LIB_DIR."/Inc/core/symlink.pinc",          
         );
         
         

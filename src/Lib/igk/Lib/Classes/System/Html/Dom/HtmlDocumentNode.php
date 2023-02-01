@@ -37,11 +37,11 @@ class HtmlDocumentNode extends HtmlItemBase{
      * 
      * @return HtmlBodyNode 
      */
-    public function getBody(){ return $this->m_body; }
+    public function getBody(): ?HtmlBodyNode{ return $this->m_body; }
     /**
      * @return HtmlHeadNode 
      */
-    public function getHead(){ return $this->m_head; }
+    public function getHead(): ?HtmlHeadNode{ return $this->m_head; }
 
     /**
      * set document title

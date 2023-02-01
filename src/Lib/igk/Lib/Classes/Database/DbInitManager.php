@@ -16,6 +16,7 @@ use IGK\Models\Groups;
 */
 class DbInitManager{
     public function init(BaseController $controller){
+      
         // + | --------------------------------------------------------------------
         // + | init profiles
         // + |
@@ -29,8 +30,8 @@ class DbInitManager{
         }
         if (!is_array($tpro))
             return;
-        $roles = [];
-        $auths = [];
+        $roles = []; // mean groups
+        $auths = []; // mean auths
         $fd_name = IGK_FD_NAME;
         $keyname = $controller ? igk_uri(get_class($controller)) : null;
         $v_auths = [];
@@ -43,6 +44,9 @@ class DbInitManager{
             if (!isset($roles[$k])){                
                 $roles[$k] = $this->_registerGroupAndAuth($k, $controller);  
             }
+            if (is_string($c)){
+                igk_wln_e("not ok: ".$pro);
+            }
             // init auth 
             foreach($c as $m){
                 if (!isset($auths[$m])){
@@ -52,11 +56,15 @@ class DbInitManager{
                     $v_auths[$fd_name] =  $controller::authName($m);                    
                     $auths[$m] = $auth ?? Authorizations::createIfNotExists($v_auths);  
                 }
-                Groupauthorizations::createIfNotExists([
-                    "clGrant"=>1, 
-                    "clGroup_Id"=>$roles[$k][0]->clId,
-                    "clAuth_Id"=>$auths[$m]->clId,
-                ]);
+                if ($auths[$m] && $roles[$k][0]){
+                    Groupauthorizations::createIfNotExists([
+                        "clGrant"=>1, 
+                        "clGroup_Id"=>$roles[$k][0]->clId,
+                        "clAuth_Id"=>$auths[$m]->clId,
+                    ]);
+                } else{
+                    igk_ilog("can't create pofile setting : ".get_class($controller));
+                }
             } 
         }
     }

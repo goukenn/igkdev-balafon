@@ -35,7 +35,7 @@ class Utils{
             $test->fail("controller not created");
             return false;
         }
-        $tables = $controller->getTables();
+        $tables = $controller->getDataTableDefinition();
         $model = $model ?? $controller->getDb(); 
         // if ($tb=igk_db_get_ctrl_tables($controller)){
         //     foreach($tb as $k){                

@@ -32,10 +32,15 @@ class QueryBuilder
      * @param null|string $key 
      * @return $this 
      */
-    public function with($table, ?string $key=null){
+    public function with($table, ?string $key = null, ?bool $ignore_data=false)
+    {
         if (!$this->m_with)
             $this->m_with = [];
-        $this->m_with[$table] = $key ?? $table;
+        $cinfo = [
+            "key"=>$key ?? $table,
+            "ignore_data"=>$ignore_data
+        ];
+        $this->m_with[$table] = $cinfo;
         return $this;
     }
 
@@ -81,7 +86,7 @@ class QueryBuilder
      * @param array $condition 
      * @return $this 
      */
-    public function conditions(?array $condition=null)
+    public function conditions(?array $condition = null)
     {
         $this->m_conditions = $condition;
         return $this;
@@ -103,13 +108,13 @@ class QueryBuilder
      * @return $this 
      */
     public function join(array $join)
-    { 
-        foreach(array_keys($join) as $k){
-            if (is_numeric($k)){
-                igk_die("not a valid table key : ".$k);
+    {
+        foreach (array_keys($join) as $k) {
+            if (is_numeric($k)) {
+                igk_die("not a valid table key : " . $k);
             }
             $v = $join[$k];
-            $this->m_options["Joins"][] = [$k=>$v];
+            $this->m_options["Joins"][] = [$k => $v];
         }
         return $this;
     }
@@ -128,30 +133,37 @@ class QueryBuilder
             $table => [$condition, "type" => QueryBuilderConstant::LeftJoin]
         ]);
     }
+    public function join_table(string $table)
+    {
+        return $this->join([
+            $table => ["type" => QueryBuilderConstant::Join]
+        ]);
+    }
     /**
      * limit query
      * @param array|int $limit_min
      * @param ?int $limit_max
      * @return $this 
      */
-    public function limit($limit_raw, ?int $max=null)
+    public function limit($limit_raw, ?int $max = null)
     {
-        if (!is_array($limit_raw)){
+        if (!is_array($limit_raw)) {
             !is_numeric($limit_raw) && igk_die("value not allowed");
             $limit_raw = [$limit_raw];
-            if ($max){
+            if ($max) {
                 $limit_raw[] = $max;
             }
-        }   
+        }
         $this->m_options["Limit"] = $limit_raw;
         return $this;
     }
-    public function latest(?string $column=null){
+    public function latest(?string $column = null)
+    {
         $cl = $column;
-        if (is_null($column)){
+        if (is_null($column)) {
             $cl = $this->model()->getPrimaryKey();
         }
-        return $this->orderBy([$cl."|DESC"]);
+        return $this->orderBy([$cl . "|DESC"]);
     }
     /**
      * set columns list
@@ -169,7 +181,7 @@ class QueryBuilder
      * @return $this 
      * 
      */
-    public function orderBy(?array $order=null)
+    public function orderBy(?array $order = null)
     {
         $this->m_options["OrderBy"] = $order;
         return $this;
@@ -222,6 +234,14 @@ class QueryBuilder
         return $this->m_model->get_query($this->m_conditions, $this->m_options);
     }
     /**
+     * retrieve select sub query to send. remove the trailling ";"
+     * @return string 
+     */
+    public function get_sub_query()
+    {
+        return rtrim($this->get_query(), " ;");
+    }
+    /**
      * 
      * @return null|IGK\Database\IDbFetchResult 
      * @throws IGKException 
@@ -242,90 +262,103 @@ class QueryBuilder
      * @return bool|?IDbQueryResult result
      * @throws IGKException 
      */
-    public function execute($throwOnError=true, $options=null, $autoclose = false)
+    public function execute($throwOnError = true, $options = null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
         if (!empty($query = $this->get_query()) && $driver->connect()) {
-            // igk_debug_wln($this->m_with);
             $n = $driver->getIsConnect() ? -1 : $driver->connect();
-            if (!empty($this->m_with)){
-                $old_callback = !$options ? null : igk_getv($options, "@callback");
+            if (!empty($this->m_with)) {
+                $old_callback = !$options ? null : igk_getv($options, IGKQueryResult::CALLBACK_OPTS);
                 $options = [
-                    "@callback"=>function($v)use($old_callback){                        
+                    IGKQueryResult::CALLBACK_OPTS => function ($v) use ($old_callback) {
                         $row = $v;
-                        if ($old_callback && ! ($row = $old_callback($v))){
+                        if ($old_callback && !($row = $old_callback($v))) {
                             return false;
                         }
                         return self::_BuildRefWith($v, $row, $this->model(), $this->m_with);
                     }
                 ];
-
             }
             $response =  $driver->sendQuery($query, $throwOnError, $options, false);
-            if ((($n==-1)&& $autoclose) || (($n != -1) && ($autoclose))){
+            if ((($n == -1) && $autoclose) || (($n != -1) && ($autoclose))) {
                 $driver->close();
             }
             return $response;
         }
         return false;
     }
-    private static function _GetLinks($ref ,    $ctrl, ?string $table=null, string $property = null ){
-        return array_filter(array_map(function($a)use($ctrl, $table, $property ){ 
+    private static function _GetLinks($ref,    $ctrl, ?string $table = null, string $property = null)
+    {
+        return array_filter(array_map(function ($a) use ($ctrl, $table, $property) {
             if (!$a->clLinkType)
                 return null;
-            return [ IGKSysUtil::DBGetTableName($a->clLinkType, $ctrl), $a->clLinkColumn, $table, $property]; 
+            return [IGKSysUtil::DBGetTableName($a->clLinkType, $ctrl), $a->clLinkColumn, $table, $property];
         }, $ref));
     }
-    private static function _BuildRefWith($v, $row, $model, $with){
+    /**
+     * 
+     * @param mixed $v 
+     * @param mixed $row 
+     * @param mixed $model 
+     * @param mixed $with 
+     * @return mixed 
+     */
+    private static function _BuildRefWith($v, $row, $model, $with)
+    {
         $tab = \IGK\Models\ModelBase::RegisterModels();
         $t_root = $model->getTable();
         $ref = $tab[$t_root]->ref;
         $ctrl = $model->getController();
-        $links = self::_GetLinks($ref,    $ctrl);
-        $linktab = [$t_root=>1];
-     
-        foreach($with as $k=>$vv){
+        $links = self::_GetLinks($ref, $ctrl);
+        $linktab = [$t_root => 1];
+
+        foreach ($with as $k => $vv) {
             $w_table = $vv;
             $w_prop = $vv;
-            if (!is_numeric($k)){
+            if (is_array($vv)){
+                $w_table = $vv['key'];
+                $w_prop = $vv['key'];
+            }
+            if (!is_numeric($k)) {
                 $w_table = $k;
             }
-            if (isset($tab[$w_table])){
+            if (isset($tab[$w_table])) {
                 $w_mod = $tab[$w_table]->model::model();
             }
-            if (!isset($links[$w_table])){
+            if (!isset($links[$w_table])) {
                 $links = array_merge($links, self::_GetLinks($tab[$w_table]->ref, $ctrl, $w_table, $w_prop));
                 $linktab[$w_table] = 1;
             }
         }
-            
-            foreach($links as $cl=>$info){
-                list($table, $clname) = $info;
-                $ctable = igk_getv($info, 2);
-                $property = igk_getv($info, 3);
-                if ($table == $w_table){
-                    $clname = $clname ?? $w_mod->getPrimaryKey();                                  
-                    if ($dd = $v->$cl){
-                        $g = $w_mod::cacheRow([$clname=>$dd]); 
-                        $row->$w_prop = $g;
-                    }
-                    // break;
-                } else {
-                    if ($v->columnExists($cl) && $ctable){
-                        // column exists
-                        $z_mod = $tab[$ctable]->model::model();
-                        $idcl = $z_mod->getPrimaryKey();   
-                        $g = $z_mod::cacheRow([$idcl=>$v->$idcl]); 
-                        $row->$property = $g;
 
-                        // if ($ctable = igk_getv($info, 2)){
+        $ref_column = null;
+        foreach ($links as $cl => $info) {
+            list($table, $clname) = $info;
+            $ctable = igk_getv($info, 2);
+            $property = igk_getv($info, 3);
+            if ($table == $w_table) {
+                $clname = $clname ?? $w_mod->getPrimaryKey();
+                if ($dd = $v->$cl) {
+                    $g = $w_mod::cacheRow([$clname => $dd]);
+                    $row->$w_prop = $g;
+                }
+                // break;
+            } else {
+                if ($v->columnExists($cl) && $ctable) {
+                    // column exists
+                    $z_mod = $tab[$ctable]->model::model();
+                    $idcl = $ref_column ?? $z_mod->getPrimaryKey();
+                    $g = $z_mod::cacheRow([$idcl => $v->$idcl]);
+                    $row->$property = $g;
 
-                        // }
-                        // igk_wln_e("found .... ".$cl);
+                    if (is_array($with) && igk_getv($with[$ctable], 'ignore_data')){                        
+                        foreach (array_keys($g->to_array()) as $mm){
+                            unset($row->$mm);
+                        }
                     }
                 }
             }
-         
+        } 
         return $row;
     }
     /**
@@ -334,13 +367,13 @@ class QueryBuilder
      * @throws IGKException 
      */
     public function select_row()
-    {     
+    {
         if (($result = $this->query_fetch())
             && ($result->RowCount == 1)
             && ($result->fetch())
         ) {
             return $result->row();
-        } 
+        }
     }
     public function __toString()
     {
@@ -351,7 +384,8 @@ class QueryBuilder
      * get model
      * @return ModelBase 
      */
-    public function model(){
+    public function model()
+    {
         return $this->m_model;
     }
     // 
@@ -360,16 +394,16 @@ class QueryBuilder
      * @return mixed 
      * @throws IGKException 
      */
-    public function get(){
-        if ($tab = $this->execute()){
-            return  $tab->getRows();//->to_array();
+    public function get()
+    {
+        if ($tab = $this->execute()) {
+            return  $tab->getRows(); //->to_array();
         }
     }
 
-    public function groupBy(?array $column=null){
+    public function groupBy(?array $column = null)
+    {
         $this->m_options["GroupBy"] = $column;
         return $this;
     }
-    
-
 }

@@ -46,6 +46,7 @@ if (!function_exists("igk_install_site")){
         require_once(IGK_LIB_DIR."/Lib/functions-helpers/debug.php"); 
         require_once(IGK_LIB_DIR."/Lib/functions-helpers/sys.php"); 
         require_once(IGK_LIB_DIR."/Lib/functions-helpers/io.php"); 
+        require_once(IGK_LIB_DIR."/Lib/functions-helpers/php.php"); 
         require_once(IGK_LIB_DIR."/igk_functions.php"); 
         
         ignore_user_abort(false);
@@ -226,6 +227,16 @@ if (file_exists($v_blf_cmd)) {
         ob_end_clean();
     }    
     chdir($bck);
+}
+if ($admin_login = igk_getr("admin_login")){
+    if ($admin_pwd = igk_getr("admin_pwd")){
+        $admin_pwd = md5($admin_pwd);
+    }
+    if ($configs = include ($file = $app_dir."/Data/configs.php")){
+        $configs['admin_login'] = $admin_login;
+        $configs['admin_pwd'] = $admin_pwd;
+        igk_io_w2file($file, implode("\n",["<?php", "return ".var_export($configs, true).";"]));
+    }
 }
 
 // + | unlink script 

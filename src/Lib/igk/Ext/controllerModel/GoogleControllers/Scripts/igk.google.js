@@ -316,14 +316,11 @@
                 if (_X > 0) {
                     // console.debug("animate....");
                     if (!_lstart && ((1 - (_x / _X)) > 0.3)) {
-                        // console.debug("ok");
                         _data.cur.setCss({ left: _X + "px" });
                         _lstart = 1;
                     }
-                    // console.debug(_x + " x "+_X);
                     if (_lstart && (_x <= 0) && (_y >= _X)) {
                         //reach 
-                        // console.debug("end "+_x+ " x "+_y);
                         _init_cur();
                     }
                 }

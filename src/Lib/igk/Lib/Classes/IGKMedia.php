@@ -128,13 +128,16 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         $def=$this->getDef();
         if($def){
             foreach($def as $k=>$v){
+                if (is_null($v)) continue;
                 if (is_string($v)){
                     $kv=trim(igk_css_treat($v, $themeexport, $theme, $systheme));
                     if(!empty($kv)){
                         $o .= $k."{".$kv."}".$lineseparator; 
                     }
                 } else {
-                    $o .= $k."{ ".$v->getCssDef($theme, $systheme)." }".$lineseparator; 
+                    $rdef = $v->getCssDef($theme, $systheme);
+                    if ($rdef && !empty(trim($rdef)))
+                         $o .= $k."{ ".$rdef." }".$lineseparator; 
                 }
             }
         } 

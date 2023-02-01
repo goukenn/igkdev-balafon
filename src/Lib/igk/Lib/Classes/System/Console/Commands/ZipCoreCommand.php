@@ -35,23 +35,7 @@ class ZipCoreCommand extends AppExecCommand{
         $incVersion = null;        
         if (file_exists($path)){
             $dir = dirname ($path);
-            $version = IO::CheckFileVersion($path);
-
-            // $v = explode(".", IGK_VERSION);            
-            // $match = "/^".implode(".", ["balafon", $v[0], $v[1]]). "/";
-           
-            // $files = IO::GetFiles($dir, function($s)use($match){           
-            //     return preg_match($match, basename($s));
-            // });
-            // if (count($files)>0){
-            //     rsort($files); 
-            //     $version = igk_preg_match("/^balafon\.(?P<version>[^-]+)/", basename($files[0]), "version");
-            //     // igk_wln_e("file : ", $files, $version);
-            //     $v = explode(".", $version);
-            // }
-            // $incVersion = $v[2];
-            // $incVersion++;
-            // $v[2] = $incVersion;
+            $version = IO::CheckFileVersion($path); 
             $path = dirname ($path). "/balafon.".$version.$ext;
         }
         if (igk_sys_zip_core($path, $incVersion)){

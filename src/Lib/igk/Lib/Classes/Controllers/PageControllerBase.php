@@ -11,6 +11,7 @@
 namespace IGK\Controllers;
 
 use IGK\Controllers\ILibaryController;
+use IGK\Helper\SysUtils;
 use IGK\System\SystemUserProfile;
 use IGKSession;
 use IIGKUriActionRegistrableController;
@@ -61,7 +62,8 @@ abstract class PageControllerBase extends ControllerTypeBase
      * @return null|object application user info
      */
     public function getUser(){
-        return $this->getEnvParam(self::PAGE_USER);
+        $user = $this->getEnvParam(self::PAGE_USER); 
+        return $user;
     }
     ///<summary></summary>
     protected function getUserDir(){

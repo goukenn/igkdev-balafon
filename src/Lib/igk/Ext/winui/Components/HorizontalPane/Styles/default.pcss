@@ -25,8 +25,8 @@
 $def[".hpane-bz"]= "width:100%; position:absolute; z-index:10;display:block; height:32px; bottom:0px; text-align:center;";
 $def[".hpane-bz:after"]=  "content:' '; display:table;";
 
-$def[".igk-hpane-container .hpane-btn-p"]= "[res:navbtn_previous]";
-$def[".igk-hpane-container .hpane-btn-n"] = "[res:navbtn_next]";
+$def[".igk-hpane-container .hpane-btn-p"]= "[res:navbtn_previous];";
+$def[".igk-hpane-container .hpane-btn-n"] = "[res:navbtn_next];";
 $def[".igk-hpane-container .hpane-btn-p, .igk-hpane-container .hpane-btn-n"]= "z-index:50";
 
 // $def[".igk-pane-manager"]= "{sys:posab, loc_b} z-index:20";
@@ -47,6 +47,10 @@ $def[".igk-hpane-container > .igk-pane.rotation > .igk-pane-page"] = "{sys:dispi
 $def[".igk-hpane-container > .igk-pane.rotation > .igk-pane-page .igk-pane-img"] = "{sys:fit, fitc}";
 
 //bullet
-$def[".igk-hpane-container .hpane-b"]= "{sys:dispib} [res:bullet] width:16px; height:16px; background-repeat:no-repeat; cursor:pointer;";
+$def[".igk-hpane-container .hpane-b"]= "{sys:dispib} [res:bullet]; width:16px; height:16px; background-repeat:no-repeat; cursor:pointer;";
 $def[".igk-hpane-container .hpane-b.igk-active"]= "background-position:-16px 0px;";
-?>
+ 
+
+$def['.igk-pane-option .del'] = '[res:del_32x32]; cursor: pointer;';
+$def['.igk-pane-option .add'] = '[res:add_32x32]; cursor: cell;';
+$def['.igk-pane-option .option'] = '[res:option_32x32]; cursor: pointer;';

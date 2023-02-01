@@ -86,8 +86,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         $src = implode("\n",[
             "<?php",
             'if ((true)) $x = 8;'
-        ]);
-        // igk_debug(true);
+        ]); 
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
@@ -119,8 +118,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         $src = implode("\n",[
             "<?php",
             'if (true){ $x = 8; $y = 9; }'
-        ]);
-        // igk_debug(true);
+        ]); 
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
@@ -165,8 +163,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         $src = implode("\n",[
             "<?php",
             'if (defined("demo")){ class Demo{} $x = 88; }'
-        ]);
-        //igk_debug(true);
+        ]); 
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src); 
       

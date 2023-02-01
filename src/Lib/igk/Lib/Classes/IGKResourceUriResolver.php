@@ -11,6 +11,7 @@
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
+use IGK\System\IO\ResIdentifierConstants;
 
 use function igk_resources_gets as __;
 
@@ -79,11 +80,11 @@ class IGKResourceUriResolver
                     return $chain;
                 }
             ),
-            IGK_LIB_DIR => "_lib_",
-            igk_get_module_dir() => "_mod_",
-            igk_io_projectdir() => "_prj_",
-            igk_get_packages_dir() => "_pkg_",
-            igk_io_cachedir() => "_chs_"
+            IGK_LIB_DIR => ResIdentifierConstants::LIBRARY,
+            igk_get_module_dir() => ResIdentifierConstants::MODULE,
+            igk_io_projectdir() => ResIdentifierConstants::PROJECT,
+            igk_get_packages_dir() => ResIdentifierConstants::PACKAGE,
+            igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
         krsort($this->environment, SORT_REGULAR);
         $_access = implode("\n", ["allow from all", "AddType text/javascript js", "AddEncoding deflate js", "<IfModule mod_headers.c>", "Header set Cache-Control \"max-age=31536000\"", "</IfModule>",]);

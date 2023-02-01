@@ -499,11 +499,16 @@ define("IGK_HOME", "home");
 define("IGK_DEFAULT_ARTICLE", "default");
 define("IGK_DEFAULT_LANG", "fr");
 define("IGK_HTML_CONTENT_TYPE", "Content-Type: text/html; charset=utf-8");
+
+// + | --------------------------------------------------------------------
+// + | Schema definition constants
+// + | 
 define("IGK_SCHEMA_TAGNAME", "data-schemas");
 define("IGK_DATA_DEF_TAGNAME", "DataDefinition");
 define("IGK_ENTRIES_TAGNAME", "Entries");
 define("IGK_RELATIONS_TAGNAME", "Relations"); 
 define("IGK_GEN_COLUMS", "GenColumn"); 
+
 define("IGK_ROW_TAGNAME", "Row");
 define("IGK_ROWS_TAGNAME", "Rows");
 define("IGK_CNF_TAG", "config");
@@ -539,6 +544,7 @@ define("IGK_BALAFON_CONFIG", "balafon.config.xml");
 define("IGK_ENGINE_EXPRESSION_NODE", "igk:expression-node"); // used internally to replace data with expression node
 define("IGK_ENGINE_ATTR_EXPRESSION_NODE", "igk:attr-expression");
 define("IGK_ENGINE_ATTR_TEMPLATE_CONTENT", "igk:template-content");
+define("IGK_ENGINE_ATTR_TEMPLATE_REF_ATTR", "igk:template-attr");
 
 define("IGK_APP_FORM_CONTENT", "Application/x-www-form-urlencoded");
 define("IGK_JS_VOID", "javascript:void();");

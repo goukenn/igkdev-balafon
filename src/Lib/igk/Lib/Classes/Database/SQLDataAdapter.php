@@ -21,6 +21,7 @@ use function igk_resources_gets as __;
 * Represente IGKSQLDataAdapter class
 */
 abstract class SQLDataAdapter extends DataAdapterBase{
+    const DB_INFORMATION_SCHEMA = "information_schema";
     /**
      * 
      * @param mixed $t 
@@ -101,17 +102,8 @@ abstract class SQLDataAdapter extends DataAdapterBase{
      */
     protected static function GetRelation($adapter, $tname, $clname){
         $r = $adapter->getDbname();        
-        $adapter->selectdb("information_schema");
-        // TODO: remove select ALL expression
-        // $q = $adapter->getGrammar()->createSelectQuery('KEY_COLUMN_USAGE', [
-        //     "TABLE_NAME"=>$tname,
-        //     "TABLE_SCHEMA"=>$r,
-        //     "COLUMN_NAME"=>$clname,
-        //     "!REFERENCED_TABLE_NAME"=>""
-        // ]);
-        // $adapter->sendQuery($q);
-
-
+        $adapter->selectdb(static::DB_INFORMATION_SCHEMA);
+        // TODO: remove select ALL expression 
         $h=$adapter->sendQuery("SELECT * FROM `KEY_COLUMN_USAGE` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."' AND `COLUMN_NAME`='".igk_db_escape_string($clname)."' AND `REFERENCED_TABLE_NAME`!=''");
         $adapter->selectdb($r);
         return $h->getRowAtIndex(0);
@@ -120,12 +112,12 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         $v = $columninfo;
         $table_n = $table;
         $mysql = $adapter;
-        $cl= []; // $row->addNode("Column");
+        $cl= []; 
         $cl["clName"]=$v->Field;
         $tab=array();
         preg_match_all("/^((?P<type>([^\(\))]+)))\\s*(\((?P<length>([0-9]+))\)){0,1}( (?P<option>(unsigned)))?$/i", trim($v->Type), $tab);
         igk_ilog("name: ".$v->Field. " ".$v->Type);
-        $cl["clType"]= static::ResolvType(igk_getv($tab["type"], 0, "Int"));
+        $cl["clType"]= $adapter->getGrammar()->ResolvType(igk_getv($tab["type"], 0, "Int"));
         $cl["clTypeLength"]=igk_getv($tab["length"], 0, 0);
         if (!empty($tab["option"][0])){
             switch(strtolower(trim($tab["option"][0]))){
@@ -277,7 +269,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         if(igk_reflection_class_implement($value, IHtmlGetValue::class)){
             return $value->getValue(
                 (object)[
-                    "grammar"=>null,
+                    "grammar"=>$this->getGrammar(),
                     "type"=>"insert"
                 ]
             );

@@ -24,8 +24,6 @@
 //styling: 1 igk-pane overflow is hidden ! important
 //for rotation
 
-
-
 (function() {
     var g_panes = [];
     var ckeys = ['.igk-pane-page', '.igk-pane', '.hpane-bz'];
@@ -212,15 +210,8 @@
             //init hpane
             var q = $igk(t);
             var pane = new _class_(q);
-
-
-
-
             pane.reset();
-
             window.pan = pane;
-
-
             return pane;
         },
         item: function(i) {
@@ -231,6 +222,36 @@
     igk.ready(function() {
         var _b = igk.dom.body();
         support_transition = ifc(_b.o, 'transition') && ifc(_b.o, 'transform');
+    });
+
+})();
+
+(function() {
+    // + | ------------------------------------------------------------------------
+    // + | init balafon js component - igk-hpane-container 
+    // + | requirement : igk-data = json data with initial properties
+    ;
+    igk.winui.initClassControl("igk-hpane-container", function(q) {
+        let i = this;
+        let options = JSON.parse(i.o.getAttribute('igk-data')) || {};
+        igk.winui.horizontalScrollPane.init(i, options);
+        // let p = i.select('^body').first(); //.o.parentNode;
+        // let config = {
+        //     attributes: true,
+        //     childList: true,
+        //     characterData: true
+        // };
+        // var observer = new MutationObserver(function(mutations) {
+        //     mutations.forEach(function(mut) {
+        //         console.log("changed .... " + mut.type);
+        //         let c = $igk(p).select(">." + q);
+        //         c.each_all(function(m) {
+        //             this.init();
+        //         });
+        //     });
+        // });
+        // observer.observe(p.o, config);
+        // console.log(p.o);
     });
 
 })();

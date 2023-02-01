@@ -78,4 +78,21 @@ class UsersMacros {
         }
         return null; 
     }
+    /**
+     * get user groups name 
+     * @param Users $model 
+     * @return array<array-key, mixed> 
+     */
+    public static function getGroupNames(Users $model){
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CL_NAME), $model->groups());
+    }
+    public static function getAuthorizationNames(Users $model){
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CL_NAME), $model->auths());
+    }
+    /**
+     * get user form guid :
+     */
+    public static function fromGuid(Users $model, string $guid){
+        return $model->GetCache(Users::FD_CL_GUID, $guid);
+    }
 }

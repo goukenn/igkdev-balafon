@@ -12,12 +12,37 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\View\ViewCommandArgs;
+use IGK\System\Views\ViewCommentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKEnvironment;
 use IGKException;
 use ReflectionException;
 
 use function igk_resources_gets as __;
+use function IGK\Controllers\igk_getv_isset as get_arg;
+
+
+/**
+ * su
+ * @param mixed $ob 
+ * @param string $name 
+ * @param mixed $default 
+ * @return mixed 
+ */
+function igk_getv_isset($ob, string $name, $default=null){
+
+    if (is_object($ob)){
+        if (isset($ob->$name)){
+            return $ob->$name ?? $default;
+        }    
+    } else if (is_array($ob)){
+        if (isset($ob[$name])){
+            return $ob[$name];
+        }
+    }    
+    return $default;
+}
 
 /**
  * view layout loader
@@ -95,13 +120,9 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         $response = null;
         $ctrl =  $this->controller;  
         $this->controller->setExtraArgs(["layout"=>$this]);
-        $v_main = $this->{'@MainLayout'};
+        $v_main = $this->isMainLayout($file); 
         $no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfig('no_auto_cache_view');
-
-        
-
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
-
         if (!$v_main &&  $this->exists($this->header)){
             igk_include_view_file($this->controller, $this->header, true, $args);   
         }
@@ -111,7 +132,26 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         if (!$v_main &&  $this->exists($this->footer)){
             igk_include_view_file($this->controller, $this->footer, true, $args);
         }
+        $this->afterInc();
         return $response;
+    }
+    /**
+     * afert view inclusion
+     * @return void 
+     */
+    protected function afterInc(){
+        if (get_arg($this->controller, '@ReplaceURI')){
+            $fname = ViewHelper::GetViewArgs('fname');
+            $this->controller->getTargetNode()->replace_uri($fname);
+        }        
+    }
+    /**
+     * check if the view is a main layout 
+     * @param string $file 
+     * @return bool 
+     */
+    public function isMainLayout(string $file): bool{
+        return $this->{'@MainLayout'} || ViewCommentArgs::Check("@MainLayout()", $file);
     }
     /**
      * get page title 

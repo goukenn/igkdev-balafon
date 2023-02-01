@@ -12,6 +12,7 @@ use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Resources\R;
+use IGK\System\Database\MySQL\DataAdapter;
 
 use function igk_resources_gets as __;
 ///used to get relation </summary>
@@ -19,7 +20,7 @@ use function igk_resources_gets as __;
 */
 function get_relation($mysql, $tname, $clname, $dbname=null){
     $r=$dbname == null ? igk_mysql_db_selected_db($mysql): $dbname;
-    $mysql->selectdb("information_schema");
+    $mysql->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
     $h=$mysql->sendQuery("SELECT * FROM `KEY_COLUMN_USAGE` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."' AND `COLUMN_NAME`='".igk_db_escape_string($clname)."' AND `REFERENCED_TABLE_NAME`!=''");
     $mysql->selectdb($r);
     return $h->getRowAtIndex(0);
@@ -38,7 +39,7 @@ function get_relation($mysql, $tname, $clname, $dbname=null){
 * @param mixed $mysql
 */
 function igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix=""){    
-    $cl=$row->add("Column");
+    $cl=$row->add(IGK_COLUMN_TAGNAME);
     $cl["clName"]=$v->Field;
     $tab=array();
     $ctype = trim($v->Type);
@@ -131,7 +132,7 @@ function igk_api_get_sync_definition($api, $row, $table_n, $u, $mysql, $db=null,
             if($g == null){
                 $g=array();
             }
-            $g[]=array("Column"=>$v->Field, "Table"=>$lnk);
+            $g[]=array(IGK_COLUMN_TAGNAME=>$v->Field, "Table"=>$lnk);
             $links[$lnk]=$g;
         }
         if($cl["clAutoIncrement"]){
@@ -236,6 +237,7 @@ function igk_api_mysql_addcolumn($api, $tbname, $name){
 function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $callback=null){
     $tconfig = igk_api_mysql_get_config_data_schema($api, false, (object)array("check"=>1));
     if (!isset($tconfig["tbigk_users"])){
+      
         igk_die("users's table not found");
     } 
  
@@ -283,7 +285,7 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
                 $err->add("msg")->Content="Column [{$tbname}::{$vv->clName}] Type length not match. Expected {$vv->clTypeLength} but {$v_btest->clTypeLength} found";
                 $v_err=0;
             }
-            if(strtolower($vv->clLinkType) != strtolower($v_btest->clLinkType)){
+            if(strtolower($vv->clLinkType ?? '') != strtolower($v_btest->clLinkType ?? '')){
                 $err->add("msg")->Content=
                         sprintf("Column [%s::%s] ooo Linktype not match. Expected [%s] but [%s] found",
                         $tbname, $vv->clName,
@@ -473,7 +475,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                     $tables[$tname]=(object)array("info"=>$tinfo, "ctrl"=>$v);
                     $row=$rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$tname, "igk:ctrlName"=>$v->Name));
                     foreach($tinfo as $vv){
-                        $cl=$row->addNode("Column");
+                        $cl=$row->addNode(IGK_COLUMN_TAGNAME);
                         $cl->setAttributes($vv);
                     }
                     $count++;
@@ -483,6 +485,9 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                 $data = igk_db_load_data_schemas($v->getDataSchemaFile(), $v);
                 $tschema = igk_getv($data, "tables");
                 if($tschema){
+                    /**
+                     * @var IGK\System\Database\SchemaMigrationInfo $cv
+                     */
                     foreach($tschema as $ck=>$cv){
                         if(isset($tables[$ck])){
                             $msg->add("msg")->Content="Table $ck already found. [".$v->Name. "] get from ".$tables[$ck]->ctrl->Name." with schema";
@@ -490,10 +495,11 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                         }
                         $row=$rep->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName"=>$ck, "igk:ctrlName"=>$v->Name));
                         $row["clDescription"]=igk_getv($cv, "clDescription");
-                        $cinfo=igk_getv($cv, "ColumnInfo");
+                        $cinfo= $cv->columnInfo;
                         $tables[$ck]=(object)array("info"=>$cinfo, "ctrl"=>$v);
+                     
                         foreach($cinfo as $ckv){
-                            $cl=$row->addNode("Column");
+                            $cl=$row->addNode(IGK_COLUMN_TAGNAME);
                             $cl->setAttributes((array)$ckv);
                         }
                         $count++;

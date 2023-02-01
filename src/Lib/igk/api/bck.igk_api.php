@@ -51,10 +51,10 @@ final class ApiFunctionController extends ApplicationController {
     ///<summary></summary>
     ///<param name="cmd" default="null"></param>
     /**
-    * 
+    * argument
     * @param mixed $cmd the default value is null
     */
-    public function datadb($cmd=null){
+    public function datadb($cmd=null, ...$args){
         $args=array_slice(func_get_args(), 1);
         $_data=null;
         $_api=$this;

@@ -73,7 +73,7 @@ final class IGKSubDomainManager extends IGKObject{
         
         $t = array_merge(self::$sm_cached_domains, $this->getRegList()?? []);  
          
-        $cl = SysDbController::resolvClass(Subdomains::class); 
+        $cl = SysDbController::resolveClass(Subdomains::class); 
     
         if(!empty($subdomain)){
             $s=$subdomain;

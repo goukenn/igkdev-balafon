@@ -9,6 +9,7 @@
 ///<summary>Represente class: IGKCSVDataAdapter</summary>
 
 use IGK\Database\DataAdapterBase;
+use IGK\Database\IDbQueryResult;
 use IGK\Helper\IO;
 use IGK\System\Database\SQLGrammar;
 
@@ -19,6 +20,22 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_ctrl;
     private $m_dbname;
     private $m_fhandle;
+
+    /**
+     * no query allowed
+     * @param string $query 
+     * @param bool $throwex 
+     * @param mixed $options 
+     * @param bool $autoclose 
+     * @return null|bool|IDbQueryResult 
+     */
+    public function sendQuery($query, $throwex = true, $options = null, $autoclose = false) {
+        return false;
+     }
+
+    public function constraintForeignKeyExists(string $name): bool { 
+        return false;
+    }
 
     public function tableExists(string $table): bool {
         return false;

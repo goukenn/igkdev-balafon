@@ -7,6 +7,8 @@
 
 
 namespace IGK\System\Console;
+
+use IGK\Controllers\BaseController;
 use IGK\System\Console\AppCommandConstant;
 use IGK\System\Console\Commands\InitCommand;
 use IGKException;
@@ -45,6 +47,10 @@ abstract class AppCommand {
      */
     var $category;
 
+    /**
+     * array of options
+     * @var mixed
+     */
     var $options;
     
     public static function Register($command, callable $callable, $desc=""){
@@ -53,6 +59,17 @@ abstract class AppCommand {
         $o->description = $desc;
         $o->callable = $callable;
         igk_push_env(self::ENV_KEY, $o);
+    }
+    /**
+     * bind user - login with users
+     * @param BaseController $controller 
+     * @param int $id 
+     * @return void 
+     */
+    public static function BindUser(BaseController $controller, int $id){
+        if ($user = \IGK\Models\Users::Get('clId', $id)){
+            $controller::login($user, null, false);
+        }
     }
     /**
      * get store command
@@ -100,8 +117,13 @@ abstract class AppCommand {
                         }
                     }else  {
                         if (!class_exists($ctrl,false)){
-                            $b = igk_io_expand_path($b);
-                            include($b);
+                            // if (file_exists(
+                                $b = igk_io_expand_path($b);
+                            //  )){
+                                include($b);
+                            // }else{
+                            //     continue;
+                            // }
                         }
                         if (!class_exists($ctrl)){
                             die("class [".$ctrl ."] not found or is abstract".$b);

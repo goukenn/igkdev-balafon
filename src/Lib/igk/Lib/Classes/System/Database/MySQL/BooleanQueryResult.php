@@ -8,6 +8,9 @@ namespace IGK\System\Database\MySQL;
 class BooleanQueryResult{
     private $m_result;
     private $m_srcquery;
+    public function __toString(){
+        return $this->m_result;
+    }
     public function __construct(bool $result, ?string $srcquery=null)
     {
         $this->m_result = $result;

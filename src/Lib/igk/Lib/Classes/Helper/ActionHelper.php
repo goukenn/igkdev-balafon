@@ -17,6 +17,8 @@ use IGKActionBase;
 use IGK\Controllers\BaseController;
 use IGK\Models\RegistrationLinks;
 use IGK\Models\Users;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IO\Path;
 use IGK\System\Net\Mail;
 use IGK\System\Process\CronJobProcess;
 use IGKEvents;
@@ -24,6 +26,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use IGKException;
 use IGKValidator;
+use ReflectionException;
 use ReflectionMethod;
 
 /**
@@ -32,6 +35,29 @@ use ReflectionMethod;
  */
 abstract class ActionHelper
 {
+    /**
+     * dispatch to action 
+     * @param string $method 
+     * @param string $action_class 
+     * @param array $arguments 
+     * @param callable|null $callable 
+     * @return mixed 
+     */
+    public static function DispatchToAction(string $method, string $action_class, array $arguments, callable $callable=null){
+        $verb = ["", '_'.strtolower(igk_server()->REQUEST_METHOD)];
+        while(count($verb)>0){
+            $q = array_shift($verb);
+            if (method_exists($action_class, $m = $method.$q)){
+                $c = new $action_class;
+                if ($callable){
+                    $callable($c);
+                }
+                $tab = $arguments ?? [] ;
+                array_unshift($tab, $method);
+                return ActionBase::HandleObjAction('__dispatch__', $c, $tab);
+            }
+        }
+    }
     /**
      * 
      * @param Users $u user ask to change password
@@ -82,7 +108,7 @@ abstract class ActionHelper
         if ($row = $regLink ?? self::GetAliveToken($token)) {
             $format = IGK_MYSQL_DATETIME_FORMAT;
             $now = date_create_from_format($format, date($format));
-            $pass = date_create_from_format($format, date($row->regLinkUpdate_at));
+            $pass = date_create_from_format($format, date($row->regLinkUpdate_At));
             $diff = $now->diff($pass);
             $interval =  new DateInterval('P3D');
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
@@ -284,5 +310,99 @@ abstract class ActionHelper
             $row->save();
         }
         return $token;
+    }
+
+    /**
+     * retrieve all action controller action 
+     * @param BaseController $controller 
+     * @return null|array  
+     */
+    public static function GetActionClasses(BaseController $controller){
+        $dir = $controller->getClassesDir()."/Actions";
+        if (!is_dir($dir)){
+            return null;
+        }
+        $ln = strlen($dir);
+        $tab = [];
+        foreach(igk_io_getfiles($dir, "/Action\.php$/") as $f){
+            $path = ltrim(igk_str_rm_start($f, $dir), '/');            
+            $actions = Path::CombineAndFlattenPath("/Actions/", dirname($path), igk_io_basenamewithoutext($path));
+            $tab[] = $controller->resolveClass($actions); 
+        }
+        return $tab;
+    }
+    /**
+     * get actions exposed method
+     * @param object|string $object_or_class 
+     * @return null|array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetExposedMethods($object_or_class){
+        if (!is_subclass_of($object_or_class, ActionBase::class)){
+            return null;
+        }
+        $cl = igk_sys_reflect_class($object_or_class);
+        if ($cl->isAbstract()){
+            return null;
+        }
+        return array_filter(array_map(function($m){
+            $n = $m->getName();
+            if ($m->isStatic()|| $m->isConstructor() || in_array($n, [
+                '__call',
+                '__set',
+                '__get'
+            ]) || preg_match("/^(get|set)/i",$n)){
+                return null;
+            }
+            return $n;
+        },$cl->getMethods( ReflectionMethod::IS_PUBLIC )));
+    }
+
+    /**
+     * 
+     * @param BaseController $controller 
+     * @param string $action_class_name 
+     * @return mixed 
+     */
+    public static function GetActionName(BaseController $controller, string $action_class_name):?string{
+        $fs = ltrim($controller->getEntryNamespace()."\\Actions", "\\")."\\";
+        if (strpos($action_class_name, $fs)===0){
+            $a = igk_str_rm_start($action_class_name, $fs);
+            if ((strrpos($a, "Action")!==false)){
+                $a = igk_str_rm_last($a, "Action");
+            }
+            return $a;
+        }
+        return null;
+    }
+    /**
+     * get expected action class 
+     * @param BaseController $controller 
+     * @param string $view_action_name 
+     * @return null|string 
+     */
+    public  static function ExpectedAction(BaseController $controller, string $view_action_name):?string{
+        $name = $view_action_name;
+        if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
+            $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
+        }
+        $name = implode("/", array_map("ucfirst", explode("/", $name)));
+        $action = $controller::ns(sprintf("%s\\%s",                     
+                    \Actions::class, 
+                    $name."Action")); 
+        return $action;
+    }
+
+    /**
+     * get if resolved class is expected 
+     * @param BaseController $baseController 
+     * @param mixed $action_name action path name
+     * @param mixed $resolved_class 
+     * @return bool 
+     */
+    public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class):bool{
+        return self::ExpectedAction($baseController, $action_name) == $resolved_class;
     }
 }

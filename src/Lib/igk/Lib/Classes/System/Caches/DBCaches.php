@@ -6,12 +6,10 @@ namespace IGK\System\Caches;
 
 use Exception;
 use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Activator;
-use IGK\Helper\Database;
 use IGK\Helper\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer;
@@ -19,6 +17,7 @@ use IGK\System\Database\DbUtils;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
+use IGKEvents;
 use IGKException;
 use ReflectionException;
 
@@ -37,11 +36,13 @@ class DBCaches
 
     private $m_db_init_request;
 
+    private $m_mock;
+
     /**
      * store controller loaded definition
-     * @var array
+     * @var ?array|?object
      */
-    private $m_db_defs = [];
+    private $m_db_defs;
 
     /**
      * init db request 
@@ -72,7 +73,7 @@ class DBCaches
      */
     public static function IsInitializing()
     {
-        return self::getInstance()->m_init;
+        return self::getInstance()->m_initializing;
     }
     /**
      * table register according to system management database
@@ -80,23 +81,31 @@ class DBCaches
      */
     private $m_tableInfo = [];
 
-    private $m_init = false;
+    private $m_init_cache = false;
 
     private $m_initializing = false;
     /**
      * get the dbcache instances
      * @return static
      */
-    public static function getInstance()
+    private static function getInstance()
     {
         if (self::$sm_instance === null)
             self::$sm_instance = new static;
         return self::$sm_instance;
     }
+    /**
+     * init DBCaches - entry point
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     public static function Init()
     {
         $i = self::getInstance();
-        if ($i->m_init) {
+        if ($i->m_init_cache) {
             return;
         }
         $i->_initDbCache();
@@ -147,6 +156,10 @@ class DBCaches
         $g = static::getInstance();
         $g->m_tableInfo[$table] = $info;
     }
+    /**
+     * helper: clear db caches
+     * @return void 
+     */
     public static function Clear()
     {
         static::getInstance()->_clear();
@@ -158,18 +171,29 @@ class DBCaches
     {
         return 'Systemp - DB Cache';
     }
+    /**
+     * clear stored db caches
+     * @return void 
+     */
     private function _clear()
     {
         $this->m_tableInfo = [];
+        $this->m_init_cache = false;
+        if (file_exists($file = self::GetCacheFile()))
+            @unlink($file);
+        DbSchemas::ResetSchema();
     }
+    /**
+     * clear and restore store db cache
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     private function _clearAndReload()
     {
         $this->_clear();
-        $this->m_init = false;
-        if (file_exists($file = self::GetCacheFile()))
-            @unlink($file);
-
-        DbSchemas::ResetSchema();
         $this->_initDbCache();
     }
     protected function _initDbCache()
@@ -178,16 +202,16 @@ class DBCaches
             return;
         }
         // + | --------------------------------------------------------------------
-        // + | cache is empty - load from cache -  
+        // + | cache is empty - load from cache -  convert stdbclose to migration DbColumnInfo
         // + |
         $sysctrl = SysDbController::ctrl();
-        if (!$this->m_init) {
+        if (!$this->m_init_cache) {
             if (is_file($file = self::GetCacheFile())) {
                 $data = unserialize(file_get_contents($file));
                 if ($data !== false) {
                     $ad_name = $sysctrl->getDataAdapterName();
                     $trdata = igk_getv($data->{'0'}, $ad_name);
-                    $rdata = []; 
+                    $rdata = [];
                     if ($trdata) {
                         foreach ($trdata as $ctrl => $v) {
                             if (!($gctrl = igk_getctrl($ctrl, false))) {
@@ -215,13 +239,13 @@ class DBCaches
                     }
                     $this->m_tableInfo = $rdata;
                     $this->m_db_defs =  $trdata;
-                    $this->m_init = 1;
+                    $this->m_init_cache = 1;
                     return;
                 }
             }
         }
         // initialize system controller
-        $this->m_init = 1;
+        $this->m_init_cache = 1;
         $this->m_initializing = 1;
         $this->m_db_init_request = 1;
         igk_environment()->NO_PROJECT_AUTOLOAD = 1;
@@ -267,8 +291,7 @@ class DBCaches
         // + |
         Logger::warn("check for data models files");
         DBCachesModelInitializer::Init($this->m_tableInfo);
-        igk_hook('db_caches initialized', []);
-        // @igk_ serialize - the data to speed loading         
+        igk_hook(IGKEvents::HOOK_DB_CACHES_INITIALIZED, []);     
     }
     /**
      * update definition 
@@ -283,7 +306,7 @@ class DBCaches
     public static function Update(BaseController $controller, $storeCache = false)
     {
         $init = new DatabaseInitializer;
-        $definition = $init->init($controller);
+        $definition = $init->init($controller) ?? (object)["tables" => []];
         $v_i = static::getInstance();
         $v_i->m_tableInfo = array_merge($v_i->m_tableInfo, $definition->tables);
         if ($storeCache) {
@@ -319,7 +342,7 @@ class DBCaches
             }
             return $this->m_mock[$table]->tableRowReference;
         }
-        !$this->m_init && $this->_initDbCache();
+        !$this->m_init_cache && $this->_initDbCache();
         /**
          * @param $ref_def 
          */
@@ -389,7 +412,8 @@ class DBCaches
         foreach ($data as $k => $m) {
             $cl = $m->controller;
             if (is_null($cl)) {
-                igk_wln_e("bad null found");
+                igk_dev_wln_e("CacheData: missing controller");
+                continue;
             }
             $ad = $cl->getDataAdapterName();
             $m = self::_UnsetPropertiesDefinition((array)$m);
@@ -407,5 +431,33 @@ class DBCaches
                 'ignore_empty' => 1
             ]
         ))));
+    }
+
+    /**
+     * clear controller caching - data
+     * @param BaseController $controller 
+     * @return void 
+     */
+    public static function ClearControllerCache(BaseController $controller)
+    {
+        $v_i = self::getInstance();
+        if (!$v_i->m_init_cache) {
+            $v_i->_initDbCache();
+        }
+        // + | --------------------------------------------------------------------
+        // + | get database that match controller 
+        // + |
+        $cl = get_class($controller);
+        unset($v_i->m_db_defs->$cl);
+
+        $v_tabinfo = &$v_i->m_tableInfo;
+        $v_tabinfo = array_filter(array_map(function ($d) use ($controller) {
+            if ($d->controller == $controller) {
+                return null;
+            }
+            return $d;
+        }, $v_tabinfo));
+        // + | force relead controller schema 
+        DbSchemas::ClearControllerSchema($controller);
     }
 }

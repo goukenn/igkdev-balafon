@@ -69,6 +69,12 @@ class ApplicationLoader
      * @var string loading context
      */
     private $_context;
+
+    /**
+     * indicate that class need to be sorted
+     * @var mixed
+     */
+    private $sorted;
     /**
      * get instance application to after boot
      * @return static instance

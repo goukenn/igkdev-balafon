@@ -57,7 +57,6 @@
             q.addClass(t);
         }
         evt.stopPropagation();
-        //alert("ok");
     }
 
     function is_scrolling(q) {

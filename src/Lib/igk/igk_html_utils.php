@@ -392,7 +392,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
                 $v = [];
             }
 
-            $st = igk_io_basenamewithoutext($k);
+            $st = igk_io_basenamewithoutext($k) ?? '';
             $v_isr = $st === $k;
             $c = 0;
             if ($v_isr) {

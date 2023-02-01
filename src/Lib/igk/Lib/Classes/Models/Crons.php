@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
-// @date: 20221203 14:34:18
+// @date: 20230131 13:55:04
 namespace IGK\Models;
 
 
@@ -24,6 +24,15 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, int $crons_status, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * */
 class Crons extends ModelBase{
+	const FD_CL_ID="clId";
+	const FD_CRONSNAME="crons_name";
+	const FD_CRONSPROCESS="crons_process";
+	const FD_CRONSSCRIPT="crons_script";
+	const FD_CRONSOPTIONS="crons_options";
+	const FD_CRONSCLASS="crons_class";
+	const FD_CRONSSTATUS="crons_status";
+	const FD_CRONSCREATEAT="crons_create_at";
+	const FD_CRONSUPDATEAT="crons_update_at";
 	/**
 	* table's name
 	*/

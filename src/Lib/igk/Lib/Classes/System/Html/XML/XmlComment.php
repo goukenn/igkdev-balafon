@@ -29,7 +29,11 @@ class XmlComment extends HtmlItemBase{
     public function render($options=null){ 
         if (igk_getv($options, "NoComment"))
             return null;    
-        return "<!-- " .trim($this->getContent()). " -->";
+        $c = $this->getContent();
+        if ($c)
+            return "<!-- " .trim($c). " -->";
+        return null;
+
     }
     public function getCanRenderTag()
     {

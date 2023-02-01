@@ -7,7 +7,7 @@ namespace IGK\Database;
 
 ///<summary></summary>
 /**
-* 
+* create a query condition 
 * @package IGK\Database
 */
 class DbQueryCondition{

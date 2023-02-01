@@ -1339,18 +1339,7 @@ trait HtmlNodeTrait{
 	// public function menulist($menuTab){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// /**
-	//  * 
-	//  * @param mixed $items 
-	//  * @param mixed $callback subitem menu initialize callback
-	//  * @param string $subtag 
-	//  * @param string $item 
-	//  * @return HtmlItemBase<mixed, string> 
-	//  * @throws IGKException 
-	//  */
-	// public function menus($items,$callback=null,$subtag='',$item='',?object $option=null){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+	// /**	 
 	// /**
 	//  * create winui-moreview
 	//  * @param mixed $hide
@@ -2078,12 +2067,6 @@ trait HtmlNodeTrait{
 	//  * @return void 
 	//  */
 	// public function vue_app($id){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
-	// /**
-	//  * create a vue template node
-	//  */
-	// public function vue_template(string $id){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
 	// /**

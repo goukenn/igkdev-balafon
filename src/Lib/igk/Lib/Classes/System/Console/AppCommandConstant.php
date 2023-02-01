@@ -12,6 +12,10 @@ abstract class AppCommandConstant{
      * @return string 
      */
     public static function GetCacheFile():string{
-        return IGK_LIB_DIR."/.Caches/.command.list.php";
+        $fn = ".command.list.pinc";
+        if ($cachedir = igk_io_cachedir()){
+            return $cachedir."/".$fn; 
+        }
+        return IGK_LIB_DIR."/.Caches/".$fn;
     }
 }

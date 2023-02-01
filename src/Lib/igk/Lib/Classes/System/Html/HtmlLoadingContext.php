@@ -7,11 +7,13 @@
 
 namespace IGK\System\Html;
 
+use IGK\System\Exceptions\EnvironmentArrayException;
+
 /**
- * 
+ * html loading context 
  * @package 
  */
-final class HtmlLoadingContext{
+class HtmlLoadingContext{
     /**
      * context name
      * @var mixed
@@ -29,6 +31,18 @@ final class HtmlLoadingContext{
      * @var bool
      */
     var $load_expression;
+
+    /**
+     * source node
+     * @var mixed
+     */
+    var $node;
+
+    /**
+     * ignore tags on rendering|creation context
+     * @var ?array
+     */
+    var $ignore_tags;
     
     /**
      * get current loading context
@@ -37,14 +51,48 @@ final class HtmlLoadingContext{
     public static function GetCurrentContext(){
         return igk_environment()->peek(self::class);
     }
+    /**
+     * push loading context
+     * @param HtmlLoadingContext $p 
+     * @return void 
+     * @throws EnvironmentArrayException 
+     */
     public static function PushContext(HtmlLoadingContext $p){
-        igk_environment()->push(self::class, $p);   
+        igk_environment()->push(self::class, $p); 
+        $p->initialize();  
     }
-    public static function PopContext(HtmlLoadingContext $p){
+    /**
+     * pop loading context
+     * @return void 
+     */
+    public static function PopContext(){
        
-        $g = self::GetCurrentContext();
+        // $g = self::GetCurrentContext();
         //if ($g === $p){
-            igk_environment()->pop(self::class);
+        if ($c = igk_environment()->pop(self::class)){
+            $c->uninitialize();
+        }
         //}
+    }
+    protected function initialize(){
+
+    }
+    protected function uninitialize(){
+
+    }
+    /**
+     * surround container with
+     * @param IHtmlContextContainer $container 
+     * @param mixed $callable 
+     * @param mixed $args 
+     * @return mixed 
+     * @throws EnvironmentArrayException 
+     */
+    public static function SurroundWith(IHtmlContextContainer $container, $callable, &...$args){
+        $c = $container->getContext();
+        self::PushContext($c);
+        $g = $callable(...$args);
+        self::PopContext();
+        return $g;
     }
 }

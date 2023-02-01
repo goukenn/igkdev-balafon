@@ -13,6 +13,7 @@ class HtmlExpressionNode extends HtmlNode{
     var $ctrl;
     var $raw; 
     var $openerContext;
+    
     ///<summary></summary>
     ///<param name="args" default="null"></param>
     ///<param name="ctrl" default="null"></param>

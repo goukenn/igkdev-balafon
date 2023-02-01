@@ -5,7 +5,12 @@
 // @date: 20221207 19:26:53
 // @desc: installer helper
 
-
+if (!version_compare(PHP_VERSION, "7.0", ">=")){
+    $response->die("mandory version required. 7.0<=".PHP_VERSION);
+}
+if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
+    $response->die("request method not match", 500);
+}
 
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
@@ -153,3 +158,5 @@ class InstallerResponse
     }
 }
 
+// %token%
+$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");

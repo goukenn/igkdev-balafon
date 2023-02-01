@@ -9,6 +9,8 @@
 use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
+use IGK\Helper\ViewHelper;
+
 use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
 
@@ -66,11 +68,11 @@ if (defined('GOOGLE_MODULE')) {
         } else {
             $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
         }
-        $theme = $doc->getTheme();
-        if (igk_environment()->isOPS()) {
-            $theme = $doc->getInlineTheme();
-        }
-        igk_google_css_setfont($theme->def, $family, $extra);
+        $theme = igk_environment()->isOPS() ?
+            $doc->getInlineTheme() :
+            $doc->getTheme();
+        if ($theme)
+            igk_google_css_setfont($theme->def, $family, $extra);
         IGKEvents::hook(GoogleEvents::init_component, "font");
     }
     function igk_google_bindfont($theme, $family, $size = null)
@@ -724,6 +726,41 @@ EOF;
             "state" => "crefinfo"
         ]);
         $n["href"] = $gclient->authinfo()->authorization_endpoint . "?" . $q;
+        return $n;
+    }
+
+
+    
+    /**
+     * add google recaptcha
+     * @param ?string $siteKey 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     */
+    function igk_html_node_google_recaptcha(?string $siteKey = null)
+    {
+        static $renderActions;
+        if (!$renderActions) {
+            igk_reg_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, function ($e) use ($siteKey) {
+                $siteKey = \IGK\Helper\ConfigHelper::GetConfig(ViewHelper::CurrentCtrl(), "google.recaptcha_key", $siteKey) ??
+                    igk_die("no recaptcha");
+                $doc = $e->args['doc'];
+                $doc->head->script()->setId("repatcha")
+                    ->activate('defer')
+                    ->setAttribute("src", GoogleEndPoints::RecaptchaEnterprise . "?hl=" . GoogleEndPoints::GetLang());
+            });
+            $renderActions = true;
+        }
+        $siteKey = \IGK\Helper\ConfigHelper::GetConfig(ViewHelper::CurrentCtrl(), "google.recaptcha_key", $siteKey) ??
+            igk_die("no recaptcha");
+        $n = igk_create_node('div');
+        $n->setAttributes([
+            "class" => 'g-recaptcha',
+            'data-sitekey' => $siteKey,
+            "data-theme" => 'dark', // set data theme
+            "data-callback" => null, // callback function 
+            "data-error-callback" => null, // callback error callback  
+        ]);
         return $n;
     }
 }

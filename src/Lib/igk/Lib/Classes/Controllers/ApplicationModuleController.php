@@ -6,6 +6,9 @@ use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
 use IGK\System\Exceptions\ApplicationModuleInitException;
+use IGKException;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\IO\Path;
 use Throwable;
 use TypeError;
 
@@ -37,6 +40,13 @@ final class ApplicationModuleController extends BaseController{
     }
     public static function IsModule($controllerClass){
         return is_object($controllerClass) && (get_class($controllerClass) == static::class) && strstr($controllerClass->getDeclaredDir(), igk_get_module_dir());
+    }
+    /**
+     * module always target system data adapter
+     * @return mixed
+     */
+    public function getDataAdapter(){
+        return SysDbController::ctrl()->getDataAdapter();
     }
     /**
      * check if this module extends methods
@@ -91,8 +101,23 @@ final class ApplicationModuleController extends BaseController{
     public function getEntryNamespace(){
         return str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($this->m_dir)));
     }
+    /**
+     * override this to get classes dir
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public function getTestClassesDir(){
+        if ($fc=igk_getv($this->m_fclist, __FUNCTION__)){
+            return $this->__call(__FUNCTION__, []);
+        }
         return implode('/' , [dirname($this->getClassesDir()), IGK_TESTS_FOLDER]);
+    }
+    public function getAssetsDir(){
+        if ($fc=igk_getv($this->m_fclist, __FUNCTION__)){
+            return $this->__call(__FUNCTION__, []);
+        }
+        return Path::Combine($this->getDeclaredDir(),"/Data/assets");
     }
     ///<summary></summary>
     ///<param name="dir"></param>

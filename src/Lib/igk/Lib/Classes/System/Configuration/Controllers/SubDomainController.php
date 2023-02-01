@@ -315,8 +315,7 @@ final class SubDomainController extends ConfigControllerBase
                 $tb["class"] = "igk-central fitw";
                 $tb["style"] = "margin:auto; min-width: 500px;";
                 $tr = $tb->add("tr");
-                $tr->th()->toggleTableCheckbox();
-                // HtmlUtils::AddToggleAllCheckboxTh($tr);
+                $tr->th()->toggleTableCheckbox(); 
                 $tr->add("th")->setClass("igk-col-4-2")->Content = __("Name");
                 $tr->add("th")->Content = __("Controller");
                 $tr->add("th")->setClass("fitw")->Content = __("View");

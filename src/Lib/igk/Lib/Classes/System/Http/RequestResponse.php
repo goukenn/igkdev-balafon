@@ -8,6 +8,7 @@
 
 namespace IGK\System\Http;
 
+use IGK\Helper\Activator;
 use IGK\System\IInjectable;
 use IGKException;
 
@@ -76,10 +77,10 @@ abstract class RequestResponse extends Response implements IInjectable{
      
     /**
      * create a response
-     * @param string $type 
-     * @param mixed $data 
-     * @param int $code 
-     * @param null|array $headers 
+     * @param string $type type of the response json|web|xml
+     * @param mixed $data data to serve as resonse
+     * @param int $code status code 
+     * @param null|array $headers extrat header
      * @return object 
      */
     public static function Create(?string $type, $data,int $code=200, ?array $headers=null){
@@ -117,5 +118,17 @@ abstract class RequestResponse extends Response implements IInjectable{
 
     public function download($name, $size, $data, $mimeType=null, $encoding="binary", $exit=0){
         igk_download_content($name, $size, $data, $mimeType, $encoding, $exit);
+    }
+
+    /**
+     * response with 
+     * @param array $data of RequestResponseInfo::class 
+     * @param string $type 
+     * @return object 
+     */
+    public static function Response(array $data=[], $type='json'){
+        $ref = Activator::CreateNewInstance(RequestResponseInfo::class, $data, true);
+        return self::Create($type,
+            $ref, $ref->code);
     }
 }

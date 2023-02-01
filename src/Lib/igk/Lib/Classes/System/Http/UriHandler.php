@@ -37,7 +37,7 @@ class UriHandler extends BaseUriHandler
     { 
         igk_set_header(
             200,
-            "ok",
+            'ok',
             [
                 "Content-Type: image/png",
                 "Cache-Control: max-age=31536000"

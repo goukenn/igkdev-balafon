@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @date: 20221203 14:34:18
+// @date: 20230131 13:55:04
 namespace IGK\Models;
 
 
@@ -21,6 +21,12 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $db_logs_msg, int $db_logs_status, string $db_logs_tags, string|datetime $db_logs_createAt ="NOW()", string|datetime $db_logs_updateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class DbLogs extends ModelBase{
+	const FD_CL_ID="clId";
+	const FD_DBLOGSMSG="db_logs_msg";
+	const FD_DBLOGSSTATUS="db_logs_status";
+	const FD_DBLOGSCREATE_AT="db_logs_createAt";
+	const FD_DBLOGSTAGS="db_logs_tags";
+	const FD_DBLOGSUPDATE_AT="db_logs_updateAt";
 	/**
 	* table's name
 	*/

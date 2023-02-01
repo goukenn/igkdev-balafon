@@ -7,10 +7,12 @@
 namespace IGK\Helper;
 
 use Exception;
+use GPBMetadata\Google\Firestore\V1Beta1\Write;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\FileWriter;
+use IGK\System\IO\Path;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
@@ -22,6 +24,44 @@ use function igk_resources_gets as __;
  */
 class IO
 {
+
+    public static function ResolveFileExt($file, ?array $extensions = []){
+        $ext = igk_io_path_ext($file);
+        if (empty($text)){
+            $ext = igk_getv($extensions, 0);
+        }
+        $df = dirname($file)."/".igk_io_basenamewithoutext($file, $ext);
+        while(count($extensions)>0){
+            $q = ".".trim(array_shift($extensions), '.');
+            if (file_exists($file = $df.$q)){
+                return $file;
+            }
+        }
+        return null;
+    }
+    /**
+     * clean directory 
+     * @return bool 
+     */
+    public static function CleanDir(string $dir):bool{
+        if ($hdir = opendir($dir)){
+
+            while(($m = readdir($hdir))!==false){
+                if (($m=='.') || $m == '..'){
+                    continue;
+                }
+                $c = Path::Combine($dir, $m);
+                if (is_dir($c)){
+                    self::RmDir($c);
+                }else if (is_file($c)){
+                    @unlink($c);
+                }
+            }
+            closedir($hdir);
+            return true;
+        }
+        return false;
+    }
     /**
      * create a IgnoreHiddenDirAndFile 
      */
@@ -48,8 +88,18 @@ class IO
         @unlink($n);
         if (self::CreateDir($n)){
             return $n;
-        }
-
+        } 
+    }
+    /**
+     * get a temp file name
+     * @param string $prefix 
+     * @param null|string $tempdir 
+     * @return string|false 
+     */
+    public static function GetTempFile(string $prefix, ?string $tempdir=null){
+        $tempdir = $tempdir ?? sys_get_temp_dir();
+        $n = tempnam($tempdir, $prefix);
+        return $n;
     }
     /**
      * pattern with version inside
@@ -281,7 +331,7 @@ class IO
      * @param mixed $dirname
      * @param mixed $mode the default value is IGK_DEFAULT_FOLDER_MASK
      */
-    public static function CreateDir($dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
+    public static function CreateDir(string $dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
     {
         return FileWriter::CreateDir($dirname, $mode);
     }
@@ -653,33 +703,33 @@ class IO
                 return $match($f, $excludedir);
             };
         }
-
+        $is_excludir_array = is_array($excludedir);
         while ($q = array_pop($dirs)) {
-            if ($hdir = @opendir($q)) {
-                while ($hdir && ($r = readdir($hdir))) {
-                    if ($r == "." || ($r == ".."))
+            // use scan dir to order
+            $files = array_slice(scandir($q), 2);
+            while(count($files)>0){
+                $r = array_shift($files);
+                $f = $q . $sep . $r;
+                $mdata = 0;
+                if (!is_dir($f)) {
+                    if ($_include_match && $_include_match($f)) {
+                        //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
+                        if ($mdata == -1) {
+                            continue;
+                        }
+                        if ($callback && !$callback($f)){
+                            continue;
+                        }
+                        $v_out[] = $f;
+                    }
+                } else {
+                    if ($is_excludir_array && (key_exists($f, $excludedir) ||   key_exists($r, $excludedir))) {
                         continue;
-                    $mdata = 0;
-                    $f = $q . $sep . $r;
-                    // igk_debug_wln("first file ".$f);
-                    if (!is_dir($f)) {
-                        if ($_include_match && $_include_match($f)) {
-                            //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
-                            if ($mdata == -1) {
-                                continue;
-                            }
-                            if ($callback && !$callback($f)){
-                                continue;
-                            }
-                            $v_out[] = $f;
-                        }
-                    } else {
-                        if (!($ignore_hidden && (strpos($r, ".") === 0)) && !$fc($f, $r, $excludedir) && $recursive) {
-                            array_push($dirs, $f);
-                        }
+                    }
+                    if (!($ignore_hidden && (strpos($r, ".") === 0)) && !$fc($f, $r, $excludedir) && $recursive) {
+                        array_push($dirs, $f);
                     }
                 }
-                closedir($hdir);
             }
         }
         return $v_out;
@@ -1260,4 +1310,5 @@ class IO
         }
         return $od;
     }
+ 
 }

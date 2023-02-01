@@ -35,6 +35,13 @@ require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
  */
 abstract class RootControllerBase extends IGKObject{
 	static $macros;
+    protected static $func_defs;
+    
+    const MACRO_INITDB_METHOD = 'initDb';
+    const MACRO_RESETDB_METHOD = 'resetDb';
+    const MACRO_INVOKE_METHOD = 'invokeMacros';
+    // const MACRO_INITDB_METHOD = 'initDb';
+    // const MACRO_INITDB_METHOD = 'initDb';
 
     public function __construct(){        
     }
@@ -93,6 +100,7 @@ abstract class RootControllerBase extends IGKObject{
         return igk_getv(self::$macros, $name);
     }
 
+    
     /**
      * macros override
      * @param mixed $name 
@@ -105,29 +113,17 @@ abstract class RootControllerBase extends IGKObject{
      */
     public static function __callStatic($name, $arguments)
 	{   
+        // + |  PHP 7 - BUG - declare static on __callStatic magic function not get static call - context
         $c = null; 
         $v_macro  = 0; 
-        static $func_defs = null;
+        $func_defs = & self::$func_defs;        
         if ($func_defs===null){
             $func_defs = [];
         }
 		if (self::$macros===null){
-			self::$macros = [
-				"macrosKeys"=>function(){
-					return array_keys(self::$macros);
-				},
-				"initDb"=>function(RootControllerBase $controller, $force=false){
-					return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_initdb.pinc"); 
-				},
-				"resetDb"=>function(RootControllerBase $controller, $navigate=true, $force=false){              
-				 	return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_resetdb.pinc");
-				},
-				"getDb"=>function(){
-					return null;
-				},				 
-			];
+			self::$macros = include(__DIR__."/macros-definition.pinc");          
 		}  
-        if ($name == "invokeMacros"){
+        if ($name == self::MACRO_INVOKE_METHOD){
             $name = $arguments[0];
             $c = $arguments[1];
             $v_macro = 1;
@@ -137,23 +133,35 @@ abstract class RootControllerBase extends IGKObject{
             $c = array_shift($arguments);
         }
 		$c = $c ? $c : igk_getctrl(static::class); 
-		
-		if (isset(self::$macros[$name])){
-            $k = static::class."/".$name;
+        $k = static::class."/".$name;
+		 
+		if (isset($func_defs[$k]) || isset(self::$macros[$name])){
             if (!isset($func_defs[$k])){
-                $fc = Closure::fromCallable(self::$macros[$name]);
-                $fc = $fc->bindTo(null, static::class);
-                $ref = (new ReflectionFunction($fc));		
-                if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
-                    $t = IGKType::GetName($t);
-                    if (($t == self::class) || is_subclass_of($t, self::class)){
-                        array_unshift($arguments, $c);
-                    }
+                $fc = self::$macros[$name];
+
+                if (is_array($fc) && (count($fc)>2)){
+                    $fc = array_slice($fc, 0, 2);
+                    $fc = Closure::fromCallable(self::$macros[$name]);
+                }else{
+                    $fc = Closure::fromCallable($fc);                
+                    $fc = $fc->bindTo(null, static::class);
                 }
+                if (is_null($fc) || !is_callable($fc)){
+                    igk_die("macros [$name] not a callable");
+                }
+                // $ref = (new ReflectionFunction($fc));		
+                // if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
+                //     $t = IGKType::GetName($t);
+                //     if (($t == self::class) || is_subclass_of($t, self::class)){
+                //         array_unshift($arguments, $c);
+                //     }
+                // }
                 $func_defs[$k] = $fc;
             }else {
                 $fc = $func_defs[$k];
-            }
+            } 
+            // + | all macros and extension must have a controller as a first parameter
+            array_unshift($arguments, $c);
 			return $fc(...$arguments);
 		} 
 		
@@ -169,16 +177,16 @@ abstract class RootControllerBase extends IGKObject{
 		    return ControllerExtension::$name(...$arguments); 
         } else {
             if (igk_environment()->isDev()){
-                igk_die("method [$name] not found");
+                // igk_wln(array_keys($func_defs));
+                igk_die("method [$name] not found - call_static");
             }
             throw new \IGK\System\Exceptions\ActionNotFoundException($name);
         }
 	}
-	public function __call($name, $argument){
-        // if ($name == 'danger'){
-        //     igk_wln_e("do");
-        // }
-        // + | by pass method propected call
+	public function __call($name, $argument){     
+        // + | --------------------------------------------------------------------
+        // + | by pass method propected call - internally
+        // + |
         if (method_exists($this, $name) && (in_array(strtolower($name), ["initcomplete"]))){
             return call_user_func_array([$this, $name], $argument);
         }

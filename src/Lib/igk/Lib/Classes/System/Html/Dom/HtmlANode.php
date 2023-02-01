@@ -32,7 +32,7 @@ class HtmlANode extends HtmlNode
                 $this->m_rdef = 1;
             }
         }
-        if (!defined('IGK_TEST_INIT') && (!$this["alt"] || !$this["name"] || !$this["title"])) {
+        if (!defined('IGK_TEST_INIT') && !igk_environment()->isOPS() && (!$this["alt"] || !$this["name"] || !$this["title"])) {
             if ($s = $this->getContent()) {
                 if (is_object($s)) {
                     $s = ":object";

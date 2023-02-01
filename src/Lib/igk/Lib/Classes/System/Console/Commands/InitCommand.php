@@ -44,7 +44,7 @@ class InitCommand extends AppExecCommand
                         if (!$tab)
                             continue;
                         foreach ($tab as $file) {
-                            if ($clpath = $c::resolvClass("Commands/" . igk_io_basenamewithoutext($file))) {
+                            if ($clpath = $c::resolveClass("Commands/" . igk_io_basenamewithoutext($file))) {
                                 if ((igk_sys_reflect_class($clpath))->isAbstract() || !is_subclass_of($clpath, AppCommand::class)) {
                                     continue;
                                 }

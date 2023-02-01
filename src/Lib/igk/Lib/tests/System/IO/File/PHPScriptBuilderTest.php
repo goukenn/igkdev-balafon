@@ -24,8 +24,8 @@ class PHPScriptBuilderTest extends BaseTestCase
 namespace dummy;
 
 use AppTestProject;
-use IGK\System\Database\Factories\FactoryBase as Factory;
 use ArrayAccess;
+use IGK\System\Database\Factories\FactoryBase as Factory;
 
 ///<summary>Factory base</summary>
 /**
@@ -90,8 +90,8 @@ PHP;
                 "namespace dummy;",
                 "",
                 "use AppTestProject;",
-                "use IGK\System\Database\Factories\FactoryBase as Factory;",
                 "use ArrayAccess;",
+                "use IGK\System\Database\Factories\FactoryBase as Factory;",
                 "",
                 "///<summary>Factory base</summary>",
                 "/**",

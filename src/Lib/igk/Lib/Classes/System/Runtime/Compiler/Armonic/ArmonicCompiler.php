@@ -43,6 +43,9 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
 
     const OPERATOR_SYMBOL = ViewCompilerConstants::OPERATOR_SYMBOL;
 
+    var $flagHandler;
+    
+    // var $flagHandler;
     /**
      * handle white space
      * @param ReadTokenOptions $options 

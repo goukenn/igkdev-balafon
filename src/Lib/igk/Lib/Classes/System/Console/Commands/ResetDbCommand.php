@@ -6,19 +6,14 @@
 
 namespace IGK\System\Console\Commands;
 
-use IGK\Controllers\BaseController;
-use IGK\Controllers\RootControllerBase;
-use IGK\Controllers\SysDbController;
-use IGK\Database\DbSchemaDefinitions;
-use IGK\Database\DbSchemas;
+use IGK\Controllers\BaseController; 
+use IGK\Controllers\SysDbController;  
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches; 
 use IGK\System\Console\AppExecCommand;
-use IGK\System\Console\Logger;
-use IGK\System\Database\DbUtils;
+use IGK\System\Console\Logger; 
 use IGK\System\Delegates\InvocatorListDelegate;
-use IGKModuleListMigration;
-use Illuminate\Database\Console\DbCommand;
+use IGKModuleListMigration; 
 
 class ResetDbCommand extends AppExecCommand
 {
@@ -28,6 +23,7 @@ class ResetDbCommand extends AppExecCommand
 
     var $options = [
         "--force" => "flag: force class generation",
+        "--clean"=>"flag: clean model output directory",
         "--seed" => "flag: do seed",
         "--querydebug" => "flag: activate query debug"
     ];
@@ -37,8 +33,10 @@ class ResetDbCommand extends AppExecCommand
         DbCommandHelper::Init($command);
         $seed = property_exists($command->options, "--seed");
         $force = property_exists($command->options, "--force");
+        $clean = property_exists($command->options, "--clean");
         $use_core_db = false;
         $sysdb = SysDbController::ctrl();
+        $ctrl =  $ctrl ?? igk_getv($command->options, "--controller");
      
         // igk_dev_wln("db: ". igk_configs()->db_name, "server: ".igk_configs()->db_server); 
         if ($ctrl) {
@@ -54,13 +52,13 @@ class ResetDbCommand extends AppExecCommand
             // + | --------------------------------------------------------------------
             // + | globally reset command
             // + |
-            $this->globalResetDatabase($force, false, $seed);
+            $this->globalResetDatabase($force, false, $seed, $clean);
             return; 
         }
         if (!$c)
          return -1;
          
-        $this->controllerResetDatabase($c, $force, $seed);
+        $this->controllerResetDatabase($c, $force, $seed, $clean);
       
         // init modules controller 
         Logger::print("-");        
@@ -72,18 +70,18 @@ class ResetDbCommand extends AppExecCommand
         return 1;
     }
     /**
-     * 
+     * reset controller 
      * @param array<BaseController> $c 
      * @param bool $force 
      * @return void 
      */
-    public function controllerResetDatabase($c, bool $force, bool $seed){
+    public function controllerResetDatabase($c, bool $force, bool $seed=false, bool $clean=false){
         foreach ($c as $m) {
             $n = get_class($m);
             if ($m->getCanInitDb()) {
                 $m->register_autoload();
                 Logger::print("resetdb : " . $n);
-                if ( ($m->resetDb(false, $force)) !=1){                
+                if ( ($m->resetDb(false, $force, $clean)) !=1){                
                     Logger::danger("failed resetdb [".$n."]");                    
                 } else {
                     Logger::success("complete: [".$n."]");
@@ -93,7 +91,7 @@ class ResetDbCommand extends AppExecCommand
             }
         }
     }
-    public function globalResetDatabase(bool $force, bool $seed=false):bool{
+    public function globalResetDatabase(bool $force, bool $seed=false, bool $clean =false):bool{
      
         $migrations = IGKModuleListMigration::CreateModulesMigration();
         $sysdb = SysDbController::ctrl();
@@ -123,7 +121,7 @@ class ResetDbCommand extends AppExecCommand
         // + | --------------------------------------------------------------------
         // + | 2. upgrade
         // + |
-        DbSchemaDefinitions::ResetCache();   
+        // DbSchemaDefinitions::ResetCache();   
         DBCaches::Clear();
         Database::InitSystemDb();
         // $sysdb::resetDb(false, true);

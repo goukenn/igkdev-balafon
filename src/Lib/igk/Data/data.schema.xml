@@ -262,7 +262,7 @@
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255" clIsUniqueColumnMember="True" clUniqueColumnIndex="0" />
             </addColumn>
             <changeColumn table="%prefix%groups" column="clName">
-                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                <Column clName="clName" clType="VARCHAR" clTypeLength="175" clNotNull="True" clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
             </changeColumn>
             <addColumn table="%prefix%authorizations">
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255" clIsUniqueColumnMember="True" clUniqueColumnIndex="0" />
@@ -288,8 +288,8 @@
                 <Column clName="cxnAccount" clType="varchar" clDescription='requested account' />
                 <Column clName="cxnGeoX" clType="Int" clDescription='location x' />
                 <Column clName="cxnGeoY" clType="Int" clDescription='location y' />
-                <Column clName="cxnCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="cxnUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="cxnCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="cxnUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </createTable>
             <deleteTable table='%prefix%logginattempts'></deleteTable>
         </Migration>
@@ -309,8 +309,8 @@
                 <Column clName="regLinkToken" clType="varchar" clIsUnique='true' clDescription='token' clTypeLength="64" />
                 <Column clName="regLinkAlive" clType="Int" clDescription='alive for activation' default='0' />
                 <Column clName="regLinkActivate" clType="DATETIME" clDescription='activation date' />
-                <Column clName="regLinkCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="regLinkUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="regLinkCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="regLinkUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </createTable>
             <createTable table="%prefix%login_logs" description='Store connexion history'>
                 <Column clName="loglogs_Id" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
@@ -325,8 +325,8 @@
                 <Column clName="loglogs_City" clType="VarChar" clTypeLength="190" />
                 <Column clName="loglogs_Status" clType="Int" clTypeLength="1" clDescription='0 = loggin, 1 = logut' clNotNull="1" />
                 <Column clName="loglogs_Description" clType="Text" clDescription='location y' />
-                <Column clName="regLinkCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="regLinkUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="regLinkCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="regLinkUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </createTable>
         </Migration>
 
@@ -344,20 +344,20 @@
                 <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
             </changeColumn>
             <addColumn table="%prefix%groups">
-                <Column clName="clCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </addColumn>
             <addColumn table="%prefix%authorizations">
-                <Column clName="clCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </addColumn>
             <addColumn table="%prefix%groupauthorizations">
-                <Column clName="clCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </addColumn>
             <addColumn table="%prefix%usergroups">
-                <Column clName="clCreate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_at" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clNotNull="true" />
+                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()' clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
             </addColumn>
         </Migration>
         <Migration>
@@ -384,5 +384,27 @@
                 <Column clName="clml_init" clType="text" />
             </addColumn>
         </Migration>
+
+        <Migration>
+            <renameColumn table="%prefix%loglogs" column="regLinkCreate_At"  new_name="loglogs_Create_At" />
+            <renameColumn table="%prefix%loglogs" column="regLinkUpdate_At"  new_name="loglogs_Update_At" />
+        </Migration>
+
+        <!-- hidde password -->
+        <Migration description="hide password" date="2023-21-01">
+            <changeColumn table="%prefix%users" column="clPwd">
+                <Column clName="clPwd" clType="VARCHAR" clTypeLength="200" clNotNull="True" clHide="True" clInsertFunction="IGK_PASSWD_ENCRYPT" clUpdateFunction="IGK_PASSWD_ENCRYPT" clInputType="password" /> 
+            </changeColumn>
+        </Migration>
+
+        <Migration date="2023-21-01">
+            <changeColumn table="%prefix%groups" column="clName">
+                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" clIsUnique="False" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+            </changeColumn>
+            <changeColumn table="%prefix%groups" column="clController">
+                <Column clName="clController" clType="VARCHAR" clTypeLength="255" clIsUniqueColumnMember="True" clUniqueColumnIndex="0" />
+            </changeColumn>
+        </Migration>
+
     </Migrations>
 </data-schemas>

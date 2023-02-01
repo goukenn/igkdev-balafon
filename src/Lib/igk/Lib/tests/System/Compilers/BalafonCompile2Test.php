@@ -159,7 +159,7 @@ class BalafonCompile2Test extends BalafonCompileBase
         );
     }
     public function test_use_favicon(){ 
-        igk_debug(true);
+   
         $ctrl = CompileTestController::ctrl();
         $ctrl->entryDir = self::$sm_tempdir;
         $g = $this->__compiler_source(
@@ -178,7 +178,7 @@ class BalafonCompile2Test extends BalafonCompileBase
         );
     }
     public function _test_use_default_project(){ 
-        igk_debug(true);
+  
         $g = $this->__compiler_source(
             file_get_contents( IGK_PROJECT_DIR. "/igk_default/Views/default.phtml"),
             [
@@ -258,7 +258,7 @@ EOF;
     public function _test_file_11()
     {
         $file = __DIR__ . "/.testfiles/test.11.php";
-        igk_debug(true);
+    
         $g = $this->__compiler_source(
             file_get_contents($file),
             [
@@ -281,8 +281,7 @@ EOF;
 
     public function _test_compile_loop()
     {
-        // single test
-        // igk_debug(true);
+        // single test 
         foreach ([
             "if" => ["<?php\n if(true) return true;", "<?php\nif(true):\nreturn true;\nendif;"],
             "foreach" => [
@@ -338,14 +337,9 @@ EOF;
         $compiler->options = new ViewEnvironmentArgs;
         $compiler->options->ctrl = new CompileTestController;
         $compiler->options->ctrl->entryDir = self::$sm_tempdir;
-        // igk_debug(true);
-        // try{
+    
         $g = BalafonViewCompilerUtility::GetInstructionsList($src, true, $compiler);
-        // igk_wln_e("entry directory .... ", $g, "output: ",  $compiler->output());
-        // }
-        // catch(\Error $ex){
-        //     igk_wln_e("the error: ".$ex->getMessage());
-        // }
+       
         $this->assertEquals(
             implode("\n", [
                 '<?php',
@@ -372,101 +366,5 @@ EOF;
             json_encode(BalafonViewCompilerUtility::GetInstructionsList($src, false)),
             "failed to get empty function list instruct"
         );
-    }
-
-    // public function test_func_name_token_2()
-    // {
-
-    //     $src = implode("\n", [
-    //         'if (true){ function(){ echo "sub_if"; } }',
-    //     ]);
-    //     $this->assertEquals(
-    //         json_encode([
-    //             (object)["value" =>
-    //             'if (true){ function(){ echo "sub_if"; };}'],
-    //         ]),
-    //         json_encode(BalafonViewCompilerUtility::GetInstructionsList($src, false)),
-    //         "failed to get empty function list instruct"
-    //     );
-    // }
-    // public function _test_func_instruction_loop()
-    // {
-
-    //     $src = implode("\n", [
-    //         'for ($i=0; $i<10;$i++) $data.=$i;',
-    //     ]);
-    //     $this->assertEquals(
-    //         json_encode([
-    //             (object)["value" =>
-    //             'for ($i=0; $i<10;$i++) $data.=$i;'],
-    //         ]),
-    //         json_encode(BalafonViewCompilerUtility::GetInstructionsList($src, false)),
-    //         "failed to get empty function list instruct"
-    //     );
-    // }
-    // public function _test_func_instruction_loop_2()
-    // {
-
-    //     $src = implode("\n", [
-    //         'for ($i=0; $i<10;$i++) { $data.=$i; }',
-    //     ]);
-    //     $this->assertEquals(
-    //         json_encode([
-    //             (object)["value" =>
-    //             'for ($i=0; $i<10;$i++) { $data.=$i; }'],
-    //         ]),
-    //         json_encode(BalafonViewCompilerUtility::GetInstructionsList($src, false)),
-    //         "failed to get empty function list instruct"
-    //     );
-    // }
-    // public function _test_func_instruction_switch()
-    // {
-
-    //     $src = implode("\n", [
-    //         'switch($i){ case 1: echo 1; break; }',
-    //     ]);
-    //     $this->assertEquals(
-    //         json_encode([
-    //             (object)["value" =>
-    //             'switch($i){ case 1: echo 1; break; }'],
-    //         ]),
-    //         json_encode(BalafonViewCompilerUtility::GetInstructionsList($src, false)),
-    //         "failed to get empty function list instruct"
-    //     );
-    // }
-
-    // public function _test_func_instruction_foreach()
-    // {
-
-    //     $src = implode("\n", [
-    //         'foreach($i as $k=>$v){ echo "foreach"; }',
-    //     ]);
-    //     $this->assertEquals(
-    //         json_encode([
-    //             (object)["value" =>
-    //             'foreach($i as $k=>$v){ echo "foreach"; }'],
-    //         ]),
-    //         json_encode(BalafonViewCompilerUtility::GetInstructionsList($src, false)),
-    //         "failed : " . __FUNCTION__
-    //     );
-    // } 
-
-    // public function _test_func_instruction_namespace()
-    // {
-
-    //     $src = implode("\n", [
-    //         '   namespace test\\igkd;',
-    //         //'final class A{}',
-    //     ]);
-    //     // igk_debug(true);
-    //     $g = BalafonViewCompilerUtility::GetInstructionsList($src, false);
-    //     // igk_wln_e($options);
-    //     $this->assertEquals(
-    //         json_encode([
-    //             (object)["value" => 'namespace test\\igkd;'],
-    //         ]),
-    //         json_encode($g),
-    //         "failed : " . __FUNCTION__
-    //     );
-    // }
+    } 
 }

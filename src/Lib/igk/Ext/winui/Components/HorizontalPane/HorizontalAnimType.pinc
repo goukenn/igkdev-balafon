@@ -1,0 +1,10 @@
+<?php
+
+///<summary>define enumeraion</summary>
+final class HorizontalAnimType
+{
+	const none = "none";
+	const translation = "translation";
+	const rotation = "rotation";
+	const fade = "fade";
+}

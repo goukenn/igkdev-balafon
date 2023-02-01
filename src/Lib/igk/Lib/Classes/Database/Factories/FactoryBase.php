@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @desc: factory base
-// @date: 20221203 14:34:18
+// @date: 20230116 08:19:43
 namespace IGK\Database\Factories;
 
 use IGK\Controllers\SysDbController;

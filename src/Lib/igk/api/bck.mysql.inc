@@ -82,7 +82,7 @@ function igk_api_mysql_init_db($api){
 function get_relation($mysql, $tname, $clname,  $dbname=null){
 
 	$r = $dbname==null? igk_mysql_db_selected_db($mysql) : $dbname;
-	$n = $mysql->selectdb("information_schema");
+	$n = $mysql->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
 	
 
 		
@@ -96,7 +96,7 @@ function get_relation($mysql, $tname, $clname,  $dbname=null){
 	return $h->getRowAtIndex(0);	
 }
 function igk_api_get_columninfo($row, $v, $table_n, $mysql){
-	$cl = $row->addNode("Column");
+	$cl = $row->addNode(IGK_COLUMN_TAGNAME);
 	$cl["clName"] = $v->Field;
 	$tab = array();
 	preg_match_all("/^((?P<type>([^\(\))]+)))\\s*(\((?P<length>([0-9]+))\)){0,1}$/i", 
@@ -134,11 +134,7 @@ function igk_api_get_columninfo($row, $v, $table_n, $mysql){
 			$cl["clLinkColumn"] = $rel->REFERENCED_COLUMN_NAME; 
             $cl["clLinkConstraintName"] = $rel->CONSTRAINT_NAME; 
 		}
-		// else{
-			// igk_wln($v);
-			// igk_wln("rel is null [{$t->$n}::{$v->Field}]");
- 
-		// }
+		
 	}
 	return $cl;
 }
@@ -247,7 +243,7 @@ function igk_api_mysql_get_sync_definition($api, $row, $table_n, $u, $mysql, $db
 							if ($g==null){
 								$g = array();
 							}								
-							$g[] = array("Column"=>$v->Field, "Table"=> $lnk);
+							$g[] = array(IGK_COLUMN_TAGNAME=>$v->Field, "Table"=> $lnk);
 							$links[$lnk] = $g;
 						}
 					
@@ -273,7 +269,7 @@ function igk_api_mysql_get_sync_definition($api, $row, $table_n, $u, $mysql, $db
 								foreach($links as $lnk=>$vlnk){
 									//treat each column
 									foreach($vlnk as $g){
-										$cn = $g["Column"];
+										$cn = $g[IGK_COLUMN_TAGNAME];
 										// igk_wln($cn);
 										if ($g["Table"] == "tbigk_users"){
 											if ($tn[$cn] != $u->clId){
@@ -341,7 +337,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
 					));
 					
 					foreach($tinfo as $kk=>$vv){
-						$cl = $row->addNode("Column");
+						$cl = $row->addNode(IGK_COLUMN_TAGNAME);
 						$cl->setAttributes($vv);
 					}
 					$count ++;
@@ -371,7 +367,7 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
 					$tables[$ck] =(object) array("info"=>$cinfo, "ctrl"=>$v);
 					
 					foreach($cinfo as $ckk=>$ckv){
-					$cl = $row->addNode("Column");
+					$cl = $row->addNode(IGK_COLUMN_TAGNAME);
 					$cl->setAttributes($ckv);
 					}
 					$count++;

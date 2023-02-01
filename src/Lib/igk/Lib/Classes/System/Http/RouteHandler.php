@@ -17,6 +17,9 @@ use ReflectionMethod;
  */
 class RouteHandler
 {
+    protected $user;
+
+    protected $info;
     /**
      * name for searching
      * @var mixed
@@ -84,6 +87,8 @@ class RouteHandler
      * @var ?string
      */
     protected $m_redirect_uri;
+
+    protected $auth_requirement;
 
     public function getRoute()
     {

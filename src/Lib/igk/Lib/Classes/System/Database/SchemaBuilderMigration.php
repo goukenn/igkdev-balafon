@@ -43,5 +43,9 @@ class SchemaBuilderMigration{
         }
         return true;
     }
+    public function __construct()
+    {
+        
+    }
      
 }

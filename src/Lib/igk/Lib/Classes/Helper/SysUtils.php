@@ -16,10 +16,26 @@ use IGKException;
 use ReflectionMethod;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
+use IGK\System\Configuration\ApplicationConfigConstants;
 use IGK\System\Console\Logger;
 use TypeError;
 
 class SysUtils{
+    public static function TryServerAutoConnect(BaseController $ctrl){          
+        $a = igk_server()->HTTP_USER_AGENT;
+        $chek = igk_configs()->{ApplicationConfigConstants::allow_auto_connect_agents} ?? []; 
+        if ( ($a && in_array($a, $chek))){ 
+            if ($uid = igk_getv(igk_get_allheaders(), 'IGK_CURRENT_USER_ID')){           
+                if ($user = \IGK\Models\Users::Get('clId', $uid)){
+                    if ($r = $ctrl::login($user, null, false)){
+                        $user = $ctrl->getUser();
+                        return $user;
+                    }               
+                }
+            }
+        }
+        return null;
+    }
     /**
      * prepent sys db controller 
      * @param array $c 
@@ -259,8 +275,13 @@ class SysUtils{
         $init && !defined("IGK_INIT_SYSTEM") && define("IGK_INIT_SYSTEM", 1);
         // + | Clear assets folder
         if (is_dir($assets = igk_io_basedir() . "/" . IGK_RES_FOLDER)) {
-            Logger::info("remove cache: " . $assets);
-            IO::RmDir($assets);
+            Logger::info("clean public cache: " . $assets);
+            array_map(function($f){
+                if (is_link($f)){
+                    @unlink($f);
+                }
+            }, igk_io_getfiles($assets));
+            
         }
         if (is_dir($bdir)) {
             Logger::info("rm :" . $bdir);

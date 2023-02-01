@@ -36,6 +36,7 @@ if(!$s){
     Logger::danger("failed to resetdb");
     return -2;
 }  
+$controller::register_autoload();
 $deflog = igk_environment()->get(__FILE__);
 $db=igk_get_data_adapter($controller);
 
@@ -54,24 +55,16 @@ igk_environment()->set(__FILE__, 1);
 
 if (!$is_connect ){
     Logger::danger('driver not connected');
-    return false;
+    // return false;
 }
 
-$controller::dropDb(false, $force);  
-$db->initForInitDb();
+$controller->dropDb(false, $force);  
 igk_set_env("sys://db_init_table/ctrl", $controller);
-Logger::print("initdb");
-$controller::initDb($force);
-$db->flushForInitDb();
-igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($controller));
-igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$controller]);
- 
-
-// igk_wln_e('kjd::finish > ', $controller->getDataAdapter()->openCount());
+Logger::info("init controller db ... ");
+$controller->initDb($force, $clean);
 if ($deflog>0){
     $deflog--;
-}
- 
+} 
 igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
 if ($navigate){
     $controller::logout(0);

@@ -8,14 +8,17 @@
 namespace IGK\Resources;
 
 use ArrayAccess;
+use ArrayIterator;
 use Closure;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IteratorAggregate;
+use Traversable;
 
 ///<summary> use for key's language operation</summary>
 /**
 *  use for key's language operation
 */
-final class IGKLangResDictionary implements ArrayAccess{
+final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     use ArrayAccessSelfTrait; 
     private $_f;
     ///<summary></summary>
@@ -87,5 +90,8 @@ final class IGKLangResDictionary implements ArrayAccess{
     }
     public function set($key, $value){
         $this->_f[$key] = $value;
+    }
+    public function getIterator(): Traversable {
+        return new ArrayIterator($this->_f);
     }
 }

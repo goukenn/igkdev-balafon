@@ -5,15 +5,21 @@
 // @date: 20220729 14:31:53
 // @desc: install module script
 
-
-
-
-
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
     {
         if (isset($_REQUEST[$n])) {
             return $_REQUEST[$n];
+        }
+        return $default;
+    }
+}
+
+if (!function_exists("igk_getv")) {
+    function igk_getv($tab, $n, $default = null)
+    {
+        if (isset($tab[$n])) {
+            return $tab[$n];
         }
         return $default;
     }
@@ -98,6 +104,31 @@ if (!function_exists("igk_io_rmdir")) {
     }
 }
 
+if (!function_exists('igk_server_resolv_home')){
+    function igk_server_resolv_home(){
+        $home = "/";        
+        if ($user = igk_getv($_SERVER, 'USER')){
+            $f = igk_getv($_SERVER, 'SCRIPT_FILENAME');
+            if ($g = strpos($f, '/'.$user.'/')){
+                
+                $home = substr($f, 0,  $g+strlen($user) +1);
+                $path = dirname($f);
+                $rp = "";
+                while($path != $home){
+                    $path = dirname($path);
+                    $rp .= "../";
+                }
+                $tp = dirname($f)."/".$rp;
+                $_SERVER['HOME'] = $home;
+               
+                return $home;
+            }
+        }
+        return $home;
+    }
+}
+
+
 class InstallerResponse
 {
     var $code;
@@ -140,10 +171,12 @@ class InstallerResponse
     }
 }
 
+// %token%
+
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
 defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
 
-$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : "/";
+$home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_server_resolv_home();
 $archive =  isset($archive) ? $archive : 
  ($glib = igk_getr("archive") ? implode("/", [$home, trim($glib, "/")]) :  __DIR__ . "/module.zip");
 
@@ -170,6 +203,8 @@ if (!file_exists($archive)) {
 }
 
 $install_dir = igk_getr("install_dir");
+
+
 if ($install_dir)
     $install_dir = implode("/", [$home, trim($install_dir,"/")]);
 else
@@ -191,7 +226,10 @@ $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 mkdir($temp_dir);
 
 
-
+ 
+// echo $install_dir .PHP_EOL;
+// echo "is _dir ?".is_dir($install_dir);
+// exit;
 $version = 0;
 $author = 0;
 $appName;
@@ -201,6 +239,7 @@ $outdir = "";
 $module_name = "";
 $module_version = "";
 $module_path = "";
+$zip_out_dirname = 'application_module_controller';
 if ($hzip->open($archive)) {
     $error = false;
     if (!$error && (false !== ($g = $hzip->getStream("manifest.xml")))) {
@@ -237,7 +276,8 @@ if ($hzip->open($archive)) {
             $ln = strlen($path);
             for ($i = 0; $i < $hzip->numFiles; $i++) {
                 $fname = $hzip->getNameIndex($i);
-                if (preg_match("#^ApplicationModuleController#", $fname) && ($fname[strlen($fname) - 1] != "/")) {
+                // echo $fname.PHP_EOL;
+                if (preg_match("#^".$zip_out_dirname."#", $fname) && ($fname[strlen($fname) - 1] != "/")) {
                     // $path = implode("/", [$install_dir, trim(substr($fname, $ln), "/")]);
                     $hzip->extractTo($temp_dir, $fname);
                     $count_file++;
@@ -251,23 +291,26 @@ if ($hzip->open($archive)) {
     $hzip->close();
     if (!$error) {
         igk_io_rmdir($outdir);
-        mkdir(dirname($outdir));
-        rename($temp_dir."/ApplicationModuleController", $outdir);
+        mkdir(dirname($outdir), 0775, true);
+        rename($temp_dir."/".$zip_out_dirname, $outdir);
         igk_io_rmdir($temp_dir);
         unset($temp_dir);
         if (isset($app_dir)){
             $steps[] = "clear caches";
             $app_dir = implode("/", [$home, trim($app_dir, "/")]);
             igk_io_rmdir($app_dir."/.Caches");
-        }
+        } 
     }
+    @unlink($archive);
 } else {
     $response->die("can't open archive", 501);
 }
-$_vart = compact("error", "install_dir", "count_file", "author",
- "version", 
- "appName", 
- "steps", "outdir", "module_name", "module_version", "module_path");
+$_vart = compact("error", 
+"version", 
+"appName", 
+"archive",
+"install_dir", "count_file", "author",
+"steps", "outdir", "module_name", "module_version", "module_path");
 if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;
 }

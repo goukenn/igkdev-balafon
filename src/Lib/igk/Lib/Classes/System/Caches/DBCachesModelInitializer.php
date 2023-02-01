@@ -22,10 +22,24 @@ use IGKSysUtil;
 class DBCachesModelInitializer{
     private $tableInfo;
     private $m_loaded = [];
+    /**
+     * instance for migration 
+     * @var bool
+     */
+    private $m_migration = false;
 
-    private function __construct()
-    {
-        
+    private function __construct(){        
+    }
+    /**
+     * create an instance for migration purpose
+     * @return DBCachesModelInitializer 
+     */
+    public static function InitMigration($plist){
+        $item = new self;
+        $item->tableInfo = $plist;
+        $item->m_loaded = []; 
+        $item->m_migration = true;
+        return $item;
     }
     /**
      * Init initializer with loaded 
@@ -33,11 +47,11 @@ class DBCachesModelInitializer{
      * @return DBCachesModelInitializer 
      * @throws IGKException 
      */
-    public static function Init($plist, bool $force=false){
+    public static function Init($plist, bool $force=false, bool $clean=false){
         $item = new self;
         $item->tableInfo = $plist;
         $item->m_loaded = [];
-        $item->bootStrap($force);
+        $item->bootStrap($force, $clean);
         return $item;       
     }
     /**
@@ -46,7 +60,7 @@ class DBCachesModelInitializer{
      * @return void 
      * @throws IGKException 
      */
-    public function bootStrap(bool $force=false){
+    public function bootStrap(bool $force=false, bool $clean=false){
         if (!$this->tableInfo){
             return;
         }
@@ -77,7 +91,7 @@ class DBCachesModelInitializer{
                 $table = igk_getv($ab, DbColumnInfoPropertyConstants::DefTableName);
                 $table = basename(igk_uri(IGKSysUtil::GetModelTypeName($table), $current));
                 $ns = $current::ns('');
-                // $current->resolvClass('Models/'.$table);
+                // $current->resolveClass('Models/'.$table);
                 $ab->modelClass = $ns."\\Models\\".$table;
             }
 
@@ -95,7 +109,7 @@ class DBCachesModelInitializer{
             $this->_loadDef($current,  $plist->defs);
             ControllerExtension::InitDataBaseModel(
                 $current,
-                $plist->tables, $force);
+                $plist->tables, $force, $clean);
         }
         $plist->tables = [];
         $plist->defs = [];
@@ -153,6 +167,9 @@ class DBCachesModelInitializer{
         $key = "";
         $refkey = "";
         $php_doc = "";
+        $const_data = "";
+        $hiddens = [];
+        $unique_columns = [];
         foreach ($columnInfo->columnInfo as $cinfo) {
             if ($cinfo->clIsPrimary) {
                 if (!empty($key)) {
@@ -167,12 +184,23 @@ class DBCachesModelInitializer{
             if ($cinfo->getIsRefId()) {
                 $refkey = $cinfo->clName;
             }
+            if ($cinfo->clHide){
+                $hiddens[] = $cinfo->clName;
+            }
+            if ($cinfo->clIsUniqueColumnMember){
+                if (!($index = $cinfo->clColumnMemberIndex)){
+                    $index = 0;
+                }
+                $unique_columns[$index][] = $cinfo->clName;
+            }
 
             // + get property type
             $pr_type =   
                 $this->getPhpDoPropertyType($cinfo->clName, $cinfo, $ctrl, false);
              
             $php_doc .= "@property " . $pr_type . "\n";
+            $const_data .=  "const FD_".strtoupper(igk_str_snake($cinfo->clName)) . '="'.$cinfo->clName.'";' ."\n";
+
         }
 
         $args = $this->dBGetPhpDocModelArgEntries($columnInfo->columnInfo, $ctrl);
@@ -196,7 +224,20 @@ class DBCachesModelInitializer{
             $o .= "/**\n*override refid key \n*/\n";
             $o .= "protected \$refId = \"{$refkey}\"; " . PHP_EOL;
         }
+
+        if (!empty($hiddens)) {
+            $o .= "/**\n*override hidden key \n*/\n";
+            $_hidden = "['".implode("','", $hiddens)."']";
+            $o .= "protected \$hidden = {$_hidden}; " . PHP_EOL;
+        }
+
+        if (!empty($unique_columns)){
+
+            $o .= "protected \$unique_columns = ".var_export($unique_columns, true).";";
+        }
+
         $base_ns = implode("\\", array_filter([$ns, "Models"]));
+        $o = $const_data . $o;
         $builder = new PHPScriptBuilder();
         $builder->type("class")
             ->author(IGK_AUTHOR)
@@ -253,6 +294,25 @@ class DBCachesModelInitializer{
         return $g;
     }
 
+    /**
+     * 
+     * @param string $type 
+     * @return void 
+     */
+    public function getPhpDocDefaultLinkType(string $type){
+        $type =strtolower($type);
+        switch ($type) {
+            case 'int':
+            case 'uint':
+            case 'bigint':
+            case 'ubigint':
+                return 'int';
+            default:
+                # code...
+                break;
+        }
+        return 'string';
+    }
      /**
      * 
      * @param mixed $name 
@@ -267,8 +327,28 @@ class DBCachesModelInitializer{
     public function getPhpDoPropertyType($name, $info, BaseController $ctrl, $extra = false)
     { 
         $t = IGKSysUtil::ConvertToPhpDocType($info->clType);
+        
         if ($info->clLinkType) {
-            $t = "int|" . $this->getLinkType($info->clLinkType, $info->clNotNull, $ctrl);
+            $default_link = 'int';
+            // + | --------------------------------------------------------------------
+            // + | because getLinkType resolve the table cache list it must be call first 
+            // + |
+            
+            $tp = $this->getLinkType($info->clLinkType, $info->clNotNull, $ctrl);
+            if ($info->clLinkColumn){
+                $tb = $info->clLinkType; // DbUtils::ResolvDefTableTypeName($info->clLinkType, $ctrl);
+                if (!isset($this->tableInfo[$tb])){
+                    igk_die("failed to resolv the table info ".$tb);
+                }
+                $clinf = igk_getv($this->tableInfo[$tb]->columnInfo, $info->clLinkColumn);  
+                if ($clinf){              
+                    $default_link = $this->getPhpDocDefaultLinkType($clinf->clType);
+                }else{
+                    igk_die("reflink column not found . ");
+                }
+            } 
+            $t = implode('|', array_filter([$default_link, 
+            $tp ]));
         }
         $extra = "";
         if ($info->clDefault) {
@@ -290,7 +370,7 @@ class DBCachesModelInitializer{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function getLinkType($type, bool $notnull, ?BaseController $ctrl = null)
+    public function getLinkType($type, ?bool $notnull, ?BaseController $ctrl = null)
     {
         $gu = null;
         $t = "";
@@ -298,8 +378,7 @@ class DBCachesModelInitializer{
             $t .= "?";
         }
         $t .= "\\";
-        $g = $this->tableInfo; // &\IGK\Models\ModelBase::RegisterModels();
-
+        $g = $this->tableInfo;  
         if (isset($g[$type])) {
             if (!isset($g[$type]->modelClass)) {
                 igk_die(" model class not definited.");
@@ -323,6 +402,12 @@ class DBCachesModelInitializer{
 
                 if (isset($this->m_loaded[get_class($q)]) && ($gu = igk_getv($this->m_loaded[get_class($q)], $type)) ){
                     break;
+                }
+                if (!isset($this->m_loaded[get_class($q)]) && $this->m_migration){
+                    // + | need to load schema of the controller data 
+                    // DBCaches::GetTableInfo($type,)
+                    DBCaches::Init();
+                    $this->m_migration = false; 
                 }
             }
             if (is_null($gu)) {

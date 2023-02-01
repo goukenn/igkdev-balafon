@@ -15,7 +15,7 @@ trait FormLogoutActionTrait{
     // public function logout(){
     //     $this->ctrl->logout(1);
     // }
-    public function logout(){
+    public function logout_post(){
         $ctrl = $this->getController();
         $redirect = $ctrl::uri($this->serviceLoginSigninView);
         $ctrl->logout(1, $redirect);

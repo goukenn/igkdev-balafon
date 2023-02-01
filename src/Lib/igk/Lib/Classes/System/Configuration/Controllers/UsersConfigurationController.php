@@ -610,8 +610,8 @@ class UsersConfigurationController extends ConfigControllerBase
             $tb = $this->getDataTableName();
             //+ check that the current user exists
             $tu = ["clId" => $u->clId, "clLogin" => $u->clLogin];
-            $k = igk_db_table_select_where($tb, $tu, $this);
-            if ($k->RowCount == 1) {
+            $k = Users::select_row($tu);
+            if ($k) {
                 $this->setGlobalUser($u);
                 return 1;
             }

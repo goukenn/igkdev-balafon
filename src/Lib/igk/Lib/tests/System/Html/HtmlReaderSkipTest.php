@@ -40,7 +40,7 @@ HTML,   $n->render());
 
     function test_skip_area_code(){
         $n = igk_create_node("div");
-        igk_debug(1);
+       
         $n->load(<<<'HTML'
 <textarea>if <div>Information du jour </div></textarea>
 HTML);

@@ -16,5 +16,5 @@ class QueryOptions{
      */
     var $noPrimaryKey;
 
-    const CallbackProperty = "@callback";
+    const CallbackProperty = \IGK\Database\DbConstants::CALLBACK_OPTS;
 }

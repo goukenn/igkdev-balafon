@@ -7,6 +7,7 @@
 namespace IGK\System\Html\Css;
 
 use ArrayAccess;
+use IGK\Css\CssSupport;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
@@ -76,7 +77,7 @@ class CssParser implements ArrayAccess
                     $s = $pos;
                     $pos++;
                     $v_name = self::_ReadName($content, $pos, $len);
-                    switch ($v_name){
+                    switch ($v_name) {
                         case 'supports':
                             $cdef = self::_ReadSupport($content, $pos, $len, $media, $errors);
                             if ($cdef === false) {
@@ -130,7 +131,7 @@ class CssParser implements ArrayAccess
                         case 'layer':
                         case 'namespace':
                         case 'page':
-                        case 'property':  
+                        case 'property':
                             $s = $pos;
                             $pos = strpos($content, '{', $pos + 1);
                             if ($pos === false) {
@@ -145,9 +146,9 @@ class CssParser implements ArrayAccess
                             $mode = 0;
                             $def[] = $media;
                             array_push($tdef, $def);
-                            $def = &$media->def;                      
+                            $def = &$media->def;
                             break;
-                        
+
                         default:
                             $pos = strpos($content, ';', $pos + 1);
                             $g = '';
@@ -207,7 +208,7 @@ class CssParser implements ArrayAccess
                         if (empty($rv = trim($rv))) {
                             $name = $ch;
                             $rv = $ch;
-                        } else { 
+                        } else {
                             $rv .= $ch;
                         }
                     } else {
@@ -227,18 +228,22 @@ class CssParser implements ArrayAccess
                             die("name is empty.;" . $rv);
                         }
                     }
-                    $value = $rv;
-                    // if (empty($name)) {
-                    //     igk_wln_e("name is empty ....");
-                    // }
-                    if ($mode == 0) {
-                        $def[$name] = $value;
+                    if ($name) {
+                        $value = $rv;
+                        // if (empty($name)) {
+                        //     igk_wln_e("name is empty ....");
+                        // }
+                        if ($mode == 0) {
+                            $def[$name] = $value;
+                        } else {
+                            $def[$selector][$name] = $value;
+                            $name = '';
+                            $value = '';
+                        }
+                        $rv = '';
                     } else {
-                        $def[$selector][$name] = $value;
-                        $name = '';
-                        $value = '';
+                        $rv.= $ch;
                     }
-                    $rv = '';
                     break;
                 case "'":
                     $pos++;
@@ -288,7 +293,13 @@ class CssParser implements ArrayAccess
             $pos++;
         }
         if (!empty($rv = trim($rv))) {
-            $def[$name] = $rv;
+            if (empty($name)) {
+                // extract definition list 
+                $converter = new CssStringConverter;
+                $def += (array)$converter->read($rv);
+            } else {
+                $def[$name] = $rv;
+            }
             $rv = null;
         }
         return $def;
@@ -475,7 +486,7 @@ class CssParser implements ArrayAccess
     public function getColors()
     {
         $colors = [];
-        if (!$this->definition){
+        if (!$this->definition) {
             return $colors;
         }
         $regx = "/^((background|caret|column-rule|text-decoration|outline|text-emphasis|border(-(left|top|bottom|right))?)-)?color$/";
@@ -540,25 +551,25 @@ class CssParser implements ArrayAccess
      * render document 
      * @return null|string 
      */
-    public function render():?string{
+    public function render(): ?string
+    {
         $sb = new StringBuilder;
         if ($this->definition)
-        foreach($this->definition as $k=>$v){
-            if ($v instanceof ICssDefinition){
-                $sb->appendLine($v->getDefinition());
-            }
-            else{
-                if (is_array($v)){
-                    $sb->appendLine($k."{");
-                    foreach($v as $l=>$m){
-                        $sb->appendLine(sprintf("%s:%s;", $l, $m));
+            foreach ($this->definition as $k => $v) {
+                if ($v instanceof ICssDefinition) {
+                    $sb->appendLine($v->getDefinition());
+                } else {
+                    if (is_array($v)) {
+                        $sb->appendLine($k . "{");
+                        foreach ($v as $l => $m) {
+                            $sb->appendLine(sprintf("%s:%s;", $l, $m));
+                        }
+                        $sb->appendLine("}");
+                    } else {
+                        igk_wln_e("bad " . __CLASS__);
                     }
-                    $sb->appendLine("}");
-                } else{
-                    igk_wln_e("bad ".__CLASS__);
                 }
             }
-        }
         return $sb;
     }
 }

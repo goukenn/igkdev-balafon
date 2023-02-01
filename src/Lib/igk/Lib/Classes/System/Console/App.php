@@ -31,11 +31,13 @@ class App{
     const PURPLE = "\e[3;35m";
     const AQUA = "\e[3;36m";
     const END = "\e[0m";
+
+    const GroupIndex = 2;
     /*
      * application version
      * @var string
      */
-    const version = "0.1.2";
+    const version = "0.1.3";
     /**
      * available command
      * @var mixed
@@ -50,10 +52,10 @@ class App{
     /**
      * store application configuration
      */
-    protected $configs;
+    protected $_configs;
 
     public function getConfigs(){
-        return $this->configs;
+        return $this->_configs;
     }
     /**
      * run application command line
@@ -87,7 +89,7 @@ class App{
         igk_environment()->set("app_type", IGKAppType::balafon);
         igk_environment()->set("workingdir", $wdir); 
         $app->basePath = $basePath;
-        $app->configs = $configs;
+        $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));        
         $app->boot();
 
@@ -142,7 +144,7 @@ class App{
         $command = $app->command;
         $cnf = $app->getConfigs();
         $app = new static();  
-        $app->configs = $cnf;
+        $app->_configs = $cnf;
 
         if ($command_args = AppCommand::GetCommands($app)){ 
             foreach($command_args as $c){                
@@ -281,7 +283,8 @@ class App{
                     }  
                 }else{
                     if (isset($cmd[0][0])){
-                        $cmd[0][0]->help(...array_slice(func_get_args(), 1));
+                        $c = func_get_args();
+                        $cmd[0][0]->help(...$c);
                     }
                 }
             }
@@ -298,8 +301,13 @@ class App{
 
         $groups = [];
         array_walk($this->command, function($c,$key)use(& $groups){
-            
-            $cat = igk_getv($c, 2, "");
+            $cat = null;
+            if (is_array($c)){
+                if (($l = igk_getv($c, 1)) && (is_array($l))){
+                    $cat = igk_getv($l, "category");
+                }
+            }
+            $cat = $cat ?? igk_getv($c, self::GroupIndex, "");
              
             if (!isset($groups[$cat]))
                 $groups[$cat] = [];
@@ -331,8 +339,8 @@ class App{
         $this->print("");
     }
     public function getLogFolder(){
-        if($this->configs){
-            return $this->configs->get("logFolder");
+        if($this->_configs){
+            return $this->_configs->get("logFolder");
         }
     }
     /**

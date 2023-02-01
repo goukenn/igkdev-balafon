@@ -16,6 +16,7 @@ use IGK\Helper\SysUtils;
 use IGK\Models\Groups;
 use IGK\Resources\R;
 use IGK\System\Database\IDatabaseHost;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\UriActionException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
@@ -25,6 +26,7 @@ use IGKDbUtility;
 use IGKException;
 use IGKGD;
 use IGKHtmlDoc;
+use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
 
@@ -625,7 +627,7 @@ EOF;
             "viewdefault" => 0,
             "query_options" => 0
         ));
-
+        // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
             $page = explode("?", $u);
             $k = $this->getDomainUriAction();
@@ -642,6 +644,7 @@ EOF;
             extract(igk_pattern_view_extract($this, $p, 1));
             igk_ctrl_change_lang($this, $p);
         }
+
         // get request query options
         $query_options = igk_getv($p, 'options');
         //passing ctrl to view for sitepam
@@ -690,12 +693,8 @@ EOF;
                 }
             }
         }
-        // if ($this->getViewFile($c, 0) != $fnc){
-        //     array_unshift($param, $c); 
-        // }
-        // igk_view_dispatch_args($this, $c, $param);          
-        // igk_wln_e(__FILE__.":".__LINE__,$c, $param, $this->getViewFile($c, 0, $param));
  
+        // + | NAVIGATE TO CURRENT VIEW
         $this->setCurrentView($c, true, null, $param, $query_options);         
         $this->resetCurrentView(null);
         if (igk_is_ajx_demand()) {
@@ -721,9 +720,16 @@ EOF;
     {
         return 0;
     }
+    /**
+     * init - application macros 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function initMacros()
     {
-        if (is_null($cl = $this::resolvClass("Database/InitMacros"))){
+        if (is_null($cl = $this::resolveClass(\Database\InitMacros::class))){
             return;
         }
         $m = new $cl();
@@ -742,12 +748,12 @@ EOF;
         if (\IGK\Models\ModelBase::IsMacrosInitialize()) {
             $this->initMacros();
         } else {
-            igk_reg_hook($this::hookName("register_autoload"), function(){
+            igk_reg_hook($this::hookName("register_autoload"), function($e){
             // igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
                 // $op_start = igk_sys_request_time();
-                if (\IGK\Models\ModelBase::IsMacrosInitialize()){
+                //if (\IGK\Models\ModelBase::IsMacrosInitialize()){
                     $this->initMacros();
-                }
+                //}
                 // igk_ilog("init macros duration: ". (igk_sys_request_time() - $op_start) . " ".
                 // get_class($this));
             });

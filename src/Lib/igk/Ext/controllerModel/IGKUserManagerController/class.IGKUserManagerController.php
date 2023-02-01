@@ -9,6 +9,8 @@
 use IGK\Database\DbColumnInfo;
 use IGK\Models\Users;
 use IGK\Resources\R;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
 /**
  * connect users
@@ -60,13 +62,25 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	public function getIsUserConnected(){
 		return ($this->m_user != null);
 	}
+	/**
+	 * 
+	 * @param mixed $login 
+	 * @param mixed $pwd 
+	 * @return bool 
+	 * @deprecated
+	 * @throws IGKException 
+	 * @throws Exception 
+	 * @throws CssParserException 
+	 * @throws ArgumentTypeNotValidException 
+	 * @throws ReflectionException 
+	 */
 	public function connect($login=null, $pwd=null){
 		$login = ($login==null)?igk_getp("clLogin", $login):$login;
 		$pwd = ($pwd==null)?igk_getp("clPwd", $pwd):$pwd;
 		$obj = igk_db_getobj($this->getDataTableInfo());
 		$obj->clLogin = $login;
 		$obj->clPwd = $pwd;
-		igk_wln_e(__FILE__.":".__LINE__,  'the store pwd: ', $pwd);
+		igk_dev_wln_e(__FILE__.":".__LINE__,  'the store pwd: ', $pwd);
 
 		$s = Users::select_row(array("clLogin"=>$login, "clPwd"=>$pwd));
 

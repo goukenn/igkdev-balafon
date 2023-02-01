@@ -69,12 +69,15 @@ function igk_exit($close = 1)
  */
 function igk_sess_write_close()
 {
-    if (igk_environment()->isDev()) {
-        igk_ilog("close session " . session_id());
-        igk_ilog(igk_ob_get_func(function () {
-            igk_trace(2, 0, 0, 0, 1);
-        }));
-    } 
+    //+ | ---------------------------------------------------
+    /// DEBUG: Track close SESSION
+    //+ | 
+    // if (igk_environment()->isDev()) {
+    //     // igk_ilog("close session " . session_id());
+    //     // igk_ilog(igk_ob_get_func(function () {
+    //     //     igk_trace(2, 0, 0, 0, 1);
+    //     // }));
+    // } 
     return @session_write_close();
 }
 ///<summary>get output type</summary>
@@ -164,7 +167,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 400)
 }
 ///<summary>shortcut to resource get __</summary>
 /**
- * helper: shortcut to resource get __
+ * helper: shortcut to resource string dictionary get __
  * @param string|array<string> $text formatted key
  * @param string|null $default default value
  */
@@ -261,14 +264,7 @@ function igk_getpv($array, $key, $default = null)
     }
     $def = $default;
     $o = null;
-    $ckey = "";
-
-    // $v_isobj = is_object($array);
-    // if ($v_isobj){
-    //     echo ("for ". get_class($array) . "<br />");
-    //     echo "demand for is array ? ".is_array($array);
-    // }
-
+    $ckey = ""; 
 
 
     //, $key, $n);
@@ -666,16 +662,17 @@ function igk_dev_ilog()
         call_user_func_array("igk_ilog", func_get_args());
     }
 }
-function igk_dev_wln_e()
-{
+/**
+ * helper: in dev write line and exit
+ * @param array $args variadic parameter 
+ * @return void 
+ */
+function igk_dev_wln_e(){
     if (igk_environment()->isDev()) {
-        call_user_func_array("igk_wln_e", func_get_args());
-        igk_exit();
+        $fc = defined('IGK_RUN_TAC_COMMAND') ? 'igk_wln' : 'igk_wln_e';
+        call_user_func_array($fc, func_get_args());        
     }
 }
-
-
-
 function igk_bind_trace()
 {
 
@@ -841,7 +838,7 @@ function igk_wln_e($msg = "")
 {
     igk_environment()->set('TRACE_LEVEL', 3);
     // igk_trace();
-    // ;exit;
+    // exit;
     call_user_func_array('igk_wln', func_get_args());
     igk_exit();
 }
@@ -1778,7 +1775,9 @@ function igk_sys_reflect_class($cl)
     if (is_null($reflection)) {
         $reflection = [];
     }
-
+    if (is_null($cl)) {
+        return null;        
+    }
     if (is_object($cl)) {
         $cl = get_class($cl);
     }
@@ -1875,6 +1874,9 @@ function igk_default_ignore_lib($dir = null)
         IGK_STYLE_FOLDER => 1,
         IGK_ARTICLES_FOLDER => 1,
         IGK_CGI_BIN_FOLDER => 1,
+        '.git'=>1,
+        'node_modules'=>1,
+        '.vscode'=>1
     );
     if ($dir) {
         $keys = array_keys($tk);
@@ -2009,6 +2011,9 @@ function igk_set_header($code, $message = "", $headers = [])
 {
     if (igk_is_cmd() || headers_sent())
         return false;
+
+    
+    
     // igk_wln_e('need ->headers', igk_is_cmd(),  headers_sent());
     static $fcall = null;
     if ($fcall === null)
@@ -2024,23 +2029,30 @@ function igk_set_header($code, $message = "", $headers = [])
             $new = 0;
         }
     }
+
+    igk_clear_header_list(); 
     $msg = igk_get_header_status($code);
     $txt = "Status: {$code} $msg";
     if (!$fcall) {
-        if ($new) {
-            header($msg);
-            header($txt, 1);
+        if ($new) { 
+            header($txt);
             header(IGK_FRAMEWORK . ":" . IGK_CODE_NAME . "-" . IGK_VERSION);
         }
     } else {
         header($txt, 1, $code);
     }
-    igk_environment()->isDev() && header("srv-msg:" . $message);
-    if ($headers)
+    igk_environment()->isDev() && header("srv-msg:" . $message); 
+    // igk_environment()->isDev() && header("Access-Control-Allow-Methods: GET", true ); 
+    if ($headers){
+        // + | replace with setup header 
         foreach ($headers as $k) {
-            header($k);
+            header($k, true);
         }
+    } 
+    // the last one set the code status
+    header($msg, 1, $code);   
     $fcall = 1;
+    // igk_wln_e(__FILE__.":".__LINE__ , headers_list());
 }
 
 ///<summary>bind my how header</summary>

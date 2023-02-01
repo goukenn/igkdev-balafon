@@ -14,6 +14,11 @@ namespace IGK\System\Configuration;
  */
 class XPathConfig{
     private $m_config;
+    /**
+     * tempory xpath
+     * @var false
+     */
+    var $isTemp = false;
     public function __construct($config){
         $this->m_config = $config;
     }

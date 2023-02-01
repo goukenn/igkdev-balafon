@@ -119,9 +119,9 @@ class InstallSiteCommand extends AppExecCommand
                 "is_primary" => $is_primary,
                 "is_laravel_mix" => property_exists($command->options, "--laravel-mix"),
                 "base_uri"=>$base_uri,
-                // FLAG CONFIGURATION 
+                // + | FLAG CONFIGURATION 
                 "no_subdomain"=>property_exists($command->options, "--no-subdomain"),
-                "no_webconfig"=>property_exists($command->options, "--no-webconfig")."KK"
+                "no_webconfig"=>property_exists($command->options, "--no-webconfig"),
             ]
         )) {
             if (igk_environment()->isUnix() && (get_current_user() == "root")) {

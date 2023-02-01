@@ -63,6 +63,8 @@ Name:balafon.js
     };
     var __isdev;
     __lang[0xEA001] = "failed to transform xml with xsl . {0}";
+    var __global = null;
+
 
     function __init_console() {
         __debug_z = $igk("#debug-z").first();
@@ -149,7 +151,10 @@ Name:balafon.js
         }
         return "/!\\ NotSupported";
     }
-
+    /**
+     * 
+     */
+    // + | Global function 
     function igk_object() {
         // define an igk balafonjs object
     };
@@ -162,6 +167,20 @@ Name:balafon.js
     function igk_namespace() {
         // define a namespace object
     };
+
+    function igk_winui_reg_event(item, method, func, useCapture) { // global	
+        var g = method.split(' ');
+        var s = 0;
+        var o = 1;
+        while (o && (s = g.pop())) {
+            var eventHandler = igk.winui.getEventHandler(s);
+            if (eventHandler != null) {
+                o = o && eventHandler.reg_event(item, func, useCapture);
+            } else o = o && igk_winui_reg_system_event(item, s, func, useCapture);
+        }
+    };
+
+
     igk_namespace.prototype = new igk_object();
 
     function igk_is_string(t) {
@@ -188,6 +207,24 @@ Name:balafon.js
     function igk_stop_event(ev) {
         ev.preventDefault();
         ev.stopPropagation();
+    };
+    /**
+     * trim text
+     * @param {*} m string 
+     */
+    function igk_str_trim(m) {
+        if (m == null) {
+            throw new igk.exception('bad');
+        }
+        if (m.trim)
+            return m.trim();
+        while (m && (m.length > 0) && (m[0] == ' ')) {
+            m = m.substring(1);
+        }
+        while (m && (m.length > 0) && (m[m.length - 1] == ' ')) {
+            m = m.substring(0, m.length - 1);
+        }
+        return m;
     };
 
     function igk_url(u) {
@@ -237,7 +274,7 @@ Name:balafon.js
             return _promise;
         };
         // TODO : GET FILES - 
-        if (igk.system.string.startWith(uri, "file://")) {
+        if (/^file:\/\//.test(uri)) {
             // alert("loading from data file : "+uri);
             if (window.Fetch) {
                 Fetch(uri).then(function() {}).error(function() {});
@@ -1353,7 +1390,7 @@ Name:balafon.js
         }
         if (name == window) {
             throw ("/!\\ Call to __igk function on [window] is not allowed. It will break the igk js framework namespace hierarchi." +
-                "if you want to register event please use 'igk.winui.reg_event instead'");
+                "if you want to register event please use 'igk_winui_reg_event instead'");
         }
         var item = null;
         if (typeof(name) == "string") {
@@ -1436,7 +1473,7 @@ Name:balafon.js
         if (element != null)
             space = "<br />";
         for (var s in i) {
-            if (igk.system.string.startWith(s, "on")) {
+            if (/^on/.test(s)) {
                 try {
                     msg += s + "=" + i[s] + space;
                 } catch (Exception) {}
@@ -2002,6 +2039,7 @@ Name:balafon.js
     };
     // init
     m_scriptTag = igk_getLastScript();
+    let fc_false = function() { return !1 };
     // --------------------------------------------------
     // expose global function 
     // --------------------------------------------------
@@ -2011,6 +2049,83 @@ Name:balafon.js
     createNS("igk.ctrl", {}, { desc: "manage controller" });
     createNS("igk.system", {}, { desc: "global system igk js namespace" });
     createNS("igk.type", {}, { desc: "global igk js namespace" });
+    createNS("igk.JSON", (function() {
+        var source = null;
+        return {
+            /**
+             * get the source
+             */
+            getSource() {
+                return source;
+            },
+            /**
+             * set the source
+             * @param {*} src 
+             */
+            setSource: function(src) {
+                source = src;
+            },
+            /**
+             *  used to parse attribute property
+             * @param {*} js 
+             * @param {*} target 
+             */
+            parse: function(js, target) {
+                var q = null;
+                source = target;
+                try {
+                    if ((js != null) && (typeof(js) == "string"))
+                        q = eval('(' + js + ')');
+                } catch (ex) {
+                    q = js;
+                }
+                this.target = null;
+                source = null;
+                return q;
+            },
+
+            /**
+             * convert json object to string
+             * @param {*} jsonobj 
+             */
+            convertToString: function(jsonobj) {
+                if (typeof(JSON) != 'undefined' && JSON.stringify) {
+                    return JSON.stringify(jsonobj);
+                }
+                var r = "{";
+                var k = 0;
+                var prop = [];
+                for (var i in jsonobj) {
+                    if ((typeof(jsonobj[i]) == IGK_FUNC) ||
+                        (typeof(jsonobj[i]) == IGK_UNDEF)
+                    ) {
+                        continue;
+                    }
+                    if (k > 0)
+                        r += ",";
+                    if (typeof(jsonobj[i]) == "object") {
+                        // treat data
+                        prop.push(jsonobj[i]);
+                        r += "\"" + i + "\": ";
+                    } else
+                        r += "\"" + i + "\":" + jsonobj[i];
+                    k++;
+                }
+                r += "}";
+                return r;
+            }
+        };
+    })(), { desc: "global namespace . JSON helper" });
+    createNS("igk.navigator", {
+        isIE: function() { return false },
+        getLang: function() {
+            return 'fr';
+        },
+        isChrome: fc_false,
+        isSafari: fc_false,
+        isIEEdge: fc_false,
+        isFirefox: fc_false,
+    }, { desc: "global navigator properties" });
     createNS("igk.reflection", {}, { desc: "global igk js namespace" });
     createNS("igk.exception", {}, { desc: "global igk exception class" });
     createNS("igk.os", {}, { desc: "balafon os utility function" });
@@ -2018,9 +2133,15 @@ Name:balafon.js
     createNS("igk.winui", {}, { desc: "winui global igk js namespace. manage interface" });
     createNS("igk.winui.fn", {}, { desc: "utility functions" });
     createNS("igk.winui.notify", {}, { desc: "winui.notify global igk js namespace" });
-    createNS("igk.html", {}, { desc: "igk.html namespace. to manage dom element" });
+    createNS("igk.html", {
+        getDefinition: igk_get_html_item_definition,
+        getDefinitionValue: igk_get_html_item_definition_value,
+    }, { desc: "igk.html namespace. to manage dom element" });
     createNS("igk.html5", {}, { desc: "igk.html5 namespace" });
     igk.log = function(msg, tag, t) {
+        if (!igk.DEBUG) {
+            return;
+        }
         var fc = null;
         switch (t) {
             case "i":
@@ -2056,6 +2177,13 @@ Name:balafon.js
             if (igk.DEBUG) {
                 console.error(m);
             }
+        },
+        write: function(m) {
+            /**
+             * write log in html gobloa 
+             */
+            console.log(m);
+            $igk(igk.winui.events.global()).raiseEvent('igk_log', m);
         }
     }, { desc: 'manage log' });
     createNS("igk.attribute", {
@@ -3207,7 +3335,7 @@ Name:balafon.js
                 this.o.each(this.on, arguments);
                 return this;
             } else {
-                igk.winui.reg_event(this.o, method, func, useCapture);
+                igk_winui_reg_event(this.o, method, func, useCapture);
                 return this;
             }
         },
@@ -3275,7 +3403,7 @@ Name:balafon.js
                 this.o.each(this.editable, arguments);
                 return this;
             } else {
-                this.on("contextmenu", igk.winui.event.cancelBehaviour);
+                this.on("contextmenu", igk.winui.events.cancelBehaviour);
             }
             return this;
         },
@@ -3432,6 +3560,11 @@ Name:balafon.js
             }
             return this;
         },
+        /**
+         * register event 
+         * @param {*} n event name
+         * @param {*} p event property {}|
+         */
         addEvent: function(n, p) {
             // add custom event to property
             // n: name
@@ -3469,10 +3602,11 @@ Name:balafon.js
                 }
                 if (e != null) {
                     try {
+                        // + | register event 
                         this.o[n] = e;
                         this.raiseEventCreated(n);
                     } catch (e) {
-                        // failed to add property 
+                        // + | failed to add property 
                     }
                 }
             }
@@ -3513,7 +3647,7 @@ Name:balafon.js
                 }
                 var ucl = typeof(t.o.classList) != 'undefined';
                 for (var i = 0; i < tab.length; i++) {
-                    k = igk.system.string.trim(tab[i]);
+                    k = igk_str_trim(tab[i]);
                     if ((k.length == 0) || st[k]) {
                         continue;
                     }
@@ -3531,9 +3665,9 @@ Name:balafon.js
                 }
                 if (!ucl && (s.length > 0)) {
                     if (t.o.className == " ")
-                        t.o.className = igk.system.string.trim(ts);
+                        t.o.className = igk_str_trim(ts);
                     else {
-                        t.o.className = igk.system.string.trim(t.o.className + " " + s);
+                        t.o.className = igk_str_trim(t.o.className + " " + s);
                     }
                 }
                 return ch;
@@ -3578,7 +3712,7 @@ Name:balafon.js
                     var rm = [];
                     var s = "";
                     for (var i in classname) {
-                        s = igk.system.string.trim(i);
+                        s = igk_str_trim(i);
                         if (((typeof(classname[i]) == "function") && classname[i]()) ||
                             classname[i]) {
                             tab.push(s);
@@ -3597,7 +3731,7 @@ Name:balafon.js
         // remove class 
         rmClass: function(classname) {
             if (typeof classname === "string") {
-                classname = igk.system.string.trim(classname);
+                classname = igk_str_trim(classname);
                 if (classname.length == 0) {
                     return this;
                 }
@@ -3619,7 +3753,7 @@ Name:balafon.js
                                 delete(cur[index]);
                             }
                         }
-                        var h = igk.system.string.trim(cur.join(" "));
+                        var h = igk_str_trim(cur.join(" "));
                         if (h.length == 0) {
                             this.o.className = "";
                             this.o.removeAttribute("class");
@@ -3652,7 +3786,7 @@ Name:balafon.js
                             // cur = cur.replace(_rg, '');		
                         }
                         cur = o;
-                        var h = igk.system.string.trim(cur);
+                        var h = igk_str_trim(cur);
                         this.o.className = h;
                         igk.success = 1;
                     } else
@@ -3684,7 +3818,7 @@ Name:balafon.js
                                 removing = !0;
                             }
                         }
-                        var h = igk.system.string.trim(cur);
+                        var h = igk_str_trim(cur);
                         if (newcl)
                             h += " " + newcl;
                         this.o.className = h;
@@ -4285,6 +4419,12 @@ Name:balafon.js
             }
             return s;
         },
+        /**
+         * get element text or 
+         */
+        text: function() {
+            return this.getHtml() || this.o.textContent;
+        },
         val: function() {
             if (this.o.each) {
                 this.o.each(this.setHtml, arguments);
@@ -4511,7 +4651,7 @@ Name:balafon.js
             if (this.o.each) {
                 this.o.each(this.reg_event, arguments);
             } else {
-                igk.winui.reg_event(this.o, method, func, opts);
+                igk_winui_reg_event(this.o, method, func, opts);
             }
             return this;
         },
@@ -4958,9 +5098,17 @@ Name:balafon.js
         },
         eval_all_script: igk_eval_all_script,
         init_document: function(s) { //initialize document 		 
-            igk.ctrl.init_controller();
-            igk_preload_image(document);
-            igk_preload_anim_image(document);
+            if (igk.ctrl.init_controller) {
+                igk.ctrl.init_controller();
+            } else {
+                $igk(igk.winui.events.global()).reg_event('igk_controller_ready', function() {
+                    igk.ctrl.init_controller();
+                });
+            }
+            igk.ready(function() {
+                igk_preload_image(document);
+                igk_preload_anim_image(document);
+            });
             // apply preload document
             __applyPreloadDocument(document);
             __initDocSetting = s;
@@ -5085,7 +5233,7 @@ Name:balafon.js
                 }
                 return v_sl;
             }
-            if (igk.system.string.startWith(pattern, "^?")) {
+            if (/^\^\?/.test(pattern)) {
                 // load block pattern data
                 pattern = pattern.substring(2);
                 return $igk(pattern);
@@ -5100,7 +5248,7 @@ Name:balafon.js
                 v_sl.push(igk.dom.body().o);
                 return $igk(v_sl);
             }
-            if (igk.system.string.startWith(pattern, '?')) {
+            if (pattern.indexOf('?') == 0) {
                 // if element contain criteria
                 // exemple ?.igk-body
                 var m = igk_select_exp(pattern.substring(1));
@@ -5109,7 +5257,7 @@ Name:balafon.js
                 }
                 return $igk(v_sl);
             }
-            if (igk.system.string.startWith(pattern, '^')) {
+            if (pattern.indexOf('^') == 0) {
                 //+ parent search 
                 // sample : ^div
                 var spattern = pattern.split(" ");
@@ -5141,7 +5289,7 @@ Name:balafon.js
                 }
                 return $igk(v_sl);
             }
-            if (igk.system.string.startWith(pattern, '+')) {
+            if (pattern.indexOf('+') == 0) {
                 // search on next sibling
                 var h = $igk(item).o.nextSibling;
                 var spattern = pattern.substr(1).split(" ");
@@ -5281,7 +5429,7 @@ Name:balafon.js
             if (func == null)
                 return;
             if (document.readyState == "loading") {
-                igk.winui.reg_event(window, "load", func);
+                igk_winui_reg_event(window, "load", func);
             } else {
                 func.apply(window);
             }
@@ -5628,8 +5776,12 @@ Name:balafon.js
     // 
     // TODO: initialize environment style
     igk.ready(function() {
-        var b = igk.dom.body();
-        var n = igk.navigator;
+        var n, b = igk.dom.body();
+        if (typeof(igk.navigator) == 'undefined') {
+            return;
+        }
+        n = igk.navigator;
+
         if (n.isIE() && n.IEVersion() <= 11) {
             b.addClass("ie-11-service"); // no support of css 3 setting
         }
@@ -5903,22 +6055,7 @@ Name:balafon.js
             return !0;
         }
     }, { desc: "igk utility fonctions" });
-    // represent debug functions
-    createNS("igk.debug", {
-        write: function(msg) {
-            if (igk.DEBUG) {
-                console.debug(msg);
-            }
-        },
-        assert: function(c, m) { // condition ,message
-            if (c) {
-                console.debug(m);
-            }
-        },
-        enable: function(f) {
-            igk.DEBUG = f;
-        }
-    });
+
     // represent utility fonction
     var prop_toextend = 0;
     createNS("igk.fn", {
@@ -6180,7 +6317,7 @@ Name:balafon.js
     createNS("igk.datetime", { // date time utility function
         timeToMs: function(d) {
             if (typeof(d) == 'string') {
-                d = igk.system.string.trim(d);
+                d = igk_str_trim(d);
                 if (igk.system.string.endWith(d, 's')) {
                     return parseInt(d.substr(0, d.length - 1) * 1000);
                 }
@@ -6639,69 +6776,7 @@ Name:balafon.js
             }
         });
     })();
-    (function() {
-        var source;
-        createNS("igk.JSON", {
-            init_data: function(src, str, fallback) {
-                var _v = igk.JSON.parse(str);
-                if ((_v != null) && (typeof(_v) == "object")) {
-                    for (var i in src) {
-                        if (typeof(_v[i]) != igk.constants.undef) {
-                            src[i] = _v[i];
-                        }
-                    }
-                } else {
-                    if (fallback) {
-                        fallback(src);
-                    }
-                }
-                return src;
-            },
-            // used to parse attribute property
-            parse: function(js, target) {
-                var q = null;
-                source = target;
-                try {
-                    if ((js != null) && (typeof(js) == "string"))
-                        q = eval('(' + js + ')');
-                } catch (ex) {
-                    q = js;
-                }
-                this.target = null;
-                source = null;
-                return q;
-            },
-            convertToString: function(jsonobj) { // convert json object to string
-                if (typeof(JSON) != 'undefined' && JSON.stringify) {
-                    return JSON.stringify(jsonobj);
-                }
-                var r = "{";
-                var k = 0;
-                var prop = [];
-                for (var i in jsonobj) {
-                    if ((typeof(jsonobj[i]) == IGK_FUNC) ||
-                        (typeof(jsonobj[i]) == IGK_UNDEF)
-                    ) {
-                        continue;
-                    }
-                    if (k > 0)
-                        r += ",";
-                    if (typeof(jsonobj[i]) == "object") {
-                        // treat data
-                        prop.push(jsonobj[i]);
-                        r += "\"" + i + "\": ";
-                    } else
-                        r += "\"" + i + "\":" + jsonobj[i];
-                    k++;
-                }
-                r += "}";
-                return r;
-            },
-            setSource: function(src) {
-                source = src;
-            }
-        });
-    })();
+
 
     function igk_form_geturi(frm) { // get the ajx form uri. or action
         var u = $igk(frm).getAttribute("igk-ajx-form-uri");
@@ -7807,52 +7882,8 @@ Name:balafon.js
             }
         }
     });
-    createNS("igk.html", {
-        string: function(text) {
-            // string text
-            text = text.replace(/\</g, "&lt;");
-            text = text.replace(/\>/g, "&gt;");
-            return text;
-        },
-        isTextNode: function(item) {
-            return (item && (item.nodeType == 3));
-        },
-        closeEmptyTag: function(s, replacecallback) {
-            function replacing(m) {
-                var tag = m.trim().split(' ')[0].substring(1);
-                m = m.replace("/>", "></" + tag + ">");
-                return m;
-            }
-            var rg = new RegExp("((<)([^\/>])+(\/>))", "ig");
-            return s.replace(rg, replacecallback || replacing);
-        },
-        appendQuery: function(uri, exp) {
-            if (uri.indexOf('?') != -1) {
-                uri = uri + "&" + exp;
-            } else {
-                uri = uri + "?" + exp;
-            }
-            return uri;
-        },
-        getDefinition: igk_get_html_item_definition,
-        getDefinitionValue: igk_get_html_item_definition_value,
-        addToHead: function(n) {
-            if (document.head) {
-                document.head.appendChild(n);
-            } else { // internet explorer 8 no get head property defined for document
-                igk.ready(function() {
-                    // set the head
-                    document.head = document.getElementsByTagName("head")[0];
-                    document.head.appendChild(n);
-                });
-            }
-        }
-    });
-    // animate function
-    createNS("igk.html.canva", {
-        animate: igk_animate,
-        cancel: igk_animate_cancel
-    });
+
+
 
     function _CustomEvent(event, params) {
         params = params || { bubbles: false, cancelable: false, detail: undefined };
@@ -7875,7 +7906,7 @@ Name:balafon.js
             }
             if (window.Event) {
                 try {
-                    var evt = new Event(n); //"resize");
+                    var evt = new Event(n);
                     if (arguments.length > 2) {
                         igk.appendProperties(evt, arguments[2]);
                     }
@@ -7901,10 +7932,33 @@ Name:balafon.js
         },
         createEvent: _CustomEvent,
         regKeyPress: function(fc) {
-            igk.winui.reg_event(document, "keypress keyup", fc);
+            igk_winui_reg_event(document, "keypress keyup", fc);
         },
         unregKeyPress: function(fc) {
             igk.winui.unreg_event(document, "keypress keyup", fc);
+        },
+        /**
+         * return system global management event
+         */
+        global: function() {
+            if (!__global) {
+                __global = document.createElement('div');
+                $igk(__global).addEvent('igk_controller_ready', {});
+            }
+            return __global;
+        },
+        /**
+         * clean all registrated event
+         * @param {*} item 
+         * @param {*} n 
+         */
+        clean: function(item, n) {
+            let w = $igk(item);
+            let e = w.o[n];
+            if (e && (e.constructor.name == 'Event')) {
+                w.unreg_event(n);
+                w.o[n] = null;
+            }
         }
     });
     (function() {
@@ -8104,211 +8158,8 @@ Name:balafon.js
             });
         }
     });
-    // igk.system.convert namespace
-    createNS("igk.system.convert", {
-        parseToInt: function(i) {
-            var v = parseInt(i);
-            if (Number.isNaN(v))
-                v = 0;
-            return v;
-        },
-        parseToBool: function(i) {
-            if (typeof(i) == "string") {
-                switch (i.toLowerCase()) {
-                    case "true":
-                    case "1":
-                        return !0;
-                }
-                return !1;
-            }
-            if (i)
-                return !0;
-            return !1;
-        },
-        HexP: function(r) {
-            var g = (r >= 10) ? String.fromCharCode(parseInt("A".charCodeAt(0) + (r - 10))) : "" + r;
-            return g;
-        },
-        ToBase: function(d, base, length) {
-            if (typeof(length) == IGK_UNDEF)
-                length = -1;
-            if (typeof(d) == IGK_UNDEF)
-                return "UX";
-            if (Number.isNaN(d) || Number.isNaN(base))
-                return "UX";
-            d = parseInt(d);
-            var o = "";
-            var hpex = igk.system.convert.HexP;
-            var ToBase = igk.system.convert.ToBase;
-            if (base > 0) {
-                var p = parseInt(d / base);
-                var r = d % base;
-                if (p < base) {
-                    if (p != 0)
-                        o = hpex(p) + "" + hpex(r);
-                    else
-                        o = hpex(r);
-                } else {
-                    o = hpex(r) + o;
-                    o = ToBase(p, base) + o;
-                }
-            }
-            if (length != -1) {
-                for (var i = o.length; i < length; i++) {
-                    o = "0" + o;
-                }
-            }
-            return o;
-        }
-    });
-    // igk.system.string for string utility used fonction
-    createNS("igk.system.string", {
-        padleft: function(m, s, l) {
-            while (m && (m.length < l)) {
-                m = s + m;
-            }
-            return m;
-        },
-        padright: function(m, s, l) {
-            while (m && (m.length < l)) {
-                m = m + s;
-            }
-            return m;
-        },
-        trim: function(m) {
-            if (m == null) {
-                throw new igk.exception('bad');
-            }
-            if (m.trim)
-                return m.trim();
-            while (m && (m.length > 0) && (m[0] == ' ')) {
-                m = m.substring(1);
-            }
-            while (m && (m.length > 0) && (m[m.length - 1] == ' ')) {
-                m = m.substring(0, m.length - 1);
-            }
-            return m;
-        },
-        startWith: function(m, str) {
-            if (m && m.slice)
-                return m.slice(0, str.length) == str;
-            return !1;
-        },
-        endWith: function(m, str) {
-            return m.slice(-str.length) == str;
-        },
-        remove: function(m, index, length) {
-            return m.substring(0, index) + m.substring(index + length, m.length);
-        },
-        insert: function(m, index, pattern) {
-            return m.substring(0, index) + pattern + m.substring(index, m.length);
-        },
-        capitalize: function(s) {
-            if (s && s.length > 1)
-                return s[0].toUpperCase() + s.substring(1).toLowerCase();
-            return s;
-        }
-    });
-    // ------------------------------------------------------------------------------------
-    // igk.math NAME SPACE
-    // ------------------------------------------------------------------------------------
-    createNS("igk.math", {
-        _2PI: Math.PI * 2,
-        vector2d: function(x, y) {
-            return {
-                x: x,
-                y: y,
-                sub: function(d) {
-                    this.x -= d.x;
-                    this.y -= d.y;
-                    return this;
-                },
-                add: function(d) {
-                    this.x += d.x;
-                    this.y += d.y;
-                    return this;
-                },
-                distance: function(d) {
-                    var dx = (this.x - d.x);
-                    var dy = (this.y - d.y);
-                    var f = Math.sqrt((dx * dx) + (dy * dy));
-                    return f;
-                },
-                clone: function() {
-                    return igk.math.vector2d(this.x, this.y);
-                },
-                toString: function() { return "vector2d{x:" + this.x + ";y:" + this.y + "}" }
-            };
-        },
-        matrix3x3: function() {
-            var m_element = [];
-            var MATRIX_LENGTH = 9;
 
-            function mult_matrix(tb1, tb2) {
-                var rtb = new Array(MATRIX_LENGTH);
-                var k = 0;
-                var offsetx = 0;
-                var offsety = 0;
-                var v_som = 0;
-                for (var k = 0; k < MATRIX_LENGTH;) {
-                    for (var i = 0; i < 4; i++) { // columns
-                        v_som = 0.0;
-                        for (var j = 0; j < 4; j++) {
-                            offsety = (4 * j) + i; // calculate column index
-                            v_som += tb1[offsetx + j] * tb2[offsety];
-                        }
-                        rtb[k] = v_som;
-                        k++;
-                    }
-                    offsetx += 4;
-                }
-                return rtb;
-            };
-            igk.appendProperties(this, {
-                getElements: function() {
-                    return m_element;
-                },
-                reset: function() {
-                    m_element[0] = m_element[4] = m_element[8] = 1;
-                    m_element[1] = m_element[2] = m_element[3] = 0;
-                    m_element[5] = m_element[6] = m_element[7] = 0;
-                },
-                translate: function(dx, dy, dz) {
-                    m_element[6] += dx;
-                    m_element[7] += dy;
-                    if (dz) {
-                        m_element[8] *= dz;
-                    }
-                },
-                scale: function(ex, ey, ez) {
-                    m_element[0] *= ex;
-                    m_element[4] *= ey;
-                    if (ez) {
-                        m_element[8] *= ez;
-                    }
-                },
-                rotate: function(angle) {},
-                rotateAt: function(angle, point) {}
-            });
-            this.reset();
-        }
-    });
-    createNS("igk.math.vector2d", {
-        empty: function() {
-            return new igk.math.vector2d(0, 0);
-        },
-        parse: function(s) {
-            if (s == null)
-                return new igk.math.vector2d(0, 0);
-            var t = s.split(';');
-            var g = null;
-            if (t.length == 2)
-                g = new igk.math.vector2d(parseFloat(t[0]), parseFloat(t[1]));
-            else
-                g = new igk.math.vector2d(parseInt(t), parseInt(t));
-            return g;
-        }
-    });
+
     // ------------------------------------------------------------------------------------
     // igk.winui NAME SPACE
     // ------------------------------------------------------------------------------------
@@ -8478,725 +8329,114 @@ Name:balafon.js
         });
         return this;
     };
-    createNS("igk.winui", { // represent window screen utility namespace
-        toString: function() { return "igk.winui"; },
-        open: function(uri) {
-            var frm = window.open(uri);
-            frm.onload = function() {
-                frm.close();
-            };
-        },
-        screenSize: function() {
-            return {
-                height: window.innerHeight,
-                width: window.innerWidth,
-                toString: function() {
-                    return "height:" + this.height + " ; width: " + this.width;
-                }
-            };
-        },
-        focus: function(id) { var q = document.getElementById(id); if (q) q.focus(); },
-        fitfix2: function(node, parent, onw, onh) {
-            var t = $igk(node);
-            var l = $igk(parent);
-            var h = onh == null ? !0 : onh;
-            var w = onw == null ? !0 : onw;
-            if (t) {
-                t.setCss({
-                    "position": "fixed"
+
+    function igk_winui_get_event_handler(method) {
+        if (typeof(this.eventRegister) == IGK_UNDEF) {
+            this.eventRegister = new function() {
+                this.m_manager = {};
+                igk.appendProperties(this, {
+                    getMethod: function(name) {
+                        if (typeof(this.m_manager[name]) != IGK_UNDEF) {
+                            return this.m_manager[name];
+                        }
+                        return null;
+                    },
+                    registerEvent: function(name, obj) {
+                        if (typeof(this.m_manager[name]) == IGK_UNDEF) {
+                            this.m_manager[name] = obj;
+                        }
+                    },
+                    toString: function() {
+                        return "method register ";
+                    }
                 });
-                if (w) {
-                    t.setCss({ "right": (l.fn.hasVScrollBar() ? l.fn.vscrollWidth() : 0) + "px" });
-                }
-                if (h) {
-                    t.setCss({ "bottom": ((l.fn.hasHScrollBar() ? l.fn.hscrollHeight() + 1 : 0)) + "px" });
-                }
-            }
-        },
-        getEventObjectManager: function() {
-            if (__eventObjectManager == null) {
-                __eventObjectManager = new igk_create_event_ojectManager();
-            }
-            return __eventObjectManager;
-        },
-        // define static method
-        GetScreenPosition: function(item) { // get position according to screen . without scrolling calculation
-            var left = 0;
-            var top = 0;
-            if (item) {
-                left += item.offsetLeft;
-                top += item.offsetTop;
-                while (!igk.isUndef(typeof(item.offsetParent)) && (item.offsetParent != null)) {
-                    left += (item.clientLeft) ? item.clientLeft : 0;
-                    top += (item.clientTop) ? item.clientTop : 0;
-                    item = item.offsetParent;
-                }
-            }
-            return new igk.math.vector2d(left, top);
-        },
-        GetScreenSize: function() {
-            var x = window.innerWidth || 0;
-            var y = window.innerHeight || 0;
-            return new igk.math.vector2d(x, y);
-        },
-        getWidth: function() {
-            return window.innerWidth || 0;
-        },
-        getHeight: function() {
-            return window.innerHeight || 0;
-        },
-        // get the document location
-        GetDocumentLocation: function() {
-            var left = 0;
-            var top = 0;
-            left = window.pageXOffset ? -window.pageXOffset : 0;
-            top = window.pageYOffset ? -window.pageYOffset : 0;
-            return new igk.math.vector2d(left, top);
-        },
-        // get the real screen location of the item with scroll calculation
-        GetRealScreenPosition: function(item) { // 
-            // >item: DomNode
-            var left = 0;
-            var top = 0;
-            left = window.pageXOffset ? -window.pageXOffset : 0;
-            top = window.pageYOffset ? -window.pageYOffset : 0;
-            if (item) {
-                // left+=item.offsetLeft?item.offsetLeft:0;
-                // top +=item.offsetTop?item.offsetTop:0;
-                left += -igk.winui.GetScrollLeft(item) + ((item.offsetLeft) ? item.offsetLeft : 0);
-                top += -igk.winui.GetScrollTop(item) + ((item.offsetTop) ? item.offsetTop : 0);
-                while ((item.offsetParent != null)) {
-                    item = item.offsetParent;
-                    left += -igk.winui.GetScrollLeft(item) + ((item.offsetLeft) ? item.offsetLeft : 0);
-                    top += -igk.winui.GetScrollTop(item) + ((item.offsetTop) ? item.offsetTop : 0);
-                }
-            }
-            return new igk.math.vector2d(left, top);
-        },
-        GetScrollPosition: function(item, parent) {
-            if (!parent)
-                return new igk.math.vector2d(0, 0);
-            var left = 0;
-            var top = 0;
-            left = window.pageXOffset ? -window.pageXOffset : 0;
-            top = window.pageYOffset ? -window.pageYOffset : 0;
-            if (item) {
-                // left+=item.offsetLeft?item.offsetLeft:0;
-                // top +=item.offsetTop?item.offsetTop:0;
-                left += -igk.winui.GetScrollLeft(item) + ((item.offsetLeft) ? item.offsetLeft : 0);
-                top += -igk.winui.GetScrollTop(item) + ((item.offsetTop) ? item.offsetTop : 0);
-                while ((item.offsetParent != null) && (item.offsetParent != parent)) {
-                    item = item.offsetParent;
-                    left += -igk.winui.GetScrollLeft(item) + ((item.offsetLeft) ? item.offsetLeft : 0);
-                    top += -igk.winui.GetScrollTop(item) + ((item.offsetTop) ? item.offsetTop : 0);
-                }
-                if (item.offsetParent != parent) {
-                    return new igk.math.vector2d(-1, -1);
-                }
-            }
-            return new igk.math.vector2d(left, top);
-        },
-        GetRealOffsetParent: function(item) {
-            if (item) {
-                var q = item.offsetParent;
-                while (q != null) {
-                    if (q.offsetParent == null)
-                        break;
-                    q = q.offsetParent;
-                }
-                return q;
-            }
-            return null;
-        },
-        GetRealScrollParent: function(item) { // get the current scroll parent
-            if (item) {
-                // note: offsetParent is only available for item with  display not equal to 'none'
-                var q = item.offsetParent; //  || item.parentNode;
-                var cq = 0;
-                while ((q != null) && (q.tagName.toLowerCase() != 'body')) {
-                    cq = $igk(q);
-                    if (q.offsetParent == null) {
-                        console.debug("no offset parent? " + (cq.fn.hasVScrollBar() || cq.fn.hasHScrollBar()));
-                        break;
-                    }
-                    if (cq.fn.hasVScrollBar() || cq.fn.hasHScrollBar()) {
-                        break;
-                    }
-                    q = q.offsetParent; // || q.parentNode;
-                }
-                return q;
-            }
-            return null;
-        },
-        GetMousePoint: function(evt) {
-            return new igk.math.vector2d(evt.clientX, evt.clientY);
-        },
-        // >@@ get the child mouse location
-        GetChildMouseLocation: function(item, evt) // return mouse location in child
-            {
-                if (evt == null) {
-                    return new igk.math.vector2d(0, 0);
-                }
-                var loc = igk.winui.GetRealScreenPosition($igk(item).o);
-                loc.x = evt.clientX - (isNaN(loc.x) ? 0 : loc.x);
-                loc.y = evt.clientY - (isNaN(loc.y) ? 0 : loc.y);
-                return loc;
-            },
-        GetChildTouchLocation: function(item, evt, index) {
-            var touchv = {
-                "touchstart": 1,
-                "touchmove": 1,
-                "toucancel": 1,
-                "touchend": 1
             };
-            if (!evt || !touchv[evt.type])
-                return igk.math.vector2d(0, 0).clone();
-            var i = index || 0;
-            var s = ((evt.touches.length > 0) && (i < evt.touches.length)) ? evt.touches.item(i) : null;
-            if (s == null)
-                return igk.math.vector2d(0, 0).clone();
-            var loc = igk.winui.GetRealScreenPosition($igk(item).o);
-            loc.x = s.pageX - (isNaN(loc.x) ? 0 : loc.x);
-            loc.y = s.pageY - (isNaN(loc.y) ? 0 : loc.y);
-            return loc;
-        },
-        // >@@get if the child has a mouse input
-        HasMouseInputInChild: function(item, evt) {
-            var loc = igk.winui.GetChildMouseLocation(item, evt);
-            return igk.winui.controlUtils.HasChildContainPoint(item, loc);
-        },
-        GetScrollLeft: function(item) {
-            if (item == null) return 0;
-            if (item.pageXOffset) {
-                return item.pageXOffset;
-            } else if (item.scrollLeft)
-                return item.scrollLeft;
-            return 0;
-        },
-        GetScrollTop: function(item) {
-            if (item == null) return 0;
-            if (item.pageYOffset) {
-                return item.pageYOffset; // pageXOffset
-            } else if (item.scrollTop)
-                return item.scrollTop;
-            return 0;
-        },
-        registerEventHandler: function(name, objListener) {
-            // > register event handler list
-            var th = name.split(" ");
-            var n, d;;
-            for (var i = 0; i < th.length; i++) {
-                d = igk.winui.getEventHandler(th[i]);
-                if (d) {
-                    continue;
-                }
-                if (objListener) {
-                    igk.winui.events.register.registerEvent(th[i], objListener);
-                }
-            }
-        },
-        getEventHandler: function(method) {
-            if (typeof(this.eventRegister) == IGK_UNDEF) {
-                this.eventRegister = new function() {
-                    this.m_manager = {};
+            igk.system.createNS("igk.winui.events", {
+                register: this.eventRegister,
+                exceptionEvent: new(function() { // for manage exception method event
+                    var m_t = {};
+                    m_t["mouseleave"] = { replace: "mouseout" };
                     igk.appendProperties(this, {
-                        getMethod: function(name) {
-                            if (typeof(this.m_manager[name]) != IGK_UNDEF) {
-                                return this.m_manager[name];
+                        contain: function(m) {
+                            return typeof(m_t[m]) != IGK_UNDEF;
+                        },
+                        getMethod: function(m) {
+                            if (typeof(m_t[m]) != IGK_UNDEF) {
+                                return m_t[m].replace;
                             }
                             return null;
                         },
-                        registerEvent: function(name, obj) {
-                            if (typeof(this.m_manager[name]) == IGK_UNDEF) {
-                                this.m_manager[name] = obj;
-                            }
-                        },
                         toString: function() {
-                            return "method register ";
+                            return "[object igk.winui.events.exceptionEvent]";
                         }
                     });
-                };
-                igk.system.createNS("igk.winui.events", {
-                    register: this.eventRegister,
-                    exceptionEvent: new(function() { // for manage exception method event
-                        var m_t = {};
-                        m_t["mouseleave"] = { replace: "mouseout" };
-                        igk.appendProperties(this, {
-                            contain: function(m) {
-                                return typeof(m_t[m]) != IGK_UNDEF;
-                            },
-                            getMethod: function(m) {
-                                if (typeof(m_t[m]) != IGK_UNDEF) {
-                                    return m_t[m].replace;
-                                }
-                                return null;
-                            },
-                            toString: function() {
-                                return "[object igk.winui.events.exceptionEvent]";
-                            }
-                        });
-                    })()
-                });
-            }
-            return this.eventRegister.getMethod(method);
-        },
-        reg_window_event: function(method, func, useCapture) {
-            return igk.winui.reg_system_event(window, method, func, useCapture);
-        },
-        unreg_window_event: function(method, func) {
-            return igk.winui.unreg_system_event(window, method, func, useCapture);
-        },
-        reg_system_event: function(item, method, func, useCapture) {
-            if (item == null)
-                return !1;
-            // igk.debug.assert( method=="webkittransitionend","register please handle transitionend");
-            if (typeof(item[method]) == igk.constants.undef) {
-                if (item["on" + method] + "" == igk.constants.undef) {
-                    var e = igk.winui.events.exceptionEvent;
-                    if (e.contain(method)) {
-                        return igk.winui.reg_system_event(item, e.getMethod(method), func, useCapture);
-                    }
-                    console.debug("/!\\ can't register event on" + method);
-                    return !1;
-                }
-            }
-            if (item.addEventListener) {
-                var t = item.addEventListener(method, func, typeof(useCapture) == 'object' ? useCapture : false);
-                igk.winui.getEventObjectManager().register(item, method, func);
-                return !0;
-            } else if (item.attachEvent) {
-                if (igk.DEBUG) {
-                    console.debug("attachevent " + method);
-                }
-                if (igk.navigator.IEVersion() == 7) {
-                    // 
-                    var ftp = function(evt) {
-                        evt.preventDefault = function() {};
-                        func.apply(item, [evt]);
-                    };
-                    item.attachEvent("on" + method, ftp);
-                    igk.winui.getEventObjectManager().register(item, method, ftp);
-                } else {
-                    var p = item.attachEvent("on" + method, func);
-                    igk.winui.getEventObjectManager().register(item, method, func);
-                    if (method == "igk-trackchange") {
-                        // var h=document.createEventObject(window.event);
-                        // alert("register on medthod "+item.fireEvent + " p is "+p + "  "+h  + " "+item.attachEvent("onclick",func));
-                        // alert(item["onclick"]);
-                        // item.fireEvent("ontest",h);
-                        // var clickEvent=document.createEventObject(window.event);
-                        // clickEvent.button=1;  // left click
-                        // item.fireEvent(method,clickEvent);
-                        // alert("done");
-                        $igk(item).raiseEvent("igk-trackchange");
-                    }
-                }
-                return !0;
-            } else {
-                var m = item["on" + method];
-                if (typeof(m) == "function") {
-                    item["on" + method] = function() {
-                        m.apply(this, arguments);
-                        func.apply(this, arguments);
-                    }
-                } else {
-                    item["on" + method] = func;
-                }
-                igk.winui.getEventObjectManager().register(item, method, func);
-            }
-            return !0;
-        },
-        reg_event: function(item, method, func, useCapture) { // global	
-            var g = method.split(' ');
-            var s = 0;
-            var o = 1;
-            while (o && (s = g.pop())) {
-                var eventHandler = igk.winui.getEventHandler(s);
-                if (eventHandler != null) {
-                    o = o && eventHandler.reg_event(item, func, useCapture);
-                } else o = o && igk.winui.reg_system_event(item, s, func, useCapture);
-            }
-        },
-        unreg_system_event_object: function(item) { // unregister all event register for this item
-            if (!item)
-                return;
-            igk.winui.getEventObjectManager().unregister(item);
-        },
-        unreg_system_event: function(item, method, func) {
-            if ((item == null) ||
-                (((method in item) && (item["on" + method] + "" == igk.constants.undef)) &&
-                    (!item.removeEventListener) &&
-                    (item.detachEvent)
-                ))
-                return !1;
-            igk.winui.getEventObjectManager().unregister(item, method, func);
-            if (item.removeEventListener) {
-                item.removeEventListener(method, func, false);
-            } else if (item.detachEvent) {
-                item.detachEvent("on" + method, func);
-            } else {
-                var m = item["on" + method];
-                if (typeof(m) == "function") {
-                    item["on" + method] = null;
-                } else {
-                    item["on" + method] = null;
-                }
-            }
-            return !0;
-        },
-        unreg_event: function(item, method, func) {
-            var eventHandler = igk.winui.getEventHandler(method);
-            if (eventHandler != null) {
-                return eventHandler.unreg_event(item, func);
-            }
-            return igk.winui.unreg_system_event(item, method, func);
-        },
-        regwindow_event: function(method, func) {
-            if (!igk.winui.reg_event(window, method, func))
-                return igk.winui.reg_event(document, method, func);
-            return !0;
-        },
-        unregwindow_event: function(method, func) {
-            if (!igk.winui.unreg_event(window, method, func))
-                return igk.winui.unreg_event(document, method, func);
-            return !0;
-        },
-        RegEventContext: function(eventContextOwner, properties) { // o that will host and igk properties to binds
-            // >@@ eventContextOwner: the context o
-            // >@@ property used to register 
-            if ((properties == null) || (eventContextOwner == null) || (igk_getRegEventContextByOwner(eventContextOwner) != null)) {
-                return null;
-            }
-
-            function __eventContextObject(eventContextOwner, properties) {
-                var q = this;
-                var m_eventContextOwner = eventContextOwner;
-                var m_properties = properties;
-                var m_col = new Array();
-                // save unregEventContext function to target o
-                function __regEventContextFunction() {
-                    var v_ts = properties;
-                    var v_ch = igk_getRegEventContext(v_ts, true, function() { return new chainUnreg(eventContextOwner, v_ts); });
-                    if (!v_ts.unregEventContext) {
-                        igk.appendProperties(v_ts, {
-                            unregEventContext: function() {
-                                // unreg single context								
-                                q.clear();
-                                v_ch.chain--;
-                                if (v_ch.chain == 0) {
-                                    if (!igk_unRegEventContext(v_ch)) {
-                                        throw ("item not unregister ");
-                                    }
-                                }
-                            }
-                        });
-                    } else {
-                        var meth = v_ts.unregEventContext;
-                        v_ts.unregEventContext = function() {
-                            meth();
-                            q.clear();
-                            v_ch.chain--;
-                            if (v_ch.chain == 0) {
-                                if (!igk_unRegEventContext(v_ch)) {
-                                    throw ("unreg -- items");
-                                }
-                            }
-                        };
-                        v_ch.chain++;
-                    }
-                };
-                __regEventContextFunction();
-
-                function chainUnreg(o, properties) {
-                    this.o = o;
-                    this.properties = properties;
-                    this.chain = 1;
-                    this.unregEventContext = function() { this.properties.unregEventContext(); };
-                    this.toString = function() { return "chainUnreg[" + o + ":" + this.chain + "]"; };
-                };
-
-                function eventCibling(target, name, func) {
-                    this.name = name;
-                    this.target = target;
-                    var q = this;
-                    this.func = function() { func.apply(q.target, arguments); };
-                    this.toString = function() { return "eventcibling:" + name; };
-                };
-
-                function __unregister(s) {
-                    if (igk_is_array(s)) {
-                        for (var i = 0; i < s.length; i++) {
-                            __unregister(s[i]);
-                        }
-                    } else if (s instanceof eventCibling) {
-                        // unregister event cibling
-                        igk.winui.unreg_event(s.target, s.name, s.func);
-                    }
-                };
-                // resizing function
-                var m_resizefuncs = [];
-                var m_resizetimeout = 0;
-                var m_resizeevent = false;
-
-                function __is_resized_event() {
-                    return m_resizeevent;
-                };
-
-                function __resizing_push(func) {
-                    if (func) {
-                        m_resizefuncs.push(func);
-                    }
-                };
-
-                function __resize_call_invoke(evt) {
-                    for (var i = 0; i < m_resizefuncs.length; i++) {
-                        m_resizefuncs[i].apply(window, arguments);
-                    }
-                }
-
-                function __resize_call(evt) {
-                    if (m_resizetimeout) {
-                        igk.clearTimeout(m_resizetimeout);
-                        m_resizetimeout = null;
-                    }
-                    // start a new time out
-                    m_resizetimeout = setTimeout(function() { __resize_call_invoke(evt); }, RZ_TIMEOUT);
-                };
-                window.igk.appendProperties(this, {
-                    clear: function() { // unegister all element
-                        if (m_col) {
-                            for (var i in m_col) {
-                                var s = m_col[i];
-                                __unregister(s);
-                            }
-                        }
-                    },
-                    reg_event: function(target, name, func) { // register cibling function
-                        if ((target == null) || !name || (func == null)) {
-                            return !1;
-                        }
-                        var v_cibling = new eventCibling(target, name, func);
-                        igk.winui.reg_event(v_cibling.target, v_cibling.name, v_cibling.func);
-                        var key = name + ":" + target;
-                        if (typeof(m_col[key]) == igk.constants.undef)
-                            m_col[key] = v_cibling;
-                        else {
-                            var tab = m_col[key];
-                            var v_isarray = igk_is_array(tab);
-                            if (v_isarray) {
-                                tab.push(v_cibling);
-                                m_col = tab;
-                            } else {
-                                var v_t = new Array();
-                                v_t.push(tab);
-                                v_t.push(v_cibling);
-                                // replace
-                                m_col[key] = v_t;
-                            }
-                        }
-                        return !0;
-                    },
-                    reg_window: function(name, func) { // register window function
-                        if (name == "resize") { // handle resize
-                            __resizing_push(func);
-                            if (!__is_resized_event()) {
-                                this.reg_event(window, name, __resize_call);
-                                m_resizeevent = !0;
-                            }
-                            return;
-                        }
-                        this.reg_event(window, name, func);
-                    },
-                    toString: function() {
-                        return "RegEventContext";
-                    }
-                });
-            }
-            return new __eventContextObject(eventContextOwner, properties);
-        },
-        saveHistory: function(uri) {
-            if (typeof history.pushState == "function") {
-                history.pushState({}, document.title, uri + "&history=1");
-            }
-        },
-        reg_keypress: function(func) {
-            igk.winui.reg_event(document, "keypress", func);
-        },
-        unreg_keypress: function(func) {
-            igk.winui.unreg_event(document, "keypress", func);
-        },
-        centerDialog: function(dialog, minw, minh) { // center the dialog
-            if (dialog == null)
-                return;
-            dialog.style.top = "50%";
-            dialog.style.left = "50%";
-            // setup the size
-            dialog.style.minWidth = minw ? minw + "px" : null;
-            dialog.style.minHeight = minh ? minh + "px" : null;
-            $igk(dialog).setCss({
-                "position": "absolute",
-                "marginLeft": -(dialog.clientWidth / 2) + "px",
-                "marginTop": -(dialog.clientHeight / 2) + "px"
+                })()
             });
-            // lock the size 
-            if (!dialog.style.minWidth)
-                dialog.style.minWidth = dialog.clientWidth + "px";
-            if (!dialog.style.minHeight)
-                dialog.style.minHeight = dialog.clientHeight + "px";
-            // update size for draggin
-            var pt = igk.winui.GetRealScreenPosition(dialog);
-            var adjusted = false;
-            if (pt.x < 0) {
-                pt.x = 0;
-                adjusted = !0;
-            }
-            if (pt.y < 0) {
-                pt.y = 0;
-                adjusted = !0;
-            }
-            if (adjusted) {
-                dialog.style.margin = "0"; // remove marging			
-                dialog.style.left = pt.x + "px";
-                dialog.style.top = pt.y + "px";
-            }
-        },
-        dragFrameManager: { // used to drag frame box
-            target: null,
-            box: null, // box to move
-            startpos: null,
-            dragstart: false,
-            oldposition: null,
-            locToScreen: true,
-            dragSize: new igk.math.vector2d(4, 4),
-            toString: function() {
-                return "igk.winui.dragmanager";
-            },
-            init: function(target, box) {
-                if (target == null)
-                    return null;
+        }
+        return this.eventRegister.getMethod(method);
+    };
 
-                function __construct(target, box) {
-                    var self = this;
-                    var m_c = 0;
-                    this.target = target;
-                    this.box = (box == null) ? target : box;
-                    this.changelocation = igk.winui.dragFrameManager.changelocation;
-                    var m_eventContext = igk.winui.RegEventContext({
-                            box: this.box,
-                            toString: function() { return "dragFrameManager.BoxOwner" },
-                            properties: $igk(box)
-                        },
-                        $igk(this.box));
-                    if (m_eventContext) {
-                        m_eventContext.reg_event(document, "mousemove", function() { self.changelocation.apply(self, arguments); });
-                        m_eventContext.reg_event(document, "mouseup", function() { if (self.dragstart) { self.dragstart = false; }; });
-                        m_eventContext.reg_event(this.target,
-                            "mousedown",
-                            function(evt) {
-                                if (!self.dragstart) {
-                                    self.startpos = new igk.math.vector2d(evt.clientX, evt.clientY);
-                                    self.oldposition = igk.winui.GetScreenPosition(self.box);
-                                    self.dragstart = !0;
-                                }
-                            });
-                        m_eventContext.reg_event(this.target, "mouseup", function(evt) { self.dragstart = false; });
-                    }
-                    return self;
-                };
-                return new __construct(target, box);
-            },
-            changelocation: function(evt) {
-                if (this.dragstart) {
-                    var left = 0;
-                    var right = 0;
-                    var pt = igk.math.vector2d(
-                        this.oldposition.x + (evt.clientX - this.startpos.x),
-                        this.oldposition.y + (evt.clientY - this.startpos.y)
-                    );
-                    var adjustedx = false;
-                    var adjustedy = false;
-                    if (this.locToScreen) {
-                        if (pt.x < 0) {
-                            pt.x = 0;
-                            adjustedx = true;
-                        }
-                        if (pt.y < 0) {
-                            pt.y = 0;
-                            adjustedy = true;
-                        }
-                        if (this.box.offsetParent) {
-                            if (!adjustedx)
-                                if ((pt.x + this.box.clientWidth) >= this.box.offsetParent.clientWidth) {
-                                    pt.x = this.box.offsetParent.clientWidth - this.box.clientWidth;
-                                    adjustedx = !0;
-                                }
-                            if (!adjustedy)
-                                if ((pt.y + this.box.clientHeight) >= this.box.offsetParent.clientHeight) {
-                                    pt.y = this.box.offsetParent.clientHeight - this.box.clientHeight;
-                                    adjustedy = !0;
-                                }
-                        }
-                    }
-                    this.box.style.margin = "0";
-                    this.box.style.left = pt.x + "px";
-                    this.box.style.top = pt.y + "px";
-                    // this.box.style.right='auto';
-                };
+    function igk_winui_reg_system_event(item, method, func, useCapture) {
+        if (item == null)
+            return !1;
+        // igk.debug.assert( method=="webkittransitionend","register please handle transitionend");
+        if (typeof(item[method]) == igk.constants.undef) {
+            if (item["on" + method] + "" == igk.constants.undef) {
+                var e = igk.winui.events.exceptionEvent;
+                if (e.contain(method)) {
+                    return igk_winui_reg_system_event(item, e.getMethod(method), func, useCapture);
+                }
+                console.debug("/!\\ can't register event on" + method);
+                return !1;
             }
         }
-    });
-    (function() {
-        var _uiListener = 0;
-        createNS("igk.winui", {
-            createInput: function(id, type, opts) {
-                if (_uiListener) {
-                    return _uiListener.apply(this, arguments);
-                }
-                var i = null;
-                switch (type) {
-                    case "select":
-                        i = igk.createNode("select");
-                        i.setAttribute("id", id);
-                        i.o['name'] = id;
-                        if (opts && opts.data) {
-                            var sl = opts.select || '';
-                            for (var j = 0; j < opts.data.length; j++) {
-                                var o = i.add("option");
-                                o.setAttribute("value", opts.data[j]);
-                                o.setHtml(opts.data[j]);
-                                if (opts.data[i] == sl) {
-                                    o.setAttribute("selected", 'true');
-                                }
-                            }
-                        }
-                        if (opts && opts.change) {
-                            i.on("change", opts.change);
-                        }
-                        break;
-                    default:
-                        i = igk.createNode("input");
-                        i.setAttribute("id", id);
-                        i.o['name'] = id;
-                        var _pl = (opts ? opts.placeholder : '') || '';
-                        if (type) {
-                            i.o['type'] = type;
-                        }
-                        i.setAttribute("placeholder", _pl);
-                        if ((type == 'file') && opts && opts.accept) {
-                            i.setAttribute("accept", opts.accept);
-                        }
-                        break;
-                }
-                return i;
-            },
-            setListener: function(b) {
-                _uiListener = b;
-            },
-            getListener: function() {
-                return _uiListener;
+        if (item.addEventListener) {
+            var t = item.addEventListener(method, func, typeof(useCapture) == 'object' ? useCapture : false);
+            igk.winui.getEventObjectManager().register(item, method, func);
+            return !0;
+        } else if (item.attachEvent) {
+            if (igk.DEBUG) {
+                console.debug("attachevent " + method);
             }
-        });
-    })();
+            if (igk.navigator.IEVersion() == 7) {
+                // 
+                var ftp = function(evt) {
+                    evt.preventDefault = function() {};
+                    func.apply(item, [evt]);
+                };
+                item.attachEvent("on" + method, ftp);
+                igk.winui.getEventObjectManager().register(item, method, ftp);
+            } else {
+                var p = item.attachEvent("on" + method, func);
+                igk.winui.getEventObjectManager().register(item, method, func);
+                if (method == "igk-trackchange") {
+                    // var h=document.createEventObject(window.event);
+                    // alert("register on medthod "+item.fireEvent + " p is "+p + "  "+h  + " "+item.attachEvent("onclick",func));
+                    // alert(item["onclick"]);
+                    // item.fireEvent("ontest",h);
+                    // var clickEvent=document.createEventObject(window.event);
+                    // clickEvent.button=1;  // left click
+                    // item.fireEvent(method,clickEvent);
+                    // alert("done");
+                    $igk(item).raiseEvent("igk-trackchange");
+                }
+            }
+            return !0;
+        } else {
+            var m = item["on" + method];
+            if (typeof(m) == "function") {
+                item["on" + method] = function() {
+                    m.apply(this, arguments);
+                    func.apply(this, arguments);
+                }
+            } else {
+                item["on" + method] = func;
+            }
+            igk.winui.getEventObjectManager().register(item, method, func);
+        }
+        return !0;
+    };
+
     // winui class control management
     (function() {
         var m_class_control = [];
@@ -9231,6 +8471,14 @@ Name:balafon.js
             }
         };
         createNS("igk.winui", {
+            getEventHandler: igk_winui_get_event_handler,
+            reg_system_event: igk_winui_reg_system_event,
+            getEventObjectManager: function() {
+                if (__eventObjectManager == null) {
+                    __eventObjectManager = new igk_create_event_ojectManager();
+                }
+                return __eventObjectManager;
+            },
             reloadClassList: function() { // reload class list
                 m_class_list = null;
                 return igk.winui.getClassList();
@@ -9573,7 +8821,7 @@ Name:balafon.js
                 var _prf = document.domain + "::/prf";
                 var _n = (window[_prf] == null); // check for new window
                 var _wnd = window[_prf] || window.open(u, _prf, "fullscreen=0, toolbar=0,resizable=0,menubar=0,title=0, width=420, height=500, left=-9999, top=0");
-                var _el = igk.winui.reg_event;
+                var _el = igk_winui_reg_event;
                 var _echain = null;
                 var _tchain = null;
                 var _P = {
@@ -9946,8 +9194,8 @@ Name:balafon.js
                     } else {
                         //chrome not supporting set capture
                         m_event_capture = true;
-                        igk.winui.reg_event(window, "mousemove", __capturemouse);
-                        igk.winui.reg_event(window, "mouseup", __capturemouse);
+                        igk_winui_reg_event(window, "mousemove", __capturemouse);
+                        igk_winui_reg_event(window, "mouseup", __capturemouse);
                         // to correct chrome behaviour
                         m_bck["ondragstart"] = m_capture["ondragstart"];
                         m_bck["ondrop"] = m_capture["ondrop"];
@@ -10028,7 +9276,7 @@ Name:balafon.js
             // }
         };
         if ('onpopstate' in window)
-            igk.winui.reg_event(window, "popstate", __popstate);
+            igk_winui_reg_event(window, "popstate", __popstate);
     })();
     (function() {
         // controller setting up
@@ -10133,7 +9381,7 @@ Name:balafon.js
                         m_target.rmClass("igk-trans-all-200ms");
                     });
                     // register click 
-                    igk.winui.reg_event(document, "click", __click);
+                    igk_winui_reg_event(document, "click", __click);
                     // register scroll
                     igk.qselect(".overflow-y-a").reg_event("scroll", __scroll);
                 },
@@ -10181,7 +9429,7 @@ Name:balafon.js
                     q.rmClass("igk-trans-all-200ms");
                 });
                 // reg event
-                igk.winui.reg_event(document, "click", __q_click);
+                igk_winui_reg_event(document, "click", __q_click);
                 igk.qselect(".overflow-y-a").reg_event("scroll", __q_scroll);
             };
             $igk(id).reg_event("click", function(evt) {
@@ -10215,7 +9463,7 @@ Name:balafon.js
             };
         }
     });
-    createNS("igk.winui.event", {
+    createNS("igk.winui.events", {
         stopPropagation: function(e) {
             if ((e != null) && (e.stopPropagation)) {
                 e.stopPropagation();
@@ -10235,7 +9483,7 @@ Name:balafon.js
     });
     (function() {
         var m = [];
-        createNS("igk.winui.event.fn", { // utility event namespace 
+        createNS("igk.winui.events.fn", { // utility event namespace 
             handleKeypressExit: function(p) {
                 m.push(p);
                 var fc = function(evt) {
@@ -10265,177 +9513,6 @@ Name:balafon.js
             return o;
         }
     };
-    // define a navigator object
-    igk.navigator = new(function() {
-        var m_version = "1.2";
-        igk_defineProperty(this, 'version', {
-            get: function() { return m_version; },
-            enumerable: true,
-            configurable: true,
-            nopropfunc: function() {
-                this.m_version = m_version;
-            }
-        });
-    })();
-    // init control device
-    var XBox360 = false;
-    var XBoxOne = false;
-    var m_navprop = {};
-    var _nav = igk.navigator;
-    if (/Xbox/.test(igk.platform.osAgent)) {
-        if (/Xbox One/.test(igk.platform.osAgent)) {
-            XBoxOne = true;
-        } else {
-            XBox = true;
-        }
-        igk.ready(function() {
-            igk.dom.body().addClass("xbox" + (XBoxOne ? 'one' : ''));
-        });
-    }
-    igk_appendProp(_nav, { // static function
-        getLang() {
-            if (window.navigator.language)
-                return window.navigator.language + "";
-            return window.navigator.languages + "";
-        },
-        getProperty(n) {
-            return m_navprop[n] || false;
-        },
-        isXBoxOne() { return XBoxOne; },
-        isXBox360() { return XBox360; },
-        isFirefox() {
-            return igk.platform.osAgent.indexOf("Firefox/") != -1;
-        },
-        getFirefoxVersion() {
-            var i = igk.platform.osAgent.indexOf("Firefox/");
-            if (i != -1)
-                return /Firefox\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
-            return -1;
-        },
-        getUserMedia: (function() {
-            return function _t() {
-                var e = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-                if (e)
-                    return e.apply(navigator, arguments);
-                else {
-                    // alert("No getUserMedia supported");
-                }
-            }
-        })(),
-        getScreenWidth() { return igk.winui.screenSize().width; },
-        getScreenHeight() { return igk.winui.screenSize().height; },
-        getOrientation() { return window.orientation || 0 },
-        getDevicePixelRatio() { return window.devicePixelRatio || (window.screen.availWidth / document.documentElement.clientWidth) },
-        navTo: function(uri) { // navigate to that uri				
-            var a = igk.createNode("a");
-            a.setCss({ display: "none" });
-            a.o.href = uri;
-            igk.dom.body().appendChild(a.o);
-            a.o.click();
-        },
-        logAgent() {
-            var _nav = igk.navigator;
-            console.debug("IsChrome: " + _nav.isChrome());
-            console.debug("IsFireFox: " + _nav.isFirefox());
-            console.debug("IsSafari: " + _nav.isSafari());
-            console.debug("IsEdge: " + _nav.isIEEdge());
-        },
-        isSecure() {
-            // get if this navigator is secure
-            return document.location.protocol == "https:";
-        },
-        isChrome() {
-            var ua = igk.platform.osAgent + '';
-            if ((ua.indexOf("Chrome/") != -1) && /Google Inc\./.test(window.navigator.vendor)) // for chrome
-            {
-                return !0;
-            }
-            return !1;
-        },
-        chromeVersion() {
-            if (igk.navigator.isChrome()) {
-                var i = igk.platform.osAgent.indexOf("Chrome/");
-                return (igk.platform.osAgent + "").substring(i + 7).split(' ')[0];
-            }
-            return 0;
-        },
-        isIE() {
-            var ua = igk.platform.osAgent + '';
-            if ((ua.indexOf("MSIE") != -1) || ua.indexOf("Trident/") != -1) // for ie 11
-            {
-                return !0;
-            }
-            return !1;
-        },
-        isIEEdge() {
-            var ua = igk.platform.osAgent + '';
-            if (ua.indexOf("Edge/") != -1)
-                return !0;
-            return !1; // igk.navigator.isIE() &&(igk.navigator.IEVersion()>=11);
-        },
-        getEEdgeVersion() {
-            var i = igk.platform.osAgent.indexOf("Edge/");
-            if (i != -1)
-                return /Edge\/([0-9]+\.[0-9]+)/.exec(igk.platform.osAgent + "")[1];
-            return -1;
-        },
-        IEVersion() {
-            if (!igk.navigator.isIE())
-                return -1;
-            var ua = igk.platform.osAgent + '';
-            var i = ua.indexOf("MSIE");
-            if (i != -1) {
-                return ua.substring(i).split(';')[0].split(' ')[1];
-            }
-            i = ua.indexOf("Trident/");
-            if (i != -1) {
-                var v = ua.substring(i + 8).split(';')[0];
-                if (v == 7)
-                    return 11;
-            }
-            return -1;
-        },
-        isAndroid() {
-            // window.navigator.userAgent 
-            var v = (igk.platform.osAgent + "").toLowerCase().indexOf("android");
-            if (v != -1) {
-                return !0;
-            }
-            return !1;
-        },
-        isIOS: function() {
-            return 0;
-        },
-        isSafari: function() { // return real safari web browser
-            var i = igk.platform.osAgent.indexOf("Safari/");
-            var _nav = igk.navigator;
-            if ((i != -1) && /Apple Computer, Inc\./.test(window.navigator.vendor)) {
-                return !0;
-            }
-            return !1;
-        },
-        SafariVersion: function() {
-            var i = igk.platform.osAgent.indexOf("Safari/");
-            if (i != -1) {
-                return (igk.platform.osAgent + "").substring(i + 7).split(' ')[0];
-            }
-            return 0;
-        },
-        FFVersion: function() {
-            var i = igk.platform.osAgent.indexOf("Firefox/");
-            if (i != -1) {
-                return (igk.platform.osAgent + "").substring(i + 8).split(' ')[0];
-            }
-            return 0;
-        },
-        $ActiveXObject: function() {
-            if ('ActiveXObject' in window)
-                return 1;
-            return 0;
-        },
-        toString: function() { return "igk.navigator"; }
-    });
-    m_navprop.cssDomRequire = _nav.isChrome() || _nav.isFirefox() || _nav.isSafari(); //element must be added to dom before getting css computed style
     createNS("igk.animation", {
         init: function(o, interval, duration, initcallbackfunc, updatecallbackfunc, endcallbackfunc, properties) {
             var m_timeout = null; // time out validate
@@ -11259,7 +10336,7 @@ Name:balafon.js
                         var pn = n.parentNode ? n.parentNode : igk.dom.body().o;
                         try {
                             var v_script = $igk(n).getHtml();
-                            if (igk.system.string.trim(v_script).length > 0) {
+                            if (igk_str_trim(v_script).length > 0) {
                                 igk.evalScript(v_script, pn, n);
                             }
                             // remove useless
@@ -12518,22 +11595,7 @@ Name:balafon.js
             igk.console_debug("[" + tag + "]-" + msg);
         }
     }
-    createNS("igk.math", {
-        rectangle: function(x, y, w, h) {
-            this.x = x ? x : 0;
-            this.y = y ? y : 0;
-            this.width = w ? w : 0;
-            this.height = h ? w : 0;
-            this.toString = function() { return "igk.math.rectangle[" + this.x + "," + this.y + "," + this.width + "," + this.height + "]"; };
-            this.isEmpty = function() { return (this.width == 0) || (this.height == 0); };
-            this.inflate = function(x, y) {
-                this.x -= x;
-                this.y -= y;
-                this.width += 2 * x;
-                this.height += 2 * y;
-            };
-        }
-    });
+
     createNS("igk.utils", {
         getv: igk_getv,
         get_form_posturi: igk_get_form_posturi,
@@ -12814,510 +11876,13 @@ Name:balafon.js
         }
     });
 
-    // ---------------------------------------------------------
-    // script controller entity
-    // ---------------------------------------------------------
-    (function() {
-        var m_controllers = []; // list of controller
-        var m_initialize = false; // initialized or noted
-        // attributes data
-        var m_attrib_datas = {
-            "igk-type": { n: "igk", desc: "Declare type. attribute is used as Type" },
-            "igk-js-anim-over": { n: "js", desc: "execute anim on mouseover and mouse release", code: "igk-js-anim-over=\"{backgroundColor: 'red'},{ anim property....}\"" },
-            "igk-js-anim-focus": { n: "js", desc: "execute anim on fucus ans blur" },
-            "igk-js-eval": { n: "js", desc: "used to eval script in current context" },
-            "igk-js-eval-init": { n: "js", desc: "used to eval script in current context after document is ready" },
-            "igk-js-init-uri": { n: "js", desc: "uri that will be invoke on document ready" },
-            "igk-js-bodyheight": { n: "js", desc: "indicate that this node must target the body height" },
-            "igk-node-disable-selection": { n: "node", type: "attribute", desc: "node can be selelected. default is true" },
-            "igk-article-options": { n: "ctrl", desc: "indicate must be considered as an article options" },
-            "igk-ctrl-options": { n: "ctrl", desc: "indicate must be considered as a controller options node" },
-            "igk-input-focus": { n: "js", desc: "force the cibling node to get focus" },
-            "igk-input-data": { n: "js", desc: "setup the data used to validate the input" },
-            "igk-form-validate": { n: "js", desc: "used with form to indicate that the form must be validate before submit." },
-            "igk-js-fix-height": { n: "js", desc: "fix element height to target height. value is a id of the element" },
-            "igk-js-fix-width": { n: "js", desc: "fix element width to target width. value is a id of the element" },
-            "igk-js-fix-size": { n: "js", desc: "fix element size to target size. value is a id of the element" },
-            "igk-js-fix-prop": { n: "js", desc: "fix element properties on size.expect property wait: {target,prop} " },
-            "igk-js-fix-eval": { n: "js", desc: "fix element properties on window resize property wait: {update:function()} " },
-            "igk-ajx-form": { n: 'js', desc: 'bool indicate that a form is used in ajx context. mixed(0|1|[{complete:func,targetid:[id of response node]}]. used igk-ajx-form-targedid to indicated the response node' },
-            // select utility data
-            "igk-js-bind-select-to": { n: "js", desc: "bind select to data from target ref #id,passing object refid or json: {id:#sample,selected:value,usecustom:0|1,allowempty:1|0,emptyvalue:value}" },
-            "igk-ajx-form-target": { n: 'js', type: 'attr', desc: 'used in form to set the target of the form response,(select|=|::) where=is for the current form,:: if for the entire document ' }
-        };
-        var m_ctrl_types = {
-            "igk-ctrl-options": { n: "igk", desc: "declare controller options" },
-            "igk-ctrl": { n: "igk", desc: "declare a controller" }
-        };
-        var m_attribManager = []; // attrib manager
-        var m_h_ctrl = {}; // hosted controller functions
-        var m_readylist = null;
-        var m_callflag = 0;
-
-        function __attribToString() {
-            return "igk.ctrl.attribManagerInfo";
-        };
-
-        function __registerAttribManager(key, callback) {
-            if (callback && key) {
-                var e = null;
-                if (m_attribManager[key])
-                    e = m_attribManager[key];
-                else {
-                    e = { k: key, s: new Array(), toString: __attribToString };
-                    m_attribManager[key] = e;
-                    m_attribManager.push(e);
-                }
-                e.s.push(callback);
-            }
-        };
-
-        function __callReadyFunc(n, de) {
-            if (!n || (m_readylist == null) || m_callflag) {
-                return;
-            }
-            var e = null;
-            var i = m_readylist.getCount();
-            var j = 0;
-            m_callflag = 1;
-            for (j = 0; j < m_readylist.getCount(); j++) {
-                e = m_readylist.getItemAt(j);
-                e.apply(n, [de]);
-            }
-            m_callflag = 0;
-            if (i != j)
-                console.debug("after call to ready list " + m_readylist.getCount());
-        }
-
-        function __readyFuncEventArgs() {
-            var m_preventContinue = false;
-            igk.appendProperties(this, {
-                preventContinue: function() {
-                    m_preventContinue = !0;
-                },
-                getPreventContinue: function() {
-                    return m_preventContinue;
-                }
-            });
-        };
-        var m_attribCtrl = [];
-
-        function __loadAttribCtrl(n, k) {
-            // >node 
-            // >key
-            if (!(k in m_attribCtrl)) {
-                m_attribCtrl[k] = [];
-            }
-            m_attribCtrl[k].push(n);
-        }
-
-        function __callBindAttribData(node) {
-            var q = $igk(node);
-            var cnf = q.getConfig("igk:callAttribBindingData");
-            if (cnf == 1) {
-                return;
-            }
-            var re = new __readyFuncEventArgs();
-            // call ready function on node
-            __callReadyFunc(node, re);
-            if (re.getPreventContinue()) {
-                return;
-            }
-            var s = q.getAllAttribs();
-            var r = null;
-            var e = null;
-            if (typeof(s) == igk.constants.undef)
-                return;
-
-            function __invoke(key, tab, node) {
-                var e = null;
-                var n = $igk(node);
-                var attr = null;
-                for (var i = 0; i < tab.length; i++) {
-                    e = tab[i];
-                    try {
-                        attr = n.getAttribute(key);
-                        e.apply(n, [key, attr]);
-                        __loadAttribCtrl(n, key);
-                    } catch (ex) {
-                        console.error(ex);
-                        igk.winui.notify.showErrorInfo("Exception",
-                            "__invoke::Binding ::: " + key + " <br />" + ex +
-                            "<p class=\"stack\" style=\"max-height: 240px; font-family:'courier new'; line-height:1.5; font-size:8pt; overflow: auto\">" + ex.stack.split("\n").join("<br />") + "</p>"
-                            //+ "<div class=\"source\" >From : Source Code</div><pre style=\"max-height:200px; overflow-y:auto;\">" + e + "</pre>
-                            +
-                            "");
-                    }
-                }
-            };
-            var fc = node.hasAttribute || function(n) {
-                return node.getAttribute(n) != null;
-            };
-            for (var i = 0; i < m_attribManager.length; i++) {
-                e = m_attribManager[i];
-                r = new RegExp("(" + e.k + ")");
-                if (r.test(s) && fc.apply(node, [e.k])) {
-                    __invoke(e.k, e.s, node);
-                }
-            }
-            // if (igk.BINDING)
-            // mark it as binding data
-            q.setConfig("igk:callAttribBindingData", 1);
-        }
-
-        function __clearBindAttribData() {
-            m_attribManager = [];
-        }
-
-        function __ctrl_utility_functions(n) { // controler utility function access with "igk/nodeobj".fc
-            var m_o = n;
-            igk_defineProperty(this, "o", {
-                get: function() {
-                    return m_o;
-                }
-            });
-            igk.appendProperties(this, {
-                toString: function() {
-                    return "[object igk.ctrl.utility.function]";
-                }
-            });
-        }
-        createNS("igk.ctrl", {
-            getAttribCtrl: function(k) {
-                return m_attribCtrl[k] || null;
-            },
-            /**
-             * retrieve used attribute list
-             * @returns array
-             */
-            getAttribCtrlList: function() {
-                var t = [];
-                for (var i in m_attribCtrl) {
-                    if (i == "length")
-                        continue;
-                    t.push(i);
-                }
-                return t;
-            },
-            bindAttribManager: function(key, callback, setting) {
-                if (setting && !(key in m_attrib_datas)) {
-                    igk.ctrl.registerAttribManager(key, setting);
-                }
-                if (m_attrib_datas[key] && callback) {
-                    __registerAttribManager(key, callback);
-                } else {
-                    igk.winui.notify.showMsg("<div class=\"igk-notify igk-notify-danger\">" +
-                        "Error No Binding Attrib registrated for \"" + key +
-                        "\".<br/><div>You must register it before call the bindAttribManager function. igk.ctrl.registerAttribManager");
-                }
-            },
-            // bind function to call when document page loaded before ready
-            bindPreloadDocument: function(name, callback) {
-                __registerHtmlPreloadDocumentCallBack(name, callback);
-            },
-            getcontroller: function(item) { // get the parent controller
-                if (item == null)
-                    return null;
-                if (item.getAttribute && (item.getAttribute("igk-type") == "controller"))
-                    return item;
-                else
-                    return igk.ctrl.getcontroller(item.parentNode);
-            },
-            confirm: function(item, msg, uri) { // used to confirm frame
-                if ((window.confirm) && window.confirm(msg)) {
-                    item.form.confirm.value = 1;
-                    item.form.action = uri;
-                    return !0;
-                }
-                return !1;
-            },
-            init_controller: function() {
-                // init controller on first page loading	
-                if (m_initialize)
-                    return;
-                // init all visible ctrl
-                var d = document.getElementsByTagName("*");
-                var id = null;
-                var s = null;
-                m_controllers.length = 0; // clear m_controller
-                if (d) { // element found		
-                    for (var i = 0; i < d.length; i++) {
-                        s = d[i];
-                        if (s.getAttribute("igk-type") == "controller") {
-                            id = s.getAttribute("igk-type-id");
-                            m_controllers.push(s);
-                            if (id) {
-                                // register controllers
-                                m_controllers[id] = s;
-                            }
-                            $igk(s).fc = new __ctrl_utility_functions($igk(s));
-                        }
-                    }
-                    igk.ready(function() {
-                        // bind attribute data on document ready
-                        igk.ctrl.callBindAttribData(igk.dom.body().o);
-                    });
-                }
-                m_initialize = !0;
-            },
-            // controller function
-            getCtrlById: function(id) {
-                if (m_controllers[id])
-                    return m_controllers[id];
-                return null;
-            },
-            findCtrlById: function(id) {
-                if (m_initialize) {
-                    return igk.ctrl.getCtrlById(id);
-                }
-                var d = document.getElementsByTagName("*");
-                var id = null;
-                var s = null;
-                m_controllers.length = 0;
-                if (d) { // element found		
-                    for (var i = 0; i < d.length; i++) {
-                        s = d[i];
-                        if (s.getAttribute("igk-type") == "controller") {
-                            id = s.getAttribute("igk-type-id");
-                            if (id == id) {
-                                return s;
-                            }
-                        }
-                    }
-                }
-                return null;
-            },
-            // get all controller
-            getCtrls: function() {
-                return m_controllers;
-            },
-            isregCtrl: function(q) {
-                if ((q.nodeType == 1) && (q.getAttribute("igk-type") == "controller")) {
-                    var id = q.getAttribute("igk-type-id");
-                    if (id && !m_controllers[id]) {
-                        m_controllers[id] = $igk(q);
-                        $igk(q).fc = new __ctrl_utility_functions($igk(q));
-                    }
-                    return q;
-                }
-                return null;
-            },
-            getParentController: function(node) {
-                // go to parent until parent controller is found
-                if ((node == null) || (node.parentNode == null))
-                    return null;
-                var q = node.parentNode;
-                while (q != null) {
-                    if (igk.ctrl.isregCtrl(q)) {
-                        return q;
-                    }
-                    q = q.parentNode;
-                }
-                return q;
-            },
-            callBindAttribData: function(node) {
-                // call binding to system on node	
-                if (node) {
-                    __callBindAttribData(node);
-                    if (node.getElementsByTagName) {
-                        var s = node.getElementsByTagName("*");
-                        if (s) {
-                            for (var i = 0; i < s.length; i++) {
-                                igk.invokeAsync(__callBindAttribData, s[i]);
-                                // igk.invokeAsync(__callBindAttribData(s[i]);
-                            }
-                        }
-                    } else {
-                        switch (node.nodeType) {
-                            case 3:
-                            case 8: // comment
-                                break;
-                            default:
-                                console.debug("/!\\ getElementsByTagName function not found : " + node.nodeType);
-                                break;
-                        }
-                    }
-                }
-            },
-            getAttribData: function() { // get binding schema help
-                return m_attrib_datas;
-            },
-            registerReady: function(func) {
-                // register a callback function that will be called everytime new node is added to document in igk.ajx.fn.initnode chain.
-                // initnode use it in 'igk.ready' callback to maintain chain. function will be call for every node.
-                // note: if you whant your new created callback to be called on new document complete used igk.ajx.fn.registerNodeReady against
-                if (m_readylist == null)
-                    m_readylist = new igk.system.collections.list();
-                m_readylist.add(func);
-            },
-            registerAttribManager: function(name, options) {
-                if ((name) && (typeof(m_attrib_datas[name]) == igk.constants.undef)) {
-                    m_attrib_datas[name] = options;
-                    return !0;
-                }
-                return !1;
-            },
-            isAttribManagerRegistrated: function(name) {
-                if ((name) && (typeof(m_attrib_datas[name]) != igk.constants.undef)) {
-                    return !0;
-                }
-                return !1;
-            },
-            regCtrl: function(name, baseuri) { // register controller		
-                m_h_ctrl[name] = new(function(name, baseuri) {
-                    this.name = name;
-                    this.baseuri = baseuri;
-                    igk.appendProperties(this, {
-                        getUri: function(funcname) {
-                            if (funcname) {
-                                return this.baseuri + "&f=" + funcname;
-                            }
-                            return this.baseuri;
-                        }
-                    });
-                })(name, baseuri);
-            },
-            getRegCtrl: function(name) {
-                return igk.get_v(m_h_ctrl, name, null);
-            },
-            getRegCtrls: function() {
-                return m_h_ctrl;
-            }
-        });
-        // selection model
-        createNS("igk.ctrl", {
-            initselect_model: function(t, o, model) { // target select output zone		
-                var q = null;
-                var to = null;
-                var p = igk.getParentScript();
-                if (igk_is_string(t)) {
-                    q = $igk(p).select(t).first();
-                } else {
-                    q = t;
-                }
-                if (igk_is_string(o)) {
-                    to = $igk(p).select(o).first();
-                } else
-                    to = o;
-                if (!q || !to) {
-                    return;
-                }
-
-                function __changez(evt) {
-                    var v = q.o.value;
-                    var i = q.o.selectedIndex;
-                    var n = $igk(q.o[i]).getAttribute("model") || "default";
-                    var cl = null;
-                    if (model)
-                        cl = model.select("." + n).first();
-                    else
-                        cl = $igk(p).select(".igk-select-model ." + n).first();
-                    if (cl) {
-                        to.setHtml(cl.getHtml());
-                    } else
-                        to.setHtml("no data");
-                    // manual raise resize event
-                    igk.winui.events.raise(window, 'resize');
-                };
-                // -------------------------------------------------------------------------
-                // 
-                // -------------------------------------------------------------------------
-                $igk(q).reg_event("change", __changez)
-                    .reg_event("keyup", function(evt) {
-                        var kc = evt.keyCode || 0;
-                        switch (kc) {
-                            case 37: // LEFT
-                            case 38: // UP
-                            case 39: // RIGHT
-                            case 40: // BOTTOM
-                                __changez();
-                                break;
-                        }
-                    });
-                __changez();
-                // alert("bad===="+$igk(q).getParentBody());		
-                if (q.o.form) {
-                    // restore the default view
-                    $igk(q.o.form).reg_event("reset", function() {
-                        var s = q.select(">:option");
-                        // get the first option
-                        var i = s.first();
-                        if (i) {
-                            q.o.value = i.o.value;
-                            __changez();
-                        }
-                    });
-                }
-            }
-        });
-    })();
+    createNS('igk.ctrl', {
+        bindPreloadDocument: __registerHtmlPreloadDocumentCallBack
+    });
     createNS("igk.ctrl.utils", {
         check_all: igk_check_all
     });
-    (function() {
-        function __append_frametobody(responseText) {
-            var q = document.createElement("div");
-            q.innerHTML = responseText;
-            var c = q.childNodes[0];
-            if (c) { // have node				
-                igk.dom.body().appendChild(c);
-                igk.ajx.fn.initnode(c);
-                if (c.getElementsByTagName) {
-                    var tforms = c.getElementsByTagName("form")[0];
-                    var tc = $igk(c).select("form");
-                    // init default frame management		
-                    if (tc.each) {
-                        tc.each(function() {
-                            if (this.o.onsubmit == null) {
-                                this.setProperties({
-                                    "onsubmit": function(evt) {
-                                        // raised on submit									
-                                        window.igk.ajx.postform(this, this.action.split("#")[0], function(xhr) {
-                                            if (this.isReady()) {
-                                                if (global) {
-                                                    this.replaceBody(xhr.resonseText);
-                                                } else {
-                                                    if (m)
-                                                        this.setResponseTo(m);
-                                                }
-                                            }
-                                        });
-                                        this.frame.close();
-                                        evt.preventDefault();
-                                        return !1;
-                                    }
-                                });
-                            }
-                            return this;
-                        });
-                    }
-                }
-            }
-        };
-        createNS("igk.ctrl.frames", {
-            appendFrameResponseToBody: __append_frametobody,
-            postframe: function(e, uri, ctrl) {
-                var m = null;
-                var t = $igk(e).select(ctrl).first(); // getParentByTagName("form");
-                if (ctrl != null) {
-                    m = window.igk.ctrl.getCtrlById(ctrl);
-                }
-                // alert("m is "+m + " " + ctrl+ " "+window.igk.ctrl.getCtrlById(ctrl));
-                igk.ajx.post(uri, null, function(xhr) {
-                    // igk.frames.post function			
-                    if (this.isReady()) {
-                        if (t) {
-                            t.setHtml(xhr.responseText).init();
-                        } else {
-                            igk.ajx.fn.replace_or_append_to_body.apply(this, [xhr]);
-                            // __append_frametobody(xhr.responseText);					
-                        }
-                    }
-                });
-            }
-        });
-        // end igk.ctrl.frames
-    })();
+
     // page editor entity
     createNS("igk.winui.gui", {
         rectangleSnippet: function(o) {
@@ -13723,342 +12288,22 @@ Name:balafon.js
     // register node mecanism 
     // ----------------------------------------------------------------------------------
     // manage tag component
-    igk.ctrl.registerReady(function() {
+    const _ready_func = function() {
         var t = this.tagName ? this.tagName.toLowerCase() : "";
         if (m_tag_obj[t] && m_tag_obj[t].func) {
             m_tag_obj[t].func.apply(this);
         }
-    });
-    // -------------------------------------------------------
-    // notification dialog
-    // -------------------------------------------------------
-    (function() {
-        // notify visible
-        var m_nv = false;
-        var bdiv = null; // shared bdiv
-        var notify_frames = [];
-        igk.publisher.register("system/bodychange", function() {
-            if (m_nv) {
-                // item was visible
-                if (bdiv != null) {
-                    igk.dom.body().appendChild(bdiv.o);
-                }
-            }
+    };
+
+    if (igk.ctrl.registerReady) {
+        igk.ctrl.registerReady(_ready_func);
+    } else {
+        $igk(igk.winui.events.global()).reg_event('igk_controller_ready', function() {
+            igk.ctrl.registerReady(_ready_func);
         });
-        // .STATIC notify objcet
-        igk.winui.notify = function() { // notification class .atomic
-            if (this.type && (this.type == IGK_CLASS)) {
-                if (typeof(this.notify.getInstance) == IGK_UNDEF) {
-                    this.notify.getInstance = (function() {
-                        var _instance = new igk.winui.notify();
-                        return function() {
-                            return _instance;
-                        };
-                    })();
-                }
-                return this.notify.getInstance();
-            }
-            if (typeof(igk.winui.notify.getInstance) == IGK_UNDEF) {
-                igk.appendProperties(this, {
-                    name: "igk-notifybox",
-                    toString: function() {
-                        return this.name;
-                    }
-                });
-                igk.appendProperties(this, igk.winui.notify);
-                igk.winui.notify.sm_instance = this;
-            } else
-                return igk.winui.notify.getInstance();
-        };
-        var defStyle = " google-Roboto";
-        // merge with notify access.
-        createNS("igk.winui.notify", {
-            setFilterClass: function(f) {
-                if (bdiv != null)
-                    bdiv.filters = f;
-            },
-            // >msg:message
-            // >type: type of notify
-            // >nc: noclose,
-            closeAlls: function() {
-                if (notify_frames && notify_frames.length > 0) {
-                    for (var i = 0; i < notify_frames.length; i++) {
-                        notify_frames[i].close();
-                    }
-                    notify_frames = []; // reset frames
-                }
-            },
-            showMsg: function(msg, type, nc, settings) {
+    }
 
-                // msg : content message
-                // type : of the content notification
-                // nc: close button
-                if (typeof(this) == IGK_FUNC) { // static object
-                    igk.winui.notify().showMsg(msg, type, nc, settings);
-                    return;
-                }
-                var div = null;
-                var m_hide = false;
-                var dial = null;
-                var _sm = igk.winui.notify;
-                // create shared data
-                if (!this.initialize) {
-                    bdiv = igk.createNode("div");
-                    this.target = bdiv;
-                    this.initialize = !0;
-                    bdiv.filters = "igk-bgfilter-blur"; // default filter class
-                }
-                bdiv = this.target;
-                dial = this;
-                if (!bdiv)
-                    return;
-                // setup new content
-                bdiv.setHtml(""); // clear
-                bdiv.addClass("igk-js-notify-box");
-                var div = bdiv.add("div");
-                var cl = "igk-js-notify ";
-                if (type) {
-                    cl += type;
-                }
-                div.addClass(cl).setOpacity(1);
-                div.setAttribute("igk-js-fix-loc-scroll-width", "1");
-                div.setHtml(""); // clear
-                if (typeof(msg) == "string") {
-                    div.setHtml(msg); // clear content with message
-                } else {
-                    div.appendChild(msg);
-                }
-                var fc = igk.winui.event.fn.handleKeypressExit({
-                    target: this,
-                    complete: _g_close_notify
-                });
-                // append close button
-                if (!nc) {
-                    var close = igk.createNode("div");
-                    close.addClass("dispb posab loc_r loc_t");
-                    close.add("a", {
-                        "onclick": _g_close_notify
-                    }).setHtml("close").addClass("igk-notify-btn-close");
-                    div.appendChild(close);
-                }
-                // select all and close for cancel button
-                div.qselect("input[type='button'][data-type='cancel']").each_all(function() {
-                    this.on("click", _g_close_notify);
-                });
 
-                function _g_close_notify() {
-                    _close_notify(null);
-                };
-
-                function _setupview() {
-                    div.setCss({
-                        "height": "auto" // auto by default
-                    });
-                    var p = -(div.getHeight() / 2.0);
-                    var pn = div.getParentNode();
-                    var t = 0; // to get half position
-                    var h = div.getHeight() + "px";
-                    var oflow = false;
-                    if (pn) {
-                        t = pn.getHeight() / 2.0;
-                    } else {
-                        t = div.getTop();
-                    }
-                    if ((t + p) < 0) {
-                        p = -t;
-                        if (pn.getHeight() < div.getHeight()) {
-                            h = pn.getHeight() + "px";
-                            oflow = true;
-                        }
-                    }
-                    div.setCss({
-                        "marginTop": p + "px"
-                    });
-                    if (h != div.getComputedStyle('height')) {
-                        // ========				
-                        div.animate({ height: h }, {
-                            duration: 200,
-                            interval: 10,
-                            animtype: "timeout",
-                            context: "notify-height-context",
-                            effect: "circ",
-                            effectmode: "easeinout",
-                            complete: function() {
-                                if (!oflow) {
-                                    $igk(div).setCss({ height: "auto", overflowY: "hidden" });
-                                } else {
-                                    $igk(div).setCss({ overflowY: "auto" });
-                                }
-                            }
-                        });
-                    }
-                };
-
-                function _setupview_callback() {
-                    _setupview();
-                    igk.winui.unreg_event(window, "load", _setupview_callback);
-                };
-                // append static method to current instance
-                _sm.Close = _close_notify;
-                _sm.UpdateView = _setupview;
-                _sm.settings = settings;
-                var __closing = false;
-
-                function _close_notify(callback) {
-                    if (__closing)
-                        return;
-                    __closing = !0;
-                    igk.animation.fadeout(div.o, 20, 200, 1.0, function() {
-                        var pn = bdiv.o.parentNode;
-                        if (pn) {
-                            pn.removeChild(bdiv.o);
-                            if (bdiv.filters)
-                                $igk(pn).rmClass(bdiv.filters);
-                        }
-                        bdiv.unregister();
-                        __closing = false;
-                        m_nv = false;
-                        if (callback) {
-                            callback.apply(document);
-                        }
-                        if (settings && settings.close) {
-                            settings.close.apply(_sm);
-                        }
-                    });
-                    // unregister key press
-                    igk.winui.unreg_event(document, "keypress", fc);
-                    m_hide = !0;
-                    dial.hide = !0;
-                }
-                igk.winui.reg_event(window, "load", __show);
-                if (!nc) {
-                    if (igk.navigator.isFirefox()) {
-                        igk.winui.reg_event(document, "keypress", fc);
-                    } else {
-                        igk.winui.reg_event(document, "keydown", fc);
-                    }
-                }
-                var m_eventContext = igk.winui.RegEventContext(this, $igk(this));
-                if (m_eventContext) {
-                    m_eventContext.reg_window("resize", _setupview);
-                }
-                notify_frames.push({
-                    close: _g_close_notify
-                });
-
-                function __show() {
-                    // because of the ready call you must call only when showMsg
-                    if (m_hide)
-                        return;
-                    igk.dom.body().addClass(bdiv.filters).appendChild(bdiv.o);
-                    if (!igk.is_readyRegister(__show)) {
-                        _setupview();
-                    }
-                    div.setCss({
-                        "zIndex": "800", // set to top index
-                        "top": "50%",
-                        "overflowY": "auto",
-                        "overflowX": "hidden"
-                    });
-                    igk.ctrl.callBindAttribData(div.o);
-                    bdiv.addClass("igk-show");
-                    m_nv = true;
-                    // igk.animation.fadein(bdiv.o,20,200,{form:0.0,to:0.8});
-                };
-                igk.ready(__show);
-            },
-            showMsBox: function(t, m, cln, nc) { // nc : no close button
-                var settings = null;
-                if (typeof(t) == 'object') {
-                    var b = t;
-                    t = b.title;
-                    m = b.content;
-                    cln = b.type;
-                    nc = b.closeButton;
-                    settings = b.settings;
-                }
-                var q = igk.createNode("div")
-                    .addClass("igk-notify");
-                if (cln) {
-                    q.addClass(cln);
-                }
-                q = q.add("div").addClass("igk-container");
-                var content = q.add("div");
-                content.addClass("content-z"); // content zone
-                var box = content.add("div");
-                box.addClass("title igk-title-4");
-                if (igk_is_string(t)) {
-                    box.setHtml(t);
-                } else {
-                    box.add(t);
-                }
-                if (igk_is_string(m)) {
-                    content.add("div").addClass("igk-panel igk-notify-panel").setHtml(m);
-                } else {
-                    content.add("div").addClass("igk-panel").o.appendChild($igk(m).o);
-                }
-                igk.winui.notify.showMsg(q, cln, nc, settings);
-            },
-            showError: function(msg) {
-                var q = igk.createNode("div")
-                    .addClass("igk-notify igk-notify-danger" + defStyle)
-                    .setHtml(msg);
-                igk.winui.notify.showMsg(q.o.outerHTML, "igk-danger");
-            },
-            showErrorInfo: function(title, msg) {
-                var q = igk.createNode("div")
-                    .addClass("igk-notify igk-notify-danger" + defStyle);
-                q.add("div").addClass("igk-title-4").setHtml(title);
-                q.add("div").addClass("igk-panel igk-notify-panel").setHtml(msg);
-                var msg = q.o.outerHTML.split("\n").join("<br />");
-                igk.winui.notify.showMsg(msg, "igk-danger");
-            },
-            close: function() {
-                // close the top notification dialog
-                if (notify_frames.length > 0) {
-                    var f = notify_frames.pop();
-                    f.close();
-                }
-            },
-            visible: function() {
-                return m_nv;
-            },
-            init: function() { // initialize a notification controler
-                // init this current node as a message box 
-                var q = $igk(igk.getParentScript());
-                if (q && (q.o.parentNode != null)) {
-                    igk.ready(function() {
-                        var t = q.select('.title').first().getHtml();
-                        var m = q.select('.msg').first();
-                        var i = (q.o.parentNode != null);
-                        // remove data
-                        q.select("^.igk-notify-box").remove();
-                        if (i)
-                            igk.winui.notify.showMsBox(t, m, q.o.className);
-                    });
-                }
-            },
-            /**
-             * notify dialog
-             * @param {*} t target
-             * @param string defStyle extra def classes
-             */
-            showDialog(t, defStyle, type) {
-                let m = $igk(t).first();
-                if (!m) {
-                    return;
-                }
-                defStyle = defStyle || "";
-                type = type || "";
-
-                let q = igk.createNode("div")
-                    .addClass("igk-notify " + defStyle)
-                    .setHtml(m.o.outerHTML);
-                $igk(q.o.firstChild).toggleClass("dispn");
-                igk.winui.notify.showMsg(q.o.outerHTML, type);
-            }
-        });
-    })();
     // ----------------------------------------------------------------------------
     // balafon js utility fonction
     // ----------------------------------------------------------------------------
@@ -14098,107 +12343,6 @@ Name:balafon.js
     // uri: cibling uri
     // 
     // }
-    createNS("igk.winui.dragdrop", {
-        init: function(target, properties) {
-            // usage * properties
-            // uri: uri,
-            // update:function(evt){}  
-            // enter : function(e){}
-            // drop: function(e){}
-            function dragdropManager(target, properties) {
-                if (!target)
-                    return;
-                var m_target = $igk(target);
-                var m_properties = properties;
-                var m_q = target;
-                var m_eventcontext = igk.winui.RegEventContext(m_target, $igk(m_target));
-                if (m_eventcontext == null)
-                    return;
-                var q = this;
-                var m_supportlist = null;
-                igk.appendProperties(this, {
-                    getUri: function() {
-                        if (m_properties && m_properties.uri)
-                            return m_properties.uri;
-                        return null;
-                    },
-                    getProperties: function() {
-                        return m_properties;
-                    },
-                    support: function(k) { // get if this dragdrop support
-                        if (m_properties && m_properties.supported) {
-                            if (m_supportlist == null) {
-                                var e = m_properties.supported.split(",");
-                                var p = new(function(e) {
-                                    var m_tab = e;
-                                    var m_obj = {};
-                                    for (var i = 0; i < e.length; i++) {
-                                        m_obj[e[i]] = i;
-                                    }
-                                    this.contains = function(s) {
-                                        return typeof(m_obj[s]) != IGK_UNDEF;
-                                    }
-                                })(e);
-                                m_supportlist = p;
-                            }
-                            return m_supportlist.contains(k);
-                        }
-                        return !0;
-                    },
-                    toString: function() {
-                        return "igk.winui.dragdrop.dragdropManager";
-                    }
-                });
-                m_eventcontext.reg_event(m_q, "dragenter", function(evt) {
-                    // console.debug("drag enter");
-                    evt.preventDefault();
-                    if (m_properties && m_properties.enter) {
-                        m_properties.enter.apply(q, arguments);
-                    }
-                });
-                m_eventcontext.reg_event(m_q, "dragleave", function() {
-                    if (m_properties && m_properties.leave) {
-                        m_properties.leave.apply(q, arguments);
-                    }
-                });
-                m_eventcontext.reg_event(m_q, "dragover", function(evt) {
-                    // allow drop on item 
-                    // evt.dataTransfer.effectAllowed="copy";
-                    evt.preventDefault();
-                    if (m_properties && m_properties.over) {
-                        m_properties.over.apply(q, arguments);
-                    }
-                });
-                // not define on firefox
-                // m_eventcontext.reg_event(m_q,"dragdrop",function(evt){
-                // evt.preventDefault();
-                // });
-                m_eventcontext.reg_event(m_q, "drop", function(evt) {
-                    evt.preventDefault();
-                    if (m_properties && m_properties.drop) {
-                        m_properties.drop.apply(q, arguments);
-                        return;
-                    }
-                    if (igk.system.array.isContain(evt.dataTransfer.types, "text/html")) {
-                        var n = igk.createText(evt.dataTransfer.getData("text/html"));
-                        m_target.appendChild(n);
-                    }
-                });
-                // m_eventcontext.reg_event(m_q,"drag",function(evt){
-                // });
-                // set up
-                m_target.setAttribute("draggable", false);
-            }
-            return new dragdropManager(target, properties);
-        }
-    });
-
-    function __init_drag() {
-        var opts = igk.JSON.parse(this.getAttribute("igk-draggable-data"), this);
-        igk.winui.dragdrop.init(this.o, opts);
-    }
-    // register class
-    igk.winui.initClassControl("igk-draggable", __init_drag, { desc: "draggable node" });
     (function() {
         var m_f = [];
         var m_i = null;
@@ -14538,7 +12682,7 @@ Name:balafon.js
             igk.ready(null, "readystatechange");
         }
     };
-    igk.winui.reg_event(document, "readystatechange", __global_ready);
+    igk_winui_reg_event(document, "readystatechange", __global_ready);
 
     function __bindbalafonjs() { // bind balafon js data type
         var q = this.o;
@@ -14616,4 +12760,5 @@ Name:balafon.js
     var _udef = 'undefined';
     // special functions
     ns_igk._$exists = function(n) { return typeof(igk.system.getNS(n)) != _udef; };
+
 })(window);

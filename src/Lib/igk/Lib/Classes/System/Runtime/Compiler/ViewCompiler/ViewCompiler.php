@@ -18,6 +18,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\Traits\ViewCompilerReadDoLoopTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\Traits\ViewReadConditionTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\Traits\ViewCompilerReadSwitchCaseTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerUtility;
+use IGK\System\Views\ViewCommentArgs;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
@@ -55,7 +56,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * expression regex to handle comment
      * @var string
      */
-    var $expression_regex = "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
+    var $expression_regex = ViewCommentArgs::COMMENT_EXPRESSION_REGEX;
 
     /**
      * laeve commend regex
@@ -771,8 +772,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         $v_buffer = &$v_flag->buffer;
         switch ($id) {
             case T_COMMENT:
-            case T_DOC_COMMENT:
-            
+            case T_DOC_COMMENT:            
                 return false;
             default:
                 if (self::IsBlockCase($id)) {

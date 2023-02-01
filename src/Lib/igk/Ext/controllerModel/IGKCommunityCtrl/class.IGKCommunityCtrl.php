@@ -70,7 +70,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 			new DbColumnInfo(array(IGK_FD_NAME => "clAvailable", IGK_FD_TYPE => "Int", "clNotNull" => 1))
 		));
 	}
-	public static function initDb($force = false)
+	public static function initDb($force = false, bool $clean=false)
 	{
 		igk_set_env("sys://db/constraint_key", "igk_com");
 		if (igk_is_conf_connected())

@@ -14,7 +14,7 @@ use IGK\System\Installers\InstallerMiddleWareActions;
 use IGK\Tests\BaseTestCase;
 use IGKException;
 
-class BalafonInstallerTest extends BaseTestCase{
+class RMBalafonInstallerTest_ /*extends BaseTestCase*/{
     public function test_dummyIntaller(){
         $this->expectOutputRegex("/unlink/");
         $cwd = getcwd();

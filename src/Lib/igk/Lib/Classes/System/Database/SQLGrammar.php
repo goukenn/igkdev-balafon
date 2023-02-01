@@ -21,6 +21,7 @@ use function PHPUnit\Framework\isNull;
 
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbExpression;
+use IGK\Database\DbLitteralExpression;
 use IGK\Database\IDataDriver;
 use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
@@ -44,7 +45,13 @@ class SQLGrammar implements IDbQueryGrammar
     private $m_driver;
 
     const FD_ID = "clId";
+    const CALLBACK_OPTS = \IGK\Database\DbConstants::CALLBACK_OPTS;
 
+    /**
+     * set SQL driver to use
+     * @param mixed $driver 
+     * @return void 
+     */
     public function setDriver($driver)
     {
         $this->m_driver = $driver;
@@ -55,7 +62,7 @@ class SQLGrammar implements IDbQueryGrammar
             $this->$fc($v);
         }
     }
-    public const CALLBACK_OPTS = "@callback";
+   
     const AVAIL_FUNC = [
         'IGK_PASSWD_ENCRYPT',
         'AES_ENCRYPT',
@@ -112,6 +119,28 @@ class SQLGrammar implements IDbQueryGrammar
         return $defvalue;
     }
 
+    public function createExpression(DbExpression $expression){
+        if ($expression instanceof DbLitteralExpression){
+              // Users::column(Users::FD_USER_GUID). " NOT IN (". 
+                //     rtrim(Operators::prepare()
+                //         ->columns([Operators::FD_OP_USER_ID])
+                //         ->get_query(), ' ;')
+                // .")"
+            return  sprintf("%s NOT IN (%s)", $expression->source_model::column($expression->column_in_source_model),
+                $expression->target_model::prepare()
+                ->columns(
+                    [$expression->target_model->column($expression->column_in_target_model)]
+                )->get_sub_query()
+            );
+
+        }
+    }
+    /**
+     * resolv sql type
+     * @param mixed $t 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function ResolvType($t)
     {
         return getv([
@@ -265,8 +294,14 @@ class SQLGrammar implements IDbQueryGrammar
                 $unique .= "UNIQUE KEY `" . $v_name . "` (`" . $v_name . "`)";
             }
             if ($v->clIsUniqueColumnMember) {
-                if (isset($v->clColumnMemberIndex)) {
-                    $tindex = explode("-", $v->clColumnMemberIndex);
+                $v_unique_columns_index = 0;
+                if (!isset($v->clColumnMemberIndex)){
+                    $v_unique_columns_index = '0';
+                }else{
+                    $v_unique_columns_index = ''.$v->clColumnMemberIndex;
+                }
+               //  if ($v_unique_columns_index) {
+                    $tindex = explode("-", $v_unique_columns_index);
                     $indexes = array();
                     foreach ($tindex as $kindex) {
                         if (!is_numeric($kindex) || isset($indexes[$kindex]))
@@ -275,29 +310,42 @@ class SQLGrammar implements IDbQueryGrammar
                         $ck = 'unique_' . $kindex;
                         $bf = "";
                         if (!isset($uniques[$ck])) {
-                            $bf .= "UNIQUE KEY `clUC_" . $ck . "_index`(`" . $v_name . "`";
+                            $bf .= "UNIQUE KEY `UC_" . $ck . "_index`(`" . $v_name . "`";
                         } else {
                             $bf = $uniques[$ck];
                             $bf .= ", `" . $v_name . "`";
                         }
                         $uniques[$ck] = $bf;
                     }
-                } else {
-                    if (empty($funique)) {
-                        $funique = "UNIQUE KEY `clUnique_Column_" . $v_name . "_index`(`" . $v_name . "`";
-                    } else
-                        $funique .= ", `" . $v_name . "`";
-                }
+                // } else {
+                //     if (empty($funique)) {
+
+                //         $funique = "UNIQUE KEY `clUnique_Column_" . $v_name . "_index`(`" . $v_name . "`";
+                //     } else
+                //         $funique .= ", `" . $v_name . "`";
+                // }
             }
             if ($v->clIsPrimary && !isset($tinf[$primkey])) {
                 if (!empty($primary))
                     $primary .= ",";
                 $primary .= "" . $driver->escape_table_column($v_name) . "";
             }
-            if (($v->clIsIndex || $v->clLinkType) && !$v->clIsUnique && !$v->clIsUniqueColumnMember && $v->clIsPrimary) {
+            if ($v->clIsIndex || $v->clLinkType){
+                ///TODO : fix key definition 
+                $v_nk = $v_name;
+                if ($v->clLinkType){
+                    // + | --------------------------------------------------------------------
+                    // + | add _FK_ to indicate possible Foreign key 
+                    // + |                    
+                    $v_nk .= '_FK';
+                }
+
+                if (!$v->clIsUniqueColumnMember  && $v->clIsPrimary){
+
+                } 
                 if (!empty($findex))
                     $findex .= ",";
-                $findex .= "KEY `" . $v_name . "_index` (`" . $v_name . "`)";
+                $findex .= "KEY `" . $v_nk . "_index` (`" . $v_name . "`)";
             }
             unset($tinf[$primkey]);
         }
@@ -335,15 +383,20 @@ class SQLGrammar implements IDbQueryGrammar
         // $query = rtrim($query) . ";";
         return $query;
     }
+    /**
+     * 
+     */
     public function add_foreign_key($table, $v, $nk = null, $db = null)
     {
         $db = $db ?? $this->m_driver->getDbName();
         if (!empty($nk) || !empty($nk = igk_getv($v, "clLinkConstraintName", ""))) {
-
-            $this->m_driver->constraintExists($nk);
-            
-
-            $nk = "CONSTRAINT " . $nk . " ";
+    
+            if ($this->m_driver->constraintForeignKeyExists($nk)){
+                $nk = null;
+                return;
+            }else{
+                $nk = "CONSTRAINT " . $nk . " ";
+            }
         }
         // $clkey =  $db ? "%s.%s" : "%s";
         $clkey = "%s(%s)";
@@ -428,53 +481,8 @@ class SQLGrammar implements IDbQueryGrammar
         $q .= $adapter->escape($column) . " " . $adapter->escape($column) . " " . rtrim($this->getColumnInfo($info));
         return $q;
     }
-    /**
-     * return exists if a column exists
-     * @param mixed $table 
-     * @param mixed $column 
-     * @return bool
-     */
-    public function exist_column(string $table, string $column, $db = null)
-    {       
-        $adapter  = $this->m_driver;
-        $db = $db ?? $adapter->getDbName() ?? igk_die("no db name");
-        $q = sprintf("SELECT * FROM information_schema.COLUMNS " .
-            "WHERE TABLE_NAME='%s' and TABLE_SCHEMA='%s' AND COLUMN_NAME='%s'",
-            $adapter->escape_string($table),
-            $adapter->escape_string($db),
-            $adapter->escape_string($column));
-
-        $r = $adapter->sendQuery($q);
-        $row = null;
-        if ($r) {
-            if ($r->ResultTypeIsBoolean()) {
-                return $r->value;
-            }
-            $row = $r->getRowAtIndex(0);
-        }
-        return $row != null;
-    }
-    public function remove_foreign($table, $info, $db = null)
-    {
-        $adapter  = $this->m_driver;
-        $db = $db ?? $adapter->getDbName();
-        $r = $adapter->sendQuery("SELECT * FROM information_schema.TABLE_CONSTRAINTS LEFT JOIN information_schema.INNODB_FOREIGN_COLS on(" .
-            "CONCAT(CONSTRAINT_SCHEMA,'/',CONSTRAINT_NAME)=ID" .
-            ") " .
-            "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db' AND FOR_COL_NAME='$info'");
-
-        $columns = [];
-        foreach ($r->getRows() as $c) {
-            $columns[$c->CONSTRAINT_SCHEMA . "/" . $c->CONSTRAINT_NAME] = $c->CONSTRAINT_NAME;
-        }
-        if ($ck = getv(array_values($columns), 0)) {
-            $q  = "ALTER TABLE ";
-            $q .= "`" . $table . "` DROP FOREIGN KEY ";
-            $q .= $adapter->escape($ck) . " ";
-            return $q;
-        }
-        return null;
-    }
+   
+ 
     /**
      * get grammar column definition
      * @param mixed $v 
@@ -530,6 +538,11 @@ class SQLGrammar implements IDbQueryGrammar
                 $fautoindex = $this->m_driver->getParam("auto_increment_word", $v, $tinf) . "={$idx} ";
             }
         }
+        // unit column
+        if ($v->clIsUnique){
+            $query .= "UNIQUE ";
+        } 
+
         $tb = true;
         if ($v->clDefault || $v->clDefault === '0') {
             $_ktype = strtoupper($type);
@@ -696,6 +709,12 @@ class SQLGrammar implements IDbQueryGrammar
         if (!empty($tinf->clLinkType) && is_string($value) && (strpos($value, ".") !== false)) {
             if ($v = $driver->GetExpressQuery($value, $tinf)) {
                 return $v;
+            }
+        }
+        if (empty($value) && (($tinf->clValidator)=='guid')){
+            if ((!$tinf->clLinkType)&&($tinf->clNotNull)){
+                // auto generate a guid if not specified
+                $value = igk_create_guid();
             }
         }
        
@@ -879,7 +898,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @throws IGKException 
      */
     protected static function GetValues($driver, $values, & $tableInfo, $update = 0)
-    {  
+    {   
         $tvalues = new stdClass();
 
         if (is_object($values) && method_exists($values, "to_array")) {
@@ -928,7 +947,9 @@ class SQLGrammar implements IDbQueryGrammar
                         continue;
                     }
                 }
-                if (!property_exists($values, $k)) {
+               
+
+                if (is_object($values) && !property_exists($values, $k)) {
                     if ($update) {
                         if (
                             $v->clLinkType ||
@@ -1185,8 +1206,8 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      */
     public static function GetJointType(string $type)
-    {
-        $t = "INNER JOIN";
+    { 
+        $t = $type;
         switch (strtolower($type)) {
             case 'left':
                 $t = "LEFT JOIN";
@@ -1240,7 +1261,7 @@ class SQLGrammar implements IDbQueryGrammar
                     $t =  static::GetJointType($v_type);
                 }
                 $join .= $t . " ";
-                $join .= $tab;
+                $join .= $tab. " ";
                 $v_cond = igk_getv($vv, 0);
                 if ($v_cond) {
                     if (is_string($v_cond)) {

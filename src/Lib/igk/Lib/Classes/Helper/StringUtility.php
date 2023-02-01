@@ -9,6 +9,8 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\IO\StringBuilder;
+use IGK\System\Regex\Replacement;
 use IGKException;
 use ReflectionException;
 
@@ -21,6 +23,34 @@ abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    /**
+     * remove quote from string 
+     * @param string $data 
+     * @param string $start_quote 
+     * @param null|string $end_quote 
+     * @return string new string
+     */
+    public static function RemoveQuote(string $data, string $start_quote='"', ?string $end_quote=null){
+        $end_quote = $end_quote ?? $start_quote;
+        if (strpos($data, $start_quote)===0){
+            $data = substr($data,1);
+            if (strpos($data, $end_quote, -1)!==false){
+                $data = substr($data,0, -1);                
+            }
+        }
+        return $data;        
+    }
+    /**
+     * get name_space 
+     * @param string $namespace 
+     * @return string 
+     */
+    public static function NS(string $namespace):string{
+
+        $ns = str_replace("/", "\\", $namespace);
+        $ns = trim(str_replace(" ", "", $ns));
+        return $ns;
+    }
     public static function AuthorizationPath(string $name, ?string $controller):string{
         return implode("@", array_filter([ $controller, $name]));
     }
@@ -401,4 +431,56 @@ abstract class StringUtility
                 $offset + $length
             );
     }
+
+    public static function DisplayAddress(?string $street=null,?string $number=null,
+        ?string $box=null, ?string $city=null, ?int $postalCode =null , $country=null){
+        $sb = new StringBuilder;
+        if ($street){
+            $sb->append($street);
+            if ($number)
+                $sb->append(" - ".$number);
+            if ($box)
+                $sb->append("/".$number);
+            $sb->appendLine();
+        }
+        if ($city){
+            if ($postalCode)
+            $sb->append(sprintf("%s - ", $postalCode));
+            $sb->appendLine(sprintf("%s", $city));
+        }
+        if ($country){
+            $sb->appendLine(__('country.'.$country));
+            // $sb->appendLine(\IGK\Models\Countries::GetCache('clISO', $country));
+        }        
+        return $sb."";
+    }
+    /**
+     * helper function resources if not null
+     * @param mixed $value 
+     * @param mixed $format 
+     * @return mixed 
+     */
+    public static function FormatIfNotNull($value, $format){
+        if (!is_null($value)){
+            if (is_string($format)){
+                return __($format, $value);
+            }
+            return $format($value);
+        }
+        return null;
+    }
+    /**
+     * sanitize text and return a identifer 
+     * @param string $identifer 
+     * @return string
+     */
+    public static function SanitizeIdentifier(string $identifer):string{
+        $rp = new Replacement();
+        $rp->add('/\s+/','')
+        ->add('/[^'.self::IDENTIFIER_TOKEN.']/', '_')
+        ->add('/^[0-9]/','_\\0');
+        $identifer = $rp->replace(trim($identifer));
+        return $identifer;
+    }
+ 
 }

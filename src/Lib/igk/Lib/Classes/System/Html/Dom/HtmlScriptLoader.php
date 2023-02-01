@@ -119,7 +119,7 @@ class HtmlScriptLoader{
             $resolverfc = function ($f) use (&$s, & $assets) {
                 if (strpos(basename($f), '.')===0){ 
                     return;
-                }
+                } 
                 $ext = Path::GetExtension($f);
                 $F = igk_io_collapse_path($f);
                 switch (($ext)) {
@@ -150,10 +150,17 @@ class HtmlScriptLoader{
                 $out .= ob_get_contents();
                 ob_end_clean();
             } else {
-                $s = "";
+                $s = ""; 
+                $dirs = [];
+                $dirs[] = $dir."/igk.js";
+                $dirs[] = $dir."/polyfill.js";
+                $dirs[] = $dir."/system/ctrl/ctrl.js";
+
+                $exclude_dir += array_fill_keys($dirs,1);
+                // igk_wln_e($exclude_dir);
                 IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir, $resolverfc);        
                 IO::WriteToFile($cache_path, $s);
-                $out .= $s;
+                $out .= $s; 
             }
         }
         if ($production && !empty($out)){

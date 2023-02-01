@@ -21,7 +21,7 @@ class Authorization{
      * bind user to group
      * @param BaseController $controller 
      * @param Users $user system user 
-     * @param string $group controller group without the start key identification. 
+     * @param string $group controller's group without key identification. 
      * @return object|null|false 
      */
     public static function BindUserToGroup(BaseController $controller, Users $user, string $group){
@@ -37,8 +37,14 @@ class Authorization{
         ]);
         return $gp;
     }
-
-    public static function UnbindUserToGroup(BaseController $controller, Users $user, string $group){
+    /**
+     * remove user attached to controller groups
+     * @param BaseController $controller 
+     * @param Users $user 
+     * @param string $group 
+     * @return bool 
+     */
+    public static function UnbindUserFromGroup(BaseController $controller, Users $user, string $group){
         $keyname = StringUtility::GetControllerKeyName($controller);
         $gid = Groups::createIfNotExists(["clName"=>$group, "clController"=>$keyname]);
         if (!$gid){

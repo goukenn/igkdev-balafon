@@ -13,6 +13,7 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
 use IGK\System\Html\HtmlStyleValueAttribute;
+use IGK\System\Html\ViewRef;
 use IGKException;
 use function igk_resources_gets as __;
 
@@ -166,6 +167,16 @@ class HtmlNode extends HtmlItemBase
     public function __toString()
     {
         return $this->render();
+    }
+    /**
+     * set attribute expression refence
+     * @param string $name attribute name
+     * @param string $expression expression to evaluate
+     * @return $this 
+     */
+    public function setAttributeRef(string $name, string $expression){
+        $this->setAttribute($name, new ViewRef($expression) );
+        return $this;
     }
     ///<summary></summary>
     ///<param name="eventObj"></param>

@@ -264,6 +264,14 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     function constraintExists(string $name):bool{
         return false;
     }
+    /**
+     * check that foreing key exists
+     * @param string $name 
+     * @return bool 
+     */
+    function constraintForeignKeyExists(string $name):bool{
+        return false;
+    }
     
        /**
      * create able info query
@@ -880,7 +888,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
                                     $fi->clLinkTypeColumn=$tbrelations[$fi->clName]->targetColumn;
                             }
                             $v=$fi;
-                            $cl= $row->addNode("Column");
+                            $cl= $row->addNode(IGK_COLUMN_TAGNAME);
                             $cl["clName"]=$fi->clName;
                             $tab=array();
                             preg_match_all("/^((?P<type>([^\(\))]+)))\\s*(\((?P<length>([0-9]+))\)){0,1}$/i", trim($fi->clType), $tab);

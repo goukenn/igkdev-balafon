@@ -8,13 +8,16 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\Controllers\BaseController;
+use IGK\Database\DbSchemas;
 use IGK\Helper\Utility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Database\Helper\DbUtility;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\XML\XmlNode;
 use IGKEvents;
 use IGKNonVisibleControllerBase;
-
-
+use IGKSysUtil;
 
 /**
  * initialize data schema
@@ -22,7 +25,7 @@ use IGKNonVisibleControllerBase;
  */
 class InitDataSchemaSQLCommand extends AppExecCommand{
     var $command = "--db:schema";
-    var $desc = "get db schemas"; 
+    var $desc = "get controller db-schemas"; 
     var $category = "db";
 
     var $options = [
@@ -32,7 +35,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     ];
 
     public function showUsage(){
-        Logger::print("--db:schema Controller [file]");
+        Logger::print($this->command." controller [file]");
     }
     public function exec($command,  $ctrl=null, $file=null)
     {    
@@ -57,13 +60,23 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
         }
         igk_set_env(IGK_ENV_DB_INIT_CTRL, $ctrl); 
         $tables = igk_getv($schema, "tables"); 
-        switch( $options )
+        switch($options)
         {
             case 'json':
                 echo Utility::To_JSON($tables, [
                     "ignore_empty"=>1,
                 ], JSON_PRETTY_PRINT);
                 igk_exit();
+            case 'xml':
+                $n = DbUtility::ExportToXMLSchemaData($ctrl, $tables); 
+                if ($version = $schema->version){
+                    $db = \IGK\System\Version::Parse($version);
+                    $db->release++;
+                    $n['version']= $db.'';
+                }
+                $n['author'] = $this->getAuthor($command);  
+                $n->renderXML();
+                break;
         } 
         igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($ctrl));
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$ctrl]);
@@ -74,5 +87,6 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
         parent::help();
         Logger::print("file [-option:[json]]");
     }
+   
 }
 

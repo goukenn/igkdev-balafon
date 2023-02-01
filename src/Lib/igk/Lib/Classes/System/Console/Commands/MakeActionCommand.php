@@ -82,6 +82,10 @@ class MakeActionCommand extends AppExecCommand{
         $dir = $ctrl::classdir(); 
         $bind = [];
         $actionName = ucfirst($actionName);
+        if ((($pos = strrpos(strtolower($actionName), 'action'))>0) && (($pos+6)==strlen($actionName))){
+            $actionName = substr($actionName,0, -6);
+        }
+
         $path = $actionName;
         $tcl =  explode("/", StringUtility::Uri($path ));
         array_pop( $tcl); 

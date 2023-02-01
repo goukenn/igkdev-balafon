@@ -1,4 +1,4 @@
-`Horizontal pane manual`
+# Horizontal component
 
 la méthode `addPage` permet d'ajouter une page
 

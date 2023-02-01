@@ -341,9 +341,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 $out .= "/* <!-- Fonts --> */" . $lineseparator . $s . $ft_def;
         }
         if ($def->getHasRules()) {
-            !$themeexport && $out .= "/* <!-- Rules --> */" . $lineseparator;
+            !$themeexport && $out .= "/* <!-- Rules --> */\n" . $lineseparator;
             $out .= $def->getRulesString($lineseparator, $themeexport, $systheme);
-            !$themeexport && $out .= "/* <!-- end:Rules --> */".$lineseparator;
+            !$themeexport && $out .= "\n/* <!-- end:Rules --> */".$lineseparator;
         }
 
         $s = "";
@@ -1234,8 +1234,7 @@ EOF;
                 $g = & $g[$k];
                 return $g;
             }
-        }
-        $g = null; // igk_getv($g, $k);
+        } 
         return  $g;
     }
      ///<summary></summary>

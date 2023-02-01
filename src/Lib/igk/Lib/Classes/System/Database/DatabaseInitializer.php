@@ -153,6 +153,11 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     public function upgrade(BaseController $controller, array $definition, ?DatabaseInitializer $caches = null)
     {
         igk_hook(IGKEvents::HOOK_DB_INIT_START, ['initializer' => $this, 'method' => 'upgrade']);
+        $g = false;
+        if ($ad = $controller->getDataAdapter()){
+            $g = $ad->connect();
+        }
+
         $rs = $definition;
         $post_install = [];
         $count = 0;
@@ -185,8 +190,11 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
 
         if ($caches) {
             array_map(function ($a) {
-                // 
-                $ad = $a[0]->getDataAdapter();
+                //
+                $ctrl = $a[0];
+                // $ctrl->register_autoload(); 
+                $ad = $ctrl->getDataAdapter();
+     
                 if ($ad && isset($a[1])) {
                     $info = (object)$a[1];
                     $this->m_resolvedLinks = (object)[
@@ -211,11 +219,23 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
                 return Database::InitDataEntries($a[0]);
             }, $caches->m_defs);
         }
+        if($g) $ad->close();
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, []);
     }
+    /**
+     * 
+     * @param mixed $ad 
+     * @param mixed $tableName 
+     * @param mixed $entries 
+     * @param mixed $columnInfo 
+     * @return void 
+     */
     private function _load_entries($ad, $tableName, $entries, $columnInfo){
         foreach ($entries as $row) {
-            $ad->insert($tableName, $row, $columnInfo);
+            $rs = $ad->select($tableName, $row, null);
+            if (!$rs && ($rs->getRowCount()==0)){
+                $ad->insert($tableName, $row, $columnInfo);
+            }
         }
     }
     public function resolve(string $linkTable): bool{
@@ -291,13 +311,21 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
             $empty = true;
             foreach ($def as $k => $v) {
                 $empty &= empty($v);
-                if (!$definition->$k) {
+                if (is_array($v) && !$definition->$k) {
                     $definition->$k = [];
                 }
-                $definition->$k = array_merge(
-                    array_values($definition->$k ?? []),
-                    array_values($v ?? [])
-                );
+                // if (is_string($v)){
+                //     igk_wln_e("string , ", $v);
+                // }
+                if (is_array($definition->$k)){
+
+                    $definition->$k = array_merge(
+                        array_values($definition->$k ?? []),
+                        array_values($v ?? [])
+                    );
+                }else{
+                    $definition->$k = $v;
+                }
             }
             if ($initializer && !$empty) {
                 $c = $initializer->m_hostController;

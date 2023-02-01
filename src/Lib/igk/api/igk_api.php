@@ -61,7 +61,7 @@ function igk_api_sync_def_evaluate_entries($entries, $table_n, $mysql, $db, $tab
             $continu=false;
             foreach($links as $vlnk){
                 foreach($vlnk as $g){
-                    $cn=$g["Column"];
+                    $cn=$g[IGK_COLUMN_TAGNAME];
                     $ftn=$g["Table"];
                     $clvalue=$tn[$cn];
                     $bck=igk_getv($tables->list, $ftn);

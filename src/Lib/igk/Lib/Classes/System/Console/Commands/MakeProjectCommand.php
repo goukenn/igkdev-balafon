@@ -41,10 +41,10 @@ class MakeProjectCommand extends AppExecCommand
         "--entryNamespace:[namespace]" => "define project entry NS",
         "--desc:[desc]" => "project description",
         "--configs" => "setup project config",
-        "--git" => "flag to enabled git configuration",
-        "--conf-default" => "flag to allow default configuration",
+        "--git" => "flag: to enabled git configuration",
+        "--conf-default" => "flag: to allow default configuration",
         "--force" => "flag force create project",
-        "--noconfig" => "flag disable auto configuration",
+        "--no-config" => "flag disable auto configuration",
         "--conf:[name=value]" => "set configuration",
         "--version" => "application version"
     ];
@@ -66,7 +66,7 @@ class MakeProjectCommand extends AppExecCommand
             return false;
         }
         if ($command->app->getConfigs()->isTemp) {
-            Logger::danger("Create Project in temporary folder is not allowed. please setup your environment");
+            Logger::danger(__("Create Project in temporary folder is not allowed. please setup your environment"));
             return false;
         }
         $controller = StringUtility::CamelClassName($controller);
@@ -158,7 +158,7 @@ EOF;
                     $defaultsrc = substr($defaultsrc, 5);
                 }
             }
-            Logger::info("Setup general configuration");
+            Logger::info(__("Setup general configuration"));
             $prop = (object)["name" => $pname, "description" => $desc];
             $tab = property_exists($command->options, "--conf-default") ? igk_sys_getdefaultctrlconf() : [];
             if (method_exists($type, "GetAdditionalConfigInfo")) {
@@ -167,12 +167,12 @@ EOF;
                 }
             }
             ksort($tab);
-            Logger::info("Configure : ");
+            Logger::info(__("Configure"));
             $names = [
-                "clAppName" => __("name"),
-                "clAppNotActive" => __("Is not Active ?"),
-                "clBasicUriPattern" => __("Entry URI"),
+                "clAppName" => __("Name"),
                 "clTitle" => __("Title"),
+                // "clAppNotActive" => __("Is not Active ?"),
+                "clBasicUriPattern" => __("Entry URI"),
                 "clDataTablePrefix" => __("Tables's Prefix"),
             ];
             foreach ($tab as $key => $value) {
@@ -277,7 +277,20 @@ EOF;
                 ]));
             igk_io_w2file($file, $builder->render());
         };
-
+        $bind[$dir . "/" . IGK_CONF_FOLDER . "/views.php"] = function ($file) {
+            $builder = new PHPScriptBuilder();
+            $builder->uses(Route::class)
+                ->type("function")
+                ->file(basename($file))
+                ->defs(implode("\n", [
+                    "// store the controller configuration - ",
+                    "return [",
+                    '// "default_dir_entry"=>"default",',
+                    '// "is_dir_entry"=>[],',
+                    "];",
+                ]));
+            igk_io_w2file($file, $builder->render());
+        };
         if ($configs)
             $bind[$dir . "/" . IGK_DATA_FOLDER . "/" . IGK_CTRL_CONF_FILE] = function ($file) use ($author, $dir, $configs) {
                 $parse = (object)[];
@@ -346,7 +359,7 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
 
-
+        if (class_exists(\PHPUnit\Framework\TestCase::class))
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/Tests/" . $clname . "Test.php"] = function ($file) use ($controller, $clname) {
             $builder = new PHPScriptBuilder();
             $e_ns = $this->entryNamespace;
@@ -368,10 +381,8 @@ EOF;
 
         if ($use_git) {
             ($force || !is_dir($dir . "/.git")) &&
-                GitHelper::Generate($bind, $dir, $controller, $author, $desc, [
-                    "phpunit-watcher.yml",
-                    "phpunit.xml.dist",
-                    ".phpunit.*",
+                GitHelper::Generate($bind, $dir, $controller, $author, $desc, [                    
+                    "phpunit**",
                     ".phpunit.result.cache",
                 ]);
         }

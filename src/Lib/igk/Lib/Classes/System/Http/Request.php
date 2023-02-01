@@ -10,6 +10,7 @@ namespace IGK\System\Http;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\IInjectable;
+use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
 
 ///<summary>request </summary>
@@ -19,9 +20,13 @@ use IGKException;
  */
 class Request implements IInjectable
 {
+    use ContentSecurityManagementTrait;
+    
     static $sm_instance;
     private $m_params;
     private $js_data;
+    private $m_header_data;
+    private $m_query_info;
     /**
      * prepared request information
      * @var mixed
@@ -38,8 +43,8 @@ class Request implements IInjectable
         return $this->js_data;
     }
     /**
-     * prepare and return the updload data as json forma
-     * @return mixed 
+     * prepare and return the updload data as json object
+     * @return null|object|array
      */
     public function getJsonData(){
         $this->getUploadedData();
@@ -89,10 +94,10 @@ class Request implements IInjectable
             return null;
         $file = (($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF);
         $dfile = implode("/", [rtrim(igk_io_rootdir(),"/"), ltrim($file, "/")]);
-        if (!file_exists($dfile)){
-            // igk_ilog("entry request file is missing.");
-            igk_trace(); 
-            igk_die("Misconfiguration: entry request is missing. $dfile \n");
+        if (!$dfile || !file_exists($dfile)){
+            // // igk_ilog("entry request file is missing.");
+            // igk_trace(); 
+            igk_die("Misconfiguration: Entry request is missing. $dfile \n");
         }
         $t = IGKString::Uri(dirname($file));
         $s = $b;
@@ -103,6 +108,16 @@ class Request implements IInjectable
     }
     private function __construct()
     {
+    }
+    /**
+     * get option header 
+     * @return HeaderData 
+     */
+    public function getHeader(){
+        if (is_null($this->m_header_data)){
+            $this->m_header_data = new HeaderData(igk_get_allheaders());
+        }
+        return $this->m_header_data ;
     }
     /**
      * get the request value
@@ -173,4 +188,47 @@ class Request implements IInjectable
         }
         return $this->get($name);
     }
+    private function getQueryInfo(){
+        if (is_null($this->m_query_info)){
+            $inf = igk_io_query_info();
+            $v_eu = $inf->entryuri;
+            $pos = strpos($v_eu, ';');
+            $inf->options = $pos !== false ? 
+            igk_get_query_options(substr($inf->entryuri, $pos+1)) : [];
+ 
+            $this->m_query_info = $inf;
+        }
+        return $this->m_query_info;
+    }
+    /**
+     * get request query options 
+     * @param string $key to resolv
+     * @param mixed $default 
+     * @return mixed
+     */
+    public function option(string $key, $default=null){
+        $inf = $this->getQueryInfo(); 
+        return igk_getv($inf->options, $key, $default); 
+    }
+    /**
+     * get file info helper
+     * @param string $key 
+     * @return null|array 
+     * @throws IGKException 
+     */
+    public function getFile(string $key):?array{
+        if (isset($_FILES)){
+            return igk_getv($_FILES, $key);
+        }
+        return null;
+    }
+    public function  moveUploadedFile($name, $destination, ?string $requestType=null):?bool{
+        if ($file = $this->getFile($name)){
+            if (($file['size'] == 0) || ($requestType && ($requestType!= $file['type']))){
+                return false;
+            } 
+            return igk_io_move_uploaded_file($file['tmp_name'], $destination);             
+        }
+        return false;
+    }   
 }

@@ -24,6 +24,7 @@ use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\IHtmlContextContainer;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\XML\XMLNodeType;
@@ -861,9 +862,21 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             igk_html_pop_node_parent();
             return $r;
         }
+        // + | --------------------------------------------------------------------                
         // + | invoke macros 
-        if (static::_invokeMacros($name, array_merge([$this], $arguments), $response)) {
-            return $response;
+        // + | 
+        if ($this instanceof IHtmlContextContainer){
+            // class a not found method in         
+            $response = null; 
+            if (HtmlLoadingContext::SurroundWith($this, function($name, $arguments, & $response){
+                return static::_invokeMacros($name, array_merge([$this], $arguments), $response);
+            },$name, $arguments, $response)){
+                return $response;
+            }
+        }else{
+            if (static::_invokeMacros($name, array_merge([$this], $arguments), $response)) {
+                return $response;
+            }
         }
         if ($this->getCanAddChilds()) {
             if (strpos($name, IGK_ADD_PREFIX) === 0) {
@@ -1035,6 +1048,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $this->m_parent = null;
         }
     }
+    /**
+     * get parent
+     * @return ?HtmlItemBase 
+     */
     public function getParentNode()
     {
         return $this->m_parent;
@@ -1501,31 +1518,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                
             }
         }
-        // igk_wln_e("result ", $name, $tab,$tab[0]->render());
-        return $tab;
-
-
-        // if($c){  
-        //     $c = $c->to_array();       
-        //     if($name == "*"){
-        //         $tab=array_merge($tab, $c);
-        //         foreach($c as $k){
-        //             $c=$k->getElementsByTagName($s);
-        //             if(is_array($c) && (count($c) > 0))
-        //                 $tab=array_merge($tab, $c);
-        //         }
-        //     }
-        //     else{
-        //         foreach($c as $k){
-        //             if(strtolower($k->TagName) == $s){
-        //                 $tab[]=$k;
-        //             }
-        //             $c=$k->getElementsByTagName($s);
-        //             if(is_array($c) && (count($c) > 0))
-        //                 $tab=array_merge($tab, $c);
-        //         }
-        //     }
-        // }
-        // return $tab;
+        return $tab;        
     }
 }

@@ -77,7 +77,7 @@ if (isset($argv[1]) && $argv[1]=="--init"){
 if (in_array("--debug", $argv)){
     $fc = $command["--debug"][0];
     $fc([], $command);
-}  
+}     
 //--------------------------------------------------------------------------------
 // | Run the application
 // |

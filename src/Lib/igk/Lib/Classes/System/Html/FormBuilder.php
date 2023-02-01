@@ -149,11 +149,13 @@ class FormBuilder
             }
             $_is_div = !preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type);
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
+            $class_style = 'igk-form-group '.$_type;
             if ($_is_div) {
                 $o .= "<" . $tag . " ";
                 if ($_is_required) {
-                    $o .= "class=\"required\" ";
+                    $class_style .= ' required';
                 }
+                $o .= "class=\"$class_style\" ";
                 $o = rtrim($o) . ">";
             }
             $t_id = igk_getv($v, "id", $k);
@@ -283,7 +285,9 @@ class FormBuilder
                     else {
                         $tattrib["class"] = $def_type;
                     }
-                    // filter attribs
+                    // + | -------------------------------------------------
+                    // + | filter attribs
+                    // + |
                     unset($v["attribs"]["class"]);
                     if ($p = igk_getv($v, 'attribs')){
                         $tattrib = array_merge($tattrib, $p ?? [] );                         

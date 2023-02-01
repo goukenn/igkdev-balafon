@@ -9,6 +9,7 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlContext;
+use IGK\System\Uri;
 
 ///<summary></summary>
 /**
@@ -33,6 +34,7 @@ class RequestViewCommand extends AppExecCommand{
 
         // syntax available for php 8
         $opts = [
+            "--controller:[explicit]"=>"select explicit project controller",
             "--method:[TYPE]"=>"request method type. default is GET",
             "--user:[ID]"=>"user id to use",
             "--render"=>"render default view",        
@@ -55,7 +57,8 @@ class RequestViewCommand extends AppExecCommand{
         ));
     }
     public function exec($command, $controller = null, ?string $request=null) { 
-        if (! ($ctrl = SysUtils::GetControllerByName($controller, false))){
+        $ctrl = $controller ?? igk_getv($command->options, '--controller');
+        if (!$ctrl || !($ctrl = SysUtils::GetControllerByName($controller, false))){
             igk_die('missing controller');
             return -1;
         }
@@ -66,20 +69,14 @@ class RequestViewCommand extends AppExecCommand{
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
         DbCommandHelper::Init($command);
         ServerCommandHelper::Init($command);
+
+        $ctrl->register_autoload();          
+
         if ($id = intval(igk_getv($command->options, '--user'))){
-            if ($user = \IGK\Models\Users::Get('clId', $id)){
-                $ctrl::login($user, null, false);
-            }
+            self::BindUser($ctrl, $id);            
         }
         $render = property_exists($command->options, '--render');
-        if (!$render){
-            Logger::print("request: ".$path);
-            Logger::print("method : ".igk_server()->REQUEST_METHOD);
-        }
-        else {
-            Logger::print("Content-Type: ".igk_server()->CONTENT_TYPE);
-            Logger::print("\n");
-        }
+        
         igk_configs()->default_controller = $ctrl->getName();
         $ctrl->setConfig('no_auto_cache_view', property_exists($command->options, '--no-cache'));
         $this->doRequest($command, $path);
@@ -100,7 +97,13 @@ class RequestViewCommand extends AppExecCommand{
     public function doRequest($command, $path){
         $ctrl = self::GetController(igk_configs()->default_controller, false)
         ?? igk_die("no controller found");
-        
+        $g = new Uri($path);
+        $path = $g->getPath();
+
+        $_SERVER['REQUEST_URI'] = $g->getRequestUri();
+        $_SERVER['QUERY_STRING'] = $g->getQuery(); 
+
+        igk_server()->prepareServerInfo(); 
         $ctrl->setCurrentView($path);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Migrations.php
-// @date: 20221203 14:34:18
+// @date: 20230131 13:55:04
 namespace IGK\Models;
 
 
@@ -22,6 +22,13 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $migration_name, int $migration_batch, string $migration_desc, string $migration_controller, string|datetime $migration_create_at ="NOW()", string|datetime $migration_update_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Migrations extends ModelBase{
+	const FD_CL_ID="clId";
+	const FD_MIGRATIONNAME="migration_name";
+	const FD_MIGRATIONBATCH="migration_batch";
+	const FD_MIGRATIONDESC="migration_desc";
+	const FD_MIGRATIONCONTROLLER="migration_controller";
+	const FD_MIGRATIONCREATEAT="migration_create_at";
+	const FD_MIGRATIONUPDATEAT="migration_update_at";
 	/**
 	* table's name
 	*/

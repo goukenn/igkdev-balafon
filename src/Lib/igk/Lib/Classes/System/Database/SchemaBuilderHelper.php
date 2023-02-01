@@ -22,7 +22,7 @@ class SchemaBuilderHelper{
     protected function _addcolumnAttributes($attributes, $node=null){
         $node = $node ?? $this->_output;
         $c = new DbColumnInfo($attributes);
-        $m = $node->add("Column");
+        $m = $node->add(IGK_COLUMN_TAGNAME);
         foreach($c as $k=>$v){
             $m[$k] = $v;
         } 

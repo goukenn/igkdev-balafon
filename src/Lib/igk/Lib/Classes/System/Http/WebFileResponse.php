@@ -47,7 +47,7 @@ class WebFileResponse extends RequestResponse{
     {
         // +| check for header mimetype according to file extension        
         $s = $this->render();
-        $this->headers[] = "Content-Type: text/html";
+        $this->headers[] = "Content-Type: ". ($this->content_type ?? "text/html");
         $index = count($this->headers)-1;
         $this->headers[] = "Content-Length: ".strlen($s);
         if ($this->zip){

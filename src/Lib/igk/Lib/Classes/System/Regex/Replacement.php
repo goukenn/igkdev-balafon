@@ -33,6 +33,7 @@ class Replacement{
      * @return string 
      */
     public function replace(string $source): string{
+        if (!empty($source))
         foreach($this->infos as $v){
             if ($v->type == 'callback'){
                 $g = $v->replace;
@@ -43,26 +44,35 @@ class Replacement{
                 $source = preg_replace($v->pattern, $v->replace, $source);
             }
         }
+        $error = preg_last_error();
         return $source;
     }
     /**
      * add replacement object
      * @param string $pattern 
      * @param string $replace 
-     * @return void 
+     * @return static 
      */
     public function add(string $pattern, string $replace){
         $rp = new ReplacementObject();
         $rp->pattern = $pattern;
         $rp->replace = $replace;
         $this->infos[] = $rp;
+        return $this;
     }
+    /**
+     * add callable
+     * @param string $pattern 
+     * @param callable $callback 
+     * @return $this 
+     */
     public function addCallable(string $pattern, callable $callback){
         $rp = new ReplacementObject();
         $rp->pattern = $pattern;
         $rp->replace = $callback;
         $rp->type = 'callback';
         $this->infos[] = $rp;
+        return $this;
     }
     public function clear(){
         $this->infos = [];

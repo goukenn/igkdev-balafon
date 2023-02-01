@@ -26,6 +26,7 @@ use IGKException;
 class PHPScriptBuilder
 {
     var $no_header_comment;
+    var $author;
 
     public function __construct()
     {
@@ -117,7 +118,6 @@ class PHPScriptBuilder
             {
                 $_uses = [$_uses];
             }
-            // $_uses = $t_uses; 
         }
 
         $defs = "";
@@ -183,6 +183,12 @@ class PHPScriptBuilder
                     $o .= " implements " . implode(",", array_map(function($a){ return basename(igk_uri($a)); }, $e));
                 }
                 $o .= "{\n";
+                if (in_array($this->type, ['class', 'trait']) && ($traits = $this->traits)){
+                    $o.= implode("\n", array_map(function($a) use (& $_uses){
+                        $_uses[$a] = $a;
+                        return "\tuse ".basename(igk_uri($a)).";";
+                    } , $traits))."\n";
+                } 
                 $o .= rtrim($defs);
                 $o .= "\n}";
             default:

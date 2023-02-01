@@ -27,15 +27,15 @@ class DbModuleReferenceTable implements ArrayAccess{
         $this->m_controller = $controller;
         $this->m_source =  $source;
     }
-    public function udpate(array & $tables = null){
-        $src = & $this->m_source;
-        $def = $this->m_tabledef;
-        $rc = $this->m_request_changed;
-        if ($rc){
-            foreach($rc as $k=>$v){
+    /**
+     * update reference
+     * @return array 
+     */
+    public function udpate(){              
+        if ($rc = $this->m_request_changed){
+            foreach($rc as $v){
                 $v->tableRowReference = $v->columnInfo;
             }
-            DbSchemaDefinitions::UpdateTableDefition($this->m_controller, $rc);
         }
         return $this->m_source;
     }
@@ -49,10 +49,7 @@ class DbModuleReferenceTable implements ArrayAccess{
         // possibility of definition in global system 
         /** load only definition without altering the table */
         $table = $this->m_controller->resolvTableDefinition($n);
-        // $table = & DbSchemaDefinitions::GetDataTableDefinition(
-        //     $this->m_controller->getDataAdapterName(),
-        //     $n
-        // );
+      
         if (is_null($table) || is_array($table)){
             igk_wln_e(__FILE__.":".__LINE__,  "global table not found ",$n, $table);
         }
@@ -76,7 +73,3 @@ class DbModuleReferenceTable implements ArrayAccess{
 }
 
 
-function igk_array_unique_string($sep, $source, $add){
-    return implode(",", array_unique(array_merge(explode($sep, $source), 
-        explode($sep, $add))));
-}

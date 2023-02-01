@@ -89,8 +89,13 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         }
         Logger::info("Sync module : " . $module->getName());
         $install_dir = $setting["module_dir"]; //igk_io_collapse_path($module->getDeclaredDir());
-        Logger::info("install_dir : " . $install_dir);
-
+        if (empty($install_dir)){
+            $dir = $setting["application_dir"] ?? igk_die("no application directory");
+            $install_dir .= $dir."/Packages/Modules";
+            // igk_die("install module directorty not set");
+            
+        }
+        Logger::info("install_dir : " . $install_dir); 
         $file = tempnam(sys_get_temp_dir(), "blf");
         $script_install = igk_io_sys_tempnam("blf_module_script");
         igk_sys_zip_project($module, $file, IGK_AUTHOR, [
@@ -103,10 +108,10 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         $token = null;
         $name = "module" . $module->getName() . ".zip";
         $sb = $this->_getInstallScript($token, $name);
-        $builder = new PHPScriptBuilder();
-        $builder->type("function")
-            ->defs($sb);
-        igk_io_w2file($script_install, $builder->render());
+        // $builder = new PHPScriptBuilder();
+        // $builder->type("function")
+        //     ->defs($sb);
+        igk_io_w2file($script_install, $sb);
 
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
@@ -128,7 +133,8 @@ class SyncModuleCommand extends SyncAppExecCommandBase
             ],
             null,
             [
-                "install-token" => $token
+                "install-token" => $token,
+                "archive"=>$name,
             ]
         );
 
@@ -145,20 +151,13 @@ class SyncModuleCommand extends SyncAppExecCommandBase
             }
         } else {
             Logger::danger("install script failed");
-            Logger::info("status : " . $status);
+            Logger::warn("status : " . $status);
+            Logger::warn($response);
         }
     }
     private function _getInstallScript(&$token, $name)
     {
-        $sb = new StringBuilder();
-        $token = date("Ymd") . rand(2, 85) . igk_create_guid();
-        $sb->appendLine(implode("\n", [
-            "\$token = '" . $token . "';",
-            "\$archive= '" . $name . "';",
-        ]));
-        $sb->appendLine("?>" . file_get_contents(IGK_LIB_DIR . "/Inc/core/install.module.script.pinc"));
-        $sb->appendLine("echo 'finish install'; @unlink(__FILE__);");
-        return $sb;
+        return self::GetScriptInstall('install.module.script.pinc', $token, $name);      
     }
     protected function removeCache($ftp, $app_dir)
     {

@@ -250,7 +250,7 @@ class HtmlRenderer
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
-                            if (is_object($v_c )){
+                            if (is_object($v_c)) {
                                 igk_dev_wln_e("object return ", get_class($i), $v_c);
                             }
                             $s .=  $v_c . $ln;
@@ -279,17 +279,14 @@ class HtmlRenderer
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);
 
-                // if (!empty($content))
-                // igk_debug_wln("render :".$content);
-
-                if (property_exists($options, "aside")) {
-
-                    // if (!is_array($options->aside)) {
-                    // }
+                
+                // + | --------------------------------------------------------------------
+                // + | aside array of node that might be render after the cibling node
+                // + |                
+                if (property_exists($options, "aside")) { 
                     $rf = array_reverse($options->aside);
                     $tab = array_merge($tab, $rf);
-                    unset($options->aside, $rf);
-                    //igk_wln_e("bind aside");
+                    unset($options->aside, $rf); 
                 }
                 $have_childs = $childs && (count($childs) > 0);
                 $have_content = $have_childs || !empty($content);
@@ -390,18 +387,18 @@ class HtmlRenderer
     {
         $filter = $item->getPrefilterAttribute();
         $attribs = $item->getAttributes();
-        if ($filter && $attribs){
+        if ($filter && $attribs) {
             $v_fattribs = new HtmlFilterAttributeArray($attribs);
-            $attribs = $filter->filter($v_fattribs); 
+            $attribs = $filter->filter($v_fattribs);
         }
 
         $out = IGK_STR_EMPTY;
         igk_get_defined_ns($item, $out, $options);
         if ($options && ($options->Context == "mail")) {
             self::MailThemeRendering($item, $attribs, $options);
-        }   
+        }
         if ($item->getHasAttributes()) {
-            $v_attrib = $attribs;  
+            $v_attrib = $attribs;
             if (is_array($v_attrib)) {
                 igk_dev_wln_e(
                     __FILE__ . ":" . __LINE__,
@@ -416,8 +413,7 @@ class HtmlRenderer
             if (!empty($out)) {
                 $out .= " ";
             }
-            $out .= self::GetAttributeArrayToString($attrs , $options);
-           
+            $out .= self::GetAttributeArrayToString($attrs, $options);
         }
         $event = $item->getFlag(HtmlItemBase::EVENTS);
         if ($event) {
@@ -429,13 +425,29 @@ class HtmlRenderer
         }
         return  rtrim($out);
     }
-    public static function GetAttributeArrayToString($attrs , $options=null){
+    public static function GetAttributeArrayToString($attrs, $options = null)
+    {
+        /**
+         * @var mixed|HtmlExpressionAttribute $v
+         */
         $out = "";
+        $ac_keys = [];
         foreach ($attrs as $k => $v) {
-            if (($k == "@activated") && is_array($v)) {
-                //$out .= " ";
+            if ((($k == "@activated") && is_array($v))
+             || ((is_numeric($k) && is_string($v) && ($v = [$v=>$v])))
+             )
+             { 
                 foreach ($v as $ak => $av) {
-                    $out .= $ak . " ";
+                    if ($av && !isset($ac_keys[$k])){
+                        if (is_bool($av)){
+                            if ($av){
+                                $out .= $ak . "=\"".$av."\" ";     
+                            }
+                        }else{
+                            $out .= $ak . " ";  
+                        }
+                        $ac_keys[$k] = 1;
+                    }
                 }
                 continue;
             }
@@ -456,8 +468,16 @@ class HtmlRenderer
                     igk_dev_wln_e("/!\\ don't send array [$k] as attribute: ", $k, $v);
                 }
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
-                    if (!empty($cv = $v->getValue($options)) || is_string($cv)) {
-                        $out .= $k . "=\"" . $cv . "\" ";
+                    $v_cv = $v->getValue($options);
+                    if ($v_cv instanceof IHtmlTemplateAttribute) {
+                        $vc = addslashes( json_encode(
+                            [$k, $v_cv->expression()])
+                        );
+                        $out .= 'igk:template-attr="'.$vc.'" ';
+                    } else {
+                        if (!empty($v_cv) || is_string($v_cv)) {
+                            $out .= $k . "=\"" . $v_cv . "\" ";
+                        }
                     }
                     continue;
                 } else {
@@ -488,16 +508,17 @@ class HtmlRenderer
      * @throws Exception 
      * @throws CssParserException 
      */
-    public static function GetAttributeArray(HtmlItemBase $item, $options=null):array{
+    public static function GetAttributeArray(HtmlItemBase $item, $options = null): array
+    {
         $attribs = $item->getAttributes();
-     
+
         $_result = [];
         $k = null;
         $v = null;
         igk_get_defined_ns($item, $out, $options);
         if ($options && ($options->Context == "mail")) {
             self::MailThemeRendering($item, $attribs, $options);
-        }   
+        }
         if ($item->getHasAttributes()) {
             $v_attrib = $item->getAttributes();
             if (is_array($v_attrib)) {
@@ -510,7 +531,7 @@ class HtmlRenderer
                 $attribs = $v_attrib;
             } else {
                 $attrs = $v_attrib->to_array();
-            }            
+            }
             foreach ($attrs as $k => $v) {
                 if (($k == "@activated") && is_array($v)) {
                     //$out .= " ";
@@ -525,7 +546,7 @@ class HtmlRenderer
                     // if(!empty($out))
                     //     $out .= " ";
                     // $out .= $k . " ";
-                    $_result[$k] = $k.'';
+                    $_result[$k] = $k . '';
                     continue;
                 }
 
@@ -564,7 +585,7 @@ class HtmlRenderer
             $s = "";
             foreach ($event as $k => $v) {
                 $_result[] = $v->getValue();
-            } 
+            }
         }
         return  $_result;
     }

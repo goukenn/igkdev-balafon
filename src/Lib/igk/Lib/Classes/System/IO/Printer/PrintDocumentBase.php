@@ -19,6 +19,7 @@ abstract class PrintDocumentBase{
     public function printPdf(){
         $this->generateDocument($this->printer);
         $this->printer->printPdf();
+        $this->printer->resetDevice();
     }
     /**
      * override this method to generate printing documnet
@@ -26,8 +27,12 @@ abstract class PrintDocumentBase{
      */
     protected abstract function generateDocument(IPrinterService $printer);
 
-    protected function header(IPrinterService $printer);
+    protected function header(IPrinterService $printer){
 
-    protected function footer(IPrinterService $printer);
+    }
 
+    protected function footer(IPrinterService $printer){
+
+    }
+    
 }

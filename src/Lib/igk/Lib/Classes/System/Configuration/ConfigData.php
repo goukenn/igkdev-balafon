@@ -78,16 +78,31 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         return igk_getv($this->m_configEntries, $key);
     }
+    
     ///<summary></summary>
     ///<param name="key"></param>
     /**
      * 
      * @param mixed $key
      */
-    public function __isset($key)
-    {
-        return isset($this->m_configEntries[$key]);
+    // public function __isset($key)
+    // {
+    //     return isset($this->m_configEntries[$key]);
+    // }
+    /**
+     * 
+     * @param mixed $n 
+     * @return bool 
+     */
+    public function __isset($n){ 
+        if ($this->m_extra) {        
+            if (key_exists($n, $this->m_extra)){
+                return true;
+            }
+        }
+        return isset($this->m_configEntries[$n]);
     }
+
     ///<summary></summary>
     ///<param name="key"></param>
     ///<param name="value"></param>
@@ -136,7 +151,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     }
     ///<summary>get default stored configuration data</summary>
     /**
-     * get default stored configuration data
+     * get default global stored configuration data
      * @param mixed $xpath 
      * @param mixed $default 
      * @return mixed 
@@ -145,6 +160,14 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     public function get($xpath, $default = null)
     {
         return igk_conf_get($this->m_configEntries, $xpath, $default);
+    }
+    /**
+     * get environment data
+     * @param mixed $xpath 
+     * @return mixed 
+     */
+    public function real($xpath){
+        return $this->{$xpath};
     }
     /**
      * check if contain extra properties
@@ -289,4 +312,5 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     public function assets_cache_output($default=3600){
         return $this->get(__FUNCTION__, $default);
     }
+   
 }

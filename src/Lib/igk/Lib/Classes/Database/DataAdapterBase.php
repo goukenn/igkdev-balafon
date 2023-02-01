@@ -31,6 +31,25 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      */
     var $resolveLinkListener;
 
+    function getHasError(){
+        return false;
+    }
+    function getErrorCode(){
+        return 0;
+    }
+    function getError(){
+        return 0;
+    }
+
+    /**
+     * override it to check if can process query execution
+     * @param string $context context that ask to process 
+     * @return bool
+     */
+    public function canProcess(string $context){
+        return true;
+    }
+
     public function getEngineSupport():bool{
         return true;
     }
@@ -100,27 +119,39 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
         }
         $this->m_relations->entries[$table][] = $entries; 
     }
+    /**
+     * init db info 
+     * @param mixed $ctrl 
+     * @return void 
+     */
     public function beginInitDb($ctrl=null){
         $this->m_relations = (object)["relations"=>[], "entries"=>[], "ctrl"=>$ctrl];
     }
+    /**
+     * end db init info
+     * @return void 
+     * @throws IGKException 
+     */
     public function endInitDb(){
-        if (is_null($this->m_relations)){
-            igk_trace();
-            igk_dev_wln_e("please call beginInitDb first");
+        if (is_null($this->m_relations)){            
+            igk_dev_wln_e(__FILE__.":".__LINE__, "please call beginInitDb first");
         }
         $_grammar = $this->getGrammar();
         $links = [];
         if ($this->m_relations->relations){
             foreach($this->m_relations->relations as $tbname=>$r){
                 foreach($r as $m=>$p){
-                    $c = clone($p["column"]);
-                    // if (strstr($tbname, 'prospection')){
-                    // Prospection ERROR
-                    //     $p["ctrl"] 
-                    //     igk_dev_wln("failed...".get_class($p["ctrl"]));
-                    // }
-                    $c->clLinkType = igk_db_get_table_name($c->clLinkType, $p["ctrl"]);
-                    if (! $this->sendQuery($query = $_grammar->add_foreign_key( $tbname, $c))){
+                    $ctrl = $p["ctrl"];
+                    $c = clone($p["column"]);                     
+                    $c->clLinkType = igk_db_get_table_name($c->clLinkType, $ctrl);
+                    if ($c->clLinkConstraintName){
+                        $c->clLinkConstraintName = igk_db_get_table_name($c->clLinkConstraintName, $ctrl);
+                    }
+                    $query = $_grammar->add_foreign_key( $tbname, $c);
+                    if (is_null($query)){
+                        igk_die("add_foreign_key query is null ");
+                    }
+                    if (! $this->sendQuery($query)){
                         _log(implode("\n", ["query failed: ",$query, $this->last_error()]));
                     }
                     if (!isset($links[$tbname])){
@@ -186,9 +217,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @param mixed $options extra option to pass
      * @param bool $autoclose close the connection
      * @return null|bool|IDbQueryResult result data
+     * @throws \Error if query is null
      */
-    public function sendQuery($query, $throwex=true, $options=null, $autoclose=false){ 
-    }
+    public abstract function sendQuery($query, $throwex=true, $options=null, $autoclose=false);
     /**
      * 
      * @return null|IDbQueryGrammar grammar object
@@ -374,6 +405,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     * 
     * @param mixed $tablename
     * @param mixed $entries
+    * 
     */
     public function delete($tablename, $condition=null){
         igk_die("function ".__FUNCTION__." not implements");
@@ -546,10 +578,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
         }
         else{
             $v_tr =array();
-            $m="";
-            // class_alias(\IGK\System\Database\MySQL\DataAdapter::class, 
-            // \IGK\System\Database\MySQLDataAdapter::class, true);
-
+            $m=""; 
             foreach(get_declared_classes() as $k=>$v){
                 $cl = basename(igk_uri($v));
                 
@@ -624,8 +653,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     ///<summary></summary>
     ///<param name="tbname"></param>
     /**
-    * 
-    * @param mixed $tbname
+    * select data form object
+    * @param null|object|mixed|IQueryResult
     */
     public function selectAll($tbname){
         return null;

@@ -149,15 +149,16 @@ class IGKGD {
     ///<param name="imgwidth"></param>
     ///<param name="imgheight"></param>
     /**
-    * 
+    * create a IGKGD instance 
     * @param mixed $imgwidth
     * @param mixed $imgheight
+    * @return static
     */
     public static function Create($imgwidth, $imgheight){
         if (function_exists("imagecreatetruecolor")){
             $v_img=imagecreatetruecolor($imgwidth, $imgheight); 
             if(is_object($v_img) || is_resource($v_img)){
-                return new IGKGD($imgwidth, $imgheight, $v_img);
+                return new self($imgwidth, $imgheight, $v_img);
             }
         }
         else 
@@ -380,7 +381,7 @@ class IGKGD {
     }
     ///<summary></summary>
     /**
-    * 
+    * output the image
     */
     public function render($type=null, $quality=null){
         if (($type===null) || ($type=="PNG"))

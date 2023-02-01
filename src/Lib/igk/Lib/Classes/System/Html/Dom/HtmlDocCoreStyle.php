@@ -5,10 +5,12 @@
 // @date: 20220823 14:11:34
 // @desc: core style uri
 namespace IGK\System\Html\Dom;
+
+use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
 
 /**
- * parent css link
+ * Document core style manager
  * @package IGK\System\Html\Dom
  */
 class HtmlDocCoreStyle extends HtmlCssLinkNode{
@@ -22,10 +24,15 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
         $o && ($doc = igk_getv($o, "Document"));
         if ($doc && $doc->noCoreCss){
             return false;
-        }  
+        } 
+        // if ($ctrl = ViewHelper::CurrentCtrl())
+        // {
+        //     // resolve document assets 
+        //     $rc = $ctrl->asset("/main.css");
+
+        //     return false;
+        // }
+
         return parent::__AcceptRender($o);
-    }
-    protected function initialize(){
-        parent::initialize(); 
-    }
+    } 
 }

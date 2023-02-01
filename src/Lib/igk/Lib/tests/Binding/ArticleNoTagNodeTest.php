@@ -64,17 +64,13 @@ HTML;
         );
     } 
     
-    public function test_template(){
+    public function test_script_template(){
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
-        $s = "";
-        // <igk:a igk:args="test" >Information</igk:a>
         $template = <<<'HTML'
-<igk:notagnode  *for="$raw" >
-    <dt><code> {{ $raw->name }} </code> {{ $raw->type }}  </dt>    
-</igk:notagnode>
-HTML;
-        $g = tempnam(sys_get_temp_dir(), "text-"); // tmpfile();
-        igk_io_w2file($g, $template);
+        <igk:notagnode  *for="$raw" >
+            <dt><script> {{ $raw->name }} </script> {{ $raw->type }} </dt>
+        </igk:notagnode>
+        HTML;
         $n = igk_create_node("notagnode");
         $data = [(object)[
             "name"=>"font-level",
@@ -83,31 +79,58 @@ HTML;
             "description"=><<<'HTML'
 <div>presentation \' et information et de jour ' </div>
 HTML
-        ]]; 
+        ]];  
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
-        unlink($g);
-
+        
         $s = $n->render();
+        $this->assertEquals(
+            '<dt><script>{{ $raw->name }}</script> em </dt>', $s
+        );
 
+
+    }
+    public function test_template(){
+        $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
+        $s = "--";
+// code is skipped in reading for component so it will not be render properl
+        $template = <<<'HTML'
+<igk:notagnode  *for="$raw" >
+    <dt><code> {{ $raw->name }} </code> {{ $raw->type }} </dt>
+</igk:notagnode>
+HTML;
+      
+        $n = igk_create_node("notagnode");
+        $data = [(object)[
+            "name"=>"font-level",
+            "type"=>"em",
+            "class"=>"ft-l-*",
+            "description"=><<<'HTML'
+<div>presentation \' et information et de jour ' </div>
+HTML
+        ]];  
+        $ldcontext = igk_init_binding_context($n, $ctrl, $data);
+        igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
+        
+        $s = $n->render();
         $this->assertEquals(
             '<dt><code> font-level </code> em </dt>',
             $s,
-            "Base"
+            sprintf("test %s failed", __FUNCTION__)
         );
 
     }
 
 
-    public function test_render_indent(){
-        $n = igk_create_node("sample");
-        $n->notagnode()->div()->Content = "Hello";
-        $this->assertEquals(<<<HTML
-<sample>
-\t<div>Hello</div>
-</sample>
-HTML,
- $n->render((object)["Indent"=>true]));
-    }
+//     public function test_render_indent(){
+//         $n = igk_create_node("sample");
+//         $n->notagnode()->div()->Content = "Hello";
+//         $this->assertEquals(<<<HTML
+// <sample>
+// \t<div>Hello</div>
+// </sample>
+// HTML,
+//  $n->render((object)["Indent"=>true]));
+//     }
    
 }

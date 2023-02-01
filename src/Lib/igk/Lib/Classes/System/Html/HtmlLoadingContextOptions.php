@@ -40,4 +40,10 @@ class HtmlLoadingContextOptions{
      * @var mixed
      */
     var $hookExpression;
+
+    /**
+     * engine node
+     * @var ?HtmlNode
+     */
+    var $engineNode;
 }

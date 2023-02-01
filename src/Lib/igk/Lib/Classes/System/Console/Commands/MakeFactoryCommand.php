@@ -48,7 +48,9 @@ class MakeFactoryCommand extends AppExecCommand
         }
 
         $bind = [];
-        $fields = [];
+        $fields = []; 
+        $ctrl->register_autoload(); 
+
         if ($g = $ctrl::model($modelname)){
             $fields = (array)$g::createEmptyRow();
         }

@@ -99,4 +99,5 @@ interface IDataDriver{
      * @return bool 
      */
     function constraintExists(string $name):bool;
+    function constraintForeignKeyExists(string $name):bool;
 }

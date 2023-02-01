@@ -60,7 +60,13 @@ class MacrosHelper
         return igk_getv(self::$macros, $name);
     }
 
-
+    /**
+     * get user auth 
+     * @param Users $user 
+     * @param mixed $auths 
+     * @param bool $strict 
+     * @return bool 
+     */
     private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
         /// MARK: auth users 
         // if (igk_environment()->isDev())

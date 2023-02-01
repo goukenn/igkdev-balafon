@@ -1707,9 +1707,11 @@ $l['ClAuth']= 'Autorisation';
 $l['clMailPwdConfirm']= 'Re - Mot de passe';
 $l['clContactTo']= 'Contact';
 $l['confirm password']= 'Confirmer le mot de passe';
-
 $l['email'] = "courriel";
 $l['lb.clguid'] = 'Identifiant numérique';
 $l['lb.clcreate_at'] = 'Créer le';
 $l['lb.clupdate_at'] = 'Dernière mis à jour';
 $l['Privacy and cookies'] = 'Confidentialité et cookies';
+
+
+$l['country.BE'] = 'Belgique';

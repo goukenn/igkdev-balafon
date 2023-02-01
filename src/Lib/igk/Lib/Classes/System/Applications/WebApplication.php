@@ -38,7 +38,11 @@ require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
  */
 class WebApplication extends IGKApplicationBase
 {
+    protected $file;
 
+    public function getEntryfile(){
+        return $this->file;
+    }
     private function runEngine($render = true)
     {
         throw new NotImplementException(__METHOD__);        
@@ -173,7 +177,7 @@ class WebApplication extends IGKApplicationBase
      * @throws Exception 
      */
     public function handleRequest(string $file, bool $render=true)
-    {
+    {  
         $srv = igk_server();
         $requestHandler = RequestHandler::getInstance();
         // 1. handle controller first
@@ -239,11 +243,11 @@ class WebApplication extends IGKApplicationBase
                 }
                 igk_exit();
             }
+        
             $requestHandler->handle_route($path_info);
             // + |-------------------------------------------------------
             // + | configuration handle
-            //
-           // igk_wln_e( __FILE__.":".__LINE__, "configuration", $path_info);
+            // + |
             if (!igk_environment()->noWebConfiguration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
@@ -297,7 +301,8 @@ class WebApplication extends IGKApplicationBase
         $config = igk_configs();
         if ($config->force_secure_redirection) {            
             $tp = igk_server()->SERVER_PORT;
-            $sport = array_map('trim', array_filter(explode(',', $config->secure_port ?? 443)));            
+            $csport = $config->secure_port; 
+            $sport = array_map('trim', array_filter(explode(',', $csport ?? 443)));            
             if (!in_array($tp, $sport)){
                 igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
                 igk_exit();

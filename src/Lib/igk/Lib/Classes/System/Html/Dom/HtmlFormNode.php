@@ -24,6 +24,10 @@ final class HtmlFormNode extends HtmlNode
     private $m_nofoot;
     private $m_notitle;
     private $topdiv;
+    public function multipart(){
+        $this['enctype'] = 'multipart/form-data';
+        return $this;
+    }
     ///<summary></summary>
     ///<param name="o" default="null"></param>
     /**
@@ -234,6 +238,7 @@ final class HtmlFormNode extends HtmlNode
     public function setEncType($value)
     {
         $this->m_encType = $value;
+        $this['enctype'] = $value;
         return $this;
     }
     ///<summary></summary>

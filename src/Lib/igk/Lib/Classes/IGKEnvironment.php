@@ -11,6 +11,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGK\Server;
+use IGK\System\IO\FakeInput;
 use IGK\System\IO\FileSystem;
 use IGK\System\Providers\ClassProvider;
 
@@ -624,7 +625,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     /**
      * pop environment array variable
      * @param string $key key to get
-     * @return void 
+     * @return mixed 
      */
     public function pop($key)
     {
@@ -744,5 +745,12 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         $this->set('cookie_name', $name);
         return $this;
+    }
+    /**
+     * get input for input handling
+     * @return null|FakeInput 
+     */
+    public function FakerInput(): ?FakeInput{
+        return $this->get(__FUNCTION__);
     }
 }

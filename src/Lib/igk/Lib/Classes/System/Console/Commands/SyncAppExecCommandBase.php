@@ -30,6 +30,8 @@ namespace IGK\System\Console\Commands;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\IO\File\PHPScriptBuilderUtility;
+use IGK\System\IO\StringBuilder;
 
 abstract class SyncAppExecCommandBase extends AppExecCommand{
     // + | entry config tagname
@@ -50,18 +52,29 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             Logger::danger(sprintf("No %s available", self::SELF_KEY_CONFIG));
             return -100;
         }        
-        $name = igk_getv($command->options, "--name");        
+        $name = igk_getv($command->options, "--name"); 
+        $defsync = null;       
         if (is_array($sync)){
             foreach($sync as $s){ 
                 if (igk_getv($s, "name") == $name){
                     $sync = $s;
                     break;
                 }
+                if (igk_bool_val(igk_getv($s, "default"))){
+                    $defsync = $s;                    
+                }
             }
-        }  
+        } 
+        if ($defsync && is_array($sync)) {
+            $sync = $defsync;
+        }
         if (is_array($sync) && !empty($name)){
             Logger::danger("No name found");
             return -200;
+        }
+        if (!empty($name) && ($sync->name != $name)){
+            Logger::danger(sprintf("missing name :  [%s].", $name));
+            return -203;
         }
         if (is_array($sync)){
             Logger::danger(sprintf("no default %s configuration found.", self::SELF_KEY_CONFIG));
@@ -127,5 +140,45 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     protected function emptyDir($ftp, string $dir){
         FtpHelper::RmDir($ftp, $dir); 
         FtpHelper::CreateDir($ftp, $dir);
+    }
+
+    /**
+     * get install script 
+     */
+    protected static function GetScriptInstall($script, & $token, $name=null){
+        $src = null;
+        if (is_array($script)){
+            $tab = array_filter(array_map(function($a){
+                if (is_file($f = IGK_LIB_DIR."/Inc/core/".$a)){
+                    return $f;
+                }
+                return null;
+            }, $script));
+            $src = PHPScriptBuilderUtility::MergeSource(        
+                ...$tab        
+            );
+         
+        }else{
+            $file  = IGK_LIB_DIR . "/Inc/core/".$script;
+            if (!file_exists($file)){
+                return false;
+            }
+            $src = file_get_contents($file);
+        }
+        if (empty($src)){
+            return false;
+        }
+        $sb = new StringBuilder();
+        $token = date("Ymd") . rand(2, 85) . igk_create_guid();
+        $sb->appendLine(implode("\n", array_filter([
+            "\$token = '" . $token . "';",
+           $name ?  "\$archive= '" . $name . "';" : null,
+        ])));
+
+        $src = str_replace("// %token%", $sb."", $src);
+        $sb->clear();
+        $sb->appendLine($src);
+        $sb->appendLine("@unlink(__FILE__);");        
+        return $sb."";
     }
 }

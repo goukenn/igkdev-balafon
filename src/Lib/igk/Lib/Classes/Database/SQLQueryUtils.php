@@ -40,6 +40,18 @@ class SQLQueryUtils{
     ///<param name="desc" default="null"></param>
     ///<param name="noengine"></param>
     ///<param name="nocomment"></param>
+    /**
+     * 
+     * @param mixed $tbname 
+     * @param mixed $columninfo 
+     * @param mixed $desc 
+     * @param mixed $adapter 
+     * @param int $noengine 
+     * @param int $nocomment 
+     * @return string 
+     * @throws IGKException 
+     * @deprecated use SQLGrammar 
+     */
     public static function CreateTableQuery($tbname, $columninfo, $desc=null, $adapter=null, $noengine=0, $nocomment=0){
         $query="CREATE TABLE IF NOT EXISTS `".igk_mysql_db_tbname($tbname)."`(";
         $tb=false;
@@ -153,10 +165,13 @@ class SQLQueryUtils{
                     $primary .= ",";
                 $primary .= "`".$v_name."`";
             }
-            if(($v->clIsIndex || $v->clLinkType) && !$v->clIsUnique && !$v->clIsUniqueColumnMember && $v->clIsPrimary){
-                if(!empty($findex))
+            if ($v->clIsIndex ){
+
+                if( ($v->clLinkType) && !$v->clIsUnique && !$v->clIsUniqueColumnMember && $v->clIsPrimary){
+                    if(!empty($findex))
                     $findex .= ",";
-                $findex .= "KEY `".$v_name."_index` (`".$v_name."`)";
+                    $findex .= "KEY `".$v_name."_index` (`".$v_name."`)";
+                }
             }
             unset($tinf[$primkey]);
         }

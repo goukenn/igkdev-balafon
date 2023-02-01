@@ -7,7 +7,7 @@
 
 namespace IGK\System\Html\Templates;
 
-use IGK\Exceptions\BindingContextPropertyNotFoundException;
+use IGK\System\Exceptions\BindingContextPropertyNotFoundException;
 
 /**
  * extra binding context
@@ -31,6 +31,9 @@ class BindingContextInfo{
         return json_encode(array_filter((array)$this));
     }
     public function __get($n){
+        if (is_object($this->raw) && property_exists($this->raw, $n)){
+            return $this->raw->$n;
+        }
         throw new BindingContextPropertyNotFoundException($n);
     }
 

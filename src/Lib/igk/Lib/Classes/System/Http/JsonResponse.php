@@ -19,10 +19,20 @@ class JsonResponse extends RequestResponse{
     var $data;
     var $headers = ["Content-Type:application/json"];
     var $ignore_empty = true;
-    public function __construct($data, $code=200)
+    /**
+     * pretty print 
+     * @var ?bool
+     */
+    var $pretty_print;
+    public function __construct($data, $code=200, $headers=null)
     {
+        $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions();
         $this->data = $data;
         $this->code = $code;
+        if (!is_null($headers)){
+            $this->headers = array_merge($headers, $this->headers);
+        }
+        parent::__construct();
     }
     /**
      * render json response
@@ -43,6 +53,10 @@ class JsonResponse extends RequestResponse{
         } else if (is_string($n)){
             $s = $n;
         }
+        if ($this->pretty_print){
+            echo json_encode(json_decode($s), JSON_PRETTY_PRINT);            
+            return;
+        } 
         igk_wl($s);  
     }
 }

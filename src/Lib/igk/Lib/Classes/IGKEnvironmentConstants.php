@@ -20,6 +20,7 @@ abstract class IGKEnvironmentConstants{
      const VIEW_CURRENT_ACTION=self::CURRENT_CTRL+3;
      const VIEW_HANDLE_ACTIONS=self::CURRENT_CTRL+4;
      const VIEW_INC_VIEW= self::CURRENT_CTRL+5;
+     
      /**
       * 
       */
@@ -35,6 +36,7 @@ abstract class IGKEnvironmentConstants{
      const IGNORE_LIB_DIR =self::CURRENT_CTRL+9;
      const NOT_VISIBLE_CTRL = self::CURRENT_CTRL+10; // "sys://ctrl/notvisible"; 
      const ARTICLE_CHAIN_CONTEXT = self::CURRENT_CTRL+11;// "sys://article_chain";
+
      const MODULES =  "sys://module";
      const REQUIRE_MODULES = "sys://require_mods";
      /**
@@ -46,7 +48,8 @@ abstract class IGKEnvironmentConstants{
 
      // store component initiators environment - for speed up node creation
      const COMPONENT_INITIATORS = "component_initiators";
-
+     const CURRENT_USER= self::CURRENT_CTRL+30;
+     
      // environment list
      const DEV_ENV = "DEV";
      const OPS_ENV = "OPS";

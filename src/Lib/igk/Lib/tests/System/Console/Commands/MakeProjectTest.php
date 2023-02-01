@@ -17,6 +17,7 @@ class MakeProjectTest extends BaseTestCase{
         $build["createAt"] = '20130101 12:00:00';
         $c = $build->comment("data schema"); 
         $out = $build->render((object)["Context"=>"XML", "Indent"=>true]); 
+    
         $this->assertEquals(
             <<<XML
 <data-schemas version="1.0" author="C.A.D BONDJE DOUE" createAt="20130101 12:00:00">

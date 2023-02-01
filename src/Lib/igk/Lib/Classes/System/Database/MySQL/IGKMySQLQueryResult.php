@@ -118,6 +118,12 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
      * @throws EnvironmentArrayException 
      */
     public static function CreateResult($dbresult, $query=null, $options=null){
+
+        // + | -------------------------------------------------------------------------------------------------
+        // + | if option callable - filter for fetch array if return is null . stop fetch. if false =>skip fetch
+        // + |
+        
+
         $_handle=$options && igk_getv($options, 'handle');
         $no_primary = igk_getv($options, "NoPrimaryKey");
         if(!$_handle){
@@ -201,7 +207,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
 
             }
             $obj=  DbQueryRowObj::Create($t);
-            if($callback && !$callback($obj)){
+            if($callback && !($v_rp = $callback($obj))){
+                if (is_null($v_rp)){
+                    // stop fetching
+                    break;
+                }
                 continue;
             }
             $c++;

@@ -10,10 +10,19 @@ use IGK\System\Delegates\InvocatorListDelegate;
 
 ///<summary></summary>
 /**
-* 
+* project helper
 * @package IGK\Helper
 */
 class Project{
+    /**
+     * get default project ignore library
+     * @return array 
+     */
+    public static function IgnoreDefaultDir(){
+        return array_fill_keys([
+            '.git', '.vscode', 'node_modules', 'DS_Store'
+        ],1);
+    }
     public static function GetProjectInvocatorInitDbList(BaseController $sysdb)
     {
         $sysdb_adapter = $sysdb->getDataAdapterName();

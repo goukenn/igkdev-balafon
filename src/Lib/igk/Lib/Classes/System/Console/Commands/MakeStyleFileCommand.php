@@ -18,15 +18,15 @@ use function igk_resources_gets as __;
 
 ///<summary></summary>
 /**
-* 
+* make style file command 
 * @package IGK\System\Console\Commands
 */
 class MakeStyleFileCommand extends AppExecCommand{
     var $command = "--make:style";
-    var $desc = 'make style file ';
+    var $desc = "make style file";
 
     public function showUsage(){
-        Logger::print(sprintf("%s [controller] name"));
+        Logger::print(sprintf("%s [controller] name", $this->command));
     }
     public function exec($command, ?string $controller=null, ?string $name=null) {
         if (is_null($name)){

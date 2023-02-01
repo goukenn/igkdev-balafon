@@ -532,25 +532,4 @@ create: 22/07/2014
     igk.winui.initClassControl("igk-canva-gkds-obj", function() {
         __init_gkds_canva_obj.apply(this);
     }, { desc: "item to render canva object" });
-
-    // register on ready data 
-    // igk.ready(function(){
-
-    // $igk(".igk-canva-gkds-obj").each(function(){
-    // __init_gkds_canva_obj.apply(this);		
-    // return true;
-    // });	
-    // console.debug(igk.get_class_obj()["igk-canva-gkds-obj"]);
-    // });
-    // igk.ctrl.registerReady(function(e){			
-    // if (igk.system.regex.item_match_class("igk-canva-gkds-obj", this))
-    // {			
-    // console.debug("match class .....");
-    // __init_gkds_canva_obj.apply($igk(this));			
-    // }	
-    // });
-    // igk.ajx.fn.registerNodeReady(function(){
-    // console.debug(this);
-    // });
-
 })();

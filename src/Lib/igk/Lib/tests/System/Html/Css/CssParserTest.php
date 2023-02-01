@@ -12,10 +12,11 @@ use IGK\Tests\BaseTestCase;
 
 class CssParserTest extends BaseTestCase{
     public function test_css_parse(){
+        $c = CssParser::Parse("background-color:red")["background-color"];      
         $this->assertEquals(
             "red",
-            CssParser::Parse("background-color:red")["background-color"]
-        );
+            $c
+        ); 
     }
     public function test_css_parse_2(){        
         $this->assertEquals(
@@ -35,10 +36,12 @@ class CssParserTest extends BaseTestCase{
             CssParser::Parse(".igk-def{background-color:red; }")->to_css()
         );
     }
-    public function test_css_parse_to_css_2(){        
+    public function test_css_parse_to_css_2(){   
+        // igk_debug(1);
+        $g = CssParser::Parse("width:30; height: 0; background-color:indigo;");     
         $this->assertEquals(
-            "width: 30;\nheight: 0;\nbackground-color: red;",
-            CssParser::Parse("width:30; height: 0; background-color:red")->to_css()
+            "width: 30;\nheight: 0;\nbackground-color: indigo;",
+            $g->to_css()
         );
     }
 }

@@ -17,6 +17,7 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Css\CssMapTheme;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Http\CookieManager;
@@ -85,7 +86,7 @@ abstract class CssUtils
         $systheme = igk_app()->getDoc()->getSysTheme();
         igk_css_bind_sys_global_files($systheme);
         $def = [];
-        $def = array_merge($def, self::AppendDataTheme($controller, $primaryTheme));
+        $def = array_merge($def, self::AppendDataTheme($controller, $systheme, $primaryTheme));
         ob_start();
         echo "/* CSS theme */";
         echo implode(
@@ -107,7 +108,8 @@ abstract class CssUtils
      * @return array 
      * @throws IGKException 
      */
-    public static function AppendDataTheme(BaseController $controller, HtmlDocTheme $a_theme, string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME)
+    public static function AppendDataTheme(BaseController $controller, HtmlDocTheme $a_theme, 
+    string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME, bool $theme_export = false)
     {
         if ($controller->getConfig('no_theme_support'))
             return;
@@ -124,13 +126,16 @@ abstract class CssUtils
         $def = [];
         // $def[] = $theme->get_css_def(true, true);
         ArrayUtils::PrependAfterSearch($tdef, $primaryTheme);
+
+        // $def[] = "/* theme {$primaryTheme} */"; 
         
         foreach ($tdef as $theme_name) {
             $opt = new CssThemeOptions;
             $opt->theme_name = $theme_name;
             $is_primaryTheme = $primaryTheme == $theme_name;
             if ($is_primaryTheme){
-                $def[] = "\n/*theme: primary */\n".$a_theme->get_css_def(true, true);
+                $def[] = "\n/* theme: primary */\n".$a_theme->get_css_def(true, $theme_export);
+                //continue;
             }
             // load specific attached theme options... 
             $v_theme = new HtmlDocTheme(null, "temp", "temporary");
@@ -142,33 +147,55 @@ abstract class CssUtils
             $tab = $g->getAttributes();
             $lk = "html[data-theme='${theme_name}'] ";
             if ($tab) {
-                array_map(function ($v, $k) use (& $g, $is_primaryTheme, $lk) {
-                    $v_ev = false;
-                    // + | ignore case 
-                    // + | value is empty or k alreay content lk theme or prefix value contain [litteral] to evaluate
-                    $is_empty = empty($v);
-                    $theme_def = strpos($k, 'html[data-theme=') !== false;
-                    $need_eval = !$is_empty && preg_match(IGK_CSS_TREAT_REGEX, $v);
-
-                    if ($is_empty || $theme_def || $need_eval) {
-                        if (!$theme_def && $need_eval){
-                            $key = self::_prependThemePreKeyToCssSelector($k, $lk);
-                            $g[$k] = null;        
-                            $g[$key] = $v;        
-                        }
-                        return null;
-                    }
-                    $key = self::_prependThemePreKeyToCssSelector($k, $lk);
-                    $g[$key] = $v;
-                    //if (!$is_primaryTheme) {
-                        $g[$k] = null;
-                    //}
+                array_map(function ($v, $k) use (& $g, $lk) {
+                    self::TreatCssDefinition($v, $k, $g, false, $lk);
+                     
                 }, $tab, array_keys($tab));
             }
+
+            if (!$is_primaryTheme && ($medias = $v_theme->getMedias())){
+                while(count($medias)>0){
+                    if (!($m = array_shift($medias))){
+                        continue;
+                    }
+                    $g = new CssMapTheme($m, $is_primaryTheme, $lk);
+                    $g->map();
+                }
+                //igk_wln_e($medias);
+            }
+
             // igk_wln_e("theme name ", $theme_name);
-            $def[] = "\n/*theme:".$theme_name."*/\n".$v_theme->get_css_def(true, true);
+            $def[] = "\n/* theme: ".$theme_name." */\n".$v_theme->get_css_def(true, true);
         }
         return $def;
+    }
+
+    /**
+     * treat css detection 
+     */
+    public static function TreatCssDefinition($v, $k, & $g, $is_primaryTheme, $lk){
+        $v_ev = false;
+        // + | ignore case 
+        // + | value is empty or k alreay content lk theme or prefix value contain [litteral] to evaluate
+        $is_empty = empty($v);
+        $theme_def = strpos($k, 'html[data-theme=') !== false;
+        $need_eval = !$is_empty && preg_match(IGK_CSS_TREAT_REGEX, $v);
+
+        if ($is_empty || $theme_def || $need_eval) {
+            if (!$theme_def && $need_eval){
+                $g[$k] = null;     
+                if (!$is_primaryTheme){
+                    $key = self::_prependThemePreKeyToCssSelector($k, $lk);
+                    $g[$key] = $v;        
+                }
+            }
+            return null;
+        }
+        $key = self::_prependThemePreKeyToCssSelector($k, $lk);
+        $g[$key] = null;//$v;//"background-color:red";//null;
+        if (!$is_primaryTheme) {
+            $g[$k] = null;
+        }
     }
     /**
      * prefix each selector with theme pre keys. 
@@ -321,10 +348,10 @@ abstract class CssUtils
         return $theme->getDef();
     }
     /**
-     * include binding files
-     * @param string $file 
-     * @param ?BaseController $ctrl 
-     * @param HtmlDocTheme $theme 
+     * include pcss binding files
+     * @param string $file file to incluce
+     * @param ?BaseController $ctrl controller
+     * @param HtmlDocTheme $theme theme to use
      * @return void 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
@@ -359,7 +386,7 @@ abstract class CssUtils
         $def = $theme->def;
         $cltab = &$theme->getCl();
         $cl = IGKCssColorHost::Create($cltab);
-        $prop = &$theme->getProperties();
+        $prop = & $theme->getProperties();
         $referer = igk_server()->get("HTTP_REFERER", "igk://system");
         igk_environment()->push(IGKEnvironmentConstants::CSS_UTIL_ARGS, get_defined_vars());
         $render_options = $theme->getRenderOptions();
@@ -383,13 +410,7 @@ abstract class CssUtils
         $theme->setRootReference($root);
         include($file);
 
-        // if (strstr($file, 'config.pcss')){
-        //     igk_debug(1);
-        // igk_wln_e(__FILE__.":".__LINE__, 
-        // $file,
-        // $theme === igk_app()->getDoc()->getSysTheme(), $cl,   $cl['configBackgroundColor'], 
-        // $theme->get_css_def(), $cltab, $theme->getCl());
-        // }
+        
 
         igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);
         // $cltab = &$theme->getCl();

@@ -1,0 +1,272 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: HorizontalPaneManager.pinc
+// @date: 20230117 22:15:36
+// @desc: 
+
+//private component
+
+use IGK\Helper\IO;
+use IGK\System\Html\Dom\HtmlComponentNode;
+use IGK\System\Html\Dom\HtmlNode;
+use function igk_resources_gets as __;
+
+final class HorizontalPaneManager extends HtmlComponentNode
+{
+	private $m_owner;
+	private $m_paneAdd; //pane add btn info
+	private $m_paneClear; //pane clear btn btn info
+	private $m_paneOptions; //pane options btn info
+
+	public function dropFile()
+	{	//delete all files
+		$q = base64_decode(igk_getr('q'));
+		// igk_wln($t);
+		$tab = array();
+		parse_str($q, $tab);
+		$_REQUEST = $tab;
+
+		$f = base64_decode(igk_getr("n"));
+
+		if (file_exists($f)) {
+			$dirname = dirname($f);
+
+			//remove all file that match the pattern
+			$l = igk_io_basenamewithoutext($f);
+			$s = IO::GetFiles($dirname, "#(" . $l . ")#", false);
+			foreach ($s as  $v) {
+				unlink($v);
+			}
+			//.unlink($f);
+		}
+		igk_resetr();
+		$this->_view_pane();
+		igk_exit();
+	}
+	public function addHPaneOption($typename)
+	{
+		$d = $this->div();
+		$d->setClass("igk-pane-option igk-trans-all-200ms ". ltrim(igk_css_str2class_name($typename), '.'));
+		$d->add("span")->setClass("igk-hbox")->Content = $typename;
+		$d->pane = $this->m_owner;
+		// $m_script = $d->addScript();
+		$no = (object)array();
+		$no->item = $d;
+		// $no->script = $m_script;
+		return $no;
+	}
+	public function __construct($owner)
+	{
+		parent::__construct("div");
+		$this->setClass("igk-pane-manager"); //->setStyle("border:1px solid black;");
+		$this->m_owner = $owner;
+		$this->m_pandeAdd = $this->addHPaneOption("add");
+
+		$f = igk_create_node_callback(array($this->m_owner, "isVisible"), array('option'));
+
+
+		$this->m_pandeAdd->item->setCallback("getIsVisible", $f);
+		// $this->m_pandeAdd->item->setStyle("[res:add_32x32]; cursor:cell;");
+
+		$this->m_paneClear = $this->addHPaneOption("clearall");
+		// $this->m_paneClear->item->setStyle("[res:del_32x32]; cursor: pointer;");
+		$this->m_paneClear->item->setCallback("getIsVisible", $f);
+
+		$this->m_paneOptions = $this->addHPaneOption("options");
+		// $this->m_paneOptions->item->setStyle("[res:option_32x32]; cursor: pointer;");
+
+		$this->div()->setClass("igk-cleartab")->Content = " ";
+
+		$this->setCallback("getIsVisible", $f);
+	}
+
+	private function _view_pane()
+	{
+		$pane = $this->m_owner;
+		$pane->clearPages();
+		$pane->configure();
+		$pane->flush();
+		$pane->renderAJX();
+	}
+	public function addUri()
+	{
+		$tab = igk_get_allheaders();
+		$pane = $this->m_owner;
+		$s = "";
+		if (igk_getr('ie', 0) == 1) {
+			$pane->renderAJX();
+			igk_exit();
+		}
+
+
+		if (igk_getv($tab, "IGK_UPLOADFILE", false) == false) {
+			$s = HtmlNode::CreateWebNode("script");
+			$s->Content = <<<EOF
+ns_igk.winui.notify.showError("Can't upload file IGK_UPLOADFILE not founds");
+EOF;
+			$s->renderAJX();
+			$pane->renderAJX();
+			igk_exit();
+		}
+		$type = igk_getv($tab, "IGK_UP_FILE_TYPE", "text/html");
+		$fname = igk_getv($tab, "IGK_FILE_NAME", "file.data");
+		$bfname = igk_io_basenamewithoutext($fname);
+		//$s = file_get_contents("php://input");
+		$dir = $pane->Folder;
+
+		switch (strtolower($type)) {
+			case "image/jpeg":
+			case "image/jpg":
+			case "image/png":
+
+				$f = date("Ymd") . igk_new_id() . "." . igk_io_path_ext($fname);
+				$s  =  $dir . "/" . $f;
+				igk_io_store_uploaded_file($s);
+				//igk_io_save_file_as_utf8_wbom($dir."/".$fname, $s, true);
+				//igk_io_save_file_as_utf8_wbom($storelocation, $s, true);
+
+				$div =  HtmlNode::CreateWebNode("div");
+				$div["class"] = "fitw fith";
+				$img =  $div->addXmlNode("igk:img"); 
+				$cfname = addslashes(basename($s));
+
+				$img["src"] = "[func:igk_hpane_get_dir_uri(\$row->file).'/{$cfname}']";
+				//igk_html_inlinedata($type, igk_io_read_allfile($s));//"data:{$type}, base64, ".base64_encode($s);// "[func:igk_hpane_geturi(\$row->file).'/{$cfname}']";
+				$img->setClass("igk-pane-img");
+				$div->div()->setClass("igk-pane-view");
+				//store template
+				igk_io_save_file_as_utf8_wbom($dir . "/" . basename($s) . "." . IGK_DEFAULT_VIEW_EXT, $div->render(null), true);
+				break;
+			default:
+				igk_io_save_file_as_utf8_wbom($dir . "/" . $fname . "." . IGK_DEFAULT_VIEW_EXT, $s, true);
+				break;
+		}
+		$this->_view_pane();
+		igk_exit();
+	}
+	public function optionsUri()
+	{
+		$pane = $this->m_owner;
+		if ($pane) {
+			igk_wl($pane->getOptionsXML($this->getController()->getUri("set_nav_options", $this)));
+		}
+		igk_exit();
+	}
+
+	public function update_nav_options()
+	{
+		$pane = $this->m_owner;
+		if (!$pane) {
+			return;
+		}
+		$pane->Pane->AnimPeriod = igk_getr('AnimPeriod', 500);
+		$pane->Pane->AnimInterval = igk_getr('AnimInterval', 20);
+		$pane->Pane->AnimPeriod = igk_getr('AnimPeriod', 1000);
+		igk_frame_close("nav_options_frame");
+		$pane->storeDBConfigsSetting();
+		$pane->flush();
+		$pane->renderAJX();
+		igk_exit();
+	}
+	public function set_nav_options()
+	{
+		$pane = $this->m_owner;
+		if (!$pane) {
+			return;
+		}
+		$def = false;
+		$p = igk_getr("menu");
+		switch ($p) {
+			case "option":
+				$frame = igk_html_frame($this, "nav_options_frame");
+				$frame->Title = __("Options");
+				$d = $frame->BoxContent;
+				$d->clearChilds();
+				$frm = $d->addForm();
+				$frm["action"] = $this->getController()->getUri("update_nav_options", $this);
+				$frm["igk-js-ajx-form"] = "1";
+				$pane->EditPaneOptions($frm);
+				$frame->renderAJX();
+				break;
+			case "setanimtype":
+				$p = igk_getr("n");
+				$pane->Pane->AnimType = $p;
+				$def = true;
+				break;
+		}
+
+		//store config
+		//------------
+		if ($def) {
+			$pane->storeDBConfigsSetting();
+			$pane->flush();
+			$pane->renderAJX();
+		}
+		igk_exit();
+	}
+
+	public function clearUri()
+	{
+
+		$pane = $this->m_owner;
+		$dir = $pane->Folder;
+		if (!is_dir($dir)) {
+			igk_notify_error("folder not a dir " . $dir);
+			return;
+		}
+		foreach (igk_io_getfiles($dir, "/(.)*/i") as  $v) {
+			if (is_file($v))
+				unlink($v);
+		}
+		$pane->clearPages();
+		$pane->configure();
+		$pane->flush();
+		$pane->renderAJX();
+		igk_exit();
+	}
+	public function getUriSetting()
+	{
+		$p = $this->m_owner->getPageViewListener();
+		$obj = (object)array("addUri" => null, "clearUri" => null, "optsUri" => null);
+		if ($p) {
+			$obj->addUri = $p->getAddHorizontalPageUri();
+			$obj->optsUri = $p->getOptionsUri();
+			$obj->clearUri = $p->clearPagesUri();
+		} else {
+			$obj->addUri = $this->getController()->getUri("addUri", $this);
+			$obj->optsUri = $this->getController()->getUri("optionsUri", $this);
+			$obj->clearUri = $this->getController()->getUri("clearUri", $this);;
+		}
+		return $obj;
+	}
+
+	public function AcceptRender($options = null)
+	{
+
+		if (!$this->IsVisible)
+			return false;
+		$obj = $this->getUriSetting();
+
+// 		$this->m_pandeAdd->script->Content = <<<EOF
+// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initdrag','{$obj->addUri}');
+// EOF;
+
+		if (isset($obj->clearUri)){
+// 			$this->m_paneClear->script->Content = <<<EOF
+// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initclearpage','{$obj->clearUri}');
+// EOF;
+	}
+
+		if (isset($obj->optsUri)){
+
+			// 			$this->m_paneOptions->script->Content = <<<EOF
+			// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initoptions','{$obj->optsUri}');
+			// EOF;
+		}
+		$this->setClass("-empty");
+		if (!$this->m_owner->getHasPage())
+			$this->setClass("+empty");
+
+		return true;
+	}
+}

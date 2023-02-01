@@ -24,6 +24,8 @@ final class IGKConstants{
     const SITEMAP_INDEX_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd";
     const SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9";   
 
+    const GUID_LENGTH = 38;
+
     /**
      * get the core version 
      * @return string 

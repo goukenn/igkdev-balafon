@@ -72,7 +72,7 @@ class DbDumpCommand extends AppExecCommand{
          * @var \IGK\System\Database\MySQL\IGKMySQLQueryResult $g query result
          */
         $ad = $ctrl::getDataAdapter(); 
-        $tb = $ctrl::resolv_table_name($table);
+        $tb = $ctrl::resolveTableName($table);
         $g = $ad->selectAll($table);
         $rest = []; 
         if ($g && $g->RowCount){

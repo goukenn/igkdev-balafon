@@ -22,6 +22,7 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\JsonResponse;
 use IGKControllerTypeManager;
+use IGKEvents;
 use IGKOb;
 use IGKValidator;
 use stdClass;
@@ -39,11 +40,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
      */
     const hookControllerConfigOptionName = 'controllerConfigData';
 
-    ///<summary></summary>
-    public function __construct()
-    {
-        parent::__construct();
-    }
+   
     ///<summary></summary>
     ///<param name="ctrl"></param>
     private function __updateview($ctrl)
@@ -1764,7 +1761,9 @@ EOF;
     protected function initComplete($context=null)
     {
         parent::initComplete();
-        $this->setup_defaultpage();
+        igk_reg_hook(IGKEvents::HOOK_INIT_APP, function(){            
+            $this->setup_defaultpage();
+        }); 
     }
     ///<summary></summary>
     protected function initialize()

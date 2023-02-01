@@ -10,6 +10,13 @@ namespace IGK\Helper;
 use ReflectionFunction;
 
 class PhpHelper{
+    public static function StringToClassConstants(string $data){
+        return implode("\n", array_map(
+            function($n){
+                return "const ".StringUtility::SanitizeIdentifier($n)." = '".$n."';"; 
+            }, explode("|", $data)
+        ));
+    }
     /**
      * get comment summary
      * @param string $phpDoc 

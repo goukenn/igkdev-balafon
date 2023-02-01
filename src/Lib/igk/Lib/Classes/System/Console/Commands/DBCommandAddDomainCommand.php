@@ -18,7 +18,9 @@ class DBCommandAddDomainCommand extends AppExecCommand
 {
     var $command = "--domain";
 
-    var $desc = "clear cache command";
+    var $desc = "set controller as domain";
+
+    var $category = "administration";
 
     /**
      * exec the command

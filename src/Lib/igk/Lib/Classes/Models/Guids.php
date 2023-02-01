@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Guids.php
-// @date: 20221203 14:34:18
+// @date: 20230131 13:55:04
 namespace IGK\Models;
 
 
@@ -19,6 +19,10 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGUID, string $clDesc, string|datetime $clCreateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Guids extends ModelBase{
+	const FD_CL_ID="clId";
+	const FD_CL_G_U_I_D="clGUID";
+	const FD_CL_DESC="clDesc";
+	const FD_CL_CREATE_AT="clCreateAt";
 	/**
 	* table's name
 	*/

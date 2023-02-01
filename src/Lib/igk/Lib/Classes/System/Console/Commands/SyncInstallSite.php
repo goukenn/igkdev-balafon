@@ -21,6 +21,8 @@ class SyncInstallSite extends SyncAppExecCommandBase
     var $options = [
         "--no-subdomain"=>"disable subdomain support",
         "--no-webconfig"=>"disable web configuration",
+        "--admin-login" =>"set configuration login",
+        "--admin-pwd"   =>"set configuration login",
     ];
 
     public function exec($command)
@@ -82,6 +84,8 @@ class SyncInstallSite extends SyncAppExecCommandBase
                     self::SITE_DIR=>$setting["site_dir"],
                     "no_subdomain"=>$no_subdomain,
                     "no_webconfig"=>$no_webconfig,
+                    "admin_login"=>igk_getv($command->options, '--admin-login'),
+                    "admin_pwd"=>igk_getv($command->options, '--admin-pwd')
                 ], null, [
                 "install-token"=>$token
             ]);
@@ -89,9 +93,7 @@ class SyncInstallSite extends SyncAppExecCommandBase
             if ($response){
                 Logger::info($response);
             }
-        }
-
-         
+        } 
         ftp_close($h);
         Logger::info("done"); 
         error_clear_last();

@@ -18,7 +18,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static ?static|bool create(array|object|static $definition, bool $update=true, bool $raise_exception=true) - create a row entries
  * @method static static createEmptyRow() - create a empty row - do not insert into database
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter
- * @method static object|null insertIfNotExists(?array condition = null, ?array options = null) macros:Insert if condition not meet.
+ * @method static ?bool insertIfNotExists(array $conditions, ?array $options = null) macros:Insert if condition not meet.
  * @method static object|null insert() macros function - DefaultModelEntryExtension
  * @method static array|null select(?array $condition=null) macros function - DefaultModelEntryExtension
  * @method static array|array<static>|null select_all(?array $condition=null, null|array|DbQueryOptions $options=null) macros function  
@@ -28,14 +28,14 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static ?static select_row($condition, $options=null) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
- * @method static object|null cacheRow() macros function get a cached row. for this running instance. not it throws and error if rows not found
- * @method static void colKeys() macros function
+ * @method static static|null cacheRow($conditions) macros function get a cached row. for this running instance. not it throws and error if rows not found
+ * @method static ?array colKeys() macros function
  * @method static string column(string $column) macros function get column full name
  * @method static void commit() macros function
  * @method static int count(?array $conditions) macros function
  * @method static object|null createFromCache() macros function
  * @method static static createCondition() macros function create condition object
- * @method static ?static createIfNotExists($data_condition, ?object|array $extra=null extra model field definition) macros function: create if not exists
+ * @method static ?static createIfNotExists($data_condition, ?object|array $extra=null extra model field definition, & $new = false new field) macros function: create if not exists
  * @method static string display() macros function return a string used for display
  * @method static array|Iterable|null formFields($edit=false, ?array $unsetKeys=null) macros function
  * @method static array formSelectData() macros function : form selection data

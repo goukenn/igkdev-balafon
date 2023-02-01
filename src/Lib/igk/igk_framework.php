@@ -40,6 +40,8 @@ require_once IGK_LIB_DIR . "/Lib/functions-helpers/sys.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/io.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/css.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/module.php";
+require_once IGK_LIB_DIR . "/Lib/functions-helpers/assets.php";
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/php.php");  
 require_once IGK_LIB_DIR . "/igk_functions.php";
 
 //----------------------------------------------------------------------------------

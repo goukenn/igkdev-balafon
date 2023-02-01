@@ -7,6 +7,7 @@
 
 namespace IGK\System\Database\Factories;
 
+use Exception;
 use IGK\Models\ModelBase;
 
 /**
@@ -17,11 +18,25 @@ abstract class FactoryBase {
     protected $count;
     protected $model;
     protected $index;
+    protected $data;
+    protected $m_errors = [];
+    protected function getErrors(){
+        return $this->m_errors;
+    }
+
+    public function __set($n, $v){
+        igk_die("Not allowed: ".$n);
+    }
+
+    public function __get($n){
+        igk_die("Not allowed: ".$n);
+    }
     
-    public function __construct(ModelBase $model, int $count=1){
+    public function __construct(ModelBase $model, int $count=1, ?array $data=null){
         $this->count = $count;
         $this->model = $model; 
         $this->index = -1;
+        $this->data = $data;
     }
     /**
      * override to reset factory
@@ -30,17 +45,40 @@ abstract class FactoryBase {
     protected function reset(){
 
     }
+    /**
+     * set error handler
+     * @param null|array $error 
+     * @return $this 
+     */
+    public function setError(?array & $error){
+        $this->m_errors = & $error;
+        return $this;
+    }
 
     /**
      * create model and return response
-     * @return array 
+     * @return ?array 
      */
-    public function create(){ 
-        $response = [];
+    public function create(): ?array{ 
+        $response = null;
         for($i = 0; $i < $this->count; $i++){
             $this->index = $i;
             $def = $this->definition($i); 
-            $response[] = $this->model::create($def);
+            if (empty($def)){
+                
+                continue;
+            }
+            try{
+                if ($v_r = $this->model::create($def)){
+                    if (is_null($response)){
+                        $response = [];
+                    }
+                    $response [] = $v_r;
+                }
+
+            } catch(Exception $ex){
+                $this->m_errors[] = $ex->getMessage();
+            }
         }    
         $this->reset();
         return $response;

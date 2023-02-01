@@ -157,7 +157,8 @@ final class IGKValidator extends IGKObject {
     }
 
     public static function IsGUID(string $v){
-        return preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
+        
+        return (strlen($v) == IGKConstants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
     }
     /**
      * check password validity confirmation

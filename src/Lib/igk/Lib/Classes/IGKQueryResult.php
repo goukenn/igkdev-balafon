@@ -10,7 +10,7 @@
 
 abstract class IGKQueryResult extends IGKObject{
     private $m_error, $m_errormsg;
-    public const CALLBACK_OPTS="@callback";
+    public const CALLBACK_OPTS= \IGK\Database\DbConstants::CALLBACK_OPTS;
     public const RESULTHANDLER="@result_handler";
     ///<summary></summary>
     public function createEmptyEntry(){

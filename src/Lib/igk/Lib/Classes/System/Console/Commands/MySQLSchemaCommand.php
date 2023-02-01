@@ -18,7 +18,7 @@ require_once IGK_LIB_DIR."/api/.mysql.pinc";
 class MySQLSchemaCommand extends AppExecCommand{
 
     var $command = "--db:mysql-schema";
-    var $cat = "db";
+    var $category = "db";
     var $desc = "get mysql stored schema";
 
     public function exec($command){

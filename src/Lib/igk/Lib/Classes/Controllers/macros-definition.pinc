@@ -1,0 +1,40 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: Untitled-1
+// @date: 20230113 19:34:03
+// @desc: primary controller macros definition
+
+use IGK\Controllers\RootControllerBase;
+
+$macros = & self::$macros;
+return [
+    'macrosKeys'=>function(){
+        return array_keys(self::$macros);
+    },
+    self::MACRO_INITDB_METHOD=>function(RootControllerBase $controller, $force=false, $clean=false){
+        return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_initdb.pinc"); 
+    },
+    self::MACRO_RESETDB_METHOD=>function(RootControllerBase $controller, $navigate=true, $force=false, $clean=false){              
+         return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_resetdb.pinc");
+    },
+    // + |'callMethod' =>function(RootControllerBase $controller){
+    // + |    igk_wln("call method ", $controller);
+    // + |},
+    'registerMacro'=>function(RootControllerBase $controller, string $name, ?callable $callable=null)use(& $macros) {
+        $macros[$name] = $callable;
+    },
+    'registerExtension'=>function(RootControllerBase $controller, string $extension_class)use(& $func_defs):bool {
+        if (!class_exists($extension_class)){
+            return false;
+        }
+        $methods = get_class_methods($extension_class);
+        $cl = get_class($controller);
+        foreach($methods as $m){
+            $func_defs[$cl."/".$m] = [$extension_class, $m];
+        }
+        return true;
+    },
+    'getDb'=>function(){
+        return null;
+    },				 
+];

@@ -12,7 +12,7 @@ use IGK\System\Console\Logger;
  *  */
 class SyncClearLogCommand extends SyncAppExecCommandBase{
     var $command = "--sync:clearlogs";
-    var $cat = "sync";
+    var $category = "sync";
     var $desc = "ftp clear logs";
 
     public function exec($command) { 

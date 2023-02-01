@@ -49,7 +49,7 @@ class DbRelation{
                 switch($k){
                     case "source":
                     case "destination":
-                        $v = $controller::resolv_table_name($v);
+                        $v = $controller::resolveTableName($v);
                         break;
                 }
                 $cl->$k = $v;

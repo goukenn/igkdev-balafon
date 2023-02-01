@@ -24,8 +24,7 @@ class IGKCssApplication extends IGKApplicationBase
         return true;
     }
     public function bootstrap() { 
-        // + | activate the session
-        // $this->library("session");
+        // + | activate the session 
         $this->library("mysql");         
         Benchmark::$Enabled = false;
         require_once IGK_LIB_CLASSES_DIR . "/Css/CssContext.php";     

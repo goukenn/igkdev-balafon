@@ -97,9 +97,9 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder{
             return null;
         }
         $clinfo = [];
-        foreach($g->getProperties() as $k=>$v){
-            // igk_wln($v);
-            $clinfo[$v["clName"]] = Activator::CreateNewInstance(DbColumnInfo::class,  $v);
+        foreach($g->getProperties() as $k=>$v){ 
+            $b = (array)$v;
+            $clinfo[$v->clName] = Activator::CreateNewInstance(DbColumnInfo::class, $b);
         } 
         $tab = [
             "ColumnInfo"=>(object)$clinfo,

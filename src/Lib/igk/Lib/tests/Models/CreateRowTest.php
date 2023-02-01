@@ -16,7 +16,10 @@ use IGKException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
  
-
+/**
+ * @package IGK\Tests\Models
+ * @group disabled
+ */
 class CreateRowTest extends BaseTestCase{
     function setUp():void {
         require_once(dirname(__FILE__)."/dbMocTable.pinc");

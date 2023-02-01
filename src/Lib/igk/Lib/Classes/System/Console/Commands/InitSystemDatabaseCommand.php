@@ -22,6 +22,8 @@ use IGK\System\Console\Logger;
 class InitSystemDatabaseCommand extends AppExecCommand
 {
     var $command = "--dbsys:initdb";
+    var $desc = 'init core system db';
+    
 
     public function exec($command)
     {

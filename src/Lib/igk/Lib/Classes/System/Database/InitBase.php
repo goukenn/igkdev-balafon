@@ -23,7 +23,7 @@ abstract class InitBase{
         });
        
     }
-    private static function _initConstantModel(string $classname, $modelclass,  ?BaseController $owner=null, callable $callback=null){
+    protected static function _initConstantModel(string $classname, $modelclass,  ?BaseController $owner=null, callable $callback=null){
         $cl = null;
         if ($owner)
             $cl = $owner::name(igk_uri(get_class($owner)));

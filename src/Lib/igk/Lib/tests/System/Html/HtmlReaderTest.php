@@ -7,6 +7,7 @@
 namespace IGK\Tests\System\Html;
 
 use Exception;
+use IGK\Controllers\SysDbController;
 use IGK\Helper\Activator;
 use IGK\Tests\BaseTestCase;
 use IGKException;
@@ -99,5 +100,50 @@ class HtmlReaderTest extends BaseTestCase{
             $n->render(),
             "not resolved"
         ); 
+    }
+
+    public function test_read_encapsed_branck(){
+        $pos = 0;
+       
+        $str = <<<'EOF'
+'alert("Êtes l'avis ?")'
+EOF;
+$this->assertEquals(
+    "'alert(\"Êtes l'avis ?\")'",
+   igk_str_read_brank($str, $pos, "'", "'",null,true, true, '"')
+);
+    }
+    public function test_read_encapsed_string(){
+
+
+        $n = igk_create_notagnode();
+        $n->Content = (<<<EOF
+<a onClick='alert("Êtes-vous sûr de bien vouloir supprimer l'avis ?")'  href='supprimer_avis.php?id=16563' class='blog_link'>Supprimer</a>
+EOF);
+        $this->assertEquals(
+            '<a onClick="alert(&quot;Êtes-vous sûr de bien vouloir supprimer l\'avis ?&quot;)" href="supprimer_avis.php?id=16563" class="blog_link">Supprimer</a>',
+            $n->render()
+        );
+
+    }
+
+    public function test_read_empty_ignore(){
+        $n = igk_create_notagnode();
+        $ldcontext = igk_createloading_context(SysDbController::ctrl(), []); 
+        $ldcontext->engineNode = $n;
+
+        $n->Content = (<<<EOF
+<p>{{ \$raw->experience }}</a>
+EOF);      
+
+igk_html_article_bind_content(
+    $n, "<p>{{ \$raw->experience }}=Sample for what</p>", true, 
+    $ldcontext, "__dummy__", SysDbController::ctrl(), [null], false
+);
+
+        $this->assertEquals(
+            '<p>{{ $raw->experience }}</p><p>=Sample for what</p>',
+            $n->render()
+        );
     }
 }

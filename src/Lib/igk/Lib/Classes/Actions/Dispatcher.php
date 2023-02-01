@@ -33,7 +33,11 @@ use ReflectionMethod;
  */
 class Dispatcher implements IActionProcessor
 {
-    private $host;
+    /**
+     * 
+     * @var null|ActionBase|IActionProcessor|object
+     */
+    private $m_host;
     private static $sm_macro;
     private static $sm_matches = [
         "int" => MatchPattern::Int,
@@ -48,13 +52,13 @@ class Dispatcher implements IActionProcessor
      */
     public function __construct(?ActionBase $host)
     {
-        $this->host = $host;
+        $this->m_host = $host;
     }
     public function getController(){
-        return $this->host ? $this->host->getController():null;
+        return $this->m_host ? $this->m_host->getController():null;
     }
     public function getHost(){
-        return $this->host;
+        return $this->m_host;
     }
     public static function __callStatic($name, $args)
     {
@@ -84,15 +88,16 @@ class Dispatcher implements IActionProcessor
         // igk_wln_e("the host ", $this->host, $name, "?".method_exists($this, $name), is_callable($g =  [$this->host, $name]));
         // igk_wln_e("but", $this->host, $name, get_class_methods($this->host), $this->host instanceof IActionProcessor);
         if (
-            method_exists($this->host, $name)  
-            && (!(new ReflectionMethod($this->host, $name))->isStatic())           
-            && ($fc = Closure::fromCallable([$this->host, $name])->bindTo($this->host))
+            method_exists($this->m_host, $name)  
+            && (!(new ReflectionMethod($this->m_host, $name))->isStatic())           
+            && ($fc = Closure::fromCallable([$this->m_host, $name])->bindTo($this->m_host))
         ) {
             $targs = array_merge([$fc], $arguments);  
             return self::__callStatic("Dispatch", $targs);
         } else { 
-            if ($this->host instanceof IActionProcessor){  
-                return $this->host->__call($name, $arguments); 
+            if ($this->m_host instanceof IActionProcessor){  
+                return call_user_func_array([$this->m_host,'__call'],
+                [$name, $arguments]); 
             }
         } 
         throw new ActionNotFoundException($name);
@@ -108,54 +113,7 @@ class Dispatcher implements IActionProcessor
     {
         $cl = null;
         $required =  $g->getNumberOfRequiredParameters();
-        $args = self::GetInjectArgs($g, $args);
-        // | try to inject parameter
-        // if (($required >= 1) &&
-        //     ($parameters = $g->getParameters()) &&
-        //     ($cl = $parameters[0]->getType()) &&
-        //     (IGKType::GetName($cl) ===  Request::class)
-        // ) {
-        //     $req =  Request::getInstance();
-        //     $req->setParam($args);
-        //     $args = [$req];
-        //     for ($i = 1; $i < count($parameters); $i++) {
-        //         if (($p = $parameters[$i]->getType()) && (class_exists($type = IGKType::GetName($p)))) {
-
-        //             $c = new $type();
-        //             $args[] = $c;
-        //             continue;
-        //         }
-        //         throw new NotInjectableTypeException($i);
-        //     }
-        // } elseif (isset($parameters)) {
-        //     for ($i = 0; $i < count($parameters); $i++) {
-        //         if (!$parameters[$i]->isOptional()) {
-        //             if ($i >= count($args)) {
-        //                 throw new RequireArgumentException($required, count($args));
-        //             }
-        //         }
-        //         if (($p = $parameters[$i]->getType()) && (class_exists($type = IGKType::GetName($p)))) {
-
-        //             $c = new $type();
-        //             $args[$i] = $c;
-        //             continue;
-        //         } else {
-        //             if ($p) {
-        //                 $tname = IGKType::GetName($p);
-        //                 $v = igk_getv($args, $i);
-        //                 // igk_wln("type : ", $tname);
-        //                 if ($tname == "array") {
-        //                     $args[$i] = $v ? explode(",", $v) : []; // implode(",", $args[$i]);                                    
-        //                 } else {
-        //                     $pattern = igk_getv(self::$sm_matches, $tname, ".+");
-        //                     if ($v && !preg_match_all("#^" . $pattern . "$#", $v)) {
-        //                         throw new ArgumentTypeNotValidException($i);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        $args = self::GetInjectArgs($g, $args); 
     }
 
 
@@ -173,8 +131,7 @@ class Dispatcher implements IActionProcessor
             $c = $arg; 
 
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
-                if ($type == 'string'){
-                    
+                if ($type == 'string'){                    
                     $targs[] = $c;
                     $i++;
                     continue;
@@ -187,7 +144,7 @@ class Dispatcher implements IActionProcessor
                         throw new ArgumentTypeNotValidException($i);
                     }
                 }
-                if (class_exists($type)){                    
+                if (!IGKType::IsPrimaryType($type) && class_exists($type)){                    
                     if (is_subclass_of($type, IInjectable::class)){
                         $targs[] = self::_GetInjectable($type, $args);                   
                         continue;

@@ -14,10 +14,12 @@ use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKException;
 use IGKQueryResult;
 use ModelBase;
+use ReflectionException;
 
 use function igk_getv as getv;
 
@@ -32,14 +34,122 @@ class DataAdapter extends DataAdapterBase
 
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
-
+    const DB_INFORMATION_SCHEMA = 'information_schema';
     /**
      * check that a constraint exists
      * @param string $name 
      * @return bool 
      */
-    function constraintExists(string $name):bool{
+    function constraintExists(string $name): bool
+    {
+        $name = $this->escape_string($name);
+        $g = $this->sendQuery(
+            sprintf('SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\';', 
+            self::DB_INFORMATION_SCHEMA));
+        if ($g && ($g->getRowCount() > 0)) {
+            return true;
+        }
         return false;
+    }
+    function constraintForeignKeyExists(string $name): bool
+    {
+        $name = $this->escape_string($name);
+        $g = $this->sendQuery(
+            sprintf('SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
+            self::DB_INFORMATION_SCHEMA
+        ));
+        if ($g && ($g->getRowCount() > 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check for existing column
+     * @param string $table 
+     * @param string $column 
+     * @param mixed $db 
+     * @return bool 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    function exist_column(string $table, string $column, $db = null):bool{
+    
+        $db = $db ?? $this->getDbName() ?? igk_die("no db name");
+        $grammar = $this->getGrammar();
+        $this->selectdb(self::DB_INFORMATION_SCHEMA);
+        $q = $this->getGrammar()->createSelectQuery("COLUMNS",[
+            "TABLE_NAME"=>$table,
+            "TABLE_SCHEMA"=>$db,
+            "COLUMN_NAME"=>$column, 
+        ]);      
+        $r = $this->sendQuery($q);
+        $this->selectdb($db);
+        $row = null;
+        if ($r) {
+            if ($r->ResultTypeIsBoolean()) {
+                return $r->value;
+            }
+            $row = $r->getRowAtIndex(0);
+        }
+        return $row != null;
+    }
+
+    public function remove_foreign($table, $info, $db = null)
+    {
+        $adapter  =$this;
+        $db = $db ?? $adapter->getDbName();
+ 
+        $this->selectdb(self::DB_INFORMATION_SCHEMA);
+      
+        $r = $this->sendQuery(sprintf("SELECT * FROM %s.TABLE_CONSTRAINTS LEFT JOIN INNODB_FOREIGN_COLS on(" .
+            "CONCAT(CONSTRAINT_SCHEMA,'/',CONSTRAINT_NAME)=ID" .
+            ") " .
+            "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db' AND FOR_COL_NAME='$info'", 
+            self::DB_INFORMATION_SCHEMA)
+        );
+
+        $columns = [];
+        foreach ($r->getRows() as $c) {
+            $columns[$c->CONSTRAINT_SCHEMA . "/" . $c->CONSTRAINT_NAME] = $c->CONSTRAINT_NAME;
+        }
+        if ($ck = getv(array_values($columns), 0)) {
+            $q  = "ALTER TABLE ";
+            $q .= "`" . $table . "` DROP FOREIGN KEY ";
+            $q .= $adapter->escape($ck) . " ";
+            return $q;
+        }
+        return null;
+    }
+    /**
+     * drop foreing keys tables 
+     * @param mixed $keys 
+     * @param int $type 1 = UNIQUE, 0ther is FOREIGN KEYS 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    function dropForeignKeys($keys, int $type=0)
+    {        
+        $type = igk_getv([1=>'UNIQUE'], $type, 'FOREIGN KEY');
+        $db = $this->getDbName();
+        foreach ($keys as $table) {
+            $q = sprintf("SELECT * FROM %s.TABLE_CONSTRAINTS where ", self::DB_INFORMATION_SCHEMA);
+            $q .= "TABLE_NAME='" . $table . "'";
+            $q .= "AND CONSTRAINT_SCHEMA='" . $db . "' ";
+            $q .= "AND CONSTRAINT_TYPE='".$type."';";
+            $g = $this->sendQuery($q);
+            if ($g) {
+                foreach ($g->getRows() as $r) {
+                    $name = $r->CONSTRAINT_NAME;
+                    $table = $r->TABLE_NAME;
+                    $is = $this->sendQuery('ALTER TABLE '.$table.' DROP CONSTRAINT '. $name . ';');
+                }
+            }  
+        }        
+        return $g;
     }
     public function supportGroupBy()
     {
@@ -55,7 +165,7 @@ class DataAdapter extends DataAdapterBase
     {
         return '`' . $v . '`';
     }
-    
+
     /**
      * create a fetch result
      * @param string $query query to send
@@ -132,7 +242,8 @@ class DataAdapter extends DataAdapterBase
         }
         return in_array(strtolower($type), $supportedList);
     }
-    public function sendQueryAndLeaveOpen(string $query){
+    public function sendQueryAndLeaveOpen(string $query)
+    {
         return $this->sendQuery($query, true, null, false);
     }
     /**
@@ -153,28 +264,28 @@ class DataAdapter extends DataAdapterBase
         if (class_exists(DbQueryDriver::class)) {
             $this->makeCurrent();
             $cnf = $this->app->Configs;
-            $error =null;
+            $error = null;
             $s = DbQueryDriver::Create([
                 "server" => $cnf->db_server,
                 "user" => $cnf->db_user,
                 "pwd" => $cnf->db_pwd,
                 "port" => $cnf->db_port
-            ],  $error );
+            ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
                 error_log($error);
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
-            } 
+            }
             return $s;
         }
         return null;
     }
 
-    public function escape_string(?string $v=null): string
+    public function escape_string(?string $v = null): string
     {
-        if (is_null($v)){
+        if (is_null($v)) {
             return 'NULL';
         }
         if (is_object($v)) {
@@ -289,8 +400,8 @@ class DataAdapter extends DataAdapterBase
      */
     public function createdb($dbname)
     {
-        if ($this->m_dbManager != null){
-            return $this->m_dbManager->createDb($dbname); 
+        if ($this->m_dbManager != null) {
+            return $this->m_dbManager->createDb($dbname);
         }
         return false;
     }
@@ -308,20 +419,20 @@ class DataAdapter extends DataAdapterBase
      */
     public function createTable($tablename, $columninfoArray, $entries = null, $desc = null)
     {
-        if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect())  {
+        if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
 
             if (!($response = $this->tableExists($tablename))) {
-                igk_ilog('db try to create table > '.$tablename);
+                igk_ilog('db try to create table > ' . $tablename);
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $this->DbName);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
-                }else{
+                } else {
                     igk_ilog(sprintf('db [%s] success', $tablename));
-                    Logger::success(sprintf('db - create table - '.$tablename .' - success'));
+                    Logger::success(sprintf('db - create table - ' . $tablename . ' - success'));
                 }
                 return $s;
-            } 
+            }
         }
         return false;
     }
@@ -385,8 +496,9 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $entry
      * @param mixed $tableinfo the default value is null
      */
-    public function insert($tablename, $entry, $tableinfo = null, bool $throwException=true, $options=null, $autoclose=false)
-    { 
+    public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)
+    {
+     
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
             return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
@@ -439,11 +551,13 @@ class DataAdapter extends DataAdapterBase
         }
         return null;
     }
-    public function select_all(string $table, ?array $conditions=null){
+    public function select_all(string $table, ?array $conditions = null)
+    {
         return $this->select($table, $conditions);
     }
 
-    public function commit(){
+    public function commit()
+    {
         parent::commit();
     }
     public function getColumnInfo(string $table, ?string $dbname = null)
@@ -516,16 +630,16 @@ class DataAdapter extends DataAdapterBase
             if ($r !== null) {
                 if ($res = igk_getv($options, IGKQueryResult::RESULTHANDLER)) {
                     $r = $res->handle($r);
-                }else {
-                    if (!is_bool($r)){
+                } else {
+                    if (!is_bool($r)) {
                         $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
-                    }else {
+                    } else {
                         $r = new BooleanQueryResult($r);
                     }
                 }
             }
         }
-        if ($autoclose && !$this->inTransaction){
+        if ($autoclose && !$this->inTransaction) {
             $this->close();
         }
         return $r;
@@ -569,7 +683,7 @@ class DataAdapter extends DataAdapterBase
      * 
      * @param mixed $tablename
      */
-    public function tableExists(string $tablename):bool
+    public function tableExists(string $tablename): bool
     {
         return $this->m_dbManager->tableExists($tablename);
     }

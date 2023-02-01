@@ -9,6 +9,7 @@ namespace IGK\System\Http;
 use IGK\Controllers\BaseController;
 
 class ControllerRequestNotFoundRequestResponse extends ControllerRequestResponse{
+    var $message;
     public function __construct($uri, $controller)
     {
         $this->code = 404;

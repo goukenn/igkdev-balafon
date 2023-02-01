@@ -248,12 +248,15 @@ abstract class IGKSysUtil
         return $s;
     }
 
-    /**
+    /**     
      * resolv the table name
+     *
+     * @param string $table table or column name to resolv
+     * @param null|BaseController $ctrl 
+     * @return string|string[]|null 
      */
     public static function DBGetTableName(string $table, ?BaseController $ctrl = null)
-    {
-     
+    { 
         $v = IGKConstants::MODEL_TABLE_REGEX;
         $t = preg_replace_callback(
             $v,
@@ -271,6 +274,8 @@ abstract class IGKSysUtil
                         return $p;
                     case "year":
                         return date("Y");
+                    case "date":
+                        return date("Ymd");
                 }
             },
             $table
@@ -368,7 +373,7 @@ abstract class IGKSysUtil
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetLinkType($type, bool $notnull, ?BaseController $ctrl = null)
+    public static function GetLinkType($type, ?bool $notnull, ?BaseController $ctrl = null)
     {
         $t = "";
         if (!$notnull) {

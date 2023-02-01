@@ -24,19 +24,26 @@ class DbMigrateCommand extends AppExecCommand
 
     var $desc = 'migration command';
 
+    var $options = [
+        '--clear-db-cache'=>'flag:clear db cache'
+    ];
+
     public function help()
     {
-        Logger::info('migrate utility command');
-        Logger::warning(sprintf('%s action command', $this->command));
+        Logger::info('migrate');
+        Logger::warn(sprintf('%s action command', $this->command));
         parent::help();
     }
 
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
-        
-        if (!is_null($ctrl) && ($c = self::GetController($ctrl, false))) {
-            $c = [$c];
+        if (!is_null($ctrl)) {
+            if (($c = self::GetController($ctrl, false))) {
+                $c = [$c];
+            } else {
+                igk_die("missing controller : " . $ctrl);
+            }
         } else {
             $c = igk_sys_getall_ctrl();
             if (($ctrl === null) && ($modules = igk_get_modules())) {
@@ -49,24 +56,27 @@ class DbMigrateCommand extends AppExecCommand
                 $c = array_merge($c, [IGKModuleListMigration::Create($list)]);
             }
         }
+        if (!$c){
+            Logger::danger('no controller found to migrate');
+            return -1;
+        }
+        if (property_exists($command->options, '--clear-db-cache')){
+            DBCaches::Clear();
+        }
+
         foreach ($c as $t) {
             $cl = get_class($t);
             Logger::info("migrate..." . $cl);
             if ($t->getCanInitDb()) {
+                // call core migration - update 
                 if ($t::migrate()) {
                     Logger::success("migrate:" . $cl);
                     $migHandle = new MigrationHandler($t);
-                    $migHandle->up(); 
+                    $migHandle->up();
                 } else {
                     Logger::danger("failed to migrate : " . $cl);
                 }
             }
-        }
-        // $s = \IGK\Models\Migrations::AddIfNotExists('migration_'.date('Ymd'), 1);  
-        // // update all model files 
-        // DBCaches::Reset();
-        // $data = DBCaches::GetCacheData();
-        // $initalizer = DBCachesModelInitializer::Init($data);
-        // $initalizer->bootStrap(true);
+        } 
     }
 }

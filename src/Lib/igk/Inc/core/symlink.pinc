@@ -1,14 +1,6 @@
 <?php
-$response = new InstallerResponse();
-if (!version_compare(PHP_VERSION, "7.0", ">=")){
-    $response->die("mandory version required. 7.0<=".PHP_VERSION);
-}
-if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
-    $response->die("request method not match", 500);
-}
-error_reporting(-1);
-ini_set("display_errors", 1); 
-
+$response = new InstallerResponse(); 
+ 
 $corelib = igk_getr('corelib'); // library relative to home 
 $app_dir = igk_getr('app_dir'); // application dir relative to %home
 $root_dir = igk_getr('root_dir'); // public dir relative to %home

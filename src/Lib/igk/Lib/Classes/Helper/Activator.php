@@ -34,12 +34,21 @@ class Activator{
         if ($data){
             
             if ($fullfill){
-                foreach ($data as $k => $value) {
-                    $g->{$k} = $value;
+                foreach ($data as $k => $value){
+                    if (property_exists($g, $k)){
+                        $g->{$k} = $value;
+                    }
                 }
             }else{
                 foreach(get_class_vars(get_class($g)) as $k=>$v){                 
                     $g->{$k} = igk_getv($data, $k, $g->$k) ?? $v;
+                }
+            }
+        }
+        if ($g instanceof IActivatorMandatory){
+            foreach($g->getMandatory() as $k){
+                if (!isset($g->{$k})){
+                    return null;
                 }
             }
         }

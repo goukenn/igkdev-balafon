@@ -14,20 +14,8 @@ use IGK\System\Database\IUserProfile;
  * represent user profile
  * @package IGK\System
  */
-class SystemUserProfile implements IUserProfile
-{
-    var $clFirstName;
-    var $clGuid;
-    var $clLogin;
-    var $clLastName;
-    var $clPicture;
-    var $clDate;
-    var $clLastLogin;
-    var $clParent_Id;
-    var $clDisplay;
-    var $clLocale;
-    var $clLevel;
-    var $clId;
+abstract class SystemUserProfile implements IUserProfile
+{ 
     /**
      * user info 
      * @var mixed
@@ -61,13 +49,7 @@ class SystemUserProfile implements IUserProfile
         $c->registerProfile();
         return $c;
     }
-    /**
-     * override this to register profile
-     * @return void 
-     */
-    protected function registerProfile(){
-
-    }
+   
 
     /**
      * get current user profile
@@ -88,5 +70,10 @@ class SystemUserProfile implements IUserProfile
     /** display full name */
     public function display(){
         return implode(' ', array_filter([$this->clFirstName, $this->clLastName]));
+    }
+    public function __get($name){
+        if ($this->m_profile){
+            return igk_getv($this->m_profile, $name);
+        }
     }
 }

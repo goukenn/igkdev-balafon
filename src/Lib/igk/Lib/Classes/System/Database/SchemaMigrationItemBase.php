@@ -15,11 +15,11 @@ use IGKHtmlCommentItem;
 /** @package  */
 abstract class SchemaMigrationItemBase{
     private $migration;
-    private $m_raw;
+    protected $raw;
     protected $fill_properties;
 
     public function __get($name){
-        return igk_getv($this->m_raw, $name);
+        return igk_getv($this->raw, $name);
     }
     public function getMigration(){
         return $this->migration;
@@ -28,12 +28,16 @@ abstract class SchemaMigrationItemBase{
         $this->migration = $migration;
     }
     public function load($node){  
-        $this->m_raw = igk_get_robjs($this->fill_properties, 0, $node->getAttributes()->to_array());
+        $this->raw = igk_get_robjs($this->fill_properties, 0, $node->getAttributes()->to_array());
+        $this->checkRequirement();
         $tab = array_filter($node->getChilds()->to_array(), function($v){
             return !($v instanceof HtmlCommentNode);
         }); 
         $this->loadChilds($tab);
         return $this;
+    }
+    protected function checkRequirement(){
+
     }
     protected function loadChilds($childs){
 

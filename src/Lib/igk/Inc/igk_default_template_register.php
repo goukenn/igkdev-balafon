@@ -71,7 +71,7 @@ function igk_template_get_piped_value($rv, $context){
         }
         throw $ex;
     }
-    igk_debug_wln_e("pipe....");
+    // igk_debug_wln_e("pipe....");
 	$v = igk_str_pipe_value($v, $pipe);
 	return $v;
 }
@@ -223,3 +223,30 @@ igk_reg_template_bindingattributes("*action", 'igk_template_update_attrib_piped_
 igk_reg_template_bindingattributes("*class", 'igk_template_update_class_piped_expression');
 igk_reg_template_bindingattributes("*style", 'igk_template_update_style_piped_expression');
 igk_reg_template_bindingattributes("*placeholder", 'igk_template_update_attrib_piped_expression');
+
+// + | template-attr
+igk_reg_template_bindingattributes(IGK_ENGINE_ATTR_TEMPLATE_REF_ATTR, function($n, $attrname, $v, $context, $setattrib, $m=null){
+    $setattrib($attrname, null);
+    $v = stripslashes($v);
+    $deco = json_decode($v);
+    list($v_tnode, $v_expression) = (array)$deco;
+    if (igk_getv($context, 'transformToEval')){        
+        $setattrib($v_tnode, '<?= '.$v_expression.' ?>'); 
+        return;
+    }
+    $root_context = $context['root_context'];
+    $key = igk_getv($context, 'key');    
+    $raw = igk_getv($root_context->raw, $key ?? 0);
+    $ctrl = $root_context->ctrl;
+
+    $b = (function(){   
+        extract(igk_to_array(func_get_arg(1)));
+        return @eval("return ".func_get_arg(0).";");
+    })($v_expression, compact('raw', 'ctrl'));
+    $setattrib($v_tnode, $b); 
+    return $v;
+});
+
+igk_reg_template_bindingattributes("*template-attr", function(){
+    igk_wln_e("template-attr ok");
+});

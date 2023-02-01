@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: CookieStorages.php
-// @date: 20221203 14:34:18
+// @date: 20230131 13:55:04
 namespace IGK\Models;
 
 
@@ -19,6 +19,10 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clIdentifier, string $clName, string|datetime $clDateTime) add entry if not exists. check for unique column.
 * */
 class CookieStorages extends ModelBase{
+	const FD_CL_ID="clId";
+	const FD_CL_IDENTIFIER="clIdentifier";
+	const FD_CL_NAME="clName";
+	const FD_CL_DATE_TIME="clDateTime";
 	/**
 	* table's name
 	*/

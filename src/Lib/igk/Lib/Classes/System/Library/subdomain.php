@@ -2,16 +2,13 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: subdomain.php
 // @date: 20220803 13:48:55
-// @desc: 
+// @desc:  subdomain library loading
 
-//
-// @author: C.A.D BONDJE DOUE
-// @file: subdomain.php
-// @desc: subdomain library loading
-//
+ 
 namespace IGK\System\Library;
 use function igk_resources_gets as __;
 use Exception;
+use IGK\System\Http\ConfigurationPageHandler;
 use IGKEvents;
 use IGKException;
 use IGKSubDomainManager;
@@ -61,17 +58,19 @@ class subdomain{
                 return;
             }  
             // register after init app 
-            igk_reg_hook(IGKEvents::HOOK_AFTER_INIT_APP , function(){              
-                $this->__checkSubDomain();
+            igk_reg_hook(IGKEvents::HOOK_AFTER_INIT_APP , function($e){
+                $file = $e->args['app']
+                ->getApplication()->getEntryfile() ?? igk_getv($_SERVER, 'SCRIPT_FILENAME');   
+                $this->__checkSubDomain($file);
             });
         //}, 100);
     }
 
     ///<summary></summary>
     /**
-    *
+    * check for subdomain
     */
-    private function __checkSubDomain(){
+    private function __checkSubDomain($file){
        
         $uri=igk_io_fullrequesturi();
         if(igk_io_handle_system_command($uri)){
@@ -80,7 +79,8 @@ class subdomain{
         $row=null;
         $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row); 
       
-        if($subdomain_ctrl !== false){
+        if($subdomain_ctrl !== false){ 
+
             $v_ruri=igk_io_base_request_uri();
             // $this->setSubDomainCtrl($subdomain_ctrl ) ;
             // $this->setSubDomainCtrlInfo($row);
@@ -100,8 +100,15 @@ class subdomain{
             }
 
             require_once IGK_LIB_DIR . "/igk_request_handle.php";       
-            igk_sys_handle_ctrl_request_uri($uri); 
-
+            igk_sys_handle_ctrl_request_uri($uri, true); 
+            $path_info = $uri;
+            if (!igk_environment()->noWebConfiguration()) {
+                (new  ConfigurationPageHandler(function (bool $display) {
+                    // $this->runEngine($display);                    
+                }, $file))->handle_route($path_info);
+            }
+//             igk_trace();
+// igk_wln_e("handle: ".$uri, $path_info);
             $page="{$entry}".$uri;
             $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL);
             $k=IGK_REG_ACTION_METH;

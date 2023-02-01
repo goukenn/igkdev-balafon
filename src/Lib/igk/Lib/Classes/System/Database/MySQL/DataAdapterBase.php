@@ -12,6 +12,7 @@ use Exception;
 use IGKException; 
 use IGK\Database\SQLDataAdapter;
 use IGK\System\Database\MySQL\Controllers\MySQLDataController;
+use IGK\System\Database\NoDbConnection;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
 use IGKConstants;
@@ -40,7 +41,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     protected $inTransaction = false;
 
-
+    /**
+     * check if adapter can process query 
+     * @param string $context 
+     * @return bool 
+     */
+    public function canProcess(?string $context=null){
+        return  !($this->m_dbManager instanceof NoDbConnection);
+    }
 
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
@@ -645,7 +653,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string
     {
         $query = $grammar->createSelectQuery(
-            "information_schema.columns",
+            DataAdapter::DB_INFORMATION_SCHEMA.".columns",
             [
                 "table_schema" => $dbname,
                 "table_name" => $table

@@ -1,0 +1,10 @@
+<?php
+
+//horizontal pane item
+interface IIGKHTMLHorizontalPaneListener
+{
+	function getAddHorizontalPageUri();
+	function buildPages($horizontalPane);
+	function clearPagesUri();
+	function getOptionsUri();
+}

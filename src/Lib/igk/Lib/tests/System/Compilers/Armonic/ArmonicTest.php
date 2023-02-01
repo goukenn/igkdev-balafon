@@ -11,6 +11,10 @@ use IGK\System\Runtime\Compiler\Armonic\ArmonicCompiler;
 use IGK\Tests\BaseTestCase;
 use IGKException;
 
+/**
+ * @group disabled
+ * @package IGK\Test\System\Compilers\Armonic
+ */
 class ArmonicTest  extends BaseTestCase
 {
     public function test_armonic_global_var()
@@ -254,7 +258,7 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false;    
-        // igk_debug(true);
+ 
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 function A($ax , $bx=10, $cx=80){

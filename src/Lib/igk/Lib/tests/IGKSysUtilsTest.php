@@ -28,7 +28,7 @@ class IGKSysUtilsTest extends BaseTestCase  {
             "resolving 2 with sys prefix type failed"
        );
    }
-   public function test_resolv_table_name(){
+   public function test_resolveTableName(){
     $t= IGKSysUtil::DBGetTableName(
         "%prefix%_dummy_%year%", DummySysUtilController::ctrl());
     $this->assertEquals(

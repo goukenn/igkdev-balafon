@@ -8,12 +8,14 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Tests\BaseTestCase;
 
 class MakeClassCommand extends AppExecCommand
 {
+    use ClassBuilderTrait;
     var $command = "--make:class";
 
     var $category = "make";
@@ -30,9 +32,9 @@ class MakeClassCommand extends AppExecCommand
         "--test" => "test flag"
     ];
 
-    public function exec($command, $classPath = null)
+    public function exec($command, $class_path = null)
     {
-        if (empty($classPath)) {
+        if (empty($class_path)) {
             Logger::danger("classPath can't be empty");
             return -1;
         }
@@ -65,9 +67,8 @@ class MakeClassCommand extends AppExecCommand
                 $ns = $ctrl->getEntryNamespace();
                 if ($test) {
                     $dir = dirname($dir) . "/tests";
-
-                    if ($ns && (strpos($classPath, $ns) === false)) {
-                        $classPath =  $ns . "/Tests/" . $classPath;
+                    if ($ns && (strpos($class_path, $ns) === false)) {
+                        $class_path =  $ns . "/Tests/" . $class_path;
                     }
                 }
             } else {
@@ -77,15 +78,15 @@ class MakeClassCommand extends AppExecCommand
                     $dir = igk_io_sys_test_classes_dir();
                     if (empty($extends)) {
                         $extends = BaseTestCase::class;
-                        if (strpos($classPath, igk_dir(\IGK\Tests::class)) !== 0) {
-                            $classPath =  "IGK/Tests/" . $classPath;
+                        if (strpos($class_path, igk_dir(\IGK\Tests::class)) !== 0) {
+                            $class_path =  "IGK/Tests/" . $class_path;
                         } 
                     }
                 }
             }
         }
         //igk_wln("classPath:", $classPath);
-        $g = igk_dir($classPath);
+        $g = igk_dir($class_path);
         if (strpos($g, $gs = igk_dir($ns) . "/") === 0) {
             $g = ltrim(substr($g, strlen($gs)), "/");
         }
@@ -117,8 +118,7 @@ class MakeClassCommand extends AppExecCommand
             igk_io_w2file($file, $builder->render());
             Logger::success("output: " . $file); 
             Logger::success("duration : " . igk_sys_request_time());
-
-            return 200;
+            return 0;
         } else {
             Logger::danger("file already exists : " . $file);
         }

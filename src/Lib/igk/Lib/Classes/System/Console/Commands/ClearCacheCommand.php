@@ -14,6 +14,8 @@ class ClearCacheCommand extends AppExecCommand{
     var $command = "--clearcache";
     
     var $desc = "clear cache command";
+
+    var $category = "administration";
     
     /**
      * exec the command

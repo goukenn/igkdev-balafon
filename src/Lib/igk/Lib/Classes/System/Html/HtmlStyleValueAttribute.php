@@ -34,7 +34,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     }
     public function __toString()
     {
-        return $this->getValue();
+        return (($rp = $this->getValue()) ? $rp : '/*[no-value]*/');
     }
     ///<summary></summary>
     function __wakeup(){    }

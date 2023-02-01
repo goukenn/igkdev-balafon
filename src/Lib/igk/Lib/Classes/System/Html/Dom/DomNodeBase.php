@@ -27,4 +27,10 @@ abstract class DomNodeBase extends IGKObject{
      * @return null|HtmlInitNodeInfo 
      */
     public abstract function getInitNodeTypeInfo() : ?HtmlInitNodeInfo;
+
+    /**
+     * retrieve parent node 
+     * @return ?static|mixed 
+     */
+    public abstract function getParentNode();
 }

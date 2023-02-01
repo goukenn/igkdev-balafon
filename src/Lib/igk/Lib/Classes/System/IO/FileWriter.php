@@ -95,6 +95,11 @@ class FileWriter{
             if(empty($p))
                 continue;
             if(is_dir($p) && $dirname && !is_file($dirname) && !is_dir($dirname) ){ 
+                if (is_link($dirname)){
+                    // possibility of link that target a location not accessible
+                    unlink($dirname);
+                    // continue;
+                }  
                 if (@mkdir($dirname)){
                     if ($is_unix){
                         chmod($dirname, $s_mode);
@@ -102,7 +107,7 @@ class FileWriter{
                 }else{
                     if (igk_environment()->isDev()){
                         igk_trace();
-                        igk_dev_wln_e("failed to create directory: ".$dirname, error_get_last());
+                        igk_dev_wln_e("failed to create directory: ".$dirname, is_link($dirname), error_get_last());
                     }else{
                         igk_ilog('fail to create '.$dirname);
                     }

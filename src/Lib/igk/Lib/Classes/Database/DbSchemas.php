@@ -14,10 +14,14 @@ use IGK\Database\SchemaBuilder\SchemaDiagramVisitor;
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
+use IGK\System\Database\SchemaMigrationInfo;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\XML\XmlNode;
 use IGKApp;
 use IGKException;
+use LlvGStockController;
+use ReflectionException;
 use stdClass;
 use function igk_resources_gets as __;
 
@@ -46,6 +50,19 @@ abstract class DbSchemas
      * @var array
      */
     static $sm_schemas = [];
+
+    /**
+     * clear store controller schema
+     * @param BaseController $controller 
+     * @return void 
+     */
+    public static function ClearControllerSchema(BaseController $controller){
+        $v_tab = & self::$sm_schemas;
+        if ($file = $controller->getDataSchemaFile()){
+            unset($v_tab[$file]);
+        }
+        
+    }
 
     public static function LoadRelations($schema, $data)
     {
@@ -78,31 +95,32 @@ abstract class DbSchemas
 
 
     /**
+     *  
      * load schema definition  - 
      * @param mixed $file 
-     * @param mixed $ctrl 
-     * @param bool $resolvname 
-     * @return IDbSchemaDefinitionResult|object 
+     * @param mixed $ctrl   
+     * @param bool $resolvname  resolv name on loading
+     * @param string $operation in migration operation
+     * @return mixed 
      * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
      */
     public static function LoadSchema($file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
     {
         if (!file_exists($file)) {
             return null;
-        }
-        // igk_log( load data schema )
+        } 
         $data = null;
         if (isset(self::$sm_schemas[$file])) {
             $data = self::$sm_schemas[$file];
-        }
-        // if ($ctrl == SysDbController::ctrl()){
-        //     igk_dev_wln(__FILE__.":".__LINE__,  "init ... sysdb");
-        // }
-
+        }  
         if (!$data) {
-            $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname, $operation);
+     
+            $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname, $operation); 
+     
             // + init Check and update data
-            if ($cl = $ctrl::resolvClass($ctrl, \Database\InitDbSchemaBuilder::class)) {
+            if ($cl = $ctrl::resolveClass($ctrl, \Database\InitDbSchemaBuilder::class)) {
                 // resolv core entries 
                 $b = new $cl();
                 $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
@@ -172,7 +190,7 @@ abstract class DbSchemas
             $key = $ctrl->getEnvKey($key);
         }
         $v_result = null;
-        $mi = \IGK\System\Database\SchemaMigration::LoadSchema(
+        \IGK\System\Database\SchemaMigration::LoadSchema(
             $n,
             $v_result,
             $tables,
@@ -191,10 +209,12 @@ abstract class DbSchemas
      * @return stdClass|null 
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
-    { 
-        
+    {         
         $v_info = DBCaches::GetInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
         if ($v_info) { 
+            if ($v_info instanceof SchemaMigrationInfo){
+                $v_info = $v_info->columnInfo;
+            }
             return self::CreateObjFromInfo($v_info, $dataobj);
         }
         return null;
@@ -223,11 +243,11 @@ abstract class DbSchemas
         if (empty($tableRowReference))
             return null;
         $obj = igk_createobj();
+        
         foreach ($tableRowReference as $k => $v) {
             if (!($v instanceof IDbColumnInfo)) {
-                if (igk_environment()->isDev()) {
-                    igk_trace();
-                    igk_dev_wln_e("failed : tableRowReference value is not a IDbColumnInfo", $tableRowReference);
+                if (igk_environment()->isDev()) {                   
+                    igk_dev_wln_e("failed : [$k] tableRowReference value is not a IDbColumnInfo"); 
                 }
                 continue;
             }
@@ -250,6 +270,12 @@ abstract class DbSchemas
         return $obj;
     }
 
+    /**
+     * init data schemas
+     * @param BaseController $ctrl
+     * @param object $dataschema schema info, 
+     * @param object $adapter adapter 
+     */
     public static function InitData(BaseController $ctrl, $dataschema, $adapter)
     {
         $r = $dataschema;
@@ -257,19 +283,19 @@ abstract class DbSchemas
             throw new IGKException("dataschema not an object");
         }
         if ($ctrl == SysDbController::ctrl()) {
-            Logger::info("init system database");
+            Logger::info("init system database ...");
         }
         $tb = $r->Data;
         $etb = $r->Entries;
         $no_error = 1;
         if ($tb) {
-            \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb);
+            \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb, $adapter);
         }
         return $no_error;
     }
 
     /**
-     * reset loading schema
+     * reset loading schema - 
      * @return void 
      */
     public static function ResetSchema()

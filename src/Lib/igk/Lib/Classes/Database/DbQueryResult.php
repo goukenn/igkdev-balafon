@@ -19,7 +19,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
      * key name use to filter result
      */
-    public const CALLBACK_OPTS="@callback";
+    public const CALLBACK_OPTS= \IGK\Database\DbConstants::CALLBACK_OPTS;
     ///<summary></summary>
     public function createEmptyEntry(){
         return null;

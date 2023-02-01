@@ -24,7 +24,7 @@ use IGKException;
 class MakeMigrationCommand extends AppExecCommand{
     var $command = '--migrate';
 
-    var $cat = "db";
+    var $category = "db";
     var $desc = "migrate utility";
 
 

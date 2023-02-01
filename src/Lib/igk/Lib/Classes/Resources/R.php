@@ -37,6 +37,10 @@ final class R extends IGKObject {
     var $KeysAdded;
     var $LangChangedEvent;
     var $PageLangChangedEvent;
+    /**
+     * language resources keys
+     * @var mixed dictionary
+     */
     var $langRes;
     ///<summary></summary>
     /**

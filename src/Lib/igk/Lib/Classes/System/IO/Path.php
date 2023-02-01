@@ -42,6 +42,25 @@ class Path
         return ($t = explode(".", $path)) > 1 ? array_pop($t) : "";
     }
     /**
+     * get existing file
+     * @param mixed $path 
+     * @param mixed $extension 
+     * @return bool 
+     */
+    public static function GetExistingFile(& $path, array $extension = []):bool{
+        if (file_exists($path)){
+            return true;
+        }
+        while(count($extension)>0){
+            $q = array_shift($extension);
+            if (file_exists($g = $path . $q)){
+                $path = $g;
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * get system path instance
      * @return self path instance
      */
@@ -382,7 +401,7 @@ class Path
      */
     public static function Combine(...$path)
     {
-        $path = array_values($path);
+        $path = array_filter(array_values($path));
         if ($path) {
             $p = rtrim($path[0], DIRECTORY_SEPARATOR);
             $path = array_slice($path, 1);
@@ -409,7 +428,8 @@ class Path
     public static function FlattenPath(string $path)
     {
         $s = trim($path);
-        if (strpos($s, '../') > 0) {
+        // if (strpos($s, '../') > 0) {
+        if (strpos($s, '../') !== false) {
             $g = explode('../', $s);
             $p = "";
             while (count($g) > 0) {
@@ -429,5 +449,14 @@ class Path
         }
         $s = str_replace("/./", "/", $s);
         return $s;
+    }    
+
+    /**
+     * combine an flatten path
+     * @param ?string[] $path 
+     * @return string 
+     */
+    public static function CombineAndFlattenPath(...$path){
+        return self::FlattenPath(self::Combine(...$path));
     }
 }

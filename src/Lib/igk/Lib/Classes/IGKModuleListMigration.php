@@ -202,9 +202,9 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
             // + |            
             IGKModuleListMigration::Migrate();        
     }
-    public static function resolvClass(BaseController $ctrl , $path){
+    public static function resolveClass(BaseController $ctrl , $path){
         if ( $ctrl instanceof self){
-            return $ctrl->m_host->resolvClass($path);
+            return $ctrl->m_host->resolveClass($path);
         }
         return null;
     }

@@ -14,8 +14,12 @@ use IGK\Models\ModelBase as coreModelBase;
 * @package IGK\Controllers\Traits
 */
 trait ApplicationUserProfileTrait{
-    protected function getApplicationUserModel(){
-        return $this->resolvClass("Models/Users");
+    /**
+     * get class used to serve application used
+     * @return ?string
+     */
+    protected function getApplicationUserModel(): ?string{
+        return $this->resolveClass("Models/Users");
     }
     /**
      * 
@@ -42,13 +46,26 @@ trait ApplicationUserProfileTrait{
         if (!$u || !$u->clGuid) {
             return null;
         }  
-        $this::register_autoload();
+        // $this::register_autoload();
         $model = $this->getApplicationUserModel();       
+        if (!$model){
+            return $u;
+        }
+        $model = $this->model($model);
+
+        $profile_class = $this->resolveClass(\UserProfile::class) ?? \IGK\System\Application\ApplicationUserProfile::class;
+        $key = $model->getPrimaryKey();
+        if (method_exists($this, 'getInitFormSysUserCondition')){
+            $condition = $this->getInitFormSysUserCondition($u);
+        }else{
+            $condition = [$key=>$u->clGuid];
+        }
+
         return $this->createCustomUserProfile(
             $u,
-            UserProfile::class,
+            $profile_class,
             $model::model(), 
-            ['puuserId' => $u->clGuid],
+            $condition,
             function()use($u){
                 return $this->createApplicationUserInfo($u);
                 // $couid = Countries::Get('couName', 'Cameroun');
@@ -91,12 +108,12 @@ trait ApplicationUserProfileTrait{
         $condition,
         $newDefinition
     ): ?ICustomUserProfile {
-        if ($profileClassName || !class_exists($profileClassName)) {
+        if (!$profileClassName && !class_exists($profileClassName)) {
             return null;
         }
-        $c = new $profileClassName;
         $coreuser = $userInfo->model();
-        $roles = $this->resolvClass("Roles"); 
+        $c = new $profileClassName($coreuser);
+        $roles = $this->resolveClass("Roles"); 
         // check that the user exists
         $row = $customModel::select_row($condition);
        

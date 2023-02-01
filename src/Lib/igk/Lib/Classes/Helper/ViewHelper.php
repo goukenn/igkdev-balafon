@@ -15,10 +15,14 @@ use Closure;
 use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IO\Path;
+use IGK\System\Uri;
 use IGKEnvironment;
 use IGKEnvironmentConstants;
 use IGKException;
 use IGKHtmlDoc;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use function igk_resources_gets as __;
 
@@ -32,7 +36,22 @@ use function igk_resources_gets as __;
 class ViewHelper
 {
     const ARG_KEY = "sys://io/query_args";
-
+    const REDIRECT_PARAM_NAME = 'redirect-request-data';
+    /**
+     * retrieve home directory
+     * @param string|null $path 
+     * @return mixed 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws IGKException 
+     */
+    public static function Home(string $path = null){
+        $dir = self::CurrentCtrl()->getViewDir();
+        if ($path){
+            $dir = Path::Combine($dir, $path);
+        }
+        return $dir;
+    }
     /**
      * must handle a form class 
      * @param string $name 
@@ -67,7 +86,15 @@ class ViewHelper
             $args = self::GetViewArgs(); 
         return $args;
     }
-    private static function _GetIncFile($file){        
+    /**
+     * get included file: in current view directory
+     * @param string $file relative file in current directory
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    private static function _GetIncFile(string $file){        
         $c = self::Dir()."/".$file;
         if (file_exists($c) || file_exists($c.= IGK_VIEW_FILE_EXT))
             return $c;
@@ -144,13 +171,23 @@ class ViewHelper
         if(func_num_args()==0){
             igk_die("missing file argument");
         }
-        extract(self::_GetIncArgs(array_slice(func_get_args(),1))); 
+        extract(self::_GetIncArgs(array_slice(func_get_args(),1)));
+        if ($ctrl) {
+            $args = get_defined_vars();            
+            $fc = (function(){
+                extract(func_get_arg(1));
+                return include self::_GetIncFile(func_get_arg(0)); 
+            })->bindTo($ctrl);
+            $r = $fc(func_get_arg(0), $args);         
+            return $r;
+        }
         return include self::_GetIncFile(func_get_arg(0));
     }
     /**
      * include sub view. from current controller view context
      * @return mixed 
      * @param string $file file to include
+     * @param ?array $params override parameters
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
@@ -164,8 +201,10 @@ class ViewHelper
         }
         if((func_num_args()>1) && (is_array(func_get_arg(1)))){
             extract(func_get_arg(1));
-            $params = func_get_arg(1);
-        }
+            $params = func_get_arg(1); 
+            
+        } 
+
         extract(self::GetViewArgs(), EXTR_SKIP); 
         if (!isset($ctrl)){
             igk_die('$ctrl not found from GetViewArgs');
@@ -198,20 +237,61 @@ class ViewHelper
         })->bindTo($ctrl);
         return $g($file);
     }
+
+    /**
+     * get base uri path
+     * @param BaseController $ctrl 
+     * @param string $fname 
+     * @return string 
+     */
+    public static function BaseUriPath(BaseController $ctrl, string $fname):string{
+        return (new Uri($ctrl::uri($fname)))->getPath();
+    }
+    public static function Article(string $article, $arguments=null){
+        $ctrl = self::CurrentCtrl();
+        $file = $ctrl->getArticle($article);
+        $n = igk_create_node("div");
+        //igk_html_article($ctrl, $article, $n, $arguments);
+        $n->article($ctrl, $file, $arguments);
+        // igk_wln_e("file: ", $file, $n->render());
+        return $n;
+    }
+    /**
+     * force directory entry
+     * @param BaseController $ctrl 
+     * @param string $fname 
+     * @param mixed $redirect_request 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
+        if (igk_is_cmd()){
+            return;
+        }
         $appuri = $ctrl->getAppUri($fname);
+        $query = null;
         // $ruri = igk_io_baseuri() . igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        if (!empty($q = $_GET)){
+            unset($q['rwc']); 
+            if (!empty($q)){
+                $query ='?'.http_build_query($q); 
+            }
+        }
         $ruri = igk_io_baseuri() . igk_io_request_uri_path();// igk_getv(explode('?', igk_io_base_request_uri()), 0);
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
+        
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
-            $g =igk_io_request_uri();
-            $entry_is_dir = (strlen($g) > 0) && 
-                ($g == '/'.$fname.'/')
-                ;// ($g[0] == "/");
-            // igk_wln_e($g, igk_io_request_uri());
-            // igk_wln_e(__FILE__.":".__LINE__,  "check subdomain entries , " , $appuri, $g, $entry_is_dir,  "=".substr($ruri, strlen($buri)) );
+            $g = igk_getv(parse_url(igk_io_request_uri()), 'path');
+            $entry_is_dir = ($g=='/') || ((strlen($g) > 0) && 
+                ($g == '/'.$fname.'/')) 
+                || (($fname== IGK_DEFAULT) && (strpos($g, '/')===0));
+                
+            // igk_wln_e("check :::  ", $entry_is_dir, 'fname:'.$fname, $buri,  "appuri:".$appuri,  $g, igk_io_request_uri());
+
         } else {
             $s = "";
             if (strstr($ruri, $buri)) {
@@ -223,8 +303,10 @@ class ViewHelper
             // + | --------------------------------------------------------
             // + | Sanitize request uri
             // + | 
-            $ctrl->setParam("redirect_request", ['request' => $_REQUEST]);
-            igk_navto($appuri . "/");
+            // igk_trace();
+            // igk_wln_e("try redirect on to:", $entry_is_dir, $appuri . "/".$query);
+            $ctrl->setParam("redirect_request", [self::REDIRECT_PARAM_NAME => $_REQUEST]);
+            igk_navto($appuri . "/".$query);
         } else {
             $redirect_request = $ctrl->getParam("redirect_request");
             $ctrl->setParam("redirect_request", null);
@@ -272,7 +354,7 @@ class ViewHelper
     }
 
     /**
-     * retrieve global args definition
+     * retrieve view environment args definition
      * @param mixed $n 
      * @param mixed $default 
      * @return mixed 
@@ -285,6 +367,11 @@ class ViewHelper
             return $s;
         return igk_getv($s, $n, $default);
     }
+    /**
+     * register view environment arg key
+     * @param mixed $t 
+     * @return void 
+     */
     public static function RegisterArgs($t){
         igk_set_env(self::ARG_KEY, $t);
     } 
@@ -329,12 +416,9 @@ class ViewHelper
      */
     public static function GetView(?string $path=null){
         $f = implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
-        !is_file($f) && ($f.='.phtml');
+        !is_file($f) && ($f.IGK_VIEW_FILE_EXT);
         return $f;
-        // return implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
-    }
-
-
+    }  
     /**
      * resolv view file and get attached params
      * @param string $viewDir root view directory

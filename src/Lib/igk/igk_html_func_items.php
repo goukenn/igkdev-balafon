@@ -1566,9 +1566,9 @@ function igk_html_node_defercsslink($href)
             $o = "";
             if ($tm = array_keys($sc)) {
                 $o .= "<script type=\"text/javascript\">";
-                $o .= "(function(igk){ if(!igk)return;igk.ready(function(){ igk.css.loadLinks(" . 
+                $o .= "(function(igk){ igk && igk.ready(function(){ if(!igk ||!igk.css.loadLinks)return;igk.ready(function(){ igk.css.loadLinks(" . 
                     json_encode($tm, JSON_UNESCAPED_SLASHES) 
-                    .");});})(window.igk)";
+                    .");});  }); })(window.igk)";
                 $o .= "</script>";
             }
             $i->Content = $o;
@@ -4439,7 +4439,7 @@ function igk_html_node_host(callable $callback, ...$args)
     ob_start();
     array_unshift($args, $p);
     // if ($response = $callback($p, ...$args)) {
-    if ($response = $callback(...$args)) {
+    if (($response = $callback(...$args)) && ($p !== $response)) {
         if (is_array($response)) {
             $p->text(igk_ob_get($response));
         } else {
@@ -5002,7 +5002,7 @@ function igk_html_node_dbTableView($tabResult,$theader=null, $header_prefix="hea
             if (!$r)
                 continue;
             if ($r instanceof IDbArrayResult){
-                $r = $r->to_array();
+                $r = $r->to_array(true);
             } else if (!is_array($r)) {
                 $r = (array)$r;
             } 
@@ -5033,6 +5033,9 @@ function igk_html_node_dbTableView($tabResult,$theader=null, $header_prefix="hea
                 if ($is_filter){
                     $theader->filter($k, $m, $c->td());
                 }else{
+                    // if (!mb_detect_encoding(utf8_decode($m), 'UTF-8', true)){
+                    //     $m = $m;
+                    // }
                     $c->td()->Content = $m;
                 }
             }
@@ -5117,4 +5120,16 @@ function igk_html_node_time(?string $datetime=null){
     $n = igk_create_node("time");
     $n['datetime'] = $datetime;
     return $n;
+}
+/**
+ * create a toggle button theme
+ * @param (null|string)|null $tag 
+ * @return HtmlItemBase<mixed, string> 
+ * @throws IGKException 
+ */
+function igk_html_node_toggleThemeButton(?string $tag=null){
+    $c = igk_create_node($tag ?? 'div');
+    $c['class']='igk-toggle-theme-button';
+    $c->on('click', 'igk.css.changeDocumentTheme()');
+    return $c;
 }

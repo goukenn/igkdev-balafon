@@ -32,6 +32,12 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         }   
         
     }
+    protected function checkRequirement()
+    {
+        if (empty($this->raw->table)){
+            igk_die("missing 'table' property");
+        }
+    }
     public function up(){ 
         // igk_trace();
         // igk_wln_e("calling up");

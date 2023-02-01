@@ -17,20 +17,15 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\HtmlMetaManager;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\IHtmlDocumentHost;
 use IGK\System\Http\CookieManager;
 use IGK\System\Http\IHeaderResponse;
 
 /**
  * create core document
  * @package IGK
- * @property ?bool $isTemplate enable template mode. 
- * @property ?bool $noCache disable document caching
- * @property ?bool $noCoreCss disable loading of core css
- * @property ?bool $noPowered disable powered by message
- * @property ?bool $noCoreScript disable core script rendering
- * @property ?bool $noFontInstall enable template mode. 
  */
-class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
+class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocumentHost{
      
     private $m_privatetheme;
     private $m_theme;
@@ -280,8 +275,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         $this->m_theme= new HtmlDocTheme($this, "css:public");
         $this->m_privatetheme= new HtmlDocTheme($this, "css:private"); 
         $this->setFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG, $this->prepareScriptManager());
-        $this->getHead()->add(new GlobalScriptManagerHostNode());
         $this->_addCoreCss();
+        $this->getHead()->add(new GlobalScriptManagerHostNode());
         $this->setup_document();
         igk_hook(IGK_ENV_NEW_DOC_CREATED, array(igk_app(), $this));
         
@@ -324,7 +319,16 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
             $g=$n->getParam($key);
             if (!isset($g[$s])){                
                 $t = new HtmlDocCoreStyle($s, true, 0);
-                $this->m_head->add($t);                
+                // $t->activate('defer');
+                $this->m_head->add($t);                                
+                /**
+                 * to avoid flickering FOCU direct css access required
+                 * 
+                 */
+                // $this->m_head->add('link')->setAttributes([
+                //     "rel"=>"stylesheet", 
+                //     "href"=>"/assets/demo.css"
+                // ]);
                 $t->cache = 0; 
                 $g[$s]=$t;
                 $n->setParam($key, $g); 
@@ -487,17 +491,21 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     }
      ///<summary>add tempory file to temp document. must be called out of rendering context.the file will be requested with link in the header.</summary>
     /**
-    * add tempory file to temp document. must be called out of rendering context.the file will be requested with link in the header.
+    * Add tempory file to temp document. \
+    * Call it out of rendering context. \
+    * The file will be requested with link in the header.
+    * @param string $file css file to add to document
+    * @return IHtmlNode style node 
     */
-    public function addTempStyle($file){
+    public function addTempStyle(string $file){
         $v_t=igk_get_env("sys://temp/css");
         if($v_t == null){
             $v_t=new HtmlSingleNodeViewerNode(igk_html_node_notagnode());
         }
-        if ( is_link($file)  || ($file == realpath($file))){
+        if (is_link($file) || ($file == realpath($file))){       
             $file = IGKResourceUriResolver::getInstance()->resolve($file);            
         }
-        $ln=$this->__addStyle($v_t->targetNode, $file);
+        $ln=$this->_addStyle($v_t->targetNode, $file);
         igk_set_env("sys://temp/css", $v_t);
         $this->m_head->add($v_t);
         return $ln;
@@ -581,7 +589,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * file : relative path to file according to system base dir
     */
     public function addStyle(string $file, $system=false){
-        return $this->__addStyle($this->m_head, $file, $system);
+        return $this->_addStyle($this->m_head, $file, $system);
     }
     ///<summary></summary>
     ///<param name="n"></param>
@@ -593,7 +601,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
     * @param string $file system file path 
     * @param mixed $system the default value is false
     */
-    protected function __addStyle($n, string $file, $system=false){
+    protected function _addStyle($n, string $file, $system=false){
         $g=$n->getParam("sys://css");
         if($g == null){
             $g=array();
@@ -603,7 +611,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse{
         }
         if(isset($g[$file])){
             return $g[$file];
-        }
+        } 
         $ln=new HtmlCssLinkNode($file, $system);
         $n->add($ln);
         $g[$file]=$ln;

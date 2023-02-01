@@ -102,6 +102,27 @@ class Uri
         $n->m_protocol = igk_getv($g, "scheme");
         $n->m_port = igk_getv($g, "port");
         $n->m_query = igk_getv($g, "query");
+        $n->m_cfragment = igk_getv($g, "fragment");
+        if ($n->m_path && ( ($pos = strpos($n->m_path, ";")) !==false)){
+            $n->m_options = substr($n->m_path, $pos+1);
+            $n->m_path =  substr($n->m_path,0, $pos);
+
+        }
+
+    }
+    /**
+     * get detected string option 
+     * @return null|string 
+     */
+    public function getOptions():?string{
+        return $this->m_options;
+    }
+    /**
+     * get parse query option
+     * @return array 
+     */
+    public function getParseOptions():array{
+        return igk_get_query_options($this->m_options);
     }
     /**
      * get site uri. combine protocol and domain name
@@ -146,5 +167,24 @@ class Uri
                 $this->m_fragment ? "#" . $this->m_fragment : null
             ])
         ]));
+    }
+    /**
+     * get query string
+     * @return string
+     */
+    public function getQuery():?string{
+        return $this->m_query;
+    }
+    /**
+     * get request uri
+     * @return string 
+     */
+    public function getRequestUri():string{
+        return "/".ltrim(implode("", [
+            $this->m_path,
+            $this->m_options ? ";" . $this->m_options : null,
+            $this->m_query ? "?" . $this->m_query : null,
+            $this->m_fragment ? "#" . $this->m_fragment : null
+        ]), '/');
     }
 }

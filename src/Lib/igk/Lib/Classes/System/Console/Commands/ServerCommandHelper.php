@@ -10,6 +10,7 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\Logger;
+use IGK\System\Console\ServerFakerInput;
 use IGK\System\IO\Path;
 
 /**
@@ -22,19 +23,19 @@ abstract class ServerCommandHelper
     public static function GetDbCommandsProperties()
     {
         return [
-            "-srv_request_uri" => "request-uri",
-            "-srv_host" => "host",
-            "-srv_name" => "server_name",
-            "-srv_root" => "server_root",
-            "-srv_https" => "https",
-            "-srv_geox" => "geox",
-            "-srv_geoy" => "geoy",
-            "-srv_city" => "city",
-            "-srv_country_code" => "country_code",
-            "-srv_country_name" => "country_name",
-            "-srv_region" => "region",
-            "-srv_request" => "request", // request args
-            "-srv_baseuri" => "base_uri", // set command environment base uri
+            '-srv_host' => "host",
+            '-srv_name' => "server_name",
+            '-srv_root' => "server_root",
+            '-srv_https' => "https",
+            '-srv_geox' => "geox",
+            '-srv_geoy' => "geoy",
+            '-srv_city' => "city",
+            '-srv_country_code' => "country_code",
+            '-srv_country_name' => "country_name",
+            '-srv_region' => "region",
+            '-srv_request' => "request", // request args
+            '-srv_request_uri' => "request-uri",
+            '-srv_baseuri' => "base_uri", // set command environment base uri
 
         ];
     }
@@ -52,11 +53,24 @@ abstract class ServerCommandHelper
             if (property_exists($command->options, $k)) {
                 $cnf->$v = $command->options->{$k};
             }
-        }
+        } 
         if ($root = $cnf->{'server_root'}) {
             if (is_dir($root)) {
                 $root = realpath($root);
             }
+        } else {
+            if ($envs = $command->app->getConfigs()->env) {
+                if (!is_array($envs)) {
+                    $envs = [$envs];
+                }
+                foreach ($envs as $k) {
+                    if ($k->name == 'IGK_BASE_DIR') {
+                        $root = realpath($k->value);
+                        break;
+                    }
+                }
+            }
+            //$root = IGK_BASE_DIR; //$command->app->getConfigs()->env;
         }
         $_SERVER['REQUEST_URI'] = $cnf->{'request-uri'} ?? igk_getv($_SERVER, 'REQUEST_URI');
         $_SERVER['HTTP_HOST'] = $cnf->{'host'} ?? igk_getv($_SERVER, 'HTTP_HOST');
@@ -72,11 +86,12 @@ abstract class ServerCommandHelper
         $_SERVER['GEOIP_REGION'] = $cnf->{'region'};
         $_SERVER['GEOIP_CITY'] = $cnf->{'city'};
 
-        if ($r = $cnf->{'request'}){
+        if ($r = $cnf->{'request'}) {
             parse_str($r, $tab);
             $_REQUEST = $tab;
+            igk_environment()->FakerInput = new ServerFakerInput($r);
         }
-        if (property_exists($command->options, '-srv_baseuri')){            
+        if (property_exists($command->options, '-srv_baseuri')) {
             igk_environment()->setBaseUri($cnf->{'base_uri'} ?? '');
         }
         igk_server()->prepareServerInfo();

@@ -10,6 +10,10 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use SQLQueryUtils;
 
+/**
+ * get core style definition
+ * @package IGK\System\Console\Commands
+ */
 class CSSCommand extends AppExecCommand{
     var $command = "--css:dist";
     var $desc = "get core balafon css"; 

@@ -10,6 +10,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\BackupUtility;
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
+use IGK\System\Console\Commands\Sync\ProjectSettings;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 
@@ -85,11 +86,16 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 $this->_restoreRelease($h, $project, $setting);
                 break;
             default:
+                $resolv_files = null;
                 if ($ctrl){
                     Logger::info('backup project before upload .... ');
                     $comment = igk_getv($command->options, '--comment');
                     BackupUtility::BackupProject($ctrl, $comment);
+                    if ($cl  = $ctrl->resolveClass(\System\Console\Commands\SyncProject::class)){
+                        $resolv_files = new $cl();
+                    }
                 }  
+
                 if ($this->use_zip) {
                     $controller = null;
                     // get project in pdir
@@ -112,7 +118,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         igk_die("[project_dir] is required" );
                     }
 
-                    $exclude = [];
+               
                     $g = ftp_nlist($h, $setting[$path_key]);
                     $o_dir = $setting[$path_key] . "/" . $project;
                     if (!in_array($project, $g)) {
@@ -123,15 +129,35 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         // move current folder to release
                         ftpHelper::CreateDir($h, $bckdir = $rsdir. "/" . $project . date("Ymd"));
                         Logger::info("rename " . $o_dir . " " . $bckdir);
-                        ftp_rename($h, $o_dir, $bckdir);
+                        ftpHelper::RenameFile($h, $o_dir, $bckdir);
                     }
                     ftpHelper::CreateDir($h, $setting[$path_key]);
                     ftp_chdir($h, $setting[$path_key]);
-                    @ftp_mkdir($h, $project);
+                    if (@ftp_mkdir($h, $project) === false){
+                        error_clear_last();
+                    }
                     $cdir = [];
+                    $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
+                    // check if .balafon-sync.project
+                    if (file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))){
+                        $g = ProjectSettings::Load(json_decode(file_get_contents($fc)));
+                        if ($g->ignoredirs ){
+                            $v_ignores =  array_fill_keys($g->ignoredirs , 1);
+                            $excludedir = array_merge($excludedir,$v_ignores);
+                        }
+                    } 
 
-                    $fc = function ($f, array &$excludedir = null) use ($exclude_file_extension) {                       
+                    $fc = function ($f, array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
                         $dir = dirname($f);
+                        $basename = basename($f);
+                        if ($resolv_files){
+                            if ($resolv_files->ignore($f)){
+                                return false;
+                            }
+                        }
+                        if (preg_match("/^(~)/", $basename)){
+                            return false;
+                        }                       
                         if ($excludedir) {
                             if (in_array($dir, $excludedir) || in_array(basename($dir), $excludedir)) {
                                 $excludedir[] = $dir;
@@ -141,15 +167,14 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         if (preg_match("#\.(git(.+)?|".$exclude_file_extension.")$#", $dir)) {
                             return false;
                         }
-                        if (preg_match("#(phpunit(.+(\.(yml|dist)))|\.(vscode|balafon|DS_Store|git(.+)))|\.(gkds)$#"
+                        if (preg_match("#(phpunit(.+(\.(yml|dist)))|\/node_modules\/|\.(vscode|balafon|DS_Store|git(.+)))|\.(gkds)$#"
                             , $f)) { 
                             return false;
                         }
                         return 1;
                     };
-
-                    foreach (IO::GetFiles($pdir, $fc, true, $exclude) as $f) {
-
+                    $v_files = IO::GetFiles($pdir, $fc, true, $excludedir); 
+                    foreach ($v_files as $f) { 
                         $g = substr($f, strlen($pdir));
                         if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
                             ftpHelper::CreateDir($h, dirname($project . $g));
@@ -222,7 +247,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 Logger::info("remove $target");
                 if (ftpHelper::RmDir($ftp, $target)) {
                     Logger::success("rename $path/$g to $target");
-                    ftp_rename($ftp, $path . "/" . $g, $target);
+                    FtpHelper::RenameFile($ftp, $path . "/" . $g, $target);
                 } else {
                     Logger::danger("failed to remove $target");
                 }

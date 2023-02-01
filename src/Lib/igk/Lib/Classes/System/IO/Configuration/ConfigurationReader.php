@@ -33,31 +33,31 @@ class ConfigurationReader
      * read errors
      * @var array
      */
-    private $m_errors = [];
+    protected $m_errors = [];
 
     /**
      * litteral string to read
      * @var string
      */
-    private $m_text;
+    protected $m_text;
     /**
      * offset position
      * @var int
      */
-    private $m_offset;
+    protected $m_offset;
 
     /**
      * read mode
      * @var mixed
      */
-    private $m_readmode;
+    protected $m_readmode;
     /**
      * length to read
      * @var mixed
      */
-    private $m_ln;
+    protected $m_ln;
     
-    private $m_result;
+    protected $m_result;
 
     const MODE_NAME = 1;
     const MODE_VALUE = 2;
@@ -155,7 +155,7 @@ class ConfigurationReader
         }
         return $str;
     }
-    private function _canRead(): bool
+    protected function _canRead(): bool
     {
         if (count($this->m_errors)>0){
             return false;
@@ -165,15 +165,15 @@ class ConfigurationReader
         }
         return false;
     }
-    private function _readName(): ?string
+    protected function _readName(): ?string
     {
         return trim($this->_readData($this->separator) ?? '');
     }
-    private function _readValue(): ?string
+    protected function _readValue(): ?string
     {
         return trim($this->_readData($this->delimiter) ?? '');
     }
-    private function _readData(string $end){
+    protected function _readData(string $end){
         /**
          * @var ?string $d
          */

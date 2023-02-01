@@ -44,6 +44,7 @@ class IGKEvents extends IGKObject
     const HOOK_DB_INIT_ENTRIES = "db_init_entries";
     const HOOK_DB_TABLECREATED = "db_table_created";
     const HOOK_DB_POST_GROUP = "db_post_db_create_database_list";
+    const HOOK_DB_CACHES_INITIALIZED = "db_cache_initialized";
 
     const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
     const HOOK_HTML_AFTER_RENDER_BODY="html_after_render_body";
@@ -69,6 +70,7 @@ class IGKEvents extends IGKObject
     // + | DB HOOK
     // + |
     const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
+    const HOOK_DB_RENAME_COLUMN = 'sys://db/rename_column';
 
     const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";
@@ -113,6 +115,7 @@ class IGKEvents extends IGKObject
      * filter node creation
      */
     const FILTER_PRE_CREATE_ELEMENT = "pre_filter_node";
+    const FILTER_POST_CREATE_ELEMENT = "post_filter_node";
     const FILTER_CONFIG_MENU = 'filter_config_menu';
 
     
@@ -312,11 +315,11 @@ class IGKEvents extends IGKObject
     /**
      * register hooks
      * @param mixed $name 
-     * @param mixed $callback 
+     * @param callable|string|array $callback 
      * @param int $priority 
      * @return void 
      */
-    public static function reg_hook($name, $callback, $priority = 10, $injectable=true)
+    public static function reg_hook(string $name, $callback, $priority = 10, $injectable=true)
     {
         $hooks = & igk_environment()->createArray(self::ENV_KEY); 
         if (!isset($hooks[$name])) {
@@ -386,9 +389,11 @@ class IGKEvents extends IGKObject
                     }
                 } else{ 
                     $tcargs = $cargs;
-                    if ($v->injectable){
+                    if ($v->injectable ){
                         $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
-                        $tcargs = Dispatcher::GetInjectArgs( new \ReflectionFunction($fc), $cargs);
+                        if (($fc instanceof \Closure ) || is_string($fc)){
+                            $tcargs = Dispatcher::GetInjectArgs( new \ReflectionFunction($fc), $cargs);
+                        }
                     } 
                     $cargs[0]->lastoutput = call_user_func_array($v->callback, $tcargs);
                 }

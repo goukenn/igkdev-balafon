@@ -43,18 +43,7 @@ class DbCleanCommand extends AppExecCommand
 
         $tb = [];
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
-        //$sdb = $db->dbName;        
-        //$g = $db->sendQuery("use information_schema;");
-        // $g = $db->sendQuery("select DISTINCT TABLE_NAME as t1 from table_constraints WHERE TABLE_SCHEMA='".$sdb."';");        
-        // $db->selectDb($sdb);
-        // $checkTable = [];
-        // $exists = [];
-        // foreach($g->Rows as $t) {
-        //     $checkTable[] = $t["t1"];
-        //     if (!$db->sendQuery("SELECT count(*) FROM ".$t["t1"])->success()){
-        //         $exists[] = $t["t1"];
-        //     } 
-        // } 
+        
         $api = igk_getctrl(IGK_API_CTRL);
         ob_start();
         $c = igk_api_mysql_check_data_structure($api, 0, 0, function ($type, $info) use (&$tb) {
@@ -80,8 +69,6 @@ class DbCleanCommand extends AppExecCommand
                 echo "error";
             }
         }
-
-
         Logger::success("complete");
     }
 }

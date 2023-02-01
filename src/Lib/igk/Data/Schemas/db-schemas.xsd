@@ -49,6 +49,8 @@
             <xs:element name="addColumn" maxOccurs="1"></xs:element>
             <xs:element name="removeColumn" maxOccurs="1"></xs:element>
             <xs:element name="changeColumn" maxOccurs="1"></xs:element>
+            <xs:element name="renameColumn" maxOccurs="1"></xs:element>
+            <xs:element name="renameTable" maxOccurs="1"></xs:element>
         </xs:choice>
         <xs:anyAttribute processContents="skip"></xs:anyAttribute>
     </xs:complexType>

@@ -23,4 +23,7 @@ class DbSchemasConstants{
     const OP_CREATE_TABLE ='createtable';
     const OP_RM_COLUMN ='removecolumn';
     const OP_ADD_COLUMN ='addcolumn';
+    const OP_CHANGE_COLUMN = 'changecolumn';
+    const OP_RENAME_COLUMN = 'renamecolumn';
+    const OP_RENAME_TABLE = 'renametable';
 }

@@ -33,7 +33,7 @@ class SchemaBuilder implements ArrayAccess{
      * @throws Exception 
      */
     public function render($options=null){
-        return $this->_output->render($options);
+        return rtrim($this->_output->render($options));
     }
     /**
      * create a table

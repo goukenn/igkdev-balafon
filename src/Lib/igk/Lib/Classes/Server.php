@@ -6,6 +6,8 @@
 
 namespace IGK;
 use IGK\Helper\StringUtility;
+use IGK\System\DataArgs;
+use IGK\System\Security\Web\HeaderAccessObject;
 
 ///<summary>represent server management </summary>
 /**
@@ -25,9 +27,24 @@ use IGK\Helper\StringUtility;
 */
 final class Server{
     private $data;  
+    private $m_access_control;
+    private $m_access_object;
     private static $sm_server;
 
-
+    /**
+     * get if server request in access control
+     * @return ?bool 
+     */
+    public function getAccessControl(){
+        return $this->m_access_control;
+    }
+    /**
+     * access data object
+     * @return null|HeaderAccessObject 
+     */
+    public function getAccessObject():?HeaderAccessObject{
+        return $this->m_access_object;
+    }
     ///<summary></summary>
     /**
      * 
@@ -126,12 +143,13 @@ final class Server{
                 "json"=>"application/json"
             ];
         }
-        $a = explode(",", $this->HTTP_ACCEPT);
+        $v_accept = $this->HTTP_ACCEPT ?? '';
+        $a = explode(",", $v_accept);
         if (in_array("*/*", $a)){
             return true;
         }
         $mtype = igk_getv($accept_type, $type, null);
-        return $mtype && in_array($mtype, explode(",", $this->HTTP_ACCEPT));
+        return $mtype && in_array($mtype, $a);
     }
 
     public function get($name, $default=null){
@@ -175,6 +193,15 @@ final class Server{
     public function isMultipartFormData(){
         return strpos($this->CONTENT_TYPE, "multipart/form-data") === 0;
     }
+    /**
+     * @return ?string
+     */
+    public function script_dir(){
+        if ($f = $this->SCRIPT_FILENAME){
+            return dirname($f);
+        }
+        return null;
+    }
     ///<summary></summary>
     /**
     * 
@@ -185,6 +212,23 @@ final class Server{
         foreach($_SERVER as $k=>$v){          
             $this->data[$k]=$v;
         }
+        $headers = igk_get_allheaders();
+
+        if ($headers  && isset($headers['ACCESS_CONTROL_REQUEST_METHOD'])){
+            $this->m_access_control = 1;
+            $v_access_object =  [
+                'method'=>$headers['ACCESS_CONTROL_REQUEST_METHOD'],
+                'headers'=>$headers['ACCESS_CONTROL_REQUEST_HEADERS'],
+                'authorization'=>igk_getv($headers, 'AUTHORIZATION'),
+                'origin' => igk_getv($headers, 'ORIGIN'),
+            ];
+            $this->m_access_object = HeaderAccessObject::ActivateNew($v_access_object);
+        }
+        // + header 
+        error_log(json_encode(compact('headers')));
+
+        error_log(json_encode($_SERVER));
+
 
         $this->IGK_SCRIPT_FILENAME=StringUtility::Uri(realpath($this->SCRIPT_FILENAME));
         $this->IGK_DOCUMENT_ROOT= StringUtility::Uri(realpath($this->DOCUMENT_ROOT))."/";
@@ -246,8 +290,7 @@ final class Server{
         $this->root_dir = $doc_root;
          // + | internal stus code
         $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
-        $this->IS_WEBAPP = isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['DOCUMENT_ROOT']);
-       
+        $this->IS_WEBAPP = isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['DOCUMENT_ROOT']); 
     }
     public function GetRootUri($secured=false){
         // return "";

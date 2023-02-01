@@ -24,6 +24,11 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
     var $desc = 'dump model property in controller';
 
     var $usage = 'model controller';
+    protected function showUsage()
+    {
+        Logger::print("Usage:\n");
+        Logger::info(sprintf("%s model controller",$this->command));
+    }
 
     public function exec($command, ?string $model=null, ?string $controller = null) { 
         if (igk_is_null_or_empty($model)){
@@ -35,7 +40,7 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
         $ctrl = $ctrl ?? SysDbController::ctrl(); 
         $ctrl->register_autoload();
         
-        if ($cl = $ctrl::resolvClass(\Models::class."\\".$model)){
+        if ($cl = $ctrl::resolveClass(\Models::class."\\".$model)){
             $a = 0;
             $row = $cl::createRow();
             if (property_exists($command->options, '--create-query')){

@@ -9,6 +9,7 @@ namespace IGK\Css;
 
 use IGK\Resources\R;
 use IGK\System\Html\SVG\SvgRenderer;
+use IGKException;
 use IGKResourceUriResolver;
 
 class CssThemeResolver
@@ -76,7 +77,7 @@ class CssThemeResolver
      * @param string $value 
      * @return string 
      */
-    public function treat(string $value, bool $themeexport)
+    public function treat(string $value, bool $themeexport = false)
     {
         // check not expression 
         if ((strpos($value, "{") === false) &&
@@ -92,7 +93,7 @@ class CssThemeResolver
         if (!$this->start) {
             // initialize 
             $this->start = igk_sys_request_time();
-            $this->cldef = &igk_css_get_treat_colors($this->parent ? $this->parent->getDef()->getCl() : []);
+            $this->colordef = &igk_css_get_treat_colors($this->parent ? $this->parent->getDef()->getCl() : []);
         }  
         $reg3 = IGK_CSS_CHILD_EXPRESSION_REGEX;
         $match = array();
@@ -100,6 +101,9 @@ class CssThemeResolver
         $systheme = $this->parent;
         $this->last = $value;
         $v = $v_def = $value;
+        // + | --------------------------------------------------------------------
+        // + | resolve link expression 
+        // + |
 
         while (($c = preg_match_all($reg3, $v, $match))) {
             for ($i = 0; $i < $c; $i++) {
@@ -140,8 +144,7 @@ class CssThemeResolver
         $vsrc = $v;
         while ($vresolv) {
             $vresolv = 0;
-            $qlist = [];
-            $qlist[] = $v;
+            $qlist = [$v];
             $roots = [];
             while ($g = array_pop($qlist)) {
                 $rtv = null;
@@ -152,11 +155,19 @@ class CssThemeResolver
                 }
                 while (($pos = strpos($g, "[", $pos)) !== false) {
                     $tv = igk_str_read_brank($g, $pos, "]", "[");
-                    if (empty($tv))
+                    if (empty($tv) || isset($roots[$tv]))
                         continue;
+                    // check for next separator
+                    $pos++;
                     if ($rtv == null) {
                         $roots[$tv] = $tv;
                     }
+                    $stop = '';
+                    if ($this->_nextSplitter($g, $pos)){
+                        $stop = ';';
+                    }
+                    
+
                     if (($tl = strpos($tv, "[", 1)) !== false) {
                         $q = array("parent" => $tv, "value" => substr($tv, $tl));
                         array_push($qlist, $q);
@@ -165,7 +176,7 @@ class CssThemeResolver
                         // $c->parent = $this->parent;
                         // $c->theme = $this->theme;
                         // $c->resolv = & $this->resolv;
-                        $sv = $this->treat_value($tv, $themeexport); 
+                        $sv = $this->treat_value($tv.$stop, $themeexport); 
                         // igk_wln_e($tv);
 
                         if (($rtv == null) || !isset($roots[$rtv]))
@@ -179,19 +190,30 @@ class CssThemeResolver
                             }
                             unset($roots[$tv]);
                         }
+                        if (empty($m = trim(str_replace($tv, $sv, $g), '; '))){
+                            // $v = str_replace($g, $m, $v);
+                        }
                     }
                 }
             }
-            foreach ($roots as $k => $tv) {
-                if ($k == $tv) {
-                    $tv = "";
+            if (!empty($v)){
+                foreach ($roots as $k => $tv) {
+                    if ($k == $tv) {
+                        $tv = "";
+                    }
+                    if (strpos($v, $k) === false) {
+                        throw new \IGK\System\Exceptions\CssParserException("{$k} not found in {$v}");
+                    } else{
+                        $v = str_replace($k, $tv, $v);
+                        if (empty(trim($v, "; "))){
+                            $v = "";
+                        }
+                    }
                 }
-                if (strpos($v, $k) === false) {
-                    throw new \IGK\System\Exceptions\CssParserException("{$k} not found in {$v}");
-                } else
-                    $v = str_replace($k, $tv, $v);
             }
-            $v = igk_css_treat_bracket($v, $theme, $systheme);
+            if (!empty($v)){
+                $v = igk_css_treat_bracket($v, $theme, $systheme);
+            }
             $g = 0;
             if (!empty($v) && ($v != $vsrc) && (strpos($v, "[") !== false)) {
                 $vresolv = 1;
@@ -201,6 +223,23 @@ class CssThemeResolver
         $this->resolv[$v_def] = $v;
         $this->count--;
         return $v;
+    }
+    private function _nextSplitter(string $v, & $pos){
+        $ln = strlen($v);
+        $tpos = $pos;
+        while($tpos  < $ln ){
+            $ch = $v[$tpos];
+            if ($ch==";"){
+                $pos = $tpos+1;
+                return true;
+            }
+            $tpos++;
+            if ($ch == ' '){
+                continue;
+            }
+            break; 
+        }
+        return false; 
     }
     /**
      * treat css  value
@@ -247,9 +286,8 @@ class CssThemeResolver
         $systheme = $this->parent;
         $gtheme = $theme;
         $v_m = $v;
-        if (!is_object($systheme)) {
-            igk_trace();
-            igk_wln_e("parent theme not an object");
+        if (!is_object($systheme)) {            
+            igk_dev_wln_e(__FILE__.":".__LINE__,  "parent theme not an object");
         }
         $d = &$systheme->getDef()->getCl();
         $gcl = ($d) ? $d : array();
@@ -359,8 +397,7 @@ class CssThemeResolver
                 // $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 break;
-            case self::ATTR_RESOURCE:               
-
+            case self::ATTR_RESOURCE: 
                 if ($themeexport){
                    //  $r = ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : null;
                     $v = str_replace($v_m, 
@@ -368,20 +405,15 @@ class CssThemeResolver
                         $v);
 
                 }else{
-
                     if (is_file($value)) {
                         $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
                     } else {
                         $vimg = R::GetImgResUri($value);
                         $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
                     }
-                }
-                // if ($value=="session_btn"){
-                //     igk_wln_e("res resolution", $value, $vimg);
-                // }
+                } 
                 break;
-            case self::ATTR_BACKGROUND_RESOURCE: 
-                igk_wln_e("theme export");
+            case self::ATTR_BACKGROUND_RESOURCE:  
                 $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_uri($value) . "');" : ""), $v);
                 break;
             case self::ATTR_URI: 
@@ -460,12 +492,13 @@ class CssThemeResolver
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
                 break;
             case self::ATTR_PROPERTY:
-            case self::ATTR_PROP:
-                $p = &$systheme->getProperties();
-                $v_r = igk_css_design_property_value($value, $theme->properties, $v_designmode);
+            case self::ATTR_PROP: 
+                // $g = $theme->getProperties();
+                // $p = & $systheme->getProperties();
+                $v_r = igk_css_design_property_value($value, $theme->getProperties(), $v_designmode);
                 if (!empty($v_r))
                     $v_r .= $stop;
-                $v = str_replace($v_m, $v_r ?? "", $v);
+                $v = str_replace($v_m, $v_r ?? "", $v); 
                 break;
             case "palcl":
                 $r = igk_get_palette();
@@ -511,6 +544,12 @@ class CssThemeResolver
         }
         return $v;
     }
+    /**
+     * resolvee resource in order to get system resource path 
+     * @param string $value 
+     * @return null|string 
+     * @throws IGKException 
+     */
     private function _resolve_res(string $value):?string {
         $tf = null;
         if ($this->resolver){

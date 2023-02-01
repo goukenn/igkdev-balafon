@@ -125,7 +125,7 @@ function igk_engine_read_args($s)
  * @param mixed $reader 
  * @param mixed $attr 
  * @param mixed $value 
- * @param mixed $context 
+ * @param ?array $context context to bind
  * @param mixed $storecallback 
  */
 function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null, $storecallback = null)
@@ -180,7 +180,7 @@ function igk_get_attrib_raw_context($context)
         } else {
             if (igk_environment()->isDev()) {
                 igk_trace();
-                igk_wln_e("BLF: context does't provide a raw object", $context);
+                igk_wln_e("BLF: context does not provide a raw object", $context);
                 igk_exit();
             }
         }
@@ -192,7 +192,9 @@ function igk_get_attrib_raw_context($context)
             "ctrl" => $o->ctrl,
             "raw" => IGKRawDataBinding::Create($o->raw)
         ],
-        "transformToEval"=>$o->transformToEval
+        "transformToEval"=>$o->transformToEval,
+        "key"=>igk_getv($context, 'key'),
+        "type"=>igk_getv($context, 'type'),
     ];
 }
 

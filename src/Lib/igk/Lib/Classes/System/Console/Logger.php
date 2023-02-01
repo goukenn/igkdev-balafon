@@ -22,6 +22,14 @@ class Logger{
     public static function SetLogger($logger){
         self::$sm_logger = $logger;
     }
+    public static function printr($args, $tabspace=null){
+        if (is_array($args)){
+            $tabspace = $tabspace ?? self::TabSpace;
+            foreach($args as $k=>$v){
+                self::print($k.$tabspace.$v);
+            }
+        }
+    }
 
     public static function __callStatic($name, $arguments)
     {

@@ -25,6 +25,16 @@ class CssSupport implements ArrayAccess{
     {  
         return "@support(".$this->rule."){".$this->media."" . "}";
     }
+    /**
+     * set value
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return $this 
+     */
+    public function set($key, $value){
+        $this[$key] = $value;
+        return $this;
+    }
 
     public function _access_OffsetSet($n, $v){
         $this->media[$n] = $v;

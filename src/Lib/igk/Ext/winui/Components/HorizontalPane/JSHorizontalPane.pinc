@@ -1,0 +1,142 @@
+<?php
+
+///<summary>horizontal pane panel used to add animation pane on a target node</summary>
+
+use IGK\System\Html\Dom\HtmlNode;
+
+final class JSHorizontalPane extends IGKObject
+{
+
+	/** @var HtmlNode*/
+	private $m_target;
+	/** @var HtmlNode*/
+	private $m_script;
+	/** @var HtmlNode*/
+	private $m_pageNode;
+	/** @var HtmlNode*/
+	private $m_bulletZone;
+	private $m_AnimDuration;
+	private $m_AnimInterval;
+	private $m_IsAutoAnimate;
+	private $m_AnimType; //translation or fade
+	private $m_AnimPeriod;
+
+	private $m_rootNode;
+
+	const DEFAULTANIMTYPE = HorizontalAnimType::rotation;
+
+
+	public function getpageNode()
+	{
+		return $this->m_pageNode;
+	}
+	public function getTarget()
+	{
+		return $this->m_target;
+	}
+	public function getScript()
+	{
+		return $this->m_script;
+	}
+	public function getbulletZone()
+	{
+		return $this->m_bulletZone;
+	}
+	public function getAnimInterval()
+	{
+		return $this->m_AnimInterval;
+	}
+	public function getAnimDuration()
+	{
+		return $this->m_AnimDuration;
+	}
+	public function getAnimPeriod()
+	{
+		return $this->m_AnimPeriod;
+	}
+	public function getIsAutoAnimate()
+	{
+		return $this->m_IsAutoAnimate;
+	}
+	public function getAnimType()
+	{
+		return $this->m_AnimType;
+	}
+	public function setAnimType($value)
+	{
+		$this->m_AnimType = $value;
+	}
+	public function setAnimInterval($value)
+	{
+		$this->m_AnimInterval = $value;
+	}
+	public function setAnimDuration($value)
+	{
+		$this->m_AnimDuration = $value;
+	}
+	public function setAnimPeriod($value)
+	{
+		$this->m_AnimPeriod = $value;
+	}
+	public function setIsAutoAnimate($value)
+	{
+		$this->m_IsAutoAnimate = $value;
+	}
+
+	public function __construct($target)
+	{
+		$this->m_AnimDuration = 500;
+		$this->m_AnimInterval = 20;
+		$this->m_AnimPeriod = 5000;
+		$this->m_target = $target;
+		$this->m_IsAutoAnimate = true;
+		$this->m_AnimType = self::DEFAULTANIMTYPE; //IGKHTMLHorizontalAnimType::r "translation";/// fade, rotation
+		//fit parent
+
+		$this->m_pageNode = $target->div();
+		$this->m_pageNode["igk-control-type"] = "igk-pane";
+		$this->m_pageNode->setClass("igk-pane rotation");
+		//global register theme to document directry if this object is created
+		igk_app()->getDoc()->Theme->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/default.pcss");
+	}
+	/**
+	 * add page 
+	 * @param (null|array)|null $attribute 
+	 * @return HorizontalPage 
+	 * @throws IGKException 
+	 * @throws EnvironmentArrayException 
+	 */
+	public function addPage(?array $attribute = null)
+	{
+		$p = new HorizontalPage();
+		if ($attribute)
+			$p->setAttributes($attribute);
+		$this->m_pageNode->add($p);
+		return $p;
+	}
+	public function Clear()
+	{
+		$this->m_pageNode->clearChilds();
+	}
+	public function flush()
+	{
+		if ($this->m_bulletZone == null) {
+			$this->m_bulletZone  =  $this->m_target->div();
+			$this->m_bulletZone["igk-control-type"] = "hpane-bz";
+			$this->m_bulletZone["class"] = "hpane-bz";
+		}
+
+		if ($this->m_script == null)
+			$this->m_script = $this->m_target->balafonjs();
+		$b = igk_parsebool($this->m_IsAutoAnimate);
+
+		$this->m_script->remove();
+		$this->m_script = new HtmlNode('template');
+
+		//(function(q){ ns_igk.ready(function(){igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'}); }); })(ns_igk.getParentScript());
+		$this->m_script->Content = <<<EOF
+		alert('animate');
+let q = ns_igk.getParentScript(); igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'});
+EOF;
+	}
+}

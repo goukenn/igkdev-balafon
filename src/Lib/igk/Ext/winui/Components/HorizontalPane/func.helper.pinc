@@ -1,0 +1,17 @@
+<?php
+
+// + | --------------------------------------------------------------------
+// + | helper function 
+// + |
+
+if (!function_exists('igk_hpane_get_dir_uri')){
+    function igk_hpane_get_dir_uri($f){
+        return igk_uri(igk_io_baseRelativePath(dirname($f)));
+    }
+}
+if (!function_exists('igk_html_node_horizontalpane')){
+    function igk_html_node_horizontalpane(){
+        $pane = new HorizontalPaneItem();
+        return $pane;
+    }
+}

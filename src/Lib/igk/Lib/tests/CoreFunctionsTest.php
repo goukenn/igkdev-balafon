@@ -13,6 +13,19 @@ use IGK\System\Html\HtmlUtils;
 class CoreFunctionsTest extends BaseTestCase
 {
 
+    public function test_snake_1(){
+
+        $this->assertEquals(
+            "p_presentation_avion",
+            igk_str_snake("PPresentationAvion")
+        );
+
+        $this->assertEquals(
+            "a_v_i_a_t_i_o_n",
+            igk_str_snake("AVIATION")
+        );
+    }
+
     public function test_parse_bool(){
 
         $this->assertEquals(
@@ -95,8 +108,10 @@ class CoreFunctionsTest extends BaseTestCase
     public function test_str_remove_line(){
         $str = "la vie\n \n \n est\n belle";
         $this->expectOutputString("la vie est belle");
-        echo igk_str_remove_lines($str);
+        echo igk_str_remove_lines($str); 
+    }
 
+    public function test_str_remove_line_2(){ 
         $this->expectException(\TypeError::class);
         igk_str_remove_lines(null);
     }

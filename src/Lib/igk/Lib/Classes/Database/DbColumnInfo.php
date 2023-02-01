@@ -35,9 +35,15 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     public function __construct($array = null)
     {
         $this->clType = "Int";
-        $this->clTypeLength = 11;
-        $this->clNotNull = false;
-
+        $this->clTypeLength = 11;      
+        $this->initialize($array);       
+    }
+    /**
+     * initialize db info with data
+     * @param null|array|object $array 
+     * @return void 
+     */
+    protected function initialize($array=null){
         if (is_array($array)) {
             $t = get_class_vars(get_class($this));
             foreach ($array as $k => $v) {
@@ -49,12 +55,26 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                 }
                 $this->$k = $v;
             }
+            if (strtolower($this->clType) == 'guid'){
+                // + | setup - transform guid
+                $this->clTypeLength=38;
+                if (is_null($this->clNotNull)){
+                    $this->clNotNull = true;
+                }
+                if (is_null($this->clIsUnique)){
+                    $this->clIsUnique = true;
+                }
+                $this->clType = 'VARCHAR';
+                if (is_null($this->clValidator)){
+                    $this->clValidator = 'guid';
+                }
+            }
+            if (!$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
+                $this->clDefault = 0;
+            }
         }
         if (!self::SupportTypeLength($this->clType))
             $this->clTypeLength = null;
-        if (!$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
-            $this->clDefault = 0;
-        }
         if ($this->clDefault && $this->clLinkType) {
             // detect link expression
             if (preg_match("/(.)+\.(.)+/", $this->clDefault)) {
@@ -62,19 +82,38 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             }
             $this->clDefault = null;
         }
+       
+    }
+    /**
+     * return validator class 
+     * @return null|string 
+     */
+    public function getValidatorClass(){
+        $val = $this->clValidator;
+        if (is_null($val)){
+            switch(strtolower($this->clType)){
+                case 'text':
+                    return 'no-html';                    
+                case 'guid': 
+                    return 'guid-validator';
+                default:
+                    break;
+            }
+        }
+        return $val;
     }
 
     /**
      * create definition column info from class definition 
-     * @param string $classname 
+     * @param string $class_name 
      * @return array 
      * @throws ReflectionException 
      * @throws IGKException 
      */
-    public static function CreateDefArrayFromClass(string $classname)
+    public static function CreateDefArrayFromClass(string $class_name)
     {
-        $g = igk_sys_reflect_class($classname);
-        $vars = get_class_vars($classname);
+        $g = igk_sys_reflect_class($class_name);
+        $vars = get_class_vars($class_name);
         $cls = [];
         foreach (array_keys($vars) as $n) {
             $c = $g->getProperty($n);
@@ -166,7 +205,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         if (($tbrelation !== null) && !empty($cl->clLinkType)) {
             if (!isset($tbrelation[$tb]))
                 $tbrelation[$tb] = array();
-            $tbrelation[$tb][$cl->clName] = array("Column" => $cl->clName, "Table" => $cl->clLinkType);
+            $tbrelation[$tb][$cl->clName] = array(IGK_COLUMN_TAGNAME => $cl->clName, "Table" => $cl->clLinkType);
         }
         return $cl;
     }

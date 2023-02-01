@@ -150,9 +150,7 @@ Users::registerMacro("grantAuthorization", function($group, $auth, $grant=1){
 });
 
 Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
-   // Logger::print("Grant : ".$auth ." to ". $group);
-  
-
+   // Logger::print("Grant : ".$auth ." to ". $group); 
     $auths = Authorizations::select_row(["clName"=>$auth]);
     if (!$auths && !($auths = Authorizations::insertIfNotExists(["clName"=>$auth]))){
         igk_die("failed to add auth");        

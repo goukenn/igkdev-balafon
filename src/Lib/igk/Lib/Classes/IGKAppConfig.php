@@ -139,11 +139,13 @@ final class IGKAppConfig extends IGKObject {
                 if (file_exists($file = $dir."/configs.".$value.".php")){                     
                     $data = [];
                     IGK\System\Configuration\ConfigUtils::LoadData($file, $data);      
-                    $extra = $extra + $data;
+                    $extra = array_merge($extra, $data);
+                    //igk_wln_e("prelead....", $preload_configs, $this->m_configEntries + $extra);
                 };
             }
-        }         
+        }      
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
+        // gk_wln_e("finish", $this->m_datas)   ;
         date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
       
     }

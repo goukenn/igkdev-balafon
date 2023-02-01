@@ -32,8 +32,8 @@ class AppBuilder extends MacrosConstant{
     /**
      * 
      */
-    public function registerService(string $name, string $instance){
-        return IGKServices::Register($name, $instance);
+    public function registerService(string $name, string $instance_class){
+        return IGKServices::Register($name, $instance_class);
     }
     static function _InvokeMacros($macros, $name, $arguments ){ 
         $key = static::class .self::StaticSeparator. $name;

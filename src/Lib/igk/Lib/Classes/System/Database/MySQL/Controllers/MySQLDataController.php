@@ -11,6 +11,7 @@ namespace IGK\System\Database\MySQL\Controllers;
 use IGK\Controllers\BaseController;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
+use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Html\Dom\HtmlNode; 
 
 /**
@@ -26,6 +27,7 @@ class MySQLDataController extends BaseController{
     ////!\ not realible
     ///<summar>/!\ delete all table from data base. return a node of</summary>
     /**
+     * clean mysql database
     */
     public function drop_all_tables(){
         $d=igk_get_data_adapter($this);
@@ -66,7 +68,7 @@ class MySQLDataController extends BaseController{
     */
     public static function DropAllRelations($adapt, $dbname){
         $bck=$dbname;
-        $adapt->selectdb("information_schema");
+        $adapt->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
         $g=$adapt->sendQuery("DELETE FROM `TABLE_CONSTRAINTS` WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
         return $g;
@@ -85,7 +87,7 @@ class MySQLDataController extends BaseController{
         $r=0;
         $g=0;
         $bck=$dbname;
-        $adapt->selectdb("information_schema");
+        $adapt->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
         $e=$adapt->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME` LIKE '".igk_db_escape_string($qregex)."' AND `CONSTRAINT_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
         if($e && ($e->RowCount > 0)){
@@ -170,7 +172,7 @@ class MySQLDataController extends BaseController{
         $d=$adapter;
         $bck=$dbname;
        
-        $rp = $d->selectdb("information_schema"); 
+        $rp = $d->selectdb(DataAdapter::DB_INFORMATION_SCHEMA); 
         $h=$d->sendQuery(
             "SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';",
             true, null, false
@@ -223,7 +225,7 @@ class MySQLDataController extends BaseController{
     */
     public static function GetAllRelations($adapt, $dbname){
         $bck=$dbname;
-        $adapt->selectdb("information_schema");
+        $adapt->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
         $g=$adapt->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
         return $g;
@@ -240,7 +242,7 @@ class MySQLDataController extends BaseController{
     */
     public static function GetConstraint_Index($a, $b, $tbase){
         $bck=$tbase;
-        $a->selectdb("information_schema");
+        $a->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
         $h=$a->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_SCHEMA`='".$tbase."'");
         $i=1;
         $max=0;

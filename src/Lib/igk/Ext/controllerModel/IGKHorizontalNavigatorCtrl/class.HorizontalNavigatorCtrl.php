@@ -21,25 +21,14 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	protected function initComplete($context=null){
 		parent::initComplete();
 		//please enter your controller declaration complete here
-		igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
-	}
-	//@@@ init target node
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
-		$node =  parent::initTargetNode();
-		return $node;
+		// igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 	}
 	public function getcanAddChild(){
 		return false;
 	}
 	public static function GetAdditionalDefaultViewContent(){
 		return null;
-	}
-
-	public function storeDBConfigsSetting()
-	{
-		parent::storeDBConfigsSetting();
-
-	}
+	}	
 	public static function GetAdditionalConfigInfo()
 	{
 		return array(
@@ -65,7 +54,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	//@@@ parent view control
 	public function View():BaseController{
 		$this->TargetNode->clearChilds();
-		$c = new IGKJS_horizontalPane($this->TargetNode);
+		$c = new JSHorizontalPane($this->TargetNode);
 		$this->buildPage($c);
 		$c->ShowBullet = true;
 		$c->AnimInterval  = igk_getv($this->Configs, "clanim_NAV_ANIMFREQUENCY", 20);//igk_get_uvar(strtoupper($this->Name."_NAV_ANIMFREQUENCY"), 20, true,"rate time in (ms > 0)");

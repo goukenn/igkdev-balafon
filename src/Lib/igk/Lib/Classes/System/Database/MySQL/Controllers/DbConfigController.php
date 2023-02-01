@@ -27,6 +27,7 @@ use IGK\System\Configuration\Controllers\ControllerAndArticlesController;
 use IGK\System\Console\Commands\ResetDbCommand;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\IDatabaseHost;
+use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
@@ -37,6 +38,7 @@ use IGKCSVDataAdapter;
 use IGKEvents;
 use IGKException;
 use IGKLog;
+use mysqli;
 use TypeError;
 
 use function igk_resources_gets as __;
@@ -457,7 +459,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 if (!$v_theader) {
                     $v_theader = true;
                     $li = $v_table->addTr();
-                    // HtmlUtils::AddToggleAllCheckboxTh($li);
                     $li->add("th")->space();
                     $li->add("th", array("class" => "fitw"))->Content = __("clDataBaseName");
                     $li->add("th")->Content = IGK_HTML_SPACE;
@@ -495,7 +496,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      */
     private function __canEditDb(string $db)
     {
-        return !in_array($db, ["mysql", "information_schema", "performance_schema", "sys"]);
+        return !in_array($db, ["mysql", DataAdapter::DB_INFORMATION_SCHEMA, "performance_schema", "sys"]);
     }
     ///$c target node
     /**
@@ -837,11 +838,15 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      */
     public function backupDb()
     {
+        /**
+         * @var mixed $adapter 
+         */
         $mysql = igk_get_data_adapter($this, true);
         if (!$mysql) {
             igk_notifyctrl()->addError("can't get " . IGK_MYSQL_DATAADAPTER . " data adapter");
             return;
         }
+
         $adapter = igk_get_data_adapter(IGK_CSV_DATAADAPTER);
         if (!$adapter) {
             igk_notifyctrl()->addError("can't get csv adapter");
@@ -919,8 +924,12 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $con = "success";
             $type = "igk-success";
             $ad->close();
-        } else {
-        }
+        }  
+        else{
+            if (igk_environment()->isDev()){
+                $con .= "Error message : ".igk_db_get_error();
+            }
+        } 
         igk_ajx_toast(implode(" ", [__("Connection:"), __($con)]), $type);
     }
     ///<summary></summary>
@@ -1925,8 +1934,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      */
     public function getTablesFor($ctrl, $include_dependency = false)
     {
-        igk_trace();
-        die("not implements" . __METHOD__);
+        // igk_trace();
+        die("deprecated " . __METHOD__);
         return null;
 
         if (is_string($ctrl)) {
@@ -2114,13 +2123,19 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_set_env(__FUNCTION__, 1);
         igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
         IO::RmDir(IGK_APP_DIR . "/Caches/db");
-        DBCaches::Reset();
-        //Database::InitSystemDb();
-
-        $command = new ResetDbCommand;
-        if ($command->globalResetDatabase(true, false)) {
-            $this->notifyctrl()->success(__("init system database"));
+        DBCaches::Reset(); 
+     
+        $db = $this->getDataAdapter();
+        if ($db->connect()){
+            $command = new ResetDbCommand;
+            if ($command->globalResetDatabase(true, false)) {
+                $this->notifyctrl()->success(__("init system database"));
+            } else{
+                $this->notifyctrl()->danger(__("something bad append"));
+            }
+            $db->close();
         }
+        // igk_wln_e("finish");
         // $this->resetDataTableDefinition();
         // $ad = igk_get_data_adapter($this);
         // $dbname = igk_configs()->db_name;

@@ -123,14 +123,11 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      */
     public function __wakeup()
     {
-
-        igk_wln_e(
+        igk_dev_wln_e(
             "wake up not allowed: unfortunally query driver being store in session",
             $this->m_openCount,
             get_class($this)
         );
-        // $this->m_resource=null;
-        // $this->m_openCount=0;
     }
     ///<summary></summary>
     ///<param name="leaveOpen" default="false"></param>
@@ -787,14 +784,10 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             if ($this->m_resource) {
                 if (!@$this->m_resource->ping())
                     return false;
+                // + | dev list information schema resource
                 if ($dbname == "information_schema") {
                     igk_environment()->set("mysql_resource", $this->m_resource);
                 }
-                //     $g = $mysql_func($this->m_resource, $dbname);
-                //     $g = mysqli_query($this->m_resource, "SELECT DATABASE() as DbName");
-                //     $mm = mysqli_fetch_assoc($g);
-                //     igk_wln_e("change db name ".$dbname, $g, $mm);
-                // }
                 return $mysql_func($this->m_resource, $dbname);
             }
             return false;

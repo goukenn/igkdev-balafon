@@ -131,17 +131,21 @@ $def[".no-repeat"] = "background-repeat:no-repeat;";
 $def[".no-overflow"] = "overflow:hidden;";
 $def[".no-style"] = "text-decoration:none; list-style-type:none; border:none;";
 $def[".no-visible"] = "visibility: hidden;";
-$def[".no-resize"] = "resize:none;";
+$theme->supports('resize:none')->set('.no-resize', 'resize:none;');
+// $def[".no-resize"] = "resize:none;";
 $def[".no-focus"] = "text-decoration:none; border:none; outline:0;";
 $def[".no-selection"] = "[resolv:user-select: none;]";
-$def[".no-contextmenu"] = "/*disable context menu*/";
+$def[".no-contextmenu"] = "[resolv:user-select: none;] /*disable context menu*/";
 $def[".no-drag"] = "[resolv:user-select: none;]";
 $def[".no-outline"]="outline:none !important; outline-style:none;";
 
 $def[".no-appearance"]="[resolv:appearance:none;]";
 
 $def[".no-scrollbar::-webkit-scrollbar"] = "display:none;";
-$def[".no-scrollbar"] = "scrollbar-width:none; -ms-overflow-style:none;";
+$theme->supports('scrollbar-width:none')->set(
+    ".no-scrollbar", "scrollbar-width:none; -ms-overflow-style:none;"
+);
+// $def[".no-scrollbar"] = "scrollbar-width:none; -ms-overflow-style:none;";
 $def[".no-cursor"] = "cursor: none;";
 
 
@@ -166,8 +170,7 @@ for($i =0; $i<= 10; $i++){
 	$def[".z-level-".$i] = "z-index:".($i*10).";";
 }
 
-
-$def[".resizable"] = "resize:both;";
+$theme->supports('resize:both')->set(".resizable", "resize:both;");
 $def["*:before, *:after"]= "box-sizing: border-box";
 
 
@@ -210,6 +213,7 @@ $def[".flex-wrap-reverse"] = "flex-wrap: wrap-reverse;";
 $def[".flex-a-center"] = "justify-content: center; align-items: center;";
 $def[".flex-column"] = "flex-direction: column;";
 $def[".flex-row"] = "flex-direction: row;";
+$def[".flex-row-reverse"] = "flex-direction: row-reverse;";
 $def[".flex-alignc > *"] = "align-self: center;";				// align all child to center
 $def[".flex-align-ic"] = "align-items: center;";				// align all child to center
 $def[".flex-space-between"] = 
@@ -220,7 +224,7 @@ $def[".flex-justify-c"] = "justify-content: center;";
 // justify space between
 $def[".flex-justify-sb"] = "justify-content: space-between;";
 $def[".flex-justify-a"] = "justify-content: space-around;";
-$def[".flex-justify-e"] = "justify-content: space-evenly;";
+$theme->supports('justify-content: space-evenly')->set(".flex-justify-e", "justify-content: space-evenly;");
 $def[".flex-nowrap"] = "flex-wrap: nowrap;";
 
 $def[".flex-grow"] = "flex-grow: 1;";
@@ -241,12 +245,12 @@ $def[".nowrap-container > *"] = "{sys:no-wrap}";
 //-----------------------------------------------------------------
 $def[".dispgrid"] =  
 $def[".grid"] = 
-$def[".igk-grid"] = "display: grid;";
+$def[".igk-grid"] = "display: -ms-grid; display: grid;";
 
 
 $def[".dispigrid"] =  
 $def[".i-grid"] = 
-$def[".igk-inline-grid"] = "display: inline-grid;";
+$def[".igk-inline-grid"] = "display: -ms-inline-grid; display: inline-grid;";
 
 
 $def[".igk-clear-cell"] = "display:table; content:' ' ; clear:both;";
@@ -307,6 +311,15 @@ $def[".bold"] = "font-weight: 400";
 $lg_screen[".igk-container"] = "padding: 0px 10px;";
 $def[".igk-container > .igk-container"] = "width:auto;";
 
+// + | --------------------------------------------------------------------
+// + | opacity
+// + |
+$def['.opacity-0'] = 'opacity:0;';
+$def['.opacity-025'] = 'opacity:0.25;';
+$def['.opacity-05'] = 'opacity:0.5;';
+$def['.opacity-075'] = 'opacity:0.75;';
+$def['.opacity-085'] = 'opacity:0.8;';
+$def['.opacity-1'] = 'opacity:1;';
 
 
 
