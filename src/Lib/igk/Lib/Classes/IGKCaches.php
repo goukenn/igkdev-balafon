@@ -24,6 +24,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
  */
 final class IGKCaches
 {
+    private $m_storage = [];
     /**
      * @var IGKCaches caches
      */
@@ -116,13 +117,15 @@ final class IGKCaches
     public static function __callStatic($name, $args)
     {
         $i = self::getInstance();
-        if (isset($i->{$name})) {
-            return $i->{$name};
+        if (isset($i->m_storage[$name])) {
+            return $i->m_storage[$name];
         }
         //+ init article to writes
         if (method_exists($i, $fc = "_init_{$name}_caches")) {
             $o = $i->{$fc}();
-            $i->{$name} = $o;
+            // dynamic property is deprecated 
+            // $i->{$name} = $o;
+            $i->m_storage[$name] = $o;
             return $o;
         }
         die("method not found. " . __CLASS__ . "::" . $name);

@@ -122,6 +122,10 @@ $def[".fitvh"] = "height: 100vh;";
 $def[".fitvw"] = "width: 100vh;";
 
 $def[".no-wrap"] = "white-space: nowrap !important; ";
+$def['.pre-line'] = 'white-space: pre-line;';
+$def['.pre-wrap'] = 'white-space: pre-wrap;';
+$def['.pre-break'] = 'white-space: break-spaces;';
+
 $def[".no-border"] = $def[".no-bdr"]  = "border:none !important;";
 $def[".no-background"] = "background-color:transparent !important;";
 $def[".no-margin"] = "margin:0px !important;";
@@ -211,8 +215,13 @@ $def[".flex-no-wrap"] = "flex-wrap: nowrap;";
 $def[".flex-wrap"] = "flex-wrap: wrap;";
 $def[".flex-wrap-reverse"] = "flex-wrap: wrap-reverse;";
 $def[".flex-a-center"] = "justify-content: center; align-items: center;";
-$def[".flex-column"] = "flex-direction: column;";
+$def[".flex-column"] =
+$def[".flex-col"] = "flex-direction: column;";
+$def[".flex-column-i"] =
+$def[".flex-col-i"] = "flex-direction: column !important;";
+
 $def[".flex-row"] = "flex-direction: row;";
+$def[".flex-row-i"] = "flex-direction: row !important;"; // flex-row-important
 $def[".flex-row-reverse"] = "flex-direction: row-reverse;";
 $def[".flex-alignc > *"] = "align-self: center;";				// align all child to center
 $def[".flex-align-ic"] = "align-items: center;";				// align all child to center
@@ -420,3 +429,7 @@ foreach ($tab as $k) {
 }
 igk_theme_screen_mark("only", "display:initial;");
 unset($v, $k,$c);
+
+
+
+$def["p.pre-line"] = "white-space: pre-line;";

@@ -182,11 +182,12 @@ abstract class SQLDataAdapter extends DataAdapterBase{
     ///<param name="tableinfo" default="null"></param>
     /**
     * 
-    * @param mixed $tbname
-    * @param mixed $values
+    * @param mixed $tbname table name
+    * @param mixed $values value to insert 
+    * @param mixed $tableinfo request table info
     * @param mixed $tableinfo the default value is null
     */
-    public function insert($tbname, $values, $tableinfo=null){
+    public function insert($tbname, $values, $tableinfo=null, bool $throwException = true){
         $query = $this->getGrammar()->createInsertQuery($tbname, $values, $tableinfo);		
         return $this->sendQuery($query);  
     }

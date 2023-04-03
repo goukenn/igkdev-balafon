@@ -239,7 +239,7 @@ class InstallSite
                 $t_conf_file,
                 <<<EOF
 {$listen}<IfDefine !ServerName>
-ServerName ${servername}
+ServerName {$servername}
 </IfDefine>
 <VirtualHost *:$tport>
 SetEnv ENVIRONMENT {$environment}
@@ -317,8 +317,8 @@ EOF
         // + |
         if ($v_is_unix && (get_current_user() == "root")){
             if ($ug = igk_getv($options, "user:group", "www-data:www-data")) {
-                `chown -R ${ug} ${folder}`;
-                `chmod -R 775 ${folder}`;
+                `chown -R {$ug} {$folder}`;
+                `chmod -R 775 {$folder}`;
             }
         } 
         return true;

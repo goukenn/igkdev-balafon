@@ -12,7 +12,7 @@ igk.system.createNS("igk.core", {
 			// console.debug("start event source "+uri);
 			var source = new EventSource(uri);			
 			source.addEventListener("message", function(e){
-				console.debug("message : "+e.data);
+				// console.debug("message : "+e.data);
 				if (e.data=="failed"){
 					source.close();
 				}
@@ -27,7 +27,7 @@ igk.system.createNS("igk.core", {
 			});
 			
 			source.addEventListener("finish", function(e){				
-				console.debug("event finish :", e.data);
+				// console.debug("event finish :", e.data);
 				source.close();
 				q.setHtml('');
 				if (e.data == 'ok'){
@@ -57,7 +57,7 @@ igk.system.createNS("igk.core", {
 			q.setHtml(_s+( Math.round((e.loaded / e.total) * 100)) + "%");
 		};
 	} else {
-		console.log('failed to get ' + t );
+		// console.log('failed to get ' + t );
 	}
 }}); 
 })();

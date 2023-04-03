@@ -35,7 +35,8 @@ JS;
 $conv = new CssConverter;
 $data = $conv->parseScssContent($content);
 
-        $this->assertEquals('{"html":{"height":"100%","width":"450px"},"html#item:focus.li":{"height":"88px","color":"#123100","background-color":"red","content":"\' presentation: du jour\'","background-image":"url(https:\/\/cdn.pixabay.com\/photo\/2015\/12\/10\/16\/39\/shield-1086703_960_720.png)"}}', 
+        $this->assertEquals(
+            '{"html":{"height":"100%","width":"450px"},"html#item:focus.li":{"height":"88px","color":"#123100","background-color":"red","content":"\' presentation: du jour\'","background-image":"url(https:\/\/cdn.pixabay.com\/photo\/2015\/12\/10\/16\/39\/shield-1086703_960_720.png)"},"@variables":{"info":"#123100"}}', 
         json_encode($data));
     }
 }

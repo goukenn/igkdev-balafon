@@ -16,7 +16,7 @@ final class HtmlCallbackNode extends HtmlNode{
     var $callback;
     ///<summary></summary>
     ///<param name="option" default="null"></param>
-    public function __AcceptRender($option=null){
+    public function _acceptRender($option=null){
         return 1;
     }
     ///<summary></summary>

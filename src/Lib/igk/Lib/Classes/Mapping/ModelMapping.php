@@ -4,76 +4,67 @@
 // @date: 20230117 14:15:41
 namespace IGK\Mapping;
 
+use IGK\Helper\MapHelper;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 
-/**
- * used to map data to model
- * @package com\igkdev\app\llvGStock\Actions
- */
-class ModelMapping{
-    /**
-     * prefix of field if non strict mapping
-     * @var null|string
-     */
-    var $prefix;
+
+class ModelMapping implements IDataMapper{
     /**
      * model to use
      * @var ModelBase
      */
     var $model;
+
     /**
-     * mapping keys [data_key => model_key]. for strict mapping
+     * map references
      * @var ?array
      */
-    var $mapping;
-    
-    public function __construct(\IGK\Models\ModelBase $model, ?string $prefix){
-        $this->model = $model;
-        $this->prefix = $prefix;
+    var $references;
+
+    private $m_mapkey;
+
+    public function __construct($model_or_model_class)
+    {
+        (is_string($model_or_model_class) && is_subclass_of($model_or_model_class, \IGK\Models\ModelBase::class)) || 
+        (is_object($model_or_model_class) && $model_or_model_class instanceof ModelBase) || igk_die("not a valid parameter");
+
+        $this->model = $model_or_model_class::model();
     }
     /**
-     * map data
-     * @param mixed $data 
-     * @param mixed $ob object to bind 
-     * @return object|bool 
+     * map model result data
+     * @param string $key 
+     * @param mixed $value 
+     * @return null|array 
+     * @throws IGKException 
      */
-    public function map($data, $ob=null){
-        $keys = array_fill_keys($this->model->colKeys(), 1); 
-        $result = false;
-        $m = is_null($ob) ? 1 : 0;
-        $resolv = [];
-        if (is_object($data)){
-            $ob = $ob ?? (object)[];
-            foreach($data as $k=>$v){
-                if (is_object($v))continue;
+    public function map($key, $value): ?array{        
 
-                if ($this->mapping){
-                    if (isset($this->mapping[$k])){
-                        $q = $this->mapping[$k];
-                        $ob->$q = $v;
-                        $result = true;
-                        $resolv[$q] = 1;
-                    }
-                    continue;
-                }   
-                $nk = [];
-                $nk[] = $this->prefix.$k;
-                $nk[] = $this->prefix.igk_str_snake($k);
-                $nk[] = $this->prefix.StringUtility::CamelClassName($k);
-                $nk[] = $k;
-                while(count($nk)>0){
-                    $q = array_shift($nk);
-                    if (!isset($resolv[$q]) && isset($keys[$q])){                    
-                        $ob->$q = $v;
-                        $result = true;
-                        $resolv[$q] = 1;
-                        break;
-                    }
+        $map_ref= $key;
+        if ($tabinfo = $this->model->getTableInfo()){ 
+            $prefix = $tabinfo->prefix;
+            if ($prefix){
+                if (strpos($key, $prefix) === 0){
+                    $key = igk_str_lwfirst(trim(substr($key, strlen($prefix)), ' _'));
+                }
+            }else{
+                $rf = explode("_", $key);
+                if (count($rf)>1){
+                    $key = igk_str_lwfirst(implode("", array_slice($rf,1)));
+                }
+            } 
+        }
+        if (is_object($value)){
+            // map submethod
+            if ($this->references)
+            {
+                $tkey = implode(".",array_filter([$this->m_mapkey, $map_ref]));
+                if (isset($this->references[$tkey])){
+                    $g = $this->references[$tkey];                    
+                    $value = MapHelper::Map($value, $g);
                 }
             }
-            return $m == 1? $ob : $result;
         }
-        return $result;
+        return [$key, $value]; 
     }
 }

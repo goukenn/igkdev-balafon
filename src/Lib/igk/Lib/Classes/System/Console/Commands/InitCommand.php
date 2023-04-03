@@ -15,6 +15,7 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 use IGK\Helper\IO as IGKIO;
+use IGKConstants;
 use ReflectionClass;
 use function igk_resources_gets as __;
 
@@ -23,6 +24,8 @@ class InitCommand extends AppExecCommand
     var $command = "--command:init";
 
     var $desc  = "initialize balafon command cache";
+
+    const BASECLASS_COMMAND = IGKConstants::BASECLASS_COMMAND;
 
     public function exec($command)
     {
@@ -62,7 +65,8 @@ class InitCommand extends AppExecCommand
         }
         $mod = igk_get_modules();
         if ($mod  && (count($mod) > 0)) {
-
+            $base_cl =  igk_uri(self::BASECLASS_COMMAND)."/";
+            $system_cl_command = igk_uri(\Classes\System\Console\Commands::class);
             foreach ($mod as $k => $v) {
                 $mod = igk_get_module($k);
                 $ns = $mod->config("entry_NS");
@@ -79,19 +83,18 @@ class InitCommand extends AppExecCommand
                         if (!empty($ns)) {
                             $tns = [$ns];
                         }
-                        $files = igk_io_getfiles($f . "/Classes/System/Console/Commands", "/Command\.php$/");
+                        $files = igk_io_getfiles($f . '/'.$system_cl_command, "/Command\.php$/");
                         if (!$files) {
                             // Logger::info("command not found : ".$f);
                             continue;
-                        }
+                        } 
                         foreach ($files as $tf) {
                             $v = igk_regex_get("/\/(?P<name>([^\/]+))Command\.php$/", "name", $tf);
                             if (empty($v)) continue;
 
-                            $classname = str_replace("/", "\\", ($ns ? $ns . "/" : "") . "System/Console/Commands/" . $v) . "Command";
-
-                            require_once($tf);
-                            if (!class_exists($classname) || (igk_sys_reflect_class($classname))->isAbstract()) {
+                            $classname = str_replace("/", "\\", ($ns ? $ns . "/" : "") . $base_cl . $v) . "Command";
+                            require_once($tf); 
+                            if (!class_exists($classname, false) || (igk_sys_reflect_class($classname))->isAbstract()) {
                                 continue;
                             }
                             $commands_list[$classname] = $tf;

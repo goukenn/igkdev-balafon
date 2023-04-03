@@ -6,6 +6,8 @@
  
 namespace IGK\Tests\Controllers;
 
+use IGK\Controllers\ApplicationModuleController;
+use IGK\Helpers\ApplicationModuleHelper; 
 use IGK\Tests\BaseTestCase;
 
 /**
@@ -13,14 +15,17 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Tests\Controllers
  */
 abstract class ModuleBaseTestCase extends BaseTestCase{
-    protected $controller;
+    protected $controller; 
 
+    public static function setUpBeforeClass(): void{
+        // gk_require_module(__NAMESPACE__); 
+    } 
     public function __construct(){
         parent::__construct();
         if ($c = igk_getv($_ENV, "IGK_TEST_MODULE")){
             $this->controller = igk_getctrl($c);
         }else{
-            $this->controller = $this->getModule();
+            $this->controller = $this->getModule() ?? igk_die("module not found ".static::class);
             $this->controller->auto_load_register();
         }
     }
@@ -28,5 +33,11 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
      * get module 
      * @return mixed 
      */
-    abstract protected function getModule();
+    protected function getModule(): ?ApplicationModuleController{
+        if ($dir = ApplicationModuleHelper::GetModuleNameFromTestClass(static::class)){        
+            return  igk_require_module($dir);
+        }
+        return null;
+    }
 }
+ 

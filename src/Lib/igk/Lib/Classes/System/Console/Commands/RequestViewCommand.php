@@ -8,8 +8,12 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Console\ServerFakerInput;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Uri;
+use IGKException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
@@ -31,16 +35,18 @@ class RequestViewCommand extends AppExecCommand{
     //     "--render:[ID]"=>"render default view",        
     // ];
     public function showOptions(){
-
-        // syntax available for php 8
+        // + | ----------------------------------
+        // + | merge - syntax available for php 8
+        // + | ----------------------------------
         $opts = [
-            "--controller:[explicit]"=>"select explicit project controller",
+            "--controller:[controller_name]"=>"select explicit project controller",
             "--method:[TYPE]"=>"request method type. default is GET",
             "--user:[ID]"=>"user id to use",
             "--render"=>"render default view",        
             "--ajx"=>"enable ajx render mode",        
             "--content-type:[]"=>"set render content type. default is 'text/html'",        
-            "--render-context:[]"=>"set rendering context. default is XML",        
+            "--render-context:[]"=>"set rendering context. default is XML",    
+            "--no-cache"=>"disable view cache",
             "+ Server Request COMMAND"=>"",
         ];
         $def = DbCommandHelper::GetUsageCommandHelp();
@@ -58,7 +64,7 @@ class RequestViewCommand extends AppExecCommand{
     }
     public function exec($command, $controller = null, ?string $request=null) { 
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
-        if (!$ctrl || !($ctrl = SysUtils::GetControllerByName($controller, false))){
+        if (!$ctrl || !($ctrl = SysUtils::GetControllerByName($ctrl, false))){
             igk_die('missing controller');
             return -1;
         }
@@ -76,9 +82,19 @@ class RequestViewCommand extends AppExecCommand{
             self::BindUser($ctrl, $id);            
         }
         $render = property_exists($command->options, '--render');
+
+        if ($json = igk_getv($command->options, '--json')){
+            if (file_exists($json)){
+                $json = file_get_contents($json);
+                igk_environment()->FakerInput = new ServerFakerInput($json);
+            } else {
+                $json = null;
+            }
+        }
+
         
         igk_configs()->default_controller = $ctrl->getName();
-        $ctrl->setConfig('no_auto_cache_view', property_exists($command->options, '--no-cache'));
+        $ctrl->getConfigs()->no_auto_cache_view = property_exists($command->options, '--no-cache');
         $this->doRequest($command, $path);
       
 
@@ -94,15 +110,22 @@ class RequestViewCommand extends AppExecCommand{
         // igk_dev_wln(__FILE__.":".__LINE__);
         // Logger::info('done');
     }
-    public function doRequest($command, $path){
+    /**
+     * do request 
+     * @param mixed $command 
+     * @param string $path 
+     * @return never 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function doRequest($command, string $path){
         $ctrl = self::GetController(igk_configs()->default_controller, false)
         ?? igk_die("no controller found");
         $g = new Uri($path);
         $path = $g->getPath();
-
         $_SERVER['REQUEST_URI'] = $g->getRequestUri();
         $_SERVER['QUERY_STRING'] = $g->getQuery(); 
-
         igk_server()->prepareServerInfo(); 
         $ctrl->setCurrentView($path);
     }

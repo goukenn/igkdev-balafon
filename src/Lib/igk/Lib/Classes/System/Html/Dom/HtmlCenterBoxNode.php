@@ -27,13 +27,13 @@ class HtmlCenterBoxNode extends HtmlNode
         $this->content_node["class"] = "content";
         parent::_Add($this->content_node);
     }
-    protected function __getRenderingChildren($options = null)
+    protected function _getRenderingChildren($options = null)
     {
         return [
             $this->content_node
         ];
     }
-    protected function _Add($n, $force=false){
-        return $this->content_node->add($n);
+    protected function _add($n, $force=false):bool {
+        return $this->content_node->_add($n, $force);
     }
 }

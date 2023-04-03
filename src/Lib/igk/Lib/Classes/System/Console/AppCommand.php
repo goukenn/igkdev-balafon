@@ -9,7 +9,9 @@
 namespace IGK\System\Console;
 
 use IGK\Controllers\BaseController;
+use IGK\Helper\Activator;
 use IGK\System\Console\AppCommandConstant;
+use IGK\System\Console\AppCommandOptions;
 use IGK\System\Console\Commands\InitCommand;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -53,6 +55,14 @@ abstract class AppCommand {
      */
     var $options;
     
+    /**
+     * register a command
+     * @param mixed $command 
+     * @param callable $callable 
+     * @param string $desc 
+     * @return void 
+     * @throws EnvironmentArrayException 
+     */
     public static function Register($command, callable $callable, $desc=""){
         $o = igk_createobj();
         $o->command = $command;
@@ -182,9 +192,17 @@ abstract class AppCommand {
         $this->showOptions();
         Logger::print("");
     }
+    /**
+     * show command usage
+     * @return void 
+     */
     protected function showUsage(){
 
     }
+    /**
+     * show command options
+     * @return void 
+     */
     protected function showOptions(){
         $opts = $this->options ;
         if (!$opts){
@@ -201,14 +219,19 @@ abstract class AppCommand {
         }
         Logger::print("");
     }
-    public static function Generate($command, array $bind, ...$extra){
-        
-            foreach($bind as $path=>$callback){
-                if (!file_exists($path)){
-                    $callback($path, $command, ...$extra); 
-                }
+    /**
+     * generate file according to command information
+     * @param mixed $command 
+     * @param array $bind 
+     * @param mixed $extra 
+     * @return void 
+     */
+    public static function Generate($command, array $bind, ...$extra){    
+        foreach($bind as $path=>$callback){
+            if (!file_exists($path)){
+                $callback($path, $command, ...$extra); 
             }
-        
+        }       
     }
     /**
      * retrieve command author
@@ -216,6 +239,26 @@ abstract class AppCommand {
      * @return mixed 
      */
     public function getAuthor($command){
+        if (!$command->app){
+            return IGK_AUTHOR;
+        }
         return $command->app->getConfigs()->get("author", IGK_AUTHOR);
     }
+    /**
+     * helper create command options
+     * @param mixed $command 
+     * @return mixed 
+     */
+    public static function CreateOptionsCommandFrom($command, ?array $options=null){
+        $c = (object)$command;
+        unset($c->options);
+        
+        $tp = $options ?? [];
+        $c->options = (object)$tp; 
+        
+        $g = Activator::CreateNewInstance(AppCommandOptions::class, $c);
+        return $g;
+    }
+
+   
 }

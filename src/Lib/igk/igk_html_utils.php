@@ -13,9 +13,22 @@ use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\CookieManager;
+use IGK\System\IO\Path;
 
 use function igk_resources_gets as __;
 
+if (!function_exists('igk_html_init')) {
+    /**
+     * html init node helper
+     * @param mixed $n 
+     * @param mixed $data 
+     * @return mixed 
+     */
+    function igk_html_init($n, $data)
+    {
+        return HtmlUtils::Init($n, $data);
+    }
+}
 ///<summary>pre render argument</summary>
 /**
  * pre tag direct print
@@ -357,6 +370,7 @@ function igk_html_build_menu($target, $menuTab, $callback = null, $user = null, 
 function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", $user = null, $ctrl = null, $callback = null)
 {
     $mi = null;
+    $_binduri  = null;
     if ($user == null)
         $user = igk_app()->session->getUser();
     if ($ctrl == null) {
@@ -369,12 +383,13 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
         if (is_object($callback) && ($callback instanceof \IGK\System\WinUI\Menus\Engine)) {
             $item_build_callback = [$callback, "buildItem"];
             $submenu_item_build_callback = [$callback, "buildSubMenuItem"];
+            $_binduri = [$callback, 'resolvUriMenu'];
         }
     }
- 
-    $_binduri = function ($s, $ctrl) {
-        if ($ctrl){
-            return $ctrl::ruri($s);
+    // resolv request uri
+    $_binduri = $_binduri ?? function ($s, $ctrl) {
+        if ($ctrl) {
+            return Path::FlattenPath($ctrl::ruri($s));
         }
         return $s;
     };
@@ -513,7 +528,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
                 $mi = $target;
             }
             $hi = $mi->add($item);
-            $lkey =  __("menu." . $s);
+            $lkey =  __("menu." . $k);
             $s = $_binduri($s, $ctrl);
             $item_build_callback($hi, $lkey, $s, false, $s);
             if (!isset($sd[$k])) {
@@ -1349,7 +1364,7 @@ function igk_html_wtag(?string $tag, string $content, $attribs = null, $forcexml
     if ($has_tag) {
         $o = "<" . $tag;
         if ($attr)
-            $o.= " " . $attr;
+            $o .= " " . $attr;
         if (!$forcexml && empty($content)) {
             $o .= "/>";
         } else {
@@ -1431,9 +1446,9 @@ function igk_html_form_login_fields()
  * @param null|string $uri if not provided the controller must handle /cookie-details request
  * @return void 
  */
-function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieManager::agree, ?string $uri = null, ?string $id = "cookie-agree" )
+function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieManager::agree, ?string $uri = null, ?string $id = "cookie-agree")
 {
-    if (!CookieManager::getInstance()->get($cookiename)){
+    if (!CookieManager::getInstance()->get($cookiename)) {
         $t->div()->setId($id)->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
             ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
                 $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
@@ -1462,7 +1477,8 @@ igk_load_library("html_json");
  * @return HtmlItemBase 
  * @throws IGKException 
  */
-function igk_html_conv2html($o, $ignoreEmpty=1, $tag="notagnode", $numeric_array_tag="item"){
+function igk_html_conv2html($o, $ignoreEmpty = 1, $tag = "notagnode", $numeric_array_tag = "item")
+{
     // + | object to html presentation
     // + | by default convert name=>value to <name>value</name>
     // + | for non assiated array must convert to <numeric_array_tag>value<numeric_array_tag>
@@ -1470,6 +1486,6 @@ function igk_html_conv2html($o, $ignoreEmpty=1, $tag="notagnode", $numeric_array
     $conv = new Converter;
     $conv->ignoreEmpty = $ignoreEmpty;
     $conv->tag = $tag;
-    $conv->numeric_array_tag = $numeric_array_tag;    
+    $conv->numeric_array_tag = $numeric_array_tag;
     return $conv->Convert($o);
 }

@@ -20,7 +20,17 @@ trait CompilerTokenMergeSourceTrait{
      */
     public function mergeSourceCode($header=false): ?string
     {
-        $v_options = $this->m_read_options;
+        /** 
+         * var ReadTokenOptions $v_options 
+         */
+
+        $v_options = $this->m_read_options; 
+        if (is_null($v_options)){
+            return null;
+            // igk_die("read options is null ", $this);
+        }
+
+
         $mp = new ReadTokenMergeOption;
         $mp->mergeVariable = $this->mergeVariable;
         $mp->noComment = $this->noComment;

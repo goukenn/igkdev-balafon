@@ -9,10 +9,11 @@
 namespace IGK\System\Http;
 
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\IInjectable;
 use IGKException;
 
 ///<summary> default response </summary>
-abstract class Response implements IResponse{
+abstract class Response implements IResponse, IInjectable{
     /**
      * response body
      * @var mixed

@@ -40,7 +40,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
      */
     const hookControllerConfigOptionName = 'controllerConfigData';
 
-   
+
     ///<summary></summary>
     ///<param name="ctrl"></param>
     private function __updateview($ctrl)
@@ -53,9 +53,10 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
     }
 
-    private static function GetSysProject(){
+    private static function GetSysProject()
+    {
         static $projects;
-        if ($projects===null){
+        if ($projects === null) {
             return $projects = igk_sys_get_projects_controllers();
         }
         return $projects;
@@ -68,16 +69,16 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $frm->setId("view-default-form");
         $frm["action"] = $this->getUri("setdefaultpage");
         igk_html_add_title($frm, "title.defaultpagectrl");
-        $ul = $frm->add('ul');        
+        $ul = $frm->add('ul');
         $ctrltab = igk_get_all_uri_page_ctrl();
         if (!$ctrltab || ($ctrltab["total"] == 0)) {
-             igk_app()->getConfigs()->default_controller = null;
+            igk_app()->getConfigs()->default_controller = null;
             $ul->li()->addspan()->Content = __("no controller found");
         } else {
             $sl = $ul->li()->add("select")->setClass("igk-form-control");
             $sl["id"] = $sl["name"] = "clDefaultCtrl";
-            $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('setdefaultpage_ajx') . "&'+this.id+'='+this.value, null, null);";       
-          
+            $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('setdefaultpage_ajx') . "&'+this.id+'='+this.value, null, null);";
+
             $this->setup_defaultpage($ctrltab);
             $v_kn = strtolower(igk_app()->getConfigs()->default_controller);
             foreach ($ctrltab["@base"] as $k) {
@@ -309,10 +310,10 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         igk_html_add_title($frm, "title.controllers");
         $ul = $frm->ul();
         if (igk_count($tab = self::GetSysProject()) > 0) {
-            usort($tab, function($a, $b){
+            usort($tab, function ($a, $b) {
                 return strcasecmp($a->getDisplayName(), $b->getDisplayName());
-            });// SORT_FLAG_CASE| SORT_REGULAR);
-            $select = $ul->li()->select(); 
+            }); // SORT_FLAG_CASE| SORT_REGULAR);
+            $select = $ul->li()->select();
             $target = $this->TargetNode["id"];
             $uri = $this->getUri('select_controller_ajx&n=');
             $select["onchange"] = "javascript: return \$ns_igk.ctrl.ca.editChange(this, '{$target}', '{$uri}');";
@@ -338,8 +339,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $dv = $frm->div();
                 $this->_view_ctrl_options($g, $dv);
             }
-        }
-        else {
+        } else {
             $ul->li()->Content = __("no sys controller found.");
         }
     }
@@ -425,29 +425,28 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     {
         $dv["class"] = "+c-opts";
         $bar = $dv->actionbar()->setClass('dispflex');
-        $groups = $bar->actiongroup(); 
-        HtmlUtils::AddImgLnk($groups , igk_js_post_frame($this->getUri("ca_add_ctrl_frame_ajx")), "add_16x16")->setClass("igk-btn");
-        HtmlUtils::AddImgLnk($groups , igk_js_post_frame($this->getUri("ca_edit_ctrl_ajx")), "edit_16x16")->setClass("igk-btn");
-        HtmlUtils::AddImgLnk($groups , igk_js_post_frame($this->getUri("ca_edit_ctrl_properties_ajx")), "setting_16x16")->setClass("igk-btn");
+        $groups = $bar->actiongroup();
+        HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_add_ctrl_frame_ajx")), "add_16x16")->setClass("igk-btn");
+        HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_edit_ctrl_ajx")), "edit_16x16")->setClass("igk-btn");
+        HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_edit_ctrl_properties_ajx")), "setting_16x16")->setClass("igk-btn");
         if ($ctrl->CanEditDataTableInfo) {
             HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_edit_db_ajx")), "ico_db_16x16")->setClass("igk-btn");
         }
         igk_hook($this::hookName(self::hookControllerConfigOptionName), [
-            'ctrl'=>$ctrl,
-            'owner'=>$this,
-            'target'=>$bar
+            'ctrl' => $ctrl,
+            'owner' => $this,
+            'target' => $bar
         ]);
         // if ( $ctrl->getUseDataSchema()) {
         //     HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_reset_db_ajx")), "db_reset_16x16")->setClass("igk-btn");
         // }
-        $groups = $bar->actiongroup(); 
+        $groups = $bar->actiongroup();
         if (class_exists(\ZipArchive::class)) {
             $btn = igk_html_installer_button($groups, IGK\System\Installers\IGKBalafonProjectInstaller::class, __("Update Project"), "/update?controller=" . urlencode(get_class($ctrl)));
-            
         }
-        $groups->span()->setClass('igk-btn')->setId("update_target");
+        // $groups->span()->setClass('igk-btn')->setId("update_target");
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")
-        ->setClass("igk-btn");
+            ->setClass("igk-btn");
     }
     ///<summary></summary>
     ///<param name="t"></param>
@@ -460,13 +459,14 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $row = $t->addRow();
         $this->_view_ctrl_EditCtrl($row->addCol("igk-col-3-3")->setId("edit_ctrl"));
         $v_dv = $row->addCol("igk-col-3-3")->div()->setClass("cnf-edit-view-result igk-row");
+      
         $this->_viewCtrlEditResult($v_dv);
         if (igk_get_defaultwebpagectrl() == null) {
             $_dv = $row->addCol("igk-col-3-3")->div();
             $_box = $_dv->addActionBar();
             $_box->addAJXA("#")->setAttribute("onclick", igk_js_post_frame($this->getUri("ca_add_ctrl_frame_ajx")) . " return false;")->Content = igk_svg_use("add");
         }
-        $this->TargetNode->script()->Content = <<<EOF
+        $t->script()->Content = <<<EOF
 window.igk.system.createNS("igk.fn.config", {select_ctrl: function(i, targetid, uri){var q = window.igk.getParentById(i, targetid ); window.igk.ajx.post(uri, null, function(xhr){  if (this.isReady()){ this.setResponseTo(q); var p = q.getElementsByTagName('select')[0]; p.focus(); }})}});
 EOF;
     }
@@ -476,18 +476,27 @@ EOF;
     {
         if (!($c = $this->SelectedController))
             return;
-        $txb = $v_dv->addCol("igk-col-3-3")->addColViewBox()->addComponent(
-            $this,
-            HtmlComponents::AJXTabControl,
-            "view_result",
-            1
-        );
-        $suri = igk_register_temp_uri(__CLASS__) . "/controller";
-        $ctab = ["Info" => (object)array("uri" => $suri . "/infotab", "tab" => "infotab"), "View" => (object)array("uri" => $suri . "/views", "tab" => "views"), "Articles" => (object)array("uri" => $suri . "/articles", "tab" => "articles")];
-        !empty($vtab = $this->getParam("tab:editresult")) || ($vtab = "infotab");
-        foreach ($ctab as $k => $v) {
-            $txb->addTabPage($k, $v->uri, $vtab == $v->tab);
-        }
+
+            $txb = $v_dv->addCol("igk-col-3-3")->addColViewBox()->addComponent(
+                $this,
+                HtmlComponents::AJXTabControl,
+                "view_result",
+                1
+            );
+            // slash is important 
+            $suri = "/".ltrim(igk_register_temp_uri(__CLASS__) . "/controller", '/');
+            $ctab = [
+                "Info" => (object)[
+                    "uri" => $suri . "/infotab",
+                    "tab" => "infotab"
+                ],
+                "View" => (object)["uri" => $suri . "/views", "tab" => "views"],
+                "Articles" => (object)["uri" => $suri . "/articles", "tab" => "articles"]
+            ];
+            !empty($vtab = $this->getParam("tab:editresult")) || ($vtab = "infotab");
+            foreach ($ctab as $k => $v) {
+                $txb->addTabPage($k, $v->uri, $vtab == $v->tab);
+            } 
     }
     ///<summary></summary>
     public function add_view()
@@ -607,12 +616,12 @@ EOF;
             $this->view();
             igk_js_ajx_view_ctrl($this);
         }
-        $frame = igk_create_node("div");//igk_html_frame($this, $frameid);
+        $frame = igk_create_node("div"); //igk_html_frame($this, $frameid);
         $frame->div()->Content = "Form DATA";
         // $frame->Title = __("title.AddController");
         // $frame->BoxContent->clearChilds();
         $frm = $frame->form();
-        $frm["action"] = $this->getUri("ca_add_ctrl");        
+        $frm["action"] = $this->getUri("ca_add_ctrl");
         $js_change_func = <<<EOF
 if (ns_igk.ctrl.ca_ctrl_change)
 ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', this);
@@ -622,7 +631,7 @@ EOF;
         $frm->div()->addNotifyHost('controller');
         $frm->addInput('notification', 'hidden', 'controller');
         $ul = $frm->ul()->setClass("add_ctrl_ul")->setStyle("overflow-y:auto; max-height:300px");
-  
+
         $ul->li()->addSLabelInput(IGK_FD_NAME, "text", null, null, true);
         $ul->li()->addSLabelInput("clDisplayName");
         $h = $ul->li()->addSLabelInput("clRegisterName");
@@ -650,7 +659,7 @@ EOF;
             $this->setParam("ca:view_frame", $p);
         }
         $p->clearChilds();
-        $ul->add($p); 
+        $ul->add($p);
         $this->_ca_add_adapter($ul->li(), "clDataAdapterName", IGK_MYSQL_DATAADAPTER);
         $li = $ul->li();
         $li->addLabel(IGK_CTRL_CNF_USE_DATASCHEMA);
@@ -732,7 +741,7 @@ EOF;
     ///<summary>Request add controller</summary>
     public function ca_addCtrl()
     {
-        
+
         if (igk_qr_confirm() && $this->ConfigCtrl->getIsConnected() && ($ctrl = igk_getctrl(IGK_CTRL_MANAGER, false))) {
             $g = 0;
             $msg = "msg.ctrl.notadded";
@@ -855,22 +864,22 @@ EOF;
     ///<param name="ctrl" default="null"></param>
     ///<param name="reconnect" default="1"></param>
     public function ca_drop_controller_ajx($ctrl = null, $reconnect = 1)
-    {       
+    {
         $a = $ctrl ? $ctrl : (($ctrl = igk_getr("clController")) ? $ctrl : igk_getr("n"));
-     
+
         if ($a) {
             $ctrl = igk_getctrl($a, false);
-            if ($ctrl == null){
+            if ($ctrl == null) {
                 igk_environment()->isDev() && igk_ilog("no selected controller");
                 igk_ajx_toast(__("no selected controller"), "danger");
                 return;
             }
             $canDelete = !BaseController::IsSysController($ctrl);
-            if (!$canDelete){
+            if (!$canDelete) {
                 igk_ajx_toast(__("Can't delete controller"), "danger");
                 igk_exit();
             }
-            $is_ajx = igk_is_ajx_demand(); 
+            $is_ajx = igk_is_ajx_demand();
             if (igk_qr_confirm()) {
                 if ($canDelete) {
                     $uri = igk_getconfigwebpagectrl()->getReconnectionUri();
@@ -908,14 +917,12 @@ EOF;
                 $b = $frm->div();
                 $b->addInput("yes", "submit", __("btn.yes"));
                 $b->addInput("no", "button", __("btn.no"))
-                ->setAttribute("data-type", "cancel");
+                    ->setAttribute("data-type", "cancel");
                 $frm->addConfirm();
                 $frm->addToken();
                 igk_ajx_notify_dialog(__("title.dropController"), $d);
-            
             }
-        }
-        else {
+        } else {
             igk_environment()->isDev() && igk_ilog("no selected controller");
         }
     }
@@ -1528,6 +1535,7 @@ EOF;
     ///<summary></summary>
     public function ca_tabv_ajx()
     {
+    
         if (!igk_is_ajx_demand()) {
             igk_navto(igk_io_baseuri());
         }
@@ -1673,7 +1681,7 @@ EOF;
     ///<summary> handle view tab information </summary>
     public function controller($view = "infotab")
     {
-        $t = igk_create_node("div");
+        $t = igk_create_node("div")->setClass("igk-tab-container");
         if (file_exists($file = $this->getViewFile("tab." . $view, 0))) {
             $this->loader->view($file, ["t" => $t, "viewid" => $this->_getviewid(), "s_ctrl" => igk_getctrl($this->SelectedController), "articleid" => $this->_getarticleid()]);
             $this->setParam("tab:editresult", $view);
@@ -1758,12 +1766,12 @@ EOF;
         return $this->getParam(self::SL_SELECTCONTROLLER);
     }
     ///<summary></summary>
-    protected function initComplete($context=null)
+    protected function initComplete($context = null)
     {
         parent::initComplete();
-        igk_reg_hook(IGKEvents::HOOK_INIT_APP, function(){            
+        igk_reg_hook(IGKEvents::HOOK_INIT_APP, function () {
             $this->setup_defaultpage();
-        }); 
+        });
     }
     ///<summary></summary>
     protected function initialize()
@@ -1862,7 +1870,7 @@ EOF;
             $cnf = igk_app()->getConfigs();
             if ($cnf->default_controller != $n) {
                 $cnf->default_controller = $ctrltab[0]->getName();
-                $cnf->saveData(true); 
+                $cnf->saveData(true);
             }
         }
     }
@@ -1974,7 +1982,7 @@ EOF;
         }
     }
     ///<summary></summary>
-    public function View():BaseController
+    public function View(): BaseController
     {
         $t = $this->TargetNode;
         if ($this->getIsVisible()) {

@@ -30,6 +30,9 @@ define('IGK_NO_TRACELOG', 1);
 // + |
 // define('IGK_NO_WEBCONFIG' , 1);
 
+// used to check network domain
+defined('IGK_CHECK_NETWORK_DOMAIN') || define('IGK_CHECK_NETWORK_DOMAIN', 'igkdev.com');
+
 // + define('IGK_NO_SESSION', 1); 
 // +  define("IGK_TRACE", 1);
 // + define('IGK_ENV_PRODUCTION', 1);
@@ -469,10 +472,10 @@ define("IGK_ADD_PREFIX", "add");
 define("IGK_MENU_CONF_DATA", IGK_DATA_FOLDER . "/menuconf.csv");
 define("IGK_MENUS_REGEX", "/menu(?P<name>(.)+)conf.csv/i");
 define("IGK_PHP_RESERVEDNAME_REGEX", "/^((a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|" . "(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|" . "(__halt_compiler|break|list|(x)?or|var|while))$/i");
-define("IGK_IDENTIFIER_RX", "([a-z]|[_]+[a-z0-9])([a-z0-9_]*)");
-define("IGK_IDENTIFIER_PATTERN", "[a-z_][a-z0-9_]*");
+define("IGK_IDENTIFIER_RX", "([a-zA-Z]|[_]+[a-z0-9A-Z])([a-zA-Z0-9_]*)");
+define("IGK_IDENTIFIER_PATTERN", "[a-z_][a-z0-9_A-Z]*");
 define("IGK_IDENTIFIER_TAG_CHARS", "_:-.0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-define("IGK_XML_IDENTIFIER_RX", "([a-z]+:)*([a-z]|[_]+[a-z0-9])([a-z0-9_-]*)");
+define("IGK_XML_IDENTIFIER_RX", "([a-z]+:)*([a-z]|[_]+[a-z0-9A-Z])([a-z0-9A-Z_\-]*)");
 define("IGK_ISIDENTIFIER_REGEX", "/^" . IGK_IDENTIFIER_RX . "$/i");
 define("IGK_IS_NS_IDENTIFIER_REGEX", "/^((_*[0-9a-z][0-9a-z_]*)\\\\)+(_*[0-9a-z][0-9a-z_]*)$/i");
 define("IGK_FQN_NS_RX", "((" . IGK_IDENTIFIER_RX . ")\.)*(" . IGK_IDENTIFIER_RX . ")");
@@ -503,11 +506,12 @@ define("IGK_HTML_CONTENT_TYPE", "Content-Type: text/html; charset=utf-8");
 // + | --------------------------------------------------------------------
 // + | Schema definition constants
 // + | 
-define("IGK_SCHEMA_TAGNAME", "data-schemas");
-define("IGK_DATA_DEF_TAGNAME", "DataDefinition");
-define("IGK_ENTRIES_TAGNAME", "Entries");
-define("IGK_RELATIONS_TAGNAME", "Relations"); 
-define("IGK_GEN_COLUMS", "GenColumn"); 
+define('IGK_SCHEMA_TAGNAME', "data-schemas");
+define('IGK_DATA_DEF_TAGNAME', "DataDefinition");
+define('IGK_ENTRIES_TAGNAME', "Entries");
+define('IGK_RELATIONS_TAGNAME', "Relations"); 
+define('IGK_GEN_COLUMS', "GenColumn"); 
+define('IGK_FOREIGN_CONSTRAINT', "ForeignConstraint"); 
 
 define("IGK_ROW_TAGNAME", "Row");
 define("IGK_ROWS_TAGNAME", "Rows");
@@ -822,4 +826,4 @@ define("IGK_ENV_GLOBAL_SCRIPT_KEY", "sys://globalscript");
 
 defined('IGK_PWD_PREFIX') || define("IGK_PWD_PREFIX", "(!)8Zmb90-&");
 define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);
-defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin123");
+defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin@123");

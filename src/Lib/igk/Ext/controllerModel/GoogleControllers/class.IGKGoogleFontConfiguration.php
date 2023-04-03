@@ -10,6 +10,8 @@
 
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\Controllers\Traits\ControllerLocationTrait;
+use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
@@ -18,6 +20,7 @@ use function igk_resources_gets as __;
 * represent google's font configuration layer
 */
 final class IGKGoogleFontConfiguration extends ConfigControllerBase{
+    use ControllerLocationTrait;
     ///<summary></summary>
     /**
     * 
@@ -25,6 +28,7 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     protected function getConfigFile(){
         return igk_dir($this->getDataDir()."/google.".IGK_CTRL_CONF_FILE);
     }
+  
     ///<summary></summary>
     /**
     * 

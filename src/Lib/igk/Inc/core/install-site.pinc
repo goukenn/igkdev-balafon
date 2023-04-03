@@ -4,6 +4,9 @@ use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 use IGK\Helper\IO;
 
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
     {
@@ -14,41 +17,46 @@ if (!function_exists("igk_getr")) {
     }
 }
 
-if (!function_exists("igk_install_site")){
-    function igk_install_site($corelib, $entryfile, $args, $exit=true, $production=true){     
-        global $argv, $argc;   
+if (!function_exists("igk_install_site")) {
+    function igk_install_site($corelib, $entryfile, $args, $exit = true, $production = true)
+    {
+        global $argv, $argc;
         $argv = $args;
         $argc = count($argv);
-
         $_SERVER["argv"] = $argv;
         $_SERVER["argc"] = $argc;
         unset($_SERVER["REQUEST_URI"]);
 
+        if (!file_exists($corelib)){
+            error_log('missing core file', $corelib);
+            return false;
+        }
+
         require_once($corelib);
-        require_once(IGK_LIB_CLASSES_DIR."/interfaces.php");
-        require_once(IGK_LIB_CLASSES_DIR."/IGKObject.php");
-        require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php");
-        require_once(IGK_LIB_CLASSES_DIR."/Resources/R.php");
-        require_once(IGK_LIB_CLASSES_DIR."/System/Console/App.php");
-        require_once(IGK_LIB_CLASSES_DIR."/System/Console/BalafonApplication.php");
-        require_once(IGK_LIB_CLASSES_DIR."/System/Console/Logger.php");
-        require_once(IGK_LIB_CLASSES_DIR."/System/Console/ConsoleLogger.php");
-        require_once(IGK_LIB_CLASSES_DIR."/ApplicationFactory.php");
-        require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php");
-        require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
-        require_once(IGK_LIB_CLASSES_DIR."/Server.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/interfaces.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/IGKObject.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/IGKApplicationBase.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/Resources/R.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/System/Console/App.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/System/Console/BalafonApplication.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/System/Console/Logger.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/System/Console/ConsoleLogger.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/ApplicationFactory.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php");
+        require_once(IGK_LIB_CLASSES_DIR . "/Server.php");
         // loader
-        require_once(IGK_LIB_CLASSES_DIR."/ApplicationLoader.php");
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/conf.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/environment.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/engine.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/reflection.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/debug.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/sys.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/io.php"); 
-        require_once(IGK_LIB_DIR."/Lib/functions-helpers/php.php"); 
-        require_once(IGK_LIB_DIR."/igk_functions.php"); 
-        
+        require_once(IGK_LIB_CLASSES_DIR . "/ApplicationLoader.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/conf.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/environment.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/engine.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/reflection.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/debug.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/sys.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/io.php");
+        require_once(IGK_LIB_DIR . "/Lib/functions-helpers/php.php");
+        require_once(IGK_LIB_DIR . "/igk_functions.php");
+
         ignore_user_abort(false);
         $_SERVER["HTTP_USER_AGENT"] = "balafon - CLI";
         $_SERVER["REMOTE_ADDR"] = "0.0.0.0";
@@ -56,41 +64,41 @@ if (!function_exists("igk_install_site")){
         // + | register application type
         // + |
         ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
-        
+
         /**
          * @var \IGK\System\Console\BalafonApplication $app 
          */
         $app = ApplicationLoader::Boot("balafon");
-        
-        $command = $app->getPrimaryCommand(); 
+
+        $command = $app->getPrimaryCommand();
 
         //-----------------------------------------------------------------------------
         // + | handle default
         // + |
-        if (isset($argv[1]) && $argv[1]=="--init"){
+        if (isset($argv[1]) && $argv[1] == "--init") {
             //-------------------------------------------------------------------------
             // | initialize balafon configuration 
             // |
             $fc = $command["--init"][0];
             $carg = [];
-            if (in_array("--noconfig", $argv)){
+            if (in_array("--noconfig", $argv)) {
                 $carg["--noconfig"] = 1;
             }
-            if (in_array("--force", $argv)){
+            if (in_array("--force", $argv)) {
                 $carg["--force"] = 1;
             }
-            if (in_array("--primary", $argv)){
+            if (in_array("--primary", $argv)) {
                 $carg["--primary"] = 1;
             }
             $command["options"] = (object)$carg;
             $command["argv"] = $argv;
-            $fc([], $command); 
-            exit(0); 
+            $fc([], $command);
+            exit(0);
         }
-        if (in_array("--debug", $argv)){
+        if (in_array("--debug", $argv)) {
             $fc = $command["--debug"][0];
             $fc([], $command);
-        }  
+        }
         // + | --------------------------------------------------------------------------------
         // + | Run the application
         // + |
@@ -155,8 +163,8 @@ class InstallerResponse
 
 $response = new InstallerResponse();
 
-if (!version_compare(PHP_VERSION, "7.0", ">=")){
-    $response->die("mandory version required. 7.0<=".PHP_VERSION);
+if (!version_compare(PHP_VERSION, "7.3", ">=")) {
+    $response->die("mandory version required. 7.3<=" . PHP_VERSION);
 }
 if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
@@ -179,23 +187,20 @@ $site_dir = implode("/", [$home, ltrim($site_dir, '/')]);
 
  
 
- 
-
-// print_r(compact('site_dir', 'app_dir', 'root_dir', 'home'));
-
-
-
 $_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
 // + | make symbolic link
 if (!is_link($link = $app_dir . "/Lib/igk")) {
     @symlink($install_dir, $link);
 }
 $v_blf_cmd = "{$install_dir}/bin/balafon";
+
+
+
 if (file_exists($v_blf_cmd)) {
     @chmod($v_blf_cmd, 0775);
-    
+
     // + | install with balafon command
-    $bck = getcwd();    
+    $bck = getcwd();
     if (is_dir($site_dir))
         chdir($site_dir);
     $v_args = implode(' ', array_filter([
@@ -204,46 +209,57 @@ if (file_exists($v_blf_cmd)) {
     ]));
 
     $dv = null; //$_ISUNIX ? " > /dev/null" : "";
-    $cmd = "{$v_blf_cmd} --install-site --root_dir:{$root_dir} --application:{$app_dir} {$v_args}{$dv}";
-    $result = `$cmd`; // exec('/bin/bash -c "/usr/local/php7.4/lib/php -v"', $output, $code);
-    if (is_null($result) || strstr($result, 'Status: 500 Internal Server Error')){ 
-        // ini_set('display_errors', 1);
-        // error_reporting(-1);
+    $cmd = "{$v_blf_cmd} --install-site --root-dir:{$root_dir} --application:{$app_dir} {$v_args}{$dv}";
+    $result = `$cmd`;
+
+    if (is_null($result) || strstr($result, 'Status: 500 Internal Server Error')) {
+
         ob_start();
-        $root_dir = substr($root_dir, strlen($site_dir)+1);
-        $app_dir = substr($app_dir, strlen($site_dir)+1);
-       
-        $g = igk_install_site($app_dir."/Lib/igk/igk_framework.php", __FILE__,array_merge([
-            "balafon-shell",            
-            "--install-site",
-            "--root_dir:{$root_dir}",
-            "--application:{$app_dir}",
-            "--uri:{$base_uri}",],
-             explode(" ", $v_args))            
-        , false, $production);
-        IO::RmDir($site_dir."./Caches");
+        $root_dir = substr($root_dir, strlen($site_dir) + 1);
+        // $app_dir = substr($app_dir, strlen($site_dir)+1);
+
+        $g = igk_install_site(
+            $app_dir . "/Lib/igk/igk_framework.php",
+            __FILE__,
+            array_merge(
+                [
+                    "balafon-shell",
+                    "--install-site",
+                    "--root-dir:{$root_dir}",
+                    "--application:{$app_dir}",
+                    "--uri:{$base_uri}",
+                ],
+                explode(" ", $v_args)
+            ),
+            false,
+            $production
+        );
+        IO::RmDir($site_dir . "./Caches");
         $content = ob_get_contents();
-        $result = ["type"=>"core install", "response"=>$g];
+        $result = ["type" => "core install", "response" => $g];
         ob_end_clean();
-    }    
+    }
     chdir($bck);
 }
-if ($admin_login = igk_getr("admin_login")){
-    if ($admin_pwd = igk_getr("admin_pwd")){
+if ($admin_login = igk_getr("admin_login")) {
+    if ($admin_pwd = igk_getr("admin_pwd")) {
         $admin_pwd = md5($admin_pwd);
     }
-    if ($configs = include ($file = $app_dir."/Data/configs.php")){
-        $configs['admin_login'] = $admin_login;
-        $configs['admin_pwd'] = $admin_pwd;
-        igk_io_w2file($file, implode("\n",["<?php", "return ".var_export($configs, true).";"]));
+    if (is_file($file = $app_dir . "/Data/configs.php")) {
+        if ($configs = include($file)) {
+            $configs['admin_login'] = $admin_login;
+            $configs['admin_pwd'] = $admin_pwd;
+            igk_io_w2file($file, implode("\n", ["<?php", "return " . var_export($configs, true) . ";"]));
+        }
     }
 }
 
 // + | unlink script 
 @unlink(__FILE__);
- 
-function_exists('opcache_reset') && opcache_reset();
+
+function_exists('opcache_reset') && @opcache_reset();
 error_clear_last();
+
 $response->response(json_encode((object)[
     "message" => "finish",
     "app_dir" => $app_dir,
@@ -251,4 +267,4 @@ $response->response(json_encode((object)[
     "home" => $home,
     "cmd" => $cmd,
     "install_result" => $result,
-], JSON_UNESCAPED_SLASHES ), "application/json");
+], JSON_UNESCAPED_SLASHES), "application/json");

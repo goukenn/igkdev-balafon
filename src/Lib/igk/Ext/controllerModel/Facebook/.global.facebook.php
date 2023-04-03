@@ -44,11 +44,11 @@ function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 	$uri = "https://www.facebook.com/plugins/follow.php?href=".
 	htmlentities("https://www.facebook.com/{$id}");
 	if($layout)
-		$uri.="&layout=${layout}";
+		$uri.="&layout={$layout}";
 	if ($theme)
 		$uri.="&colorscheme={$theme}";
 	$lang = igk_fb_lang(R::GetCurrentLang());
-	$uri.="&locale=${lang}";
+	$uri.="&locale={$lang}";
 	$n = igk_create_node("iframe");
 	$n["src"]=$uri;
 	$n["allowTransparency"]="true";

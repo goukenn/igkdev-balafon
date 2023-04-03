@@ -6,26 +6,21 @@ namespace IGK\System\Database;
 
 use IDbGetTableReferenceHandler;
 use IGK\Controllers\ApplicationModuleController;
-use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerExtension;
+use IGK\Controllers\BaseController; 
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\Database;
-use IGK\Helper\Project;
-use IGK\System\Caches\DBCaches;
-use IGK\System\Console\Logger;
-use IGK\System\Controllers\ApplicationModules;
+use IGK\Helper\Project; 
+use IGK\System\Console\Logger; 
 use IGK\System\Database\Traits\DbCreateTableReferenceTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Database\IDbResolveLinkListener;
 use IGKEvents;
 use IGKException;
-use IGKModuleListMigration;
-use IGKType;
-use ReflectionException;
-use ReflectionMethod;
+use IGKModuleListMigration; 
+use ReflectionException; 
 
 ///<summary></summary>
 /**
@@ -40,13 +35,13 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     private $m_parentController;
     private $m_controllers = [];
     /**
-     * store.
+     * store resolved links.
      * @var mixed
      */
     private $m_resolvedLinks;
 
     /**
-     * store. 
+     * store tables definitions. 
      * @var array
      */
     private $m_init_tables = [];
@@ -108,7 +103,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         if ($sysctrl->getCanInitDb()) {
             $file = $sysctrl->getDataSchemaFile();
             if ($definition = DbSchemas::LoadSchema($file, $sysctrl, true, $op)) {
-                $this->add($ad_name, $definition);
+                $this->add($ad_name, (array)$definition);
                 $this->m_defs[$sysctrl->getName() . '/init']
                     = [$sysctrl,  (array)$definition, $definition->tables];
                 $this->resolv = $ad_name;
@@ -125,9 +120,9 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @param mixed $definition 
      * @return void 
      */
-    public function add($adaptername, $definition)
+    public function add($adaptername, array $definition)
     {
-        $this->definitions[$adaptername] = $definition;
+        $this->definitions[$adaptername] = (object)$definition;
     }
     /**
      * get loaded definition form adapter 
@@ -304,8 +299,9 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     ) {
         //$this->m_definition = $definition;
         Logger::info('load - ' . $tableReferenceResolver);
+        
         $def = DbSchemas::LoadSchema($file, $tableReferenceResolver, true, $operation);
-
+        
         // update reference 
         if ($def) {
             $empty = true;
@@ -314,11 +310,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
                 if (is_array($v) && !$definition->$k) {
                     $definition->$k = [];
                 }
-                // if (is_string($v)){
-                //     igk_wln_e("string , ", $v);
-                // }
-                if (is_array($definition->$k)){
-
+                if (is_array($definition->$k)){ 
                     $definition->$k = array_merge(
                         array_values($definition->$k ?? []),
                         array_values($v ?? [])
@@ -327,7 +319,8 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
                     $definition->$k = $v;
                 }
             }
-            if ($initializer && !$empty) {
+            $empty = true;
+            if ($initializer) { //  && !$empty) {
                 $c = $initializer->m_hostController;
                 if ($c) {
                     $initializer

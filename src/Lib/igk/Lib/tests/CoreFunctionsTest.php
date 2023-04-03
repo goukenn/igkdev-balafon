@@ -7,6 +7,7 @@
 
 namespace IGK\Tests;
 
+use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\Html\HtmlUtils;
 
@@ -54,7 +55,7 @@ class CoreFunctionsTest extends BaseTestCase
             "Value not maching ..."
         );
         $this->assertEquals(
-            "./",
+            "../C",
             igk_io_get_relativepath("/A/B/C/", "/A/B/C"),
             "Value not maching ..."
         );
@@ -69,23 +70,36 @@ class CoreFunctionsTest extends BaseTestCase
             "./C/D/E",
             igk_io_get_relativepath("/A/B", "/A/B/C/D/E"),
             "Value not maching ... binding cde"
-        );
+        ); 
         $this->assertEquals(
             "../../C/D",
-            igk_io_get_relativepath("/A/B/C", "/A/C/D"),
+            igk_io_get_relativepath("/A/B/C/", "/A/C/D"),
             "Value not maching ..."
-        );
+        ); 
+
         $this->assertEquals(
-            "../../../../C/D",
+            "../../../C/D",
             igk_io_get_relativepath("/A/B/C/M/X", "/A/C/D")
-        );
+        ); 
         $this->assertEquals(
             "../../../C/B/O",
-            igk_io_get_relativepath("/A/B/C", "/C/B/O")
-        );
+            igk_io_get_relativepath("/A/B/C/", "/C/B/O")
+        ); 
         $this->assertEquals(
             null,
             igk_io_get_relativepath("c:/A/B/C", "d:/C/B/O")
+        );
+
+        $p = IO::GetRelativePath("/information/dir/file", "/src/public/");
+        $this->assertEquals("../../src/public/", $p, "failed to resolve path");
+        
+        $this->assertEquals(
+            "../../../../application/Lib/igk/Scripts/igk.js",
+            igk_io_get_relativepath(
+                "/src/public/assets/_lib_/Scripts/igk.js",
+                "/src/application/Lib/igk/Scripts/igk.js"
+            ),
+            "missing core js-failed"
         );
     }
 

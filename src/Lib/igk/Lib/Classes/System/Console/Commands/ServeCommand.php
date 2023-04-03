@@ -23,7 +23,7 @@ class ServeActionCommand extends AppExecCommand{
     var $options = [ 
         "--type"=>"defaut action type class"
     ]; 
-    public function exec($command, $controller="", $actionName=""){
+    public function exec($command, $controller="", $macroName=""){
         $port = getv($command->options, "-p", 5000);
         $bdir = getv($command->options, "-basedir",igk_io_basedir());
         $server = "localhost:".$port;

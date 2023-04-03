@@ -162,12 +162,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return false;
     }
-    // public function complete()
-    // {
-    //     igk_trace();
-    //     igk_die("complete");
-    //     /// TODO: complete loading.
-    // }
+ 
 
     ///<summary>use to invoke system controller method</summary>
     ///<return>the selected uri</return>

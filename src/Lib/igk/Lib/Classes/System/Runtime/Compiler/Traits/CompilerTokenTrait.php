@@ -67,8 +67,7 @@ trait CompilerTokenTrait{
     protected function endHandleToken($options){
         // check that buffer is empty
         if (count($options->buffers)!=0){         
-            igk_wln_e("", __FILE__.":".__LINE__, 
-            "buffers is not empty");
+           // igk_dev_wln_e("compilation failed: ", __FILE__.":".__LINE__, "buffers is not empty");
         }
     }
 }

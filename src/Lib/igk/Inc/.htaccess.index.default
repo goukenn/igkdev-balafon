@@ -25,23 +25,23 @@ AddDefaultCharset utf-8
 # </If>
 
 
-<IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin: "*"
-    Header set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
-    Header set Access-Control-Allow-Headers: "Content-Type,IGK-FROM,IGK-X-REQUESTED-WITH"
-	#Header set X-Frame-Options DENY
-	#Header set X-Frame-Options "ALLOW-FROM {$domain}"
-	Header set X-Frame-Options SAMEORIGIN
-	#Header always set X-Frame-Options SAMEORIGIN
-
-	#force security default
-	Header always set Strict-Transport-Security "max-age=15768300; includeSubDomains; preload"
-	Header set X-XSS-Protection "1; mode=block"
-	Header set X-Content-Type-Options nosniff
-	Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
-	#lighthouse require header for SEO 100%
-	Header set Content-Security-Policy "connect-src 'self'"	
-</IfModule>
+#<IfModule mod_headers.c>
+#    Header set Access-Control-Allow-Origin: "*"
+#    Header set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+#    Header set Access-Control-Allow-Headers: "Content-Type,IGK-FROM,IGK-X-REQUESTED-WITH"
+#	#Header set X-Frame-Options DENY
+#	#Header set X-Frame-Options "ALLOW-FROM {$domain}"
+#	Header set X-Frame-Options SAMEORIGIN
+#	#Header always set X-Frame-Options SAMEORIGIN
+#
+#	#force security default
+#	Header always set Strict-Transport-Security "max-age=15768300; includeSubDomains; preload"
+#	Header set X-XSS-Protection "1; mode=block"
+#	Header set X-Content-Type-Options nosniff
+#	Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
+#	#lighthouse require header for SEO 100%
+#	Header set Content-Security-Policy "connect-src 'self'"	
+#</IfModule>
 
 # if web server support RewriteEngine the redirect file to index.php?__c=901. 
 # '__c' will support post value redirection.

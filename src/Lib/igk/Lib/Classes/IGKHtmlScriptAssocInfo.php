@@ -8,7 +8,9 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-final class IGKHtmlScriptAssocInfo implements ArrayAccess{
+use IGK\System\IToArray;
+
+final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     use IGK\System\Polyfill\ScriptAssocArrayAccessTrait;
     private $data;
     static $sm_initCache, $sm_store;
@@ -49,7 +51,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess{
         self::$sm_store=$d;
     }
     ///<summary></summary>
-    public function to_array(){
+    public function to_array():?array{
         return $this->data;
     }
 }

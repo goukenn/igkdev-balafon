@@ -8,10 +8,14 @@ namespace IGK\System\IO;
 
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
-use IGKException;
+use IGKException; 
 
-///<summary>manage system path</summary>
-///<note>for better directory manipulation. use t
+///<summary>core path manipulation class</summary>
+///<note>for better directory manipulation.</note>
+/**
+ * core path manipulation class 
+ * @package IGK\System\IO
+ */
 class Path
 {
 
@@ -28,10 +32,19 @@ class Path
     protected $css_path;
     protected $backup_dir;
     protected $home_dir;
+    protected $temp_dir;
 
 
     private static $sm_instance;
 
+    /**
+     * get temp directory 
+     * @return mixed 
+     */
+    public function getTempDir()
+    {
+        return $this->temp_dir;
+    }
     public static function GetExtension($path)
     {
         if (empty($path))
@@ -47,13 +60,14 @@ class Path
      * @param mixed $extension 
      * @return bool 
      */
-    public static function GetExistingFile(& $path, array $extension = []):bool{
-        if (file_exists($path)){
+    public static function GetExistingFile(&$path, array $extension = []): bool
+    {
+        if (file_exists($path)) {
             return true;
         }
-        while(count($extension)>0){
+        while (count($extension) > 0) {
             $q = array_shift($extension);
-            if (file_exists($g = $path . $q)){
+            if (file_exists($g = $path . $q)) {
                 $path = $g;
                 return true;
             }
@@ -114,6 +128,7 @@ class Path
         }
         // used to resolve symbolic links
         $this->home_dir = igk_getv($_SERVER, "HOME", "~");
+        $this->temp_dir = defined('IGK_TEMP_DIR') ? constant('IGK_TEMP_DIR') : sys_get_temp_dir();
     }
     /**
      * get home dir
@@ -180,26 +195,6 @@ class Path
      */
     public function basedir($dir = null)
     {
-        // $bdir = igk_environment()->get("basedir", $this->base_dir);
-        // if (!$bdir) {
-        //     return null;
-        // }
-        // if ($dir == null)
-        //     return $bdir;
-        // $l = igk_dir($bdir);
-        // if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
-        //     $rpath = IO::GetRelativePath($hdir, $l);
-        //     if ($rpath)
-        //         return igk_dir($l . DIRECTORY_SEPARATOR . $rpath);
-        //     return $dir;
-        // }
-        // $s = str_replace("\\", "\\\\", $l);
-        // $egext = "#^(" . $s . ")#";
-        // $dir = igk_dir($dir);
-        // if ($s && preg_match($egext, $dir))
-        //     return $dir;
-        // return igk_dir($bdir . "/" . $dir);
-
         $bdir = igk_environment()->get("basedir", $this->base_dir);
         if (!$bdir) {
             return null;
@@ -209,7 +204,7 @@ class Path
         $l = igk_dir($bdir);
         $_r = null;
         if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
-            $rpath = IO::GetRelativePath($hdir, $l);
+            $rpath = self::GetRelativePath($hdir, $l);
             $_r = ($rpath) ? igk_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
         } else {
             $s = str_replace("\\", "\\\\", $l);
@@ -350,42 +345,56 @@ class Path
      * @param mixed $target 
      * @return string|null 
      */
-    public static function GetRelativePath($source, $target)
+    public static function GetRelativePath(string $source, string $target, string $separator = DIRECTORY_SEPARATOR)
     {
-        $source = rtrim($source, "/");
-        $target = rtrim($target, "/");
-        if ($source == $target) {
-            return "./";
+        $vsource = igk_uri($source);
+        $vtarget = igk_uri($target);
+        if ($vsource == $vtarget) {
+            return './';
         }
-        $p = [];
-        if (strpos($target, $source) === 0) {
-            // target is a child of the source
-            $found = 0;
-            while (($ctag = dirname($target)) && ($ctag != $target)) {
-                array_unshift($p, basename($target));
-                $target = $ctag;
-                if (strpos($source, $ctag) === 0) {
-                    $found = 1;
-                    break;
-                }
-            }
-            return "./" . implode("/", $p);
+        $v_cpath = null;
+        $v_found = false;
+        $v_count = 0;
+        $v_cp = [];
+        if (substr($vtarget, -1) == '/') {
+            $v_cp[] = '';
         }
-        $found = 0;
-        $cpath = "";
-        while (($ctag = dirname($target)) && ($ctag != $target)) {
-            array_unshift($p, basename($target));
-            $target = $ctag;
-            if (strpos($source, $target) === 0) {
-                $found = 1;
+        while (($v_cpath = dirname($vtarget)) && ($vtarget != $v_cpath)) {
+            // retrieve start directory to source 
+            array_unshift($v_cp, basename($vtarget));
+            if (strpos($vsource, $v_cpath) === 0) {
+                $v_found = true;
                 break;
             }
+            $vtarget = $v_cpath;
         }
-        if ($found) {
-            $cpath = str_repeat("../",  count(explode("/", ltrim(substr($source, strlen($target)), "/"))));
-            return $cpath . implode("/", $p);
+
+        if ($v_found || ($vtarget == '/')) {
+            $l = '';
+            if (strpos($vsource, $v_cpath) !== 0) {
+                igk_die("no matching");
+            }
+            if ($v_cpath == '/') {
+                $v_cpath = '';
+            }
+            $l = substr($vsource, strlen($v_cpath) + 1);
+            if (empty($l) || (strpos($l, "/") === false)) {
+                // found is in subfolder 
+                $v_count = 0;
+            } else {
+                $v_count  = count(explode('/', ltrim($l, '/'))) - 1;
+            }
+            $out = '';
+            $out = $v_count == 0 ? './' : str_repeat("../", $v_count);
+            $out .= implode("/", $v_cp);
+            if ($separator != '/') {
+                $out = str_replace('/', $separator, $out);
+            }
+            return $out;
         }
-        return null;
+        return null; 
+
+       
     }
 
     public static function LocalPath(string $path)
@@ -401,7 +410,7 @@ class Path
      */
     public static function Combine(...$path)
     {
-        $path = array_filter(array_values($path));
+        $path = array_values(array_filter(array_values($path)));
         if ($path) {
             $p = rtrim($path[0], DIRECTORY_SEPARATOR);
             $path = array_slice($path, 1);
@@ -416,7 +425,7 @@ class Path
      * @param mixed $a 
      * @return string 
      */
-    public static function TrimDir(?string $a= null, $sep=DIRECTORY_SEPARATOR)
+    public static function TrimDir(?string $a = null, $sep = DIRECTORY_SEPARATOR)
     {
         return trim($a ?? '', $sep);
     }
@@ -449,14 +458,39 @@ class Path
         }
         $s = str_replace("/./", "/", $s);
         return $s;
-    }    
+    }
 
     /**
      * combine an flatten path
      * @param ?string[] $path 
      * @return string 
      */
-    public static function CombineAndFlattenPath(...$path){
+    public static function CombineAndFlattenPath(...$path)
+    {
         return self::FlattenPath(self::Combine(...$path));
+    }
+
+    /**
+     * detect that path is in library
+     * @param string $path 
+     * @return bool 
+     * @throws IGKException 
+     */
+    public static function IsInLibrary(string $path): bool
+    {
+        return self::DetectPathMode($path) == 'lib';
+    }
+    /**
+     * detect path mode 
+     * @param string $path 
+     * @return ?string 
+     */
+    public static function DetectPathMode(string $path): ?string
+    {
+        $p = igk_io_collapse_path($path);
+        if (preg_match(\IGKConstants::PATH_VAR_DETECT_MODEL_REGEX, $p, $tab)) {
+            return $tab['name'];
+        }
+        return null;
     }
 }

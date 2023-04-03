@@ -120,13 +120,13 @@ class DBCaches
         static::getInstance()->_clearAndReload();
     }
     /**
-     * retrieve cached table info
+     * retrieve cached table column info -
      * @param string $table 
      * @param null|BaseController $controller 
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetInfo(string $table, ?BaseController $controller = null)
+    public static function GetColumnInfo(string $table, ?BaseController $controller = null)
     {
         return static::getInstance()->resolve($table, $controller);
     }
@@ -135,7 +135,11 @@ class DBCaches
      */
     public static function GetTableInfo(string $table, ?BaseController $controller = null)
     {
-        $c = igk_getv(static::getInstance()->m_tableInfo, $table);
+        $v_i = static::getInstance();
+        if (!$v_i->m_init_cache || is_null($v_i->m_tableInfo)){
+            self::GetColumnInfo($table, $controller);
+        }
+        $c = igk_getv(   $v_i->m_tableInfo, $table);
         if ($controller && $c) {
             // + | --------------------------------------------------------------------
             // + | check matching 
@@ -201,8 +205,8 @@ class DBCaches
         if ($this->m_initializing) {
             return;
         }
-        // + | --------------------------------------------------------------------
-        // + | cache is empty - load from cache -  convert stdbclose to migration DbColumnInfo
+        // + | -------------------------------------------------------------------------------------
+        // + | cache is empty - load from cache -  convert stClass - close to migration DbColumnInfo
         // + |
         $sysctrl = SysDbController::ctrl();
         if (!$this->m_init_cache) {
@@ -218,16 +222,10 @@ class DBCaches
                                 continue;
                             }
                             foreach ($v as  $d) {
-                                $rdata[$d->tableName] = Activator::CreateNewInstance(SchemaMigrationInfo::class,  [
-                                    'columnInfo' => array_map(function ($a) {
-                                        return Activator::CreateNewInstance(DbColumnInfo::class, $a);
-                                    }, (array)$d->columnInfo),
-                                    'description' => igk_getv($d, 'description'),
-                                    'defTableName' => igk_getv($d, 'defTableName'),
-                                    'controller' => $gctrl,
-                                    'tableName' => $d->tableName,
-                                    'definitionResolver' => null
-                                ]);
+                                // + | --------------------------------------------------------------------
+                                // + | load DB cache info
+                                // + |                                
+                                $rdata[$d->tableName] = SchemaMigrationInfo::CreateFromCacheInfo($d, $gctrl);
                             }
                         }
                     } else {
@@ -269,7 +267,9 @@ class DBCaches
                     $tablen = $info->tableName;
                 }
                 if (key_exists($tablen, $this->m_tableInfo)) {
-                    Logger::warn('table will enter in conflict ' . $tablen);
+                    if ($info->controller != $sysctrl ){
+                        Logger::warn(sprintf('%s\'s table will enter in conflict width %s', $info->controller , $tablen));
+                    }
                     continue;
                 }
                 $info->controller = $ctrl;
@@ -289,7 +289,7 @@ class DBCaches
         // + | --------------------------------------------------------------------
         // + | check and init data model 
         // + |
-        Logger::warn("check for data models files");
+        Logger::info("checking models files - init db cache models ...");
         DBCachesModelInitializer::Init($this->m_tableInfo);
         igk_hook(IGKEvents::HOOK_DB_CACHES_INITIALIZED, []);     
     }
@@ -442,7 +442,9 @@ class DBCaches
     {
         $v_i = self::getInstance();
         if (!$v_i->m_init_cache) {
+            DbSchemas::ClearControllerSchema($controller);
             $v_i->_initDbCache();
+            //return;
         }
         // + | --------------------------------------------------------------------
         // + | get database that match controller 
@@ -457,7 +459,7 @@ class DBCaches
             }
             return $d;
         }, $v_tabinfo));
-        // + | force relead controller schema 
-        DbSchemas::ClearControllerSchema($controller);
+        // + | force reload controller schema 
+        // DbSchemas::ClearControllerSchema($controller);
     }
 }

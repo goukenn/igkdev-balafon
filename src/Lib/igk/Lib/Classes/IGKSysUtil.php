@@ -176,11 +176,12 @@ abstract class IGKSysUtil
             $controller->Db->connect();
             $relations = [];
             $tentries = [];
+            $grammar = $controller->getDataAdapter()->getGrammar();
             foreach ($tables as $table => $info) {
                 //     Utils::GenerateAndWriteMigration($table, $info, $out) || die("failed to write ".$table);
 
 
-                $s .= SQLQueryUtils::CreateTableQuery($table, $info->info, $info->desc) . PHP_EOL;
+                $s .=  $grammar->CreateTableQuery($table, $info->info, $info->desc) . PHP_EOL;
                 $refered = 0;
                 $refered_counter = 0;
                 $links = "";
@@ -405,7 +406,7 @@ abstract class IGKSysUtil
             }
             if (is_null($gu)) {
                 // $gm = Database::GetInfo($type);
-                $g = DBCaches::GetInfo($type); 
+                $g = DBCaches::GetColumnInfo($type); 
                 if (is_null($g)){
                     igk_die(sprintf("dadata base do not retrieve [%s] data table info.", $type));
                 } else {

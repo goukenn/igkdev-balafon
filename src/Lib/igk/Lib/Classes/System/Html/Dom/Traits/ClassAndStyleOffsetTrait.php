@@ -7,6 +7,7 @@ namespace IGK\System\Html\Dom\Traits;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlOptions;
 use IGK\System\Html\HtmlStyleValueAttribute;
+use IGK\System\Html\IHtmlContextContainer;
 use IGKException;
 
 ///<summary></summary>
@@ -67,12 +68,29 @@ trait ClassAndStyleOffsetTrait{
         }
         return $this;
     }
+    /**
+     * set system attribute
+     * @param mixed $k 
+     * @param mixed $v 
+     * @param mixed $context 
+     * @return bool 
+     */
     protected function setSysAttribute($k, $v, $context): bool{
         return false;
     }
+    /**
+     * set offset set expression 
+     * @param mixed $k 
+     * @param mixed $v 
+     * @return void 
+     */
     protected function offsetSetExpression($k, $v){
     }
-
+    ///get sytem attribute loading context 
     public function getLoadingContext(){
+        // - 
+        if ($this instanceof IHtmlContextContainer){
+            return $this->getContext();
+        }
     }
 }

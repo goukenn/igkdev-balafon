@@ -12,44 +12,26 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\HtmlRenderer;
-use IGK\System\View\ViewCommandArgs;
+use IGK\System\IO\Path;
 use IGK\System\Views\ViewCommentArgs;
-use IGK\System\WinUI\IViewLayoutLoader;
-use IGKEnvironment;
+use IGK\System\WinUI\IViewLayoutLoader; 
 use IGKException;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-use function IGK\Controllers\igk_getv_isset as get_arg;
-
-
-/**
- * su
- * @param mixed $ob 
- * @param string $name 
- * @param mixed $default 
- * @return mixed 
- */
-function igk_getv_isset($ob, string $name, $default=null){
-
-    if (is_object($ob)){
-        if (isset($ob->$name)){
-            return $ob->$name ?? $default;
-        }    
-    } else if (is_array($ob)){
-        if (isset($ob[$name])){
-            return $ob[$name];
-        }
-    }    
-    return $default;
-}
+use function igk_getv_isset as get_arg; 
 
 /**
  * view layout loader
  * @package IGK\Controllers
  */
 class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
- 
+
+    private $m_dir;
+    /**
+     * store parameter 
+     * @var ?object
+     */
+    var $m_params;
     /**
      * 
      * @var mixed
@@ -82,8 +64,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
     public function __construct(BaseController $controller)
     { 
-        parent::__construct($controller);    
-        $this->MainLayout = "JUMMM3";
+        parent::__construct($controller);  
     }
     protected function initialize(){
         $this->header =  $this ->controller->getViewDir()."/.header.pinc";
@@ -91,6 +72,13 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         if (method_exists($this->controller, "menuFilter")){
             igk_reg_hook("filter-menu-item", [$this->controller, "menuFilter"]);
         } 
+    }
+    /**
+     * get location location 
+     * @return void 
+     */
+    public function dir(){
+        return $this->m_dir ?? Path::Combine($this->controller->getDeclaredDir(), "/ViewLayout");
     }
     /**
      * interupt inclusion
@@ -103,6 +91,13 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
         HtmlRenderer::RenderDocument(igk_app()->getDoc()); 
         igk_exit();
+    }
+    /**
+     * get object reference params - layout
+     * @return mixed 
+     */
+    public function param(){
+        return $this->m_params ?? $this->m_params = igk_createobj();
     }
     /**
      * include file in layout
@@ -121,14 +116,12 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         $ctrl =  $this->controller;  
         $this->controller->setExtraArgs(["layout"=>$this]);
         $v_main = $this->isMainLayout($file); 
-        $no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfig('no_auto_cache_view');
+        $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view;
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
         if (!$v_main &&  $this->exists($this->header)){
             igk_include_view_file($this->controller, $this->header, true, $args);   
         }
-        $response = igk_include_view_file($this->controller, $file, 
-        $no_cache,
-        $args);        
+        $response = igk_include_view_file($this->controller, $file, $v_no_cache, $args);        
         if (!$v_main &&  $this->exists($this->footer)){
             igk_include_view_file($this->controller, $this->footer, true, $args);
         }

@@ -14,7 +14,7 @@ final class HtmlFaviconNode extends HtmlNode{
     static $sm_instance;
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($options=null){
+    protected function _acceptRender($options = null):bool{
         if($options && isset($options->Document)){
             $g=$options->Document->getFavicon();
             $this["href"]=$g; 

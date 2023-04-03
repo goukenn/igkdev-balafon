@@ -8,10 +8,14 @@
     </xs:complexType>
     <xs:complexType name="DataDefinition">
         <xs:sequence>
-            <xs:element name="Column" type="DataColumn" maxOccurs="unbounded" minOccurs="0"></xs:element>
-        </xs:sequence>
+            <xs:element name="Column" type="DataColumn" maxOccurs="unbounded" minOccurs="1"></xs:element>
+            <xs:element name="GenColumn" type="GenColumn" maxOccurs="unbounded" minOccurs="0"></xs:element>
+            <xs:element name="ForeignConstraint" type="ForeignConstraint" maxOccurs="unbounded" minOccurs="0"></xs:element>
+        </xs:sequence>        
         <xs:attribute name="TableName" type="xs:string" use="required"></xs:attribute>
         <xs:attribute name="Description" type="xs:string"></xs:attribute>
+        <xs:attribute name="Prefix" type="xs:string"></xs:attribute>
+        <xs:attribute name="Usage" type="xs:string"></xs:attribute>
     </xs:complexType>
     <xs:complexType name="Relations">
         <xs:sequence>
@@ -38,7 +42,27 @@
         <xs:attribute name="clAutoIncrement" type="xs:string"></xs:attribute>
         <xs:attribute name="clIsUnique" type="xs:string"></xs:attribute>
         <xs:attribute name="clDescription" type="xs:string"></xs:attribute>
+        <xs:attribute name="clDisplay" type="xs:boolean"></xs:attribute>
+        <xs:attribute name="clHidden" type="xs:boolean"></xs:attribute>
     </xs:complexType>
+    <xs:complexType name="GenColumn">
+        <xs:attribute name="prefix" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ForeignConstraint">
+        <xs:attribute name="on" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="from" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="column" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="foreignKeyName" type="xs:string" ></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="RequireSchema"> 
+        <xs:attribute name="from" type="RequireSchemaFromType" use="required"></xs:attribute>
+        <xs:attribute name="name" type="xs:string"></xs:attribute>
+        <xs:attribute name="file" type="xs:string"></xs:attribute>
+        <xs:attribute name="argument" type="xs:string"></xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="Migrations">
         <xs:sequence>
             <xs:element name="Migration" type="Migration" maxOccurs="unbounded" minOccurs="0"></xs:element>
@@ -51,6 +75,7 @@
             <xs:element name="changeColumn" maxOccurs="1"></xs:element>
             <xs:element name="renameColumn" maxOccurs="1"></xs:element>
             <xs:element name="renameTable" maxOccurs="1"></xs:element>
+            <xs:element name="addForeignConstraint" maxOccurs="1"></xs:element>
         </xs:choice>
         <xs:anyAttribute processContents="skip"></xs:anyAttribute>
     </xs:complexType>
@@ -70,6 +95,14 @@
             <xs:enumeration value="oneToOne"></xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="RequireSchemaFromType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="module"></xs:enumeration>
+            <xs:enumeration value="project"></xs:enumeration>
+            <xs:enumeration value="controller"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="ColumnTypes">
         <xs:restriction base="xs:string">
             <xs:enumeration value="Int"></xs:enumeration>
@@ -95,7 +128,8 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="Entries" type="Entries" maxOccurs="1" minOccurs="0"></xs:element>
-                <xs:element name="DataDefinition" type="DataDefinition" maxOccurs="unbounded"></xs:element>
+                <xs:element name="RequireSchema" type="RequireSchema" minOccurs="0" maxOccurs="unbounded" ></xs:element>
+                <xs:element name="DataDefinition" type="DataDefinition" minOccurs="0" maxOccurs="unbounded"></xs:element>
                 <xs:element name="Migrations" type="Migrations" maxOccurs="1" minOccurs="0"></xs:element>
                 <xs:element name="Relations" type="Relations" maxOccurs="1" minOccurs="0"></xs:element>
             </xs:sequence>         

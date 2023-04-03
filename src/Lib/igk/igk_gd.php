@@ -30,8 +30,7 @@ function igk_gd_resize_proportional($src, $w, $h, $type=1, $compression=0){
     $ih=imagecreatefromstring($src);
     $W=imagesx($ih);
     $H=imagesy($ih);
-    igk_wln($W . " x ".$H);
-
+    // igk_dev_wln($W . " x ".$H);
     $ow=$w;
     $oh=$h;
     $ex=$w/ $W;

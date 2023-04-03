@@ -14,6 +14,8 @@ use IGK\Css\CssColorDef;
 use IGK\Css\CssThemeOptions;
 use IGK\Css\ICssResourceResolver;
 use IGK\Css\ICssStyleContainer;
+use IGK\Helper\SysUtils;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
@@ -32,6 +34,7 @@ use IGKException;
 final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, ICssStyleContainer
 { 
     const MEDIA_KEY = "medias";
+    const DOC_THEME_KEYSTORAGE = "theme-storage";
     private $m_document;
     private $m_root_ref;
     /**
@@ -127,10 +130,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @throws Exception 
      */
     public function resetSysGlobal(){
-        $this->reset();
         if (!defined("IGK_FORCSS")){
             $cl = & igk_app()->getDoc()->getTheme()->def->getCl();
             array_splice($cl, 0, count($cl)); 
+        }
+        $this->reset();
+        if (($this->getDoc()->getSysTheme()=== $this) &&  $this->getInitGlobal()){
+            CssUtils::InitSysTheme($this);
         }
         $this->m_initGlobal = false;
     }
@@ -264,7 +270,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @param ICssStyleContainer $systheme style container
      */
     private function _get_css_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false, ?ICssResourceResolver $resourceResolver=null,  ?ICssStyleContainer $systheme = null)
-    {
+    { 
         $lineseparator = $minfile ? IGK_STR_EMPTY  : IGK_LF;
         $out = IGK_STR_EMPTY;
         $def = $this->def;
@@ -477,30 +483,32 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                
         $docs = null;
         $themes = null;
+        $uri = igk_io_request_uri();
+        
         if (!$this->m_istemp && $app_info) {
 
-            $docs = &$app_info->documents[$id];
+            $docs = & $app_info->documents[$id];
             //$docs = igk_getv($app_info->documents, $id);
 
             if ($docs === null) {
+                // attach array to document id 
                 $docs = [];
-                // igk_wln_e(__LINE__.":".__FILE__, igk_app()->settings->appInfo);
-                $app_info->getData()->documents[$id] = &$docs;
-                //die("no setting for id : ".$id);
+                $app_info->getData()->documents[$id] = & $docs;
             }
-            if (!isset($docs["theme"])) {
+            // + | register theme property  
+            $v_key = self::DOC_THEME_KEYSTORAGE;
+            if (!isset($docs[$v_key])) {
 
                 $tab = [];
-                $docs["theme"] = &$tab;
+                $docs[$v_key] = &$tab;
                 $tab[$this->m_id] = [];
                 $tab = &$tab[$this->m_id];
-                $themes = &$docs["theme"];
+                $themes = &$docs[$v_key];
             } else {
-                $themes = &$docs["theme"];
+                $themes = &$docs[$v_key];
                 if (!isset($themes[$this->m_id])) {
                     $themes[$this->m_id] = [];
-
-                    $docs["theme"] = &$themes;
+                    $docs[$v_key] = &$themes;
                 }
                 $tab = &$themes[$this->m_id];
             }
@@ -510,8 +518,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $this->m_medias = array();
         $this->m_mediasid = array();
         $this->Append = $this->add("AppendCss");
-        $this->_initMedia($this->m_id);
+        $this->_initMedia($this->m_id); 
+        // $this->_root_def= $this->def;
     }
+    // private $_root_def;
+    // public function check(){
+        
+    //     $r = $this->def === $this->_root_def;
+    //     igk_wln("checking ..... ? ", $this->m_id, $r, $this->def, $this->_root_def);
+    //     return $r;
+    // }
     public function __debugInfo()
     {
         return [];
@@ -585,7 +601,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     /**
      * Add file to document theme
      */
-    public function addFile($host, $f, $temp = 1)
+    public function addFile(?BaseController $host, string $f, $temp = 1)
     {
         if ($host === null)
             igk_die("controller host must be defined");
@@ -711,12 +727,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         ?ICssResourceResolver $resourceResolver=null, $doc = null,
         ?DomHtmlDocTheme $parent = null)
     {
-       // igk_wln("minfile = ".$minfile);
+        $out = '';
         $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
         $is_root = false;
         $doc = $doc ?? $this->m_document ?? igk_app()->getDoc();
         $v_parent = $parent ?? $this->parent;
 
+ 
         $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
         $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
@@ -724,9 +741,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         // if (igk_is_debug()){
         //     igk_wln("export parent ", $parent, $this->getCl());
         // }
+        
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
-
+            
         if ($this->m_medias) {
             $g = ""; 
             foreach ($this->m_medias as $k => $v) {
@@ -743,6 +761,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                     $out .= "}" . $el;
                 }
             } 
+        } 
+        if ($this->m_root_ref){
+            $root = $this->m_root_ref;
+            $out.= sprintf(':root{%s}', igk_array_key_map_implode($root));
         }
         return rtrim($out);
     }
@@ -1210,6 +1232,7 @@ EOF;
     }
     ///set properties
     /**
+     * store document tempory property 
      */
     public function setProperty($name, $value)
     {
@@ -1246,7 +1269,7 @@ EOF;
         return $this->getProperties($key);
     }
     public function setParam($key, $value)
-    {
+    {    
         $this->setProperty($key, $value);
         return $this;
     }

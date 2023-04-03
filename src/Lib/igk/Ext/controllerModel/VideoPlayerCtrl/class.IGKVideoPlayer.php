@@ -90,10 +90,10 @@ final class IGKHtmlVideoNode extends HtmlNode
 		$this["height"] = "300px";
 		$this["width"] = "400px";
 	}
-	protected function __getRenderingChildren($options = null)
+	protected function _getRenderingChildren($options = null)
 	{
 		$this->_buildObject();
-		$c = parent::__getRenderingChildren($options);
+		$c = parent::_getRenderingChildren($options);
 		$c[] = $this->m_ObjectNode;
 		return $c;
 	} 

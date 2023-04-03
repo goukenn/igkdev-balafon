@@ -5,8 +5,9 @@
 
 'use strict';
 
-(function() {
+(function () {
     const createNS = igk.system.createNS;
+    const is_string = igk.is_string;
     // ---------------------------------------------------------
     // script controller entity
     // ---------------------------------------------------------
@@ -85,10 +86,10 @@
     function __readyFuncEventArgs() {
         var m_preventContinue = false;
         igk.appendProperties(this, {
-            preventContinue: function() {
+            preventContinue: function () {
                 m_preventContinue = !0;
             },
-            getPreventContinue: function() {
+            getPreventContinue: function () {
                 return m_preventContinue;
             }
         });
@@ -119,7 +120,7 @@
         var s = q.getAllAttribs();
         var r = null;
         var e = null;
-        if (typeof(s) == igk.constants.undef)
+        if (typeof (s) == igk.constants.undef)
             return;
 
         function __invoke(key, tab, node) {
@@ -143,7 +144,7 @@
                 }
             }
         };
-        var fc = node.hasAttribute || function(n) {
+        var fc = node.hasAttribute || function (n) {
             return node.getAttribute(n) != null;
         };
         for (var i = 0; i < m_attribManager.length; i++) {
@@ -165,25 +166,25 @@
     function __ctrl_utility_functions(n) { // controler utility function access with "igk/nodeobj".fc
         var m_o = n;
         igk.defineProperty(this, "o", {
-            get: function() {
+            get: function () {
                 return m_o;
             }
         });
         igk.appendProperties(this, {
-            toString: function() {
+            toString: function () {
                 return "[object igk.ctrl.utility.function]";
             }
         });
     }
     createNS("igk.ctrl", {
-        getAttribCtrl: function(k) {
+        getAttribCtrl: function (k) {
             return m_attribCtrl[k] || null;
         },
         /**
          * retrieve used attribute list
          * @returns array
          */
-        getAttribCtrlList: function() {
+        getAttribCtrlList: function () {
             var t = [];
             for (var i in m_attribCtrl) {
                 if (i == "length")
@@ -192,7 +193,7 @@
             }
             return t;
         },
-        bindAttribManager: function(key, callback, setting) {
+        bindAttribManager: function (key, callback, setting) {
             if (setting && !(key in m_attrib_datas)) {
                 igk.ctrl.registerAttribManager(key, setting);
             }
@@ -208,7 +209,7 @@
         // bindPreloadDocument: function(name, callback) {
         //     __registerHtmlPreloadDocumentCallBack(name, callback);
         // },
-        getcontroller: function(item) { // get the parent controller
+        getController: function (item) { // get the parent controller
             if (item == null)
                 return null;
             if (item.getAttribute && (item.getAttribute("igk-type") == "controller"))
@@ -216,7 +217,7 @@
             else
                 return igk.ctrl.getcontroller(item.parentNode);
         },
-        confirm: function(item, msg, uri) { // used to confirm frame
+        confirm: function (item, msg, uri) { // used to confirm frame
             if ((window.confirm) && window.confirm(msg)) {
                 item.form.confirm.value = 1;
                 item.form.action = uri;
@@ -224,7 +225,7 @@
             }
             return !1;
         },
-        init_controller: function() {
+        init_controller: function () {
             // init controller on first page loading	
             if (m_initialize)
                 return;
@@ -246,7 +247,7 @@
                         $igk(s).fc = new __ctrl_utility_functions($igk(s));
                     }
                 }
-                igk.ready(function() {
+                igk.ready(function () {
                     // bind attribute data on document ready
                     igk.ctrl.callBindAttribData(igk.dom.body().o);
                 });
@@ -254,12 +255,12 @@
             m_initialize = !0;
         },
         // controller function
-        getCtrlById: function(id) {
+        getCtrlById: function (id) {
             if (m_controllers[id])
                 return m_controllers[id];
             return null;
         },
-        findCtrlById: function(id) {
+        findCtrlById: function (id) {
             if (m_initialize) {
                 return igk.ctrl.getCtrlById(id);
             }
@@ -281,10 +282,10 @@
             return null;
         },
         // get all controller
-        getCtrls: function() {
+        getCtrls: function () {
             return m_controllers;
         },
-        isregCtrl: function(q) {
+        isregCtrl: function (q) {
             if ((q.nodeType == 1) && (q.getAttribute("igk-type") == "controller")) {
                 var id = q.getAttribute("igk-type-id");
                 if (id && !m_controllers[id]) {
@@ -295,7 +296,7 @@
             }
             return null;
         },
-        getParentController: function(node) {
+        getParentController: function (node) {
             // go to parent until parent controller is found
             if ((node == null) || (node.parentNode == null))
                 return null;
@@ -308,7 +309,20 @@
             }
             return q;
         },
-        callBindAttribData: function(node) {
+        invokeAttribEventData: function (node, attrib_name, value) {
+            if (attrib_name in m_attrib_datas) {
+                // get function - to call
+                let e = m_attribManager[attrib_name].s[0];
+                if (e) {
+                    new Promise((p, n) => {
+                        e.apply(node, [attrib_name, value]);
+                        p();
+                    });
+                    return true;
+                }
+            }
+        },
+        callBindAttribData: function (node) {
             // call binding to system on node	
             if (node) {
                 __callBindAttribData(node);
@@ -317,7 +331,6 @@
                     if (s) {
                         for (var i = 0; i < s.length; i++) {
                             igk.invokeAsync(__callBindAttribData, s[i]);
-                            // igk.invokeAsync(__callBindAttribData(s[i]);
                         }
                     }
                 } else {
@@ -332,10 +345,10 @@
                 }
             }
         },
-        getAttribData: function() { // get binding schema help
+        getAttribData: function () { // get binding schema help
             return m_attrib_datas;
         },
-        registerReady: function(func) {
+        registerReady: function (func) {
             // register a callback function that will be called everytime new node is added to document in igk.ajx.fn.initnode chain.
             // initnode use it in 'igk.ready' callback to maintain chain. function will be call for every node.
             // note: if you whant your new created callback to be called on new document complete used igk.ajx.fn.registerNodeReady against
@@ -343,25 +356,25 @@
                 m_readylist = new igk.system.collections.list();
             m_readylist.add(func);
         },
-        registerAttribManager: function(name, options) {
-            if ((name) && (typeof(m_attrib_datas[name]) == igk.constants.undef)) {
+        registerAttribManager: function (name, options) {
+            if ((name) && (typeof (m_attrib_datas[name]) == igk.constants.undef)) {
                 m_attrib_datas[name] = options;
                 return !0;
             }
             return !1;
         },
-        isAttribManagerRegistrated: function(name) {
-            if ((name) && (typeof(m_attrib_datas[name]) != igk.constants.undef)) {
+        isAttribManagerRegistrated: function (name) {
+            if ((name) && (typeof (m_attrib_datas[name]) != igk.constants.undef)) {
                 return !0;
             }
             return !1;
         },
-        regCtrl: function(name, baseuri) { // register controller		
-            m_h_ctrl[name] = new(function(name, baseuri) {
+        regCtrl: function (name, baseuri) { // register controller		
+            m_h_ctrl[name] = new (function (name, baseuri) {
                 this.name = name;
                 this.baseuri = baseuri;
                 igk.appendProperties(this, {
-                    getUri: function(funcname) {
+                    getUri: function (funcname) {
                         if (funcname) {
                             return this.baseuri + "&f=" + funcname;
                         }
@@ -370,22 +383,22 @@
                 });
             })(name, baseuri);
         },
-        getRegCtrl: function(name) {
+        getRegCtrl: function (name) {
             return igk.get_v(m_h_ctrl, name, null);
         },
-        getRegCtrls: function() {
+        getRegCtrls: function () {
             return m_h_ctrl;
         },
-        initselect_model: function(t, o, model) { // target select output zone		
+        initselect_model: function (t, o, model) { // target select output zone		
             var q = null;
             var to = null;
             var p = igk.getParentScript();
-            if (igk_is_string(t)) {
+            if (is_string(t)) {
                 q = $igk(p).select(t).first();
             } else {
                 q = t;
             }
-            if (igk_is_string(o)) {
+            if (is_string(o)) {
                 to = $igk(p).select(o).first();
             } else
                 to = o;
@@ -413,7 +426,7 @@
             // 
             // -------------------------------------------------------------------------
             $igk(q).reg_event("change", __changez)
-                .reg_event("keyup", function(evt) {
+                .reg_event("keyup", function (evt) {
                     var kc = evt.keyCode || 0;
                     switch (kc) {
                         case 37: // LEFT
@@ -428,7 +441,7 @@
             // alert("bad===="+$igk(q).getParentBody());		
             if (q.o.form) {
                 // restore the default view
-                $igk(q.o.form).reg_event("reset", function() {
+                $igk(q.o.form).reg_event("reset", function () {
                     var s = q.select(">:option");
                     // get the first option
                     var i = s.first();
@@ -444,10 +457,36 @@
     igk.winui.events.raise(e, 'igk_controller_ready', igk.ctrl, null);
     igk.winui.events.clean(e, 'igk_controller_ready');
     igk.winui.events.raise(e, 'igk_controller_ready', igk.ctrl, null);
+
+    // + | --------------------------------------------------------------
+    // + | bypass setattribute to get and replace attribute set behaviour
+
+    let global = {};    
+    global.setAttribute = Element.prototype.setAttribute;
+    Element.prototype.setAttribute = function (n, v) {
+        // console.log("setting attributes ... ", n, v);
+        if (/\[[^\]]+\]/.test(n)) {
+            // globa environment management properties 
+            let t = null; 
+            if (typeof this.igk === undefined) {
+                $igk(this).init();
+            }
+            t = $igk(this);
+            var q = t.getAttribute(n);
+            if (q == n) {
+                return;
+            }
+            igk.ctrl.invokeAttribEventData(t, n, v);
+            return;
+        }
+        global.setAttribute.apply(this, [n, v]);
+    };
+
+
 })();
 
 
-(function() {
+(function () {
     const createNS = igk.system.createNS;
 
     function __append_frametobody(responseText) {
@@ -462,12 +501,12 @@
                 var tc = $igk(c).select("form");
                 // init default frame management		
                 if (tc.each) {
-                    tc.each(function() {
+                    tc.each(function () {
                         if (this.o.onsubmit == null) {
                             this.setProperties({
-                                "onsubmit": function(evt) {
+                                "onsubmit": function (evt) {
                                     // raised on submit									
-                                    window.igk.ajx.postform(this, this.action.split("#")[0], function(xhr) {
+                                    window.igk.ajx.postform(this, this.action.split("#")[0], function (xhr) {
                                         if (this.isReady()) {
                                             if (global) {
                                                 this.replaceBody(xhr.resonseText);
@@ -491,14 +530,14 @@
     };
     createNS("igk.ctrl.frames", {
         appendFrameResponseToBody: __append_frametobody,
-        postframe: function(e, uri, ctrl) {
+        postframe: function (e, uri, ctrl) {
             var m = null;
             var t = $igk(e).select(ctrl).first(); // getParentByTagName("form");
             if (ctrl != null) {
                 m = window.igk.ctrl.getCtrlById(ctrl);
             }
             // alert("m is "+m + " " + ctrl+ " "+window.igk.ctrl.getCtrlById(ctrl));
-            igk.ajx.post(uri, null, function(xhr) {
+            igk.ajx.post(uri, null, function (xhr) {
                 // igk.frames.post function			
                 if (this.isReady()) {
                     if (t) {

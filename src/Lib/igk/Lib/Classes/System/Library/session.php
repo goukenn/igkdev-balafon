@@ -86,7 +86,7 @@ class session extends \IGKLibraryBase{
     //+ check if the session is passed prio to cookie value.
     //+ 2020 Edge and chrome on Mac no need for session_id https://www.php.net/manual/en/function.session-id.php
     
-        $idstorage=trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? false: trim(igk_getr($cookieName, igk_getv($_SERVER, $cookieName))));
+        $idstorage=trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? false: trim(igk_getr($cookieName, igk_getv($_SERVER, $cookieName, '')??'')));
         if($idstorage){
             igk_bind_session_id($idstorage);
             if(!isset($_COOKIE[$cookieName])){

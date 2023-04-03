@@ -195,9 +195,7 @@
 
 
         //for animation
-        function _do_anim() {
-
-            // console.debug("on document ?"+q.isOnDocument());
+        function _do_anim() { 
             if (!q.o.parentNode || !q.isOnDocument()) {
                 // console.debug("/!\\ can't run google circle waiter anim. no parent set");
                 _running = false;

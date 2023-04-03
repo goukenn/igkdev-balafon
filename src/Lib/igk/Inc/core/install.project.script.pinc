@@ -1,0 +1,211 @@
+<?php
+
+// @author: C.A.D. BONDJE DOUE
+// @filename: install.project.script.pinc
+// @date: 20230207 14:38:38
+// @desc: install project script 
+
+use IGK\Helper\IO;
+
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+$response = new InstallerResponse();
+if ($token != igk_getr('token')) {
+    $response->die("missing token", 501);
+}
+
+$version = 0;
+$author = 0;
+$appName;
+$count_file = 0;
+$hzip = new \ZipArchive();
+$appName = $install_dir = $error = null;
+$steps = [];
+$outdir = "";
+$module_name = "";
+$module_version = "";
+$module_path = "";
+$zip_out_dirname = igk_getr('project_entry');
+$install_dir = rtrim($home , '/'). "/" . ltrim(igk_getr('install_dir'), '/');
+$project_dir = rtrim($install_dir, "/") . "/" . ltrim(igk_getr('project_folder'), '/');
+$tempzip = null;
+$v_sys_tempdir = $install_dir . "/__temp";
+
+if (!file_exists($archive)){
+    $response->die("archive is not present");
+}
+
+if ($archive && is_file($archive) && $hzip->open($archive)) {
+    $error = false;
+    if (!$error && (false !== ($g = $hzip->getStream("manifest.xml")))) {
+
+        $data = "";
+        while (!feof($g)) {
+            $data .= fread($g, 4096);
+        }
+        fclose($g);
+
+
+        $dc = (array)simplexml_load_string($data);
+        isset($dc["author"]) ? $author = $dc["author"] : $error = true;
+        isset($dc["version"]) ? $version = $dc["version"] : $error = true;
+
+        if (isset($dc["@attributes"]["appName"])) {
+            $appName = $dc["@attributes"]["appName"];
+        } else {
+            $error = true;
+            $error_msg = "AppName is missing in manifest";
+        } 
+        if (!$error) {
+            $steps[] = "extract archive";
+            $ln = strlen($zip_out_dirname); 
+            $temp_dir = $v_sys_tempdir;
+            if (!is_dir($temp_dir)) {
+                @mkdir($temp_dir, 0777, true);
+            }
+            $outdir = $temp_dir = tempnam($temp_dir, "prj");
+            if (!is_dir($outdir)) {
+                if (is_file($outdir)) {
+                    unlink($outdir);
+                }
+                @mkdir($outdir, 0777, true);
+            }
+            for ($i = 0; $i < $hzip->numFiles; $i++) {
+                $fname = $hzip->getNameIndex($i);
+                if (preg_match("#^" . $zip_out_dirname . "/#", $fname) && ($fname[strlen($fname) - 1] != "/")) {
+                    $path =  trim(substr($fname, $ln), "/");
+                    // echo $fname.PHP_EOL;
+                    // echo "extract to : ".$fname.PHP_EOL;
+                    // echo "extract dir: ".$temp_dir.PHP_EOL;
+                   
+                    $hzip->extractTo($temp_dir, $fname);
+                    $count_file++;
+                }
+            }
+            $outdir .= "/" . $zip_out_dirname;
+        }
+    } else {
+        $error = true;
+        $error_msg = "manifest file not found";
+    }
+    $hzip->close();
+
+    @unlink($archive);
+} else {
+    $response->die("can't open archive", 501);
+}
+if (!$error) {
+
+
+    if (is_dir($project_dir)) {
+        $steps[] = "zip project directory";
+        $tempzip = tempnam(sys_get_temp_dir(), "prj");;
+        InstallerHelper::ZipFolder($tempzip, $project_dir);
+        //
+    }
+
+    if (is_dir($project_dir)) {
+        // before remove temp project directory - keep leavedir.
+        $leave_dirs = false;
+        if (file_exists($sync =  $project_dir."/.balafon-sync.project.json")){
+            $cp = (object)json_decode(file_get_contents($sync));
+            $leave_dirs = isset($cp->leavedirs)? $cp->leavedirs : null; 
+            $steps[] = '************* leave dirs **************';
+            if ($leave_dirs){
+                // remove directory - 
+                $ln = strlen($project_dir);
+                $steps[] = "remove project directory - and leavedirs";
+                $regfist = false;
+                igk_io_rmdir($project_dir, true, function($v)use($ln, $leave_dirs, & $regfist){
+                        $s = substr($v, $ln);
+                        if (in_array($s, $leave_dirs) || in_array(dirname($s), $leave_dirs)){
+                            return false;
+                        }
+                        foreach($leave_dirs as $k){
+                            $t = "/^\/".ltrim(str_replace("/", "\\/", ($k)), '/')."/";
+                            // TODO: EXPRESS MATCHING
+                            $t = str_replace("**","\/?([^\/]+\/?)(\/)?", $t);
+                            $t = str_replace("*","[^\/]+", $t);
+                            if (preg_match($t, $s)){
+                                // echo "match : ".$t. " - ".$s;
+                                // exit;
+                                return false;
+                            }
+                        }
+                        return true;
+                });
+            }
+        }
+        if (!$leave_dirs){
+            $steps[] = "remove project directory";
+            igk_io_rmdir($project_dir);
+        }
+    }
+ 
+    if ($outdir && is_dir($outdir)) {
+        //if (project_dir)
+        $steps[] = "move install dir : " . $outdir . " -> " . $project_dir;
+        //
+        if (!is_dir($project_dir)){
+            $steps[] = "***** rename dir *****"; 
+            rename($outdir, $project_dir);
+        }else{
+            $steps[] = "***** merge dir *****"; 
+            $cdir = [];
+            $tfiles = igk_io_getfiles($outdir, "/.+/", true); 
+            $ln = strlen($outdir);
+            $renamefile = 0;
+            foreach($tfiles as $fc){
+                $path = substr($fc, $ln);
+                $out = $project_dir."/".ltrim($path,"/");
+                
+                if (file_exists($out)){
+                    continue;
+                }
+
+                $dir = dirname($out);
+                if (!is_dir($dir)){
+                    if (isset($cdir[$dir])){
+                        continue;
+                    }
+                    if (!@mkdir($dir, 0775, true)){
+                        $cdir[$dir] = 1;
+                        continue;
+                    }
+                }
+                rename($fc, $out); 
+                $renamefile++;               
+            }
+            $steps[] = "%%% remove temp dir %%";
+            $steps[] =  "%% rename file : ".$renamefile." %%";
+            igk_io_rmdir($outdir);
+        }
+        
+    }
+    if ($tempzip) {
+        $steps[] = "remove tempzip";
+        unlink($tempzip);
+        $tempzip = null;
+    }
+}
+
+
+igk_io_rmdir($v_sys_tempdir);
+
+$_vart = compact(
+    "error",
+    "version",
+    "appName",
+    "archive",
+    "install_dir",
+    "count_file",
+    "author",
+    "steps",
+    "outdir"
+);
+if (!empty($error_msg)) {
+    $_vart["error_msg"] = $error_msg;
+}
+$_vart['steps'][] = "send - response";
+$response->Response(json_encode((object)$_vart, JSON_UNESCAPED_SLASHES), "application/json");

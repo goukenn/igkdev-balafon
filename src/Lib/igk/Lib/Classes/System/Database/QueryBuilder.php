@@ -6,15 +6,19 @@
 
 namespace IGK\System\Database;
 
+use Closure;
+use IGK\Database\DbConstants;
 use IGK\Models\ModelBase;
 use IGK\Database\DbExpression;
+use IGK\Database\DbQueryRowObj;
+use IGK\Database\IDbQueryResult;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
 use QueryOptions;
 use ReflectionException;
-
+ 
 /**
  * use to build query
  * @package IGK\System\Database
@@ -26,6 +30,17 @@ class QueryBuilder
     private $m_model;
     private $m_with;
 
+    public function append_columns(?array $columns){
+        if (isset($this->m_options["Columns"]) && $columns){
+            $cl = & $this->m_options["Columns"];  
+            $cl += $columns;          
+        } else {
+            if ($columns){
+                return $this->columns($columns);
+            }
+        }
+        return $this;
+    }
     /**
      * with expression to get single data value
      * @param mixed $table 
@@ -133,6 +148,19 @@ class QueryBuilder
             $table => [$condition, "type" => QueryBuilderConstant::LeftJoin]
         ]);
     }
+    /**
+     * helper: join left
+     * @param string $table 
+     * @param string $fist_column 
+     * @param string $second_column 
+     * @return $this 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function join_left_on(string $table, string $fist_column , string $second_column){
+        return $this->join_left($table, sprintf("%s=%s", $fist_column, $second_column));
+    }
     public function join_table(string $table)
     {
         return $this->join([
@@ -141,19 +169,21 @@ class QueryBuilder
     }
     /**
      * limit query
-     * @param array|int $limit_min
+     * @param null|array|int $limit_min
      * @param ?int $limit_max
      * @return $this 
      */
     public function limit($limit_raw, ?int $max = null)
     {
+        if (!is_null($limit_raw)){
         if (!is_array($limit_raw)) {
-            !is_numeric($limit_raw) && igk_die("value not allowed");
+            !is_numeric($limit_raw) && igk_die("limit value not allowed");
             $limit_raw = [$limit_raw];
             if ($max) {
                 $limit_raw[] = $max;
             }
         }
+    }
         $this->m_options["Limit"] = $limit_raw;
         return $this;
     }
@@ -184,6 +214,15 @@ class QueryBuilder
     public function orderBy(?array $order = null)
     {
         $this->m_options["OrderBy"] = $order;
+        return $this;
+    }
+    /**
+     * set callback filter
+     * @param null|\callbable|Closure $filter 
+     * @return $this 
+     */
+    public function filter(callable $filter=null){
+        $this->m_options[  DbConstants::CALLBACK_OPTS ] = $filter;
         return $this;
     }
     /**
@@ -268,7 +307,8 @@ class QueryBuilder
         if (!empty($query = $this->get_query()) && $driver->connect()) {
             $n = $driver->getIsConnect() ? -1 : $driver->connect();
             if (!empty($this->m_with)) {
-                $old_callback = !$options ? null : igk_getv($options, IGKQueryResult::CALLBACK_OPTS);
+                $v_goptions = $options ?? $this->m_options;
+                $old_callback = !$v_goptions ? null : igk_getv($v_goptions, IGKQueryResult::CALLBACK_OPTS);
                 $options = [
                     IGKQueryResult::CALLBACK_OPTS => function ($v) use ($old_callback) {
                         $row = $v;
@@ -287,8 +327,16 @@ class QueryBuilder
         }
         return false;
     }
-    private static function _GetLinks($ref,    $ctrl, ?string $table = null, string $property = null)
-    {
+    /**
+     * get referere links 
+     * @param mixed $ref reference 
+     * @param mixed $ctrl BaseController 
+     * @param null|string $table 
+     * @param string|null $property 
+     * @return array[tablename, linkcolumn, source_table, require_property]
+     */
+    private static function _GetLinks(array $ref, $ctrl, ?string $table = null, string $property = null)
+    { 
         return array_filter(array_map(function ($a) use ($ctrl, $table, $property) {
             if (!$a->clLinkType)
                 return null;
@@ -309,57 +357,128 @@ class QueryBuilder
         $t_root = $model->getTable();
         $ref = $tab[$t_root]->ref;
         $ctrl = $model->getController();
-        $links = self::_GetLinks($ref, $ctrl);
-        $linktab = [$t_root => 1];
-
-        foreach ($with as $k => $vv) {
-            $w_table = $vv;
-            $w_prop = $vv;
-            if (is_array($vv)){
-                $w_table = $vv['key'];
-                $w_prop = $vv['key'];
-            }
-            if (!is_numeric($k)) {
-                $w_table = $k;
-            }
-            if (isset($tab[$w_table])) {
-                $w_mod = $tab[$w_table]->model::model();
-            }
-            if (!isset($links[$w_table])) {
-                $links = array_merge($links, self::_GetLinks($tab[$w_table]->ref, $ctrl, $w_table, $w_prop));
-                $linktab[$w_table] = 1;
-            }
+        if ($ref)
+        {
+            $links = self::_GetLinks($ref, $ctrl);
+            $linktab = [$t_root => 1];
+            self::_BuildRowDef($v, $row, $ctrl, $tab, $with, $links, $linktab);
         }
+        // foreach ($with as $k => $vv) {
+        //     $w_table =
+        //     $w_prop = $vv;
+        //     if (is_array($vv)){
+        //         $w_table =
+        //         $w_prop = $vv['key'];
+        //     }
+        //     if (!is_numeric($k)) {
+        //         $w_table = $k;
+        //     }
+        //     if (isset($tab[$w_table])) {
+        //         $w_mod = $tab[$w_table]->model::model();
+        //     }
+        //     if (!isset($links[$w_table])) {
+        //         $rlinks = self::_GetLinks($tab[$w_table]->ref, $ctrl, $w_table, $w_prop);
+        //         $links = array_merge($links, $rlinks);
+        //         $linktab[$w_table] = $vv;
+        //     }
+        // }
+        // $w_table = null; 
+        // $ref_column = null;
+        // foreach ($links as $cl => $info) {
+        //     list($table, $clname) = $info;
+        //     $ctable = igk_getv($info, 2);
+        //     $property = igk_getv($info, 3);
+        //     if (key_exists($table, $linktab)){ //  == $w_table) {
+        //         $w_mod = $tab[$table]->model::model();
+        //         if ($dd = $v->$cl) {
+        //             $clname = $clname ?? $w_mod->getPrimaryKey();
+        //             $g = $w_mod::cacheRow([$clname => $dd]);
+        //             $key =  $linktab[$table]['key'] ?? $clname ;
+        //             $row->$key = $g;
+        //         }
+        //         // break;
+        //     } else {
+        //         if ($v->columnExists($cl) && $ctable) {
+        //             // column exists
+        //             $z_mod = $tab[$ctable]->model::model();
+        //             $idcl = $ref_column ?? $z_mod->getPrimaryKey();
+        //             $g = $z_mod::cacheRow([$idcl => $v->$idcl]);
+        //             $row->$property = $g;
 
-        $ref_column = null;
-        foreach ($links as $cl => $info) {
-            list($table, $clname) = $info;
-            $ctable = igk_getv($info, 2);
-            $property = igk_getv($info, 3);
-            if ($table == $w_table) {
-                $clname = $clname ?? $w_mod->getPrimaryKey();
-                if ($dd = $v->$cl) {
-                    $g = $w_mod::cacheRow([$clname => $dd]);
-                    $row->$w_prop = $g;
+        //             if (is_array($with) && igk_getv($with[$ctable], 'ignore_data')){                        
+        //                 foreach (array_keys($g->to_array()) as $mm){
+        //                     unset($row->$mm);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // } 
+        return $row;
+    }
+    private static function _BuildRowDef($v, $row, $ctrl, $tab, $with, $links, $linktab){
+        $row_defs = [$v];
+        
+        while(count($row_defs)>0){
+            $v = array_shift($row_defs);
+
+            foreach ($with as $k => $vv) {
+                $w_table =
+                $w_prop = $vv;
+                if (is_array($vv)){
+                    $w_table =
+                    $w_prop = $vv['key'];
                 }
-                // break;
-            } else {
-                if ($v->columnExists($cl) && $ctable) {
-                    // column exists
-                    $z_mod = $tab[$ctable]->model::model();
-                    $idcl = $ref_column ?? $z_mod->getPrimaryKey();
-                    $g = $z_mod::cacheRow([$idcl => $v->$idcl]);
-                    $row->$property = $g;
-
-                    if (is_array($with) && igk_getv($with[$ctable], 'ignore_data')){                        
-                        foreach (array_keys($g->to_array()) as $mm){
-                            unset($row->$mm);
+                if (!is_numeric($k)) {
+                    $w_table = $k;
+                }
+                if (isset($tab[$w_table])) {
+                    $w_mod = $tab[$w_table]->model::model();
+                }
+                if (!isset($links[$w_table])) {
+                    $rlinks = self::_GetLinks($tab[$w_table]->ref, $ctrl, $w_table, $w_prop);
+                    $links = array_merge($links, $rlinks);
+                    $linktab[$w_table] = $vv;
+                }
+            }
+            $w_table = null; 
+            $ref_column = null;
+            foreach ($links as $cl => $info) {
+                list($table, $clname) = $info;
+                $ctable = igk_getv($info, 2);
+                $property = igk_getv($info, 3);
+                if (key_exists($table, $linktab)){ //  == $w_table) {
+                    $w_mod = $tab[$table]->model::model();
+                    if ($dd = $v->$cl) {
+                        if (igk_getv($linktab, $table) === 1){
+                            // resolved in value . ignore root value
+                        }else{
+                            $clname = $clname ?? $w_mod->getPrimaryKey();
+                            $g = $w_mod::cacheRow([$clname => $dd]); 
+                            $key = ( $linktab[$table]['key'] ?? $clname );
+                            $row->$key = $g;
+                            $row_defs[] = DbQueryRowObj::Create($g->to_array());
                         }
                     }
+                    // break;
+                } else {
+                    // TODO: PROCESS LINK - TABLES 
+                   //  if ($v->columnExists($cl) && $ctable) {
+                        // column exists
+                        // $z_mod = $tab[$ctable]->model::model();
+                        // $idcl = $ref_column ?? $z_mod->getPrimaryKey();
+                        // $g = $z_mod::cacheRow([$idcl => $v->$idcl], false);
+                        // $row->$property = $g;
+    
+                        // if (is_array($with) && igk_getv($with[$ctable], 'ignore_data')){                        
+                        //     foreach (array_keys($g->to_array()) as $mm){
+                        //         unset($row->$mm);
+                        //     }
+                        // }
+                   // }
                 }
-            }
-        } 
-        return $row;
+            } 
+        }
+   
     }
     /**
      * select single row from this

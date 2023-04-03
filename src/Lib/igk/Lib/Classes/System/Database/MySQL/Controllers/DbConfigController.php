@@ -148,13 +148,21 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $uri = igk_register_temp_uri(__CLASS__) . "/page/";
                 $selected = 1;
                 $dv = igk_create_node("div");
+                $dv->setClass("fitw");
                 $dv->div()->Content = $q;
                 $dv->div()
                     ->setStyle("min-height:80px; line-height:1")
                     ->tablehost()->setClass("posab fit overflow-y-a")
                     ->addDbResult($g, $uri, $selected, igk_configs()->db_query_page_result ?? 50, "#query-s-r");
                 if ($data) {
-                    $dv->dbTableView($data->getRows());
+                    $headers = array_keys($data->getRowAtIndex(0)->to_array());
+                    array_unshift($headers, ' ');
+                    array_push($headers, ' ');
+                    array_push($headers, ' ');
+                    array_push($headers, ' ');
+                    // $dv->obdata($headers);
+                    $dv->div()->tablehost()->setClass("fitw overflow-x-a")
+                    ->dbTableView($data->getRows(), $headers, null);
                 }
                 $dv->renderAJX();
             } else {
@@ -1044,8 +1052,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
 
             $str = utf8_decode($str);
-            // igk_text($str);
-            // exit;
+        
             $h = explode("\0", $str);
             $table = null;
             $definition = null;

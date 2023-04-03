@@ -38,16 +38,14 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             "installer-helper.pinc",
             "sync.command.pinc"
         ], $token, "remove session");
- 
-
         igk_io_w2file($script_install, $sb);
         ftp_put($h, $install = $pdir . "/rm_sessions.php", $script_install, FTP_BINARY);
-
         if ($output = igk_curl_post_uri(
             $uri."/rm_sessions.php",
             [
                 "dir"=>$sess_dir,
-                "cmd"=>"clearsession"
+                "cmd"=>"clearsession",
+                "home_dir"=>$setting["home_dir"],
             ],
             null,
             [
@@ -57,8 +55,6 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             Logger::print("response");
             Logger::print($output);
         }
-        // $this->emptyDir($h, $sess_dir); 
-
         unlink($script_install);
         FtpHelper::RmFile($h, $install);
         ftp_close($h);

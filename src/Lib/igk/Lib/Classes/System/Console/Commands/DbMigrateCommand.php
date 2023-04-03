@@ -25,7 +25,7 @@ class DbMigrateCommand extends AppExecCommand
     var $desc = 'migration command';
 
     var $options = [
-        '--clear-db-cache'=>'flag:clear db cache'
+        '--no-clear-db-cache'=>'flag: do not clear db cache'
     ];
 
     public function help()
@@ -60,7 +60,7 @@ class DbMigrateCommand extends AppExecCommand
             Logger::danger('no controller found to migrate');
             return -1;
         }
-        if (property_exists($command->options, '--clear-db-cache')){
+        if (!property_exists($command->options, '--no-clear-db-cache')){
             DBCaches::Clear();
         }
 

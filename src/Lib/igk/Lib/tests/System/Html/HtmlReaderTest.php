@@ -172,17 +172,14 @@ $this->assertEquals(
 );
     }
     public function test_read_encapsed_string(){
-
-
-        $n = igk_create_notagnode();
+        $n = igk_create_notagnode(); 
         $n->Content = (<<<EOF
 <a onClick='alert("Êtes-vous sûr de bien vouloir supprimer l'avis ?")'  href='supprimer_avis.php?id=16563' class='blog_link'>Supprimer</a>
 EOF);
         $this->assertEquals(
             '<a onClick="alert(&quot;Êtes-vous sûr de bien vouloir supprimer l\'avis ?&quot;)" href="supprimer_avis.php?id=16563" class="blog_link">Supprimer</a>',
             $n->render()
-        );
-
+        ); 
     }
 
     public function test_read_empty_ignore(){
@@ -196,11 +193,52 @@ EOF);
 
 igk_html_article_bind_content(
     $n, "<p>{{ \$raw->experience }}=Sample for what</p>", true, 
-    $ldcontext, "__dummy__", SysDbController::ctrl(), [null], false
+    $ldcontext, "__dummy__", SysDbController::ctrl(), (object)[null], false
 );
 
         $this->assertEquals(
             '<p>{{ $raw->experience }}</p><p>=Sample for what</p>',
+            $n->render()
+        );
+    }
+    public function test_load_activate_attribute(){
+        $n = igk_create_notagnode();
+     
+        $n->load("<script scoped></script>");
+ $r  =  $n->getElementsByTagName('script')[0];
+        $this->assertEquals(
+            1,
+            count($r->getAttributes()->to_array())
+        );
+    }
+    public function test_load_activate_attribute_2(){
+        $n = igk_create_notagnode();
+        
+        $n->load("<script scoped/>");
+ $r  =  $n->getElementsByTagName('script')[0];
+        $this->assertEquals(
+            1,
+            count($r->getAttributes()->to_array())
+        );
+    }
+
+    public function test_read_comment_with_single_cote(){
+       
+        $t = "<code>// creation d'un noeud simple</code>";
+        $n = igk_create_notagnode(); 
+        $n->load($t); 
+        $this->assertEquals(
+            "<code>// creation d'un noeud simple</code>",
+            $n->render()
+        );
+    }
+    public function test_read_comment_with_single_cote_2(){      
+        $t = implode("\n", ["<code>// creation d'un noeud simple",
+        "\$x= ''; // <div>information : ok </div>",
+        "</code>"]);
+        $n = igk_create_notagnode(); 
+        $n->load($t); 
+        $this->assertEquals($t,
             $n->render()
         );
     }

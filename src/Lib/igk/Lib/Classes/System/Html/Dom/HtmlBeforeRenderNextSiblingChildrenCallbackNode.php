@@ -6,11 +6,7 @@
 
 
 namespace IGK\System\Html\Dom;
-
-use IGK\System\Html\HtmlContext;
-use IGK\System\Html\HtmlReader;
-use IGK\System\Html\HtmlUtils;
-use IGK\XML\XMLNodeType;
+ 
 
 ///<summary>before next sibling</summary>
 /**
@@ -31,7 +27,7 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
     {
         return false;
     }
-    public function AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool 
     {
         $b = $this->listener;
         $b($options);

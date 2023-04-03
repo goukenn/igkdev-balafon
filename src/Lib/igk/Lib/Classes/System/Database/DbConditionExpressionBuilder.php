@@ -17,13 +17,16 @@ class DbConditionExpressionBuilder{
 
     var $conditions = [];
 
+    const OP_AND = "AND";
+    const OP_OR = "OR";
+
     /**
      * call back expression
      * @var mixed
      */
     var $fc;
 
-    public function __construct($operand)
+    public function __construct($operand = self::OP_AND)
     {
         if (!in_array($operand, explode("|", "OR|AND"))){
             throw new ArgumentNotValidException($$operand);

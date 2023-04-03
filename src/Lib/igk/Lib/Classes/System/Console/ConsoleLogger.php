@@ -16,19 +16,19 @@ class ConsoleLogger{
         $this->app = $app;
     }
     public function warn($msg){
-        $this->app->print($this->app::gets(App::PURPLE, $msg));
+        $this->app->print_off($this->app::Gets(App::PURPLE, $msg));
     }
     public function danger($msg){
-        $this->app->print($this->app::gets(App::RED, $msg));
+        $this->app->print_off($this->app::Gets(App::RED, $msg));
     }
     public function success($msg){
-        $this->app->print($this->app::gets(App::GREEN, $msg));
+        $this->app->print_off($this->app::Gets(App::GREEN, $msg));
     }
     public function info($msg){
-        $this->app->print($this->app::gets(App::YELLOW, $msg));
+        $this->app->print_off($this->app::Gets(App::YELLOW, $msg));
     }
     public function log(...$msg){
-        $this->app->print(...$msg);
+        $this->app->print_off(...$msg);
     }
     public function print(...$msg){
         $this->app->print(...$msg);

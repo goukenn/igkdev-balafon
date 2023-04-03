@@ -9,8 +9,10 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Database\DatabaseInitializer; 
 use IGK\System\DataBase\SchemaBuilderHelper;
+use IGK\System\Database\SchemaForeignConstraintInfo;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGKConstants;
 use IGKEvents;
 use IGKException; 
 use IGKType; 
@@ -32,13 +34,65 @@ class Database{
     public static function GetInfo($n){
         return igk_getv(self::$sm_shared_info, $n);
     }
+    /**
+     * clean table name by removing model table regex environment variables
+     * @param string $table 
+     * @param null|BaseController $controller 
+     * @return string|string[]|null 
+     */
+    public static function GetCleanTableName(string $table, ?BaseController $controller =null){
+        $v = IGKConstants::MODEL_TABLE_REGEX;
+        $t = preg_replace_callback(
+            $v,
+            function ($m) use ($controller) { 
+                switch ($m["name"]) {
+                    case "prefix":                        
+                        return '';
+                    case "sysprefix":
+                        return '';
+                    case "year":
+                        return date("Y");
+                    case "date":
+                        return date("Ymd");
+                }
+            },
+            $table
+        );
+        return $t;
+    }
+    /**
+     * init constants
+     * @param string $constants 
+     * @param mixed $model_or_class 
+     * @param callable $c 
+     * @return array<array-key, mixed>|false 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function InitConstansts(string $constants, $model_or_class, callable $c){       
         $ref = igk_sys_reflect_class($constants);
         if ($ref && $model_or_class && ($tab =  $ref->GetConstants())){
             return array_map(new \IGK\Mapping\CreateModelIfNotExists($model_or_class, $c), $tab, array_keys($tab));                 
         }
         return false;
-
+    }
+    /**
+     * for single value column 
+     * @param string $constants 
+     * @param mixed $model_or_class 
+     * @param string $c column name  
+     * @return array<array-key, mixed>|false 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function InitConstanstsColumn(string $constant_class, $model_or_class, string $c){       
+        foreach($constant_class::GetConstants() as $v){
+            $model_or_class::insertIfNotExists([
+                $c => $v
+            ]);
+        } 
     }
     public static function InitSystemDb(){
         self::_Init();    
@@ -77,6 +131,7 @@ class Database{
             return;
         }
         $adapter->beginInitDb($ctrl);
+        $v_foreignConstraints = [];
         foreach ($tb as $k => $v) {
             if (is_numeric($k)){
                 $k = $v->defTableName;
@@ -89,9 +144,24 @@ class Database{
             if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName)) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));               
                 igk_ilog("failed to create " . $n);
+            }else {
+                if ($v->foreignConstraint){
+                    $v_foreignConstraints[] = [$k, $v->foreignConstraint];
+                }
             }
         }
         $adapter->endInitDb();
+        if ($v_foreignConstraints){
+            array_map(function($i)use($adapter, $ctrl){
+                list($tbname, $a) = $i;
+                $tbname = igk_db_get_table_name($tbname, $ctrl);
+                $a->from = igk_db_get_table_name($a->from, $ctrl);
+                $query = $adapter->getGrammar()->createAddConstraintReferenceForeignQuery($tbname, $a);
+                if (!$adapter->sendQuery($query)){
+                    igk_ilog('failed to add reference : '.$query);
+                }
+            }, $v_foreignConstraints);
+        }
         igk_hook(IGKEvents::HOOK_DB_POST_GROUP, [
             'ctrl'=>$controller
         ]);

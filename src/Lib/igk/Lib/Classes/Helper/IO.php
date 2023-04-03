@@ -9,6 +9,7 @@ namespace IGK\Helper;
 use Exception;
 use GPBMetadata\Google\Firestore\V1Beta1\Write;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\FileWriter;
@@ -24,6 +25,7 @@ use function igk_resources_gets as __;
  */
 class IO
 {
+   use IOSearchFileTrait;
 
     public static function ResolveFileExt($file, ?array $extensions = []){
         $ext = igk_io_path_ext($file);
@@ -39,12 +41,15 @@ class IO
         }
         return null;
     }
+
     /**
-     * clean directory 
+     * clean directory
+     * @param string $dir 
      * @return bool 
+     * @Exception 
      */
     public static function CleanDir(string $dir):bool{
-        if ($hdir = opendir($dir)){
+        if ($hdir = @opendir($dir)){
 
             while(($m = readdir($hdir))!==false){
                 if (($m=='.') || $m == '..'){
@@ -482,6 +487,9 @@ class IO
      */
     public static function GetCurrentRelativeUri($dir = IGK_STR_EMPTY, ?string $path = null)
     {
+        if (strpos($dir, "./") ===0){
+            $dir = substr($dir, 2);
+        }
         $rootdir = igk_io_rootdir();
         $bdir = igk_io_basedir();
         if (empty($rootdir)){
@@ -821,48 +829,55 @@ class IO
     ///<param name="targetdir"></param>
     ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
-     * 
-     * @param mixed $sourcepath
-     * @param mixed $targetdir
+     * get relative path helper
+     * @param mixed $sourcepath path where to go
+     * @param mixed $targetdir path from directory 
      * @param mixed $separator the default value is DIRECTORY_SEPARATOR
      */
     public static function GetRelativePath($sourcepath, $targetdir, $separator = DIRECTORY_SEPARATOR)
     {
-        $i = IGKString::IndexOf($targetdir, $sourcepath);
-        if ($i != -1) {
-            $s = self::__fixpath(substr($targetdir, strlen($sourcepath)));
-            while (!empty($s) && IGKString::StartWith($s, DIRECTORY_SEPARATOR)) {
-                $s = substr($s, 1);
-            }
-            return $s;
-        }
-        $dir = $sourcepath;
-        $cdir = $sourcepath;
-        $bdir = $targetdir;
-        $i = -1;
-        $c = 0;
-        $tsdir = explode(DIRECTORY_SEPARATOR, $cdir);
-        $tbdir = explode(DIRECTORY_SEPARATOR, $bdir);
-        $rstep = false;
-        while (($c < count($tbdir)) && ($c < count($tsdir))) {
-            if ($tbdir[$c] != $tsdir[$c]) {
-                $rstep = true;
-                break;
-            }
-            $c++;
-        }
-        $s = IGK_STR_EMPTY;
-        if ($rstep) {
-            for ($h = $c; $h < count($tbdir); $h++) {
-                $s .= ".." . DIRECTORY_SEPARATOR;
-            }
-        }
-        for ($h = $c; $h < count($tsdir); $h++) {
-            if ($h > $c)
-                $s .= DIRECTORY_SEPARATOR;
-            $s .= $tsdir[$h];
-        }
-        return $s;
+        return Path::GetRelativePath($sourcepath, $targetdir, $separator);
+
+        // $i = IGKString::IndexOf($targetdir, $sourcepath);
+        // if ($i != -1) {
+        //     $s = self::__fixpath(substr($targetdir, strlen($sourcepath)));
+        //     while (!empty($s) && IGKString::StartWith($s, DIRECTORY_SEPARATOR)) {
+        //         $s = substr($s, 1);
+        //     }
+        //     return $s;
+        // }
+        // $cdir = igk_uri($sourcepath);
+        // $bdir = igk_uri($targetdir);
+        // $sep = '/';
+        // $i = -1;
+        // $c = 0;
+        // $tsdir = explode($sep, $cdir);
+        // $tbdir = explode($sep, $bdir);
+        // $rstep = false;
+        // while (($c < count($tbdir)) && ($c < count($tsdir))) {
+        //     if ($tbdir[$c] != $tsdir[$c]) {
+        //         $rstep = true; 
+        //         break;
+        //     }
+        //     $c++;
+        // }
+        // // igk_debug_wln("the c : ", $c);
+        // $s = IGK_STR_EMPTY;
+        // if ($rstep) {
+        //     $v_goback = count($tbdir) - ($c + 1);
+        //     if ($v_goback){
+        //         $s .= str_repeat(".." . $sep, $v_goback); 
+        //     } else {
+        //         $s .= '.'.$sep; 
+        //     }
+        // } else {
+        //     $s .= '.'.$sep; 
+        // } 
+        // $s .= implode($sep, array_slice($tsdir, $c)); 
+        // if ($sep != $separator){
+        //     $s = str_replace($sep, $separator, $s);
+        // }
+        // return $s;
     }
     ///<summary></summary>
     ///<param name="dir"></param>

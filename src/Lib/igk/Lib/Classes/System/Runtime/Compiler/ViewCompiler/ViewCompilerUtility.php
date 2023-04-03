@@ -33,6 +33,7 @@ abstract class ViewCompilerUtility
     {
         /**
          * @var mixed $p 
+         * @var mixed $q 
          */
         $tab = $blocks;
         $p = $q = null;

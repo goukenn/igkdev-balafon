@@ -9,6 +9,7 @@ namespace IGK\System\Html;
 
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
+use IGK\Helper\JSon;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlExpressionNode;
@@ -123,18 +124,20 @@ class HtmlRenderer
     }
     public static function SanitizeOptions($options)
     {
-        if (!isset($options->{':sanitize'})) {
-            $options->{':sanitize'} = 1;
+        if (!isset($options->__sanitize)) {
+            $options->__sanitize = 1;
         } else {
             return;
         }
-        foreach ([
+        $cmp = array_merge(array_fill_keys(array_keys(get_class_vars(HtmlRendererOptions::class)), null), [
             "Stop" => 0,
             "Context" => "XML",
             "Depth" => 0,
             "Indent" => false,
             "header" => null,
-        ] as $k => $v) {
+        ]);
+
+        foreach ($cmp as $k => $v) {
             if (!isset($options->$k)) {
                 $options->$k = $v;
             }
@@ -209,7 +212,7 @@ class HtmlRenderer
             $s = self::_GetHeader($options->header);
             $options->header = null;
         }
-
+ 
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
                 continue;
@@ -229,6 +232,10 @@ class HtmlRenderer
                 }
 
                 if ($i instanceof HtmlItemBase) {
+                    // + | check for visibility
+                    if ($options->skipTags && (in_array($i->getTagName(), $options->skipTags))){                        
+                        continue;
+                    }
                     if (!$i->AcceptRender($options)) {
                         continue;
                     }
@@ -283,7 +290,7 @@ class HtmlRenderer
                 // + | --------------------------------------------------------------------
                 // + | aside array of node that might be render after the cibling node
                 // + |                
-                if (property_exists($options, "aside")) { 
+                if (isset($options->aside)) { 
                     $rf = array_reverse($options->aside);
                     $tab = array_merge($tab, $rf);
                     unset($options->aside, $rf); 
@@ -459,13 +466,17 @@ class HtmlRenderer
                 continue;
             }
 
-            $r = (is_object($v) && ($v instanceof HtmlExpressionAttribute));
-            if ($r)
+            $r = is_object($v); 
+            if ($r && ($v instanceof HtmlExpressionAttribute))
                 $c = $v->getValue();
             else {
                 if (is_array($v)) {
-                    igk_environment()->isDev() && igk_trace();
-                    igk_dev_wln_e("/!\\ don't send array [$k] as attribute: ", $k, $v);
+                    if (strpos($k,"igk:")===0){
+                        $v = json_encode($v);
+                    }else{
+                        igk_environment()->isDev() && igk_trace();
+                        igk_dev_wln_e("/!\\ don't send array [$k] as attribute: ", $k, $v);
+                    }
                 }
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                     $v_cv = $v->getValue($options);
@@ -477,6 +488,8 @@ class HtmlRenderer
                     } else {
                         if (is_object($v_cv )){
                             $v_cv = "".$v_cv;
+                        } else if (is_array($v_cv)){
+                            igk_dev_wln_e("binding array to attributes", $v_cv);
                         }
                         if (!empty($v_cv) || is_string($v_cv)) {
                             $out .= $k . "=\"" . $v_cv . "\" ";
@@ -488,8 +501,10 @@ class HtmlRenderer
                 }
             }
             if (is_numeric($c) || !empty($c)) {
-                // if(!empty($out))
-                //     $out .= " ";
+                // + | check that it doesnt contains quotes
+                if (preg_match("/[\"]/", trim($c, " \""))){
+                    $c = igk_str_surround(addslashes($c));
+                }
                 if ($options && !$r && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);
                 }
@@ -617,14 +632,21 @@ class HtmlRenderer
             return null;
         }
         if (is_string($v)) {
-            if (strpos($v, "\"") === 0) {
+            $v= stripslashes($v);
+            if ((strpos($v, "\"") !== false)||(strpos($v, "\'") !== false)) {
+                if(igk_getv($options, 'Context') ==HtmlContext::Html){
+                    return igk_str_surround(HtmlUtils::EncodeAttribute($v), '"');
+                }
                 return $v;
-            }
-            if (strpos($v, "\'") === 0)
-                return $v;
+            } 
+        }
+        if (is_array($v)) {
+            $v = JSon::Encode($v);
+            // igk_show_trace();
+            // igk_wln_e(__METHOD__ . "::attribute value is array is not allowed. ".$v);
         }
         if (!igk_getv($options, "flag_no_attrib_escape")) {
-            if ($options && igk_getv($options, "AttributeEntityEscape")) {
+            if (igk_getv($options, "attribute_entity_escape")) {
                 $v = preg_replace_callback(
                     "/\&([^;=]+;)?/i",
                     function ($m) {
@@ -638,17 +660,15 @@ class HtmlRenderer
                     },
                     $v
                 );
-            }
-            $v = str_replace("\"", "&quot;", $v);
-            if (is_array($v)) {
-                igk_wln_e(__METHOD__ . "::attribute is array", igk_show_trace());
-            }
+            }           
+            $v = HtmlUtils::EncodeAttribute($v);
         } else {
             $v = str_replace("\"", "\\\"", $v);
         }
         // clear flag for setting attribute
         unset($options->flag_no_attrib_escape);
-        return "\"" . $v . "\"";
+        // return "\"" . $v . "\"";
+        return igk_str_surround($v);
     }
     ///<summary>get node item inner content</summary>
     /**

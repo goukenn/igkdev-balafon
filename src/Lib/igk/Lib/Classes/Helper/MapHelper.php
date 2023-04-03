@@ -5,6 +5,8 @@
 namespace IGK\Helper;
 
 use Closure;
+use IGK\Mapping\IDataMapper;
+use IGK\Models\ModelBase;
 use IGKException;
 
 ///<summary></summary>
@@ -76,4 +78,41 @@ class MapHelper
         }
         return null;
     }
+
+   /**
+    * 
+    * @param mixed|array|ModelBase $data data to mapper 
+    * @param array|IDataMapper $map 
+    * @return mixed 
+    * @throws IGKException 
+    */
+    public static function Map($data, $map){
+        $v_out = [];
+        if ($data instanceof ModelBase){
+            $data = $data->to_array();
+        }
+        if ($map instanceof IDataMapper){
+            $obj = [];
+            foreach($data as $k=>$v){
+                list($key, $value) = $map->map($k, $v) ?? [null,null]; 
+                if (null === $key) continue;
+                if (key_exists($key, $obj)){
+                    igk_die("mapper result already containt ".$key);
+                }
+                $obj[$key]= $value; 
+            }
+            return (object)$obj;
+        }
+        $flip = array_flip($map);
+        $keys = array_keys($flip); 
+        foreach($data as $r){
+            $c = (object) array_fill_keys($keys,null);
+            foreach($keys as $k){
+                $c->$k = igk_getv($r, $flip[$k]);
+            }
+            $v_out[] = $c;
+            
+        }
+        return $v_out;
+    } 
 }

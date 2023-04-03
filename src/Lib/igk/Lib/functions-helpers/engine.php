@@ -142,7 +142,13 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     $g = igk_get_template_bindingattributes();
     if (isset($g[$attr])) {
         $inf = $g[$attr];
-        $value = html_entity_decode($value);
+        //if ((strpos($attr, '*')!==0) && $value &&  {
+            // decode with entity - otherwise leveal binding to manager resolution - maybe expression
+            $value = html_entity_decode($value);
+        // } else {
+        //     // replace &quot; with ' in array style or " in json style
+        //     igk_wln(__FILE__.":".__LINE__ , $value);
+        // }
 
         list($k, $v) = $inf($reader, $attr, $value, $context, $storecallback);
         if ($k && $v && $storecallback) {

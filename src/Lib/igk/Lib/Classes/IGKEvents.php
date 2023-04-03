@@ -45,6 +45,7 @@ class IGKEvents extends IGKObject
     const HOOK_DB_TABLECREATED = "db_table_created";
     const HOOK_DB_POST_GROUP = "db_post_db_create_database_list";
     const HOOK_DB_CACHES_INITIALIZED = "db_cache_initialized";
+    const HOOK_DB_INSERT = 'db_date_inserted';
 
     const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
     const HOOK_HTML_AFTER_RENDER_BODY="html_after_render_body";
@@ -337,7 +338,7 @@ class IGKEvents extends IGKObject
     * 
     * @param mixed $name 
     * @param array $args 
-    * @param ?\IGK\IHookOptions|array|object $options 
+    * @param ?\IGK\IHookOptions|array|object $options require IHoopOptions to bybass option behaviour
     * @return mixed 
     * @throws IGKException 
     * @throws ArgumentTypeNotValidException 
@@ -392,6 +393,9 @@ class IGKEvents extends IGKObject
                     if ($v->injectable ){
                         $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
                         if (($fc instanceof \Closure ) || is_string($fc)){
+                            // if ($name=="LoginService"){
+                            //     igk_dev_wln("for login service");
+                            // }
                             $tcargs = Dispatcher::GetInjectArgs( new \ReflectionFunction($fc), $cargs);
                         }
                     } 
@@ -419,11 +423,17 @@ class IGKEvents extends IGKObject
         if (!$hooks) {
             return 0;
         }
-        $tb = &$hooks[$name]->list;
+        if (is_null($callback)){
+            unset($hooks[$name]);
+            return true;
+        }
+        if (!isset($hooks[$name]->list)){
+            $hooks[$name]->list = [];
+        }
+        $tb = & $hooks[$name]->list;
     
         if ($all){
-            $c = 0; 
-           
+            $c = 0;            
             $tb = array_filter(array_map(function($v)use($callback, & $c){
                 if ($v->callback === $callback){
                     $c++;

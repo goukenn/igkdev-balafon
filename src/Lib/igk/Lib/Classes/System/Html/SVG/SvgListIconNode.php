@@ -18,9 +18,9 @@ class SvgListIconNode extends HtmlNode{
         $this["igk:svg-name"] = $name; 
     }
 
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     { 
-        if (parent::__AcceptRender($options)){
+        if (parent::_acceptRender($options)){
             SvgRenderer::AcceptRenderList($options);
             $cl = null;
             if ($path = SvgRenderer::GetPath($name = $this["igk:svg-name"], $cl)){

@@ -19,9 +19,7 @@ use IGK\System\Exceptions\NotImplementException;
  * Represente IGKLog class
  */
 final class IGKLog extends IGKObject
-{
-    // const ERRORLOGFILE = "Data/Logs/.global-error." . IGK_TODAY . ".log";
-    // const LOGFILE = "Data/Logs/.global." . IGK_TODAY . ".log";
+{ 
     /**
      * logger flags
      * @var false
@@ -145,7 +143,9 @@ final class IGKLog extends IGKObject
      * @throws IGKException 
      */
     public static function CanDBLog(){
-
+        if (defined("IGK_TEST_INIT")){
+            return false;
+        }
         $g = !igk_environment()->NO_DB_LOG && !igk_configs()->no_db_log && igk_app();
         if ($g){
             $db = igk_configs()->get("default_dataadapter");
@@ -162,10 +162,10 @@ final class IGKLog extends IGKObject
         return igk_getv(igk_configs(), "LogFile", $this->getDefaultLogFile()); 
     }
     public function getDefaultLogFile(){
-        return igk_io_applicationdir()."/Data/Logs/.global." . igk_environment()->getToDay() . ".log"; 
+        return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . ".log"; 
     }
     public function getDefaultErrorLogFile(){
-        return igk_io_applicationdir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . ".log"; 
+        return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . ".log"; 
     }
     ///<summary></summary>
     ///<param name="msg"></param>

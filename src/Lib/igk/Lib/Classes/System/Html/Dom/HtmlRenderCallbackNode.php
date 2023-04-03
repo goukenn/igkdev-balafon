@@ -25,7 +25,7 @@ class HtmlRenderCallbackNode extends HtmlNode{
         $this->m_callbackobj = $callbackobj;
     }
 
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {
         $param = [ $options ]; 
         return  igk_invoke_callback_obj($this, $this->m_callbackobj, $param); 

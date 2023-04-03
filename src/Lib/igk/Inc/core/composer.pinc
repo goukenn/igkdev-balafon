@@ -1,0 +1,38 @@
+<?php
+
+
+// echo "install composer : ".PHP_EOL;
+chdir($home);
+
+$package_dir = igk_getr("package_dir");
+$args = igk_getr("args");
+$composer = $home ."/".ltrim($package_dir."/composer.phar", "/");
+$response = new InstallerResponse(); 
+
+$dis_func = ini_get('disable_functions');
+$php_lib = igk_getr("php_bin", '/usr/local/php7.3/bin/php');
+
+if (!is_file($composer)){
+    $response->die("missing composer. ".$composer);
+}
+if (!is_file($php_lib)){
+    $response->die("missing php_bin. ".$php_lib);
+}
+array_unshift($args, "-d ".dirname($composer));
+$tfile = tmpfile();
+$cmd = $composer . " ".implode(" ", $args);
+ob_start();
+$g = `$php_lib $cmd`;
+$c = ob_get_contents();
+ob_end_clean();
+// echo "command .... = ".$cmd;
+// @unlink(__FILE__);
+$response->response(json_encode([
+    "data"=>$g,
+    "ob-data"=>$c,
+    'disable_functions'=>$dis_func,
+    "php_lib"=>$php_lib,
+    "version"=>PHP_VERSION,
+    "cmd"=>$cmd    
+], JSON_UNESCAPED_SLASHES));
+exit;

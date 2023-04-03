@@ -62,6 +62,16 @@ class BalafonApplication extends IGKApplicationBase
                 chdir($g[1]);
             return null;
         }
+
+        if (strpos($a, "--env:") === 0) {
+            $g = strtolower(trim(implode('', array_slice(explode(":", $a),1))));
+            if (in_array($g, ["production","development","test"])){
+                define('IGK_ENVIRONMENT', $g);
+                $_SERVER['IGK_ENVIRONMENT'] = $g;
+                igk_server()->ENVIRONMENT = $g;
+            }            
+            return null;
+        }
         return $a;
     }
     /**
@@ -355,43 +365,17 @@ class BalafonApplication extends IGKApplicationBase
                 $command->exec = function ($command, $ctrl = null, $class = null) {
                     DbCommandHelper::Init($command);
                     // Transformo to namespace class
-                    if ($ctrl) {
-                        if ($c = SysUtils::GetControllerByName($ctrl, false)) {
-                            $inf = get_class($c);
-                            if (!empty($class))
-                                $inf .= "::" . $class;
-
-
-                            Logger::print("seed... " . $inf . " query debug: " . igk_environment()->querydebug);
-                            $c::register_autoload();
-
-                            // igk_wln(
-                            //     __FILE__.":".__LINE__, 
-                            //     class_exists(\com\igkdev\app\llvGStock\MappingService::class));
-
-                            $c::seed($class);
-                            Logger::success("seed complete");
-                            return 1;
-                        } else {
-                            Logger::danger("controller [$ctrl] not found");
-                        }
-                    } else {
-                        $c = igk_sys_getall_ctrl();
-                        foreach ($c as $t) {
-                            $t::register_autoload();
-                            Logger::info("seed:" . get_class($t));
-                            if ($t::seed()) {
-                                Logger::success("seed:" . get_class($t));
-                            }
-                        }
-                    }
+                    DbCommandHelper::Seed($ctrl, $class); 
                     return -1;
                 };
             }, __("seed your database with data"), "db"],
             "--db:initdb" => [function ($v, $command) {
-                $command->exec = function ($command, $ctrl = "") {
+                $command->exec = function ($command, ?string $ctrl = "") {
                     $c = null;
                     DbCommandHelper::Init($command);
+                    if (empty($ctrl)){
+                        $ctrl = igk_getv($command->options,"--controller");
+                    }
                     if (!empty($ctrl)) {
                         if (!($c = igk_getctrl($ctrl, false))) {
                             Logger::danger("no controller found: " . $ctrl);
@@ -399,8 +383,7 @@ class BalafonApplication extends IGKApplicationBase
                         }
                         $c = [$c];
                     } else {
-                        $c = igk_app()->getControllerManager()->getControllers();
-                        // usort($c, DbUtils::OrderController);
+                        $c = [];//  igk_app()->getControllerManager()->getControllers();                        
                         if ($b = IGKModuleListMigration::CreateModulesMigration()) {
                             $c = array_merge($c, [$b]);
                         }
@@ -521,18 +504,13 @@ class BalafonApplication extends IGKApplicationBase
                         $args = ViewEnvironmentArgs::GetContextViewArgument($ctrl, __FILE__, 'balafon');
                         $params = array_slice(func_get_args(), 2);
                         $args->params = &$params;
-                        // if (property_exists($command->options, '--user')){
-                        //     if ($id = intval(igk_getv($command->options, '--user'))){
-                        //         $row = \IGK\Models\Users::select_row($id);                            
-                        //         $params['user'] = SystemUserProfile::Create($row);
-                        //     }
-                        // } 
+                     
                         try {
-                            if (file_exists($file)) {
-                                DbCommandHelper::Init($command);
+                            if (file_exists($file)) { 
                                 $result = SysUtils::Include($file, array_merge([
                                     "ctrl" => $ctrl,
                                     "user" => $user,
+                                    "command"=>$command
                                 ], (array)$args));
 
                                 if ($result) {
@@ -547,11 +525,11 @@ class BalafonApplication extends IGKApplicationBase
                                 Logger::danger(__("[ run file ] file not found"));
                             }
                         } catch (Throwable $ex) {
-                            $trace = $ex->getTrace()[1];
+                            $trace = $ex->getTrace()[0];
                             Logger::danger(
                                 ":" .
                                     implode(':', [
-                                        $ex->getMessage() . " " .
+                                        $ex->getMessage() . " \nAt: " .
                                         igk_getv($trace,  'file'),
                                         igk_getv($trace, 'line'),
                                     ])

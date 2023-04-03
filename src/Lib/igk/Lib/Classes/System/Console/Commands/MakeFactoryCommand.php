@@ -7,6 +7,7 @@
  
 namespace IGK\System\Console\Commands;
 
+use IGK\Controllers\SysDbController;
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -20,9 +21,11 @@ class MakeFactoryCommand extends AppExecCommand
 
     var $category = "make";
 
-    var $desc  = "make project's factory";
+    var $desc  = "make project's factory. use %sys% for system controller.";
 
     var $options = [];
+
+
     public function exec($command, $controller = "", $modelname = "")
     {
         if (empty($controller)) {
@@ -31,6 +34,9 @@ class MakeFactoryCommand extends AppExecCommand
         if (empty($modelname)) {
             Logger::danger("model utility name required");
             return false;
+        }
+        if ($controller=="%sys%"){
+            $controller = SysDbController::ctrl();
         }
         Logger::info("make factory class ... " . $controller);
         $author = $this->getAuthor($command);

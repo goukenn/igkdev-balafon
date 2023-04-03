@@ -8,7 +8,7 @@
 
 namespace IGK\System\Configuration;
 
-/*
+/**
 * @property bool $BootStrap
 * @property bool $BootStrap.Enabled
 * @property bool $JQuery.Enabled

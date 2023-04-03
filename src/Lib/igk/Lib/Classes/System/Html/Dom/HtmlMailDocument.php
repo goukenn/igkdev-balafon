@@ -18,7 +18,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     
     ///<summary></summary>
     ///<param name="opt" default="null"></param>
-    public function __AcceptRender($opt=null){
+    public function _acceptRender($options=null){
         return true;
     }
     ///<summary>Construct mail document</summary>
@@ -101,6 +101,11 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
     ///<summary></summary>
     ///<param name="theme"></param>
+    /**
+     * load theme
+     * @param mixed $theme 
+     * @return void 
+     */
     public function loadTheme($theme){
         $this->_copyAddBuildDefinition($this->m_theme, $theme);
         foreach($theme->getMedias() as $k=>$m){

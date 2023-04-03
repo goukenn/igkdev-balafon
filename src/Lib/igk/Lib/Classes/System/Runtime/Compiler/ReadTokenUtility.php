@@ -26,12 +26,12 @@ class ReadTokenUtility
         return $h;
     }
     /**
-     * 
+     * merge variables 
      * @param mixed $vars 
      * @param bool $mergeVariable 
      * @return string 
      */
-    public static function GenerateVariables($vars, bool $mergeVariable = false)
+    public static function GenerateVariables($vars, bool $mergeVariable = false, ?string $type=null)
     {
 
         $sb = new StringBuilder();
@@ -48,6 +48,11 @@ class ReadTokenUtility
         foreach ($vars as $k) {
             if ($k->dependOn) {
                 continue;
+            }
+            if (($type == 'function')){
+                if (count($vars)==1){
+                    continue;
+                } 
             }
             $name = $k->name;
             $d = $k->default;

@@ -6,6 +6,7 @@
 
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\Controllers\Traits\ControllerLocationTrait;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\WinUI\Menus\MenuItem;
 
@@ -13,6 +14,7 @@ use function igk_resources_gets as __;
 
 final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	use NoDbActiveControllerTrait;
+	use ControllerLocationTrait;
 	const API_KEY = "google.ApiKey";
 
 	public function getConfigPage(){return "google.sdk";}

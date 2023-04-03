@@ -21,6 +21,8 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
      */
     protected $tagname = "script";
 
+    protected $link;
+
     /**
      * script version
      * @var mixed
@@ -95,6 +97,9 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         return new HtmlAttributeArray([
             "src"=>new HtmlResolvLinkValue()
         ]);
+    }
+    public function text(string $content){
+        return $this->setContent($content);
     }
      ///<summary></summary>
     /**

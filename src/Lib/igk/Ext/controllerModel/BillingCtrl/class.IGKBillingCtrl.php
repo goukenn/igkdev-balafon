@@ -55,13 +55,5 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 
 		$this->getBillingPDF();
 	}
-	public function getBillingPDF(){
-		$u = $this->app->Session->User;
-		if ($u == null)return;
-
-		/// TODO : Render PDF Document
-		// $pdf = PDFModule::CreateDocument();
-		// $pdf->render();
-		igk_exit();
-	}
+	
 }

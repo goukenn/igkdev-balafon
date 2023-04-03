@@ -16,6 +16,9 @@ use IGKEnvironment;
 class IGKEnvironmentSettings{
     private static $sm_instance;
 
+    var $no_page_cache;
+    
+
     public static function getInstance(){
         if (self::$sm_instance === null){
             self::$sm_instance = new self();

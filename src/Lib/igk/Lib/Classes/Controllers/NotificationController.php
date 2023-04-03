@@ -221,7 +221,7 @@ final class NotificationController extends BaseController implements IIGKNotifyM
                     $d=igk_create_node("div")->addScript();
                     $uri=$this->getUri("notify_ajx&rv=1");
                     $d->Content=<<<EOF
-(function(){ ns_igk.ajx.post('${uri}',null, ns_igk.ajx.fn.prepend_to_body); })();
+(function(){ ns_igk.ajx.post('{$uri}',null, ns_igk.ajx.fn.prepend_to_body); })();
 EOF;
 
                     $d->renderAJX();

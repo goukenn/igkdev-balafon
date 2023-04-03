@@ -49,4 +49,21 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         ); 
     }
+    public function test_render_litteral(){
+        $g = igk_create_node("div");
+        $g->setAttribute('prop','"info"."data"'); 
+        $this->assertEquals(
+            '<div prop="&quot;info&quot;.&quot;data&quot;"></div>',
+            $g->render()
+        );
+    }
+    public function test_load_text_area(){
+        $g = igk_create_node("div");
+        $g->Content = "<div><textarea>if (i<data){console.log('info');}</textarea></div>";
+ 
+        $this->assertEquals(
+            "<div><div><textarea>if (i<data){console.log('info');}</textarea></div></div>",
+            $g->render()
+        );
+    }
 }

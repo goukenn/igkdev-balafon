@@ -4,73 +4,55 @@
 // @filename: SysConfigSettings.php
 // @date: 20220509 08:42:59
 // @desc: sys configuration settings
+namespace IGK\System\Configuration;
 
+use IGK\System\Configuration\Controllers\ConfigurationOptions;
 
 /**
  * general configuration setting. need to be activate from configs data expression
  * @package 
  */
-class ProjectConfigSettings{
-
+class ProjectConfigSettings extends ConfigurationOptions{
     /**
      * version of this controller
      * @var mixed
      */
-    public $clVersion;
+    var $clVersion;
     /**
      * describe the controller
      * @var mixed
      */
-    public $clDescription;
+    var $clDescription;
 
     /**
      * adapter name to use 
      * @var mixed
      */
-    public $clDataAdapterName;
-    /**
-     * allow usage of data schema
-     * @var mixed
-     */
-    public $clDataSchema;
+    var $clDataAdapterName;
+   
     /**
      * name used to register
      * @var mixed
      */
-    public $clRegisterName;
+    var $clRegisterName;
     /**
      * the index to use for target node
      * @var mixed
      */
-    public $clTargetNodeIndex;
+    var $clTargetNodeIndex;
     /**
      * visibility on page
      * @var mixed
      */
-    public $clVisiblePages;
+    var $clVisiblePages;
     /**
      * application name
      * @var mixed
      */
-    public $clAppName;
-    /**
-     * basic uri pattern
-     * @var mixed
-     */
-    public $clBasicUriPattern;
+    var $clAppName; 
     /**
      * schema's table prefix 
      * @var mixed
      */
-    public $clDataTablePrefix;
-    /**
-     * disable auto cache view
-     * @var mixed
-     */
-    public $no_auto_cache_view;
-    /**
-     * disable fallback to default action handle if no action found
-     * @var mixed
-     */
-    public $no_fallback_to_default_action;
+    var $clDataTablePrefix;
 }

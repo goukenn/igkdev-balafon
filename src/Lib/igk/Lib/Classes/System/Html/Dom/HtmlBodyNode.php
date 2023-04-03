@@ -65,7 +65,7 @@ class HtmlBodyNode extends HtmlNode{
      
     public function getBodyBox(){
         if ($this->m_bodybox ===null){
-            $this->m_bodybox = new HtmlBodyBoxNode();
+            $this->m_bodybox = new HtmlBodyBoxNode($this);
         }
         return $this->m_bodybox;
     }
@@ -73,14 +73,14 @@ class HtmlBodyNode extends HtmlNode{
         return $this->getBodyBox();
     }
 
-    protected function __getRenderingChildren($options = null)
+    protected function _getRenderingChildren($options = null)
     { 
         $doc = igk_getv($options, "Document");
         $c = [];
         if ($this->getBodyBox()->getHasChilds()){
             $c[] = $this->m_bodybox;
         }        
-        $c = array_merge($c,  parent::__getRenderingChildren($options));
+        $c = array_merge($c,  parent::_getRenderingChildren($options));
 
         if (HtmlDefaultMainPage::getInstance()->getIsVisible()){
             $c[] = HtmlDefaultMainPage::getInstance();

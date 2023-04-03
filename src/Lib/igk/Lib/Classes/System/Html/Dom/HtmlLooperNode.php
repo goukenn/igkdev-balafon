@@ -68,7 +68,7 @@ class HtmlLooperNode extends HtmlItemBase{
                 self::HostChain($n, $sb."", $this->args, $ctrl, '$'.$hook_expression);
                 $v_out  = $n->render();
                 if ($this->args instanceof ViewDataArgs)  {
-                    $v_targs = ViewDataArgs::GetData($this->args);
+                    $v_targs = $this->args->getData();
                 }else{
                     $v_targs = is_array($this->args) ? $this->args : 0;
                 }
@@ -104,11 +104,12 @@ class HtmlLooperNode extends HtmlItemBase{
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         $ldcontext->transformToEval = true;
         $ldcontext->hookExpression = $hookExpression;
-        $file = tempnam(sys_get_temp_dir(), "host");
+        $file = igk_create_guid();// tempnam(sys_get_temp_dir(), "host");
+        $v_base_name = 'igk-temp-hostchain'; // basename($file)
         igk_push_article_chain($file, $ldcontext);
-        igk_html_bind_article_content($n, $content, $data, $ctrl, basename($file), true, $ldcontext);        
+        igk_html_bind_article_content($n, $content, $data, $ctrl, $v_base_name, true, $ldcontext);        
         igk_pop_article_chain();
-        unlink($file);
+        //unlink($file);
     }
 
     /**
@@ -124,8 +125,19 @@ class HtmlLooperNode extends HtmlItemBase{
         $this->callback = $callback;
         $this->params = $param;
     }   
-    public function __getRenderingChildren($options = null){
+    public function _getRenderingChildren($options = null){
         $this->host($this->callback, ...$this->params);
         return [];        
+    }
+    public function __call($name, $arguments){
+        // + | call sub method on parent and return its 
+        if ($this->node){
+            $a = call_user_func_array([$this->node, $name],$arguments);
+            if ($a instanceof HtmlNode){
+                $this->add($a);
+            }
+            return $a;
+        }
+        return parent::__call($name, $arguments);
     }
 }

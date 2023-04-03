@@ -49,7 +49,7 @@ abstract class Utility {
         return implode(" ", array_filter([ strtoupper($r->clLastName), ucfirst($r->clFirstName)]));
     }
     /**
-     * convert raw to json.
+     * helper: convert raw to json.
      * @param mixed $raw 
      * @param mixed|null $options , ignore_empty=1|0 , default_ouput='{}'
      * @return mixed 

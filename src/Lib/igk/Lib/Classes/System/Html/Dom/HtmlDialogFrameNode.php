@@ -17,7 +17,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     private $m_Box, $m_BoxContent, $m_Height, $m_Title, $m_Width, $m_callbackMethod, $m_closeBtn, $m_closeCallBackEvent, $m_closeMethodUri, $m_closeUri, $m_form, $m_framectrl, $m_id, $m_owner, $m_reloadcallbackMethod, $m_script;
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){
+    protected function _acceptRender($options = null):bool{
         if(!$this->m_framectrl || !$this->m_framectrl->ContainFrame($this->m_id, $this)){
             igk_html_rm($this);
             return false;

@@ -40,11 +40,12 @@ class RunTacCommand extends AppExecCommand{
          if ($user = igk_getv($command->options, "--user")){
             if ($ctrl) { 
                 self::BindUser($ctrl, $user);
+            } else {
+               Logger::warn("missing a controller...");
             }
          }
-
          if ($ctrl){
-            $user_model = ($user = $ctrl->getUser()) ? $user->sys_user() :null;
+            $user_model = ($user = $ctrl->getUser()) ? $user->model() :null;
             BalafonApplication::BindCommandController($ctrl, $user_model);
          }
          $c = new TerminalActionCommand;

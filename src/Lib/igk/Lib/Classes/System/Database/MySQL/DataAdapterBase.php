@@ -142,8 +142,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      */
     public function commit()
     {
-        $this->sendQuery("COMMIT");
-        $this->close();
+        $this->sendQuery("COMMIT");               
         $this->inTransaction = false;
     }
     ///<summary></summary>

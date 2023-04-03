@@ -23,14 +23,16 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
     public static function setUpBeforeClass(): void
     {
-        $sdir = sys_get_temp_dir()."/testController";
-        IO::CreateDir($sdir);
+        $sdir = sys_get_temp_dir()."/testController";     
         IO::CreateDir($sdir."/Views");
         self::$sm_dir = $sdir;
     }
     public static function tearDownAfterClass(): void
     {
-        @unlink(self::$sm_dir);
+        if (self::$sm_dir){
+            IO::RmDir(self::$sm_dir);
+            self::$sm_dir = null;
+        }
     }
     public function test_get_view_file_name()
     {

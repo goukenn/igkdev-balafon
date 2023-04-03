@@ -14,12 +14,24 @@ use function igk_resources_gets as __;
 */
 class EmailContentValidator  extends MapContentValidatorBase{
 
-    public function map($value, $key, &$error) {
+    /**
+     * 
+     * @param mixed $value 
+     * @param mixed $key 
+     * @param mixed $error 
+     * @return mixed 
+     */
+    public function validate(&$value, $key, $missing=false) : bool{      
+        
         if (!IGKValidator::IsEmail($value)){
-            $error[$key] = sprintf(__('not valid email'));
+            if ($missing){
+                $this->notvalid_msg = sprintf(__('missing %s'), $key);    
+            }else{
+                $this->notvalid_msg = sprintf(__('not valid email'));
+            } 
             return false;
         }
-        return $value;
+        return true;
      }
 
 }

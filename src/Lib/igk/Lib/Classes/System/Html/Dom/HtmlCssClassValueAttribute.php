@@ -180,14 +180,18 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         if (is_array($class)) {
             $cl = [];
             foreach ($class as $k => $v) {
-                if (is_callable($v)) {
+                if (!is_string($v) && is_callable($v)) {
                     if ($v()) {
                         $cl[] = $k;
                     } else {
                         $cl[] = "-" . $k;
                     }
                 } else if ($v) {
-                    $cl[] = $k;
+                    if (is_numeric($k)){
+                        $cl[] = $v;
+                    } else {
+                        $cl[] = $k;
+                    }
                 } else
                     $cl[] = "-" . $k;
             }
@@ -205,13 +209,21 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
-    ///<summary></summary>
+    ///<summary>clear classes_name storage</summary>
+    /**
+     * clear classes_name storage
+     * @return void 
+     */
     public function Clear()
     {
         $this->m_expression = array();
         $this->m_classes = array();
-    }
-    ///get if this instance contain classe name
+    } 
+    /**
+     * get if this instance contain classe_name
+     * @param mixed $name 
+     * @return bool 
+     */
     public function contain($name)
     {
         return isset($this->m_classes[$name]);
@@ -278,8 +290,13 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             $i && $b .= ' ';
 
             foreach ($this->m_expressions as $k) {
+                if (!is_string($k)&& is_callable($k) ){
+                    $k = $k();
+                }
                 $b .= '' . $k;
             }
+            // treate operator 
+            // $b = preg_replace("/(^|\s+)(+|-)/", "",$b);
         }
         return empty($b) ? '' : $b;
     }
@@ -330,4 +347,15 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return isset($this->m_classes[$name]);
     }
+    /**
+     * callback expression 
+     * @param mixed $expression 
+     * @return void 
+     */
+    public function addListener($expression){
+        if (!is_null($expression)){
+            $this->m_expressions[] = $expression;
+        }
+    }
+   
 }

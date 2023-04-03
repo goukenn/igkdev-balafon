@@ -40,7 +40,9 @@ class ValidationTest extends BaseTestCase
         $request = [
             "filanme" => "/sample<script>alert</script>"
         ];
-        $this->assertEquals($validation->validate($request), false, implode($validation->getErrors()));
+        $tab = $validation->validate($request);
+        $error = $validation->getErrors();
+        $this->assertEquals($tab, false, implode($validation->getErrors()));
 
         $request = [
             "filename" => "/sample<script>alert</script>",
@@ -98,14 +100,16 @@ class ValidationTest extends BaseTestCase
         //custom type validate
         $validation = new FormValidation();
         $validation->storage = false;
+
+        // using custom validation registration 
         $validation->registerValidator("custom", function ($value, $default = null) {
-            return "handle:" . $value;
+            return "handle-custom:" . $value;
         });
 
         $this->assertEquals($validation->fields([
             "x" => ["type" => "custom", "default" => null]
         ])->validate(["x" => "basic", "default" => true]), [
-            "x" => "handle:basic",
+            "x" => "handle-custom:basic",
         ], "bool validation failed");
     }
 

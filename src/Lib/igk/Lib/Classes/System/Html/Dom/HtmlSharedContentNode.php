@@ -20,7 +20,7 @@ final class HtmlSharedContentNode extends HtmlNode{
     }
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __getRenderingChildren($o=null){
+    protected function _getRenderingChildren($o=null){
         $t=array();
         $entities=$this->m_ctrl->getEntities();
         if($entities){

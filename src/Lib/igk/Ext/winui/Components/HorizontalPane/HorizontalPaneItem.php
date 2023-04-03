@@ -4,10 +4,14 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
+use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
-use IGK\Resources\R; 
+use IGK\Helper\ViewHelper;
+use IGK\Resources\R;
+use IGK\System\Html\Css\CssUtils;
+use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\Dom\HtmlRegistrableComponentBase;
 use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 
@@ -22,7 +26,7 @@ require_once __DIR__. "/HorizontalPage.pinc";
  
 
 ///<summary>external html item. Add to View</summary>
-final class HorizontalPaneItem extends HtmlNode
+final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
 	private $m_pane;
 	private $m_pagelistener;
@@ -33,8 +37,15 @@ final class HorizontalPaneItem extends HtmlNode
 	private $m_pattern;
 	private $m_folder;
 	private $m_ConfigFileName;
-	private $m_ctrl;
+	private $m_ctrl; 
 
+	/**
+	 * get binded controller
+	 * @return mixed 
+	 */
+	public function getCtrl(){
+		return $this->m_ctrl;
+	}
 	public function getFolder()
 	{
 		return $this->m_folder;
@@ -151,8 +162,11 @@ EOF;
 	}
 	public function __construct()
 	{
-		parent::__construct("div");
-		$this["class"] = "igk-hpane-container ";
+		parent::__construct("div");		
+	}
+	protected function initialize()
+	{
+		$this["class"] = "igk-hpane-container";
 		$this->m_pane = new JSHorizontalPane($this);
 		$this->m_pattern = "/\.phtml$/i";
 		$this->m_manager = new HorizontalPaneManager($this);
@@ -202,7 +216,7 @@ EOF;
 			}
 		}
 	}
-	public function AcceptRender($options = null)
+	protected function _acceptRender($options = null):bool
 	{
 		if (!$this->IsVisible)
 			return false;
@@ -245,9 +259,8 @@ EOF;
 	{
 		return $this->m_pagelistener;
 	}
-	public function flush()
-	{
-		$this->m_pane->flush();
+	public function flush(){
+		$this->m_pane->flush(); 
 	}
 	public function addPage($attributes = null)
 	{
@@ -279,6 +292,7 @@ EOF;
 			$dir = $this->Folder;
 			$p = $this->Pattern;
 			if ($dir && IO::CreateDir($dir)) {
+
 				IO::WriteToFileAsUtf8WBOM($dir . "/.htaccess", "allow from all", false);
 
 				foreach (igk_io_getfiles($dir, $p, false) as  $v) {
@@ -289,6 +303,13 @@ EOF;
 				$this->loadData($data);
 				$this->loadConfigSetting();
 			}
+		}
+	}
+	public static function InitComponent($doc, BaseController $ctrl=null){
+		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 
+		$doc->addTempScript( __DIR__."/Scripts/igk.winui.horizontalScrollPane.js", ["v"=>IGK_VERSION])->activate('defer'); 
+		if (igk_environment()->isOPS()){ 
+			CssUtils::InjectStyleContent($doc, __DIR__."/Styles/default.pcss");	 
 		}
 	}
 }

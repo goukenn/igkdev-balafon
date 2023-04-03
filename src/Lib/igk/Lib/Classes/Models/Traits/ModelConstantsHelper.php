@@ -11,17 +11,17 @@ namespace IGK\Models\Traits;
 * @package IGK\Models\Traits
 */
 trait ModelConstantsHelper{
-    /**
-     * model class to use
-     * @var mixed
-     */
+    // /**
+    //  * model class to use
+    //  * @var mixed
+    //  */
     // protected static $model;
 
     // /**
     //  * field name to use
     //  * @var mixed
     //  */
-    // protected static $field_name;
+    //  protected static $field_name;
     /**
      * 
      * @param mixed $value 
@@ -31,6 +31,22 @@ trait ModelConstantsHelper{
         /**
          * @disable 1014
          */
-        return static::$model::GetCache(static::$field_name, $value);
+        /** eslint-disable */
+        $cl = static::class;
+        return $cl::$model::GetCache($cl::$field_name, $value);
+    }
+
+    /**
+     * init data
+     * @return void 
+     */
+    public static function InitData(){
+        $cl = static::class;
+        $model = $cl::$model;
+        foreach($cl::GetConstants() as $ut){
+            $model::createIfNotExists([
+                $cl::$field_name=>$ut
+            ]);
+        }
     }
 }

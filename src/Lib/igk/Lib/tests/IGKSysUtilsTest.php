@@ -19,6 +19,7 @@ class IGKSysUtilsTest extends BaseTestCase  {
             "resolving type failed"
        );
        //testing sys prefix and return the name 
+       $bck = igk_configs()->db_prefix;
        igk_configs()->db_prefix = "tbigk_test_";
        $t= IGKSysUtil::GetModelTypeName( "%sysprefix%_dummy_%year%", DummySysUtilController::ctrl());
       
@@ -27,6 +28,7 @@ class IGKSysUtilsTest extends BaseTestCase  {
             \IGK\Tests\Models\Dummy::class,
             "resolving 2 with sys prefix type failed"
        );
+       igk_configs()->db_prefix = $bck;
    }
    public function test_resolveTableName(){
     $t= IGKSysUtil::DBGetTableName(

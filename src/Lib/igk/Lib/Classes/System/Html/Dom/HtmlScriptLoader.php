@@ -61,12 +61,9 @@ class HtmlScriptLoader{
      * @return string|false result
      * @throws IGKException 
      */
-    public static function LoadScripts($tab, $options=null, $production=false, $exclude_dir=[], $cachePath="corejs:/igk.js", $defer=0){
+    public static function LoadScripts($tab, $options=null, $production=false, $exclude_dir=[], $cachePath="corejs:/igk.js", $defer=0){  
   
-        // echo "<pre>";
-        // print_r($tab);
-        // echo "</pre>";
-        // igk_wln_e("loadscript _", $tab);
+
         $no_page_cache = igk_setting()->no_page_cache();
         $out = ""; 
         $uri = igk_server()->REQUEST_URI ?? "";
@@ -97,6 +94,10 @@ class HtmlScriptLoader{
                 } 
                 $ext = Path::GetExtension($f);
                 $u = $resolver->resolve($f);
+                // if (!file_exists($u)){
+                //     igk_wln_e("missing resolve file .... ".$u);
+                // }
+               
                 switch (($ext)) {
                     case ".js";
                         $u .= "?v=" . IGK_VERSION;
@@ -138,7 +139,7 @@ class HtmlScriptLoader{
         while ($q = array_shift($tab)) {
             $dir = $q[0];
             $tag = $q[1];
-            if (key_exists($dir, $exclude_dir)){
+            if ($dir && key_exists($dir, $exclude_dir)){
                 continue;
             }
 
@@ -155,10 +156,8 @@ class HtmlScriptLoader{
                 $dirs[] = $dir."/igk.js";
                 $dirs[] = $dir."/polyfill.js";
                 $dirs[] = $dir."/system/ctrl/ctrl.js";
-
-                $exclude_dir += array_fill_keys($dirs,1);
-                // igk_wln_e($exclude_dir);
-                IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir, $resolverfc);        
+                $exclude_dir += array_fill_keys($dirs,1); 
+                IO::GetFiles($dir, self::GetLoadingAssetRegex() , true, $exclude_dir, $resolverfc);        
                 IO::WriteToFile($cache_path, $s);
                 $out .= $s; 
             }
@@ -175,6 +174,14 @@ class HtmlScriptLoader{
             }
         } 
         return $out;
+    }
+    /**
+     * system loading accept regex 
+     * @return string 
+     */
+    public static function GetLoadingAssetRegex(){
+
+        return "/\.(js|json|xml|svg|shader|txt)$/";
     }
 
     /**

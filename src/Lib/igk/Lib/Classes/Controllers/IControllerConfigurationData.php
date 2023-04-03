@@ -17,10 +17,13 @@ namespace IGK\Controllers;
  * @property bool $clDataSchema get if controller support usage of data.schema.xml db file
  * @property string $clTitle controller display title
  * @property string $clDataTablePrefix controller database's table prefix
- * @method array to_array() return array definition
- * @method string to_json() return a json presentation 
- * @method mixed get() return a stored value 
- * @method void storeConfig() store config
  */
 interface IControllerConfigurationData{
+    public function to_array();
+
+    public function to_json();
+
+    public function get();
+
+    public function storeConfig();
 }

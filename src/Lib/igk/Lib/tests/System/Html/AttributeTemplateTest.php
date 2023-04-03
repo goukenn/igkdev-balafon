@@ -11,6 +11,7 @@
 namespace IGK\Tests\System\Html;
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\NotRegistrableControllerBase;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
@@ -47,7 +48,7 @@ class AttributeTemplateTest extends BaseTestCase{
         ]);
 
         $this->assertEquals(
-            "<a title=\"data\">data : 1 - ::test-dummy</a><a title=\"data\">data : 2 - ::test-dummy</a>",
+            "<a title=\"data\">data : 1 - ::test-dummy </a><a title=\"data\">data : 2 - ::test-dummy </a>",
             $n->render(),
             "attribute bind"
         );
@@ -82,8 +83,10 @@ class AttributeTemplateTest extends BaseTestCase{
 }
 
 
-
-class DummyController extends BaseController{
+/**
+ * dummy controller 
+ */
+class DummyController extends NotRegistrableControllerBase{
     public function getName(){
         return "::test-dummy";
     }

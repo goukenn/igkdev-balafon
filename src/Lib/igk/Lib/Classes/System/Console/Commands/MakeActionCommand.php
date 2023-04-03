@@ -52,11 +52,11 @@ class MakeActionCommand extends AppExecCommand{
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
-    public function exec($command, $controller="", $actionName=""){
+    public function exec($command, $controller="", $macroName=""){
         if (empty($controller)){
             return false;
         } 
-        if (empty($actionName)){
+        if (empty($macroName)){
             Logger::danger("action name required");
             return false;
         } 
@@ -81,12 +81,12 @@ class MakeActionCommand extends AppExecCommand{
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl::classdir(); 
         $bind = [];
-        $actionName = ucfirst($actionName);
-        if ((($pos = strrpos(strtolower($actionName), 'action'))>0) && (($pos+6)==strlen($actionName))){
-            $actionName = substr($actionName,0, -6);
+        $macroName = ucfirst($macroName);
+        if ((($pos = strrpos(strtolower($macroName), 'action'))>0) && (($pos+6)==strlen($macroName))){
+            $macroName = substr($macroName,0, -6);
         }
 
-        $path = $actionName;
+        $path = $macroName;
         $tcl =  explode("/", StringUtility::Uri($path ));
         array_pop( $tcl); 
         if (!empty($ns)){
@@ -97,12 +97,12 @@ class MakeActionCommand extends AppExecCommand{
             $ns.= "\\".implode("\\", $tcl);
         }
          
-        $bind[$dir."/Actions/{$path}Action.php"] = function($file)use($actionName, 
+        $bind[$dir."/Actions/{$path}Action.php"] = function($file)use($macroName, 
             $author, $ns, $type){          
             $content = $this->_getContent(); 
             $v_uses = $this->_getUses() ?? [];
             $builder = new PHPScriptBuilder();
-            $fname = $actionName.IGK_VIEW_FILE_EXT;           
+            $fname = $macroName.IGK_VIEW_FILE_EXT;           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
             ->uses($v_uses)
             ->author($author)
@@ -111,7 +111,7 @@ class MakeActionCommand extends AppExecCommand{
             ->doc("view action")
             ->file($fname)
             ->extends($type)
-            ->desc("view action ".$actionName);
+            ->desc("view action ".$macroName);
             igk_io_w2file( $file,  $builder->render());
         };
 

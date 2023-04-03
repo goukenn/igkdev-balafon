@@ -8,7 +8,10 @@ namespace IGK\System\Html\Forms;
 use function igk_resources_gets as __;
 
 
-
+/**
+ * 
+ * @package IGK\System\Html\Forms
+ */
 class PasswordValidator implements IFormValidator{
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 

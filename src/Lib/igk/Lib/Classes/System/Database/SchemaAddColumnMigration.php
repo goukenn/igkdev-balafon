@@ -41,6 +41,10 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     public function up(){ 
         // igk_trace();
         // igk_wln_e("calling up");
+        if ($this->table == 'tbigk_users')
+        {
+            igk_dev_wln("table : ". $this->table);
+        }
 
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

@@ -71,6 +71,8 @@ class CssThemeResolver
     const ATTR_SYS_COLOR = "syscl";
     const ATTR_SYS_BCL = "sysbcl";
 
+    const ATTR_G_RESOLV_MODE = 'sys';
+
 
     /**
      * treat value
@@ -176,8 +178,11 @@ class CssThemeResolver
                         // $c->parent = $this->parent;
                         // $c->theme = $this->theme;
                         // $c->resolv = & $this->resolv;
-                        $sv = $this->treat_value($tv.$stop, $themeexport); 
-                        // igk_wln_e($tv);
+                        $sv = $this->treat_value($tv.$stop, $themeexport);
+                        if ($stop && $v){
+                            $sv = rtrim($sv,$stop);
+                        } 
+                        
 
                         if (($rtv == null) || !isset($roots[$rtv]))
                             $roots[$tv] = $sv;
@@ -190,9 +195,9 @@ class CssThemeResolver
                             }
                             unset($roots[$tv]);
                         }
-                        if (empty($m = trim(str_replace($tv, $sv, $g), '; '))){
-                            // $v = str_replace($g, $m, $v);
-                        }
+                        // if (empty($m = trim(str_replace($tv, $sv, $g), '; '))){
+                        //     // $v = str_replace($g, $m, $v);
+                        // }
                     }
                 }
             }
@@ -310,6 +315,18 @@ class CssThemeResolver
         $chainColorCallback = 
         //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
         function ($value, & $resolved=null) use (&$chainColors, $v_designmode) {
+
+            // detect color function or var prop
+            if (preg_match("/\s*(?P<name>(rgb(a)|var|hsl))\s*\(/i", $value,$data)){
+                if ($data["name"]=="var"){
+                    $p = explode(",", rtrim(substr($value, strpos($value,"(") +1), ')'));
+                    $root = & $this->theme->getRootReference();
+                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent"));
+                    
+                }
+                return $value;
+            }
+
             $tab = explode(",", $value);
             $v = trim($tab[0]);
             if ($this->resolver && ($s = $this->resolver->resolveColor($v))){

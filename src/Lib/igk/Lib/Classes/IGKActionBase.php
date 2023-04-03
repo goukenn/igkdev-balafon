@@ -290,10 +290,14 @@ abstract class IGKActionBase implements IActionProcessor
         } else if ($verb == "options") {
             \IGK\System\Http\Helper\Response::OptionResponse();
         }
+        $this->_handleMethodNotFound($name);
+      
+        return false;
+    }
+    protected function _handleMethodNotFound($name){
         if ($this->throwActionNotFound) {
             throw new ActionNotFoundException(sprintf("[%s]->%s(...)", get_class($this), $name));
         }
-        return false;
     }
     /**
      * 
@@ -397,6 +401,8 @@ abstract class IGKActionBase implements IActionProcessor
         $actionMethod = "";
         $env = igk_environment();
         $redirect_status = igk_server()->REDIRECT_STATUS;
+        $host = null;
+
         if ($redirect_status && ($redirect_status != 200)) {
             $actionMethod = self::FAILED_STATUS;
             array_unshift($params, 0, igk_server()->REDIRECT_STATUS);
@@ -437,16 +443,14 @@ abstract class IGKActionBase implements IActionProcessor
                             break;
                         }
                     }
-                    if ((strtolower($verb) == 'options') && ((strrpos(strtolower($actionMethod), "_options")===false))){
+                    if ($verb && (strtolower($verb) == 'options') && ((strrpos(strtolower($actionMethod), "_options")===false))){
                 
                         if ($host instanceof HeaderOptionResponseTrait){
                             $host->optionResponse();
                         }else {
                             // invoke the default system response
                             \IGK\System\Http\Helper\Response::OptionResponse();
-                        }
-                        //return Request::getInstance()->headerDefaultOptions();
-                        //exit;
+                        } 
                     }
                     $c = $object->$actionMethod(...$args);
                 }
@@ -473,12 +477,16 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             } catch (Throwable $ex) {
-                // igk_wln_e($ex->getMessage());
-               // ExceptionUtils::ShowException($ex); 
+                if ($host && ($host instanceof static)){
+                    $host->_handleThrowable($ex);
+                }
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;
         }
+    }
+    protected function _handleThrowable(Throwable $ex){
+        return false;
     }
     protected function handleError($code, ...$params)
     {
@@ -519,13 +527,10 @@ abstract class IGKActionBase implements IActionProcessor
     {
         $this->get_notify()->success($msg);
     }
-    protected function getConfig($name, $default){
-        return $this->getController()->getConfig($name, $default);
-    }
 
     /**
      * index action entry point
-     * @return void 
+     * @return void|mixed|IResponse|null 
      */
     public function index()
     {

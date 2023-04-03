@@ -11,6 +11,20 @@ namespace IGK\Helper;
  */
 class Activator{
     /**
+     * create from
+     * @param mixed $options 
+     * @param string $class_name 
+     * @return mixed 
+     */
+    public static function CreateFrom($options, string $class_name){
+        if (is_null($options)){
+            $options = new $class_name;
+        }else if (!($options instanceof $class_name)) {
+            $options = Activator::CreateNewInstance($class_name, $options);
+        }
+        return $options;
+    }
+    /**
      * create class instance. \
      *      class must context a public constructor \
      *      data pass to it will be used to initialize public properties
@@ -18,7 +32,7 @@ class Activator{
      * @param string|callable|array $classame 
      * @param mixed $data 
      * @param bool $fullfill fullfield with data 
-     * @return object 
+     * @return object|mixed 
      * @throws IGKException 
      * @throws Exception class not found
      */

@@ -43,7 +43,9 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     {
         $this->m_tokenOptions = new ViewTokenizeOptions();
     }
-   
+    protected function _handleWhiteSpace($options, $id, $value){
+        
+    }
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $_opt = $this->m_tokenOptions;

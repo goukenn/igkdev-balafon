@@ -14,6 +14,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Helper\IO as IGKIO;
 use IGK\System\Console\App;
 use ReflectionClass;
+use function igk_resources_gets as __;
 
 class ModuleListCommand extends AppExecCommand{
     var $command = "--module";

@@ -113,6 +113,7 @@ class FormValidation{
         if (empty($request)){
             $this->m_errors[] = __("validation: empty request not allowed");
         } 
+
         if (empty($this->_fields)){
             $this->m_errors[] = __("no validator setup");
         }
@@ -141,6 +142,13 @@ class FormValidation{
                     $v = igk_getv($request, $k);
                     $storage = new IGKObjStorage($data);
                     $storage->name = $k;
+                    if ($storage->required && ($v===null)){
+                        if (!isset($request[$k])){
+                            $this->m_errors[$k] = "missing value.";
+                            continue;
+                        }
+                    }
+
                     if ((empty($v) || (strlen($v)==0)) && $storage->required){
                         $this->m_errors[] = __("form validation {0} is required", $k);
                         continue;

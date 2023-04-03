@@ -40,7 +40,7 @@ if (!$controller->getUseDataSchema()) {
    
     // $info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($controller->getDataAdapterName(), 'tbllv_stock_products');
     // DbSchemaDefinitions::UnregisterCache($controller);
-    // igk_debug(1);
+    
     if ($tables = $controller->initDbFromSchemas($force)) {
      
  

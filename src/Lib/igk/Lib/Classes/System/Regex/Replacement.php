@@ -4,6 +4,7 @@
 // @date: 20221206 07:32:52
 namespace IGK\System\Regex;
 
+use Closure;
 use IGK\Core\Traits\NoDynamicPropertyTrait;
 
 ///<summary></summary>
@@ -18,6 +19,11 @@ class Replacement{
      * @var array<ReplacementObject>
      */
     var $infos = [];
+    /**
+     * options to store 
+     * @var array
+     */
+    var $options = [];
 
     /**
      * get number of replacement infos;
@@ -44,7 +50,7 @@ class Replacement{
                 $source = preg_replace($v->pattern, $v->replace, $source);
             }
         }
-        $error = preg_last_error();
+        // $error = preg_last_error();
         return $source;
     }
     /**
@@ -80,5 +86,39 @@ class Replacement{
     public function __toString()
     {
         return __CLASS__;
+    }
+
+    /**
+     * replace to regex word
+     * @param mixed $s 
+     * @return mixed 
+     */
+    public static function RegexWord($s){
+        $s = str_replace("/","\/", $s);
+        $s = str_replace(".",'\.', $s);
+        return $s;
+    }
+    /**
+     * create a regex expression from string
+     * @param string $s string to treat
+     * @param string $delimiter default is '/'
+     * @param string $op option to add 
+     * @return string 
+     */
+    public static function RegexExpressionFromString(string $s, $delimiter="/", $op=""){
+        $s = self::RegexWord($s);
+        return $delimiter.$s.$delimiter.$op;
+    }
+    /**
+     * create a not match regex callback.
+     * @param mixed $regex 
+     * @param mixed $tab 
+     * @param int $flag 
+     * @return Closure(mixed $s): bool 
+     */
+    public static function NotMatchRegex($regex, & $tab=null, $flag=0){
+        return function($s)use($regex, & $tab, $flag){
+            return !preg_match($regex, $s, $tab, $flag);
+        };
     }
 }

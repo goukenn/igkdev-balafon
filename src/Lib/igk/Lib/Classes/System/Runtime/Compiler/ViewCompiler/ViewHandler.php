@@ -13,7 +13,7 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 class ViewHandler{
     private static $sm_instance;
     var $tab = [];
-    var $attrbInd = false;
+    var $attribBind = false;
     public static function getInstance(){
         is_null(self::$sm_instance) && self::$sm_instance = new self;
         return self::$sm_instance;

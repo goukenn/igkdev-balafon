@@ -64,7 +64,7 @@ class FixCssCommand extends AppExecCommand{
                     } else {
                         $t = "'".$t."'";
                     }
-                    $o .= "\${$k}[{$t}] = \"{$s}\";".PHP_EOL;                    
+                    $o .= "\$".$k."[{$t}] = \"{$s}\";".PHP_EOL;                    
                     $_isd = 1;
                 }
                 if ($_isd)

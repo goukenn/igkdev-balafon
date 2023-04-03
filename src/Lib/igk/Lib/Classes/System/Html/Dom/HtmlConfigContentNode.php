@@ -7,10 +7,19 @@
 
 namespace IGK\System\Html\Dom;
 
+/**
+ * represent configuration node
+ * @package IGK\System\Html\Dom
+ */
 class HtmlConfigContentNode extends HtmlNode{
-    protected $tagname = "div";
+    public $tagname = "div";
     protected function initialize()
     { 
+        parent::initialize();
         $this->setId("igk-cnf-content")->setClass("igk-cnf-content");
     } 
+    public function remove()
+    {
+        igk_wln_e("remove content .... ");
+    }
 }

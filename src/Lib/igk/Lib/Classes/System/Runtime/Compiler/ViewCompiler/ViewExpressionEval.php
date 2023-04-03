@@ -17,6 +17,7 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
     var $source;
     var $variables = [];
     var $value;
+    var $listener;
     use ArrayAccessSelfTrait;
     /**
      * array of dependency

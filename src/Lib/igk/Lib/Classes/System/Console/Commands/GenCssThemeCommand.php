@@ -16,9 +16,13 @@ use IGK\System\Html\Css\CssUtils;
 class GenCssThemeCommand extends AppExecCommand{
 
     var $command = "--gen:css";
-    var $desc = "generate css command";
+    var $desc = "generate controller's css content command";
     var $usage = "";
 
+    public function showUsage(){
+        parent::showUsage();
+        Logger::warn($this->command ." controller [options]");
+    }
     public function exec($command, $controller=null) { 
         // --gen:css testController --theme_name:dark 
         is_null($controller) && igk_die("controller required");

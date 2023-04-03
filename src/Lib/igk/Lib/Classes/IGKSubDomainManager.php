@@ -138,6 +138,13 @@ final class IGKSubDomainManager extends IGKObject{
     public static function GetSubDomainCtrl(){
         if (self::$sm_isSubDomain){
             $subdomain = self::$sm_subDomainName;
+            if (isset(self::$sm_cached_domains[$subdomain])){
+                $rt = (object)self::$sm_cached_domains[$subdomain];
+                if ($ctrl = igk_getctrl($rt->clCtrl, false)){
+                    return $ctrl;
+                } 
+            }
+
             if ($raw = Subdomains::select_row([
                 "clName"=>$subdomain
             ])){

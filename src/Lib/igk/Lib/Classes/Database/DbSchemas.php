@@ -43,6 +43,8 @@ abstract class DbSchemas
     const RELATION_TAG = "Relation";
     const COLUMN_TAG = IGK_COLUMN_TAGNAME;
     const GEN_COLUMN = IGK_GEN_COLUMS;
+    const RT_REQUIRESCHEMA_TAG = "RequireSchema";
+    const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
 
 
     /**
@@ -93,11 +95,18 @@ abstract class DbSchemas
         die("call static method not allowed." . __CLASS__);
     }
 
+    public static function schemaDef(){
+        $file=  '/Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Data/data.schema.xml';
+        if (isset(self::$sm_schemas[$file])){
+            return self::$sm_schemas[$file];
+        }
+        return null;
+    }
 
     /**
      *  
      * load schema definition  - 
-     * @param mixed $file 
+     * @param string $file 
      * @param mixed $ctrl   
      * @param bool $resolvname  resolv name on loading
      * @param string $operation in migration operation
@@ -106,7 +115,7 @@ abstract class DbSchemas
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function LoadSchema($file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
+    public static function LoadSchema(string $file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
     {
         if (!file_exists($file)) {
             return null;
@@ -115,12 +124,10 @@ abstract class DbSchemas
         if (isset(self::$sm_schemas[$file])) {
             $data = self::$sm_schemas[$file];
         }  
-        if (!$data) {
-     
-            $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname, $operation); 
-     
+        if (!$data) {     
+            $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname, $operation);      
             // + init Check and update data
-            if ($cl = $ctrl::resolveClass($ctrl, \Database\InitDbSchemaBuilder::class)) {
+            if ($ctrl && ($cl = $ctrl::resolveClass($ctrl, \Database\InitDbSchemaBuilder::class))) {
                 // resolv core entries 
                 $b = new $cl();
                 $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
@@ -210,7 +217,7 @@ abstract class DbSchemas
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
     {         
-        $v_info = DBCaches::GetInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
+        $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
         if ($v_info) { 
             if ($v_info instanceof SchemaMigrationInfo){
                 $v_info = $v_info->columnInfo;
@@ -228,7 +235,7 @@ abstract class DbSchemas
      */
     public static function GetTableRowReference(string $tablename, ?BaseController $ctrl = null)
     {
-        return  DBCaches::GetInfo($tablename, $ctrl);
+        return  DBCaches::GetColumnInfo($tablename, $ctrl);
     }
     /**
      * create object from info Key refererence

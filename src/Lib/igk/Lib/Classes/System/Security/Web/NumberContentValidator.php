@@ -7,17 +7,19 @@ namespace IGK\System\Security\Web;
 
 ///<summary></summary>
 /**
-* number content validator 
-* @package IGK\System\Security\Web
-*/
+ * number content validator 
+ * @package IGK\System\Security\Web
+ */
 class NumberContentValidator extends MapContentValidatorBase
 {
-
-    public function map($value, $key, &$error)
-    {
-        if (is_numeric($value)) {
-            return $value;
+    protected $notvalid_msg = 'not a valid number.';
+    var $missingDefaultValue = null;
+    var $defaultValue = 0;
+   
+    protected function validate(& $value, $key):bool{ 
+        if ($r = is_numeric($value)){
+            $value =  floatval($value);
         }
-        $error[$key] = 'not a valid number.';
+        return $r;
     }
 }

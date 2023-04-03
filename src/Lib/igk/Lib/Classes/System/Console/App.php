@@ -74,8 +74,10 @@ class App{
         $wdir = sys_get_temp_dir()."/balafon-cgi";
 
         !defined('IGK_LOG_FILE') && define('IGK_LOG_FILE', $wdir."/logs/.".igk_environment()->getToday()."/cons.log"); 
-
-        IO::CreateDir($wdir);
+ 
+        if (!IO::CreateDir($wdir)){
+            Logger::danger("can't create tempory directory for command storage");
+        }
 
         register_shutdown_function(function()use($wdir){
             if (!($error = error_get_last())){
@@ -94,6 +96,7 @@ class App{
         $app->boot();
 
         if (!file_exists(AppCommandConstant::GetCacheFile())){
+            Logger::warn("missing cache files");
             $v_cmd = self::CreateCommand($app);
             $cmd = new InitCommand();
             $cmd->exec($v_cmd);  
@@ -186,9 +189,17 @@ class App{
         $action = null;
         $args = [];
         $show_help = true;
+        $split =false;
 
         foreach($tab as $v){
-             
+             if (!$split && $v=='--'){
+                $split = true;
+                continue;
+             }
+             if ($split){
+                $args[] = $v;
+                continue;
+             }
             if ($command->waitForNextEntryFlag){
                 $action($v, $command, []);
                 $command->waitForNextEntryFlag = false;
@@ -263,9 +274,19 @@ class App{
             echo $s. PHP_EOL;
         }
     }
+    /**
+     * print off - in STDERR
+     * @param mixed $text 
+     * @return void 
+     */
+    public function print_off(...$text){
+        foreach($text as $s){ 
+            fwrite(STDERR, $s. PHP_EOL);
+        }
+    }
     public function print_debug(...$text){    
         if (igk_is_debug())
-            $this->print(...$text); 
+            $this->print_off(...$text); 
     }
     public function showHelp($command=null){
         if (!empty($command) && ($cmd = $this->command[$command])){
@@ -318,7 +339,7 @@ class App{
         $key=key($groups);
         while((count($groups)>0) && ( $g = array_shift($groups))){
             if (!empty($key)){
-                Logger::info("groups: ".$key);
+                Logger::print(App::Gets(App::YELLOW, "groups: ".$key));
                 Logger::print("");
             }
 

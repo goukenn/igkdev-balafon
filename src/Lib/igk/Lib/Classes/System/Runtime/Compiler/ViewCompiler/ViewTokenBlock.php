@@ -5,6 +5,7 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 
 use IGK\System\IO\StringBuilder;
+use IGK\System\Runtime\Compiler\ReadTokenMergeOption;
 use IGK\System\Runtime\Compiler\ReadTokenUtility;
 
 ///<summary></summary>
@@ -80,12 +81,13 @@ class ViewTokenBlock{
         $tab = $this->blocks;
         $p = null;
         $q = null;
+        $mp = new ReadTokenMergeOption;
         $sb = new StringBuilder; 
 
         $sb->tabstop = str_repeat($this->tabstop, $this->depth+1);
         // render structure
         if ($this->structs){
-           ReadTokenUtility::GenerateStruct($this->structs, $sb);
+           ReadTokenUtility::GenerateStruct($this->structs, false, $mp);
         }
 
         while(count($tab)>0){

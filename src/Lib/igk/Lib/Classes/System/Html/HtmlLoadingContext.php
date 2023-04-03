@@ -65,14 +65,10 @@ class HtmlLoadingContext{
      * pop loading context
      * @return void 
      */
-    public static function PopContext(){
-       
-        // $g = self::GetCurrentContext();
-        //if ($g === $p){
+    public static function PopContext(){        
         if ($c = igk_environment()->pop(self::class)){
             $c->uninitialize();
-        }
-        //}
+        } 
     }
     protected function initialize(){
 
@@ -83,12 +79,12 @@ class HtmlLoadingContext{
     /**
      * surround container with
      * @param IHtmlContextContainer $container 
-     * @param mixed $callable 
+     * @param callable $callable 
      * @param mixed $args 
-     * @return mixed 
+     * @return bool 
      * @throws EnvironmentArrayException 
      */
-    public static function SurroundWith(IHtmlContextContainer $container, $callable, &...$args){
+    public static function SurroundWith(IHtmlContextContainer $container, $callable, &...$args):bool{
         $c = $container->getContext();
         self::PushContext($c);
         $g = $callable(...$args);

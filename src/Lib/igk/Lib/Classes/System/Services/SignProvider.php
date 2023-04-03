@@ -107,28 +107,10 @@ class SignProvider{
             $u->clLastName = $userinfo->lastname;
             $u->clPicture = $userinfo->picture;
             $u->clStatus = $userinfo->verified ? "1" : 0;
-            if ($user = Users::register($u)){
-                igk_hook(IGKEvents::HOOK_USER_ADDED, [$user]);
+            if ($user = Users::Register($u)){ 
                 $c = true;
-            }
-            
+            } 
         }        
-        return $c;
-        // $r = Mailinfo::createEmptyRow();
-        // $r->mli_gender = $userinfo->gender;
-        // $r->mli_email = $userinfo->email;
-        // $r->mli_firstname = $userinfo->firstname;
-        // $r->mli_lastname = $userinfo->lastname;
-        // $r->mli_picture = $userinfo->picture;
-        // $r->mli_birthday =  $userinfo->birthday;
-        // $r->mli_verified = intval($userinfo->verified);
-        // $r->mli_status = $userinfo->verified? 1 : 0 ;
-        // $r->mli_provider = $userinfo->provider;
-        // $r->mli_provider_id = $userinfo->id;
-        // if (!Mailinfo::createIfNotExists($r, ["mli_email"=>$r->mli_email])){
-        //     die("Failed to create if not exists");
-        // } 
-        // return true;
-      }
-
+        return $c; 
+    } 
 }

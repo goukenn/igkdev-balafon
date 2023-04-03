@@ -6,7 +6,7 @@
 
 
 namespace IGK\System\Html\Css;
-
+use IGK\IGlobalFunction;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Css\CssThemeOptions;
@@ -17,6 +17,7 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Css\CssEnvironment;
 use IGK\System\Html\Css\CssMapTheme;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
@@ -36,6 +37,131 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
  */
 abstract class CssUtils
 {
+    /**
+     * get class values 
+     * @param string $haystack 
+     * @return array 
+     */
+    public static function GetClassValues(string $haystack):array{
+        $tq = array_filter(explode(' ', $haystack));
+        $r = [];
+        while((count($tq)>0)){
+            $value = array_shift($tq);
+            if (($op = ltrim($value, " +-")) && ($op != $value)){
+                $cp = substr($value, 0, -strlen($op)+strlen($value));
+                $value = $op;            
+                $op= $cp;
+            }else{
+                $op='';
+            }
+            $r[] = [$value, $op];
+        }
+        return $r;
+
+    }
+    /**
+     * get initialized class 
+     * @param string $tagname 
+     * @param null|string $default 
+     * @return void 
+     */
+    public static function InitClass(string $tagname, ?string $default=null){
+        return implode(" ", array_filter([CssEnvironment::GetInitClass($tagname), $default]));
+    }
+    public static function GetControllerSelectorClassNameFromRegisterURI(BaseController $controller, ?string $ruri=null):?string{
+        if (!empty(
+            $ruri
+        )){
+            $chain = '';
+            $v_closure = function($a)use (& $chain){
+                if (!empty($chain)){
+                    $a ='/'.$a;
+                }
+                $chain = igk_css_str2class_name($chain.$a);                
+                return $chain;
+            };
+            $ruri = implode (" ", array_map($v_closure, explode('/', rtrim($ruri,'/'))));
+        }
+        return $ruri;
+    }
+    /**
+     * inject balafon style content
+     * @param mixed $doc 
+     * @param mixed $file 
+     * @return true|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     * @throws CssParserException 
+     */
+    public static function InjectStyleContent($doc, string $file){
+        
+        $style = $doc->getEnvParam($key = '://inject_style') ?? [];
+        if (isset($style[$file])){
+            return true;
+        }
+        $doc->getHead()->style()->Content 
+			= CssUtils::GetInjectableStyleFromFileDefinition($file);
+        $style[$file] = 1;
+        $doc->setEnvParam($key, $style);
+    }
+ 
+    public static function InitSysTheme($vsystheme){
+        $vsystheme->def->Clear();
+        $d = $vsystheme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
+        $d = $vsystheme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
+        $d = $vsystheme->reg_media("(max-width:700px)");
+
+        $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
+        if (file_exists($v_cache_file)) {
+            igk_css_include_cache($v_cache_file, $lfile);
+        } else {
+            $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles() ?? ""));
+            $options = null;
+            if (IGlobalFunction::Exists("igk_global_init_material")) {
+                $options = (object)["file" => &$lfile];
+                IGlobalFunction::igk_global_init_material($options);
+            }
+
+            if (!$options || !igk_getv($options, "handle")) {
+                igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [&$lfile]);
+
+                if (count($lfile) == 0) {
+                    $lfile[] = igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
+                    $lfile[] = igk_get_env("sys://css/file/global_color", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
+                    $lfile[] = igk_get_env("sys://css/file/global_template", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
+                }
+            }
+        }
+        $g = implode(";", array_unique($lfile));
+        $g = str_replace(IGK_LIB_DIR, "%lib%", $g);
+        $vsystheme->def->setFiles($g);
+    }
+    /**
+     * Get Injectable Style from file definition
+     * @param string $file pcss source file
+     * @param null|BaseController $ctrl 
+     * @param null|HtmlDocTheme $parent 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     * @throws CssParserException 
+     */
+    public static function GetInjectableStyleFromFileDefinition(string $file, ?BaseController $ctrl =null ,
+         ?HtmlDocTheme $parent = null,  & $css=null, $autoinit=true){
+        $ctrl = $ctrl ?? ViewHelper::CurrentCtrl() ?? die('must provide a controller');
+        $doc = IGKHtmlDoc::CreateDocument('temp');
+        $th = new HtmlDocTheme($doc, 'temp-style');
+        $th->parent = $parent ?? $doc->getSysTheme(); 
+        $autoinit && $th->parent->initGlobalDefinition();
+        $css = CssUtils::GetFileContent($file, $ctrl, $th );
+        $src = $th->get_css_def(true,false);
+        $autoinit && $th->parent->resetSysGlobal();
+        return $src;
+    } 
     /**
      * generate single theme value
      * @param BaseController $controller 
@@ -145,7 +271,7 @@ abstract class CssUtils
             $controller->bindCssStyle($v_theme, true);
             $g = $v_theme->getDef();
             $tab = $g->getAttributes();
-            $lk = "html[data-theme='${theme_name}'] ";
+            $lk = "html[data-theme='{$theme_name}'] ";
             if ($tab) {
                 array_map(function ($v, $k) use (& $g, $lk) {
                     self::TreatCssDefinition($v, $k, $g, false, $lk);
@@ -402,10 +528,14 @@ abstract class CssUtils
         } else if (is_null($theme_name)){
             $theme_name = $render_options->theme_name;
         } 
-        igk_include_if_exists(
-            dirname($file) . "/themes/" . $theme->getRenderOptions()->theme_name . ".theme.pcss",
-            get_defined_vars()
-        ); 
+        $args = get_defined_vars(); //  $file, $theme->getRenderOptions()->theme_name);
+        self::BindThemeFile($file, $theme->getRenderOptions()->theme_name, $args);
+      
+
+        // igk_include_if_exists(
+        //     dirname($file) . "/themes/" . $theme->getRenderOptions()->theme_name . ".theme.pcss",
+        //     $args
+        // ); 
         $root = [];
         $theme->setRootReference($root);
         include($file);
@@ -427,6 +557,20 @@ abstract class CssUtils
             ));
             $def[":root"] = $v_root;
             unset($v_root);
+        }
+    }
+    private static function BindThemeFile(string $file, $theme_name, $args){
+        $rf = igk_io_basenamewithoutext($file);
+      
+        foreach([$rf,""] as $tf ){
+           $f = dirname($file) . "/themes/" .$rf. $theme_name .".theme.pcss";
+           if (file_exists($f)){
+            igk_include_if_exists(
+                    $f,
+                    $args
+                );    
+            }
+            break;
         }
     }
 }

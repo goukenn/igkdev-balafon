@@ -1,0 +1,36 @@
+<?php
+// @file: index.php
+// @description: balafon entry point
+// @create: {{ @date }}
+// @license: {{ @license }}
+// @author: {{ @author }}
+
+if (!version_compare(PHP_VERSION, "7.3", ">=")){
+    die("mandory version required. 7.3<=");
+}
+{{ @app_config }}
+// + | ----------------------------------------------------
+// + | init definition 
+$appdir = str_replace("\\", "/", realpath("{{ @entry_app_dir }}")); 
+
+// + | ----------------------------------------------------
+// + | application
+define("IGK_APP_DIR", {{ @app_dir }} );
+
+// + | ----------------------------------------------------
+// + | project install directory
+define("IGK_PROJECT_DIR", {{ @project_dir }});  
+{{ @extra_define }}
+// + | ----------------------------------------------------
+// + | unset variable to free up global var 
+unset($appdir);
+
+// + | ----------------------------------------------------
+// + | load balafon core file
+// + |
+require_once IGK_APP_DIR."/Lib/igk/igk_framework.php";
+
+// + | ----------------------------------------------------
+// + | Boot and run application
+// + |
+IGKApplication::Boot('web')->run(__FILE__); 

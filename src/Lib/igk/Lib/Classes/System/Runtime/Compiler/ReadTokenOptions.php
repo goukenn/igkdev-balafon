@@ -20,6 +20,12 @@ class ReadTokenOptions implements IReadTokenOptions{
     var $uses;
 
     /**
+     * wait for new reading data
+     * @var mixed
+     */
+    var $waitFor;
+
+    /**
      * source namespace
      * @var string
      */
@@ -171,4 +177,11 @@ class ReadTokenOptions implements IReadTokenOptions{
      * @var int
      */
     var $bracketDepth = 0;
+
+    /**
+     * resolved php doc
+     * @var ?string 
+     */
+    var $phpDoc;
+
 }

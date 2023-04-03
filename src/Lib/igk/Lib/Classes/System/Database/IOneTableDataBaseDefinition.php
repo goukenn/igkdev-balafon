@@ -4,6 +4,7 @@
 // @date: 20220902 13:12:02
 namespace IGK\System\Database;
 
+use IGK\Database\IDbColumnInfo;
 use IGK\System\Models\IModelDefinitionInfo;
 
 ///<summary></summary>
@@ -12,5 +13,5 @@ use IGK\System\Models\IModelDefinitionInfo;
 * @package IGK\System\Database
 */
 interface IOneTableDataBaseDefinition extends IDataBaseDefinition{
-    public function getDataTableDefinition(): DbModelDefinitionInfo;
+    public function getModelDefinition(): IModelDefinitionInfo;
 }

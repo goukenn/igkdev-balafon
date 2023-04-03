@@ -26,4 +26,6 @@ class HtmlBindingContextOptions extends HtmlLoadingContextOptions{
     var $key;
 
     var $value;
+
+    
 }

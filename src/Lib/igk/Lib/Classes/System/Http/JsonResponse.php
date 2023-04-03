@@ -26,7 +26,7 @@ class JsonResponse extends RequestResponse{
     var $pretty_print;
     public function __construct($data, $code=200, $headers=null)
     {
-        $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions();
+        $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
         $this->data = $data;
         $this->code = $code;
         if (!is_null($headers)){

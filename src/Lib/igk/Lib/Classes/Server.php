@@ -6,6 +6,7 @@
 
 namespace IGK;
 use IGK\Helper\StringUtility;
+use IGK\System\IToArray;
 use IGK\System\DataArgs;
 use IGK\System\Security\Web\HeaderAccessObject;
 
@@ -25,7 +26,7 @@ use IGK\System\Security\Web\HeaderAccessObject;
 * @property string $HTTP_USER_AGENT server user agent
 * @property bool $IS_WEBAPP to detect application that request ajx demand
 */
-final class Server{
+final class Server implements IToArray{
     private $data;  
     private $m_access_control;
     private $m_access_object;
@@ -39,7 +40,7 @@ final class Server{
         return $this->m_access_control;
     }
     /**
-     * access data object
+     * access-control data object
      * @return null|HeaderAccessObject 
      */
     public function getAccessObject():?HeaderAccessObject{
@@ -94,7 +95,8 @@ final class Server{
         return null;
     }
     /**
-     * get encoding support
+     * check accepts encoding support
+     * @param params hom
      */
     public function accepts($list){
         $accept = $this->HTTP_ACCEPT_ENCODING;
@@ -212,22 +214,25 @@ final class Server{
         foreach($_SERVER as $k=>$v){          
             $this->data[$k]=$v;
         }
+        if (is_null($this->REQUEST_METHOD)){
+            $this->REQUEST_METHOD = 'GET';
+        }
         $headers = igk_get_allheaders();
-
-        if ($headers  && isset($headers['ACCESS_CONTROL_REQUEST_METHOD'])){
+        // init authozation
+        if ($headers  && 
+                $this->_checkAccessHeader($headers))                
+        {
             $this->m_access_control = 1;
             $v_access_object =  [
-                'method'=>$headers['ACCESS_CONTROL_REQUEST_METHOD'],
-                'headers'=>$headers['ACCESS_CONTROL_REQUEST_HEADERS'],
-                'authorization'=>igk_getv($headers, 'AUTHORIZATION'),
+                'method'=>igk_getv($headers, 'ACCESS_CONTROL_REQUEST_METHOD', '*'),
+                'headers'=>igk_getv($headers,'ACCESS_CONTROL_REQUEST_HEADERS', '*'),
+                // PREFIX WIDTH - X_ for ovh server
+                'authorization'=>igk_getvfirst_found($headers, ['AUTHORIZATION', 'X_AUTHORIZATION']),
                 'origin' => igk_getv($headers, 'ORIGIN'),
             ];
             $this->m_access_object = HeaderAccessObject::ActivateNew($v_access_object);
         }
         // + header 
-        error_log(json_encode(compact('headers')));
-
-        error_log(json_encode($_SERVER));
 
 
         $this->IGK_SCRIPT_FILENAME=StringUtility::Uri(realpath($this->SCRIPT_FILENAME));
@@ -292,6 +297,20 @@ final class Server{
         $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
         $this->IS_WEBAPP = isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['DOCUMENT_ROOT']); 
     }
+    /**
+     * check weather access control required
+     * @param mixed $headers 
+     * @return bool 
+     */
+    private function _checkAccessHeader($headers){
+        
+        foreach(['AUTHORIZATION', 'X_AUTHORIZATION', 'ACCESS_CONTROL_REQUEST_METHOD', 'ORIGIN'] as $k){
+            if (isset($headers[$k]) || isset($headers["X_".$k])){
+                return true;
+            }
+        }
+        return false;
+    }
     public function GetRootUri($secured=false){
         // return "";
 
@@ -329,12 +348,28 @@ final class Server{
     /**
     * 
     */
-    public function to_array(){
+    public function to_array(): ?array{
         return $this->data;
     }
 
     public static function RequestTime(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
         return (microtime(true) - $time);
+    }
+
+    /**
+     * get upload info
+     * @var IGK\getUploadAJXInfo
+     */
+    public function getUploadAJXInfo(){
+        $finfo = null;
+		if (igk_is_ajx_demand()){
+			$finfo = (object)[
+				"name"=>igk_server()->HTTP_IGK_FILE_NAME,
+				"size"=> igk_server()->HTTP_IGK_UP_FILE_SIZE,				
+				"filetype"=>igk_server()->HTTP_IGK_UP_FILE_TYPE,
+			];
+		}
+        return $finfo;
     }
 }

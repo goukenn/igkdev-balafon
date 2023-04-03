@@ -10,6 +10,7 @@ namespace IGK\System\Database\MySQL;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;  
 use IGK\Database\DbQueryRowObj;
+use IGK\Helper\JSon;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKSorter;
@@ -37,11 +38,22 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     {
         return null;
     }
-    public function success(){
+    public function success():bool{
         return $this->m_rows !== null;
     }
+    /**
+     * get array for result
+     * @return null|iterable 
+     */
     public function to_array(){
         return $this->getRows();
+    }
+    /**
+     * encode to json 
+     * @return mixed 
+     */
+    public function to_json($option=null, $json_option=JSON_UNESCAPED_SLASHES){
+        return JSon::Encode($this->to_array(), $option, $json_option);
     }
     ///<summary></summary>
     /**

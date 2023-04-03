@@ -19,6 +19,11 @@ class DbUpdateControllerSchemaCommand extends AppExecCommand{
     var $category = 'db';
     var $desc = 'udpate data-schema and increment the release version';
 
+
+    public function showUsage(){
+        parent::showUsage();
+        Logger::print(sprintf("%s controller [file]", $this->command));
+    }
     public function exec($command, ?string $controller=null, ?string $file = null ) {
         if ($controller && !($ctrl = self::GetController($controller, false))){            
             igk_die("controller not found");

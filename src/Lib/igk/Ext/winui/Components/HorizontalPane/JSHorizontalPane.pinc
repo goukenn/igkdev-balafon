@@ -97,7 +97,10 @@ final class JSHorizontalPane extends IGKObject
 		$this->m_pageNode["igk-control-type"] = "igk-pane";
 		$this->m_pageNode->setClass("igk-pane rotation");
 		//global register theme to document directry if this object is created
-		igk_app()->getDoc()->Theme->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/default.pcss");
+		// igk_environment()->debug_msg = igk_app()->getDoc()->id();
+
+		igk_app()->getDoc()->getTheme()->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/default.pcss");
+		// igk_wln_e(__FILE__.":".__LINE__ ,  "die js pane ......",  igk_app()->getDoc()->getTheme()->getDef()->getBindTempFiles() );
 	}
 	/**
 	 * add page 
@@ -130,13 +133,11 @@ final class JSHorizontalPane extends IGKObject
 			$this->m_script = $this->m_target->balafonjs();
 		$b = igk_parsebool($this->m_IsAutoAnimate);
 
-		$this->m_script->remove();
-		$this->m_script = new HtmlNode('template');
-
-		//(function(q){ ns_igk.ready(function(){igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'}); }); })(ns_igk.getParentScript());
-		$this->m_script->Content = <<<EOF
-		alert('animate');
-let q = ns_igk.getParentScript(); igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'});
-EOF;
+ 		// $this->m_script->remove();
+// 		$this->m_script = new HtmlNode('template');
+// 		//(function(q){ ns_igk.ready(function(){igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'}); }); })(ns_igk.getParentScript());
+// $this->m_script->Content = <<<JS
+// alert('init for ...'); let q = ns_igk.getParentScript(); igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'}); console.log('init horizontal pane.....');
+// JS;
 	}
 }

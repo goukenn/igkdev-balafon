@@ -18,8 +18,11 @@ class HtmlCtrlNode extends HtmlNode {
     public function __construct(BaseController $controller, $tagname=null)
     {
         parent::__construct($tagname);
-        $this->m_controller = $controller;
-        $div["igk-type"]="controller";
+        $this->m_controller = $controller;        
+    }
+    protected function initialize()
+    {
+        $this['igk-type'] = 'controller';
     }
     public function getIsVisible(){
         return $this->m_controller->getIsVisible();

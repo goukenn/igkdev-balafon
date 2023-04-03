@@ -27,7 +27,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
     
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){  
+    protected function _acceptRender($options = null):bool{  
         return $this->getIsVisible();     
     }
     ///<summary></summary>
@@ -152,9 +152,9 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         }
     }
 
-    protected function __getRenderingChildren($options = null)
+    protected function _getRenderingChildren($options = null)
     { 
-        // $v = parent::__getRenderingChildren();
+        // $v = parent::_getRenderingChildren();
         $n = new HtmlNode("div");
         $this->__buildview($n);
         $v =[

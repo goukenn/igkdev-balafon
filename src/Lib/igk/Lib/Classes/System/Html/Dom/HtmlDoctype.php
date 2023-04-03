@@ -16,19 +16,20 @@ final class HtmlDoctype extends HtmlItemBase{
     public function __construct($value){
         $this->Content=$value;
     }
+   
     ///<summary></summary>
     ///<param name="item"></param>
     ///<param name="index" default="null"></param>
-    protected function _AddChild($item, $index=null){
+    protected function _addChild($item, $index=null){
         return false;
     }
     ///<summary></summary>
-    public function AcceptRender($options=null){
+    protected function _acceptRender($options = null):bool{
         return true;
     }
     ///<summary></summary>
     ///<param name="options" default="null"></param>
-    public function render($options=null){
+    public function render($options=null){ 
         $out="<!DOCTYPE ".$this->Content. ">".igk_html_indent_line($options);
         return $out;
     }

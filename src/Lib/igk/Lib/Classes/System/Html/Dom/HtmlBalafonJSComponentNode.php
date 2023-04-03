@@ -15,8 +15,8 @@ class HtmlBalafonJSComponentNode extends HtmlScriptNode{
         $this["autoremove"] = $autoremove;
         $this->setCallback("handleRender", "igk_html_callback_production_minifycontent");
     } 
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {
-        return parent::__AcceptRender($options);
+        return parent::_acceptRender($options);
     }
 }   

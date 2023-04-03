@@ -8,32 +8,31 @@
 namespace IGK\XSD;
 
 use ArrayAccess;
+use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 abstract class XsdElement implements ArrayAccess{
+    use ArrayAccessSelfTrait;
     protected $m_node;
 
     public function getNode(){
         return $this->m_node;
     }
 
-    public function offsetExists($offset):bool
+    public function _array_offsetExists($offset)
     {
         return $this->m_node->offsetExists($offset);
     }
 
-    public function offsetGet($offset): mixed
-    {
+    public function _array_offsetGet($offset){
         return $this->m_node->offsetGet($offset);
     }
 
-    public function offsetSet($offset, $value):void
-    {
+    public function _array_offsetSet($offset, $value){
         $this->m_node->offsetSet($offset, $value);
         return $this;
     }
 
-    public function offsetUnset($offset) : void 
-    {
+    public function _array_offsetUnset($offset){
         return $this->m_node->offsetUnset($offset);
     }
 }

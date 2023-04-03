@@ -40,6 +40,7 @@ foreach(["IGK_APP_DIR", "IGK_SESS_DIR", "IGK_BASE_DIR", "IGK_TEST_MODULE", "IGK_
 $_SERVER["DOCUMENT_ROOT"] = IGK_BASE_DIR;
 $_SERVER["SERVER_NAME"] = "local.test.com";
 $_SERVER["SERVER_PORT"] = "8801"; 
+$_SERVER['ENVIRONMENT'] = 'test';
 $_SERVER["HTTP_USER_AGENT"] = "local.test.agent";
 unset($_SERVER["REQUEST_URI"]);
 

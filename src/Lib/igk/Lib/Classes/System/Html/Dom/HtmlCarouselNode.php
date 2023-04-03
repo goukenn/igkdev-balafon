@@ -35,11 +35,11 @@ class HtmlCarouselNode extends HtmlNode{
         return $n;
     }
 
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {
         if ($doc = $options ? igk_getv($options, "Document") : null){
             $doc->getTheme()->addTempFile(IGK_LIB_DIR."/Styles/winui/carousel.pcss");
         }
-        return parent::__AcceptRender($options);
+        return parent::_acceptRender($options);
     }
 }

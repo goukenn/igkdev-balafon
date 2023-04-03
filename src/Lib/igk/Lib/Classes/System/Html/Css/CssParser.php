@@ -18,8 +18,16 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
  */
 class CssParser implements ArrayAccess
 {
-    private $source;
-    private $definition;
+    /**
+     * origin 
+     * @var mixed
+     */
+    private $m_source;
+    /**
+     * get definition 
+     * @var mixed
+     */
+    private $m_definition;
     use ArrayAccessSelfTrait;
     const MATCH_VAR = "/^var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)$/i";
     const MATCH_RESOLVE_VAR = "/var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)/i";
@@ -33,12 +41,15 @@ class CssParser implements ArrayAccess
      */
     public function to_json($mode = JSON_PRETTY_PRINT)
     {
-        return json_encode($this->definition, $mode);
+        return json_encode($this->m_definition, $mode);
     }
-
+    /**
+     * 
+     * @return mixed 
+     */
     public function to_array()
     {
-        return $this->definition;
+        return $this->m_definition;
     }
     private static function _join_css_tab($d, $k)
     {
@@ -53,7 +64,7 @@ class CssParser implements ArrayAccess
                 $v =  $c . ": " . $d . ";";
             }
             return $v;
-        }, $this->definition, array_keys($this->definition)));
+        }, $this->m_definition, array_keys($this->m_definition)));
     }
     private static function __ReadDefinition(string $content, &$errors = null)
     {
@@ -351,26 +362,26 @@ class CssParser implements ArrayAccess
     public static function Parse(string $content): self
     {
         $g = new self();
-        $g->source = $content;
-        $g->definition = self::__ReadDefinition($content);
+        $g->m_source = $content;
+        $g->m_definition = self::__ReadDefinition($content);
         return $g;
     }
 
     function _access_OffsetSet($n,  $v)
     {
-        $this->definition[$n] = $v;
+        $this->m_definition[$n] = $v;
     }
     function _access_OffsetGet($n)
     {
-        return igk_getv($this->definition, $n);
+        return igk_getv($this->m_definition, $n);
     }
     function _access_OffsetUnset($n)
     {
-        unset($this->definition[$n]);
+        unset($this->m_definition[$n]);
     }
     function _access_offsetExists($n)
     {
-        return  isset($this->definition[$n]);
+        return  isset($this->m_definition[$n]);
     }
     /**
      * retrieve margin definition
@@ -486,12 +497,12 @@ class CssParser implements ArrayAccess
     public function getColors()
     {
         $colors = [];
-        if (!$this->definition) {
+        if (!$this->m_definition) {
             return $colors;
         }
         $regx = "/^((background|caret|column-rule|text-decoration|outline|text-emphasis|border(-(left|top|bottom|right))?)-)?color$/";
         $match_var = self::MATCH_VAR;
-        $root = igk_getv($this->definition, ':root');
+        $root = igk_getv($this->m_definition, ':root');
         foreach ($this->to_array() as $p => $n) {
             if ($n instanceof ICssDefinition) {
                 continue;
@@ -554,8 +565,8 @@ class CssParser implements ArrayAccess
     public function render(): ?string
     {
         $sb = new StringBuilder;
-        if ($this->definition)
-            foreach ($this->definition as $k => $v) {
+        if ($this->m_definition)
+            foreach ($this->m_definition as $k => $v) {
                 if ($v instanceof ICssDefinition) {
                     $sb->appendLine($v->getDefinition());
                 } else {

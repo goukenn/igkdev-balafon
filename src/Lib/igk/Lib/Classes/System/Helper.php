@@ -36,7 +36,6 @@ abstract class Helper{
             if (strpos($n, "IGK\\")==0){
                 $fn = str_replace("\\", "/", IGK_LIB_DIR."/Lib/Classes/".substr($n, 4));
                 if (self::PolyfillTrait($fn)){
-                    // error_log(__FILE__.":".__LINE__." use poly fill trait: ".$n."\n", LOG_INFO);
                     return 1;
                 }
             }

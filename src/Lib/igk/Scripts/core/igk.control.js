@@ -744,6 +744,7 @@
             // q.addClass("code-php");
             var s = q.o.textContent.trim(); // .getHtml().trim();
             var t = s.split('\n');
+         
             // return;
             // clear node
             q.setHtml("");
@@ -753,6 +754,8 @@
             let copyable = q.getAttribute("igk-copyable");
             if (copyable) {
                 let block = q.add("div");
+                let minHeight = igk.getNumber(q.getComputedStyle("height"));
+
                 block.addClass("igk-copyable posab igk-svg-host svg-fill")
                     .setCss({
                         zIndex: 100,
@@ -760,24 +763,18 @@
                         display: 'block',
                         width: '32px',
                         maxWidth: '32px',
+                        maxHeight: '32px',
                         overflow: 'hidden',
                         top: '0px',
                         right: '0px',
-                        background: 'rgb(255 255 255 / 0.9)',
+                        backgroundColor: 'rgb(255 255 255 / 0.1)',
                         padding: '4px',
                         borderBottomLeftRadius: '5px',
                         cursor: 'pointer',
                     })
                     .on("click", function() {
                         igk.ClipBoard.writeText(s);
-
-                        igk.winui.controls.toast.show(_R("item copied to clipboard"), "igk-success");
-                        // let n = $igk(document.createElement('div'));
-                        // n.addClass('igk-winui-toast');
-                        // n.setHtml("item copied to clipboard");
-                        // n.o.setAttribute("noHide", false);
-                        // igk.dom.body().add(n);
-                        // return n;
+                        igk.winui.controls.toast.show(_R("item copied to clipboard"), "igk-success");                       
                     })
                     .add(igk.svg.useSvg('copy-outline'));
                 q.on('scroll', function(e) {
@@ -798,6 +795,7 @@
                 l = t[i];
                 var d = q.add("div");
                 d.setHtml(m.evals(l));
+                // console.log(l==m.evals(l));
             }
             var o = q.add('span').addClass("dispib").setHtml('_');
             var w = igk.getNumber(o.getComputedStyle('width'));
@@ -829,12 +827,7 @@
             var ch = "";
             while (inf.pos < inf.ln) {
                 ch = inf.s[inf.pos];
-                // TODO TRADITIONAL WAY
-                // if (ch==("(")){
-                // 	inf.pos--;
-                // 	console.debug("breakk..............", inf.pos);
-                // 	break;
-                // }
+                // TODO TRADITIONAL WAY               
                 c = ch.toLowerCase().charCodeAt(0);
                 if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')) {
                     w += ch;
@@ -843,10 +836,6 @@
                 }
                 inf.pos++;
             }
-            // delete(c);
-            // if (w.length == 0){
-            // }
-            // 	inf.read = 0;
             return w;
         }
 
@@ -870,11 +859,13 @@
         };
 
         function _readPhpOperator(ch) {
-            const op = ["||", "|", "&&", "&", ".", "->", "-", "/", "+", "*", "^", "~", "%", "()", "[]", "(", ")", "[", "]", "{", "}"];
-            let c = "";
+            const op = ["||", "|", "&&", "&", ".", "->","=>","==","===", "-", "/", "+", "*", "^", "~", "%", "()", "[]", "(", ")", "[", "]", "{", "}"];
+            let c = ch;
+            inf.pos++;
             while (inf.pos < inf.ln) {
                 c = inf.s[inf.pos];
                 if (op.indexOf(ch + c) == -1) {
+                    inf.pos--;
                     return ch;
                 }
                 ch += c;
@@ -889,14 +880,17 @@
             var w = 0;
             var l = 1; // line count
             var mode = 0;
+            var level = 0;
             this.evals = function(s) {
                 // read line
-                s = s.trim().replace('<!--?php', '<span class="proc">&lt;?php</span>').replace('?-->', '<span class="proc">?&gt;</span>');
+                if (s.indexOf('<!--?php')==0)
+                    s = s.trim().replace('<!--?php', '<span class="proc">&lt;?php</span>').replace('?-->', '<span class="proc">?&gt;</span>');
+
                 var o = '';
                 var m = 0;
                 var tr = ''; // tempory read		
                 o += '<span class=\'ln\'>' + l + '</span>'; // line number
-                if (/(&lt;\?php|\?&gt;)/.test(s.trim())) {
+                if (/(&lt;\?php|\?&gt;)/.test(s)) {
                     o += "<span class='proc'>" + s + "</span>";
                 } else {
                     if (s.length == 0)
@@ -906,15 +900,26 @@
                         inf.pos = 0;
                         inf.read = 1;
                         inf.s = s;
+                 
                         var sp = igk.createNode("span");
                         var ch = "";
                         while (inf.read && (inf.ln > inf.pos)) {
-                            ch = s[inf.pos];
+                            ch = s[inf.pos]; 
+                            switch (ch) {
+                                case '[':
+                                    level++;
+                                    break;
+                                case ']':
+                                    level--;
+                                default:
+                                    break;
+                            }
+                            inf.level = level;
                             switch (ch) {
                                 case ' ':
-                                    sp.add("span").setHtml(" ");
+                                    sp.add("span").setHtml("&nbsp;");
                                     break;
-                                case '\t':
+                                case "\t":
                                     sp.add("span").addClass("t").setHtml(" ");
                                     break;
                                 case '"':
@@ -964,26 +969,22 @@
                                     inf.pos--;
                                     // inf.read = 0;
                                     break;
-                                    // case "&":
-                                    // 	if (inf.mode == 0) {
-                                    // 		inf.start = inf.pos;
-                                    // 		inf.pos++;
-                                    // 		while ((inf.pos < inf.ln) && (s[inf.pos] != ';')) {
-                                    // 			inf.pos++;
-                                    // 		}
-                                    // 		if (s[inf.pos] == ';') {
-                                    // 			m = sp.add("span").addClass("pc").setHtml(s.substr(inf.start, inf.pos - inf.start));
-                                    // 		}
-                                    // 		else
-                                    // 			inf.read = 0;
-                                    // 		delete (inf.start);
-                                    // 	}
-                                    // 	break;
+                                
                                 default:
                                     if (inf.mode == 0) {
-                                        if (",.?|()#[]-+{}\\/%*><;:=&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
-                                            ch = _readPhpOperator(ch);
-                                            m = sp.add("span").addClass("pc").setHtml(ch);
+                                        if (",.?|()#[]-+{}\\/%*><;:=&|??|===|?->|->|==|+=|-=|&&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
+                                            ch = _readPhpOperator(ch, inf);
+                                            let ext = '';
+                                            if (/(\[\]|\(\)|\[|\]|\{|\})/.test(ch.trim())){
+                                                ext += ' def';
+                                                ext += ' l-';
+                                                if (/^(\)|\]|\})$/.test(ch.trim())){
+                                                    ext += ''+(inf.level + 1);
+                                                } else{
+                                                    ext += ''+inf.level;
+                                                }
+                                            }
+                                            m = sp.add("span").addClass("pc operator"+ext).setHtml(ch);
                                         } else {
                                             w = _readWord();
                                             var _cl = "w";
@@ -1304,6 +1305,31 @@
         }
         var dynStyle = null;
         igk.system.createNS("igk.css", {
+            /**
+             * target property 
+             * @param {*} q node
+             * @param {*} p property
+             * @param {*} t em
+             */
+            getComputedEmSize(q, p, t){
+                q = $igk(q);
+                let ft = igk.getNumber(q.getComputedStyle('fontSize'));
+                p = igk.getNumber(q.getComputedStyle(p));
+                $dpi = 96; 
+                if (ft)
+                {
+                    fv = Math.floor((p/ft)*100); 
+                    if (t=='%'){
+                        return fv+t;
+                    }
+                    if (t== 'in'){
+                        return ($fv / dpi)+'in';
+                    }  
+                    fv /=100;
+                    return fv+"em";
+                }
+                return NaN;
+            },
             changeDocumentTheme(n) {
                 var d = document.getElementsByTagName('html')[0];
                 if (typeof(n) == 'undefined') {
@@ -5532,11 +5558,18 @@
                 e.stopPropagation();
             }
         });
+        // + resolv function name
+        function _get_fn(n){
+            const tfc = igk.system.getNS(n);
+            var fc = typeof(tfc) == _tf ? tfc : new Function(n);
+            return fc;
+        }
         // var list = {
         // 	"click": "touchOrClick",
         // 	"doubleclick": "doubleTouchOrClick"
         // };
         var meth = [];
+        const _tf = 'function';
         var c = ["click", "doublick", "contextmenu", "mouseover", "mousedown", "mouseup"];
         for (var j in window) {
             if (j)
@@ -5546,27 +5579,35 @@
                         meth.push(j);
                         igk.ctrl.registerAttribManager("[" + j + "]", { desc: j + " property event" });
                         igk.ctrl.bindAttribManager("[" + j + "]", function(m, n) {
-                            let fc = new Function(n);
+                            let fc = n;                  
+                            if (typeof(fc)!=_tf){
+                                let g = igk.system.getNS(n);
+                                if (typeof(g) != _tf)                                    
+                                    fc = new Function(n);
+                                else 
+                                    fc = g; 
+                            }  
                             this.o.removeAttribute(m);
-                            m = m.substring(1, m.length - 1);
+                            m = m.substring(1, m.length - 1); 
                             this.reg_event(m, function(e) {
                                 if (fc.apply(this, [e]) == !1) {
-                                    igk.event.stop(e);
-                                }
+                                    igk.event.stop(e); 
+                                } 
                             });
                         });
                     }
                 }
         }
+        // + | [register - global attribute]
         igk.ctrl.registerAttribManager("[click]", { desc: "click property event" });
         igk.ctrl.registerAttribManager("[doubleclick]", { desc: "doubleclick property event" });
         igk.ctrl.registerAttribManager("[contextmenu]", { desc: "contextmenu property event" });
-        igk.ctrl.bindAttribManager("[click]", function(m, n) {
+        igk.ctrl.bindAttribManager("[click]", function(m, n) { 
             if (n == null) {
                 return;
             }
             this.o.removeAttribute(m);
-            var fc = new Function(n);
+            var fc = _get_fn(n); 
             var q = this;
             this.reg_event("touchOrClick", function(event) {
                 if (event.handle)
@@ -5580,7 +5621,8 @@
             if (n == null) {
                 return;
             }
-            var fc = new Function(n);
+            this.o.removeAttribute(m);
+            var fc = _get_fn(n);
             var q = this;
             this.reg_event("doubleTouchOrClick", function(event) {
                 igk.event.stop(event);
@@ -5610,7 +5652,8 @@
         }
         // + | disable context menu if necessary
         igk.ctrl.bindAttribManager("[contextmenu]", function(m, n) {
-            let fc = new Function(n);
+            this.o.removeAttribute(m);
+            var fc = _get_fn(n);
             this.reg_event('contextmenu', function(e) {
                 if (fc.apply(this, [e]) == !1) {
                     igk.event.stop(e);
@@ -5978,10 +6021,11 @@
             },
             pastenumber(e, notdec) {
                 let paste = (e.clipboardData || window.clipboardData).getData('text');
-                var v = this.value;
-                var sl = this.selectionStart;
+                let slStart = e.target.selectionStart;
+                var v = e.target.value;
+                var sl = slStart;
                 var sep = _ut.getSep();
-                paste = v.substr(0, this.selectionStart) + paste + v.substr(sl);
+                paste = v.substr(0, sl) + paste + v.substr(sl);
                 var rf = [/^[0-9]+(\.([0-9]+)?)?$/, /^[0-9]+$/];
                 if (typeof(notdec) == 'undefined')
                     notdec = true;
@@ -5999,6 +6043,9 @@
             }
         };
 
+        /**
+         * init form vview helper 
+         */
         function __init_form() {
             this.qselect('input').each_all(function() {
                 if (this.supportClass('number')) {
@@ -6006,6 +6053,14 @@
                     this.on('paste', _handler.pastenumber);
                 }
                 if (this.supportClass('integer')) {
+                    this.on('keypress', _handler.integer);
+                    this.on('paste', _handler.pasteinteger);
+                }
+                if (this.supportClass('phone-number')) {
+                    if (this.o.value){
+                        this.o.value = this.o.value.replace(/[^0-9]/,"");
+                    }
+                    this.setAttribute('maxlength', 20);
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
                 }

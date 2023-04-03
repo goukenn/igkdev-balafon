@@ -98,12 +98,12 @@ class ActionScaffold extends ScaffoldBase
                 $ctrl_type = BaseController::class;
                 return <<<EOF
 /**
-* @var \\${m_cl} reference model
+* @var \\{$m_cl} reference model
 */
 var \$model;
-protected function initialize(\\${ctrl_type} \$ctrl){
+protected function initialize(\\{$ctrl_type} \$ctrl){
     parent::initialize(\$ctrl);
-    \$this->model = \\${m_cl}::model();
+    \$this->model = \\{$m_cl}::model();
 }  
 public function index(?int \$index=null){
     return \$this->get(\$index);
@@ -113,21 +113,21 @@ public function get(?int \$index=null){
         return \$this->model::select_all();
     return \$this->model::select_row(\$index);
 }
-protected function delete_post(\\${m_cl} \$item){
+protected function delete_post(\\{$m_cl} \$item){
     \$n = \$this->model::name();
     return \$this->handleBool(\$item::delete(),
         sprintf(__("%s %s removed"), \$n , \$item->id()),
         sprintf(__("%s %s not removed"), \$n, \$item->id())
 	); 
 }
-protected function update_post(\\${m_cl} \$item, \$model){
+protected function update_post(\\{$m_cl} \$item, \$model){
     if (\$data = json_decode(igk_io_get_uploaded_data())){
         \$item->bind(\$data); 
         \$item->save();
     }
     return \$item;
 }
-protected function update_patch(\\${ctrl_type} \$item){
+protected function update_patch(\\{$ctrl_type} \$item){
     return \$item;
 }
 EOF;

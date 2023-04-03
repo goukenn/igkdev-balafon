@@ -15,14 +15,19 @@ use function igk_resources_gets as __;
 class ErrorRequestResponse extends RequestResponse{
     var $type = "json";
     var $code = 400;
-    public function __construct($code, $message=null){
+    var $message;
+    public function __construct($code, $message=null, $headers=null){
         $this->code = $code;
         $this->message = $message;
+        $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
+
+        $this->headers = $headers;
     }
 
-    public function render(){
-        igk_set_header($this->code);
-       
+    protected function _setHeader(){
+        parent::_setHeader();
+    }
+    public function render(){ 
         $obj = ["response"=>(object)[
             "code"=>$this->code,
             "status"=> $this->code== 200? 'OK' :  self::GetStatus($this->code),
@@ -40,13 +45,11 @@ class ErrorRequestResponse extends RequestResponse{
             break;
         }
         $doc = igk_create_node("html");        
-        $doc->add("head")->addObData(function($c){
-           
+        $doc->add("head")->addObData(function($c){ 
             $c->add("title")->Content = __("Error");
             $c->addStyle()->setAttribute("type", "text/css")->Content  = $this->getErrorStyle();
 
-        },null);
-
+        },null); 
         $doc->add('body')->setClass("error_doc")->addObData(function($c)use($obj){
             $n = $c->add("div");
             (new ResponseHtmlRenderer($n,$obj))->render();

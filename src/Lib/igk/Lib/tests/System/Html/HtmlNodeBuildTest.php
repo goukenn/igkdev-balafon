@@ -3,10 +3,12 @@
 // @filename: HtmlNodeBuildTest.php
 // @date: 20220803 13:48:54
 // @desc: 
+// @test-command: phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlNodeBuildTest.php
 
 namespace IGK\Tests\System\Html{
 
-use IGK\Tests\BaseTestCase;
+    use IGK\System\Html\HtmlNodeBuilder;
+    use IGK\Tests\BaseTestCase;
 
 class HtmlNodeBuildTest extends BaseTestCase{
 
@@ -56,20 +58,7 @@ class HtmlNodeBuildTest extends BaseTestCase{
         "passing data and operate failed"
         );
     }
-
-    // function test_passing_same_call(){
  
-    //     $s = '<igk:same igk:args="[[:@raw]]" expression="{{ $raw->x + 88}}"></igk:same>';
-    //     $d = igk_create_node("div");       
-    //     $d->load($s, (object)[
-    //         "raw"=>(object)["x"=>8],
-    //         "ctrl"=>null
-    //     ]);
-    //     $this->assertEquals('<div>96</div>',
-    //     $d->render(),
-    //     "passing data and operate failed"
-    //     );
-    // }
     function test_subitem_pass(){ 
         $s = '<div *for="range(1,3)"><li>{{$raw}}</li></div>';//<div *visible="$raw==2" id="mark"><igk:contact-block igk:args="[[:@raw]]"></igk:contact-block></div></div>';
         $d = igk_create_node("jump");       
@@ -82,9 +71,129 @@ class HtmlNodeBuildTest extends BaseTestCase{
         "sub item passing failed"
         );
     }
+
+    function test_render_string_at_last(){
+        $n = igk_create_node("div");     
+        $s = HtmlNodeBuilder::Init($n, [
+            "div"=>"Le titre du jour",
+            ["@_t:div"=>"Mon titre1"],
+            ["@_t:div"=>"Mon titre2"],
+            "Nous voila dans le code"
+        ]);
+        $this->assertEquals(
+            '<div><div>Le titre du jour</div><div>Mon titre1</div><div>Mon titre2</div>Nous voila dans le code</div>', 
+            $n->render());
+    }
+    function test_render_method_as_entry_child(){
+        $n = igk_create_node("div");    
+  
+        $s = HtmlNodeBuilder::Init($n, [
+            "div"=>[function($i){
+                $i->text("ok");
+            }]
+        ]);
+        $this->assertEquals(
+            '<div><div>ok</div></div>', 
+            $n->render());
+    }
+    function test_render_method_as_entry_child_2(){
+        $n = igk_create_node("div");    
+ 
+        HtmlNodeBuilder::Init($n, [
+            "div"=>function($i){
+                $i->text("ok");
+            }
+        ]);
+        $this->assertEquals(
+            '<div><div>ok</div></div>', 
+            $n->render());
+    }
+
+    function test_render_method_as_entry_child_2_callback(){
+        $n = igk_create_node("div");    
+        HtmlNodeBuilder::Init($n, [
+            "div"=>[
+                function($i){
+                $i->text("ok1");
+            },
+            function($i){
+                $i->text("ok2");
+            }]
+        ]);
+        $this->assertEquals(
+            '<div><div>ok1ok2</div></div>', 
+            $n->render());
+    }
+
+    function test_render_method_after_node_def(){
+        $n = igk_create_node("div");  
+        HtmlNodeBuilder::Init($n, [
+            "div"=>[
+                "h2"=>"presentation",
+                function($i){
+                $i->text("ok1");
+            }]
+        ]); 
+        $this->assertEquals(
+            '<div><div><h2>presentation</h2>ok1</div></div>', 
+            $n->render());
+    }
+    function test_render_method_as_entry(){
+        $n = igk_create_node("div");    
+      
+        HtmlNodeBuilder::Init($n, [
+            function($i){
+                $i->text("ok");
+            }
+        ]);
+        $this->assertEquals(
+            '<div>ok</div>', 
+            $n->render());
+    }
+    function test_render_chain(){
+        $n = igk_create_node("div");    
+      
+        HtmlNodeBuilder::Init($n, [
+            "header"=>[],
+            "main"=>[],
+            "footer"=>[]
+        ]);
+        $this->assertEquals(
+            '<div><header></header><main></main><footer></footer></div>', 
+            $n->render());
+    }
+    function test_render_menus(){
+        $n = igk_create_node("div");     
+        HtmlNodeBuilder::Init($n, [
+            "igk:menus"=>[
+                "@"=>[
+                    [
+                        "home"
+                    ]
+                ]
+            ],
+        ]); 
+        $this->assertEquals(
+            '<div><ul class="igk-menu menu"><li><a href="home">Accueil</a></li></ul></div>', 
+            $n->render());
+    }
+    function test_render_render_with_string(){
+        $n = igk_create_node("div");   
+        igk_debug(1);  
+        HtmlNodeBuilder::Init($n, [
+            [
+                "_"=>["class"=>"igk-btn btn"],
+                "Login or Connect"
+            ],
+        ]); 
+        igk_debug(0);  
+        $this->assertEquals(
+            '<div><div class="igk-btn btn">Login or Connect</div></div>', 
+            $n->render());
+    }
     // function test_contact_pass(){
  
-    //     $s = '<div *for="range(1,3)"><igk:contact-block igk:args="[[:@raw]]"></igk:contact-block></div>';//<div *visible="$raw==2" id="mark"><igk:contact-block igk:args="[[:@raw]]"></igk:contact-block></div></div>';
+    //     '<div *for="range(1,3)"><igk:contact-block igk:args="[[:@raw]]"></igk:contact-block></div>';//<div *visible="$raw==2" id="mark"><igk:contact-block igk:args="[[:@raw]]"></igk:contact-block></div></div>';
     //     $d = igk_create_node("jump");       
     //     $d->load($s, (object)[
     //         "raw"=>(object)["x"=>8],

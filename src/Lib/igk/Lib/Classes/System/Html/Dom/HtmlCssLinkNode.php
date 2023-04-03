@@ -16,11 +16,11 @@ namespace IGK\System\Html\Dom;
 class HtmlCssLinkNode extends HtmlNode{
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){
-        if($this->system && $o && ($o->Context == "mail")){
+    protected function _acceptRender($options = null):bool{
+        if($this->system && $options && ($options->Context == "mail")){
             return false;
         }
-        $uri=igk_html_get_system_uri($this->link, $o);        
+        $uri=igk_html_get_system_uri($this->link, $options);        
         $tr= $uri ? $uri: $this->link;
         $this->ln["href"]= $tr;
         return $tr && $this->IsVisible;
@@ -40,6 +40,7 @@ class HtmlCssLinkNode extends HtmlNode{
         $ln->cache=false;
         $ln->system=$system;
         $this->setln($ln);  
+      
     }
     public function getCanRenderTag()
     {
@@ -47,7 +48,7 @@ class HtmlCssLinkNode extends HtmlNode{
     }
     ///<summary></summary>
     ///<param name="option" default="null"></param>
-    protected function __getRenderingChildren($option=null){
+    protected function _getRenderingChildren($option=null){
         return array($this->ln);
     }
     ///<summary>Represente activate function</summary>

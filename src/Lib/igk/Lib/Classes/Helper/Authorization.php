@@ -10,6 +10,10 @@ use IGK\Models\Groups;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\Models\Authorizations;
+use IGK\System\Database\QueryBuilder;
+use IGKException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
@@ -17,6 +21,84 @@ use IGK\Models\Authorizations;
 * @package IGK\Helper
 */
 class Authorization{
+
+    /**
+     * 
+     * @param Users $user 
+     * @param BaseController $controller 
+     * @param mixed $auth_name 
+     * @return bool 
+     */
+    public static function Can(\IGK\Models\Users $user, BaseController $controller, $auth_name):bool{
+        if (!is_array($auth_name)){
+            $auth_name = [$auth_name];
+        }
+        $auth_name = array_filter(array_map(function($a)use($controller){
+                return $controller->authName($a);
+            }, $auth_name)); 
+        return $user->auth($auth_name);
+    }
+    /**
+     * get controller authorizations 
+     * @param BaseController $controller 
+     * @return mixed 
+     */
+    public static function GetAuthorizations(BaseController $controller){
+        $keyname = StringUtility::GetControllerKeyName($controller);
+        return Authorizations::select_all([
+            Authorizations::FD_CLCONTROLLER => $keyname 
+        ], [
+            "Columns"=>[
+                Authorizations::FD_CLNAME => "name"
+            ]
+        ]);
+    }
+    /**
+     * get controller groups
+     * @param BaseController $controller 
+     * @return mixed 
+     */
+    public static function GetGroups(BaseController $controller){
+        $keyname = StringUtility::GetControllerKeyName($controller);
+        return array_map(function($a){ 
+            return $a->name; 
+        }, Groups::select_all([
+            Groups::FD_CLCONTROLLER => $keyname 
+        ], [
+            "Columns"=>[
+                Groups::FD_CLNAME => "name"
+            ]
+        ]));
+    }
+    /**
+     * get user groups
+     * @param BaseController $controller 
+     * @param string $group group name
+     * @param callable $builder gbuilder listener
+     * @return QueryBuilder 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetGroupUsers(BaseController $controller, string $group, callable $builder=null){
+        $keyname = StringUtility::GetControllerKeyName($controller);
+        $cl_uid = Users::column(Users::FD_CLID);
+        $g = Groups::prepare()
+        ->join_left_on(Usergroups::table(), Groups::column(Groups::FD_CLID), Usergroups::column(Usergroups::FD_CLGROUP_ID))
+        ->join_left_on(Users::table(), Users::column(Users::FD_CLID), Usergroups::column(Usergroups::FD_CLUSER_ID))
+        ->where([Groups::column("clName")=>$group, Groups::column("clController")=>$keyname])
+        ->columns([
+            $cl_uid => "id",
+            "clFirstName" => "firstName",
+            "clLastName" => "lastName",
+            "clLogin" => "login",
+            "clGuid" => "guid",
+        ]);
+        if ($builder){
+            $builder($g);
+        }
+        return $g->execute();
+    }
     /**
      * bind user to group
      * @param BaseController $controller 

@@ -40,4 +40,8 @@ final class IGKValueListener extends IGKObject implements IHtmlGetValue{
         }
         return null;
     }
+    public function __toString()
+    {
+        return $this->getValue().'';
+    }
 }

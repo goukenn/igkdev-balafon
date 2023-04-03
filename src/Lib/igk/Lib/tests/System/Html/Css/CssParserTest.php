@@ -37,7 +37,7 @@ class CssParserTest extends BaseTestCase{
         );
     }
     public function test_css_parse_to_css_2(){   
-        // igk_debug(1);
+        
         $g = CssParser::Parse("width:30; height: 0; background-color:indigo;");     
         $this->assertEquals(
             "width: 30;\nheight: 0;\nbackground-color: indigo;",

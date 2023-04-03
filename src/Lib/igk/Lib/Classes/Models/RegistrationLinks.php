@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: RegistrationLinks.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -34,11 +34,11 @@ class RegistrationLinks extends ModelBase{
 	*/
 	protected $table = "%prefix%registration_links"; 
 	/**
-	*override primary key 
+	* override primary key 
 	*/
 	protected $primaryKey = "regLinkId";
 	/**
-	*override refid key 
+	* override refid key 
 	*/
 	protected $refId = "regLinkId";
 }

@@ -18,6 +18,8 @@ use IGKException;
  */
 abstract class RequestResponse extends Response implements IInjectable{
  
+    const RESPONSE_CODE_401_UNAUTHORIZED= 401;
+    const RESPONSE_CODE_403_FORBIDEN = 403;
     /**
      * return code
      */

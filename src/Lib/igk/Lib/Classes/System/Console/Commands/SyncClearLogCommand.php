@@ -23,11 +23,17 @@ class SyncClearLogCommand extends SyncAppExecCommandBase{
             return $h;
         }
         Logger::info(sprintf("remove cache from ftp://%s%s",$setting["server"], $setting["application_dir"]));
-        $this->removeLogs($h, $setting["application_dir"]."/Data");
+        $this->_removeLogs($h, $setting["application_dir"]."/Data");
         ftp_close($h);
         error_clear_last();
     }
-    public function removeLogs($h, string $dir){
+    /**
+     * remove logs 
+     * @param mixed $h 
+     * @param string $dir 
+     * @return void 
+     */
+    private function _removeLogs($h, string $dir){
         $this->emptyDir($h, $dir); 
     }
 

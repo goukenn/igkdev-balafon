@@ -12,11 +12,14 @@ use Countable;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\IGlobalFunction;
 use IGK\Resources\R;
+use IGK\System\IToArray;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\Encoding\AttributeEncoder;
 use IGK\System\Html\XML\XmlNode;
 use IGKEnvironmentConstants;
 use IGKEvents;
@@ -30,6 +33,7 @@ use function igk_resources_gets as __;
 
 
 require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
+require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 
 ///<summary>represent html utility </summary>
 /**
@@ -37,9 +41,127 @@ require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
  */
 abstract class HtmlUtils extends DomNodeBase
 {
-    public static function HostNode(HtmlNode $p, callable $callback, ...$args ){
+
+    public static function Init($n, $data)
+    {
+        return HtmlNodeBuilder::Init($n, $data);
+    }
+    /**
+     * update core attribute from classes
+     * @param string $classes 
+     * @param array $attrib 
+     * @return void 
+     */
+    public static function UpdateCoreAttribute(string $classes, array &$attribs)
+    {
+        if (strstr($classes, 'no-contextmenu')) {
+            $attribs['igk-no-contextmenu'] = 1;
+        }
+    }
+    /**
+     * explode string tag expression and return array of [tagname, id, classes, name]
+     * @param string $tag string syntax \
+     * #[identifer] to set the id \
+     * %[identifier] to set the name \
+     * .[identifer] to set a class \
+     * ([expression]) to pass the expression as argument 
+     * @return array
+     */
+    public static function ExplodeTag(string $tagname, $context=null): array
+    {
+        $id = null;
+        $classes = null;
+        $args = null;
+        $name = null;
+        if (strpos($tagname, '(') !== false) {
+            !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. ".$tagname);
+            // get args to setups
+            $start = $pos = strpos($tagname, '(');
+            $g = igk_str_read_brank($tagname, $pos,')', '(');
+            $a = substr($g, 1, -1); 
+            $args = igk_engine_get_attr_arg($a, $context); 
+            $tagname = igk_str_rm($tagname, $start,  $pos-$start+1);  
+           //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
+        }
+        if (strpos($tagname, '[') !== false) {
+            !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. ".$tagname);
+            // get args to setups
+            $start = $pos = strpos($tagname, '(');
+            $g = igk_str_read_brank($tagname, $pos,')', '(');
+            $a = substr($g, 1, -1); 
+            $args = igk_engine_get_attr_arg($a, $context); 
+            $tagname = igk_str_rm($tagname, $start,  $pos-$start+1);  
+           //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
+        }
+        
+        if (strpos($tagname, '#') !== false) {
+            $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)]+)/i", $tagname, $tab);
+            for ($i = 0; $i < $c; $i++) {
+                // get id last id and remove it from tag
+                $id = $tab['name'][$i];
+                $tagname = str_replace($tab[0][$i], '', $tagname);
+            }
+        }
+        if (($v_pos = strpos($tagname, '.')) !== false) {
+            $tclasses = [];
+            if ($c = preg_match_all("/\.(?P<name>[^\%\.\\s#\(\)]+)/i", $tagname, $tab)){
+              for ($i = 0; $i < $c; $i++) {
+                    // get id last id and remove it from tag
+                    $tclasses[$tab['name'][$i]] = 1;
+                    $tagname = str_replace($tab[0][$i], '', $tagname);
+                }
+            } else {
+                if (igk_environment()->isDev()){
+                    igk_die("not a valid class specification.");
+                }
+                $tagname = substr($tagname, $v_pos, 1);
+            }
+            $classes = implode(' ', array_keys($tclasses));
+        }
+        if (strpos($tagname, '%') !== false) {
+            $c = preg_match_all("/\%(?P<name>[^\.#\\s\(\)]+)/i", $tagname, $tab);
+            for ($i = 0; $i < $c; $i++) {
+                // get id last id and remove it from tag
+                $name = $tab['name'][$i];
+                $tagname = str_replace($tab[0][$i], '', $tagname);
+            }
+        }
+       
+        return [trim($tagname), $id, $classes, $args, $name];
+    }
+
+    /**
+     * helper: special entitiel encoding 
+     * @param string $value 
+     * @return string 
+     */
+    public static function EncodeAttribute(string $value): string
+    {
+        return (new AttributeEncoder)->Encode($value);
+    }
+    public static function DecodeAttribute(string $value): string
+    {
+        return (new AttributeEncoder)->decode($value);
+    }
+
+    /**
+     * create a select option data
+     */
+    public static function SelectOption(string $text, $value = null)
+    {
+        $n = [];
+        $n['t'] = $text;
+        $n['i'] = $text;
+        if ($value) {
+            $n['i'] = $value;
+        }
+        return $n;
+    }
+
+    public static function HostNode(HtmlNode $p, callable $callback, ...$args)
+    {
         array_unshift($args, $p);
-        ob_start() ;
+        ob_start();
         if ($response = $callback(...$args)) {
             if (is_array($response)) {
                 $p->text(igk_ob_get($response));
@@ -55,23 +177,21 @@ abstract class HtmlUtils extends DomNodeBase
             }
         }
     }
-    private static function _copy_node_create_node_callback(string $tagname){
+    private static function _copy_node_create_node_callback(string $tagname)
+    {
         return igk_create_node($tagname);
     }
     /**
      * copy node 
-     * @param mixed $g 
-     * @param array|mixed $childs 
+     * @param mixed $g where to copy
+     * @param array|mixed $childs childrend
      * @param callable<string $n, ?DomNodeBase $parent, &$skip = false> $callback callback to call  
+     * @param T total number of copied element
      * @return mixed 
      */
-    public static function CopyNode($g, $childs, ?callable $callback=null, & $T = 0) 
-    {
-        // if (!igk_is_debug()){
-        //     array_map(function($a)use($g){ $g->add($a); } , $childs);
-        //     return ;
-        // }
-        if ($callback === null){
+    public static function CopyNode($g, $childs, ?callable $callback = null, &$T = 0)
+    { 
+        if ($callback === null) {
             $callback = Closure::fromCallable([self::class, '_copy_node_create_node_callback']);
         }
         $p = null;
@@ -81,83 +201,49 @@ abstract class HtmlUtils extends DomNodeBase
         while (count($childs) > 0) {
             // add child 
             $q = array_shift($childs);
-            if ($q === $g){
-                igk_die('item was childs in list'. $q->render());
+            if ($q === $g) {
+                igk_die('item was childs in list' . $q->render());
                 continue;
             }
-            if ($q === $p){
+            if ($q === $p) {
                 $tp = array_pop($pr);
                 $p = $tp[0];
-                $pnode = $tp[1]; 
+                $pnode = $tp[1];
                 continue;
             } else {
                 $t = $q->getTagName();
-                if (!empty($t)){
+                if (!empty($t)) {
                     $skip = false;
-                    $gg = $callback($t, $p , $skip); 
+                    $gg = $callback($t, $p, $skip);
                     $gg->setAttributes($q->getAttributes()->to_array());
                     $pnode->add($gg);
                     if (!empty(trim($s = $q->getContent() ?? ''))) {
                         $gg->setContent($s);
                     }
-                    if ($skip){   
-                        $gg->load($q->getInnerHtml()); 
+                    if ($skip) {
+                        $gg->load($q->getInnerHtml());
                         continue;
                     }
                     // childs part
-                     $rchilds = $q->getChilds();
-                    if ($rchilds && ($qt = $rchilds->to_array())){
+                    $rchilds = $q->getChilds();
+                    if ($rchilds && ($qt = $rchilds->to_array())) {
                         $pr[] = [$p, $pnode];
                         $p = $gg;
                         array_unshift($childs, $p);
                         array_unshift($childs, ...$qt);
                         $pnode = $p;
                     }
-
-                }else {
-                    if (!empty(trim($s = $q->getContent() ?? ''))){
-                        $pnode->text($s); 
+                } else {
+                    if (!empty(trim($s = $q->getContent() ?? ''))) {
+                        $pnode->text($s);
                     }
                 }
             }
-
-            // if ($q === $p) {
-            //     $p = array_pop($pr);
-            //     if (empty($pr)) {
-            //         $pnode = $g;
-            //     } else {
-            //         $p = igk_array_last($pr);
-
-            //         if ($p) {
-            //             list($p, $pnode) = $p;
-            //         } else {
-            //             $pnode = $g;
-            //         }
-            //     }
-            // } else {
-            //     $t = $q->getTagName();
-            //     if (!empty($t)) {
-            //         $gg = $callback($t); // new self($t);
-            //         $gg->setAttributes($q->getAttributes()->to_array());
-            //         $pnode->add($gg);
-            //         if (!empty(trim($s = $q->getContent() ?? ''))) {
-            //             $gg->setContent($s);
-            //         }
-            //         $qt = $q->childs->to_array();
-            //         if ($qt) {
-            //             $pr[] = [$p, $gg];
-            //             $p = $gg;
-            //             array_unshift($childs, $p);
-            //             array_unshift($childs, ...$qt);
-            //             $pnode = $gg;
-            //         }
-            //     }
-            // }
             $T++;
         }
         return $g;
     }
-     ///<summary>copy child by rendering</summary>
+    ///<summary>copy child by rendering</summary>
     ///<param name="item">cibling item</param>
     ///<param name="target">target node </param>
     /**
@@ -194,7 +280,7 @@ abstract class HtmlUtils extends DomNodeBase
      * @throws ReflectionException 
      */
     public static function GetFilteredAttributeString($tagname, $attribute, $options = null): ?string
-    {        
+    {
         $attrib = HtmlUtils::PrefilterAttribute("label", new HtmlFilterAttributeArray($attribute));
         if ($attrib->count() > 0) {
             return ' ' . HtmlRenderer::GetAttributeArrayToString($attrib, $options);
@@ -417,7 +503,7 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $frm;
     }
-   
+
     ///used to create sub menu in category
     /**
      */
@@ -545,10 +631,10 @@ abstract class HtmlUtils extends DomNodeBase
      * return value according to string
      * @return ?string 
      */
-    public static function GetValue($c, $options = null):?string
+    public static function GetValue($c, $options = null): ?string
     {
         $out = IGK_STR_EMPTY;
-        if ($c instanceof IHtmlGetValue){
+        if ($c instanceof IHtmlGetValue) {
             return $c->getValue($options);
         }
         if (($c == "0") || (is_numeric($c) && ($c === "0")))
@@ -633,8 +719,8 @@ abstract class HtmlUtils extends DomNodeBase
     {
         $btn = igk_create_node("input")
             ->setAttributes(array("id" => $id, "name" => $id, "type" => $type, "value" => $value));
-        $s = igk_getv($btn, 'type')?? '';
-        switch (strtolower($s)){
+        $s = igk_getv($btn, 'type') ?? '';
+        switch (strtolower($s)) {
             case "button":
             case "submit":
             case "reset":
@@ -730,17 +816,26 @@ abstract class HtmlUtils extends DomNodeBase
             }
         }
     }
-
+    /**
+     * create html component list 
+     * @param mixed $name 
+     * @param mixed $args 
+     * @param mixed $initcallback 
+     * @param string $class 
+     * @param string $context 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    {
-        require_once IGK_LIB_DIR . "/igk_html_func_items.php";
-
+    { 
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
-
-        // + | --------------------------------------------------------------------
+        
+        // + | -----------------------------------------------------------------------
         // + | prefilter component creation
         // + |
-        
+
         if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))) {
             return $p;
         }
@@ -807,7 +902,8 @@ abstract class HtmlUtils extends DomNodeBase
             return $comp;
         }
         $c = null;
-        
+
+        // + | check for function 
         if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
             $s = new ReflectionFunction($fc);
             $v_rp = $s->getNumberOfRequiredParameters();
@@ -848,7 +944,6 @@ abstract class HtmlUtils extends DomNodeBase
                 }
             ];
             $fc = $initiator[$name]["invoke"];
-
             $c = $fc($initiator[$name], $args);
         } else {
             $initiator[$name] = [
@@ -856,7 +951,7 @@ abstract class HtmlUtils extends DomNodeBase
                     $name = $inf["name"];
                     $context = $inf["context"];
                     if ($context == HtmlContext::Html) {
-                        $c = HtmlNode::LoadingNodeCreator($name);                      
+                        $c = HtmlNode::LoadingNodeCreator($name, $args);
                         if (HtmlNode::$AutoTagNameClass) {
                             $c["class"] = $name;
                         }
@@ -901,9 +996,10 @@ abstract class HtmlUtils extends DomNodeBase
         $options = IGKEvents::CreateHookOptions();
         return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options); // ["output" => null]);
     }
-    public static function PostfilterNode(HtmlNode $node){
+    public static function PostfilterNode(HtmlNode $node)
+    {
         return igk_hook(\IGKEvents::FILTER_POST_CREATE_ELEMENT, [
-            'node'=>$node
+            'node' => $node
         ]);
     }
     ///<summary></summary>
@@ -913,37 +1009,9 @@ abstract class HtmlUtils extends DomNodeBase
      * @param mixed $vsystheme
      */
     public static function InitSystemTheme($vsystheme)
-    { 
-        $vsystheme->Name = "igk_system_theme"; 
-        $vsystheme->def->Clear();
-        $d = $vsystheme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
-        $d = $vsystheme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
-        $d = $vsystheme->reg_media("(max-width:700px)");
-
-        $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
-        if (file_exists($v_cache_file)) {
-            igk_css_include_cache($v_cache_file, $lfile);
-        } else {
-            $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles() ?? ""));
-            $options = null;
-            if (IGlobalFunction::Exists("igk_global_init_material")) {
-                $options = (object)["file" => &$lfile];
-                IGlobalFunction::igk_global_init_material($options);
-            }
-
-            if (!$options || !igk_getv($options, "handle")) {
-                igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [&$lfile]);
-
-                if (count($lfile) == 0) {
-                    $lfile[] = igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
-                    $lfile[] = igk_get_env("sys://css/file/global_color", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
-                    $lfile[] = igk_get_env("sys://css/file/global_template", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_template.phtml"));
-                }
-            }
-        }
-        $g = implode(";", array_unique($lfile));
-        $g = str_replace(IGK_LIB_DIR, "%lib%", $g);
-        $vsystheme->def->setFiles($g);
+    {
+        CssUtils::InitSysTheme($vsystheme);
+        $vsystheme->Name = "igk_system_theme";
     }
 
 

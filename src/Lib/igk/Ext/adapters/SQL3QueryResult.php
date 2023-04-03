@@ -14,6 +14,14 @@ class SQLite3Result extends DbQueryResult{
     {
         
     }
+
+    public function success(): bool { 
+        return true;
+    }
+
+    public function to_array(): ?array {
+        return $this->getRows();
+     }
     public static function CreateResult($result, $query, $info){
         $ri = new self;
         $ri->m_result = $result;

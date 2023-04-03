@@ -14,4 +14,27 @@ namespace IGK\Database;
  * @property ?int $RowCount number of data entries
  */
 interface IDbQueryResult{
+    /**
+     * get rows
+     * @return ?array
+     */
+    function getRows();
+
+    /**
+     * number of row
+     * @return ?int
+     */
+    function getRowCount();
+
+    /**
+     * 
+     * @return mixed 
+     */
+    function to_array();
+
+    /**
+     * get if query success
+     * @return bool 
+     */
+    function success(): bool;
 }

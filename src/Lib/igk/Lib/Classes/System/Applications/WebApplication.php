@@ -10,8 +10,7 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\ExceptionUtils;
-use IGK\Helper\IO;
-use IGK\Resources\R;
+use IGK\Helper\IO; 
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
@@ -19,14 +18,11 @@ use IGK\System\Http\RequestHandler;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\ConfigurationPageHandler;
 use IGK\System\Http\RequestException;
-use IGKApp;
-use IGKApplication;
+use IGKApp; 
 use IGKApplicationBase;
-use IGKApplicationBootOptions;
-use IGKCaches;
+use IGKApplicationBootOptions; 
 use IGKEvents;
-use IGKException;
-use ModuleManager;
+use IGKException; 
 use ReflectionException;
 use TypeError;
 
@@ -57,19 +53,18 @@ class WebApplication extends IGKApplicationBase
      */
     public function bootstrap($bootoptions = null, $loader=null)
     {
-        // clean header
+        // - |
+        // - | clean previously set header - 
+        // - | 
         if (!igk_environment()->isDev()) {
+           //
             header_remove(null); 
-        } 
-        // 
+        }   
         // + |  before init application dispatch to uri handler 
         // $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
         // isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
         
-        IGKApp::Init();  
-
-      
-      
+        IGKApp::Init();
 
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
         isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
@@ -136,8 +131,6 @@ class WebApplication extends IGKApplicationBase
             igk_internal_reslinkaccess();
         });
 
-       
-
         // + | --------------------------------------------------------------------
         // + | boot modules
         // + |
@@ -151,8 +144,6 @@ class WebApplication extends IGKApplicationBase
                 $this->setDefaultController($c);
             }
         }
-        
-    
     }
     /**
      * shortcut to set system default controller
@@ -293,7 +284,7 @@ class WebApplication extends IGKApplicationBase
     {
         // if (igk_environment()->isDev()){
             // igk_ilog('run:');
-            // igk_debug(1);
+            
             // igk_environment()->querydebug = defined('IGK_QUERY_DEBUG') ? constant('IGK_QUERY_DEBUG') : null;
         // }
         $this->file = $file;

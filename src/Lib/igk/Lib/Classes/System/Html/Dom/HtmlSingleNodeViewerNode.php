@@ -21,7 +21,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
 
     ///<summary></summary>
     ///<param name="options" default="null"></param>
-    protected function __AcceptRender($options=null){
+    protected function _acceptRender($options = null):bool{
         if($this->targetNode)
             return $this->IsVisible;
         return false;
@@ -39,7 +39,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
     ///<summary></summary>
     ///<param name="option" default="null"></param>
-    protected function __getRenderingChildren($option=null){
+    protected function _getRenderingChildren($option=null){
         
         return [$this->targetNode];
     }
@@ -57,7 +57,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     ///<summary></summary>
     ///<param name="item"></param>
     ///<param name="index" default="null"></param>
-    protected function _AddChild($item, $index=null){
+    protected function _addChild($item, $index=null){
         return false;
     }
     ///<summary></summary>

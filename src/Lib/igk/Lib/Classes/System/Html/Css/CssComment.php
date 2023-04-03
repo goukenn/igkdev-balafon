@@ -20,4 +20,8 @@ class CssComment implements ICssDefinition{
     public function getDefinition(): ?string { 
         return $this->value;
     }
+    public function __toString()
+    {
+        return "/* ".$this->value . "*/";
+    }
 }

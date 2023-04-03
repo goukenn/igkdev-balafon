@@ -3,6 +3,7 @@
 // @filename: StringUtilityTest.php
 // @date: 20220803 13:48:54
 // @desc: 
+// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/Helper/StringUtilityTest.php
 
 
 namespace IGK\Tests\Helper;
@@ -14,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 
 class StringUtilityTest extends BaseTestCase
 {
-    function test_uri_start(){
+    public function test_uri_start(){
         $this->assertTrue(
             StringUtility::UriStart("https://local.com/Configs", "https://local.com/Configs"),
             "not matching equal"
@@ -37,7 +38,7 @@ class StringUtilityTest extends BaseTestCase
             "https://l81.local.com:7300/Configs")
         );
     }
-    function test_identifier(){
+    public function test_identifier(){
 
         $this->assertEquals(null, 
         StringUtility::Identifier("45698"),
@@ -71,5 +72,45 @@ class StringUtilityTest extends BaseTestCase
             '<li><a href="./?c='. \urlencode($c->getName()).'&f=showConfig">menu.data</a></li>',
             $n->render()
         ); 
+    }
+
+    public function test_get_constant_name(){
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('userID'),
+            "CASE 1 failed"
+        ); 
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('user_ID')
+            ,"CASE 2 failed"
+        );
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('user_Id')
+            ,"CASE 3 failed"
+        );
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('UserId')
+            ,"CASE 4 failed"
+        );
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('__UserId')
+            ,"CASE 5 failed"
+        );
+        // test with space content
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('__User Id')
+            ,"CASE 6 failed"
+        );
+        // test with all __
+        $this->assertEquals(
+            "FD_USER_ID",
+            "FD_".StringUtility::GetConstantName('__User Id__')
+            ,"CASE 6 failed"
+        );
     }
 }

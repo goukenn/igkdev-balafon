@@ -56,13 +56,16 @@ class ProjectCheckViewCommand extends AppExecCommand{
         $ctrl->{ControllerEnvParams::NoCompilation} = 1;
         $ctrl->{ControllerEnvParams::AllowHiddenView} = 1;
         $ctrl->{ControllerEnvParams::NoDoViewResponse} = 1;
+        $t = $ctrl->getTargetNode();
         foreach($views as $view){
             $file = $viewDir."/".$view.IGK_VIEW_FILE_EXT;
             // lint php
             $g = `php -l $file`;
-            echo "lint : ".$g;
+            Logger::info($file);
+            echo "lint : ".$g.PHP_EOL;
             try{
                 $ctrl->setCurrentView($view, true);
+                $t->clear();
             }catch(\Exception $ex){
                 Logger::danger(sprintf("something bad happend for %s - %s", $view, $ex->getMessage()));
             }

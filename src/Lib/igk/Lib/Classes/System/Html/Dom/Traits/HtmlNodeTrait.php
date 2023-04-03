@@ -909,50 +909,40 @@ trait HtmlNodeTrait{
 	// public function google_icon($name,$title='',$type=''){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// /**
-	//  * creaate google login button
-	//  * @return HtmlNode 
-	//  */
-	// public function google_login_button(){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+ 
 	// /**
 	//  * 
 	//  */
-	// public function googlecirclewaiter(){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+ 
 	// /**
 	//  * add google follows us button
 	//  */
-	// public function googlefollowusbutton($id,$height=15,$rel='',$annotation=''){
+	// public function google_follow_us_button($id,$height=15,$rel='',$annotation=''){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
 	// /**
 	//  * add google maps javascript api node
 	//  */
-	// public function googlejsmaps($data=null,$apikey=null){
+	// public function google_js_maps($data=null,$apikey=null){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
 	// /**
 	//  * 
 	//  */
-	// public function googlelinewaiter(){
+	// public function google_line_waiter(){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
 	// /**
 	//  * 
 	//  * @param mixed $loc
 	//  */
-	// public function googlemapgeo($loc,$apikey=null){
+	// public function google_mapgeo($loc,$apikey=null){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// public function googleoauthlink($tab){
+	// public function google_oauth_link($tab){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// public function googleoth2button($url,$gclient){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+
 	// /**
 	//  * create a grid node
 	//  */
@@ -1001,10 +991,7 @@ trait HtmlNodeTrait{
 	//  * @return mixed 
 	//  * @throws Exception 
 	//  * @throws IGKException 
-	//  */
-	// public function host(callable $callback,...$args){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+	//  */ 
 	// /**
 	//  * Hosted object data. will pass the current node to callback as first argument
 	//  */
@@ -1309,12 +1296,7 @@ trait HtmlNodeTrait{
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
 	// /**
-	//  * dummry markdown document
-	//  * @return MarkdownDocument 
-	//  */
-	// public function markdown_document(){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+ 
 	// /**
 	//  * create winui-memoryusage-info tag
 	//  * @return HtmlMemoryUsageInfoNode 
@@ -2061,14 +2043,7 @@ trait HtmlNodeTrait{
 	//  */
 	// public function vsep(){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
-	// /**
-	//  * create a vue3 application node
-	//  * @return void 
-	//  */
-	// public function vue_app($id){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+	// } 
 	// /**
 	//  * 
 	//  */

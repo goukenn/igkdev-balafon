@@ -22,7 +22,7 @@ class Uri
     private $m_path;
     private $m_query; 
     private $m_options;
-    private $m_fragment;
+    private $m_fragment; 
     /**
      * build a query arg query
      * @param mixed $uri 
@@ -102,11 +102,10 @@ class Uri
         $n->m_protocol = igk_getv($g, "scheme");
         $n->m_port = igk_getv($g, "port");
         $n->m_query = igk_getv($g, "query");
-        $n->m_cfragment = igk_getv($g, "fragment");
+        $n->m_fragment = igk_getv($g, "fragment");
         if ($n->m_path && ( ($pos = strpos($n->m_path, ";")) !==false)){
             $n->m_options = substr($n->m_path, $pos+1);
-            $n->m_path =  substr($n->m_path,0, $pos);
-
+            $n->m_path =  substr($n->m_path,0, $pos); 
         }
 
     }
@@ -158,7 +157,7 @@ class Uri
     public function getFullUri(): string
     {
         return implode("", array_filter([
-            ($this->m_protocol && $this->m_domain) ? $this->m_protocol . "://" : ($this->m_domain ?  "//" : null),
+            (($this->m_protocol && $this->m_domain) ? $this->m_protocol . "://" : ($this->m_domain ?  "//" : null)) ?? '//',
             $this->m_domain,
             $this->m_path,
             implode("", [

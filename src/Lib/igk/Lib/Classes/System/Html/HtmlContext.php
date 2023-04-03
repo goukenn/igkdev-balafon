@@ -26,7 +26,7 @@ abstract class HtmlContext{
     /**
      * html tag that need to be closed with a closed tag
      */
-    const HtmlAutoCloseTag = "a|html|body|title|span|code|ul|li|ol|pre|p|button|videos|audio|select|option|head|script|style|div|form|frame|iframe|nav|tr|td|th|table|textarea|noscript|i|b|u";
+    const HtmlAutoCloseTag = "a|html|body|title|span|code|ul|li|ol|pre|p|button|videos|audio|select|option|head|script|style|div|form|header|main|footer|frame|iframe|nav|tr|td|th|table|textarea|noscript|i|b|u";
     /**
      * html tag that denied a close tag
      */

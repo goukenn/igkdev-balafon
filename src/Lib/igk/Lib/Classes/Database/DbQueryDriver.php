@@ -689,7 +689,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param mixed $tableinfo the default value is null
      */
     public function insert($tbname, $values, $tableinfo = null)
-    {
+    { 
         $this->dieNotConnect();
         $tableinfo = $tableinfo == null ? igk_db_getdatatableinfokey($tbname) : $tableinfo;
         return $this->m_adapter->insert($tbname, $values, $tableinfo);

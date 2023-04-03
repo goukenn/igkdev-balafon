@@ -52,6 +52,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      */
     var $options;
 
+    var $params;
     /**
      * expression regex to handle comment
      * @var string

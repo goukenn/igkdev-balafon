@@ -6,13 +6,29 @@
 
 namespace IGK\System\Html\Forms;
 
-
+/**
+ * represent a default form field validator
+ * @package IGK\System\Html\Forms
+ */
 class DefaultValidator implements IFormValidator{
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if (empty($value)){
             return $default;
         }
+        $type = $fieldinfo->type;
+        if (empty($type)){
+            $type = 'custom';
+        }
+        // if ($type!='custom')
+        // igk_wln_e("type: ", $fieldinfo->type);
+
+        if ($fieldinfo->type=="json")
+        {
+            igk_wln_e("json validation ");
+        }        
+
+
         $s = htmlentities($value);
         $maxln = $fieldinfo->maxlength;
         $pattern = $fieldinfo->pattern;

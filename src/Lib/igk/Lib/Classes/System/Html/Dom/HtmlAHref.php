@@ -52,9 +52,10 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
                 $s = igk_io_baseuri();
                 if (strstr($bck, $s)) {
                     $uri = igk_str_rm_start($bck, $s);
-                    // igk_wln_e("the ruri", $s, $bck, igk_io_base_request_uri(), $uri);
-                    // return "./".ltrim(substr($bck, strlen($s)), '/');
-                    return $uri; // "./".ltrim(substr($bck, strlen($s)), '/');
+                    if (empty($uri)){
+                        $uri = "/";
+                    }
+                    return $uri;
                 }
             }
             return $bck;
@@ -95,10 +96,11 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
             $uri = new HtmlUri();
             $uri->setValue($bck);
             return $uri->getValue($option);
-        } else {
-            if (!IGKValidator::IsUri($bck) || preg_match("#\.\/#", $bck)) {
-            }
-        }
+        } 
+        // else {
+        //     if (!IGKValidator::IsUri($bck) || preg_match("#\.\/#", $bck)) {
+        //     }
+        // }
         return $bck;
     }
     ///<summary></summary>

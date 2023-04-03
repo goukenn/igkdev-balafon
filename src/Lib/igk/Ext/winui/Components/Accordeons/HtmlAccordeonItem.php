@@ -28,8 +28,8 @@ implements IIGKHtmlCookieItem
 		$this->m_script = igk_create_node("balafonJS");
 		$this->m_script->Content = "if (igk.winui.accordeon)igk.winui.accordeon.init();";
 	}
-	protected function __getRenderingChildren($o=null){
-		$s = parent::__getRenderingChildren($o);
+	protected function _getRenderingChildren($o=null){
+		$s = parent::_getRenderingChildren($o);
 		if ($this->m_script)
 			$s[] = $this->m_script;
 		return $s;

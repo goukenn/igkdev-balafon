@@ -23,7 +23,7 @@ class Response{
         $_req = Request::getInstance(); 
         $data = $data ?? "/Options:data,request_uri:".igk_io_request_uri();
         // error_log("login data : ".$data."\n ::: ". $_req->getHeader()->origin); //  json_encode(getallheaders()));
-        $rep = new WebResponse($data, 200, self::GetHeaderOptions($options));
+        $rep = new WebResponse($data, 200, self::GetHeaderOptions(null, $options));
         $rep->cache =false;
         igk_do_response($rep);  
     }
@@ -33,19 +33,19 @@ class Response{
      * @return string[] 
      * @throws IGKException 
      */
-    public static function GetHeaderOptions($options = null){
-
+    public static function GetHeaderOptions(?string $verb='options', $options = null){
+        $verb = $verb ?? igk_server()->REQUEST_METHOD ?? 'options';
         $_req = Request::getInstance(); 
-        if (igk_server()->getAccessControl()){
+        //if (igk_server()->getAccessControl()){
             return [
                 "Content-Type: text/html",            
                 "Access-Control-Allow-Origin: ".igk_configs()->get("access-control-allow-origin", $_req->getHeader()->origin), //, "*"),
                 "Access-Control-Allow-Methods: ".igk_configs()->get("access-control-allow-methods", "DELETE, PUT, GET, POST, STORE"),            
                 // allow credential 
-                "Access-Control-Allow-Headers: ".igk_configs()->get("access-control-allow-headers", "Content-Type, authorization"),
+                "Access-Control-Allow-Headers: ".igk_configs()->get("access-control-allow-headers", "Content-Type, Authorization, X-Authorization"),
                 "Access-Control-Allow-Credentials: ".igk_configs()->get("access-control-allow-credentials", "true")
             ];
-        }
+        //}
         return [];
     }
 }

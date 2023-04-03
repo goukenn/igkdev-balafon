@@ -32,7 +32,7 @@ class InstallSiteCommand extends AppExecCommand
     var $desc  = "create new site";
 
     var $options = [
-        "--root_dir:[dir]" => "document root. default is current install directory. if relative, base on the install site",
+        "--root-dir:[dir]" => "document root. default is current install directory. if relative, base on the install site",
         "--apache:[host_dir]" => "apache server vitual host directory",
         "--environment:[key=v]" => "define environment",
         "--listen:[port]" => "port to listen. default is port 80. --listen:4000",
@@ -86,7 +86,7 @@ class InstallSiteCommand extends AppExecCommand
         $init = property_exists($command->options, "--init-config");
         
  
-        $root_dir = igk_getv($command->options, "--root_dir", null);
+        $root_dir = igk_getv($command->options, "--root-dir", null);
         $is_primary = 1;
         $cache_dir = igk_io_cachedir(); 
 

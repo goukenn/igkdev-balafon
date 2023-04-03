@@ -126,15 +126,14 @@ class AuthorisationController extends ConfigControllerBase{
         $frm->notifyhost("auth");
         $this->_auth_options($frm);
         $table=$frm->div()->setClass("overflow-x-a")->table();
-        $table["class"]="igk-table igk-table-hover";
+        $table["class"]="igk-table igk-table-striped igk-table-hover";
         
         $tr=$table->addTr();
         $tr->th()->addSpace();
         $tr->th()->setClass("fitw")->Content=R::ngets("lb.clName");
         $tr->th()->setClass("fitw")->Content= __("Controller");
         $tr->th()->addSpace();
-        $tr->th()->addSpace();
-        
+        $tr->th()->addSpace();        
         $limit = Views::ModelViewLimit($table, Authorizations::class, function($table, $v){           
             $tr=$table->addTr();
             $tr->td()->addInput("clAuths[]", "checkbox");
@@ -142,29 +141,15 @@ class AuthorisationController extends ConfigControllerBase{
             $tr->td()->Content=$v->clController;
             HtmlUtils::AddImgLnk($tr->td(), igk_js_post_frame($this->getUri("auth_edit_frame_ajx&clId=".$v->clId)), "edit_16x16");
             HtmlUtils::AddImgLnk($tr->td(), igk_js_post_frame($this->getUri("auth_delete_authorisation_ajx&clId=".$v->clId)), "drop_16x16");
-        });
-
-      
+        });      
         if ($limit){
-            $d->add($limit->list(igk_is_ajx_demand()));
-        } 
-        // $r = null;
-        // if ($c > PageLayout::ItemLimits()){
-            
-        // }
-        // $r= Authorizations::select_all(); 
-        // $d->div()->Content = "Total Item : ".$c . ":=". PageLayout::ItemLimits();
-        // if($r){
-        //     foreach($r as $v){
-        //         $tr=$table->addTr();
-        //         $tr->addTd()->addInput("clAuths[]", "checkbox");
-        //         $tr->addTd()->Content=$v->clName;
-        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($this->getUri("auth_edit_frame_ajx&clId=".$v->clId)), "edit_16x16");
-        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($this->getUri("auth_delete_authorisation_ajx&clId=".$v->clId)), "drop_16x16");
-        //     }
-        // }
-     
+            $d->add($limit->list(1, $this->getUri("auth_level_ajx")));
+        }  
         return $r;
+    }
+    public function auth_level_ajx(){
+        $this->auth()->renderAJX();
+        igk_exit();
     }
     ///<summary>Represente auth_add_authorisation_ajx function</summary>
     /**
@@ -193,18 +178,6 @@ class AuthorisationController extends ConfigControllerBase{
         $frm->confirm();
         $frm->submit("submit");
         igk_ajx_panel_dialog(__("add auth"), $d);
-            // $frame=igk_html_frame($this, __FUNCTION__);
-            // $frame->Title=R::ngets("title.edit_authorisation_1");
-            // $d=$frame->BoxContent->div();
-            // $frm=$d->addForm();
-            // $frm["action"]=$this->getUri(__FUNCTION__);
-            // $d=$frm->div();
-            // $d["class"]="igk-form-group";
-            // $d->addSLabelInput(IGK_FD_NAME);
-            // $frm->addHSep();
-            // $frm->addInput("confirm", "hidden", "1");
-            // $frm->addInput("btn.confirm", "submit");
-            // $frame->RenderAJX();
       
     }
     ///<summary>Represente auth_add_group_ajx function</summary>
@@ -518,6 +491,9 @@ class AuthorisationController extends ConfigControllerBase{
         ->distinct(true)
         ->Columns(['clController'])
         ->execute();
+        if ($g && !$g->success()){
+            $g = null;
+        }
         $buri=igk_register_temp_uri(__CLASS__);
         $g_group_uri = $buri.'/list_group_ajx';
         
@@ -533,7 +509,7 @@ class AuthorisationController extends ConfigControllerBase{
                     // 'onchange'=>"ns_igk.ajx.post('".$g_group_uri."?v='+this.value, true, '#group')"
                 ],
                 'attribs'=>['id'=>"owner"],
-                'data'=>FormUtils::SelectData($g->to_array(), 'clController', 'clController')
+                'data'=>$g ? FormUtils::SelectData($g->to_array(), 'clController', 'clController') : []
             ], 
             "group"=>[
                 'type'=>'select',                

@@ -33,14 +33,23 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private $m_noCache;
     private $m_noCoreScript;
     private $m_can_add;
+    private $m_noPowered;
+    private $m_noCoreCss;
+    private $m_noFontInstall;
 
-    public function getnoFontInstall(){
-        if (property_exists($this, "noFontInstall"))
-            return $this->noFontInstall;
-        return null;
+   
+    // public function __sleep()
+    // {
+    //     $q = $this ;
+    //     // igk_wln_e("sleeping ....");
+    //     return [];
+    // }
+
+    public function getnoFontInstall(){ 
+            return $this->m_noFontInstall; 
     }
     public function setnoFontInstall(?bool $value){
-        $this->noFontInstall = $value;
+        $this->m_noFontInstall = $value;
         return $this;
     }
 
@@ -48,7 +57,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->isTemplate = $value;
         return $this;
     }
-    public function getIsTemplate(?bool $value){
+    public function getIsTemplate(){
         if (property_exists($this, "isTemplate"))
             return $this->isTemplate;
         return null;
@@ -62,21 +71,17 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         return $this;
     }
     public function getNoCoreCss(){
-        if (property_exists($this, "noCoreCss"))
-            return $this->noCoreCss;
-        return null;
+         $this->m_noCoreCss; 
     }
     public function setNoCoreCss(?bool $value=null){
-        $this->noCoreCss = $value;
+        $this->m_noCoreCss = $value;  
         return $this;
     }
-    public function getNoPowered(){
-        if (property_exists($this, "noPowered"))
-            return $this->noPowered;
-        return null;
+    public function getNoPowered(){ 
+        return $this->m_noPowered;  
     }
     public function setNoPowered(?bool $value=null){
-        $this->noPowered = $value;
+        $this->m_noPowered = $value;
         return $this;
     }
     /**
@@ -192,6 +197,13 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $g;
     }
+    /**
+     * get system theme
+     * @return ?IGK\System\Html\Dom\HtmlDocTheme 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function getSysTheme(){
         if (self::$sm_theme===null){
             self::$sm_theme = new HtmlDocTheme($this, 0, "sys://document");
@@ -220,20 +232,21 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
  ///<summary></summary>
     /**
-    * 
+    * @return ?IGK\System\Html\Dom\HtmlDocTheme 
     */
     public function getTempTheme(){
         return $this->m_privatetheme;
     }
     ///<summary>get document theme</summary>
     /**
-     * get document theme
+     * get document theme. depending on environment in case ops is null
     * @return mixed|IGK\System\Html\Dom\HtmlDocTheme 
     * @throws Exception
     */
-    public function getTheme($ops=false){
+    public function getTheme(?bool $ops=null){
         $r = $this->m_theme;
-        if ($ops || igk_environment()->isOPS()){
+        $ops = is_bool($ops) ? $ops : is_null($ops) && igk_environment()->isOPS();        
+        if ($ops){
             $r = $this->getInlineTheme();
         }
         if($r=(igk_get_env("sys://css_temp") ? $this->m_privatetheme: $r)){
@@ -283,13 +296,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
     public function getCanAddChilds(){
         return $this->m_can_add; 
-    }
-
-    protected function _Add($n, $force=false){
-    
-        return parent::_Add($n, $force);
-    }
-
+    } 
     /**
      * get inline theme
      * @return HtmlDocTheme 
@@ -300,7 +307,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $key = "doc://".$id."/inline_theme";
         if ($theme = igk_environment()->get($key)){
             return $theme;
-        }
+        } 
         $theme = new  HtmlDocTheme(null, "css://inline_theme");
         igk_environment()->set($key, $theme);
         return $theme;
@@ -314,17 +321,19 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private function _addCoreCss(){
         $key = "sys://css";
         $t = null;
-        if (!empty($s = igk_io_corestyle_uri())){   
-            $n =  $this->m_head;
-            $g=$n->getParam($key);
-            if (!isset($g[$s])){                
-                $t = new HtmlDocCoreStyle($s, true, 0);
-                // $t->activate('defer');
-                $this->m_head->add($t);                                
-                /**
-                 * to avoid flickering FOCU direct css access required
-                 * 
-                 */
+        if (empty($s = igk_io_corestyle_uri())){ 
+            return $t;
+        }
+        $n =  $this->m_head; 
+        $g=$n->getParam($key);
+        if (!$g || !isset($g[$s])){                
+            $t = new HtmlDocCoreStyle($s, true, 0);
+            $this->m_head->add($t);                                
+
+            // + | ---------------------------------------------------
+            // + | to avoid flickering FOCUS direct css access required
+            // + | 
+            // + | 
                 // $this->m_head->add('link')->setAttributes([
                 //     "rel"=>"stylesheet", 
                 //     "href"=>"/assets/demo.css"
@@ -335,8 +344,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
 
             } else {
                 $t = $g[$s];
-            } 
-        }
+            }  
         return $t;
     }
      ///<summary></summary>
@@ -468,7 +476,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     * load temp extra script file. must be called out of rendering context. /!\\ Before
     * @var string $file file or uri
     */
-    public function addTempScript(string $file){  
+    public function addTempScript(string $file, ?array $query_args=null){  
         if(!IGKValidator::IsUri($file))
             $file=igk_dir($file);
         $t=$this->ScriptManager->getTempScripts();
@@ -483,6 +491,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         } 
         if (is_file($file)){
             $file = IGKResourceUriResolver::getInstance()->resolve($file);   
+        }
+        if ($query_args){
+            $file.='?'.http_build_query($query_args);
         }
         $sc=$this->m_head->addScript($file); 
         $t->temp[$file]=$sc;
@@ -514,14 +525,14 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * clear component list
     */
-    public function ClearComponents(){
+    public function clearComponents(){
         $this->m_components=array();
     }
     ///<summary></summary>
     /**
-    * 
+    * clear style 
     */
-    public function ClearStyle(){
+    public function clearStyle(){
         $v_childs=array();
         foreach($this->m_head->Childs as $k=>$v){
             if(get_class($v) == IGKHtmlCssLinkNode::class){
@@ -563,7 +574,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     * 
     */
     public function Dispose(){
-        $this->ClearComponents();
+        $this->clearComponents();
         parent::Dispose();
     }
 

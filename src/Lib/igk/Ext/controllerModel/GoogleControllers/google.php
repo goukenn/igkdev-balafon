@@ -391,9 +391,8 @@ if (defined('GOOGLE_MODULE')) {
      * 
      * @param mixed $t
      */
-    function igk_html_demo_googlecirclewaiter($t)
+    function igk_html_demo_google_circle_waiter($t)
     {
-        /// TODO : Fix google circle
         $dv = $t->div()->setStyle("height: 200px");
         $dv->div()->Content = __("Please wait...");
         $dv->addgoogleCircleWaiter()->setStyle("display:inline-block; height:100px; width:100%");
@@ -401,7 +400,7 @@ if (defined('GOOGLE_MODULE')) {
     ///'https://local.com/Lib/igk/Ext/ControllerModel/GoogleControllers/Scripts/igk.google.maps.js'
     /**
      */
-    function igk_html_demo_googlejsmaps($t)
+    function igk_html_demo_google_js_maps($t)
     {
         $n = $t->addGoogleJSMaps("{zoom:15,center:{lat:50.850402, lng:4.357879}}");
         $n->setStyle("height:300px;");
@@ -417,9 +416,9 @@ EOF
      * 
      * @param mixed $t
      */
-    function igk_html_demo_googlelinewaiter($t)
+    function igk_html_demo_google_line_waiter($t)
     {
-        $n = igk_html_node_googlelinewaiter();
+        $n = igk_html_node_google_line_waiter();
         $t->add($n);
         return $n;
     }
@@ -433,21 +432,36 @@ EOF
      * @throws ReflectionException 
      * @throws IGKException 
      */
-    function igk_html_node_google_icon($name, $title = "", $type = "span")
+    function igk_html_node_google_icon($name, $title = "", $type = "span", $class = "material-icons")
     {
         $n = igk_create_node($type);
         $n["title"] = $title;
-        $n->setClass("material-icons")->Content = $name;
+        $n->setClass($class);
+        $n->Content = $name;
         $n->setFlag("NO_CONTENT", 1);
         return $n;
     }
+
+    function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
+    {
+        return igk_html_node_google_icon($name, $title, $type, 'material-icons-outlined');
+    }
+    
+    if (!function_exists('igk_html_node_hamburger_button_menu')){
+        function igk_html_node_hamburger_button_menu(){
+            $n = igk_create_node('div');
+            $n->google_icon('menu');
+            return $n;
+        }
+    }
+
     ///<summary></summary>
     ///<param name="t"></param>
     /**
      * 
      * @param mixed $t
      */
-    function igk_html_demo_googlemapgeo($t)
+    function igk_html_demo_google_mapgeo($t)
     {
         $t->div()->addPanelBox()->addCode()->Content = "\$t->addGoogleMapGeo(\"50.847311,4.355072\");";
         return $t->addGoogleMapGeo("50.847311,4.355072");
@@ -456,7 +470,7 @@ EOF
     /**
      * 
      */
-    function igk_html_node_googlecirclewaiter()
+    function igk_html_node_google_circle_waiter()
     {
         $n = igk_create_node();
         $n->setClass("igk-google-circle-waiter");
@@ -468,7 +482,7 @@ EOF
     /**
      * add google follows us button
      */
-    function igk_html_node_googlefollowusbutton($id, $height = 15, $rel = "author", $annotation = "none")
+    function igk_html_node_google_follow_us_button($id, $height = 15, $rel = "author", $annotation = "none")
     {
         $n = igk_create_xmlnode("g:follow");
         $n["class"] = "g-follow";
@@ -495,7 +509,7 @@ EOF,
     /**
      * add google maps javascript api node
      */
-    function igk_html_node_googlejsmaps($data = null, $apikey = null)
+    function igk_html_node_google_js_maps($data = null, $apikey = null)
     {
         $apikey = $apikey ?? igk_google_apikey();
         $n = igk_create_node("div");
@@ -520,7 +534,7 @@ EOF;
     /**
      * 
      */
-    function igk_html_node_googlelinewaiter()
+    function igk_html_node_google_line_waiter()
     {
         $n = igk_create_node();
         $n->setClass("igk-google-line-waiter");
@@ -532,7 +546,7 @@ EOF;
      * 
      * @param mixed $loc
      */
-    function igk_html_node_googlemapgeo($loc, $apikey = null)
+    function igk_html_node_google_mapgeo($loc, $apikey = null)
     {
         $n = igk_create_node("div");
         $n["class"] = "igk-winui-google-map";
@@ -670,7 +684,6 @@ EOF;
             );
         }
     }
-    /// TODO : Google plus is die
 
     igk_register_service("google", "googlemap", function ($cmd, $t, $config = null) {
         switch ($cmd) {
@@ -686,51 +699,53 @@ EOF;
 
 
     // components
+    if (!function_exists('igk_html_node_google_oauth_link')) {
 
-    function igk_html_node_googleOAuthLink($tab)
-    {
-        $n = igk_create_node("a");
-        $list = [
-            "client_id" => 1,
-            "redirect_uri" => 1,
-            "response_type" => 1,
-            "scope" => 1,
-            "access_type" => 1,
-            "state" => 1,
-            "include_granted_scopes" => 0,
-            "login_hint" => 0,
-            "prompt" => 0
-        ];
-        $q = [];
-        foreach ($list as $k => $v) {
-            if (!array_key_exists($k, $tab)) {
-                if ($v)
-                    igk_die("require parameter not present : " . $k);
-                continue;
+        function igk_html_node_google_oauth_link($tab)
+        {
+            $n = igk_create_node("a");
+            $list = [
+                "client_id" => 1,
+                "redirect_uri" => 1,
+                "response_type" => 1,
+                "scope" => 1,
+                "access_type" => 1,
+                "state" => 1,
+                "include_granted_scopes" => 0,
+                "login_hint" => 0,
+                "prompt" => 0
+            ];
+            $q = [];
+            foreach ($list as $k => $v) {
+                if (!array_key_exists($k, $tab)) {
+                    if ($v)
+                        igk_die("require parameter not present : " . $k);
+                    continue;
+                }
+                $q[$k] = $tab[$k];
             }
-            $q[$k] = $tab[$k];
+            $n["href"] = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query($q);
+            return $n;
         }
-        $n["href"] = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query($q);
-        return $n;
     }
 
-    function igk_html_node_googleOth2Button($url, $gclient)
-    {
-        $n = igk_create_node("a");
-        $q = http_build_query([
-            "client_id" => $gclient->client_id,
-            "redirect_uri" => $url,
-            "response_type" => "code",
-            "access_type" => "online",
-            "scope" => $gclient->scope,
-            "state" => "crefinfo"
-        ]);
-        $n["href"] = $gclient->authinfo()->authorization_endpoint . "?" . $q;
-        return $n;
+    if (!function_exists('igk_html_node_google_oth2_button')) {
+        function igk_html_node_google_oth2_button($url, $gclient)
+        {
+            $n = igk_create_node("a");
+            $q = http_build_query([
+                "client_id" => $gclient->client_id,
+                "redirect_uri" => $url,
+                "response_type" => "code",
+                "access_type" => "online",
+                "scope" => $gclient->scope,
+                "state" => "crefinfo"
+            ]);
+            $n["href"] = $gclient->authinfo()->authorization_endpoint . "?" . $q;
+            return $n;
+        }
     }
 
-
-    
     /**
      * add google recaptcha
      * @param ?string $siteKey 

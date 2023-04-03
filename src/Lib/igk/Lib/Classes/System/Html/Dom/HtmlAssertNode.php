@@ -34,9 +34,9 @@ class HtmlAssertNode extends HtmlItemBase{
         return $this->condition;
     }
      
-    protected function __getRenderingChildren($options =null){
+    protected function _getRenderingChildren($options =null){
         // before render the childeren . bind callback 
-        return parent::__getRenderingChildren($options);
+        return parent::_getRenderingChildren($options);
     }
      
 }

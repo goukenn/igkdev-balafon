@@ -11,6 +11,8 @@ namespace IGK\System;
 use ArrayAccess;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
+use IGK\Helper\StringUtility;
+use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException; 
 
@@ -24,6 +26,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * target node 
      */
     var $t;
+
+    /**
+     * get or set the engine builder
+     * @var mixed
+     */
+    var $builder;
 
     /**
      * current document . set it with 
@@ -89,6 +97,13 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var mixed
      */
     var $furi;
+
+    /**
+     * base uri without the entry access
+     * @var mixed
+     */
+    var $base_uri;
+
 
     /**
      * entry path request uri
@@ -166,6 +181,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var ?IGKSession
      */
     var $session;
+
+    /**
+     * expected response code after main view call . will be used at last of document view . default is null = 200
+     * @var ?int
+     */
+    var $responseCode;
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -177,7 +198,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
     public static function GetContextViewArgument(BaseController $controller, string $file, string $context){
         $fname = igk_io_getviewname($file, $controller->getViewDir());
         $rname = igk_io_view_root_entry_uri($controller, $fname); 
-        $params = $controller->getEnvParam(BaseController::VIEW_ARGS); 
+        $params = array_filter($controller->getEnvParam(BaseController::VIEW_ARGS) ?? [], StringUtility::NotNullOrEmptyFilterCallback());
+
         extract(array_merge(
             $controller->getSystemVars(),
             $controller->utilityViewArgs($fname, $file),
@@ -199,6 +221,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
         if (!isset($layout))
             $layout = $controller->getViewLoader(); 
         $session = igk_app()->getSession(); 
+        $base_uri = $controller::uri('/');
+        $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

@@ -212,7 +212,7 @@
 * @method self loop(iterable $array, ?callable $callback= null) helper: loop thru array<
 * @method self loremipsum($mode= '1') represent the loremIpSum zone
 * @method self mailto($href, $text= '') 
-* @method self markdown_document() dummry markdown document
+* @method self markdown_document() dummy markdown document
 * @method self memoryusageinfo() create winui-memoryusage-info tag
 * @method self menu($tab, $selected= null, $uriListener= null, $callback= null, ?IGK\Models\Users $user= null, $tag= 'ul', $item= 'li') 
 * @method self menukey($menus, $ctrl= null, $root= 'ul', $item= 'li', $callback= null) 

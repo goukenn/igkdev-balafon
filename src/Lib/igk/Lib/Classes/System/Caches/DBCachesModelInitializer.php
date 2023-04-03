@@ -7,7 +7,8 @@ namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController; 
-use IGK\Database\DbColumnInfoPropertyConstants; 
+use IGK\Database\DbColumnInfoPropertyConstants;
+use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGK\System\IO\File\PHPScriptBuilder;
@@ -170,6 +171,7 @@ class DBCachesModelInitializer{
         $const_data = "";
         $hiddens = [];
         $unique_columns = [];
+        $displays = [];
         foreach ($columnInfo->columnInfo as $cinfo) {
             if ($cinfo->clIsPrimary) {
                 if (!empty($key)) {
@@ -194,12 +196,16 @@ class DBCachesModelInitializer{
                 $unique_columns[$index][] = $cinfo->clName;
             }
 
+            if ($cinfo->clDisplay){
+                $displays[] = $cinfo->clName;
+            }
+
             // + get property type
             $pr_type =   
                 $this->getPhpDoPropertyType($cinfo->clName, $cinfo, $ctrl, false);
              
             $php_doc .= "@property " . $pr_type . "\n";
-            $const_data .=  "const FD_".strtoupper(igk_str_snake($cinfo->clName)) . '="'.$cinfo->clName.'";' ."\n";
+            $const_data .=  "const FD_".StringUtility::GetConstantName($cinfo->clName). '="'.$cinfo->clName.'";' ."\n";
 
         }
 
@@ -217,11 +223,11 @@ class DBCachesModelInitializer{
             } else {
                 $key = "\"{$key}\"";
             }
-            $o .= "/**\n*override primary key \n*/\n";
+            $o .= "/**\n* override primary key \n*/\n";
             $o .= "protected \$primaryKey = $key;" . PHP_EOL;
         }
         if (!empty($refkey) && ($refkey != "clId")) {
-            $o .= "/**\n*override refid key \n*/\n";
+            $o .= "/**\n* override refid key \n*/\n";
             $o .= "protected \$refId = \"{$refkey}\"; " . PHP_EOL;
         }
 
@@ -229,6 +235,12 @@ class DBCachesModelInitializer{
             $o .= "/**\n*override hidden key \n*/\n";
             $_hidden = "['".implode("','", $hiddens)."']";
             $o .= "protected \$hidden = {$_hidden}; " . PHP_EOL;
+        }
+
+        if (!empty($displays)) {
+            $o .= "/**\n*override hidden key \n*/\n";
+            $_display = count($displays)==1 ? "'".$displays[0]."'" :  "['".implode("','", $displays)."']";
+            $o .= "protected \$display = {$_display}; " . PHP_EOL;
         }
 
         if (!empty($unique_columns)){
@@ -344,7 +356,7 @@ class DBCachesModelInitializer{
                 if ($clinf){              
                     $default_link = $this->getPhpDocDefaultLinkType($clinf->clType);
                 }else{
-                    igk_die("reflink column not found . ");
+                    igk_die(sprintf("reflink column not found .%s.%s ", $tb, $info->clLinkColumn));
                 }
             } 
             $t = implode('|', array_filter([$default_link, 
@@ -381,7 +393,7 @@ class DBCachesModelInitializer{
         $g = $this->tableInfo;  
         if (isset($g[$type])) {
             if (!isset($g[$type]->modelClass)) {
-                igk_die(" model class not definited.");
+                igk_die("$type model class not defined.");
             }
             $t .= $g[$type]->modelClass;
         } else {
@@ -418,7 +430,7 @@ class DBCachesModelInitializer{
                     $this->tableInfo[$type] = $info;
                 } else{
                 // $gm = Database::GetInfo($type);
-                    igk_die(sprintf("try to retrieve null [%s] ", $type));
+                    igk_die(sprintf("try to retrieve ".__CLASS__." null [%s] ", $type));
                 }
             }
             if (!isset($gu->modelClass)) {

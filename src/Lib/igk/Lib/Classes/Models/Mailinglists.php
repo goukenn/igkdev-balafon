@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Mailinglists.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -25,14 +25,14 @@ use IGK\Models\ModelBase;
 * */
 class Mailinglists extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_CLMLEMAIL="clml_email";
-	const FD_CLMLSTATE="clml_state";
-	const FD_CLMLSOURCE="clml_source";
-	const FD_CLMLLOCALE="clml_locale";
-	const FD_CLMLINIT="clml_init";
-	const FD_CLMLAGENT="clml_agent";
-	const FD_CLMLCREATEAT="clml_create_at";
-	const FD_CLMLUPDATEAT="clml_update_at";
+	const FD_CLML_EMAIL="clml_email";
+	const FD_CLML_STATE="clml_state";
+	const FD_CLML_SOURCE="clml_source";
+	const FD_CLML_LOCALE="clml_locale";
+	const FD_CLML_INIT="clml_init";
+	const FD_CLML_AGENT="clml_agent";
+	const FD_CLML_CREATE_AT="clml_create_at";
+	const FD_CLML_UPDATE_AT="clml_update_at";
 	/**
 	* table's name
 	*/

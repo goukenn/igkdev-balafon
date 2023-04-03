@@ -236,8 +236,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $value
     */
-    public static function GetValue($value){
-        if((strpos($value, igk_csv_sep()) !== false) || preg_match("/ /i", $value))
+    public static function GetValue(?string $value){
+        if($value && ((strpos($value, igk_csv_sep()) !== false) || preg_match("/ /i", $value)))
             return "\"".$value."\"";
         return $value;
     }

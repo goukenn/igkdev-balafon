@@ -92,11 +92,10 @@ class ApplicationLoader
     {
         $this->_context = $context;
         register_shutdown_function(function () {
-            // igk_wln("shut down --- ",$this->_changed, $this->_included);
-            // error_log("[IGK] - application loader shut down");
+            // igk_wln("shut down --- ",$this->_changed, $this->_included); 
             if (!defined("IGK_BASE_DIR") || defined('IGK_NO_LIB_CACHE')) {
                 return;
-            } 
+            }
             if ($this->_changed) {
                 $m = implode("\n", array_map(function ($m) {
                     if (strpos($m, IGK_LIB_CLASSES_DIR) == 0) {
@@ -105,17 +104,17 @@ class ApplicationLoader
                     return "require_once " . $m . ";";
                 }, $this->_included));
                 igk_io_w2file($this->getCacheFile(), "<?php\n" . $m . "");
-           
+
                 if (igk_getv($this->_load_classes, "c")) {
                     unset($this->_load_classes["c"]);
-                    $path = self::GetLocalAppClassesCacheFile();              
-                    igk_io_w2file($path, serialize($this->_load_classes));                
+                    $path = self::GetLocalAppClassesCacheFile();
+                    igk_io_w2file($path, serialize($this->_load_classes));
                 }
             }
             igk_hook(IGKEvents::HOOK_APP_SHUTDOWN, [$this]);
-        });        
-    } 
-   
+        });
+    }
+
     /**
      * register class 
      * @param string $file 
@@ -234,7 +233,7 @@ class ApplicationLoader
     }
     private function _createAutoLoadClosure()
     {
-        return function ($n) { 
+        return function ($n) {
             if ($this->callables) {
                 if ($this->sorted) {
                     usort($this->callables, [$this, '_sort_priority']);
@@ -445,20 +444,25 @@ class ApplicationLoader
             }
             self::$sm_instance->_coreload = true;
         }
-  
+
         //return null;
         ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: " . $type);
         if ($boot) {
             $boot = false;
-            $app->bootstrap($bootoptions, function()use($app, & $boot){ 
-                self::$sm_instance->bootApp($app);
-                $boot = true;
-            });
-            if (!$boot){
-                self::$sm_instance->bootApp($app);
-                //igk_wln_e("not boot");
+            try {
+                $app->bootstrap($bootoptions, function () use ($app, &$boot) {
+                    self::$sm_instance->bootApp($app);
+                    $boot = true;
+                });
+                if (!$boot) {
+                    self::$sm_instance->bootApp($app);
+                    //igk_wln_e("not boot");
+                }
+            } catch (\Exception $ex) {
+                igk_show_exception($ex);
+                exit;
             }
-        } 
+        }
         // + | init application register 
         self::$sm_instance->_initClassRegister();
         // + | -----------------------------------------------------
@@ -474,10 +478,11 @@ class ApplicationLoader
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function bootApp($app){
- 
-        if (self::$sm_instance->_resolvConstant()){            
-            igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]); 
+    public function bootApp($app)
+    {
+
+        if (self::$sm_instance->_resolvConstant()) {
+            igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]);
         }
     }
     /**
@@ -487,10 +492,10 @@ class ApplicationLoader
      */
     private function _resolvConstant()
     {
-        if (!empty($this->path)){
+        if (!empty($this->path)) {
             return false;
         }
-        self::InitConstants();       
+        self::InitConstants();
         $this->path = IGKPath::getInstance();
         $package_dir = $this->path->getPackagesDir();
         // + | -----------------------------------------------------
@@ -510,7 +515,8 @@ class ApplicationLoader
      * @return void 
      * @throws IGKException 
      */
-    public static function InitConstants(){        
+    public static function InitConstants()
+    {
         $srv = igk_server();
         // igk_wln_e("bootstrap.... ", $boot );
         // + |-----------------------------------------------------------------------
@@ -543,33 +549,49 @@ class ApplicationLoader
         if (defined('IGK_SESS_DIR') && (is_dir(IGK_SESS_DIR) || IO::CreateDir(IGK_SESS_DIR))) {
             ini_set("session.save_path", IGK_SESS_DIR);
         }
-
     }
     /**
      * core test classes loader callback
      * @return Closure 
      */
-    public static function TestClassesLoaderCallback(){
-        return  function($n){    
-            $fix_path = function($p, $sep=DIRECTORY_SEPARATOR){
-                if ($sep=="/"){
+    public static function TestClassesLoaderCallback()
+    {
+        return  function ($n) {
+            $fix_path = function ($p, $sep = DIRECTORY_SEPARATOR) {
+                if ($sep == "/") {
                     return str_replace("\\", "/", $p);
-                }  
+                }
                 return str_replace("/", "\\", $p);
             };
-            $dir = IGK_LIB_DIR."/Lib/Tests/";
-            if (strpos($n, $ns= \IGK\Tests::class)===0){
-                $cl = substr($n, strlen($ns)+1);
-                $f = $fix_path($dir.$cl.".php");       
-                if (file_exists($f)){
+            $dir = IGK_LIB_DIR . "/Lib/Tests/";
+            if (strpos($n, $ns = \IGK\Tests::class) === 0) {
+                $cl = substr($n, strlen($ns) + 1);
+                $f = $fix_path($dir . $cl . ".php");
+                if (file_exists($f)) {
                     include($f);
-                    if (!class_exists($n, false)){
+                    if (!class_exists($n, false)) {
                         throw new \Exception("File exists but class not present");
                     }
                     return 1;
                 }
-            } 
+            }
             return 0;
         };
+    }
+
+    public static function TryRequireOnceLoadFile(string $filekey){
+        static $_loaded_;
+        if (is_null($_loaded_)){
+            $_loaded_ = [];
+        }
+        if (!isset($_loaded_[$filekey])){
+            $_loaded_[$filekey ] = 1;
+            foreach (['', '.php'] as $ext){
+                if (file_exists($filekey.$ext)){
+                    require_once($filekey.$ext);
+                    $_loaded_[$filekey] = $filekey.$ext;
+                }
+            }
+        }
     }
 }

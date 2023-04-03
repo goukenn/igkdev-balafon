@@ -23,7 +23,7 @@ class TerminalActionCommand{
      * the primary command promp^t
      * @var string
      */
-    protected $prompt = "\$tac > ";
+    protected $prompt = App::BLUE. "\$tac > ".App::END;
 
     /**
      * store running command

@@ -8,42 +8,63 @@
 
 namespace IGK\Models\Macros;
 
+use IGK\Controllers\BaseController;
 use IGK\Models\Groups;
 use IGK\Models\ModelBase;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
+use IGKEvents;
 use IGKException;
 
 /**
  * use macros
  * @package IGK\Models\Macros
  */
-class UsersMacros {
+abstract class UsersMacros {
     /**
-     * register user helpers
+     * get all active users
+     * @return mixed 
+     */
+    public static function ActiveUsersArray(Users $model, ?array $options){
+        return Users::select_all(['clStatus'=>1], $options);
+    }
+    /**
+     * register user helper
      * @param Users $model 
      * @param object|array|IUserRegisterInfo $o 
      * @return ModelBase 
      * @throws IGKException 
      */
-    public static function register(Users $model, $o){
+    public static function Register(Users $model, $o, ?BaseController $ctrl=null, callable $beforeHook=null){
+  
         if (!is_array($o) && !is_object($o)){
             igk_die(__METHOD__." object not valid");
         }
-        if (empty($guid = igk_getv($o, "clGuid"))){
+        if (empty($guid = igk_getv($o, Users::FD_CL_GUID))){
             $guid = igk_create_guid();
-            igk_setv($o, "clGuid", $guid);
+            igk_setv($o, Users::FD_CL_GUID, $guid);
         }
-        if (empty($pwd = igk_getv($o, "clPwd"))){
+        if (empty($pwd = igk_getv($o, Users::FD_CL_PWD))){
             $pwd = sha1( IGK_PWD_PREFIX. date("Ymd").microtime(true));
-            igk_setv($o, "clPwd", $pwd);
+            igk_setv($o, Users::FD_CL_PWD, $pwd);
         }
-        if ($login = igk_getv($o, "clLogin")){
-            if ($model::select_row(["clLogin"=>$login])){
+ 
+        if (($login = igk_getv($o, Users::FD_CL_LOGIN))){
+            if ( $model::select_row([Users::FD_CL_LOGIN=>$login])){    
                 return false;
             }
         }
-        return $model::create($o);
+        if (empty(igk_getv($o, Users::FD_CL_CLASS_NAME) ) && $ctrl )
+            igk_setv($o, Users::FD_CL_CLASS_NAME, get_class($ctrl));
+
+  
+        if ($r = $model::create($o)){  
+            if ($beforeHook){
+                $beforeHook($r);
+            }  
+            igk_hook(IGKEvents::HOOK_USER_ADDED, ["user"=>$r, "ctrl"=>$ctrl]);
+        } 
+        return $r;
     }
 
     /**
@@ -84,10 +105,10 @@ class UsersMacros {
      * @return array<array-key, mixed> 
      */
     public static function getGroupNames(Users $model){
-        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CL_NAME), $model->groups());
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CLNAME), $model->groups());
     }
     public static function getAuthorizationNames(Users $model){
-        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CL_NAME), $model->auths());
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CLNAME), $model->auths());
     }
     /**
      * get user form guid :

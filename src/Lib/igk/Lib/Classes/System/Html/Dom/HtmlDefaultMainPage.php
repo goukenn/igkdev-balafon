@@ -23,10 +23,10 @@ final class HtmlDefaultMainPage extends HtmlNode
     static $sm_instance;
     ///<summary></summary>
     ///<param name="options" default="null"></param>
-    public function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {
         if (!$this->getIsVisible()) {
-            return 0;
+            return false;
         }
         igk_set_env("sys://nopowered", 1);
         $this->clearChilds();

@@ -126,17 +126,13 @@ class MacrosHelper
         $storage = new IGKObjStorage($data); 
         $r = null; 
         // Users::delete($id);
-        if (!empty($storage->clLogin) && ($r = Users::select_row(["clLogin"=>$storage->clLogin]))){
+        if (!empty($storage->clLogin) && ($r = Users::select_row([Users::FD_CL_LOGIN=>$storage->clLogin]))){
             // user aleady exists
             igk_hook(IGKEvents::HOOK_USER_EXISTS, [$r]);
             $r = Users::select_row(["clId"=>$r->clId]);
         } else {
-            if ($r = Users::create($storage->to_array())){
-                igk_hook(IGKEvents::HOOK_USER_ADDED, [$r]);
-                $r = Users::select_row(["clId"=>$r->clId]);
-            }
+            $r = Users::Register($storage->to_array());
         }
         return $r;
-        
     }
 }

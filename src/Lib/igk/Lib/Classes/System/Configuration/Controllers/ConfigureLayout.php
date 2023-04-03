@@ -10,6 +10,7 @@ namespace IGK\System\Configuration\Controllers;
 use function igk_resources_gets as __; 
 
 class ConfigureLayout{
+    var $controller;
     public function __construct($controller)
     {
         $this->controller = $controller;

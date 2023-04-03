@@ -44,6 +44,8 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     const OPERATOR_SYMBOL = ViewCompilerConstants::OPERATOR_SYMBOL;
 
     var $flagHandler;
+
+    var $tab_stop;
     
     // var $flagHandler;
     /**
@@ -188,6 +190,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                     'isConst' => true,
                     'mod' => '',
                     'dependOn' => false,
+                    'initialize'=>true
                 ];
                 $options->flag = CompilerFlagState::READ_CONST;
                 $options->flagOptions = ["var" => &$var_info, 'op' => 'name'];
@@ -662,7 +665,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $name = substr($value, 1);
         if ($struct = $options->struct_info) {
             if ($struct->type == 'interface') {
-                igk_die("variable not allowed in interface", true);
+                igk_die("-- variable not allowed in interface -- ", true);
             }
         }
 
@@ -696,7 +699,8 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 "name" => $flagOptions->name,
                 "modifiers" => $flagOptions->modifiers,
                 "dependOn" => $flagOptions->dependOn,
-                "default" => $flagOptions->render ? null : rtrim($flagOptions->buffer, ",;")
+                "default" => $flagOptions->render ? null : rtrim($flagOptions->buffer, ",;"),
+                'initialize'=>false
             ];
             $v_new = true;
         }

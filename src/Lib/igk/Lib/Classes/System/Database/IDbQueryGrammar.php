@@ -7,6 +7,8 @@
 
 namespace IGK\System\Database;
 
-interface IDbQueryGrammar {
+use IGK\Database\IGrammar;
+
+interface IDbQueryGrammar extends IGrammar {
 
 }

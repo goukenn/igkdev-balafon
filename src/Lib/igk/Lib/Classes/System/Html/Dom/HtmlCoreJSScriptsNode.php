@@ -43,11 +43,11 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     {
         return false;
     }
-    protected function __AcceptRender($opt = null)
+    protected function _acceptRender($options = null):bool
     {
-        return $this->getIsVisible() && igk_getv($opt, "Document");        
+        return $this->getIsVisible() && igk_getv($options, "Document");        
     }
-    protected function __getRenderingChildren($options = null)
+    protected function _getRenderingChildren($options = null)
     {
         return null;
     }
@@ -61,6 +61,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
         $tabstop = HtmlRenderer::GetTabStop($options);
         $sb = new StringBuilder();
         $script = self::GetCoreScriptContent($options, igk_environment()->isOPS());
+ 
         if (igk_environment()->isDev()) {
             $sb->appendLine($tabstop."<!-- core scripts -->");
             $sb->appendLine($script);

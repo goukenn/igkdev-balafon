@@ -41,6 +41,7 @@ use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\IO\Path;
 use IGKEnvironment;
@@ -136,9 +137,8 @@ abstract class ControllerExtension
      * @param mixed $css_def the default value is null
      */
     public static function bindNodeClass(BaseController $ctrl, HtmlNode $t, $fname, $css_def = null)
-    {
-
-        $classdef = igk_css_str2class_name($fname) . ($css_def ? " " . $css_def : "");
+    { 
+        $classdef = CssUtils::GetControllerSelectorClassNameFromRegisterURI($ctrl, $fname). ($css_def ? " " . $css_def : "");
         if ($ctrl->getEnvParam(IGK_KEY_CSS_NOCLEAR) == 1)
             return;
 
@@ -147,6 +147,12 @@ abstract class ControllerExtension
             $c->Clear();
         }
         igk_ctrl_bind_css($ctrl, $t, $classdef);
+    }
+    /**
+     * get that the controller is registrable
+     */
+    public static function IsRegistrable(BaseController $controller):bool{
+        return ($controller instanceof NotRegistrableControllerBase);
     }
 
     /**
@@ -190,7 +196,7 @@ abstract class ControllerExtension
                 return null;
             $t = $res_i->resolve($f);
             if (empty($t)) {
-                igk_ilog("Can't resolv file " . $f . " " . $t);
+                igk_ilog("Can't resolv file [" . $f . "] " . $t);
             }
             return $t;
         }
@@ -429,6 +435,14 @@ abstract class ControllerExtension
             }
         }
     }
+    /**
+     * remove column 
+     * @param BaseController $ctrl 
+     * @param mixed $table 
+     * @param mixed $info 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function db_rm_column(BaseController $ctrl, $table, $info)
     {
         $ad = self::getDataAdapter($ctrl);
@@ -451,12 +465,17 @@ abstract class ControllerExtension
         return false;
     }
 
-    public static function db_rename_column(BaseController $ctrl, $table, $column, $new_table)
+    public static function db_rename_column(BaseController $ctrl, $table, $column, $new_column_name)
     {
         $ad = self::getDataAdapter($ctrl);
-        if ($ad->exist_column($table, $column)) {
-            if ($query = $ad->grammar->rename_column($table, $column, $new_table)) {
-                return $ad->sendQuery($query);
+        if ($ad->exist_column($table, $column)){
+            if (!$ad->exist_column($table,$new_column_name)){
+                if ($query = $ad->grammar->rename_column($table, $column, $new_column_name)) {
+                    return $ad->sendQuery($query);
+                }
+            } else {
+                $query = $ad->grammar->rm_column($table, $column);
+                return $ad->sendQuery($query); 
             }
         }
         return false;
@@ -490,12 +509,12 @@ abstract class ControllerExtension
      * resolv controller name key
      * @param BaseController $ctrl 
      * @param mixed $name array|string
-     * @return mixed  array if name is array string name or null
+     * @return array|string|null  array if name is array string name or null
      */
     public static function name(BaseController $ctrl, $name)
     {
-        if (is_string($name)) {
-            return implode("/", [get_class($ctrl), $name]);
+        if (is_string($name) || is_null($name)) {
+            return implode("/", array_filter([get_class($ctrl), $name]));
         } else {
             if (is_array($name)) {
                 $cl = get_class($ctrl);
@@ -874,7 +893,7 @@ abstract class ControllerExtension
     /**
      * register autoload class for controller
      * @param BaseController $ctrl 
-     * @return void 
+     * @return BaseController 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
@@ -884,9 +903,7 @@ abstract class ControllerExtension
         $ns = $ctrl->getEntryNameSpace();
         $cldir = $ctrl->getClassesDir();
         $loader =  ApplicationLoader::getInstance();
-        if (get_class($ctrl) == 'LlvGStockController'){
-            igk_wln("loaded....");
-        }
+        // igk_wln("udpate ....  ", $ctrl->getName() . "check ".igk_environment()->NO_PROJECT_AUTOLOAD) ;
         if ($loader->registerLoading($ns, $cldir)) {
             if (defined('IGK_TEST_INIT')) {
                 $cldir = $ctrl->getTestClassesDir();
@@ -907,6 +924,7 @@ abstract class ControllerExtension
             }
             igk_hook($ctrl::hookName("register_autoload"), [$ctrl]);
         }
+        return $ctrl;
     }
     private static function _InitDbComplete(BaseController $ctrl, string $file,  $e)
     {
@@ -941,18 +959,31 @@ abstract class ControllerExtension
      */
     public static function resolveClass(BaseController $ctrl, $path)
     {
-        $cl = self::ns($ctrl, $path); 
+        $cl = self::ns($ctrl, $path);  
         if (class_exists($cl, false) || ApplicationLoader::TryLoad($cl)) {
             return $cl;
         }
-        return null;
+        return null;        
     }
+    /**
+     * get auto reset parameters
+     * @param BaseController $ctrl 
+     * @param mixed $name 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function getAutoresetParam(BaseController $ctrl, $name, $default = null)
     {
         $d = $ctrl->getParam($name, $default);
         $ctrl->setParam($name, null);
         return $d;
     }
+    /**
+     * get controller display name
+     * @param BaseController $ctrl 
+     * @return mixed 
+     */
     public static function getDisplayName(BaseController $ctrl)
     {
         return $ctrl->getConfig("clDisplayName", get_class($ctrl));
@@ -1131,7 +1162,7 @@ abstract class ControllerExtension
                     $f = $ctrl->getUser() != null;
               
                 } else {
-                    Logger::danger('connection failed');
+                    Logger::danger('connection failed.' .igk_environment()->get('connect_error'));
                     igk_ilog('login failed: > ' . $u);
                 }
             }
@@ -1410,10 +1441,7 @@ abstract class ControllerExtension
      * @throws IGKException 
      */
     public static function getConfig(BaseController $controller, string $name, $default = null)
-    {
-        if ($name == 'no_auto_cache_view') {
-            return 1;
-        }
+    { 
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($controller, $name, $default);
     }
 
@@ -1562,6 +1590,7 @@ abstract class ControllerExtension
      */
     public static function initDbFromSchemas(BaseController $controller)
     {
+        // clear system schema 
         DBCaches::ClearControllerCache($controller); 
      
         $db = self::getDataAdapter($controller);
@@ -1572,20 +1601,8 @@ abstract class ControllerExtension
         }
         
         $tb = $r->Data;
-        // $table = 'tbllv_stock_products';
-        // $ref = $r->Data[$table];
-        // igk_wln_e(":basic - ", $ref );
-        // $ref->columnInfo['prodCodeBar']->clIsUniqueColumnMember = true;
-        // $ref->columnInfo['prodCodeBar']->clColumnMemberIndex=0;
-        // $ref->columnInfo['prodResellerGuid']->clIsUniqueColumnMember = true;
-        // $ref->columnInfo['prodResellerGuid']->clColumnMemberIndex=0;
-        // $query = $db->getGrammar()->createTableQuery($table, $ref->columnInfo);
-        // igk_wln_e("check not null ", 'prodResellerGuid',
-        //  $ref->columnInfo['prodResellerGuid']->clNotNull, 
-        //  $ref->columnInfo['prodResellerGuid']->clDescription
-        // );
-        // igk_wln($query);
-        igk_db_init_dataschema($controller, $r, $db);       
+        DbSchemas::InitData($controller, $r, $db);
+             
         // + | ---------------------------------------------------------
         // + | update migration handler
         // + |
@@ -1692,7 +1709,7 @@ abstract class ControllerExtension
      */
     public static function loadDataFromSchemas(BaseController $ctrl, $resolvName = true, $operation = DbSchemasConstants::Migrate)
     {
-        return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl, true, $operation);
+        return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl,$resolvName, $operation);
     }
     /**
      * controller get data table definition
@@ -1781,8 +1798,7 @@ abstract class ControllerExtension
                 $obj->Version = $data->version;
 
                 foreach ($data->tables as $n => $t) {
-                    if (isset($t->entries)) {
-
+                    if (isset($t->entries)) { 
                         if ($c = $t->entries) {
                             $obj->Entries[$n] =  $c;
                         }
@@ -2159,7 +2175,11 @@ abstract class ControllerExtension
         $m = "";
         $sep = "";
         $fallback = false;
-        foreach (explode("/", $name) as $r) {
+        $search_name = $name;
+        if ($params){
+            $search_name = $name."/".implode("/", $params);
+        }
+        foreach (explode("/", $search_name) as $r) {
             $g = StringUtility::CamelClassName(ucfirst($r));
             if (is_numeric($g)) {
                 if ($fallback){
@@ -2201,16 +2221,16 @@ abstract class ControllerExtension
         $out = <<<HTML
 <html>
     <head>
-        <title>${title}</title>
-        <style>${style}</style>
+        <title>{$title}</title>
+        <style>{$style}</style>
     </head>
     <body>
         <div class="flex center">
             <p>
-                ${message}
+                {$message}
             </p>
             <p>
-                ${code}
+                {$code}
             </p>
         </div>
     </body>

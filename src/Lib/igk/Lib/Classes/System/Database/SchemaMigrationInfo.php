@@ -7,8 +7,11 @@
 namespace IGK\System\Database;
 
 use ArrayAccess;
+use IGK\Database\DbColumnInfo;
+use IGK\Helper\Activator;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGKException;
 
 /**
  * schema migration info
@@ -16,6 +19,7 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
  */
 class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
     use ArrayAccessSelfTrait;
+    
     var $defTableName;
     var $columnInfo; 
     var $controller;
@@ -37,6 +41,20 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
      * @return ?bool
      */
     var $constant;
+
+
+    /**
+     * 
+     * @var ?array<SchemaForeignConstraintInfo>
+     */
+    var $foreignConstraint;
+
+
+    /**
+     * configured prefix
+     * @var ?string
+     */
+    var $prefix;
     
     public function _access_OffsetGet($n){
         if (property_exists($this, $n)){
@@ -46,5 +64,26 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
     public function __construct()
     {
         
+    }
+    /**
+     * create from cache info
+     * @param mixed $d 
+     * @param mixed $gctrl 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function CreateFromCacheInfo($d, $gctrl){
+        return  
+        Activator::CreateNewInstance(static::class,  [
+            'columnInfo' => array_map(function ($a) {
+                return Activator::CreateNewInstance(DbColumnInfo::class, $a);
+            }, (array)$d->columnInfo),
+            'description' => igk_getv($d, 'description'),
+            'defTableName' => igk_getv($d, 'defTableName'),
+            'controller' => $gctrl,
+            'tableName' => $d->tableName,
+            'definitionResolver' => null,
+            'prefix'=>igk_getv($d,'prefix')
+        ]);
     }
 }

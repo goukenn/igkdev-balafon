@@ -14,7 +14,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     private $m_autohided, $m_owner, $m_script;
     ///<summary></summary>
     ///<param name="o" default="null"></param>
-    protected function __AcceptRender($o=null){
+    protected function _acceptRender($options = null):bool{
         if(!$this->IsVisible || !$this->HasChilds)
             return false;
         if($this->m_autohided){

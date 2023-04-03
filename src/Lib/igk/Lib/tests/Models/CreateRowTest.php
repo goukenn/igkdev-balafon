@@ -26,18 +26,18 @@ class CreateRowTest extends BaseTestCase{
     }
     function test_create_usergroup_row(){
         require_once IGK_LIB_CLASSES_DIR . "/IGKSysUtil.php"; 
-
-        $table = igk_db_get_table_name(Usergroups::table());
-        $ad = Usergroups::driver(); 
+        $u_model = Usergroups::model();
+        $table = $u_model->table();
+        // $ad = Usergroups::driver(); 
         // igk_wln_e("table : ", $table);
-        if (!$def = $ad->getDataTableDefinition($table)){
-            $this->fail("Can't get table definition");
+        if (!$def = $u_model->getTableColumnInfo()){
+            $this->fail("Can't get table definition..");
         }
-       if (!($row = DbSchemas::CreateRow($table, $def["controller"]))){
+       if (!($row = DbSchemas::CreateRow($table, $u_model->getController()))){
             $this->fail("failed to create row");
        } 
        $this->assertEquals(
-           array_keys($def["columnInfo"]), 
+           array_keys($def), 
            array_keys((array)$row),
            "column definition mismatch" 
         ); 
@@ -75,9 +75,9 @@ class CreateRowTest extends BaseTestCase{
        
         $e = new table_enum;
         $defs = $e->getDataTableDefinition()->tableRowReference; 
-        //  SysDbControllerManager::GetDataTableDefinition();
+      
         $this->assertEquals(
-            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) AUTO_INCREMENT,`clName` Enum('1','2','3') NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
+            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3') NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
             // "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` text NOT NULL,`clName` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
             $gram->createTableQuery("table_enum", $defs)
         ); 

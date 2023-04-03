@@ -27,8 +27,7 @@ HTML,   $n->render());
     }
 
     function test_skip_code(){
-        $n = igk_create_node("div");
-        
+        $n = igk_create_node("div"); 
         $n->load(<<<'HTML'
 <code>if (i<data){console.log('info');}</code>
 HTML);

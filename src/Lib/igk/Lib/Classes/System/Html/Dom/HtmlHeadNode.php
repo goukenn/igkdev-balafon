@@ -46,12 +46,12 @@ class HtmlHeadNode extends HtmlNode{
     * 
     * @param mixed $options the default value is null
     */
-    protected function __getRenderingChildren($options=null){
+    protected function _getRenderingChildren($options=null){
        // + | --------------------------------------------------------------------
        // + | for good header processing item order are important
        // + |
        $t = [];
-       $v=parent::__getRenderingChildren($options);
+       $v=parent::_getRenderingChildren($options);
        // igk_wln_e("do", $v);
         $is_document = isset($options->Document);
         // + 1. meta first

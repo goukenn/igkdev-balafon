@@ -126,7 +126,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     protected function _iterator_current(){
         $o=$this->_f->getFlag(self::ITERATOR);
         $a=$this->getActivateAttribs();
-        $v_out=isset($a[$o->it_key]) ? HtmlActiveAttrib::getInstance(): $o->it_vtab[$o->it_key];
+        $v_out=isset($a[$o->it_key]) ? HtmlDomActiveAttribute::getInstance(): $o->it_vtab[$o->it_key];
         return $v_out;
     }
     ///<summary></summary>

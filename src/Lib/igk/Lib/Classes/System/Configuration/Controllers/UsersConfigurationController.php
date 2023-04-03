@@ -15,6 +15,8 @@ use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\System\Database\QueryBuilder;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CrefNotValidException;
 use IGK\System\Html\Dom\IGKHtmlMailDoc;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\Request;
@@ -25,6 +27,7 @@ use IGKException;
 use IGKHtmlDoc;
 use IGKSysUtil;
 use IGKValidator;
+use ReflectionException;
 
 use function igk_resources_gets as __;
 
@@ -136,6 +139,7 @@ class UsersConfigurationController extends ConfigControllerBase
                 }
                 return true;
             } else {
+                igk_environment()->set("connect_error", "user not active");
                 $this->app->Session->ErrorString = "[connectfailed] : status of the requested user is not activated";
             }
             return false;
@@ -319,10 +323,12 @@ class UsersConfigurationController extends ConfigControllerBase
      */
     protected function initDataEntry()
     {
+       
         $d = igk_configs()->website_domain;
         if (igk_environment()->isDev()) {
             $now = date(IGK_MYSQL_DATETIME_FORMAT);        
             $def_pwd = igk_configs()->get('default_adm_pwd', IGKSysUtil::GeneratePWD());
+ 
             Users::create(array(
                 "clLogin" => "admin@" . $d,
                 "clPwd" => $def_pwd,
@@ -380,23 +386,6 @@ class UsersConfigurationController extends ConfigControllerBase
                 "clGuid" => igk_create_guid(),
             ));
         }
-    }
-
-    /**
-     * check if user can connect 
-     * @return bool 
-     */
-    public function getCanConnect($user, $ip, $useragent): bool
-    {
-        /// TODO : CHECK IF CAN CONNECT TO DB SYSTEM 
-        return true;
-
-
-        $driver = $this->getDataAdapter();
-        if (!$driver->open()) {
-            return false;
-        }
-        return false;
     }
 
     ///<summary></summary>
@@ -530,7 +519,7 @@ class UsersConfigurationController extends ConfigControllerBase
      */
     public function register($login, $pwd, $firstname, $lastname, $parentclass = null, $level = 1)
     {
-        $row = igk_db_create_row($table = $this->DataTableName);
+        $row = Users::createEmptyRow();        
         $row->clLogin = $login;
         $row->clPwd = IGKSysUtil::Encrypt($pwd);
         $row->clFirstName = $firstname;
@@ -727,29 +716,13 @@ class UsersConfigurationController extends ConfigControllerBase
             } else {
                 try {
                     //$i= igk_db_insert($this, $tb, $o);
-                    $i = Users::register($o);
+                    $i = Users::Register($o, $this);
                 } catch (\Exception $ex) {
                     igk_ilog('--- failed to insert user ----');
                 }
             }
             if ($i) {
-                $not->addMsgr("msg.useradded");
-                igk_hook(IGKEvents::HOOK_USER_ADDED, [
-                    "ctrl"=>$this,
-                    "model"=>$i
-                ]);
-                // $ctrl = igk_get_regctrl("docs");
-                // if ($ctrl && !igk_getr("conf")) {
-                //     igk_dev_ilog("send mail");
-                //     $info = "u=" . $o->clLogin . "&d=" . date("y-m-d");
-                //     $o->ConfirmationLink = $this->getUri("us_activate&q=" . base64_encode($info));
-                //     $d = new IGKHtmlMailDoc();
-                //     $d->Message->Load($ctrl->getArticleContent("confirmmail", true, $o));
-                //     $f = $d->sendMail($o->clLogin, igk_configs()->mail_contact, __("title.mailconfirmation"));
-                //     if (!$f) {
-                //         igk_notifyctrl()->addErrorr("e.confirmail.failed");
-                //     }
-                // }
+                $not->addMsgr("msg.useradded");                           
             } else {
                 igk_notifyctrl()->addErrorr("e.registrationnotpossible");
             }
@@ -1024,9 +997,18 @@ class UsersConfigurationController extends ConfigControllerBase
                 $type = 'success';
             }
         }
-        SysUtils::Notify($msg, $type);
+        SysUtils::Notify(__($msg), $type);
         return $user;
     }
+    /**
+     * change user password
+     * @param int|null $id 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws CrefNotValidException 
+     */
     public function changePassword(int $id = null)
     {
 
@@ -1049,9 +1031,9 @@ class UsersConfigurationController extends ConfigControllerBase
             }
             $r = (object)igk_getr_k(["pwd", "rpwd"]);
             if (ActionHelper::ChangePassword($rid, $r->pwd, $r->rpwd)) {
-                SysUtils::Notify('password changed', 'igk-success');
+                SysUtils::Notify(__('password changed'), 'igk-success');
             }else{
-                SysUtils::Notify('password not changed', 'igk-danger');
+                SysUtils::Notify(__('password not changed'), 'igk-danger');
             }
             igk_ajx_panel_dialog_close();
             SysUtils::exitOnAJX();

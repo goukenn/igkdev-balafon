@@ -8,6 +8,7 @@ namespace IGK\System;
 
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
+use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 
 /**
@@ -17,35 +18,66 @@ use IGK\System\Database\IUserProfile;
 abstract class SystemUserProfile implements IUserProfile
 { 
     /**
-     * user info 
+     * resolved user info 
      * @var mixed
      */
     protected $m_profile;
+    /**
+     * system model
+     * @var mixed
+     */
+    protected $m_model;
+
+    /**
+     * get the controller 
+     * @var mixed
+     */
+    protected $m_controller;
+    /**
+     * 
+     * @return void 
+     */
     protected function __construct()
     {
     }
 
     public function getController(): ?BaseController {
-        return null;
+        return $this->m_controller;
     }
 
     public function auth($type): bool {
         return $this->m_profile->auth($type);
     }
     /**
+     * get the model class 
+     * @return Users 
+     */
+    public function model(): \IGK\Models\Users{
+        if (!($this->m_model)|| ($this->m_model->is_mock())){
+            return null;
+        }
+        return $this->m_model;
+    }
+    /**
      * create user profile from info
      * @param mixed $userInfo 
      * @return static 
      */
-    public static function Create($userInfo)
+    public static function Create($userInfo, BaseController $controller)
     {   
         if (is_null($userInfo)){
             return null;
         }
+        if (static::class == __CLASS__)
+            igk_die('not allowed to create user profile');
+
+
         $c = Activator::CreateNewInstance(function () {
             return new static;
         }, $userInfo->to_array());
         $c->m_profile = $userInfo;
+        $c->m_model = $userInfo->model();
+        $c->m_controller = $controller;
         $c->registerProfile();
         return $c;
     }
@@ -76,4 +108,9 @@ abstract class SystemUserProfile implements IUserProfile
             return igk_getv($this->m_profile, $name);
         }
     }
+    /**
+     * register a user profile with initial profile setting
+     * @return mixed 
+     */
+    protected abstract function registerProfile();
 }

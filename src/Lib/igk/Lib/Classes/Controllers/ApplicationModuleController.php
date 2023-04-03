@@ -5,6 +5,7 @@ use Error;
 use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
+use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\ApplicationModuleInitException;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -23,6 +24,8 @@ use TypeError;
 */
 final class ApplicationModuleController extends BaseController{
     const INIT_METHOD = "initDoc";
+    const CONF_MODULE = "balafon.module.json";
+    const MODULE_INITIALIZER_FNAME = ".module.pinc";
     private $m_dir;
     private $m_doc;
     private $m_fclist;
@@ -72,8 +75,17 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $args
     */
     function __call($n, $args){
+
         $fc=igk_getv($this->m_fclist, $n);
         if($fc){
+            // + | check that in methods can be initialize
+            if ($env_param = $this->getEnvParam($n)){
+                if (method_exists(ApplicationModuleMethodChecker::class , $n)){                
+                    if (!ApplicationModuleMethodChecker::$n($this, $env_param)){
+                        return null;
+                    }
+                }
+            } 
             igk_push_env(__CLASS__."/callee", $n);
             $o=call_user_func_array($fc, $args);
             $dc=igk_pop_env(__CLASS__."/callee");
@@ -129,26 +141,24 @@ final class ApplicationModuleController extends BaseController{
         parent::__construct();
         $this->m_dir=IO::GetDir($dir);
         $this->mm_fclist=array();
-        $tf = $dir."/.config";
-        $c=realpath($tf);
-        if(!file_exists($c)){
-            $configs=array();
-            $this->_initconfig($configs);
-            $o="<?php\n";
-            if(count($configs) > 0){
-                foreach($configs as $k=>$m){
-                    $o .= "\$config[\"{$k}\"] = \"{$m}\";\n";
-                }
-                igk_io_w2file($tf, $o);
-            }
-        } 
+        // $tf = $dir."/Lib/".self::;
+        // $c=realpath($tf);
+        // if(!file_exists($c)){
+        //     $configs=array();
+        //     $this->_initconfig($configs);
+        //     $o="<?php\n";
+        //     if(count($configs) > 0){
+        //         foreach($configs as $k=>$m){
+        //             $o .= "\$config[\"{$k}\"] = \"{$m}\";\n";
+        //         }
+        //         igk_io_w2file($tf, $o);
+        //     }
+        // } 
         $this->_initModuleClasses();
-
         $c=realpath($dir."/.module.pinc");
         if(file_exists($c)){
             $this->_init($c);
-        } 
-       
+        }  
     }
     private function _initModuleClasses(){
         $dir = $this->getDeclaredDir();
@@ -217,19 +227,20 @@ final class ApplicationModuleController extends BaseController{
     */
     private function _init($c=null){
  
-        $s=igk_io_read_allfile($c ?? $this->m_dir."/.module.pinc");
+        $s=igk_io_read_allfile($c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME);
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
-        // + | 
- 
-        $reg=function($name, $callback){
-            $this->reg_function($name, $callback);
-        };
-        if (!is_file($file = $this->m_dir."/module.json")){
-            igk_die("module.json is missing in ".$this->m_dir);
+        // + |         
+        if (!is_file($file =  $this->m_dir."/".self::CONF_MODULE)){
+            igk_die(sprintf("%s is missing in %s",self::CONF_MODULE, $this->m_dir));
         }
         $definition = (array)json_decode(file_get_contents($file));
         try{ 
+            extract((function(){
+                return ['reg'=>function($name, $callback){
+                    $this->reg_function($name, $callback);
+                }];
+            })());
             $data = eval("?>".$s);
             $data = array_merge($data??[], $definition);
         }
@@ -351,8 +362,8 @@ final class ApplicationModuleController extends BaseController{
         if(isset($_configs[$_hash])){
             return $_configs[$_hash];
         }
-        $configs=realpath($this->m_dir."/.config");
         if(file_exists($c)){
+            $c = realpath($this->m_dir."/Lib/.config.php");
             $config=array();
             include($c);
             $_configs[$_hash]=(object)$config;
@@ -420,6 +431,9 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $fc
     */
     protected function reg_function($n, $fc){
+        if (is_string($fc) && (strpos($fc, '@')!== false)){
+            $fc = \IGK\Helper\PhpHelper::GetCallable($fc);
+        }
         $this->m_fclist[$n]=$fc;
     }
     ///<summary></summary>

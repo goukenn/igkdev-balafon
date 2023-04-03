@@ -12,13 +12,16 @@ use IGK\Helper\IO;
 use IGK\Server; 
 use IGK\System\CronJob;
 use IGK\System\Html\Dom\HtmlConfigContentNode;
+use IGK\System\Html\Dom\HtmlConfigPageNode;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
+use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
-use IGKAppConfig; 
+use IGKAppConfig;
+use IGKCssDefaultStyle;
 use IGKEvents;
 use IGKException;
 use IGKResourceUriResolver; 
@@ -46,7 +49,8 @@ final class ConfigureController extends BaseController implements IConfigControl
     
     public function getViewDir()
     {
-        if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
+        $dec_dir = $this->getDeclaredDir();
+        if (Path::IsInLibrary($dec_dir)){
             return IGK_LIB_DIR."/".IGK_VIEW_FOLDER;
         }
         return parent::getViewDir();
@@ -182,9 +186,8 @@ final class ConfigureController extends BaseController implements IConfigControl
         $bbox = $app->Doc->body->getBodyBox();
         $bbox->clearChilds(); 
         $app->Doc->body["class"] = "+igk-client-page -igk-cnf-body";
-
         switch ($app->getCurrentPageFolder()) {
-            case "home":
+            case IGK_HOME_PAGE: 
                 $defctrl = igk_get_defaultwebpagectrl();
                 if ($defctrl != null) {
                     $defctrl->View();
@@ -232,7 +235,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $app = igk_app();
         if ($app->getConfigs()->informAccessConnection) {
             $to = $app->getConfigs()->website_adminmail;
-            /// TODO: NOTIFICATION __ 
+            /// TODO: SEND MAIL CONFIG NOTIFICATION
             // if ($to) {
               
             //     $d = new \IGK\System\Html\Mail\NotifyConnexionMailDocument($this); 
@@ -794,12 +797,12 @@ EOF;
      */
     public function connectToConfig($u = null, $pwd = null, $redirect = true)
     { 
+        igk_ilog('try connectToConfig');
+        
         $adm = null;
         $adm_pwd = null; 
         $is_connected = $this->getIsConnected();    
         $is_valid_cref = igk_valid_cref(1);
- 
-
         if ( !$is_connected && igk_server()->method("POST") &&  $is_valid_cref) {
             if (!igk_sys_env_production()) {
                 $u = $u == null ? "admin" : "";
@@ -827,12 +830,13 @@ EOF;
                     $is_connected = 1; 
                 } else {
                     $not->addError(__("err.login.failed"));
-                    igk_ilog("failed connection"); 
+                    igk_ilog("failed connectToConfig with error"); 
                 }
             }
         } else { 
             if (!$redirect) {
                 igk_set_header(500);
+                igk_ilog("mandatory failed"); 
                 igk_wln_e(__("Mandatory failed"));
             }
         } 
@@ -886,7 +890,6 @@ EOF;
         static $confNode;
         if ($confNode === null) {
             $confNode = new HtmlConfigContentNode();
-   
         }
         return $confNode; 
     }
@@ -1278,7 +1281,7 @@ EOF;
 	</div>
 </div>
 <div id="id_content" class="config-desc">
-${igk_framename} - ${igk_version}<br />
+{$igk_framename} - {$igk_version}<br />
 {$lang('dashboard')}
 </div>
 <div id="id_foot" style="width:301px; height:31px; position:absolute;background-repeat:no-repeat; left:0px; top:0px;">
@@ -1333,11 +1336,14 @@ EOF;
         protected function initTargetNode():HtmlNode
         {
             $this->setParam(IGK_KEY_CSS_NOCLEAR, 1);
-            $node = igk_create_node("div")->setAttribute("class", "igk-cnf-page fit igk-parentscroll igk-powered-viewer overflow-y-a");
+            $node = new HtmlConfigPageNode;  
+            //  if (igk_environment()->isDev())
+            // $node->div()->Content = __FILE__.":".__FUNCTION__ . ": Ini Node ;";
             $v_cnf = igk_create_node("div")->setAttributes(array("class" => "igk-cnf-frame"));
             $v_cnf->add($this->getConfigMenuNode());
             $v_cnf->add($this->getConfigNode());
             $this->setConfigFrame($v_cnf);
+            // $node->add($v_cnf); 
             return $node;
         }
         ///<summary></summary>
@@ -1568,7 +1574,7 @@ EOF;
         public function setpage($p = null, $stored = 0)
         { 
             $key = "cnf://no_reload";
-            if ($sp = igk_get_env($key)) {
+            if (igk_get_env($key)) {
                 return;
             }
             if ($stored) {
@@ -1590,7 +1596,9 @@ EOF;
                 $this->ConfigNode = $cnf_n;
             }
             $cnf_n->clearChilds(); 
-            igk_notify_sethost($cnf_n->div()); 
+
+            $cnf_n->notifyhost(); //igk_notify_sethost($cnf_n->div()); 
+       
             $args = ["ctrl"=>$this, "app"=>igk_app()];
             switch ($p) {
                 case "configurationmenusetting":
@@ -1601,11 +1609,10 @@ EOF;
                     break;
                 case "phpinfo":
                     $this->_selectMenu("phpinfo", "IGKConfigCtrl::setpage");
-                    $cnf_n->h1()->Content = "Configuration - PHPInfo";
-                    $cnf_n->div()->ajxuriloader($this->getUri("getphpinfo"));
-                    // $iframe = $cnf_n->add("iframe", array("class" => "fitw fith no-border"));
-                    // $iframe["src"] = $this->getUri("getphpinfo");
-                    // $iframe["style"] = "min-height:800px; ";
+                    $cnf_n->h1()->Content = __("PHPInfo");
+                    $cnf_n->div()
+                    ->setClass("igk-cnf-php-info-container")
+                    ->ajxuriloader($this->getUri("getphpinfo")); 
                     break;
                 case "serverinfo":
                     $this->_selectMenu("serverinfo", "IGKConfigCtrl::setpage");
@@ -1617,12 +1624,16 @@ EOF;
                 case IGK_DEFAULT_VIEW:
                     extract($args); 
                     if (is_file($f = $this->getViewFile("config.default_page.phtml")))
-                        include($f);
-                    else 
-                        igk_debug_wln_e("default file not found");
+                    { 
+                            include($f);
+                    }
+                    else {
+                        igk_dev_wln_e("missing defaut page.... ".$f); 
+                    }
                     igk_set_env($key, 1);
                     break;
                 default: 
+                    igk_dev_wln_e("no page. handle");
                     break;
             }  
         }
@@ -1783,10 +1794,10 @@ EOF;
         {
             return igk_dir(IGK_LIB_DIR . "/Styles");
         }
-        ///<summary></summary>
+        ///<summary>update domain configuration settings</summary>
         /**
-            * 
-            */
+        * update domain configuration settings
+        */
         public function update_domain_setting()
         {
             $d = igk_getr("website_domain", IGK_DOMAIN);
@@ -1810,6 +1821,11 @@ EOF;
             $this->View();
             igk_navtocurrent();
         }
+        ///<summary>get configuration extra data</summary>
+        /**
+         * get configuration extra data
+         * @return array 
+         */
         private static function GetConfigEntryData(){            
             $s = "^/Configs(/:lang)?(" . IGK_REG_ACTION_METH_OPTIONS . ")?";
             $uri = igk_io_request_uri();
@@ -1872,9 +1888,22 @@ EOF;
                 // + |
                 if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
                     // add - in temp file will make base theme to renderering on configuration 
+                    $doc = $app->getDoc();
+                    $coredef = $doc->getTheme(false);
+                    $coredef->getDef()->setStyleFlag(IGKCssDefaultStyle::ST_NO_THEME_RENDERING_FLAG,  true);                    
+
                     $theme = $app->getDoc()->getTheme();
-                    $theme->addTempFile($f);
-                    $theme->getDef()->setStyleFlag('no_theme_rendering',  true);
+                    $theme->addTempFile($f);                 
+                    // $theme->getDef()["body.debug"] = "background-color:red;";
+                    // $def = $app->getDoc()->getTheme();
+                    // $coredef['body.background'] = "color:init;";
+                    // $app->getDoc()->getSysTheme();
+                    // igk_app()->getSession()->PRESENTATION = "MERCI -----------";
+                    // igk_app()->getSettings()->appInfo->PRESENTATION = null;
+                    // igk_app()->getSettings()->appInfo->store("SANG", "OK----------------------------");
+                    // igk_wln_e(__FILE__.":".__LINE__ , "store data :::: ", $coredef->get_css_def());
+                    // igk_exit();
+
                 } 
                  
                 if (!$this->getIsConnected()) {
@@ -1896,17 +1925,16 @@ EOF;
                     $this->setEnvParam(IGK_KEY_CSS_NOCLEAR, 0);
                     $v_cctrl = $this->getSelectedConfigCtrl();
 
-                    if ($v_cctrl === null) {
-                        $this->setpage();
+                    if (is_null($v_cctrl)) {
+                        $this->setpage(); 
                     } else {
-                      
                         if (igk_get_env("sys://config/selectedview") !== $v_cctrl) {
                             $tab = $this->getEnvParam("cnf_query_options");
                             $g = igk_pattern_view_extract($v_cctrl, $tab, 1);
                             $v_cctrl->regSystemVars(array_merge(isset($g["c"]) ? [$g["c"]] : [], is_array($v_t = igk_getv($g, "param")) ? $v_t : []), igk_getv($g, "query_options"));
-                            $v_cctrl->showConfig(); 
+                            $v_cctrl->showConfig();  
                         }
-                    }
+                    } 
                 }
             }
             $this->_onViewComplete();
@@ -1914,14 +1942,16 @@ EOF;
         }
         ///<summary></summary>
         /**
-            * 
-            */
+        * view logs
+        */
         public function viewLogs()
         {
             $log = igk_ilog_file();
             $d = igk_create_xmlnode("div");
+            $html = igk_create_notagnode();
             $d["class"] = "logview";
             $d["style"] = "max-height:420px; overflow:auto";
+            $d->add($html);
             if (file_exists($log)) {
                 $tab = explode(IGK_LF, igk_io_read_allfile($log));
                 $dv = $d->add("div");
@@ -1929,7 +1959,7 @@ EOF;
                     $dv->li()->Content = $line;
                 }
             } else {
-                $d->addPanel()->setClass("igk-danger")->Content = __("No log found");
+                $html->panelbox()->setClass("igk-danger")->Content = __("No log found");
             }
 
             if (igk_is_ajx_demand()) {

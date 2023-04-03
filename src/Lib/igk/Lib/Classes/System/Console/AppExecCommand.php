@@ -7,11 +7,13 @@
 
 namespace  IGK\System\Console;
 
+use IGK\Controllers\SysDbController;
 use IGK\System\Console\Commands\DbCommandHelper;
 
 use IGKException;
 
 abstract class AppExecCommand extends AppCommand{
+    protected $handle;
     /**
      * get option values
      * @param mixed $command 
@@ -21,7 +23,7 @@ abstract class AppExecCommand extends AppCommand{
      */
     protected static function GetOptions($command, string $list){        
         foreach(explode("|", $list) as $m){
-            if ($m = igk_getv($command->options,$m)){
+            if ($m = igk_getv($command->options, $m)){
                 return $m;
             }
         }
@@ -44,10 +46,15 @@ abstract class AppExecCommand extends AppCommand{
     {
         $this->handle = [$this, "exec"];
     }
+    /**
+     * run the command with args
+     * @param mixed $args 
+     * @param mixed $command source command options
+     * @return mixed 
+     */
     public function run($args, $command)
     {
         if ($this->handle){
-
             $command->exec = function($command){
                 if (property_exists($command->options, "--help")){
                     $h= $this->help();
@@ -74,4 +81,16 @@ abstract class AppExecCommand extends AppCommand{
     protected static function GetController(string $controller, $throwex = 1){
         return \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
     }
+    protected function _dieController($command, ?string $controller, bool $system=false){
+		if ($controller){
+			if ($controller != '%sys%'){
+				if ($ctrl = self::GetController($controller, false)){
+					return $ctrl;
+				}
+			} else {
+				$system = true;
+			}
+		}
+		return $system ? SysDbController::ctrl() : igk_die("controller required");
+	}
 }

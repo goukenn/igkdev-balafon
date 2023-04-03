@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -25,14 +25,14 @@ use IGK\Models\ModelBase;
 * */
 class Crons extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_CRONSNAME="crons_name";
-	const FD_CRONSPROCESS="crons_process";
-	const FD_CRONSSCRIPT="crons_script";
-	const FD_CRONSOPTIONS="crons_options";
-	const FD_CRONSCLASS="crons_class";
-	const FD_CRONSSTATUS="crons_status";
-	const FD_CRONSCREATEAT="crons_create_at";
-	const FD_CRONSUPDATEAT="crons_update_at";
+	const FD_CRONS_NAME="crons_name";
+	const FD_CRONS_PROCESS="crons_process";
+	const FD_CRONS_SCRIPT="crons_script";
+	const FD_CRONS_OPTIONS="crons_options";
+	const FD_CRONS_CLASS="crons_class";
+	const FD_CRONS_STATUS="crons_status";
+	const FD_CRONS_CREATE_AT="crons_create_at";
+	const FD_CRONS_UPDATE_AT="crons_update_at";
 	/**
 	* table's name
 	*/

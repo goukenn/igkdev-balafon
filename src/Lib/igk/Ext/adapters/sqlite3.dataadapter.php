@@ -18,6 +18,7 @@ use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
+use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
 define("IGK_SQL3LITE_KN_TABLE_KEY", IGK_SQL3LITE_KN."::/tableName");
@@ -335,6 +336,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     public function beginTransaction(){
         $this->sql->exec("BEGIN TRANSACTION");
         $this->m_inTransaction = true;
+    }
+    public function createRandomQueryTableOnColumn(string $table, string $column, ?array $columns=null): ?string {
+        return null; // $this->getGrammar()->createRandomQueryTableOn($table, $column, $columns);
+        // sprintf('SELECT * FROM tbrental_car_modeles AS t1 JOIN (SELECT crmodele_id FROM tbrental_car_modeles ORDER BY RAND() LIMIT 1) as t2 ON t1.crmodele_id=t2.crmodele_id;');
     }
     ///<summary></summary>
     /**

@@ -45,7 +45,7 @@ final class HtmlReaderBindingInfo{
     ///<summary></summary>
     public function getName(){
         $g=igk_get_env(self::PATH);
-        return $g["reader"]->Name();
+        return $g["reader"]->getName();
     }
     ///<summary></summary>
     ///<param name="x"></param>

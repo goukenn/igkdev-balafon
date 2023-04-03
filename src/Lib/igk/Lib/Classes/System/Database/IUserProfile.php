@@ -8,6 +8,7 @@
 namespace IGK\System\Database;
 
 use IGK\Controllers\BaseController;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
 
 /**
@@ -25,8 +26,14 @@ interface IUserProfile{
     function auth($type):bool; 
 
     /**
-     * get the user model
+     * get system's user model
      * @return Users 
      */
     function model(): \IGK\Models\Users;
+
+    /**
+     * get project's user model
+     * @return ModelBase 
+     */
+    function user(): \IGK\Models\ModelBase;
 }

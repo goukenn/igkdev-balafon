@@ -17,7 +17,14 @@ use IGK\System\IInjectable;
 interface IPrinterService extends IInjectable{
     function resetDevice();
     //draw string
-    function text($text, $x, $y);
+    /**
+     * draw text( )
+     * @param mixed $text 
+     * @param int $x x-axis position  
+     * @param int $y y-axis position 
+     * @return void
+     */
+    function text($text, ?int $x=null, ?int $y=null);
     function rect($x, $y , $w, $h);
     function cell(string $text, $x, $y, $w, $h, ?array $options=null);
     function write(string $text, float $h);

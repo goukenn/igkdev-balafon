@@ -16,7 +16,6 @@
             },
             drop: function(e){
                 var data = e.dataTransfer;
-                // console.debug("drop file ", e);
                 for(var i = 0; i < data.files.length; i++){
                     igk.ajx.uploadFile(n.o, data.files[i],t_uri, true, null);
                 } 

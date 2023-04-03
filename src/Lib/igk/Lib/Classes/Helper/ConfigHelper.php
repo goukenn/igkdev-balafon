@@ -9,7 +9,7 @@ use IGKException;
 
 ///<summary></summary>
 /**
-* 
+* configuration helper
 * @package IGK\Helper
 */
 abstract class ConfigHelper{

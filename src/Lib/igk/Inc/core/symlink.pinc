@@ -7,6 +7,8 @@ $root_dir = igk_getr('root_dir'); // public dir relative to %home
 $site_dir = igk_getr('site_dir');
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
 
+
+
 $app_dir."/Lib/igk/igk_framework.php";
 $target = $home."/".ltrim(igk_getr("target") ?? "", "/");
 $dir = $home."/".ltrim(igk_getr("dir") ?? "", "/");
@@ -16,6 +18,8 @@ if (!file_exists($target)){
 if (igk_getr('force')){
     if (is_link($dir)){        
         @unlink($dir);
+    } else if (is_dir($dir)){
+        igk_io_rmdir($dir); 
     }
 }
 $rep = "";

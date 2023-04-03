@@ -8,9 +8,15 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-class IGKUserInfo extends IGKObject{
+use IGK\System\IToArray;
+use IGK\System\Traits\StoredPropertiesTrait;
+
+class IGKUserInfo extends IGKObject implements IToArray{
     const DB_INFO_KEY="sys://db/info";
     var $clId, $clLogin;
+    var $clPwd, $csrf;
+    use StoredPropertiesTrait;
+
     ///<summary></summary>
     public function __construct(){    }
     ///<summary></summary>
@@ -18,7 +24,13 @@ class IGKUserInfo extends IGKObject{
     ///<param name="value"></param>
     public function __set($name, $value){
         if(!$this->_setIn($name, $value))
-            $this->$name=$value;
+            $this->setProperty($name, $value);
+    }
+    public function __get($key){
+        if(method_exists($this, $fc = "get".ucfirst($key))){ 
+            return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
+        }
+        return $this->getProperty($key);
     }
     ///<summary>Represente auth function</summary>
     ///<param name="name"></param>
@@ -124,7 +136,7 @@ class IGKUserInfo extends IGKObject{
     public function toString(){
         return get_class($this);
     }
-    public function to_array(){
+    public function to_array():?array{
         return (array)$this;
     }
     /**

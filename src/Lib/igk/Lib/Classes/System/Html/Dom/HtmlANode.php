@@ -20,13 +20,13 @@ class HtmlANode extends HtmlNode
     var $domainLink;
     ///<summary></summary>
     ///<param name="option" default="null"></param>
-    protected function __AcceptRender($option = null)
+    protected function _acceptRender($option = null):bool
     {
         if (!$this->getIsVisible())
             return false;
         if ($this["onclick"] == null) {
             $bck = $this["href"]->getUri();
-            $kr = (is_string($bck) ? $bck : HtmlUtils::GetValue($bck)) ?? '';
+            $kr = (is_string($bck) ? $bck : HtmlUtils::GetValue($bck, $option)) ?? '';
             if (strpos(trim($kr), "javascript") === 0) {
                 $this["onclick"] = $kr . " return false;";
                 $this->m_rdef = 1;

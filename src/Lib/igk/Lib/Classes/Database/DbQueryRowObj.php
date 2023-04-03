@@ -38,7 +38,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		$g->m_rows = $tab;
 		return $g;
 	}
-	public function to_array($filter=false){
+	public function to_array($filter=false):array{
 		$tab = $this->m_rows;
 		if ($filter){
 			$tab = array_filter($tab, function($k, $m){

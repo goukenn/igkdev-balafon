@@ -18,6 +18,16 @@ class OsShell {
         "Unix"=>OsUnixCommand::class,
         "Window"=>OsWinCommand::class
     ];
+    public static function ExecInWorkingDir(string $command, string $workingdir, ?string $success=null){
+        $bck = getcwd();
+        chdir($workingdir);
+        if ($success){
+            $success = " && echo '{$success}'";   
+        }
+        $o = `$command{$success}`;        
+        chdir($bck);
+        return $o;
+    }
     public static function Register(string $type, string $class ){
         self::$sm_commands[$type] = $class;
     }

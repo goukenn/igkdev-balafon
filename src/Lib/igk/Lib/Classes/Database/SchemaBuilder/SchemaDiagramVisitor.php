@@ -4,10 +4,9 @@
 // @date: 20221104 13:21:22
 namespace IGK\Database\SchemaBuilder;
 
-use IGK\System\Models\IModelDefinitionInfo;
+use IGK\Helper\Activator;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGKSysUtil;
-use stdClass;
 
 ///<summary></summary>
 /**
@@ -33,7 +32,11 @@ class SchemaDiagramVisitor extends DiagramVisitor{
         // + | --------------------------------------------------------------------
         // + | init schema migration info
         // + | 
-        $t = new SchemaMigrationInfo;
+        if (!isset($this->m_data->tables[$tb])){
+            $t = new SchemaMigrationInfo;
+        } else{
+            $t = Activator::CreateNewInstance(SchemaMigrationInfo::class, (array)$this->m_data->tables[$tb]);
+        }
         $t->columnInfo =  $entity->getProperties();
         // + | resolv link type 
         foreach($t->columnInfo as $cl){
@@ -41,10 +44,12 @@ class SchemaDiagramVisitor extends DiagramVisitor{
                 $cl->clLinkType = IGKSysUtil::DBGetTableName($cl->clLinkType, $this->m_controller);
             }
         }
+        // + | copy definition 
         $t->description = $entity->getDescription();
         $t->defTableName = $defTableName;
         $t->tableName = $tb;
         $t->controller = $this->m_controller; 
+  
         $this->m_data->tables[$tb] = $t;
     }
 }

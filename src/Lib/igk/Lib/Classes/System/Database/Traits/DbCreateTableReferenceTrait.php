@@ -12,8 +12,8 @@ use IGK\Database\DbModuleReferenceTable;
 * @package IGK\System\Database\Traits
 */
 trait DbCreateTableReferenceTrait{
- /**
-     * get or change a reference table table reference 
+    /**
+     * get or change a reference table reference 
      * @param mixed $tables 
      * @return void 
      */

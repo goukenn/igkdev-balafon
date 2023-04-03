@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Logginattempts.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -21,10 +21,10 @@ use IGK\Models\ModelBase;
 * */
 class Logginattempts extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_LOGGINATTEMPTSLOGIN="logginattempts_login";
-	const FD_LOGGINATTEMPTSTRY="logginattempts_try";
-	const FD_LOGGINATTEMPTSCREATE_AT="logginattempts_createAt";
-	const FD_LOGGINATTEMPTSUPDATE_AT="logginattempts_updateAt";
+	const FD_LOGGINATTEMPTS_LOGIN="logginattempts_login";
+	const FD_LOGGINATTEMPTS_TRY="logginattempts_try";
+	const FD_LOGGINATTEMPTS_CREATE_AT="logginattempts_createAt";
+	const FD_LOGGINATTEMPTS_UPDATE_AT="logginattempts_updateAt";
 	/**
 	* table's name
 	*/

@@ -14,6 +14,11 @@ use IGKMedia;
 class CssSupport implements ArrayAccess{
     var $rule;
     var $media; 
+    /**
+     * added for css definition 
+     * @var mixed
+     */
+    var $def;
     use ArrayAccessSelfTrait;
 
     public function __construct($rule)

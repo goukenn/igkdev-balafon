@@ -115,6 +115,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         if(!is_null($f) && file_exists($f)){
             
             igk_environment()->task = 'load-config: '.$f;
+            igk_environment()->loading_context =  HtmlContext::XML;
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
             $confNode = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");             
             $confNode->loadFile($f, HtmlContext::XML, null);           
@@ -159,6 +160,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         } 
         $this->m_changed=0;
         $this->m_configs=$t;
+        igk_environment()->loading_context = null;
         return $t;
     }
     ///<summary></summary>

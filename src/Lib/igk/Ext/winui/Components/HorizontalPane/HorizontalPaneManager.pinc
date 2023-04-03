@@ -60,13 +60,10 @@ final class HorizontalPaneManager extends HtmlComponentNode
 		parent::__construct("div");
 		$this->setClass("igk-pane-manager"); //->setStyle("border:1px solid black;");
 		$this->m_owner = $owner;
-		$this->m_pandeAdd = $this->addHPaneOption("add");
+		$this->m_paneAdd = $this->addHPaneOption("add");
 
-		$f = igk_create_node_callback(array($this->m_owner, "isVisible"), array('option'));
-
-
-		$this->m_pandeAdd->item->setCallback("getIsVisible", $f);
-		// $this->m_pandeAdd->item->setStyle("[res:add_32x32]; cursor:cell;");
+		$f = igk_create_node_callback(array($this->m_owner, "isVisible"), array('option')); 
+		$this->m_paneAdd->item->setCallback("getIsVisible", $f); 
 
 		$this->m_paneClear = $this->addHPaneOption("clearall");
 		// $this->m_paneClear->item->setStyle("[res:del_32x32]; cursor: pointer;");
@@ -76,8 +73,10 @@ final class HorizontalPaneManager extends HtmlComponentNode
 		// $this->m_paneOptions->item->setStyle("[res:option_32x32]; cursor: pointer;");
 
 		$this->div()->setClass("igk-cleartab")->Content = " ";
-
 		$this->setCallback("getIsVisible", $f);
+	}
+	public function getPaneOptions(){
+		return $this->m_paneOptions;
 	}
 
 	private function _view_pane()
@@ -111,20 +110,15 @@ EOF;
 		$type = igk_getv($tab, "IGK_UP_FILE_TYPE", "text/html");
 		$fname = igk_getv($tab, "IGK_FILE_NAME", "file.data");
 		$bfname = igk_io_basenamewithoutext($fname);
-		//$s = file_get_contents("php://input");
 		$dir = $pane->Folder;
 
 		switch (strtolower($type)) {
 			case "image/jpeg":
 			case "image/jpg":
 			case "image/png":
-
 				$f = date("Ymd") . igk_new_id() . "." . igk_io_path_ext($fname);
 				$s  =  $dir . "/" . $f;
 				igk_io_store_uploaded_file($s);
-				//igk_io_save_file_as_utf8_wbom($dir."/".$fname, $s, true);
-				//igk_io_save_file_as_utf8_wbom($storelocation, $s, true);
-
 				$div =  HtmlNode::CreateWebNode("div");
 				$div["class"] = "fitw fith";
 				$img =  $div->addXmlNode("igk:img"); 
@@ -239,15 +233,19 @@ EOF;
 		}
 		return $obj;
 	}
-
-	public function AcceptRender($options = null)
+	/**
+	 * override rendering
+	 * @param mixed $options 
+	 * @return bool 
+	 */
+	protected function _acceptRender($options = null):bool
 	{
 
 		if (!$this->IsVisible)
 			return false;
 		$obj = $this->getUriSetting();
 
-// 		$this->m_pandeAdd->script->Content = <<<EOF
+// 		$this->m_paneAdd->script->Content = <<<EOF
 // ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initdrag','{$obj->addUri}');
 // EOF;
 

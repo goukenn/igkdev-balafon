@@ -293,16 +293,7 @@ class WsdlFile extends IGKObject {
             "float"=>"f4",
             "int"=>"i4",
             "bool"=>"i1",
-            "byte"=>"sb"
-            // "i1"=>"xsd:boolean",
-            // "i4"=>"xsd:int",
-            // "f4"=>"xsd:float",
-            // "sb"=>"xsd:byte",
-            // "b"=>"xsd:unsignedByte",
-            // "ub"=>"xsd:unsignedByte",
-            // "d1"=>"xsd:date",
-            // "t1"=>"xsd:time",
-            // "dt"=>"xsd:dateTime"
+            "byte"=>"sb" 
         ];
         $cl=is_object($className) ? get_class($className): (class_exists($className) ? $className: null);
         if($cl == null)

@@ -26,7 +26,7 @@ class HtmlHookNode extends HtmlNode{
     }
     ///<summary></summary>
     ///<param name="options" default="null"></param>
-    // protected function __getRenderingChildren($options=null){
+    // protected function _getRenderingChildren($options=null){
     //     return null;
     // }
     ///<summary></summary>
@@ -42,9 +42,10 @@ class HtmlHookNode extends HtmlNode{
     //     ob_end_clean();
     //     return $s;
     // }
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {
         if($v = $this->getIsVisible()){
+            $this->clear();
             ob_start();
             igk_hook($this->m_eventType, [$this, "options"=>$options, "context"=>$this->m_context]);
             $s=ob_get_contents();

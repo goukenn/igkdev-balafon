@@ -4,20 +4,34 @@
 // @date: 20221109 14:38:40
 // @desc: css helper function 
 
-/**
- * filter array condition 
- * @param mixed $tab 
- * @return string 
- */
-function igk_css_get_class($tab):string{
-    $m = [];
-    foreach($tab as $k=>$v){
-        if ($v) $m[] = $k;
-    }
-    return implode(' ', $m); 
+if (!function_exists('igk_css_get_class')){
+    /**
+     * filter array condition 
+     * @param mixed $tab 
+     * @return string 
+     */
+    function igk_css_get_class($tab):string{
+        $m = [];
+        foreach($tab as $k=>$v){
+            if ($v) $m[] = $k;
+        }
+        return trim(implode(' ', $m)); 
+    }    
 }
 
 
+if (!function_exists('igk_css_litteral')){
+    /**
+     * filter array condition 
+     * @param mixed $tab 
+     * @return string 
+     */
+    function igk_css_litteral(array $tab):?string{ 
+        if (empty($g = trim(implode(' ', array_filter($tab)))))
+            return null;
+        return $g;
+    }    
+}
 ///<summary>helper: used to treat style value . {sys: ...data}</summary>
 /**
  * helper: used to treat style value . {sys: ...data}

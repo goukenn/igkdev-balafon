@@ -52,7 +52,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 		$this->addPage(igk_create_node("div")->setContent("page2"));
 		$this->addPage(igk_create_node("div")->setContent("page3"));
 	}
-	public function AcceptRender($options=null){
+	protected function _acceptRender($options = null):bool {
 		$this->m_script->setIsVisible(false);
 		// $this->m_script->Content = "igk.winui.slider.init({orientation:'{$this->m_orientation}'})";
 		return true;

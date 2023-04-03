@@ -9,6 +9,7 @@ namespace IGK\System\Database\Factories;
 
 use Exception;
 use IGK\Models\ModelBase;
+use IGK\System\Console\Logger;
 
 /**
  * p
@@ -56,12 +57,21 @@ abstract class FactoryBase {
     }
 
     /**
+     * initilize dependency and return the number of max created element
+     * @return void 
+     */
+    protected function dependOn(int $max){
+        return $max;
+    }
+
+    /**
      * create model and return response
-     * @return ?array 
+     * @return ?array|mixed
      */
     public function create(): ?array{ 
         $response = null;
-        for($i = 0; $i < $this->count; $i++){
+        $g = $this->dependOn($this->count);
+        for($i = 0; $i < $g; $i++){
             $this->index = $i;
             $def = $this->definition($i); 
             if (empty($def)){
@@ -78,6 +88,7 @@ abstract class FactoryBase {
 
             } catch(Exception $ex){
                 $this->m_errors[] = $ex->getMessage();
+                Logger::danger('failed: '.$ex->getMessage());
             }
         }    
         $this->reset();
@@ -86,7 +97,7 @@ abstract class FactoryBase {
     ///<summary>override definition</summary>
     /**
      * return new entry definition. Fake
-     * @return array 
+     * @return ?array 
      */
     abstract function definition(): ?array;
 }

@@ -12,6 +12,7 @@ use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
 
 use IGKEvents;
@@ -41,20 +42,20 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
     public function getViewDir()
     {
-        if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
+        if (Path::IsInLibrary($this->getDeclaredDir())){
             return IGK_LIB_DIR."/".IGK_VIEW_FOLDER;
         }
         return parent::getViewDir();
     } 
     public function getArticlesDir()
     {
-        if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
+        if (Path::IsInLibrary($this->getDeclaredDir())){
             return IGK_LIB_DIR."/".IGK_ARTICLES_FOLDER;
         }
         return parent::getViewDir();
     } 
     public function getDataDir(){
-        if (strstr($this->getDeclaredDir(), IGK_LIB_DIR)){
+        if (Path::IsInLibrary($this->getDeclaredDir())){
             return IGK_LIB_DIR."/".IGK_DATA_FOLDER;
         }
         return parent::getDataDir();
@@ -68,10 +69,8 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    protected function getConfig($name, $default=null){         
-        return igk_getv([
-            "no_auto_cache_view"=>"1",
-        ], $name, $this->getConfigs()->get($name, $default));
+    protected function getConfig($name, $default=null){     
+        return $this->getConfigs()->get($name, $default);        
     }
   
     ///<summary></summary>

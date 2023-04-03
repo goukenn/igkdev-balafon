@@ -10,12 +10,13 @@ namespace IGK\System\Html\Dom;
 * no tag definition 
 */
 class HtmlNoTagNode extends HtmlNode{
+    protected $tagname = 'igk:notagnode';
     ///<summary></summary>
     /**
     * .ctr
     */
-    public function __construct(){
-        parent::__construct("igk:notagnode");
+    public function __construct(){       
+        parent::__construct();
     }
     ///<summary></summary>
     /**
@@ -24,4 +25,7 @@ class HtmlNoTagNode extends HtmlNode{
     public function getCanRenderTag(){ 
         return false;
     }    
+    public function getIsActive(){
+        
+    }
 }

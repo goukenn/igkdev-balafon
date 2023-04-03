@@ -20,6 +20,7 @@ use IGK\System\Models\Traits\ModelExtensionTrait;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Regex\MatchPattern;
+use IGKEvents;
 use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
@@ -92,8 +93,10 @@ abstract class ModelEntryExtension
     public static function create(ModelBase $model, $raw = null, bool $update = true, bool $throwException = true)
     {
         $cl = get_class($model);
-        $c = new $cl($raw);
+        $c = new $cl($raw);   
         if ($craw = $c->to_array()) {
+            // igk_wln(__FILE__.":".__LINE__ , "the craw ", $craw);
+
             $g = $c->insert($craw, $update, $throwException);
             if (($g !== false) && ($g !== null)) {
                 if ($g instanceof $model) {
@@ -227,7 +230,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-     * 
+     * helper: call select_all
      * @param ModelBase $model 
      * @return array 
      * @throws Exception 
@@ -237,6 +240,14 @@ abstract class ModelEntryExtension
         return self::select_all($model, $conditions, $options);
     }
 
+    /**
+     * select all return an array
+     * @param ModelBase $model 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return array 
+     * @throws IGKException 
+     */
     public static function select_all(ModelBase $model, $conditions = null, $options = null)
     {
         /**
@@ -402,7 +413,7 @@ abstract class ModelEntryExtension
     {
         $driver = $model->getDataAdapter();
         $primary = $model->getPrimaryKey();
-        $tbinfo = $model->getTableInfo();
+        $tbinfo = $model->getTableColumnInfo();
         $table = $model->getTable();
         if ($model->is_mock()) {
             if ($value === null) {
@@ -450,36 +461,44 @@ abstract class ModelEntryExtension
     /**
      * 
      * @param ModelBase $model 
-     * @param mixed $entries 
-     * @param bool $update 
+     * @param mixed $entry entry data
+     * @param bool $update update mode
      * @return null|ModelBase|bool 
      * @throws IGKException 
      */
-    public static function insert(ModelBase $model, $entries, $update = true, bool $throwException=true)
+    public static function insert(ModelBase $model, $entry, $update = true, bool $throwException=true)
     {  
         $ad = $model->getDataAdapter();
-        $info = $model->getTableInfo();
-        if ($ad->insert($model->getTable(), $entries, $info, $throwException)) {
+        if (!$ad->getIsConnect()){
+            return false;
+        }
+        $info = $model->getTableColumnInfo();
+        
+        if ($ad->insert($model->getTable(), $entry, $info, $throwException)) {
             if ($update) {
                 $ref_id = $model->getRefId();
                 if (($id = $ad->last_id()) && ($id !== -1)) {
                     // because selection : last_id missing 
-                    if ($id =='puId'){
-                        igk_debug_wln_e($id , get_class($model));
-                    }
+                    // if ($id =='puId'){
+                    //     igk_debug_wln_e($id , get_class($model));
+                    // }
                     $model->$ref_id = $id;
                     $model->isNew();
                     $s = $model::select_row([$ref_id => $id]);
-                    if ($s && is_object($entries)) {
+                    if ($s && is_object($entry)) {
                         foreach ($s->to_array() as $k => $v) {
-                            $entries->$k = $v;
+                            $entry->$k = $v;
                         }
                     }
+                    igk_hook(IGKEvents::HOOK_DB_INSERT, ['row'=>$s]);
                     return $s;
                 }
             }
+            igk_hook(IGKEvents::HOOK_DB_INSERT, ['row'=>$entry]);
             return true;
         }
+        // + | clear hook
+        igk_unreg_hook(IGKEvents::HOOK_DB_INSERT, null);
         return false;
     }
     public static function last_id(ModelBase $model)
@@ -489,6 +508,13 @@ abstract class ModelEntryExtension
     public static function last_error(ModelBase $model)
     {
         return $model->getDataAdapter()->last_error();
+    }
+    public static function select_rand_row(ModelBase $model, string $column, ?array $columns=null){
+        $ad = $model->getDataAdapter();
+        $table = $model->table();
+        if ($query = $ad->getGrammar()->createRandomQueryTableOnColumn($table, $column, $columns)){
+            return self::query($model, $query);
+        }
     }
     public static function tableExists(ModelBase $model):bool{
         $table = $model::table();
@@ -506,12 +532,23 @@ abstract class ModelEntryExtension
         $driver = $model->getDataAdapter();
         return $driver->sendQuery($query);
     }
-    public static function factory(ModelBase $model)
+    /**
+     * create a factory class 
+     * @param ModelBase $model 
+     * @param $count number of item to create 
+     * @param null|string $class_name 
+     * @return object 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function factory(ModelBase $model, int $count,  ?string $class_name = null)
     {
         // create a factory object         
-        $cl = $model->getFactory();
+        $cl = $class_name ?? $model->getFactory();
         if (class_exists($cl)) {
-            $arg = func_get_args();
+            $arg = array_slice(func_get_args(), 3);
+            array_unshift($arg, $model, $count);            
             return new $cl(...$arg);
         }
         igk_die("factory class not found . " . $cl);
@@ -530,7 +567,7 @@ abstract class ModelEntryExtension
      * display for this model view
      * @return void 
      */
-    public static function display(ModelBase $model)
+    public static function display(ModelBase $model, string $separator='')
     {
         return "display:" . $model->to_json();
     }
@@ -565,7 +602,7 @@ abstract class ModelEntryExtension
      */
     public static function colKeys(ModelBase $model)
     {
-        $rinfo = $model->getTableInfo(); 
+        $rinfo = $model->getTableColumnInfo(); 
         if ($tablekey = $rinfo) {
             $inf = [];
             array_map(function ($b) use (&$inf) {
@@ -623,7 +660,7 @@ abstract class ModelEntryExtension
         $cl = $model->getFormFields();
         $t = [];
 
-        $inf =  $model->getTableInfo(); 
+        $inf =  $model->getTableColumnInfo(); 
         $ctrl = $model->getController();
         $binfo = [];
         $v_tabinfo = null;
@@ -775,9 +812,17 @@ abstract class ModelEntryExtension
         if ($id instanceof $model) {
             return $id;
         }
+        if (is_null($column)){
+            $column = $model->getPrimaryKey() ?? igk_die("no primary key provided.");
+        }
         $tab = [$column => $id];
         $r =  $model::select_row($tab);
         if (!$r && $autoinsert) {
+            if ($autoinsert instanceof \closure){
+                $autoinsert($model);
+            }else if (is_array($autoinsert)){
+                $tab = $autoinsert;
+            }
             $r = $model::insert($tab);
         }
         return $r;
@@ -793,11 +838,12 @@ abstract class ModelEntryExtension
      */
     public static function GetCache(ModelBase $model, $column, $id, $autoinsert = null): ?object
     {
-        $key = "cache://" . get_class($model) . "/" . $column . "/" . $id;
+        $cl = $model->getColumn($column);
+        $key = "cache://" . get_class($model) . "/" . $cl . "/" . $id;
         if ($o = CacheModels::Get($key)) {
             return $o;
         }
-        if ($o = self::Get($model, $column, $id, $autoinsert)) {
+        if ($o = self::Get($model, $cl, $id, $autoinsert)) {
             CacheModels::Register($key, $o);
         }
         return $o;
@@ -975,7 +1021,7 @@ abstract class ModelEntryExtension
 
     public static function modelTableInfo(ModelBase $model)
     {
-        return $model->getTableInfo();
+        return $model->getTableColumnInfo();
     }
     /**
      * retrieve query column
@@ -1095,7 +1141,7 @@ abstract class ModelEntryExtension
     }
     private static function _Add(ModelBase $model, bool $check, $params)
     {
-        $info =  $model->getTableInfo();
+        $info =  $model->getTableColumnInfo();
         $controller = $model->getController();
         if (is_null($controller )){
             igk_die(__FUNCTION__." failed:[controller] is null model name = ". get_class($model));
@@ -1182,7 +1228,7 @@ abstract class ModelEntryExtension
      */
     public static function schema_describe(ModelBase $model){
         $columns = []; 
-        $info =  $model->getTableInfo();
+        $info =  $model->getTableColumnInfo();
         $t = $model->getTable();
         foreach($info as $cl){
             if (is_null($cl)){
@@ -1223,6 +1269,18 @@ abstract class ModelEntryExtension
         }
         return JSon::Encode($model);
     }
+    /**
+     * select cache and display raw value
+     * @param ModelBase $model 
+     * @param mixed $result 
+     * @return void 
+     */
+    public static function DisplayRow(ModelBase $model, $condition){
+        if ($g = $model->cacheRow($condition)){
+            return $g->display();
+        }
+        return null;
+    }
 
     /**
      * convert to condition fields
@@ -1239,7 +1297,7 @@ abstract class ModelEntryExtension
      * @return void 
      */
     public static function validate(ModelBase $model){
-        $g = $model->getTableInfo();
+        $g = $model->getTableColumnInfo();
         $numfield = explode("|", "int|bigint|float|double|integer");
         foreach($model->to_array() as $k=>$v){
             $info = $g[$k];

@@ -138,9 +138,9 @@ $def[".igk-lh-0"] = "line-height:0 !important;";
 $def["ul.igk-puce"] = "padding-left:32px;";
 $def["ul.igk-puce > li"] = "list-style-type: disc;";
 $def[".igk-device:before"] = "content:'screen'";
-$def[".igk-fs-m"] = "font-size:8pt;";
-$def[".igk-fs-n"] = "font-size:10pt;";
-$def[".igk-fs-l"] = "font-size:18.5pt;";
+$def[".igk-fs-m"] = "font-size:16pt;";
+$def[".igk-fs-n"] = "font-size:18pt;";
+$def[".igk-fs-l"] = "font-size:20.5pt;";
 $def[".igk-padding-a-2"] = "padding:{$pad2}";
 $def[".igk-darkbg-40:before"] = "content:' '; position:absolute; {sys:fit} background-color:#000; opacity:0.4;";
 $def[".igk-def-c"] = "(sys:.igk-fs-n); line-height:1.25;";
@@ -445,13 +445,22 @@ $def[".igk-js-notify .igk-panel"] = "color: #777";
 $def[".igk-js-notify .igk-notify-btn-close"] = "display:block; color:white; margin:8px 16px; cursor:pointer;";
 $def[".igk-js-notify.igk-danger .igk-panel"] = "color: #777";
 $def[".igk-notify-z"] = "min-height:2.1em";
+
+
+// code definition 
+
+
 $def["code.igk-code span.ln"] = "color:#cecece; vertical-align:bottom; margin-right:10px";
 $def["code.igk-code span.ln"] = "{sys:posr} [fcl:codeLineForeColor, #cecece] z-index:10; padding-right:{$pad_size}; [resolv:user-select: none;] display:table-cell !important;";
 $def["code.igk-code span.ln:before"] = "{sys:posab, loc_l} background-color: [cl:codeLineBgColor, #444]; z-index: -1; right:4px; top:-4px; bottom:-4px; margin-left:-12px; content:' ';";
 $def["code.igk-code > div"] = "{sys:disptabr, no-wrap}";
 $def["code.igk-code:before"] = "{sys:posab, loc_a} [bgcl:codeViewBgColor, #eee] content:' '; z-index:-1; ";
-$def["code.igk-code"] = "line-height: 1.4em; {sys:posr, fitw} max-width:100%; overflow:auto;";
+$def["code.igk-code"] = "line-height: 1; {sys:posr, fitw} max-width:100%; overflow:auto; max-height:[var:--igk-code-max-height,initial];";
 $def["code.igk-code span.s"] = "{sys:no-wrap, dispib}";
+
+
+
+
 
 $def[".igk-table"] = "border-collapse: collapse; border-spacing:0px; border:none; padding:0px;";
 $def[".igk-table > tbody  th"] = "{sys:no-wrap};";
@@ -639,7 +648,7 @@ for ($i = 0; $i < 11; $i++) {
 }
 $def[".igk-balafon-ref"] = "";
 $def[".igk-balafon-ref .igk-jsa"] = "color:#29DCC5";
-$def[".igk-ctrl-options"] = "z-index:${ctrl_options_zindex}; ";
+$def[".igk-ctrl-options"] = "z-index:{$ctrl_options_zindex}; ";
 $def[".igk-ctrl-options:hover"] = "opacity:1.0;";
 $def[".igk-mail"] = "[sysbgcl:igk-mail-bg] [sysfcl:igk-mail-fcl]";
 $def[".igk-mail .igk-menu-bar"] = "clear:both;";
@@ -1189,3 +1198,14 @@ foreach([16,24,32,48,64] as $k){
 $cl['codeBgColor'] = '#686868';
 
 $root['--igk-panelBoxBackgroundColor'] = '0';
+
+
+$sm_screen[".igk-body"]  = "font-size:16pt;";
+
+
+// Nav-menu
+$def["nav .igk-menu.dispflex"] = "align-items: center; font-size:1rem; padding:10px 0;";
+$def["nav .igk-menu > li a"] = "{sys:dispb} padding: 0 10px;";
+
+
+include_once __DIR__.'/winui/session.pcss';

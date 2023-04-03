@@ -14,6 +14,7 @@ class ViewExpressionSetterValueInfo{
     private $m_inUse = false;
     private $m_value;
     private $m_id;
+    private $m_updateCallback;
     public function __construct($id, $v, $update){
         $this->m_value = $v;
         $this->m_id = $id;

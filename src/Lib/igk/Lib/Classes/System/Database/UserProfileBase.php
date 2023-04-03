@@ -37,7 +37,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * return the model attached to this UserProfile
      * @return mixed 
      */
-    public function model(){
+    public function model(): \IGK\Models\Users{        
         return $this->m_model;
     }
     /**

@@ -103,7 +103,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function display(\IGK\Models\ModelBase $model);
+    public abstract static function display(\IGK\Models\ModelBase $model, string $separator='');
     /**
      * extension methods 
      */
@@ -123,7 +123,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function factory(\IGK\Models\ModelBase $model);
+    public abstract static function factory(\IGK\Models\ModelBase $model, int $count, ?string $class_name);
     /**
      * extension methods 
      */
@@ -159,7 +159,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function insert(\IGK\Models\ModelBase $model, $entries, $update = true, bool $throwException = true);
+    public abstract static function insert(\IGK\Models\ModelBase $model, $entry, $update = true, bool $throwException = true);
     /**
      * extension methods 
      */

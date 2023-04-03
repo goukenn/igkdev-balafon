@@ -14,12 +14,12 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Validator
 */
 class HtmlValidatorTest extends BaseTestCase{
-    // public function test_remove_tag(){
-    //     $validator = new HtmlValidator;
-    //     $s = "<div>Hello </div><div />word!!!";
-    //     $this->assertEquals("Hello word!!!",         
-    //     $validator->validate($s));
-    // }
+    public function test_remove_tag(){
+        $validator = new HtmlValidator;
+        $s = "<div>Hello </div><div />word!!!";
+        $this->assertEquals("Hello word!!!",         
+        $validator->validate($s));
+    }
 
     public function test_remove_leave_one_tag(){
         $validator = new HtmlValidator;

@@ -30,7 +30,7 @@ final class InstallerUtils
         if ($options===null){
             $options = [];
         }
-        $src = file_get_contents(IGK_LIB_DIR."/Inc/core/index.entry_point.pinc");
+        $src = file_get_contents(IGK_LIB_DIR."/Inc/core/index.entry_point.princ");
         $is_primary = igk_getv($options, "is_primary") ;
         foreach([
             "{{ @author }}"=> igk_getv($options,"author", IGK_AUTHOR),

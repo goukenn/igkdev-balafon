@@ -54,9 +54,14 @@ class SysUtils{
      * @return void 
      */
     public static function Eval(){
+        if (func_num_args()<1){
+            igk_die("missing requirement arguments count.");
+        }
         extract(func_get_arg(1));
-        try{
-            // igk_ilog( __FILE__.":".__LINE__,  'eval : '. func_get_arg(0));
+        try{ 
+            if (igk_environment()->isDev()){
+                igk_ilog('eval : '.func_get_arg(0));
+            }
             eval("?>".func_get_arg(0));
         }catch (TypeError $error){
             throw new IGKException('eval failed', 500, $error);
@@ -276,12 +281,7 @@ class SysUtils{
         // + | Clear assets folder
         if (is_dir($assets = igk_io_basedir() . "/" . IGK_RES_FOLDER)) {
             Logger::info("clean public cache: " . $assets);
-            array_map(function($f){
-                if (is_link($f)){
-                    @unlink($f);
-                }
-            }, igk_io_getfiles($assets));
-            
+            IO::CleanDir($assets);  
         }
         if (is_dir($bdir)) {
             Logger::info("rm :" . $bdir);
@@ -299,7 +299,7 @@ class SysUtils{
      */
     public static function ResolvLinkPath(string $rp){
 
-        if (is_null(igk_server()->HOME) && ($p = igk_configs()->get('access_home_dir', '/homez.1612/tonerag'))){
+        if (is_null(igk_server()->HOME) && ($p = igk_configs()->get('access_home_dir'))){
             $home_dir = "/home/".igk_server()->USER;
             if (strpos($rp, $home_dir) === 0 ){
                 $rp = $p."/".substr($rp , strlen($home_dir)+1);

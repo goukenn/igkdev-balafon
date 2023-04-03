@@ -8,6 +8,10 @@
 
 (function() {
     const createNS = igk.system.createNS;
+    const is_string = igk.is_string;
+    const IGK_FUNC = 'function';
+    const IGK_UNDEF = 'undefined';
+    const IGK_CLASS = 'class';
     // notify visible
     var m_nv = false;
     var bdiv = null; // shared bdiv
@@ -126,6 +130,9 @@
             };
 
             function _setupview() {
+                if (!div.parentNode){
+                    return;
+                }
                 div.setCss({
                     "height": "auto" // auto by default
                 });
@@ -202,6 +209,9 @@
                 });
                 // unregister key press
                 igk.winui.unreg_event(document, "keypress", fc);
+                if (m_eventContext) {
+                    m_eventContext.unreg_window("resize", _setupview);
+                }
                 m_hide = !0;
                 dial.hide = !0;
             }
@@ -262,12 +272,12 @@
             content.addClass("content-z"); // content zone
             var box = content.add("div");
             box.addClass("title igk-title-4");
-            if (igk_is_string(t)) {
+            if (is_string(t)) {
                 box.setHtml(t);
             } else {
                 box.add(t);
             }
-            if (igk_is_string(m)) {
+            if (is_string(m)) {
                 content.add("div").addClass("igk-panel igk-notify-panel").setHtml(m);
             } else {
                 content.add("div").addClass("igk-panel").o.appendChild($igk(m).o);

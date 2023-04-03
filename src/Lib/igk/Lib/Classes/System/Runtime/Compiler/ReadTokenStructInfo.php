@@ -14,6 +14,7 @@ use IGKException;
  */
 class ReadTokenStructInfo
 {
+    var $popBuffer;
     /**
      * type of the struct
      * @var string
@@ -99,7 +100,7 @@ class ReadTokenStructInfo
     public function __construct(string $type)
     {
         if (!in_array($type, ["trait", "interface", "class", "function"])) {
-            igk_die("not a valid value");
+            igk_die("not a valid value::".$type);
         }
         $this->type  = $type;
     }
@@ -150,7 +151,7 @@ class ReadTokenStructInfo
 
         if ($this->structs){
             $sb->appendLine();
-            $sb->appendLine(rtrim(ReadTokenUtility::GenerateStruct($this->structs, null, $options)));
+            $sb->appendLine(rtrim(ReadTokenUtility::GenerateStruct($this->structs, false, $options)));
         }
         if ($buffer = trim($v_buffer))
             $sb->appendLine($buffer);

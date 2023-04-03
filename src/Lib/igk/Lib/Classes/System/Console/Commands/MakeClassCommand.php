@@ -27,9 +27,10 @@ class MakeClassCommand extends AppExecCommand
         "--desc:[text]" => "description of the class",
         "--force" => "force creation",
         "--ns:[namespace]" => "namespace",
-        "--path:[dir]" => "install directory",
+        "--path:[dir]" => "output directory",
         "--type:[typename]" => "type name. Allowed value : class|trait|interface",
-        "--test" => "test flag"
+        "--test" => "test flag",
+        "--defs" => "code definition"
     ];
 
     public function exec($command, $class_path = null)
@@ -46,7 +47,7 @@ class MakeClassCommand extends AppExecCommand
         $path = igk_getv($command->options, "--path");
         $ns = igk_getv($command->options, "--ns", $test ? \IGK\Tests::class: \IGK::class);
         $type = igk_getv($command->options, "--type", "class");
-
+        $defs = igk_getv($command->options, "--defs"); 
         if (!empty($path) && !property_exists($command->options, '--ns')){
             // reset namespace
             $ns = "";
@@ -114,7 +115,8 @@ class MakeClassCommand extends AppExecCommand
                 ->file(basename($file))
                 ->extends($extends)
                 ->name($name)
-                ->desc($desc);
+                ->desc($desc)
+                ->defs($defs);
             igk_io_w2file($file, $builder->render());
             Logger::success("output: " . $file); 
             Logger::success("duration : " . igk_sys_request_time());

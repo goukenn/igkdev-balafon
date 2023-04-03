@@ -25,13 +25,18 @@
 //for rotation
 
 (function() {
+    if (!igk || (undefined != igk.system.getNS('igk.winui.horizontalScrollPane'))){
+        return;
+    }
+    // console.log('load scroll pane');
+    // igk.debug.log('init horizontal pane');
     var g_panes = [];
     var ckeys = ['.igk-pane-page', '.igk-pane', '.hpane-bz'];
     var ifc = igk.fn.isItemStyleSupport;
     var support_transition = 0;
 
 
-    igk.winui.horizontalScrollPane = function(t) {
+    igk.winui.horizontalScrollPane = function(t, options) {
         //.ctr horizontal pane contructor
         this.host = t;
         var m_init = 0; //init for left property avoid firefox flicker
@@ -40,16 +45,17 @@
         var bz = t.select(ckeys[2]).first();
         var _pos = 0;
         var _bullets = [];
-        var opts = igk.initObj(igk.JSON.parse(t.getAttribute("igk:data")), {
+        var opts = igk.initObj(options, {
             style: 'rotation',
             showBullets: 1,
             showNav: 1,
             animDuration: 5000,
             autoAnim: 1
         });
-        var q = this;
-
+        var q = this; 
         var tout = 0; //timeout
+        var v_observe = null; // to observe if slider is visible or not
+        var v_needtoupdate= false;
         function __startAnim() {
             if (tout)
                 clearTimeout(tout);
@@ -83,7 +89,59 @@
                 _bullets.active.rmClass("igk-active");
             }
             _bullets.active = _bullets[_pos];
-            _bullets.active.addClass("igk-active");
+            if (_bullets.active)
+                _bullets.active.addClass("igk-active");
+        };
+        function _update_viewport(pane, c, s){
+            var posx, posy;
+            //this.reset();
+            //var f = "translate(-"+posx+"px, "+posy+"px)";//pixel positionning failed on resize
+            if (igk.navigator.isFirefox()) {
+                if (!m_init) {
+                    s.each_all(function() {
+                        this.setCss({ "left": "0%" });
+                        // console.debug("done :"+f);
+                    });
+                    m_init = 1;
+                }
+
+                if (c.offsetLeft != 0) {
+                    var l = $igk(c).getComputedStyle('left');
+                    posx = ((c.offsetLeft - igk.getNumber(l)) / pane.o.offsetWidth) * 100;
+                    // return;
+                    s.each_all(function() {
+                        this.setCss({ "left": -posx + "%" });
+                        // console.debug("done :"+posx);
+                    });
+                } else {
+                    // mean that element is not visible ...
+                    if (!v_observe && window.IntersectionObserver){
+                        v_observe = new window.IntersectionObserver((entries)=>{
+                            entries.forEach(
+                                entry => { 
+                                    if (entry.isIntersecting){
+                                        if (v_needtoupdate){
+                                            v_needtoupdate =false;
+                                            q.scrollTo(_pos);
+                                            v_observe.disconnect();
+                                            v_observe = null;
+                                        } 
+                                    }
+                                }
+                            )
+                        });
+                        v_observe.observe(q.host.o);                        
+                    }
+                    v_needtoupdate = true;
+                }
+            } else {
+                posx = 100 * c.offsetLeft / pane.o.offsetWidth;
+                posy = 100 * c.offsetTop / pane.o.offsetHeight;
+                var f = "translate(-" + posx + "%, -" + posy + "%)"; //pixel positionning failed on resize.use %
+                s.each_all(function() {
+                    this.setCss({ "transform": f });
+                });
+            }
         };
         igk.appendProperties(this, { //object properties
             remove: function() {
@@ -96,8 +154,7 @@
                     this.scrollTo(_pos);
                 }
             },
-            goPrev: function() {
-                var s = pane.select(ckeys[0]);
+            goPrev: function() { 
                 if (_pos > 0) {
                     _pos--;
                     this.scrollTo(_pos);
@@ -105,46 +162,15 @@
             },
             scrollTo: function(c) {
                 var s = pane.select(ckeys[0]);
+                let _pos = 0;
                 if (igk.isInteger(c)) {
+                    _pos = c;
                     c = s.getItemAt(c).o;
                 }
-                var posx, posy;
-
-
-                //this.reset();
-
-                //var f = "translate(-"+posx+"px, "+posy+"px)";//pixel positionning failed on resize
-
-
-
-                if (igk.navigator.isFirefox()) {
-                    if (!m_init) {
-                        s.each_all(function() {
-                            this.setCss({ "left": "0%" });
-                            // console.debug("done :"+f);
-                        });
-                        m_init = 1;
-                    }
-
-                    if (c.offsetLeft != 0) {
-                        var l = $igk(c).getComputedStyle('left');
-                        posx = ((c.offsetLeft - igk.getNumber(l)) / pane.o.offsetWidth) * 100;
-                        // return;
-                        s.each_all(function() {
-                            this.setCss({ "left": -posx + "%" });
-                            // console.debug("done :"+posx);
-                        });
-                    }
-                } else {
-                    posx = 100 * c.offsetLeft / pane.o.offsetWidth;
-                    posy = 100 * c.offsetTop / pane.o.offsetHeight;
-                    var f = "translate(-" + posx + "%, -" + posy + "%)"; //pixel positionning failed on resize.use %
-                    s.each_all(function() {
-                        this.setCss({ "transform": f });
-                    });
-                }
+                _update_viewport(pane,c,s);               
                 __updateBullet();
                 __restartAnim();
+                q_prop.host.raiseEvent('item-changed', {index:_pos, target:q_prop.host});
             },
             reset: function() {
                 if (igk.navigator.isFirefox()) {
@@ -162,18 +188,26 @@
                 _pos = 0;
                 __updateBullet();
             }
-
+            
         });
 
+        // public injected property 
+        let q_prop = this;
+        this.host.addEvent("item-changed", {});
+        igk.appendProperties($igk(t), {
+            selectedIndex(idx){
+                _pos = idx;
+                q_prop.scrollTo(idx); 
+            }
+        });
         g_panes[_idx] = this;
 
 
         var l = __items().getCount();
         //init bullets		
         bz.setHtml(""); //clear bullet zone
-        if (opts.showBullets) {
-            for (var i = 0;
-                (l > 1) && (i < l); i++) {
+        if (opts.showBullets && (l > 1) ) {
+            for (var i = 0;(i < l); i++) {
                 var e = igk.createNode("div")
                     .addClass("hpane-b")
                     .reg_event('click', (function(i) {
@@ -189,7 +223,7 @@
         }
 
         if (opts.showNav) {
-            //init navigation button
+            //init navigation button 
             t.add("div").addClass("hpane-btn hpane-btn-n")
                 .setCss({ "right": "2px", "top": "50%", "marginTop": "-24px" }).reg_event("click", function() { q.goNext(); });
 
@@ -197,7 +231,7 @@
                 .setCss({ "left": "2px", "top": "50%", "marginTop": "-24px" }).reg_event("click", function() { q.goPrev(); });
         }
 
-        if (opts.autoAnim) {
+        if (opts.autoAnim && (l > 1) ) {
 
             setTimeout(__startAnim, opts.animDuration);
         }
@@ -206,10 +240,10 @@
 
     igk.system.createNS("igk.winui.horizontalScrollPane", {
         //global static properties
-        init: function(t) {
+        init: function(t, options) {
             //init hpane
             var q = $igk(t);
-            var pane = new _class_(q);
+            var pane = new _class_(q, options);
             pane.reset();
             window.pan = pane;
             return pane;
@@ -224,34 +258,19 @@
         support_transition = ifc(_b.o, 'transition') && ifc(_b.o, 'transform');
     });
 
-})();
 
-(function() {
-    // + | ------------------------------------------------------------------------
-    // + | init balafon js component - igk-hpane-container 
-    // + | requirement : igk-data = json data with initial properties
-    ;
-    igk.winui.initClassControl("igk-hpane-container", function(q) {
-        let i = this;
-        let options = JSON.parse(i.o.getAttribute('igk-data')) || {};
-        igk.winui.horizontalScrollPane.init(i, options);
-        // let p = i.select('^body').first(); //.o.parentNode;
-        // let config = {
-        //     attributes: true,
-        //     childList: true,
-        //     characterData: true
-        // };
-        // var observer = new MutationObserver(function(mutations) {
-        //     mutations.forEach(function(mut) {
-        //         console.log("changed .... " + mut.type);
-        //         let c = $igk(p).select(">." + q);
-        //         c.each_all(function(m) {
-        //             this.init();
-        //         });
-        //     });
-        // });
-        // observer.observe(p.o, config);
-        // console.log(p.o);
-    });
+
+    (function() {
+        // + | ------------------------------------------------------------------------
+        // + | init balafon js component - igk-hpane-container 
+        // + | requirement : igk-data = json data with initial properties
+
+        igk.winui.initClassControl("igk-hpane-container", function(q) { 
+            let i = this;  
+            let options = JSON.parse(i.o.getAttribute('igk-data')) || {}; 
+            igk.winui.horizontalScrollPane.init(i, options); 
+        });
+
+    })();
 
 })();

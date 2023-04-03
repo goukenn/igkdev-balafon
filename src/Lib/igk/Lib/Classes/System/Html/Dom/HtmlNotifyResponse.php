@@ -54,7 +54,7 @@ class HtmlNotifyResponse extends HtmlNode{
     {
         return ($not = igk_notifyctrl($this->name)) && ($t = $not->getTab()) && (count($t)> 0);
     }
-    protected function __AcceptRender($options=null){
+    protected function _acceptRender($options = null):bool{
         if (!$this->getIsVisible()){
             return false;
         }

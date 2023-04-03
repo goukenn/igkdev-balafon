@@ -109,7 +109,7 @@ CSS;
 
 
 $v_detector = new UriDetector;
-// igk_debug(1);
+
 $uris = $v_detector->cssUrl($src);
 
 $this->assertEquals(5, count($uris));

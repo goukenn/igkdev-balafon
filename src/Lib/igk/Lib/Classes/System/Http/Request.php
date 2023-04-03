@@ -9,6 +9,7 @@ namespace IGK\System\Http;
  
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Console\ServerFakerInput;
 use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
@@ -36,6 +37,9 @@ class Request implements IInjectable
     {
         return null;
     }
+    public function setJsonData(?string $data){
+        igk_environment()->set('FakerInput', $data ? new ServerFakerInput($data) : null);
+    }
     public function getUploadedData(){
         if (!$this->prepared){
             $this->js_data = igk_io_get_uploaded_data(); 
@@ -53,6 +57,11 @@ class Request implements IInjectable
             return json_decode($this->js_data);
         } 
         return $this->js_data;
+    }
+
+    public function getFormData(){
+        $ob = (object)$_REQUEST;
+        return $ob;
     }
   
     /**

@@ -5,13 +5,49 @@
 // @date: 20221207 19:26:53
 // @desc: installer helper
 
-if (!version_compare(PHP_VERSION, "7.0", ">=")){
-    $response->die("mandory version required. 7.0<=".PHP_VERSION);
+if (!version_compare(PHP_VERSION, "7.3", ">=")){
+    $response->die("mandory version required. 7.3<=".PHP_VERSION);
 }
 if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
 }
 
+if (!function_exists("igk_io_getfiles")) {
+    function igk_io_getfiles($dir, $pattern=null, $recursive=false){
+        $dirs = [$dir];
+        $root = $dir;
+        $files = [];
+        while(count($dirs)>0){
+            $dir = array_shift($dirs);
+
+            if (!($hdir = opendir($dir))){
+                continue;
+            }
+            while(($m = readdir($hdir))!==false){
+                if (($m == '.') || ($m=='..')){
+                    continue;
+                }
+                $f = $dir."/".$m;
+
+                if ($pattern){
+                    $s = substr($f, strlen($root));                    
+                    if (is_string($pattern) && !preg_match($pattern, $s)){
+                        continue;
+                    }
+                }
+                if (is_dir($f)){
+                    if ($recursive){
+                        array_push($dirs, $f);
+                    }
+                }else{
+                    $files[] = $f;
+                }
+            }
+            closedir($hdir);
+        }
+        return $files;
+    }
+}
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
     {
@@ -34,7 +70,7 @@ if (!function_exists("igk_io_dir")) {
             return $dir;
         }
         $d = $separator;
-        $out = IGK_STR_EMPTY;
+        $out = "";
         if (ord($d) == 92) {
             $out = preg_replace("/\//", '\\', $dir);
             $out = str_replace("\\", "\\", $out);
@@ -106,7 +142,7 @@ class InstallerHelper
         $out = null;
         if ($hdir = opendir($dir)) {
             while ($m = readdir($hdir)) {
-                if (preg_match($pattern, $m)) {
+                if ($pattern && preg_match($pattern, $m)) {
                     if (is_null($out)) $out = [];
                     $out[] = $m;
                 }
@@ -114,6 +150,41 @@ class InstallerHelper
             closedir($hdir);
         }
         return $out;
+    }
+    /**
+     * zip direcotory file
+     * @param string $outfile 
+     * @param string $dir 
+     * @return bool 
+     */
+    public static function ZipFolder(string $outfile, string $dir){
+        $zip=new ZipArchive();
+        if($zip->open($outfile, ZIPARCHIVE::CREATE)){
+            $ln = strlen($dir);
+            $thdir = [$dir]; 
+            while (count($thdir) > 0) {
+                $q = array_shift($thdir);
+                if ($hdir = opendir($q)) {
+    
+                    $path = substr($q, $ln);
+                    while ($m = readdir($hdir)) {
+                        if (($m == ".") || ($m == "..")) {
+                            continue;
+                        }
+                        $f = $q . "/" . $m;
+                        if (is_file($f)) {
+                            $zip->addFile($f, $path . "/" . $m);                           
+                        } else if (is_dir($f)) {
+                            array_push($thdir, $f);
+                        }
+                    }
+                    closedir($hdir);
+                }
+            }      
+            $zip->close();
+            return true;
+        }
+        return false;
     }
 }
 class InstallerResponse
@@ -132,6 +203,8 @@ class InstallerResponse
     {
         $reponses = [
             "200" => "HTTP/1.0 200 OK",
+            "401" => "HTTP/1.0 401 Missing token",
+            "402" => "HTTP/1.0 402 error",
             "404" => "HTTP/1.0 404 Not Found",
             "500" => "HTTP/1.0 500 Server misconfiguration",
             "503" => "HTTP/1.0 500 Installer Directory is link",
@@ -160,3 +233,4 @@ class InstallerResponse
 
 // %token%
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
+ 

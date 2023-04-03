@@ -25,7 +25,7 @@ trait CompilerTokenStateBufferTrait{
             if (!is_null($buffer))
             {
                 if ($id != $buffer['id']){
-                    error_log("resolv id not match");
+                    error_log(" -- resolv id not match -- ".$id.' vs '.$buffer['id']);
                 }
                 $options->buffer = & $buffer['buffer'];
             }

@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\HtmlUtils;
+
 final class IGKCoreJSon extends IGKObject
 {
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
@@ -152,7 +154,7 @@ final class IGKCoreJSon extends IGKObject
                             $v = '';
                             $k = '';
                         } else if ($m == 6) {
-                            $q[] = $v;
+                            $q[] = is_string($v) ? igk_str_strip_surround($v) : $v;
                             $v = "";
                             $k = "";
                         } else {
@@ -197,7 +199,7 @@ final class IGKCoreJSon extends IGKObject
                     case ']':
                         if ($m == 6) {
                             if (!empty($v)) {
-                                $q[] = is_string($v) ? trim($v) : $v;
+                                $q[] = is_string($v) ? igk_str_strip_surround($v) : $v;
                             }
                             $v = "";
                             if (($_ct = count($tab)) > 0) {

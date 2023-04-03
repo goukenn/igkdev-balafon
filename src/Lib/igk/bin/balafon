@@ -8,8 +8,8 @@
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 
-if (!version_compare(PHP_VERSION, "7.0", ">=")){
-    die("mandory version required. 7.0<=");
+if (!version_compare(PHP_VERSION, "7.3", ">=")){
+    die("mandory version required. 7.3<=");
 }
 
 require_once(__DIR__ . "/../igk_framework.php");
@@ -34,6 +34,7 @@ require_once(IGK_LIB_DIR."/Lib/functions-helpers/reflection.php");
 require_once(IGK_LIB_DIR."/Lib/functions-helpers/debug.php"); 
 require_once(IGK_LIB_DIR."/Lib/functions-helpers/sys.php"); 
 require_once(IGK_LIB_DIR."/Lib/functions-helpers/io.php"); 
+require_once(IGK_LIB_DIR."/Lib/functions-helpers/string.php"); 
 require_once(IGK_LIB_DIR."/igk_functions.php"); 
 
 ignore_user_abort(false);

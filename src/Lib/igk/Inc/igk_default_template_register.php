@@ -8,6 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\Encoding\ClassAttributeArrayValueEncoder;
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Templates\BindingPipeExpressionInfo;
@@ -18,7 +19,31 @@ use IGK\System\Html\Templates\BindingPipeExpressionInfo;
 if (in_array('eval', explode(',', ini_get('disable_functions')))){
     return;
 }
- 
+
+function igk_template_if_attrib_expression($readerInfo, $attr, $v, $context, $setattrib){
+
+    $g=(function() use ($readerInfo, $context, $setattrib, $attr){
+        if ((func_num_args()!=1) ||  !is_string (func_get_arg(0))){
+            igk_die("argument script not valid");
+        } 
+        if (!is_string($context) && igk_getv($context,'transformToEval')){    
+            $readerInfo->setAttribute("igk:condition", func_get_arg(0));
+            return null; 
+        }   
+        extract(igk_to_array($context)); 
+        if(isset($ctrl)){
+            extract(igk_extract_context($ctrl));
+        }  
+        
+        $s="return ".func_get_arg(0).";";
+        $_v= eval($s); 
+        $readerInfo->setAttribute("igk:isvisible", $_v);
+		$readerInfo->skipcontent = !$_v;
+		$setattrib("igk:isvisible", $_v); 
+        return null;
+    })(HtmlUtils::GetAttributeValue($v, $context, true));
+    return null;
+}
 
 function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattrib){
 	 $attrname = $attr;
@@ -61,7 +86,7 @@ function igk_template_get_piped_value($rv, $context){
     try{ 
 	    $v = @eval("return $v;");  
         if ($e = error_get_last()){ 
-            igk_dev_wln_e(__FUNCTION__."::Error:", $e, "source:".$rv, "output:".$v, $raw, $context);
+            igk_dev_wln_e(__FUNCTION__."::Error:  ", $e, "source:".$rv, "output:".$v, $raw, $context);
         }
     }catch(ParseError $ex){
         igk_ilog("parse failed : ", $rv);
@@ -94,7 +119,7 @@ function igk_template_bind_eval_transform($rv, $attrname, $setattrib){
  * @param mixed $attr 
  * @param mixed $v 
  * @param mixed $context 
- * @param mixed $setattrib 
+ * @param callable $setattrib 
  * @return void 
  * @throws IGKException 
  */
@@ -103,7 +128,20 @@ function igk_template_update_class_piped_expression($n, $attr, $v, $context, $se
     $attrname = $attr; 
     while((strlen($attrname)>0) && ($attrname[0]=="*"))
        $attrname = substr($attrname, 1);
+ 
     (function($rv) use ($n, $context, $setattrib, $attrname){
+
+        if ($attrname=='class'){
+            if (ClassAttributeArrayValueEncoder::DetectArrayList($rv)){
+                $b = new ClassAttributeArrayValueEncoder;
+                $b->strip_expression = true;
+                if ($mp = $b->encode(htmlentities($rv))){
+                    $rv = "igk_css_litteral({$mp})";
+                }
+
+            } 
+        }
+
         if (!is_string($context) && igk_getv($context,'transformToEval')){             
             if ($rv){
                 igk_template_bind_eval_transform($rv, $attrname, $setattrib);               
@@ -123,7 +161,7 @@ function igk_template_update_class_piped_expression($n, $attr, $v, $context, $se
             $setattrib($attrname, implode(" ", $data));
        }
        else {
-        $setattrib($attrname, $v);
+            $setattrib($attrname, $v);
        }
        return null;
    })(HtmlUtils::GetAttributeValue($v, $context, true));
@@ -152,6 +190,10 @@ igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context
     $reader->setInfos(["skipcontent"=>1, "attribute"=>$attr, "context-data"=>$g, "context"=>"expression", "operation"=>"loop", "for"=>$reader->getName()]);
     return null;
 });
+
+// * --------------------------------------------------------------------------------------
+// for define : *class
+// * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*classes", function($n, $attr, $v, $context, $setattrib){
     $g=(function($rv) use ($n, $context, $setattrib){
         extract(igk_to_array($context));
@@ -188,32 +230,14 @@ igk_reg_template_bindingattributes("*href", function($n, $attrname, $v, $context
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 });
-
-igk_reg_template_bindingattributes("*visible", function($readerInfo, $attr, $v, $context, $setattrib){
-
-    $g=(function() use ($readerInfo, $context, $setattrib, $attr){
-        if ((func_num_args()!=1) ||  !is_string (func_get_arg(0))){
-            igk_die("argument script not valid");
-        } 
-        if (!is_string($context) && igk_getv($context,'transformToEval')){    
-            $readerInfo->setAttribute("igk:condition", func_get_arg(0));
-            return null; 
-        }   
-        extract(igk_to_array($context)); 
-        if(isset($ctrl)){
-            extract(igk_extract_context($ctrl));
-        }  
-        
-        $s="return ".func_get_arg(0).";";
-        $_v= eval($s); 
-        $readerInfo->setAttribute("igk:isvisible", $_v);
-		$readerInfo->skipcontent = !$_v;
-		$setattrib("igk:isvisible", $_v); 
-        return null;
-    })(HtmlUtils::GetAttributeValue($v, $context, true));
-    return null;
-});
-
+// * --------------------------------------------------------------------------------------
+// for define : *visible
+// * --------------------------------------------------------------------------------------
+igk_reg_template_bindingattributes("*visible", 'igk_template_if_attrib_expression');
+// * --------------------------------------------------------------------------------------
+// for define : *if
+// * --------------------------------------------------------------------------------------
+igk_reg_template_bindingattributes("*if", 'igk_template_if_attrib_expression'); 
 
 igk_reg_template_bindingattributes("**", 'igk_template_update_attrib_piped_expression');
 igk_reg_template_bindingattributes("*value", 'igk_template_update_attrib_piped_expression');

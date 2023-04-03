@@ -8,11 +8,8 @@
 
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
-use IGK\Helper\IO;
 use IGK\Resources\R;
-use IGK\Server;
 use IGK\System\IO\FakeInput;
-use IGK\System\IO\FileSystem;
 use IGK\System\Providers\ClassProvider;
 
 use function igk_getv as getv;
@@ -33,6 +30,7 @@ use function igk_getv as getv;
  * @property bool   $no_handle_error flag that allow environment to handle exception
  * @property bool   $NO_DB_LOG flag disable log in database
  * @property bool   $NO_PROJECT_AUTOLOAD flag disable file autoload. on project register
+ * @property ?\IGK\System\IO\FakeInput $FakerInput faker input in render
  * @property ?IGKActionBase $action_handler_instance 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants
@@ -138,14 +136,22 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     }
 
     public function getEnvironmentPath()
-    {
+    {   
+        // 
+        // resolv path to system location 
+        // 
+        $app_dir = igk_io_applicationdir();    
+        $mod_dir = igk_get_module_dir();   
+        $packagedir = igk_io_packagesdir(); 
+        $lib = realpath($lib = $app_dir."/Lib/igk")==IGK_LIB_DIR? $lib : IGK_LIB_DIR;
+        $mod_dir = realpath($rs = $packagedir."/Modules") ==  $mod_dir ? $rs : $mod_dir;
         return array_filter([
-            "%lib%" => IGK_LIB_DIR,
-            "%app%" => igk_io_applicationdir(),
+            "%lib%" => $lib,
+            "%app%" => $app_dir,
             "%project%" => igk_io_projectdir(),
             "%basedir%" => igk_io_basedir(),
-            "%packages%" => igk_io_packagesdir(),
-            "%modules%" => igk_get_module_dir(),
+            "%packages%" => $packagedir,
+            "%modules%" => $mod_dir,
             "%viewcaches%" => igk_is_cmd() ? null : $this->getViewCacheDir()
         ]);
     }

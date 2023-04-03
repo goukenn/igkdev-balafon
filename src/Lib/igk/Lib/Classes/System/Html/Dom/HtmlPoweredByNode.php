@@ -42,7 +42,7 @@ class HtmlPoweredByNode extends HtmlNode{
             return __("Powered by {0}", $data);
         } 
     }
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {  
         if (!$this->getIsVisible()){
             return false;

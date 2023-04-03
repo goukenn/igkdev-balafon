@@ -121,6 +121,7 @@ class MakeProjectCommand extends AppExecCommand
                 ->extends($type);
             igk_io_w2file($file, $builder->render());
         };
+
         $this->_bind_articles($bind, $dir);
         $this->_bind_langs($bind, $dir);
         $this->_bind_layout($bind, $dir);
@@ -255,10 +256,12 @@ EOF;
                 ->type("function")
                 ->file(basename($file))
                 ->defs(implode("\n", [
-                    "// on register_autoload initialize",
+                    "// on initialize ::register_autoload",
                 ]));
             igk_io_w2file($file, $builder->render());
         };
+
+        MakeUtility::BindDefaultLangSupport($command, $dir, $bind);
 
         $this->_initConfigurationFile($bind, $dir, get_defined_vars());
         // configuration 

@@ -7,9 +7,27 @@
 
 namespace IGK\Helper;
 
+use IGKException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGKType;
+use ReflectionException;
 use ReflectionFunction;
+use ReflectionParameter;
 
 class PhpHelper{
+    /**
+     * get callable from string
+     * @param mixed $full_class_method 
+     * @param string $delimiter 
+     * @return null|(string[]&callable) 
+     */
+    public static function GetCallable(string $full_class_method, $delimiter='@'){
+        $g = explode($delimiter, $full_class_method);
+        if (is_callable($g)){
+            return $g;
+        }
+        return null;
+    }
     public static function StringToClassConstants(string $data){
         return implode("\n", array_map(
             function($n){
@@ -72,22 +90,8 @@ class PhpHelper{
                         }
                         $t .= $p->getType()->getName() . " ";
                     }
-                    if ($p->isDefaultValueAvailable()) {
-                        if ($p->isDefaultValueConstant()) {
-                            $g .= "= " . $p->getDefaultValueConstantName();
-                        } else {
-                            $gg = $p->getDefaultValue();
-                            if (is_array($gg)){
-                                if (empty($gg)) {
-                                    $g.= "= []";
-                                }else{
-                                    igk_wln_e("default array ".implode("gg:", $gg));
-                                }
-                            }else{
-                                $g .= "= " .(is_null($gg) ? 'null' : "'" . $gg . "'");
-                            }
-                        }
-                    }
+                    $g .= self::getDefaultValue($p);
+                 
 
                     if ($p->isVariadic()) {
                         $t .= " ...";
@@ -101,5 +105,56 @@ class PhpHelper{
             $o .= "@method {$r} ".$p."($m) {$c}\n"; 
         } 
         return $o;
+    }
+    /**
+     * get param default value
+     * @param ReflectionParameter $p 
+     * @return string 
+     * @throws ReflectionException 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     */
+    private static function getDefaultValue(\ReflectionParameter $p){
+        $g = '';
+        if ($p->isDefaultValueAvailable()) {
+            if ($p->isDefaultValueConstant()) {
+                $g .= "= " . $p->getDefaultValueConstantName();
+            } else {
+                $gg = $p->getDefaultValue();
+                if (is_array($gg)){
+                    if (empty($gg)) {
+                        $g.= "= []";
+                    }else{
+                        igk_die("default array ".implode("gg:", $gg));
+                    }
+                }else{
+                    $g .= "= " .(is_null($gg) ? 'null' : "'" . $gg . "'");
+                }
+            }
+        }
+        return $g;
+    }
+    /**
+     * 
+     * @param array<\ReflectionParameter> $params 
+     * @return string 
+     */
+    public static function GetParamerterDescription( array $params):string{
+        $s = '';
+        $sep = '';
+        foreach($params as $p){
+            $s.= $sep;
+            if ($p->hasType()){
+                if ($p->isOptional()){
+                    $s.="?";
+                }
+                $s .= IGKType::GetName($p->getType()) . " ";
+
+            } 
+            $s.=  '$'.$p->getName();
+            $s.= self::getDefaultValue($p);
+            $sep = ',';
+        }
+        return $s;
     }
 }

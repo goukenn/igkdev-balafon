@@ -107,7 +107,10 @@ class FileWriter{
                 }else{
                     if (igk_environment()->isDev()){
                         igk_trace();
-                        igk_dev_wln_e("failed to create directory: ".$dirname, is_link($dirname), error_get_last());
+                        igk_dev_wln_e("failed to create directory: ".$dirname, 
+                            "is link ? ".is_link($dirname),
+                            "last error: ",  error_get_last());
+                            
                     }else{
                         igk_ilog('fail to create '.$dirname);
                     }

@@ -11,12 +11,11 @@ use IGKEvents;
 
 class HtmlBodyBoxNode extends HtmlNode{
     protected $tagname = "div";
-  
-    public function __construct()
+ 
+    public function __construct(HtmlNode $parent)
     {
+        $this->m_parent = $parent;
         parent::__construct();
-        $this["class"] = "igk-bodybox fit igk-parentscroll igk-powered-viewer overflow-y-a";
-
-        
-    }
+        $this["class"] = "igk-bodybox fit igk-parentscroll igk-powered-viewer overflow-y-a"; 
+    } 
 } 

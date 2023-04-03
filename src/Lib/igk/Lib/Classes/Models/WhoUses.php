@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: WhoUses.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -24,7 +24,7 @@ class WhoUses extends ModelBase{
 	const FD_CL_WEB_SITE="clWebSite";
 	const FD_CL_STATE="clState";
 	const FD_CL_DATE_TIME="clDateTime";
-	const FD_CL_I_P="clIP";
+	const FD_CL_IP="clIP";
 	/**
 	* table's name
 	*/

@@ -14,6 +14,7 @@
  */
 final class IGKObjStorage{
     private $m_init;
+    private $m_storage = [];
     ///<summary></summary>
     ///<param name="tab" default="null"></param>
     public function __construct(?array $tab=null){
@@ -28,8 +29,8 @@ final class IGKObjStorage{
     ///<summary></summary>
     ///<param name="v"></param>
     public function __get($v){
-        if(isset($this->$v)){
-            return $this->$v;
+        if(isset($this->m_storage[$v])){
+            return $this->m_storage[$v];
         }
         return null;
     }
@@ -39,11 +40,11 @@ final class IGKObjStorage{
     public function __set($n, $v){
         if (!$this->m_init){
             if($v === null){
-                unset($this->$n);
+                unset($this->m_storage[$n]);
                 return;
             }
         }
-        $this->$n=$v;
+        $this->m_storage[$n]=$v;
     }
     ///<summary>display value</summary>
     public function __toString(){

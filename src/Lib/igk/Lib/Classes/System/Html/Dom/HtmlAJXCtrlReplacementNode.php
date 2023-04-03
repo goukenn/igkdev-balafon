@@ -28,7 +28,7 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * 
     * @param mixed $option the default value is null
     */
-    protected function __getRenderingChildren($option=null){
+    protected function _getRenderingChildren($option=null){
         $tab=array();
         foreach($this->m_ctrls as  $v){
             $t=$v->target ?? $v->ctrl->TargetNode;

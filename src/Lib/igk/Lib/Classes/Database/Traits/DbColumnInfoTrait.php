@@ -198,4 +198,10 @@ trait DbColumnInfoTrait
    * @var ?bool
    */
   var $clHide;
+
+  /**
+   * use to mark a column in display chain 
+   * @var mixed
+   */
+  var $clDisplay;
 }

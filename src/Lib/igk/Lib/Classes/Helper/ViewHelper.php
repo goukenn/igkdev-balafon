@@ -14,7 +14,10 @@ namespace IGK\Helper;
 use Closure;
 use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
+use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
 use IGKEnvironment;
@@ -27,7 +30,7 @@ use ReflectionException;
 use function igk_resources_gets as __;
 
 /**
- * view helper class 
+ * view context helper class 
  * @package
  * @method string File() get current view file 
  * @method IGKHtmlDoc Doc() get current document
@@ -35,6 +38,8 @@ use function igk_resources_gets as __;
  */
 class ViewHelper
 {
+    use IOSearchFileTrait;
+
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
     /**
@@ -71,11 +76,12 @@ class ViewHelper
                 return $handler::Form($name, $options);
             }
         }
-        return function($n)use($handler){
+        return function($n)use($handler, $name){
             if (!igk_environment()->isOPS()){
                 $pan = $n->div()->panel('igk-danger');
-                $pan->Content = __('Action handler not found'); 
-                $n->div()->Content =  'Action : '.$handler;
+                $pan->Content = __('Action handler not found or method not found'); 
+                $n->div()->Content =  'Action : <span class="code-class">'.$handler.'</span>';
+                $n->div()->Content =  'method : <span class="code-function">'.$name.'</span>';
             }
         };
     }
@@ -84,21 +90,27 @@ class ViewHelper
 
         if (is_null($args)|| empty($args))
             $args = self::GetViewArgs(); 
+        else {
+            $args = is_array($args) ? igk_getv($args, 0, $args) : $args;
+        }
         return $args;
     }
     /**
      * get included file: in current view directory
-     * @param string $file relative file in current directory
+     * @param string $file relative view file in current directory
      * @return string 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    private static function _GetIncFile(string $file){        
-        $c = self::Dir()."/".$file;
-        if (file_exists($c) || file_exists($c.= IGK_VIEW_FILE_EXT))
+    private static function _GetIncFile(string $file){          
+        // determine if file exists with extension or in view_directory
+        include_once IGK_LIB_CLASSES_DIR."/core.func.helper.php";
+        $exts = [IGK_VIEW_FILE_EXT ];
+        if ($c = self::SearchFile($file, $exts) ?? self::SearchFile(Path::Combine(self::Dir(), $file),$exts)){
             return $c;
-        igk_die("inc [".$file."] file not found");        
+        }
+        igk_die("inc [".$file."] file not found = ".\IGK\typeof($c));        
     }
 
     /**
@@ -161,7 +173,7 @@ class ViewHelper
 
     }
     /**
-     * include path argument
+     * include file
      * @param string $path 
      * @param array|null $args 
      * @return mixed 
@@ -172,7 +184,7 @@ class ViewHelper
             igk_die("missing file argument");
         }
         extract(self::_GetIncArgs(array_slice(func_get_args(),1)));
-        if ($ctrl) {
+        if (isset($ctrl)) {
             $args = get_defined_vars();            
             $fc = (function(){
                 extract(func_get_arg(1));
@@ -247,13 +259,19 @@ class ViewHelper
     public static function BaseUriPath(BaseController $ctrl, string $fname):string{
         return (new Uri($ctrl::uri($fname)))->getPath();
     }
-    public static function Article(string $article, $arguments=null){
-        $ctrl = self::CurrentCtrl();
+    /**
+     * load article 
+     * @param string $article 
+     * @param mixed $arguments 
+     * @param null|BaseController $ctrl 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     */
+    public static function Article(string $article, $arguments=null, ?BaseController $ctrl = null){
+        $ctrl = $ctrl ?? self::CurrentCtrl();
         $file = $ctrl->getArticle($article);
-        $n = igk_create_node("div");
-        //igk_html_article($ctrl, $article, $n, $arguments);
-        $n->article($ctrl, $file, $arguments);
-        // igk_wln_e("file: ", $file, $n->render());
+        $n = new HtmlNoTagNode; 
+        $n->article($ctrl, $file, $arguments); 
         return $n;
     }
     /**
@@ -286,7 +304,7 @@ class ViewHelper
         
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
             $g = igk_getv(parse_url(igk_io_request_uri()), 'path');
-            $entry_is_dir = ($g=='/') || ((strlen($g) > 0) && 
+            $entry_is_dir = preg_match("/\/$/", $g) || ((strlen($g) > 0) && 
                 ($g == '/'.$fname.'/')) 
                 || (($fname== IGK_DEFAULT) && (strpos($g, '/')===0));
                 
@@ -384,12 +402,27 @@ class ViewHelper
      * @throws IGKException 
      */
     public static function GetViewArgs(?string $param=null,$default=null){
-        $t = igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
+        $t = self::GetViewContextArgs();
         if (!is_null($param) && $t ){
             return igk_getv($t, $param, $default);
         }
         return $t ?? [];
     } 
+    /**
+     * 
+     * @return mixed|ViewEnvironmentArgs 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetViewContextArgs(?string $filter_context = null){
+        $tab =  igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
+        if ($filter_context){
+            return (array)igk_createobj_filter($tab, $filter_context);
+        }
+        return $tab;
+
+    }
   
     public static function GetUriHelper($fname){
         $ctrl = self::CurrentCtrl();
@@ -479,8 +512,32 @@ class ViewHelper
             if (!$checkfile || ($checkfile && is_file($f))){                
                 $s = $f;
             }
-        }
-     
+        } 
         return $s;
+    }
+    /**
+     * get views manifest
+     * @param bool $recursive 
+     * @param mixed $pattern 
+     * @param null|BaseController $controller 
+     * @return null|array 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws IGKException 
+     */
+    public static function GetViews($recursive=true, $pattern = null, ?BaseController $controller =null){
+        $ctrl = $controller ?? self::CurrentCtrl();
+        $v_view_dir = $ctrl->getViewDir();
+        $rsc = IO::GetFiles($ctrl->getViewDir(), "/\\".IGK_VIEW_FILE_EXT."$/",$recursive);       
+        $rsc = array_filter(array_map( function($c)use($v_view_dir, $pattern){
+            $v = substr($c,strlen($v_view_dir));
+            if ($pattern){
+                if (!preg_match($pattern, $v)){
+                    return null;
+                }
+            }
+            return igk_str_rm_last($v, IGK_VIEW_FILE_EXT );
+        }, $rsc));
+        return $rsc;
     }
 }

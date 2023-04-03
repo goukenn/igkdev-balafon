@@ -27,7 +27,7 @@ final class HtmlFormTitleNode extends HtmlNode{
     * 
     * @param mixed $options the default value is null
     */
-    public function AcceptRender($options=null){
+    protected function _acceptRender($options = null):bool{
         if(!$this->IsVisible){
             return 0;
         }

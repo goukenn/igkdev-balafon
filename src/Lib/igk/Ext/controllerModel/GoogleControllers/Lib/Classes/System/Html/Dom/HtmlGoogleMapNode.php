@@ -21,11 +21,11 @@ final class HtmlGoogleMapNode extends HtmlNode{
     ///<param name="opt" default="null"></param>
     /**
     * 
-    * @param mixed $opt the default value is null
+    * @param mixed $options the default value is null
     */
-    protected function __acceptRender($opt=null){
+    protected function __acceptRender($options=null){
         $this->initView();
-        return parent::__AcceptRender($opt);
+        return parent::_acceptRender($options);
     }
     ///<summary></summary>
     /**

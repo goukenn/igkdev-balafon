@@ -76,19 +76,39 @@ $g = trim($v->getinnerHtml());
     function test_resolv_path(){
         $g = IGKResourceUriResolver::getInstance(); 
         igk_server()->REQUEST_URI = "/testapi/";
+        igk_is_debug(true);
         $this->assertEquals(
             "../data-info",
             (new IGKHtmlRelativeUriValueAttribute("/data-info"))->getValue(),
             "resolv path 1"); 
 
-        // resolv with file exists
+        // resolv with file exists - in lib
+        igk_debug(1);
+        // resolv and create link 
+        if (file_exists($file = igk_io_basedir()."/assets/_lib_/Scripts/igk.js")){
+            
+        } else if (is_link($file)){
+            $this->addWarning("core link file create but not matching requirement.");
+            // $this->assertTrue(true, "link created.");            
+            @unlink($file);
+        } 
+
         $this->assertEquals(
             "../assets/_lib_/Scripts/igk.js",
             (new IGKHtmlRelativeUriValueAttribute(IGK_LIB_DIR."/Scripts/igk.js"))->getValue(),
             "resolv path 2");
-        $f = tempnam(sys_get_temp_dir(), "test-");
+        if (is_link($file)){
+            if (!file_exists($file)){
+
+                $this->fail("create link not matching requirement");
+            }
+            
+        }
         
-        // resolv with non exists file
+        igk_debug(0);
+
+        // resolv with non exists file in lib
+        $f = tempnam(sys_get_temp_dir(), "test-");        
         $this->assertEquals(
             "../assets/_lib_/Scripts/".basename($f),
             (new IGKHtmlRelativeUriValueAttribute(IGK_LIB_DIR."/Scripts/".basename($f)))->getValue(),
@@ -106,10 +126,6 @@ $g = trim($v->getinnerHtml());
             "Configs",
             igk_io_currentrelativeuri("/Configs"),
             "data: relative path not match 2");
-        // $this->assertEquals(
-        //         "Configs",
-        //         igk_io_currentrelativeuri("../Configs/Data"),
-        //         "data: relative path not match 3");
     }
     function test_igk_html_get_system_uri(){
 

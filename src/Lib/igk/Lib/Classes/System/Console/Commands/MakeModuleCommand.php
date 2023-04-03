@@ -6,14 +6,19 @@
 
 
 namespace IGK\System\Console\Commands;
+
+use IGK\Controllers\ApplicationModuleController;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\Helper\IO as IGKIO;
 use IGK\Helper\IO;
+use IGK\Resources\R;
+use IGK\System\Console\Commands\MakeUtility;
 use IGK\System\Configuration\CoreGeneration;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Modules\Helpers\Utility as modUtility;
+use IGK\Tests\BaseTestCase;
+
 use function igk_resources_gets as __; 
  
 class MakeModuleCommand extends AppCommand{
@@ -24,7 +29,8 @@ class MakeModuleCommand extends AppCommand{
         "--desc"=>"small description",
         "--git"=>"enabled git configuration",
         "--force"=>"force creation if directory exists",
-        "--version"=>"setup current version"
+        "--version"=>"setup current version",
+        "--no-init-lang"=>"disable lang files initialization",
     ]; 
 
    
@@ -55,6 +61,7 @@ class MakeModuleCommand extends AppCommand{
             IO::CreateDir($dir."/".IGK_DATA_FOLDER);
             IO::CreateDir($dir."/".IGK_SCRIPT_FOLDER);
            
+            $v_fc_php_empty_file =  MakeUtility::CreateEmptyScriptCallback();
             $use_git = property_exists($command->options, "--git") || 
                 !property_exists($command->options, "--no-git") ;
             $bind = [];
@@ -64,6 +71,14 @@ class MakeModuleCommand extends AppCommand{
                 $e_ns = igk_ns_name($name);
 
                 $definition = self::EntryModuleDefinition($author, $e_ns);
+                $defs = new StringBuilder;
+                $defs->appendLine("// + | ------------------------------------------------");
+                $defs->appendLine("// + | please use \$reg closure var to register Module function ");
+                $defs->appendLine("// + |");
+                $defs->appendLine("");
+                $defs->appendLine("// \$reg('initDoc', function(\$doc){ /* call in view-build-context to initialize the document */ })\n");
+                $defs->appendLine();
+                $defs->appendLine("// + module definition\nreturn [\n$definition\n];");
                 $builder = new PHPScriptBuilder();
                 $builder
                 ->author($author)
@@ -71,7 +86,7 @@ class MakeModuleCommand extends AppCommand{
                 ->file(igk_io_collapse_path("{$file}.php"))
                 ->name($name)  
                 ->desc(igk_getv($command->options, "--desc"))
-                ->defs("// + module definition\nreturn [\n$definition\n];")
+                ->defs($defs.'')
                 ->namespace($e_ns);
                 igk_io_w2file($file, $builder->render());
             };
@@ -95,7 +110,7 @@ class MakeModuleCommand extends AppCommand{
                 igk_io_w2file($file, $builder->render());
             };
 
-            $bind[$dir."/module.json"] = function($file, $command, $name){
+            $bind[$dir."/".ApplicationModuleController::CONF_MODULE] = function($file, $command, $name){
                 $o = igk_createobj();
                 $o->name = $name;
                 $o->author = $this->getAuthor($command);
@@ -106,16 +121,34 @@ class MakeModuleCommand extends AppCommand{
 
             $bind[$dir."/Lib/Tests/autoload.php"] = function($file)use($name){
                 $builder = new PHPScriptBuilder();
-                $e_ns = str_replace("/", "\\", $name);
                 $gen = new CoreGeneration();
                 $builder->type('function')->defs(
                     implode("\n",
                         [ 
                             $gen->GetTestRequireAutoload()
                         ]
+                        ));
+                igk_io_w2file($file, $builder->render());
+            };
+
+            $bind[$dir."/Lib/Tests/ModuleTestBase.php"] = function($file)use($name){
+                $r_ns = igk_ns_name($name);
+                $e_ns = implode("\\", array_filter([$r_ns, "Tests"]));
+                $builder = new PHPScriptBuilder();
+                $builder->type('class')
+                ->name(igk_io_basenamewithoutext($file))
+                ->extends(BaseTestCase::class)
+                ->class_modifier('abstract')
+                ->namespace($e_ns)
+                ->defs(implode("\n",[
+                    'public static function setUpBeforeClass(): void{',
+                    '   igk_require_module(\\'.$r_ns.'::class);',
+                    '}']
                 ));
                 igk_io_w2file($file, $builder->render());
             };
+
+            $bind[$dir."/Lib/autoload.php"]= $v_fc_php_empty_file;
             // + | --------------------------------------------------------------------
             // + | for unit testing
             // + |
@@ -155,6 +188,8 @@ class MakeModuleCommand extends AppCommand{
                 $n->appendLine("  arguments: --stop-on-failure --colors=always --testdox --bootstrap Lib/Tests/autoload.php Lib/Tests");
                 igk_io_w2file($file, $n);
             };
+
+            MakeUtility::BindDefaultLangSupport($command, $dir, $bind);         
             
 
             if ($use_git){
@@ -167,13 +202,14 @@ class MakeModuleCommand extends AppCommand{
                     ".phpunit.result.cache",
                 ]
                 );           
-            }
-
+            }  
             foreach($bind as $path=>$callback){
                 if ($force || !file_exists($path)){
                     $callback($path, $command, $name); 
                 }
             }
+            Logger::info('reset module caches...');
+            \IGK\System\Modules\ModuleManager::ResetModuleCache();
             Logger::info("Location: ".$dir);  
             Logger::success(__("done"));
         };

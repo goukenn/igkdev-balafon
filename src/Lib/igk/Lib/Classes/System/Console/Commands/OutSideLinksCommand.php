@@ -40,8 +40,7 @@ class OutSideLinksCommand extends AppExecCommand{
                     if (($c==".") || ($c=="..")){
                         continue;
                     }
-                    $mdir = $sourcedir.DIRECTORY_SEPARATOR.$c;
-                    // Logger::print("resolv:".$mdir);                   
+                    $mdir = $sourcedir.DIRECTORY_SEPARATOR.$c;             
                     if (is_link($mdir) && empty(strstr($rp= realpath($mdir), $file)) && is_dir($rp)){
                         $links[] = $mdir;  
                         continue;                          

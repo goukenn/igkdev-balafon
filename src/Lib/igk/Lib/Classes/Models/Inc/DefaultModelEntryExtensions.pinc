@@ -161,7 +161,13 @@ Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
 
 });
 
-
+// + | -----------------------------------------------------------
+// + | Custom macros system  - 
+// + |
+// + | Note: macros should normaly be store in Database\Macros. 
+///+ | but core system store private it private macros to IGK\Models\Macros
+// + | for that need to register manually 
+// + |
 Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
  
 

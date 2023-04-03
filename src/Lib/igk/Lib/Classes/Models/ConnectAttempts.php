@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ConnectAttempts.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -34,7 +34,7 @@ class ConnectAttempts extends ModelBase{
 	*/
 	protected $table = "%prefix%connect_attempts"; 
 	/**
-	*override primary key 
+	* override primary key 
 	*/
 	protected $primaryKey = "";
 }

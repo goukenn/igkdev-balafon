@@ -9,6 +9,8 @@ use IGK\System\Actions\Traits\ActionFormHandlerTrait;
 use IGK\System\Html\Forms\FormHelper;
 use IGK\System\Services\LoginServiceEvents;
 use IGK\System\Services\SignProvider;
+use function igk_resources_gets as __ ;
+
 
 ///<summary></summary>
 /**
@@ -20,6 +22,8 @@ trait FormLoginActionTrait{
     var $formLoginActionRememberMe = true;
     var $formLoginActionRegisterUri = "registerLogin";
     var $formLoginActionLogin = 'login';
+    var $registerUserActionAuthSocialUri;
+    
     protected function form_login($form, $options = null)
     {
         $user = ViewHelper::CurrentCtrl()->getUser();
@@ -34,6 +38,7 @@ trait FormLoginActionTrait{
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();
         $fname = ViewHelper::GetViewArgs('fname');
+        $app_name = igk_getv($options, 'app_name');
         $this->registerUserActionAuthSocialUri = $ctrl->getAppUri($fname . "/connect");
         $form->div()->h1()->Content = __("Login");
         $form->cref();
@@ -48,7 +53,6 @@ trait FormLoginActionTrait{
                 "rememberme"=>["type"=>"checkbox", "label_text"=>__("Remember me")]
             ]);
         }
-        $t->actionbar(FormHelper::submit());
         if (SignProvider::IsRegistered()) {
             $t->div()->setClass("sep")->Content = __("--- OR --- ");
             $t->div()->setClass('igk-social-login-button-container')->yield(
@@ -56,15 +60,18 @@ trait FormLoginActionTrait{
                 [
                     "controller" => $ctrl,
                     "redirect_uri" => $this->registerUserActionAuthSocialUri,
-                    "app_name" => "tonerafrika"
+                    "app_name" => $app_name
                 ]
             );
-        }
-        $t->div()->actionbar(function ($a) {
-            $ctrl = ViewHelper::CurrentCtrl();
+        } 
+        $t->actionbar(function($a)use($ctrl){
             $a['class'] = '+footer';
-            $a->a($ctrl::uri($this->formLoginActionRegisterUri))->Content = __("register");
-            $a->space();
+            $group = $a->button_group();
+            $group->host(FormHelper::submit());
+            $group->a($ctrl::uri($this->formLoginActionRegisterUri))
+            ->setClass('igk-btn')
+            ->Content = __("register");
+            
             if ($this->registerUserActionForgotPasswordUri)
             $a->a($ctrl::uri($this->registerUserActionForgotPasswordUri))
                 ->setClass('underline')

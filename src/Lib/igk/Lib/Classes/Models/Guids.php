@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Guids.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -20,7 +20,7 @@ use IGK\Models\ModelBase;
 * */
 class Guids extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_CL_G_U_I_D="clGUID";
+	const FD_CL_GUID="clGUID";
 	const FD_CL_DESC="clDesc";
 	const FD_CL_CREATE_AT="clCreateAt";
 	/**

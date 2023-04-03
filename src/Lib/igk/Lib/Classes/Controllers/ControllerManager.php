@@ -199,7 +199,7 @@ class $name extends {$param["extend"]}{
      * */
 	// public function getName(){return get_class(\$this);}
 
-    ${entry_ns}
+    {$entry_ns}
     /**
      * init countroller
      * */

@@ -53,6 +53,16 @@ final class CacheConfigs
     private function __construct()
     {
     }
+    public function __get($n){
+        igk_die("try access ". $n);
+    }
+    public function __set($n, $v){
+        igk_die("set not allowed ".$n);
+    }
+    /**
+     * get instance
+     * @return static
+     */
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -70,7 +80,7 @@ final class CacheConfigs
             } else {
                 $i->cacheOptions = (object)[];
             }
-            register_shutdown_function(function () {
+            register_shutdown_function(function () {                
                 self::storeCacheOptions();
             });
         }
@@ -90,11 +100,10 @@ final class CacheConfigs
     {
         $i = self::getInstance();
         $cnf = ControllerHelper::getConfigFile($controller) ?? igk_die("configure file is missing");
-        
         $cftime = @filemtime($cnf);
-        $cl = $controller->getName();
         $update = false;
-        $binhash = $cnf; // sha1($cnf, true);
+        $binhash = $cnf; 
+     
 
         if (isset($i->m_changed_prop[$binhash])) {
             $inf = $i->m_changed_prop[$binhash];
@@ -108,9 +117,6 @@ final class CacheConfigs
         } else {
             $i->m_changed_prop[$binhash] = ['cftime' => null, 'keys'=>[]];
         }
-
-
-
         if (!isset($i->config_times[$binhash])) {
             $update = true;
             $i->config_times[$binhash] = max($cftime, $i->mtime);
@@ -120,9 +126,7 @@ final class CacheConfigs
             $update = $diff != 0; //$cftime > $mtime;
             if ($update) {
                 $i->m_update_references[$binhash] = $cftime;
-                $i->change = true;
-
-                //$i->config_times[$binhash] = -$diff;
+                $i->changed = true;  
             }
         }
 
@@ -212,6 +216,13 @@ final class CacheConfigs
     {
         $i = self::getInstance();
         if (!defined("IGK_TEST_INIT") && $i->changed) {
+            //--------------------------------------------------------- 
+            // + |disable service worker storage
+            //---------------------------------------------------------         
+            if (igk_server()->HTTP_SEC_FETCH_DEST == 'serviceworker'){
+                $i->change = false;
+                return;
+            }    
             foreach ($i->m_update_references as $k => $v) {
                 $i->config_times[$k] = $v;
             }
@@ -256,5 +267,7 @@ final class CacheConfigs
         }
         $options->$key = $value;
         self::getInstance()->changed = true;
+        igk_trace();
+        igk_wln_e(__METHOD__, $name, $key);
     }
 }

@@ -14,6 +14,7 @@ class SvgListNode extends HtmlNode{
     var $tagname = 'igk:svg-list';
     protected function initialize()
     {
+        parent::initialize();
         // igk_create_node("div")->setClass("igk-svg-lst")->setStyle("display:none;");
         $this['class'] = 'igk-svg-lst';
 

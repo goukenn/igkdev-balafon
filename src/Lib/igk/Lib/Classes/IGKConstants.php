@@ -17,7 +17,8 @@ final class IGKConstants{
     const MYSQL_TIME_FORMAT = "H:i:s";
     const DEFAULT_TIME_ZONE = 'Europe/Brussels';
     const MODEL_TABLE_REGEX = "/%(?P<name>((sys)?prefix|year))%/i"; 
-
+    
+    const BASECLASS_COMMAND = \System\Console\Commands::class;
 
  
     const SITEMAP_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd";
@@ -25,6 +26,8 @@ final class IGKConstants{
     const SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9";   
 
     const GUID_LENGTH = 38;
+
+    const PATH_VAR_DETECT_MODEL_REGEX = "/^%(?P<name>[^%]+)%/";
 
     /**
      * get the core version 

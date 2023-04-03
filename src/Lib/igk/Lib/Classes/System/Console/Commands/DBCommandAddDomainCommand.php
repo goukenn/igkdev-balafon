@@ -22,10 +22,15 @@ class DBCommandAddDomainCommand extends AppExecCommand
 
     var $category = "administration";
 
+    var $options = [];
+
+    public function showUsage(){
+        Logger::print($this->command. " domainame controller [options]");
+    }
     /**
      * exec the command
      */
-    public function exec($command, ?string $action = null, ?string $domainname = null, $controller = null)
+    public function exec($command, ?string $domainname = null, $controller = null)
     {
         if (is_null($domainname)) {
             Logger::danger("domain is empty");

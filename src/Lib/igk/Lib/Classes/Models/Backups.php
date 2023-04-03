@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Backups.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -22,11 +22,11 @@ use IGK\Models\ModelBase;
 * */
 class Backups extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_BACKUPTYPE="backup_type";
-	const FD_BACKUPCLASS="backup_class";
-	const FD_BACKUPPATH="backup_path";
-	const FD_BACKUPCREATEAT="backup_create_at";
-	const FD_BACKUPUPDATEAT="backup_update_at";
+	const FD_BACKUP_TYPE="backup_type";
+	const FD_BACKUP_CLASS="backup_class";
+	const FD_BACKUP_PATH="backup_path";
+	const FD_BACKUP_CREATE_AT="backup_create_at";
+	const FD_BACKUP_UPDATE_AT="backup_update_at";
 	/**
 	* table's name
 	*/

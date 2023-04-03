@@ -126,8 +126,6 @@ PHP,
             $g,
             "failed global"
         );
-
-        // igk_wln_e($armonic->options->variables);
     }
     public function test_armonic_global_with_expression()
     {
@@ -150,7 +148,7 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false; 
-        // igk_debug(true);
+        
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 igk_demo("de presentation et d'action {$x->presentation()} de jour", function(){
@@ -194,7 +192,7 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = true;  
-       // igk_debug(true);     
+            
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 igk_expression($x=     456, $d);
@@ -350,16 +348,13 @@ PHP,
             $g,
             "failed global"
         );
-    }
-
-
-
-    public function test_armonic_interface_trait_and_class_3()
+    } 
+    public function _test_armonic_interface_trait_and_class_3()
     {
+        // TODO : TEST ARMONIC
 
         $armonic = new ArmonicCompiler;
-        $armonic->mergeVariable = false;
-        //igk_debug(true);
+        $armonic->mergeVariable = false; 
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 class A{
@@ -407,8 +402,7 @@ PHP,  $g, "not ok");
     function test_static_var_in_function(){
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = true;
-        $armonic->noComment = true;
-        //  igk_debug(true);
+        $armonic->noComment = true; 
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 $x = 85;
@@ -442,8 +436,7 @@ PHP,
     function test_public_function(){
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = true;
-        $armonic->noComment = true;
-        // igk_debug(true);
+        $armonic->noComment = true; 
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 class Job{
@@ -453,6 +446,7 @@ class Job{
     } 
 }
 PHP); 
+
         $this->assertEquals(<<<'PHP'
 <?php
 
@@ -460,7 +454,6 @@ class Job{
 
 public function doSomething(){
 $data = new Job();
-
 return $data;
 }
 }

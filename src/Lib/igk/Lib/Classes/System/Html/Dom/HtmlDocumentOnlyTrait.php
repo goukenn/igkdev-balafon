@@ -20,8 +20,8 @@ trait HtmlDocumentOnlyTrait
     {
         return false;
     }
-    protected function __AcceptRender($opt = null)
+    protected function _acceptRender($options = null):bool
     {
-        return $this->getIsVisible() && igk_getv($opt, "Document");        
+        return $this->getIsVisible() && igk_getv($options, "Document");        
     }
 }

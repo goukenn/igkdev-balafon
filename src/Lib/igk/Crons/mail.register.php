@@ -21,16 +21,7 @@ $uri = "https://local.com:7300/registerService/activate-mail/?q=".base64_encode(
     "email"=>"bondje.doue@gmail.com", 
 ]));
 
-// $options = (object)[
-//     "title"=>"registration",
-//     "msg"=>"welcome to , local.com<br /><p>please <a href=\"".$uri."\">click here to actived </a> your new letter</p>",
-//     "msg-fr"=>"",
-//     "msg-nl"=>"",
-//     "email"=>"bondje.doue@igkdev.com",
-//     "activate_uri"
-// ];
-
-// igk_wln_e($options);
+ 
 
 $r = [];
 if (is_null($options->email)){

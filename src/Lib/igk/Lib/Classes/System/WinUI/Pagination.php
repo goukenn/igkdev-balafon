@@ -90,7 +90,6 @@ class Pagination{
             $max = min($max+$l,  $total);
             $min = max($min-$l, 1);
         }
-        // igk_wln_e("leve l ", compact("l", "max", "min"));
         $request_uri = $request_uri ?? igk_io_request_uri();
         $query = UriHelper::GetQueryTab($request_uri);
         $request_uri = explode("?", $request_uri)[0];
@@ -101,13 +100,13 @@ class Pagination{
             unset($query[$this->pageQuery]);
             $q = "?";
             if(!empty($s = http_build_query($query))){
-                $q = $s."&";
+                $q .= $s."&";
             }
             $q .= $this->pageQuery."=";
         }
         $query[$this->pageQuery] = 0;
         $u = $request_uri.$q;
-        $this->_prefix($n , $u,   $total );
+        $this->_prefix($n , $u, $total, $ajx);
         for($i = $min; $i<= $max; $i++){
             $li = $n->li();
             $bu = $u.$i;
@@ -116,35 +115,40 @@ class Pagination{
             $a->setContent($i);
             if ($i==$this->page){
                 $li->setClass("+igk-active");
-            }
-            
+            }            
         }
-        $this->_postfix($n, $u,   $total );
+        $this->_postfix($n, $u,   $total , $ajx);
         return $n;
     }
-    private function _prefix($n, $u,   $total ){
+    function _geta($n, $ajx, $param){
+        if ($ajx){
+            return $n->ajx($param);
+        }
+        return $n->a($param);
+    }
+    private function _prefix($n, $u, $total, $ajx=0 ){
         $link = "#";
         switch($this->type){
             default:        
             $li = $n->li();
-            $li->a($u."1")->Content = __("First");
-            // if ($this->page>1){
+            $li->class("pagination-group");
+            $this->_geta($li, $ajx, $u."1")->Content = __("First");
                 $li = $n->li();
-                $li->a( $u. ($this->page-1))->setClass([
+                $li->class("pagination-group pagination-group-end");
+                $this->_geta($li, $ajx, $u. ($this->page-1))->setClass([
                     "disable"=>$this->page<=1
-                ])->Content = __("Prev");
-            //}
+                ])->Content = __("Prev");      
             break;
         }
     }
-    private function _postfix($n, $u, $total){
+    private function _postfix($n, $u, $total, $ajx){
         $next = min($this->page+1, $total);
         switch($this->type){
             default:        
             $li = $n->li();
-            $li->a($u.$next)->Content = __("Next");
+            $this->_geta($li, $ajx, $u.$next)->Content = __("Next");
             $li = $n->li();
-            $li->a($u.$total)->Content = __("Last");
+            $this->_geta($li, $ajx, $u.$total)->Content = __("Last");
             break;
         }
     }

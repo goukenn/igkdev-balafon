@@ -7,14 +7,21 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Dom\Traits\AccessibilityTrait;
 use IGK\System\Html\Dom\Traits\ClassAndStyleOffsetTrait;
 use IGK\System\Html\Dom\Traits\HtmlNodeTrait;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlEventProperty;
 use IGK\System\Html\HtmlExpressionAttribute;
+use IGK\System\Html\HtmlNodeTagExplosionDefinition;
 use IGK\System\Html\HtmlStyleValueAttribute;
+use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\ViewRef;
 use IGKException;
+use ReflectionException;
+
 use function igk_resources_gets as __;
 
 /**
@@ -151,8 +158,7 @@ use function igk_resources_gets as __;
  * @method self ul() create a html 'ul' node 
  * @method self var() create a html 'var' node 
  * @method self video() create a html 'video' node 
- * @method self wbr() create a html 'wbr' node 
- * @method self load() load contents 
+ * @method self wbr() create a html 'wbr' node  
  * @method self getChilds() get loaded childs
  */
 class HtmlNode extends HtmlItemBase
@@ -160,9 +166,47 @@ class HtmlNode extends HtmlItemBase
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
     static $AutoTagNameClass = false;
     const NODE_LIST = "a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr";
-    const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext  |live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
+    const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext|live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
+    const NATIVE_ELEMENT = "text|loop";
     use HtmlNodeTrait;
     use ClassAndStyleOffsetTrait;
+    use AccessibilityTrait;
+
+    /**
+     * check if tag node name is a native element
+     * @param string $tagname 
+     * @return bool 
+     */
+    public static function IsNative(string $tagname):bool{
+        return in_array($tagname, explode('|', self::NATIVE_ELEMENT)) || function_exists(IGK_FUNC_NODE_PREFIX.$tagname);
+    }
+    /**
+     * 
+     * @param HtmlItemBase $node 
+     * @param null|string $class 
+     * @return null|HtmlCssClassValueAttribute 
+     */
+    protected static function InitWebClassWith(HtmlItemBase $node, ?string $class): ?HtmlCssClassValueAttribute {
+        $node['class'] = $class; 
+        return $node['class'];
+    }
+
+    /**
+     * init with data 
+     * @param array $data array of data to load
+     * @param ?InitWithEngine $engine 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public function initWith($data, $engine= null ){
+        return HtmlUtils::Init($this, $data, $engine);
+    }
+    /**
+     * inner properties
+     * @var mixed
+     */
+    private $m_property = [];
 
     public function __toString()
     {
@@ -339,11 +383,19 @@ class HtmlNode extends HtmlItemBase
         $this["id"] = $this["name"] = $id;
         return $this;
     }
-    public function __construct($tagname = null)
+    public function __construct(?string $tagname = null)
     {
         parent::__construct();
-        if ($tagname !== null)
+        if ($tagname !== null){
+            if (!igk_environment()->loading_context){
+                list($tagname, $id, $classes, $args, $name, $attr) = HtmlNodeTagExplosionDefinition::ExplodeTag($tagname);
+                if ($id) $this->setAttribute('id', $id);
+                if ($name) $this->setAttribute('name', $name);
+                if ($classes) $this->setClass($classes);
+                if ($attr) $this->setAttributes($attr);  
+            }
             $this->tagname = $tagname;
+        }
         $this->initialize();
     }
     /**
@@ -352,6 +404,7 @@ class HtmlNode extends HtmlItemBase
      */
     protected function initialize()
     {
+       
     }
     ///<summary></summary>
     ///<param name="key"></param>
@@ -398,10 +451,23 @@ class HtmlNode extends HtmlItemBase
         return $this;
     }
 
+    public function getProperty(string $name){
+        return igk_getv($this->m_property, $name);
+    }
+
+    /**
+     * get the custom properties
+     * @param mixed $name 
+     * @param mixed $value 
+     * @return $this 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function setProperty($name, $value)
     {
-        $n = igk_getv($this, $name);
-        $this->$name = $value;
+        $n = igk_getv($this->m_property, $name);
+        $this->m_property[$name] = $value;
         if ($n != $value) {
             // + | ------------------------------------------
             // + | dom property changed

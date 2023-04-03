@@ -181,10 +181,10 @@ implements IDatabaseHost
     public function createNewDoc($clear = false)
     {
         $key = $this::name("app_document");
-        $doc = $this->getParam($key);
+        $doc = $this->getEnvParam($key);
         if ($doc == null) {
             $doc = IGKHtmlDoc::CreateDocument($key);
-            $this->setParam($key, $doc);
+            $this->setEnvParam($key, $doc);
         }
         $doc->Title = $this->AppTitle;
         if ($clear)
@@ -480,10 +480,11 @@ EOF;
                 $function = $s . $rt . (!empty($function) ? "/" . $function : '');
             }
         }
+        $buri = igk_io_baseuri() ?? "/";
         if ($function) {
-            return igk_str_rm_last(igk_io_baseuri(), '/') . "/" . $function;
+            return igk_str_rm_last($buri, '/') . "/" . $function;
         }
-        return igk_io_baseuri();
+        return $buri;
     }
 
     ///<summary></summary>
@@ -683,8 +684,8 @@ EOF;
                             "<br />" . $this->getName() .
                             "<br />";
                         throw new UriActionException($m, $u, 0x1a001);
-                    } else {
-                        throw new \IGKException("AccessNotAllowed");
+                    } else { 
+                        throw new \IGKException("Subdomain request for entry path");
                     }
                 } else {
                     $actionctrl->invokeUriPattern($m);
@@ -750,9 +751,12 @@ EOF;
         } else {
             igk_reg_hook($this::hookName("register_autoload"), function($e){
             // igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
-                // $op_start = igk_sys_request_time();
-                //if (\IGK\Models\ModelBase::IsMacrosInitialize()){
+                 // $op_start = igk_sys_request_time();
+                 // if (\IGK\Models\ModelBase::IsMacrosInitialize()){
+                 // + | changed   
+                 if (!igk_environment()->NO_PROJECT_AUTOLOAD){
                     $this->initMacros();
+                 }
                 //}
                 // igk_ilog("init macros duration: ". (igk_sys_request_time() - $op_start) . " ".
                 // get_class($this));

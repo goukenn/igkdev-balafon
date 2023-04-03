@@ -34,13 +34,13 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     ///<param name="opt" default="null"></param>
     /**
     * 
-    * @param mixed $opt the default value is null
+    * @param mixed $options the default value is null
     */
-    public function __AcceptRender($opt=null){
+    protected function _acceptRender($options=null):bool{
         if($this->m_tabViewListener !== null){
             $this->m_tabViewListener->TabViewPage($this, $this->m_tablist, $this->m_tabcontent);
         }
-        return parent::__AcceptRender($opt);
+        return parent::_acceptRender($options);
     }
     ///<summary></summary>
     /**

@@ -21,7 +21,7 @@ abstract class SeederBase{
     * @return array 
     */
 	protected function getRandomValues(array $tab,int $count, & $indexes=null){
-		$indexes = array_rand($tab, $count);
+		$indexes = array_rand($tab, min(count($tab), $count));
 		$values = [];
 		foreach($indexes as $i){
 			$values[] = $tab[$i];

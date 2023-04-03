@@ -50,9 +50,9 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     {
         parent::initialize();
     }
-    protected function __AcceptRender($options = null)
+    protected function _acceptRender($options = null):bool
     {
-        if (!parent::__AcceptRender($options))
+        if (!parent::_acceptRender($options))
         return false;
     $this->fields($this->m_fields);        
     return true;

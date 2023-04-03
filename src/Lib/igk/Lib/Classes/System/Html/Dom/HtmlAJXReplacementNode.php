@@ -62,7 +62,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         }
         return $so;
     }
-    protected function __getRenderingChildren($options = null)
+    protected function _getRenderingChildren($options = null)
     {
         return $this->m_nodes;
     }

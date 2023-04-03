@@ -19,7 +19,7 @@ trait ApplicationUserProfileTrait{
      * @return ?string
      */
     protected function getApplicationUserModel(): ?string{
-        return $this->resolveClass("Models/Users");
+        return $this->resolveClass(\Models\Users::class);
     }
     /**
      * 
@@ -41,7 +41,7 @@ trait ApplicationUserProfileTrait{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    protected function initUserFromSysUser(?object $u): ?IUserProfile
+    protected function initUserFromSysUser(object $u): IUserProfile
     { 
         if (!$u || !$u->clGuid) {
             return null;
@@ -67,22 +67,8 @@ trait ApplicationUserProfileTrait{
             $model::model(), 
             $condition,
             function()use($u){
-                return $this->createApplicationUserInfo($u);
-                // $couid = Countries::Get('couName', 'Cameroun');
-                // if ($couid)
-                //     $couid = $couid->couId;
-                // return [
-                //     'pufirstName' => $u->clFirstName,
-                //     'pulastName' => $u->clLastName,               
-                //     'puuserId' => $u->clGuid,
-                //     'puType'=>1,
-                //     'puActive'=>1,
-                //     'puCou' => $couid,
-                //     'puLocX' => igk_server()->GEOIP_LATITUDE,
-                //     'puLocY' => igk_server()->GEOIP_LONGITUDE,
-                // ];
-            }
-            
+               return $this->createApplicationUserInfo($u);              
+            }            
         );
     }
     /**

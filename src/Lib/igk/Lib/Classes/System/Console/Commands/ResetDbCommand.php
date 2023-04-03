@@ -13,7 +13,8 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use IGK\System\Delegates\InvocatorListDelegate;
-use IGKModuleListMigration; 
+use IGKModuleListMigration;
+use Illuminate\Database\Console\Seeds\SeedCommand;
 
 class ResetDbCommand extends AppExecCommand
 {
@@ -31,14 +32,15 @@ class ResetDbCommand extends AppExecCommand
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
-        $seed = property_exists($command->options, "--seed");
+        $seed =  property_exists($command->options, "--seed");
         $force = property_exists($command->options, "--force");
         $clean = property_exists($command->options, "--clean");
-        $use_core_db = false;
-        $sysdb = SysDbController::ctrl();
+        if ($ctrl=='%sys%'){
+            $ctrl = SysDbController::ctrl();
+        }
+       
         $ctrl =  $ctrl ?? igk_getv($command->options, "--controller");
-     
-        // igk_dev_wln("db: ". igk_configs()->db_name, "server: ".igk_configs()->db_server); 
+    
         if ($ctrl) {
             $c = \IGK\Helper\SysUtils::GetControllerByName($ctrl);
 
@@ -62,9 +64,12 @@ class ResetDbCommand extends AppExecCommand
       
         // init modules controller 
         Logger::print("-");        
-        if ($seed) {
-            $fc = $command->exec;
-            $fc($command, $ctrl);
+        if ($seed){  
+            $ad = SysDbController::ctrl()->getDataAdapter();
+            if ($ad->connect()){
+                DbCommandHelper::Seed($ctrl);
+                $ad->close();
+            }
         }
         Logger::success("Done");
         return 1;
@@ -140,10 +145,14 @@ class ResetDbCommand extends AppExecCommand
         Logger::success("resetdb - all - complete"); 
         return true;
     }
+    /**
+     * seed controler
+     * @param mixed $command 
+     * @return void 
+     */
     public function seedController($command){ 
         $seed = $command->app->command["--db:seed"];
         $fc = $seed["0"];
-        $fc("resetdb", $command);
-    
+        $fc("resetdb", $command);    
     }
 }

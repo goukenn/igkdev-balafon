@@ -59,6 +59,7 @@ interface IDataDriver{
     function getEngineSupport():bool;
 
     function createAlterTableFormat():string;
+
     /**
      * 
      * @param mixed $columninfo 

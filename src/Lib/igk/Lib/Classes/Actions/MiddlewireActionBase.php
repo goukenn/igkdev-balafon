@@ -14,8 +14,10 @@ use IGK\System\Http\Request;
 use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\Actions\ActionBase;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use Reflection;
+use ReflectionException;
 use ReflectionMethod;
 
 use function igk_resources_gets as __;
@@ -122,19 +124,19 @@ abstract class MiddlewireActionBase extends ActionBase{
                     if ($v->isUserRequired()){
                         if (!$user){
                             $m = "User required.";
-                            $redirect && $this->_handle_redirect($redirect, 402, $m);                            
-                            throw new IGKException("User required.", 402);
+                            $redirect && $this->_handle_redirect($redirect, 302, $m);    
+                            throw new IGKException("User required.", 502);
                         }
                     }               
                     if($v->isAuthRequired()){
                         if ($user && !$v->isAuth($user)){
                             $m = "Route access not allowed.";
-                            $redirect && $this->_handle_redirect($redirect, 402, $m);
-                            throw new IGKException($m, 402);
+                            $redirect && $this->_handle_redirect($redirect, 301, $m);
+                            throw new IGKException($m, 503);
                         } else if (!$user){
-                            $m = "Role require an user.";
-                            $redirect && $this->_handle_redirect($redirect, 402, $m);
-                            throw new IGKException($m, 402);
+                            $m = "Role missing.";
+                            $redirect && $this->_handle_redirect($redirect, 301, $m);
+                            throw new IGKException($m, 504);
                         }
                     }
                     $v->setUser($user);
@@ -169,8 +171,18 @@ abstract class MiddlewireActionBase extends ActionBase{
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments); 
     }
-    private function _handle_redirect($url, $code, $message){
-        igk_navto($url, $code);
+    /**
+     * redirect code 
+     * @param mixed $url 
+     * @param mixed $code redirect code 301|302
+     * @param mixed $message message for status
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    protected function _handle_redirect($url, $code=301, $message =null){
+        igk_navto($url, $code, $message);
     }
     /**
      * invoke route

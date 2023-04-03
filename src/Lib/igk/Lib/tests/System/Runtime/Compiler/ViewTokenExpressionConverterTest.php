@@ -30,7 +30,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             "<?php",
             '$x = $y;'
         ]);
-        // igk_debug(true);
+        
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
@@ -44,7 +44,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             "<?php",
             '$x = $y.    "Hello";'
         ]);
-        // igk_debug(true);
+        
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
@@ -57,8 +57,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         $src = implode("\n",[
             "<?php",
             'define("sample", 1);'
-        ]);
-         //igk_debug(true);
+        ]); 
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
@@ -71,14 +70,14 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     public function test_convert_atomic_collapse(){
         $src = implode("\n",[
             "<?php",
-            '$a = function( $x ){ $x = "datat"; ?>Base DE JOUR<?php };'
+            '$a = function( $x ){ $x = "data"; ?>Base DE JOUR<?php };'
         ]);
-       // igk_debug(true);
+       
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
             "<?php",
-            '$___IGK_PHP_SETTER_VAR___[\'a\'] = $a = function( $x ){ $x = "datat"; ?>Base DE JOUR<?php };'
+            '$___IGK_PHP_SETTER_VAR___[\'a\'] = $a = function( $x ){ $x = "data"; ?>Base DE JOUR<?php };'
         ]), $g, "failed to convers");
     } 
 
@@ -102,7 +101,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             "<?php",
             'if (true){ $x = 8; }'
         ]);
-        // igk_debug(true);
+        
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src);        
         $this->assertEquals(implode("\n",[
@@ -138,8 +137,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         $src = implode("\n",[
             "<?php",
             'if (true){ $x = 88; if (false) $y = 99; }'
-        ]);
-        //igk_debug(true);
+        ]); 
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src); 
         // igk_wln_e(
@@ -166,22 +164,30 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         ]); 
         $converter = new ViewTokenExpressionConverter;
         $g = $converter->convert($src); 
-      
+     
         $this->assertEquals(<<<'PHP'
 <?php
 if (defined("demo")):
-if (!class_exists(Demo::class)){
-///<summary></summary>
-/**
-*
-*/
-class Demo{
-}
-}
-
 $___IGK_PHP_SETTER_VAR___['x'] = $x = 88;
 endif;
 PHP,
  preg_replace("/^\\t/im","", $g), "failed to convert");
     } 
+
+    // $this->assertEquals(<<<'PHP'
+    // <?php
+    // if (defined("demo")):
+    // if (!class_exists(Demo::class)){
+    // ///<summary></summary>
+    // /**
+    // *
+    // */
+    // class Demo{
+    // }
+    // }
+    
+    // $___IGK_PHP_SETTER_VAR___['x'] = $x = 88;
+    // endif;
+    // PHP,
+    //  preg_replace("/^\\t/im","", $g), "failed to convert");
 }

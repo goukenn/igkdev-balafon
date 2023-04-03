@@ -22,6 +22,12 @@ class Logger{
     public static function SetLogger($logger){
         self::$sm_logger = $logger;
     }
+    /**
+     * print message
+     * @param mixed $args 
+     * @param mixed $tabspace 
+     * @return void 
+     */
     public static function printr($args, $tabspace=null){
         if (is_array($args)){
             $tabspace = $tabspace ?? self::TabSpace;

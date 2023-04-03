@@ -4,7 +4,8 @@
 // css configuration page
 $page = ".igk-cnf-page";
 $areasize = "420px";
-// igk_wln_e($def);
+// igk_trace();
+// exit;
 $def->clear(); 
 // because of clear on theme make errors
 // reg file type color
@@ -588,7 +589,8 @@ $page ." .igk-section-title.igk-title-4"] =
 
 $def[$page ." div.igk-title"] = "padding-bottom: 0px"; 
 
-
+$def[$page." .igk-danger"] = "color:orangered;";
+$def[$page." .igk-form.webmail-config"] = "font-size: 14px;";
 
 // ----------------------------------------------------------------------
 // + MAIL SERVER STYLES
@@ -662,11 +664,13 @@ $def["a.igk-svg-host"]="display:inline-block;";
 $def[".igk-form-control.clsubmit"] = "width:auto;";
 
 
-$cl["buttonBgColor"] = "red";
-$def[ ".igk-pagination > li"] = "padding:0px; border-radius: 6px; [bgcl: buttonBgColor]";// align-self:center;";
-$def[ ".igk-pagination > li > a "] = "{sys:dispib} padding:6px 12px; cursor:pointer; ";
+$cl["buttonPaginationBgColor"] = "#1F9CF0";
+$cl["buttonPaginationDarkBgColor"] = "#1B7CBC";
+$def[ ".igk-pagination > li"] = "line-height: 1; padding:0px; border-radius: 6px; [bgcl: buttonPaginationBgColor]";// align-self:center;";
+$def[ ".igk-pagination > li > a "] = "{sys:dispib} padding:6px; cursor:pointer; line-height: 1; ";
 $def[ ".igk-pagination > li.igk-active"] = "border-radius: 6px; [bgcl: buttonActiveBgColor, transparent]";
-$def[ ".igk-pagination > li:not(:first-child)"] = "margin-right: 5px";
+$def[ ".igk-pagination > li:not(:first-child)"] = ""; //margin-right: 5px";
+$def[ ".igk-pagination > li:hover"] = "[bgcl:buttonPaginationDarkBgColor]"; 
 
 
 $root["--config-configSVGFillColor"] = "#eea570";
@@ -703,12 +707,20 @@ $def[".igk-svg-host.svg-fit > svg"] = "{sys: fit} fill:white; ";
 
 $def[".igk-svg-host.logo"] = "width:32px; height:32px; margin: 4px;";
 
-$cl["loginFormBgColor"] = "indigo";
+$cl["loginFormBgColor"] = "indigo"; 
 
-/// TODO: udate configuration presentation 
 // + | 2022 configuration page
 $def[$page .' .igk-form-control'] = "border-radius:4px;";
 
 $def[".igk-panel-box"] = 
 $def[".igk-panel-box.home-cnf"] = 
 $def[".igk-panel-box.home-cnf > .igk-panel-box "] = "border:none;";
+
+// + | 2023 configuration page
+$def[".igk-table td"]= 
+$def[".igk-table td"]= "padding: 4px;";
+
+
+// + | configuration path for php info
+
+$def[$page .' .igk-cnf-php-info-container'] = 'font-size: 16px;';

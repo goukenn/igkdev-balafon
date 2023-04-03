@@ -155,10 +155,13 @@ final class IGKValidator extends IGKObject {
     public static function IsFloat($v){
         return is_float($v);
     }
-
-    public static function IsGUID(string $v){
-        
-        return (strlen($v) == IGKConstants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
+    /**
+     * check for guid 
+     * @param null|string $v 
+     * @return bool 
+     */
+    public static function IsGUID(?string $v=null){        
+        return !is_null($v) && (strlen($v) == IGKConstants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
     }
     /**
      * check password validity confirmation
@@ -184,7 +187,10 @@ final class IGKValidator extends IGKObject {
     * 
     * @param mixed $p
     */
-    public static function IsIpAddress($p){
+    public static function IsIpAddress(string $p){
+        if (is_null($p)){
+            return false;
+        }
         return preg_match(IGK_IPV4_REGEX, trim($p));
     }
     ///<summary></summary>
@@ -265,4 +271,5 @@ final class IGKValidator extends IGKObject {
         }
         return !$e;
     }
+
 }

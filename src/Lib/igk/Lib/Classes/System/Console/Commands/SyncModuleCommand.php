@@ -98,7 +98,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         Logger::info("install_dir : " . $install_dir); 
         $file = tempnam(sys_get_temp_dir(), "blf");
         $script_install = igk_io_sys_tempnam("blf_module_script");
-        igk_sys_zip_project($module, $file, IGK_AUTHOR, [
+        igk_sys_zip_project($module, $file, null, IGK_AUTHOR, [
             "module_name" => $module->getName(),
             "module_version" => $module->getVersion(),
             "module_path" => igk_io_collapse_path($module->getDeclaredDir()),
@@ -108,9 +108,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         $token = null;
         $name = "module" . $module->getName() . ".zip";
         $sb = $this->_getInstallScript($token, $name);
-        // $builder = new PHPScriptBuilder();
-        // $builder->type("function")
-        //     ->defs($sb);
+  
         igk_io_w2file($script_install, $sb);
 
         $pdir = $setting["public_dir"];

@@ -58,7 +58,7 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
     public function count(): int{
         return count($this->m_data);
     }
-    public function to_array(){
+    public function to_array(): ?array{
         return $this->m_data;
     }
     public function reverse(){

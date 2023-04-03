@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
+use IGK\Tests\Controllers\ModuleBaseTestCase;
 
 ///<summary></summary>
 /**
@@ -34,10 +35,10 @@ class ModuleMakeClassCommand extends AppExecCommand{
             return -1;
         }
         $type = igk_getv($command->options, "--type", "class");
-        $extends = igk_getv($command->options, "--extends");
         $desc = igk_getv($command->options, "--desc");
         $force = property_exists($command->options, "--force");
         $test = property_exists($command->options, "--test");
+        $extends = igk_getv($command->options, "--extends", $test ? ModuleBaseTestCase::class : null);
         if (!in_array($type, self::GetAllowedTypes())) {
             $type = "class";
         }

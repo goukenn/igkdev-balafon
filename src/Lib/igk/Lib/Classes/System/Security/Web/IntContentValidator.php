@@ -10,13 +10,7 @@ namespace IGK\System\Security\Web;
 * string int content validator
 * @package IGK\System\Security\Web
 */
-class IntContentValidator extends MapContentValidatorBase
+class IntContentValidator extends IntegerContentValidator
 {
-    public function map($value, $key, &$error)
-    {
-        if (is_numeric($value)) {
-            return intval($value);
-        }
-        $error[$key] = 'not a valid integer.';
-    }
+     
 }

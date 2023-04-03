@@ -6,6 +6,8 @@
 
 namespace IGK\Database;
 
-interface IDbArrayResult{
-    public function to_array();
+use IGK\System\IToArrayResolver;
+
+interface IDbArrayResult extends IToArrayResolver{
+    public function to_array():array;
 }

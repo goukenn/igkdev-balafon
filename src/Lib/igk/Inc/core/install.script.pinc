@@ -22,7 +22,8 @@ if (!function_exists("igk_count")) {
         return count($n);
     }
 }
-if (!function_exists("igk_io_dir")) {
+
+if (!function_exists("igk_dir")) {
     function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         if ($dir === null) {
@@ -96,6 +97,12 @@ if (!function_exists("igk_io_rmdir")) {
 }
 class InstallerHelper
 {
+    /**
+     * get directory files .
+     * @param string $dir 
+     * @param mixed $pattern 
+     * @return array|null 
+     */
     public static function GetFiles(string $dir, $pattern)
     {
         $out = null;
@@ -182,6 +189,9 @@ if (!file_exists($corelib)) {
 }
 
 $install_dir = igk_getr("install_dir");
+// echo "HOME DEFINED ? ".isset($_SERVER["HOME"]).PHP_EOL;
+// echo "ftp home dir : ".$ftp_home_dir. " ".$install_dir. " ".$home . " ".realpath($ftp_home_dir);
+ 
 if ($install_dir)
     $install_dir = implode("/", array_filter([$home == '/' ? null : $home, trim($install_dir, "/")]));
 else
@@ -236,6 +246,8 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
     // $response->die("complete");
 } else {
     if (!is_dir($install_dir) && !@mkdir($install_dir, 0775, true)) {
+        echo "try to create directory : ".getcwd() . " vs " .$install_dir;
+        exit;
         $response->die("failed created dir: " . $install_dir, 500);
     }
 }

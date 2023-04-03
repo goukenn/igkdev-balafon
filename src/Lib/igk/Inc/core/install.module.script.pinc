@@ -58,6 +58,7 @@ if (!function_exists("igk_io_rmdir")) {
         $pdir = array($dir);
         $kdir = array($dir);
         $d = 1;
+        $leave = 0;
         while ($dir = array_pop($pdir)) {
             $hdir = opendir($dir);
             if (!$hdir)
@@ -68,6 +69,7 @@ if (!function_exists("igk_io_rmdir")) {
                 $v = igk_dir($dir . "/" . $f);
 
                 if ($callback && !$callback($v)) {
+                    $leave= 1;
                     continue;
                 }
                 if (is_link($v)) {
@@ -92,6 +94,9 @@ if (!function_exists("igk_io_rmdir")) {
                 }
             }
             closedir($hdir);
+        }
+        if ($leave){
+            return false;
         }
         while ($d && ($dir = array_pop($kdir))) {
             if (is_link($dir)) {
@@ -227,9 +232,7 @@ mkdir($temp_dir);
 
 
  
-// echo $install_dir .PHP_EOL;
-// echo "is _dir ?".is_dir($install_dir);
-// exit;
+ 
 $version = 0;
 $author = 0;
 $appName;

@@ -146,10 +146,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
                     $c->clLinkType = igk_db_get_table_name($c->clLinkType, $ctrl);
                     if ($c->clLinkConstraintName){
                         $c->clLinkConstraintName = igk_db_get_table_name($c->clLinkConstraintName, $ctrl);
-                    }
+                    }                    
                     $query = $_grammar->add_foreign_key( $tbname, $c);
                     if (is_null($query)){
-                        igk_die("add_foreign_key query is null ");
+                        igk_ilog("can't create foreign key. possibility on constraint name exists");
+                        continue;
                     }
                     if (! $this->sendQuery($query)){
                         _log(implode("\n", ["query failed: ",$query, $this->last_error()]));
@@ -216,7 +217,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @param bool $throwex indicate to throw exception on error
      * @param mixed $options extra option to pass
      * @param bool $autoclose close the connection
-     * @return null|bool|IDbQueryResult result data
+     * @return null|bool|IDbQueryResult|mixed result data
      * @throws \Error if query is null
      */
     public abstract function sendQuery($query, $throwex=true, $options=null, $autoclose=false);
@@ -234,7 +235,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @param mixed $tinf 
      * @return string|null 
      */
-    public function GetExpressQuery($express, $tinf){
+    public function GetExpressQuery($express, $tinf, $seperator='.'){
 
         if ($this->resolveLinkListener){
             if (!$this->resolveLinkListener->resolve($tinf->clLinkType)){
@@ -242,8 +243,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             }
         }
 
-        $b = explode(".", $express);
-        $value = implode(".", array_slice($b, 1));
+        $b = explode($seperator, $express);
+        $value = implode($seperator, array_slice($b, 1));
         if ($nvalue = igk_regex_get("/\[(?P<value>([^\]]+))\]/", "value", $value)){
             $value = $nvalue;
         }
@@ -380,10 +381,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     }
     /**
      * drop table
-     * @param string $tablename 
+     * @param string|array<string> $tablename 
      * @return bool
      */
-    public function dropTable(string $tablename){
+    public function dropTable($tablename){
         return false;
     }
     /**
@@ -519,11 +520,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * primary insert class 
      * @param mixed $table 
      * @param mixed $entries 
+     * @param mixed $table table info
      * @param bool $throwException 
      * @return false 
      * @throws IGKException 
      */
-    public function insert($table, $entries, bool $throwException=true){
+    public function insert($table, $entries, $tableinfo=null, bool $throwException=true){
         if ($throwException){
             throw new IGKException(__CLASS__. " - [warning] :::: must be overrided");
         }
@@ -653,8 +655,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     ///<summary></summary>
     ///<param name="tbname"></param>
     /**
-    * select data form object
-    * @param null|object|mixed|IQueryResult
+    * select all data form table
+    * @param null|object|mixed|IQueryResult $tbname table
     */
     public function selectAll($tbname){
         return null;

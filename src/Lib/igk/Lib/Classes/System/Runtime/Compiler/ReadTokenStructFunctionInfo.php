@@ -103,14 +103,14 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
             $sb->appendLine("{");
 
             if ($this->variables){
-                if (!empty($meth = rtrim(ReadTokenUtility::GenerateVariables($this->variables, $merge)))){
+                if (!empty($meth = rtrim(ReadTokenUtility::GenerateVariables($this->variables, $merge, $this->type)))){
                     $sb->appendLine($meth); 
                     $sb->appendLine();
                 }
             }
             if ($this->structs) {
                 $sb->appendLine();
-                $sb->appendLine(ReadTokenUtility::GenerateStruct($this->structs, null));
+                $sb->appendLine(ReadTokenUtility::GenerateStruct($this->structs, false));
             }
             if (!empty($buff = trim($v_buffer)))
                 $sb->appendLine($buff); 

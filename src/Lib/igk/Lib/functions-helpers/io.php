@@ -7,7 +7,31 @@
 
 use IGK\Helper\IO;
 
-
+function igk_io_mimetype_ext($type, $default='.dat'){
+    return igk_getv([
+        "image/jpeg"=>".jpeg",
+        "image/png"=>".png",
+        "image/jpg"=>".jpg",
+    ], $type, '.dat');
+}
+/**
+ * retrieve mimetype
+ * @param mixed $ext 
+ * @param mixed $default 
+ * @return mixed 
+ */
+function igk_io_mimetype($ext, $default){
+    foreach([
+        '/\.(jpg|jpeg|webp)/'=>'image/jpeg',
+        '/\.(png)/'=>'image/png',
+        '/\.(bmp)/'=>'image/bitmap'
+    ] as $k=>$v){
+        if (preg_match($k, $ext)){
+            return $k;
+        }
+    }
+    return $default;
+}
 /**
  * 
  * @param string $path 
@@ -56,24 +80,41 @@ function igk_io_cachedir()
 ///<param name="target">: link to create</param>
 ///<param name="cibling">: lien a créer</param>
 /**
- * target, cibling le lien
- * @param mixed $target : link to create
- * @param mixed $cibling : lien a créer
+ * target, cibling 
+ * @param mixed $target target of the link
+ * @param mixed $cibling link to create
  */
 function igk_io_symlink($target, $link)
 {
     $r = false;
+    // if (file_exists($link) && is_link($link)){
+    //     $lnk = readlink($link);
+    // }
     if (!file_exists($link) && !is_link($link) && IO::CreateDir(dirname($link))) {
-        $target = IGKCaches::ResolvPath($target);
-        if (!igk_server()->WINDIR) {
-        }
+        $target = IGKCaches::ResolvPath($target);      
         if (($home = igk_server()->HOME) && is_link($home)) {
             $cpath = realpath($home);
             if (strstr($cp = realpath($target), $cpath)) {
                 $target = $home . substr($cp, strlen($cpath));
             }
         }
-        if (!($r = IO::SymLink($target, $link))) {
+        
+        // get relative link to target from link
+        $relative_target = IO::GetRelativePath($link , $target) ?? $target; 
+
+        // check that the directory exists to taget file 
+        if (igk_is_debug() || igk_environment()->isDev()){
+            $bck = getcwd();
+            chdir(dirname($link));
+            $check = $relative_target;           
+            $g = file_exists($check); 
+            chdir($bck);
+            if (!$g){
+                igk_dev_wln_e(__FILE__.":".__LINE__ , " target not valid : create a symlink ", $link, $target, $relative_target,  "?", $g);
+            }
+        }
+
+        if (!($r = IO::SymLink($relative_target, $link))) {
             igk_ilog("unix symlink failed: source: " . $target . " cibling: " . $link);
             if (igk_environment()->isDev()) {
                 igk_trace();

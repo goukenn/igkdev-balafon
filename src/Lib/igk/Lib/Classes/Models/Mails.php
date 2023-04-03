@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Mails.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -23,12 +23,12 @@ use IGK\Models\ModelBase;
 * */
 class Mails extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_MAILFROM="mail_from";
-	const FD_MAILTRY="mail_try";
-	const FD_MAILSTATUS="mail_status";
-	const FD_MAILDATA="mail_data";
-	const FD_MAILCREATE_AT="mail_createAt";
-	const FD_MAILUPDATE_AT="mail_updateAt";
+	const FD_MAIL_FROM="mail_from";
+	const FD_MAIL_TRY="mail_try";
+	const FD_MAIL_STATUS="mail_status";
+	const FD_MAIL_DATA="mail_data";
+	const FD_MAIL_CREATE_AT="mail_createAt";
+	const FD_MAIL_UPDATE_AT="mail_updateAt";
 	/**
 	* table's name
 	*/

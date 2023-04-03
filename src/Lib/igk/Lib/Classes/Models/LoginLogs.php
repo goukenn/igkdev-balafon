@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: LoginLogs.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -32,7 +32,7 @@ class LoginLogs extends ModelBase{
 	const FD_LOGLOGS_ID="loglogs_Id";
 	const FD_LOGLOGS_USER_GUID="loglogs_UserGuid";
 	const FD_LOGLOGS_AGENT="loglogs_Agent";
-	const FD_LOGLOGS_I_P="loglogs_IP";
+	const FD_LOGLOGS_IP="loglogs_IP";
 	const FD_LOGLOGS_GEO_X="loglogs_GeoX";
 	const FD_LOGLOGS_GEO_Y="loglogs_GeoY";
 	const FD_LOGLOGS_REGION="loglogs_Region";
@@ -48,11 +48,11 @@ class LoginLogs extends ModelBase{
 	*/
 	protected $table = "%prefix%login_logs"; 
 	/**
-	*override primary key 
+	* override primary key 
 	*/
 	protected $primaryKey = "loglogs_Id";
 	/**
-	*override refid key 
+	* override refid key 
 	*/
 	protected $refId = "loglogs_Id";
 }

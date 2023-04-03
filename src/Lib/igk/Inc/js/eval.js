@@ -31,6 +31,12 @@
                 } catch (e) {
                     // + | handling error 
                     console.error('Error:igk-winui-balafon-js-inc : ' + e.message);
+                    console.log('inline script: ', e.lineNumber + ":" + e.columnNumber);
+                    window.__igk_var_script_error = b;
+                    var line = b;
+                    if (line){
+                        console.log(line.substr(min(0, e.columnNumber-10),40)); 
+                    }
 
                     // console.debug('message: ' + e.message, e.lineNumber + ":" + e.columnNumber);
                     // // view message rule

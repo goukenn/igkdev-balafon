@@ -11,6 +11,7 @@ use IGK\Controllers\ApplicationModuleController;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Modules\Helpers\Utility;
+use IGK\System\Regex\Replacement;
 use IGKException;
 use IGKHtmlDoc;
 
@@ -97,35 +98,38 @@ class ModuleManager
      * @throws IGKException 
      */
     public static function GetInstalledModules(): ?array
-    {
-        
-        $modir = igk_get_module_dir();
-        $ln = strlen($modir) + 1;
+    {  
         $d = ApplicationModules::GetCacheFile();
         if (!file_exists($d)) {
-            $modules = igk_io_getfiles($modir, "/\/module\.json$/");
-            $tlist = [];
-            if ($modules) {
-                foreach ($modules as $f) {
-                    $name = self::_SanitizeName(substr(dirname($f), $ln));
-                    $obj = json_decode(file_get_contents($f));
-      
-                    if ($obj && igk_is_valid_module_info($obj)) {
-                        if ($obj->name != $name) {
-                            igk_ilog("module not a valid name :" . $name . " vs " . $obj->name);
-                        }
-                        $tlist[$name] = $obj;
-                    }
-                }
-            }
-            ksort($tlist);
-            if (!defined('IGK_NO_LIB_CACHE')) {
-                igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
-            }
-            return $tlist;
+            return self::_InitModules();
         }
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
+    }
+    private static function _InitModules(){
+        $d = ApplicationModules::GetCacheFile();
+        $modir = igk_get_module_dir();
+        $ln = strlen($modir) + 1;
+        $modules = igk_io_getfiles($modir, Replacement::RegexExpressionFromString("/".ApplicationModuleController::CONF_MODULE."$"));
+        $tlist = [];
+        if ($modules) {
+            foreach ($modules as $f) {
+                $name = self::_SanitizeName(substr(dirname($f), $ln));
+                $obj = json_decode(file_get_contents($f));
+  
+                if ($obj && igk_is_valid_module_info($obj)) {
+                    if ($obj->name != $name) {
+                        igk_ilog("module not a valid name :" . $name . " vs " . $obj->name);
+                    }
+                    $tlist[$name] = $obj;
+                }
+            }
+        }
+        ksort($tlist);
+        if (!defined('IGK_NO_LIB_CACHE')) {
+            igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
+        }
+        return $tlist;
     }
     /**
      * help sanitize name
@@ -222,5 +226,14 @@ class ModuleManager
             $module->boot = false;
             $module->initDoc($doc);
         }
+    }
+    /**
+     * reset module caches
+     * @return array 
+     * @throws IGKException 
+     */
+    public static function ResetModuleCache(){
+        @unlink(ApplicationModules::GetCacheFile());
+        return self::_InitModules();
     }
 }

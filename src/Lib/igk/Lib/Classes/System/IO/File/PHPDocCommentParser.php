@@ -15,6 +15,11 @@ class PHPDocCommentParser{
     var $param;
     var $return;
     var $description;
+    var $api;
+
+    var $throws;
+
+    var $response;
     /**
      * block phpunit test 
      * @var ?
@@ -65,11 +70,11 @@ class PHPDocCommentParser{
                         $content = "";
                         $offset = 1;
                         $name = self::ReadName($k, $offset);
-                        $s = trim(substr($k, $offset));
-                        // if (igk_str_endwith($s, "\\")){
-                        //     $s.="\n";
-                        // }   
+                        $s = trim(substr($k, $offset));                          
                         $content .= self::_TreatContent($s); 
+                        if ($name=='api'){
+                            $g->api = true;
+                        }
                     }else{
                         $content .= $k;
                     }

@@ -5,6 +5,7 @@
 namespace IGK\System\Application;
 
 use IGK\Controllers\BaseController;
+use IGK\Models\ModelBase as ModelsModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
@@ -19,7 +20,13 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
 
     private $m_user;
     private $m_app_user;
-    private $m_controller; 
+    protected $m_controller;
+
+    protected function registerProfile() { }
+
+    public function user(): ModelsModelBase {
+        return $this->m_app_user;
+     } 
 
     public function setUserInfo($userInfo) {
         $this->m_profile = $userInfo;

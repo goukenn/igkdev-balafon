@@ -64,8 +64,6 @@ trait RegisterUserActionTrait
      */
     public function register_post()
     {
-
-
         $not = igk_notifyctrl($this->registerServiceNotifyName);
         $ctrl = $this->getController();
         $domain = $this->getController()->getConfig('domain');
@@ -77,7 +75,6 @@ trait RegisterUserActionTrait
         // }
         $p = igk_get_robj("login|password|repassword");
         extract((array)$p);
-        /// TODO: VALIDATE : 
         if ($p->password != $p->repassword) {
             $not->danger(__('password missmatch'));
             igk_ilog(sprintf("password missmatch, %s vs %s ", $p->password, $p->repassword));

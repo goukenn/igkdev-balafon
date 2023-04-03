@@ -34,7 +34,7 @@ final class HtmlFormNode extends HtmlNode
      * 
      * @param mixed $o the default value is null
      */
-    protected function __AcceptRender($o = null)
+    protected function _acceptRender($options = null):bool
     {
         $e = $this->topdiv->Content;
         $this->topdiv->setIsVisible(!empty($e) && !$this->m_notitle);
@@ -76,7 +76,7 @@ final class HtmlFormNode extends HtmlNode
      * @param mixed $item
      * @param mixed $index the default value is null
      */
-    protected function _Add($item, $index = null)
+    protected function _Add($item, $index = null):bool
     {
         return $this->bodydiv->_Add($item);
     }

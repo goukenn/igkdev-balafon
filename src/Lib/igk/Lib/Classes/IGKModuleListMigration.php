@@ -12,6 +12,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\Traits\DbCreateTableReferenceTrait;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
 /**
  * single use class pattern 
@@ -55,7 +56,7 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
     /**
      * schema migration list 
      * @param array $list 
-     * @return IGKModuleListMigration 
+     * @return static 
      */
     public static function Create(array $list)
     {
@@ -65,7 +66,7 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
     }
     /**
      * create a molude migration context
-     * @return IGKModuleListMigration|null 
+     * @return static|null 
      * @throws IGKException 
      */
     public static function CreateModulesMigration()
@@ -80,7 +81,11 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
         }
         return null;
     }
-    public static function migrate()
+    /**
+     * migrate install - migration 
+     * @return bool 
+     */
+    public static function Migrate()
     {
         Logger::info("Modules migration...");
         self::$sm_instance = new self();
@@ -119,7 +124,7 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
     private static function invokeExtension($method, $navigate = false, $force = false)
     {
         self::$sm_instance = new self();
-        if ($fc = BaseController::getMacro($method)) {
+        if (($fc = BaseController::getMacro($method)) && self::$sm_list) {
 
             foreach (self::$sm_list as $l) {
                 Logger::info(" module db .... [ " . $method . ' ] > ' . $l->getName());
@@ -154,12 +159,14 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
         }
     }
     public static function __callStatic($name, $arguments)
-    {
+    { 
         if (method_exists(ControllerExtension::class, $name)) {
-            if (self::$sm_instance->host) {
+            if (isset(self::$sm_instance->host)) {
                 array_unshift($arguments, self::$sm_instance->host);
+                return ControllerExtension::$name(...$arguments);
+            } else {
+                Logger::warn("no host defined");
             }
-            return ControllerExtension::$name(...$arguments);
         }
         return null;
     }
@@ -174,9 +181,20 @@ final class IGKModuleListMigration extends BaseController implements IDbGetTable
     public function register_autoload()
     {
     }
-    public static function dropDb($navigate = 1, $force = 0)
-    {
+    public static function dropDb($navigate = 1, $force = 0){
         self::invokeExtension(__FUNCTION__, $navigate, $force);
+    }
+    /**
+     * initialize module database 
+     * @param bool $force 
+     * @return never 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function initDb($force=true)
+    {
+        self::invokeExtension(__FUNCTION__, $force); 
     }
     /**
      * no table definition for migration

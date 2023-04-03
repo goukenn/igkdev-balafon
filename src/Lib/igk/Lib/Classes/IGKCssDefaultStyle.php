@@ -11,8 +11,9 @@
 use IGK\Css\CssSupport;
 use IGK\Css\ICssStyleContainer;
 use IGK\Css\ICssSupport;
+use IGK\System\IToArray;
 
-final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleContainer{
+final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleContainer, IToArray{
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
     const COLORS_RULE=5;
     const DECLARED_RULE=1;
@@ -25,6 +26,8 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     const SYMBOLS_RULE=3;
     const TEMP_FILES_RULE=8;
     const SET_FLAG=19;
+
+    const ST_NO_THEME_RENDERING_FLAG = 'no_theme_rendering';
     private $_;
 
    public function setStyleFlag(string $name, $value){
@@ -60,6 +63,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     }
     ///<summary></summary>
     public function __construct(& $setting){
+        $uri = igk_io_request_uri();
         $this->_=& $setting;
     }
     public function & getDeclaredRules(){
@@ -114,7 +118,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
      * return a copy array presentation of this style
      * @return array 
      */
-    public function to_array(){  
+    public function to_array():?array{  
         // + |------------------------------------------------------
         // + | copy array  
         $o = [];
@@ -181,20 +185,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
                     unset($this->_[$k]);
                 }
             }
-            // while(count($this->_) > 0){
-            //     igk_wln('the key ', key($this->_));
-            //     array_shift($this->_);
-            // }
             // restore color rules 
             if ($_state){
                 // + | restore state flag
                 $this->_[self::SET_FLAG] = $_state;
             }
-            // if (!is_null($_color)){ 
-            //     // clear color rule and restore reference
-            //     $_color = [];
-            //     $this->_[self::COLORS_RULE] = & $_color;
-            // }
+           
         }
           
     }

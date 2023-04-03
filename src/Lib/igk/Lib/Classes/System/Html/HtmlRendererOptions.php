@@ -11,6 +11,13 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class HtmlRendererOptions{
+    var $Source;
+
+    var $LF="";
+ 
+    var $__sanitize = null;
+
+    var $__invoke = null;
     /**
      * indent writing content
      * @var bool
@@ -47,8 +54,12 @@ class HtmlRendererOptions{
     var $StandAlone = 0;
     var $Cache;
     var $CacheUri = 0 ;
+    
     var $CacheUriLevel= 0;
+    
     var $flag_no_attrib_escape;
+
+    var $attribute_entity_escape;
     /**
      * array of tab
      * @var array
@@ -82,4 +93,42 @@ class HtmlRendererOptions{
      * @var ?string
      */
     var $renderingContext;
+
+    /**
+     * skip tags list
+     * @var ?array|callable 
+     */
+    var $skipTags;
+
+    /**
+     * 
+     * @var for aside items
+     */
+    var $aside;
+ 
+
+    private $m_properties;
+
+
+
+    public function __set($n, $v){ 
+        if (is_null($v)){
+            unset($this->m_properties[$n]);
+            return;
+        }
+        $this->m_properties[$n] = $v;
+    }
+    public function __get($n){        
+        igk_getv($this->m_properties, $n);
+    }
+    public function setRef($n, & $v){
+        $this->m_properties[$n] = & $v;
+    }
+    public function & getRef($n){
+        $rg = null;
+        if (isset($this->m_properties[$n])){
+            $rg = & $this->m_properties[$n];
+        }
+        return $rg;
+    }
 }

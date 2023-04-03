@@ -24,49 +24,145 @@ abstract class StringUtility
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
+     * helper to read brank
+     * @param string $str 
+     * @param int $pos 
+     * @return mixed 
+     */
+    public static function ReadBrank(string $ln, int & $pos ){
+        $ch = $ln[$pos];
+        switch($ch){
+            case "'":
+            case '"':
+                $ch = igk_str_read_brank($ln, $pos, $ch, $ch);
+                break;
+            case '{':
+                $ch = igk_str_read_brank($ln, $pos, '}','{');
+                break;
+            case '(':
+                    $ch = igk_str_read_brank($ln, $pos, ')','(');
+                break;
+            case '[':
+                $ch = igk_str_read_brank($ln, $pos, ']','[');
+                break;
+        }
+        return $ch;
+    }
+    public static function NotNullOrEmptyFilterCallback()
+    {
+        return function ($a) {
+            if (is_null($a)) {
+                return false;
+            }
+            if (is_string($a) && (strlen(trim($a)) == 0)) {
+                return false;
+            }
+            return $a;
+        };
+    }
+    /**
+     * get constant name
+     * @param string $s 
+     * @param string $splitter 
+     * @return string 
+     */
+    public static function GetConstantName(string $s, string $splitter = "/[A-Z0-9]+/")
+    {
+        return strtoupper(self::GetSnakeKebab($s, $splitter));
+    }
+    /**
+     * skake kebab data
+     * @param string $haystack 
+     * @param string $splitter 
+     * @return string 
+     */
+    public static function GetSnakeKebab(string $haystack, string $splitter = "")
+    {
+        $s_out = '';
+        $haystack = preg_replace('/[^_a-z]/i','', $haystack);
+        $ln = strlen($haystack);
+        $letter = '_ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $pos = 0;
+        $m = 0;
+        $sep = '';
+        $word = '';
+        while ($pos < $ln) {
+            $ch = $haystack[$pos];
+            $in_split = false !== strpos($letter, $ch);
+            if (!$m) {
+                if ($in_split) {                  
+                    if (!empty($word)) {
+                        $s_out .= $sep.ucfirst($word);
+                        $word = '';
+                        $sep = '_';
+                    } 
+                    $m = 1;
+                }
+            }else{
+                if(!$in_split){
+                    $m = 0;
+                }
+                $ch = strtolower($ch);
+            }
+            if ($ch=='_'){
+                $ch = '';
+            }
+            $word .= $ch;
+            $pos++;
+        }
+        if($w = ucfirst(trim($word)))
+            $s_out .= $sep.$w;
+        return $s_out; 
+    }
+    /**
      * remove quote from string 
      * @param string $data 
      * @param string $start_quote 
      * @param null|string $end_quote 
      * @return string new string
      */
-    public static function RemoveQuote(string $data, string $start_quote='"', ?string $end_quote=null){
+    public static function RemoveQuote(string $data, string $start_quote = '"', ?string $end_quote = null)
+    {
         $end_quote = $end_quote ?? $start_quote;
-        if (strpos($data, $start_quote)===0){
-            $data = substr($data,1);
-            if (strpos($data, $end_quote, -1)!==false){
-                $data = substr($data,0, -1);                
+        if (strpos($data, $start_quote) === 0) {
+            $data = substr($data, 1);
+            if (strpos($data, $end_quote, -1) !== false) {
+                $data = substr($data, 0, -1);
             }
         }
-        return $data;        
+        return $data;
     }
     /**
      * get name_space 
      * @param string $namespace 
      * @return string 
      */
-    public static function NS(string $namespace):string{
+    public static function NS(string $namespace): string
+    {
 
         $ns = str_replace("/", "\\", $namespace);
         $ns = trim(str_replace(" ", "", $ns));
         return $ns;
     }
-    public static function AuthorizationPath(string $name, ?string $controller):string{
-        return implode("@", array_filter([ $controller, $name]));
+    public static function AuthorizationPath(string $name, ?string $controller): string
+    {
+        return implode("@", array_filter([$controller, $name]));
     }
     /**
      * helper to retrieve key name
      * @param BaseController $controller 
      * @return string 
      */
-    public static function GetControllerKeyName(BaseController $controller):string{
+    public static function GetControllerKeyName(BaseController $controller): string
+    {
         return igk_uri(get_class($controller));
     }
-    public static function GetApplicationMailTitle(BaseController $controller, ?string $title=null){
-        return $title ?? 
-        $controller->getConfig('domain') ?? 
-        igk_configs()->system_mail_title ?? 
-        igk_configs()->domain;    
+    public static function GetApplicationMailTitle(BaseController $controller, ?string $title = null)
+    {
+        return $title ??
+            $controller->getConfig('domain') ??
+            igk_configs()->system_mail_title ??
+            igk_configs()->domain;
     }
     /**
      * display name
@@ -74,9 +170,10 @@ abstract class StringUtility
      * @param string $lastName 
      * @return string|null 
      */
-    public static function DisplayName(?string $firstName=null, ?string $lastName=null):?string{
+    public static function DisplayName(?string $firstName = null, ?string $lastName = null): ?string
+    {
         $r = null;
-        if ($d = array_filter([$firstName, strtoupper($lastName ?? '')])){
+        if ($d = array_filter([$firstName, strtoupper($lastName ?? '')])) {
             $r = implode(' ', $d);
         }
         return $r;
@@ -424,35 +521,41 @@ abstract class StringUtility
      */
     public static function ReplaceAtOffset(string $haystack, string $insert, int $offset, int $length)
     {
-     
-        return  substr($haystack, 0, $offset ) .
+
+        return  substr($haystack, 0, $offset) .
             $insert . substr(
                 $haystack,
                 $offset + $length
             );
     }
 
-    public static function DisplayAddress(?string $street=null,?string $number=null,
-        ?string $box=null, ?string $city=null, ?int $postalCode =null , $country=null){
+    public static function DisplayAddress(
+        ?string $street = null,
+        ?string $number = null,
+        ?string $box = null,
+        ?string $city = null,
+        ?int $postalCode = null,
+        $country = null
+    ) {
         $sb = new StringBuilder;
-        if ($street){
+        if ($street) {
             $sb->append($street);
             if ($number)
-                $sb->append(" - ".$number);
+                $sb->append(" - " . $number);
             if ($box)
-                $sb->append("/".$number);
+                $sb->append("/" . $number);
             $sb->appendLine();
         }
-        if ($city){
+        if ($city) {
             if ($postalCode)
-            $sb->append(sprintf("%s - ", $postalCode));
+                $sb->append(sprintf("%s - ", $postalCode));
             $sb->appendLine(sprintf("%s", $city));
         }
-        if ($country){
-            $sb->appendLine(__('country.'.$country));
+        if ($country) {
+            $sb->appendLine(__('country.' . $country));
             // $sb->appendLine(\IGK\Models\Countries::GetCache('clISO', $country));
-        }        
-        return $sb."";
+        }
+        return $sb . "";
     }
     /**
      * helper function resources if not null
@@ -460,9 +563,10 @@ abstract class StringUtility
      * @param mixed $format 
      * @return mixed 
      */
-    public static function FormatIfNotNull($value, $format){
-        if (!is_null($value)){
-            if (is_string($format)){
+    public static function FormatIfNotNull($value, $format)
+    {
+        if (!is_null($value)) {
+            if (is_string($format)) {
                 return __($format, $value);
             }
             return $format($value);
@@ -474,13 +578,13 @@ abstract class StringUtility
      * @param string $identifer 
      * @return string
      */
-    public static function SanitizeIdentifier(string $identifer):string{
+    public static function SanitizeIdentifier(string $identifer): string
+    {
         $rp = new Replacement();
-        $rp->add('/\s+/','')
-        ->add('/[^'.self::IDENTIFIER_TOKEN.']/', '_')
-        ->add('/^[0-9]/','_\\0');
+        $rp->add('/\s+/', '')
+            ->add('/[^' . self::IDENTIFIER_TOKEN . ']/', '_')
+            ->add('/^[0-9]/', '_\\0');
         $identifer = $rp->replace(trim($identifer));
         return $identifer;
     }
- 
 }

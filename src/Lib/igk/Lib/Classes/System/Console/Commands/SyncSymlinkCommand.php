@@ -50,9 +50,7 @@ class SyncSymlinkCommand extends SyncAppExecCommandBase
         $content = PHPScriptBuilderUtility::MergeSource(        
                 IGK_LIB_DIR."/Inc/core/installer-helper.pinc",
                 IGK_LIB_DIR."/Inc/core/symlink.pinc",          
-        );
-        
-        
+        ); 
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
         $install = $pdir."/_symlink.php";
@@ -72,7 +70,8 @@ class SyncSymlinkCommand extends SyncAppExecCommandBase
                 "token" => $token,
                 "dir" => $dir,
                 "target"=>$target ,
-                "force"=>property_exists($command->options, "--force")
+                "force"=>property_exists($command->options, "--force"),
+                "home_dir"=>igk_getv($setting, "home_dir", "")
             ],
             null,
             [

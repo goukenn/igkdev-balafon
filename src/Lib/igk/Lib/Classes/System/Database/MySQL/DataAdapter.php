@@ -7,6 +7,7 @@
 
 namespace IGK\System\Database\MySQL;
 
+use Error;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
@@ -31,10 +32,12 @@ class DataAdapter extends DataAdapterBase
 {
     private $queryListener;
     private static $_initAdapter;
+    private static $supportedList;
 
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
+    
     /**
      * check that a constraint exists
      * @param string $name 
@@ -231,16 +234,28 @@ class DataAdapter extends DataAdapterBase
      */
     public function isTypeSupported($type): bool
     {
-        static $supportedList;
-        if ($supportedList === null) {
-            $supportedList = [];
+        
+        if (self::$supportedList === null) {
+            self::$supportedList = [];
             if ($g = $this->sendQueryAndLeaveOpen(self::SELECT_DATA_TYPE_QUERY)) {
                 foreach ($g->getRows() as $r) {
-                    $supportedList[] = strtolower($r->type);
+                    self::$supportedList[] = strtolower($r->type);
+                }
+                // + | update timestamp if support datetime - OVH MISSING DATA
+                $t = & self::$supportedList;
+                if (!in_array('timestamp', $t) && in_array('datetime', $t)){
+                    $t[] = 'timestamp';
                 }
             }
         }
-        return in_array(strtolower($type), $supportedList);
+        return in_array(strtolower($type),  self::$supportedList);
+    }
+    /**
+     * 
+     * @var  
+     */
+    public static function GetSupportedType(){
+        return self::$supportedList;
     }
     public function sendQueryAndLeaveOpen(string $query)
     {
@@ -273,7 +288,7 @@ class DataAdapter extends DataAdapterBase
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
-                error_log($error);
+                error_log("DB_ERROR: ".$error);
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
@@ -300,18 +315,20 @@ class DataAdapter extends DataAdapterBase
     }
 
     /**
-     * 
+     * filter data type value 
      * @param mixed $value 
      * @param mixed|DbColumnInfo $tinf 
      * @return mixed 
      */
     public function getDataValue($value, $tinf)
     {
-        if (preg_match("/^date$/i", $tinf->clType)) {
-            $value = date("Y-m-d", strtotime($value));
-        }
-        if (preg_match("/^datetime$/i", $tinf->clType)) {
-            $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
+        if ($type = $tinf->clType){
+            if (preg_match("/^date$/i", $type)) {
+                $value = date("Y-m-d", strtotime($value));
+            }
+            else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
+                $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
+            }
         }
         return $value;
     }
@@ -429,7 +446,7 @@ class DataAdapter extends DataAdapterBase
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
                 } else {
                     igk_ilog(sprintf('db [%s] success', $tablename));
-                    Logger::success(sprintf('db - create table - ' . $tablename . ' - success'));
+                    Logger::success(sprintf('db - create table - %s - success',  $tablename ));
                 }
                 return $s;
             }
@@ -540,9 +557,8 @@ class DataAdapter extends DataAdapterBase
     ///<summary></summary>
     ///<param name="tbname"></param>
     /**
-     * 
-     * @param mixed $tbname
-    
+     * select all
+     * @param mixed $tbname    
      */
     public function selectAll($tbname)
     {
@@ -551,15 +567,18 @@ class DataAdapter extends DataAdapterBase
         }
         return null;
     }
+    /**
+     * select all helper
+     * @param string $table 
+     * @param null|array $conditions 
+     * @return object 
+     * @throws IGKException 
+     * @throws Error 
+     */
     public function select_all(string $table, ?array $conditions = null)
     {
         return $this->select($table, $conditions);
-    }
-
-    public function commit()
-    {
-        parent::commit();
-    }
+    } 
     public function getColumnInfo(string $table, ?string $dbname = null)
     {
         $data =  $this->getGrammar()->get_column_info($table, $dbname);

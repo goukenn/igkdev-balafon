@@ -5,8 +5,10 @@
 
 'use strict';
 (function() {
+    var RZ_TIMEOUT = 200;
     const createNS = igk.system.createNS;
     const IGK_UNDEF = 'undefined';
+    const { regEventContextByOwner } = igk;
     createNS("igk.winui", { // represent window screen utility namespace
         toString: function() { return "igk.winui"; },
         open: function(uri) {
@@ -222,7 +224,7 @@
             return igk.winui.reg_system_event(window, method, func, useCapture);
         },
         unreg_window_event: function(method, func) {
-            return igk.winui.unreg_system_event(window, method, func, useCapture);
+            return igk.winui.unreg_system_event(window, method, func);
         },
 
         reg_event: function(item, method, func, useCapture) { // global	
@@ -283,7 +285,7 @@
         RegEventContext: function(eventContextOwner, properties) { // o that will host and igk properties to binds
             // >@@ eventContextOwner: the context o
             // >@@ property used to register 
-            if ((properties == null) || (eventContextOwner == null) || (igk_getRegEventContextByOwner(eventContextOwner) != null)) {
+            if ((properties == null) || (eventContextOwner == null) || (regEventContextByOwner(eventContextOwner) != null)) {
                 return null;
             }
 
@@ -295,7 +297,10 @@
                 // save unregEventContext function to target o
                 function __regEventContextFunction() {
                     var v_ts = properties;
-                    var v_ch = igk_getRegEventContext(v_ts, true, function() { return new chainUnreg(eventContextOwner, v_ts); });
+                    var v_ch = igk.regEventContextByOwner(v_ts, true, function() { return new chainUnreg(eventContextOwner, v_ts); });
+                    if (!v_ch){
+                        return;
+                    }
                     if (!v_ts.unregEventContext) {
                         igk.appendProperties(v_ts, {
                             unregEventContext: function() {
@@ -425,6 +430,9 @@
                             return;
                         }
                         this.reg_event(window, name, func);
+                    },
+                    unreg_window: function(name, func){
+                        igk.winui.unreg_window_event(name, func);
                     },
                     toString: function() {
                         return "RegEventContext";

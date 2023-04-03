@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Usergroups.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -32,8 +32,8 @@ class Usergroups extends ModelBase{
 	protected $unique_columns = array (
 	  0 => 
 	  array (
-	    0 => NULL,
-	    1 => NULL,
+	    0 => 'clUser_Id',
+	    1 => 'clGroup_Id',
 	  ),
 	);
 }

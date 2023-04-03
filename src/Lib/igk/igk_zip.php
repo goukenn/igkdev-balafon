@@ -88,7 +88,7 @@ function igk_zip_delete($file, $entry, $close=1){
  * @param mixed $dir 
  * @param mixed $zip 
  * @param mixed $folder 
- * @param mixed $regex 
+ * @param mixed $regex ignore regex
  * @return void|array entries files
  */
 function igk_zip_dir($dir, $zip, $folder=null, $regex=null){
@@ -108,7 +108,7 @@ function igk_zip_dir($dir, $zip, $folder=null, $regex=null){
                 if(($regex !== null) && preg_match($regex, $f)){
                     continue;
                 }
-                // Logger::print($f); 
+                igk_is_debug() && Logger::print('Add : '.$f); 
                 $hd=substr($f, strlen($dir) + 1);
                 $hd=(!empty($folder) ? $folder."/": null).$hd;
                 if(is_dir($f)){

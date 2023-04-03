@@ -19,7 +19,7 @@ trait ApplicationServiceLoginProviderTrait{
         return $this->uri('ServiceLogin');
     }
     /**
-     * register service
+     * register user uri
      * @return string 
      */
     protected function registerUri():string{

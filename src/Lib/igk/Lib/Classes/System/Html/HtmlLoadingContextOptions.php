@@ -46,4 +46,9 @@ class HtmlLoadingContextOptions{
      * @var ?HtmlNode
      */
     var $engineNode;
+
+    public function __toString()
+    {
+        return static::class;
+    }
 }

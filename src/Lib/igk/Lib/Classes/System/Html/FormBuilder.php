@@ -84,7 +84,7 @@ class FormBuilder
             // $o .= $v_def_form_control;
             // }
             foreach ($v[$key] as $k => $v) {
-                if ($k == "class") {
+                if ($k == 'class') {
                     $clprop->setClasses($v);
                 } else {
                     $o .= $k . "=\"" . $v . "\" ";

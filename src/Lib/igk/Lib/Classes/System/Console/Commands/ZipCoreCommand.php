@@ -6,9 +6,13 @@
 
 namespace IGK\System\Console\Commands;
 
+use IGK\Helper\CoreUtility;
 use IGK\Helper\IO;
+use IGK\Helper\PhpUnitHelper;
+use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Shell\OsShell;
 
 class ZipCoreCommand extends AppExecCommand{
 
@@ -18,6 +22,10 @@ class ZipCoreCommand extends AppExecCommand{
 
     var $category = "utils";
 
+    var $options = [
+        "--no-test"=>"flag: disable test ",
+        "--core-test-suite"=>"suite test to run"
+    ];
 
     public function exec($command, $path=null){
        
@@ -25,6 +33,28 @@ class ZipCoreCommand extends AppExecCommand{
             Logger::danger("zip utility function not found");
             return -1;
         }
+        $no_check = property_exists($command->options, "--no-test");
+        igk_set_timeout(0);
+        if (!$no_check)
+        {
+            // + | --------------------------------------------------------------------
+            // + | check all files with php lint
+            $r = CoreUtility::LintProject();
+            if (!$r){
+                return $r;
+            }           
+        }
+
+        // + | --------------------------------------------------------------------
+        // + | run unit test before create a zip
+        if (!$no_check && $phpunit = OsShell::Where('phpunit')){
+            $core_suite = igk_getv($command,'--core-test-suite','core');
+            $r = PhpUnitHelper::TestCoreProject($phpunit, $core_suite);
+            if ($r){
+                return $r;
+            } 
+        }
+ 
         $ext = "-".date("Ymd").".zip";
         $fname = "/balafon.".IGK_VERSION.$ext;
         if ($path == null){
@@ -36,8 +66,9 @@ class ZipCoreCommand extends AppExecCommand{
         if (file_exists($path)){
             $dir = dirname ($path);
             $version = IO::CheckFileVersion($path); 
-            $path = dirname ($path). "/balafon.".$version.$ext;
+            $path = $dir. "/balafon.".$version.$ext;
         }
+        Logger::info("run zip ......");
         if (igk_sys_zip_core($path, $incVersion)){
             Logger::print("out file : ".$path);
             Logger::success("zip complete");

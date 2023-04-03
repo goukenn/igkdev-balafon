@@ -1,7 +1,7 @@
 <?php
 
 // @author: C.A.D. BONDJE DOUE
-// @filename: MailDocument.php
+// @filename: NotifyConnexionMailDocument.php
 // @date: 20220506 09:14:15
 // @desc: 
 
@@ -9,6 +9,7 @@ namespace IGK\System\Html\Mail;
 
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Net\MailDocument;
 
 class NotifyConnexionMailDocument extends MailDocument{
     /**

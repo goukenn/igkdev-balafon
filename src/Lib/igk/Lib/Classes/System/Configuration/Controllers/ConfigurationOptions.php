@@ -4,13 +4,14 @@
 // @date: 20221123 23:49:02
 namespace IGK\System\Configuration\Controllers;
 
+use IGK\Controllers\IControllerConfigurationData;
 
 ///<summary></summary>
 /**
  * base application controller configuration options
  * @package IGK\System\Configuration\Controllers
  */
-class ConfigurationOptions
+class ConfigurationOptions 
 {
     /**
      * title in use
@@ -65,4 +66,6 @@ class ConfigurationOptions
      * @var ?bool
      */
     var $no_fallback_to_default_action;
+
+
 }

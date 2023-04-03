@@ -6,6 +6,7 @@
 namespace IGK\System\IO\File;
 
 use IGK\Helper\StringUtility;
+use IGK\System\Traits\StoredPropertiesTrait;
 use IGKException;
 
 /**
@@ -27,6 +28,15 @@ class PHPScriptBuilder
 {
     var $no_header_comment;
     var $author;
+    use StoredPropertiesTrait;
+
+    public static function CreateEmptyScriptCallback(){
+        return function($file){
+            $g = new self;
+            $g->type("function");
+            igk_io_w2file($file, $g->render());
+        };
+    }
 
     public function __construct()
     {
@@ -34,12 +44,12 @@ class PHPScriptBuilder
     }
     public function __get($name)
     {
-        return null;
+        return $this->getProperty($name);
     }
     public function __call($name, $arguments)
     {
         if (isset($arguments[0]))
-            $this->$name = $arguments[0];
+            $this->setProperty($name, $arguments[0]);
         return $this;
     }
     /**

@@ -34,6 +34,10 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     private $m_driver;
     use IteratorTrait;
 
+    public function to_array() {
+        return yield $this->fetch();
+    }
+
     public function getRowAtIndex($index) { 
         return null;
     }
@@ -51,8 +55,11 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     protected function _iterator_valid(){
         return $this->m_rowdef !== null;
     }
-
-    public function success(){
+    /**
+     * check if query success
+     * @return bool 
+     */
+    public function success():bool{
         return $this->m_rows !== null;
     }
     public function getFieldCount(){

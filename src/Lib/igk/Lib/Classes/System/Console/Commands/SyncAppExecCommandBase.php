@@ -34,6 +34,9 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\StringBuilder;
 
 abstract class SyncAppExecCommandBase extends AppExecCommand{
+
+    var $category = "sync";
+    
     // + | entry config tagname
     const SELF_KEY_CONFIG = 'ftp-sync';
     // + | configuration keys

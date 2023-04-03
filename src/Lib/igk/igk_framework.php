@@ -19,13 +19,15 @@ define("IGK_CORE_ENTRY_NS", "IGK");
 require_once IGK_LIB_DIR . "/igk_constants.php";
 require_once IGK_LIB_DIR . "/igk_config.php";
 require_once IGK_LIB_DIR . "/igk_core.php";
+require_once IGK_LIB_DIR . "/Lib/functions-helpers/modules.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/conf.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/environment.php";
 // environment management
-require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php");
-require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php");
-require_once(IGK_LIB_CLASSES_DIR . "/System/Http/StatusCode.php");
-require_once(IGK_LIB_CLASSES_DIR . "/Server.php");
+require_once IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php";
+require_once IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/Http/StatusCode.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/IToArray.php";
+require_once IGK_LIB_CLASSES_DIR . "/Server.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";  
 require_once IGK_LIB_CLASSES_DIR . "/System/Facades/Facade.php";
 
@@ -41,7 +43,8 @@ require_once IGK_LIB_DIR . "/Lib/functions-helpers/io.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/css.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/module.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/assets.php";
-require_once(IGK_LIB_DIR . "/Lib/functions-helpers/php.php");  
+require_once IGK_LIB_DIR . "/Lib/functions-helpers/php.php";  
+require_once IGK_LIB_DIR . "/Lib/functions-helpers/string.php";  
 require_once IGK_LIB_DIR . "/igk_functions.php";
 
 //----------------------------------------------------------------------------------

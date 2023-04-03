@@ -60,20 +60,29 @@ class Dispatcher implements IActionProcessor
     public function getHost(){
         return $this->m_host;
     }
+    protected static function _HandleDispatch(callable $fc, ...$args){
+        $g = new ReflectionFunction($fc);               
+        $args = self::GetInjectArgs($g, $args);                
+        try {
+            return $fc(...$args);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     public static function __callStatic($name, $args)
     {
 
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
-            self::$sm_macro["Dispatch"] = function ($fc, ...$args) {
-                $g = new ReflectionFunction($fc); 
-              
-                $args = self::GetInjectArgs($g, $args);                 
-                try {
-                    return $fc(...$args);
-                } catch (Exception $ex) {
-                    throw $ex;
-                }
+            self::$sm_macro["Dispatch"] = function ($fc, ...$args) { 
+                return static::_HandleDispatch($fc, ...$args);
+                // $g = new ReflectionFunction($fc);               
+                // $args = self::GetInjectArgs($g, $args);                 
+                // try {
+                //     return $fc(...$args);
+                // } catch (Exception $ex) {
+                //     throw $ex;
+                // }
             };
         }
         if (is_callable($fc = igk_getv(self::$sm_macro, $name))) {         
@@ -144,7 +153,8 @@ class Dispatcher implements IActionProcessor
                         throw new ArgumentTypeNotValidException($i);
                     }
                 }
-                if (!IGKType::IsPrimaryType($type) && class_exists($type)){                    
+                $v_primary = IGKType::IsPrimaryType($type);
+                if (!$v_primary && class_exists($type)){                    
                     if (is_subclass_of($type, IInjectable::class)){
                         $targs[] = self::_GetInjectable($type, $args);                   
                         continue;
@@ -152,8 +162,16 @@ class Dispatcher implements IActionProcessor
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));  
                     if ($j &&  ($c = $j->resolv($arg, $p))){                        
                         $targs[] = $c;
+                        // require injector do not update field reference
+                        // $i++;
                         continue; 
                     } 
+                } else if ($v_primary && is_null($c)){
+                    if ($k->isDefaultValueAvailable()){
+                        $c =  $k->getDefaultValue();
+                    } else {
+                        $c = preg_match("/(int|float|double|decimal)/i", $type) ? 0 : $c;
+                    }
                 }
             } else {
                 if ($arg === null && $k->isDefaultValueAvailable()){

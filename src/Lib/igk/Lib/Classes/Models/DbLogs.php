@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @date: 20230131 13:55:04
+// @date: 20230310 13:01:24
 namespace IGK\Models;
 
 
@@ -22,11 +22,11 @@ use IGK\Models\ModelBase;
 * */
 class DbLogs extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_DBLOGSMSG="db_logs_msg";
-	const FD_DBLOGSSTATUS="db_logs_status";
-	const FD_DBLOGSCREATE_AT="db_logs_createAt";
-	const FD_DBLOGSTAGS="db_logs_tags";
-	const FD_DBLOGSUPDATE_AT="db_logs_updateAt";
+	const FD_DB_LOGS_MSG="db_logs_msg";
+	const FD_DB_LOGS_STATUS="db_logs_status";
+	const FD_DB_LOGS_CREATE_AT="db_logs_createAt";
+	const FD_DB_LOGS_TAGS="db_logs_tags";
+	const FD_DB_LOGS_UPDATE_AT="db_logs_updateAt";
 	/**
 	* table's name
 	*/

@@ -4,6 +4,7 @@
 // @date: 20230103 23:37:50
 namespace IGK\Helper;
 
+use IGK\System\IToArrayResolver;
 use IGKException;
 use stdClass;
 
@@ -23,10 +24,14 @@ class JSon
      * @return object|array 
      */
     private static function ignore_empty($a){
-        $g = array_filter((array)$a);        
+        $g = $a;      
         if (is_object($a)){
-            $g = (object)$g;
-        }
+            if ($a instanceof IToArrayResolver){
+                $g = $a->to_array();
+            }else{
+                $g = (object)(array)$a;
+            }
+        } 
         return $g;
     }
     private static function ignore_empty_with_empty_array($a){
@@ -92,6 +97,9 @@ class JSon
                     $a = 0;
                     if ($ignoreempty &&  (($v === null) || ($v == "")))
                         continue;
+                    if (is_numeric($v) && (!preg_match("/^0+[1-9]?/", $v) || ($v==0))){
+                        $v = floatval($v);
+                    }
                     $is_obj = is_object($v);
                     // | check if to_array method exists to get the array 
                     if ($is_obj && method_exists($v, "to_array")) {
@@ -102,12 +110,12 @@ class JSon
                     if (($a = is_array($v)) || $is_obj) {
 
                         if ($a && !igk_array_is_assoc($v)) {
-                            if ($ignoreempty  ) {
+                            // if ($ignoreempty  ) {
                                 $v = array_map(
                                     [self::class, $method],
-                                    array_filter($v)
+                                    $ignoreempty ? array_filter($v) : $v
                                 );
-                            }
+                            // }
                             $c->$k = $v;
                             continue;
                         }

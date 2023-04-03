@@ -54,7 +54,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $n 
      * @return bool 
      */
-    public function isactive($n)
+    public function isActive($n)
     {
         return isset($this->m_data[$n]) && ($this->m_data[$n] instanceof HtmlActiveAttrib);
     }

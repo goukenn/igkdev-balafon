@@ -18,13 +18,13 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
     {     
         parent::__construct($link, $sys, $defer);
     }
-    protected function __AcceptRender($o = null)
+    protected function _acceptRender($options = null):bool
     { 
         $doc = null;
-        $o && ($doc = igk_getv($o, "Document"));
+        $options && ($doc = igk_getv($options, "Document"));
         if ($doc && $doc->noCoreCss){
             return false;
         }  
-        return parent::__AcceptRender($o);
+        return parent::_acceptRender($options);
     } 
 }

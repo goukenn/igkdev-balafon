@@ -103,6 +103,16 @@ abstract class ActionHelper
         ]);
         return $row;
     }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param mixed $token 
+     * @param null|RegistrationLinks $regLink 
+     * @return RegistrationLinks|bool 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null ){
         
         if ($row = $regLink ?? self::GetAliveToken($token)) {
@@ -113,6 +123,12 @@ abstract class ActionHelper
             $interval =  new DateInterval('P3D');
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
             $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
+
+            // if (!$row->regLinkActivate){
+
+            //   //   $row->regLinkCreate_At < 
+            // }
+
             /// TODO: ACTIVATE ACCOUNT
             // if ( $d < $m){
             if ($r = \IGK\Models\Users::update(
@@ -130,6 +146,7 @@ abstract class ActionHelper
                 return $row;
             }
         }
+        return false;
     }
     //do nothing
     /**
@@ -294,19 +311,32 @@ abstract class ActionHelper
      * @return mixed 
      */
     public static function GenerateUserRegistrationLinkToken(Users $user, ?string $prefix=null){
-        $token = igk_encrypt($user->clLogin . 
-         ($prefix ?? $user->clLogin . date('Ymd') . time()));
+        return self::GenerateRegistrationLinkToken($user->clLogin, $user->clGuid, $prefix);
+    }
+    /**
+     * get registration link token
+     * @param mixed $login 
+     * @param mixed $guid 
+     * @param null|string $prefix 
+     * @return string|false 
+     */
+    public static function GenerateRegistrationLinkToken($login, $guid, ?string $prefix=null){
+        $token = igk_encrypt($login .
+         ($prefix ?? $login . date('Ymd') . time()));
         if (!($row = RegistrationLinks::select_row([
-            "regLinkUserGuid" => $user->clGuid,
+            "regLinkUserGuid" => $guid,
         ]))) {
-            RegistrationLinks::insert([
-                "regLinkToken" => $token,
-                "regLinkUserGuid" => $user->clGuid,
+            RegistrationLinks::createIfNotExists([
+                    "regLinkToken" => $token
+                ],[
+                "regLinkUserGuid" => $guid,
                 "regLinkActivate" => null,
                 "regLinkAlive" => 1
             ]);
         } else {
             $row->regLinkToken = $token;
+            $row->regLinkAlive = 1;
+            $row->regLinkActivate = null;
             $row->save();
         }
         return $token;
@@ -321,13 +351,12 @@ abstract class ActionHelper
         $dir = $controller->getClassesDir()."/Actions";
         if (!is_dir($dir)){
             return null;
-        }
-        $ln = strlen($dir);
+        } 
         $tab = [];
         foreach(igk_io_getfiles($dir, "/Action\.php$/") as $f){
             $path = ltrim(igk_str_rm_start($f, $dir), '/');            
             $actions = Path::CombineAndFlattenPath("/Actions/", dirname($path), igk_io_basenamewithoutext($path));
-            $tab[] = $controller->resolveClass($actions); 
+            $tab[] = $controller->resolveClass($actions) ?? igk_die("missing class : ".$actions); 
         }
         return $tab;
     }
@@ -378,7 +407,7 @@ abstract class ActionHelper
         return null;
     }
     /**
-     * get expected action class 
+     * get expected action class and update parameter list  
      * @param BaseController $controller 
      * @param string $view_action_name 
      * @return null|string 
@@ -402,7 +431,7 @@ abstract class ActionHelper
      * @param mixed $resolved_class 
      * @return bool 
      */
-    public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class):bool{
-        return self::ExpectedAction($baseController, $action_name) == $resolved_class;
+    public static function IsExpectedAction(BaseController $baseController, string $action_name, ?array & $params, string $resolved_class):bool{
+        return self::ExpectedAction($baseController,  $action_name, $params) == $resolved_class;
     }
 }

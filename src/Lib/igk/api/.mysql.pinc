@@ -727,7 +727,7 @@ function igk_api_mysql_who_use($api, $tablename=null){
 ///<summary></summary>
 ///<param name="t"></param>
 /**
-* convert mysql defined data type to schema data type
+* helper: convert mysql defined data type to schema data type
 * @param mixed $t
 */
 function igk_balafon_mysql_datatype($t){
@@ -738,6 +738,7 @@ function igk_balafon_mysql_datatype($t){
         "bigint"=>"BIGINT",
         "bigint unsigned"=>"UBIGINT",
         "int unsigned"=>"UINT",
+        "float unsigned"=>"UFLOAT",
         "tinyint"=>"TINYINT",
         "tinyint unsigned"=>"UTinyINT",
         "smallint unsigned"=>"UTinyINT",

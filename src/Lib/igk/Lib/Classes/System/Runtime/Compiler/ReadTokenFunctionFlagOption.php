@@ -14,6 +14,12 @@ class ReadTokenFunctionFlagOption extends ReadTokenFlagOptions{
     var $op="name";
     var $depth = 0;
     var $condition = "";
+    var $type;
+    /**
+     * argument name
+     * @var mixed
+     */
+    var $argName;
     /**
      * argument type
      * @var mixed

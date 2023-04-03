@@ -37,6 +37,16 @@ trait EnumeratesConstants{
         return array_keys(self::GetConstants());
     }
     /**
+     * get constants values
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetConstantValues(){
+        return array_values(self::GetConstants());
+    }
+    /**
      * get all constant value
      * @param mixed $k 
      * @return mixed 

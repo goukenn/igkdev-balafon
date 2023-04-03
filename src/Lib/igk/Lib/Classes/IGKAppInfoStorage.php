@@ -4,7 +4,8 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
- 
+use IGK\System\ApplicationSessionStorage;
+
  /**
   * 
   * @package 
@@ -34,17 +35,21 @@ class IGKAppInfoStorage extends IGKObject{
         $this->data = $o;        
     }
    /**
-    * 
+    * application storage 
     * @return object 
     */
     protected function createSessionInfoStorage(){
-        return (object)[
-            "controllers" => [],
-            "documents" => [],
-            "session"=> [],
-            "ctrlParams"=>[],
-            "components" => igk_prepare_components_storage()
-        ];
+        $src = new ApplicationSessionStorage;
+        $src->components = igk_prepare_components_storage();
+        return (object)(array)$src;
+        
+        // return (object)[
+        //     "controllers" => [],
+        //     "documents" => [],
+        //     "session"=> [],
+        //     "ctrlParams"=>[],
+        //     "components" => igk_prepare_components_storage()
+        // ];
     }
     public function & getData(){
         return $this->data;

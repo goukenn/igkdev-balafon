@@ -39,8 +39,18 @@ class DbModuleReferenceTable implements ArrayAccess{
         }
         return $this->m_source;
     }
+    /**
+     * get table reference definition
+     * @return null|array 
+     */
+    public function & getRefTableDefinition():?array{
+        return  $this->m_tabledef;
+    }
     public function getTableDefinition(){
         return $this->m_tabledef;
+    }
+    public function _access_offsetExists($n){
+        return key_exists($n, $this->m_tabledef);
     }
     public function _access_offsetGet($n){
         if (key_exists($n, $this->m_tabledef)){

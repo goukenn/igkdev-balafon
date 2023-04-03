@@ -12,6 +12,8 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\Logger;
 use IGK\System\Console\ServerFakerInput;
 use IGK\System\IO\Path;
+use IGK\System\Uri;
+use IGKValidator;
 
 /**
  * db command helper
@@ -36,6 +38,7 @@ abstract class ServerCommandHelper
             '-srv_request' => "request", // request args
             '-srv_request_uri' => "request-uri",
             '-srv_baseuri' => "base_uri", // set command environment base uri
+            '-srv_referer'=>"referer"
 
         ];
     }
@@ -48,6 +51,7 @@ abstract class ServerCommandHelper
     }
     public static function Init($command)
     {
+        global $_REQUEST;
         $cnf = igk_configs();
         foreach (self::GetDbCommandsProperties() as $k => $v) {
             if (property_exists($command->options, $k)) {
@@ -77,8 +81,7 @@ abstract class ServerCommandHelper
         $_SERVER['SERVER_NAME'] = $cnf->{'server_name'} ?? igk_getv($_SERVER, 'SERVER_NAME');
         $_SERVER['DOCUMENT_ROOT'] = $root ?? igk_getv($_SERVER, 'DOCUMENT_ROOT');
         $_SERVER['HTTPS'] = $cnf->{'https'} ? 'on' : 0;
-
-
+        
         $_SERVER['GEOIP_LATITUDE'] = $cnf->{'geox'};
         $_SERVER['GEOIP_LONGITUDE'] = $cnf->{'geoy'};
         $_SERVER['GEOIP_COUNTRY_CODE'] = $cnf->{'country_code'};
@@ -93,6 +96,13 @@ abstract class ServerCommandHelper
         }
         if (property_exists($command->options, '-srv_baseuri')) {
             igk_environment()->setBaseUri($cnf->{'base_uri'} ?? '');
+        }
+        if (($ref = $cnf->{'referer'}) && !isset($_SERVER['HTTP_REFERER'])){
+            if (!IGKValidator::IsUri($ref)){
+                $g = Uri::FromParseUrl(parse_url(igk_io_baseuri()));
+                $ref = $g->getSiteUri().$ref;
+            }
+            $_SERVER['HTTP_REFERER'] = $ref;
         }
         igk_server()->prepareServerInfo();
         igk_server()->IS_WEBAPP = 0;

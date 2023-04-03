@@ -28,7 +28,10 @@ class StatusCode
                 410 => "{$protocol} 410 Gone",
                 411 => "{$protocol} 411 Length required",
                 500 => "{$protocol} 500 Internal server error",
+                501 => "{$protocol} 501 Internal server error",
+                502 => "{$protocol} 502 Internal server error",
                 503 => "{$protocol} 503 Service not available",
+                504 => "{$protocol} 504 Service not available",
                 505 => "{$protocol} 505 Version not supported"
             );
         }

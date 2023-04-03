@@ -66,7 +66,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         $this["class"] = "igk-mbody-script";
     }
      
-    protected function __getRenderingChildren($options = null)
+    protected function _getRenderingChildren($options = null)
     {
         return [ 
             new HtmlBodyInitDocumentNode(),

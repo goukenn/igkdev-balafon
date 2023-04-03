@@ -30,7 +30,7 @@ class JSStringifyTest extends BaseTestCase{
         $g = JSExpression::Stringify($data, (object)[
             "objectNotation"=>1
         ]);
-        $this->assertEquals('{"template":"the template", beforeRouteEnter(to, from, next){ /*meth one*/}, beforeRouteLeave(to, from){ /*meth two*/}}', 
+        $this->assertEquals('{template:"the template", beforeRouteEnter(to, from, next){ /*meth one*/}, beforeRouteLeave(to, from){ /*meth two*/}}', 
         $g,
         "rule: method definition as key => method_expression"
         );
@@ -43,7 +43,7 @@ class JSStringifyTest extends BaseTestCase{
         $g = JSExpression::Stringify($data, (object)[
             "objectNotation"=>1
         ]);
-        $this->assertEquals('{"template":"<div>the template</div>"}', $g,
+        $this->assertEquals('{template:"<div>the template</div>"}', $g,
         "rule: use expression"
         );
     }
