@@ -618,15 +618,9 @@ EOF;
         }
         $frame = igk_create_node("div"); //igk_html_frame($this, $frameid);
         $frame->div()->Content = "Form DATA";
-        // $frame->Title = __("title.AddController");
-        // $frame->BoxContent->clearChilds();
         $frm = $frame->form();
         $frm["action"] = $this->getUri("ca_add_ctrl");
-        $js_change_func = <<<EOF
-if (ns_igk.ctrl.ca_ctrl_change)
-ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', this);
-EOF;
-
+        $js_change_func = "if (ns_igk.ctrl.ca_ctrl_change)ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', this);";
         $frm["onsubmit"] = "javascript: window.igk.ajx.postform(this,'" . $this->getUri("ca_add_ctrl_frame_ajx") . "', ns_igk.ajx.fn.replace_or_append_to_body, false ); this.reset(); return false;";
         $frm->div()->addNotifyHost('controller');
         $frm->addInput('notification', 'hidden', 'controller');
@@ -683,7 +677,7 @@ EOF;
             $u = igk_io_baseuri(IGK_BALAFON_JS_CORE_FILE);
             $frm->script()->setAttribute('src', $u);
         }
-        $frm->addBalafonJS()->Content =  <<<EOF
+        $frm->addBalafonJS()->Content =  <<<JS
 ns_igk.ready(
 function(){
 var r = \$igk(\$ns_igk.getParentScriptForm());
@@ -700,7 +694,7 @@ if (!r)
 	if (q && ns_igk.ctrl.ca_ctrl_change)
 		ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', q.o);
 });
-EOF;
+JS;
 
 
         return $frame;
@@ -750,9 +744,11 @@ EOF;
                 $g = 1;
                 !igk_is_ajx_demand() && $v_not->addMsgr("msg.controlleradded");
                 $msg = "msg.ctrl.added";
+                igk_ilog('controller added');
             } else {
                 !igk_is_ajx_demand() && $v_not->addErrorr("err.controllernotadded");
                 $g = 4;
+                igk_ilog('controller not added');
             }
             igk_ajx_toast(__($msg), igk_css_type($g));
             igk_resetr();
@@ -1552,12 +1548,13 @@ EOF;
                 $frm->panel()->div()->Content = __("/!\\ Not Implement");
                 break;
             case 3:
-                $c = igk_template_mananer_ctrl();
-                if ($c) {
-                    $c->showConfig($n);
-                } else {
-                    $n->div()->setClass("igk-danger")->Content = __("/!\\ No template found");
-                }
+                /// TODO: CTRL TEMPLATE
+                // $c = igk_template_mananer_ctrl();
+                // if ($c) {
+                //     $c->showConfig($n);
+                // } else {
+                //     $n->div()->setClass("igk-danger")->Content = __("/!\\ No template found");
+                // }
                 break;
             default:
                 $frm = $n->form();

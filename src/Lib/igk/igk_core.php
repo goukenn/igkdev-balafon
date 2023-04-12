@@ -192,7 +192,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
                 }
             }
         }
-        error_log(sprintf('%s: %s', 'BLF_EX:', $msg));
+        !defined('IGK_TEST_INIT') && error_log(sprintf('%s: %s', 'BLF_EX:', $msg));
         // + | Last Exception  
         throw new IGKException($msg, $code);
     } else {
@@ -1347,16 +1347,16 @@ function igk_sys_getconfig($name, $defaultvalue = null)
 ///<param name="chmod" default="IGK_DEFAULT_FILE_MASK"></param>
 ///<param name="type" default="w+"></param>
 /**
- * retrieve 
+ * save file helper
  * @param mixed $file
  * @param mixed $content
  * @param mixed $overwrite the default value is true
  * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
  * @param mixed $type the default value is "w+"
+ * @return bool 
  */
 function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
 {
-    // igk_debug_wln("try create : ".$file."\n");
     return File::Save($file, $content, $overwrite, $chmod, $type);
 }
 /**

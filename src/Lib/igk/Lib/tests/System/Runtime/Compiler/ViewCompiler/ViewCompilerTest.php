@@ -181,6 +181,7 @@ class ViewCompilerTest extends BaseTestCase{
             "ctrl"=>SysDbController::ctrl()
         ];
         $compiler->forCache = true;
+
         $src = $compiler->compileSource($this->_source(
             'if (false){',
             '    $y = (object)["name"=>"condition-2"];',

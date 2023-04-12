@@ -35,7 +35,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private $m_can_add;
     private $m_noPowered;
     private $m_noCoreCss;
-    private $m_noFontInstall;
+    private $m_noFontInstall; 
 
    
     // public function __sleep()
@@ -672,8 +672,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
 
         $theme_name = $this->m_page_theme ??  
         CssSession::getInstance()->theme_name ?? 
-        CookieManager::getInstance()->get('theme_name')            
+        CookieManager::getInstance()->get(CssSession::APP_THEME_NAME) // came for browser             
         ?? CssThemeOptions::DEFAULT_THEME_NAME;
+        
         if ($theme_name)
             $attr .= "data-theme=\"".$theme_name."\" ";
         if ($this->m_dir){

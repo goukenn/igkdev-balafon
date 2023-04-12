@@ -8,6 +8,7 @@
 use IGK\Controllers\BaseController;
 use IGK\Database\IDbArrayResult;
 use IGK\Helper\ViewHelper;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Html\Dom\Factory;
 use function igk_resources_gets as __;

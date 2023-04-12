@@ -23,7 +23,7 @@ class TerminalActionCommand{
      * the primary command promp^t
      * @var string
      */
-    protected $prompt = App::BLUE. "\$tac > ".App::END;
+    protected $prompt = App::BLUE. "\$tac >".App::END." ";
 
     /**
      * store running command
@@ -85,6 +85,12 @@ class TerminalActionCommand{
             "ctrl"=>igk_environment()->get(IGKEnvironment::CURRENT_CTRL),
             "user"=>igk_environment()->get(IGKEnvironment::CURRENT_USER)
         ]);
-        return var_dump(@eval("return ".func_get_arg(0).";"));
+        return var_dump(@eval("return ".self::_GetCommand(func_get_arg(0)).";"));
+    }
+    private static function _GetCommand(string $cmd):?string{
+        if (preg_match("/^\s*echo\s+/", $cmd,$d)){
+            return substr($cmd, strlen($d[0]));
+        }
+        return $cmd;
     }
 }

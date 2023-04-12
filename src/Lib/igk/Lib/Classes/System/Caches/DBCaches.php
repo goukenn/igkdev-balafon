@@ -425,12 +425,14 @@ class DBCaches
             }
             $g->m_serie[$ad][$cl_name][$k] = $m;
         }
-        igk_io_w2file(self::GetCacheFile(), serialize(json_decode(Utility::TO_JSON(
-            [$g->m_serie, 'generate' => date('Ymd')],
-            [
+
+        $src = serialize(json_decode(Utility::TO_JSON(
+            [$g->m_serie, 
+            'generate' => date('Ymd His')],[
                 'ignore_empty' => 1
             ]
-        ))));
+        )));
+        igk_io_w2file(self::GetCacheFile(), $src);  
     }
 
     /**

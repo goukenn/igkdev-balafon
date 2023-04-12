@@ -65,6 +65,11 @@ class IGKGD {
     private $m_height;
     private $m_himg;
     private $m_width;
+    /**
+     * transparent color 
+     * @var ?int
+     */
+    private $m_transparentColor;
     ///<summary></summary>
     ///<param name="w"></param>
     ///<param name="h"></param>
@@ -95,54 +100,58 @@ class IGKGD {
     }
     public function setAlphaBlending($b){
         imagealphablending($this->m_himg, $b);
-    }
+    }   
     ///<summary></summary>
     ///<param name="color"></param>
     /**
-    * 
-    * @param mixed $color
+    * clear with color byte object
+    * @param mixed $color object R,G,B byte
     */
-    private function _createColor($color){
-        $hcl=null;
-        if(is_object($color))
-            $hcl=imagecolorallocate($this->m_himg, $color->R, $color->G, $color->B);
-        return $hcl;
-    }
-    ///<summary></summary>
-    ///<param name="color"></param>
-    /**
-    * 
-    * @param mixed $color
-    */
-    public function Clear($color){
+    public function clear($color){
         $hcl=imagecolorallocate($this->m_himg, $color->R, $color->G, $color->B);
         imagefill($this->m_himg, 0, 0, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
-    }
+    }   
     ///<summary></summary>
     ///<param name="color">color float object </param>
     /**
-    * 
+    * clear with float color value 
     * @param mixed $color
     */
-    public function Clearf($color){
+    public function clearf($color){
         if(is_string($color) && !empty($color)){
             $color=Colorf::FromString($color);
+        } else if (is_array($color)){
+            $color = (object)array_combine(['R','G','B'], array_values($color));            
         }
-        $this->Clear((object)array(
+        $this->clear((object)array(
             "R"=>$color->R * 255,
             "G"=>$color->G * 255,
             "B"=>$color->B * 255
         ));
     }
+    /**
+     * create a color
+     * @param mixed $color 
+     * @return int
+     */
+    protected function _createColorf($color){
+        if(is_string($color))
+            $color=Color::FromString($color);
+        else if (is_array($color)){
+            $color = (object)array_map(function($a){ return round($a * 255); }, array_combine(['R','G','B'], array_values($color)));
+        }       
+        $hcl=imagecolorallocate($this->m_himg, $color->R, $color->G, $color->B);
+        return $hcl;
+    }
     ///<summary></summary>
     ///<param name="webcolor"></param>
     /**
-    * 
+    * clear with web color
     * @param mixed $webcolor
     */
     public function Clearw($webcolor){
-        $this->Clearf(Colorf::FromString($webcolor));
+        $this->clearf(Colorf::FromString($webcolor));
     }
     ///<summary></summary>
     ///<param name="imgwidth"></param>
@@ -182,7 +191,7 @@ class IGKGD {
     }
     public function CreateBuffer(){
        $c = self::Create($this->getWidth(), $this->getHeight());
-       $c->Clear((object)["R"=>255, "G"=>255, "B"=>255]);
+       $c->clear((object)["R"=>255, "G"=>255, "B"=>255]);
        // $cl = imagecolorallocatealpha ($c->m_himg,0,255,0, 100);
        $tcl = imagecolorallocate ($c->m_himg, 255,255,255);
        // imagecolordeallocate($c->m_himg, $cl);
@@ -190,6 +199,20 @@ class IGKGD {
        imagecolortransparent ($c->m_himg, $tcl);
        // imagecolordeallocate($c->m_himg, $tcl);
        return $c;
+    }
+    /**
+     * set transparent color
+     * @param mixed $color 
+     * @return void 
+     */
+    public function setTransparentColor($color){
+        if (!is_null($this->m_transparentColor)){
+            imagecolordeallocate($this->m_himg, $this->m_transparentColor);
+            $this->m_transparentColor = null;
+        }
+        $hcl = $this->_createColorf($color);
+        imagecolortransparent($this->m_himg, $hcl);
+        $this->m_transparentColor = $hcl;
     }
     ///<summary></summary>
     /**
@@ -199,7 +222,7 @@ class IGKGD {
         imagedestroy($this->m_himg);
     }
     public function DrawLine($color, $x1, $y1, $x2, $y2){
-        $hcl=$this->_createColor($color);
+        $hcl=$this->_createColorf($color);
         imageline($this->m_himg, $x1, $y1, $x2, $y2, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
@@ -214,7 +237,7 @@ class IGKGD {
     * @param mixed $radius
     */
     public function DrawEllipse($color, $center, $radius){
-        $hcl=$this->_createColor($color);
+        $hcl=$this->_createColorf($color);
         imageellipse($this->m_himg, $center->X, $center->Y, abs($radius->X * 2.0), abs($radius->Y * 2.0), $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
@@ -340,8 +363,8 @@ class IGKGD {
     * @param mixed $center
     * @param mixed $radius
     */
-    public function FillEllipse($color, $center, $radius){
-        $hcl=$this->_createColor($color);
+    public function fillEllipse($color, $center, $radius){
+        $hcl=$this->_createColorf($color);
         imagefilledellipse($this->m_himg, $center->X, $center->Y, abs($radius->X * 2.0), abs($radius->Y * 2.0), $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
@@ -359,13 +382,11 @@ class IGKGD {
     * @param mixed $width the default value is null
     * @param mixed $height the default value is null
     */
-    public function FillRectangle($color, $rectx, $y=null, $width=null, $height=null){
-        if(is_string($color))
-            $color=Color::FromString($color);
+    public function fillRectangle($color, $rectx, $y=null, $width=null, $height=null){
+        $hcl = $this->_createColorf($color);      
         if(!is_object($rectx)){
             $rectx=new Rectanglef($rectx, $y, $width, $height);
-        }
-        $hcl=imagecolorallocate($this->m_himg, $color->R, $color->G, $color->B);
+        } 
         imagefilledrectangle($this->m_himg, $rectx->X, $rectx->Y, $rectx->X + $rectx->Width, $rectx->Y + $rectx->Height, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }

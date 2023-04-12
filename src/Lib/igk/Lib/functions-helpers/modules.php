@@ -27,9 +27,7 @@ if (!function_exists('igk_current_module')) {
                     return $modules[$n];
                 }
                 $tab = igk_get_modules();
-                ksort($tab, SORT_FLAG_CASE | SORT_STRING);
-
-                igk_dev_wln("file : ", $file, $path, array_keys($tab));
+                ksort($tab, SORT_FLAG_CASE | SORT_STRING); 
                 foreach (array_keys($tab) as $k) {
                     if (strpos($n, $k) !== false) {
                         $mod = igk_get_module($k);

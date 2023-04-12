@@ -22,7 +22,6 @@ trait FormLoginActionTrait{
     var $formLoginActionRememberMe = true;
     var $formLoginActionRegisterUri = "registerLogin";
     var $formLoginActionLogin = 'login';
-    var $registerUserActionAuthSocialUri;
     
     protected function form_login($form, $options = null)
     {

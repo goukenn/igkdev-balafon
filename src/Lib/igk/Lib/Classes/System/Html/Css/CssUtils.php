@@ -518,24 +518,23 @@ abstract class CssUtils
         $render_options = $theme->getRenderOptions();
         if (is_null($render_options)) {
             $render_options = new CssThemeOptions;
-            $render_options->theme_name = igk_getr(
+            $th = igk_getr(
                 "theme_name",
                 CssSession::getInstance()->theme_name ??
-                    CookieManager::getInstance()->get('theme_name')
-                    ?? CssThemeOptions::DEFAULT_THEME_NAME
+                CookieManager::getInstance()->get( CssSession::APP_THEME_NAME)
+                ?? CssThemeOptions::DEFAULT_THEME_NAME
             );
+            if (!is_string($th)){
+                $render_options->theme_name = CssThemeOptions::DEFAULT_THEME_NAME;
+            }else{
+                $render_options->theme_name = $th;
+            }
             $theme->setRenderOptions($render_options);
         } else if (is_null($theme_name)){
             $theme_name = $render_options->theme_name;
         } 
-        $args = get_defined_vars(); //  $file, $theme->getRenderOptions()->theme_name);
-        self::BindThemeFile($file, $theme->getRenderOptions()->theme_name, $args);
-      
-
-        // igk_include_if_exists(
-        //     dirname($file) . "/themes/" . $theme->getRenderOptions()->theme_name . ".theme.pcss",
-        //     $args
-        // ); 
+        $args = get_defined_vars();  
+        self::BindThemeFile($file, $render_options->theme_name, $args);  
         $root = [];
         $theme->setRootReference($root);
         include($file);
@@ -559,7 +558,7 @@ abstract class CssUtils
             unset($v_root);
         }
     }
-    private static function BindThemeFile(string $file, $theme_name, $args){
+    private static function BindThemeFile(string $file, string $theme_name, $args){
         $rf = igk_io_basenamewithoutext($file);
       
         foreach([$rf,""] as $tf ){

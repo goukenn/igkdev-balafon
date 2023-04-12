@@ -13,9 +13,12 @@ namespace IGK\Helper;
 
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Users;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
+use IGKException;
 use IGKObjStorage;
 use ModelBase;
+use ReflectionException;
 
 /**
  * macro helper expressions
@@ -122,7 +125,16 @@ class MacrosHelper
         return $is_auths;
     }
 
-    public static function AddUser(\IGK\Models\Users $user, $data){
+    /**
+     * add User with storage data
+     * @param Users $user 
+     * @param null|array $data 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function AddUser(\IGK\Models\Users $user, ?array $data){
         $storage = new IGKObjStorage($data); 
         $r = null; 
         // Users::delete($id);

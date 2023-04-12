@@ -10,6 +10,7 @@ use IGK\System\Html\Converters\Converter;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\FormBuilder;
 use IGK\System\Html\Forms\FormValidation;
+use IGK\System\Html\HtmlNodeTagExplosionDefinition;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\CookieManager;
@@ -27,6 +28,14 @@ if (!function_exists('igk_html_init')) {
     function igk_html_init($n, $data)
     {
         return HtmlUtils::Init($n, $data);
+    }
+}
+if (!function_exists('igk_create_rnode')){
+    /**
+     * helper : to create relative node. no parameter need in chain.
+     */
+    function igk_create_rnode($tag){
+        return HtmlNodeTagExplosionDefinition::Core()->setup($tag, []);
     }
 }
 ///<summary>pre render argument</summary>

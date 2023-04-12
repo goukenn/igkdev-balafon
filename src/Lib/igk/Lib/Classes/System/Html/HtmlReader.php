@@ -207,7 +207,7 @@ final class HtmlReader extends IGKObject
 
         $v_is_multiline_comment_support = in_array($tag, ['script', 'style', 'code']);
         $v_support_litteral_string = in_array($tag, ["style", "script", "code"]);
-        if ($tag == 'script') {
+        if (in_array($tag , ['script', 'textarea'])) {
             // + | read until end </script> found
             $stag = 0;
             $tpos = 0;

@@ -13,8 +13,10 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/DomNodeBase.php";
 
 use ArrayAccess;
 use Closure;
+use Exception;
 use IGK\Helper\IO;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\DomNodeBase;
 use IGK\System\Html\HtmlAttributeArray;
@@ -628,6 +630,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public function add($n, $attributes = null, $args = null)
     {
+        if ($invoking = $this->getFlag('__call')){
+            $this->setFlag('__call', null);
+        }
         $skip = false; 
         // compilation node add
         if ($n instanceof \IGK\System\Runtime\Compiler\ViewExpressArg){
@@ -649,12 +654,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 $container = $this;
                 HtmlLoadingContext::PushContext($container->getLoadingContext());
             } 
-            if (strpos($n, ">")!==false){
-       
+            if (!$invoking && (strpos($n, ">")!==false) && (strpos($n, "?") === false)){       
                 $n = HtmlNodeTagExplosionDefinition::Core()->builder->setup($n,
                 [], $lastchild);
-                 
-    
             } else {
                 $n = static::CreateWebNode($n, $attributes, $args);
             }
@@ -922,9 +924,21 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return null;
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function __call($name, $arguments)
     { 
-
+        $this->setFlag(__FUNCTION__,1);
         if ($name === "set") {
             igk_dev_wln_e('magic call with "set" only name is not allowed.');
             igk_environment()->isDev() && igk_trace();

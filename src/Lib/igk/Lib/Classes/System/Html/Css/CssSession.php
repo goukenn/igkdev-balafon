@@ -14,7 +14,9 @@ use stdClass;
 * @package IGK\System\Html\Css
 */
 class CssSession extends IGKObject{
+    const APP_THEME_NAME = 'igk_app_theme_name';
 	private $_data;
+
 	private static $sm_instance;
 	public static function getInstance(){
 		if (self::$sm_instance === null){

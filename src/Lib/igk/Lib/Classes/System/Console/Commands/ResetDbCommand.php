@@ -16,6 +16,10 @@ use IGK\System\Delegates\InvocatorListDelegate;
 use IGKModuleListMigration;
 use Illuminate\Database\Console\Seeds\SeedCommand;
 
+/**
+ * 
+ * @package IGK\System\Console\Commands
+ */
 class ResetDbCommand extends AppExecCommand
 {
     var $command = "--db:resetdb";
@@ -108,16 +112,18 @@ class ResetDbCommand extends AppExecCommand
                     return $a;
                 }, 
                 igk_app()->getControllerManager()->getControllers())), 
-                function($b, $func, $arguments){
-                    Logger::print("$func : ".get_class($b));
-                    return call_user_func_array([get_class($b), $func], $arguments);
+                function(BaseController $b, $func, $arguments){
+                    $cl = get_class($b);
+                    Logger::print("$func : ".$cl);
+                    return call_user_func_array([$cl, $func], $arguments);
                 }
         );
- 
+        igk_environment()->NO_DB_LOG = 1;
         // + | --------------------------------------------------------------------
-        // + | 1. downgrade 
+        // + | 1. downgrade - 
         // + |
-        $migrations::downgrade();
+        // + | at init migrations of modules can be empty start migration 
+        $migrations && $migrations::downgrade();
 
         $projects::dropDb(false, true);
 
@@ -143,6 +149,7 @@ class ResetDbCommand extends AppExecCommand
             Logger::print('seeding db not implement');
         }
         Logger::success("resetdb - all - complete"); 
+        igk_environment()->NO_DB_LOG = null;
         return true;
     }
     /**

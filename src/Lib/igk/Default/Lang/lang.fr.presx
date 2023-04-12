@@ -1,6 +1,8 @@
 <?php
 //Balafon Generated language file
 $l['btn.submit'] = 'Envoyer';
+$l['DbPasswd'] = 'Mot de passe';
+$l['DbPort'] = 'Port';
 $l['title.subdomain.config'] = 'Configuration - %s';
 $l["title.dropController"] = "Confirmer";
 $l["Registration"] = "Inscription";

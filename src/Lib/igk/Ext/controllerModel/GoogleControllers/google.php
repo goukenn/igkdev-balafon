@@ -442,13 +442,16 @@ EOF
         return $n;
     }
 
-    function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
-    {
-        return igk_html_node_google_icon($name, $title, $type, 'material-icons-outlined');
+    if (!function_exists('igk_html_node_google_icon_outlined')) {
+        function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
+        {
+            return igk_html_node_google_icon($name, $title, $type, 'material-icons-outlined');
+        }
     }
-    
-    if (!function_exists('igk_html_node_hamburger_button_menu')){
-        function igk_html_node_hamburger_button_menu(){
+
+    if (!function_exists('igk_html_node_hamburger_button_menu')) {
+        function igk_html_node_hamburger_button_menu()
+        {
             $n = igk_create_node('div');
             $n->google_icon('menu');
             return $n;

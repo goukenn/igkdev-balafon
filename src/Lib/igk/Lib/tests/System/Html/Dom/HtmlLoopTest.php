@@ -32,7 +32,7 @@ class HtmlLoopTest extends BaseTestCase
     public function test_loop_class1()
     {
         $t = new HtmlNode("div");
-        $t['*class'] =  ['$raw==1 ?"item-2":null'];
+        $t['*class'] = ['$raw==1 ?"item-2":null'];
 
         $this->assertEquals(
             '<div *class="[&quot;$raw==1 ?\&quot;item-2\&quot;:null&quot;]"></div>',

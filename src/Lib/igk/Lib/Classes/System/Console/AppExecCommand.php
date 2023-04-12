@@ -29,6 +29,14 @@ abstract class AppExecCommand extends AppCommand{
         }
     }
     /**
+     * show command usage
+     * @param mixed $usage 
+     * @return void 
+     */
+    protected function showCommandUsage(string $usage=null){
+        Logger::print(sprintf("%s %s", App::Gets(App::AQUA, $this->command), $usage ?? ''));
+    }
+    /**
      * check if has options set in command
      * @param mixed $command 
      * @param string $list 

@@ -37,7 +37,7 @@ class App{
      * application version
      * @var string
      */
-    const version = "0.1.3";
+    const version = "1.0.1";
     /**
      * available command
      * @var mixed

@@ -10,6 +10,7 @@
 
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
+use IGK\System\IO\Path;
 
 if (!in_array("zip", get_loaded_extensions(false))){
     return;
@@ -58,8 +59,7 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     if(!is_dir($dir))
         return false;
     $zip=new ZipArchive();
-    $zip->open($file, ZIPARCHIVE::CREATE);
-    if($zip){
+    if ($zip->open($file, ZIPARCHIVE::CREATE) === true){    
         igk_zip_dir($dir, $zip, $folder, $regex);
         $zip->close();
     }
@@ -73,8 +73,8 @@ function igk_zip_delete($file, $entry, $close=1){
     if(!file_exists($file))
         return 0;
     $zip=new ZipArchive();
-    if(!$zip->open($file, ZIPARCHIVE::CREATE)){
-        $zip->close();
+    if($zip->open($file, ZIPARCHIVE::CREATE)!==true){
+        // $zip->close();
         return 0;
     }
     $r=$zip->deleteName($entry);
@@ -156,16 +156,7 @@ function igk_zip_excludedir($dir, $outf, $exclude_pattern){
     }
     return array("count"=>$count, "files"=>$files);
 }
-///zip extract outdir
-function igk_zip_extract($outdir, $hzip, $e){
-    if(!is_dir($outdir))
-        return;
-    $d=igk_dir($outdir.DIRECTORY_SEPARATOR.zip_entry_name($e));
-    if(IO::CreateDir(dirname($d))){
-        $content=zip_entry_read($e, zip_entry_filesize($e));
-        igk_io_save_file_as_utf8_wbom($d, $content, true);
-    }
-}
+
 ///<summary>zip folder :  </summary>
 ///<param name="dir">mixed : string|array of folder do compress </param>
 function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
@@ -176,7 +167,7 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
         $ar=1;
     }
     $zip=new ZipArchive();
-    if($zip->open($outfile, ZIPARCHIVE::CREATE)){
+    if($zip->open($outfile, ZIPARCHIVE::CREATE) ===true){
         if($ar){
             foreach($dir as $m){
                 $kname=basename($m);
@@ -194,15 +185,10 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     }
     return false;
 }
-///<summary></summary>
-///<param name="e"></param>
-function igk_zip_isdirentry($e){
-    return ((zip_entry_filesize($e) == 0) && ((zip_entry_compressionmethod($e) == "stored") && igk_str_endwith(zip_entry_name($e), "/")));
-}
+ 
 ///<summary></summary>
 ///<param name="outf"></param>
-function igk_zip_module($outf){
-    $dir=igk_io_basedir()."/Mods";
+function igk_zip_module($outf){  
     return igk_zip_excludedir(igk_io_basedir()."/Mods", $outf, "/\.(avi|(mp|(3|4))|gkds|zip|rar)/i");
 } 
 ///<summary></summary>
@@ -220,39 +206,50 @@ function igk_zip_module($outf){
 function igk_zip_unzip($file, $outdir, $entry=null){
     if(!is_dir($outdir))
         return 0;
-    $hzip=zip_open($file);
-    if(!$hzip || !is_resource($hzip))
-        return 0;
-    while(($e=zip_read($hzip))){
-        $n=zip_entry_name($e);
-        if($entry && (is_callable($entry) && !$entry($n)) && (is_string($entry) && !preg_match($entry, $n))){
-            continue;
+    $zip = new ZipArchive();
+    if ($zip->open($file, ZipArchive::RDONLY) === true){
+        $c = $zip->numFiles;
+        $dirs = [];
+        for($i = 0; $i < $c ; $i++){
+            $n = $zip->getNameIndex($i);
+            if($entry && (is_callable($entry) && !$entry($n)) && (is_string($entry) && !preg_match($entry, $n))){
+                continue;
+            }
+            if (substr($n, -1) == '/'){
+                // directory 
+                if (!isset($dirs[$n])){
+                    $dirs[$n] = 1;
+                    IO::CreateDir(Path::Combine($outdir, $n));
+                }
+            } else {
+                if ($stream = $zip->getStream($n)){
+                    igk_io_w2file(Path::Combine($outdir, $n), stream_get_contents($stream));
+                    fclose($stream);
+                }else {
+                    Logger::danger($zip->getStatusString());
+                }
+            } 
         }
-        if(igk_zip_isdirentry($e)){
-            igk_zip_create_dir($outdir, $n);
-        }
-        else{
-            if(!(strpos($n, "/") === FALSE))
-                igk_zip_extract($outdir, $hzip, $e);
-        }
+        $zip->close();
+        return true;
     }
-    zip_close($hzip);
-    return 1;
+    return false; 
 }
 ///<summary></summary>
 ///<param name="zipfile"></param>
 ///<param name="callback"></param>
 function igk_zip_unzip_callback($zipfile, $callback){
-    $hzip=zip_open($zipfile);
-    if(!$hzip || !is_resource($hzip))
-        return;
-    while(($e=zip_read($hzip))){
-        $n=zip_entry_name($e);
-        if(!igk_zip_isdirentry($e)){
-            $callback($hzip, $n, $e);
-        }
-    }
-    zip_close($hzip);
+    igk_die('not implement');
+    // $hzip=zip_open($zipfile);
+    // if(!$hzip || !is_resource($hzip))
+    //     return;
+    // while(($e=zip_read($hzip))){
+    //     $n=zip_entry_name($e);
+    //     if(!igk_zip_isdirentry($e)){
+    //         $callback($hzip, $n, $e);
+    //     }
+    // }
+    // zip_close($hzip);
 }
 ///<summary></summary>
 ///<param name="f"></param>
@@ -277,53 +274,75 @@ function igk_zip_unzip_entry($f, $entry){
  * @param mixed $name 
  * @return false|string 
  */
-function igk_zip_unzip_filecontent($zipfile, $name){
-    $hzip=@zip_open($zipfile);
-    if(!$hzip || !is_resource($hzip))
-        return false;
-    $name=strtolower($name);
-    $c="";
-    while(($e=@zip_read($hzip))){
-        $n=@zip_entry_name($e);
-        if(strtolower($n) == $name){
-            if(!igk_zip_isdirentry($e)){
-                $c=@zip_entry_read($e, zip_entry_filesize($e));
-            }
-            break;
+function igk_zip_unzip_filecontent(string $zipfile, string $name){
+    $zip = new ZipArchive; 
+    $c = null;
+    if ($zip->open($zipfile, ZipArchive::RDONLY)===true){
+        $c = $zip->numFiles; 
+        for($i = 0; $i < $c ; $i++){
+            $n = $zip->getNameIndex($i);            
+            if(strtolower($n) == $name){
+                if ($stream = $zip->getStream($n)){
+                    $c = stream_get_contents($stream);
+                    fclose($stream);
+                }else {
+                    Logger::danger($zip->getStatusString());
+                }
+                break;
+            } 
         }
+        $zip->close();
     }
-    @zip_close($hzip);
     return $c;
+
+    // $hzip=@zip_open($zipfile);
+    // if(!$hzip || !is_resource($hzip))
+    //     return false;
+    // $name=strtolower($name);
+    // $c="";
+    // while(($e=@zip_read($hzip))){
+    //     $n=@zip_entry_name($e);
+    //     if(strtolower($n) == $name){
+    //         if(!igk_zip_isdirentry($e)){
+    //             $c=@zip_entry_read($e, zip_entry_filesize($e));
+    //         }
+    //         break;
+    //     }
+    // }
+    // @zip_close($hzip);
+    // return $c;
 }
 ///<summary></summary>
 ///<param name="file"></param>
 ///<param name="outdir"></param>
 ///<param name="zipentry" default="null"></param>
 function igk_zip_unzip_to($file, $outdir, $zipentry=null){
-    if($zipentry == null){
-        igk_zip_unzip($file, $outdir);
-    }
-    if(!is_dir($outdir))
-        return 0;
-    $hzip=zip_open($file);
-    if(!$hzip || !is_resource($hzip))
-        return 0;
-    while(($e=zip_read($hzip))){
-        $n=zip_entry_name($e);
-        if($n == $zipentry) if(igk_zip_isdirentry($e))
-            continue;
-        else{
-            $content=zip_entry_read($e, zip_entry_filesize($e));
-            igk_io_save_file_as_utf8_wbom($outdir."/".basename($n), $content, true);
-            break;
-        }
-        if(preg_match("#^".$zipentry."#i", $n)){
-            $d=igk_dir($outdir.DIRECTORY_SEPARATOR. substr(zip_entry_name($e), strlen($zipentry)));
-            if(IO::CreateDir(dirname($d))){
-                $content=zip_entry_read($e, zip_entry_filesize($e));
-                igk_io_save_file_as_utf8_wbom($d, $content, true);
-            }
-        }
-    }
-    zip_close($hzip);
+    return igk_zip_unzip($file, $outdir);
+
+    // if($zipentry == null){
+    //     igk_zip_unzip($file, $outdir);
+    // }
+    // if(!is_dir($outdir))
+    //     return 0;
+    // $hzip=zip_open($file);
+    // if(!$hzip || !is_resource($hzip))
+    //     return 0;
+    // while(($e=zip_read($hzip))){
+    //     $n=zip_entry_name($e);
+    //     if($n == $zipentry) if(igk_zip_isdirentry($e))
+    //         continue;
+    //     else{
+    //         $content=zip_entry_read($e, zip_entry_filesize($e));
+    //         igk_io_save_file_as_utf8_wbom($outdir."/".basename($n), $content, true);
+    //         break;
+    //     }
+    //     if(preg_match("#^".$zipentry."#i", $n)){
+    //         $d=igk_dir($outdir.DIRECTORY_SEPARATOR. substr(zip_entry_name($e), strlen($zipentry)));
+    //         if(IO::CreateDir(dirname($d))){
+    //             $content=zip_entry_read($e, zip_entry_filesize($e));
+    //             igk_io_save_file_as_utf8_wbom($d, $content, true);
+    //         }
+    //     }
+    // }
+    // zip_close($hzip);
 }

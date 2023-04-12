@@ -53,10 +53,10 @@ class MakeCommandCommand extends AppExecCommand{
             $g = new MakeClassCommand();
             $defs = new StringBuilder;
             $defs->appendLine('var $command=\'command-name\';');
-            $defs->appendLine('/* var $desc=\'desc\'; */');
-            $defs->appendLine('/* var $options=[]; */');
-            $defs->appendLine('/* var \$category; */');
-            $defs->appendLine('public function exec($command) { }');
+            $defs->appendLine("/* var \$desc='desc'; */");
+            $defs->appendLine("/* var \$options=[]; */");
+            $defs->appendLine("/* var \$category; */");
+            $defs->appendLine("public function exec($command) { }");
 
             $command_new = self::CreateOptionsCommandFrom($command);
             $command_new->options = (object)[

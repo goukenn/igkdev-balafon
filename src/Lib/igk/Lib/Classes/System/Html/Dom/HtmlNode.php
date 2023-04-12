@@ -386,14 +386,7 @@ class HtmlNode extends HtmlItemBase
     public function __construct(?string $tagname = null)
     {
         parent::__construct();
-        if ($tagname !== null){
-            if (!igk_environment()->loading_context){
-                list($tagname, $id, $classes, $args, $name, $attr) = HtmlNodeTagExplosionDefinition::ExplodeTag($tagname);
-                if ($id) $this->setAttribute('id', $id);
-                if ($name) $this->setAttribute('name', $name);
-                if ($classes) $this->setClass($classes);
-                if ($attr) $this->setAttributes($attr);  
-            }
+        if ($tagname !== null){ 
             $this->tagname = $tagname;
         }
         $this->initialize();

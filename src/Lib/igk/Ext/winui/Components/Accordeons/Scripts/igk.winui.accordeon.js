@@ -94,8 +94,6 @@
         init: function() {
             //	alert("init accordeon "+igk.getParentScript());
 
-            // console.error(igk.getCurrentScript().innerText);
-
             var q = $igk(igk.getParentScript());
             igk.ready(function() {
                 q.select(".igk-c").each(function() {

@@ -12,5 +12,12 @@ namespace IGK\Css;
 */
 class CssThemeOptions{
     const DEFAULT_THEME_NAME = "dark";
+    /**
+     * theme name
+     * @var ?string
+     */
     var $theme_name;
+    public function __construct()
+    { 
+    }
 }

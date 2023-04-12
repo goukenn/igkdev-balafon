@@ -167,15 +167,15 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
  */
 function igk_get_attrib_raw_context($context)
 {
-    $o = igk_get_article_root_context();
+    $o = igk_get_article_root_context(); 
+
 
     if ($o == null) {
         // not in root context
         if ($context && !($context instanceof \IGK\System\Html\Templates\BindingContextInfo)) {
             return \IGK\Helper\Activator::CreateNewInstance(\IGK\System\Html\Templates\BindingContextInfo::class, $context);
         }
-        return $context;
-        // old was null
+        return $context; 
     }
     $raw = null;
     if (is_object($context) && property_exists($context, 'raw')) {
@@ -190,6 +190,9 @@ function igk_get_attrib_raw_context($context)
                 igk_exit();
             }
         }
+    }
+    if (is_array($o)){
+        return ['raw'=>$o]; //IGKRawDataBinding::Create($o);
     }
     return [
         "ctrl" => $o->ctrl,
@@ -207,13 +210,13 @@ function igk_get_attrib_raw_context($context)
 
 ///<summary>article priority root context</summary>
 /**
- * article priority root context
+ * get root data stored to article chain
+ * @return ?object|array|mixed root context
  */
-function igk_get_article_root_context()
-{
+function igk_get_article_root_context(){
     $g = igk_get_env(IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);
     if (is_array($g) && (count($g) > 0)) {
-        $c = $g[0]["data"];
+        $c = igk_getv($g[0], "data");
         return $c;
     }
     return null;

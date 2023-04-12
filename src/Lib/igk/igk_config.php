@@ -456,6 +456,7 @@ define("IGK_SERVERNAME", "IGKDEV");
 define("IGK_STR_EMPTY", "");
 define("IGK_MAX_CONFIG_PWD_LENGHT", 5);
 defined("IGK_DEFAULT_FOLDER_MASK") || define("IGK_DEFAULT_FOLDER_MASK", '0755');
+defined("IGK_DEFAULT_CACHE_FOLDER_MASK") || define("IGK_DEFAULT_CACHE_FOLDER_MASK", '0775');
 defined("IGK_DEFAULT_FILE_MASK") || define("IGK_DEFAULT_FILE_MASK", '0775');
 define("IGK_LF", "\n");
 define("IGK_CLF", "\r\n");

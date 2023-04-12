@@ -29,6 +29,9 @@ final class IGKConstants{
 
     const PATH_VAR_DETECT_MODEL_REGEX = "/^%(?P<name>[^%]+)%/";
 
+    const RAW_VAR = 'raw';
+    const CTRL_VAR = 'ctrl';
+
     /**
      * get the core version 
      * @return string 

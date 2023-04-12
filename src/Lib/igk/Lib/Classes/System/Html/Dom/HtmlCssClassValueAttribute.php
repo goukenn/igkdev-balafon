@@ -24,7 +24,20 @@ use ReflectionException;
 final class HtmlCssClassValueAttribute extends HtmlItemAttribute
 {
     private $m_classes, $m_expressions;
+    private $m_listener; 
     private static $sm_regClass = null;
+
+    /**
+     * 
+     * @param ?callable $listener 
+     * @return void 
+     */
+    public function setListener($listener){
+        $this->m_listener = $listener;
+        return $this;
+    }   
+
+
     ///<summary></summary>
     public function __construct()
     {
@@ -229,7 +242,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         return isset($this->m_classes[$name]);
     }
     ///<summary></summary>
-    public function EvalClassStyle()
+    public function evalClassStyle()
     {
         $out = IGK_STR_EMPTY;
         $i = 0;
@@ -275,6 +288,12 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         $out = IGK_STR_EMPTY;
         $i = 0;
+        if ($fc = $this->m_listener){
+            if ($list = $fc()){
+                $this->_add($list);
+            }
+        }
+
         foreach ($this->m_classes as $v) {
             if ($i == 0)
                 $i = 1;
@@ -290,12 +309,12 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             $i && $b .= ' ';
 
             foreach ($this->m_expressions as $k) {
-                if (!is_string($k)&& is_callable($k) ){
+                if (!is_string($k) && is_callable($k) ){
                     $k = $k();
                 }
                 $b .= '' . $k;
             }
-            // treate operator 
+            // treat operator 
             // $b = preg_replace("/(^|\s+)(+|-)/", "",$b);
         }
         return empty($b) ? '' : $b;

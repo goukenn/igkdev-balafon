@@ -34,6 +34,13 @@ final class ApplicationModuleController extends BaseController{
     private $m_initializer;     // used to extend module class properties
     private $m_configs;         // configuration 
     var $boot;
+    /**
+     * get application module configuration value
+     * @param mixed $name 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function config($name, $default=null){
         return igk_conf_get($this->m_configs, $name, $default, 1);
     }

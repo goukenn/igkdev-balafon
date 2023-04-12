@@ -151,7 +151,7 @@ class IGKAppSystem
         IO::CreateDir($app_dir . "/" . IGK_SCRIPT_FOLDER);
         IO::CreateDir($app_dir . "/" . IGK_INC_FOLDER);
         igk_io_save_file_as_utf8($app_dir . "/" . IGK_INC_FOLDER . "/.htaccess", "deny from all");
-        IO::CreateDir($app_dir . "/" . IGK_CACHE_FOLDER, 0775);
+        IO::CreateDir($app_dir . "/" . IGK_CACHE_FOLDER, IGK_DEFAULT_CACHE_FOLDER_MASK);
         igk_io_save_file_as_utf8($app_dir . "/" . IGK_CACHE_FOLDER . "/.htaccess", "deny from all");
 
         // + init cgi-bin 

@@ -13,123 +13,214 @@ use stdClass;
  * helper to encode in json 
  * @package IGK\Helper
  */
-class JSon
-{
-    const ignore_empty_method = "ignore_empty";
-    const ignore_empty_with_empty_array_method = "ignore_empty_with_empty_array";
+
+
+ class JSon {
 
     /**
-     * use to filter data 
-     * @param mixed $a 
-     * @return object|array 
+     * encoding option
+     * @var JSonEncodeOption
      */
-    private static function ignore_empty($a){
-        $g = $a;      
-        if (is_object($a)){
-            if ($a instanceof IToArrayResolver){
-                $g = $a->to_array();
-            }else{
-                $g = (object)(array)$a;
-            }
-        } 
-        return $g;
+    protected $m_options;
+
+    /**
+     * 
+     * @var mixed
+     */
+    protected $m_data;
+
+
+    protected $m_path ;
+
+ 
+    /**
+     * encode
+     * @param int $encode 
+     * @return string|false 
+     */
+    public function enc(int $encode){
+        $root = $this->get_root_data($this->m_data);
+        return $root ? json_encode($root, $encode) : null; 
     }
-    private static function ignore_empty_with_empty_array($a){
-        if (is_string($a)){
-            return $a;
+    protected function _filter_array(& $tv){
+        if ($fc = $this->m_options->filter_array_listener){                        
+            $tv = array_values(array_filter(array_map($fc, $tv)));
         }
-        $g = (array)$a;
-        $t = [];
-        foreach($g as $m=>$v){
-            if (is_null($v)){
-                continue;
+        else if ($this->m_options->ignore_empty ){
+            // preserving string keys -
+            $tv = array_filter(array_map([$this, 'filter_array'], $tv));
+        } 
+    }
+    public function get_root_data($data){
+        $root = $keys = $c = null;
+        if (is_array($data)){
+            $is_assoc = false;
+            $mkeys = array_keys($data);
+            $c = [];
+            while(count($mkeys)>0){
+                $k = array_shift($mkeys);
+                $tv = $data[$k];
+                if ($this->m_options->ignore_empty && empty($tv)){
+                    continue;
+                }
+                if (!is_numeric($k)){
+                    $is_assoc = true;
+                    $root = (object)$c;
+                    $c =  $root;
+                    array_unshift($mkeys, $k);
+                    break;
+                }
+                if (is_object($tv)){
+                    if ($tv instanceof IToArrayResolver){
+                        $tv = $tv->to_array(); 
+                    }else{
+                        $tv = (array)$tv;
+                    }
+                }
+                if (is_array($tv)){
+                    $this->_filter_array($tv);
+                }
+                $c[] = $tv;
             }
-            $t[$m] = $v;
-        }  
-        if (is_object($a)){
-            $g = (object)$t;
-        }else{
-            igk_wln_e("kj", $t);
+            if (!$is_assoc){
+                return $c;
+            }
+            $keys = $mkeys;
+            $c = (object)$c;
+            if (empty($keys)){
+                $root = $c;
+                return $root;
+            }
         }
-        return $g;
+        $this->_filter_array_map($data, $keys, $c, $root);
+        $root = $data;
+        // $tq = [['d'=>$data, 'keys'=>$keys, 'c'=>$c]];
+        // // $path = & $this->m_path;
+        // while(count($tq)>0){
+        //     $q = array_shift($tq);
+        //     extract($q);
+        //     $v = $d;
+        //     $keys = $keys ?? array_keys((array)$d);
+        //     $is_object = (isset($is_object) ? $is_object: null ) ?? is_object($v);
+        //     $end = false;
+        //     while(!$end  && (count($keys)>0)){
+        //         $k = array_shift($keys);
+        //         $tv = igk_getv($v, $k);
+        //         if ($this->m_options->ignore_empty && empty($tv)){
+        //             continue;
+        //         }
+        //         if (is_null($root)){
+        //             $root = (object)[];
+        //             $c = $root;
+        //         }
+        //         if ($tv instanceof IToArrayResolver){
+        //             $tv = $tv->to_array(); 
+        //         }
+        //         if (is_array($tv)){
+        //             if ($fc = $this->m_options->filter_array_listener){                        
+        //                 $tv = array_values(array_filter(array_map($fc, $tv)));
+        //             }
+        //             else if ($this->m_options->ignore_empty ){
+        //                 $tv = array_filter(array_map([$this, 'filter_array'], $tv));
+        //             }
+        //         } else if  (is_object($tv)){
+        //             array_unshift($tq, ['d'=>$d, 'keys'=>$keys, 'c'=>$c, 'is_object'=>$is_object]);
+        //             $c->$k = new stdClass;
+        //             array_unshift($tq, ['d'=>$tv, 'keys'=>null, 'c'=>$c->$k, 'is_object'=>true]);
+        //             $end = true;
+        //             break;
+        //         }
+
+        //         $c->$k = $tv;
+        //     }
+        // }
+        return $root;
     }
     /**
-     * helper to encode to json 
-     * @param mixed $raw 
-     * @param mixed|null $options , ignore_empty=1|0 , default_ouput='{}'
+     * filter array 
+     * @param mixed $a 
      * @return mixed 
-     * @throws Exception 
-     * */
-    public static function Encode($raw, $options = null, $json_option = JSON_UNESCAPED_SLASHES)
-    {
-        $ignoreempty = igk_getv($options, "ignore_empty", 0);
-        $default_output = igk_getv($options, "default_ouput", "{}");
-        $allow_empty_array = igk_getv($options, "allow_empty_array", 0);
-        $method = self::ignore_empty_method;
-        if ($allow_empty_array){
-            $method = self::ignore_empty_with_empty_array_method;
-        }
-        if (is_string($raw)) {
-            $sraw = json_decode($raw);
-            if (json_last_error() === JSON_ERROR_NONE) {
-                if (!$ignoreempty) {
-                    return $raw;
-                }
-                $raw = $sraw;
-            } else
-                return $default_output;
-        }
-        // + | backup raw temp 
-        $is_array = is_array($raw);
-        $tab = [["r" => $raw, "t" => new stdClass()]];
-        $root = null;
-        while ($m = array_shift($tab)) {
-            $c = $m["t"];
-            $raw = $m["r"];
-            $a = 0;
-            if (!$root)
-                $root = $c;
-            if (is_object($raw) || (is_array($raw))) {
-
-
-                foreach ($raw as $k => $v) {
-                   
-                    $a = 0;
-                    if ($ignoreempty &&  (($v === null) || ($v == "")))
-                        continue;
-                    if (is_numeric($v) && (!preg_match("/^0+[1-9]?/", $v) || ($v==0))){
-                        $v = floatval($v);
-                    }
-                    $is_obj = is_object($v);
-                    // | check if to_array method exists to get the array 
-                    if ($is_obj && method_exists($v, "to_array")) {
-                        $c->$k = new stdClass();
-                        array_unshift($tab, ["r" => $v->to_array(), "t" => $c->$k]);
-                        continue;
-                    }
-                    if (($a = is_array($v)) || $is_obj) {
-
-                        if ($a && !igk_array_is_assoc($v)) {
-                            // if ($ignoreempty  ) {
-                                $v = array_map(
-                                    [self::class, $method],
-                                    $ignoreempty ? array_filter($v) : $v
-                                );
-                            // }
-                            $c->$k = $v;
-                            continue;
-                        }
-                        $c->$k = new stdClass();
-                        array_unshift($tab, ["r" => $v, "t" => $c->$k, "f" => $k]);
-                    } else {
-                        $c->$k = $v;
-                    }
-                }
+     * @throws IGKException 
+     */
+    public function filter_array($a){         
+        if (is_object($a)){
+            $c = $this->get_root_data($a); 
+            return $c;
+        } else if (is_array($a)){
+            if ($this->m_options->ignore_empty){
+                $this->_filter_array_map($a);
             }
         }
-        if ($is_array && $root) {
+        return $a;
+    }
+    private function _filter_array_map(& $tv, $keys=null, $c=null, $root=null){
+        $root =  $root;
+        $is_object = false;
+        $tq = [['d'=>$tv, 'keys'=>$keys, 'c'=>$c]];
+        // $path = & $this->m_path;
+        while(count($tq)>0){
+            $q = array_shift($tq);
+            extract($q);
+            $v = $d;
+            $keys = $keys ?? array_keys((array)$d);
+            $is_object = (isset($is_object) ? $is_object: null ) ?? is_object($v);
+            $end = false;
+            while(!$end  && (count($keys)>0)){
+                $k = array_shift($keys);
+                $tv = igk_getv($v, $k);
+                if ($this->m_options->ignore_empty && empty($tv)){
+                    continue;
+                }
+                if (is_null($root)){
+                    $root = (object)[];
+                    $c = $root;
+                }
+                if ($tv instanceof IToArrayResolver){
+                    $tv = $tv->to_array(); 
+                }
+                if (is_array($tv)){
+                    if ($fc = $this->m_options->filter_array_listener){                        
+                        $tv = array_values(array_filter(array_map($fc, $tv)));
+                    }
+                    else if ($this->m_options->ignore_empty ){
+                        $tv = array_filter(array_map([$this, 'filter_array'], $tv));
+                    }
+                } else if  (is_object($tv)){
+                    array_unshift($tq, ['d'=>$d, 'keys'=>$keys, 'c'=>$c, 'is_object'=>$is_object]);
+                    $c->$k = new stdClass;
+                    array_unshift($tq, ['d'=>$tv, 'keys'=>null, 'c'=>$c->$k, 'is_object'=>true]);
+                    $end = true;
+                    break;
+                }
+
+                $c->$k = $tv;
+            }
+        }
+        if (!$is_object){
             $root = (array)$root;
         }
-        return json_encode($root, $json_option);
+        $tv = $root;
+    }
+    /**
+     * encode data
+     * @param mixed $data 
+     * @param mixed $options 
+     * @param int $encode 
+     * @return string|false 
+     */
+    public static function Encode($data, $options = null, int $encode = JSON_UNESCAPED_SLASHES){
+      
+        if (is_null($options)){
+            $options = new JSonEncodeOption;
+        }else if (!($options instanceof JSonEncodeOption)){
+            $options = Activator::CreateNewInstance(JSonEncodeOption::class, $options);
+        }
+        $e = new static;
+        $e->m_options = $options;
+        $e->m_data = $data;
+        $e->m_path = '/';
+        return $e->enc($encode);
+    }
+    protected function __construct(){
     }
 }

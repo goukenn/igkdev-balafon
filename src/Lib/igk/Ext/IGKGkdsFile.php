@@ -34,7 +34,7 @@ final class IGKGkdsFile extends IGKObject
 		$f = new IGKGkdsFile();
 		$f->m_document = $t;
 		$f->m_gd = IGKGD::Create($t["Width"], $t["Height"]);
-		$f->m_gd->Clearf("white");
+		$f->m_gd->clearf("white");
 		$f->_visit();
 
 		return $f;
