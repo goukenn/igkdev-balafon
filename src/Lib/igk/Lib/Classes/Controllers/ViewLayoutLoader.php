@@ -100,7 +100,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         return $this->m_params ?? $this->m_params = igk_createobj();
     }
     /**
-     * include file in layout
+     * include view file 
      * @param string $file 
      * @param null|array $args 
      * @return mixed 
@@ -127,6 +127,17 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         }
         $this->afterInc();
         return $response;
+    }
+
+    /**
+     * import file  
+     * @param string $file 
+     * @param null|array *3b22bd6a 
+     * @param IGK\Controllers\args|null *2c206736 
+     * @return void 
+     */
+    public function import(string $file, ?array $args = null){
+        return ViewHelper::Include($file, $args);
     }
     /**
      * afert view inclusion

@@ -12,10 +12,12 @@
 namespace IGK\Helper;
 
 use Closure;
+use Exception;
 use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\IO\Path;
@@ -232,11 +234,32 @@ class ViewHelper
         }
         return $g($file, $_tab);
     }
+    /**
+     * include and render view file
+     * @param mixed $file 
+     * @param array $args 
+     * @return null|string|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     * @throws CssParserException 
+     */
     public static function View($file, $args=[]){
         if (self::Include($file, $args)){
             return self::CurrentCtrl()->getTargetNode()->render();
         }
     }
+    /**
+     * require once 
+     * @param mixed $file 
+     * @return mixed 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function RequireOnce($file){
         if (!file_exists($file = func_get_arg(0))){
             file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: ".$file);

@@ -380,7 +380,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     {
         return self::GetScriptInstall(
             [
-                "installer-helper.pinc",
+                "installer-helper.pinc", // entry helper
+                "installer.helper.pinc", // class
                 'install.project.script.pinc'
             ],
             $token,
@@ -388,8 +389,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         );
     }
     /**
-     * 
-     * @param mixed $h fpt resource
+     * Sync and and install 
+     * @param mixed $h ftp resource
      * @param mixed $name name
      * @param mixed $file zip file
      * @param mixed $setting config setting

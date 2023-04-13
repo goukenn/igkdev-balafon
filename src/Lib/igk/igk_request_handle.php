@@ -252,8 +252,9 @@ IGKRoutes::Register("^/robots.txt$", function(){
         igk_exit();
     }, 1);
     
-    IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
-        $sessid = session_id(); 
+IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
+    $sessid = session_id(); 
+ 
     if (!defined("IGK_INIT") && empty($sessid)) {
         $app = IGKApplication::Boot('web'); 
         IGKApp::StartEngine($app);
@@ -269,3 +270,6 @@ IGKRoutes::Register("^/robots.txt$", function(){
     RequestHandler::getInstance()->handle_guid_action($guid, $query, $version);
 }
 , 1);
+
+$redirect = igk_server()->REQUEST_URI;
+include_once(__DIR__.'/igk_redirection.php');

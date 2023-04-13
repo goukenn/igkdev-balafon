@@ -24,6 +24,7 @@ abstract class UriHelper{
         if ($port)
             $port = ":" . $port;
         return igk_io_baseuri() . $port . "/!@{$type}//{$ctrl->getName()}/{$u}";
+        //return igk_io_baseuri() . $port . "/{$ctrl->getName()}/{$u}";
     }   
     public static function UriSysReplace(string $uri){
         $v_regex = "/%(?P<name>(".self::URI_SYS_REPLACE."))%/i";

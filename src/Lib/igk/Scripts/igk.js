@@ -12793,8 +12793,7 @@ Name:balafon.js
         }
     };
 
-    function __global_ready(evt) {
-        console.log('log ready changed complete ? .... ',document.readyState);
+    function __global_ready() { 
         if (document.readyState == "complete") {
             _context_ = "global_ready";
             igk.ready(null, "readystatechange", (0,()=>_context_=null)()); 

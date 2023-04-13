@@ -95,7 +95,7 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-//#{{@Inc(installer.helper.pinc)}}
+//#{{@Inc(installer-helper.pinc)}}
  
 class InstallerResponse
 {

@@ -23,8 +23,15 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
     const CACHE_FILE = '.routes.cache';
+    /**
+     * handle resources 
+     */
     const AC_RES_URI = 'res';
-    const AC_SYS_URI = 'uri';
+    /**
+     * handle system uri
+     */
+    const AC_SYS_URI = 'sys';
+    
     private static $sm_actions, $sm_routes;
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::CACHE_FILE;

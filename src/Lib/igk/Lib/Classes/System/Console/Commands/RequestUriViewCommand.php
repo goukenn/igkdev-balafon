@@ -31,8 +31,7 @@ class RequestUriViewCommand extends RequestViewCommand{
      * @throws IGKException 
      */
     public function doRequest($command, $path){ 
-        igk_server()->SCRIPT_NAME = '/index.php';
-        // igk_wln_e(__FILE__.":".__LINE__,  $path);
+        igk_server()->SCRIPT_NAME = '/index.php'; 
         require_once IGK_LIB_DIR.'/igk_request_handle.php';
         igk_sys_handle_uri($path);
         Logger::info('done');

@@ -152,6 +152,10 @@ $theme->supports('scrollbar-width:none')->set(
 // $def[".no-scrollbar"] = "scrollbar-width:none; -ms-overflow-style:none;";
 $def[".no-cursor"] = "cursor: none;";
 
+// + | disable speudo class entry on item .no-speudo
+$def['.no-speudo-a:before'] = 
+$def['.no-speudo-a:after'] =  "display:none;";
+
 
 $def[".overflow"] = "overflow: auto;";
 

@@ -135,58 +135,8 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-class InstallerHelper
-{
-    public static function GetFiles(string $dir, $pattern)
-    {
-        $out = null;
-        if ($hdir = opendir($dir)) {
-            while ($m = readdir($hdir)) {
-                if ($pattern && preg_match($pattern, $m)) {
-                    if (is_null($out)) $out = [];
-                    $out[] = $m;
-                }
-            }
-            closedir($hdir);
-        }
-        return $out;
-    }
-    /**
-     * zip direcotory file
-     * @param string $outfile 
-     * @param string $dir 
-     * @return bool 
-     */
-    public static function ZipFolder(string $outfile, string $dir){
-        $zip=new ZipArchive();
-        if($zip->open($outfile, ZIPARCHIVE::OVERWRITE)){
-            $ln = strlen($dir);
-            $thdir = [$dir]; 
-            while (count($thdir) > 0) {
-                $q = array_shift($thdir);
-                if ($hdir = opendir($q)) {
-    
-                    $path = substr($q, $ln);
-                    while ($m = readdir($hdir)) {
-                        if (($m == ".") || ($m == "..")) {
-                            continue;
-                        }
-                        $f = $q . "/" . $m;
-                        if (is_file($f)) {
-                            $zip->addFile($f, $path . "/" . $m);                           
-                        } else if (is_dir($f)) {
-                            array_push($thdir, $f);
-                        }
-                    }
-                    closedir($hdir);
-                }
-            }      
-            $zip->close();
-            return true;
-        }
-        return false;
-    }
-}
+
+
 class InstallerResponse
 {
     var $code;

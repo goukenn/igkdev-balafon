@@ -11,6 +11,7 @@ use IGK\Helper\PhpUnitHelper;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Shell\OsShell;
 
@@ -76,8 +77,12 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $sb->appendLine(implode("\n", [
             "\$token = '" . $token . "';",
         ]));
-        // $sb->appendLine("print_r(\$_REQUEST); \n exit;");
-        $sb->appendLine("?>" . file_get_contents(IGK_LIB_DIR . "/Inc/core/install.script.pinc"));
+
+        $src = PHPScriptBuilderUtility::MergeSource(
+            IGK_LIB_DIR . "/Inc/core/install.script.pinc",
+            IGK_LIB_DIR . "/Inc/core/installer.helper.pinc"
+        );      
+        $sb->appendLine("?>" . $src);  
         $sb->appendLine("echo 'finish install';");
         $sb->appendLine("@unlink(__FILE__);");
 

@@ -104,7 +104,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
     ///<summary></summary>
     ///<param name="lang" default="null"></param>
-    public function changeLang_ajx($lang=null){
+    public function changeLang_ajx($lang=null){ 
         $doc=igk_get_last_rendered_document();   
         if($doc !== null){
             $old = igk_app()->session->lang;
