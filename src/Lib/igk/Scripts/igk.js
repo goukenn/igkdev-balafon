@@ -344,8 +344,7 @@ Name:balafon.js
         } else
             ob.o.type = mimetype || "text/xml";
         ob.addClass("bdr-1");
-        ob.reg_event("load", function(evt) {
-            // console.debug("loading complete", evt, mimetype); 
+        ob.reg_event("load", function(evt) { 
             var _o = {
                 uri: uri,
                 source: ob.o,
@@ -5525,7 +5524,7 @@ Name:balafon.js
                 // console.log("function : "+i);
                 // if (i=="f5")
                 setTimeout(function() {
-                    e.apply(document);
+                    e.apply(document, [i]);
                 }, 10);
             }
             if ((func == null) || (func == 0)) {
@@ -11312,6 +11311,9 @@ Name:balafon.js
         };
 
         function _initnode(c) {
+            if (!c){
+                return;
+            }
             _bready(c);
             // _rootDepth++;		
             // evaluate all script in this 
@@ -11656,13 +11658,9 @@ Name:balafon.js
                     var q = this;
                     igk.appendProperties(this, {
                         init: function() {
-                            // -- -
-                            // because of the readyState will initialize all "component" on 'complete' no need to call init node
-                            // -- -
-                            // igk.ajx.fn.initnode(q.c);					
-                            // igk.ajx.evalNode(q.c);	
-                            // evaluate binding Attrib Data
-                            // igk.ctrl.callBindAttribData(q.c);	
+                            // + -- -
+                            // + because of the readyState will initialize all "component" on 'complete' no need to call init node
+                            // + -- - 
                             _initnode(q.c);
                         }
                     });
@@ -12796,6 +12794,7 @@ Name:balafon.js
     };
 
     function __global_ready(evt) {
+        console.log('log ready changed complete ? .... ',document.readyState);
         if (document.readyState == "complete") {
             _context_ = "global_ready";
             igk.ready(null, "readystatechange", (0,()=>_context_=null)()); 

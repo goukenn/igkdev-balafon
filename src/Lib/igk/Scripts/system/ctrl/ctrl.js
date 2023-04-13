@@ -249,6 +249,7 @@
                 }
                 igk.ready(function () {
                     // bind attribute data on document ready
+                    console.log('ready on body .....111111 ');
                     igk.ctrl.callBindAttribData(igk.dom.body().o);
                 });
             }
@@ -327,7 +328,7 @@
             if (node) {
                 __callBindAttribData(node);
                 if (node.getElementsByTagName) {
-                    var s = node.getElementsByTagName("*");
+                    var s = node.getElementsByTagName('*');
                     if (s) {
                         for (var i = 0; i < s.length; i++) {
                             igk.invokeAsync(__callBindAttribData, s[i]);

@@ -439,8 +439,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         );
 
 
-        FtpHelper::RmFile($h, $lib);
-        FtpHelper::RmFile($h, $install);
+        // FtpHelper::RmFile($h, $lib);
+        // FtpHelper::RmFile($h, $install);
 
         if (($status = igk_curl_status()) == 200) {
             Logger::info("curl response \n" . App::Gets(App::BLUE, $response));

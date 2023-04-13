@@ -95,29 +95,8 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-class InstallerHelper
-{
-    /**
-     * get directory files .
-     * @param string $dir 
-     * @param mixed $pattern 
-     * @return array|null 
-     */
-    public static function GetFiles(string $dir, $pattern)
-    {
-        $out = null;
-        if ($hdir = opendir($dir)) {
-            while ($m = readdir($hdir)) {
-                if (preg_match($pattern, $m)) {
-                    if (is_null($out)) $out = [];
-                    $out[] = $m;
-                }
-            }
-            closedir($hdir);
-        }
-        return $out;
-    }
-}
+//#{{@Inc(installer.helper.pinc)}}
+ 
 class InstallerResponse
 {
     var $code;

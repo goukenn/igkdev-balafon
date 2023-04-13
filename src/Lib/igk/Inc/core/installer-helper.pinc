@@ -159,7 +159,7 @@ class InstallerHelper
      */
     public static function ZipFolder(string $outfile, string $dir){
         $zip=new ZipArchive();
-        if($zip->open($outfile, ZIPARCHIVE::CREATE)){
+        if($zip->open($outfile, ZIPARCHIVE::OVERWRITE)){
             $ln = strlen($dir);
             $thdir = [$dir]; 
             while (count($thdir) > 0) {

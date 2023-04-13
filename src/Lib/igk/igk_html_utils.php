@@ -8,6 +8,7 @@ use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Converters\Converter;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
+use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\FormBuilder;
 use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Html\HtmlNodeTagExplosionDefinition;
@@ -334,7 +335,7 @@ function igk_html_build_form_array_entry($name, $type, $n, $value = null)
 ///<summary>shortcut to igk_html_load_menu_array. used to build menu</summary>
 /** 
  * shortcut to igk_html_load_menu_array. used to build menu
- * @param mixed $target target node
+ * @param ?HtmlItemBase $target target node
  * @param mixed $menuTab menu's list info
  * @param mixed $callback 
  * @param mixed $user 
@@ -344,7 +345,7 @@ function igk_html_build_form_array_entry($name, $type, $n, $value = null)
  * @return void 
  * @throws IGKException 
  */
-function igk_html_build_menu($target, $menuTab, $callback = null, $user = null, $ctrl = null, $default = "li", $sub = "ul")
+function igk_html_build_menu(?HtmlItemBase $target, $menuTab, $callback = null, $user = null, $ctrl = null, $default = "li", $sub = "ul")
 {
     $render = 0;
     if ($target == null) {

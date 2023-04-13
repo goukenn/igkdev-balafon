@@ -220,22 +220,24 @@ class HtmlNodeBuilder
             extract(array_shift($list), EXTR_OVERWRITE);
             $keys = is_null($keys) ? self::_GetKeys($q) : $keys;
             $next = false;
-            igk_html_push_node_parent($n);
-            if ($n instanceof IHtmlContextContainer){
-                //if (empty($context_container) || ($context_container[0]!== $n)){
-                    array_unshift($context_container, $n);
-                    HtmlLoadingContext::PushContext($context_container[0]->getContext());
-                //}
+            if ($keys){
+                // +  enqueue builder parent 
+                igk_html_push_node_parent($n);
+                if ($n instanceof IHtmlContextContainer){
+                    if (!$context_container || ($context_container[0] !== $n)){
+                        array_unshift($context_container, $n);
+                        HtmlLoadingContext::PushContext($context_container[0]->getContext());               
+                    }
+                }
+                self::_Loop($visitor, $n, $q, $keys, $next, $list, $v_chain_info, $_last, $_is_php8);         
             }
-            self::_Loop($visitor, $n, $q, $keys, $next, $list, $v_chain_info, $_last, $_is_php8);
-         
-            // igk_debug_wln("counter : ".$tcounter);
             $tcounter++;
-            igk_html_pop_node_parent();
-            // if (!$next && ($n instanceof IHtmlContextContainer)){
-            //     HtmlLoadingContext::PopContext();
-            //     array_shift($context_container);
-            // }
+
+            if ($next){
+                continue;
+            }
+            // + | dequeue builder parent 
+            igk_html_pop_node_parent();           
             if ($context_container && ($n instanceof IHtmlContextContainer)){
                 if($context_container[0]===$n){
                     HtmlLoadingContext::PopContext();

@@ -49,14 +49,18 @@ trait HtmlNodeContainerTrait{
     function _access_offsetExists( $n):bool{
         return $this->host->_access_offsetExists($n); 
     }
-    public function __call($n, $arg){
-        return $this->host->__call($n, $arg);
-    }   
+    // - + drop fix router context prefer update _add method 
+    // public function __call($n, $arg){
+    //     return $this->host->__call($n, $arg);
+    // }   
     public function getFlag($k, $default = null){
         return $this->host->getFlag($k, $default);
     }
     public function setFlag($k, $value){
         $this->host->setFlag($k, $value);
         return $this;
+    }
+    protected function _add($n, bool $force=false):bool{
+        return $this->host->_add($n, $force);
     }
 }

@@ -32,7 +32,8 @@ function rgtrim($v)
  */
 class HtmlRenderer
 {
-
+    const reflect_class = 'reflec_class';
+    const render_method = 'render';
     /**
      * append after rendering element
      * @param mixed $option 
@@ -252,7 +253,7 @@ class HtmlRenderer
                 }
                 if ($options->Source !== $i) {
                     if (!isset($reflect[$cl = get_class($i)])) {
-                        $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, "render"))->getDeclaringClass()->name;
+                        $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, self::render_method))->getDeclaringClass()->name;
                     }
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
@@ -262,7 +263,7 @@ class HtmlRenderer
                             }
                             $s .=  $v_c . $ln;
                         }
-                        self::reduceDepth($options, 'reflec_class');
+                        self::reduceDepth($options, self::reflect_class);
                         continue;
                     }
                 }

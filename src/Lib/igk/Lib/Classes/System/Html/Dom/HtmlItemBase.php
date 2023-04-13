@@ -634,8 +634,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $this->setFlag('__call', null);
         }
         $skip = false; 
+
+
+        #region view compilation model
+        ///TODO : remove compilation in core HtmlItemBase 
         // compilation node add
-        if ($n instanceof \IGK\System\Runtime\Compiler\ViewExpressArg){
+        if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressArg){
             $n = $n->createExpressionNode();
         }
         if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression){
@@ -647,6 +651,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 $n = $n->createExpressionNode();
             // }
         }
+        #endregion 
+       
+       
         $lastchild = null;
         if (is_string($n)){
             igk_html_push_node_parent($this);
