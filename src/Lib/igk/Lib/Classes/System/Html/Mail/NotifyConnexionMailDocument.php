@@ -31,8 +31,8 @@ class NotifyConnexionMailDocument extends MailDocument{
     protected function initialize()
     {
         $message = igk_create_node("div");
-        $message->article($this->m_controller, "mail.notify.template",
-            $this->getmaildata());
+        $data = $this->getmaildata();
+        $message->article($this->m_controller, "mail.notify.template", $data);
         $this->add($message);
     }
     protected function getmaildata(){
@@ -40,7 +40,7 @@ class NotifyConnexionMailDocument extends MailDocument{
             return $this->m_data_service->getMailData();
         }
 
-        return (object)array(
+        return array(
             "date" => igk_mysql_datetime_now(),
             "domain" => igk_app()->getConfigs()->website_domain,
             "server_ip"=>igk_server()->REMOTE_ADDR,

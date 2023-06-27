@@ -15,12 +15,11 @@ class JSCommand extends AppExecCommand{
     var $desc = "get core minified js"; 
     var $category = "js";
   
-    public function help(){
-        parent::help();         
-      
-    }
+    var $options = [
+        '--js-debug'=>'flag: js debug on generation'
+    ];
     public function exec($command)
     {   
-        Logger::print(igk_sys_balafon_js(igk_app()->getDoc()));
+        Logger::print(igk_sys_balafon_js(null, property_exists($command->options, '--js-debug')));
     }   
 }

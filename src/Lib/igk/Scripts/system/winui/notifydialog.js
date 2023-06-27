@@ -239,11 +239,14 @@
                 if (!igk.is_readyRegister(__show)) {
                     _setupview();
                 }
+                // + | default filter properties
                 div.setCss({
                     "zIndex": "800", // set to top index
                     "top": "50%",
                     "overflowY": "auto",
-                    "overflowX": "hidden"
+                    "overflowX": "hidden",
+                    "transform": "TranslateY(-50%)",
+                    "minHeight":"300px"
                 });
                 igk.ctrl.callBindAttribData(div.o);
                 bdiv.addClass("igk-show");

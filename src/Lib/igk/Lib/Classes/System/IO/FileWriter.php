@@ -105,6 +105,9 @@ class FileWriter{
                         chmod($dirname, $s_mode);
                     }
                 }else{
+                    if (igk_is_cmd()){
+                        return false;
+                    }
                     if (igk_environment()->isDev()){
                         igk_trace();
                         igk_dev_wln_e("failed to create directory: ".$dirname, 
@@ -112,9 +115,10 @@ class FileWriter{
                             "last error: ",  error_get_last());
                             
                     }else{
-                        igk_ilog('fail to create '.$dirname);
+                        igk_ilog('create dir '.$dirname. ' failed');
                     }
                     throw new IGKException("failed to create ".$dirname); 
+                    return false;
                 }
             }
             else{
@@ -137,7 +141,9 @@ class FileWriter{
      */
     public static function Invalidate($file, $force=true){        
         if (function_exists('opcache_get_status')){
-            if ($s = opcache_get_status()){
+            $restrict = ini_get('restrict_api');
+            // check for restrict_api
+            if (!$restrict && @opcache_get_status()){
                 return opcache_invalidate($file, $force); 
             } 
         }

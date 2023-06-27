@@ -8,8 +8,15 @@ namespace IGK\System\Html\Forms;
 use function igk_resources_gets as __;
 
 
+/**
+ * file fields validator
+ * @package IGK\System\Html\Forms
+ */
+class FileValidator extends FormFieldValidatorBase implements IFormValidator{
 
-class FileValidator implements IFormValidator{
+    public function assertValidate($value): bool {
+        return false;
+    }
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
    

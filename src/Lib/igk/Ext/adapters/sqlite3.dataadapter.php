@@ -282,7 +282,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
      * @return string 
      * @throws IGKException 
      */
-    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string
+    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table,string $column, string $dbname): string
     {
         $query = sprintf("PRAGMA table_info(%s)", $table);
         return $query;
@@ -462,9 +462,9 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     }
     ///<summary></summary>
     /**
-    * 
+    * create a sql db name
     */
-    public function createDb(){
+    public function createDb(?string $dbname=null){        
         return true;
     }
     ///<summary></summary>

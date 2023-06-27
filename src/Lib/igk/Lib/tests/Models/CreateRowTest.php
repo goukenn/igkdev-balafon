@@ -85,7 +85,7 @@ class CreateRowTest extends BaseTestCase{
 }
 
 /** @package IGK\Tests\Models */
-class SupportNothingDataAdapter extends \IGK\System\DataBase\MySQL\DataAdapter{
+class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
     public function isTypeSupported($type):bool{ 
         return false;
     } 

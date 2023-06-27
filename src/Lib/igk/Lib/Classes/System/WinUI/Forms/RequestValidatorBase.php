@@ -30,8 +30,10 @@ abstract class RequestValidatorBase extends ObjectDataValidator implements IActi
         }
         return false;
     }
-    public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null): bool
+    public function validate
+    ($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null, ?array $resolvKeys=null): bool
     { 
+        
         $r = (new RequestValiationMapper(
             $mapper,
             $defaultValues,

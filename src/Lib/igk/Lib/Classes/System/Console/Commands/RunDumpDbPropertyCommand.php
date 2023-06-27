@@ -40,7 +40,7 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
         $ctrl = $ctrl ?? SysDbController::ctrl(); 
         $ctrl->register_autoload();
         
-        if ($cl = $ctrl::resolveClass(\Models::class."\\".$model)){
+        if ($cl = $ctrl->resolveClass(\Models::class."\\".$model)){
             $a = 0;
             $row = $cl::createRow();
             if (property_exists($command->options, '--create-query')){

@@ -698,7 +698,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     * 
     * @param mixed $dbname
     */
-    public function selectdb($dbname){}
+    public function selectdb(?string $dbname=null){}
     ///<summary></summary>
     /**
     * 
@@ -717,4 +717,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     public function update($tablename, $entries, $condition=null, $tableinfo=null){
         return false;
     }
+    /**
+     * list supported tables
+     * @return mixed 
+     */
+    abstract function listTables();
 }

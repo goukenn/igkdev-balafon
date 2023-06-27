@@ -19,8 +19,8 @@ class HtmlVisitor
      */
     var $target;
     /**
-     * end visitor listener 
-     * @var mixed
+     * end visitor
+     * @var  @var callable ($n, bool $first_child, bool $last_child, bool $end):void
      */
     var $endVisitorListener;
     /**
@@ -29,12 +29,26 @@ class HtmlVisitor
      */
     var $startVisitorListener;
 
+    /**
+     * skip treatment
+     * @var mixed
+     */
     protected $skip;
+
+    /**
+     * skip end flag
+     * @var mixed
+     */
+    protected $skip_end;
 
     public function __construct(HtmlItemBase $t)
     {
         $this->target = $t;
     }
+    /**
+     * base visit algorithm
+     * @return void 
+     */
     public function visit()
     {
         /**
@@ -80,17 +94,35 @@ class HtmlVisitor
                         }
                         continue;
                     } else if (is_null($check)) {
+                        // next item must be consider as first childs 
+                        if (count($tq)>0){
+                            $tq[0]['first_child'] = true;
+                        }  else {
+                            $v_endc($this->target, false, true, true);
+                        }                       
                         continue;
                     }
                 } else {
                     $this->skip = false;
                     if (is_null($check)) {
-                        $v_endc($n, false, true);
+                        if (!$this->skip_end){
+                            $v_endc($n, false, true,count($tq)==0);
+                        }
+                        $this->skip_end = false;
                         continue;
                     }
                 }
             }
-            $v_endc($n, $has_child, $last_child);
+            
+            if (!$this->skip_end)
+                $v_endc($n, $has_child, $last_child, count($tq)==0);
+            else{
+                $v_end = count($tq)==0;
+                if ($v_end){
+                    $v_endc($this->target, $has_child, $last_child, true); 
+                }
+                $this->skip_end = false;  
+            } 
         }
     }
 }

@@ -7,7 +7,7 @@ namespace IGK\System\Html;
 
 ///<summary></summary>
 /**
-* 
+* use with HtmlReader to set object context 
 * @package IGK\System\Html
 */
 class HtmlLoadingContextOptions{
@@ -33,7 +33,7 @@ class HtmlLoadingContextOptions{
      * transform to eval
      * @var bool
      */
-    var $transformToEval;
+    var $transformToEval = false;
 
     /**
      * expression to use in hook - loop 
@@ -47,8 +47,18 @@ class HtmlLoadingContextOptions{
      */
     var $engineNode;
 
+    /**
+     * disable expression interpolation on loading
+     * @var bool 
+     */
+    var $noInterpolation = false;
+
     public function __toString()
     {
         return static::class;
+    }
+    public function __get($name){
+        igk_trace();
+        igk_wln_e("try = ".$name);
     }
 }

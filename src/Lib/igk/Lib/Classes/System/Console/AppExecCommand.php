@@ -7,6 +7,7 @@
 
 namespace  IGK\System\Console;
 
+use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\Commands\DbCommandHelper;
 
@@ -28,14 +29,7 @@ abstract class AppExecCommand extends AppCommand{
             }
         }
     }
-    /**
-     * show command usage
-     * @param mixed $usage 
-     * @return void 
-     */
-    protected function showCommandUsage(string $usage=null){
-        Logger::print(sprintf("%s %s", App::Gets(App::AQUA, $this->command), $usage ?? ''));
-    }
+ 
     /**
      * check if has options set in command
      * @param mixed $command 
@@ -83,7 +77,7 @@ abstract class AppExecCommand extends AppCommand{
      * get controller helper
      * @param string $controller 
      * @param int $throwex 
-     * @return mixed 
+     * @return mixed|BaseController  
      * @throws IGKException 
      */
     protected static function GetController(string $controller, $throwex = 1){

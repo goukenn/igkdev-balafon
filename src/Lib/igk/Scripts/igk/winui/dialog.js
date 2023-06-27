@@ -1,12 +1,12 @@
 "use strict";
 (function(){
-
-
 function init_dialog(){
+    let m_show = 0;
     this.show = function(){
         if (this.showDialog)
             return;
         this.showDialog = 1;
+        m_show = 1;
         this.rmClass("dispn");
         var q = this;
         var next = q.o.nextCibling;

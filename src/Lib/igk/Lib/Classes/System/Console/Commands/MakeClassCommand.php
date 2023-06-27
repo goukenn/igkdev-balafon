@@ -30,12 +30,56 @@ class MakeClassCommand extends AppExecCommand
         "--path:[dir]" => "output directory",
         "--type:[typename]" => "type name. Allowed value : class|trait|interface",
         "--test" => "test flag",
-        "--defs" => "code definition"
+        "--defs" => "code definition",
+        "--file:[file_to_create]"=>"generate a file"
     ];
+    private function _initCommand($command){
+        $ctrl = igk_getv_nil($command->options, "--controller");
+        $extends = igk_getv($command->options, "--extends");
+        $desc = igk_getv($command->options, "--desc");
+        $force = property_exists($command->options, "--force");
+        $test = property_exists($command->options, "--test");
+        $path = igk_getv($command->options, "--path");
+        $ns = igk_str_ns(igk_getv($command->options, "--ns", $test ? \IGK\Tests::class: \IGK::class));
+        $type = igk_getv($command->options, "--type", "class");
+        $defs = igk_getv($command->options, "--defs"); 
+        return get_defined_vars();
+    }
+    public function generateFileFromCommand($command, $file){
+        extract($this->_initCommand($command));
+        $author = $this->getAuthor($command);
+        if (!is_array($file)){
+            $file = [$file];
+        }
+        $ns = igk_str_ns(igk_getv($command->options, "--ns", "IGK"));
+        while(count($file)>0){
+            $q = array_shift($file);
+            if (!$q)continue;
+            $name = igk_str_ns(igk_io_basenamewithoutext($q));
+            $builder = new PHPScriptBuilder();
+            $builder->type($type)
+                ->namespace($ns)
+                ->author($author)
+                ->file(basename($q))
+                ->extends($extends)
+                ->name($name)
+                ->desc($desc)
+                ->defs($defs);
+            if (igk_io_path_ext($q) != 'php'){
+                $q.='.php';
+            }
+            igk_io_w2file($q, $builder->render());
+            Logger::info("generate : ".$q);
+        }
 
+    }
     public function exec($command, $class_path = null)
     {
         if (empty($class_path)) {
+            $f = igk_getv($command->options, '--file');
+            if ($f){
+                return $this->generateFileFromCommand($command, $f);
+            } 
             Logger::danger("classPath can't be empty");
             return -1;
         }

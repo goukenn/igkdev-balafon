@@ -13,7 +13,13 @@ use function igk_resources_gets as __;
  * validator for url
  * @package IGK\System\Html\Forms
  */
-class UrlValidator implements IFormValidator{
+class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
+
+   
+
+    public function assertValidate($value): bool { 
+        return false;
+    }
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         $q = parse_url($value);       

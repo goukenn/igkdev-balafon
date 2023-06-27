@@ -271,5 +271,5 @@ IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($gu
 }
 , 1);
 
-$redirect = igk_server()->REQUEST_URI;
-include_once(__DIR__.'/igk_redirection.php');
+// $redirect = igk_server()->REQUEST_URI;
+// igk_io_handle_system_command($redirect); 

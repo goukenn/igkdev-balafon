@@ -257,17 +257,14 @@
         var _b = igk.dom.body();
         support_transition = ifc(_b.o, 'transition') && ifc(_b.o, 'transform');
     });
-
-
-
     (function() {
         // + | ------------------------------------------------------------------------
         // + | init balafon js component - igk-hpane-container 
         // + | requirement : igk-data = json data with initial properties
-
         igk.winui.initClassControl("igk-hpane-container", function(q) { 
             let i = this;  
-            let options = JSON.parse(i.o.getAttribute('igk-data')) || {}; 
+            const data = i.o.getAttribute('igk-data');            
+            let options = igk.JSON.parse(data, i) || {}; 
             igk.winui.horizontalScrollPane.init(i, options); 
         });
 

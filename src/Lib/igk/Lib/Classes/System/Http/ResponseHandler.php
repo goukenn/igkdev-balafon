@@ -26,6 +26,10 @@ class ResponseHandler
     public function HandleReponse($r)
     {
         $e = 0;
+        $code = 200;
+        if ($r instanceof IResponseData){
+            $code = $r->getCode();
+        }
         if (is_object($r) && ($r instanceof \IGK\System\Http\IResponse)) {
             ob_get_level() &&  ob_clean();
             $r->output();
@@ -33,6 +37,7 @@ class ResponseHandler
         } else if ($r instanceof HtmlItemBase) {
             ob_get_level() &&  ob_clean();
             $b = new WebResponse($r);
+            $b->code = $code;
             $b->output();
             $e = 1;
         } else if (is_array($r) || is_object($r)) {
@@ -41,6 +46,7 @@ class ResponseHandler
                 case 'application/xml':
                     $r = igk_xml_render('response', $r);
                     $b = new WebResponse($r);
+                    $b->code = $code;
                     $b->output();
                     break;
                 case 'text/html':
@@ -51,10 +57,12 @@ class ResponseHandler
                         $sb->appendLine("\t".$k .": " .$ds);
                     }
                     $b = new WebResponse($sb.'');
+                    $b->code = $code;
                     $b->output();
                     break;
                 default:
                     $b = new JsonResponse($r);
+                    $b->code = $code;
                     $b->output();
                     break;
             }

@@ -4,6 +4,7 @@
 // @date: 20220906 00:28:43
 namespace IGK\System\Html;
 
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -18,6 +19,17 @@ class HtmlRendererOptions{
     var $__sanitize = null;
 
     var $__invoke = null;
+
+    /**
+     * filter element
+     * @var ?callable (HtmlNode a)=>bool
+     */
+    var $filterListener;
+    /**
+     * preserving attribute declaration order
+     * @var ?bool 
+     */
+    var $PreserveAttribOrder;
     /**
      * indent writing content
      * @var bool
@@ -110,7 +122,12 @@ class HtmlRendererOptions{
     private $m_properties;
 
 
-
+    /**
+     * set extra property
+     * @param mixed $n 
+     * @param mixed $v 
+     * @return void 
+     */
     public function __set($n, $v){ 
         if (is_null($v)){
             unset($this->m_properties[$n]);
@@ -118,8 +135,14 @@ class HtmlRendererOptions{
         }
         $this->m_properties[$n] = $v;
     }
+    /**
+     * get extrat properties
+     * @param mixed $n 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function __get($n){        
-        igk_getv($this->m_properties, $n);
+        return igk_getv($this->m_properties, $n);
     }
     public function setRef($n, & $v){
         $this->m_properties[$n] = & $v;

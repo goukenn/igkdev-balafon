@@ -3,6 +3,9 @@
 "use strict";
 (function() {
     var m_offscreen = igk.createNode('canvas'); //create a offscreen canvas
+    function _eval(src, apply, arg){
+        return (new Function(src)).apply(apply, arg);
+    };
 
     function __addPolygon(tab) {
         var d = "";
@@ -397,7 +400,7 @@
                         d += "ctx.closePath();";
                     }
                     ctx.save();
-                    eval(d + " " + this.renderStyle(style));
+                    _eval(d + " " + this.renderStyle(style));
                     ctx.restore();
                 },
                 getType: function() { return "circle"; }
@@ -455,7 +458,7 @@
                     }
                     d += "ctx.closePath();";
                     ctx.save();
-                    eval(d + " " + this.renderStyle(style));
+                    _eval(d + " " + this.renderStyle(style));
                     ctx.restore();
                 }
             });
@@ -512,7 +515,7 @@
                     d += c_def;
                     d += "ctx.closePath();";
                     ctx.save();
-                    eval(d + " " + this.renderStyle(style));
+                    _eval(d + " " + this.renderStyle(style));
                     ctx.restore();
                 }
             });
@@ -540,7 +543,7 @@
                     d += " ctx.rect(x,y,w,h);";
                     d += "ctx.closePath();";
                     ctx.save();
-                    eval(d + " " + this.renderStyle(style));
+                    _eval(d + " " + this.renderStyle(style));
                     ctx.restore();
                 }
             });
@@ -812,7 +815,7 @@
                     d += " " + this.renderStyle(style);
                     ctx.save();
                     // console.debug(d);
-                    eval(d);
+                    _eval(d);
                     ctx.restore();
                 }
             });

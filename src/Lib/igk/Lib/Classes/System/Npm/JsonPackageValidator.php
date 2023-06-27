@@ -62,8 +62,9 @@ class JsonPackageValidator extends FormData{
      */
     function getNotRequired(): ?array
     {
-        $rf = [function($a){          
-            return !in_array($a, explode('|', 'name|description|main|keywords|author|license|devDependencies'));
+        $not = explode('|', 'name|description|main|keywords|author|license|devDependencies');
+        $rf = [function($a)use($not){          
+            return in_array($a, $not);
         }]; 
         return $rf; 
     }

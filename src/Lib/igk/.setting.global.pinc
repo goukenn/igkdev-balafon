@@ -26,6 +26,7 @@ return [
 'copyright'=>"IGKDEV &copy; 2011-2022 all righs reserved",
 'default_dataadapter'=>"MYSQL",
 'db_connexion_string'=>null,
+'api_request_pattern'=>'\/api\/',
 'db_name'=>"igkdev",
 'db_pwd'=>"",
 'db_prefix'=>"tbigk_",

@@ -7,6 +7,7 @@ namespace IGK\System\Html;
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Dom\HtmlDomActiveAttribute;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGKException;
 use ReflectionException;
@@ -145,6 +146,15 @@ class HtmlNodeTagExplosionDefinition
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
 
+    /**
+     * explode tag definitions 
+     * @param string $tagname 
+     * @param mixed $context 
+     * @return array [trim($tagname), $id, $classes, $args, $name, $attr];
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function ExplodeTag(string $tagname, $context = null): array
     {
         $id = null;
@@ -176,7 +186,7 @@ class HtmlNodeTagExplosionDefinition
             $attr = ArrayMapKeyValue::Map(function($k,$v){
                 if (is_null($v)){
                     if (strpos($k, "@")===0){
-                        return [$k = ltrim($k, '@'), $k];
+                        return [$k = ltrim($k, '@'), new HtmlActiveAttrib];
                     }
                     return null;
                 }
@@ -187,13 +197,25 @@ class HtmlNodeTagExplosionDefinition
         }
         // + | identify id 
         if (strpos($tagname, '#') !== false) {
-            $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)]+)/i", $tagname, $tab);
+            $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)!]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
                 // get id last id and remove it from tag
                 $id = $tab['name'][$i];
-                $tagname = str_replace($tab[0][$i], '', $tagname);
+                // $tagname = str_replace($tab[0][$i], '', $tagname);
+                self::_StrRmValue($tagname, $tab[0][$i]);  
             }
         }
+        if (strpos($tagname, '!') !== false) {
+            $c = preg_match_all("/!(?P<name>[^!\%\.#\\s\(\)]+)/i", $tagname, $tab);
+            for ($i = 0; $i < $c; $i++) {
+                // get id last id and remove it from tag
+                $ac = $tab['name'][$i];
+                $attr[$ac] =new HtmlActiveAttrib();
+                // $tagname = str_replace($tab[0][$i], '', $tagname);
+                self::_StrRmValue($tagname, $tab[0][$i]);  
+            }
+        }
+        
          // + | identify class 
         if (($v_pos = strpos($tagname, '.')) !== false) {
             $tclasses = [];
@@ -201,7 +223,7 @@ class HtmlNodeTagExplosionDefinition
                 for ($i = 0; $i < $c; $i++) {
                     // get id last id and remove it from tag
                     $tclasses[$tab['name'][$i]] = 1;
-                    $tagname = str_replace($tab[0][$i], '', $tagname);
+                    self::_StrRmValue($tagname, $tab[0][$i]); 
                 }
             } else {
                 if (igk_environment()->isDev()) {
@@ -217,10 +239,15 @@ class HtmlNodeTagExplosionDefinition
             for ($i = 0; $i < $c; $i++) {
                 // get id last id and remove it from tag
                 $name = $tab['name'][$i];
-                $tagname = str_replace($tab[0][$i], '', $tagname);
+                self::_StrRmValue($tagname, $tab[0][$i]);  
             }
         }
 
         return [trim($tagname), $id, $classes, $args, $name, $attr];
+    }
+    private static function _StrRmValue(string & $tagname, $value){
+        $ln  = strlen($value);
+        $pos = strpos($tagname, $value);
+        $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos+$ln);
     }
 }

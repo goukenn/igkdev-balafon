@@ -99,7 +99,7 @@ class MakeMigrationCommand extends AppExecCommand{
         ->extends(\IGK\Database\MigrationBase::class)
         ->namespace($ns)
         ->defs($sb.'')
-        ->uses([\IGK\System\DataBase\SchemaMigrationBuilder::class])
+        ->uses([\IGK\System\Database\SchemaMigrationBuilder::class])
         ->name($clname);
 
 

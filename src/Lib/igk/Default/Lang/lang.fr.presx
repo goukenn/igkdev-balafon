@@ -1117,7 +1117,7 @@ $l["msg.updated"] = "Données mis à jour.";
 $l["msg.updatingpleasewait"] = "Mis à jour en cour...";
 $l["msg.uptodaterequired"] = "Une mis à jour est disponible.";
 $l["msg.user.inforupdated"] = "L'utilsateur a été mis  à jour.";
-$l["msg.useradded"] = "Inscription validé.";
+$l["msg.useradded"] = "Utilisateur ajouté.";
 $l["msg.usernotallowtoview"] = "L'utilisateur n'est pas autoriser à lister les données.";
 $l["msg.uservarsctrl.varsaved"] = "Variable d'environnement sauvegardé.";
 $l["msg.vid.notsupported"] = "Votre navigateur ne supporte pas le tag video.";
@@ -1718,3 +1718,13 @@ $l['Privacy and cookies'] = 'Confidentialité et cookies';
 
 
 $l['country.BE'] = 'Belgique';
+$l['do you what to reset MYSQL database ?'] = 'Voulez vous vraiment initialiser la base de donnée MySQL?'; 
+$l['Failed to connect or select the default database.'] = 'Echec de connexion ou impossibilité de selectionné la base de données.';
+$l['menu.database.option'] = 'Options';
+$l['lb.google_user_id'] = "google - provider - id";
+$l['lb.fb_user_id'] = "facebook - user - id ";
+$l['lb.clauthmethod'] = "auth method";
+$l['lb.cldeactivate_at'] = "Désactiver";
+$l['lb.provider'] = "Fournisseur - Social";
+$l['password changed'] = "Mot de passe modifier";
+

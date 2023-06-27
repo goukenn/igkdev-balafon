@@ -63,7 +63,7 @@ class QueryBuilder
     public function __construct(ModelBase $model)
     {
         if (!$model)
-            die("not allowed");
+            igk_die("model not allowed");
         $this->m_conditions = null;
         $this->m_options = [];
         $this->m_model = $model;

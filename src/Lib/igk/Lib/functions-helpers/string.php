@@ -9,14 +9,47 @@ use IGK\Helper\StringUtility as stringUtility;
 /**
  * shortcut to string ::Format method helper
  * @param string $data format key
+ * @param ?array $params format param
  * @return string formatted string
  * @throws IGKException 
  */
-function igk_str_format($data)
+function igk_str_format(string $data):string
 {
     return stringUtility::Format(...func_get_args());
 }
 
+
+
+if (!function_exists('igk_str_escape')) {
+    /**
+     * use to escape char
+     * @param string $str 
+     * @param string $list char list as string
+     * @return string 
+     */
+    function igk_str_escape(string $str, string $char_list = "'")
+    {
+        $tab = str_split($char_list, 1);
+        while (count($tab) > 0) {
+            $q = array_shift($tab);
+            $offset = 0;
+            while (false !== ($pos = strpos($str, $q, $offset))) {
+                if ($pos == 0) {
+                    $str = '\\' . $str;
+                    $offset = 1;
+                } else {
+                    if ($str[$pos - 1] == "\\") {
+                        $offset = $pos + 1;
+                    } else {
+                        $str = substr($str, 0, $pos) . "\\" . substr($str, $pos);
+                        $offset = $pos + 1;
+                    }
+                }
+            }
+        }
+        return $str;
+    }
+}
 if (!function_exists('igk_str_rm')) {
     function igk_str_rm(string $str, int $start_index, ?int $length = null)
     {
@@ -108,5 +141,18 @@ if (!function_exists('igk_str_strip_surround')) {
             $haystack = trim($haystack, " " . $ch);
         }
         return $haystack;
+    }
+}
+
+if (!function_exists('igk_str_encode_to_utf8')) {
+    /**
+     * encode to utf8  - php8 > 
+     * @param null|string $s 
+     * @param null|string $enc encoding
+     * @return array|string|false 
+     */
+    function igk_str_encode_to_utf8(?string $s, ?string $enc = null)
+    {
+        return mb_convert_encoding($s, 'UTF-8', $enc ?? mb_list_encodings());
     }
 }

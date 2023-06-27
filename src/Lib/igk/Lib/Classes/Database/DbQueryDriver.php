@@ -67,6 +67,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_dbpwd;
     }
+ 
     ///<summary>.ctr</summary>
     /**
      * .ctr
@@ -332,11 +333,11 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="db"></param>
+    ///<summary>create database </summary>
+    ///<param name="db">db connection string</param>
     /**
-     * 
-     * @param mixed $db
+     * create database 
+     * @param mixed $db db connection string
      */
     public function createdb($db)
     {
@@ -812,33 +813,29 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param bool|option $throwex throw 
      * @return resource|null 
      */
-    public function sendQuery($query, $throwex = true , $nolog = false)
+    public function sendQuery($query, $throwex = true , $options = null)
     {
-
-        if (igk_environment()->isDev()){    
-            //igk_ilog('send - query > '. $query . ' ', 0, false);
-            // if ($query == 'ALTER TABLE `igkdev.dev`.`tbigk_prospections` ADD FOREIGN KEY (prsopid) REFERENCES `igkdev.dev`.`tbigk_users`(`puId`) ON DELETE RESTRICT ON UPDATE RESTRICT;')       {
-            // if (strstr($query,'fb_user_id')){ // `igkdev.dev`.`tbigk_prospections` ADD FOREIGN KEY (prsopid) REFERENCES `igkdev.dev`.`tbigk_users`(`puId`) ON DELETE RESTRICT ON UPDATE RESTRICT;')       {
-            //     igk_dev_wln_e(__FILE__.":".__LINE__,  $query, "prospector query error");
-            // }
-        }  
-
         if (igk_db_is_resource($this->m_resource)) {
             if (igk_environment()->querydebug) {
                 igk_dev_wln("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
                 igk_environment()->write_debug("<span>query &gt; </span>" . $query); 
             }
+            if (igk_environment()->isOps() &&  igk_environment()->querydebug ){               
+                igk_ilog("send : ".$query);                 
+            }
             $this->setLastQuery($query);    
             // + | --------------------------------------------------------------------
             // + | depend on the quere engine can throw exception : data missing
             // + |
+            $nolog = is_bool($options) ? $options : (is_object($options) ? igk_getv($options, 'nolog', false) : false);
                     
             $t = igk_db_query($query, $this->m_resource);
             $error = "";
             $code = 0;
             if (!$t && !$nolog) {
-                $error = $this->getDriverError();
+                // $l = mysqli_error($this->m_resource);            
+                $error = $this->getDriverError($this->m_resource);
                 $code = $this->getDriverErrorCode();
                 $this->m_error = $error;
                 $this->m_errorCode = $code;
@@ -934,8 +931,9 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             return false;   
  
         try {
+            $tablename = $this->escape_table_name($tablename); 
             $s = $this->sendQuery(
-                "SELECT Count(*) FROM `" . igk_mysql_db_tbname($tablename) . "`", 
+                "SELECT Count(*) FROM " .$tablename. "", 
                 true);
             if (is_bool($s))         
                 return $s;
@@ -953,5 +951,9 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     public function update($tbname, $entry, $where = null, $querytabinfo = null)
     {
         return $this->m_adapter->update($tbname, $entry, $where, $querytabinfo);
+    }
+
+    protected function escape_table_name(string $tbname){
+        return $this->m_adapter->escape_table_name($tbname);
     }
 }

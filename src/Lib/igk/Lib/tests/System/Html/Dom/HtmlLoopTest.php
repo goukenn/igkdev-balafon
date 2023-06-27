@@ -61,24 +61,26 @@ class HtmlLoopTest extends BaseTestCase
             $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
             $a->Content = " welcome {{ \$raw }} ";
         });
-
+        $options = (object)["PreserveAttribOrder"=>true];
+        $options = (object)["PreserveAttribOrder"=>false];
+ 
         $this->assertEquals(
             '<div><div><div class=""> welcome 0 <a href="0">data</a></div><div class="item-2"> welcome 1 <a href="1">data</a></div><div class="item-3"> welcome 2 <a href="2">data</a></div></div></div>',
-            $t->render(),
+            $t->render($options),
         );
     }
 
     public function test_loop_class_key()
-    {
+    { 
         $t = new HtmlNode("div");
         $t->div()->loop(3)->div()->host(function ($a) {
             $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
-            $a->Content = " welcome {{ \$raw }} - {{ \$index }}";
+            $a->Content = " welcome {{ \$raw }} - {{ \$key }}";
         });
-
+        $s = $t->render();
         $this->assertEquals(
             '<div><div><div> welcome 0 - 0<a href="0">data</a></div><div> welcome 1 - 1<a href="1">data</a></div><div> welcome 2 - 2<a href="2">data</a></div></div></div>',
-            $t->render(),
+           $s
         );
     }
 
@@ -91,6 +93,7 @@ class HtmlLoopTest extends BaseTestCase
         });
         $s = $t->render();
 
+        /// TODO : remove empty attribute after load 
         $this->assertEquals(
             '<div><div><div class="">welcome</div></div></div>',
             $s,
@@ -104,11 +107,8 @@ class HtmlLoopTest extends BaseTestCase
     //         $a["*class"] = ['$raw==1 ?"item-2":null', '$raw==2 ?"item-3": null'];
     //         $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
     //         $a->Content = " welcome {{ \$raw }} - {{ \$index }}";
-    //     });
-    //     igk_debug(1);
-    //     $s = $t->render();
-    //     igk_debug(0);
-
+    //     }); 
+    //     $s = $t->render();  
     //     $this->assertEquals(
     //         '<div><div><div> welcome 0 - 0<a href="0">data</a></div><div> welcome 1 - 1<a href="1">data</a></div><div> welcome 2 - 2<a href="2">data</a></div></div></div>',
     //         $s,

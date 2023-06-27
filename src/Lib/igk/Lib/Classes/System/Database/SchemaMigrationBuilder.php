@@ -3,13 +3,15 @@
 // @file: SchemaMigrationBuilder.php
 // @desc: the migration schema builder
 // @date: 20210422 06:39:05
-namespace IGK\System\DataBase;
+namespace IGK\System\Database;
 
 use IGK\Database\DbSchemas;
+use IGK\System\Database\SchemaBuilderHelper;
 
+require_once IGK_LIB_CLASSES_DIR.'/System/Database/SchemaBuilderHelper.php';
 /**
  * schema migration builder
- * @package IGK\System\DataBase
+ * @package IGK\System\Database
  */
 class SchemaMigrationBuilder extends SchemaBuilderHelper {
   

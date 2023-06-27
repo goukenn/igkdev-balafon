@@ -22,6 +22,8 @@ use IGKException;
 use IGKModuleListMigration; 
 use ReflectionException; 
 
+require_once IGK_LIB_CLASSES_DIR."/System/Database/SchemaBuilderHelper.php";
+
 ///<summary></summary>
 /**
  * 
@@ -177,11 +179,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
 
         Logger::info('post install migration ... --- ');
 
-        // foreach ($post_install as $v) {
-        //     list($ctrl, $tbinfo) = $v;
-        //     $src = $this->m_parentController;
-        //     SchemaBuilderHelper::Migrate($tbinfo, $src);
-        // }
 
         if ($caches) {
             array_map(function ($a) {

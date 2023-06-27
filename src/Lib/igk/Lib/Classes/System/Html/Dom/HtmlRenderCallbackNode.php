@@ -15,12 +15,10 @@ namespace IGK\System\Html\Dom;
 class HtmlRenderCallbackNode extends HtmlNode{
     protected $tagname = "igk:render-callback-node";
     private $m_callbackobj;
-    public function getCanRenderTag()
-    {
+    public function getCanRenderTag(){
         return false;
     }
-    public function __construct($callbackobj)
-    {
+    public function __construct($callbackobj){
         parent::__construct();
         $this->m_callbackobj = $callbackobj;
     }
@@ -28,6 +26,6 @@ class HtmlRenderCallbackNode extends HtmlNode{
     protected function _acceptRender($options = null):bool
     {
         $param = [ $options ]; 
-        return  igk_invoke_callback_obj($this, $this->m_callbackobj, $param); 
+        return igk_invoke_callback_obj($this, $this->m_callbackobj, $param) ? true: false;
     }
 }

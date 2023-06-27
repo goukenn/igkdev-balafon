@@ -14,6 +14,7 @@ use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
+use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -37,7 +38,20 @@ class DataAdapter extends DataAdapterBase
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
-    
+
+
+    /**
+     * drop colum
+     * @param string $table 
+     * @param string $column_name 
+     * @return void 
+     */
+    public function drop_column(string $table, string $column_name){
+        if ($this->exist_column($table, $column_name)){
+            $q = $this->getGrammar()->createDropColumnQuery($table, $column_name);
+            return $this->sendQuery($q);
+        }
+    }
     /**
      * check that a constraint exists
      * @param string $name 
@@ -47,8 +61,11 @@ class DataAdapter extends DataAdapterBase
     {
         $name = $this->escape_string($name);
         $g = $this->sendQuery(
-            sprintf('SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\';', 
-            self::DB_INFORMATION_SCHEMA));
+            sprintf(
+                'SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\';',
+                self::DB_INFORMATION_SCHEMA
+            )
+        );
         if ($g && ($g->getRowCount() > 0)) {
             return true;
         }
@@ -58,9 +75,11 @@ class DataAdapter extends DataAdapterBase
     {
         $name = $this->escape_string($name);
         $g = $this->sendQuery(
-            sprintf('SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
-            self::DB_INFORMATION_SCHEMA
-        ));
+            sprintf(
+                'SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
+                self::DB_INFORMATION_SCHEMA
+            )
+        );
         if ($g && ($g->getRowCount() > 0)) {
             return true;
         }
@@ -78,18 +97,22 @@ class DataAdapter extends DataAdapterBase
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-    function exist_column(string $table, string $column, $db = null):bool{
-    
+    function exist_column(string $table, string $column, $db = null): bool
+    {
+
         $db = $db ?? $this->getDbName() ?? igk_die("no db name");
         $grammar = $this->getGrammar();
-        $this->selectdb(self::DB_INFORMATION_SCHEMA);
-        $q = $this->getGrammar()->createSelectQuery("COLUMNS",[
-            "TABLE_NAME"=>$table,
-            "TABLE_SCHEMA"=>$db,
-            "COLUMN_NAME"=>$column, 
-        ]);      
+
+        // $this->selectdb();
+
+        $q = $grammar->createSelectQuery( self::DB_INFORMATION_SCHEMA. ".COLUMNS", [
+            "TABLE_NAME" => $table,
+            "TABLE_SCHEMA" => $db,
+            "COLUMN_NAME" => $column,
+        ]);
+        //igk_wln_e("the query .... ", $q);
         $r = $this->sendQuery($q);
-        $this->selectdb($db);
+       //  $this->selectdb($db);
         $row = null;
         if ($r) {
             if ($r->ResultTypeIsBoolean()) {
@@ -99,33 +122,117 @@ class DataAdapter extends DataAdapterBase
         }
         return $row != null;
     }
-
-    public function remove_foreign($table, $info, $db = null)
+    public function drop_foreign_key($table, $info)
     {
-        $adapter  =$this;
-        $db = $db ?? $adapter->getDbName();
- 
-        $this->selectdb(self::DB_INFORMATION_SCHEMA);
-      
-        $r = $this->sendQuery(sprintf("SELECT * FROM %s.TABLE_CONSTRAINTS LEFT JOIN INNODB_FOREIGN_COLS on(" .
-            "CONCAT(CONSTRAINT_SCHEMA,'/',CONSTRAINT_NAME)=ID" .
-            ") " .
-            "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db' AND FOR_COL_NAME='$info'", 
-            self::DB_INFORMATION_SCHEMA)
-        );
-
-        $columns = [];
-        foreach ($r->getRows() as $c) {
-            $columns[$c->CONSTRAINT_SCHEMA . "/" . $c->CONSTRAINT_NAME] = $c->CONSTRAINT_NAME;
+        if ($query = $this->remove_foreign($table, $info->clName)) {
+            // if (is_array($query)){
+                $this->sendMultiQuery($query);
+            // }
+            //$this->sendQuery($query);
         }
-        if ($ck = getv(array_values($columns), 0)) {
-            $q  = "ALTER TABLE ";
-            $q .= "`" . $table . "` DROP FOREIGN KEY ";
-            $q .= $adapter->escape($ck) . " ";
-            return $q;
+        if ($query = $this->remove_unique($table, $info->clName)) {
+            $this->sendQuery($query);
+        }
+    }
+    /**
+     * get remove foreign query
+     * @param string $table 
+     * @param string $info 
+     * @param mixed $db 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public function remove_foreign(string $table, string $info, $db = null): ?string
+    {
+        static $check_exist = null;
+        $adapter  = $this;
+        $db = $db ?? $adapter->getDbName();
+        $r = null;
+        $foreign_exists = false;
+        try {
+
+            // check that inodb
+            $foreign_exists = $check_exist ?? $check_exist = $this->tableExists(self::DB_INFORMATION_SCHEMA.".INNODB_FOREIGN_COLS");
+                  
+            if ($foreign_exists) {
+                $query = sprintf(
+                    "SELECT * FROM %s.TABLE_CONSTRAINTS LEFT JOIN %s.INNODB_FOREIGN_COLS on(" .
+                        "CONCAT(CONSTRAINT_SCHEMA,'/',CONSTRAINT_NAME)=ID" .
+                        ") " .
+                        "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db' AND FOR_COL_NAME='$info'",
+                    self::DB_INFORMATION_SCHEMA,
+                    self::DB_INFORMATION_SCHEMA
+                );
+            } else {
+                $query = sprintf(
+                    "SELECT * FROM %s.TABLE_CONSTRAINTS ".
+                        "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db'",
+                    self::DB_INFORMATION_SCHEMA
+                );
+            }
+            $r = $this->sendQuery($query);
+        } catch (\Exception $ex) {
+            igk_wln_e("data - adpter - try : " . $ex->getMessage());
+            Logger::danger($ex->getMessage());
+        }
+        $this->selectdb($db);
+        $columns = [];
+        if ($r) {
+            foreach ($r->getRows() as $c) {
+                $columns[$c->CONSTRAINT_SCHEMA . "/" . $c->CONSTRAINT_NAME] = $c->CONSTRAINT_NAME;
+            }
+            if ($columns) {
+                $ck = array_values($columns);
+                $q = implode(";", array_filter(array_map(
+                    function($c)use($adapter, $table, $foreign_exists){
+                    if ($c=='PRIMARY')
+                        return null;
+                    $q  = "ALTER TABLE ";
+                    $q .= "`" . $table . "` DROP FOREIGN KEY ";
+                    $q .= $adapter->escape($c). " ";
+                    return trim($q);
+                }, $ck)));
+                return $q;
+            }
         }
         return null;
     }
+
+    public function remove_unique(string $table, string $info, $db = null)
+    {
+        $adapter  = $this;
+        $db = $db ?? $adapter->getDbName();
+
+        // do not select information schemas
+        // $this->selectdb(self::DB_INFORMATION_SCHEMA);
+        $query = sprintf(
+            "SELECT * FROM %s.TABLE_CONSTRAINTS " .
+                "WHERE TABLE_NAME='$table' and CONSTRAINT_TYPE='UNIQUE' and CONSTRAINT_SCHEMA='$db' AND CONSTRAINT_NAME='$info'",
+            self::DB_INFORMATION_SCHEMA
+        );
+        try {
+            $r = $this->sendQuery($query);
+        } catch (\Exception $ex) {
+            igk_dev_wln_e("remove uniquer error : " . $ex->getMessage());
+        }
+        $this->selectdb($db);
+        $columns = [];
+        if ($r) {
+            foreach ($r->getRows() as $c) {
+                $columns[$c->CONSTRAINT_SCHEMA . "/" . $c->CONSTRAINT_NAME] = $c->CONSTRAINT_NAME;
+            }
+            if ($columns) {
+                $ck = implode(', ', array_values($columns));
+                $q  = "ALTER TABLE ";
+                $q .= "`" . $table . "` DROP INDEX ";
+                $q .= $adapter->escape($ck) . " ";
+                return $q;
+            }
+        }
+        return null;
+    }
+
     /**
      * drop foreing keys tables 
      * @param mixed $keys 
@@ -134,24 +241,24 @@ class DataAdapter extends DataAdapterBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    function dropForeignKeys($keys, int $type=0)
-    {        
-        $type = igk_getv([1=>'UNIQUE'], $type, 'FOREIGN KEY');
+    function dropForeignKeys($keys, int $type = 0)
+    {
+        $type = igk_getv([1 => 'UNIQUE'], $type, 'FOREIGN KEY');
         $db = $this->getDbName();
         foreach ($keys as $table) {
             $q = sprintf("SELECT * FROM %s.TABLE_CONSTRAINTS where ", self::DB_INFORMATION_SCHEMA);
             $q .= "TABLE_NAME='" . $table . "'";
             $q .= "AND CONSTRAINT_SCHEMA='" . $db . "' ";
-            $q .= "AND CONSTRAINT_TYPE='".$type."';";
+            $q .= "AND CONSTRAINT_TYPE='" . $type . "';";
             $g = $this->sendQuery($q);
             if ($g) {
                 foreach ($g->getRows() as $r) {
                     $name = $r->CONSTRAINT_NAME;
                     $table = $r->TABLE_NAME;
-                    $is = $this->sendQuery('ALTER TABLE '.$table.' DROP CONSTRAINT '. $name . ';');
+                    $is = $this->sendQuery('ALTER TABLE ' . $table . ' DROP CONSTRAINT ' . $name . ';');
                 }
-            }  
-        }        
+            }
+        }
         return $g;
     }
     public function supportGroupBy()
@@ -161,6 +268,10 @@ class DataAdapter extends DataAdapterBase
 
     public function escape_table_name(string $v): string
     {
+        if (strpos($v,".") !== false){
+            $g = $this->getGrammar();
+            return  $g::EscapeTableName($v, $this);            
+        }        
         return '`' . $v . '`';
     }
 
@@ -234,27 +345,48 @@ class DataAdapter extends DataAdapterBase
      */
     public function isTypeSupported($type): bool
     {
-        
+
         if (self::$supportedList === null) {
-            self::$supportedList = [];
-            if ($g = $this->sendQueryAndLeaveOpen(self::SELECT_DATA_TYPE_QUERY)) {
-                foreach ($g->getRows() as $r) {
-                    self::$supportedList[] = strtolower($r->type);
-                }
-                // + | update timestamp if support datetime - OVH MISSING DATA
-                $t = & self::$supportedList;
-                if (!in_array('timestamp', $t) && in_array('datetime', $t)){
-                    $t[] = 'timestamp';
-                }
-            }
+            self::_InitSupportedTypes($this);
+            // self::$supportedList = [];
+            // if ($g = $this->sendQueryAndLeaveOpen(self::SELECT_DATA_TYPE_QUERY)) {
+            //     foreach ($g->getRows() as $r) {
+            //         self::$supportedList[] = strtolower($r->type);
+            //     }
+            //     // + | update timestamp if support datetime - OVH MISSING DATA
+            //     $t = &self::$supportedList;
+            //     if (!in_array('timestamp', $t) && in_array('datetime', $t)) {
+            //         $t[] = 'timestamp';
+            //     }
+            // }
         }
         return in_array(strtolower($type),  self::$supportedList);
+    }
+    private static function _InitSupportedTypes($ad)
+    {
+        self::$supportedList = [];
+        if ($g = $ad->sendQueryAndLeaveOpen(self::SELECT_DATA_TYPE_QUERY)) {
+            foreach ($g->getRows() as $r) {
+                self::$supportedList[] = strtolower($r->type);
+            }
+            // + | update timestamp if support datetime - OVH MISSING DATA
+            $t = &self::$supportedList;
+            if (!in_array('timestamp', $t) && in_array('datetime', $t)) {
+                $t[] = 'timestamp';
+            }
+        }
     }
     /**
      * 
      * @var  
      */
-    public static function GetSupportedType(){
+    public static function GetSupportedType()
+    {
+        if (is_null(self::$supportedList)) {
+            if ($ad = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)) {
+                self::_InitSupportedTypes($ad);
+            }
+        }
         return self::$supportedList;
     }
     public function sendQueryAndLeaveOpen(string $query)
@@ -288,7 +420,7 @@ class DataAdapter extends DataAdapterBase
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
-                error_log("DB_ERROR: ".$error);
+                error_log("DB_ERROR: " . $error);
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
@@ -322,11 +454,10 @@ class DataAdapter extends DataAdapterBase
      */
     public function getDataValue($value, $tinf)
     {
-        if ($type = $tinf->clType){
+        if ($type = $tinf->clType) {
             if (preg_match("/^date$/i", $type)) {
                 $value = date("Y-m-d", strtotime($value));
-            }
-            else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
+            } else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
                 $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
             }
         }
@@ -364,6 +495,7 @@ class DataAdapter extends DataAdapterBase
         }
         return false;
     }
+
     ///<summary> add column</summary>
     ///<param name="tbname">the table name</param>
     ///<param name="name">the table name</param>
@@ -415,7 +547,7 @@ class DataAdapter extends DataAdapterBase
      * create database
      * @param mixed $dbname
      */
-    public function createdb($dbname)
+    public function createdb(?string $dbname = null)
     {
         if ($this->m_dbManager != null) {
             return $this->m_dbManager->createDb($dbname);
@@ -446,7 +578,7 @@ class DataAdapter extends DataAdapterBase
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
                 } else {
                     igk_ilog(sprintf('db [%s] success', $tablename));
-                    Logger::success(sprintf('db - create table - %s - success',  $tablename ));
+                    Logger::success(sprintf('db - create table - %s - success',  $tablename));
                 }
                 return $s;
             }
@@ -515,7 +647,7 @@ class DataAdapter extends DataAdapterBase
      */
     public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)
     {
-     
+
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
             return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
@@ -578,34 +710,38 @@ class DataAdapter extends DataAdapterBase
     public function select_all(string $table, ?array $conditions = null)
     {
         return $this->select($table, $conditions);
-    } 
-    public function getColumnInfo(string $table, ?string $dbname = null)
+    }
+    public function getColumnInfo(string $table, ?string $column_name = null)
     {
-        $data =  $this->getGrammar()->get_column_info($table, $dbname);
+        // get descriptions data for columns
+        $data =  $this->getGrammar()->get_column_info($table, $column_name);
         $outdata = [];
-        array_map(function ($v) use ($table, &$outdata) {
+        $data && array_map(function ($v) use ($table, &$outdata) {
             $cl = [];
-            $ctype = trim($v->Type);
-            $tab = array();
-            $ctype = trim($v->Type);
-            preg_match_all("/^((?P<type>([^\(\))]+)))\\s*((\((?P<length>([0-9]+))\)){0,1}|(.+)?)$/i", trim($v->Type), $tab);
+            if (empty($v->Type)){
+                igk_dev_wln_e("stop is null");
+            }
+            $ctype = $v->Type ? trim($v->Type) : 'Int';
+            $tab = array(); 
+            preg_match_all("/^((?P<type>([^\(\))]+)))\\s*((\((?P<length>([0-9]+))\)){0,1}|(.+)?)$/i", trim($ctype), $tab);
 
             $cl["clType"] = $this->getGrammar()->ResolvType(getv($tab["type"], 0, "Int"));
+
             if (strtolower($cl["clType"]) == "enum") {
                 $cl["clEnumValues"] = substr($ctype, strpos($ctype, "(") + 1, -1);
             } else {
                 $cl["clTypeLength"] = getv($tab["length"], 0, 0);
             }
-            if ($v->Default)
+            if (isset($v->Default))
                 $cl["clDefault"] = $v->Default;
-            if ($v->Comment) {
+            if (isset($v->Comment)) {
                 $cl["clDescription"] = $v->Comment;
             }
-            $cl["clAutoIncrement"] = preg_match("/auto_increment/i", $v->Extra) ? "True" : null;
-            $cl["clNotNull"] = preg_match("/NO/i", $v->Null) ? "True" : null;
-            $cl["clIsPrimary"] = preg_match("/PRI/i", $v->Key) ? "True" : null;
-            $cl["clIsUnique"] = preg_match("/UNI/i", $v->Key) ? "True" : null;
-            if (preg_match("/(MUL|UNI)/i", $v->Key)) {
+            $cl["clAutoIncrement"] = $v->Extra && preg_match("/auto_increment/i", $v->Extra) ? "True" : null;
+            $cl["clNotNull"] = $v->Null && preg_match("/NO/i", $v->Null) ? "True" : null;
+            $cl["clIsPrimary"] = $v->Key && preg_match("/PRI/i", $v->Key) ? "True" : null;
+            $cl["clIsUnique"] = $v->Key && preg_match("/UNI/i", $v->Key) ? "True" : null;
+            if ($v->Key && preg_match("/(MUL|UNI)/i", $v->Key)) {
                 $rel = $this->getGrammar()->get_relation($table, $v->Field, $this->getDbName());
                 if ($rel) {
                     $cl["clLinkType"] = $rel->REFERENCED_TABLE_NAME;
@@ -618,8 +754,12 @@ class DataAdapter extends DataAdapterBase
                 if (in_array($c, ["CURRENT_TIMESTAMP"]))
                     $cl["clUpdateFunction"] = "Now()";
             }
-            $outdata[$v->Field] = (object)$cl;
-        }, $data);
+            $cl = Activator::CreateNewInstance(DbColumnInfo::class, $cl);
+            if (empty($cl->clName)){
+                $cl->clName = $v->Field;
+            }
+            $outdata[$v->Field] = $cl;
+        }, [(object)$data]);
         return $outdata;
     }
 
@@ -653,7 +793,9 @@ class DataAdapter extends DataAdapterBase
                     if (!is_bool($r)) {
                         $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
                     } else {
-                        $r = new BooleanQueryResult($r);
+                        $v = $r; 
+                        $r = new BooleanQueryResult($r, $query, $listener->getLastError());
+                       
                     }
                 }
             }
@@ -673,6 +815,20 @@ class DataAdapter extends DataAdapterBase
             }
         }
         return null;
+    }
+    /**
+     * return version 
+     * @return mixed 
+     */
+    public function getVersion(){
+        return $this->m_dbManager->getVersion();
+    }
+    /**
+     * get adapter type
+     * @return string 
+     */
+    public function getType(){
+        return IGK_MYSQL_DATAADAPTER;
     }
     ///<summary></summary>
     ///<param name="listener"></param>

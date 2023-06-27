@@ -7,19 +7,25 @@ namespace IGK\Sync;
 
 ///<summary></summary>
 /**
-* 
+* sync project settings
 * @package IGK\Sync
 */
 class ProjectSettings{
     /**
-     * ignoredirs expression 
+     * ignore dirs list of directory to ignore for zip upload 
      * @var ?array
      */
     var $ignoredirs;
 
     /**
-     * move previous pattern so it will be unchanged
-     * @var ?string 
+     * leave directory unchanged 
+     * @var ?array
      */
     var $leavedirs;
+
+    /**
+     * list of directory to clear for every sync
+     * @var ?array
+     */
+    var $cleardirs;
 }

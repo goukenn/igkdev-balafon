@@ -192,7 +192,7 @@ class ViewHelper
                 extract(func_get_arg(1));
                 return include self::_GetIncFile(func_get_arg(0)); 
             })->bindTo($ctrl);
-            $r = $fc(func_get_arg(0), $args);         
+            $r = $fc(func_get_arg(0), $args);   
             return $r;
         }
         return include self::_GetIncFile(func_get_arg(0));
@@ -290,7 +290,7 @@ class ViewHelper
      * @return HtmlItemBase 
      * @throws IGKException 
      */
-    public static function Article(string $article, $arguments=null, ?BaseController $ctrl = null){
+    public static function Article(string $article, ?array $arguments=null, ?BaseController $ctrl = null){
         $ctrl = $ctrl ?? self::CurrentCtrl();
         $file = $ctrl->getArticle($article);
         $n = new HtmlNoTagNode; 

@@ -228,16 +228,20 @@ $def[".flex-row"] = "flex-direction: row;";
 $def[".flex-row-i"] = "flex-direction: row !important;"; // flex-row-important
 $def[".flex-row-reverse"] = "flex-direction: row-reverse;";
 $def[".flex-alignc > *"] = "align-self: center;";				// align all child to center
+$def[".flex-alignm"] = "justify-content: center;";				// align all child to center
 $def[".flex-align-ic"] = "align-items: center;";				// align all child to center
 $def[".flex-space-between"] = 
 $def[".flex-space-b"] = 
 "justify-content: space-between;";
 $def[".flex-justify-s"] = "justify-content: start;";
 $def[".flex-justify-c"] = "justify-content: center;";
+$def[".flex-justify-e"] = "justify-content: end;";
+$def[".flex-justify-r"] = "justify-content: right;";
+$def[".flex-justify-l"] = "justify-content: left;";
 // justify space between
 $def[".flex-justify-sb"] = "justify-content: space-between;";
-$def[".flex-justify-a"] = "justify-content: space-around;";
-$theme->supports('justify-content: space-evenly')->set(".flex-justify-e", "justify-content: space-evenly;");
+$def[".flex-justify-sa"] = "justify-content: space-around;";
+$theme->supports('justify-content: space-evenly')->set(".flex-justify-se", "justify-content: space-evenly;");
 $def[".flex-nowrap"] = "flex-wrap: nowrap;";
 
 $def[".flex-grow"] = "flex-grow: 1;";

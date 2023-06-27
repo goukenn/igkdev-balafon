@@ -12,7 +12,7 @@ use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\JSon;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
-use IGK\System\Html\Dom\HtmlExpressionNode;
+use IGK\System\Html\Css\CssUtils; 
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\IHeaderResponse;
 use IGKApp;
@@ -57,12 +57,15 @@ class HtmlRenderer
     public static function CreateRenderOptions()
     {
         $o = new HtmlRendererOptions;
+        self::InitRendererOption($o);
+        return $o;
+    }
+    public static function InitRendererOption($o){
         $o->Cache = igk_sys_cache_require();
         if ($o->Cache) {
             $o->CacheUri = base64_decode(igk_sys_cache_uri());
             $o->CacheUriLevel = explode("/", $o->CacheUri);
         }
-        return $o;
     }
     public static function GetValue($o, $options = null)
     {
@@ -213,6 +216,7 @@ class HtmlRenderer
             $s = self::_GetHeader($options->header);
             $options->header = null;
         }
+        $filter = $options->filterListener;
  
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
@@ -233,6 +237,9 @@ class HtmlRenderer
                 }
 
                 if ($i instanceof HtmlItemBase) {
+                    if ($filter && $filter($i)){
+                        continue;
+                    }
                     // + | check for visibility
                     if ($options->skipTags && (in_array($i->getTagName(), $options->skipTags))){                        
                         continue;
@@ -273,7 +280,7 @@ class HtmlRenderer
                 $tab_start = false;
                 if (!$havTag) {
                     self::reduceDepth($options, 'notagnode');
-                    $s = rtrim($s) . $ln . self::GetTabStop($options);
+                    $s = rtrim($s.$ln) . self::GetTabStop($options);
                 }
 
                 if ($havTag) {
@@ -282,8 +289,8 @@ class HtmlRenderer
                     if (!empty($attr = static::GetAttributeString($i,  $options))) {
                         $s .= " " . rtrim($attr);
                     }
+                    $options->Depth++;
                 }
-                $options->Depth++;
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);
 
@@ -330,9 +337,15 @@ class HtmlRenderer
             if (!empty($tag)) {
                 self::reduceDepth($options);
                 if ($q["close_tag"]) {
-                    if ($ln && $q["have_childs"] && ($options->Depth > 0)) {
-                        $s = rtrim($s) . $ln . self::GetTabStop($options);
-                    }
+                   
+                    if ($ln){                        
+                        if ($q["have_childs"]) {
+                            $s = rtrim($s).$ln;
+                            if($options->Depth > 0){
+                                $s.= self::GetTabStop($options);
+                            }
+                        }
+                    }  
                     $s .=  "</" . $tag . ">" . $ln;
                 } else {
                     $s .= "/>" . $ln;
@@ -345,7 +358,9 @@ class HtmlRenderer
     {
         //for mail rendering attribures
         if (!isset($options->renderTheme)) {
-            $options->renderTheme = igk_app()->getDoc()->getTheme();
+            $th = igk_app()->getDoc()->getTheme();
+            $options->renderTheme = $th; // doc->getTheme();
+            CssUtils::BindCoreFile($th); //->renderTheme);
         }
 
         if ($attribs) {
@@ -425,8 +440,8 @@ class HtmlRenderer
         }
         $event = $item->getFlag(HtmlItemBase::EVENTS);
         if ($event) {
-            $s = "";
-            foreach ($event as $k => $v) {
+            $s = " ";
+            foreach ($event as $v) {
                 $s .= $v->getValue() . " ";
             }
             $out .= $s;
@@ -440,6 +455,16 @@ class HtmlRenderer
          */
         $out = "";
         $ac_keys = [];
+        $active = '';
+        if (!igk_getv($options, 'PreserveAttribOrder')){
+            if (!is_array($attrs)){
+                $attrs->sortKeys();
+               //  igk_dev_wln_e(__FILE__.":".__LINE__ , ' GetAttribute ::: not and array ', get_class($attrs));
+             
+            } else {
+                ksort($attrs);
+            }
+        }
         foreach ($attrs as $k => $v) {
             if ((($k == "@activated") && is_array($v))
              || ((is_numeric($k) && is_string($v) && ($v = [$v=>$v])))
@@ -461,9 +486,8 @@ class HtmlRenderer
             }
             $v_is_obj = is_object($v);
             if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
-                // if(!empty($out))
-                //     $out .= " ";
-                $out .= $k . " ";
+                $active.= $k. ' ';
+               
                 continue;
             }
 
@@ -509,13 +533,17 @@ class HtmlRenderer
                 if ($options && !$r && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);
                 }
-                if ($r) {
+                $usekey = true;
+                if ($r){ 
+                    $usekey = method_exists($v, 'useAttribName') && $v->useAttribName(); 
+                }
+                if (!$usekey) {
                     $out .= $c . " ";
                 } else
                     $out .= $k . "=" . $c . " ";
             }
         }
-        return $out;
+        return trim(rtrim($out).' '.rtrim($active));
     }
 
     /**

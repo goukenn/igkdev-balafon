@@ -122,7 +122,7 @@ class SchemaMigration
                 $gtables = $ctrl->getDataTablesReference($tables);
                 //$tables = &$gtables;
                 $tables = &$gtables->getRefTableDefinition();
-                // igk_wln_e("reference created ", $tables);
+
             }
             $entries = $n->getElementsByTagName(DbSchemas::ENTRIES_TAG);
             if ($entries) {
@@ -370,7 +370,14 @@ class SchemaMigration
         $result = $mi->load($ctrl);
         return $mi;
     }
-    private static function _ResolvDbCacheDefinition(array &$tables, $tb)
+    /**
+     * resolve db cache information 
+     * @param array $tables 
+     * @param string $tb 
+     * @return bool 
+     * @throws IGKException 
+     */
+    private static function _ResolvDbCacheDefinition(array &$tables, string $tb):bool
     {
         // - get external table information 
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {

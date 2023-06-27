@@ -53,6 +53,7 @@ class Replacement{
         // $error = preg_last_error();
         return $source;
     }
+    
     /**
      * add replacement object
      * @param string $pattern 

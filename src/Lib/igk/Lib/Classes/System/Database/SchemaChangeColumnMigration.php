@@ -21,16 +21,33 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase{
             Logger::danger("missing column ");
             return;
         }
-        Logger::info('change table - possibility if not empty maybe the new structure will not match');
+        if (!$this->columns){
+            Logger::danger("missing target column");
+            return;
+        }
+        // if ('clUser_Id' == $this->columnInfo->clName){
+        //     Logger::warn(__FILE__.":".__LINE__ . " change ... ");
+        // }
+        Logger::info(sprintf('change column - %s.%s', $this->table, $this->columnInfo->clName));
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $cinfo = $this->columns[0];
         if (empty($cinfo->clName))
             $cinfo->clName = $this->column;
-        
-        try{ 
+
+        if (empty($cinfo->clName )){
+            igk_die('missconfiguration. change column migration missing column name '.$tb);
+
+        }
+            
+      try{ 
+                if ($cinfo->clName != $this->column){
+                    // rename first 
+                    $ctrl::db_rename_column($tb, $this->column, $cinfo->clName);
+                }
                 $ctrl::db_change_column($tb, $cinfo); 
         } catch(\Exception $ex){
+            Logger::info(sprintf('last query : %s', $ctrl->getDataAdapter()->getLastQuery()));
             Logger::danger($ex->getMessage());
         }
     }

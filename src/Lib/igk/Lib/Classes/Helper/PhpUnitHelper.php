@@ -14,13 +14,14 @@ use IGK\System\Console\Logger;
 abstract class PhpUnitHelper{
     public static function TestCoreProject(string $phpunit, string $core_suite){
         Logger::info("run test......");
-        $r = `{$phpunit} -c phpunit.xml.dist --testsuite {$core_suite} 2>&1 && echo 'ok-complete';`;
+        $r = `{$phpunit} -c phpunit.xml.dist --testsuite {$core_suite} 1>&2 2>&2 && echo 'ok-complete';`;
         if ($r && igk_str_endwith($r, 'ok-complete') ){
             Logger::success("test success.");
         }
         else {
-            Logger::danger("test unit failed.");
-            fwrite(STDERR, $r);
+            Logger::danger("phpunit test failed.");
+            if ($r)
+                fwrite(STDERR, $r);
             return -2;
         }
     }

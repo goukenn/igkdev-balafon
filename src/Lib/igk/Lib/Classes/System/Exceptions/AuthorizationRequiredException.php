@@ -11,7 +11,7 @@ use Throwable;
 
 class AuthorizationRequiredException extends IGKException{
 
-    public function __construct($msg, $code=500, ?Throwable $throwable)
+    public function __construct($msg, $code=500, ?Throwable $throwable = null)
     {
         parent::__construct($msg, $code, $throwable);
     }

@@ -26,6 +26,7 @@ require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
 /**
  * represent a root controller entry
  * @method static macroKeys() macros: get registrated macros key
+ * @method static void RegisterExtension(string $extension_class) register extension class
  * @method static initDb() macros: init Controller database
  * @method static mixed getDb() macros: get data adapter
  * @method static bool resetDb(bool $navigate=true , bool $force = true) from default extension reset controller attached database
@@ -179,7 +180,7 @@ abstract class RootControllerBase extends IGKObject{
             if (igk_environment()->isDev()){
                 // igk_wln(array_keys($func_defs));
                 igk_die("method [$name] not found - call_static");
-            }
+            } 
             throw new \IGK\System\Exceptions\ActionNotFoundException($name);
         }
 	}
@@ -216,6 +217,7 @@ abstract class RootControllerBase extends IGKObject{
         if (!$this->_setIn($name, $value)){   
            // self::$sm_bindController = $this;
            // passing object to setEnvParam - no getctrl required
+        
            $this->__callStatic('invokeMacros', ['setEnvParam', $this, $name, $value]);
            // setEnvParam($name, $value);
            // self::$sm_bindController = null;

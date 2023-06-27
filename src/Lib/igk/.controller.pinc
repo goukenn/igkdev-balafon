@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: .controller.pinc
 // @date: 20220803 13:51:47
-// @desc: 
+// @desc: register controller in use with the linked name
 
 // ---------------------
 // controller name cache
@@ -45,4 +45,7 @@ return [
     MODULE_CNF_CTRL=>\ModuleConfigurationController::class,
 
     // "{913FC762-B3A1-9ADB-17F9-97DE7DD3271F}"=>\igkdev\app\JobSearch\JobSearchController::class,
+
+
+    IGK_DB_CONF_CTRL=>\IGK\System\Configuration\Controllers\DatabaseConfigurationController::class
 ];

@@ -13,7 +13,7 @@ read: function(canva, uri){
 	var v_ctx = canva.getContext('2d');
 	igk.ajx.post(uri,null, function(xhr){ 
 		if (this.isReady()){ 	
-			eval("(function(){"+xhr.responseText+"})();");
+			(new Function("(function(){"+xhr.responseText+"})();")).apply();
 		}
 		});
 }

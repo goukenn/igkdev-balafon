@@ -8,6 +8,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Installers\BalafonInstaller;
+use function igk_resources_gets as __;
 
 ///<summary></summary>
 /**
@@ -30,6 +31,7 @@ class CoreUpdateLibCommand extends AppExecCommand{
             Logger::danger("curl utility function not found");
             return -2;
         }
+        Logger::info(sprintf(__("get library from : %s"),self::GET_URI));  
         if ($content = igk_curl_post_uri(self::GET_URI)){
             if (igk_curl_status()==200){
                 $tempfile = igk_io_sys_tempnam('bfl');
@@ -40,15 +42,16 @@ class CoreUpdateLibCommand extends AppExecCommand{
                     $old_version = IGK_VERSION;              
                     igk_zip_unzip($tempfile, IGK_LIB_DIR."/../../");
 
-                    if (function_exists('opcache_reset') && opcache_reset()){
-                        Logger::info("old version : ".$old_version);
-                        Logger::info("new version : ".IGK_VERSION);
+                    if(function_exists('opcache_reset') && !ini_get('restrict_api') && opcache_reset()){
+                    Logger::info("old version : ".$old_version);
+                    Logger::info("new version : ".IGK_VERSION);                    
                     }
                 }else{
                     Logger::danger("not a valid corelib file");
                 }
                 unlink($tempfile);
             }
+            Logger::success('install complete');
         } else {
             Logger::danger("can't retrieve BALAFON core library");
         }

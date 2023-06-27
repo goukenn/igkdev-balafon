@@ -12,7 +12,10 @@ use IGKEvents;
 
 use function igk_resources_gets as __;
 
-
+/**
+ * default form builder
+ * @package IGK\System\Html
+ */
 class FormBuilder
 {
     var $datasource;
@@ -75,14 +78,11 @@ class FormBuilder
                     $clprop->setClasses($v_def_form_control);
                 }
                 if (!empty($defclass = $clprop->getValue())) {
-                    $o .=  "class=\"" . $defclass . "\" ";
+                    $o .= "class=\"" . $defclass . "\" ";
                 }
                 return;
-            }
-            // if (!isset($v[$key]["class"])){
-            $clprop->setClasses($v_def_form_control);
-            // $o .= $v_def_form_control;
-            // }
+            } 
+            $clprop->setClasses($v_def_form_control); 
             foreach ($v[$key] as $k => $v) {
                 if ($k == 'class') {
                     $clprop->setClasses($v);
@@ -90,8 +90,7 @@ class FormBuilder
                     $o .= $k . "=\"" . $v . "\" ";
                 }
             }
-            if (!empty($defclass = $clprop->getValue())) {
-                // igk_wln_e($defclass);
+            if (!empty($defclass = $clprop->getValue())) { 
                 $o .=  "class=\"" . $defclass . "\" ";
             }
         };
@@ -174,7 +173,7 @@ class FormBuilder
                 case "fieldset":
                     break;
                 case "textarea":
-                    $o .= "<textarea {$_name} {$_id}";
+                    $o .= "<textarea {$_name}{$_id}";
                     if (isset($v["placeholder"])) {
                         $o .= "placeholder=\"{$v["placeholder"]}\" ";
                     }
@@ -182,8 +181,7 @@ class FormBuilder
                     if ($_is_required) {
                         $o .= "required=\"true\" ";
                     }
-                    $o .= ">{$_value}</textarea>";
-
+                    $o = rtrim($o). ">{$_value}</textarea>"; 
                     break;
                 case "radiogroup":
                     $o .= '<' . $tag . ' style="display:inline-block;">';

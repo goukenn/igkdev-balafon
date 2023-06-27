@@ -45,13 +45,11 @@ class MakeModuleCommand extends AppCommand{
 
             $dir = igk_uri(igk_get_module_dir()."/".$name);
             $force = property_exists($command->options, "--force"); 
-            if (is_dir($dir)){
-                // if ($force){
-                //     // IO::RmDir($dir);
-                // }else{
+            if (is_dir($dir) && is_file($dir."/".ApplicationModuleController::CONF_MODULE)){
+
                     Logger::danger(__("Module already exist"));
                     return -1;
-                // }
+               
             }
             IO::CreateDir($dir."/".IGK_VIEW_FOLDER);
             IO::CreateDir($dir."/".IGK_STYLE_FOLDER);

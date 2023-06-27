@@ -30,7 +30,7 @@ trait ApplicationUserProfileTrait{
     }
      /**
      * 
-     * @param null|object $u 
+     * @param null|object $u use info
      * @return null|IUserProfile 
      * @throws BindingResolutionException 
      * @throws NotFoundExceptionInterface 
@@ -53,7 +53,7 @@ trait ApplicationUserProfileTrait{
         }
         $model = $this->model($model);
 
-        $profile_class = $this->resolveClass(\UserProfile::class) ?? \IGK\System\Application\ApplicationUserProfile::class;
+        $profile_class = $this->resolveClass(\UserProfile::class) ?? \IGK\System\Applications\ApplicationUserProfile::class;
         $key = $model->getPrimaryKey();
         if (method_exists($this, 'getInitFormSysUserCondition')){
             $condition = $this->getInitFormSysUserCondition($u);
@@ -64,7 +64,7 @@ trait ApplicationUserProfileTrait{
         return $this->createCustomUserProfile(
             $u,
             $profile_class,
-            $model::model(), 
+            $model, 
             $condition,
             function()use($u){
                return $this->createApplicationUserInfo($u);              

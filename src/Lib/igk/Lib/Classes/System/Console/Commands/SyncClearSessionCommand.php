@@ -39,7 +39,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             "sync.command.pinc"
         ], $token, "remove session");
         igk_io_w2file($script_install, $sb);
-        ftp_put($h, $install = $pdir . "/rm_sessions.php", $script_install, FTP_BINARY);
+        @ftp_put($h, $install = $pdir . "/rm_sessions.php", $script_install, FTP_BINARY);
         if ($output = igk_curl_post_uri(
             $uri."/rm_sessions.php",
             [
@@ -52,7 +52,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
                 "install-token" => $token
             ]
         )){
-            Logger::print("response");
+            Logger::print("response: ");
             Logger::print($output);
         }
         unlink($script_install);

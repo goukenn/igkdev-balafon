@@ -13,9 +13,13 @@ use ReflectionException;
 * use to manage data to validate
 * @package IGK\System\Html\Forms
 */
-class HtmlValidator implements IFormValidator{
+class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     var $skip_all;
     var $allowed_tags;
+
+    public function assertValidate($value): bool {
+        return true;
+    }
 
     public function validate($value, $default = null, $fieldinfo = null, &$error = []) { 
         $value = $this->treatValue($value);

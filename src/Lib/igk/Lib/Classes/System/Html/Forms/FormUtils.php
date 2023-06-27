@@ -43,7 +43,7 @@ class FormUtils
             if (is_callable($display)){
                 $text = $display($m);
             } else if (is_string($display)){
-                if (property_exists($display, $m)){
+                if (property_exists($m, $display)){
                     $text =  $m->$display;
                 }else {
                     $g = ArticleContentBindingHelper::GetData($m); 

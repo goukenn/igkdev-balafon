@@ -28,6 +28,7 @@ use IGKException;
 use IGKValidator;
 use ReflectionException;
 use ReflectionMethod;
+use function igk_resources_gets as __;
 
 /**
  * action helper
@@ -35,6 +36,12 @@ use ReflectionMethod;
  */
 abstract class ActionHelper
 {
+    const ENTRY_NAME = 'Actions\\';
+    /**
+     * expected action call 
+     * @var mixed
+     */
+    static $ResolvedClass; 
     /**
      * dispatch to action 
      * @param string $method 
@@ -75,7 +82,7 @@ abstract class ActionHelper
                         ['clPwd' => $password],
                         ['clId' => $u->clId]
                     )) {
-                        $not->success('password changed');
+                        $not->success(__('password changed'));
                         return $u;
                     } else {
                         $not->danger('password not changed');
@@ -124,10 +131,7 @@ abstract class ActionHelper
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
             $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
 
-            // if (!$row->regLinkActivate){
-
-            //   //   $row->regLinkCreate_At < 
-            // }
+     
 
             /// TODO: ACTIVATE ACCOUNT
             // if ( $d < $m){
@@ -147,6 +151,10 @@ abstract class ActionHelper
             }
         }
         return false;
+    }
+
+    public static function UnregisterUser($ctrl, $token){
+
     }
     //do nothing
     /**
@@ -402,12 +410,19 @@ abstract class ActionHelper
             if ((strrpos($a, "Action")!==false)){
                 $a = igk_str_rm_last($a, "Action");
             }
+            $a = igk_uri($a);
+            if (basename($a) == basename(dirname($a)))
+            {
+                // + consider as default action 
+                $a = igk_str_rm_last($a , '/'.basename($a));
+            }
+
             return $a;
         }
         return null;
     }
     /**
-     * get expected action class and update parameter list  
+     * get expected action class
      * @param BaseController $controller 
      * @param string $view_action_name 
      * @return null|string 
@@ -431,7 +446,23 @@ abstract class ActionHelper
      * @param mixed $resolved_class 
      * @return bool 
      */
-    public static function IsExpectedAction(BaseController $baseController, string $action_name, ?array & $params, string $resolved_class):bool{
-        return self::ExpectedAction($baseController,  $action_name, $params) == $resolved_class;
+    public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class):bool{
+        if (self::$ResolvedClass && ($resolved_class == self::$ResolvedClass->class)){
+            //match resolved class.
+            return true;
+        }
+        if ($g = self::ExpectedAction($baseController, $action_name)){
+            return $g == $resolved_class;
+        }
+        return false; 
+    }
+    /**
+     * get action uri
+     * @param BaseController $baseController 
+     * @param string $action_name 
+     * @return string 
+     */
+    public static function GetActionUri(BaseController $baseController, string $action_name):string{        
+        return  '/'.igk_uri(self::GetActionName($baseController, $baseController->resolveClass($action_name)))."/";
     }
 }

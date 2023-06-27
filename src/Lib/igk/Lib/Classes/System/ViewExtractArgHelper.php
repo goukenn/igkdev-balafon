@@ -30,7 +30,7 @@ class ViewExtractArgHelper implements ArrayAccess{
         return $this;
     }
     public function __set($n, $args){
-        igk_wln("not allowed");
+        igk_die("set view arg helper not allowed");
     }
     public function __call($name, $arguments)
     {

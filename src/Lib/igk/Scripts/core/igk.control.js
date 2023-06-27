@@ -7,10 +7,10 @@
 
 (function() {
     const BEFORESUBMIT_EVENT = 'igkFormBeforeSubmit';
-
-    (function() {
-
-
+    const _eval = function(src, apply, args){
+        return (new Function(src)).apply(apply, args);
+    };
+    (function() { 
         if (document.head) {
             var e = $igk(document.head).select("link");
             e.each(function() {
@@ -348,11 +348,11 @@
             q.reg_event("focus", function() { anim.bind(); });
             q.reg_event("blur", function() { anim.unbind(); });
         } else {
-            var t = eval("new Array(" + source + ")");
+            var t =_eval("new Array(" + source + ")");
             for (var m in t[0]) {
                 store[m] = q.getComputedStyle(m);
             }
-            this.reg_event("focus", function() { eval("q.animate(" + source + ");"); });
+            this.reg_event("focus", function() {_eval("q.animate(" + source + ");"); });
             this.reg_event("blur", function() { q.animate(store, t[1]); });
         }
     });
@@ -786,7 +786,7 @@
             var m = null;
             if (c) {
                 m = "igk.highlightjs." + c;
-                m = eval("new " + m + "();");
+                m =_eval("new " + m + "();");
             } else {
                 m = new igk_e();
             }
@@ -794,8 +794,7 @@
             for (var i = 0; i < t.length; i++) {
                 l = t[i];
                 var d = q.add("div");
-                d.setHtml(m.evals(l));
-                // console.log(l==m.evals(l));
+                d.setHtml(m.evals(l)); 
             }
             var o = q.add('span').addClass("dispib").setHtml('_');
             var w = igk.getNumber(o.getComputedStyle('width'));
@@ -805,7 +804,7 @@
             igk.css.appendRule(q.getCssSelector() + " > div > span.ln {text-align:right; width:" + w + "px;}");
         };
 
-        function igk_e() { // evaluator
+        function igk_e() { // evaluator - script definition
             var l = 0;
             igk.appendProperties(this, {
                 evals: function(m) {
@@ -1814,6 +1813,9 @@
             },
             getFilterExpression: function(c) {
                 var f = null;
+                const _eval = function(d){
+                  return parseFloat(d);  
+                };
                 // transform code string to canvas filter expression
                 if (c != null) {
                     if (!String.prototype.padEnd)
@@ -1824,15 +1826,15 @@
                         u[i] = "0x" + s.substring(i * 2, (i * 2) + 2);
                     }
                     var sfilter = {};
-                    sfilter.grayscale = Math.round((eval(u[0]) / 100 / 255.0) * 10000) + "%"; //"0
-                    sfilter.huerotate = Math.round((eval(u[1]) / 100 / 255.0) * 36000) + "deg"; // ("
-                    sfilter.blur = eval(u[2]) + "px"; // ("0x
-                    sfilter.sepia = Math.round((eval(u[3]) / 100 / 255.0) * 10000) + "%";
-                    sfilter.saturate = (100 - Math.round((eval(u[4]) / 100 / 255.0) * 10000)) + "%";
-                    sfilter.invert = Math.round((eval(u[5]) / 100 / 255.0) * 10000) + "%";
-                    sfilter.opacity = (100 - Math.round((eval(u[6]) / 100 / 255.0) * 10000)) + "%";
-                    sfilter.brightness = (100 - Math.round((eval(u[7]) / 100 / 255.0) * 20000)) + "%"; // scale from 0 - 200  / default is 100
-                    sfilter.contrast = (100 - Math.round((eval(u[8]) / 100 / 255.0) * 10000)) + "%";
+                    sfilter.grayscale = Math.round((_eval(u[0]) / 100 / 255.0) * 10000) + "%"; //"0
+                    sfilter.huerotate = Math.round((_eval(u[1]) / 100 / 255.0) * 36000) + "deg"; // ("
+                    sfilter.blur = _eval(u[2]) + "px"; // ("0x
+                    sfilter.sepia = Math.round((_eval(u[3]) / 100 / 255.0) * 10000) + "%";
+                    sfilter.saturate = (100 - Math.round((_eval(u[4]) / 100 / 255.0) * 10000)) + "%";
+                    sfilter.invert = Math.round((_eval(u[5]) / 100 / 255.0) * 10000) + "%";
+                    sfilter.opacity = (100 - Math.round((_eval(u[6]) / 100 / 255.0) * 10000)) + "%";
+                    sfilter.brightness = (100 - Math.round((_eval(u[7]) / 100 / 255.0) * 20000)) + "%"; // scale from 0 - 200  / default is 100
+                    sfilter.contrast = (100 - Math.round((_eval(u[8]) / 100 / 255.0) * 10000)) + "%";
                     f = sfilter;
                 }
                 return igk_get_filter_exp(f);
@@ -3065,8 +3067,10 @@
         });
         // node compopent with balafonjs js javascript
         igk.ctrl.bindAttribManager("igk-balafonjs", function(m, v) {
-            if (m)
-                eval(v);
+            if (m){
+                const self = this; 
+                (new Function('self', v)).apply(self, [self]);
+            }
         });
     })();
     // ----------------------------------------------------------
@@ -4110,7 +4114,7 @@
             // var INT_REGEX=/^(-)?([0-9]+)$/;		
             var s = this.getAttribute("igk-input-data");
             var b = null;
-            b = eval("(" + s + ")");
+            b = _eval("(" + s + ")");
             if (b && b.regex) {
                 new inputdata(this, b);
             }
@@ -4293,7 +4297,10 @@
             var h = igk.getNumber(q.getComputedStyle("height"));
             // w , h , can be used in the expression because of the eval
             if (w && h) {
-                var exp = eval('obj=' + v + ';');
+                var fc = new Function('obj=' + v + ';');
+                exp = fc.apply();
+                console.log(exp);
+
                 this.setCss(exp);
             }
         }
@@ -5201,7 +5208,7 @@
             if (s && tv) {
                 this.remove();
                 var m = { d: s };
-                var q = eval(s + ";");
+                var q = _eval(s + ";");
                 if (q) {
                     var g = $igk(q);
                     if (g.isSr()) {
@@ -5239,7 +5246,7 @@
             var tv = this.select(">>");
             if (!s || (tv.getCount() == 0))
                 return;
-            var q = eval(s + ";");
+            var q = _eval(s + ";");
             if (q) {
                 if (q.isSr()) {
                     q.each_all(function() {
@@ -5640,7 +5647,7 @@
                 this.reg_event(ms, function(e) {
                     if (e.handle)
                         return;
-                    eval(n);
+                    _eval(n,null,{ms});
                 });
             };
         };
@@ -5664,7 +5671,7 @@
     })();
     (function() {
         var bind = function(n) {
-            eval(n);
+            _eval(n);
         };
         igk.ctrl.registerAttribManager("[ready]", { desc: "ready run load event" });
         igk.ctrl.bindAttribManager("[ready]", function(m, n) {
@@ -5683,7 +5690,7 @@
             var s = this.getAttribute("igk:js-action");
             if (s) {
                 this.reg_event("click", function(e) {
-                    eval(s);
+                    _eval(s, [this], [e]);
                     e.preventDefault();
                     e.stopPropagation();
                 });
@@ -6073,6 +6080,9 @@
     (function() {
         let modules = [];
 
+        /**
+         * special litteral expression to get the raw method must be call without () and ``
+         */
         function esm(templateStrings, ...substitutions) {
             let js = templateStrings.raw[0];
             for (let i = 0; i < substitutions.length; i++) {
@@ -6114,7 +6124,7 @@
                 let b = esm `${src}`;
                 // + | webpack request that import is a string - to avoid critical dependency for expression
                 let c = await
-                import (`${b}`);
+                import (/* @vite-ignore */`${b}`);
                 return c;
             }
         })
@@ -6970,6 +6980,7 @@
                 var noa = this.getAttribute("igk-ajx-form-no-autoreset");
                 var no_c = this.getAttribute("igk-ajx-form-no-close");
                 var ajxdata = igk.JSON.parse(this.getAttribute("igk-ajx-form-data"));
+                var complete = this.getAttribute("igk-ajx-form-complete");
                 //register cusom event
                 this.addEvent(BEFORESUBMIT_EVENT, {
                     "cancelable": true,
@@ -6991,6 +7002,9 @@
                         if (cancel) {
                             return;
                         }
+                        const selector = self.qselect('input, button');
+                        const ovalue = [];
+                      
                         igk.ajx.postform(self.o, self.o.getAttribute("action"), function(xhr) {
                             if ((xhr.readyState == 4) && (xhr.status != 200)) {
                                 close(self);
@@ -7044,8 +7058,26 @@
                                 if (r_obj && r_obj.complete) {
                                     r_obj.complete.apply(self);
                                 }
+                                if (complete){
+                                    (new Function(complete)).apply(self); 
+                                }
+                                let pos = 0;
+                                selector.each_all(function(){
+                                    let v = ovalue[pos];
+                                    if (!v)
+                                        this.o.removeAttribute('disabled');
+                                    else
+                                        this.o.setAttribute("disabled", true); 
+                                    pos++;
+                                }); 
                             }
+                        }, true, ()=>{
+                            selector.each_all(function(){
+                                ovalue.push(this.o.getAttribute("disabled") || false);
+                                this.o.setAttribute("disabled", true) ;
+                            });
                         });
+
                     });
                 }
             }
@@ -7287,7 +7319,7 @@
         function __submit_form(evt) {
             // submit the form frame
             var q = this;
-            var c = (m_targetResponse != null) ? m_targetResponse : eval(q.getAttribute("igk-ajx-lnk-tg-response"));
+            var c = (m_targetResponse != null) ? m_targetResponse : _eval(q.getAttribute("igk-ajx-lnk-tg-response"),[q]);
             var clf = q.getAttribute("igk-frame-close"); // close frame after
             if (c) {
                 var m = document.getElementById(c);
@@ -7817,7 +7849,7 @@
                 }
                 v = igk.html.appendQuery(v, "ajx-lnk=1");
                 var fc = m.update;
-                var obj = igk.JSON.parse(m, q);
+                var obj = igk.JSON.parse(m, q) || {};
                 var opxhr = null;
                 q.reg_event("click", function(evt) {
                     if (evt.handle || evt.defaultPrevented) {
@@ -7826,7 +7858,7 @@
                     evt.preventDefault();
                     evt.stopPropagation();
                     evt.handle = 1;
-                    if (obj.execute) {
+                    if (obj && obj.execute) {
                         obj.execute.apply(this, evt);
                         return;
                     }
@@ -8049,7 +8081,7 @@
                 var source = this.getAttribute("igk-js-anim-over");
                 var store = {};
                 if (source) {
-                    var t = eval("new Array(" + source + ")");
+                    var t = _eval("new Array(" + source + ")");
                     for (var m in t[0]) {
                         store[m] = q.getComputedStyle(m);
                     }
@@ -8059,7 +8091,7 @@
                             q.setCss({ transition: 'all 0.5s ease-in-out' })
                                 .setCss(d);
                         } else {
-                            eval("q.animate(" + source + ");");
+                            _eval("q.animate(" + source + ");",null,{q});
                         }
                     });
                     this.reg_event("mouseleave", function() {

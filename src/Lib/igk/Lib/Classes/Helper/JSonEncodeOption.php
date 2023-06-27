@@ -13,5 +13,7 @@ namespace IGK\Helper;
 class JSonEncodeOption{
     var $ignore_empty = false;
     
+    var $ignore_null = false;
+    
     var $filter_array_listener;
 }

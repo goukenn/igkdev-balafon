@@ -4,6 +4,8 @@
 // @date: 20220803 13:51:47
 // @desc: 
 
+use IGK\Helper\IO;
+
 /**
  * get cookie manage
  * @return mixed 
@@ -21,4 +23,80 @@ function igk_session_destroy()
     if (session_id()) {
         @session_destroy();
     } 
+}
+
+if (!function_exists('igk_session_count')){
+    function igk_session_count(){
+       return count(igk_sys_get_all_openedsessionid(false));
+    }
+}
+if (!function_exists('igk_start_session')){
+///<summary>start app session</summary>
+/**
+ * start app session - helper
+ */
+function igk_start_session($reset = 0)
+{
+    $ie_diagnonstic = igk_server()->HTTP_REFERER == "diagnostics://5/";
+    $idstorage =
+        $cookieName = null;
+    if ($ie_diagnonstic) {
+        igk_exit();
+    }
+    $handle_func = igk_get_env("sys://handle/file_request");
+    if ($handle_func) {
+        foreach ($handle_func as $v) {
+            if ($v()) {
+                return;
+            }
+        }
+    }
+    if (defined("IGK_NO_SESSION"))
+        return;
+    if ($reset) {
+        igk_env_count_reset(__FUNCTION__);
+    }
+    $f = igk_env_count(__FUNCTION__);
+    $is_no_start = empty(session_id());
+    if (($f > 1) || (!$is_no_start)) {
+        return;
+    }
+    $cookieName = session_name();
+    if (defined('IGK_SESS_DIR') && IO::CreateDir($ts = constant('IGK_SESS_DIR'))) {
+        ini_set("session.save_path", $ts);
+        IGKSessionFileSaveHandler::Init();
+    }
+    ini_set("session.cookie_same", "Strict");
+    //+ | security fix
+    ini_set("session.cookie_secure", igk_sys_srv_is_secure());
+    ini_set("session.cookie_httponly", 1);
+    ini_set("session.cookie_samesite", "strict");
+    //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
+    //+ check if the session is passed prio to cookie value.
+    //+ 2020 Edge and chrome on Mac no need for session_id https://www.php.net/manual/en/function.session-id.php
+
+    $idstorage = trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? false : trim(igk_getr($cookieName, igk_getv($_SERVER, $cookieName))));
+    if ($idstorage) {
+        igk_bind_session_id($idstorage);
+        if (!isset($_COOKIE[$cookieName])) {
+            setcookie($cookieName, $idstorage);
+        }
+    }
+    $dom = igk_get_cookie_domain();
+    $opts = [];
+    if (!empty($dom))
+        $opts["domain"] = $dom;
+    if (count($opts) > 0) {
+        if (version_compare(PHP_VERSION, IGK_PHP_MIN_VERSION, ">=")) {
+            if (!session_set_cookie_params($opts)) {
+                igk_ilog("set cookie options failed");
+                igk_ilog($opts);
+            }
+        } else {
+            session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
+        }
+    }
+    $b = session_start();
+    return $b;
+}
 }

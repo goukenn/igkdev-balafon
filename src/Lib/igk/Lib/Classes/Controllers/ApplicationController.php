@@ -445,7 +445,16 @@ EOF;
     /**
      * return application uri
      */
-    public function getAppUri(?string $function = null): ?string
+    /**
+     * 
+     * @param null|string $function 
+     * @param bool $full indicate to full request uri
+     * @return null|string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function getAppUri(?string $function = null, bool $full=true): ?string
     {
         if (is_null($function)) {
             $function = "";
@@ -480,9 +489,13 @@ EOF;
                 $function = $s . $rt . (!empty($function) ? "/" . $function : '');
             }
         }
-        $buri = igk_io_baseuri() ?? "/";
-        if ($function) {
-            return igk_str_rm_last($buri, '/') . "/" . $function;
+        if ($full){
+            $buri = igk_io_baseuri() ?? "/";
+            if ($function) {
+                return igk_str_rm_last($buri, '/') . "/" . $function;
+            }
+        } else{
+            $buri = '/'.ltrim($function, '/');
         }
         return $buri;
     }
@@ -730,7 +743,7 @@ EOF;
      */
     protected function initMacros()
     {
-        if (is_null($cl = $this::resolveClass(\Database\InitMacros::class))){
+        if (is_null($cl = $this->resolveClass(\Database\InitMacros::class))){
             return;
         }
         $m = new $cl();

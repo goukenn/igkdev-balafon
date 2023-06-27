@@ -48,6 +48,11 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
      */
     public function __toString()
     {
+        if (is_numeric($this->p_data)){
+            return $this->p_data;
+        } else if (is_string($this->p_data)){
+            return $this->p_data;
+        }
         return json_encode($this->p_data);
     }
 
@@ -57,4 +62,5 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
             return call_user_func_array([$this->p_data, $name], $arguments);
         }
     }
+    
 }

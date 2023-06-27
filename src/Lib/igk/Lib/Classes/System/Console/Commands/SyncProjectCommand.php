@@ -12,7 +12,7 @@ use IGK\Helper\BackupUtility;
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
 use IGK\System\Console\App;
-use IGK\System\Console\Commands\Sync\ProjectSettings;
+use IGK\System\Console\Commands\Sync\SyncProjectSettings;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\CssParserException;
@@ -152,7 +152,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 }
 
 
-                ProjectSettings::InitProjectExcludeDir($pdir, $excludedir);
+                SyncProjectSettings::InitProjectExcludeDir($pdir, $excludedir);
 
                 if ($this->use_zip) {
                     $controller = null;
@@ -205,9 +205,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     }
                     $cdir = [];
                     $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
-                    // check if .balafon-sync.project
+                    // + | check 
                     if (file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))) {
-                        $g = ProjectSettings::Load(json_decode(file_get_contents($fc)));
+                        $g = SyncProjectSettings::Load(json_decode(file_get_contents($fc)));
                         if ($g->ignoredirs) {
                             $v_ignores =  array_fill_keys($g->ignoredirs, 1);
                             $excludedir = array_merge($excludedir, $v_ignores);

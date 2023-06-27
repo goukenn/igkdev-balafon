@@ -22,7 +22,7 @@ define('MYSQL_DB_DRIVER', 1);
 require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
  
-$file = (igk_sys_reflect_class(\IGK\System\DataBase\MySQL\DataAdapterBase::class))->getFileName();
+$file = (igk_sys_reflect_class(\IGK\System\Database\MySQL\DataAdapterBase::class))->getFileName();
 
 
 require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");

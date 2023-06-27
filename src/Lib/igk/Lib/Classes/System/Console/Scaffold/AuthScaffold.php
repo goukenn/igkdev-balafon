@@ -80,7 +80,7 @@ class AuthScaffold extends ScaffoldBase
             igk_io_w2file($file, self::GenerateViewTemplate($file, $sb.''));
         };
 
-        Utility::BindFiles($command, $bind, $is_force);
+        Utility::MakeBindFiles($command, $bind, $is_force);
         if ($model) {
             
             // $action->exec($command, get_class($ctrl), $name);

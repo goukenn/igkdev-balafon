@@ -30,7 +30,16 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private $ctrl;
     private $m_changed=0;   
     private $m_autosave; 
+    private $m_secrets = [];
 
+    /**
+     * check if configuration setting is a secret
+     * @param string $key 
+     * @return bool 
+     */
+    public function isSecret(string $key) : bool{
+        return key_exists($key, $this->m_secrets);
+    }
     public function setAutoSave(bool $autosave){
         $this->m_autosave = $autosave;
         $this->m_change = 0;
@@ -112,6 +121,15 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function initConfigSetting(\stdClass $t, $file=null){
         $f= $file ?? $this->getConfigFile();
         $def = null; 
+        $v_filter_attr = function ($tab, $path){
+            return array_filter($tab, function($v, $k)use($path){
+                if ($k == 'secret'){
+                    $this->m_secrets[$path] = 1;
+                    return false;
+                }
+                return true;
+            }, ARRAY_FILTER_USE_BOTH);
+        };
         if(!is_null($f) && file_exists($f)){
             
             igk_environment()->task = 'load-config: '.$f;
@@ -125,13 +143,18 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                     if ($k->getNodeType() == XMLNodeType::COMMENT){
                         continue;
                     }  
+                    $key = $k->TagName;
+                    $secret = igk_bool($k['secret']) == true;
                     if($k->ChildCount<=0){
-                        $t->{$k->TagName}=$k->getInnerHtml();
+                        $t->{$key}=$k->getInnerHtml();
                     }
                     else{
                         $v_ob=igk_createobj();
-                        igk_conf_load($v_ob, $k);
-                        $t->{$k->TagName}=$v_ob;
+                        igk_conf_load($v_ob, $k, $v_filter_attr);
+                        $t->{$key}=$v_ob;
+                    }
+                    if ($secret){
+                        $this->m_secrets[$key] = 1;
                     }
                 }
             } 

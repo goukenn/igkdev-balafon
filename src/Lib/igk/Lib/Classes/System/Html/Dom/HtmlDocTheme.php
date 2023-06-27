@@ -92,9 +92,17 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $root['--'.$themeName.'-color-'.$color] = $value;
         
     }
+    /**
+     * get :root reference
+     */
     public function & getRootReference(){
         return $this->m_root_ref;
     }
+    /**
+     * set :root reference
+     * @param mixed $ref 
+     * @return void 
+     */
     public function setRootReference(& $ref){
         $this->m_root_ref = & $ref;        
     }

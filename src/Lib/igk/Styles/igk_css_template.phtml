@@ -2,11 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 // desc: default template
-//fgc : foreground color
-//bgc : background color
-//brc : border color
-//Font Size level : igk-fsl-[type]-[level] = font-size
-//shape items : using in canvas rendering system
+// fgc : foreground color
+// bgc : background color
+// brc : border color
+// Font Size level : igk-fsl-[type]-[level] = font-size
+// shape items : using in canvas rendering system
 // ::-webkit-input-placeholder
 // :-ms-input-placeholder
 // :-moz-placeholder //firefox 18-
@@ -14,10 +14,7 @@
 //device orientation :: land-scape
 //filter:blur(4px);";
 
-use IGK\System\Html\Dom\HtmlDocThemeMediaType;
-
- 
-
+use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
 // igk_wln_e(__FILE__.":".__LINE__,  get_class($def));
 $pad1 = "8px";
 $pad2 = "10px";
@@ -139,7 +136,7 @@ $def["ul.igk-puce"] = "padding-left:32px;";
 $def["ul.igk-puce > li"] = "list-style-type: disc;";
 $def[".igk-device:before"] = "content:'screen'";
 $def[".igk-fs-m"] = "font-size:16pt;";
-$def[".igk-fs-n"] = "font-size:18pt;";
+$def[".igk-fs-n"] = "font-size:16pt;";
 $def[".igk-fs-l"] = "font-size:20.5pt;";
 $def[".igk-padding-a-2"] = "padding:{$pad2}";
 $def[".igk-darkbg-40:before"] = "content:' '; position:absolute; {sys:fit} background-color:#000; opacity:0.4;";
@@ -222,7 +219,7 @@ $def[".igk-table-container"] = $def[".igk-tablehost"] = "overflow-x:auto";
 $def[".igk-submenu"] = "{sys:dispn}";
 $def[".igk-submenu.igk-show"] = "display:block !important;";
 $def[".igk-slider-btn"] = "cursor:pointer;";
-$def[".igk-dialog"] = "{sys:posab} z-index: 100";
+$def[".igk-dialog"] = "z-index: 100;";
 $def[".igk-dialog:before"] = "content:' '; position:absolute; background-color:#444; opacity: 0.5; left:0; top:0; bottom:0px; right:0px;";
 $def[".igk-dialog-temp"] = "{sys:dispn}";
 $def[".igk-hpageview"] = "{sys:no-wrap, no-overflow} ";
@@ -372,8 +369,10 @@ $def[".igk-breadcrumbs > li.igk-inactive"] = "[sysbgcl:igk-breadcrumbs-inactive-
 $def[".igk-breadcrumbs > li:not(:last-child):after"] = "{sys:floatr} content:'/'; padding:0px 8px;";
 $def[".igk-rm-margin"] = "margin-right:-{$pad_size}; margin-left:-{$pad_size}; ";
 $def[".igk-add-margin"] = "margin-right:{$pad_size}; margin-left:{$pad_size}; ";
-$def["a > svg"] =
-    $def["a.igk-svg-host"] = "{sys:dispib} line-height:0;";
+$def["a > svg"] = $def["a.igk-svg-host"] = "{sys:dispib} line-height:0;";
+
+$def['.igk-svg-host svg'] = 'fill:currentColor;';
+
 $def["a.svg-a"] = "{sys:dispib} width:32px; height:32px; [trans: all 0.2s ease-in-out]";
 $def["a.svg-a svg"] = "fill:#000";
 $def["a.svg-a:hover"] = "background-color:#000;";
@@ -453,7 +452,7 @@ $def[".igk-notify-z"] = "min-height:2.1em";
 $def["code.igk-code span.ln"] = "color:#cecece; vertical-align:bottom; margin-right:10px";
 $def["code.igk-code span.ln"] = "{sys:posr} [fcl:codeLineForeColor, #cecece] z-index:10; padding-right:{$pad_size}; [resolv:user-select: none;] display:table-cell !important;";
 $def["code.igk-code span.ln:before"] = "{sys:posab, loc_l} background-color: [cl:codeLineBgColor, #444]; z-index: -1; right:4px; top:-4px; bottom:-4px; margin-left:-12px; content:' ';";
-$def["code.igk-code > div"] = "{sys:disptabr, no-wrap}";
+$def["code.igk-code > div"] = "{sys:disptabr, no-wrap} line-height:1.26em;";
 $def["code.igk-code:before"] = "{sys:posab, loc_a} [bgcl:codeViewBgColor, #eee] content:' '; z-index:-1; ";
 $def["code.igk-code"] = "line-height: 1; {sys:posr, fitw} max-width:100%; overflow:auto; max-height:[var:--igk-code-max-height,initial];";
 $def["code.igk-code span.s"] = "{sys:no-wrap, dispib}";
@@ -541,7 +540,7 @@ $def[".igk-txt-c"] = "text-transform: capitalize !important;";
 $def[".igk-expo"] = "font-size:0.6em; text-align:center; vertical-align:top; display:inline-block;";
 $def[".igk-indice"] = "font-size:0.6em; text-align:center; vertical-align:bottom; display:inline-block;";
 $def[".igk-list-item"] = "margin-bottom:4px; display:block; overflow:hidden;";
-$def[".igk-panel"] = "{sys:dispb} [sysfcl:igk-panel-fcl] [sysbgcl:igk-panel-bcl] margin:auto; padding: {$pad1};";
+$def[".igk-panel"] = "[sysfcl:igk-panel-fcl] [sysbgcl:igk-panel-bcl] margin:auto; padding: {$pad1};";
 $def[".igk-btn"] =
     $def[".igk-btn-lnk"] =
     $def[".clsubmit"] =
@@ -936,7 +935,7 @@ foreach ([4, 10, 16, 20] as $pad) {
 }
 $def[".igk-font-title-1"] = "font-family: 'Roboto', 'Helvetica', 'Arial' , sans-serif; font-size: 3em;font-weight: 200;";
 $def[".clcheckbox"] = "margin-right:{$pad_size};";
-$def[".badge"] = "padding: 4px; border-radius: 4px; background-color: #eee; ";
+$def[".badge"] = "padding: 4px; border-radius: 4px; background-color: ;";// var(--igk-badge-background-color, initial); ";
 $def[".igk-bg-img"] = "{sys:posfix, loc_a, fit, fitc}";
 
 
@@ -944,12 +943,6 @@ if (igk_sys_env_production()) {
     $def[".igk-winui-js-logger"] = "{sys:dispn}";
 }
 $prop["buttonPadding"] = "8px";
-
-
-
-$def[".igk-google-line-waiter"] = "{sys:no-overflow, fitw} height:4px; background-color:#e6e6e6";
-$def[".igk-google-line-waiter:after"] = "{sys:fith,posab, loc_l} width: 70%; content:' '; background-color:#4BC281; [anim:google-linewaiter-infinite 3s infinite, google-linewaiter-infinite2 3s infinite]";
-
 
 // combobox
 $def[".igk-winui-combobox + ul"] = "background-color:#444; color: white";
@@ -980,6 +973,7 @@ $def["select.igk-form-control"] = "cursor: pointer;";
 
 // animation notification
 $def[".igk-notify-host.anim-autohide"] = "[anim: 0.85s 1.5s 1 anim-autohide]";
+// define animation 
 $theme->reg_keyFrames($def, "anim-autohide", "from { opacity: 1.0; } to { opacity: 0; }");
 
 
@@ -1077,7 +1071,7 @@ $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, tran
 
 // + | define root global color
 $root["--selection-bgColor"] = "transparent";
-$root["--selection-foreColor"] = "red";
+$root["--selection-foreColor"] = "indianred";
 
 
 // + ----------------------------------------------------------------------------------------
@@ -1177,8 +1171,7 @@ $def['.igk-winui-context-menu a'] = "";
 
 // disable auto on btn default margin
 $def['.igk-btn.margin-i'] = 'margin:inherit';
-
-// $def["body"] = "background-color:aqua !important;[res:add_32x32]";
+ 
 
 
 // + | --------------------------------------------------------------------

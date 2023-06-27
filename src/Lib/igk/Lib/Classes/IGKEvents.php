@@ -16,7 +16,8 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  * represent app - system - controller - public hook
  */
 class IGKEvents extends IGKObject
-{
+{ 
+
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
     
@@ -27,6 +28,12 @@ class IGKEvents extends IGKObject
     const HOOK_APP_PRESENTATION = 0xa01;
     const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
+
+    // + | --------------------------------------------------------------------
+    // + | command event constant : 
+    // + |
+    const HOOK_COMMAND = 'sys_commnand';
+    
 
 
     const HOOK_INIT_APP = "init_app";

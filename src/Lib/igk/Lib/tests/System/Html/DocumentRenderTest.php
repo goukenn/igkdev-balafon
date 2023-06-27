@@ -82,8 +82,7 @@ $g = trim($v->getinnerHtml());
             (new IGKHtmlRelativeUriValueAttribute("/data-info"))->getValue(),
             "resolv path 1"); 
 
-        // resolv with file exists - in lib
-        igk_debug(1);
+        // resolv with file exists - in lib 
         // resolv and create link 
         if (file_exists($file = igk_io_basedir()."/assets/_lib_/Scripts/igk.js")){
             
@@ -105,7 +104,6 @@ $g = trim($v->getinnerHtml());
             
         }
         
-        igk_debug(0);
 
         // resolv with non exists file in lib
         $f = tempnam(sys_get_temp_dir(), "test-");        

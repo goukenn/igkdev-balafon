@@ -92,7 +92,7 @@ interface IDataDriver{
      * @param string $dbname 
      * @return string 
      */
-    function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname):string;
+    function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname):string;
 
     /**
      * check that a constraint exists

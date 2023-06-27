@@ -25,7 +25,7 @@ class ApplicationModuleMethodChecker{
         if (!isset(self::$sm_initDocs[$__name])){
             self::$sm_initDocs[$__name] = [];
         }
-        if (!in_array($env_param, self::$sm_initDocs[$__name])){
+        if (!in_array($env_param, self::$sm_initDocs)){
             self::$sm_initDocs[$__name] = $env_param;
         }
         return false;

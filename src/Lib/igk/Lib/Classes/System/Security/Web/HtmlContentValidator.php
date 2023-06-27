@@ -20,7 +20,7 @@ class HtmlContentValidator extends MapContentValidatorBase{
     var $skipTag = ['style','script'];
 
     protected  function validate(&$value, $key) :bool {   
-        $skip_data = function($a) {           
+        $skip_data = function(string $a) {           
             $dv = igk_create_notagnode(); 
             $dv->load($a); 
             $options = HtmlRenderer::CreateRenderOptions();
@@ -36,7 +36,6 @@ class HtmlContentValidator extends MapContentValidatorBase{
             $value = array_map($skip_data, array_filter($value));
             return true;
         }
-
         return false;
     }
 

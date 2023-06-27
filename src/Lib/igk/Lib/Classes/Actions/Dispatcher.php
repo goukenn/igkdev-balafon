@@ -23,6 +23,7 @@ use IGK\System\IInjectable;
 use IGK\System\Regex\MatchPattern;
 use IGK\System\Services\InjectorProvider;
 use IGK\Actions\ActionBase;
+use IGK\Controllers\ControllerParams;
 use IGKType;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
@@ -31,13 +32,13 @@ use ReflectionMethod;
 /**
  * default action dispactcher
  */
-class Dispatcher implements IActionProcessor
+class Dispatcher implements IActionProcessor, IActionDispatcher
 {
     /**
      * 
      * @var null|ActionBase|IActionProcessor|object
      */
-    private $m_host;
+    private $m_host; 
     private static $sm_macro;
     private static $sm_matches = [
         "int" => MatchPattern::Int,
@@ -46,13 +47,21 @@ class Dispatcher implements IActionProcessor
 
     ///<sumary>.ctr</summary>
     /**
-     * 
+     * .ctr
      * @param null|IGKActionBase $host 
      * @return void 
      */
-    public function __construct(?ActionBase $host)
+    public function __construct(ActionBase $host)
     {
         $this->m_host = $host;
+    }
+
+    public function setBaseActionName(string $actionName) { 
+        $this->m_host->baseActionName = $actionName;
+    }
+
+    public function getBaseActionName(): string { 
+        return $this->m_host->baseActionName;
     }
     public function getController(){
         return $this->m_host ? $this->m_host->getController():null;
@@ -70,11 +79,11 @@ class Dispatcher implements IActionProcessor
         }
     }
     public static function __callStatic($name, $args)
-    {
-
+    { 
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
             self::$sm_macro["Dispatch"] = function ($fc, ...$args) { 
+          
                 return static::_HandleDispatch($fc, ...$args);
                 // $g = new ReflectionFunction($fc);               
                 // $args = self::GetInjectArgs($g, $args);                 
@@ -90,21 +99,26 @@ class Dispatcher implements IActionProcessor
         }
         return (new static(null))->$name(...$args);
     }
+    public function invoke(string $name, ...$args){
+        return $this->__call($name, $args);
+    }
     public function __call($name, $arguments)
     {
         // igk_wln_e(__FILE__.":".__LINE__, "call in dispacher....", $name, $this->host instanceof IActionProcessor, 
         // "???".method_exists($this, $name) );
         // igk_wln_e("the host ", $this->host, $name, "?".method_exists($this, $name), is_callable($g =  [$this->host, $name]));
         // igk_wln_e("but", $this->host, $name, get_class_methods($this->host), $this->host instanceof IActionProcessor);
+        $v_host = $this->m_host;
         if (
-            method_exists($this->m_host, $name)  
-            && (!(new ReflectionMethod($this->m_host, $name))->isStatic())           
-            && ($fc = Closure::fromCallable([$this->m_host, $name])->bindTo($this->m_host))
+            method_exists($v_host, $name)  
+            && (!(new ReflectionMethod($v_host, $name))->isStatic())           
+            && ($fc = Closure::fromCallable([$v_host, $name])->bindTo($v_host))
         ) {
+            $v_host->getController()->{ControllerParams::REPLACE_URI} = true;
             $targs = array_merge([$fc], $arguments);  
             return self::__callStatic("Dispatch", $targs);
         } else { 
-            if ($this->m_host instanceof IActionProcessor){  
+            if ($v_host instanceof IActionProcessor){  
                 return call_user_func_array([$this->m_host,'__call'],
                 [$name, $arguments]); 
             }

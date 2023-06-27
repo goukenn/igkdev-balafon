@@ -6,7 +6,7 @@
 
 
 use IGK\Controllers\ServiceController;
-use IGK\IService;
+use IGK\Services\IAppService;
 
 require_once __DIR__ . "/IService.php";
 
@@ -15,6 +15,14 @@ class IGKServices
     static $sm_instance;
 
     private $m_services = [];
+
+    // + | --------------------------------------------------------------------
+    // + | service name
+    // + |
+    
+    const PRINTER = "Printer";
+    const MAPPING_SERVICE = "MappingService";
+    
 
     // private $changed;
     // public static function FileCache(){
@@ -25,33 +33,14 @@ class IGKServices
     {
         return igk_getv($this->m_services, $name);
     }
-    public function __set($name, ?IService $service = null)
+    public function __set($name, ?IAppService $service = null)
     {
         if ($service == null) {
             unset($this->m_services[$name]);
             return;
         }
         $this->m_services[$name] = $service;
-    }
-
-    private function __construct()    
-    {
-        $this->m_services = [];  
-
-        // igk_reg_hook(IGKEvents::HOOK_SHUTDOWN, function()use(& $tab){
-        //     igk_wln_e("shutdown call ");
-        //     $file = self::FileCache();
-        //     if ($this->changed){            
-        //         $m = "";
-        //         foreach($this->m_services as $k=>$v){
-        //             $l = igk_io_collapse_path($v["l"]);
-        //             $m .= "\"{$k}\" = \"{$l}\", \n";
-        //             $tab[$k] = $l;
-        //         }
-        //         igk_io_w2file($file, "return [\n".$m."];");
-        //     }
-        // });
-    }
+    } 
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -74,7 +63,7 @@ class IGKServices
     public static function Register(string $serviceName, string $className)
     {
         $instance = self::getInstance();
-        if (class_exists($className) && is_subclass_of($className, IService::class)) {
+        if (class_exists($className) && is_subclass_of($className, IAppService::class)) {
 
             if (!($c = igk_getv($instance->m_services, $serviceName)) || (get_class($c["instance"]) != $className)) {
                 $cl = new $className();
@@ -91,7 +80,7 @@ class IGKServices
         }
     }
 }
-
+/*
 
 class ServiceHandler{
     var $tab;
@@ -108,3 +97,6 @@ class ServiceHandler{
 
     }
 }
+
+
+*/

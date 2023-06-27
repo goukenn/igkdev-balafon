@@ -926,12 +926,7 @@ trait HtmlNodeTrait{
 	// public function google_js_maps($data=null,$apikey=null){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// /**
-	//  * 
-	//  */
-	// public function google_line_waiter(){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+ 
 	// /**
 	//  * 
 	//  * @param mixed $loc

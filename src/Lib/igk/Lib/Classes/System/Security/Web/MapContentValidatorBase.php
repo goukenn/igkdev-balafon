@@ -48,7 +48,7 @@ abstract class MapContentValidatorBase
      * @param mixed $missing key not provider in request
      * @return mixed 
      */
-    public function map($value, $key, &$error, bool $missing, bool $required = true){
+    public function map($value, $key, &$error, bool $missing=false, bool $required = true){
         if ($this->validate($value, $key)){
             return $value;
         }

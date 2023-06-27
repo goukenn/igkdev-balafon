@@ -103,7 +103,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             "form" => [],
         ]);
         $this->assertEquals(
-            '<div><form method="POST" action="." class="igk-form"><div class="content"></div></form></div>',
+            '<div><form action="." class="igk-form" method="POST"><div class="content"></div></form></div>',
             $n->render()
         );
     }
@@ -116,7 +116,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ],
         ]);
         $this->assertEquals(
-            '<div><form method="POST" action="." class="igk-form" igk-ajx-form="1"><div class="content"></div></form></div>',
+            '<div><form action="." class="igk-form" igk-ajx-form="1" method="POST"><div class="content"></div></form></div>',
             $n->render()
         );
     }
@@ -130,7 +130,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ],
         ]);
         $this->assertEquals(
-            '<div><form method="POST" action="." class="igk-form"><div class="content"><div><ajx></ajx></div><div><ajx></ajx></div></div></form></div>',
+            '<div><form action="." class="igk-form" method="POST"><div class="content"><div><ajx></ajx></div><div><ajx></ajx></div></div></form></div>',
             $n->render()
         );
     }
@@ -145,7 +145,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ],
         ]);
         $this->assertEquals(
-            '<div><form method="POST" action="." class="igk-form" igk-ajx-form="1"><div class="content"></div></form></div>',
+            '<div><form action="." class="igk-form" igk-ajx-form="1" method="POST"><div class="content"></div></form></div>',
             $n->render()
         );
     }
@@ -159,7 +159,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ],
         ]);
         $this->assertEquals(
-            '<div><form method="POST" action="." class="igk-form" igk-ajx-form="1"><div class="content"><span>hello</span></div></form></div>',
+            '<div><form action="." class="igk-form" igk-ajx-form="1" method="POST"><div class="content"><span>hello</span></div></form></div>',
             $n->render()
         );
     }

@@ -4,6 +4,7 @@
 // @date: 20221008 14:42:37
 namespace IGK\System\Console\Commands;
 
+use igk\devtools\DocumentParser\UriDetector;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssUtils;
@@ -30,7 +31,8 @@ class GenCssThemeCommand extends AppExecCommand{
             Logger::danger("controller not found");
             return -1;
         }
-        echo CssUtils::GenCss($ctrl);
+        $src = CssUtils::GenCss($ctrl);
+        echo $src.PHP_EOL;        
     }
 
 }

@@ -133,4 +133,11 @@ class IGKNotifyStorage{
         $this->tab=[$data];
         return $this;
     }
+
+    /**
+     * get messages
+     */
+    public function getMessages(){
+        return array_map(function($a){ return $a['msg']; }, $this->tab);
+    }
 }

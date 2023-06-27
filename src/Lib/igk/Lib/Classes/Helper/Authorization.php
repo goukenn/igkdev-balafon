@@ -4,7 +4,10 @@
 // @date: 20221118 10:57:56
 namespace IGK\Helper;
 
+use Exception;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
+use IGK\Helpers\ArticleHelper;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 use IGK\Models\Usergroups;
@@ -13,7 +16,14 @@ use IGK\Models\Authorizations;
 use IGK\System\Database\QueryBuilder;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Net\Mail;
+use IGK\System\Net\SendMailUtility;
+use IGK\System\Process\CronJobProcess;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
+use function igk_resources_gets as __;
 
 ///<summary></summary>
 /**
@@ -46,10 +56,10 @@ class Authorization{
     public static function GetAuthorizations(BaseController $controller){
         $keyname = StringUtility::GetControllerKeyName($controller);
         return Authorizations::select_all([
-            Authorizations::FD_CLCONTROLLER => $keyname 
+            Authorizations::FD_CL_CONTROLLER => $keyname 
         ], [
             "Columns"=>[
-                Authorizations::FD_CLNAME => "name"
+                Authorizations::FD_CL_NAME => "name"
             ]
         ]);
     }
@@ -63,10 +73,10 @@ class Authorization{
         return array_map(function($a){ 
             return $a->name; 
         }, Groups::select_all([
-            Groups::FD_CLCONTROLLER => $keyname 
+            Groups::FD_CL_CONTROLLER => $keyname 
         ], [
             "Columns"=>[
-                Groups::FD_CLNAME => "name"
+                Groups::FD_CL_NAME => "name"
             ]
         ]));
     }
@@ -82,10 +92,10 @@ class Authorization{
      */
     public static function GetGroupUsers(BaseController $controller, string $group, callable $builder=null){
         $keyname = StringUtility::GetControllerKeyName($controller);
-        $cl_uid = Users::column(Users::FD_CLID);
+        $cl_uid = Users::column(Users::FD_CL_ID);
         $g = Groups::prepare()
-        ->join_left_on(Usergroups::table(), Groups::column(Groups::FD_CLID), Usergroups::column(Usergroups::FD_CLGROUP_ID))
-        ->join_left_on(Users::table(), Users::column(Users::FD_CLID), Usergroups::column(Usergroups::FD_CLUSER_ID))
+        ->join_left_on(Usergroups::table(), Groups::column(Groups::FD_CL_ID), Usergroups::column(Usergroups::FD_CL_GROUP_ID))
+        ->join_left_on(Users::table(), Users::column(Users::FD_CL_ID), Usergroups::column(Usergroups::FD_CL_USER_ID))
         ->where([Groups::column("clName")=>$group, Groups::column("clController")=>$keyname])
         ->columns([
             $cl_uid => "id",
@@ -156,5 +166,23 @@ class Authorization{
             "clAuth_Id"=>$auth->clId,
             "clGrant"=>$grant
         ]);
+    }
+
+    /**
+     * helper: send mail recovery instruction 
+     * @param null|BaseController $baseController      
+     * @param array $data 
+     * @param string $article
+     * @return int|bool 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     */
+    public static function SendRecoveryPasswordMailInstructrion(?BaseController $baseController, array $data, string $article='/mails/auth/recoveryPasswordInstruction'){
+        return SendMailUtility::SendMailInstruction($baseController, $article, $data);         
     }
 }

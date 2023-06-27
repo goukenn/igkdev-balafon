@@ -6,6 +6,10 @@
 // @desc: diagram visitor base
 namespace IGK\Database\SchemaBuilder;
 
+/**
+ * diagram visitor base class
+ * @package IGK\Database\SchemaBuilder
+ */
 abstract class DiagramVisitorBase{
 
 }

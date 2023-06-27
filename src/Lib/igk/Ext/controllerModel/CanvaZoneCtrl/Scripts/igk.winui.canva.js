@@ -7,7 +7,10 @@ igk.system.createNS("igk.winui.canva",{
 		
 		if (!p || (p.tagName.toLowerCase() != 'canvas'))
 			return;
-			
+		/**
+		 * evaluate script in canvas context
+		 * @param {*} text 
+		 */	
 		function evalScript(text)
 		{
 		//eval script
@@ -16,10 +19,10 @@ igk.system.createNS("igk.winui.canva",{
 			if (v_context ==null)
 				return;
 			try{
-				eval(text);
+				(new Function(text)).apply(canva);  
 			}
 			catch(ex){
-				igk.winui.notify.showErrorInfo("Exception", "Error : <br />"+ex);
+				igk.winui.notify.showErrorInfo("Exception - evalScript", "Error : <br />"+ex);
 			}
 		}
 		window.igk.ajx.aget(uri, null, function(xhr){

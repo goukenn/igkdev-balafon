@@ -36,7 +36,7 @@ abstract class Utility{
      * @param bool $is_force 
      * @return void 
      */
-    public static function BindFiles($command, $bind, $is_force=false){
+    public static function MakeBindFiles($command, $bind, $is_force=false){
         foreach($bind as $n=>$c){
             if ($is_force || !file_exists($n)){
                 $c($n, $command);

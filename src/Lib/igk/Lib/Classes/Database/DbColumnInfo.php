@@ -69,7 +69,10 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                     $this->clValidator = 'guid';
                 }
             }
-            if (!$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
+            // + | --------------------------------------------------------------------
+            // + | if already setup auto - make int data to be not null
+            // + |            
+            if (!is_bool($this->clNotNull) && !$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
                 $this->clDefault = 0;
                 if (!$this->clLinkType)
                     $this->clNotNull = true;

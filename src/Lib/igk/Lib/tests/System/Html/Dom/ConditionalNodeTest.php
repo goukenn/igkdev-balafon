@@ -22,7 +22,7 @@ class ConditionalNodeTest extends BaseTestCase{
         $this->assertEquals(
 <<<'HTML'
 <!--[if lt IE 9]>
-<script type="text/javascript" language="javascript">console.dummy</script>
+<script language="javascript" type="text/javascript">console.dummy</script>
 <![endif]-->
 HTML,
 $d->render()

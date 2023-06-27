@@ -4,10 +4,12 @@
 
 use IGK\Controllers\BaseController;
 use IGK\Database\IDbArrayResult;
+use IGK\Helper\BalafonJSHelper;
 use IGK\Helper\ViewHelper;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\Resources\R;
+use IGK\System\Configuration\ConfigurationFields;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\Component\ActionGroupComponent; 
 use IGK\System\Html\Dom\HtmlANode;
@@ -32,6 +34,7 @@ use IGK\System\Html\HtmlHeaderLinkHost;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUsageCondition;
+use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Number;
 use function igk_resources_gets as __;
@@ -441,7 +444,11 @@ if (!function_exists("igk_html_node_actionbar")) {
 				$actions(...$tab);
 			} else if (is_array($actions)) {
 				foreach ($actions as $l => $v) {
-					$n->addABtn(igk_getv($v, "uri"))->setClass("igk-btn-default")->Content = __(igk_getv($v, "k"));
+					if (is_object($v) || is_array($v)){
+						$n->addABtn(igk_getv($v, "uri"))->setClass("igk-btn-default")->Content = __(igk_getv($v, "k"));
+					} else {
+						$n->addABtn('#')->setClass("igk-btn-default")->Content = __($v);
+					}
 				}
 			}
 		}
@@ -773,7 +780,7 @@ if (!function_exists("igk_html_node_app_hearder_bar")) {
 	{
 		$n = igk_create_node("div");
 		$n["class"] = "igk-app-header-bar displfex pad-4";
-		$n->h1()->Content = $controller->getConfig("clAppTitle");
+		$n->h1()->Content = $controller::title(); 
 		return $n;
 	}
 }
@@ -855,7 +862,7 @@ if (!function_exists("igk_html_node_article")) {
 	/**
 	 * bind article - article
 	 */
-	function igk_html_node_article(?BaseController $ctrl = null, ?string $name = null, $raw = [], $showAdminOption = 1)
+	function igk_html_node_article(?BaseController $ctrl = null, ?string $name = null, ?array $raw = [], $showAdminOption = 1)
 	{
 		if (is_null($ctrl) && is_null($name)) {
 			return new HtmlNode("article");
@@ -890,21 +897,11 @@ if (!function_exists("igk_html_node_attr_expression")) {
 
 	function igk_html_node_attr_expression($p = null)
 	{
-		$c = null;
-		if ($cp = HtmlReader::GetOpenerContext()) {
-			if (igk_getv($cp, "type") == "loop") {
-				$c = $cp;
-				$p = $cp->engineNode;
-			} else if ($cp instanceof stdClass) {
-				//is context childs
-				$c = $cp;
-			}
-		}
-
 		if ($p == null) {
 			$p = igk_html_parent_node();
 		}
-		$n = new HtmlAttribExpressionNode($p, (array)$c);
+		$c = (array)HtmlReader::GetOpenerContext();
+		$n = new HtmlAttribExpressionNode($p, $c); 
 		return $n;
 	}
 }
@@ -1185,21 +1182,18 @@ if (!function_exists("igk_html_node_button")) {
 	///<summary>create a button </summary>
 	/**
 	 * create a button
+	 * @var string $id id for the button
+	 * @var string $buttontype type submit|button
+	 * @var string $type class type
 	 */
-	function igk_html_node_button($id = null, $buttontype = 0, $type = null)
+	function igk_html_node_button(?string $id = null, $buttontype = 0, ?string $type = null)
 	{
 		$n = new HtmlNode("button");
 		$n["class"] = "igk-btn";
 		if ($type)
 			$n["class"] = "+igk-btn-{$type}";
 		$n["type"] = $buttontype ? "submit" : "button";
-		$n->setId($id);
-		$n->setCallback('setUri', igk_create_expression_callback(
-			<<<EOF
-\$u= \$fc_args[0];\$n["onclick"]="javascript: document.location = '\$u'; return false;"; return \$n;
-EOF,
-			array("n" => $n)
-		));
+		$n->setId($id);		
 		return $n;
 	}
 }
@@ -1968,25 +1962,26 @@ if (!function_exists("igk_html_node_defercsslink")) {
 		$key = "sys://cssLink/" . __FUNCTION__;
 		$b = $href && !is_string($href) ? igk_getv($href, "callback") : null;
 		$uri = "";
+		$v_m_keys = __FUNCTION__;
 		if (!($scriptLoading = $p->getParam($key))) {
-			$scriptLoading = igk_html_node_onrendercallback(function ($options = null) use (&$p, $key) {
+			$scriptLoading = igk_html_node_onrendercallback(function ($options = null) use (&$p, $key, $v_m_keys) {
 				$i = $p->getParam($key);
-				$sc = $i->getParam("loadscript");
+				$sc = $i->getParam($v_m_keys);
 				$o = "";
 				if ($tm = array_keys($sc)) {
-					$o .= "<script type=\"text/javascript\">";
+					$o .= "<script type=\"text/javascript\" language=\"javascript\">";
 					$o .= "(function(igk){ igk && igk.ready(function(){ if(!igk ||!igk.css.loadLinks)return;igk.ready(function(){ igk.css.loadLinks(" .
 						json_encode($tm, JSON_UNESCAPED_SLASHES)
-						. ");});  }); })(window.igk)";
-					$o .= "</script>";
-				}
+						. ");});}); })(window.igk)";
+						$o .= "</script>";
+					}
 				$i->Content = $o;
 				return 1;
 			});
 			$p->setParam($key, $scriptLoading);
 			$p->add($scriptLoading);
 		}
-		if (!($lm = $scriptLoading->getParam("loadscript"))) {
+		if (!($lm = $scriptLoading->getParam($v_m_keys))) {
 			$lm = [];
 		}
 		if (is_callable($b)) {
@@ -1998,7 +1993,7 @@ if (!function_exists("igk_html_node_defercsslink")) {
 		} else {
 			$lm[$href] = $href;
 		}
-		$scriptLoading->setParam("loadscript", $lm);
+		$scriptLoading->setParam($v_m_keys, $lm);
 		return null;
 	}
 }
@@ -2045,7 +2040,7 @@ if (!function_exists("igk_html_node_dialog")) {
 	 */
 	function igk_html_node_dialog($title = null)
 	{
-		$n = igk_create_node("igk-dialog");
+		$n = igk_create_node("div");
 		$n["class"] = "igk-dialog dispn";
 		$n["igk:title"] = $title;
 		return $n;
@@ -3150,14 +3145,22 @@ if (!function_exists("igk_html_node_jsscript_options")) {
 	/**
 	 * inject option option to pass
 	 * @param mixed $name 
-	 * @param mixed $options js_inline script to pass
+	 * @param string|array|closure $options js_inline script to pass
 	 * @return HtmlItemBase 
 	 * @throws IGKException 
+	 * require \js\js\common
 	 */
-	function igk_html_node_jsscript_options($name, $options)
+	function igk_html_node_jsscript_options(string $name, $options)
 	{
+		if (is_array($options)){
+			$options = BalafonJSHelper::Stringify($options);			
+		}
 		$n = igk_create_node('script');
-		$n->Content = sprintf('igk.system.defineOption("%s", %s)', $name, $options);
+		if ($options instanceof \Closure){
+			$n->Content = new \IGK\System\Html\HtmlJsOptionDefinition($name, $options);
+		} else{
+			$n->Content = sprintf('igk.system.defineOption("%s", %s)', $name, $options);
+		}
 		return $n;
 	}
 }

@@ -17,7 +17,7 @@ abstract class CoreUtility{
      * lint project file 
      * @return int|void 
      */
-    public static function LintProject(){
+    public static function LintCoreLib(){
         if ($files = igk_io_getfiles(IGK_LIB_DIR, "/\.(php|pinc|phtml|pcss)$/")){
             Logger::info("checking core files....syntaxe");
         $count = 0;

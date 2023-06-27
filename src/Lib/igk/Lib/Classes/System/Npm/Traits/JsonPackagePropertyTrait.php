@@ -21,5 +21,4 @@ trait JsonPackagePropertyTrait{
     var $license;
     var $dependencies;
     var $devDependencies;
-
 }

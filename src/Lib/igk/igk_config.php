@@ -34,8 +34,7 @@ define('IGK_NO_TRACELOG', 1);
 defined('IGK_CHECK_NETWORK_DOMAIN') || define('IGK_CHECK_NETWORK_DOMAIN', 'igkdev.com');
 
 // + define('IGK_NO_SESSION', 1); 
-// +  define("IGK_TRACE", 1);
-// + define('IGK_ENV_PRODUCTION', 1);
+// +  define("IGK_TRACE", 1); 
 // + | global disable view cache
 // + define("IGK_NO_VIEW_CACHE", 1);
 // + |
@@ -492,7 +491,7 @@ define("IGK_DOMAIN_REGEX", "/^((http(s)?:\/\/)|(\.))?(?P<domain>([^ \/]+)\.([^\.
 !defined("IGK_EXPRESSION_START_MARKER") && define("IGK_EXPRESSION_START_MARKER", '\{\{');
 !defined("IGK_EXPRESSION_END_MARKER") && define("IGK_EXPRESSION_END_MARKER", '\}\}');
 !defined("IGK_EXPRESSION_ESCAPE_MARKER") && define("IGK_EXPRESSION_ESCAPE_MARKER", "'");
-define("IGK_TEMPLATE_EXPRESSION_REGEX", '/((?P<scope>@*)(?P<escape>[' . IGK_EXPRESSION_ESCAPE_MARKER . '])?' . IGK_EXPRESSION_START_MARKER . '(?P<expression>([^\}\{])+)' . IGK_EXPRESSION_END_MARKER . ')/');
+define("IGK_TEMPLATE_EXPRESSION_REGEX", '/((?P<scope>@*)(?P<escape>[' . IGK_EXPRESSION_ESCAPE_MARKER . '])?' . IGK_EXPRESSION_START_MARKER . '(?P<expression>.+)' . IGK_EXPRESSION_END_MARKER . ')/');
 define("IGK_TEMPLATE_GLOBAL_EXPRESSION_REGEX", '/(\[{0,1})(?P<exp>\[\s*(?P<name>\w+)\s*:(?P<value>([^\]])+)\])(\]{0,1})/i');
 define("IGK_HOME", "home");
 //    define("IGK_ENV_PARAM_KEY", "sys://EnvParam");
@@ -709,6 +708,7 @@ define('IGK_MAIL_CTRL', "{de18f39a-4474-a8c1-76f6-673d8858468b}");
 define('IGK_COMPOSER_CTRL', "{f50822d4-a0db-4bea-0a09-c254bfe4aedf}");
 define('IGK_USERGROUP_CTRL', "{f73dbe59-2357-de3c-b19f-a2cdefbb194d}");
 define('IGK_USER_AND_GROUP_CTRL', "{ab6f9000-610f-3695-b431-9eb85149d777}");
+define('IGK_DB_CONF_CTRL', "{CCC0CB51-991F-DB97-303C-F29D0C784CE8}");
 
 // defi'e'"IGK_OTHER_MENU_CTRL", SYS_CTRL_BASE + 1);
 // defi'e'"IGK_MSBOX_CTRL", SYS_CTRL_BASE + 2);

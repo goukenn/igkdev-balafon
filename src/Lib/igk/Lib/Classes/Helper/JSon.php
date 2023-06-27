@@ -60,7 +60,7 @@ use stdClass;
             while(count($mkeys)>0){
                 $k = array_shift($mkeys);
                 $tv = $data[$k];
-                if ($this->m_options->ignore_empty && empty($tv)){
+                if (!is_numeric($tv) && $this->m_options->ignore_empty && empty($tv)){
                     continue;
                 }
                 if (!is_numeric($k)){
@@ -136,6 +136,14 @@ use stdClass;
         // }
         return $root;
     }
+    private static function _ConvertItemObject($a){
+        if ($a instanceof IToArrayResolver){
+            $a = $a->to_array(); 
+        } else if (!($a instanceof stdClass)){
+            $a = (object)(array)$a;
+        } 
+        return $a;
+    }
     /**
      * filter array 
      * @param mixed $a 
@@ -144,6 +152,7 @@ use stdClass;
      */
     public function filter_array($a){         
         if (is_object($a)){
+            $a = self::_ConvertItemObject($a);            
             $c = $this->get_root_data($a); 
             return $c;
         } else if (is_array($a)){
@@ -167,8 +176,14 @@ use stdClass;
             $end = false;
             while(!$end  && (count($keys)>0)){
                 $k = array_shift($keys);
+                if (strpos($k, "\0")===0){
+                    continue;
+                }
                 $tv = igk_getv($v, $k);
-                if ($this->m_options->ignore_empty && empty($tv)){
+                if ((!is_bool($tv) && !is_numeric($tv)) && $this->m_options->ignore_empty && empty($tv)){
+                    continue;
+                }
+                if (is_null($tv) && $this->m_options->ignore_null ){
                     continue;
                 }
                 if (is_null($root)){
@@ -184,6 +199,14 @@ use stdClass;
                     }
                     else if ($this->m_options->ignore_empty ){
                         $tv = array_filter(array_map([$this, 'filter_array'], $tv));
+                    } else {
+                        // transform item to native object 
+                        $tv = array_map(function($a){
+                            if (is_object($a)){
+                                $a = self::_ConvertItemObject($a); 
+                            }
+                            return $a;
+                        }, $tv);
                     }
                 } else if  (is_object($tv)){
                     array_unshift($tq, ['d'=>$d, 'keys'=>$keys, 'c'=>$c, 'is_object'=>$is_object]);
@@ -204,7 +227,7 @@ use stdClass;
     /**
      * encode data
      * @param mixed $data 
-     * @param mixed $options 
+     * @param mixed|JSonEncodeOption $options 
      * @param int $encode 
      * @return string|false 
      */

@@ -17,6 +17,7 @@ final class IGKConstants{
     const MYSQL_TIME_FORMAT = "H:i:s";
     const DEFAULT_TIME_ZONE = 'Europe/Brussels';
     const MODEL_TABLE_REGEX = "/%(?P<name>((sys)?prefix|year))%/i"; 
+    const TOKEN_EXPIRE = 60*24*3;
     
     const BASECLASS_COMMAND = \System\Console\Commands::class;
 
@@ -31,6 +32,16 @@ final class IGKConstants{
 
     const RAW_VAR = 'raw';
     const CTRL_VAR = 'ctrl';
+
+    /**
+     * project configuration file
+     */
+    const PROJECT_CONF_FILE = 'balafon.config.json';
+
+
+    const NS_ACTION_ENTRY = \Actions::class;
+    const NS_MODEL_ENTRY = \Models::class;
+    const NS_DATABASE_ENTRY = \Database::class;
 
     /**
      * get the core version 

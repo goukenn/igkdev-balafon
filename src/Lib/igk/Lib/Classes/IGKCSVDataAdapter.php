@@ -21,6 +21,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_dbname;
     private $m_fhandle;
 
+    public function listTables() {
+        return ['name'=>['csv_file']];
+     }
+
     /**
      * no query allowed
      * @param string $query 
@@ -50,7 +54,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         return false;
     }
 
-    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string {
+    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column,string $dbname): string {
         return "";
     }
 

@@ -33,6 +33,9 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
             }
         }
     }
+    public function sortKeys(){
+        $this->m_attributes->sortKeys();
+    }
     /**
      * get attribute array
      * @return array 

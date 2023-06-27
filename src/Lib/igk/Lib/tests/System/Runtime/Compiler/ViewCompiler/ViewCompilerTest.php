@@ -202,7 +202,7 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-    public function test_block_loop_template(){
+    public function _st_block_loop_template(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
         ];

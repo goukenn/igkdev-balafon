@@ -26,11 +26,13 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
         return true;
     }
     ///<summary>Represente dropDb function</summary>
-    protected static function dropDb(){
+    protected static function dropDb($navigate=1, $force=0, $clean=false){
         $c=igk_getctrl(__CLASS__, false);
         if($c->getDataAdapterName() == IGK_MYSQL_DATAADAPTER){
-            $sql=new MySQLDataController();
-            $sql->drop_all_tables();
+            if ($clean){
+                $sql=new MySQLDataController();
+                $sql->drop_all_tables();
+            }
         }
     }
     ///<summary></summary>
@@ -90,18 +92,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
         parent::initComplete();
         $this->RegValueTypeArray("USERTOKENID", null, 1, 1);
     }
-    ///<summary></summary>
-    // protected static function initDb($force=false, bool $clean=false){
-    //     if($c=igk_getctrl(static::class, false)){
-    //         igk_set_env(IGK_ENV_DB_INIT_CTRL, $c);
-    //         $c->initDbFromSchemas();
-    //         $c->initDbConstantFiles();
-    //         // static::InitDataBaseModel([], $force, $clean);
-    //         igk_set_env(IGK_ENV_DB_INIT_CTRL, null);
-    //         return 1;
-    //     }
-    //     return false;
-    // }
     ///<summary>check if this class already be initialize </summary>
     public static function Initialized($cl){
         return false;

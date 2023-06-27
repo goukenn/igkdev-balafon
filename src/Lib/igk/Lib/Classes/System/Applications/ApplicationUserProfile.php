@@ -2,14 +2,15 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: ApplicationUserProfile.php
 // @date: 20230129 13:34:47
-namespace IGK\System\Application;
+namespace IGK\System\Applications;
 
 use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase as ModelsModelBase;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
-use ModelBase;
+ 
 
 ///<summary></summary>
 /**
@@ -50,9 +51,10 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
         return $this->m_user;
     }
 
-    public function __construct($user)
+    public function __construct(Users $user)
     {
-        $this->m_user = $user;
+        Users::IsMockInstance($user) && igk_die('mock instance not allowed');
+        $this->m_user = $user; 
         parent::__construct();
     }
     /**

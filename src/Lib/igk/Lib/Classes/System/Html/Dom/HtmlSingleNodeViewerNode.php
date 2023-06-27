@@ -43,9 +43,11 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         
         return [$this->targetNode];
     }
+ 
     ///<summary></summary>
     ///<param name="options" default="null"></param>
     protected function __RenderComplete($options=null){ 
+    
         igk_html_rm($this);
         if($this->m_callback){
             igk_invoke_callback_obj($this, $this->m_callback);

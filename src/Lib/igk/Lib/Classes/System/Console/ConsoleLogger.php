@@ -19,6 +19,9 @@ class ConsoleLogger{
         $this->app->print_off($this->app::Gets(App::PURPLE, $msg));
     }
     public function danger($msg){
+        if (strstr($msg,'Duplicate entry')){
+            //igk_wln_e("stop : Duplicate entry", $msg);
+        }
         $this->app->print_off($this->app::Gets(App::RED, $msg));
     }
     public function success($msg){

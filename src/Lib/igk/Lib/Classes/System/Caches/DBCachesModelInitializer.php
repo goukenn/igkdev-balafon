@@ -142,7 +142,7 @@ class DBCachesModelInitializer{
      */
     public function getModelDefaultSourceDeclaration($name, $table, $columnInfo, $ctrl, ?string $comment = null)
     {
-        $ns =  $ctrl::ns("");
+        $ns =  $ctrl->getEntryNamespace(); 
         $uses = [];
         $gc = 0;
         $extends = implode("\\", array_filter([$ns, "Models\\ModelBase"]));
@@ -430,7 +430,8 @@ class DBCachesModelInitializer{
                     $this->tableInfo[$type] = $info;
                 } else{
                 // $gm = Database::GetInfo($type);
-                    igk_die(sprintf("try to retrieve ".__CLASS__." null [%s] ", $type));
+                    igk_die(sprintf("try to retrieve AT : ".__CLASS__." no info table for [%s] ", $type));
+                    return null;
                 }
             }
             if (!isset($gu->modelClass)) {

@@ -11,7 +11,7 @@
 namespace IGK\System\Html;
 
 /**
- * represent reader binding info
+ * represent reader binding info - state in environment
  * @package IGK\System\Html
  */
 final class HtmlReaderBindingInfo{

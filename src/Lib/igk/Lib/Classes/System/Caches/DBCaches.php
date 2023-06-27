@@ -19,6 +19,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
 use IGKEvents;
 use IGKException;
+use IGKSysUtil;
 use ReflectionException;
 
 ///<summary></summary>
@@ -115,9 +116,9 @@ class DBCaches
      * @return never 
      * @throws NotImplementException 
      */
-    public static function Reset()
+    public static function Reset(bool $force=false)
     {
-        static::getInstance()->_clearAndReload();
+        static::getInstance()->_clearAndReload($force);
     }
     /**
      * retrieve cached table column info -
@@ -195,12 +196,12 @@ class DBCaches
      * @throws ReflectionException 
      * @throws Exception 
      */
-    private function _clearAndReload()
+    private function _clearAndReload(bool $force=false)
     {
         $this->_clear();
-        $this->_initDbCache();
+        $this->_initDbCache($force);
     }
-    protected function _initDbCache()
+    protected function _initDbCache(bool $force=false)
     {
         if ($this->m_initializing) {
             return;
@@ -231,7 +232,7 @@ class DBCaches
                     } else {
                         igk_dev_wln_e(
                             __FILE__ . ":" . __LINE__,
-                            "data---:' not found ",
+                            "cache missing configuration",
                             $trdata
                         );
                     }
@@ -290,7 +291,7 @@ class DBCaches
         // + | check and init data model 
         // + |
         Logger::info("checking models files - init db cache models ...");
-        DBCachesModelInitializer::Init($this->m_tableInfo);
+        DBCachesModelInitializer::Init($this->m_tableInfo, $force);
         igk_hook(IGKEvents::HOOK_DB_CACHES_INITIALIZED, []);     
     }
     /**
@@ -429,7 +430,8 @@ class DBCaches
         $src = serialize(json_decode(Utility::TO_JSON(
             [$g->m_serie, 
             'generate' => date('Ymd His')],[
-                'ignore_empty' => 1
+                'ignore_empty' => true,
+                'ignore_null' => true,
             ]
         )));
         igk_io_w2file(self::GetCacheFile(), $src);  
@@ -463,5 +465,23 @@ class DBCaches
         }, $v_tabinfo));
         // + | force reload controller schema 
         // DbSchemas::ClearControllerSchema($controller);
+    }
+
+    /**
+     * resolv and init tbinfo
+     * @param string $tb 
+     * @param mixed $tbinfo 
+     * @return bool 
+     * @throws IGKException 
+     */
+    public static function ResolvAndInitDbTableCacheInfo(string $tb, & $tbinfo){
+        if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
+            $tables[$tb] = $tbinfo;
+            if (!$tbinfo->modelClass) {
+                $tbinfo->modelClass = IGKSysUtil::GetModelTypeName($tbinfo->defTableName, $tbinfo->controller);
+            }
+            return true;
+        } 
+        return false;
     }
 }

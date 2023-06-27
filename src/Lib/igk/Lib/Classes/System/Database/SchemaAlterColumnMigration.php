@@ -5,11 +5,11 @@
 // @desc: alert table migration
 
 
-namespace IGK\System\DataBase;
+namespace IGK\System\Database;
 
 /**
  * alter table column
- * @package IGK\System\DataBase
+ * @package IGK\System\Database
  */
 class SchemaAlterColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["column"];

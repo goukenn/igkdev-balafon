@@ -60,7 +60,12 @@ class SchemaMigrationHookHandler{
             // update column fields
             foreach($cl as $r){
                 // update column fields
-                $this->tables[$r->table][$r->column]->clLinkColumn = $name;
+                $info = $this->tables[$r->table];
+                $inf = igk_getv($info->columnInfo, $r->column);
+                if (!$inf){
+                    continue;
+                }
+                $inf->clLinkColumn = $name;
             }
         }
 

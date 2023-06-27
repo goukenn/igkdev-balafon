@@ -12,6 +12,7 @@ use IGK\Helper\UriPath;
 use IGK\System\Exceptions\CrefNotValidException;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Http\Request;
 use ReflectionException;
 use function igk_resources_gets as __;
 
@@ -49,8 +50,14 @@ trait FormLoginPostActionTrait
         $q = count($query)>0 ? "?".http_build_query($query) : "";
         return $this->getController()->getAppUri($v_view.$q);
     }
-    public function login_get(){
+    /**
+     * redirect to login service 
+     * @param Request $request 
+     * @return null 
+     */
+    public function login_get(Request $request){
         $this->redirect = $this->getController()::uri('ServiceLogin');
+        return null;
     }
     /**
      * post login to application
@@ -60,13 +67,13 @@ trait FormLoginPostActionTrait
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function login_post()
+    public function login_post(Request $request)
     {
+        // igk_ilog('login_post : call ');   
         $this->notifyActionName = 'form_login';
         $ctrl = $this->getController();
         $redirect = $ctrl::uri($this->serviceLoginSigninView);
  
-        igk_ilog('login_post : call ');  
       
         $this->getController()->checkUser(false);
 
@@ -97,10 +104,17 @@ trait FormLoginPostActionTrait
         // + |
         
         if ($redirect && !UriPath::CheckActionExtend($redirect, 'login')){
-            $this->redirect = $redirect;
+            $redirect = $redirect;
         } else {
-            $this->redirect = $this->getController()->uri('');
-        }        
+            $redirect = $this->getController()->uri('');
+        }   
+        $ctrl->redirect = $redirect;
+        
+        if (igk_is_ajx_demand()){
+            return [
+                'redirect'=>$this->redirect,
+            ];
+        }     
     }
   
 }

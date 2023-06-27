@@ -8,6 +8,10 @@
 
 
 ///<summary>represent IIAction Result interface </summary>
+
+use IGK\Database\IIGKDatabaseCreator;
+use IGK\System\Configuration\Controllers\IConfigController;
+
 /**
 * represent IIAction Result interface
 */
@@ -17,22 +21,8 @@ interface IIGKActionResult{
     * 
     */
     function index();
-}
-
-
-
-
-///<summary>Represente interface: IIGKConfigController</summary>
-/**
-* Represente IIGKConfigController interface
-*/
-interface IIGKConfigController {
-    ///<summary></summary>
-    /**
-    * 
-    */
-    function showConfig();
-}
+} 
+ 
 ///<summary>Represente interface: IIGKController</summary>
 /**
 * Represente IIGKController interface
@@ -149,11 +139,7 @@ interface IIGKDataAdapter{
     * 
     */
     function selectCount(string $tbname, ?array $where = null, ?array $options = null);
-    ///<summary></summary>
-    /**
-    * 
-    */
-    function createDb();
+ 
     ///<summary></summary>
     /**
     * 
@@ -738,28 +724,28 @@ interface IIGKdbManager {
 /**
 * represent a module listener interface
 */
-interface IIGKAppModuleListener extends IIGKConfigController{
-    const DATA=1;
-    const DATA2=self::DATA + 5;
-    const DATA3=self::DATA2;
-    ///<summary></summary>
-    /**
-    * 
-    */
-    function getBaseUri();
-    ///<summary></summary>
-    /**
-    * 
-    */
-    function getConfigs();
-    ///<summary></summary>
-    ///<param name="n"></param>
-    /**
-    * 
-    * @param mixed $n
-    */
-    function getTable($n);
-}
+// interface IIGKAppModuleListener extends IConfigController{
+//     const DATA=1;
+//     const DATA2=self::DATA + 5;
+//     const DATA3=self::DATA2;
+//     ///<summary></summary>
+//     /**
+//     * 
+//     */
+//     function getBaseUri();
+//     ///<summary></summary>
+//     /**
+//     * 
+//     */
+//     function getConfigs();
+//     ///<summary></summary>
+//     ///<param name="n"></param>
+//     /**
+//     * 
+//     * @param mixed $n
+//     */
+//     function getTable($n);
+// }
 ///<summary>Represente interface: IIGKDataController</summary>
 /**
 * Represente IIGKDataController interface

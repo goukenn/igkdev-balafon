@@ -36,7 +36,7 @@ class DiagramVisitor extends DiagramVisitorBase{
      * @param mixed $item 
      * @return false 
      */
-    public function acceptVisit($item)
+    public function acceptVisit($item):bool
     {
         if (is_object($item)){
             $fc = "visit".basename(igk_uri(get_class($item)));  

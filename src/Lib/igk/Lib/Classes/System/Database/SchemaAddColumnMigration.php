@@ -39,20 +39,19 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         }
     }
     public function up(){ 
-        // igk_trace();
-        // igk_wln_e("calling up");
-        if ($this->table == 'tbigk_users')
-        {
-            igk_dev_wln("table : ". $this->table);
-        }
 
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
+        $after = $this->after;
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){
                 continue;
             }
-            $ctrl->db_add_column($tb, $cl, $this->after);
+            $ctrl->db_add_column($tb, $cl, $after);
+            //
+            if ($after){ // continue after
+                $after = $cl->clName;
+            }
         }
     }
     public function down(){

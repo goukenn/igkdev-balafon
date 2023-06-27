@@ -83,19 +83,39 @@ class StringBuilder{
     /**
      * append text
      * @param string $text 
-     * @return void 
+     * @return static 
      */
     public function append(string $text){     
-        $this->m_src .= $text;       
+        $this->m_src .= $text;   
+        return $this;    
     }
+    /**
+     * rtrim
+     * @param string $charlist 
+     * @return $this 
+     */
     public function rtrim(string $charlist=" \t\n\r\0\x0B"){
         $this->m_src = rtrim($this->m_src, $charlist);
+        return $this;
     }
+    /**
+     * ltrim
+     * @param string $charlist 
+     * @return $this 
+     */
     public function ltrim(string $charlist=" \t\n\r\0\x0B"){
         $this->m_src = ltrim($this->m_src, $charlist);
+        return $this;
+
     }
+    /**
+     * trim data
+     * @param string $charlist 
+     * @return $this 
+     */
     public function trim(string $charlist=" \t\n\r\0\x0B"){
         $this->m_src = trim($this->m_src, $charlist);
+        return $this;
     }
     /**
      * return the string builder

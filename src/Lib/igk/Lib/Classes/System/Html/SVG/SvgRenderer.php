@@ -79,6 +79,7 @@ class SvgRenderer{
         return false;
     }
     public static function AcceptRenderList($options){ 
+    
         if (!self::$sm_renderList){
             if (igk_getv($options, "Document")){
                 igk_reg_hook(IGKEvents::HOOK_HTML_BODY, [self::class, "RenderList"]);           
@@ -89,7 +90,6 @@ class SvgRenderer{
                 self::$sm_renderList = true;
             }
         }
-
     }
     public static function RenderList($e){
         $options = igk_getv($e->args, "options"); 
@@ -102,6 +102,7 @@ class SvgRenderer{
             $n->host(function() use ($list){
                 foreach($list as $k=>$v){
                     echo "<".$k.">";
+                    echo "<!-- svg content -->";
                     echo igk_svg_content(igk_io_read_allfile($v));
                     echo "</".$k.">";
                 }

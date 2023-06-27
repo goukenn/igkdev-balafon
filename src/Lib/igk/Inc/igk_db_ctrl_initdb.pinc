@@ -51,14 +51,14 @@ if (!$controller->getUseDataSchema()) {
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
-        if (!(($cl = $controller::resolveClass(\Database\DbInitManager::class)) && class_exists($cl, false)
+        if (!(($cl = $controller->resolveClass(\Database\DbInitManager::class)) && class_exists($cl, false)
             && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
             $cl = \IGK\Database\DbInitManager::class;
         }
         if ($cl) {
             (new $cl($controller))->init($controller);
         }
-        if (($cl = $controller::resolveClass(Database\InitData::class)) && class_exists($cl, false)) {
+        if (($cl = $controller->resolveClass(Database\InitData::class)) && class_exists($cl, false)) {
             $call = true;
             // + | Check Init 
             $c = new ReflectionMethod($cl, "Init");
@@ -81,7 +81,7 @@ igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$controller]);
 
 
 // DbSchemaDefinitions::Reload($controller);
-function_exists('opcache_reset') && opcache_reset();
+function_exists('opcache_reset') &&  !ini_get('restrict_api') && opcache_reset();
 
 igk_set_env(get_class($controller) . "::initdb", 1);
 

@@ -12,5 +12,24 @@ use IGK\IHookOptions;
 * @package IGK\System\TamTam
 */
 class ProjectBuilderAfterBuildHookOption implements IHookOptions{
+    /**
+     * array of errors
+     * @var array
+     */
     var $errors = [];
+    /**
+     * entry output 
+     * @var mixed
+     */
+    var $output;
+    /**
+     * build type
+     * @var mixed
+     */
+    var $type;
+    /**
+     * build args
+     * @var mixed
+     */
+    var $args;
 }

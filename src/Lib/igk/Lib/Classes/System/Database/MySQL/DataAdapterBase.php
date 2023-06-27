@@ -569,7 +569,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * 
      * @param mixed $dbname
      */
-    public function selectdb($dbname)
+    public function selectdb(?string $dbname=null)
     {
         if (($this->m_dbManager != null) && !empty($dbname)) {
             $r = $this->m_dbManager->selectdb($dbname);
@@ -649,16 +649,20 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * @return string 
      * @throws IGKException 
      */
-    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $dbname): string
+    public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname): string
     {
-        $query = $grammar->createSelectQuery(
-            DataAdapter::DB_INFORMATION_SCHEMA.".columns",
-            [
-                "table_schema" => $dbname,
-                "table_name" => $table
-            ]
-        );
+        $tbname = $this->m_dbManager->escape_string($table);
+        $query =  "DESCRIBE ".$tbname. " ".$column;
         return $query;
+        // $query = $grammar->createSelectQuery(
+        //     DataAdapter::DB_INFORMATION_SCHEMA.".columns",
+        //     [
+        //         "table_schema" => $dbname,
+        //         "table_name" => $table,
+        //         'column_name'=>$column
+        //     ]
+        // );
+        // return $query;
     }
 }
 

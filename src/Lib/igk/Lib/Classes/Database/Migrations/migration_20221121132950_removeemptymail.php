@@ -4,7 +4,7 @@
 namespace IGK\Database\Migrations;
 
 use IGK\Database\MigrationBase;
-use IGK\System\DataBase\SchemaMigrationBuilder;
+use IGK\System\Database\SchemaMigrationBuilder;
 
 ///<summary></summary>
 /**

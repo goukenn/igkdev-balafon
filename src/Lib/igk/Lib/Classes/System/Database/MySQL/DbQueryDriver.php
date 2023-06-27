@@ -20,7 +20,12 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         $o = parent::Create($options, $error); 
         return $o;
     }    
-  
+    public function getVersion(){
+        if ($this->m_resource){
+            return $this->m_resource->server_info;
+        }
+        return null;
+    }
    
     protected function initialize($r){
         $time_zone = igk_configs()->get('date_time_zone', IGKConstants::DEFAULT_TIME_ZONE);

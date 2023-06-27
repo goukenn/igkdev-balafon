@@ -8,6 +8,9 @@ create: 22/07/2014
 
 (function() {
     var static_canva;
+    function _eval(src, apply, arg){
+        return (new Function(src)).apply(apply, arg);
+    };
     var _sfigure = 0; //indicate a starting figure
     function __append_bezier(ctx,
         x1, y1,
@@ -253,7 +256,7 @@ create: 22/07/2014
                     }
                     v_context.save();
                     this.matrix.transform(v_context);
-                    eval(this.code);
+                    _eval(this.code);
                     v_context.restore();
                 },
                 translate: function(x, y) {
@@ -363,7 +366,7 @@ create: 22/07/2014
         loadObj: function(uri, callback) {
             igk.ajx.get(uri, null, function(xhr) {
                 if (this.isReady()) {
-                    var obj = eval(xhr.responseText);
+                    var obj = _eval(xhr.responseText);
                     // console.debug(f);
                     //var obj = igk.JSON.parse(xhr.responseText);
                     // console.debug("loead ....");
@@ -518,9 +521,8 @@ create: 22/07/2014
 
             for (var i = 0; i < obj.layers.length; i++) {
                 var l = obj.layers[i];
-                for (var j = 0; j < l.length; j++) {
-
-                    eval(l[j].p);
+                for (var j = 0; j < l.length; j++) { 
+                    _eval(l[j].p, [v_ctx], {j,l});
                     ctx.fill("evenodd");
                     ctx.stroke();
                 }

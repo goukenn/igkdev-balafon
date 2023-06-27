@@ -607,7 +607,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param bool $force bypass can add childs check
      * @return bool 
      */
-    protected function _add($n, $force = false):bool
+    protected function _add($n, bool $force = false):bool
     {
         if (($force || $this->getCanAddChilds()) && $n && ($n !== $this)) {
             if ($n->m_parent) {
@@ -1246,7 +1246,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * Load html content to this node
      * @param static $t
      * @param mixed $content source string to load
-     * @param mixed $context context of the loading. mixed string or object
+     * @param mixed|HtmlLoadingContextOptions $context context of the loading. mixed string or object
      */
     public static function LoadInContext(HtmlItemBase $t, string $content, $context = null, callable $creator = null)
     {

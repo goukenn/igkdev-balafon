@@ -71,7 +71,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         return $this;
     }
     public function getNoCoreCss(){
-         $this->m_noCoreCss; 
+        return $this->m_noCoreCss; 
     }
     public function setNoCoreCss(?bool $value=null){
         $this->m_noCoreCss = $value;  

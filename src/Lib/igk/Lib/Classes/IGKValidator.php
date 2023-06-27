@@ -6,6 +6,9 @@
 
 
 ///<summary>Represente class: IGKValidator</summary>
+
+use IGK\System\Html\Forms\IFormValidator;
+
 /**
 * Represente IGKValidator class
 */
@@ -43,13 +46,13 @@ final class IGKValidator extends IGKObject {
     ///<param name="errormsg" default="IGK_STR_EMPTY"></param>
     /**
     * 
-    * @param mixed $condition
+    * @param bool $condition
     * @param mixed * $error
     * @param mixed $node the default value is null
     * @param mixed $errormsg the default value is IGK_STR_EMPTY
     */
     public static function Assert($condition, & $error, $node=null, $errormsg=IGK_STR_EMPTY){
-        if($condition){
+        if(!$condition){ 
             $error=$error || true;
             if($node != null){
                 $node->li()->Content=$errormsg;
@@ -254,22 +257,61 @@ final class IGKValidator extends IGKObject {
     ///<param name="error" ref="true"></param>
     /**
     * 
-    * @param mixed $o
-    * @param mixed $fields
+    * @param object $o object to validate 
+    * @param mixed $fields [key=>['f'=>callback, 'e'=>error_message, 'required'=>true|false, 'd'=>default value in calse of missing]] - \
+    * callback is validation fonction and 'e' error message
+    * callback can't be a validator method IFormValidator 
     * @param mixed * $error
+    * @return bool|object  
     */
     public static function Validate($o, $fields, & $error){
         $g=self::getInstance()->sm_enode;
         $g->clearChilds();
         $e=false;
+        $ro = (object)[];
         if(is_array($fields)){
             foreach($fields as $k=>$v){
-                $s=$o->$k;
-                $cond=call_user_func_array(array(__CLASS__, $v["f"]), array($s));
-                self::Assert($cond, $e, $g, $v["e"]);
+                
+                $f = igk_getv($v, 'f');
+                $require = igk_getv($v, 'required');
+                $error_text = igk_getv($v, 'e', sprintf('error on fields %s', $k));
+                $cond = false;
+                $s = null;
+                if (!property_exists($o, $k)){
+                    $require = $require || ($f instanceof IFormValidator) ? $f->isRequire() : false;                    
+                    if ($require){
+                        $error_text = sprintf('missing field %s', $k);                        
+                    }
+                } else {
+                    $s = $o->$k;                
+                    $call = null;
+                    if ($f instanceof IFormValidator){
+                        $call = [$f, 'assertValidate'];
+                    }
+                    else if (!is_string($f) && is_callable($f) ){
+                        $call = [$f];
+                    }else{                    
+                        if (is_string($f) && ($f!= __FUNCTION__) && method_exists(static::class, $f)){
+                            $s = trim($s ?? '');
+                            $call = [static::class, $f];
+                        }
+                    }
+                    if (is_null($call)){
+                        igk_die(sprintf(__('missing validation for %s'), $k));
+                    }
+                    $cond=call_user_func_array($call, array($s));
+                    self::Assert($cond, $e, $g, $error_text); 
+                }
+                !$cond && $error[] = $error_text;
+                $o->$k = $s;
+                $ro->$k = $s;
             }
         }
-        return !$e;
+        if ($e){
+            $error[] = $g->render();
+            return false;
+        }
+        return $ro;
     }
 
 }

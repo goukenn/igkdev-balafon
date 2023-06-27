@@ -10,13 +10,15 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\ExceptionUtils;
-use IGK\Helper\IO; 
+use IGK\Helper\IO;
+use IGK\Helper\SysUtils;
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\ConfigurationPageHandler;
+use IGK\System\Http\IRequestFileHandler;
 use IGK\System\Http\RequestException;
 use IGKApp; 
 use IGKApplicationBase;
@@ -32,7 +34,7 @@ require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
  * application web controller 
  * @package 
  */
-class WebApplication extends IGKApplicationBase
+class WebApplication extends IGKApplicationBase implements IRequestFileHandler
 {
     protected $file;
 
@@ -239,10 +241,13 @@ class WebApplication extends IGKApplicationBase
             // + |-------------------------------------------------------
             // + | configuration handle
             // + |
-            if (!igk_environment()->noWebConfiguration()) {
+            if (!igk_environment()->noWebConfiguration()) { 
+
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
-                }, $file))->handle_route($path_info);
+                }, $file))->handle_route($path_info, function()use($requestHandler, $path_info, $_redirectArgs){
+                    $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);  
+                });
             }
             if (!defined("IGK_REDIRECT_ACCCESS") && in_array($path_info, $access_file)) {
                 if (file_exists($cfile = igk_uri(dirname(dirname(IGK_LIB_DIR)) . $path_info))) {
@@ -253,22 +258,31 @@ class WebApplication extends IGKApplicationBase
                     igk_exit();
                 }
             }
-
-            $_SERVER["REDIRECT_STATUS"] = '200';
-            $_SERVER["REDIRECT_URL"] = $path_info;
-            $_SERVER["REDIRECT_REQUEST_METHOD"] = $_SERVER["REQUEST_METHOD"];
-            $_SERVER["REDIRECT_QUERY_STRING"] = $_SERVER["QUERY_STRING"];
-            // $dir = igk_str_rm_last(igk_uri(dirname($_SERVER["SCRIPT_NAME"])), '/');
-            $q = $path_info;
-            if (!empty($_SERVER["QUERY_STRING"]))
-                $q .= "?" . $_SERVER["QUERY_STRING"];
-            $_SERVER["ENV_FULL_REQUEST_URI"] = $q;
-            $srv->prepareServerInfo();
-            $requestHandler->redirect($this, $_redirectArgs);
+            $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);     
             igk_exit();
         }
         // : hanling core request uri
         RequestHandler::getInstance()->handle_ctrl_request_uri(); 
+    }
+    /**
+     * redirect path uri
+     * @param mixed $requestHandler 
+     * @param mixed $path_info 
+     * @param mixed $_redirectArgs 
+     * @return void 
+     * @throws IGKException 
+     */
+    private function _redirectUri($requestHandler, $path_info, $_redirectArgs){
+        $_SERVER["REDIRECT_STATUS"] = '200';
+        $_SERVER["REDIRECT_URL"] = $path_info;
+        $_SERVER["REDIRECT_REQUEST_METHOD"] = $_SERVER["REQUEST_METHOD"];
+        $_SERVER["REDIRECT_QUERY_STRING"] = $_SERVER["QUERY_STRING"];
+        $q = $path_info;
+        if (!empty($_SERVER["QUERY_STRING"]))
+            $q .= "?" . $_SERVER["QUERY_STRING"];
+        $_SERVER["ENV_FULL_REQUEST_URI"] = $q;
+        igk_server()->prepareServerInfo();
+        $requestHandler->redirect($this, $_redirectArgs);
     }
     /**
      * run application
@@ -283,31 +297,21 @@ class WebApplication extends IGKApplicationBase
     public function run(string $file, $render = 1)
     {
         // if (igk_environment()->isDev()){
-            // igk_ilog('run:');
-            
+            // igk_ilog('run:');            
             // igk_environment()->querydebug = defined('IGK_QUERY_DEBUG') ? constant('IGK_QUERY_DEBUG') : null;
         // }
         $this->file = $file;
-        // -- config 
-        $config = igk_configs();
-        if ($config->force_secure_redirection) {            
-            $tp = igk_server()->SERVER_PORT;
-            $csport = $config->secure_port; 
-            $sport = array_map('trim', array_filter(explode(',', $csport ?? 443)));            
-            if (!in_array($tp, $sport)){
-                igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
-                igk_exit();
-            }
-        }
+        // + | secure port -- config  
+        SysUtils::SecurePort(); 
         // + | handle cache
         // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
         try {
             $uri=igk_io_fullrequesturi();
-            if(igk_io_handle_system_command($uri)){
-                igk_exit();
-            } 
-            require_once IGK_LIB_DIR . "/igk_request_handle.php";
-            $this->handleRequest($file, $render);
+            // if(igk_io_handle_system_command($uri)){
+            //     igk_exit();
+            // } 
+            RequestHandler::HandleRequestUri($uri, $this, true, $file, $render);
+           // $this->handleRequest($file, $render);
             if ($render) {
                 HtmlRenderer::RenderDocument(igk_app()->getDoc());       
                 igk_exit();

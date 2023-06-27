@@ -137,15 +137,7 @@ class DbExpressionTest extends BaseTestCase{
             // ]]
         )->conditions([Table1Test::column("clName")=>"testing"])
         ->query_fetch();
-        $this->assertIsObject($g);
-        // $this->assertEquals(
-        //     "INSERT INTO `dummy_table4`(`clId`,`clDate`) VALUES (NULL,'2021-01-13 10:37:31');",
-        //     $gram->createInsertQuery(
-        //         Table4Test::table(),  
-        //         ["clName"=>'testing', "clDate"=>"2021-01-13 10:37:31"]  ,
-        //         Table4Test::model()->getModelDefinition()->tableRowReference             
-        //     )
-        // );
+        $this->assertIsObject($g);  
         Table1Test::drop();
         Table2Test::drop();
     }
@@ -181,7 +173,7 @@ class DbExpressionTest extends BaseTestCase{
         $data = json_encode((object)["one"=>"1", "to"=>"2"]);
         
         $this->assertEquals(
-            'INSERT INTO `dummy_table5`(`clId`,`clOptions`) VALUES (0,\'{\"one\":\"1\",\"to\":\"2\",\"info\":\"<a href=\\\\\"/data\\\\\">present</a>\"}\');',
+            'INSERT INTO `dummy_table5`(`clId`,`clOptions`) VALUES (NULL,\'{\"one\":\"1\",\"to\":\"2\",\"info\":\"<a href=\\\\\"/data\\\\\">present</a>\"}\');',
             $gram->createInsertQuery(
                 Table5Test::table(),  
                 ["clName"=>'testing', "clOptions"=>json_encode((object)["one"=>"1", "to"=>"2", "info"=>"<a href=\"/data\">present</a>"],

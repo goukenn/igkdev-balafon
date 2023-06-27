@@ -81,7 +81,7 @@ abstract class ExceptionUtils
         $corejs = "";
         if (igk_environment()->isOPS()) {
             $balafon_js = igk_io_corejs_uri();
-            $balafon_src = igk_get_balafonjs_src();
+            $balafon_src = igk_sys_balafon_js();
             $corejs = '<script language="javascript" type="text/javascript" id="balafon.js">' . $balafon_src . '</script>';
         } else {
             $balafon_js = IGKResourceUriResolver::getInstance()->resolve(IGK_BALAFON_JS_CORE_FILE);

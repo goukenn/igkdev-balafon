@@ -68,4 +68,11 @@ class Activator{
         }
         return $g;
     }
+    public static function BindProperties($p, $v){
+        $tvar = array_keys(get_class_vars(get_class($p)));
+        foreach($tvar as $k ){
+            $m = igk_getv($v, $k, $p->$k);
+            $p->$k = $m;
+        }
+    }
 }

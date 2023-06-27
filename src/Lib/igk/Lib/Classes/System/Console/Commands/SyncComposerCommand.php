@@ -13,6 +13,8 @@ use ReflectionException;
 
 class SyncComposerCommand extends SyncAppExecCommandBase{
     var $command = "--sync:composer";
+
+    var $desc = 'sync use global shared composer with configured';
     
     /**
      * get merged scripts

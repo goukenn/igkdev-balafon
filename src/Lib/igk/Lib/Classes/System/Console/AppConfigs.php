@@ -6,6 +6,7 @@
 
 
 namespace IGK\System\Console;
+use function readline;
 
 class AppConfigs
 {
@@ -15,7 +16,9 @@ class AppConfigs
     
     public function init($init_data)
     {
-
+        if (!function_exists('readdline')){
+            return;
+        }
         if (empty($this->author)) {
             $init_data->add("author")->Content  = $this->read_author();
         }

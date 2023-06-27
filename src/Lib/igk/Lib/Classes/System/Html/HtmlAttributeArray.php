@@ -40,6 +40,11 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     {
         return key_exists($n, $this->m_data);
     }
+    public function sortKeys(){
+        if($this->m_data){
+            ksort($this->m_data);
+        }
+    }
     /**
      * deactivate attribute
      * @param mixed $n 

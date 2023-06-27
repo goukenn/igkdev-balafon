@@ -4,12 +4,12 @@
 // @date: 20220425 11:21:11
 // @desc: default configuration view node
 
-/*
+use function igk_resources_gets as __;
+
+/**
  * @var HtmlNode $t node
  * @var IGKHtmlDoc $doc document
  */
-use function igk_resources_gets as __;
-
 
 $doc->Title=__("Global configurations");
 $doc->getTheme()->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
@@ -47,4 +47,5 @@ $r->addInput("clsearch", "text")->setClass("dispi floatl")->setAttribute("onkeyu
 $r->addClearTab();
 $r->addInput("btn.search", "submit")->setClass("dispn");
 $h=$bbox->div()->setId("vr")->setClass("overflow-y-a loc_l loc_b loc_r");
+$h->google_line_waiter();
 $h->addAJXUriLoader($ctrl->getUri("configure_search_ajx"));

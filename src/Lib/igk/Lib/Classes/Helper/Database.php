@@ -4,11 +4,13 @@
 // @date: 20221119 00:06:15
 namespace IGK\Helper;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController; 
 use IGK\System\Caches\DBCaches;
+use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer; 
-use IGK\System\DataBase\SchemaBuilderHelper;
+use IGK\System\Database\SchemaBuilderHelper;
 use IGK\System\Database\SchemaForeignConstraintInfo;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -28,6 +30,7 @@ use function igk_resources_gets;
 class Database{
     static $sm_shared_info;
 
+ 
     private static function _Init(){
         self::$sm_shared_info = [];
     }
@@ -94,9 +97,9 @@ class Database{
             ]);
         } 
     }
-    public static function InitSystemDb(){
+    public static function InitSystemDb(bool $force=false){
         self::_Init();    
-        DBCaches::Reset();
+        DBCaches::Reset($force);
         $tables = DBCaches::GetCacheData();
         self::$sm_shared_info = $tables;
         $sysctrl = SysDbController::ctrl();
@@ -203,14 +206,14 @@ class Database{
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
-        if (!(($cl = $controller::resolveClass('Database/DbInitManager')) && class_exists($cl, false)
+        if (!(($cl = $controller->resolveClass('Database/DbInitManager')) && class_exists($cl, false)
             && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
             $cl = \IGK\Database\DbInitManager::class;
         }
         if ($cl) {
             (new $cl($controller))->init($controller);
         }
-        if (($cl = $controller::resolveClass('Database/InitData')) && class_exists($cl, false)) {
+        if (($cl = $controller->resolveClass('Database/InitData')) && class_exists($cl, false)) {
             $call = true;
             // + | Check Init 
             $c = new ReflectionMethod($cl, "Init");
@@ -243,5 +246,33 @@ class Database{
             return true;
         }
         return false;
+    }
+    /**
+     * drop table from regex
+     * @param BaseController $ctrl 
+     * @param string $regex 
+     * @return array|null 
+     * @throws IGKException 
+     */
+    public static function DropTableFromRegex(BaseController $ctrl, string $regex){
+        $db = igk_get_data_adapter($ctrl, true);
+        if ($db->connect()) {
+            $r = $db->listTables();
+            if (!$r){
+                $db->close();
+                return null;
+            }
+            $n = igk_getv(array_keys((array)$r[0]), 0); 
+            $tab = array();
+            foreach ($r as $v) {
+                if (preg_match($regex, $v->$n)) {
+                    $tab[] = $v->$n;
+                }
+            }
+            $db->dropTable($tab);
+            $db->close();
+            return ['tables'=>$tab];
+        }
+        return null;
     }
 }

@@ -173,7 +173,7 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
  * @throws Exception
  */
 function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
-{
+{ 
     if ($throwex) {
         if (is_array($msg)) {
             $t = $msg;
@@ -202,39 +202,46 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
         igk_exit();
     }
 }
-///<summary>shortcut to resource get __</summary>
-/**
- * helper: shortcut to resource string dictionary get __
- * @param string|array<string> $text formatted key
- * @param string|null $default default value
- */
-function igk_resources_gets($text, $default = null)
-{
-    $args = func_get_args();
-    if (is_array($text)) {
-        $m = array_slice($args, 1);
-        // $m = array_fill_keys(array_keys($m), $m);
-        $text = implode('', array_filter(array_map(function ($a) use ($m) {
-            return igk_resource_gets_map($a, $m);
-        }, $text)));
-        $args[0] = $text;
+
+if (!function_exists('igk_resources_gets')) {
+    ///<summary>shortcut to resource get __</summary>
+    /**
+     * helper: shortcut to resource string dictionary get __
+     * @param string|array<string> $text formatted key
+     * @param string|null $default default value
+     */
+    function igk_resources_gets($text, $default = null)
+    {
+        $args = func_get_args();
+        if (is_array($text)) {
+            $m = array_slice($args, 1);
+            // $m = array_fill_keys(array_keys($m), $m);
+            $text = implode('', array_filter(array_map(function ($a) use ($m) {
+                return igk_resource_gets_map($a, $m);
+            }, $text)));
+            $args[0] = $text;
+        }
+        return call_user_func_array(array(R::class, 'Gets'), $args);
     }
-    return call_user_func_array(array(R::class, 'Gets'), $args);
 }
-/**
- * helper: resource map string
- * @param null|string $a 
- * @param array $args 
- * @return mixed 
- */
-function igk_resource_gets_map(?string $a, array $args)
-{
-    if (igk_is_null_or_empty($a) || empty(($a = trim($a)))) {
-        return $a;
+
+if (!function_exists('igk_resource_gets_map')) {
+    /**
+     * helper: resource map string
+     * @param null|string $a 
+     * @param array $args 
+     * @return mixed 
+     */
+    function igk_resource_gets_map(?string $a, array $args)
+    {
+        if (igk_is_null_or_empty($a) || empty(($a = trim($a)))) {
+            return $a;
+        }
+        array_unshift($args, $a);
+        return call_user_func_array(array(R::class, 'Gets'), $args);
     }
-    array_unshift($args, $a);
-    return call_user_func_array(array(R::class, 'Gets'), $args);
 }
+
 if (!function_exists('igk_getv')) {
     ///<summary> get value in array</summary>
     ///<param name="default"> mixed, default value or callback expression </param>
@@ -1908,8 +1915,8 @@ function igk_sys_reflect_class($cl)
         $rf = new ReflectionClass($cl);
         $reflection[$cl] = $rf;
         return $rf;
-    } 
-    igk_dev_wln_e(__FILE__.":".__LINE__, "core: missing. ::: " . $cl);
+    }
+    igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing. ::: " . $cl);
 }
 
 /**
@@ -2029,7 +2036,7 @@ function igk_default_ignore_lib($dir = null)
 
 ///<summary>convert system path to uri scheme</summary>
 /**
- * shorcut string as uri path 
+ * helper: shorcut string as uri path 
  * @param string $u path to convert
  * */
 function igk_uri(string $u): string
@@ -2143,17 +2150,14 @@ function igk_php_sversion(?string $version = PHP_VERSION): string
 ///<param name="message" default=""></param>
 /**
  * 
- * @param mixed $code response mesage code
+ * @param int  $code response mesage code
  * @param mixed $message custom message to add to response
  * @param array headers list of extra header entries
  */
-function igk_set_header($code, $message = "", $headers = [])
+function igk_set_header(int $code, $message = "", $headers = [])
 {
     if (igk_is_cmd() || headers_sent())
-        return false;
-
-
-
+        return false;  
     // igk_wln_e('need ->headers', igk_is_cmd(),  headers_sent());
     static $fcall = null;
     if ($fcall === null)
@@ -2259,5 +2263,25 @@ function igk_full_fill(&$sdata, $tdata)
     }
     foreach ($sdata as $k => $v) {
         $sdata->$k = igk_getv($tdata, $k, $v);
+    }
+}
+
+
+if (!function_exists('igk_bool')) {
+    /**
+     * parse to bool 
+     * @param mixed $data 
+     * @return void 
+     */
+    function igk_bool($data)
+    {
+        if (is_bool($data)) {
+            return $data;
+        }
+        $v = $data;
+        if ($v && (is_string($v) && in_array(strtolower($v), ['true', 'false', '1', '0']))) {
+            $v = (bool)preg_match("/(true|1)/i", $v);
+        }
+        return (bool)boolval($v);
     }
 }

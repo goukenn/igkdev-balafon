@@ -136,6 +136,8 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     }
     ///<summary></summary>
     public function getmailto(){
+        igk_trace();
+        igk_wln_e("get mail to");
         igk_navto("mailto:".IGK_AUTHOR_CONTACT);
         igk_exit();
     }
@@ -151,6 +153,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         return false;
     }
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
+       
         $app = igk_app();
         $actionctrl = $this; 
         if ($e = $actionctrl->matche($uri)){
@@ -162,6 +165,8 @@ final class SystemUriActionController extends ConfigControllerBase implements II
                 throw $ex;
             }
             return true;
+        } else {
+            igk_dev_ilog("not match. ".$uri);
         }
         return false;
     }
@@ -184,23 +189,23 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         return igk_getv($tab,$key);
     }
     ///<summary></summary>
-    public function gotoconfig(){
-        igk_navtocurrent("Configs");
+    public function gotoconfig(){ 
+        igk_navto("/Configs", 301);
     }
     ///<summary></summary>
     public function init_wakeup(){    }
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
     private static function InitActionList($ctrl, & $route, $forceReload=false){
-        // igk_wln_e(__FILE__.":".__LINE__, "init action ... ");
         $actions=array();
         if (!$forceReload && (defined("IGK_NO_WEB") || igk_is_cmd())){
             return $actions;
         }
-        $actions["^/config(.php)?$"]=$ctrl->getUri("gotoconfig");
+        $actions["^/config(\.php)?$"]=$ctrl->getUri("gotoconfig");
         $conf_ctrl=igk_getconfigwebpagectrl();
         if($conf_ctrl){
             $actions["^/Configs!Settings$"]=$conf_ctrl->getUri("configure_settings");
+            // igk_wln_e(__FILE__.":".__LINE__, "init action ... ");
             $t=igk_get_env("sys://configs/options");
             if($t){
                 foreach($t as $k=>$v){
@@ -361,6 +366,12 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $app=igk_app();
         $app->Session->PageFolder=IGK_HOME_PAGEFOLDER;
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, $pattern);
+
+        // $v_uri = './?c=%7Ba4918130-ce95-8e6b-c4a0-7b906dcf8c51%7D&f=configure-settings';
+        // igk_trace();
+        // igk_wln_e($v_uri, $pattern->action, $r);
+
+
         $app->getControllerManager()->InvokeUri($v_uri);
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, null);
         if($render){

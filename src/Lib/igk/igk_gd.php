@@ -116,13 +116,15 @@ class IGKGD {
     ///<param name="color">color float object </param>
     /**
     * clear with float color value 
-    * @param mixed $color
+    * @param mixed|float|array|string $color
     */
     public function clearf($color){
         if(is_string($color) && !empty($color)){
             $color=Colorf::FromString($color);
         } else if (is_array($color)){
             $color = (object)array_combine(['R','G','B'], array_values($color));            
+        } else if (is_numeric($color)){
+            $color = (object)array_fill_keys(['R','G','B'], $color);
         }
         $this->clear((object)array(
             "R"=>$color->R * 255,

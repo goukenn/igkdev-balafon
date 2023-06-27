@@ -23,6 +23,9 @@ class ModuleMakeClassCommand extends AppExecCommand{
         '--type:[type]'=>'class type . class|interface|trait',
         "--desc:[text]" => "description of the class",
     ];
+    public function showUsage(){
+        $this->showCommandUsage(" module [class_path] [options]");
+    }
     public function exec($command, ?string $module = null, ?string $class_path=null) 
     {
 

@@ -208,4 +208,5 @@ if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;
 }
 $_vart['steps'][] = "send - response";
+@unlink(__FILE__);
 $response->Response(json_encode((object)$_vart, JSON_UNESCAPED_SLASHES), "application/json");

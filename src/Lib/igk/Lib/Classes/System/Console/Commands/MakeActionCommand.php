@@ -96,8 +96,8 @@ class MakeActionCommand extends AppExecCommand{
         if (count($tcl)){
             $ns.= "\\".implode("\\", $tcl);
         }
-         
-        $bind[$dir."/Actions/{$path}Action.php"] = function($file)use($macroName, 
+         $acfile = $dir."/Actions/{$path}Action.php";
+        $bind[$acfile] = function($file)use($macroName, 
             $author, $ns, $type){          
             $content = $this->_getContent(); 
             $v_uses = $this->_getUses() ?? [];
@@ -115,9 +115,10 @@ class MakeActionCommand extends AppExecCommand{
             igk_io_w2file( $file,  $builder->render());
         };
 
-        CommandsUtility::BindFiles($command, $bind, property_exists($command->options, "--force"));
+        CommandsUtility::MakeBindFiles($command, $bind, property_exists($command->options, "--force"));
         if(property_exists($command->options, "--clearcache" ))
-            \IGK\Helper\SysUtils::ClearCache(); 
+            \IGK\Helper\SysUtils::ClearCache();
+        Logger::info('action file : '.$acfile) ;
         Logger::success("Done - Make Action");
     }
     private function _getContent(){

@@ -34,38 +34,49 @@ abstract class FormData
      * @return ?array 
      */
     public function getValidationMapperFromRequest(Request $request): FormValidationData
-    { 
+    {
         $ls = array_keys(get_class_vars(static::class));
         $tab = $this->getContentSecureFormRequest($request) ?? [];
         // Remove all  
         // copy only definition
-        $tab = $this->mergeSecure($ls, $tab); 
+        $tab = $this->mergeSecure($ls, $tab);
         return $this->getDataValidatorMapper($tab);
     }
-    protected function mergeSecure($var_tab, $tab){
+    protected function mergeSecure($var_tab, $tab)
+    {
         $rtab = [];
-        foreach($var_tab as $t){
-            if (!isset($tab[$t])){
+        foreach ($var_tab as $t) {
+            if (!isset($tab[$t])) {
                 $rtab[] = $t;
-            }else{
+            } else {
                 $rtab[$t] = $tab[$t];
             }
         }
-        return $rtab;  
+        return $rtab;
     }
-    protected function getDataValidatorMapper(?array $tab=null){
-        $ls = array_keys(get_class_vars(static::class));
-        if(is_null($tab)){
+    protected function getValidationClassReference()
+    {
+        return static::class;
+    }
+    /**
+     * 
+     * @param null|array $tab 
+     * @return FormValidationData 
+     */
+    protected function getDataValidatorMapper(?array $tab = null)
+    {
+        $ls = array_keys(get_class_vars($this->getValidationClassReference()));
+        if (is_null($tab)) {
             $tab = $ls;
         }
         $_o = [];
         if ($v_ = $this->getNotRequired()) {
-            $this->_ExpandValue($_o, $v_, $ls, true);            
+            $this->_ExpandValue($_o, $v_, $ls, true);
         }
         $v_not_required = $_o;
         $_o = [];
         if ($v_ = $this->getDefaultValues()) {
-            $this->_ExpandValue($_o, $v_, $ls);   
+            $this->_ExpandValue($_o, $v_, $ls);
         }
         $v_defaults = $_o;
         $frm = new FormValidationData;
@@ -81,9 +92,10 @@ abstract class FormData
      * @param mixed $ls 
      * @return void 
      */
-    private static function _ExpandValue(& $_o, $v_, $ls, $not_required=false){
+    private static function _ExpandValue(&$_o, $v_, $ls, $not_required = false)
+    {
         foreach ($v_ as $k => $b) {
-            if ($not_required && ($b instanceof Closure)){
+            if ($not_required && ($b instanceof Closure)) {
                 $_o = [$b];
                 return;
             }
@@ -139,35 +151,38 @@ abstract class FormData
      * @param null $validator 
      * @return false|mixed validated data or false 
      */
-    public static function ValidateData($data, ?object $validator =null, ?array & $errors=null){
-        $validator = $validator ?? 
-            (method_exists(static::class, \CreateValidatorInstance::class) ? 
-            call_user_func_array([static::class, \CreateValidatorInstance::class],[]): null) ?? 
+    public static function ValidateData($data, ?object $validator = null, ?array &$errors = null)
+    {
+        $validator = $validator ??
+            (method_exists(static::class, \CreateValidatorInstance::class) ?
+                call_user_func_array([static::class, \CreateValidatorInstance::class], []) : null) ??
             new ObjectDataValidator();
-            // igk_die("missing validator");
-        //if ($validator instanceof IDataValidator){
-            $e = new static;
-            
-            $validation_mapper = $e->getDataValidatorMapper();
-            $requestData =[];
-            // validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null): bool
-            if ($validator->validate($data, 
-                $validation_mapper->mapper, 
-                $validation_mapper->defaultValues,
-                $validation_mapper->not_required,
-                $requestData,  $errors)) {
-                return $requestData;
-            }
-            return false;
+
+        $e = new static;
+        $validation_mapper = $e->getDataValidatorMapper();
+        $requestData = [];        
+        if ($validator->validate(
+            $data,
+            $validation_mapper->mapper,
+            $validation_mapper->defaultValues,
+            $validation_mapper->not_required,
+            $requestData,
+            $errors,
+            $validation_mapper->resolvKeys
+        )) {
+            return $requestData;
+        }
+        return false;
     }
 
     /**
      * use to retrieve the fields to use in a form
      * @return array 
      */
-    public static function Fields(){
+    public static function Fields()
+    {
         $c = new static;
-        $tab = get_class_vars(static::class);   
+        $tab = get_class_vars(static::class);
         return [$tab];
     }
 }

@@ -87,7 +87,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function createFromCache(\IGK\Models\ModelBase $model, $object);
+    public abstract static function createFromCache(\IGK\Models\ModelBase $model, $identifier, $conditions);
     /**
      * extension methods 
      */

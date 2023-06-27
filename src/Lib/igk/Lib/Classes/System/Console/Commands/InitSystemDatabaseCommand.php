@@ -23,7 +23,11 @@ class InitSystemDatabaseCommand extends AppExecCommand
 {
     var $command = "--dbsys:initdb";
     var $desc = 'init core system db';
-    
+
+    var $options = [
+        '--force'=>'flag: force database initialisation model',
+        '--drop'=>'flag: drop database before initialize',
+    ];    
 
     public function exec($command)
     {
@@ -41,6 +45,7 @@ class InitSystemDatabaseCommand extends AppExecCommand
             $ad->sendQuery('CREATE DATABASE IF NOT EXISTS `' . $dbname . '`;');
             $ad->sendQuery('USE `' . $dbname . '`;');
         } 
-        Database::InitSystemDb();  
+        $force = property_exists($command->options, '--force');
+        Database::InitSystemDb($force);  
     } 
 }

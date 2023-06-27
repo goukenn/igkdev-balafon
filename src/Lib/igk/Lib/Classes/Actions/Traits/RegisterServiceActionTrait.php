@@ -12,7 +12,7 @@ use ReflectionMethod;
 
 ///<summary></summary>
 /**
-* 
+* use to register mail actions - follows us 
 * @package IGK\Actions\Traits
 */
 trait RegisterServiceActionTrait{

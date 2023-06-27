@@ -7,7 +7,7 @@ namespace IGK\System\Html\Dom;
 
 ///<summary></summary>
 /**
-* 
+* svg list container
 * @package IGK\System\Html\Dom
 */
 class SvgListNode extends HtmlNode{
@@ -15,8 +15,6 @@ class SvgListNode extends HtmlNode{
     protected function initialize()
     {
         parent::initialize();
-        // igk_create_node("div")->setClass("igk-svg-lst")->setStyle("display:none;");
-        $this['class'] = 'igk-svg-lst';
-
+        $this['class'] = 'igk-svg-lst'; 
     }
 }

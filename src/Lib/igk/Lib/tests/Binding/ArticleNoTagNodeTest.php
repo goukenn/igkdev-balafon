@@ -25,7 +25,7 @@ HTML;
         $g = tempnam(sys_get_temp_dir(), "text-"); // tmpfile();
         igk_io_w2file($g, $template);
         $n = igk_create_node("notagnode");
-        $data = [1, 2];
+        $data = [1, 2, 'test_loop_in_template_file'];
         $n->article($ctrl, $g, $data);
 
         // igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext = null);
@@ -34,7 +34,7 @@ HTML;
         $s = $n->render();
 
         $this->assertEquals(
-            "<li> 1 </li><li> 2 </li>",
+            "<li> 1 </li><li> 2 </li><li> test_loop_in_template_file </li>",
             $s,
             "Base"
         );
@@ -85,11 +85,50 @@ HTML
         
         $s = $n->render();
         $this->assertEquals(
-            '<dt><script>{{ $raw->name }}</script> em </dt>', $s
+            '<dt><script>{{ $raw->name }}</script> em </dt>', 
+            $s
         );
 
 
     }
+    public function test_script_template_2(){
+        $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
+        $template = <<<'HTML'
+        <igk:notagnode  *for="$raw" >
+            <dt><script> {{ $raw->name }} </script> {{ $raw->type }} </dt>
+        </igk:notagnode>
+        HTML;
+        $n = igk_create_node("notagnode");
+        $data = [
+            (object)["type"=>"em"],
+            (object)["type"=>"px"]
+        ];
+        $ldcontext = igk_init_binding_context($n, $ctrl, $data);
+        igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);        
+        $s = $n->render();
+        $this->assertEquals(
+            '<dt><script>{{ $raw->name }}</script> em </dt><dt><script>{{ $raw->name }}</script> px </dt>', 
+            $s
+        );
+    }
+
+
+    public function test_script_template_3(){                
+        $n = igk_create_node("notagnode");
+        $data = [
+            (object)["type"=>"em"],
+            (object)["type"=>"px"]
+        ];
+        $n->loop($data)->div()->Content = '{{ $raw->name }} {{ $raw->type }}';           
+        $s = $n->render();
+        $this->assertEquals(
+            '<div> em</div><div> px</div>', 
+            $s
+        );
+    }
+
+
+
     public function test_template(){
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
         $s = "--";

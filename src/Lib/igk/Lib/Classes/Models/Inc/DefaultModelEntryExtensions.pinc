@@ -168,7 +168,7 @@ Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
 ///+ | but core system store private it private macros to IGK\Models\Macros
 // + | for that need to register manually 
 // + |
-Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
+Users::RegisterExtension(\IGK\Models\Macros\UsersMacros::class);
  
 
 \IGK\Models\DbLogs::registerMacro("add", function(string $msg, ?string $tag=null){ 
@@ -177,8 +177,7 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
     static $logger;
     if (igk_environment()->NO_DB_LOG){
         return;
-    }
-    igk_wln_e("loggin ... ");
+    } 
     if (!$logger){
         $logger = 1;
         $data = ["db_logs_msg" => $msg];
@@ -198,4 +197,4 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
     return igk_db_user_groups($this->clUser_Id);
 });
 
-\IGK\Models\ReferenceModels::registerExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);
+\IGK\Models\ReferenceModels::RegisterExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);

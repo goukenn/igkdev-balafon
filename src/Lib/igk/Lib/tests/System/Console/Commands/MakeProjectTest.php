@@ -20,7 +20,7 @@ class MakeProjectTest extends BaseTestCase{
     
         $this->assertEquals(
             <<<XML
-<data-schemas version="1.0" author="C.A.D BONDJE DOUE" createAt="20130101 12:00:00">
+<data-schemas author="C.A.D BONDJE DOUE" createAt="20130101 12:00:00" version="1.0">
 \t<!-- data schema -->
 </data-schemas>
 XML,

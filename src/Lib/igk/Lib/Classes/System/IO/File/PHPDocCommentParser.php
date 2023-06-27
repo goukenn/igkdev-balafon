@@ -11,15 +11,20 @@ namespace IGK\System\IO\File;
 * @package IGK\System\IO\File
 */
 class PHPDocCommentParser{
+    const NAME_TOKEN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
     var $summary; 
     var $param;
     var $return;
     var $description;
     var $api;
-
     var $throws;
 
-    var $response;
+
+    /**
+     * get response object
+     * @var mixed
+     */
+    var $responses;
     /**
      * block phpunit test 
      * @var ?
@@ -32,6 +37,17 @@ class PHPDocCommentParser{
      * @var ?
      */
     var $uses;
+    /**
+     * request info
+     * @var mixed
+     */
+    var $request;
+
+    /**
+     * to handle security
+     * @var mixed
+     */
+    var $security;
 
     private function __construct(){
     }
@@ -96,6 +112,13 @@ class PHPDocCommentParser{
     public function __call($name, $arguments)
     {
         $g = null;
+        $name = str_replace('-', '_', $name);
+        if (strpos($name,"swagger_")===0){
+            $name = igk_str_rm_start($name, 'swagger_');
+        }
+        if (!property_exists($this, $name)){
+            igk_die("document comment parse error : property not exists : ".$name);
+        }
         if (count($arguments)>0){
             $g = trim($arguments[0]);     
             if (isset($this->$name)){
@@ -127,7 +150,7 @@ class PHPDocCommentParser{
         $s  = "";
         while($offset<$ln){
             $ch = $t[$offset];
-            if (preg_match("/[^_a-z0-9]/i", $ch)){
+            if (strpos(self::NAME_TOKEN, $ch) === false){
                 break;
             }
             $offset++;

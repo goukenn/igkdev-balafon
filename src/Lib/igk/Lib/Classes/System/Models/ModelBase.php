@@ -8,6 +8,7 @@ namespace IGK\System\Models;
 
 use ArrayAccess;
 use Closure;
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
@@ -22,7 +23,11 @@ use IGKException;
 use IGKSysUtil;
 use JsonSerializable;
 use IGK\Models\ModelEntryExtension;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IToArrayResolver;
+use IGK\System\Traits\MacrosConstant;
+use ReflectionException;
 
 require_once IGK_LIB_CLASSES_DIR . '/Models/Inc/ModelEntryExtension.php';
 /**
@@ -334,6 +339,18 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return igk_getv(self::$mock_instance, static::class) === $model;
     }
 
+    /**
+     * 
+     * @param mixed $raw 
+     * @param int $mock 
+     * @param bool $unset unset marker definition
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function __construct($raw = null, $mock = 0, $unset = false)
     {
         $this->_initialize($raw, $mock, $unset);
@@ -565,7 +582,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                         $macros[static::class . self::ClosureSeperator . $name] = $callback;
                     }
                 },
-                "unregisterMacro" => function ($name) use (&$macros) {
+                MacrosConstant::UnRegisterExtensionMethod   => function ($name) use (&$macros) {
                     unset($macros[static::class . self::ClosureSeperator . $name]);
                 },
                 /**
@@ -579,7 +596,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                         $target->raw = $g->raw;
                     }
                 },
-                "registerExtension" => function ($classname) use (&$macros) {
+                MacrosConstant::RegisterExtensionMethod => function ($classname) use (&$macros) {
                     $cl = static::class;
                     $f = igk_sys_reflect_class($classname);
                     foreach ($f->getMethods() as $k) {
@@ -697,7 +714,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             // auto register load - macros class 
             if ($cl = $instance->getController()
                 ->resolveClass($path)){
-                $instance::registerExtension($cl);
+                $instance::RegisterExtension($cl);
                 if (method_exists($cl, $name)) {
                     $fc = [$cl, $name];
                     self::$macros[$name] = $fc; 
@@ -774,12 +791,19 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * update field and return a boolean
      * @return bool 
      */
-    public function save(): bool
+    public function save(bool $autoupdate=true): bool
     {
         $pkey = $this->primaryKey;
         if (!empty($pkey)) {
-            if ($r = $this->update($this->raw,  [$this->primaryKey => $this->$pkey])) {
-                return is_bool($r) ? $r : $r->success();
+            $cond = [$this->primaryKey => $this->$pkey];
+            if ($r = $this->update($this->raw, $cond)) {
+                $u =  is_bool($r) ? $r : $r->success();
+                if ($u && $autoupdate){
+                    if ($m = $this->select_row($cond)){
+                        $this->raw  = $m->raw;
+                    }
+                }
+                return $u;
             }
         }
         return false;

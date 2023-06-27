@@ -7,7 +7,11 @@
 namespace IGK\System\Html\Forms;
 
 
-class ArrayValidator implements IFormValidator{
+class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
+
+    public function assertValidate($value): bool {
+        return is_array($value);
+    }
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if (empty($value)){

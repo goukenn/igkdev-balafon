@@ -626,8 +626,7 @@ final class ConfigureController extends BaseController implements IConfigControl
      * global configure setting request
      */
     public function configure_settings()
-    { 
-       
+    {  
         if (!igk_is_conf_connected()) {
             igk_navto($this->getAppUri());
         }
@@ -1890,20 +1889,13 @@ EOF;
                     // add - in temp file will make base theme to renderering on configuration 
                     $doc = $app->getDoc();
                     $coredef = $doc->getTheme(false);
-                    $coredef->getDef()->setStyleFlag(IGKCssDefaultStyle::ST_NO_THEME_RENDERING_FLAG,  true);                    
 
+                    // + | disable flag to set 
+                    $gdef = $coredef->getDef();
+                    $gdef->setStyleFlag(IGKCssDefaultStyle::ST_NO_THEME_RENDERING_FLAG,  true);                    
+                    $gdef->setStyleFlag('page', 'configs');
                     $theme = $app->getDoc()->getTheme();
-                    $theme->addTempFile($f);                 
-                    // $theme->getDef()["body.debug"] = "background-color:red;";
-                    // $def = $app->getDoc()->getTheme();
-                    // $coredef['body.background'] = "color:init;";
-                    // $app->getDoc()->getSysTheme();
-                    // igk_app()->getSession()->PRESENTATION = "MERCI -----------";
-                    // igk_app()->getSettings()->appInfo->PRESENTATION = null;
-                    // igk_app()->getSettings()->appInfo->store("SANG", "OK----------------------------");
-                    // igk_wln_e(__FILE__.":".__LINE__ , "store data :::: ", $coredef->get_css_def());
-                    // igk_exit();
-
+                    $theme->addTempFile($f);  
                 } 
                  
                 if (!$this->getIsConnected()) {

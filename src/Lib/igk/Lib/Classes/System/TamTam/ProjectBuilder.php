@@ -6,11 +6,14 @@ namespace IGK\System\TamTam;
 
 use IGK\Helper\Activator;
 use IGK\Helper\IO;
+use IGK\System\Configuration\ProjectSettings;
 use IGK\System\Console\Logger;
+use IGK\System\IO\Path;
+use IGKConstants;
 
 ///<summary></summary>
 /**
-* 
+* Helper to project build
 * @package IGK\System\TamTam
 */
 class ProjectBuilder{
@@ -24,7 +27,7 @@ class ProjectBuilder{
     }
     public function build($e){
         extract($e->args);
-        if ($cl = $ctrl::resolveClass(\System\Build\ProjectBuilder::class)){
+        if ($cl = $ctrl->resolveClass(\System\Build\ProjectBuilder::class)){
             Logger::warning(sprintf('missing project build for %', $ctrl));
         }
     }
@@ -34,12 +37,12 @@ class ProjectBuilder{
         if (is_dir($c = $ctrl->getDeclaredDir()."/.Caches")){
             IO::CleanDir($c);
         } 
-        if (file_exists($config_file = $install_dir."/balafon.config.json")){
+        if (file_exists($config_file = Path::Combine($install_dir, IGKConstants::PROJECT_CONF_FILE))){
             if ($data = json_decode(file_get_contents($config_file))){
-                $cl = $this->getSettingValidationDataClass();
-                $g = new $cl();
-                if ($setting = $cl::ValidateJson($data)){
-                    $this->setting = Activator::CreateNewInstance(ProjectSettings::class, $data);
+                $cl = $this->getSettingValidationDataClass();                
+                if ($cl && ($setting = $cl::ValidateData($data))){
+           
+                    $this->setting = Activator::CreateNewInstance(ProjectSettings::class, $setting->getData());
                 }
             }
         }

@@ -39,10 +39,11 @@ class ZipCoreCommand extends AppExecCommand{
         {
             // + | --------------------------------------------------------------------
             // + | check all files with php lint
-            $r = CoreUtility::LintProject();
+            $r = CoreUtility::LintCoreLib();
             if (!$r){
                 return $r;
-            }           
+            }  
+            echo PHP_EOL;         
         }
 
         // + | --------------------------------------------------------------------
@@ -53,6 +54,7 @@ class ZipCoreCommand extends AppExecCommand{
             if ($r){
                 return $r;
             } 
+            echo PHP_EOL;       
         }
  
         $ext = "-".date("Ymd").".zip";

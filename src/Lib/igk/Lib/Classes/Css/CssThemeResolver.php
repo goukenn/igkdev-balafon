@@ -45,31 +45,31 @@ class CssThemeResolver
      */
     var $resolver;
 
-    const ATTR_RESOLV = "resolv";
-    const ATTR_TRANS = "trans";
-    const ATTR_TRANSFORM = "transform";
-    const ATTR_ANIM = "anim";
-    const ATTR_ANIMATION = "animation";
-    const ATTR_COLOR= "cl";
-    const ATTR_VAR= "var";
-    const ATTR_BACKGROUND_COLOR= "bgcl";
-    const ATTR_FOREGROUND_COLOR= "fcl";
-    const ATTR_FIT = "fit";
-    const ATTR_VAR_PROPERTY = "varp";
-    const ATTR_FONT = "ft";
-    const ATTR_FONT_NAME = "ftn";
-    const ATTR_RESOURCE = "res";
-    const ATTR_BACKGROUND_RESOURCE= "bgres";
-    const ATTR_URI = "uri";
-    const ATTR_BORDER_COLOR = "bcl";
-    const ATTR_SVG = "svg";
-    const ATTR_FILTER = "filter";
-    const ATTR_PROP = "prop";
-    const ATTR_PROPERTY = "pr";
-    const ATTR_SYS_BGCL = "sysbgcl";
-    const ATTR_SYS_FCL = "sysfcl";
-    const ATTR_SYS_COLOR = "syscl";
-    const ATTR_SYS_BCL = "sysbcl";
+    const ATTR_RESOLV = 'resolv';
+    const ATTR_TRANS = 'trans';
+    const ATTR_TRANSFORM = 'transform';
+    const ATTR_ANIM = 'anim';
+    const ATTR_ANIMATION = 'animation';
+    const ATTR_COLOR= 'cl';
+    const ATTR_VAR= 'var';
+    const ATTR_BACKGROUND_COLOR= 'bgcl';
+    const ATTR_FOREGROUND_COLOR= 'fcl';
+    const ATTR_FIT = 'fit';
+    const ATTR_VAR_PROPERTY = 'varp';
+    const ATTR_FONT = 'ft';
+    const ATTR_FONT_NAME = 'ftn';
+    const ATTR_RESOURCE = 'res';
+    const ATTR_BACKGROUND_RESOURCE= 'bgres';
+    const ATTR_URI = 'uri';
+    const ATTR_BORDER_COLOR = 'bcl';
+    const ATTR_SVG = 'svg';
+    const ATTR_FILTER = 'filter';
+    const ATTR_PROP = 'prop';
+    const ATTR_PROPERTY = 'pr';
+    const ATTR_SYS_BGCL = 'sysbgcl';
+    const ATTR_SYS_FCL = 'sysfcl';
+    const ATTR_SYS_COLOR = 'syscl';
+    const ATTR_SYS_BCL = 'sysbcl';
 
     const ATTR_G_RESOLV_MODE = 'sys';
 
@@ -181,6 +181,11 @@ class CssThemeResolver
                         $sv = $this->treat_value($tv.$stop, $themeexport);
                         if ($stop && $v){
                             $sv = rtrim($sv,$stop);
+                            if (empty($sv)){
+                                $v = str_replace($tv.$stop,'', $v);
+                                unset($roots[$tv]);
+                                continue;
+                            }
                         } 
                         
 
@@ -291,10 +296,12 @@ class CssThemeResolver
         $systheme = $this->parent;
         $gtheme = $theme;
         $v_m = $v;
+        $d = null;
         if (!is_object($systheme)) {            
-            igk_dev_wln_e(__FILE__.":".__LINE__,  "parent theme not an object");
+            // igk_dev_wln_e(__FILE__.":".__LINE__,  "parent theme not an object");
+        } else {
+            $d = &$systheme->getDef()->getCl();
         }
-        $d = &$systheme->getDef()->getCl();
         $gcl = ($d) ? $d : array();
         $stop = trim($stop);
 
@@ -579,6 +586,10 @@ class CssThemeResolver
                 }
             }
             $tf = $this->resolver->resolve($tf);   
+        } else {
+            if ($tf = R::GetImgResUri($value, $path)){
+                $tf = "/".igk_str_rm_start($tf, "../");
+            }
         }
         return $tf;
     }

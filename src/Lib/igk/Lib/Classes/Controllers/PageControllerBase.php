@@ -12,6 +12,7 @@ namespace IGK\Controllers;
 
 use IGK\Controllers\ILibaryController;
 use IGK\Helper\SysUtils;
+use IGK\System\Applications\ApplicationUserProfile;
 use IGK\System\SystemUserProfile;
 use IGKSession;
 use IIGKUriActionRegistrableController;
@@ -123,7 +124,7 @@ abstract class PageControllerBase extends ControllerTypeBase
             {
                 return $cl::Create($u, $this);
             }
-            $u = null;
+            $u = new ApplicationUserProfile($u->model());
         }
         return $u;
     }

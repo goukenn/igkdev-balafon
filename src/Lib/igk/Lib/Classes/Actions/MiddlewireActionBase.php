@@ -26,7 +26,7 @@ use function igk_resources_gets as __;
  * use to process method with specific checkMiddle - route 
  * @package IGK\Actions
  */
-abstract class MiddlewireActionBase extends ActionBase{
+abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleWare{
     /**
      * default user
      * @var mixed

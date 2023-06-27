@@ -3,11 +3,11 @@
 // @file: SchemaRemoveColumnMigration.php
 // @desc: schema builder helper
 // @date: 20210422 09:09:36
-namespace IGK\System\DataBase;
+namespace IGK\System\Database;
 
 /**
  * use to remove column
- * @package IGK\System\DataBase
+ * @package IGK\System\Database
  */
 class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "column"];

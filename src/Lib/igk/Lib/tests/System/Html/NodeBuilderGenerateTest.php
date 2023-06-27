@@ -17,6 +17,13 @@ use PHPUnit\Framework\ExpectationFailedException;
 */
 class NodeBuilderGenerateTest extends BaseTestCase{
 
+    /**
+     * generate rbuilder definition 
+     * @return void 
+     * @throws IGKException 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
     public function test_generate(){
         $d = igk_create_node();
         $this->assertEquals(sprintf('$builder(%s);', igk_array_dump_short([
@@ -66,5 +73,15 @@ class NodeBuilderGenerateTest extends BaseTestCase{
         $this->assertEquals(
             '$builder(["div#info%list.main.sample"=>["div"=>["div"=>["span"=>["quote"=>"Hello"]]]]]);',
         HtmlNodeBuilder::Generate($d));
+    }
+    public function test_generate_active_attribute(){
+        $d = igk_create_rnode('div.main.sample#info!defer');     
+     
+        $this->assertEquals(
+            // '$builder(["div#info%list.main.sample"=>["div"=>["div"=>["span"=>["quote"=>"Hello"]]]]]);',
+            '<div class="main sample" id="info" defer></div>',
+            $d->render());
+
+        //HtmlNodeBuilder::Generate($d));
     }
 }

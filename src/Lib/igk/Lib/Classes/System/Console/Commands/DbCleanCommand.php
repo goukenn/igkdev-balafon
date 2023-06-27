@@ -61,7 +61,7 @@ class DbCleanCommand extends AppExecCommand
                     $db->stopRelationChecking();
                     foreach ($tb as $table) {
                         Logger::info("drop table : " . $table);
-                        $db->sendQuery("DROP Table IF EXISTS `{$table}`");
+                        $db->sendQuery("DROP Table IF EXISTS `{$table}`; # db - clean");
                     }
                     $db->restoreRelationChecking();
                 }

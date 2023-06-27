@@ -12,7 +12,11 @@ namespace IGK\System\Security\Web;
 */
 class NumberOrNullContentValidator extends MapContentValidatorBase
 {
-    public function map($value, $key, &$error)
+
+    protected function validate(&$value, $key): bool {
+        return true;
+     }
+    public function map($value, $key, &$error, bool $missing=false, bool $required = true)
     {
         if (empty($value) || is_null($value) || is_numeric($value)) {
             if (empty($value)){

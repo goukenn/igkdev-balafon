@@ -11,6 +11,7 @@
 use IGK\System\Html\Encoding\ClassAttributeArrayValueEncoder;
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\Templates\BindingPipeExpressionInfo;
 
 // +| definition of extra template depend on eval function 
@@ -27,7 +28,8 @@ function igk_template_if_attrib_expression($readerInfo, $attr, $v, $context, $se
             igk_die("argument script not valid");
         } 
         if (!is_string($context) && igk_getv($context,'transformToEval')){    
-            $readerInfo->setAttribute("igk:condition", func_get_arg(0));
+            $readerInfo->setAttribute("igk:condition", (bool)func_get_arg(0));
+            // $readerInfo->setAttribute("igk:isvisible", (bool)func_get_arg(0));
             return null; 
         }   
         extract(igk_to_array($context)); 
@@ -36,8 +38,9 @@ function igk_template_if_attrib_expression($readerInfo, $attr, $v, $context, $se
         }  
         
         $s="return ".func_get_arg(0).";";
-        $_v= eval($s); 
-        $readerInfo->setAttribute("igk:isvisible", $_v);
+        $_v= (bool)eval($s); 
+
+        // $readerInfo->setAttribute("igk:isvisible", $_v);
 		$readerInfo->skipcontent = !$_v;
 		$setattrib("igk:isvisible", $_v); 
         return null;
@@ -78,11 +81,9 @@ function igk_template_get_piped_value($rv, $context){
     $tv = trim($v);
     $info = BindingPipeExpressionInfo::ReadInfo($tv);
     if ($info["type"]=="litteral"){
-        // literal expression will be evaluate a
-        // a lite
+        // literal expression will be evaluate a lite
         $v = sprintf('"%s"', addslashes(igk_resources_gets($tv))); 
-    }
-    
+    }    
     try{ 
 	    $v = @eval("return $v;");  
         if ($e = error_get_last()){ 
@@ -181,13 +182,17 @@ igk_reg_template_bindingattributes("*for", function($reader, $attr, $v, $context
             return [ $t ]; 
         }        
         extract(igk_to_array($context));  
+     
+        // return [$raw[0]]; 
         return @eval((function(){           
             if (func_num_args()==1)
                 return "return ".func_get_arg(0).";"; 
             
         })(HtmlUtils::GetAttributeValue($script, $context, true)));
     })($v);
-    $reader->setInfos(["skipcontent"=>1, "attribute"=>$attr, "context-data"=>$g, "context"=>"expression", "operation"=>"loop", "for"=>$reader->getName()]);
+    $reader->setInfos(["skipcontent"=>1, "attribute"=>$attr, "context-data"=>$g, "context"=>"expression", 
+    "operation"=> BindingConstants::OP_LOOP, 
+    "for"=>$reader->getName()]);
     return null;
 });
 

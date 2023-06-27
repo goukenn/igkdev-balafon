@@ -25,7 +25,7 @@ class mysql extends \IGKLibraryBase{
         ]);
         if (!class_exists($cl = \IGKMYSQLDataAdapter::class,false)){
             class_alias(
-                \IGK\System\DataBase\MySQL\DataAdapter::class, 
+                \IGK\System\Database\MySQL\DataAdapter::class, 
                $cl
             );
         }

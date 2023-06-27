@@ -8,7 +8,9 @@ namespace IGK\System\Console\Commands;
 
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Installers\InstallerUtils;
+use IGKException;
 
 /**
  * clear cache in ftp sync server */
@@ -16,7 +18,7 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
 {
     var $command = "--sync:install-site";
     var $category = "sync";
-    var $desc = "sync init public folder";
+    var $desc = "sync install site from sync configuration";
 
     var $options = [
         "--no-subdomain"=>"disable subdomain support",
@@ -25,6 +27,13 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
         "--admin-pwd"   =>"set configuration login",
     ];
 
+    /**
+     * 
+     * @param mixed $command 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public function exec($command)
     {
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){

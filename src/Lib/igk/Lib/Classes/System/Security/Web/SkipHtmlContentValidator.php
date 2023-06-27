@@ -14,19 +14,23 @@ use IGK\System\Html\Forms\HtmlValidator;
 class SkipHtmlContentValidator extends MapContentValidatorBase
 {
     private $m_validator;
+
+    protected function validate(&$value, $key): bool { 
+        return true;
+    }
     protected function getValidator()
     {
         return new HtmlValidator;
     }
-    public function map($value, $key, &$error)
+    public function map($value, $key, &$error, bool $missing=false, bool $required = true)
     {
         if (!$this->m_validator) {
             $this->m_validator = $this->getValidator();
         }
         if (strpos($value,"\xF0") !== false){
-            $value = utf8_encode($value);
+            $value = igk_str_encode_to_utf8($value);
         }
-        // $value = utf8_encode($value);
+        // $value = igk_str_encode_to_utf8($value);
         return $this->m_validator->treatValue($value);
     }
 }

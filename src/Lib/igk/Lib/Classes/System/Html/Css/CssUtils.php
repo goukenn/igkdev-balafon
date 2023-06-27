@@ -8,6 +8,7 @@
 namespace IGK\System\Html\Css;
 use IGK\IGlobalFunction;
 use Exception;
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Css\CssThemeOptions;
 use IGK\Css\CssThemeRenderer;
@@ -37,6 +38,21 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
  */
 abstract class CssUtils
 {
+    /**
+     * bind core files
+     * @param HtmlDocTheme $theme 
+     * @return void 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function BindCoreFile( HtmlDocTheme $theme){
+        $theme->bindFile(
+            IGK_LIB_DIR."/".IGK_STYLE_FOLDER."/global.pcss"
+        );
+        $theme->bindFile(
+            IGK_LIB_DIR."/".IGK_STYLE_FOLDER."/igk_css_template.phtml"
+        );
+    }
     /**
      * get class values 
      * @param string $haystack 
@@ -181,10 +197,10 @@ abstract class CssUtils
         $systheme = igk_app()->getDoc()->getSysTheme();
         // set options before bind style
         $theme->setRenderOptions($opt);
+        ob_start();
         igk_css_bind_sys_global_files($systheme);
         igk_css_load_theme($theme);
         $controller->bindCssStyle($theme, true);
-        ob_start();
         echo "/* CSS theme */";
         echo implode("\n", [
             $systheme->get_css_def(true, true),
@@ -506,7 +522,9 @@ abstract class CssUtils
                 $n = $ctrl;
             $css_m = $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
             // in case need to  register component auto load component
-            $ctrl::register_autoload();
+            if (!($ctrl instanceof ApplicationModuleController)){
+                $ctrl::register_autoload();
+            }
             unset($n);
         }
         $def = $theme->def;

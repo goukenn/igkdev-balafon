@@ -21,7 +21,7 @@ class JsonPackage
     /**
      * 
      * @param string $file 
-     * @return mixed 
+     * @return static|false 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 

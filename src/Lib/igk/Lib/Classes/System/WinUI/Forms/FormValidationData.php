@@ -14,4 +14,9 @@ class FormValidationData{
     var $mapper;
     var $not_required;
     var $defaultValues;
+    /**
+     * array of resolved keys
+     * @var ?array 
+     */
+    var $resolvKeys;
 }

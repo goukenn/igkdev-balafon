@@ -322,69 +322,9 @@ class UsersConfigurationController extends ConfigControllerBase
      * Initialize default users
      */
     protected function initDataEntry()
-    {
-       
-        $d = igk_configs()->website_domain;
+    {       
         if (igk_environment()->isDev()) {
-            $now = date(IGK_MYSQL_DATETIME_FORMAT);        
-            $def_pwd = igk_configs()->get('default_adm_pwd', IGKSysUtil::GeneratePWD());
- 
-            Users::create(array(
-                "clLogin" => "admin@" . $d,
-                "clPwd" => $def_pwd,
-                "clFirstName" => "admin",
-                "clLastName" => "Administrator",
-                "clDisplay" => "Admin",
-                "clLocale" => "fr",
-                "clLevel" => "-1",
-                "clStatus" => 0,
-                "clDate" => $now,
-                "clGuid" => igk_create_guid()
-            ));
-            Users::create(array(
-                "clLogin" => "test@" . $d,
-                "clPwd" => $def_pwd,
-                "clFirstName" => "test",
-                "clLastName" => "test",
-                "clLevel" => "1",
-                "clStatus" => 0,
-                "clDate" => $now,
-                "clLocale" => "fr",
-                "clGuid" => igk_create_guid()
-            ));
-            Users::create(array(
-                "clLogin" => "info@" . $d,
-                "clPwd" => $def_pwd,
-                "clFirstName" => "info",
-                "clLastName" => "info",
-                "clLevel" => "1",
-                "clStatus" => 0,
-                "clDate" => $now,
-                "clLocale" => "fr",
-                "clGuid" => igk_create_guid()
-            ));
-            Users::create(array(
-                "clLogin" => IGK_USER_LOGIN,
-                "clPwd" => $def_pwd,
-                "clFirstName" => "Charles",
-                "clLastName" => "BONDJE DOUE",
-                "clLevel" => "0",
-                "clStatus" => 0,
-                "clDate" => $now,
-                "clLocale" => "en",
-                "clGuid" => igk_create_guid(),
-            ));
-            Users::create(array(
-                "clLogin" => "igk.system@igkdev.com",
-                "clPwd" => $def_pwd, 
-                "clFirstName" => "",
-                "clLastName" => "IGKSystem",
-                "clLevel" => "0",
-                "clStatus" => 0,
-                "clDate" => $now,
-                "clLocale" => "fr",
-                "clGuid" => igk_create_guid(),
-            ));
+            Users::InitSystemUsers(); 
         }
     }
 
@@ -666,7 +606,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
     ///<summary>add user frame</summary>
     /**
-     * add user frame
+     * add user frame - - 
      */
     public function uc_auf()
     {
@@ -715,14 +655,14 @@ class UsersConfigurationController extends ConfigControllerBase
                 igk_notifyctrl(__METHOD__)->danger(__('user already register'));
             } else {
                 try {
-                    //$i= igk_db_insert($this, $tb, $o);
-                    $i = Users::Register($o, $this);
+                    $i = Users::Register($o, null);
                 } catch (\Exception $ex) {
-                    igk_ilog('--- failed to insert user ----');
+                    igk_ilog('--- failed to register user ----');
+                    igk_ilog($ex->getMessage());
                 }
             }
             if ($i) {
-                $not->addMsgr("msg.useradded");                           
+                $not->addSuccessr("msg.useradded");                                           
             } else {
                 igk_notifyctrl()->addErrorr("e.registrationnotpossible");
             }
@@ -745,12 +685,12 @@ class UsersConfigurationController extends ConfigControllerBase
                 "clPwd" => array(
                     "require" => 1,
                     "type" => "password",
-                    "attribs" => array("autocomplete" => "nope")
+                    "attribs" => array("autocomplete" => "off")
                 ),
                 "clRePwd" => array(
                     "require" => 1,
                     "type" => "password",
-                    "attribs" => array("autocomplete" => "nope")
+                    "attribs" => array("autocomplete" => "off")
                 ),
                 "clLevel" => array("require" => 1, "attribs" => array("value" => "0"))
             ));

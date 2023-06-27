@@ -30,10 +30,13 @@ class ResetDbCommand extends AppExecCommand
         "--force" => "flag: force class generation",
         "--clean"=>"flag: clean model output directory",
         "--seed" => "flag: do seed",
-        "--querydebug" => "flag: activate query debug"
+        "--querydebug" => "flag: activate query debug",
+        "--controller:controller_name" => "set controller"
     ];
 
-    public function exec($command, $ctrl = null)
+    var $usage = '[controller] [options]';
+
+    public function exec($command, ?string $ctrl = null)
     {
         DbCommandHelper::Init($command);
         $seed =  property_exists($command->options, "--seed");
@@ -58,7 +61,7 @@ class ResetDbCommand extends AppExecCommand
             // + | --------------------------------------------------------------------
             // + | globally reset command
             // + |
-            $this->globalResetDatabase($force, false, $seed, $clean);
+            $this->globalResetDatabase($force, $seed, $clean);
             return; 
         }
         if (!$c)
@@ -97,6 +100,8 @@ class ResetDbCommand extends AppExecCommand
                     $droped[] = $m;
                     DBCaches::Update($m, true);
                 }
+            } else {
+                Logger::warn(sprintf("can't reset database for %s", get_class($m)));
             }
         }
     }
@@ -127,7 +132,8 @@ class ResetDbCommand extends AppExecCommand
 
         $projects::dropDb(false, true);
 
-        $sysdb::dropDb(false, true);
+        // system database will drop everything
+        $sysdb::dropDb(false, true, $clean);
 
         // + | --------------------------------------------------------------------
         // + | 2. upgrade

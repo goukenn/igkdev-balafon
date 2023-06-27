@@ -27,21 +27,27 @@ class session extends \IGKLibraryBase{
         require_once __DIR__."/Session/.functions.pinc";  
         require_once IGK_LIB_CLASSES_DIR."/Controllers/SessionController.php";
 
-        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){
-            // igk_wln("start session .... ");
-            $this->start(); 
-        },  IGKEvents::P_SESSION_PRIORITY); 
-        // register_shutdown_function(function(){
-            // $header = new RequestHeader(); 
-            // if (($id = session_id()) && ($header->PRAGMA == 'no-cache')){
-            //     if (session_status()==1){
-            //         //restart the session before destroy becose it's closed
-            //         session_start();
-            //     }                
-            //     @session_destroy();
-            // }
-            // echo ("shut down ...... ". $header("CONNECTION"));
-        // });
+        
+        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){ 
+            if ($this->canStartSession()){
+                igk_is_debug() && igk_dev_wln("session start.");
+                $this->start(); 
+            } else {
+                igk_environment()->set('no_app_session', 1);
+                igk_environment()->isDev() && igk_ilog('session not start');
+            }
+        },  IGKEvents::P_SESSION_PRIORITY);         
+        return true;
+    }
+    /**
+     * check that session can start
+     * @return bool 
+     */
+    public function canStartSession(){
+        $p = igk_configs()->api_request_pattern ?? "\/api\/";
+        if (preg_match("/".$p."/", igk_io_request_uri())){
+            return false;
+        }
         return true;
     }
     /**

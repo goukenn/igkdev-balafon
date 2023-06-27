@@ -28,12 +28,15 @@ HTML,   $n->render());
 
     function test_skip_code(){
         $n = igk_create_node("div"); 
+        // code must be wheel writed 
         $n->load(<<<'HTML'
-<code>if (i<data){console.log('info');}</code>
+<code>if (i< data){console.log('info');}</code>
 HTML);
         $this->assertEquals(<<<'HTML'
-<div><code>if (i<data){console.log('info');}</code></div>
-HTML,   $n->render());
+<div><code>if (i< data){console.log('info');}</code></div>
+HTML,   $n->render(),
+"<code> must be well write tin order do get data propert data "
+        );
 
     }
 

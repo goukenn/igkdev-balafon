@@ -30,7 +30,8 @@ final class HtmlDoctype extends HtmlItemBase{
     ///<summary></summary>
     ///<param name="options" default="null"></param>
     public function render($options=null){ 
-        $out="<!DOCTYPE ".$this->Content. ">".igk_html_indent_line($options);
+        $s = trim($this->Content ?? '');
+        $out="<!DOCTYPE ".$s. ">".igk_html_indent_line($options);
         return $out;
     }
 }

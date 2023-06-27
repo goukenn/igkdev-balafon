@@ -16,11 +16,11 @@ use IGK\System\Html\XML\XmlNode;
 class DiagramDbSchemaVisitor extends DiagramVisitor{
     private $visitor_items = [];
    
-    public function start(){
+    public function start():?string{
         $this->visitor_items = [];
         return  "<".IGK_SCHEMA_TAGNAME.">";
     }
-    public function complete(){
+    public function complete():?string{
         return  "</".IGK_SCHEMA_TAGNAME.">";
     }
     public function visitDiagramEntity($entity, $diagram=null){

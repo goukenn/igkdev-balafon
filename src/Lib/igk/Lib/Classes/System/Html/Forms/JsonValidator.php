@@ -7,7 +7,11 @@
 namespace IGK\System\Html\Forms;
 
 
-class JsonValidator implements IFormValidator{
+class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    public function assertValidate($value): bool { 
+        return json_decode($value)!==false;
+    }
 
     /**
      * validate a json data

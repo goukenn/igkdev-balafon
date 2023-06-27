@@ -87,7 +87,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
         $dir = $ctrl::classdir(); 
         $bind = [];
         $macroName = ucfirst($macroName);
-        if ((($pos = strrpos(strtolower($macroName), 'Macros'))>0) && (($pos+6)==strlen($macroName))){
+        if ((($pos = strrpos(strtolower($macroName), 'macros'))>0) && (($pos+6)==strlen($macroName))){
             $macroName = substr($macroName,0, -6);
         }
 
@@ -129,7 +129,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
             igk_io_w2file( $file,  $builder->render());
         };
 
-        CommandsUtility::BindFiles($command, $bind, property_exists($command->options, "--force"));
+        CommandsUtility::MakeBindFiles($command, $bind, property_exists($command->options, "--force"));
         if(property_exists($command->options, "--clearcache" ))
             \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("Done - Make Macros for model");

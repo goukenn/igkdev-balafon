@@ -21,6 +21,8 @@ abstract class FactoryBase {
     protected $index;
     protected $data;
     protected $m_errors = [];
+
+
     protected function getErrors(){
         return $this->m_errors;
     }
@@ -71,6 +73,9 @@ abstract class FactoryBase {
     public function create(): ?array{ 
         $response = null;
         $g = $this->dependOn($this->count);
+        $mod = $this->model;
+        $table = $mod->getTable();
+
         for($i = 0; $i < $g; $i++){
             $this->index = $i;
             $def = $this->definition($i); 
@@ -79,6 +84,8 @@ abstract class FactoryBase {
                 continue;
             }
             try{
+                // if ($v_r = $mod::createIfNotExists($def)){
+                // // }
                 if ($v_r = $this->model::create($def)){
                     if (is_null($response)){
                         $response = [];
@@ -89,6 +96,7 @@ abstract class FactoryBase {
             } catch(Exception $ex){
                 $this->m_errors[] = $ex->getMessage();
                 Logger::danger('failed: '.$ex->getMessage());
+                Logger::warn("table : ".$table. " ". json_encode($def));
             }
         }    
         $this->reset();

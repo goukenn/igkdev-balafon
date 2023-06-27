@@ -37,7 +37,28 @@ class AttributeTemplateTest extends BaseTestCase{
             "pipe expression not bind properly"
         );
     }
-    
+    public function test_simple_loop(){
+        $n = igk_create_notagnode();
+        $n->div()->loop(3)->div()->Content = 'index : {{ $raw }}';
+        $this->assertEquals(
+            "<div><div>index : 0</div><div>index : 1</div><div>index : 2</div></div>",
+            $n->render(),
+            "attribute bind"
+        );
+    }   
+    public function test_simple_loop_with_attribute(){
+        $n = igk_create_notagnode();
+        $n->div()->setAttribute('*for', '$raw')->Content = 'index : {{ $raw }}';
+        $s = igk_create_notagnode();
+        $s->load($n->render(), [
+            'raw'=>range(0,2)
+        ]);
+        $this->assertEquals(
+            "<div>index : 0</div><div>index : 1</div><div>index : 2</div>",
+            $s->render(),
+            "attribute bind"
+        );
+    }    
     public function test_binding_attribute_expression_in_loop(){
         $s = '<a *title="\'data\'" *for="$raw">data : {{ $raw }} - {{ $ctrl->getName() }} </a>';
         $n = igk_create_notagnode();
@@ -55,12 +76,12 @@ class AttributeTemplateTest extends BaseTestCase{
     }
 
     public function test_binding_attribute_expression(){
-        $s = '<a *title="\'data\'"><igk:attr-expression *igk:uri="$ctrl->getAppUri(\'dashboard/edit_picture.form/\'.$raw->clId)" /></a>';
+        // passing custom controller 
+        // $s = '<a *title="\'data\'"><igk:attr-expression *igk:uri="$ctrl->getAppUri(\'dashboard/edit_picture.form/\'.$raw->clId)" /></a>';
         // passing in loop context 
-        $s = '<a *title="\'data\'" *for="$raw"><igk:attr-expression *igk:uri="$ctrl->getName()" /></a>';
+        // $s = '<a *title="\'data\'" *for="$raw"><igk:attr-expression *igk:uri="$ctrl->getName()" /></a>';
 
-        // not passing in loop check
-         
+        // not passing in loop check 
         $s = '<a *title="\'data\'" >value<igk:attr-expression *igk:uri="$ctrl->getAppUri(\'dashboard/edit_picture.form/\'.$raw->clId)" /></a>';
         $n = igk_create_notagnode();
         $n->load($s, (object)[
@@ -68,14 +89,14 @@ class AttributeTemplateTest extends BaseTestCase{
             "raw"=>(object)[
                 "clId"=>-1
             ],
-            "ctrl"=>DummyController::ctrl()
-            
+            "ctrl"=>DummyController::ctrl() 
         ]);
-
+        $ts = $n->render();
+       
         $this->assertEquals(
-            "<a title=\"data\" igk:uri=\"test://dashboard/edit_picture.form/-1\">value</a>",
-            $n->render(),
-            "attribute bind"
+            "<a igk:uri=\"test://dashboard/edit_picture.form/-1\" title=\"data\">value</a>",
+            $ts,
+            "attribute controller not binding",
         );
     }
 

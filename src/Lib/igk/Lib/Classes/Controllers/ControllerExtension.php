@@ -5,8 +5,10 @@
 // @desc: controller macro extension
 
 namespace IGK\Controllers;
- 
-use Exception; 
+
+use Exception;
+use IGK\Actions\ActionBase;
+use IGK\Actions\ActionResolutionInfo;
 use IGK\Database\DbLinkExpression;
 use IGK\Models\Migrations;
 use IGK\Models\ModelBase;
@@ -31,12 +33,15 @@ use IGK\ApplicationLoader;
 use IGK\Controllers\Traits\AtricleManagerControllerExtensionTrait;
 use IGK\Controllers\Traits\IOControllerExtensionTrait;
 use IGK\Database\DbSchemaLoadEntriesFromSchemaInfo;
-use IGK\Database\DbSchemasConstants; 
+use IGK\Database\DbSchemasConstants;
+use IGK\Helper\ActionHelper;
+use IGK\Helper\Activator;
 use IGK\Helper\DbUtilityHelper;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
+use IGK\System\Configuration\ProjectConfiguration;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -44,8 +49,10 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\IO\Path;
+use IGKConstants;
 use IGKEnvironment;
 use IGKEvents;
+use IGKModuleListMigration;
 use IGKResourceUriResolver;
 use IGKSysUtil as sysutil;
 use IGKValidator;
@@ -58,7 +65,7 @@ use Throwable;
 require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 
- 
+
 ///<summary>controller macros extension</summary>
 /**
  * controller macros extension
@@ -67,47 +74,47 @@ abstract class ControllerExtension
 {
     use AtricleManagerControllerExtensionTrait;
     use IOControllerExtensionTrait;
-    
+
+    /**
+     * macros to get the title
+     * @return ?string 
+     */
+    public static function title(BaseController $controller): ?string
+    {
+        return $controller->getConfig(\IGK\System\Configuration\ConfigurationFields::AppTitle, $controller->getName());
+    }
+
     /**
      * set environment param document
      * @param BaseController $ctrl - base controller 
      * @param mixed $document 
      * @return void 
      */
-    public static function setEnvParamDocument(BaseController $ctrl, $document=null){
+    public static function setEnvParamDocument(BaseController $ctrl, $document = null)
+    {
         // + | --------------------------------------------------------------------
         // + | change the envornment param document for view rendering. 
         // + |
-        
+
         $ctrl->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $document);
     }
+    /**
+     * controller base directory
+     * @param BaseController $ctrl 
+     * @return null 
+     */
     public static function getBaseDir(BaseController $ctrl)
     {
         return null;
     }
-    /**
-     * resolv
-     * @param BaseController $ctrl 
-     * @param array $assets 
-     * @return void 
-     * @throws IGKException 
-     */
-    public static function resolveAssets(BaseController $ctrl, array $assets){
-        $dir = $ctrl->getAssetsDir();
-        $i = IGKResourceUriResolver::getInstance();
-        foreach($assets as $a){ 
-            if (file_exists($g = Path::Combine($dir, $a)))
-            {
-                $i->resolve($g);
-            }
-        }
-    }
+
     /**
      * get models
      * @param BaseController $ctrl 
      * @return array 
      */
-    public static function GetModels(BaseController $ctrl):array{
+    public static function GetModels(BaseController $ctrl): array
+    {
         return ModelBase::GetModels($ctrl);
     }
     /**
@@ -137,8 +144,8 @@ abstract class ControllerExtension
      * @param mixed $css_def the default value is null
      */
     public static function bindNodeClass(BaseController $ctrl, HtmlNode $t, $fname, $css_def = null)
-    { 
-        $classdef = CssUtils::GetControllerSelectorClassNameFromRegisterURI($ctrl, $fname). ($css_def ? " " . $css_def : "");
+    {
+        $classdef = CssUtils::GetControllerSelectorClassNameFromRegisterURI($ctrl, $fname) . ($css_def ? " " . $css_def : "");
         if ($ctrl->getEnvParam(IGK_KEY_CSS_NOCLEAR) == 1)
             return;
 
@@ -151,7 +158,8 @@ abstract class ControllerExtension
     /**
      * get that the controller is registrable
      */
-    public static function IsRegistrable(BaseController $controller):bool{
+    public static function IsRegistrable(BaseController $controller): bool
+    {
         return ($controller instanceof NotRegistrableControllerBase);
     }
 
@@ -170,28 +178,50 @@ abstract class ControllerExtension
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-    public static function cssBindStyle(BaseController $ctrl, HtmlDocumentNode $doc, string $path, bool $inline=true)
+    public static function cssBindStyle(BaseController $ctrl, HtmlDocumentNode $doc, string $path, bool $inline = true)
     {
         $cfile =  Path::Combine($ctrl->getStylesDir(), $path);
-        if (Path::GetExistingFile($cfile, ['.pcss', '.css'])){
+        if (Path::GetExistingFile($cfile, ['.pcss', '.css'])) {
             igk_ctrl_bind_css_file($ctrl, $doc->getTheme(), $cfile, $inline);
         }
     }
-
+    #region ASSETS MANAGEMENT 
     /**
-     * resolv asset path
+     * resolve assets . help by create a link to expose 
+     * @param BaseController $ctrl 
+     * @param array $assets 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function resolveAssets(BaseController $ctrl, array $assets)
+    {
+        $dir = $ctrl->getAssetsDir();
+        // $bpath = igk_io_collapse_path($dir);
+        // if (igk_str_startWith($bpath, '%project%')){
+        //     self::resolveAssetUri($ctrl);
+        //     return;
+        // }
+        $i = IGKResourceUriResolver::getInstance();
+        foreach ($assets as $a) {
+            if (file_exists($g = Path::Combine($dir, $a))) {
+                $i->resolve($g);
+            }
+        }
+    }
+    /**
+     * resolve asset path
      * @param BaseController $ctrl 
      * @param string $path 
      * @return mixed 
      */
-    public static function asset(BaseController $ctrl, ?string $path=null, bool $exists=true)
+    public static function asset(BaseController $ctrl, ?string $path = null, bool $exists = true)
     {
         $res_i = IGKResourceUriResolver::getInstance();
         $f = $ctrl->getAssetsDir();
-        if ($path){
+        if ($path) {
             $f = Path::Combine($f, $path);
-        } 
-        if ($exists){
+        }
+        if ($exists) {
             if (!file_exists($f))
                 return null;
             $t = $res_i->resolve($f);
@@ -212,6 +242,47 @@ abstract class ControllerExtension
     {
         return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, ltrim($path ?? '', '/')]));
     }
+
+    // exposed asset by default 
+    /**
+     * expose assets 
+     */
+    public static function exposeAssets(BaseController $ctrl,  $dirs = null)
+    {
+        //expose asset folder and script
+        $resolver = IGKResourceUriResolver::getInstance();
+        if (!$dirs && is_file($file = ($dec = $ctrl->getDeclaredDir()) . "/" . IGKConstants::PROJECT_CONF_FILE)) {
+            if ($g = json_decode(file_get_contents($file))) {
+                $inf = Activator::CreateNewInstance(ProjectConfiguration::class, $g);
+                if ($inf instanceof ProjectConfiguration) {
+                    if (is_array($inf->exposedDir)) {
+                        $dirs = array_filter(array_map(function ($a) use ($dec) {
+                            if ($a &&  (is_dir($a) || is_dir($a = Path::Combine($dec, $a)))) {
+                                return $a;
+                            }
+                        }, $inf->exposedDir));
+                    }
+                }
+            }
+        }
+        // default exposed assets
+        $dirs = $dirs ?? [
+            $ctrl->getScriptsDir(),
+            $ctrl->getAssetsDir()
+        ];
+        $v_bdir =  igk_io_basedir();
+        foreach ($dirs as $r) {
+            $only_script = $v_bdir . "/" . $resolver->resolveOnly($r);
+            if (is_readable($only_script) && !is_link($only_script)) {
+                @unlink($only_script);
+            }
+            $resolver->resolve($r);
+        }
+    }
+
+
+    #endregion
+
     /**
      * return an array of views
      * @param BaseController $ctrl 
@@ -295,9 +366,19 @@ abstract class ControllerExtension
             return file_get_contents($f);
         }
     }
+    /**
+     * get config file 
+     * @param BaseController $ctrl 
+     * @param mixed $name 
+     * @return string 
+     */
     public static function configFile(BaseController $ctrl, $name)
     {
-        return self::configDir($ctrl) . "/{$name}.php";
+        $bs = basename($name);
+        if (strpos($bs, '.') === false) {
+            $name .= '.php';
+        }
+        return self::configDir($ctrl) . "/{$name}";
     }
     public static function configDir(BaseController $ctrl)
     {
@@ -445,6 +526,7 @@ abstract class ControllerExtension
      */
     public static function db_rm_column(BaseController $ctrl, $table, $info)
     {
+        Logger::warn('remove column: '.$table. ' '.$info->clName);
         $ad = self::getDataAdapter($ctrl);
         $is_obj = is_object($info);
         if ($is_obj) {
@@ -457,10 +539,10 @@ abstract class ControllerExtension
                 $is_obj && $info->clLinkType &&
                 ($query = $ad->grammar->remove_foreign($table, $name))
             ) {
-                $ad->sendQuery($query);
+                $ad->sendMultiQuery($query);
             }
             $query = $ad->grammar->rm_column($table, $name);
-            return $ad->sendQuery($query);
+            return $ad->sendMultiQuery($query);
         }
         return false;
     }
@@ -468,14 +550,45 @@ abstract class ControllerExtension
     public static function db_rename_column(BaseController $ctrl, $table, $column, $new_column_name)
     {
         $ad = self::getDataAdapter($ctrl);
-        if ($ad->exist_column($table, $column)){
-            if (!$ad->exist_column($table,$new_column_name)){
+
+        if ($column == 'crcar_pc_door'){
+            
+        }
+
+        if ($ad->exist_column($table, $column)) {
+            if (!$ad->exist_column($table, $new_column_name)) {
                 if ($query = $ad->grammar->rename_column($table, $column, $new_column_name)) {
                     return $ad->sendQuery($query);
+                } else {
+                    $n_info = igk_getv($ad->getColumnInfo($table, $column), $column);
+                    if ($n_info){
+                        if (empty($n_info->clName)){
+                            $n_info->clName = $column;
+                        }
+                    }
+                    if ($n_info && ($query = $ad->grammar->change_column($table, $n_info, $new_column_name))) {
+                        return $ad->sendQuery($query);
+                    }
                 }
             } else {
-                $query = $ad->grammar->rm_column($table, $column);
-                return $ad->sendQuery($query); 
+                if(strtolower($column) == strtolower($new_column_name)){
+                    // new column resolving. changing with case sensitivity
+                     $query = $ad->grammar->rename_column($table, $column, $new_column_name);
+                    if ($query){
+                       return $ad->sendQuery($query);  
+                    }           
+                    
+                }
+
+                Logger::warn('target column already exists : %s.%s ',$table, $new_column_name );
+                return false;
+                //remove last column - add new column with n_info- because au case sensivity
+                //$query = $ad->grammar->rename_column($table, $column, $new_column_name);
+                //if ($query){
+                //    return $ad->sendQuery($query);             
+                //} else {
+                    // server do not support rename of column.
+                //}
             }
         }
         return false;
@@ -485,14 +598,17 @@ abstract class ControllerExtension
     {
         $ad = self::getDataAdapter($ctrl);
         if ($ad->exist_column($table, $info->clName)) {
+
+            $ad->drop_foreign_key($table, $info);
+
             if ($query = $ad->grammar->change_column($table, $info)) {
                 if ($r = $ad->sendQuery($query)) {
                     if ($info->clLinkType) {
-                        if ($info->clLinkConstraintName){
-                            $info = clone($info);
+                        if ($info->clLinkConstraintName) {
+                            $info = clone ($info);
                             $info->clLinkConstraintName = igk_db_get_table_name($info->clLinkConstraintName, $ctrl);
                         }
-                        if ($query_link = $ad->grammar->add_foreign_key($table, $info)){
+                        if ($query_link = $ad->grammar->add_foreign_key($table, $info)) {
                             $ad->sendQuery($query_link);
                         }
                     }
@@ -557,8 +673,11 @@ abstract class ControllerExtension
      */
     public static function seed(BaseController $ctrl, $classname = null)
     {
+        if ( !$ctrl->getCanInitDb()){
+            return ;
+        }   
         $driver = $ctrl->getDataAdapter();
-        if (!$driver->canProcess(__FUNCTION__)){
+        if (!$driver->canProcess(__FUNCTION__)) {
             throw new IGKException("driver can't process seeding");
         }
 
@@ -599,36 +718,43 @@ abstract class ControllerExtension
         // + | --------------------------------------------------------------------
         // + | load schema file - update to the end without migrates to table
         // + |
-        
-        if (!$ctrl->getCanInitDb()) {
-            return false;
-        }
-        if ($ctrl->getUseDataSchema()) {
-
-            $file = $ctrl->getDataSchemaFile();
-            $f = igk_db_load_data_schemas($file, $ctrl);
-            if ($m = igk_getv($f, "migrations")) {
-                $v_upgrade = false;
-                try {
-                    foreach ($m as $t) {
-                        $v_upgrade = true;
-                        $t->upgrade();
-                    }
-                } catch (Exception $ex) {
-                    Logger::danger(sprintf("some error : %s", $ex->getMessage()));
-                    return false;
-                }
-                if ($v_upgrade) {
-                    // upgrade model file definition
-                }
-                // restore updated keys -- 
-
-
-                self::InitDataBaseModel($ctrl, $f->tables, true, false);
+        $invoke = function($ctrl){
+            if (!$ctrl->getCanInitDb()) {
+                return false;
             }
-        }
-        self::loadMigrationFile($ctrl);
-        return true;
+            if ($ctrl->getUseDataSchema()) {
+    
+                $file = $ctrl->getDataSchemaFile();
+                $f = igk_db_load_data_schemas($file, $ctrl);
+                if ($m = igk_getv($f, "migrations")) {
+                    if ($f =='/Volumes/Data/wwwroot/core/Packages/Modules/igk/social/google/Data/data.schema.xml')
+                    {
+                        echo "base";
+                    }
+                    try {
+                        foreach ($m as $t) {
+                            $t->upgrade();
+                        }
+                    } catch (Exception $ex) {
+                        Logger::danger(sprintf("some error : %s", $ex->getMessage()));
+                        return false;
+                    }
+                    // if ($v_upgrade) {
+                    //     // upgrade model file definition
+                    // }
+                    // restore updated keys -- 
+                    self::InitDataBaseModel($ctrl, $f->tables, true, false);
+                }
+            }
+            self::loadMigrationFile($ctrl);
+            return true;
+        };
+        if ($ctrl instanceof IGKModuleListMigration){
+            Logger::warn("migrate modules ....");
+            return $ctrl->migrateHost($invoke);
+        } 
+        return $invoke($ctrl);
+   
     }
 
     /**
@@ -730,43 +856,58 @@ abstract class ControllerExtension
      * @return void 
      * @throws IGKException 
      */
-    public static function InitDataBaseModel(BaseController $ctrl, 
-    array $definitions,  $force = false, $clean = false )
-    {
-        Logger::info("init db model ... ".get_class($ctrl));
-        $c  = self::_GetEntryModelDirectory($ctrl);        
-        if ($clean && is_dir($c)){
+    public static function InitDataBaseModel(
+        BaseController $ctrl,
+        array $definitions,
+        $force = false,
+        $clean = false
+    ) {
+
+        if ($ctrl instanceof  IGKModuleListMigration){
+            Logger::warn('debug modules.extension');
+        }
+        Logger::info("init db model ... " . get_class($ctrl));
+        $c  = self::_GetEntryModelDirectory($ctrl);
+        $tb = null;
+        if ($clean && is_dir($c)) {
             IO::CleanDir($c);
         }
-        $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
-        $tb = $definitions;
-        $base_f = igk_uri($c . "ModelBase.php");
-        if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
-            Logger::info("generate base model : " . $base_f);
-            igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
+        if (!($ctrl instanceof IGlobalModelFileController)) {
+            $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
+            $tb = $definitions;
+            $base_f = igk_uri($c . "ModelBase.php");
+            if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
+                Logger::info("generate base model : " . $base_f);
+                igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
+            }
+        } else {
+            $ctrl->injectBaseModel();
         }
         $factory = [];
         if ($tb) {
-            $model_init = 
-            !($ctrl instanceof SysDbController) ? 
-            DBCachesModelInitializer::InitMigration($tb) : 
-            null;
-            
-            foreach ($tb as $v) {
-                // remove prefix
-                $table = null;
-                $name = sysutil::GetModelTypeNameFromInfo($v, $table);
-                if (!empty($name)) {
-                    $file = $c . $name . ".php";
-                    $factory[] = $name;
-                    if (!$force && file_exists($file)) {
-                        continue;
+            // update controllers list - 
+            $model_init =
+                !($ctrl instanceof SysDbController) ?
+                DBCachesModelInitializer::InitMigration($tb) :
+                null;
+            if (!($ctrl instanceof IGlobalModelFileController) || !$ctrl->handleModelCreation($tb)) {
+
+                foreach ($tb as $v) {
+                    // remove prefix
+                    $table = null;
+                    $name = sysutil::GetModelTypeNameFromInfo($v, $table);
+                    if (!empty($name)) {
+                        $file = $c . $name . ".php";
+                        $factory[] = $name;
+                        if (!$force && file_exists($file)) {
+                            continue;
+                        }
+                        if ($definitionHandler = $v->definitionResolver ?? $model_init) {
+                            Logger::info("generate model : " . $file);
+                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
+                        }
                     }
-                    if ($definitionHandler = $v->definitionResolver ?? $model_init ) {
-                        Logger::info("generate model : " . $file);
-                        igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
-                    }
-                }               
+                }
             }
         }
         self::InitDataInitialization($ctrl, $force);
@@ -780,28 +921,30 @@ abstract class ControllerExtension
      * @return string 
      * @throws IGKException 
      */
-    public static function GetDefaultModelConstanceConstantsSource(BaseController $n, $name){
-     
+    public static function GetDefaultModelConstanceConstantsSource(BaseController $n, $name)
+    {
+
         $sb = new PHPScriptBuilder;
-        $clName = ucfirst($name).'Constants';
+        $clName = ucfirst($name) . 'Constants';
         $ns = $n->getEntryNamespace();
         $model_class = StringUtility::NS(Path::Combine($ns, \Models::class, ucfirst($name)));
 
-        $desc = "Constants for \\". $model_class;
+        $desc = "Constants for \\" . $model_class;
         $sb->type('class')
-        ->namespace(StringUtility::NS(Path::Combine($ns, \Database::class)))
-        ->name($clName)
-        ->file($clName.".php")
-        ->defs(implode("\n", ['// const NAME = "VALUE";','',
-            'public static function GetPrimaryKey(){',
-            '   return '.basename(igk_uri($model_class)).'::model()->getPrimaryKey();',
-            '}',
-        ]))
-        ->doc($desc)
-        ->desc($desc)
-        ->uses([ \IGK\System\Traits\EnumeratesConstants::class, $model_class])
-        ->traits([ \IGK\System\Traits\EnumeratesConstants::class ])
-        ->uses;
+            ->namespace(StringUtility::NS(Path::Combine($ns, \Database::class)))
+            ->name($clName)
+            ->file($clName . ".php")
+            ->defs(implode("\n", [
+                '// const NAME = "VALUE";', '',
+                'public static function GetPrimaryKey(){',
+                '   return ' . basename(igk_uri($model_class)) . '::model()->getPrimaryKey();',
+                '}',
+            ]))
+            ->doc($desc)
+            ->desc($desc)
+            ->uses([\IGK\System\Traits\EnumeratesConstants::class, $model_class])
+            ->traits([\IGK\System\Traits\EnumeratesConstants::class])
+            ->uses;
 
         return $sb->render();
     }
@@ -836,7 +979,7 @@ abstract class ControllerExtension
         //init database models
         // $force = 1;
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
-            . "/Database/Seeds/DataBaseSeeder.php"; 
+            . "/Database/Seeds/DataBaseSeeder.php";
         if (!file_exists($c)) {
 
             $ns = $ctrl::ns("Database/Seeds");
@@ -865,7 +1008,7 @@ abstract class ControllerExtension
         //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Factories/FactoryBase.php";
-        if (!file_exists($c)){
+        if (!file_exists($c)) {
             $ns = $ctrl::ns("Database/Factories");
             $builder = new PHPScriptBuilder();
             $builder->type("class")
@@ -959,11 +1102,11 @@ abstract class ControllerExtension
      */
     public static function resolveClass(BaseController $ctrl, $path)
     {
-        $cl = self::ns($ctrl, $path);  
+        $cl = self::ns($ctrl, $path);
         if (class_exists($cl, false) || ApplicationLoader::TryLoad($cl)) {
             return $cl;
         }
-        return null;        
+        return null;
     }
     /**
      * get auto reset parameters
@@ -1153,32 +1296,31 @@ abstract class ControllerExtension
                 // igk_wln_e("connect with login and pwd", $ip, $agent,  $ip);
 
                 if ($v_uctrl->connect($u, $pwd)) {
-                    Logger::success('login with : '.$u);
+                    Logger::success('login with : ' . $u);
                     igk_ilog('login connect: > ' . $u);
                     // + | --------------------------------------------------------------------
                     // + | init controller user 
                     // + |                     
                     $ctrl->checkUser(false);
                     $f = $ctrl->getUser() != null;
-              
                 } else {
-                    Logger::danger('connection failed.' .igk_environment()->get('connect_error'));
+                    Logger::danger('connection failed.' . igk_environment()->get('connect_error'));
                     igk_ilog('login failed: > ' . $u);
                 }
             }
         }
         if ($f) {
-            $user = $ctrl->getUser();
+            $user = $ctrl->getUser()->model();
             $uid = $user->clId;
-            $user->bclLastLogin = $user->clLastLogin;
+            $bclLastLogin = $user->clLastLogin;
             $user->clLastLogin = date(\IGKConstants::MYSQL_DATETIME_FORMAT);
-
-            $u = \IGK\Models\Users::update(
-                [
-                    "clLastLogin" => $user->clLastLogin,
-                ],
-                ["clId" => $uid]
-            );
+            $user->save();
+            // $u = \IGK\Models\Users::update(
+            //     [
+            //         "clLastLogin" => $user->clLastLogin,
+            //     ],
+            //     ["clId" => $uid]
+            // );
             $server = igk_server();
             igk_hook(IGKEvents::HOOK_USER_LOGIN, [
                 "user" => $user,
@@ -1193,8 +1335,6 @@ abstract class ControllerExtension
                 "status" => 0,
                 "description" => null,
             ]);
-
-            // igk_wln_e("login ...... ");
         } else {
             igk_notifyctrl("notify/app/login")->addErrorr("e.loginfailed");
         }
@@ -1281,16 +1421,16 @@ abstract class ControllerExtension
         $r = true;
         $u = igk_app()->session->getUser();
         $ku = $controller->getUser();
-        if (!$u && !$ku){
-            if (igk_environment()->connecting){
+        if (!$u && !$ku) {
+            if (igk_environment()->connecting) {
                 return;
             }
             igk_environment()->connecting = true;
-            if (igk_environment()->isDev()){
-              if ($ku = SysUtils::TryServerAutoConnect($controller)){
-                igk_environment()->connecting = null;
-                return;
-              }
+            if (igk_environment()->isDev()) {
+                if ($ku = SysUtils::TryServerAutoConnect($controller)) {
+                    igk_environment()->connecting = null;
+                    return;
+                }
             }
             igk_environment()->connecting = null;
         }
@@ -1300,7 +1440,7 @@ abstract class ControllerExtension
                 // check existance of the user
                 if (!is_null(\IGK\Models\Users::GetCache("clGuid", $u->clGuid))) {
                     $pu = $controller->initUserFromSysUser($u);
-                    $controller->User = $pu;                    
+                    $controller->User = $pu;
                 } else {
                     $r = false;
                     if ($u) {
@@ -1320,7 +1460,7 @@ abstract class ControllerExtension
             if (!empty($m)) {
                 $s = "q=" . base64_encode($m);
                 $u .= ((strpos($u, "?") === false) ? "?" : "&") . $s;
-            }    
+            }
             // if (strlen($u)>50){
             //     igk_trace();
             //     igk_wln("uri i too long");
@@ -1441,7 +1581,7 @@ abstract class ControllerExtension
      * @throws IGKException 
      */
     public static function getConfig(BaseController $controller, string $name, $default = null)
-    { 
+    {
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($controller, $name, $default);
     }
 
@@ -1462,7 +1602,7 @@ abstract class ControllerExtension
         if (empty($tbname)) {
             return false;
         }
-        $v_tab = $controller->getDataTableInfo(); 
+        $v_tab = $controller->getDataTableInfo();
 
         if (!$v_tab)
             return;
@@ -1584,6 +1724,24 @@ abstract class ControllerExtension
         return $cl::model();
     }
 
+    /**
+     * retrieve a registration action 
+     * @param BaseController $controller 
+     * @param string $actionName 
+     * @return ?string resolved action class name
+     */
+    public static function action(BaseController $controller, string $action_class_name): ?string
+    {
+        $cl = $action_class_name;
+        if (!class_exists($cl) || !is_subclass_of($cl, ActionBase::class)) {
+            if (!($cl = self::resolveClass($controller, \IGKConstants::NS_ACTION_ENTRY . "/$cl"))) {
+                return null;
+            }
+            !is_subclass_of($cl, ActionBase::class) && igk_die("not an action class");
+        }
+        return $cl;
+    }
+
     ///<summary> initialize db from data schemas </summary>
     /**
      *  initialize db from data schemas
@@ -1591,18 +1749,18 @@ abstract class ControllerExtension
     public static function initDbFromSchemas(BaseController $controller)
     {
         // clear system schema 
-        DBCaches::ClearControllerCache($controller); 
-     
+        DBCaches::ClearControllerCache($controller);
+
         $db = self::getDataAdapter($controller);
         // init load a schema
         $r = $controller->loadDataAndNewEntriesFromSchemas();
-        if (!$r) {          
+        if (!$r) {
             return false;
         }
-        
+
         $tb = $r->Data;
         DbSchemas::InitData($controller, $r, $db);
-             
+
         // + | ---------------------------------------------------------
         // + | update migration handler
         // + |
@@ -1687,7 +1845,8 @@ abstract class ControllerExtension
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function storeConfigSettings(BaseController $ctrl){
+    public static function storeConfigSettings(BaseController $ctrl)
+    {
         return $ctrl->getConfigs()->storeConfig();
     }
 
@@ -1709,7 +1868,7 @@ abstract class ControllerExtension
      */
     public static function loadDataFromSchemas(BaseController $ctrl, $resolvName = true, $operation = DbSchemasConstants::Migrate)
     {
-        return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl,$resolvName, $operation);
+        return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl, $resolvName, $operation);
     }
     /**
      * controller get data table definition
@@ -1729,7 +1888,7 @@ abstract class ControllerExtension
             $info = null;
             if (DBCaches::IsInitializing())
                 return;
-            if (is_null($tablename)){ 
+            if (is_null($tablename)) {
                 // || !($info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 // load the actual state of the dataschema - everything up 
                 if ($schema = self::loadDataFromSchemas($ctrl, true, DbSchemasConstants::Migrate)) {
@@ -1743,7 +1902,7 @@ abstract class ControllerExtension
                             // + | update data with table's row model reference info
                             //
                             $info->tableRowReference = igk_array_object_refkey($info->columnInfo, IGK_FD_NAME);
-                        }                        
+                        }
                     }
                 }
             }
@@ -1787,7 +1946,7 @@ abstract class ControllerExtension
     public static function loadDataAndNewEntriesFromSchemas(BaseController $controller)
     {
         $obj = new DbSchemaLoadEntriesFromSchemaInfo;
-        
+
         if ($data = self::loadDataFromSchemas($controller)) {
             if (count((array)$data) > 0) {
                 // copy information 
@@ -1798,7 +1957,7 @@ abstract class ControllerExtension
                 $obj->Version = $data->version;
 
                 foreach ($data->tables as $n => $t) {
-                    if (isset($t->entries)) { 
+                    if (isset($t->entries)) {
                         if ($c = $t->entries) {
                             $obj->Entries[$n] =  $c;
                         }
@@ -1878,7 +2037,8 @@ abstract class ControllerExtension
             $inc($cf);
         }
     }
-    public static function viewConfigClass(BaseController $controller){
+    public static function viewConfigClass(BaseController $controller)
+    {
         return \IGK\System\Configuration\ViewConfiguration::class;
     }
 
@@ -2146,78 +2306,114 @@ abstract class ControllerExtension
 
     /**
      * get action handler 
-     * @param BaseController $controller 
-     * @return mixed 
+     * @param BaseController $controller
+     * @param string $name request name
+     * @param ?array $params trait param for resolution 
+     * @return ?string action class name 
+     * @return ?ActionResolutionInfo action resolution info
      * @throws IGKException 
      */
-    public static function getActionHandler(BaseController $controller, string $name, ?array $params = null)
+    public static function getActionHandler(BaseController $controller, string $name, ?array $params = null, &$responseData = null): ?string
     {
         if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
-
-   
-        $entry_default = ($name == IGK_DEFAULT_VIEW);
-
-        if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
-            $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
-        } else {
-            if ($params){
-                // + | update must combine with current name 
-                $name = ltrim(Path::Combine($entry_default ? "/": $name, implode("/", $params)), '/');
-            }
-        }
-        $ns = $controller->getEntryNameSpace();
         $c = [];
         $t = [];
-        if (!empty($ns)) {
-            $c[] = $ns;
-        }
         $m = "";
         $sep = "";
         $fallback = false;
-        $search_name = $name;
-        if ($params){
-            $search_name = $name."/".implode("/", $params);
+        $fc_prepend = function (& $tab, $name, $level, $params) {
+            $tab = [$name => [$level, $params]] + $tab;
+        };
+        // $TLevel = $params ? count($params) : 0;
+        $entry_default = ($name == IGK_DEFAULT_VIEW);
+        if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
+            $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
+        } else {
+            if ($params) {
+                // + | update must combine with current name 
+                $name = ltrim(Path::Combine($entry_default ? "/" : $name, implode("/", $params)), '/');
+                $params = [];
+            }
         }
-        foreach (explode("/", $search_name) as $r) {
+        $ns = $controller->getEntryNameSpace();
+        if (!empty($ns)) {
+            $c[] = $ns;
+        }
+        $search_name = $name;
+        if ($params) {
+            // $search_name = $name . "/" . implode("/", $params);
+            $search_name .= "/" . implode("/", $params);
+        }
+        $p = null; //  "previous callback failed";
+        $level =1;  // level for arguments detection
+        $postfix = 'Action';
+        $targs = explode("/", $search_name);
+        $margs = array_slice($targs, 1);
+        while(count($targs)>0) {
+            $r = array_shift($targs);
             $g = StringUtility::CamelClassName(ucfirst($r));
             if (is_numeric($g)) {
-                if ($fallback){
+                if ($fallback) {
                     break;
                 }
                 $fallback = true;
                 continue;
             }
+            if ($p) {
+                $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . $p . $postfix ])));
+                $fc_prepend($t, $l, $level-1, $margs);
+                if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
+                    $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix ])));
+                    $fc_prepend($t, $l, $level-2, $margs);
+                }
+                array_shift($margs);
+            }
             $m .= $sep . $g;
-            array_unshift($t, implode("\\", array_filter(array_merge($c, ["Actions\\" . $m . "Action"]))));
+            $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix ]))), $level, $margs);
             $sep = "\\";
+            $p = $g;
             $fallback = true;
+            $level++;
         }
 
         if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
-            $t[] = implode("\\", array_filter(array_merge([$ns], ["Actions\\" . ucfirst(IGK_DEFAULT_VIEW) . "Action"])));
+            $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix ])))] = -1;
         }
         $classdir = $controller->getClassesDir();
         $sublen = 1;
         if (!empty($ns)) {
             $sublen += strlen($ns);
         }
-        while ($cl = array_shift($t)) {
+        ActionHelper::$ResolvedClass = null;
+        while (count($t) > 0) {
+            $cl = array_key_first($t);
+            list($level, $params) = array_shift($t);
             $fcl = $cl;
             if (!empty($ns) && (strpos($cl, $ns . "\\") === 0)) {
                 $fcl = substr($cl, $sublen);
             }
             $f = igk_dir(implode("/", [$classdir, $fcl . ".php"]));
             if (file_exists($f) && class_exists($cl)) {
+                if (count($t) > 0) {
+                    $responseData->level = $level;
+                    $responseData->class = $cl;
+                    $responseData->params = $params;
+                    ActionHelper::$ResolvedClass = $responseData; // Activator::CreateNewInstance(ActionResolutionInfo::class , ['class'=>$cl, 'level'=>$level]);                     
+                }
                 return $cl;
             }
+        }
+        if ($responseData) {
+            $responseData->class = null;
+            $responseData->level = null;
         }
         return null;
     }
 
     public static function showError(BaseController $controller, string $message, string $title, $code = 400)
     {
-        $style = file_get_contents(IGK_LIB_DIR."/Styles/errors/exceptions.css");
+        $style = file_get_contents(IGK_LIB_DIR . "/Styles/errors/exceptions.css");
         $out = <<<HTML
 <html>
     <head>
@@ -2269,7 +2465,8 @@ HTML;
      * @param string $auth_name_or_role 
      * @return bool 
      */
-    public static function checkAuth(BaseController $controller, string $auth_name_or_role){
+    public static function checkAuth(BaseController $controller, string $auth_name_or_role)
+    {
         $user = $controller->getUser();
         $c =  $user && $user->auth(self::authName($controller, $auth_name_or_role));
         return $c;
@@ -2281,7 +2478,8 @@ HTML;
      * @param Users $user 
      * @return string 
      */
-    public static function getUserProfileDir(BaseController $controller, Users $user){
-        return $controller->getDataDir()."/.profiles/".$user->clLogin;
+    public static function getUserProfileDir(BaseController $controller, Users $user)
+    {
+        return $controller->getDataDir() . "/.profiles/" . $user->clLogin;
     }
 }

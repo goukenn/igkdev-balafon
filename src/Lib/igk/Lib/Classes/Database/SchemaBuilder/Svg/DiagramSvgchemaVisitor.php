@@ -24,14 +24,14 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
     const DEFAULT_WIDTH  = 500;
     const DEFAULT_HEIGHT = 500;
     
-    public function start(){
+    public function start():string{
         $this->defs = new XmlNode("defs");
         $this->visitor_items = [];
         return igk_str_format('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'.
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox='0 0 {0} {1}' width='{0}' height='{1}' >", 
             $this->width ?? self::DEFAULT_WIDTH, $this->height ?? self::DEFAULT_HEIGHT);
     }
-    public function complete(){
+    public function complete():string{
         return $this->defs->render().
         implode("", array_map(function($n){
             return $n->render();

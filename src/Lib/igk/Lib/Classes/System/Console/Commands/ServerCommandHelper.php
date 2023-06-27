@@ -38,7 +38,8 @@ abstract class ServerCommandHelper
             '-srv_request' => "request", // request args
             '-srv_request_uri' => "request-uri",
             '-srv_baseuri' => "base_uri", // set command environment base uri
-            '-srv_referer'=>"referer"
+            '-srv_referer'=>"referer",
+            '-srv_ajx'=>'ajx' // set command to ajx request 
 
         ];
     }
@@ -88,6 +89,9 @@ abstract class ServerCommandHelper
         $_SERVER['GEOIP_COUNTRY_NAME'] = $cnf->{'country_name'};
         $_SERVER['GEOIP_REGION'] = $cnf->{'region'};
         $_SERVER['GEOIP_CITY'] = $cnf->{'city'};
+        if ($cnf->{'ajx'}){
+            $_SERVER['HTTP_IGK_AJX'] = 1;
+        }
 
         if ($r = $cnf->{'request'}) {
             parse_str($r, $tab);

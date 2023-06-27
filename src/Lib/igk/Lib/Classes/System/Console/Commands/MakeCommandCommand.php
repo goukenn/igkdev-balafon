@@ -56,7 +56,7 @@ class MakeCommandCommand extends AppExecCommand{
             $defs->appendLine("/* var \$desc='desc'; */");
             $defs->appendLine("/* var \$options=[]; */");
             $defs->appendLine("/* var \$category; */");
-            $defs->appendLine("public function exec($command) { }");
+            $defs->appendLine("public function exec(\$command) { }");
 
             $command_new = self::CreateOptionsCommandFrom($command);
             $command_new->options = (object)[

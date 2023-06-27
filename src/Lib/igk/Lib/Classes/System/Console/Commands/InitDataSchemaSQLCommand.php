@@ -7,17 +7,21 @@
 
 namespace IGK\System\Console\Commands;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Utility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Helper\DbUtility;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\XML\XmlNode;
 use IGKEvents;
+use IGKException;
 use IGKNonVisibleControllerBase;
 use IGKSysUtil;
+use ReflectionException;
 
 /**
  * initialize data schema
@@ -30,13 +34,24 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
 
     var $options = [
         "controller"=>"controller to target",
-        "file"=>"file to export",
+        "file"=>"schema file to export",
         "-option:[xml|json]"=>"export type xml|json"
     ];
 
     public function showUsage(){
         Logger::print($this->command." controller [file]");
     }
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $ctrl 
+     * @param mixed $file 
+     * @return int 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     public function exec($command,  $ctrl=null, $file=null)
     {    
         require_once(__DIR__."/.InitDataSchemaController.pinc");
@@ -51,7 +66,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
             Logger::danger("data schema file not found");
             return -1;
         }
-        $options = igk_getv($command->options, "-option");
+        $options = igk_getv($command->options, "-option", 'xml');
         $resolvname = $options != "json";       
         $schema = igk_db_load_data_schemas($file, $ctrl, $resolvname);
         if (!$schema){
@@ -78,14 +93,14 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
                 $n->renderXML();
                 break;
         } 
-        igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($ctrl));
-        igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$ctrl]);
-        Logger::success("Schema complete");
+        // igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($ctrl));
+        // igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$ctrl]);
+        // Logger::success("Schema complete");
         return 0;
     }
     public function help(){
         parent::help();
-        Logger::print("file [-option:[json]]");
+        Logger::print("file [-option:[json|xml]]");
     }
    
 }

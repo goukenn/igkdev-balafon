@@ -27,5 +27,11 @@ class HtmlBindingContextOptions extends HtmlLoadingContextOptions{
 
     var $value;
 
+    /**
+     * enable transforming to data
+     * @var bool
+     */
+    var $transformToEval = false;
+
     
 }

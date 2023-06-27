@@ -42,7 +42,7 @@ class ConfigurationPageHandler
      * @throws ReflectionException 
      * @throws Exception 
      */
-    public function handle_route($path_info)
+    public function handle_route($path_info, $redirect)
     {
         $v_path = 0;
         $engine = $this->engine;
@@ -55,10 +55,12 @@ class ConfigurationPageHandler
                 igk_set_header("403");
                 igk_navto(igk_io_baseuri());
             }
-
-
-            // igk_wln_e("configation handle");
-            define('IGK_REDIRECTION', 0);
+            // + | possibility to handle special route of redirection
+            igk_environment()->noPageRedirection404 = 1;
+            $redirect();
+            igk_environment()->noPageRedirection404 = null;
+            
+            defined('IGK_REDIRECTION') || define('IGK_REDIRECTION', 0);
             if (!defined("IGK_CONFIG_PAGE"))
                 define("IGK_CONFIG_PAGE", 1);
             define("IGK_CURRENT_PAGEFOLDER", IGK_CONFIG_PAGEFOLDER);
@@ -81,8 +83,7 @@ class ConfigurationPageHandler
             // $_SERVER["REQUEST_URI"]=$dir."/".IGK_CONFIG_PAGEFOLDER."{$rq_path}";
             unset($_SERVER["PHP_SELF"]); //=$dir."/".IGK_CONFIG_PAGEFOLDER."/DTA";
             Server::getInstance()->prepareServerInfo();
-            require_once IGK_LIB_DIR. '/igk_html_utils.php';
-             
+            require_once IGK_LIB_DIR. '/igk_html_utils.php';             
             // + | priority to handling controller request             
             RequestHandler::getInstance()->handle_ctrl_request_uri();
             igk_sys_config_view($file); 

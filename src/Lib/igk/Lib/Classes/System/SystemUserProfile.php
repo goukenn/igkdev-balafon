@@ -45,6 +45,11 @@ abstract class SystemUserProfile implements IUserProfile
         return $this->m_controller;
     }
 
+    /**
+     * check auth 
+     * @param mixed $type 
+     * @return bool 
+     */
     public function auth($type): bool {
         return $this->m_profile->auth($type);
     }

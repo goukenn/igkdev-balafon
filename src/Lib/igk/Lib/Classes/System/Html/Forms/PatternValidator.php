@@ -10,8 +10,12 @@ namespace IGK\System\Html\Forms;
  * pattern validator
  * @package IGK\System\Html\Forms
  */
-class PatternValidator implements IFormValidator, IFormPatternValidator{
+class PatternValidator  extends FormFieldValidatorBase implements IFormValidator, IFormPatternValidator{
     private $m_pattern;
+
+    public function assertValidate($value): bool { 
+        return $this->matchPattern($value);
+    }
 
     public function setPattern(string $pattern) {
         $this->m_pattern = $pattern;

@@ -16,7 +16,7 @@ Name:balafon.js
 // + | Core balafon.js definition
 // + | -------------------------------------------------------------------------------------
 (function(window) {
-    if (typeof(window.igk) != 'undefined') {
+    if ((typeof(window.igk) != 'undefined') && (window.igk.__REFID__)){
         return;
     }
     let _options = {debug:false};
@@ -242,6 +242,10 @@ Name:balafon.js
         })();
     };
 
+    /**
+     * 
+     * @param {string} uri uri to check
+     */
     function igk_is_coers(uri) {
         var cu = window.URL || igk_url;
         var c = 0;
@@ -262,11 +266,17 @@ Name:balafon.js
         }
         return 0;
     };
-
+    /**
+     * retrive uri data with ajx 
+     * @param {*} uri 
+     * @param {*} callback 
+     * @param {*} mimetype 
+     */
     function igk_io_getData(uri, callback, mimetype) {
         if (!uri)
             return null;
         var _promise = new igk.system.Promise();
+        // + detect coers uri
         if (igk_is_coers(uri)) {
             igk.ajx.get(uri, null, function(xhr) {
                 if (this.isReady()) {
@@ -986,11 +996,12 @@ Name:balafon.js
         return g.build();
     }
     // convert string namespace to balafonJS object
-    function igk_get_namespace(n) {
+    function igk_get_namespace(n, prop) {
         if (typeof(n) != 'string')
             return null;
         var t = n.split(".");
-        var win = window[t[0]];
+        var def = prop || window;
+        var win = def[t[0]];
         if (win) {
             for (var i = 1; win && i < t.length; i++) {
                 win = win[t[i]];
@@ -1735,22 +1746,6 @@ Name:balafon.js
         igk.evaluating = !0;
         //try {
         (new Function(s)).apply(window, [m_scriptNode]);
-        // eval(s);
-        //} catch (ex) {
-        // for chrome disable code extension in some case.
-        //console.error($ex);
-        // 	var sg = '';
-        // 	if (ex.stack) {
-        // 		sg = ex.stack.replace('\n', '<br />');
-        // 	} 
-        // 	igk_show_notify_error("Exception",
-        // 		"<div class='igk-error'><p>Error: igk_eval</p>Message: "
-        // 		+"<b>:"+ ex + "</b>"
-        // 		+ "<pre>"+s+"</pre>"				
-        // 		+ "</div>"
-        // 	);
-        // 	console.debug(ex);
-        // }
         m_scriptNode = null;
         igk.evaluating = false;
     }
@@ -2053,7 +2048,7 @@ Name:balafon.js
     // expose global function 
     // --------------------------------------------------
     // define a igk global namespace
-    createNS("igk", {}, { desc: "global igk js namespace" });
+    const igk = createNS("igk", {}, { desc: "global igk js namespace" });
     const _ENVIRONMENT = createNS("igk.ENVIRONMENT", {}, { desc: "Environment information" });
     createNS("igk.ctrl", {}, { desc: "manage controller" });
     createNS("igk.system", {}, { desc: "global system igk js namespace" });
@@ -2084,7 +2079,7 @@ Name:balafon.js
                 source = target;
                 try {
                     if ((js != null) && (typeof(js) == "string"))
-                        q = eval('(' + js + ')');
+                        q = (new Function('source', 'return ' + js + '')).apply(0,[source]);
                 } catch (ex) {
                     q = js;
                 }
@@ -2175,6 +2170,9 @@ Name:balafon.js
                 fc(msg);
             }
         }
+    };
+    igk.isObject = function (i){
+        return i && typeof(i) == 'object';
     };
     createNS("igk.log", {
         debug: function(m) {
@@ -2320,6 +2318,7 @@ Name:balafon.js
             var _lang = lang || (_chtml ? _chtml.getAttribute("lang") : null) || igk.navigator.getLang();
             var _loc = igk.system.io.getdir(uri);
             var _uri = igk.resources.getLangLocation(_loc, _lang);
+        
             // console.debug("loadLangRes"); 
             // error.apply(this);
             // return null;
@@ -2332,7 +2331,7 @@ Name:balafon.js
                 if (igk.navigator.isSafari())
                     throw ('safari not handle async - await');
                 // TODO: Update to function 
-                eval(["_getRes = async function (){",
+                (new Function(["_getRes = async function (){",
                     "var o=0; ",
                     "try{",
                     "o  = await igk.ajx.asyncget(_uri,null, 'text/json');",
@@ -2343,7 +2342,7 @@ Name:balafon.js
                     "}",
                     "return null;",
                     "};"
-                ].join(" "));
+                ].join(" "))).apply();
             } catch (ex) {
                 _getRes = function() {
                     if (!document.body) {
@@ -2876,8 +2875,7 @@ Name:balafon.js
         animate: igk_animate,
         cancelAnimate: igk_animate_cancel
     });
-    __nsigk = igk; // igk namespace
-    // window.igk= igk;
+    __nsigk = igk; 
     window.$igk = function(n) {
         var m = __igk(n);
         if (m == null) {
@@ -4768,6 +4766,9 @@ Name:balafon.js
     // return true is item is visible in screen display
     __prop.getisVisible = function() {
         var j = this;
+        if (!j.getpresentOnDocument()){
+            return false;
+        }
         var loc = j.getBoundingClientRect();
         // j.o.getBoundingClientRect ? j.o.getBoundingClientRect(): 
         // {x:0,y:0};
@@ -5135,9 +5136,13 @@ Name:balafon.js
         show_notify_msg: igk_show_notify_msg,
         show_notify_error: igk_show_notify_error,
         get_v: function(o, k, d) {
-            if (typeof(o[k] != IGK_UNDEF))
+            // * check return statement
+            // o: object
+            // k: the key to search
+            // d: default value
+            if (typeof(o[k]) != IGK_UNDEF){
                 return o[k];
-            if (typeof(d) == IGK_UNDEF)
+            } else if (typeof(d) == IGK_UNDEF)
                 return null;
             return d;
         },
@@ -5162,6 +5167,28 @@ Name:balafon.js
         appendProperties: igk_appendProp,
         defineProperty: igk_defineProperty,
         extendProperty: igk_extendProperty,
+        setProperty: function(o, n, v){
+            /**
+             * define chain properties
+             * 
+             * o : target
+             * n: name "."
+             * v: value to define
+             */
+                var t = n.split(".");
+                var win = o;
+                if (win) {
+                    let k = t.pop();
+                    for (var i = 0; win && i < t.length; i++) {
+                        win = win[t[i]];
+                    }
+                    if (win && (typeof(win) == 'object')){
+                        win[k] = v;
+                        return win;
+                    }
+                }
+                return null;            
+        },
         defineEnum: igk_defineEnum,
         checkOnePropertyExists: igk_checkOnePropertyExists,
         checkAllPropertyExists: igk_checkAllPropertyExists,
@@ -6808,10 +6835,7 @@ Name:balafon.js
         }
         if (q && !q.isSr()) {
             return igk.ajx.fn.replace_content(q.o);
-        }
-        // else{
-        // igk.winui.notify.showErrorInfo("Error ","Item not found : "+s + " | "+q);
-        // }
+        } 
         return null;
     };
 
@@ -7161,10 +7185,12 @@ Name:balafon.js
         // system global management namespace
         createExtensionProperty(p, ns, obj) {
             var prop = ns;
-            var _n = igk_get_namespace(prop);
+            var _n = igk_get_namespace(ns);
+           
             if (typeof(_n) == "undefined") {
                 _n = createNS(prop, {});
             }
+          
             if (typeof(_n[p]) == "undefined") {
                 var ob = new __extensionPrototype(p);
                 igk_defineProperty(_n, p, {
@@ -7375,7 +7401,7 @@ Name:balafon.js
                 if (this.isReady()) {
                     src = xhr.responseText;
                     if (src)
-                        eval(src);
+                        igk_eval(src);
                 }
             });
         }
@@ -10533,24 +10559,13 @@ Name:balafon.js
                                         q.responseMethod(this);
                                         m_hxhr = null;
                                         igk.context = null;
-                                    }
-                                    // }
-                                    // catch(ex)
-                                    // {				
-                                    // igk.winui.notify.showErrorInfo("Exception",
-                                    // "<h3>AJX:__setResponseMethod__</h3><div>"+ ex +"<div><code>Trace : " +ex.trace+"</code> <pre style='text-overflow:ellipsis; overflow:hidden; max-height:4em;'>"+ 
-                                    // igk.html.string(this.responseText)
-                                    // +"</pre><p class=\"igk-trace\" style='padding-top:1.3em' ><pre style='max-height:3em; overflow-y:auto;'>"+ex.stack
-                                    // +"</pre></p>"
-                                    // // + " <div style='color:#222'>"+q.responseMethod+"</div>"
-                                    // );
-                                    // }
+                                    } 
                                 };
                                 break;
                             case 'object':
                                 var fc = method.complete ? function() { method.complete.apply(method, [q.xhr, method]); } : null;
                                 q.xhr.onreadystatechange = null; // ,fc;
-                                q.xhr.onload = fc; // method.complete? function(){ method.complete.apply(method, [q.xhr, method]);  }; // method.complete;
+                                q.xhr.onload = fc; 
                                 q.xhr.onerror = method.error;
                                 break;
                         }
@@ -10703,8 +10718,9 @@ Name:balafon.js
              * @param {*} uri uri target 
              * @param {*} func callback function 
              * @param {*} sync async call
+             * @param {*} callback metho to call after sending 
              */
-            postform: function(form, uri, func, sync) {
+            postform: function(form, uri, func, sync, callback) {
                 if (!form)
                     return;
                 uri = uri || form.getAttribute("action");
@@ -10712,6 +10728,7 @@ Name:balafon.js
                 var msg = "";
                 var e = null;
                 var p = [];
+                var send = 0;
                 if (window.tinyMCE) { // to update the tinyMce before update
                     window.tinyMCE.triggerSave();
                 }
@@ -10801,11 +10818,12 @@ Name:balafon.js
                             //convert to encoding data
                             frmData = encodeQueryFromData(frmData);
                         }
-                        // return; 
+                        callback && callback({type:'frmdata', data:frmData});                        
                         fc(uri, frmData, func, (sync == igk.constants.undef) ? sync : true, true, {
                             contentType: "application/x-www-form-urlencoded",
                             source: $igk(form) // setting the source of the current definition,
                         });
+                        send = 1;
                     }
                 } else {
                     for (var i = 0; i < form.length; i++) {
@@ -10842,10 +10860,14 @@ Name:balafon.js
                             msg += i + "=" + p[i];
                         e = 1;
                     }
+                    callback && callback({type:'msg', data:msg});
                     fc(uri, msg, func, (sync == igk.constants.undef) ? sync : true, true, {
                         source: form
                     });
+                    send = 1;
                 }
+
+                return send;
             },
             asyncget: function(uri, param, mimetype) {
                 var Prom = window.Promise;
@@ -12598,7 +12620,8 @@ Name:balafon.js
             }
         });
 
-        function _loadResource(loc, mime, opts) {
+        function _loadResource(loc, mime, opts) { 
+
             mime = mime || "text/plain";
             var _getRes = 0;
             var _src = ["_getRes = async function (){",
@@ -12615,7 +12638,7 @@ Name:balafon.js
             try {
                 if (igk.navigator.isSafari())
                     throw ('safari not handle aync await');
-                eval(_src);
+                (new Function(_src)).apply();
             } catch (ex) { // do not support async data 
                 _getRes = function() {
                     var _ext = igk.navigator.isIE() ? ".ejson" : ".json"; // because of mime type        
@@ -12655,8 +12678,9 @@ Name:balafon.js
             //if windows application 
             // var _ext = ".json";
             var dir = igk.system.io.getlocationdir(igk.getScriptLocation());
-            if (!dir)
+            if (!dir || (dir[0]!='/'))
                 return;
+            // console.log('script location :', igk.getScriptLocation());
             var loc = igk.resources.getLangLocation(dir, _lang);
             if (igk.resources.lang[_lang]) {
                 init_res(igk.resources.lang[_lang], loc);
@@ -12876,6 +12900,7 @@ Name:balafon.js
     });
     var _udef = 'undefined';
     // special functions
+    ns_igk.__REFID__ = __version;
     ns_igk._$exists = function(n) { return typeof(igk.system.getNS(n)) != _udef; };
 
 })(window);

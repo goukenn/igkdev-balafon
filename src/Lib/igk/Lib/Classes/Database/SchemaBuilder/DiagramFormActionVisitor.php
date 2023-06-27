@@ -24,13 +24,13 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     {
         $this->ctrl = $ctrl;
     }
-    public function start(){
+    public function start():?string{
         $this->visitor_items = [];
         $this->builder = new PHPScriptBuilder();
         $this->builder->type("function");
-        
+        return null;
     }
-    public function complete(){
+    public function complete():?string{
         return  $this->builder->render();
     }
     public function visitDiagramEntity($entity){

@@ -9,11 +9,13 @@ namespace IGK\System\Console\Commands;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
+use IGK\Helper\PhpUnitHelper;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Shell\OsShell;
 
 /**
  * sync ftp project
@@ -25,6 +27,9 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     var $desc = "sync module through ftp configuration";
     var $category = "sync";
     var $help = "--[list|restore[:foldername] --clearcache  --zip";
+    var $options = [
+        '--no-test'=>'flag: disable unit testing'
+    ];
     /**
      * use zip to indicate 
      * @var bool
@@ -59,8 +64,18 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         }
 
 
-
-        Logger::info("Sync all modules");
+        if (!property_exists($command->options, "--no-test")){
+        
+            Logger::info("checking all modules before sync...");
+            if ($phpunit = OsShell::Where('phpunit')) {
+                $core_suite = igk_getv($command, '--core-test-suite', 'modules');
+                $r = PhpUnitHelper::TestCoreProject($phpunit, $core_suite);
+                if ($r) {
+                    return $r;
+                }
+            } 
+        }
+        Logger::info("Sync all modules");        
         if ($cache_file = ApplicationModules::GetCacheFile()){
         // remove json modules cache file files
             @unlink($cache_file);
@@ -75,6 +90,8 @@ class SyncModuleCommand extends SyncAppExecCommandBase
                     Logger::info("sync : ". $i . " / ".$count);
                     // Logger::info("name: ".$mod->name);
                     $this->sync_module($module, $setting);
+                    // wait for 2 seconds because of init 
+                   // sleep(1);
                 }
                 $i++;
             }

@@ -9,6 +9,7 @@
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Resources\R;
+use IGK\System\Console\ServerFakerInput;
 use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
 
@@ -32,6 +33,7 @@ use function igk_getv as getv;
  * @property bool   $NO_PROJECT_AUTOLOAD flag disable file autoload. on project register
  * @property ?\IGK\System\IO\FakeInput $FakerInput faker input in render
  * @property ?IGKActionBase $action_handler_instance 
+ * @property bool $NoLogEval disable eval log - 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants
 {
@@ -758,5 +760,16 @@ final class IGKEnvironment extends IGKEnvironmentConstants
      */
     public function FakerInput(): ?FakeInput{
         return $this->get(__FUNCTION__);
+    }
+    /**
+     * set faker input data 
+     * @param mixed $data 
+     * @return void 
+     */
+    public function setFakerInputData(?string $data){
+        if (!is_null($data)){
+            $data =  new ServerFakerInput($data);
+        }
+        igk_environment()->FakerInput = $data;
     }
 }

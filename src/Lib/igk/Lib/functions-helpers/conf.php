@@ -5,9 +5,10 @@
 // @desc: configuration function helpers
 
 use IGK\System\Html\HtmlNodeType;
+use IGK\System\IO\Path;
 
-require_once __DIR__.'/io.php';
-require_once __DIR__.'/xml.php';
+require_once __DIR__ . '/io.php';
+require_once __DIR__ . '/xml.php';
 
 ///<summary>used to load configuration file.</summary>
 ///<doc>configuration file are xml file that store primary </doc>
@@ -117,20 +118,30 @@ function igk_conf_load_attribs(&$t, $d)
  * @param mixed $obj output object
  * @param mixed $n igk html node to load
  */
-function igk_conf_load($obj, $n)
+function igk_conf_load($obj, $n, ?callable $attr_filter = null)
 {
     if (!isset($n))
         return null;
     $tab = array();
-    array_push($tab, (object)array("t" => $obj, "n" => $n));
-    while ($q = array_pop($tab)) {
+    array_push($tab, (object)array("t" => $obj, "n" => $n, 'path' => '/'));
+    while (count($tab) > 0) {
+        $q = array_pop($tab);
+        if (!$q) continue;
+        $sv = false;
+        $ct = $q->n->getContent();
         if ($q->n->getHasAttributes()) {
-            foreach ($q->n->getAttributes() as $m => $mc) {
-                $q->t->{$m} = $mc;
+            $v_attrs = $q->n->getAttributes()->to_array();
+            if ($attr_filter) {
+                $v_attrs = $attr_filter($v_attrs, $q->path);
             }
-            if (!empty($ct = $q->n->getContent())) {
-
-                $q->t->value = $ct;
+            if ($v_attrs) {
+                $sv = true;
+                foreach ($v_attrs as $m => $mc) {
+                    $q->t->{$m} = $mc;
+                }
+                if (!empty($ct)) {
+                    $q->t->value = $ct;
+                }
             }
         }
         if ($q->n->ChildCount == 1) {
@@ -140,21 +151,31 @@ function igk_conf_load($obj, $n)
                 continue;
             }
         }
-        if ($attr = $q->n->Childs) foreach ($attr as $v) {
-            if (($v->ChildCount <= 0) && !$v->HasAttributes) {
-                $q->t->{$v->TagName} = $v->getInnerHtml();
-            } else {
-                $cb = igk_createobj();
-                array_push($tab, (object)array("t" => $cb, "n" => $v, "p" => $q->t));
-                if (isset($q->t->{$v->TagName})) {
-                    if (!is_array($q->t->{$v->TagName})) {
-                        $q->t->{$v->TagName} = array($q->t->{$v->TagName});
-                    }
-                    $q->t->{$v->TagName}[] = $cb;
-                } else
-                    $q->t->{$v->TagName} = $cb;
+        if ($q->n->hasChilds() && ($attr = $q->n->Childs)) {
+            foreach ($attr as $v) {
+                if (($v->ChildCount <= 0) && !$v->HasAttributes) {
+                    $q->t->{$v->TagName} = $v->getInnerHtml();
+                } else {
+                    $cb = igk_createobj();
+                    $tn = $v->TagName;
+                    array_push($tab, (object)array("t" => $cb, "n" => $v, "p" => $q->t, "path" => Path::Combine($q->path, $tn)));
+                    if (isset($q->t->{$tn})) {
+                        if (!is_array($q->t->{$tn})) {
+                            $q->t->{$tn} = array($q->t->{$tn});
+                        }
+                        $q->t->{$tn}[] = $cb;
+                    } else
+                        $q->t->{$tn} = $cb;
+                }
+            }
+        } else if (!$sv){
+            // setting value 
+            if (is_object($q->t)){
+                unset($q->t);
+                if (($n = basename($q->path)) != '/'){
+                    $q->p->{$n} = $ct;
+                }
             }
         }
     }
 }
-

@@ -27,12 +27,13 @@ class ObjectDataValidator implements IDataValidator{
      * @return bool 
      * @throws IGKException 
      */
-    public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null): bool
+    public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null, ?array $resolvKeys=null): bool
     { 
-        $r = (new RequestValiationMapper(
+        $r = (new ObjectValidationMapper(
             $mapper,
             $defaultValues,
-            $not_required
+            $not_required,
+            $resolvKeys
         ))->validate($data)->map();
         if (isset($r['__validatation_error__'])) {
             $error = $r['__validatation_error__'];

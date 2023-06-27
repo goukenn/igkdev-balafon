@@ -127,13 +127,13 @@ abstract class DbSchemas
         if (!$data) {     
             $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname, $operation);      
             // + init Check and update data
-            if ($ctrl && ($cl = $ctrl::resolveClass($ctrl, \Database\InitDbSchemaBuilder::class))) {
+            if ($ctrl && ($cl = $ctrl->resolveClass(\Database\InitDbSchemaBuilder::class))) {
                 // resolv core entries 
                 $b = new $cl();
                 $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
                 if ($operation == DbSchemasConstants::Downgrade) {
                     $b->downgrade($tr);
-                } else {
+                } else { 
                     $b->up($tr);
                 }
                 $tr->render(new SchemaDiagramVisitor($ctrl, $data));

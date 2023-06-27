@@ -200,4 +200,20 @@
 		<group>administration</group>
 	</composer>
 
+<!-- 
+<%getConfigPage%>
+
+</%getConfigPage%>
+
+-->
+	<db>
+		<menuname>database.option</menuname>
+		<pagename>database</pagename>
+		<menuindex>-1</menuindex>
+		<imagekey />
+		<group>database</group>
+	</db>
+
+ 
+
 </configmenu>

@@ -39,10 +39,11 @@ use function igk_resources_gets as __;
 * @property bool $db_pwd    the global database password
 * @property bool $db_server the global database server for adapter that require server connection 
 * @property bool $db_user   the global database server user for adapter that require server connection
-* @property bool $default_author
-* @property bool $default_controller
-* @property bool $default_dataadapter
-* @property bool $default_lang
+* @property bool $default_author default script author name
+* @property bool $default_controller set default controller
+* @property bool $default_dataadapter set default dataadapter
+* @property bool $default_lang set default lang
+* @property bool $default_user set the default configuration user to get 
 * @property bool $display_errors
 * @property bool $error_debug
 * @property bool $error_reporting

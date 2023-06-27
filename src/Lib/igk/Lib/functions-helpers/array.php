@@ -604,14 +604,20 @@ if (!function_exists("igk_array_unique_string")) {
 if (!function_exists('igk_array_dump_short')) {
 
 
-    function igk_array_dump_short($obj): string
+    /**
+     * dump short 
+     * @param mixed $obj 
+     * @param callable $valueListenerer 
+     * @return string 
+     */
+    function igk_array_dump_short($obj,$valueListenerer=null): string
     {
         $s = '';
         $depth = 0;
         $tab = [['n' => $obj, 'start' => false, "ch" => "", 'keys' => null]];
         $rp = new Replacement;
         $rp->add("/\\$/i", "\\\\$");
-        $fc_value = function($v)use($rp){
+        $fc_value = $valueListenerer ?? function($v, $rp){            
             return igk_str_surround($rp->replace($v));
         };
         while (count($tab)) {
@@ -630,7 +636,7 @@ if (!function_exists('igk_array_dump_short')) {
                     $t = array_shift($keys);
                     $v = $n[$t];
                     if (is_numeric($t) && is_string($v)){                        
-                            $s .= $ch . $fc_value($v);
+                            $s .= $ch . $fc_value($v, $rp);
                             $ch .=',';
                         continue;
                     }
@@ -641,7 +647,7 @@ if (!function_exists('igk_array_dump_short')) {
                     if (is_array($v)) {
                         if (count($v)==1){
                             if (is_numeric($ky = array_keys($v)[0])){
-                                $s .= $fc_value($v[$ky]);
+                                $s .= $fc_value($v[$ky], $rp);
                                 $ch = ',';
                                 continue;
                             }
@@ -655,7 +661,7 @@ if (!function_exists('igk_array_dump_short')) {
                         if (is_null($v)){
                             $s.= 'null';
                         } else 
-                            $s .= $fc_value($v);
+                            $s .= $fc_value($v, $rp);
                     }
                     $ch = ',';
                 }
@@ -664,7 +670,7 @@ if (!function_exists('igk_array_dump_short')) {
                     $ch = ',';
                 }
             } else {
-                $s .= $ch . $fc_value($v) . PHP_EOL;
+                $s .= $ch . $fc_value($v, $rp) . PHP_EOL;
                 $ch = ',';
             }
         }

@@ -7,9 +7,11 @@ use IGK\Helper\IO;
 use IGK\ApplicationLoader;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\ApplicationModuleInitException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\Path;
+use ReflectionException;
 use Throwable;
 use TypeError;
 
@@ -33,6 +35,7 @@ final class ApplicationModuleController extends BaseController{
     private $m_src;             // source code 
     private $m_initializer;     // used to extend module class properties
     private $m_configs;         // configuration 
+    private $mm_fclist;
     var $boot;
     /**
      * get application module configuration value
@@ -110,6 +113,12 @@ final class ApplicationModuleController extends BaseController{
         }
         return $s;
     }
+    /**
+     * set environment params
+     * @param mixed $name 
+     * @param mixed $value 
+     * @return $this 
+     */
     public function setEnvParam($name, $value){
         igk_set_env($this->getModuleKey($name), $value); 
         return $this;
@@ -498,7 +507,27 @@ final class ApplicationModuleController extends BaseController{
      */
     public static function __callStatic($name, $arguments)
     {        
+        if(igk_environment()->isDev() && ($name==='register_autoload')){
+            igk_wln("---call reloader ... ---");
+            igk_trace();
+            igk_exit();
+            igk_ilog("module app - invoke static method not allowed - ".$name);         
+        }
         return null; 
+    }
+    public function exposeAssets(){
+        return ControllerExtension::exposeAssets($this);
+    }
+    /**
+     * 
+     * @param mixed $assets 
+     * @return never 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function resolveAssets($assets){ 
+        return ControllerExtension::resolveAssets($this, $assets);
     }
     /**
      * use allway schema to update the user

@@ -152,14 +152,11 @@ trait RegisterUserActionTrait
         $uri = $this->getRegistrationActionvationLink($user);
         $unreg_uri = $this->getRegistrationUnregActionvationLink($user);
 
-        // $rep = ActionHelper::SendMail(
-
-        // );
+        
         $v_reg_info = CronJobProcess::Register("mail", "mail.register.php", $info = (object)[
             "to" => $user->clLogin,
             "title" => __("Registration"),
-            "msg" => $this->getRegistrationMailMessage($user, $uri),
-            // "Unregister use this linked <a href=\"" . $unreg_uri . "\">Unregister</a>",
+            "msg" => $this->getRegistrationMailMessage($user, $uri), 
             "msg-fr" => null,
             "msg-nl" => null,
             "email" => $login,
@@ -173,8 +170,7 @@ trait RegisterUserActionTrait
         $from = sprintf('"%s" <%s>', strtoupper('Toner Afrika'), igk_configs()->mail_user);
         $mail->From = $from;
         $mail->setHtmlMsg($info->msg);
-        $mail->setTitle($info->title);
-        // $mail->setMailAuthPassword(igk_configs()->mail_password);
+        $mail->setTitle($info->title); 
 
         $rep = $mail->sendMail();
 
@@ -464,6 +460,12 @@ trait RegisterUserActionTrait
         return $node->render();
     }
 
+    /**
+     * form forgot password
+     * @param mixed $a 
+     * @param mixed $options 
+     * @return void 
+     */
     protected function form_forgot_password($a, $options=null){
         $a['action'] = $this->getController()::uri('forgotPassword');
         $a->h2()->Content = __('Reset password');

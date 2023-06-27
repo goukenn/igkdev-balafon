@@ -27,13 +27,19 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     const TEMP_FILES_RULE=8;
     const SET_FLAG=19;
 
+    /**
+     * flag used to disable theme dynamic rendering for controller.
+     */
     const ST_NO_THEME_RENDERING_FLAG = 'no_theme_rendering';
     private $_;
 
    public function setStyleFlag(string $name, $value){
        if (isset($this->_[self::SET_FLAG])){        
             $s = & $this->_[self::SET_FLAG];
-            $s[$name] = $value;
+            if (is_null($value)){
+                unset($s[$name]);
+            } else 
+                $s[$name] = $value;
        } else {
             if (!is_null($value)){
                 $s = [];

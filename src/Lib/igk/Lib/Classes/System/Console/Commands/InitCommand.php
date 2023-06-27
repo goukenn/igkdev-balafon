@@ -36,18 +36,27 @@ class InitCommand extends AppExecCommand
         $commands = [];
         $commands_list = [];
         $ctrls = igk_app()->getControllerManager()->getControllers();
+        $entry_cl = igk_uri(\System\Console\Commands::class);
         foreach ($t as $dir) {
             foreach ($ctrls as $c) {
-                if (strstr($c->getDeclaredDir(), $dir)) {
+                if (!strstr(realpath($c->getDeclaredDir()), realpath($dir))){
+                    continue;
+                }
+                //if (strstr($c->getDeclaredDir(), $dir)) {
                     $cldir = $c::classdir();
                     if (!isset($commands[$cldir])) {
                         $classname = get_class($c);
                         $c::register_autoload();
-                        $tab = igk_io_getfiles($cldir . "/Commands", "/\.php$/");
+                        $cl_dir = $cldir . "/".$entry_cl;
+                        $tab = igk_io_getfiles($cl_dir, "/\.php$/");
                         if (!$tab)
                             continue;
+                        $ln = strlen($cl_dir);
                         foreach ($tab as $file) {
-                            if ($clpath = $c::resolveClass("Commands/" . igk_io_basenamewithoutext($file))) {
+                            $mt = substr($file, $ln);
+                            // remove extension 
+                            $mt = ltrim(igk_io_remove_ext($mt), '/');
+                            if ($clpath = $c->resolveClass($entry_cl."/" . $mt)) {
                                 if ((igk_sys_reflect_class($clpath))->isAbstract() || !is_subclass_of($clpath, AppCommand::class)) {
                                     continue;
                                 }
@@ -60,7 +69,7 @@ class InitCommand extends AppExecCommand
                         }
                         $commands[$cldir] = 1;
                     }
-                }
+                //}
             }
         }
         $mod = igk_get_modules();
@@ -68,31 +77,38 @@ class InitCommand extends AppExecCommand
             $base_cl =  igk_uri(self::BASECLASS_COMMAND)."/";
             $system_cl_command = igk_uri(\Classes\System\Console\Commands::class);
             foreach ($mod as $k => $v) {
-                $mod = igk_get_module($k);
-                $ns = $mod->config("entry_NS");
-                $dir = $mod->getDeclaredDir() . "/.commands.php";
+                $cmod = igk_get_module($k);
+                $ns = $cmod->config("entry_NS");
+                $dir = $cmod->getDeclaredDir() . "/.commands.php";
                 if (file_exists($dir)) {
                     if (is_array($td = include($dir))) {
                         $commands_list = array_merge($commands_list, $td);
                     }
                 } else {
-                    if (($f = $mod->getLibDir()) && is_dir($f)) {
+                    if (($f = $cmod->getLibDir()) && is_dir($f)) {
 
                         // get all php file that match the patter 
                         $tns = [];
                         if (!empty($ns)) {
                             $tns = [$ns];
                         }
-                        $files = igk_io_getfiles($f . '/'.$system_cl_command, "/Command\.php$/");
+                        $lc_dir = $f . '/'.$system_cl_command;
+                        $files = igk_io_getfiles($lc_dir, "/Command\.php$/");
                         if (!$files) {
                             // Logger::info("command not found : ".$f);
                             continue;
                         } 
+                        $len = strlen($lc_dir);
                         foreach ($files as $tf) {
-                            $v = igk_regex_get("/\/(?P<name>([^\/]+))Command\.php$/", "name", $tf);
+                            $mf = substr($tf, $len);
+                            $v = igk_regex_get("/\/(?P<name>(.+))Command\.php$/", "name", $mf);
                             if (empty($v)) continue;
 
                             $classname = str_replace("/", "\\", ($ns ? $ns . "/" : "") . $base_cl . $v) . "Command";
+                            if (isset($commands_list[$classname])){
+                                igk_dev_wln_e("[Module] - classname already set", $classname, $tf);
+                                continue;
+                            }
                             require_once($tf); 
                             if (!class_exists($classname, false) || (igk_sys_reflect_class($classname))->isAbstract()) {
                                 continue;

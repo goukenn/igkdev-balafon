@@ -13,7 +13,7 @@ class NullOrEmptyHostContentValidator extends MapContentValidatorBase{
         $this->parent = $parent;
     }
 
-    public function map($value, $key, &$error) { 
+    public function map($value, $key, &$error, bool $missing=false, bool $required = true) { 
         if (empty($value)){
             return null;
         }

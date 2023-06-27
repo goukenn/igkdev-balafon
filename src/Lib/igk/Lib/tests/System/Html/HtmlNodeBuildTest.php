@@ -17,7 +17,7 @@ class HtmlNodeBuildTest extends BaseTestCase{
         $n = igk_create_node("div"); 
         $n->load("<igk:input igk:args=\"'_id', 'password', 'sample'\" />");
         $this->assertEquals(
-            '<div><input type="password" value="sample" name="_id" id="_id" class="clpassword"/></div>',
+            '<div><input class="clpassword" id="_id" name="_id" type="password" value="sample"/></div>',
             $n->render(),
             "form rendering failed"
         );
@@ -178,15 +178,13 @@ class HtmlNodeBuildTest extends BaseTestCase{
             $n->render());
     }
     function test_render_render_with_string(){
-        $n = igk_create_node("div");   
-        igk_debug(1);  
+        $n = igk_create_node("div");  
         HtmlNodeBuilder::Init($n, [
             [
                 "_"=>["class"=>"igk-btn btn"],
                 "Login or Connect"
             ],
-        ]); 
-        igk_debug(0);  
+        ]);  
         $this->assertEquals(
             '<div><div class="igk-btn btn">Login or Connect</div></div>', 
             $n->render());

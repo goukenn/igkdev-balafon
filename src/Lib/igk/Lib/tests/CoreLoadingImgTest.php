@@ -12,7 +12,7 @@ use IGK\Tests\BaseTestCase;
 class CoreLoadingImgTest extends BaseTestCase{
     public function test_load_img(){
 
-        //image tag is a special tag 
+        //image tag is a special tag must be auto closed
         $s = "<div><img src=\"sample\"/><span>data</span></div>";
         $f = new HtmlNode("div");
         $f->load(<<<EOF

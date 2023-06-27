@@ -19,6 +19,8 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 class MySQLDataController extends BaseController{
     use NoDbActiveControllerTrait;
+    const DROP_TABLE_QUERY = 'Drop Table IF EXISTS `%s`;';
+    const TABLE_CONSTRAINTS =  DataAdapter::DB_INFORMATION_SCHEMA.'.`TABLE_CONSTRAINTS`';
 
     protected function getAutoGenerateModels(){
         return false;
@@ -32,6 +34,8 @@ class MySQLDataController extends BaseController{
     public function drop_all_tables(){
         $d=igk_get_data_adapter($this);
         $node=null;
+        igk_trace();
+        igk_wln_e("trop all table....");
         if($d->connect()){
             $node=igk_create_node("div");
             $r=$d->sendQuery("SHOW TABLES");
@@ -48,7 +52,7 @@ class MySQLDataController extends BaseController{
             $d->selectdb($dbname);
             $c=0;
             foreach($tablelist as $tbname=>$k){
-                if(!$d->sendQuery("DROP Table IF EXISTS `".igk_db_escape_string($tbname)."` ")->success()){
+                if(!$d->sendQuery( sprintf(self::DROP_TABLE_QUERY, igk_db_escape_string($tbname)))->success()){
                     $node->addNotifyBox("danger")->Content="Table ".$tbname. " not deleted ".igk_mysql_db_error();
                 }
                 $c++;
@@ -68,8 +72,9 @@ class MySQLDataController extends BaseController{
     */
     public static function DropAllRelations($adapt, $dbname){
         $bck=$dbname;
-        $adapt->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
-        $g=$adapt->sendQuery("DELETE FROM `TABLE_CONSTRAINTS` WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
+        // $adapt->selectdb();
+        $table = self::TABLE_CONSTRAINTS; 
+        $g=$adapt->sendQuery("DELETE FROM {$table} WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
         return $g;
     }
@@ -87,8 +92,9 @@ class MySQLDataController extends BaseController{
         $r=0;
         $g=0;
         $bck=$dbname;
-        $adapt->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
-        $e=$adapt->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME` LIKE '".igk_db_escape_string($qregex)."' AND `CONSTRAINT_SCHEMA`='".igk_db_escape_string($dbname)."'");
+        // $adapt->selectdb();
+        $table = self::TABLE_CONSTRAINTS; 
+        $e=$adapt->sendQuery("SELECT * FROM {$table} WHERE `CONSTRAINT_NAME` LIKE '".igk_db_escape_string($qregex)."' AND `CONSTRAINT_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
         if($e && ($e->RowCount > 0)){
             $adapt->begintransaction();
@@ -111,9 +117,12 @@ class MySQLDataController extends BaseController{
     ///<param name="tbname" type="mixed">mixed single table name or array of table name</param>
     /**
     * drop table
-    * @param mixed tbname mixed single table name or array of table name
+    * @param array|mixed tbname mixed single table name or array of table name
+    * @param string $dbname
+    * @param string $node response node
     */
     public static function DropTable($adapter, $tbname, $dbname, $node=null){
+  
         if(is_array($tbname)){
 
             $tablelist=array();
@@ -129,7 +138,7 @@ class MySQLDataController extends BaseController{
             $adapter->stopRelationChecking();
             foreach($tablelist as $ktbname=>$k){
                 if (!
-                    ($c = $adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($ktbname)."`;")) || 
+                    ($c = $adapter->sendQuery(sprintf(self::DROP_TABLE_QUERY, igk_db_escape_string($ktbname)))) || 
                     $c->success()
                 ){
                     if($node)
@@ -144,7 +153,7 @@ class MySQLDataController extends BaseController{
         else{
             $delete=null;
             self::DropTableRelation($adapter, $tbname, $dbname, null, $delete, $node);
-            $g = $adapter->sendQuery("Drop Table IF EXISTS `".igk_db_escape_string($tbname)."` ");
+            $g = $adapter->sendQuery( sprintf(self::DROP_TABLE_QUERY,  igk_db_escape_string($tbname)) );
             if(!$g || !$g->success()){
                 igk_notifyctrl()->addErrorr("Table ".$tbname. " not deleted ".igk_mysql_db_error());
                 return false;
@@ -172,9 +181,11 @@ class MySQLDataController extends BaseController{
         $d=$adapter;
         $bck=$dbname;
        
-        $rp = $d->selectdb(DataAdapter::DB_INFORMATION_SCHEMA); 
+        // $rp = $d->selectdb(DataAdapter::DB_INFORMATION_SCHEMA); 
+        $table = self::TABLE_CONSTRAINTS;
         $h=$d->sendQuery(
-            "SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';",
+            sprintf("SELECT * FROM {$table} WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';", 
+            ),
             true, null, false
         );
         // $g = $d->sendQuery("SELECT DATABASE() as dbName");
@@ -225,8 +236,9 @@ class MySQLDataController extends BaseController{
     */
     public static function GetAllRelations($adapt, $dbname){
         $bck=$dbname;
-        $adapt->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
-        $g=$adapt->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
+        // $adapt->selectdb();
+        $table = self::TABLE_CONSTRAINTS;
+        $g=$adapt->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'"));
         $adapt->selectdb($bck);
         return $g;
     }
@@ -242,8 +254,9 @@ class MySQLDataController extends BaseController{
     */
     public static function GetConstraint_Index($a, $b, $tbase){
         $bck=$tbase;
-        $a->selectdb(DataAdapter::DB_INFORMATION_SCHEMA);
-        $h=$a->sendQuery("SELECT * FROM `TABLE_CONSTRAINTS` WHERE `TABLE_SCHEMA`='".$tbase."'");
+        // $a->selectdb();
+        $table = self::TABLE_CONSTRAINTS;
+        $h=$a->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='".$tbase."'"));
         $i=1;
         $max=0;
         $ln=strlen($b);

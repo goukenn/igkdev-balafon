@@ -8,6 +8,7 @@
 namespace IGK\System\Library;
 use function igk_resources_gets as __;
 use Exception;
+use IGK\Helper\SysUtils;
 use IGK\System\Http\ConfigurationPageHandler;
 use IGKEvents;
 use IGKException;
@@ -77,10 +78,9 @@ class subdomain{
             igk_exit();
         }
         $row=null;
-        $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row); 
-      
+        $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row);       
         if($subdomain_ctrl !== false){ 
-
+            SysUtils::SecurePort();
             $v_ruri=igk_io_base_request_uri();
             // $this->setSubDomainCtrl($subdomain_ctrl ) ;
             // $this->setSubDomainCtrlInfo($row);

@@ -10,7 +10,7 @@ namespace IGK\System\Shell;
 
 
 /**
- * 
+ * helper to get sheel
  * @package IGK\System\Shell
  */
 class OsShell {    

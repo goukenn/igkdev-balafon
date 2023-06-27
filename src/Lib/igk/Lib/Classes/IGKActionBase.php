@@ -15,6 +15,7 @@ use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerEnvParams;
+use IGK\Controllers\ControllerParams;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\ViewHelper;
@@ -66,6 +67,7 @@ abstract class IGKActionBase implements IActionProcessor
      */
     protected $throwActionNotFound = true;
     var $handleAllAction;
+    var $baseActionName;
   
     const FAILED_STATUS = "@error";
     /**
@@ -231,7 +233,7 @@ abstract class IGKActionBase implements IActionProcessor
         $ctrl = null;
         if ($fname instanceof BaseController) {
             if (func_num_args() < 3) {
-                throw new \Exception("Require 3 argument in that case");
+                throw new \Exception("Require 3 arguments in that case");
             }
             $ctrl = $fname;
             $c = func_get_args();
@@ -267,6 +269,8 @@ abstract class IGKActionBase implements IActionProcessor
             array_unshift($arguments, $name);
             $name = $this->defaultEntryMethod;           
             if (($verb && method_exists($this, $fc=$name."_".$verb)) || method_exists($this, $fc = $name)) {
+                $rf = new ReflectionMethod($this, $fc);
+                $arguments = Dispatcher::GetInjectArgs($rf, $arguments);
                 return $this->$fc(...$arguments);
             }
         }
@@ -435,6 +439,7 @@ abstract class IGKActionBase implements IActionProcessor
                     $c =  $object->__call($actionMethod, $args);
                 } else {
                     $host = $object->getHost();
+                    $baseActionName = $actionMethod;
                     while(count($verbs)>0){
                         $c = array_pop($verbs);
                         if (method_exists($host, $fc = $actionMethod.$c)) {
@@ -452,7 +457,10 @@ abstract class IGKActionBase implements IActionProcessor
                             \IGK\System\Http\Helper\Response::OptionResponse();
                         } 
                     }
-                    $c = $object->$actionMethod(...$args);
+                    // set default configuration parameters
+
+                    $object->setBaseActionName($baseActionName);
+                    $c = $object->invoke($actionMethod, ...$args);
                 }
                 $object->getController()->{ControllerEnvParams::ActionViewResponse} = $c;
 
@@ -465,9 +473,7 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
-                // + |               
-                //      
-                // igk_wln_e("resolv....",igk_server()->accept("json"));          
+                // + |         
                 if ($exit || ($_host->_handleResponse($c))) {
                     return igk_do_response($c);
                 }
@@ -496,10 +502,14 @@ abstract class IGKActionBase implements IActionProcessor
         } 
         igk_dev_wln_e(__FILE__ . ":" . __LINE__,  "No handle error: ", compact("code", "f", "params"));
     }
-
-    protected function get_notify()
+    /**
+     * get notify controller list 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    protected function get_notify(?string $notifykey = null)
     {
-        $notkey = $this->getController()->notifyKey($this->notify_name);
+        $notkey = $notifykey ?? $this->getController()->notifyKey($this->notify_name);
         return igk_notifyctrl($notkey);
     }
     /**
@@ -519,13 +529,13 @@ abstract class IGKActionBase implements IActionProcessor
         }
         return $result;
     }
-    protected function notify_danger($msg)
+    protected function notify_danger($msg, ?string $target_name = null)
     {
-        $this->get_notify()->danger($msg);
+        $this->get_notify($target_name)->danger($msg);
     }
-    protected function notify_success($msg)
+    protected function notify_success($msg, ?string $target_name = null)
     {
-        $this->get_notify()->success($msg);
+        $this->get_notify($target_name)->success($msg);
     }
 
     /**

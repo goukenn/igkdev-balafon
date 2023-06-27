@@ -25,7 +25,7 @@ class StringBlockReader{
      * @param mixed $s 
      * @return string
      */
-    public function read($s):string{
+    public function read(string $s):string{
         $ln = strlen($s);
         $offset = & $this->offset;
         $o = "";

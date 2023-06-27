@@ -7,12 +7,13 @@
 
 namespace IGK\System\Html\Forms;
 
+use IGK\System\Html\IFormFieldOptions;
 
 /**
  * represent core field info
  * @package IGK\System\Html\Forms
  */
-class FieldInfo{
+class FieldInfo implements IFormFieldOptions{
 
     /**
      * type of the fields

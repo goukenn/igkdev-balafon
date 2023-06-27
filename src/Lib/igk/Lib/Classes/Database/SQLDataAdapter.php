@@ -20,7 +20,7 @@ use function igk_resources_gets as __;
 /**
 * Represente IGKSQLDataAdapter class
 */
-abstract class SQLDataAdapter extends DataAdapterBase{
+abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator{
     const DB_INFORMATION_SCHEMA = "information_schema";
     /**
      * 
@@ -91,7 +91,7 @@ abstract class SQLDataAdapter extends DataAdapterBase{
         return $grammar;
     }
     public function escape(?string $str=null):string{
-        return igk_db_escape_string($str);
+        return igk_db_escape_string($str) ?? '';
     }
     /**
      * get relation attached to table

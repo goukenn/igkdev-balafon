@@ -146,22 +146,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder{
             $e = new DiagramEntity($name, $prefix);
         }       
         $desc && $e->setDescription($desc); 
-        $this->m_entities[$e->getName()] = $e;
-
-        // if (is_string($name)){
-        //     if (isset($this->m_entities[$name])){
-        //         return $this->m_entities[$name];
-        //     }
-        //     $e = new DiagramEntity($name);
-        // }else{
-        //     $e = new DiagramEntity();
-        // }
-        // // if ($name instanceof DiagramEntity ){
-        // //     $e = eval('return '.var_export($name, true).';');
-        // //     igk_wln_e($e);
-        // // }
-        // $desc && $e->setDescription($desc);
-        // $this->m_entities[$e->getName()] = $e;
+        $this->m_entities[$e->getName()] = $e;        
         return $e;
     }
     

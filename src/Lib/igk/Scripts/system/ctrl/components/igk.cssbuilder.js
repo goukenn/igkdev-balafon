@@ -285,7 +285,3 @@ function _resetStyle(){
 });
 
 })();
-
-
-(function(){
-})();

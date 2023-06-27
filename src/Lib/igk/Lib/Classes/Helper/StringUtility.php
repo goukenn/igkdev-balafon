@@ -330,9 +330,9 @@ abstract class StringUtility
             for ($i = 0; $i < $c; $i++) {
                 $index = $match["value"][$i];
                 if (is_numeric($index)) {
-                    if (isset($args[$index])) {
-                        $s = str_replace($match[0][$i], HtmlUtils::GetValue($args[$index]), $s);
-                    }
+                    $index = intval($index);
+                    $a = igk_getv($args, $index);                    
+                    $s = str_replace($match[0][$i], HtmlUtils::GetValue($a) ?? '', $s);                    
                 }
             }
         }
@@ -472,7 +472,9 @@ abstract class StringUtility
                     $args[] = self::StringValue(igk_str_read_brank($data, $pos, $ch, $ch, null, false, 1), $ch);
                     break;
                 case $separator:
-                    $args[] = $v;
+                    if (!empty($v)){
+                        $args[] = $v;
+                    }
                     $v = "";
                     break;
                 default:
@@ -480,6 +482,9 @@ abstract class StringUtility
                     break;
             }
             $pos++;
+        }
+        if (!empty($v)){
+            $args[] = trim($v);
         }
         return $args;
     }

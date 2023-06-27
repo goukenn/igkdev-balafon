@@ -30,6 +30,7 @@ use IGK\System\Database\SchemaBuilder;
 use IGK\System\Http\Route;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
+use IGKEvents;
 
 use function igk_resources_gets as __;
 use stdClass;
@@ -62,6 +63,8 @@ class MakeProjectCommand extends AppExecCommand
     ///<param name="name" default=""></param>
     public function exec($command, $controller = "")
     {
+
+        
         if (empty($controller)) {
             return false;
         }
@@ -72,7 +75,8 @@ class MakeProjectCommand extends AppExecCommand
         $controller = StringUtility::CamelClassName($controller);
         $dir = igk_io_projectdir() . "/" . $controller;
         Logger::info(__("Make project ... {0}",  $controller));
-
+        
+   
 
         $author = $this->getAuthor($command);
         $type = igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
@@ -207,6 +211,15 @@ EOF;
                 ->defs($defaultsrc);
             igk_io_w2file($file, $builder->render());
         };
+        $no_access_callback = function($f){
+            igk_io_w2file($f, 'deny from all');
+        };
+        $grant_access_callback = function($f){
+            igk_io_w2file($f, 'allow from all');
+        };
+        $bind[$dir . "/" . IGK_DATA_FOLDER.'/.htaccess']= $no_access_callback;
+        $bind[$dir . "/" . IGK_DATA_FOLDER.'/'.IGK_RES_FOLDER.'/.htaccess']= $grant_access_callback;
+
         $bind[$dir . "/" . IGK_DATA_FOLDER .
             "/data.schema.xml"] = function ($file) use ($author, $dir) {
             $build = new SchemaBuilder();
@@ -390,8 +403,11 @@ EOF;
                 ]);
         }
 
+        
+        Utility::MakeBindFiles($command, $bind, $force);
+        // + invoke hook - command
+        igk_hook(IGKEvents::HOOK_COMMAND, ['cmd'=>$this, 'dir'=>$dir, 'name'=>$controller, 'args'=>func_get_args()]);
 
-        Utility::BindFiles($command, $bind, $force);
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
         Logger::success("done\n");

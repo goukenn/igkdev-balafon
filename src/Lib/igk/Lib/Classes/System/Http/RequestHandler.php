@@ -14,11 +14,13 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKException;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlDefaultMainPage;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\Routes;
 use IGKApplication;
 use IGKEvents;
+use ReflectionException;
 
 use function igk_resources_gets as __;
 
@@ -50,6 +52,30 @@ class RequestHandler
 
     private function __construct()
     {
+    }
+    /**
+     * handle request
+     * @param string $uri 
+     * @param mixed $fileHandler 
+     * @param bool $web 
+     * @param string|null $file 
+     * @param bool $render 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function HandleRequestUri(string $uri, ?IRequestFileHandler $fileHandler=null, $web=true, string $file=null, $render=true){
+        if(igk_io_handle_system_command($uri)){
+            if ($web)
+                 igk_exit();
+            return;
+        } 
+        require_once IGK_LIB_DIR.'/igk_request_handle.php';
+        self::getInstance()->handle_uri($uri); 
+        if ($fileHandler && $file){
+            $fileHandler->handleRequest($file, $render);
+        }
     }
 
     /**
@@ -253,8 +279,7 @@ class RequestHandler
      */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
-        igk_environment()->write_debug("Redirect start : ".igk_sys_request_time());
-
+        igk_environment()->write_debug("Redirect start : ".igk_sys_request_time()); 
         if (defined('IGK_REDIRECTION')) {
             die("already call redirection");
         }
@@ -330,6 +355,12 @@ class RequestHandler
 
         if (($actionctrl = igk_getctrl(IGK_SYSACTION_CTRL)) && $actionctrl->handle_redirection_uri($page, $params, 1))
             return;   
+
+        if (igk_environment()->noPageRedirection404){
+            return;
+        }
+        
+
         try {
             if (igk_sys_ispagesupported($page)) {
                 $tab = $_REQUEST;
@@ -510,7 +541,7 @@ class RequestHandler
                 }
             } else {
                 igk_wln("method not found");
-                igk_set_header(500, "function not found");
+                igk_set_header(500, "method not found");
             }
             igk_exit();
         }

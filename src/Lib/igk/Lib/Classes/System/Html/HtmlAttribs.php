@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
+use IGK\System\Html\Dom\HtmlDomActiveAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\XmlNode;
 use IGK\System\Html\HtmlExpressionAttribute;

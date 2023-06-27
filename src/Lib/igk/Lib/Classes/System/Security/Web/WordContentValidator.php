@@ -13,7 +13,7 @@ use IGK\System\Regex\Replacement;
 */
 class WordContentValidator extends MapContentValidatorBase{
     var $allowNull;
-    public function map($value, $key, &$error)
+    public function map($value, $key, &$error, bool $missing=false, bool $required = true)
     { 
         if (!is_string($value)){
             if ($this->allowNull){

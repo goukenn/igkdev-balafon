@@ -11,6 +11,10 @@ namespace IGK\System\Html;
 
 use IGKObject;
 
+/**
+ * mark an attribute to be activated
+ * @package IGK\System\Html
+ */
 final class HtmlActiveAttrib extends IGKObject{
     ///<summary></summary>
     public static function getInstance(){

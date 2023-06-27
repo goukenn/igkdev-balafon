@@ -7,7 +7,51 @@
  */
 class Maintenance{
     public static function Run(){
-        echo "<html><head><title>Maintenance Mode</title></head><body><div>Maintenance mode</div></body></html>";
+        echo <<<HTML
+<!DOCTYPE html>
+<html>
+    <head theme="dark" lang="en">
+    <title>Maintenance Mode</title></head>
+    <style>
+        *{
+            padding:0px;
+            margin:0px;
+        }
+        html,body{
+            padding:0px;
+            width:100%;
+            height:100%;
+        }         
+        .body{
+            overflow-y:hidden;
+            background-color:red;
+        }
+        .main {
+            display:flex;
+            flex-direction:column;
+            justify-content: center;
+        }
+        .fith{
+            height:100%;
+        }
+        .alignc{
+            text-align:center; 
+            align-self: center;
+        }
+        .title{
+            font-size: 4em;
+        }
+    </style>
+    <body>
+        <div class="main fith">
+            <div class="alignc">
+                <div class="title">Site is in <b>Maintenance</b> mode</div>
+                <div class="bottom"></div>
+            </div>
+        </div>            
+    </body>
+</html>
+HTML;
         return 1;
     }
 }

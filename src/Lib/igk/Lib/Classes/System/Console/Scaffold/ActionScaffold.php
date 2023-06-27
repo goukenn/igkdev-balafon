@@ -85,7 +85,7 @@ class ActionScaffold extends ScaffoldBase
             igk_io_w2file($file, self::GenerateViewTemplate($file));
         };
 
-        Utility::BindFiles($command, $bind, $is_force);
+        Utility::MakeBindFiles($command, $bind, $is_force);
         if ($model) {
             $action = new MakeActionCommand();
             $action->uses = function()use($model){

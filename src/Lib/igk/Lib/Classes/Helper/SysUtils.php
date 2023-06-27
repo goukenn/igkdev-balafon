@@ -18,9 +18,30 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Configuration\ApplicationConfigConstants;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use ReflectionException;
 use TypeError;
 
 class SysUtils{
+    /**
+     * helper to secure web port 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function SecurePort(){
+        $config = igk_configs(); 
+        if ($config->force_secure_redirection) {            
+            $tp = igk_server()->SERVER_PORT;
+            $csport = $config->secure_port; 
+            $sport = array_map('trim', array_filter(explode(',', $csport ?? 443)));            
+            if (!in_array($tp, $sport)){
+                igk_navto(igk_secure_uri(igk_io_fullrequesturi(), true, false));
+                igk_exit();
+            }
+        }    
+    }
     public static function TryServerAutoConnect(BaseController $ctrl){          
         $a = igk_server()->HTTP_USER_AGENT;
         $chek = igk_configs()->{ApplicationConfigConstants::allow_auto_connect_agents} ?? []; 
@@ -59,7 +80,7 @@ class SysUtils{
         }
         extract(func_get_arg(1));
         try{ 
-            if (igk_environment()->isDev()){
+            if (!igk_environment()->NoLogEval && igk_environment()->isDev()){
                 igk_ilog('eval : '.func_get_arg(0));
             }
             eval("?>".func_get_arg(0));
@@ -105,6 +126,9 @@ class SysUtils{
      * @throws IGKException 
      */
     public static function GetControllerByName(string $ctrl, $throwex = 1){
+        if ($ctrl == '%sys%'){
+            return SysDbController::ctrl();
+        }
         $ctrl = str_replace("/", "\\", $ctrl);  
         return  (IGKApp::IsInit() && class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class) ) ?
                 $ctrl::ctrl() : 
@@ -285,7 +309,7 @@ class SysUtils{
         }
         if (is_dir($bdir)) {
             Logger::info("rm :" . $bdir);
-            IO::RmDir($bdir);
+            IO::CleanDir($bdir);
             igk_io_w2file($bdir . "/.htaccess", "deny from all", false);
             igk_hook("sys://cache/clear");
         }

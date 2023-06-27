@@ -7,6 +7,7 @@
 namespace IGK\System\Html\Templates;
 use function igk_resources_gets as __;
 use IGK\Helper\IO;
+use IGK\Resources\R;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
@@ -29,20 +30,20 @@ class BindingPipeExpressionInfo{
                 if ($format === null) {
                     $format = $base_fmt;
                 } else {
-                    list($format)
-                        = [igk_getv($format, "fmt", $base_fmt)];
+                    list($format) = [igk_getv($format, "fmt", $base_fmt)];
                 }
                 return date($format, $t);
-            }, "trim" => function ($v) {
-                return trim($v);
-            }, 'uppercase' => function ($v) {
-                return strtoupper($v);
-            }, 'lowercase' => function ($v) {
-                return strtolower($v);
-            }, 'utf8' => function ($v) {
-                return utf8_decode($v);
+            }, "trim" => function (?string $v) {
+                return trim($v ?? '');
+            }, 'uppercase' => function (?string $v) {
+                return strtoupper($v ?? '');
+            }, 'lowercase' => function (?string $v) {
+                return strtolower($v ?? '');
+            }, 'utf8' => function (?string $v) {
+                return utf8_decode($v ?? '');
             }, 'lang' => function ($v) {
-                return __($v);
+                // + | pipe to registrer lang
+                return __($v,...array_slice(func_get_args(), 1));
             }, 'json' => function ($v) {
                 return json_encode($v);
             }, 'date' => function ($v, $options = null) {
@@ -64,7 +65,15 @@ class BindingPipeExpressionInfo{
                 }
                 return $v;
             }, "currency" => function ($v, $options = null) {
-                return sprintf('%.2f', $v) . " EUR";
+                $litteral = 'EUR';
+                if ($options) {
+                    $fmt = igk_getv($options, "fmt", $litteral);
+                    $global = \IGK\System\Culture\Globalization::FromCurrencyFormat($fmt, R::GetCurrentLang());
+                    if ($global){
+                        return $global->getLitteralValue($v);
+                    } 
+                }
+                return sprintf('%.2f', $v) . " ".$litteral;
             }, 'urlencode' => function ($v){
                 return urlencode($v);
             }

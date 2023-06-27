@@ -10,6 +10,7 @@ use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use IGK\Helper\ViewHelper;
+use IGK\System\Regex\Replacement;
 
 use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
@@ -35,10 +36,14 @@ if (defined('GOOGLE_MODULE')) {
      */
     function igk_google_css_setfont(&$theme, $family, $extra = "sans-serif")
     {
+        $rp = new Replacement;
+        $rp->add("/\s+/", " ");
+        $rp->add("/[^a-z0-9]+/i", "-");
+        $key = $rp->replace($family);
         $n = str_replace(" ", "-", $family);
         if (is_string($extra) && !empty(trim($extra)))
             $extra = ", " . $extra;
-        $theme[".google-" . $n] = "font-family:'{$n}'{$extra};";
+        $theme[".google-" . $key] = "font-family:'{$n}'{$extra};";
     }
     ///<summary>add google font to theme</summary>
     ///<param name="document"> document to attach the google font  </param>
@@ -82,9 +87,10 @@ if (defined('GOOGLE_MODULE')) {
             igk_die("font name is empty");
         }
         $size = igk_google_get_font_sizes($family, $size);
-
-        // $theme->addFont("google")
-        $n = str_replace(" ", "-", $family);
+        $rp = new Replacement;
+        $rp->add("/\s+/", " ");
+        $rp->add("/[^a-z0-9]+/i", "_");
+        $n = $rp->replace($family);
         $theme->def[".google-" . $n] = "/* binding ext */ font-family: '{$family}', sans-serif;";
     }
     function igk_google_get_font_sizes($family, $size = null)
@@ -321,8 +327,6 @@ if (defined('GOOGLE_MODULE')) {
             if (file_exists($v_file)) {
                 $str = igk_io_read_allfile($v_file);
                 $s = igk_json_parse($str) ?? igk_createobj();
-                // igk_wln($str, $s);
-                // $s = json_decode($str) ?? igk_createobj();
             }
             return $s ?? igk_createobj();
         });
@@ -410,19 +414,21 @@ if (defined('GOOGLE_MODULE')) {
 EOF
         );
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-    /**
-     * 
-     * @param mixed $t
-     */
-    function igk_html_demo_google_line_waiter($t)
-    {
-        $n = igk_html_node_google_line_waiter();
-        $t->add($n);
-        return $n;
-    }
+    if (!function_exists('igk_html_demo_google_line_waiter')) {
 
+
+        ///<summary></summary>
+        ///<param name="t"></param>
+        /**
+         * 
+         * @param mixed $t
+         */
+        function igk_html_demo_google_line_waiter($t){
+            $n = igk_html_node_google_line_waiter();
+            $t->add($n);
+            return $n;
+        }
+    }
     /**
      * bind google material icons
      * @param mixed $name 
@@ -533,14 +539,26 @@ EOF;
         $n["igk:data"] = $data ?? "{zoom:7, center:{lat:50.41438075875331, lng:4.904006734252908}}";
         return $n;
     }
+
+    function igk_google_init_css(){
+          //google - bind local style
+          if (!igk_get_env("google::init_global_style")) {
+            igk_set_env("google::init_global_style", 1);
+            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss";
+            // igk_css_reg_global_style_file($f, null, null, 1); 
+
+            $theme = ViewHelper::CurrentDocument()->getTheme();
+            igk_css_bind_file($theme, null, $f); 
+        }
+    }
     ///<summary></summary>
     /**
      * 
      */
-    function igk_html_node_google_line_waiter()
-    {
+    function igk_html_node_google_line_waiter(){
         $n = igk_create_node();
         $n->setClass("igk-google-line-waiter");
+        igk_google_init_css(); 
         return $n;
     }
     ///<summary></summary>

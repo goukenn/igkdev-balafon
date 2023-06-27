@@ -57,6 +57,9 @@ class JsonResponse extends RequestResponse{
             echo json_encode(json_decode($s), JSON_PRETTY_PRINT);            
             return;
         } 
+        if (is_null($s)){
+            $s = '[]';
+        }
         igk_wl($s);  
     }
 }

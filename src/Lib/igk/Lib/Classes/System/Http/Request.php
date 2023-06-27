@@ -47,6 +47,13 @@ class Request implements IInjectable
         return $this->js_data;
     }
     /**
+     * do response with data
+     * @return void 
+     */
+    public function response($data){
+        igk_do_response($data);
+    }
+    /**
      * prepare and return the updload data as json object
      * @return null|object|array
      */

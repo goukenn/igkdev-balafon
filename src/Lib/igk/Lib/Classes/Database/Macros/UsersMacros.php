@@ -34,6 +34,10 @@ abstract class UsersMacros
         unset($user->clPwd);
         return $user->save();
     }
+
+    public static function isActive(Users $user){
+        return $user->clStatus == 1;
+    }
     /**
      * set user password
      * @param Users $user 

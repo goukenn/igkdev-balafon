@@ -176,66 +176,6 @@ class IGKResourceUriResolver
                     $rp = $acpath;
                 }
                 return $this->resolveResource($rp, $fulluri).$query;
-               
-                // // resolve path in other to store access to link
-                // $v_found = false;
-                // // +| --
-                // // +| -- resolve stored files :  
-                // // +| --
-                // foreach ($tab as $i => $j) {
-                //     if (strstr($rp, $i)) {
-                //         $chain = "";
-                //         $chainRes($rp, $j, substr($rp, strlen($i) + 1), $chain, $generate);
-                //         $v_found = true;
-                //     } else {
-                //         if (($s = realpath($i)) && ($s != $i)) {
-                //             $i = $s;
-                //         }
-                //         if (igk_io_is_subdir($i, $rp)) {
-                //             $s = $j;
-                //             $n = substr($rp, strlen($i) + 1);
-                //             $v_found = true;
-                //             if (is_object($s)) {
-                //                 $b = $s->{'ini_chain'};
-                //                 $chain = $b($n, $rp);
-                //             } else {
-                //                 $chain = "";
-                //                 $chainRes($j, $n, $chain, $generate);
-                //             }
-                //         }
-                //     }
-                //     if ($v_found) {
-                //         if ($initHash) {
-                //             return $chain;
-                //         }
-                //         if ($fulluri)
-                //             return igk_io_baseuri($chain) . $query;
-                //         return igk_io_currentrelativeuri($chain, $options) . $query;
-                //     }
-                // }
-                // $gs_uri = igk_html_get_system_uri($path, $options);
-                // if ($gs_uri) {
-                //     $gs_uri = preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
-                //     $chain = igk_uri(IGK_RES_FOLDER . "/" . $gs_uri);
-                //     $o = igk_io_basedir($chain);
-                //     $outlink = null;
-                //     if (!file_exists($o) && IO::CreateDir(dirname($o))) {
-                //         if (!$createlink($path, $o)) {
-                //             igk_debug_wln("failed to create link", $o);
-                //             igk_dev_wln_e("failed to create link", $o);
-                //         } else {
-                //             if (!is_link($o)) {
-                //                 igk_debug_wln("link not create:" . $o);
-                //             }
-                //         }
-                //     }
-                //     if ($fulluri) {
-                //         $outlink = igk_io_baseuri($chain);
-                //     } else {
-                //         $outlink = igk_io_currentrelativeuri($chain, $options);
-                //     }
-                //     return $outlink . $query;
-                // }
             }
         }
         
@@ -265,11 +205,14 @@ class IGKResourceUriResolver
         $v_bdir = igk_io_basedir();
         // create a symlink or 
         if (!file_exists($fc = Path::Combine($v_bdir, $v_res_path))){
+            // + | missing - create a link to 
             if (!igk_io_symlink($rp, $fc)) {
+
                 igk_ilog(__("Failed to create symbolic link - 2 - ") . " " . $rp . '==$gt; ' . $fc. " ? " . is_link($fc) 
                 );
                 return null;
             }
+            igk_debug_wln("generate new link . ".$fc);
             igk_hook("generateLink", array("outdir" => dirname($fc), "link" => $fc));
         } 
         $relative = Path::GetRelativePath($v_bdir, $fc);

@@ -35,12 +35,10 @@ class HtmlAttribExpressionNode extends XmlNode
     public function loadingComplete()
     { 
         $context = null;
-        $r = $this->node_args;
         $m = $this->Attributes->to_array();
         $_p = [];
         $_g = explode("|", "*for|*visible");
-        $context = $r;
-        $context = igk_get_attrib_raw_context($context);
+        $context = $this->node_args ?? igk_get_attrib_raw_context($context);
         $p = $this->target_node;
         foreach ($m as $k => $t) {
             // ignore attribute binding
@@ -52,7 +50,6 @@ class HtmlAttribExpressionNode extends XmlNode
             }
             $_p[$k] = $t;
         }
-
         if (count($_p) > 0) {
             // + append attribute 
             $p->setAttributes($_p);  

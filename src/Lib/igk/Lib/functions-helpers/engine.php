@@ -4,6 +4,13 @@
 ///<summary>Convert string argument to array list. in context</summary>
 ///<param name="s">parameter to convert</param>
 ///<param name="context">context object that will parameter to convert</param>
+
+use IGK\Controllers\BaseController;
+use IGK\System\DataArgs;
+use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Helpers\HtmlEngineHelper;
+use IGK\System\Html\HtmlLoadingContextOptions;
+
 /**
  * Convert string argument to array list. in context
  * @param mixed $s parameter to convert
@@ -134,7 +141,7 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     if ($context == null) {
         $context = $reader->context;
     }
-    //+ bind root context
+    //+ copy root content if exists
     $context = igk_get_attrib_raw_context($context);
     if ($context === null) {
         $context = "[context]::" . __FUNCTION__;
@@ -142,14 +149,8 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     $g = igk_get_template_bindingattributes();
     if (isset($g[$attr])) {
         $inf = $g[$attr];
-        //if ((strpos($attr, '*')!==0) && $value &&  {
-            // decode with entity - otherwise leveal binding to manager resolution - maybe expression
-            $value = html_entity_decode($value);
-        // } else {
-        //     // replace &quot; with ' in array style or " in json style
-        //     igk_wln(__FILE__.":".__LINE__ , $value);
-        // }
-
+        // decode with entity - maybe expression
+        $value = html_entity_decode($value);
         list($k, $v) = $inf($reader, $attr, $value, $context, $storecallback);
         if ($k && $v && $storecallback) {
             $storecallback($k, $v);
@@ -167,15 +168,14 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
  */
 function igk_get_attrib_raw_context($context)
 {
-    $o = igk_get_article_root_context(); 
-
-
+    // + | init root context if exists 
+    $o = igk_get_article_root_context();
     if ($o == null) {
-        // not in root context
+        // no root context found - create a binding root info
         if ($context && !($context instanceof \IGK\System\Html\Templates\BindingContextInfo)) {
             return \IGK\Helper\Activator::CreateNewInstance(\IGK\System\Html\Templates\BindingContextInfo::class, $context);
         }
-        return $context; 
+        return $context;
     }
     $raw = null;
     if (is_object($context) && property_exists($context, 'raw')) {
@@ -183,27 +183,22 @@ function igk_get_attrib_raw_context($context)
     } else {
         if (is_array($context)) {
             $raw = igk_getv($context, "raw");
-        } else {
-            if (igk_environment()->isDev()) {
-                igk_trace();
-                igk_wln_e("BLF: context does not provide a raw object", $context);
-                igk_exit();
-            }
         }
+        // esle passing root context
     }
-    if (is_array($o)){
-        return ['raw'=>$o]; //IGKRawDataBinding::Create($o);
+    if (is_array($o)) {
+        return ['raw' => $o]; //IGKRawDataBinding::Create($o);
     }
     return [
-        "ctrl" => $o->ctrl,
         "raw" => $raw,
         "root_context" => (object)[
             "ctrl" => $o->ctrl,
             "raw" => IGKRawDataBinding::Create($o->raw)
         ],
-        "transformToEval"=>$o->transformToEval,
-        "key"=>igk_getv($context, 'key'),
-        "type"=>igk_getv($context, 'type'),
+        "ctrl" => igk_getv($context, 'ctrl'),
+        "transformToEval" => igk_getv($context, 'transformToEval') , // $o->transformToEval,
+        "key" => igk_getv($context, 'key'),
+        "type" => igk_getv($context, 'type'),
     ];
 }
 
@@ -213,7 +208,8 @@ function igk_get_attrib_raw_context($context)
  * get root data stored to article chain
  * @return ?object|array|mixed root context
  */
-function igk_get_article_root_context(){
+function igk_get_article_root_context()
+{
     $g = igk_get_env(IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);
     if (is_array($g) && (count($g) > 0)) {
         $c = igk_getv($g[0], "data");
@@ -221,8 +217,58 @@ function igk_get_article_root_context(){
     }
     return null;
 }
-
-
+///<summary>get current article chain data</summary>
+/**
+ * get current article chain data
+ */
+function igk_get_article_chain()
+{
+    $g = igk_get_env(IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);
+    if (($c = count($g)) > 0) {
+        return $g[$c - 1];
+    }
+    return null;
+}
+///<summary></summary>
+///<param name="f"></param>
+/**
+ * 
+ * @param mixed $f 
+ */
+function igk_pop_article_chain()
+{
+    $g = igk_get_env($key = IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);
+    array_pop($g);
+    igk_set_env($key, $g);
+}
+///<summary>push article in chain data</summary>
+/**
+ * push article in chain data
+ * @var string $f context identification 
+ * @var ?array|HtmlLoadingContextOptions $context definition
+ */
+function igk_push_article_chain(string $f, $context = null)
+{
+    $key = IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT;
+    $raw_var = IGKConstants::RAW_VAR;
+    $ctx =  $context;
+    $b = igk_get_env($key);
+    if ( (!is_null($context)) && (!$b || (count($b) == 0))) {        
+        if ($ctx instanceof HtmlLoadingContextOptions) {
+            $raw = $ctx->raw;
+            if (is_array($raw)) {
+                if (array_key_exists($raw_var, $raw)) {
+                    $r = igk_getv($raw, $raw_var);
+                    unset($ctx->$raw_var[$raw_var]);
+                    $ctx->raw = array_merge((array)$ctx->$raw_var, [$raw_var => $r]);
+                }
+            }
+        } else {
+            // TODO : fix logic
+        }
+    }
+    igk_set_env_array($key, new \IGK\System\Articles\ChainInfo($f, $ctx)); //  ["n" => $f, "data" => $ctx]);
+}
 ///<summary>get template binding attribute</summary>
 /**
  * get template binding attribute
@@ -258,4 +304,52 @@ function igk_reg_template_bindingattributes($name, $callback)
         $g[trim($k)] = $callback;
     }
     igk_set_env($key, $g);
+}
+
+
+if (!function_exists('igk_engine_html_load_content')) {
+    /**
+     * helper: article bind content
+     * @param HtmlItemBase $node 
+     * @param string $content 
+     * @param mixed $args 
+     * @return void 
+     * @throws IGKException 
+     */
+    function igk_engine_html_load_content(HtmlItemBase $node, string $content, $args, ?BaseController $ctrl = null)
+    {
+        HtmlEngineHelper::BindContent($node, $content, $args, $ctrl);
+    }
+}
+
+if (!function_exists('igk_engine_eval_pipe')) {
+    /**
+     * helper: evaluate pipe expression in context defition 
+     * @param string $pipe expression
+     * @param int position of the first separator
+     */
+    function igk_engine_eval_pipe(string $pipe, int $pos, array $tab, string $startMarker = '{{', string $endMarker = '}}')
+    {
+        $n = substr($pipe, 0, $pos);
+        $ln = strlen($pipe);
+        $v = '';
+        while ($pos < $ln) {
+            $npos = strpos($pipe,  $endMarker, $pos);
+            if ($npos !== false) {
+                $v = substr($pipe, $pos + 2, $npos - $pos - 2);
+                $n .= igk_php_eval_in_context($v, $tab);
+                $pos = $npos + 2;
+                $npos = strpos($pipe, $startMarker, $pos);
+                if ($npos === false) {
+                    $n .= substr($pipe, $pos);
+                    break;
+                }
+            } else {
+                $n .= substr($pipe, $pos);
+                break;
+            }
+            $pos++;
+        }
+        return $n;
+    }
 }

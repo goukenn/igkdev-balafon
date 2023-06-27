@@ -11,6 +11,8 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlContext;
+use IGK\System\Http\RequestHandler;
+use IGK\System\Uri;
 use IGKException;
 
 ///<summary></summary>
@@ -31,9 +33,16 @@ class RequestUriViewCommand extends RequestViewCommand{
      * @throws IGKException 
      */
     public function doRequest($command, $path){ 
-        igk_server()->SCRIPT_NAME = '/index.php'; 
-        require_once IGK_LIB_DIR.'/igk_request_handle.php';
-        igk_sys_handle_uri($path);
+        igk_server()->SCRIPT_NAME = '/index.php';  
+        RequestHandler::HandleRequestUri($path); 
+        if ($ctrl = igk_getctrl(igk_configs()->default_controller, false)){            
+            $g = new Uri($path);
+            $path = $g->getPath();
+            $_SERVER['REQUEST_URI'] = $g->getRequestUri();
+            $_SERVER['QUERY_STRING'] = $g->getQuery(); 
+            igk_server()->prepareServerInfo(); 
+            $ctrl->setCurrentView($path);
+        } 
         Logger::info('done');
     }
 

@@ -30,9 +30,13 @@
     };
     var no_close = !1;
 
-    function _panDialogInit() {
-        // console.log('init panel dialog');
+    function _showDialog(){
         _dialog.push(this);
+    };
+    
+
+    function _panDialogInit() {
+     
         if (!_init) {
             igk.winui.events.regKeyPress(function(e) {
 
@@ -60,6 +64,7 @@
         }
         var q = this;
         var _idx = _dialog.length - 1;
+        var _container = q.select('^.igk-ajx-panel-dialog-container').first();
         q.no_auto_remove = this.supportClass('dispn');
         igk.dom.body().add(q);
         //var _rm = q.remove;
@@ -121,7 +126,12 @@
         });
         var tm_out = 0;
         q.on("windowresize", _updating);
+        q.showDialog = _showDialog;
+        q.closeDialog = _closeDialog;
         _update_size();
+        if (!q.no_auto_remove){
+            q.showDialog();
+        }
     };
 
     var _LNS = igk.system.createNS(_NS, {
@@ -190,9 +200,6 @@
             tl.add("a").addClass("igk-btn close igk-svg-host").setAttribute("href", "#").add(g); //etHtml("close");
         }
         _panDialogInit.apply(dd);
-        // dd.show = function(){
-        // 	// console.debug("showing");
-        // };
         return dd;
     };
 

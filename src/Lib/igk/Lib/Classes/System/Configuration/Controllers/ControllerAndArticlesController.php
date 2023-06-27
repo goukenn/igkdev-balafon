@@ -1966,7 +1966,7 @@ JS;
     public function update_ctrl($oldcontent = null)
     {
         $f = urldecode(base64_decode(igk_getr("clfile")));
-        $v_c = utf8_encode(igk_html_unscape(igk_getr("clContent"), IGK_STR_EMPTY));
+        $v_c = igk_str_encode_to_utf8(igk_html_unscape(igk_getr("clContent"), IGK_STR_EMPTY));
         $v_frame = igk_getr("clframe");
         $ctrl = igk_getctrl($this->SelectedController, false);
         if (igk_php_check_and_savescript($f, $v_c, $error, $code) == false) {

@@ -11,7 +11,7 @@ use IGK\System\Shell\OsShell;
 ///<summary></summary>
 /**
 * 
-* @package IGK\System\Console\Commmands
+* @package IGK\System\Console\Commands
 */
 class ComposerCommand extends AppExecCommand{
 	var $command='--composer';

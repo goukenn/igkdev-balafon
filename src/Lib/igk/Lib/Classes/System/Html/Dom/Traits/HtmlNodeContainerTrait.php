@@ -4,6 +4,7 @@
 // @date: 20230331 20:20:11
 namespace IGK\System\Html\Dom\Traits;
 
+use IGK\System\Html\Dom\Factory;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 ///<summary></summary>
@@ -52,7 +53,17 @@ trait HtmlNodeContainerTrait{
     // - + drop fix router context prefer update _add method 
     // public function __call($n, $arg){
     //     return $this->host->__call($n, $arg);
-    // }   
+    // }  
+    public function __call($n, $arg){
+        if (method_exists($this->host , $n)){
+            return call_user_func_array([$this->host,$n], $arg);
+        }
+        if ($r = Factory::InvokeOn($this->host, $this->host->tagName, $n, $arg)){
+            return $r;
+        } 
+        return parent::__call($n, $arg); 
+    }   
+
     public function getFlag($k, $default = null){
         return $this->host->getFlag($k, $default);
     }
@@ -60,7 +71,7 @@ trait HtmlNodeContainerTrait{
         $this->host->setFlag($k, $value);
         return $this;
     }
-    protected function _add($n, bool $force=false):bool{
+    protected function _add($n, bool $force=false):bool{         
         return $this->host->_add($n, $force);
     }
 }

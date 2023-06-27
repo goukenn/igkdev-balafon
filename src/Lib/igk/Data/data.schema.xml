@@ -210,7 +210,7 @@
         <Column clName="clPicture" clType="VARCHAR" clTypeLength="255"
             clDescription="uri of 255 max length" />
         <Column clName="clLevel" clType="ENUM" clEnumValues="-1,0,1,2,3" clNotNull="True"
-            clDefault="0" clDescription="user description" />
+            clDefault="0" clDescription="user's primary level" comment="if enum supported error can be truncated" />
         <Column clName="clStatus" clType="Int" clTypeLength="11" clDefault="-1"
             clDescription="state of the account, -1 = not activated, 1=activated, 0or2=blocked, 4=update"
             clNotNull="True" />
@@ -423,11 +423,11 @@
         <Migration description='add common fields - group controller'>
             <addColumn table="%prefix%groups">
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="True" clUniqueColumnIndex="0" />
+                    clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
             </addColumn>
             <changeColumn table="%prefix%groups" column="clName">
                 <Column clName="clName" clType="VARCHAR" clTypeLength="175" clNotNull="True"
-                    clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUnique="0" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
             </changeColumn>
             <addColumn table="%prefix%authorizations">
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255"
@@ -625,5 +625,48 @@
                     clDescription="cardinality of the entry" clDefault="0"></Column>     
             </addColumn>
         </Migration>
+
+
+        <Migration>
+            <addColumn table="%prefix%connexions" after="clUser_Id">               
+                <Column clName="clToken" clType="VarChar"
+                    clTypeLength="80" clIsUnique='true' clNotNull='true'></Column>     
+                <Column clName="clTokenInfo" clNotNull="1" clType="JSON"
+                    clDescription="store token information"></Column>     
+            </addColumn>
+        </Migration>
+        <Migration>
+            <addColumn table="%prefix%connexions" after="clFrom">               
+                      <Column clName="cnx_createAt" clType="DateTime" clDefault="NOW()" clDescription="Now"
+            clNotNull="True" />
+            <Column clName="cnx_updateAt" clType="DateTime" clUpdateFunction="Now()"
+                clDescription="Last try datetime" clNotNull="True" />
+                </addColumn>
+        </Migration>
+        <Migration>
+            <changeColumn table="%prefix%connexions" column="clUser_Id">
+               <Column clName="clUser_Guid" 
+                    clType="Guid" 
+                    clLinkType="%prefix%users"
+                    clLinkColumn="clGuid"
+                    clIsUnique='0'
+                    clNotNull="True"
+                    clDescription='user request authentication'
+                    ></Column>      
+            </changeColumn>
+        </Migration>
+
+        <!-- <Migration date="13/06/2023" description="add clDeactivate_At">
+            <addColumn table="%prefix%users" after="clupdate_at">               
+                <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" clDefault="null"></Column>     
+            </addColumn>
+        </Migration> -->
+
+        <Migration>
+            <addColumn table="%prefix%users" after="clupdate_at">
+                <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" />
+            </addColumn>
+        </Migration>
+
     </Migrations> 
 </data-schemas>

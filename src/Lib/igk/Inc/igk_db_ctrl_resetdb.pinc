@@ -6,7 +6,7 @@
 
 
 use IGK\System\Console\Logger;
-use IGK\Controllers\BaseController; 
+use IGK\Controllers\BaseController;
 
 // + | --------------------------------------------------------------------
 // + | RESET DATABASE
@@ -18,66 +18,70 @@ use IGK\Controllers\BaseController;
  * @var BaseController $controller 
  */
 $funcName = "resetDb";
-$s_d= igk_app_is_uri_demand($controller, $funcName);
-$s = $force || igk_is_conf_connected() || $controller::IsUserAllowedTo($controller->getName().":".$funcName);
-if(!$s_d){
-    if(!$s){
-        igk_notifyctrl()->addError("Operation not allowed");        
-        if ($navigate){
+$s_iscmd = igk_is_cmd();
+$s_d = igk_app_is_uri_demand($controller, $funcName) || $s_iscmd;
+$s = $force || $s_iscmd || igk_is_conf_connected() || $controller::IsUserAllowedTo($controller->getName() . ":" . $funcName);
+if (!$s_d) {
+    if (!$s) {
+        igk_notifyctrl()->addError("Operation not allowed");
+        if ($navigate) {
             igk_navto($controller->getAppUri());
-        }       
+        }
         return -1;
-    } 
-} 
-if(!$s){
-    if($s_d && $navigate){
+    }
+}
+if (!$s) {
+    if ($s_d && $navigate) {
         igk_navto($controller->getAppUri());
     }
     Logger::danger("failed to resetdb");
     return -2;
-}  
+}
 $controller::register_autoload();
 $deflog = igk_environment()->get(__FILE__);
-$db=igk_get_data_adapter($controller);
+$db = igk_get_data_adapter($controller);
 
 $is_connect = $db->isConnect();
-if ($deflog===null){ 
-Logger::print("db-name: ".igk_configs()->db_name);
-Logger::print("db-server: ".igk_configs()->db_server);
-Logger::print("dropdb ... ". ($force ? "--force" : ""));
-Logger::print("dataadapter: ". $controller->getDataAdapterName());
-Logger::print("isconnect: ". $is_connect );
-Logger::print("name: ". get_class($db));
-igk_environment()->set(__FILE__, 1);
-}else{
+if ($deflog === null) {
+    Logger::print("db-name: " . igk_configs()->db_name);
+    Logger::print("db-server: " . igk_configs()->db_server);
+    Logger::print("dropdb ... " . ($force ? "--force" : ""));
+    Logger::print("dataadapter: " . $controller->getDataAdapterName());
+    Logger::print("isconnect: " . $is_connect);
+    Logger::print("name: " . get_class($db));
+    igk_environment()->set(__FILE__, 1);
+} else {
     $deflog++;
 }
 
-if (!$is_connect ){
+if (!$is_connect) {
     Logger::danger('driver not connected');
     // return false;
 }
 
-$controller->dropDb(false, $force);  
+$controller->dropDb(false, $force);
 igk_set_env("sys://db_init_table/ctrl", $controller);
 Logger::info("init controller db ... ");
 $controller->initDb($force, $clean);
-if ($deflog>0){
+if ($deflog > 0) {
     $deflog--;
-} 
+}
 igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
-if ($navigate){
+if ($navigate) {
     $controller::logout(0);
-} 
-if($force || igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($funcName))){
-    if($navigate){
-        igk_navto($controller->getAppUri());
+}
+if (!igk_is_cmd()) {
+    if ($force || igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($funcName))) {
+        if ($navigate) {
+            igk_navto($controller->getAppUri());
+        }
+        return true;
+    } else {
+        igk_dev_wln_e(
+            "resetDb : no matching uri ",
+            "appuri : " . $controller->getAppUri($funcName),
+            "currenturi: " . igk_io_currentUri()
+        );
     }
-    return true;
 }
-else{
-    igk_dev_wln_e("resetDb : no matching uri "
-    , "appuri : ".$controller->getAppUri($funcName)
-    , "currenturi: ".igk_io_currentUri()); 
-}
-return 0;
+return true;

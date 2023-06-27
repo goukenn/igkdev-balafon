@@ -21,6 +21,7 @@ use Throwable;
 ///<summary>represent Balafon CLI console Application</summary>
 class App{
     const GREEN = "\e[1;32m";
+    const GRAY = "\e[1;90m";
     const YELLOW = "\e[0;33m";
     const YELLOW_B = "\e[1;33m";
     const YELLOW_I = "\e[3;33m";
@@ -82,8 +83,10 @@ class App{
         register_shutdown_function(function()use($wdir){
             if (!($error = error_get_last())){
                 IO::RmDir($wdir);
+            }else{
+                // igk_environment()->isDev() && print_r($error);
+                error_clear_last();
             }
-            print_r($error);
         });
       
         igk_environment()->NO_DB_LOG = 1;
@@ -191,7 +194,7 @@ class App{
         $show_help = true;
         $split =false;
 
-        foreach($tab as $v){
+        foreach($tab as $id=>$v){
              if (!$split && $v=='--'){
                 $split = true;
                 continue;
@@ -230,6 +233,7 @@ class App{
                             }
                             $command->options->{$c[0]}[] = $v_ts;
                         }
+                        unset($command->command[$id]);
                     }
                     else
                         $args[] = $v;
@@ -388,5 +392,10 @@ class App{
             "app"=>$app,
             "options"=>(object)[]
         ];
+    }
+    public function createNewCommand($source){
+        $o = self::CreateCommand($this);
+        $o->source = $source;
+        return $o;
     }
 }

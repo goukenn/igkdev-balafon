@@ -231,7 +231,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
             $v = array_shift($entries);
             $key = implode(".", [$name, $k]);
             if (is_array($v)) {
-                die("not allowed");
+                igk_die("array not allowed for configuration");
             } else {
                 $this->m_configEntries[$key] = $v;
             }

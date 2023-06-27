@@ -31,7 +31,7 @@ trait MacrosTrait
     protected static function InitMacros(& $macros)
     {
         $macros = [
-            "registerMacro" => function ($name, callable $callback) use (&$macros) {
+            MacrosConstant::RegisterMacroMethod => function ($name, callable $callback) use (&$macros) {
                 if (is_callable($callback)) {
                     $callback = Closure::fromCallable($callback);
                 }
@@ -41,16 +41,16 @@ trait MacrosTrait
                     $macros[static::class . MacrosConstant::ClosureSeparator . $name] = $callback;
                 }
             },
-            "unregisterMacro" => function ($name) use (&$macros) {
+            MacrosConstant::UnRegisterExtensionMethod  => function ($name) use (&$macros) {
                 unset($macros[static::class . MacrosConstant::ClosureSeparator . $name]);
             },
             /**
              * return the callable
              */
-            "getMacro" => function ($name) use (&$macros): ?callable {
+            MacrosConstant::getMacroMethod => function ($name) use (&$macros): ?callable {
                 return igk_getv($macros, static::class . MacrosConstant::ClosureSeparator . $name);
             },
-            "registerExtension" => function ($classname) use (&$macros) {
+            MacrosConstant::RegisterExtensionMethod => function ($classname) use (&$macros) {
                 $cl = static::class;
                 $f = igk_sys_reflect_class($classname);
                 foreach ($f->getMethods() as $k) {
@@ -59,10 +59,10 @@ trait MacrosTrait
                     }
                 }                
             },
-            "getMacroKeys" => function () {
+            MacrosConstant::getMacroKeysMethod => function () {
                 return array_keys(self::$macros);
             },
-            "getInstance" => function () {
+            MacrosConstant::getInstanceMethod  => function () {
                 return igk_environment()->createClassInstance(static::class);
             }
         ];

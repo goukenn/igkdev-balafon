@@ -6,6 +6,7 @@ namespace IGK\Core\Traits;
 
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlScriptLoader;
+use IGK\System\IO\IAssetManager;
 use IGK\System\IO\Path;
 
 ///<summary></summary>
@@ -44,10 +45,11 @@ trait ScriptTrait{
      /**
      * get script content 
      * @param mixed $tab 
+     * @param IAssetManager $manager IAssetManager
      * @return null|string 
      * @throws IGKException 
      */
-    public static function GetScriptInlineContent($tab, $manager): ?string{
+    public static function GetScriptInlineContent($tab, ?IAssetManager $manager=null): ?string{
         $out = "";
         $s = ""; 
         $lf = PHP_EOL;
@@ -64,13 +66,16 @@ trait ScriptTrait{
                     $s .= file_get_contents($f).$lf;                   
                     break;
                 default:
-                    if ($manager){
+                    if ($manager instanceof IAssetManager){
                         $manager->addAssets($f);
                     }
                 break;
             }
         };
-    
+        // array_map($resolverfc, [$tab[0][0]."/igk.js"]);
+        // $out .= $s . "\n";  
+        // $s = "";
+
         while ($q = array_shift($tab)) {
             $dir = $q[0];  
             if ($files = IO::GetFiles($dir, "/\.(js|json|xml|svg|shader|txt)$/", true, $exclude_dir)){

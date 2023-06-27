@@ -2,6 +2,9 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\HtmlBindingRawTransform;
+use IGK\System\Templates\BindingExpressionReader;
+
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
@@ -65,7 +68,12 @@ class HtmlExpressionNode extends HtmlNode{
             if(empty($_e=trim($_e))){
                 return "";
             } 
-            $sout=igk_html_databinding_treatresponse($_e, $this->ctrl, $this->raw, null);
+            $exp_reader = new BindingExpressionReader;      
+            if ($this->raw instanceof HtmlBindingRawTransform){
+                $exp_reader->transformToEval = true;
+            }
+            $sout = $exp_reader->treatContent($_e, (object)['raw'=>$this->raw, 'ctrl'=>$this->ctrl]);
+            //$sout=igk_html_databinding_treatresponse($_e, $this->ctrl, $this->raw, null);
             if($shift){
                 $script_obj->resetShift();
             }

@@ -333,4 +333,13 @@ EOF;
         }
         return $this;
     }
+
+    public function getMessages(){
+        $store = $this->getGlobalStorage();
+        return $store->getMessages(); 
+    }
+    public function clear(){
+        $store = $this->getGlobalStorage();
+        return $store->clear(); 
+    }
 }

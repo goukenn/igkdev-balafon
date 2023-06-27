@@ -571,7 +571,7 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     /**
      * update store value
      * @param mixed $key 
-     * @param mixed $value 
+     * @param mixed|callable $value 
      * @return mixed 
      */
     public function updateValue($key, $value){

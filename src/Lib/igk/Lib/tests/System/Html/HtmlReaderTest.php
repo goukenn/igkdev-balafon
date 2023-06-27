@@ -36,7 +36,7 @@ class HtmlReaderTest extends BaseTestCase{
 </body>
 HTML);
         $this->assertEquals(
-            '<body> <div class="tm-cta3-content-wrapper"> <p> Nous offrons des services</p> <p> </p></div> <div>info</div> </body>',
+            '<body><div class="tm-cta3-content-wrapper"><p> Nous offrons des services</p><p></p></div><div>info</div> </body>',
             $n->render(),
             "read comment style not ok"
         );
@@ -177,7 +177,7 @@ $this->assertEquals(
 <a onClick='alert("Êtes-vous sûr de bien vouloir supprimer l'avis ?")'  href='supprimer_avis.php?id=16563' class='blog_link'>Supprimer</a>
 EOF);
         $this->assertEquals(
-            '<a onClick="alert(&quot;Êtes-vous sûr de bien vouloir supprimer l\'avis ?&quot;)" href="supprimer_avis.php?id=16563" class="blog_link">Supprimer</a>',
+            '<a class="blog_link" href="supprimer_avis.php?id=16563" onClick="alert(&quot;Êtes-vous sûr de bien vouloir supprimer l\'avis ?&quot;)">Supprimer</a>',
             $n->render()
         ); 
     }
@@ -221,9 +221,19 @@ igk_html_article_bind_content(
             count($r->getAttributes()->to_array())
         );
     }
-
+    /**
+     * 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws InvalidArgumentException 
+     * @throws ExpectationFailedException 
+     */
     public function test_read_comment_with_single_cote(){
-       
+        // end with line feed on not line fied
         $t = "<code>// creation d'un noeud simple</code>";
         $n = igk_create_notagnode(); 
         $n->load($t); 
@@ -233,9 +243,12 @@ igk_html_article_bind_content(
         );
     }
     public function test_read_comment_with_single_cote_2(){      
-        $t = implode("\n", ["<code>// creation d'un noeud simple",
-        "\$x= ''; // <div>information : ok </div>",
-        "</code>"]);
+        $t = implode("\n", 
+        [
+            "<code>// creation d'un noeud simple",
+            "\$x= ''; // <div>information : ok </div>",
+            "</code>"
+        ]);
         $n = igk_create_notagnode(); 
         $n->load($t); 
         $this->assertEquals($t,

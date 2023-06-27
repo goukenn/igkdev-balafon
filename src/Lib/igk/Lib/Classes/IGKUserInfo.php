@@ -13,8 +13,11 @@ use IGK\System\Traits\StoredPropertiesTrait;
 
 class IGKUserInfo extends IGKObject implements IToArray{
     const DB_INFO_KEY="sys://db/info";
-    var $clId, $clLogin;
-    var $clPwd, $csrf;
+    var $clId;
+    var $clLogin;
+    var $clGuid;
+    // var $clPwd;
+    var $csrf;
     use StoredPropertiesTrait;
 
     ///<summary></summary>
@@ -43,7 +46,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
      */
     public function auth($name, $strict=false){      
         
-        return IGK\Models\Users::createFromCache($this)->auth($name, $strict);
+        return $this->model()->auth($name, $strict);
     }
     ///<summary>Represente fullname function</summary>
     public function fullname(){
@@ -144,6 +147,6 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * @return object|null 
      */
     public function model(){
-        return IGK\Models\Users::createFromCache($this);
+        return IGK\Models\Users::createFromCache($this, (object)['clGuid'=>$this->clGuid]);
     }
 }

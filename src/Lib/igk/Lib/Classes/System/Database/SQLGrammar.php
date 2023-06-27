@@ -25,6 +25,7 @@ use IGK\Database\DbLitteralExpression;
 use IGK\Database\IDataDriver;
 use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
+use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\QueryBuilderConstant as queryConstant;
 use IGKException;
@@ -32,7 +33,7 @@ use stdClass;
 
 ///<summary>represent sql default grammar</summary>
 /**
- * represent sql default grammar
+ * represent sql default grammar. Root is mysql behaviour
  * @package IGK\System\Database
  */
 class SQLGrammar implements IDbQueryGrammar
@@ -105,6 +106,8 @@ class SQLGrammar implements IDbQueryGrammar
             $a->columns
         ));
     }
+
+
     public function __construct(IDataDriver $driver)
     {
         ($driver === null) && die("driver must setup");
@@ -139,12 +142,7 @@ class SQLGrammar implements IDbQueryGrammar
 
     public function createExpression(DbExpression $expression)
     {
-        if ($expression instanceof DbLitteralExpression) {
-            // Users::column(Users::FD_USERGUID). " NOT IN (". 
-            //     rtrim(Operators::prepare()
-            //         ->columns([Operators::FD_OP_USER_ID])
-            //         ->get_query(), ' ;')
-            // .")"
+        if ($expression instanceof DbLitteralExpression) {  
             return  sprintf(
                 "%s NOT IN (%s)",
                 $expression->source_model::column($expression->column_in_source_model),
@@ -161,7 +159,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
-    public static function ResolvType($t)
+    public static function ResolvType(string $t)
     {
         return getv([
             "int" => "Int",
@@ -278,8 +276,10 @@ class SQLGrammar implements IDbQueryGrammar
             $v_name = $driver->escape_string($v_name);
             $query .= "" . self::GetKey($v_name,  $driver) . " ";
             $type = getev(static::ResolvType($v->clType), "Int");
+            $v_fallback_type = false;
             if ($resovlType && $driver && !$driver->isTypeSupported($type)) {
                 $type = static::fallbackType($type, $driver);
+                $v_fallback_type = true;
             }
             $query .= $driver->escape_string($type);
             $s = strtolower($type);
@@ -301,7 +301,8 @@ class SQLGrammar implements IDbQueryGrammar
             if (!empty($v->clLinkType)) {
                 $driver->pushRelations($tbname, $v);
             }
-            if (static::IsUnsigned($v)) {
+            //+ | update to fallback resolution 
+            if (!$v_fallback_type && static::IsUnsigned($v)) {
                 $query .= "unsigned ";
             }
 
@@ -456,16 +457,8 @@ class SQLGrammar implements IDbQueryGrammar
         }
         // $clkey =  $db ? "%s.%s" : "%s";
         $clkey = "%s(%s)";
-        $cback = [$this->m_driver, "escape_table_name"];
-        $tbname = implode(
-            ".",
-            array_map($cback, array_filter([$db, $table]))
-        );
-
-        $link = implode(
-            ".",
-            array_map($cback, array_filter([$db, $v->clLinkType]))
-        );
+        $tbname = $this->joinTableName($table, $db);
+        $link = $this->joinTableName($v->clLinkType, $db);
 
         $query = sprintf(
             $this->m_driver->createAlterTableFormat(),
@@ -483,6 +476,24 @@ class SQLGrammar implements IDbQueryGrammar
         return $query;
     }
     /**
+     * joint table tbame
+     * @param string $table 
+     * @param null|string $db 
+     * @param null|string $column 
+     * @return string 
+     */
+    public function joinTableName(string $table, ?string $db=null, ?string $column=null):string{
+        $s = [];
+        if ($db){
+            $s[] = sprintf('`%s`', $this->m_driver->escape_string($db));
+        }
+        $s[] =  sprintf('`%s`',$this->m_driver->escape_string($table));
+        if ($column){
+            $s[] = sprintf('`%s`',$this->m_driver->escape_string($column));
+        }
+        return implode(".", $s);
+    }
+    /**
      * create add column alter query
      * @param mixed $table 
      * @param mixed $info 
@@ -491,6 +502,7 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function add_column($table, $info, $after = null)
     {
+        Logger::warn('try add column : '.$table);
         $q = "ALTER TABLE ";
         $q .= "`" . $table . "` ADD ";
         $q .= $info->clName . " ";
@@ -521,21 +533,52 @@ class SQLGrammar implements IDbQueryGrammar
     }
     public function rename_column($table, $column, $new_name)
     {
+        // + |  rename columns 
+        Logger::warn("rename columns .... ". $table);
         $adapter  = $this->m_driver;
-        $q = "ALTER TABLE ";
-        $q .= "`" . $table . "` RENAME COLUMN ";
-        $q .= $adapter->escape($column) . " TO " . $adapter->escape($new_name);
+        $q = null;
+        $version = $adapter->getVersion();
+        if ($adapter->getType() == IGK_MYSQL_DATAADAPTER) {
+            if (version_compare($version, '8.0', '>=')) {
+                $q = "ALTER TABLE ";
+                $q .= "`" . $table . "` RENAME COLUMN ";
+                $q .= $adapter->escape($column) . " TO " . $adapter->escape($new_name);
+            }
+        }
         return $q;
     }
 
-    public function change_column($table, $info)
+    /**
+     * 
+     * @param IGK\System\Database\strign $table 
+     * @param object|DbColumnInfo $info 
+     * @param null|string $new_name 
+     * @return ?string 
+     * @throws IGKException 
+     */
+    public function change_column(string $table, object $info, ?string $new_name=null)
     {
+        igk_debug_wln("change_column : ".$table);
+        if (empty($info->clName)){
+            if (igk_environment()->isDev()){
+
+                igk_trace();
+                igk_wln_e("empty name", $info, $table);
+            }
+            return null;
+        }
         $column = $info->clName;
         $adapter  = $this->m_driver;
+        $new_name = $adapter->escape($new_name ?? $column);
         $q = "ALTER TABLE ";
         $q .= "`" . $table . "` CHANGE ";
-        $q .= $adapter->escape($column) . " " . $adapter->escape($column) . " " . rtrim($this->getColumnInfo($info));
+        $q .= $adapter->escape($column) . " " . $new_name. " " . rtrim($this->getColumnInfo($info));
         return $q;
+    }
+
+    public function drop_foreign_key($table, $info)
+    {
+        // TODO: drop foreign grammar
     }
 
 
@@ -631,10 +674,8 @@ class SQLGrammar implements IDbQueryGrammar
         $query = "INSERT INTO " . $_tbname . "(";
         $v_v = "";
         $v_c = 0;
-
-
         $tvalues = static::GetValues($this->m_driver, $values, $tableInfo);
-
+        // $level = $tvalues->clLevel;
         // igk_debug_wln_e(__FILE__.":".__LINE__,  $tvalues, $values);
         foreach ($tvalues as $k => $v) {
             if ($v_c != 0) {
@@ -735,6 +776,24 @@ class SQLGrammar implements IDbQueryGrammar
 
         return $out;
     }
+
+    /**
+     * create drop column query to send
+     * @param string $tablename 
+     * @param string $column_name 
+     * @param null|string $dbname 
+     * @return string 
+     */
+    public function createDropColumnQuery(string $tablename, string $column_name, ?string $dbname=null): string{
+        $d = $this->m_driver;
+        if ($dbname){
+            $tablename=sprintf("%s.".$tablename, $dbname);
+        }
+        return sprintf("ALTER TABLE %s DROP COLUMN %s", 
+            $d->escape_string($tablename),
+            $d->escape_string($column_name));
+    }
+
     public static function IsUnsigned($v)
     {
         if (method_exists($v, "IsUnsigned")) {
@@ -1063,6 +1122,8 @@ class SQLGrammar implements IDbQueryGrammar
     {
         $q = "";
         $ad = $this->m_driver;
+        $db = $this->m_driver->getDbName();
+
         if ($options == null) {
             $options = db_create_options();
         } else if (is_callable($options)) {
@@ -1096,7 +1157,16 @@ class SQLGrammar implements IDbQueryGrammar
         //if ($ad->querydebug) {
         $flag = getv($tq, "flag");
         //}
-        $q = "SELECT {$flag}{$column} FROM " . $ad->escape_table_column($tbname) . "" . rtrim($q) . ";"; // ".$tq->extra;
+        if (strpos($tbname, '.')!==false){
+        
+            //if (strpos($db, $tbname)){
+                $tbname = self::EscapeTableName($tbname, $ad);
+            //}
+        } else {
+            $tbname = $ad->escape_table_column($tbname);
+        }
+
+        $q = "SELECT {$flag}{$column} FROM " . $tbname . "" . rtrim($q) . ";"; // ".$tq->extra;
         return $q;
     }
     public static function EscapeTableName($tbname, $ad)
@@ -1588,7 +1658,8 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function get_relation(string $table, $field, string $dbname)
     {
-        igk_die(__METHOD__ . " not implements");
+        // igk_die(__METHOD__ . " not implements");
+        return [];
     }
     /**
      * get column info
@@ -1597,13 +1668,16 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
-    public function get_column_info(string $table, string $dbname)
+    public function get_column_info(string $table, string $column)
     {
-        $query = $this->m_driver->createTableColumnInfoQuery($this, $table, $dbname);
-
+        $db = $this->m_driver->getDbName(); 
+        $query = $this->m_driver->createTableColumnInfoQuery($this, $table, $column, $db);
+        
         $res = $this->m_driver->sendQuery($query);
         if ($res) {
-            $res = $res->getRows();
+            if ($res = $res->getRowAtIndex(0)){
+                return $res->to_array();
+            }
         }
         return $res;
     }

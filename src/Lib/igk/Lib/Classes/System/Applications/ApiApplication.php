@@ -26,7 +26,7 @@ class ApiApplication extends IGKApplicationBase
     public function run(string $file, $render=1){   
         $app = IGKApp::RunApiEngine($this, 0);
         // DataAdapter::Register([
-        //     "MYSQL"=>\IGK\System\DataBase\MySQL\DataAdapter::class
+        //     "MYSQL"=>\IGK\System\Database\MySQL\DataAdapter::class
         // ]);
         // $this->controller->index();
         $c = igk_do_response($this->controller->index());

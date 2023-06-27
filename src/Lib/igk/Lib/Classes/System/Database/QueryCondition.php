@@ -29,7 +29,7 @@ class QueryCondition{
         }
         $c = new static;
         $c->operand = $operand;
-        $c->$conditions = $conditions;
+        $c->conditions = $conditions;
         return $c;
     }
 }

@@ -19,7 +19,7 @@ use function igk_resource_gets as __;
 */
 class ProjectBuildCommand extends AppExecCommand{
 	var $command='--project:build';
-	var $desc='build and optimize project'; 
+	var $desc='build project for production'; 
 	var $options=[]; 
 	public function showUsage(){
 		Logger::print($this->command." controller [options]");
@@ -32,14 +32,25 @@ class ProjectBuildCommand extends AppExecCommand{
 		$project_builder = new $project_builder_cl();
 		$args = ["type"=>"project", "ctrl"=>$ctrl, "builder"=>$project_builder];
 		$options = (object)['cancel'=>false];
+
+		Logger::info("Build [".$ctrl->getName()."] for production...\n");
+
+		Logger::info('Before build...');
 		$o = igk_hook(ProjectBuilderEvents::BEFORE_BUILD, $args, $options);
 		if ($o && isset($o->cancel)){
 			igk_die("before build canceled");
 		}
 
+		Logger::info('Build...');
+		$ctrl->exposeAssets();
 		igk_hook(ProjectBuilderEvents::BUILD, $args);
 
-		$options = Activator::CreateNewInstance($project_after_build_options_cl, (object)['errors'=>[]]);
+		$options = Activator::CreateNewInstance($project_after_build_options_cl, (object)['errors'=>[],
+					'output'=>null,
+					'args'=>$args
+				]);
+
+		Logger::info('After build...');
 		$o = igk_hook(ProjectBuilderEvents::AFTER_BUILD, $args, $options);
 		if ($o && $o->errors){
 			Logger::danger('there are some errors ');

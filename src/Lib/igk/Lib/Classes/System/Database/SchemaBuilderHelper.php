@@ -3,7 +3,7 @@
 // @file: SchemaBuilderHelper.php
 // @desc: schema builder helper
 // @date: 20210422 06:53:24
-namespace IGK\System\DataBase;
+namespace IGK\System\Database;
 
 use Exception;
 use IGK\Controllers\BaseController;

@@ -23,7 +23,7 @@ return [
     'registerMacro'=>function(RootControllerBase $controller, string $name, ?callable $callable=null)use(& $macros) {
         $macros[$name] = $callable;
     },
-    'registerExtension'=>function(RootControllerBase $controller, string $extension_class)use(& $func_defs):bool {
+    'RegisterExtension'=>function(RootControllerBase $controller, string $extension_class)use(& $func_defs):bool {
         if (!class_exists($extension_class)){
             return false;
         }

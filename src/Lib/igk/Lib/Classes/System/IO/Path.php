@@ -430,6 +430,37 @@ class Path
         return trim($a ?? '', $sep);
     }
     /**
+     * search for file directory
+     * @param string $path 
+     * @param array $exts 
+     * @param null|array $dirs 
+     * @return string|null 
+     */
+    public static function SearchFile(string $path, array $exts, ?array $dirs=null){ 
+           if (is_file($path)){
+                return $path;
+           }
+            $sb = array_merge([""], $exts ?? []);
+            if (is_null($dirs)){
+                $pdir = dirname($path);
+                if (is_dir($pdir) ) {
+                    $dirs = [''];
+                } else {
+                    $dirs = [getcwd()];
+                }
+            }
+            while(count($dirs)>0){
+                $dir = array_shift($dirs);
+                foreach($sb as $p){
+                    $q = self::CombineAndFlattenPath($dir, $path).$p;
+                    if (is_file($q)){
+                        return $q;
+                    }
+                }
+            }
+            return null; 
+    }
+    /**
      * flatten path 
      * @param string $path 
      * @return string 

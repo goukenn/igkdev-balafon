@@ -44,5 +44,16 @@ class Factory{
         }
         return null; // $callback(...$arguments); // call_user_func_array()
     }
+
+    public static function InvokeOn(HtmlItemBase $host, string $tgname, $name, $arguments){
+        $instance = self::getInstance();
+        if ($instance->handle($tgname, $name)) {
+            igk_html_push_node_parent($host);
+            $r = $instance->Invoke($tgname, $name, $arguments);
+            igk_html_pop_node_parent();
+            return $r;
+        }
+        return null;
+    }
 }
 

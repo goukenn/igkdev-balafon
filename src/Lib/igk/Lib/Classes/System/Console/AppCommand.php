@@ -25,6 +25,7 @@ abstract class AppCommand {
 
     const ENV_KEY = "balafon/command_args";
     const OPTIONS_TAB_SPACE = "\r\t\t\t\t";
+    const INIT_COMMAND_METHOD = 'InitCommand';
     /**
      * register command name
      * @var mixed
@@ -54,7 +55,22 @@ abstract class AppCommand {
      * @var mixed
      */
     var $options;
+
+    /**
+     * define the command usage
+     * @var mixed
+     */
+    var $usage;
     
+    var $app;
+    /**
+     * show command usage
+     * @param mixed $usage 
+     * @return void 
+     */
+    protected function showCommandUsage(string $usage=null){
+        Logger::print(sprintf("%s %s", App::Gets(App::AQUA, $this->command), $usage ?? $this->usage));
+    }
     /**
      * register a command
      * @param mixed $command 
@@ -98,6 +114,11 @@ abstract class AppCommand {
             foreach(get_declared_classes() as $cl){
                 if (is_subclass_of($cl, __CLASS__)){
                     if (!(igk_sys_reflect_class($cl))->isAbstract()){
+                        // init command that contains Init
+                        if (method_exists($cl, self::INIT_COMMAND_METHOD)){
+                            call_user_func_array([$cl, self::INIT_COMMAND_METHOD],[]);
+                        }   
+
                         $b = new $cl();
                         if (empty($b->command)){
                             die("command : ".$cl. " not specified");
@@ -197,7 +218,9 @@ abstract class AppCommand {
      * @return void 
      */
     protected function showUsage(){
-
+        if ($u = $this->usage){
+            self::showCommandUsage($u);
+        }
     }
     /**
      * show command options

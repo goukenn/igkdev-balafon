@@ -10,7 +10,13 @@ namespace IGK\System\Html\Forms;
  * represent a default form field validator
  * @package IGK\System\Html\Forms
  */
-class DefaultValidator implements IFormValidator{
+class DefaultValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    public function assertValidate($value): bool { 
+        return true;
+    }
+
+ 
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if (empty($value)){

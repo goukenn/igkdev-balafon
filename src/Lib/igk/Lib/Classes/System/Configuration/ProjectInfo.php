@@ -7,20 +7,27 @@ namespace IGK\System\Configuration;
 
 ///<summary></summary>
 /**
-* 
+* used to load project info setting  
 * @package IGK\System\Configuration
 */
 class ProjectInfo{
+    const TYPE_PROJECT = 'project';
     var $name;
     var $base_dir;
-    var $type = "project";
+    var $type = self::TYPE_PROJECT;     
     /**
-     * array for module 
-     * @var ?array
+     * 
+     * @var ?ProjectConfiguration
      */
-    var $required;
     var $configs;
+    /**
+     * 
+     */
     var $settings;
+    /**
+     * json definition 
+     * @var mixed
+     */
     var $package_json;
     /**
      * composer setting packages 

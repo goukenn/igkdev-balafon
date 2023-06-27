@@ -26,7 +26,8 @@ abstract class ApiActionBase extends ActionBase{
     
     protected function _handleMethodNotFound($name)
     {
-        $this->die("method not found", 500);
+        igk_ilog(sprintf('method %s not found in ', $name, get_class($this)));
+        $this->die("method not found:".$name, 500);
     }
 
     protected function _handleThrowable(Throwable $ex)

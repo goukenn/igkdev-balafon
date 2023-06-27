@@ -7,11 +7,14 @@
 
 namespace IGK\System\Database\MySQL\Controllers;
 
+use Error;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
+use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
+use IGK\Database\IIGKDatabaseCreator;
 use IGK\Helper\Database;
 use IGK\Helper\IO;
 use IGK\Helper\NotifyHelper;
@@ -27,7 +30,11 @@ use IGK\System\Configuration\Controllers\ControllerAndArticlesController;
 use IGK\System\Console\Commands\ResetDbCommand;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\IDatabaseHost;
+use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGK\System\Database\MySQL\DataAdapter;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
@@ -38,7 +45,9 @@ use IGKCSVDataAdapter;
 use IGKEvents;
 use IGKException;
 use IGKLog;
+use IIGKDataAdapter;
 use mysqli;
+use ReflectionException;
 use TypeError;
 
 use function igk_resources_gets as __;
@@ -90,9 +99,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         return SysDbController::ctrl()->getDataTableDefinition($tablename);
     }
-    // function getCanInitDb(){        
-    //     return false;
-    // }
+
+
 
 
     ///<summary></summary>
@@ -123,6 +131,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $g = null;
         $mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
         $q = trim(igk_getr("clQuery"));
+        $data = null;
         if (empty($q) || !igk_is_conf_connected())
             igk_exit();
         if (!preg_match("#^(SELECT|UPDATE|DELETE|SHOW|ALTER|INSERT|CREATE|DROP) (.)+#i", $q)) {
@@ -133,6 +142,15 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             // counting  
             $g = $mysql->sendQuery("SELECT COUNT(*) as count FROM (" . $mysql->escape_string($q) . ") as dummy");
             if ($g) {
+                if ($g instanceof BooleanQueryResult) {
+                    if (!$g->success()) {
+                        // + | --------------------------------------------------------------------
+                        // + | not found or 
+                        // + |
+                        igk_wl_e("/!\\ " . __("Not found or missing"));
+                    }
+                    igk_wl_e("/!\\ response ");
+                }
                 $r = $g->getRowAtIndex(0);
                 if ($r && ($r->count > 50)) {
                     $q .= "Order DESC Limit 1, 50 ";
@@ -162,7 +180,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     array_push($headers, ' ');
                     // $dv->obdata($headers);
                     $dv->div()->tablehost()->setClass("fitw overflow-x-a")
-                    ->dbTableView($data->getRows(), $headers, null);
+                        ->dbTableView($data->getRows(), $headers, null);
                 }
                 $dv->renderAJX();
             } else {
@@ -651,7 +669,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 }
                 $mysql->close();
             } else {
-                $div1->addPanel()->Content = __("Failed to connect and select the base MySQL's Database");
+                $div1->panel()->setClass('igk-danger')->Content = __("Failed to connect or select the default database.");
             }
         }
     }
@@ -677,7 +695,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             [
                 "dbServer" => ["attribs" => ["class" => "igk-form-control required", "placeholder" => __("Server"), "value" => $cnf->db_server]],
                 "dbUser" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("user"), "value" => $cnf->db_user]],
-                "dbPasswd" => ["type" => "password", "attribs" => ["class" => "igk-form-control", "placeholder" => __("password"), "value" => null]],
+                "dbPasswd" => ["type" => "password", "attribs" => [
+                    "class" => "igk-form-control", "placeholder" => __("password"),
+                    "autocomplete" => 'off',
+                    "value" => null
+                ]],
                 "dbName" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("dbname"), "value" => $cnf->db_name]],
                 "dbPort" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("dbport"), "value" => $cnf->db_port]],
             ]
@@ -746,15 +768,69 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         if (igk_server_is_local() && ($h = igk_configs()->phpmyadmin_uri)) {
             $bar->addABtn($this->getUri("gotophpmyadmin"))->Content = __("btn.phpmyadmin");
         }
+        $frm->fields([
+            'confirm'=>['type'=>'hidden','value'=>0]
+        ])->cref()->ajx();
 
-        $bar->addABtn($this->getUri("pinitSDb"))->Content = __("btn.initDb");
+
+
+
+        // + | --------------------------------------------------------------------
+        // + | mysql database tools actions 
+        // + |
+
+        $bar->addABtn($this->getUri("pinitSDb"))
+            ->on('click', igk_environment()->isOps() ? 'igk.ctrl.db.configs.confirmBeforeInitSystemDatabase' : 'true')
+            ->Content = __("btn.initDb");
         $bar->addABtn($this->getUri("backupDb"))->Content = __("btn.backupdatabase");
         $bar->addABtn($this->getUri("pdropDb"))->Content = __("Drop database");
         $bar->addABtn($this->getUri("pMigrate"))->Content = __("Migrate");
         $bar->abtn($this->getUri("pCleanTable"))->Content = __("Clean Database");
         if (!igk_environment()->isOPS())
             $bar->addABtn($this->getUri("pSeed"))->Content = __("Seed");
+
         $bar->addAJXA($this->getUri("db_reload_sys_tables_ajx"))->setClass("igk-btn")->Content = __("btn.reloadsystables");
+
+        $bar->script()->Content = igk_ob_get_func(function () {
+?>
+(function(){
+function confirmBeforeInitSystemDatabase(e){
+if (e){
+e.preventDefault();
+$igk('.initdb-dialog').first().showDialog();
+$igk('.initdb-dialog').first().toggleClass('dispn'); 
+return false;
+}
+}
+igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
+}
+)();
+<?php
+        });
+
+        $pan->host(function($o){
+            $form = igk_create_node('form');
+            $form['action'] = $this->getUri("pinitSDb");
+            $form['class'] = 'google-Roboto';
+            $form->fields([
+                'clean'=>['type'=>'checkbox', 'value'=>1]
+            ]);
+            $form->cref()->ajx()->confirm();
+            $form['igk-ajx-form-complete'] = 'igk.winui.controls.panelDialog.close()';
+            $a = $form->actionbar();
+            $a['class'] = 'dispflex flex-row flex-justify-e';
+            $dv = $a->div();
+            $dv->submit('btn.init', __('Init'))->setClass("igk-btn igk-primary posr");
+            //$dv->spinner()->content = igk_svg_use('drop');
+        
+            $a->div()->button('btn.cancel')->setValue(__('cancel'))
+            ->setClass("igk-btn igk-form-control")
+            ->on('click', 'igk.winui.controls.panelDialog.close()');
+            $dialog = igk_ajx_panel_dialog(__('Initialize database'), $form, 'drop', function($dialog){
+                $dialog['class'] = 'initdb-dialog google-Roboto dispn';
+            }, false);
+            $o->add($dialog);
+        });
     }
     private function notifyctrl()
     {
@@ -805,6 +881,17 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $ad->close();
         return igk_navtocurrent();
     }
+    /**
+     * run mysql migrate
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws EnvironmentArrayException 
+     * @throws Error 
+     */
     public function pMigrate()
     {
         if (igk_is_conf_connected()) {
@@ -814,6 +901,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 "options" => (object)["--action" => "migrate"]
             ]);
             $r = ob_get_clean();
+            // + | --------------------------------------------------------------------
+            // + | pause to se report
+            // + |
+            igk_ilog('migrate response : ', $$r);
+            // igk_wln_e("migrate response : ", $r, $o);
             $this->notifyctrl()->success(__("database migrate"));
         }
         return igk_navtocurrent();
@@ -868,44 +960,45 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             DbLogs::table()
         ];
         $warn = "";
-        if ($mysql->connect()) {
-            if ($db_table) {
-                foreach ($db_table as $v) {
-                    $v_tbname = $v->table;
-                    if (in_array($v_tbname, $skip_array)) {
-                        continue;
-                    }
-                    ///TODO: SELECT
-                    $query = $mysql->getGrammar()->createSelectQuery($v_tbname);
-                    $r = $mysql->sendQuery($query);
-                    if ($r) {
-                        $out .= $v_tbname . IGK_LF;
-                        $out .= $adapter->toCSVLineEntry($r->Columns, "name") . IGK_LF;
-                        if ($r->Rows) {
-                            foreach ($r->Rows as $e) {
-                                $out .= $adapter->toCSVLineEntry($e) . IGK_LF;
-                            }
-                        } else {
-                            $warn .= ("notice: no data row for [" . $v_tbname . "]\r\n");
+        if ($adapter instanceof IGKCSVDataAdapter)
+            if ($mysql->connect()) {
+                if ($db_table) {
+                    foreach ($db_table as $v) {
+                        $v_tbname = $v->table;
+                        if (in_array($v_tbname, $skip_array)) {
+                            continue;
                         }
-                        $out .= "\0" . IGK_LF;
-                    } else {
-                        igk_debug_wln("error: mysql adapter failed");
-                        igk_debug_wln($r);
-                        igk_notifyctrl()->addMsgr("Error.Config");
+                        ///TODO: SELECT
+                        $query = $mysql->getGrammar()->createSelectQuery($v_tbname);
+                        $r = $mysql->sendQuery($query);
+                        if ($r) {
+                            $out .= $v_tbname . IGK_LF;
+                            $out .= $adapter->toCSVLineEntry($r->Columns, "name") . IGK_LF;
+                            if ($r->Rows) {
+                                foreach ($r->Rows as $e) {
+                                    $out .= $adapter->toCSVLineEntry($e) . IGK_LF;
+                                }
+                            } else {
+                                $warn .= ("notice: no data row for [" . $v_tbname . "]\r\n");
+                            }
+                            $out .= "\0" . IGK_LF;
+                        } else {
+                            igk_debug_wln("error: mysql adapter failed");
+                            igk_debug_wln($r);
+                            igk_notifyctrl()->addMsgr("Error.Config");
+                        }
                     }
+                } else {
+                    igk_debug_wln("error: no table");
+                    igk_notifyctrl()->addMsgr("Msg.NoTable");
                 }
-            } else {
-                igk_debug_wln("error: no table");
-                igk_notifyctrl()->addMsgr("Msg.NoTable");
+                $mysql->close();
             }
-            $mysql->close();
-        }
         if (!empty($warn) && !igk_sys_env_production()) {
             igk_ilog($warn);
         }
         IO::CreateDir(dirname($v_file));
-        $cout = utf8_encode($out);
+        $cout = igk_str_encode_to_utf8($out);
 
 
         if (strlen($out) > 1000000) {
@@ -932,12 +1025,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $con = "success";
             $type = "igk-success";
             $ad->close();
-        }  
-        else{
-            if (igk_environment()->isDev()){
-                $con .= "Error message : ".igk_db_get_error();
+        } else {
+            if (igk_environment()->isDev()) {
+                $con .= "Error message : " . igk_db_get_error();
             }
-        } 
+        }
         igk_ajx_toast(implode(" ", [__("Connection:"), __($con)]), $type);
     }
     ///<summary></summary>
@@ -966,18 +1058,18 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
      * backup table associated to a controller
      */
-    public function db_backup_tables(BaseController $controller, ?string $outtag=null, $dbname = null, $storetableinfo = true)
+    public function db_backup_tables(BaseController $controller, ?string $outtag = null, $dbname = null, $storetableinfo = true)
     {
         // + | --------------------------------------------------------------------
         // + | long task
         // + |
-        
+
         igk_set_timeout(0);
 
         $def = DBCaches::Update($controller) ?? igk_die('no definition found');
         $tables = $def->tables;
         $ad = $controller::getDataAdapter();
-        $outtag = igk_create_node($outtag ?? IGK_SCHEMA_TAGNAME );
+        $outtag = igk_create_node($outtag ?? IGK_SCHEMA_TAGNAME);
         $e = $outtag->add(IGK_ENTRIES_TAGNAME);
         if ((count($tables) > 0) && $ad && $ad->connect()) {
             $ad->setForeignKeyCheck(false);
@@ -999,14 +1091,13 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $def["TableName"] = $tabinfo->tableName;
             $def["Description"] = $tabinfo->description;
             foreach ($tabinfo->columnInfo as $ck => $c) {
-                            
+
                 $col = $def->add(IGK_COLUMN_TAGNAME);
                 $col->setAttributes((array)$c);
-                   
             }
         }
         $table = $e->addNode($tabinfo);
-        if ($r = $ad->selectAll($tabinfo->tableName)){
+        if ($r = $ad->selectAll($tabinfo->tableName)) {
             foreach ($r->Rows as $m => $n) {
                 $table->addNode(IGK_ROW_TAGNAME)->setAttributes($n);
             }
@@ -1052,7 +1143,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
 
             $str = utf8_decode($str);
-        
+
             $h = explode("\0", $str);
             $table = null;
             $definition = null;
@@ -1238,11 +1329,13 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_ilog("START: drop system database...");
         $time = igk_start_time(__METHOD__);
         $adapter->initForInitDb();
-        $adapter->setForeignKeyCheck(0);
+        if ($adapter instanceof IIGKDataAdapter)
+            $adapter->setForeignKeyCheck(0);
         foreach ($tables as $t) {
             $adapter->dropTable($t->table);
         }
-        $adapter->setForeignKeyCheck(1);
+        if ($adapter instanceof IIGKDataAdapter)
+            $adapter->setForeignKeyCheck(1);
         $adapter->flushForInitDb();
         igk_ilog("END: drop system database " . igk_execute_time(__METHOD__, $time));
         $ldtables = [];
@@ -1791,19 +1884,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      */
     public function dropTablesRegex($ctrl, $exp)
     {
-        $db = igk_get_data_adapter($ctrl, true);
-        if ($db->connect()) {
-            $r = $db->listTables();
-            $n = $r->Columns[0]->name;
-            $tab = array();
-            foreach ($r->Rows as $v) {
-                if (preg_match($exp, $v->$n)) {
-                    $tab[] = $v->$n;
-                }
-            }
-            $db->dropTable($tab);
-            $db->close();
-        }
+        \IGK\Helper\Database::DropTableFromRegex($ctrl, $exp);      
     }
     ///<summary></summary>
     /**
@@ -2064,8 +2145,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $db_name = igk_configs()->db_name;
 
             igk_reg_hook(IGK_NOTIFICATION_INITTABLE, $callable);
-            $ad->createdb($db_name);
-            $ad->selectdb($db_name);
+            if ($ad instanceof IIGKDatabaseCreator) {
+                $ad->createdb($db_name);
+                $ad->selectdb($db_name);
+            }
             $icomplete = [];
             if (function_exists($global_fc = "InitDb")) {
                 call_user_func_array($global_fc, []);
@@ -2118,62 +2201,69 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
 
     ///<summary>public function expose system init db . must be conf connected</summary>
     /**
-     * public function expose system init db . must be conf connected
+     * reset entire database init db.
+     * clean all databases. with clean request args 
      */
-    function pinitSDb($nav = true)
+    function pinitSDb($nav = true, $clean=null)
     {
         if (!igk_is_conf_connected()) {
             igk_set_header(403);
             igk_navtocurrent();
-        }
+        } 
+        require_once IGK_LIB_DIR."/igk_html_utils.php";
+        $success = 1;
+        $is_ajx = igk_is_ajx_demand();
+        $not = $this->notifyctrl(); 
+
+       
+
         set_time_limit(0);
         igk_set_env(__FUNCTION__, 1);
         igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
         IO::RmDir(IGK_APP_DIR . "/Caches/db");
-        DBCaches::Reset(); 
-     
-        $db = $this->getDataAdapter();
-        if ($db->connect()){
-            $command = new ResetDbCommand;
-            if ($command->globalResetDatabase(true, false)) {
-                $this->notifyctrl()->success(__("init system database"));
-            } else{
-                $this->notifyctrl()->danger(__("something bad append"));
+        DBCaches::Reset();
+
+        if (igk_environment()->isOPS()) {
+            if (!igk_qr_confirm()) {
+                igk_ajx_toast(__('need to "confirm" before reset mysql database'));
+                igk_exit();
             }
-            $db->close();
         }
-        // igk_wln_e("finish");
-        // $this->resetDataTableDefinition();
-        // $ad = igk_get_data_adapter($this);
-        // $dbname = igk_configs()->db_name;
 
-        // if ($dbname && $ad->connect(null, 0)) {
-        //     if (!$ad->selectdb($dbname) && !$ad->createDb($dbname)) {
-        //         $ad->close();
-        //         igk_dev_wln_e("failed : create db");
-        //     } else {
-        //         $ad->selectdb($dbname);
-        //         $ad->setForeignKeyCheck(0);
-        //         $fc = array($this, '__inittable_callback');
-        //         $keye = 'sys://event/sdb/inittable';
-        //         igk_reg_session_event($keye, $fc);
-        //         $this->initSDb(true, false);
-        //         igk_unreg_session_event($keye, $fc);
-        //         igk_invoke_session_event("sys://event/sdb/finish", array($this, null));
+        $db = $this->getDataAdapter();
 
-        //         $ad->setForeignKeyCheck(1);
-        //         $ad->close();
-        //         igk_set_env(__FUNCTION__, null);
-        //         $this->_storeDbCache();
-        //         igk_getctrl(IGK_SESSION_CTRL)->forceview();
-        //         $this->notifyctrl()->success(__("init system database"));
-        //         igk_debug_wln("init system db finish");
-        //     }
-        // }
-        igk_close_session();
-        if ($nav && !igk_is_ajx_demand()) {
+        $clean = $clean ?? igk_getr('clean') ?? false;
+
+        // igk_environment()->querydebug = 1;
+        if ($db->connect()) {
+            $command = new ResetDbCommand;
+            if ($command->globalResetDatabase(true, false, $clean)) {
+                $not->success(__("MYSQL Db init complete"));
+            } else {
+                $not->danger(__("something bad append"));
+                $success = 0;
+            }
+            // $db->createTable('atom', [new DbColumnInfo(['clName'=>'clId']), new DbColumnInfo(['clName'=>'job'])]);
+            // $db->insert('atom', ['clId'=>45, 'job'=>82]);
+            $db->close();
+        } 
+        
+        if ($nav && !$is_ajx) {
+            igk_close_session();
             igk_ob_clean();
             igk_navtocurrent();
+        }
+        if ($is_ajx){            
+            $msg = $not->getMessages();            
+            $msg = igk_html_tag("ul", implode("", array_map(function($a){
+                return igk_html_tag('li', $a);
+            }, $msg)));
+            if (!empty($msg)){
+                igk_ajx_toast($msg, $success ? 'igk-success' : 'igk_danger' );
+            }
+            $not->clear();      
+            igk_close_session();
+            igk_exit();      
         }
     }
     ///<summary></summary>
@@ -2298,7 +2388,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_notifyctrl()->addSuccessr("msg.databaseinfoupdated");
         try {
             if ($db = igk_get_data_adapter($this)) {
-                $db->Reset();
+                if (method_exists($this, 'reset'))
+                    $db->{'reset'}();
             }
         } catch (\Exception $ex) {
             igk_ilog(__("failed to reset and connect to db: " . $ex->getMessage()));

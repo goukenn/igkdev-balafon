@@ -144,7 +144,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      * @return void 
      */
     protected function afterInc(){
-        if (get_arg($this->controller, '@ReplaceURI')){
+        if (get_arg($this->controller, ControllerParams::REPLACE_URI)){
             $fname = ViewHelper::GetViewArgs('fname');
             $this->controller->getTargetNode()->replace_uri($fname);
         }        
@@ -166,7 +166,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         return $main ? 
             sprintf("%s ", $title):
             sprintf("%s - [ %s ]", $title, 
-            $this->controller->getConfig('clAppTitle', igk_configs()->website_domain));
+            $this->controller->getConfig(\IGK\System\Configuration\ConfigurationFields::AppTitle, igk_configs()->website_domain));
     }
     /**
      * login form callback

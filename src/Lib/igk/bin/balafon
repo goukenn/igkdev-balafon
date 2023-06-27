@@ -50,7 +50,7 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
 $app = ApplicationLoader::Boot("balafon");
 
 $command = $app->getPrimaryCommand();
- 
+
 //-----------------------------------------------------------------------------
 // | handle default
 // |

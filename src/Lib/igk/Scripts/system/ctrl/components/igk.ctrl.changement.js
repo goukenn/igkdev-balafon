@@ -39,9 +39,7 @@ init : function(uri, interval){
 		}}, true);
 		
 	}	
-	igk.ready(checkforupdate);
-	
-	//setTimeout(checkforupdate, 1000);
+	igk.ready(checkforupdate); 
 	
 }
 });
