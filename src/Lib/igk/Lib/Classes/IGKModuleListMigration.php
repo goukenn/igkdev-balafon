@@ -48,7 +48,15 @@ final class IGKModuleListMigration extends BaseController implements
     private function __construct()
     {
     }
-    public function migrateHost($callback)
+    /**
+     * migrate list :
+     * @param mixed $callback 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function migrateHost(closure $callback)
     {
         Logger::warn('migrate list ..... ' . $this->m_host->getName());
         if ($this->m_host->getUseDataSchema()) {
@@ -66,13 +74,7 @@ final class IGKModuleListMigration extends BaseController implements
                     }
                 }
             }
-
-            // foreach(self::$sm_list as $ctrl){
-        }
-        //     $this->m_host = $ctrl;
-        //     $callback($ctrl);
-        //     $this->m_host = null;
-        // }
+        }      
     }
     public function db_add_column(string $table, $columnInfo, ?string $after = null)
     {
@@ -242,7 +244,9 @@ final class IGKModuleListMigration extends BaseController implements
             Logger::info("reset module db .... " . $l->getName());
             self::$sm_instance->m_host = $l;
             $fc(self::$sm_instance, $navigate, $force);
-            ControllerExtension::migrate($l);
+
+            self::$sm_instance->m_host = $l;
+            ControllerExtension::migrate(self::$sm_instance );
         }
         return true;
     }
@@ -256,7 +260,9 @@ final class IGKModuleListMigration extends BaseController implements
                 Logger::info(" module db .... [ " . $method . ' ] > ' . $l->getName());
                 self::$sm_instance->m_host = $l;
                 $fc(self::$sm_instance, $navigate, $force);
-                ControllerExtension::migrate($l);
+                // ControllerExtension::migrate($l);
+                self::$sm_instance->m_host = $l;
+                ControllerExtension::migrate(self::$sm_instance );
             }
         }
     }

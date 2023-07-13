@@ -201,10 +201,6 @@ function igk_db_fetch_assoc($r){
  */
 function igk_db_query($query, $res = null)
 { 
-    // if (igk_environment()->isDev()){
-        // error_log("querylogging:".$query); 
-        // Logger::print("q:".$query);
-    // }
     $g = DbQueryDriver::GetFunc("query");
     if (DbQueryDriver::Is("MySQLI")) { 
         if ($res) {

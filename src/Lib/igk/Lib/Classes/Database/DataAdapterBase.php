@@ -7,6 +7,7 @@
 
 namespace IGK\Database;
 
+use IGK\System\Console\Logger;
 use IGKException;
 use IGKObject;
 
@@ -97,7 +98,13 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
         }  
         return self::CreateDataAdapter($n, $throwException);
     }
-    public function pushRelations($table, $columninfo){
+    /**
+     * 
+     * @param string $table 
+     * @param mixed $columninfo 
+     * @return false|void 
+     */
+    public function pushRelations(string $table, $columninfo){
         if (!$this->m_relations)
             return false;
         if (!isset($this->m_relations->relations[$table])){
@@ -110,7 +117,14 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             "info"=>[]
         ];
     }
-    public function pushEntries($table, $entries, $tableInfo){
+    /**
+     * push entries
+     * @param string $table 
+     * @param mixed $entries 
+     * @param mixed $tableInfo 
+     * @return false|void 
+     */
+    public function pushEntries(string $table, $entries, $tableInfo){
         if (!$this->m_relations)
             return false;
         $this->m_relations->info[$table] = $tableInfo;
@@ -140,7 +154,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
         $links = [];
         if ($this->m_relations->relations){
             foreach($this->m_relations->relations as $tbname=>$r){
-                foreach($r as $m=>$p){
+                foreach($r as $p){
                     $ctrl = $p["ctrl"];
                     $c = clone($p["column"]);                     
                     $c->clLinkType = igk_db_get_table_name($c->clLinkType, $ctrl);
@@ -170,7 +184,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             }
         }
         if ($this->m_relations->entries){
-            //sort links data
+            //sort links data - by requiring links
             uksort($this->m_relations->entries, function($a, $b)use($links){
                 if ($a == $b){
                     return 0;
@@ -188,10 +202,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             foreach($this->m_relations->entries as $tbname=>$r){
                 $info = getv($this->m_relations->info, $tbname);
                //init entries
+               Logger::info('init entries : '.$tbname);
                foreach($r as $b){
                    foreach($b as $row){
                         $query = $_grammar->createInsertQuery($tbname, $row, $info);
-                        if (!$this->sendQuery($query)){
+                        Logger::info($query);
+                        if (!$this->sendQuery($query, false)){
                             _log(implode("\n", ["query failed: ",$query, $this->last_error()]));
                         }
                    }
@@ -220,7 +236,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @return null|bool|IDbQueryResult|mixed result data
      * @throws \Error if query is null
      */
-    public abstract function sendQuery($query, $throwex=true, $options=null, $autoclose=false);
+    public abstract function sendQuery(string $query, $throwex=true, $options=null, $autoclose=false);
     /**
      * 
      * @return null|IDbQueryGrammar grammar object
@@ -266,6 +282,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     * 
     */
     abstract public function close();
+
+    abstract function exist_column(string $table, string $column, $db = null):bool;
     ///<summary></summary>
     ///<param name="params"></param>
     /**
@@ -374,9 +392,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     * @param mixed $columninfoArray
     * @param mixed $entries the default value is null
     * @param string $desc table description
+    * @param string $options driver table options
     * @param bool
     */
-    public function createTable($tablename, $columninfoArray, $entries=null, string $desc=null){
+    public function createTable(string $tablename, $columninfoArray, $entries=null, string $desc=null, $options=null){
         return false;
     }
     /**

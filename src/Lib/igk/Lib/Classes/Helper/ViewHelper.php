@@ -7,7 +7,7 @@
 //
 // @file: View.php
 // @desc: helper view description files
-// @author: C.A.D BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 //
 namespace IGK\Helper;
 
@@ -15,6 +15,7 @@ use Closure;
 use Exception;
 use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\ControllerParams;
 use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -330,9 +331,6 @@ class ViewHelper
             $entry_is_dir = preg_match("/\/$/", $g) || ((strlen($g) > 0) && 
                 ($g == '/'.$fname.'/')) 
                 || (($fname== IGK_DEFAULT) && (strpos($g, '/')===0));
-                
-            // igk_wln_e("check :::  ", $entry_is_dir, 'fname:'.$fname, $buri,  "appuri:".$appuri,  $g, igk_io_request_uri());
-
         } else {
             $s = "";
             if (strstr($ruri, $buri)) {
@@ -353,6 +351,7 @@ class ViewHelper
             $ctrl->setParam("redirect_request", null);
         }
         self::CurrentDocument()->setBaseUri($appuri."/");
+        $ctrl->{ControllerParams::REPLACE_URI} = false;
     }
     /**
      * get include file

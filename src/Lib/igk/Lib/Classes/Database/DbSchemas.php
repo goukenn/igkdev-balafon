@@ -216,16 +216,48 @@ abstract class DbSchemas
      * @return stdClass|null 
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
-    {         
+    {       
+        // TODO: CACHE ROW INFO
+        static $sm_cacheinfo = null;
+
+        if (is_null($sm_cacheinfo)){
+            $sm_cacheinfo = [];
+        }
+        $key = $ctrl ? $ctrl->getEnvKey('db-cache/'.$tablename) : $tablename;
+        if (isset($sm_cacheinfo[$key])){
+            $v_info = $sm_cacheinfo[$key];
+            return self::CreateObjFromInfo($v_info, $dataobj);
+        }
+
+        // igk_dev_wln('create schema '.  $tablename);
         $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
+
         if ($v_info) { 
             if ($v_info instanceof SchemaMigrationInfo){
                 $v_info = $v_info->columnInfo;
             }
+            $sm_cacheinfo[$key] = $v_info;
             return self::CreateObjFromInfo($v_info, $dataobj);
         }
         return null;
-    }    
+    }  
+    /**
+     * get table info
+     * @param string $tablename 
+     * @param null|BaseController $ctrl 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetTableColumnInfo(string $tablename, ?BaseController $ctrl=null){
+        $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, null);
+        if ($v_info) { 
+            if ($v_info instanceof SchemaMigrationInfo){
+                $v_info = $v_info->columnInfo;
+            }
+            return $v_info;
+        }
+        return null;
+    }
     /**
      * table reference helper 
      * @param string $tablename 
@@ -296,6 +328,9 @@ abstract class DbSchemas
         $etb = $r->Entries;
         $no_error = 1;
         if ($tb) {
+            if ($tb == 'tbl81_rPosTypes'){
+                Logger::info('init pos type:');
+            }
             \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb, $adapter);
         }
         return $no_error;

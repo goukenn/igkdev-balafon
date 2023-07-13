@@ -39,6 +39,7 @@ final class HtmlDefaultMainPage extends HtmlNode
             },
             null
         );
+        // attach author community - node 
         $this->author_community();
         $doc = $options->Document;
         if ($doc) {
@@ -47,7 +48,8 @@ final class HtmlDefaultMainPage extends HtmlNode
             $doc->Title = igk_sys_getconfig("website_title");
             $doc->Theme->addTempFile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/default.homepage.pcss");
             $doc->body["class"] = "+google-Roboto";
-            $doc->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->addIGKCopyRight()->setClass("google-Roboto")->setStyle("position:absolute; bottom:0px;padding:10px; z-index:10;");
+            $t = $doc->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
+            $t->container()->row()->col()->addIGKCopyRight()->setClass("google-Roboto no-wrap")->setStyle("position:absolute; bottom:0px;padding:10px; z-index:10;");
         }
         return 1;
     }

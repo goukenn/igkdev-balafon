@@ -4,7 +4,10 @@
 // @date: 20230515 10:40:52
 namespace IGK\Actions\Traits\Authenticator;
 
+use IGK\Controllers\BaseController;
+use IGK\Models\Users;
 use IGK\System\Http\ErrorRequestResponse;
+use IGK\System\Http\Responses\UserResponse;
 
 ///<summary></summary>
 /**
@@ -15,7 +18,7 @@ trait BearerAuthenticatorTrait{
 
     protected $_bearerAuthenticatorCookieLife = 3600;
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
-    
+    protected $_bearerAuthenticatorCookieLifeConstants = 60*60*60*24;    // 60 days
     protected abstract function getUserFromToken(bool $update = true );
   /**
      * get token user or die
@@ -32,35 +35,50 @@ trait BearerAuthenticatorTrait{
      * @param mixed $user 
      * @return string 
      */
-    protected function bearerAuthenticatorCreateToken($user){
+    protected function bearerAuthenticatorCreateToken($user, string $prefix="blf-"){
         $str = $this->_bearerAuthenticatorTokenHash.date('YmdHis').$user->clGuid;
-        return sha1($str);
+        return $prefix.sha1($str);
     }
     /**
-     * 
+     * create and register bearer token for active user
      * @param mixed $users 
      * @return void 
      */
-    protected function bearerAuthenticatorRegisterToken($user){
+    protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme=false){
         if ($user->clStatus != 1){
             return null;
-        }
-        $connexion = $this->getController()->model(\Connections::class) ?? igk_die('missing connection model'); 
+        } 
+        $connexion = $ctrl->model(\Connections::class) ?? igk_die('missing connection model'); 
+        $format = $connexion->getDataAdapter()->getDateTimeFormat();
         $token = ''; 
         $token = $this->bearerAuthenticatorCreateToken($user);
         $condition = ['cnx_token' => $token];
         $row = $connexion::select_row($condition);
         $time = ($this->_bearerAuthenticatorCookieLifeConstants / 60.0);
-        $expiration_date = strtotime("+$time minutes", time());
+        $v_time = time();
+        $expiration_date = strtotime("+$time minutes", $v_time);
+        $exp_format = date('Y-m-d H:i:s', $expiration_date);
+        $rememberbe = false;
+        $start = null;
+
         if ($row){
+            $info = json_decode($row->cnx_token_info);
+            // if (!property_exists($info, 'start')){
+            //     $info->start = $info->
+            // }
+            $info->expire = $exp_format;
+            $rememberme = $info->remembeme;
             $connexion::update([
-                'cnx_Expire_At' =>  date('Y-m-d H:i:s', $expiration_date)
+                'cnx_Expire_At' => $exp_format
             ],$condition);
+
         }else{
             $tokeninfo = (object)[
                 'agent'=>igk_server()->HTTP_USER_AGENT,
                 'ip'=>igk_server()->REMOTE_ADDR,
-                'expire'=>date('Y-m-d H:i:s', $expiration_date)
+                'expire'=>$exp_format,
+                'start'=>$start = date($format, $v_time),
+                'rememberme'=>$rememberme
             ];
             // connexion token - 
             
@@ -73,13 +91,9 @@ trait BearerAuthenticatorTrait{
             ]);
         }  
         igk_set_cookie('token', $token, true, $this->_bearerAuthenticatorCookieLife);
-        return $token;
+        return ['token'=>$token, 'expire'=>$exp_format, 'start'=>$start, 'remember-me'=>$rememberme];
     }
     protected function bearerAuthenticatorGetUserProfileInfo(\IGK\Models\Users $user){
-        $userinfo = [];
-        $userinfo['user'] = $user;
-        $userinfo['groups']= array_map(function($a){ return $a['clName']; }, $user->groups());
-        $userinfo['auths'] = array_map(function($a){ return $a['clName']; }, $user->auths());
-        return $userinfo;
+        return UserResponse::CreateResponseFromUserModel($user); 
     }
 }

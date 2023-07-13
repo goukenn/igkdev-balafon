@@ -24,14 +24,14 @@ class FileWriter{
      * @param bool $overwrite 
      * @return true 
      */
-    public static function Save($filename, $content, $overwrite=true, $chmod=IGK_DEFAULT_FILE_MASK, $type="w+"){
-         
+    public static function Save($filename, $content, $overwrite=true, $chmod=IGK_DEFAULT_FILE_MASK, $type="w+"){         
         if(empty($filename)){
             igk_die(__FUNCTION__." Filename is empty or null");
         }
         $filename=igk_dir($filename);
-        if(!is_dir(dirname($filename))){
-            if(!IO::CreateDir(dirname($filename)))
+        if(!is_dir($dir = dirname($filename))){
+            //+ | auto create directory that will handle masking for user
+            if(!IO::CreateDir($dir, $chmod > 500? $chmod : IGK_DEFAULT_FOLDER_MASK))
                 return false;
         }
         if(!$overwrite && is_file($filename)){
@@ -63,7 +63,6 @@ class FileWriter{
                 igk_ilog(__METHOD__."  -> chmodfailed :::".$filename.":".$chmod); 
             }
         }
-     
         return true; 
     }
     /**

@@ -39,6 +39,13 @@ class DataAdapter extends DataAdapterBase
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
 
+    /**
+     * get date time format
+     * @return string 
+     */
+    function getDateTimeFormat():string{
+        return IGK_MYSQL_DATETIME_FORMAT;
+    }
 
     /**
      * drop colum
@@ -144,25 +151,31 @@ class DataAdapter extends DataAdapterBase
      * @throws EnvironmentArrayException 
      */
     public function remove_foreign(string $table, string $info, $db = null): ?string
-    {
+    {      
         static $check_exist = null;
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
         $r = null;
         $foreign_exists = false;
+        $inno_db_table = self::DB_INFORMATION_SCHEMA.".INNODB_FOREIGN_COLS";
         try {
 
-            // check that inodb
-            $foreign_exists = $check_exist ?? $check_exist = $this->tableExists(self::DB_INFORMATION_SCHEMA.".INNODB_FOREIGN_COLS");
-                  
+            // check that inodb 
+            try{
+                $foreign_exists = $check_exist ?? $check_exist = $this->tableExists($inno_db_table);
+            } catch (\Exception $ext) {
+                $foreign_exists = false;
+            }
+
+            //   throw new \IGKException('missing column : '. $inno_db_table) ;
             if ($foreign_exists) {
                 $query = sprintf(
-                    "SELECT * FROM %s.TABLE_CONSTRAINTS LEFT JOIN %s.INNODB_FOREIGN_COLS on(" .
+                    "SELECT * FROM %s.TABLE_CONSTRAINTS LEFT JOIN %s on(" .
                         "CONCAT(CONSTRAINT_SCHEMA,'/',CONSTRAINT_NAME)=ID" .
                         ") " .
                         "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db' AND FOR_COL_NAME='$info'",
                     self::DB_INFORMATION_SCHEMA,
-                    self::DB_INFORMATION_SCHEMA
+                    $inno_db_table
                 );
             } else {
                 $query = sprintf(
@@ -173,7 +186,7 @@ class DataAdapter extends DataAdapterBase
             }
             $r = $this->sendQuery($query);
         } catch (\Exception $ex) {
-            igk_wln_e("data - adpter - try : " . $ex->getMessage());
+            igk_ilog($ex->getMessage());
             Logger::danger($ex->getMessage());
         }
         $this->selectdb($db);
@@ -265,9 +278,16 @@ class DataAdapter extends DataAdapterBase
     {
         return true;
     }
-
+    /**
+     * escape table name
+     * @param string $v 
+     * @return string 
+     */
     public function escape_table_name(string $v): string
     {
+        if (preg_match('/^`.*`$/',$v)){
+            return $v;
+        }
         if (strpos($v,".") !== false){
             $g = $this->getGrammar();
             return  $g::EscapeTableName($v, $this);            
@@ -566,13 +586,13 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $entries the default value is null
      * @param mixed $desc the default value is null
      */
-    public function createTable($tablename, $columninfoArray, $entries = null, $desc = null)
-    {
+    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $options=null)
+    {  
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
 
-            if (!($response = $this->tableExists($tablename))) {
-                igk_ilog('db try to create table > ' . $tablename);
-                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $this->DbName);
+            if (!($this->tableExists($tablename))) {
+                igk_ilog('db try to create table > ' . $tablename);                
+                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $options);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
@@ -774,7 +794,7 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $options extra option. used by query result
      * @return DbQueryResult|\Iterable|null|bool
      */
-    public function sendQuery($query, $throwex = true, $options = null, $autoclose = false)
+    public function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false)
     {
         $listener = $this->queryListener ?? $this->m_dbManager;
         $r = null;
@@ -820,14 +840,14 @@ class DataAdapter extends DataAdapterBase
      * return version 
      * @return mixed 
      */
-    public function getVersion(){
+    public function getVersion():string{
         return $this->m_dbManager->getVersion();
     }
     /**
      * get adapter type
      * @return string 
      */
-    public function getType(){
+    public function getType():string{
         return IGK_MYSQL_DATAADAPTER;
     }
     ///<summary></summary>
@@ -855,7 +875,7 @@ class DataAdapter extends DataAdapterBase
     ///<summary></summary>
     ///<param name="tablename"></param>
     /**
-     * 
+     * check if table exists
      * @param mixed $tablename
      */
     public function tableExists(string $tablename): bool

@@ -21,6 +21,22 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_dbname;
     private $m_fhandle;
 
+    public function getDateTimeFormat(): string {
+        return IGK_MYSQL_TIME_FORMAT;
+    }
+
+    public function exist_column(string $table, string $column, $db = null): bool {
+        return false;
+     }
+
+    public function getVersion(): string { 
+        return IGK_VERSION;
+    }
+
+    public function getType(): string {
+        return 'CSV';
+     }
+
     public function listTables() {
         return ['name'=>['csv_file']];
      }
@@ -218,12 +234,15 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function connect($datafile="file"){
         $this->m_dbname=$datafile;
     }
+    public function getFileName(){
+        return $this->m_dbname;
+    }
     ///<summary></summary>
     /**
     * 
     */
     public function selectCount(string $table,?array $where = null, ?array $options = null){
-        igk_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_show_trace());
+        igk_dev_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_ob_get_func('igk_show_trace'));
     }
     ///<summary></summary>
     ///<param name="result" default="null"></param>

@@ -12,6 +12,9 @@ use IGK\Database\DataAdapterBase;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
  
 
@@ -62,6 +65,17 @@ final class IGKLog extends IGKObject
         }
         return self::$sm_instance;
     }
+    /**
+     * get log file in use 
+     * @var GetLogFile
+     */
+    public static function GetSystemLogFile():string {
+        $f = igk_environment()->get("logfile", igk_const("IGK_LOG_FILE"));
+        if (!$f) {
+            $f = \IGKLog::getInstance()->getLogFile();
+        }
+        return $f;
+    }
     ///<summary>write log to IGK_LOG_FILE</summary>
     /**
      * write log to IGK_LOG_FILE
@@ -69,7 +83,7 @@ final class IGKLog extends IGKObject
      * @param mixed $tag
      * @param mixed $traceindex
      */
-    public static function Append($msg, $tag = null, $traceindex = 0, $dblog=true)
+    public static function Append(string $msg, ?string $tag = null,int $traceindex = 0, bool $dblog=true)
     {
         if (self::$sm_loggin){          
             return;
@@ -82,18 +96,15 @@ final class IGKLog extends IGKObject
                 $msg = array("msg" => $msg, "trace" => igk_ilog_get_trace());
             }
         }  
-        $f = "";
-        if (!($f = igk_const("IGK_LOG_FILE")))
-            $f = igk_ilog_file();
-       
         if (empty($tag)) {
             $tag = IGK_LOG_SYS;
         } 
+        $f = self::GetSystemLogFile();
+       
         igk_log_append($f, $msg, $tag);
         
         if (is_array($msg)) {
             $s = "Array(" . count($msg) . "):[\n";
-            $o = "";
             foreach ($msg as $k => $v) {
                 $s .= $k . ":";
                 if (is_array($v)) {
@@ -115,11 +126,27 @@ final class IGKLog extends IGKObject
         // + | ---------------------------------------------------
         // + | log running data to running app
         // + |
-        self::WriteDbLog($msg, $tag, $dblog);
+        try{
+            self::WriteDbLog($msg, $tag, $dblog);
+        } catch(Exception $ex){
+            // possibility of missing db log 
+        }
         igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());
         self::$sm_loggin = false;
     }
-
+    /**
+     * 
+     * @param mixed $msg 
+     * @param mixed $tag 
+     * @param mixed $dblog 
+     * @return void 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function WriteDbLog($msg, $tag, $dblog){
         if ($dblog && self::CanDBLog()){  
             try{          
@@ -131,9 +158,8 @@ final class IGKLog extends IGKObject
             } catch(TypeError $ex ){
                 igk_dev_wln_e(__FILE__.":".__LINE__,  $ex->getMessage());
             }
-            catch(Exception $ex ){
-                ExceptionUtils::ShowException($ex);
-                igk_dev_wln_e(__FILE__.":".__LINE__, "handle exception for query ",  $ex->getMessage());
+            catch(Exception $ex ){ 
+                throw $ex;
             }
         }
     }
@@ -159,7 +185,7 @@ final class IGKLog extends IGKObject
      */
     public function getLogFile()
     {  
-        return igk_getv(igk_configs(), "LogFile", $this->getDefaultLogFile()); 
+        return igk_getv(igk_configs(), "LogFile") ?? $this->getDefaultLogFile(); 
     }
     public function getDefaultLogFile(){
         return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . ".log"; 

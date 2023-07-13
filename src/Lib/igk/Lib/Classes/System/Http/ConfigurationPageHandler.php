@@ -35,14 +35,15 @@ class ConfigurationPageHandler
     }
     /**
      * handle route
-     * @param mixed $path_info 
+     * @param string $path_info 
+     * @param ?callable $redirect_callback
      * @return void 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      * @throws Exception 
      */
-    public function handle_route($path_info, $redirect)
+    public function handle_route(string $path_info, ?callable $redirect_callback = null)
     {
         $v_path = 0;
         $engine = $this->engine;
@@ -55,10 +56,12 @@ class ConfigurationPageHandler
                 igk_set_header("403");
                 igk_navto(igk_io_baseuri());
             }
-            // + | possibility to handle special route of redirection
-            igk_environment()->noPageRedirection404 = 1;
-            $redirect();
-            igk_environment()->noPageRedirection404 = null;
+            if ($redirect_callback){
+                 // + | possibility to handle special route of redirection
+                igk_environment()->noPageRedirection404 = 1;
+                $redirect_callback();
+                igk_environment()->noPageRedirection404 = null;
+            }
             
             defined('IGK_REDIRECTION') || define('IGK_REDIRECTION', 0);
             if (!defined("IGK_CONFIG_PAGE"))

@@ -9,6 +9,7 @@ namespace IGK\System\Library;
 
 use IGK\Helper\IO;
 use IGK\Resources\R;
+use IGK\System\Http\Cookies;
 use IGK\System\IO\Path;
 use IGK\System\Http\RequestHeader;
 use IGKEvents;
@@ -43,9 +44,16 @@ class session extends \IGKLibraryBase{
      * check that session can start
      * @return bool 
      */
-    public function canStartSession(){
+    public function canStartSession():bool{
+        
+        $cookie_name = igk_environment()->session_cookie_name;
+        // check for cookie definitions
+        if (isset($_COOKIE[$cookie_name])){
+            return true;
+        }
+        
         $p = igk_configs()->api_request_pattern ?? "\/api\/";
-        if (preg_match("/".$p."/", igk_io_request_uri())){
+        if (preg_match("/".$p."/", igk_io_request_uri())){ 
             return false;
         }
         return true;
@@ -145,8 +153,7 @@ class session extends \IGKLibraryBase{
         // + | -----------------------------------------------------------
         // + | clear user session cookies
         // + |
-        setcookie(igk_sys_domain_name()."/uid", null);      
- 
+        setcookie(igk_sys_domain_name()."/".Cookies::USER_ID, null); 
         if ($sess_id){
             setcookie($sess_id, null);
             unset($_COOKIE[$sess_id]);

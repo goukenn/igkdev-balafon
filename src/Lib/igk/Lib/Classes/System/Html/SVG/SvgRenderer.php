@@ -28,14 +28,14 @@ class SvgRenderer{
      * @return mixed 
      */
     public static function GetPath($name, & $class=null){
-        if (!empty($name)){
+        if (!empty($name)){ 
             $f = self::GetSvgFolder();  
             while( $q = array_shift($f)){
                 $d = $q[0]; // directory                
                 if (file_exists( $file = $d."/".$name.".svg")){
                     $class = $q[1];
                     return IO::GetDir($file);
-                }
+                } 
             }
         }
         return false;

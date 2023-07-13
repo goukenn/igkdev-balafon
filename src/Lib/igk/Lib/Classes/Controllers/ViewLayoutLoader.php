@@ -144,10 +144,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      * @return void 
      */
     protected function afterInc(){
-        if (get_arg($this->controller, ControllerParams::REPLACE_URI)){
-            $fname = ViewHelper::GetViewArgs('fname');
-            $this->controller->getTargetNode()->replace_uri($fname);
-        }        
+        // to some thing after inclusion
     }
     /**
      * check if the view is a main layout 

@@ -4,8 +4,10 @@
 // @date: 20220831 14:14:06
 // @desc: configuration function helpers
 
+use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\Html\HtmlNodeType;
 use IGK\System\IO\Path;
+use IGK\XML\XMLNodeType;
 
 require_once __DIR__ . '/io.php';
 require_once __DIR__ . '/xml.php';
@@ -50,9 +52,12 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
         $childs = $d->getChilds();
         if ($childs)
             foreach ($d->Childs as $k) {
-                if ($k->getType() == HtmlNodeType::Text)
+                if ($k->getNodeType() == XMLNodeType::TEXT)
                     continue;
                 $n = $k->getTagName();
+                if (empty($n)){
+                    continue;
+                }
                 $o = null;
                 if ($k->getChildCount() <= 0) {
                     $sk = $k->getInnerHtml();
@@ -139,7 +144,7 @@ function igk_conf_load($obj, $n, ?callable $attr_filter = null)
                 foreach ($v_attrs as $m => $mc) {
                     $q->t->{$m} = $mc;
                 }
-                if (!empty($ct)) {
+                if ($ct && !empty(trim($ct))) {
                     $q->t->value = $ct;
                 }
             }
@@ -153,6 +158,9 @@ function igk_conf_load($obj, $n, ?callable $attr_filter = null)
         }
         if ($q->n->hasChilds() && ($attr = $q->n->Childs)) {
             foreach ($attr as $v) {
+                if (($v instanceof HtmlTextNode) || ($v->getNodeType() == XMLNodeType::TEXT)){
+                    continue;
+                }
                 if (($v->ChildCount <= 0) && !$v->HasAttributes) {
                     $q->t->{$v->TagName} = $v->getInnerHtml();
                 } else {

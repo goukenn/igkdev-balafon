@@ -19,6 +19,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CrefNotValidException;
 use IGK\System\Html\Dom\IGKHtmlMailDoc;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Http\Cookies;
 use IGK\System\Http\Request;
 use IGK\System\WinUI\Views;
 use IGKDbUtility;
@@ -38,6 +39,7 @@ use function igk_resources_gets as __;
 class UsersConfigurationController extends ConfigControllerBase
 {
     const view_action = self::class . "::ViewAction";
+    const NOTIFY_KEY = 'sys://uc/auf';
     ///<summary></summary>
     /**
      * 
@@ -339,7 +341,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
     ///<summary></summary>
     /**
-     * 
+     * logout the current user
      */
     public function logout()
     {
@@ -352,10 +354,10 @@ class UsersConfigurationController extends ConfigControllerBase
         if (igk_app()->getApplication()->lib("session")) {
             igk_app()->getApplication()->getLibrary()->session->destroy();
         }
-        $n = igk_get_cookie_name(igk_sys_domain_name() . "/uid");
+        $n = igk_get_cookie_name(igk_sys_domain_name() . "/".Cookies::USER_ID );         
         setcookie($n, "", time() - (3600), igk_get_cookie_path());
         unset($_COOKIE[$n]);
-        igk_clear_cookie($n);
+        igk_clear_cookie(Cookies::USER_ID);
         return true;
     }
     ///<summary></summary>
@@ -401,7 +403,8 @@ class UsersConfigurationController extends ConfigControllerBase
                         $tr->td()->Content = $v->clController;
                         $tr->td()->Content = StringUtility::AuthorizationPath($v->clName, $v->clController);
                         $tr->td()->a($this->getUri("rm_grp_from_group&id={$id}&gid=" . $gid))
-                            ->google_icon("delete");
+                            ->google_icon(
+                                $v->clStatus == 2? 'enable' : "delete");
                         $tr->td()->nbsp();
                     }
                     $dv->renderAJX();
@@ -467,16 +470,8 @@ class UsersConfigurationController extends ConfigControllerBase
         $row->clLevel = $level;
         $row->clStatus = 1;
         $row->clClassName = $parentclass;
-        $row->clParent_Id = null;
-        $ad = igk_get_data_adapter($this->getDataAdapterName());
-        $result = null;
-        if ($ad && $ad->connect()) {
-            $r = $ad->insert($table, $row);
-            if ($r) {
-                $result = $row;
-            }
-            $ad->close();
-        }
+        $row->clParent_Id = null; 
+        $result = Users::insert($row);       
         return $result;
     }
     ///<summary>register or connect </summary>
@@ -571,7 +566,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
     ///<summary></summary>
     /**
-     * 
+     * toggle lock activate
      */
     public function u_block()
     {
@@ -580,12 +575,13 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         $u = $this->getuser(igk_getr("id"));
         if ($u) {
+            // too
             if ($u->clStatus == 1) {
                 $u->clStatus = 2;
             } else
                 $u->clStatus = 1;
-            igk_db_update($this,  igk_db_get_table_name($this->getDataTableName(), $this), $u);
-            igk_notifyctrl("sys://uc/auf")->addSuccessr("msg.user.inforupdated");
+            $u->save();
+            igk_notifyctrl(self::NOTIFY_KEY)->addSuccessr("msg.user.inforupdated");
             $this->View();
         }
         igk_wl($this->ConfigNode->getinnerHtml());
@@ -615,28 +611,11 @@ class UsersConfigurationController extends ConfigControllerBase
         $model_data[] = 'clRePwd';
         if ($data) {
             $o = igk_get_robj(implode('|', $model_data), 0, (array)$data);
-
-            // TODO : CREATE OBJECT REQUEST WITH MAPPER
-            // $o= igk_get_robj(new ModelRequestMapper(Users::model(), [
-            //    'login'=>'clLogin', 'firstName'=>'clFirstName', 'lastName'=>'clLastName'
-            // ]), 0, (array)$data);    
         } else {
             $o = igk_get_robj(implode('|', $model_data));
         }
-
-
-
-        $inconf = igk_is_conf_connected();
-        // if (!igk_is_ajx_demand()){
-        //      igk_navto_home($this);
-        //  }
-
-        $not = igk_notifyctrl("sys://uc/auf");
-        if (igk_qr_confirm()) {
-            // if(!$inconf && (!isset($o->clAcceptCondition) || !$o->clAcceptCondition)){
-            //     $not->addErrorr("e.youmustaccepttermandcondition");
-            //     return;
-            // }
+        $not = igk_notifyctrl(self::NOTIFY_KEY);
+        if (igk_qr_confirm()) {           
             if (IGKValidator::IsStringNullOrEmpty($o->clLogin)) {
                 $not->addErrorr("e.loginIsNullOrEmpty");
                 return;
@@ -652,7 +631,7 @@ class UsersConfigurationController extends ConfigControllerBase
             //     $o->clPwd= IGKSysUtil::Encrypt($o->clPwd);
             $i = 0;
             if (Users::Get('clLogin', $o->clLogin)) {
-                igk_notifyctrl(__METHOD__)->danger(__('user already register'));
+                $not->danger(__('user already register'));
             } else {
                 try {
                     $i = Users::Register($o, null);
@@ -664,11 +643,14 @@ class UsersConfigurationController extends ConfigControllerBase
             if ($i) {
                 $not->addSuccessr("msg.useradded");                                           
             } else {
-                igk_notifyctrl()->addErrorr("e.registrationnotpossible");
+                $not->addErrorr("e.registrationnotpossible");
             }
             $nonav = !igk_getr("noNavigation");
             igk_resetr();
             $this->View();
+            if (igk_is_ajx_demand()){
+                igk_navto($this->getUri('showConfig'));
+            }
             if ($nonav)
                 igk_navtocurrent();
             return;
@@ -821,17 +803,10 @@ class UsersConfigurationController extends ConfigControllerBase
         $t->clearChilds();
         $t = $t->addPanelBox();
         igk_html_add_title($t, __("System's Users"));
-
         $t->addPanelBox()->div()->setClass("article-host")->article($this, "users");
-
-
         $t->nav()->setClass("actions")->host(self::view_action);
-
         $frm = $t->addForm();
-        $frm->addNotifyHost("sys://uc/auf");
-
-        // $r= Users::select();//  igk_db_table_select_where($this->getDataTableName(), null, $this);
-        // $r && $this->uc_options($frm);
+        $frm->addNotifyHost(self::NOTIFY_KEY); 
         $table = $frm->div()->setClass("igk-table-host overflow-x-a")->addTable();
         $table["class"] = "igk-table igk-table-striped igk-users-list";
         $this->uc_options($frm);
@@ -857,7 +832,9 @@ class UsersConfigurationController extends ConfigControllerBase
             $edit_uri = $this->getUri('u_edit&id=' . $v->clId);
             $lock_uri = $this->getUri('u_block&id=' . $v->clId);
             $tr = $table->addTr();
-            $tr->addTd()->addInput("r", "checkbox", $v->clId);
+            $tr->addTd()->addInput(null, "checkbox", $v->clId)
+                ->setAttribute('id', null)
+                ->setAttribute('name', 'r[]');
             $tr->addTd()->addAJXA($edit_uri)->Content = $v->clFirstName;
             $tr->addTd()->addAJXA($edit_uri)->Content = $v->clLastName;
             $tr->addTd()->Content = $v->clLogin;
@@ -873,56 +850,31 @@ class UsersConfigurationController extends ConfigControllerBase
                 igk_svg_use("cog-outline");
 
 
-            HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), "drop_16x16");
+            HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), 
+                $v->clStatus == 2 ? 'active_16x16': "drop_16x16" );
         }, $condition, null);
-        // if($r){ 
 
-        //     $selected=igk_getr("v", 1);
-        //     $perpage=20;
-        //     $max=$perpage;
-        //     $count= count($r);
-        //     $epagination=$max < $count; 
-        //     igk_get_builder_engine(null, $table);
-        //     $grpuri=$this->getUri("lstgrp&id=");
-        //     foreach($r as  $v){
-        //         $edit_uri=$this->getUri('u_edit&id='.$v->clId);
-        //         $lock_uri=$this->getUri('u_block&id='.$v->clId);
-        //         $tr=$table->addTr();
-        //         $tr->addTd()->addInput("r", "checkbox", $v->clId);
-        //         $tr->addTd()->addAJXA($edit_uri)->Content=$v->clFirstName;
-        //         $tr->addTd()->addAJXA($edit_uri)->Content=$v->clLastName;
-        //         $tr->addTd()->Content=$v->clLogin;
-        //         $tr->addTd()->Content=$v->clLevel;
-        //         $tr->addTd()->Content=$v->clStatus;
-        //         $tr->addTd()->Content=$v->clDate;
-        //         $tr->addTd()->Content=$v->clClassName;
-        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($edit_uri), "edit_16x16");
-        //         $tr->addTd()->addAJXA($grpuri.$v->clId)->setClass("igk-svg-btn svg-32")->Content= igk_svg_use("people");
-        //         $tr->addTd()->addAJXA($this->getUri("changePassword&id=".$v->clId))->setClass("igk-svg-btn svg-32")
-        //         ->setAttribute("title", __("change password"))
-        //         ->Content=                 
-        //         igk_svg_use("cog-outline");
-
-
-        //         HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), "drop_16x16");
-        //         $max--;
-        //         if($max == 0)
-        //             break;
-        //     }
-        //     if($epagination){
-        //         $frm->div()->addAJXPaginationView(igk_io_currenturi().'/'.$this->getUri("view&v="), $count, $perpage, $selected, "^.igk-cnf-content");
-        //     }
-
-        // } else {
-        //     $frm->div()->Content = "No User Found";
-        // }
-
-        // if(igk_is_ajx_demand()){
-        //     $t->renderAJX();
-        //     igk_exit();
+        // if (igk_environment()->isDev()){
+        //     $frm->ajxa($this->getUri('update_ajx'))->Content = 'update_ajx';       
         // }
         return $this;
     }
+     
+    // public function update_ajx(){
+    //     Users::delete(['clLogin'=>'dummy@igkdev.com']);
+    //     $_REQUEST = [
+    //         'clLogin'=>'dummy@igkdev.com',
+    //         'clFirstName'=>'first',
+    //         'clLastName'=>'first - last',
+    //         'clPwd'=>'dummy123',
+    //         'clRePwd'=>'dummy123',
+    //         'confirm'=>1
+    //     ];
+    //     $this->uc_auf();
+    //     $not = igk_notifyctrl(self::NOTIFY_KEY);
+    //     $not->addSuccess('udpate_ajx');
+    //     igk_navto($this->getUri('showConfig'));
+    // }
     public function changeUserPassword($userid, $password, $repassword, &$msg = [])
     {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__))) {

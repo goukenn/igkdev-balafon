@@ -166,7 +166,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             }
             return true;
         } else {
-            igk_dev_ilog("not match. ".$uri);
+            igk_dev_ilog(__METHOD__." not match. ".$uri);
         }
         return false;
     }

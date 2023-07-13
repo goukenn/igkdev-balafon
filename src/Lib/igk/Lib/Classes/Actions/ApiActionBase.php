@@ -8,6 +8,7 @@
 namespace IGK\Actions;
 
 use IGK\System\Http\ErrorRequestResponse;
+use IGK\System\Http\RequestResponse;
 use Throwable;
 
 // + | --------------------------------------------------------------------
@@ -18,10 +19,23 @@ use Throwable;
  * global api action 
  * @package IGK\Actions
  */
-abstract class ApiActionBase extends ActionBase{
+abstract class ApiActionBase extends MiddlewireActionBase{
     protected function die($message, $code=400){
-        igk_ilog("response error: ".json_encode($message));
+        igk_ilog("api - die : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
+    }
+
+    /**
+     * enabled handling response.
+     * @param mixed $response 
+     * @return bool 
+     */
+    protected function _handleResponse($response): bool
+    {
+        // + | --------------------------------------------------------------------
+        // + | by default in ajx context and not null 
+        // + | 
+        return  !is_null($response) || ($response instanceof RequestResponse);
     }
     
     protected function _handleMethodNotFound($name)
@@ -32,7 +46,9 @@ abstract class ApiActionBase extends ActionBase{
 
     protected function _handleThrowable(Throwable $ex)
     { 
-        $this->die(['type'=>get_class($ex), 'ex_message'=>$ex->getMessage(), 
-        'message'=>"misconfiguration. Action handle throwable"], 500);  
+        $this->die(
+            igk_environment()->isDev()? ['type'=>get_class($ex), 
+            'ex_message'=>($p = $ex->getPrevious()) ? $p->getMessage() : null, 
+            'message'=>"misconfiguration. Action handle throwable"] : null, $ex->getCode());  
     }
 }

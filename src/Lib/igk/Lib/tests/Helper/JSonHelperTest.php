@@ -38,7 +38,7 @@ class JSonHelperTest extends BaseTestCase
         ]; 
     
         $this->assertEquals(
-            '{"0":{"x":10},"plan":{"t":7}}', //{"name":"Charles","email":"cbondje@igkdev.com","locale":"en","roles":["AdminOK","ClientOK"]}',
+            '{"0":{"x":10},"plan":{"t":7}}', 
             JSon::Encode($d, (object)["ignore_empty" => true])
         ); 
     }
@@ -60,7 +60,7 @@ class JSonHelperTest extends BaseTestCase
         ];   
         $s = JSon::Encode($d, (object)["ignore_empty" => true]);
         $this->assertEquals(
-            '{"0":{"MYSQL":[{"clName":"clId"}]},"plan":{"t":7}}', //{"name":"Charles","email":"cbondje@igkdev.com","locale":"en","roles":["AdminOK","ClientOK"]}',
+            '{"0":{"MYSQL":[{"clName":"clId"}]},"plan":{"t":7}}', 
             $s
         );  
     }

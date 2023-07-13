@@ -23,8 +23,10 @@ class SvgListIconNode extends HtmlNode{
         if (parent::_acceptRender($options)){
             SvgRenderer::AcceptRenderList($options);
             $cl = null;
-            if ($path = SvgRenderer::GetPath($name = $this["igk:svg-name"], $cl)){
-                SvgRenderer::$RegisterPath[$name] = $path; 
+            $name = $this["igk:svg-name"]; 
+
+            if ($path = SvgRenderer::GetPath($name, $cl)){
+                SvgRenderer::$RegisterPath[$name] = $path;  
                 if ($cl){
                     $b = igk_css_str2class_name($name);
                     $this->setClass("+".$cl ." +".$b );

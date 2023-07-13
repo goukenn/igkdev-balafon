@@ -5,12 +5,8 @@
 namespace IGK\System\Database;
 
 use IGK\Controllers\BaseController;
-use IGK\Helper\StringUtility;
-use IGK\Models\Authorizations;
-use IGK\Models\Groupauthorizations;
-use IGK\Models\Groups;
-use IGK\Models\ModelBase;
-use IGK\Models\Usergroups;
+use IGK\Helper\StringUtility;  
+use IGK\Models\ModelBase; 
 use IGK\Models\Users;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -50,15 +46,15 @@ abstract class UserProfileBase implements ICustomUserProfile{
     /**
      * bind user info
      * @param Users|IGKUserInfo $userInfo 
-     * @param ModelBase $model 
+     * @param ModelBase $app_user 
      * @return void 
      */
-    public function bindInfo( $userInfo, ModelBase $model): ?ICustomUserProfile{
+    public function bindInfo($userInfo, ModelBase $app_user): ?ICustomUserProfile{
         if (is_null($userInfo)){
             igk_die("can't bind user to null");
         }        
         $this->m_info = $userInfo;
-        $this->m_model = $model; 
+        $this->m_model = $userInfo->model(); 
         $this->m_controller = $this->m_model->getController();
         return $this;
     }
@@ -117,31 +113,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      */
     public function memberOf(){
         $mod = $this->systemModel(); 
-        return $mod->memberOf();
-//         $gtable = Groups::table();
-//         $ugtable =Usergroups::table(); 
-//         $c = Usergroups::prepare()
-//             ->join_left($mod->table(), Usergroups::column('clUser_Id').' = '.$mod->column('clId'))
-//             ->join_left($gtable, Groups::column('clId').' = '.Usergroups::column('clGroup_Id'))
-//             ->where(['clGuid'=>$mod->clGuid])
-//             ->distinct()
-//             ->columns([
-//                 Groups::column('*'),
-//                 // Groups::column('clId') => 'groupId',
-//                 // Groups::column('clName') => 'groupName',
-//                 // 'clLogin',
-//                 // 'clGuid',
-//                 // $mod->column('clId')
-//             ]
-//             )->orderBy([Groups::column('clId')=>'ASC'])
-//             // ->get_query();
-// // igk_wln_e($c);
-//             ->execute(false);
-//         if ($c){
-//             return $c->to_array();
-//         }
-//         return null; 
-        
+        return $mod->memberOf(); 
     }
     
 }

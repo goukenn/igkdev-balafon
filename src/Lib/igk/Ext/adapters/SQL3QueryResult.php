@@ -10,13 +10,19 @@ class SQLite3Result extends DbQueryResult{
     private $m_query;
     private $m_columns;
     private $m_fetch =false;
-    private function __construct()
-    {
-        
+    private $m_rows = [];
+    private function __construct(){        
     }
 
     public function success(): bool { 
         return true;
+    }
+    /**
+     * get rows definition 
+     * @return null|iterable|array 
+     */
+    public function getRows(){
+        return $this->m_rows;
     }
 
     public function to_array(): ?array {
@@ -27,42 +33,41 @@ class SQLite3Result extends DbQueryResult{
         $ri->m_result = $result;
         $ri->m_query = $query;
         $ri->m_info = $info;
-        $ri->m_result->Columns = $ri->getColumns();       
+        $ri->m_columns = $ri->getColumns();       
         return $ri;
     }
-    public function getRows(){
-        return $this->m_result->Rows;
-    }
+ 
     public function getRowAtIndex(int $index)
     {
         if (!$this->m_fetch){
             $this->fetch();
         }
-        if (count($this->m_result->Rows) < $index){
+        if (count($this->m_rows) < $index){
             while(($index > 0) && ($d = $this->fetch())){            
                 $index--;
             }
             return $d;
         }
-        return igk_getv($this->m_result->Rows, $index);
+        return igk_getv($this->m_rows, $index);
     }
     public function fetch_all(){
         $res = $this->m_result->res;
          // fech all 
          while($this->fetch());
-         return $this->m_result->Rows;
+
+         return $this->m_rows;
     }
     public function fetch(){
         $this->m_fetch = true;
-        $res = $this->m_result->res;
+        $res = $this->m_result;//->res;
         $b = igk_db_fetch_assoc($res);
         if ($b){
-            $this->m_result->Rows[] = $b;
+            $this->m_rows[] = $b;
         }
         return $b;
     }
     public function getColumns(){
-        $res = $this->m_result->res;
+        $res = $this->m_result;//->res;
         if (is_null($this->m_columns)){
             $g = igk_db_num_fields($res);
             $tb = [];

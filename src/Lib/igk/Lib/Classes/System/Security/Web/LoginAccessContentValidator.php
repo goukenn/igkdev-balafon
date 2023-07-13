@@ -24,7 +24,7 @@ class LoginAccessContentValidator extends MapContentValidatorBase
      */
   public function validate( &$v, $n):bool{
          $error = null;
-            if (is_null($v)){
+            if (is_null($v) || empty($v)){
                 $error = __('{0} is empty', $n);
             } else {
                 if (!IGKValidator::IsEmail($v)){

@@ -12,15 +12,13 @@ use IGK\System\Configuration\Controllers\ConfigureLayout;
 
 use function igk_resources_gets as __;
 
-igk_require_module(igk\Google::class, null, 0, 0);
-// igk_wln_e(__FILE__.":".__LINE__ , "load config layout ");
+igk_require_module(igk\Google::class, null, 0, 0); 
+igk_require_module(igk\bootstrap::class, null,0, 0);
+
 if (function_exists('igk_google_addfont')){
     igk_google_addfont($doc, "Roboto"); 
     igk_google_addfont($doc, "Material+Icons", "400"); 
-}
-
-
- 
+} 
 $doc->getMetas()->description = "Configuration page";
 $doc->getMetas()->keywords = "balafon, configs, configspage";
 $doc->title = sprintf("%s - [%s]",
@@ -64,4 +62,4 @@ $c->add($confframe);
 $t->addClearBoth();
 
 $t->div()->setClass("igk-cnf-footer")
-->container()->addRow()->addCol("igk-col-3-3")->div()->Content=IGK_COPYRIGHT;
+->container()->addRow()->addCol("igk-col-3-3")->div()->setClass('copyright')->Content=IGK_COPYRIGHT;

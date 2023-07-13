@@ -37,6 +37,19 @@ final class R extends IGKObject {
     var $KeysAdded;
     var $LangChangedEvent;
     var $PageLangChangedEvent;
+    private $sm_static;
+
+    const _HANDLER_KEY = __CLASS__.'@string_resource_handler';
+
+    public static function GetStringResourceHandler(){
+        return igk_environment()->peek(self::_HANDLER_KEY);
+    }
+    public static function SetStringResourceHandler(?callable $v){
+        if (is_null($v)){
+            igk_environment()->pop(self::_HANDLER_KEY);
+        }
+        igk_environment()->push(self::_HANDLER_KEY, $v);
+    }
     /**
      * language resources keys
      * @var mixed dictionary

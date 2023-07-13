@@ -27,12 +27,19 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         return null;
     }
    
-    protected function initialize($r){
+    /**
+     * initilzie data driver 
+     * @param mixed $resource 
+     * @return bool 
+     * @throws IGKException possibility of no default type zone
+     */
+    protected function initialize($resource): bool {
         $time_zone = igk_configs()->get('date_time_zone', IGKConstants::DEFAULT_TIME_ZONE);
-        $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $r);
+        $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $resource);
         if($t && (igk_db_num_rows($t) == 1)){
             if (!empty($time_zone)){
-                igk_db_query("SET time_zone='".$time_zone."';", $r);
+                // can throw exception if not allowed to set time zone - 
+                igk_db_query("SET time_zone='".$time_zone."';", $resource);
             }
             return true;
         }

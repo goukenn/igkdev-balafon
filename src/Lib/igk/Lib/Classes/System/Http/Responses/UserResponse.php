@@ -4,37 +4,46 @@
 // @date: 20230427 16:54:31
 namespace IGK\System\Http\Responses;
 
+use IGK\Controllers\BaseController;
+use IGK\Helper\ActionHelper;
 use IGK\Helper\Activator;
+use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
+use IGK\System\Http\IAuthenticatorService;
 
 ///<summary></summary>
 /**
-* 
-* @package IGK\System\Http\Responses
-*/
-class UserResponse{
+ * 
+ * @package IGK\System\Http\Responses
+ */
+class UserResponse
+{
     var $user;
     var $groups;
     var $auths;
-    var $token;
+    var $token_info;
     var $message;
+    var $app;
 
-    public static function CreateResponse(IUserProfile $user){
-        $user = $user->model();
-        $data = ['user' => $user,
-        'profile' => [],
-        'groups' => array_map(function ($a) {
-            return $a['clName'];
-        }, $user->groups()),
-        'auths' => array_map(function ($a) {
-            return $a['clName'];
-        }, $user->auths())];
-        $g = new static;
-        foreach(get_class_vars(get_class($g)) as $k=>$v){                 
-            $g->{$k} = igk_getv($data, $k, $g->$k) ?? $v;
-        }
-        return $g;
-    } 
+    private static function _CreateUserData(Users $user){
+        return $user->CreateUserApiResponseData();
+    }
+    public static function CreateResponseFromUserModel(Users $user){
+        $data = self::_CreateUserData($user);
+        return $data;
+    }
+    public static function CreateResponse(IUserProfile $profile, BaseController $ctrl, IAuthenticatorService $authenticator, bool $rememberme=false)
+    {
+        $app = $profile->user();
+        $user = $profile->model();
+        $token = $authenticator->getNewToken($user, $ctrl, $rememberme); 
+        $data = array_merge(self::_CreateUserData($user), [
+            'app'=>$app,
+            'token_info'=>$token
+        ]); 
+        igk_hook('filter_user_response_data', (object)['data'=>& $data]);
+        return Activator::CreateNewInstance(static::class, $data);
+    }
     function __debugInfo()
     {
         return [];

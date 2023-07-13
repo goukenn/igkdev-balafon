@@ -14,8 +14,9 @@ use IGKException;
 * @package IGK\System\Http\Helper
 */
 class Response{
+    const DEFAULT_ALLOWED_HEADERS = "Access-Control-Allow-Headers|igk-x-requested-with|igk-ajx|igk-from|Content-Type|Authorization|X-Authorization";
     /**
-     * do system option respone
+     * do system option response
      * @return void 
      * @throws IGKException 
      */
@@ -28,25 +29,28 @@ class Response{
 
     }
     /**
-     * get default access control header options
-     * @param mixed $options 
+     * get default access control header options \
+     * by default check for configuration and return the expected header response
+     * @param mixed $verb 
      * @return string[] 
      * @throws IGKException 
      */
-    public static function GetHeaderOptions(?string $verb='options', $options = null){
+    public static function GetHeaderOptions(?string $verb='options'){
         $verb = $verb ?? igk_server()->REQUEST_METHOD ?? 'options';
         $_req = Request::getInstance();  
+        $_cnf = igk_configs();
         return [
             "Content-Type: text/html",            
-            "Access-Control-Allow-Origin: ".igk_configs()->get("access-control-allow-origin", $_req->getHeader()->origin), //, "*"),
-            "Access-Control-Allow-Methods: ".igk_configs()->get("access-control-allow-methods", "DELETE, PUT, GET, POST, STORE"),            
+            "Access-Control-Allow-Origin: ".$_cnf->get("access-control-allow-origin", $_req->getHeader()->origin), //, "*"),
+            "Access-Control-Allow-Methods: ".$_cnf->get("access-control-allow-methods", "DELETE, PUT, GET, POST, STORE"),            
             // allow credential 
-            "Access-Control-Allow-Headers: ".igk_configs()->get("access-control-allow-headers", 
-            // + | for dev with vite response
-            "Access-Control-Allow-Headers, igk-x-requested-with, igk-ajx, ".
-            "Content-Type, Authorization, X-Authorization"),
-            "Access-Control-Allow-Credentials: ".igk_configs()->get("access-control-allow-credentials", "true")
+            "Access-Control-Allow-Headers: ".$_cnf->get("access-control-allow-headers", 
+                    // + | for dev with vite response
+                    implode(', ', 
+                        explode('|', self::DEFAULT_ALLOWED_HEADERS)
+                    )
+            ),
+            "Access-Control-Allow-Credentials: ".$_cnf->get("access-control-allow-credentials", "true")
         ]; 
-        return [];
     }
 }

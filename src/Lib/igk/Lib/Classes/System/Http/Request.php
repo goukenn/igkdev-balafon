@@ -19,7 +19,7 @@ use IGKException;
  * 
  * @package IGK\System\Http
  */
-class Request implements IInjectable
+class Request implements IInjectable, IContentSecurityProvider
 {
     use ContentSecurityManagementTrait;
     
@@ -48,10 +48,11 @@ class Request implements IInjectable
     }
     /**
      * do response with data
-     * @return void 
+     * @param mixed|Response|array|object $data response data.
+     * @return mixed 
      */
     public function response($data){
-        igk_do_response($data);
+        return igk_do_response($data);
     }
     /**
      * prepare and return the updload data as json object

@@ -399,9 +399,9 @@
         <Migration>
             <addColumn table="%prefix%users">
                 <Column clName="clcreate_at" clType="DateTime" clDefault="CURRENT_TIMESTAMP"
-                    clUpdateFunction="Now()" clDescription="create at" clNotNull="True" />
+                    clDescription="user create at" clNotNull="True" />
                 <Column clName="clupdate_at" clType="DateTime" clDefault="CURRENT_TIMESTAMP"
-                    clUpdateFunction="Now()" clDescription="update user info's at" clNotNull="True" />
+                    clUpdateFunction="Now()" clDescription="update user's info at" clNotNull="True" />
             </addColumn>
         </Migration>
         <Migration>
@@ -612,7 +612,7 @@
             </changeColumn>
         </Migration>
         <Migration>
-            <changeColumn table="%prefix%users" column='clGuid'>
+            <changeColumn table="%prefix%users" column='clGuid' tag="change:guid with is unique">
                 <Column clName="clGuid" clType="Guid" clIsUnique="True" />
             </changeColumn>
         </Migration> 
@@ -656,15 +656,26 @@
             </changeColumn>
         </Migration>
 
-        <!-- <Migration date="13/06/2023" description="add clDeactivate_At">
-            <addColumn table="%prefix%users" after="clupdate_at">               
-                <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" clDefault="null"></Column>     
-            </addColumn>
-        </Migration> -->
+  
 
         <Migration>
             <addColumn table="%prefix%users" after="clupdate_at">
                 <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" />
+            </addColumn>
+        </Migration>
+
+
+          <Migration>
+            <addColumn table="%prefix%subdomains" after="clView">
+                <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" />
+                
+            </addColumn>
+        </Migration>
+
+        <Migration>
+            <addColumn table="%prefix%subdomains" after="clDeactivate_At">
+                <Column clName="clCreate_At" clType="DateTime" clAllowNull="false" clDefault='Now()'/>
+                <Column clName="clUpdate_At" clType="DateTime" clAllowNull="false" clInsertFunction='Now()' clUpdateFunction='Now()' clDefault='Now()'/>
             </addColumn>
         </Migration>
 

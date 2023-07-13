@@ -5,6 +5,7 @@
 namespace IGK\Framework;
 
 use IGK\ApplicationLoader;
+use IGKApp;
 use IGKApplicationBase;
 
 ///<summary></summary>
@@ -13,20 +14,15 @@ use IGKApplicationBase;
 * @package IGK\Framework
 */
 class Application extends IGKApplicationBase{
-    private function __construct(){
-    }
-    public function bootstrap() { 
-    }
 
     public function run(string $entryfile, $render = 1) { 
-    }
+        // do nothing - to integrate with other framework
+    }    
 
-    /**
-     * bool framework application 
-     * @return static
-     */
-    public static function Boot(?string $file=null){        
-        return ApplicationLoader::Boot('framework')->run();
-    }
-
+    public function bootstrap($bootoptions=null, callable $loader=null) {    
+        IGKApp::Init();
+        if($loader){
+            $loader();
+        }
+    }  
 }

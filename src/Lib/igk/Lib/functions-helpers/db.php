@@ -10,6 +10,9 @@
 ///<param name="table"></param>
 ///<param name="dbname" default="null"></param>
 ///<param name="leaveOpen" default="false"></param>
+
+use IGK\Database\DbSchemas;
+
 /**
  * helper: reload with index .
  * @param mixed $controllerOrAdapterName 
@@ -102,7 +105,7 @@ function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $
     $table = igk_db_get_table_name($table, $v_is_c ? $controllerOrAdpaterName : null);
     $r = false;
     if ($adapt) {
-        $tabinfo = igk_db_getdatatableinfokey($table, 0);
+        $tabinfo = DbSchemas::GetTableColumnInfo($table);
         if ($tabinfo == null) {
             if (!igk_sys_env_production()) {
                 if ($v_is_c) {
@@ -181,7 +184,7 @@ function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = nul
     $adapt = igk_get_data_adapter($controllerOrAdpaterName, false);
     if ($adapt) {
         if ($adapt->connect($dbname)) {
-            $r = $adapt->insert($table, $entries, false); // igk_db_getdatatableinfokey($table));
+            $r = $adapt->insert($table, $entries, false); 
             if (!$r) {
                 igk_ilog("sql error : " . igk_mysql_db_error());
             }

@@ -41,6 +41,5 @@ class OsShell {
     }
     public static function Exec($command){ 
         return exec($command);
-    }
-     
+    } 
 }

@@ -33,6 +33,8 @@ class Path
     protected $backup_dir;
     protected $home_dir;
     protected $temp_dir;
+    protected $cache_dir;
+    protected $public_assets_dir;
 
 
     private static $sm_instance;
@@ -95,12 +97,26 @@ class Path
         return $this->backup_dir;
     }
     /**
+     * get public asset directory
+     * @return string 
+     */
+    public function getPublicAssetDir():string{
+        return $this->public_assets_dir;
+    }
+    /**
      * get module directory
      * @return mixed 
      */
     public function getModuleDir()
     {
         return $this->module_dir;
+    }
+    /**
+     * get cache directory 
+     * @return mixed 
+     */
+    public function getCacheDir(){
+        return $this->cache_dir;
     }
     public function prepareData()
     {
@@ -112,6 +128,18 @@ class Path
         $this->package_dir = str_helper::Uri(IGK_PACKAGE_DIR);
         $this->module_dir = str_helper::Uri(IGK_MODULE_DIR);
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
+
+
+        $this->cache_dir =  $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
+        $this->public_assets_dir = $this->base_dir.'/assets';
+        // check an create cache folder on init - build - hook - context 
+        if ($this->cache_dir && !is_dir($this->cache_dir)){
+            IO::CreateDir($this->cache_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
+        }
+        if ($this->public_assets_dir && !is_dir($this->public_assets_dir)){
+            IO::CreateDir($this->public_assets_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
+        }
+
         $b = ["v" => IGK_VERSION];
         if (igk_environment()->isDev() && igk_getr("XDEBUG_TRIGGER")) {
             $b["XDEBUG_TRIGGER"] = 1;

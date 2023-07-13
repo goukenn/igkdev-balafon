@@ -41,6 +41,7 @@ class IGKEvents extends IGKObject
     const HOOK_AFTER_INIT_APP = "after_init_app";
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
     const HOOK_CSS_REG = "css_class_reg";
+    const HOOK_TERMINATE = "sys_.terminate";
     // + | --------------------------------------------------------------------
     // + | DB QUERY
     // + |

@@ -7888,7 +7888,7 @@
                         fc = igk.ajx.fn.append_to_body;
                     }
                     opxhr = v_meth(v, null, function(xhr) {
-                        if (this.isReady()) {
+                        if (this.isReady()) { 
                             m_xhr = xhr;
                             this.source = q;
                             if (fc) {

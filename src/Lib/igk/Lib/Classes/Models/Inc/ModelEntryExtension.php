@@ -130,7 +130,7 @@ abstract class ModelEntryExtension
      * @return mixed 
      * @throws Exception 
      */
-    public static function createFromCache(ModelBase $model, $identifier, $conditions)
+    public static function createFromCache(ModelBase $model, ?object $identifier, $conditions=null)
     {
         static $caches;
         if ($caches === null) {
@@ -1169,35 +1169,22 @@ abstract class ModelEntryExtension
      */
     public static function Add(ModelBase $model, $params)
     {
-        return self::_Add($model, false, ...array_slice(func_get_args(), 1));
-        // $info =  $model->getTableInfo();
-        // if ($params && !is_array($params)) {
-        //     $args = IGKSysUtil::DBGetPhpDocModelArgEntries($info, $model->getController());
-        //     $row = $model::createEmptyRow();
-        //     $g = array_keys($args);
-        //     $index = 0;
-        //     foreach (array_slice(func_get_args(), 1) as $tg) {
-        //         $n = $g[$index];
-        //         $row->$n = $tg;
-        //         $index++;
-        //     }
-        //     // check that entries for unique column 
-        //     $tb_uniques = self::GetUniqueRowFields($info, $row);
-        //     foreach ($tb_uniques as $uniques) {
-        //         if ($r = $model::select_row($uniques, ["Limit" => 1])) {
-        //             return $r;
-        //         }
-        //     }
-        //     return $model::create($row, true);
-        // }
-        // if (is_object($params) || is_array($params)) {
-        //     return self::create($model, $params, true);
-        // }
+        return self::_Add($model, false, ...array_slice(func_get_args(), 1));        
     }
     public static function AddIfNotExists(ModelBase $model, $params)
     {
         return self::_Add($model, true, ...array_slice(func_get_args(), 1));
     }
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param bool $check 
+     * @param mixed $params 
+     * @return null|object|bool|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     private static function _Add(ModelBase $model, bool $check, $params)
     {
         $info =  $model->getTableColumnInfo();
@@ -1206,8 +1193,12 @@ abstract class ModelEntryExtension
             igk_die(__FUNCTION__ . " failed:[controller] is null model name = " . get_class($model));
         }
         if ($params && !is_array($params)) {
-            $args = IGKSysUtil::DBGetPhpDocModelArgEntries((array)$info, $controller);
+            $args = IGKSysUtil::DBGetPhpDocModelArgEntries((array)$info, $controller);            
             $row = $model::createEmptyRow();
+            if (is_null($row)){   
+                $trow = DbSchemas::CreateRow($model->getTable(), $controller);          
+                igk_die('failed to create an empty row to add. missing table definitions '.get_class($model));
+            } 
             $g = array_keys($args);
             $index = 0;
             foreach (array_slice(func_get_args(), 2) as $tg) {

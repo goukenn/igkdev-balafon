@@ -1,8 +1,8 @@
-/*
-*file: igk.winui.querytextbox.js
-*author: c.a.d. BONDJE DOUE
-*description: querytextbox control. that send querty to system and populate options div.
-*usage : igk.winui.querytextbox.init(target, requestedUri);
+/** 
+* @file: igk.winui.querytextbox.js
+* @author: c.a.d. BONDJE DOUE
+* @description: querytextbox control. that send querty to system and populate options div.
+* @usage : igk.winui.querytextbox.init(target, requestedUri);
 */
 (function(){
 	//---------------------------------------------------------------------------------

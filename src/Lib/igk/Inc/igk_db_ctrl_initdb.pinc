@@ -4,6 +4,7 @@
 // @desc: 
 
 use IGK\Database\DbSchemas;
+use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Console\Logger;
@@ -40,14 +41,10 @@ if (!$controller->getUseDataSchema()) {
    
     // $info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($controller->getDataAdapterName(), 'tbllv_stock_products');
     // DbSchemaDefinitions::UnregisterCache($controller);
-    
-    if ($tables = $controller->initDbFromSchemas($force)) {
-     
- 
-
+    if ($tables = $controller->initDbFromSchemas($force)){
+        // + | OK for database initialization 
         $controller->initDbConstantFiles();
         $db_initializer = DBCachesModelInitializer::Init($tables, $force, $clean); 
-
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
@@ -58,15 +55,7 @@ if (!$controller->getUseDataSchema()) {
         if ($cl) {
             (new $cl($controller))->init($controller);
         }
-        if (($cl = $controller->resolveClass(Database\InitData::class)) && class_exists($cl, false)) {
-            $call = true;
-            // + | Check Init 
-            $c = new ReflectionMethod($cl, "Init");
-            if ($type = $c->getParameters()[0]->getType()) {
-                $call = IGKType::GetName($type) == get_class($controller);
-            }
-            $call && $cl::Init($controller);
-        }
+        Database::InitData($controller); 
         igk_set_env(IGK_ENV_DB_INIT_CTRL, $bck);
         $response = true;
     }
@@ -81,7 +70,7 @@ igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$controller]);
 
 
 // DbSchemaDefinitions::Reload($controller);
-function_exists('opcache_reset') &&  !ini_get('restrict_api') && opcache_reset();
+function_exists('opcache_reset') && !ini_get('restrict_api') && @opcache_reset();
 
 igk_set_env(get_class($controller) . "::initdb", 1);
 

@@ -13,6 +13,11 @@ namespace IGK\Database;
  */
 class DbQueryOptions{
     /**
+     * selected columns 
+     * @var ?array 
+     */
+    var $Columns;
+    /**
      * limit option
      * @var mixed
      */

@@ -258,6 +258,7 @@ class RequestHandler
                     igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
                     igk_environment()->isAJXDemand = null;
                     igk_do_response($response);
+                    igk_ajx_replace_ctrl_view($ctrl);                    
                     igk_exit();
                 }
                 $app->Session->URI_AJX_CONTEXT = 0;
@@ -345,8 +346,9 @@ class RequestHandler
         if (($r == "POST") && ($code < 900)) {
             //DEBUG: Posted data are lost
             igk_is_debug() && igk_wln_e($_POST);
-        }
-        $v_ruri = igk_io_base_request_uri();
+        } 
+
+        $v_ruri = igk_io_base_request_uri(); 
         $tab = explode('?', $v_ruri);
         $uri = igk_getv($tab, 0);
         $params = igk_getv($tab, 1);

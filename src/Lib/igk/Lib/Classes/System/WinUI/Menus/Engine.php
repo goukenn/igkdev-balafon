@@ -23,6 +23,9 @@ class Engine{
      */
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
 
+        if ($text=="-"){
+            igk_wln_e("render separator");
+        }
         $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);
         $a->Content = $text; 
         igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
@@ -32,6 +35,8 @@ class Engine{
         
     }   
     public function buildItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
+        igk_wln_e("the ", $text, $options);
+
         return self::BuildMenuItem($hi, $text, $u, $ajx, $options);
     }
 }

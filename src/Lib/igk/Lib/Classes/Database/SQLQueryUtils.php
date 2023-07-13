@@ -689,7 +689,7 @@ class SQLQueryUtils{
         if(($id == null) && is_integer($condition)){
             $id=$condition;
         }
-        $tableInfo=$tableInfo ?? igk_db_getdatatableinfokey($tbname);
+        $tableInfo=$tableInfo ??  DbSchemas::GetTableColumnInfo($tbname);
         $tvalues=self::GetValues($values, $tableInfo, 1);
         foreach($tvalues as $k=>$v){
             if($id && ($k == IGK_FD_ID) || (strpos($k, ":") !== false))

@@ -152,9 +152,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     igk_wl_e("/!\\ response ");
                 }
                 $r = $g->getRowAtIndex(0);
-                if ($r && ($r->count > 50)) {
-                    $q .= "Order DESC Limit 1, 50 ";
+                if ($r && ($r->count > 20)) {
+                    $q .= " Limit 1, 20";
                 }
+                igk_ilog('query: '.$q);
                 $data = $mysql->sendQuery($q);
             }
         }
@@ -185,9 +186,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $dv->renderAJX();
             } else {
                 if ($error = $mysql->getError()) {
-                    igk_wl("SQLError: ", $error);
+                    igk_ilog("SQLError: ".json_encode($error));
                 } else {
-                    igk_wl("no data found");
+                    igk_ilog("no data found");
                 }
             }
         }
@@ -904,8 +905,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             // + | --------------------------------------------------------------------
             // + | pause to se report
             // + |
-            igk_ilog('migrate response : ', $$r);
-            // igk_wln_e("migrate response : ", $r, $o);
+            igk_ilog('migrate response : success. '.$r); 
             $this->notifyctrl()->success(__("database migrate"));
         }
         return igk_navtocurrent();
@@ -1026,8 +1026,11 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             $type = "igk-success";
             $ad->close();
         } else {
-            if (igk_environment()->isDev()) {
-                $con .= "Error message : " . igk_db_get_error();
+            if ($msg = igk_db_get_error()){
+                if (igk_environment()->isDev()) {
+                    $con .= "Error message : " . $msg;
+                }
+                igk_ilog($msg);
             }
         }
         igk_ajx_toast(implode(" ", [__("Connection:"), __($con)]), $type);
@@ -1694,18 +1697,21 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                         $o->$k = igk_getv($v, $ii);
                 }
             }
+            $info = DbSchemas::GetTableColumnInfo($table); 
             $adapter->connect($dbname);
-            $adapter->update($table, $o, array($s => $n), igk_db_getdatatableinfokey($table));
-            $adapter->close();
+            $adapter->update($table, $o, array($s => $n), $info);
+            $adapter->close(); 
         }
         if (!$ext) {
             $this->db_viewtableentries($dbname, $table);
         } else {
             $ctrl = igk_getctrl(igk_getr("ctrl"));
             if ($ctrl != null) {
-                $ctrl->View();
+                // $ctrl->View();
+                igk_navto($ctrl->getUri('showConfig'));
             }
         }
+        // igk_navto($this->getUri('showConfig'));
     }
     ///<summary></summary>
     ///<param name="dbname" default="null"></param>
@@ -2495,8 +2501,19 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             $e
         ) {
             extract($e->args);
-            if ($ctrl->getCanInitDb() && ($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
+            if ($ctrl->getCanInitDb()) {
+
                 $this->setParam('ctrl', get_class($ctrl));
+
+                $group = $target->actiongroup();
+                $group->setClass('mysql');
+                $group->input('btn', 'button', __('initdb'))
+                    ->on('click', igk_js_post_frame($this->getUri("db-initdb-controller")));
+
+
+                if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)){
+
+                
                 $group = $target->actiongroup();
                 $group->setClass('mysql');
                 $group->input('btn', 'button', __('mysql - migrate'))
@@ -2509,6 +2526,8 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
 
                 $group->input('btn', 'button', __('mysql - dropdb'))
                     ->on('click', igk_js_post_frame($this->getUri("db-dropdb-controller")));
+
+                }
             } else
                 $this->setParam('ctrl', null);
         });
@@ -2519,6 +2538,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             throw new NotAllowedRequestException();
         }
         $ctrl = igk_getctrl($this->getParam('ctrl'));
+        $ctrl->register_autoload();
         return $ctrl;
     }
     public function db_migrate_controller()
@@ -2528,7 +2548,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             __FUNCTION__,
             $ctrl::migrate(),
             'update migration',
-            'failed to register'
+            'migration failed'
         );
     }
     public function db_resetdb_controller()
@@ -2538,10 +2558,24 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             __FUNCTION__,
             $this->_resetdb($ctrl),
             'reset db success',
-            'failed to register'
+            'reset db failed'
         );
     }
-
+    public function db_initdb_controller(){
+        $ctrl = $this->_db_check_command(__FUNCTION__);
+        NotifyHelper::Notify(
+            __FUNCTION__,
+            $this->_initdb_engine($ctrl),
+            'initdb engine',
+            'failed to drop tables'
+        );
+    }
+    private function _initdb_engine($ctrl){
+        igk_ilog('initdb_engine');
+        $ctrl->initDb(true);
+        igk_ilog('check data? '.Database::InitData($ctrl));
+        return 1;
+    }
     public function db_dropdb_controller()
     {
         $ctrl = $this->_db_check_command(__FUNCTION__);

@@ -18,11 +18,12 @@ if (!is_file($composer)){
 if (!is_file($php_lib)){
     $response->die("missing php_bin. ".$php_lib);
 }
-array_unshift($args, "-d ".dirname($composer));
+$dir = dirname($composer);
+array_unshift($args, "-d ".$dir); 
 $tfile = tmpfile();
 $cmd = $composer . " ".implode(" ", $args);
 ob_start();
-$g = `$php_lib $cmd`;
+$g = `export COMPOSER_HOME={$dir} && $php_lib $cmd 2>&2 1>&1`;
 $c = ob_get_contents();
 ob_end_clean();
 // echo "command .... = ".$cmd;

@@ -531,7 +531,7 @@ abstract class CssUtils
         $cltab = &$theme->getCl();
         $cl = IGKCssColorHost::Create($cltab);
         $prop = & $theme->getProperties();
-        $referer = igk_server()->get("HTTP_REFERER", "igk://system");
+        $referrer = igk_server()->get("HTTP_REFERER", "igk://system");
         igk_environment()->push(IGKEnvironmentConstants::CSS_UTIL_ARGS, get_defined_vars());
         $render_options = $theme->getRenderOptions();
         if (is_null($render_options)) {
@@ -576,18 +576,24 @@ abstract class CssUtils
             unset($v_root);
         }
     }
+    /**
+     * priority to file that match the current theme style in theme folder 
+     * @param string $file 
+     * @param string $theme_name 
+     * @param mixed $args 
+     * @return void 
+     */
     private static function BindThemeFile(string $file, string $theme_name, $args){
         $rf = igk_io_basenamewithoutext($file);
-      
-        foreach([$rf,""] as $tf ){
-           $f = dirname($file) . "/themes/" .$rf. $theme_name .".theme.pcss";
+        $v_dir = dirname($file);
+        foreach(['', $rf] as $tf ){
+           $f = $v_dir. "/themes/" .$tf. $theme_name .".theme.pcss";
            if (file_exists($f)){
-            igk_include_if_exists(
+                igk_include_if_exists(
                     $f,
                     $args
                 );    
             }
-            break;
         }
     }
 }

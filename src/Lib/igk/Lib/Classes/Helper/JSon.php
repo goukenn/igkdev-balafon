@@ -79,6 +79,7 @@ use stdClass;
                 }
                 if (is_array($tv)){
                     $this->_filter_array($tv);
+                    $tv = array_map([$this, \_map_to_object::class], $tv);
                 }
                 $c[] = $tv;
             }
@@ -91,50 +92,19 @@ use stdClass;
                 $root = $c;
                 return $root;
             }
+        } else if (($data instanceof IToArrayResolver) || method_exists($data, 'to_array')){
+            $data = $data->to_array();
         }
         $this->_filter_array_map($data, $keys, $c, $root);
         $root = $data;
-        // $tq = [['d'=>$data, 'keys'=>$keys, 'c'=>$c]];
-        // // $path = & $this->m_path;
-        // while(count($tq)>0){
-        //     $q = array_shift($tq);
-        //     extract($q);
-        //     $v = $d;
-        //     $keys = $keys ?? array_keys((array)$d);
-        //     $is_object = (isset($is_object) ? $is_object: null ) ?? is_object($v);
-        //     $end = false;
-        //     while(!$end  && (count($keys)>0)){
-        //         $k = array_shift($keys);
-        //         $tv = igk_getv($v, $k);
-        //         if ($this->m_options->ignore_empty && empty($tv)){
-        //             continue;
-        //         }
-        //         if (is_null($root)){
-        //             $root = (object)[];
-        //             $c = $root;
-        //         }
-        //         if ($tv instanceof IToArrayResolver){
-        //             $tv = $tv->to_array(); 
-        //         }
-        //         if (is_array($tv)){
-        //             if ($fc = $this->m_options->filter_array_listener){                        
-        //                 $tv = array_values(array_filter(array_map($fc, $tv)));
-        //             }
-        //             else if ($this->m_options->ignore_empty ){
-        //                 $tv = array_filter(array_map([$this, 'filter_array'], $tv));
-        //             }
-        //         } else if  (is_object($tv)){
-        //             array_unshift($tq, ['d'=>$d, 'keys'=>$keys, 'c'=>$c, 'is_object'=>$is_object]);
-        //             $c->$k = new stdClass;
-        //             array_unshift($tq, ['d'=>$tv, 'keys'=>null, 'c'=>$c->$k, 'is_object'=>true]);
-        //             $end = true;
-        //             break;
-        //         }
-
-        //         $c->$k = $tv;
-        //     }
-        // }
         return $root;
+    }
+    protected function _map_to_object($data){
+        if (is_object($data) && (($data instanceof IToArrayResolver) || method_exists($data, 'to_array'))){
+            // recurcivity - possibility of infinity loop;
+            $data = array_map([$this, __FUNCTION__], $data->to_array());
+        }
+        return $data;
     }
     private static function _ConvertItemObject($a){
         if ($a instanceof IToArrayResolver){

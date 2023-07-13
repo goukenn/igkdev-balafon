@@ -427,6 +427,7 @@ class SchemaMigration
                 unset($tabcl[$item->column]);
                 break;
             case DbSchemasConstants::OP_CHANGE_COLUMN:
+                $item->table || igk_die("migration: change column missing table name");
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 $cl = $item->column;
                 if (empty($cl)) {

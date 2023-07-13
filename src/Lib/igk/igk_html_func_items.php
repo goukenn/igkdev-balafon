@@ -914,14 +914,7 @@ if (!function_exists("igk_html_node_author_community")) {
 	function igk_html_node_author_community(?array $options = null)
 	{
 		$n = igk_create_node("div");
-		$n->setClass("com-host")->CommunityLinks([
-			"mail" => "mailto:" . IGK_AUTHOR_CONTACT,
-			"linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",
-			"twitter" => "https://twitter.com/@IGKDEV",
-			"facebook" => "https://facebook.com/IGKDEV",
-			"github" => "https://github.com/goukenn",
-			"youtube" => "https://www.youtube.com/channel/UC5qYUsVFf3Mbc8giPY5V-4A",
-		], $options);
+		$n->setClass("com-host")->CommunityLinks(IGK_AUTHOR_COMMUNITY_INFO, $options);
 		return $n;
 	}
 }
@@ -3563,95 +3556,7 @@ if (!function_exists("igk_html_node_menulist")) {
 		return $b;
 	}
 }
-if (!function_exists("igk_html_node_menus")) {
-	///<summary>build menu </summary>
-	// function igk_html_node_menu(
-	//     $tab,
-	//     $selected = null,
-	//     $uriListener = null,
-	//     $callback = null,
-	//     ?Users $user = null,
-	//     $tag = "ul",
-	//     $item = "li"
-	// ) {
-	//     if (!is_array($tab)) {
-	//         igk_die("must set an array of menu items");
-	//     }
-	//     $tab = array_filter($tab);    
-	//     $ul = igk_create_node($tag);
-	//     $ul["class"] = "igk-menu";
-	//     if ($uriListener) {
-	//         if (!is_callable($uriListener)) {
-	//             if (is_object($uriListener) && method_exists($uriListener, "getAppUri")) {
-	//                 $uriListener = [$uriListener, "getAppUri"];
-	//             } else
-	//                 $uriListener = null;
-	//         }
-	//     }
-	//     $tarray = array(["menu" => $tab, "c" => null, "ul" => $ul]);
-	//     // igk_wln_e("denie", ViewHelper::GetViewArgs("auth"));
-	//     $user = $user ?? ViewHelper::GetViewArgs("auth") ;// ?? Users::currentUser();
-	//     $c = 0;
-	//     while ($q = array_pop($tarray)) {
-	//         $c = $q["c"];
-	//         $tab = $q["menu"];
-	//         $ul = $q["ul"];
-	//         foreach ($tab as $i => $v) {
-	//             if (is_integer($i)){
-	//                 $skip = false;
-	//                 if (is_string($v)){
-	//                     // + | --------------------------------------------------------------------
-	//                     // + | speclial possibility means
-	//                     // + |
-	//                     switch($v){
-	//                         case '-': // menu-seperator
-	//                             $ul->li()->setClass('m-sep');
-	//                             $skip = true;
-	//                             break;
-	//                     }
-	//                 }
-	//                 if (is_array($v)){
-	//                     // + | --------------------------------------------------------------------
-	//                     // + | special array must contains a key name fields
-	//                     // + | 
-	//                     ($n = igk_getv($v,'name')) || igk_die("menu item array must have a 'name' key");
-	//                     $i = $n;
-	//                 }
-	//                 if ($skip)
-	//                     continue;
-	//             }
-	//             if ($auth = igk_getv($v, "auth")) {
-	//                 if ((is_bool($auth) && !$auth) ||
-	//                     ((is_string($auth) || is_array($auth)) && (!$user || !$user->auth($auth)))
-	//                 ) {
-	//                     continue;
-	//                 }
-	//             }
-	//             $li = $ul->add($item)->setClass("m-l");
-	//             if ($callback)
-	//                 $callback(1, $li);
-	//             $uri = is_string($v) ? $v : igk_getv($v, "uri", "#");
-	//             if ($uriListener) {
-	//                 $uri = $uriListener($uri);
-	//             }
-	//             $a = $li->addA($uri);
-	//             if ($selected && (($selected == $i) || ($selected == igk_getv($v, "selected")))) {
-	//                 $li["class"] = "+selected";
-	//             }
-	//             $li["class"] = "+" . igk_css_str2class_name($i);
-	//             $tr = $a->table()->tr();
-	//             if ($icon = igk_getv($v, "icon")) {
-	//                 if (is_callable($icon)) {
-	//                     $icon($tr->td());
-	//                 } else {
-	//                     $tr->td()->google_icon($icon);
-	//                 }
-	//             }
-	//             $tr->td()->span()->Content = igk_getv($v, "text", __($i));
-	//         }
-	//     }
-	//     return $ul;
-	// }
+if (!function_exists("igk_html_node_menus")) {	 
 	/**
 	 * build menus node item
 	 * @param mixed $items 
@@ -3662,8 +3567,7 @@ if (!function_exists("igk_html_node_menus")) {
 	 * @throws IGKException 
 	 */
 	function igk_html_node_menus($items, $callback = null, $subtag = "ul", $item = "li", ?object $option = null)
-	{
-		// igk_wln_e(__FUNCTION__);
+	{ 
 		$node = igk_create_node($subtag);
 		$node["class"] = "igk-menu menu";
 		igk_html_build_menu($node, $items, $callback, null, null, $item, $subtag);
@@ -4237,7 +4141,7 @@ if (!function_exists("igk_html_node_replace_uri")) {
 	 * 
 	 */
 	function igk_html_node_replace_uri($uri = null)
-	{
+	{ 
 		$c = igk_create_notagnode();
 		$rp = $uri;
 		if ($rp || ($rp = igk_get_env("replace_uri"))) {

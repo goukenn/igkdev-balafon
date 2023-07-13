@@ -14,6 +14,7 @@ use IGK\Models\Users;
 /**
  * represent user's application profile 
  * @package 
+ * @property bool $remembeme 
  */
 interface IUserProfile{
 

@@ -13,6 +13,15 @@ namespace IGK\Database;
 class DbQueryCondition{
     private $row;
     private $data;
+    var $operand = 'AND';
+    /**
+     * association query array 
+     * @param array $data 
+     * @return void 
+     */
+    public function set(?array $data){
+        $this->data = $data;
+    }
     public function __construct($obj)
     {
         $this->row = $obj;

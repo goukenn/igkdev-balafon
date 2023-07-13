@@ -6,7 +6,7 @@
 
 //
 // @file: MacrosHelper.php
-// @author: C.A.D BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // version: 1.0
 //
 namespace IGK\Helper;
@@ -47,7 +47,7 @@ class MacrosHelper
                 "currentUser"=>function()
                 {
                     if ($u = igk_app()->session->getUser()){
-                        return \IGK\Models\Users::createFromCache($u);
+                        return \IGK\Models\Users::createFromCache($u, null);
                     }
                     return null;
                 },

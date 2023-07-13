@@ -5,6 +5,7 @@
 namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlTextNode;
 
 ///<summary>used to visit html node</summary>
 /**
@@ -45,6 +46,8 @@ class HtmlVisitor
     {
         $this->target = $t;
     }
+    protected function beforeBeginVisit(HtmlItemBase $n, & $childs){
+    }
     /**
      * base visit algorithm
      * @return void 
@@ -52,7 +55,7 @@ class HtmlVisitor
     public function visit()
     {
         /**
-         * @var HtmlNode $n
+         * @var HtmlItemBase $n
          */
         $tq = [["n" => $this->target, "visit" => false, "has_child" => false, "first_child" => true, "last_child" => true]];
         $v_startc = $this->startVisitorListener;
@@ -65,9 +68,11 @@ class HtmlVisitor
                 if (!$n->AcceptRender()) {
                     continue;
                 }
-                $childs = $n->getRenderedChilds();
+                $childs = array_values($n->getRenderedChilds() ?? [] );                 
+                $this->beforeBeginVisit($n, $childs);
                 $counter = count($childs);
                 $has_child = $counter > 0;
+                // treatmap                
                 $check = $v_startc($n, $first_child, $has_child, $last_child);
                 if (!$this->skip) {
                     if ($has_child) {

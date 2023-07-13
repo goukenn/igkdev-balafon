@@ -2,32 +2,33 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: Dispatcher.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc: action dispatcher 
 
 
 namespace IGK\Actions;
 
 use Closure;
 use Exception;
-use IGK\Actions\IActionProcessor;
-use IGK\Models\Injectors\ModelBaseInjector;
+use IGK\Actions\IActionProcessor; 
 use IGK\System\Exceptions\ActionNotFoundException;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\Exceptions\NotInjectableTypeException;
-use IGK\System\Exceptions\RequireArgumentException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException; 
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestHeader;
-use IGK\System\Http\RequestResponse;
-use IGK\System\Http\WebResponse;
+use IGK\System\Http\RequestResponse; 
 use IGK\System\IInjectable;
 use IGK\System\Regex\MatchPattern;
 use IGK\System\Services\InjectorProvider;
 use IGK\Actions\ActionBase;
 use IGK\Controllers\ControllerParams;
+use IGK\Helper\ViewHelper;
+use IGK\System\Exceptions\OperationNotAllowedException;
+use IGKException;
 use IGKType;
+use ReflectionException;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
+use TypeError;
 
 /**
  * default action dispactcher
@@ -51,7 +52,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param null|IGKActionBase $host 
      * @return void 
      */
-    public function __construct(ActionBase $host)
+    public function __construct(?ActionBase $host)
     {
         $this->m_host = $host;
     }
@@ -69,13 +70,27 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     public function getHost(){
         return $this->m_host;
     }
+    /**
+     * 
+     * @param callable $fc 
+     * @param mixed $args 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     protected static function _HandleDispatch(callable $fc, ...$args){
-        $g = new ReflectionFunction($fc);               
+        $g = new ReflectionFunction($fc);
         $args = self::GetInjectArgs($g, $args);                
-        try {
+        try { 
             return $fc(...$args);
         } catch (Exception $ex) {
             throw $ex;
+        } catch( TypeError $ex){
+            // + | call to function but arguments injection no valid
+
+            throw new OperationNotAllowedException('', 405, $ex);
         }
     }
     public static function __callStatic($name, $args)
@@ -85,13 +100,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             self::$sm_macro["Dispatch"] = function ($fc, ...$args) { 
           
                 return static::_HandleDispatch($fc, ...$args);
-                // $g = new ReflectionFunction($fc);               
-                // $args = self::GetInjectArgs($g, $args);                 
-                // try {
-                //     return $fc(...$args);
-                // } catch (Exception $ex) {
-                //     throw $ex;
-                // }
+             
             };
         }
         if (is_callable($fc = igk_getv(self::$sm_macro, $name))) {         
@@ -133,13 +142,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @return void 
      */
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
-    {
-        $cl = null;
-        $required =  $g->getNumberOfRequiredParameters();
+    { 
         $args = self::GetInjectArgs($g, $args); 
     }
 
-
+    /**
+     * get injected args
+     * @param ReflectionFunctionAbstract $g 
+     * @param mixed $args 
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args): array
     {
         $parameters = $g->getParameters();
@@ -148,7 +163,17 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         $targs = [];       
         $injectors = InjectorProvider::GetInjectors();  
+        $ctrl = ViewHelper::CurrentCtrl();
         $i = 0; 
+        $services = null;
+        if ($ctrl){
+            // + | --------------------------------------------------------------------
+            // + | resolving services for injection
+            // + |            
+            $services = file_exists($fservice= $ctrl->configFile('services')) ? 
+                ViewHelper::Inc($fservice, ['ctrl'=>$ctrl]) : null;            
+        }
+
         foreach ($parameters as $k) {
             $arg = igk_getv($args, $i);
             $c = $arg; 
@@ -167,19 +192,28 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         throw new ArgumentTypeNotValidException($i);
                     }
                 }
+                // + | get inject table class printer service
+                if (is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])){
+                    $rtype = $services[$type]; 
+                    $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);                  
+                    continue; 
+                }
+
                 $v_primary = IGKType::IsPrimaryType($type);
-                if (!$v_primary && class_exists($type)){                    
+
+                if (!$v_primary && class_exists($type)){  
+
                     if (is_subclass_of($type, IInjectable::class)){
                         $targs[] = self::_GetInjectable($type, $args);                   
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));  
                     if ($j &&  ($c = $j->resolv($arg, $p))){                        
-                        $targs[] = $c;
-                        // require injector do not update field reference
-                        // $i++;
+                        $targs[] = $c; 
                         continue; 
                     } 
+
+
                 } else if ($v_primary && is_null($c)){
                     if ($k->isDefaultValueAvailable()){
                         $c =  $k->getDefaultValue();

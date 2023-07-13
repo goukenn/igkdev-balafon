@@ -5,9 +5,10 @@
 // @desc: 
 
 // @file: PHPScriptBuilderUtility.php
-// @author: C.A.D BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 namespace IGK\System\IO\File;
 
+use IGK\System\IO\StringBuilder;
 
 abstract class PHPScriptBuilderUtility
 {
@@ -19,9 +20,45 @@ abstract class PHPScriptBuilderUtility
             if (!$value)
                 continue;
             $src = file_get_contents($value);
+            $tokens = token_get_all($src);
+            $skip_first = false;
             if (strpos($src, "<?php") === 0){
                 $src = ltrim(substr($src, 5));
+                $skip_first = true;
             }
+            
+            $sb = new StringBuilder();
+            $declare = 0;
+            while(count($tokens)){
+              
+                $e = array_shift($tokens);
+                $v = $e;
+                if (is_array($v)){
+                    $v = $e[1];
+                }
+                if ($skip_first){
+
+                    if ($e[0] == 389){ // T
+                        $skip_first = 0;
+                        continue;
+                    }
+                    
+                }
+                if($e[0] == T_NAMESPACE){
+                    $declare = 1;
+                    continue;
+                } else {
+                    if ($declare){
+                        if ($v == ';'){
+                            $declare = 0;
+                        }
+                        continue;
+                    }
+                }
+                $sb->append($v); 
+            }
+            $src = $sb."";
+
             $tsrc.=$src;
         }
         return "<?php\n".$tsrc;

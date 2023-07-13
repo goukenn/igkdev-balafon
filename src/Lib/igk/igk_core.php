@@ -54,8 +54,8 @@ function igk_environment()
  *  @throws Exception
  *  @endcode exit
  */
-function igk_exit($close = 1)
-{
+function igk_exit($close = 1, $status=0)
+{      
     if (igk_environment()->isAJXDemand) {
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
         igk_environment()->isAJXDemand = null;
@@ -63,7 +63,7 @@ function igk_exit($close = 1)
     if ($close && !empty(session_id())) {
         igk_hook(IGKEvents::ON_BEFORE_EXIT, array(igk_app(), null));
     }
-    exit;
+    exit($status);
 }
 /**
  * helper: session write close 
@@ -173,7 +173,7 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
  * @throws Exception
  */
 function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
-{ 
+{
     if ($throwex) {
         if (is_array($msg)) {
             $t = $msg;
@@ -212,6 +212,8 @@ if (!function_exists('igk_resources_gets')) {
      */
     function igk_resources_gets($text, $default = null)
     {
+     
+
         $args = func_get_args();
         if (is_array($text)) {
             $m = array_slice($args, 1);
@@ -220,6 +222,9 @@ if (!function_exists('igk_resources_gets')) {
                 return igk_resource_gets_map($a, $m);
             }, $text)));
             $args[0] = $text;
+        }
+        if ($g = R::GetStringResourceHandler()){
+            return call_user_func_array($g, $args);
         }
         return call_user_func_array(array(R::class, 'Gets'), $args);
     }
@@ -1270,7 +1275,7 @@ function igk_getctrl(?string $name, $throwex = 1)
     return  igk_app()->getControllerManager()->getController($name, $throwex);
 }
 /**
- * shortcut to write log
+ * helper: shortcut to write log
  * @param array|string $message 
  * @param string|null $tag 
  * @param mixed $traceindex tracing index
@@ -1279,7 +1284,9 @@ function igk_getctrl(?string $name, $throwex = 1)
  */
 function igk_ilog($message, ?string $tag = null, $traceindex = 0, $dblog = true)
 {
-
+    if (is_array($message)){
+        $message = implode(" ", $message);
+    }
     IGKLog::Append($message, $tag, $traceindex, $dblog);
 }
 
@@ -1808,22 +1815,23 @@ function igk_io_base_request_uri($rm_redirectvar = 1)
 function igk_io_rm_redirectvar(&$uri, $force = 0)
 {
     if ($force || igk_server()->REDIRECT_STATUS == 200) {
-        $g = parse_url($uri);
-        $tab = array();
-        if (isset($g["query"])) {
-            parse_str($g["query"], $tab);
-            // unset redirection variable
-            foreach (array_keys($tab) as $k) {
-                if (strpos($k, "__") === 0) {
-                    unset($tab[$k]);
+        if ($g = parse_url($uri)) {
+            $tab = array();
+            if (isset($g["query"])) {
+                parse_str($g["query"], $tab);
+                // unset redirection variable
+                foreach (array_keys($tab) as $k) {
+                    if (strpos($k, "__") === 0) {
+                        unset($tab[$k]);
+                    }
                 }
+                unset($tab["__c"]);
+                unset($tab["__e"]);
             }
-            unset($tab["__c"]);
-            unset($tab["__e"]);
-        }
-        $uri = $g["path"];
-        if (count($tab) > 0) {
-            $uri .= "?" . http_build_query($tab);
+            $uri = $g["path"];
+            if (count($tab) > 0) {
+                $uri .= "?" . http_build_query($tab);
+            }
         }
     }
 }
@@ -2157,7 +2165,7 @@ function igk_php_sversion(?string $version = PHP_VERSION): string
 function igk_set_header(int $code, $message = "", $headers = [])
 {
     if (igk_is_cmd() || headers_sent())
-        return false;  
+        return false;
     // igk_wln_e('need ->headers', igk_is_cmd(),  headers_sent());
     static $fcall = null;
     if ($fcall === null)
@@ -2186,7 +2194,6 @@ function igk_set_header(int $code, $message = "", $headers = [])
         header($txt, 1, $code);
     }
     igk_environment()->isDev() && header("srv-msg:" . $message);
-    // igk_environment()->isDev() && header("Access-Control-Allow-Methods: GET", true ); 
     if ($headers) {
         // + | replace with setup header 
         foreach ($headers as $k) {

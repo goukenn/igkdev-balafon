@@ -474,6 +474,7 @@ EOF;
     ///<param name="v_dv"></param>
     private function _viewCtrlEditResult($v_dv)
     {
+        
         if (!($c = $this->SelectedController))
             return;
 
@@ -495,7 +496,7 @@ EOF;
             ];
             !empty($vtab = $this->getParam("tab:editresult")) || ($vtab = "infotab");
             foreach ($ctab as $k => $v) {
-                $txb->addTabPage($k, $v->uri, $vtab == $v->tab);
+               $txb->addTabPage($k, $v->uri, $vtab == $v->tab);
             } 
     }
     ///<summary></summary>
@@ -1533,12 +1534,13 @@ JS;
     {
     
         if (!igk_is_ajx_demand()) {
+            // igk_dev_wln_e('not ajx demand');
             igk_navto(igk_io_baseuri());
         }
-        $g = igk_getr("g");
-        // $n=$this->getTempParam(__CLASS__."://tabview_node/");        
+        $g = igk_getr("g");       
         $n = igk_create_node("div");
         $n->clearChilds();
+        // igk_dev_wln(__FILE__.":".__LINE__ , 'ajx default:'.$g);
         switch ($g) {
             case 1:
                 $this->_view_default_tab($n);
@@ -1547,14 +1549,7 @@ JS;
                 $frm = $n->addForm();
                 $frm->panel()->div()->Content = __("/!\\ Not Implement");
                 break;
-            case 3:
-                /// TODO: CTRL TEMPLATE
-                // $c = igk_template_mananer_ctrl();
-                // if ($c) {
-                //     $c->showConfig($n);
-                // } else {
-                //     $n->div()->setClass("igk-danger")->Content = __("/!\\ No template found");
-                // }
+            case 3:               
                 break;
             default:
                 $frm = $n->form();
@@ -1562,6 +1557,7 @@ JS;
                 break;
         }
         $n->renderAJX();
+        igk_exit();
     }
     ///<summary></summary>
     public function ca_update_articlewtiny_f()
@@ -1678,6 +1674,7 @@ JS;
     ///<summary> handle view tab information </summary>
     public function controller($view = "infotab")
     {
+        // igk_dev_wln('write info tab');
         $t = igk_create_node("div")->setClass("igk-tab-container");
         if (file_exists($file = $this->getViewFile("tab." . $view, 0))) {
             $this->loader->view($file, ["t" => $t, "viewid" => $this->_getviewid(), "s_ctrl" => igk_getctrl($this->SelectedController), "articleid" => $this->_getarticleid()]);

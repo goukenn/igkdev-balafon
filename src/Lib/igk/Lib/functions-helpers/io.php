@@ -71,8 +71,8 @@ function igk_io_read_allfile($f):?string
  * get folder where to cache some file
  */
 function igk_io_cachedir()
-{
-    return igk_uri(igk_io_applicationdir() . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER);
+{   
+    return \IGK\System\IO\Path::getInstance()->getCacheDir();
 }
 
 

@@ -52,6 +52,9 @@ abstract class UsersMacros {
         if (!is_array($o) && !is_object($o)){
             igk_die(__METHOD__." object not valid");
         }
+        if (is_array($o)){
+            $o = (object)$o;
+        }
         if (empty($guid = igk_getv($o, Users::FD_CL_GUID))){
             $guid = igk_create_guid();
             igk_setv($o, Users::FD_CL_GUID, $guid);

@@ -7,8 +7,9 @@
 
 
 namespace IGK\System\Http;
- 
-use IGK\System\Html\Dom\HtmlDocTheme;
+
+use IGK\Helper\JSon as HelperJSon;
+use IGK\System\Html\Dom\HtmlDocTheme; 
 
 use function igk_resources_gets as __;
 
@@ -20,7 +21,6 @@ class ErrorRequestResponse extends RequestResponse{
         $this->code = $code;
         $this->message = $message;
         $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
-
         $this->headers = $headers;
     }
 
@@ -37,7 +37,7 @@ class ErrorRequestResponse extends RequestResponse{
             case "json":        
             if (igk_server()->accept($this->type)){
                 \igk_header_set_contenttype($this->type);
-                return json_encode($obj);
+                return HelperJSon::Encode($obj, (object)['ignore_empty'=>1, 'ignore_null'=>1]); //  json_encode($obj);
             }
             break;
             default:

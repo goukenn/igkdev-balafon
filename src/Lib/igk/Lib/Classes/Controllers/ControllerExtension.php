@@ -31,6 +31,7 @@ use IGK\System\Http\RequestResponse;
 use IGK\System\Http\WebResponse;
 use IGK\ApplicationLoader;
 use IGK\Controllers\Traits\AtricleManagerControllerExtensionTrait;
+use IGK\Controllers\Traits\ControllerDbExtensionTrait;
 use IGK\Controllers\Traits\IOControllerExtensionTrait;
 use IGK\Database\DbSchemaLoadEntriesFromSchemaInfo;
 use IGK\Database\DbSchemasConstants;
@@ -64,6 +65,7 @@ use Throwable;
 
 require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
+require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 
 
 ///<summary>controller macros extension</summary>
@@ -74,7 +76,7 @@ abstract class ControllerExtension
 {
     use AtricleManagerControllerExtensionTrait;
     use IOControllerExtensionTrait;
-
+    use ControllerDbExtensionTrait;
     /**
      * macros to get the title
      * @return ?string 
@@ -497,126 +499,12 @@ abstract class ControllerExtension
         $ad = self::getDataAdapter($ctrl);
         return $ad->sendQuery($query, false);
     }
-
-    public static function db_add_column(BaseController $ctrl, $table, $info, $after = null)
-    {
-        $ad = self::getDataAdapter($ctrl);
-        ColumnMigrationInjector::Inject($ad, $table, [new ColumnMigrationInjector($info), "add"]);
-
-        if (!$ad->exist_column($table, $info->clName)) {
-            if ($query = $ad->grammar->add_column($table, $info, $after)) {
-                if ($ad->sendQuery($query)) {
-                    if ($info->clLinkType) {
-                        $query_link = $ad->grammar->add_foreign_key($table, $info);
-                        $ad->sendQuery($query_link);
-                    }
-                    //
-                    return true;
-                }
-            }
-        }
-    }
+ 
     /**
-     * remove column 
+     * get controller cache dir
      * @param BaseController $ctrl 
-     * @param mixed $table 
-     * @param mixed $info 
-     * @return mixed 
-     * @throws IGKException 
+     * @return string 
      */
-    public static function db_rm_column(BaseController $ctrl, $table, $info)
-    {
-        Logger::warn('remove column: '.$table. ' '.$info->clName);
-        $ad = self::getDataAdapter($ctrl);
-        $is_obj = is_object($info);
-        if ($is_obj) {
-            $name = $info->clName;
-        } else {
-            $name = $info;
-        }
-        if ($ad->exist_column($table, $name)) {
-            if (
-                $is_obj && $info->clLinkType &&
-                ($query = $ad->grammar->remove_foreign($table, $name))
-            ) {
-                $ad->sendMultiQuery($query);
-            }
-            $query = $ad->grammar->rm_column($table, $name);
-            return $ad->sendMultiQuery($query);
-        }
-        return false;
-    }
-
-    public static function db_rename_column(BaseController $ctrl, $table, $column, $new_column_name)
-    {
-        $ad = self::getDataAdapter($ctrl);
-
-        if ($column == 'crcar_pc_door'){
-            
-        }
-
-        if ($ad->exist_column($table, $column)) {
-            if (!$ad->exist_column($table, $new_column_name)) {
-                if ($query = $ad->grammar->rename_column($table, $column, $new_column_name)) {
-                    return $ad->sendQuery($query);
-                } else {
-                    $n_info = igk_getv($ad->getColumnInfo($table, $column), $column);
-                    if ($n_info){
-                        if (empty($n_info->clName)){
-                            $n_info->clName = $column;
-                        }
-                    }
-                    if ($n_info && ($query = $ad->grammar->change_column($table, $n_info, $new_column_name))) {
-                        return $ad->sendQuery($query);
-                    }
-                }
-            } else {
-                if(strtolower($column) == strtolower($new_column_name)){
-                    // new column resolving. changing with case sensitivity
-                     $query = $ad->grammar->rename_column($table, $column, $new_column_name);
-                    if ($query){
-                       return $ad->sendQuery($query);  
-                    }           
-                    
-                }
-
-                Logger::warn('target column already exists : %s.%s ',$table, $new_column_name );
-                return false;
-                //remove last column - add new column with n_info- because au case sensivity
-                //$query = $ad->grammar->rename_column($table, $column, $new_column_name);
-                //if ($query){
-                //    return $ad->sendQuery($query);             
-                //} else {
-                    // server do not support rename of column.
-                //}
-            }
-        }
-        return false;
-    }
-
-    public static function db_change_column(BaseController $ctrl, $table, $info)
-    {
-        $ad = self::getDataAdapter($ctrl);
-        if ($ad->exist_column($table, $info->clName)) {
-
-            $ad->drop_foreign_key($table, $info);
-
-            if ($query = $ad->grammar->change_column($table, $info)) {
-                if ($r = $ad->sendQuery($query)) {
-                    if ($info->clLinkType) {
-                        if ($info->clLinkConstraintName) {
-                            $info = clone ($info);
-                            $info->clLinkConstraintName = igk_db_get_table_name($info->clLinkConstraintName, $ctrl);
-                        }
-                        if ($query_link = $ad->grammar->add_foreign_key($table, $info)) {
-                            $ad->sendQuery($query_link);
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-    }
     public static function cache_dir(BaseController $ctrl)
     {
         return implode(DIRECTORY_SEPARATOR, [igk_io_cachedir(), "projects", $ctrl->getName()]);
@@ -713,36 +601,31 @@ abstract class ControllerExtension
      * @return bool 
      * @throws IGKException 
      */
-    public static function migrate(BaseController $ctrl, $classname = null)
+    public static function migrate(BaseController $ctrl, bool $force =  false)
     {
         // + | --------------------------------------------------------------------
         // + | load schema file - update to the end without migrates to table
         // + |
-        $invoke = function($ctrl){
+        $invoke = function($ctrl, bool $force=false){
             if (!$ctrl->getCanInitDb()) {
+                igk_ilog("controller can't init db ");
                 return false;
             }
             if ($ctrl->getUseDataSchema()) {
     
                 $file = $ctrl->getDataSchemaFile();
                 $f = igk_db_load_data_schemas($file, $ctrl);
-                if ($m = igk_getv($f, "migrations")) {
-                    if ($f =='/Volumes/Data/wwwroot/core/Packages/Modules/igk/social/google/Data/data.schema.xml')
-                    {
-                        echo "base";
-                    }
+                if ($m = igk_getv($f, "migrations")) { 
                     try {
                         foreach ($m as $t) {
                             $t->upgrade();
                         }
                     } catch (Exception $ex) {
                         Logger::danger(sprintf("some error : %s", $ex->getMessage()));
+                        igk_ilog("some rerror:  ".$ex->getMessage());
+                        igk_ilog("last query :  ".get_class($ex));
                         return false;
-                    }
-                    // if ($v_upgrade) {
-                    //     // upgrade model file definition
-                    // }
-                    // restore updated keys -- 
+                    } 
                     self::InitDataBaseModel($ctrl, $f->tables, true, false);
                 }
             }
@@ -751,9 +634,9 @@ abstract class ControllerExtension
         };
         if ($ctrl instanceof IGKModuleListMigration){
             Logger::warn("migrate modules ....");
-            return $ctrl->migrateHost($invoke);
+            return $ctrl->migrateHost($invoke, $force);
         } 
-        return $invoke($ctrl);
+        return $invoke($ctrl, $force);
    
     }
 
@@ -794,7 +677,8 @@ abstract class ControllerExtension
                     if (!($cr = Migrations::select_row([
                         "migration_name" => $t
                     ])) || ($cr->migration_batch == 0)) {
-                        Logger::info("init:" . $t);
+                        Logger::info("init-migration:" . $t);
+                       
                         (new $cb())->up();
                         if (!$cr) {
                             ($r = Migrations::create([
@@ -867,6 +751,7 @@ abstract class ControllerExtension
             Logger::warn('debug modules.extension');
         }
         Logger::info("init db model ... " . get_class($ctrl));
+        Logger::info("force: ".$force);
         $c  = self::_GetEntryModelDirectory($ctrl);
         $tb = null;
         if ($clean && is_dir($c)) {
@@ -889,7 +774,7 @@ abstract class ControllerExtension
             $model_init =
                 !($ctrl instanceof SysDbController) ?
                 DBCachesModelInitializer::InitMigration($tb) :
-                null;
+                null; 
             if (!($ctrl instanceof IGlobalModelFileController) || !$ctrl->handleModelCreation($tb)) {
 
                 foreach ($tb as $v) {
@@ -903,7 +788,7 @@ abstract class ControllerExtension
                             continue;
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
-                            Logger::info("generate model : " . $file);
+                            Logger::info("generate db model class : " . $file);
                             igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
                         }
                     }
@@ -1278,36 +1163,34 @@ abstract class ControllerExtension
         $v_uctrl = igk_getctrl(IGK_USER_CTRL);
         $sysuser = $v_uctrl->getUser();
         $f = 0; // update last connection   
+        $check = false;
+
         if ($ctrl->User === null) {
             if (is_object($u)) {
                 if (($u instanceof \IGK\Models\Users) && !$u->is_mock()) {
                     $u = $u->to_array();
                 }
                 if (igk_is_array_key_present($u, array("clLogin", "clPwd"))) {
-                    $v_uctrl->setUser((object)$u);
-                    $ctrl->checkUser(false);
-                    $f = !$sysuser ||  ($sysuser->clId != $u["clId"]);
+                    $v_uctrl->setUser((object)$u); 
+                    $check = true; 
                 }
             } else {
-                // $ip = igk_server()->RemoteIp();
-                // $agent = igk_server()->HTTP_USER_AGENT;
-                // TODO : CONNECT
-                // $v_uctrl->canConnect($ip, $u, $pwd, $agent)
-                // igk_wln_e("connect with login and pwd", $ip, $agent,  $ip);
-
+                // + | --------------------------------------------------------------------
+                // + | connect user with UsersConfigurationController
+                // + |  
                 if ($v_uctrl->connect($u, $pwd)) {
                     Logger::success('login with : ' . $u);
                     igk_ilog('login connect: > ' . $u);
-                    // + | --------------------------------------------------------------------
-                    // + | init controller user 
-                    // + |                     
-                    $ctrl->checkUser(false);
-                    $f = $ctrl->getUser() != null;
+                    $check = true; 
                 } else {
                     Logger::danger('connection failed.' . igk_environment()->get('connect_error'));
                     igk_ilog('login failed: > ' . $u);
                 }
             }
+        }
+        if ($check){
+            $ctrl->checkUser(false);
+            $f = !$sysuser ||  ($sysuser->clId != $u["clId"]) || ($ctrl->getUser() != null);
         }
         if ($f) {
             $user = $ctrl->getUser()->model();

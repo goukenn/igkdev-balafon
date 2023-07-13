@@ -159,6 +159,16 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $this->m_dbManager = null;
         $this->m_dbManager = $this->_createDriver();
     }
+    /**
+     * if miss to select db 
+     * @return bool 
+     */
+    public function getNoSelectDbErrorAutoClose():bool{
+        return $this->m_dbManager->getNoSelectDbErrorAutoClose();
+    }
+    public function setNoSelectDbErrorAutoClose(bool $value){
+        $this->m_dbManager->setNoSelectDbErrorAutoClose($value);
+    }
     ///<summary></summary>
     ///<param name="dbnamemix" default="null"></param>
     ///<param name="selectdb" default="true"></param>
@@ -196,8 +206,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
 
         if (!$dbs && $selectdb) {
             $dbname = is_null($dbname) ? $this->app->Configs->db_name : $dbname;
-            if (!$this->selectdb($dbname)) {
-                $this->close();
+            if ($dbname && !$this->selectdb($dbname)) {
+                if (!$this->getNoSelectDbErrorAutoClose()){
+                    $this->close();
+                }
+                // connected 
                 return false;
             }
             $this->_setDbName($dbname);
@@ -569,18 +582,22 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * 
      * @param mixed $dbname
      */
-    public function selectdb(?string $dbname=null)
+    public function selectdb(?string $dbname=null): bool
     {
         if (($this->m_dbManager != null) && !empty($dbname)) {
-            $r = $this->m_dbManager->selectdb($dbname);
-            if ($r) {
-                $this->_setDbName($dbname);
-            } else {
-                if (!igk_sys_env_production()) {
-                    igk_ilog(["can't select database \"{$dbname}\". Database not found.", __FILE__ . ":" . __LINE__]);
+            try{
+                $r = $this->m_dbManager->selectdb($dbname);
+                if ($r) {
+                    $this->_setDbName($dbname);
+                } else {
+                    if (!igk_sys_env_production()) {
+                        igk_ilog(implode(',', ["can't select database \"{$dbname}\". Database not found.", __FILE__ . ":" . __LINE__]));
+                    }
                 }
+                return $r;
+            }catch(\Exception $ex){
+                
             }
-            return $r;
         }
         return false;
     }

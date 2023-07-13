@@ -147,6 +147,6 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * @return object|null 
      */
     public function model(){
-        return IGK\Models\Users::createFromCache($this, (object)['clGuid'=>$this->clGuid]);
+        return IGK\Models\Users::createFromCache($this, (object)['clGuid'=>$this->clGuid], []);
     }
 }

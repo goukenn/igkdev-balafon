@@ -34,6 +34,7 @@ use function igk_getv as getv;
  * @property ?\IGK\System\IO\FakeInput $FakerInput faker input in render
  * @property ?IGKActionBase $action_handler_instance 
  * @property bool $NoLogEval disable eval log - 
+ * @property bool $NoConsoleLogger disable console logger - 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants
 {
@@ -41,6 +42,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants
 
     public function getAuthor(){
         return igk_configs()->get('author', IGK_AUTHOR);
+    }
+    public function getsession_cookie_name(){
+        return defined('IGK_APP_SESS_COOKIE_NAME') ? 
+        defined('IGK_APP_SESS_COOKIE_NAME') : 'PHPSESSID';
     }
     /**
      * check if environment support webconfiguration

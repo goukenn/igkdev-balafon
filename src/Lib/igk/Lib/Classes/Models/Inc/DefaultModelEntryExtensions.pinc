@@ -84,33 +84,6 @@ Users::registerMacro("currentUser", MacrosHelper::currentUser());
 // --------------------------------------------------------------
 // get current users auths list
 // --------------------------------------------------------------
-Users::registerMacro("auths", function(){
-    $user = $this;
-    $joint = [
-        Groupauthorizations::table()=>[
-            Groupauthorizations::column("clGroup_Id")."=".Usergroups::column("clGroup_Id")
-        ],
-        Authorizations::table()=>[Authorizations::column("clId")."=".Groupauthorizations::column("clAuth_Id")],
-    ]; 
-    $g = Usergroups::prepare()
-    ->join($joint)
-    ->distinct(true)
-    ->where([
-        'clGrant'=>1,
-        Usergroups::column('clUser_Id')=>$user->clId
-    ])
-    ->columns([
-        Authorizations::column("clName")=>"name",
-        Authorizations::column("clController")=>"controller",
-        Authorizations::column("*"),
-    ])
-    ->orderBy(["name"])
-    ->execute();
-    if ($g){
-        return $g->to_array();
-    } 
-});
-
 //+ | add user 
 // Users::registerMacro("addUser", [MacrosHelper::class, "addUser"]);
 Users::registerMacro("addUser", MacrosHelper::addUser2());

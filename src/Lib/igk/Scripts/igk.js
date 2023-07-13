@@ -291,8 +291,7 @@ Name:balafon.js
                 }
             });
             return _promise;
-        };
-        // TODO : GET FILES - 
+        }; 
         if (/^file:\/\//.test(uri)) {
             // alert("loading from data file : "+uri);
             if (window.Fetch) {
@@ -1519,8 +1518,7 @@ Name:balafon.js
     // 
     function igk_preload_image(node, async) {
         if ((node == null) || (typeof(node.getElementsByTagName) == igk.constants.undef))
-            return;
-        // TODO: PRELOAD IMAGe Failed on configuration pages
+            return; 
         function __preload() {
             var v_timg = node.getElementsByTagName("igk-img");
             if (!v_timg || (v_timg.length <= 0)) {
@@ -1566,16 +1564,16 @@ Name:balafon.js
                 // new Image();// 
                 var src = v_tab[i].getAttribute("src");
                 if (src) {
-                    v_host = document.createElement("span");
-                    $igk(v_host).addClass("igk-img-host");
+                    v_host = $igk(document.createElement("span"));
+                    v_host.addClass("igk-img-host");
                     v_cimg = document.createElement("img");
                     v_cimg.source = v_tab[i];
                     v_cimg.src = src;
-                    v_host.appendChild(v_cimg);
-                    if (/^data:/.test(src)) {
-                        console.debug("data source");
+                    v_host.o.appendChild(v_cimg);
+                    if (/^data:/.test(src)) { 
                         v_preload.copyAttribute(v_tab[i], v_cimg);
-                        v_preload.replace(v_host, v_tab[i]);
+                        v_preload.replace(v_host.o, v_tab[i]);
+                        v_host.addClass('loaded');
                     } else {
                         if (v_cimg.complete && ((v_cimg.width + v_cimg.height) > 0)) {
                             // console.debug("loding access");
@@ -1937,7 +1935,7 @@ Name:balafon.js
         igk.ready(function() {
             var q = $igk(".igk-powered-viewer").last();
             if (!q){
-                q = $igk('body').first().qselect('[igk-type:controller]');
+                q = $igk('body').first().qselect('[igk-type=controller]');
                 let h = q.getHeight();
                 let p = q.getoffsetParent();  
                 q = null;
@@ -2329,8 +2327,7 @@ Name:balafon.js
             };
             try {
                 if (igk.navigator.isSafari())
-                    throw ('safari not handle async - await');
-                // TODO: Update to function 
+                    throw ('safari not handle async - await');                
                 (new Function(["_getRes = async function (){",
                     "var o=0; ",
                     "try{",
@@ -5814,9 +5811,7 @@ Name:balafon.js
     });
 
     // ---------------------------------------------------------
-    // 
-    // 
-    // TODO: initialize environment style
+    // + | initialize
     igk.ready(function() {
         var n, b = igk.dom.body();
         if (typeof(igk.navigator) == 'undefined') {
@@ -6732,8 +6727,7 @@ Name:balafon.js
                 if (r && r.tagName.toLowerCase() == "parsererror") {
                     return null;
                 }
-            } else {
-                // TODO
+            } else { 
                 r = igk.dom.activeXDocument();
                 r.load(s);
             }
@@ -10586,9 +10580,6 @@ Name:balafon.js
                     this.postargs = postargs;
                     this.method = method;
                     this.xhr.open(method, url, this.asynchronize);
-                    // this.xhr.setRequestHeader("Content-Type","multipart/form-data");   		
-                    // this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=iso-8859-1");
-                    // TODO: help microsoft to create a xml in result
                     if (this["ajx.xhr"]) {
                         igk_appendProp(this.xhr, this["ajx.xhr"]);
                     }
@@ -10596,10 +10587,7 @@ Name:balafon.js
                     if (postargs) {
                         if (typeof(postargs) == "string") {
                             // for url encoding
-                            this.xhr.setRequestHeader("Content-Type", this.contentType || "application/x-www-form-urlencoded;charset=iso-8859-1");
-                            // chrome refuse to set those header. type is marked as unsafe
-                            // this.xhr.setRequestHeader("Content-length",postargs.length);
-                            // this.xhr.setRequestHeader("Connection","close");
+                            this.xhr.setRequestHeader("Content-Type", this.contentType || "application/x-www-form-urlencoded;charset=iso-8859-1");                    
                         }
                     }
                     if (monitorlistener) {
@@ -12534,7 +12522,8 @@ Name:balafon.js
             return !1;
         },
         close_all_frames: function() {
-            igk.winui.notify.closeAlls();
+            if (igk.winui.notify.closeAlls)
+                igk.winui.notify.closeAlls();
             igk.ready(function() {
                 var t = [];
                 igk.dom.body().select(".igk-notify-box").each_all(function() {
@@ -12685,8 +12674,7 @@ Name:balafon.js
             if (igk.resources.lang[_lang]) {
                 init_res(igk.resources.lang[_lang], loc);
                 return;
-            }
-            // TODO: Load language resources files ::::: in productions
+            } 
             var g = null;
             var _storage = window.localStorage;
             if (typeof(_storage) != 'undefined')

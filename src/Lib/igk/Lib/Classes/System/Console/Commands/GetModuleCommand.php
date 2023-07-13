@@ -18,7 +18,8 @@ class GetModuleCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var \$category; */
 	public function exec($command, string $name = null, string $package_site=null) { 
-		is_null($name) ?? igk_die("require module name");
+		empty($name) && igk_die("require module name");
+
 
 		$site = "https://igkdev.com/balafon/get-modules";
 		// check module exists

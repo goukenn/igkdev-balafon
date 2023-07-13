@@ -11,6 +11,7 @@ use Closure;
 use Error;
 use Exception;
 use IGKEnvironment;
+use function \readline;
 
 // terminal action command
 
@@ -45,9 +46,11 @@ class TerminalActionCommand{
 
         $stop = ['quit','exit'];
         $func = Closure::fromCallable([self::class, '_RunCommand']);
-        // function(){
-          
-        // };
+
+        if (!function_exists('readline')){
+            Logger::danger("require readline");
+            exit(-1);
+        } 
         do{
             $this->_clearLastErrors();
 

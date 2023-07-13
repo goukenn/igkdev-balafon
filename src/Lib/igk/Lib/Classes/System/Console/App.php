@@ -150,6 +150,7 @@ class App{
         $command = $app->command;
         $cnf = $app->getConfigs();
         $app = new static();  
+        // + pass new configuration .
         $app->_configs = $cnf;
 
         if ($command_args = AppCommand::GetCommands($app)){ 
@@ -258,7 +259,9 @@ class App{
             $app->print('--');
             $app->print(self::Gets(self::RED, "BALAFON Command Error : "). $ex->getMessage());
             $app->print('--');
-            igk_show_exception_trace($ex->getTrace(), 0);
+            if (!igk_environment()->NoConsoleLogger){
+                igk_show_exception_trace($ex->getTrace(), 0);
+            }
             igk_exit();
         }
         catch (Throwable $ex){
@@ -383,7 +386,7 @@ class App{
     }
 
     /**
-     * 
+     * create app command from app
      * @param App $app 
      * @return object 
      */

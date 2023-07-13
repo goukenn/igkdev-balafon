@@ -30,7 +30,11 @@ class BooleanQueryResult{
         $this->m_srcquery = $srcquery; 
         $this->m_last_error = $last_error;
     }
-    public function success(){
+    /**
+     * get the result 
+     * @return bool 
+     */
+    public function success(): bool{
         return $this->m_result;
     }
     public function getRowCount(){

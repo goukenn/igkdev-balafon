@@ -34,6 +34,13 @@ use stdClass;
 use Throwable;
 use function igk_resources_gets as __;
 
+// + | --------------------------------------------------------------------
+// + | global options
+// + |  --set-env: set environment definition
+// + |  --set-server: set server Global value
+
+
+
 /** @package  */
 class BalafonApplication extends IGKApplicationBase
 {
@@ -79,7 +86,7 @@ class BalafonApplication extends IGKApplicationBase
             return null;
         }
 
-        if (strpos($a, "--setenv:") === 0) {
+        if (strpos($a, "--set-server:") === 0) {
             // + | set environment variables
             $g = trim(implode('', array_slice(explode(":", $a),1)));
             $l = array_filter(explode("=", $g));
@@ -88,8 +95,22 @@ class BalafonApplication extends IGKApplicationBase
                 $v = $l[1];
             }
             $_SERVER[$l[0]] = $v;
-            
-                   
+            return null;
+        }
+        if (strpos($a, "--set-env:") === 0) {
+            // + | set environment variables
+            $g = trim(implode('', array_slice(explode(":", $a),1)));
+            $l = array_filter(explode("=", $g));
+            $v = true;
+            if (count($l)>1){
+                $v = $l[1];
+                
+            }
+            if ($v &&  in_array($tv = strtolower($v), ['true', 'false'])){
+                $v = $tv == 'true' ? true : false;
+            }
+            $m = $l[0];
+            igk_environment()->set($m, $v);            
             return null;
         }
 
@@ -387,60 +408,7 @@ class BalafonApplication extends IGKApplicationBase
                         Logger::print("\nusage : --set:sysconfig (property value|[...property=value])\n");
                     }
                 ]
-            ],
-
-            // "--db:seed" => [function ($v, $command) {
-            //     $command->exec = function ($command, $ctrl = null, $class = null) {
-            //         DbCommandHelper::Init($command);
-            //         // Transformo to namespace class
-            //         DbCommandHelper::Seed($ctrl, $class); 
-            //         return -1;
-            //     };
-            // }, __("seed your database with data"), "db"],
-            "--db:initdb" => [function ($v, $command) {
-                $command->exec = function ($command, ?string $ctrl = "") {
-                    $c = null;
-                    DbCommandHelper::Init($command);
-                    if (empty($ctrl)){
-                        $ctrl = igk_getv($command->options,"--controller");
-                    }
-                    if (!empty($ctrl)) {
-                        if (!($c = igk_getctrl($ctrl, false))) {
-                            Logger::danger("no controller found: " . $ctrl);
-                            return -1;
-                        }
-                        $c = [$c];
-                    } else {
-                        $c = [];//  igk_app()->getControllerManager()->getControllers();                        
-                        if ($b = IGKModuleListMigration::CreateModulesMigration()) {
-                            $c = array_merge($c, [$b]);
-                        }
-                        SysUtils::PrependSysDb($c);
-                    }
-                    if ($c) {
-                        foreach ($c as $m) {
-                            self::BindCommandController($m, null);
-                            $cl = get_class($m);
-                            if ($m->getCanInitDb()) {
-                                Logger::info("init: " . $cl);
-                                $m::initDb();
-                                Logger::success("complete: " . $cl);
-                            } else {
-                                Logger::warn("can't initdb of " . $cl);
-                            }
-                        }
-                        return 1;
-                    }
-                    return -1;
-                };
-                return 0;
-            }, [
-                "desc" => __("init databases"),
-                "help" => function () {
-                    Logger::print("Init Database");
-                    Logger::print("--db:initdb [options] controller");
-                }
-            ], "db"],            
+            ],             
             "--controller:list" => [function ($v, $command) {
                 $command->exec = function ($command, $pattern = ".+") {
                     Logger::print("");

@@ -16,4 +16,5 @@ abstract class ResIdentifierConstants{
     const PROJECT = '_prj_';
     const CACHE = '_chs_';
     const MODULE = '_mod_';
+    const APP = '_app_';
 }

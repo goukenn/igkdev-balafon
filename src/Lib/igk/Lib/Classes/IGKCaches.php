@@ -122,7 +122,7 @@ final class IGKCaches
         }
         //+ init article to writes
         if (method_exists($i, $fc = "_init_{$name}_caches")) {
-            $o = $i->{$fc}();
+            $o = $i->{$fc}(...$args);
             // dynamic property is deprecated 
             // $i->{$name} = $o;
             $i->m_storage[$name] = $o;
@@ -163,6 +163,14 @@ final class IGKCaches
     }
     /**
      * 
+     * @param BaseControleller $ctrl 
+     * @return void 
+     */
+    private static function ctrl_filesystem(BaseController $ctrl){
+        return self::__callStatic(__FUNCTION__, [$ctrl]);
+    }
+    /**
+     * 
      * @param string $dir 
      * @return FileSystem|null 
      * @throws IGKException 
@@ -182,6 +190,11 @@ final class IGKCaches
     private function _init_view_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/views");
+    }
+    private function _init_ctrl_filesystem_caches(BaseController $ctrl)
+    {
+        return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(IGKConstants::FILE_PATH_HASH_ALGO,
+         $ctrl->name('cache'))));
     }
     /**
      * 

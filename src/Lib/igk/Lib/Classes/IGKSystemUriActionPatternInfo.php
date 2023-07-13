@@ -12,6 +12,11 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
     var $action, $context, $ctrl, $keys, $pattern, $requestparams, $uri, $value;
     ///<summary></summary>
     ///<param name="tab"></param>
+    /**
+     * 
+     * @param mixed|object|array $tab 
+     * @return void 
+     */
     public function __construct($tab){
         foreach($tab as $k=>$v){
             $this->$k=$v;
@@ -28,6 +33,7 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
         $uri=$uri ?? $this->uri; 
         if($uri && preg_match($this->pattern, $uri)){
             $this->uri=$uri;
+
             return true;
         }
         return false;

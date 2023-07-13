@@ -87,8 +87,6 @@ class RequestViewCommand extends AppExecCommand
             self::BindUser($ctrl, $id);
         }
         $render = property_exists($command->options, '--render');
-
-
         if ($json = igk_getv($command->options, '--json')) {
             if (file_exists($json)) {
                 $json = file_get_contents($json);
@@ -147,7 +145,7 @@ class RequestViewCommand extends AppExecCommand
     {
         $ctrl = self::GetController(igk_configs()->default_controller, false)
             ?? igk_die("no controller found");
-        $g = new Uri($path);
+        $g = new Uri('bcl://request-command.local/'.$path);
         $path = $g->getPath();
         $_SERVER['REQUEST_URI'] = $g->getRequestUri();
         $_SERVER['QUERY_STRING'] = $g->getQuery();

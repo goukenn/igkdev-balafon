@@ -146,8 +146,21 @@ class FormBuilder
             } else {
                 $_name = "name=\"{$k}\" ";
             }
-            $_is_div = !preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type);
+
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
+            $t_id = igk_getv($v, "id", $k);
+            $label_text = ucfirst(igk_getv($v, "label_text", __($k)));
+            if (!$this->isHtmlType($_type) && is_subclass_of($_type, FormBuilderItemAbstractType::class)){
+                $v_ctype = new $_type();
+                $v_ctype->setName($k);
+                $v_ctype->setAttributes(array_merge($v, [
+                    'label_text'=>$label_text
+                ]));
+                $v_ctype->setId($t_id);
+                $o.= $v_ctype->render();
+                return;
+            }
+            $_is_div = !preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type);
             $class_style = 'igk-form-group '.$_type;
             if ($_is_div) {
                 $o .= "<" . $tag . " ";
@@ -157,17 +170,12 @@ class FormBuilder
                 $o .= "class=\"$class_style\" ";
                 $o = rtrim($o) . ">";
             }
-            $t_id = igk_getv($v, "id", $k);
+          
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
                 $g = HtmlUtils::GetFilteredAttributeString("label", [
                     'class'=>"igk-form-label"
-                ]);
-                //target id  
-                // if (strstr($t_id, 'cartridge')){
-                //     igk_trace();
-                //     igk_wln_e(strstr($t_id, 'cartridge'));
-                // }
-                $o .= "<label for='{$t_id}'$g>" . ucfirst(igk_getv($v, "label_text", __($k))) . "</label>";
+                ]);               
+                $o .= "<label for='{$t_id}'$g>" .$label_text . "</label>";
             }
             switch ($_type) {
                 case "fieldset":
@@ -383,5 +391,13 @@ class FormBuilder
             echo $o;
         }
         return $o;
+    }
+    /**
+     * check whether a string type is html type
+     * @param string $type 
+     * @return int|false 
+     */
+    protected function isHtmlType(string $type){
+        return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number)/", $type);
     }
 }

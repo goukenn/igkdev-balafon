@@ -1,6 +1,6 @@
 // file: igk.winui.carousel.js
 // desc: manage carousel component
-// author: C.A.D BONDJE DOUE
+// author: C.A.D. BONDJE DOUE
 // copyright: MIT © 2022 igkdev.com
 "use strict";
 (function(){

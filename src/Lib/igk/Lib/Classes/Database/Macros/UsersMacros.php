@@ -3,13 +3,19 @@
 namespace IGK\Database\Macros;
 
 use GrahamCampbell\ResultType\Success;
+use IGK\Controllers\BaseController;
+use IGK\Models\Authorizations;
+use IGK\Models\Groupauthorizations;
+use IGK\Models\Groups;
 use IGK\Models\PhoneBookEntries;
 use IGK\Models\PhoneBooks;
 use IGK\Models\PhoneBookTypes;
 use IGK\Models\PhoneBookUserAssociations;
+use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\PhoneBook\PhoneBookEntry;
 use IGK\System\Constants\PhonebookTypeNames;
+use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
@@ -22,6 +28,43 @@ use ReflectionException;
 abstract class UsersMacros
 {
 
+   
+    /**
+     * get list of user's authorization
+     * @param Users $user 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function auths(Users $user){
+        if ($user->is_mock()){
+            igk_die('auths method not allowed');
+        }
+        $joint = [
+            Groupauthorizations::table()=>[
+                Groupauthorizations::column("clGroup_Id")."=".Usergroups::column("clGroup_Id")
+            ],
+            Authorizations::table()=>[Authorizations::column("clId")."=".Groupauthorizations::column("clAuth_Id")],
+        ]; 
+        $g = Usergroups::prepare()
+        ->join($joint)
+        ->distinct(true)
+        ->where([
+            'clGrant'=>1,
+            Usergroups::column('clUser_Id')=>$user->clId
+        ])
+        ->columns([
+            Authorizations::column("clName")=>"name",
+            Authorizations::column("clController")=>"controller",
+            //Authorizations::column("*"),
+        ])
+        ->orderBy(["name"])
+        ->execute();
+        if ($g){
+            return $g->to_array();
+        } 
+    }
     /**
      * activate user
      * @param Users $user 
@@ -121,23 +164,6 @@ abstract class UsersMacros
         return PhoneBookUserAssociations::select_row([
             PhoneBookUserAssociations::FD_USRPHB_USER_GUID => $model->clGuid
         ]);
-        //     return $model->prepare()
-        //     ->with(PhoneBooks::table())
-        //     ->with(PhoneBookUserAssociations::table())
-        //     //->join(PhoneBookUserAssociations::table())
-        //     ->join_left_on(PhoneBooks::table(), 'rcphb_EntryGuid','usrphb_PhoneBookEntryGuid')
-        //    ->conditions([
-        //         PhoneBookUserAssociations::FD_USRPHB_USER_GUID=>$model->clGuid
-        //     ])->execute(); 
-        // $r = PhoneBookUserAssociations::prepare()
-        // ->with(PhoneBookTypes::table())
-        // ->with($model->table())
-        // // ->join_left_on($model->table(), 'clGuid','usrphb_UserGuid')
-        // ->join_left_on(PhoneBooks::table(), 'rcphb_EntryGuid','usrphb_PhoneBookEntryGuid')
-        // ->conditions([
-        //     PhoneBookUserAssociations::FD_USRPHB_USER_GUID=>$model->clGuid
-        // ])->execute(); 
-        // return $r;
     }
     /**
      * get phone entry by type
@@ -177,4 +203,82 @@ abstract class UsersMacros
         }
         return null;
     } 
+    /**
+     * get user full name
+     * @param Users $user 
+     * @return string 
+     */
+    public static function fullName(Users $user){
+        $s = trim(implode(' ', array_filter([$user->clFirstName, strtoupper($user->clLastName ?? '')])));
+        return empty($s)? $user->clLogin : $s;
+    }
+
+    /**
+     * bind user to group 
+     * @param Users $user 
+     * @param BaseController $ctrl 
+     * @param string $groupname 
+     * @return object|null|false 
+     */
+    public static function bindToGroup(Users $user, BaseController $ctrl, string $groupname){
+        return \IGK\Helper\Authorization::BindUserToGroup($ctrl, $user, $groupname);
+    }
+
+     /**
+     * remove current user from that group 
+     * @param Users $user 
+     * @param string $groupName 
+     * @return bool
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function removeFromGroup(Users $user, string $groupName):bool{
+        $user->is_mock() ?? igk_die('mock not allowed');
+        $uid = $user->clId;
+        $r = false;
+        $v_ctrl_name = null;
+        $condition = [];
+        $tgroup = array_filter(explode('@', $groupName));
+        if (count($tgroup)>1){
+            $v_ctrl_name = array_shift($tgroup);
+            $groupName = implode('@', $tgroup);
+            $condition['clController'] = $v_ctrl_name;
+        }
+        $condition['clName'] = $groupName; 
+
+        if ($gid = (($m = Groups::select_row($condition)) ? $m->clId : null)){
+
+            $condition = [];
+            $condition = array_merge($condition, ["clGroup_Id"=>$gid, "clUser_Id"=>$uid]);
+            $r = Usergroups::delete($condition);
+            if ($r instanceof BooleanQueryResult){
+                $r = $r->success();
+            }
+        }
+        return $r;
+        
+    }
+
+    /**
+     * create user reponse data
+     * @param Users $user 
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function CreateUserApiResponseData(Users $user):array{
+        $user->is_mock() ?? igk_die('not allowed');
+        $data = [
+            'user' => $user,  
+            'groups' => array_map(function ($a) {
+                return implode('@', array_filter([$a['clController'], $a['clName']]));
+            }, $user->groups()),
+            'auths' => array_map(function ($a) {
+                return implode('@', array_filter([$a['name']]));
+            }, $user->auths()), 
+        ];
+        return $data;
+    }
 }

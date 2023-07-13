@@ -347,11 +347,15 @@ function igk_html_build_form_array_entry($name, $type, $n, $value = null)
  */
 function igk_html_build_menu(?HtmlItemBase $target, $menuTab, $callback = null, $user = null, $ctrl = null, $default = "li", $sub = "ul")
 {
+    if (empty($menuTab)){
+        return;
+    }
     $render = 0;
     if ($target == null) {
         $target = igk_create_node($sub);
         $render = 1;
     }
+    
     igk_html_load_menu_array($target, $menuTab, $default, $sub, $user, $ctrl, $callback);
     if ($render) {
         $target->renderAJX();
@@ -413,7 +417,13 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
         foreach ($tab as $k => $v) {
             $_k = $k;
             if (is_string($v) && is_numeric($k)) {
-                $k = $v;
+                $k = $v;                
+                if ($v == '-'){ 
+                    if (($tc = count($o))> 0){
+                        $o[$tc - 1]->separatorAfter = true;
+                    }
+                    continue;
+                }
                 $v = [];
             }
 
@@ -431,7 +441,8 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
                 "key" => $_k,
                 "index" => null,
                 "id" => $k,
-                "level" => $v_isr ? 0 : igk_count(explode(".", $st))
+                "level" => $v_isr ? 0 : igk_count(explode(".", $st)),
+                'separatorAfter'=>false
             );
             if (is_array($v)) {
                 $kk = igk_getv($v, "index");
@@ -463,8 +474,21 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
     $root = array();
     $sd = array();
     $user = $user ?? new \IGK\System\Security\DeniedUser();
+    
+    $fc_bind = function (& $sd, $k, $hi, $lkey, $u, $ajx, $s, $obj, $item_build_callback, $init){
+        $item_build_callback($hi, $lkey, $u, $ajx, $s);
+        if ($init) {
+            $init($hi);
+        }
+        if (!isset($sd[$k])) {
+            $sd[$k] = (object)["key" => $k, "li" => $hi, "ul" => null, 'level' => $obj->level];
+        } else {
+            $sd[$k]->li = $hi;
+        }
+    };
 
     foreach ($h as $obj) {
+        $separatorAfter = $obj->separatorAfter;
         $s = $tab[$obj->key];
         if (is_numeric($obj->key) && is_string($s)) {
             $k = strtolower($s);
@@ -482,7 +506,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
                 $ii = $sd[$pname];
                 if ($ii->ul == null) {
                     if ($ii->li == null) {
-                        igk_wln_e("li not created not handle ..... ", $ii);
+                        igk_dev_wln_e("li not created not handle ..... ", $ii);
                     }
                     $ii->li["class"] = "+menu-group";
                     $ii->ul = $ii->li->add($subnode);
@@ -524,15 +548,8 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             if ($hi == null) {
                 igk_die($item . " create null");
             }
-            $item_build_callback($hi, $lkey, $u, $ajx, $s);
-            if ($init) {
-                $init($hi);
-            }
-            if (!isset($sd[$k])) {
-                $sd[$k] = (object)["key" => $k, "li" => $hi, "ul" => null, 'level' => $obj->level];
-            } else {
-                $sd[$k]->li = $hi;
-            }
+            $fc_bind ($sd, $k, $hi, $lkey, $u, $ajx, $s, $obj, $item_build_callback, $init);
+           
         } else {
             if ($mi == null) {
                 $mi = $target;
@@ -540,12 +557,19 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             $hi = $mi->add($item);
             $lkey =  __("menu." . $k);
             $s = $_binduri($s, $ctrl);
-            $item_build_callback($hi, $lkey, $s, false, $s);
-            if (!isset($sd[$k])) {
-                $sd[$k] = (object)["key" => $k, "li" => $hi, "ul" => null, 'level' => $obj->level];
-            } else {
-                $sd[$k]->li = $hi;
-            }
+            $fc_bind ($sd, $k, $hi, $lkey, $s, false, $s, $obj, $item_build_callback, null);
+            
+            // $item_build_callback($hi, $lkey, $s, false, $s);
+            // if (!isset($sd[$k])) {
+            //     $sd[$k] = (object)["key" => $k, "li" => $hi, "ul" => null, 'level' => $obj->level];
+            // } else {
+            //     $sd[$k]->li = $hi;
+            // }
+        }
+        if ($separatorAfter){
+            $sep = $mi->add($item);
+            $sep['class'] = 'menu-separator';
+            $sep->hsep();
         }
     }
     $target->roots = $root;

@@ -13,8 +13,12 @@ use IGK\System\IInjectable;
  * @method void setFillColor($r)
  * @method void setTextColor($r)
  * @method void setDrawColor($r)
-*/
+ * @method void image(string $file_or_uri)
+ * @method void output()
+ */
 interface IPrinterService extends IInjectable{
+    function setOptions(object $options);
+    function getOptions();
     function resetDevice();
     //draw string
     /**
@@ -25,11 +29,24 @@ interface IPrinterService extends IInjectable{
      * @return void
      */
     function text($text, ?int $x=null, ?int $y=null);
-    function rect($x, $y , $w, $h);
-    function cell(string $text, $x, $y, $w, $h, ?array $options=null);
+    function rect($x, $y , $w, $h, $style='');
+    /**
+     * 
+     * @param string $text 
+     * @param mixed $x 
+     * @param mixed $y 
+     * @param mixed $w 
+     * @param mixed $h 
+     * @param null|array|IPrinterServiceCellOptions $options 
+     * @return mixed 
+     */
+    function cell(string $text, $x, $y, $w, $h, $options=null);
     function write(string $text, float $h);
 
     function setFontStyle($style); 
+    function setFont(string $family, string $style='', int $size=12); 
+
+    function createCellOptions(): IPrinterServiceCellOption;
     
     /**
      * output pdf document
@@ -38,5 +55,14 @@ interface IPrinterService extends IInjectable{
     function printPdf();
 
     function addPage();
+
+    function getPageWidth() : int;
+    function getPageHeight() : int;
+    /**
+     * change the current font size
+     * @param mixed $size 
+     * @return mixed 
+     */
+    function setFontSize($size);
 
 }

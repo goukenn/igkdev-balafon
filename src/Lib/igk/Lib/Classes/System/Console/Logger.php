@@ -8,18 +8,27 @@
 namespace IGK\System\Console;
 
 /**
- * 
+ * use to write logger in console data
  * @package IGK\System\Console
  * @method static void danger(string $message)  
  * @method static void print(string $message)  
  * @method static void info(string $message)  
  */
 class Logger{
+    /**
+     * IConsoleLogger
+     * @var mixed
+     */
     static $sm_logger;
 
     const TabSpace = "\r\t\t\t\t";
     
-    public static function SetLogger($logger){
+    /**
+     * 
+     * @param mixed $logger logger object - iconsole logger object
+     * @return void 
+     */
+    public static function SetLogger(?IConsoleLogger $logger){
         self::$sm_logger = $logger;
     }
     /**
@@ -39,7 +48,13 @@ class Logger{
 
     public static function __callStatic($name, $arguments)
     {
-        if (self::$sm_logger){
+        if (($name!='print') && igk_environment()->NoConsoleLogger){
+            return;
+        }
+        if (!in_array($name, ['log', 'warning','success','danger','print', 'info','warn'])){           
+            igk_die($name . " - log not in a logger list allowed method ");
+        }
+        if (self::$sm_logger){            
             return self::$sm_logger->$name(...$arguments);
         }
     }

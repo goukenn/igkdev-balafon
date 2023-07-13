@@ -799,7 +799,6 @@ define('IGK_ERR_FUNCNOTAVAILABLE', 65547);
 
 //+ system user login
 !defined("IGK_SYS_USER_LOGIN") &&  define("IGK_SYS_USER_LOGIN", "igk.system@igkdev.com");
-
 //
 define("IGK_ENV_GLOBAL_SCRIPT_KEY", "sys://globalscript");
 

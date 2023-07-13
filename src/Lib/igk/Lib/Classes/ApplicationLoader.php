@@ -111,6 +111,10 @@ class ApplicationLoader
                     igk_io_w2file($path, serialize($this->_load_classes));
                 }
             }
+            if (ob_get_level()>0){
+                ob_flush();
+            }
+            //igk_hook(IGKEvents::HOOK_TERMINATE, [$this]);
             igk_hook(IGKEvents::HOOK_APP_SHUTDOWN, [$this]);
         });
     }

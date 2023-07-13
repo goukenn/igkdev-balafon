@@ -74,6 +74,7 @@ use IGK\System\Html\Dom\SvgListNode;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlLoadingContextOptions;
 use IGK\System\Html\HtmlNodeTagExplosionDefinition;
+use IGK\System\Http\Cookies;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Http\WebResponse;
 use IGK\System\Regex\Replacement;
@@ -770,7 +771,8 @@ function igk_ca_edit_article($file)
 }
 ///<summary>Represente igk_cache function</summary>
 /**
- * Represente igk_cache function
+ * helper: Represente igk_cache function
+ * @return IGKCaches
  */
 function igk_cache()
 {
@@ -3716,6 +3718,14 @@ function igk_csv_sep()
 {
     return igk_configs()->get("csv_separator", ",");
 }
+/**
+ * get is default controller
+ */
+function igk_ctrl_is_default_controller(BaseController $ctrl):bool{
+    $s = igk_configs()->default_controller ;
+    $m = get_class($ctrl);
+    return $s && $m && strtolower($s) == strtolower($m);
+}
 ///<summary></summary>
 ///<param name="ctrl"></param>
 ///<param name="k" default="null"></param>
@@ -4431,25 +4441,12 @@ function igk_db_create_ref($ctrl, $model = null, $base = 36, $length = 4)
 /**
  * create and empty row from global system datatable name
  * @param mixed $tablename registrated global sql data table
- * @param mixed $dataobj object that will fill the value
- * @param mixed $schema schema file 
+ * @param mixed $dataobj object that will fill the value 
  * @deprecated
  */
 function igk_db_create_row($tablename, $dataobj = null, $schema = null)
 {
-    if ($schema) {
-        $tt = igk_get_env(__FUNCTION__ . "/" . $tablename, function () use ($tablename, $schema) {
-            $tdb = igk_get_env("sys://schema", []);
-            if (!isset($tdb[$schema])) {
-                $tdb[$schema] = igk_db_load_data_and_entries_schemas($schema) ?? igk_die("failed to load data schema");
-            }
-            $db = $tdb[$schema];
-            return igk_db_column_info($db, $tablename);
-        });
-        return igk_db_create_obj_from_infokey($tt, $dataobj);
-    }
-    $tb = igk_db_getdatatableinfokey($tablename);
-    return igk_db_create_obj_from_infokey($tb, $dataobj);
+    return DbSchemas::CreateRow($tablename, null, $dataobj); 
 }
 ///<summary>create and empty row from ctrl data table datatable na.me</summary>
 /**
@@ -4537,7 +4534,7 @@ function igk_db_current_data_driver()
 function igk_db_data_is_present($adapter, $table, $entry, $tabinfo = null, &$present = null, &$ptype = null)
 {
     if ($tabinfo == null) {
-        $tabinfo = igk_db_getdatatableinfokey($table);
+        $tabinfo =  DbSchemas::GetTableColumnInfo($table);
     }
     if (($entry == null) || ($tabinfo == null))
         return false;
@@ -5036,6 +5033,7 @@ function igk_db_get_table_with_column($columnName, $adaptername = IGK_MYSQL_DATA
 ///<summary>get the definition key in this table</summary>
 /**
  * get the definition key in this table
+ * @deprecated use DbSchemas::GetTableColumnInfo($table)
  */
 function igk_db_getdatatableinfokey($tablename)
 {
@@ -5318,17 +5316,17 @@ function igk_db_load_data_schemas_node($d, $ctrl = null, $resolvname = true)
 ///<param name="entries">entry to add</param>
 /**
  * load db controller entries
- * @param mixed $ctrl controller
- * @param mixed $tablename tablename
- * @param mixed $entries entry to add
+ * @param BaseController $ctrl controller
+ * @param string $tablename tablename
+ * @param array $entries entry to add
  */
-function igk_db_load_entries($ctrl, $tablename, $entries)
+function igk_db_load_entries(BaseController $ctrl, string $tablename, $entries)
 {
     $v_r = igk_db_create_row($tablename);
     if (!$v_r) {
         return false;
     }
-    $tabinfo = igk_db_getdatatableinfokey($tablename);
+    $tabinfo =  DbSchemas::GetTableColumnInfo($tablename);
     foreach ($entries as $e => $ee) {
         $v = igk_createobj();
         $b = (object)$ee;
@@ -13080,15 +13078,12 @@ function igk_ilog_dump($o)
 }
 ///<summary></summary>
 /**
- * 
+ * helper: get Ilog file 
  */
-function igk_ilog_file()
+function igk_ilog_file():string
 {
-    $f = igk_environment()->get("logfile", igk_const("IGK_LOG_FILE"));
-    if (!$f) {
-        $f = \IGKLog::getInstance()->getLogFile();
-    }
-    return $f;
+    return \IGKLog::GetSystemLogFile();
+ 
 }
 ///<summary></summary>
 /**
@@ -16838,7 +16833,7 @@ function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
     igk_set_env("igk_log_var_dump", null);
     $s .= $msg . "\r" . IGK_LF;
     if (!file_exists($file)) {
-        igk_io_save_file_as_utf8_wbom($file, $s, true);
+        igk_io_save_file_as_utf8_wbom($file, $s, true, 0775);
     } else {
         if ($r = @fopen($file, "a+")) {
             fwrite($r, $s);
@@ -17113,10 +17108,10 @@ function igk_nav_session()
  */
 function igk_navto($uri, ?int $headerStatus = null)
 {
-    // if (igk_environment()->isDev()){
-    //     igk_trace();
-    //     igk_wln_e("nav to ".$uri);
-    // }
+   //  if (igk_environment()->isDev()){
+        // igk_trace();
+        // igk_wln_e("nav to ".$uri);
+    //}
     if (!igk_is_webapp()) {
         return;
     } 
@@ -17808,7 +17803,8 @@ function igk_pattern_matcher_matchcallback($m)
             // $tm = "(?P<" . $n . ">([^;]+=([^;]+;?)+)";
             // + | ----------------------------------------------
             // + | options matching 
-            $tm = "(?P<" . $n . ">([^;]+=([^;\?]+;?|;;)?)+)";
+            // $tm = "(?P<" . $n . ">([^;]+=([^;\?]+;?|;;)?)+)";
+            $tm = "(?P<" . $n . ">([^;]+=([^;\?]+;?|;)?)+)";
             break;
         case "query":
             $tm = "(?P<" . $n . ">([^;]+;?)+)";
@@ -19364,8 +19360,9 @@ function igk_session_update($id, $callback, $close = 1)
 {
     if (!igk_session_exists($id) || ((session_id() == $id)))
         return;
+    $session_cookie_name = igk_environment()->session_cookie_name;
     igk_session_reset_handler();
-    session_name('PHPSESSID');
+    session_name( $session_cookie_name );
     igk_bind_session_id($id);
     @session_start();
     $callback($id, igk_app());
@@ -21878,7 +21875,7 @@ function igk_sys_ac_getpattern($basePatternUri)
 }
 ///<summary>get uri action pattern info</summary>
 /**
- * get uri action pattern info
+ * helper: get current uri pattern info
  */
 function igk_sys_ac_getpatterninfo()
 {
@@ -21886,7 +21883,7 @@ function igk_sys_ac_getpatterninfo()
 }
 ///<summary>use to register action</summary>
 /**
- * use to register action
+ * helper: use to register action
  */
 function igk_sys_ac_register($uriPattern, $uri)
 {
@@ -24727,7 +24724,7 @@ function igk_user_store_tokenid($u)
     if (igk_environment()->NO_SESSION)
         return;
     $id = igk_create_cref();
-    setcookie(igk_get_cookie_name(igk_sys_domain_name() . "/uid"), $u->clId . ":" . $id, time() + (86400 * 7), igk_get_cookie_path());
+    setcookie(igk_get_cookie_name(igk_sys_domain_name() . "/".Cookies::USER_ID), $u->clId . ":" . $id, time() + (86400 * 7), igk_get_cookie_path());
     igk_user_set_info("TOKENID", $id, 1, 1);
     $u->clTokenStored = 1;
 }

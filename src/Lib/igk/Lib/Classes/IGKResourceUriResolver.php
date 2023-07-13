@@ -25,6 +25,7 @@ class IGKResourceUriResolver
     private static $sm_instance;
     private $m_hashPath;
     private $m_options;
+    const DEFAULT_MASK = IGK_DEFAULT_CACHE_FOLDER_MASK;
     /**
      * accept full uri resolution
      * @var bool
@@ -56,10 +57,15 @@ class IGKResourceUriResolver
         }
         return self::$sm_instance;
     }
-    ///<summary>utility use to bind javascript resources
+    ///<summary>utility use to bind javascript resources</summary>
+    /**
+     * prepare uri resolution environment \ 
+     * all public directory must have 775 mask 
+     * @return void 
+     */
     public function prepareEnvironment()
     {
-        $app_dir = igk_io_applicationdir();
+        $app_dir = igk_io_applicationdir();        
         $this->environment = array(
             IGK_LIB_DIR . "/cgi-bin" => (object)array(
                 "name" => "cgi-bin",
@@ -68,7 +74,7 @@ class IGKResourceUriResolver
                     $o = igk_io_basedir($chain);
                     $dir = dirname($o);
                     if (!file_exists($o)) {
-                        IO::CreateDir($dir);
+                        IO::CreateDir($dir, static::DEFAULT_MASK);
                         igk_io_symlink($rp, $o);
                     } else {
                         if (!is_link($o)) {
@@ -87,6 +93,7 @@ class IGKResourceUriResolver
             igk_get_packages_dir() => ResIdentifierConstants::PACKAGE,
             igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
+        $public_asset = Path::getInstance()->getPublicAssetDir();
 
         // possibility that file are symlink 
         if (($c = $app_dir."/Lib/igk") != IGK_LIB_DIR){        
@@ -95,10 +102,10 @@ class IGKResourceUriResolver
 
         krsort($this->environment, SORT_REGULAR);
         $_access = implode("\n", ["allow from all", "AddType text/javascript js", "AddEncoding deflate js", "<IfModule mod_headers.c>", "Header set Cache-Control \"max-age=31536000\"", "</IfModule>",]);
-        if (!file_exists($c = igk_io_basedir() . "/assets/_chs_/dist/js/.htaccess")) {
+        if (!file_exists($c =  $public_asset. "/_chs_/dist/js/.htaccess")) {
             igk_io_w2file($c, $_access);
         }
-        if (!file_exists($c = igk_io_basedir() . "/assets/dist/js/.htaccess")) {
+        if (!file_exists($c =  $public_asset . "/dist/js/.htaccess")) {
             igk_io_w2file($c, $_access);
         }
     }
@@ -132,8 +139,9 @@ class IGKResourceUriResolver
                 "prj"=>ResIdentifierConstants::PROJECT, 
                 "project"=>ResIdentifierConstants::PROJECT, 
                 "cache"=>ResIdentifierConstants::CACHE, 
-            ], $n, function()use($n){
-                igk_die("not found .... ".$n);
+                'app'=>ResIdentifierConstants::APP
+            ], $n, function()use($n, $path){
+                igk_die("not found .... ".$n. " for [".$path."]");
             }), $s);  
         }
         return null;

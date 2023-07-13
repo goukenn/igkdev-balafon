@@ -29,7 +29,17 @@ class QueryBuilder
     private $m_options;
     private $m_model;
     private $m_with;
+    private $m_withTotalCount;
 
+    /**
+     * field to add as total counter 
+     * @param bool|string $value 
+     * @return $this 
+     */
+    public function withTotalCount($value){
+        $this->m_withTotalCount = $value;
+        return $this;
+    }
     public function append_columns(?array $columns){
         if (isset($this->m_options["Columns"]) && $columns){
             $cl = & $this->m_options["Columns"];  
@@ -99,7 +109,7 @@ class QueryBuilder
     /**
      * set conditions
      * @param array $condition 
-     * @return $this 
+     * @return static 
      */
     public function conditions(?array $condition = null)
     {
@@ -109,7 +119,7 @@ class QueryBuilder
     /**
      * set conditions
      * @param array $condition 
-     * @return $this 
+     * @return static 
      */
     public function where(array $condition)
     {
@@ -151,15 +161,15 @@ class QueryBuilder
     /**
      * helper: join left
      * @param string $table 
-     * @param string $fist_column 
+     * @param string $first_column 
      * @param string $second_column 
      * @return $this 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function join_left_on(string $table, string $fist_column , string $second_column){
-        return $this->join_left($table, sprintf("%s=%s", $fist_column, $second_column));
+    public function join_left_on(string $table, string $first_column , string $second_column){
+        return $this->join_left($table, sprintf("%s=%s", $first_column, $second_column));
     }
     public function join_table(string $table)
     {
@@ -266,9 +276,20 @@ class QueryBuilder
      */
     public function get_query()
     {
-
         if (!isset($this->m_options["primaryKey"])) {
             $this->m_options["NoPrimaryKey"] = 1;
+        }
+        if ($s = $this->m_withTotalCount){
+            if(isset($this->m_options['Columns'])){
+                $this->m_options['Columns']['Count(*)'] = is_string($s) ? $s : "Count(*)";
+            }else{
+                $this->m_options['Columns'] = array_merge([
+                    'Count(*)' => is_string($s) ? $s : "Count(*)",
+                ],
+                    $tc = $this->model()->queryColumns()
+                );
+                $this->m_options['GroupBy'] = $tc; //['clGuid'.' '];
+            }
         }
         return $this->m_model->get_query($this->m_conditions, $this->m_options);
     }
@@ -279,6 +300,15 @@ class QueryBuilder
     public function get_sub_query()
     {
         return rtrim($this->get_query(), " ;");
+    }
+    /**
+     * 
+     * @param null|object $options 
+     * @return static 
+     */
+    public function setOptions( $options =null){
+        $this->m_options = (array)$options;
+        return $this;
     }
     /**
      * 
@@ -306,8 +336,8 @@ class QueryBuilder
         $driver = $this->m_model->getDataAdapter();
         if (!empty($query = $this->get_query()) && $driver->connect()) {
             $n = $driver->getIsConnect() ? -1 : $driver->connect();
+            $v_goptions = $options ?? $this->m_options;
             if (!empty($this->m_with)) {
-                $v_goptions = $options ?? $this->m_options;
                 $old_callback = !$v_goptions ? null : igk_getv($v_goptions, IGKQueryResult::CALLBACK_OPTS);
                 $options = [
                     IGKQueryResult::CALLBACK_OPTS => function ($v) use ($old_callback) {
@@ -318,6 +348,8 @@ class QueryBuilder
                         return self::_BuildRefWith($v, $row, $this->model(), $this->m_with);
                     }
                 ];
+            } else {
+                $options = $v_goptions;
             }
             $response =  $driver->sendQuery($query, $throwOnError, $options, false);
             if ((($n == -1) && $autoclose) || (($n != -1) && ($autoclose))) {

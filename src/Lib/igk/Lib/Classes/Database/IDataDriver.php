@@ -20,6 +20,9 @@ interface IDataDriver{
      * @return null|string 
      */
     function getDbName():?string;
+
+    function getVersion():string;
+    function getType():string;
     /**
      * get if driver is connected
      * @return bool 
@@ -37,6 +40,11 @@ interface IDataDriver{
     function tableExists(string $table): bool;
     function sendQuery(string $query, $throwex=true, $options=null, $autoclose=false);
 
+    /**
+     * retrieve used date time format
+     * @return string 
+     */
+    function getDateTimeFormat():string;
     /**
      * get data value
      * @param mixed $value 

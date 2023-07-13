@@ -33,8 +33,8 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static string column(string $column) macros function get column full name
  * @method static void commit() macros function
  * @method static int count(?array $conditions=null) macros function get number of entries
- * @method static object|null createFromCache($identifier, $conditions) macros function
- * @method static static createCondition() macros function create condition object
+ * @method static object|null createFromCache(object $identifier, ?object $conditions=null) macros function
+ * @method static \IGK\Database\DbQueryCondition createCondition() macros function create condition object
  * @method static ?static createIfNotExists($data_condition, ?object|array $extra=null extra model field definition, & $new = false new field) macros function: create if not exists
  * @method static string display() macros function return a string used for display
  * @method static array|Iterable|null formFields($edit=false, ?array $unsetKeys=null) macros function

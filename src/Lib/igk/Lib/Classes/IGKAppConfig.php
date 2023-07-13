@@ -73,12 +73,12 @@ use function igk_resources_gets as __;
 * @property bool $meta_title
 * @property bool $ob_buffer_padding_length
 * @property bool $ovh
-* @property bool $php_run_scrit
+* @property bool $php_run_script
 * @property bool $phpmyadmin_uri
 * @property bool $powered_messae
 * @property bool $powered_message
 * @property bool $powered_uri
-* @property bool $python_run_scrit
+* @property bool $python_run_script
 * @property bool $secure_port
 * @property bool $show_debug
 * @property bool $show_powered

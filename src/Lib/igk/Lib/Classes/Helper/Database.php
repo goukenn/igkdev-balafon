@@ -37,6 +37,28 @@ class Database{
     public static function GetInfo($n){
         return igk_getv(self::$sm_shared_info, $n);
     }
+
+    /**
+     * init controller database 
+     * @param BaseController $controller 
+     * @return bool 
+     */
+    public static function InitData(BaseController $controller):bool{
+        $controller->register_autoload();
+        if (($cl = $controller->resolveClass(\Database\InitData::class)) && class_exists($cl, false)) {
+            $call = true;
+            // + | Check Init :
+            $c = new ReflectionMethod($cl, "Init");
+            if ($type = $c->getParameters()[0]->getType()) {
+                $call = IGKType::GetName($type) == get_class($controller);
+            }
+            // + | init data : 
+            $call && $cl::Init($controller);            
+            return true;
+        }
+        igk_ilog('missing init data - class : '.$cl. ' '.$controller);
+        return false;
+    }
     /**
      * clean table name by removing model table regex environment variables
      * @param string $table 
@@ -133,6 +155,7 @@ class Database{
         if (!$adapter->getIsConnect()){
             return;
         }
+        $dbname = $adapter->getDbName();
         $adapter->beginInitDb($ctrl);
         $v_foreignConstraints = [];
         foreach ($tb as $k => $v) {
@@ -144,6 +167,10 @@ class Database{
             $data = $etb ? igk_getv($etb, $n) : null;
             igk_hook(IGK_NOTIFICATION_INITTABLE, [$ctrl, $n, &$data]);
             $columnInfo = $v->columnInfo;
+            if ($dbname){
+                $n = sprintf('`%s`.%s', $dbname, $adapter->escape_table_name($n));
+            }
+
             if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName)) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));               
                 igk_ilog("failed to create " . $n);

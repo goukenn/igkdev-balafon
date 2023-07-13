@@ -18,6 +18,7 @@ use IGK\Resources\R;
 use IGK\Server;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
+use IGK\System\Http\Cookies;
 use IGKEvents;
 
 final class SessionController extends BaseController{
@@ -145,7 +146,7 @@ final class SessionController extends BaseController{
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
-        $n=igk_get_cookie_name(igk_sys_domain_name()."/uid");
+        $n=igk_get_cookie_name(igk_sys_domain_name()."/".Cookies::USER_ID);
         $rs=igk_getv($_COOKIE, $n);
         if(!empty($rs)){ 
             try {
@@ -251,8 +252,10 @@ final class SessionController extends BaseController{
         }
         $tab=array();
         $server="BALAFON";
-        $sessid=igk_getv($_COOKIE, 'PHPSESSID', session_id());
-        $strCookie='PHPSESSID='.$sessid.'; path='.igk_get_cookie_path();
+        $cookie_name = igk_environment()->session_cookie_name;
+
+        $sessid=igk_getv($_COOKIE, $cookie_name, session_id());
+        $strCookie= $cookie_name.'='.$sessid.'; path='.igk_get_cookie_path();
         $f=igk_data_get_cron_file();
         if(file_exists($f))
             $tab=igk_json_parse(igk_io_read_allfile($f));

@@ -26,7 +26,14 @@ use ReflectionException;
  */
 class HtmlNodeBuilder
 {
+
     var $t;
+    /**
+     * preserve loading tag case
+     * @var false
+     */
+    public $preserveTagCase = false;
+
     const KEY_CONDITION = '@_if:';
     /**
      * get node property 
@@ -73,6 +80,11 @@ class HtmlNodeBuilder
     {
         return $this->t->render();
     }
+    /**
+     * create an html builder 
+     * @param HtmlItemBase $node core node
+     * @return void 
+     */
     public function __construct(HtmlItemBase $node)
     {
         $this->t = $node;

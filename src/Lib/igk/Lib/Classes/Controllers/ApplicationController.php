@@ -625,6 +625,7 @@ EOF;
     ///<summary> base application uri handle</summary>
     /**
      *  base application uri handle
+     * @param mixed|string|\IGK\System\Http\UriHandleObject $u
      * @param mixed $forcehandle default is true. will stop the script
      * @param bool $forcehandle default is true. will stop the script
      */
@@ -643,6 +644,9 @@ EOF;
         ));
         // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
+            if (empty($u)){
+                igk_die('handle_redirection_uri, empty uri request');
+            }
             $page = explode("?", $u);
             $k = $this->getDomainUriAction();
             $pattern = igk_pattern_matcher_get_pattern($k);
@@ -657,6 +661,13 @@ EOF;
             $viewdefault = 1;
             extract(igk_pattern_view_extract($this, $p, 1));
             igk_ctrl_change_lang($this, $p);
+        }
+        
+        if (empty($c)){
+            //igk_wln_e(__FILE__.":".__LINE__ , "calling");
+            if (igk_environment()->isDev()){
+                // igk_die('handle_redirection_uri, missing\' view configuration controller:'. $u."\n". json_encode($u));
+            }
         }
 
         // get request query options
@@ -826,7 +837,7 @@ EOF;
             $s = IGKGD::Create(256, 128);
             $n = $ctrl->getName();
             if ($s) {
-                igk_io_w2file($ctrl->getDataDir() . IGK_APP_LOGO, $s->RenderText(), true);
+                igk_io_w2file($ctrl->getDataDir() . IGK_APP_LOGO, $s->renderText(), true);
             }
             igk_io_w2file(
                 $ctrl->getDataDir() . IGK_APP_LOGO . ".gkds",

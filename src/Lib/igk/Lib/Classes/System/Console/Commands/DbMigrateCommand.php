@@ -28,7 +28,8 @@ class DbMigrateCommand extends AppExecCommand
     var $desc = 'migration command';
 
     var $options = [
-        '--no-clear-db-cache'=>'flag: do not clear db cache'
+        '--no-clear-db-cache'=>'flag: do not clear db cache',
+        '--force'=>"flag: force module class creation"
     ];
 
 
@@ -70,7 +71,7 @@ class DbMigrateCommand extends AppExecCommand
             Logger::info("migrate..." . $cl);
             if ($t->getCanInitDb()) {
                 // call core migration - update 
-                if ($t::migrate()) {
+                if ($t::migrate(true)) {
                     Logger::success("migrate:" . $cl);
                     if (!($t instanceof IGKModuleListMigration)){
                         $migHandle = new MigrationHandler($t);

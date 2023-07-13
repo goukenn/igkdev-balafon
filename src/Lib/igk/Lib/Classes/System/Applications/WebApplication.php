@@ -48,12 +48,13 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     /**
      * bootstrap application
      * @param mixed $bootoptions 
+     * @param callable $loader bootstrap load
      * @return mixed 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function bootstrap($bootoptions = null, $loader=null)
+    public function bootstrap($bootoptions = null, ?callable $loader=null)
     {
         // - |
         // - | clean previously set header - 
@@ -67,10 +68,10 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
         
         IGKApp::Init();
-
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
         isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
-
+        
+        
 
         // enable benchmark        
         Benchmark::Activate(
@@ -82,7 +83,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
 
    
-
+   
         // bootstrap web application
         // + initialize library
         $this->library("subdomain");
@@ -91,9 +92,8 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $this->library("zip");
         $this->library("gd");
         $this->library("curl");
-        
         if ($loader){
-            $loader();
+            $loader(); 
             if (!file_exists(igk_io_applicationdir()."/Data/configure")){          
                 igk_initenv(igk_io_applicationdir(), igk_app());
             }
@@ -131,8 +131,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         });
         igk_reg_hook(IGKEvents::HOOK_MK_LINK, function () {
             igk_internal_reslinkaccess();
-        });
-
+        }); 
         // + | --------------------------------------------------------------------
         // + | boot modules
         // + |
@@ -146,6 +145,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                 $this->setDefaultController($c);
             }
         }
+   
     }
     /**
      * shortcut to set system default controller
@@ -233,7 +233,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                     $requestHandler->redirect($this, []);
                 } else {
                     igk_set_header($srv->REDIRECT_STATUS);
-                }
+                } 
                 igk_exit();
             }
         

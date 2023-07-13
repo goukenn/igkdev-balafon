@@ -30,7 +30,7 @@ if (!function_exists("igk_count")) {
         return count($n);
     }
 }
-if (!function_exists("igk_io_dir")) {
+if (!function_exists("igk_dir")) {
     function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         if ($dir === null){          

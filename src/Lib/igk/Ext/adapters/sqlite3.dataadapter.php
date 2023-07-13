@@ -8,6 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbQueryDriver;
 use IGK\Database\DbSchemas;
@@ -17,7 +18,8 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\EnvironmentArrayException;
-use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
+// use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
+// use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
@@ -104,8 +106,10 @@ function igk_sql3lite_fetch_field($r, $requiretable=1){
     $index=0;
     $v_k="field::/index";
     $v_inf_k="field::/index_info";
-    $index=igk_getv($r, $v_k, 0);
-    $v_inf=igk_getv($r, $v_inf_k, 0);
+    $counter = igk_environment()->get(__FUNCTION__) ?? (object)['counter'];
+
+    $index=igk_getv($counter, $v_k, 0);
+    $v_inf=igk_getv($counter, $v_inf_k, 0);
     $tb=igk_getv($r, IGK_SQL3LITE_KN_TABLE_KEY);
     $ctx=IGKSQLite3DataAdapter::GetCurrent();
     $k=null;
@@ -122,14 +126,13 @@ function igk_sql3lite_fetch_field($r, $requiretable=1){
             if(!empty($tb)){
                 $q="pragma table_info('{$tb}')";
                 $v_inf=$ctx->sql->query($q);
-                igk_wln($q);
+                igk_dev_wln($q);
                 $r->$v_inf_k=$v_inf;
                 while($d=$r->$v_inf_k->fetchArray(SQLITE3_NUM)){
                     igk_wln("i ");
                     igk_wln($d);
                 }
-            }
-            else{}
+            } 
         }
         $tab=[];
         $k=(object)array(
@@ -144,11 +147,15 @@ function igk_sql3lite_fetch_field($r, $requiretable=1){
 
             );
         $index++;
-        $r->$v_k=$index;
+        // $r->$v_k=$index;
+        $counter->$v_k = $index;
+
+        igk_environment()->set(__FUNCTION__, $counter);
     }
     else{
         $r->reset();
         unset($r->$v_k);
+        igk_environment()->set(__FUNCTION__, null);
     }
     return $k;
 }
@@ -232,6 +239,19 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_list;
     private static $sm_sql;
     private $m_inTransaction = false;
+
+    public function getDateTimeFormat(): string { 
+        return IGK_MYSQL_TIME_FORMAT; 
+    }
+
+    public function exist_column(string $table, string $column, $db = null): bool {
+        return false;
+    }
+
+    public function getType(): string { 
+        return 'SQL3Lite';
+    }
+ 
 
     /**
      * 
@@ -498,7 +518,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
             "adapterName"=>IGK_SQL3LITE_KN,
             "query"=>$query
         ), (array)$obj ?? []);
-        return AdapterQueryResult::CreateResult(new sql3literesult($r), $query, $inf);
+        return SQLite3Result::CreateResult($r, $query, $inf);
     }
     ///<summary></summary>
     ///<param name="tbname"></param>
@@ -507,13 +527,14 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     ///<param name="desc" default="null"></param>
     /**
     * 
-    * @param mixed $tbname
-    * @param mixed $columninfo
-    * @param mixed $entries the default value is null
-    * @param mixed $desc the default value is null
+    * @param string $tbname table's name
+    * @param mixed $columninfo column info 
+    * @param mixed $entries the default entries
+    * @param mixed $desc description
+    * @param ?array $options driver options
     */
-    public function createTable($tbname, $columninfo, $entries=null, $desc=null){
-         $query=self::CreateTableQuery($tbname, $columninfo, $entries, $desc);
+    public function createTable($tbname, $columninfo, $entries=null, $desc=null,  $options=null){
+        $query=self::CreateTableQuery($tbname, $columninfo, $entries, $desc, $options);
         $r=$this->sendQuery($query, $tbname);
         if($entries){
             igk_db_inserts($this, $tbname, $entries);
@@ -961,7 +982,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     /**
     * get sql version
     */
-    public function getVersion(){
+    public function getVersion():string{
         return $this->sql->version();
     }
     ///<summary></summary>
@@ -1197,30 +1218,31 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
 /**
 * Represente sql3literesult class
 */
-class sql3literesult{
-    var $Columns;
-    var $Rows;
-    var $res;
-    ///<summary></summary>
-    ///<param name="res" type="SQLite3Result"></param>
-    /**
-    * 
-    * @param SQLite3Result $res
-    */
-    public function __construct(SQLite3Result $res){
-        $this->res=$res;
-        $this->Columns=array();
-        $this->Rows=array();
-    }
 
-    ///<summary></summary>
-    /**
-    * 
-    */
-    public function CreateEmptyResult(){
-        return null;
-    }
-}
+// class sql3literesult{
+//     var $Columns;
+//     var $Rows;
+//     var $res;
+//     ///<summary></summary>
+//     ///<param name="res" type="SQLite3Result"></param>
+//     /**
+//     * 
+//     * @param SQLite3Result $res
+//     */
+//     public function __construct($res){
+//         $this->res=$res;
+//         $this->Columns=array();
+//         $this->Rows=array();
+//     }
+
+//     ///<summary></summary>
+//     /**
+//     * 
+//     */
+//     public function CreateEmptyResult(){
+//         return null;
+//     }
+// }
 DbQueryDriver::Init(function(& $conf){
     $n=IGK_SQL3LITE_KN;
     $conf["db"]=IGK_SQL3LITE_KN;

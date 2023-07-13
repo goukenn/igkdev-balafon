@@ -4,13 +4,7 @@
 // @filename: installer-helper.pinc
 // @date: 20221207 19:26:53
 // @desc: installer helper
-
-if (!version_compare(PHP_VERSION, "7.3", ">=")){
-    $response->die("mandory version required. 7.3<=".PHP_VERSION);
-}
-if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
-    $response->die("request method not match", 500);
-}
+ 
 
 if (!function_exists("igk_io_getfiles")) {
     function igk_io_getfiles($dir, $pattern=null, $recursive=false){
@@ -64,7 +58,7 @@ if (!function_exists("igk_count")) {
     }
 }
 if (!function_exists("igk_io_dir")) {
-    function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
+    function igk_io_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         if ($dir === null) {
             return $dir;
@@ -97,7 +91,7 @@ if (!function_exists("igk_io_rmdir")) {
             while (($f = readdir($hdir))) {
                 if (($f == ".") || ($f == ".."))
                     continue;
-                $v = igk_dir($dir . "/" . $f);
+                $v = igk_io_dir($dir . "/" . $f);
 
                 if ($callback && !$callback($v)) {
                     continue;
@@ -179,6 +173,16 @@ class InstallerResponse
         echo $data;
         exit;
     }
+}
+
+
+$response = new InstallerResponse;
+
+if (!version_compare(PHP_VERSION, "7.3", ">=")){
+    $response->die("mandory version required. 7.3<=".PHP_VERSION);
+}
+if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
+    $response->die("request method not match", 500);
 }
 
 // %token%

@@ -198,7 +198,7 @@ class RouteHandler
     public function match($path, $verb = 'GET')
     { 
         // + match verb
-        if (!in_array($verb, $this->verbs)) {
+        if (!in_array(strtoupper($verb), $this->verbs)) {
             return false;
         }        
         $regex = $this->getPatternRegex();   

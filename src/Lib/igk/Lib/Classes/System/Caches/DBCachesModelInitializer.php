@@ -203,8 +203,10 @@ class DBCachesModelInitializer{
             // + get property type
             $pr_type =   
                 $this->getPhpDoPropertyType($cinfo->clName, $cinfo, $ctrl, false);
-             
-            $php_doc .= "@property " . $pr_type . "\n";
+             if ($desc = trim($cinfo->clDescription ??'')){
+                $desc = ' '.$desc;
+             }
+            $php_doc .= sprintf("@property " . $pr_type . "%s\n", $desc);
             $const_data .=  "const FD_".StringUtility::GetConstantName($cinfo->clName). '="'.$cinfo->clName.'";' ."\n";
 
         }

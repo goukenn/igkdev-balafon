@@ -27,11 +27,9 @@ class CreateRowTest extends BaseTestCase{
     function test_create_usergroup_row(){
         require_once IGK_LIB_CLASSES_DIR . "/IGKSysUtil.php"; 
         $u_model = Usergroups::model();
-        $table = $u_model->table();
-        // $ad = Usergroups::driver(); 
-        // igk_wln_e("table : ", $table);
+        $table = $u_model->table(); ;
         if (!$def = $u_model->getTableColumnInfo()){
-            $this->fail("Can't get table definition..");
+            $this->fail("Can't get table definition.");
         }
        if (!($row = DbSchemas::CreateRow($table, $u_model->getController()))){
             $this->fail("failed to create row");
@@ -77,8 +75,7 @@ class CreateRowTest extends BaseTestCase{
         $defs = $e->getDataTableDefinition()->tableRowReference; 
       
         $this->assertEquals(
-            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3') NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
-            // "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` text NOT NULL,`clName` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
+            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3') NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",            
             $gram->createTableQuery("table_enum", $defs)
         ); 
     }

@@ -18,13 +18,15 @@ final class IGKConstants{
     const DEFAULT_TIME_ZONE = 'Europe/Brussels';
     const MODEL_TABLE_REGEX = "/%(?P<name>((sys)?prefix|year))%/i"; 
     const TOKEN_EXPIRE = 60*24*3;
+    const FILE_PATH_HASH_ALGO ='crc32b';
     
     const BASECLASS_COMMAND = \System\Console\Commands::class;
 
  
     const SITEMAP_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd";
     const SITEMAP_INDEX_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd";
-    const SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9";   
+    const SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9";    
+    const MODULE_PACKAGE_LIST_URI = 'https://igkdev.com/balafon/get-module/';
 
     const GUID_LENGTH = 38;
 

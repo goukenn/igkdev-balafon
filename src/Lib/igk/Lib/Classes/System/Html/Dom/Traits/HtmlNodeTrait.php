@@ -246,13 +246,7 @@ trait HtmlNodeTrait{
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
 	// /**
-	//  * render autho community node - system community link
-	//  * @return HtmlItemBase 
-	//  * @throws IGKException 
-	//  */
-	// public function author_community(?array $options=null){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+
 	// /**
 	//  * create winui-backgroundlayer
 	//  */

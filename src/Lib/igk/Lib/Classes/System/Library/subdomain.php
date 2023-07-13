@@ -95,8 +95,9 @@ class subdomain{
             $params=igk_getv($tab, 1);
             $entry="";
             if($row){
-                if(!empty($e=trim($row->clView)))
-                $entry="/".$e;
+                $e =$row->clView;
+                if($e && !empty($e=trim($e)))
+                    $entry="/".$e;
             }
 
             require_once IGK_LIB_DIR . "/igk_request_handle.php";       
@@ -105,7 +106,7 @@ class subdomain{
             if (!igk_environment()->noWebConfiguration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
-                }, $file))->handle_route($path_info);
+                }, $file))->handle_route($path_info, null);
             }
 //             igk_trace();
 // igk_wln_e("handle: ".$uri, $path_info);

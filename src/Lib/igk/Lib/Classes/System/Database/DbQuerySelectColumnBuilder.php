@@ -54,6 +54,7 @@ class DbQuerySelectColumnBuilder{
             $v = igk_getv($conditions, $k);
             if ($cl->clIsUnique){
                 if (is_null($v) && !$cl->clNotNull ){
+                    igk_wln('condition : ', $conditions);
                     throw new Exception('null value not allowed for : '. $k);
                 }
                 $i->addUnique($k, $v); 

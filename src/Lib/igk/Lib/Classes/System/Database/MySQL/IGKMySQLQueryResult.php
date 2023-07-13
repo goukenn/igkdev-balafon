@@ -13,6 +13,7 @@ use IGK\Database\DbQueryRowObj;
 use IGK\Helper\JSon;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\IToArrayResolver;
 use IGKSorter;
 use IIGKQueryResult;
 
@@ -20,7 +21,7 @@ use IIGKQueryResult;
 /**
 * Represent MySQL Query result wrapper
 */
-final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult {
+final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult{
     private $m_adapterName;
     private $m_columns;
     private $m_dbname;

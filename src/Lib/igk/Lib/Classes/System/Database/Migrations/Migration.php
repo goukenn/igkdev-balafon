@@ -6,7 +6,7 @@
 
 //
 // @file: Migration.php
-// @author: C.A.D BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // @desc: base abstract class for migration
 namespace IGK\System\Database\Migrations;
 

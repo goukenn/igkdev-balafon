@@ -8,14 +8,18 @@
 namespace IGK\Database;
 
 use Exception;
+use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Number;
 use IGKEvents;
 use IGKException;
 use IGKObject;
 use IIGKdbManager;
 use mysqli;
+use ReflectionException;
 use Throwable;
 
 /**
@@ -51,6 +55,16 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     public  static $Config;
     static $idd = 0;
     const DRIVER_MYSQLI = "MySQLI";
+    private $m_noSelectDbErrorAutoClose = false;
+
+    public function getNoSelectDbErrorAutoClose():bool{
+        return $this->m_noSelectDbErrorAutoClose;
+    }
+    public function setNoSelectDbErrorAutoClose(bool $value){
+        $this->m_noSelectDbErrorAutoClose = $value;
+    }
+
+
     public function getServer()
     {
         return $this->m_dbserver;
@@ -67,7 +81,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_dbpwd;
     }
- 
+
     ///<summary>.ctr</summary>
     /**
      * .ctr
@@ -102,7 +116,8 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param mixed|array|IDbSendQueryOptions $option null or array key of object 
      * @return mixed|object|null
      */
-    private function _sendQuery($query, $options = null, bool $autoclose=false){
+    private function _sendQuery($query, $options = null, bool $autoclose = false)
+    {
         return $this->getSender()->sendQuery($query, true, $options, null, $autoclose);
     }
     ///<summary></summary>
@@ -154,8 +169,9 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
     }
 
-    public function isConnect(){        
-        return $this->m_resource && ($this->m_openCount>0);
+    public function isConnect()
+    {
+        return $this->m_resource && ($this->m_openCount > 0);
     }
     ///<summary></summary>
     /**
@@ -182,7 +198,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * 
      */
     public function connect()
-    { 
+    {
         if ($this->m_isconnect && $this->m_resource) {
             if (@$this->m_resource->ping()) {
                 $this->m_openCount++;
@@ -199,31 +215,39 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $this->m_openCount = 0;
             igk_die("[igk] The connection was not closed properly :::ping failed : " .
                 $lcount . " <br />");
-        } 
-        $r = igk_db_connect($this);  
-
-        if (igk_db_is_resource($r) && $this->initialize($r)) {
-            $this->m_isconnect = true;
-            $this->m_resource = $r;
-            $this->m_openCount = 1;
-            return true;
-        } else {
-            $_error = __CLASS__ . "::Error : SERVER RESOURCE # ";
-            igk_notify_error($_error, "sys");          
-            $error = igk_db_last_connect_error();                
-            $this->m_lastError = $error;
-
+        }
+        $r = igk_db_connect($this);
+        try {
+            if (igk_db_is_resource($r) && $this->initialize($r)) {
+                $this->m_isconnect = true;
+                $this->m_resource = $r;
+                $this->m_openCount = 1;
+                return true;
+            } else {
+                $_error = __CLASS__ . "::Error : SERVER RESOURCE # ";
+                igk_notify_error($_error, "sys");
+                $error = igk_db_last_connect_error();
+                $this->m_lastError = $error;
+            }
+        } catch (Exception $ex) {
+            Logger::danger($ex->getMessage());
+            igk_ilog($ex->getMessage());
         }
         $this->m_isconnect = false;
-        $this->m_resource = null; 
+        $this->m_resource = null;
         return false;
     }
- 
-    public function getLastError(){
+
+    public function getLastError()
+    {
         return $this->m_lastError;
     }
-
-    protected abstract function initialize($resource);
+    /**
+     * configure and initialize db - driver
+     * @param mixed $resource depending driver
+     * @return bool
+     */
+    protected abstract function initialize($resource): bool;
 
     ///<summary></summary>
     ///<param name="dbserver"></param>
@@ -273,7 +297,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param mixed $dbuser the default value is "root"
      * @param mixed $dbpwd the default value is ""
      */
-    public static function Create(?array $options = null, & $error = null)
+    public static function Create(?array $options = null, &$error = null)
     {
 
         static $driver_storage;
@@ -310,7 +334,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         try {
             $out->connect();
-        } catch (\Exception $_) { 
+        } catch (\Exception $_) {
             $out->m_isconnect = false;
             $error = $_->getMessage();
             // remove last error in case last error - 
@@ -319,7 +343,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             }
         }
 
-       
+
         if ($out->m_isconnect) {
             if (igk_environment()->isDev()  && !empty($dbname)) {
                 $out->createDb($dbname);
@@ -344,18 +368,29 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         if (!$this->getIsConnect())
             return false;
         // + | ------------------- 
-        return $this->sendQuery("CREATE DATABASE IF NOT EXISTS `" . $this->escape_string($db) . "`;", true );
+        return $this->sendQuery("CREATE DATABASE IF NOT EXISTS `" . $this->escape_string($db) . "`;", true);
     }
     ///<summary>create table</summary>
     /**
-     * create table
+     * 
+     * @param string $tbname 
+     * @param array $columninfo 
+     * @param mixed $entries 
+     * @param mixed $desc 
+     * @param ?string $dbname dbname
+     * @param mixed $options options
+     * @return bool|null 
+     * @throws EnvironmentArrayException 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
      */
-    public function createTable($tbname, array $columninfo, $entries = null, $desc = null, $dbname = null)
+    public function createTable(string $tbname, array $columninfo, $entries = null, $desc = null,  $options=null)
     {
         if (!$this->getIsConnect())
             return false;
         if ($grammar = $this->m_adapter->getGrammar()) {
-            $query = $grammar->createTableQuery($tbname, $columninfo, $desc, $dbname);
+            $query = $grammar->createTableQuery($tbname, $columninfo, $desc,  $options);
             if ($this->sendQuery($query)) {
                 if ($entries) {
                     $this->m_adapter->pushEntries($tbname, $entries, $columninfo);
@@ -396,14 +431,14 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * 
      */
     function dieNotConnect()
-    { 
+    {
         try {
             if (!$this->getIsConnect()) {
                 igk_trace();
                 igk_die("/!\\ DB Not connected");
             }
         } catch (Throwable $ex) {
-            igk_wln_e("error:".$ex->getMessage());
+            igk_wln_e("error:" . $ex->getMessage());
         }
     }
     ///<summary></summary>
@@ -690,9 +725,9 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param mixed $tableinfo the default value is null
      */
     public function insert($tbname, $values, $tableinfo = null)
-    { 
+    {
         $this->dieNotConnect();
-        $tableinfo = $tableinfo == null ? igk_db_getdatatableinfokey($tbname) : $tableinfo;
+        $tableinfo = $tableinfo ?? DbSchemas::GetTableColumnInfo($tbname);
         return $this->m_adapter->insert($tbname, $values, $tableinfo);
     }
     ///<summary></summary>
@@ -813,23 +848,23 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @param bool|option $throwex throw 
      * @return resource|null 
      */
-    public function sendQuery($query, $throwex = true , $options = null)
+    public function sendQuery($query, $throwex = true, $options = null)
     {
         if (igk_db_is_resource($this->m_resource)) {
             if (igk_environment()->querydebug) {
                 igk_dev_wln("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
-                igk_environment()->write_debug("<span>query &gt; </span>" . $query); 
+                igk_environment()->write_debug("<span>query &gt; </span>" . $query);
             }
-            if (igk_environment()->isOps() &&  igk_environment()->querydebug ){               
-                igk_ilog("send : ".$query);                 
+            if (igk_environment()->isOps() &&  igk_environment()->querydebug) {
+                igk_ilog("send : " . $query);
             }
-            $this->setLastQuery($query);    
+            $this->setLastQuery($query);
             // + | --------------------------------------------------------------------
             // + | depend on the quere engine can throw exception : data missing
             // + |
             $nolog = is_bool($options) ? $options : (is_object($options) ? igk_getv($options, 'nolog', false) : false);
-                    
+
             $t = igk_db_query($query, $this->m_resource);
             $error = "";
             $code = 0;
@@ -840,17 +875,17 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 $this->m_error = $error;
                 $this->m_errorCode = $code;
                 $log = ["DBQueryError" => $error];
-                if (igk_environment()->isDev()){
-                    $log = array_merge($log, ["Query" => $query, "File" => __FILE__, "Line"=>__LINE__]);
+                if (igk_environment()->isDev()) {
+                    $log = array_merge($log, ["Query" => $query, "File" => __FILE__, "Line" => __LINE__]);
                 }
-                igk_ilog($log);
+                igk_ilog(implode('\n', $log), 'BLF-DBQuery');
             }
             if ($throwex && !$t) {
                 $this->dieinfo(
                     $t,
                     "<div>/!\\ SQL Query Error : $error </div><div style='font-style:normal;'>" . igk_html_query_parse($query) . "</div>",
                     $code
-                ); 
+                );
             } else if (!$t)
                 return null;
             return $t;
@@ -926,21 +961,22 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      */
     public function tableExists($tablename): bool
     {
-        
+
         if (empty($tablename))
-            return false;   
- 
+            return false;
+
         try {
-            $tablename = $this->escape_table_name($tablename); 
+            $tablename = $this->escape_table_name($tablename);
             $s = $this->sendQuery(
-                "SELECT Count(*) FROM " .$tablename. "", 
-                true);
-            if (is_bool($s))         
+                "SELECT Count(*) FROM " . $tablename . "",
+                true
+            );
+            if (is_bool($s))
                 return $s;
             if ($s) {
                 return true;
-            } 
-        } catch (Exception $ex) { 
+            }
+        } catch (Exception $ex) {
             igk_ilog($s = __METHOD__ . ":" . $ex->getMessage());
         }
         return false;
@@ -953,7 +989,8 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         return $this->m_adapter->update($tbname, $entry, $where, $querytabinfo);
     }
 
-    protected function escape_table_name(string $tbname){
+    protected function escape_table_name(string $tbname)
+    {
         return $this->m_adapter->escape_table_name($tbname);
     }
 }

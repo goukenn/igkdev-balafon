@@ -30,4 +30,7 @@ class HtmlTextNode extends HtmlItemBase{
     public function render($options=null){
         return $this->content; 
     }
+    public function setContent($value){
+        $this->content = $value;
+    }
 }

@@ -37,7 +37,7 @@ class NotifyHelper{
             }
         } else {
             if (igk_is_ajx_demand()){
-                igk_ajx_toast($error, "danger");
+                igk_ajx_toast($error, "igk-danger");
             }
             else 
                 igk_notifyctrl($name)->addDanger($error);

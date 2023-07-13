@@ -19,28 +19,31 @@ define("IGK_GD_SUPPORT", 1);
 ///<param name="type" default="1"></param>
 ///<param name="compression"></param>
 /**
-* 
-* @param mixed $src
-* @param mixed $w
-* @param mixed $h
-* @param mixed $type the default value is 1
+* resize proportional 
+* @param string $src image data to get from
+* @param int $w
+* @param int $h
+* @param mixed $type the default value is 1. 1 = png, other value is for jpeg
 * @param mixed $compression from 0-100 the default value is 0= no compression
+* @param bool $antialias activate or not antialize on image
 */
-function igk_gd_resize_proportional($src, $w, $h, $type=1, $compression=0){
+function igk_gd_resize_proportional($src, $w, $h, $type=1, $compression=0, bool $antialias=false){
     $ih=imagecreatefromstring($src);
     $W=imagesx($ih);
     $H=imagesy($ih);
-    // igk_dev_wln($W . " x ".$H);
-    $ow=$w;
-    $oh=$h;
+    // igk_wln($W . " x ".$H);    
     $ex=$w/ $W;
     $ey=$h/ $H;
     $ex=min($ex, $ey);
-    $x=(( - $W * $ex) + $w)/2.0;
-    $y=(( - $H * $ex) + $h)/2.0;
+    $x= intval(ceil((( - $W * $ex) + $w)/2.0));
+    $y= intval(ceil((( - $H * $ex) + $h)/2.0));
+    // igk_wln("kjd ", $x , $y , $ex, $ey);
+
     $img=imagecreatetruecolor($w, $h);
     $black=imagecolorallocate($img, 0, 0, 0);
     imagecolortransparent($img, $black);
+    imageantialias($img, $antialias);
+
     $sh=imagescale($ih, ceil($ex * $W), ceil($ex * $H));
     imagecopy($img, $sh, $x, $y, 0, 0, $w, $h);
     $g=igk_ob_get_func(function($t) use (& $img, $compression){
@@ -154,6 +157,16 @@ class IGKGD {
     */
     public function Clearw($webcolor){
         $this->clearf(Colorf::FromString($webcolor));
+    }
+    /**
+     * create color Object
+     * @param mixed $R 
+     * @param mixed $G 
+     * @param mixed $B 
+     * @return object 
+     */
+    public static function CreateColorRGB($R, $G, $B){
+        return (object)compact('R', 'G', 'B');
     }
     ///<summary></summary>
     ///<param name="imgwidth"></param>
@@ -414,7 +427,7 @@ class IGKGD {
     /**
     * 
     */
-    public function RenderText(){
+    public function renderText(){
         ob_start();
         $this->render();
         $c= ob_get_contents();

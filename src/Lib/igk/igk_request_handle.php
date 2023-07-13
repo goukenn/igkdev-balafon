@@ -9,6 +9,7 @@
 // + | default uri handler
 // + | ----------------------------------------------------------------------------
 
+use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Server;
 use IGK\System\Http\RequestHandler; 
@@ -28,16 +29,17 @@ IGKRoutes::Register("^/favicon.ico[%q%]", function(){
 //+ | asset balafon preloader
 //+ | uri: /assets/Scripts/balafon.js
 //+ | ----------------------------------------------------------------------------------- 
-IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]", function(){
+IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]", function(){ 
+ 
     $_igk = igk_app();
-    $doc= $_igk->Doc;
+    $doc = $_igk->Doc;
     if(!$doc){
         igk_set_header(404);
+        igk_wln("/* not found - document */");
         igk_exit();
     } 
     igk_sess_write_close(); 
     $generate_source = "igk_sys_balafon_js";  
-
     $accept = igk_server()->accepts(["gzip", "deflate"]);
     if (!$accept){
         $src = $generate_source($doc);
@@ -47,9 +49,10 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
         echo $src;
         igk_exit();
     } 
+
     $sf=igk_core_dist_jscache();
     $resolver=IGKResourceUriResolver::getInstance(); 
-    if(file_exists($sf)){
+    if(0 && file_exists($sf)){
         $resolver->resolve($sf);
         igk_header_set_contenttype("js");
         header("Content-Type: application/javascript; charset=UTF-8");   
@@ -58,8 +61,8 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
         igk_exit();
     }
    
-    $src = $generate_source($doc, igk_getr('d'));
-    $type = 0;
+    $src = $generate_source(SysDbController::ctrl(), igk_getr('d'));
+     
     if ($_igk->Configs->core_no_zipjs){
         header("Content-Type: application/javascript; charset= UTF-8");
         header("Content-Encoding:deflate");  
@@ -68,8 +71,9 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
     }
  
     ob_start();
-    igk_zip_output($src, 0, $type);
-    $c= ob_get_clean(); 
+    $src = $src;
+    igk_zip_output($src, 0, 0);
+    $c =  ob_get_clean(); 
     igk_io_w2file($sf, $c);
     igk_hook(IGKEvents::HOOK_CACHE_RES_CREATED, array("dir"=>$sf, "type"=>"js", "name"=>"balafonjs")); 
     igk_header_set_contenttype("js");
@@ -79,7 +83,8 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
     unset($s, $c);   
     igk_exit();
 }
-, 0);
+, 1);
+
 IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($fc, $arg){
     // igk_wln_e("handle ... ".igk_io_request_uri(). " - ".igk_env_count(__FUNCTION__));
     $doc = igk_get_last_rendered_document();
@@ -149,7 +154,7 @@ IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($
     $doc->setParam($key, null);
     igk_exit();
 }
-, 0);
+, 1);
  
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH."[%q%]", function($fc, $arg){
     switch($fc){
@@ -259,12 +264,10 @@ IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($gu
         $app = IGKApplication::Boot('web'); 
         IGKApp::StartEngine($app);
     }
-    if ( ($code = igk_server()->REDIRECT_STATUS) != 200){
-      
+    if ( ($code = igk_server()->REDIRECT_STATUS) != 200){      
         if ($g = igk_get_defaultwebpagectrl()){
             $g::viewError($code);
-        }        
-        igk_dev_wln_e(__CLASS__.": can't view Error ", $g);
+        }         
         igk_exit();
     }
     RequestHandler::getInstance()->handle_guid_action($guid, $query, $version);

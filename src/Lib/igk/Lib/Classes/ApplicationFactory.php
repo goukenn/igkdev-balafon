@@ -11,9 +11,10 @@ namespace IGK;
  * @package IGK
  */
 abstract class ApplicationFactory{
-    
-    private static $sm_factory = [];
-
+     
+    private static $sm_factory = [
+        'framework'=>\IGK\System\Framework\Application::class
+    ];
     public static function Register($name, $class){
         if (class_exists($class, false) && is_subclass_of($class, \IGKApplicationBase::class)){
             self::$sm_factory[$name] = $class;

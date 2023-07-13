@@ -17,7 +17,7 @@ trait ContentSecurityManagementTrait{
      * @param string $name 
      * @return MapContentValidatorBase 
      */
-    public function getContentSecurity(string $name){
+    public function getContentSecurity(string $name):?MapContentValidatorBase{
         return MapContentValidatorBase::Get($name);
     }
 }

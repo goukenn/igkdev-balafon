@@ -69,7 +69,7 @@ class RequestValiationMapper extends ObjectValidationMapper
             }
             $skey = $q;
             $v = igk_getv($values, $q); 
-            $missing = is_object($values) ? !property_exists($values, $q) : !key_exists($q, $values);
+            $missing = is_object($values) ? !property_exists($values, $q) : is_array($values) && !key_exists($q, $values);
             if ($v_resolv_key && isset($v_resolv_key[$q])){
                 $q = $v_resolv_key[$q];
                 $num = false;

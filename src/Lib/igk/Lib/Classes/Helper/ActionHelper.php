@@ -5,13 +5,14 @@
 // @desc: 
 
 // @file: ActionHelper.php
-// @author: C.A.D BONDJE DOUE
+// @author: C.A.D. BONDJE DOUE
 // date: 2022-10-02
 // description: contains function that IGKActionBase can use
 
 namespace IGK\Helper;
 
 use DateInterval;
+use Exception;
 use IGK\Actions\ActionBase;
 use IGKActionBase;
 use IGK\Controllers\BaseController;
@@ -99,11 +100,11 @@ abstract class ActionHelper
         return false;
     }
     /**
-     * 
+     * retrieve alive token 
      * @param mixed $token 
      * @return null|RegistrationLinks 
      */
-    public static function GetAliveToken($token){
+    public static function GetAliveToken(string $token){
         $row = RegistrationLinks::select_row([
             'regLinkToken' => $token,
             'regLinkAlive' => 1
@@ -322,31 +323,40 @@ abstract class ActionHelper
         return self::GenerateRegistrationLinkToken($user->clLogin, $user->clGuid, $prefix);
     }
     /**
-     * get registration link token
-     * @param mixed $login 
-     * @param mixed $guid 
-     * @param null|string $prefix 
+     * generate a registration link the login et registration link token
+     * @param string $login login to get registration link
+     * @param string $guid the guid generated
+     * @param null|string $prefix extra prefix
      * @return string|false 
      */
-    public static function GenerateRegistrationLinkToken($login, $guid, ?string $prefix=null){
+    public static function GenerateRegistrationLinkToken(string $login,string $guid, ?string $prefix=null){
+         
         $token = igk_encrypt($login .
          ($prefix ?? $login . date('Ymd') . time()));
+         try{
+
+         
         if (!($row = RegistrationLinks::select_row([
-            "regLinkUserGuid" => $guid,
-        ]))) {
+            RegistrationLinks::FD_REG_LINK_USER_GUID => $guid,
+        ]))) { 
             RegistrationLinks::createIfNotExists([
-                    "regLinkToken" => $token
+                   RegistrationLinks::FD_REG_LINK_TOKEN => $token,
+                   RegistrationLinks::FD_REG_LINK_USER_GUID  => $guid
                 ],[
-                "regLinkUserGuid" => $guid,
-                "regLinkActivate" => null,
-                "regLinkAlive" => 1
+                    RegistrationLinks::FD_REG_LINK_USER_GUID  => $guid,
+                    RegistrationLinks::FD_REG_LINK_ACTIVATE => null,
+                    RegistrationLinks::FD_REG_LINK_ALIVE => 1
             ]);
-        } else {
+        } else { 
             $row->regLinkToken = $token;
             $row->regLinkAlive = 1;
             $row->regLinkActivate = null;
             $row->save();
         }
+    }
+    catch(Exception $ex){
+        igk_dev_wln($ex->getMessage());
+    } 
         return $token;
     }
 
@@ -390,7 +400,7 @@ abstract class ActionHelper
                 '__call',
                 '__set',
                 '__get'
-            ]) || preg_match("/^(get|set)/i",$n)){
+            ]) || preg_match("/^(_|get|set)/i",$n)){
                 return null;
             }
             return $n;

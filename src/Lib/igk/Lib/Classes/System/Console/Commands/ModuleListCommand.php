@@ -47,7 +47,7 @@ class ModuleListCommand extends AppExecCommand{
             if (!$mod){
                 $f.= $tag.App::Gets( App::RED, "module not found");
             }else {
-                $f .= $tag.$mod->getDeclaredDir().":".$mod->config("entry_NS"); 
+                $f .= $tag.$mod->getDeclaredDir(); //.":".$mod->config("entry_NS"); 
             }
             Logger::print($f); 
         }

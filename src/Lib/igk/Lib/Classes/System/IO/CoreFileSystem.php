@@ -76,9 +76,9 @@ abstract class CoreFileSystem{
      * @return static|null 
      */
     public static function Create(string $path){
-        
         if ((static::class != self::class) && file_exists($path)){
-            return new static($path);
+            $m = new static($path);
+            return $m;
         }
         return null;
     }
@@ -121,4 +121,20 @@ abstract class CoreFileSystem{
         }
         return true;
     }
+
+//       /**
+//      * check that file expiere from cache storage
+//      * @param string $realpath_to_check 
+//      * @param string $caching_name 
+//      * @param string $ext 
+//      * @return bool 
+//      */
+//     public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
+//         $p = filemtime($realpath_to_check);  
+//         $vn = $this->getCacheFilePath($caching_name, $ext);
+//         if (file_exists($vn)){
+//             return filemtime($vn) < $p;
+//         }
+//         return false;
+//     }
 }

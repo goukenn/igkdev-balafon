@@ -1034,7 +1034,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     return call_user_func_array([$this, $fc], $arguments);
                 }
             }
-            $tab = array(strtolower($name), null, $arguments);
+            $tab = array($name, null, $arguments);
             return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
         } else {
             if (method_exists($this, $fc = "get" . ucfirst($name))) {

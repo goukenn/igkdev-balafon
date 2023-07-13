@@ -11,7 +11,7 @@ require_once __DIR__."/CoreFileSystem.php";
 /**
  * file system helper 
  */
-class FileSystem extends CoreFileSystem{
+class FileSystem extends CoreFileSystem{  
  
 
     public function __construct(string $dir){
@@ -36,7 +36,7 @@ class FileSystem extends CoreFileSystem{
      */
     public static function Create(string $path){
         if (file_exists($path)){
-            return new self($path);
+            return new static($path);
         }
         return null;
     }
@@ -69,7 +69,7 @@ class FileSystem extends CoreFileSystem{
 
     /**
      * check if path expired 
-     * @param string $path path to filesystem resources
+     * @param string $path real file to check to filesystem resources
      * @param ?string $ext extension
      * @return bool 
      */
@@ -79,5 +79,22 @@ class FileSystem extends CoreFileSystem{
             return filemtime($file) < $p;
         }
         return true;
+    }
+
+
+    /**
+     * check that file expiere from cache storage
+     * @param string $realpath_to_check 
+     * @param string $caching_name 
+     * @param string $ext 
+     * @return bool 
+     */
+    public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
+        $p = filemtime($realpath_to_check);  
+        $vn = $this->getCacheFilePath($caching_name, $ext);
+        if (file_exists($vn)){
+            return filemtime($vn) > $p;
+        }
+        return false;
     }
 }

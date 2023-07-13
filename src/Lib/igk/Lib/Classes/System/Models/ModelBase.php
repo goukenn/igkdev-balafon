@@ -539,7 +539,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * get current data adapter
-     * @return null|\IGK\Database\DataAdapterBase   
+     * @return null|\IGK\Database\DataAdapterBase
      * @throws IGKException 
      */
     public function getDataAdapter()

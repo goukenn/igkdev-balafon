@@ -14,7 +14,9 @@ use IGK\System\Http\Request;
 use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\Actions\ActionBase;
+use IGK\Helper\ActionHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Http\Helper\Response;
 use IGKException;
 use Reflection;
 use ReflectionException;
@@ -92,7 +94,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         return  (new static())->$name(...$arguments);        
     }
     /**
-     * 
+     * magic core system to handle route definitions
      * @param mixed $name 
      * @param mixed $arguments 
      * @return mixed 
@@ -105,18 +107,52 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 return $rep;
             } 
         } 
+        // + | load route configuration config
         Route::LoadConfig($this->ctrl);
        
         $path = "/".implode("/", array_merge([$name], $arguments)); 
-
-    
-        $ruri = Request::getInstance()->view_args("entryuri").$path; 
+        $ruri = Request::getInstance()->view_args("entryuri").$path;
         $routes = Route::GetAction(static::class);
-        $user = $this->user;
+        $method = strtolower(igk_server()->REQUEST_METHOD); 
+        
         $path =  "/" . trim($path, "/");  
-        if (!empty($routes)){
+        // detected method to invoke
+        $_invoke = function($name, $arguments, $m, & $handle)use($method){ 
+            if (($method =='options') && !method_exists($this, $name.'_'.$method)){
+                return Response::OptionResponse();
+            }
+            $proc = ["_".$method, ""];
+            $handle =false; 
+            while((count($proc)>0) && (($f = array_shift($proc))!==null)){
+                if (in_array($name.$f, $m)){
+                    $name = $name.$f;  
+                    $handle = true;
+                    $arguments =  Dispatcher::GetInjectArgs(new ReflectionMethod($this, $name), $arguments,[]);
+                    return $this->$name(...$arguments);
+                }
+            }  
+        };
+
+        $_handling = function($name, $arguments, $_invoke){
+            $handle = false;
+            $r = $_invoke($name, $arguments, ActionHelper::GetExposedMethods(static::class), $handle);            
+            if ($handle){   
+                return ['result'=>$r];
+            } 
+        };
+ 
+
+
+        if (!empty($routes)){ 
+            $user = $this->user;
+
+            if ($method=='options'){
+                if ($r = $_handling($name, $arguments, $_invoke)){
+                    return $r['result'];
+                }
+            }
+            
             // must use the route technique to validate the path
-             $method = igk_server()->REQUEST_METHOD; 
             foreach($routes as $v){  
                 // igk_dev_wln_e(__FILE__.":".__LINE__,  "name: ". $v->isAuthRequired());
                 if ($v->match($path, $method)){  
@@ -132,31 +168,33 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         if ($user && !$v->isAuth($user)){
                             $m = "Route access not allowed.";
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
-                            throw new IGKException($m, 503);
+                            throw new IGKException($m, 403);
                         } else if (!$user){
-                            $m = "Role missing.";
+                            $m = "Missing required user.";
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
-                            throw new IGKException($m, 504);
+                            throw new IGKException($m, 401);
                         }
                     }
                     $v->setUser($user);
                     $v->setRoutingInfo((object)[
                         "ruri"=>$ruri
                     ]);                    
-                    if ($v->getBindClass() === null){
-                        $m = get_class_methods(static::class);
-                        // detected method to invoke
-                        $proc = ["_".strtolower(igk_server()->REQUEST_METHOD), ""];
+                    if ($v->getBindClass() === null){ 
+                        // detected method to invok 
+                        if ($r = $_handling($name, $arguments, $_invoke)){
+                            return $r['result'];
+                        }
+                        // $proc = ["_".strtolower($method), ""];
             
-                        while((count($proc)>0) && (($f = array_shift($proc))!==null)){
-                            if (in_array($name.$f, $m)){
-                                $name = $name.$f;  
-                                $arguments = $arguments ? Dispatcher::GetInjectArgs(new ReflectionMethod($this, $name), $arguments) : [];
-                                return $this->$name(...$arguments);
-                            }
-                        }  
+                        // while((count($proc)>0) && (($f = array_shift($proc))!==null)){
+                        //     if (in_array($name.$f, $m)){
+                        //         $name = $name.$f;  
+                        //         $arguments = $arguments ? Dispatcher::GetInjectArgs(new ReflectionMethod($this, $name), $arguments) : [];
+                        //         return $this->$name(...$arguments);
+                        //     }
+                        // }  
                         // no controller task setup
-                        return null;
+                        // return null;
                     }
                     // + | bind action
                     array_unshift($arguments, $name);  
@@ -164,9 +202,17 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                     //igk_wln_e($arguments);
                     return RouteActionHandler::Handle($v, ...$arguments);
                 } 
-            }  
+            } 
+            if ($r = $_handling($name, $arguments, $_invoke)){
+                return $r['result'];
+            } 
             // + | route not resolved 
             throw new IGKException(__("Route {0} not resolved, in {1} ", $path, get_class($this)), 404);
+        } else {
+            // no definition foute found for this class suppose all method is accessible 
+            if ($r = $_handling($name, $arguments, $_invoke)){
+                return $r['result'];
+            }
         }
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments); 
@@ -185,13 +231,16 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         igk_navto($url, $code, $message);
     }
     /**
-     * invoke route
+     * invoke route fallback in case route definition not cached up
      * @param mixed $route 
      * @param mixed $args 
      * @return void 
      */
     protected function invoke($route, $args){
-        igk_ilog('invoke route: ' . $route );
+        // fallback route
+        // igk_trace(); 
+        igk_dev_wln_e(__FILE__.":".__LINE__, 
+            'invoke route definitions - not cached', static::class, $route, $args);
     }
    
 }

@@ -5,11 +5,27 @@
 // @desc: 
 
 namespace IGK\Helper;
+
+use IGK\Actions\IActionRequestValidator;
+use IGK\System\Http\IContentSecurityProvider;
+use IGK\System\Http\Request;
+
 /**
  * 
  * @package IGK\Helper;
  */
 class Activator{
+    static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, & $errors=null){
+        
+        $validation = (method_exists($class_name, $fc = 'ValidationData') ? 
+                call_user_func_array([$class_name, $fc],[$request]) : null) ?? [];
+
+        $m = $validator->validate($data, $validation
+                ,null,null, $data, $errors);
+          
+        return $m ? self::CreateNewInstance($class_name, $data) : null;
+
+    }
     /**
      * create from
      * @param mixed $options 

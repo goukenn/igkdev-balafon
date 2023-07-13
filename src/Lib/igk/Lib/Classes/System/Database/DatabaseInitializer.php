@@ -92,25 +92,23 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     }
     /**
      * init with this controller
-     * @param BaseController $sysctrl controller base on the initialization
+     * @param BaseController $ctrl controller base on the initialization
      * @param string $operation schema loading operation mode
      * @return object newly created definition - that will be the global bindign reference
      * @throws IGKException 
      */
-    public function init(BaseController $sysctrl, string $op = DbSchemasConstants::Migrate)
+    public function init(BaseController $ctrl, string $op = DbSchemasConstants::Migrate)
     {
-        $ad_name = $sysctrl->getDataAdapterName();
+        $ad_name = $ctrl->getDataAdapterName();
         $definition = null;
         // load system schema definition
-        if ($sysctrl->getCanInitDb()) {
-            $file = $sysctrl->getDataSchemaFile();
-            if ($definition = DbSchemas::LoadSchema($file, $sysctrl, true, $op)) {
+        if ($ctrl->getCanInitDb()) {
+            $file = $ctrl->getDataSchemaFile();
+            if ($definition = DbSchemas::LoadSchema($file, $ctrl, true, $op)) {
                 $this->add($ad_name, (array)$definition);
-                $this->m_defs[$sysctrl->getName() . '/init']
-                    = [$sysctrl,  (array)$definition, $definition->tables];
+                $this->m_defs[$ctrl->getName() . '/init']
+                    = [$ctrl,(array)$definition, $definition->tables];
                 $this->resolv = $ad_name;
-                // unset($definition->tables);
-                // $definition->tables = [];
             }
         }
         return $definition;

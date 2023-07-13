@@ -473,7 +473,7 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
-                // + |         
+                // + |      
                 if ($exit || ($_host->_handleResponse($c))) {
                     return igk_do_response($c);
                 }

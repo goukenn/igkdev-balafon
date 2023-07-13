@@ -41,6 +41,12 @@ class RouteActionHandler extends RouteHandler
      * @var mixed
      */
     protected $info;
+
+    /**
+     * type of route
+     * @var string
+     */
+    protected $type;
     /**
      * .ctr a route action handler
      * @param string $path path 

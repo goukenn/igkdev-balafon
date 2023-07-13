@@ -10,10 +10,26 @@ use IGK\Models\SubDomains;
 
 ///<summary></summary>
 /**
-* 
+* subdomain macros helper 
 * @package IGK\Database\Macros
 */
 abstract class SubDomainsMacros{
+
+    public static function GetAllActivateDomain(SubDomains $model){
+        $driver = $model->getDataAdapter();
+        $cond = $model->createCondition();
+        $cond->set(
+            [
+            
+                        $model::FD_CL_DEACTIVATE_AT =>null,
+                        ">".$model::FD_CL_DEACTIVATE_AT => date($driver->getDateTimeFormat())
+            ] 
+        );        
+        $cond->operand = 'OR';
+        return $model->select_all(
+            $cond
+        );
+    }
     /**
      * register submains
      * @param SubDomains $model 

@@ -74,9 +74,11 @@ class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
             if($n === null){
                 //append 
                 $this->m_data[] = $v;
-            }else 
+            }else {
+                
                 $this->m_data[$n] = $v;
-        }
+            }
+        } 
     }
     protected function _access_OffsetGet($n){
         return igk_getv($this->m_data,$n);
