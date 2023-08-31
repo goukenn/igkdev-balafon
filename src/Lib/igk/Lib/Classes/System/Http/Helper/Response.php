@@ -38,7 +38,7 @@ class Response{
     public static function GetHeaderOptions(?string $verb='options'){
         $verb = $verb ?? igk_server()->REQUEST_METHOD ?? 'options';
         $_req = Request::getInstance();  
-        $_cnf = igk_configs();
+        $_cnf = igk_configs(); 
         return [
             "Content-Type: text/html",            
             "Access-Control-Allow-Origin: ".$_cnf->get("access-control-allow-origin", $_req->getHeader()->origin), //, "*"),

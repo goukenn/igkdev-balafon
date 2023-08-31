@@ -48,7 +48,7 @@ class App{
      * setup the base command
      * @var mixed
      */
-    protected $basePath;
+    protected $_basePath;
 
     /**
      * store application configuration
@@ -92,8 +92,8 @@ class App{
         igk_environment()->NO_DB_LOG = 1;
         igk_environment()->NO_SESSION = 1;
         igk_environment()->set("app_type", IGKAppType::balafon);
-        igk_environment()->set("workingdir", $wdir); 
-        $app->basePath = $basePath;
+        igk_environment()->set("workingDir", $wdir); 
+        $app->_basePath = $basePath;
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));        
         $app->boot();
@@ -139,6 +139,13 @@ class App{
         return self::Exec($app, $tab); 
     }
     /**
+     * expose start base path
+     * @return mixed 
+     */
+    public function getBasePath(){
+        return $this->_basePath;
+    }
+    /**
      * execute argument
      * @param App $app 
      * @param array $args 
@@ -148,10 +155,13 @@ class App{
      */
     public static function Exec(App $app, array $args){
         $command = $app->command;
-        $cnf = $app->getConfigs();
+        $v_cnf = $app->getConfigs();
+        $v_basePath = $app->_basePath;
+        
         $app = new static();  
         // + pass new configuration .
-        $app->_configs = $cnf;
+        $app->_basePath = $v_basePath;
+        $app->_configs = $v_cnf;
 
         if ($command_args = AppCommand::GetCommands($app)){ 
             foreach($command_args as $c){                
@@ -259,7 +269,7 @@ class App{
             $app->print('--');
             $app->print(self::Gets(self::RED, "BALAFON Command Error : "). $ex->getMessage());
             $app->print('--');
-            if (!igk_environment()->NoConsoleLogger){
+            if (igk_is_debug() && !igk_environment()->NoConsoleLogger){
                 igk_show_exception_trace($ex->getTrace(), 0);
             }
             igk_exit();
@@ -400,5 +410,14 @@ class App{
         $o = self::CreateCommand($this);
         $o->source = $source;
         return $o;
+    }
+
+    /**
+     * get app author
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function getAuthor(){
+        return $this->getConfigs()->author; 
     }
 }

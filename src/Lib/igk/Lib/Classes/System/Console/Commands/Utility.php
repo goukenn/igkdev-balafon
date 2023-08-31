@@ -10,6 +10,8 @@
 namespace igk\System\Console\Commands;
 
 use Closure;
+use IGK\System\Console\App;
+use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
 
 ///<summary>command utility</summary>
@@ -18,6 +20,17 @@ use IGK\System\Console\Logger;
  * @package igk\System\Console\Commands
  */
 abstract class Utility{
+    const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
+    public static function PrintCommand($opts, $color_one=App::AQUA, $color_two = App::GREEN  ){
+        foreach($opts as $k=>$v){
+            if (empty($v) && (strpos($k, '+')===0)){
+                Logger::print(App::Gets($color_one, $k));     
+                Logger::print('');
+                continue;
+            }
+            Logger::print( App::Gets($color_two, $k). self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
+        }
+    }
     /**
      * touch and override 
      * @param string $content 

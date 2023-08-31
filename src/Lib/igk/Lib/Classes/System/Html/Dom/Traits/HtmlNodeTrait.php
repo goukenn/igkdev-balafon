@@ -78,9 +78,7 @@ trait HtmlNodeTrait{
 	// public function actions($actionlist){
 	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
 	// }
-	// public function address(){
-	// 	return self::AddFuncionListNode($this, [__FUNCTION__, func_get_args()]); 
-	// }
+	 
 	// /**
 	//  * create winui-ajsbutton
 	//  * @param mixed $code

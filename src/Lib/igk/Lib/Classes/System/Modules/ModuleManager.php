@@ -127,7 +127,7 @@ class ModuleManager
         }
         ksort($tlist);
         if (!defined('IGK_NO_LIB_CACHE')) {
-            igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT));
+            igk_io_w2file($d, json_encode($tlist, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         }
         return $tlist;
     }

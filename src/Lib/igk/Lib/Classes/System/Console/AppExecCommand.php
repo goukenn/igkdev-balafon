@@ -80,13 +80,16 @@ abstract class AppExecCommand extends AppCommand{
      * @return mixed|BaseController  
      * @throws IGKException 
      */
-    protected static function GetController(string $controller, $throwex = 1){
-        return \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
+    protected static function GetController(string $controller, $throwex = 1, $autoregister = true){
+        $ctrl =  \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
+        $ctrl && $autoregister && $ctrl->register_autoload();
+        return $ctrl;
     }
     protected function _dieController($command, ?string $controller, bool $system=false){
 		if ($controller){
 			if ($controller != '%sys%'){
 				if ($ctrl = self::GetController($controller, false)){
+                   
 					return $ctrl;
 				}
 			} else {

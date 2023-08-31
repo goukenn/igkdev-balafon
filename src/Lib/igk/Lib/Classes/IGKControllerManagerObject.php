@@ -544,11 +544,8 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         if (func_num_args() > 1) {
             igk_die("init controller with extra argument not allowed");
         }
-        if (igk_env_count(__METHOD__) > 1) {
-            ///---------------------------------
-            /// TODO: avoid init controller twice
-            /// case in bafon command --project:list            
-            igk_wln_e(
+        if (igk_env_count(__METHOD__) > 1) {     
+            igk_dev_wln_e(
                 __METHOD__,
                 "Int countroller twice : only allowed one.",
                 igk_env_count_get(__METHOD__)

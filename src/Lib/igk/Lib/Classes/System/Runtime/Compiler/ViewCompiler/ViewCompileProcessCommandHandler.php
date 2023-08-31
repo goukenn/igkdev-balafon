@@ -7,6 +7,7 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\Helper\StringUtility;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompiler;
 use IGKCaches;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -74,9 +75,7 @@ class ViewCompileProcessCommandHandler{
         /**
          * import file in layout
          */
-        public function includeFile(string $file){
-            // igk_wln($this->compiler->options->layout);
-             
+        public function includeFile(string $file){  
             if (!$this->compiler->options->layout->{'@MainLayout'})
                 igk_die("import in -- @MainLayout required");
             $dir = $this->compiler->options->layout->viewDir;
@@ -84,8 +83,13 @@ class ViewCompileProcessCommandHandler{
                 return "include '{$v_cfile}';\n";
             }
         }
-        public function importFile(string $file){
-            // igk_wln_e(__FILE__.":".__LINE__, __METHOD__, $file);    
+        /**
+         * 
+         * @param string $file 
+         * @return string|void 
+         * @throws IGKException 
+         */
+        public function importFile(string $file){   
             $dir = $this->compiler->options->layout->viewDir;
             if (file_exists($v_cfile = $dir."/".$file)){
                 $ext = ".cphtml";
@@ -102,14 +106,8 @@ class ViewCompileProcessCommandHandler{
                             igk_io_w2file($cache_file, $src);
                         }
                     }
-                }
-                // igk_wln_e(__FILE__.":".__LINE__, "cache ", $cache_file, $v_cfile, 
-                // $expired, 
-                // igk_io_collapse_path($cache_file),
-                // igk_io_collapse_const_path($cache_file)
-            // );
-                return 'include '.igk_io_collapse_const_path($cache_file).";\n";
-                // return $src;
+                } 
+                return 'include '.igk_io_collapse_const_path($cache_file).";\n"; 
             }
         }
         public function renderBlfVersion(){

@@ -12,6 +12,7 @@ namespace IGK\System\Shell;
 /**
  * helper to get sheel
  * @package IGK\System\Shell
+ * @method static ?string Where(string $command):?string search and resolve a command. 
  */
 class OsShell {    
     private static $sm_commands = [

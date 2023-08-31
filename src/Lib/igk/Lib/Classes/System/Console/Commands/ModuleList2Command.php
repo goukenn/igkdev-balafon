@@ -6,7 +6,10 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand; 
-
+/**
+ * 
+ * @package IGK\System\Console\Commands
+ */
 class ModuleList2Command extends AppExecCommand{
 
     var $command = "--module:list";
@@ -14,7 +17,6 @@ class ModuleList2Command extends AppExecCommand{
     var $desc = "List installed modules";
 
     public function exec($command) {
-        return (new ModuleListCommand())->exec($command, "ls");
-    }
-
+        return (new ModuleCommand())->exec($command, "ls");
+    } 
 }

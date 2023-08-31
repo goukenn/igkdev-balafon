@@ -44,8 +44,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * @param bool $strict 
      * @return mixed 
      */
-    public function auth($name, $strict=false){      
-        
+    public function auth($name, $strict=false){   
         return $this->model()->auth($name, $strict);
     }
     ///<summary>Represente fullname function</summary>

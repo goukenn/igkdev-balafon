@@ -749,8 +749,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             $msg = sprintf("failed to call macros %s::%s", static::class, $name);
             if (!defined('IGK_THROW_MISSING_MACROS_EXCEPTION')){
                 igk_trace();
-                igk_wln(array_keys(self::$macros));
-                igk_wln_e($msg);
+                igk_dev_wln(array_keys(self::$macros));
+                igk_dev_wln($msg);
             }else {
                 throw new IGKException($msg);
             }

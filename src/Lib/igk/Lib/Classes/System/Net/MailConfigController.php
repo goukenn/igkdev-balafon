@@ -205,8 +205,8 @@ class MailConfigController extends ConfigControllerBase
         $ul->li()->Content = "Email: " . $obj->clYourmail;
         $msg = $div->div();
         $msg->Content = $obj->clMessage;
-        $mail->HtmlMsg = utf8_decode($div->render());
-        $mail->Title = utf8_decode($obj->clSubject);
+        $mail->HtmlMsg = $div->render();
+        $mail->Title = $obj->clSubject;
         $mail->ReplyTo = $obj->clYourmail;
         $mail->From = "website@" . igk_configs()->website_domain;
         if ($mail->sendMail()) {

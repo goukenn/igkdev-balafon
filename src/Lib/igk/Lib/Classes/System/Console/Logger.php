@@ -51,7 +51,7 @@ class Logger{
         if (($name!='print') && igk_environment()->NoConsoleLogger){
             return;
         }
-        if (!in_array($name, ['log', 'warning','success','danger','print', 'info','warn'])){           
+        if (!in_array($name, ['log', 'warning','success','danger','print', 'info','warn', 'printf'])){           
             igk_die($name . " - log not in a logger list allowed method ");
         }
         if (self::$sm_logger){            

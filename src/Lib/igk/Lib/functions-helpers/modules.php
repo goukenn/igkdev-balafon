@@ -167,6 +167,12 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
     igk_bind_module($mod, $name);
     return $mod;
 }
+/**
+ * 
+ * @param mixed $mod 
+ * @param null|string $name 
+ * @return void 
+ */
 function igk_bind_module($mod, ?string $name = null)
 {
     if ($ctrl = \IGK\Helper\ViewHelper::CurrentCtrl()) {

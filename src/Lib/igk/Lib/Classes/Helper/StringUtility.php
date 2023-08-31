@@ -464,18 +464,30 @@ abstract class StringUtility
         $args = [];
         $pos = 0;
         $v = "";
+        $k = "";
         while ($ln > $pos) {
             $ch = $data[$pos];
             switch ($ch) {
                 case "'":
                 case '"':
-                    $args[] = self::StringValue(igk_str_read_brank($data, $pos, $ch, $ch, null, false, 1), $ch);
+                    $ps = self::StringValue(igk_str_read_brank($data, $pos, $ch, $ch, null, false, 1), $ch);
+                    if (!empty($k)){
+                        $args[$k] = $ps;
+                    }else{
+                        $args[] = $ps;
+                    }
+                    $v = "";
+                    $k = '';
                     break;
                 case $separator:
                     if (!empty($v)){
                         $args[] = $v;
                     }
                     $v = "";
+                    break;
+                case '=':
+                    $k = trim($v);
+                    $v = '';
                     break;
                 default:
                     $v .= $ch;
@@ -484,7 +496,11 @@ abstract class StringUtility
             $pos++;
         }
         if (!empty($v)){
-            $args[] = trim($v);
+            $v = trim($v);
+            if (!empty($k))
+                $args[$k] = $v;
+            else 
+                $args[] = $v;
         }
         return $args;
     }
@@ -591,5 +607,19 @@ abstract class StringUtility
             ->add('/^[0-9]/', '_\\0');
         $identifer = $rp->replace(trim($identifer));
         return $identifer;
+    }
+
+    /**
+     * array to environment - filter value
+     * @param mixed $tab 
+     * @return string 
+     */
+    public static function ArrayToEnvironment($tab):string{   
+       return implode("\n", array_filter(array_map(function($v,$k){
+            if (!$v){
+                return null;
+            }
+            return $k.'='.$v;
+        }, $tab, array_keys($tab))));
     }
 }

@@ -31,6 +31,18 @@ class HtmlJsOptionDefinition implements IHtmlGetValue{
         } else {
             $r = '{}';
         } 
-        return sprintf('igk.system.defineOption("%s", %s)', $name, $r);
+        return self::GetJsScript($name, $r); 
+    }
+    /**
+     * get js script definition
+     * @param string $name 
+     * @param mixed $options 
+     * @return HtmlJsOptionDefinition|string 
+     */
+    public static function GetJsScript(string $name, $options){
+        if ($options instanceof \Closure){
+		    return new \IGK\System\Html\HtmlJsOptionDefinition($name, $options);
+		} 
+		return  sprintf('igk.system.defineOption("%s", %s)', $name, $options);
     }
 }

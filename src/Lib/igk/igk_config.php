@@ -604,8 +604,10 @@ define("IGK_HTML_BINDING_EVAL_CONTEXT", "igk:evaluation_context");
  
 define("IGK_STYLE_FOLDER", "Styles");
 define("IGK_ARTICLES_FOLDER", "Articles");
+// phtml files for view 
 define("IGK_VIEW_FOLDER", "Views");
 define("IGK_CGI_BIN_FOLDER", "cgi-bin");
+// script need to be execute one 
 define("IGK_CONTENT_FOLDER", "Contents");
 define("IGK_PAGE_FOLDER", "Pages");
 define("IGK_MODS_FOLDER", "Mods");

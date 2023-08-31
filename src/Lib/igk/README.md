@@ -1,11 +1,15 @@
 # BALAFON CORE LIBRARY
 
+
+> 13.01 - 2023-07-31
+- support annotations - php8
+
+
 > 12.49
 - update with builder support 
 - jsplugin enabled for module support 
 
 ```php
-// in-view-context new variable injected 
 $builder([
     "div"=>"builder"
 ]);

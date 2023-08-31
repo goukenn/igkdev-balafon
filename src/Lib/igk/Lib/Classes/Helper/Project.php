@@ -20,7 +20,7 @@ class Project{
      */
     public static function IgnoreDefaultDir(){
         return array_fill_keys([
-            '.git', '.vscode', 'node_modules', 'DS_Store'
+            '.git', '.vscode', 'node_modules', '.DS_Store'
         ],1);
     }
     public static function GetProjectInvocatorInitDbList(BaseController $sysdb)

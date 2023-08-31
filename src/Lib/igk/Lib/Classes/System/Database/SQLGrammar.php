@@ -1238,9 +1238,19 @@ class SQLGrammar implements IDbQueryGrammar
                     }
                 }
                 if (is_object($v)) {
+
+                    if ($v instanceof \IGK\Database\DbQueryCondition){
+                        $q = self::GetCondString($driver, $v);
+                        $query .= sprintf("(%s)", $q);
+                        $t = 1;
+                        continue; 
+                    }
+
                     if ($r = $adapter->getObjValue($v)) {
                         if ($t == 1)
                             $query .= " $op ";
+
+                        
                         if (!is_numeric($k)) {
 
                             // TODO : evaluate object operator  

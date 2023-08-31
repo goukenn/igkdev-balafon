@@ -20,8 +20,11 @@ use JSon;
 class UserGroupCommand extends AppExecCommand{
 	var $command='--users:bind-group';
 	var $desc='bind user to group. prefix with (-) sign to remove from group.';
-	/* var $options=[]; */
+	var $options=[
+		'--controller'=>'set controller'
+	];
 	var $category='user';
+	var $usage = 'user group[] [options]';
 
 	public function exec($command, string $user=null, ...$groups) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');	

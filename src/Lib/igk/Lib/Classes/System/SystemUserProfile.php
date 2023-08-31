@@ -47,11 +47,12 @@ abstract class SystemUserProfile implements IUserProfile
 
     /**
      * check auth 
-     * @param mixed $type 
+     * @param array|string $type 
+     * @param bool $strict if array must match all requirement
      * @return bool 
      */
-    public function auth($type): bool {
-        return $this->m_profile->auth($type);
+    public function auth($type, bool $strict=true, ?BaseController $ctrl=null): bool {        
+        return $this->m_profile->auth($type, $strict, $ctrl);
     }
     /**
      * get the model class 

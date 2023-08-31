@@ -39,7 +39,12 @@ class RunTacCommand extends AppExecCommand{
 
          if ($user = igk_getv($command->options, "--user")){
             if ($ctrl) { 
-                self::BindUser($ctrl, $user);
+               if (is_numeric($user)){
+                  self::BindUser($ctrl, intval($user));
+               }else {
+                  $user = igk_get_user_bylogin($user) ?? igk_die('user not found');
+                  self::BindUser($ctrl, $user->clId);
+               }
             } else {
                Logger::warn("missing a controller...");
             }

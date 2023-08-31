@@ -7,23 +7,38 @@
 
 namespace IGK\System\Console\Commands;
 
-use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\Helper\IO as IGKIO;
 use IGK\System\Console\App;
-use ReflectionClass;
+use igk\System\Console\Commands\Utility;
+
 use function igk_resources_gets as __;
 
-class ModuleListCommand extends AppExecCommand{
+/**
+ * module base command
+ * @package IGK\System\Console\Commands
+ */
+class ModuleCommand extends AppExecCommand{
     var $command = "--module";
     var $category = "module";
     var $desc  = "module management command";
+    var $options = [];
 
+    var $usage = "action [options]";
+
+    protected function showUsage()
+    {
+        parent::showUsage();
+        $v_actions = [
+            'ls'=>'list all installed module'
+        ];
+        Logger::print('');
+        Logger::print('action*');
+        Logger::print('');
+        Utility::PrintCommand($v_actions);
+    }
     public function exec($command, $args="ls"){
        $args = "ls";
-
        switch($args){
            default:
             $this->listCommand();
@@ -47,7 +62,7 @@ class ModuleListCommand extends AppExecCommand{
             if (!$mod){
                 $f.= $tag.App::Gets( App::RED, "module not found");
             }else {
-                $f .= $tag.$mod->getDeclaredDir(); //.":".$mod->config("entry_NS"); 
+                $f .= $tag.$mod->getDeclaredDir(); 
             }
             Logger::print($f); 
         }

@@ -42,10 +42,10 @@ class MakeClassCommandCommand extends AppExecCommand{
 				$force,
 				implode("\n", 
 				[
-					'var command="command";',
-					'var desc="description";',
-					'var category="description";',
-					'var options=[];',
+					'var $command="command";',
+					'var $desc="description";',
+					'var $category="description";',
+					'var $options=[];',
 					'public function exec($command) { }'
 				]
 				)

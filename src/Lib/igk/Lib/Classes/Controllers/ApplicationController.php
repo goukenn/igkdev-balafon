@@ -1063,24 +1063,14 @@ EOF;
         $t[IGK_CTRL_CNF_APPNAME] = strtolower(igk_getr(IGK_CTRL_CNF_APPNAME));
         $t[IGK_CTRL_CNF_APPNOTACTIVE] = igk_getr(IGK_CTRL_CNF_APPNOTACTIVE);
         $t[IGK_CTRL_CNF_TABLEPREFIX] = igk_getr(IGK_CTRL_CNF_TABLEPREFIX);
-    }
-    ///<summary></summary>
-    ///<param name="doc"></param>
-    /**
-     * 
-     * @param mixed $doc
-     */
-    protected function setDefaultFavicon($doc)
-    {
-        throw new IGKException(__("Not implement : use igk_doc_set_favicon function "));
-    }
+    } 
     ///<summary></summary>
     ///<param name="param"></param>
     /**
      * 
      * @param mixed $param
      */
-    public function SetupCtrl($param)
+    public function setupCtrl($param)
     {
         parent::SetUpCtrl($param);
         $t = strtolower(str_replace(' ', '_', $this->Name));

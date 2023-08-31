@@ -38,6 +38,14 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         $this->clTypeLength = 11;      
         $this->initialize($array);       
     }
+    private static function ExplodeLinkTo(string $data){
+        $table = explode(",", $data,3);
+        $clLinkType = array_shift($table);
+        $clLinkColumn = $table? array_shift($table) : null;
+        $clType = $table? array_shift($table) : null;
+
+        return compact('clLinkType', 'clLinkColumn', 'clType');
+    }
     /**
      * initialize db info with data
      * @param null|array|object $array 
@@ -46,6 +54,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     protected function initialize($array=null){
         if (is_array($array)) {
             $t = get_class_vars(get_class($this));
+            if (isset($array['clLinkTo'])){
+                $data = self::ExplodeLinkTo($array['clLinkTo']);
+                unset($array['clLinkTo']);
+                $array = array_merge($data, $array);
+            }
             foreach ($array as $k => $v) {
                 if (!array_key_exists($k, $t)) {
                     continue;
@@ -54,6 +67,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                     $v = igk_getbool($v);
                 }
                 $this->$k = $v;
+            }
+            if (is_null($this->clType)){
+                $this->clType = 'Int';
             }
             if (strtolower($this->clType) == 'guid'){
                 // + | setup - transform guid

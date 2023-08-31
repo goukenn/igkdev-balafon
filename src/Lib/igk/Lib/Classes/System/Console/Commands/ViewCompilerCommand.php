@@ -55,7 +55,7 @@ class ViewCompilerCommand extends AppExecCommand
         $compiler = new ViewCompiler;
         $compiler->forCache = $cache;
         $compiler->variables = [];
-        $compiler->options = ViewEnvironmentArgs::GetContextViewArgument(
+        $compiler->options = ViewEnvironmentArgs::CreateContextViewArgument(
             $ctrl,
             $path,
             "command_line"

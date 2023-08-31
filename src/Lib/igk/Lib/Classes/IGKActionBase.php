@@ -37,6 +37,17 @@ abstract class IGKActionBase implements IActionProcessor
 {
     use InjectableTrait;
     
+    /**
+     * default verb before handling the action 
+     * @var string
+     */
+    protected $_verb = 'GET';
+    /**
+     * model user used to handle the request
+     * @var mixed
+     */
+    protected $_user;
+
     const INIT_TRAIT_PREFIX =   '_init_trait_' ;
     /**
      * 
@@ -225,10 +236,10 @@ abstract class IGKActionBase implements IActionProcessor
      * @param int $flag 
      * @return mixed 
      * @throws Exception 
-     * - override 1 :  (BaseController , $fname, $args, $exit=1, $flag=0)
-     * - override 2 :  ($fname, $args,  $exit=1, $flag=0)
+     * - override 1 :  (BaseController , $fname, $args, $exit=1, $flag=0,$verb='GET')
+     * - override 2 :  ($fname, $args,  $exit=1, $flag=0, $verb='GET')
      */
-    protected function Handle($fname, $args, $exit = 1, $flag = 0)
+    protected function Handle($fname, $args, $exit = 1, $flag = 0, $verb='GET', $user=null)
     {
         $ctrl = null;
         if ($fname instanceof BaseController) {
@@ -243,7 +254,9 @@ abstract class IGKActionBase implements IActionProcessor
                 "fname" => $c[0],
                 "args" => $c[1],
                 "exit" => igk_getv($c, 2, $this->handleExit ? 1 : 0),
-                "flag" => igk_getv($c, 3, 0)
+                "flag" => igk_getv($c, 3, 0),
+                "verb" => igk_getv($c, 4, 'GET'),
+                "user" => igk_getv($c, 5, null)
             ], EXTR_OVERWRITE);
         }
 
@@ -257,6 +270,8 @@ abstract class IGKActionBase implements IActionProcessor
             $cargs = [$this];
             $b = new $b(...$cargs);
         }
+        $this->_verb = $verb;
+        $this->_user = $user;
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
     public function __call($name, $arguments)
@@ -264,7 +279,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + : -----------------------------------------
         // + : fallback to index if numeric name is call 
         // + : -----------------------------------------
-        $verb = strtolower(igk_server()->REQUEST_METHOD ?? 'get');
+        $verb = $this->_verb; // 
         if (is_numeric($name)) {
             array_unshift($arguments, $name);
             $name = $this->defaultEntryMethod;           
@@ -321,7 +336,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
      * get current user profile
-     * @return object 
+     * @return ?object session user profile
      */
     protected function currentUser(){
         return $this->getController()->getUser();
@@ -417,7 +432,7 @@ abstract class IGKActionBase implements IActionProcessor
         }
 
         if (!empty($actionMethod)) {
-            // igk_dev_ilog("CALLING ACTION ".static::class ."::".$actionMethod);
+            
             $args = array_slice($params, 1);
             $env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
             $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);

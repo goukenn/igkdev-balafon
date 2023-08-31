@@ -815,6 +815,7 @@ $l["menu.assets"] = "Assets";
 $l["menu.authorisations"] = "Autorisations";
 $l["menu.backgroundsetting"] = "Arrière Plan";
 $l["menu.balafon"] = "BALAFON";
+$l["menu.configs"] = "Configuration";
 $l["menu.balafonjs"] = "BalafonJS";
 $l["menu.billing"] = "Factures";
 $l["menu.billings"] = "Facturations";
@@ -1727,5 +1728,5 @@ $l['lb.fb_user_id'] = "facebook - user - id ";
 $l['lb.clauthmethod'] = "auth method";
 $l['lb.cldeactivate_at'] = "Désactiver";
 $l['lb.provider'] = "Fournisseur - Social";
-$l['password changed'] = "Mot de passe modifier";
+$l['password changed'] = "Mot de passe modifié";
 

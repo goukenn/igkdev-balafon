@@ -15,6 +15,7 @@ use Closure;
 use Exception;
 use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\ControllerParams;
 use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -45,6 +46,8 @@ class ViewHelper
 
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
+
+   
     /**
      * retrieve home directory
      * @param string|null $path 
@@ -188,12 +191,15 @@ class ViewHelper
         }
         extract(self::_GetIncArgs(array_slice(func_get_args(),1)));
         if (isset($ctrl)) {
-            $args = get_defined_vars();            
+            $args = get_defined_vars();
+            $file = self::_GetIncFile(func_get_arg(0));
+            $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             $fc = (function(){
                 extract(func_get_arg(1));
-                return include self::_GetIncFile(func_get_arg(0)); 
+                return include func_get_arg(0); 
             })->bindTo($ctrl);
-            $r = $fc(func_get_arg(0), $args);   
+            $r = $fc($file, $args);   
+            set_include_path($bckdir);
             return $r;
         }
         return include self::_GetIncFile(func_get_arg(0));
@@ -310,6 +316,7 @@ class ViewHelper
      */
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
+        return ControllerExtension::forceDirEntry($ctrl, $fname, $redirect_request);
         if (igk_is_cmd()){
             return;
         }

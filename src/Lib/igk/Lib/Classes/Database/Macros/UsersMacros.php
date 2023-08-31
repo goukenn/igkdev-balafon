@@ -28,7 +28,18 @@ use ReflectionException;
 abstract class UsersMacros
 {
 
-   
+    /**
+     * register and init project user by login
+     * @param string $login 
+     * @param BaseController $ctrl 
+     * @return mixed 
+     */
+    static function RegisterAndInitProjectUserByLogin(string $login,BaseController $ctrl ){
+        if ($u = Users::Register(['clLogin'=>$login])){ 
+            $ctrl->initUserFromSysUser($u); 
+            return $u;
+        }
+    }
     /**
      * get list of user's authorization
      * @param Users $user 
@@ -43,9 +54,9 @@ abstract class UsersMacros
         }
         $joint = [
             Groupauthorizations::table()=>[
-                Groupauthorizations::column("clGroup_Id")."=".Usergroups::column("clGroup_Id")
+                sprintf('%s=%s', Groupauthorizations::column("clGroup_Id"),Usergroups::column("clGroup_Id"))
             ],
-            Authorizations::table()=>[Authorizations::column("clId")."=".Groupauthorizations::column("clAuth_Id")],
+            Authorizations::table()=>[sprintf('%s=%s', Authorizations::column("clId"),Groupauthorizations::column("clAuth_Id"))],
         ]; 
         $g = Usergroups::prepare()
         ->join($joint)

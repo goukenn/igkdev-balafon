@@ -267,13 +267,17 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
       * @throws IGKException 
       * @throws EnvironmentArrayException 
       */
-     public function tableExists(string $table): bool
+     public function tableExists(string $table, bool $throwex=true): bool
      {
         // TODO: need implement table exists 
         //$this->sendQuery('SELECT count(*) FROM '.$table.';');
         $g = @$this->sql->exec('SELECT count(*) FROM '.$table );
-        if (!$g)
+        if (!$g){
             error_clear_last();
+            if ($throwex){
+                 throw new MissingTableException($table);
+            }
+        }
         return $g;
      }
 

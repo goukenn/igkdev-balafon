@@ -78,7 +78,7 @@ class FormBuilder
                     $clprop->setClasses($v_def_form_control);
                 }
                 if (!empty($defclass = $clprop->getValue())) {
-                    $o .= "class=\"" . $defclass . "\" ";
+                    $o .= "class=\"" . $defclass . "\"";
                 }
                 return;
             } 
@@ -93,6 +93,7 @@ class FormBuilder
             if (!empty($defclass = $clprop->getValue())) { 
                 $o .=  "class=\"" . $defclass . "\" ";
             }
+            $o = rtrim($o);
         };
         $bindValue = function (&$o, &$fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag) {
             if (!is_array($v)) {
@@ -142,9 +143,9 @@ class FormBuilder
             }
             $_name = "";
             if (isset($v["name"])) {
-                $_name = "name=\"" . $v["name"] . "\" "; // name=\"{$k}\" ";
+                $_name = " name=\"" . $v["name"] . "\""; // name=\"{$k}\" ";
             } else {
-                $_name = "name=\"{$k}\" ";
+                $_name = " name=\"{$k}\"";
             }
 
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
@@ -172,16 +173,16 @@ class FormBuilder
             }
           
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
-                $g = HtmlUtils::GetFilteredAttributeString("label", [
+                $g = HtmlUtils::GetFilteredAttributeString("label", array_merge([
                     'class'=>"igk-form-label"
-                ]);               
+                ], igk_getv($v, 'label_attribs') ?? [] ));               
                 $o .= "<label for='{$t_id}'$g>" .$label_text . "</label>";
             }
             switch ($_type) {
                 case "fieldset":
                     break;
                 case "textarea":
-                    $o .= "<textarea {$_name}{$_id}";
+                    $o .= "<textarea{$_name}{$_id}";
                     if (isset($v["placeholder"])) {
                         $o .= "placeholder=\"{$v["placeholder"]}\" ";
                     }
@@ -227,12 +228,12 @@ class FormBuilder
                     // if ($bas){
                     //     $k_data.= "selected=\"{$bas}\" ";
                     // }
-                    $o .= "<select {$_name}" . $_id . $k_data;
+                    $o .= "<select".$_name.$_id.$k_data." ";
                     $load_attr($v, $o);
-                    $o .= " >";
+                    $o .= ">";
                     if ($_allow_empty) {
                         $o .= "<option ";
-                        $o .= "value=\"{$_empty_value}\" ></option>";
+                        $o .= "value=\"{$_empty_value}\"></option>";
                     }
                     if (isset($v["data"]) && is_array($_tab = $v["data"])) {
 
@@ -240,8 +241,10 @@ class FormBuilder
                             $o .= "<option ";
                             $o .= "value=\"{$row['i']}\" ";
                             if ((isset($bas) && ($bas == $row['i'])) || (igk_getv($row, 'selected'))) {
-                                $o .= "selected ";
-                                // igk_wln_e("load.....".$bas, $_name, $row['t']);
+                                $o .= "selected "; 
+                            }
+                            if (isset($row['data-tip'])){
+                                $o.= "data-tip=\"".$row['data-tip']."\" ";
                             }
                             $o .= ">";
                             $o .= $row["t"];
@@ -265,7 +268,7 @@ class FormBuilder
                     // $_vt = "value=\"{$_value}\"";
                     $_otype = igk_getv($ResolvType, $_type, "text");
                     $def_type = igk_getv($ResolvClass, $_type, $_type);
-                    $o .= "<input"; //type=\"{$_otype}\" {$_vt} {$_name}{$_id} ";
+                    $o .= "<input";
                     $keys = ['id', 'value', 'maxlength','pattern', 'placeholder'];
                     if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])){
                         array_pop($keys);

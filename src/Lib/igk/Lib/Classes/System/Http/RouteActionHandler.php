@@ -64,7 +64,7 @@ class RouteActionHandler extends RouteHandler
         $this->classBind = $handleClass;
         $this->type = $type;
         $this->verbs = is_string($verb) ? array_map("trim", explode(",", $verb)) : (is_array($verb) ? $verb : ['*']);
-        $this->ajx = false;
+        $this->ajx = false; 
     }
     /**
      * get request uri info
@@ -183,7 +183,7 @@ class RouteActionHandler extends RouteHandler
                 }
             }
         } else {
-            if (!is_string($this->classBind) || !class_exists($this->classBind)) {
+            if (!is_string($this->classBind) || !class_exists($this->classBind)) {                
                 throw new IGKException("Process failed : not class Found :: " . $this->classBind);
             }
             $type = 2;

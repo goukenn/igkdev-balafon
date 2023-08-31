@@ -16,6 +16,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute as DomHtmlCssClassValueAttribute;
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\IDomHtmlCssClassValueAttribute;
 use IGKApp;
 use IGKEvents;
 use IGKException;
@@ -174,6 +175,10 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
     ///<summary>add css class value</summary>
     ///<param name="class">mixed string expression or array defenition</param>
+    /**
+     * add classed
+     * @param mixed|array $class
+     */
     public function add($class)
     {
         if (empty($class))
@@ -201,6 +206,11 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                     }
                 } else if ($v) {
                     if (is_numeric($k)){
+                        if ($v instanceof IDomHtmlCssClassValueAttribute){
+                            $this->m_classes[] = $v;
+                            continue;
+                        }
+
                         $cl[] = $v;
                     } else {
                         $cl[] = $k;
@@ -375,6 +385,13 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         if (!is_null($expression)){
             $this->m_expressions[] = $expression;
         }
+    }
+    /**
+     * get stored classes definition
+     * @return array 
+     */
+    public function getClasses(){
+        return $this->m_classes;
     }
    
 }

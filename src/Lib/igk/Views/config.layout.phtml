@@ -54,12 +54,11 @@ $android_menu->setId("mob-menu");
 $android_menu["class"]="igk-mob-opts igk-xsm-sm-only";
 $android_menu["igk-data-menu"]=1;
 $android_menu["igk-data-menu-binding"]="#igk-cnf-menu";
-
-$h->addClearBoth();
+// $h->addClearBoth();
 
 $c = $t->section()->setClass("igk-cnf-section section"); 
 $c->add($confframe);
-$t->addClearBoth();
+// $t->addClearBoth();
 
 $t->div()->setClass("igk-cnf-footer")
 ->container()->addRow()->addCol("igk-col-3-3")->div()->setClass('copyright')->Content=IGK_COPYRIGHT;

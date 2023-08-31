@@ -204,4 +204,10 @@ trait DbColumnInfoTrait
    * @var mixed
    */
   var $clDisplay;
+
+  /**
+   * string linkto relation table[,column,type]
+   * @var ?string
+   */
+  var $clLinkTo;
 }

@@ -4,6 +4,7 @@
 // @date: 20230707 21:20:27
 namespace IGK\System\Http;
 
+use IGK\Controllers\BaseController;
 use IGK\System\IInjectable;
 
 ///<summary></summary>
@@ -12,5 +13,5 @@ use IGK\System\IInjectable;
 * @package IGK\System\Http
 */
 interface IAuthenticatorService extends IInjectable{
-    
+    function getNewToken(\IGK\Models\Users $user, BaseController $ctrl, bool $remember_me=false):?array;
 }

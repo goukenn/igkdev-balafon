@@ -126,25 +126,10 @@ final class IGKHtmlScriptManager extends IGKObject {
     * merge all required scripts
     * @param mixed $zip get or set if required minification
     * @param mixed $files will recieve all merged scripts
+    * @deprecated
     */
     public function getMergedContent($zip=0, & $files=null){
-        // igk_wln_e("merge content");
-        // $tasc=$this->getAssoc();
-        // $o="";
-        // if($tasc){
-        //     $resolver=IGKResourceUriResolver::getInstance();
-        //     foreach($tasc->to_array() as $k=>$v){
-        //         if(!file_exists($k) || !preg_match("/\.js$/", basename($k)))
-        //             continue;
-        //         $u=$resolver->resolve($k, null, 0);
-        //         $o .= IGK_START_COMMENT."+F:  ". $u."".IGK_END_COMMENT.IGK_LF;
-        //         $g=utf8_decode(igk_io_read_allfile($k));
-        //         if($zip)
-        //             $g=igk_js_minify($g);
-        //         $o .= $g.IGK_LF;
-        //     }
-        // }
-        // return (object)(array("data"=>$o));
+        throw new IGKException(__METHOD__. " Not implement");
     }
     ///<summary></summary>
     /**

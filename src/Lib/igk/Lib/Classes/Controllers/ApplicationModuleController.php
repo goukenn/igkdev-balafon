@@ -101,7 +101,6 @@ final class ApplicationModuleController extends BaseController{
             $dc=igk_pop_env(__CLASS__."/callee");
             return $o;
         } 
-        // igk_die("/!\\ function {$n} not define");
         return null;
     }
     
@@ -507,10 +506,7 @@ final class ApplicationModuleController extends BaseController{
      */
     public static function __callStatic($name, $arguments)
     {        
-        if(igk_environment()->isDev() && ($name==='register_autoload')){
-            igk_wln("---call reloader ... ---");
-            igk_trace();
-            igk_exit();
+        if(igk_environment()->isDev() && ($name==='register_autoload')){       
             igk_ilog("module app - invoke static method not allowed - ".$name);         
         }
         return null; 
@@ -549,5 +545,15 @@ final class ApplicationModuleController extends BaseController{
     public function __toString()
     {
         return sprintf("%s - [%s]", __CLASS__, $this->getName());
+    }
+
+    /**
+     * resolve local class
+     * @param string $name 
+     * @return string|null 
+     */
+    public function resolveClass(string $name){
+        $m = ControllerExtension::resolveClass($this, $name);
+        return $m;
     }
 }

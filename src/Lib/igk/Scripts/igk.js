@@ -10743,11 +10743,9 @@ Name:balafon.js
                     var tf = func;
                     $igk(form).select(".actions").addClass("dispn");
                     func = function(xhr) {
-                        if (tf) {
+                        if (tf && (typeof(tf)=='function')) {
                             tf.apply(this, [xhr]);
-                        } else {
-                            console.debug("there is no function callback");
-                        }
+                        } 
                         if (this.isReady()) {
                             lw.remove();
                             $igk(form).select(".actions").rmClass("dispn");

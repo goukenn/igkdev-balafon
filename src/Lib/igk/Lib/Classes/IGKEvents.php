@@ -53,7 +53,7 @@ class IGKEvents extends IGKObject
     const HOOK_DB_TABLECREATED = "db_table_created";
     const HOOK_DB_POST_GROUP = "db_post_db_create_database_list";
     const HOOK_DB_CACHES_INITIALIZED = "db_cache_initialized";
-    const HOOK_DB_INSERT = 'db_date_inserted';
+    const HOOK_DB_INSERT = 'db_data_inserted';
 
     const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
     const HOOK_HTML_AFTER_RENDER_BODY="html_after_render_body";
@@ -126,6 +126,11 @@ class IGKEvents extends IGKObject
     const FILTER_PRE_CREATE_ELEMENT = "pre_filter_node";
     const FILTER_POST_CREATE_ELEMENT = "post_filter_node";
     const FILTER_CONFIG_MENU = 'filter_config_menu';
+
+    /**
+     * build command event
+     */
+    const BUILD_ASSETS = 'build_assets';
 
     
     const VIEWCOMPLETE = 0x1;

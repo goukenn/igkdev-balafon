@@ -37,7 +37,7 @@ interface IDataDriver{
     function pushRelations(string $tbname, $v);
     function supportDefaultValue(string $type):bool;
     function isAutoIncrementType(string $type):bool;
-    function tableExists(string $table): bool;
+    function tableExists(string $table, bool $throwex=true): bool;
     function sendQuery(string $query, $throwex=true, $options=null, $autoclose=false);
 
     /**

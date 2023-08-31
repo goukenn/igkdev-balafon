@@ -67,33 +67,33 @@ abstract class HtmlUtils extends DomNodeBase
      * ([expression]) to pass the expression as argument 
      * @return array
      */
-    public static function ExplodeTag(string $tagname, $context=null): array
+    public static function ExplodeTag(string $tagname, $context = null): array
     {
         $id = null;
         $classes = null;
         $args = null;
         $name = null;
         if (strpos($tagname, '(') !== false) {
-            !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. ".$tagname);
+            !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
             // get args to setups
             $start = $pos = strpos($tagname, '(');
-            $g = igk_str_read_brank($tagname, $pos,')', '(');
-            $a = substr($g, 1, -1); 
-            $args = igk_engine_get_attr_arg($a, $context); 
-            $tagname = igk_str_rm($tagname, $start,  $pos-$start+1);  
-           //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
+            $g = igk_str_read_brank($tagname, $pos, ')', '(');
+            $a = substr($g, 1, -1);
+            $args = igk_engine_get_attr_arg($a, $context);
+            $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
+            //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
         }
         if (strpos($tagname, '[') !== false) {
-            !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. ".$tagname);
+            !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
             // get args to setups
             $start = $pos = strpos($tagname, '(');
-            $g = igk_str_read_brank($tagname, $pos,')', '(');
-            $a = substr($g, 1, -1); 
-            $args = igk_engine_get_attr_arg($a, $context); 
-            $tagname = igk_str_rm($tagname, $start,  $pos-$start+1);  
-           //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
+            $g = igk_str_read_brank($tagname, $pos, ')', '(');
+            $a = substr($g, 1, -1);
+            $args = igk_engine_get_attr_arg($a, $context);
+            $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
+            //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
         }
-        
+
         if (strpos($tagname, '#') !== false) {
             $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
@@ -104,14 +104,14 @@ abstract class HtmlUtils extends DomNodeBase
         }
         if (($v_pos = strpos($tagname, '.')) !== false) {
             $tclasses = [];
-            if ($c = preg_match_all("/\.(?P<name>[^\%\.\\s#\(\)]+)/i", $tagname, $tab)){
-              for ($i = 0; $i < $c; $i++) {
+            if ($c = preg_match_all("/\.(?P<name>[^\%\.\\s#\(\)]+)/i", $tagname, $tab)) {
+                for ($i = 0; $i < $c; $i++) {
                     // get id last id and remove it from tag
                     $tclasses[$tab['name'][$i]] = 1;
                     $tagname = str_replace($tab[0][$i], '', $tagname);
                 }
             } else {
-                if (igk_environment()->isDev()){
+                if (igk_environment()->isDev()) {
                     igk_die("not a valid class specification.");
                 }
                 $tagname = substr($tagname, $v_pos, 1);
@@ -126,7 +126,7 @@ abstract class HtmlUtils extends DomNodeBase
                 $tagname = str_replace($tab[0][$i], '', $tagname);
             }
         }
-       
+
         return [trim($tagname), $id, $classes, $args, $name];
     }
 
@@ -190,7 +190,7 @@ abstract class HtmlUtils extends DomNodeBase
      * @return mixed 
      */
     public static function CopyNode($g, $childs, ?callable $callback = null, &$T = 0)
-    { 
+    {
         if ($callback === null) {
             $callback = Closure::fromCallable([self::class, '_copy_node_create_node_callback']);
         }
@@ -829,9 +829,9 @@ abstract class HtmlUtils extends DomNodeBase
      * @throws ReflectionException 
      */
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    { 
+    {
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
-        
+
         // + | -----------------------------------------------------------------------
         // + | prefilter component creation
         // + |
@@ -915,18 +915,26 @@ abstract class HtmlUtils extends DomNodeBase
                     $name = $inf["name"];
                     $c = null;
                     $fc = $inf["callback"];
-                    if ($v_pcount >= $v_rp) {
+                    if ($v_pcount >= $v_rp){
+                        $p = igk_html_parent_node();
                         $c = call_user_func_array($fc, $tb);
+                        if ($p && ($p===$c)){                         
+                            return $p;
+                        }                        
                         if ($c) {
                             if ($initcallback) {
                                 $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
                             }
-                            $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
-                                "type" => "f",
-                                "name" => $name,
-                                "args" => $tb
-                            ]));
-
+                            // + | check not init type - 
+                            $flag = $c->getInitNodeTypeInfo();
+                            if (!$flag) {
+                                $c->setInitNodeTypeInfo(HtmlInitNodeInfo::Create([
+                                    "type" => "f",
+                                    "name" => $name,
+                                    "args" => $tb
+                                ]));
+                            }
+                            
                             self::FilterNode($c,  [
                                 "node" => $c,
                                 "tagname" => $name,

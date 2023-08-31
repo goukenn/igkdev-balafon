@@ -22,8 +22,13 @@ use IGKException;
 class Request implements IInjectable, IContentSecurityProvider
 {
     use ContentSecurityManagementTrait;
+    const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
     
-    static $sm_instance;
+    /**
+     * 
+     * @var self
+     */
+    private static $sm_instance;
     private $m_params;
     private $js_data;
     private $m_header_data;
@@ -37,14 +42,34 @@ class Request implements IInjectable, IContentSecurityProvider
     {
         return null;
     }
+    /**
+     * store json data 
+     * @param null|string $data 
+     * @return mixed old data 
+     */
     public function setJsonData(?string $data){
-        igk_environment()->set('FakerInput', $data ? new ServerFakerInput($data) : null);
+        $env = igk_environment();
+        $d = $env->get($k = self::REQUEST_JSON_DATA_ENV_KEY);
+        $env->set($k, $data ? new ServerFakerInput($data) : null);
+        return $d;
     }
+    /**
+     * 
+     * @return mixed 
+     */
     public function getUploadedData(){
         if (!$this->prepared){
             $this->js_data = igk_io_get_uploaded_data(); 
         }  
         return $this->js_data;
+    }
+    /**
+     * check this current request support form data
+     * @return bool 
+     */
+    public function isFormData():bool{
+        return empty($this->js_data) && 
+        (igk_server()->CONTENT_TYPE != 'application/json');
     }
     /**
      * do response with data

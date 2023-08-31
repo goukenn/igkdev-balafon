@@ -64,7 +64,7 @@ class MakeProjectCommand extends AppExecCommand
     public function exec($command, $controller = "")
     {
 
-        
+
         if (empty($controller)) {
             return false;
         }
@@ -75,8 +75,8 @@ class MakeProjectCommand extends AppExecCommand
         $controller = StringUtility::CamelClassName($controller);
         $dir = igk_io_projectdir() . "/" . $controller;
         Logger::info(__("Make project ... {0}",  $controller));
-        
-   
+
+
 
         $author = $this->getAuthor($command);
         $type = igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
@@ -172,25 +172,26 @@ EOF;
                 }
             }
             ksort($tab);
-            Logger::info(__("Configure"));
-            $names = [
-                "clAppName" => __("Name"),
-                "clTitle" => __("Title"),
-                // "clAppNotActive" => __("Is not Active ?"),
-                "clBasicUriPattern" => __("Entry URI"),
-                "clDataTablePrefix" => __("Tables's Prefix"),
-            ];
-            foreach ($tab as $key => $value) {
-                $def = null;
-                if (property_exists($obj_conf, $key)) {
-                    $config->$key = $obj_conf->$key;
-                } else {
-                    if ($def = (is_array($value) ? igk_getv($value, "default") : $value)) {
-                        if (igk_is_closure($def)) {
-                            $def = $def($prop);
+            if (function_exists('readline')) {
+                Logger::info(__("Configure"));
+                $names = [
+                    "clAppName" => __("Name"),
+                    "clTitle" => __("Title"),
+                    "clBasicUriPattern" => __("Entry URI"),
+                    "clDataTablePrefix" => __("Table's Prefix"),
+                ];
+                foreach ($tab as $key => $value) {
+                    $def = null;
+                    if (property_exists($obj_conf, $key)) {
+                        $config->$key = $obj_conf->$key;
+                    } else {
+                        if ($def = (is_array($value) ? igk_getv($value, "default") : $value)) {
+                            if (igk_is_closure($def)) {
+                                $def = $def($prop);
+                            }
                         }
+                        $config->$key = igk_getsv(readline(igk_getv($names, $key, $key) . " = "), $def);
                     }
-                    $config->$key = igk_getsv(readline(igk_getv($names, $key, $key) . " = "), $def);
                 }
             }
         } else {
@@ -211,14 +212,14 @@ EOF;
                 ->defs($defaultsrc);
             igk_io_w2file($file, $builder->render());
         };
-        $no_access_callback = function($f){
+        $no_access_callback = function ($f) {
             igk_io_w2file($f, 'deny from all');
         };
-        $grant_access_callback = function($f){
+        $grant_access_callback = function ($f) {
             igk_io_w2file($f, 'allow from all');
         };
-        $bind[$dir . "/" . IGK_DATA_FOLDER.'/.htaccess']= $no_access_callback;
-        $bind[$dir . "/" . IGK_DATA_FOLDER.'/'.IGK_RES_FOLDER.'/.htaccess']= $grant_access_callback;
+        $bind[$dir . "/" . IGK_DATA_FOLDER . '/.htaccess'] = $no_access_callback;
+        $bind[$dir . "/" . IGK_DATA_FOLDER . '/' . IGK_RES_FOLDER . '/.htaccess'] = $grant_access_callback;
 
         $bind[$dir . "/" . IGK_DATA_FOLDER .
             "/data.schema.xml"] = function ($file) use ($author, $dir) {
@@ -376,37 +377,37 @@ EOF;
         };
 
         if (class_exists(\PHPUnit\Framework\TestCase::class))
-        $bind[$dir . "/" . IGK_LIB_FOLDER . "/Tests/" . $clname . "Test.php"] = function ($file) use ($controller, $clname) {
-            $builder = new PHPScriptBuilder();
-            $e_ns = $this->entryNamespace;
-            $builder->type('class')
-                ->namespace($e_ns . "\\Tests")
-                ->name($clname . "Test")
-                ->file(basename($file))
-                ->desc($controller . " controller test ")
-                ->extends(\IGK\Tests\Controllers\ControllerBaseTestCase::class)
-                ->defs(implode("\n", [
-                    "public function test_init(){",
-                    "   \$this->assertTrue(true);",
-                    "}"
-                ]));
-            igk_io_w2file($file, $builder->render());
-        };
+            $bind[$dir . "/" . IGK_LIB_FOLDER . "/Tests/" . $clname . "Test.php"] = function ($file) use ($controller, $clname) {
+                $builder = new PHPScriptBuilder();
+                $e_ns = $this->entryNamespace;
+                $builder->type('class')
+                    ->namespace($e_ns . "\\Tests")
+                    ->name($clname . "Test")
+                    ->file(basename($file))
+                    ->desc($controller . " controller test ")
+                    ->extends(\IGK\Tests\Controllers\ControllerBaseTestCase::class)
+                    ->defs(implode("\n", [
+                        "public function test_init(){",
+                        "   \$this->assertTrue(true);",
+                        "}"
+                    ]));
+                igk_io_w2file($file, $builder->render());
+            };
 
         $this->_bind_database($bind, $dir, $controller);
 
         if ($use_git) {
             ($force || !is_dir($dir . "/.git")) &&
-                GitHelper::Generate($bind, $dir, $controller, $author, $desc, [                    
+                GitHelper::Generate($bind, $dir, $controller, $author, $desc, [
                     "phpunit**",
                     ".phpunit.result.cache",
                 ]);
         }
 
-        
+
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
-        igk_hook(IGKEvents::HOOK_COMMAND, ['cmd'=>$this, 'dir'=>$dir, 'name'=>$controller, 'args'=>func_get_args()]);
+        igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
 
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
@@ -529,22 +530,23 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
     }
-    private function _initConfigurationFile(& $bind , $dir , $options){
-        $dir = $dir . "/" . IGK_CONF_FOLDER ;
-        $bind[$dir."/profiles.php"] = function($file)use($options){
+    private function _initConfigurationFile(&$bind, $dir, $options)
+    {
+        $dir = $dir . "/" . IGK_CONF_FOLDER;
+        $bind[$dir . "/profiles.php"] = function ($file) use ($options) {
             $cl = $options['fullClassName'];
             $sb = new StringBuilder;
             $builder = new PHPScriptBuilder;
             $sb->appendLine('return [];');
             $builder->type('function')
-            ->defs($sb.'')
-            ->uses([
-                $cl => 'ctrl'
-            ])
-            ->desc(implode("\n",[
-                 'profile list usage' ,
-                 'array of profiles=>[auth-group]'
-            ]));
+                ->defs($sb . '')
+                ->uses([
+                    $cl => 'ctrl'
+                ])
+                ->desc(implode("\n", [
+                    'profile list usage',
+                    'array of profiles=>[auth-group]'
+                ]));
             igk_io_w2file($file, $builder->render());
         };
     }

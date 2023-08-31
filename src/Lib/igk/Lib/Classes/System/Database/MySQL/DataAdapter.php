@@ -590,7 +590,7 @@ class DataAdapter extends DataAdapterBase
     {  
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
 
-            if (!($this->tableExists($tablename))) {
+            if (!($this->tableExists($tablename,false))) {
                 igk_ilog('db try to create table > ' . $tablename);                
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $options);
                 if (!$s) {
@@ -878,9 +878,9 @@ class DataAdapter extends DataAdapterBase
      * check if table exists
      * @param mixed $tablename
      */
-    public function tableExists(string $tablename): bool
+    public function tableExists(string $tablename, bool $throwex = true): bool
     {
-        return $this->m_dbManager->tableExists($tablename);
+        return $this->m_dbManager->tableExists($tablename, $throwex);
     }
     public function __debugInfo()
     {

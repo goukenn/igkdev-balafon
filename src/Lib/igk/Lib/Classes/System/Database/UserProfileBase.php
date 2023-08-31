@@ -74,8 +74,8 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * @param mixed $auth 
      * @return bool 
      */
-    public function auth($auth, bool $strict=false):bool{
-        return $this->systemModel()->auth($auth, $strict);
+    public function auth($auth, bool $strict=false, ?BaseController $ctrl=null):bool{
+        return $this->systemModel()->auth($auth, $strict, $ctrl);
     }
     public function __toString()
     {

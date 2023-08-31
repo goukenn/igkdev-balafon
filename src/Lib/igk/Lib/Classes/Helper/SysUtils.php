@@ -87,7 +87,7 @@ class SysUtils{
         }catch (TypeError $error){
             throw new IGKException('eval failed', 500, $error);
         } catch (Error $error){
-            igk_wln_e("error ", $error->getMessage());
+            igk_dev_wln_e("error : ", $error->getMessage());
         }
     }
     public static function Include(){

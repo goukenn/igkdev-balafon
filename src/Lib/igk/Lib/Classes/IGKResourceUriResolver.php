@@ -90,6 +90,7 @@ class IGKResourceUriResolver
             IGK_LIB_DIR => ResIdentifierConstants::LIBRARY,
             igk_get_module_dir() => ResIdentifierConstants::MODULE,
             igk_io_projectdir() => ResIdentifierConstants::PROJECT,
+            igk_get_packages_dir()."/node_modules" => ResIdentifierConstants::NODE_PACKAGE,
             igk_get_packages_dir() => ResIdentifierConstants::PACKAGE,
             igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
@@ -135,6 +136,7 @@ class IGKResourceUriResolver
                 "mod"=>ResIdentifierConstants::MODULE,
                 "modules"=>ResIdentifierConstants::MODULE,
                 "pkg"=>ResIdentifierConstants::PACKAGE,
+                "nodepackages"=>ResIdentifierConstants::NODE_PACKAGE,
                 "packages"=>ResIdentifierConstants::PACKAGE,
                 "prj"=>ResIdentifierConstants::PROJECT, 
                 "project"=>ResIdentifierConstants::PROJECT, 

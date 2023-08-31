@@ -397,7 +397,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
         if (is_object($callback) && ($callback instanceof \IGK\System\WinUI\Menus\Engine)) {
             $item_build_callback = [$callback, "buildItem"];
             $submenu_item_build_callback = [$callback, "buildSubMenuItem"];
-            $_binduri = [$callback, 'resolvUriMenu'];
+            $_binduri = [$callback, 'resolveUriMenu'];
         }
     }
     // resolv request uri

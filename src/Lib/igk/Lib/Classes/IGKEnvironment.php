@@ -22,6 +22,7 @@ use function igk_getv as getv;
  * @property string $subdomainctrl current subdomain controller
  * @property string $basectrl base controller
  * @property string $cookie_name base controller
+ * @property string $workingDir start working dir
  * @property int    $querydebug activate of not the query debug
  * @property array  $db_adapter get registered data adapters
  * @property bool   $no_lib_cache no library cache
@@ -39,7 +40,25 @@ use function igk_getv as getv;
 final class IGKEnvironment extends IGKEnvironmentConstants
 {
     private static $sm_instance;
-
+    private static $sm_states = [];
+    public static function saveState(array $environment_new_state){
+        $bck = [];
+        $env = self::getInstance();
+        foreach($environment_new_state as $k=>$v){
+            $old = $env->get($k);            
+            $env->set($k, $v);
+            $bck[$k] = $old;
+        }
+        self::$sm_states[] = $bck;
+    }
+    public static function restoreState(){
+        $env = self::getInstance();
+        if ($bck = array_pop(self::$sm_states)){
+            foreach($bck as $k=>$v){
+                $env->set($k, $v);
+            }
+        }
+    }
     public function getAuthor(){
         return igk_configs()->get('author', IGK_AUTHOR);
     }
@@ -159,6 +178,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             "%basedir%" => igk_io_basedir(),
             "%packages%" => $packagedir,
             "%modules%" => $mod_dir,
+            "%nodepackages%"=>$packagedir."/node_modules",
             "%viewcaches%" => igk_is_cmd() ? null : $this->getViewCacheDir()
         ]);
     }
@@ -763,7 +783,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants
      * get input for input handling
      * @return null|FakeInput 
      */
-    public function FakerInput(): ?FakeInput{
+    public function RequestFakeJsonInput(): ?FakeInput{
         return $this->get(__FUNCTION__);
     }
     /**

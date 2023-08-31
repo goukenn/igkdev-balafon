@@ -1346,7 +1346,7 @@ JS;
             $frame->Title = __("title.editview_1", basename($f));
             $str = null;
             if (!$oldcontent)
-                $str = utf8_decode(IO::ReadAllText($f));
+                $str = IO::ReadAllText($f);
             $d = $frame->BoxContent;
             $frm = $d->addForm();
             $frm["action"] = $this->getUri("ca_update_view#" . $this->_getviewid());

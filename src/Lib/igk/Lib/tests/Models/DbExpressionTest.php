@@ -38,7 +38,7 @@ class DbExpressionTest extends BaseTestCase{
         }
         $p = Table1Test::prepare()->join([
             Table2Test::table()=>[
-                Table1Test::column("clName")."=".Table2Test::column("clName"), 
+                sprintf('%s=%s',Table1Test::column("clName"), Table2Test::column("clName")),
                 "type"=>"Left"
             ]
         ])->conditions([

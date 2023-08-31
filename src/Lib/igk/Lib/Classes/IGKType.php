@@ -3,6 +3,8 @@
 // @filename: IGKType.php
 // @date: 20220803 13:48:54
 // @desc: 
+
+use IGK\Controllers\BaseController;
 use IGK\System\IInjectable;
 /**
  * manage type helper 
@@ -34,7 +36,8 @@ class IGKType{
      * @return bool 
      */
     public static function IsInjectable(string $type):bool{
-        return is_subclass_of($type, IInjectable::class);
+        return is_subclass_of($type, IInjectable::class) || 
+              ($type==BaseController::class) || is_subclass_of($type, BaseController::class) ;
     }
     /**
      * get if methodName is a magic function

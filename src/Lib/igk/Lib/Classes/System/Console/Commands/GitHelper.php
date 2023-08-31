@@ -21,6 +21,9 @@ class GitHelper
      */
     public static function Generate(&$bind, $dir, $name = null, $author = null, $desc = null, ?array $ignorelist = null)
     {
+        if (is_null($author)){
+            $author = IGK_AUTHOR;
+        }
         $init_git = function()use($dir){
             if (igk_is_function_disable("exec"))
             {

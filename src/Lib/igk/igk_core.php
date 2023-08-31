@@ -54,8 +54,8 @@ function igk_environment()
  *  @throws Exception
  *  @endcode exit
  */
-function igk_exit($close = 1, $status=0)
-{      
+function igk_exit($close = 1, $status = 0)
+{
     if (igk_environment()->isAJXDemand) {
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
         igk_environment()->isAJXDemand = null;
@@ -192,11 +192,11 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
                 }
             }
         }
-        !defined('IGK_TEST_INIT') && error_log(sprintf('%s: %s', 'BLF_EX:', $msg));
+        !defined('IGK_TEST_INIT') && igk_is_debug() && error_log(sprintf('%s: %s', 'BLF_EX:', $msg));
         // + | Last Exception  
         throw new IGKException($msg, $code);
     } else {
-        ob_clean();
+        ob_get_level() && ob_clean();
         igk_set_header($code);
         igk_dev_wln($msg . PHP_EOL);
         igk_exit();
@@ -212,8 +212,6 @@ if (!function_exists('igk_resources_gets')) {
      */
     function igk_resources_gets($text, $default = null)
     {
-     
-
         $args = func_get_args();
         if (is_array($text)) {
             $m = array_slice($args, 1);
@@ -223,7 +221,7 @@ if (!function_exists('igk_resources_gets')) {
             }, $text)));
             $args[0] = $text;
         }
-        if ($g = R::GetStringResourceHandler()){
+        if ($g = R::GetStringResourceHandler()) {
             return call_user_func_array($g, $args);
         }
         return call_user_func_array(array(R::class, 'Gets'), $args);
@@ -1284,7 +1282,7 @@ function igk_getctrl(?string $name, $throwex = 1)
  */
 function igk_ilog($message, ?string $tag = null, $traceindex = 0, $dblog = true)
 {
-    if (is_array($message)){
+    if (is_array($message)) {
         $message = implode(" ", $message);
     }
     IGKLog::Append($message, $tag, $traceindex, $dblog);
@@ -1924,7 +1922,8 @@ function igk_sys_reflect_class($cl)
         $reflection[$cl] = $rf;
         return $rf;
     }
-    igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing. ::: " . $cl);
+    igk_trace();
+    igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
 }
 
 /**
@@ -1937,39 +1936,45 @@ function igk_sys_support_trait($object_or_class, $trait)
 {
     return TraitHelper::SupportTrait($object_or_class, $trait);
 }
-/**
- * get working directory
- * @return void 
- */
-function igk_io_workingdir()
-{
-    if (defined("IGK_WORKING_DIR")) {
-        return IGK_WORKING_DIR;
-    }
-    $app_dir = igk_io_applicationdir();
-    $base_dir = igk_io_basedir();
-    if ($app_dir == $base_dir) {
-        define("IGK_WORKING_DIR", $app_dir);
-        return $app_dir;
-    }
-    $c = 0;
-    while ($app_dir && ($app_dir != "/")) {
-        $app_dir = dirname($app_dir);
-        $c++;
-        if ($c > 10) break;
-        if (strstr($base_dir, $app_dir)) {
+
+if (!function_exists('igk_io_workingdir')) {
+    /**
+     * get working directory
+     * @param bool check in $_SERVER if no IGK_WORKING_DIR constant found
+     * @return void 
+     */
+    function igk_io_workingdir(bool $server = true)
+    {
+        $v_key = 'IGK_WORKING_DIR';
+        if (defined($v_key)) {
+            return IGK_WORKING_DIR;
+        }
+        if ($server && isset($_SERVER, $v_key)) {
+            return $_SERVER[$v_key];
+        }
+        $app_dir = igk_io_applicationdir();
+        $base_dir = igk_io_basedir();
+        if ($app_dir == $base_dir) {
             define("IGK_WORKING_DIR", $app_dir);
             return $app_dir;
         }
+        $c = 0;
+        while ($app_dir && ($app_dir != "/")) {
+            $app_dir = dirname($app_dir);
+            $c++;
+            if ($c > 10) break;
+            if (strstr($base_dir, $app_dir)) {
+                define("IGK_WORKING_DIR", $app_dir);
+                return $app_dir;
+            }
+        }
+        if (IGKApp::IsInit()) {
+            define('IGK_WORKING_DIR', $dir = getcwd());
+            return $dir;
+        }
+        die("failed to found working directory " . getcwd());
     }
-    if (IGKApp::IsInit()) {
-        define('IGK_WORKING_DIR', $dir = getcwd());
-        return $dir;
-    }
-    die("failed to found working directory " . getcwd());
 }
-
-
 /**
  * 
  * @param mixed $prefix the default value is 'tmp'

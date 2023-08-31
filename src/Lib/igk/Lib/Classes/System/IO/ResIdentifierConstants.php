@@ -17,4 +17,5 @@ abstract class ResIdentifierConstants{
     const CACHE = '_chs_';
     const MODULE = '_mod_';
     const APP = '_app_';
+    const NODE_PACKAGE = '_node_pkg_';
 }

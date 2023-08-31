@@ -97,7 +97,7 @@ use function igk_resources_gets as __;
  * @method static bool getIsVisible() macros function
  * @method static void getRouteUri() macros functiong
  * @method static void getTestClassesDir() macros function
- * @method static object getUser() macros function IUserProfile
+ * @method static ?\IGK\System\Database\IUserProfile getUser() macros function get controller user profile
  * @method static void array getViewArgs() macros function
  * @method static string hookName() macros function get hook name
  * @method static void initDbConstantFiles() macros function
@@ -129,7 +129,7 @@ use function igk_resources_gets as __;
  * @method static mixed js(string $name, default=null) macros function load inline js script
  * @method static mixed pcss(string $name, default=null) macros function load temp inline pcss
  * @method static mixed getViews(bool $withHiddenFile, bool $recursive=false) macros function load temp inline pcss
- * @method static mixed getActionHandler(string $name, ?array $params = null, ?ActionResolutionInfo $action_resolution=null) macros function load temp inline pcss
+ * @method static mixed getActionHandler(string $name, ActionResolutionInfo $action_resolution, ?array $params =null) macros function load temp inline pcss
  */
 abstract class BaseController extends RootControllerBase implements IIGKDataController
 {
@@ -233,9 +233,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if (
             !$meth_exits && ($allowed_view = $this->_isAllowedView($v)) &&
             !file_exists($f = ($this->getViewFile($v, 0, $params)))
-        ) {
-       
-
+        ) { 
             //
             $v_handle = "file";
             if (!$find) {
@@ -348,104 +346,115 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
-            ($handler = $this->getActionHandler($fname, $params, $rep = new ActionResolutionInfo))
+            ($handler = $this->getActionHandler($fname,$rep = new ActionResolutionInfo, $params))
         ) {
-            $is_expected = ActionHelper::IsExpectedAction($this, $fname, $handler);   
+
+            $params = $rep->params ?? $params; // 
+            $srv = igk_server(); 
+            $r =  ActionHelper::DoHandle($this, $handler, $fname, $params, $rep,[
+                'method'=>$srv->REQUEST_METHOD,
+                'is_ajx'=>($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand(), // is_ajx
+            ]);            
+            
+
+            // $is_expected = ActionHelper::IsExpectedAction($this, $fname, $handler);   
            
-            // check for source user
-            $this->checkUser(false);
-            // traitement before passing args to handlers
-            $handlerArgs = $params;
-            $_t = null; 
-            $_index = 'index';
-            if (strpos($fname, '/') !== false) {
-                $_t = explode('/', $fname);
-                $view = igk_array_peek_last($_t);
-                if ($view == IGK_DEFAULT) {
-                    array_pop($_t);
-                }
-                // if default view passing 
-                while (count($_t) > 1) {
-                    $np = array_pop($_t);
-                    if (
-                        strtolower($np . 'action') !=
-                        strtolower(basename(igk_uri($handler)))
-                    ) {
-                        array_unshift($handlerArgs, $np);
-                        break;
-                    }
-                }
-            }
-            // igk_dev_wln_e(__FILE__.":".__LINE__,  $params, $handlerArgs, $_index);
-            if (count($handlerArgs) == 0) {
-                // no parameter pass to index method of the action handler
-                if ($is_expected) {
-                    $handlerArgs = [$_index];
-                } else {
-                    if (!ActionHelper::HandleArgs($fname, $handlerArgs)) {
-                        if (!empty($fname)) {
-                            $tp = igk_array_last(explode('/', $fname));
-                            if ($tp != IGK_DEFAULT) {
-                                $_index = $tp;
-                            }
-                        }
-                        $handlerArgs = [$_index];
-                    }
-                }
-            } else if (is_numeric(array_keys($handlerArgs)[0]) && is_numeric($handlerArgs[0])) {
-                // + | passing numeric data to index
-                array_unshift($handlerArgs, $_index);
-            } else {
-                if ($handler == $this->resolveClass(\Actions\DefaultAction::class)) {
-                    ActionHelper::HandleArgs($fname, $handlerArgs);
-                    if ($_t) {
-                        array_unshift($handlerArgs, ...$_t);
-                    }
-                } else {
-                    if (!$is_expected) {
-                        $p = "Actions";
-                        if ($_t) {
-                            $p .= "\\" . implode("\\", array_map('ucfirst', array_filter($_t)));
-                        }
-                        while (count($handlerArgs) > 0) {
-                            $g = array_shift($handlerArgs);
-                            $p .= "\\" . ucfirst(StringUtility::CamelClassName($g));
-                            $r = basename(igk_uri($p));
-                            if (!($cl = $this->resolveClass($p . "Action"))) {
-                                $cl = $this->resolveClass($p . "\\" . $r . "Action");
-                                if ($cl && !empty($handlerArgs) && ($handler == $cl) && (strtolower($r) == strtolower($handlerArgs[0]))) {
-                                    // + | shift handle args api/api -default resolution
-                                    array_shift($handlerArgs);
-                                }
-                            }
-                            if ($handler == $cl) {
-                                if (empty($handlerArgs)) {
-                                    array_unshift($handlerArgs, $_index);
-                                }
-                                break;
-                            }
-                        }
-                    } else {
-                        if (!is_null($rep->params)) {
-                            $handlerArgs = $rep->params;
-                        } else {
-                            if ($rep->level > 0) {
-                                $handlerArgs = array_splice($handlerArgs, $rep->level);
-                            }
-                        }
-                        if (empty($handlerArgs)) {
-                            array_unshift($handlerArgs, $_index);
-                        }
-                    }
-                }
-            }  
-            $r = $handler::Handle(
-                $this,
-                $fname,
-                $handlerArgs,
-                (igk_server()->CONTENT_TYPE == "application/json") || igk_is_ajx_demand(),
-                true
-            ); 
+            // // check for source user
+            // $this->checkUser(false);
+            // // traitement before passing args to handlers
+            // $handlerArgs = $params;
+            // $_t = null; 
+            // $_index = 'index';
+            // if (strpos($fname, '/') !== false) {
+            //     $_t = explode('/', $fname);
+            //     $view = igk_array_peek_last($_t);
+            //     if ($view == IGK_DEFAULT) {
+            //         array_pop($_t);
+            //     }
+            //     // if default view passing 
+            //     while (count($_t) > 1) {
+            //         $np = array_pop($_t);
+            //         if (
+            //             strtolower($np . 'action') !=
+            //             strtolower(basename(igk_uri($handler)))
+            //         ) {
+            //             array_unshift($handlerArgs, $np);
+            //             break;
+            //         }
+            //     }
+            // }
+            // // igk_dev_wln_e(__FILE__.":".__LINE__,  $params, $handlerArgs, $_index);
+            // if (count($handlerArgs) == 0) {
+            //     // no parameter pass to index method of the action handler
+            //     if ($is_expected) {
+            //         $handlerArgs = [$_index];
+            //     } else {
+            //         if (!ActionHelper::HandleArgs($fname, $handlerArgs)) {
+            //             if (!empty($fname)) {
+            //                 $tp = igk_array_last(explode('/', $fname));
+            //                 if ($tp != IGK_DEFAULT) {
+            //                     $_index = $tp;
+            //                 }
+            //             }
+            //             $handlerArgs = [$_index];
+            //         }
+            //     }
+            // } else if (is_numeric(array_keys($handlerArgs)[0]) && is_numeric($handlerArgs[0])) {
+            //     // + | passing numeric data to index
+            //     array_unshift($handlerArgs, $_index);
+            // } else {
+            //     if ($handler == $this->resolveClass(\Actions\DefaultAction::class)) {
+            //         ActionHelper::HandleArgs($fname, $handlerArgs);
+            //         if ($_t) {
+            //             array_unshift($handlerArgs, ...$_t);
+            //         }
+            //     } else {
+            //         if (!$is_expected) {
+            //             $p = "Actions";
+            //             if ($_t) {
+            //                 $p .= "\\" . implode("\\", array_map('ucfirst', array_filter($_t)));
+            //             }
+            //             while (count($handlerArgs) > 0) {
+            //                 $g = array_shift($handlerArgs);
+            //                 $p .= "\\" . ucfirst(StringUtility::CamelClassName($g));
+            //                 $r = basename(igk_uri($p));
+            //                 if (!($cl = $this->resolveClass($p . "Action"))) {
+            //                     $cl = $this->resolveClass($p . "\\" . $r . "Action");
+            //                     if ($cl && !empty($handlerArgs) && ($handler == $cl) && (strtolower($r) == strtolower($handlerArgs[0]))) {
+            //                         // + | shift handle args api/api -default resolution
+            //                         array_shift($handlerArgs);
+            //                     }
+            //                 }
+            //                 if ($handler == $cl) {
+            //                     if (empty($handlerArgs)) {
+            //                         array_unshift($handlerArgs, $_index);
+            //                     }
+            //                     break;
+            //                 }
+            //             }
+            //         } else {
+            //             if (!is_null($rep->params)) {
+            //                 $handlerArgs = $rep->params;
+            //             } else {
+            //                 if ($rep->level > 0) {
+            //                     $handlerArgs = array_splice($handlerArgs, $rep->level);
+            //                 }
+            //             }
+            //             if (empty($handlerArgs)) {
+            //                 array_unshift($handlerArgs, $_index);
+            //             }
+            //         }
+            //     }
+            // }  
+            // $srv = igk_server();
+            // $r = $handler::Handle(
+            //     $this, // controller
+            //     $fname, // name
+            //     $handlerArgs, // args
+            //     ($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand(), // is_ajx
+            //     true, // flag
+            //     $srv->REQUEST_METHOD, // verb
+            // ); 
             return $r;
         }
     }
@@ -486,7 +495,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $response = null;
         $this->_include_constants();
         igk_reset_globalvars();
-        $viewargs = (array)ViewEnvironmentArgs::GetContextViewArgument($this, $file, __FUNCTION__);
+        $viewargs = (array)ViewEnvironmentArgs::CreateContextViewArgument($this, $file, __FUNCTION__);
         extract($viewargs);
         $action_handler = null;
         try {

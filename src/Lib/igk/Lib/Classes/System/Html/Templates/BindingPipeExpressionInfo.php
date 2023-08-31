@@ -40,7 +40,7 @@ class BindingPipeExpressionInfo{
             }, 'lowercase' => function (?string $v) {
                 return strtolower($v ?? '');
             }, 'utf8' => function (?string $v) {
-                return utf8_decode($v ?? '');
+                return igk_str_encode_to_utf8($v ?? '');
             }, 'lang' => function ($v) {
                 // + | pipe to registrer lang
                 return __($v,...array_slice(func_get_args(), 1));

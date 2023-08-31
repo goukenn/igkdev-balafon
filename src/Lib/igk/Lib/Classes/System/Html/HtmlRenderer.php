@@ -10,6 +10,7 @@ namespace IGK\System\Html;
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils; 
@@ -265,9 +266,9 @@ class HtmlRenderer
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
-                            if (is_object($v_c)) {
-                                igk_dev_wln_e("object return ", get_class($i), $v_c);
-                            }
+                            // if (is_object($v_c)) {
+                            //     igk_dev_wln_e("object return", get_class($i), $v_c);
+                            // }
                             $s .=  $v_c . $ln;
                         }
                         self::reduceDepth($options, self::reflect_class);
@@ -456,6 +457,9 @@ class HtmlRenderer
         $out = "";
         $ac_keys = [];
         $active = '';
+        $encode_options = new JSonEncodeOption;
+        $encode_options->ignore_empty = 1;
+        $encode_options->ignore_null = 1;
         if (!igk_getv($options, 'PreserveAttribOrder')){
             if (!is_array($attrs)){
                 $attrs->sortKeys();
@@ -490,19 +494,18 @@ class HtmlRenderer
                
                 continue;
             }
-
-            $r = is_object($v); 
-            if ($r && ($v instanceof HtmlExpressionAttribute))
+ 
+            if (is_array($v)) {
+                if (strpos($k,"igk:")===0){
+                    $v = json_encode($v);
+                 }else{
+                    $v = JSon::EncodeForHtmlAttribute($v, $encode_options);
+                }
+            }
+            if ($v_is_obj && ($v instanceof HtmlExpressionAttribute))
                 $c = $v->getValue();
             else {
-                if (is_array($v)) {
-                    if (strpos($k,"igk:")===0){
-                        $v = json_encode($v);
-                    }else{
-                        igk_environment()->isDev() && igk_trace();
-                        igk_dev_wln_e("/!\\ don't send array [$k] as attribute: ", $k, $v);
-                    }
-                }
+              
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                     $v_cv = $v->getValue($options);
                     if ($v_cv instanceof IHtmlTemplateAttribute) {
@@ -521,7 +524,11 @@ class HtmlRenderer
                         }
                     }
                     continue;
-                } else {
+                } else if ($v_is_obj && ($v instanceof IHtmlAttributeHandler)){
+                    $out .= $v->getAttributeValue($k);
+                    continue;
+                }                
+                else {
                     $c = static::GetStringAttribute($v, $options);
                 }
             }
@@ -530,11 +537,11 @@ class HtmlRenderer
                 if (preg_match("/[\"]/", trim($c, " \""))){
                     $c = igk_str_surround(addslashes($c));
                 }
-                if ($options && !$r && igk_getv($options, "DocumentType") == 'xml') {
+                if ($options && !$v_is_obj  && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);
                 }
                 $usekey = true;
-                if ($r){ 
+                if ($v_is_obj  && is_object($v)){ 
                     $usekey = method_exists($v, 'useAttribName') && $v->useAttribName(); 
                 }
                 if (!$usekey) {

@@ -48,7 +48,7 @@ class Activator{
      * @param string|callable|array $classame 
      * @param mixed $data 
      * @param bool $fullfill fullfield with data 
-     * @return object|mixed 
+     * @return object|mixed association data
      * @throws IGKException 
      * @throws Exception class not found
      */
@@ -56,22 +56,39 @@ class Activator{
         if ($data instanceof $classame){
             return $data;
         }
+        $args = [];
+        if (is_array($data) || (is_object($data)))
+        foreach($data as $k=>$v){
+            if (is_numeric($k)){
+                $args[] = $v;
+            }
+        }
+
         if (is_callable($classame)){
-            $g = $classame();
+            $g = $classame(...$args);
         }else{
-            $g = new $classame();
+            $g = new $classame(...$args);
         }
         if ($data){
             
             if ($fullfill){
                 foreach ($data as $k => $value){
+                    if (method_exists($g, $fc='set'.ucfirst($k))){
+                        $g->$fc($value);
+                        continue;
+                    }
                     if (property_exists($g, $k)){
                         $g->{$k} = $value;
                     }
                 }
             }else{
-                foreach(get_class_vars(get_class($g)) as $k=>$v){                 
-                    $g->{$k} = igk_getv($data, $k, $g->$k) ?? $v;
+                foreach(get_class_vars(get_class($g)) as $k=>$v){   
+                    $v = igk_getv($data, $k, $g->$k) ?? $v;
+                    if (method_exists($g, $fc='set'.ucfirst($k))){
+                        $g->$fc($v);
+                        continue;
+                    }             
+                    $g->{$k} = $v;
                 }
             }
         }

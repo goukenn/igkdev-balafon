@@ -13,10 +13,18 @@ use IGK\System\IInjectable;
  * @method void setFillColor($r)
  * @method void setTextColor($r)
  * @method void setDrawColor($r)
- * @method void image(string $file_or_uri)
+ * @method void image(string $file_or_uri, $x=null, $y=null, $w=null, $h=null, $type=null)
  * @method void output()
+ * @method void setXY($x, $y=null)
  */
 interface IPrinterService extends IInjectable{
+    /**
+     * L : landscape
+     * P : portrait
+     * @param string $orientation 
+     * @return mixed 
+     */
+    function setOrientation(string $orientation); 
     function setOptions(object $options);
     function getOptions();
     function resetDevice();

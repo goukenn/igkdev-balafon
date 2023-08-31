@@ -353,7 +353,12 @@ final class IGKModuleListMigration extends BaseController implements
         // + |            
         IGKModuleListMigration::Migrate();
     }
-    public function resolveClass($path)
+    /**
+     * resolve class 
+     * @param string $path 
+     * @return mixed 
+     */
+    public function resolveClass(string $path)
     {
         if ($this->m_host) {
             return $this->m_host->resolveClass($path);

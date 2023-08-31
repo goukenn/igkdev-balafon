@@ -6,13 +6,16 @@
 
 namespace IGK\System\WinUI\Menus;
 
+use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\WinUI\Traits\ResolveUriTrait;
 
 /**
  * represent the menu engine
  * @package IGK\System\WinUI\Menus
  */
 class Engine{
+    use ResolveUriTrait;
     /**
      * @param IGK\System\WinUI\Menus\HtmlNode $hi 
      * @param string $text 
@@ -31,12 +34,10 @@ class Engine{
         igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
     }
 
-    public function buildSubMenuItem(HtmlNode $hi ){
-        
+    public function buildSubMenuItem(HtmlNode $hi ){        
     }   
     public function buildItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
-        igk_wln_e("the ", $text, $options);
-
         return self::BuildMenuItem($hi, $text, $u, $ajx, $options);
     }
+    
 }

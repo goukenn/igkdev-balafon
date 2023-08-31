@@ -58,7 +58,7 @@ trait HtmlNodeContainerTrait{
         if (method_exists($this->host , $n)){
             return call_user_func_array([$this->host,$n], $arg);
         }
-        if ($r = Factory::InvokeOn($this->host, $this->host->tagName, $n, $arg)){
+        if ($r = Factory::InvokeOn($this->host, $this->host->getTagName(), $n, $arg)){
             return $r;
         } 
         return parent::__call($n, $arg); 

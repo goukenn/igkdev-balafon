@@ -2468,12 +2468,11 @@ function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
     });
     $s = igk_css_init_style_def_workflow($doc);
     $data[] = $s;
-    $o = "";
-    igk_trace();
-    igk_exit();
+    $o = ""; 
+    Logger::info('dist project');
     foreach ($data as $v) {
-        $theme = $v["theme"];
-        $name = $v["name"];
+        $theme = igk_getv($v, 'theme');
+        $name = igk_getv($v, 'name');
         if (!$minfile)
             $o .= IGK_START_COMMENT . " CSS. Doc def - [" . $name . "] " . IGK_END_COMMENT . $el;
         $o .= $theme->get_css_def($minfile, $themeexport) . $el;
@@ -8046,14 +8045,9 @@ function igk_get_configs_menu_settings()
 /**
  * get controller view content
  */
-function igk_get_contents($ctrl, $type, $params)
+function igk_get_contents($ctrl, $type, $params=null)
 {
-    $f = $ctrl->getContentDir() . "/{$type}.php";
-    if (file_exists($f)) {
-        $ctrl::ViewInContext($f, $params);
-        igk_exit();
-    }
-    return 0;
+    return $ctrl->viewContent($type, $params);    
 }
 ///<summary>Represente igk_get_context_args function</summary>
 ///<param name="arg" default="null"></param>
@@ -13950,7 +13944,7 @@ function igk_io_check_request_file($uri, $failedcallback = null)
 }
 ///<summary>collapse system path</summary>
 /**
- * collapse system path
+ * helper: collapse system path
  */
 function igk_io_collapse_path(string $str)
 {
@@ -14021,11 +14015,11 @@ function igk_io_copy_stream($in, $out, $buffer = 4096, $close = 0)
     }
     return $size;
 }
-///<summary></summary>
+///<summary>get corejs entry uri</summary>
 /**
- * 
+ * get corejs entry uri
  */
-function igk_io_corejs_uri()
+function igk_io_corejs_uri():string
 {
     return igk_io_baseuri(IGK_RES_FOLDER . "/" . IGK_SCRIPT_FOLDER . "/balafon.js?v=" . IGK_BALAFON_JS_VERSION);
 }
@@ -14033,7 +14027,7 @@ function igk_io_corejs_uri()
 /**
  * 
  */
-function igk_io_corestyle_uri()
+function igk_io_corestyle_uri():?string
 {
     return Path::getInstance()->getStyleUri();
 }
@@ -14482,12 +14476,12 @@ function igk_io_get_relative_currenturi(?string $uri = null): ?string
 }
 ///<summary>php://input data</summary>
 /**
- * helper: retrieve uploaded data . 
- * 
+ * helper: retrieve uploaded data . \
+ * environement : set RequestFakeJsonInput
  */
 function igk_io_get_uploaded_data(bool $usefaker=true)
 {
-    if ($usefaker && ($input = igk_environment()->FakerInput())) {
+    if ($usefaker && ($input = igk_environment()->RequestFakeJsonInput())) {
         return $input->getRaw();
     }
     $fin = fopen('php://input', "r");
@@ -22527,9 +22521,9 @@ function igk_sys_get_mtime_uid()
     $l = igk_getv(explode(' ', $m), 1);
     return Number::ToBase((int)($l), 36);
 }
-///<summary></summary>
+///<summary> helper: get projects </summary>
 /**
- * 
+ * helper: get projects 
  */
 function igk_sys_get_projects_controllers()
 {
@@ -23884,7 +23878,7 @@ function igk_sys_zip_project($controller, $path, $exclude_regex = null, $author 
     if (is_null($exclude_regex)) {
         SyncProjectSettings::InitProjectExcludeDir($pdir, $excludir);
         $rc = Replacement::RegexExpressionFromString(implode("|", array_keys($excludir)));
-        $exclude_regex = "/" . trim($rc, "/") . trim($ref, '/') . "/";
+        $exclude_regex = "/" . trim($rc, "/") .'|'. trim($ref, '/') . "/";
     }
 
     $ignore = $exclude_regex; //  ?? "/(\/(temp|node_modules))|\.(vscode|git(ignore)?|gkds|DS_Store)$/";

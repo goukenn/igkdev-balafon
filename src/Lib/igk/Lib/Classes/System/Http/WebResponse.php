@@ -30,7 +30,14 @@ class WebResponse extends RequestResponse{
         "Content-Type: text/html"
     ];
 
-    public function __construct($node, $code=200, $header=null){
+    /**
+     * 
+     * @param mixed $node 
+     * @param int $code 
+     * @param mixed $header 
+     * @return void 
+     */
+    public function __construct($node, int $code=200, $header=null){
         $this->code = $code; 
         $this->node = $node;
         if ($header){

@@ -71,7 +71,7 @@ class subdomain{
     /**
     * check for subdomain
     */
-    private function __checkSubDomain($file){
+    private function __checkSubDomain(?string $file){
        
         $uri=igk_io_fullrequesturi();
         if(igk_io_handle_system_command($uri)){
@@ -81,9 +81,7 @@ class subdomain{
         $subdomain_ctrl = IGKSubDomainManager::getInstance()->checkDomain(null, $row);       
         if($subdomain_ctrl !== false){ 
             SysUtils::SecurePort();
-            $v_ruri=igk_io_base_request_uri();
-            // $this->setSubDomainCtrl($subdomain_ctrl ) ;
-            // $this->setSubDomainCtrlInfo($row);
+            $v_ruri=igk_io_base_request_uri(); 
             $this->subdomain = $subdomain_ctrl ; 
             $this->subdomainInfo = $row;
             $app= igk_app();
@@ -95,7 +93,7 @@ class subdomain{
             $params=igk_getv($tab, 1);
             $entry="";
             if($row){
-                $e =$row->clView;
+                $e = $row->clView ?? null;
                 if($e && !empty($e=trim($e)))
                     $entry="/".$e;
             }
@@ -107,9 +105,7 @@ class subdomain{
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info, null);
-            }
-//             igk_trace();
-// igk_wln_e("handle: ".$uri, $path_info);
+            } 
             $page="{$entry}".$uri;
             $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL);
             $k=IGK_REG_ACTION_METH;
@@ -156,7 +152,10 @@ class subdomain{
                     }
                 }
             }
-        }      
+        } 
+        // + | --------------------------------------------------------------------
+        // + | disable subdomain info
+        // + |
         $this->subdomain = null;
         $this->subdomainInfo = null; 
     }

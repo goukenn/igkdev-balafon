@@ -21,6 +21,7 @@ use IGK\System\Models\Traits\ModelExtensionTrait;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Database\DbQuerySelectColumnBuilder;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Models\Traits\ModelInitDbExtensionTrait;
 use IGK\System\Regex\MatchPattern;
 use IGKEvents;
 use IGKException;
@@ -42,6 +43,7 @@ use function igk_form_input_type as form_input_type;
 abstract class ModelEntryExtension
 {
     use ModelExtensionTrait;
+    use ModelInitDbExtensionTrait;
 
     ///<summary>get the current model expression</summary>
     /**
@@ -547,10 +549,16 @@ abstract class ModelEntryExtension
             return self::query($model, $query);
         }
     }
-    public static function tableExists(ModelBase $model): bool
+    /**
+     * check if table exists
+     * @param ModelBase $model 
+     * @return bool 
+     * @throws IGKException 
+     */
+    public static function tableExists(ModelBase $model, bool $throwException=true): bool
     {
         $table = $model::table();
-        return $model->getDataAdapter()->tableExists($table);
+        return $model->getDataAdapter()->tableExists($table, $throwException);
     }
     /**
      * send query 

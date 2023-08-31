@@ -195,7 +195,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @return static  
      * @throws IGKException 
      */
-    public static function GetContextViewArgument(BaseController $controller, string $file, string $context){
+    public static function CreateContextViewArgument(BaseController $controller, string $file, string $context){
         $fname = igk_io_getviewname($file, $controller->getViewDir());
         $rname = igk_io_view_root_entry_uri($controller, $fname); 
         $params = array_filter($controller->getEnvParam(BaseController::VIEW_ARGS) ?? [], StringUtility::NotNullOrEmptyFilterCallback());
@@ -214,8 +214,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
         if ($t){
             $controller->bindNodeClass($t, $fname, strtolower((isset($css_def) ? " " . $css_def : "")));
         }
-        $doc->body["class"] = "-custom-thumbnail";
-        $doc->title = igk_configs()->website_title();
+        // $doc->body["class"] = "-custom-thumbnail";
+        // $doc->title = igk_configs()->website_title();
         $ob_level = ob_get_level();
         $controller->_get_extra_args($file);
         if (!isset($layout))

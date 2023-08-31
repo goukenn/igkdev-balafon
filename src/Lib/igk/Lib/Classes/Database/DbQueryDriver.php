@@ -9,6 +9,7 @@ namespace IGK\Database;
 
 use Exception;
 use IGK\System\Console\Logger;
+use IGK\System\Database\Exceptions\MissingTableException;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -959,7 +960,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * 
      * @param mixed $tablename
      */
-    public function tableExists($tablename): bool
+    public function tableExists(string $tablename, bool $throwex=true): bool
     {
 
         if (empty($tablename))
@@ -977,7 +978,10 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 return true;
             }
         } catch (Exception $ex) {
-            igk_ilog($s = __METHOD__ . ":" . $ex->getMessage());
+            igk_dev_ilog($s = __METHOD__ . ":" . $ex->getMessage());
+            if ($throwex){
+                throw new MissingTableException($tablename);
+            }
         }
         return false;
     }

@@ -131,7 +131,7 @@ class Path
 
 
         $this->cache_dir =  $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
-        $this->public_assets_dir = $this->base_dir.'/assets';
+        $this->public_assets_dir = Path::Combine($this->base_dir, IGK_RES_FOLDER);
         // check an create cache folder on init - build - hook - context 
         if ($this->cache_dir && !is_dir($this->cache_dir)){
             IO::CreateDir($this->cache_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
@@ -425,6 +425,12 @@ class Path
        
     }
 
+    /**
+     * 
+     * @param string $path 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function LocalPath(string $path)
     {
         return igk_io_expand_path(
@@ -444,7 +450,7 @@ class Path
             $path = array_slice($path, 1);
             $path = array_map(self::class . "::TrimDir", $path);
             array_unshift($path, $p);
-            return igk_uri(implode(DIRECTORY_SEPARATOR, $path));
+            return igk_uri(implode(DIRECTORY_SEPARATOR, array_filter($path)));
         }
         return null;
     }
@@ -551,5 +557,28 @@ class Path
             return $tab['name'];
         }
         return null;
+    }
+
+    /**
+     * resolve path with include path list 
+     * @param string $path 
+     * @return false|string 
+     */
+    public static function ResolvePath(string $path, ?array $include_pathlist =null){
+        if (is_null($include_pathlist)){
+            $include_pathlist = get_include_path();
+        }
+        if (($p = realpath($path))===false){
+            $t = array_filter(array_map(function($n)use($path){
+                if (file_exists($f = self::CombineAndFlattenPath($n, $path))){
+                    return $f;
+                }
+                return null;
+            }, explode( PATH_SEPARATOR, $include_pathlist)));
+            if ($t){
+                $p = $t[0];
+            }
+        }
+        return $p;
     }
 }

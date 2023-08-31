@@ -131,11 +131,11 @@ abstract class AppCommand {
                 
                 $list = include($file);
                 $mod = igk_get_modules();
-                //init module
+                // - init module
                 foreach($mod as $c => $v){
                     igk_require_module($c, null, false);
                 }
-                //
+                // - 
                 foreach($list as $ctrl=>$b){
                     if (!is_string($b) && ($m = igk_getctrl($ctrl, false))){
                         $m::register_autoload();

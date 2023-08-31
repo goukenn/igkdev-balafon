@@ -29,6 +29,7 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKConstants;
 use IGKEnvironment;
+use IGKException;
 use IGKModuleListMigration;
 use stdClass;
 use Throwable;
@@ -61,6 +62,12 @@ class BalafonApplication extends IGKApplicationBase
 
     public $environment;
 
+    /**
+     * filter arguments list 
+     * @param mixed $a 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function FilterArgs($a)
     {
         if (strpos($a, "--wdir:") === 0) {
@@ -85,7 +92,6 @@ class BalafonApplication extends IGKApplicationBase
             }            
             return null;
         }
-
         if (strpos($a, "--set-server:") === 0) {
             // + | set environment variables
             $g = trim(implode('', array_slice(explode(":", $a),1)));
@@ -113,7 +119,6 @@ class BalafonApplication extends IGKApplicationBase
             igk_environment()->set($m, $v);            
             return null;
         }
-
         return $a;
     }
     /**
@@ -166,8 +171,6 @@ class BalafonApplication extends IGKApplicationBase
         igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"] = igk_getv($_ENV, 'IGK_SERVER_NAME', "BalafonCLI");
         igk_server()->REMOTE_ADDR = $_SERVER["REMOTE_ADDR"] = "0.0.0.0";
 
-
-
         $configFile = self::GetTopLevelConfigFile($bdir);
  
         try {
@@ -176,9 +179,6 @@ class BalafonApplication extends IGKApplicationBase
                 $c = igk_conf_load_file($configFile, "balafon");
                 $this->configs = new XPathConfig($c);
                 $c = $this->configs->get("env");
-
-                // TODO: PRELOAD ENTRY DOCUMENT
-
                 if ($c) {
                     if (!is_array($c))
                         $c = [$c];
@@ -193,8 +193,8 @@ class BalafonApplication extends IGKApplicationBase
             } else {
                 $this->configs = new XPathConfig((object)[]);
                 $this->configs->isTemp = true;
-                $wd = igk_environment()->get("workingdir", getcwd());
-                register_shutdown_function(function () use ($wd) {
+                $wd = igk_environment()->get("workingDir", getcwd());
+                register_shutdown_function(function () use ($wd){
                     if (strstr($wd, sys_get_temp_dir())) {
                         // in system temp directory 
                         error_log("remove working directory from .".$wd);
@@ -202,7 +202,6 @@ class BalafonApplication extends IGKApplicationBase
                     }
                 });
                 defined('IGK_NO_LIB_CACHE') || define('IGK_NO_LIB_CACHE', 1);
-                //  igk_wln_e(__FILE__.":".__LINE__,  "loading config file : ", $configFile, $wd, sys_get_temp_dir());
             }
         } catch (Exception $ex) {
             igk_wln_e("boostrap-application error : .... " . $ex->getMessage());
@@ -217,7 +216,7 @@ class BalafonApplication extends IGKApplicationBase
                 $logFolder = $wd . "/" . ltrim($logFolder, '/');
             }
             define('IGK_LOG_FILE', $logFolder . "/." . igk_environment()->getToday() . ".cons.log");
-        }
+        } 
         // + | load balafon commands ... 
         igk_loadlib(dirname(__FILE__) . "/Commands");
         date_default_timezone_set(IGKConstants::DEFAULT_TIME_ZONE);
@@ -497,7 +496,7 @@ class BalafonApplication extends IGKApplicationBase
                                 $ctrl::login($user, null, false);
                             }
                         }
-                        $args = ViewEnvironmentArgs::GetContextViewArgument($ctrl, __FILE__, 'balafon');
+                        $args = ViewEnvironmentArgs::CreateContextViewArgument($ctrl, __FILE__, 'balafon');
                         $params = array_slice(func_get_args(), 2);
                         $args->params = &$params;
                      

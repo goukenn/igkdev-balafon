@@ -35,7 +35,7 @@ class HtmlLoopTest extends BaseTestCase
         $t['*class'] = ['$raw==1 ?"item-2":null'];
 
         $this->assertEquals(
-            '<div *class="[&quot;$raw==1 ?\&quot;item-2\&quot;:null&quot;]"></div>',
+            '<div *class="[&quot;$raw==1 ?&quot;item-2&quot;:null&quot;]"></div>',
             $t->render()
         );
     }

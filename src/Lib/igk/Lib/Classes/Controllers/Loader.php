@@ -10,11 +10,14 @@ namespace IGK\Controllers;
 ///<summary>represent internal core loader</summary>
 
 use Closure;
+use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\LoadArticleException;
+use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Http\IResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\FileSystem;
+use IGK\System\IO\Path;
 use IGKCaches;
 use IGKException;
 use ReflectionException;
@@ -212,8 +215,7 @@ class Loader implements IResponse {
 				if ($g_fc= $this->m_listener){
 					$d = $g_fc();
 					$ns = $d->entryNS;
-				} else {
-					// try to get entry ns if method is public is public
+				} else { 
 					$ns = $igk_c->getEntryNamespace();
 				}
 				$cl = $ns."\\ModelUtilities\\".ucfirst($name)."ModelUtility";
@@ -277,7 +279,7 @@ class Loader implements IResponse {
      * @throws ReflectionException 
      * @throws Exception 
      */
-    public function bind($file, $data=array(), $render=0){
+    public function bind(string $file, $data=array(), $render=0){
         $n = igk_create_node("NoTagNode");
         $n->div()->article($this->m_controller, $file, $data);
         $o = $n->render();
@@ -288,7 +290,14 @@ class Loader implements IResponse {
         }
         return $this;
     }
-    public function loadComponent($file, $t, $args=null){ 
+    /**
+     * 
+     * @param mixed $file 
+     * @param mixed $t 
+     * @param mixed $args 
+     * @return mixed 
+     */
+    public function loadComponent(string $file, $t, $args=null){ 
         $fc = Closure::fromCallable(function($file, $t, $args=null){
             if ($args)
             extract($args);  
@@ -298,7 +307,13 @@ class Loader implements IResponse {
         })->bindTo($this->m_controller); 
         return $fc($file, $t, $args);
     }
-    public function include($file, $viewargs=null){ 
+    /**
+     * 
+     * @param mixed $file 
+     * @param mixed $viewargs 
+     * @return void 
+     */
+    public function include(string $file, $viewargs=null){ 
         if (file_exists($file)){
             $fc = Closure::fromCallable(function($file, $args){
                 if ($args)
@@ -309,6 +324,32 @@ class Loader implements IResponse {
             })->bindTo($this->m_controller);  
             $fc($file, $viewargs);
         }
+    }
+
+    ///<summary>include layout </summary>
+    /**
+     * include layout directory 
+     * @return mixed
+     */
+    public function layouts(string $path, $viewargs=null){
+        $ctrl = $this->m_controller;
+        if ($dir = $ctrl->getConfigs()->get('layoutDir')){
+            $dir = Path::Combine($ctrl->getDeclaredDir(), $dir);
+        } else {
+            $dir = $ctrl->getClassesDir().'/WinUI/Layouts';
+        }
+        $file = Path::Combine($dir, $path);
+        if ($file = Path::SearchFile($file,['.phtml','.pinc', 'php'])){
+            $t = igk_create_notagnode();
+            $builder = new HtmlNodeBuilder($t);
+            $p = compact('t', 'builder');
+            if ($viewargs){
+                $p['params'] = $viewargs;
+            }
+            ViewHelper::Inc($file, $p); 
+            return $t;
+        }
+        igk_environment()->isDev() && igk_die(sprintf('missing layout [%s]'.$file));
     }
 }
 

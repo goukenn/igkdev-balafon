@@ -6,6 +6,7 @@ namespace IGK\System\Html;
 
 use Closure;
 use Exception;
+use igk\js\Vue3\Vite\Compiler\ViteSFCStringResourceDefinition;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -322,14 +323,7 @@ class HtmlNodeBuilder
                 continue;
             }
             // + | dequeue builder parent 
-            self::_RemoveNode($n, $context_container);
-            // igk_html_pop_node_parent();
-            // if ($context_container && ($n instanceof IHtmlContextContainer)) {
-            //     if ($context_container[0] === $n) {
-            //         HtmlLoadingContext::PopContext();
-            //         array_shift($context_container);
-            //     }
-            // }
+            self::_RemoveNode($n, $context_container);          
         }
 
         if ($context_container) {
@@ -364,7 +358,12 @@ class HtmlNodeBuilder
     private static function _Loop($visitor, HtmlItemBase &$n, $q, &$keys, &$next, &$list, &$v_chain_info, &$_last, $_is_php8, &$context_container)
     {
 
+        /**
+         * @var mixed $v_chain_info 
+         */
         $tpnode = null;/* will store top node */
+        $v_new_chain_info = null;
+        // $v_chain_info = null;
         while (!$next && (count($keys) > 0)) {
             $k = array_shift($keys);
             $v = $q[$k];
@@ -375,6 +374,10 @@ class HtmlNodeBuilder
                     continue;
                 }
                 $v = "";
+            }
+            if ($v instanceof IHtmlResourceData){
+                // igk_wln_e("handle");
+                $v = ''.$v;
             }
             if ($v instanceof HtmlItemBase) {
                 if ($v_from_key) {
@@ -391,15 +394,15 @@ class HtmlNodeBuilder
                         $v = null;
                     } else {
                         // condiser as a content litteral for the last inserted item 
-                        if ($_last) {
+                        if ($_last && $v_chain_info) {
                             $cn = $v_chain_info->n;
                             if ($cn) {
                                 $cn->text($v);
-                            } else {
-                                $n->Content = $v;
+                                continue;
                             }
-                            continue;
                         }
+                        $n->text($v);
+                        continue;
                     }
                 } else {
                     $k = 'div';
@@ -411,7 +414,8 @@ class HtmlNodeBuilder
                         $n = $_last->getParentNode();
                         if ($_last) {
                             self::_RemoveNode($_last, $context_container);
-                            $_last->remove();
+                            self::_RemoveTarget($_last);
+                           
                             $_last = null;
                         }
                     }
@@ -423,7 +427,7 @@ class HtmlNodeBuilder
                         $k = ltrim($k, '@');
                         if ($_last) {
                             $target_fc = $_last->getParentNode();
-                            $_last->remove();
+                            self::_RemoveTarget($_last);     
                             $_last = $n;
                         }
                     }
@@ -462,6 +466,8 @@ class HtmlNodeBuilder
             $conds = null;
             $fn_c = null;
             $activate = null;
+
+    
 
             if (is_array($v) && (count($v) > 0)) {
                 if (key_exists($v_key = self::KEY_INVOKE_FUNC, $v)) {
@@ -525,11 +531,24 @@ class HtmlNodeBuilder
             } else {
                 $args = $args ?? [];
             }
+            if (!$v_from_key && ($v instanceof Closure )){
+                if (!$n){
+                    igk_die('missing target node');
+                }
+                $v($n);
+                continue;
+            }
+          
 
             $tpnode = $n;
-            list($tagname, $id, $class, $iargs, $v_name, $iattr) = $visitor->explodeTag($k, $n); //HtmlUtils::ExplodeTag($k);
+            list($tagname, $id, $class, $iargs, $v_name, $iattr) = $visitor->explodeTag($k, $n); 
             if ($tpnode === $n) {
-                $tpnode = null;
+                $tpnode = null;                
+                // move to visited parent
+                if ($v_new_chain_info){
+                    // $n = $n->getParentNode() ?? $n;                
+                    $n = $v_new_chain_info->parent->n ?? $n;                
+                }
             }
             if (!is_null($iargs)) {
                 if (empty($args)) {
@@ -558,8 +577,9 @@ class HtmlNodeBuilder
                 if ($attribs) {
                     $c->setAttributes($attribs);
                 }
-            } else {
+            } else { 
                 continue;
+                // + | same as childs 
             }
             //add($k, $attribs, $args);
             if (!is_null($conds)) {
@@ -572,7 +592,7 @@ class HtmlNodeBuilder
                 $c->host($fn_c);
             }
             $_last = $c;
-            $v_new_chain_info = (object)['next' => null, "n" => $c, 'parent' => $v_chain_info, 'formkey' => $v_from_key];
+            $v_new_chain_info = (object)['next' => null, "n" => $c, 'parent' => $v_chain_info, 'formkey' => $v_from_key, 'root'=>$tpnode];
 
 
             if (!$v) {
@@ -588,7 +608,7 @@ class HtmlNodeBuilder
                 if ($_p = $v_new_chain_info->parent) {
                     if (!$v_from_key) {
                         $_c = $_p->n;
-                        $v_new_chain_info->n->remove();
+                        self::_RemoveTarget($v_new_chain_info->n);                        
                         $v_chain_info = $_p;
                     }
                 }
@@ -611,12 +631,20 @@ class HtmlNodeBuilder
                 $next = true;
                 continue;
             } else {
-                $c->Content = $v;
+                $c->Content = $v;                
+            }
+            if ($tpnode) {
+                $n = $tpnode;
             }
         }
-        if ($tpnode) {
-            $n = $tpnode;
-        }
+    }
+    /**
+     * try remove target
+     * @param mixed $_t 
+     * @return void 
+     */
+    private static function  _RemoveTarget($_t){
+        $_t->remove();
     }
 
     /**

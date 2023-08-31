@@ -44,6 +44,7 @@
         <xs:attribute name="clDescription" type="xs:string"></xs:attribute>
         <xs:attribute name="clDisplay" type="xs:boolean"></xs:attribute>
         <xs:attribute name="clHidden" type="xs:boolean"></xs:attribute>
+        <xs:attribute name="clLinkTo" type="xs:string"></xs:attribute>
     </xs:complexType>
     <xs:complexType name="GenColumn">
         <xs:attribute name="prefix" type="xs:string" use="required"></xs:attribute>

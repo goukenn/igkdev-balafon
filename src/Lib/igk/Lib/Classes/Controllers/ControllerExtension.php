@@ -22,8 +22,7 @@ use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
-use IGK\Models\Groups;
-use IGK\System\Database\ColumnMigrationInjector;
+use IGK\Models\Groups; 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\ControllerRequestNotFoundRequestResponse;
@@ -32,6 +31,7 @@ use IGK\System\Http\WebResponse;
 use IGK\ApplicationLoader;
 use IGK\Controllers\Traits\AtricleManagerControllerExtensionTrait;
 use IGK\Controllers\Traits\ControllerDbExtensionTrait;
+use IGK\Controllers\Traits\ControllerRequestExtensionTrait;
 use IGK\Controllers\Traits\IOControllerExtensionTrait;
 use IGK\Database\DbSchemaLoadEntriesFromSchemaInfo;
 use IGK\Database\DbSchemasConstants;
@@ -39,6 +39,8 @@ use IGK\Helper\ActionHelper;
 use IGK\Helper\Activator;
 use IGK\Helper\DbUtilityHelper;
 use IGK\Helper\SysUtils;
+use IGK\Helper\ViewHelper;
+use igk\js\Vue3\VueHelper;
 use IGK\Models\Users;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
@@ -47,8 +49,10 @@ use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocumentNode;
+use IGK\System\Http\PageNotFoundException;
 use IGK\System\IO\Path;
 use IGKConstants;
 use IGKEnvironment;
@@ -66,6 +70,7 @@ use Throwable;
 require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
+require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
 
 
 ///<summary>controller macros extension</summary>
@@ -77,6 +82,30 @@ abstract class ControllerExtension
     use AtricleManagerControllerExtensionTrait;
     use IOControllerExtensionTrait;
     use ControllerDbExtensionTrait;
+    use ControllerRequestExtensionTrait;
+
+    /**
+     * content store common php script that require to be execute only once if exists.
+     * @param BaseController $ctrl 
+     * @param string $type type that represent content view to load
+     * @param mixed $params parameter to pass
+     * @param bool $exit
+     * @return mixed
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function viewContent(BaseController $ctrl, string $type, $params = null,bool $exit = false ){
+        $f = $ctrl->getContentDir() . "/{$type}.php";
+        if (file_exists($f)) {
+            $result = $ctrl::ViewInContext($f, $params);
+            if (!$exit){
+                return $result;
+            }
+            igk_exit();
+        }
+        return 0;
+    }
     /**
      * macros to get the title
      * @return ?string 
@@ -371,7 +400,7 @@ abstract class ControllerExtension
     /**
      * get config file 
      * @param BaseController $ctrl 
-     * @param mixed $name 
+     * @param string $name config name
      * @return string 
      */
     public static function configFile(BaseController $ctrl, $name)
@@ -382,9 +411,14 @@ abstract class ControllerExtension
         }
         return self::configDir($ctrl) . "/{$name}";
     }
-    public static function configDir(BaseController $ctrl)
-    {
-        return $ctrl->getDeclaredDir() . "/Configs";
+    /**
+     * get configuration directory
+     * @param BaseController $ctrl 
+     * @return string 
+     * @throws IGKException 
+     */
+    public static function configDir(BaseController $ctrl){
+        return $ctrl->getDeclaredDir() . "/".IGK_CONF_FOLDER;
     }
     ///<summary>check that the controller can't be uses as entry controller</summary>
     ///<param name="ctrl">controller to check</param>
@@ -888,6 +922,64 @@ abstract class ControllerExtension
             igk_io_w2file($c, $builder->render());
         }
     }
+
+    /**
+     * macros: force directory entry
+     */
+    public static function forceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
+    {
+        if (igk_is_cmd()){
+            return;
+        }
+        $appuri = $ctrl->getAppUri($fname);
+        $query = null;
+        // $ruri = igk_io_baseuri() . igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        if (!empty($q = $_GET)){
+            unset($q['rwc']); 
+            if (!empty($q)){
+                $query ='?'.http_build_query($q); 
+            }
+        }
+        $ruri = igk_io_baseuri() . igk_io_request_uri_path();// igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        $buri = strstr($appuri, igk_io_baseuri());
+        $entry_is_dir = 0;
+        
+        if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
+            $g = igk_getv(parse_url(igk_io_request_uri()), 'path');
+            $entry_is_dir = preg_match("/\/$/", $g) || ((strlen($g) > 0) && 
+                ($g == '/'.$fname.'/')) 
+                || (($fname== IGK_DEFAULT) && (strpos($g, '/')===0));
+        } else {
+            $s = "";
+            if (strstr($ruri, $buri)) {
+                $s = substr($ruri, strlen($buri));
+                $entry_is_dir = (strlen($s) > 0) && $s[0] == "/";
+            }
+        }
+        if (!$entry_is_dir) {
+            // + | --------------------------------------------------------
+            // + | Sanitize request uri
+            // + | 
+            // igk_trace();
+            // igk_wln_e("try redirect on to:", $entry_is_dir, $appuri . "/".$query);
+            $ctrl->setParam("redirect_request", [ViewHelper::REDIRECT_PARAM_NAME => $_REQUEST]);
+            igk_navto($appuri . "/".$query);
+        } else {
+            $redirect_request = $ctrl->getParam("redirect_request");
+            $ctrl->setParam("redirect_request", null);
+        }
+        ViewHelper::CurrentDocument()->setBaseUri($appuri."/");
+        $ctrl->{ControllerParams::REPLACE_URI} = false;
+    }
+
+    /**
+     * macros: init data factory
+     * @param BaseController $ctrl 
+     * @param bool $force 
+     * @param null|array $factories 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function InitDataFactory(BaseController $ctrl, bool $force = false, ?array $factories = null)
     {
         //init database models
@@ -982,10 +1074,10 @@ abstract class ControllerExtension
     /**
      * resolv class from controller entry namespace
      * @param BaseController $ctrl 
-     * @param mixed $path 
+     * @param string $path 
      * @return string|null return the resolved class path
      */
-    public static function resolveClass(BaseController $ctrl, $path)
+    public static function resolveClass(BaseController $ctrl, string $path)
     {
         $cl = self::ns($ctrl, $path);
         if (class_exists($cl, false) || ApplicationLoader::TryLoad($cl)) {
@@ -1146,7 +1238,7 @@ abstract class ControllerExtension
      * @throws IGKException 
      */
     public static function login(BaseController $ctrl, $user = null, $pwd = null, $nav = true)
-    {
+    { 
         $u = $user;
         // + | --------------------------------------------------------------------
         // + | preserve application to send to file login view if exists
@@ -1907,8 +1999,8 @@ abstract class ControllerExtension
 
 
     /**
-     * load controller route route config files
-     * @param mixed $controller 
+     * load controller's route config files
+     * @param BaseController $controller 
      * @return void 
      */
     public static function loadRoute(BaseController $controller)
@@ -1925,6 +2017,17 @@ abstract class ControllerExtension
         return \IGK\System\Configuration\ViewConfiguration::class;
     }
 
+    /**
+     * view error code 
+     * @param BaseController $controller 
+     * @param int $code code  
+     * @param array $params parameter
+     * @return false 
+     * @throws IGKException 
+     * @throws ResourceNotFoundException 
+     * @throws PageNotFoundException 
+     * @throws EnvironmentArrayException 
+     */
     public static function viewError(BaseController $controller, int $code, $params = [])
     {
         if (file_exists($f = $controller::getErrorViewFile($code))) {
@@ -2075,16 +2178,19 @@ abstract class ControllerExtension
         $uri = $controller->getAppUri();
         igk_navto($uri);
         igk_exit();
-    }
-
-
+    } 
 
     /**
-     * append tempory tyle file
+     * ppend tempory style file
      * @param BaseController $controller 
-     * @param string|string[] $fname name or file
+     * @param mixed $fname 
      * @param mixed $document 
-     * @return never 
+     * @return int 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
      */
     public static function pcss(BaseController $controller, $fname, $document = null)
     {
@@ -2161,7 +2267,7 @@ abstract class ControllerExtension
         }
     }
     /**
-     * init groups for base controller
+     * init controller's group
      * @param BaseController $controller 
      * @param array $groups 
      * @return void 
@@ -2196,7 +2302,7 @@ abstract class ControllerExtension
      * @return ?ActionResolutionInfo action resolution info
      * @throws IGKException 
      */
-    public static function getActionHandler(BaseController $controller, string $name, ?array $params = null, &$responseData = null): ?string
+    public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null): ?string
     {
         if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
@@ -2205,7 +2311,7 @@ abstract class ControllerExtension
         $m = "";
         $sep = "";
         $fallback = false;
-        $fc_prepend = function (& $tab, $name, $level, $params) {
+        $fc_prepend = function (& $tab, $name, $level, $params) {        
             $tab = [$name => [$level, $params]] + $tab;
         };
         // $TLevel = $params ? count($params) : 0;
@@ -2216,8 +2322,10 @@ abstract class ControllerExtension
             if ($params) {
                 // + | update must combine with current name 
                 $name = ltrim(Path::Combine($entry_default ? "/" : $name, implode("/", $params)), '/');
-                $params = [];
+             
             }
+            // + | empty parameter list
+            $params = [];                   
         }
         $ns = $controller->getEntryNameSpace();
         if (!empty($ns)) {
@@ -2231,13 +2339,13 @@ abstract class ControllerExtension
         $p = null; //  "previous callback failed";
         $level =1;  // level for arguments detection
         $postfix = 'Action';
-        $targs = explode("/", $search_name);
+        $targs = explode("/", ltrim($search_name, '/'));
         $margs = array_slice($targs, 1);
         while(count($targs)>0) {
             $r = array_shift($targs);
             $g = StringUtility::CamelClassName(ucfirst($r));
             if (is_numeric($g)) {
-                if ($fallback) {
+                if ($fallback){
                     break;
                 }
                 $fallback = true;
@@ -2253,6 +2361,8 @@ abstract class ControllerExtension
                 array_shift($margs);
             }
             $m .= $sep . $g;
+
+            $m = ltrim($m, '\\');
             $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix ]))), $level, $margs);
             $sep = "\\";
             $p = $g;

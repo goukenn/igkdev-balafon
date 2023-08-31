@@ -1034,6 +1034,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             }
         }
         igk_ajx_toast(implode(" ", [__("Connection:"), __($con)]), $type);
+        igk_exit();
     }
     ///<summary></summary>
     /**
@@ -1143,10 +1144,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                 $str = igk_zip_unzip_filecontent($v_file,  $n = igk_io_basenamewithoutext($v_file));
             } else {
                 $str = igk_io_read_allfile($v_file);
-            }
-
-            $str = utf8_decode($str);
-
+            } 
             $h = explode("\0", $str);
             $table = null;
             $definition = null;

@@ -124,8 +124,13 @@ abstract class DbSchemas
         if (isset(self::$sm_schemas[$file])) {
             $data = self::$sm_schemas[$file];
         }  
-        if (!$data) {     
-            $data = self::GetDefinition(HtmlReader::LoadFile($file), $ctrl, $resolvname, $operation);      
+        if (!$data) {    
+            $xcode = HtmlReader::LoadFile($file);
+            if (!$xcode){
+                return null;
+            }
+
+            $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);      
             // + init Check and update data
             if ($ctrl && ($cl = $ctrl->resolveClass(\Database\InitDbSchemaBuilder::class))) {
                 // resolv core entries 

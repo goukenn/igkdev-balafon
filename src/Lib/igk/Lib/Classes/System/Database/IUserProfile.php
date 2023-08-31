@@ -21,10 +21,10 @@ interface IUserProfile{
     function getController(): ?BaseController;
     /**
      * check authorization for user
-     * @param mixed $type 
+     * @param string|array<string> $type 
      * @return bool 
      */
-    function auth($type):bool; 
+    function auth($type, bool $strict=true, ?BaseController $ctrl=null):bool; 
 
     /**
      * get system's user model

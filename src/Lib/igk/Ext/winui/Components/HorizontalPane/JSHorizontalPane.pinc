@@ -133,11 +133,6 @@ final class JSHorizontalPane extends IGKObject
 			$this->m_script = $this->m_target->balafonjs();
 		$b = igk_parsebool($this->m_IsAutoAnimate);
 
- 		// $this->m_script->remove();
-// 		$this->m_script = new HtmlNode('template');
-// 		//(function(q){ ns_igk.ready(function(){igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'}); }); })(ns_igk.getParentScript());
-// $this->m_script->Content = <<<JS
-// alert('init for ...'); let q = ns_igk.getParentScript(); igk.winui.horizontalScrollPane.init(q, {autoanimate: {$b}, animtype: '{$this->m_AnimType}', period: {$this->m_AnimPeriod}},  {duration:{$this->m_AnimDuration}, interval: {$this->m_AnimInterval}, orientation:'horizontal'}); console.log('init horizontal pane.....');
-// JS;
+  
 	}
 }

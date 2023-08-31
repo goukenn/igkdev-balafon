@@ -9,15 +9,15 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;  
 use IGK\System\Number;
-
-// require_once (IGK_LIB_DIR."/Lib/Classes/Resources/R.php");
-
-
 class ZipProjectCommand extends AppExecCommand{
 
-    var $command = "--zipproject";
+    var $command = "--project:zip";
 
     var $desc = "zip balafon project core";
+
+    var $category = "project";
+
+    var $usage = "controller [path] [options]";
 
 
     public function exec($command, $controller=null, $path=null){
@@ -41,7 +41,7 @@ class ZipProjectCommand extends AppExecCommand{
             $path = $path.$fname;
         }
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
-        igk_sys_zip_project($ctrl, $path, $author );
+        igk_sys_zip_project($ctrl, $path, null, $author );
         Logger::success("zip project: ".$path . " : ". Number::GetMemorySize(filesize($path)));
     }
       

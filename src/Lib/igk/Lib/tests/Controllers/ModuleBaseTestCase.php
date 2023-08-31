@@ -7,7 +7,7 @@
 namespace IGK\Tests\Controllers;
 
 use IGK\Controllers\ApplicationModuleController;
-use IGK\Helpers\ApplicationModuleHelper; 
+use IGK\Helper\ApplicationModuleHelper;
 use IGK\Tests\BaseTestCase;
 
 /**

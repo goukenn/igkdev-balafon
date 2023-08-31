@@ -216,4 +216,15 @@ use stdClass;
     }
     protected function __construct(){
     }
+
+    /**
+     * code for html attribute
+     * @param mixed $data 
+     * @param mixed $encode_options 
+     * @param int $js_options 
+     * @return string 
+     */
+    public static function EncodeForHtmlAttribute($data, $encode_options, int $js_options=JSON_UNESCAPED_SLASHES){
+        return htmlentities(self::Encode($data, $encode_options));
+    }
 }

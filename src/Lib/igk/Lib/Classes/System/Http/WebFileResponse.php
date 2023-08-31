@@ -28,10 +28,13 @@ class WebFileResponse extends RequestResponse{
      * @var mixed
      */
     var $charset;
-
+    /**
+     * content type
+     * @var null|string
+     */
     var $content_type;
 
-    public function __construct($file, $content_type=null)
+    public function __construct(string $file, ?string $content_type=null)
     {
         $this->file = $file;
         $this->content_type = $content_type;

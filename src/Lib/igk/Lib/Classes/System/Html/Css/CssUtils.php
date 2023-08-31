@@ -189,7 +189,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
-    public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME)
+    public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME, bool $embedresource=false)
     {
         $opt = new CssThemeOptions;
         $opt->theme_name = $theme;
@@ -202,9 +202,13 @@ abstract class CssUtils
         igk_css_load_theme($theme);
         $controller->bindCssStyle($theme, true);
         echo "/* CSS theme */";
+        $resourceResolver = null;
+        if ($embedresource){
+            $resourceResolver = new EmbedResourceResolver();
+        }
         echo implode("\n", [
-            $systheme->get_css_def(true, true),
-            $theme->get_css_def(true, true)
+            $systheme->get_css_def(true, true, $resourceResolver),
+            $theme->get_css_def(true, true, $resourceResolver)
         ]);
         $r = ob_get_contents();
         ob_clean();

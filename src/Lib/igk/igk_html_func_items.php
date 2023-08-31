@@ -31,12 +31,15 @@ use IGK\System\Html\Dom\HtmlWebComponentNode;
 use IGK\System\Html\Dom\HtmlWigetNode;
 use IGK\System\Html\HtmlAttribExpressionNode;
 use IGK\System\Html\HtmlHeaderLinkHost;
+use IGK\System\Html\HtmlJsOptionDefinition;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUsageCondition;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Number;
+use IGK\System\Services\LoginServiceEvents;
+
 use function igk_resources_gets as __;
 
 if (!function_exists("igk_css_link_callback")) {
@@ -860,18 +863,33 @@ if (!function_exists("igk_html_node_arraylist")) {
 if (!function_exists("igk_html_node_article")) {
 	///<summary>bind article</summary>
 	/**
-	 * bind article - article
+	 * 
+	 * @param null|BaseController $ctrl 
+	 * @param null|string $name 
+	 * @param null|array|object $raw 
+	 * @param int $showAdminOption 
+	 * @return HtmlNode 
+	 * @throws IGKException 
+	 * @throws Exception 
 	 */
-	function igk_html_node_article(?BaseController $ctrl = null, ?string $name = null, ?array $raw = [], $showAdminOption = 1)
+	function igk_html_node_article(?BaseController $ctrl = null, ?string $name = null,  $raw = [], $showAdminOption = 1)
 	{
 		if (is_null($ctrl) && is_null($name)) {
 			return new HtmlNode("article");
 		}
-		$n = igk_html_node_notagnode();
 		if ($ctrl === null) {
 			$ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
 		}
-		igk_html_article($ctrl, trim($name), $n, $raw, null, true, true, $showAdminOption);
+		return igk_html_node_loadArticle($ctrl, $name, $raw, $showAdminOption);		
+	}
+}
+if (!function_exists("igk_html_node_loadArticle")) {
+	function igk_html_node_loadArticle(BaseController $controller, string $article_path,$raw = [], bool $show_admin_option=true){
+		$n = igk_html_node_notagnode();
+		if (is_object($raw)){
+			$raw = (array)$raw;
+		}
+		igk_html_article($controller, trim($article_path), $n, $raw, null, true, true, $show_admin_option);
 		return $n;
 	}
 }
@@ -1839,20 +1857,6 @@ if (!function_exists("igk_html_node_dbTableView")) {
 						}
 					}
 				}
-
-				// foreach($r as $k=>$m){
-				//     if (!key_exists($k, $header)){
-				//         continue;
-				//     }
-				//     if ($is_filter){
-				//         $theader->filter($k, $m, $c->td());
-				//     }else{
-				//         // if (!mb_detect_encoding(utf8_decode($m), 'UTF-8', true)){
-				//         //     $m = $m;
-				//         // }
-				//         $c->td()->Content = $m;
-				//     }
-				// }
 			}
 		}
 		return $n;
@@ -2233,16 +2237,11 @@ if (!function_exists("igk_html_node_fields")) {
 	 */
 	function igk_html_node_fields(array $fielddata, ?array $datasource = null, ?object $engine = null, ?string $tag = null)
 	{
-		$o = igk_html_parent_node();
-		$a = $fielddata;
-		// if ((($c = func_num_args()) >= 1) && is_array($a = func_get_arg(0))) {
-		// $datasource = $c > 1 ? func_get_arg(1) : null;
-		// $engine = $c > 2 ? func_get_arg(2) : null;
-		// $tag = $c > 3 ? func_get_arg(3) : null;
+		$o = igk_html_parent_node() ?? igk_die('require parent node context');
+		$a = $fielddata; 
 		$o->addObData(function () use ($a, $datasource, $engine, $tag) {
 			igk_html_form_fields($a, $datasource, 1, $engine, $tag);
-		}, IGK_HTML_NOTAG_ELEMENT);
-		// }
+		}, IGK_HTML_NOTAG_ELEMENT); 
 		return $o;
 	}
 }
@@ -3136,7 +3135,7 @@ if (!function_exists("igk_html_node_jsscript")) {
 }
 if (!function_exists("igk_html_node_jsscript_options")) {
 	/**
-	 * inject option option to pass
+	 * inject options. corejs must be loader in order to work
 	 * @param mixed $name 
 	 * @param string|array|closure $options js_inline script to pass
 	 * @return HtmlItemBase 
@@ -3149,11 +3148,8 @@ if (!function_exists("igk_html_node_jsscript_options")) {
 			$options = BalafonJSHelper::Stringify($options);			
 		}
 		$n = igk_create_node('script');
-		if ($options instanceof \Closure){
-			$n->Content = new \IGK\System\Html\HtmlJsOptionDefinition($name, $options);
-		} else{
-			$n->Content = sprintf('igk.system.defineOption("%s", %s)', $name, $options);
-		}
+		$src = HtmlJsOptionDefinition::GetJsScript($name, $options);
+		$n->Content = $src; 
 		return $n;
 	}
 }
@@ -4315,7 +4311,7 @@ if (!function_exists("igk_html_node_searchField")) {
 	}
 }
 if (!function_exists("igk_html_node_searchbox")) {
-	///<summary>function </summary>
+///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5819,6 +5815,23 @@ if (!function_exists('igk_html_node_button_group')){
     function igk_html_node_button_group(){       
         $n = igk_create_node('div');
         $n["class"] = "igk-form-button-group";
+        return $n;
+    }
+}
+
+if (!function_exists('igk_html_node_connection_community')){
+    function igk_html_node_connection_community(?string $appName=null, ?string $redirectUri=null, ?BaseController $ctrl=null){
+        $n = igk_create_node('div');
+        $ctrl = $ctrl ?? ViewHelper::CurrentCtrl();
+        $fname = ViewHelper::GetArgs('fname');
+        $redirectUri = $redirectUri ?? $ctrl->getAppUri($fname."/connect");
+        $appName = $appName ?? $ctrl->getConfig('community.appName') ?? $ctrl->getConfig('appName', 'app');
+        $n->yield(
+            LoginServiceEvents::LoginWithSocialButton, [
+                "controller"=>$ctrl,
+                "redirect_uri"=> $redirectUri,
+                "app_name"=>$appName
+            ]);
         return $n;
     }
 }

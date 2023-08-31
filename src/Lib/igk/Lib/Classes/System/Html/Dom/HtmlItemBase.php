@@ -608,7 +608,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @return bool 
      */
     protected function _add($n, bool $force = false):bool
-    {
+    { 
         if (($force || $this->getCanAddChilds()) && $n && ($n !== $this)) {
             if ($n->m_parent) {
                 $n->remove();
@@ -672,7 +672,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 HtmlLoadingContext::PopContext();
             }
             igk_html_pop_node_parent();
-        }
+        } 
         if ($n && ($skip || ($this->_add($n) !== false))) {
             return $lastchild ?? $n;
         }
@@ -1124,7 +1124,15 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $n;
     }
-
+    /**
+     * help do html output response 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function output()
     {
         (new \IGK\System\Http\WebResponse($this->render()))->output();

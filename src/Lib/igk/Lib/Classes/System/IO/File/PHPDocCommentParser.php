@@ -4,14 +4,16 @@
 // @date: 20230104 17:05:49
 namespace IGK\System\IO\File;
 
+use IGK\System\IO\File\Php\PhpDocBlockBase;
+use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 
 ///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\File
 */
-class PHPDocCommentParser{
-    const NAME_TOKEN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+class PHPDocCommentParser extends PhpDocBlockBase{
+    use PHPDocCommentParseTrait;
     var $summary; 
     var $param;
     var $return;
@@ -51,58 +53,7 @@ class PHPDocCommentParser{
 
     private function __construct(){
     }
-    /**
-     * parse php doc comment
-     * @param string $cm 
-     * @return PHPDocCommentParser 
-     */
-    public static function ParsePhpDocComment(string $cm){
-        $c = trim(igk_str_rm_start($cm, "/**"));
-        $c = rtrim(igk_str_rm_last($c, "*/"));
-        $g = new self;
-        $g->summary = '';
-        $summary = false;
-        $content = "";
-        $name = "";
-        array_map(function($c)use($g, & $summary, & $content, & $name){
-            $k =  ltrim(trim($c), " *");            
-            $offset = 1;
-            if (!$summary){
-                if (strlen($k)>0){
-                    if ($k[0] ==='@'){
-                        $summary=true;
-                        $name = self::ReadName($k, $offset);
-                    }                    
-                }
-                if (!$summary){
-                    $g->summary.= $k;
-                    return;
-                }       
-                $content .= self::_TreatContent(substr($k, $offset));
-            } else {
-                if (strlen($k)>0){
-                    if ($k[0] ==='@'){
-                        $g->$name($content);
-                        $content = "";
-                        $offset = 1;
-                        $name = self::ReadName($k, $offset);
-                        $s = trim(substr($k, $offset));                          
-                        $content .= self::_TreatContent($s); 
-                        if ($name=='api'){
-                            $g->api = true;
-                        }
-                    }else{
-                        $content .= $k;
-                    }
-                }
-            }
-            
-        }, explode("\n", $c));
-        if (!empty($content)){
-            $g->$name($content);
-        }
-        return $g;
-    }
+   
     private static function _TreatContent(string $content){
         if (igk_str_endwith($content, "\\")){
             $content.="\n";
@@ -117,7 +68,7 @@ class PHPDocCommentParser{
             $name = igk_str_rm_start($name, 'swagger_');
         }
         if (!property_exists($this, $name)){
-            igk_die("document comment parse error : property not exists : ".$name);
+            throw new \IGKException("document comment parse error : property not exists [".$name."]");
         }
         if (count($arguments)>0){
             $g = trim($arguments[0]);     

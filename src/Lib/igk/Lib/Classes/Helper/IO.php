@@ -670,9 +670,9 @@ class IO
     ///<param name="recursive" default="false"></param>
     ///<param name="excludedir" default="null" ref="true"></param>
     /**
-     * 
-     * @param mixed $dir
-     * @param mixed $match
+     * directory 
+     * @param string $dir directory
+     * @param string|callabale $match regex or callabale
      * @param mixed $recursive the default value is false
      * @param ?array|mixed * $excludedir the default value is null. "@--ignore_hidden--" is a flag used to ignore hidden folder in search
      * @param callable $callback callback called* $excludedir the default value is null
@@ -712,11 +712,13 @@ class IO
             };
         }
         $is_excludir_array = is_array($excludedir);
-        while ($q = array_pop($dirs)) {
+        while (count($dirs)>0) {
+            $q = array_pop($dirs);
             // use scan dir to order
-            $files = array_slice(scandir($q), 2);
+            $files = scandir($q);//, 2);
             while(count($files)>0){
                 $r = array_shift($files);
+                if (($r=='..') || ($r=='.')) continue;
                 $f = $q . $sep . $r;
                 $mdata = 0;
                 if (!is_dir($f)) {

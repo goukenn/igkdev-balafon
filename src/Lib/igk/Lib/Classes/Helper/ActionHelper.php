@@ -19,6 +19,7 @@ use IGK\Controllers\BaseController;
 use IGK\Models\RegistrationLinks;
 use IGK\Models\Users;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGK\System\Net\Mail;
 use IGK\System\Process\CronJobProcess;
@@ -42,7 +43,7 @@ abstract class ActionHelper
      * expected action call 
      * @var mixed
      */
-    static $ResolvedClass; 
+    static $ResolvedClass;
     /**
      * dispatch to action 
      * @param string $method 
@@ -51,16 +52,17 @@ abstract class ActionHelper
      * @param callable|null $callable 
      * @return mixed 
      */
-    public static function DispatchToAction(string $method, string $action_class, array $arguments, callable $callable=null){
-        $verb = ["", '_'.strtolower(igk_server()->REQUEST_METHOD)];
-        while(count($verb)>0){
+    public static function DispatchToAction(string $method, string $action_class, array $arguments, callable $callable = null)
+    {
+        $verb = ["", '_' . strtolower(igk_server()->REQUEST_METHOD)];
+        while (count($verb) > 0) {
             $q = array_shift($verb);
-            if (method_exists($action_class, $m = $method.$q)){
+            if (method_exists($action_class, $m = $method . $q)) {
                 $c = new $action_class;
-                if ($callable){
+                if ($callable) {
                     $callable($c);
                 }
-                $tab = $arguments ?? [] ;
+                $tab = $arguments ?? [];
                 array_unshift($tab, $method);
                 return ActionBase::HandleObjAction('__dispatch__', $c, $tab);
             }
@@ -74,7 +76,8 @@ abstract class ActionHelper
      * @param mixed $not notification handler
      * @return IGK\Models\IIGKQueryResult|false 
      */
-    public static function ChangePassword(Users $u, string $password, string $repassword, $not = null){
+    public static function ChangePassword(Users $u, string $password, string $repassword, $not = null)
+    {
         $not = $not ?? igk_notifyctrl();
         if ($password) {
             if ($password == $repassword) {
@@ -104,7 +107,8 @@ abstract class ActionHelper
      * @param mixed $token 
      * @return null|RegistrationLinks 
      */
-    public static function GetAliveToken(string $token){
+    public static function GetAliveToken(string $token)
+    {
         $row = RegistrationLinks::select_row([
             'regLinkToken' => $token,
             'regLinkAlive' => 1
@@ -121,8 +125,9 @@ abstract class ActionHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null ){
-        
+    public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null)
+    {
+
         if ($row = $regLink ?? self::GetAliveToken($token)) {
             $format = IGK_MYSQL_DATETIME_FORMAT;
             $now = date_create_from_format($format, date($format));
@@ -132,7 +137,7 @@ abstract class ActionHelper
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
             $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
 
-     
+
 
             /// TODO: ACTIVATE ACCOUNT
             // if ( $d < $m){
@@ -154,8 +159,8 @@ abstract class ActionHelper
         return false;
     }
 
-    public static function UnregisterUser($ctrl, $token){
-
+    public static function UnregisterUser($ctrl, $token)
+    {
     }
     //do nothing
     /**
@@ -184,7 +189,7 @@ abstract class ActionHelper
         array $params,
         $auto_exit = true
     ) {
-        if (class_exists($actionClassName) && (is_subclass_of($actionClassName, IGKActionBase::class))){
+        if (class_exists($actionClassName) && (is_subclass_of($actionClassName, IGKActionBase::class))) {
             return $actionClassName::Handle(
                 $controller,
                 $fname,
@@ -244,10 +249,11 @@ abstract class ActionHelper
      * @param ActionBase $action 
      * @return null|Users 
      */
-    public static function CurrentActionUserModel(ActionBase $action) : ?Users{
+    public static function CurrentActionUserModel(ActionBase $action): ?Users
+    {
         $ret = null;
         $ctrl = $action->getController();
-        if ($profile = $ctrl->getUser()){
+        if ($profile = $ctrl->getUser()) {
             $ret = $profile->systemModel();
         }
         return $ret;
@@ -266,23 +272,34 @@ abstract class ActionHelper
      * @throws ContainerExceptionInterface  
      * @throws IGKException 
      */
-    public static function SendMail(BaseController $controller, string $to, ?string $from, 
-        string $title, string $msg, array $options=null, ?string $mail_title=null){
-        
-        if (empty($v_sysmail_account = igk_configs()->mail_user)){
+    public static function SendMail(
+        BaseController $controller,
+        string $to,
+        ?string $from,
+        string $title,
+        string $msg,
+        array $options = null,
+        ?string $mail_title = null
+    ) {
+
+        if (empty($v_sysmail_account = igk_configs()->mail_user)) {
             return false;
         }
 
         $info = (object)array_merge([
-            "to" => $to, 
+            "to" => $to,
             "title" => $title,
-            "msg" =>$msg,
+            "msg" => $msg,
         ], $options ??  []);
 
-        $v_reg_info = CronJobProcess::Register("mail", "mail.register.php", $info, 
-            $controller);
+        $v_reg_info = CronJobProcess::Register(
+            "mail",
+            "mail.register.php",
+            $info,
+            $controller
+        );
 
-        if (!$v_reg_info){
+        if (!$v_reg_info) {
             igk_ilog('failed to register cron job mail process');
             return false;
         }
@@ -292,16 +309,16 @@ abstract class ActionHelper
         $mail_title = StringUtility::GetApplicationMailTitle($controller, $mail_title);
         if ($mail_title)
             $from = sprintf('"%s" <%s>', $mail_title, $v_sysmail_account);
-        else 
+        else
             $from = sprintf('%s', $v_sysmail_account);
         $mail->From = $from;
         $mail->setHtmlMsg($info->msg);
         $mail->setTitle($info->title);
 
-        if ($cc = igk_getv($info, 'gcc')){
+        if ($cc = igk_getv($info, 'gcc')) {
             $mail->addToGCC($cc);
         }
-        if ($cc = igk_getv($info, 'cc')){
+        if ($cc = igk_getv($info, 'cc')) {
             $mail->addToCC($cc);
         }
 
@@ -309,7 +326,7 @@ abstract class ActionHelper
         if ($rep) {
             $v_reg_info->crons_status = 1;
             $v_reg_info->save();
-        } 
+        }
         return $v_reg_info;
     }
 
@@ -319,7 +336,8 @@ abstract class ActionHelper
      * @param null|string $prefix 
      * @return mixed 
      */
-    public static function GenerateUserRegistrationLinkToken(Users $user, ?string $prefix=null){
+    public static function GenerateUserRegistrationLinkToken(Users $user, ?string $prefix = null)
+    {
         return self::GenerateRegistrationLinkToken($user->clLogin, $user->clGuid, $prefix);
     }
     /**
@@ -329,34 +347,34 @@ abstract class ActionHelper
      * @param null|string $prefix extra prefix
      * @return string|false 
      */
-    public static function GenerateRegistrationLinkToken(string $login,string $guid, ?string $prefix=null){
-         
-        $token = igk_encrypt($login .
-         ($prefix ?? $login . date('Ymd') . time()));
-         try{
+    public static function GenerateRegistrationLinkToken(string $login, string $guid, ?string $prefix = null)
+    {
 
-         
-        if (!($row = RegistrationLinks::select_row([
-            RegistrationLinks::FD_REG_LINK_USER_GUID => $guid,
-        ]))) { 
-            RegistrationLinks::createIfNotExists([
-                   RegistrationLinks::FD_REG_LINK_TOKEN => $token,
-                   RegistrationLinks::FD_REG_LINK_USER_GUID  => $guid
-                ],[
+        $token = igk_encrypt($login .
+            ($prefix ?? $login . date('Ymd') . time()));
+        try {
+
+
+            if (!($row = RegistrationLinks::select_row([
+                RegistrationLinks::FD_REG_LINK_USER_GUID => $guid,
+            ]))) {
+                RegistrationLinks::createIfNotExists([
+                    RegistrationLinks::FD_REG_LINK_TOKEN => $token,
+                    RegistrationLinks::FD_REG_LINK_USER_GUID  => $guid
+                ], [
                     RegistrationLinks::FD_REG_LINK_USER_GUID  => $guid,
                     RegistrationLinks::FD_REG_LINK_ACTIVATE => null,
                     RegistrationLinks::FD_REG_LINK_ALIVE => 1
-            ]);
-        } else { 
-            $row->regLinkToken = $token;
-            $row->regLinkAlive = 1;
-            $row->regLinkActivate = null;
-            $row->save();
+                ]);
+            } else {
+                $row->regLinkToken = $token;
+                $row->regLinkAlive = 1;
+                $row->regLinkActivate = null;
+                $row->save();
+            }
+        } catch (Exception $ex) {
+            igk_dev_wln($ex->getMessage());
         }
-    }
-    catch(Exception $ex){
-        igk_dev_wln($ex->getMessage());
-    } 
         return $token;
     }
 
@@ -365,16 +383,17 @@ abstract class ActionHelper
      * @param BaseController $controller 
      * @return null|array  
      */
-    public static function GetActionClasses(BaseController $controller){
-        $dir = $controller->getClassesDir()."/Actions";
-        if (!is_dir($dir)){
+    public static function GetActionClasses(BaseController $controller)
+    {
+        $dir = $controller->getClassesDir() . "/Actions";
+        if (!is_dir($dir)) {
             return null;
-        } 
+        }
         $tab = [];
-        foreach(igk_io_getfiles($dir, "/Action\.php$/") as $f){
-            $path = ltrim(igk_str_rm_start($f, $dir), '/');            
+        foreach (igk_io_getfiles($dir, "/Action\.php$/") as $f) {
+            $path = ltrim(igk_str_rm_start($f, $dir), '/');
             $actions = Path::CombineAndFlattenPath("/Actions/", dirname($path), igk_io_basenamewithoutext($path));
-            $tab[] = $controller->resolveClass($actions) ?? igk_die("missing class : ".$actions); 
+            $tab[] = $controller->resolveClass($actions) ?? igk_die("missing class : " . $actions);
         }
         return $tab;
     }
@@ -386,25 +405,26 @@ abstract class ActionHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetExposedMethods($object_or_class){
-        if (!is_subclass_of($object_or_class, ActionBase::class)){
+    public static function GetExposedMethods($object_or_class)
+    {
+        if (!is_subclass_of($object_or_class, ActionBase::class)) {
             return null;
         }
         $cl = igk_sys_reflect_class($object_or_class);
-        if ($cl->isAbstract()){
+        if ($cl->isAbstract()) {
             return null;
         }
-        return array_filter(array_map(function($m){
+        return array_filter(array_map(function ($m) {
             $n = $m->getName();
-            if ($m->isStatic()|| $m->isConstructor() || in_array($n, [
+            if ($m->isStatic() || $m->isConstructor() || in_array($n, [
                 '__call',
                 '__set',
                 '__get'
-            ]) || preg_match("/^(_|get|set)/i",$n)){
+            ]) || preg_match("/^(_|get|set)/i", $n)) {
                 return null;
             }
             return $n;
-        },$cl->getMethods( ReflectionMethod::IS_PUBLIC )));
+        }, $cl->getMethods(ReflectionMethod::IS_PUBLIC)));
     }
 
     /**
@@ -413,18 +433,18 @@ abstract class ActionHelper
      * @param string $action_class_name 
      * @return mixed 
      */
-    public static function GetActionName(BaseController $controller, string $action_class_name):?string{
-        $fs = ltrim($controller->getEntryNamespace()."\\Actions", "\\")."\\";
-        if (strpos($action_class_name, $fs)===0){
+    public static function GetActionName(BaseController $controller, string $action_class_name): ?string
+    {
+        $fs = ltrim($controller->getEntryNamespace() . "\\Actions", "\\") . "\\";
+        if (strpos($action_class_name, $fs) === 0) {
             $a = igk_str_rm_start($action_class_name, $fs);
-            if ((strrpos($a, "Action")!==false)){
+            if ((strrpos($a, "Action") !== false)) {
                 $a = igk_str_rm_last($a, "Action");
             }
             $a = igk_uri($a);
-            if (basename($a) == basename(dirname($a)))
-            {
+            if (basename($a) == basename(dirname($a))) {
                 // + consider as default action 
-                $a = igk_str_rm_last($a , '/'.basename($a));
+                $a = igk_str_rm_last($a, '/' . basename($a));
             }
 
             return $a;
@@ -437,15 +457,18 @@ abstract class ActionHelper
      * @param string $view_action_name 
      * @return null|string 
      */
-    public  static function ExpectedAction(BaseController $controller, string $view_action_name):?string{
+    public  static function ExpectedAction(BaseController $controller, string $view_action_name): ?string
+    {
         $name = $view_action_name;
         if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
             $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
         }
         $name = implode("/", array_map("ucfirst", explode("/", $name)));
-        $action = $controller::ns(sprintf("%s\\%s",                     
-                    \Actions::class, 
-                    $name."Action")); 
+        $action = $controller::ns(sprintf(
+            "%s\\%s",
+            \Actions::class,
+            $name . "Action"
+        ));
         return $action;
     }
 
@@ -456,15 +479,16 @@ abstract class ActionHelper
      * @param mixed $resolved_class 
      * @return bool 
      */
-    public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class):bool{
-        if (self::$ResolvedClass && ($resolved_class == self::$ResolvedClass->class)){
+    public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class): bool
+    {
+        if (self::$ResolvedClass && ($resolved_class == self::$ResolvedClass->class)) {
             //match resolved class.
             return true;
         }
-        if ($g = self::ExpectedAction($baseController, $action_name)){
+        if ($g = self::ExpectedAction($baseController, $action_name)) {
             return $g == $resolved_class;
         }
-        return false; 
+        return false;
     }
     /**
      * get action uri
@@ -472,7 +496,132 @@ abstract class ActionHelper
      * @param string $action_name 
      * @return string 
      */
-    public static function GetActionUri(BaseController $baseController, string $action_name):string{        
-        return  '/'.igk_uri(self::GetActionName($baseController, $baseController->resolveClass($action_name)))."/";
+    public static function GetActionUri(BaseController $baseController, string $action_name): string
+    {
+        return  '/' . igk_uri(self::GetActionName($baseController, $baseController->resolveClass($action_name))) . "/";
+    }
+
+
+    /**
+     * do handle 
+     * @param BaseController $controller 
+     * @param string $handler_class_name 
+     * @param mixed $fname 
+     * @param mixed $params 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function DoHandle(BaseController $controller, 
+    string $handler_class_name, string $fname, array $params, $rep, $options = null)
+    {
+        $is_expected = ActionHelper::IsExpectedAction($controller, $fname, $handler_class_name);
+        $is_ajx = ($options ? igk_getv($options, 'is_ajx') : null) ?? 
+            (igk_server()->CONTENT_TYPE == "application/json") || igk_is_ajx_demand();
+        $verb = ($options ? igk_getv($options, 'method') : null) ?? 
+            strtolower(igk_server()->REQUEST_METHOD ?? 'get');
+        $v_user = ($options ? igk_getv($options, 'user') : null);
+        $old_data = null;
+        if ($v_requestData = ($options? igk_getv($options, 'requestData') : null)){
+            $old_data = Request::getInstance()->setJsonData(json_encode($v_requestData));
+        }
+
+        // check for source user
+        $controller->checkUser(false);
+        // traitement before passing args to handlers
+        $handlerArgs = $params;
+        $_t = null;
+        $_index = 'index';
+        if (strpos($fname, '/') !== false) {
+            $_t = explode('/', ltrim($fname, '/'));
+            $view = igk_array_peek_last($_t);
+            if ($view == IGK_DEFAULT) {
+                array_pop($_t);
+            }
+            // if default view passing 
+            while (count($_t) > 1) {
+                $np = array_pop($_t);
+                if (
+                    strtolower($np . 'action') !=
+                    strtolower(basename(igk_uri($handler_class_name)))
+                ) {
+                    array_unshift($handlerArgs, $np);
+                    break;
+                }
+            }
+        }
+        // igk_dev_wln_e(__FILE__.":".__LINE__,  $params, $handlerArgs, $_index);
+        if (count($handlerArgs) == 0) {
+            // no parameter pass to index method of the action handler
+            if ($is_expected) {
+                $handlerArgs = [$_index];
+            } else {
+                if (!ActionHelper::HandleArgs($fname, $handlerArgs)) {
+                    if (!empty($fname)) {
+                        $tp = igk_array_last(explode('/', $fname));
+                        if ($tp != IGK_DEFAULT) {
+                            $_index = $tp;
+                        }
+                    }
+                    $handlerArgs = [$_index];
+                }
+            }
+        } else if (is_numeric(array_keys($handlerArgs)[0]) && is_numeric($handlerArgs[0])) {
+            // + | passing numeric data to index
+            array_unshift($handlerArgs, $_index);
+        } else {
+            if ($handler_class_name == $controller->resolveClass(\Actions\DefaultAction::class)) {
+                self::HandleArgs($fname, $handlerArgs);
+                if ($_t) {
+                    array_unshift($handlerArgs, ...$_t);
+                }
+            } else {
+                if (!$is_expected) {
+                    $p = "Actions";
+                    if ($_t) {
+                        $p .= "\\" . implode("\\", array_map('ucfirst', array_filter($_t)));
+                    }
+                    while (count($handlerArgs) > 0) {
+                        $g = array_shift($handlerArgs);
+                        $p .= "\\" . ucfirst(StringUtility::CamelClassName($g));
+                        $r = basename(igk_uri($p));
+                        if (!($cl = $controller->resolveClass($p . "Action"))) {
+                            $cl = $controller->resolveClass($p . "\\" . $r . "Action");
+                            if ($cl && !empty($handlerArgs) && ($handler_class_name == $cl) && (strtolower($r) == strtolower($handlerArgs[0]))) {
+                                // + | shift handle args api/api -default resolution
+                                array_shift($handlerArgs);
+                            }
+                        }
+                        if ($handler_class_name == $cl) {
+                            if (empty($handlerArgs)) {
+                                array_unshift($handlerArgs, $_index);
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    if (!is_null($rep->params)) {
+                        $handlerArgs = $rep->params;
+                    } else {
+                        if ($rep->level > 0) {
+                            $handlerArgs = array_splice($handlerArgs, $rep->level);
+                        }
+                    }
+                    if (empty($handlerArgs)) {
+                        array_unshift($handlerArgs, $_index);
+                    }
+                }
+            }
+        }
+        $r = $handler_class_name::Handle(
+            $controller,
+            $fname,
+            $handlerArgs,
+            $is_ajx,
+            true,
+            $verb,
+            $v_user
+        );
+        Request::getInstance()->setJsonData($old_data);
+        return $r;
     }
 }

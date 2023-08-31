@@ -402,7 +402,11 @@ class IGKGD {
         if(!is_object($rectx)){
             $rectx=new Rectanglef($rectx, $y, $width, $height);
         } 
-        imagefilledrectangle($this->m_himg, $rectx->X, $rectx->Y, $rectx->X + $rectx->Width, $rectx->Y + $rectx->Height, $hcl);
+        $x = intval(ceil($rectx->X));
+        $y = intval(ceil($rectx->Y));
+        $w = intval(ceil($rectx->X + $rectx->Width));
+        $h = intval(ceil($rectx->Y + $rectx->Height)); 
+        imagefilledrectangle($this->m_himg, $x, $y, $w, $h, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
     ///<summary></summary>

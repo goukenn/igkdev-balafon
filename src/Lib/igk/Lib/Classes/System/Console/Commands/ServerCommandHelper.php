@@ -11,6 +11,7 @@ namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\Logger;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
 use IGKValidator;
@@ -54,6 +55,8 @@ abstract class ServerCommandHelper
     {
         global $_REQUEST;
         $cnf = igk_configs();
+        $v_request_faker_key = Request::REQUEST_JSON_DATA_ENV_KEY;
+
         foreach (self::GetDbCommandsProperties() as $k => $v) {
             if (property_exists($command->options, $k)) {
                 $cnf->$v = $command->options->{$k};
@@ -96,7 +99,7 @@ abstract class ServerCommandHelper
         if ($r = $cnf->{'request'}) {
             parse_str($r, $tab);
             $_REQUEST = $tab;
-            igk_environment()->FakerInput = new ServerFakerInput($r);
+            igk_environment()->set($v_request_faker_key, new ServerFakerInput($r));
         }
         if (property_exists($command->options, '-srv_baseuri')) {
             igk_environment()->setBaseUri($cnf->{'base_uri'} ?? '');

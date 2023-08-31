@@ -7,6 +7,7 @@ namespace IGK\Controllers\Traits;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGK\Helper\IO;
+use IGK\System\IO\Path;
 use IGKResourceUriResolver;
 
 ///<summary></summary>
@@ -42,7 +43,7 @@ trait AtricleManagerControllerExtensionTrait{
     public static function assets_list(BaseController $ctrl, 
         string $path, 
         string $ext, bool $recursive = false, ?callable $callback=null){
-        $dir = $ctrl->getDataDir().'/assets';
+        $dir = Path::Combine($ctrl->getDataDir(), IGK_RES_FOLDER); 
         $dir .= '/'.ltrim($path,'/'); 
         if (!is_dir($dir)){
             return null;

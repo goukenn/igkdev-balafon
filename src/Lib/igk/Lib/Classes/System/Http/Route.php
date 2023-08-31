@@ -22,10 +22,10 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  * @method static RouteActionHandler get(string $actionBaseClass, string $pattern, ?string|callable $controllerTaskClass)
  * @method static RouteActionHandler get(string $actionBaseClass, string $pattern)
  * @method static RouteHandler get($pattern, $controllerClass) register GET route and return RouteActionHandler
- * @method static RouteActionHandler post() register POST route and return a RouteActionHandler
- * @method static RouteActionHandler options() register OPTION route and return a RouteActionHandler
- * @method static RouteActionHandler put() register PUT route and return a RouteActionHandler
- * @method static RouteActionHandler delete() register DELETE route and return a RouteActionHandler
+ * @method static RouteActionHandler post(string $actionBaseClass, string $pattern) register POST route and return a RouteActionHandler
+ * @method static RouteActionHandler options(string $actionBaseClass, string $pattern) register OPTION route and return a RouteActionHandler
+ * @method static RouteActionHandler put(string $actionBaseClass, string $pattern) register PUT route and return a RouteActionHandler
+ * @method static RouteActionHandler delete(string $actionBaseClass, string $pattern) register DELETE route and return a RouteActionHandler
  */
 class Route  
 {
@@ -60,6 +60,8 @@ class Route
      * @var string
      */
     protected $path = "";
+
+    protected $controller = "";
 
 
     const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";

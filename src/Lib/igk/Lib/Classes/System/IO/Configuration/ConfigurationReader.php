@@ -76,8 +76,8 @@ class ConfigurationReader
     public function read(string $value, ?int $length = null, ?Closure $callback=null)
     {
         if(preg_match($not_regex = "/('|\")/i", $this->separator) || 
-        preg_match($not_regex, $this->delimiter)){
-            $this->m_errors[] = "not a valid separtor or delimiter";
+            preg_match($not_regex, $this->delimiter)){
+                $this->m_errors[] = "not a valid separator or delimiter";
             return false;
         }
 
@@ -98,7 +98,7 @@ class ConfigurationReader
                 $list[] = $obj;
             }
         };
-
+        $sep = $this->separator;
         while ($this->_canRead()) {
             $ch = $this->m_text[$this->m_offset];            
             switch ($ch) {
@@ -106,7 +106,11 @@ class ConfigurationReader
                     $fc_bind($list, $name, $value);
                     $this->m_readmode = self::MODE_NAME;
                     break;
-                case $this->separator:
+                case $sep:
+                    if (is_null($name)){       
+                        $this->m_offset++;                 
+                        $name = $sep.$this->_readName(); 
+                    }
                     $this->m_readmode = self::MODE_VALUE;
                     break;
                 default:

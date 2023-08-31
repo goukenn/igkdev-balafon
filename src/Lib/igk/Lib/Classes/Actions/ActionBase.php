@@ -13,10 +13,13 @@ use IGKActionBase;
 
 abstract class ActionBase extends IGKActionBase{
     /**
-     * get current user model
-     * @return null|IGK\Actions\Users 
+     * get user model
+     * @return null|Users 
      */
     public function getUser(): ?Users{
+        if ($this->_user){
+            return $this->_user;
+        }
         $u = $this->getController()->getUser();
         if ($u instanceof IUserProfile){
             return $u->model();

@@ -158,8 +158,7 @@
             } else {
                 console.log("igk.winui.articleviewer ... event context failed");
                 return;
-            }
-            //igk.ready(function(){ alert("ready"); updateSize(); });
+            } 
             //bind to document complete
             var v_out = {
                 updateSize: updateSize

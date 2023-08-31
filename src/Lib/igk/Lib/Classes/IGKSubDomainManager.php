@@ -12,6 +12,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Models\Subdomains;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
+use IGK\System\IO\Path;
 
 /**
 * subdomain manager
@@ -55,6 +56,7 @@ final class IGKSubDomainManager extends IGKObject{
     ///<summary>get the domain controller or return false</summary>
     /**
     * get the domain controller or return false
+    * @return false|BaseController found controller 
     */
     public function checkDomain($uri=null, & $row=null){
         if(igk_is_atomic()){
@@ -62,6 +64,7 @@ final class IGKSubDomainManager extends IGKObject{
         }
         $subdomain= IGKSubDomainManager::SubDomainUriName($uri);
         $cache_file = self::GetCacheFile();
+       
         if (is_null(self::$sm_cached_domains)){
             self::$sm_cached_domains = [];
             if (is_file($cache_file)){
@@ -70,7 +73,7 @@ final class IGKSubDomainManager extends IGKObject{
                 }
             }
         }
-        
+        $ctrl = null;
         $t = array_merge(self::$sm_cached_domains, $this->getRegList()?? []);  
          
         // $cl = SysDbController::ctrl()->resolveClass(Subdomains::class); 
@@ -84,37 +87,30 @@ final class IGKSubDomainManager extends IGKObject{
                 $c =$t[$s];
                 $row = (object)$c;
                 return igk_getctrl($row->clCtrl, false);
-            } 
-            // $v_start = igk_sys_request_time();
-            // $q = "SELECT * FROM `tbigk_subdomains` WHERE `clName`='tonerafrika'";
-            // $c = mysqli_connect("mysql", "root", "rootbonaje", "igkdev.dev");
-            // if ($rep = mysqli_query($c, $q)){
-            //     while($p = mysqli_fetch_assoc($rep)){
-            //         igk_wln("\n", $p);
-            //     }
-            // }
-            // mysqli_close($c);
-            // $v_duration = igk_sys_request_time() - $v_start;
-            // igk_wln("duration ", $v_duration, $t);
+            }  
+            $v_save  = false;
+            $tf = Path::getInstance()->getDataDir()."/subdomain.php";
+            if (file_exists($tf)){
+                $b = include $tf;
+                if (isset($b[$subdomain])){
+                    $ctrl_n = $b[$subdomain];
+                    $ctrl = igk_getctrl($ctrl_n); // b[$subdomain]);
+                   $row = (object)[
+                     'clName'=>$subdomain,
+                     'clCtrl'=>$ctrl_n,
+                     'clView'=>null
+                   ]; 
+                   $v_save = true;
+                   self::$sm_cached_domains[$subdomain] = (array)($row);
+                }
+            }
 
-            // $v_start = igk_sys_request_time();
-            // $g = Subdomains::select_row([
-            //     "clName"=>$subdomain
-            // ]);
-            // $v_duration = igk_sys_request_time() - $v_start;
-            // igk_wln( __FILE__.":".__LINE__, "\n\n vs one", $v_duration, $g);
-            // igk_exit();
+ 
 
-            // $v_start = igk_sys_request_time();
-            // $g = Subdomains::select_row([
-            //     "clName"=>$subdomain
-            // ]);
-            // $v_duration = igk_sys_request_time() - $v_start;
-            // igk_wln_e( __FILE__.":".__LINE__, "\n\nvs", $v_duration, $g);
 
-            if ($raw = Subdomains::select_row([
+            if (!$v_save && ($raw = Subdomains::select_row([
                 "clName"=>$subdomain
-            ])){
+            ]))){
                 // $v_duration = igk_sys_request_time() - $v_start;
                 // igk_wln_e("duration ", $v_duration, $t);
 
@@ -122,10 +118,14 @@ final class IGKSubDomainManager extends IGKObject{
                     $row = $raw;
                     $this->reg_domain($subdomain, $raw->clCtrl, $raw);
                     self::$sm_cached_domains[$subdomain] = $raw->to_array();
-                    igk_io_w2file($cache_file, serialize(self::$sm_cached_domains));
-                    return $ctrl;
+                    $v_save =  true;
                 }
             }  
+
+            if ($v_save)
+                igk_io_w2file($cache_file, serialize(self::$sm_cached_domains));
+            return $ctrl ? $ctrl : false;
+
         }
         return false;
     }

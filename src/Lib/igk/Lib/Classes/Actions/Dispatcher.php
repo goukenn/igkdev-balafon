@@ -193,7 +193,9 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     }
                 }
                 // + | get inject table class printer service
-                if (is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])){
+                
+
+                if (!IGKType::IsPrimaryType($type) && is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])){
                     $rtype = $services[$type]; 
                     $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);                  
                     continue; 
@@ -211,9 +213,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     if ($j &&  ($c = $j->resolv($arg, $p))){                        
                         $targs[] = $c; 
                         continue; 
-                    } 
-
-
+                    }  
                 } else if ($v_primary && is_null($c)){
                     if ($k->isDefaultValueAvailable()){
                         $c =  $k->getDefaultValue();

@@ -68,7 +68,22 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     protected function checkMiddle(){ 
         
         $this->ctrl->checkUser(false);         
-        $this->user = Users::currentUser();
+        $u = Users::currentUser();
+        if (!$u){
+            $token = null;
+            
+            if (in_array( BearerAuthenticatorTrait::class,  class_uses($this)) || method_exists($this, 'getUserFromToken')){
+
+                if ($app_user = $this->getUserFromToken(true, $token)){
+                    if ($u = $this->userProfileFromApplicationUser($app_user)){
+                        $u = $u->model();
+                    }
+                }
+            }
+        }
+        $this->user = $u;        
+        $token = null; 
+
         if (empty($auths = $this->auths)){
             return true;
         }
@@ -143,6 +158,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
  
 
 
+
         if (!empty($routes)){ 
             $user = $this->user;
 
@@ -153,6 +169,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             }
             
             // must use the route technique to validate the path
+            
             foreach($routes as $v){  
                 // igk_dev_wln_e(__FILE__.":".__LINE__,  "name: ". $v->isAuthRequired());
                 if ($v->match($path, $method)){  
@@ -180,19 +197,14 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         "ruri"=>$ruri
                     ]);                    
                     if ($v->getBindClass() === null){ 
-                        // detected method to invok 
+                        // detected method to invoke 
+                        if (is_numeric($name)){
+                            array_unshift($arguments, $name);
+                            $name = 'index';
+                        }
                         if ($r = $_handling($name, $arguments, $_invoke)){
                             return $r['result'];
-                        }
-                        // $proc = ["_".strtolower($method), ""];
-            
-                        // while((count($proc)>0) && (($f = array_shift($proc))!==null)){
-                        //     if (in_array($name.$f, $m)){
-                        //         $name = $name.$f;  
-                        //         $arguments = $arguments ? Dispatcher::GetInjectArgs(new ReflectionMethod($this, $name), $arguments) : [];
-                        //         return $this->$name(...$arguments);
-                        //     }
-                        // }  
+                        }                        
                         // no controller task setup
                         // return null;
                     }
@@ -207,6 +219,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 return $r['result'];
             } 
             // + | route not resolved 
+            igk_dev_wln_e("route not resolved ".$path);
             throw new IGKException(__("Route {0} not resolved, in {1} ", $path, get_class($this)), 404);
         } else {
             // no definition foute found for this class suppose all method is accessible 
@@ -240,7 +253,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         // fallback route
         // igk_trace(); 
         igk_dev_wln_e(__FILE__.":".__LINE__, 
-            'invoke route definitions - not cached', static::class, $route, $args);
+            'invoke route definitions - not found', static::class, $route, $args);
     }
    
 }

@@ -58,7 +58,7 @@ class BalafonCacheViewCompiler{
         $compiler = new ViewCompiler;
         $compiler->forCache = true;
         $compiler->params = $args;
-        $compiler->options = ViewEnvironmentArgs::GetContextViewArgument($controller, $file, __METHOD__);
+        $compiler->options = ViewEnvironmentArgs::CreateContextViewArgument($controller, $file, __METHOD__);
         $cout =  $compiler->compile([$file]); 
         return $cout;
 

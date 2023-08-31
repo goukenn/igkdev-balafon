@@ -51,14 +51,14 @@ $app = ApplicationLoader::Boot("balafon");
 
 $command = $app->getPrimaryCommand();
 
-//-----------------------------------------------------------------------------
-// | handle default
-// |
+// + | -----------------------------------------------------------------------------
+// + | handle default
+// + |
 
 if (isset($argv[1]) && $argv[1]=="--init"){
-    //-------------------------------------------------------------------------
-    // | initialize balafon configuration 
-    // |
+    // + |-------------------------------------------------------------------------
+    // + | initialize balafon configuration 
+    // + |
     $fc = $command["--init"][0];
     $carg = [];
     if (in_array("--noconfig", $argv)){

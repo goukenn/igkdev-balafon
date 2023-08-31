@@ -5,7 +5,9 @@
 namespace IGK\Actions\Traits\Authenticator;
 
 use IGK\Controllers\BaseController;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
+use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
 
@@ -19,14 +21,19 @@ trait BearerAuthenticatorTrait{
     protected $_bearerAuthenticatorCookieLife = 3600;
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
     protected $_bearerAuthenticatorCookieLifeConstants = 60*60*60*24;    // 60 days
-    protected abstract function getUserFromToken(bool $update = true );
+    protected abstract function getUserFromToken(bool $update = true, & $token=null ): ?ModelBase;
+
+    /**
+     * create use profile from application'user
+     */
+    protected abstract function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile;
   /**
      * get token user or die
-     * @return ?Users 
+     * @return ?ModelBase
      * @throws IGKException 
      */
-    protected function getUserFromTokenOrDie(){
-        $user = $this->getUserFromToken() ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
+    protected function getUserFromTokenOrDie($update=true, & $token=null){
+        $user = $this->getUserFromToken($update, $token) ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
         return $user;
     } 
 
@@ -42,9 +49,9 @@ trait BearerAuthenticatorTrait{
     /**
      * create and register bearer token for active user
      * @param mixed $users 
-     * @return void 
+     * @return ?array 
      */
-    protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme=false){
+    protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme=false):?array{
         if ($user->clStatus != 1){
             return null;
         } 
