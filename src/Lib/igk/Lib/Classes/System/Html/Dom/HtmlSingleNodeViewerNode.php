@@ -13,8 +13,13 @@ namespace IGK\System\Html\Dom;
 final class HtmlSingleNodeViewerNode extends HtmlNode{
     private $m_callback;
     var $targetNode;
+    /**
+     * 
+     * @param array|mixed $v 
+     * @return $this 
+     */
     public function setContent($v){
-        $this->targetNode->setContent($v);
+        $this->targetNode->setContent(...func_get_args());
         return $this;
     }
     

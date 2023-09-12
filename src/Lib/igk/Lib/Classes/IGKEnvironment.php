@@ -12,6 +12,7 @@ use IGK\Resources\R;
 use IGK\System\Console\ServerFakerInput;
 use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
+use Spatie\PhpUnitWatcher\Screens\Phpunit;
 
 use function igk_getv as getv;
 
@@ -121,10 +122,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         $d = &$this->createArray("debug_load");
         $d[] = "<span>" . (count($d) + 1) . "</span> " . $message;
     }
-
+    /**
+     * get peek environment context 
+     * @param mixed $n 
+     * @return mixed 
+     */ 
     public function peek($n)
-    {
-
+    { 
         $tab = $this->get($n);
         if (is_array($tab) && (($c = igk_count($tab)) > 0)) {
             $r = $tab[$c - 1];
@@ -649,6 +653,12 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         if (!$c) {
             $c = [];
         }
+        // if (\IGK\System\Html\HtmlLoadingContext::class == $key){
+        //     igk_wln(__FILE__.":".__LINE__ , "Key : ".$key . " count " .count($c), $tc = igk_env_count("::::_base") ); 
+        //     if ($tc == 134){
+        //         igk_wln("data:");
+        //     }
+        // }
         if (!is_array($c)) {
             throw new EnvironmentArrayException($key);
         }
@@ -667,6 +677,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             $o = array_pop($c);
             $this->set($key, $c);
         }
+        // if (\IGK\System\Html\HtmlLoadingContext::class == $key){
+        //     $ref_count = count($c);
+        //     igk_wln(__FILE__.":".__LINE__ , "Key : ".$key . " ::POP:: count " .$ref_count); 
+        // }
         return $o;
     }
     /**

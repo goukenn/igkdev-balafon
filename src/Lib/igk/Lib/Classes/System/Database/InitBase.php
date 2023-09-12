@@ -10,6 +10,7 @@ use IGK\Controllers\BaseController;
 
 ///<summary> to initialize database entries</summary>
 abstract class InitBase{
+    const INIT_METHOD = 'Init';
     // + | public static function Init(SourceController $controller){
     // + |      override this to init your database
     // + | }

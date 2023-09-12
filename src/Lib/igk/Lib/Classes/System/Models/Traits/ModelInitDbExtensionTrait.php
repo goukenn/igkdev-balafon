@@ -18,12 +18,15 @@ trait ModelInitDbExtensionTrait{
      * @param string $path path to json file 
      * @return bool|int number of entries 
      */
-    public static function initEntriesFromJsonDataFile(ModelBase $model, string $path){
+    public static function initEntriesFromJsonDataFile(ModelBase $model, string $path, $extraData=null){
         $count = 0;
         if (file_exists ($file = $path) || file_exists ($file = $model->getController()->getDataDir().'/Database/'.$path)){
             if ($data  = json_decode(file_get_contents($file))){
                 foreach($data as $e){
                     $r = (array)$e;
+                    if (is_array($extraData)){
+                        $r = array_merge($r, $extraData);
+                    }
                     if($model->insertIfNotExists($r)){
                         $count++;
                     }

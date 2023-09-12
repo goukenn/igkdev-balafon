@@ -9,6 +9,9 @@ use IGK\System\Actions\Traits\ActionFormHandlerTrait;
 use IGK\System\Html\Forms\FormHelper;
 use IGK\System\Services\LoginServiceEvents;
 use IGK\System\Services\SignProvider;
+use IGKException;
+use Illuminate\Contracts\Container\BindingResolutionException;
+
 use function igk_resources_gets as __ ;
 
 
@@ -23,8 +26,17 @@ trait FormLoginActionTrait{
     var $formLoginActionRegisterUri = "registerLogin";
     var $formLoginActionLogin = 'login';
     
+    /**
+     * form login builder 
+     * @param mixed $form 
+     * @param mixed $options 
+     * @return void 
+     * @throws IGKException 
+     * @throws BindingResolutionException 
+     */
     protected function form_login($form, $options = null)
-    {
+    { 
+
         $user = ViewHelper::CurrentCtrl()->getUser();
         if ($user){
             return;
@@ -32,7 +44,7 @@ trait FormLoginActionTrait{
         if (!($ac=$form['action']) || ($ac=='.')){
             $form['action'] = $this->formLoginActionLogin ?? 'login';
         }
-        
+        $noRegister = $options ? igk_getv($options, 'noRegister') : false;
 
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();
@@ -63,14 +75,15 @@ trait FormLoginActionTrait{
                 ]
             );
         } 
-        $t->actionbar(function($a)use($ctrl){
+        $t->actionbar(function($a)use($ctrl, $noRegister){
             $a['class'] = '+footer';
-            $group = $a->button_group();
-            $group->host(FormHelper::submit());
+            $group = $a->actiongroup();
+            $group->host(FormHelper::submit(), __('Connect'));
+            if (!$noRegister){
             $group->a($ctrl::uri($this->formLoginActionRegisterUri))
             ->setClass('igk-btn')
-            ->Content = __("register");
-            
+            ->Content = __("Create account");
+            }
             if ($this->registerUserActionForgotPasswordUri)
             $a->a($ctrl::uri($this->registerUserActionForgotPasswordUri))
                 ->setClass('underline')

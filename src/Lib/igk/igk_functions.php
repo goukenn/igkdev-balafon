@@ -72,8 +72,7 @@ use IGK\System\DataArgs;
 use IGK\System\Html\Dom\HtmlCoreJSScriptsNode;
 use IGK\System\Html\Dom\SvgListNode;
 use IGK\System\Html\HtmlLoadingContext;
-use IGK\System\Html\HtmlLoadingContextOptions;
-use IGK\System\Html\HtmlNodeTagExplosionDefinition;
+use IGK\System\Html\HtmlLoadingContextOptions; 
 use IGK\System\Http\Cookies;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Http\WebResponse;
@@ -9450,6 +9449,12 @@ function igk_get_system_user()
 {
     return igk_get_user_bylogin(IGK_SYS_USER_LOGIN) ?? igk_die("no system user found");
 }
+function igk_sys_default_user(){
+    $login = igk_configs()->default_user;
+    if ($login){
+        return igk_get_user_bylogin($login);
+    }
+}
 ///<summary> used to get traceable array</summary>
 /**
  *  used to get traceable array
@@ -14554,7 +14559,7 @@ function igk_io_getdbconf_file($dir)
  * @param mixed $dir directory
  * @param mixed $match mixed, string regex expression or callback
  * @param mixed $recursive recursive
- * @param mixed $excludir list of directory to exclude
+ * @param mixed $excludir array<dir,1> directory to exclude. dir_name of full_dir_name to exclude
  */
 function igk_io_getfiles($dir, $match = IGK_ALL_REGEX, $recursive = true, &$excludedir = null)
 {
@@ -21781,10 +21786,10 @@ function igk_svg_register($doc, $name, $file)
     $b = $doc ? $doc->getBody() : null;
     $_newfc = function () {
         $n = new SvgListNode();
-        $n->addOnRenderCallback(igk_create_node_callback('igk_svg_callable_list', (object)array("node" => $n)));
-        if (igk_environment()->isDev()) {
-            $n->comment()->Content = "SVG LIST:";
-        }
+        // $n->addOnRenderCallback(igk_create_node_callback('igk_svg_callable_list', (object)array("node" => $n)));
+        // if (igk_environment()->isDev()) {
+        //     $n->comment()->Content = "SVG LIST:";
+        // }
         return $n;
     };
     if (!$b) {

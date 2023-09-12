@@ -46,6 +46,14 @@ class HtmlVisitor
     {
         $this->target = $t;
     }
+    /**
+     * skip visit.
+     * @return $this 
+     */
+    public function skipVisit(){
+        $this->skip = true;
+        return $this;
+    }
     protected function beforeBeginVisit(HtmlItemBase $n, & $childs){
     }
     /**

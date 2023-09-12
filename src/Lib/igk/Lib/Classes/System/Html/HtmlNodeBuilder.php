@@ -302,6 +302,7 @@ class HtmlNodeBuilder
         $_is_php8 = version_compare(PHP_VERSION, "8.0", "<");
         $context_container = [];
         $tcounter = 0;
+        $b_counter = HtmlLoadingContext::CountCountext();
         while (count($list) > 0) {
             extract(array_shift($list), EXTR_OVERWRITE);
             $keys = is_null($keys) ? self::_GetKeys($q) : $keys;
@@ -311,8 +312,7 @@ class HtmlNodeBuilder
                 igk_html_push_node_parent($n);
                 if ($n instanceof IHtmlContextContainer) {
                     if (!$context_container || ($context_container[0] !== $n)) {
-                        array_unshift($context_container, $n);
-                        HtmlLoadingContext::PushContext($context_container[0]->getContext());
+                        array_unshift($context_container, $n); 
                     }
                 }
                 self::_Loop($visitor, $n, $q, $keys, $next, $list, $v_chain_info, $_last, $_is_php8, $context_container);
@@ -324,6 +324,12 @@ class HtmlNodeBuilder
             }
             // + | dequeue builder parent 
             self::_RemoveNode($n, $context_container);          
+        }
+
+        $ref_count = HtmlLoadingContext::CountCountext();
+
+        if ($b_counter!= $ref_count){
+            igk_wln_e("not available ".$b_counter." vs ".$ref_count);
         }
 
         if ($context_container) {

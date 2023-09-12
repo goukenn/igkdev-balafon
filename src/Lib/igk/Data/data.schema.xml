@@ -191,9 +191,9 @@
         <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
             clIsPrimary="True" />
         <Column clName="clUser_Id" clType="Int" clNotNull="True" clLinkType="%prefix%users"
-            clIsUniqueColumnMember="true" clUniqueColumnIndex="1" />
+            clIsUniqueColumnMember="true" clColumnMemberIndex="1" />
         <Column clName="clGroup_Id" clType="Int" clNotNull="True" clLinkType="%prefix%groups"
-            clIsUniqueColumnMember="true" clUniqueColumnIndex="1" />
+            clIsUniqueColumnMember="true" clColumnMemberIndex="1" />
     </DataDefinition>
     <DataDefinition TableName="%prefix%users" Description="User's tables">
         <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
@@ -423,20 +423,20 @@
         <Migration description='add common fields - group controller'>
             <addColumn table="%prefix%groups">
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
             </addColumn>
             <changeColumn table="%prefix%groups" column="clName">
                 <Column clName="clName" clType="VARCHAR" clTypeLength="175" clNotNull="True"
-                    clIsUnique="0" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUnique="0" clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
             </changeColumn>
             <addColumn table="%prefix%authorizations">
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="True" clUniqueColumnIndex="0" />
+                    clIsUniqueColumnMember="True" clColumnMemberIndex="0" />
                 <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
             </addColumn>
             <changeColumn table="%prefix%authorizations" column="clName">
                 <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUnique="1" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUnique="1" clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
             </changeColumn>
         </Migration>
         <Migration>
@@ -526,12 +526,12 @@
             <changeColumn table="%prefix%groups" column="clName"
                 description="remove unique column on name">
                 <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
             </changeColumn>
             <changeColumn table="%prefix%authorizations" column="clName"
                 description="remove unique column on name">
                 <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
             </changeColumn>
             <addColumn table="%prefix%groups">
                 <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()'
@@ -604,11 +604,11 @@
         <Migration date="2023-21-01">
             <changeColumn table="%prefix%groups" column="clName">
                 <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUnique="False" clIsUniqueColumnMember="true" clUniqueColumnIndex="0" />
+                    clIsUnique="False" clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
             </changeColumn>
             <changeColumn table="%prefix%groups" column="clController">
                 <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="True" clUniqueColumnIndex="0" />
+                    clIsUniqueColumnMember="True" clColumnMemberIndex="0" />
             </changeColumn>
         </Migration>
         <Migration>

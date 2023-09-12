@@ -7,6 +7,8 @@
 
 namespace IGK\Tests;
 
+use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use PHPUnit\Framework\TestCase;
 
 
@@ -171,5 +173,26 @@ HTML
 // HTML,
 //  $n->render((object)["Indent"=>true]));
 //     }
+
+    public function test_loop_with_object_expression(){
+    
+        $template = <<<'HTML'
+<ul><li *for="$raw['y']">item: {{$raw}}</li></ul>
+HTML;
+        $data = [
+            'x'=>[1,2,4],
+            'y'=>[11,12,14],
+        ];
+        $s = $this->_bind_article($template, $data);
+        $this->assertEquals('<ul><li>item: 11</li><li>item: 12</li><li>item: 14</li></ul>', $s);
+        
+    }
+    private function _bind_article($template, $data, ?BaseController $ctrl=null) {
+        $ctrl = $ctrl ?? SysDbController::ctrl();
+        $n = igk_create_notagnode();
+        $ldcontext = igk_init_binding_context($n, $ctrl, $data);
+        igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);        
+        return $n->render();
+    }
    
 }

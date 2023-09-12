@@ -1290,13 +1290,15 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
     ///<summary></summary>
     /**
-     * return controller table info
+     * @return ?IModelDefinitionInfo controller's table info
      */
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {
+        // TODO: model single table definition info 
         $tb = null;
         if ($this->getUseDataSchema()) {
             $def = $this->getDataTableDefinition(null);
+            // + | multi definition info 
             if (!($def instanceof IModelDefinitionInfo)) {
                 $def = Activator::CreateNewInstance(SchemaMigrationInfo::class, $def, true);
             }

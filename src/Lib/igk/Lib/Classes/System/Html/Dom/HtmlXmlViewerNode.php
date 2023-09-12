@@ -32,6 +32,11 @@ final class HtmlXmlViewerNode extends HtmlNode {
     public function getContent($options = null){ 
         return null;
     }
+    /**
+     * 
+     * @param array|mixed $v 
+     * @return $this 
+     */
     public function setContent($v){
         $this->m_cdata->Content = $v; 
         return $this;

@@ -28,8 +28,13 @@ trait HtmlNodeContainerTrait{
         $this->host->setAttribute($n, $value);
         return $this;
     } 
+    /**
+     * 
+     * @param mixed $n 
+     * @return $this 
+     */
     public function setContent($n){
-        $this->host->setContent($n);
+        $this->host->setContent(...func_get_args());
         return $this;
     }
     public function setClass($v){

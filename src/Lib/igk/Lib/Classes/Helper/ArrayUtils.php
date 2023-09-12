@@ -7,6 +7,7 @@
 
 namespace IGK\Helper;
 
+use IGK\System\IO\StringBuilder;
 
 class ArrayUtils{
     /**
@@ -33,6 +34,11 @@ class ArrayUtils{
     public static function Clean (array & $table){
         $table = [];  
     }
+    /**
+     * 
+     * @param mixed $a 
+     * @return int|float|string|null|void 
+     */
     public static function ArgumentsMap($a){
         if (is_string($a)){
             return escapeshellarg($a);
@@ -42,5 +48,29 @@ class ArrayUtils{
         if (is_array($a)){
             return var_export($a, true);
         }
+    }
+
+
+    /**
+     * dump array 
+     * @param array $array 
+     * @return string 
+     */
+    public static function Export(array $array, $lf=PHP_EOL):string{
+        $sb = new StringBuilder;
+        $s = '';
+        $ch = '';
+        foreach($array as $k=>$v){
+            $s .= $ch;
+            if (is_numeric($k)){
+
+            }else{
+                $s .= igk_str_quotes($k)."=>";
+            }
+            $s.= $v.$lf;
+            $ch = ',';            
+        }
+        $sb->set(sprintf('[%s]',$s));
+        return ''.$sb;
     }
 }

@@ -376,17 +376,10 @@ class SQLGrammar implements IDbQueryGrammar
                         $bf .= "UNIQUE KEY `UC_" . $ck . "_index`(`" . $v_name . "`";
                     } else {
                         $bf = $uniques[$ck];
-                        $bf .= ", `" . $v_name . "`";
+                        $bf .= ",`" . $v_name . "`";
                     }
                     $uniques[$ck] = $bf;
-                }
-                // } else {
-                //     if (empty($funique)) {
-
-                //         $funique = "UNIQUE KEY `clUnique_Column_" . $v_name . "_index`(`" . $v_name . "`";
-                //     } else
-                //         $funique .= ", `" . $v_name . "`";
-                // }
+                } 
             }
             if ($v->clIsPrimary && !isset($tinf[$primkey])) {
                 if (!empty($primary))
@@ -412,19 +405,19 @@ class SQLGrammar implements IDbQueryGrammar
             unset($tinf[$primkey]);
         }
         if (!empty($primary)) {
-            $query .= ", PRIMARY KEY (" . $primary . ") ";
+            $query .= ", PRIMARY KEY (" . $primary . ")";
         }
         if (!empty($unique)) {
-            $query .= ", " . $unique . " ";
+            $query .= ", " . $unique ;
         }
         if (!empty($funique)) {
             $funique .= ")";
-            $query .= ", " . $funique . " ";
+            $query .= ", " . $funique;
         }
         if (count($uniques) > 0) {
             foreach ($uniques as $v) {
                 $v .= ")";
-                $query .= ", " . $v . " ";
+                $query .= ", " . $v;
             }
         }
         if (!empty($findex))
@@ -1285,12 +1278,13 @@ class SQLGrammar implements IDbQueryGrammar
                 }
                 if ($t == 1)
                     $query .= " $op ";
-
-                if (is_object($v)) {
-                    if (isset($v->$fc) && is_callable($v->$fc)) {
-                        $query .= "`" . $v->$fc() . "`";
-                    }
+                $v_is_obj = is_object($v);
+                if ($v_is_obj && isset($v->$fc) && is_callable($v->$fc)) {                    
+                        $query .= "`" . $v->$fc() . "`";                    
                 } else {
+                    if ($v_is_obj){
+                        $v = json_encode($v);
+                    }
                     if (is_null($k = self::_GetKeyOperator($k, $v, $query, $c, $op, $t, $c_exp, $adapter))) {
                         continue 2;
                     }

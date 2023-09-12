@@ -192,7 +192,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
                 }
             }
         }
-        !defined('IGK_TEST_INIT') && igk_is_debug() && error_log(sprintf('%s: %s', 'BLF_EX:', $msg));
+        !defined('IGK_TEST_INIT') && igk_is_debug() && error_log(sprintf('%s - %s', '[BLF_EX]', $msg));
         // + | Last Exception  
         throw new IGKException($msg, $code);
     } else {
@@ -1268,9 +1268,13 @@ function igk_lib_configs()
  * @param int|bool $throwex throw exception if not found
  * @return null|IGK\Controllers\BaseController controller found
  */
-function igk_getctrl(?string $name, $throwex = 1)
+function igk_getctrl(?string $name, $throwex = 1, bool $register_autoload=false)
 {
-    return  igk_app()->getControllerManager()->getController($name, $throwex);
+    $ctrl = igk_app()->getControllerManager()->getController($name, $throwex);
+    if ($ctrl && $register_autoload){
+        $ctrl::register_autoload();
+    }
+    return $ctrl;
 }
 /**
  * helper: shortcut to write log
@@ -1301,6 +1305,7 @@ function igk_io_baseuri($dir = null, $secured = null, &$path = null)
     return Path::getInstance()->baseuri($dir, $secured, $path);
 }
 
+ 
 
 ///<summary>return the current page folder</summary>
 /**
@@ -1320,7 +1325,7 @@ function igk_io_current_page_folder()
  * @param string $sep separator
  * @return string return path
  */
-function igk_io_basepath($dir, $sep = DIRECTORY_SEPARATOR)
+function igk_io_basepath(string $dir, string $sep = DIRECTORY_SEPARATOR)
 {
     return Path::getInstance()->basepath($dir, $sep);
 }
@@ -2055,6 +2060,35 @@ function igk_default_ignore_lib($dir = null)
 function igk_uri(string $u): string
 {
     return stringUtility::Uri($u);
+}
+
+if (!function_exists('igk_uri_path')){
+
+    /**
+     * get base path helper
+     * @param string $url 
+     * @return void 
+     */
+    function igk_uri_path(string $url){
+        $q = parse_url($url);
+        return igk_getv($q, 'path');
+    }
+}
+if (!function_exists('igk_uri_base_path')){
+
+    /**
+     * get base path helper
+     * @param string $url 
+     * @return void 
+     */
+    function igk_uri_base_path(string $url){
+        $u = igk_io_baseuri();
+        if (str_starts_with($url, $u)){
+            $url = substr($url, strlen($u));            
+        }
+        $q = parse_url($url);
+        return igk_getv($q, 'path');
+    }
 }
 
 
