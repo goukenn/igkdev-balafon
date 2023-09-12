@@ -261,7 +261,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clLinkType" => $table_name, "clLinkColumn" => $linkColumn,
             "clIsUnique"=>$unique,
             "clIsUniqueColumnMember"=>!is_null($uniqueColumn),
-            "clUniqueColumnIndex"=>$uniqueColumn,
+            "clColumnMemberIndex"=>$uniqueColumn,
             "clInputType" => $inputtype, "clNotNull" => $notnull, "clLinkConstraintName" => $linkName
         ]]);
     }

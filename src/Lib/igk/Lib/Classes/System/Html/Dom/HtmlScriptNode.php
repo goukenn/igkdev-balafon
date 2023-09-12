@@ -163,10 +163,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::SCRIPT_TAG, $v);
         return $this;
     }
-    public function setContent($value)
-    {
-        return parent::setContent($value);
-    }
+    
     protected function getcanLoadContent($value):bool{        
         return false;
     }

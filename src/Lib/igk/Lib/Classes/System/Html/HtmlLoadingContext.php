@@ -70,6 +70,17 @@ class HtmlLoadingContext{
             $c->uninitialize();
         } 
     }
+    /**
+     * get count countext
+     * @return int<0, max>|int 
+     */
+    public static function CountCountext(){
+        $i = -1;
+        if ($c = igk_environment()->get(self::class)){
+            $i = count($c);
+        }
+        return $i;
+    }
     protected function initialize(){
 
     }

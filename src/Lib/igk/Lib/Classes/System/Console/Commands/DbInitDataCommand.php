@@ -6,6 +6,7 @@ namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Database\InitBase;
 
 ///<summary></summary>
 /**
@@ -37,7 +38,7 @@ class DbInitDataCommand extends AppExecCommand{
 
 		} else 
 		{
-			call_user_func_array([$cl, 'InitData'], [$ctrl]);
+			call_user_func_array([$cl, InitBase::INIT_METHOD], [$ctrl]);
 			Logger::success('done');
 
 		}

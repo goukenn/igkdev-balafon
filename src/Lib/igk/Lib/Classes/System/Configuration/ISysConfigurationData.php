@@ -12,6 +12,7 @@ namespace IGK\System\Configuration;
 * @property bool $BootStrap
 * @property bool $BootStrap.Enabled
 * @property bool $JQuery.Enabled
+* @property ?string $default_user default user login
 * @property bool $admin_login
 * @property bool $admin_pwd
 * @property bool $allow_article_config

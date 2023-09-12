@@ -20,5 +20,11 @@ class ActionFormOptions extends IGKObject{
     var $referer;
 
     var $good_uri;
-    
+
+    var $noRegister;
+    /**
+     * passing extra data 
+     * @var ?array
+     */
+    var $data = [];    
 }

@@ -57,7 +57,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         return false;
     }
 
-    public function tableExists(string $table): bool {
+    public function tableExists(string $table, bool $throwex = false): bool {
         return false;
      }
 

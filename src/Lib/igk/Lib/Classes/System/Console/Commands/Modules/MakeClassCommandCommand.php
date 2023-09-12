@@ -44,8 +44,9 @@ class MakeClassCommandCommand extends AppExecCommand{
 				[
 					'var $command="command";',
 					'var $desc="description";',
-					'var $category="description";',
-					'var $options=[];',
+					'var $category="category";',
+					'// var $options=[];',
+					'// var $usage=\'\';',
 					'public function exec($command) { }'
 				]
 				)

@@ -740,9 +740,8 @@
                 if (!(c in m_types)) {
                     c = 'php';
                 }
-            }
-            // q.addClass("code-php");
-            var s = q.o.textContent.trim(); // .getHtml().trim();
+            } 
+            var s = q.o.textContent.trim(); 
             var t = s.split('\n');
 
             // return;
@@ -843,7 +842,10 @@
             }
             return w;
         }
-
+        /**
+         * read litteral string
+         * @param {*} ch 
+         */
         function _readStringLitteral(ch) {
             var w = ch;
             var p = ch;
@@ -860,7 +862,7 @@
                 }
                 inf.pos++;
             }
-            return w + p;
+            return w+p;
         };
 
         function _readPhpOperator(ch) {
@@ -932,7 +934,7 @@
                                     if (inf.mode == 0) {
                                         inf.mode = 1; // string
                                         inf.pos++;
-                                        w = _readStringLitteral(ch);
+                                        w = _readStringLitteral(ch); 
                                         sp.add("span").addClass("s").setHtml(w);
                                         inf.mode = 0;
                                     }
@@ -959,8 +961,9 @@
                                         inf.mode = 0;
                                     } else {
                                         inf.pos++;
-                                        w = _readStringLitteral(inf.s[inf.pos++]);
-                                        sp.add("span").addClass("s").setHtml('@' + w);
+                                        // const p = inf.s[inf.pos++];
+                                        w = _readWord();//(p);
+                                        sp.add("span").addClass("s-mark").setHtml("@" + w);
                                     }
                                     break;
                                 case '$': // read var

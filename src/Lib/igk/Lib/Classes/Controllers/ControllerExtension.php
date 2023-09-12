@@ -84,6 +84,20 @@ abstract class ControllerExtension
     use ControllerDbExtensionTrait;
     use ControllerRequestExtensionTrait;
 
+    public static function convertClassToFilename(BaseController $ctrl, string $class_name):?string{
+        $dir = $ctrl::classdir();
+        $ns = $ctrl->getEntryNamespace();
+        if (empty($ns)|| empty($dir)){
+            return null;
+        }
+        $file = null;
+        $cl = $class_name;
+        if (igk_str_startwith($cl, $ns."\\")){
+            $cl = substr($cl, strlen($ns)+1);
+        }
+        $file = igk_uri($dir."\\".$cl.".php");
+        return $file;
+    }
     /**
      * content store common php script that require to be execute only once if exists.
      * @param BaseController $ctrl 
@@ -2304,6 +2318,10 @@ abstract class ControllerExtension
      */
     public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null): ?string
     {
+        // + | --------------------------------------------------------------------
+        // + | detect action to call - base on request name and params
+        // + |
+        
         if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
         $c = [];

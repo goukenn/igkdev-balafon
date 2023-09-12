@@ -62,7 +62,16 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     private $_f = [];
 
+    /**
+     * 
+     * @var mixed
+     */
     protected $tagname;
+    /**
+     * override if can load Content
+     * @var ?bool
+     */
+    protected $canLoadContent;
 
     public function setPrefilterAttribute(?IHtmlPrefilterAttribute $attribFilter){
         $this->setParam(self::PREFILTER_ATTRIBUTE, $attribFilter);
@@ -472,14 +481,22 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return $this->content;
     }
     /**
-     * get if we can load context
+     * check if can load content - in current context
      * @param mixed $value 
      * @return bool 
      */
     protected function getcanLoadContent($value): bool
-    {
+    {   
+        if (!is_string($value) || !$this->getCanAddChilds()){
+            return false;
+        } 
+        if (is_bool($this->canLoadContent) && $this->canLoadContent){
+            return $this->canLoadContent;
+        }
+
+        $ctx = HtmlLoadingContext::GetCurrentContext();
         return is_string($value) && $this->getCanAddChilds() && HtmlUtils::IsHtmlContent($value)
-            && (!($ctx = HtmlLoadingContext::GetCurrentContext()) || $ctx->load_content);
+            && (!$ctx || $ctx->load_content);
     }
     /**
      * load content.
@@ -652,15 +669,18 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             // }
         }
         #endregion 
-       
-       
         $lastchild = null;
+        $container = null;
         if (is_string($n)){
-            igk_html_push_node_parent($this);
-            if ($this instanceof IHtmlContextContainer){
-                $container = $this;
-                HtmlLoadingContext::PushContext($container->getLoadingContext());
-            } 
+           igk_html_push_node_parent($this);
+           if (igk_is_debug()){
+
+               // if ($this instanceof IHtmlContextContainer){
+                   //     $container = $this;
+                   $ref_count = HtmlLoadingContext::CountCountext();
+                   //     HtmlLoadingContext::PushContext($container->getLoadingContext());
+                   // } 
+            }
             if (!$invoking && (strpos($n, ">")!==false) && (strpos($n, "?") === false)){       
                 $n = HtmlNodeTagExplosionDefinition::Core()->builder->setup($n,
                 [], $lastchild);
@@ -668,9 +688,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 $n = static::CreateWebNode($n, $attributes, $args);
             }
             $skip = igk_html_is_skipped();
-            if (isset($container)){
-                HtmlLoadingContext::PopContext();
-            }
+            // if (isset($container)){
+            //     HtmlLoadingContext::PopContext();
+            // }
             igk_html_pop_node_parent();
         } 
         if ($n && ($skip || ($this->_add($n) !== false))) {
@@ -1286,6 +1306,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public static function LoadingNodeCreator(string $name, ?array $param = null)
     { 
+        static $tag_creating = null;
         if (strpos($name, 'igk:') === 0) {
             $f = igk_create_node(substr($name, 4), null, $param);
             if ($f)
@@ -1293,9 +1314,18 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         $tb = explode(':', $name);
         if (count($tb) == 1) {
+            // + | create a simple tag name
             return new HtmlNode($name);
         } 
-        return static::CreateWebNode(...func_get_args());
+        // + | passing complex tag t_:code as exemple must be handle by the default - tag 
+        if ($tag_creating == $name){
+            // detect try to create a tag - 
+            igk_die(sprintf("not handle tag name [%s]", $name));
+        }
+        $tag_creating = $name;
+        $t = static::CreateWebNode(...func_get_args());
+        $tag_creating = null;
+        return null;
     }
     ///<summary> load file content .xphtml </summary>
     /**

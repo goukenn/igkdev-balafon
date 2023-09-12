@@ -9,6 +9,7 @@ namespace IGK\System\Models;
 use ArrayAccess;
 use Closure;
 use Exception;
+use IGK\Actions\Dispatcher;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
@@ -28,6 +29,8 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IToArrayResolver;
 use IGK\System\Traits\MacrosConstant;
 use ReflectionException;
+use ReflectionFunction;
+use ReflectionMethod;
 
 require_once IGK_LIB_CLASSES_DIR . '/Models/Inc/ModelEntryExtension.php';
 /**
@@ -685,6 +688,16 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $key = static::class . self::StaticSperator . $name;
         if ($fc = igk_getv($macros, $key)) {
             // static closure
+            if ($arguments){
+                // + | try to inject argument
+                $tc = $fc;
+                if (is_array($tc)){
+                    $tc = Closure::fromCallable($tc);
+                }
+                $parameters = (new ReflectionFunction($tc))->getParameters();
+                array_shift($parameters);
+                $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $arguments);
+            }
             array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }

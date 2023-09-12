@@ -17,10 +17,13 @@ use IGKResourceUriResolver;
 abstract class ExceptionUtils
 {
     /**
-     * 
+     * show exception 
      */
     public static function ShowException(Exception $Ex, $file = null, $line = null, $title = null)
     {
+        // + | --------------------------------------------------------------------
+        // + | show exception 
+        // + |
         // igk_trace();
         // igk_wln_e("handler ...");
         // $ex_output = "";

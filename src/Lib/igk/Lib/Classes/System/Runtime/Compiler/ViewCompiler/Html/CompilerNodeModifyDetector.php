@@ -149,11 +149,5 @@ class CompilerNodeModifyDetector extends HtmlNode
     {
         $this->m_modify = true;
         return $this->text($v);
-    }
-
-    // public function __construct()
-    // { 
-    //     parent::__construct();
-    //    //  $this->m_attributes = [];        
-    // }
+    } 
 }

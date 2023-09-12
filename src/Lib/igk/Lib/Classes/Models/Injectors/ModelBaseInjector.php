@@ -29,6 +29,6 @@ class ModelBaseInjector{
         if (IGKValidator::IsGUID($i)){
             return $this->model::fromGuid($i);
         }
-
+        /// TODO: add a column selection use in case $i is a string and not a GUID
     }
 }

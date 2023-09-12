@@ -276,8 +276,12 @@ class App{
         }
         catch (Throwable $ex){
             Logger::danger("error: throw: ".$ex->getMessage());
-            Logger::print($ex->getFile().":".$ex->getLine());
-            igk_show_exception_trace($ex->getTrace(), 0);
+            Logger::info($ex->getFile().":".$ex->getLine()); 
+            if (igk_is_debug() && !igk_environment()->NoConsoleLogger){
+                igk_show_exception_trace($ex->getTrace(), 0);
+            } else {
+                igk_exit(1, -100);
+            }
             $show_help = false;
         }
         if ($show_help)

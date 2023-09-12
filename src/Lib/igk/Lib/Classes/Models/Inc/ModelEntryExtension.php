@@ -495,18 +495,14 @@ abstract class ModelEntryExtension
         if ($ad->insert($model->getTable(), $entry, $info, $throwException)) {
             if ($update) {
                 $ref_id = $model->getRefId();
-                if (($id = $ad->last_id()) && ($id !== -1)) {
-                    // because selection : last_id missing 
-                    // if ($id =='puId'){
-                    //     igk_debug_wln_e($id , get_class($model));
-                    // }
+                if (($id = $ad->last_id()) && ($id !== -1)) {                   
                     $model->$ref_id = $id;
                     // + | update new field
                     $model->isNew();
                     $s = $model::select_row([$ref_id => $id]);
                     if (!$s) {
-
-                        igk_wln_e("could not retrieve stored data", $ref_id, $id);
+                        igk_dev_wln_e("could not retrieve stored data", $ref_id, $id);
+                        return false;
                     }
                     if (is_object($entry)) {
                         if ($s) {

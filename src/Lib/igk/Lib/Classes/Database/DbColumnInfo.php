@@ -309,9 +309,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
 
     ///<summary> get row default value</summary>
     /**
-     * 
+     * get column default value
      * @param DbColumnInfo $v 
-     * @return int|string 
+     * @return null|int|string 
      */
     public static function GetRowDefaultValue(IDbColumnInfo $v)
     {
@@ -333,5 +333,18 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             }
         }
         return $v->clDefault;
+    }
+
+    /**
+     * check for db column info
+     * @param IDbColumnInfo $v 
+     * @param mixed $value 
+     * @return bool
+     */
+    public static function IsDbColumnInfoFunction(IDbColumnInfo $v, $value):bool{
+        if ($value == 'Now()'){
+            return true;
+        }
+        return false;
     }
 }

@@ -718,7 +718,7 @@ JS;
         $frm["action"] = $this->getUri("add_view");
         $frm->addSLabelInput(IGK_FD_NAME);
         $frm->addBr();
-        $frm->addTextArea("clContent")->setClass("php-code")->setStyle("min-width: 360px; min-height:320px; padding: 4px;");
+        $frm->addTextArea("clContent")->setClass("code-php")->setStyle("min-width: 360px; min-height:320px; padding: 4px;");
         $frm->addHSep();
         $frm->addBtn("btn_save", __("Save"));
         if (igk_is_ajx_demand()) {

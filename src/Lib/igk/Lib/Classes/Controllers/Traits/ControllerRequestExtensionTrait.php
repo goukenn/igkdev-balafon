@@ -61,7 +61,7 @@ trait ControllerRequestExtensionTrait
         return $ac_response;
     }
     /**
-     * handle action response
+     * invoke action response
      * @param BaseController $controller 
      * @param string $path 
      * @param mixed $options 

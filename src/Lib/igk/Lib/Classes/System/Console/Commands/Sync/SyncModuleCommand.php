@@ -24,12 +24,14 @@ use IGK\System\Shell\OsShell;
 class SyncModuleCommand extends SyncAppExecCommandBase
 {
     var $command = "--sync:module";
-    var $desc = "sync module through ftp configuration";
+    var $desc = "sync module through ftp-sync configuration";
     var $category = "sync";
     var $help = "--[list|restore[:foldername] --clearcache  --zip";
     var $options = [
-        '--no-test'=>'flag: disable unit testing'
+        '--no-test'=>'flag: disable unit testing',
+        '--name:[sync-name]'=>'sync name'
     ];
+    var $usage = '[module_name] [options]';
     /**
      * use zip to indicate 
      * @var bool

@@ -838,7 +838,7 @@ $def[".igk-winui-bg-picturebox"] = "{sys:posab, fit} background-size: cover;";
 $def[".igk-cookie-warn"] = "{sys:no-overflow} padding:{$pad_size}; text-align:center; [trans:height 0.5s ease-in]";
 $def[".igk-cookie-warn .close"] = "{sys:dispib, posab} width:32px; right:32px; margin-top:auto; ";
 $def[".igk-cookie-warn .close svg"] = "{sys:fit}; fill:white";
-$def["code.code-php"] = "--igk-code-php-bg-color: [cl:codeBgColor]; background-color: var(--igk-code-php-bg-color)";
+$def["code.code-php"] = "--igk-code-php-bg-color: [cl:codeBgColor]; --igk-code-php-forecolor:[cl:codeForeColor]; background-color: var(--igk-code-php-bg-color); color: var(--igk-code-php-forecolor);";
 $def["code.code-php > div"] = "{sys:no-wrap}";
 $def["code.code-php > div span"] = "{sys:no-wrap}";
 $def["code.code-php > div span.s"] = "[sysfcl: phpCodeStringColor, red]";
@@ -1189,7 +1189,7 @@ foreach([16,24,32,48,64] as $k){
     $def['.size-'.$k] = 'width:'.$k.'px; height:'.$k.'px;';
 }
 
-$cl['codeBgColor'] = '#686868';
+
 
 $root['--igk-panelBoxBackgroundColor'] = '0';
 
@@ -1200,6 +1200,14 @@ $sm_screen[".igk-body"]  = "font-size:16pt;";
 // Nav-menu
 $def["nav .igk-menu.dispflex"] = "align-items: center; font-size:1rem; padding:10px 0;";
 $def["nav .igk-menu > li a"] = "{sys:dispb} padding: 0 10px;";
+
+
+// + | --------------------------------------------------------------------
+// + | system's color 
+// + |
+$cl['codeBgColor'] = '#162a40'; // default php code background color 
+$cl['codeForeColor'] = '#00f476'; // default php code fore color
+
 
 
 include_once __DIR__.'/winui/session.pcss';
