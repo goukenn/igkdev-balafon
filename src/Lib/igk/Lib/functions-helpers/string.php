@@ -18,6 +18,14 @@ function igk_str_format(string $data):string
     return stringUtility::Format(...func_get_args());
 }
 
+if (!function_exists('igk_str_assert_prepend')){    
+    function igk_str_assert_prepend(?string $data, string $prepend){
+        if ($data){
+            $data = $prepend.$data;
+        }
+        return $data;
+    }
+}
 
 
 if (!function_exists('igk_str_escape')) {

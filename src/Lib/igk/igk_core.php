@@ -14,14 +14,12 @@ use IGK\ApplicationLoader;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\RequestHandler;
-use IGK\System\IO\FileWriter as File;
-use IGK\System\IO\FileWriter;
+use IGK\System\IO\FileWriter as File; 
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as stringUtility;
 use IGK\Helper\SysUtils;
-use IGK\Helper\TraitHelper;
-use IGK\Manager\ApplicationControllerManager;
+use IGK\Helper\TraitHelper; 
 use IGK\Server;
 use IGK\System\IO\Path;
 use IGK\System\Regex\RegexConstant;
@@ -416,6 +414,24 @@ function igk_auto_load_class($name, $entryNS, $classdir, &$refile = null)
 {
     return ApplicationLoader::getInstance()->registerLoading($name, $entryNS, $classdir, $refile);
 }
+
+
+if (!function_exists('igk_io_tempdir')){
+    /**
+     * helper: create a tempory directory by using sys_get_temp_dir
+     * @param string $prefix 
+     * @return string|false the tempory directory created or false
+     */
+    function igk_io_tempdir(string $prefix = ''){
+        if ($c= tempnam(sys_get_temp_dir(), $prefix)){
+            unlink($c);
+            if (IO::CreateDir($c))
+                return $c;
+        }
+        return false;
+    }
+}
+
 function igk_io_get_script($f, $args = null)
 {
     if (file_exists($f)) {

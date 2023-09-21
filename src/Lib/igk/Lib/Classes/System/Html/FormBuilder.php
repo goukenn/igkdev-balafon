@@ -6,6 +6,7 @@
 
 namespace IGK\System\Html;
 
+use Closure;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKEvents;
@@ -339,12 +340,19 @@ class FormBuilder
                     $k = $v;
                 }
                 if (is_object($v)) {
+                    if ($v instanceof Closure){
+                        $v = $v() ?? igk_die('must return an Item or HtmlString');
+                        if (is_string($v)){
+                            $o.= $v;
+                            continue;
+                        }
+                    }
                     if ($v instanceof HtmlItemBase) {
                         $o .= $v->render();
                         continue;
                     }
-                    igk_wln($k, $v);
-                    igk_die("object not allowed");
+                    // igk_wln($k, $v);
+                    igk_die(implode('',[ __CLASS__, "object not allowed"]));
                 }
             }
             if (($cpos = strrpos($k, "[]")) !== false) {

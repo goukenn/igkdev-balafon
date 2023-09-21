@@ -188,6 +188,13 @@ define('IGK_APP_REQUEST_URI', 198);
 define('VIEW_EXTRA_ARGS', 199);
 define('IGK_APP_INFO_TYPE', 200);
 
+// + | --------------------------------------------------------------------
+// + | curl info 
+// + |
+define('IGK_ENV_CURL_RESPONSE_INFO', "curl://info");
+define('IGK_ENV_CURL_RESPONSE_GET_INFO', "curl://getinfo");
+define('IGK_ENV_CURL_RESPONSE_GET_INFO_SETTING', "curl://getinfo/setting");
+
 define("IGK_ENV_SESS_DOM_LIST", 0x201);
 define("IGK_CUSTOM_CTRL_PARAM", 0x400);
 //-------------------------------------------------------

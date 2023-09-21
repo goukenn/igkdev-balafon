@@ -12996,10 +12996,10 @@ function igk_html_unset_template_properties($node)
         }
     }
 }
-///<summary>Represente igk_html_use function</summary>
+///<summary>use preset</summary>
 ///<param name="p"></param>
 /**
- * Represente igk_html_use function
+ * use preset
  * @param mixed $p 
  */
 function igk_html_use($p)
@@ -13008,7 +13008,7 @@ function igk_html_use($p)
     if ($presets === null)
         $presets = [];
     if (!isset($presets[$p])) {
-        $f = IGK_LIB_DIR . "/Data/presets/" . $p . ".html";
+        $f = IGK_LIB_DIR . '/Data/presets/' . $p . '.html';
         if (file_exists($f)) {
             $presets[$p] = file_get_contents($f);
         }

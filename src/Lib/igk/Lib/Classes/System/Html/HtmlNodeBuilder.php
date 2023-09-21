@@ -668,4 +668,14 @@ class HtmlNodeBuilder
             $node->activate(trim($k));
         }
     }
+    /**
+     * run builder generator on target node
+     * @param HtmlItemBase $node 
+     * @param array $definition 
+     * @return mixed 
+     */
+    public static function RunBuild(HtmlItemBase $node, array $definition){
+        $s = new static($node);
+        return $s($definition);
+    }
 }

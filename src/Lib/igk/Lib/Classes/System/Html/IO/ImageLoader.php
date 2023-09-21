@@ -32,8 +32,8 @@ class ImageLoader{
             if ( ($c = igk_curl_status())==200){
             $g = new Uri($uri);
             $path = hash($this->hash,  $g->getPath());
-            $info = igk_curl_get_info();
-            $mimetype = $info[CURLINFO_CONTENT_TYPE];
+            $info = igk_curl_info();
+            $mimetype = igk_getv($info, 'Content-Type'); // [CURLINFO_CONTENT_TYPE];
             $ext = igk_curl_get_extension($mimetype);
             
             if (!preg_match("#(\.".ltrim($ext,'.').")$#", $path)){

@@ -29,4 +29,7 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate
     {
         parent::__construct($data);
     } 
+    public function __set(string $name, $args){
+        $this->p_data[$name] = $args;
+    }
 }

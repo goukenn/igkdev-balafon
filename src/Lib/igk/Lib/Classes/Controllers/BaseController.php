@@ -521,7 +521,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                         $ex->getLine()
                     ]));
                     igk_set_header(500); 
-                    Logger::danger("path error: " . $ex->getMessage());
+                    Logger::danger("[BLF] - path error: " . $ex->getMessage());
                     ExceptionUtils::ShowException($ex);
                     igk_exit();
                 }

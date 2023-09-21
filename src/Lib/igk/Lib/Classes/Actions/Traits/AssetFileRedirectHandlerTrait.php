@@ -21,6 +21,6 @@ trait AssetFileRedirectHandlerTrait{
             $dir = '/'.igk_str_rm_start($dir, "../"); 
             igk_navto($dir);
         } 
-        throw new ResourceNotFoundException("missing asset : ".$fc, $fc);        
+        throw new ResourceNotFoundException(sprintf("Missing asset : [%s]",$fc), $fc);        
     }
 }

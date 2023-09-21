@@ -14,20 +14,15 @@ use IGK\Actions\Dispatcher;
 use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerEnvParams;
-use IGK\Controllers\ControllerParams;
-use IGK\Helper\ActionHelper;
-use IGK\Helper\ExceptionUtils;
+use IGK\Controllers\ControllerEnvParams; 
+use IGK\Helper\ActionHelper; 
 use IGK\Helper\ViewHelper;
-use IGK\System\Exceptions\ActionNotFoundException;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Exceptions\ActionNotFoundException; 
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponse;
 use IGK\System\Http\Route;
-use IGK\System\Http\Traits\HeaderOptionResponseTrait;
-use IGK\System\Http\WebResponse;
+use IGK\System\Http\Traits\HeaderOptionResponseTrait; 
 use IGK\System\Traits\InjectableTrait;
 
 /**
@@ -398,7 +393,6 @@ abstract class IGKActionBase implements IActionProcessor
         // + | --------------------------------------------------------------------
         // + | by default in ajx context and not null 
         // + |
-        
         return ((igk_is_ajx_demand() || igk_server()->accept('json')) && !is_null($response)) 
         || ($response instanceof RequestResponse);
     }
@@ -489,7 +483,7 @@ abstract class IGKActionBase implements IActionProcessor
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
                 // + |      
-                if ($exit || ($_host->_handleResponse($c))) {
+                if ($exit || ($_host->_handleResponse($c))) { 
                     return igk_do_response($c);
                 }
             } catch (IGK\System\Http\RequestException $ex) {

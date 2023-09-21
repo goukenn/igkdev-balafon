@@ -444,13 +444,20 @@ class Path
      */
     public static function Combine(...$path)
     {
+        $sep = '/';
         $path = array_values(array_filter(array_values($path)));
         if ($path) {
-            $p = rtrim($path[0], DIRECTORY_SEPARATOR);
+            $p = rtrim($path[0], $sep);           
             $path = array_slice($path, 1);
             $path = array_map(self::class . "::TrimDir", $path);
-            array_unshift($path, $p);
-            return igk_uri(implode(DIRECTORY_SEPARATOR, array_filter($path)));
+            $r = '';
+            if (!empty($p)){
+                array_unshift($path, $p);
+            }
+            else{
+                $r = $sep;
+            }
+            return $r.igk_uri(implode($sep, array_filter($path)));
         }
         return null;
     }
@@ -509,19 +516,19 @@ class Path
             while (count($g) > 0) {
                 $q = array_shift($g);
                 if (empty($p)) {
-                    $p = $q;
+                    $p = rtrim($q, '/');
                     continue;
                 }
                 $p = dirname($p);
                 if (empty($q)) {
                     continue;
                 } else {
-                    $p .= "/" . $q;
+                    $p = self::Combine($p, $q);
                 }
             }
             $s = $p;
         }
-        $s = str_replace("/./", "/", $s);
+        $s = str_replace("/./", "/", $s); 
         return $s;
     }
 

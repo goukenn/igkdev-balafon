@@ -47,6 +47,9 @@ class ModuleMakeClassCommand extends AppExecCommand{
         }
         $ns = $mod->getEntryNamespace();        
         $dir = ($test ? $mod->getTestClassesDir(): $mod->getClassesDir());       
+        if ($test && !igk_str_endwith($class_path, 'Test')){
+            $class_path .= 'Test';
+        }
         if ($f = $this->makeClass($command, $dir, $class_path, $type, $ns,$extends, $desc, $force )){
             Logger::success($f);
             return 0;

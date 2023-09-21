@@ -31,8 +31,7 @@ trait SysUserPasswordManagementActionTrait
             $this->warning('already connected');
             $this->redirectTo(null);
             return $current_user;
-        }
-        igk_wln_e("lkjsdf");
+        } 
 
         if ($token) {
             // activate first

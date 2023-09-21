@@ -464,7 +464,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
      * @return bool get if close tag
      */
-    public function closeTag()
+    public function closeTag():bool
     {
         return true;
     }

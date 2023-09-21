@@ -9288,7 +9288,10 @@ Name:balafon.js
             },
             replace: function(uri, data) {
                 if (typeof(window.history.replaceState) == "function") {
-                    window.history.replaceState(data, null, uri);
+                    let p = new URL(uri);
+                    if (document.location.host == p.host){
+                        window.history.replaceState(data, null, uri);
+                    }
                 } else {
                     console.debug("no history state available");
                 }
@@ -12743,59 +12746,7 @@ Name:balafon.js
             }
         });
     })();
-
-    // ns uri
-    // (function() {
-    //     createNS("igk.io.file", {
-    //         // / TODO::check to download data builded with javascript
-    //         download: function(t, n, v) {
-    //             // t: mime-type image/png
-    //             // n: name
-    //             // v: value 
-    //             var a = igk.createNode("a");
-    //             var data = new Blob([v], { "type": t });
-    //             igk.dom.body().appendChild(a.o); // not require in IE 
-    //             a.o.download = n || "file.data"; // f
-    //             a.o.href = URL.createObjectURL(data);
-    //             a.o.type = t;
-    //             a.o.click();
-    //             a.remove();
-    //             return 1;
-    //         }
-    //     });
-
-    //     // -------------------------------------------------------------------
-    //     // testing xsl transformation
-    //     // -------------------------------------------------------------------
-    //     // xml=new ActiveXObject("MSXML2.DOMDocument");
-    //     // xml.async=false;
-    //     // xml.loadXML(xmltxt);
-    //     // igk_show_prop(xml);
-    //     // igk.io.xml.parseString("info");
-    //     // var doc =igk.dom.createDocument();// document.implementation.createDocument(null,"root",null);
-    //     // doc.async=false;
-    //     // __igk(doc).reg_event("readystatechange",function(evt){
-    //     // if(evt.readyState==4){
-    //     // doc =igk.dom.createDocument();
-    //     // doc.async=false;
-    //     // xsl =doc.load("Lib/igk/Scripts/demo.xsl").firstChild;
-    //     // }
-    //     // });
-    //     // igk.ready(function(){
-    //     // document.write(doc.firstChild.outerHTML);
-    //     // });
-    //     // doc.load && doc.load("Lib/igk/Scripts/data.xml",function(evt){
-    //     // var doc2 =igk.dom.createDocument();
-    //     // doc2.async=false;
-    //     // var	xsl=doc2.load("Lib/igk/Scripts/demo.xsl");
-    //     // var ex=igk.dom.transformXSL(doc,xsl);
-    //     // var ex= doc.firstChild.transformNode(xsl);
-    //     // }
-    //     // );
-    //     // document.write(doc.firstChild);
-    //     // igk.ajx.load("Lib/igk/Scripts/data.xml");
-    //     // doc.open("Lib/igk/Scripts/data.xml");		
-    // })();
+ 
     window.onbeforeunload = function(evt) {
         if (igk_freeEventContext) {
             // free all context

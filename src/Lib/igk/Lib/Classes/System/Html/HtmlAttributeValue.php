@@ -7,8 +7,16 @@
 
 namespace IGK\System\Html;
 
-abstract class HtmlAttributeValue implements IHtmlGetValue{
+/**
+ * attribute value
+ * @package IGK\System\Html
+ */
+class HtmlAttributeValue implements IHtmlGetValue{
     protected $value;
+
+    public function getValue($options = null) { 
+        return $this->value;
+    }
 
     public function setValue($value){
         $this->value = $value;

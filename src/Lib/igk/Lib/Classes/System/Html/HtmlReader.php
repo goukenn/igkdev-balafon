@@ -48,8 +48,14 @@ final class HtmlReader extends IGKObject
     const READ_HTML = "HTML";
     const LOAD_EXPRESSION = "LoadExpression";
     private $m_attribs, $m_contextLevel, $m_hasAttrib, $m_hfile,
+        $m_selfClose,
         $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v;
 
+    /**
+     * last read for empty 
+     * @var ?HtmlItemBase
+     */
+    private $m_last_read_node;
     /**
      * @var ?IHtmlReadContextOptions|mixed
      */
@@ -819,6 +825,7 @@ final class HtmlReader extends IGKObject
         //$escape = false;
         $pro_expr = "";
         $expr_attrib = false;
+        $reader->m_selfClose = false; // detect that the attribute list is self closed
 
 
         while (!$end && $reader->CanRead()) {
@@ -935,12 +942,13 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case ">":
-                    //+ attempt to close tag 
+                    // + | attempt to close tag 
                     $end = true;
                     $v = substr($v, 0, -1);
                     if (substr($v, -1) == "/") {
                         $v = substr($v, 0, -1);
                         $reader->m_isEmpty = true;
+                        $reader->m_selfClose = true;
                     } else {
                         if ($reader->m_context == HtmlContext::Html) {
                             // special closing tag
@@ -1133,7 +1141,11 @@ final class HtmlReader extends IGKObject
                             }
                         } else {
                             if (($n == $t) || $cnode->closeTag() || $cnode->isCloseTag($n) || $reader->IsResolved($cnode, $n)) {
-
+                                if ($reader->m_last_read_node && 
+                                ($reader->m_last_read_node->getTagName()==$n)){
+                                    $reader->m_last_read_node = null;
+                                    break;
+                                }
                                 if ($n != $t) {
                                     // + | detect error start with different closing tag expected $t but found -$n
                                     $peek = $v_tags ? $v_tags[0] : null;
@@ -1158,8 +1170,8 @@ final class HtmlReader extends IGKObject
                                                 $reader->m_errors['warnings'][] = 'missing close tag for : ' . $t;
                                             }
                                             if (!$empty) {
-                                                igk_die("missing close tag for " . $t
-                                                    . " offset:" . $reader->m_offset .
+                                                igk_die("missing close tag for [" . $t
+                                                    . "] offset:" . $reader->m_offset .
                                                     " data: " . $n .
                                                     " info:" . json_encode($peek) . PHP_EOL .
                                                     " source: " . ($peek ? $peek->source_tagname : null));
@@ -1312,7 +1324,11 @@ final class HtmlReader extends IGKObject
                     return;
                 }
                 if ($reader->IsEmpty() && $cnode) {
-
+                    // move to parent if node is empty 
+                    if (!$reader->getSelfClosed()){
+                        $reader->m_last_read_node = $cnode;
+                    }
+                    
                     $cnode = $reader->_LoadComplete($cnode, $v_n);
                     if ($cnode === $tab_doc) {
                         $cnode = null;
@@ -1925,6 +1941,13 @@ final class HtmlReader extends IGKObject
         $n = self::_ReadName($this->m_text, strlen($this->m_text), $this->m_offset, $v_evaltransform, $expressRead);
 
         return $n;
+    }
+    /**
+     * get if element is self closed
+     * @return ?bool 
+     */
+    public function getSelfClosed(){
+        return $this->m_selfClose;
     }
     ///<summary>Represente ReadProcessText function</summary>
     ///<param name="reader"></param>

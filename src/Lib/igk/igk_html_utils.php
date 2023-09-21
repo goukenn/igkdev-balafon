@@ -122,11 +122,7 @@ function igk_html_get_class_callable($name, $method)
 }
 
 
-function igk_html_validate()
-{
-    //TODO: implement validation error
-    throw new IGKException("Not Implement");
-}
+ 
 function igk_html_print_r($args)
 {
     igk_wl_pre($args);
