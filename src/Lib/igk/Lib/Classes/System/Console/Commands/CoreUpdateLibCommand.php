@@ -42,7 +42,7 @@ class CoreUpdateLibCommand extends AppExecCommand{
                     $old_version = IGK_VERSION;              
                     igk_zip_unzip($tempfile, IGK_LIB_DIR."/../../");
 
-                    if(function_exists('opcache_reset') && !ini_get('restrict_api') && opcache_reset()){
+                    if(function_exists('opcache_reset') && !ini_get('restrict_api') && @opcache_reset()){
                     Logger::info("old version : ".$old_version);
                     Logger::info("new version : ".IGK_VERSION);                    
                     }

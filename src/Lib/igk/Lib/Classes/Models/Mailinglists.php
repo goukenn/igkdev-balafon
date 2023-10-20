@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Mailinglists.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -13,7 +13,7 @@ use IGK\Models\ModelBase;
 * @package IGK\Models
 * @property int $clId
 * @property string $clml_email
-* @property int $clml_state
+* @property int $clml_state 0|1 (no-active, active)
 * @property string $clml_source
 * @property string $clml_locale ="en"
 * @property string $clml_init

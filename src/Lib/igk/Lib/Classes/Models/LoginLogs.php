@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: LoginLogs.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -15,14 +15,14 @@ use IGK\Models\ModelBase;
 * @property string $loglogs_UserGuid
 * @property string $loglogs_Agent
 * @property string $loglogs_IP
-* @property float $loglogs_GeoX
-* @property float $loglogs_GeoY
+* @property float $loglogs_GeoX location x
+* @property float $loglogs_GeoY location y
 * @property string $loglogs_Region
 * @property string $loglogs_Code
 * @property string $loglogs_CountryName
 * @property string $loglogs_City
-* @property int $loglogs_Status
-* @property string $loglogs_Description
+* @property int $loglogs_Status 0 = loggin, 1 = logut
+* @property string $loglogs_Description location y
 * @property string|datetime $regLinkCreate_At ="NOW()"
 * @property string|datetime $regLinkUpdate_At ="NOW()"
 * @method static ?self Add(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry helper

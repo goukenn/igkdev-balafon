@@ -247,7 +247,7 @@ class ApplicationLoader
                     if (!is_dir($c["classdir"]) || (!empty($ns = $c["namespace"]) && (strpos($n, ltrim($ns . "\\", "\\")) !== 0))) {
                         continue;
                     }
-                    $fc = $c["callable"];
+                    $fc = $c["callable"];   
                     if ($fc($n)) {
                         return 1;
                     }

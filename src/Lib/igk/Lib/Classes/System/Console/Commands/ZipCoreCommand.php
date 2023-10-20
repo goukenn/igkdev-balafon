@@ -34,7 +34,22 @@ class ZipCoreCommand extends AppExecCommand{
             return -1;
         }
         $no_check = property_exists($command->options, "--no-test");
+        $v_punit = property_exists($command->options, "--phpunit");
+
         igk_set_timeout(0);
+       
+
+        // + | --------------------------------------------------------------------
+        // + | run unit test before create a zip
+        if ((!$no_check || $v_punit) && $phpunit = OsShell::Where('phpunit')){
+            $core_suite = igk_getv($command,'--core-test-suite','core');
+            $r = PhpUnitHelper::TestCoreProject($phpunit, $core_suite);
+            if ($r){
+                return $r;
+            } 
+            echo PHP_EOL;       
+        }
+
         if (!$no_check)
         {
             // + | --------------------------------------------------------------------
@@ -44,17 +59,6 @@ class ZipCoreCommand extends AppExecCommand{
                 return $r;
             }  
             echo PHP_EOL;         
-        }
-
-        // + | --------------------------------------------------------------------
-        // + | run unit test before create a zip
-        if (!$no_check && $phpunit = OsShell::Where('phpunit')){
-            $core_suite = igk_getv($command,'--core-test-suite','core');
-            $r = PhpUnitHelper::TestCoreProject($phpunit, $core_suite);
-            if ($r){
-                return $r;
-            } 
-            echo PHP_EOL;       
         }
  
         $ext = "-".date("Ymd").".zip";

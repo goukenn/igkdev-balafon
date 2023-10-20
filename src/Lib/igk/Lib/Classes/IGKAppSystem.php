@@ -55,8 +55,7 @@ class IGKAppSystem
         $project_dir = igk_io_projectdir();
         $app_dir = igk_io_applicationdir();
         $confFILE = self::_GetConfigFile(); 
-
-        /// TODO: force init
+ 
         if (!(defined('IGK_INIT') && IGK_INIT) && file_exists($confFILE)) {
             foreach ([igk_io_cachedir(), igk_io_basedir() . "/" . IGK_RES_FOLDER] as $cdir) {
                 !is_dir($cdir) && IO::Createdir($cdir);

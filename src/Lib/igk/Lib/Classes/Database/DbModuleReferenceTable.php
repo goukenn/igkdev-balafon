@@ -66,17 +66,7 @@ class DbModuleReferenceTable implements ArrayAccess{
         // $host = $this->m_controller->getHost();
         // $hostname = $host instanceof ApplicationModuleController ? $host->getName() : 
         //     get_class($host);
-        $this->m_request_changed[$n] = & $table;
-        /// TODO:: attache to columns info 
-        // $inf = & $this->m_request_changed[$n]->columnInfo;
-        // $tv = igk_getv($inf, 'clIsUsedBy');
-        // if (!empty($tv)){
-        //     $inf['clIsUserBy'] =  igk_array_unique_string(',', $tv, $host);
-        //    // $inf['clIsUserBy'] = $hostname;
-        // }else 
-        //     $inf['clIsUserBy'] = 'hostname';
-        // igk_setv($inf, 'clIsUsedBy', $hostname );
-        //$this->m_request_changed[$n]->columnInfo->clIsUsedBy = $hostname;
+        $this->m_request_changed[$n] = & $table; 
         return $table;
         
     }

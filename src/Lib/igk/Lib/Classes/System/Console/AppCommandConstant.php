@@ -7,15 +7,13 @@
 namespace IGK\System\Console;
 
 abstract class AppCommandConstant{
+    const COMMAND_LIST= '.command.list.pinc'; 
+    const ENV = '.balafon';
     /**
      * get cache file 
      * @return string 
      */
     public static function GetCacheFile():string{
-        $fn = ".command.list.pinc";
-        if ($cachedir = igk_io_cachedir()){
-            return $cachedir."/".$fn; 
-        }
-        return IGK_LIB_DIR."/.Caches/".$fn;
+        return App::GetAppBasePath()."/".self::ENV."/".self::COMMAND_LIST;  
     }
 }

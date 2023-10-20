@@ -50,4 +50,11 @@ class FieldInfo implements IFormFieldOptions{
      * @var mixed
      */
     var $placeholder;
+
+
+    /**
+     * min length
+     * @var ?int
+     */
+    var $minLength;
 }

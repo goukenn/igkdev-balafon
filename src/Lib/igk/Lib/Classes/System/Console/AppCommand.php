@@ -12,6 +12,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\Console\AppCommandConstant;
 use IGK\System\Console\AppCommandOptions;
+use IGK\System\Console\Commands\BalafonCLICommand;
 use IGK\System\Console\Commands\InitCommand;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -112,6 +113,9 @@ abstract class AppCommand {
             $loaded_command = [];
 
             foreach(get_declared_classes() as $cl){
+                if ($cl == BalafonCLICommand::class){
+                    continue;
+                }
                 if (is_subclass_of($cl, __CLASS__)){
                     if (!(igk_sys_reflect_class($cl))->isAbstract()){
                         // init command that contains Init

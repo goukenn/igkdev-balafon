@@ -1289,7 +1289,7 @@ abstract class ControllerExtension
                     igk_ilog('login connect: > ' . $u);
                     $check = true; 
                 } else {
-                    Logger::danger('connection failed.' . igk_environment()->get('connect_error'));
+                    Logger::danger(igk_ilog_m('connection failed.' . igk_environment()->get('connect_error')));
                     igk_ilog('login failed: > ' . $u);
                 }
             }
@@ -2318,6 +2318,8 @@ abstract class ControllerExtension
      */
     public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null): ?string
     {
+        
+
         // + | --------------------------------------------------------------------
         // + | detect action to call - base on request name and params
         // + |

@@ -8,6 +8,7 @@
 ///<summary>Represente class: IGKValidator</summary>
 
 use IGK\System\Html\Forms\IFormValidator;
+use IGK\System\Html\Forms\PasswordValidator;
 
 /**
 * Represente IGKValidator class
@@ -241,15 +242,11 @@ final class IGKValidator extends IGKObject {
     */
     public static function IsValidPwd($o){
 
-        // preg_match_all("/n(?=j)/", "bonjonurna" , $tab, PREG_OFFSET_CAPTURE);
-        // print_r($tab);
-        // igk_wln_e($tab);
-
-
-        if((is_string($o) && strlen($o)>=self::PWD_MIN_LENGTH)){
-            return true;
+        static $validator;
+        if (is_null($validator)){
+            $validator = new PasswordValidator;
         }
-        return false;
+        return $validator->validate($o) == $o; 
     }
     ///<summary></summary>
     ///<param name="o"></param>

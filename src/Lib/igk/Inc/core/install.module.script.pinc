@@ -133,48 +133,8 @@ if (!function_exists('igk_server_resolv_home')){
     }
 }
 
-
-class InstallerResponse
-{
-    var $code;
-    /**
-     * installer response header
-     * @var array
-     */
-    var $header = [];
-    public function __construct()
-    {
-        $this->code = 200;
-    }
-    public function setHeader()
-    {
-        $reponses = [
-            "200" => "HTTP/1.0 200 OK",
-            "404" => "HTTP/1.0 404 Not Found",
-            "500" => "HTTP/1.0 500 Server misconfiguration",
-            "503" => "HTTP/1.0 500 Installer Directory is link",
-        ];
-        $msg = $reponses[$this->code];
-        header($msg);
-        foreach ($this->header as $k) {
-            header($k);
-        }
-    }
-    public function die(string $msg, $code = 200)
-    {
-        $this->code = $code;
-        $this->setHeader();
-        die($msg);
-    }
-    public function Response($data, $contentType = "text/html")
-    {
-        $this->header[] = "Content-Type: " . $contentType;
-        $this->code = 200;
-        $this->setHeader();
-        echo $data;
-        exit;
-    }
-}
+//#{{@Inc(class.InstallerResponse.pinc)}}
+ 
 
 // %token%
 

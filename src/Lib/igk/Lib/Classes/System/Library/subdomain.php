@@ -108,7 +108,7 @@ class subdomain{
             } 
             $page="{$entry}".$uri;
             $actionctrl=igk_getctrl(IGK_SYSACTION_CTRL);
-            $k=IGK_REG_ACTION_METH;
+            $k=IGK_REG_ACTION_METH_OPTIONS;
             $pattern=igk_sys_ac_getpattern($k);
             $e=new IGKSystemUriActionPatternInfo(array(
                 "action"=>$k,

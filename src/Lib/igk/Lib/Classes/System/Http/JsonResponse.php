@@ -30,6 +30,11 @@ class JsonResponse extends RequestResponse{
         $this->data = $data;
         $this->code = $code;
         if (!is_null($headers)){
+            // filter passing content types
+            $headers = array_filter($headers, function($f){
+                return !igk_str_startwith($f,'Content-Type');
+            });
+
             $this->headers = array_merge($headers, $this->headers);
         }
         parent::__construct();

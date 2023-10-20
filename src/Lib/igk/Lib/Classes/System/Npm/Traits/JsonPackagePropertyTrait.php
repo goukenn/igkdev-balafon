@@ -21,6 +21,14 @@ trait JsonPackagePropertyTrait{
     var $license;
     var $dependencies;
     var $devDependencies;
+
+    var $module;
+
+    /**
+     * type of the module
+     * @var ?string module|commonjs
+     */
+    var $type;
     /**
      * indicate that the package is private 
      * @var ?bool

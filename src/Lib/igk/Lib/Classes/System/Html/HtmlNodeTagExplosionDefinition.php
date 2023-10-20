@@ -183,6 +183,8 @@ class HtmlNodeTagExplosionDefinition
             $r = new ConfigurationReader();
             $r->separator = ':';
             $r->delimiter = ',';
+            $r->escape_start = "[";
+            $r->escape_end = ']';
             $attr = ArrayMapKeyValue::Map(function($k,$v){
                 if (is_null($v)){
                     if (strpos($k, "@")===0){

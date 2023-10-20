@@ -36,5 +36,11 @@ abstract class FormFieldValidatorBase implements IFormValidator{
     {
         return $this->_required;
     }
+    /**
+     * init field info
+     * @return ?FieldInfo 
+     */
+    protected function _initFieldRequirement(){        
+    }
 
 }

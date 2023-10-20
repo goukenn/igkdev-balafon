@@ -9,12 +9,21 @@ namespace IGK\Helper;
 use IGK\Actions\IActionRequestValidator;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\Http\Request;
+use IGKException;
 
 /**
  * 
  * @package IGK\Helper;
  */
 class Activator{
+    /**
+     * use to get only public class variable. of the a class
+     * @param mixed $class_name 
+     * @return array 
+     */
+    public static function GetClassVar($class_name){
+        return get_class_vars($class_name);
+    }
     static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, & $errors=null){
         
         $validation = (method_exists($class_name, $fc = 'ValidationData') ? 
@@ -101,6 +110,13 @@ class Activator{
         }
         return $g;
     }
+    /**
+     * bind value properties
+     * @param mixed $p 
+     * @param mixed $v 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function BindProperties($p, $v){
         $tvar = array_keys(get_class_vars(get_class($p)));
         foreach($tvar as $k ){

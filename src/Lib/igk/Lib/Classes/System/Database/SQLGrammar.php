@@ -701,7 +701,10 @@ class SQLGrammar implements IDbQueryGrammar
                     $v_v .= "NULL ";
                 } else if (is_object($v) && method_exists($v, "getValue")) {
                     $v_v .= "" . $v->getValue();
-                } else
+                } else if (is_numeric($v)){
+                    $v_v .= $v;
+                }
+                else
                     $v_v .= "'" . $this->m_driver->escape_string($v) . "'";
             }
         }
@@ -1412,7 +1415,7 @@ class SQLGrammar implements IDbQueryGrammar
     ///<summary></summary>
     ///<param name="options"></param>
     /**
-     * 
+     * Order query extra options
      * @param mixed $options
      */
     protected static function GetExtraOptions($options, $ad)
@@ -1489,7 +1492,8 @@ class SQLGrammar implements IDbQueryGrammar
                             $h = $v;
                         }
                     }
-                    $query .= "Limit " . $h;
+                    $optset[$k] = $h;
+                    // $query .= " Limit " . $h;
                     break;
                 case queryConstant::Joins:
                     $_buildjoins($v, $join);
@@ -1570,9 +1574,12 @@ class SQLGrammar implements IDbQueryGrammar
                 if (is_numeric($offset = getv($options, "LimitOffset"))) {
                     $lim = $ad->escape_string($offset) . ", " . $lim;
                 }
-                $q .= " Limit " . $lim;
+                $query.= " Limit " . $lim;
             }
+        } else {
+            $query .= " Limit ".$optset['Limit'];
         }
+        $query = trim($query);
 
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
     }

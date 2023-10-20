@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookTypes.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -14,7 +14,7 @@ use IGK\Models\ModelBase;
 * @property int $rcphbt_Id
 * @property string $rcphbt_Name
 * @property string $rcphbt_Cat
-* @property int $rcphbt_Cardinality
+* @property int $rcphbt_Cardinality cardinality of the entry
 * @property string|datetime $rcphb_Create_At ="Now()"
 * @property string|datetime $rcphb_Update_At ="Now()"
 * @method static ?self Add(string $rcphbt_Name, string $rcphbt_Cat, int $rcphbt_Cardinality, string|datetime $rcphb_Create_At ="Now()", string|datetime $rcphb_Update_At ="Now()") add entry helper

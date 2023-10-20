@@ -138,6 +138,22 @@ class IGKEvents extends IGKObject
     private $m_name;
     private $m_owner;
     private $m_singlemethod;
+
+
+    /**
+     * register hook callback
+     * @param string $hookKey 
+     * @param mixed $callback 
+     * @return void 
+     */
+    public static function UnregComplete(string $hookKey, $callback){
+        $m = function($e)use($callback, & $m, $hookKey){
+            if ($callback($e) === false)return; 
+            igk_unreg_hook($hookKey, $m);
+        };
+        igk_reg_hook($hookKey,$m); 
+    }
+
     ///<summary></summary>
     ///<param name="owner"></param>
     ///<param name="name"></param>
@@ -439,6 +455,9 @@ class IGKEvents extends IGKObject
         if (is_null($callback)){
             unset($hooks[$name]);
             return true;
+        }
+        if (!isset($hooks[$name])){
+            return false;
         }
         if (!isset($hooks[$name]->list)){
             $hooks[$name]->list = [];

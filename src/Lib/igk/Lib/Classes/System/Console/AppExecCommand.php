@@ -57,6 +57,10 @@ abstract class AppExecCommand extends AppCommand{
     public function run($args, $command)
     {
         if ($this->handle){
+            if ( $command->exec ){
+                $command->options->{$args} = 1;
+                return;
+            }
             $command->exec = function($command){
                 if (property_exists($command->options, "--help")){
                     $h= $this->help();

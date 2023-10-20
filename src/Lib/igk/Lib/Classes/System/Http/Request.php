@@ -230,7 +230,12 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $this->get($name);
     }
-    private function getQueryInfo(){
+    /**
+     * get query option
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function getQueryInfo(){
         if (is_null($this->m_query_info)){
             $inf = igk_io_query_info();
             $v_eu = $inf->entryuri;

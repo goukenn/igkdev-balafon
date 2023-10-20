@@ -659,7 +659,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
 
     /**
-     * create able info query
+     * create table info query
      * @param SQLGrammar $grammar 
      * @param string $table 
      * @param string $dbname 
@@ -670,18 +670,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $tbname = $this->m_dbManager->escape_string($table);
         $query =  "DESCRIBE ".$tbname. " ".$column;
-        return $query;
-        // $query = $grammar->createSelectQuery(
-        //     DataAdapter::DB_INFORMATION_SCHEMA.".columns",
-        //     [
-        //         "table_schema" => $dbname,
-        //         "table_name" => $table,
-        //         'column_name'=>$column
-        //     ]
-        // );
-        // return $query;
+        return $query; 
     }
 }
-
-
-// }
+ 

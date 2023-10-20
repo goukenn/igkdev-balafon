@@ -14,6 +14,17 @@ use IGK\System\Html\HtmlUtils;
 class CoreFunctionsTest extends BaseTestCase
 {
 
+    public function test_func_igk_dirname(){
+        $pd1 = igk_dirname('');
+        $this->assertEquals($pd1, '');
+        $pd1 = igk_dirname('/');
+        $this->assertEquals($pd1, '');
+        $pd1 = igk_dirname('dfara');
+        $this->assertEquals($pd1, '');
+        $pd1 = igk_dirname('/draard/sdfsq');
+        $this->assertEquals($pd1, '/draard');
+
+    }
     public function test_snake_1(){
 
         $this->assertEquals(

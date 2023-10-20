@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Apps.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -14,7 +14,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clName
 * @property string $clDownloadTime
-* @property string|datetime $clLast
+* @property string|datetime $clLast Last download time
 * @method static ?self Add(string $clName, string $clDownloadTime, string|datetime $clLast) add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clDownloadTime, string|datetime $clLast) add entry if not exists. check for unique column.
 * */

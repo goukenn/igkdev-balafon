@@ -144,9 +144,16 @@ class InstallSite
         $public_folder = $folder . "/" . $c_public;
         $app_folder = rtrim($folder . "/" . $c_app, "/");
 
+        // + | --------------------------------------------------------------------
+        // + | chain lib directory 
+        // + |
+        
         if (!is_link($lnk = $app_folder . "/Lib/igk") && !file_exists($lnk)) {
             igk_io_createdir(dirname($lnk));
-            symlink(dirname($core), $lnk);
+            // + | relative path is important. some directory no allow reading link resources.
+            $v_tlib = igk_io_get_relativepath(dirname($core).'/', $lnk);
+            @symlink($v_tlib, $lnk);
+            unset($v_tlib);
         }
         // + | package folder
         $lnk = $app_folder . "/" . IGK_PACKAGES_FOLDER;

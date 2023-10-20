@@ -11,7 +11,50 @@
 ///<param name="dbname" default="null"></param>
 ///<param name="leaveOpen" default="false"></param>
 
+use IGK\Controllers\BaseController;
 use IGK\Database\DbSchemas;
+
+
+
+if (!function_exists('igk_db_table_info')) {
+
+    /**
+     * operate on table information with a callback 
+     * @param BaseController $ctrl 
+     * @param callable $callback 
+     * @param bool $connect do not require Adapter connection  
+     * @return void 
+     * @throws IGKException 
+     */
+    function igk_db_table_info(BaseController $ctrl,callable $callback,bool $connect=true)
+    {
+        $db = $ctrl->getDataAdapter();
+        if (!$ctrl->getUseDataSchema()) {
+            if (
+                !empty($table = $ctrl->getDataTableName()) &&
+                ($info = $ctrl->getDataTableInfo()) 
+                && ($connect || ($db && $db->connect()))
+            ) {
+                $table = igk_db_get_table_name($table, $ctrl);
+                $callback($table, $info);
+                $connect || $db->close();
+            }
+        } else {
+            $tb = $ctrl::loadDataFromSchemas();
+            if ($connect || ($db && $db->connect())) {
+                $v_tblist = [];
+                if ($tables = igk_getv($tb, "tables")) {
+                    foreach (array_keys($tables) as $k) {
+                        $v_tblist[$k] = $k;
+                        $callback($k, $tables[$k]);
+                    }
+                }
+                $connect || $db->close();
+            }
+        }
+    }
+}
+
 
 /**
  * helper: reload with index .

@@ -93,6 +93,7 @@ class SchemaMigration
         $qtb = [$n];
         $v_loadschema = [];
         $v_roots = [];
+        $v_tprefix = null;
         while (count($qtb) > 0) {
             // looping thru node 
             $n = array_shift($qtb);
@@ -198,12 +199,13 @@ class SchemaMigration
                     $fconstraints = Activator::CreateNewInstance(SchemaForeignConstraintInfo::class, compact('on', 'from', 'columns', 'foreignKeyName'));
                 }
 
+                $v_tprefix = igk_getv($v, 'prefix');
                 $info = new SchemaMigrationInfo;
                 $info->defTableName = $stb;
                 $info->columnInfo = $c;
                 $info->controller = $ctrl;
                 $info->tableName = $tb;
-                $info->prefix = $prefix;
+                $info->prefix = $v_tprefix;
                 $info->description = igk_getv($v,  DbColumnInfoPropertyConstants::Description);
                 $info->entries = igk_getv(
                     $tentries,
@@ -225,6 +227,7 @@ class SchemaMigration
                 $v_mlist = $nmigrations->getElementsByTagName(DbSchemas::MIGRATION_TAG);
                 switch ($this->operation) {
                     case DbSchemasConstants::Downgrade:
+                        if (!empty($tables))
                         $v_mlist && $this->downgrade($v_mlist, $tables, $ctrl);
                         break;
                     default:
@@ -551,7 +554,11 @@ class SchemaMigration
                 break;
             case DbSchemasConstants::OP_ADD_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                $tabcl = &$tables[$tb]->columnInfo;
+                $ref = igk_getv($tables, $tb);
+                if (is_null($ref)){
+                    igk_wln_e("is null");
+                }
+                $tabcl = & $tables[$tb]->columnInfo;
                 $columns = $item->columns;
                 // $item->columnInfo = $tabcl[$item->column];
                 foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {

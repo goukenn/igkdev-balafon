@@ -12,6 +12,7 @@ use IGK\Database\DataAdapterBase;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\IO;
 use IGK\System\Database\SQLGrammar;
+use IGK\System\IO\CSV\Helper\CSVHelper;
 
 /**
 * Represente IGKCSVDataAdapter class
@@ -20,6 +21,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_ctrl;
     private $m_dbname;
     private $m_fhandle;
+
+    const DELIMITER = '"';
+    const SEPARATOR = ',';
 
     public function getDateTimeFormat(): string {
         return IGK_MYSQL_TIME_FORMAT;
@@ -181,40 +185,90 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $l
     */
-    private static function _CSVReadLine($l, $sep=","){
-        $v=false; 
-        $m=explode($sep, $l);
-        $r="";
-        $tab=array();
-        foreach($m as $i){
-            $c=trim($i);
-            if(!$v){
-                if(preg_match("/^\"/", $c)){
-                    $v=true;
-                    $r .= substr(ltrim($i), 1);
-                    if(preg_match("/\"$/", $r)){
-                        $v=false;
-                        $r=substr($r, 0, -1);
+    private static function _CSVReadLine($l, $sep=",", ?int $flags=null){ 
+        $ch = '';
+        $ln = strlen($l);
+        $pos = 0;
+        $tab = [];
+        $v = '';
+        $f = false;
+        $wait = false;
+        $v_is_read_serialize = $flags && (($flags & CSVHelper::CSV_READ_SERIAL)>0);
+        while($pos<$ln){
+            $ch = $l[$pos];
+            if ($wait){
+                if ($ch == $sep){
+                    $wait = false;
+                }
+                $pos++;
+                continue;
+            }
+            if ($ch=="\""){
+                $mpos = $pos;
+                $v = igk_str_remove_quote(trim(igk_str_read_brank($l, $pos, $ch,$ch,null,true)));
+                $v = igk_str_transform_linefeed($v); 
+                if ($v=='{'){
+                    // possible json data
+                    $rpos = $pos-1;
+                    $json = igk_str_read_brank($l, $rpos, '}','{',null,true);
+                    $json = stripslashes($json);
+                    if (json_decode($json)){
+                        $pos = $rpos;
+                        $v = $json;
                     }
+                } else if ($v_is_read_serialize && preg_match("/^[^:]+:[^:]+:\{/", $v, $b)){
+
+                    // possible serialized data
+                    // a:3:{i:1;a:1:{s:5:"title"}}}
+                    $v_s = $b[0];
+                    $v_ln = strlen($v_s);
+                    $rpd = substr($l, $mpos+$v_ln);   
+                    $npos = 0;
+                    $m = rtrim($b[0],'{').igk_str_read_brank($rpd, $npos, '}','{', null, true);
+                    if (@unserialize($m)){
+                        $pos = $mpos+$npos+$v_ln;                               
+                        $v = $m;
+                    }  else {
+                        igk_ilog([
+                            'failed to unserialize',
+                            $m
+
+                        ]);
+                        igk_die('faile to unserialize data ');
+                    }          
+
+
                 }
-                else
-                    $r .= $i;
-            }
-            else{
-                if(preg_match("/\"$/", $c)){
-                    $v=false;
-                    $r .= $sep.$i;
-                    $r=substr($r, 0, -1);
+                else{
+                    $v = stripslashes($v);
                 }
-                else
-                    $r .= $sep.$i;
+                $tab[] = $v;
+                $v = '';
+                $wait = true;
+            }else{
+                if ($ch == $sep){
+                    
+                    if (!empty($v)){
+                        $tab[] = trim($v);
+                        $v = '';
+                    }else if ($f){
+                        $tab[] = '';
+                    }
+                    $f = true;
+                }else{
+                    $v.= $ch;
+                    $f = false;
+                }
             }
-            if(!$v){
-                $tab[]=trim($r);
-                $r="";
-            }
+            $pos++;
+        }
+        if(!empty($v)){
+            $tab[] = $v;
         }
         return $tab;
+
+
+        
     }
     ///<summary></summary>
     /**
@@ -260,8 +314,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * @param mixed $value
     */
     public static function GetValue(?string $value){
-        if($value && ((strpos($value, igk_csv_sep()) !== false) || preg_match("/ /i", $value)))
+        if($value && ((strpos($value, igk_csv_sep()) !== false) || preg_match("/( |\t|\n)/i", $value))){
+            $value = igk_str_replace_assoc_array(["\n"=>'\n',"\t"=>'\t',"\r"=>'\r'],$value);
             return "\"".$value."\"";
+        }
         return $value;
     }
     ///<summary></summary>
@@ -299,6 +355,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $txt
     * @param mixed $rmBom the default value is true
+    * @param array|\IGK\System\IO\CSV\CSVDataAdapterLoadStringOptions $options assoc array of delimiter:ch|separator|flag : csv flag|filter callback to filter
     */
     public static function LoadString($txt, $rmBom=true, $options=null){
         if(empty($txt))
@@ -306,24 +363,40 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         if($rmBom){
             $txt=igk_io_remove_bom($txt);
         }
-        $lines=explode(IGK_LF, $txt);
-        $entries=array();
-        $sep = $options ? igk_getv($options, "separator", ","):",";
+        $entries = [];
+        $sep = ($options ? igk_getv($options, "separator"): null) ?? self::SEPARATOR; 
+        $delimeter = ($options ? igk_getv($options, "delimiter"): null) ?? self::DELIMITER;
+        $flags = ($options ? igk_getv($options, "flags"): null) ?? 0;
+
         $filter = igk_getv($options, "filter", function(){
             return function(){
                 return true;
             };
         });
-        foreach($lines as $l){
-            if(empty($l)){
-                continue;
+        igk_csv_readline($txt, '"', $last, function($line)use($sep, & $entries, $filter, $delimeter, $flags){
+            
+            $tab = self::_CSVReadLine($line, $sep, $flags);
+            if ($filter($tab)){
+                $entries[] =$tab;
             }
-            if (!$filter($tab=self::_CSVReadLine($l, $sep))){
-                break;
-            }
-            $entries[]=$tab;
-        }
+            return true;
+        }, $flags);
         return $entries;
+
+
+        // $lines=explode(IGK_LF, $txt);
+        // $entries=array();
+      
+        // foreach($lines as $l){
+        //     if(empty($l)){
+        //         continue;
+        //     }
+        //     if (!$filter($tab=self::_CSVReadLine($l, $sep))){
+        //         break;
+        //     }
+        //     $entries[]=$tab;
+        // }
+        // return $entries;
     }
     ///<summary></summary>
     ///<param name="tbname"></param>

@@ -59,9 +59,48 @@ class ConfigurationReader
     
     protected $m_result;
 
+    /**
+     * escae start litter counter 
+     * @var mixed
+     */
+    var $escape_start; // ConfigurationReader
+
+    /**
+     * escape start
+     * @var mixed
+     */
+    var $escape_end;
+
     const MODE_NAME = 1;
     const MODE_VALUE = 2;
 
+    /**
+     * treat expression 
+     * @param string $text 
+     * @param mixed $expression 
+     * @return string 
+     */
+    public function treatExpression(string $text, & $expression){
+        $expression = [];
+        $l = $text;
+        $offset = 0;
+        $expression = [];
+        $exp_count = 0;
+        $s_ch = $this->escape_start;
+        $e_ch = $this->escape_end;
+        if ($s_ch && $e_ch)
+        while(($pos = strpos($l, $s_ch, $offset))!==false){
+            $spos = $pos;
+            $n = igk_str_read_brank($l, $pos, $e_ch, $s_ch);
+            $exp_count++;
+            $key = '%__exp_'.$exp_count.'__%';
+            $l = substr($l, 0,  $spos).$key.substr($l, $pos+1);
+            $pos = $spos; 
+            $expression[$key] = $n;
+        }
+
+        return $l;
+    }
     public function __construct()
     {
     }
@@ -99,12 +138,20 @@ class ConfigurationReader
             }
         };
         $sep = $this->separator;
+        $v_escape_counter = 0;
         while ($this->_canRead()) {
-            $ch = $this->m_text[$this->m_offset];            
+            $ch = $this->m_text[$this->m_offset];
+
+           
+
             switch ($ch) {
                 case $this->delimiter:
-                    $fc_bind($list, $name, $value);
-                    $this->m_readmode = self::MODE_NAME;
+                    if ($v_escape_counter==0){
+                        $fc_bind($list, $name, $value);
+                        $this->m_readmode = self::MODE_NAME;
+                    } else {
+                        $value.=$ch;
+                    }
                     break;
                 case $sep:
                     if (is_null($name)){       
@@ -126,8 +173,7 @@ class ConfigurationReader
                             if ($callback){
                                 $callback($obj);
                             }
-                        default:
-                            # code...
+                        default: 
                             break;
                     }
             }
@@ -137,7 +183,11 @@ class ConfigurationReader
             $fc_bind($list, $name, $value);
             $info = new stdClass;
             array_map(function($a)use($info){ 
-                $info->{$a->key} = $a->value;           
+                $v = $a->value;
+                if (is_numeric($v)){
+                    $v = floatval($v);
+                }
+                $info->{$a->key} = $v;           
             },$list);
             $this->m_result = $list;
             return $info;
@@ -182,8 +232,32 @@ class ConfigurationReader
          * @var ?string $d
          */
         $d = null;
+        $escape_delimiter = $this->delimiter== $end;
+        $v_ecounter = 0;
         while($this->_canRead()){
             $ch = $this->m_text[$this->m_offset];
+
+            if ($escape_delimiter){
+                if ($ch=='\\'){
+                    if (($this->escape_start || $this->escape_end) && ( $this->m_ln-1 > $this->m_offset)){
+    
+                        $v_next_ch = $this->m_text[$this->m_offset+1];
+                        if (($this->escape_end == $v_next_ch) || ($this->escape_start==$v_next_ch)){
+    
+                            if ($this->escape_start==$v_next_ch){
+                                $v_ecounter++;
+                                
+                            }else if ($this->escape_end == $v_next_ch){
+                                $v_ecounter--;
+                            }
+                            $d.= $v_next_ch;
+                            $this->m_offset+=2;
+                            continue;
+                        }
+                    }
+                }
+            }
+
             switch($ch){
                 case '"':
                 case "'":
@@ -197,8 +271,12 @@ class ConfigurationReader
                     $d .= $ch;
                     break;
                 case $end: 
-                    $this->m_offset--;
-                    return !is_null($d) ? trim($d) : null; 
+                    if ($v_ecounter==0){ 
+                        $this->m_offset--;
+                        return !is_null($d) ? trim($d) : null; 
+                    }
+                    $d .= $ch;
+                    break;
             }
             $this->m_offset++;
         } 

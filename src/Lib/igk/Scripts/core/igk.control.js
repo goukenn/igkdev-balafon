@@ -1015,11 +1015,7 @@
             this.getLines = function () {
                 return l;
             };
-        }
-
-        // function igk_xml_eval() {
-        //     throw new Error("Not implement");
-        // };
+        } 
         igk.system.createNS("igk.highlightjs", {
             'php': igk_php_eval,
             // 'xml': igk_xml_eval

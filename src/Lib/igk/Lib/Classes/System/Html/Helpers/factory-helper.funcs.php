@@ -92,11 +92,14 @@ Factory::form("cref", function () {
 	}
 	return $f;
 });
+
+/**
+ * add field to form tag 
+ */
 Factory::form("fields", function ($fields, ?array $datasource = null, ?object $engine = null, ?string $tag = null) {
 	if ($f = igk_html_parent_node()) {
 		$f->addFields(...func_get_args());
-	}
-
+	} 
 	return $f;
 });
 

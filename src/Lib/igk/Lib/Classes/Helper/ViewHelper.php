@@ -116,7 +116,7 @@ class ViewHelper
         if ($c = self::SearchFile($file, $exts) ?? self::SearchFile(Path::Combine(self::Dir(), $file),$exts)){
             return $c;
         }
-        igk_die("inc [".$file."] file not found = ".\IGK\typeof($c));        
+        igk_die("inc [".$file."] file not found");        
     }
 
     /**

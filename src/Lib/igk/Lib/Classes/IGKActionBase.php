@@ -495,6 +495,7 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($host && ($host instanceof static)){
                     $host->_handleThrowable($ex);
                 }
+                igk_dev_wln_e("failed: ".$ex->getMessage());
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

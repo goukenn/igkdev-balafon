@@ -95,7 +95,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         } catch (TypeError $ex) {
             // + | call to function but arguments injection no valid
 
-            throw new OperationNotAllowedException('', 405, $ex);
+            throw new OperationNotAllowedException('Dispatcher failed: '.$ex->getMessage(), 405, $ex);
         }
     }
     public static function __callStatic($name, $args)
@@ -314,14 +314,12 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 $v_primary = IGKType::IsPrimaryType($type);
 
                 if (!$v_primary && class_exists($type)) {
-
                     if (is_subclass_of($type, IInjectable::class)) {
-                        $targs[] = self::_GetInjectable($type, $args);
-                        
+                        $targs[] = self::_GetInjectable($type, $args);                        
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
-                    if ($j &&  ($c = $j->resolv($arg, $p))) {
+                    if ($j &&  ($c = $j->resolve($arg, $p))) {
                         $targs[] = $c;
                         $i++;
                         continue;
@@ -345,6 +343,16 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             $targs = array_merge($targs, array_slice($args, $i));
         }
         return $targs;
+    }
+    /**
+     * retrieve injectable from deispacther
+     * @param mixed $class_name 
+     * @param mixed $type 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetInjectTypeInstance($class_name){
+        return self::_GetInjectable($class_name, []);
     }
     private static function _GetInjectable($type, $args)
     {

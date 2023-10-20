@@ -29,16 +29,16 @@ abstract class ServerCommandHelper
             '-srv_host' => "host",
             '-srv_name' => "server_name",
             '-srv_root' => "server_root",
-            '-srv_https' => "https",
-            '-srv_geox' => "geox",
+            '-srv_https' => "https", // <- enable https
+            '-srv_geox' => "geox", 
             '-srv_geoy' => "geoy",
             '-srv_city' => "city",
             '-srv_country_code' => "country_code",
             '-srv_country_name' => "country_name",
             '-srv_region' => "region",
-            '-srv_request' => "request", // request args
+            '-srv_request' => "request", // + | <- request args
             '-srv_request_uri' => "request-uri",
-            '-srv_baseuri' => "base_uri", // set command environment base uri
+            '-srv_baseuri' => "base_uri", // + | <- set command environment base uri
             '-srv_referer'=>"referer",
             '-srv_ajx'=>'ajx' // set command to ajx request 
 

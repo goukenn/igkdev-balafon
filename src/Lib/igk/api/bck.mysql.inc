@@ -255,9 +255,6 @@ function igk_api_mysql_get_sync_definition($api, $row, $table_n, $u, $mysql, $db
 					//treat entries
 					$tables->list[$table_n] = $links;
 					if($entries && $count>0){
-						//TODO: request for entries	
-					
-						//<Rows For="tbadman_userjobs">
 						$n = $entries->addNode("Rows")->setAttribute("For", $table_n);
 						
 						if (igk_count($links)>0){

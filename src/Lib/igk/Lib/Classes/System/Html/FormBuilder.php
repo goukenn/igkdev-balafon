@@ -7,9 +7,12 @@
 namespace IGK\System\Html;
 
 use Closure;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKEvents;
+use IGKException;
+use ReflectionException;
 
 use function igk_resources_gets as __;
 
@@ -46,7 +49,18 @@ class FormBuilder
         "password"=>'igk-form-control password',
         "email"=>'igk-form-control email'
     ];
-    public function build($formFields, $render = 0, $engine = null, $tag = "div")
+    /**
+     * build form fields
+     * @param array $formFields 
+     * @param int $render 
+     * @param mixed $engine 
+     * @param string $tag 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function build(array $formFields, $render = 0, $engine = null, $tag = "div")
     {
         $o = "";
         $clprop = new HtmlCssClassValueAttribute();
@@ -98,7 +112,7 @@ class FormBuilder
         };
         $bindValue = function (&$o, &$fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag) {
             if (!is_array($v)) {
-                $v = [];
+                $v = (array)$v;
             }
             $attr_key = $get_attr_key($v);
             $ResolvClass = self::$ResolvClass;

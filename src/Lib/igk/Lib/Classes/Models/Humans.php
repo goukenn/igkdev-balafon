@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Humans.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -12,7 +12,7 @@ use IGK\Models\ModelBase;
 * store human list
 * @package IGK\Models
 * @property int $clId
-* @property string $clGender
+* @property string $clGender m or f for male or female
 * @property string $clFirstName
 * @property string $clLastName
 * @method static ?self Add(string $clGender, string $clFirstName, string $clLastName) add entry helper

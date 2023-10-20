@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * install helper class
+ * @package 
+ */
+class InstallerResponse
+{
+    var $code;
+    /**
+     * installer response header
+     * @var array
+     */
+    var $header = [];
+    public function __construct()
+    {
+        $this->code = 200;
+    }
+    public function setHeader()
+    {
+        $v_responses = [
+            "200" => "HTTP/1.0 200 OK",
+            "404" => "HTTP/1.0 404 Not Found",
+            "500" => "HTTP/1.0 500 Server misconfiguration",
+            "503" => "HTTP/1.0 500 Installer Directory is link",
+        ];
+        $msg = $v_responses[$this->code];
+        header($msg);
+        foreach ($this->header as $k) {
+            header($k);
+        }
+    }
+    public function die(string $msg, $code = 200)
+    {
+        $this->code = $code;
+        $this->setHeader();
+        die($msg);
+    }
+    /**
+     * send response
+     * @param mixed $data 
+     * @param string $contentType 
+     * @return never 
+     */
+    public function response($data, $contentType = "text/html")
+    {
+        $this->header[] = "Content-Type: " . $contentType;
+        $this->code = 200;
+        $this->setHeader();
+        echo $data;
+        exit;
+    }
+}

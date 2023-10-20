@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connexions.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -12,13 +12,13 @@ use IGK\Models\ModelBase;
 * Store started connexions
 * @package IGK\Models
 * @property int $clId
-* @property string|\IGK\Models\Users $clUser_Guid
+* @property string|\IGK\Models\Users $clUser_Guid user request authentication
 * @property string $clToken
-* @property string $clTokenInfo
+* @property string $clTokenInfo store token information
 * @property string|datetime $clDateTime
 * @property string $clFrom
-* @property string|datetime $cnx_createAt ="NOW()"
-* @property string|datetime $cnx_updateAt
+* @property string|datetime $cnx_createAt ="NOW()" Now
+* @property string|datetime $cnx_updateAt Last try datetime
 * @method static ?self Add(string|\IGK\Models\Users $clUser_Guid, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry helper
 * @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Guid, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
 * */

@@ -425,6 +425,12 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->get_query($model->getTable(), $conditions, $options);
     }
+    /***
+     * override on model or extension to resolve from mixing data
+     */
+    public static function resolve(ModelBase $model, $data){
+        return null;
+    }
 
 
     public static function update(ModelBase $model, $value = null, $conditions = null)
@@ -648,28 +654,25 @@ abstract class ModelEntryExtension
             return array_keys($inf);
         }
         return null;
-    }
-    /// TODO: Create A mapper over a model 
-    // + | Create A mapper over a model 
+    }    
     /**
      * create a mapper to map columns to keys 
      * @param ModelBase $model 
-     * @param array $keys 
+     * @param array<string colName, string  mapKey> $keys 
      * @return void 
      * @throws IGKException 
      */
-    // public static function map(ModelBase $model, array $keys){
-    //     $cols = self::colKeys($model);
-    //     $tab = [];
-    //     $i = 0;
-    //     foreach($cols as $k){            
-    //         $tab[$k] = igk_getv($keys, $i, $k); 
-    //         $i++;
-    //     }
-    //     return new MapHelper()
-
-    // }
-
+    public static function map(ModelBase $model, array $keys){
+        $cols = self::colKeys($model);
+        $tab = [];
+        foreach($cols as $k){ 
+            $t = igk_getv($keys, $k) ;
+            if ($t){
+                $tab[$t] = $model->{$k}; 
+            }
+        }
+        return (object)$tab;
+    }
     /**
      * drop the table
      */
@@ -1204,11 +1207,15 @@ abstract class ModelEntryExtension
                 igk_die('failed to create an empty row to add. missing table definitions '.get_class($model));
             } 
             $g = array_keys($args);
+            $count = count($g);
             $index = 0;
             foreach (array_slice(func_get_args(), 2) as $tg) {
                 $n = $g[$index];
                 $row->$n = $tg;
                 $index++;
+                if ($index>=$count){
+                    break;
+                }
             }
             if ($check) {
                 // check that entries for unique column 
@@ -1380,4 +1387,8 @@ abstract class ModelEntryExtension
             }
         }
     }
+
+    // public static function resolve(ModelBase $model, $id){
+
+    // }
 }

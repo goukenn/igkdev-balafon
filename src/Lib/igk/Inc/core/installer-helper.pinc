@@ -129,51 +129,7 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-
-
-class InstallerResponse
-{
-    var $code;
-    /**
-     * installer response header
-     * @var array
-     */
-    var $header = [];
-    public function __construct()
-    {
-        $this->code = 200;
-    }
-    public function setHeader()
-    {
-        $reponses = [
-            "200" => "HTTP/1.0 200 OK",
-            "401" => "HTTP/1.0 401 Missing token",
-            "402" => "HTTP/1.0 402 error",
-            "404" => "HTTP/1.0 404 Not Found",
-            "500" => "HTTP/1.0 500 Server misconfiguration",
-            "503" => "HTTP/1.0 500 Installer Directory is link",
-        ];
-        $msg = $reponses[$this->code];
-        header($msg);
-        foreach ($this->header as $k) {
-            header($k);
-        }
-    }
-    public function die(string $msg, $code = 200)
-    {
-        $this->code = $code;
-        $this->setHeader();
-        die($msg);
-    }
-    public function response($data, $contentType = "text/html")
-    {
-        $this->header[] = "Content-Type: " . $contentType;
-        $this->code = 200;
-        $this->setHeader();
-        echo $data;
-        exit;
-    }
-}
+//#{{@Inc(class.InstallerResponse.pinc)}} 
 
 
 $response = new InstallerResponse;

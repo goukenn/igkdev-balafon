@@ -29,4 +29,8 @@ class PathTest extends BaseTestCase{
         );
     }
 
+    public function test_relative_current_path(){
+        $file = Path::CombineAndFlattenPath('/bondje', './');
+        $this->assertEquals("/bondje", $file);
+    }
 }

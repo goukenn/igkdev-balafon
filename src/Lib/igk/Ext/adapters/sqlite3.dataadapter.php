@@ -21,6 +21,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 // use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
 // use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result;
+use IGK\System\Database\Exceptions\MissingTableException;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
 define("IGK_SQL3LITE_KN_TABLE_KEY", IGK_SQL3LITE_KN."::/tableName");
@@ -268,9 +269,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
       * @throws EnvironmentArrayException 
       */
      public function tableExists(string $table, bool $throwex=true): bool
-     {
-        // TODO: need implement table exists 
-        //$this->sendQuery('SELECT count(*) FROM '.$table.';');
+     {  
         $g = @$this->sql->exec('SELECT count(*) FROM '.$table );
         if (!$g){
             error_clear_last();

@@ -79,6 +79,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ]));
 
         $src = PHPScriptBuilderUtility::MergeSource(
+            IGK_LIB_DIR . "/Inc/core/class.InstallerResponse.pinc",
             IGK_LIB_DIR . "/Inc/core/install.script.pinc",
             IGK_LIB_DIR . "/Inc/core/installer.helper.pinc"
         );      

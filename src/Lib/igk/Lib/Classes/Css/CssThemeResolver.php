@@ -547,8 +547,7 @@ class CssThemeResolver
                     $v = str_replace($v_m, "color: " . $s . ";", $v);
                 else
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-                break;
-            // TODO: Add SVG import support
+                break; 
             case self::ATTR_SVG:
                     $n = $value;
                     $s = "";

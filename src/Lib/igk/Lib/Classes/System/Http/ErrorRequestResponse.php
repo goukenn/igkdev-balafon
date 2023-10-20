@@ -46,6 +46,7 @@ class ErrorRequestResponse extends RequestResponse{
         }
         $doc = igk_create_node("html");        
         $doc->add("head")->addObData(function($c){ 
+            $c->add('meta')->setAttributes(['charset'=>'utf8']);
             $c->add("title")->Content = __("Error");
             $c->addStyle()->setAttribute("type", "text/css")->Content  = $this->getErrorStyle();
 

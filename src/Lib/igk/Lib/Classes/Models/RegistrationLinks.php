@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: RegistrationLinks.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -13,9 +13,9 @@ use IGK\Models\ModelBase;
 * @package IGK\Models
 * @property int $regLinkId
 * @property string $regLinkUserGuid
-* @property string $regLinkToken
-* @property int $regLinkAlive
-* @property string|datetime $regLinkActivate
+* @property string $regLinkToken token
+* @property int $regLinkAlive alive for activation
+* @property string|datetime $regLinkActivate activation date
 * @property string|datetime $regLinkCreate_At ="NOW()"
 * @property string|datetime $regLinkUpdate_At ="NOW()"
 * @method static ?self Add(string $regLinkUserGuid, string $regLinkToken, int $regLinkAlive, string|datetime $regLinkActivate, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry helper

@@ -696,7 +696,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @return string|null
      */
     public function get_query(string $tbname, ?array $where = null, ?array $options = null){
-
+        throw new IGKException('not implement');
     }
     ///<summary></summary>
     ///<param name="tablename"></param>

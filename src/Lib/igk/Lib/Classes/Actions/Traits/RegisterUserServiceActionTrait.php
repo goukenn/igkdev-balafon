@@ -3,8 +3,7 @@
 // @file: RegisterUserServiceActionTrait.php
 // @date: 20230516 08:45:52
 namespace IGK\Actions\Traits;
-
-use com\igkdev\bantubeat\Helper\MailService;
+ 
 use Exception;
 use IGK\Helper\ActionHelper;
 use IGK\System\Exceptions\CssParserException;
@@ -33,7 +32,8 @@ trait RegisterUserServiceActionTrait{
     }
 
     /**
-     * 
+     * RegisterUser service auth - activate|unsubscribe - token
+     * @param string $name activate|unsubscribe
      * @param string $token 
      * @return void 
      */

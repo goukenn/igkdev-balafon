@@ -6,13 +6,26 @@
 
 namespace IGK\System\Html\Forms;
 
+use IGK\System\Html\IFormFieldOptions;
 
 class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
 
+    /**
+     * assert value is an array
+     * @param mixed $value 
+     * @return bool 
+     */
     public function assertValidate($value): bool {
         return is_array($value);
     }
-
+    /**
+     * validator
+     * @param mixed $value 
+     * @param mixed $default 
+     * @param null|IFormFieldOptions $fieldinfo 
+     * @param array $error 
+     * @return mixed 
+     */
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if (empty($value)){
             if (is_array($default)){

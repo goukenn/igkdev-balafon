@@ -26,4 +26,10 @@ class ProjectSettings{
      * @var string
      */
     var $assetDist = "dist";
+
+    /**
+     * build logic
+     * @var mixed
+     */
+    var $build;
 }

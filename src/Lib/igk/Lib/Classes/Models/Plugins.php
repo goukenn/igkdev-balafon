@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -13,9 +13,9 @@ use IGK\Models\ModelBase;
 * @package IGK\Models
 * @property int $clId
 * @property string $clName
-* @property string $clEmail
+* @property string $clEmail Author's email
 * @property string|datetime $clRelease
-* @property string $clVersion
+* @property string $clVersion plugin version
 * @method static ?self Add(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry if not exists. check for unique column.
 * */

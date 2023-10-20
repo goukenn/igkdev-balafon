@@ -3,8 +3,7 @@
     const is_debug = igk.ENVIRONMENT.DEV;
     let p = {};
     for(let i of ['log','warn','debug','info']){
-        p[i] = function(){
-            // console.log('call = '+i, ...arguments);
+        p[i] = function(){ ;
             if (is_debug){                 
                 console[i].apply(null, [...arguments]);
             }

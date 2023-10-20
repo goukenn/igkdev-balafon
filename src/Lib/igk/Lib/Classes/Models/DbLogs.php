@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -15,7 +15,7 @@ use IGK\Models\ModelBase;
 * @property string $db_logs_msg
 * @property int $db_logs_status
 * @property string|datetime $db_logs_createAt ="NOW()"
-* @property string $db_logs_tags
+* @property string $db_logs_tags tags
 * @property string|datetime $db_logs_updateAt ="NOW()"
 * @method static ?self Add(string $db_logs_msg, int $db_logs_status, string $db_logs_tags, string|datetime $db_logs_createAt ="NOW()", string|datetime $db_logs_updateAt ="NOW()") add entry helper
 * @method static ?self AddIfNotExists(string $db_logs_msg, int $db_logs_status, string $db_logs_tags, string|datetime $db_logs_createAt ="NOW()", string|datetime $db_logs_updateAt ="NOW()") add entry if not exists. check for unique column.

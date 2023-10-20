@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Groupauthorizations.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -14,7 +14,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property int|\IGK\Models\Groups $clGroup_Id
 * @property int|\IGK\Models\Authorizations $clAuth_Id
-* @property string $clGrant
+* @property string $clGrant Grant access depending on the authorization usage
 * @property string|datetime $clCreate_At ="NOW()"
 * @property string|datetime $clUpdate_At ="NOW()"
 * @method static ?self Add(int|\IGK\Models\Groups $clGroup_Id, int|\IGK\Models\Authorizations $clAuth_Id, string $clGrant, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry helper

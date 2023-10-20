@@ -35,6 +35,7 @@ require_once(IGK_LIB_DIR."/Lib/functions-helpers/debug.php");
 require_once(IGK_LIB_DIR."/Lib/functions-helpers/sys.php"); 
 require_once(IGK_LIB_DIR."/Lib/functions-helpers/io.php"); 
 require_once(IGK_LIB_DIR."/Lib/functions-helpers/string.php"); 
+require_once(IGK_LIB_DIR."/Lib/functions-helpers/db.php"); 
 require_once(IGK_LIB_DIR."/igk_functions.php"); 
 
 ignore_user_abort(false);
@@ -55,26 +56,6 @@ $command = $app->getPrimaryCommand();
 // + | handle default
 // + |
 
-if (isset($argv[1]) && $argv[1]=="--init"){
-    // + |-------------------------------------------------------------------------
-    // + | initialize balafon configuration 
-    // + |
-    $fc = $command["--init"][0];
-    $carg = [];
-    if (in_array("--noconfig", $argv)){
-        $carg["--noconfig"] = 1;
-    }
-    if (in_array("--force", $argv)){
-        $carg["--force"] = 1;
-    }
-    if (in_array("--primary", $argv)){
-        $carg["--primary"] = 1;
-    }
-    $command["options"] = (object)$carg;
-    $command["argv"] = $argv;
-    $fc([], $command); 
-    exit(0); 
-}
 if (in_array("--debug", $argv)){
     $fc = $command["--debug"][0];
     $fc([], $command);

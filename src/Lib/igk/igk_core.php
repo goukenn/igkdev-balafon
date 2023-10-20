@@ -21,6 +21,8 @@ use IGK\Helper\StringUtility as stringUtility;
 use IGK\Helper\SysUtils;
 use IGK\Helper\TraitHelper; 
 use IGK\Server;
+
+use IGK\System\IArrayKeyExists;
 use IGK\System\IO\Path;
 use IGK\System\Regex\RegexConstant;
 
@@ -201,6 +203,17 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
     }
 }
 
+
+if (!function_exists('igk_die_exception')){
+    function igk_die_exception(string $exception_class_name, ?string $msg, $throwex=1, $code=500){
+        if (class_exists($exception_class_name)){
+            throw new $exception_class_name($msg, $code);
+        }
+        igk_die($msg, $throwex, $code);
+    }
+}
+
+
 if (!function_exists('igk_resources_gets')) {
     ///<summary>shortcut to resource get __</summary>
     /**
@@ -311,6 +324,9 @@ if (!function_exists('igk_getv_isset')) {
     }
 }
 
+if (!function_exists('igk_geto')){
+
+
 /**
  * from laravel helper get request object 
  * @param mixed $ob 
@@ -327,6 +343,7 @@ function  igk_geto($ob, string $name, callable $callback = null)
     }
 }
 
+}
 ///<summary></summary>
 ///<param name="array"></param>
 ///<param name="key"></param>
@@ -1124,6 +1141,9 @@ function igk_trace_e()
     igk_exit();
 }
 
+/**
+ * get caller file 
+ */
 function igk_sys_get_caller_file(int $depth = 0)
 {
     $callers = debug_backtrace();
@@ -1308,6 +1328,38 @@ function igk_ilog($message, ?string $tag = null, $traceindex = 0, $dblog = true)
     IGKLog::Append($message, $tag, $traceindex, $dblog);
 }
 
+
+/**
+ * check for existing key on object or array
+ * @param mixed $data
+ * @return bool
+ */
+function igk_key_exists($data,string $n):bool{
+    if (is_object($data)){
+        if ($data instanceof IArrayKeyExists){
+            return $data->keyExists($n);
+        }
+        return property_exists($data, $n);
+   }
+   else if (is_array($data)) {
+        return key_exists($n, $data);
+   }
+   return false; 
+}
+
+
+if (!function_exists('igk_ilog_m')){
+    /**
+     * get ilog message string
+     * @param mixed $msg 
+     * @param string $tag 
+     * @return string 
+     */
+    function igk_ilog_m($msg, $tag=IGK_LOG_SYS):string{
+        return sprintf('[%s] - %s', $tag, $msg);
+    }
+}
+
 // + | IO shortcut
 ///<summary>shortcut get baseuri</summary>
 ///<param name="dir">null or existing fullpath directory or file element. </param>
@@ -1403,12 +1455,17 @@ function igk_get_defaultwebpagectrl()
         ?? igk_getctrl(igk_configs()->get("default_controller") ?? "", false);
 }
 
-///<summary>get object with igk Xpath selection model</summary>
+if (!function_exists('igk_conf_get')){
+///<summary>get object with igk XPath selection model</summary>
 /**
- * get object with igk Xpath selection model
- * syntaxe : 
+ * get object with igk XPath selection model
+ * @param mixed $conf object to get  
+ * @param string $path the path configuration
+ * @param mixed $default default value in case of not found
+ * @param strict $must found path 
+ * @return null|mixed default|mixed|null or founded object
  */
-function igk_conf_get($conf, $path, $default = null, $strict = 0)
+function igk_conf_get($conf, string $path, $default = null, $strict = 0)
 {
     // + | --------------------------------------------------------------------
     // + | xpath description definition - helper 
@@ -1514,6 +1571,7 @@ function igk_conf_get($conf, $path, $default = null, $strict = 0)
         }
     }
     return $tout;
+}
 }
 
 
@@ -2346,4 +2404,14 @@ if (!function_exists('igk_bool')) {
         }
         return (bool)boolval($v);
     }
+}
+
+
+/**
+ * dump array 
+ * @param mixed $args 
+ * @return void 
+ */
+function igk_dump_array(...$args){
+    igk_wl(...$args);
 }

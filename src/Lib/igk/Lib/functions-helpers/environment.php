@@ -49,7 +49,7 @@ function igk_get_env($k, $default = null)
  */
 function igk_register_service($type, $name, $callback)
 {
-    $k = "sys://services/" . strtolower($type);
+    $k = IGK_SERVICE_PREFIX_PATH . strtolower($type);
     $tab = igk_get_env($k, function () {
         return array();
     });

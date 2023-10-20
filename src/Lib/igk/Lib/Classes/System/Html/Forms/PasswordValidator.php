@@ -19,16 +19,30 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
      * @param mixed $value 
      * @return bool 
      */
-    public function assertValidate($value): bool { 
+    public function assertValidate($value, ?FieldInfo $fieldInfo = null): bool { 
         if (!is_string($value)) return false;
+        $v_min = IGK_PWD_LENGTH;
+        $v_max = IGK_PWD_MAX_LENGTH;
+        if ($fieldInfo){
+            $v_min = $fieldInfo->minLength ?? $v_min;
+            $v_max = $fieldInfo->maxlength ?? $v_max;
+        }
+        $ln = strlen($value);
 
-        return (strlen($value)<8) || !(preg_match("/[0-9]/", $value ) // contains number
-            && preg_match("/[a-z]/", $value ) // contains lowercase letter
-            && preg_match("/[A-Z]/", $value ) // contains uppercase letter
-            && preg_match("/[#@_]/", $value ) // contains special symbol
-        );
+        return (($ln>= $v_min) && ($ln<=$v_max))
+            && preg_match("/[0-9]/", $value ) // <- contains number
+            && preg_match("/[a-z]/", $value ) // <- contains lowercase letter
+            && preg_match("/[A-Z]/", $value ) // <- contains uppercase letter
+            && preg_match("/[#@_!\?]/", $value ) // <- contains special symbol
+        ;
     }
 
+    protected function _initFieldRequirement(){
+        $f = new FieldInfo();
+        $f->maxlength = IGK_PWD_MAX_LENGTH;
+        $f->minLength = IGK_PWD_LENGTH;
+        return $f;
+    }
 
     /**
      * validate from 
@@ -36,10 +50,10 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
      * @param mixed $default 
      * @param mixed $fieldinfo 
      * @param array $error 
-     * @return mixed 
+     * @return null|mixed passing value or mixed 
      */
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
-        $fieldinfo = $fieldinfo ?? new FieldInfo;
+        $fieldinfo = $fieldinfo ?? $this->_initFieldRequirement();
         if (empty($value)){
             if ($fieldinfo->required){
                 $error[] = __("password is empty");
@@ -52,7 +66,11 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
             $error[] = $fieldinfo->error ?? __("password is too long");
             return null;
         }
-        if ($this->assertValidate($value)){
+        if (($ml = $fieldinfo->minLength) && ($ln<$ml)){
+            $error[] = $fieldinfo->error ?? __("password is too short");
+            return null;
+        }
+        if ($this->assertValidate($value, $fieldinfo)){
             return $value;
         }       
         $error[] = $fieldinfo->error ?? __("password not matching criteria");        

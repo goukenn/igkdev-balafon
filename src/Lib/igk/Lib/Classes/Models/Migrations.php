@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Migrations.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -12,8 +12,8 @@ use IGK\Models\ModelBase;
 * Store migrations
 * @package IGK\Models
 * @property int $clId
-* @property string $migration_name
-* @property int $migration_batch
+* @property string $migration_name m or f for male or female
+* @property int $migration_batch Batch Running
 * @property string $migration_desc
 * @property string $migration_controller
 * @property string|datetime $migration_create_at ="NOW()"

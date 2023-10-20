@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UserInfoTypes.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -13,10 +13,10 @@ use IGK\Models\ModelBase;
 * @package IGK\Models
 * @property int $clId
 * @property string $clName
-* @property string $clDataType
-* @property string $clRegex
-* @property int $clCardinality
-* @property int $clType
+* @property string $clDataType data type name
+* @property string $clRegex Expression used to valiate data
+* @property int $clCardinality cardinality of this value. 0 is infinite or more than 0.
+* @property int $clType 1: regex expression to validate the data. 0: database data
 * @method static ?self Add(string $clName, string $clDataType, string $clRegex, int $clCardinality, int $clType) add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clDataType, string $clRegex, int $clCardinality, int $clType) add entry if not exists. check for unique column.
 * */

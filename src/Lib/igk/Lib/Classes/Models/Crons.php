@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
-// @date: 20230705 10:31:06
+// @date: 20230922 00:42:27
 namespace IGK\Models;
 
 
@@ -17,7 +17,7 @@ use IGK\Models\ModelBase;
 * @property string $crons_script
 * @property string $crons_options
 * @property string $crons_class
-* @property int $crons_status
+* @property int $crons_status running script response status
 * @property string|datetime $crons_create_at ="CURRENT_TIMESTAMP"
 * @property string|datetime $crons_update_at ="CURRENT_TIMESTAMP"
 * @method static ?self Add(string $crons_name, string $crons_process, string $crons_script, string $crons_options, string $crons_class, int $crons_status, string|datetime $crons_create_at ="CURRENT_TIMESTAMP", string|datetime $crons_update_at ="CURRENT_TIMESTAMP") add entry helper

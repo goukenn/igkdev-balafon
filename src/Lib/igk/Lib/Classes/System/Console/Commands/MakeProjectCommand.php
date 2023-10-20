@@ -16,6 +16,8 @@ use IGK\ApplicationLoader;
 use IGK\Controllers\ControllerInitListener;
 use IGK\Database\SchemaBuilder\IDiagramSchemaBuilder;
 use IGK\Helper\IO;
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGK\Helper\StringUtility;
 use IGK\Helper\SysUtils;
 use IGK\Resources\R;
@@ -23,6 +25,7 @@ use IGK\System\Configuration\CoreGeneration;
 use \IGKControllerManagerObject;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\BalafonConfiguration;
 use IGK\System\Console\CommandEnvironmentArgLoader;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
@@ -30,10 +33,13 @@ use IGK\System\Database\SchemaBuilder;
 use IGK\System\Http\Route;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
+use IGKConstants;
 use IGKEvents;
 
 use function igk_resources_gets as __;
 use stdClass;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+
 ///<summary>Represente class: MakeProjectCommand</summary>
 class MakeProjectCommand extends AppExecCommand
 {
@@ -115,6 +121,9 @@ class MakeProjectCommand extends AppExecCommand
             $builder->type("function")->author($author)->desc("global function");
             igk_io_w2file($file, $builder->render());
         };
+
+      
+
         $bind[$dir . "/$fname"] = function ($file) use ($type, $author, $defs, $desc, $clname, $fname) {
             $builder = new PHPScriptBuilder();
             $builder->type("class")->name($clname)
@@ -179,6 +188,7 @@ EOF;
                     "clTitle" => __("Title"),
                     "clBasicUriPattern" => __("Entry URI"),
                     "clDataTablePrefix" => __("Table's Prefix"),
+                    "clAppNotActive"=>__("Is project not active ?") ." ". App::Gets(App::GRAY, '(1|0)'),
                 ];
                 foreach ($tab as $key => $value) {
                     $def = null;
@@ -202,7 +212,8 @@ EOF;
                 $d = igk_createxml_config_data($config);
                 igk_io_w2file($file, $d->render((object)["Indent" => true]));
             };
-        }
+        } 
+
         $bind[$dir . "/" . IGK_VIEW_FOLDER .
             "/default.phtml"] = function ($file) use ($author, $defaultsrc) {
             $builder = new PHPScriptBuilder();
@@ -532,8 +543,8 @@ EOF;
     }
     private function _initConfigurationFile(&$bind, $dir, $options)
     {
-        $dir = $dir . "/" . IGK_CONF_FOLDER;
-        $bind[$dir . "/profiles.php"] = function ($file) use ($options) {
+        $v_conf_dir = $dir . "/" . IGK_CONF_FOLDER;
+        $bind[$v_conf_dir . "/profiles.php"] = function ($file) use ($options) {
             $cl = $options['fullClassName'];
             $sb = new StringBuilder;
             $builder = new PHPScriptBuilder;
@@ -548,6 +559,16 @@ EOF;
                     'array of profiles=>[auth-group]'
                 ]));
             igk_io_w2file($file, $builder->render());
+        };
+
+        $bind[$dir . "/".IGKConstants::PROJECT_CONF_FILE] = function ($file) use ($options) {
+            $config = new BalafonConfiguration;
+            $config->name = ($options ? igk_conf_get($options, 'config/clAppName') ?? igk_conf_get($options, 'controller'): null)
+            ?? igk_create_guid();
+            $config->version = ($options ? igk_conf_get($options, 'version') :null) ?? '1.0';
+            $config->author =( $options ?igk_conf_get($options, 'author') : null) ?? IGK_AUTHOR;
+            $options = JSonEncodeOption::IgnoreEmpty();
+            igk_io_w2file($file, JSon::Encode($config, $options));
         };
     }
 

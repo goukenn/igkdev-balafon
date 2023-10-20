@@ -102,8 +102,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      */
     protected static function GetRelation($adapter, $tname, $clname){
         $r = $adapter->getDbname();        
-        $adapter->selectdb(static::DB_INFORMATION_SCHEMA);
-        // TODO: remove select ALL expression 
+        $adapter->selectdb(static::DB_INFORMATION_SCHEMA); 
         $h=$adapter->sendQuery("SELECT * FROM `KEY_COLUMN_USAGE` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."' AND `COLUMN_NAME`='".igk_db_escape_string($clname)."' AND `REFERENCED_TABLE_NAME`!=''");
         $adapter->selectdb($r);
         return $h->getRowAtIndex(0);

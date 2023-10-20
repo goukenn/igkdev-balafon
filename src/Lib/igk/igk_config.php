@@ -455,6 +455,7 @@ define("IGK_CSS_CTN_LG_SIZE", 844);
 define("IGK_CSS_CTN_XLG_SIZE", 1280);
 define("IGK_CSS_CTN_XXLG_SIZE", 1580);
 defined('IGK_PWD_LENGTH') || define("IGK_PWD_LENGTH", 8);
+defined('IGK_PWD_MAX_LENGTH') || define("IGK_PWD_MAX_LENGTH", 30);
 //    define("IGK_AJX_BINDSTYLES", "sys://css/ajx/temp/files");
 //    define("IGK_COMPONENT_ID_KEY", "sys://component/id");
 define("IGK_ENCODINGTYPE", "text/html; charset=utf-8");
@@ -836,3 +837,6 @@ define("IGK_ENV_GLOBAL_SCRIPT_KEY", "sys://globalscript");
 defined('IGK_PWD_PREFIX') || define("IGK_PWD_PREFIX", "(!)8Zmb90-&");
 define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);
 defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin@123");
+
+
+defined('T_NAME_QUALIFIED') || define('T_NAME_QUALIFIED', 265);

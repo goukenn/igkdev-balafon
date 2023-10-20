@@ -409,7 +409,7 @@ EOF;
     ///<summary>Represente IsExposedServiceFunction function</summary>
     ///<param name="fn"></param>
     public final function IsExposedServiceFunction($fn){
-        $tab=igk_get_env("sys://services/".get_class($this)."/notexposed");
+        $tab=igk_get_env(IGK_SERVICE_PREFIX_PATH.get_class($this)."/notexposed");
         if(isset($tab[strtolower($fn)])){
             return 0;
         }
@@ -420,24 +420,7 @@ EOF;
     ///<summary>Represente register_service function</summary>
     private function register_service(){
         $c="^/".IGK_SERVICE_BASE_URI."/".$this->getServiceName();
-        // $k=$this->getEnvParam("appkeys");
-        // if(!empty($k)){
-        //     igk_sys_ac_unregister($k);
-        // }
-        // if($c){
-        //     $k="".$c.IGK_REG_ACTION_METH;
-        //     igk_sys_ac_register($k, $this->getUri("evaluateUri"));
-        //     $this->setEnvParam("appkeys", $k);
-        // }
-        // $t=& self::$sm_services;
-        // if($t == null){
-        //     $t=array();
-        //     $c="^/".IGK_SERVICE_BASE_URI."(/){0,1}$";
-        //     $f=$this->getUri("baseEvaluateUri&m=global");
-        //     igk_sys_ac_register($c, $f);
-        //     self::$sm_services=& $t;
-        // }
-        // $t[]=$this;
+        
     }
     ///<summary>Represente renderDefaultDoc function</summary>
     protected function renderDefaultDoc(){

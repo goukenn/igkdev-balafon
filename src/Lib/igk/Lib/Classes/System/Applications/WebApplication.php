@@ -81,6 +81,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // resource management
         require_once IGK_LIB_CLASSES_DIR.'/Resources/R.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
+        require_once IGK_LIB_DIR.'/Lib/functions-helpers/db.php';
 
    
    

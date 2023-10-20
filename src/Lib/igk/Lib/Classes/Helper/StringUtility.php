@@ -481,9 +481,10 @@ abstract class StringUtility
                     break;
                 case $separator:
                     if (!empty($v)){
-                        $args[] = $v;
+                        $args[$k] = $v;
                     }
                     $v = "";
+                    $k = "";
                     break;
                 case '=':
                     $k = trim($v);

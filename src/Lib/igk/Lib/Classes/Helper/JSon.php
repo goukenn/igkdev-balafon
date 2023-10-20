@@ -6,6 +6,7 @@ namespace IGK\Helper;
 
 use IGK\System\IToArrayResolver;
 use IGKException;
+use JsonSerializable;
 use stdClass;
 
 ///<summary></summary>
@@ -107,6 +108,9 @@ use stdClass;
         return $data;
     }
     private static function _ConvertItemObject($a){
+        if ($a instanceof JsonSerializable){
+            $a = $a->jsonSerialize();
+        }
         if ($a instanceof IToArrayResolver){
             $a = $a->to_array(); 
         } else if (!($a instanceof stdClass)){
@@ -173,12 +177,24 @@ use stdClass;
                         // transform item to native object 
                         $tv = array_map(function($a){
                             if (is_object($a)){
+                                
                                 $a = self::_ConvertItemObject($a); 
                             }
                             return $a;
                         }, $tv);
                     }
                 } else if  (is_object($tv)){
+                    // $a = self::_ConvertItemObject($tv); 
+
+                    if ($tv instanceof IJSonEncodeArrayDefinition){
+                        if ($tv->isEmpty()){
+                            if ($tv->isRequired()){
+                                $c->$k = [];
+                                continue;
+                            }
+                        }
+                    }
+
                     array_unshift($tq, ['d'=>$d, 'keys'=>$keys, 'c'=>$c, 'is_object'=>$is_object]);
                     $c->$k = new stdClass;
                     array_unshift($tq, ['d'=>$tv, 'keys'=>null, 'c'=>$c->$k, 'is_object'=>true]);

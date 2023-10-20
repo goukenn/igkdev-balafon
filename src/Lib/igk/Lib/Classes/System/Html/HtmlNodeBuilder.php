@@ -584,8 +584,12 @@ class HtmlNodeBuilder
                     $c->setAttributes($attribs);
                 }
             } else { 
-                continue;
                 // + | same as childs 
+                if (!$v){
+                    // continue list to childs list... parent...
+                    continue;
+                }
+
             }
             //add($k, $attribs, $args);
             if (!is_null($conds)) {

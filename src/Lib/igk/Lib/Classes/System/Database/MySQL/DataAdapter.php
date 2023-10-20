@@ -440,7 +440,7 @@ class DataAdapter extends DataAdapterBase
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
-                error_log("DB_ERROR: " . $error);
+                Logger::danger("DB_ERROR: " . $error);
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
@@ -686,7 +686,7 @@ class DataAdapter extends DataAdapterBase
     }
     ///<summary></summary>
     /**
-     * 
+     * enable relation checking
      */
     public function restoreRelationChecking()
     {
@@ -731,6 +731,13 @@ class DataAdapter extends DataAdapterBase
     {
         return $this->select($table, $conditions);
     }
+    /**
+     * get column info description 
+     * @param string $table 
+     * @param null|string $column_name 
+     * @return array 
+     * @throws IGKException 
+     */
     public function getColumnInfo(string $table, ?string $column_name = null)
     {
         // get descriptions data for columns
