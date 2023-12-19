@@ -453,7 +453,7 @@
         </Migration>
         <Migration date='20221114' description='store connexion attempts'>
             <createTable table="%prefix%connect_attempts" description='Store Connexion attempts'>
-                <Column clName="cxnId" clType="text" clDescription='provided ip' />
+                <Column clName="cxnId" clType="text" clDescription='provided ip' clIsPrimary="true" clNotNull="true" />
                 <Column clName="cxnAttempt" clType="text" />
                 <Column clName="cxnAccount" clType="varchar" clDescription='requested account' />
                 <Column clName="cxnGeoX" clType="Int" clDescription='location x' />
@@ -677,6 +677,22 @@
                 <Column clName="clCreate_At" clType="DateTime" clAllowNull="false" clDefault='Now()'/>
                 <Column clName="clUpdate_At" clType="DateTime" clAllowNull="false" clInsertFunction='Now()' clUpdateFunction='Now()' clDefault='Now()'/>
             </addColumn>
+        </Migration>
+
+        <Migration>
+            <changeColumn table="%prefix%connect_attempts" column="cxnId">
+                <Column clName="cxnId" clType="text" clDescription='provided ip' clIsPrimary="true" clNotNull="true" />
+            </changeColumn>
+            <changeColumn table="%prefix%login_logs" column="regLinkCreate_At">
+                <Column clName="loglogs_Create_At" clType="DATETIME" clDefault='NOW()'
+                clInsertFunction="NOW()" clNotNull="true" />
+            </changeColumn>
+            <changeColumn  table="%prefix%login_logs" column="regLinkUpdate_At">
+            <Column clName="loglogs_kUpdate_At" clType="DATETIME" clDefault='NOW()'
+                clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
+       
+            </changeColumn>
+
         </Migration>
 
     </Migrations> 

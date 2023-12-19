@@ -22,6 +22,7 @@ use Throwable;
 class App{
     const GREEN = "\e[1;32m";
     const GRAY = "\e[1;90m";
+    const GRAY_I = "\e[3;90m";
     const YELLOW = "\e[0;33m";
     const YELLOW_B = "\e[1;33m";
     const YELLOW_I = "\e[3;33m";

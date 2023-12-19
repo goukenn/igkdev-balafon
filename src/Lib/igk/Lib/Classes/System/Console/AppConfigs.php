@@ -12,6 +12,9 @@ class AppConfigs
 {
     var $author;
 
+    /**
+     * load configuration file
+     */
     const ConfigurationFileName = IGK_BALAFON_CONFIG;
     
     public function init($init_data)

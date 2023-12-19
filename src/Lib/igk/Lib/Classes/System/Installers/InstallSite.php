@@ -13,6 +13,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Installers\InstallerUtils;
+use IGK\System\IO\Path;
 use IGKAppSystem;
 use IGKEvents;
 use IGKException;
@@ -21,6 +22,10 @@ use IO;
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 require_once __DIR__."/InstallerUtils.php";
 
+/**
+ * primary instlalation reference
+ * @package IGK\System\Installers
+ */
 class InstallSite
 {
     /**
@@ -89,7 +94,7 @@ class InstallSite
                     "**/.gitignore",
                     ".gitignore",
                     "vhost.conf",
-                    "balafon.config.xml",
+                    IGK_BALAFON_CONFIG,
                     "phpunit.xml.dist",
                     "phpunit-watcher.yml",
                     "{$c_app}/**",
@@ -151,7 +156,9 @@ class InstallSite
         if (!is_link($lnk = $app_folder . "/Lib/igk") && !file_exists($lnk)) {
             igk_io_createdir(dirname($lnk));
             // + | relative path is important. some directory no allow reading link resources.
-            $v_tlib = igk_io_get_relativepath(dirname($core).'/', $lnk);
+            // $v_tlib = igk_io_get_relativepath(dirname($core).'/', $lnk);
+            Logger::info('create core symlink');
+            $v_tlib = igk_io_get_relativepath($lnk, dirname($core)); 
             @symlink($v_tlib, $lnk);
             unset($v_tlib);
         }
@@ -282,21 +289,16 @@ AddEncoding deflate js
 </VirtualHost>
 EOF
             );
-            // if ($v_is_unix && $is_dev){
-            //     // create vhost link on apache
-            //     $vhost_dir = rtrim(igk_getv($options, "apachedir", "/private/etc/apache2/other"), "/");
-            //     // igk_wln_e("vshot", $vhost_dir, $options);                
-            //     if (is_dir($vhost_dir)) {
-            //         $conf_file = $vhost_dir . "/vhost-" . sha1($folder) . ".conf";
-            //         @symlink($t_conf_file, $conf_file);
-            //     }
-            // }
+           
         }
-
-        // generate configuration 
-        if (!$is_primary) {
+        // + | -------------------------------------------------------------------------------------------
+        // + | generate configuration 
+        // + |
+        if (!$is_primary){
             if (!file_exists($file = $folder."/".AppConfigs::ConfigurationFileName)){
-                // generate configuration file  
+                // + | -----------------------------------------------------------------------------------
+                // + | generate configuration file  
+                // + | 
                 $c = \IGK\System\Console\Utils::GenerateConfiguration($c_public, $c_app, $base_uri);
                 $opts = HtmlRenderer::CreateRenderOptions();
                 $opts->Indent = true;
@@ -305,11 +307,16 @@ EOF
         }
         // + | -------------------------------------------------------------------------------------------
         // + | generate balafon shortcut 
+        // + |
         if (!$is_primary){
             if (file_exists($f = $app_folder."/Lib/igk/bin/balafon")){
                 $t = $src."/../balafon";
-                if (!is_file($t) && @symlink($f, $t)){
-                    @chmod($t, 0774);
+                if (!is_file($t)){
+                    Logger::info('create balafon symbolic link...');
+                    $v_path = igk_io_get_relativepath( Path::FlattenPath($t), $f); 
+                    if (@symlink($v_path, $t)){
+                        @chmod($t, 0774);
+                    }
                 }
             }
         }

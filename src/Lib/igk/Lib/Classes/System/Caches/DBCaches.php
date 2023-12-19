@@ -45,6 +45,31 @@ class DBCaches
      */
     private $m_db_defs;
 
+
+    /**
+     * return loaded controller info 
+     * @param BaseController $controller 
+     * @return <string, SchemaMigrationInfo>[]
+     */
+    public static function GetControllerDataTableDefinition(BaseController $controller){
+        $mp = self::GetCacheData();
+        /**
+         * @var string $table 
+         * @var SchemaMigrationInfo $info 
+         */
+        $table=null;
+        $info;
+    
+
+        $list = [];
+        foreach($mp as $table=>$info){
+            if ($info->controller == $controller){
+                $list[$table] = $info;
+            }
+        }
+        return $list;
+    }
+
     /**
      * init db request 
      * @return mixed 
@@ -140,7 +165,7 @@ class DBCaches
         if (!$v_i->m_init_cache || is_null($v_i->m_tableInfo)){
             self::GetColumnInfo($table, $controller);
         }
-        $c = igk_getv(   $v_i->m_tableInfo, $table);
+        $c = igk_getv($v_i->m_tableInfo, $table);
         if ($controller && $c) {
             // + | --------------------------------------------------------------------
             // + | check matching 

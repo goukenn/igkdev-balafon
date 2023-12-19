@@ -47,7 +47,14 @@ class ViewHelper
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
 
-   
+    /**
+     * help to build view content
+     * @param string $scaffoldtype 
+     * @return null|IGK\Helper\IViewScaffoldBuilder 
+     */
+    public static function GetViewScaffold(string $scaffoldtype):?IViewScaffoldBuilder{
+        return null;
+    }
     /**
      * retrieve home directory
      * @param string|null $path 

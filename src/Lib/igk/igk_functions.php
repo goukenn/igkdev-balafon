@@ -31,6 +31,7 @@ use IGK\Database\DbQueryDriver;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSchemas;
 use IGK\Helper\ActionHelper;
+use IGK\Helper\Activator;
 use IGK\System\Compilers\BalafonCacheViewCompiler;
 use IGK\System\Diagnostics\Benchmark;
 use IGK\System\Html\Css\CssStyle;
@@ -1668,14 +1669,20 @@ function igk_create_view_builder_option()
 /**
  * 
  * @param mixed $tab 
+ * @return \IGK\System\Project\Configurations\ConfigurationPropertyInfo
  */
-function igk_createadditionalconfiginfo($tab)
+function igk_createadditionalconfiginfo($tab): \IGK\System\Project\Configurations\ConfigurationPropertyInfo
 {
-    $o = new StdClass();
-    $o->clType = igk_getv($tab, "clType");
-    $o->clDefaultValue = igk_getv($tab, "clDefaultValue");
-    $o->clRequire = igk_getv($tab, "clRequire");
+    $o = Activator::CreateNewInstance(
+        \IGK\System\Project\Configurations\ConfigurationPropertyInfo::class,
+        $tab
+    );
     return $o;
+    // $o = new StdClass();
+    // $o->clType = igk_getv($tab, "clType");
+    // $o->clDefaultValue = igk_getv($tab, "clDefaultValue");
+    // $o->clRequire = igk_getv($tab, "clRequire");
+    // return $o;
 }
 ///<summary>create an article node</summary>
 /**
@@ -5045,7 +5052,7 @@ function igk_db_get_table_with_column($columnName, $adaptername = IGK_MYSQL_DATA
  * get the definition key in this table
  * @deprecated use DbSchemas::GetTableColumnInfo($table)
  */
-function igk_db_getdatatableinfokey($tablename)
+function igk_db_getdatatableinfokey(string $tablename)
 {
     if (!is_string($tablename)) {
         igk_die("tablename not a string");
@@ -14601,8 +14608,8 @@ function igk_io_getfullpath($path)
 ///<param name="target"></param>
 /**
  * helper: get relative path
- * @param string $source source path. Note: must have a trailing '/' if consider as directory 
- * @param string $target path destination 
+ * @param string $source source path to get relative path from. Note: must have a trailing '/' if consider as directory 
+ * @param string $target path destination
  */
 function igk_io_get_relativepath(string $source, string $target):?string
 {

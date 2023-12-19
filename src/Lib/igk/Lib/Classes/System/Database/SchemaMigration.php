@@ -443,7 +443,7 @@ class SchemaMigration
                 }
                 $tabcl = &$tables[$tb]->columnInfo;
                 if (!isset($tabcl[$cl])) {
-                    igk_dev_wln_e("missing table column ", $cl);
+                    igk_dev_wln_e("[schemap-migration] missing table column ", $cl);
                     return;
                 }
                 $item->columnInfo = $tabcl[$cl];

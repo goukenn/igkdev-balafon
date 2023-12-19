@@ -28,15 +28,23 @@ class AuthCommand extends AppExecCommand
 
     const AVAILABLE_ACTION = "auths|groups|grant";
     var $usage = 'controller --action:'.self::AVAILABLE_ACTION;
+
+    var $action_helps = [];
     public function help()
-    {
+    { 
         Logger::success($this->command . " [controller] [--action:options*]");
         Logger::print("");
         Logger::print($this->desc);
         Logger::print("");
         Logger::info("options*:");
-        foreach (explode("|", self::AVAILABLE_ACTION) as $k) {
+        $tab = explode("|", self::AVAILABLE_ACTION);
+        sort($tab);
+        foreach ($tab as $k) {
             Logger::print("\t{$k}");
+            $help = igk_getv($this->action_helps, $k);
+            if ($help){
+                Logger::print(str_repeat("\t", 6).$help);
+            }
         }
     }
 

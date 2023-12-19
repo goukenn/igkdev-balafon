@@ -436,8 +436,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants
      */
     public static function getInstance()
     {
-        !($c = self::$sm_instance) && ($c = self::$sm_instance = new self());
-        return $c;
+        if (is_null(self::$sm_instance)){
+            self::$sm_instance = new self();
+        } 
+        return self::$sm_instance;
     }
 
     public function is_mod_enabled($module)

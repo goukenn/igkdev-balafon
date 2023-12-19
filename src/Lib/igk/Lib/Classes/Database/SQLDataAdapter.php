@@ -253,6 +253,12 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         return $s;
     }
 
+    /**
+     * 
+     * @param mixed $type 
+     * @param mixed $value 
+     * @return string|null 
+     */
     public function getFuncValue($type, $value){
        
         switch($type){

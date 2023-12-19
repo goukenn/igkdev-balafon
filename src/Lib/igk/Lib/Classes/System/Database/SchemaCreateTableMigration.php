@@ -46,7 +46,9 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
             }
             if (strtolower($tagname) == 'column'){
                 $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
-                $this->columns[]=$cl; 
+                // update data table info
+                empty($cl->clName) && igk_die('failed for missing clName in database schema');
+                $this->columns[$cl->clName]=$cl; 
             }
         }    
     }

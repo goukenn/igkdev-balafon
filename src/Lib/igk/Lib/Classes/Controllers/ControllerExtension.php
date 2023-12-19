@@ -1855,12 +1855,23 @@ abstract class ControllerExtension
      * @return null|object 
      * @throws IGKException 
      */
-    public static function loadDataFromSchemas(BaseController $ctrl, $resolvName = true, $operation = DbSchemasConstants::Migrate)
+    public static function loadDataFromSchemas(BaseController $ctrl,bool $resolvName = true, string $operation = DbSchemasConstants::Migrate)
     {
+
+        // Logger::info('load - data from schemas'. $ctrl->getName());
+
         return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl, $resolvName, $operation);
     }
     /**
-     * controller get data table definition
+     * get cached definition table info 
+     * @param BaseController $controller 
+     * @return array<string, SchemaMigrationInfo> 
+     */
+    public static function getCachedDataTableDefinition(BaseController $controller){
+        return DBCaches::GetControllerDataTableDefinition($controller);
+    }
+    /**
+     * controller get data table definition basic reference 
      * @return ?stdClass { $tableRowReference, $columnInfo }
      */
     public static function getDataTableDefinition(BaseController $ctrl, ?string $tablename = null)
@@ -1877,7 +1888,7 @@ abstract class ControllerExtension
             $info = null;
             if (DBCaches::IsInitializing())
                 return;
-            if (is_null($tablename)) {
+           // if (is_null($tablename)) {
                 // || !($info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 // load the actual state of the dataschema - everything up 
                 if ($schema = self::loadDataFromSchemas($ctrl, true, DbSchemasConstants::Migrate)) {
@@ -1894,9 +1905,8 @@ abstract class ControllerExtension
                         }
                     }
                 }
-            }
-            if ($info) {
-                // $info->controller = $ctrl;
+             
+            if ($info) { 
                 igk_hook(\IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename" => $tablename, "info" => $info]);
             }
             return $info;

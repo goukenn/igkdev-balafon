@@ -95,22 +95,22 @@ EOF);
             $sb->appendLine(sprintf('LOCK TABLES `%s` WRITE;', $t));
             $sb->appendLine(sprintf('/*!40000 ALTER TABLE `%s` DISABLE KEYS */;', $t));
             // + | generate inter query value 
+            $q = self::DumpInsertTable($mysql->select_all($t)->to_array());
+            // $q = new StringBuilder;
+            // $ch = '';
+            // array_map(function ($r) use ($q, &$ch) {
+            //     $q->append(
+            //         $ch.
+            //         "(" .
+            //             implode(
+            //                 ',',
+            //                 array_map([self::class, 'DumpValue'], array_values($r->to_array()))
+            //             ) . ")"
+            //     );
+            //     $ch = ',';
+            // }, $mysql->select_all($t)->to_array());
 
-            $q = new StringBuilder;
-            $ch = '';
-            array_map(function ($r) use ($q, &$ch) {
-                $q->append(
-                    $ch.
-                    "(" .
-                        implode(
-                            ',',
-                            array_map([self::class, 'DumpValue'], array_values($r->to_array()))
-                        ) . ")"
-                );
-                $ch = ',';
-            }, $mysql->select_all($t)->to_array());
-
-            if (!$q->isEmpty()) {
+            if (!empty($q)) {
                 $sb->appendLine(sprintf('INSERT INTO `%s` VALUES %s', $t, $q . ';'));
             }
 
@@ -206,13 +206,14 @@ EOF);
         if (is_numeric($v) || in_array($v, ['CURRENT_TIMESTAMP'])) {
             return $v;
         } 
-        if ($ad){
-            $v = $ad->escape_string($v);
-        }
+        // if ($ad){
+        //     //$v = $ad->escape_string($v);
+        // }
         $v = addslashes($v);
         $v = str_replace("\n",'\n',$v);
         $v = str_replace("\t",'\t',$v);
-        $v = str_replace("\r",'\r',$v);
+        $v = str_replace("\r",'\r',$v); 
+        //$v = stripslashes($v);
         return igk_str_surround($v, "'");
     }
 

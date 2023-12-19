@@ -34,6 +34,11 @@ class MySQLCommand extends AppExecCommand
     var $command = "--db:mysql";
     var $desc = "mysql db managment command";
     var $category = "db";
+    const ACTIONS = 'clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
+    
+    var $action_helps = [
+        "dump"=>"--zip,--type:(sql|csv),--filter:expression"
+    ];
     public function sendQuery($query)
     {
         if (preg_match("/^(CREATE|INSERT|ALTER)/i", $query)) {
@@ -52,8 +57,14 @@ class MySQLCommand extends AppExecCommand
         Logger::print($this->desc);
         Logger::print("");
         Logger::info("options*:");
-        foreach (explode("|", "clean-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types") as $k) {
+        $options = explode("|", self::ACTIONS);
+        sort($options);
+        foreach ($options as $k) {
             Logger::print("\t{$k}");
+            $help = igk_getv($this->action_helps, $k);
+            if ($help){
+                Logger::print(str_repeat("\t", 6).$help);
+            }
         }
     }
     public function exec($command, $ctrl = null)
@@ -74,14 +85,29 @@ class MySQLCommand extends AppExecCommand
                 case 'dump':
                     Logger::info('dump mysql database to csv output');
                     $zip = igk_getv($command->options, '--zip');
-                    $type = igk_getv($command->options, '--type');
+                    $type = igk_getv($command->options, '--type','csv');
+                    $filter = igk_getv($command->options, "--filter");
+                    if (is_array($filter)){
+                        igk_die("--filter as array is not allowed");
+                    }
                     if ($zip) {
                         Logger::warn('zip output');
                     }
-                    return $this->dump_database($db, $zip, $type);
+                    return $this->dump_database($db, $zip, $type, $filter);
                 case 'clean-tables':
-                    Logger::info('clean all tables');                   
-                    return $this->clean_tables($db);
+                    Logger::info('clean all tables');       
+                    $filter = igk_getv($command->options, "--filter");
+                    if (is_array($filter)){
+                        igk_die("--filter as array is not allowed");
+                    }
+                    return $this->clean_tables($db, $filter); 
+                case "drop-tables":
+                    Logger::info('drop mysql tables');
+                    $filter = igk_getv($command->options, "--filter");
+                    if (is_array($filter)){
+                        igk_die("--filter as array is not allowed");
+                    }
+                    return $this->drop_tables($db, $filter);
                 case 'restore-dump':
                     Logger::info('restore mysql dump');
                     $file = igk_getv($command->options, '--file');
@@ -90,7 +116,8 @@ class MySQLCommand extends AppExecCommand
                         return -201;
                     }
                     return $this->restore_dump_database($db, $file);
-
+                
+                    break;
                 case 'supported-types':
                     $type = $db::GetSupportedType();
                     igk_wln_e($type);
@@ -114,6 +141,7 @@ class MySQLCommand extends AppExecCommand
                     ));
                     igk_exit();
                     break;
+                
 
                 case "export_schema":
                     // export global schema
@@ -237,7 +265,7 @@ class MySQLCommand extends AppExecCommand
             }
         }
     }
-    private function dump_database(DataAdapter $ad, $zip = false, string $type='csv')
+    private function dump_database(DataAdapter $ad, $zip = false, string $type='csv', ?string $filter=null)
     {
         if (!in_array($type,['csv','sql'])){
             Logger::danger(__("%s not a supported dump type"));
@@ -249,9 +277,10 @@ class MySQLCommand extends AppExecCommand
             Logger::danger("can't connect to database");
             return -1;
         }
+        $q =  $this->select_show_tables_query($ad, $filter);
         $tables = array_map(function ($g) {
             return (object)['table' => $g->firstValue()];
-        }, $ad->sendQuery("show tables;")->to_array());
+        }, $ad->sendQuery($q)->to_array());
 
         $adapter = igk_get_data_adapter(IGK_CSV_DATAADAPTER);
         switch($type){
@@ -428,14 +457,29 @@ class MySQLCommand extends AppExecCommand
         $ad->insert($table, $entry);
     }
 
-    private function clean_tables($ad){
+    private function select_show_tables_query($ad, ?string $filter=null){
+        $q = "show tables";
+        if ($filter){
+            $q.= sprintf(" Like '%s'", $ad->escape_string($filter));
+        } 
+        $q.=";";
+        return $q;
+    }
+    /**
+     * clean tables 
+     * @param mixed $ad 
+     * @param string|null $filter filter expression
+     * @return int 
+     */
+    private function clean_tables($ad, ?string $filter = null){
         if (!$ad->connect()){
             return -401;
         }
         $ad->stopRelationChecking();
+        $q = $this->select_show_tables_query($ad, $filter);
         $tables = array_map(function ($g) {
             return (object)['table' => $g->firstValue()];
-        }, $ad->sendQuery("show tables;")->to_array());
+        }, $ad->sendQuery($q)->to_array());
         foreach($tables as $t){
             Logger::info("clean : ".$t->table);
             $ad->sendQuery('DELETE FROM `'.$t->table.'`');
@@ -445,5 +489,29 @@ class MySQLCommand extends AppExecCommand
         $ad->close();
         Logger::success('done');
         return 0;
+    }
+
+    /**
+     * drop tables
+     * @param mixed $ad 
+     * @param null|string $filter 
+     * @return int|void 
+     */
+    private  function drop_tables($ad, ?string $filter=null){
+        if (!$ad->connect()){
+            return -401;
+        }
+        $ad->stopRelationChecking();
+        $q = $this->select_show_tables_query($ad, $filter);
+        $tables = array_map(function ($g) {
+            return (object)['table' => $g->firstValue()];
+        }, $ad->sendQuery($q)->to_array());
+        foreach($tables as $t){
+            Logger::info("drop : ".$t->table);
+            $ad->sendQuery('DROP TABLE `'.$t->table.'`');
+        }
+        $ad->restoreRelationChecking(); 
+        $ad->close();
+        Logger::success('done');
     }
 }

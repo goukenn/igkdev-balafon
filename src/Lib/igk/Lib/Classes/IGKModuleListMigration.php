@@ -139,17 +139,7 @@ final class IGKModuleListMigration extends BaseController implements
         return $this->m_host;
     }
 
-    /**
-     * check that schema file exit
-     * @return bool 
-    //  */
-    // public function getUseDataSchema():bool{
-    //     $file = $this->m_host->getDataSchemaFile();
-    //     if (file_exists($file)){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+ 
     /**
      * schema migration list 
      * @param array $list 

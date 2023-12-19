@@ -24,7 +24,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
     var $desc = "sync balafon corelib";
     var $options = [
         "--force" => "flag: force, do not check library before sync",
-        "--core-test-suite"=>"core test-suite to check. default is set in balafon.config.xml",
+        "--core-test-suite"=>"core test-suite to check. default is set in ".IGK_BALAFON_CONFIG,
         "--install-site"=>"flag: install site if complete"
     ];
     public function exec($command)

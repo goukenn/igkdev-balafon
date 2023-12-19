@@ -34,7 +34,13 @@ class Database{
     private static function _Init(){
         self::$sm_shared_info = [];
     }
-    public static function GetInfo($n){
+    /**
+     * Get Shared info
+     * @param string $n 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function GetInfo(string $n){
         return igk_getv(self::$sm_shared_info, $n);
     }
 

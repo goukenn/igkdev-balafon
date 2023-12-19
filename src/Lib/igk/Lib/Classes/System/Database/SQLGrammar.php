@@ -29,6 +29,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\QueryBuilderConstant as queryConstant;
 use IGKException;
+use IGKSysUtil;
 use stdClass;
 
 ///<summary>represent sql default grammar</summary>
@@ -887,6 +888,12 @@ class SQLGrammar implements IDbQueryGrammar
             $of = $tinf->clInsertFunction;
         } else if (($type != "i") && $tinf->clUpdateFunction) {
             $of = $tinf->clUpdateFunction;
+        }
+        if ($of == 'IGK_PASSWD_ENCRYPT'){
+            if (empty($value)){
+                $value = IGKSysUtil::Encrypt(igk_create_guid());
+                $of = null;
+            }
         }
 
         if (($value === null) || ($value === $tinf->clDefault) || (($value !== '0') && empty($value))) {

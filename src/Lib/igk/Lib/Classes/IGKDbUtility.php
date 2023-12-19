@@ -495,11 +495,11 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     ///<param name="leaveOpen" default="false"></param>
     /**
     * 
-    * @param mixed $table
+    * @param string $table
     * @param mixed $obj
     * @param mixed $leaveOpen the default value is false
     */
-    public function insertIfNotExists($table, $obj, $leaveOpen=false){
+    public function insertIfNotExists(string $table, $obj, $leaveOpen=false){
         return igk_db_insert_if_not_exists($this->m_Ctrl, $table, $obj, null, null, $leaveOpen, "Or");
     }
     ///<summary>insert or update $obj</summary>

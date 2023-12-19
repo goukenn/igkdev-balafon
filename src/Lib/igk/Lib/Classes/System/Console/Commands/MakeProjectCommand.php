@@ -33,6 +33,7 @@ use IGK\System\Database\SchemaBuilder;
 use IGK\System\Http\Route;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
 use IGKConstants;
 use IGKEvents;
 
@@ -175,28 +176,42 @@ EOF;
             Logger::info(__("Setup general configuration"));
             $prop = (object)["name" => $pname, "description" => $desc];
             $tab = property_exists($command->options, "--conf-default") ? igk_sys_getdefaultctrlconf() : [];
-            if (method_exists($type, "GetAdditionalConfigInfo")) {
+            if (method_exists($type, 'GetAdditionalConfigInfo')) {
                 if ($tabInfo = $type::GetAdditionalConfigInfo()) {
                     $tab = array_merge($tab, $tabInfo);
                 }
             }
             ksort($tab);
             if (function_exists('readline')) {
-                Logger::info(__("Configure"));
+                Logger::info(__("Configure")); // definite keys string name
                 $names = [
                     "clAppName" => __("Name"),
                     "clTitle" => __("Title"),
                     "clBasicUriPattern" => __("Entry URI"),
+                    "clDataSchema"=>__('Use Database Schema'),
                     "clDataTablePrefix" => __("Table's Prefix"),
-                    "clAppNotActive"=>__("Is project not active ?") ." ". App::Gets(App::GRAY, '(1|0)'),
+                    "clAppNotActive"=>__("Is project not active ?"),
                 ];
                 foreach ($tab as $key => $value) {
                     $def = null;
+                    if ($value instanceof ConfigurationPropertyInfo){
+                        if ($key == 'clAppName'){
+                            $value->clDefaultValue = $controller;
+                        }
+                        if ($value->clType== 'bool'){
+                            $names[$key] .= App::Gets(App::GRAY, ' (1|0)');
+                        }
+                        if (!is_null($value->clDefaultValue)){
+                            $def = $value->clDefaultValue;
+                            $names[$key] .= App::Gets(App::GRAY_I, sprintf(' (%s)', $value->clDefaultValue));
+                        }
+                    }
                     if (property_exists($obj_conf, $key)) {
                         $config->$key = $obj_conf->$key;
                     } else {
-                        if ($def = (is_array($value) ? igk_getv($value, "default") : $value)) {
-                            if (igk_is_closure($def)) {
+                        
+                        if (is_null($def) && ($def = (is_array($value) ? igk_getv($value, "default") : $value)) ){
+                        if (igk_is_closure($def)) {
                                 $def = $def($prop);
                             }
                         }

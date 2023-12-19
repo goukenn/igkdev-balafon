@@ -206,7 +206,7 @@ abstract class AppCommand {
      * help view
      * @return void 
      */
-    public function help(){
+    public function     help(){
         Logger::print("");        
         Logger::info($this->command. PHP_EOL);
         if ($d = $this->desc){

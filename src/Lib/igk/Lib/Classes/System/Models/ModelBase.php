@@ -324,13 +324,26 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
 
     private static function CreateMockInstance($classname)
     {
+        static $sm_mocking_creation;
+        if (is_null($sm_mocking_creation)){
+            $sm_mocking_creation = [];
+        }
+        if (isset(  $sm_mocking_creation[$classname])){
+            /**
+             * possibility of not registrated class or mocking 
+             */
+            igk_die("flag to create mocking instance. ".$classname);
+        }
+        $sm_mocking_creation[$classname] = 1;
         if (self::$mock_instance === null) {
             self::$mock_instance = [];
         }
         if (!($m = igk_getv(self::$mock_instance, $classname))) {
-            $m =  new $classname(null, 1);
+            //DBCaches::IsInitializing() ?? igk_die('caching initializing. cant not register a mocking instance');
+            $m = new $classname(null, 1);
             self::$mock_instance[$classname] = $m;
         }
+        unset($sm_mocking_creation[$classname]);
         return $m;
     }
     /**
@@ -358,7 +371,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         $this->_initialize($raw, $mock, $unset);
         $tab = &self::RegisterModels();
-        if (!isset($tab[$tb = $this->table()])) {
+        if ($tab && !isset($tab[$tb = $this->table()])) {
             $ctrl = $this->getTableInfoController();
             $tab[$tb] = (object)[
                 'model' => static::class,
@@ -620,7 +633,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
            
             require_once(IGK_LIB_CLASSES_DIR . "/Models/Inc/DefaultModelEntryExtensions.pinc");
             // + | ----------------------------------------------------
-            // + | init all model so that will be 
+            // + | init all model
             // + |
             igk_hook(IGKEvents::HOOK_MODEL_INIT, [static::class]);
         }

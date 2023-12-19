@@ -24,4 +24,7 @@ class ControllerInjector implements IInjector{
     public function resolve($value, ?string $type=null){        
         return $this->controller;        
     }
+    public function __toString(){
+        return __CLASS__;
+    }
 }

@@ -340,16 +340,18 @@ implements IDatabaseHost
     }
     ///<summary></summary>
     /**
-     * 
+     * primary configuration additional configuration 
+     * @return <string,ConfigInfo
      */
-    public static function GetAdditionalConfigInfo()
+    public static function GetAdditionalConfigInfo(): array
     {
         return array(
             IGK_CTRL_CNF_TITLE => igk_createAdditionalConfigInfo(array("clRequire" => 1)),
             IGK_CTRL_CNF_APPNAME => igk_createAdditionalConfigInfo(array("clRequire" => 1)),
             IGK_CTRL_CNF_BASEURIPATTERN => igk_createAdditionalConfigInfo(array("clRequire" => 1)),
+            IGK_CTRL_CNF_USE_DATASCHEMA=> igk_createAdditionalConfigInfo(array("clRequire" => 1, "clType"=>"bool", 'clDefaultValue'=>'0')),
             IGK_CTRL_CNF_TABLEPREFIX => igk_createAdditionalConfigInfo(array("clRequire" => 1, "clDefaultValue" => "tbigk_")),
-            IGK_CTRL_CNF_APPNOTACTIVE => (object)array("clType" => "bool", "clDefaultValue" => "0")
+            IGK_CTRL_CNF_APPNOTACTIVE => igk_createAdditionalConfigInfo(array("clType" => "bool", "clDefaultValue" => "0"))
         );
     }
     ///<summary></summary>

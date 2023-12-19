@@ -2028,13 +2028,13 @@ if (!function_exists('igk_io_workingdir')) {
         if (defined($v_key)) {
             return IGK_WORKING_DIR;
         }
-        if ($server && isset($_SERVER, $v_key)) {
+        if ($server && isset($_SERVER[$v_key])) {
             return $_SERVER[$v_key];
         }
         $app_dir = igk_io_applicationdir();
         $base_dir = igk_io_basedir();
         if ($app_dir == $base_dir) {
-            define("IGK_WORKING_DIR", $app_dir);
+            define($v_key, $app_dir);
             return $app_dir;
         }
         $c = 0;
@@ -2043,12 +2043,12 @@ if (!function_exists('igk_io_workingdir')) {
             $c++;
             if ($c > 10) break;
             if (strstr($base_dir, $app_dir)) {
-                define("IGK_WORKING_DIR", $app_dir);
+                define($v_key, $app_dir);
                 return $app_dir;
             }
         }
         if (IGKApp::IsInit()) {
-            define('IGK_WORKING_DIR', $dir = getcwd());
+            define($v_key, $dir = getcwd());
             return $dir;
         }
         die("failed to found working directory " . getcwd());

@@ -15,6 +15,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
+use IGK\Helper\ViewHelper;
 use \IGKControllerManagerObject;
  
 class MakeViewCommand extends AppExecCommand{
@@ -27,7 +28,8 @@ class MakeViewCommand extends AppExecCommand{
     var $options = [
         "--controller:controller"=>"set controller to use",
         "--action"=>"enable action",
-        "--dir"=>"enable view dir"
+        "--dir"=>"enable view dir",
+        "--scaffold:[scaffoldtype]"=>"type of view to generate. default is null. or builder"
     ]; 
     public function exec($command, $controller=null, $viewname=""){
         $controller = $controller ?? igk_getv($command->options, "--controller");
@@ -64,15 +66,15 @@ class MakeViewCommand extends AppExecCommand{
 
         $bind[$dir."/{$viewname}".IGK_VIEW_FILE_EXT] = function($file)use($viewname, $author, $scaffold){  
             // TODO : FROM Scaffold generate the base document 
-            $src =  "\$t->div()->Content = 'View : $viewname';";        
+            $src = $this->getInitViewContent($viewname, $scaffold);
             $builder = new PHPScriptBuilder();
             $fname = $viewname.IGK_VIEW_FILE_EXT;
             $builder->type("function")->name($viewname)
             ->author($author)
-            ->defs()
+            ->defs($src)
             ->docs("view entry point")
             ->file($fname)
-            ->desc("view : ".$viewname);
+            ->desc(implode("\n",["", " @view: ".$viewname]));
             igk_io_w2file( $file,  $builder->render());
         };
 
@@ -94,5 +96,21 @@ class MakeViewCommand extends AppExecCommand{
         Logger::print("-\n");
         Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " controller name [options]" );
         Logger::print("\n\n");
+    }
+
+    public function getInitViewContent(string $viewname, ?string $type=null):string{
+        if ($type){
+            if ($type == 'builder'){
+                return "\$builder([\"View : $viewname\"]);";
+            } else {
+                // 
+                if ($builder = ViewHelper::GetViewScaffold($type)){
+                    return $builder->initView($viewname);
+                }
+                igk_die('missing scaffold type');
+            }
+        }
+
+        return  "\$t->div()->Content = 'View : $viewname';";        
     }
 }
