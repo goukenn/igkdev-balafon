@@ -1288,6 +1288,10 @@ function igk_conf_store_value($d, $k, $v)
         array_push($tab, (object)array('n' => $c, 'v' => $v));
         while ($q = array_pop($tab)) {
             $m = $q;
+            if (is_null($m->v)){
+                igk_die('property is null');
+                continue;
+            }
             foreach ($m->v as $s => $t) {
                 if ($s[0] == "@") {
                     $m->n[substr($s, 1)] = $t;

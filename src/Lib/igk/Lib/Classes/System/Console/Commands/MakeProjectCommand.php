@@ -210,12 +210,14 @@ EOF;
                         $config->$key = $obj_conf->$key;
                     } else {
                         
-                        if (is_null($def) && ($def = (is_array($value) ? igk_getv($value, "default") : $value)) ){
-                        if (igk_is_closure($def)) {
+                        if (is_null($def) && ($def = (is_array($value) ? igk_getv($value, "default") : null)) ){
+                            if (igk_is_closure($def)) {
                                 $def = $def($prop);
                             }
                         }
-                        $config->$key = igk_getsv(readline(igk_getv($names, $key, $key) . " = "), $def);
+                        $v_v = readline(igk_getv($names, $key, $key) . " = ");
+
+                        $config->$key = empty($v_v) && !is_null($def) ? $def : $v_v; // igk_getsv(readline(igk_getv($names, $key, $key) . " = "), $def);
                     }
                 }
             }
