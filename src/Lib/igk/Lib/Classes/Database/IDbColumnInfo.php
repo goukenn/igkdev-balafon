@@ -10,7 +10,7 @@ namespace IGK\Database;
 * 
 * @package IGK\Database
 */
-interface IDbColumnInfo{
+interface   IDbColumnInfo{
     function IsUnsigned():bool;
     function getIsRefId():bool;
 }

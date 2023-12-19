@@ -180,12 +180,12 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder{
                 $e->addProperties($v->columnInfo);
             }
         }
-        if (isset($loadSchemaObject->Entries)){
-            // load entries
-            foreach($loadSchemaObject->Entries as $k=>$v){
+        // if (isset($loadSchemaObject->Entries)){
+        //     // load entries
+        //     foreach($loadSchemaObject->Entries as $k=>$v){
             
-            }
-        }
+        //     }
+        // }
         return $o;
     }
 }

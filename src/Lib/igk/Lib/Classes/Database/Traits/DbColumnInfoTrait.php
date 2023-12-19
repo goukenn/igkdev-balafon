@@ -14,6 +14,11 @@ trait DbColumnInfoTrait
 {
 
   /**
+   * store link name
+   * @var mixed
+   */
+  var $clLinkName;
+  /**
    * reference key column
    * @var mixed
    */

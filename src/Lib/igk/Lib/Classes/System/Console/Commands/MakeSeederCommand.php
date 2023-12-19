@@ -41,7 +41,7 @@ class MakeSeederCommand extends AppExecCommand
             return false;
         }
 
-        $clname = ucfirst(igk_str_ns($modelname)) . "Seeder";
+        $clname = igk_str_add_suffix(ucfirst(igk_str_ns($modelname)),  "Seeder");
         $ns = $ctrl->getEntryNamespace();
         if (!empty($ns)) {
             $ns = str_replace("/", "\\", $ns . "/Database/Seeds");
@@ -55,7 +55,7 @@ class MakeSeederCommand extends AppExecCommand
             $fname = basename($file);
             $builder->type("class")->name($clname)
                 ->author($author)
-                ->defs("")
+                ->defs("function run(){}")
                 ->doc("seeder")
                 ->file($fname)
                 ->namespace($ns)

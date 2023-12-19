@@ -27,6 +27,8 @@ class InitDbCommand extends AppExecCommand{
 		'--force'=>'flag: force file creation'
 	];
 	var $category = "db";
+	var $usage = '[controller] [options]';
+
 	public function exec($command, ?string $ctrl = null) { 
 		$c = null;
 		DbCommandHelper::Init($command);

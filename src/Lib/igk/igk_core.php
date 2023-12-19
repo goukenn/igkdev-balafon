@@ -1281,7 +1281,7 @@ function igk_app()
     return IGKApp::getInstance();
 }
 /**
- * helper to get configuration
+ * helper to get system configuration
  * @return \IGK\System\Configuration\ConfigData|\IGK\System\Configuration\ISysConfigurationData
  */
 function igk_configs()

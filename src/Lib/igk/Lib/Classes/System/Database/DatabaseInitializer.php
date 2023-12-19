@@ -295,6 +295,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         //$this->m_definition = $definition;
         Logger::info('init schema definition load - ' . $tableReferenceResolver);
         
+        
         $def = DbSchemas::LoadSchema($file, $tableReferenceResolver, true, $operation);
         
         // update reference 

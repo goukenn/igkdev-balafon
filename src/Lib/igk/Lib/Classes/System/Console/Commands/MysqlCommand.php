@@ -60,11 +60,12 @@ class MySQLCommand extends AppExecCommand
         $options = explode("|", self::ACTIONS);
         sort($options);
         foreach ($options as $k) {
-            Logger::print("\t{$k}");
+            $rs = "\t{$k}";
             $help = igk_getv($this->action_helps, $k);
             if ($help){
-                Logger::print(str_repeat("\t", 6).$help);
+                $rs.= str_repeat("\t", 6).$help;
             }
+            Logger::print($rs);
         }
     }
     public function exec($command, $ctrl = null)
@@ -239,12 +240,13 @@ class MySQLCommand extends AppExecCommand
         }
         return -1;
     }
+    /**
+     * priview create query list
+     */
     private  function preview_create_query($ctrl, $table)
     {
         $ad = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
-        if ($ad instanceof DataAdapter) {
-
-
+        if ($ad instanceof DataAdapter) { 
             $ad->setSendDbQueryListener($this);
             if (!($ctrl && ($ctrl = igk_getctrl($ctrl, false)))) {
                 return -1;

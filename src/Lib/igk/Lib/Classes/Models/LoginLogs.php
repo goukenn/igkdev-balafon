@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: LoginLogs.php
-// @date: 20230922 00:42:27
+// @date: 20231219 13:50:52
 namespace IGK\Models;
 
 
@@ -23,10 +23,10 @@ use IGK\Models\ModelBase;
 * @property string $loglogs_City
 * @property int $loglogs_Status 0 = loggin, 1 = logut
 * @property string $loglogs_Description location y
-* @property string|datetime $regLinkCreate_At ="NOW()"
-* @property string|datetime $regLinkUpdate_At ="NOW()"
-* @method static ?self Add(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry if not exists. check for unique column.
+* @property string|datetime $loglogs_Create_At ="NOW()"
+* @property string|datetime $loglogs_kUpdate_At ="NOW()"
+* @method static ?self Add(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $loglogs_Create_At ="NOW()", string|datetime $loglogs_kUpdate_At ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $loglogs_Create_At ="NOW()", string|datetime $loglogs_kUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class LoginLogs extends ModelBase{
 	const FD_LOGLOGS_ID="loglogs_Id";
@@ -41,8 +41,8 @@ class LoginLogs extends ModelBase{
 	const FD_LOGLOGS_CITY="loglogs_City";
 	const FD_LOGLOGS_STATUS="loglogs_Status";
 	const FD_LOGLOGS_DESCRIPTION="loglogs_Description";
-	const FD_REG_LINK_CREATE_AT="regLinkCreate_At";
-	const FD_REG_LINK_UPDATE_AT="regLinkUpdate_At";
+	const FD_LOGLOGS_CREATE_AT="loglogs_Create_At";
+	const FD_LOGLOGS_K_UPDATE_AT="loglogs_kUpdate_At";
 	/**
 	* table's name
 	*/

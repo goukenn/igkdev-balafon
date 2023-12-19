@@ -11,7 +11,7 @@ namespace IGK\System\Traits;
 * @package IGK\System\Traits
 */
 trait ComposerFakerTrait{
-    var $faker;
+    protected $faker;
 
     public function getFaker(){
         if (is_null($this->faker)){

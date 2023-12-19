@@ -16,7 +16,7 @@ use IGK\System\Console\Logger;
 */
 class RunDumpDbPropertyCommand extends AppExecCommand{
     var $command = '--run:dumpdb-property';
-
+    var $category = 'db';
     var $options = [
         '--create-query'=>'',
     ];

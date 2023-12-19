@@ -29,7 +29,7 @@ abstract class DiagramPropertiesHost{
                 }
             }
 
-            if (!($k instanceof DiagramEntityColumnInfo)){
+            if (!($k instanceof DiagramEntityColumnInfo)){ // convert to diagram entity info
                 $k = Activator::CreateNewInstance(DiagramEntityColumnInfo::class, $k);
             }
             $this->m_properties[$k->clName] = $k;

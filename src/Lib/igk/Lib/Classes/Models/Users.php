@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @date: 20230922 00:42:27
+// @date: 20231219 13:50:52
 namespace IGK\Models;
 
 
@@ -22,9 +22,6 @@ use IGK\Models\ModelBase;
 * @property string $clPicture uri of 255 max length
 * @property string $clLevel user's primary level
 * @property int $clStatus ="-1" state of the account, -1 = not activated, 1=activated, 0or2=blocked, 4=update
-* @property string $google_user_id
-* @property string $provider provider name
-* @property string $fb_user_id
 * @property string|datetime $clDate ="CURRENT_TIMESTAMP" registration date
 * @property string|datetime $clLastLogin last login
 * @property int|?\IGK\Models\Users $clParent_Id Parent of this account
@@ -32,8 +29,8 @@ use IGK\Models\ModelBase;
 * @property string|datetime $clcreate_at ="CURRENT_TIMESTAMP" user create at
 * @property string|datetime $clupdate_at ="CURRENT_TIMESTAMP" update user's info at
 * @property string|datetime $clDeactivate_At
-* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
-* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * */
 class Users extends ModelBase{
 	const FD_CL_ID="clId";
@@ -47,9 +44,6 @@ class Users extends ModelBase{
 	const FD_CL_PICTURE="clPicture";
 	const FD_CL_LEVEL="clLevel";
 	const FD_CL_STATUS="clStatus";
-	const FD_GOOGLE_USER_ID="google_user_id";
-	const FD_PROVIDER="provider";
-	const FD_FB_USER_ID="fb_user_id";
 	const FD_CL_DATE="clDate";
 	const FD_CL_LAST_LOGIN="clLastLogin";
 	const FD_CL_PARENT_ID="clParent_Id";

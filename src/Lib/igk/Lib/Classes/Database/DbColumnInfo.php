@@ -36,7 +36,13 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         $this->clType = "Int";
         $this->clTypeLength = 11;      
-        $this->initialize($array);       
+        $this->initialize($array);     
+
+        // igk_wln(__FILE__.":".__LINE__ , $array);
+        
+        if(!in_array(strtolower($this->clType), ['int','varchar'])){
+            $this->clTypeLength = null;
+        }
     }
     private static function ExplodeLinkTo(string $data){
         $table = explode(",", $data,3);
@@ -316,6 +322,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     public static function GetRowDefaultValue(IDbColumnInfo $v)
     {
         if ($v->clNotNull) {
+            if (empty($v->clType)){
+                igk_dev_wln_e(__FILE__.":".__LINE__ , "is empty ");
+            }
             switch (strtolower($v->clType)) {
                 case "int":
                 case "float":
