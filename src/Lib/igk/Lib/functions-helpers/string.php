@@ -6,6 +6,15 @@
 use IGK\Helper\StringUtility as stringUtility;
 
 
+if (!function_exists('igk_str_add_suffix')){
+    function igk_str_add_suffix(string $content, string $suffix, bool $check=true):string{
+        if ($check && igk_str_endwith($content, $suffix) ){
+            return $content;
+        }
+        return $content.$suffix;
+    }
+}
+
 
 if (!function_exists('igk_str_replace_assoc_array')) {
     /**

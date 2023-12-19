@@ -95,7 +95,7 @@ class MakeProjectCommand extends AppExecCommand
         $force = property_exists($command->options, "--force");
         $ns = igk_str_ns($controller);
         $pname = basename(igk_dir($ns));
-        $clname = ucfirst($pname) . "Controller";
+        $clname = igk_str_add_suffix(ucfirst($pname) , "Controller");
         $dir = igk_io_projectdir() . "/{$pname}";
         igk_init_controller(new ControllerInitListener($dir, 'appsystem'));
         $defs = "";
