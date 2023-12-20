@@ -1125,13 +1125,13 @@ class SQLGrammar implements IDbQueryGrammar
     }
     /**
      * build select query
-     * @param mixed $tbname 
+     * @param string $tbname 
      * @param mixed|null $where 
      * @param mixed|null $options 
      * @return string 
      * @throws IGKException 
      */
-    public function createSelectQuery($tbname, $where = null, $options = null)
+    public function createSelectQuery(string $tbname, $where = null, $options = null)
     {
         $q = "";
         $ad = $this->m_driver;

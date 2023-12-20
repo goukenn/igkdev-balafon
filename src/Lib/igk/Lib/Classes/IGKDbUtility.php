@@ -90,10 +90,10 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
         $this->close(); 
         $msg="/!\\ DBUtility[".get_class($this)."] Action {$name} not implements";
         throw new \IGK\System\Exceptions\NotImplementException($msg);
-        igk_ilog($msg, __CLASS__);
-        igk_notifyctrl()->addError($msg);
-        igk_assert_die(igk_server_is_local(), $msg);
-        return null;
+        // igk_ilog($msg, __CLASS__);
+        // igk_notifyctrl()->addError($msg);
+        // igk_assert_die(igk_server_is_local(), $msg);
+        // return null;
     }
     public function selectdb($dbname){
         if ($this->m_ad)
@@ -779,8 +779,8 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     }
     /**
      * fix db utility
-     * @param mixed $condition 
-     * @param mixed $table 
+     * @param string? $condition 
+     * @param string? $table 
      * @return mixed 
      * @throws IGKException 
      */

@@ -156,7 +156,7 @@ class DBCaches
      * retrieve cached table column info -
      * @param string $table 
      * @param null|BaseController $controller 
-     * @return mixed 
+     * @return SchemaMigrationInfo|array 
      * @throws IGKException 
      */
     public static function GetColumnInfo(string $table, ?BaseController $controller = null)

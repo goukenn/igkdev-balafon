@@ -241,11 +241,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
     ///<param name="tbname"></param>
     ///<param name="whereTab" default="null"></param>
     /**
-     * 
-     * @param mixed $tbname
-     * @param mixed $whereTab the default value is null
+     * count number of items in 
+     * @param string $tbname
+     * @param mixed|array|object $where the default value is null
+     * @param mixed|array|object $options passing grammar options
      */
-    public function selectCount($tbname, $where = null, $options = null)
+    public function selectCount(string $tbname, $where = null, $options = null)
     {
         if (!$options)
             $options = [];

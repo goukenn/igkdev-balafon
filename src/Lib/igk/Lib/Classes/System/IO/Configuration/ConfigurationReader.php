@@ -7,8 +7,7 @@
 
 namespace IGK\System\IO\Configuration;
 
-use Closure;
-use PhpParser\Node\Stmt\Break_;
+use Closure; 
 use stdClass;
 
 /**
@@ -140,10 +139,7 @@ class ConfigurationReader
         $sep = $this->separator;
         $v_escape_counter = 0;
         while ($this->_canRead()) {
-            $ch = $this->m_text[$this->m_offset];
-
-           
-
+            $ch = $this->m_text[$this->m_offset];  
             switch ($ch) {
                 case $this->delimiter:
                     if ($v_escape_counter==0){
@@ -235,8 +231,7 @@ class ConfigurationReader
         $escape_delimiter = $this->delimiter== $end;
         $v_ecounter = 0;
         while($this->_canRead()){
-            $ch = $this->m_text[$this->m_offset];
-
+            $ch = $this->m_text[$this->m_offset]; 
             if ($escape_delimiter){
                 if ($ch=='\\'){
                     if (($this->escape_start || $this->escape_end) && ( $this->m_ln-1 > $this->m_offset)){
@@ -268,19 +263,22 @@ class ConfigurationReader
                     if (is_null($d)){
                         $d = "";
                     }
-                    $d .= $ch;
-                    break;
-                case $end: 
-                    if ($v_ecounter==0){ 
-                        $this->m_offset--;
-                        return !is_null($d) ? trim($d) : null; 
+                    // $d .= $ch;
+                    if ($this->_readLitteralEnd($ch, $end)){
+                        if ($v_ecounter==0){ 
+                            $this->m_offset--;
+                            return !is_null($d) ? trim($d) : null; 
+                        }
                     }
                     $d .= $ch;
-                    break;
+                    break; 
             }
             $this->m_offset++;
         } 
         return $d;
+    }
+    protected function _readLitteralEnd(string $ch, string $end):bool{
+        return $ch == $end;
     }
    
     public function getErrors(){

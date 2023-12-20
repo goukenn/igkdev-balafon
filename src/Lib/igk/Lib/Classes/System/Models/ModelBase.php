@@ -516,11 +516,14 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * @return ?array key|columninfo 
      * @throws IGKException 
      */
-    public function getTableColumnInfo()
+    public function getTableColumnInfo(): ?array
     {
         $tn = $this->getTable();
         if($g = DBCaches::GetColumnInfo($tn, $this->getController())){
-            return $g;
+            if (is_array($g)){
+                return $g;
+            }
+            return $g->columnInfo;
         }       
         return null;
     }

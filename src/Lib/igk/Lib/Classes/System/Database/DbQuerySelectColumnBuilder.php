@@ -49,8 +49,14 @@ class DbQuerySelectColumnBuilder{
         {
             return;
         }
+        if ($info instanceof SchemaMigrationInfo){
+            $info = $info->columnInfo;
+        }
         $i = new static;
         foreach($info as $k=>$cl){
+            if (is_string($cl)){
+                igk_wln_e("not and object", $cl);
+            }
             $v = igk_getv($conditions, $k);
             if ($cl->clIsUnique){
                 if (is_null($v) && !$cl->clNotNull ){

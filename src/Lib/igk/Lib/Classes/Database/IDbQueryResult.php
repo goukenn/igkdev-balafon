@@ -30,7 +30,7 @@ interface IDbQueryResult{
      * 
      * @return mixed 
      */
-    function to_array();
+    // function to_array();
 
     /**
      * get if query success

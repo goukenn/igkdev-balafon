@@ -8,7 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-namespace IGK\System\Database;
+namespace IGK\Database;
 
 use IGKQueryResult;
 
@@ -19,6 +19,10 @@ final class DbDataQueryResult extends IGKQueryResult{
     public function __construct(){
         $this->m_columns=array();
         $this->m_rows=array();
+    }
+    public function success(): bool
+    {
+        return true;
     }
     ///<summary></summary>
     ///<param name="tab"></param>

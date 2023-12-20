@@ -14,8 +14,10 @@ use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
+use IGK\Database\IDbQueryResult;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
+use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKException;
@@ -799,7 +801,7 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $query
      * @param mixed $throwex the default value is true
      * @param mixed $options extra option. used by query result
-     * @return DbQueryResult|\Iterable|null|bool
+     * @return IDbQueryResult|\Iterable|null|bool
      */
     public function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false)
     {
@@ -810,7 +812,7 @@ class DataAdapter extends DataAdapterBase
             $r = $listener->sendQuery($query, $throwex, $options);
             // if ($r === false)
             //     return false;
-            if ($r instanceof DbQueryResult) {
+            if ($r instanceof IDbQueryResult) {
                 return $r;
             }
             if ($r !== null) {
@@ -863,11 +865,11 @@ class DataAdapter extends DataAdapterBase
      * 
      * @param mixed $listener
      */
-    public function setSendDbQueryListener($listener)
+    public function setSendDbQueryListener(?IDbSendQueryListener $listener)
     {
         $this->queryListener = $listener;
     }
-    public function getSendDbQueryListener()
+    public function getSendDbQueryListener():?IDbSendQueryListener
     {
         return $this->queryListener;
     }
