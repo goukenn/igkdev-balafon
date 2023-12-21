@@ -18,29 +18,30 @@ trait ControllerDbExtensionTrait{
      * remove column 
      * @param BaseController $ctrl 
      * @param string $table 
-     * @param mixed|DbColumnInfo $info 
+     * @param mixed|IDbColumnInfo|object $info 
      * @return mixed 
      * @throws IGKException 
      */
     public static function db_rm_column(BaseController $ctrl, string $table, $info)
     {
-        Logger::warn('remove column: '.$table. ' '.$info->clName);
-        $ad = self::getDataAdapter($ctrl);
         $is_obj = is_object($info);
         if ($is_obj) {
             $name = $info->clName;
         } else {
             $name = $info;
         }
+        Logger::warn('remove column: '.$table. ' '.$name);
+        $ad = self::getDataAdapter($ctrl);
         if ($ad->exist_column($table, $name)) {
             if (
                 $is_obj && $info->clLinkType &&
                 ($query = $ad->grammar->remove_foreign($table, $name))
             ) {
+                // remove foreign queries
                 $ad->sendMultiQuery($query);
             }
             $query = $ad->grammar->rm_column($table, $name);
-            return $ad->sendMultiQuery($query);
+            return $ad->sendQuery($query);
         }
         return false;
     }
@@ -118,8 +119,9 @@ trait ControllerDbExtensionTrait{
     public static function db_change_column(BaseController $ctrl, $table, $info)
     {
         $ad = self::getDataAdapter($ctrl);
+        igk_environment()->querydebug = 1;
         if ($ad->exist_column($table, $info->clName)) {
-
+            // drop foreign key if column 
             $ad->drop_foreign_key($table, $info);
 
             if ($query = $ad->grammar->change_column($table, $info)) {

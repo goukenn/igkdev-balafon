@@ -379,12 +379,16 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::GetConstraint_Index($this, $s, $this->DbName);
         return null;
     }
+    
     ///<summary></summary>
     /**
      * 
      */
     public function getDbName(): ?string
-    {       
+    {    
+        if ($listener = $this->getSendDbQueryListener()){
+            return $listener->getDbName();
+        }   
         return $this->m_dbname;
     }
     ///<summary></summary>

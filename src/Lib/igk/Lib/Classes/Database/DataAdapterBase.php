@@ -8,6 +8,7 @@
 namespace IGK\Database;
 
 use IGK\System\Console\Logger;
+use IGK\System\Database\IDbSendQueryListener;
 use IGKException;
 use IGKObject;
 
@@ -31,6 +32,16 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @var ?IDbResolveLinkListener
      */
     var $resolveLinkListener;
+
+    /**
+     * inject a send db query listener 
+     * */
+    public abstract function setSendDbQueryListener(?IDbSendQueryListener $listener);
+    /**
+     * get the send db query listener
+     * @return null|IDbSendQueryListener 
+     */
+    public abstract function getSendDbQueryListener(): ?IDbSendQueryListener;
 
     function getHasError(){
         return false;

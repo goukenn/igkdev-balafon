@@ -43,8 +43,8 @@ class DbSingleValueResult{
     public function getValue(){
         return $this->value;
     }
-    ///<summary>Represente ResultTypeIsBoolean function</summary>
-    public function ResultTypeIsBoolean(){
+    ///<summary>Represente resultTypeIsBoolean function</summary>
+    public function resultTypeIsBoolean(){
         return ($this->type == "boolean");
     }
     ///<summary>Represente sortBy function</summary>

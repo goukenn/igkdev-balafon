@@ -11,6 +11,7 @@
 use IGK\Database\DataAdapterBase;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\IO;
+use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\IO\CSV\Helper\CSVHelper;
 
@@ -24,6 +25,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
 
     const DELIMITER = '"';
     const SEPARATOR = ',';
+
+    public function setSendDbQueryListener(?IDbSendQueryListener $listener) { }
+
+    public function getSendDbQueryListener(): ?IDbSendQueryListener { return null; }
 
     public function getDateTimeFormat(): string {
         return IGK_MYSQL_TIME_FORMAT;

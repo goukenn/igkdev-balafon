@@ -98,7 +98,7 @@ class DbExpressionTest extends BaseTestCase{
         $gram = Table1Test::driver()->getGrammar(); 
         
         $this->assertEquals(
-            "INSERT INTO `dummy_table3`(`clId`,`clName`,`clData`) VALUES (0,'testing','{}');",
+            "INSERT INTO `dummy_table3`(`clId`,`clName`,`clData`) VALUES (NULL,'testing','{}');",
             $gram->createInsertQuery(
                 Table3Test::table(),  
                 ["clName"=>'testing', "clData"=>""]  ,
@@ -109,7 +109,7 @@ class DbExpressionTest extends BaseTestCase{
     public function test_date_query(){
         $gram = Table1Test::driver()->getGrammar();  
         $this->assertEquals(
-            "INSERT INTO `dummy_table4`(`clId`,`clDate`) VALUES (0,'2021-01-13 10:37:31');",
+            "INSERT INTO `dummy_table4`(`clId`,`clDate`) VALUES (NULL,'2021-01-13 10:37:31');",
             $gram->createInsertQuery(
                 Table4Test::table(),  
                 ["clName"=>'testing', "clDate"=>"2021-01-13 10:37:31"]  ,
@@ -123,7 +123,7 @@ class DbExpressionTest extends BaseTestCase{
         $tableinfo = igk_getv(Table1Test::model()->getModelDefinition(), "tableRowReference"); 
         $q = $gram->createTableQuery(Table1Test::table(), $tableinfo);      
         $this->assertEquals(
-            "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text NULL, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
+            "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
             $q);
     }
 

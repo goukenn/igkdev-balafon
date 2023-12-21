@@ -11,5 +11,27 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 interface IDbSendQueryListener{
+    /**
+     * return dash query last error
+     * @return mixed 
+     */
+    function getLastError();
+    /**
+     * 
+     * @param mixed $query 
+     * @param bool $throwex 
+     * @return mixed 
+     */
+    function sendMultiQuery($query, $throwex = true);
+    /**
+     * send query to db system
+     * @param string $query 
+     * @return mixed 
+     */
     function sendQuery(string $query);
+    /**
+     * get db name
+     * @return null|string 
+     */
+    function getDbName():?string;
 }

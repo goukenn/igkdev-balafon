@@ -8,6 +8,7 @@ namespace IGK\System\Database;
 
 use DbColumnInfo;
 use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
+use IGKException;
 
 /**
  * schema table builder
@@ -98,7 +99,15 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     public function columnAttributes(array $attributes){
         return $this->_addcolumnAttributes($attributes);
     }
-    public function column_varchar($name, $length, ?array $options=null){
+    /**
+     * 
+     * @param string $name 
+     * @param int $length 
+     * @param null|array $options 
+     * @return IGK\System\Database\this 
+     * @throws IGKException 
+     */
+    public function column_varchar(string $name, int $length, ?array $options=null): static{
         if ($length<=0){
             die("length not valid");
         }
@@ -125,13 +134,13 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
      * @param null|int $column_member_index 
      * @return $this 
      */
-    protected function _add_column($name, $type, $length, $default=null, 
-        $primarykey=false, 
-        $auto_increment=false,
-        $not_null = false,
-        $desc="null",
-        $is_unique=false,  
-        $is_unique_column=false,
+    protected function _add_column(string $name, string $type, ?int $length, $default=null, 
+        ?bool $primarykey=false, 
+        ?bool $auto_increment=false,
+        ?bool $not_null = false,
+        ?string $desc=null,
+        ?bool $is_unique=false,  
+        ?bool $is_unique_column=false,
         ?int $column_member_index=null){
         $this->_addcolumnAttributes([
             "clName"=>$name,

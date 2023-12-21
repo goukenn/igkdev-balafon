@@ -48,6 +48,7 @@ interface IDiagramSchemaEntity
         $description = null
     ): IDiagramSchemaEntity;
     function column(string $id, $type = 'Int', $length = 9): IDiagramSchemaEntity;
+    function column_varchar(string $id, int $length,?array $options = null): IDiagramSchemaEntity;
     function text(string $id): IDiagramSchemaEntity;
     function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity;
     function link(

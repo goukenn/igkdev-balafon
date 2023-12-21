@@ -8,20 +8,23 @@ namespace IGK\System\Database;
 use IGK\Database\DbSchemas;
 use IGK\System\Database\SchemaBuilderHelper;
 
-require_once IGK_LIB_CLASSES_DIR.'/System/Database/SchemaBuilderHelper.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Database/SchemaBuilderHelper.php';
 /**
  * schema migration builder
  * @package IGK\System\Database
  */
-class SchemaMigrationBuilder extends SchemaBuilderHelper {
-  
+class SchemaMigrationBuilder extends SchemaBuilderHelper
+{
+
     private $is_migration;
     private $table_prefix;
 
-    public function getPrefixTable(string $table): string{
+    public function getPrefixTable(string $table): string
+    {
         return sprintf("%s%s", $this->table_prefix, $table);
     }
-    public static function Create($node, $schema){
+    public static function Create($node, $schema)
+    {
         $c = new static();
         $c->_output = $node;
         $c->_schema = $schema;
@@ -32,12 +35,13 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper {
      * add migration node if not exists
      * @return $this|SchemaMigrationBuilder 
      */
-    public function migration(){
-        if ($this->is_migration){
+    public function migration()
+    {
+        if ($this->is_migration) {
             return $this;
         }
-        $n = $this->_output->add(DbSchemas::MIGRATION_TAG);        
-        $d = self::Create($n,$this->_schema);
+        $n = $this->_output->add(DbSchemas::MIGRATION_TAG);
+        $d = self::Create($n, $this->_schema);
         $d->is_migration = 1;
         return $d;
     }
@@ -48,14 +52,15 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper {
      * @param mixed $after 
      * @return $this 
      */
-    public function addColumn($table, ?array $options=null, $after=null){
-        if ($this->is_migration){
-            $b = $this->_output->add("addColumn");
-            $b["table"] = $table;
-            $b["after"] = $after;
-            if (!empty($options)){
+    public function addColumn($table, ?array $options = null, $after = null)
+    {
+        if ($this->is_migration) {
+            if (!empty($options)) {
+                $b = $this->_output->add("addColumn");
+                $b["table"] = $table;
+                $b["after"] = $after;
                 $this->_addcolumnAttributes($options, $b);
-            } 
+            }
             return $this;
         }
         $this->migration()->addColumn($table, $options, $after);
@@ -68,20 +73,22 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper {
      * @param array $options 
      * @return $this|void 
      */
-    public function changeColumn($table, $column, array $options){
-        if ($this->is_migration){
+    public function changeColumn($table, $column, array $options)
+    {
+        if ($this->is_migration) {
             $b = $this->_output->add("changeColumn");
-            $b["table"] = $table; 
-            $b["column"] = $column; 
-            if (!empty($options)){
+            $b["table"] = $table;
+            $b["column"] = $column;
+            if (!empty($options)) {
                 $this->_addcolumnAttributes($options, $b);
-            } 
+            }
             return $this;
         }
         $this->migration()->changeColumn($table, $column, $options);
     }
-    public function renameColumn($table, $colname, $newname){
-        if ($this->is_migration){
+    public function renameColumn($table, $colname, $newname)
+    {
+        if ($this->is_migration) {
             $b = $this->_output->add("renameColumn");
             $b["table"] = $table;
             $b["column"] = $colname;
@@ -91,11 +98,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper {
         $this->migration()->renameColumn($table, $colname, $newname);
         return $this;
     }
-    public function removeColumn($table, $colname){
-        if ($this->is_migration){
+    public function removeColumn($table, $colname)
+    {
+        if ($this->is_migration) {
             $b = $this->_output->add("removeColumn");
             $b["table"] = $table;
-            $b["column"] = $colname; 
+            $b["column"] = $colname;
             return $this;
         }
         $this->migration()->removeColumn($table, $colname);
@@ -107,10 +115,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper {
      * @param string $table 
      * @return SchemaTableBuilder 
      */
-    public function createTable(string $table): SchemaTableBuilder{
-        if ($this->is_migration){
+    public function createTable(string $table): SchemaTableBuilder
+    {
+        if ($this->is_migration) {
             $b = $this->_output->add(__FUNCTION__);
-            $b["table"]= $table;
+            $b["table"] = $table;
             $s = SchemaTableBuilder::Create($b, $this->_schema);
             return $s;
         }
@@ -121,10 +130,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper {
      * @param string $table 
      * @return mixed 
      */
-    public function deleteTable(string $table){
-        if ($this->is_migration){
+    public function deleteTable(string $table)
+    {
+        if ($this->is_migration) {
             $b = $this->_output->add(__FUNCTION__);
-            $b["table"]= $table;
+            $b["table"] = $table;
             return $b;
         }
         $this->migration()->deleteTable($table);

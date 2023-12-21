@@ -39,10 +39,10 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         $this->initialize($array);     
 
         // igk_wln(__FILE__.":".__LINE__ , $array);
-        
-        if(!in_array(strtolower($this->clType), ['int','varchar'])){
-            $this->clTypeLength = null;
-        }
+        // support type length        
+        // if(!in_array(strtolower($this->clType), ['int','varchar'])){
+        //     $this->clTypeLength = null;
+        // }
     }
     private static function ExplodeLinkTo(string $data){
         $table = explode(",", $data,3);
@@ -93,8 +93,12 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             }
             // + | --------------------------------------------------------------------
             // + | if already setup auto - make int data to be not null
-            // + |            
-            if (!is_bool($this->clNotNull) && !$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
+            // + |   
+            // number must not allow null values
+            if (is_null($this->clNotNull)){
+                $this->clNotNull = false;
+            }
+            if ($this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
                 $this->clDefault = 0;
                 if (!$this->clLinkType)
                     $this->clNotNull = true;

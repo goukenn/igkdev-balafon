@@ -11407,7 +11407,7 @@ function igk_html_db_build_table($table, $queryresult)
     $r = $queryresult;
     if (!$r || is_bool($r))
         return;
-    if ($r->ResultTypeIsBoolean()) {
+    if ($r->resultTypeIsBoolean()) {
         $tr = $table->addTr();
         $tr->addTd()->Content = "Result";
         $tr = $table->addTr();

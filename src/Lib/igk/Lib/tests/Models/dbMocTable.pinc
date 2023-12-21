@@ -122,7 +122,7 @@ class Table5Test extends dbMocModelBase
             DbModelDefinitionInfo::class,
             [
                 "tableRowReference" => [
-                    "clId" => new DbColumnInfo(["clType" => "Int", "clNotNull"=>false]),
+                    "clId" => new DbColumnInfo(["clType" => "Int","clNotNull"=>false]),
                     "clOptions" => new DbColumnInfo(["clType" => "JSON"]),
                 ]
             ]

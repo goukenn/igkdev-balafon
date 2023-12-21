@@ -68,7 +68,7 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
         return null;
     }
     ///<summary></summary>
-    public function ResultTypeIsBoolean(){
+    public function resultTypeIsBoolean(){
         return $this->getResultType() == "boolean";
     }
     ///<summary></summary>
