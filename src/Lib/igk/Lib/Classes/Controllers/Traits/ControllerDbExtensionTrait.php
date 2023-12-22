@@ -142,6 +142,18 @@ trait ControllerDbExtensionTrait{
             }
         }
     }
+    public static function db_drop_column(BaseController $ctrl, string $table, $column){
+        $ad = self::getDataAdapter($ctrl);  
+        $query = $ad->grammar->drop_column($table, $column);
+        if ($query){
+            try{ 
+                return  $ad->sendQuery($query);
+            } catch(\Exception $ex){
+                Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
+                return false;
+            }
+        }
+    }
     public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
         $ad = self::getDataAdapter($ctrl); 

@@ -540,8 +540,13 @@ class SQLGrammar implements IDbQueryGrammar
         if (!$column){
             return null;
         }  
+        $idx = null;
+        if (strtolower($column)=='primary')
+        {
+            $idx = `PRIMARY`;
+        }
         $column = $this->_get_column_list($column);
-        $idx = strtolower('IDX_'.StringUtility::CamelClassName($column));
+        $idx = $idx ?? strtolower('IDX_'.StringUtility::CamelClassName($column));
 
         $q = "DROP INDEX ";
         $q .= $idx. " ON `" . $table . "`;";
@@ -677,6 +682,9 @@ class SQLGrammar implements IDbQueryGrammar
     {
         // TODO: drop foreign grammar
         Logger::warn('drop foreign key');
+    }
+    public function drop_column($table, $column){
+        return $this->createDropColumnQuery($table, $column);
     }
 
     /**

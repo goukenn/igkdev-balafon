@@ -83,7 +83,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $k = __FUNCTION__;
         $mig = new DiagramMigration;
         $mig->type = $k;
-        $mig->properties = compact('tablename', 'columnName');
+        $mig->properties = ['table'=>$tablename, 'property'=>$columnName]; //compact('tablename', 'columnName');
         $g = igk_getv($this->m_migrations, $k) ?? [];
         $g[json_encode($mig->properties)] = $mig;
         $this->m_migrations[$k] = $g;

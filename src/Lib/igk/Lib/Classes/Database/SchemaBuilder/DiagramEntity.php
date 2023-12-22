@@ -27,7 +27,19 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      */
     private $m_desc;
 
-    public function column_varchar(string $id, int $length, ?array $options = null): IDiagramSchemaEntity {
+    public function column_varchar(string $name, int $length, ?array $options = null): IDiagramSchemaEntity {
+        if (is_null($options)){
+            $options = [];
+        }
+        $this->addProperties([array_merge(
+            [
+                'clName'=>$name,
+                'clType'=>'VarChar',
+                'clTypeLength'=>$length
+            ],
+            $options
+        )]);
+ 
         return $this;
     }
 

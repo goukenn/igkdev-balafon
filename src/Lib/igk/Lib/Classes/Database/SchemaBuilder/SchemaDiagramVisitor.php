@@ -7,12 +7,14 @@ namespace IGK\Database\SchemaBuilder;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
+use IGK\System\Console\Logger as ConsoleLogger;
 use IGK\System\Database\SchemaAddColumnMigration;
 use IGK\System\Database\SchemaBuilderMigration;
 use IGK\System\Database\SchemaDeleteTableMigration;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGKEvents;
 use IGKSysUtil;
+use Logger;
 
 ///<summary></summary>
 /**
@@ -87,8 +89,7 @@ class SchemaDiagramVisitor extends DiagramVisitor{
         }else{
 
         switch($migration->type){ 
-            case 'dropEntity':
-        
+            case 'dropEntity': 
                 $migrations = new SchemaBuilderMigration;
                 $migrations->controller = $this->m_controller;
                 $mig = new SchemaDeleteTableMigration($migrations);
@@ -97,20 +98,23 @@ class SchemaDiagramVisitor extends DiagramVisitor{
                 break;
             case 'addColumn':
                 $mig = new SchemaBuilderMigration;
-                $mig->controller = $this->m_controller; 
-                 
+                $mig->controller = $this->m_controller;  
                 $cl = $mig->addColumn(); 
                 $cl->setup(
                     $props['table'], 
                     $props['property']->getColumnInfo(), 
                     igk_getv($props, 'after')
-                ); 
-
-                $r->migrations[] = $mig;
-                $this->m_migrations[] = $mig;
+                );  
                 break;
-            // case 'dropColumn':
-            //     break;
+            case 'dropColumn':
+                $mig = new SchemaBuilderMigration;
+                $mig->controller = $this->m_controller;  
+                $cl = $mig->dropColumn(); 
+                $cl->setup(
+                    $props['table'], 
+                    $props['property']  
+                );  
+                break;
             // case 'changeColumn':
             //     break;
             default:
@@ -123,9 +127,15 @@ class SchemaDiagramVisitor extends DiagramVisitor{
             $this->m_migrations[] = $mig;
         }
     }
+   var  $callback;
+
+    /**
+     * finish diagram visit 
+     * @return null|string 
+     */
     public function complete():?string 
-    { 
-        $fc = function($e)use(& $fc){
+    {  
+        $this->callback = function($e){
             $ctrl = $e->args['ctrl'];
             $type = $e->args['type'];
             if($ctrl === $this->m_controller)
@@ -140,14 +150,22 @@ class SchemaDiagramVisitor extends DiagramVisitor{
                     }
                     catch(Exception $ex){
                         //continu migration list 
+                        ConsoleLogger::warn('some error:'.$ex->getMessage());
                     }
                 }
-                igk_unreg_hook(IGKEvents::HOOK_DB_MIGRATE, $fc); 
+                if ($type != 'drop_tables')
+                igk_unreg_hook(IGKEvents::HOOK_DB_MIGRATE, $this->callback); 
             } 
         };
         if ($this->m_migrations){
-            igk_reg_hook(IGKEvents::HOOK_DB_MIGRATE, $fc); 
+            igk_reg_hook(IGKEvents::HOOK_DB_MIGRATE, $this->callback); 
         }
         return null;
     }
+}
+
+class funcHandler{
+    var $callback;
+
+
 }

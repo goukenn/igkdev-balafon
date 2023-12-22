@@ -52,4 +52,12 @@ interface IDiagramSchemaBuilder{
      * @return mixed 
      */
     function dropIndex(string $table,  $column);
+
+    /**
+     * 
+     * @param string $tabble 
+     * @param mixed $column 
+     * @return mixed 
+     */
+    function dropColumn(string $tabble, string $column):void;
 }
