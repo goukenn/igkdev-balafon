@@ -1,0 +1,12 @@
+/**
+* update database 
+*/
+public function upgrade(IDiagramSchemaBuilder $builder){
+    // $builder->entity(...)
+}
+/** 
+* downgrade database -  
+*/
+function downgrade(IDiagramSchemaBuilder $builder){
+    // $builder->entity(...);
+}

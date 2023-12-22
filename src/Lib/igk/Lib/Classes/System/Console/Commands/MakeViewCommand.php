@@ -16,6 +16,7 @@ use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use IGK\Helper\ViewHelper;
+use IGK\System\Console\Helper\ConsoleUtility;
 use \IGKControllerManagerObject;
  
 class MakeViewCommand extends AppExecCommand{
@@ -29,6 +30,7 @@ class MakeViewCommand extends AppExecCommand{
         "--controller:controller"=>"set controller to use",
         "--action"=>"enable action",
         "--dir"=>"enable view dir",
+        "--force"=>"flag:force  file creation ",
         "--scaffold:[scaffoldtype]"=>"type of view to generate. default is null. or builder"
     ]; 
     public function exec($command, $controller=null, $viewname=""){
@@ -63,6 +65,7 @@ class MakeViewCommand extends AppExecCommand{
 
         $bind = [];
         $scaffold = igk_getv($command->options, '--scaffold');
+        $force = property_exists($command->options, '--force');
 
         $bind[$dir."/{$viewname}".IGK_VIEW_FILE_EXT] = function($file)use($viewname, $author, $scaffold){  
             // TODO : FROM Scaffold generate the base document 
@@ -80,13 +83,8 @@ class MakeViewCommand extends AppExecCommand{
 
        
 
-        foreach($bind as $n=>$c){
-            if (!file_exists($n)){
-                $c($n, $command);
-                Logger::info("generate : ".$n);
-            }
-        }
-        
+        ConsoleUtility::MakeFiles($bind, $command, $force);
+
         \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }

@@ -13,7 +13,7 @@ use IGK\System\Html\HtmlReader;
 
 ///<summary></summary>
 /**
-* use to run migration on php class file 
+* use to run project migration
 * @package IGK\System\Database
 */
 class MigrationHandler{

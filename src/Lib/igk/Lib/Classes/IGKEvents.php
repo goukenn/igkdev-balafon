@@ -80,6 +80,7 @@ class IGKEvents extends IGKObject
     // + |
     const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
     const HOOK_DB_RENAME_COLUMN = 'sys://db/rename_column';
+    const HOOK_DB_MIGRATE = 'sys://db/migrate'; // event: ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]
 
     const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";

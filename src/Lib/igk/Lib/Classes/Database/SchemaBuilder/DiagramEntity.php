@@ -7,6 +7,7 @@
 namespace IGK\Database\SchemaBuilder;
 
 use IGK\Helper\Activator;
+use IGK\System\Console\Logger;
 use IGKException;
 
 /**
@@ -15,8 +16,20 @@ use IGKException;
  */
 class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntity
 {
+    /**
+     * entity name
+     * @var string
+     */
     private $m_name;
+    /**
+     * entity description 
+     * @var mixed
+     */
     private $m_desc;
+
+    public function column_varchar(string $id, int $length, ?array $options = null): IDiagramSchemaEntity {
+        return $this;
+    }
 
     public function getDescription(): ?string
     {
@@ -362,5 +375,15 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             }
         }
         return $this;
+    }
+
+    /**
+     * drop the entity definition 
+     * @return void 
+     */
+    public function drop(){
+        Logger::warn(sprintf('drop entity [%s]', $this->m_name));
+        
+
     }
 }

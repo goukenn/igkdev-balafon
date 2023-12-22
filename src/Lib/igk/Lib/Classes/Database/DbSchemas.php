@@ -19,6 +19,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\XML\XmlNode;
 use IGKApp;
+use IGKEvents;
 use IGKException;
 use LlvGStockController;
 use ReflectionException;
@@ -110,10 +111,10 @@ abstract class DbSchemas
      * @param mixed $ctrl   
      * @param bool $resolvname  resolv name on loading
      * @param string $operation in migration operation
-     * @return mixed 
+     * @return ?\IGK\System\Database\ILoadSchemaInfo 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
+     * @throws ReflectionException  
      */
     public static function LoadSchema(string $file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
     {
@@ -139,9 +140,10 @@ abstract class DbSchemas
                 if ($operation == DbSchemasConstants::Downgrade) {
                     $b->downgrade($tr);
                 } else { 
-                    $b->up($tr);
+                    $b->upgrade($tr);
                 }
-                $tr->render(new SchemaDiagramVisitor($ctrl, $data));
+                // change the data definition - after Operation. 
+                $tr->render(new SchemaDiagramVisitor($ctrl, $data, $operation));
             }
             self::$sm_schemas[$file] = ["controller" => $ctrl, "definition" => $data];
         } else {
@@ -314,8 +316,8 @@ abstract class DbSchemas
     /**
      * init data schemas
      * @param BaseController $ctrl
-     * @param object $dataschema schema info, 
-     * @param object $adapter adapter 
+     * @param object|ISchemaInfo $dataschema schema info, 
+     * @param object $adapter data adapter 
      */
     public static function InitData(BaseController $ctrl, $dataschema, $adapter)
     {
@@ -329,12 +331,17 @@ abstract class DbSchemas
         $tb = $r->Data;
         $etb = $r->Entries;
         $no_error = 1;
-        if ($tb) {
-            if ($tb == 'tbl81_rPosTypes'){
-                Logger::info('init pos type:');
-            }
+        if ($tb) { 
             \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb, $adapter);
         }
+        // UPDATE REQUIRED MIGRATION
+        try{ 
+            igk_hook(IGKEvents::HOOK_DB_MIGRATE, ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]);
+        } catch(\Exception $ex){
+            Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
+            $no_error = 1;
+        }
+        
         return $no_error;
     }
 

@@ -5,7 +5,7 @@ public function up(SchemaMigrationBuilder $builder){
     // $builder->addColumn(...)
 }
 /** 
-* downgrade database 
+* downgrade database -  
 */
 function down(SchemaMigrationBuilder $builder){
     // $builder->rmColumn(...);

@@ -539,10 +539,8 @@ EOF;
             $extends = \IGK\Database\SchemaBuilder\IDiagramBuilder::class;
             $desc = null;
             $content = implode("\n", [
-                'public function up(IDiagramSchemaBuilder $builder){',
-                '}',
-                'public function down(IDiagramSchemaBuilder $builder){',
-                '}',
+                 // Schema content 
+                 file_get_contents(IGK_LIB_DIR."/Inc/core/db.initschemas.pinc")
             ]);
             $builder->type("class")
                 ->namespace($e_ns . "\\Database")

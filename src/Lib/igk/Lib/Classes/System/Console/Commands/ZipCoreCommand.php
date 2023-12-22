@@ -24,6 +24,7 @@ class ZipCoreCommand extends AppExecCommand{
 
     var $options = [
         "--no-test"=>"flag: disable test ",
+        "--phpunit"=>"flag: run phpunit on core",
         "--core-test-suite"=>"suite test to run"
     ];
 

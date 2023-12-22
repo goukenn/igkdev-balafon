@@ -22,4 +22,34 @@ interface IDiagramSchemaBuilder{
     function getTablePrefix():string;
 
     function getPrefixTable(string $name): string;
+
+    /**
+     * add drop entity to schema builder 
+     * @return mixed 
+     */
+    function dropEntity(string $name): void;
+
+    /**
+     * add migration column info 
+     * @param string $table 
+     * @param string $name 
+     * @return IDiagramSchemaColumn 
+     */
+    function addColumn(string $table, string $name):IDiagramSchemaColumn;
+
+    /**
+     * 
+     * @param string $table 
+     * @param mixed $column 
+     * @return mixed 
+     */
+    function addIndex(string $table, $column);
+
+    /**
+     * 
+     * @param string $table 
+     * @param mixed $column 
+     * @return mixed 
+     */
+    function dropIndex(string $table,  $column);
 }

@@ -8,6 +8,9 @@
 
 ///<summary></summary>
 ///<param name="name"></param>
+
+use Hamcrest\Type\IsObject;
+
 /**
  * 
  * @param mixed $name 
@@ -122,6 +125,22 @@ function igk_reflection_get_constants($cl)
 {
     $r = igk_sys_reflect_class($cl);
     return $r->getConstants();
+}
+if (!function_exists('igk_reflection_get_private_member')){
+    function igk_reflection_get_private_member($cl, $modifier = ReflectionProperty::IS_PRIVATE, $non_static=true):array{
+        $cl = is_object($cl) ? get_class($cl) : $cl; 
+        $r = igk_sys_reflect_class($cl); 
+        $tab = [];
+        foreach($r->getProperties($modifier) as $i){
+            if (($non_static) && $i->isStatic()){
+                continue;
+            }
+            $tab[] = $i->name; 
+        }
+        
+        return $tab; 
+    }
+ 
 }
 ///<summary>get reflexion properties. ignore dynamic data value</summary>
 /**

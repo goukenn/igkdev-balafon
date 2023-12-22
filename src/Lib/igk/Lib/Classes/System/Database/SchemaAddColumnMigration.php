@@ -6,7 +6,8 @@
 namespace IGK\System\Database;
 
 use IGK\Database\DbColumnInfo;
-use IGK\System\Html\XML\XmlNode;
+use IGK\Database\IDbColumnInfo;
+
 /**
  * update migrations
  * @package IGK\System\Database
@@ -38,6 +39,10 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             igk_die("missing 'table' property");
         }
     }
+    public function setup(string $table, IDbColumnInfo $column, ?string $after=null){
+        $this->raw = (object)['table'=>$table, 'after'=>$after];
+        $this->columns = [$column];
+    }
     public function up(){ 
 
         $ctrl = $this->getMigration()->controller;
@@ -48,7 +53,10 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
                 continue;
             }
             $ctrl->db_add_column($tb, $cl, $after);
-            //
+            if ($cl->clIsIndex){
+                $ctrl->db_add_index($tb, $cl->clName);
+            }
+             
             if ($after){ // continue after
                 $after = $cl->clName;
             }
@@ -59,6 +67,9 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($this->table, $ctrl);
         foreach($this->columns as $cl){
             $ctrl::db_rm_column($tb, $cl);
+            if ($cl->clIsIndex){
+                $ctrl->db_drop_index($tb, $cl->clName);
+            }
         }
     }
 }

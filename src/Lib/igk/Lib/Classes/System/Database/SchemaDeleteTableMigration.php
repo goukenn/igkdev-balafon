@@ -12,8 +12,11 @@ use IGK\Database\DbColumnInfo;
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table"]; 
     // source column to restore
- 
-    var $columns = [];
+    /**
+     * list of table to drop
+     * @var array
+     */
+    var $tables = [];
     public function up(){    
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
@@ -25,18 +28,18 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
         igk_die("c'ant restore");
     }
 
-    protected function loadChilds($childs){
-        // @author: C.A.D. BONDJE DOUE
-        // @filename: SchemaCreateTableMigration.php
-        // @date: 20221112 09:59:48
-        // @desc: load columns info
-        
-        $this->columns = [];
+    /**
+     * load childs 
+     * @param mixed $childs 
+     * @return void 
+     */
+    protected function loadChilds($childs){  
+        $this->tables = [];
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         foreach($childs as $c){
             $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
-            $this->columns[]=$cl; 
+            $this->tables[]=$cl; 
         }    
     }
 }

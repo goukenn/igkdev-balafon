@@ -1504,6 +1504,10 @@ abstract class ControllerExtension
                         }
                     }
                     $func();
+                    igk_hook(IGKEvents::HOOK_DB_MIGRATE, [
+                        'type'=>'drop_tables',
+                        'ctrl'=>$controller 
+                    ]);
                     $db->dropTable($v_tblist);
                     $_vinit = 1;
                     $db->close();
@@ -1731,9 +1735,10 @@ abstract class ControllerExtension
         return $cl;
     }
 
-    ///<summary> initialize db from data schemas </summary>
+    ///<summary> initialize db's table from data schemas </summary>
     /**
-     *  initialize db from data schemas
+     *  initialize db's table from data schemas
+     *  @return false|array array of initialize tables
      */
     public static function initDbFromSchemas(BaseController $controller)
     {
@@ -1745,17 +1750,14 @@ abstract class ControllerExtension
         $r = $controller->loadDataAndNewEntriesFromSchemas();
         if (!$r) {
             return false;
-        }
-
-        $tb = $r->Data;
-        DbSchemas::InitData($controller, $r, $db);
-
+        } 
+        DbSchemas::InitData($controller, $r, $db); 
         // + | ---------------------------------------------------------
         // + | update migration handler
         // + |
         $migHandle = new MigrationHandler($controller);
         $migHandle->up();
-        return $tb;
+        return $r->Data;
     }
 
     /**
@@ -1852,14 +1854,11 @@ abstract class ControllerExtension
     /**
      * laod database from schema
      * @param BaseController $ctrl 
-     * @return null|object 
+     * @return ?\IGK\System\Database\ILoadSchemaInfo
      * @throws IGKException 
      */
     public static function loadDataFromSchemas(BaseController $ctrl,bool $resolvName = true, string $operation = DbSchemasConstants::Migrate)
-    {
-
-        // Logger::info('load - data from schemas'. $ctrl->getName());
-
+    { 
         return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl, $resolvName, $operation);
     }
     /**
@@ -1939,7 +1938,7 @@ abstract class ControllerExtension
     /**
      * load data and entries 
      * @param BaseController $controller 
-     * @return object|DbSchemaLoadEntriesFromSchemaInfo 
+     * @return DbSchemaLoadEntriesFromSchemaInfo 
      * @throws IGKException 
      */
     public static function loadDataAndNewEntriesFromSchemas(BaseController $controller)

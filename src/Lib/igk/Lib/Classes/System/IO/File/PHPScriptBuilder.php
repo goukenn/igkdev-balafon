@@ -18,11 +18,12 @@ use IGKException;
  * @method self author(string $auther) set author text
  * @method self namespace(string $namespace) define the namespace
  * @method self type(string $type) define the type. class|trait|interface|function
- * @method self name(string $name) define the of type in case class|trait|interface
- * @method self comment(string $comment) define the top comment
- * @method self phpdoc(string $phpdoc) define element 
- * @method self file(string $phpdoc) define element 
- * @method self desc(string $phpdoc) define element 
+ * @method self name(?string $name) define the of type in case class|trait|interface
+ * @method self comment(?string $comment) define the top comment
+ * @method self phpdoc(?string $phpdoc) set phpdoc
+ * @method self file(string $phpdoc) set file 
+ * @method self desc(?string $phpdoc) set description  
+ * @method self class_modifier(?string modifier) set the class type modifier 
  */
 class PHPScriptBuilder
 {

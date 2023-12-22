@@ -24,7 +24,8 @@ class InitDbCommand extends AppExecCommand{
     var $desc='init databases';
 	var $options=[
 		'--clean'=>'flag: enable drop database if exists',
-		'--force'=>'flag: force file creation'
+		'--force'=>'flag: force file creation',
+		'--downgrade'=>'flag: downgrade',
 	];
 	var $category = "db";
 	var $usage = '[controller] [options]';
@@ -33,6 +34,7 @@ class InitDbCommand extends AppExecCommand{
 		$c = null;
 		DbCommandHelper::Init($command);
 		$clean = false;
+		$v_downgrade = property_exists($command->options, '--downgrade');
 		if (empty($ctrl)){
 			$ctrl = igk_getv($command->options,"--controller");
 		}

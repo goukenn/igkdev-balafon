@@ -24,6 +24,7 @@ use IGK\Database\DbExpression;
 use IGK\Database\DbLitteralExpression;
 use IGK\Database\IDataDriver;
 use IGK\Database\IDbColumnInfo;
+use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
@@ -507,6 +508,46 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return implode(".", $s);
     }
+
+    /**
+     * 
+     * @param string $table 
+     * @param string $column 
+     * @return null|string|array
+     */
+    public function add_index(string $table, $column):?string{
+        if (!$column){
+            return null;
+        } 
+        $column = $this->_get_column_list($column);
+        $idx = strtolower('IDX_'.StringUtility::CamelClassName($column)); 
+        $q = "CREATE INDEX ";
+        $q .= $idx. " ON `" . $table . "` ";
+        $q .= "(".$column. ");"; 
+        return $q;
+    }
+    private function _get_column_list($column){
+
+        if (!is_array($column)){
+            $column = [$column];
+        }
+        $column = implode(',', array_filter(array_map(function($s){
+                return igk_str_surround($this->m_driver->escape_string($s), '`');
+            }, $column)));
+        return $column;
+    }
+    public function drop_index(string $table, $column):?string{
+        if (!$column){
+            return null;
+        }  
+        $column = $this->_get_column_list($column);
+        $idx = strtolower('IDX_'.StringUtility::CamelClassName($column));
+
+        $q = "DROP INDEX ";
+        $q .= $idx. " ON `" . $table . "`;";
+        return $q;
+    }
+
     /**
      * create add column alter query
      * @param mixed $table 
@@ -514,12 +555,15 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $after 
      * @return string 
      */
-    public function add_column($table, $info, $after = null)
+    public function add_column(string $table, $info, ?string $after = null)
     {
         Logger::warn('try add column : ' . $table . ' :-> ' . $info->clName);
+        $v_clname = $this->m_driver->escape_string($info->clName);
+        $v_clname = $this->m_driver->escape_string($info->clName);
+
         $q = "ALTER TABLE ";
-        $q .= "`" . $table . "` ADD ";
-        $q .= $info->clName . " ";
+        $q .= "`" . $table . "` ADD COLUMN ";
+        $q .= "`".$v_clname. "` ";
 
         $q .= rtrim($this->getColumnInfo($info));
 
@@ -542,8 +586,8 @@ class SQLGrammar implements IDbQueryGrammar
         $name = is_object($info) ? getv($info, "clName") : $info;
         $adapter  = $this->m_driver;
         $q = "ALTER TABLE ";
-        $q .= "`" . $table . "` DROP ";
-        $q .= $adapter->escape($name);
+        $q .= "`" . $table . "` DROP COLUMN ";
+        $q .= sprintf('`%s`;', $adapter->escape($name));
         return $q.';';
     }
     /**

@@ -116,10 +116,35 @@ trait ControllerDbExtensionTrait{
         return false;
     }
 
-    public static function db_change_column(BaseController $ctrl, $table, $info)
+    /**
+     * add index
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @param mixed $column 
+     * @return mixed 
+     */
+    public static function db_add_index(BaseController $ctrl, string $table, $column){
+        $ad = self::getDataAdapter($ctrl);  
+        $query = $ad->grammar->add_index($table, $column);
+        if ($query){
+            return  $ad->sendQuery($query);
+        }
+    }
+    public static function db_drop_index(BaseController $ctrl, string $table, $column){
+        $ad = self::getDataAdapter($ctrl);  
+        $query = $ad->grammar->drop_index($table, $column);
+        if ($query){
+            try{ 
+                return  $ad->sendQuery($query);
+            } catch(\Exception $ex){
+                Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
+                return false;
+            }
+        }
+    }
+    public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
-        $ad = self::getDataAdapter($ctrl);
-        igk_environment()->querydebug = 1;
+        $ad = self::getDataAdapter($ctrl); 
         if ($ad->exist_column($table, $info->clName)) {
             // drop foreign key if column 
             $ad->drop_foreign_key($table, $info);

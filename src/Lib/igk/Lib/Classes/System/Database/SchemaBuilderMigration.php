@@ -15,6 +15,13 @@ use IGKException;
 class SchemaBuilderMigration{
     var $controller;
     private $items; 
+    /**
+     * use method to add migrations data 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return object 
+     * @throws IGKException 
+     */
     public function __call($name, $arguments)
     {
         $cl = __NAMESPACE__."\\Schema".ucfirst($name)."Migration";
