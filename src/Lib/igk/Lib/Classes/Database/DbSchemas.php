@@ -43,7 +43,7 @@ abstract class DbSchemas
     const RELATIONS_TAG = "Relations";
     const RELATION_TAG = "Relation";
     const COLUMN_TAG = IGK_COLUMN_TAGNAME;
-    const GEN_COLUMN = IGK_GEN_COLUMS;
+    const GEN_COLUMNS = IGK_GEN_COLUMS;
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
 

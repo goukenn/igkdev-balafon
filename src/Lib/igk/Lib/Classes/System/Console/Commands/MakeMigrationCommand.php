@@ -22,10 +22,13 @@ use IGKException;
 * @package IGK\System\Console\Commands
 */
 class MakeMigrationCommand extends AppExecCommand{
-    var $command = '--migrate';
-
+    var $command = '--migrate'; 
     var $category = "db";
     var $desc = "migrate utility";
+
+    var $options = [
+        '--all'=>'in up|down action migrate all data'
+    ];
 
 
     public function showUsage()

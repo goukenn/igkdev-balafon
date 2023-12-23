@@ -5023,12 +5023,12 @@ function igk_db_get_table_info($table)
 ///<summary>Resolv table name</summary>
 ///<param name="name"></param>
 /**
- * Resolv table name shortcut
+ * shortcut: resolv table name
  * @param mixed $name 
  * @return null|string resolved table name
  */
-function igk_db_get_table_name(string $name, ?BaseController $ctrl = null)
-{
+function igk_db_get_table_name(?string $name, ?BaseController $ctrl = null)
+{ 
     return \IGKSysUtil::DBGetTableName($name, $ctrl);
 }
 ///<summary>get table that contains specified column</summary>
@@ -16103,7 +16103,7 @@ function igk_js_dist_scripts($files)
  */
 function igk_js_enable_tinymce($target, $elements = null, $op = null, $doc = null)
 {
-    if (!($mce = igk_require_module(tinymce::class,  ActionHelper::Nothing(), true, 0))) {
+    if (!($mce = igk_require_module(\tinymce::class,  ActionHelper::Nothing(), true, 0))) {
         return;
     }
     $mce->initDoc($doc ?? igk_app()->getDoc());

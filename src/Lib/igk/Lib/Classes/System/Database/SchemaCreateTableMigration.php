@@ -44,11 +44,15 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
             if (empty(trim($tagname))){
                 continue;
             }
+            $m = strtolower($tagname);
             if (strtolower($tagname) == 'column'){
                 $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
                 // update data table info
                 empty($cl->clName) && igk_die('failed for missing clName in database schema');
                 $this->columns[$cl->clName]=$cl; 
+            }
+            if ($m == strtolower(IGK_GEN_COLUMS)){
+                SchemaMigration::UpdateGenColumn($c, $this->columns, null);
             }
         }    
     }

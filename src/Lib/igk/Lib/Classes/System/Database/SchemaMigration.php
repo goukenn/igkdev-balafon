@@ -172,18 +172,11 @@ class SchemaMigration
                     }
                 }
                 // + | load generate columns
+                /// TODO: GEN COLUM for migration
                 $passing = null;
                 foreach ($v->getElementsByTagName(IGK_GEN_COLUMS) as $vv) {
-                    $name = $vv["name"];
-                    $prefix = $vv["prefix"];
-                    if (!empty($name)) {
-                        if (method_exists(self::class, $fc = "_Gen_" . $name)) {
-                            if ($passing === null) {
-                                $passing = (object)["columns" => &$c];
-                            }
-                            call_user_func_array([self::class, $fc], [$passing, $prefix]);
-                        }
-                    }
+                  
+                    self::UpdateGenColumn($vv, $c, $passing);                   
                 }
                 // + | load table constraint schema            
                 $fconstraints = null;
@@ -266,6 +259,18 @@ class SchemaMigration
             "date"
         );
         return $v_result;
+    }
+    public static function UpdateGenColumn($node, & $cl, $passing=null){
+        $name = $node["name"];
+        $prefix = $node["prefix"];
+        if (!empty($name)) {
+            if (method_exists(self::class, $fc = "_Gen_" . $name)) {
+                if ($passing === null) {
+                    $passing = (object)["columns" => &$cl];
+                }
+                call_user_func_array([self::class, $fc], [$passing, $prefix]);
+            }
+        }
     }
     /**
      * load require schema 

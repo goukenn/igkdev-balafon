@@ -1505,7 +1505,7 @@ abstract class ControllerExtension
                     }
                     $func();
                     igk_hook(IGKEvents::HOOK_DB_MIGRATE, [
-                        'type'=>'drop_tables',
+                        'type'=>DbSchemasConstants::Downgrade,
                         'ctrl'=>$controller 
                     ]);
                     $db->dropTable($v_tblist);

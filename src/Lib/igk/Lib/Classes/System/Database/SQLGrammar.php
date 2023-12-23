@@ -905,7 +905,7 @@ class SQLGrammar implements IDbQueryGrammar
             $tablename = sprintf("%s." . $tablename, $dbname);
         }
         return sprintf(
-            "ALTER TABLE %s DROP COLUMN %s",
+            "ALTER TABLE `%s` DROP COLUMN `%s`;",
             $d->escape_string($tablename),
             $d->escape_string($column_name)
         );
