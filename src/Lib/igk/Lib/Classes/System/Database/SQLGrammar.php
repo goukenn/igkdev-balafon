@@ -238,6 +238,9 @@ class SQLGrammar implements IDbQueryGrammar
         $driver = $this->m_driver;
         return (($type!='int') || (($type=='int') && version_compare($driver->getVersion(), '8.0','<')));
     }
+    public function remove_foreign(string $table, $column):?string{
+        return $this->m_driver->remove_foreign($table, $column);
+    }
     /**
      * create table query
      * @param mixed $tbname 

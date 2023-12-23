@@ -430,9 +430,23 @@ class SchemaMigration
             case DbSchemasConstants::OP_RM_COLUMN:
 
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                $tabcl = &$tables[$tb]->columnInfo;
-                $item->columnInfo = $tabcl[$item->column];
-                unset($tabcl[$item->column]);
+                if (key_exists($tb, $tables)){
+                    $tabcl = &$tables[$tb]->columnInfo;
+                    $item->columnInfo = $tabcl[$item->column];
+                    unset($tabcl[$item->column]);
+                }
+                else {
+                    $inf = DbSchemas::GetTableColumnInfo($tb);
+                    if ($inf){
+                        $tables[$tb] = & $inf;
+                        if (isset($inf[$item->column])){
+                            unset($inf[$item->column]);
+                        }
+                        break;
+                    }
+
+                    igk_dev_wln_e(__FILE__.":".__LINE__ , "table not present is schema tables definition");
+                }
                 break;
             case DbSchemasConstants::OP_CHANGE_COLUMN:
                 $item->table || igk_die("migration: change column missing table name");

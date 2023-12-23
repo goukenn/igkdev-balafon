@@ -34,7 +34,7 @@ trait ControllerDbExtensionTrait{
         $ad = self::getDataAdapter($ctrl);
         if ($ad->exist_column($table, $name)) {
             if (
-                $is_obj && $info->clLinkType &&
+                (($is_obj && $info->clLinkType) || is_string($info)) &&
                 ($query = $ad->grammar->remove_foreign($table, $name))
             ) {
                 // remove foreign queries
