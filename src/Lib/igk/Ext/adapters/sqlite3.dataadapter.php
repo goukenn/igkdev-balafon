@@ -242,6 +242,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_sql;
     private $m_inTransaction = false;
 
+    public function remove_foreign(string $name, string $column): ?string {
+        return null;
+     }
+
     
 
     public function getDateTimeFormat(): string { 

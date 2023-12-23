@@ -109,4 +109,11 @@ interface IDataDriver{
      */
     function constraintExists(string $name):bool;
     function constraintForeignKeyExists(string $name):bool;
+    /**
+     * get remove foreign query if adapter support foreign key relation
+     * @param string $name 
+     * @param mixed $column 
+     * @return null|string 
+     */
+    function remove_foreign(string $name, string $column):?string;
 }

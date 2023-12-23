@@ -41,6 +41,25 @@ class MakeMigrationCommand extends AppExecCommand{
                 Logger::print("\t".substr($n, 8));
             }
         }
+        Logger::print('');
+
+        Logger::print(implode("\n",[
+            '# new : create a new migration file',
+            'new %sys% migration_name',
+            'new ProjectController migration_name',''
+        ]));
+        Logger::print(implode("\n",[
+            '# up : upgrade migration','','',
+        ]));
+        Logger::print(implode("\n",[
+            '# down : downgrade migration','','',
+        ]));
+
+        Logger::print(implode("\n",[
+            '# rm : remove migration by downgrade it first and unlink the file',
+            'rm %sys% migration_name',
+            'rm ProjectController migration_name',''
+        ]));
     }
     /**
      * migrate exec command
@@ -122,5 +141,13 @@ class MakeMigrationCommand extends AppExecCommand{
         $v_all = $this->_forAll($command);
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->down(!$v_all); 
+    }
+
+    public function migrate_rm($command, ?BaseController $ctrl, ?string $name=null){
+        if (empty($name)){
+            igk_die("missing name");
+        }
+        $migHandle = new MigrationHandler($ctrl);
+        return $migHandle->remove($name); 
     }
 }

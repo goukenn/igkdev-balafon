@@ -54,6 +54,66 @@ class MigrationHandler{
         }
         return $files;
     }
+    public function remove(string $name){
+        $g = $this->getfiles();
+        $ctrl = $this->m_controller;
+       
+        $migrations = Migrations::select_all(['migration_controller'=>$ctrl->getName()]);
+        ArrayUtils::FillKeyWithProperty($migrations, 'migration_name'); 
+
+        while(count($g)>0){
+            $c = array_shift($g);
+            $migration_name = igk_io_basenamewithoutext($c);
+            preg_match(self::match, $c, $tab);
+            $nname = $tab['name'];
+            if (($name == $nname) || ($name== $migration_name)){
+
+                if (isset($migrations[$migration_name])){
+
+                    if ($migrations[$migration_name]->migration_batch){
+                        $builder = new SchemaBuilder;
+                        $schema = $builder->migrations();
+                        self::MigrateFile($c, $ctrl, 'down', $schema);
+                        self::_MigrateSchemaBuilder($builder, $this->m_controller);
+
+                       
+                    }
+
+                    if (($mig = $migrations[$migration_name]) instanceof Migrations){
+                        Migrations::delete($mig->clId);
+                    }
+                }
+                unlink($c);
+                break;
+            }
+        }
+    }
+    private static function _MigrateSchemaBuilder(SchemaBuilder $builder, BaseController $ctrl){
+        $node = HtmlReader::Load($builder->render(), "xml"); 
+        $tab = igk_db_load_data_schemas_node($node, $ctrl); 
+        if ($tab){
+            SchemaBuilderHelper::Migrate($tab);
+        }
+    }
+    private static function MigrateFile(string $file, BaseController $ctrl, string $method, SchemaMigrationBuilder $schema){   
+        $ns = $ctrl::ns(\Database\Migrations::class);
+        $tabcl = get_declared_classes();
+        $tabc = count($tabcl);  
+
+        preg_match(self::match, $file, $tab);
+        $name = $tab['name'];
+        self::_GetRealClassName($name, $tabc);          
+        include_once $file;
+        Logger::info('migration file: '.$file);
+        Logger::info('migrate: '.$name);
+        $cl = igk_ns_name($ns."/".$name);            
+        if (class_exists($cl, false)){
+            $cl = new $cl();
+            $cl->$method($schema);
+        }else {
+            igk_die('include file no class found .'.$name);
+        }
+    }
     /**
      * migrate up
      * @return void 
@@ -103,9 +163,8 @@ class MigrationHandler{
         $ctrl = $this->m_controller;
         $ns = $ctrl::ns(\Database\Migrations::class);
         $tabcl = get_declared_classes();
-        $tabc = count($tabcl);       
-        $tabcl = get_declared_classes();
-        $tabc = count($tabcl);
+        $tabc = count($tabcl);    
+
         $match = self::match;
         $builder = new SchemaBuilder;        
         $schema =  $builder->migrations();
