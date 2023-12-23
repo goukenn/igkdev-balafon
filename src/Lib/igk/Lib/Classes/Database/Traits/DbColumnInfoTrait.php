@@ -215,4 +215,16 @@ trait DbColumnInfoTrait
    * @var ?string
    */
   var $clLinkTo;
+
+  /**
+   * expected map name
+   * @var ?string
+   */
+  var $clMap;
+
+  /**
+   * expected reverse map name
+   * @var ?string target table inverse map name
+   */
+  var $clInverseMap;
 }

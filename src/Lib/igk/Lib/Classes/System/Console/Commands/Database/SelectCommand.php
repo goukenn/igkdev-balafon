@@ -5,8 +5,11 @@
 namespace IGK\System\Console\Commands\Database;
 
 use IGK\Helper\JSon;
+use IGK\Helper\SysUtils;
 use IGK\Models\ModelBase;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\IO\Configuration\ConfigurationReader;
+use IGK\System\Mapping\Helper\ArrayMapHelper;
 
 ///<summary></summary>
 /**
@@ -18,7 +21,12 @@ class SelectCommand extends AppExecCommand{
 	var $desc='send a db select query or execute a Model Macros by choose a model. syntaxe for mode';	
 	var $options=[
 		'--count'=>'flag: count all entries for simple select',
-		'--arg:[value]+'=>'argument for macros function'
+		'--limit:from[,size]'=>'limit query result',
+		'--order:column|order,...'=>'order query',
+		'--columns:column,...'=>'limit selected columns',
+		'--map:column=map,...'=>'map list column',
+		'--like:expression'=>'select with search expression.',
+		'--arg:[value]+'=>'argument for macros function',
 	];
 	var $category = 'db';  
 	var $usage = 'controller model[.macrosFunction] [options]';
@@ -26,6 +34,14 @@ class SelectCommand extends AppExecCommand{
 		is_null($ctrl) && igk_die("require controller");
 		is_null($model) && igk_die("require model");
 
+		$limit = igk_getv($command->options, '--limit');
+		$order = igk_getv($command->options, '--order');
+		$columns = igk_getv($command->options, '--columns');
+		$like = igk_getv($command->options, '--like');
+		$map = igk_getv($command->options, '--map');
+		if ($limit){
+			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode(',', $limit, 2));
+		}
 
 		$ctrl = self::GetController($ctrl); 
 		$tab = explode('.',$model,2);
@@ -51,8 +67,29 @@ class SelectCommand extends AppExecCommand{
 			echo "count(*) ".$m->count() .PHP_EOL;
 			igk_exit();
 		}
+		$options = [];
+		if ($limit){
+			$options['Limit'] = $limit;
+		}
+		if ($order){
+			// + get command order 
+			$order = explode(',', $order);
+			$options['OrderBy'] = $order;
+		}
+		if ($columns){
+			$options['Columns'] = explode(',', $columns);
+		}
+		$v_cond = null;
+		if($like){
+			$conf = new ConfigurationReader;
+			$like = $conf->read($like);
+			$v_cond = (array)$like;
 
-		$g = $m->select_all();
+		}
+		$g = $m->select_all($v_cond, $options);
+		if ($map){
+			// mapping
+		}
 		echo JSon::Encode($g); //->to_json();
 		igk_exit();
 

@@ -30,7 +30,29 @@ use function igk_resources_gets;
 class Database{
     static $sm_shared_info;
 
- 
+    /**
+     * get value from info
+     * @param mixed $value 
+     * @param mixed $name 
+     * @param array<key,DbColumnInfo> $info 
+     * @return mixed 
+     */
+    public static function GetValueFromLayoutInfo($value, $name,  $info=null){
+        if ($info){
+            $v_i = igk_getv($info, $name);
+            if ($v_i){
+                if (self::IsNumber($v_i->clType)){
+                    return floatval($value);
+                } 
+            }
+        }   
+        return $value;
+    }
+    ///<summary></summary>
+    ///<param name="t"></param>
+    public static function IsNumber($t){
+        return preg_match("/(int|float|decimal|double|bigint|long)/i", $t);
+    }
     private static function _Init(){
         self::$sm_shared_info = [];
     }

@@ -15,6 +15,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbArrayResult;
 use IGK\Database\RefColumnMapping;
+use IGK\Helper\Database;
 use IGK\Helper\Utility;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
@@ -304,21 +305,28 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return $this->display;
     }
-
+    /**
+     * get custom table column info to create dummy row
+     * @return null|array 
+     */
+    protected function _getTableColumnInfo():?array{
+        if (method_exists($this, "getDataTableDefinition")) {
+            if ($g = $this->getDataTableDefinition()) {
+                return $g->tableRowReference; 
+            }
+        }
+        return null;
+    }
     /**
      * create dummy row
      * @return object|null dummy raw 
      */
     protected function createRow()
     {
-        if (method_exists($this, "getDataTableDefinition")) {
-            if ($g = $this->getDataTableDefinition()) {
-                $inf = $g->tableRowReference;
-                return DbSchemas::CreateObjFromInfo($inf);
-            }
+        if ($inf = $this->_getTableColumnInfo()) { 
+            return DbSchemas::CreateObjFromInfo($inf); 
         }
-        $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
-
+        $ctrl = igk_getctrl($this->controller ?? SysDbController::class); 
         return DbSchemas::CreateRow($this->getTable(), $ctrl);
     }
 
@@ -386,10 +394,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     protected function _initialize($raw = null, $mock = 0, $unset = false)
     {
-        $t =  $this->getTable();       
+        $t =  $this->getTable(); 
+        $v_inf = DBCaches::GetColumnInfo($t, $this->getController());
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
-            $r =  DBCaches::GetCacheData();
+           // $r =  DBCaches::GetCacheData();
             if (igk_environment()->isDev()) {
                 igk_wln([
                     "access" => __FILE__ . ":" . __LINE__,
@@ -419,7 +428,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             foreach ($raw as $k => $v) {
                 if (property_exists($this->raw, $k)) {
                     if ($props[$k]){
-                        $this->raw->$k = $v;
+                        $this->raw->$k = Database::GetValueFromLayoutInfo($v, $k, $v_inf);
                     }
                     unset($props[$k]);
                 }

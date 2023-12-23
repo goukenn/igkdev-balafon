@@ -589,14 +589,10 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function rm_column($table, $info, $after = null)
+    public function rm_column(string $table, $info)
     {
         $name = is_object($info) ? getv($info, "clName") : $info;
-        $adapter  = $this->m_driver;
-        $q = "ALTER TABLE ";
-        $q .= "`" . $table . "` DROP COLUMN ";
-        $q .= sprintf('`%s`;', $adapter->escape($name));
-        return $q.';';
+        return $this->createDropColumnQuery($table, $name); 
     }
     /**
      * rename column 
