@@ -8,6 +8,8 @@ use IGK\Helper\JSon;
 use IGK\Helper\SysUtils;
 use IGK\Models\ModelBase;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Database\Mapping\DefaultMap;
+use IGK\System\Database\Mapping\MappedData;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Mapping\Helper\ArrayMapHelper;
 
@@ -89,6 +91,9 @@ class SelectCommand extends AppExecCommand{
 		$g = $m->select_all($v_cond, $options);
 		if ($map){
 			// mapping
+			$v_conf = new ConfigurationReader;
+			$map = $v_conf->read($map);
+			$g = DefaultMap::MapModelData($map, $g);   
 		}
 		echo JSon::Encode($g); //->to_json();
 		igk_exit();

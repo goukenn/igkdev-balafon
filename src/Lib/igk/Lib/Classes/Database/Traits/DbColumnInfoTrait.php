@@ -217,7 +217,7 @@ trait DbColumnInfoTrait
   var $clLinkTo;
 
   /**
-   * expected map name
+   * expected map name column name
    * @var ?string
    */
   var $clMap;

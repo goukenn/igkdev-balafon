@@ -72,6 +72,13 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return $this->m_isNew;
     }
     /**
+     * current raw keys
+     * @return null|array 
+     */
+    public function getRowKeys():?array{
+        return array_keys((array)$this->raw);
+    }
+    /**
      * retrieve model info
      * @var IGK\Models\Models
      * @return array
