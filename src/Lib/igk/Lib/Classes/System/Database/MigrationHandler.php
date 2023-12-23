@@ -154,8 +154,8 @@ class MigrationHandler{
                 //+ if ctrl
                 if ($ctrl && $first_only ){
                     $v_handle_db = true;
-                    $v_execute = true;
                 }
+                $v_execute = true;
             }else{
                 //+ register new migration files - with status
                 $row = \IGK\Models\Migrations::createEmptyRow();

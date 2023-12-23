@@ -27,7 +27,7 @@ class MakeMigrationCommand extends AppExecCommand{
     var $desc = "migrate utility";
 
     var $options = [
-        '--all'=>'in up|down action migrate all data'
+        '--all'=>'flag: in up|down action migrate all data'
     ];
 
 
@@ -76,7 +76,9 @@ class MakeMigrationCommand extends AppExecCommand{
             $this->showUsage();            
         }
     }
-
+    private function _forAll($command){
+        return property_exists($command->options, '--all');
+    }
     public function migrate_new($command, ?BaseController $ctrl, ?string $name = ''){
         Logger::print('make new migration');
         if (is_null($ctrl)){
@@ -111,11 +113,14 @@ class MakeMigrationCommand extends AppExecCommand{
     }
      
     public function migrate_up($command,  ?BaseController $ctrl ){
+
+        $v_all = $this->_forAll($command);
         $migHandle = new MigrationHandler($ctrl);
-        return $migHandle->up(); 
+        return $migHandle->up(!$v_all); 
     }
     public function migrate_down($command,  ?BaseController $ctrl ){
+        $v_all = $this->_forAll($command);
         $migHandle = new MigrationHandler($ctrl);
-        return $migHandle->down(); 
+        return $migHandle->down(!$v_all); 
     }
 }
