@@ -15,10 +15,11 @@ use stdClass;
 */
 class RequireModuleCommand extends AppExecCommand{
 	var $command='--project:require';
-	/* var $desc='add required to required configuration'; */
+	var $desc='add required to required configuration'; 
 	/* var $options=[]; */
 	var $category = 'project';
 	var $usage = 'controller module [options]';
+	
 	public function exec($command, ?string $controller=null, ?string $module_name=null) {
 		$project = self::GetController($controller);
 		($module = igk_get_module($module_name)) || igk_die_exception(\IGKException::class, "missing module name");

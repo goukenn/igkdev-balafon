@@ -1459,67 +1459,7 @@ abstract class ControllerExtension
         }
         return $r;
     }
-    ///<summary>drop list data base</summary>
-    /**
-     * drop list data base
-     */
-    public static function dropDb(BaseController $controller, $navigate = 1, $force = false)
-    {
-
-        $ctrl = $controller;
-
-        $func = function () use ($ctrl) {
-            // + | --------------------------------------------------------------------
-            // + | raise utility command
-            // + |
-            DbUtilityHelper::InvokeOnStartDropTable($ctrl, true);
-            igk_hook(IGKEvents::HOOK_DB_START_DROP_TABLE, $ctrl);
-        };
-        $_vinit = 0;
-
-        if ($force || $ctrl->getCanInitDb()) {
-            if (!$ctrl->getUseDataSchema()) {
-                $db = self::getDataAdapter($ctrl);
-                if (
-                    !empty($table = $ctrl->getDataTableName()) &&
-                    $ctrl->getDataTableInfo() &&
-                    $db && $db->connect()
-                ) {
-                    $table = igk_db_get_table_name($table, $ctrl);
-                    $func();
-                    $db->dropTable($table); // ctrl->getDataTableName());
-                    $db->close();
-                }
-            } else {
-                $tb = $ctrl::loadDataFromSchemas();
-                $db = self::getDataAdapter($ctrl);
-                if ($force || ($db && $db->connect())) {
-                    $migHandle = new MigrationHandler($controller);
-                    $migHandle->down();
-
-                    $v_tblist = [];
-                    if ($tables = igk_getv($tb, "tables")) {
-                        foreach (array_keys($tables) as $k) {
-                            $v_tblist[$k] = $k;
-                        }
-                    }
-                    $func();
-                    igk_hook(IGKEvents::HOOK_DB_MIGRATE, [
-                        'type'=>DbSchemasConstants::Downgrade,
-                        'ctrl'=>$controller 
-                    ]);
-                    $db->dropTable($v_tblist);
-                    $_vinit = 1;
-                    $db->close();
-                }
-            }
-        }
-        if ($navigate) {
-            $controller->View();
-            igk_navtocurrent();
-        }
-        return $_vinit;
-    }
+   
 
     /**
      * log out controller 

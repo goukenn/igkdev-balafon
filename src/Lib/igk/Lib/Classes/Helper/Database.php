@@ -41,7 +41,7 @@ class Database{
         if ($info){
             $v_i = igk_getv($info, $name);
             if ($v_i){
-                if (self::IsNumber($v_i->clType)){
+                if (self::IsNumber($v_i->clType) && !is_object($value)){
                     return floatval($value);
                 } 
             }

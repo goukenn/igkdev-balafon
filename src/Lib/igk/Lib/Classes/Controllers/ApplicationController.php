@@ -248,8 +248,7 @@ implements IDatabaseHost
      * drop application table from system config
      */
     protected static function dropDb($navigate = true, $force = false)
-    {
-
+    { 
         if (!($c = igk_getctrl(static::class, false))) {
             return;
         }

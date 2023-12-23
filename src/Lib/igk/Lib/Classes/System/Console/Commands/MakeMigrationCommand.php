@@ -4,6 +4,7 @@
 // @date: 20221111 22:58:34
 namespace IGK\System\Console\Commands;
 
+use Error;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\MigrationBase;
@@ -12,9 +13,11 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
@@ -90,6 +93,9 @@ class MakeMigrationCommand extends AppExecCommand{
                 if ($this->$fc(...$args)==0){
                 Logger::success('execute:'.igk_sys_request_time());
                 }
+            } else {
+                Logger::danger(sprintf('missing %s action', $action));
+                $this->showUsage();
             }
         } else {
             $this->showUsage();            
@@ -149,5 +155,28 @@ class MakeMigrationCommand extends AppExecCommand{
         }
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->remove($name); 
+    }
+
+    /**
+     * list available migration 
+     * @param mixed $command 
+     * @param null|BaseController $ctrl 
+     * @param null|string $name 
+     * @return void 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function migrate_ls($command, ?BaseController $ctrl){
+        
+        $migHandle = new MigrationHandler($ctrl);
+        $m = $migHandle->getList(); 
+        foreach($m as $r){
+            Logger::print(
+                implode('|', [$r->migration_name."\r\t\t\t\t\t\t ", $r->state])
+            );
+
+        }
     }
 }

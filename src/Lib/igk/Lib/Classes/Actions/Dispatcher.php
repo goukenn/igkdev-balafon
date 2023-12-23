@@ -280,8 +280,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             // + | --------------------------------------------------------------------
             // + | resolving services for injection
             // + |            
-            $services = file_exists($fservice = $ctrl->configFile('services')) ?
+            if ($fservice = $ctrl->configFile('services')){ 
+                $services = file_exists($fservice) ?
                 ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
+            }
         }
 
         foreach ($parameters as $k) {

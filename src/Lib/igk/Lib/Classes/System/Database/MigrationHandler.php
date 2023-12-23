@@ -54,12 +54,43 @@ class MigrationHandler{
         }
         return $files;
     }
-    public function remove(string $name){
-        $g = $this->getfiles();
-        $ctrl = $this->m_controller;
-       
+    private function _getProps(string $order='up'){
+        $files = $this->getfiles($order);
+        $ctrl = $this->m_controller; 
         $migrations = Migrations::select_all(['migration_controller'=>$ctrl->getName()]);
         ArrayUtils::FillKeyWithProperty($migrations, 'migration_name'); 
+
+        return [$files, $migrations]; // compact('files','migrations');
+    }
+    public function getList(){
+        list($files, $migrations) = $this->_getProps(); 
+
+        $list = [];
+        while(count($files)>0){
+            $c = array_shift($files);
+            $migration_name = igk_io_basenamewithoutext($c);
+            preg_match(self::match, $c, $tab);
+            // $nname = $tab['name'];
+            $obj = igk_createobj();
+            $obj->migration_name = $migration_name;
+            $obj->state = -1;
+            if (isset($migrations[$migration_name])){
+                $mig = $migrations[$migration_name];
+                if ($mig instanceof Migrations){
+                    $obj->state = $mig->migration_batch;
+                    $obj->createAt = $mig->migration_create_at;
+                }
+            }
+            $list[] = $obj;
+        }
+        return $list ;
+
+    }
+    public function remove(string $name){
+
+        list($files, $migrations) = $this->_getProps();
+        $g = $files;
+        
 
         while(count($g)>0){
             $c = array_shift($g);

@@ -704,7 +704,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     }
     ///<summary></summary>
     /**
-    * 
+    * drop all present table
     */
     public function dropAllTables(){
         $r=$this->listTables();
