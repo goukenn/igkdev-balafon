@@ -336,20 +336,27 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $ctrl = igk_getctrl($this->controller ?? SysDbController::class); 
         return DbSchemas::CreateRow($this->getTable(), $ctrl);
     }
+    private static $sm_isCreateMocking;
 
     private static function CreateMockInstance($classname)
     {
         static $sm_mocking_creation;
+        if (DbSchemas::IsLoadingFromSchema()){
+            igk_die("can't create a mock instance because of loadingFromSchema. ".static::class);
+        }
         if (is_null($sm_mocking_creation)){
             $sm_mocking_creation = [];
         }
-        if (isset(  $sm_mocking_creation[$classname])){
+        if (isset($sm_mocking_creation[$classname])){
             /**
              * possibility of not registrated class or mocking 
              */
+            igk_trace();
             igk_die("flag to create mocking instance. ".$classname);
         }
         $sm_mocking_creation[$classname] = 1;
+        self::$sm_isCreateMocking = true;
+
         if (self::$mock_instance === null) {
             self::$mock_instance = [];
         }
@@ -359,7 +366,15 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             self::$mock_instance[$classname] = $m;
         }
         unset($sm_mocking_creation[$classname]);
+        self::$sm_isCreateMocking = null;
         return $m;
+    }
+    /**
+     * check for mocking creating
+     * @return null|bool 
+     */
+    public static function IsCreateMocking(): ?bool{
+        return self::$sm_isCreateMocking;
     }
     /**
      * check if model created mock instance

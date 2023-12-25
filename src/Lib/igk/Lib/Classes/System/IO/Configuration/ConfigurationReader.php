@@ -7,7 +7,8 @@
 
 namespace IGK\System\IO\Configuration;
 
-use Closure; 
+use Closure;
+use IGK\System\IO\EnumDefinitionReader;
 use stdClass;
 
 /**
@@ -312,5 +313,18 @@ class ConfigurationReader
         $reader->separator = '=';
         $reader->delimiter = "\n";
         return $reader;
+    }
+
+    /**
+     * direct parsing
+     */
+    public static function Parse(string $value){
+        $reader = new self;
+        return $reader->read($value);
+    }
+
+    public static function ParseEnumLitteralValue(string $value){
+        $r = new EnumDefinitionReader;
+        return $r->read($value);
     }
 }

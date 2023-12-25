@@ -19,8 +19,17 @@ interface IDiagramSchemaBuilder{
      */
     function entity(string $name, ?string $desc=null, ?string $prefix=null);
 
+    /**
+     * retrieve configured table prefix
+     * @return string 
+     */
     function getTablePrefix():string;
 
+    /**
+     * get table prefix 
+     * @param string $name 
+     * @return string 
+     */
     function getPrefixTable(string $name): string;
 
     /**
@@ -38,23 +47,23 @@ interface IDiagramSchemaBuilder{
     function addColumn(string $table, string $name):IDiagramSchemaColumn;
 
     /**
-     * 
+     * add table index 
      * @param string $table 
-     * @param mixed $column 
+     * @param mixed $column array<string> | string
      * @return mixed 
      */
     function addIndex(string $table, $column);
 
     /**
-     * 
+     * drop table index 
      * @param string $table 
-     * @param mixed $column 
+     * @param mixed $column array<string>|string list of colonne 
      * @return mixed 
      */
     function dropIndex(string $table,  $column);
 
     /**
-     * 
+     * remove column from schema
      * @param string $tabble 
      * @param mixed $column 
      * @return mixed 

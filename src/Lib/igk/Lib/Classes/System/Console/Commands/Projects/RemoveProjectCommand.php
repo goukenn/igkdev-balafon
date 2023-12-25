@@ -11,8 +11,7 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
-use IGK\System\Database\MigrationHandler;
-use Illuminate\Database\Console\DbCommand;
+use IGK\System\Database\MigrationHandler; 
 
 ///<summary></summary>
 /**

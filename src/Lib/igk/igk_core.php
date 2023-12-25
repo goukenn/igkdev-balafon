@@ -1647,11 +1647,12 @@ function igk_sys_handle_uri($uri = null)
  * @param string $excludedir directory to exclude
  * @return null|array $files loaded
  * */
-function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null)
+function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null):?array
 {
+    igk_debug_wln('load library '.$dir);
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
-        return;
+        return null;
     }
 
     IGK\System\Diagnostics\Benchmark::mark(__FUNCTION__);

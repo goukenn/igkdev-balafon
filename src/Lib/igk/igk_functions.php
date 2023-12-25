@@ -13462,8 +13462,9 @@ function igk_init_context_array_diff($args)
 ///<summary>init controller with a source creation listener</summary>
 /**
  * init controller with a source creation listener
+ * @var IIGKControllerInitListener $listener 
  */
-function igk_init_controller($listener)
+function igk_init_controller(IIGKControllerInitListener $listener)
 {
     $grantaccess = "allow from all";
     $denyaccess = 'deny from all';
@@ -23431,15 +23432,7 @@ function igk_sys_render_default_uri($uri = null, $ctrl = null, $ownctrl = 1)
             igk_ilog("/!\\ controller not found to handle the request.");
         }
     }
-}
-///<summary>get request time</summary>
-/**
- * get request time
- */
-// function igk_sys_request_time(){
-//     $time = $_SERVER["REQUEST_TIME_FLOAT"];
-//     return (microtime(true) - $time);
-// }
+} 
 ///<summary>require file in syst1m configuration</summary>
 /**
  * require file in syst1m configuration

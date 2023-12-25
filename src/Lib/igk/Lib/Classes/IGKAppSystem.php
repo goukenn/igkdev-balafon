@@ -229,11 +229,7 @@ class IGKAppSystem
         // + | LOAD CONTROLLER LISTS
         // + |
         $tab =  EnvControllerCacheList::GetControllersClasses(); 
-        $c->load($tab, $manager, $loader); 
-        // igk_wln_e(
-        //     __FILE__.":".__LINE__, 
-        //     'init controller cache list ....', $tab, DBCaches::GetCacheData());
-     
+        $c->load($tab, $manager, $loader);  
     }
     private function __construct()
     {

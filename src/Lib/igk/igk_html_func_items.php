@@ -2575,7 +2575,10 @@ if (!function_exists("igk_html_node_host")) {
 			if (is_array($response)) {
 				$p->text(igk_ob_get($response));
 			} else {
-				$p->text($response);
+				if ($response instanceof HtmlItemBase){
+					$p->add($response);
+				} else 
+					$p->text($response);
 			}
 		}
 		if (!empty($response = ob_get_clean())) {

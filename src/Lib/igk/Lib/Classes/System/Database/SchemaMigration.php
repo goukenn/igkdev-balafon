@@ -399,9 +399,15 @@ class SchemaMigration
         }
         return false;
     }
-    private static function _DoUpgrade($key, $item, array &$tables, $c, ?BaseController $ctrl)
+    /**
+     * do update and update the list of current schema data tables
+     */
+    private static function _DoUpgrade(string $key, $item, array &$tables, $c, ?BaseController $ctrl)
     {
-
+        // + | --------------------------------------------------------------------
+        // + | upgrade the schema definition file 
+        // + |
+        
         switch ($key) {
             case DbSchemasConstants::OP_ADD_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);

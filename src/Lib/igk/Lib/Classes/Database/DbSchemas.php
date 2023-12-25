@@ -47,6 +47,11 @@ abstract class DbSchemas
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
 
+    /**
+     * 
+     * @var mixed
+     */
+    private static $sm_isLoadingFromSchema;
 
     /**
      * loaded schema
@@ -54,6 +59,13 @@ abstract class DbSchemas
      */
     static $sm_schemas = [];
 
+    /**
+     * is loading from schema
+     * @return ?bool 
+     */
+    public static function IsLoadingFromSchema():?bool{
+        return self::$sm_isLoadingFromSchema;
+    }
     /**
      * clear store controller schema
      * @param BaseController $controller 
@@ -130,7 +142,8 @@ abstract class DbSchemas
             if (!$xcode){
                 return null;
             }
-
+            
+            self::$sm_isLoadingFromSchema = 1;
             $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);      
             // + init Check and update data
             if ($ctrl && ($cl = $ctrl->resolveClass(\Database\InitDbSchemaBuilder::class))) {
@@ -146,6 +159,7 @@ abstract class DbSchemas
                 $tr->render(new SchemaDiagramVisitor($ctrl, $data, $operation));
             }
             self::$sm_schemas[$file] = ["controller" => $ctrl, "definition" => $data];
+            self::$sm_isLoadingFromSchema = 0;
         } else {
             $data = $data["definition"];
         }

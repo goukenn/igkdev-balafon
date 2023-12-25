@@ -29,6 +29,7 @@ use IGK\Models\ModelBase;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\QueryBuilderConstant as queryConstant;
+use IGK\System\IO\Configuration\ConfigurationReader;
 use IGKException;
 use IGKSysUtil;
 use stdClass;
@@ -234,11 +235,13 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $type 
      * @return bool 
      */
-    public function allowTypeLength(string $type):bool{
+    public function allowTypeLength(string $type): bool
+    {
         $driver = $this->m_driver;
-        return (($type!='int') || (($type=='int') && version_compare($driver->getVersion(), '8.0','<')));
+        return (($type != 'int') || (($type == 'int') && version_compare($driver->getVersion(), '8.0', '<')));
     }
-    public function remove_foreign(string $table, $column):?string{
+    public function remove_foreign(string $table, $column): ?string
+    {
         return $this->m_driver->remove_foreign($table, $column);
     }
     /**
@@ -299,18 +302,29 @@ class SQLGrammar implements IDbQueryGrammar
                 $v_fallback_type = true;
             }
             $query .= $driver->escape_string($type);
-            $s = strtolower($type);            
+            $s = strtolower($type);
             $number = $this->isNumber($s);
             if ($driver->getIsLengthData($s)) {
-                if (($v->clTypeLength > 0) && $this->allowTypeLength($s)) {                    
+                if (($v->clTypeLength > 0) && $this->allowTypeLength($s)) {
                     $query .= "(" . $driver->escape_string($v->clTypeLength) . ")";
                 }
             } else if ($type == "Enum") {
-                $query .= "(" . implode(",", array_map(function ($i) use ($driver) {
-                    return "'" . $driver->escape_string($i) . "'";
-                }, array_filter(explode(",", $v->clEnumValues), function ($c) {
-                    return (strlen(trim($c)) > 0);
-                }))) . ")";
+                $e_ev = $v->clEnumValues ?? '';
+                $e_sv = 0;
+                if ($e_ev) {
+                    if ($g = self::GetEnumQueryValueQueryString($e_ev, $driver)){
+                        $e_sv = 1;
+                        $query .= '(' . $g . ')';
+                    }
+
+                }
+
+                if (!$e_sv)
+                    $query .= "(" . implode(",", array_map(function ($i) use ($driver) {
+                        return "'" . $driver->escape_string($i) . "'";
+                    }, array_filter(explode(",", $e_ev), function ($c) {
+                        return (strlen(trim($c)) > 0);
+                    }))) . ")";
             }
             $query .= " ";
 
@@ -454,6 +468,23 @@ class SQLGrammar implements IDbQueryGrammar
         igk_ilog($query, null, 0, false);
         return $query;
     }
+
+    /**
+     * get enum value string from data definition 
+     * @param string $d 
+     * @return null|string 
+     */
+    public static function GetEnumQueryValueQueryString(string $d, $driver):?String{ 
+        if ($g = ConfigurationReader::ParseEnumLitteralValue($d)) {
+            // get only value
+            $t = [];
+            foreach($g as $k=>$v){
+                $r = is_null($v) ? $k : $v;
+                $t[] = "'".$driver->escape_string($r)."'";
+            } 
+            return implode(',', $t);
+        }
+    }
     /**
      * return null in case of foreign key exists in defined
      */
@@ -518,41 +549,43 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $column 
      * @return null|string|array
      */
-    public function add_index(string $table, $column):?string{
-        if (!$column){
+    public function add_index(string $table, $column): ?string
+    {
+        if (!$column) {
             return null;
-        } 
+        }
         $column = $this->_get_column_list($column);
-        $idx = strtolower('IDX_'.StringUtility::CamelClassName($column)); 
+        $idx = strtolower('IDX_' . StringUtility::CamelClassName($column));
         $q = "CREATE INDEX ";
-        $q .= $idx. " ON `" . $table . "` ";
-        $q .= "(".$column. ");"; 
+        $q .= $idx . " ON `" . $table . "` ";
+        $q .= "(" . $column . ");";
         return $q;
     }
-    private function _get_column_list($column){
+    private function _get_column_list($column)
+    {
 
-        if (!is_array($column)){
+        if (!is_array($column)) {
             $column = [$column];
         }
-        $column = implode(',', array_filter(array_map(function($s){
-                return igk_str_surround($this->m_driver->escape_string($s), '`');
-            }, $column)));
+        $column = implode(',', array_filter(array_map(function ($s) {
+            return igk_str_surround($this->m_driver->escape_string($s), '`');
+        }, $column)));
         return $column;
     }
-    public function drop_index(string $table, $column):?string{
-        if (!$column){
+    public function drop_index(string $table, $column): ?string
+    {
+        if (!$column) {
             return null;
-        }  
+        }
         $idx = null;
-        if (strtolower($column)=='primary')
-        {
+        if (strtolower($column) == 'primary') {
             $idx = `PRIMARY`;
         }
         $column = $this->_get_column_list($column);
-        $idx = $idx ?? strtolower('IDX_'.StringUtility::CamelClassName($column));
+        $idx = $idx ?? strtolower('IDX_' . StringUtility::CamelClassName($column));
 
         $q = "DROP INDEX ";
-        $q .= $idx. " ON `" . $table . "`;";
+        $q .= $idx . " ON `" . $table . "`;";
         return $q;
     }
 
@@ -571,7 +604,7 @@ class SQLGrammar implements IDbQueryGrammar
 
         $q = "ALTER TABLE ";
         $q .= "`" . $table . "` ADD COLUMN ";
-        $q .= "`".$v_clname. "` ";
+        $q .= "`" . $v_clname . "` ";
 
         $q .= rtrim($this->getColumnInfo($info));
 
@@ -592,7 +625,7 @@ class SQLGrammar implements IDbQueryGrammar
     public function rm_column(string $table, $info)
     {
         $name = is_object($info) ? getv($info, "clName") : $info;
-        return $this->createDropColumnQuery($table, $name); 
+        return $this->createDropColumnQuery($table, $name);
     }
     /**
      * rename column 
@@ -682,7 +715,8 @@ class SQLGrammar implements IDbQueryGrammar
         // TODO: drop foreign grammar
         Logger::warn('drop foreign key');
     }
-    public function drop_column($table, $column){
+    public function drop_column($table, $column)
+    {
         return $this->createDropColumnQuery($table, $column);
     }
 
@@ -691,8 +725,9 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $s 
      * @return bool 
      */
-    public function isNumber(string $s): bool{
-        return in_array($s, ['int','float']);
+    public function isNumber(string $s): bool
+    {
+        return in_array($s, ['int', 'float']);
     }
 
     /**
@@ -716,10 +751,10 @@ class SQLGrammar implements IDbQueryGrammar
             $not_supported = true;
         }
         $query .= $adapter->escape_string($type);
-        $s = strtolower($type); 
+        $s = strtolower($type);
         $number = $this->isNumber($s);
         if (isset(static::$LENGTHDATA[$s])) {
-            if (($v->clTypeLength > 0) && $this->allowTypeLength($s)) {                
+            if (($v->clTypeLength > 0) && $this->allowTypeLength($s)) {
                 $query .= "(" . $adapter->escape_string($v->clTypeLength) . ")";
             }
         } else if ($s == "enum") {
