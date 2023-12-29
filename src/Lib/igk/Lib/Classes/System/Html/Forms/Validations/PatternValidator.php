@@ -6,6 +6,8 @@
 
 namespace IGK\System\Html\Forms\Validations;
 
+use IGK\System\Html\IFormFieldOptions;
+
 /**
  * pattern validator
  * @package IGK\System\Html\Forms
@@ -25,7 +27,7 @@ class PatternValidator  extends FormFieldValidatorBase implements IFormValidator
         return preg_match($this->m_pattern, $value);
     }
     
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+    public function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]){ 
         if (!$this->matchPattern($value)){
             return $default;
         }

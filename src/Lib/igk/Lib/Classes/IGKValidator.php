@@ -5,11 +5,12 @@
 // @desc: 
 
 
+
 ///<summary>Represente class: IGKValidator</summary>
 
-use IGK\System\Html\Forms\IFormValidator;
-use IGK\System\Html\Forms\PasswordValidator;
 use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
+use IGK\System\Html\Forms\Validations\IFormValidator;
+use IGK\System\Html\Forms\Validations\PasswordValidator;
 
 use function igk_resources_gets as __;
 /**
@@ -272,7 +273,7 @@ final class IGKValidator extends IGKObject {
             foreach($fields as $k=>$v){
                 $f= null;
                 $require = false;
-                $def_error = sprintf('error on fields %s', $k);
+                $def_error = sprintf('error on field %s', $k);
 
                 if ($v instanceof FormFieldValidationInfo){
                     $f = $v->validator;
@@ -310,8 +311,12 @@ final class IGKValidator extends IGKObject {
                     if (is_null($call)){
                         igk_die(sprintf(__('missing validation for %s'), $k));
                     }
-                    $cond=call_user_func_array($call, array($s));
+                    $cond=call_user_func_array($call, [$s]);
                     self::Assert($cond, $e, $g, $error_text); 
+
+                    // if ($cond && ($f instanceof IFormValidator)){
+                    //     $s = $f->validate($s, $v->default, $v, $error);
+                    // }
                 }
                 !$cond && $error[] = $error_text;
                 $o->$k = $s; // change the object data definition

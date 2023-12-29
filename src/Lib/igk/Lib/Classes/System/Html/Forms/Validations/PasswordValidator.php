@@ -5,6 +5,9 @@
 // @desc: 
 
 namespace IGK\System\Html\Forms\Validations;
+
+use IGK\System\Html\Forms\FieldInfo;
+
 use function igk_resources_gets as __;
 
 

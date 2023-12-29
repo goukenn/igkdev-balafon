@@ -6,6 +6,7 @@
 
 namespace IGK\System\Html\Forms\Validations;
 
+use IGK\System\Html\IFormFieldOptions;
 use IGKValidator;
 use function igk_resources_gets as __;
 
@@ -21,15 +22,18 @@ class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
         return false;
     }
 
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+    public function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]){ 
         $q = parse_url($value);       
         if (!IGKValidator::IsUri($value))
         {
             if ($default  && IGKValidator::IsUri($default)){
                 return $default;
             }
-            if ($fieldinfo->required)
-                $error[] = $fieldinfo->error ?? __("url not valid: {0}", $fieldinfo->name);
+            $is_required = $fieldinfo ? $fieldinfo->required : false;
+            $name = $fieldinfo ? $fieldinfo->name : false;
+            $v_error = ($fieldinfo ? $fieldinfo->error : null) ?? __("url not valid: {0}", $name);
+            if ($is_required)
+                $error[] = $v_error;  
             return null;           
         }
         if (isset($q["query"])){

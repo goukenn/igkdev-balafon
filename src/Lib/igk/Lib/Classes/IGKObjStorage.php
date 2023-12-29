@@ -12,7 +12,7 @@
  * use to copy and retrieve data or null
  * @package 
  */
-final class IGKObjStorage{
+class IGKObjStorage{
     private $m_init;
     private $m_storage = [];
     ///<summary></summary>

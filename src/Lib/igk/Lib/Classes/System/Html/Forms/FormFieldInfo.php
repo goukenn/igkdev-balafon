@@ -43,5 +43,10 @@ class FormFieldInfo implements IFormFieldOptions, IFormValidationInfo{
      */
     var $error;
 
+    /**
+     * 
+     * @var mixed
+     */
+    var $default;
 
 }

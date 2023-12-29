@@ -9,7 +9,7 @@ namespace IGK\System\Html\Forms\Validations;
 use IGK\System\Html\IFormFieldOptions;
 
 /**
- * 
+ * represent a form field validator
  * @package IGK\System\Html\Forms
  */
 interface IFormValidator{

@@ -4,7 +4,7 @@
 // @date: 20230117 15:16:11
 namespace IGK\System\Html\Forms\Validations;
 
-use IGKException;
+use IGKExceptioın;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 

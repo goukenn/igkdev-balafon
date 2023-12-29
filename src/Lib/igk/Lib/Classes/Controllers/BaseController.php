@@ -490,6 +490,14 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
         }
     }
+    /**
+     * default include function helper
+     * @return void 
+     */
+    protected function _include_func_helpers(){
+        include_once(IGK_LIB_DIR."/Lib/functions-helpers/view.php");
+
+    }
     ///<summary>copy this fonction to allow file inclusion on the current context controller</summayr>
     /**
      * copy this fonction to allow file inclusion on the current context controller
@@ -497,6 +505,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     protected function _include_view(string $file)
     {
         $response = null;
+        $this->_include_func_helpers();
         $this->_include_constants();
         igk_reset_globalvars();
         $viewargs = (array)ViewEnvironmentArgs::CreateContextViewArgument($this, $file, __FUNCTION__);

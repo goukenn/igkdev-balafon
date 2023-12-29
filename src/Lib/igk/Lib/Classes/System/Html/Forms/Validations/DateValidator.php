@@ -7,7 +7,11 @@
 namespace IGK\System\Html\Forms\Validations;
 
 
-class DateValidator implements IFormValidator{
+class DateValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    public function assertValidate($value): bool {
+        return is_string($value);
+    } 
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if ($default === null){

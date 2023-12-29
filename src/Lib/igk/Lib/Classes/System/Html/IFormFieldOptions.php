@@ -22,6 +22,8 @@ namespace IGK\System\Html;
  * @property ?bool $required is required field
  * @property ?int $maxlength max length of the field
  * @property ?int $minlength minimum length of the field
+ * @property ?string $error error message
+ * @property ?string $field name
  * @property ?string $pattern
  * @property array $data entry data. $key=>$value, ['i'=>, 't'=>]
  */

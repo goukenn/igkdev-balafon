@@ -1980,6 +1980,7 @@ function igk_sys_getdefaultctrlconf()
 
 /**
  * get cached reflected class
+ * @param mixed $cl 
  * @return ?ReflectionClass 
  */
 function igk_sys_reflect_class($cl)

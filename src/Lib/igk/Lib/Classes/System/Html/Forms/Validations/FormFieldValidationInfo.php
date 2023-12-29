@@ -26,4 +26,10 @@ class FormFieldValidationInfo implements IFormValidationInfo{
      * @var ?bool
      */
     var $required; 
+
+    /**
+     * the default value
+     * @var mixed
+     */
+    var $default;
 }

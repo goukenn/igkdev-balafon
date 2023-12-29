@@ -7,7 +7,11 @@
 namespace IGK\System\Html\Forms\Validations;
 
 
-class FloatValidator implements IFormValidator{
+class FloatValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    public function assertValidate($value): bool { 
+        return is_numeric($value);
+    }
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if (is_numeric($value)){
