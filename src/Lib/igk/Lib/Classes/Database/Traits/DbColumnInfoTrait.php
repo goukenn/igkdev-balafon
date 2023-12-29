@@ -227,4 +227,10 @@ trait DbColumnInfoTrait
    * @var ?string target table inverse map name
    */
   var $clInverseMap;
+
+  /**
+   * get or set if the columninfo is a dump field. 
+   * @var ?bool
+   */
+  var $clIsDumpField;
 }

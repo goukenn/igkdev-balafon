@@ -120,7 +120,7 @@ use function igk_resources_gets as __;
  * @method static ?string resolveClass(string $path) macros function resolve class. return null if not exists
  * @method static void resolveAssets(array<string> $asset_list) macros function resolve class. return null if not exists * 
  * @method ?string asset(string $path, bool $must_exist=true) macros function resolve controller assets  * 
- * @method static void resolveTableName() macros function
+ * @method static string resolveTableName(string $real_table_name) macros function resolve to entry table
  * @method static void seed() macros function
  * @method static void setEnvParam(key, value) macros function
  * @method static void storeConfigSettings() macros function

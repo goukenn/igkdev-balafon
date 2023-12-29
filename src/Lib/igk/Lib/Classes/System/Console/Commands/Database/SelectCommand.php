@@ -105,6 +105,9 @@ class SelectCommand extends AppExecCommand{
 	 * @return void 
 	 */
 	public static function PrintResult($g){
+
+		
+
 		if ($g instanceof ModelBase){
 			echo $g->to_json();
 			return;
@@ -113,13 +116,25 @@ class SelectCommand extends AppExecCommand{
 			echo var_dump($g);
 			return;
 		}
+		if (is_array($g)){
+			if (igk_array_is_assoc($g)){
+				array_map(function($v, $k){
+					print_r(sprintf("%s\r\t\t\t=\r\t\t\t\t%s\n", $k, str_pad($v, 20, " ", STR_PAD_LEFT)));
+				}, $g, array_keys($g));
+				return;
+			}
+		}
 		
-		$f = 0;
-		$h = [];
+		//$f = 0;
+		// $h = [];
 		foreach($g as $row){ 
-			$f = 1;
-			$p = array_keys($row->to_array());
-			echo $row->to_json() . PHP_EOL;
+			// $f = 1;
+			if (is_object($row) && method_exists($row, "to_json")){
+				// $p = array_keys($row->to_array());
+				echo $row->to_json() . PHP_EOL;
+			} else {
+				print_r(JSon::Encode($row));
+			}
 		}
 	}
 }

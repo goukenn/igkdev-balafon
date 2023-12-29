@@ -1,20 +1,20 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @filename: DoubleValidator.php
+// @filename: FloatValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
 
-namespace IGK\System\Html\Forms;
+namespace IGK\System\Html\Forms\Validations;
 
 
-class DoubleValidator implements IFormValidator{
+class FloatValidator implements IFormValidator{
 
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
         if (is_numeric($value)){
-            return doubleval($value);
+            return floatval($value);
         }
         if (is_numeric($default)){
-            return doubleval($default);
+            return floatval($default);
         }
         return 0.0;
     }

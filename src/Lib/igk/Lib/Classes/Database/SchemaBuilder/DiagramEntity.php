@@ -6,7 +6,9 @@
 
 namespace IGK\Database\SchemaBuilder;
 
+use IGK\Database\DbConstants;
 use IGK\Helper\Activator;
+use IGK\Resources\R;
 use IGK\System\Console\Logger;
 use IGKException;
 
@@ -26,6 +28,21 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @var mixed
      */
     private $m_desc;
+
+   
+
+    const VarChar = 'VarChar';
+
+    public function locale(string $id, int $length = DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity {
+        foreach(R::GetSupportedLangs() as $lang){
+            $this->addProperties([[
+                'clName'=>$id.ucfirst($lang),
+                'clType'=>self::VarChar,
+                'clTypeLength'=>$length
+            ]]);
+        }
+        return $this;
+    }
 
     public function column_varchar(string $name, int $length, ?array $options = null): IDiagramSchemaEntity {
         if (is_null($options)){
@@ -77,8 +94,8 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     {
         return $this->addProperties([
             [
-                "clName" => empty($name) ?? 'Email', 
-                "clType" => "VarChar",
+                "clName" => empty($name) ? 'Email': $name, 
+                "clType" => self::VarChar,
                 "clTypeLength" => $length,
                 "clInputType" => "email"
             ]
@@ -95,7 +112,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         return $this->addProperties([
 
          [
-            "clName" => $prefix . $name, "clType" => "VarChar", "clTypeLength" => $length,
+            "clName" => $prefix . $name, "clType" => self::VarChar, "clTypeLength" => $length,
             "clInputType" => "tel"
         ]]);
     }
@@ -134,7 +151,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      */
     public function guuid(string $name, ?string $description = null): IDiagramSchemaEntity
     {
-        return $this->column($name, "VarChar", DiagramConstants::GUID_LENGTH, 1, 1, $description);
+        return $this->column($name,self::VarChar, DiagramConstants::GUID_LENGTH, 1, 1, $description);
     }
     /**
      * add auto increment id
@@ -176,7 +193,17 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clNotNull" => 1
         ]]);
     }
-    public function unique(string $name, $length = 9, $type = "VarChar",  $notnull = 1, $description = null): IDiagramSchemaEntity
+    /**
+     * 
+     * @param string $name 
+     * @param int $length 
+     * @param string $type 
+     * @param int $notnull 
+     * @param mixed $description 
+     * @return IDiagramSchemaEntity 
+     * @throws IGKException 
+     */
+    public function unique(string $name, $length = 9, $type = self::VarChar,  $notnull = 1, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
             "clName" => $name,
@@ -187,6 +214,19 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clNotNull" => $notnull,
             "clIsUnique" => 1
         ]]);
+    }
+    /**
+     * change description
+     * @param string $description 
+     * @return IDiagramSchemaEntity 
+     */
+    public function description (?string $description):IDiagramSchemaEntity {
+        $m_last = $this->getLastProperty();
+        if ($m_last)
+        $m_last->clDescription = $description;
+        else 
+            $this->m_desc = $description;
+        return $this;
     }
     public function text($name = "clId", $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
@@ -206,11 +246,11 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-    public function varchar(string $name, $length = 10, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
+    public function varchar(string $name, $length = 191, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([
             [
-                "clName" => $name, "clType" => "VARCHAR", "clTypeLength" => $length,
+                "clName" => $name, "clType" => self::VarChar, "clTypeLength" => $length,
                 "clDefault" => $default, "clDescription" => $description, "clInputType" => $inputtype, "clNotNull" => $notnull
             ]
         ]);
@@ -280,7 +320,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
-            "clName" => $name, "clType" => "VarChar",
+            "clName" => $name, "clType" => self::VarChar,
             "clTypeLength"=> DiagramConstants::GUID_LENGTH,
             "clDefault" => $default, "clDescription" => $description, 
             "clLinkType" => $table_name, "clLinkColumn" => $linkColumn,
@@ -311,11 +351,11 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     public function address(string $prefix=""): IDiagramSchemaEntity{
         return $this->addProperties([
             ["clName"=>"{$prefix}AddrStreet","clType"=>"Text",],
-            ["clName"=>"{$prefix}AddrNumber","clType"=>"VarChar" ,"clTypeLength"=>15],
-            ["clName"=>"{$prefix}AddrBox", "clType"=>"VarChar" ,"clTypeLength"=>10],
-            ["clName"=>"{$prefix}AddrPostalCode","clType"=>"VarChar","clTypeLength"=>10],
+            ["clName"=>"{$prefix}AddrNumber","clType"=>self::VarChar ,"clTypeLength"=>15],
+            ["clName"=>"{$prefix}AddrBox", "clType"=>self::VarChar ,"clTypeLength"=>10],
+            ["clName"=>"{$prefix}AddrPostalCode","clType"=>self::VarChar,"clTypeLength"=>10],
             ["clName"=>"{$prefix}AddrCity", "clType"=>"Text"],
-            ["clName"=>"{$prefix}AddrCountry", "clType"=>"VarChar", "clTypeLength"=>"4", "clDescription"=>"country's iso code"],
+            ["clName"=>"{$prefix}AddrCountry", "clType"=>self::VarChar, "clTypeLength"=>"4", "clDescription"=>"country's iso code"],
         ]);
     }
     public function date($name, $notnull = false, $default = 0, $description = null)

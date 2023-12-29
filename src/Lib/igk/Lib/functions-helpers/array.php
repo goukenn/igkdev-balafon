@@ -130,6 +130,9 @@ if (!function_exists("igk_array_filter")) {
     ///<summary>array filter data, throw if require parameter is missing</summary>
     /**
      * array filter data, throw if require parameter is missing
+     * @var mixed $data object to filter
+     * @var mixed $data object to filter
+     * @var mixed $list list of defined value key=>required
      */
     function igk_array_filter($data, $list, $die = true)
     {

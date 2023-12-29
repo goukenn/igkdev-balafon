@@ -9,13 +9,26 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Console\Logger;
-use IGKException;
-
+use IGK\System\Html\Dom\HtmlItemBase;
+use IGKException; 
+/**
+ * Schema builder blueprint helper
+ * @package IGK\System\Database
+ */
 class SchemaBuilderHelper{
     protected $_output;
     protected $_schema;
     private $m_inf = [];
+    private $m_last_column;
 
+    /**
+     * get last column info blueprint node
+     * @return null|IGK\System\Database\HmtlItemBase 
+     */
+    protected function getLastColumnInfo():?HtmlItemBase{
+        
+        return $this->m_last_column;
+    }
     public function getDefinition($n){
         return igk_getv($this->m_inf, $n);
     }
@@ -27,6 +40,7 @@ class SchemaBuilderHelper{
             $m[$k] = $v;
         } 
         $this->m_inf[$c->clName] = $c;
+        $this->m_last_column = $m;
     }
     /**
      * migrate utility methods

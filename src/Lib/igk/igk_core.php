@@ -222,7 +222,7 @@ if (!function_exists('igk_resources_gets')) {
      * @param string|null $default default value
      */
     function igk_resources_gets($text, $default = null)
-    {
+    { 
         $args = func_get_args();
         if (is_array($text)) {
             $m = array_slice($args, 1);

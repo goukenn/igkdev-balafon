@@ -229,7 +229,7 @@ class HtmlNodeTagExplosionDefinition
                 }
             } else {
                 if (igk_environment()->isDev()) {
-                    igk_die("not a valid class specification.");
+                    igk_die("not a valid class specification.2 : ".$tagname);
                 }
                 $tagname = substr($tagname, $v_pos, 1);
             }

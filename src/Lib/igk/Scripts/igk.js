@@ -1560,8 +1560,16 @@ Name:balafon.js
             };
             var i = 0,
                 v_host = null;
-            for (; i < v_tab.length; i++) {
-                // new Image();// 
+            for (; i < v_tab.length; i++) { 
+                let w = v_tab[i].getAttribute('width');
+                let h = v_tab[i].getAttribute('height');
+                if (w || h){
+                    $igk(v_tab[i]).setCss({
+                        width:w?w+'px':undefined,
+                        height:h?h+'px':undefined
+                    });
+                    console.log('define size for place holder.', w, h);
+                }
                 var src = v_tab[i].getAttribute("src");
                 if (src) {
                     v_host = $igk(document.createElement("span"));

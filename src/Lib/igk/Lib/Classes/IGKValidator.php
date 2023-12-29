@@ -9,7 +9,9 @@
 
 use IGK\System\Html\Forms\IFormValidator;
 use IGK\System\Html\Forms\PasswordValidator;
+use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
 
+use function igk_resources_gets as __;
 /**
 * Represente IGKValidator class
 */
@@ -265,13 +267,25 @@ final class IGKValidator extends IGKObject {
         $g=self::getInstance()->sm_enode;
         $g->clearChilds();
         $e=false;
-        $ro = (object)[];
+        $ro = (object)[]; // real output object
         if(is_array($fields)){
             foreach($fields as $k=>$v){
-                
-                $f = igk_getv($v, 'f');
-                $require = igk_getv($v, 'required');
-                $error_text = igk_getv($v, 'e', sprintf('error on fields %s', $k));
+                $f= null;
+                $require = false;
+                $def_error = sprintf('error on fields %s', $k);
+
+                if ($v instanceof FormFieldValidationInfo){
+                    $f = $v->validator;
+                    $require = $v->required;
+                    $error_text = $v->error ?? $def_error;
+
+                }
+                else {
+
+                    $f = igk_getv($v, 'f');
+                    $require = igk_getv($v, 'required');
+                    $error_text = igk_getv($v, 'e', $def_error);
+                }
                 $cond = false;
                 $s = null;
                 if (!property_exists($o, $k)){
@@ -300,8 +314,8 @@ final class IGKValidator extends IGKObject {
                     self::Assert($cond, $e, $g, $error_text); 
                 }
                 !$cond && $error[] = $error_text;
-                $o->$k = $s;
-                $ro->$k = $s;
+                $o->$k = $s; // change the object data definition
+                $ro->$k = $s; // real object output
             }
         }
         if ($e){

@@ -259,6 +259,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
         return $this->viewFilter;
     }
+    /**
+     * change set raw value
+     * @param mixed $name 
+     * @param mixed $value 
+     * @return $this 
+     */
     public function set($name, $value)
     {
         $this->raw->{$name} = $value;

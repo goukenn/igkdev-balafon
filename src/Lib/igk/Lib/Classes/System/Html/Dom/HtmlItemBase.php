@@ -13,6 +13,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/DomNodeBase.php";
 
 use ArrayAccess;
 use Closure;
+use Error;
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -1200,6 +1201,23 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function getParentNode()
     {
         return $this->m_parent;
+    }
+    /**
+     * replace current node with 
+     * @param mixed $node 
+     * @return void 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public function replaceWith(HtmlItemBase $node){
+        $p = $this->getParentNode();
+        if ($p){
+            $this->remove();
+            $p->add($node);
+        } 
     }
     protected function _access_OffsetGet($k)
     {

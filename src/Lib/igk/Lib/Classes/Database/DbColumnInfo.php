@@ -6,10 +6,10 @@
 
 
 namespace IGK\Database;
-
-use IGK\App\Bondje\Models\DbUtility;
+ 
 use IGK\Database\Traits\DbColumnInfoMethodTrait;
 use IGK\Database\Traits\DbColumnInfoTrait;
+use IGK\System\Database\DbUtils;
 use IGKException;
 use IGKObject;
 use IGKSysUtil;
@@ -17,15 +17,23 @@ use ReflectionClass;
 use ReflectionException;
 
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
-///<summary>Represente class: DbColumnInfo</summary>
+///<summary>Represent class: DbColumnInfo</summary>
 /**
- * Represente DbColumnInfo class
+ * Represent DbColumnInfo class
  */
 final class DbColumnInfo extends IGKObject implements IDbColumnInfo
 {
     use DbColumnInfoTrait;
     use DbColumnInfoMethodTrait;
 
+    /**
+     * get if this column info must be consider as a dump fields
+     * @return bool 
+     */
+    public function getIsDumpField(): bool{
+        return DbUtils::GetIsDumpField($this);
+        
+    }
     ///<summary></summary>
     ///<param name="array" default="null"></param>
     /**

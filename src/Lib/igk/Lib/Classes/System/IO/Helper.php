@@ -22,7 +22,7 @@ final class Helper{
     /**
      * 
      * @param BaseController $ctrl 
-     * @param callable $callback 
+     * @param callable $callback (BaseController $ctrl, string $table, ColumnInfo $info, & $manifest = [])
      * @param bool $force 
      * @return array 
      * @throws IGKException 

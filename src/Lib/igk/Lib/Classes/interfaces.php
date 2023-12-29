@@ -73,7 +73,7 @@ interface IIGKControllerInitListener{
     * @param mixed $name
     * @param mixed $source
     */
-    function addSource($name, $source, $override);
+    function addSource($name, $source, $override=true);
 }
 ///<summary>Represente interface: IIGKCssCtrlHost</summary>
 /**

@@ -12,4 +12,6 @@ namespace IGK\Database;
 */
 abstract class DbConstants{
     const CALLBACK_OPTS = '@callback';
+    const VARCHAR_DEFAULT_LENGTH=191;
+    const URL_MAX_LENGTH = 255;
 }

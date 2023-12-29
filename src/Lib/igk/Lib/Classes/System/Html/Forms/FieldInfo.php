@@ -29,13 +29,13 @@ class FieldInfo implements IFormFieldOptions{
 
     /**
      * max length
-     * @var mixed
+     * @var ?int
      */
     var $maxlength;
 
     /**
      * required
-     * @var bool
+     * @var ?bool
      */
     var $required;
 

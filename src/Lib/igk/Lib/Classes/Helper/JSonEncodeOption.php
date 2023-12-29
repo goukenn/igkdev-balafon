@@ -17,7 +17,6 @@ class JSonEncodeOption{
     
     var $filter_array_listener;
 
-
     public static function IgnoreEmpty(){
         $s = new static;
         $s->ignore_empty = true;

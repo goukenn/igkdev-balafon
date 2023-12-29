@@ -6,15 +6,15 @@ namespace IGK\Database\SchemaBuilder;
 
 use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
 
-///<summary></summary>
+///<summary>Schema builder blueprint</summary>
 /**
-* 
+* Schema builder blueprint
 * @package IGK\Database\SchemaBuilder
 */
 interface IDiagramSchemaBuilder{
     /**
      * create or get the diagrame entity schema
-     * @param string $name . table's name
+     * @param string $name table's name
      * @return IGK\Database\SchemaBuilder\IDiagramSchemaEntity|DiagramEntity 
      */
     function entity(string $name, ?string $desc=null, ?string $prefix=null);
@@ -69,4 +69,6 @@ interface IDiagramSchemaBuilder{
      * @return mixed 
      */
     function dropColumn(string $tabble, string $column):void;
+
+    function description(?string $desc ): IDiagramSchemaBuilder;
 }

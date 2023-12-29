@@ -86,7 +86,13 @@ abstract class AppExecCommand extends AppCommand{
      * @return mixed|BaseController  
      * @throws IGKException 
      */
-    protected static function GetController(string $controller, $throwex = 1, $autoregister = true){
+    protected static function GetController(?string $controller, $throwex = 1, $autoregister = true){
+        if (is_null($controller)){
+            if ($throwex){
+                igk_die("missing NIL controller");
+            }
+            return null;
+        }
         $ctrl =  \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
         $ctrl && $autoregister && $ctrl->register_autoload();
         return $ctrl;

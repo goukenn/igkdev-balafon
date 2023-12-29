@@ -20,7 +20,8 @@ namespace IGK\System\Html;
  * @property ?string $empty_value attribute definition 
  * @property ?string $legend legend for fieldset
  * @property ?bool $required is required field
- * @property ?int $maxlength is required field
+ * @property ?int $maxlength max length of the field
+ * @property ?int $minlength minimum length of the field
  * @property ?string $pattern
  * @property array $data entry data. $key=>$value, ['i'=>, 't'=>]
  */

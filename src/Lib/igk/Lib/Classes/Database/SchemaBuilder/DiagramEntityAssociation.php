@@ -39,6 +39,12 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations = [];
     }
 
+    public function description(?string $desc ): IDiagramSchemaBuilder {
+        return $this;
+     }
+
+   
+
     public function addIndex(string $table, $column) { 
         $mig = new DiagramMigration;
         $mig->type = __FUNCTION__;

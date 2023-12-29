@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: HtmlValidator.php
 // @date: 20230117 15:16:11
-namespace IGK\System\Html\Forms;
+namespace IGK\System\Html\Forms\Validations;
 
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -10,7 +10,7 @@ use ReflectionException;
 
 ///<summary></summary>
 /**
-* use to manage data to validate
+* validate html an return only text value
 * @package IGK\System\Html\Forms
 */
 class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{

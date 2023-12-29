@@ -178,11 +178,12 @@ abstract class DbSchemas
         $tables = array();
         $migrations = [];
         $relations = [];
+        $entries = [];
         $output = null;
         if ($d) {
             $n = igk_getv($d->getElementsByTagName(IGK_SCHEMA_TAGNAME), 0);
             if ($n) {
-                $output = self::LoadSchemaArray($n, $tables, $relations, $migrations, $ctrl, $resolvname, $operation);
+                $output = self::LoadSchemaArray($n, $tables, $relations, $migrations, $entries, $ctrl, $resolvname, $operation);
             }
         }
         return (object)$output;
@@ -190,9 +191,10 @@ abstract class DbSchemas
     /**
      * loadd schema array
      * @param mixed $n 
-     * @param mixed $tables 
-     * @param mixed $tbrelations 
-     * @param mixed $migrations 
+     * @param array $tables 
+     * @param array $tbrelations 
+     * @param array $migrations 
+     * @param array $entries 
      * @param mixed $ctrl 
      * @param bool $resolvname 
      * @param bool $reload 
@@ -203,6 +205,7 @@ abstract class DbSchemas
         &$tables,
         &$tbrelations = null,
         &$migrations = null,
+        &$entries = null,
         $ctrl = null,
         $resolvname = true,
         $operation = DbSchemasConstants::Migrate,
@@ -224,6 +227,7 @@ abstract class DbSchemas
             $tables,
             $tbrelations,
             $migrations,
+            $entries,
             $ctrl,
             $resolvname,
             $reload,

@@ -54,6 +54,9 @@ class MetaDataHost
             'title' => function ($v) use ($m) {
                 $this->m_host->setTitle($v);
             },
+            'theme' => function(?string $v){
+                $this->m_host->setDefaultTheme($v);
+            },
             'description' => function ($v) use ($m) {
                 $m->setDescription($v);
             },

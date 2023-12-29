@@ -202,7 +202,7 @@ abstract class ModelEntryExtension
      * insert if not exists
      * @param ModelBase $model 
      * @param null|array $condition 
-     * @param null|array $options 
+     * @param null|array $options with extra field to insert model if not found
      * @param bool update true to send a select query with the last inserted id 
      * @return null|ModelBase|bool 
      * @throws IGKException 

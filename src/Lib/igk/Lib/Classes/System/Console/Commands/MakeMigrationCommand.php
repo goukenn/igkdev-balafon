@@ -101,10 +101,18 @@ class MakeMigrationCommand extends AppExecCommand{
             $this->showUsage();            
         }
     }
-    private function _forAll($command){
+    /**
+     * get all options
+     * @param mixed $command 
+     * @return bool 
+     */
+    private function _forAll($command):bool{
         return property_exists($command->options, '--all');
     }
-    public function migrate_new($command, ?BaseController $ctrl, ?string $name = ''){
+    /**
+     * create a new migration
+     */
+    public function migrate_new($command, ?BaseController $ctrl, ...$name){
         Logger::print('make new migration');
         if (is_null($ctrl)){
             Logger::danger("missing controller");
@@ -113,8 +121,11 @@ class MakeMigrationCommand extends AppExecCommand{
         if (empty($name)){
             Logger::danger("missing name");
             return -1;
-        }
+        }if (is_array($name)){
+            $name = implode("_", $name);
+        } 
         $clname = StringUtility::CamelClassName($name);
+
         $name = strtolower($clname);
         $file = "migration_".date('YmdHis').'_'.$name.'.php';
         $file = $ctrl->getClassesDir()."/Database/Migrations/".$file;

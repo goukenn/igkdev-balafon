@@ -51,7 +51,16 @@ class SchemaMigration
 
     var $tbrelations;
 
+    /**
+     * @var ?array
+     */
     var $migrations;
+
+    /**
+     * 
+     * @var ?array loaded entries to initialize 
+     */
+    var $entries;
 
     /**
      * resolve name
@@ -86,6 +95,7 @@ class SchemaMigration
         $tables = &$this->table;
         $tbrelations = &$this->tbrelations;
         $migrations = &$this->migrations;
+        $entries = & $this->entries;
         $tentries = [];
         $relations = [];
         $links = [];
@@ -245,7 +255,7 @@ class SchemaMigration
                 $tables = $tables->udpate();
             }
         }
-
+        $entries = $tentries;
         //+ | schema result response
         $v_result = compact(
             "tables",
@@ -256,7 +266,8 @@ class SchemaMigration
             // info that used - to create 
             "version",
             "author",
-            "date"
+            "date",
+            "entries"
         );
         return $v_result;
     }
@@ -362,6 +373,7 @@ class SchemaMigration
         ?array &$tables = null,
         &$tbrelations = null,
         &$migrations = null,
+        &$entries = null,
         $ctrl = null,
         $resolvname = true,
         $reload = false,
@@ -372,6 +384,7 @@ class SchemaMigration
         $mi->table = &$tables;
         $mi->tbrelations = &$tbrelations;
         $mi->migrations = &$migrations;
+        $mi->entries = &$entries;
         $mi->resolvname = $resolvname;
         $mi->reload = $reload;
         $mi->operation = $operation;

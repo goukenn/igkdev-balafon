@@ -5,7 +5,7 @@
 // @desc: 
 
 
-namespace IGK\System\Html\Forms;
+namespace IGK\System\Html\Forms\Validations;
 
 /**
  * validateion node

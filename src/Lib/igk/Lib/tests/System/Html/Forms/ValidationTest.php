@@ -6,11 +6,9 @@
 
 
 namespace IGK\Tests;
-
-use IGK\Helper\StringUtility;
-use IGK\System\Html\Forms\FormValidation;
-use IGK\System\Html\Dom\HtmlDoc;
-use IGKHtmlDoc;
+ 
+use IGK\System\Html\Forms\Validations\FormValidation;
+ 
 
 class ValidationTest extends BaseTestCase
 {

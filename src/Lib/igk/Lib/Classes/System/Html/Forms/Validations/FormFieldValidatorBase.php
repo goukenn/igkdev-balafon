@@ -2,8 +2,8 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: FormFieldValidatorBase.php
 // @date: 20230427 10:47:00
-namespace IGK\System\Html\Forms;
-
+namespace IGK\System\Html\Forms\Validations;
+ 
 
 ///<summary></summary>
 /**

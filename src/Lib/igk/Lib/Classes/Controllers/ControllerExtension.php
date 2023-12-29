@@ -45,6 +45,7 @@ use IGK\Models\Users;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Configuration\ProjectConfiguration;
+use IGK\System\Database\DbSchemaDefinitionAttributes;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -1895,10 +1896,14 @@ abstract class ControllerExtension
                 $obj->Version = $data->version;
 
                 foreach ($data->tables as $n => $t) {
+                    // Passing entries to return object
                     if (isset($t->entries)) {
                         if ($c = $t->entries) {
                             $obj->Entries[$n] =  $c;
                         }
+                    }
+                    if (isset($data->entries[$n])){
+                        $obj->Entries[$n] = array_merge(igk_getv($obj->Entries, $n, []), $data->entries[$n]);
                     }
                     $obj->Data[$n] = $t;
                 }
@@ -2033,13 +2038,19 @@ abstract class ControllerExtension
         }
     }
 
+    /**
+     * store data schema 
+     * @param BaseController $controller 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function SaveDataSchemas(BaseController $controller)
     {
         $dom = HtmlNode::CreateWebNode(IGK_SCHEMA_TAGNAME);
-        $dom["ControllerName"] = $controller->Name;
-        $dom["Platform"] = IGK_PLATEFORM_NAME;
-        $dom["PlatformVersion"] = IGK_WEBFRAMEWORK;
-        $e = HtmlNode::CreateWebNode("Entries");
+        $v_def = new DbSchemaDefinitionAttributes;
+        $v_def->ControllerName = $controller->getName(); 
+        $dom->setAttributes((array)$v_def);
+        $e = HtmlNode::CreateWebNode(IGK_ENTRIES_TAGNAME);
         $d = igk_getv($controller->loadDataFromSchemas(), "tables");
         if ($d) {
             $tabs = array();

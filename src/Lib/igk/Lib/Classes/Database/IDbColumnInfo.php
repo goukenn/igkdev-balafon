@@ -13,4 +13,5 @@ namespace IGK\Database;
 interface IDbColumnInfo{
     function IsUnsigned():bool;
     function getIsRefId():bool;
+    function getIsDumpField():bool;
 }

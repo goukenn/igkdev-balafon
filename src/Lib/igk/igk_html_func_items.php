@@ -2472,10 +2472,9 @@ if (!function_exists("igk_html_node_grid")) {
 	/**
 	 * create a grid node
 	 */
-	function igk_html_node_grid()
-	{
+	function igk_html_node_grid(){
 		$n = igk_create_node("div");
-		$n["class"] = "+igk-grid";
+		$n["class"] = "+igk-grid +grid";
 		return $n;
 	}
 }

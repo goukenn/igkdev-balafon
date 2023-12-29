@@ -13635,8 +13635,9 @@ function igk_invoke_callback_obj($bind, $obj, $extra = null)
         case "func":
             if (is_callable($obj->clFunc)) {
                 $tab = array_values(array_merge((array)$obj->clParam, $extra != null ? $extra : array()));
-                if (igk_is_closure($obj->clFunc)) {
-                    $fc = $obj->clFunc->bindTo($bind);
+                $_vtfc = $obj->clFunc;
+                if (igk_is_closure($_vtfc)) {
+                    $fc = $_vtfc->bindTo($bind);
                     return call_user_func_array($fc, $tab);
                 }
                 if ($bind) {
@@ -14578,7 +14579,7 @@ function igk_io_getconf_file($dir)
 ///<summary></summary>
 ///<param name="dir"></param>
 /**
- * 
+ * get schema data file 
  * @param mixed $dir 
  */
 function igk_io_getdbconf_file($dir)
