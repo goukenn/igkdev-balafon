@@ -21,6 +21,12 @@ class IsCrefValidator extends FormFieldValidatorBase{
         return false;
     }
 
-    public function validate($value, $default = null, ?IFormFieldOptions $fieldinfo = null, &$error = []) { }
+    protected function _validate($value, $default=null,  & $error=[], ?object $options=null){    
+        if ($this->assertValidate($value)){
+            return $value;
+        }
+        $error[] = 'not a valid cref';
+        return false;
+    }
 
 }

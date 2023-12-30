@@ -17,13 +17,30 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     var $skip_all;
     var $allowed_tags;
 
+    /**
+     * asset that data can't be validated
+     * @param mixed $value 
+     * @return bool 
+     */
     public function assertValidate($value): bool {
-        return true;
+        return is_string($value);
     }
 
-    public function validate($value, $default = null, $fieldinfo = null, &$error = []) { 
-        $value = $this->treatValue($value);
-        return $value;
+    /**
+     * validate the data
+     * @param mixed $value 
+     * @param mixed $default 
+     * @param array $error 
+     * @param null|object $options 
+     * @return string|void 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    protected function _validate($value, $default=null, array & $error=[], ?object $options=null) { 
+        if ($this->assertValidate($value)){
+            $value = $this->treatValue($value);
+            return $value;
+        }
     }
     /**
      * skip tag content validator
@@ -33,7 +50,7 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function treatvalue($value){
+    public function treatvalue(string $value){
         $ln = strlen($value);
         $cpos = $pos = 0;
         $output = "";

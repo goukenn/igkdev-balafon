@@ -13,7 +13,7 @@ class FloatValidator extends FormFieldValidatorBase implements IFormValidator{
         return is_numeric($value);
     }
 
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+    protected function _validate($value, $default=null, & $error=[], ?object $options=null){    
         if (is_numeric($value)){
             return floatval($value);
         }

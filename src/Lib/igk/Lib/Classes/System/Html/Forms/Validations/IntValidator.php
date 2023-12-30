@@ -16,7 +16,7 @@ class IntValidator extends FormFieldValidatorBase  implements IFormValidator{
         return false;
      }
 
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+     protected function _validate($value, $default=null,  & $error=[], ?object $options=null){    
         if (is_numeric($value)){
             return intval($value);
         }

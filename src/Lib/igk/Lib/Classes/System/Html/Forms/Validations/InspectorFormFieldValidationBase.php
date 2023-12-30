@@ -4,11 +4,16 @@
 // @date: 20231229 09:49:58
 namespace IGK\System\Html\Forms\Validations;
 
+use Exception;
+use Error;
 use FormFieldValidation;
 use IGK\Helper\Activator;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Forms\FormFieldInfo;
 use IGK\System\Http\Request;
+use IGKException;
 use IGKValidator;
+use ReflectionException;
 use ReflectionProperty;
 
 ///<summary></summary>
@@ -25,6 +30,21 @@ abstract class InspectorFormFieldValidationBase{
      */
     public function validateFromRequest(Request $request, array &$error = [])
     {
+        $data = (array)$request->getFormData(); 
+        return $this->validate($data, $error);
+    }
+    /**
+     * core validation
+     * @param array $data 
+     * @param mixed $error 
+     * @return bool 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws Error 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function validate(array $data, & $error){        
         $fields = $this->getFormFields();
         $validations = [];
         foreach ($fields as $k => $s) {
@@ -36,10 +56,9 @@ abstract class InspectorFormFieldValidationBase{
                     $validations[$k] = Activator::CreateNewInstance(FormFieldValidationInfo::class, $s);
                 } else {
                     // create a validation depending on type
-                    $cl = __NAMESPACE__."\\".ucfirst($s->type."Validator");
-                    if (class_exists($cl) && is_subclass_of($cl, FormFieldValidatorBase::class)){
-                        $v_validator = new $cl;
-                        $v_validator->required = $s->required;
+                    $v_validator = FormFieldValidatorBase::Factory($s->type) ;                  
+                    if ($v_validator){ 
+                        // $v_validator->required = $s->required;
                         $validations[$k] = $v_validator;
                     } else {
                         $v_v = new FormFieldValidationInfo;
@@ -51,9 +70,8 @@ abstract class InspectorFormFieldValidationBase{
                     } 
                 }
             }
-        }
-        $data = $request->getFormData(); 
-        $v_props_d = igk_reflection_get_class_properties(static::class); 
+        } 
+        $v_props_d = igk_reflection_get_class_properties(static::class);  
         if ($data && ($g = IGKValidator::Validate($data, $validations, $error))) {
             foreach ($v_props_d as $k) {
                 $this->$k = igk_getv($g, $k);

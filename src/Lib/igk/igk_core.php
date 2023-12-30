@@ -163,6 +163,9 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
         igk_wl($c);
     }
 }
+function igk_die_s(string $msg, ...$params){
+    igk_die(sprintf(__($msg), ...$params));
+}
 ///<summary>die with message</summary>
 ///<param name="msg">mixed value. error_array|string.</param>
 ///<param name="throwex">bool throw exception</param>

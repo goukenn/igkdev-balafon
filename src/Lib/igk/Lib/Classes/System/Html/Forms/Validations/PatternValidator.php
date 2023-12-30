@@ -27,7 +27,7 @@ class PatternValidator  extends FormFieldValidatorBase implements IFormValidator
         return preg_match($this->m_pattern, $value);
     }
     
-    public function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]){ 
+    protected function _validate($value, $default=null, & $error=[], ?object $options=null){    
         if (!$this->matchPattern($value)){
             return $default;
         }

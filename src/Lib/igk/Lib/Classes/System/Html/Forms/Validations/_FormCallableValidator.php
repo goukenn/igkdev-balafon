@@ -20,9 +20,9 @@ class _FormCallableValidator extends FormFieldValidatorBase implements IFormVali
     public function assertValidate($value): bool { 
         return false;
     }
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+    protected function _validate($value, $default=null, array & $error=[], ?object $options=null){ 
         $fc = $this->m_callable;       
-        return $fc($value, $default, $fieldinfo, $error);
+        return $fc($value, $default, $error);
     }
 
 }

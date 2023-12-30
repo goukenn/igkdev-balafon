@@ -16,24 +16,22 @@ use function igk_resources_gets as __;
  */
 class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
 
-   
-
     public function assertValidate($value): bool { 
-        return false;
+        return $value && is_string($value);
     }
 
-    public function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]){ 
-        $q = parse_url($value);       
+    protected function _validate($value, $default=null, array & $error=[], ?object $options=null){ 
+        $q = parse_url($value);   
+        $is_required = igk_getv($options,'required');    
         if (!IGKValidator::IsUri($value))
         {
             if ($default  && IGKValidator::IsUri($default)){
                 return $default;
-            }
-            $is_required = $fieldinfo ? $fieldinfo->required : false;
-            $name = $fieldinfo ? $fieldinfo->name : false;
-            $v_error = ($fieldinfo ? $fieldinfo->error : null) ?? __("url not valid: {0}", $name);
-            if ($is_required)
+            } 
+            if ($is_required ){
+                $v_error =  __("url not valid");
                 $error[] = $v_error;  
+            }
             return null;           
         }
         if (isset($q["query"])){

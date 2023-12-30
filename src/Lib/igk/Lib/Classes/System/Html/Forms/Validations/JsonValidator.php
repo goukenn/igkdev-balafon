@@ -5,8 +5,7 @@
 // @desc: 
 
 namespace IGK\System\Html\Forms\Validations;
-
-use IGK\System\Html\IFormFieldOptions;
+ 
 
 class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
 
@@ -22,7 +21,7 @@ class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
      * @param array $error 
      * @return mixed 
      */
-    public function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]){         
+    public function _validate($value, $default=null, & $error=[], $options=null){         
         if (json_decode($value) === null){
             $error[] = json_last_error();
             return null;

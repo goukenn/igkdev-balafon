@@ -61,4 +61,12 @@ class IGKObjStorage{
     public function to_json(){
         return json_encode($this->to_array());
     }
+
+    public function __isset($name)
+    {
+        return key_exists($name, $this->m_storage);
+    }
+    public function isset($name){
+        return $this->__isset($name);
+    }
 }

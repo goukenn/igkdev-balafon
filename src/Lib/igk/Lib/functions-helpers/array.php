@@ -170,7 +170,7 @@ if (!function_exists("igk_array_first")) {
 if (!function_exists("igk_array_is_assoc")) {
     ///<summary>get if an array is assoc array</summary>
     /**
-     * get if an array is assoc array
+     * get if an array is assoc array. Contain one non number index.
      */
     function igk_array_is_assoc(array $tab)
     {
@@ -189,6 +189,21 @@ if (!function_exists("igk_array_is_indexed")) {
     function igk_array_is_indexed($arr)
     {
         return array_values($arr) === $arr;
+    }
+}
+
+if (!function_exists("igk_array_is_assoc_only")) {
+    ///<summary>get if an array is indexed</summary>
+    /**
+     * get if an array is indexed
+     */
+    function igk_array_is_assoc_only($arr)
+    { 
+        foreach (array_keys($arr) as $c) {
+            if (is_numeric($c))
+                return false;
+        }
+        return true;
     }
 }
 if (!function_exists("igk_array_key_value_toggle")) {

@@ -14,14 +14,15 @@ use function igk_resources_gets as __;
  * @package IGK\System\Html\Forms
  */
 class FileValidator extends FormFieldValidatorBase implements IFormValidator{
-
+    var $name;
+    var $fieldInfo;
+    
     public function assertValidate($value): bool {
         /// TODO: Expect file validation data 
         return false;
     }
 
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
-   
+    protected function _validate($value, $default=null, & $error=[], ?object $options=null){    
         return $value;
     }
 

@@ -21,28 +21,11 @@ interface IFormValidator{
     function assertValidate($value):bool;
     /**
      * validate form data 
-     * @param mixed $value value to check 
+     * @param mixed|FormValidationParam $value value to check 
      * @param mixed $default default value in case of false re
      * @param null|IFormFieldOptions $fieldinfo field info definition 
      * @param array $error list of error message
      * @return mixed 
      */
-    function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]);
-
-
-    /**
-     * allow null value
-     * @param bool $value 
-     * @return static 
-     */
-    function allowNull(bool $value);
-
-    /**
-     * allow null value
-     * @param bool $value 
-     * @return static 
-     */
-    function require(bool $value);
-
-    function isRequire():bool;
+    function validate($value, $default=null, & $error=[]);  
 }

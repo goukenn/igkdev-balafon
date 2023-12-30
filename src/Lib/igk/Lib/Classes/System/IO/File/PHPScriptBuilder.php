@@ -97,13 +97,15 @@ class PHPScriptBuilder
     }
     public function render()
     { 
-        $_setPhDoc = function($d, $ns){
+        $_setPhDoc = function($d, $ns,$author){
             $o = "";
             $o .= "/**\n";
             $o .="* " . implode("\n*", explode("\n", trim($d)))."\n";
             if ($ns){
-                $o .= "* @package {$ns}\n";
+                $o .= "* @package {$ns}\n"; 
             }
+            if ($author)
+                $o .= "* @author {$author}\n";
             if ($phpdoc = $this->phpdoc){
                 $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
             }
@@ -112,9 +114,10 @@ class PHPScriptBuilder
         };
         $o = "";
         $h = "";
+        $v_author = ($this->author ?? IGK_AUTHOR);
         if (!$this->no_header_comment){
             $h = implode("\n", array_filter([
-                "// @author: " . ($this->author ?? IGK_AUTHOR),
+                "// @author: " . $v_author,
                 $this->file ? "// @file: " . $this->file : null,
                 $this->desc ? "// @desc: " . implode("\n//", explode("\n", $this->desc)) : null,
                 "// @date: " . date("Ymd H:i:s")
@@ -149,11 +152,11 @@ class PHPScriptBuilder
                 if ($d = $this->doc) {
                     // documents
                     $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
-                    $o .= $_setPhDoc($d, $ns);
+                    $o .= $_setPhDoc($d, $ns, $v_author);
                     
                 } else {
                     $o .= "///<summary></summary>\n";
-                    $o .= $_setPhDoc("", $ns); 
+                    $o .= $_setPhDoc("", $ns, $v_author); 
                 }
                 if (!empty($modifier = $this->class_modifier)) {
                     $modifier .= " ";

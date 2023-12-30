@@ -13,13 +13,18 @@ use IGK\System\Html\IFormFieldOptions;
  * @package IGK\System\Html\Forms
  */
 class DefaultValidator extends FormFieldValidatorBase implements IFormValidator{
-
+ 
+    
     public function assertValidate($value): bool { 
         return true;
     } 
 
-    public function validate($value, $default=null, ?IFormFieldOptions $fieldinfo=null, & $error=[]){ 
+    protected function _validate($value, $default=null, & $error=[], $options=null){ 
         if (empty($value)){
+            return $default;
+        }
+        $fieldinfo = igk_getv($options, 'fieldInfo'); 
+        if (!$fieldinfo){
             return $default;
         }
         $type = $fieldinfo->type;

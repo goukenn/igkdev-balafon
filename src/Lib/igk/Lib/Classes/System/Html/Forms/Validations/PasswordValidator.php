@@ -55,7 +55,7 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
      * @param array $error 
      * @return null|mixed passing value or mixed 
      */
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+    protected function _validate($value, $default=null,  & $error=[], ?object $options=null){    
         $fieldinfo = $fieldinfo ?? $this->_initFieldRequirement();
         if (empty($value)){
             if ($fieldinfo->required){
