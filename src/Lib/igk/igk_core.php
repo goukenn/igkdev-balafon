@@ -989,8 +989,8 @@ function igk_log_var_dump($tab, $lf = null)
 function igk_wln_e($msg = "")
 {
     igk_environment()->set('TRACE_LEVEL', 3);
-    // igk_trace();
-    // exit;
+    igk_trace();
+    exit;
     call_user_func_array('igk_wln', func_get_args());
     igk_exit();
 }

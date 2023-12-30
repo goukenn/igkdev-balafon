@@ -93,7 +93,8 @@ class FormValidationTest extends BaseTestCase{
  
 class BalafonObjectValidator extends FormFieldValidatorContainerBase{
 
-    protected function _validate($data, $default, array &$error, ?object $options = null) { 
+    protected function _validate($data, $default=null, array &$error=[], ?object $options = null) { 
+        // parent::_validate()
         if ($this->assertValidate($data)){
             return $data;
         }
@@ -111,7 +112,7 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
     }
     public function getFields():array{  
         $r = new BalafonScriptDefinitionForm;
-        return $r->getFormFields();
+        return $r->getFields();
     }
 }
 
@@ -120,7 +121,7 @@ class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
     var $version;
     var $name;
 
-    public function getFormFields(): array {
+    public function getFields(): array {
         return [
             'version'=>['validator'=>'StrictVersion'],
             'name'=>['type'=>'string', 'required'=>true],

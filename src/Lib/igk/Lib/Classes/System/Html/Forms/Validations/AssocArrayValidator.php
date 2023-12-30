@@ -12,7 +12,7 @@ use function igk_resources_gets as __;
 */
 class AssocArrayValidator extends FormFieldValidatorBase{
 
-    protected function _validate($value, $default, array &$error, ?object $options = null) { 
+    protected function _validate($value, $default=null, array &$error =[], ?object $options = null) { 
         if ($this->assertValidate($value)){
             return $value;
         }

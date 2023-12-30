@@ -282,7 +282,7 @@ class ValidationTest extends BaseTestCase
         $validation = new FormValidation;
         $validation->storage = false;
         $validator = new ValidationConvertValidator; 
-        $validator->setReturnType(ValidationConvert::class);
+        $validator->returnType(ValidationConvert::class);
         $g = $validation->fields([
             'dummy'=>['type'=>'object','validator'=>$validator]
         ])->validate([

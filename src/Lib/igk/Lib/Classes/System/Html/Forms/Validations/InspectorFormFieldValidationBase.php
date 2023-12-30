@@ -9,20 +9,21 @@ use Error;
 use FormFieldValidation;
 use IGK\Helper\Activator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\FormFieldsBase;
 use IGK\System\Html\Forms\FormFieldInfo;
+use IGK\System\Html\IFormFieldContainer;
 use IGK\System\Http\Request;
 use IGKException;
 use IGKValidator;
-use ReflectionException;
-use ReflectionProperty;
+use ReflectionException; 
 
 ///<summary></summary>
 /**
 * represent class that will define property required to inspect form field request
 * @package IGK\System\Html\Forms\Validations
 */
-abstract class InspectorFormFieldValidationBase{
-    abstract function getFormFields(): array;
+abstract class InspectorFormFieldValidationBase implements IFormFieldContainer{
+    abstract function getFields(): array;
      /**
      * validate from request
      * @param Request $request 
@@ -45,7 +46,7 @@ abstract class InspectorFormFieldValidationBase{
      * @throws ReflectionException 
      */
     public function validate(array $data, & $error){        
-        $fields = $this->getFormFields();
+        $fields = $this->getFields();
         $validations = [];
         foreach ($fields as $k => $s) {
 
@@ -72,6 +73,7 @@ abstract class InspectorFormFieldValidationBase{
             }
         } 
         $v_props_d = igk_reflection_get_class_properties(static::class);  
+        //igk_wln("validateion === ", $validations);
         if ($data && ($g = IGKValidator::Validate($data, $validations, $error))) {
             foreach ($v_props_d as $k) {
                 $this->$k = igk_getv($g, $k);

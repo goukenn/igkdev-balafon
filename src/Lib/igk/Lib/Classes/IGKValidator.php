@@ -55,11 +55,11 @@ final class IGKValidator extends IGKObject {
     /**
     * 
     * @param bool $condition
-    * @param mixed * $error
+    * @param bool * $error
     * @param mixed $node the default value is null
     * @param mixed $errormsg the default value is IGK_STR_EMPTY
     */
-    public static function Assert($condition, & $error, $node=null, $errormsg=IGK_STR_EMPTY){
+    public static function Assert(bool $condition,bool & $error, $node=null, $errormsg=IGK_STR_EMPTY){
         if(!$condition){ 
             $error=$error || true;
             if($node != null){
@@ -283,19 +283,25 @@ final class IGKValidator extends IGKObject {
             foreach($fields as $k=>$v){
                 $is_obj = is_object($v); 
                 $v_validator = null;
-                if(((!$is_obj && is_array($v)) || !($v instanceof FormFieldValidationInfo))){
+        
+                if ($is_obj && ($v instanceof FormFieldValidatorBase)){
+                    $v_def = new FormFieldValidationInfo;
+                    $v_def->validator = $v;
+                    $v = $v_def;
+                } 
+                else if(((!$is_obj && is_array($v)) || !($v instanceof FormFieldValidationInfo))){
                     $v = Activator::CreateNewInstance(FormFieldInfo::class, $v);
                     // create a FormFieldValidationInfo 
                     $v = Activator::CreateNewInstance(FormFieldValidationInfo::class, $v);  
                     // + | validate with field 
                 } 
-                if ($v instanceof FormFieldValidationInfo){
+                if ($v instanceof FormFieldValidationInfo){ 
                     $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for %s'), $k));// sprintf(__()))
                     if (is_string($v_validator)){
                         //+ create a validator from class name
                         $v_validator = FormFieldValidatorBase::Factory($v_validator);
                     }
-                    if (!($v_validator instanceof IFormValidator)){
+                    if (!($v_validator instanceof IFormValidator)){ 
                         igk_die(sprintf(__('validator is not satisfied %s, %s'),
                          IFormValidator::class, (string)$v->validator));
                     }
@@ -322,7 +328,11 @@ final class IGKValidator extends IGKObject {
                             $ro->$k = $v_new;
                         } else 
                         {
-                            self::Assert(false, $error, $g);
+                            $ce = false;
+                            self::Assert(false, $ce, $g);
+                            if ($ce){
+                                $error[$k] = $ce;
+                            }
                         }
                     }
                 } else {
@@ -382,8 +392,8 @@ final class IGKValidator extends IGKObject {
             //     $o->$k = $s; // change the object data definition
             //     $ro->$k = $s; // real object output
             // }
-        }
-        if (count($error)){
+        } 
+        if ($error && count($error)){
             $error[] = $g->render();
             return false;
         }

@@ -13,6 +13,7 @@ namespace IGK\System\Html\Forms\Validations;
 */
 class ConvertTypeValidator extends ConvertTypeValidatorBase{
     private $m_fields;
+   
     public function setFields(?array $fields){
         $this->m_fields = $fields;
     }

@@ -31,6 +31,7 @@ use IGK\System\Database\Factories\FactoryBase as Factory;
 /**
 * Factory base
 * @package dummy
+* @author C.A.D. BONDJE DOUE
 */
 abstract class FactoryBase extends Factory implements ArrayAccess{
 
@@ -97,6 +98,7 @@ PHP;
                 "/**",
                 "* Factory base",
                 "* @package dummy",
+                "* @author ".IGK_AUTHOR,
                 "*/",
                 "abstract class FactoryBase extends Factory implements ArrayAccess{",
                 "",

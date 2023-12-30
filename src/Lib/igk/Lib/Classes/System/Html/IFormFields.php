@@ -10,12 +10,8 @@ namespace IGK\System\Html;
 * 
 * @package IGK\System\Html
 */
-interface IFormFields{
-    /**
-     * retrieve form fields data
-     * @return array array of form fields data definition
-     */
-    function getFields(): array;
+interface IFormFields extends IFormFieldContainer{
+   
 
     function getDataSource(): ?array;
 
