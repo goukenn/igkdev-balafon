@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ConnectAttempts.php
-// @date: 20231219 13:50:52
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,6 +11,7 @@ use IGK\Models\ModelBase;
 /**
 * Store Connexion attempts
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property string $cxnId provided ip
 * @property string $cxnAttempt
 * @property string $cxnAccount requested account

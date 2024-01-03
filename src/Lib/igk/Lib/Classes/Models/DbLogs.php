@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @date: 20231219 13:50:52
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,6 +11,7 @@ use IGK\Models\ModelBase;
 /**
 * store system's log
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
 * @property string $db_logs_msg
 * @property int $db_logs_status

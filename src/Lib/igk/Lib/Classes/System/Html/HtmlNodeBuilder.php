@@ -53,7 +53,7 @@ class HtmlNodeBuilder
      */
     const KEY_ATTRIBS = '_';
     /**
-     * attribute activation key
+     * attribute activation key ["_@"]=[]
      */
     const KEY_ATTRIBS_ACTIVATION = '_@';
     
@@ -62,7 +62,7 @@ class HtmlNodeBuilder
     const KEY_INVOKE_ON_LAST = '::';
     const KEY_INVOKE_ON_PARENT_LAST = '::@';
     /**
-     * should be use with string method name, \
+     * should be use with string method name, ['::fn()'=>function()]
      */
     const KEY_INVOKE_FUNC = '::fn()';
 
@@ -440,6 +440,8 @@ class HtmlNodeBuilder
                     // invoke function methods in last inserted item
                     if ($target_fc) {
                         call_user_func_array([$target_fc, $k], is_array($v) ? $v : [$v]);
+                        //$target_fc->setIsVisible(false);
+                        //igk_wln_e("call....".$k, $v, $target_fc->getIsVisible());
                         continue;
                     }
                 } else if (strpos($k, self::KEY_NODE_PROPERTY_PREFIX) === 0) {

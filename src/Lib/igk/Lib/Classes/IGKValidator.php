@@ -275,11 +275,10 @@ final class IGKValidator extends IGKObject {
         $e=false;
         $ro = (object)[]; // real output object
         if (empty($o)){
-
             return false;
         }
+        $o = (object)$o;
         if(is_array($fields)){
-
             foreach($fields as $k=>$v){
                 $is_obj = is_object($v); 
                 $v_validator = null;
@@ -306,7 +305,8 @@ final class IGKValidator extends IGKObject {
                          IFormValidator::class, (string)$v->validator));
                     }
                     if ($v->required && (!isset($o->$k) || empty($o->$k))){
-                        // required a value 
+                        // required a value
+                        // igk_wln_e(__FILE__.":".__LINE__ , $o); 
                         $m = sprintf(__('property %s is required'), $k);
                         $error[$k][] = $m;
                         self::Assert(false, $e, $g, $m);
@@ -328,11 +328,11 @@ final class IGKValidator extends IGKObject {
                             $ro->$k = $v_new;
                         } else 
                         {
-                            $ce = false;
-                            self::Assert(false, $ce, $g);
-                            if ($ce){
-                                $error[$k] = $ce;
-                            }
+                            // $ce = false;
+                            // self::Assert(false, $ce, $g);
+                            // if ($ce){
+                            $error[$k] = $v_e;
+                            // }
                         }
                     }
                 } else {

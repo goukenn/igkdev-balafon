@@ -688,7 +688,7 @@
                 clInsertFunction="NOW()" clNotNull="true" />
             </changeColumn>
             <changeColumn  table="%prefix%login_logs" column="regLinkUpdate_At">
-            <Column clName="loglogs_kUpdate_At" clType="DATETIME" clDefault='NOW()'
+            <Column clName="loglogs_Update_At" clType="DATETIME" clDefault='NOW()'
                 clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
        
             </changeColumn>

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookUserAssociations.php
-// @date: 20231219 13:50:52
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,6 +11,7 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $usrphb_Id
 * @property string $usrphb_UserGuid
 * @property string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid
