@@ -552,7 +552,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 return;
             }
 
-            $viewargs['data'] = new ViewDataArgs($this->getEnvParam(ControllerEnvParams::ActionViewResponse) ?? []);
+            $viewargs['data'] = $this->_getViewDataArgs();
             $viewargs['user'] = $this->getUser();
             $viewargs['action_handler'] = $action_handler;
 
@@ -591,6 +591,15 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             throw $ex;
         }
         return $response;
+    }
+
+    protected function _getViewDataArgs(){
+        $rep = $this->getEnvParam(ControllerEnvParams::ActionViewResponse);
+        $cp = [];
+        if (!is_bool($rep)){
+            $cp = $rep ?? [];
+        }
+        return new ViewDataArgs($cp);
     }
 
     ///<summary>include constant</summary>
