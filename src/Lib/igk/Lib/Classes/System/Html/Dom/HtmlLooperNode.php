@@ -86,9 +86,8 @@ class HtmlLooperNode extends HtmlItemBase{
         if ($c){
             // template rendering 
             $v_out = $this->generateRender($v_childrend, $options);
-            return $v_out;
         }
-        return null; 
+        return $v_out; 
     }
     /**
      * 
@@ -113,11 +112,11 @@ class HtmlLooperNode extends HtmlItemBase{
         $n = igk_create_notagnode(); 
         if ($this->args instanceof IViewExpressionArg){
             $hook_expression = $this->args->getExpression();                 
-            self::HostChain($n, $sb."", $this->args, $ctrl, $hook_expression);
+            self::_HostChain($n, $sb."", $this->args, $ctrl, $hook_expression);
             $v_out  = $n->render();  
         } else { 
             $hook_expression = CompilerConstants::LOOP_CONTEXT_DATA_VAR; 
-            self::HostChain($n, $sb."", $this->args, $ctrl, '$'.$hook_expression);
+            self::_HostChain($n, $sb."", $this->args, $ctrl, '$'.$hook_expression);
             $v_out  = $n->render();
             if ($this->args instanceof ViewDataArgs)  {
                 $v_targs = $this->args->getData();
@@ -150,8 +149,8 @@ class HtmlLooperNode extends HtmlItemBase{
      * @return void 
      * @throws IGKException 
      */
-    private static function  HostChain($n, $content, $data, ?BaseController $ctrl, ?string $hookExpression=null){
-        $ldcontext = igk_init_binding_context($n, $ctrl, $data);
+    private static function  _HostChain(HtmlItemBase $n, string $content, $data, ?BaseController $ctrl, ?string $hookExpression=null){
+        $ldcontext = igk_init_binding_context($n, $ctrl, is_array($data)? $data: null);
         $ldcontext->transformToEval = true;
         $ldcontext->hookExpression = $hookExpression;
         $ldcontext->load_expression = false;

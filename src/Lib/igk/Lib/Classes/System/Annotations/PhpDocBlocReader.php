@@ -16,8 +16,10 @@ class PhpDocBlocReader
     public function readDoc(string $docblock, array $uses)
     {
         $this->m_docblock = $docblock;
+        //+ | bind uses
         AnnotationDocBlockReader::Uses($uses);
         $tp = AnnotationDocBlockReader::ParsePhpDocComment($docblock);
+        //+ | unbind uses
         AnnotationDocBlockReader::Uses(null);
         return $tp;
     }

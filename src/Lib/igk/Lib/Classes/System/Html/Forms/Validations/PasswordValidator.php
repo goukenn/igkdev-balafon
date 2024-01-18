@@ -28,7 +28,7 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
         $v_max = IGK_PWD_MAX_LENGTH;
         if ($fieldInfo){
             $v_min = $fieldInfo->minLength ?? $v_min;
-            $v_max = $fieldInfo->maxlength ?? $v_max;
+            $v_max = $fieldInfo->maxLength ?? $v_max;
         }
         $ln = strlen($value);
 
@@ -42,7 +42,7 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
 
     protected function _initFieldRequirement(){
         $f = new FieldInfo();
-        $f->maxlength = IGK_PWD_MAX_LENGTH;
+        $f->maxLength = IGK_PWD_MAX_LENGTH;
         $f->minLength = IGK_PWD_LENGTH;
         return $f;
     }
@@ -65,7 +65,7 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
         }
         $ln = strlen($value);
         
-        if (($ml = $fieldinfo->maxlength) && ($ln>$ml)){
+        if (($ml = $fieldinfo->maxLength) && ($ln>$ml)){
             $error[] = $fieldinfo->error ?? __("password is too long");
             return null;
         }

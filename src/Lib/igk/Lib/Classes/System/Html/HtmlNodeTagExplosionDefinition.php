@@ -4,6 +4,7 @@
 // @date: 20230328 13:47:42
 namespace IGK\System\Html;
 
+use IGK\Helper\Activator;
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -71,7 +72,7 @@ class HtmlNodeTagExplosionDefinition
     */
     public function explode(string $tagname, &$pnode, $context = null)
     {
-
+       //  $context = $context ?? $this->getContext();
         $id = null;
         $classes = null;
         $args = null;
@@ -123,7 +124,7 @@ class HtmlNodeTagExplosionDefinition
         $n = &$pnode;
         while (count($defs) > 1) {
             $q = array_shift($defs);
-            list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($q);
+            list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($q,$context);
             if (is_null($args)) {
                 $args = [];
             }
@@ -142,10 +143,30 @@ class HtmlNodeTagExplosionDefinition
             }
         }
         $tagname = array_shift($defs);
-        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($tagname);
+        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($tagname, $context);
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
-
+    /**
+     * map array definition 
+     * @param mixed $i 
+     * @return mixed 
+     */
+    private static function _DefinitionArgs($i){
+        if (!is_string($i)){
+            return $i;
+        }
+        if ($i=='[[:@raw]]'){
+            return $i;
+        }
+        if ($i=='[[:@ctrl]]'){
+            return $i;
+        }
+        if (preg_match("/^\[.+\]/", $i)){
+            // convert array 
+            return json_decode($i);
+        }
+        return $i;
+    }
     /**
      * explode tag definitions 
      * @param string $tagname 
@@ -161,7 +182,7 @@ class HtmlNodeTagExplosionDefinition
         $classes = null;
         $args = null;
         $name = null;
-        $attr = null;
+        $attr = null; 
         if (strpos($tagname, '(') !== false) {
             !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
             // get args to setups
@@ -169,6 +190,11 @@ class HtmlNodeTagExplosionDefinition
             $g = igk_str_read_brank($tagname, $pos, ')', '(');
             $a = substr($g, 1, -1);
             $args = igk_engine_get_attr_arg($a, $context);
+
+            if ($args){
+                $args = array_map([self::class, '_DefinitionArgs'], $args);
+            }
+
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
             //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
         }

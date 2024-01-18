@@ -28,7 +28,7 @@ class CssSupport implements ArrayAccess{
     }
     public function __toString()
     {  
-        return "@support(".$this->rule."){".$this->media."" . "}";
+        return "@support(".$this->rule."){".$this->media . "}";
     }
     /**
      * set value

@@ -73,9 +73,10 @@ class CreateRowTest extends BaseTestCase{
        
         $e = new table_enum;
         $defs = $e->getDataTableDefinition()->tableRowReference; 
-      
+        $query = 
+        "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3'), PRIMARY KEY (`clId`)) ENGINE=InnoDB;";            
         $this->assertEquals(
-            "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3'), PRIMARY KEY (`clId`)) ENGINE=InnoDB;",            
+            $query,
             $gram->createTableQuery("table_enum", $defs)
         ); 
     }
@@ -86,4 +87,8 @@ class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
     public function isTypeSupported($type):bool{ 
         return false;
     } 
+    
+    public function allowTypeLength(string $type, ?int $length=null):bool{
+        return true; 
+    }
 }

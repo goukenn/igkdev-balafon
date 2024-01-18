@@ -469,6 +469,7 @@ abstract class HtmlUtils extends DomNodeBase
     /**
      * 
      * @param mixed $array
+     * @deprecated use IGK\System\Html\FormBuilder instead
      */
     public static function BuildForm($array)
     {

@@ -4,26 +4,25 @@
 // @date: 20231228 12:19:12
 namespace IGK\System\Html\Forms;
 
-use IGK\System\Html\Forms\Validations\IFormValidationInfo;
-use IGK\System\Html\IFormFieldOptions;
+use IGK\System\Html\Forms\Validations\IFormValidationInfo; 
 
 ///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms
 */
-class FormFieldInfo implements IFormFieldOptions, IFormValidationInfo{
+class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
     /**
      * 
      * @var ?string
      */
     var $id;
 
-    /**
-     * 
-     * @var ?string
-     */
-    var $type;
+    // /**
+    //  * 
+    //  * @var ?string
+    //  */
+    // var $type;
 
     /**
      * field form validator
@@ -31,11 +30,11 @@ class FormFieldInfo implements IFormFieldOptions, IFormValidationInfo{
      */
     var $validator;
 
-    /**
-     * get or set if the field is required
-     * @var ?bool
-     */
-    var $required;
+    // /**
+    //  * get or set if the field is required
+    //  * @var ?bool
+    //  */
+    // var $required;
 
     /**
      * 

@@ -51,6 +51,14 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     }
 
     /**
+     * type allow type length
+     * @param string $type 
+     * @return bool 
+     */
+    public function allowTypeLength(string $type, ?int $length=null):bool{
+        return (($type != 'int') || (($type == 'int') && version_compare($this->getVersion(), '8.0', '<')));
+    }
+    /**
      * drop colum
      * @param string $table 
      * @param string $column_name 

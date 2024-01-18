@@ -81,7 +81,10 @@ class CssThemeResolver
      */
     public function treat(string $value, bool $themeexport = false)
     {
-        // check not expression 
+        // + | check not expression 
+        // + | contains litteral exemple: {sys:fitw},
+        // + | contains link expression : (sys|th: ) 
+        // + | contains data:  [cl:red]
         if ((strpos($value, "{") === false) &&
             (strpos($value, "(") === false) &&
             (strpos($value, "[") === false)
@@ -125,7 +128,7 @@ class CssThemeResolver
                         break;
                     }
                     switch ($type) {
-                        case "sys":
+                        case self::ATTR_G_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
                             $rv = $systheme->$deftheme[$name];
                             break;

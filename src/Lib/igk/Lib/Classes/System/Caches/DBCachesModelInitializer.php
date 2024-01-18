@@ -8,10 +8,13 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController; 
 use IGK\Database\DbColumnInfoPropertyConstants;
+use IGK\Helper\Database;
 use IGK\Helper\StringUtility;
+use IGK\Models\ModelBase;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGKConstants;
 use IGKException;
 use IGKSysUtil;
 
@@ -218,6 +221,12 @@ class DBCachesModelInitializer{
             $php_doc .= "@method static ?self Add(" . $t_args . ") add entry helper\n";
             $php_doc .= "@method static ?self AddIfNotExists(" . $t_args . ") add entry if not exists. check for unique column.\n";
         }
+        if ($macros_cl = $ctrl->resolveClass(IGKConstants::NS_MACROS_CLASS.'\\'.$name.'Macros')){
+            
+            $m = Database::GetPhpDocMacrosDefintionToInjectFromMacroClass($macros_cl);
+            $php_doc.= $m;
+        }
+
 
         if ($key != "clId") {
             if (is_array($key)) {

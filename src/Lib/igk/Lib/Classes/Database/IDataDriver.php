@@ -23,6 +23,7 @@ interface IDataDriver{
 
     function getVersion():string;
     function getType():string;
+    function allowTypeLength(string $type, ?int $length = null):bool;
     /**
      * get if driver is connected
      * @return bool 

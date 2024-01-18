@@ -20,26 +20,16 @@ class FieldInfo implements IFormFieldOptions{
      * @var  null|string
      */
     var $type;
-
     /**
      * 
      * @var null|string
      */
-    var $pattern;
-
-    /**
-     * max length
-     * @var ?int
-     */
-    var $maxlength;
-
+    var $pattern; 
     /**
      * required
      * @var ?bool
      */
     var $required;
-
-
     /**
      * error message
      */
@@ -51,7 +41,11 @@ class FieldInfo implements IFormFieldOptions{
      */
     var $placeholder;
 
-
+    /**
+     * max length
+     * @var ?int
+     */
+    var $maxLength;
     /**
      * min length
      * @var ?int

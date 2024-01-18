@@ -9,9 +9,11 @@ namespace IGK\Actions;
 
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
+use IGK\System\Http\Traits\DieRequestTrait;
 use IGKActionBase;
 
 abstract class ActionBase extends IGKActionBase{
+    use DieRequestTrait;
     /**
      * get user model
      * @return null|Users 

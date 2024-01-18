@@ -12,6 +12,7 @@ use IGK\Helper\Activator;
 use IGK\System\Html\Forms\FormFieldInfo;
 use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
+use IGK\System\Html\Forms\Validations\IFormValidationFieldHost;
 use IGK\System\Html\Forms\Validations\IFormValidator;
 use IGK\System\Html\Forms\Validations\PasswordValidator;
 use IGK\System\Html\IFormFields;
@@ -282,14 +283,17 @@ final class IGKValidator extends IGKObject {
             foreach($fields as $k=>$v){
                 $is_obj = is_object($v); 
                 $v_validator = null;
-        
+                $v_field_info = null;
                 if ($is_obj && ($v instanceof FormFieldValidatorBase)){
                     $v_def = new FormFieldValidationInfo;
                     $v_def->validator = $v;
-                    $v = $v_def;
+                    $v = $v_def; 
+                    $v_field_info = new FormFieldInfo;
+                    $v_field_info->type = 'text';
+                    $v_field_info->validator = $v;
                 } 
                 else if(((!$is_obj && is_array($v)) || !($v instanceof FormFieldValidationInfo))){
-                    $v = Activator::CreateNewInstance(FormFieldInfo::class, $v);
+                    $v_field_info = $v = Activator::CreateNewInstance(FormFieldInfo::class, $v);
                     // create a FormFieldValidationInfo 
                     $v = Activator::CreateNewInstance(FormFieldValidationInfo::class, $v);  
                     // + | validate with field 
@@ -322,7 +326,13 @@ final class IGKValidator extends IGKObject {
                             $ro[$k] = $v_v;
                        }
                     } else {
-                        $v_e = [];
+                        $v_e = []; 
+                        if ($v_validator instanceof IFormValidationFieldHost){
+                            if (is_null($v_field_info)){
+                                $v_field_info = Activator::CreateNewInstance(FormFieldInfo::class, (array)$v);
+                            }
+                            $v_validator->setFieldInfo($v_field_info);
+                        }
                         $v_new = $v_validator->validate($v_v, $v->default,$v_e);
                         if (empty($v_e)){
                             $ro->$k = $v_new;

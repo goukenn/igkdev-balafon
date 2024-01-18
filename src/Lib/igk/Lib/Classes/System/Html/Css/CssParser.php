@@ -8,6 +8,8 @@ namespace IGK\System\Html\Css;
 
 use ArrayAccess;
 use IGK\Css\CssSupport;
+use IGK\Helper\StringUtility;
+use IGK\System\Console\Logger;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
@@ -85,9 +87,14 @@ class CssParser implements ArrayAccess
             $ch = $content[$pos];
             switch ($ch) {
                 case '@':
+                    // + | --------------------------------------------------------------------
+                    // + | read css attribute definition - directive 
+                    // + |
+
                     $s = $pos;
                     $pos++;
                     $v_name = self::_ReadName($content, $pos, $len);
+                    // igk_is_debug() && Logger::info("read directive : " . $v_name);
                     switch ($v_name) {
                         case 'supports':
                             $cdef = self::_ReadSupport($content, $pos, $len, $media, $errors);
@@ -100,7 +107,7 @@ class CssParser implements ArrayAccess
                             $def[] = $media;
                             array_push($tdef, $def);
                             $def = &$media->def;
-                            $mode = 1;
+                            $mode = 0; // start reading child definition 
                             break;
                         case 'keyframes':
                             $cdef = self::_ReadKeyFrames($content, $pos, $len, $media, $errors);
@@ -118,12 +125,16 @@ class CssParser implements ArrayAccess
                         case 'media':
                             // read media definition 
                             $s = $pos;
-                            $pos = strpos($content, '{', $pos + 1);
+                            $pos = strpos($content, '{', $pos);
                             if ($pos === false) {
                                 $errors[] = 'media definition not correct';
                                 return false;
                             }
+                            // read condition in break
                             $g = trim(substr($content, $s, $pos - $s));
+                            // reduce ( condition block )
+                            $g = StringUtility::ReduceConditionBlock($g);
+
                             $pos--;
                             $media = new CssMedia($g);
                             $rv = '';
@@ -161,13 +172,29 @@ class CssParser implements ArrayAccess
                             break;
 
                         default:
-                            $pos = strpos($content, ';', $pos + 1);
+                            // +| read options or definition states
+                            $v_tpos = strpos($content, ';', $pos + 1);
+                            $v_npos = strpos($content, '{', $pos + 1);
                             $g = '';
-                            if ($pos !== false) {
-                                $g = substr($content, $s, $pos - $s);
+                            $roptions = true;
+                            if ((($v_tpos === false) &&  ($v_npos !== false)) ||
+                                (($v_npos !== false) && ($v_tpos !== false) && ($v_npos < $v_tpos))
+                            ) { 
+                                // read options
+                                $roptions = false;
                             }
-                            if ($mode == 0) {
-                                $def[] = new CssOptions($g);
+                            if ($roptions) {
+                                if ($v_tpos !== false) {
+                                    $g = substr($content, $s, $pos - $s);
+                                }
+                                if ($mode == 0) {
+                                    $def[] = new CssOptions($g);
+                                }
+                            } else {
+                                //+ skip reading until branked end.
+                                $g = igk_str_read_brank($content, $v_npos, "}", "{");
+                                $pos = $v_npos;
+                                $mode = 0;
                             }
                             break;
                     }
@@ -180,23 +207,26 @@ class CssParser implements ArrayAccess
                         if ($pos !== false) {
                             $pos += 2;
                         } else {
-                            // missing close comment 
-
+                            // + | missing close comment  
+                            // + | igk_debug_wln('missing close comment');
                             return false;
                         }
                         $g = substr($content, $s, $pos - $s);
-                        if ($mode == 0) {
+                        if ($mode == 0) { // global comment
                             $def[] = new CssComment($g);
                         } else {
-                            $rv .= $g;
-                            // igk_wln_e("comment :", $g);
+                            $rv .= $g; 
                         }
+                        //+ | fix comment reading.
+                        $pos--;
                     }
                     break;
                 case '{':
                     if ($media) {
                         if ($media_start == 0) {
                             $media_start++;
+                            // + | start reading definition
+                            // $mode = 0;
                             break;
                         }
                         $media_start++;
@@ -210,7 +240,11 @@ class CssParser implements ArrayAccess
                         $selector .= $name;
                         $rv = '';
                     } else {
-                        igk_die("start not allowed .mode : " . $mode);
+                        igk_die(implode("\n", [
+                            "start not allowed [mode] = " . $mode,
+                            'offset:' . $pos,
+                            substr($content, max(0, $pos - 30), 60)
+                        ]));
                     }
                     break;
                 case ':':
@@ -253,7 +287,7 @@ class CssParser implements ArrayAccess
                         }
                         $rv = '';
                     } else {
-                        $rv.= $ch;
+                        $rv .= $ch;
                     }
                     break;
                 case "'":
@@ -321,24 +355,34 @@ class CssParser implements ArrayAccess
         while ($pos < $len) {
             $ch = $content[$pos];
             $pos++;
-            if (!preg_match('/[0-9a-z_]/i', $ch)) {
+            if (!preg_match('/[0-9a-z_\-\\\]/i', $ch)) {
                 break;
             }
             $p .= $ch;
         }
         return $p;
     }
-    private static function _ReadKeyFrames(string $content, int &$pos, int $length, $media, &$error)
+    /**
+     * start reading key frames
+     * @param string $content 
+     * @param int $pos 
+     * @param mixed $length 
+     * @param mixed $media 
+     * @param mixed $error 
+     * @return false|CssKeyFrame 
+     */
+    private static function _ReadKeyFrames(string $content, int &$pos, $length, $media, &$error)
     {
         $s = $pos;
         $pos = strpos($content, '{', $pos + 1);
         if ($pos === false) {
             $errors[] = 'key frame definition not correct';
+            $pos = $length;
             return false;
         }
-        $g = trim(substr($content, $s, $pos - $s));
+        $v_name = trim(substr($content, $s, $pos - $s));
         $pos--;
-        $def = new CssKeyFrame($g, $media);
+        $def = new CssKeyFrame($v_name, $media);
         return $def;
     }
     private static function _ReadSupport(string $content, int &$pos, int $length, $media, &$error)

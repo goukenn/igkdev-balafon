@@ -150,7 +150,7 @@ class ValidationTest extends BaseTestCase
         $this->assertEquals(
             false,
             $validation->fields([
-                "x" => ["type" => "text", "maxlength" => 4, "default" => null, "error" => "x not defined"]
+                "x" => ["type" => "text", "maxLength" => 4, "default" => null, "error" => "x not defined"]
             ])->validate(["x" => "basics", "default" => true]),
             "pattern validation "
         );

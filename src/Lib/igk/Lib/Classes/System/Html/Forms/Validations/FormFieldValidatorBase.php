@@ -6,6 +6,7 @@ namespace IGK\System\Html\Forms\Validations;
 
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\Validations\FormValidationParamOptions;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -14,11 +15,22 @@ use IGK\System\Html\Forms\Validations\FormValidationParamOptions;
 * @author C.A.D BONDJE DOUE
 */
 abstract class FormFieldValidatorBase implements IFormValidator{     
+    const FIELD_INFO_PROPERTY = 'fieldInfo';
+
+    /**
+     * validate field 
+     * @param mixed|FormValidationParam $value 
+     * @param mixed $default 
+     * @param array $error 
+     * @return mixed 
+     * @throws IGKException 
+     */
     final public function validate($value, $default=null, & $error=[]){
         $v_is_require = false;
         $v_allow_null = false; 
         $v_output = null;
         $options = null;
+        $v_field_info = func_num_args()>3? func_get_arg(3):null; 
         //+|filter option object        
         if ($value instanceof FormValidationParam){
             // ignore the reset of the param
@@ -36,6 +48,7 @@ abstract class FormFieldValidatorBase implements IFormValidator{
             $options = new FormValidationParamOptions;
             $options->allowNull = $v_allow_null;
             $options->required = $v_is_require;
+            $options->{FormFieldValidatorBase::FIELD_INFO_PROPERTY} = null;
             $v_output = $this->_validate($value, $default, $error, $options);
         }
         return $v_output; 

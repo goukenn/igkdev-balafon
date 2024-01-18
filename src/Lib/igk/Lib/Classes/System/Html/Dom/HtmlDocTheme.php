@@ -53,6 +53,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     private static $SM_MEDIAKEY;
 
     /**
+     * prefix used to bind css definition 
+     * @var ?string
+     */
+    var $prefix;
+ 
+
+    /**
      * get support on definition
      * @param string $condition 
      * @return mixed 
@@ -200,6 +207,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     {
         return $this->m_istemp;
     }
+    /**
+     * set color definition
+     */
     public function setColors($color)
     {
         if (is_string($color)) {
@@ -362,12 +372,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
 
         $s = "";
         $tv = 0;
+        $prefix = $this->prefix;
         if ($attr = $def->getAttributes()) {
             foreach ($attr as $k => $v) {
                 if (empty($v))
                     continue;
                 $kv = trim($builder->treat($v, $themeexport));
-                if (!empty($kv)) {
+                if (!empty($kv)){
+                    if ($prefix){
+                        $k = str_replace('.','.'.$prefix, $k);
+                    }
                     $s .= $k . "{" . $kv . "}" . $lineseparator;
                     $tv = 1;
                 }

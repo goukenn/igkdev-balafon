@@ -655,12 +655,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         if (!$c) {
             $c = [];
         }
-        // if (\IGK\System\Html\HtmlLoadingContext::class == $key){
-        //     igk_wln(__FILE__.":".__LINE__ , "Key : ".$key . " count " .count($c), $tc = igk_env_count("::::_base") ); 
-        //     if ($tc == 134){
-        //         igk_wln("data:");
-        //     }
-        // }
         if (!is_array($c)) {
             throw new EnvironmentArrayException($key);
         }

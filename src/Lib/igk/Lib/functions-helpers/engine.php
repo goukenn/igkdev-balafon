@@ -14,7 +14,7 @@ use IGK\System\Html\HtmlLoadingContextOptions;
 /**
  * Convert string argument to array list. in context
  * @param mixed $s parameter to convert
- * @param mixed $context context object that will parameter to convert
+ * @param mixed $context context object that will store parameter to evaluate
  */
 function igk_engine_get_attr_arg($s, $context = null)
 {

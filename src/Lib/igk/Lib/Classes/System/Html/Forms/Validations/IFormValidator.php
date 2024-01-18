@@ -5,8 +5,7 @@
 // @desc: 
 
 namespace IGK\System\Html\Forms\Validations;
-
-use IGK\System\Html\IFormFieldOptions;
+ 
 
 /**
  * represent a form field validator
@@ -22,9 +21,8 @@ interface IFormValidator{
     /**
      * validate form data 
      * @param mixed|FormValidationParam $value value to check 
-     * @param mixed $default default value in case of false re
-     * @param null|IFormFieldOptions $fieldinfo field info definition 
-     * @param array $error list of error message
+     * @param null|IFormFieldValidationInfo $default default value in case of false re
+     * @param array $error list of error message 
      * @return mixed 
      */
     function validate($value, $default=null, & $error=[]);  

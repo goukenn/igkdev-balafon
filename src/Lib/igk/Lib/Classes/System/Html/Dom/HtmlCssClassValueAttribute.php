@@ -176,8 +176,8 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     ///<summary>add css class value</summary>
     ///<param name="class">mixed string expression or array defenition</param>
     /**
-     * add classed
-     * @param mixed|array $class
+     * add css class value
+     * @param mixed|array|object $class
      */
     public function add($class)
     {
@@ -185,13 +185,14 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             return false;
         if (is_object($class)) {
             if ($class instanceof HtmlAttributeExpression) {
-                $this->m_expressions[] = $class;                
+                $this->m_expressions[] = $class; 
+                return true;//$class = null;               
             } else if ($class instanceof DomHtmlCssClassValueAttribute){
                 $keys = $class->getKeys();
                 array_map([$this,'_add'], $keys); 
                 return true;
             }
-            return;
+            $class = (array)$class; 
         }
 
         $tab = null;

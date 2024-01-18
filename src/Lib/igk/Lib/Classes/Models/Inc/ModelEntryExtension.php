@@ -500,7 +500,14 @@ abstract class ModelEntryExtension
 
         if ($ad->insert($model->getTable(), $entry, $info, $throwException)) {
             if ($update) {
+                $model_class = get_class($model);
+                $model = $model->is_mock() ? 
+                    new $model_class() : $model;
+                // self::_updateRerenceModel()
+               // $v_row = $model->is_mock() ? 
                 $ref_id = $model->getRefId();
+
+
                 if (($id = $ad->last_id()) && ($id !== -1)) {                   
                     $model->$ref_id = $id;
                     // + | update new field
@@ -1078,6 +1085,13 @@ abstract class ModelEntryExtension
     {
         return new QueryBuilder($model);
     }
+    /**
+     * start prepare with 
+     * @param ModelBase $model 
+     * @param mixed $modelUnion 
+     * @param null|string $propertyName 
+     * @return QueryBuilder 
+     */
     public static function with(ModelBase $model, $modelUnion, ?string $propertyName = null)
     {
         $model = self::prepare($model);
@@ -1325,7 +1339,7 @@ abstract class ModelEntryExtension
             if (isset($result->$prop)) {
                 return $result->display();
             } else {
-                if ($cl = $model->getController()->resolveClass(\Database\Macros\Display::class)) {
+                if ($cl = $model->getController()->resolveClass('Database\Macros\Display')) {
                     $g = new $cl();
                     return $g->display($result);
                 }

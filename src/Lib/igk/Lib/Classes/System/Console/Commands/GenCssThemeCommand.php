@@ -23,14 +23,14 @@ class GenCssThemeCommand extends AppExecCommand{
     var $usage = "";
 
     var $options = [
-        '--theme:[]'=>'set preferered theme\'s name. dark|light|both'
+        '--theme:(name)'=>'set preferered theme\'s name. dark|light|both',
+        '--prefix:(prefix)'=>'set prefix to use for render',
     ];
     public function showUsage(){
         parent::showUsage();
         Logger::warn($this->command ." controller [options]");
     }
-    public function exec($command, $controller=null) { 
-        // --gen:css testController --theme_name:dark   
+    public function exec($command, $controller=null) {  
         $controller = $controller ?? SysDbController::ctrl();      
         is_null($controller) && igk_die("controller required");
         if (!$ctrl  = igk_getctrl($controller, false)){
@@ -38,7 +38,9 @@ class GenCssThemeCommand extends AppExecCommand{
             return -1;
         }
         $theme = igk_getv($command->options, '--theme',CssThemeOptions::DEFAULT_THEME_NAME );
-        $src = CssUtils::GenCss($ctrl, $theme);
+        $embed = property_exists($command->options, '--embed');
+        $prefix = igk_getv($command->options, '--prefix', '');
+        $src = CssUtils::GenCss($ctrl, $theme, $embed, $prefix );
         echo $src.PHP_EOL;        
     }
 

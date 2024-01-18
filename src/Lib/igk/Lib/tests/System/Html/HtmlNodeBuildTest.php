@@ -261,7 +261,23 @@ namespace IGK\Tests\System\Html {
                 ],
             ]);
             $this->assertEquals(
-                '<div><div class="igk-btn btn">Login or Connect</div></div>',
+                '<div class="igk-btn btn">Login or Connect</div>',
+                $n->render()
+            );
+        }
+
+        function test_render_render_with_string_with_custom_tag()
+        {
+            $n = igk_create_node("div");
+            HtmlNodeBuilder::Init($n, [
+                [
+                    ":tag"=>"span",
+                    "_" => ["class" => "igk-btn btn"],
+                    "Login or Connect"
+                ],
+            ]);
+            $this->assertEquals(
+                '<div><span class="igk-btn btn">Login or Connect</span></div>',
                 $n->render()
             );
         }

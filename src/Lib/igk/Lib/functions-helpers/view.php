@@ -6,6 +6,7 @@
 
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IO\Path;
 
 if (!function_exists('article')) {
     function article(string $file, $params=null)
@@ -37,3 +38,18 @@ if (!function_exists('asset')) {
        return igk_resources_gets($msg, $default,...$params); 
     }
  }
+
+if (!function_exists('igk_view_uri')){
+
+   /**
+    * initialize uri view base 
+    * @param string $p 
+    * @param bool $action 
+    * @return null|string 
+    * @throws IGKException 
+    */
+   function igk_view_uri(string $p, $action=false){
+      $fname = $action ? '' : ViewHelper::GetViewArgs('fname'); 
+      return ViewHelper::CurrentCtrl()->getAppUri(Path::FlattenPath($fname.$p)); 
+   }
+}

@@ -17,6 +17,7 @@ namespace IGK\Controllers;
  * @property bool $clDataSchema get if controller support usage of data.schema.xml db file
  * @property string $clTitle controller display title
  * @property string $clDataTablePrefix controller database's table prefix
+ * @property ?string $cssThemePrefix controller's default theme prefix
  */
 interface IControllerConfigurationData{
     public function to_array();

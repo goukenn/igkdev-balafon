@@ -1088,7 +1088,7 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0, ?bool $cmd =
     $colors = ["#c0c698", "#cecece"];
     $tds = "padding:4px;";
     $o .= "<div>" . $sep;
-    $o .= "<table style=\"border-collapse: collapse; min-width: 400; font-familly: sans-serif; margin:25px 0; box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); \">" . $sep;
+    $o .= "<table style=\"border-collapse: collapse; min-width: 400; font-family: sans-serif; margin:25px 0; box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); \">" . $sep;
 
     if ($header) {
 
@@ -2031,7 +2031,7 @@ if (!function_exists('igk_io_workingdir')) {
     {
         $v_key = 'IGK_WORKING_DIR';
         if (defined($v_key)) {
-            return IGK_WORKING_DIR;
+            return constant($v_key); // IGK_WORKING_DIR;
         }
         if ($server && isset($_SERVER[$v_key])) {
             return $_SERVER[$v_key];

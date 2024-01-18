@@ -66,6 +66,11 @@ final class HtmlReader extends IGKObject
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
     /**
+     * skip element data
+     * @var ?bool
+     */
+    private $m_skipElement;
+    /**
      * in skip content to evaluate
      * @var ?bool
      */
@@ -1041,7 +1046,12 @@ final class HtmlReader extends IGKObject
         while ($reader->read()) {
             switch ($reader->NodeType) {
                 case XMLNodeType::ELEMENT:
-                    self::_ReadModelEndElement($reader, $v_tags, $cnode, $tab_doc, $caller_context);
+                    if (!$reader->m_skipElement)
+                        self::_ReadModelEndElement($reader, $v_tags, $cnode, $tab_doc, $caller_context);
+                    // else{
+                        // igk_wln_e(__FILE__.":".__LINE__, "element skiped");
+                    // }
+
                     break;
                 case XMLNodeType::TEXT:
                     $v_sr = $reader->getValue() . "";
@@ -1445,10 +1455,10 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>Create Binding information</summary>
     /**
-     * get binding info
+     * create a binding info 
      * @return HtmlReaderBindingInfo 
      */
-    protected function getBindingInfo()
+    protected function createBindingInfo()
     {
         $bindinfo = new HtmlReaderBindingInfo($this, function ($k, $v) {
             $this->m_attribs[$k] = $v;
@@ -1881,23 +1891,32 @@ final class HtmlReader extends IGKObject
         $this->m_nodetype = XMLNodeType::ELEMENT;
         $this->m_isEmpty = false;
         $this->m_hasAttrib = false;
+        $this->m_skipElement = false;
         $this->m_attribs = [];
         $v = IGK_STR_EMPTY;
         $v_expressions = array();
         $v_tattribs = [];
-        $binfo = $this->getBindingInfo();
+        $binfo = $this->createBindingInfo();
         $v_fc = $this->_getAttributeReaderCallback($binfo, $fc_attrib, $v_expressions);
         $v_key_attrib = "igk:isvisible";
         if (!empty($this->m_name) && self::_ReadAttributes($this, $v, $v_tattribs, $v_fc) && !empty($v)) {
             $this->m_hasAttrib = true;
-            $skip_visible = (array_key_exists($v_key_attrib, $this->m_attribs) && ($this->m_attribs[$v_key_attrib] == false));
-            if ($skip_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
-                $content = self::_SkipContent($this, $this->m_text, $this->m_offset, $this->m_name, false);
-                $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $skip_visible ? null : array_merge(
-                    ["content" => $content],
+            $v_not_visible = (array_key_exists($v_key_attrib, $this->m_attribs) && ($this->m_attribs[$v_key_attrib] == false));
+            
+            if ($v_not_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
+                $v_content = null;
+                if ($binfo->skipcontent && !$this->m_isEmpty){ 
+                    $v_content = self::_SkipContent($this, $this->m_text, $this->m_offset, $this->m_name, false);
+                }
+
+                $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $v_not_visible ? null : array_merge(
+                    ["content" => $v_content],
                     $binfo->getInfoArray()
                 );
                 $this->m_isEmpty = true;
+                $this->m_skipElement = $binfo->skipcontent && ($binfo->operation == BindingConstants::OP_CONDITION);
+            } else if ($this->m_isEmpty){
+                $this->m_skipElement = $binfo->skipcontent && ($binfo->operation == BindingConstants::OP_CONDITION);
             }
         }
         if ($this->_isSelfClosedElement()) {

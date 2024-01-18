@@ -45,6 +45,7 @@ use IGK\Models\Users;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Configuration\ProjectConfiguration;
+use IGK\System\Controllers\ControllerMethods;
 use IGK\System\Database\DbSchemaDefinitionAttributes;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
@@ -1902,7 +1903,8 @@ abstract class ControllerExtension
                             $obj->Entries[$n] =  $c;
                         }
                     }
-                    if (isset($data->entries[$n])){
+                    //+ | merging entries data 
+                    if (isset($data->entries[$n]) && ($c != $data->entries[$n])){
                         $obj->Entries[$n] = array_merge(igk_getv($obj->Entries, $n, []), $data->entries[$n]);
                     }
                     $obj->Data[$n] = $t;
@@ -1951,6 +1953,11 @@ abstract class ControllerExtension
     {
         $theme = $theme ?? self::getCurrentDoc($controller)->getTheme();
         if ($theme && !empty($file = $controller->getPrimaryCssFile()) && is_file($file)) {
+            if (method_exists($controller, ControllerMethods::setupTheme)){
+                $controller->setupTheme($theme);
+            } else {
+                $theme->prefix = $controller->getConfigs()->get('cssThemePrefix', '');
+            }
             return igk_ctrl_bind_css_file($controller, $theme, $file, $cssRendering, 0);
         }
     }

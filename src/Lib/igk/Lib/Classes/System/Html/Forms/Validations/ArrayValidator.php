@@ -6,8 +6,10 @@
 
 namespace IGK\System\Html\Forms\Validations;
 
-use IGK\System\Html\IFormFieldOptions;
-
+/**
+ * use to validate an array field
+ * @package IGK\System\Html\Forms\Validations
+ */
 class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
 
     /**
@@ -21,12 +23,12 @@ class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
     /**
      * validator
      * @param mixed $value 
-     * @param mixed $default 
-     * @param null|IFormFieldOptions $fieldinfo 
+     * @param mixed $default  
      * @param array $error 
      * @return mixed 
      */
-    public function validate($value, $default=null, $fieldinfo=null, & $error=[]){ 
+    protected function _validate($value, $default=null, array & $error=[], ?object $options=null){ 
+        
         if (empty($value)){
             if (is_array($default)){
                 return $default;

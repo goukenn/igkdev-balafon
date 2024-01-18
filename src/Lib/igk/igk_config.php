@@ -770,7 +770,8 @@ define('IGK_CSS_TREAT_REGEX', '/\[\s*(?P<name>[\w\-]+)\s*:\s*(?P<value>([a-zA-Z0
 define('IGK_CSS_TREAT_REGEX_2', '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*\}\s*(;)*/i');
 // define("IGK_CSS_CHILD_EXPRESSION_REGEX", "/\s*\((sys)?:(?P<name>([a-z0-9_\-\.]+))\)\s*/i");
 //add ; on selection 
-define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
+// define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
+define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([^\)]+))\)\s*;?/i");
 define('IGK_SUBDOMAIN_URI_NAME_REGEX', "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
 define('IGK_ALL_REGEX', "/(.)*/i");
 define('IGK_VIEW_FILE_EXT', '.phtml');

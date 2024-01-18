@@ -12,9 +12,9 @@ use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 
 ///<summary></summary>
 /**
-* 
-* @package IGK\System\Annotations
-*/
+ * 
+ * @package IGK\System\Annotations
+ */
 class AnnotationDocBlockReader extends PhpDocBlockBase
 {
     use PHPDocCommentParseTrait;
@@ -26,6 +26,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     var $api;
     var $params;
     var $package;
+    var $var;
     private $m_annotations = [];
 
     public static function Uses(?array $cm)
@@ -45,7 +46,8 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     {
         return $this->m_annotations;
     }
-    private static function _TreatArgs($args){
+    private static function _TreatArgs($args)
+    {
         $content = trim($args, ' ()');
         return StringUtility::ReadArgs($content);
     }
@@ -53,28 +55,38 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     {
         $cl = null;
 
-        if (property_exists($this, $name)){
+        if (property_exists($this, $name)) {
             $tcontent = self::_TreatArgs($arguments[0]);
             $this->$name = $tcontent ? igk_getv($tcontent, 0) : true;
             return $this;
         }
-        $sp = strpos($name, '\\') === false ;
+        $sp = strpos($name, '\\') === false;
         $alias = $sp ? $name : basename(igk_getv(explode("\\", $name), 0));
         if (isset(self::$sm_alias[$alias])) {
             $cl = self::$sm_alias[$alias];
-            if (!$sp){
-                $cl = $cl.substr($name, strlen($alias));
+            if (!$sp) {
+                $cl = $cl . substr($name, strlen($alias));
             }
-        } else if (isset(self::$sm_uses[$name]) || class_exists($name,false)) {
+        } else if (isset(self::$sm_uses[$name]) || class_exists($name, false)) {
             $cl = $name;
         }
-        if ($cl) { 
+        if ($cl) {
             //read args 
             $tcontent = self::_TreatArgs($arguments[0]);
-            $ocl = Activator::CreateNewInstance($cl, $tcontent);
-            if ($ocl instanceof IAnnotation)
-                $ocl->setParams($tcontent);
-            $this->m_annotations[] = $ocl;
+            if ($cl = self::GetExistingClass($cl)) { 
+                $ocl = Activator::CreateNewInstance($cl, $tcontent);
+                if ($ocl instanceof IAnnotation)
+                    $ocl->setParams($tcontent);
+                $this->m_annotations[] = $ocl;
+            }
         }
+    }
+    public static function GetExistingClass(string $class_name): ?string{
+        foreach(['','Annotation'] as $suffix){
+            if (class_exists($cl = $class_name.$suffix)){
+                return $cl;
+            }
+        }
+        return null;
     }
 }

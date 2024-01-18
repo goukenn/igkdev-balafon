@@ -154,10 +154,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-     * 
+     * get argument to inject or dispatch
      * @param mixed $parameters 
      * @param mixed $args 
-     * @return void 
+     * @return array 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 

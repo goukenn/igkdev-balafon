@@ -3069,13 +3069,13 @@ function igk_css_ob_get_tempfile($f, &$from = null)
 }
 
 ///<summary>register font package</summary>
-///<param name="fontname">the css name font-familly</param>
+///<param name="fontname">the css name font-family</param>
 ///<param name="file">basedir font path to existing font</param>
 ///<param name="document">the document that will bound the font. null if used global document</param>
 ///<param name="format">default format . TrueType</param>
 /**
  * register font package
- * @param mixed $fontname the css name font-familly
+ * @param mixed $fontname the css name font-family
  * @param mixed $file basedir font path to existing font
  * @param mixed $document the document that will bound the font. null if used global document
  * @param mixed $format default format . TrueType
@@ -10240,6 +10240,7 @@ function igk_header_no_cache()
  */
 function igk_header_set_contenttype($type, $charset = "charset=utf-8")
 {
+    // + !-) headers_sent
     $data = "";
     $mime = igk_header_mime();
     if ($charset)
@@ -10566,7 +10567,7 @@ function igk_html_article_bind_content(
 
 
 /**
- * init loading context 
+ * init node binding context 
  * @var mixed
  */
 function igk_init_binding_context(HtmlItemBase $n, BaseController $ctrl, ?array $raw)
@@ -10896,6 +10897,7 @@ function igk_html_bindsetup($ctrl, $tabinfo, $row, $keys = 0)
 ///</exemple>
 /**
  * utility used to build a form
+ * @deprecated use IGK\System\Html\FormBuilder instead
  */
 function igk_html_build_form_array($ul, $param, $targettagname = "li")
 {
@@ -12446,8 +12448,8 @@ function igk_html_pop_node_parent()
     $n = igk_environment()->pop(IGK_XML_CREATOR_PARENT_KEY);
     if ($n instanceof \IGK\System\Html\IHtmlContextContainer) {
         if ($g = $n->getContext()) {
-            \IGK\System\Html\HtmlLoadingContext::PopContext($g);
-        }
+            \IGK\System\Html\HtmlLoadingContext::PopContext([$g, $n]);
+        } 
     }
 
     return $n;
@@ -12468,17 +12470,18 @@ function igk_html_popt(&$t)
 /**
  * store the creator node parent
  */
-function igk_html_push_node_parent($n)
-{
-    $p = igk_get_env(IGK_XML_CREATOR_PARENT_KEY);
+function igk_html_push_node_parent(HtmlItemBase $n)
+{ 
+    $v_key = IGK_XML_CREATOR_PARENT_KEY;
+    $p = igk_get_env($v_key);
     if ($p == null) {
         $p = array();
     }
     array_push($p, $n);
-    igk_set_env(IGK_XML_CREATOR_PARENT_KEY, $p);
+    igk_set_env($v_key, $p);
     if ($n instanceof \IGK\System\Html\IHtmlContextContainer) {
-        if ($g = $n->getContext()) {
-            \IGK\System\Html\HtmlLoadingContext::PushContext($g);
+        if ($g = $n->getContext()){ 
+            \IGK\System\Html\HtmlLoadingContext::PushContext($g, $n);
         }
     }
 }
@@ -21405,14 +21408,16 @@ function igk_str_remove_lines(string $str)
  * remove surrounding quote
  * @param mixed $v 
  */
-function igk_str_remove_quote($v)
+function igk_str_remove_quote(string $v)
 {
-    if ((strlen($v = trim($v)) > 0)) {
+    if (($count = strlen($v = trim($v))) > 0) {
+        $ch ='';
         if ($v[0] == "'") {
-            $v = trim($v, "'");
+            $ch = "'"; 
         } else if ($v[0] == '"') {
-            $v = trim($v, '"');
+            $ch = '"'; 
         }
+        $v = $ch &&  ($count>1) ? igk_str_rm_last(substr($v,1), $ch) : $v;
     }
     return $v;
 }

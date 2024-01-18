@@ -11,6 +11,15 @@ use IGK\System\IInjectable;
  * @package 
  */
 class IGKType{
+
+    public static function ParameterIsTypeOf(ReflectionParameter $param, string $base_type):bool{
+        $r = false;
+        if ($param->hasType()){
+            $g = $param->getType().'';
+            $r = ($g == $base_type) || is_subclass_of($g, $base_type); 
+        }
+        return $r;
+    }
     /**
      * 
      * @param ReflectionType $t 

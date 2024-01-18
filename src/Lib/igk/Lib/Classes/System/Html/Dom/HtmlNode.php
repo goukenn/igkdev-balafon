@@ -137,7 +137,7 @@ use function igk_resources_gets as __;
  * @method self strike() create a html 'strike' node 
  * @method self strong() create a html 'strong' node 
  * @method self style() create a html 'style' node 
- * @method self sub() create a html 'sub' node 
+ * @method self sub() creat^e a html 'sub' node 
  * @method self summary() create a html 'summary' node 
  * @method self sup() create a html 'sup' node 
  * @method self svg() create a html 'svg' node 

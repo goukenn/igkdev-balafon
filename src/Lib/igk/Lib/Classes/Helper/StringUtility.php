@@ -24,6 +24,30 @@ abstract class StringUtility
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
+     * reduction condition block code 
+     * @param string $condition 
+     * @return string 
+     */
+    public static function ReduceConditionBlock(string $condition){
+        $g = $condition;
+        $v_regex = "/[\(\)\s]/";
+        while (strpos($g,'(')===0){
+            $cpos = 0;
+            $tg = trim(igk_str_rm_last(
+                igk_str_rm_start(
+                igk_str_read_brank($g, $cpos, ')','('), '('),
+            ')'));
+            $fg = preg_replace($v_regex, '', $g);
+            $ffg = preg_replace($v_regex, '', $tg);
+            if ($fg!==$ffg){                                
+                break;
+            }
+            $g = $tg;
+
+        }
+        return $g;
+    }
+    /**
      * helper to read brank
      * @param string $str 
      * @param int $pos 
@@ -485,7 +509,11 @@ abstract class StringUtility
                     break;
                 case $separator:
                     if (!empty($v)){
-                        $args[$k] = $v;
+                        if (empty($k)){
+                            $args[] = $v;
+                        }else{
+                            $args[$k] = $v;
+                        }
                     }
                     $v = "";
                     $k = "";

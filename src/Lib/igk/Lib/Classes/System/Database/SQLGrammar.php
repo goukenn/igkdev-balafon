@@ -236,9 +236,10 @@ class SQLGrammar implements IDbQueryGrammar
      * @return bool 
      */
     public function allowTypeLength(string $type): bool
-    {
-        $driver = $this->m_driver;
-        return (($type != 'int') || (($type == 'int') && version_compare($driver->getVersion(), '8.0', '<')));
+    { 
+        return $this->m_driver->allowTypeLength($type,null);
+
+        
     }
     public function remove_foreign(string $table, $column): ?string
     {
@@ -1606,6 +1607,9 @@ class SQLGrammar implements IDbQueryGrammar
                 }
                 $join .= $t . " ";
                 $join .= $tab . " ";
+                if ($alias = igk_getv($vv, 'alias')){
+                    $join .= 'as '.$alias.' ';
+                }
                 $v_cond = igk_getv($vv, 0);
                 if ($v_cond) {
                     if (is_string($v_cond)) {
@@ -1667,17 +1671,17 @@ class SQLGrammar implements IDbQueryGrammar
                     break;
                 case "OrderByField":
                     break;
-                case "OrderBy":
+                case queryConstant::OrderBy:  
                     if (is_array($v)) {
                         $torder = "";
                         $c = "";
                         foreach ($v as $s) {
                             $g = explode("|", $s);
                             $type = getv($g, 1, $defOrder);
-                            $c = self::Key($g[0], $ad,  "" . $type . ", ");
+                            $c = self::GetGroupKey($g[0], $type, $ad);
                             if (!empty($torder))
                                 $torder .= ", ";
-                            $torder .= $c . " " . $type;
+                            $torder .= $c;
                         }
                         $torder .= " ";
                         $optset[$k] = $torder;
@@ -1743,6 +1747,18 @@ class SQLGrammar implements IDbQueryGrammar
             },
             array_map("trim", array_filter(explode(",", $t)))
         ));
+    }
+
+
+
+    protected static function GetGroupKey($columns, string $type, $adapter):string
+    {
+        return implode(' '.$type.',', array_map(
+            function ($t) use ($adapter) {
+                return  "`" . implode("`.`", array_map([$adapter, "escape_string"], explode(".", $t))) . "`";
+            },
+            array_map("trim", array_filter(explode(",", $columns)))
+        )). ' '.$type;
     }
 
     ///<summary>get column query definition</summary>

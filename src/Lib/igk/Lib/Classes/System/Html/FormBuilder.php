@@ -9,10 +9,10 @@ namespace IGK\System\Html;
 use Closure;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
-use IGK\System\Html\Dom\HtmlItemBase;
-use IGKEvents;
+use IGK\System\Html\Dom\HtmlItemBase; 
 use IGKException;
 use ReflectionException;
+use IGK\System\Html\Forms\FormBuilderComponentTypes as formTypes;
 
 use function igk_resources_gets as __;
 
@@ -194,20 +194,20 @@ class FormBuilder
                 $o .= "<label for='{$t_id}'$g>" .$label_text . "</label>";
             }
             switch ($_type) {
-                case "fieldset":
+                case formTypes::Fieldset:
                     break;
-                case "textarea":
+                case formTypes::Textarea:
                     $o .= "<textarea{$_name}{$_id}";
                     if (isset($v["placeholder"])) {
-                        $o .= "placeholder=\"{$v["placeholder"]}\" ";
+                        $o .= " placeholder=\"{$v["placeholder"]}\" ";
                     }
                     $load_attr($v, $o);
                     if ($_is_required) {
-                        $o .= "required=\"true\" ";
+                        $o .= " required=\"true\" ";
                     }
                     $o = rtrim($o). ">{$_value}</textarea>"; 
                     break;
-                case "radiogroup":
+                case formTypes::RadioGroup:
                     $o .= '<' . $tag . ' style="display:inline-block;">';
                     foreach ($v["data"] as $kk => $vv) {                       
                         $o .= '<span >' . __($kk) . '</span><input type="radio" name="' . $k . '"' . $_id . ' value="' . $vv . '" />';
@@ -215,7 +215,7 @@ class FormBuilder
                     $o .= "</{$tag}>";
                     break;
                             
-                case "datalist":
+                case formTypes::Datalist:
                     if (empty($_id)) {
                         $_id = " id=\"{$k}\"";
                     }
@@ -233,7 +233,7 @@ class FormBuilder
                     }
                     $o .= "</datalist>";
                     break;
-                case "select":
+                case formTypes::Select:
                     $k_data = "";
                     $bas = isset($v["selected"]) ? $v["selected"] : null;
                     if (isset($v["data"]) && is_string($m_data = $v["data"])) {
@@ -269,9 +269,9 @@ class FormBuilder
                     $o .= "</select>";
                     break;
 
-                case "text":
-                case "hidden":
-                case "password":
+                case formTypes::Text:
+                case formTypes::Hidden:                     
+                case formTypes::Password:
                 default:
                     if (empty($_id)){
                         $v['id'] = $t_id;
@@ -284,26 +284,19 @@ class FormBuilder
                     $_otype = igk_getv($ResolvType, $_type, "text");
                     $def_type = igk_getv($ResolvClass, $_type, $_type);
                     $o .= "<input";
-                    $keys = ['id', 'value', 'maxlength','pattern', 'placeholder'];
+                    $keys = ['id', 'value', 'maxLength','pattern', 'placeholder'];
                     if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])){
                         array_pop($keys);
                         $keys[] = 'checked';
                     }
                     $tattrib = ["name"=>$k]; 
                     foreach($keys as $kk){
-                        $tattrib[$kk] = igk_getv($v, $kk);
+                        $tattrib[strtolower($kk)] = igk_getv($v, $kk);
                     }
                     if (!$no_place_holder && empty($tattrib['placeholder'])){
                         //igk_wln_e(get_defined_vars());
                         $tattrib['placeholder'] = __($k);
                     }
-                    // if (isset($v["maxlength"])) {
-                    //     $o .= "maxlength=\"{$v["maxlength"]}\" ";
-                    // }
-                    // if (isset($v["pattern"])) {
-                    //     $o .= "pattern=\"{$v["pattern"]}\" ";
-                    // }
-                   
                     if (isset($v["attribs"]))
                         $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
                     else {

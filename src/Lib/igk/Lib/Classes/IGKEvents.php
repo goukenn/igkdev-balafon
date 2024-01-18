@@ -62,6 +62,7 @@ class IGKEvents extends IGKObject
     const HOOK_HTML_HEAD = "html_head";
     const HOOK_HTML_META = "html_meta";
     const HOOK_HTML_PRE_FILTER_ATTRIBUTE = "html_prefilter_attribute";
+    const HOOK_HTML_LOADING_CONTEXT_REGISTER = 'html_context_register';
     
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";

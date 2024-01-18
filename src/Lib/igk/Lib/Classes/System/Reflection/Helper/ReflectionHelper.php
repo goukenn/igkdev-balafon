@@ -4,7 +4,7 @@
 // @date: 20231017 08:56:03
 namespace IGK\System\Reflection\Helper;
 
-use ReflectionParemeter;
+use ReflectionProperty;
 
 ///<summary></summary>
 /**
@@ -52,5 +52,12 @@ class ReflectionHelper
             };
         }
         return $v_params;
+    }
+
+    public static function PropertyHasType(ReflectionProperty $prop){
+        if (method_exists($prop, 'hasType')){
+            return $prop->hasType();
+        }
+        return false;
     }
 }

@@ -189,7 +189,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
-    public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME, bool $embedresource=false)
+    public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME, bool $embedresource=false, ?string $prefix='')
     {
         $opt = new CssThemeOptions;
         $opt->theme_name = $theme;
@@ -197,6 +197,7 @@ abstract class CssUtils
         $systheme = igk_app()->getDoc()->getSysTheme();
         // set options before bind style
         $theme->setRenderOptions($opt);
+        $theme->prefix = $prefix;
         ob_start();
         igk_css_bind_sys_global_files($systheme);
         igk_css_load_theme($theme);
@@ -599,5 +600,48 @@ abstract class CssUtils
                 );    
             }
         }
+    }
+
+
+    /**
+     * 
+     * @param string $content 
+     * @return array 
+     */
+    public static function GetCssSelectorKeys(string $content, $explode=true):array{
+        $parse = CssParser::Parse($content);
+		$keys = [];
+		foreach($parse->to_array() as $k=>$m){
+			if (is_numeric($k)){
+				if ($m instanceof CssMedia){					
+                    $c = array_keys($m->def);
+                    if ($explode){
+                        $tc = [];
+                        foreach($c as $tk){
+                            $gt = explode(',', $tk);
+                            while(count($gt)>0){
+                                $tc[] = array_shift($gt);
+                            }
+                        }
+                        $c = $tc;
+                    }
+					$keys = array_merge(array_fill_keys(
+                        $c , 1), $keys);
+				}
+			}else{
+                if ($explode){
+                    $gt = explode(',', $k);
+                    while(count($gt)>0){
+                        $p = array_shift($gt);
+                        $keys[$p] = 1;
+                    }
+                }else{
+				    $keys[$k] = 1;
+                }
+			}
+		}
+		$tkeys = array_keys($keys);
+		sort($tkeys);
+        return $tkeys;
     }
 }

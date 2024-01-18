@@ -6,7 +6,7 @@
 
 namespace IGK\System\Html\Forms\Validations;
 
-use IGK\System\Html\IFormFieldOptions;
+
 use IGKValidator;
 use function igk_resources_gets as __;
 

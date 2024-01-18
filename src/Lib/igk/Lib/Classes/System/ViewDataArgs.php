@@ -25,7 +25,7 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate
     // public static function GetData(ViewDataArgs $arg){
     //     return $arg->p_data;
     // } 
-    public function __construct($data)
+    public function __construct( $data)
     {
         parent::__construct($data);
     } 

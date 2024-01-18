@@ -21,11 +21,9 @@ class TemplateEngine
     private function getFuncArgInfo($rffunc, array $creationargs = null)
     {
         $info = new TemplateArgInfo();
-        $info->setCreationArg($creationargs);
-        // igk_wln_e($rffunc->getNumberOfParameters() );
+        $info->setCreationArg($creationargs); 
         if ($rffunc->getNumberOfParameters() > 0) {
-            foreach ($rffunc->getParameters() as $c) {
-                // igk_wln_e("push ....".$c->getName(), " ? ".$c->isOptional());
+            foreach ($rffunc->getParameters() as $c) { 
                 if ($c->isOptional()) {
                     break;
                 }
