@@ -73,7 +73,7 @@ interface IIGKControllerInitListener{
     * @param mixed $name
     * @param mixed $source
     */
-    function addSource($name, $source, $override);
+    function addSource($name, $source, $override=true);
 }
 ///<summary>Represente interface: IIGKCssCtrlHost</summary>
 /**
@@ -162,11 +162,11 @@ interface IIGKDbUtility{
     ///<param name="leaveopen" default="false"></param>
     /**
     * 
-    * @param mixed $table
+    * @param string $table table name
     * @param mixed $obj
     * @param mixed $leaveopen the default value is false
     */
-    function insertIfNotExists($table, $obj, $leaveopen=false);
+    function insertIfNotExists(string $table, $obj, $leaveopen=false);
 }
 interface IIGKDbModel{
 	function getTable();

@@ -24,6 +24,30 @@ abstract class StringUtility
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
+     * reduction condition block code 
+     * @param string $condition 
+     * @return string 
+     */
+    public static function ReduceConditionBlock(string $condition){
+        $g = $condition;
+        $v_regex = "/[\(\)\s]/";
+        while (strpos($g,'(')===0){
+            $cpos = 0;
+            $tg = trim(igk_str_rm_last(
+                igk_str_rm_start(
+                igk_str_read_brank($g, $cpos, ')','('), '('),
+            ')'));
+            $fg = preg_replace($v_regex, '', $g);
+            $ffg = preg_replace($v_regex, '', $tg);
+            if ($fg!==$ffg){                                
+                break;
+            }
+            $g = $tg;
+
+        }
+        return $g;
+    }
+    /**
      * helper to read brank
      * @param string $str 
      * @param int $pos 
@@ -66,9 +90,9 @@ abstract class StringUtility
      * @param string $splitter 
      * @return string 
      */
-    public static function GetConstantName(string $s, string $splitter = "/[A-Z0-9]+/")
+    public static function GetConstantName(string $s)
     {
-        return strtoupper(self::GetSnakeKebab($s, $splitter));
+        return strtoupper(self::GetSnakeKebab($s, false));
     }
     /**
      * skake kebab data
@@ -76,7 +100,7 @@ abstract class StringUtility
      * @param string $splitter 
      * @return string 
      */
-    public static function GetSnakeKebab(string $haystack, string $splitter = "")
+    public static function GetSnakeKebab(string $haystack, ?bool $hiphen = false)
     {
         $s_out = '';
         $haystack = preg_replace('/[^_a-z]/i','', $haystack);
@@ -112,6 +136,10 @@ abstract class StringUtility
         }
         if($w = ucfirst(trim($word)))
             $s_out .= $sep.$w;
+        if ($hiphen){
+            return str_replace('_','-', $s_out);
+
+        }
         return $s_out; 
     }
     /**
@@ -481,9 +509,14 @@ abstract class StringUtility
                     break;
                 case $separator:
                     if (!empty($v)){
-                        $args[] = $v;
+                        if (empty($k)){
+                            $args[] = $v;
+                        }else{
+                            $args[$k] = $v;
+                        }
                     }
                     $v = "";
+                    $k = "";
                     break;
                 case '=':
                     $k = trim($v);

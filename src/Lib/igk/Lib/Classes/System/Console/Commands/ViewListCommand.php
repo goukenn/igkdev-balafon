@@ -14,7 +14,7 @@ use IGK\Helper\ViewHelper;
 class ViewListCommand extends AppExecCommand{
 	var $command='--view:list';
 	var $desc='list controller\'s'; 
-	var $cat = "view";
+	var $category = "view";
 	/* var $options=[]; */
 	/* var \$category; */
 	public function exec($command, string $controller = null) {

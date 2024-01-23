@@ -11,6 +11,7 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Controllers\SysDbController;
+use IGK\Database\IDbColumnInfo;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -25,6 +26,38 @@ class DbUtils
      */
     const OrderController = self::class . "::OrderController";
 
+    /**
+     * get dump files 
+     * @param array $table_info 
+     * @return int[] 
+     */
+    public static function GetDumpFields(array $table_info){
+        $g = [];
+        foreach($table_info as $k=>$info){
+            if ($info->getIsDumpField()){
+                $g[$k]=1;
+            }
+        }
+        return $g;
+    }
+    /**
+     * 
+     * @param IDbColumnInfo $column_info 
+     * @param mixed $value 
+     * @return bool 
+     */
+    public static function GetIsDumpField(IDbColumnInfo $column_info):bool{
+        $c = $column_info;
+        if (is_null($c->clIsDumpField)){
+            // auto determine if c column info is a dump field
+            $d = strtolower($c->clType); 
+
+            return !(($c->clAutoIncrement) || 
+                (($d=='datetime') && $c->clInsertFunction ||(strtolower($c->clDefault.'') == 'now()')) ||
+                (($d=='varchar') && ($c->clInsertFunction == 'IGK_PASSWD_ENCRYPT')));
+        }
+        return $c->clIsDumpField;
+    }
     public static function OrderController($a, $b)
     {
         if (get_class($a) == \IGK\Controllers\SysDbController::class) {

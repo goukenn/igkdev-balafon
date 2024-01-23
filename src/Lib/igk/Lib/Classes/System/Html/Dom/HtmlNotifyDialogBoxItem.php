@@ -45,11 +45,7 @@ EOF;
     public function getTitle(){
         return $this->m_title;
     }
-    // public function render($options =null){ 
-    //     $o = parent::render($options); 
-    //     $this->setIsVisible(false);
-    //     return $o;
-    // }
+     
     ///<summary></summary>
     ///<param name="title"></param>
     ///<param name="msg"></param>

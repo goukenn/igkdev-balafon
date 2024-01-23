@@ -25,8 +25,7 @@ class XmlNode extends HtmlItemBase{
         $c->text($text);
         return $this;
     }
-    public function closeTag()
-    {
+    public function closeTag():bool{
         return true;
     }
     public static function CreateWebNode($n, $attributes = null, $indexOrargs = null)

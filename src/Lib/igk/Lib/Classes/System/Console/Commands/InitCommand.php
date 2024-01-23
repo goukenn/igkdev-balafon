@@ -29,6 +29,7 @@ class InitCommand extends AppExecCommand
 
     public function exec($command)
     {
+        igk_set_timeout(0);
         $t = [
             igk_io_projectdir()
         ];
@@ -38,6 +39,7 @@ class InitCommand extends AppExecCommand
         $ctrls = igk_app()->getControllerManager()->getControllers();
         $entry_cl = igk_uri(\System\Console\Commands::class);
         foreach ($t as $dir) {
+            igk_is_debug() && Logger::info("init : ".$dir);
             foreach ($ctrls as $c) {
                 if (!strstr(realpath($c->getDeclaredDir()), realpath($dir))){
                     continue;
@@ -72,6 +74,8 @@ class InitCommand extends AppExecCommand
                 //}
             }
         }
+
+        igk_is_debug() && Logger::info("init - module > ");
         $mod = igk_get_modules();
         if ($mod  && (count($mod) > 0)) {
             $base_cl =  igk_uri(self::BASECLASS_COMMAND)."/";
@@ -81,6 +85,7 @@ class InitCommand extends AppExecCommand
                 $ns = $cmod->config("entry_NS");
                 $dir = $cmod->getDeclaredDir() . "/.commands.php";
                 if (file_exists($dir)) {
+                    igk_is_debug() && Logger::info("try include - ".$dir);
                     if (is_array($td = include($dir))) {
                         $commands_list = array_merge($commands_list, $td);
                     }
@@ -88,10 +93,10 @@ class InitCommand extends AppExecCommand
                     if (($f = $cmod->getLibDir()) && is_dir($f)) {
 
                         // get all php file that match the patter 
-                        $tns = [];
-                        if (!empty($ns)) {
-                            $tns = [$ns];
-                        }
+                        // $tns = [];
+                        // if (!empty($ns)) {
+                        //     $tns = [$ns];
+                        // }
                         $lc_dir = $f . '/'.$system_cl_command;
                         $files = igk_io_getfiles($lc_dir, "/Command\.php$/");
                         if (!$files) {
@@ -106,7 +111,7 @@ class InitCommand extends AppExecCommand
 
                             $classname = str_replace("/", "\\", ($ns ? $ns . "/" : "") . $base_cl . $v) . "Command";
                             if (isset($commands_list[$classname])){
-                                igk_dev_wln_e("[Module] - classname already set", $classname, $tf);
+                                igk_debug_wln_e("[Module] - classname already set", $classname, $tf);
                                 continue;
                             }
                             require_once($tf); 
@@ -121,7 +126,9 @@ class InitCommand extends AppExecCommand
         }
         $defs = "return [\n";
         $i = 0;
+        igk_is_debug() && Logger::info("load command > ");
         foreach ($commands_list as $ctrl => $lsts) {
+            igk_is_debug() && Logger::info("command - ");
             if ($i) {
                 $defs .= ",\n";
             }
@@ -137,18 +144,20 @@ class InitCommand extends AppExecCommand
                 }
                 $defs .= "\n]";
             } else {
+                igk_is_debug() && Logger::info("try collapse - ".$lsts);
                 $defs .= "$ctrl::class=>\"" . igk_io_collapse_path($lsts) . "\"";
             }
             $i = 1;
         }
         $defs .= PHP_EOL . "];";
+        igk_is_debug() && Logger::info("load command > ");
         $author = $this->getAuthor($command);
         $builder = new PHPScriptBuilder();
         $builder->type("function")
             ->author($author)
             ->defs($defs)
             ->desc("command list cache");
-
+        igk_is_debug() && Logger::info("try write to file: > ".AppCommandConstant::GetCacheFile());
         igk_io_w2file(AppCommandConstant::GetCacheFile(), $builder->render());
         Logger::success(__("init command complete"));
     }

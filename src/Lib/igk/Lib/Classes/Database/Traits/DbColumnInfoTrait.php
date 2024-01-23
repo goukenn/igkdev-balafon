@@ -14,6 +14,11 @@ trait DbColumnInfoTrait
 {
 
   /**
+   * store link name
+   * @var mixed
+   */
+  var $clLinkName;
+  /**
    * reference key column
    * @var mixed
    */
@@ -210,4 +215,22 @@ trait DbColumnInfoTrait
    * @var ?string
    */
   var $clLinkTo;
+
+  /**
+   * expected map name column name
+   * @var ?string
+   */
+  var $clMap;
+
+  /**
+   * expected reverse map name
+   * @var ?string target table inverse map name
+   */
+  var $clInverseMap;
+
+  /**
+   * get or set if the columninfo is a dump field. 
+   * @var ?bool
+   */
+  var $clIsDumpField;
 }

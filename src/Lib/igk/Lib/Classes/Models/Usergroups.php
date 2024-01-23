@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Usergroups.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,6 +11,7 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
 * @property int|\IGK\Models\Users $clUser_Id
 * @property int|\IGK\Models\Groups $clGroup_Id
@@ -30,7 +31,7 @@ class Usergroups extends ModelBase{
 	*/
 	protected $table = "%prefix%usergroups"; 
 	protected $unique_columns = array (
-	  0 => 
+	  1 => 
 	  array (
 	    0 => 'clUser_Id',
 	    1 => 'clGroup_Id',

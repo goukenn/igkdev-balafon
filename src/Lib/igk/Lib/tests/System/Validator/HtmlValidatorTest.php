@@ -5,7 +5,7 @@
 // phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Validator/HtmlValidatorTest.php 
 namespace IGK\Tests\System\Validator;
 
-use IGK\System\Html\Forms\HtmlValidator;
+use IGK\System\Html\Forms\Validations\HtmlValidator;
 use IGK\Tests\BaseTestCase;
 
 ///<summary></summary>

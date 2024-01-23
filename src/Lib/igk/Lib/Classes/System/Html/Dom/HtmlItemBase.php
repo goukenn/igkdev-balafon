@@ -13,6 +13,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/DomNodeBase.php";
 
 use ArrayAccess;
 use Closure;
+use Error;
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -101,6 +102,14 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 
     protected $m_callexclude = [];
 
+    /**
+     * set class name list 
+     * @param ?string|array $class_name_list 
+     * @return mixed 
+     */
+    public function setClassName($class_name_list){
+        return $this->setClass($class_name_list);
+    }
     /**
      * set text content
      * @param null|string $content 
@@ -464,7 +473,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
      * @return bool get if close tag
      */
-    public function closeTag()
+    public function closeTag():bool
     {
         return true;
     }
@@ -669,18 +678,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             // }
         }
         #endregion 
-        $lastchild = null;
-        $container = null;
+        $lastchild = null; 
         if (is_string($n)){
-           igk_html_push_node_parent($this);
-           if (igk_is_debug()){
-
-               // if ($this instanceof IHtmlContextContainer){
-                   //     $container = $this;
-                   $ref_count = HtmlLoadingContext::CountCountext();
-                   //     HtmlLoadingContext::PushContext($container->getLoadingContext());
-                   // } 
-            }
+            igk_html_push_node_parent($this);
             if (!$invoking && (strpos($n, ">")!==false) && (strpos($n, "?") === false)){       
                 $n = HtmlNodeTagExplosionDefinition::Core()->builder->setup($n,
                 [], $lastchild);
@@ -688,9 +688,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 $n = static::CreateWebNode($n, $attributes, $args);
             }
             $skip = igk_html_is_skipped();
-            // if (isset($container)){
-            //     HtmlLoadingContext::PopContext();
-            // }
             igk_html_pop_node_parent();
         } 
         if ($n && ($skip || ($this->_add($n) !== false))) {
@@ -1201,6 +1198,23 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->m_parent;
     }
+    /**
+     * replace current node with 
+     * @param mixed $node 
+     * @return void 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public function replaceWith(HtmlItemBase $node){
+        $p = $this->getParentNode();
+        if ($p){
+            $this->remove();
+            $p->add($node);
+        } 
+    }
     protected function _access_OffsetGet($k)
     {
         return igk_getv($this->m_attributes, $k);
@@ -1280,7 +1294,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         if (is_null($creator)) {
             // creator that require a function class with loading creator implementation
-            $creator = Closure::fromCallable([get_class($t), \LoadingNodeCreator::class]);
+            $creator = Closure::fromCallable([get_class($t), 'LoadingNodeCreator']);
         }
         $expression = false;        
         if ($context ){

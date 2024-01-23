@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: WhoUses.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,6 +11,7 @@ use IGK\Models\ModelBase;
 /**
 * Track who use the framework
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
 * @property string $clWebSite
 * @property int $clState

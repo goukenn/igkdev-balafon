@@ -18,7 +18,7 @@ trait SchemaGenerationFieldTrait{
      * @param null|string $prefix 
      * @return void 
      */
-    protected function _Gen_updateTime(object $clinfo, ?string $prefix = null)
+    protected static function _Gen_updateTime(object $clinfo, ?string $prefix = null)
     {
         $n = $prefix . "Create_At";
         $clinfo->columns[$n] = new DbColumnInfo([
@@ -39,7 +39,7 @@ trait SchemaGenerationFieldTrait{
      * @param null|string $prefix 
      * @return void 
      */
-    protected function _Gen_address(object $clinfo, ?string $prefix = null)
+    protected static function _Gen_address(object $clinfo, ?string $prefix = null)
     {
         foreach([
             ["clName"=>"{$prefix}AddrStreet","clType"=>"Text",],
@@ -60,7 +60,7 @@ trait SchemaGenerationFieldTrait{
      * @param null|string $prefix 
      * @return void 
      */
-    protected function _Gen_contact(object $clinfo, ?string $prefix = null)
+    protected static function _Gen_contact(object $clinfo, ?string $prefix = null)
     {
         foreach([
             ["clName"=>"{$prefix}Phone","clType"=>"Text",],

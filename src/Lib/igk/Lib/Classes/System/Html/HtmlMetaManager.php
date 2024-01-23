@@ -235,6 +235,10 @@ final class HtmlMetaManager extends IGKObject{
         $this->m_metas[$key][$attr]=$value;
         $this->m_metas[$key]["changed"]=1;
     }
+    public function setCharset(string $charset){
+        $this->m_metas[self::META_CHARSET] = ['charset'=>$charset];
+        
+    }
     ///<summary></summary>
     ///<param name="value"></param>
     public function setAuthor($value){

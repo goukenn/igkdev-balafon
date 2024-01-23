@@ -20,6 +20,9 @@ class MySQLSchemaCommand extends AppExecCommand{
     var $command = "--db:mysql-schema";
     var $category = "db";
     var $desc = "get mysql stored schema";
+    var $options = [
+        '--prefix-table'=>'flag allow prefix on view'
+    ];
 
     public function exec($command){
         DbCommandHelper::Init($command);

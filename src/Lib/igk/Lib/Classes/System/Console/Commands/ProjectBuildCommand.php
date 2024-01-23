@@ -50,7 +50,7 @@ class ProjectBuildCommand extends AppExecCommand{
 					'args'=>$args
 				]);
 
-		Logger::info('After build...');
+		Logger::info('after build...');
 		$o = igk_hook(ProjectBuilderEvents::AFTER_BUILD, $args, $options);
 		if ($o && $o->errors){
 			Logger::danger('there are some errors ');

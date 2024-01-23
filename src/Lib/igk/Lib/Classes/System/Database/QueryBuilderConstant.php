@@ -18,4 +18,5 @@ abstract class QueryBuilderConstant {
     const GroupBy = "GroupBy";
     const Limit = "Limit";
     const Distinct = "Distinct";
+    const OrderBy = "OrderBy";
 }

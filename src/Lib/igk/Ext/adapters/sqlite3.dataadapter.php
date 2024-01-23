@@ -21,6 +21,8 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 // use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
 // use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result;
+use IGK\System\Database\Exceptions\MissingTableException;
+use IGK\System\Database\IDbSendQueryListener;
 
 define("IGK_SQL3LITE_KN", "sql3lite");
 define("IGK_SQL3LITE_KN_TABLE_KEY", IGK_SQL3LITE_KN."::/tableName");
@@ -240,6 +242,16 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_sql;
     private $m_inTransaction = false;
 
+    public function allowTypeLength(string $type, ?int $length = null): bool { 
+        return in_array($type, ['int','varchar']);
+    }
+
+    public function remove_foreign(string $name, string $column): ?string {
+        return null;
+     }
+
+    
+
     public function getDateTimeFormat(): string { 
         return IGK_MYSQL_TIME_FORMAT; 
     }
@@ -268,9 +280,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
       * @throws EnvironmentArrayException 
       */
      public function tableExists(string $table, bool $throwex=true): bool
-     {
-        // TODO: need implement table exists 
-        //$this->sendQuery('SELECT count(*) FROM '.$table.';');
+     {  
         $g = @$this->sql->exec('SELECT count(*) FROM '.$table );
         if (!$g){
             error_clear_last();
@@ -698,7 +708,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     }
     ///<summary></summary>
     /**
-    * 
+    * drop all present table
     */
     public function dropAllTables(){
         $r=$this->listTables();

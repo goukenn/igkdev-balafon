@@ -5,6 +5,7 @@
 namespace IGK\System\Database\Mapping;
 
 use IGK\Helper\SysUtils;
+use IGK\Models\ModelBase;
 
 ///<summary></summary>
 /**
@@ -12,6 +13,23 @@ use IGK\Helper\SysUtils;
 * @package IGK\System\Database\Mapping
 */
 class DefaultMap{
+    /**
+     * 
+     * @param array|object $map 
+     * @param mixed $data 
+     * @return array<array-key, \IGK\System\Database\Mapping\MappedData> 
+     */
+    public static function MapModelData($map, $data){
+        return array_map(function(ModelBase $row)use($map){
+            $out = [];
+            $row_keys = $row->getRowKeys();
+            foreach($row_keys as $k){
+                $v = igk_getv($map, $k, $k);
+                $out[$v] = $row[$k];
+            }
+            return new MappedData((object)$out);
+        }, $data);
+    }
     public function map($data): ?array {
         if (is_null($data)){
             return null;

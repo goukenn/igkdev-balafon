@@ -22,6 +22,7 @@ use Throwable;
 class App{
     const GREEN = "\e[1;32m";
     const GRAY = "\e[1;90m";
+    const GRAY_I = "\e[3;90m";
     const YELLOW = "\e[0;33m";
     const YELLOW_B = "\e[1;33m";
     const YELLOW_I = "\e[3;33m";
@@ -32,6 +33,7 @@ class App{
     const PURPLE = "\e[3;35m";
     const AQUA = "\e[3;36m";
     const END = "\e[0m";
+    const TEMP_DIR_NAME = '.balafon-caches';
 
     const GroupIndex = 2;
     /*
@@ -58,6 +60,23 @@ class App{
     public function getConfigs(){
         return $this->_configs;
     }
+
+      /**
+     * return application level base path 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetAppBasePath():string{
+        if ($app = igk_app()){
+            $cons_app = $app->getApplication();
+            if ($cons_app instanceof BalafonApplication ){
+                return $cons_app->basePath; 
+            }
+        }
+        return getcwd(); 
+    }
     /**
      * run application command line
      * @param array $command default commands
@@ -71,8 +90,8 @@ class App{
         if ($basePath === null){
             $basePath = getcwd();
         }
-        // + | temporary directory  
-        $wdir = sys_get_temp_dir()."/balafon-cgi";
+        // + |init balafon temporary directory  
+        $wdir = sys_get_temp_dir()."/".self::TEMP_DIR_NAME;
 
         !defined('IGK_LOG_FILE') && define('IGK_LOG_FILE', $wdir."/logs/.".igk_environment()->getToday()."/cons.log"); 
  
@@ -101,9 +120,11 @@ class App{
         if (!file_exists(AppCommandConstant::GetCacheFile())){
             Logger::warn("missing cache files");
             $v_cmd = self::CreateCommand($app);
+            Logger::info("init command");
             $cmd = new InitCommand();
             $cmd->exec($v_cmd);  
             unset($v_cmd);
+            Logger::success('init command.');
         }
 
         $command_args = AppCommand::GetCommands($app);
@@ -262,7 +283,7 @@ class App{
                 return $action($command , ...$args); 
             }else{
                 if ($tab){
-                    Logger::danger("BLF: no action found");  
+                    Logger::danger("BLF: no action found - ".json_encode($tab));  
                 }
             }
         } catch (Exception $ex){
@@ -272,7 +293,7 @@ class App{
             if (igk_is_debug() && !igk_environment()->NoConsoleLogger){
                 igk_show_exception_trace($ex->getTrace(), 0);
             }
-            igk_exit();
+            igk_exit(1, -1000);
         }
         catch (Throwable $ex){
             Logger::danger("error: throw: ".$ex->getMessage());
@@ -410,6 +431,22 @@ class App{
             "options"=>(object)[]
         ];
     }
+
+    /**
+     * create a command options
+     * @return object 
+     */
+    public static function CreateCommandOptions(){
+        return (object)[
+            "app"=>new static,
+            "options"=>(object)[]
+        ];
+    }
+    /**
+     * create new command
+     * @param mixed $source 
+     * @return object 
+     */
     public function createNewCommand($source){
         $o = self::CreateCommand($this);
         $o->source = $source;

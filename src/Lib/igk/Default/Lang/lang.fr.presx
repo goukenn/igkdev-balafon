@@ -3,7 +3,7 @@
 $l['btn.submit'] = 'Envoyer';
 $l['DbPasswd'] = 'Mot de passe';
 $l['DbPort'] = 'Port';
-$l['title.subdomain.config'] = 'Configuration - %s';
+$l['title.subdomain.config'] = 'CPANEL';
 $l["title.dropController"] = "Confirmer";
 $l["Registration"] = "Inscription";
 $l["Back to {0}"] = "Retour à la page : {0}";

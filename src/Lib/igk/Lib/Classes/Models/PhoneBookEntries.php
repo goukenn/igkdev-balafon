@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookEntries.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,6 +11,7 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $rcphbe_Id
 * @property string $rcphbe_Guid
 * @property string|datetime $rcphbe_Create_At ="Now()"

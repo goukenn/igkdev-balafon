@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Mailinglists.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,17 +11,19 @@ use IGK\Models\ModelBase;
 /**
 * store mailing lists.
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
 * @property string $clml_email
-* @property int $clml_state
+* @property int $clml_state 0|1 (no-active, active)
 * @property string $clml_source
 * @property string $clml_locale ="en"
 * @property string $clml_init
 * @property string $clml_agent
 * @property string|datetime $clml_create_at ="NOW()"
 * @property string|datetime $clml_update_at ="NOW()"
-* @method static ?self Add(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry if not exists. check for unique column.
+* @property string $clml_Source
+* @method static ?self Add(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_Source, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_Source, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Mailinglists extends ModelBase{
 	const FD_CL_ID="clId";
@@ -33,6 +35,7 @@ class Mailinglists extends ModelBase{
 	const FD_CLML_AGENT="clml_agent";
 	const FD_CLML_CREATE_AT="clml_create_at";
 	const FD_CLML_UPDATE_AT="clml_update_at";
+	const FD_CLML_SOURCE="clml_Source";
 	/**
 	* table's name
 	*/

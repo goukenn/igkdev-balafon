@@ -12,6 +12,7 @@ use IGK\Actions\ActionResolutionInfo;
 use IGK\Actions\Traits\ApiActionTrait;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\Activator;
+use IGK\Helper\ApplicationModuleHelper;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
@@ -24,6 +25,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\ResourceNotFoundException;
+use IGK\System\Helper;
 use IGK\System\Html\Dom\HtmlCtrlNode;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Html\Dom\HtmlNode;
@@ -35,6 +37,7 @@ use IGK\System\Uri;
 use IGK\System\ViewDataArgs;
 use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
+use IGKConstants;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
@@ -109,7 +112,7 @@ use function igk_resources_gets as __;
  * @method static bool login(mixed $user, ?string $password, bool $nav=true, bool $rememberme=false) macros function. try login with the user
  * @method static void logout() macros function
  * @method static void migrate() macros function
- * @method static ?\IGK\Models\ModelBase model(string $modelName) macros function search for model by name. 
+ * @method static ?\IGK\Models\ModelBase model(string $modelName model name) macros function search for model by name. 
  * @method static object|null modelUtility() macros function 
  * @method static void notifyKey() macros function
  * @method static string ns(string $path) macros function
@@ -117,7 +120,7 @@ use function igk_resources_gets as __;
  * @method static ?string resolveClass(string $path) macros function resolve class. return null if not exists
  * @method static void resolveAssets(array<string> $asset_list) macros function resolve class. return null if not exists * 
  * @method ?string asset(string $path, bool $must_exist=true) macros function resolve controller assets  * 
- * @method static void resolveTableName() macros function
+ * @method static string resolveTableName(string $real_table_name) macros function resolve to entry table
  * @method static void seed() macros function
  * @method static void setEnvParam(key, value) macros function
  * @method static void storeConfigSettings() macros function
@@ -130,6 +133,7 @@ use function igk_resources_gets as __;
  * @method static mixed pcss(string $name, default=null) macros function load temp inline pcss
  * @method static mixed getViews(bool $withHiddenFile, bool $recursive=false) macros function load temp inline pcss
  * @method static mixed getActionHandler(string $name, ActionResolutionInfo $action_resolution, ?array $params =null) macros function load temp inline pcss
+ * @method static array getCachedDataTableDefinition() macros function get cached datable table definitions 
  */
 abstract class BaseController extends RootControllerBase implements IIGKDataController
 {
@@ -226,7 +230,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         if ($params === null) {
             $params = [];
-        }
+        } 
         // + | -------------------------------------------------------
         // + | no method exists in controller and view file not exists
         // + |
@@ -338,18 +342,18 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function handleAction(string $fname, array $params, &$handler = null)
     {
-
+        // igk_trace();
+        // igk_wln_e(__FILE__.":".__LINE__ , "try action handler....", $fname, igk_view_args('query_options'));
         // igk_dev_wln_e(__FILE__.":".__LINE__ , "handling, ", $fname, $params, "action flag:", $this->getEnvParam(self::NO_ACTION_FLAG));
         //+ | -----------------------------------------------------------------------------
         //+ | handle action: insert here a middleware to auto handle the view before include 
         //+ |   
-
+        
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname,$rep = new ActionResolutionInfo, $params))
-        ) {
-
-            $params = $rep->params ?? $params; // 
+            ) {
+              $params = $rep->params ?? $params; // 
             $srv = igk_server(); 
             $r =  ActionHelper::DoHandle($this, $handler, $fname, $params, $rep,[
                 'method'=>$srv->REQUEST_METHOD,
@@ -486,6 +490,14 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
         }
     }
+    /**
+     * default include function helper
+     * @return void 
+     */
+    protected function _include_func_helpers(){
+        include_once(IGK_LIB_DIR."/Lib/functions-helpers/view.php");
+
+    }
     ///<summary>copy this fonction to allow file inclusion on the current context controller</summayr>
     /**
      * copy this fonction to allow file inclusion on the current context controller
@@ -493,6 +505,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     protected function _include_view(string $file)
     {
         $response = null;
+        $this->_include_func_helpers();
         $this->_include_constants();
         igk_reset_globalvars();
         $viewargs = (array)ViewEnvironmentArgs::CreateContextViewArgument($this, $file, __FUNCTION__);
@@ -521,7 +534,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                         $ex->getLine()
                     ]));
                     igk_set_header(500); 
-                    Logger::danger("path error: " . $ex->getMessage());
+                    Logger::danger("[BLF] - path error: " . $ex->getMessage());
                     ExceptionUtils::ShowException($ex);
                     igk_exit();
                 }
@@ -539,7 +552,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 return;
             }
 
-            $viewargs['data'] = new ViewDataArgs($this->getEnvParam(ControllerEnvParams::ActionViewResponse) ?? []);
+            $viewargs['data'] = $this->_getViewDataArgs();
             $viewargs['user'] = $this->getUser();
             $viewargs['action_handler'] = $action_handler;
 
@@ -578,6 +591,15 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             throw $ex;
         }
         return $response;
+    }
+
+    protected function _getViewDataArgs(){
+        $rep = $this->getEnvParam(ControllerEnvParams::ActionViewResponse);
+        $cp = [];
+        if (!is_bool($rep)){
+            $cp = $rep ?? [];
+        }
+        return new ViewDataArgs($cp);
     }
 
     ///<summary>include constant</summary>
@@ -1030,11 +1052,12 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         // + | fname = entry file name
         // + | doc = current document
         // + | controller and target node must match visibility
-        $_is_visible = $this->getIsVisible();
+        $v_available = $this->getIsVisible();
         $t = $this->getTargetNode();
         if ($t) {
-            $t->setIsVisible($_is_visible);
-            if ($_is_visible) {
+            $t->setIsVisible($v_available);
+            if ($v_available) {
+                $this->_initRequiredModules();
                 $this->_initView();
                 $this->_renderViewFile();
             }
@@ -1042,6 +1065,26 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             igk_ilog("/!\\ TargetNode is null " . get_class($this));
         }
         return $this;
+    }
+    protected function _initRequiredModules(){
+        $v_key = 'sys://init_controller/modules';
+        $v_modules = igk_get_env($v_key) ?? [];
+        $v_cl = get_class($this);
+        if (isset($v_modules[$v_cl])){
+            return;
+        }
+        $load = 1;
+        $config_file = Path::Combine( $this->getDeclaredDir(), IGKConstants::PROJECT_CONF_FILE);
+        if ($data = json_decode(file_get_contents($config_file))){
+            $required = (array)igk_conf_get($data,'required');
+            $required && ApplicationModuleHelper::ImportRequiredModule($required, $this);
+            if ($required){
+                $load = $required;
+            }
+        } 
+        $v_modules[$v_cl] = $load;
+        igk_set_env($v_key, $v_modules);
+
     }
     protected function _createViewEnvArgs()
     {
@@ -1293,8 +1336,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @return ?IModelDefinitionInfo controller's table info
      */
     public function getDataTableInfo(): ?IModelDefinitionInfo
-    {
-        // TODO: model single table definition info 
+    { 
         $tb = null;
         if ($this->getUseDataSchema()) {
             $def = $this->getDataTableDefinition(null);

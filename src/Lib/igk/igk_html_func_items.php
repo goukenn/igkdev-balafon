@@ -35,6 +35,7 @@ use IGK\System\Html\HtmlJsOptionDefinition;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUsageCondition;
+use IGK\System\Html\IFormFields;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Number;
@@ -425,6 +426,7 @@ if (!function_exists("igk_html_node_aclearsandreload")) {
 		$n = igk_create_node('abtn');
 		$n["class"] = "igk-btn";
 		$n["href"] = $ctrl ? $ctrl->getUri("ClearS") . "&r=" . base64_encode($curi) : null;
+		$n['igk-app-action'] = true;
 		$n->Content = __("Clear session and reload");
 		return $n;
 	}
@@ -2228,15 +2230,22 @@ if (!function_exists("igk_html_node_expression_node")) {
 if (!function_exists("igk_html_node_fields")) {
 	/**
 	 * load field list to parent
-	 * @param array $fielddata
+	 * @param array|IFormFields $fielddata
 	 * @param null|array $datasource 
 	 * @param null|object $engine to use 
 	 * @param string $tagname
 	 * @return mixed 
 	 * @throws IGKException 
 	 */
-	function igk_html_node_fields(array $fielddata, ?array $datasource = null, ?object $engine = null, ?string $tag = null)
+	function igk_html_node_fields($fielddata, ?array $datasource = null, ?object $engine = null, ?string $tag = null)
 	{
+		if ($fielddata instanceof IFormFields){
+			$v_f = $fielddata;
+			$fielddata = $v_f->getFields();
+			$datasource = $datasource ?? $v_f->getDataSource();
+			$engine = $engine ?? $v_f->getEngine();
+			$tag = $tag ?? $v_f->getTag();
+		}
 		$o = igk_html_parent_node() ?? igk_die('require parent node context');
 		$a = $fielddata; 
 		$o->addObData(function () use ($a, $datasource, $engine, $tag) {
@@ -2463,10 +2472,9 @@ if (!function_exists("igk_html_node_grid")) {
 	/**
 	 * create a grid node
 	 */
-	function igk_html_node_grid()
-	{
+	function igk_html_node_grid(){
 		$n = igk_create_node("div");
-		$n["class"] = "+igk-grid";
+		$n["class"] = "+igk-grid +grid";
 		return $n;
 	}
 }
@@ -2566,7 +2574,10 @@ if (!function_exists("igk_html_node_host")) {
 			if (is_array($response)) {
 				$p->text(igk_ob_get($response));
 			} else {
-				$p->text($response);
+				if ($response instanceof HtmlItemBase){
+					$p->add($response);
+				} else 
+					$p->text($response);
 			}
 		}
 		if (!empty($response = ob_get_clean())) {

@@ -18,6 +18,7 @@ use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\HtmlMetaManager;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\IHtmlDocumentHost;
+use IGK\System\Html\Metadatas\Traits\HtmlDocMetadataTrait;
 use IGK\System\Http\CookieManager;
 use IGK\System\Http\IHeaderResponse;
 
@@ -37,13 +38,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private $m_noCoreCss;
     private $m_noFontInstall; 
 
+    use HtmlDocMetadataTrait;
+
    
-    // public function __sleep()
-    // {
-    //     $q = $this ;
-    //     // igk_wln_e("sleeping ....");
-    //     return [];
-    // }
+   
 
     public function getnoFontInstall(){ 
             return $this->m_noFontInstall; 

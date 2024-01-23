@@ -4,6 +4,7 @@ namespace IGK\Database\Macros;
 
 use GrahamCampbell\ResultType\Success;
 use IGK\Controllers\BaseController;
+use IGK\Database\Mapping\SysDbMapping;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
@@ -281,8 +282,9 @@ abstract class UsersMacros
      */
     public static function CreateUserApiResponseData(Users $user):array{
         $user->is_mock() ?? igk_die('not allowed');
+        $v_user = SysDbMapping::CreateMapping($user)->map($user);
         $data = [
-            'user' => $user,  
+            'user' => $v_user,  
             'groups' => array_map(function ($a) {
                 return implode('@', array_filter([$a['clController'], $a['clName']]));
             }, $user->groups()),

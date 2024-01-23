@@ -8,9 +8,10 @@
 namespace IGK\Models\Injectors;
 
 use IGK\Models\ModelBase;
+use IGK\System\IInjector;
 use IGKValidator;
 
-class ModelBaseInjector{
+class ModelBaseInjector implements IInjector{
     protected $model;
 
     public function __construct(?ModelBase $model=null)
@@ -19,16 +20,27 @@ class ModelBaseInjector{
     }
     /**
      * resolv from request type
-     * @param mixed $i 
+     * @param mixed $id
      * @return mixed 
      */
-    public function resolv($i){
-        if (is_numeric($i)){
-            return $this->model::select_row($i);
+    public function resolve($id, ?string $type=null){
+        if (is_null($id)){ 
+            igk_die("failed to resolve from id can not be null");
+        } 
+        if (is_numeric($id)){
+            return $this->model::select_row($id);
         }
-        if (IGKValidator::IsGUID($i)){
-            return $this->model::fromGuid($i);
+        if (IGKValidator::IsGUID($id)){
+            return $this->model::fromGuid($id);
         }
-        /// TODO: add a column selection use in case $i is a string and not a GUID
+        try{
+            return $this->model::resolve($id);
+        }
+        catch(\Exception $ex) {
+           if (igk_environment()->isDev()){
+                throw $ex;
+           }
+        }
+        return null;
     }
 }

@@ -248,8 +248,7 @@ implements IDatabaseHost
      * drop application table from system config
      */
     protected static function dropDb($navigate = true, $force = false)
-    {
-
+    { 
         if (!($c = igk_getctrl(static::class, false))) {
             return;
         }
@@ -340,16 +339,18 @@ implements IDatabaseHost
     }
     ///<summary></summary>
     /**
-     * 
+     * primary configuration additional configuration 
+     * @return <string,ConfigInfo
      */
-    public static function GetAdditionalConfigInfo()
+    public static function GetAdditionalConfigInfo(): array
     {
         return array(
             IGK_CTRL_CNF_TITLE => igk_createAdditionalConfigInfo(array("clRequire" => 1)),
             IGK_CTRL_CNF_APPNAME => igk_createAdditionalConfigInfo(array("clRequire" => 1)),
             IGK_CTRL_CNF_BASEURIPATTERN => igk_createAdditionalConfigInfo(array("clRequire" => 1)),
+            IGK_CTRL_CNF_USE_DATASCHEMA=> igk_createAdditionalConfigInfo(array("clRequire" => 1, "clType"=>"bool", 'clDefaultValue'=>'0')),
             IGK_CTRL_CNF_TABLEPREFIX => igk_createAdditionalConfigInfo(array("clRequire" => 1, "clDefaultValue" => "tbigk_")),
-            IGK_CTRL_CNF_APPNOTACTIVE => (object)array("clType" => "bool", "clDefaultValue" => "0")
+            IGK_CTRL_CNF_APPNOTACTIVE => igk_createAdditionalConfigInfo(array("clType" => "bool", "clDefaultValue" => "0"))
         );
     }
     ///<summary></summary>
@@ -632,16 +633,12 @@ EOF;
     public function handle_redirection_uri($u, $forcehandle = 1)
     {  
         igk_sys_handle_uri();
-        extract(array(
-            "page" => 0,
-            "k" => 0,
-            "pattern" => 0,
-            "p" => 0,
-            "c" => 0,
-            "param" => 0,
-            "viewdefault" => 0,
-            "query_options" => 0
-        ));
+    
+        $page= $k =
+        $pattern = $p= $c=
+        $param =
+        $viewdefault=
+        $query_options = 0; 
         // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
             if (empty($u)){
@@ -660,17 +657,16 @@ EOF;
             $p = $u->getQueryParams();
             $viewdefault = 1;
             extract(igk_pattern_view_extract($this, $p, 1));
-            igk_ctrl_change_lang($this, $p);
+            igk_ctrl_change_lang($this, $p);  
         }
         
-        if (empty($c)){
-            //igk_wln_e(__FILE__.":".__LINE__ , "calling");
-            if (igk_environment()->isDev()){
-                // igk_die('handle_redirection_uri, missing\' view configuration controller:'. $u."\n". json_encode($u));
-            }
-        }
-
-        // get request query options
+        // if (empty($c)){
+        //     //igk_wln_e(__FILE__.":".__LINE__ , "calling");
+        //     if (igk_environment()->isDev()){
+        //         // igk_die('handle_redirection_uri, missing\' view configuration controller:'. $u."\n". json_encode($u));
+        //     }
+        // }
+        // + | get request query options 
         $query_options = igk_getv($p, 'options');
         //passing ctrl to view for sitepam
         igk_bind_sitemap(["ctrl" => $this, "c" => $c]);
@@ -688,7 +684,7 @@ EOF;
             $param = array();
         else if (!is_array($param)) {
             $param = array($param);
-        }
+        } 
         if (empty($c) &&  $viewdefault) {
             $this->renderDefaultDoc($this->getConfig("/default/document", 'default'));
             igk_exit();

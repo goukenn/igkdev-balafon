@@ -628,13 +628,7 @@
                 return;
             }
             var q = this;
-            // ------------------------------------------------------------
-            // TODO: CHECK VALIDITY
-            // ------------------------------------------------------------
-            // alert(this.o.noValidate);
-            // var q= this;
-            // this.reg_event("invalid",function(evt){
-            // });
+          
             this.reg_event("submit", function (evt) {
                 if ((typeof (q.o.checkValidity) != igk.constants.undef) && !q.o.checkValidity()) {
                     console.debug("data not valid");
@@ -1021,11 +1015,7 @@
             this.getLines = function () {
                 return l;
             };
-        }
-
-        // function igk_xml_eval() {
-        //     throw new Error("Not implement");
-        // };
+        } 
         igk.system.createNS("igk.highlightjs", {
             'php': igk_php_eval,
             // 'xml': igk_xml_eval
@@ -2498,8 +2488,7 @@
         };
 
         function __init_scroll(orn) {
-            // >param: orn : orientation
-            // TODO: scroll in div on touching not yet implement
+            // >param: orn : orientation 
             var q = this;
             if (q.data["igk-scroll-b"]) {
                 throw ("already igk-scroll-b init");
@@ -5561,8 +5550,7 @@
                 __render_xml_view_tag(this, b);
             }
         });
-    })();
-    // TODO: test extra attribute event - demonstration - hold click with BALAFON javasript 
+    })(); 
     (function () {
         // --------------------------------------------------------------------------
         // bind attribute event

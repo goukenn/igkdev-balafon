@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DataTypes.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,10 +11,11 @@ use IGK\Models\ModelBase;
 /**
 * Store framework data types
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
 * @property string $clName
-* @property string $clDescription
-* @property string $clRegex
+* @property string $clDescription data description
+* @property string $clRegex Regex used to validate data
 * @method static ?self Add(string $clName, string $clDescription, string $clRegex) add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clRegex) add entry if not exists. check for unique column.
 * */

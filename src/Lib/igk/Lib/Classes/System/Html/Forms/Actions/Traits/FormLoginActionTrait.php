@@ -45,7 +45,12 @@ trait FormLoginActionTrait{
             $form['action'] = $this->formLoginActionLogin ?? 'login';
         }
         $noRegister = $options ? igk_getv($options, 'noRegister') : false;
-
+        $loginSetting = null;
+        if ($data = $options ? igk_getv($options, 'data') : null){
+            $loginSetting = igk_getv($data, __FUNCTION__);
+            // convert to login form setting action.
+            
+        }
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();
         $fname = ViewHelper::GetViewArgs('fname');

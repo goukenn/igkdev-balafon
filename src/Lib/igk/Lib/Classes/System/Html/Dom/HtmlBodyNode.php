@@ -2,6 +2,7 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\System\Html\RenderOptionProperties;
 use IGKEvents;
 
 require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlDefaultMainPage.php");
@@ -75,7 +76,7 @@ class HtmlBodyNode extends HtmlNode{
 
     protected function _getRenderingChildren($options = null)
     { 
-        $doc = igk_getv($options, "Document");
+        $doc = igk_getv($options, RenderOptionProperties::DOCUMENT);
         $c = [];
         if ($this->getBodyBox()->getHasChilds()){
             $c[] = $this->m_bodybox;

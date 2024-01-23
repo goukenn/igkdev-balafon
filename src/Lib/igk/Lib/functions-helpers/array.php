@@ -7,6 +7,18 @@
 
 use IGK\System\Regex\Replacement;
 
+
+if (!function_exists("igk_array_find_first")) {
+    function igk_array_find_first(array $tab, callable $callback)
+    {
+        foreach ($tab as $value) {
+            if (($p = $callback($value)) !== null) {
+                return $p;
+            }
+        }
+    }
+}
+
 if (!function_exists("igk_array_copy")) {
     ///<summary></summary>
     ///<param name="$c"></param>
@@ -118,6 +130,9 @@ if (!function_exists("igk_array_filter")) {
     ///<summary>array filter data, throw if require parameter is missing</summary>
     /**
      * array filter data, throw if require parameter is missing
+     * @var mixed $data object to filter
+     * @var mixed $data object to filter
+     * @var mixed $list list of defined value key=>required
      */
     function igk_array_filter($data, $list, $die = true)
     {
@@ -155,7 +170,7 @@ if (!function_exists("igk_array_first")) {
 if (!function_exists("igk_array_is_assoc")) {
     ///<summary>get if an array is assoc array</summary>
     /**
-     * get if an array is assoc array
+     * get if an array is assoc array. Contain one non number index.
      */
     function igk_array_is_assoc(array $tab)
     {
@@ -174,6 +189,21 @@ if (!function_exists("igk_array_is_indexed")) {
     function igk_array_is_indexed($arr)
     {
         return array_values($arr) === $arr;
+    }
+}
+
+if (!function_exists("igk_array_is_assoc_only")) {
+    ///<summary>get if an array is indexed</summary>
+    /**
+     * get if an array is indexed
+     */
+    function igk_array_is_assoc_only($arr)
+    { 
+        foreach (array_keys($arr) as $c) {
+            if (is_numeric($c))
+                return false;
+        }
+        return true;
     }
 }
 if (!function_exists("igk_array_key_value_toggle")) {
@@ -610,14 +640,14 @@ if (!function_exists('igk_array_dump_short')) {
      * @param callable $valueListenerer 
      * @return string 
      */
-    function igk_array_dump_short($obj,$valueListenerer=null): string
+    function igk_array_dump_short($obj, $valueListenerer = null): string
     {
         $s = '';
         $depth = 0;
         $tab = [['n' => $obj, 'start' => false, "ch" => "", 'keys' => null]];
         $rp = new Replacement;
         $rp->add("/\\$/i", "\\\\$");
-        $fc_value = $valueListenerer ?? function($v, $rp){            
+        $fc_value = $valueListenerer ?? function ($v, $rp) {
             return igk_str_surround($rp->replace($v));
         };
         while (count($tab)) {
@@ -635,18 +665,18 @@ if (!function_exists('igk_array_dump_short')) {
                 while (!$stop && (count($keys) > 0)) {
                     $t = array_shift($keys);
                     $v = $n[$t];
-                    if (is_numeric($t) && is_string($v)){                        
-                            $s .= $ch . $fc_value($v, $rp);
-                            $ch .=',';
+                    if (is_numeric($t) && is_string($v)) {
+                        $s .= $ch . $fc_value($v, $rp);
+                        $ch .= ',';
                         continue;
                     }
 
                     $s .= $ch;
                     if (is_string($t))
-                        $s.= igk_str_surround($rp->replace($t)) . "=>";
+                        $s .= igk_str_surround($rp->replace($t)) . "=>";
                     if (is_array($v)) {
-                        if (count($v)==1){
-                            if (is_numeric($ky = array_keys($v)[0])){
+                        if (count($v) == 1) {
+                            if (is_numeric($ky = array_keys($v)[0])) {
                                 $s .= $fc_value($v[$ky], $rp);
                                 $ch = ',';
                                 continue;
@@ -658,14 +688,14 @@ if (!function_exists('igk_array_dump_short')) {
                         $ch = ',';
                         continue;
                     } else {
-                        if (is_null($v)){
-                            $s.= 'null';
-                        } else 
+                        if (is_null($v)) {
+                            $s .= 'null';
+                        } else
                             $s .= $fc_value($v, $rp);
                     }
                     $ch = ',';
                 }
-                if (!$stop){
+                if (!$stop) {
                     $s .= ']';
                     $ch = ',';
                 }

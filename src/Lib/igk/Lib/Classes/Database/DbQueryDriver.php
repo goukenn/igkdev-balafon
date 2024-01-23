@@ -306,12 +306,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         if ($driver_storage === null) {
             $driver_storage = [];
         }
-        $name = "mysql";
-        // TODO: Driver handle
-        // if (key_exists($name, $driver_storage)){
-        //     return $driver_storage[$name];
-        // }
-
+        $name = "mysql"; 
         $dbserver = key_exists("server", $options) ?   $options["server"] : func_get_arg(0);
         $dbuser = key_exists("user", $options)  ? $options["user"] : func_get_arg(1);
         $dbpwd = key_exists("pwd", $options) ? $options["pwd"] : func_get_arg(2);

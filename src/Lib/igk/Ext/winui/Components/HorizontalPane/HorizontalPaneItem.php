@@ -243,12 +243,7 @@ EOF;
 			$this->m_infoboxScript->setIsVisible(false);
 		}
 		return true;
-	}
-	// public function render($options =null)
-	// {
-
-	// return parent::Render($options);
-	// }
+	} 
 	public function setPageViewListener($listener)
 	{
 		if (($listener == null) || !igk_reflection_class_implement($listener, IIGKHorizontalPaneListener::class))

@@ -436,8 +436,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants
      */
     public static function getInstance()
     {
-        !($c = self::$sm_instance) && ($c = self::$sm_instance = new self());
-        return $c;
+        if (is_null(self::$sm_instance)){
+            self::$sm_instance = new self();
+        } 
+        return self::$sm_instance;
     }
 
     public function is_mod_enabled($module)
@@ -653,12 +655,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         if (!$c) {
             $c = [];
         }
-        // if (\IGK\System\Html\HtmlLoadingContext::class == $key){
-        //     igk_wln(__FILE__.":".__LINE__ , "Key : ".$key . " count " .count($c), $tc = igk_env_count("::::_base") ); 
-        //     if ($tc == 134){
-        //         igk_wln("data:");
-        //     }
-        // }
         if (!is_array($c)) {
             throw new EnvironmentArrayException($key);
         }

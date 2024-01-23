@@ -47,6 +47,10 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
             return false;
         }
 
+        $install_source = self::GetScriptInstall(['install-site.pinc'], $token);
+
+     //igk_wln_e($install_source);
+
         $app_dir = $setting[self::APP_DIR];
         $sess_dir = $setting[self::SESSION_DIR] ?? $app_dir."/../sesstemp";
 
@@ -79,11 +83,13 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
             Logger::info("setting not base directory...");
             $install = $pdir."/install-site.php";
             $local_file = tempnam(sys_get_temp_dir(), "blf-install-site");
-            file_put_contents($local_file, file_get_contents(IGK_LIB_DIR."/Inc/core/install-site.pinc"));
+            
+
+            file_put_contents($local_file, $install_source); 
             ftp_put($h, $install, $local_file);
             unlink($local_file);
 
-            $token = date("Ymd").rand(2, 85).igk_create_guid();
+            // $token = date("Ymd").rand(2, 85).igk_create_guid();
             
             $response = igk_curl_post_uri($uri."/install-site.php", 
                 [
@@ -111,7 +117,7 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
             Logger::danger("in base directory ... ");
         } 
         ftp_close($h);
-        Logger::info("done"); 
+        Logger::success("done"); 
         error_clear_last();
     }
 }

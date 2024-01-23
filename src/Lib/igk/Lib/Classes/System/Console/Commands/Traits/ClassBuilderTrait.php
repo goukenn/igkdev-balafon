@@ -35,7 +35,8 @@ trait ClassBuilderTrait{
         $extends = null,
         $desc = null,
         bool $force=false,
-        ?string $content = null
+        ?string $content = null,
+        ?string $class_modifier=null
         ){
             $g = igk_dir($classPath);
             if (strpos($g, $gs = igk_dir($ns) . "/") === 0) {
@@ -62,7 +63,8 @@ trait ClassBuilderTrait{
                 ->extends($extends)
                 ->name($name)
                 ->desc($desc)
-                ->defs($content);
+                ->defs($content)
+                ->class_modifier($class_modifier);
             igk_io_w2file($file, $builder->render());
            return $file;
         } 

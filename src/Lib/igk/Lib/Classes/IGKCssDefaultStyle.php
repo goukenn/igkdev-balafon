@@ -208,8 +208,13 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     public function getAttributes(){
         return igk_getv($this->_, self::PROPERTIES);
     }
+    /**
+     * 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function getdef(){
-        return igk_getv($this->_, self::PROPERTIES);
+        return $this->getAttributes();
     }
     ///<summary>retrieve binded temp file </summary>
     /**
@@ -229,6 +234,11 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
         return $g;
     }
     ///<summary></summary>
+    /**
+     * get files to load
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function getFiles(){
         return igk_getv($this->_, self::FILES_RULE);
     }
@@ -358,5 +368,19 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
             $rf=igk_io_collapse_path($files);
             $this->_[self::FILES_RULE]=$rf;
         }
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function reverseDefinitionProperties(){
+        if (isset($this->_[self::PROPERTIES])){
+
+            $p = $this->_[self::PROPERTIES];
+            $p = array_reverse($p, true);
+            $this->_[self::PROPERTIES] = $p;
+            return true;
+        }
+        return false;
     }
 }

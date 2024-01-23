@@ -21,7 +21,7 @@ use Throwable;
  */
 abstract class ApiActionBase extends MiddlewireActionBase{
     protected function die($message, $code=400){
-        igk_ilog("api - die : ".json_encode($message));
+        igk_ilog("[api - die] : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
     }
 

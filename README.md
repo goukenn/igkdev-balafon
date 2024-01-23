@@ -61,6 +61,15 @@ passing parameters to layout
 
 ## FIX
 
+- 20242301
+
+--- add range on loop node
+--- fix bug
+
+- 20232109
+    + add model - map
+    + add CurlHttpClient session request support 
+    + remove igk_db_table_select_relationnal_where, igk_sys_srv_nocache_request, igk_html_validate_error 
 - 20220714
     + add igk_css_request_ctrl global function 
     + OPS update css dynamic file from controller

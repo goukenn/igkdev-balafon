@@ -80,6 +80,9 @@ class NoDbConnection{
     function setOpenCallback(){}
     /** */
     function flushForInitDb(){}
+    function getVersion():string{
+        return '';
+    }
 
     public function __call($n, $name){
         return null;

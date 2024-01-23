@@ -188,6 +188,13 @@ define('IGK_APP_REQUEST_URI', 198);
 define('VIEW_EXTRA_ARGS', 199);
 define('IGK_APP_INFO_TYPE', 200);
 
+// + | --------------------------------------------------------------------
+// + | curl info 
+// + |
+define('IGK_ENV_CURL_RESPONSE_INFO', "curl://info");
+define('IGK_ENV_CURL_RESPONSE_GET_INFO', "curl://getinfo");
+define('IGK_ENV_CURL_RESPONSE_GET_INFO_SETTING', "curl://getinfo/setting");
+
 define("IGK_ENV_SESS_DOM_LIST", 0x201);
 define("IGK_CUSTOM_CTRL_PARAM", 0x400);
 //-------------------------------------------------------
@@ -448,6 +455,7 @@ define("IGK_CSS_CTN_LG_SIZE", 844);
 define("IGK_CSS_CTN_XLG_SIZE", 1280);
 define("IGK_CSS_CTN_XXLG_SIZE", 1580);
 defined('IGK_PWD_LENGTH') || define("IGK_PWD_LENGTH", 8);
+defined('IGK_PWD_MAX_LENGTH') || define("IGK_PWD_MAX_LENGTH", 30);
 //    define("IGK_AJX_BINDSTYLES", "sys://css/ajx/temp/files");
 //    define("IGK_COMPONENT_ID_KEY", "sys://component/id");
 define("IGK_ENCODINGTYPE", "text/html; charset=utf-8");
@@ -762,7 +770,8 @@ define('IGK_CSS_TREAT_REGEX', '/\[\s*(?P<name>[\w\-]+)\s*:\s*(?P<value>([a-zA-Z0
 define('IGK_CSS_TREAT_REGEX_2', '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*\}\s*(;)*/i');
 // define("IGK_CSS_CHILD_EXPRESSION_REGEX", "/\s*\((sys)?:(?P<name>([a-z0-9_\-\.]+))\)\s*/i");
 //add ; on selection 
-define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
+// define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
+define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([^\)]+))\)\s*;?/i");
 define('IGK_SUBDOMAIN_URI_NAME_REGEX', "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
 define('IGK_ALL_REGEX', "/(.)*/i");
 define('IGK_VIEW_FILE_EXT', '.phtml');
@@ -829,3 +838,6 @@ define("IGK_ENV_GLOBAL_SCRIPT_KEY", "sys://globalscript");
 defined('IGK_PWD_PREFIX') || define("IGK_PWD_PREFIX", "(!)8Zmb90-&");
 define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);
 defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin@123");
+
+
+defined('T_NAME_QUALIFIED') || define('T_NAME_QUALIFIED', 265);

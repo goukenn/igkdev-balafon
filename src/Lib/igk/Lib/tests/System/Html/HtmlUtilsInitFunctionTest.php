@@ -130,7 +130,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ],
         ]);
         $this->assertEquals(
-            '<div><form action="." class="igk-form" method="POST"><div class="content"><div><ajx></ajx></div><div><ajx></ajx></div></div></form></div>',
+            '<div><form action="." class="igk-form" igk-ajx-form="1" method="POST"><div class="content"></div></form></div>',
             $n->render()
         );
     }

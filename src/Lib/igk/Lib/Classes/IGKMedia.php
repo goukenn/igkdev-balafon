@@ -10,6 +10,7 @@
 
 use IGK\Css\CssSupport;
 use IGK\Css\ICssStyleContainer;
+use IGK\System\Exceptions\CssParserException;
 
 /**
  * media management 
@@ -30,6 +31,18 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         $this->_[self::MEDIA_ID] = $type.":".$name;
     }
 
+    /**
+     * 
+     * @return string 
+     */
+    public function __toString()
+    {
+        return __CLASS__;
+    }
+    /**
+     * get media properties
+     * @return array 
+     */
     public function getProperties() { return []; }
 
     public function Clear(){
@@ -118,10 +131,20 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer{
         return array("\0".__CLASS__."\0_");
     }
     ///<summary>get media definition</summary>
+    /**
+     * get css style presentation
+     * @param ICssStyleContainer $theme 
+     * @param ICssStyleContainer $systheme 
+     * @param bool $minfile 
+     * @param bool $themeexport 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws CssParserException 
+     */
     public function getCssDef(ICssStyleContainer $theme, 
         ICssStyleContainer $systheme,
         $minfile=true,
-        $themeexport = true){
+        $themeexport = true):?string{
       
         $o=""; 
         $lineseparator=$minfile ? "": IGK_LF;

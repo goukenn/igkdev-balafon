@@ -51,7 +51,16 @@ class SchemaMigration
 
     var $tbrelations;
 
+    /**
+     * @var ?array
+     */
     var $migrations;
+
+    /**
+     * 
+     * @var ?array loaded entries to initialize 
+     */
+    var $entries;
 
     /**
      * resolve name
@@ -86,6 +95,7 @@ class SchemaMigration
         $tables = &$this->table;
         $tbrelations = &$this->tbrelations;
         $migrations = &$this->migrations;
+        $entries = & $this->entries;
         $tentries = [];
         $relations = [];
         $links = [];
@@ -93,6 +103,7 @@ class SchemaMigration
         $qtb = [$n];
         $v_loadschema = [];
         $v_roots = [];
+        $v_tprefix = null;
         while (count($qtb) > 0) {
             // looping thru node 
             $n = array_shift($qtb);
@@ -171,18 +182,11 @@ class SchemaMigration
                     }
                 }
                 // + | load generate columns
+                /// TODO: GEN COLUM for migration
                 $passing = null;
                 foreach ($v->getElementsByTagName(IGK_GEN_COLUMS) as $vv) {
-                    $name = $vv["name"];
-                    $prefix = $vv["prefix"];
-                    if (!empty($name)) {
-                        if (method_exists(self::class, $fc = "_Gen_" . $name)) {
-                            if ($passing === null) {
-                                $passing = (object)["columns" => &$c];
-                            }
-                            call_user_func_array([self::class, $fc], [$passing, $prefix]);
-                        }
-                    }
+                  
+                    self::UpdateGenColumn($vv, $c, $passing);                   
                 }
                 // + | load table constraint schema            
                 $fconstraints = null;
@@ -198,12 +202,13 @@ class SchemaMigration
                     $fconstraints = Activator::CreateNewInstance(SchemaForeignConstraintInfo::class, compact('on', 'from', 'columns', 'foreignKeyName'));
                 }
 
+                $v_tprefix = igk_getv($v, 'prefix');
                 $info = new SchemaMigrationInfo;
                 $info->defTableName = $stb;
                 $info->columnInfo = $c;
                 $info->controller = $ctrl;
                 $info->tableName = $tb;
-                $info->prefix = $prefix;
+                $info->prefix = $v_tprefix;
                 $info->description = igk_getv($v,  DbColumnInfoPropertyConstants::Description);
                 $info->entries = igk_getv(
                     $tentries,
@@ -225,6 +230,7 @@ class SchemaMigration
                 $v_mlist = $nmigrations->getElementsByTagName(DbSchemas::MIGRATION_TAG);
                 switch ($this->operation) {
                     case DbSchemasConstants::Downgrade:
+                        if (!empty($tables))
                         $v_mlist && $this->downgrade($v_mlist, $tables, $ctrl);
                         break;
                     default:
@@ -249,7 +255,7 @@ class SchemaMigration
                 $tables = $tables->udpate();
             }
         }
-
+        $entries = $tentries;
         //+ | schema result response
         $v_result = compact(
             "tables",
@@ -260,9 +266,22 @@ class SchemaMigration
             // info that used - to create 
             "version",
             "author",
-            "date"
+            "date",
+            "entries"
         );
         return $v_result;
+    }
+    public static function UpdateGenColumn($node, & $cl, $passing=null){
+        $name = $node["name"];
+        $prefix = $node["prefix"];
+        if (!empty($name)) {
+            if (method_exists(self::class, $fc = "_Gen_" . $name)) {
+                if ($passing === null) {
+                    $passing = (object)["columns" => &$cl];
+                }
+                call_user_func_array([self::class, $fc], [$passing, $prefix]);
+            }
+        }
     }
     /**
      * load require schema 
@@ -354,6 +373,7 @@ class SchemaMigration
         ?array &$tables = null,
         &$tbrelations = null,
         &$migrations = null,
+        &$entries = null,
         $ctrl = null,
         $resolvname = true,
         $reload = false,
@@ -364,6 +384,7 @@ class SchemaMigration
         $mi->table = &$tables;
         $mi->tbrelations = &$tbrelations;
         $mi->migrations = &$migrations;
+        $mi->entries = &$entries;
         $mi->resolvname = $resolvname;
         $mi->reload = $reload;
         $mi->operation = $operation;
@@ -391,9 +412,15 @@ class SchemaMigration
         }
         return false;
     }
-    private static function _DoUpgrade($key, $item, array &$tables, $c, ?BaseController $ctrl)
+    /**
+     * do update and update the list of current schema data tables
+     */
+    private static function _DoUpgrade(string $key, $item, array &$tables, $c, ?BaseController $ctrl)
     {
-
+        // + | --------------------------------------------------------------------
+        // + | upgrade the schema definition file 
+        // + |
+        
         switch ($key) {
             case DbSchemasConstants::OP_ADD_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
@@ -422,9 +449,23 @@ class SchemaMigration
             case DbSchemasConstants::OP_RM_COLUMN:
 
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                $tabcl = &$tables[$tb]->columnInfo;
-                $item->columnInfo = $tabcl[$item->column];
-                unset($tabcl[$item->column]);
+                if (key_exists($tb, $tables)){
+                    $tabcl = &$tables[$tb]->columnInfo;
+                    $item->columnInfo = $tabcl[$item->column];
+                    unset($tabcl[$item->column]);
+                }
+                else {
+                    $inf = DbSchemas::GetTableColumnInfo($tb);
+                    if ($inf){
+                        $tables[$tb] = & $inf;
+                        if (isset($inf[$item->column])){
+                            unset($inf[$item->column]);
+                        }
+                        break;
+                    }
+
+                    igk_dev_wln_e(__FILE__.":".__LINE__ , "table not present is schema tables definition");
+                }
                 break;
             case DbSchemasConstants::OP_CHANGE_COLUMN:
                 $item->table || igk_die("migration: change column missing table name");
@@ -440,7 +481,7 @@ class SchemaMigration
                 }
                 $tabcl = &$tables[$tb]->columnInfo;
                 if (!isset($tabcl[$cl])) {
-                    igk_dev_wln_e("missing table column ", $cl);
+                    igk_dev_wln_e("[schemap-migration] missing table column ", $cl);
                     return;
                 }
                 $item->columnInfo = $tabcl[$cl];
@@ -551,7 +592,11 @@ class SchemaMigration
                 break;
             case DbSchemasConstants::OP_ADD_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                $tabcl = &$tables[$tb]->columnInfo;
+                $ref = igk_getv($tables, $tb);
+                if (is_null($ref)){
+                    igk_wln_e("is null");
+                }
+                $tabcl = & $tables[$tb]->columnInfo;
                 $columns = $item->columns;
                 // $item->columnInfo = $tabcl[$item->column];
                 foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {

@@ -135,11 +135,8 @@ abstract class ActionHelper
             $diff = $now->diff($pass);
             $interval =  new DateInterval('P3D');
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
-            $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
-
-
-
-            /// TODO: ACTIVATE ACCOUNT
+            $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT); 
+ 
             // if ( $d < $m){
             if ($r = \IGK\Models\Users::update(
                 ["clStatus" => 1],
@@ -254,7 +251,7 @@ abstract class ActionHelper
         $ret = null;
         $ctrl = $action->getController();
         if ($profile = $ctrl->getUser()) {
-            $ret = $profile->systemModel();
+            $ret = $profile->model();
         }
         return $ret;
     }

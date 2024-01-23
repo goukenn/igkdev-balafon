@@ -81,7 +81,7 @@ class MakeActionCommand extends AppExecCommand{
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl::classdir(); 
         $bind = [];
-        $macroName = ucfirst($macroName);
+        $macroName = implode("/", array_map('ucfirst', explode('/', $macroName)));
         if ((($pos = strrpos(strtolower($macroName), 'action'))>0) && (($pos+6)==strlen($macroName))){
             $macroName = substr($macroName,0, -6);
         }

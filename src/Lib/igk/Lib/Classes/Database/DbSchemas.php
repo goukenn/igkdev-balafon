@@ -19,6 +19,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\XML\XmlNode;
 use IGKApp;
+use IGKEvents;
 use IGKException;
 use LlvGStockController;
 use ReflectionException;
@@ -42,10 +43,15 @@ abstract class DbSchemas
     const RELATIONS_TAG = "Relations";
     const RELATION_TAG = "Relation";
     const COLUMN_TAG = IGK_COLUMN_TAGNAME;
-    const GEN_COLUMN = IGK_GEN_COLUMS;
+    const GEN_COLUMNS = IGK_GEN_COLUMS;
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
 
+    /**
+     * 
+     * @var mixed
+     */
+    private static $sm_isLoadingFromSchema;
 
     /**
      * loaded schema
@@ -53,6 +59,13 @@ abstract class DbSchemas
      */
     static $sm_schemas = [];
 
+    /**
+     * is loading from schema
+     * @return ?bool 
+     */
+    public static function IsLoadingFromSchema():?bool{
+        return self::$sm_isLoadingFromSchema;
+    }
     /**
      * clear store controller schema
      * @param BaseController $controller 
@@ -110,10 +123,10 @@ abstract class DbSchemas
      * @param mixed $ctrl   
      * @param bool $resolvname  resolv name on loading
      * @param string $operation in migration operation
-     * @return mixed 
+     * @return ?\IGK\System\Database\ILoadSchemaInfo 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
+     * @throws ReflectionException  
      */
     public static function LoadSchema(string $file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
     {
@@ -129,7 +142,8 @@ abstract class DbSchemas
             if (!$xcode){
                 return null;
             }
-
+            
+            self::$sm_isLoadingFromSchema = 1;
             $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);      
             // + init Check and update data
             if ($ctrl && ($cl = $ctrl->resolveClass(\Database\InitDbSchemaBuilder::class))) {
@@ -139,11 +153,13 @@ abstract class DbSchemas
                 if ($operation == DbSchemasConstants::Downgrade) {
                     $b->downgrade($tr);
                 } else { 
-                    $b->up($tr);
+                    $b->upgrade($tr);
                 }
-                $tr->render(new SchemaDiagramVisitor($ctrl, $data));
+                // change the data definition - after Operation. 
+                $tr->render(new SchemaDiagramVisitor($ctrl, $data, $operation));
             }
             self::$sm_schemas[$file] = ["controller" => $ctrl, "definition" => $data];
+            self::$sm_isLoadingFromSchema = 0;
         } else {
             $data = $data["definition"];
         }
@@ -162,11 +178,12 @@ abstract class DbSchemas
         $tables = array();
         $migrations = [];
         $relations = [];
+        $entries = [];
         $output = null;
         if ($d) {
             $n = igk_getv($d->getElementsByTagName(IGK_SCHEMA_TAGNAME), 0);
             if ($n) {
-                $output = self::LoadSchemaArray($n, $tables, $relations, $migrations, $ctrl, $resolvname, $operation);
+                $output = self::LoadSchemaArray($n, $tables, $relations, $migrations, $entries, $ctrl, $resolvname, $operation);
             }
         }
         return (object)$output;
@@ -174,9 +191,10 @@ abstract class DbSchemas
     /**
      * loadd schema array
      * @param mixed $n 
-     * @param mixed $tables 
-     * @param mixed $tbrelations 
-     * @param mixed $migrations 
+     * @param array $tables 
+     * @param array $tbrelations 
+     * @param array $migrations 
+     * @param array $entries 
      * @param mixed $ctrl 
      * @param bool $resolvname 
      * @param bool $reload 
@@ -187,6 +205,7 @@ abstract class DbSchemas
         &$tables,
         &$tbrelations = null,
         &$migrations = null,
+        &$entries = null,
         $ctrl = null,
         $resolvname = true,
         $operation = DbSchemasConstants::Migrate,
@@ -208,6 +227,7 @@ abstract class DbSchemas
             $tables,
             $tbrelations,
             $migrations,
+            $entries,
             $ctrl,
             $resolvname,
             $reload,
@@ -221,10 +241,8 @@ abstract class DbSchemas
      * @return stdClass|null 
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
-    {       
-        // TODO: CACHE ROW INFO
-        static $sm_cacheinfo = null;
-
+    {        
+        static $sm_cacheinfo = null; 
         if (is_null($sm_cacheinfo)){
             $sm_cacheinfo = [];
         }
@@ -232,9 +250,8 @@ abstract class DbSchemas
         if (isset($sm_cacheinfo[$key])){
             $v_info = $sm_cacheinfo[$key];
             return self::CreateObjFromInfo($v_info, $dataobj);
-        }
-
-        // igk_dev_wln('create schema '.  $tablename);
+        } 
+ 
         $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
 
         if ($v_info) { 
@@ -317,8 +334,8 @@ abstract class DbSchemas
     /**
      * init data schemas
      * @param BaseController $ctrl
-     * @param object $dataschema schema info, 
-     * @param object $adapter adapter 
+     * @param object|ISchemaInfo $dataschema schema info, 
+     * @param object $adapter data adapter 
      */
     public static function InitData(BaseController $ctrl, $dataschema, $adapter)
     {
@@ -332,12 +349,17 @@ abstract class DbSchemas
         $tb = $r->Data;
         $etb = $r->Entries;
         $no_error = 1;
-        if ($tb) {
-            if ($tb == 'tbl81_rPosTypes'){
-                Logger::info('init pos type:');
-            }
+        if ($tb) { 
             \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb, $adapter);
         }
+        // UPDATE REQUIRED MIGRATION
+        try{ 
+            igk_hook(IGKEvents::HOOK_DB_MIGRATE, ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]);
+        } catch(\Exception $ex){
+            Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
+            $no_error = 1;
+        }
+        
         return $no_error;
     }
 

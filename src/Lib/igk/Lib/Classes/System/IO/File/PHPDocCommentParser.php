@@ -54,7 +54,12 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     private function __construct(){
     }
    
-    private static function _TreatContent(string $content){
+    /**
+     * override static content
+     * @param string $content 
+     * @return string 
+     */
+    protected static function _TreatContent(string $content){
         if (igk_str_endwith($content, "\\")){
             $content.="\n";
         }   

@@ -123,13 +123,10 @@ if (!$error) {
                             return false;
                         }
                         foreach($leave_dirs as $k){
-                            $t = "/^\/".ltrim(str_replace("/", "\\/", ($k)), '/')."/";
-                            // TODO: EXPRESS MATCHING
+                            $t = "/^\/".ltrim(str_replace("/", "\\/", ($k)), '/')."/";                         
                             $t = str_replace("**","\/?([^\/]+\/?)(\/)?", $t);
                             $t = str_replace("*","[^\/]+", $t);
-                            if (preg_match($t, $s)){
-                                // echo "match : ".$t. " - ".$s;
-                                // exit;
+                            if (preg_match($t, $s)){ 
                                 return false;
                             }
                         }

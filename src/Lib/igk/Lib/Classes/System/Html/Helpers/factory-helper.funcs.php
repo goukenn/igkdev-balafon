@@ -88,15 +88,19 @@ Factory::table("row", function (array $item) {
 });
 Factory::form("cref", function () {
 	if ($f = igk_html_parent_node()) {
+		// igk_wln_e("adding cref", $f);
 		$f->addObData("igk_html_form_cref", null);
 	}
 	return $f;
 });
+
+/**
+ * add field to form tag 
+ */
 Factory::form("fields", function ($fields, ?array $datasource = null, ?object $engine = null, ?string $tag = null) {
 	if ($f = igk_html_parent_node()) {
 		$f->addFields(...func_get_args());
-	}
-
+	} 
 	return $f;
 });
 

@@ -14,10 +14,10 @@ use IGK\System\IAnnotation;
 */
 class AnnotationInfo extends AnnotationBase implements IAnnotation{
     /**
-     * class | method
-     * @var mixed
+     * class | method | property
+     * @var ?string
      */
-    var $target; // 
+    var $target; 
 
     /**
      * allow multiple
@@ -30,5 +30,23 @@ class AnnotationInfo extends AnnotationBase implements IAnnotation{
         else 
             $this->multiple = igk_bool_val($m);
  
+    }
+    /**
+     * get or set the target 
+     * @param null|string $target 
+     * @return void 
+     */
+    public function setTarget(?string $target){
+        $p = explode('|', $target ?? '');
+        $s = [];
+        foreach(['class', 'method', 'property'] as $tp){
+            if (in_array($tp , $p)){
+                $s[] = $p;
+            }
+        }
+        if (empty($s)){
+            $s[] = '*';
+        }
+        $this->target = $s;
     }
 }

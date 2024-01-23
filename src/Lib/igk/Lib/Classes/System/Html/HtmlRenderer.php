@@ -519,7 +519,7 @@ class HtmlRenderer
                         } else if (is_array($v_cv)){
                             igk_dev_wln_e("binding array to attributes", $v_cv);
                         }
-                        if (!empty($v_cv) || is_string($v_cv)) {
+                        if (!empty($v_cv) && is_string($v_cv)) {
                             $out .= $k . "=\"" . $v_cv . "\" ";
                         }
                     }

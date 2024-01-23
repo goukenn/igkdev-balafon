@@ -8,7 +8,13 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-abstract class IGKQueryResult extends IGKObject{
+use IGK\Database\IDbQueryResult;
+
+/**
+ * core query result 
+ * @package 
+ */
+abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     private $m_error, $m_errormsg;
     public const CALLBACK_OPTS= \IGK\Database\DbConstants::CALLBACK_OPTS;
     public const RESULTHANDLER="@result_handler";
@@ -62,7 +68,7 @@ abstract class IGKQueryResult extends IGKObject{
         return null;
     }
     ///<summary></summary>
-    public function ResultTypeIsBoolean(){
+    public function resultTypeIsBoolean(){
         return $this->getResultType() == "boolean";
     }
     ///<summary></summary>

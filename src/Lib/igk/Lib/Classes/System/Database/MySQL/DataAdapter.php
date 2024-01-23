@@ -14,8 +14,11 @@ use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
+use IGK\Database\IDbQueryResult;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
+use IGK\System\Database\IDbRetrieveColumnInfoDriver;
+use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKException;
@@ -29,7 +32,7 @@ use function igk_getv as getv;
 /**
  * MySQL Data Adapter 
  */
-class DataAdapter extends DataAdapterBase
+class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
 {
     private $queryListener;
     private static $_initAdapter;
@@ -47,6 +50,14 @@ class DataAdapter extends DataAdapterBase
         return IGK_MYSQL_DATETIME_FORMAT;
     }
 
+    /**
+     * type allow type length
+     * @param string $type 
+     * @return bool 
+     */
+    public function allowTypeLength(string $type, ?int $length=null):bool{
+        return (($type != 'int') || (($type == 'int') && version_compare($this->getVersion(), '8.0', '<')));
+    }
     /**
      * drop colum
      * @param string $table 
@@ -122,7 +133,7 @@ class DataAdapter extends DataAdapterBase
        //  $this->selectdb($db);
         $row = null;
         if ($r) {
-            if ($r->ResultTypeIsBoolean()) {
+            if ($r->resultTypeIsBoolean()) {
                 return $r->value;
             }
             $row = $r->getRowAtIndex(0);
@@ -170,17 +181,17 @@ class DataAdapter extends DataAdapterBase
             //   throw new \IGKException('missing column : '. $inno_db_table) ;
             if ($foreign_exists) {
                 $query = sprintf(
-                    "SELECT * FROM %s.TABLE_CONSTRAINTS LEFT JOIN %s on(" .
+                    "SELECT * FROM `%s`.`TABLE_CONSTRAINTS` LEFT JOIN %s on(" .
                         "CONCAT(CONSTRAINT_SCHEMA,'/',CONSTRAINT_NAME)=ID" .
                         ") " .
-                        "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db' AND FOR_COL_NAME='$info'",
+                        "WHERE `TABLE_NAME`='$table' and `CONSTRAINT_SCHEMA`='$db' AND `FOR_COL_NAME`='$info';",
                     self::DB_INFORMATION_SCHEMA,
                     $inno_db_table
                 );
             } else {
                 $query = sprintf(
-                    "SELECT * FROM %s.TABLE_CONSTRAINTS ".
-                        "WHERE TABLE_NAME='$table' and CONSTRAINT_SCHEMA='$db'",
+                    "SELECT * FROM %s.`TABLE_CONSTRAINTS` ".
+                        "WHERE `TABLE_NAME`='$table' and `CONSTRAINT_SCHEMA`='$db';",
                     self::DB_INFORMATION_SCHEMA
                 );
             }
@@ -203,8 +214,8 @@ class DataAdapter extends DataAdapterBase
                         return null;
                     $q  = "ALTER TABLE ";
                     $q .= "`" . $table . "` DROP FOREIGN KEY ";
-                    $q .= $adapter->escape($c). " ";
-                    return trim($q);
+                    $q .= $adapter->escape($c). " ";                    
+                    return trim($q).';';
                 }, $ck)));
                 return $q;
             }
@@ -440,7 +451,7 @@ class DataAdapter extends DataAdapterBase
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
-                error_log("DB_ERROR: " . $error);
+                Logger::danger("DB_ERROR: " . $error);
                 $s = new NoDbConnection();
             } else {
                 $s->setAdapter($this);
@@ -686,7 +697,7 @@ class DataAdapter extends DataAdapterBase
     }
     ///<summary></summary>
     /**
-     * 
+     * enable relation checking
      */
     public function restoreRelationChecking()
     {
@@ -731,7 +742,14 @@ class DataAdapter extends DataAdapterBase
     {
         return $this->select($table, $conditions);
     }
-    public function getColumnInfo(string $table, ?string $column_name = null)
+    /**
+     * get column info description 
+     * @param string $table 
+     * @param null|string $column_name 
+     * @return array 
+     * @throws IGKException 
+     */
+    public function getColumnInfo(string $table, ?string $column_name = null):array
     {
         // get descriptions data for columns
         $data =  $this->getGrammar()->get_column_info($table, $column_name);
@@ -750,7 +768,7 @@ class DataAdapter extends DataAdapterBase
             if (strtolower($cl["clType"]) == "enum") {
                 $cl["clEnumValues"] = substr($ctype, strpos($ctype, "(") + 1, -1);
             } else {
-                $cl["clTypeLength"] = getv($tab["length"], 0, 0);
+                $cl["clTypeLength"] = intval(getv($tab["length"], 0, 0));
             }
             if (isset($v->Default))
                 $cl["clDefault"] = $v->Default;
@@ -792,7 +810,7 @@ class DataAdapter extends DataAdapterBase
      * @param mixed $query
      * @param mixed $throwex the default value is true
      * @param mixed $options extra option. used by query result
-     * @return DbQueryResult|\Iterable|null|bool
+     * @return IDbQueryResult|\Iterable|null|bool
      */
     public function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false)
     {
@@ -803,7 +821,7 @@ class DataAdapter extends DataAdapterBase
             $r = $listener->sendQuery($query, $throwex, $options);
             // if ($r === false)
             //     return false;
-            if ($r instanceof DbQueryResult) {
+            if ($r instanceof IDbQueryResult) {
                 return $r;
             }
             if ($r !== null) {
@@ -825,6 +843,12 @@ class DataAdapter extends DataAdapterBase
         }
         return $r;
     }
+    /**
+     * send multiple query 
+     * @param mixed $query 
+     * @param bool $throwex 
+     * @return int|null 
+     */
     public function sendMultiQuery($query, $throwex = true)
     {
         $sendquery = $this->queryListener ?? $this->m_dbManager;
@@ -856,11 +880,11 @@ class DataAdapter extends DataAdapterBase
      * 
      * @param mixed $listener
      */
-    public function setSendDbQueryListener($listener)
+    public function setSendDbQueryListener(?IDbSendQueryListener $listener)
     {
         $this->queryListener = $listener;
     }
-    public function getSendDbQueryListener()
+    public function getSendDbQueryListener():?IDbSendQueryListener
     {
         return $this->queryListener;
     }

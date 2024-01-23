@@ -28,7 +28,6 @@ trait DbColumnInfoMethodTrait{
      * @return int|false 
      */
     public static function SupportTypeLength($t):bool{
-        // return preg_match("/(int|varchar|char|enum|guid)/i", strtolower($t));
         return preg_match("/((u(big|smal|tiny))?int|varchar|char|enum|guid)/i", strtolower($t));
     }
 }

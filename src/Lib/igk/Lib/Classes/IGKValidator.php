@@ -5,10 +5,19 @@
 // @desc: 
 
 
+
 ///<summary>Represente class: IGKValidator</summary>
 
-use IGK\System\Html\Forms\IFormValidator;
+use IGK\Helper\Activator;
+use IGK\System\Html\Forms\FormFieldInfo;
+use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
+use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
+use IGK\System\Html\Forms\Validations\IFormValidationFieldHost;
+use IGK\System\Html\Forms\Validations\IFormValidator;
+use IGK\System\Html\Forms\Validations\PasswordValidator;
+use IGK\System\Html\IFormFields;
 
+use function igk_resources_gets as __;
 /**
 * Represente IGKValidator class
 */
@@ -47,11 +56,11 @@ final class IGKValidator extends IGKObject {
     /**
     * 
     * @param bool $condition
-    * @param mixed * $error
+    * @param bool * $error
     * @param mixed $node the default value is null
     * @param mixed $errormsg the default value is IGK_STR_EMPTY
     */
-    public static function Assert($condition, & $error, $node=null, $errormsg=IGK_STR_EMPTY){
+    public static function Assert(bool $condition,bool & $error, $node=null, $errormsg=IGK_STR_EMPTY){
         if(!$condition){ 
             $error=$error || true;
             if($node != null){
@@ -241,15 +250,11 @@ final class IGKValidator extends IGKObject {
     */
     public static function IsValidPwd($o){
 
-        // preg_match_all("/n(?=j)/", "bonjonurna" , $tab, PREG_OFFSET_CAPTURE);
-        // print_r($tab);
-        // igk_wln_e($tab);
-
-
-        if((is_string($o) && strlen($o)>=self::PWD_MIN_LENGTH)){
-            return true;
+        static $validator;
+        if (is_null($validator)){
+            $validator = new PasswordValidator;
         }
-        return false;
+        return $validator->validate($o) == $o; 
     }
     ///<summary></summary>
     ///<param name="o"></param>
@@ -264,50 +269,141 @@ final class IGKValidator extends IGKObject {
     * @param mixed * $error
     * @return bool|object  
     */
-    public static function Validate($o, $fields, & $error){
+    public static function Validate($o, $fields, & $error, bool $validate=true){
+
         $g=self::getInstance()->sm_enode;
         $g->clearChilds();
         $e=false;
-        $ro = (object)[];
+        $ro = (object)[]; // real output object
+        if (empty($o)){
+            return false;
+        }
+        $o = (object)$o;
         if(is_array($fields)){
             foreach($fields as $k=>$v){
-                
-                $f = igk_getv($v, 'f');
-                $require = igk_getv($v, 'required');
-                $error_text = igk_getv($v, 'e', sprintf('error on fields %s', $k));
-                $cond = false;
-                $s = null;
-                if (!property_exists($o, $k)){
-                    $require = $require || ($f instanceof IFormValidator) ? $f->isRequire() : false;                    
-                    if ($require){
-                        $error_text = sprintf('missing field %s', $k);                        
+                $is_obj = is_object($v); 
+                $v_validator = null;
+                $v_field_info = null;
+                if ($is_obj && ($v instanceof FormFieldValidatorBase)){
+                    $v_def = new FormFieldValidationInfo;
+                    $v_def->validator = $v;
+                    $v = $v_def; 
+                    $v_field_info = new FormFieldInfo;
+                    $v_field_info->type = 'text';
+                    $v_field_info->validator = $v;
+                } 
+                else if(((!$is_obj && is_array($v)) || !($v instanceof FormFieldValidationInfo))){
+                    $v_field_info = $v = Activator::CreateNewInstance(FormFieldInfo::class, $v);
+                    // create a FormFieldValidationInfo 
+                    $v = Activator::CreateNewInstance(FormFieldValidationInfo::class, $v);  
+                    // + | validate with field 
+                } 
+                if ($v instanceof FormFieldValidationInfo){ 
+                    $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for %s'), $k));// sprintf(__()))
+                    if (is_string($v_validator)){
+                        //+ create a validator from class name
+                        $v_validator = FormFieldValidatorBase::Factory($v_validator);
                     }
-                } else {
-                    $s = $o->$k;                
-                    $call = null;
-                    if ($f instanceof IFormValidator){
-                        $call = [$f, 'assertValidate'];
+                    if (!($v_validator instanceof IFormValidator)){ 
+                        igk_die(sprintf(__('validator is not satisfied %s, %s'),
+                         IFormValidator::class, (string)$v->validator));
                     }
-                    else if (!is_string($f) && is_callable($f) ){
-                        $call = [$f];
-                    }else{                    
-                        if (is_string($f) && ($f!= __FUNCTION__) && method_exists(static::class, $f)){
-                            $s = trim($s ?? '');
-                            $call = [static::class, $f];
+                    if ($v->required && (!isset($o->$k) || empty($o->$k))){
+                        // required a value
+                        // igk_wln_e(__FILE__.":".__LINE__ , $o); 
+                        $m = sprintf(__('property %s is required'), $k);
+                        $error[$k][] = $m;
+                        self::Assert(false, $e, $g, $m);
+                        continue;
+                    }
+
+                    $v_v = igk_getv($o, $k);
+                    if (!$validate){
+                        //+ | just check value but not transfrom
+                       if (!$v_validator->assertValidate($v_v)){
+                            $error[$k] = sprintf(__('%s is not a valid data'), $k);
+                       } else {
+                            $ro[$k] = $v_v;
+                       }
+                    } else {
+                        $v_e = []; 
+                        if ($v_validator instanceof IFormValidationFieldHost){
+                            if (is_null($v_field_info)){
+                                $v_field_info = Activator::CreateNewInstance(FormFieldInfo::class, (array)$v);
+                            }
+                            $v_validator->setFieldInfo($v_field_info);
+                        }
+                        $v_new = $v_validator->validate($v_v, $v->default,$v_e);
+                        if (empty($v_e)){
+                            $ro->$k = $v_new;
+                        } else 
+                        {
+                            // $ce = false;
+                            // self::Assert(false, $ce, $g);
+                            // if ($ce){
+                            $error[$k] = $v_e;
+                            // }
                         }
                     }
-                    if (is_null($call)){
-                        igk_die(sprintf(__('missing validation for %s'), $k));
-                    }
-                    $cond=call_user_func_array($call, array($s));
-                    self::Assert($cond, $e, $g, $error_text); 
+                } else {
+                    igk_die(sprintf(__('missing FormFieldValidationInfo for %s'), $k));
                 }
-                !$cond && $error[] = $error_text;
-                $o->$k = $s;
-                $ro->$k = $s;
             }
-        }
-        if ($e){
+
+            // foreach($fields as $k=>$v){
+            //     $f= null;
+            //     $require = false;
+            //     $def_error = sprintf('error on field %s', $k);
+
+            //     if ($v instanceof FormFieldValidationInfo){
+            //         $f = $v->validator;
+            //         $require = $v->required;
+            //         $error_text = $v->error ?? $def_error;
+
+            //     }
+            //     else {
+
+            //         $f = igk_getv($v, 'f');
+            //         $require = igk_getv($v, 'required');
+            //         $error_text = igk_getv($v, 'e', $def_error);
+            //     }
+            //     $cond = false;
+            //     $s = null;
+            //     if (!property_exists($o, $k)){
+            //         $require = $require || ($f instanceof IFormValidator) ? $f->isRequire() : false;                    
+            //         if ($require){
+            //             $error_text = sprintf('missing field %s', $k);                        
+            //         }
+            //     } else {
+            //         $s = $o->$k;                
+            //         $call = null;
+            //         if ($f instanceof IFormValidator){
+            //             $call = [$f, 'assertValidate'];
+            //         }
+            //         else if (!is_string($f) && is_callable($f) ){
+            //             $call = [$f];
+            //         }else{                    
+            //             if (is_string($f) && ($f!= __FUNCTION__) && method_exists(static::class, $f)){
+            //                 $s = trim($s ?? '');
+            //                 $call = [static::class, $f];
+            //             }
+            //         }
+            //         if (is_null($call)){
+            //             igk_die(sprintf(__('missing validation for %s'), $k));
+            //         }
+            //         $cond=call_user_func_array($call, [$s]);
+            //         self::Assert($cond, $e, $g, $error_text); 
+
+            //         // if ($cond && ($f instanceof IFormValidator)){
+            //         //     $s = $f->validate($s, $v->default, $v, $error);
+            //         // }
+            //     }
+            //     !$cond && $error[] = $error_text;
+            //     $o->$k = $s; // change the object data definition
+            //     $ro->$k = $s; // real object output
+            // }
+        } 
+        if ($error && count($error)){
             $error[] = $g->render();
             return false;
         }

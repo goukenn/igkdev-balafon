@@ -1,6 +1,8 @@
 <?php
 
 return <<<EOF
+# BEGIN BALAFON SETTING
+# default .htaccess generation
 # {$const('IGK_PLATEFORM_NAME')} primary htaccess file
 # installing from {$servername}
 # rootdir {$root_dir}
@@ -54,4 +56,6 @@ RewriteCond "%{REQUEST_FILENAME}" !-f
 RewriteCond "%{REQUEST_FILENAME}" !-d
 RewriteRule ^(/)?(.+)(/)?$  "index.php" [QSA,L]
 </IfModule>
+
+# END BALAFON SETTING
 EOF;

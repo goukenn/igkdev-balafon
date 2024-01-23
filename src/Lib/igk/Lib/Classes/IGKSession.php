@@ -229,10 +229,10 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         })(); 
         return $cref;
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
+    ///<summary>get session data</summary>
+    ///<return refout="true">data array</return>
     /**
-    * 
+    * get session data
     * @return mixed|array params
     */
     public function & getData(){

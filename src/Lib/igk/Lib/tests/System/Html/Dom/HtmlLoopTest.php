@@ -13,19 +13,21 @@ use IGK\Tests\BaseTestCase;
 class HtmlLoopTest extends BaseTestCase
 {
 
-    public function test_loop_class()
+    public function test_loop_class_attribute()
     {
         $t = new HtmlNode("div");
         $t->div()->loop(3)->div()->host(function ($a) {
-            $a["*class"] = json_encode([
+            $a["*class"] = [
                 "presentation" => true,
-                "info" => false
-            ]);
+            //     "info" => false
+            ];
             $a->Content = " welcome {{ \$raw }} ";
         });
-        $this->assertEquals(
+        $b = $t->render();
+        
+        $this->assertEquals(            
             '<div><div><div class="presentation"> welcome 0 </div><div class="presentation"> welcome 1 </div><div class="presentation"> welcome 2 </div></div></div>',
-            $t->render(),
+            $b,
         );
     }
 
@@ -39,7 +41,7 @@ class HtmlLoopTest extends BaseTestCase
             $t->render()
         );
     }
-    public function test_loop_class2()
+    public function test_loop_class_expression()
     {
         $t = new HtmlNode("div");
         $t->div()->loop(3)->div()->host(function ($a) {

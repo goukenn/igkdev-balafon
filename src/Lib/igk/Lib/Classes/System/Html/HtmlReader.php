@@ -30,6 +30,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Runtime\Compiler\CompilerConstants;
 use IGK\System\Templates\BindingExpressionReader;
 use IGK\XML\XMLNodeType;
 use IGKException;
@@ -48,8 +49,14 @@ final class HtmlReader extends IGKObject
     const READ_HTML = "HTML";
     const LOAD_EXPRESSION = "LoadExpression";
     private $m_attribs, $m_contextLevel, $m_hasAttrib, $m_hfile,
+        $m_selfClose,
         $m_isEmpty, $m_mmodel, $m_name, $m_nodes, $m_nodetype, $m_offset, $m_procTagClose, $m_resolvKeys, $m_resolvValues, $m_text, $m_v;
 
+    /**
+     * last read for empty 
+     * @var ?HtmlItemBase
+     */
+    private $m_last_read_node;
     /**
      * @var ?IHtmlReadContextOptions|mixed
      */
@@ -59,6 +66,11 @@ final class HtmlReader extends IGKObject
     private $m_errors = [];
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
+    /**
+     * skip element data
+     * @var ?bool
+     */
+    private $m_skipElement;
     /**
      * in skip content to evaluate
      * @var ?bool
@@ -105,13 +117,22 @@ final class HtmlReader extends IGKObject
                         $v_bind = new HtmlTemplateReaderDataBinding($cnode, $src, $ctrl, $data, $v_bcontext);
                         $v_ts = $v_bind->treat();
                         if ($v_bcontext->transformToEval) {
-                            $v_expression = $v_bcontext->hookExpression ?? '$data';
+                            $v_expression = $v_bcontext->hookExpression ?? CompilerConstants::BINDING_CONTEXT_VAR_NAME;
                             $v_comment = igk_is_debug() ? '/* ' . __METHOD__ . ' */ ' : "";
                             $sb = new StringBuilder;
                             $sb->appendLine('<?php');
-                            $sb->append("foreach($v_expression as \$key=>\$raw$v_comment):\n?>");
+                            $sb->append("if (isset($v_expression)) foreach($v_expression as \$key=>\$raw$v_comment):\n?>");
                             $sb->append($v_ts);
                             $sb->appendLine("<?php\nendforeach;\n?>");
+
+                            if ($v_expression==CompilerConstants::BINDING_CONTEXT_VAR_NAME){
+                                //+ | passing sub to function 
+                                $sb = sprintf('<?php (function(%s){ %s ?>%s<?php })($raw); ?>', 
+                                    $v_expression,
+                                     $v_expression.' = '.str_replace("%s", $v_expression, 
+                                        'isset(%s) && !is_array(%s)&& !is_object(%s) ? [%s] : %s;'), //.$v_expression.'];',
+                                    $sb.'');
+                            }
                             $v_ts = $sb;
                         }
                         $engine .= $v_ts;  
@@ -819,6 +840,7 @@ final class HtmlReader extends IGKObject
         //$escape = false;
         $pro_expr = "";
         $expr_attrib = false;
+        $reader->m_selfClose = false; // detect that the attribute list is self closed
 
 
         while (!$end && $reader->CanRead()) {
@@ -935,12 +957,13 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case ">":
-                    //+ attempt to close tag 
+                    // + | attempt to close tag 
                     $end = true;
                     $v = substr($v, 0, -1);
                     if (substr($v, -1) == "/") {
                         $v = substr($v, 0, -1);
                         $reader->m_isEmpty = true;
+                        $reader->m_selfClose = true;
                     } else {
                         if ($reader->m_context == HtmlContext::Html) {
                             // special closing tag
@@ -1033,7 +1056,12 @@ final class HtmlReader extends IGKObject
         while ($reader->read()) {
             switch ($reader->NodeType) {
                 case XMLNodeType::ELEMENT:
-                    self::_ReadModelEndElement($reader, $v_tags, $cnode, $tab_doc, $caller_context);
+                    if (!$reader->m_skipElement)
+                        self::_ReadModelEndElement($reader, $v_tags, $cnode, $tab_doc, $caller_context);
+                    // else{
+                        // igk_wln_e(__FILE__.":".__LINE__, "element skiped");
+                    // }
+
                     break;
                 case XMLNodeType::TEXT:
                     $v_sr = $reader->getValue() . "";
@@ -1133,7 +1161,11 @@ final class HtmlReader extends IGKObject
                             }
                         } else {
                             if (($n == $t) || $cnode->closeTag() || $cnode->isCloseTag($n) || $reader->IsResolved($cnode, $n)) {
-
+                                if ($reader->m_last_read_node && 
+                                ($reader->m_last_read_node->getTagName()==$n)){
+                                    $reader->m_last_read_node = null;
+                                    break;
+                                }
                                 if ($n != $t) {
                                     // + | detect error start with different closing tag expected $t but found -$n
                                     $peek = $v_tags ? $v_tags[0] : null;
@@ -1158,8 +1190,8 @@ final class HtmlReader extends IGKObject
                                                 $reader->m_errors['warnings'][] = 'missing close tag for : ' . $t;
                                             }
                                             if (!$empty) {
-                                                igk_die("missing close tag for " . $t
-                                                    . " offset:" . $reader->m_offset .
+                                                igk_die("missing close tag for [" . $t
+                                                    . "] offset:" . $reader->m_offset .
                                                     " data: " . $n .
                                                     " info:" . json_encode($peek) . PHP_EOL .
                                                     " source: " . ($peek ? $peek->source_tagname : null));
@@ -1312,7 +1344,11 @@ final class HtmlReader extends IGKObject
                     return;
                 }
                 if ($reader->IsEmpty() && $cnode) {
-
+                    // move to parent if node is empty 
+                    if (!$reader->getSelfClosed()){
+                        $reader->m_last_read_node = $cnode;
+                    }
+                    
                     $cnode = $reader->_LoadComplete($cnode, $v_n);
                     if ($cnode === $tab_doc) {
                         $cnode = null;
@@ -1429,10 +1465,10 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>Create Binding information</summary>
     /**
-     * get binding info
+     * create a binding info 
      * @return HtmlReaderBindingInfo 
      */
-    protected function getBindingInfo()
+    protected function createBindingInfo()
     {
         $bindinfo = new HtmlReaderBindingInfo($this, function ($k, $v) {
             $this->m_attribs[$k] = $v;
@@ -1865,23 +1901,32 @@ final class HtmlReader extends IGKObject
         $this->m_nodetype = XMLNodeType::ELEMENT;
         $this->m_isEmpty = false;
         $this->m_hasAttrib = false;
+        $this->m_skipElement = false;
         $this->m_attribs = [];
         $v = IGK_STR_EMPTY;
         $v_expressions = array();
         $v_tattribs = [];
-        $binfo = $this->getBindingInfo();
+        $binfo = $this->createBindingInfo();
         $v_fc = $this->_getAttributeReaderCallback($binfo, $fc_attrib, $v_expressions);
         $v_key_attrib = "igk:isvisible";
         if (!empty($this->m_name) && self::_ReadAttributes($this, $v, $v_tattribs, $v_fc) && !empty($v)) {
             $this->m_hasAttrib = true;
-            $skip_visible = (array_key_exists($v_key_attrib, $this->m_attribs) && ($this->m_attribs[$v_key_attrib] == false));
-            if ($skip_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
-                $content = self::_SkipContent($this, $this->m_text, $this->m_offset, $this->m_name, false);
-                $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $skip_visible ? null : array_merge(
-                    ["content" => $content],
+            $v_not_visible = (array_key_exists($v_key_attrib, $this->m_attribs) && ($this->m_attribs[$v_key_attrib] == false));
+            
+            if ($v_not_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
+                $v_content = null;
+                if ($binfo->skipcontent && !$this->m_isEmpty){ 
+                    $v_content = self::_SkipContent($this, $this->m_text, $this->m_offset, $this->m_name, false);
+                }
+
+                $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $v_not_visible ? null : array_merge(
+                    ["content" => $v_content],
                     $binfo->getInfoArray()
                 );
                 $this->m_isEmpty = true;
+                $this->m_skipElement = $binfo->skipcontent && ($binfo->operation == BindingConstants::OP_CONDITION);
+            } else if ($this->m_isEmpty){
+                $this->m_skipElement = $binfo->skipcontent && ($binfo->operation == BindingConstants::OP_CONDITION);
             }
         }
         if ($this->_isSelfClosedElement()) {
@@ -1925,6 +1970,13 @@ final class HtmlReader extends IGKObject
         $n = self::_ReadName($this->m_text, strlen($this->m_text), $this->m_offset, $v_evaltransform, $expressRead);
 
         return $n;
+    }
+    /**
+     * get if element is self closed
+     * @return ?bool 
+     */
+    public function getSelfClosed(){
+        return $this->m_selfClose;
     }
     ///<summary>Represente ReadProcessText function</summary>
     ///<param name="reader"></param>

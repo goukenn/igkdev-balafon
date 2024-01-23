@@ -23,7 +23,9 @@ class ZipCoreCommand extends AppExecCommand{
     var $category = "utils";
 
     var $options = [
-        "--no-test"=>"flag: disable test ",
+        "--no-test"=>"flag: disable test",
+        "--no-test-file"=>"flag: disable file lint test",
+        "--phpunit"=>"flag: run phpunit on core",
         "--core-test-suite"=>"suite test to run"
     ];
 
@@ -33,9 +35,25 @@ class ZipCoreCommand extends AppExecCommand{
             Logger::danger("zip utility function not found");
             return -1;
         }
+        $no_file_check = property_exists($command->options, "--no-test-file");
         $no_check = property_exists($command->options, "--no-test");
+        $v_punit = property_exists($command->options, "--phpunit");
+
         igk_set_timeout(0);
-        if (!$no_check)
+       
+
+        // + | --------------------------------------------------------------------
+        // + | run unit test before create a zip
+        if ((!$no_check || $v_punit) && $phpunit = OsShell::Where('phpunit')){
+            $core_suite = igk_getv($command,'--core-test-suite','core');
+            $r = PhpUnitHelper::TestCoreProject($phpunit, $core_suite);
+            if ($r){
+                return $r;
+            } 
+            echo PHP_EOL;       
+        }
+
+        if (!$no_check && !$no_file_check)
         {
             // + | --------------------------------------------------------------------
             // + | check all files with php lint
@@ -44,17 +62,6 @@ class ZipCoreCommand extends AppExecCommand{
                 return $r;
             }  
             echo PHP_EOL;         
-        }
-
-        // + | --------------------------------------------------------------------
-        // + | run unit test before create a zip
-        if (!$no_check && $phpunit = OsShell::Where('phpunit')){
-            $core_suite = igk_getv($command,'--core-test-suite','core');
-            $r = PhpUnitHelper::TestCoreProject($phpunit, $core_suite);
-            if ($r){
-                return $r;
-            } 
-            echo PHP_EOL;       
         }
  
         $ext = "-".date("Ymd").".zip";

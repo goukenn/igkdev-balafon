@@ -57,10 +57,8 @@ final class IGKCaches
         if (igk_setting()->no_page_cache()) {
             return false;
         }
-        list($uri, $zip) = self::CacheUri();
-        /// TODO:  Configs cache page attached to controller 
-        $expires = 50000;
-
+        list($uri, $zip) = self::CacheUri(); 
+        $expires = 50000; 
         if (!IGKCaches::page_filesystem()->expired($uri, $expires)) {
             // igk_wln_e("load from cache");
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);

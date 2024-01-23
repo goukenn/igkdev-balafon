@@ -14,20 +14,16 @@ use IGK\Actions\Dispatcher;
 use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerEnvParams;
-use IGK\Controllers\ControllerParams;
-use IGK\Helper\ActionHelper;
-use IGK\Helper\ExceptionUtils;
+use IGK\Controllers\ControllerEnvParams; 
+use IGK\Helper\ActionHelper; 
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponse;
 use IGK\System\Http\Route;
-use IGK\System\Http\Traits\HeaderOptionResponseTrait;
-use IGK\System\Http\WebResponse;
+use IGK\System\Http\Traits\HeaderOptionResponseTrait; 
 use IGK\System\Traits\InjectableTrait;
 
 /**
@@ -274,6 +270,16 @@ abstract class IGKActionBase implements IActionProcessor
         $this->_user = $user;
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
+    /**
+     * invoke actions 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws ActionNotFoundException 
+     */
     public function __call($name, $arguments)
     {
         // + : -----------------------------------------
@@ -398,7 +404,6 @@ abstract class IGKActionBase implements IActionProcessor
         // + | --------------------------------------------------------------------
         // + | by default in ajx context and not null 
         // + |
-        
         return ((igk_is_ajx_demand() || igk_server()->accept('json')) && !is_null($response)) 
         || ($response instanceof RequestResponse);
     }
@@ -477,6 +482,7 @@ abstract class IGKActionBase implements IActionProcessor
                     $object->setBaseActionName($baseActionName);
                     $c = $object->invoke($actionMethod, ...$args);
                 }
+                // + | bind action response
                 $object->getController()->{ControllerEnvParams::ActionViewResponse} = $c;
 
                 $_host = $object->getHost();
@@ -489,7 +495,7 @@ abstract class IGKActionBase implements IActionProcessor
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
                 // + |      
-                if ($exit || ($_host->_handleResponse($c))) {
+                if ($exit || ($_host->_handleResponse($c))) { 
                     return igk_do_response($c);
                 }
             } catch (IGK\System\Http\RequestException $ex) {
@@ -501,6 +507,7 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($host && ($host instanceof static)){
                     $host->_handleThrowable($ex);
                 }
+                igk_dev_wln_e("failed: ".$ex->getMessage());
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

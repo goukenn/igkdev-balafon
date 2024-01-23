@@ -63,7 +63,7 @@ class Loader
         if (!isset($this->registerMissings[$f])) {
             $this->registerMissings[$f] = $f;
             if (igk_environment()->isDev()) {
-                Logger::danger("missing class : loading. " . $f);
+                Logger::danger(sprintf('[%s] - %s', IGK_LOG_SYS, "missing loading class [".$f."]"));
             }
         }
     }

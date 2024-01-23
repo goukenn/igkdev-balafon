@@ -11,19 +11,20 @@
 use IGK\System\Exceptions\EnvironmentArrayException;
 
 /**
- * 
+ * get environment curl info
+ * @deprecated use igk_curl_info
  */
 function igk_curl_get_info()
 {
-    return igk_get_env("curl://getinfo", array());
+    return igk_get_env(IGK_ENV_CURL_RESPONSE_GET_INFO) ?? [];
 }
 ///<summary>get environment called curl info</summary>
 /**
- * get environment called curl info
+ * get environment called curl info - global
  */
 function igk_curl_info()
 {
-    return igk_get_env("curl://info");
+    return igk_get_env(IGK_ENV_CURL_RESPONSE_INFO);
 }
 ///<summary>get environment called curl last error</summary>
 /**
@@ -39,9 +40,9 @@ function igk_curl_lasterror()
  * 
  * @param mixed $tab 
  */
-function igk_curl_set_info($tab)
+function igk_curl_set_get_info_setting($tab)
 {
-    igk_set_env("curl://getinfo/setting", $tab);
+    igk_set_env(IGK_ENV_CURL_RESPONSE_GET_INFO_SETTING, $tab);
 }
 ///<summary> get environment called curl status</summary>
 /**
@@ -49,10 +50,15 @@ function igk_curl_set_info($tab)
  */
 function igk_curl_status()
 {
-    $g = igk_curl_get_info();
-    return igk_getv($g, CURLINFO_HTTP_CODE, -1);
+    $g = igk_curl_info();
+    return igk_getv($g, 'Status', -1);
 }
 
+/**
+ * get environment curl info data
+ * @return mixed 
+ * @throws IGKException 
+ */
 function igk_curl_data()
 {
     $g = igk_curl_info();
@@ -67,7 +73,8 @@ function igk_curl_data()
  * balafon send curl  
  * @param mixed $uri string uri
  * @param mixed $args argument for post
- * @param ?array $curlOptions array<string=>value>|array<int=>value> 
+ * @param ?array $curlOptions array<string=>value>|array<int=>value> \
+ * reserver option session_id to set the session id to use
  * @param ?array $headers header to setup
  * @return string|false|null 
  * @throws IGKException 
@@ -75,18 +82,32 @@ function igk_curl_data()
  */
 function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = null)
 {
-    $get_info_callback = function ($r, $tab) {
-        $rtab = [];
-        foreach ($tab as $v) {
-            $rtab[$v] = curl_getinfo($r, $v);
-        }
-        return $rtab;
-    };
-
-    $v_session_cookiename=  igk_environment()->session_cookie_name;
+    // $get_info_callback = function ($r, $tab) {
+    //     $rtab = [];
+    //     foreach ($tab as $v) {
+    //         $rtab[$v] = curl_getinfo($r, $v);
+    //     }
+    //     return $rtab;
+    // };
+    $strCookie = $v_sessid = null;
     $server = "BALAFON/".IGK_VERSION. " - (".igk_environment()->name().")";
-    $sessid = igk_getv($_COOKIE, $v_session_cookiename, session_id());
-    $strCookie = $v_session_cookiename.'=' . $sessid . '; path=' . igk_get_cookie_path();
+    $v_session_cookiename=  igk_environment()->session_cookie_name;    
+    if ($curlOptions){
+        $v_sessid = igk_getv($curlOptions, "session_id");
+        $v_sessname = igk_getv($curlOptions, "session_name");
+        unset($curlOptions['session_id']);
+        unset($curlOptions['session_name']);
+    }
+    if ($curlOptions && $v_sessid){
+        $v_session_cookiename = $v_sessname ?? $v_session_cookiename;
+        $strCookie =  $v_session_cookiename.'=' . $v_sessid; 
+    } else {
+        $v_sessid = igk_getv($_COOKIE, $v_session_cookiename, session_id());
+        $strCookie = $v_sessid ? $v_session_cookiename.'=' . $v_sessid . '; path=' . igk_get_cookie_path() : null;
+    }
+    // + | --------------------------------------------------------------------
+    // + | share the same function 
+    // + |
     $r = curl_init();
     if ($r) {
         curl_setopt($r, CURLOPT_URL, $uri);
@@ -96,7 +117,7 @@ function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = n
             curl_setopt($r, CURLOPT_POSTFIELDS, http_build_query($args));
         }
         curl_setopt($r, CURLOPT_USERAGENT, $server);
-        curl_setopt($r, CURLOPT_COOKIE, $strCookie);
+        if ($strCookie) curl_setopt($r, CURLOPT_COOKIE, $strCookie);
         if ($curlOptions) {
             if (is_string($curlOptions)) {
                 curl_setopt($r, CURLOPT_CUSTOMREQUEST, $curlOptions);
@@ -113,18 +134,21 @@ function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = n
         if ($headers) {
             curl_setopt($r, CURLOPT_HTTPHEADER, $headers);
         }
+        // curl_setopt($r, CURLOPT_COOKIESESSION, true); 
+        // curl_setopt($r, CURLOPT_COOKIEFILE, '/tmp/demo-session.txt'); 
+        // curl_setopt($r, CURLOPT_COOKIEJAR,'/tmp/demo-session.txt');
         ob_start();
         $data = curl_exec($r);
         if (!is_bool($data) && !empty($data)) {
             echo $data;
         }
-        igk_set_env("curl://getinfo", 
-        $get_info_callback($r, igk_get_env("curl://getinfo/setting", array(
-            CURLINFO_HTTP_CODE,
-            CURLINFO_HTTP_VERSION,
-            CURLINFO_CONTENT_TYPE,
-            CURLINFO_REDIRECT_URL
-        ))));
+        // igk_set_env(IGK_ENV_CURL_RESPONSE_GET_INFO, 
+        // $get_info_callback($r, igk_get_env(IGK_ENV_CURL_RESPONSE_GET_INFO_SETTING, array(
+        //     CURLINFO_HTTP_CODE,
+        //     CURLINFO_HTTP_VERSION,
+        //     CURLINFO_CONTENT_TYPE,
+        //     CURLINFO_REDIRECT_URL
+        // ))));
         if (curl_errno($r)) {
             $err = curl_error($r);
             igk_set_error(__FUNCTION__, $err);
@@ -133,14 +157,16 @@ function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = n
             $c = ob_get_contents();
         }
         ob_end_clean();
-        
-        igk_set_env("curl://info", [
+        $v_inf =  [
             "Status" => curl_getinfo($r, CURLINFO_HTTP_CODE), 
             "Protocol" => curl_getinfo($r, CURLINFO_PROTOCOL), 
             "Url" => curl_getinfo($r, CURLINFO_EFFECTIVE_URL),
             "DATA"=>$data,
             'Content-Type'=>curl_getinfo($r, CURLINFO_CONTENT_TYPE),
-        ]);
+            'Cookie-List'=>curl_getinfo($r, CURLINFO_COOKIELIST),
+        ]; 
+        igk_set_env(IGK_ENV_CURL_RESPONSE_INFO, $v_inf);
+    
         curl_close($r);
         return $c;
     }

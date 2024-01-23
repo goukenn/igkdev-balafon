@@ -241,11 +241,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
     ///<param name="tbname"></param>
     ///<param name="whereTab" default="null"></param>
     /**
-     * 
-     * @param mixed $tbname
-     * @param mixed $whereTab the default value is null
+     * count number of items in 
+     * @param string $tbname
+     * @param mixed|array|object $where the default value is null
+     * @param mixed|array|object $options passing grammar options
      */
-    public function selectCount($tbname, $where = null, $options = null)
+    public function selectCount(string $tbname, $where = null, $options = null)
     {
         if (!$options)
             $options = [];
@@ -378,12 +379,16 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::GetConstraint_Index($this, $s, $this->DbName);
         return null;
     }
+    
     ///<summary></summary>
     /**
      * 
      */
     public function getDbName(): ?string
-    {       
+    {    
+        if ($listener = $this->getSendDbQueryListener()){
+            return $listener->getDbName();
+        }   
         return $this->m_dbname;
     }
     ///<summary></summary>
@@ -659,7 +664,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
 
     /**
-     * create able info query
+     * create table info query
      * @param SQLGrammar $grammar 
      * @param string $table 
      * @param string $dbname 
@@ -670,18 +675,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $tbname = $this->m_dbManager->escape_string($table);
         $query =  "DESCRIBE ".$tbname. " ".$column;
-        return $query;
-        // $query = $grammar->createSelectQuery(
-        //     DataAdapter::DB_INFORMATION_SCHEMA.".columns",
-        //     [
-        //         "table_schema" => $dbname,
-        //         "table_name" => $table,
-        //         'column_name'=>$column
-        //     ]
-        // );
-        // return $query;
+        return $query; 
     }
 }
-
-
-// }
+ 

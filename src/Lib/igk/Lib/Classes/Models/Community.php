@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Community.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,9 +11,10 @@ use IGK\Models\ModelBase;
 /**
 * 
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
-* @property string $clName
-* @property string $clValueType
+* @property string $clName identifier of the community
+* @property string $clValueType type of data associated to value
 * @method static ?self Add(string $clName, string $clValueType) add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clValueType) add entry if not exists. check for unique column.
 * */

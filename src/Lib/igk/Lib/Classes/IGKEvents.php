@@ -62,6 +62,7 @@ class IGKEvents extends IGKObject
     const HOOK_HTML_HEAD = "html_head";
     const HOOK_HTML_META = "html_meta";
     const HOOK_HTML_PRE_FILTER_ATTRIBUTE = "html_prefilter_attribute";
+    const HOOK_HTML_LOADING_CONTEXT_REGISTER = 'html_context_register';
     
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";
@@ -80,6 +81,7 @@ class IGKEvents extends IGKObject
     // + |
     const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
     const HOOK_DB_RENAME_COLUMN = 'sys://db/rename_column';
+    const HOOK_DB_MIGRATE = 'sys://db/migrate'; // event: ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]
 
     const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";
@@ -138,6 +140,22 @@ class IGKEvents extends IGKObject
     private $m_name;
     private $m_owner;
     private $m_singlemethod;
+
+
+    /**
+     * register hook callback
+     * @param string $hookKey 
+     * @param mixed $callback 
+     * @return void 
+     */
+    public static function UnregComplete(string $hookKey, $callback){
+        $m = function($e)use($callback, & $m, $hookKey){
+            if ($callback($e) === false)return; 
+            igk_unreg_hook($hookKey, $m);
+        };
+        igk_reg_hook($hookKey,$m); 
+    }
+
     ///<summary></summary>
     ///<param name="owner"></param>
     ///<param name="name"></param>
@@ -439,6 +457,9 @@ class IGKEvents extends IGKObject
         if (is_null($callback)){
             unset($hooks[$name]);
             return true;
+        }
+        if (!isset($hooks[$name])){
+            return false;
         }
         if (!isset($hooks[$name]->list)){
             $hooks[$name]->list = [];

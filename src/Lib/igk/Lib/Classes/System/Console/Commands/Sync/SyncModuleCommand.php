@@ -128,6 +128,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         $sb = $this->_getInstallScript($token, $name);
   
         igk_io_w2file($script_install, $sb);
+ 
 
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
@@ -162,8 +163,10 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         if (($status = igk_curl_status()) == 200) {
             Logger::info("curl response \n" . App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
-            if (!$rep->error) {
+            if ($rep && !$rep->error) {
                 Logger::success("install complete");
+            }else {
+                Logger::danger("something bad append");
             }
         } else {
             Logger::danger("install script failed");

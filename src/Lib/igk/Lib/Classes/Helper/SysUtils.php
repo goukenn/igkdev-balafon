@@ -125,7 +125,7 @@ class SysUtils{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetControllerByName(string $ctrl, $throwex = 1){
+    public static function GetControllerByName(string $ctrl, $throwex = 1){        
         if ($ctrl == '%sys%'){
             return SysDbController::ctrl();
         }

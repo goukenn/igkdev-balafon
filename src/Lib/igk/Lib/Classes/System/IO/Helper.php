@@ -8,9 +8,27 @@
 namespace IGK\System\IO;
 
 use IGK\Controllers\BaseController;
-use IGKSystemController;
+use IGKException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\Controllers\SystemController as IGKSystemController;
+use ReflectionException;
 
+/**
+ * IO Helper class 
+ * @package IGK\System\IO
+ */
 final class Helper{
+    const TABLE_PROPERTY  = 'tables';
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param callable $callback (BaseController $ctrl, string $table, ColumnInfo $info, & $manifest = [])
+     * @param bool $force 
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GenerateModel(BaseController $ctrl, callable $callback, $force=false){
         $manifest = [];
         $file = $ctrl->getDataSchemaFile();
@@ -19,18 +37,28 @@ final class Helper{
         }
         
         $schema = igk_db_load_data_schemas($file, $ctrl, true);
-        $tables = igk_getv($schema, "tables"); 
+        $tables = igk_getv($schema, self::TABLE_PROPERTY); 
         foreach($tables as $t=>$info){
             $callback($ctrl, $t, $info, $manifest, $force);
         }
         // something to do with the manifest
         return $manifest;
     }
-    public static function GenerateModelFromFile($file, callable $callback, $force=false){
+    /**
+     * 
+     * @param string $file 
+     * @param callable $callback 
+     * @param bool $force 
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GenerateModelFromFile(string $file, callable $callback, $force=false){
         $manifest = [];
         $ctrl = igk_getctrl(IGKSystemController::class);
         $schema = igk_db_load_data_schemas($file, null, true);
-        $tables = igk_getv($schema, "tables"); 
+        $tables = igk_getv($schema, self::TABLE_PROPERTY); 
         foreach($tables as $t=>$info){
             $callback($ctrl, $t, $info, $manifest, $force);
         }

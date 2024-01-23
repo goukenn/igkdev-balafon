@@ -14,7 +14,15 @@ use IGKException;
  */
 class SchemaBuilderMigration{
     var $controller;
+    var $listener;
     private $items; 
+    /**
+     * use method to add migrations data 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return object 
+     * @throws IGKException 
+     */
     public function __call($name, $arguments)
     {
         $cl = __NAMESPACE__."\\Schema".ucfirst($name)."Migration";
@@ -33,6 +41,9 @@ class SchemaBuilderMigration{
         foreach($this->items as $c){
             $c->up();
         }
+        if ($this->listener){
+            $this->listener->up();
+        }
         return true;
     }
     public function downgrade(){
@@ -40,6 +51,9 @@ class SchemaBuilderMigration{
             return false;
         foreach($this->items as $c){
             $c->down();
+        }
+        if ($this->listener){
+            $this->listener->down();
         }
         return true;
     }

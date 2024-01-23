@@ -5,6 +5,7 @@
 namespace IGK\System\Http\Responses;
 
 use IGK\Controllers\BaseController;
+use IGK\Database\Mapping\SysDbMapping;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\Activator;
 use IGK\Models\Users;
@@ -56,7 +57,7 @@ class UserResponse
     }
     public static function CreateResponseFromSystemUser(BaseController $ctrl, $user, $app_user=null, $token=null){
         $data = array_merge(self::_CreateUserData($user), [
-            'user_app'=>$app_user,
+            'user_app'=>SysDbMapping::CreateMapping($app_user)->map($app_user),
             'token_info'=>$token,
             'controller'=>$ctrl->getName(),
         ]); 

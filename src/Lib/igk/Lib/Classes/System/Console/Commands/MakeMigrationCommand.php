@@ -4,6 +4,7 @@
 // @date: 20221111 22:58:34
 namespace IGK\System\Console\Commands;
 
+use Error;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\MigrationBase;
@@ -12,9 +13,11 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
@@ -22,10 +25,13 @@ use IGKException;
 * @package IGK\System\Console\Commands
 */
 class MakeMigrationCommand extends AppExecCommand{
-    var $command = '--migrate';
-
+    var $command = '--migrate'; 
     var $category = "db";
     var $desc = "migrate utility";
+
+    var $options = [
+        '--all'=>'flag: in up|down action migrate all data'
+    ];
 
 
     public function showUsage()
@@ -38,6 +44,25 @@ class MakeMigrationCommand extends AppExecCommand{
                 Logger::print("\t".substr($n, 8));
             }
         }
+        Logger::print('');
+
+        Logger::print(implode("\n",[
+            '# new : create a new migration file',
+            'new %sys% migration_name',
+            'new ProjectController migration_name',''
+        ]));
+        Logger::print(implode("\n",[
+            '# up : upgrade migration','','',
+        ]));
+        Logger::print(implode("\n",[
+            '# down : downgrade migration','','',
+        ]));
+
+        Logger::print(implode("\n",[
+            '# rm : remove migration by downgrade it first and unlink the file',
+            'rm %sys% migration_name',
+            'rm ProjectController migration_name',''
+        ]));
     }
     /**
      * migrate exec command
@@ -68,13 +93,26 @@ class MakeMigrationCommand extends AppExecCommand{
                 if ($this->$fc(...$args)==0){
                 Logger::success('execute:'.igk_sys_request_time());
                 }
+            } else {
+                Logger::danger(sprintf('missing %s action', $action));
+                $this->showUsage();
             }
         } else {
             $this->showUsage();            
         }
     }
-
-    public function migrate_new($command, ?BaseController $ctrl, ?string $name = ''){
+    /**
+     * get all options
+     * @param mixed $command 
+     * @return bool 
+     */
+    private function _forAll($command):bool{
+        return property_exists($command->options, '--all');
+    }
+    /**
+     * create a new migration
+     */
+    public function migrate_new($command, ?BaseController $ctrl, ...$name){
         Logger::print('make new migration');
         if (is_null($ctrl)){
             Logger::danger("missing controller");
@@ -83,8 +121,11 @@ class MakeMigrationCommand extends AppExecCommand{
         if (empty($name)){
             Logger::danger("missing name");
             return -1;
-        }
+        }if (is_array($name)){
+            $name = implode("_", $name);
+        } 
         $clname = StringUtility::CamelClassName($name);
+
         $name = strtolower($clname);
         $file = "migration_".date('YmdHis').'_'.$name.'.php';
         $file = $ctrl->getClassesDir()."/Database/Migrations/".$file;
@@ -108,11 +149,45 @@ class MakeMigrationCommand extends AppExecCommand{
     }
      
     public function migrate_up($command,  ?BaseController $ctrl ){
+
+        $v_all = $this->_forAll($command);
         $migHandle = new MigrationHandler($ctrl);
-        return $migHandle->up(); 
+        return $migHandle->up(!$v_all); 
     }
     public function migrate_down($command,  ?BaseController $ctrl ){
+        $v_all = $this->_forAll($command);
         $migHandle = new MigrationHandler($ctrl);
-        return $migHandle->down(); 
+        return $migHandle->down(!$v_all); 
+    }
+
+    public function migrate_rm($command, ?BaseController $ctrl, ?string $name=null){
+        if (empty($name)){
+            igk_die("missing name");
+        }
+        $migHandle = new MigrationHandler($ctrl);
+        return $migHandle->remove($name); 
+    }
+
+    /**
+     * list available migration 
+     * @param mixed $command 
+     * @param null|BaseController $ctrl 
+     * @param null|string $name 
+     * @return void 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public function migrate_ls($command, ?BaseController $ctrl){
+        
+        $migHandle = new MigrationHandler($ctrl);
+        $m = $migHandle->getList(); 
+        foreach($m as $r){
+            Logger::print(
+                implode('|', [$r->migration_name."\r\t\t\t\t\t\t ", $r->state])
+            );
+
+        }
     }
 }

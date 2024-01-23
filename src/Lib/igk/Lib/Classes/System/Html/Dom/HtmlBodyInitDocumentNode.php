@@ -13,6 +13,10 @@ class HtmlBodyInitDocumentNode extends HtmlNode{
         return false;
     }
     public function render($options=null){ 
-        return  " if(window.ns_igk)ns_igk.init_document();";
+        if (!$options){
+            return null;
+        }
+        if (!$options->Document->noCoreScript)
+        return  "if(window.ns_igk)ns_igk.init_document();";
     }
 }

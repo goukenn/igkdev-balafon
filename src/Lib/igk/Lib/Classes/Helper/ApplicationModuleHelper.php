@@ -4,6 +4,7 @@
 // @date: 20230303 18:15:13
 namespace IGK\Helper;
 
+use IGK\Controllers\BaseController;
 
 ///<summary></summary>
 /**
@@ -26,5 +27,19 @@ class ApplicationModuleHelper{
             return null;
         }
         return $dir;
+    }
+
+    /**
+     * import required module 
+     * @param array $required_conf 
+     * @param BaseController $ctrl 
+     * @return void 
+     */
+    public static function ImportRequiredModule(array $required_conf, BaseController $ctrl){ 
+        // + | load build requirement
+        array_map(function($n){
+            if (empty($n))return;
+            igk_require_module($n);
+        },array_keys($required_conf));  
     }
 }

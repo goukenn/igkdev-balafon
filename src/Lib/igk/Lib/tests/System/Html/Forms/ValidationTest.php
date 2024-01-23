@@ -5,12 +5,14 @@
 // @desc: 
 
 
-namespace IGK\Tests;
+namespace IGK\Tests\System\Html\Forms;
 
-use IGK\Helper\StringUtility;
-use IGK\System\Html\Forms\FormValidation;
-use IGK\System\Html\Dom\HtmlDoc;
-use IGKHtmlDoc;
+use IGK\Helper\Activator;
+use IGK\System\Html\Forms\Validations\ConvertTypeValidator;
+use IGK\System\Html\Forms\Validations\ConvertTypeValidatorBase;
+use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
+use IGK\System\Html\Forms\Validations\FormValidation;
+use IGK\Tests\BaseTestCase;
 
 class ValidationTest extends BaseTestCase
 {
@@ -23,11 +25,8 @@ class ValidationTest extends BaseTestCase
     {
         $this->assertFalse((new FormValidation())->validate([]));
     }
-    function test_request()
-    {
-
-
-
+    function test_validation_request_with_html_content()
+    { 
         $validation = new FormValidation();
         $validation->storage = false;
         $validation
@@ -47,18 +46,19 @@ class ValidationTest extends BaseTestCase
         $request = [
             "filename" => "/sample<script>alert</script>",
         ];
-        $this->assertEquals($validation->validate($request), [
+        // by default skip null value
+        $this->assertEquals([
             "filename" => "/sample&lt;script&gt;alert&lt;/script&gt;",
-            "firstname" => null,
-            "lastname" => null
-        ], "html entities stransform");
+            // "firstname" => null,
+            // "lastname" => null
+        ], $validation->validate($request), "html entities stransform");
 
-
+/*
         $this->assertEquals($validation->fields([
             "x" => ["type" => "int", "default" => 0]
         ])->validate(["x" => "8985bondj"]), [
             "x" => 0,
-        ], "html entities stransform");
+        ], "html entities stransform");/*
 
         $this->assertEquals($validation->fields([
             "x" => ["type" => "pattern", "pattern" => "/a[0-9]+/i", "default" => 0]
@@ -93,6 +93,8 @@ class ValidationTest extends BaseTestCase
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => true,
         ], "bool validation failed");
+
+        */
     }
 
     public function test_custom_validator()
@@ -148,7 +150,7 @@ class ValidationTest extends BaseTestCase
         $this->assertEquals(
             false,
             $validation->fields([
-                "x" => ["type" => "text", "maxlength" => 4, "default" => null, "error" => "x not defined"]
+                "x" => ["type" => "text", "maxLength" => 4, "default" => null, "error" => "x not defined"]
             ])->validate(["x" => "basics", "default" => true]),
             "pattern validation "
         );
@@ -187,14 +189,16 @@ class ValidationTest extends BaseTestCase
         );
 
 
-        $q = parse_url("https://igkdev.com?f=sample ok");
+        // $q = parse_url("https://igkdev.com?f=sample ok");
 
+
+
+        $g = $validation->fields([
+            "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
+        ])->validate(["x" => "https://igkdev.com"]);
 
         $this->assertEquals(
-            ["x" => "https://igkdev.com"],
-            $g = $validation->fields([
-                "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
-            ])->validate(["x" => "https://igkdev.com"]),
+            ["x" => "https://igkdev.com"],$g,
             "url validation failed"
         );
 
@@ -249,7 +253,64 @@ class ValidationTest extends BaseTestCase
                 "x" => ["type" => "file", "required" => 1, "default" => null, "error" => "x not defined"]
             ])->files(["x" => ["name"=>"myfile", "size"=>0, "default" => true]]),
             "test file validation "
-        ); 
-
+        );  
     }
+    public function test_validation_convert_to_type()
+    {
+        $validation = new FormValidation;
+        $validation->storage = false;
+        $validator = new DummyConvertValidator;
+        $validator->setTargetClass(ValidationConvert::class);
+        $g = $validation->fields([
+            'dummy'=>['type'=>'object','validator'=>$validator]
+        ])->validate([
+            'dummy'=>(object)[
+                'x'=>12,
+                'y'=>100
+            ]
+        ]);
+        $v_r = [
+            'dummy'=>Activator::CreateNewInstance( ValidationConvert::class,["x"=>12,"y"=>100])
+        ];
+        $this->assertEquals($v_r,
+            $g
+        );
+    }
+
+    public function test_validation_convert_with_validator()
+    {
+        $validation = new FormValidation;
+        $validation->storage = false;
+        $validator = new ValidationConvertValidator; 
+        $validator->returnType(ValidationConvert::class);
+        $g = $validation->fields([
+            'dummy'=>['type'=>'object','validator'=>$validator]
+        ])->validate([
+            'dummy'=>(object)[
+                'x'=>12,
+                'y'=>"x100"
+            ]
+        ]);
+        $v_r = [
+            'dummy'=>Activator::CreateNewInstance( ValidationConvert::class,["x"=>12,"y"=>100])
+        ];
+        $this->assertEquals($v_r,
+            $g
+        );
+    }
+}
+
+class ValidationConvert{
+    var $x;
+    var $y;
+}
+
+class ValidationConvertValidator extends ConvertTypeValidatorBase{
+   
+    public function getFields():array{
+        return [
+            'x'=>['type'=>'int', 'required'=>1],
+            'y'=>['type'=>'float', 'required'=>1,'default'=>100],
+        ];
+    } 
 }

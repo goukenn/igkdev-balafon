@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ConnectAttempts.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,11 +11,12 @@ use IGK\Models\ModelBase;
 /**
 * Store Connexion attempts
 * @package IGK\Models
-* @property string $cxnId
+* @author C.A.D. BONDJE DOUE
+* @property string $cxnId provided ip
 * @property string $cxnAttempt
-* @property string $cxnAccount
-* @property int $cxnGeoX
-* @property int $cxnGeoY
+* @property string $cxnAccount requested account
+* @property int $cxnGeoX location x
+* @property int $cxnGeoY location y
 * @property string|datetime $cxnCreate_At ="NOW()"
 * @property string|datetime $cxnUpdate_At ="NOW()"
 * @method static ?self Add(string $cxnId, string $cxnAttempt, string $cxnAccount, int $cxnGeoX, int $cxnGeoY, string|datetime $cxnCreate_At ="NOW()", string|datetime $cxnUpdate_At ="NOW()") add entry helper
@@ -36,5 +37,5 @@ class ConnectAttempts extends ModelBase{
 	/**
 	* override primary key 
 	*/
-	protected $primaryKey = "";
+	protected $primaryKey = "cxnId";
 }

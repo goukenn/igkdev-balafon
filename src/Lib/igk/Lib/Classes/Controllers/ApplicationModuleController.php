@@ -193,8 +193,8 @@ final class ApplicationModuleController extends BaseController{
                 $fc = "";
                 if (!empty($entry_ns) && (strpos( $n, $entry_ns)===0)){
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
-                    if (file_exists($fc = igk_dir($libdir."/".$cl.".php"))){
-                        include($fc);
+                    if (file_exists($fc = igk_dir($libdir."/".$cl.".php"))){                         
+                        include($fc);                        
                         if (!class_exists($n, false) && !interface_exists($n, false) && !trait_exists($n, false)){               
                             igk_die("file loaded but {$n}, interface or trait not exists");
                         }
@@ -278,6 +278,13 @@ final class ApplicationModuleController extends BaseController{
         // + |
         
         unset($this->m_src);
+    }
+    /**
+     * get module configuration
+     * @return mixed 
+     */
+    public function getModuleConfig(){
+        return $this->m_configs;
     }
     ///<summary></summary>
     ///<param name="configs" ref="true"></param>

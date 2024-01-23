@@ -4,6 +4,7 @@
 // @desc: Content html helper functions 
 // @filename: igk_html_utils.php  
 
+use IGK\Helper\Activator;
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Converters\Converter;
@@ -16,6 +17,7 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\CookieManager;
 use IGK\System\IO\Path;
+use IGK\System\WinUI\Menus\MenuItemInfo;
 
 use function igk_resources_gets as __;
 
@@ -122,23 +124,12 @@ function igk_html_get_class_callable($name, $method)
 }
 
 
-function igk_html_validate()
-{
-    //TODO: implement validation error
-    throw new IGKException("Not Implement");
-}
+ 
 function igk_html_print_r($args)
 {
     igk_wl_pre($args);
 }
-/**
- * @return mixed
- */
-function igk_html_validate_error()
-{
-    //TODO: implement validation error
-    throw new IGKException("Not Implement");
-}
+ 
 
 ///<summary></summary>
 ///<param name="t"></param>
@@ -245,6 +236,7 @@ function igk_html_array_table($tab, $headercallback = null)
 ///</code>
 /**
  * utility to build form data
+ * @deprecated use IGK\System\Html\FormBuilder instead
  */
 function igk_html_build_form($t, $data, $defaultTarget = "li")
 {
@@ -390,7 +382,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
     if ($ctrl == null) {
         $ctrl = igk_app()->getBaseCurrentCtrl();
     }
-
+    $v_menu_item_class = igk_environment()->get('MenuItemInfo', MenuItemInfo::class);
     $item_build_callback = [\IGK\System\WinUI\Menus\Engine::class, "BuildMenuItem"];
     $submenu_item_build_callback = $callback;
     if ($callback) {
@@ -532,6 +524,8 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             igk_die("10: already define ");
         }
         if (is_array($s)) {
+            $s = Activator::CreateNewInstance($v_menu_item_class, $s);
+
             if ($u = igk_getv($s, "uri")) {
                 $u = $_binduri($u, $ctrl);
             } else {
@@ -541,6 +535,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             $ajx = (bool)igk_getv($s, "ajx");
             $lkey = igk_getv($s, "text", __("menu." . $k));
             $init = igk_getv($s, "init");
+            $s->id = $k;
             if ((false === $auth) || (is_string($auth) && !$user->auth($auth))) {
                 continue;
             }
@@ -559,12 +554,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             $s = $_binduri($s, $ctrl);
             $fc_bind ($sd, $k, $hi, $lkey, $s, false, $s, $obj, $item_build_callback, null);
             
-            // $item_build_callback($hi, $lkey, $s, false, $s);
-            // if (!isset($sd[$k])) {
-            //     $sd[$k] = (object)["key" => $k, "li" => $hi, "ul" => null, 'level' => $obj->level];
-            // } else {
-            //     $sd[$k]->li = $hi;
-            // }
+       
         }
         if ($separatorAfter){
             $sep = $mi->add($item);

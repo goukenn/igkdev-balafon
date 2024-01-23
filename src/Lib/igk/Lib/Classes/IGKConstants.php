@@ -20,8 +20,9 @@ final class IGKConstants{
     const TOKEN_EXPIRE = 60*24*3;
     const FILE_PATH_HASH_ALGO ='crc32b';
     
-    const BASECLASS_COMMAND = \System\Console\Commands::class;
-
+    const BASECLASS_COMMAND = '\System\Console\Commands';  
+    const ENTRY_BASE_MODEL_CLASS = '\ModelBase';
+   
  
     const SITEMAP_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd";
     const SITEMAP_INDEX_VALIDATOR = "http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd";
@@ -40,10 +41,13 @@ final class IGKConstants{
      */
     const PROJECT_CONF_FILE = 'balafon.config.json';
 
+    //+ | for project entry namespace definition
 
-    const NS_ACTION_ENTRY = \Actions::class;
-    const NS_MODEL_ENTRY = \Models::class;
-    const NS_DATABASE_ENTRY = \Database::class;
+    const NS_ACTION_ENTRY = 'Actions';
+    const NS_MODEL_ENTRY = 'Models'; 
+    const NS_DATABASE_ENTRY = 'Database';
+    // + to avoid inteliphense warning
+    const NS_MACROS_CLASS = 'Database\Macros';
 
     /**
      * get the core version 

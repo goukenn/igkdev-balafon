@@ -12,6 +12,7 @@ use IGK\Models\Users;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -49,6 +50,11 @@ trait UsersTrait
         ];
     }
 
+    /**
+     * block user
+     * @param Users $user 
+     * @return Users 
+     */
     public function block_post(Users $user)
     {
         $user->clStatus = 0;
@@ -56,6 +62,11 @@ trait UsersTrait
         $user->save();
         return $user;
     }
+    /**
+     * enable user's post
+     * @param Users $user 
+     * @return Users 
+     */
     public function enabled_post(Users $user)
     {
         $user->clStatus = 1;
@@ -63,6 +74,11 @@ trait UsersTrait
         $user->save();
         return $user;
     }
+    /**
+     * delete user 
+     * @param Users $user 
+     * @return Users 
+     */
     public function delete_post(Users $user)
     {
         $user->clStatus = -1;
@@ -71,10 +87,20 @@ trait UsersTrait
         $user->save();
         return $user;
     }
+    /**
+     * delete user with DELETE verbs
+     * @param Users $user 
+     * @return Users 
+     */
     public function index_delete(Users $user)
     {
         return $this->delete_post($user);
     }
+    /**
+     * search fur user with request query
+     * @param string $query 
+     * @return array 
+     */
     public function search_get(string $query)
     {
         $query = '%' . trim($query, ' %') . '%';
@@ -101,6 +127,14 @@ trait UsersTrait
         ];
     }
 
+    /**
+     * change user password
+     * @param Request $request 
+     * @param ApiResponse $response 
+     * @param null|Users $user 
+     * @return Users|void 
+     * @throws IGKException 
+     */
     public function changePassword_post(Request $request, ApiResponse $response, ?Users $user = null)
     {
         if (!is_null($user)) {

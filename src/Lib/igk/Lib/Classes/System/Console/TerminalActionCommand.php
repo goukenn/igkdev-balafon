@@ -12,8 +12,7 @@ use Error;
 use Exception;
 use IGKEnvironment;
 use function \readline;
-
-// terminal action command
+ 
 
 /**
  * terminal action command
@@ -40,7 +39,9 @@ class TerminalActionCommand{
      */
     public function run(){
         $result = 0;
-        register_shutdown_function([$this, 'onExit']);
+        register_shutdown_function(function(){ 
+            $this->onExit();
+        });
         !defined('IGK_THROW_MISSING_MACROS_EXCEPTION') && define('IGK_THROW_MISSING_MACROS_EXCEPTION', 1);
         !defined('IGK_RUN_TAC_COMMAND') && define('IGK_RUN_TAC_COMMAND', 1);
 
@@ -52,9 +53,8 @@ class TerminalActionCommand{
             exit(-1);
         } 
         do{
-            $this->_clearLastErrors();
-
-            $command = readline($this->prompt);
+            $this->_clearLastErrors(); 
+            $command = igk_read_line($this->prompt);
             $e = !in_array($command , $stop);
             if ($e && !empty($command)){ 
                 array_unshift($this->commands, $command);
@@ -79,7 +79,7 @@ class TerminalActionCommand{
     private function _clearLastErrors(){ 
         if ($l_error = error_get_last()){
             error_clear_last();
-            $this->errors += $l_error;
+            $this->errors[] = $l_error;
         }       
     }
 
@@ -96,4 +96,15 @@ class TerminalActionCommand{
         }
         return $cmd;
     }
+}
+
+if (!function_exists('igk_read_line')){
+function igk_read_line(string $prompt){
+    if (version_compare(PHP_VERSION, '8.0', '>=')){
+        return readline($prompt); 
+    }
+    fwrite(STDERR, $prompt); 
+    return readline();
+}
+
 }

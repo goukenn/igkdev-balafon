@@ -4,6 +4,7 @@
 // @date: 20221104 11:38:15
 namespace IGK\Database\SchemaBuilder;
 
+use IGK\Database\DbConstants;
 
 ///<summary></summary>
 /**
@@ -18,9 +19,10 @@ interface IDiagramSchemaEntity
      * @return self 
      */
     function id(string $id): IDiagramSchemaEntity;
-    function varchar(string $id, int $length): IDiagramSchemaEntity;
+    function varchar(string $id, int $length= DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
     function address(string $id): IDiagramSchemaEntity;
     function dateUpdate(?string $prefix = null): IDiagramSchemaEntity;
+    function locale(string $id, int $length=DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
     /**
      * 
      * @param string $name 
@@ -48,6 +50,7 @@ interface IDiagramSchemaEntity
         $description = null
     ): IDiagramSchemaEntity;
     function column(string $id, $type = 'Int', $length = 9): IDiagramSchemaEntity;
+    function column_varchar(string $id, int $length,?array $options = null): IDiagramSchemaEntity;
     function text(string $id): IDiagramSchemaEntity;
     function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity;
     function link(
@@ -64,5 +67,16 @@ interface IDiagramSchemaEntity
     function float(string $name): IDiagramSchemaEntity;
     function unique(string $name): IDiagramSchemaEntity;
     function primary(string $name): IDiagramSchemaEntity;
+    /**
+     * set entity description
+     * @param null|string $description 
+     * @return IDiagramSchemaEntity 
+     */
     function setDescription(?string $description): IDiagramSchemaEntity;
+    /**
+     * set last column or entity description
+     * @param null|string $description 
+     * @return IDiagramSchemaEntity 
+     */
+    function description(?string $description): IDiagramSchemaEntity;
 }

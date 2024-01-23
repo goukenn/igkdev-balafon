@@ -24,6 +24,8 @@ use function igk_resources_gets as __;
 class MakeStyleFileCommand extends AppExecCommand{
     var $command = "--make:style";
     var $desc = "make style file";
+    var $category = 'make';
+    
 
     public function showUsage(){
         Logger::print(sprintf("%s [controller] name", $this->command));

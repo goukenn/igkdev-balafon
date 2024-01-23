@@ -354,7 +354,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     * 
     */
     public function getSuccess(){
-        return ($this->ResultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
+        return ($this->resultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
     }
     ///<summary></summary>
     /**

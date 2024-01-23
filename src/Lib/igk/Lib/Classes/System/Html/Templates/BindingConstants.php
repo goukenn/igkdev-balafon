@@ -11,5 +11,6 @@ namespace IGK\System\Html\Templates;
 * @package IGK\System\Html\Templates
 */
 abstract class BindingConstants{
+    const OP_CONDITION = 'condition';
     const OP_LOOP = 'loop';
 }

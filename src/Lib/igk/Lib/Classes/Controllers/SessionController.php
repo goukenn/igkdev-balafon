@@ -142,10 +142,10 @@ final class SessionController extends BaseController{
     
     ///<summary></summary>
     protected function initComplete($context=null){   
-       
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
+ 
         $n=igk_get_cookie_name(igk_sys_domain_name()."/".Cookies::USER_ID);
         $rs=igk_getv($_COOKIE, $n);
         if(!empty($rs)){ 
@@ -180,6 +180,7 @@ final class SessionController extends BaseController{
         igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){            
             $options = igk_getv($e->args, "options");
             echo $this->getTargetNode()->render($options); 
+            // igk_wln_e("init session controller --- ");
         });
     }
     

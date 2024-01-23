@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Subdomains.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,10 +11,11 @@ use IGK\Models\ModelBase;
 /**
 * store sub domain
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $clId
-* @property string $clName
-* @property string $clCtrl
-* @property string $clView
+* @property string $clName Subdomain name. exemple. 'mail'  in the .domain.com will be mail.domain.dom
+* @property string $clCtrl Controller name
+* @property string $clView Entry
 * @property string|datetime $clDeactivate_At
 * @property string|datetime $clCreate_At ="Now()"
 * @property string|datetime $clUpdate_At ="Now()"

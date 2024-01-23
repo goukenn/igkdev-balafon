@@ -75,7 +75,7 @@ function igk_srv_soap_LastHeader(){
 ///<summary>used to mark a function or the class to not been exposed</summary>
 function igk_srv_notexposed_attr($classname, $method){
 
-		$key = "sys://services/".$classname."/notexposed";
+		$key = IGK_SERVICE_PREFIX_PATH.$classname."/notexposed";
 		$tab = igk_get_env($key, array());
 		$g = explode(",", strtolower($method));
 		foreach($g as $k){

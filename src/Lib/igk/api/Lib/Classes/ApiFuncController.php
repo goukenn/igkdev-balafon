@@ -124,9 +124,7 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * represent a function database function list
     */
-    public function datadb($cmd=null){
-        ///TODO: PROTECT CALL
-
+    public function datadb($cmd=null){       
         /**
          * @var ?array $_data 
          * @var ?array $_data 
@@ -411,17 +409,13 @@ final class ApiFunctionController extends ApplicationController {
                     $ctrl=igk_getctrl($n);
                     if($ctrl){
                         $schema=igk_db_backup_ctrl($ctrl);
-                        $tables = igk_getv($ctrl->loadDataFromSchemas(),"tables");
-                        igk_db_drop_ctrl_db($ctrl, $tables, __FUNCTION__);
-                        igk_db_init_db($ctrl);
+                        $tables = igk_getv($ctrl->loadDataFromSchemas(),"tables"); 
+                        $ctrl::initDb(false);
                         igk_db_restore_backup_data($ctrl, $schema);
                     }
                     else{
                         $d=igk_create_node("div");
-                        $d->addObData(function(){
-?> Usage : update controller db
-<?php
-                        });
+                        $d->addObData(function(){?> Usage : update controller db<?php });
                         $d->renderAJX();
                     }
                 },

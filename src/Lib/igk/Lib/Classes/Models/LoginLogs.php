@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: LoginLogs.php
-// @date: 20230705 10:31:06
+// @date: 20240101 17:47:26
 namespace IGK\Models;
 
 
@@ -11,22 +11,23 @@ use IGK\Models\ModelBase;
 /**
 * Store connexion history
 * @package IGK\Models
+* @author C.A.D. BONDJE DOUE
 * @property int $loglogs_Id
 * @property string $loglogs_UserGuid
 * @property string $loglogs_Agent
 * @property string $loglogs_IP
-* @property float $loglogs_GeoX
-* @property float $loglogs_GeoY
+* @property float $loglogs_GeoX location x
+* @property float $loglogs_GeoY location y
 * @property string $loglogs_Region
 * @property string $loglogs_Code
 * @property string $loglogs_CountryName
 * @property string $loglogs_City
-* @property int $loglogs_Status
-* @property string $loglogs_Description
-* @property string|datetime $regLinkCreate_At ="NOW()"
-* @property string|datetime $regLinkUpdate_At ="NOW()"
-* @method static ?self Add(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry if not exists. check for unique column.
+* @property int $loglogs_Status 0 = loggin, 1 = logut
+* @property string $loglogs_Description location y
+* @property string|datetime $loglogs_Create_At ="NOW()"
+* @property string|datetime $loglogs_Update_At ="NOW()"
+* @method static ?self Add(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $loglogs_Create_At ="NOW()", string|datetime $loglogs_Update_At ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string|datetime $loglogs_Create_At ="NOW()", string|datetime $loglogs_Update_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class LoginLogs extends ModelBase{
 	const FD_LOGLOGS_ID="loglogs_Id";
@@ -41,8 +42,8 @@ class LoginLogs extends ModelBase{
 	const FD_LOGLOGS_CITY="loglogs_City";
 	const FD_LOGLOGS_STATUS="loglogs_Status";
 	const FD_LOGLOGS_DESCRIPTION="loglogs_Description";
-	const FD_REG_LINK_CREATE_AT="regLinkCreate_At";
-	const FD_REG_LINK_UPDATE_AT="regLinkUpdate_At";
+	const FD_LOGLOGS_CREATE_AT="loglogs_Create_At";
+	const FD_LOGLOGS_UPDATE_AT="loglogs_Update_At";
 	/**
 	* table's name
 	*/

@@ -2,6 +2,7 @@
 
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Helper\IO;
+use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 
@@ -67,11 +68,21 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
     $IGK_ENV = igk_environment();
     $g = &igk_environment()->require_modules();
     $mkey = igk_uri(strtolower($modulename));
+    $v_init_on_view = ViewHelper::CurrentCtrl() !== null;
     if (isset($g[$mkey])) {
         $mod = $g[$mkey];
         igk_bind_module($mod, $name);
         if ($init){
             $init($mod, igk_ctrl_current_doc());
+        } else {
+            if ($v_init_on_view){ 
+                $gdoc = $mod->getEnvParam('initDoc'); 
+                if (is_null($gdoc)){
+                    $doc = ViewHelper::CurrentDocument();
+                    $mod->initDoc($doc);
+                    $mod->getEnvParam('initDoc', $doc); 
+                }
+            }
         }
         return $mod; 
     }

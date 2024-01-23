@@ -8,6 +8,9 @@
 
 ///<summary></summary>
 ///<param name="name"></param>
+
+use Hamcrest\Type\IsObject;
+
 /**
  * 
  * @param mixed $name 
@@ -123,9 +126,26 @@ function igk_reflection_get_constants($cl)
     $r = igk_sys_reflect_class($cl);
     return $r->getConstants();
 }
+if (!function_exists('igk_reflection_get_private_member')) {
+    function igk_reflection_get_private_member($cl, $modifier = ReflectionProperty::IS_PRIVATE, $non_static = true): array
+    {
+        $cl = is_object($cl) ? get_class($cl) : $cl;
+        $r = igk_sys_reflect_class($cl);
+        $tab = [];
+        foreach ($r->getProperties($modifier) as $i) {
+            if (($non_static) && $i->isStatic()) {
+                continue;
+            }
+            $tab[] = $i->name;
+        }
+
+        return $tab;
+    }
+}
 ///<summary>get reflexion properties. ignore dynamic data value</summary>
 /**
  * get reflexion properties. ignore dynamic data value
+ * @return bool|property
  */
 function igk_reflection_get_member($cl, $exclude_empty = 1)
 {
@@ -175,10 +195,10 @@ function igk_reflection_get_member($cl, $exclude_empty = 1)
 ///<summary></summary>
 ///<param name="obj"></param>
 /**
- * 
+ * helper get class vars
  * @param mixed $obj 
  */
-function igk_reflection_getclass_var($obj)
+function igk_reflection_getclass_vars($obj)
 {
     if (is_object($obj))
         return get_class_vars(get_class($obj));
@@ -211,4 +231,28 @@ function igk_reflection_interface_exists($name)
     if (!interface_exists($name))
         igk_die("class $name doesn't exists");
     return $name;
+}
+
+if (!function_exists('igk_reflection_get_class_properties')) {
+
+    /**
+     * get class public properties
+     * @param string $class_name 
+     * @param bool $non_static skip static properties
+     * @return mixed 
+     * @throws IGKException 
+     */
+    function igk_reflection_get_class_properties(string $class_name, bool $non_static = true)
+    {
+        $c = igk_sys_reflect_class($class_name);
+        $v_props = $c->getProperties(ReflectionProperty::IS_PUBLIC);
+        foreach ($v_props as $p) {
+            if ($non_static && $p->isStatic()) {
+                continue;
+            }
+
+            $t[$p->name] = $p->name;
+        }
+        return $t;
+    }
 }

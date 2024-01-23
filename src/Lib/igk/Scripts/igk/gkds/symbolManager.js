@@ -230,8 +230,7 @@
 
         //alert(this.o.onDOMAttrModified);
         //igk.show_notify_prop(this.o);
-
-        //TODO:: Observer data changed
+ 
         var m_re = false;
         if (igk.navigator.isSafari()) {
             // console.debug("safari required a special dom mecanism");

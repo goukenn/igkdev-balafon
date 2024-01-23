@@ -94,9 +94,7 @@ class RequestViewCommand extends AppExecCommand
             } else {
                 $json = null;
             }
-        }
-
-
+        }  
         igk_configs()->default_controller = $ctrl->getName();
         $ctrl->getConfigs()->no_auto_cache_view = property_exists($command->options, '--no-cache');
         $this->doRequest($command, $path);

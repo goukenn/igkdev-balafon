@@ -233,7 +233,11 @@ class Loader implements IResponse {
     *  include view file
     */
     public function view($file, $data=array(), $render=0){
-        if(file_exists($f=$this->m_controller->getViewFile($file))){
+        $cfile = $f=$this->m_controller->getViewFile($file);
+        if (!$cfile){
+            return $this;
+        }
+        if(file_exists($f=$cfile)){
             $file=$f;
         }
         else{

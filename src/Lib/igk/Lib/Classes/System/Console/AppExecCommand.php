@@ -7,11 +7,13 @@
 
 namespace  IGK\System\Console;
 
+use Error;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\Commands\DbCommandHelper;
-
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
+use ReflectionException;
 
 abstract class AppExecCommand extends AppCommand{
     protected $handle;
@@ -57,6 +59,10 @@ abstract class AppExecCommand extends AppCommand{
     public function run($args, $command)
     {
         if ($this->handle){
+            if ( $command->exec ){
+                $command->options->{$args} = 1;
+                return;
+            }
             $command->exec = function($command){
                 if (property_exists($command->options, "--help")){
                     $h= $this->help();
@@ -80,16 +86,32 @@ abstract class AppExecCommand extends AppCommand{
      * @return mixed|BaseController  
      * @throws IGKException 
      */
-    protected static function GetController(string $controller, $throwex = 1, $autoregister = true){
+    protected static function GetController(?string $controller, $throwex = 1, $autoregister = true){
+        if (is_null($controller)){
+            if ($throwex){
+                igk_die("missing NIL controller");
+            }
+            return null;
+        }
         $ctrl =  \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
         $ctrl && $autoregister && $ctrl->register_autoload();
         return $ctrl;
     }
-    protected function _dieController($command, ?string $controller, bool $system=false){
+    /**
+     * get controller or die
+     * @param mixed $command 
+     * @param null|string $controller 
+     * @param bool $system 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws Error 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    protected function _dieController(?string $controller, bool $system=false){
 		if ($controller){
 			if ($controller != '%sys%'){
-				if ($ctrl = self::GetController($controller, false)){
-                   
+				if ($ctrl = self::GetController($controller, false)){ 
 					return $ctrl;
 				}
 			} else {

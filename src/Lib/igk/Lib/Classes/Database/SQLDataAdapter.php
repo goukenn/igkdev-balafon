@@ -6,7 +6,9 @@
 
 
 namespace IGK\Database;
- 
+
+use IGK\System\Database\IDbSendQueryListener;
+use IGK\System\Database\IDbSendQueryListenerSupport;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Html\IHtmlGetValue;
 use IGKException;
@@ -20,8 +22,16 @@ use function igk_resources_gets as __;
 /**
 * Represente IGKSQLDataAdapter class
 */
-abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator{
+abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator, IDbSendQueryListenerSupport{
     const DB_INFORMATION_SCHEMA = "information_schema";
+
+    private $m_listener;
+
+    public function setSendDbQueryListener(?IDbSendQueryListener $listener) {
+        $this->m_listener = $listener; 
+    }
+
+    public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
     /**
      * 
      * @param mixed $t 
@@ -102,8 +112,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      */
     protected static function GetRelation($adapter, $tname, $clname){
         $r = $adapter->getDbname();        
-        $adapter->selectdb(static::DB_INFORMATION_SCHEMA);
-        // TODO: remove select ALL expression 
+        $adapter->selectdb(static::DB_INFORMATION_SCHEMA); 
         $h=$adapter->sendQuery("SELECT * FROM `KEY_COLUMN_USAGE` WHERE `TABLE_NAME`='".igk_db_escape_string($tname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($r)."' AND `COLUMN_NAME`='".igk_db_escape_string($clname)."' AND `REFERENCED_TABLE_NAME`!=''");
         $adapter->selectdb($r);
         return $h->getRowAtIndex(0);
@@ -254,6 +263,12 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         return $s;
     }
 
+    /**
+     * 
+     * @param mixed $type 
+     * @param mixed $value 
+     * @return string|null 
+     */
     public function getFuncValue($type, $value){
        
         switch($type){

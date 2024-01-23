@@ -154,10 +154,10 @@ final class AnnotationHelper
      * @return array|null 
      * @throws IGKException 
      */
-    public static function GetMethodAnnotations(ReflectionMethod $method)
+    public static function GetMethodAnnotations(ReflectionMethod $method, & $v_use = null)
     {
         $class = $method->getDeclaringClass()->getName();
-        $v_uses = self::GetUses($class);
+        $v_uses = $v_use ?? self::GetUses($class);
 
         $comment = $method->getDocComment();
         if ($comment) {

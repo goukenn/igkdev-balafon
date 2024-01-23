@@ -5,6 +5,49 @@
 // @desc: string method helpers
 use IGK\Helper\StringUtility as stringUtility;
 
+
+if (!function_exists('igk_str_add_suffix')){
+    function igk_str_add_suffix(string $content, string $suffix, bool $check=true):string{
+        if ($check && igk_str_endwith($content, $suffix) ){
+            return $content;
+        }
+        return $content.$suffix;
+    }
+}
+
+
+if (!function_exists('igk_str_replace_assoc_array')) {
+    /**
+     * replace assoc pattern
+     * @param array $assoc_pattern array of pattern=>replacement
+     * @param string $subject 
+     * @return string 
+     */
+    function igk_str_replace_assoc_array(array $assoc_pattern, string $subject): string
+    {
+        foreach ($assoc_pattern as $k => $v) {
+            $subject = str_replace($k, $v, $subject);
+        }
+        return $subject;
+    }
+}
+if (!function_exists('igk_str_preg_replace_assoc_array')) {
+    /**
+     * 
+     * @param array $assoc_pattern array of regex=>replacement
+     * @param string $subject 
+     * @return string 
+     */
+    function igk_str_preg_replace_assoc_array(array $assoc_pattern, string $subject): string
+    {
+        foreach ($assoc_pattern as $k => $v) {
+            $subject = preg_replace($k, $v, $subject);
+        }
+        return $subject;
+    }
+}
+
+
 ///<summary>shortcut to string ::Format method helper</summary>
 /**
  * shortcut to string ::Format method helper
@@ -18,6 +61,14 @@ function igk_str_format(string $data):string
     return stringUtility::Format(...func_get_args());
 }
 
+if (!function_exists('igk_str_assert_prepend')){    
+    function igk_str_assert_prepend(?string $data, string $prepend){
+        if ($data){
+            $data = $prepend.$data;
+        }
+        return $data;
+    }
+}
 
 
 if (!function_exists('igk_str_escape')) {

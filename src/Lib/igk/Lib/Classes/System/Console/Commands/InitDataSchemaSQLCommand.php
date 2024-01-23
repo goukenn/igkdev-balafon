@@ -29,18 +29,17 @@ use ReflectionException;
  */
 class InitDataSchemaSQLCommand extends AppExecCommand{
     var $command = "--db:schema";
-    var $desc = "get controller db-schemas"; 
+    var $desc = "get controller db schema"; 
     var $category = "db";
 
     var $options = [
-        "controller"=>"controller to target",
-        "file"=>"schema file to export",
-        "-option:[xml|json]"=>"export type xml|json"
+        "controller*"=>"controller to target",
+        "file*"=>"schema file to export",
+        "-o:[xml|json]"=>"export type xml|json"
     ];
+    var $usage = '[controller] [file] [options]';
 
-    public function showUsage(){
-        Logger::print($this->command." controller [file]");
-    }
+    
     /**
      * 
      * @param mixed $command 
@@ -55,8 +54,9 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     public function exec($command,  $ctrl=null, $file=null)
     {    
         require_once(__DIR__."/.InitDataSchemaController.pinc");
-      
-        if (!$ctrl  || !($ctrl = igk_getctrl($ctrl, false))){
+        $v_check =false;
+        if (!$ctrl  || (($v_check=true) && !($ctrl = igk_getctrl($ctrl, false)))){
+            $v_check && Logger::warn('missing controller');
             $ctrl = new InitDataSchemaController();
         }
         if ($file===null){ 
@@ -66,7 +66,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
             Logger::danger("data schema file not found");
             return -1;
         }
-        $options = igk_getv($command->options, "-option", 'xml');
+        $options = igk_getv($command->options, "-o", 'xml');
         $resolvname = $options != "json";       
         $schema = igk_db_load_data_schemas($file, $ctrl, $resolvname);
         if (!$schema){
@@ -100,7 +100,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     }
     public function help(){
         parent::help();
-        Logger::print("file [-option:[json|xml]]");
+        Logger::print("file [-o:[json|xml]]");
     }
    
 }

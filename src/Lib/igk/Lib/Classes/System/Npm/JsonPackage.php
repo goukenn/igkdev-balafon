@@ -5,6 +5,8 @@
 namespace IGK\System\Npm;
 
 use IGK\Helper\Activator;
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Npm\Traits\JsonPackagePropertyTrait;
@@ -72,5 +74,16 @@ class JsonPackage
             }
             //$this->$f = (object)$r;
         }
+    }
+    /**
+     * save the current definition
+     * @param string $file 
+     * @return bool 
+     * @throws IGKException 
+     */
+    public function save(string $file){
+        $e = JSonEncodeOption::IgnoreEmpty();
+        $e->ignore_null = true; 
+        return igk_io_w2file($file, JSon::Encode($this, $e, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }

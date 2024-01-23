@@ -31,7 +31,9 @@ use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
+use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Regex\Replacement;
 
 abstract class SyncAppExecCommandBase extends AppExecCommand{
 
@@ -147,12 +149,15 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
 
     /**
      * get install script 
+     * @param array|string installed script 
+     * @param string $token $ref token
      */
     protected static function GetScriptInstall($script, & $token, $name=null){
         $src = null;
+        $v_bdir = IGK_LIB_DIR . "/Inc/core/";
         if (is_array($script)){
-            $tab = array_filter(array_map(function($a){
-                if (is_file($f = IGK_LIB_DIR."/Inc/core/".$a)){
+            $tab = array_filter(array_map(function($a)use($v_bdir){
+                if (is_file($f = $v_bdir.$a)){
                     return $f;
                 }
                 return null;
@@ -162,15 +167,26 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             );
          
         }else{
-            $file  = IGK_LIB_DIR . "/Inc/core/".$script;
+           
+            $file  = $v_bdir.$script;
             if (!file_exists($file)){
                 return false;
             }
-            $src = file_get_contents($file);
+            $src = file_get_contents($file);            
+            
         }
         if (empty($src)){
             return false;
         }
+        // + | Dont reapeat my self
+        //#{{@Inc(class.InstallerResponse.pinc)}}
+        $rep = new Replacement;
+        $rep->addCallable("#//\#\{\{@Inc\((?P<n>[^\)]+)\)\}\}#", function($m)use($v_bdir){
+            $fn = Path::Combine($v_bdir, trim($m['n']));
+            return "?>".file_get_contents($fn);
+        });  
+        $src = $rep->replace($src);
+
         $sb = new StringBuilder();
         $token = date("Ymd") . rand(2, 85) . igk_create_guid();
         $sb->appendLine(implode("\n", array_filter([

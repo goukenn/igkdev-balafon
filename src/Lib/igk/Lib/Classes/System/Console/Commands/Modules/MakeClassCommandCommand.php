@@ -19,17 +19,23 @@ class MakeClassCommandCommand extends AppExecCommand{
 	use ClassBuilderTrait;
 	var $command='--module:make-command';
 	var $desc='make module\'s command';
+    var $category = 'make';
 
-	/* var $options=[]; */
+	// var $options=[
+	// 	'--base'=>'flag: enable abstract base-definition'
+	// ];
 	/* var $category; */
 	public function exec($command, ?string $module_name = null, ?string $class_name=null) { 
 		$mod = igk_get_module($module_name) ?? igk_die('missing or not found module');
 		empty($class_name) && igk_die('class name required');
+		$v_base = property_exists($command->options, '--base');
 
-		$clpath = Path::Combine(\System\Console\Commands::class, $class_name);
-		if (!igk_str_endwith($class_name, 'Command')){
-			$clpath .= 'Command';
-		}
+
+		$clpath = igk_str_add_suffix(
+			Path::Combine(\System\Console\Commands::class, $class_name),
+			$v_base ? 'Base' : 'Command');
+
+		 
         $cl = $mod->resolveClass($clpath);
 		$test = false;// property_exists($command->options, "--test");
 		$desc = igk_getv($command->options, '--desc');
@@ -38,7 +44,10 @@ class MakeClassCommandCommand extends AppExecCommand{
 			$cl = $clpath;
             //make command  
 			$dir = ($test ? $mod->getTestClassesDir(): $mod->getClassesDir());       
-			if ($f = $this->makeClass($command, $dir, $cl, 'class', $mod->getEntryNamespace(), AppExecCommand::class, $desc, 
+			if ($f = $this->makeClass($command, $dir, $cl, 'class',
+				 $mod->getEntryNamespace(), 
+				 AppExecCommand::class, 
+				 $desc, 
 				$force,
 				implode("\n", 
 				[
@@ -49,7 +58,7 @@ class MakeClassCommandCommand extends AppExecCommand{
 					'// var $usage=\'\';',
 					'public function exec($command) { }'
 				]
-				)
+				), $v_base ? 'abstract' : null
 			)){
 				Logger::success($f);
 				return 0;

@@ -145,7 +145,7 @@ final class Server implements IToArray{
                 "json"=>"application/json"
             ];
         }
-        $v_accept = $this->HTTP_ACCEPT ?? '';
+        $v_accept = $this->HTTP_ACCEPT ?? '*/*';
         $a = explode(",", $v_accept);
         if (in_array("*/*", $a)){
             return true;

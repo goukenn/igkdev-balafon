@@ -374,7 +374,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $mysql->connect($this->SelectedDb);
             $r = $mysql->listTables();
             $mysql->close();
-            if ($r && !$r->ResultTypeIsBoolean()) {
+            if ($r && !$r->resultTypeIsBoolean()) {
                 $tab = $r->CreateEmptyResult($r);
                 $n = $r->Columns[0]->name;
                 if ($searchkey != null) {
@@ -651,7 +651,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             if ($mysql->connect()) {
                 try {
                     $r = $mysql->sendQuery("SHOW DATABASES");
-                    if ($r && !$r->ResultTypeIsBoolean() && ($r->RowCount > 0)) {
+                    if ($r && !$r->resultTypeIsBoolean() && ($r->RowCount > 0)) {
                         $this->_showDataBases($r, $div1, $conf_title);
                         $div1 = $div1->addActionBar();
                         $div1->addABtn($this->getUri("pinitSDb"))->Content = __("btn.initDb");

@@ -27,6 +27,23 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	{
 		return $this->m_rows; 
 	}
+	/**
+	 * get the first value
+	 * @return mixed 
+	 */
+	public function firstValue(){
+		$c = $this->m_rows;
+		return array_shift($c);
+	}
+	/**
+	 * get the last value
+	 * @return mixed 
+	 */
+	public function lastValue(){
+		$c = $this->m_rows;
+		return array_pop($c);
+	}
+
     public function to_json(){
         return Utility::To_JSON($this->m_rows, null);
     }
@@ -112,5 +129,9 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 */
     public function columnExists($name):bool{
 		return key_exists($name, $this->m_rows);
+	}
+
+	public function count():int{
+		return count($this->m_rows);
 	}
 }

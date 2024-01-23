@@ -120,7 +120,7 @@ class Path
     }
     public function prepareData()
     {
-
+        $v_is_webapp = igk_is_webapp();
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);
         $this->base_dir = str_helper::Uri(IGK_BASE_DIR);
         $this->lib_dir = str_helper::Uri(IGK_LIB_DIR);
@@ -133,10 +133,13 @@ class Path
         $this->cache_dir =  $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
         $this->public_assets_dir = Path::Combine($this->base_dir, IGK_RES_FOLDER);
         // check an create cache folder on init - build - hook - context 
-        if ($this->cache_dir && !is_dir($this->cache_dir)){
+        if ($v_is_webapp && $this->cache_dir && !is_dir($this->cache_dir)){
+            // create cache directory for web app
             IO::CreateDir($this->cache_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
-        }
-        if ($this->public_assets_dir && !is_dir($this->public_assets_dir)){
+        } 
+
+        if ($v_is_webapp && $this->public_assets_dir && !is_dir($this->public_assets_dir)){
+            // + | init create asset directory for web app
             IO::CreateDir($this->public_assets_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
         }
 
@@ -444,13 +447,20 @@ class Path
      */
     public static function Combine(...$path)
     {
+        $sep = '/';
         $path = array_values(array_filter(array_values($path)));
         if ($path) {
-            $p = rtrim($path[0], DIRECTORY_SEPARATOR);
+            $p = rtrim($path[0], $sep);           
             $path = array_slice($path, 1);
             $path = array_map(self::class . "::TrimDir", $path);
-            array_unshift($path, $p);
-            return igk_uri(implode(DIRECTORY_SEPARATOR, array_filter($path)));
+            $r = '';
+            if (!empty($p)){
+                array_unshift($path, $p);
+            }
+            else{
+                $r = $sep;
+            }
+            return $r.igk_uri(implode($sep, array_filter($path)));
         }
         return null;
     }
@@ -509,19 +519,22 @@ class Path
             while (count($g) > 0) {
                 $q = array_shift($g);
                 if (empty($p)) {
-                    $p = $q;
+                    $p = rtrim($q, '/');
                     continue;
                 }
                 $p = dirname($p);
                 if (empty($q)) {
                     continue;
                 } else {
-                    $p .= "/" . $q;
+                    $p = self::Combine($p, $q);
                 }
             }
             $s = $p;
         }
-        $s = str_replace("/./", "/", $s);
+        $s = str_replace("/./", "/", $s); 
+        if (igk_str_endwith($s, '/.')){
+            $s = rtrim(substr($s, 0,-1),'/');
+        }
         return $s;
     }
 

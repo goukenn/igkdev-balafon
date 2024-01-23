@@ -13,13 +13,15 @@ class ZipProjectCommand extends AppExecCommand{
 
     var $command = "--project:zip";
 
-    var $desc = "zip balafon project core";
+    var $desc = "zip balafon project";
 
     var $category = "project";
 
     var $usage = "controller [path] [options]";
-
-
+    
+    /**
+     * exec the command
+     */
     public function exec($command, $controller=null, $path=null){
        
         if (!extension_loaded("zip") && !function_exists('zip_open')){

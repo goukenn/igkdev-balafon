@@ -55,7 +55,11 @@ class HtmlImgNode extends HtmlNode{
     public function getSrc(){
         return $this["src"]->value;
     }
-    public function closeTag()
+    /**
+     * is self closing tag
+     * @return bool 
+     */
+    public function closeTag():bool
     {
         return true;
     } 

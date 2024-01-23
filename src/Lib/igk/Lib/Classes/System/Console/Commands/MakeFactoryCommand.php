@@ -47,7 +47,7 @@ class MakeFactoryCommand extends AppExecCommand
             return false;
         }
         $entry_path = "/Database/Factories";
-        $clname = ucfirst(igk_str_ns($modelname)) . "Factory";
+        $clname = igk_str_add_suffix(ucfirst(igk_str_ns($modelname)), "Factory");
         $ns = $ctrl->getEntryNamespace().$entry_path;
         if (!empty($ns)) {
             $ns = str_replace("/", "\\", $ns);

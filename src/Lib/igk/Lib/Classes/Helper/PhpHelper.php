@@ -148,7 +148,11 @@ class PhpHelper{
                 if ($p->isOptional()){
                     $s.="?";
                 }
-                $s .= IGKType::GetName($p->getType()) . " ";
+                $r = IGKType::GetName($p->getType());
+                if (!IGKType::IsPrimaryType($r)){
+                    $s .= '\\';
+                }
+                $s .= $r.' '; // IGKType::GetName($p->getType()) . " ";
 
             } 
             $s.=  '$'.$p->getName();

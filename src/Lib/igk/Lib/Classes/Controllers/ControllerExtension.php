@@ -45,6 +45,8 @@ use IGK\Models\Users;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Configuration\ProjectConfiguration;
+use IGK\System\Controllers\ControllerMethods;
+use IGK\System\Database\DbSchemaDefinitionAttributes;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -1289,7 +1291,7 @@ abstract class ControllerExtension
                     igk_ilog('login connect: > ' . $u);
                     $check = true; 
                 } else {
-                    Logger::danger('connection failed.' . igk_environment()->get('connect_error'));
+                    Logger::danger(igk_ilog_m('connection failed.' . igk_environment()->get('connect_error')));
                     igk_ilog('login failed: > ' . $u);
                 }
             }
@@ -1459,63 +1461,7 @@ abstract class ControllerExtension
         }
         return $r;
     }
-    ///<summary>drop list data base</summary>
-    /**
-     * drop list data base
-     */
-    public static function dropDb(BaseController $controller, $navigate = 1, $force = false)
-    {
-
-        $ctrl = $controller;
-
-        $func = function () use ($ctrl) {
-            // + | --------------------------------------------------------------------
-            // + | raise utility command
-            // + |
-            DbUtilityHelper::InvokeOnStartDropTable($ctrl, true);
-            igk_hook(IGKEvents::HOOK_DB_START_DROP_TABLE, $ctrl);
-        };
-        $_vinit = 0;
-
-        if ($force || $ctrl->getCanInitDb()) {
-            if (!$ctrl->getUseDataSchema()) {
-                $db = self::getDataAdapter($ctrl);
-                if (
-                    !empty($table = $ctrl->getDataTableName()) &&
-                    $ctrl->getDataTableInfo() &&
-                    $db && $db->connect()
-                ) {
-                    $table = igk_db_get_table_name($table, $ctrl);
-                    $func();
-                    $db->dropTable($table); // ctrl->getDataTableName());
-                    $db->close();
-                }
-            } else {
-                $tb = $ctrl::loadDataFromSchemas();
-                $db = self::getDataAdapter($ctrl);
-                if ($force || ($db && $db->connect())) {
-                    $migHandle = new MigrationHandler($controller);
-                    $migHandle->down();
-
-                    $v_tblist = [];
-                    if ($tables = igk_getv($tb, "tables")) {
-                        foreach (array_keys($tables) as $k) {
-                            $v_tblist[$k] = $k;
-                        }
-                    }
-                    $func();
-                    $db->dropTable($v_tblist);
-                    $_vinit = 1;
-                    $db->close();
-                }
-            }
-        }
-        if ($navigate) {
-            $controller->View();
-            igk_navtocurrent();
-        }
-        return $_vinit;
-    }
+   
 
     /**
      * log out controller 
@@ -1731,9 +1677,10 @@ abstract class ControllerExtension
         return $cl;
     }
 
-    ///<summary> initialize db from data schemas </summary>
+    ///<summary> initialize db's table from data schemas </summary>
     /**
-     *  initialize db from data schemas
+     *  initialize db's table from data schemas
+     *  @return false|array array of initialize tables
      */
     public static function initDbFromSchemas(BaseController $controller)
     {
@@ -1745,17 +1692,14 @@ abstract class ControllerExtension
         $r = $controller->loadDataAndNewEntriesFromSchemas();
         if (!$r) {
             return false;
-        }
-
-        $tb = $r->Data;
-        DbSchemas::InitData($controller, $r, $db);
-
+        } 
+        DbSchemas::InitData($controller, $r, $db); 
         // + | ---------------------------------------------------------
         // + | update migration handler
         // + |
         $migHandle = new MigrationHandler($controller);
         $migHandle->up();
-        return $tb;
+        return $r->Data;
     }
 
     /**
@@ -1852,15 +1796,23 @@ abstract class ControllerExtension
     /**
      * laod database from schema
      * @param BaseController $ctrl 
-     * @return null|object 
+     * @return ?\IGK\System\Database\ILoadSchemaInfo
      * @throws IGKException 
      */
-    public static function loadDataFromSchemas(BaseController $ctrl, $resolvName = true, $operation = DbSchemasConstants::Migrate)
-    {
+    public static function loadDataFromSchemas(BaseController $ctrl,bool $resolvName = true, string $operation = DbSchemasConstants::Migrate)
+    { 
         return DbSchemas::LoadSchema(self::getDataSchemaFile($ctrl), $ctrl, $resolvName, $operation);
     }
     /**
-     * controller get data table definition
+     * get cached definition table info 
+     * @param BaseController $controller 
+     * @return array<string, SchemaMigrationInfo> 
+     */
+    public static function getCachedDataTableDefinition(BaseController $controller){
+        return DBCaches::GetControllerDataTableDefinition($controller);
+    }
+    /**
+     * controller get data table definition basic reference 
      * @return ?stdClass { $tableRowReference, $columnInfo }
      */
     public static function getDataTableDefinition(BaseController $ctrl, ?string $tablename = null)
@@ -1877,7 +1829,7 @@ abstract class ControllerExtension
             $info = null;
             if (DBCaches::IsInitializing())
                 return;
-            if (is_null($tablename)) {
+           // if (is_null($tablename)) {
                 // || !($info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
                 // load the actual state of the dataschema - everything up 
                 if ($schema = self::loadDataFromSchemas($ctrl, true, DbSchemasConstants::Migrate)) {
@@ -1894,9 +1846,8 @@ abstract class ControllerExtension
                         }
                     }
                 }
-            }
-            if ($info) {
-                // $info->controller = $ctrl;
+             
+            if ($info) { 
                 igk_hook(\IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename" => $tablename, "info" => $info]);
             }
             return $info;
@@ -1929,7 +1880,7 @@ abstract class ControllerExtension
     /**
      * load data and entries 
      * @param BaseController $controller 
-     * @return object|DbSchemaLoadEntriesFromSchemaInfo 
+     * @return DbSchemaLoadEntriesFromSchemaInfo 
      * @throws IGKException 
      */
     public static function loadDataAndNewEntriesFromSchemas(BaseController $controller)
@@ -1946,10 +1897,15 @@ abstract class ControllerExtension
                 $obj->Version = $data->version;
 
                 foreach ($data->tables as $n => $t) {
+                    // Passing entries to return object
                     if (isset($t->entries)) {
                         if ($c = $t->entries) {
                             $obj->Entries[$n] =  $c;
                         }
+                    }
+                    //+ | merging entries data 
+                    if (isset($data->entries[$n]) && ($c != $data->entries[$n])){
+                        $obj->Entries[$n] = array_merge(igk_getv($obj->Entries, $n, []), $data->entries[$n]);
                     }
                     $obj->Data[$n] = $t;
                 }
@@ -1997,6 +1953,11 @@ abstract class ControllerExtension
     {
         $theme = $theme ?? self::getCurrentDoc($controller)->getTheme();
         if ($theme && !empty($file = $controller->getPrimaryCssFile()) && is_file($file)) {
+            if (method_exists($controller, ControllerMethods::setupTheme)){
+                $controller->setupTheme($theme);
+            } else {
+                $theme->prefix = $controller->getConfigs()->get('cssThemePrefix', '');
+            }
             return igk_ctrl_bind_css_file($controller, $theme, $file, $cssRendering, 0);
         }
     }
@@ -2084,13 +2045,19 @@ abstract class ControllerExtension
         }
     }
 
+    /**
+     * store data schema 
+     * @param BaseController $controller 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function SaveDataSchemas(BaseController $controller)
     {
         $dom = HtmlNode::CreateWebNode(IGK_SCHEMA_TAGNAME);
-        $dom["ControllerName"] = $controller->Name;
-        $dom["Platform"] = IGK_PLATEFORM_NAME;
-        $dom["PlatformVersion"] = IGK_WEBFRAMEWORK;
-        $e = HtmlNode::CreateWebNode("Entries");
+        $v_def = new DbSchemaDefinitionAttributes;
+        $v_def->ControllerName = $controller->getName(); 
+        $dom->setAttributes((array)$v_def);
+        $e = HtmlNode::CreateWebNode(IGK_ENTRIES_TAGNAME);
         $d = igk_getv($controller->loadDataFromSchemas(), "tables");
         if ($d) {
             $tabs = array();
@@ -2318,6 +2285,8 @@ abstract class ControllerExtension
      */
     public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null): ?string
     {
+        
+
         // + | --------------------------------------------------------------------
         // + | detect action to call - base on request name and params
         // + |

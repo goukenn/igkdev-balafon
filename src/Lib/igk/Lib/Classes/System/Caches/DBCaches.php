@@ -45,6 +45,35 @@ class DBCaches
      */
     private $m_db_defs;
 
+
+    /**
+     * return loaded controller info 
+     * @param BaseController $controller 
+     * @return <string, SchemaMigrationInfo>[]
+     */
+    public static function GetControllerDataTableDefinition(BaseController $controller){
+        if (!self::getInstance()->m_init_cache){
+            self::Init();
+        }
+
+        $mp = self::GetCacheData();
+        /**
+         * @var string $table 
+         * @var SchemaMigrationInfo $info 
+         */
+        $table=null;
+        $info;
+    
+
+        $list = [];
+        foreach($mp as $table=>$info){
+            if ($info->controller == $controller){
+                $list[$table] = $info;
+            }
+        }
+        return $list;
+    }
+
     /**
      * init db request 
      * @return mixed 
@@ -59,7 +88,10 @@ class DBCaches
         return igk_io_cachedir() . '/' . self::CACHE_FILE_NAME;
     }
 
-
+    /**
+     * retrieve cached data
+     * @return array 
+     */
     public static function GetCacheData()
     {
         return self::getInstance()->m_tableInfo;
@@ -124,7 +156,7 @@ class DBCaches
      * retrieve cached table column info -
      * @param string $table 
      * @param null|BaseController $controller 
-     * @return mixed 
+     * @return SchemaMigrationInfo|array 
      * @throws IGKException 
      */
     public static function GetColumnInfo(string $table, ?BaseController $controller = null)
@@ -140,7 +172,7 @@ class DBCaches
         if (!$v_i->m_init_cache || is_null($v_i->m_tableInfo)){
             self::GetColumnInfo($table, $controller);
         }
-        $c = igk_getv(   $v_i->m_tableInfo, $table);
+        $c = igk_getv($v_i->m_tableInfo, $table);
         if ($controller && $c) {
             // + | --------------------------------------------------------------------
             // + | check matching 
@@ -156,6 +188,12 @@ class DBCaches
         $g = static::getInstance();
         return igk_getv($g->m_tableInfo, $n);
     }
+    /**
+     * register table information 
+     * @param string $table 
+     * @param mixed $info 
+     * @return void 
+     */
     public static function Register(string $table,  $info)
     {
         $g = static::getInstance();
@@ -201,6 +239,15 @@ class DBCaches
         $this->_clear();
         $this->_initDbCache($force);
     }
+    /**
+     * initialize schema cache
+     * @param bool $force 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     protected function _initDbCache(bool $force=false)
     {
         if ($this->m_initializing) {
@@ -250,6 +297,9 @@ class DBCaches
         igk_environment()->NO_PROJECT_AUTOLOAD = 1;
         $db = new DatabaseInitializer;
         $definition = $db->init($sysctrl);
+
+     
+
         $this->m_tableInfo = $definition->tables; //  array_combine(array_keys((array)$definition->tables) ,$definition->tables) ; 
         $this->m_db_initializer = $db;
         // init project definition  

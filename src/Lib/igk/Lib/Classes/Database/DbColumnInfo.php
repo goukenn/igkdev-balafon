@@ -6,10 +6,10 @@
 
 
 namespace IGK\Database;
-
-use IGK\App\Bondje\Models\DbUtility;
+ 
 use IGK\Database\Traits\DbColumnInfoMethodTrait;
 use IGK\Database\Traits\DbColumnInfoTrait;
+use IGK\System\Database\DbUtils;
 use IGKException;
 use IGKObject;
 use IGKSysUtil;
@@ -17,15 +17,23 @@ use ReflectionClass;
 use ReflectionException;
 
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
-///<summary>Represente class: DbColumnInfo</summary>
+///<summary>Represent class: DbColumnInfo</summary>
 /**
- * Represente DbColumnInfo class
+ * Represent DbColumnInfo class
  */
 final class DbColumnInfo extends IGKObject implements IDbColumnInfo
 {
     use DbColumnInfoTrait;
     use DbColumnInfoMethodTrait;
 
+    /**
+     * get if this column info must be consider as a dump fields
+     * @return bool 
+     */
+    public function getIsDumpField(): bool{
+        return DbUtils::GetIsDumpField($this);
+        
+    }
     ///<summary></summary>
     ///<param name="array" default="null"></param>
     /**
@@ -36,7 +44,13 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         $this->clType = "Int";
         $this->clTypeLength = 11;      
-        $this->initialize($array);       
+        $this->initialize($array);     
+
+        // igk_wln(__FILE__.":".__LINE__ , $array);
+        // support type length        
+        // if(!in_array(strtolower($this->clType), ['int','varchar'])){
+        //     $this->clTypeLength = null;
+        // }
     }
     private static function ExplodeLinkTo(string $data){
         $table = explode(",", $data,3);
@@ -87,8 +101,12 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             }
             // + | --------------------------------------------------------------------
             // + | if already setup auto - make int data to be not null
-            // + |            
-            if (!is_bool($this->clNotNull) && !$this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
+            // + |   
+            // number must not allow null values
+            if (is_null($this->clNotNull)){
+                $this->clNotNull = false;
+            }
+            if ($this->clNotNull && empty($this->clDefault) && preg_match("/(int|float)/i", $this->clType)) {
                 $this->clDefault = 0;
                 if (!$this->clLinkType)
                     $this->clNotNull = true;
@@ -316,6 +334,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     public static function GetRowDefaultValue(IDbColumnInfo $v)
     {
         if ($v->clNotNull) {
+            if (empty($v->clType)){
+                igk_dev_wln_e(__FILE__.":".__LINE__ , "is empty ");
+            }
             switch (strtolower($v->clType)) {
                 case "int":
                 case "float":
