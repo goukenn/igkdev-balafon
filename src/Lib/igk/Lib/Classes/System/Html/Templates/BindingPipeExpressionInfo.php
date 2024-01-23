@@ -45,6 +45,9 @@ class BindingPipeExpressionInfo{
                 // + | pipe to registrer lang
                 return __($v,...array_slice(func_get_args(), 1));
             }, 'json' => function ($v) {
+                if ($v instanceof \IGK\System\Core\IProxyDataArgs){
+                    $v = $v->getData();
+                } 
                 return json_encode($v);
             }, 'date' => function ($v, $options = null) {
                 $v = strtotime($v);

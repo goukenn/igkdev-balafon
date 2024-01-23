@@ -17,6 +17,18 @@ interface IHtmlNodeBuilderVisitor{
     function setContext(?object $context);
     function getContext():?object;
     /**
+     * 
+     * @param mixed $new_context 
+     * @return mixed last context
+     */
+    function pushContext($new_context);
+    
+    /**
+     * pop current context 
+     * @return mixed 
+     */
+    function popContext();
+    /**
      * setting up 
      * @param HtmlItemBase $node 
      * @param mixed $data 

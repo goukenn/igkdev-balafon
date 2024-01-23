@@ -45,9 +45,9 @@ function igk_engine_get_attr_arg($s, $context = null)
                 $d = preg_replace_callback($paramvar_rgx, $callback, $d);
                 if (!empty($d)) {
                     $s = "\$context->" . $n . $d;
-                    $m = "return {$s};";
+                    $v_src = "return {$s};";
                     igk_set_env(IGK_LAST_EVAL_KEY, $m);
-                    $tb[$k] = @eval($m);
+                    $tb[$k] = @eval($v_src);
                 } else {
                     $tb[$k] = $context->$n;
                 }
@@ -322,30 +322,30 @@ if (!function_exists('igk_engine_html_load_content')) {
     }
 }
 
-if (!function_exists('igk_engine_eval_pipe')) {
+if (!function_exists('igk_engine_eval')) {
     /**
      * helper: evaluate pipe expression in context defition 
      * @param string $pipe expression
      * @param int position of the first separator
      */
-    function igk_engine_eval_pipe(string $pipe, int $pos, array $tab, string $startMarker = '{{', string $endMarker = '}}')
+    function igk_engine_eval(string $content, int $pos, array $tab, string $startMarker = '{{', string $endMarker = '}}')
     {
-        $n = substr($pipe, 0, $pos);
-        $ln = strlen($pipe);
+        $n = substr($content, 0, $pos);
+        $ln = strlen($content);
         $v = '';
         while ($pos < $ln) {
-            $npos = strpos($pipe,  $endMarker, $pos);
+            $npos = strpos($content,  $endMarker, $pos);
             if ($npos !== false) {
-                $v = substr($pipe, $pos + 2, $npos - $pos - 2);
+                $v = substr($content, $pos + 2, $npos - $pos - 2);
                 $n .= igk_php_eval_in_context($v, $tab);
                 $pos = $npos + 2;
-                $npos = strpos($pipe, $startMarker, $pos);
+                $npos = strpos($content, $startMarker, $pos);
                 if ($npos === false) {
-                    $n .= substr($pipe, $pos);
+                    $n .= substr($content, $pos);
                     break;
                 }
             } else {
-                $n .= substr($pipe, $pos);
+                $n .= substr($content, $pos);
                 break;
             }
             $pos++;

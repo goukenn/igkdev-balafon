@@ -61,6 +61,11 @@ passing parameters to layout
 
 ## FIX
 
+- 20242301
+
+--- add range on loop node
+--- fix bug
+
 - 20232109
     + add model - map
     + add CurlHttpClient session request support 

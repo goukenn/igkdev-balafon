@@ -12377,7 +12377,7 @@ function igk_html_php_eval($obj, $ctrl, $raw, $expression, $a = 0)
     return $m;
 }
 ///<summary>localize une expression </summary>
-///<exemple> 'donnee: {0|upper}', info => 'donnee : INFO'</exemple>
+///<exemple> 'result: {0|upper}', info => 'result : INFO'</exemple>
 ///<remark> passer des options tab array of info :
 ///v: the value to eval
 ///a: 0|1 use real value
@@ -12416,7 +12416,7 @@ function igk_html_php_evallocalized_expression($expression, $tab = null)
                 } else if (!is_array($raw)) {
                     $raw = ['raw' => $raw];
                 }
-                $pipe = igk_engine_eval_pipe($pipe, $pos, $raw);
+                $pipe = igk_engine_eval($pipe, $pos, $raw);
             }
             $v = igk_str_pipe_value($v, $pipe);
         }
@@ -12424,6 +12424,10 @@ function igk_html_php_evallocalized_expression($expression, $tab = null)
     return $v;
 }
 
+/**
+ * eval expression in context
+ * @return mixed evaluation result
+ */
 function igk_php_eval_in_context($exp)
 {
     extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0, [])));

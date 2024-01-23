@@ -30,6 +30,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Runtime\Compiler\CompilerConstants;
 use IGK\System\Templates\BindingExpressionReader;
 use IGK\XML\XMLNodeType;
 use IGKException;
@@ -116,13 +117,22 @@ final class HtmlReader extends IGKObject
                         $v_bind = new HtmlTemplateReaderDataBinding($cnode, $src, $ctrl, $data, $v_bcontext);
                         $v_ts = $v_bind->treat();
                         if ($v_bcontext->transformToEval) {
-                            $v_expression = $v_bcontext->hookExpression ?? '$data';
+                            $v_expression = $v_bcontext->hookExpression ?? CompilerConstants::BINDING_CONTEXT_VAR_NAME;
                             $v_comment = igk_is_debug() ? '/* ' . __METHOD__ . ' */ ' : "";
                             $sb = new StringBuilder;
                             $sb->appendLine('<?php');
-                            $sb->append("foreach($v_expression as \$key=>\$raw$v_comment):\n?>");
+                            $sb->append("if (isset($v_expression)) foreach($v_expression as \$key=>\$raw$v_comment):\n?>");
                             $sb->append($v_ts);
                             $sb->appendLine("<?php\nendforeach;\n?>");
+
+                            if ($v_expression==CompilerConstants::BINDING_CONTEXT_VAR_NAME){
+                                //+ | passing sub to function 
+                                $sb = sprintf('<?php (function(%s){ %s ?>%s<?php })($raw); ?>', 
+                                    $v_expression,
+                                     $v_expression.' = '.str_replace("%s", $v_expression, 
+                                        'isset(%s) && !is_array(%s)&& !is_object(%s) ? [%s] : %s;'), //.$v_expression.'];',
+                                    $sb.'');
+                            }
                             $v_ts = $sb;
                         }
                         $engine .= $v_ts;  

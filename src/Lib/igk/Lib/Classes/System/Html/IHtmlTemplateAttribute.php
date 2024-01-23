@@ -5,9 +5,9 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
+///<summary>a template attribute expression</summary>
 /**
-* 
+* a template attribute expression
 * @package IGK\System\Html
 */
 interface IHtmlTemplateAttribute{

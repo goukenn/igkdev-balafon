@@ -26,6 +26,8 @@ use IGK\System\ViewDataArgs;
 use IGKException;
 use ReflectionException;
 use SebastianBergmann\FileIterator\Iterator;
+use IGK\System\Html\IHtmlHostContextContainer;
+use IGK\System\Html\IHtmlTemplateHost;
 
 /**
  * summary html array looper.
@@ -33,14 +35,23 @@ use SebastianBergmann\FileIterator\Iterator;
  * @example usage $t->loop([1,2,3])->host(function($n, $a){\
  *                  $n->li()->Content = "Item ".$a;\
  *              });
+ * loop for child template. 
  * it bind to looper node : -:)
+ * contextual looping node 
  */
-class HtmlLooperNode extends HtmlItemBase{
+class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
     private $args;
     private $node;  
     private $callback; 
     private $m_template;    
     protected $tagname = "igk:looper";
+
+    /**
+     * to indicate that the variables list is a looper key 
+     */
+    const LOOPER_KEY = '$raw';
+   
+    private static $sm_renderingContextArgs;
     /**
      * param to pass 
      * @var mixed
@@ -48,8 +59,8 @@ class HtmlLooperNode extends HtmlItemBase{
     private $params; // 
     var $controller;
     /**
-     * 
-     * @param mixed $args 
+     * .ctr
+     * @param mixed $args item used to loop
      * @param mixed $node parent node that will host data 
      * @return void 
      * @throws IGKException 
@@ -63,6 +74,13 @@ class HtmlLooperNode extends HtmlItemBase{
         $this->setFlag("NO_TEMPLATE",1); 
         $this->m_template = igk_create_notagnode();
     }   
+    public function setContent($content){
+        if (is_string($content)){ 
+            $this->m_template->text($content);
+            //$this->m_template->add($c);// text($content);
+        }
+        return $this;
+    }
     public function getCanRenderTag() { return false; }
 
     /**
@@ -79,8 +97,7 @@ class HtmlLooperNode extends HtmlItemBase{
         if ($this->callback){
             return null;
         }
-        $v_childrend = $this->m_template->getChilds();
-        // $v_childrend = $this->getChilds();
+        $v_childrend = $this->m_template->getChilds();        
         $c = $v_childrend->count(); 
         $v_out = null;      
         if ($c){
@@ -105,29 +122,46 @@ class HtmlLooperNode extends HtmlItemBase{
         $sb = new StringBuilder;
         $t_options = $options ? clone($options) : (object)[];
         $t_options->renderingContext = RenderingContext::TEMPLATE;
-        foreach($children->to_array() as $tc){
-            $tc["*for"] = "\$raw";
-            $sb->append(HtmlRenderer::Render($tc, $t_options));
-        } 
-        $n = igk_create_notagnode(); 
-        if ($this->args instanceof IViewExpressionArg){
-            $hook_expression = $this->args->getExpression();                 
-            self::_HostChain($n, $sb."", $this->args, $ctrl, $hook_expression);
+        if (is_null(self::$sm_renderingContextArgs)){
+            self::$sm_renderingContextArgs = [];
+        }
+        $v_args = $this->args;
+        // +| Treat Argument to Match Logger
+        $v_args = \IGK\System\Html\Templates\Engine\Helpers\LooperArgs::TreatArgument($v_args);
+        if (is_string($v_args) && strstr($v_args, self::LOOPER_KEY)){
+            if (count(self::$sm_renderingContextArgs)==0){
+                igk_die("not in contextual rendering raw");
+            }
+            $sb = self::_RenderTemplate($children, $t_options); 
+            return $sb; 
+        }  
+        array_unshift(self::$sm_renderingContextArgs, (object)[
+                'source'=>$this,
+                'raw'=>$v_args
+            ]
+        );
+        $sb = self::_RenderTemplate($children, $t_options); 
+        // + render global data 
+        $n = igk_create_notagnode();  
+
+        if ($v_args instanceof IViewExpressionArg){
+            $hook_expression = $v_args->getExpression();                 
+            self::_HostChain($n, $sb."", $v_args, $ctrl, $hook_expression);
             $v_out  = $n->render();  
         } else { 
             $hook_expression = CompilerConstants::LOOP_CONTEXT_DATA_VAR; 
-            self::_HostChain($n, $sb."", $this->args, $ctrl, '$'.$hook_expression);
+            self::_HostChain($n, $sb."", $v_args, $ctrl, '$'.$hook_expression);
             $v_out  = $n->render();
-            if ($this->args instanceof ViewDataArgs)  {
-                $v_targs = $this->args->getData();
+            if ($v_args instanceof ViewDataArgs)  {
+                $v_targs = $v_args->getData();
             }else{
-                $v_targs = is_array($this->args) ? $this->args : 0;
+                $v_targs = is_array($v_args) ? $v_args : 0;
             }
             if ($v_targs){ 
                 ob_start();                    
                 SysUtils::Eval($v_out, [
-                    $hook_expression =>  new LopperEvalData($this->args),
-                    "raw"=>$this->args,
+                    $hook_expression =>  new LopperEvalData($v_args),
+                    "raw"=>$v_args,
                     "ctrl"=> $ctrl 
                 ]); 
                 $v_out = ob_get_contents();  
@@ -136,7 +170,27 @@ class HtmlLooperNode extends HtmlItemBase{
                $v_out=null;
             }
         } 
+
+        array_shift(self::$sm_renderingContextArgs);
         return $v_out;
+    }
+    private static function _RenderTemplate($children, $t_options):string{
+        $sb = new StringBuilder;
+        foreach($children->to_array() as $tc){
+            if ($tc->getCanRenderTag())
+            {
+                $tc["*for"] = "\$raw";
+                $v_cx = HtmlRenderer::Render($tc, $t_options);
+                $sb->append($v_cx);
+            } else {
+                //+ | binding text content 
+                $v_cx = HtmlRenderer::Render($tc, $t_options);
+                $sb->appendLine("<?php foreach($".CompilerConstants::LOOP_CONTEXT_DATA_VAR." as \$raw): ?>");
+                $sb->appendLine($v_cx);
+                $sb->appendLine("<?php endforeach; ?>"); 
+            }
+        } 
+        return $sb.'';
     }
 
     /**
