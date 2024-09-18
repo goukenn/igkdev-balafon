@@ -14,6 +14,10 @@ class SQLite3Result extends DbQueryResult{
     private function __construct(){        
     }
 
+    public function to_json($option=null, int $flag=0) { 
+        igk_die('not implement '.__METHOD__);
+    }
+
     public function success(): bool { 
         return true;
     }

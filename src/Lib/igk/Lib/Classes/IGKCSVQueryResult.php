@@ -12,6 +12,14 @@ final class IGKCSVQueryResult extends IGKQueryResult{
     private $m_columns, $m_rowcount, $m_rows;
     ///<summary></summary>
     private function __construct(){    }
+
+    public function success(): bool { 
+        return true;
+    }
+
+    public function to_array(): ?array { 
+        return $this->m_rows;
+    }
     ///<summary></summary>
     ///<param name="e"></param>
     ///<param name="tableinfo" default="null"></param>

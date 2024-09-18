@@ -8,7 +8,9 @@
 
 namespace IGK\System\Console;
 
+use Exception;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\Helper\Activator;
 use IGK\System\Console\AppCommandConstant;
 use IGK\System\Console\AppCommandOptions;
@@ -287,5 +289,6 @@ abstract class AppCommand {
         return $g;
     }
 
+   
    
 }

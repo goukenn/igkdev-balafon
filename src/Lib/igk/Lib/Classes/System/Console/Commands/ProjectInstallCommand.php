@@ -13,6 +13,8 @@ use IGK\System\Console\AppExecCommand;
 */
 class ProjectInstallCommand extends AppExecCommand{
     var $command = '--projet:install';
+    var $desc = "install a site projects";
+    var $usage = "project_name [option]";
     public function exec($command, ?string $controller = null) {
         is_null($controller) && igk_die("controller required.");
      }

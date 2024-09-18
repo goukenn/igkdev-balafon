@@ -372,8 +372,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         $this->m_inTransaction = true;
     }
     public function createRandomQueryTableOnColumn(string $table, string $column, ?array $columns=null): ?string {
-        return null; // $this->getGrammar()->createRandomQueryTableOn($table, $column, $columns);
-        // sprintf('SELECT * FROM tbrental_car_modeles AS t1 JOIN (SELECT crmodele_id FROM tbrental_car_modeles ORDER BY RAND() LIMIT 1) as t2 ON t1.crmodele_id=t2.crmodele_id;');
+        return null;   
     }
     ///<summary></summary>
     /**

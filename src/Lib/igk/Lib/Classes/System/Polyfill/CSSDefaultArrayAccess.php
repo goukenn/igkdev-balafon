@@ -6,7 +6,11 @@
 
 namespace IGK\System\Polyfill;
 
+use IGK\System\Html\Css\CssParser;
+use IGK\System\Html\Css\CssUtils;
+
 trait CSSDefaultArrayAccess{
+
     ///<summary></summary>
     ///<param name="i"></param>
     /**
@@ -37,7 +41,7 @@ trait CSSDefaultArrayAccess{
     /**
     * 
     * @param mixed $i
-    * @param mixed $v
+    * @param ?string $v
     */
     public function offsetSet($i, $v):void{
         $g=null;
@@ -46,8 +50,10 @@ trait CSSDefaultArrayAccess{
             $this->_[self::PROPERTIES] =  & $g;
         }
         $g= & $this->_[self::PROPERTIES];
-        $g[$i]=$v;
+        $this->_bindProperties($g, $i, $v); 
     }
+
+  
     ///<summary></summary>
     ///<param name="i"></param>
     /**

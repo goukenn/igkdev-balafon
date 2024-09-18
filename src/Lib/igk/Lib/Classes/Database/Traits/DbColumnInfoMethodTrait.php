@@ -20,7 +20,7 @@ trait DbColumnInfoMethodTrait{
         return preg_match("/u(((big|smal|tiny)?int)|float)/i", $this->clType);
     }
     public function getIsRefId():bool{
-        return preg_match("/int/i", $this->clType ) && $this->clAutoIncrement && $this->clIsPrimary;
+        return preg_match("/int/i", $this->clType ) && ($this->clAutoIncrement || $this->clIsPrimary);
     }  
     /**
      * check if support type length

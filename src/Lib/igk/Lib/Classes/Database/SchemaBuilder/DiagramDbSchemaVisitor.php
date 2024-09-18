@@ -29,7 +29,7 @@ class DiagramDbSchemaVisitor extends DiagramVisitor{
         $tb = $entity->getName();
         $key = $n["TableName"] = $diagram? $diagram->getTableName($tb) : $tb;
         $this->visitor_items[$key] = $n;
-        $n["clDescription"] = $entity->getDescription();
+        $n["Description"] = $entity->getDescription();
         if($p = $entity->getProperties()){
             foreach($p as $l){
                 $ul = $n->add(DbSchemas::COLUMN_TAG);

@@ -37,6 +37,7 @@ class MySQLCommand extends AppExecCommand
     const ACTIONS = 'clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
     
     var $action_helps = [
+        "drop-tables"=>"[--filter:(tables)]",
         "dump"=>"--zip,--type:(sql|csv),--filter:expression"
     ];
     public function sendQuery($query)
@@ -63,7 +64,7 @@ class MySQLCommand extends AppExecCommand
             $rs = "\t{$k}";
             $help = igk_getv($this->action_helps, $k);
             if ($help){
-                $rs.= str_repeat("\t", 6).$help;
+                $rs.= "\r".str_repeat("\t", 6).$help;
             }
             Logger::print($rs);
         }

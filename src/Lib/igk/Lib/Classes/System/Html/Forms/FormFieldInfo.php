@@ -4,7 +4,8 @@
 // @date: 20231228 12:19:12
 namespace IGK\System\Html\Forms;
 
-use IGK\System\Html\Forms\Validations\IFormValidationInfo; 
+use IGK\System\Html\Forms\Validations\IFormValidationInfo;
+use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
 
 ///<summary></summary>
 /**
@@ -46,6 +47,9 @@ class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
      * 
      * @var mixed
      */
-    var $default;
+    var $default; 
+    
+
+    use FormFieldValidationInfoTrait; 
 
 }

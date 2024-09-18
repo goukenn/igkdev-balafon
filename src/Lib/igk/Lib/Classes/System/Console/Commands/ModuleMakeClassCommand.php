@@ -20,8 +20,9 @@ class ModuleMakeClassCommand extends AppExecCommand{
     var $category = 'module';
     var $desc = 'help create a class|interface|trait for module';
     var $options = [
-        '--type:[type]'=>'class type . class|interface|trait',
+        '--type:[type]'=>'class type. class|interface|trait',
         "--desc:[text]" => "description of the class",
+        "--test" => "create a test file"
     ];
     public function showUsage(){
         $this->showCommandUsage(" module [class_path] [options]");
@@ -41,13 +42,26 @@ class ModuleMakeClassCommand extends AppExecCommand{
         $desc = igk_getv($command->options, "--desc");
         $force = property_exists($command->options, "--force");
         $test = property_exists($command->options, "--test");
-        $extends = igk_getv($command->options, "--extends", $test ? ModuleBaseTestCase::class : null);
-        if (!in_array($type, self::GetAllowedTypes())) {
+         if (!in_array($type, self::GetAllowedTypes())) {
             $type = "class";
         }
         $ns = $mod->getEntryNamespace();        
-        $dir = ($test ? $mod->getTestClassesDir(): $mod->getClassesDir());       
-        if ($test && !igk_str_endwith($class_path, 'Test')){
+        $no_test_class = false;
+
+        if (!$test && (strpos($class_path,'./') === 0)){
+            $class_path = substr($class_path, 2);
+            $b = explode("/", $class_path, 2);
+            if ($b[0]=="Tests"){
+                $test = true;
+                $no_test_class=true;
+                $class_path = $b[1];
+            }
+        }
+        $dir = ($test ? $mod->getTestClassesDir(): $mod->getClassesDir());  
+        $extends = igk_getv($command->options, "--extends", $test && !$no_test_class ? ModuleBaseTestCase::class : null);
+      
+
+        if (!$no_test_class && $test && !igk_str_endwith($class_path, 'Test')){
             $class_path .= 'Test';
         }
         if ($test){

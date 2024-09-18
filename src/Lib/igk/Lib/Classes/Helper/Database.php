@@ -8,12 +8,14 @@ use Error;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
+use IGK\Database\ORM\Annotations\InitDataAnnotation;
 use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\SchemaBuilderHelper;
 use IGK\System\Database\SchemaForeignConstraintInfo;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\StringBuilder;
@@ -51,6 +53,7 @@ class Database
         }
         return self::GetPhpDocMacrosDefintionToInjectFromMacroClass($cl);
     }
+    
     public static function GetPhpDocMacrosDefintionToInjectFromMacroClass(string $macro_class, ?string $model_class=null):?string{
 
     
@@ -63,6 +66,7 @@ class Database
         });
 
         $sb = new StringBuilder;
+        $s = '';
 
         foreach ($methods as $method) {
             $t = 'void ';
@@ -168,7 +172,7 @@ class Database
     public static function InitData(BaseController $controller): bool
     {
         $controller->register_autoload();
-        if (($cl = $controller->resolveClass(\Database\InitData::class)) && class_exists($cl, false)) {
+        if (($cl = $controller->resolveClass(EntryClassResolution::DbInitData)) && class_exists($cl, false)) {
             $call = true;
             // + | Check Init :
             $c = new ReflectionMethod($cl, "Init");
@@ -176,6 +180,12 @@ class Database
                 $call = IGKType::GetName($type) == get_class($controller);
             }
             // + | init data : 
+            $recursive = false;
+            if (isset($cl::$RecursiveInit)){
+                $recursive = igk_getv(get_class_vars($cl), 'RecursiveInit');
+            } 
+            InitDataAnnotation::InitData($controller, $recursive); 
+            
             $call && $cl::Init($controller);
             return true;
         }
@@ -362,14 +372,14 @@ class Database
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
-        if (!(($cl = $controller->resolveClass('Database/DbInitManager')) && class_exists($cl, false)
+        if (!(($cl = $controller->resolveClass(EntryClassResolution::DbInitManager)) && class_exists($cl, false)
             && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
             $cl = \IGK\Database\DbInitManager::class;
         }
         if ($cl) {
             (new $cl($controller))->init($controller);
         }
-        if (($cl = $controller->resolveClass('Database/InitData')) && class_exists($cl, false)) {
+        if (($cl = $controller->resolveClass(EntryClassResolution::DbInitData)) && class_exists($cl, false)) {
             $call = true;
             // + | Check Init 
             $c = new ReflectionMethod($cl, "Init");

@@ -23,10 +23,11 @@ use IGK\Controllers\SysDbController;
 use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
+use IGK\System\EntryClassResolution;
 use \IGKControllerManagerObject;
  
 class MakeDbMacrosCommand extends AppExecCommand{
-    var $command = "--make:db-macros"; 
+    var $command = "--make:model-macros"; 
  
     var $category = "make";
 
@@ -97,7 +98,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
         if (!empty($ns)){
             $ns.="\\";
         }
-        $ns .= \Database\Macros::class;
+        $ns .= EntryClassResolution::DbMacros; 
         if (count($tcl)){
             $ns.= "\\".implode("\\", $tcl);
         }
@@ -106,7 +107,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
         // + |
         
         $this->uses = function()use($path, $ctrl){
-            $m = $ctrl->resolveClass("Models\\{$path}");
+            $m = $ctrl->resolveClass(EntryClassResolution::Models."/{$path}");
             return array_filter([
                 $m
             ]);

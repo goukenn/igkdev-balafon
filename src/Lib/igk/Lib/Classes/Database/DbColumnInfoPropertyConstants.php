@@ -14,6 +14,7 @@ use IGK\System\Exceptions\OperationNotAllowedException;
 abstract class DbColumnInfoPropertyConstants{
     const ColumnInfo = 'columnInfo';
     const DefTableName = 'defTableName';
+    const Display = 'Display';
     const Description = 'Description';
     const Table = 'table';
 

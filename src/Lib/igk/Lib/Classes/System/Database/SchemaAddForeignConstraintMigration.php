@@ -18,8 +18,8 @@ class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $from = igk_db_get_table_name($this->from, $ctrl);
 
-        $v_ons = explode(",", $this->on);
-        $v_columns = explode(",", $this->columns);
+        $v_ons = explode(',', $this->on);
+        $v_columns = explode(',', $this->columns);
         $keyName = $this->foreignKeyName;
 
         $adapter = $ctrl->getDataAdapter();

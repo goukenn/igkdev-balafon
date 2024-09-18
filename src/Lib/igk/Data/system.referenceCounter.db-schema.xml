@@ -1,10 +1,12 @@
+<?xml-model href="./Schemas/db-schemas.xsd"?>
 <data-schemas>
     <!-- reference counter : rfc_ -->
-    <DataDefinition TableName="%prefix%refcounters" prefix="rfc_"
-        clDescription="Counter References" usage="counterReference">
-        <Column clAutoIncrement="1" clIsPrimary="1" clName="rfc_Id" clType="Int"></Column>
-        <Column clName="rfc_Name" clType="VARCHAR" clTypeLength="30" clIsUnique="True"></Column>
-        <Column clName="rfc_Value" clType="Int" clDefault="0" clNotNull="True"></Column>
+    <DataDefinition TableName="%prefix%refcounters" Prefix="rfc_"
+        Description="Counter References" Usage="counterReference">
+    
+        <Column clAutoIncrement="1" clIsPrimary="1" clName="rfc_Id" clType="Int" /> 
+        <Column clName="rfc_Name" clType="VarChar" clTypeLength="30" clIsUnique="true"></Column> 
+        <Column clName="rfc_Value" clType="Int" clDefault="0" clNotNull="true"></Column>
         <GenColumn name='updateTime' prefix="rfc_" />
     </DataDefinition>
 </data-schemas>

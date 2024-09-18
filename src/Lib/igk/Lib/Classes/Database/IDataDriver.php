@@ -117,4 +117,12 @@ interface IDataDriver{
      * @return null|string 
      */
     function remove_foreign(string $name, string $column):?string;
+
+    /**
+     * flag data
+     * @param bool $flag 
+     * @return mixed 
+     */
+    function setForeignKeyCheck($flag);
+
 }

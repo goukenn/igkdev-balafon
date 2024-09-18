@@ -7,7 +7,7 @@ namespace IGK\Css;
 
 ///<summary></summary>
 /**
-* 
+* store default theme options
 * @package IGK\System\Css
 */
 class CssThemeOptions{
@@ -17,6 +17,12 @@ class CssThemeOptions{
      * @var ?string
      */
     var $theme_name;
+
+    /**
+     * array of skip definition in render mode 
+     * @var ?array
+     */
+    var $skips;
     public function __construct()
     { 
     }

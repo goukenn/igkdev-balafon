@@ -17,7 +17,9 @@ use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Database\DbUtils;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\Test\IGKValueEntryCallbackTest;
 
 /**
  * 
@@ -48,7 +50,7 @@ abstract class IGKSysUtil
         $_NS = "";
         $t = preg_replace(IGKConstants::MODEL_TABLE_REGEX, "", $t);
         if ($ctrl) {
-            $_NS = $ctrl::ns("Models") . "\\";
+            $_NS = $ctrl::ns(EntryClassResolution::Models) . "\\";
         }
         $name = preg_replace("/\\s/", "_", $t);
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));

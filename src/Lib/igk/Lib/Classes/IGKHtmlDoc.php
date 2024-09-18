@@ -628,9 +628,46 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         return $ln;
     }
 
+    /**
+     * set document description.
+     * @param mixed $value 
+     * @return $this 
+     * @throws Exception 
+     * @note : for CEO description must be [50, 170] character. 
+     */
     public function setDescription($value){
         $this->getMetas()->setDescription($value);
         return $this;
+    }
+    /**
+     * set document keywords
+     * @param mixed $value 
+     * @return $this 
+     * @throws Exception 
+     */
+    public function setKeywords($value){
+        $this->getMetas()->setKeywords($value);
+        return $this;
+    }
+    public function setCanonical(?string $uri){
+        $v_tlinks = $this->getHead()->getElementsByTagName('link');
+        $v_can = null;
+        foreach($v_tlinks as $k){
+          if ($k['rel'] == 'canonical'){
+            $v_can = $k;
+            break;
+          }
+        }
+        if (is_null($uri) && $v_can){
+            $v_can->remove();
+        }
+        else if (is_null($v_can)){
+            $v_can = $this->getHead()->add('link');
+            $v_can['rel'] = 'canonical';
+            $v_can['href'] = $uri;
+        }
+        return $this;
+
     }
     public function getBaseUri(){
         return $this->m_baseuri;

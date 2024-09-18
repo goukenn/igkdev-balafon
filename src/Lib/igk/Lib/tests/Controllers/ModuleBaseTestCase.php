@@ -26,7 +26,8 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
             $this->controller = igk_getctrl($c);
         }else{
             $this->controller = $this->getModule() ?? igk_die("module not found ".static::class);
-            $this->controller->auto_load_register();
+            // $this->controller->auto_load_register();
+            // $this->controller->register_autoload();
         }
     }
     /**

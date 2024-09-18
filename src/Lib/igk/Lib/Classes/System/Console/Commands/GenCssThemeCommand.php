@@ -5,8 +5,7 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\Controllers\SysDbController;
-use IGK\Css\CssThemeOptions;
-use igk\devtools\DocumentParser\UriDetector;
+use IGK\Css\CssThemeOptions; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssUtils;
@@ -21,6 +20,7 @@ class GenCssThemeCommand extends AppExecCommand{
     var $command = "--gen:css";
     var $desc = "generate controller's css content command";
     var $usage = "";
+    var $category = 'css';
 
     var $options = [
         '--theme:(name)'=>'set preferered theme\'s name. dark|light|both',

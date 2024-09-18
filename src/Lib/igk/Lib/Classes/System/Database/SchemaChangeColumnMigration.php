@@ -28,10 +28,11 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             Logger::danger("missing target column");
             return;
         }
+        $table  = $this->table; 
         // if ('clUser_Id' == $this->columnInfo->clName){
         //     Logger::warn(__FILE__.":".__LINE__ . " change ... ");
         // }
-        Logger::info(sprintf('change column - %s.%s - tag: [%s]', $this->table, $this->columnInfo->clName, $this->tag));
+        Logger::info(sprintf('change column - %s.%s - tag: [%s]', $table, $this->columnInfo->clName, $this->tag));
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $cinfo = $this->columns[0];

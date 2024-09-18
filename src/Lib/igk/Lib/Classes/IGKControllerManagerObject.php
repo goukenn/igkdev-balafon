@@ -25,9 +25,7 @@ use IGK\System\Drawing\Color;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 use function igk_resources_gets as __;
-
-igk_trace();
-igk_die(__FILE__." Not available");
+ 
 /**
  *  System Controllers Managers. store list of different controller table.
  * @deprecated use ApplicationControllerManager instead
@@ -573,7 +571,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         ) {
             // igk_ilog("load controller from cache: ".$fc);
             $caches = include($fc);
-            $resolvCtrl = &self::GetResolvController();      
+            $resolvCtrl = & self::GetResolvController();      
             foreach ($caches as $m) {
                 $d = explode("|", $m);
                 $cl = trim($d[0]);
@@ -598,8 +596,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
                             || isset($this->m_tbcontrollers[$cl])
                         ) {
                             continue;
-                        }
-                        // igk_wln("create register .....".$cl);
+                        } 
                         $v_ctrl = new $cl();
                         $this->registerController($v_ctrl, $reg_name, true);
                     }

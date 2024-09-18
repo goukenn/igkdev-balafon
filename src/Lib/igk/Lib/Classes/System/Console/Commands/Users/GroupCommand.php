@@ -18,7 +18,8 @@ class GroupCommand extends AppExecCommand{
 	var $command='--users:group';
 	var $desc='view user\'s group';
 	/* var $options=[]; */
-	var $category='users';
+
+	var $category = self::USER_CAT;
 	var $usage = 'login [option]';
 	public function exec($command, string $login=null) {
 		is_null($login) && igk_die('login required');

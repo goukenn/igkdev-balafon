@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Sessions.php
-// @date: 20240101 17:47:26
+// @date: 20240918 08:19:26
 namespace IGK\Models;
 
 
@@ -23,6 +23,19 @@ use IGK\Models\ModelBase;
 * @property string $clSessCityName
 * @property string $clSessRegionName
 * @property string $clSessAgent
+* @method static string FD_CL_ID() - `clId` full column name 
+* @method static string FD_CL_SESS_ID() - `clSessId` full column name 
+* @method static string FD_CL_SESS_IP() - `clSessIp` full column name 
+* @method static string FD_CL_SESS_START_AT() - `clSessStartAt` full column name 
+* @method static string FD_CL_SESS_LATITUDE() - `clSessLatitude` full column name 
+* @method static string FD_CL_SESS_LONGITUDE() - `clSessLongitude` full column name 
+* @method static string FD_CL_SESS_COUNTRY_NAME() - `clSessCountryName` full column name 
+* @method static string FD_CL_SESS_COUNTRY_CODE() - `clSessCountryCode` full column name 
+* @method static string FD_CL_SESS_CITY_NAME() - `clSessCityName` full column name 
+* @method static string FD_CL_SESS_REGION_NAME() - `clSessRegionName` full column name 
+* @method static string FD_CL_SESS_AGENT() - `clSessAgent` full column name 
+* @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clSessId, string $clSessIp, float $clSessLatitude, float $clSessLongitude, string $clSessCountryName, string $clSessCountryCode, string $clSessCityName, string $clSessRegionName, string $clSessAgent, string|datetime $clSessStartAt ="NOW()") add entry helper
 * @method static ?self AddIfNotExists(string $clSessId, string $clSessIp, float $clSessLatitude, float $clSessLongitude, string $clSessCountryName, string $clSessCountryCode, string $clSessCityName, string $clSessRegionName, string $clSessAgent, string|datetime $clSessStartAt ="NOW()") add entry if not exists. check for unique column.
 * */

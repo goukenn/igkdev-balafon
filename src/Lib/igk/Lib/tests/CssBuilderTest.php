@@ -65,6 +65,7 @@ class CssBuilderTest extends BaseTestCase
         $systheme = igk_app()->getDoc()->getSysTheme();
         $systheme[".igk-fs-n"] = "background-color:red;";
         $theme[".igk-def-c"] = "{(sys:.igk-fs-n); line-height:1.25;}";
+        // $theme[".igk-def-c"] = "(sys:.igk-fs-n); line-height:1.25;";
  
         $this->assertEquals(
             "{background-color:red; line-height:1.25;}",
@@ -140,4 +141,6 @@ class CssBuilderTest extends BaseTestCase
             "syscl: color define but not resolved not valid"
         );
     }
+
+    
 }

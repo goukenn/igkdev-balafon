@@ -17,7 +17,8 @@ class RegisterLoginToCommand extends AppExecCommand{
 
 	var $desc='login command. to register to project';
 	/* var $options=[]; */
-	var $category = 'user';
+
+	var $category = self::USER_CAT;
 
 	var $usage = 'controller login [options]';
 

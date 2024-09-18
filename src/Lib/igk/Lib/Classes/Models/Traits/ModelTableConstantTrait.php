@@ -10,7 +10,7 @@ namespace IGK\Models\Traits;
 * class must provide a static $model and static $field_name
 * @package IGK\Models\Traits
 */
-trait ModelConstantsHelper{
+trait ModelTableConstantTrait{
     // /**
     //  * model class to use
     //  * @var mixed

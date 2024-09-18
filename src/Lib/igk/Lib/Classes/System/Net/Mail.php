@@ -311,7 +311,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     public function addTo($to)
     {
         if (is_string($to)) {
-            $h = explode(",", $to);
+            $h = explode(',', $to);
             if (igk_count($h) > 1) {
                 foreach ($h as $k) {
                     $this->m_to[] = $k;
@@ -346,7 +346,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     public function addToCC($to)
     {
         if (is_string($to)) {
-            $h = explode(",", $to);
+            $h = explode(',', $to);
             if (igk_count($h) > 1) {
                 foreach ($h as $k) {
                     $this->m_tocc[] = $k;
@@ -365,7 +365,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     public function addToGCC($to)
     {
         if (is_string($to)) {
-            $h = explode(",", $to);
+            $h = explode(',', $to);
             if (igk_count($h) > 1) {
                 foreach ($h as $k) {
                     $this->m_toBcc[] = $k;

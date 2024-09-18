@@ -36,7 +36,7 @@ class StatusCode
             );
         }
         $defCodeMSG = igk_server()->SERVER_PROTOCOL ." 200 Ok";
-       // if(in_array("h2", explode(",", igk_server()->Upgrade ?? ""))){
+       // if(in_array("h2", explode(',', igk_server()->Upgrade ?? ""))){
              $defCodeMSG = "HTTP/2.0 200 OK - ".igk_server()->SERVER_PROTOCOL ;
         // }  
         // igk_trace();

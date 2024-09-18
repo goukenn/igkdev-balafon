@@ -20,8 +20,11 @@ use IGK\Controllers\ControllerParams;
 use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNoTagNode;
+use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
 use IGKEnvironment;
@@ -47,6 +50,24 @@ class ViewHelper
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
 
+    /**
+     * get handler info
+     * @return \IGK\System\Views\IViewHandlerInfo
+     */
+    public static function GetHandlerInfo(){
+        $cp = FileHandler::GetViewContextFileHandlers() ?? [];
+        $v_ext_support = array_keys($cp);
+        $v_view_ext = $extension = IGK_DEFAULT_VIEW_EXT;
+        if ($v_ext_support){
+            $extension.= '|\\'.implode('|\\', $v_ext_support);
+            array_push($v_ext_support, '.'.$v_view_ext);
+        } else {
+            $v_ext_support = ['.'.$extension];
+        }
+        $pattern = '/(\.' . $extension . ')$/i';
+        $list = $v_ext_support;
+        return (object)compact('pattern', 'extension', 'list');
+    }
     /**
      * help to build view content
      * @param string $scaffoldtype 
@@ -497,13 +518,19 @@ class ViewHelper
      * @param mixed $param params to return
      * @return null|string 
      */
-    public static function ResolvViewFile(string $viewDir, string $view, string $f, $checkfile=1, & $param=null): ?string{
+    public static function ResolveViewFile(string $viewDir, string $view, string $f, $checkfile=1, & $param=null): ?string{
         $s = null;
-        $extension = IGK_DEFAULT_VIEW_EXT;
+        $v_view_ext = $extension = IGK_DEFAULT_VIEW_EXT;
         $ext = $extension;
-        $ext_regex = '/\.' . $extension . '$/i';
+        $view_handler = igk_view_handler_info();
+
+      
+        // igk_wln_e($view_handler);
+        $v_ext_support = $view_handler->list;
+        $ext_regex = $view_handler->pattern; 
+        //+ | check support extension in file name
         $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
-        $f = $f . $ext; 
+        //$f = $f . $ext; 
         if (!empty($ext)) {
             $ts = 1;
             $_views = array_filter(explode("/", $view));
@@ -514,10 +541,10 @@ class ViewHelper
                 } else {
                     $bname = basename($f);
                     $f = dirname($f);
-                    $checks = [
+                    $checks = array_merge([
                         $f."/".$bname,
-                        $f."/".$bname.".".$extension
-                    ];
+                        //$f."/".$bname.".".$extension
+                    ], self::_AppendExtension($f."/".$bname, $v_ext_support));
                     while(count($checks)>0){
                         $rdir = array_shift($checks);                        
                         if (is_file($rdir)){
@@ -551,6 +578,11 @@ class ViewHelper
         } 
         return $s;
     }
+    private static function _AppendExtension(string $path, array $exts){
+        return array_map(function($i)use($path){
+            return $path.$i;
+        },$exts);
+    }
     /**
      * get views manifest
      * @param bool $recursive 
@@ -575,5 +607,18 @@ class ViewHelper
             return igk_str_rm_last($v, IGK_VIEW_FILE_EXT );
         }, $rsc));
         return $rsc;
+    }
+    /**
+     * load current theme  
+     * @return void 
+     * @throws Exception 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    static function LoadCurrentTheme(HtmlDocTheme $theme, ?BaseController $ctrl=null){
+        $ctrl = $ctrl ?? self::CurrentCtrl(); 
+        igk_css_bind_file($theme, $ctrl, null);
     }
 }

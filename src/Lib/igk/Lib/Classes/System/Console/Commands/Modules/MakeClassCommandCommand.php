@@ -19,7 +19,7 @@ class MakeClassCommandCommand extends AppExecCommand{
 	use ClassBuilderTrait;
 	var $command='--module:make-command';
 	var $desc='make module\'s command';
-    var $category = 'make';
+    var $category = 'module';
 
 	// var $options=[
 	// 	'--base'=>'flag: enable abstract base-definition'

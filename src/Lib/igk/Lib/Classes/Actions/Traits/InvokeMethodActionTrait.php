@@ -8,7 +8,7 @@ use IGK\System\Traits\InjectableTrait;
 
 ///<summary></summary>
 /**
-* 
+* invoke method trait
 * @package IGK\Actions\Traits
 */
 trait InvokeMethodActionTrait{

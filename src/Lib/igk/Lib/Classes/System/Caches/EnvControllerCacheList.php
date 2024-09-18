@@ -29,9 +29,8 @@ class EnvControllerCacheList{
      * get declared class list
      * @return mixed 
      */
-    public static function GetControllersClasses(){
-        if (is_null(self::$sm_cachelist)){
-            
+    public static function GetControllersClasses(){ 
+        if (is_null(self::$sm_cachelist)){ 
             $tab = false;
             if (is_file($file = igk_io_cachedir() . "/" . self::FILE)){
                 $tab = unserialize(file_get_contents($file));

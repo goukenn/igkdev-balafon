@@ -52,7 +52,7 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     {     
         $clear = CssUtils::InitSysGlobal($this->doc);       
         $inlineTheme = $this->doc->getInlineTheme();
-        $s = "";// CssUtils::GetInlineStyleRendering($this->doc, false);
+        $s = "";
         
         $theme = $this->doc->getTheme();
         $g = ""; 

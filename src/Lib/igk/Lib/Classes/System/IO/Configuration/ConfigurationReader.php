@@ -75,6 +75,13 @@ class ConfigurationReader
     const MODE_VALUE = 2;
 
     /**
+     * non marked string listener
+     * @var ?callable
+     */
+    var $NonMarkedStringPropertiesListener;
+
+
+    /**
      * treat expression 
      * @param string $text 
      * @param mixed $expression 
@@ -130,10 +137,11 @@ class ConfigurationReader
         $value = null;
 
         $fc_bind = function(& $list, $name, $value){
+            $gf = $this->NonMarkedStringPropertiesListener;
             if (!is_null($name) && !empty($name)){
                 $obj = new ConfigurationObject;
                 $obj->key = self::RmStringMark($name);
-                $obj->value = self::RmStringMark($value);
+                $obj->value = $gf && $gf($obj->key)? $value: self::RmStringMark($value);  
                 $list[] = $obj;
             }
         };

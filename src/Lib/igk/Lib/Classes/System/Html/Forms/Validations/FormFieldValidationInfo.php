@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Forms\Validations;
 
 use IGK\System\Html\Forms\IFormValidationField;
+use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
 
 ///<summary></summary>
 /**
@@ -22,17 +23,6 @@ class FormFieldValidationInfo implements IFormValidationInfo{
      * @var mixed
      */
     var $validator;
-    /**
-     * is required
-     * @var ?bool
-     */
-    var $required; 
-
-    /**
-     * the default value
-     * @var mixed
-     */
-    var $default;
- 
-
+    
+    use FormFieldValidationInfoTrait; 
 }

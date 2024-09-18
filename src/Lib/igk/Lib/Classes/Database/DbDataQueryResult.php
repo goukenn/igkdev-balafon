@@ -20,6 +20,10 @@ final class DbDataQueryResult extends IGKQueryResult{
         $this->m_columns=array();
         $this->m_rows=array();
     }
+
+    public function to_array(): ?array {
+        return $this->m_rows;
+    }
     public function success(): bool
     {
         return true;

@@ -25,7 +25,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     private $m_table;
     private $m_column;
 
-    const SUPPORTED_TYPES = 'int|float|bigint|long|varchar|text|json|enum|double';
+    const SUPPORTED_TYPES = 'int|float|bigint|long|varchar|text|json|enum|double|date|datetime';
 
     /**
      * clean and start new edition 

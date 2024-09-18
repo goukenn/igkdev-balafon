@@ -120,6 +120,7 @@ class CssThemeCompiler
                     explode(";", $cfile)
                 );
                 if ($must_recompile = IGKCaches::CheckCaches($files, $mtime)){
+                    $theme->getDef()->clear();
                     $theme->getDef()->setFiles($cfile);
                 } 
             }
@@ -127,6 +128,7 @@ class CssThemeCompiler
             if (!$must_recompile && file_exists($express_cf)) {
                 $src_sys = file_get_contents($express_cf);
             } else {
+ 
                 igk_css_bind_sys_global_files($theme);
                 $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
                 // + | cache expression

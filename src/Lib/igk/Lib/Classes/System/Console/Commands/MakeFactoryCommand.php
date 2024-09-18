@@ -13,7 +13,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use \IGKControllerManagerObject;
-use IGKDbUtility;
+use IGKDbModelUtility;
 
 class MakeFactoryCommand extends AppExecCommand
 {
@@ -25,10 +25,15 @@ class MakeFactoryCommand extends AppExecCommand
 
     var $options = [];
 
-
+    var $usage = "[modelname --controller:controller]|[controller [modelname]] [option]";
     public function exec($command, $controller = "", $modelname = "")
     {
-        if (empty($controller)) {
+        $ctrl = null;
+        if (empty($modelname) && !empty($controller)){
+            $ctrl = self::ResolveController($command, null, false);
+            $modelname = $controller;
+            $controller = $ctrl->getName();
+        } else if (empty($controller)) {
             return false;
         }
         if (empty($modelname)) {
@@ -41,7 +46,7 @@ class MakeFactoryCommand extends AppExecCommand
         Logger::info("make factory class ... " . $controller);
         $author = $this->getAuthor($command);
 
-        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = $ctrl ?? igk_getctrl(str_replace("/", "\\", $controller), false);
         if (!$ctrl) {
             Logger::danger("controller $controller not found");
             return false;
@@ -59,9 +64,10 @@ class MakeFactoryCommand extends AppExecCommand
 
         if ($g = $ctrl::model($modelname)){
             $fields = (array)$g::createEmptyRow();
+        } else {
+            Logger::warn(sprintf('missing model [%s]', $modelname));
         }
-        $fields = var_export($fields, true);   
-
+        $fields = var_export($fields, true);  
         $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns, $fields) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);

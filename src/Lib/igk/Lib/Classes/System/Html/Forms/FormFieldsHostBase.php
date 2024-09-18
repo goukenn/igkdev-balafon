@@ -14,7 +14,7 @@ use ReflectionProperty;
 
 ///<summary></summary>
 /**
- * 
+ * use to initialize form's field
  * @package IGK\System\Html\Forms
  * @author C.A.D. BONDJE DOUE
  */

@@ -46,7 +46,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
      * get array for result
      * @return null|iterable 
      */
-    public function to_array(){
+    public function to_array():?array{
         return $this->getRows();
     }
     /**
@@ -344,7 +344,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     }
     ///<summary></summary>
     /**
-    * 
+    * retrieve loaded rows
     */
     public function getRows(){
         return $this->m_rows;

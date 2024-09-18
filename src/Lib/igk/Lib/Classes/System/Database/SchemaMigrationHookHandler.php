@@ -4,6 +4,7 @@
 // @date: 20230129 16:13:18
 namespace IGK\System\Database;
 
+use Exception;
 use IGK\System\Console\Logger;
 use IGKEvents;
 
@@ -32,13 +33,20 @@ class SchemaMigrationHookHandler{
         igk_unreg_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, $this->m_hooks[self::onColumnRename]);
     }
 
+    /**
+     * 
+     * @param mixed $table 
+     * @param mixed $column 
+     * @param mixed $name 
+     * @return void 
+     * @throws Exception 
+     */
     protected function onColumnRenamed($table, $column, $name){
         // Logger::print('column rename : '.$column , $name); 
         /**
          * load links 
          */
-        if (is_null($this->m_Links)){
-
+        if (is_null($this->m_Links)){ 
             $Links = [];
             foreach($this->tables as $tb=>$v){
                 foreach($v->columnInfo as $cl){
@@ -79,7 +87,6 @@ class SchemaMigrationHookHandler{
                 $tb[$r->column]->clLinkColumn = $name;
             }
             igk_array_replace_key($this->m_Links, $sk, $n_sk, $cl );
-        }
- 
+        } 
     }
 }

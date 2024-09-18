@@ -50,17 +50,14 @@ class LoopHostTest extends BaseTestCase
     private function _loop_build($data): ?string
     {
         $node = igk_create_notagnode();
-        $n = new HtmlNodeBuilder($node);
-        igk_debug(true);
-
+        $n = new HtmlNodeBuilder($node);  
         $n($data, null, (object)[
             'ctrl' => SysDbController::ctrl(),
             'raw' => [
                 'x' => 44,
                 'count' => 3
             ]
-        ]);
-        igk_debug(false);
+        ]); 
         return $node->render();
     }
 

@@ -8,6 +8,8 @@ namespace IGK\Controllers\Traits;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\Database\IUserProfile;
 use IGK\Models\ModelBase as coreModelBase;
+use IGK\System\EntryClassResolution;
+
 ///<summary></summary>
 /**
 * 
@@ -19,7 +21,7 @@ trait ApplicationUserProfileTrait{
      * @return ?string
      */
     protected function getApplicationUserModel(): ?string{
-        return $this->resolveClass(\Models\Users::class);
+        return $this->resolveClass(EntryClassResolution::Models."/Users");
     }
     /**
      * 
@@ -53,7 +55,7 @@ trait ApplicationUserProfileTrait{
         }
         $model = $this->model($model);
 
-        $profile_class = $this->resolveClass(\UserProfile::class) ?? \IGK\System\Applications\ApplicationUserProfile::class;
+        $profile_class = $this->resolveClass(EntryClassResolution::UserProfile) ?? \IGK\System\Applications\ApplicationUserProfile::class;
         $key = $model->getPrimaryKey();
         if (method_exists($this, 'getInitFormSysUserCondition')){
             $condition = $this->getInitFormSysUserCondition($u);
@@ -99,7 +101,7 @@ trait ApplicationUserProfileTrait{
         }
         $coreuser = $userInfo->model();
         $c = new $profileClassName($coreuser);
-        $roles = $this->resolveClass("Roles"); 
+        $roles = $this->resolveClass(EntryClassResolution::Roles); 
         // check that the user exists
         $row = $customModel::select_row($condition);
        

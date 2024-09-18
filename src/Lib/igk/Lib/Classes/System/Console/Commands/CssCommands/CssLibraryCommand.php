@@ -12,7 +12,7 @@ use IGK\System\Html\Css\CssUtils;
 
 ///<summary></summary>
 /**
-* genereate css library command
+* genereate css library
 * @package IGK\System\Console\Commands\CssCommands
 */
 class CssLibraryCommand extends AppExecCommand{
@@ -22,6 +22,9 @@ class CssLibraryCommand extends AppExecCommand{
 	var $options=[];
 	var $usage = 'filename [options]';
 
+	/**
+	 * 
+	 */
 	public function exec($command, ?string $filename=null) {
 		is_null($filename) && igk_die('missing filename');
 		if (!file_exists($filename)){

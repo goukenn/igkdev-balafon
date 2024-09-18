@@ -18,5 +18,5 @@ interface IHtmlNodeEvaluableExpression{
      * @param mixed|array $context 
      * @return mixed 
      */
-    function evaluate($context):mixed;
+    function evaluate($context);
 }

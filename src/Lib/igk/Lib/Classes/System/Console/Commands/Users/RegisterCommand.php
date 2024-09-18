@@ -17,7 +17,8 @@ class RegisterCommand extends AppExecCommand{
 	var $command='--users:register';
 	var $desc='register command user'; 
 	/* var $options=[]; */
-	var $category='user'; 
+
+	var $category = self::USER_CAT;
 	var $usage = 'login [firstname] [lastname] [options]';
 	public function exec($command, string $login = null , ?string $firtname=null, ?string $lastname=null) { 
 		Logger::print(Users::Register(['clLogin'=>$login, 'clFirstName'=>$firtname, 'clLastName'=>$lastname]));

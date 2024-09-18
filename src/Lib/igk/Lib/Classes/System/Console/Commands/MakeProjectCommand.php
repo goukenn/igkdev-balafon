@@ -254,7 +254,7 @@ EOF;
             $build = new SchemaBuilder();
             $build["version"] = "1.0";
             $build["author"] = $author;
-            $build["createAt"] = date('Ymd H:i:s');
+            $build["createAt"] = date('Y-m-dTH:i:s');
             $build->comment("data schema");
             $build->comment(implode("\n", [
                 "@entries -->",
@@ -288,7 +288,13 @@ EOF;
                 '...',
                 '</Migrations>',
             ]));
-            igk_io_w2file($file, $build->render((object)["Context" => "XML", "Indent" => true]));
+            igk_io_w2file($file, 
+            implode("\n",array_filter([
+                "<?xml version=\"1.0\" standalone=\"yes\"?>",
+                defined('IGK_DB_SCHEMA') ? "<?xml-model href=\"".IGK_DB_SCHEMA."\"?>" : null,
+                $build->render((object)["Context" => "XML", "Indent" => true]) 
+            ]))
+        );
         };
 
         // Lib/autoload.php
@@ -458,9 +464,11 @@ EOF;
             }
         }
     }
+    /**
+     * 
+     */
     protected function _bind_langs(array &$bind, $dir)
-    {
-
+    { 
         $touch = function ($file) {
             $sb = new StringBuilder();
             $sb->appendLine('$l["title.default"] = "Home";');
@@ -471,9 +479,11 @@ EOF;
                 ->author($this->author);
             igk_io_w2file($file, $builder->render());
         };
+        // + | generate languages 
         foreach (R::GetSupportedLangs() as $l) {
             $bind[$dir . "/Configs/Lang/lang." . $l . ".presx"] = $touch;
         }
+
     }
 
     protected function _bind_layout(array &$bind, $dir)

@@ -24,13 +24,14 @@ class ConsoleLogger implements IConsoleLogger{
         $this->app->print_off($this->app::Gets(App::RED, $msg));
     }
     public function success($msg){
-        $this->app->print_off($this->app::Gets(App::GREEN, $msg));
+        $s = $this->app::Gets(App::GREEN, $msg);
+        $this->app->print($s); 
     }
     public function info($msg){
-        $this->app->print_off($this->app::Gets(App::YELLOW, $msg));
+        $this->app->print($this->app::Gets(App::YELLOW, $msg));
     }
     public function log($msg){
-        $this->app->print_off($msg);
+        $this->app->print($msg);
     }
     public function print($msg){
         $this->app->print($msg);

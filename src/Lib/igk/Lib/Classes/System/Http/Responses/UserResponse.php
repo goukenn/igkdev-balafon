@@ -57,7 +57,7 @@ class UserResponse
     }
     public static function CreateResponseFromSystemUser(BaseController $ctrl, $user, $app_user=null, $token=null){
         $data = array_merge(self::_CreateUserData($user), [
-            'user_app'=>SysDbMapping::CreateMapping($app_user)->map($app_user),
+            'user_app'=>$app_user ? SysDbMapping::CreateMapping($app_user)->map($app_user) :null,
             'token_info'=>$token,
             'controller'=>$ctrl->getName(),
         ]); 

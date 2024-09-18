@@ -93,9 +93,15 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         return $l_context;
     }
 
-    public function setContext($context){
+    /**
+     * set context object 
+     */
+    public function setContext(?object $context){
         $this->m_context = $context;
     }
+    /**
+     * 
+     */
     public function getContext(): ?object{
         return $this->m_context;
     }
@@ -679,7 +685,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 }
                 if ($result = $v($n)){
                     if (is_array($result)){
-                        self::_BindArray($n, $result);
+                        self::_BindArray($visitor, $n, $result);
                     }
                 }
                 continue;

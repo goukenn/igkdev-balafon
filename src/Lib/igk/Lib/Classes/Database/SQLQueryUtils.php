@@ -90,7 +90,7 @@ class SQLQueryUtils{
                 $query .= "(". implode(",", array_map(function($i){
                     return "'".igk_db_escape_string($i)."'";
                 }
-                , array_filter(explode(",", $v->clEnumValues), function($c){
+                , array_filter(explode(',', $v->clEnumValues), function($c){
                     return (strlen(trim($c)) > 0);
                 }))).")";
             }
@@ -114,7 +114,9 @@ class SQLQueryUtils{
                 }
             }
             $tb=true;
-            if(static::supportDefaultValue($type) && $v->clDefault || $v->clDefault === '0'){
+            if ($v->clDefaultNull){
+                $query .= "DEFAULT NULL ";
+            }else if(static::supportDefaultValue($type) && $v->clDefault || $v->clDefault === '0'){
                 $_ktype=strtoupper($type);
                 $_def=
                 $r_v=isset($defvalue[$_ktype][$v->clDefault]) ? (is_int($defvalue[$_ktype][$v->clDefault]) ? $v->clDefault: $defvalue[$_ktype][$v->clDefault]): "'".igk_db_escape_string($v->clDefault)."'";
@@ -629,6 +631,7 @@ class SQLQueryUtils{
             }
         }
         $query .= ") VALUES (".$v_v.");";
+     
         return $query;
     }
     ///<summary>Represente GetKey function</summary>
@@ -942,7 +945,7 @@ class SQLQueryUtils{
         return implode($separator, array_map(function($t) use ($adapter){
             return "`".implode("`.`", array_map([$adapter, "escape_string"], explode(".", $t)))."`";
         }
-        , array_map("trim", array_filter(explode(",", $t)))));
+        , array_map("trim", array_filter(explode(',', $t)))));
     }
     ///<summary>Represente ResolvType function</summary>
     ///<param name="t"></param>

@@ -172,7 +172,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @return bool 
      */
     protected static function IsOperator(string $value): bool{
-        return in_array($value, explode(",", self::OPERATOR_SYMBOL));
+        return in_array($value, explode(',', self::OPERATOR_SYMBOL));
     }
 
     protected function _handleReadConst(ReadTokenOptions $options, $id, $value)
@@ -973,7 +973,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 }
                 break;
             default:
-                if (in_array($value, explode(",", "&,=,+,-,%,/,*,+=,-=,*=,.=,/=,&&,||,."))) {
+                if (in_array($value, explode(',', "&,=,+,-,%,/,*,+=,-=,*=,.=,/=,&&,||,."))) {
                     $value = " $value ";
                     $options->skipWhiteSpace = true;
                     $fop->buffer = rtrim($fop->buffer);

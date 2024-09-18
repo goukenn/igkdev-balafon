@@ -68,7 +68,7 @@ class SchemaDiagramVisitor extends DiagramVisitor
             }
         }
         // + | copy definition 
-        $t->description = $entity->getDescription();
+        $t->description = $entity->getDescription() ?? $t->description;
         $t->defTableName = $defTableName;
         $t->tableName = $tb;
         $t->controller = $this->m_controller;

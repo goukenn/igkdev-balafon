@@ -23,6 +23,26 @@ abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+       /**
+     * read line utility class 
+     * @param string $content 
+     * @param int $pos 
+     * @return string 
+     */
+    public static function ReadLine(string $content, int & $pos){
+        $lin = strpos($content,"\n", $pos);
+        $s = 0;
+        if (false === $lin){
+            $s = substr($content, $pos);
+            $pos = strlen($content);
+        }else{
+            $s = substr($content, $pos, $lin-$pos);
+            $pos = $lin;
+        }
+        return $s;
+
+    }
+
     /**
      * reduction condition block code 
      * @param string $condition 
@@ -31,6 +51,7 @@ abstract class StringUtility
     public static function ReduceConditionBlock(string $condition){
         $g = $condition;
         $v_regex = "/[\(\)\s]/";
+        $g = preg_replace("/\s+/"," ", $g); // reduce white space
         while (strpos($g,'(')===0){
             $cpos = 0;
             $tg = trim(igk_str_rm_last(
@@ -245,8 +266,7 @@ abstract class StringUtility
     }
     public static function RmSubString(string $str, $offset, int $length)
     {
-
-        return substr($str, 0, $offset) . substr($str, $offset + $length);
+         return substr($str, 0, $offset) . substr($str, $offset + $length);
     }
     /**
      * get camel class name
@@ -654,5 +674,14 @@ abstract class StringUtility
             }
             return $k.'='.$v;
         }, $tab, array_keys($tab))));
+    }
+
+    /**
+     * 
+     * @param string $value 
+     * @return string 
+     */
+    public static function ConstantToCamelCaseClassName(string $value):string{
+        return implode("", array_map("ucfirst", array_map("strtolower", explode("_", $value))));
     }
 }

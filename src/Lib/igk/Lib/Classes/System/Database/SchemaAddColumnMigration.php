@@ -21,9 +21,11 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
      */
     protected $columns;
     protected function loadChilds($childs){
+        $v_table = $this->table;
+        
         $this->columns = [];
         $ctrl = $this->getMigration()->controller;
-        $tb = igk_db_get_table_name($this->table, $ctrl);
+        $tb = igk_db_get_table_name($v_table, $ctrl);
         foreach($childs as $c){
             $tc = $c->getTagName();
             if (!empty($tc) && (strtolower($tc) == 'column')){
@@ -44,9 +46,9 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $this->columns = [$column];
     }
     public function up(){ 
-
+        $v_table = $this->table;
         $ctrl = $this->getMigration()->controller;
-        $tb = igk_db_get_table_name($this->table, $ctrl);
+        $tb = igk_db_get_table_name($v_table, $ctrl);
         $after = $this->after;
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){

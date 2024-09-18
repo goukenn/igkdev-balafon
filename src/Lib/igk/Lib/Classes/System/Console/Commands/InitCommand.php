@@ -109,7 +109,7 @@ class InitCommand extends AppExecCommand
                             $v = igk_regex_get("/\/(?P<name>(.+))Command\.php$/", "name", $mf);
                             if (empty($v)) continue;
 
-                            $classname = str_replace("/", "\\", ($ns ? $ns . "/" : "") . $base_cl . $v) . "Command";
+                            $classname = str_replace("/", "\\", ($ns ? $ns : "") . $base_cl . $v) . "Command";
                             if (isset($commands_list[$classname])){
                                 igk_debug_wln_e("[Module] - classname already set", $classname, $tf);
                                 continue;

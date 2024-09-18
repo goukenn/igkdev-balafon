@@ -59,7 +59,6 @@ class UserMacrosTest extends BaseTestCase{
         //     'clGuid'=>'',
 
         // ], $info );
-        igk_environment()->querydebug = 1;
         $c = igk_environment()->name();
         $query = null;
         $ts = $model::Register([

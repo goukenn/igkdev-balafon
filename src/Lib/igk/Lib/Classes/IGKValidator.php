@@ -24,6 +24,7 @@ use function igk_resources_gets as __;
 final class IGKValidator extends IGKObject {
     const INT_REGEX= \IGK\System\Regex\RegexConstant::INT_REGEX; 
     const PWD_MIN_LENGTH = IGK_PWD_LENGTH;
+    const EMAIL_REGEX = '/^[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,6}$/i';
     private $sm_cibling;
     private $sm_enode;
     private static $sm_instance;
@@ -43,7 +44,7 @@ final class IGKValidator extends IGKObject {
     */
     public static function AddCibling($name){
         $e=self::getInstance();
-        $t=explode(",", $name);
+        $t=explode(',', $name);
         foreach($t as $v){
             $e->sm_cibling[$v]=1;
         }
@@ -156,7 +157,7 @@ final class IGKValidator extends IGKObject {
     public static function IsEmail($mail){
         if(self::IsStringNullOrEmpty($mail))
             return false;
-        return preg_match('/[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,6}$/i', $mail);
+        return preg_match(self::EMAIL_REGEX, $mail);
     }
     ///<summary></summary>
     ///<param name="v"></param>
@@ -333,16 +334,12 @@ final class IGKValidator extends IGKObject {
                             }
                             $v_validator->setFieldInfo($v_field_info);
                         }
-                        $v_new = $v_validator->validate($v_v, $v->default,$v_e);
+                        // + | passing extra parameter
+                        $v_new = $v_validator->validate($v_v, $v->default, $v_e, $k, $v->required, $v->allowNull, $v->allowEmpty);
                         if (empty($v_e)){
                             $ro->$k = $v_new;
-                        } else 
-                        {
-                            // $ce = false;
-                            // self::Assert(false, $ce, $g);
-                            // if ($ce){
-                            $error[$k] = $v_e;
-                            // }
+                        } else { 
+                            $error[$k] = $v_e; 
                         }
                     }
                 } else {

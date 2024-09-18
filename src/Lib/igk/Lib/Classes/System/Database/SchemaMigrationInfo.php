@@ -30,8 +30,9 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
     var $tableName;
     var $definitionResolver;
     /**
-     * display column property
-     * @var mixed
+     * display column property or expression that will be used for display.
+     * - in case of expression use $columnName as placeholder.
+     * @var ?string
      */
     var $display;
 
@@ -40,7 +41,7 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
      * @param mixed $n 
      * @return ?bool
      */
-    var $constant;
+    // var $constant;
 
 
     /**
@@ -73,11 +74,10 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
      * @throws IGKException 
      */
     public static function CreateFromCacheInfo($d, $gctrl){
-        return  
-        Activator::CreateNewInstance(static::class,  [
-            'columnInfo' => array_map(function ($a) {
-                return Activator::CreateNewInstance(DbColumnInfo::class, $a);
-            }, (array)$d->columnInfo),
+        return Activator::CreateNewInstance(static::class,  [
+            'columnInfo' => array_map(function ($a) {                
+                return $a ? Activator::CreateNewInstance(DbColumnInfo::class, $a) : null;
+            }, isset($d->columnInfo) ? (array)$d->columnInfo: []),
             'description' => igk_getv($d, 'description'),
             'defTableName' => igk_getv($d, 'defTableName'),
             'controller' => $gctrl,

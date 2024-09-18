@@ -95,6 +95,12 @@ class IGKEvents extends IGKObject
     // + |    
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
     const HOOK_CONTROLER_LOADED = 'on_controller_loaded';
+    // + | --------------------------------------------------------------------
+    // + | VIEW HOOK
+    // + |
+    const HOOK_INIT_VIEW =  'on_init_view';
+    const HOOK_INIT_INC_VIEW = 'on_init_inc_view';
+
 
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";

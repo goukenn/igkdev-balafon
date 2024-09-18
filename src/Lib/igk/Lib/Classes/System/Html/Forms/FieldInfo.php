@@ -17,7 +17,7 @@ class FieldInfo implements IFormFieldOptions{
 
     /**
      * type of the fields
-     * @var  null|string
+     * @var  null|string|'text'
      */
     var $type;
     /**
@@ -26,18 +26,19 @@ class FieldInfo implements IFormFieldOptions{
      */
     var $pattern; 
     /**
-     * required
+     * get if required
      * @var ?bool
      */
-    var $required;
+    var $required = false;
     /**
      * error message
+     * @var ?string
      */
     var $error;
 
     /**
      * place holder message
-     * @var mixed
+     * @var ?string
      */
     var $placeholder;
 
@@ -51,4 +52,9 @@ class FieldInfo implements IFormFieldOptions{
      * @var ?int
      */
     var $minLength;
+
+    public function __construct()
+    {
+        $this->type = 'text';
+    }
 }

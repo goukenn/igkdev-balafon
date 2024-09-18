@@ -17,6 +17,11 @@ use ReflectionException;
 
 abstract class AppExecCommand extends AppCommand{
     protected $handle;
+    private $m_colorizer;
+    /**
+     * user category
+     */
+    const USER_CAT = 'users';
     /**
      * get option values
      * @param mixed $command 
@@ -44,6 +49,14 @@ abstract class AppExecCommand extends AppCommand{
                 return true;
             }
         }
+    }
+    /**
+     * get colorize 
+     * @return Colorize 
+     */
+    protected function getColorizer(){
+        return $this->m_colorizer ?? $this->m_colorizer = new Colorize;
+        return new Colorize;
     }
 
     public function __construct()
@@ -120,4 +133,20 @@ abstract class AppExecCommand extends AppCommand{
 		}
 		return $system ? SysDbController::ctrl() : igk_die("controller required");
 	}
+     /**
+     * resolve controller 
+     * @param mixed $command 
+     * @param mixed $controller 
+     * @param mixed $controller 
+     * @return mixed 
+     * @throws Exception 
+     */
+    public static function ResolveController($command, $controller=null, bool $fall_to_sys=true){
+        $controller = $controller ?? igk_getv($command->options, '--controller' );
+		if ($controller){
+			$ctrl = self::GetController($controller);
+		}  
+		$ctrl = $ctrl ?? ($fall_to_sys? SysDbController::ctrl() : null);
+        return $ctrl;
+    }
 }

@@ -22,8 +22,9 @@ interface IFormValidator{
      * validate form data 
      * @param mixed|FormValidationParam $value value to check 
      * @param null|IFormFieldValidationInfo $default default value in case of false re
+     * @param mixed $extra parameters flag 
      * @param array $error list of error message 
      * @return mixed 
      */
-    function validate($value, $default=null, & $error=[]);  
+    function validate($value, $default=null, & $error=[], ...$extra);  
 }

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Guids.php
-// @date: 20240101 17:47:26
+// @date: 20240918 08:19:26
 namespace IGK\Models;
 
 
@@ -16,6 +16,12 @@ use IGK\Models\ModelBase;
 * @property string $clGUID
 * @property string $clDesc
 * @property string|datetime $clCreateAt ="NOW()"
+* @method static string FD_CL_ID() - `clId` full column name 
+* @method static string FD_CL_GUID() - `clGUID` full column name 
+* @method static string FD_CL_DESC() - `clDesc` full column name 
+* @method static string FD_CL_CREATE_AT() - `clCreateAt` full column name 
+* @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clGUID, string $clDesc, string|datetime $clCreateAt ="NOW()") add entry helper
 * @method static ?self AddIfNotExists(string $clGUID, string $clDesc, string|datetime $clCreateAt ="NOW()") add entry if not exists. check for unique column.
 * */

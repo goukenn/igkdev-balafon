@@ -87,7 +87,9 @@ class SysUtils{
         }catch (TypeError $error){
             throw new IGKException('eval failed', 500, $error);
         } catch (Error $error){
-            igk_dev_wln_e("error : ", $error->getMessage());
+            $error_msg = $error->getMessage();
+            igk_dev_wln_e("error : ", $error_msg);
+            igk_ilog($error_msg);
         }
     }
     public static function Include(){
@@ -107,7 +109,7 @@ class SysUtils{
         $path = igk_str_ns(str_replace("%project%/", "", $path));
         return sprintf("%s\\%s", defined('IGK_PROJECT_DEFAULT_NS') ? 
             constant('IGK_PROJECT_DEFAULT_NS'): 
-            \com\igkdev\projects::class, 
+            IGK_SYS_PROJECT_NS, 
             $path);
     }
     /**

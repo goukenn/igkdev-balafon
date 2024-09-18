@@ -4,60 +4,78 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlRenderer;
 
-function igk_sys_gen_global_sitemap($store=0){
-	// if (!igk_is_conf_connected()){
+if (!function_exists('igk_sys_gen_global_sitemap')) {
+
+	/**
+	 * 
+	 * @param int $store 
+	 * @return void 
+	 * @throws Exception 
+	 * @throws IGKException 
+	 * @throws EnvironmentArrayException 
+	 * @throws Error 
+	 * @throws CssParserException 
+	 * @throws ArgumentTypeNotValidException 
+	 * @throws ReflectionException 
+	 */
+	function igk_sys_gen_global_sitemap($store = 0)
+	{
+		// if (!igk_is_conf_connected()){
 
 		// igk_notifyctrl()->addWarningr("mgs.notallowed");
 		// return false;
-	// }
+		// }
 
 		$n = igk_html_node_IGKSiteMap();
 		$pages = igk_sys_pagelist();
-		$buri = igk_str_rm_last(igk_io_baseUri(),'/');
+		$buri = igk_str_rm_last(igk_io_baseUri(), '/');
 		// foreach($pages as $k=>$v)
 		// {
-			// $url = $n->addNode("url");
-			// $url->add("loc")->Content = igk_uri($buri."/".$v);
+		// $url = $n->addNode("url");
+		// $url->add("loc")->Content = igk_uri($buri."/".$v);
 		// }
 		$ac = igk_getctrl(IGK_SYSACTION_CTRL);
 		$actions = $ac->getActions();
-		foreach($actions as $k=>$v){
+		foreach ($actions as $k => $v) {
 			$url = $n->addNode("url");
-			$s= igk_pattern_get_uri_from_key($k, $buri);
-			$url->add("loc")->Content =$s;
+			$s = igk_pattern_get_uri_from_key($k, $buri);
+			$url->add("loc")->Content = $s;
 			// igk_wln($k . " | ".$s);
 			// break;
 		}
-		
+
 		$options = HtmlRenderer::CreateRenderOptions();
-		$options->Indent=1;
-		$uri = igk_io_baseUri()."/Lib/igk/Styles/sitemap.xsl";
+		$options->Indent = 1;
+		$uri = igk_io_baseUri() . "/Lib/igk/Styles/sitemap.xsl";
 		igk_wl(igk_xml_header());
 		//!!!!!immportant note xml-stylesheet not working use xsl-stylesheet
 
-igk_wl(<<<EOF
+		igk_wl(
+			<<<EOF
 <?xml-stylesheet type="text/xsl" href="{$uri}"?>
 EOF
-);
-	if ($store){
-		$o = $n->render($options);
-		igk_io_save_file_as_utf8(igk_io_baseDir("sitemap.xml"), $o);
-		header("Content-Type: application/xml");
-		igk_wl($o);
-	}else
-		$n->RenderXML($options);
+		);
+		if ($store) {
+			$o = $n->render($options);
+			igk_io_save_file_as_utf8(igk_io_baseDir("sitemap.xml"), $o);
+			header("Content-Type: application/xml");
+			igk_wl($o);
+		} else
+			$n->RenderXML($options);
+	}
 }
-
 
 //method 2: callback registration
 //register  sitemap tool
-igk_tool_reg("sitemap", array("ImageUri"=>"", "Action"=>function(){
-		if (func_num_args()>0)
-			igk_sys_gen_global_sitemap(func_get_arg(0));
-		else
-			igk_sys_gen_global_sitemap();
-		return true;
-
-})); 
+igk_tool_reg("sitemap", array("ImageUri" => "", "Action" => function () {
+	if (func_num_args() > 0)
+		igk_sys_gen_global_sitemap(func_get_arg(0));
+	else
+		igk_sys_gen_global_sitemap();
+	return true;
+}));

@@ -4,6 +4,7 @@
 // @date: 20230103 23:37:50
 namespace IGK\Helper;
 
+use Exception;
 use IGK\System\IToArrayResolver;
 use IGKException;
 use JsonSerializable;
@@ -17,7 +18,7 @@ use stdClass;
 
 
  class JSon {
-
+    const _map_to_object_method = '_map_to_object';
     /**
      * encoding option
      * @var JSonEncodeOption
@@ -52,6 +53,12 @@ use stdClass;
             $tv = array_filter(array_map([$this, 'filter_array'], $tv));
         } 
     }
+    /**
+     * 
+     * @param mixed $data 
+     * @return mixed 
+     * @throws Exception 
+     */
     public function get_root_data($data){
         $root = $keys = $c = null;
         if (is_array($data)){
@@ -80,7 +87,7 @@ use stdClass;
                 }
                 if (is_array($tv)){
                     $this->_filter_array($tv);
-                    $tv = array_map([$this, \_map_to_object::class], $tv);
+                    $tv = array_map([$this, self::_map_to_object_method], $tv);
                 }
                 $c[] = $tv;
             }
@@ -95,6 +102,7 @@ use stdClass;
             }
         } else if (($data instanceof IToArrayResolver) || method_exists($data, 'to_array')){
             $data = $data->to_array();
+            $keys = array_keys($data);
         }
         $this->_filter_array_map($data, $keys, $c, $root);
         $root = $data;
@@ -193,6 +201,13 @@ use stdClass;
                                 continue;
                             }
                         }
+                    }
+
+                    if ($tv instanceof JsonSerializable){
+                        if ((($m = $tv->jsonSerialize()) ===null) && ($this->m_options->ignore_null )){
+                            continue;
+                        }
+                        $tv = $m;
                     }
 
                     array_unshift($tq, ['d'=>$d, 'keys'=>$keys, 'c'=>$c, 'is_object'=>$is_object]);

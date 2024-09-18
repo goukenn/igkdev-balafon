@@ -14,6 +14,7 @@ use IGK\Helper\IO;
 use IGK\System\Console\App;
 use IGK\System\Console\Commands\Sync\SyncProjectSettings;
 use IGK\System\Console\Logger;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -146,7 +147,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     Logger::info('backup project before upload .... ');
                     $comment = igk_getv($command->options, '--comment');
                     BackupUtility::BackupProject($ctrl, $comment);
-                    if ($cl  = $ctrl->resolveClass(\System\Console\Commands\SyncProject::class)) {
+                    if ($cl  = $ctrl->resolveClass(EntryClassResolution::SysSyncProject)) {
                         $resolv_files = new $cl();
                     }
                 }

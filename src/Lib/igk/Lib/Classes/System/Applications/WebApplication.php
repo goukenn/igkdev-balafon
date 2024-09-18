@@ -296,11 +296,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws TypeError 
      */
     public function run(string $file, $render = 1)
-    {
-        // if (igk_environment()->isDev()){
-            // igk_ilog('run:');            
-            // igk_environment()->querydebug = defined('IGK_QUERY_DEBUG') ? constant('IGK_QUERY_DEBUG') : null;
-        // }
+    { 
         $this->file = $file;
         // + | secure port -- config  
         SysUtils::SecurePort(); 

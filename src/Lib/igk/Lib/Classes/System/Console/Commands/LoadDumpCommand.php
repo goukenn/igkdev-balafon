@@ -15,7 +15,7 @@ use ZipArchive;
  */
 class LoadDumpCommand extends AppExecCommand{
 
-    var $command = "--db:load_dump";
+    var $command = "--db:load-dump";
     var $desc = "Load database dump file";
     var $category = "db";
 
@@ -29,7 +29,7 @@ class LoadDumpCommand extends AppExecCommand{
         $filter = [];
         $profil = "";
         if (property_exists($command->options, "-resettables", )){
-            $resetDb = explode(",", $command->options->{"-resettables"});
+            $resetDb = explode(',', $command->options->{"-resettables"});
         }
 
        

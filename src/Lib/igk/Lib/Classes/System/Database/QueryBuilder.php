@@ -131,17 +131,23 @@ class QueryBuilder
     /**
      * inner join table
      * @param array $join join table info \
-     *  tableTable=>[condition : string(,[type=>"left|right"], alias=>alias_name), ] \
-     *  to join multiple table, call join method for each table
+     *  tableTable=>[condition : string[,type=>"left|right"] [, alias=>alias_name] \
+     *  to join multiple tables, call join method for each table \
+     *      alias_name* alias of the table to use in condition
      * @return $this 
+     * @example \
+     * ::prepare()->join(["table1"=>["table1.id=table2.id", "type"="left", "alias"=>"GTab"]])
      */
     public function join(array $join)
     {
         foreach (array_keys($join) as $k) {
             if (is_numeric($k)) {
-                igk_die("not a valid table key : " . $k);
-            }
-            $v = $join[$k];
+                if (!is_string($v = $join[$k]))
+                    igk_die("not a valid table key : " . $k);
+                $k = $v;
+                $v = [];
+            }else
+                $v = $join[$k];
             $this->m_options[self::JOINS][] = [$k => $v];
         }
         return $this;
@@ -321,12 +327,16 @@ class QueryBuilder
         return $this;
     }
     /**
-     * 
+     * return the fetchable result
      * @return null|IGK\Database\IDbFetchResult 
      * @throws IGKException 
      */
     public function query_fetch()
     {
+        // + | --------------------------------------------------------------------
+        // + | create a db fetch result to handle with a foreach in case no need to load every data
+        // + |
+        
         $driver = $this->m_model->getDataAdapter();
         $query = $this->get_query();
         $res = $driver->createFetchResult($query, null, $this->m_model->getDataAdapter());
@@ -406,56 +416,6 @@ class QueryBuilder
                 self::_BuildRowDef($v, $row, $ctrl, $tab, $with, $links, $linktab);
             }
         }
-        // foreach ($with as $k => $vv) {
-        //     $w_table =
-        //     $w_prop = $vv;
-        //     if (is_array($vv)){
-        //         $w_table =
-        //         $w_prop = $vv['key'];
-        //     }
-        //     if (!is_numeric($k)) {
-        //         $w_table = $k;
-        //     }
-        //     if (isset($tab[$w_table])) {
-        //         $w_mod = $tab[$w_table]->model::model();
-        //     }
-        //     if (!isset($links[$w_table])) {
-        //         $rlinks = self::_GetLinks($tab[$w_table]->ref, $ctrl, $w_table, $w_prop);
-        //         $links = array_merge($links, $rlinks);
-        //         $linktab[$w_table] = $vv;
-        //     }
-        // }
-        // $w_table = null; 
-        // $ref_column = null;
-        // foreach ($links as $cl => $info) {
-        //     list($table, $clname) = $info;
-        //     $ctable = igk_getv($info, 2);
-        //     $property = igk_getv($info, 3);
-        //     if (key_exists($table, $linktab)){ //  == $w_table) {
-        //         $w_mod = $tab[$table]->model::model();
-        //         if ($dd = $v->$cl) {
-        //             $clname = $clname ?? $w_mod->getPrimaryKey();
-        //             $g = $w_mod::cacheRow([$clname => $dd]);
-        //             $key =  $linktab[$table]['key'] ?? $clname ;
-        //             $row->$key = $g;
-        //         }
-        //         // break;
-        //     } else {
-        //         if ($v->columnExists($cl) && $ctable) {
-        //             // column exists
-        //             $z_mod = $tab[$ctable]->model::model();
-        //             $idcl = $ref_column ?? $z_mod->getPrimaryKey();
-        //             $g = $z_mod::cacheRow([$idcl => $v->$idcl]);
-        //             $row->$property = $g;
-
-        //             if (is_array($with) && igk_getv($with[$ctable], 'ignore_data')){                        
-        //                 foreach (array_keys($g->to_array()) as $mm){
-        //                     unset($row->$mm);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // } 
         return $row;
     }
     private static function _BuildRowDef($v, $row, $ctrl, $tab, $with, $links, $linktab)
@@ -518,26 +478,9 @@ class QueryBuilder
                                 $row_defs[] = DbQueryRowObj::Create($g->to_array());
                             }
                         }
-                    }
-                    // break;
+                    } 
                 } 
-                //else {
-                    // TODO: PROCESS LINK - TABLES 
-                    //  if ($v->columnExists($cl) && $ctable) {
-                    // column exists
-                    // $z_mod = $tab[$ctable]->model::model();
-                    // $idcl = $ref_column ?? $z_mod->getPrimaryKey();
-                    // $g = $z_mod::cacheRow([$idcl => $v->$idcl], false);
-                    // $row->$property = $g;
-
-                    // if (is_array($with) && igk_getv($with[$ctable], 'ignore_data')){                        
-                    //     foreach (array_keys($g->to_array()) as $mm){
-                    //         unset($row->$mm);
-                    //     }
-                    // }
-                    // }
-                // }
-            }
+             }
         }
     }
     /**

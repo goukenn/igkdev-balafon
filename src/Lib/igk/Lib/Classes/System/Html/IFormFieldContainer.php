@@ -16,5 +16,5 @@ interface IFormFieldContainer{
      * retrieve form fields data
      * @return array array of form fields data definition
      */
-    function getFields(): array;
+    function getFields($context=null): array;
 }

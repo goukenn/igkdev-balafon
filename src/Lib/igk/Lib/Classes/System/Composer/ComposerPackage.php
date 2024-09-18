@@ -24,12 +24,11 @@ class ComposerPackage{
      * @param string $file 
      * @return static|false 
      */
-    public static function Load(string $file){
+    public static function Load(string $file, & $errors=null){
         $data = json_decode(file_get_contents($file)) ?? igk_die("no data in : $file");
         if ($c = ComposerPackageValidator::ValidateData($data, null, $errors)) {
             return Activator::CreateNewInstance(static::class, $c);
         }
-        igk_environment()->last_error = $errors;
         return false;
     }
 }

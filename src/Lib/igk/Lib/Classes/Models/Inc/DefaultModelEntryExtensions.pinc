@@ -5,6 +5,7 @@
 // @file : DefaultModelEntryExtensions.pinc
 
 use IGK\Database\DbQueryResult;
+use IGK\Database\DbSchemas;
 use IGK\Helper\MacrosHelper;
 use IGK\Helper\StringUtility;
 use IGK\Models\Authorizations;
@@ -16,6 +17,8 @@ use IGK\System\Database\QueryBuilder;
 
 
 require_once IGK_LIB_CLASSES_DIR."/Helper/MacrosHelper.php";
+ 
+
 
 // + | register user get user groups 
 Usergroups::registerMacro("getUserGroups", function(int $uid){   
@@ -141,7 +144,9 @@ Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
 ///+ | but core system store private it private macros to IGK\Models\Macros
 // + | for that need to register manually 
 // + |
-Users::RegisterExtension(\IGK\Models\Macros\UsersMacros::class);
+// Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
+// case sensitive extension - macros 
+Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
  
 
 \IGK\Models\DbLogs::registerMacro("add", function(string $msg, ?string $tag=null){ 
@@ -170,4 +175,4 @@ Users::RegisterExtension(\IGK\Models\Macros\UsersMacros::class);
     return igk_db_user_groups($this->clUser_Id);
 });
 
-\IGK\Models\ReferenceModels::RegisterExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);
+\IGK\Models\ReferenceModels::registerExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);

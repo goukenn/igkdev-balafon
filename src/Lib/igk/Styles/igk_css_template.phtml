@@ -15,16 +15,19 @@
 //filter:blur(4px);";
 
 use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
+use IGK\System\WinUI\LayoutRules;
 // igk_wln_e(__FILE__.":".__LINE__,  get_class($def));
 $pad1 = "8px";
 $pad2 = "10px";
 $pad22 = "20px";
 $pad3 = "16px";
 $pad4 = "20px;";
-$pad_title = "4px";
-
+$pad_title = "4px"; 
 $pad_size = "10px";
 $border_radius_size = "10px";
+
+
+$text_area_height = LayoutRules::Get('TEXTAREA_HEIGHT');
 
 $ctrl_cnf_index = 0x1A0;
 $ctrl_options_zindex = $ctrl_cnf_index + 50;
@@ -446,6 +449,8 @@ $def[".igk-js-notify.igk-danger .igk-panel"] = "color: #777";
 $def[".igk-notify-z"] = "min-height:2.1em";
 
 
+
+
 // code definition 
 
 
@@ -616,7 +621,7 @@ $def[".igk-php"] = "font-family: consolas, courier new; color:#555; min-width:60
 $def[".igk-cleara:after"] = "clear:both; content:' '; display:table;";
 $def[".igk-row"] = "padding:0px; margin-left: -{$pad_size}; margin-right:-{$pad_size};";
 $def[".igk-row-cell"] = "float:left;";
-$def["igk-container .igk-row:not(:first-child)"] = "margin-top: {$pad22};";
+$def[".igk-container .igk-row:not(:first-child)"] = "margin-top: {$pad22};";
 $def[".igk-row:after"] = "{sys:clearb}";
 $def[".igk-row:after, .igk-row:before"] = "content:' '; display:table;";
 $def[".igk-row .igk-col-span"] = "{sys:posab, loc_t, loc_r, loc_b}";
@@ -660,7 +665,7 @@ $def[".igk-ms-dialog.igk-show"] = "display:block;";
 $def[".igk-ms-dialog .igk-btn-close"] = "{sys:posab, loc_r, loc_t,no-repeat} height:32px; width:48px; display:block; cursor:pointer; z-index:401; padding:0px; margin:0px;";
 $def[".igk-ms-dialog .igk-ms-dialog-title"] = "font-size:2.1em; padding:8px 16px;";
 
-$def["igk.btn.igk-btn-logout"] = "width:16px; height:16px;";
+$def[".igk-btn.igk-btn-logout"] = "width:16px; height:16px;";
 $def[".igk-configpage-editor"] = "position:fixed; top:0px; left:50%; border:1px solid black; z-index:10000; opacity:0; background-color: #ddd;";
 $def[".igk-configpage-editor a"] = "margin:5px;";
 $def[".igk-configpage-editor select"] = "vertical-align:middle; border:none;";
@@ -838,7 +843,7 @@ $def[".igk-winui-bg-picturebox"] = "{sys:posab, fit} background-size: cover;";
 $def[".igk-cookie-warn"] = "{sys:no-overflow} padding:{$pad_size}; text-align:center; [trans:height 0.5s ease-in]";
 $def[".igk-cookie-warn .close"] = "{sys:dispib, posab} width:32px; right:32px; margin-top:auto; ";
 $def[".igk-cookie-warn .close svg"] = "{sys:fit}; fill:white";
-$def["code.code-php"] = "--igk-code-php-bg-color: [cl:codeBgColor]; --igk-code-php-forecolor:[cl:codeForeColor]; background-color: var(--igk-code-php-bg-color); color: var(--igk-code-php-forecolor);";
+$def["code.code-php"] = "--igk-code-php-bg-color: [cl:codeBgColor]; --igk-code-php-forecolor:[cl:codeForeColor]; background-color: var(--igk-code-php-bg-color); color: var(--igk-code-php-forecolor); --igk-code-php-method-cl:[cl:codeMethodColor];";
 $def["code.code-php > div"] = "{sys:no-wrap}";
 $def["code.code-php > div span"] = "{sys:no-wrap}";
 $def["code.code-php > div span.s"] = "[sysfcl: phpCodeStringColor, red]";
@@ -1010,7 +1015,7 @@ $def[".igk-code.code-php"] = "font-family:'courier new'; font-size: 11pt";
 $def[".igk-code.code-php .cm"] = "color: #167d16; ";
 $def[".igk-code.code-php .s"] = "color: #c10000; ";
 $def[".igk-code.code-php .w.r"] = "color: #602795; ";
-$def[".igk-code.code-php .pc + .w "] = "color: #023c60; font-weight: bold;";
+$def[".igk-code.code-php .pc + .w "] = "color: var(--igk-code-php-method-cl,  #023c60); font-weight: bold;";
 $def[".igk-code.code-php .num "] = "color: blue";
 $def[".igk-code.code-php span.litteral"] = "font-style: italic; font-weight:200; [fcl:codeLitteralColor, #19668c]";
 
@@ -1070,9 +1075,13 @@ $def[".igk-svg-host.svg-fill > svg"] = "{sys: fit}";
 
 $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
 
+
+// + | ----------------------------------------------------------------------------------------
 // + | define root global color
+// + | ----------------------------------------------------------------------------------------
 $root["--selection-bgColor"] = "transparent";
 $root["--selection-foreColor"] = "indianred";
+$root['--igk-panelBoxBackgroundColor'] = '#233233';
 
 
 // + ----------------------------------------------------------------------------------------
@@ -1191,7 +1200,7 @@ foreach([16,24,32,48,64] as $k){
 
 
 
-$root['--igk-panelBoxBackgroundColor'] = '0';
+
 
 
 $sm_screen[".igk-body"]  = "font-size:16pt;";
@@ -1207,7 +1216,12 @@ $def["nav .igk-menu > li a"] = "{sys:dispb} padding: 0 10px;";
 // + |
 $cl['codeBgColor'] = '#162a40'; // default php code background color 
 $cl['codeForeColor'] = '#00f476'; // default php code fore color
+$cl['codeMethodColor'] = '#20a3d7'; // default php code fore color
 
+
+$def['.width-a'] = "width:auto;";
+$def['.height-a'] = "height:auto;";
 
 
 include_once __DIR__.'/winui/session.pcss';
+include_once __DIR__.'/winui/controls.pcss';

@@ -12,9 +12,11 @@
 ///<param name="leaveOpen" default="false"></param>
 
 use IGK\Controllers\BaseController;
+use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
-
-
+use IGK\Models\Groupauthorizations;
+use IGK\System\Console\Commands\Database\DbSchemaUtility;
+use IGK\System\Console\Logger as Logger;
 
 if (!function_exists('igk_db_table_info')) {
 
@@ -26,13 +28,13 @@ if (!function_exists('igk_db_table_info')) {
      * @return void 
      * @throws IGKException 
      */
-    function igk_db_table_info(BaseController $ctrl,callable $callback,bool $connect=true)
+    function igk_db_table_info(BaseController $ctrl, callable $callback, bool $connect = true)
     {
         $db = $ctrl->getDataAdapter();
         if (!$ctrl->getUseDataSchema()) {
             if (
                 !empty($table = $ctrl->getDataTableName()) &&
-                ($info = $ctrl->getDataTableInfo()) 
+                ($info = $ctrl->getDataTableInfo())
                 && ($connect || ($db && $db->connect()))
             ) {
                 $table = igk_db_get_table_name($table, $ctrl);
@@ -130,8 +132,10 @@ function igk_db_is_user_authorized($s, $actionName, $strict = false, $authTable 
         $p = (object)array();
         $p->clName = $actionName;
         $ctrl = igk_db_get_datatableowner($authTable);
-        if ($ctrl)
-            igk_db_insert($ctrl, $authTable, $p);
+        if ($ctrl) {
+            $ctrl->model()->insert($authTable, $p);
+        }
+        // igk_db_insert($ctrl, $authTable, $p);
     }
     return $v_r;
 }
@@ -188,14 +192,17 @@ function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $
 ///<param name="ctrl"></param>
 ///<param name="entries"></param>
 /**
- * 
- * @param mixed $ctrl 
- * @param mixed $entries 
+ * utility global function 
+ * @param BaseController $ctrl 
+ * @param array $entries 
  * @deprecated use direct Model access
  */
-function igk_db_insertc($ctrl, $entries)
+function igk_db_insertc(BaseController $ctrl, $entries)
 {
-    return igk_db_insert($ctrl, $ctrl->getDataTableName(), $entries, null);
+    $tb = $ctrl->getDataTableName();
+    $ad = $ctrl->getDataAdapter();
+    return $tb && $ad && $ad->insert($tb, $entries);
+    // return igk_db_insert($ctrl, $ctrl->getDataTableName(), $entries, null);
 }
 
 ///<summary> shortcut to add multiple entries on the table</summary>
@@ -227,7 +234,7 @@ function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = nul
     $adapt = igk_get_data_adapter($controllerOrAdpaterName, false);
     if ($adapt) {
         if ($adapt->connect($dbname)) {
-            $r = $adapt->insert($table, $entries, false); 
+            $r = $adapt->insert($table, $entries, false);
             if (!$r) {
                 igk_ilog("sql error : " . igk_mysql_db_error());
             }
@@ -276,8 +283,8 @@ function igk_db_init_groups($groups)
     foreach ($groups as $v) {
         igk_db_register_group($v);
     }
-} 
- 
+}
+
 
 ///invoke to init system auto
 /**
@@ -302,12 +309,20 @@ function igk_db_grant($authname, $groupname, $access = 1, $ctrl = null)
     $auth = igk_db_table_select_row(igk_db_get_table_name(IGK_TB_AUTHORISATIONS), array(IGK_FD_NAME => $authname));
     $group = igk_db_table_select_row(igk_db_get_table_name(IGK_TB_GROUPS), array(IGK_FD_NAME => $groupname));
     $ctrl = $ctrl ?? igk_db_get_datatableowner(igk_db_get_table_name(IGK_TB_GROUPAUTHS));
-    if ($auth && $group)
-        return igk_db_insert_if_not_exists($ctrl, igk_db_get_table_name(IGK_TB_GROUPAUTHS), array(
-            IGK_FD_AUTH_ID => $auth->clId,
-            IGK_FD_GROUP_ID => $group->clId,
-            "clGrant" => $access
-        ));
+    if ($auth && $group) {
+        return Groupauthorizations::insertIfNotExists(
+            array(
+                IGK_FD_AUTH_ID => $auth->clId,
+                IGK_FD_GROUP_ID => $group->clId,
+                "clGrant" => $access
+            )
+        );
+    }
+    // return igk_db_insert_if_not_exists($ctrl, igk_db_get_table_name(IGK_TB_GROUPAUTHS), array(
+    //     IGK_FD_AUTH_ID => $auth->clId,
+    //     IGK_FD_GROUP_ID => $group->clId,
+    //     "clGrant" => $access
+    // ));
     return 0;
 }
 
@@ -377,5 +392,189 @@ function igk_db_close_adapter($ctrlOrAdapterName)
     $ad = igk_get_data_adapter($ctrlOrAdapterName);
     if ($ad) {
         $ad->close();
+    }
+}
+
+
+// --run db-management.php table 
+if (!function_exists('igk_db_command_table')) {
+    /**
+     * create table command 
+     */
+    function igk_db_command_table(BaseController $controller, string $list)
+    {
+
+        $updated = false;
+        $c = explode(',', $list);
+        $definition = $controller->loadDataFromSchemas();
+        $tables = $definition->tables;
+        $utils = new DbSchemaUtility($controller);
+        $cb = $utils->load();
+        $schema = igk_getv($cb->getElementsByTagName(DbSchemas::RT_SCHEMA_TAG), 0);
+        while (count($c) > 0) {
+            $q = array_shift($c);
+            if (empty($q)) {
+                continue;
+            }
+            $cf = '%prefix%' . $q;
+            $tb = IGKSysUtil::DBGetTableName($cf, $controller);
+            if (!isset($tables[$tb])) {
+
+                $table = $schema->add(DbSchemas::DATA_DEFINITION);
+                $table['TableName'] = $cf;
+                $table['Description'] = "";
+                Logger::info('append -> ' . $tb);
+                $cl = $table->add(DbSchemas::COLUMN_TAG);
+                $cl["clName"] = "id";
+                $cl["clAutoIncrement"] = true;
+                $cl["clNotNull"] = true;
+                $cl["clIsUnique"] = true;
+                $gen = $table->add(DbSchemas::GEN_COLUMNS);
+                $gen["name"] = "updatetime";
+                $updated = true;
+            } else {
+                Logger::warn('already defined -> ' . $tb);
+            }
+        }
+
+        if ($updated) {
+            $utils->store($cb);
+            Logger::success('updated -> ' . $utils->file);
+        }
+    }
+}
+
+// + | --------------------------------------------------------------------
+// + | db add column to table
+// + |
+if (!function_exists('igk_db_command_column')) {
+    /**
+     * add column definition to table
+     */
+    function igk_db_command_column(BaseController $controller, string $table, string $columndef)
+    {
+        $search = [$table];
+        $sp = "%prefix%";
+        if (!igk_str_startwith($table, $sp)) {
+            $search[] = $sp . $table;
+        }
+        $definition = $controller->loadDataFromSchemas();
+        $tables = $definition->tables;
+        $tb = null;
+        $n = null;
+        $tv = array_values($tables);
+        while (count($tv) > 0) {
+            $tt = array_shift($tv);
+
+            foreach ($search as $n) {
+                if (($n == $tt->defTableName) || ($n == $tt->tableName)) {
+                    $tv = [];
+                    $tb = $tt;
+                    break;
+                }
+            }
+        }
+        if (!$tb) {
+            return false;
+        }
+        $v_inf = igk_db_parse_column_def_arg($columndef);
+
+        $utils = new DbSchemaUtility($controller);
+        $cb = $utils->load();
+        $defs = $cb->getElementsByTagName(DbSchemas::DATA_DEFINITION);
+        $store = false;
+        while (count($defs) > 0) {
+            $q = array_shift($defs);
+            if ($q['TableName'] == $n) {
+                foreach ($v_inf as $key => $cl) {
+                    if (!isset($tb->columnInfo[$key])) {
+                        $tc = $q->add(DbSchemas::COLUMN_TAG);
+                        $tc->setAttributes((array)$cl);
+                        $store = true;
+                    }
+                }
+                break;
+            }
+        }
+        if ($store){
+            $utils->store($cb);
+            Logger::success('updated -> ' . $utils->file);
+        }
+        return $store;
+    }
+}
+
+if (!function_exists('igk_db_parse_column_def_arg')) {
+    /**
+     * parse column definition command argument
+     * @param string $column_definition 
+     * @param array<string,string> $column_definition 
+     * @return array 
+     * @example column[;column2[,type(length)],autoincrement,index,primary,description:];column3
+     */
+    function igk_db_parse_column_def_arg(string $column_definition, ?array $string_data=null)
+    {
+        $string_data = $string_data ?? [];
+        $column_definition = preg_replace_callback("/('|\").*(?:\\1)/", function($m)use(& $string_data){
+            $ln = count($string_data); 
+            $string_data["$".$ln] = addslashes(igk_str_remove_quote($m[0]));
+            return "$".$ln;
+        }, stripslashes($column_definition));
+
+        $cmd = array_map(function ($i) use ($string_data) {
+            $tb = explode(',', $i);
+            $column = array_shift($tb);
+            $c = new DbColumnInfo;
+            $c->clName = $column;
+            if (count($tb) > 0) {
+                // load definition 
+                while (count($tb) > 0) {
+                    $q = array_shift($tb);
+                    switch ($q) {
+                        case 'unique':
+                            $c->clIsUnique = true;
+                            break;
+                        case 'autoincrement':
+                            $c->clAutoIncrement = true;
+                            break;
+                        case 'primary':
+                            $c->clIsPrimary = true;
+                            break;
+                        case 'index':
+                            $c->clIsIndex = true;
+                            break;
+                        default:
+                            if (preg_match("/(?P<type>\w+)\((?P<length>\d+)\)/", $q, $tab)){
+                                $c->clType = $tab['type'];
+                                $c->clTypeLength = intval($tab['length']);
+                            } else {
+                                $tab = explode(":", $q, 2);
+                                $n = $tab[0];
+                                $v = igk_getv($tab, 1);
+                                if ($v){
+                                    $v = preg_replace_callback('/\$\d+/', function($m)use($string_data){
+                                        return $string_data[$m[0]];
+                                    }, $v);
+                                }
+                                switch ($n) {
+                                    case 'description':
+                                        $c->clDescription = $v;
+                                        break;
+                                    
+                                    default:
+                                        # code...
+                                        break;
+                                }
+                            }  
+
+                            break;
+                    }
+                }
+            }
+            return [$column => $c];
+        }, explode(';', $column_definition));
+
+        $cmd = array_merge(...$cmd);
+        return $cmd;
     }
 }

@@ -50,12 +50,14 @@ use IGK\System\Database\DbSchemaDefinitionAttributes;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\IO\Path;
+use IGK\System\WinUI\ViewLayout;
 use IGKConstants;
 use IGKEnvironment;
 use IGKEvents;
@@ -85,6 +87,24 @@ abstract class ControllerExtension
     use IOControllerExtensionTrait;
     use ControllerDbExtensionTrait;
     use ControllerRequestExtensionTrait;
+    // use ControllerViewLayoutExtensionTrait;
+
+    static $sm_instances_inclass = [];
+
+    public static function getViewLayout(BaseController $ctrl){
+        $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
+        if ($view_layout){
+            $v_key = $ctrl->getName().'@'.__METHOD__;
+            $obj = igk_getv(self::$sm_instances_inclass, $v_key);
+            $instance = $obj ?? igk_create_instance($view_layout, $obj, function($cl)use($v_key, $ctrl){
+                $obj = new $cl(); 
+                $obj->setController($ctrl);
+                self::$sm_instances_inclass[$v_key] = $obj;
+                return $obj; 
+            });
+            return $instance;
+        }
+    }
 
     public static function convertClassToFilename(BaseController $ctrl, string $class_name):?string{
         $dir = $ctrl::classdir();
@@ -167,10 +187,13 @@ abstract class ControllerExtension
     /**
      * extends to get the base controller from class
      * @param BaseController $ctrl 
+     * @param bool $register_autoload 
      * @return BaseController 
      */
-    public static function ctrl(BaseController $ctrl)
+    public static function ctrl(BaseController $ctrl, bool $register_autoload = false )
     {
+        if ($register_autoload)
+            $ctrl::register_autoload();
         return $ctrl;
     }
 
@@ -666,14 +689,17 @@ abstract class ControllerExtension
                 $file = $ctrl->getDataSchemaFile();
                 $f = igk_db_load_data_schemas($file, $ctrl);
                 if ($m = igk_getv($f, "migrations")) { 
+                    $v_count = 0;
                     try {
                         foreach ($m as $t) {
                             $t->upgrade();
+                            $v_count++;
                         }
                     } catch (Exception $ex) {
                         Logger::danger(sprintf("some error : %s", $ex->getMessage()));
                         igk_ilog("some rerror:  ".$ex->getMessage());
                         igk_ilog("last query :  ".get_class($ex));
+                        igk_ilog("index :  ".$v_count);
                         return false;
                     } 
                     self::InitDataBaseModel($ctrl, $f->tables, true, false);
@@ -682,8 +708,7 @@ abstract class ControllerExtension
             self::loadMigrationFile($ctrl);
             return true;
         };
-        if ($ctrl instanceof IGKModuleListMigration){
-            Logger::warn("migrate modules ....");
+        if ($ctrl instanceof IGKModuleListMigration){ 
             return $ctrl->migrateHost($invoke, $force);
         } 
         return $invoke($ctrl, $force);
@@ -697,6 +722,9 @@ abstract class ControllerExtension
      */
     public static function loadMigrationFile(BaseController $ctrl)
     {
+        if (DbSchemas::IsLoadingFromSchema()){
+            return false;
+        }
         // + | ----------------------------------------------------------------------
         // + | Load migration files
         // + |
@@ -838,8 +866,8 @@ abstract class ControllerExtension
                             continue;
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
-                            Logger::info("generate db model class : " . $file);
-                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description));
+                            Logger::info("generate db model class :=> " . $file);
+                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description, $v->prefix));
                         }
                     }
                 }
@@ -862,11 +890,11 @@ abstract class ControllerExtension
         $sb = new PHPScriptBuilder;
         $clName = ucfirst($name) . 'Constants';
         $ns = $n->getEntryNamespace();
-        $model_class = StringUtility::NS(Path::Combine($ns, \Models::class, ucfirst($name)));
+        $model_class = StringUtility::NS(Path::Combine($ns, IGK_MODELS_CLASS, ucfirst($name)));
 
         $desc = "Constants for \\" . $model_class;
         $sb->type('class')
-            ->namespace(StringUtility::NS(Path::Combine($ns, \Database::class)))
+            ->namespace(StringUtility::NS(Path::Combine($ns, IGK_DATABASE_CLASS)))
             ->name($clName)
             ->file($clName . ".php")
             ->defs(implode("\n", [
@@ -1133,7 +1161,7 @@ abstract class ControllerExtension
     public static function getEntryNamespace(BaseController $ctrl)
     {
         if (BaseController::IsSystemController($ctrl)) {
-            return \IGK::class;
+            return IGK_ENTRY_CORE_NS;
         }
         $ns = dirname(igk_dir(get_class($ctrl)));
         if ($ns != ".") {
@@ -1225,7 +1253,7 @@ abstract class ControllerExtension
         $v = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS);
         if (!$v) {
             $v = $args;
-        } else {
+        } else if (is_array($v)){
             $v = array_merge($v, $args);
         }
         $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, $v);
@@ -1637,7 +1665,7 @@ abstract class ControllerExtension
      * @param mixed $modelname 
      * @return mixed 
      */
-    public function modelUtility(BaseController $controller, $modelname)
+    public static function modelUtility(BaseController $controller, $modelname)
     {
         return $controller->loader->model($modelname);
     }
@@ -1652,7 +1680,7 @@ abstract class ControllerExtension
     {
         $cl = $model;
         if (!class_exists($model) || !is_subclass_of($model, ModelBase::class)) {
-            if (!($cl = self::resolveClass($controller, "Models/$model"))) {
+            if (!($cl = self::resolveClass($controller, EntryClassResolution::Models. "/$model"))) {
                 return null;
             }
         }
@@ -1885,8 +1913,7 @@ abstract class ControllerExtension
      */
     public static function loadDataAndNewEntriesFromSchemas(BaseController $controller)
     {
-        $obj = new DbSchemaLoadEntriesFromSchemaInfo;
-
+        $obj = new DbSchemaLoadEntriesFromSchemaInfo;        
         if ($data = self::loadDataFromSchemas($controller)) {
             if (count((array)$data) > 0) {
                 // copy information 
@@ -2003,7 +2030,7 @@ abstract class ControllerExtension
      * @throws PageNotFoundException 
      * @throws EnvironmentArrayException 
      */
-    public static function viewError(BaseController $controller, int $code, $params = [])
+    public static function viewError(BaseController $controller, $code, $params = [])
     {
         if (file_exists($f = $controller::getErrorViewFile($code))) {
             $node = igk_create_node("div");
@@ -2035,8 +2062,7 @@ abstract class ControllerExtension
             $bck = $controller->getSystemVars();
             if ($params) {
                 $controller->regSystemVars($params);
-                $key = igk_ctrl_env_view_arg_key($controller);
-
+                $key = igk_ctrl_env_view_arg_key($controller); 
                 $tparams = array_merge($bck, $params);
                 igk_set_env($key, $tparams);
             }

@@ -12,10 +12,12 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Controllers\SysDbController;
 use IGK\Database\IDbColumnInfo;
+use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
+use ReflectionClass;
 use ReflectionException;
 
 class DbUtils
@@ -124,5 +126,70 @@ class DbUtils
             $ad->close();
             return true;
         }
+    }
+
+    /**
+     * only column regex filter 
+     * @param mixed $column 
+     * @return string 
+     */
+    public static function OnlyColumnFilterRegex($column){
+        if (is_array($column)){
+            $column = implode("|", $column);
+        }
+        return sprintf("/\b(?!%s)\b[\w][\w\d_]*\b/i", $column);
+    }
+
+    /**
+     * get columns columns
+     * @param ModelBase $model 
+     * @param mixed ...$columns_list 
+     * @return array 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public static function ModelColumns(ModelBase $model, ...$columns_list){
+        // $consts = igk_sys_reflect_class ($model)->getConstants();
+        $tm = $columns_list;
+        $tp = [];
+        $consts = self::GetDeclaredColumnConstants($model);
+        // + | to preserve declaration order
+        $tl = array_combine(array_values($consts), array_keys($consts));
+        foreach($tm as $k){
+            if (key_exists($k, $tl)){
+                $tp[$tl[$k]] = $k;
+            }
+        }
+        // foreach ($consts as $ck=>$cv){
+        //     if (preg_match("/^FD_/",$ck) && !isset($tb[$ck])){
+        //         if (in_array($cv, $tm)){
+        //             $tp[$ck] = $cv;
+        //         }
+        //     }
+        // }
+        return $tp;
+    }
+    public static function GetDeclaredColumnConstants(ModelBase $model){
+        $consts = igk_sys_reflect_class ($model)->getConstants();
+        $l = [];
+        foreach ($consts as $ck=>$cv){
+            if (preg_match("/^FD_/",$ck)){
+                $l[$ck]= $cv;
+            }
+        }
+        return $l;
+
+    }
+
+    /**
+     * 
+     * @param IDbColumnInfo $column_info 
+     * @return bool 
+     */
+    public static function IsJoinTableLinkCandidate($column_info):bool{
+        
+        return (
+            $column_info->clIsIndex || $column_info->clIsPrimary || $column_info->clAutoIncrement
+        ); 
     }
 }

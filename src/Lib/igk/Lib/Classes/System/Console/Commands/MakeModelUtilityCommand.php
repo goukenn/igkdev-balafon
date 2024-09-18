@@ -12,30 +12,32 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use \IGKControllerManagerObject;
-use IGKDbUtility;
+use IGKDbModelUtility;
 
 class MakeModelUtilityCommand extends AppExecCommand
 {
     var $command = "--make:model-utility";
-
     var $category = "make";
-
     var $desc  = "make new project's model utility";
-
     var $options = [];
-    public function exec($command, $controller = "", $modelname = "")
+    var $usage = "[controller] model_utility_name [options]";
+    public function exec($command,?string $controller = null, ?string $modelname = "")
     {
+        $ctrl = null;
         if (empty($controller)) {
             return false;
         }
         if (empty($modelname)) {
-            Logger::danger("model utility name required");
-            return false;
+            if (!($ctrl = self::ResolveController($command,null, false))){
+                Logger::danger("model utility name required");
+                return false;
+            }
+            $modelname = $controller;
         }
         Logger::info("make model utility class ..." . $controller);
         $author = $this->getAuthor($command);
 
-        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = $ctrl ?? self::GetController($controller);
         if (!$ctrl) {
             Logger::danger("controller $controller not found");
             return false;
@@ -57,7 +59,7 @@ class MakeModelUtilityCommand extends AppExecCommand
                 ->doc("view entry point")
                 ->file($fname)
                 ->namespace($ns)
-                ->extends(IGKDbUtility::class)
+                ->extends(IGKDbModelUtility::class)
                 ->desc("module utility " . $clname);
             igk_io_w2file($file,  $builder->render());
         };
@@ -74,12 +76,5 @@ class MakeModelUtilityCommand extends AppExecCommand
         \IGK\Helper\SysUtils::ClearCache();
         Logger::success("done\n");
     }
-    public function help()
-    {
-        Logger::print("-");
-        Logger::info("Make new db modeul utility");
-        Logger::print("-\n");
-        Logger::print("Usage : " . App::Gets(App::GREEN, $this->command) . " controller name [options]");
-        Logger::print("\n\n");
-    }
+     
 }

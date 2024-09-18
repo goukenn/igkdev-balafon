@@ -146,7 +146,7 @@ final class Server implements IToArray{
             ];
         }
         $v_accept = $this->HTTP_ACCEPT ?? '*/*';
-        $a = explode(",", $v_accept);
+        $a = explode(',', $v_accept);
         if (in_array("*/*", $a)){
             return true;
         }

@@ -1,699 +1,747 @@
 <?xml version="1.0" encoding="UTF-8"?>
+ <?xml-model href="./Schemas/db-schemas.xsd"?>
 <data-schemas>
-    <Entries>
-        <Rows For="%prefix%user_info_types">
-            <Row clName="PhoneNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0"
-                clType="1" />
-            <Row clName="GSMNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0"
-                clType="1" />
-            <Row clName="Email" clDataType="email" clRegex="" clCardinality="0" clType="1" />
-            <Row clName="TOKENID" clDataType="text" clRegex="" clCardinality="1" clType="1" />
-        </Rows>
-        <Rows For="%prefix%community">
-            <Row clName="facebook" clValueType="uri" />
-            <Row clName="twitter" clValueType="uri" />
-            <Row clName="googleplus" clValueType="uri" />
-        </Rows>
-        <Rows For="%prefix%partners">
-            <Row clName="igkdev" clCategory="framework" clWebSite="//igkdev.com"
-                clDescription="web site creator" />
-        </Rows>
-    </Entries>
-    <DataDefinition TableName="%prefix%apps" Description="manage download time application.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="50" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clDownloadTime" clType="VARCHAR" clTypeLength="10" />
-        <Column clName="clLast" clType="DateTime" clDescription="Last download time"
-            clInsertFunction="NOW()" clUpdateFunction="NOW()" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%backups">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="backup_type" clType="VarChar" clTypeLength="60" clNotNull="true" />
-        <Column clName="backup_class" clType="Text" />
-        <Column clName="backup_path" clType="Text" clNotNull="true" />
-        <Column clName="backup_create_at" clType="DateTime" clNotNull="true"
-            clInsertFunction="Now()" />
-        <Column clName="backup_update_at" clType="DateTime" clNotNull="true"
-            clInsertFunction="Now()" clUpdateFunction="Now()" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%authorizations">
-        <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="140" clNotNull="True"
-            clIsUnique="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%colors" Description="use to store named colors.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="50" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clValue" clType="VARCHAR" clTypeLength="9" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%community">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="50"
-            clDescription="identifier of the community " clNotNull="True" clIsUnique="True" />
-        <Column clName="clValueType" clType="VARCHAR" clTypeLength="10"
-            clDescription="type of data associated to value" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%configurations">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="130" clNotNull="True" />
-        <Column clName="clValue" clType="TEXT" />
-        <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%cookie_storages">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clIdentifier" clType="VARCHAR" clTypeLength="70" clNotNull="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="30" clNotNull="True" />
-        <Column clName="clDateTime" clType="DateTime" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%data_types" Description="Store framework data types">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clDescription" clType="TEXT" clDescription="data description" />
-        <Column clName="clRegex" clType="TEXT" clDescription="Regex used to validate data" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%groupauthorizations"
-        Description="Store framework group authorisation">
-        <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clGroup_Id" clType="Int" clNotNull="True" clLinkType="%prefix%groups" />
-        <Column clName="clAuth_Id" clType="Int" clNotNull="True" clLinkType="%prefix%authorizations" />
-        <Column clName="clGrant" clType="Enum" clEnumValues="0,1"
-            clDescription="Grant access depending on the authorization usage" clNotNull="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%groups" Description="Store framework groups">
-        <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%humans" Description="store human list">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clGender" clType="VARCHAR" clTypeLength="1"
-            clDescription="m or f for male or female" clNotNull="True" />
-        <Column clName="clFirstName" clType="VARCHAR" clTypeLength="100" />
-        <Column clName="clLastName" clType="VARCHAR" clTypeLength="100" clNotNull="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%infos">
-        <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="60" clNotNull="True" />
-        <Column clName="clValue" clType="TEXT" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%mailinglists" Description="store mailing lists.">
-        <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clEmail" clType="VARCHAR" clTypeLength="60" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clState" clType="Int" clTypeLength="1"
-            clDescription="0|1 (no-active, active)" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%partners" Description="store local sites partner.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="33" clIsUnique="True" />
-        <Column clName="clCategory" clType="VARCHAR" clTypeLength="33" />
-        <Column clName="clWebSite" clType="TEXT" />
-        <Column clName="clDescription" clType="TEXT" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%plugins" Description="store plugins.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="60" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clEmail" clType="TEXT" clDescription="Author's email " />
-        <Column clName="clRelease" clType="DateTime" />
-        <Column clName="clVersion" clType="TEXT" clDescription="plugin version " />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%reference_models" Description="Store reference domain">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clModel" clType="VARCHAR" clTypeLength="170" clNotNull="True" />
-        <Column clName="clNextValue" clType="Int" clTypeLength="11" clNotNull="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%subdomains" Description="store sub domain">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="100"
-            clDescription="Subdomain name. exemple. 'mail'  in the .domain.com will be mail.domain.dom"
-            clNotNull="True" clIsUnique="True" />
-        <Column clName="clCtrl" clType="VARCHAR" clTypeLength="33" clDescription="Controller name"
-            clNotNull="True" />
-        <Column clName="clView" clType="TEXT" clDescription="Entry" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%systemuri" Description="store system uri.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True" />
-        <Column clName="clUri" clType="VARCHAR" clTypeLength="255" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%user_info_types" Description="store use information types.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clName" clType="VARCHAR" clTypeLength="33" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clDataType" clType="VARCHAR" clTypeLength="5" clDescription="data type name"
-            clNotNull="True" />
-        <Column clName="clRegex" clType="VARCHAR" clTypeLength="100"
-            clDescription="Expression used to valiate data" />
-        <Column clName="clCardinality" clType="Int" clTypeLength="11"
-            clDescription="cardinality of this value. 0 is infinite or more than 0."
-            clNotNull="True" />
-        <Column clName="clType" clType="Int" clTypeLength="11"
-            clDescription="1: regex expression to validate the data. 0: database data"
-            clNotNull="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%user_infos">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clUser_Id" clType="Int" clTypeLength="11" clNotNull="True"
-            clLinkType="%prefix%users" />
-        <Column clName="clUserInfoType_Id" clType="Int" clTypeLength="11" clNotNull="True"
-            clLinkType="%prefix%user_info_types" />
-        <Column clName="clValue" clType="VARCHAR" clTypeLength="255"
-            clDescription="stored data. not that if data if data length is more than 255 used a table to store that data" />
-        <Column clName="clDescription" clType="VARCHAR" clTypeLength="150"
-            clDescription="description of that value" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%usergroups">
-        <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clUser_Id" clType="Int" clNotNull="True" clLinkType="%prefix%users"
-            clIsUniqueColumnMember="true" clColumnMemberIndex="1" />
-        <Column clName="clGroup_Id" clType="Int" clNotNull="True" clLinkType="%prefix%groups"
-            clIsUniqueColumnMember="true" clColumnMemberIndex="1" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%users" Description="User's tables">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True"
-            clNotNull="True" />
-        <Column clName="clPwd" clType="VARCHAR" clTypeLength="200" clNotNull="True"
-            clInsertFunction="IGK_PASSWD_ENCRYPT" clUpdateFunction="IGK_PASSWD_ENCRYPT"
-            clInputType="password" />
-        <Column clName="clFirstName" clType="VARCHAR" clTypeLength="60" />
-        <Column clName="clLastName" clType="VARCHAR" clTypeLength="60" />
-        <Column clName="clDisplay" clType="Text" />
-        <Column clName="clLocale" clType="VARCHAR" clTypeLength="5" clDefault="fr" />
-        <Column clName="clPicture" clType="VARCHAR" clTypeLength="255"
-            clDescription="uri of 255 max length" />
-        <Column clName="clLevel" clType="ENUM" clEnumValues="-1,0,1,2,3" clNotNull="True"
-            clDefault="0" clDescription="user's primary level" comment="if enum supported error can be truncated" />
-        <Column clName="clStatus" clType="Int" clTypeLength="11" clDefault="-1"
-            clDescription="state of the account, -1 = not activated, 1=activated, 0or2=blocked, 4=update"
-            clNotNull="True" />
-        <Column clName="clDate" clType="DateTime" clDescription="registration date" clNotNull="True"
-            clDefault="CURRENT_TIMESTAMP" />
-        <Column clName="clLastLogin" clType="Datetime" clDescription="last login" />
-        <Column clName="clParent_Id" clType="Int" clTypeLength="11"
-            clDescription="Parent of this account" clLinkType="%prefix%users" />
-        <Column clName="clClassName" clType="VARCHAR" clTypeLength="255"
-            clDescription="if clParent_Id then object refer to class name that initialize the sub user" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%users_reference_models">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clUser_Id" clType="Int" clTypeLength="11" clNotNull="True"
-            clLinkType="%prefix%users" />
-        <Column clName="clModel" clType="VARCHAR" clTypeLength="170" clNotNull="True" />
-        <Column clName="clNextValue" clType="Int" clTypeLength="11" clNotNull="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%who_uses" Description="Track who use the framework">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clWebSite" clType="VARCHAR" clTypeLength="100" clNotNull="True"
-            clIsUnique="True" />
-        <Column clName="clState" clType="Int" clTypeLength="11" />
-        <Column clName="clDateTime" clType="DateTime" clNotNull="True" />
-        <Column clName="clIP" clType="VARCHAR" clTypeLength="15" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%connexions" Description="Store started connexions">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clUser_Id" clType="Int" clNotNull="true" clLinkType="%prefix%users" />
-        <Column clName="clDateTime" clType="DateTime" clNotNull="True" />
-        <Column clName="clFrom" clType="VARCHAR" clTypeLength="15" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%db_logs" Description="store system's log">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="db_logs_msg" clType="Text" clNotNull="true" />
-        <Column clName="db_logs_status" clType="Int" clDefault="0" clNotNull="True" />
-        <Column clName="db_logs_createAt" clType="DateTime" clNotNull="True"
-            clInsertFunction="Now()" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%sessions" Description="Track user started session">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clSessId" clType="VARCHAR" clTypeLength="50" />
-        <Column clName="clSessIp" clType="VARCHAR" clTypeLength="50" />
-        <Column clName="clSessStartAt" clType="DateTime" clNotNull="True" clInsertFunction="NOW()"
-            clDefault="NOW()" />
-        <Column clName="clSessLatitude" clType="Float" />
-        <Column clName="clSessLongitude" clType="Float" />
-        <Column clName="clSessCountryName" clType="VARCHAR" clTypeLength="60" />
-        <Column clName="clSessCountryCode" clType="VARCHAR" clTypeLength="3" />
-        <Column clName="clSessCityName" clType="VARCHAR" clTypeLength="60" />
-        <Column clName="clSessRegionName" clType="VARCHAR" clTypeLength="30" />
-        <Column clName="clSessAgent" clType="Text" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%guids"
-        Description="Store guid on db for living purpose. link to change password for exemple.">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="clGUID" clType="VARCHAR" clTypeLength="50" clIsUnique="true" />
-        <Column clName="clDesc" clType="Text" />
-        <Column clName="clCreateAt" clType="DateTime" clNotNull="True" clInsertFunction="NOW()"
-            clDefault="NOW()" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%migrations" Description="Store migrations">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="migration_name" clType="VARCHAR" clTypeLength="60" clIsUnique="true"
-            clDescription="m or f for male or female" clNotNull="True" />
-        <Column clName="migration_batch" clType="Int" clDescription="Batch Running" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%crons" Description="Store cron job">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="crons_name" clType="VARCHAR" clTypeLength="60" clNotNull="True" />
-        <Column clName="crons_process" clType="VARCHAR" clTypeLength="1" clDefault="0"
-            clNotNull="True" />
-        <Column clName="crons_script" clType="Text" clTypeLength="60" clNotNull="True" />
-        <Column clName="crons_options" clType="JSON" clTypeLength="60" clNotNull="True" />
-        <Column clName="crons_class" clType="Text" />
-        <Column clName="crons_create_at" clType="DateTime" clDefault="CURRENT_TIMESTAMP"
-            clNotNull="True" />
-        <Column clName="crons_update_at" clType="DateTime" clDefault="CURRENT_TIMESTAMP" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%logginattempts" Description="Store migrations">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="logginattempts_login" clType="VARCHAR" clTypeLength="60" clIsUnique="true"
-            clDescription="loggin - unique" clNotNull="True" />
-        <Column clName="logginattempts_try" clType="Int" clDescription="attemps" clNotNull="True" />
-        <Column clName="logginattempts_createAt" clType="DateTime" clDefault="NOW()"
-            clDescription="Now" clNotNull="True" />
-        <Column clName="logginattempts_updateAt" clType="DateTime" clUpdateFunction="Now()"
-            clDescription="Last try datetime" clNotNull="True" />
-    </DataDefinition>
-    <DataDefinition TableName="%prefix%mails" Description="Store mails">
-        <Column clName="clId" clType="Int" clTypeLength="11" clAutoIncrement="True" clNotNull="True"
-            clIsPrimary="True" />
-        <Column clName="mail_from" clType="VARCHAR" clTypeLength="60" clDescription="from"
-            clNotNull="True" />
-        <Column clName="mail_try" clType="Int" clDescription="attemps" clNotNull="True" />
-        <Column clName="mail_status" clType="Int" clDescription="staus" clNotNull="True"
-            clDefault="0" />
-        <Column clName="mail_data" clType="JSON" clNotNull="True" clDescription="mail data info" />
-        <Column clName="mail_createAt" clType="DateTime" clDefault="NOW()" clDescription="Now"
-            clNotNull="True" />
-        <Column clName="mail_updateAt" clType="DateTime" clUpdateFunction="Now()"
-            clDescription="Last try datetime" clNotNull="True" />
-    </DataDefinition>
+	<Entries>
+		<Rows For="%prefix%user_info_types">
+			<Row clCardinality="0" clDataType="tel" clName="PhoneNumber" clRegex="[^0][0-9]+"
+				clType="1"></Row>
 
-    <!-- PHONE BOOKS -->
+			<Row clCardinality="0" clDataType="tel" clName="GSMNumber" clRegex="[^0][0-9]+"
+				clType="1"></Row>
 
-    <DataDefinition TableName="%prefix%phoneBookUserAssociations" prefix="rcphb_"
-        clDescription="User's Phone books">
-        <Column clName="usrphb_Id" clAutoIncrement="1" clIsPrimary="1" clType="Int"></Column>
-        <Column clName="usrphb_UserGuid" clIsUnique="True" clNotNull="1" clType="Guid"
-            clIsUniqueColumnMember="True"></Column>
-        <Column clName="usrphb_PhoneBookEntryGuid" clIsUnique="False" clNotNull="1" clType="Guid"
-            clLinkType="%prefix%phoneBookEntries"
-            clLinkColumn="rcphbe_Guid"
-            clIsUniqueColumnMember="True"
-        ></Column>
-        <GenColumn name='updateTime' prefix="usrphb_" />
-    </DataDefinition>
+			<Row clCardinality="0" clDataType="email" clName="Email" clType="1"></Row>
 
-    <DataDefinition TableName="%prefix%phoneBooks" prefix="rcphb_" clDescription="Phone books">
-        <Column clName="rcphb_Id" clAutoIncrement="1" clIsPrimary="1" clType="Int"></Column>
-        <Column clName="rcphb_EntryGuid" clType="Guid" clLinkType="%prefix%phoneBookEntries"
-            clLinkColumn="rcphbe_Guid" clIsUnique="False" clIsUniqueColumnMember="True"
-            clNotNull="True"></Column>
-        <Column clName="rcphb_Type" clIsUniqueColumnMember="True" clNotNull="1"
-            clLinkType="%prefix%phoneBookTypes"
-            clLinkColumn="rcphbt_Id"></Column>
-        <Column clName="rcphb_Value" clIsUniqueColumnMember="True" clNotNull="1" clType="VarChar"
-            clTypeLength="255"></Column>
-        <GenColumn name='updateTime' prefix="rcphb_" />
-    </DataDefinition>
+			<Row clCardinality="1" clDataType="text" clName="TOKENID" clType="1"></Row>
+		</Rows>
+		<Rows For="%prefix%community">
+			<Row clName="facebook" clValueType="uri"></Row>
 
-    <DataDefinition TableName="%prefix%phoneBookTypes" prefix="rcphb_"
-        clDescription="Phone book's type">
-        <Column clName="rcphbt_Id" clAutoIncrement="1" clIsPrimary="1" clType="Int"></Column>
-        <Column clName="rcphbt_Name" clIsUnique="True" clNotNull="1" clType="VarChar"
-            clTypeLength="80"></Column>
-        <GenColumn name='updateTime' prefix="rcphb_" />
-    </DataDefinition>
+			<Row clName="twitter" clValueType="uri"></Row>
+			<Row clName="googleplus" clValueType="uri"></Row>
+		</Rows>
+		<Rows For="%prefix%partners">
+			<Row clCategory="framework" clDescription="web site creator" clName="igkdev"
+				clWebSite="//igkdev.com"></Row>
+		</Rows>
+	</Entries>
+	<DataDefinition Description="manage download time application." TableName="%prefix%apps">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
 
-    <DataDefinition TableName="%prefix%phoneBookEntries" prefix="rcphbe_"
-        clDescription="Store book entries">
-        <Column clName="rcphbe_Id" clAutoIncrement="1" clIsPrimary="1" clType="Int"></Column>
-        <Column clName="rcphbe_Guid" clIsUnique="True" clNotNull="1" clType="Guid"></Column>
-        <GenColumn name='updateTime' prefix="rcphbe_" />
-    </DataDefinition>
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="50"></Column>
+		<Column clName="clDownloadTime" clType="VarChar" clTypeLength="10"></Column>
+		<Column clDescription="Last download time" clInsertFunction="NOW()" clName="clLast"
+			clType="DateTime" clUpdateFunction="NOW()"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%backups">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
 
-    <DataDefinition TableName="%prefix%phoneBookPreferences" prefix="rcphbp_"
-        clDescription="User's preferences ">
-        <Column clName="rcphbp_Id" clAutoIncrement="1" clIsPrimary="1" clType="Int"></Column>
-        <Column clName="rcphbp_EntryGuid" clIsUniqueColumnMember="True" clNotNull="1" clType="Guid"
-            clLinkType="%prefix%phoneBookEntries"
-            clLinkColumn="rcphbe_Guid"
-        ></Column>
-        <Column clName="rcphbp_phoneGuid" clIsUniqueColumnMember="True" clNotNull="1" clType="Guid"
-            clLinkType="%prefix%phoneBooks"
-            clLinkColumn="rcphb_EntryGuid"
-        ></Column>
-        <Column clName="rcphbp_userGuid" clIsUniqueColumnMember="True" clNotNull="1" clType="Guid"
-            clLinkType="%prefix%users"
-            clLinkColumn="clGuid"></Column>
-        <Column clName="rcphbp_TypeId" clIsUniqueColumnMember="True" clNotNull="1"
-            clLinkType="%prefix%phoneBookTypes"
-            clLinkColumn="rcphbt_Id"></Column>
-        <GenColumn name='updateTime' prefix="rcphbp_" />
-    </DataDefinition>
-    <!-- END: PHONE BOOKS -->
+		<Column clName="backup_type" clNotNull="true" clType="VarChar" clTypeLength="60"></Column>
+		<Column clName="backup_class" clType="Text"></Column>
+		<Column clName="backup_path" clNotNull="true" clType="Text"></Column>
+		<Column clInsertFunction="Now()" clName="backup_create_at" clNotNull="true"
+			clType="DateTime"></Column>
+		<Column clInsertFunction="Now()" clName="backup_update_at" clNotNull="true"
+			clType="DateTime" clUpdateFunction="Now()"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%authorizations">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int"></Column>
+
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="140"></Column>
+	</DataDefinition>
+	<DataDefinition Description="use to store named colors." TableName="%prefix%colors">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="50"></Column>
+		<Column clName="clValue" clType="VarChar" clTypeLength="9"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%community">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clDescription="identifier of the community " clIsUnique="True" clName="clName"
+			clNotNull="True" clType="VarChar" clTypeLength="50"></Column>
+		<Column clDescription="type of data associated to value" clName="clValueType"
+			clType="VarChar" clTypeLength="10"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%configurations">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="130"></Column>
+		<Column clName="clValue" clType="Text"></Column>
+		<Column clName="clDescription" clType="VarChar" clTypeLength="150"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%cookie_storages">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="clIdentifier" clNotNull="True" clType="VarChar" clTypeLength="70"></Column>
+		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="30"></Column>
+		<Column clName="clDateTime" clType="DateTime"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store framework data types" TableName="%prefix%data_types">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="170"></Column>
+		<Column clDescription="data description" clName="clDescription" clType="Text"></Column>
+		<Column clDescription="Regex used to validate data" clName="clRegex" clType="Text"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store framework group authorisation"
+		TableName="%prefix%groupauthorizations">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int"></Column>
+
+		<Column clLinkType="%prefix%groups" clName="clGroup_Id" clNotNull="True" clType="Int"></Column>
+		<Column clLinkType="%prefix%authorizations" clName="clAuth_Id" clNotNull="True" clType="Int"></Column>
+		<Column clDescription="Grant access depending on the authorization usage" clEnumValues="0,1"
+			clName="clGrant" clNotNull="True" clType="Enum"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store framework groups" TableName="%prefix%groups">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int"></Column>
+
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="170"></Column>
+		<Column clName="clDescription" clType="VarChar" clTypeLength="150"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store human list" TableName="%prefix%humans">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clDescription="m or f for male or female" clName="clGender" clNotNull="True"
+			clType="VarChar" clTypeLength="1"></Column>
+		<Column clName="clFirstName" clType="VarChar" clTypeLength="100"></Column>
+		<Column clName="clLastName" clNotNull="True" clType="VarChar" clTypeLength="100"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%infos">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int"></Column>
+
+		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
+		<Column clName="clValue" clType="Text"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store mailing lists." TableName="%prefix%mailinglists">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int"></Column>
+
+		<Column clIsUnique="True" clName="clEmail" clNotNull="True" clType="VarChar"
+			clTypeLength="60"></Column>
+		<Column clDescription="0|1 (no-active, active)" clName="clState" clType="Int"
+			clTypeLength="1"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store local sites partner." TableName="%prefix%partners">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clName" clType="VarChar" clTypeLength="33"></Column>
+		<Column clName="clCategory" clType="VarChar" clTypeLength="33"></Column>
+		<Column clName="clWebSite" clType="Text"></Column>
+		<Column clName="clDescription" clType="Text"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store plugins." TableName="%prefix%plugins">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="60"></Column>
+		<Column clDescription="Author's email " clName="clEmail" clType="Text"></Column>
+		<Column clName="clRelease" clType="DateTime"></Column>
+		<Column clDescription="plugin version " clName="clVersion" clType="Text"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store reference domain" TableName="%prefix%reference_models">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="clModel" clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+		<Column clName="clNextValue" clNotNull="True" clType="Int" clTypeLength="11"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store sub domain" TableName="%prefix%subdomains">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column
+			clDescription="Subdomain name. exemple. 'mail'  in the .domain.com will be mail.domain.dom"
+			clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar" clTypeLength="100"></Column>
+		<Column clDescription="Controller name" clName="clCtrl" clNotNull="True" clType="VarChar"
+			clTypeLength="33"></Column>
+		<Column clDescription="Entry" clName="clView" clType="Text"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store system uri." TableName="%prefix%systemuri">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+		<Column clName="clUri" clType="VarChar" clTypeLength="255"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store use information types." TableName="%prefix%user_info_types">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clName" clNotNull="True" clType="VarChar"
+			clTypeLength="33"></Column>
+		<Column clDescription="data type name" clName="clDataType" clNotNull="True" clType="VarChar"
+			clTypeLength="5"></Column>
+		<Column clDescription="Expression used to valiate data" clName="clRegex" clType="VarChar"
+			clTypeLength="100"></Column>
+		<Column clDescription="cardinality of this value. 0 is infinite or more than 0."
+			clName="clCardinality" clNotNull="True" clType="Int" clTypeLength="11"></Column>
+		<Column clDescription="1: regex expression to validate the data. 0: database data"
+			clName="clType" clNotNull="True" clType="Int" clTypeLength="11"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%user_infos">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clLinkType="%prefix%users" clName="clUser_Id" clNotNull="True" clType="Int"
+			clTypeLength="11"></Column>
+		<Column clLinkType="%prefix%user_info_types" clName="clUserInfoType_Id" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+		<Column
+			clDescription="stored data. not that if data if data length is more than 255 used a table to store that data"
+			clName="clValue" clType="VarChar" clTypeLength="255"></Column>
+		<Column clDescription="description of that value" clName="clDescription" clType="VarChar"
+			clTypeLength="150"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%usergroups">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int"></Column>
+
+		<Column clColumnMemberIndex="1" clIsUniqueColumnMember="true" clLinkType="%prefix%users"
+			clName="clUser_Id" clNotNull="True" clType="Int"></Column>
+		<Column clColumnMemberIndex="1" clIsUniqueColumnMember="true" clLinkType="%prefix%groups"
+			clName="clGroup_Id" clNotNull="True" clType="Int"></Column>
+	</DataDefinition>
+	<DataDefinition Description="User's tables" TableName="%prefix%users">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clLogin" clNotNull="True" clType="VarChar"
+			clTypeLength="60"></Column>
+		<Column clInputType="password" clInsertFunction="IGK_PASSWD_ENCRYPT" clName="clPwd"
+			clNotNull="True" clType="VarChar" clTypeLength="200"
+			clUpdateFunction="IGK_PASSWD_ENCRYPT"></Column>
+		<Column clName="clFirstName" clType="VarChar" clTypeLength="60"></Column>
+		<Column clName="clLastName" clType="VarChar" clTypeLength="60"></Column>
+		<Column clName="clDisplay" clType="Text"></Column>
+		<Column clDefault="fr" clName="clLocale" clType="VarChar" clTypeLength="5"></Column>
+		<Column clDescription="uri of 255 max length" clName="clPicture" clType="VarChar"
+			clTypeLength="255"></Column>
+		<Column clDefault="0"
+			clDescription="user's primary level|if enum supported error can be truncated"
+			clEnumValues="-1,0,1,2,3" clName="clLevel" clNotNull="True" clType="Enum"></Column>
+		<Column clDefault="-1"
+			clDescription="state of the account, -1 = not activated, 1=activated, 0or2=blocked, 4=update"
+			clName="clStatus" clNotNull="True" clType="Int" clTypeLength="11"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clDescription="registration date" clName="clDate"
+			clNotNull="True" clType="DateTime"></Column>
+		<Column clDescription="last login" clName="clLastLogin" clType="DateTime"></Column>
+		<Column clDescription="Parent of this account" clLinkType="%prefix%users"
+			clName="clParent_Id" clType="Int" clTypeLength="11"></Column>
+		<Column
+			clDescription="if clParent_Id then object refer to class name that initialize the sub user"
+			clName="clClassName" clType="VarChar" clTypeLength="255"></Column>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%users_reference_models">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clLinkType="%prefix%users" clName="clUser_Id" clNotNull="True" clType="Int"
+			clTypeLength="11"></Column>
+		<Column clName="clModel" clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+		<Column clName="clNextValue" clNotNull="True" clType="Int" clTypeLength="11"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Track who use the framework" TableName="%prefix%who_uses">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="True" clName="clWebSite" clNotNull="True" clType="VarChar"
+			clTypeLength="100"></Column>
+		<Column clName="clState" clType="Int" clTypeLength="11"></Column>
+		<Column clName="clDateTime" clNotNull="True" clType="DateTime"></Column>
+		<Column clName="clIP" clType="VarChar" clTypeLength="15"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store started connexions" TableName="%prefix%connexions">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clLinkType="%prefix%users" clName="clUser_Id" clNotNull="true" clType="Int"></Column>
+		<Column clName="clDateTime" clNotNull="True" clType="DateTime"></Column>
+		<Column clName="clFrom" clType="VarChar" clTypeLength="15"></Column>
+	</DataDefinition>
+	<DataDefinition Description="store system's log" TableName="%prefix%db_logs">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="db_logs_msg" clNotNull="true" clType="Text"></Column>
+		<Column clDefault="0" clName="db_logs_status" clNotNull="True" clType="Int"></Column>
+		<Column clInsertFunction="Now()" clName="db_logs_createAt" clNotNull="True"
+			clType="DateTime"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Track user started session" TableName="%prefix%sessions">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="clSessId" clType="VarChar" clTypeLength="50"></Column>
+		<Column clName="clSessIp" clType="VarChar" clTypeLength="50"></Column>
+		<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clSessStartAt" clNotNull="True"
+			clType="DateTime"></Column>
+		<Column clName="clSessLatitude" clType="Float"></Column>
+		<Column clName="clSessLongitude" clType="Float"></Column>
+		<Column clName="clSessCountryName" clType="VarChar" clTypeLength="60"></Column>
+		<Column clName="clSessCountryCode" clType="VarChar" clTypeLength="3"></Column>
+		<Column clName="clSessCityName" clType="VarChar" clTypeLength="60"></Column>
+		<Column clName="clSessRegionName" clType="VarChar" clTypeLength="30"></Column>
+		<Column clName="clSessAgent" clType="Text"></Column>
+	</DataDefinition>
+	<DataDefinition
+		Description="Store guid on db for living purpose. link to change password for exemple."
+		TableName="%prefix%guids">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clIsUnique="true" clName="clGUID" clType="VarChar" clTypeLength="50"></Column>
+		<Column clName="clDesc" clType="Text"></Column>
+		<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clCreateAt" clNotNull="True"
+			clType="DateTime"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store migrations" TableName="%prefix%migrations">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clDescription="m or f for male or female" clIsUnique="true" clName="migration_name"
+			clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
+		<Column clDescription="Batch Running" clName="migration_batch" clType="Int"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store cron job" TableName="%prefix%crons">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clName="crons_name" clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
+		<Column clDefault="0" clName="crons_process" clNotNull="True" clType="VarChar"
+			clTypeLength="1"></Column>
+		<Column clName="crons_script" clNotNull="True" clType="Text" clTypeLength="60"></Column>
+		<Column clName="crons_options" clNotNull="True" clType="JSON" clTypeLength="60"></Column>
+		<Column clName="crons_class" clType="Text"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clName="crons_create_at" clNotNull="True"
+			clType="DateTime"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clName="crons_update_at" clType="DateTime"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store migrations" TableName="%prefix%logginattempts">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clDescription="loggin - unique" clIsUnique="true" clName="logginattempts_login"
+			clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
+		<Column clDescription="attemps" clName="logginattempts_try" clNotNull="True" clType="Int"></Column>
+		<Column clDefault="NOW()" clDescription="Now" clName="logginattempts_createAt"
+			clNotNull="True" clType="DateTime"></Column>
+		<Column clDescription="Last try datetime" clName="logginattempts_updateAt" clNotNull="True"
+			clType="DateTime" clUpdateFunction="Now()"></Column>
+	</DataDefinition>
+	<DataDefinition Description="Store mails" TableName="%prefix%mails">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+			clType="Int" clTypeLength="11"></Column>
+
+		<Column clDescription="from" clName="mail_from" clNotNull="True" clType="VarChar"
+			clTypeLength="60"></Column>
+		<Column clDescription="attemps" clName="mail_try" clNotNull="True" clType="Int"></Column>
+		<Column clDefault="0" clDescription="staus" clName="mail_status" clNotNull="True"
+			clType="Int"></Column>
+		<Column clDescription="mail data info" clName="mail_data" clNotNull="True" clType="JSON"></Column>
+		<Column clDefault="NOW()" clDescription="Now" clName="mail_createAt" clNotNull="True"
+			clType="DateTime"></Column>
+		<Column clDescription="Last try datetime" clName="mail_updateAt" clNotNull="True"
+			clType="DateTime" clUpdateFunction="Now()"></Column>
+	</DataDefinition>
+	<!-- PHONE BOOKS -->
+
+	<DataDefinition Description="User's Phone books" Prefix="rcphb_"
+		TableName="%prefix%phoneBookUserAssociations">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="usrphb_Id" clType="Int"></Column>
+
+		<Column clIsUnique="True" clIsUniqueColumnMember="True" clName="usrphb_UserGuid"
+			clNotNull="1" clType="Guid"></Column>
+		<Column clIsUnique="False" clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid"
+			clLinkType="%prefix%phoneBookEntries" clName="usrphb_PhoneBookEntryGuid" clNotNull="1"
+			clType="Guid"></Column>
+		<GenColumn name="updateTime" prefix="usrphb_"></GenColumn>
+	</DataDefinition>
+
+	<DataDefinition Description="Phone books" Prefix="rcphb_" TableName="%prefix%phoneBooks">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphb_Id" clType="Int"></Column>
+
+		<Column clIsUnique="False" clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid"
+			clLinkType="%prefix%phoneBookEntries" clName="rcphb_EntryGuid" clNotNull="True"
+			clType="Guid"></Column>
+		<Column clIsUniqueColumnMember="True" clLinkColumn="rcphbt_Id"
+			clLinkType="%prefix%phoneBookTypes" clName="rcphb_Type" clNotNull="1"></Column>
+		<Column clIsUniqueColumnMember="True" clName="rcphb_Value" clNotNull="1" clType="VarChar"
+			clTypeLength="255"></Column>
+		<GenColumn name="updateTime" prefix="rcphb_"></GenColumn>
+	</DataDefinition>
+
+	<DataDefinition Description="Phone book's type" Prefix="rcphbt_"
+		TableName="%prefix%phoneBookTypes">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="Id" clType="Int"></Column>
+		<Column clIsUnique="True" clName="Name" clNotNull="1" clType="VarChar"
+			clTypeLength="80"></Column>
+		<GenColumn name="updateTime" ></GenColumn>
+	</DataDefinition>
+
+	<DataDefinition Description="Store book entries" Prefix="rcphbe_"
+		TableName="%prefix%phoneBookEntries">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphbe_Id" clType="Int"></Column>
+
+		<Column clIsUnique="True" clName="rcphbe_Guid" clNotNull="1" clType="Guid"></Column>
+		<GenColumn name="updateTime" ></GenColumn>
+	</DataDefinition>
+
+	<DataDefinition Description="User's preferences " Prefix="rcphbp_"
+		TableName="%prefix%phoneBookPreferences">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphbp_Id" clType="Int"></Column>
+
+		<Column clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid"
+			clLinkType="%prefix%phoneBookEntries" clName="rcphbp_EntryGuid" clNotNull="1"
+			clType="Guid"></Column>
+		<Column clIsUniqueColumnMember="True" clLinkColumn="rcphb_EntryGuid"
+			clLinkType="%prefix%phoneBooks" clName="rcphbp_phoneGuid" clNotNull="1" clType="Guid"></Column>
+		<Column clIsUniqueColumnMember="True" clLinkColumn="clGuid" clLinkType="%prefix%users"
+			clName="rcphbp_userGuid" clNotNull="1" clType="Guid"></Column>
+		<Column clIsUniqueColumnMember="True" clLinkColumn="rcphbt_Id"
+			clLinkType="%prefix%phoneBookTypes" clName="rcphbp_TypeId" clNotNull="1"></Column>
+		<GenColumn name="updateTime" prefix="rcphbp_"></GenColumn>
+	</DataDefinition>
+	<!-- END: PHONE BOOKS -->
+
+	<Migrations>
+		<Migration>
+			<changeColumn column="clLogin" table="%prefix%users">
+				<Column clIsUnique="True" clName="clLogin" clNotAllowEmptyString="true"
+					clNotNull="true" clRequire="true" clType="VarChar" clTypeLength="60"></Column>
+			</changeColumn>
+		</Migration>
+		<Migration>
+			<addColumn table="%prefix%users">
+				<Column clDefault="CURRENT_TIMESTAMP" clDescription="user create at"
+					clName="clcreate_at" clNotNull="True" clType="DateTime"></Column>
+
+				<Column clDefault="CURRENT_TIMESTAMP" clDescription="update user's info at"
+					clName="clupdate_at" clNotNull="True" clType="DateTime" clUpdateFunction="Now()"></Column>
+			</addColumn>
+		</Migration>
+		<Migration>
+			<changeColumn column="clCtrl" table="%prefix%subdomains">
+				<Column clDescription="Controller name" clName="clCtrl" clNotNull="True"
+					clType="VarChar" clTypeLength="255"></Column>
+			</changeColumn>
+		</Migration>
+		<Migration>
+			<addColumn table="%prefix%db_logs">
+				<Column clDescription="tags" clName="db_logs_tags" clNotNull="True" clType="Text"></Column>
+			</addColumn>
+		</Migration>
+		<Migration>
+			<addColumn after="clLogin" table="%prefix%users">
+				<Column clIsUnique="True" clName="clGuid" clType="VarChar" clTypeLength="64"></Column>
+			</addColumn>
+		</Migration>
+		<Migration description="add common fields - group controller">
+			<addColumn table="%prefix%groups">
+				<Column clColumnMemberIndex="0" clIsUniqueColumnMember="true" clName="clController"
+					clType="VarChar" clTypeLength="255"></Column>
+			</addColumn>
+			<changeColumn column="clName" table="%prefix%groups">
+				<Column clColumnMemberIndex="0" clIsUnique="0" clIsUniqueColumnMember="true"
+					clName="clName" clNotNull="True" clType="VarChar" clTypeLength="175"></Column>
+			</changeColumn>
+			<addColumn table="%prefix%authorizations">
+				<Column clColumnMemberIndex="0" clIsUniqueColumnMember="True" clName="clController"
+					clType="VarChar" clTypeLength="255"></Column>
+
+				<Column clName="clDescription" clType="VarChar" clTypeLength="150"></Column>
+			</addColumn>
+			<changeColumn column="clName" table="%prefix%authorizations">
+				<Column clColumnMemberIndex="0" clIsUnique="1" clIsUniqueColumnMember="true"
+					clName="clName" clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+			</changeColumn>
+		</Migration>
+		<Migration>
+			<addColumn table="%prefix%mailinglists">
+				<Column clName="clml_Source" clType="text" clDescription="column describe."></Column>
+
+				<Column clDefault="en" clName="clml_locale" clNotNull="true" clType="VarChar"
+					clTypeLength="10"></Column>
+
+				<Column clName="clml_agent" clNotNull="true" clType="text"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clml_create_at"
+					clNotNull="true" clType="DATETIME"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clml_update_at"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+		</Migration>
+		<Migration date="20221114" description="store connexion attempts">
+			<createTable description="Store Connexion attempts" table="%prefix%connect_attempts">
+				<Column clDescription="provided ip" clIsPrimary="true" clName="cxnId"
+					clNotNull="true" clType="text"></Column>
+
+				<Column clName="cxnAttempt" clType="text"></Column>
+
+				<Column clDescription="requested account" clName="cxnAccount" clType="VarChar"></Column>
+				<Column clDescription="location x" clName="cxnGeoX" clType="Int"></Column>
+				<Column clDescription="location y" clName="cxnGeoY" clType="Int"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="cxnCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="cxnUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</createTable>
+			<deleteTable table="%prefix%logginattempts"></deleteTable>
+		</Migration>
+		<Migration>
+			<addColumn table="%prefix%migrations">
+				<Column clName="migration_desc" clType="text"></Column>
+
+				<Column clName="migration_controller" clType="text"></Column>
+
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="migration_create_at"
+					clNotNull="true" clType="DATETIME"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="migration_update_at"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+		</Migration>
+		<Migration date="20221116" description="store registration links">
+			<createTable description="store registration linkss" table="%prefix%registration_links">
+				<Column clAutoIncrement="True" clIsPrimary="True" clName="regLinkId"
+					clNotNull="True" clType="Int" clTypeLength="11"></Column>
+
+				<Column clIsUnique="True" clLinkColumn="clGuid" clLinkType="%prefix%users"
+					clName="regLinkUserGuid" clType="VarChar" clTypeLength="64"></Column>
+
+				<Column clDescription="token" clIsUnique="true" clName="regLinkToken"
+					clType="VarChar" clTypeLength="64"></Column>
+				<Column clDefault="0" clDescription="alive for activation" clName="regLinkAlive"
+					clType="Int"></Column>
+				<Column clDescription="activation date" clName="regLinkActivate" clType="DATETIME"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</createTable>
+			<createTable description="Store connexion history" table="%prefix%login_logs">
+				<Column clAutoIncrement="True" clIsPrimary="True" clName="loglogs_Id"
+					clNotNull="True" clType="Int" clTypeLength="11"></Column>
+
+				<Column clLinkColumn="clGuid" clLinkType="%prefix%users" clName="loglogs_UserGuid"
+					clType="VarChar" clTypeLength="64"></Column>
+				<Column clName="loglogs_Agent" clType="Text" clTypeLength="64"></Column>
+				<Column clName="loglogs_IP" clType="VarChar" clTypeLength="15"></Column>
+				<Column clDescription="location x" clName="loglogs_GeoX" clType="Float"></Column>
+				<Column clDescription="location y" clName="loglogs_GeoY" clType="Float"></Column>
+				<Column clName="loglogs_Region" clType="Text"></Column>
+				<Column clName="loglogs_Code" clType="VarChar" clTypeLength="4"></Column>
+				<Column clName="loglogs_CountryName" clType="VarChar" clTypeLength="90"></Column>
+				<Column clName="loglogs_City" clType="VarChar" clTypeLength="190"></Column>
+				<Column clDescription="0 = loggin, 1 = logut" clName="loglogs_Status" clNotNull="1"
+					clType="Int" clTypeLength="1"></Column>
+				<Column clDescription="location y" clName="loglogs_Description" clType="Text"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</createTable>
+		</Migration>
+
+		<Migration>
+			<addColumn after="crons_class" table="%prefix%crons">
+				<Column clDescription="running script response status" clName="crons_status"
+					clNotNull="True" clType="Int" clTypeLength="5"></Column>
+			</addColumn>
+		</Migration>
+		<Migration date="20221118">
+			<changeColumn column="clName" description="remove unique column on name"
+				table="%prefix%groups">
+				<Column clColumnMemberIndex="0" clIsUniqueColumnMember="true" clName="clName"
+					clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+			</changeColumn>
+			<changeColumn column="clName" description="remove unique column on name"
+				table="%prefix%authorizations">
+				<Column clColumnMemberIndex="0" clIsUniqueColumnMember="true" clName="clName"
+					clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+			</changeColumn>
+			<addColumn table="%prefix%groups">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+			<addColumn table="%prefix%authorizations">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+			<addColumn table="%prefix%groupauthorizations">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+			<addColumn table="%prefix%usergroups">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clCreate_At"
+					clNotNull="true" clType="DATETIME"></Column>
+
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="clUpdate_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+		</Migration>
+		<Migration>
+			<changeColumn column="db_logs_createAt" table="%prefix%db_logs">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="db_logs_createAt"
+					clNotNull="true" clType="DATETIME"></Column>
+			</changeColumn>
+		</Migration>
+		<Migration>
+			<addColumn table="%prefix%db_logs">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="db_logs_updateAt"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</addColumn>
+		</Migration>
+
+		<Migration>
+			<renameColumn column="clEmail" new_name="clml_email" table="%prefix%mailinglists"></renameColumn>
+
+			<renameColumn column="clState" new_name="clml_state" table="%prefix%mailinglists"></renameColumn>
+		</Migration>
+		<Migration>
+			<renameColumn column="clml_Source" new_name="clml_source" table="%prefix%mailinglists" />
+		</Migration>
+		<Migration>
+			<addColumn after="clml_locale" table="%prefix%mailinglists">
+				<Column clName="clml_init" clType="text"></Column>
+			</addColumn>
+		</Migration>
+
+		<Migration>
+			<renameColumn column="regLinkCreate_At" new_name="loglogs_Create_At"
+				table="%prefix%loglogs"></renameColumn>
+
+			<renameColumn column="regLinkUpdate_At" new_name="loglogs_Update_At"
+				table="%prefix%loglogs"></renameColumn>
+		</Migration>
+
+		<!-- hidde password -->
+		<Migration date="2023-21-01" description="hide password">
+			<changeColumn column="clPwd" table="%prefix%users">
+				<Column clHide="True" clInputType="password" clInsertFunction="IGK_PASSWD_ENCRYPT"
+					clName="clPwd" clNotNull="True" clType="VarChar" clTypeLength="200"
+					clUpdateFunction="IGK_PASSWD_ENCRYPT"></Column>
+			</changeColumn>
+		</Migration>
+
+		<Migration date="2023-21-01">
+			<changeColumn column="clName" table="%prefix%groups">
+				<Column clColumnMemberIndex="0" clIsUnique="False" clIsUniqueColumnMember="true"
+					clName="clName" clNotNull="True" clType="VarChar" clTypeLength="170"></Column>
+			</changeColumn>
+			<changeColumn column="clController" table="%prefix%groups">
+				<Column clColumnMemberIndex="0" clIsUniqueColumnMember="True" clName="clController"
+					clType="VarChar" clTypeLength="255"></Column>
+			</changeColumn>
+		</Migration>
+		<Migration>
+			<changeColumn column="clGuid" table="%prefix%users" tag="change:guid with is unique">
+				<Column clIsUnique="True" clName="clGuid" clType="Guid"></Column>
+			</changeColumn>
+		</Migration>
+
+		<Migration>
+			<addColumn after="rcphbt_Name" table="%prefix%phoneBookTypes">
+				<Column clName="rcphbt_Cat" clType="VarChar" clTypeLength="80"></Column>
+
+				<Column clDefault="0" clDescription="cardinality of the entry"
+					clName="rcphbt_Cardinality" clNotNull="1" clType="Int"></Column>
+			</addColumn>
+		</Migration>
+
+		<Migration>
+			<addColumn after="clUser_Id" table="%prefix%connexions">
+				<Column clIsUnique="true" clName="clToken" clNotNull="true" clType="VarChar"
+					clTypeLength="80"></Column>
+
+				<Column clDescription="store token information" clName="clTokenInfo" clNotNull="1"
+					clType="JSON"></Column>
+			</addColumn>
+		</Migration>
+		<Migration>
+			<addColumn after="clFrom" table="%prefix%connexions">
+				<Column clDefault="NOW()" clDescription="Now" clName="cnx_createAt" clNotNull="True"
+					clType="DateTime"></Column>
+
+				<Column clDescription="Last try datetime" clName="cnx_updateAt" clNotNull="True"
+					clType="DateTime" clUpdateFunction="Now()"></Column>
+			</addColumn>
+		</Migration>
+		<Migration>
+			<changeColumn column="clUser_Id" table="%prefix%connexions">
+				<Column clDescription="user request authentication" clIsUnique="0"
+					clLinkColumn="clGuid" clLinkType="%prefix%users" clName="clUser_Guid"
+					clNotNull="True" clType="Guid"></Column>
+			</changeColumn>
+		</Migration>
+
+		<Migration>
+			<addColumn after="clupdate_at" table="%prefix%users">
+				<Column clName="clDeactivate_At" clNotNull="true" clType="DateTime"></Column>
+			</addColumn>
+		</Migration>
+
+		<Migration>
+			<addColumn after="clView" table="%prefix%subdomains">
+				<Column clName="clDeactivate_At" clNotNull="true" clType="DateTime"></Column>
+			</addColumn>
+		</Migration>
+
+		<Migration>
+			<addColumn after="clDeactivate_At" table="%prefix%subdomains">
+				<Column clDefault="Now()" clName="clCreate_At" clNotNull="false" clType="DateTime"></Column>
+
+				<Column clDefault="Now()" clInsertFunction="Now()" clName="clUpdate_At"
+					clNotNull="false" clType="DateTime" clUpdateFunction="Now()"></Column>
+			</addColumn>
+		</Migration>
+
+		<Migration>
+			<changeColumn column="cxnId" table="%prefix%connect_attempts">
+				<Column clDescription="provided ip" clIsPrimary="true" clName="cxnId"
+					clNotNull="true" clType="VarChar" clTypeLength="15"></Column>
+			</changeColumn>
+			<changeColumn column="regLinkCreate_At" table="%prefix%login_logs">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="loglogs_Create_At"
+					clNotNull="true" clType="DATETIME"></Column>
+			</changeColumn>
+			<changeColumn column="regLinkUpdate_At" table="%prefix%login_logs">
+				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="loglogs_Update_At"
+					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
+			</changeColumn>
+		</Migration>
 
 
-    <Migrations>
-        <Migration>
-            <changeColumn table="%prefix%users" column="clLogin">
-                <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True"
-                    clRequire="true" clNotNull="true" clNotAllowEmptyString="true" />
-            </changeColumn>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%users">
-                <Column clName="clcreate_at" clType="DateTime" clDefault="CURRENT_TIMESTAMP"
-                    clDescription="user create at" clNotNull="True" />
-                <Column clName="clupdate_at" clType="DateTime" clDefault="CURRENT_TIMESTAMP"
-                    clUpdateFunction="Now()" clDescription="update user's info at" clNotNull="True" />
-            </addColumn>
-        </Migration>
-        <Migration>
-            <changeColumn table="%prefix%subdomains" column="clCtrl">
-                <Column clName="clCtrl" clType="VARCHAR" clTypeLength="255"
-                    clDescription="Controller name" clNotNull="True" />
-            </changeColumn>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%db_logs">
-                <Column clName="db_logs_tags" clType="Text" clDescription="tags" clNotNull="True" />
-            </addColumn>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%users" after='clLogin'>
-                <Column clName="clGuid" clType="VARCHAR" clTypeLength="64" clIsUnique="True" />
-            </addColumn>
-        </Migration>
-        <Migration description='add common fields - group controller'>
-            <addColumn table="%prefix%groups">
-                <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
-            </addColumn>
-            <changeColumn table="%prefix%groups" column="clName">
-                <Column clName="clName" clType="VARCHAR" clTypeLength="175" clNotNull="True"
-                    clIsUnique="0" clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
-            </changeColumn>
-            <addColumn table="%prefix%authorizations">
-                <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="True" clColumnMemberIndex="0" />
-                <Column clName="clDescription" clType="VARCHAR" clTypeLength="150" />
-            </addColumn>
-            <changeColumn table="%prefix%authorizations" column="clName">
-                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUnique="1" clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
-            </changeColumn>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%mailinglists">
-                <Column clName="clml_Source" clType="text" />
-                <Column clName="clml_locale" clType="varchar" clTypeLength="10" clDefault="en"
-                    clNotNull="true" />
-                <Column clName="clml_agent" clType="text" clNotNull="true" />
-                <Column clName="clml_create_at" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clml_update_at" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-        </Migration>
-        <Migration date='20221114' description='store connexion attempts'>
-            <createTable table="%prefix%connect_attempts" description='Store Connexion attempts'>
-                <Column clName="cxnId" clType="text" clDescription='provided ip' clIsPrimary="true" clNotNull="true" />
-                <Column clName="cxnAttempt" clType="text" />
-                <Column clName="cxnAccount" clType="varchar" clDescription='requested account' />
-                <Column clName="cxnGeoX" clType="Int" clDescription='location x' />
-                <Column clName="cxnGeoY" clType="Int" clDescription='location y' />
-                <Column clName="cxnCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="cxnUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </createTable>
-            <deleteTable table='%prefix%logginattempts'></deleteTable>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%migrations">
-                <Column clName="migration_desc" clType="text" />
-                <Column clName="migration_controller" clType="text" />
-                <Column clName="migration_create_at" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="migration_update_at" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-        </Migration>
-
-        <Migration date='20221116' description='store registration links'>
-            <createTable table="%prefix%registration_links" description='store registration linkss'>
-                <Column clName="regLinkId" clType="Int" clTypeLength="11" clAutoIncrement="True"
-                    clNotNull="True" clIsPrimary="True" />
-                <Column clName="regLinkUserGuid" clType="VARCHAR" clLinType='%prefix%users'
-                    clLinkColumn='clGuid' clTypeLength="64" clIsUnique="True" />
-                <Column clName="regLinkToken" clType="varchar" clIsUnique='true'
-                    clDescription='token' clTypeLength="64" />
-                <Column clName="regLinkAlive" clType="Int" clDescription='alive for activation'
-                    default='0' />
-                <Column clName="regLinkActivate" clType="DATETIME" clDescription='activation date' />
-                <Column clName="regLinkCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="regLinkUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </createTable>
-            <createTable table="%prefix%login_logs" description='Store connexion history'>
-                <Column clName="loglogs_Id" clType="Int" clTypeLength="11" clAutoIncrement="True"
-                    clNotNull="True" clIsPrimary="True" />
-                <Column clName="loglogs_UserGuid" clType="VARCHAR" clLinType='%prefix%users'
-                    clLinkColumn='clGuid' clTypeLength="64" />
-                <Column clName="loglogs_Agent" clType="Text" clTypeLength="64" />
-                <Column clName="loglogs_IP" clType="VARCHAR" clTypeLength="15" />
-                <Column clName="loglogs_GeoX" clType="Float" clDescription='location x' />
-                <Column clName="loglogs_GeoY" clType="Float" clDescription='location y' />
-                <Column clName="loglogs_Region" clType="Text" />
-                <Column clName="loglogs_Code" clType="VARCHAR" clTypeLength="4" />
-                <Column clName="loglogs_CountryName" clType="VARCHAR" clTypeLength="90" />
-                <Column clName="loglogs_City" clType="VarChar" clTypeLength="190" />
-                <Column clName="loglogs_Status" clType="Int" clTypeLength="1"
-                    clDescription='0 = loggin, 1 = logut' clNotNull="1" />
-                <Column clName="loglogs_Description" clType="Text" clDescription='location y' />
-                <Column clName="regLinkCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="regLinkUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </createTable>
-        </Migration>
-
-
-        <Migration>
-            <addColumn table="%prefix%crons" after='crons_class'>
-                <Column clName="crons_status" clType="Int" clTypeLength="5" clNotNull="True"
-                    clDescription='running script response status' />
-            </addColumn>
-        </Migration>
-        <Migration date='20221118'>
-            <changeColumn table="%prefix%groups" column="clName"
-                description="remove unique column on name">
-                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
-            </changeColumn>
-            <changeColumn table="%prefix%authorizations" column="clName"
-                description="remove unique column on name">
-                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
-            </changeColumn>
-            <addColumn table="%prefix%groups">
-                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-            <addColumn table="%prefix%authorizations">
-                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-            <addColumn table="%prefix%groupauthorizations">
-                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-            <addColumn table="%prefix%usergroups">
-                <Column clName="clCreate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-                <Column clName="clUpdate_At" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-        </Migration>
-        <Migration>
-            <changeColumn table="%prefix%db_logs" column="db_logs_createAt">
-                <Column clName="db_logs_createAt" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clNotNull="true" />
-            </changeColumn>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%db_logs">
-                <Column clName="db_logs_updateAt" clType="DATETIME" clDefault='NOW()'
-                    clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-            </addColumn>
-        </Migration>
-
-
-        <Migration>
-            <renameColumn table="%prefix%mailinglists" column="clEmail" new_name="clml_email" />
-            <renameColumn table="%prefix%mailinglists" column="clState" new_name="clml_state" />
-        </Migration>
-        <Migration>
-            <renameColumn table="%prefix%mailinglists" column="clml_Source" new_name="clml_source" />
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%mailinglists" after='clml_locale'>
-                <Column clName="clml_init" clType="text" />
-            </addColumn>
-        </Migration>
-
-        <Migration>
-            <renameColumn table="%prefix%loglogs" column="regLinkCreate_At"
-                new_name="loglogs_Create_At" />
-            <renameColumn table="%prefix%loglogs" column="regLinkUpdate_At"
-                new_name="loglogs_Update_At" />
-        </Migration>
-
-        <!-- hidde password -->
-        <Migration description="hide password" date="2023-21-01">
-            <changeColumn table="%prefix%users" column="clPwd">
-                <Column clName="clPwd" clType="VARCHAR" clTypeLength="200" clNotNull="True"
-                    clHide="True" clInsertFunction="IGK_PASSWD_ENCRYPT"
-                    clUpdateFunction="IGK_PASSWD_ENCRYPT" clInputType="password" />
-            </changeColumn>
-        </Migration>
-
-        <Migration date="2023-21-01">
-            <changeColumn table="%prefix%groups" column="clName">
-                <Column clName="clName" clType="VARCHAR" clTypeLength="170" clNotNull="True"
-                    clIsUnique="False" clIsUniqueColumnMember="true" clColumnMemberIndex="0" />
-            </changeColumn>
-            <changeColumn table="%prefix%groups" column="clController">
-                <Column clName="clController" clType="VARCHAR" clTypeLength="255"
-                    clIsUniqueColumnMember="True" clColumnMemberIndex="0" />
-            </changeColumn>
-        </Migration>
-        <Migration>
-            <changeColumn table="%prefix%users" column='clGuid' tag="change:guid with is unique">
-                <Column clName="clGuid" clType="Guid" clIsUnique="True" />
-            </changeColumn>
-        </Migration> 
-
-        <Migration>
-            <addColumn table="%prefix%phoneBookTypes" after="rcphbt_Name">               
-                <Column clName="rcphbt_Cat" clType="VarChar"
-                    clTypeLength="80"></Column>     
-                <Column clName="rcphbt_Cardinality" clNotNull="1" clType="Int"
-                    clDescription="cardinality of the entry" clDefault="0"></Column>     
-            </addColumn>
-        </Migration>
-
-
-        <Migration>
-            <addColumn table="%prefix%connexions" after="clUser_Id">               
-                <Column clName="clToken" clType="VarChar"
-                    clTypeLength="80" clIsUnique='true' clNotNull='true'></Column>     
-                <Column clName="clTokenInfo" clNotNull="1" clType="JSON"
-                    clDescription="store token information"></Column>     
-            </addColumn>
-        </Migration>
-        <Migration>
-            <addColumn table="%prefix%connexions" after="clFrom">               
-                      <Column clName="cnx_createAt" clType="DateTime" clDefault="NOW()" clDescription="Now"
-            clNotNull="True" />
-            <Column clName="cnx_updateAt" clType="DateTime" clUpdateFunction="Now()"
-                clDescription="Last try datetime" clNotNull="True" />
-                </addColumn>
-        </Migration>
-        <Migration>
-            <changeColumn table="%prefix%connexions" column="clUser_Id">
-               <Column clName="clUser_Guid" 
-                    clType="Guid" 
-                    clLinkType="%prefix%users"
-                    clLinkColumn="clGuid"
-                    clIsUnique='0'
-                    clNotNull="True"
-                    clDescription='user request authentication'
-                    ></Column>      
-            </changeColumn>
-        </Migration>
-
-  
-
-        <Migration>
-            <addColumn table="%prefix%users" after="clupdate_at">
-                <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" />
-            </addColumn>
-        </Migration>
-
-
-          <Migration>
-            <addColumn table="%prefix%subdomains" after="clView">
-                <Column clName="clDeactivate_At" clType="DateTime" clAllowNull="true" />
-                
-            </addColumn>
-        </Migration>
-
-        <Migration>
-            <addColumn table="%prefix%subdomains" after="clDeactivate_At">
-                <Column clName="clCreate_At" clType="DateTime" clAllowNull="false" clDefault='Now()'/>
-                <Column clName="clUpdate_At" clType="DateTime" clAllowNull="false" clInsertFunction='Now()' clUpdateFunction='Now()' clDefault='Now()'/>
-            </addColumn>
-        </Migration>
-
-        <Migration>
-            <changeColumn table="%prefix%connect_attempts" column="cxnId">
-                <Column clName="cxnId" clType="text" clDescription='provided ip' clIsPrimary="true" clNotNull="true" />
-            </changeColumn>
-            <changeColumn table="%prefix%login_logs" column="regLinkCreate_At">
-                <Column clName="loglogs_Create_At" clType="DATETIME" clDefault='NOW()'
-                clInsertFunction="NOW()" clNotNull="true" />
-            </changeColumn>
-            <changeColumn  table="%prefix%login_logs" column="regLinkUpdate_At">
-            <Column clName="loglogs_Update_At" clType="DATETIME" clDefault='NOW()'
-                clInsertFunction="NOW()" clUpdateFunction="NOW()" clNotNull="true" />
-       
-            </changeColumn>
-
-        </Migration>
-
-    </Migrations> 
+		<Migration> 
+			<dropColumn column="clprofile_ing" table="%prefix%users" />  
+			<addColumn after="clpicture" table="%prefix%users">
+				<Column clName="clprofile_ing" clType="text"></Column>  
+			</addColumn>
+		</Migration>
+	</Migrations>
 </data-schemas>

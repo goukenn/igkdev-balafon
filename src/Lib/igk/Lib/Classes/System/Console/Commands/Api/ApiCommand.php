@@ -56,11 +56,6 @@ class ApiCommand extends AppExecCommand{
 					$routes[igk_uri_base_path($l->getAppUri($api))] = get_class($l);
 					continue;
 				}
-				// if ($cl = $l->resolveClass(\Actions\Api\ApiAction::class)){
-				// 	$tcl = $l::getActionHandler('api', $rep =new ActionResolutionInfo,['index']);
-				// 	// class that handle api uri exists 
-				// 	$routes[igk_uri_base_path($l->getAppUri('api'))] = $cl;
-				// }
 			}
 			
 			$builder = new PHPScriptBuilder;

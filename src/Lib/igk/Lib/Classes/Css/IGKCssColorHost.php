@@ -21,14 +21,10 @@ class IGKCssColorHost implements ArrayAccess{
         return $c;
     }
     public function _access_offsetSet($n,$v):void{ 
-        // igk_wln("setting ", $n);
-        // if (key_exists($n, $this->_)){
-        //     return;
-        // }
         $this->_[$n] = $v;
     }
     public function _access_offsetGet($n){
-        return igk_getv($this->_, $n, self::PRIMARY_COLOR);
+        return igk_getv($this->_, $n);
     }
     public function _access_offsetUnset($n):void{
         unset($this->_[$n]);

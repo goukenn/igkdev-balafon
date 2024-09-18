@@ -25,12 +25,12 @@ abstract class FormFieldValidatorBase implements IFormValidator{
      * @return mixed 
      * @throws IGKException 
      */
-    final public function validate($value, $default=null, & $error=[]){
+    final public function validate($value, $default=null, & $error=[], ...$extra){
         $v_is_require = false;
-        $v_allow_null = false; 
+        $v_allow_null = false;
+        $v_allow_empty = false;
         $v_output = null;
         $options = null;
-        $v_field_info = func_num_args()>3? func_get_arg(3):null; 
         //+|filter option object        
         if ($value instanceof FormValidationParam){
             // ignore the reset of the param
@@ -40,14 +40,19 @@ abstract class FormFieldValidatorBase implements IFormValidator{
 
             $v_output = $this->_validate($value->input, $value->default, $error, $options);
         } else {  
+            $v_name = null;
             if (func_num_args()>3){
                 $targ = func_get_args();
-                $v_is_require = igk_getv($targ, 3);
-                $v_allow_null = igk_getv($targ, 3);
+                $v_name = igk_getv($targ, 3);
+                $v_is_require = igk_getv($targ, 4);
+                $v_allow_null = igk_getv($targ, 5);
+                $v_allow_empty = igk_bool_val( igk_getv($targ, 6));
             }
             $options = new FormValidationParamOptions;
+            $options->name = $v_name;
             $options->allowNull = $v_allow_null;
             $options->required = $v_is_require;
+            $options->allowEmpty = $v_allow_empty;
             $options->{FormFieldValidatorBase::FIELD_INFO_PROPERTY} = null;
             $v_output = $this->_validate($value, $default, $error, $options);
         }

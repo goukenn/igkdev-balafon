@@ -18,7 +18,8 @@ class ListLoginCommand extends AppExecCommand{
 	var $command='--users:list';
 	var $desc='list system\'s user';
 	/* var $options=[]; */
-	var $category='user';
+
+	var $category = self::USER_CAT;
 
 	public function exec($command) {  
 		

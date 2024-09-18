@@ -10,6 +10,7 @@
 
 namespace IGK\System\Html;
 
+use IGKEvents;
 use IGKException;
 use IGKObject;
 
@@ -102,12 +103,6 @@ final class HtmlMetaManager extends IGKObject{
             "name"=>"viewport",
             self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
         );
-
-        igk_reg_hook("html_meta", function(){
-            igk_trace();
-            igk_wln("render content type :::::");
-            igk_exit();
-        });
     }
     ///<summary>add or set metaname</summary>
     ///<param name="name"></param>
@@ -200,6 +195,10 @@ final class HtmlMetaManager extends IGKObject{
                 $o .= "/>";
             }
         }
+        $o .= igk_ob_get_func(function($options){
+            igk_hook(IGKEvents::HOOK_HTML_META, [$options, $this]);
+        },[$options] );
+
         return $o;// .$s;
     }
     /**
@@ -262,7 +261,10 @@ final class HtmlMetaManager extends IGKObject{
     ///<summary></summary>
     ///<param name="value"></param>
     public function setKeywords($value){
-        $this->updateContent(self::META_KEYWORDS, $value);
+        if (is_null($value)){
+            unset($this->m_metas[self::META_KEYWORDS]);
+        }else 
+            $this->updateContent(self::META_KEYWORDS, $value);
     }
     ///<summary></summary>
     ///<param name="key"></param>

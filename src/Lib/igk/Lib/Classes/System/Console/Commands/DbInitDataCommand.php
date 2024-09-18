@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\InitBase;
+use IGK\System\EntryClassResolution;
 
 ///<summary></summary>
 /**
@@ -23,7 +24,7 @@ class DbInitDataCommand extends AppExecCommand{
 		is_null($controller) && igk_die('required controller');
 		$ctrl = self::GetController($controller);
 		 
-		$cl = $ctrl->resolveClass(\Database\InitData::class) ?? igk_die('init data class is missing');
+		$cl = $ctrl->resolveClass(EntryClassResolution::DbInitData) ?? igk_die('init data class is missing');
 
 		if ($action_name)
 		{

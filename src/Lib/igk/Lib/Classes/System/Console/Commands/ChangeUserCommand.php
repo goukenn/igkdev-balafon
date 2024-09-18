@@ -13,10 +13,10 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class ChangeUserCommand extends AppExecCommand{
-	var $command='--user:change';
+	var $command='--users:change';
 	var $desc='change user\'s definition'; 
 	/* var $options=[]; */
-	var $category = "user";
+	var $category = self::USER_CAT;
 	var $usage = 'login [--set:]';
 	public function exec($command, ?string $login = null) {
 		is_null($login) && igk_die('required login');

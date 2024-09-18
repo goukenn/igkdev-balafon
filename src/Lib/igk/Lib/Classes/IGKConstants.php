@@ -49,6 +49,8 @@ final class IGKConstants{
     // + to avoid inteliphense warning
     const NS_MACROS_CLASS = 'Database\Macros';
 
+    const RESOLV_DATABASE_DBINIT_MANAGER_CLASS = 'Database\DbInitManager';
+    const DB_INIT_MANAGER = \IGK\Database\DbInitManager::class;
     /**
      * get the core version 
      * @return string 

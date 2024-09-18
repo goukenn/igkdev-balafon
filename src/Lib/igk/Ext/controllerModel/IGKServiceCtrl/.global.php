@@ -77,7 +77,7 @@ function igk_srv_notexposed_attr($classname, $method){
 
 		$key = IGK_SERVICE_PREFIX_PATH.$classname."/notexposed";
 		$tab = igk_get_env($key, array());
-		$g = explode(",", strtolower($method));
+		$g = explode(',', strtolower($method));
 		foreach($g as $k){
 			$tab[trim($k)]=1;
 		}

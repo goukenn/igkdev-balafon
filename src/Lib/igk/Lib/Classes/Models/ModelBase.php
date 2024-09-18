@@ -13,7 +13,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
 
 
 /**
- * model base
+ * Model base - entry macros definition.
  * @package IGK\Models
  * @method static ?static|bool create(array|object|static $definition, bool $update=true, bool $raise_exception=true) - create a row entries
  * @method static static createEmptyRow() - create an empty stdClass object that will represent a row . 
@@ -45,6 +45,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static void insertOrUpdate() macros function
  * @method static void last_error() macros function
  * @method static void last_id() macros function
+ * @method static ?static last() return last instance function
  * @method static void linkCondition() macros function
  * @method static static model() macros function return Model mock instance
  * @method static \IGK\System\Database\QueryBuilder prepare() macros function prepare data query builder
@@ -74,7 +75,12 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static ?static GetCache(string $column,mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static getv($array, $i) macros function convert class
  * @method static \IGK\System\Database\QueryBuilder with(string $table, ?string $propertyName=null) prepare command with table 
+ * @method static array columnList(string|Closure|array $prefix=null, ?string $filter=null two) prepare columns list 
+ *      - `$prefix`: prefix value or Closure to use to generate an alias name 
+ *      - `$filter`: callable/regex used to filter column list. 
+ * @method static array columnSelectArray(...array $list_of_column_names) 
+ * @method static array columnOnlyArray(array* $definition)
+ *  - `$definition` array with association key usage. `prefix` prefix in use, see `::columnList`;
  */
-abstract class ModelBase  extends \IGK\System\Models\ModelBase {
-
+abstract class ModelBase  extends \IGK\System\Models\ModelBase { 
 }

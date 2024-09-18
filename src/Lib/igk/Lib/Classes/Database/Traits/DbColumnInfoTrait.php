@@ -8,7 +8,7 @@
 namespace IGK\Database\Traits;
 
 /**
- * 
+ * @extends IDbColumnProperties
  */
 trait DbColumnInfoTrait
 {
@@ -43,6 +43,12 @@ trait DbColumnInfoTrait
    * @var int
    */
   var $clDefault;
+
+  /**
+   * default null value
+   * @var ?bool if true don't set clDefault
+   */
+  var $clDefaultNull;
   /**
    * set the column description
    * @var mixed

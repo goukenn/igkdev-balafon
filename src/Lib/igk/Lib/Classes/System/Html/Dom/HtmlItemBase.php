@@ -669,7 +669,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $n = $n->createExpressionNode();
         }
         if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression){
-            $v = \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression::GetRealValue($n);
+            // $v = \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression::GetRealValue($n);
             // if ($v instanceof self){
             //     $n = $v;
             // }
@@ -1132,8 +1132,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @throws IGKException 
      */
     public static function CreateWebNode($n, $attributes = null, $indexOrArgs = null)
-    { 
-       
+    {  
         if ($n = HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)) {
             if ($attributes) {
                 $n->setAttributes($attributes);

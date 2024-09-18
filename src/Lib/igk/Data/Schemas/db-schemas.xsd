@@ -1,145 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:attribute name="clType" type="xs:string"></xs:attribute>
-    <xs:complexType name="Entries">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- root element -->
+    <xs:element name="data-schemas">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Entries" minOccurs="0" maxOccurs="1" type="tentries" />
+                <xs:element name="DataDefinition" minOccurs="0" maxOccurs="unbounded" type="tdatadefinition" />
+                <xs:element name="Migrations" minOccurs="0" maxOccurs="unbounded" type="tmigrations" />
+                <xs:element name="RequireSchema" type="tRequireSchema" minOccurs="0"
+                    maxOccurs="unbounded"></xs:element>
+                <xs:element name="Relations" type="tRelations" maxOccurs="1" minOccurs="0"></xs:element>
+            </xs:sequence>
+            <xs:attribute name="version" use="optional" />
+            <xs:attribute name="author" use="optional" />
+            <xs:attribute name="createAt" use="optional" />
+            <xs:attribute name="app" use="optional" />
+            <xs:attribute name="migration" type="xs:string" use="optional"></xs:attribute>
+            <xs:attribute name="database" type="xs:string" use="optional"></xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="tRelations">
         <xs:sequence>
-            <xs:element name="Rows" type="Rows" maxOccurs="unbounded" minOccurs="0"></xs:element>
+            <xs:element name="Relation" type="tDataRelation" maxOccurs="unbounded" minOccurs="1"></xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="DataDefinition">
-        <xs:sequence>
-            <xs:element name="Column" type="DataColumn" maxOccurs="unbounded" minOccurs="1"></xs:element>
-            <xs:element name="GenColumn" type="GenColumn" maxOccurs="unbounded" minOccurs="0"></xs:element>
-            <xs:element name="ForeignConstraint" type="ForeignConstraint" maxOccurs="unbounded" minOccurs="0"></xs:element>
-        </xs:sequence>        
-        <xs:attribute name="TableName" type="xs:string" use="required"></xs:attribute>
-        <xs:attribute name="Description" type="xs:string"></xs:attribute>
-        <xs:attribute name="Prefix" type="xs:string"></xs:attribute>
-        <xs:attribute name="Usage" type="xs:string"></xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="Relations">
-        <xs:sequence>
-            <xs:element name="Relation" type="DataRelation" maxOccurs="unbounded" minOccurs="1"></xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataRelation">
+    <xs:complexType name="tDataRelation">
         <xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
         <xs:attribute name="source" type="xs:string"></xs:attribute>
         <xs:attribute name="destination" type="xs:string"></xs:attribute>
-        <xs:attribute name="type" type="RelationType"></xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="DataColumn">
-        <xs:attribute name="clName" type="xs:string" use="required"></xs:attribute>
-        <xs:attribute name="clIsPrimary" type="xs:string"></xs:attribute>
-        <xs:attribute name="clDefault" type="xs:string"></xs:attribute>
-        <xs:attribute name="clTypeLength" type="xs:integer"></xs:attribute>
-        <xs:attribute name="clLinkType" type="xs:string"></xs:attribute>
-        <xs:attribute name="clType" type="ColumnTypes" default="Int"></xs:attribute>
-        <xs:attribute name="clNotNull" type="xs:string"></xs:attribute>
-        <xs:attribute name="clLinkColumn" type="xs:string"></xs:attribute>
-        <xs:attribute name="clInsertFunction" type="xs:string"></xs:attribute>
-        <xs:attribute name="clUpdateFunction" type="xs:string"></xs:attribute>
-        <xs:attribute name="clAutoIncrement" type="xs:string"></xs:attribute>
-        <xs:attribute name="clIsUnique" type="xs:string"></xs:attribute>
-        <xs:attribute name="clDescription" type="xs:string"></xs:attribute>
-        <xs:attribute name="clDisplay" type="xs:boolean"></xs:attribute>
-        <xs:attribute name="clHidden" type="xs:boolean"></xs:attribute>
-        <xs:attribute name="clLinkTo" type="xs:string"></xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="GenColumn">
-        <xs:attribute name="prefix" type="xs:string" use="required"></xs:attribute>
-        <xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="type" type="tRelationType"></xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="ForeignConstraint">
-        <xs:attribute name="on" type="xs:string" use="required"></xs:attribute>
-        <xs:attribute name="from" type="xs:string" use="required"></xs:attribute>
-        <xs:attribute name="column" type="xs:string" use="required"></xs:attribute>
-        <xs:attribute name="foreignKeyName" type="xs:string" ></xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="RequireSchema"> 
-        <xs:attribute name="from" type="RequireSchemaFromType" use="required"></xs:attribute>
-        <xs:attribute name="name" type="xs:string"></xs:attribute>
-        <xs:attribute name="file" type="xs:string"></xs:attribute>
-        <xs:attribute name="argument" type="xs:string"></xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="Migrations">
-        <xs:sequence>
-            <xs:element name="Migration" type="Migration" maxOccurs="unbounded" minOccurs="0"></xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Migration"> 
-        <xs:choice>
-            <xs:element name="addColumn" maxOccurs="1"></xs:element>
-            <xs:element name="removeColumn" maxOccurs="1"></xs:element>
-            <xs:element name="changeColumn" maxOccurs="1"></xs:element>
-            <xs:element name="renameColumn" maxOccurs="1"></xs:element>
-            <xs:element name="renameTable" maxOccurs="1"></xs:element>
-            <xs:element name="addForeignConstraint" maxOccurs="1"></xs:element>
-        </xs:choice>
-        <xs:anyAttribute processContents="skip"></xs:anyAttribute>
-    </xs:complexType>
-    <xs:complexType name="Rows">
-        <xs:sequence>
-            <xs:element name="Row" type="Row" maxOccurs="unbounded" minOccurs="0"></xs:element>
-        </xs:sequence>
-        <xs:attribute name="For" type="xs:string"></xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="Row">
-        <xs:anyAttribute processContents="skip"></xs:anyAttribute>
-    </xs:complexType>
-    <xs:simpleType name="RelationType">
+    <xs:simpleType name="tRelationType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="oneToMany"></xs:enumeration>
             <xs:enumeration value="manyToMany"></xs:enumeration>
             <xs:enumeration value="oneToOne"></xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
-    <xs:simpleType name="RequireSchemaFromType">
+
+    <xs:complexType name="tRequireSchema">
+        <xs:attribute name="from" type="tRequireSchemaFromType" use="required"></xs:attribute>
+        <xs:attribute name="name" type="xs:string"></xs:attribute>
+        <xs:attribute name="file" type="xs:string"></xs:attribute>
+        <xs:attribute name="argument" type="xs:string"></xs:attribute>
+    </xs:complexType>
+    <xs:simpleType name="tRequireSchemaFromType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="module"></xs:enumeration>
             <xs:enumeration value="project"></xs:enumeration>
             <xs:enumeration value="controller"></xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
+    <xs:complexType name="tmigrations">
+        <xs:sequence>
+            <xs:element name="Migration" minOccurs="0" maxOccurs="unbounded" type="tmigration" />
+        </xs:sequence>
+        <xs:attribute name="title" type="xs:string" use="optional"></xs:attribute>
+        <xs:attribute name="name" type="xs:string" use="optional"></xs:attribute>
+        <xs:attribute name="date" type="xs:dateTime"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="tdatadefinition">
+        <xs:sequence>
+            <xs:element name="Column" minOccurs="0" maxOccurs="unbounded" type="tcolumns" />
+            <xs:element name="GenColumn" minOccurs="0" maxOccurs="unbounded" type="tgencolumns" />
+            <xs:element name="ForeignConstraint" type="tForeignConstraint" maxOccurs="unbounded"
+                minOccurs="0"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="Prefix" use="optional">
+            <xs:annotation>
+                <xs:documentation>column prefix</xs:documentation>
+            </xs:annotation>
+            </xs:attribute>
+        <xs:attribute name="TableName" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="Description" type="xs:string" use="optional"></xs:attribute>
+        <xs:attribute name="Usage" type="xs:string" use="optional"></xs:attribute>
+        <xs:attribute name="RefKey" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Key name use when create key reference</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
-    <xs:simpleType name="ColumnTypes">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Int"></xs:enumeration>
-            <xs:enumeration value="UInt"></xs:enumeration>
-            <xs:enumeration value="UBigInt"></xs:enumeration>
-            <xs:enumeration value="Float"></xs:enumeration>
-            <xs:enumeration value="Double"></xs:enumeration>
-            <xs:enumeration value="UDouble"></xs:enumeration>
-            <xs:enumeration value="Decimal"></xs:enumeration>
-            <xs:enumeration value="VARCHAR"></xs:enumeration>
-            <xs:enumeration value="TimeStamp"></xs:enumeration>
-            <xs:enumeration value="Text"></xs:enumeration>
+    <xs:complexType name="tgencolumns">
+        <xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="prefix" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    override base column prefix if provided.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="tForeignConstraint">
+        <xs:attribute name="on" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="from" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="column" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="foreignKeyName" type="xs:string"></xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="tmigration">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="createTable" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_createtable" />
+
+                <xs:element name="changeColumn" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_changecolumn" />
+                <xs:element name="addColumn" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_addcolumn" />
+                <xs:element name="renameColumn" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_renamecolumn" />
+                <xs:element name="dropColumn" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_dropcolumn" />
+                <xs:element name="renameTable" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_renametable"></xs:element>
+                <xs:element name="deleteTable" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_deletetable"></xs:element>
+                <xs:element name="addForeignConstraint" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_addforeignconstraint"></xs:element>
+
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="description" type="xs:string"></xs:attribute>
+        <xs:attribute name="date" type="xs:string"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="tmigration_deletetable">
+        <xs:attribute name="table"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="tmigration_createtable">
+        <xs:sequence>
+            <xs:element name="Column" type="tcolumns" minOccurs="1" maxOccurs="unbounded"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="table"></xs:attribute>
+        <xs:attribute name="description"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="tmigration_renametable">
+        <xs:attribute name="table"></xs:attribute>
+        <xs:attribute name="to"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="tmigration_addforeignconstraint">
+        <xs:attribute name="table" use="required" />
+        <xs:attribute name="from" use="required" />
+        <xs:attribute name="on" />
+        <xs:attribute name="columns" />
+        <xs:attribute name="foreignKeyName" />
+    </xs:complexType>
+    <xs:complexType name="tmigration_changecolumn">
+        <xs:sequence>
+            <xs:element name="Column" type="tcolumns" minOccurs="1" maxOccurs="unbounded"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="table" use="required" />
+        <xs:attribute name="column" use="required" />
+        <xs:attribute name="tag" use="optional"/>
+        <xs:attribute name="description" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="tmigration_addcolumn">
+        <xs:sequence>
+            <xs:element name="Column" type="tcolumns" minOccurs="1" maxOccurs="unbounded"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="table" use="required" />
+        <xs:attribute name="after" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="tmigration_renamecolumn">
+        <xs:attribute name="table" type="xs:string" use="required" />
+        <xs:attribute name="column" type="xs:string" use="required" />
+        <xs:attribute name="new_name" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:complexType name="tmigration_dropcolumn">
+        <xs:attribute name="table" type="xs:string"></xs:attribute>
+        <xs:attribute name="column" type="xs:string"></xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="tcolumns">
+        <xs:attribute name="clAutoIncrement" type="tboolean"></xs:attribute>
+        <xs:attribute name="clAutoIncrementStartIndex"></xs:attribute>
+        <xs:attribute name="clCheckConstraint"></xs:attribute>
+        <xs:attribute name="clColumnMemberIndex"></xs:attribute>
+        <xs:attribute name="clDefault"></xs:attribute>
+        <xs:attribute name="clDefaultLinkExpression"></xs:attribute>
+        <xs:attribute name="clDescription"></xs:attribute>
+        <xs:attribute name="clDisplay"></xs:attribute>
+        <xs:attribute name="clEnumValues"></xs:attribute>
+        <xs:attribute name="clFormRefKey"></xs:attribute>
+        <xs:attribute name="clHide"></xs:attribute>
+        <xs:attribute name="clInputMaxLength"></xs:attribute>
+        <xs:attribute name="clInputType"></xs:attribute>
+        <xs:attribute name="clInsertFunction"></xs:attribute>
+        <xs:attribute name="clInverseMap"></xs:attribute>
+        <xs:attribute name="clIsDumpField" type="tboolean"></xs:attribute>
+        <xs:attribute name="clIsIndex" type="tboolean"></xs:attribute>
+        <xs:attribute name="clIsNotInQueryInsert" type="tboolean"></xs:attribute>
+        <xs:attribute name="clIsPrimary" type="tboolean"></xs:attribute>
+        <xs:attribute name="clIsUnique" type="tboolean"></xs:attribute>
+        <xs:attribute name="clIsUniqueColumnMember" type="tboolean"></xs:attribute>
+        <xs:attribute name="clIsUsedBy"></xs:attribute>
+        <xs:attribute name="clLinkColumn" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkConstraintName" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkInverseName" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkName" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkRelationName" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkTableDisplay" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkTo" type="xs:string"></xs:attribute>
+        <xs:attribute name="clLinkType" type="xs:string"></xs:attribute>
+        <xs:attribute name="clMap"></xs:attribute>
+        <xs:attribute name="clName" use="required"></xs:attribute>
+        <xs:attribute name="clNotAllowEmptyString" type="tboolean"></xs:attribute>
+        <xs:attribute name="clNotNull" type="tboolean"></xs:attribute>
+        <xs:attribute name="clPattern" type="xs:string"></xs:attribute>
+        <xs:attribute name="clRequire" type="tboolean"></xs:attribute>
+        <xs:attribute name="clType" use="optional" type="tcolumndatatype"></xs:attribute>
+        <xs:attribute name="clTypeLength" type="xs:nonNegativeInteger"></xs:attribute>
+        <xs:attribute name="clUpdateFunction" type="xs:string"></xs:attribute>
+        <xs:attribute name="clValidator" type="tboolean"></xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="tentries">
+        <xs:sequence>
+            <xs:element name="Rows" minOccurs="0" maxOccurs="unbounded" type="trows" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trows">
+        <xs:sequence>
+            <xs:element name="Row" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="For" use="required"></xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="tcolumndatatype">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="BigInt"></xs:enumeration>
+            <xs:enumeration value="Binary"></xs:enumeration>
+            <xs:enumeration value="Blob"></xs:enumeration>
             <xs:enumeration value="Date"></xs:enumeration>
             <xs:enumeration value="DateTime"></xs:enumeration>
-            <xs:enumeration value="Blob"></xs:enumeration>
-            <xs:enumeration value="MediumBlob"></xs:enumeration>
-            <xs:enumeration value="LongBlob"></xs:enumeration>
-            <xs:enumeration value="Binary"></xs:enumeration>
+            <xs:enumeration value="DATETIME"></xs:enumeration>
+            <xs:enumeration value="Decimal"></xs:enumeration>
+            <xs:enumeration value="Double"></xs:enumeration>
+            <xs:enumeration value="Enum"></xs:enumeration>
+            <xs:enumeration value="Float"></xs:enumeration>
+            <xs:enumeration value="Guid"></xs:enumeration>
+            <xs:enumeration value="Int"></xs:enumeration>
             <xs:enumeration value="JSON"></xs:enumeration>
+            <xs:enumeration value="Long"></xs:enumeration>
+            <xs:enumeration value="LongBlob"></xs:enumeration>
+            <xs:enumeration value="MediumBlob"></xs:enumeration>
+            <xs:enumeration value="Text"></xs:enumeration>
+            <xs:enumeration value="text"></xs:enumeration>
+            <xs:enumeration value="TimeStamp"></xs:enumeration>
+            <xs:enumeration value="UBigInt"></xs:enumeration>
+            <xs:enumeration value="VarChar"></xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
-    <xs:element name="data-schemas">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="Entries" type="Entries" maxOccurs="1" minOccurs="0"></xs:element>
-                <xs:element name="RequireSchema" type="RequireSchema" minOccurs="0" maxOccurs="unbounded" ></xs:element>
-                <xs:element name="DataDefinition" type="DataDefinition" minOccurs="0" maxOccurs="unbounded"></xs:element>
-                <xs:element name="Migrations" type="Migrations" maxOccurs="1" minOccurs="0"></xs:element>
-                <xs:element name="Relations" type="Relations" maxOccurs="1" minOccurs="0"></xs:element>
-            </xs:sequence>         
-            <xs:attribute name="app" type="xs:string"></xs:attribute>
-            <xs:attribute name="version" type="xs:string"></xs:attribute>
-            <xs:attribute name="author" type="xs:string"></xs:attribute>
-            <xs:attribute name="date" type="xs:string"></xs:attribute>
-            <xs:attribute name="migration" type="xs:string"></xs:attribute>
-            <xs:attribute name="database" type="xs:string"></xs:attribute>
-        </xs:complexType>
-    </xs:element>
+    
+    <xs:simpleType name="tboolean">
+        <xs:annotation>
+            <xs:documentation>boolean type db</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="true"></xs:enumeration>
+            <xs:enumeration value="false"></xs:enumeration>
+            <xs:enumeration value="True"></xs:enumeration>
+            <xs:enumeration value="False"></xs:enumeration> 
+            <xs:enumeration value="0"></xs:enumeration> 
+            <xs:enumeration value="1"></xs:enumeration> 
+        </xs:restriction> 
+    </xs:simpleType>
 </xs:schema>

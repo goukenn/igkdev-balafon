@@ -7,13 +7,17 @@
 
 namespace IGK\Database;
 
+use IGK\System\IToArray;
+use IGK\System\IToJSon;
+
 /**
  * db query result
  * @package IGK\Database
  * @property ?array $Rows data entries 
  * @property ?int $RowCount number of data entries
+ * 
  */
-interface IDbQueryResult{
+interface IDbQueryResult extends IToArray{
     /**
      * get rows
      * @return ?array
@@ -25,16 +29,12 @@ interface IDbQueryResult{
      * @return ?int
      */
     function getRowCount();
-
-    /**
-     * 
-     * @return mixed 
-     */
-    // function to_array();
+ 
 
     /**
      * get if query success
      * @return bool 
      */
     function success(): bool;
+  
 }

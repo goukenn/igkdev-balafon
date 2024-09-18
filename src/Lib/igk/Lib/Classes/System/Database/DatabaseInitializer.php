@@ -4,6 +4,7 @@
 // @date: 20221118 21:40:33
 namespace IGK\System\Database;
 
+use Exception;
 use IDbGetTableReferenceHandler;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController; 
@@ -293,11 +294,16 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         DatabaseInitializer $initializer = null
     ) {
         //$this->m_definition = $definition;
+        $restore = false;
         Logger::info('init schema definition load - ' . $tableReferenceResolver);
-        
-        
-        $def = DbSchemas::LoadSchema($file, $tableReferenceResolver, true, $operation);
-        
+        if ($tableReferenceResolver instanceof IGKModuleListMigration){
+            $tableReferenceResolver->useAsInstance();
+            $restore = true; 
+        }     
+        $def = DbSchemas::LoadSchema($file, $tableReferenceResolver, true, $operation); 
+        if ($restore){
+            $tableReferenceResolver->reset();
+        }
         // update reference 
         if ($def) {
             $empty = true;

@@ -28,6 +28,12 @@ abstract class FormValidationFieldPropsBase{
     var $allowNull;
 
     /**
+     * allow empty value
+     * @var ?bool
+     */
+    var $allowEmpty;
+
+    /**
      * 
      * @var ?ObjectStorage of the field information
      */

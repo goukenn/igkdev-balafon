@@ -74,7 +74,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     {
         $this->m_name = $name ?? "Entity";
         $this->m_properties = [];
-        $this->prefix = $prefix;
+        $this->p_prefix = $prefix;
     }
     public static function __set_state(array $data)
     {

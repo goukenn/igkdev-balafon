@@ -6,6 +6,7 @@ namespace IGK\System\Console\Commands;
 
 use IGK\Resources\R;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGK\System\IO\StringBuilder;
 use IGKException;
 
 ///<summary></summary>
@@ -16,9 +17,14 @@ use IGKException;
 class MakeUtility {
     public static function CreateEmptyScriptCallback(){
         return function($file){
+
+            $sb = new StringBuilder();
+            $sb->appendLine('$l["title.default"] = "Home";');
+
             $g = new PHPScriptBuilder;
             $g->type("function");
             $g->file(igk_io_collapse_path($file));
+            $g->defs($sb);
             igk_io_w2file($file, $g->render());
         };
     }
@@ -35,7 +41,10 @@ class MakeUtility {
             if ($v_langs = R::GetSupportedLangs()){
                 $v_fc_php_empty_file = MakeUtility::CreateEmptyScriptCallback();
                 foreach($v_langs as $k){
-                    $bind[$dir."/Configs/Lang/lang.".$k.".presx"] = $v_fc_php_empty_file;
+                    $key = $dir."/Configs/Lang/lang.".$k.".presx";
+                    if (!key_exists($key, $bind)){
+                        $bind[$key] = $v_fc_php_empty_file;
+                    }
                 }
             }
         }

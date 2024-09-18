@@ -9,16 +9,16 @@
 // @url: https://www.igkdev.com
 
 final class IGKGlobalColor{
-    private $COLORS;
+    private $m_COLORS;
     private static $sm_instance;
     ///<summary></summary>
     private function __construct(){
-        $this->COLORS=array();
+        $this->m_COLORS=array();
     }
     ///<summary></summary>
     ///<param name="clname"></param>
     public function Get($clname){
-        return igk_getv($this->COLORS, $clname);
+        return igk_getv($this->m_COLORS, $clname);
     }
     ///<summary></summary>
     public static function getInstance(){
@@ -31,13 +31,22 @@ final class IGKGlobalColor{
     ///<param name="clname"></param>
     public static function IsGlobalColor($clname){
         $i=self::getInstance();
-        return isset($i->COLORS[$clname]);
+        return isset($i->m_COLORS[$clname]);
     }
     ///<summary></summary>
     ///<param name="clname"></param>
     ///<param name="value"></param>
-    public static function SetGlobalColor($clname, $value){
+    /**
+     * 
+     * @param string $clname 
+     * @param string $value 
+     * @return void 
+     */
+    public static function SetGlobalColor(string $clname, string $value){
         $i=self::getInstance();
-        $i->COLORS[$clname]=$value;
+        $i->m_COLORS[$clname]=$value;
+    }
+    public function getGlobals(){
+        return $this->m_COLORS;
     }
 }

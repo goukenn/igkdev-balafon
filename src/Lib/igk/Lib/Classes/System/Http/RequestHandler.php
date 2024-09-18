@@ -9,6 +9,7 @@ namespace IGK\System\Http;
 
 use Exception;
 use IGK\Controllers\ApplicationModuleController;
+use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGKApp;
 use IGKApplicationBase;
@@ -462,11 +463,7 @@ class RequestHandler
         $obj = null;
         $args = $query;
 
-        
-        // print_r($tab);
-
-        // igk_wln_e(__FILE__.":".__LINE__, $tab, $routes, get_defined_vars());
-
+      
         if (is_string($query))
             $args = explode("/", $query);
         if (!empty($index)) {
@@ -548,7 +545,7 @@ class RequestHandler
             igk_exit();
         }
         $cl = null;
-        $b = json_decode($tab[$key]);
+        $b = json_decode(igk_getv($tab, $key, ''));
         if ($b)
             $cl = $b->classpath;
 

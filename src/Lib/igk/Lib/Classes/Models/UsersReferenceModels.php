@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UsersReferenceModels.php
-// @date: 20240101 17:47:26
+// @date: 20240918 08:19:26
 namespace IGK\Models;
 
 
@@ -16,6 +16,12 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\Users $clUser_Id
 * @property string $clModel
 * @property int $clNextValue
+* @method static string FD_CL_ID() - `clId` full column name 
+* @method static string FD_CL_USER_ID() - `clUser_Id` full column name 
+* @method static string FD_CL_MODEL() - `clModel` full column name 
+* @method static string FD_CL_NEXT_VALUE() - `clNextValue` full column name 
+* @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnClid() - macros function
 * @method static ?self Add(int|\IGK\Models\Users $clUser_Id, string $clModel, int $clNextValue) add entry helper
 * @method static ?self AddIfNotExists(int|\IGK\Models\Users $clUser_Id, string $clModel, int $clNextValue) add entry if not exists. check for unique column.
 * */

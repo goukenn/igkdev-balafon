@@ -35,10 +35,15 @@ class RefColumnMapping implements IteratorAggregate{
     public function getIterator(): Traversable { 
         $m = [];
         foreach($this->m_refColumns as $k=>$v){
+
+
+
             if (is_numeric($k)){
                 $m[$v] = igk_getv($this->m_data,$v);
             }else{
-                $m[$k] = igk_getv($this->m_data, $v);
+                $tab = explode('.', $k);
+                $column_name = array_pop($tab);
+                $m[$column_name] = igk_getv($this->m_data, $v);
             }
         }
         return new ArrayIterator($m); // this->m_data);

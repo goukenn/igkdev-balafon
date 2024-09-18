@@ -8,6 +8,7 @@
 namespace IGK\System\Database\MySQL;
 
 use Error;
+use Exception;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
@@ -17,6 +18,7 @@ use IGK\Database\IDataDriver;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
+use IGK\System\Database\IDbResultType;
 use IGK\System\Database\IDbRetrieveColumnInfoDriver;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -46,7 +48,8 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * get date time format
      * @return string 
      */
-    function getDateTimeFormat():string{
+    function getDateTimeFormat(): string
+    {
         return IGK_MYSQL_DATETIME_FORMAT;
     }
 
@@ -55,7 +58,8 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * @param string $type 
      * @return bool 
      */
-    public function allowTypeLength(string $type, ?int $length=null):bool{
+    public function allowTypeLength(string $type, ?int $length = null): bool
+    {
         return (($type != 'int') || (($type == 'int') && version_compare($this->getVersion(), '8.0', '<')));
     }
     /**
@@ -64,8 +68,9 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * @param string $column_name 
      * @return void 
      */
-    public function drop_column(string $table, string $column_name){
-        if ($this->exist_column($table, $column_name)){
+    public function drop_column(string $table, string $column_name)
+    {
+        if ($this->exist_column($table, $column_name)) {
             $q = $this->getGrammar()->createDropColumnQuery($table, $column_name);
             return $this->sendQuery($q);
         }
@@ -123,33 +128,44 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
 
         // $this->selectdb();
 
-        $q = $grammar->createSelectQuery( self::DB_INFORMATION_SCHEMA. ".COLUMNS", [
+        $q = $grammar->createSelectQuery(self::DB_INFORMATION_SCHEMA . ".COLUMNS", [
             "TABLE_NAME" => $table,
             "TABLE_SCHEMA" => $db,
             "COLUMN_NAME" => $column,
         ]);
         //igk_wln_e("the query .... ", $q);
         $r = $this->sendQuery($q);
-       //  $this->selectdb($db);
+        //  $this->selectdb($db);
         $row = null;
         if ($r) {
-            if ($r->resultTypeIsBoolean()) {
+            if (($r instanceof IDbResultType) && $r->resultTypeIsBoolean()) {
                 return $r->value;
             }
-            $row = $r->getRowAtIndex(0);
+            $row = ($r instanceof DbQueryResult) ? $r->getRowAtIndex(0) : null;
         }
         return $row != null;
     }
+    /**
+     * drop foreign keys 
+     * @param mixed $table 
+     * @param mixed $info 
+     * @return void 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     * @throws Exception 
+     */
     public function drop_foreign_key($table, $info)
     {
         if ($query = $this->remove_foreign($table, $info->clName)) {
             // if (is_array($query)){
-                $this->sendMultiQuery($query);
+            $c = $this->sendMultiQuery($query);
             // }
             //$this->sendQuery($query);
         }
-        if ($query = $this->remove_unique($table, $info->clName)) {
-            $this->sendQuery($query);
+        // + | drop all foreign keys attached to table columns       
+
+        if ((false !== $this->remove_reverse_foreign_keys($table, $info->clName)) && ($query = $this->remove_unique($table, $info->clName))) {
+            $c = $this->sendQuery($query);
         }
     }
     /**
@@ -162,17 +178,17 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * @throws EnvironmentArrayException 
      */
     public function remove_foreign(string $table, string $info, $db = null): ?string
-    {      
+    {
         static $check_exist = null;
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
         $r = null;
         $foreign_exists = false;
-        $inno_db_table = self::DB_INFORMATION_SCHEMA.".INNODB_FOREIGN_COLS";
+        $inno_db_table = self::DB_INFORMATION_SCHEMA . ".INNODB_FOREIGN_COLS";
         try {
 
             // check that inodb 
-            try{
+            try {
                 $foreign_exists = $check_exist ?? $check_exist = $this->tableExists($inno_db_table);
             } catch (\Exception $ext) {
                 $foreign_exists = false;
@@ -190,7 +206,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                 );
             } else {
                 $query = sprintf(
-                    "SELECT * FROM %s.`TABLE_CONSTRAINTS` ".
+                    "SELECT * FROM %s.`TABLE_CONSTRAINTS` " .
                         "WHERE `TABLE_NAME`='$table' and `CONSTRAINT_SCHEMA`='$db';",
                     self::DB_INFORMATION_SCHEMA
                 );
@@ -209,14 +225,16 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
             if ($columns) {
                 $ck = array_values($columns);
                 $q = implode(";", array_filter(array_map(
-                    function($c)use($adapter, $table, $foreign_exists){
-                    if ($c=='PRIMARY')
-                        return null;
-                    $q  = "ALTER TABLE ";
-                    $q .= "`" . $table . "` DROP FOREIGN KEY ";
-                    $q .= $adapter->escape($c). " ";                    
-                    return trim($q).';';
-                }, $ck)));
+                    function ($c) use ($adapter, $table, $foreign_exists) {
+                        if ($c == 'PRIMARY')
+                            return null;
+                        $q  = "ALTER TABLE ";
+                        $q .= "`" . $table . "` DROP FOREIGN KEY ";
+                        $q .= $adapter->escape($c) . " ";
+                        return trim($q) . ';';
+                    },
+                    $ck
+                )));
                 return $q;
             }
         }
@@ -258,6 +276,54 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     }
 
     /**
+     * 
+     * @param string $table_name 
+     * @param string $referenced_column 
+     * @param null|string $db 
+     * @return void|false 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public function remove_reverse_foreign_keys(string $table_name, string $referenced_column, ?string $db = null)
+    {
+        $adapter  = $this;
+        $db = $db ?? $adapter->getDbName();
+        $v_tkey_column_usage = self::DB_INFORMATION_SCHEMA . '.KEY_COLUMN_USAGE';
+        if ($referenced_column=='clGuid'){
+            echo 'pass';// false;
+        }
+
+        // + | get reverse foreign keys 
+        $query = sprintf(
+            implode('', [
+                'SELECT CONSTRAINT_NAME as c_name, TABLE_NAME as c_from from %s where CONSTRAINT_SCHEMA=\'%s\' AND ',
+                'REFERENCED_TABLE_NAME=\'%s\' AND REFERENCED_COLUMN_NAME=\'%s\';',
+            ]),
+            ...array_map(function ($a) {
+                return $this->escape_string($a);
+            }, [
+                $v_tkey_column_usage,
+                $db,
+                $table_name,
+                $referenced_column
+            ])
+        );
+        $r = $adapter->sendQuery($query);
+        if ($r) {
+            foreach ($r->getRows() as $row) {
+                $g = $adapter->sendQuery(sprintf("ALTER TABLE %s DROP FOREIGN KEY `%s`;", $row->c_from, $row->c_name));
+                //print_r($row->to_array());
+                if ($g instanceof BooleanQueryResult) {
+                    if (!$g->success()) {
+                        Logger::warn("failed to render information");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * drop foreing keys tables 
      * @param mixed $keys 
      * @param int $type 1 = UNIQUE, 0ther is FOREIGN KEYS 
@@ -296,13 +362,13 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      */
     public function escape_table_name(string $v): string
     {
-        if (preg_match('/^`.*`$/',$v)){
+        if (preg_match('/^`.*`$/', $v)) {
             return $v;
         }
-        if (strpos($v,".") !== false){
+        if (strpos($v, ".") !== false) {
             $g = $this->getGrammar();
-            return  $g::EscapeTableName($v, $this);            
-        }        
+            return  $g::EscapeTableName($v, $this);
+        }
         return '`' . $v . '`';
     }
 
@@ -486,10 +552,15 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     public function getDataValue($value, $tinf)
     {
         if ($type = $tinf->clType) {
-            if (preg_match("/^date$/i", $type)) {
-                $value = date("Y-m-d", strtotime($value));
-            } else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
-                $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
+            if (preg_match("/^date(time)?$/i", $type)) {
+                if (preg_match("/now(\(\))?/i", $value)) {
+                    $value = 'now';
+                }
+                if (preg_match("/^date$/i", $type)) {
+                    $value = date("Y-m-d", strtotime($value));
+                } else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
+                    $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
+                }
             }
         }
         return $value;
@@ -597,12 +668,12 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * @param mixed $entries the default value is null
      * @param mixed $desc the default value is null
      */
-    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $options=null)
-    {  
+    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $options = null)
+    {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
 
-            if (!($this->tableExists($tablename,false))) {
-                igk_ilog('db try to create table > ' . $tablename);                
+            if (!($this->tableExists($tablename, false))) {
+                igk_ilog('db try to create table > ' . $tablename);
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $options);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
@@ -749,18 +820,18 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * @return array 
      * @throws IGKException 
      */
-    public function getColumnInfo(string $table, ?string $column_name = null):array
+    public function getColumnInfo(string $table, ?string $column_name = null): array
     {
         // get descriptions data for columns
         $data =  $this->getGrammar()->get_column_info($table, $column_name);
         $outdata = [];
         $data && array_map(function ($v) use ($table, &$outdata) {
             $cl = [];
-            if (empty($v->Type)){
+            if (empty($v->Type)) {
                 igk_dev_wln_e("stop is null");
             }
             $ctype = $v->Type ? trim($v->Type) : 'Int';
-            $tab = array(); 
+            $tab = array();
             preg_match_all("/^((?P<type>([^\(\))]+)))\\s*((\((?P<length>([0-9]+))\)){0,1}|(.+)?)$/i", trim($ctype), $tab);
 
             $cl["clType"] = $this->getGrammar()->ResolvType(getv($tab["type"], 0, "Int"));
@@ -793,7 +864,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                     $cl["clUpdateFunction"] = "Now()";
             }
             $cl = Activator::CreateNewInstance(DbColumnInfo::class, $cl);
-            if (empty($cl->clName)){
+            if (empty($cl->clName)) {
                 $cl->clName = $v->Field;
             }
             $outdata[$v->Field] = $cl;
@@ -831,9 +902,8 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                     if (!is_bool($r)) {
                         $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
                     } else {
-                        $v = $r; 
+                        $v = $r;
                         $r = new BooleanQueryResult($r, $query, $listener->getLastError());
-                       
                     }
                 }
             }
@@ -864,14 +934,16 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      * return version 
      * @return mixed 
      */
-    public function getVersion():string{
+    public function getVersion(): string
+    {
         return $this->m_dbManager->getVersion();
     }
     /**
      * get adapter type
      * @return string 
      */
-    public function getType():string{
+    public function getType(): string
+    {
         return IGK_MYSQL_DATAADAPTER;
     }
     ///<summary></summary>
@@ -884,7 +956,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         $this->queryListener = $listener;
     }
-    public function getSendDbQueryListener():?IDbSendQueryListener
+    public function getSendDbQueryListener(): ?IDbSendQueryListener
     {
         return $this->queryListener;
     }

@@ -46,7 +46,7 @@ trait CSSDefaultArrayAccess{
             $this->_[self::PROPERTIES] =  & $g;
         }
         $g= & $this->_[self::PROPERTIES];
-        $g[$i]=$v;
+        $this->_bindProperties($g, $i, $v); 
     }
     ///<summary></summary>
     ///<param name="i"></param>

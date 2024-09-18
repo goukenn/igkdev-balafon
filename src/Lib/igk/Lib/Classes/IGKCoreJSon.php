@@ -235,6 +235,7 @@ final class IGKCoreJSon extends IGKObject
                             $q->$k = $v;
                         } else if ($m == 6) {
                             $v .= $t;
+                            $v = trim($v);
                         } else {
                             igk_set_env('error://' . __FUNCTION__, "error: string not managed " . $pos);
                             return -1;

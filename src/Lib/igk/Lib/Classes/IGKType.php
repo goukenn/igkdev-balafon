@@ -16,6 +16,10 @@ class IGKType{
         $r = false;
         if ($param->hasType()){
             $g = $param->getType().'';
+            if (IGKType::IsPrimaryType($g) && !IGKType::IsPrimaryType($base_type)){
+                return false;
+            }
+
             $r = ($g == $base_type) || is_subclass_of($g, $base_type); 
         }
         return $r;
