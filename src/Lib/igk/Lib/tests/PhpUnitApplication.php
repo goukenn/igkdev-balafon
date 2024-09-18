@@ -12,7 +12,8 @@ class PhpUnitApplication extends IGKApplicationBase{
     public function bootstrap() { 
         $this->library("mysql");
         $this->library("zip");
- 
+        
+        igk_environment()->app_type = 'phpunit';
         // init server definition
         igk_server()->REQUEST_URI = "/";
     }
@@ -20,7 +21,7 @@ class PhpUnitApplication extends IGKApplicationBase{
         IGKApp::StartEngine($this);
         $p = igk_sys_project_controllers();        
         if ($p){
-            foreach($p as $m){
+            foreach($p as $m){ 
                 $m::register_autoload();  
             } 
         }

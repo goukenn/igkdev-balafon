@@ -140,7 +140,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         if(empty($n))
             return;
         $g=$this->getActivateAttribs() ?? $this->_initActivateAttrib();
-        foreach(explode(",", $n) as $t){
+        foreach(explode(',', $n) as $t){
             $g[trim($t)
             ]=1;
         }

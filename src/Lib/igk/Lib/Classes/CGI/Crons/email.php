@@ -10,7 +10,7 @@ use IGK\System\Net\Mail;
 
 $mail = new Mail();
 $mail->addTo($to);
-$mail->From = "cbondje@igkdev.be";
+$mail->From = igk_configs()->mail_admin; 
 $mail->HtmlMsg= $message;
 $mail->Title= $subject;
 

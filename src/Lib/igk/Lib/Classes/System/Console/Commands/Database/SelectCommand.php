@@ -22,7 +22,7 @@ use IGK\System\Mapping\Helper\ArrayMapHelper;
 class SelectCommand extends AppExecCommand
 {
 	var $command = '--db:select';
-	var $desc = 'send a db select query or execute a Model Macros by choose a model. syntaxe for mode';
+	var $desc = 'send a db select query or execute a Model Macros by choose a model.';
 	var $options = [
 		'--count' => 'flag: count all entries for simple select',
 		'--limit:from[,size]' => 'limit query result',
@@ -33,19 +33,23 @@ class SelectCommand extends AppExecCommand
 		'--arg:[value]+' => 'argument for macros function',
 	];
 	var $category = 'db';
-	var $usage = 'controller model[.macrosFunction] [options]';
+	var $usage = '[controller] model[.macrosFunction] [options]';
 	public function exec($command, ?string $ctrl = null, ?string $model = null)
 	{
+		if (property_exists($command->options, '--controller')){
+			$model = $ctrl;
+			$ctrl = igk_getv($command->options, '--controller');
+		}
 		is_null($ctrl) && igk_die("require controller");
 		is_null($model) && igk_die("require model");
-
+		$v_sep = ',';
 		$limit = igk_getv($command->options, '--limit');
 		$order = igk_getv($command->options, '--order');
 		$columns = igk_getv($command->options, '--columns');
 		$like = igk_getv($command->options, '--like');
 		$map = igk_getv($command->options, '--map');
 		if ($limit) {
-			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode(',', $limit, 2));
+			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode($v_sep, $limit, 2));
 		}
 
 		$ctrl = self::GetController($ctrl);
@@ -78,11 +82,11 @@ class SelectCommand extends AppExecCommand
 		}
 		if ($order) {
 			// + get command order 
-			$order = explode(',', $order);
+			$order = explode($v_sep, $order);
 			$options['OrderBy'] = $order;
 		}
 		if ($columns) {
-			$options['Columns'] = explode(',', $columns);
+			$options['Columns'] = explode($v_sep, $columns);
 		}
 		$v_cond = null;
 		if ($like) {
@@ -97,7 +101,7 @@ class SelectCommand extends AppExecCommand
 			$map = $v_conf->read($map);
 			$g = DefaultMap::MapModelData($map, $g);
 		}
-		echo JSon::Encode($g); //->to_json();
+		echo JSon::Encode($g); // + |
 		igk_exit();
 	}
 	/**

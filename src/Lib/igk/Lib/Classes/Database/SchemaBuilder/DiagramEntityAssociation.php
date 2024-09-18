@@ -275,14 +275,23 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     {
         $o = new self;
         $o->table_prefix = "%prefix%";
+        $v_resolv_kinks = [];
         if ($loadSchemaObject->tables) {
             // load entities
             foreach ($loadSchemaObject->tables as $k => $v) {
                 $e = $o->entity($v->defTableName);
                 $e->addProperties($v->columnInfo);
+                
+                if ($links = $e->getResolveLinks()){
+                    $v_resolv_kinks = array_merge($v_resolv_kinks, [$k=>$links]);
+                }
             }
         }
         $o->m_migrations = $loadSchemaObject->migrations;
+        if (count($v_resolv_kinks)){
+            // treat resolution : 
+            DiagramHelper::ResolveLinks($loadSchemaObject, $v_resolv_kinks);
+        }
         return $o;
     }
 }

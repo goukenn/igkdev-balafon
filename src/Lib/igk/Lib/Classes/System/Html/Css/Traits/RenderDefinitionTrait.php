@@ -4,27 +4,44 @@
 // @date: 20221202 12:04:24
 namespace IGK\System\Html\Css\Traits;
 
+use Error;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\StringBuilder;
+use IGKException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
-* 
-* @package IGK\System\Html\Css\Traits
-*/
-trait RenderDefinitionTrait{
-    public static function RenderDefinition($def){
+ * 
+ * @package IGK\System\Html\Css\Traits
+ */
+trait RenderDefinitionTrait
+{
+    /**
+     * 
+     * @param mixed $def 
+     * @param ?ICssRenderOption $option      
+     * @return string 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function RenderDefinition($def, $option = null)
+    {
         $sb = new StringBuilder;
-        foreach($def as $k=>$v){
-            if (is_array($v)){
-                $sb->appendLine($k."{");
-                foreach($v as $l=>$m){
-                    $sb->appendLine(sprintf("%s:%s;", $l, $m));
+        $lf = $option ? igk_getv($option, 'lf') : "\n";
+        foreach ($def as $k => $v) {
+            if (is_array($v)) {
+                $sb->append($k . "{" . $lf);
+                foreach ($v as $l => $m) {
+                    $sb->append(sprintf("%s:%s;%s", $l, $m, $lf));
                 }
-                $sb->appendLine("}");
-            } else{
-                igk_wln_e("bad > " .__CLASS__);
-             } 
+                $sb->append("}" . $lf);
+            } else {
+                igk_ilog("bad > " . __METHOD__);
+            }
         }
-        return $sb.'';
+        return $sb . '';
     }
 }

@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: IGKDbUtility.php
 // @date: 20220803 13:48:54
-// @desc: 
+// @desc: base model utility class declaration 
 
 use function igk_resources_gets as __;
 
@@ -10,7 +10,7 @@ use function igk_resources_gets as __;
 /**
 * class used to manage database for a controller
 */
-class IGKDbUtility extends IGKObject implements IIGKDbUtility {
+class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     ///note : it used clId as id by default if you don't want to used clId by default for row identification
     private $m_Ctrl;
     private $m_ad;
@@ -135,7 +135,7 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     * @param mixed $table
     * @param mixed $value
     */
-    protected function _syncValue($table, $value){
+    protected function _syncValue($value){
         $v_=$value;
         if(preg_match_all("#^@:/(?P<value>(.)+)$#", $value, $tab)){
             $v_=igk_getv($tab["value"], 0);
@@ -344,15 +344,14 @@ class IGKDbUtility extends IGKObject implements IIGKDbUtility {
     /**
     * return a sync data id
     */
-    public function getSyncDataID($table, $value, $properties=null){
-        if($table == igk_db_get_table_name(IGK_TB_USERS)){
+    public function getSyncDataID(string $table, string $value, $properties=null){
+        if (($properties) && ($table == igk_db_get_table_name(IGK_TB_USERS))){
             if("+@id:/".$properties->User->clLogin === $value){
                 return $properties->User->clId;
             }
             return $value;
         }
-        $tab=array();
-        $v_=$this->_syncValue($table, $value);
+        $v_=$this->_syncValue($value);
         if(!empty($v_)){
             $tb_row=igk_getv($properties->Rows[$table], $v_);
             $c=$this->selectSingleRow($table, $tb_row["row"]);

@@ -16,13 +16,15 @@ use IGK\Helper\SysUtils;
 use IGK\Models\Groups;
 use IGK\Resources\R;
 use IGK\System\Database\IDatabaseHost;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\UriActionException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\WebResponse;
-use IGKDbUtility;
+use IGKDbModelUtility;
+use IGKEnvironment;
 use IGKException;
 use IGKGD;
 use IGKHtmlDoc;
@@ -67,7 +69,7 @@ implements IDatabaseHost
      */
     protected function _createDbUtility()
     {
-        return new IGKDbUtility($this);
+        return new IGKDbModelUtility($this);
     }
     ///<summary></summary>
     /**
@@ -318,7 +320,7 @@ implements IDatabaseHost
     }
     ///<summary></summary>
     /**
-     * 
+     * retrieve data schame definition
      */
     public function get_data_schemas()
     {
@@ -330,10 +332,10 @@ implements IDatabaseHost
         $f = $this->getDataSchemaFile();
         if (file_exists($f)) {
             $s = HtmlReader::LoadFile($f);
-            $s->RenderXML();
+            $s->renderXML();
         } else {
             $d = HtmlNode::CreateWebNode(IGK_SCHEMA_TAGNAME);
-            $d->RenderXML();
+            $d->renderXML();
         }
         igk_exit();
     }
@@ -475,7 +477,7 @@ EOF;
             if ($subdomain = SysUtils::GetApplicationLibrary("subdomain")) {
                 if ($subdomain->subdomain === $this) {
                     $g = $subdomain->subdomainInfo->clView;
-                    if (!empty($function) && (stripos($g, $function) === 0)) {
+                    if (!empty($function) && $g && (stripos($g, $function) === 0)) {
                         $function = substr($function, strlen($g));
                     }
                 }
@@ -612,14 +614,15 @@ EOF;
      */
     public function getSystemVars()
     {
-        $doc = $this->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY);
+        $v_key = IGK_CURRENT_DOC_PARAM_KEY;
+        $doc = $this->getEnvParam($v_key);
         if ($doc === null) {
             if (igk_sys_is_subdomain() && (SysUtils::GetSubDomainCtrl() === $this)) {
                 $doc = $this->getAppDocument();
             } else {
                 $doc = igk_app()->getDoc();
             }
-            $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
+            $this->setEnvParam($v_key, $doc);
         }
         return parent::getSystemVars();
     }
@@ -639,6 +642,12 @@ EOF;
         $param =
         $viewdefault=
         $query_options = 0; 
+        $doc = $this->getAppDocument();
+        // + | configure view environment 
+        igk_set_env(IGKEnvironment::CURRENT_CTRL, $this);
+        $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc); 
+        $this->_initRequiredModules();
+        
         // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
             if (empty($u)){
@@ -648,24 +657,17 @@ EOF;
             $k = $this->getDomainUriAction();
             $pattern = igk_pattern_matcher_get_pattern($k);
             $p = igk_pattern_get_matches($pattern, $page[0], array_merge(["lang"], igk_str_get_pattern_keys($k)));
-            extract(igk_pattern_view_extract($this, $p, 1));
-            igk_ctrl_change_lang($this, $p);
+            // extract(igk_pattern_view_extract($this, $p, 1));
+            // igk_ctrl_change_lang($this, $p);
         } else {
             unset($u->ctrl);
             $page = explode("?", $u->uri);
             $pattern = $u->pattern;
             $p = $u->getQueryParams();
             $viewdefault = 1;
-            extract(igk_pattern_view_extract($this, $p, 1));
-            igk_ctrl_change_lang($this, $p);  
         }
-        
-        // if (empty($c)){
-        //     //igk_wln_e(__FILE__.":".__LINE__ , "calling");
-        //     if (igk_environment()->isDev()){
-        //         // igk_die('handle_redirection_uri, missing\' view configuration controller:'. $u."\n". json_encode($u));
-        //     }
-        // }
+        extract(igk_pattern_view_extract($this, $p, 1));
+        igk_ctrl_change_lang($this, $p);   
         // + | get request query options 
         $query_options = igk_getv($p, 'options');
         //passing ctrl to view for sitepam
@@ -689,8 +691,7 @@ EOF;
             $this->renderDefaultDoc($this->getConfig("/default/document", 'default'));
             igk_exit();
         }
-        $doc = $this->getAppDocument();
-        $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
+      
         $this->setEnvParam(IGK_VIEW_OPTIONS, $query_options);
         if (igk_sys_is_subdomain()) {
             //check of uri access ... 
@@ -750,7 +751,7 @@ EOF;
      */
     protected function initMacros()
     {
-        if (is_null($cl = $this->resolveClass(\Database\InitMacros::class))){
+        if (is_null($cl = $this->resolveClass(EntryClassResolution::DbInitMacros))){
             return;
         }
         $m = new $cl();

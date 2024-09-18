@@ -6,7 +6,7 @@
 // @desc: 
 namespace IGK\System\Composer;
 
-use IGK\System\Console\Logger;
+use IGK\System\Console\Logger; 
 
 /**
  * composer autoloader helper
@@ -17,6 +17,8 @@ class Loader
     private $package_file;
     private $init;
     private $to_merge;
+    const spl_autoload_unregister = 'spl_autoload_unregister';
+    const spl_autoload_register = 'spl_autoload_register';
 
     /**
      * register misssing classes
@@ -40,7 +42,7 @@ class Loader
 
         $bck = spl_autoload_functions();
         // clean all 
-        array_map(\spl_autoload_unregister::class, $bck);
+        array_map(self::spl_autoload_unregister, $bck);
         // $gfc = spl_autoload_functions();
         require_once($this->package_file);
         $nfc = spl_autoload_functions();
@@ -53,8 +55,8 @@ class Loader
             }
         }
         $this->to_merge = array_filter(array_merge($bck, $nfc, [[$this, "_final"]]));
-        array_map(\spl_autoload_unregister::class, $nfc);
-        array_map(\spl_autoload_register::class, $this->to_merge);
+        array_map(self::spl_autoload_unregister, $nfc);
+        array_map(self::spl_autoload_register, $this->to_merge);
         return $found;
     }
     public function _final($f)

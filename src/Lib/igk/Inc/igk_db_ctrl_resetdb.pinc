@@ -7,6 +7,7 @@
 
 use IGK\System\Console\Logger;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\RootControllerBase;
 
 // + | --------------------------------------------------------------------
 // + | RESET DATABASE
@@ -17,7 +18,7 @@ use IGK\Controllers\BaseController;
 /**
  * @var BaseController $controller 
  */
-$funcName = "resetDb";
+$funcName = RootControllerBase::MACRO_RESETDB_METHOD;
 $s_iscmd = igk_is_cmd();
 $s_d = igk_app_is_uri_demand($controller, $funcName) || $s_iscmd;
 $s = $force || $s_iscmd || igk_is_conf_connected() || $controller::IsUserAllowedTo($controller->getName() . ":" . $funcName);

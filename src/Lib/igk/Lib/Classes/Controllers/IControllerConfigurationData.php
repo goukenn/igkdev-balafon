@@ -7,6 +7,9 @@
 
 namespace IGK\Controllers;
 
+use IGK\System\IToArray;
+use IGK\System\IToJSon;
+
 /**
  * basic controller configuration data
  * @package IGK\Controllers
@@ -19,10 +22,7 @@ namespace IGK\Controllers;
  * @property string $clDataTablePrefix controller database's table prefix
  * @property ?string $cssThemePrefix controller's default theme prefix
  */
-interface IControllerConfigurationData{
-    public function to_array();
-
-    public function to_json();
+interface IControllerConfigurationData extends IToArray, IToJSon{
 
     public function get();
 

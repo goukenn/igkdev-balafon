@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Partners.php
-// @date: 20240101 17:47:26
+// @date: 20240918 08:19:26
 namespace IGK\Models;
 
 
@@ -17,6 +17,13 @@ use IGK\Models\ModelBase;
 * @property string $clCategory
 * @property string $clWebSite
 * @property string $clDescription
+* @method static string FD_CL_ID() - `clId` full column name 
+* @method static string FD_CL_NAME() - `clName` full column name 
+* @method static string FD_CL_CATEGORY() - `clCategory` full column name 
+* @method static string FD_CL_WEB_SITE() - `clWebSite` full column name 
+* @method static string FD_CL_DESCRIPTION() - `clDescription` full column name 
+* @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry if not exists. check for unique column.
 * */

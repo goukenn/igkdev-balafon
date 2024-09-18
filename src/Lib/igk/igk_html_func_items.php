@@ -2231,13 +2231,13 @@ if (!function_exists("igk_html_node_fields")) {
 	/**
 	 * load field list to parent
 	 * @param array|IFormFields $fielddata
-	 * @param null|array $datasource 
+	 * @param mixed $datasource 
 	 * @param null|object $engine to use 
 	 * @param string $tagname
 	 * @return mixed 
 	 * @throws IGKException 
 	 */
-	function igk_html_node_fields($fielddata, ?array $datasource = null, ?object $engine = null, ?string $tag = null)
+	function igk_html_node_fields($fielddata, $datasource = null, ?object $engine = null, ?string $tag = null)
 	{
 		if ($fielddata instanceof IFormFields){
 			$v_f = $fielddata;

@@ -26,6 +26,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     const DELIMITER = '"';
     const SEPARATOR = ',';
 
+    public function setForeignKeyCheck($flag) { }
+
     public function allowTypeLength(string $type, ?int $length = null): bool { 
         return in_array($type, ['int','varchar']);
     }

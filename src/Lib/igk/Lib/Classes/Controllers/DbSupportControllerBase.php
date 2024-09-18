@@ -7,7 +7,7 @@
 namespace IGK\Controllers;
 
 use IGK\Controllers\RootControllerBase;
-use IGKDbUtility;
+use IGKDbModelUtility;
 
 /**
  * 
@@ -33,7 +33,7 @@ abstract class DbSupportControllerBase extends RootControllerBase{
 				$db = $this->_createDbUtility();
 			}
 			if (!$db ){
-				$db=new IGKDbUtility($this); 
+				$db=new IGKDbModelUtility($this); 
 			}
         }
         return $db;

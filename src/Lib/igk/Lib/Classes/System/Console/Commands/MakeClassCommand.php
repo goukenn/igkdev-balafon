@@ -33,14 +33,17 @@ class MakeClassCommand extends AppExecCommand
         "--defs" => "code definition",
         "--file:[file_to_create]"=>"generate a file"
     ];
+    const TEST_CLASS = 'IGK\Tests';
+    const CORE_NS="IGK";
     private function _initCommand($command){
+
         $ctrl = igk_getv_nil($command->options, "--controller");
         $extends = igk_getv($command->options, "--extends");
         $desc = igk_getv($command->options, "--desc");
         $force = property_exists($command->options, "--force");
         $test = property_exists($command->options, "--test");
         $path = igk_getv($command->options, "--path");
-        $ns = igk_str_ns(igk_getv($command->options, "--ns", $test ? \IGK\Tests::class: \IGK::class));
+        $ns = igk_str_ns(igk_getv($command->options, "--ns", $test ? self::TEST_CLASS: self::CORE_NS));
         $type = igk_getv($command->options, "--type", "class");
         $defs = igk_getv($command->options, "--defs"); 
         return get_defined_vars();
@@ -89,9 +92,16 @@ class MakeClassCommand extends AppExecCommand
         $force = property_exists($command->options, "--force");
         $test = property_exists($command->options, "--test");
         $path = igk_getv($command->options, "--path");
-        $ns = igk_getv($command->options, "--ns", $test ? \IGK\Tests::class: \IGK::class);
+        $ns = igk_getv($command->options, "--ns", $test ? self::TEST_CLASS: self::CORE_NS);
         $type = igk_getv($command->options, "--type", "class");
         $defs = igk_getv($command->options, "--defs"); 
+
+        if (strpos($class_path, '.')){
+            igk_die('not allowed class path name');
+        }
+        if ($test && !igk_str_endwith($class_path, 'Test')){
+            $class_path.= 'Test';
+        }
         if (!empty($path) && !property_exists($command->options, '--ns')){
             // reset namespace
             $ns = "";
@@ -123,7 +133,7 @@ class MakeClassCommand extends AppExecCommand
                     $dir = igk_io_sys_test_classes_dir();
                     if (empty($extends)) {
                         $extends = BaseTestCase::class;
-                        if (strpos($class_path, igk_dir(\IGK\Tests::class)) !== 0) {
+                        if (strpos($class_path, igk_dir( self::TEST_CLASS)) !== 0) {
                             $class_path =  "IGK/Tests/" . $class_path;
                         } 
                     }

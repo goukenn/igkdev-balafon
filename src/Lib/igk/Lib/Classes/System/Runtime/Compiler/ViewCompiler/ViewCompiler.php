@@ -658,7 +658,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             default:
                 // + affectation 
                 $sp = ' ';
-                if (in_array($value, explode(",", self::OPERATOR_SYMBOL))) {
+                if (in_array($value, explode(',', self::OPERATOR_SYMBOL))) {
                     switch ($value) {
                         case '->':
                         case '(':

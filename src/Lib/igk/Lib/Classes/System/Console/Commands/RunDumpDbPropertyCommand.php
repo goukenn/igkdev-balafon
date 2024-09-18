@@ -8,6 +8,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\EntryClassResolution;
 
 ///<summary></summary>
 /**
@@ -15,7 +16,7 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class RunDumpDbPropertyCommand extends AppExecCommand{
-    var $command = '--run:dumpdb-property';
+    var $command = '--db:dump-property';
     var $category = 'db';
     var $options = [
         '--create-query'=>'',
@@ -40,7 +41,7 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
         $ctrl = $ctrl ?? SysDbController::ctrl(); 
         $ctrl->register_autoload();
         
-        if ($cl = $ctrl->resolveClass(\Models::class."\\".$model)){
+        if ($cl = $ctrl->resolveClass(EntryClassResolution::Models."\\".$model)){
             $a = 0;
             $row = $cl::createRow();
             if (property_exists($command->options, '--create-query')){

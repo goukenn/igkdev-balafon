@@ -12,6 +12,10 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\IteratorTrait;
 use Iterator;
 
+/**
+ * 
+ * @package IGK\Database
+ */
 class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	use ArrayAccessSelfTrait;
 	use IteratorTrait;

@@ -15,13 +15,16 @@ trait PHPDocCommentParseTrait{
  /**
      * parse php doc comment
      * @param string $cm 
+     * @param ?PhpDocBlocReader $reader
      * @return PHPDocCommentParser 
      */
-    public static function ParsePhpDocComment(string $cm){
+    public static function ParsePhpDocComment(string $cm,  $reader=null, ?array $filter=null){
         $c = trim(igk_str_rm_start($cm, "/**"));
         $c = rtrim(igk_str_rm_last($c, "*/"));
         $g = new self;
         $g->summary = '';
+        $g->m_reader = $reader;
+        $g->m_filter = $filter;
         $summary = false;
         $content = "";
         $name = "";

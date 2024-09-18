@@ -3,7 +3,7 @@
 // @file: HtmlNodeTagExplosionDefinition.php
 // @date: 20230328 13:47:42
 namespace IGK\System\Html;
- 
+
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -40,7 +40,8 @@ class HtmlNodeTagExplosionDefinition
      * get core builder 
      * @return static
      */
-    public static function Core(){
+    public static function Core()
+    {
         return self::$sm_static ?? self::$sm_static = new static(new HtmlNodeBuilder(igk_create_notagnode()));
     }
     /**
@@ -51,9 +52,10 @@ class HtmlNodeTagExplosionDefinition
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public function setup($node, $data, $tnode=null){
+    public function setup($node, $data, $tnode = null)
+    {
         $bck = $this->builder->t;
-        if ($tnode){
+        if ($tnode) {
             $this->builder->t = $tnode;
         }
         $r = $this->builder->setup($node, $data);
@@ -61,42 +63,42 @@ class HtmlNodeTagExplosionDefinition
         return $r;
     }
     /**
-    * explode tag
-    * @param string $tagname 
-    * @param mixed $pnode 
-    * @param mixed $context 
-    * @return array 
-    * @throws IGKException 
-    * @throws ArgumentTypeNotValidException 
-    * @throws ReflectionException 
-    */
+     * explode tag
+     * @param string $tagname 
+     * @param mixed $pnode 
+     * @param mixed $context 
+     * @return array 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function explode(string $tagname, &$pnode, $context = null)
     {
-       //  $context = $context ?? $this->getContext();
+        //  $context = $context ?? $this->getContext();
         // $v_root_tag = $tagname;
-        $id = null;
-        $classes = null;
-        $args = null;
-        $name = null;
-        $attr = null;
+        $id =
+            $classes =
+            $args =
+            $name =
+            $attr = null;
         $defs = [];
         // $ln = strlen($tagname);
         // $pos = 0;
         $v = "";
-        $this->explodeTagDefinition($tagname, $defs, $v); 
+        $this->explodeTagDefinition($tagname, $defs, $v);
         $n = &$pnode;
         $v_node_creates = [];
         while (count($defs) > 1) {
             $q = array_shift($defs);
-            list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($q,$context);
+            list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($q, $context);
             if (is_null($args)) {
                 $args = [];
             }
             $n = $n->$tagname(...$args);
-            if(!$n){
-                igk_die("failed to add . ".$tagname);
+            if (!$n) {
+                igk_die("failed to add . " . $tagname);
             }
-            $this->builder->onCreate($n);//['node'=>$n,'root_tag'=>$v_root_tag]);
+            $this->builder->onCreate($n); //['node'=>$n,'root_tag'=>$v_root_tag]);
             array_unshift($v_node_creates, $n);
             if ($classes) {
                 $n->setClass($classes);
@@ -111,7 +113,7 @@ class HtmlNodeTagExplosionDefinition
                 $n->setAttribute('name', $name);
             }
         }
-        
+
         // while(count($v_node_creates)>0){
         //     $q = array_shift($v_node_creates);
         //     $this->builder->onClose($q);
@@ -125,21 +127,43 @@ class HtmlNodeTagExplosionDefinition
      * @param mixed $i 
      * @return mixed 
      */
-    private static function _DefinitionArgs($i){
-        if (!is_string($i)){
+    private static function _DefinitionArgs($i)
+    {
+        if (!is_string($i)) {
             return $i;
         }
-        if ($i=='[[:@raw]]'){
+        if ($i == '[[:@raw]]') {
             return $i;
         }
-        if ($i=='[[:@ctrl]]'){
+        if ($i == '[[:@ctrl]]') {
             return $i;
         }
-        if (preg_match("/^\[.+\]/", $i)){
+
+        if (preg_match("/^\[.+\]/", $i)) {
             // convert array 
             return json_decode($i);
         }
         return $i;
+    }
+    /**
+     * read active attribute per arg array
+     * @param string $a 
+     * @return array 
+     */
+    private static function _GetActiveAttribute(string &$a)
+    {
+        $active_attrib = [];
+        // add active attribute 
+        while (preg_match("/(@[a-z_\-]([a-z0-9_\-]+)?)((\\s+@[a-z_\-]([a-z0-9_\-]+)?)+)?(\\s*,)/i", $a, $tbm)) {
+            $s = $tbm[0];
+            $a = str_replace($s, '', $a);
+            $s = array_map(function ($a) use (&$active_attrib) {
+                $k = substr(trim($a), 1);
+                return $k;
+            }, explode(' ', trim($s, ', ')));
+            $active_attrib = array_fill_keys(array_merge(array_keys($active_attrib), $s), 1);
+        }
+        return $active_attrib;
     }
     /**
      * explode tag definitions 
@@ -156,7 +180,7 @@ class HtmlNodeTagExplosionDefinition
         $classes = null;
         $args = null;
         $name = null;
-        $attr = null; 
+        $attr = null;
         if (strpos($tagname, '(') !== false) {
             !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
             //+| get args to setup
@@ -165,7 +189,7 @@ class HtmlNodeTagExplosionDefinition
             $a = substr($g, 1, -1);
             $args = igk_engine_get_attr_arg($a, $context);
 
-            if ($args){
+            if ($args) {
                 $args = array_map([self::class, '_DefinitionArgs'], $args);
             }
 
@@ -185,9 +209,12 @@ class HtmlNodeTagExplosionDefinition
             $r->delimiter = ',';
             $r->escape_start = "[";
             $r->escape_end = ']';
-            $attr = ArrayMapKeyValue::Map(function($k,$v){
-                if (is_null($v)){
-                    if (strpos($k, "@")===0){
+            $v_activa_attrib = self::_GetActiveAttribute($a);
+
+
+            $attr = ArrayMapKeyValue::Map(function ($k, $v) {
+                if (is_null($v)) {
+                    if (strpos($k, "@") === 0) {
                         return [$k = ltrim($k, '@'), new HtmlActiveAttrib];
                     }
                     return null;
@@ -195,61 +222,68 @@ class HtmlNodeTagExplosionDefinition
                 return [$k, $v];
             }, (array)$r->read($a));
 
-            //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
+            if ($v_activa_attrib) {
+                foreach (array_keys($v_activa_attrib) as $m) {
+                    if (isset($attr[$m])) continue;
+                    $attr[$m] = new HtmlActiveAttrib;
+                }
+            }
         }
-        // + | identify id 
+        // + | identify id : #
         if (strpos($tagname, '#') !== false) {
             $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)!]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
                 // get id last id and remove it from tag
                 $id = $tab['name'][$i];
                 // $tagname = str_replace($tab[0][$i], '', $tagname);
-                self::_StrRmValue($tagname, $tab[0][$i]);  
+                self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
+        // + | active attribute in targname selection tagname
         if (strpos($tagname, '!') !== false) {
             $c = preg_match_all("/!(?P<name>[^!\%\.#\\s\(\)]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
                 // get id last id and remove it from tag
                 $ac = $tab['name'][$i];
-                $attr[$ac] =new HtmlActiveAttrib();
+                $attr[$ac] = new HtmlActiveAttrib();
                 // $tagname = str_replace($tab[0][$i], '', $tagname);
-                self::_StrRmValue($tagname, $tab[0][$i]);  
+                self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
-        
-         // + | identify class 
+
+        // + | identify class : .
         if (($v_pos = strpos($tagname, '.')) !== false) {
             $tclasses = [];
             if ($c = preg_match_all("/\.(?P<name>[^\%\.\\s#\(\)]+)/i", $tagname, $tab)) {
                 for ($i = 0; $i < $c; $i++) {
                     // get id last id and remove it from tag
                     $tclasses[$tab['name'][$i]] = 1;
-                    self::_StrRmValue($tagname, $tab[0][$i]); 
+                    self::_StrRmValue($tagname, $tab[0][$i]);
                 }
             } else {
                 if (igk_environment()->isDev()) {
-                    igk_die("not a valid class specification.2 : ".$tagname);
+                    igk_die("not a valid class specification.2 : " . $tagname);
                 }
                 $tagname = substr($tagname, $v_pos, 1);
             }
             $classes = implode(' ', array_keys($tclasses));
         }
-         // + | identify name 
+        // + | identify name : % identify 
         if (strpos($tagname, '%') !== false) {
             $c = preg_match_all("/\%(?P<name>[^\.#\\s\(\)]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
                 // get id last id and remove it from tag
                 $name = $tab['name'][$i];
-                self::_StrRmValue($tagname, $tab[0][$i]);  
+                self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
 
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
-    private static function _StrRmValue(string & $tagname, $value){
+    private static function _StrRmValue(string &$tagname, $value)
+    {
         $ln  = strlen($value);
         $pos = strpos($tagname, $value);
-        $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos+$ln);
+        $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos + $ln);
     }
 }

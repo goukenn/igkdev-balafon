@@ -1402,6 +1402,7 @@ JS;
                 case "clnotnull":
                 case "clisuniquecolumnmember":
                 case "clisnotinqueryinsert":
+                case "cldefaultnull":
                     $c = $td->add("div", array("class" => "dispb fitw", "style" => "text-align:center;"))->addInput("__cl" . $v . "[]", "checkbox", null, array("onchange" => "javascript:(function(q){window.igk.ctrl.ca_update_checkchange(q, '" . $v . "[]');})(this);"));
                     if ($k)
                         $c["checked"] = "true";

@@ -10,12 +10,13 @@ namespace IGK\System\Traits;
  * global macros constants
  * @package IGK\System\Traits
  */
-abstract class MacrosConstant {
+abstract class MacrosConstant
+{
     const ClosureSeparator = "@";
     const StaticSeparator = ":";
-    const RegisterExtensionMethod = "RegisterExtension";
-    const UnRegisterExtensionMethod = "UnRegisterExtension";
-    const RegisterMacroMethod = 'RegisterMacro';
+    const RegisterExtensionMethod = "registerExtension";
+    const UnRegisterExtensionMethod = "unRegisterExtension";
+    const RegisterMacroMethod = 'registerMacro';
     const getMacroMethod = 'getMacro';
     const getInstanceMethod = 'getInstance';
     const getMacroKeysMethod = 'getMacroKeys';

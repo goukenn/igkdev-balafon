@@ -106,7 +106,7 @@ function igk_engine_read_args($s)
                 break;
             case ",":
                 if (strlen($v = trim($v)))
-                    $args[] = $v;
+                    $args[] = igk_engine_treat_arg($v);
                 $v = "";
                 break;
             default:
@@ -116,8 +116,18 @@ function igk_engine_read_args($s)
         $c++;
     }
     if (strlen($v = trim($v)) > 0)
-        $args[] = $v;
+        $args[] = igk_engine_treat_arg($v);
     return $args;
+}
+
+/**
+ * transform treat args
+ */
+function igk_engine_treat_arg($v){
+    if (($v=='null') || ($v=='nil')){
+        return null;
+    }
+    return $v;
 }
 
 
@@ -300,7 +310,7 @@ function igk_reg_template_bindingattributes($name, $callback)
     if (!($g = igk_get_env($key))) {
         $g = array();
     }
-    foreach (array_filter(explode(",", strtolower($name))) as $k) {
+    foreach (array_filter(explode(',', strtolower($name))) as $k) {
         $g[trim($k)] = $callback;
     }
     igk_set_env($key, $g);

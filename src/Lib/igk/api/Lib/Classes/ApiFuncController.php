@@ -409,7 +409,7 @@ final class ApiFunctionController extends ApplicationController {
                     $ctrl=igk_getctrl($n);
                     if($ctrl){
                         $schema=igk_db_backup_ctrl($ctrl);
-                        $tables = igk_getv($ctrl->loadDataFromSchemas(),"tables"); 
+                       // igk_getv($ctrl->loadDataFromSchemas(),"tables"); 
                         $ctrl::initDb(false);
                         igk_db_restore_backup_data($ctrl, $schema);
                     }

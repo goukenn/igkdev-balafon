@@ -23,10 +23,12 @@ use IGK\System\Html\Dom\HtmlCtrlNode;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGK\System\IO\Path;
 use IGK\System\SystemUserProfile;
 use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
+use IGKAppType;
 use IGKConstants;
 use IGKEnvironment;
 use IGKException;
@@ -241,8 +243,10 @@ class BalafonApplication extends IGKApplicationBase
         // + | configure engine to start
         // + |
         $this->no_init_environment = $this->configs->isTemp;
-        igk_environment()->no_lib_cache = 1;
-        igk_environment()->no_db_route = 1;
+        $_env = igk_environment(); 
+        $_env->set("app_type", IGKAppType::balafon);
+        $_env->no_lib_cache = 1;
+        $_env->no_db_route = 1;
         igk_configs()->no_db_route = 1;
         igk_register_service('balafon', 'cli', new BalafonCLIService);
         IGKApp::StartEngine($this);
@@ -491,16 +495,12 @@ class BalafonApplication extends IGKApplicationBase
                         // - bind controller 
                         self::BindCommandController($ctrl);
 
-
-                        if ($id = intval(igk_getv($command->options, '--user'))) {
-                            if ($user = \IGK\Models\Users::Get('clId', $id)) {
-                                $ctrl::login($user, null, false);
-                            }
-                        }
+                        self::BindCommandUser($command, $ctrl);
+ 
                         $args = ViewEnvironmentArgs::CreateContextViewArgument($ctrl, __FILE__, 'balafon');
                         $params = array_slice(func_get_args(), 2);
                         $args->params = &$params;
-                     
+                        $file = realpath($file) === false ? Path::ResolvePath($file) : $file;
                         try {
                             if (file_exists($file)) { 
                                 $result = SysUtils::Include($file, array_merge([
@@ -566,6 +566,8 @@ class BalafonApplication extends IGKApplicationBase
                         echo IGK_VERSION . "\n";
                         Logger::info("CLI - Version");
                         Logger::print(App::version);
+                        Logger::info("Author : ");
+                        echo IGK_AUTHOR . "\n";
                         echo "\n";
                         return 200;
                     };
@@ -588,6 +590,21 @@ class BalafonApplication extends IGKApplicationBase
         return $command;
     }
 
+    public static function BindCommandUser($command, ?BaseController $ctrl=null){
+        if ($id = intval(igk_getv($command->options, '--user'))) {
+            if ($user = \IGK\Models\Users::Get('clId', $id)) {
+                if ($ctrl){
+                    $ctrl::login($user, null, false);
+                }
+            }
+        }
+    }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param null|Users $user 
+     * @return void 
+     */
     public static function BindCommandController(BaseController $ctrl, ?Users $user= null)
     {
         igk_environment()->set(IGKEnvironment::CURRENT_CTRL, $ctrl);

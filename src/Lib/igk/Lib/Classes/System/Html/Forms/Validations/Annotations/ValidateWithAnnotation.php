@@ -20,11 +20,30 @@ use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
 {
     private $m_validator;
+    /**
+     * define max length
+     * @var ?int
+     */
     var $maxLength;
+     /**
+     * define max length
+     * @var ?int
+     */
     var $minLength;
     var $pattern;
     var $type;
+     /**
+     * field is required
+     * @var ?bool
+     */
     var $required;
+
+
+    /**
+     * define max length
+     * @var ?bool
+     */
+    var $allowNull;
 
     /**
      * get the attribute validator

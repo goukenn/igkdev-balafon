@@ -121,7 +121,7 @@ class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
     var $version;
     var $name;
 
-    public function getFields(): array {
+    public function getFields($context=null): array {
         return [
             'version'=>['validator'=>'StrictVersion'],
             'name'=>['type'=>'string', 'required'=>true],

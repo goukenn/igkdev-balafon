@@ -25,7 +25,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
 {
     use DbColumnInfoTrait;
     use DbColumnInfoMethodTrait;
-
+ 
     /**
      * get if this column info must be consider as a dump fields
      * @return bool 
@@ -53,7 +53,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         // }
     }
     private static function ExplodeLinkTo(string $data){
-        $table = explode(",", $data,3);
+        $table = explode(',', $data,3);
         $clLinkType = array_shift($table);
         $clLinkColumn = $table? array_shift($table) : null;
         $clType = $table? array_shift($table) : null;
@@ -115,7 +115,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         if (!self::SupportTypeLength($this->clType))
             $this->clTypeLength = null;
         if ($this->clDefault && $this->clLinkType) {
-            // detect link expression
+            // + | detect link expression
+            // + | sample: member.operator
             if (preg_match("/(.)+\.(.)+/", $this->clDefault)) {
                 $this->clDefaultLinkExpression = $this->clDefault;
             }
@@ -278,9 +279,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     /**
      * display value
      */
-    public function __toString()
-    {
-        return "DbColumnInfo[" . $this->clName . "]";
+    public function __toString(){
+        return "DbColumnInfo[#" . $this->clName . "]";
     }
     ///get association info array
     /**

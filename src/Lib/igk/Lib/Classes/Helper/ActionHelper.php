@@ -18,6 +18,7 @@ use IGKActionBase;
 use IGK\Controllers\BaseController;
 use IGK\Models\RegistrationLinks;
 use IGK\Models\Users;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
@@ -463,7 +464,7 @@ abstract class ActionHelper
         $name = implode("/", array_map("ucfirst", explode("/", $name)));
         $action = $controller::ns(sprintf(
             "%s\\%s",
-            \Actions::class,
+            EntryClassResolution::Actions,
             $name . "Action"
         ));
         return $action;
@@ -566,7 +567,7 @@ abstract class ActionHelper
             // + | passing numeric data to index
             array_unshift($handlerArgs, $_index);
         } else {
-            if ($handler_class_name == $controller->resolveClass(\Actions\DefaultAction::class)) {
+            if ($handler_class_name == $controller->resolveClass(EntryClassResolution::ActionDefaultAction)) {
                 self::HandleArgs($fname, $handlerArgs);
                 if ($_t) {
                     array_unshift($handlerArgs, ...$_t);

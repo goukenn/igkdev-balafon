@@ -7,11 +7,17 @@
 namespace IGK\System\Html\Css;
 
 use ArrayAccess;
+use Exception;
+use Error;
 use IGK\Css\CssSupport;
 use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGKException;
+use ReflectionException;
 
 /**
  * parse css litteral to object definition
@@ -33,6 +39,8 @@ class CssParser implements ArrayAccess
     use ArrayAccessSelfTrait;
     const MATCH_VAR = "/^var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)$/i";
     const MATCH_RESOLVE_VAR = "/var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)/i";
+
+    var $lineFeed = '';
 
     private function __construct()
     {
@@ -82,7 +90,7 @@ class CssParser implements ArrayAccess
         $media_start = 0;
         $errors = [];
         $tdef = [];
-
+        $v_depth = 0; // to skip line comment detection 
         while ($pos < $len) {
             $ch = $content[$pos];
             switch ($ch) {
@@ -94,7 +102,6 @@ class CssParser implements ArrayAccess
                     $s = $pos;
                     $pos++;
                     $v_name = self::_ReadName($content, $pos, $len);
-                    // igk_is_debug() && Logger::info("read directive : " . $v_name);
                     switch ($v_name) {
                         case 'supports':
                             $cdef = self::_ReadSupport($content, $pos, $len, $media, $errors);
@@ -122,8 +129,10 @@ class CssParser implements ArrayAccess
                             array_push($tdef, $def);
                             $def = &$media->def;
                             break;
+                        // case 'charset': // options\
+                            // break;
                         case 'media':
-                            // read media definition 
+                            // read @media definition 
                             $s = $pos;
                             $pos = strpos($content, '{', $pos);
                             if ($pos === false) {
@@ -179,16 +188,19 @@ class CssParser implements ArrayAccess
                             $roptions = true;
                             if ((($v_tpos === false) &&  ($v_npos !== false)) ||
                                 (($v_npos !== false) && ($v_tpos !== false) && ($v_npos < $v_tpos))
-                            ) { 
+                            ) {
                                 // read options
                                 $roptions = false;
                             }
                             if ($roptions) {
+                                $gv = '';
                                 if ($v_tpos !== false) {
-                                    $g = substr($content, $s, $pos - $s);
+                                    $g = trim(substr($content, $s, $pos - $s));
+                                    $gv = substr($content, $pos, $v_tpos-$pos);
+                                    $pos = $v_tpos;
                                 }
                                 if ($mode == 0) {
-                                    $def[] = new CssOptions($g);
+                                    $def[] = new CssOptions($g .".".$gv);
                                 }
                             } else {
                                 //+ skip reading until branked end.
@@ -199,26 +211,48 @@ class CssParser implements ArrayAccess
                             break;
                     }
                     break;
+                case '(':
+                    $v_depth++;
+                    $rv .= $ch;
+                    break;
+                case '(':
+                    $rv .= $ch;
+                    $v_depth--;
+                    break;
                 case '/':
                     // + detect comment 
-                    if (($pos + 1 < $len) && ($content[$pos + 1] == '*')) {
-                        $s = $pos;
-                        $pos = strpos($content, '*/', $pos + 1);
-                        if ($pos !== false) {
-                            $pos += 2;
+                    $lpos = $pos + 1;
+                    if ($lpos < $len) { 
+                        if ($content[$lpos] == '*') {
+                            $s = $pos;
+                            $pos = strpos($content, '*/', $pos + 1);
+                            if ($pos !== false) {
+                                $pos += 2;
+                            } else {
+                                // + | missing close comment  
+                                // + | igk_debug_wln('missing close comment');
+                                return false;
+                            }
+                            $g = substr($content, $s, $pos - $s);
+                            if ($mode == 0) { // global comment
+                                $def[] = new CssComment($g);
+                            } else {
+                                $rv .= $g;
+                            }
+                            //+ | fix comment reading.
+                            $pos--;
+                        } else if (($v_depth == 0) && ($content[$lpos] == '/')) {
+                            // skip single line comment
+                            $ef = strpos($content, "\n", $pos);
+                            if ($ef === false) {
+                                $pos = $len;
+                            } else {
+                                $pos = $ef;
+                                $ch = '';
+                            }
                         } else {
-                            // + | missing close comment  
-                            // + | igk_debug_wln('missing close comment');
-                            return false;
+                            $rv .= $ch; 
                         }
-                        $g = substr($content, $s, $pos - $s);
-                        if ($mode == 0) { // global comment
-                            $def[] = new CssComment($g);
-                        } else {
-                            $rv .= $g; 
-                        }
-                        //+ | fix comment reading.
-                        $pos--;
                     }
                     break;
                 case '{':
@@ -233,11 +267,12 @@ class CssParser implements ArrayAccess
                     }
                     if ($mode == 0) {
                         if (empty($rv = trim($rv))) {
+                            igk_trace();
                             igk_die("no selector found.");
                         }
                         $mode = 1;
                         $name = $rv;
-                        $selector .= $name;
+                        $selector .= preg_replace('/\s+/', ' ', $name);
                         $rv = '';
                     } else {
                         igk_die(implode("\n", [
@@ -270,14 +305,11 @@ class CssParser implements ArrayAccess
                 case ';':
                     if (empty($rv = trim($rv)) && (strlen($rv) == 0)) {
                         if ($mode == 0) {
-                            die("name is empty.;" . $rv);
+                            igk_die("name is empty." . $rv);
                         }
                     }
                     if ($name) {
-                        $value = $rv;
-                        // if (empty($name)) {
-                        //     igk_wln_e("name is empty ....");
-                        // }
+                        $value = $rv; 
                         if ($mode == 0) {
                             $def[$name] = $value;
                         } else {
@@ -291,9 +323,8 @@ class CssParser implements ArrayAccess
                     }
                     break;
                 case "'":
-                    $pos++;
-                    $rv .= substr(igk_str_read_brank($content, $pos, $ch, $ch), 0, -1);
-
+                case '"': 
+                    $rv .= igk_str_read_brank($content, $pos, $ch, $ch);  
                     break;
                 case '}':
 
@@ -305,15 +336,12 @@ class CssParser implements ArrayAccess
                         } else {
                             $def[$name] = $rv;
                         }
-                        $selector = '';
-                        $name = '';
-                        $rv = '';
                     } else {
                         $mode = 0;
-                        $selector = '';
-                        $name = '';
-                        $rv = '';
                     }
+                    $selector = '';
+                    $name = '';
+                    $rv = '';
                     if ($media) {
                         $media_start--;
                         if ($media_start == 0) {
@@ -341,6 +369,9 @@ class CssParser implements ArrayAccess
             if (empty($name)) {
                 // extract definition list 
                 $converter = new CssStringConverter;
+                $converter->NonMarkedStringPropertiesListener = function ($n) {
+                    return true; // in_array($n, explode('|', 'content'));
+                };
                 $def += (array)$converter->read($rv);
             } else {
                 $def[$name] = $rv;
@@ -436,7 +467,7 @@ class CssParser implements ArrayAccess
         return $this->_get_size_def("margin");
     }
     /**
-     * retrive padding definition
+     * retrieve padding definition
      * @return array 
      */
     public function padding()
@@ -480,24 +511,34 @@ class CssParser implements ArrayAccess
         }
         return [$t, $r, $b, $l];
     }
+    /**
+     * parsing position
+     * @return array 
+     */
     public function position()
     {
         $t = $r = $b = $l = 'auto';
-        if ($g = $this["left"]) {
+        if (!is_null($g = $this["left"])) {
             $l = $g;
         }
-        if ($g = $this["top"]) {
+        if (!is_null($g = $this["top"])) {
             $t = $g;
         }
-        if ($g = $this["right"]) {
+        if (!is_null($g = $this["right"])) {
             $r = $g;
         }
-        if ($g = $this["bottom"]) {
+        if (!is_null($g = $this["bottom"])) {
+            $b = $g;
+        }else if (!is_null($g = $this["height"])) {
             $b = $g;
         }
         return [$t, $r, $b, $l];
     }
 
+    /**
+     * retrieve porder definition
+     * @return object 
+     */
     public function border()
     {
 
@@ -538,6 +579,16 @@ class CssParser implements ArrayAccess
         return (object) $res;
     }
 
+    /**
+     * get colors 
+     * @return array 
+     * @throws Exception 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function getColors()
     {
         $colors = [];
@@ -548,11 +599,12 @@ class CssParser implements ArrayAccess
         $match_var = self::MATCH_VAR;
         $root = igk_getv($this->m_definition, ':root');
         foreach ($this->to_array() as $p => $n) {
-            if ($n instanceof ICssDefinition) {
+            if (!($n instanceof ICssDefinition)) {
                 continue;
             }
+
             // if (is_string($n)) {
-            //     igk_wln_e("data : ", $n);
+            igk_wln("data : ", $n);
             // }
             foreach ($n as $k => $v) {
                 if (preg_match($regx, $k)) {
@@ -609,22 +661,31 @@ class CssParser implements ArrayAccess
     public function render(): ?string
     {
         $sb = new StringBuilder;
-        if ($this->m_definition)
-            foreach ($this->m_definition as $k => $v) {
+        $rdef = $this->m_definition;
+        $lf = $this->lineFeed;
+        if ($rdef){
+            ksort($rdef);
+        
+            foreach ($rdef as $k => $v) {
                 if ($v instanceof ICssDefinition) {
-                    $sb->appendLine($v->getDefinition());
+                    $sb->append($v->getDefinition($lf));
                 } else {
                     if (is_array($v)) {
-                        $sb->appendLine($k . "{");
+                        $sb->append($k . "{".$lf);
                         foreach ($v as $l => $m) {
-                            $sb->appendLine(sprintf("%s:%s;", $l, $m));
+                            $sb->append(sprintf("%s:%s;", $l, $m).$lf);
                         }
-                        $sb->appendLine("}");
+                        $sb->append("}".$lf);
                     } else {
-                        igk_wln_e("bad " . __CLASS__);
+                        if (is_numeric($k)){
+                            $sb->append(sprintf("%s;", $v).$lf); 
+                        }else{
+                            $sb->append(sprintf("%s:%s;", $k, $v).$lf); 
+                        } 
                     }
                 }
             }
+        }
         return $sb;
     }
 }

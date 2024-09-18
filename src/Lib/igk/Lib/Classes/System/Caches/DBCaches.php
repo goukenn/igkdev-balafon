@@ -159,9 +159,9 @@ class DBCaches
      * @return SchemaMigrationInfo|array 
      * @throws IGKException 
      */
-    public static function GetColumnInfo(string $table, ?BaseController $controller = null)
+    public static function GetColumnInfo(string $table, ?BaseController $controller = null, & $table_info = null)
     {
-        return static::getInstance()->resolve($table, $controller);
+        return static::getInstance()->resolve($table, $controller, $table_info);
     }
     /**
      * get table information
@@ -302,7 +302,7 @@ class DBCaches
 
         $this->m_tableInfo = $definition->tables; //  array_combine(array_keys((array)$definition->tables) ,$definition->tables) ; 
         $this->m_db_initializer = $db;
-        // init project definition  
+        // init project models definition  
         $db->loadSystemProjects();
         // update with module 
         $db->loadSystemModules();
@@ -380,7 +380,7 @@ class DBCaches
      * @return mixed 
      * @throws IGKException 
      */
-    public function resolve(string $table, ?BaseController $controller = null)
+    public function resolve(string $table, ?BaseController $controller = null, & $table_info = null)
     {
         if ($this->m_initializing) {
             if (!isset($this->m_mock[$table])) {
@@ -391,7 +391,8 @@ class DBCaches
                 }
                 $this->m_mock[$table] = $mockingData;
             }
-            return $this->m_mock[$table]->tableRowReference;
+            $table_info = $this->m_mock[$table];
+            return $table_info->tableRowReference;
         }
         !$this->m_init_cache && $this->_initDbCache();
         /**
@@ -428,6 +429,7 @@ class DBCaches
             //
             $ref_def->tableRowReference = igk_array_object_refkey($ref_def->columnInfo, IGK_FD_NAME);
         }
+        $table_info = $ref_def;
         return $ref_def->tableRowReference;
     }
 

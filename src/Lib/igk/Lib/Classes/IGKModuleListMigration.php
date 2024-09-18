@@ -39,6 +39,10 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     private static $sm_list;
+    /**
+     * module list instance 
+     * @var mixed
+     */
     private static $sm_instance;
     private $m_host;
     private $m_list;
@@ -47,6 +51,19 @@ final class IGKModuleListMigration extends BaseController implements
     private $m_initializer;
     private function __construct()
     {
+    }
+    /**
+     * 
+     * @return void 
+     */
+    public function useAsInstance(){
+        if (self::$sm_instance === $this){
+            return;
+        }
+        self::$sm_instance = $this;
+    }
+    public function reset(){
+        self::$sm_instance = null;
     }
     /**
      * migrate list :
@@ -58,11 +75,13 @@ final class IGKModuleListMigration extends BaseController implements
      */
     public function migrateHost(closure $callback)
     {
-        Logger::warn('migrate list ..... ' . $this->m_host->getName());
         if ($this->m_host->getUseDataSchema()) {
             $file = $this->m_host->getDataSchemaFile();
             if (file_exists($file)) {
+                if (igk_is_debug()){
+                Logger::warn('migrate list ..... ' . $this->m_host->getName());
                 Logger::info($file);
+                }
                 $data = igk_db_load_data_schemas($file, $this, true, DbSchemasConstants::Migrate);
                 if ($mig = igk_getv($data, 'migrations')) {
                     foreach ($mig as $m) {
@@ -185,9 +204,19 @@ final class IGKModuleListMigration extends BaseController implements
     {
         return $this->m_host->getEntryNamespace();
     }
+    /**
+     * 
+     * @param string $path 
+     * @return string|void 
+     */
     public static function ns(string $path = '')
     {
-        return ControllerExtension::ns(self::$sm_instance->m_host, $path);
+        $sm = self::$sm_instance;
+        if ($sm){
+            return ControllerExtension::ns($sm->m_host, $path);
+        } else{
+            igk_die("can't get namespace : instance not created");
+        }
     }
     /**
      * migrate install - migration 

@@ -2236,9 +2236,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
 
         $db = $this->getDataAdapter();
 
-        $clean = $clean ?? igk_getr('clean') ?? false;
-
-        // igk_environment()->querydebug = 1;
+        $clean = $clean ?? igk_getr('clean') ?? false; 
         if ($db->connect()) {
             $command = new ResetDbCommand;
             if ($command->globalResetDatabase(true, false, $clean)) {

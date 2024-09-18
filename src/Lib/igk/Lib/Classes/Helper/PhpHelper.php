@@ -73,7 +73,7 @@ class PhpHelper{
         sort($_fcs);
         $o = ""; 
         foreach ($_fcs as $f) {
-            if (!preg_match("/^igk_html_node_/", $f)) {
+            if (!preg_match("/^".IGK_FUNC_NODE_PREFIX."/", $f)) {
                 continue;
             }
             $p = strtolower(substr($f, $ln));

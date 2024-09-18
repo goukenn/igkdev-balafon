@@ -27,6 +27,8 @@ use stdClass;
 use function igk_resources_gets as __;
 
 
+
+
 ///<summary> schema constant </summary>
 /**
  * 
@@ -63,7 +65,8 @@ abstract class DbSchemas
      * is loading from schema
      * @return ?bool 
      */
-    public static function IsLoadingFromSchema():?bool{
+    public static function IsLoadingFromSchema(): ?bool
+    {
         return self::$sm_isLoadingFromSchema;
     }
     /**
@@ -71,12 +74,12 @@ abstract class DbSchemas
      * @param BaseController $controller 
      * @return void 
      */
-    public static function ClearControllerSchema(BaseController $controller){
-        $v_tab = & self::$sm_schemas;
-        if ($file = $controller->getDataSchemaFile()){
+    public static function ClearControllerSchema(BaseController $controller)
+    {
+        $v_tab = &self::$sm_schemas;
+        if ($file = $controller->getDataSchemaFile()) {
             unset($v_tab[$file]);
         }
-        
     }
 
     public static function LoadRelations($schema, $data)
@@ -108,9 +111,10 @@ abstract class DbSchemas
         die("call static method not allowed." . __CLASS__);
     }
 
-    public static function schemaDef(){
-        $file=  '/Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Data/data.schema.xml';
-        if (isset(self::$sm_schemas[$file])){
+    public static function schemaDef()
+    {
+        $file =  '/Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Data/data.schema.xml';
+        if (isset(self::$sm_schemas[$file])) {
             return self::$sm_schemas[$file];
         }
         return null;
@@ -132,34 +136,39 @@ abstract class DbSchemas
     {
         if (!file_exists($file)) {
             return null;
-        } 
+        }
         $data = null;
         if (isset(self::$sm_schemas[$file])) {
             $data = self::$sm_schemas[$file];
-        }  
-        if (!$data) {    
+        }
+        if (!$data) {
             $xcode = HtmlReader::LoadFile($file);
-            if (!$xcode){
+            if (!$xcode) {
                 return null;
             }
-            
-            self::$sm_isLoadingFromSchema = 1;
-            $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);      
-            // + init Check and update data
-            if ($ctrl && ($cl = $ctrl->resolveClass(\Database\InitDbSchemaBuilder::class))) {
-                // resolv core entries 
-                $b = new $cl();
-                $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
-                if ($operation == DbSchemasConstants::Downgrade) {
-                    $b->downgrade($tr);
-                } else { 
-                    $b->upgrade($tr);
+            self::$sm_isLoadingFromSchema && igk_die('already in loading from schema');
+            self::$sm_isLoadingFromSchema = true;
+            try {
+                $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);
+                // + init Check and update data
+                if ($ctrl && ($cl = $ctrl->resolveClass(\IGK\System\EntryClassResolution::DbSchemaBuilder))) {
+                    // resolv core entries 
+                    $b = new $cl();
+                    $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
+                    if ($operation == DbSchemasConstants::Downgrade) {
+                        $b->downgrade($tr);
+                    } else {
+                        $b->upgrade($tr);
+                    }
+                    // change the data definition - after Operation. 
+                    $tr->render(new SchemaDiagramVisitor($ctrl, $data, $operation));
                 }
-                // change the data definition - after Operation. 
-                $tr->render(new SchemaDiagramVisitor($ctrl, $data, $operation));
+                self::$sm_schemas[$file] = ["controller" => $ctrl, "definition" => $data];
+            } catch (\Exception $ex) {
+                throw $ex;
+            } finally {
+                self::$sm_isLoadingFromSchema = false;
             }
-            self::$sm_schemas[$file] = ["controller" => $ctrl, "definition" => $data];
-            self::$sm_isLoadingFromSchema = 0;
         } else {
             $data = $data["definition"];
         }
@@ -241,28 +250,28 @@ abstract class DbSchemas
      * @return stdClass|null 
      */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
-    {        
-        static $sm_cacheinfo = null; 
-        if (is_null($sm_cacheinfo)){
+    {
+        static $sm_cacheinfo = null;
+        if (is_null($sm_cacheinfo)) {
             $sm_cacheinfo = [];
         }
-        $key = $ctrl ? $ctrl->getEnvKey('db-cache/'.$tablename) : $tablename;
-        if (isset($sm_cacheinfo[$key])){
+        $key = $ctrl ? $ctrl->getEnvKey('db-cache/' . $tablename) : $tablename;
+        if (isset($sm_cacheinfo[$key])) {
             $v_info = $sm_cacheinfo[$key];
             return self::CreateObjFromInfo($v_info, $dataobj);
-        } 
- 
+        }
+
         $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
 
-        if ($v_info) { 
-            if ($v_info instanceof SchemaMigrationInfo){
+        if ($v_info) {
+            if ($v_info instanceof SchemaMigrationInfo) {
                 $v_info = $v_info->columnInfo;
             }
             $sm_cacheinfo[$key] = $v_info;
             return self::CreateObjFromInfo($v_info, $dataobj);
         }
         return null;
-    }  
+    }
     /**
      * get table info
      * @param string $tablename 
@@ -270,10 +279,11 @@ abstract class DbSchemas
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetTableColumnInfo(string $tablename, ?BaseController $ctrl=null){
+    public static function GetTableColumnInfo(string $tablename, ?BaseController $ctrl = null)
+    {
         $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, null);
-        if ($v_info) { 
-            if ($v_info instanceof SchemaMigrationInfo){
+        if ($v_info) {
+            if ($v_info instanceof SchemaMigrationInfo) {
                 $v_info = $v_info->columnInfo;
             }
             return $v_info;
@@ -304,11 +314,11 @@ abstract class DbSchemas
         if (empty($tableRowReference))
             return null;
         $obj = igk_createobj();
-        
+
         foreach ($tableRowReference as $k => $v) {
             if (!($v instanceof IDbColumnInfo)) {
-                if (igk_environment()->isDev()) {                   
-                    igk_dev_wln_e("failed : [$k] tableRowReference value is not a IDbColumnInfo"); 
+                if (igk_environment()->isDev()) {
+                    igk_dev_wln_e("failed : [$k] tableRowReference value is not a IDbColumnInfo");
                 }
                 continue;
             }
@@ -349,17 +359,17 @@ abstract class DbSchemas
         $tb = $r->Data;
         $etb = $r->Entries;
         $no_error = 1;
-        if ($tb) { 
+        if ($tb) {
             \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb, $adapter);
         }
         // UPDATE REQUIRED MIGRATION
-        try{ 
-            igk_hook(IGKEvents::HOOK_DB_MIGRATE, ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]);
-        } catch(\Exception $ex){
+        try {
+            igk_hook(IGKEvents::HOOK_DB_MIGRATE, ['ctrl' => $ctrl, 'type' => 'init', 'data' => $r]);
+        } catch (\Exception $ex) {
             Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
             $no_error = 1;
         }
-        
+
         return $no_error;
     }
 
@@ -370,5 +380,17 @@ abstract class DbSchemas
     public static function ResetSchema()
     {
         self::$sm_schemas = [];
+    }
+}
+
+
+
+function observe_schemas()
+{
+    return 8;
+    if ($tab = array_values(DbSchemas::$sm_schemas)) {
+        $r = $tab[0]['definition']->tables['tbigk_mailinglists'];
+
+        return $r;
     }
 }

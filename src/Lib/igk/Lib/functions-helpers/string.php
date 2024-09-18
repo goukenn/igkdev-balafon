@@ -207,3 +207,21 @@ if (!function_exists('igk_str_encode_to_utf8')) {
         return mb_convert_encoding($s, 'UTF-8', $enc ?? mb_list_encodings());
     }
 }
+
+if (!function_exists('igk_str_repeat_callback')){
+    /**
+     * helper repleat a string expression call type
+     * @param callable $callable 
+     * @param int $times 
+     * @return string 
+     */
+    function igk_str_repeat_callback(callable $callable, int $times=1){
+        $s = '';
+        $idx = 0;
+        while($idx<$times){
+            $idx++;
+            $s.=$callable($idx);
+        }
+        return $s;
+    }
+}

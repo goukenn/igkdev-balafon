@@ -74,7 +74,10 @@ class MakeModuleCommand extends AppCommand{
                 $defs->appendLine("// + | please use \$reg closure var to register Module function ");
                 $defs->appendLine("// + |");
                 $defs->appendLine("");
-                $defs->appendLine("// \$reg('initDoc', function(\$doc){ /* call in view-build-context to initialize the document */ })\n");
+                // + | because of a single line no need to pass to next line
+                $defs->appendLine(sprintf("// \$reg('%s', function(\$doc){ /* call in view-build-context to initialize the document */ });\n", 
+                    \IGK\Controllers\ApplicationModuleController::INIT_METHOD    
+                ));
                 $defs->appendLine();
                 $defs->appendLine("// + module definition\nreturn [\n$definition\n];");
                 $builder = new PHPScriptBuilder();
@@ -187,6 +190,13 @@ class MakeModuleCommand extends AppCommand{
                 igk_io_w2file($file, $n);
             };
 
+            $bind[$dir."/Tests/README.md"] = function($f){
+                igk_io_w2file($f, implode("\n", [
+                    "# global module test",
+                    "## delete me"
+                ]));
+            };
+
             MakeUtility::BindDefaultLangSupport($command, $dir, $bind);         
             
 
@@ -198,6 +208,8 @@ class MakeModuleCommand extends AppCommand{
                     "phpunit.xml.dist",
                     ".phpunit.*",
                     ".phpunit.result.cache",
+                    "Tests",
+                    "TASK.md"
                 ]
                 );           
             }  

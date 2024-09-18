@@ -10,16 +10,19 @@ namespace IGK\System\Console;
 /**
  * use to write logger in console data
  * @package IGK\System\Console
- * @method static void danger(string $message)  
- * @method static void print(string $message)  
- * @method static void info(string $message)  
+ * @method static void danger(string $message) - error message
+ * @method static void success(string $message) - success message
+ * @method static void warn(string $message) - warning message
+ * @method static void info(string $message) - information message
+ * @method static void print(string $message)  - just print
  */
 class Logger{
     /**
      * IConsoleLogger
      * @var mixed
      */
-    static $sm_logger;
+    private static $sm_logger;
+    private static $sm_colorizer;
 
     const TabSpace = "\r\t\t\t\t";
     
@@ -30,6 +33,12 @@ class Logger{
      */
     public static function SetLogger(?IConsoleLogger $logger){
         self::$sm_logger = $logger;
+    }
+    public static function SetColorizer(?Colorize $cl){
+        self::$sm_colorizer = $cl;
+    }
+    public static function GetColorizer(){
+        return self::$sm_colorizer;
     }
     /**
      * print message

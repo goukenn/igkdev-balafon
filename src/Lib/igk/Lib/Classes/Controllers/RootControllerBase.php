@@ -41,8 +41,7 @@ abstract class RootControllerBase extends IGKObject{
     const MACRO_INITDB_METHOD = 'initDb';
     const MACRO_RESETDB_METHOD = 'resetDb';
     const MACRO_INVOKE_METHOD = 'invokeMacros';
-    // const MACRO_INITDB_METHOD = 'initDb';
-    // const MACRO_INITDB_METHOD = 'initDb';
+    const MACRO_GET_DB_METHOD = 'getDb';
 
     public function __construct(){        
     }

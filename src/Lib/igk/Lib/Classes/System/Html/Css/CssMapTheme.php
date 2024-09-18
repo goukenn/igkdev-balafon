@@ -15,6 +15,7 @@ class CssMapTheme{
     var $media;
     var $lk;
     var $is_primaryTheme;
+    var $skipProperty;
 
     public function __construct(IGKMedia $media, $is_primaryTheme, $lk)
     {
@@ -32,8 +33,23 @@ class CssMapTheme{
         $tab = $g;
         $is_primaryTheme = $this->is_primaryTheme;
         $lk = $this->lk;
-        array_map(function($v, $k)use(& $g, $is_primaryTheme, $lk){
-            CssUtils::TreatCssDefinition($v, $k, $g, $is_primaryTheme, $lk);
+        $v_source_defs = [];
+        array_map(function($v, $k)use(& $g, $is_primaryTheme, $lk,& $v_source_defs){
+            if (empty($v)){
+                return $v;
+            }
+            if ($this->skipProperty)
+            {
+                $v = CssUtils::RemoveNoTransformPropertyStyle($v);
+                if (empty($v)){
+                    $g[$k] = null;
+                    return;
+                }
+            }
+            CssUtils::TreatCssDefinition($v, $k, $g, $is_primaryTheme, $lk, $v_source_defs);
         }, $tab, array_keys($tab));
+
+        $this->media->clear();
+        $this->media->load_data(['def'=>$g]);
     }
 }

@@ -181,9 +181,7 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
         $cid .= "-1";
     }
     $o = rename($tmp_name, $opath = dirname($tmp_name) . "/" . $cid . ".zip");
-    // echo "renamed : ".$opath. " final : ".$o;
-    // print_r($t_pdir);
-    // $response->die("complete");
+ 
 } else {
     if (!is_dir($install_dir) && !@mkdir($install_dir, 0775, true)) {
         echo "try to create directory : ".getcwd() . " vs " .$install_dir;

@@ -2,8 +2,8 @@
 
 
 /**
- * get current module module
- * @param string $dir 
+ * get current module
+ * @param string $dir directory to search
  * @return null|string 
  * @throws IGKException 
  */

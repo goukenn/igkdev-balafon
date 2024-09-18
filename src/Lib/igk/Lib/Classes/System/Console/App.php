@@ -26,12 +26,14 @@ class App{
     const YELLOW = "\e[0;33m";
     const YELLOW_B = "\e[1;33m";
     const YELLOW_I = "\e[3;33m";
-    const RED = "\e[1;31m";
+    const RED = "\e[0;31m";
+    const RED_B = "\e[1;31m";
     const BLUE = "\e[0;34m";
     const BLUE_B = "\e[1;34m";
     const BLUE_I = "\e[3;34m";
     const PURPLE = "\e[3;35m";
     const AQUA = "\e[3;36m";
+    const SHA_INDIGO = "\e[38;2;153;35;89m";
     const END = "\e[0m";
     const TEMP_DIR_NAME = '.balafon-caches';
 
@@ -110,7 +112,6 @@ class App{
       
         igk_environment()->NO_DB_LOG = 1;
         igk_environment()->NO_SESSION = 1;
-        igk_environment()->set("app_type", IGKAppType::balafon);
         igk_environment()->set("workingDir", $wdir); 
         $app->_basePath = $basePath;
         $app->_configs = $configs;
@@ -146,7 +147,7 @@ class App{
         } 
         $handle = [];
         foreach($command as $n=>$b){
-            if(count($c = explode(",", $n))>1){
+            if(count($c = explode(',', $n))>1){
                 array_map(function($i)use(& $handle, $b){
                     $handle[trim($i)] = $b; 
                 }, $c);
@@ -202,7 +203,7 @@ class App{
 
         $handle = [];
         foreach($command as $n=>$b){
-            if(count($c = explode(",", $n))>1){
+            if(count($c = explode(',', $n))>1){
                 array_map(function($i)use(& $handle, $b){
                     $handle[trim($i)] = $b; 
                 }, $c);
@@ -283,7 +284,7 @@ class App{
                 return $action($command , ...$args); 
             }else{
                 if ($tab){
-                    Logger::danger("BLF: no action found - ".json_encode($tab));  
+                    Logger::danger("blf-cli: no action found - ".json_encode($tab));  
                 }
             }
         } catch (Exception $ex){
@@ -312,7 +313,11 @@ class App{
         igk_hook("console::app_boot", $this); 
     }
     public function print(...$text){
+        $cl = Logger::GetColorizer();
         foreach($text as $s){ 
+            if ($cl){
+               $s= $cl($s);
+            }
             echo $s. PHP_EOL;
         }
     }

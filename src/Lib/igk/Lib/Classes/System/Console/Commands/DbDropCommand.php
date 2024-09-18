@@ -10,14 +10,20 @@ namespace IGK\System\Console\Commands;
 use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGKException;
+
 use function igk_resources_gets as __;
 
 class DbDropCommand extends AppExecCommand{
     public $command = "--db:droptables";
     public $category = "db";
     public $desc = "drop project's stored tables";
+    public $usage = "controller";
     public function exec($command, ?string $projectName=null)
     { 
+        if (!$projectName){
+            throw new IGKException('project required');
+        }
         DbCommandHelper::Init($command);
         if (!($c = SysUtils::GetControllerByName($projectName))) {
             Logger::danger("no controller found: " . $projectName);

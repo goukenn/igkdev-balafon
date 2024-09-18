@@ -6,6 +6,7 @@ use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
 use IGK\System\Controllers\ApplicationModules;
+use IGK\System\Controllers\ControllerMethods;
 use IGK\System\Exceptions\ApplicationModuleInitException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
@@ -67,7 +68,7 @@ final class ApplicationModuleController extends BaseController{
      * @return bool 
      * @throws IGKException 
      */
-    public function supportMethod($method){
+    public function supportMethod($method):bool{
         return is_callable(igk_getv($this->m_fclist, $method));
     }
 
@@ -150,12 +151,12 @@ final class ApplicationModuleController extends BaseController{
     ///<param name="dir"></param>
     /**
     * 
-    * @param mixed $dir
+    * @param mixed $dir base directory 
     */
-    public function __construct($dir){
+    public function __construct(string $dir){
         parent::__construct();
         $this->m_dir=IO::GetDir($dir);
-        $this->mm_fclist=array();
+        $this->mm_fclist=array(); 
         // $tf = $dir."/Lib/".self::;
         // $c=realpath($tf);
         // if(!file_exists($c)){
@@ -189,9 +190,13 @@ final class ApplicationModuleController extends BaseController{
             $libdir=$classLib;  
             
             $fc = function($n)use($entry_ns, $libdir){ 
-                // igk_wln("try load ".$n . " ".$this->getName());
                 $fc = "";
-                if (!empty($entry_ns) && (strpos( $n, $entry_ns)===0)){
+                //  if ($n ==\igk\js\Vue3\Components\VueApplicationNode::class){
+
+                //   igk_wln_e("try load ".$n . " ".$this->getName(), $entry_ns, $dir = $this->getDeclaredDir());
+                //  }
+                if (!empty($entry_ns) && (strpos( strtolower($n), strtolower($entry_ns.'\\'))===0)){
+                    // and matching start of the entry namespace
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
                     if (file_exists($fc = igk_dir($libdir."/".$cl.".php"))){                         
                         include($fc);                        
@@ -513,7 +518,7 @@ final class ApplicationModuleController extends BaseController{
      */
     public static function __callStatic($name, $arguments)
     {        
-        if(igk_environment()->isDev() && ($name==='register_autoload')){       
+        if(igk_environment()->isDev() && ($name=== ControllerMethods::register_autoload)){       
             igk_ilog("module app - invoke static method not allowed - ".$name);         
         }
         return null; 

@@ -8,11 +8,13 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\IToArray;
+
 /**
  * use to copy and retrieve data or null
  * @package 
  */
-class IGKObjStorage{
+class IGKObjStorage implements IToArray{
     private $m_init;
     private $m_storage = [];
     ///<summary></summary>
@@ -50,7 +52,7 @@ class IGKObjStorage{
     public function __toString(){
         return __CLASS__;
     }
-    public function to_array(){
+    public function to_array():?array{
         $tab = (array)$this;        
         return $tab;
     }

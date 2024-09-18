@@ -1558,8 +1558,7 @@ Name:balafon.js
                     }
                 }
             };
-            var i = 0,
-                v_host = null;
+            var i = 0, v_host = null;
             for (; i < v_tab.length; i++) { 
                 let w = v_tab[i].getAttribute('width');
                 let h = v_tab[i].getAttribute('height');
@@ -1599,10 +1598,12 @@ Name:balafon.js
                 }
             }
         }
-        __preload();
-        // setTimeout(__preload,500);
+        __preload(); 
     }
 
+    /**
+     * 
+     */
     function igk_preload_anim_image(node) { // preload igk framework image element
         if ((node == null) || (typeof(node.getElementsByTagName) == igk.constants.undef))
             return;
@@ -2495,6 +2496,9 @@ Name:balafon.js
     };
     //igk namespace utility function 
     let _NS = createNS("igk", {
+        /**
+         * @param {string} s 
+         */
         getQueryOptions: function(s) { //retrive query options from string
             var e = {};
             s.replace(/(;)?([^;]+)=([^;]+)/ig, function(m, t, n, v) {
@@ -2511,7 +2515,7 @@ Name:balafon.js
         },
         invokeAsync: function(callback, args) {
             // custom async data call
-            setTimeout(function() {
+            return setTimeout(function() {
                 callback.call(null, args);
             }, 1);
         },
@@ -8498,6 +8502,10 @@ Name:balafon.js
         var m_rg = 0;
         var m_rcg;
 
+        /**
+         * registry of class
+         * @param {string} n class name
+         */
         function __initClassControl(n) {
             var q = $igk(this);
             if (q.fn.isClassControl) {
@@ -8521,7 +8529,7 @@ Name:balafon.js
                 c.apply(q, [n, g.data]);
                 q.fn.isClassControl = 1; // mark as controller
                 q.fn.ControlName = n; // contorol name
-            }
+            } 
         };
         createNS("igk.winui", {
             getEventHandler: igk_winui_get_event_handler,
@@ -8563,6 +8571,10 @@ Name:balafon.js
                 // n: dom node
                 igk_init_node_class_obj.apply(n);
             },
+            /**
+             * init component by class name
+             * @param {string} n unique class component name
+             */
             initClassControl: function(n, c, inf) {
                 if (!m_init && igk.ctrl.registerReady) {
                     // register node ready class control

@@ -12,11 +12,23 @@ use IGKSysUtil;
 
 ///<summary></summary>
 /**
-* 
+* database helper utility class 
 * @package IGK\System\Database\Helper
 */
 abstract class DbUtility{
 
+    /**
+     * prefix the column name with data value
+     * @param string $columnName 
+     * @param string $prefix 
+     * @return string 
+     */
+    public static function TreatColumnName(string $columnName, ?string $prefix){
+        if ($prefix && !igk_str_startwith($columnName, $prefix)){ 
+            $columnName = $prefix.$columnName;
+        }
+        return $columnName;
+    }
     /**
      * 
      * @param BaseController $ctrl 
@@ -29,7 +41,10 @@ abstract class DbUtility{
         $bprefix = igk_configs()->db_prefix;
         $prefix = IGKSysUtil::DBReverseTableName($bprefix, $ctrl);
         foreach($tables as $t=>$v){
-            $rep = $xml->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName" => $v->defTableName));
+            $rep = $xml->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array(
+                "TableName" => $v->defTableName,
+                "RefKey"=>null
+            ));
             foreach($v->columnInfo as $info){
                 $tab = $info->to_array();
                 if ($lnk = $info->clLinkType){
@@ -96,5 +111,30 @@ abstract class DbUtility{
             $apt->close();
         }
         return $schema; 
+    }
+
+    /**
+     * get link column name 
+     * @param string $table 
+     * @param mixed $column 
+     * @param null|string $prefix 
+     * @return string
+     */
+    public static function GetLinkColumn($columnInfo, $column, ?string $prefix=null){
+        // 
+        $g = [$column];
+        if ($prefix){
+            $np = self::TreatColumnName($column, $prefix);
+            if ($np!= $column)
+                array_unshift($g, $np); 
+        }
+        // get column table info
+        while(count($g)>0){
+            $q = array_shift($g);
+            if (isset($columnInfo[$q])){
+                return $q;
+            }
+        }
+        return null;
     }
 }

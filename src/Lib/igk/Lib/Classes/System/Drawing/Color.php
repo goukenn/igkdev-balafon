@@ -86,6 +86,10 @@ class Color extends IGKObject{
             $this->m_R=$value;
     }
     ///<summary>Represente toWebColor function</summary>
+    /**
+     * convert to web color
+     * @return string 
+     */
     public function toWebColor(){
         if($this->m_A != 255){
             return "rgba(".$this->m_R.",".$this->m_G.",".$this->m_B.",".(($this->m_A * 100)/255). ")";

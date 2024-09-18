@@ -4,9 +4,7 @@
  
 if (!class_exists('Logger')){
     abstract class Logger{
-        static function __callStatic($name, $arguments)
-        {
-            
+        static function __callStatic($name, $arguments){
         }
         public static function danger($msg){
             $response = new InstallerResponse(); 
@@ -18,8 +16,6 @@ if (basename(__FILE__)!='sync-node-package.pinc'){
     unlink(__FILE__);
 }
 $command = (object)['options'=>[]];
-
-// echo "loading ..... package - manager";
 $args = igk_getr('args');
 
 ini_set('display_errors',1);
@@ -73,7 +69,6 @@ if (in_array($c = $args[0], ['yarn', 'npm', 'exec'])){
 // }
 $g = $c =  null; 
 
-// echo "loading ..... package :  ".$cmd;
 $response->response(json_encode([
     'script'=>__FILE__,
     'os'=>PHP_OS,

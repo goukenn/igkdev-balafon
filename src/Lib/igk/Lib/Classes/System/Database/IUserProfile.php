@@ -22,6 +22,8 @@ interface IUserProfile{
     /**
      * check authorization for user
      * @param string|array<string> $type 
+     * @param bool $strict request 
+     * @param BaseController $ctrl controller 
      * @return bool 
      */
     function auth($type, bool $strict=true, ?BaseController $ctrl=null):bool; 

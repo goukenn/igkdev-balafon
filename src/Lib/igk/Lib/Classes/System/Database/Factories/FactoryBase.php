@@ -23,8 +23,21 @@ abstract class FactoryBase {
     protected $m_errors = [];
 
 
+    /**
+     * helper retrieve model utility
+     */
+    protected function modelUtility(string $name){
+		return $this->model->getController()->modelUtility($name);
+	}
     protected function getErrors(){
         return $this->m_errors;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    protected function can(){
+        return rand(0,1) === 1;
     }
 
     public function __set($n, $v){

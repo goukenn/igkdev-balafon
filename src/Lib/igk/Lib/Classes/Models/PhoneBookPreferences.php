@@ -1,35 +1,44 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookPreferences.php
-// @date: 20240101 17:47:26
+// @date: 20240918 08:19:26
 namespace IGK\Models;
 
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
+///<summary>User's preferences</summary>
 /**
-* 
+* User's preferences
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
-* @property int $rcphbp_Id
-* @property string|\IGK\Models\PhoneBookEntries $rcphbp_EntryGuid
-* @property string|\IGK\Models\PhoneBooks $rcphbp_phoneGuid
-* @property string|\IGK\Models\Users $rcphbp_userGuid
-* @property int|\IGK\Models\PhoneBookTypes $rcphbp_TypeId
-* @property string|datetime $rcphbp_Create_At ="Now()"
-* @property string|datetime $rcphbp_Update_At ="Now()"
-* @method static ?self Add(string|\IGK\Models\PhoneBookEntries $rcphbp_EntryGuid, string|\IGK\Models\PhoneBooks $rcphbp_phoneGuid, string|\IGK\Models\Users $rcphbp_userGuid, int|\IGK\Models\PhoneBookTypes $rcphbp_TypeId, string|datetime $rcphbp_Create_At ="Now()", string|datetime $rcphbp_Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $rcphbp_EntryGuid, string|\IGK\Models\PhoneBooks $rcphbp_phoneGuid, string|\IGK\Models\Users $rcphbp_userGuid, int|\IGK\Models\PhoneBookTypes $rcphbp_TypeId, string|datetime $rcphbp_Create_At ="Now()", string|datetime $rcphbp_Update_At ="Now()") add entry if not exists. check for unique column.
+* @property int $Id
+* @property string|\IGK\Models\PhoneBookEntries $EntryGuid
+* @property string|\IGK\Models\PhoneBooks $phoneGuid
+* @property string|\IGK\Models\Users $userGuid
+* @property int|\IGK\Models\PhoneBookTypes $TypeId
+* @property string|datetime $Create_At ="Now()"
+* @property string|datetime $Update_At ="Now()"
+* @method static string FD_ID() - `Id` full column name 
+* @method static string FD_ENTRY_GUID() - `EntryGuid` full column name 
+* @method static string FD_PHONE_GUID() - `phoneGuid` full column name 
+* @method static string FD_USER_GUID() - `userGuid` full column name 
+* @method static string FD_TYPE_ID() - `TypeId` full column name 
+* @method static string FD_CREATE_AT() - `Create_At` full column name 
+* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static ?array joinOnRcphbpId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnRcphbpId() - macros function
+* @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookPreferences extends ModelBase{
-	const FD_RCPHBP_ID="rcphbp_Id";
-	const FD_RCPHBP_ENTRY_GUID="rcphbp_EntryGuid";
-	const FD_RCPHBP_PHONE_GUID="rcphbp_phoneGuid";
-	const FD_RCPHBP_USER_GUID="rcphbp_userGuid";
-	const FD_RCPHBP_TYPE_ID="rcphbp_TypeId";
-	const FD_RCPHBP_CREATE_AT="rcphbp_Create_At";
-	const FD_RCPHBP_UPDATE_AT="rcphbp_Update_At";
+	const FD_ID="rcphbp_Id";
+	const FD_ENTRY_GUID="rcphbp_EntryGuid";
+	const FD_PHONE_GUID="rcphbp_phoneGuid";
+	const FD_USER_GUID="rcphbp_userGuid";
+	const FD_TYPE_ID="rcphbp_TypeId";
+	const FD_CREATE_AT="rcphbp_Create_At";
+	const FD_UPDATE_AT="rcphbp_Update_At";
 	/**
 	* table's name
 	*/

@@ -385,7 +385,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         if (!$this->getIsConnect())
             return false;
-        if ($grammar = $this->m_adapter->getGrammar()) {
+        if ($grammar = $this->m_adapter->getGrammar()) {          
             $query = $grammar->createTableQuery($tbname, $columninfo, $desc,  $options);
             if ($this->sendQuery($query)) {
                 if ($entries) {
@@ -850,7 +850,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             if (igk_environment()->querydebug) {
                 igk_dev_wln("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
-                igk_environment()->write_debug("<span>query &gt; </span>" . $query);
+                igk_environment()->write_debug("<span>query &gt; </span><code type='sql'>'.$query.'</code>" );
             }
             if (igk_environment()->isOps() &&  igk_environment()->querydebug) {
                 igk_ilog("send : " . $query);

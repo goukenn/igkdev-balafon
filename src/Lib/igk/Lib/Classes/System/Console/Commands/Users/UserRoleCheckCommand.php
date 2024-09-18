@@ -17,7 +17,8 @@ class UserRoleCheckCommand extends AppExecCommand{
 	var $command='--users:role-check';
 	var $desc='check user\'s roles';
 	/* var $options=[]; */
-	var $category='user';
+
+	var $category = self::USER_CAT;
 	var $usage = 'login auth [ctrl] [options]';
 	// CarRentalController@ProposeCar
 	public function exec($command, string $user=null, string $auth=null, ?string $ctrl = null) {  

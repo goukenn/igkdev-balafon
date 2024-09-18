@@ -8,6 +8,7 @@
 namespace IGK\Database;
 
 use IGK\System\Console\Logger;
+use IGK\System\Database\IDbQueryGrammar;
 use IGK\System\Database\IDbSendQueryListener;
 use IGKException;
 use IGKObject;
@@ -253,6 +254,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
      * @return null|IDbQueryGrammar grammar object
      */
     public function getGrammar(){
+
         return null;
     }
 
@@ -686,9 +688,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     ///<param name="tbname"></param>
     /**
     * select all data form table
-    * @param null|object|mixed|IQueryResult $tbname table
+    * @param string $tbname
+    * @return ?IDbQueryResult $tbname table
     */
-    public function selectAll($tbname){
+    public function selectAll(string $tbname){
         return null;
     }
     /**

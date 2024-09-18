@@ -37,11 +37,7 @@ class ListComponentCommand extends AppExecCommand
 		if (!is_null($pattern)){
 			$pattern = Replacement::RegexExpressionFromString($pattern);
 		}
-		$g = array_filter(array_map(function ($g) use($pattern) {
-			if (preg_match("/^" . IGK_FUNC_NODE_PREFIX . "(?P<name>.+)/", $g, $tab) && (!is_string($pattern) || preg_match($pattern, $tab[1]) )) {
-				return substr($g, strlen(IGK_FUNC_NODE_PREFIX));
-			}
-		}, get_defined_functions()['user']));
+		$g = igk_sys_get_html_components($pattern); 
 		$T = count($g);
 		$map = function($a){
 			return $a;

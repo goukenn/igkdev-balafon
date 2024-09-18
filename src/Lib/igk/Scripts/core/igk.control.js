@@ -1,3 +1,4 @@
+// @ts-nocheck
 // -----------------------------------------------------------------------------------------
 // >namespace: igk.winui 
 // -----------------------------------------------------------------------------------------
@@ -5,17 +6,23 @@
 // -----------------------------------EXTENSION--------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------
 
+/**
+ * @var mixed $igk
+ * @var object igk
+ */
+
+
 (function () {
     const BEFORESUBMIT_EVENT = 'igkFormBeforeSubmit';
     const _eval = function (src, apply, args) {
         return (new Function(src)).apply(apply, args);
     };
     (function () {
-        if (document.head) {
+        if (document.head) { 
             var e = $igk(document.head).select("link");
             e.each(function () {
                 if (this.getAttribute("rel") == "igkcss") {
-                    // igk.show_prop(this.o);
+                    // igk.show_prop(this.o); 
                     igk.ajx.get(this.getAttribute("href"), null, function (xhr) {
                         if (this.isReady()) {
                             var s = igk.createNode("style");
@@ -1414,8 +1421,7 @@
             toggleClass(i, p) { // toggle class
                 var q = $igk(i).first();
                 if (q) {
-                    q.toggleClass(p);
-                    console.log(q.o.className);
+                    q.toggleClass(p); 
                 }
             },
             initAutoTransitionProperties: _initTransitionProperties,
@@ -3722,7 +3728,7 @@
              * @returns 
              */
             useSvg(n) {
-                let d = $igk.createNode('div');
+                let d = $igk.createNode('span');
                 d.addClass("igk-svg-lst-i");
                 d.setAttribute("igk:svg-name", n);
                 return d;
@@ -4741,8 +4747,7 @@
                     // return 0;
                 }
                 var cl = igk.system.colors.toFloatArray(_clbg);
-                if (!_ol) {
-                    // gl.clearColor(1.0,0.55,0.55,1.0);
+                if (!_ol) { 
                     gl.clearColor(cl.r, cl.g, cl.b, cl.a);
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                     return 0;
@@ -5267,10 +5272,14 @@
     //---------------------------------------------------------------------------
     (function () {
         var m_item = {};
+        const _event= {
+            onSvgItemLoaded: 'on-svg-items-list-loaded',
+            onSvgSingleItemLoaded: 'on-svg-item-loaded',
+        };
         // svg list view item 
         function __init_svg_i() {
             var n = this.getAttribute("igk:svg-name");
-            if (m_item[n]) {
+            if (m_item[n]) { 
                 this.rmClass("igk-svg-lst-i");
                 // replace 
                 var g = $igk(m_item[n]).clone();
@@ -5280,11 +5289,11 @@
                 g.o.setAttribute("class", this.o.className);
                 p.replaceChild(g.o, this.o);
                 if (p.getAttribute("title")) {
-                    $igk(p).qselect("svg > title").remove();
-                    // console.debug("remove title "+p.getAttribute('title'));
+                    $igk(p).qselect("svg > title").remove(); 
                 }
+                _loader.raiseEvent(_event.onSvgSingleItemLoaded, {name:n, className:this.o.className, item: g.o}); 
             } else {
-                console.debug("item not found :" + n);
+                console.debug("item not found [" + n + "]");
             }
         };
 
@@ -5304,11 +5313,7 @@
         // svg list init svg list
         function __init_svg_l() {
             igk.dom.body().select(".igk-svg-lst").each_all(__initlist);
-            // var s = igk.dom.body().add("style");
-            // s.o["type"]="text/css";
-            // s.o["class"]="igk-svg-lst-manager";
-            // s.setHtml("\/*igk.js : script init svg *\/ .igk-svg-lst svg, .igk-svg-lst svg.no-visibible{width:1px; height:1px; }");
-            // s.remove();
+            _loader.raiseEvent(_event.onSvgItemLoaded);  
         }
         igk.ready(__init_svg_l);
         igk.winui.initClassControl("igk-svg-lst", function () {
@@ -5317,6 +5322,7 @@
         igk.ajx.fn.initBeforeReady(function () {
             $igk(this).select(".igk-svg-lst").each_all(__initlist);
         });
+      
         igk.winui.initClassControl("igk-svg-lst-i", __init_svg_i);
         igk.winui.createSVGLi = function (n) {
             if (m_item[n]) {
@@ -5324,11 +5330,30 @@
                 return g;
             } else {
                 console.error("[igk] - svg-lst-item <<" + n + ">> not found");
-            }
+            } 
         };
-        // igk.ajx.fn.registerNodeReady(function(){	
-        // $igk(this).select(".igk-svg-lst").each_all(__initlist);
-        // });
+        const _loader = igk.createNode('div');
+        const onSvgItemLoaded = _loader.addEvent(_event.onSvgItemLoaded, {});
+        const onSvgSingleItemLoaded = _loader.addEvent(_event.onSvgSingleItemLoaded, {});
+        igk.system.createNS('igk.control.svgLoader', {
+            /**
+             * register event on item loaded
+             */
+            ready(fc){ 
+                _loader.on(_event.onSvgItemLoaded, fc);
+            }, 
+            onItemReady(fc){
+                _loader.on(_event.onSvgSingleItemLoaded, fc);
+
+            },
+            /**
+             * raise event
+             */
+            raise(){
+                onSvgItemLoaded.raiseCreateEvent();
+            }
+
+        });
     })();
     // when server sending ajx response  . css can be added we need to reload the css target
     (function () {
@@ -6071,15 +6096,16 @@
         };
 
         /**
-         * init form vview helper 
+         * init form control 
          */
         function __init_form() {
-            // console.log('init forms... control');
+            // + | console.log('init forms... control');
             this.qselect('input').each_all(function () {
-                let opts = this.o.getAttribute('data-igk-options');
-                if (opts) {
-                    this.form_options = JSON.parse(opts);
-                }
+                let opts = this.o.getAttribute('data-igk-options'); 
+               
+                this.form_options = ((opts) ? JSON.parse(opts) : null) || {}; 
+                const max_ln = this.form_options['max-length'];
+
                 if (this.supportClass('number')) {
                     this.on('keypress', _handler.number);
                     this.on('paste', _handler.pastenumber);
@@ -6089,11 +6115,12 @@
                 } else if (this.supportClass('phone-number')) {
                     if (this.o.value) {
                         this.o.value = this.o.value.replace(/[^0-9]/, "");
-                    }
-                    this.setAttribute('maxlength', 20);
+                    } 
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
                 }
+                if (max_ln)
+                    this.setAttribute('maxlength', max_ln);
             });
         };
         igk.winui.initClassControl('igk-form', __init_form);

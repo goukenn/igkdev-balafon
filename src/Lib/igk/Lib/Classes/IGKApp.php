@@ -281,7 +281,7 @@ class IGKApp extends IGKObject
         // | init environment
         // |
         if ( self::$sm_instance !=null){
-            igk_trace();
+            // igk_trace();
             igk_die("App already started...");
         }
         igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());

@@ -4,7 +4,13 @@
 // @date: 20230303 18:15:13
 namespace IGK\Helper;
 
+use IGK\Controllers\ApplicationModuleConfigurationInfo;
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
+use IGK\System\Controllers\ApplicationModules;
+use IGK\System\Modules\ModuleManager;
+use IGKEvents;
+use stdClass;
 
 ///<summary></summary>
 /**
@@ -12,6 +18,7 @@ use IGK\Controllers\BaseController;
 * @package IGK\Helpers
 */
 class ApplicationModuleHelper{
+    const SYS_ENV_KEY = 'sys://init_controller/modules';
     /**
      * get module name form class 
      * @var  $class_name get module name form class 
@@ -37,9 +44,37 @@ class ApplicationModuleHelper{
      */
     public static function ImportRequiredModule(array $required_conf, BaseController $ctrl){ 
         // + | load build requirement
-        array_map(function($n){
+        array_map(function($n)use ($ctrl){
             if (empty($n))return;
-            igk_require_module($n);
+            $module = igk_require_module($n);
+            if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_METHOD )){
+                igk_reg_hook(IGKEvents::HOOK_INIT_INC_VIEW, function()use($module){
+                    $doc = igk_ctrl_current_doc() ?? igk_die('require document');  
+                    $module->initDoc($doc); 
+                });
+            }
         },array_keys($required_conf));  
+    }
+    /**
+     * get module required info
+     * @return mixed|ApplicationModuleConfigurationInfo
+     */
+    public static function GetModuleRequireInfo(\IGK\Controllers\ApplicationModuleController $module, ?BaseController $ctrl){
+        $g = igk_environment()->get(self::SYS_ENV_KEY);
+        $v_cif = igk_getv($g, get_class($ctrl)); 
+        $v_n = self::GetConfigKey($module); // str_replace('.', '/', ltrim($module->getName(), '.'));
+        if ($info = igk_getv($v_cif, $v_n)){
+            if ($info instanceof stdClass){
+                $info = Activator::CreateNewInstance(ApplicationModuleConfigurationInfo::class, $info );
+
+            }
+            return $info;
+        } 
+    }
+    /**
+     * return get configuration key
+     */
+    public static function GetConfigKey(\IGK\Controllers\ApplicationModuleController $module):string{
+        return str_replace('.', '/', ltrim($module->getName(), '.'));
     }
 }

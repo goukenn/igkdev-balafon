@@ -182,7 +182,7 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
         $ar=1;
     }
     $zip=new ZipArchive();
-    if($zip->open($outfile, ZIPARCHIVE::CREATE) ===true){
+    if($zip->open($outfile, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ===true){
         if($ar){
             foreach($dir as $m){
                 $kname=basename($m);

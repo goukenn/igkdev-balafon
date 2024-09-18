@@ -45,6 +45,7 @@ require_once IGK_LIB_DIR . "/Lib/functions-helpers/module.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/assets.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/php.php";  
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/string.php";  
+require_once(IGK_LIB_DIR."/Lib/functions-helpers/docs.php"); 
 require_once IGK_LIB_DIR . "/igk_functions.php";
 
 //----------------------------------------------------------------------------------

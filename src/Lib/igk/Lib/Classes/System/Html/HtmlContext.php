@@ -26,11 +26,11 @@ abstract class HtmlContext{
     /**
      * html tag that need to be closed with a closed tag
      */
-    const HtmlAutoCloseTag = "a|html|body|title|span|code|ul|li|ol|pre|p|button|videos|audio|select|option|head|script|style|div|form|header|main|footer|frame|iframe|nav|tr|td|th|table|textarea|noscript|i|b|u";
+    const HtmlAutoCloseTag = "a|html|body|title|span|code|ul|li|ol|pre|p|button|video|audio|select|option|head|script|style|div|form|header|main|footer|frame|iframe|nav|tr|td|th|table|textarea|noscript|i|b|u";
     /**
      * html tag that denied a close tag
      */
-    const EmptyTags =  "br|input|hr|img|source|link|meta|base|col|embed|param|track|wbr";
+    const EmptyTags =  "br|hr|img|input|source|link|meta|base|col|embed|param|track|wbr";
 
     protected function __construct(){        
     }

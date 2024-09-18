@@ -158,6 +158,7 @@ $def['.no-speudo-a:after'] =  "display:none;";
 
 
 $def[".overflow"] = "overflow: auto;";
+$def['.overflow-visible'] = 'overflow:visible;';
 
 $def[".ellipsis"]= "text-overflow:ellipsis;";
 $def[".wrapnormal"] = "white-space:normal;";
@@ -215,6 +216,8 @@ $def[".disptabr"] = " display: table-row;min-height:0px;";
 //-----------------------------------------------------------------
 $def[".dispflex"] =  
 $def[".flex"] = "display: flex;";
+$def[".dispiflex"] = 
+$def[".flexi"] ="display:inline-flex";
 $def[".flex-no-wrap"] = "flex-wrap: nowrap;";
 $def[".flex-wrap"] = "flex-wrap: wrap;";
 $def[".flex-wrap-reverse"] = "flex-wrap: wrap-reverse;";
@@ -223,6 +226,10 @@ $def[".flex-column"] =
 $def[".flex-col"] = "flex-direction: column;";
 $def[".flex-column-i"] =
 $def[".flex-col-i"] = "flex-direction: column !important;";
+
+foreach([2,4, 6, 8,14,16,22,24,32,48,64] as $i){
+    $def[".flex-gap-".$i] = "gap: {$i}px";
+}
 
 $def[".flex-row"] = "flex-direction: row;";
 $def[".flex-row-i"] = "flex-direction: row !important;"; // flex-row-important

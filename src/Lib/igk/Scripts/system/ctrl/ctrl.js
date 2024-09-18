@@ -66,6 +66,11 @@
         }
     };
 
+    /**
+     * bind ready component attribute on node 
+     * @param {*} n node
+     * @param {*} de definition attribute
+     */
     function __callReadyFunc(n, de) {
         if (!n || (m_readylist == null) || m_callflag) {
             return;
@@ -81,6 +86,7 @@
         m_callflag = 0;
         if (i != j)
             console.debug("after call to ready list " + m_readylist.getCount());
+ 
     }
 
     function __readyFuncEventArgs() {
@@ -330,7 +336,9 @@
                     var s = node.getElementsByTagName('*');
                     if (s) {
                         for (var i = 0; i < s.length; i++) {
-                            igk.invokeAsync(__callBindAttribData, s[i]);
+                            // + | invoke async
+                            // + | component need to be loaded on non blocking thread
+                            igk.invokeAsync(__callBindAttribData, s[i]); 
                         }
                     }
                 } else {
@@ -343,11 +351,15 @@
                             break;
                     }
                 }
-            }
+            } 
         },
         getAttribData: function () { // get binding schema help
             return m_attrib_datas;
         },
+        /**
+         * register ready on control component
+         * @param {callback} func 
+         */
         registerReady: function (func) {
             // register a callback function that will be called everytime new node is added to document in igk.ajx.fn.initnode chain.
             // initnode use it in 'igk.ready' callback to maintain chain. function will be call for every node.

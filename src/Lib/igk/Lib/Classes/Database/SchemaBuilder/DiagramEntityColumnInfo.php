@@ -24,7 +24,7 @@ class DiagramEntityColumnInfo implements IDbColumnInfo
      public function __construct()
      {
           $this->clType = "Int";
-          $this->clTypeLength = "9";
+          $this->clTypeLength = 9;
      }
 
      /**

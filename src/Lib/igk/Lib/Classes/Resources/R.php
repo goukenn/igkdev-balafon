@@ -291,7 +291,8 @@ final class R extends IGKObject {
     }
     ///<summary></summary>
     /**
-    * 
+     * get support lang regex
+    * @var string
     */
     public static function GetSupportLangRegex(){
         $cnf = igk_configs();
@@ -299,7 +300,7 @@ final class R extends IGKObject {
         if (is_array($r)){
             return implode("|", $r);
         }
-        return $r; 
+        return $r ?? 'en'; 
     }
     ///<summary></summary>
     /**

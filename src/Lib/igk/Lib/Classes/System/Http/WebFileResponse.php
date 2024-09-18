@@ -57,6 +57,7 @@ class WebFileResponse extends RequestResponse{
             $this->headers[] = "Content-Encoding: deflate";
         } 
         if ($type = igk_io_path_ext($this->file)){
+            // replace header from mime type 
             $mime = igk_header_mime();
             $charset = $this->charset;
             if ($charset)

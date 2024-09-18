@@ -7,18 +7,31 @@
 namespace IGK\System\Html\Forms\Validations;
 
 
-class FloatValidator extends FormFieldValidatorBase implements IFormValidator{
+class FloatValidator extends FormFieldValidatorBase implements IFormValidator
+{
 
-    public function assertValidate($value): bool { 
+    public function assertValidate($value): bool
+    {
         return is_numeric($value);
     }
 
-    protected function _validate($value, $default=null, & $error=[], ?object $options=null){    
-        if (is_numeric($value)){
+    protected function _validate($value, $default = null, &$error = [], ?object $options = null)
+    {
+        if (is_numeric($value)) {
             return floatval($value);
         }
-        if (is_numeric($default)){
+        if (is_numeric($default)) {
             return floatval($default);
+        }
+        if ($options) {
+            if (igk_getv($options, 'required')) {
+                $error[] = 'data - failed';
+                return false;
+            }
+
+            if (igk_getv($options, 'allowNull')) {
+                return null;
+            }
         }
         return 0.0;
     }

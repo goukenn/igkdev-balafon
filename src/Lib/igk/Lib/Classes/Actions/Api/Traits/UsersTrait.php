@@ -1,24 +1,23 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UsersTrait.php
-// @date: 20230505 11:01:10
-namespace IGK\Actions\Api;
+// @date: 20240909 09:21:30
+namespace IGK\Actions\Api\Traits;
 
 use IGK\Actions\Api\FormData\UserApiChangePwdFormData;
 use IGK\Database\DbExpression;
-use IGK\Helper\JSon;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
-use IGKException;
 
 ///<summary></summary>
 /**
- * 
- * @package IGK\Actions\Api
- */
+* 
+* @package IGK\Actions\Api\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 trait UsersTrait
 {
     /**

@@ -644,7 +644,7 @@ EOF;
                     if (igk_count($tab) < 2) {
                         igk_ilog("not family:" . $family);
                     }
-                    $sizes = implode(";", array_filter(explode(",", $g)));
+                    $sizes = implode(";", array_filter(explode(',', $g)));
 
                     $fdir = igk_google_get_fontdir();
                     igk_io_createdir($fdir);

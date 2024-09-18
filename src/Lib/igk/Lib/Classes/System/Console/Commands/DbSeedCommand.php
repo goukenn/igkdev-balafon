@@ -19,7 +19,18 @@ class DbSeedCommand extends AppExecCommand{
 	/* var $options=[]; */
 	public function exec($command, $ctrl = null, $class = null) {
 		DbCommandHelper::Init($command);
-		// Transformo to namespace class
+		if (is_null($class)){
+			if (is_null($ctrl)){
+				$ctrl = self::ResolveController($command, null, false);
+			}else{
+				$bctrl = self::GetController($ctrl, false);
+				if (!$bctrl){
+					$class = $ctrl;
+					$ctrl = self::ResolveController($command, null, false);
+				}
+			}
+		}
+		// Transform to namespace class
 		DbCommandHelper::Seed($ctrl, $class); 
 		return 0; 
 	}

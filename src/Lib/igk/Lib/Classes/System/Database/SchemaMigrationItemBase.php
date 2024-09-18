@@ -9,6 +9,7 @@ namespace IGK\System\Database;
 
 use IGK\System\Html\Dom\HtmlCommentNode;
 use DbSchemas;
+use Google\Service\Vision\Property;
 use IGKException;
 use IGKHtmlCommentItem;
 
@@ -18,6 +19,9 @@ abstract class SchemaMigrationItemBase{
     protected $raw;
     protected $fill_properties;
 
+    public function __isset($name){
+        return  property_exists($this->raw, $name);
+    }
     public function __get($name){
         return igk_getv($this->raw, $name);
     }

@@ -11,7 +11,8 @@ namespace IGK\Database;
  * query database option
  * @package IGK\Database
  */
-class DbQueryOptions{
+class DbQueryOptions implements IDbQueryOptions{
+    const PROP_COLUMNS = 'Columns';
     /**
      * selected columns 
      * @var ?array 
@@ -33,7 +34,5 @@ class DbQueryOptions{
      * 
      * @var mixed
      */
-    var $GroupBy;
-
-    
+    var $GroupBy; 
 }

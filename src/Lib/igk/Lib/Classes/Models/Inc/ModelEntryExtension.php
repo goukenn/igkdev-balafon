@@ -6,9 +6,11 @@
 
 namespace IGK\Models;
 
+use Closure;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbQueryCondition;
+use IGK\Database\DbQueryOptions;
 use IGK\System\Database\QueryBuilder;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSchemas;
@@ -20,6 +22,9 @@ use IGK\System\Console\Logger;
 use IGK\System\Models\Traits\ModelExtensionTrait;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Database\DbQuerySelectColumnBuilder;
+use IGK\System\Database\DbUtils;
+use IGK\System\Database\JoinTableOp;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Models\Traits\ModelInitDbExtensionTrait;
 use IGK\System\Regex\MatchPattern;
@@ -27,6 +32,7 @@ use IGKEvents;
 use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
+use ReflectionClass;
 use ReflectionException;
 use stdClass;
 
@@ -276,7 +282,7 @@ abstract class ModelEntryExtension
         $driver = $model->getDataAdapter();
         $cl = get_class($model);
         if ($data = $driver->select($model->getTable(), $conditions, $options)) {
-            $columns = ($options ? igk_getv($options, 'Columns') : null);
+            $columns = ($options ? igk_getv($options, DbQueryOptions::PROP_COLUMNS) : null);
 
             foreach ($data->getRows() as $row) {
                 $v_data = $row->to_array();
@@ -302,6 +308,7 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter();
     }
+    
     /**
      * create query condition for grammar helper
      * @param ModelBase $model 
@@ -542,6 +549,14 @@ abstract class ModelEntryExtension
         igk_unreg_hook(IGKEvents::HOOK_DB_INSERT, null);
         return false;
     }
+    /**
+     * request last inserted model
+     * @return ?static 
+     */
+    public static function last(ModelBase $model, ?string $column=null){
+        $key = $model->getPrimaryKey();
+        return $model->select_row([$column ?? $key => $model->last_id()]);
+    }
     public static function last_id(ModelBase $model)
     {
         return $model->getDataAdapter()->last_id();
@@ -771,7 +786,7 @@ abstract class ModelEntryExtension
                         $r = [];
                         $r["type"] = "datalist";
                         $stb = [];
-                        foreach (explode(",", $info->clEnumValues) as $g) {
+                        foreach (explode(',', $info->clEnumValues) as $g) {
                             $stb[] = ["i" => $g, "t" => $g];
                         }
                         $r["data"] = $stb;
@@ -1188,8 +1203,7 @@ abstract class ModelEntryExtension
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function Add(ModelBase $model, $params)
-    {
+    public static function Add(ModelBase $model, $params){
         return self::_Add($model, false, ...array_slice(func_get_args(), 1));        
     }
     public static function AddIfNotExists(ModelBase $model, $params)
@@ -1339,7 +1353,7 @@ abstract class ModelEntryExtension
             if (isset($result->$prop)) {
                 return $result->display();
             } else {
-                if ($cl = $model->getController()->resolveClass('Database\Macros\Display')) {
+                if ($cl = $model->getController()->resolveClass(EntryClassResolution::DbMacrosDisplay )) {
                     $g = new $cl();
                     return $g->display($result);
                 }
@@ -1401,8 +1415,117 @@ abstract class ModelEntryExtension
             }
         }
     }
+    /**
+     * retrieve column's list from model 
+     * @param ModelBase $model 
+     * @param null|Closure|string $prefix 
+     *  - if `Closure` (string $column_name, string $full_column_name, ModelBase $model):?string
+     * @param null|Closure|array|string $filter 
+     * @return null 
+     * @throws IGKException 
+     */
+    public static function columnList(ModelBase $model, $prefix=null, $filter=null){
+        $keys = array_keys($model->getTableColumnInfo());
+        $tkey = null;
+        $keys = array_map(function($a)use($model, & $tkey, $prefix, $filter){
+            if ($filter){
+                $cond = ($filter instanceof Closure) && ($filter($a, $model));
+                $cond = $cond || (is_array($filter) && in_array($a, $filter));
+                $cond = $cond || (is_string($filter) && preg_match($filter, $a));
+    
+                if ($cond) return;
+            }
+            $t = $model::column($a);
+            $v = null;
+            if ($prefix instanceof Closure){
+                $v = $prefix($a, $t, $model);
+            }else if (is_string($prefix) && (strlen($prefix = trim($prefix))>0)){
+                $v = $prefix.$a;
+            } else if (is_array($prefix) && key_exists($a, $prefix)){
+                $v = $prefix[$a];
+            }
+            if ($v)
+                $tkey[$t] = $v; 
+            else 
+                $tkey[] = $t;
+        }, $keys);
+        return $tkey;
+    }
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param array $args 
+     * @return array 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public static function columnOnlyArray(ModelBase $model, array $args){
+        $prefix = igk_getv($args, 'prefix');
+        unset($args['prefix']);
+        $tm = array_unique(array_values($args));
+        $tp = DbUtils::ModelColumns($model, ...$tm);
+        $l = DbUtils::OnlyColumnFilterRegex(implode("|",array_values($tp)));
+        if (empty($l)){
+            $l = null;
+        }
+        return $model::columnList($prefix, $l);
+
+    }
+
+    public static function columnSelectArray(ModelBase $model, string $column, ...$args){
+        $m = count($args)>0? $args:[];
+        $tp = DbUtils::ModelColumns($model, ...array_merge([$column], $m)); 
+        return array_values($tp); 
+    }
+
+    /**
+     * pad string value
+     * @param ModelBase $model 
+     * @param string $column 
+     * @param mixed $value 
+     * @param int $pad 
+     * @param int $def default length if clTypeLength is missing 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function strPadValue(ModelBase $model, string $column, $value, string $pad_value='0', int $pad=STR_PAD_LEFT, int $def=10){
+        $cl_ref= $column;
+        $ln =igk_getv($model->getTableColumnInfo(), $cl_ref) ?? igk_die("missing columns");
+        $length = intval($ln->clTypeLength ?? $def);
+        return str_pad($value, $length, $pad_value, $pad);
+
+    }
+
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param string $column_short_name 
+     * @param mixed $call calling expression column_full_name/callable
+     * @param mixed $type operator type
+     * @return array 
+     * @throws IGKException 
+     */
+    public static function joinTableColumnOn(ModelBase $model, string $column_short_name, $call=null, string $type=null, $operand=JoinTableOp::EQUAL){
+        $cl = get_class($model);
+		$rt = $cl::column($column_short_name);
+        $grammar = $model->getDataAdapter()->getGrammar();
+
+		$c = [];
+		if ($call){
+            $s = $grammar->createJoinOperation($operand, $rt, $call);
+		    $c[] = $s;
+            if ($type)
+		        $c["type"] = $type;
+		    return [$cl::table()=>$c];
+		}
+		return [$cl::table()]; 
+    }
+
+    public static function joinTableTargetOn(ModelBase $model, $column){
+        return $model::column($column);
+    }
 
     // public static function resolve(ModelBase $model, $id){
-
     // }
 }

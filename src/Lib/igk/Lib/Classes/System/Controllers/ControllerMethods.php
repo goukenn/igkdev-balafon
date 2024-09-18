@@ -17,4 +17,5 @@ abstract class ControllerMethods{
     // + | 
     const setupTheme = 'setupTheme';
     const getPrimaryTheme = 'getPrimaryTheme';
+    const register_autoload = 'register_autoload';
 }

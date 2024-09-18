@@ -9,6 +9,7 @@ use IGK\System\IAnnotation;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 use ReflectionMethod;
+use Reflector;
 
 ///<summary></summary>
 /**
@@ -17,6 +18,7 @@ use ReflectionMethod;
  */
 final class AnnotationHelper
 {
+    const REGEX_USES = "/use\s+(?P<name>[^\s;]+)(\s+as\s+(?P<alias>[^\s+;]+))?/im";
     private static $sm_cacheData;
 
     private static function &_GetCacheData()
@@ -120,7 +122,7 @@ final class AnnotationHelper
         return null;
     }
     /**
-     * get uses
+     * Get uses attached to a source class. use class, interface or trait 
      * @param string $class_name 
      * @return mixed 
      * @throws IGKException 
@@ -137,32 +139,62 @@ final class AnnotationHelper
             }
         }
 
-        $content  = self::_ReadUsesFileHeader($v_fn, $vinfo);
+        $v_tq = [[$v_fn, $ref]]; 
         $v_uses = [];
-        if ($v = preg_match_all("/use\s+(?P<name>[^\s;]+)(\s+as\s+(?P<alias>[^\s+;]+))?/im", $content, $tab)) {
-            for ($i = 0; $i < $v; $i++) {
-                $n = $tab['name'][$i];
-                $a = $tab['alias'][$i];
-                $v_uses[$n] = basename(igk_uri(empty($a) ? $n : $a));
+        $v_source = [];
+        while(count($v_tq)>0){
+            list($v_fn, $ref) = array_shift($v_tq);
+            $vinfo = null;
+            $content  = self::_ReadUsesFileHeader($v_fn, $vinfo);
+            if ($v = preg_match_all(self::REGEX_USES, $content, $tab)) {
+                for ($i = 0; $i < $v; $i++) {
+                    $n = $tab['name'][$i];
+                    $a = $tab['alias'][$i];
+                    $v_uses[$n] = basename(igk_uri(empty($a) ? $n : $a));
+                }
             }
+            $v_source[$v_fn] = 1;
+            $utraist = $ref->getTraitNames();
+            $iface = $ref->getInterfaceNames();
+            $utraist = array_merge($utraist,  $iface);
+            array_map(function($a) use (& $v_tq, $v_source){
+                $v_p = igk_sys_reflect_class($a); // new ReflectionClass($a);
+                $v_tf= $v_p->getFileName();
+                if ($v_tf && !isset($v_source[$v_tf])){
+                    // load source
+                    $v_tq[$v_tf] = [$v_tf, $v_p]; 
+                }
+            },$utraist); 
+            
         }
         return $v_uses;
     }
     /**
      * get method annotation 
-     * @param ReflectionMethod $method 
+     * @param Reflector|ReflectionMethod $method 
+     * @param array $v_use list of use
+     * @param ?array $filter array for annotation to retreive
      * @return array|null 
      * @throws IGKException 
      */
-    public static function GetMethodAnnotations(ReflectionMethod $method, & $v_use = null)
+    public static function GetAnnotations(Reflector $method, & $v_use = null, ?array $filter=null)
     {
-        $class = $method->getDeclaringClass()->getName();
-        $v_uses = $v_use ?? self::GetUses($class);
+        $ref_class = function($method){
+            $class = null;
+            if (method_exists($method, 'getDeclaringClass')){
+                $class = $method->getDeclaringClass()->getName();
+            } else{
+                $class = $method->getName();
+            }
+            return $class ? self::GetUses($class): [];
+        };
+        
+        $v_uses = $v_use ?? $ref_class($method); 
 
         $comment = $method->getDocComment();
         if ($comment) {
             $reader = new PhpDocBlocReader;
-            $p = $reader->readDoc($comment, $v_uses);
+            $p = $reader->readDoc($comment, $v_uses, $filter);
             $r_annotations = [];
             $v_loads = [];
             foreach ($p->getAnnotations() as $a) {

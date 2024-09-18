@@ -96,8 +96,10 @@ Factory::form("cref", function () {
 
 /**
  * add field to form tag 
+ * @param array[<string,IFieldInfo>,string]| $fields list of field info 
+ * @param mixed|callable|array $datasource_or_callback to handle radio or some value
  */
-Factory::form("fields", function ($fields, ?array $datasource = null, ?object $engine = null, ?string $tag = null) {
+Factory::form("fields", function ($fields, $datasource_or_callback = null, ?object $engine = null, ?string $tag = null) {
 	if ($f = igk_html_parent_node()) {
 		$f->addFields(...func_get_args());
 	} 

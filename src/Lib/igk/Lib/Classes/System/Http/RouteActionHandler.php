@@ -63,7 +63,7 @@ class RouteActionHandler extends RouteHandler
         $this->path = $path;
         $this->classBind = $handleClass;
         $this->type = $type;
-        $this->verbs = is_string($verb) ? array_map("trim", explode(",", $verb)) : (is_array($verb) ? $verb : ['*']);
+        $this->verbs = is_string($verb) ? array_map("trim", explode(',', $verb)) : (is_array($verb) ? $verb : ['*']);
         $this->ajx = false; 
     }
     /**

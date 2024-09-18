@@ -18,7 +18,6 @@ use IGK\System\WinUI\IViewLayoutLoader;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
-use function igk_getv_isset as get_arg; 
 
 /**
  * view layout loader
@@ -33,14 +32,14 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      */
     var $m_params;
     /**
-     * 
-     * @var mixed
+     * header view file
+     * @var ?string
      */
     var $header;
 
     /**
-     * footer view 
-     * @var mixed
+     * footer view file 
+     * @var ?string
      */
     var $footer;   
 
@@ -111,22 +110,35 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      * @throws Exception 
      */
     public function include(string $file, ?array $args = null){
-  
+ 
         $response = null;
         $ctrl =  $this->controller;  
         $this->controller->setExtraArgs(["layout"=>$this]);
         $v_main = $this->isMainLayout($file); 
         $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view;
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
-        if (!$v_main &&  $this->exists($this->header)){
-            igk_include_view_file($this->controller, $this->header, true, $args);   
+        
+        $v_header = $this->_resolveContextFile($this->header, dirname($file));
+        $v_footer = $this->_resolveContextFile($this->footer, dirname($file));
+
+        
+        if (!$v_main &&  $this->exists($v_header)){
+            igk_include_view_file($this->controller, $v_header, true, $args);   
         }
         $response = igk_include_view_file($this->controller, $file, $v_no_cache, $args);        
-        if (!$v_main &&  $this->exists($this->footer)){
-            igk_include_view_file($this->controller, $this->footer, true, $args);
+        if (!$v_main &&  $this->exists($v_footer)){
+            igk_include_view_file($this->controller, $v_footer, true, $args);
         }
         $this->afterInc();
         return $response;
+    }
+
+    private function _resolveContextFile($file, $bdir){
+        $g = array_values(array_filter(explode($this->controller->getViewDir(), $file,2)));
+        if (file_exists($f = $bdir.$g[0])){
+            return $f;
+        }
+        return $file;
     }
 
     /**

@@ -8,15 +8,15 @@ use IGK\Helper\Activator;
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Converters\Converter;
-use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\FormBuilder;
-use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Html\HtmlNodeTagExplosionDefinition;
-use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\IFormBuilderDataSource;
+use IGK\System\Html\IFormFieldContainer;
 use IGK\System\Http\CookieManager;
 use IGK\System\IO\Path;
+use IGK\System\WinUI\Forms\IFormFieldDataForm;
 use IGK\System\WinUI\Menus\MenuItemInfo;
 
 use function igk_resources_gets as __;
@@ -33,11 +33,12 @@ if (!function_exists('igk_html_init')) {
         return HtmlUtils::Init($n, $data);
     }
 }
-if (!function_exists('igk_create_rnode')){
+if (!function_exists('igk_create_rnode')) {
     /**
      * helper : to create relative node. no parameter need in chain.
      */
-    function igk_create_rnode($tag){
+    function igk_create_rnode($tag)
+    {
         return HtmlNodeTagExplosionDefinition::Core()->setup($tag, []);
     }
 }
@@ -124,12 +125,12 @@ function igk_html_get_class_callable($name, $method)
 }
 
 
- 
+
 function igk_html_print_r($args)
 {
     igk_wl_pre($args);
 }
- 
+
 
 ///<summary></summary>
 ///<param name="t"></param>
@@ -339,7 +340,7 @@ function igk_html_build_form_array_entry($name, $type, $n, $value = null)
  */
 function igk_html_build_menu(?HtmlItemBase $target, $menuTab, $callback = null, $user = null, $ctrl = null, $default = "li", $sub = "ul")
 {
-    if (empty($menuTab)){
+    if (empty($menuTab)) {
         return;
     }
     $render = 0;
@@ -347,7 +348,7 @@ function igk_html_build_menu(?HtmlItemBase $target, $menuTab, $callback = null, 
         $target = igk_create_node($sub);
         $render = 1;
     }
-    
+
     igk_html_load_menu_array($target, $menuTab, $default, $sub, $user, $ctrl, $callback);
     if ($render) {
         $target->renderAJX();
@@ -409,9 +410,9 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
         foreach ($tab as $k => $v) {
             $_k = $k;
             if (is_string($v) && is_numeric($k)) {
-                $k = $v;                
-                if ($v == '-'){ 
-                    if (($tc = count($o))> 0){
+                $k = $v;
+                if ($v == '-') {
+                    if (($tc = count($o)) > 0) {
                         $o[$tc - 1]->separatorAfter = true;
                     }
                     continue;
@@ -434,7 +435,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
                 "index" => null,
                 "id" => $k,
                 "level" => $v_isr ? 0 : igk_count(explode(".", $st)),
-                'separatorAfter'=>false
+                'separatorAfter' => false
             );
             if (is_array($v)) {
                 $kk = igk_getv($v, "index");
@@ -466,8 +467,8 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
     $root = array();
     $sd = array();
     $user = $user ?? new \IGK\System\Security\DeniedUser();
-    
-    $fc_bind = function (& $sd, $k, $hi, $lkey, $u, $ajx, $s, $obj, $item_build_callback, $init){
+
+    $fc_bind = function (&$sd, $k, $hi, $lkey, $u, $ajx, $s, $obj, $item_build_callback, $init) {
         $item_build_callback($hi, $lkey, $u, $ajx, $s);
         if ($init) {
             $init($hi);
@@ -543,8 +544,7 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             if ($hi == null) {
                 igk_die($item . " create null");
             }
-            $fc_bind ($sd, $k, $hi, $lkey, $u, $ajx, $s, $obj, $item_build_callback, $init);
-           
+            $fc_bind($sd, $k, $hi, $lkey, $u, $ajx, $s, $obj, $item_build_callback, $init);
         } else {
             if ($mi == null) {
                 $mi = $target;
@@ -552,11 +552,9 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
             $hi = $mi->add($item);
             $lkey =  __("menu." . $k);
             $s = $_binduri($s, $ctrl);
-            $fc_bind ($sd, $k, $hi, $lkey, $s, false, $s, $obj, $item_build_callback, null);
-            
-       
+            $fc_bind($sd, $k, $hi, $lkey, $s, false, $s, $obj, $item_build_callback, null);
         }
-        if ($separatorAfter){
+        if ($separatorAfter) {
             $sep = $mi->add($item);
             $sep['class'] = 'menu-separator';
             $sep->hsep();
@@ -895,8 +893,8 @@ function igk_html_form_select_data(array $data, $callback)
 ///<summary>build form field on modele view </summary>
 /**
  * 
- * @param IFormFieldOptions[]|mixed $formFields 
- * @param null|array $datasource 
+ * @param IFormFieldOptions[]|array|IFormFieldDataForm $formFields 
+ * @param mixed|array|Closure|IFormBuilderDataSource $datasource 
  * @param int $render 
  * @param mixed $engine 
  * @param string $tag 
@@ -904,13 +902,35 @@ function igk_html_form_select_data(array $data, $callback)
  * @throws IGKException 
  * @throws Exception 
  */
-function igk_html_form_fields($formFields, ?array $datasource = null, $render = 0, $engine = null, $tag = "div")
+function igk_html_form_fields($formFields, $datasource = null, $render = 0, $engine = null, $tag = "div")
 {
+
+    if ($formFields instanceof IFormFieldContainer) {
+        $formFields = $formFields->getFields();
+    }
     $o = "";
     $builder = new FormBuilder();
     $builder->datasource = $datasource;
     $o = $builder->build($formFields, $render, $engine, $tag);
     return $o;
+}
+
+
+if (!function_exists("igk_get_unique_identifier")) {
+    function igk_get_unique_identifier($length = 3, &$identifers = null)
+    {
+        if (is_null($identifers)) {
+            $identifers = [];
+        }
+        $uid = '';
+        while ($length > 0) {
+            $idx = rand(0, 1);
+            $a = $idx ? 'a' : 'A';
+            $uid .= chr(ord($a) + rand(0, 25));
+            $length--;
+        }
+        return $uid;
+    }
 }
 
 
@@ -1442,14 +1462,18 @@ function igk_html_form_login_fields()
 {
     $fields = [
         "login" => [
-            "type" => "text", "label_text" => __("Login"), "required" => 1,
+            "type" => "text",
+            "label_text" => __("Login"),
+            "required" => 1,
             "attribs" => [
                 "placeholder" => __("email or login"),
                 "autocomplete" => "username"
             ]
         ],
         "password" => [
-            "type" => "password", "required" => 1, "label_text" => __("Password"),
+            "type" => "password",
+            "required" => 1,
+            "label_text" => __("Password"),
             "attribs" => [
                 "placeholder" => __("password"),
                 "autocomplete" => "current-password"
@@ -1471,45 +1495,46 @@ function igk_html_form_login_fields()
  * @return void 
  */
 function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieManager::agree, ?string $uri = null, ?string $id = "cookie-agree")
-{
+{ 
     if (!CookieManager::getInstance()->get($cookiename)) {
         $t->div()->setId($id)->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
-            ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
-                $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
-                    ->setClass('size-16')
-                    ->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
-                $h->article(
-                    $ctrl,
-                    $article,
-                    ["home_cookie" => $uri ?? $ctrl::uri("cookie-details")]
-                );
-                $h->script()->Content = "(a=igk.ctrl.cookie_agree) && a.init('#cookie-agree', '{$cookiename}');";
-            }, $ctrl, $article, $uri, $cookiename);
+        ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
+            $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
+                ->setClass('size-16')
+                ->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
+            $h->article(
+                $ctrl,
+                $article,
+                ["home_cookie" => $uri ?? $ctrl::uri("cookie-details")]
+            );
+            $h->script()->Content = "(a=igk.ctrl.cookie_agree) && a.init('#cookie-agree', '{$cookiename}');";
+        }, $ctrl, $article, $uri, $cookiename);
     }
 }
 
+if (!function_exists('igk_html_conv2html')) {
+
+    /**
+     * helper: convert object to xml representation.
+     * @param mixed $o 
+     * @param int $ignoreEmpty 
+     * @param string $tag 
+     * @param string $numeric_array_tag 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     */
+    function igk_html_conv2html($o, $ignoreEmpty = 1, $tag = "notagnode", $numeric_array_tag = "item")
+    {
+        // + | object to html presentation
+        // + | by default convert name=>value to <name>value</name>
+        // + | for non assiated array must convert to <numeric_array_tag>value<numeric_array_tag>
+        // + | if value object or render support 
+        $conv = new Converter;
+        $conv->ignoreEmpty = $ignoreEmpty;
+        $conv->tag = $tag;
+        $conv->numeric_array_tag = $numeric_array_tag;
+        return $conv->Convert($o);
+    }
+}
 igk_load_library("html_ob");
 igk_load_library("html_json");
-
-
-/**
- * helper: convert object to xml representation.
- * @param mixed $o 
- * @param int $ignoreEmpty 
- * @param string $tag 
- * @param string $numeric_array_tag 
- * @return HtmlItemBase 
- * @throws IGKException 
- */
-function igk_html_conv2html($o, $ignoreEmpty = 1, $tag = "notagnode", $numeric_array_tag = "item")
-{
-    // + | object to html presentation
-    // + | by default convert name=>value to <name>value</name>
-    // + | for non assiated array must convert to <numeric_array_tag>value<numeric_array_tag>
-    // + | if value object or render support 
-    $conv = new Converter;
-    $conv->ignoreEmpty = $ignoreEmpty;
-    $conv->tag = $tag;
-    $conv->numeric_array_tag = $numeric_array_tag;
-    return $conv->Convert($o);
-}

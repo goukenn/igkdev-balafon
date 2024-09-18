@@ -34,7 +34,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     private $m_driver;
     use IteratorTrait;
 
-    public function to_array() {
+    // public function to_json($option = null, int $flag = 0) { }
+
+    public function to_array(): ?array {
+        return null;// yield $this->fetch();
+    }
+    public function generate(){
         return yield $this->fetch();
     }
 

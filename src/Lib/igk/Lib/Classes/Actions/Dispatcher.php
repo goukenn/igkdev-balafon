@@ -210,7 +210,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         //             continue;
         //         }
         //         if ($type == "array") {
-        //             $c = $c ? explode(",", $c) : []; // implode(",", $args[$i]);                                    
+        //             $c = $c ? explode(',', $c) : []; // implode(",", $args[$i]);                                    
         //         } else {
         //             $pattern = igk_getv(self::$sm_matches, $type, ".+");
         //             if (is_string($c) && $c && !preg_match_all("#^" . $pattern . "$#", $c)) {
@@ -297,7 +297,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     continue;
                 }
                 if ($type == "array") {
-                    $c = $c ? explode(",", $c) : []; // implode(",", $args[$i]);                                    
+                    $c = $c ? explode(',', $c) : []; // implode(",", $args[$i]);                                    
                 } else {
                     $pattern = igk_getv(self::$sm_matches, $type, ".+");
                     if (is_string($c) && $c && !preg_match_all("#^" . $pattern . "$#", $c)) {

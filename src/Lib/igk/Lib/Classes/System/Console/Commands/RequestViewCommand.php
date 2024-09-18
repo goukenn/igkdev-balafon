@@ -41,8 +41,7 @@ class RequestViewCommand extends AppExecCommand
         // + | merge - syntax available for php 8
         // + | ----------------------------------
         $opts = [
-            // "--controller:[controller_name]" => "select explicit project controller",
-            "--method:[TYPE]" => "request method type. default is GET",
+             "--method:[TYPE]" => "request method type. default is GET",
             "--user:[ID]" => "user id to use",
             "--render[:type]" => "render default view, (doc|body|head|view) default is view",
             "--ajx" => "enable ajx render mode",
@@ -95,6 +94,7 @@ class RequestViewCommand extends AppExecCommand
                 $json = null;
             }
         }  
+        igk_server()->REDIRECT_STATUS = 200;
         igk_configs()->default_controller = $ctrl->getName();
         $ctrl->getConfigs()->no_auto_cache_view = property_exists($command->options, '--no-cache');
         $this->doRequest($command, $path);

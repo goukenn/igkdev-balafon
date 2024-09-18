@@ -41,6 +41,7 @@ if (!$controller->getUseDataSchema()) {
    
     // $info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($controller->getDataAdapterName(), 'tbllv_stock_products');
     // DbSchemaDefinitions::UnregisterCache($controller);
+    
     if ($tables = $controller->initDbFromSchemas($force)){
         // + | OK for database initialization 
         $controller->initDbConstantFiles();
@@ -48,9 +49,10 @@ if (!$controller->getUseDataSchema()) {
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
-        if (!(($cl = $controller->resolveClass(\Database\DbInitManager::class)) && class_exists($cl, false)
-            && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
-            $cl = \IGK\Database\DbInitManager::class;
+        $v_gcl =  \IGK\Database\DbInitManager::class;
+        if (!(($cl = $controller->resolveClass(IGKConstants::RESOLV_DATABASE_DBINIT_MANAGER_CLASS)) && class_exists($cl, false)
+            && is_subclass_of($cl, $v_gcl))) {
+            $cl = $v_gcl; // \IGK\Database\DbInitManager::class;
         }
         if ($cl) {
             (new $cl($controller))->init($controller);
@@ -58,6 +60,8 @@ if (!$controller->getUseDataSchema()) {
         Database::InitData($controller); 
         igk_set_env(IGK_ENV_DB_INIT_CTRL, $bck);
         $response = true;
+    } else {
+        Logger::warn('no tables found in schemas definition');
     }
 }
  

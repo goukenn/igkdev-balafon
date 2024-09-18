@@ -8,13 +8,19 @@
 namespace IGK\Css;
 
 use IGK\Resources\R;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
 use IGKResourceUriResolver;
 
 class CssThemeResolver
 {
-
+    /**
+     * 
+     * @var ?bool
+     */
+    var $themeResolved;
     /**
      * current theme
      * @var mixed
@@ -73,7 +79,34 @@ class CssThemeResolver
 
     const ATTR_G_RESOLV_MODE = 'sys';
 
+    /**
+     * treat theme value
+     * @param string $value 
+     * @param mixed $theme_export 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws CssParserException 
+     */
+    public function treatThemeValue(string $value, $theme_export){
+        if (!empty($v = $this->treat($value, $theme_export))){
+            return $this->treatInlineValue($v);
+        }
+        return $value;
 
+    }
+    /**
+     * treat parser for inline value
+     * @param string $value 
+     * @return null|string 
+     * @throws IGKException 
+     */
+    public function treatInlineValue(string $value){
+        $v = $value;
+        if (!empty($v) && ($gp = CssParser::Parse($v))){
+            $value = $gp->render();
+        }
+        return $value;
+    }
     /**
      * treat value
      * @param string $value 
@@ -88,8 +121,9 @@ class CssThemeResolver
         if ((strpos($value, "{") === false) &&
             (strpos($value, "(") === false) &&
             (strpos($value, "[") === false)
-        )
+        ){ 
             return $value;
+        }
         // if already resolved - return the resolved value
         if (isset($this->resolv[$value])) {
             return $this->resolv[$value];
@@ -106,6 +140,7 @@ class CssThemeResolver
         $systheme = $this->parent;
         $this->last = $value;
         $v = $v_def = $value;
+        $v_resolv_names = [];
         // + | --------------------------------------------------------------------
         // + | resolve link expression 
         // + |
@@ -124,7 +159,7 @@ class CssThemeResolver
                     $rv = $gtheme->$deftheme[$name];
                 } else {
                     if (isset($v_resolv_names[$name])) {
-                        igk_ilog(["css loop - detection", $v_resolv_names, $name], __FUNCTION__);
+                        igk_ilog(["css loop - detection - ", $name], __FUNCTION__);
                         break;
                     }
                     switch ($type) {
@@ -233,6 +268,7 @@ class CssThemeResolver
                 $vsrc = $v;
             }
         }
+     
         $this->resolv[$v_def] = $v;
         $this->count--;
         return $v;
@@ -324,12 +360,12 @@ class CssThemeResolver
         }
         $chainColorCallback = 
         //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
-        function ($value, & $resolved=null) use (&$chainColors, $v_designmode) {
-
+        function ($value) use (&$chainColors, $v_designmode) {
+            $resolved = & $this->themeResolved;
             // detect color function or var prop
             if (preg_match("/\s*(?P<name>(rgb(a)|var|hsl))\s*\(/i", $value,$data)){
                 if ($data["name"]=="var"){
-                    $p = explode(",", rtrim(substr($value, strpos($value,"(") +1), ')'));
+                    $p = explode(',', rtrim(substr($value, strpos($value,"(") +1), ')'));
                     $root = & $this->theme->getRootReference();
                     $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent"));
                     
@@ -337,7 +373,7 @@ class CssThemeResolver
                 return $value;
             }
 
-            $tab = explode(",", $value);
+            $tab = explode(',', $value);
             $v = trim($tab[0]);
             if ($this->resolver && ($s = $this->resolver->resolveColor($v))){
                 $resolved = true;
@@ -349,6 +385,8 @@ class CssThemeResolver
             }
             if ((empty($s) || ($s == $v)) && (igk_count($tab) > 1)) {
                 $s = trim($def);
+            } else {
+                $resolved = true;
             }
             return $s;
         };
@@ -378,7 +416,7 @@ class CssThemeResolver
                 if (igk_css_var_support()) {
                     $v_r = "var(" . $value . ")" . $a;
                 } else {
-                    $tab = array_slice(explode(",", $value), 1);
+                    $tab = array_slice(explode(',', $value), 1);
                     if (igk_count($tab) > 0) {
                         $v_r = trim(implode(",", $tab));
                     } else {
@@ -447,14 +485,14 @@ class CssThemeResolver
                 $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_uri($value) . "')" : ""), $v);
                 break;
             case self::ATTR_SYS_BGCL: 
-                $tv = explode(",", $value);
+                $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
                 $b = (($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? $this->_get_bgcl($ncl, $themeexport): null) ?? "";
                 $v = str_replace($v_m, $b, $v);
                 break;
             case self::ATTR_SYS_FCL:
-                $tv = explode(",", $value);
+                $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
                 if ($b = $this->_detect_color($tv, $cl, $ncl)){
@@ -463,7 +501,7 @@ class CssThemeResolver
                 $v = str_replace($v_m, $b, $v);
                 break;
             case self::ATTR_SYS_BCL : 
-                $tv = explode(",", $value);
+                $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
 
@@ -471,7 +509,7 @@ class CssThemeResolver
                 $v = str_replace($v_m, $b, $v);
                 break;
             case self::ATTR_SYS_COLOR: 
-                $tv = explode(",", $value);
+                $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
                 // dectect that new design color is and bind default value

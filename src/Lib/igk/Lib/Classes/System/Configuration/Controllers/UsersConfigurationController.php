@@ -22,7 +22,8 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\Cookies;
 use IGK\System\Http\Request;
 use IGK\System\WinUI\Views;
-use IGKDbUtility;
+use IGKAppType;
+use IGKDbModelUtility;
 use IGKEvents;
 use IGKException;
 use IGKHtmlDoc;
@@ -236,7 +237,7 @@ class UsersConfigurationController extends ConfigControllerBase
                 $db = $this->_createDbUtility();
             }
             if (!$db) {
-                $db = new IGKDbUtility($this);
+                $db = new IGKDbModelUtility($this);
             }
         }
         return $db;
@@ -261,7 +262,7 @@ class UsersConfigurationController extends ConfigControllerBase
             $u = $this->app->Session->User;
         if ($u == null)
             return null;
-        $s = new IGKDbUtility($this);
+        $s = new IGKDbModelUtility($this);
         if ($s->connect()) {
             while ($u->clParent_Id) {
                 $r = $s->selectFirstRow($this->getDataTableName(), array("clId" => $u->clParent_Id));
@@ -287,7 +288,7 @@ class UsersConfigurationController extends ConfigControllerBase
             $u = $this->app->Session->User;
         if ($u == null)
             return null;
-        $s = new IGKDbUtility($this);
+        $s = new IGKDbModelUtility($this);
         if ($s->connect()) {
             $r = $s->select($this->getDataTableName(), array("clParent_Id" => $u->clId));
             if ($r->RowCount == 0)
@@ -300,7 +301,11 @@ class UsersConfigurationController extends ConfigControllerBase
     protected function initComplete($context = null)
     {
         parent::initComplete();
-        if (igk_environment()->app_type != "balafon") {
+        if ( ($v_type = igk_environment()->context()) != IGKAppType::balafon){
+            
+            return;
+
+
             igk_reg_hook(IGKEvents::HOOK_DB_TABLECREATED, function ($e) {
                 if (($e->args["1"] == Users::table())) {
                     // TODO : wait for init complete to init data
@@ -312,9 +317,7 @@ class UsersConfigurationController extends ConfigControllerBase
                         $this->setEnvParam('table_created_callback', null);
                     });
                     igk_reg_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, $fc);
-                    igk_reg_hook(IGKEvents::HOOK_DB_POST_GROUP, $fc);
-                    // wait for init complete - init data -
-                    // $this->initDataEntry();
+                    igk_reg_hook(IGKEvents::HOOK_DB_POST_GROUP, $fc); 
                 }
             });
         }

@@ -30,6 +30,11 @@ class DefaultMap{
             return new MappedData((object)$out);
         }, $data);
     }
+    /**
+     * 
+     * @param mixed $data 
+     * @return null|array 
+     */
     public function map($data): ?array {
         if (is_null($data)){
             return null;

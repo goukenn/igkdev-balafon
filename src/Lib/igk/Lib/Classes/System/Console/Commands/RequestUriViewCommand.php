@@ -46,4 +46,11 @@ class RequestUriViewCommand extends RequestViewCommand{
         Logger::info('done');
     }
 
+    public function showUsage()
+    {
+    }
+    public function exec($command, $controller=null, ?string $request=null){
+        return parent::exec($command, igk_configs()->default_controller, $controller);
+    }
+
 }

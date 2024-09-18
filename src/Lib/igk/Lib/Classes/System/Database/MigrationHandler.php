@@ -11,6 +11,7 @@ use IGK\Helper\ArrayUtils;
 use IGK\Helper\IO;
 use IGK\Models\Migrations;
 use IGK\System\Console\Logger;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
@@ -86,10 +87,16 @@ class MigrationHandler{
         return $list ;
 
     }
+    /**
+     * 
+     */
     public function remove(string $name){
-
+        /**
+         * @var \IGK\Controllers\BaseController $ctrl;
+         */
         list($files, $migrations) = $this->_getProps();
         $g = $files;
+        $ctrl = $this->m_controller;
         
 
         while(count($g)>0){
@@ -127,7 +134,7 @@ class MigrationHandler{
         }
     }
     private static function MigrateFile(string $file, BaseController $ctrl, string $method, SchemaMigrationBuilder $schema){   
-        $ns = $ctrl::ns(\Database\Migrations::class);
+        $ns = $ctrl::ns(EntryClassResolution::DbMigrations);
         $tabcl = get_declared_classes();
         $tabc = count($tabcl);  
 
@@ -192,7 +199,7 @@ class MigrationHandler{
             return;
         }
         $ctrl = $this->m_controller;
-        $ns = $ctrl::ns(\Database\Migrations::class);
+        $ns = $ctrl::ns( EntryClassResolution::DbMigrations);
         $tabcl = get_declared_classes();
         $tabc = count($tabcl);    
 

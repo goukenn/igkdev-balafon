@@ -23,7 +23,8 @@ class UserGroupCommand extends AppExecCommand{
 	var $options=[
 		'--controller'=>'set controller'
 	];
-	var $category='user';
+
+	var $category = self::USER_CAT;
 	var $usage = 'user group[] [options]';
 
 	public function exec($command, string $user=null, ...$groups) {  

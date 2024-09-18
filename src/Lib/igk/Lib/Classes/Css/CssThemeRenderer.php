@@ -23,7 +23,7 @@ class CssThemeRenderer
     var $minfile = false;
     /**
      * document 
-     * @var IGK\System\Html\Dom\HtmlDocumentNode
+     * @var \IGK\System\Html\Dom\HtmlDocumentNode
      */
     var $doc;
     /**
