@@ -20,8 +20,7 @@ use IGK\System\SystemUserProfile;
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{
 
     private $m_user;
-    private $m_app_user;
-    protected $m_controller;
+    private $m_app_user; 
 
     protected function registerProfile() { }
 
@@ -35,11 +34,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
 
     public function getUserInfo(){ 
         return $this->m_profile;
-    }
-    public function getController(): ?BaseController
-    {
-        return $this->m_controller;
-    }
+    } 
     /**
      * get project user
      * @return mixed 
@@ -51,8 +46,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
         return $this->m_user;
     }
 
-    public function __construct(Users $user)
-    {
+    public function __construct(Users $user) {
         Users::IsMockInstance($user) && igk_die('mock instance not allowed');
         $this->m_user = $user; 
         parent::__construct();
@@ -68,5 +62,13 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
         $this->m_app_user = $appUser;
         $this->m_controller = $appUser->getController();
         return $this;
+    }
+    /**
+     * get static class instance 
+     * @param mixed $user 
+     * @return static 
+     */
+    protected static function _CreateClassInstance($user){
+        return new static($user);
     }
 }

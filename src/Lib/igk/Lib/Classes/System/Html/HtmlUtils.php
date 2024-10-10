@@ -392,11 +392,14 @@ abstract class HtmlUtils extends DomNodeBase
             $a->addInput("btn.cancel", "submit", __("cancel"))->on("click", "igk.winui.controls.panelDialog.close(); return false;");
         };
     }
+    /**
+     * retrieve allowed input type
+     */
     public static function GetInputType($type)
     {
         static $requireInput;
         if ($requireInput === null) {
-            $requireInput  = explode("|", "text|email|password|checkbox|radio");
+            $requireInput  = explode("|", "text|email|password|checkbox|radio|number|date|datetime-local|color|file|hidden|image|month|range|reset|search|submit|tel|time|url|week");
         }
         if (in_array($type, $requireInput)) {
             return $type;

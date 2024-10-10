@@ -29,7 +29,7 @@ class RouteHandler
      * route type
      * @var string
      */
-    private $type = 'controller';
+    private $route_type = 'controller';
     /**
      * get verbs
      * @var array
@@ -169,14 +169,20 @@ class RouteHandler
         return $this->name;
     }
     /** 
-     * return this type
+     * return route type
      */
     public function getType()
     {
-        return $this->type;
+        return $this->route_type;
     }
 
-    public function __construct($path, $controller)
+    /**
+     * construct route
+     * @param string $path 
+     * @param mixed $controller 
+     * @return void 
+     */
+    public function __construct(string $path, $controller)
     {
         $this->path = $path;
         $this->controller = $controller;

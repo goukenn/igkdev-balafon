@@ -328,6 +328,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             igk_wln_e("can't create data adapter from empty value");
             return null;
         }
+        // + | --------------------------------------------------------------------
+        // + | initialize comment
+        // + |
+        
         self::GetAdapters();
 
         $adapt= & self::$sm_regAdapter; 
@@ -371,8 +375,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
                 return $out;
             }
         }
-        if($throwexception){
-            igk_die("DataAdapter: ".$ctrl. " not found. Driver class expected : ".$n);
+        if($throwexception){ 
+            // igk_wln_e(get_defined_vars(), $adapt, class_exists($n));
+            igk_die("DataAdapter: [".$ctrl."] not found. Driver class expected : ".$n);
         }
         return null;
     }

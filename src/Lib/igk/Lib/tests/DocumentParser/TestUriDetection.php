@@ -18,7 +18,7 @@ class TestUriDetection extends BaseTestCase{
 
     public static function setUpBeforeClass(): void
     {
-        igk_require_module(\igk\devtools::class);
+        igk_require_module('igk\devtools');
     }
 
     public function test_ignore_inline_data(){

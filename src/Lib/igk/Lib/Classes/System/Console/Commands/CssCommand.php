@@ -18,13 +18,18 @@ class CSSCommand extends AppExecCommand{
     var $command = "--css:dist";
     var $desc = "get core balafon css"; 
     var $category = "css";
-  
-    public function help(){
-        parent::help();         
-      
-    }
-    public function exec($command)
-    {    
-        Logger::print(igk_css_doc_get_def(igk_app()->getDoc()));
+    var $usage = '[options]';
+    var $options = [
+        "--min-file"=>"flag: min file",
+        "--theme-export"=>"flag: theme export",
+    ];
+    /**
+     * 
+     */
+    public function exec($command){   
+        $minfile = property_exists($command->options, '--min-file');
+        $theme_export = property_exists($command->options, '--theme-export');
+        $src = igk_css_doc_get_def(igk_app()->getDoc(), $minfile, $theme_export);
+        Logger::print($src);
     }   
 }

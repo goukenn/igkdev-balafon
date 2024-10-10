@@ -11,6 +11,7 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Controllers\SysDbController;
+use IGK\Database\DbConstants;
 use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
@@ -75,6 +76,12 @@ class DbUtils
         }
         return 1;
     }
+    /**
+     * 
+     * @param string $table 
+     * @param BaseController $controller 
+     * @return string 
+     */
     public static function ResolvDefTableTypeName(string $table, BaseController $controller)
     {
         $sys_prefix = igk_configs()->db_prefix;
@@ -82,7 +89,7 @@ class DbUtils
             ($controller instanceof SysDbController) ? $sys_prefix :
             $controller->getConfig('clDataTablePrefix', $sys_prefix);
         if ($prefix && (strpos($table, $prefix) === 0)) {
-            $table = '%prefix%' . substr($table, strlen($prefix));
+            $table = DbConstants::PREFIX_KEY . substr($table, strlen($prefix));
         }
         return $table;
     }

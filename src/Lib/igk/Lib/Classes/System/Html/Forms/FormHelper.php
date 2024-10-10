@@ -15,6 +15,11 @@ use IGKException;
  */
 class FormHelper{
 
+    public static function ConvertToInputDateTimelocal(string $datevalue) {
+        $i =  strtotime($datevalue);
+        return date('Y-m-d', $i).'T'.date('H:i', $i);
+    }
+
     /**
      * get submit callable
      * @return Closure 

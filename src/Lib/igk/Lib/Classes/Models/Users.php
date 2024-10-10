@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @date: 20240918 08:19:26
+// @date: 20240922 19:45:49
 namespace IGK\Models;
 
 
@@ -13,7 +13,6 @@ use IGK\Models\ModelBase;
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
 * @property int $clId
-* @property string $clprofile_ing
 * @property string $clLogin
 * @property string $clGuid
 * @property string $clPwd
@@ -33,9 +32,8 @@ use IGK\Models\ModelBase;
 * @property string $clClassName if clParent_Id then object refer to class name that initialize the sub user
 * @property string|datetime $clcreate_at ="CURRENT_TIMESTAMP" user create at
 * @property string|datetime $clupdate_at ="CURRENT_TIMESTAMP" update user's info at
-* @property string|datetime $clDeactivate_At
+* @property string|datetime $clDeactivate_At user deactivated
 * @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CLPROFILE_ING() - `clprofile_ing` full column name 
 * @method static string FD_CL_LOGIN() - `clLogin` full column name 
 * @method static string FD_CL_GUID() - `clGuid` full column name 
 * @method static string FD_CL_PWD() - `clPwd` full column name 
@@ -58,8 +56,8 @@ use IGK\Models\ModelBase;
 * @method static string FD_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clprofile_ing, string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
-* @method static ?self AddIfNotExists(string $clprofile_ing, string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * @method static array CreateUserApiResponseData() macros function
 * @method static void activate() macros function
 * @method static void addPhoneBookEntry($type,$value) macros function
@@ -75,7 +73,6 @@ use IGK\Models\ModelBase;
 * */
 class Users extends ModelBase{
 	const FD_CL_ID="clId";
-	const FD_CLPROFILE_ING="clprofile_ing";
 	const FD_CL_LOGIN="clLogin";
 	const FD_CL_GUID="clGuid";
 	const FD_CL_PWD="clPwd";
@@ -99,9 +96,9 @@ class Users extends ModelBase{
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%users"; 
+	protected $table = "%prefix%users";
 	/**
-	*override hidden key 
+	*override hidden key
 	*/
 	protected $hidden = ['clPwd'];
 }

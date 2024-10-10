@@ -292,7 +292,7 @@ abstract class DbSchemas
     }
     /**
      * table reference helper 
-     * @param string $tablename 
+     * @param string $tablename table real name
      * @param null|BaseController $ctrl 
      * @return mixed 
      * @throws IGKException 

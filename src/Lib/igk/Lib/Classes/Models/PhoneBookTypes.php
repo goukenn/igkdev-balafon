@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookTypes.php
-// @date: 20240918 08:19:26
+// @date: 20240922 19:45:49
 namespace IGK\Models;
 
 
@@ -39,7 +39,7 @@ class PhoneBookTypes extends ModelBase{
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%phoneBookTypes"; 
+	protected $table = "%prefix%phoneBookTypes";
 	/**
 	* override primary key 
 	*/

@@ -6,6 +6,9 @@
 
 
 ///<summary>Represente class: IGKConstants</summary>
+
+use IGK\System\EntryClassResolution;
+
 /**
 * Represente IGKConstants class
 */
@@ -47,9 +50,7 @@ final class IGKConstants{
     const NS_MODEL_ENTRY = 'Models'; 
     const NS_DATABASE_ENTRY = 'Database';
     // + to avoid inteliphense warning
-    const NS_MACROS_CLASS = 'Database\Macros';
-
-    const RESOLV_DATABASE_DBINIT_MANAGER_CLASS = 'Database\DbInitManager';
+    const NS_MACROS_CLASS = EntryClassResolution::DbMacros; 
     const DB_INIT_MANAGER = \IGK\Database\DbInitManager::class;
     /**
      * get the core version 

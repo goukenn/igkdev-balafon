@@ -7,6 +7,8 @@
 
 namespace IGK\System\Console;
 
+use Exception;
+
 /**
  * use to write logger in console data
  * @package IGK\System\Console
@@ -53,18 +55,39 @@ class Logger{
                 self::print($k.$tabspace.$v);
             }
         }
-    }
-
+    }  
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return void|mixed 
+     * @throws Exception 
+     */
     public static function __callStatic($name, $arguments)
     {
         if (($name!='print') && igk_environment()->NoConsoleLogger){
             return;
         }
-        if (!in_array($name, ['log', 'warning','success','danger','print', 'info','warn', 'printf'])){           
+        if (!in_array($name, ['log', 'warning','success','danger','print', 'info','warn', 'printf', 'offscreen'])){           
             igk_die($name . " - log not in a logger list allowed method ");
         }
-        if (self::$sm_logger){            
-            return self::$sm_logger->$name(...$arguments);
+
+        if ($name==='offscreen'){
+            if (self::$sm_logger){
+                return self::$sm_logger->offscreen();
+            }
+            return null;
+        }
+        if (self::$sm_logger){       
+            $l = Logger::GetColorizer();
+            if ($name!='print'){
+                Logger::SetColorizer(null); 
+                self::$sm_logger->offscreen()->$name(...$arguments);
+            }
+            else{
+                self::$sm_logger->$name(...$arguments);
+            }      
+            Logger::SetColorizer($l);
         }
     }
 }

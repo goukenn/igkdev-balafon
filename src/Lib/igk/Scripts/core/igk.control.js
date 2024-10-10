@@ -1303,7 +1303,7 @@
                 console.debug('[BJS] -/!\v properties ' + item + ' not defined');
             }
         }
-
+        // + | retrieve document set theme 
         function _get_html_theme() {
             var d = document.getElementsByTagName('html')[0];
             return d.getAttribute('data-theme');
@@ -1697,8 +1697,16 @@
             // + | theme manage change theme detections
             // + | register to (prefers-color-scheme: dark)
             // + |
-            function __checkMediaTheme() {
-                const cTheme = _get_html_theme();
+            function __checkMediaTheme(){
+                // priority to meta name definition passed by application 
+                const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
+                let cTheme = _get_html_theme();
+                let _stheme = (meta_theme) ? meta_theme.getAttribute('content') : null;
+                if (_stheme && /\b(dark|light)\b/.test(_stheme) && (_stheme != cTheme)){
+                    //change the document theme specification to match data
+                    document.getElementsByTagName('html')[0].setAttribute('data-theme', _stheme);
+                    cTheme = _stheme;
+                }
                 let m = window.matchMedia('(prefers-color-scheme: dark)');
                 if (!cTheme) {
                     igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
@@ -6087,10 +6095,17 @@
                     }
                 }
             },
+            tel(e){
+                _handler.number(e, false);
+            },
+            pastetel(e){
+                _handler.pastenumber(e, false);
+            },
             integer(e) {
                 _handler.number(e, false);
             },
             pasteinteger(e) {
+                console.log("paste number");
                 _handler.pastenumber(e, false);
             }
         };
@@ -6112,7 +6127,7 @@
                 } else if (this.supportClass('integer')) {
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
-                } else if (this.supportClass('phone-number')) {
+                } else if (this.supportClass('phone-number')|| this.supportClass('tel')) {
                     if (this.o.value) {
                         this.o.value = this.o.value.replace(/[^0-9]/, "");
                     } 

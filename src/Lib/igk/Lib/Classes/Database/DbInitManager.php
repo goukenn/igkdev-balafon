@@ -37,8 +37,7 @@ class DbInitManager{
         $v_auths = [];
         if ($keyname){
             $v_auths['clController'] = $keyname;
-        }
-
+        } 
         foreach($tpro as $k=>$c){
             // init groups
             if (!isset($roles[$k])){                

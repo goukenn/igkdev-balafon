@@ -6,9 +6,9 @@
 // @desc: 
 
 namespace IGK\System\Database\MySQL;
- 
+
 use IGK\Database\DbQueryResult;
-use IGK\Database\DbSingleValueResult;  
+use IGK\Database\DbSingleValueResult;
 use IGK\Database\DbQueryRowObj;
 use IGK\Helper\JSon;
 use IGKException;
@@ -19,9 +19,10 @@ use IIGKQueryResult;
 
 ///<summary>Represent MySQL Query result wrapper</summary>
 /**
-* Represent MySQL Query result wrapper
-*/
-final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult{
+ * Represent MySQL Query result wrapper
+ */
+final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
+{
     private $m_adapterName;
     private $m_columns;
     private $m_dbname;
@@ -34,93 +35,99 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     private $m_tables;
     private $m_type;
     private $m_value;
-    private $m_multitable; 
+    private $m_multitable;
     public function __debugInfo()
     {
         return null;
     }
-    public function success():bool{
+    public function success(): bool
+    {
         return $this->m_rows !== null;
     }
     /**
      * get array for result
      * @return null|iterable 
      */
-    public function to_array():?array{
+    public function to_array(): ?array
+    {
         return $this->getRows();
     }
     /**
      * encode to json 
      * @return mixed 
      */
-    public function to_json($option=null, $json_option=JSON_UNESCAPED_SLASHES){
+    public function to_json($option = null, $json_option = JSON_UNESCAPED_SLASHES)
+    {
         return JSon::Encode($this->to_array(), $option, $json_option);
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    private function __construct(){
-        $this->m_columns=array();
-        $this->m_tables=array();
-        $this->m_rows=array();
-        $this->m_rowsEntity=array();
-        $this->m_irows=array();
-        $this->m_adapterName= IGK_MYSQL_DATAADAPTER;
-        $this->m_type="none";
-        $this->m_result=0;
+     * 
+     */
+    private function __construct()
+    {
+        $this->m_columns = array();
+        $this->m_tables = array();
+        $this->m_rows = array();
+        $this->m_rowsEntity = array();
+        $this->m_irows = array();
+        $this->m_adapterName = IGK_MYSQL_DATAADAPTER;
+        $this->m_type = "none";
+        $this->m_result = 0;
         $this->m_multitable = false;
     }
     ///retult of the query  uses for boolean data
     /**
-    */
-    public function __toString(){
-        return "IGKMySQLQueryResult [RowCount: ".$this->RowCount."]";
+     */
+    public function __toString()
+    {
+        return "IGKMySQLQueryResult [RowCount: " . $this->RowCount . "]";
     }
     ///be aware: don't make call to !== it make bit exhausted
     ///<summary>add a row to query result</summary>
     ///<remark>if build in query result . that will be a copy of the rows</remark>
     /**
-    * add a row to query result
-    */
-    public function addRow($row){
-        if(($this->m_type == "igk_db_query_result") && ($this->m_query == ":igk_build_in_query_result")){
-            if(is_object($row)){
-                $tab=array();
-                foreach($this->m_columns as  $v){
-                    $tab[$v->name]=igk_getv($row, $v->name);
+     * add a row to query result
+     */
+    public function addRow($row)
+    {
+        if (($this->m_type == "igk_db_query_result") && ($this->m_query == ":igk_build_in_query_result")) {
+            if (is_object($row)) {
+                $tab = array();
+                foreach ($this->m_columns as  $v) {
+                    $tab[$v->name] = igk_getv($row, $v->name);
                 }
-                $this->m_rows[]=(object)$tab;
+                $this->m_rows[] = (object)$tab;
             }
             return;
         }
-        if(is_object($row) || (is_array($row) && (count($row) == $this->m_fieldcount))){
-            $this->m_rows[]=(object)$row;
-            $this->m_rowcount=count($this->m_rows);
-        }
-        else{
-            igk_wln_e("row not added ".$this->m_fieldcount. " isarray?".is_array($row). " || iscount? :: ".count($row)." == ".$this->m_fieldcount);
+        if (is_object($row) || (is_array($row) && (count($row) == $this->m_fieldcount))) {
+            $this->m_rows[] = (object)$row;
+            $this->m_rowcount = count($this->m_rows);
+        } else {
+            igk_wln_e("row not added " . $this->m_fieldcount . " isarray?" . is_array($row) . " || iscount? :: " . count($row) . " == " . $this->m_fieldcount);
         }
     }
     ///<summary>create a empty result from result type</summary>
     /**
-    * create a empty result from result type
-    */
-    public static function CreateEmptyResult($result, $seacharray=null){
-        $out=new IGKMySQLQueryResult();
-        $out->m_dbname=$result->m_dbname;
-        $out->m_fieldcount=$result->m_fieldcount;
-        $out->m_rows=array();
-        $out->m_rowsEntity=array();
-        $out->m_query='Empty';
+     * create a empty result from result type
+     */
+    public static function CreateEmptyResult($result, $seacharray = null)
+    {
+        $out = new IGKMySQLQueryResult();
+        $out->m_dbname = $result->m_dbname;
+        $out->m_fieldcount = $result->m_fieldcount;
+        $out->m_rows = array();
+        $out->m_rowsEntity = array();
+        $out->m_query = 'Empty';
         return $out;
     }
-     ///<summary>create a result data</summary>
+    ///<summary>create a result data</summary>
     ///<param name="options">callback or igk_db_create_opt_obj()</param>
     /**
-    * 
-    * @param mixed options callback or igk_db_create_opt_obj()
-    */
+     * 
+     * @param mixed options callback or igk_db_create_opt_obj()
+     */
     /**
      * create a result data
      * @param mixed $dbresult 
@@ -130,285 +137,307 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public static function CreateResult($dbresult, $query=null, $options=null){
+    public static function CreateResult($dbresult, $query = null, $options = null)
+    {
 
         // + | -------------------------------------------------------------------------------------------------
         // + | if option callable - filter for fetch array if return is null . stop fetch. if false =>skip fetch
         // + |
-        
 
-        $_handle=$options && igk_getv($options, 'handle');
+
+        $_handle = $options && igk_getv($options, 'handle');
         $no_primary = igk_getv($options, "NoPrimaryKey");
-        if(!$_handle){
-            if(is_bool($dbresult) || is_numeric($dbresult) || ($dbresult === null)){
+        if (!$_handle) {
+            if (is_bool($dbresult) || is_numeric($dbresult) || ($dbresult === null)) {
                 $out = new DbSingleValueResult();
-                $out->type = is_numeric($dbresult) ? "numeric": "boolean";
+                $out->type = is_numeric($dbresult) ? "numeric" : "boolean";
                 $out->value = $dbresult;
                 $out->query = $query;
                 return $out;
             }
-            if(!$dbresult){
+            if (!$dbresult) {
                 igk_set_error(__METHOD__, "CreateResult - > dbresult  not Define");
                 return null;
-            } 
-            if(is_object($dbresult)){
-                $cl=strtolower(get_class($dbresult));
-                
-                if(!preg_match("/mysql(i)?_result/", $cl)){
-                    $out=new IGKMySQLQueryResult();
-                    $out->m_rowcount=1;
-                    $out->m_rows[]=$dbresult;
-                    $tab=(array)$dbresult;
-                    $out->m_fieldcount=igk_count($tab);
-                    $out->m_type="igk_db_query_result";
-                    $out->m_query=":igk_build_in_query_result";
-                    $i=0;
-                    foreach($tab as $k=>$v){
-                        $out->m_columns[$i]=(object)array("name"=>$k, "typeName"=>"php", "index"=>$i);
+            }
+            if (is_object($dbresult)) {
+                $cl = strtolower(get_class($dbresult));
+
+                if (!preg_match("/mysql(i)?_result/", $cl)) {
+                    $out = new IGKMySQLQueryResult();
+                    $out->m_rowcount = 1;
+                    $out->m_rows[] = $dbresult;
+                    $tab = (array)$dbresult;
+                    $out->m_fieldcount = igk_count($tab);
+                    $out->m_type = "igk_db_query_result";
+                    $out->m_query = ":igk_build_in_query_result";
+                    $i = 0;
+                    foreach ($tab as $k => $v) {
+                        $out->m_columns[$i] = (object)array("name" => $k, "typeName" => "php", "index" => $i);
                         $i++;
-                    } 
+                    }
                     return $out;
                 }
             }
         }
-        if(!igk_db_is_resource($dbresult) || ($dbresult instanceof DbQueryResult )){
+        if (!igk_db_is_resource($dbresult) || ($dbresult instanceof DbQueryResult)) {
             return $dbresult;
         }
-        
-        $c=igk_db_num_rows($dbresult);
-        $out=new IGKMySQLQueryResult();
-        if($_handle){
-            $out->m_adapterName=$options->adapterName ?? $out->m_adapterName;
+
+        $c = igk_db_num_rows($dbresult);
+        $out = new IGKMySQLQueryResult();
+        if ($_handle) {
+            $out->m_adapterName = $options->adapterName ?? $out->m_adapterName;
         }
-        $out->m_rowcount=$c;
-        $out->m_fieldcount=igk_db_num_fields($dbresult);
-        $out->m_type="igk_db_query_result";
-        $out->m_query=$query;
-        $index=0;
-        $prim_key=array();
-        while($d=igk_db_fetch_field($dbresult)){
-            $d->index=$index;
-            $d->typeName=igk_mysql_db_gettypename($d->type);
-            if((isset($d->primary_key) && $d->primary_key) || (igk_mysql_db_is_primary_key($d->flags))){
-                $d->primary_key=1;
-                $prim_key[]=(object)(array("name"=>$d->name, "index"=>$index));
+        $out->m_rowcount = $c;
+        $out->m_fieldcount = igk_db_num_fields($dbresult);
+        $out->m_type = "igk_db_query_result";
+        $out->m_query = $query;
+        $index = 0;
+        $prim_key = array();
+        while ($d = igk_db_fetch_field($dbresult)) {
+            $d->index = $index;
+            $d->typeName = igk_mysql_db_gettypename($d->type);
+            if ((isset($d->primary_key) && $d->primary_key) || (igk_mysql_db_is_primary_key($d->flags))) {
+                $d->primary_key = 1;
+                $prim_key[] = (object)(array("name" => $d->name, "index" => $index));
+            } else {
+                $d->primary_key = 0;
             }
-            else{
-                $d->primary_key=0;
-            }
-            $out->m_columns[$index]=$d;
-            $out->m_tables[$d->table]=$d->table;
+            $out->m_columns[$index] = $d;
+            $out->m_tables[$d->table] = $d->table;
             $index++;
         }
-        $v_primkey= !$no_primary && (count($prim_key) == 1) ? $prim_key[0]->name: null; 
-        $v_primkeyindex=count($prim_key) == 1 ? $prim_key[0]->index: null;
-        $callback=is_callable($options) ? $options: igk_getv($options, self::CALLBACK_OPTS );
-        $_nn=(igk_count($out->m_tables) > 1);
+        $v_primkey = !$no_primary && (count($prim_key) == 1) ? $prim_key[0]->name : null;
+        $v_primkeyindex = count($prim_key) == 1 ? $prim_key[0]->index : null;
+        $callback = is_callable($options) ? $options : igk_getv($options, self::CALLBACK_OPTS);
+        $_nn = (igk_count($out->m_tables) > 1);
         // igk_debug_wln_e("getin ...", $query, $callback);
-        $c=0;
-        while($d=igk_db_fetch_row($dbresult)){
-            $t=array();
-            foreach($out->m_columns as $k=>$s){
-                if(!isset($t[$s->name])){
-                    $t[$s->name]=$d[$s->index];
-                } else { 
-                if ($_nn)
-                    $t[$s->table.".". $s->name]=$d[$s->index];
-                else 
-                    $t[$s->name]=$d[$s->index];
+        $c = 0;
+        while ($d = igk_db_fetch_row($dbresult)) {
+            $t = array();
+            foreach ($out->m_columns as $k => $s) {
+                if (!isset($t[$s->name])) {
+                    $t[$s->name] = $d[$s->index];
+                } else {
+                    if ($_nn)
+                        $t[$s->table . "." . $s->name] = $d[$s->index];
+                    else
+                        $t[$s->name] = $d[$s->index];
                 }
-
             }
-            $obj=  DbQueryRowObj::Create($t);
-            if($callback && !($v_rp = $callback($obj))){
-                if (is_null($v_rp)){
-                    // stop fetching
-                    break;
+            $obj =  DbQueryRowObj::Create($t);
+            $v_index = igk_getv($d, $v_primkeyindex);
+            if ($callback) {
+                if (!($v_rp = $callback($obj, $v_primkey, $v_index, $out->m_rows))) {
+                    if (is_null($v_rp)) {
+                        // stop fetching
+                        break;
+                    }
+                    continue;
                 }
-                continue;
+                /**
+                 * update the rp
+                 */
+                $obj = $v_rp;
             }
             $c++;
-            if($v_primkey){
-                $out->m_rows[$d[$v_primkeyindex]]=$obj;
-            }
-            else if(count($prim_key) > 1)
-                $out->m_rows[]=$obj;
+            if ($v_primkey) {
+                // + | set at index key 
+                $out->m_rows[$v_index] = $obj;
+            } else if (count($prim_key) > 1)
+                $out->m_rows[] = $obj;
             else
-                $out->m_rows[]=$obj;
-            $out->m_irows[]=$obj;
+                $out->m_rows[] = $obj;
+            $out->m_irows[] = $obj;
         }
-        $out->m_rowcount=$c;
-        $out->m_primarykey=$v_primkey;
+        $out->m_rowcount = $c;
+        $out->m_primarykey = $v_primkey;
         $out->m_multitable = $_nn;
 
- 
+
 
         return $out;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getColumnCount(){
+     * 
+     */
+    public function getColumnCount()
+    {
         return igk_count($this->m_columns);
     }
     ///<summary></summary>
     ///<param name="columnname"></param>
     /**
-    * 
-    * @param mixed $columnname
-    */
-    public function getColumnIndex($columnname){
-        if(isset($this->m_columns[$columnname])){
+     * 
+     * @param mixed $columnname
+     */
+    public function getColumnIndex($columnname)
+    {
+        if (isset($this->m_columns[$columnname])) {
             return $this->m_columns[$columnname]->index;
         }
         return -1;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getColumns(){
+     * 
+     */
+    public function getColumns()
+    {
         return $this->m_columns;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getHasRow(){
+     * 
+     */
+    public function getHasRow()
+    {
         return ($this->getRowCount() > 0);
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getQuery(){
+     * 
+     */
+    public function getQuery()
+    {
         return $this->m_query;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getResult(){
-        if(strtolower($this->m_type) == 'boolean'){
+     * 
+     */
+    public function getResult()
+    {
+        if (strtolower($this->m_type) == 'boolean') {
             return igk_getv(igk_getv($this->m_irows, 0), 'clResult');
         }
         return false;
     }
     ///<summary>get the type of result. boolean|numeric|db_result</summary>
     /**
-    * get the type of result. boolean|numeric|db_result
-    */
-    public function getResultType(){
+     * get the type of result. boolean|numeric|db_result
+     */
+    public function getResultType()
+    {
         return $this->m_type;
     }
     ///<summary></summary>
     ///<param name="index"></param>
     /**
-    * 
-    * @param mixed $index
-    */
-    public function getRowArray($index){
-        if(($index < 0) && ($index>=$this->RowCount)){
+     * 
+     * @param mixed $index
+     */
+    public function getRowArray($index)
+    {
+        if (($index < 0) && ($index >= $this->RowCount)) {
             return null;
         }
-        $f=array();
-        $c=0;
-        foreach($this->m_columns as $k){
-            $f[$k->name]=$this->m_rows[$index][$c];
+        $f = array();
+        $c = 0;
+        foreach ($this->m_columns as $k) {
+            $f[$k->name] = $this->m_rows[$index][$c];
             $c++;
         }
-        $f["info"]=array();
-        if(isset($this->m_columns[0]))
-            $f["info"]["sourcetable"]=$this->m_columns[0]->table;
+        $f["info"] = array();
+        if (isset($this->m_columns[0]))
+            $f["info"]["sourcetable"] = $this->m_columns[0]->table;
         return $f;
     }
     ///<summary></summary>
     ///<param name="index"></param>
     /**
-    * 
-    * @param mixed $index
-    */
-    public function getRowAtIndex($index){
-        if(strtolower($this->m_type) == 'igk_db_query_result'){
+     * 
+     * @param mixed $index
+     */
+    public function getRowAtIndex($index)
+    {
+        if (strtolower($this->m_type) == 'igk_db_query_result') {
             return igk_getv($this->m_irows, $index);
         }
         return null;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getRowCount(){
+     * 
+     */
+    public function getRowCount()
+    {
         return igk_count($this->m_rows);
     }
     ///<summary></summary>
     /**
-    * retrieve loaded rows
-    */
-    public function getRows(){
+     * retrieve loaded rows
+     */
+    public function getRows()
+    {
         return $this->m_rows;
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getSuccess(){
+     * 
+     */
+    public function getSuccess()
+    {
         return ($this->resultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
     }
     ///<summary></summary>
     /**
-    * 
-    */
-    public function getTables(){
+     * 
+     */
+    public function getTables()
+    {
         return $this->m_tables;
     }
     ///<summary>get the request value</summary>
     /**
-    * get the request value
-    */
-    public function getValue(){
+     * get the request value
+     */
+    public function getValue()
+    {
         return $this->m_value;
     }
     ///<param name="equalsTab">array for searching </param>
     /**
-    * @param mixed $equalsTab array for searching
-    */
-    public function searchEqual($equalsTab){
-        if(!is_array($equalsTab))
+     * @param mixed $equalsTab array for searching
+     */
+    public function searchEqual($equalsTab)
+    {
+        if (!is_array($equalsTab))
             return null;
-        $t=array();
-        foreach($this->Rows as  $v){
-            $found=true;
-            foreach($equalsTab as $m=>$n){
-                if($v->$m != $n){
-                    $found=false;
+        $t = array();
+        foreach ($this->Rows as  $v) {
+            $found = true;
+            foreach ($equalsTab as $m => $n) {
+                if ($v->$m != $n) {
+                    $found = false;
                     break;
                 }
             }
-            if($found)
-                $t[]=$v;
+            if ($found)
+                $t[] = $v;
         }
-        if(igk_count($t) == 1)
+        if (igk_count($t) == 1)
             return $t[0];
-        if(igk_count($t) == 0)
+        if (igk_count($t) == 0)
             return null;
         return $t;
     }
     ///<summary></summary>
     ///<param name="callback"></param>
     /**
-    * 
-    * @param mixed $callback
-    */
-    public function select($callback){
-        $result=new IGKMySQLQueryResult();
-        $result->m_columns=$this->m_columns;
-        $result->m_type="igk_db_query_filter_result";
-        $result->m_fieldcount=$this->m_fieldcount;
-        foreach($this->m_rows as  $v){
-            if($callback($v)){
-                $result->m_rows[]=$v;
+     * 
+     * @param mixed $callback
+     */
+    public function select($callback)
+    {
+        $result = new IGKMySQLQueryResult();
+        $result->m_columns = $this->m_columns;
+        $result->m_type = "igk_db_query_filter_result";
+        $result->m_fieldcount = $this->m_fieldcount;
+        foreach ($this->m_rows as  $v) {
+            if ($callback($v)) {
+                $result->m_rows[] = $v;
             }
         }
         return $result;
@@ -418,51 +447,53 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     ///<param name="asc" default="true"></param>
     ///<param name="preserveid" default="true"></param>
     /**
-    * 
-    * @param mixed $key
-    * @param mixed $asc the default value is true
-    * @param mixed $preserveid the default value is true
-    */
-    public function SortBy($key, $asc=true, $preserveid=true){
+     * 
+     * @param mixed $key
+     * @param mixed $asc the default value is true
+     * @param mixed $preserveid the default value is true
+     */
+    public function SortBy($key, $asc = true, $preserveid = true)
+    {
         return $this->SortValueBy($key, $asc, null, $preserveid);
     }
     ///<summary>sort result </summary>
     ///<param name="key">mixed. callback | key to sor </param>
     /**
-    * sort result
-    */
-    public function SortValueBy($key, $asc=true, $param=null, $preserveid=false){
-        if(is_callable($key))
-            $param=$key;
-        else{
-            if($param == null){
-                $t=new IGKSorter();
-                $t->key=$key;
-                $t->asc=$asc;
-                $param=array($t, "SortValue");
+     * sort result
+     */
+    public function SortValueBy($key, $asc = true, $param = null, $preserveid = false)
+    {
+        if (is_callable($key))
+            $param = $key;
+        else {
+            if ($param == null) {
+                $t = new IGKSorter();
+                $t->key = $key;
+                $t->asc = $asc;
+                $param = array($t, "SortValue");
             }
         }
-        $tab=$this->m_rows;
+        $tab = $this->m_rows;
         usort($tab, $param);
-        $pm=$this->m_primarykey ?? IGK_FD_ID;
-        if($preserveid){
-            $t=array();
-            foreach($tab as $k){
-                $t[$k->$pm]=$k;
+        $pm = $this->m_primarykey ?? IGK_FD_ID;
+        if ($preserveid) {
+            $t = array();
+            foreach ($tab as $k) {
+                $t[$k->$pm] = $k;
             }
-            $this->m_irows=$tab;
-            $this->m_rows=$t;
-        }
-        else{
-            $this->m_irows=$tab;
-            $this->m_rows=$tab;
+            $this->m_irows = $tab;
+            $this->m_rows = $t;
+        } else {
+            $this->m_irows = $tab;
+            $this->m_rows = $tab;
         }
         return $this;
     }
-    public function toAssocArray($name){
+    public function toAssocArray($name)
+    {
         $o = null;
-        foreach($this->Rows as $r){
-            if ($o===null) $o = [];
+        foreach ($this->Rows as $r) {
+            if ($o === null) $o = [];
             $o[$r->$name] = $r;
         }
         return $o;

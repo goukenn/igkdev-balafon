@@ -87,8 +87,9 @@ use function igk_resources_gets as __;
 * @property bool $support_lang
 * @property bool $website_adminmail
 * @property bool $website_domain
-* @property bool $website_prefix
-* @property bool $website_title
+* @property string $website_prefix
+* @property string $website_title
+* @property string $doc_nocache
 */
 final class IGKAppConfig extends IGKObject {
     const CHANGE_REG_KEY="IGKConfigDataChanged";

@@ -4,6 +4,7 @@
 // @date: 20230731 09:43:36
 namespace IGK\System\Helpers;
 
+use Exception;
 use IGK\System\Annotations\PhpDocBlocReader;
 use IGK\System\IAnnotation; 
 use IGK\System\IO\StringBuilder;
@@ -173,11 +174,12 @@ final class AnnotationHelper
      * get method annotation 
      * @param Reflector|ReflectionMethod $method 
      * @param array $v_use list of use
-     * @param ?array $filter array for annotation to retreive
+     * @param ?array $filter array for annotation to retrieve
+     * @param ?array $output array for annotation to retrieve
      * @return array|null 
      * @throws IGKException 
      */
-    public static function GetAnnotations(Reflector $method, & $v_use = null, ?array $filter=null)
+    public static function GetAnnotations(Reflector $method, & $v_use = null, ?array $filter=null, ?array & $output=null)
     {
         $ref_class = function($method){
             $class = null;
@@ -195,6 +197,9 @@ final class AnnotationHelper
         if ($comment) {
             $reader = new PhpDocBlocReader;
             $p = $reader->readDoc($comment, $v_uses, $filter);
+            if (null !== $output){
+                $output['doc'] = $p;
+            }
             $r_annotations = [];
             $v_loads = [];
             foreach ($p->getAnnotations() as $a) {
@@ -216,6 +221,13 @@ final class AnnotationHelper
         }
         return null;
     }
+    /**
+     * 
+     * @param string $class_name 
+     * @return object 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     static function GetAnnotationInfo(string $class_name)
     {
         $info = self::GetClassAnnotations($class_name);

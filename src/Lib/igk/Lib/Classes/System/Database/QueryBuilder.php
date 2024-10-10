@@ -29,6 +29,7 @@ class QueryBuilder
     private $m_model;
     private $m_with;
     private $m_withTotalCount;
+    private $m_row_listener;
 
     const JOINS = QueryOptions::JOINS;
 
@@ -129,6 +130,16 @@ class QueryBuilder
         return $this->conditions($condition);
     }
     /**
+     * register row listener 
+     * @param ?callable $callback 
+     * @return $this 
+     */
+    public function registerRowListener($callback){
+
+        $this->m_row_listener = $callback;
+        return $this;
+    }
+    /**
      * inner join table
      * @param array $join join table info \
      *  tableTable=>[condition : string[,type=>"left|right"] [, alias=>alias_name] \
@@ -146,7 +157,7 @@ class QueryBuilder
                     igk_die("not a valid table key : " . $k);
                 $k = $v;
                 $v = [];
-            }else
+            } else
                 $v = $join[$k];
             $this->m_options[self::JOINS][] = [$k => $v];
         }
@@ -293,13 +304,14 @@ class QueryBuilder
         if (!isset($this->m_options["primaryKey"])) {
             $this->m_options["NoPrimaryKey"] = 1;
         }
+        $c_count_all = DbConstants::COUNT_ALL_COLUMNS;
         if ($s = $this->m_withTotalCount) {
             if (isset($this->m_options['Columns'])) {
-                $this->m_options['Columns']['Count(*)'] = is_string($s) ? $s : "Count(*)";
+                $this->m_options['Columns'][$c_count_all] = is_string($s) ? $s : $c_count_all;
             } else {
                 $this->m_options['Columns'] = array_merge(
                     [
-                        'Count(*)' => is_string($s) ? $s : "Count(*)",
+                        $c_count_all => is_string($s) ? $s : $c_count_all,
                     ],
                     $tc = $this->model()->queryColumns()
                 );
@@ -336,7 +348,7 @@ class QueryBuilder
         // + | --------------------------------------------------------------------
         // + | create a db fetch result to handle with a foreach in case no need to load every data
         // + |
-        
+
         $driver = $this->m_model->getDataAdapter();
         $query = $this->get_query();
         $res = $driver->createFetchResult($query, null, $this->m_model->getDataAdapter());
@@ -360,12 +372,23 @@ class QueryBuilder
             if (!empty($this->m_with)) {
                 $old_callback = !$v_goptions ? null : igk_getv($v_goptions, IGKQueryResult::CALLBACK_OPTS);
                 $options = [
-                    IGKQueryResult::CALLBACK_OPTS => function ($v) use ($old_callback) {
+                    IGKQueryResult::CALLBACK_OPTS => function ($v, $primaryKey, $primaryKeyIndex, $trows) use ($old_callback) {
                         $row = $v;
                         if ($old_callback && !($row = $old_callback($v))) {
                             return false;
                         }
-                        return self::_BuildRefWith($v, $row, $this->model(), $this->m_with);
+                        if ($primaryKey) {
+                            $_idx = $v->{$primaryKey};
+                            $_lrow = igk_getv($trows, $_idx);
+                            if ($_lrow) {
+                                $row = $_lrow;
+                            }
+                        }
+                        $row = self::_BuildRefWith($v, $row, $this->model(), $this->m_with);
+                        if ($listener = $this->m_row_listener){
+                            $listener($row, $this);
+                        }
+                        return $row;
                     }
                 ];
             } else {
@@ -397,13 +420,13 @@ class QueryBuilder
     }
     /**
      * 
-     * @param mixed $v 
-     * @param mixed $row 
+     * @param mixed $source_row source row 
+     * @param mixed $row update rows
      * @param mixed $model 
      * @param mixed $with 
      * @return mixed 
      */
-    private static function _BuildRefWith($v, $row, $model, $with)
+    private static function _BuildRefWith($source_row, $row, $model, $with)
     {
         $tab = \IGK\Models\ModelBase::RegisterModels();
         $t_root = $model->getTable();
@@ -413,14 +436,25 @@ class QueryBuilder
             if ($ref) {
                 $links = self::_GetLinks($ref, $ctrl);
                 $linktab = [$t_root => 1];
-                self::_BuildRowDef($v, $row, $ctrl, $tab, $with, $links, $linktab);
+                self::_BuildRowDef($source_row, $row, $ctrl, $tab, $with, $links, $linktab);
             }
         }
         return $row;
     }
-    private static function _BuildRowDef($v, $row, $ctrl, $tab, $with, $links, $linktab)
+    /**
+     * 
+     * @param mixed $source_row query row result
+     * @param mixed $row linked rows
+     * @param mixed $ctrl controller
+     * @param mixed $tab list 
+     * @param mixed $with with list 
+     * @param mixed $links links 
+     * @param mixed $linktab linktables 
+     * @return void 
+     */
+    private static function _BuildRowDef($source_row, $row, $ctrl, $tab, $with, $links, $linktab)
     {
-        $row_defs = [$v];
+        $row_defs = [$source_row];
 
         while (count($row_defs) > 0) {
             $v = array_shift($row_defs);
@@ -457,30 +491,48 @@ class QueryBuilder
                     if ($dd = $v->$cl) {
                         if (igk_getv($linktab, $table) === 1) {
                             // resolved in value . ignore root value
+                            continue;
                         } else {
                             $clname = $clname ?? $w_mod->getPrimaryKey();
                             $g = $w_mod::cacheRow([$clname => $dd]);
                             $key = ($linktab[$table]['key'] ?? $clname);
-                            if ($tk = $row->$key){
-                                // if (!is_array($tk)){
-                                //     $tk = [$tk];
-                                // } 
-                                // $tk[] = $g;
-                                // $tk = array_unique($tk); 
-                                $columns_keys[$key][$cl] = $g;
+                            $prim_id = $g->getPrimaryKey();
+                            $v_ref = $g->{$prim_id};
+                            if ($tk = $row->$key) {
+                                if (!isset($columns_keys[$key])) {
+                                    $columns_keys[$key] = (array)$tk;
+                                }
+                                // $columns_keys[$key] = (array)$tk;
+                                if (isset($columns_keys[$key][$cl])) {
+                                    if (!is_array($columns_keys[$key][$cl])) {
+                                        $c_cl = $columns_keys[$key][$cl];
+                                        $c_clk = $c_cl->{$prim_id};
+                                        $columns_keys[$key][$cl] = [$c_clk=>$c_cl];
+                                    }
+                                    if ($prim_id)
+                                        $columns_keys[$key][$cl][$v_ref] = $g;
+                                    else
+                                        $columns_keys[$key][$cl][] = $g;
+                                } else {
+                                    $columns_keys[$key][$cl] = $g;
+                                }
                                 $rm = (object)$columns_keys[$key];
-                                $row->$key = (object)$columns_keys[$key]; // $tk;
-                                // $bcl = array_search($columns_keys, $g);
-                                //igk_wln_e("j :: ", $row);
-                            }else{
+                                $row->$key = $rm;
+                            } else {
                                 $row->$key = $g;
-                                $columns_keys[$key][$cl] = $g;
+                                if (isset($columns_keys[$key][$cl])) {
+                                    if (!is_array($columns_keys[$key][$cl])) {
+                                        $columns_keys[$key][$cl] = [$columns_keys[$key][$cl]];
+                                    }
+                                    $columns_keys[$key][$cl][] = $g;
+                                } else
+                                    $columns_keys[$key][$cl] = $g;
                                 $row_defs[] = DbQueryRowObj::Create($g->to_array());
                             }
                         }
-                    } 
-                } 
-             }
+                    }
+                }
+            }
         }
     }
     /**

@@ -34,4 +34,10 @@ trait JsonPackagePropertyTrait{
      * @var ?bool
      */
     var $private;
+
+    /**
+     * configuration setting
+     * @var mixed
+     */
+    var $config;
 }

@@ -41,12 +41,19 @@ trait ModelTableConstantTrait{
      * @return void 
      */
     public static function InitData(){
+        $fc = 'InsertExtraFields';
         $cl = static::class;
         $model = $cl::$model;
+        $init_fields = method_exists(static::class, $fc);
         foreach($cl::GetConstants() as $ut){
-            $model::createIfNotExists([
+            $fields = [
                 $cl::$field_name=>$ut
-            ]);
+            ];
+            if ($init_fields ){
+                $r = (object)['fields'=> & $fields];
+                call_user_func_array([static::class, $fc], [$r, $ut]);
+            }
+            $model::createIfNotExists($fields);
         }
     }
 }

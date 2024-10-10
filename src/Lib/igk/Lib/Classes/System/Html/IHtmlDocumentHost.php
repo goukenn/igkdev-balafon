@@ -17,6 +17,7 @@ use IGK\System\Html\Dom\HtmlHeadNode;
  * @property ?bool $noPowered disable powered by message
  * @property ?bool $noCoreScript disable core script rendering
  * @property ?bool $noFontInstall enable template mode. 
+ * @property ?bool $noIFrame disable document iframe
  */
 interface IHtmlDocumentHost
 {

@@ -9,6 +9,9 @@ use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 
 
+/**
+ * default model mapping
+ */
 class ModelMapping implements IDataMapper{
     /**
      * model to use
@@ -66,5 +69,9 @@ class ModelMapping implements IDataMapper{
             }
         }
         return [$key, $value]; 
+    }
+    public function __invoke($row)
+    {   
+        return array_map([$this, 'map'], $row->to_array());
     }
 }

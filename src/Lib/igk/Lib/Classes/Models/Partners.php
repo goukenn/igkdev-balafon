@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Partners.php
-// @date: 20240918 08:19:26
+// @date: 20240922 19:45:48
 namespace IGK\Models;
 
 
@@ -37,4 +37,8 @@ class Partners extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%partners";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

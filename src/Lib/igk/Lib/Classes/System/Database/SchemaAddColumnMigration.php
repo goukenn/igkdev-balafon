@@ -6,7 +6,10 @@
 namespace IGK\System\Database;
 
 use IGK\Database\DbColumnInfo;
+use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
+use IGK\Helper\Database;
+use IGK\System\Caches\DBCaches;
 
 /**
  * update migrations
@@ -29,7 +32,8 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         foreach($childs as $c){
             $tc = $c->getTagName();
             if (!empty($tc) && (strtolower($tc) == 'column')){
-                $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
+                $attr = igk_to_array($c->Attributes);
+                $cl = DbColumnInfo::CreateWithRelation($attr, $tb, $ctrl, $tbrelation);           
                 $this->columns[]=$cl; 
             }
         }   
@@ -50,10 +54,19 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($v_table, $ctrl);
         $after = $this->after;
+        $prefix = '';
+        if ($ref = DBCaches::GetTableInfo($tb)){
+            $prefix = $ref->prefix;
+        }
+        $after = Database::AutoPrefixColumn($after, $prefix);
+        
+
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){
                 continue;
             }
+            $hb = $cl->clName;
+            $cl->clName = Database::AutoPrefixColumn($hb, $prefix);
             $ctrl->db_add_column($tb, $cl, $after);
             if ($cl->clIsIndex){
                 $ctrl->db_add_index($tb, $cl->clName);
@@ -62,6 +75,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             if ($after){ // continue after
                 $after = $cl->clName;
             }
+           // $cl->clName = $hb;
         }
     }
     public function down(){

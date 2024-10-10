@@ -1327,8 +1327,19 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         $tb = explode(':', $name);
         if (count($tb) == 1) {
-            // + | create a simple tag name
-            return new HtmlNode($name);
+            // + | -------------------------------------------------------
+            // + | concepts:html: create a simple tag name
+            // + | 
+            $b =  new HtmlNode($name);
+            if ($param){
+                list($content) =  $param;
+                if (is_string($content)){
+                    $b->setContent($content);
+                } else if (is_array($content)){
+                    $b->setAttributes($content); 
+                }
+            }
+            return $b;
         } 
         // + | passing complex tag t_:code as exemple must be handle by the default - tag 
         if ($tag_creating == $name){

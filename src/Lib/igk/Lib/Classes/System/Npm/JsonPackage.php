@@ -38,7 +38,10 @@ class JsonPackage
         return false;
     }
 
-    public function mergeWith($file)
+    /**
+     * mergin configuration file 
+     */
+    public function mergeWith(string $file)
     {
         if (!($package = self::Load($file))) {
             return false;

@@ -16,17 +16,20 @@ abstract class PHPScriptBuilderUtility
         if (!$sources)return null;
 
         $tsrc = "";
+        $root_depth = 0;
+        $v_tcount = 0;
         foreach ($sources as $value) {
             if (!$value)
                 continue;
             $src = file_get_contents($value);
-            $tokens = token_get_all($src);
             $skip_first = false;
-            if (strpos($src, "<?php") === 0){
-                $src = ltrim(substr($src, 5));
+            $tokens = token_get_all($src);
+            if (strpos($src, "<?php") === 0){ 
                 $skip_first = true;
             }
-            
+            if (($root_depth==0) && ($skip_first)){
+                $root_depth=1;
+            }
             $sb = new StringBuilder();
             $declare = 0;
             while(count($tokens)){
@@ -36,14 +39,18 @@ abstract class PHPScriptBuilderUtility
                 if (is_array($v)){
                     $v = $e[1];
                 }
-                if ($skip_first){
-
-                    if ($e[0] == 389){ // T
+                if ($skip_first){ 
+                    $v_tcount++;
+                    // if ($e[0] == 389){ //
+                    //     $n = token_name($e[0]);
+                    //     $skip_first = 0;
+                    //     continue;
+                    // } 
+                    if ($e[0] == T_OPEN_TAG){
                         $skip_first = 0;
                         continue;
                     }
-                    
-                }
+                } 
                 if($e[0] == T_NAMESPACE){
                     $declare = 1;
                     continue;
@@ -55,13 +62,19 @@ abstract class PHPScriptBuilderUtility
                         continue;
                     }
                 }
+                if ($e[0]== T_CLOSE_TAG){
+                    $v_tcount--;
+                }
                 $sb->append($v); 
             }
-            $src = $sb."";
-
-            $tsrc.=$src;
+            $g = rtrim($sb."");
+            if (igk_str_endwith($g, '?>')){
+                $g = substr($g, 0, -2);
+            }
+            $tsrc.=$sb.""; 
         }
-        return "<?php\n".$tsrc;
+        $s = (strpos($tsrc, "<?php") === 0)? '' : "<?php\n";
+        return $s.$tsrc;
     }
 /**
  * 

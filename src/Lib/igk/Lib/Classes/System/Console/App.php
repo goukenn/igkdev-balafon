@@ -62,6 +62,16 @@ class App{
     public function getConfigs(){
         return $this->_configs;
     }
+    /**
+     * context
+     * @return ?string 
+     */
+    public function getContext(){
+        if ($cons = igk_environment()->console){
+            return $cons->type;
+        }
+        return null;
+    }
 
       /**
      * return application level base path 

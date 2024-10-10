@@ -9,6 +9,8 @@ namespace IGK\System\Console\Commands;
 
 use Error;
 use IGK\Controllers\SysDbController;
+use IGK\Helper\ArrayUtils;
+use IGK\Helper\JSon;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -19,6 +21,7 @@ use IGKModuleListMigration;
 use ZipArchive;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\IToArray;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
 
 use function igk_resources_gets as __;
@@ -34,11 +37,12 @@ class MySQLCommand extends AppExecCommand
     var $command = "--db:mysql";
     var $desc = "mysql db managment command";
     var $category = "db";
-    const ACTIONS = 'clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
+    const ACTIONS = 'query|clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
     
     var $action_helps = [
         "drop-tables"=>"[--filter:(tables)]",
-        "dump"=>"--zip,--type:(sql|csv),--filter:expression"
+        "dump"=>"--zip,--type:(sql|csv),--filter:expression",
+        'query'=>'send manual query to mysql dbms'
     ];
     public function sendQuery($query)
     {
@@ -109,6 +113,9 @@ class MySQLCommand extends AppExecCommand
                     if (is_array($filter)){
                         igk_die("--filter as array is not allowed");
                     }
+                    if ($filter){
+                        Logger::info('filter : '.$filter);
+                    }
                     return $this->drop_tables($db, $filter);
                 case 'restore-dump':
                     Logger::info('restore mysql dump');
@@ -143,8 +150,6 @@ class MySQLCommand extends AppExecCommand
                     ));
                     igk_exit();
                     break;
-                
-
                 case "export_schema":
                     // export global schema
                     igk_api_mysql_get_data_schema(DbConfigController::ctrl(), 1, []);
@@ -212,8 +217,12 @@ class MySQLCommand extends AppExecCommand
                 case "preview_create_query":
                     return $this->preview_create_query($ctrl, ...array_slice(func_get_args(), 2));
                 case "resetdb":
+                    /**
+                     * @var mixed
+                     */
+                    $l = $this;
                     igk_environment()->mysql_query_filter = 1;
-                    $db->setSendDbQueryListener($this);
+                    $db->setSendDbQueryListener($l);
                     if ($ctrl && ($c = igk_getctrl($ctrl, false))) {
                         $c = [$c];
                     } else {
@@ -235,11 +244,32 @@ class MySQLCommand extends AppExecCommand
                     }
                     break;
                 default:
+                    if (method_exists($this, $fc = 'action_'.$ac)){
+                        $arg = [$command];
+                        ArrayUtils::AppendArrayItems($arg, array_slice(func_get_args(),1));
+                        return call_user_func_array([$this, $fc],$arg);
+                    }
                     Logger::danger(__("action [{0}] not found", $ac));
                     break;
             }
         }
         return -1;
+    }
+    /**
+     * 
+     * @param mixed $command 
+     * @param string $query 
+     * @return string 
+     */
+    public function action_query($command, string $query){
+        $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
+        // $g = SysDbController::ctrl(true);\
+        $r = $db->sendQuery($query);
+        if (!is_bool($r)){
+            if ($r instanceof IToArray)
+            Logger::print(JSon::Encode($r->to_array(), ['ignore_empty'=>true], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+        return 0;
     }
     /**
      * priview create query list
@@ -248,14 +278,22 @@ class MySQLCommand extends AppExecCommand
     {
         $ad = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         if ($ad instanceof DataAdapter) { 
-            $ad->setSendDbQueryListener($this);
+            /**
+             * @var mixed
+             */
+            $l = $this;
+            $ad->setSendDbQueryListener($l);
             if (!($ctrl && ($ctrl = igk_getctrl($ctrl, false)))) {
                 return -1;
             }
             Logger::info("# preview create query");
             igk_environment()->mysql_query_filter = 1;
             if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
-                $ad->setSendDbQueryListener($this);
+                /**
+                 * @var mixed
+                 */
+                $l = $this;
+                $ad->setSendDbQueryListener($l);
                 $tb = igk_db_get_table_name($table, $ctrl);
                 $def = igk_db_get_table_info($tb);
                 if ($def) {

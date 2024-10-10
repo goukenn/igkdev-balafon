@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Models\Caches\CacheModels;
+use IGK\Models\Users;
 use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
 
@@ -146,6 +148,12 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * @return object|null 
      */
     public function model(){
-        return IGK\Models\Users::createFromCache($this, (object)['clGuid'=>$this->clGuid], []);
+        $model = IGK\Models\Users::model();
+        $key = CacheModels::GetCacheKey($model, Users::FD_CL_GUID, $this->clGuid);
+        if ($o = CacheModels::Get($key)) {
+            return $o;
+        }
+
+        return IGK\Models\Users::createFromCache($this, ['clGuid'=>$this->clGuid], []);
     }
 }

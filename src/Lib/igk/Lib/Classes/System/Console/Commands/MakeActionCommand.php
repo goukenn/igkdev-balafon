@@ -18,6 +18,7 @@ use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use IGK\Actions\MiddlewireActionBase;
+use IGK\Actions\ProjectDefaultAction;
 use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
@@ -28,7 +29,7 @@ class MakeActionCommand extends AppExecCommand{
  
     var $category = "make";
 
-    var $desc = "make new project's action";
+    var $desc = "make new project's action. Contextual command.";
 
     var $options = [ 
         "--type"=>"defaut action type class",
@@ -48,11 +49,21 @@ class MakeActionCommand extends AppExecCommand{
      * @var ?array|?string
      */
     var $uses;
+
+    var $usage = 'controller action_name [options]';
     /**
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
-    public function exec($command, $controller="", $macroName=""){
+    public function exec($command, string $controller=null, string $macroName=null){
+        if (is_null($macroName) && !empty($controller)){
+            if (property_exists($command->options,"--controller")){
+                $ctrl = self::ResolveController($command, null, false) ?? igk_die("missing controller");
+                $macroName = $controller;
+                $controller = $ctrl->getName();
+            }
+        }
+
         if (empty($controller)){
             return false;
         } 

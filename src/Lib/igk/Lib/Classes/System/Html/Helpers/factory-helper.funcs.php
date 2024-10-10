@@ -105,7 +105,20 @@ Factory::form("fields", function ($fields, $datasource_or_callback = null, ?obje
 	} 
 	return $f;
 });
-
+/**
+ * register file input helper
+ */
+Factory::form("file", function (string $name, string $id=null, string $class) {
+	if ($f = igk_html_parent_node()) {
+		$input = $f->addInput(); // Fields(...func_get_args());
+		$f['enctype'] = 'multipart/form-data';
+		$input['type'] = 'file';
+		$input['name'] = $name;
+		$input['id'] = $id ?? $name;
+		$input['class'] = $class ?? 'igk-form-control';
+	} 
+	return $f;
+});
 
 /**
  * help build table definition 

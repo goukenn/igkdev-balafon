@@ -22,8 +22,7 @@ use IGK\System\Html\Dom\HtmlLayoutViewInclusion;
 use IGK\System\Html\Dom\HtmlLooperNode;
 use IGK\System\Html\Dom\HtmlMemoryUsageInfoNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
-use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\Dom\HtmlNodeBase;
+use IGK\System\Html\Dom\HtmlNode; 
 use IGK\System\Html\Dom\HtmlNotifyResponse;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\Dom\HtmlSpaceNode;
@@ -35,6 +34,7 @@ use IGK\System\Html\HtmlJsOptionDefinition;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUsageCondition;
+use IGK\System\Html\IFormFieldContainer;
 use IGK\System\Html\IFormFields;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
@@ -2245,6 +2245,8 @@ if (!function_exists("igk_html_node_fields")) {
 			$datasource = $datasource ?? $v_f->getDataSource();
 			$engine = $engine ?? $v_f->getEngine();
 			$tag = $tag ?? $v_f->getTag();
+		}else if ($fielddata instanceof IFormFieldContainer){
+			$fielddata = $fielddata->getFields();
 		}
 		$o = igk_html_parent_node() ?? igk_die('require parent node context');
 		$a = $fielddata; 
@@ -3060,7 +3062,8 @@ if (!function_exists("igk_html_node_jsclonenode")) {
 	{
 		if (($node == null) || !is_object($node))
 			throw new IGKException("Not valid");
-		if (!is_subclass_of(get_class($node), HtmlNodeBase::class)) {
+		
+		if (!is_subclass_of(get_class($node), HtmlItemBase::class)) {
 			throw new IGKException("not a valid item");
 		}
 		$n = igk_create_node("igk-js-clone-node");
@@ -5846,6 +5849,56 @@ if (!function_exists('igk_html_node_connection_community')){
         return $n;
     }
 }
+
+
+if (!function_exists('igk_html_node_bind')) { 
+    /**
+     * binding node to 
+     * @param mixed ...$arg 
+     * @return void 
+     */
+    function igk_html_node_bind(...$arg)
+    {
+        $p = igk_html_parent_node() ?? igk_die('missing parent node');
+        array_map(function ($a) use ($p) {
+            $q = [$a];
+            while (count($q) > 0) {
+                $a = array_shift($q);
+                if ($a instanceof Closure) {
+                    $a($p);
+                } else if (is_array($a)) {
+                    $q = array_merge($a, $q);
+                } else if (is_string($a)) {
+                    $p->text($a);
+                } else if (is_callable($a)) {
+                    $n = $a($p);
+                    if ($n && ($p !== $n)) {
+                        $p->add($n);
+                    }
+                }
+            }
+        }, $arg);
+        return $p;
+    }
+}
+
+/**
+ * create a centered grid box node
+ */
+function igk_html_node_centerbox_grid(){
+	$n = igk_create_node('div');
+	$n['class']='igk-centerbox-grid';
+	return $n;
+}
+/**
+ * create a centerd box flex box node 
+ */
+function igk_html_node_centerbox_flex(){
+	$n = igk_create_node('div');
+	$n['class']='igk-centerbox-flex';
+	return $n;
+}
+
 
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlHeaderLinkHost.php";

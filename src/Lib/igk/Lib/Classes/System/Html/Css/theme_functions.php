@@ -48,3 +48,15 @@ function igk_theme_screen_mark($property, $style, $prefix = '.igk-')
         $xxlg_screen[$prefix . "xlg-xxlg-$property"]
         = $style;
 }
+
+
+if (false == function_exists('import')){
+    /**
+     * 
+     * @param mixed $uri 
+     * @return void 
+     */
+    function import($uri){
+        echo '@import \'', $uri, '\'', "\n";
+    }
+}

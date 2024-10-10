@@ -12,4 +12,5 @@ interface IConsoleLogger{
     function info($msg);
     function warn($msg);
     function success($msg);
+    function danger($msg);
 }

@@ -34,7 +34,7 @@ class ResetDbCommand extends AppExecCommand
         "--controller:controller_name" => "set controller"
     ];
 
-    var $usage = '[controller] [options]';
+    var $usage = '[controller] [db-command-options] [options]';
 
     public function exec($command, ?string $ctrl = null)
     {
@@ -42,7 +42,7 @@ class ResetDbCommand extends AppExecCommand
         $seed =  property_exists($command->options, "--seed");
         $force = property_exists($command->options, "--force");
         $clean = property_exists($command->options, "--clean");
-        if ($ctrl=='%sys%'){
+        if ($ctrl== self::SYS_CTRL_PLACEHOLDER){
             $ctrl = SysDbController::ctrl();
         }
        
@@ -78,7 +78,7 @@ class ResetDbCommand extends AppExecCommand
                 $ad->close();
             }
         }
-        Logger::success("Done");
+        Logger::success("resetdb - done");
         return 1;
     }
     /**

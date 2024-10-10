@@ -10,8 +10,11 @@ namespace IGK\System\Console;
 use IGK\Resources\R;
 require_once __DIR__.'/IConsoleLogger.php';
 
+/** @package IGK\System\Console */
 class ConsoleLogger implements IConsoleLogger{
     var $app; 
+    private $m_privateOffscreen;
+
     public function __construct($app)
     {
         $this->app = $app;
@@ -24,8 +27,8 @@ class ConsoleLogger implements IConsoleLogger{
         $this->app->print_off($this->app::Gets(App::RED, $msg));
     }
     public function success($msg){
-        $s = $this->app::Gets(App::GREEN, $msg);
-        $this->app->print($s); 
+        $s = $this->app::Gets(App::GREEN, $msg); 
+        $this->app->print($s);  
     }
     public function info($msg){
         $this->app->print($this->app::Gets(App::YELLOW, $msg));
@@ -49,5 +52,8 @@ class ConsoleLogger implements IConsoleLogger{
         $l = [];
             include(R::GetCurrentLangPath());
         return $l;
+    }
+    public function offscreen() : ?IConsoleLogger{
+        return $this->m_privateOffscreen ??($this->m_privateOffscreen = new ConsoleLoggerOffscreen($this));
     }
 }

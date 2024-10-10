@@ -11,6 +11,10 @@ use IGK\System\Html\HtmlReader;
 
 define("IGK_GKDS_LAYERDOCUMENT", "LayerDocument");
 
+/**
+ * 
+ * @package 
+ */
 final class IGKGkdsFile extends IGKObject
 {
 	private $m_source;

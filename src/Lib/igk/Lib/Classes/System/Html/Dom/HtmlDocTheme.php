@@ -39,6 +39,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     const DOC_THEME_KEYSTORAGE = "theme-storage";
     private $m_document;
     private $m_root_ref;
+
+    /**
+     * disable write of css header 
+     * @var ?bool
+     */
+    var $noHeader;
     /**
      * default theme
      * @var ?string
@@ -80,6 +86,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     private $m_charset;
     private $m_namespace;
+    /**
+     * store the entries importations
+     * @var mixed
+     */
+    private $m_imports;
 
     /**
      * inline theme resolution
@@ -96,6 +107,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function setThemeColors(?array $theme_colors){
         $this->m_themeColors = $theme_colors;
+    }
+    public function getImports(){
+        return $this->m_imports;
     }
     /**
      * get theme color by name
@@ -120,6 +134,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
     public function getNamespace(){
         return $this->m_namespace;
+    }
+    public function import($uri){
+        if (null === $this->m_imports){
+            $this->m_imports = [];
+        }
+        $this->m_imports[$uri] = $uri;
+        return $this;
     }
 
     /**
@@ -165,8 +186,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function setThemeColor(string $color, string $value, $themeName='light', $def=null){
         $def = $def ?? $this->getdef();
-        $root = & $this->getRootReference();
-      
+        $root = & $this->getRootReference(); 
         $root['--'.$themeName.'-color-'.$color] = $value;
         
     }
@@ -390,12 +410,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             $systheme = $doc->getSysTheme() ??  igk_app()->getDoc()->getSysTheme();
         }
 
-        if ($this->m_charset){ 
+        if (!$this->noHeader  && $this->m_charset){ 
             $out .= sprintf('@charset %s;%s', $this->m_charset, "\n");
         }
         if ($this->m_namespace){ 
             $out .= sprintf('@namespace %s;%s', $this->m_namespace, "\n");
         }
+        if (!$this->noHeader && $this->m_imports){
+            $out.= CssUtils::RenderImport($this->m_imports);
+        }
+
         $builder = new \IGK\Css\CssThemeResolver();
         $builder->theme = $this;
         $builder->parent = $systheme;

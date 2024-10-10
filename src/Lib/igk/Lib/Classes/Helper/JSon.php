@@ -19,6 +19,7 @@ use stdClass;
 
  class JSon {
     const _map_to_object_method = '_map_to_object';
+    const JSON_PRETTY_VIEW = JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES;
     /**
      * encoding option
      * @var JSonEncodeOption

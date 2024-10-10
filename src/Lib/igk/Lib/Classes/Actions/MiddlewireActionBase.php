@@ -14,9 +14,12 @@ use IGK\System\Http\Request;
 use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\Actions\ActionBase;
+use IGK\Actions\Traits\Authenticator\BearerAuthenticatorTrait;
 use IGK\Helper\ActionHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\Helper\Response;
+use IGK\System\Http\RequestResponseCode;
+use IGK\System\Http\StatusCode;
 use IGKException;
 use Reflection;
 use ReflectionException;
@@ -178,18 +181,18 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         if (!$user){
                             $m = "User required.";
                             $redirect && $this->_handle_redirect($redirect, 302, $m);    
-                            throw new IGKException("User required.", 502);
+                            throw new IGKException("User required.", RequestResponseCode::Forbiden);
                         }
                     }               
                     if($v->isAuthRequired()){
                         if ($user && !$v->isAuth($user)){
                             $m = "Route access not allowed.";
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
-                            throw new IGKException($m, 403);
+                            throw new ActionRequestException($m, RequestResponseCode::Forbiden);
                         } else if (!$user){
                             $m = "Missing required user.";
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
-                            throw new IGKException($m, 401);
+                            throw new ActionRequestException($m, RequestResponseCode::Unauthorized);
                         }
                     }
                     $v->setUser($user);

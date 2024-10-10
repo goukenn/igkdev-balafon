@@ -255,33 +255,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
             "Count(*) as count"
         ];
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);
-        // $o="";
-        // $s=0;
-        // $flag = "";
-        // $extra = null;
-        // if ($options){
-        //     $extra = IGKSQLQueryUtils::GetExtraOptions($options, $this);
-        //     $flag = igk_getv($extra, "flag");
-        // }               
-        // $q="SELECT ";
-        // if (!empty($flag))
-        //     $q.=$flag;
-        // $q.= "Count(*) as count FROM `".igk_mysql_db_tbname($tbname)."`";
-
-        // if ($extra && ($joints = igk_getv($extra, "join"))){            
-        //     $q.= $joints.PHP_EOL;            
-        // }
-
-        // if(is_array($whereTab) && igk_count($whereTab) > 0){
-        //     $q .= " WHERE ".IGKSQLQueryUtils::GetCondString($whereTab);
-        // }
-        // else{
-        //     if(is_string($whereTab)){
-        //         $q .= " WHERE ".igk_db_escape_string($whereTab);
-        //     }
-        // } 
-        // $q .= ";";
-        try {
+      try {
             $g = $this->sendQuery($query, false);
             return $g;
         } catch (Exception $ex) {

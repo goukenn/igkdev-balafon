@@ -114,6 +114,6 @@ class AuthCommand extends AppExecCommand
         }
 
         // igk_wln_e("loging : ", $g, $g->groups());//, $g::getMacroKeys());
-        Logger::print("Done");
+        Logger::print("auth - done");
     }
 }

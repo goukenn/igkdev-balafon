@@ -35,6 +35,7 @@ use TypeError;
  */
 class Dispatcher implements IActionProcessor, IActionDispatcher
 {
+    const DISPATCH_METHOD = 'Dispatch';
     /**
      * 
      * @var null|ActionBase|IActionProcessor|object
@@ -102,7 +103,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
-            self::$sm_macro["Dispatch"] = function ($fc, ...$args) {
+            self::$sm_macro[self::DISPATCH_METHOD] = function ($fc, ...$args) {
 
                 return static::_HandleDispatch($fc, ...$args);
             };
@@ -130,7 +131,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         ) {
             $v_host->getController()->{ControllerParams::REPLACE_URI} = true;
             $targs = array_merge([$fc], $arguments);
-            return self::__callStatic("Dispatch", $targs);
+            return self::__callStatic(self::DISPATCH_METHOD, $targs);
         } else {
             if ($v_host instanceof IActionProcessor) {
                 return call_user_func_array(

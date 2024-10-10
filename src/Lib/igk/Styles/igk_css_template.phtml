@@ -749,6 +749,11 @@ $def[".igk-community-node.inline ul > li"] = "{sys:dispib}";
 $def[".igk-centerbox"] = "{sys:disptable, fit}";
 $def[".igk-centerbox > .content"] = "display:table-cell; text-align:center; vertical-align: middle;";
 
+$def['.igk-centerbox-grid'] = '{sys:dispgrid, fit, alignc} align-items:center;';
+$def['.igk-centerbox-flex'] = '{sys:dispflex, fit, alignc} align-items:center; flex-direction: column; justify-content:center;';
+$def['.igk-centerbox-flex > .igk-row'] = '{sys:fitw}';
+
+
 $def[".igk-svg-lst"] = "{sys:dispn}";
 $def[".igk-winui-toast"] = "{sys:posfix} border-radius: 4px; [fcl:toastForeColor, #eee] [bgcl:toastBackgroundColor, #444] transform:translate(-50%); left:50%; bottom:2rem; padding:{$pad_size}; [trans: 1.4s opacity ease-in-out] z-index:300;";
 $def[".igk-winui-toast.igk-success"] = "[fcl:toastSuccessForeColor, #ddd] [bgcl:toastSuccessBackground, #222]";
@@ -1073,6 +1078,9 @@ $def[".igk-action-group > .igk-btn:last-child:first-child"] =
 $def[".igk-svg-host.svg-fit > svg"] = "{sys: fit}";
 $def[".igk-svg-host.svg-fill > svg"] = "{sys: fit}";
 
+/**
+ * defined selection color 
+ */
 $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
 
 
@@ -1225,3 +1233,6 @@ $def['.height-a'] = "height:auto;";
 
 include_once __DIR__.'/winui/session.pcss';
 include_once __DIR__.'/winui/controls.pcss';
+
+
+$def['html > body '] = 'color: #dde; background-color: #040816; important !;';

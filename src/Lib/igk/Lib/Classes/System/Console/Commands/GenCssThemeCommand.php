@@ -17,7 +17,7 @@ use IGK\System\Html\Css\CssUtils;
 */
 class GenCssThemeCommand extends AppExecCommand{
 
-    var $command = "--gen:css";
+    var $command = "--project:css-dist";
     var $desc = "generate controller's css content command";
     var $usage = "";
     var $category = 'css';

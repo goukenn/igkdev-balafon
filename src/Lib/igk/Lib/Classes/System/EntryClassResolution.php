@@ -21,6 +21,10 @@ abstract class EntryClassResolution{
     const DbInitMacros = 'Database\InitMacros';
     const DbMigrations = 'Database\Migrations';
 
+    const ModelMappingNS = 'Database\Import';
+
+    const CommandEntryNS = '\System\Console\Commands';
+
     const Models = 'Models';
     const UserProfile = 'UserProfile';
     const Roles = 'Roles';
@@ -28,6 +32,12 @@ abstract class EntryClassResolution{
     const Actions = 'Actions';
 
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
+    const WinUI_Form_Validation = '/WinUI/FormValidations';
 
     const SysSyncProject = 'System\Console\Commands\SyncProject';
+    const ProjectProfilesClass = 'Profiles';
+    const AuthorizationClass = 'Authorizations';
+
+
+    const ResponseHandler = 'ResponseHandler';
 }

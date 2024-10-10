@@ -14,6 +14,7 @@ use Exception;
  */
 class RegexMatcherContainer
 {
+    const REGEX_OPTION = '/^\(\?\b(?P<add>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b(:\b(?P<remove>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b)?\)/';
     private $m_matcher = [];
     /**
      * end information 
@@ -62,14 +63,52 @@ class RegexMatcherContainer
                 break;
         }
     }
+    private function _treat(string $b, string & $o){
+        $o = '';
+        if (preg_match(self::REGEX_OPTION, $b, $tab)){
+            $a = $tab['add'];
+            $x = false;
+            if ($a){
+                if (strpos($a, 'i')!==false){
+                    $o.='i';
+                }
+                if (strpos($a, 'm')!==false){
+                    $o.='m';
+                }
+                if (strpos('x', $a)!==false){
+                   $x = true;
+                }
+            }
+            $a = igk_getv($tab, 'remove');
+            if ($a){
+                if (strpos('i', $a)!==false){
+                    $o.= str_replace('i', '', $o);
+                }
+                if (strpos('m', $a)!==false){
+                    $o.= str_replace('m', '', $o);
+                }
+                if (strpos('x', $a)!==false){
+                    $x = false;
+                 }
+            }
+            if($x){
+                // extra data 
+            }
+            $b= substr($b, strlen($tab[0])); 
+        }
+        return $b;
+    }
     public function detect($source, int &$offset = 0)
     {
         $m = $this->m_matcher;
         $result = [];
         $_start_match = function(& $result, $b, $source, & $offset, $k){
             $o = '';
-            $b = $b ? sprintf("/%s/%s", $b, $o) : null;
-            if (preg_match($b, $source, $tab, PREG_OFFSET_CAPTURE, $offset)) {
+            if ($b){
+                $b = $this->_treat($b, $o);
+                $b = sprintf("/%s/%s", $b, $o);
+            } 
+            if ($b && preg_match($b, $source, $tab, PREG_OFFSET_CAPTURE, $offset)) {
                 $result[] = (object)[
                     'pos' => $tab[0][1],
                     'input' => $source,

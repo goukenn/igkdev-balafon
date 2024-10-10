@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Authorizations.php
-// @date: 20240918 08:19:26
+// @date: 20240922 19:45:48
 namespace IGK\Models;
 
 
@@ -39,7 +39,7 @@ class Authorizations extends ModelBase{
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%authorizations"; 
+	protected $table = "%prefix%authorizations";
 	protected $unique_columns = array (
 	  0 => 
 	  array (

@@ -52,7 +52,8 @@ class Colorize
                 "email"=>"\e[38;2;71;100;244m",
                 "string"=>"\e[38;2;151;212;245m",
                 "uri"=>"\e[38;2;253;88;55m",
-                "comment"=>"\e[38;2;30;154;42m"
+                "comment"=>"\e[38;2;30;154;42m",
+                "secret"=>"\e[38;2;30;154;42m",
             ];
             if ($g->tokenID == 'number') {
                 $v_t[] = App::Gets(App::YELLOW, $g->value);
@@ -72,6 +73,7 @@ class Colorize
                         $v = $g->value;
                         $v = preg_replace("/(((http(s)?|ftp|sw|ssl|file):)?\/\/[^\s\"]+)/", App::Gets(igk_getv($v_colors,'uri'), "\$1"), $v);
                         $v = preg_replace("/([a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,6})/", App::Gets(igk_getv($v_colors,'email'), "\$1"), $v);
+                        $v = preg_replace("/(\< secret \>)/", App::Gets(igk_getv($v_colors,'secret'), "\$1"), $v);
                         $ac = igk_getv($v_colors,$g->tokenID, App::RED);
                         $v = str_replace("\e[0m", $ac, $v);
                         $v_t[] = App::Gets($ac, $v);

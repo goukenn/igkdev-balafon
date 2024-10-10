@@ -32,14 +32,14 @@ class WebResponse extends RequestResponse{
 
     /**
      * 
-     * @param mixed $node 
-     * @param int $code 
+     * @param mixed $node node or message to reply
+     * @param int $code status code
      * @param mixed $header 
      * @return void 
      */
-    public function __construct($node, int $code=200, $header=null){
+    public function __construct($node_or_message, int $code=200, $header=null){
         $this->code = $code; 
-        $this->node = $node;
+        $this->node = $node_or_message;
         if ($header){
             $this->headers = $header;
         }
@@ -64,11 +64,22 @@ class WebResponse extends RequestResponse{
             }
         }
     }
-    public function output(){        
+    /**
+     * output web document
+     */
+    public function output(){   
         $cache = $this->cache;
+        $no_iframe = false;
         // + | priority to document cache setting
         if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
+            $doc = $this->node;
             $cache = !$this->node->noCache; 
+            $no_iframe = $doc->noIFrame;
+            if ($no_iframe){ 
+                $this->headers[] = "Content-Security-Policy: frame-src 'none'";
+                // deny viewing in other in frame policy 
+                $this->headers[] = "X-Frame-Options: DENY"; 
+            }
         } 
         $this->_setHeader();
         

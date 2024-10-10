@@ -7,8 +7,10 @@
 namespace IGK\System\Database;
 
 use ArrayAccess;
+use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
+use IGK\Models\ModelBase;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
@@ -17,11 +19,16 @@ use IGKException;
  * schema migration info
  * @package IGK\System\Database
  */
-class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
+class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
+{
     use ArrayAccessSelfTrait;
-    
+
     var $defTableName;
-    var $columnInfo; 
+    var $columnInfo;
+    /**
+     * 
+     * @var mixed
+     */
     var $controller;
     var $description;
     var $entries;
@@ -56,16 +63,14 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
      * @var ?string
      */
     var $prefix;
-    
-    public function _access_OffsetGet($n){
-        if (property_exists($this, $n)){
+
+    public function _access_OffsetGet($n)
+    {
+        if (property_exists($this, $n)) {
             return $this->$n;
         }
     }
-    public function __construct()
-    {
-        
-    }
+    public function __construct() {}
     /**
      * create from cache info
      * @param mixed $d 
@@ -73,17 +78,33 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function CreateFromCacheInfo($d, $gctrl){
+    public static function CreateFromCacheInfo($d, $gctrl)
+    {
         return Activator::CreateNewInstance(static::class,  [
-            'columnInfo' => array_map(function ($a) {                
+            'columnInfo' => array_map(function ($a) {
                 return $a ? Activator::CreateNewInstance(DbColumnInfo::class, $a) : null;
-            }, isset($d->columnInfo) ? (array)$d->columnInfo: []),
+            }, isset($d->columnInfo) ? (array)$d->columnInfo : []),
             'description' => igk_getv($d, 'description'),
             'defTableName' => igk_getv($d, 'defTableName'),
             'controller' => $gctrl,
             'tableName' => $d->tableName,
             'definitionResolver' => null,
-            'prefix'=>igk_getv($d,'prefix')
+            'prefix' => igk_getv($d, 'prefix')
         ]);
+    }
+
+    /**
+     * return model instance
+     * @return ?ModelBase 
+     */
+    public function model()
+    {
+        /**
+         * @var BaseController $ctrl
+         */
+        $ctrl = $this->controller;
+        $cl = $this->modelClass;
+        $ctrl::register_autoload();
+        return $cl ? $ctrl::model($cl) : null;
     }
 }

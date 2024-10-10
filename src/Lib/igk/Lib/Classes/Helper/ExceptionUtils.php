@@ -8,6 +8,7 @@
 namespace IGK\Helper;
 
 use Exception;
+use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
 
@@ -137,6 +138,8 @@ abstract class ExceptionUtils
 </script>
 EOF;
 
+$end_point = GoogleAPIEndPoints::CssEndPoint;
+
         if (igk_is_ajx_demand()) {
             $doc = <<<EOF
 {$scripts}
@@ -155,10 +158,10 @@ EOF;
 	<head>
 	<title>{$r('title.fatalError')}</title>
     {$scripts}
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=swap" rel="stylesheet" />
+    <link href="{$end_point}?family=Roboto+Condensed&display=swap" rel="stylesheet" />
+    <link href="{$end_point}?family=Roboto&display=swap" rel="stylesheet" />
+    <link href="{$end_point}?family=Roboto+Slab&display=swap" rel="stylesheet" />
+    <link href="{$end_point}?family=Material+Icons&display=swap" rel="stylesheet" />
 <style>
 {$trace_css}
 </style>

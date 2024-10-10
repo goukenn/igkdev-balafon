@@ -2212,8 +2212,9 @@ function igk_is_callback_obj($c)
 ///<summary>call it to ignore a specific directory on javascript loading process</summary>
 ///<param name="dir">if dir is null or not an existing directory, return the current directory list</param>
 /**
- * call it to ignore a specific directory on javascript loading process
+ * call it to ignore a specific directory on javascript loading process.
  * @param mixed $dir if dir is null or not an existing directory, return the current directory list
+ * - use configuration files to ignore directory for loading process
  */
 function igk_sys_js_ignore($dir = null)
 {
@@ -2325,12 +2326,18 @@ function igk_set_header(int $code, $message = "", $headers = [])
     }
 
     igk_clear_header_list();
+    $v_secure = igk_configs()->force_secure_redirection;
     $msg = igk_get_header_status($code);
     $txt = "Status: {$code} $msg";
     if (!$fcall) {
         if ($new) {
             header($txt);
             header(IGK_FRAMEWORK . ":" . IGK_CODE_NAME . "-" . IGK_VERSION);
+            // + | -----------------------------------------------------------------
+            // + | for new security strict on https request demand 
+            // + |  
+            header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+            header('X-Content-Type-Options: nosniff');            
         }
     } else {
         header($txt, 1, $code);

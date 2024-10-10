@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookPreferences.php
-// @date: 20240918 08:19:26
+// @date: 20240922 19:45:49
 namespace IGK\Models;
 
 
@@ -42,7 +42,7 @@ class PhoneBookPreferences extends ModelBase{
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%phoneBookPreferences"; 
+	protected $table = "%prefix%phoneBookPreferences";
 	/**
 	* override primary key 
 	*/
@@ -50,7 +50,7 @@ class PhoneBookPreferences extends ModelBase{
 	/**
 	* override refid key 
 	*/
-	protected $refId = "rcphbp_Id"; 
+	protected $refId = "rcphbp_Id";
 	protected $unique_columns = array (
 	  0 => 
 	  array (

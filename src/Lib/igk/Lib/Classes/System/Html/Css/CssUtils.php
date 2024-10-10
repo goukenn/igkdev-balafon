@@ -244,16 +244,42 @@ abstract class CssUtils
         if ($embedresource) {
             $resourceResolver = new EmbedResourceResolver();
         }
-        echo implode("\n", [
-            $systheme->get_css_def(true, true, $resourceResolver),
-            $theme->get_css_def(true, true, $resourceResolver)
-        ]);
+        $list = [$systheme, $theme];
+        $imports = [];
+        $sb= '';
+        $ch = '';
+        while(count($list)>0){
+            $q = array_shift($list);
+            $imports = array_merge($q->getImports() ?? [], $imports);
+            $q->noHeader = true; 
+            $sb .= $ch.$q->get_css_def(true, true, $resourceResolver);
+            $q->noHeader = false;
+            $ch="\n";
+        }
+
+        // echo implode("\n", [
+        //     $systheme->get_css_def(true, true, $resourceResolver),
+        //     $theme->get_css_def(true, true, $resourceResolver)
+        // ]);
+        if ($imports){
+            echo self::RenderImport($imports); 
+        }
+        echo $sb;
         $r = ob_get_contents();
         ob_clean();
         $theme->setRenderOptions(null);
         return $r;
     }
-
+    /**
+     * 
+     * @param array $imports 
+     * @return string 
+     */
+    static function RenderImport(array $imports){
+        return implode(";\n", array_map(function($s){
+                return sprintf('@import "%s"', $s);
+            }, $imports)).";"; 
+    }
     /**
      * get theme by selecting primary theme
      * @param BaseController $controller 
@@ -843,6 +869,8 @@ abstract class CssUtils
     ) {
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
         require_once __DIR__ . "/theme_functions.php";
+
+      
 
         $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
         $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);

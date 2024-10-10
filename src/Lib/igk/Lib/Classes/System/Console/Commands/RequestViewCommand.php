@@ -41,7 +41,7 @@ class RequestViewCommand extends AppExecCommand
         // + | merge - syntax available for php 8
         // + | ----------------------------------
         $opts = [
-             "--method:[TYPE]" => "request method type. default is GET",
+            "--method:[TYPE]" => "request method type. default is GET",
             "--user:[ID]" => "user id to use",
             "--render[:type]" => "render default view, (doc|body|head|view) default is view",
             "--ajx" => "enable ajx render mode",
@@ -57,14 +57,7 @@ class RequestViewCommand extends AppExecCommand
         $this->options = $opts;
         parent::showOptions();
     }
-    public function showUsage()
-    {
-        parent::showUsage();
-        Logger::print(sprintf(
-            "%s controller [request] [options]",
-            App::Gets(App::BLUE, $this->command)
-        ));
-    }
+ 
     public function exec($command, $controller = null, ?string $request = null)
     {
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
@@ -73,7 +66,7 @@ class RequestViewCommand extends AppExecCommand
             return -1;
         }
         $path = ltrim(igk_uri($request ?? ''), '/');
-        $_SERVER['REQUEST_METHOD'] = igk_getv($command->options, '--method', 'GET');
+        $_SERVER['REQUEST_METHOD'] = strtoupper(igk_getv($command->options, '--method', 'GET'));
         $_SERVER['REQUEST_URI'] = '/' . $path; // igk_getv($command->options, '--method', 'GET');
         $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");

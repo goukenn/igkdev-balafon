@@ -398,8 +398,9 @@ class Database
     public static function DropForeignKeys(BaseController $controller)
     {
         $tableinfo = $controller->getDataTableInfo();
-        if ($tableinfo->tables) {
-            $keys = array_keys($tableinfo->tables);
+        $tables = igk_getv($tableinfo, 'tables');
+        if ($tables) {
+            $keys = array_keys($tables);
             $controller->getDataAdapter()->dropForeignKeys($keys);
             return true;
         }
@@ -443,5 +444,21 @@ class Database
             return ['tables' => $tab];
         }
         return null;
+    }
+
+    /**
+     * auto prefix column management 
+     * @param string $column 
+     * @param null|string $prefix 
+     * @return string 
+     */
+    public static function AutoPrefixColumn(string $column, ?string $prefix=null){
+        if(empty($prefix)){
+            return $column;
+        }
+        if (!igk_str_startwith($column, $prefix)){
+            $column = $prefix.$column;
+        }
+        return $column;
     }
 }

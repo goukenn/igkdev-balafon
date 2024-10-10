@@ -39,7 +39,6 @@ class CssThemeResolver
 
     var $resolv = [];
 
-    var $count = 0;
 
     var $start = false;
 
@@ -91,7 +90,7 @@ class CssThemeResolver
         if (!empty($v = $this->treat($value, $theme_export))){
             return $this->treatInlineValue($v);
         }
-        return $value;
+        return $v;
 
     }
     /**
@@ -182,7 +181,7 @@ class CssThemeResolver
         $vresolv = 1;
         $v = trim($v);
         $vsrc = $v;
-        while ($vresolv) {
+        while ($vresolv && !empty($v)) {
             $vresolv = 0;
             $qlist = [$v];
             $roots = [];
@@ -270,7 +269,6 @@ class CssThemeResolver
         }
      
         $this->resolv[$v_def] = $v;
-        $this->count--;
         return $v;
     }
     private function _nextSplitter(string $v, & $pos){
@@ -324,7 +322,6 @@ class CssThemeResolver
      */
     public function reset()
     {
-        $this->count = 0;
         $this->resolv = [];
         $this->start = null;
     }

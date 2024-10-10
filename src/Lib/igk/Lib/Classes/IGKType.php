@@ -12,6 +12,32 @@ use IGK\System\IInjectable;
  */
 class IGKType{
 
+    public static function GetType($m){
+        if (is_array($m)){
+            return 'array';
+        }
+        if (is_object($m)){
+            return get_class($m);
+        }
+        if (is_string($m)){
+            return 'string';
+        }
+        if (is_int($m)){
+            return 'int';
+        }
+        if (is_bool($m)){
+            return 'boolean';
+        }
+        if (is_float($m)){
+            return 'float';
+        }
+    }
+    /**
+     * 
+     * @param ReflectionParameter $param 
+     * @param string $base_type 
+     * @return bool 
+     */
     public static function ParameterIsTypeOf(ReflectionParameter $param, string $base_type):bool{
         $r = false;
         if ($param->hasType()){

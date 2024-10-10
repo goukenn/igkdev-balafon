@@ -8,6 +8,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Html\XML\XmlNodeLoader;
+use IGK\System\Regex\Replacement;
 
 ///<summary></summary>
 /**
@@ -87,6 +88,12 @@ trait SvgTreatTrait{
                     break;    
             } 
         }
+        $m = preg_match('/stroke:\s*[^;\"]+(;)?/', $svg);
+        //remove style store properties on all element
+        $rp = new Replacement;
+        $rp->add('/stroke:\s*[^;\"]+(;)?/', '');
+        $svg = $rp->replace($svg);
+
         $n = XmlNodeLoader::CreateFromContent($svg);
         
         if ($t = $n->getElementsByTagName('svg')){
@@ -96,7 +103,10 @@ trait SvgTreatTrait{
             if (!$t['viewBox'] && $w && $h){
                 $t['viewBox'] = sprintf('0 0 %s %s', $w, $h);
             }
-            $svg = $n->render();
+            if ($m){
+                $t['class'] = 'stroke-only';
+            }
+            $svg = $n->render();            
         }
         return $svg;
     }

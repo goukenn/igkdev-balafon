@@ -307,10 +307,10 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $driver_storage = [];
         }
         $name = "mysql"; 
-        $dbserver = key_exists("server", $options) ?   $options["server"] : func_get_arg(0);
-        $dbuser = key_exists("user", $options)  ? $options["user"] : func_get_arg(1);
-        $dbpwd = key_exists("pwd", $options) ? $options["pwd"] : func_get_arg(2);
-        $port = key_exists("port", $options) ?  $options["port"] : func_get_arg(3);
+        $dbserver = (key_exists("server", $options) ?   $options["server"] : func_get_arg(0)) ?? '';
+        $dbuser = (key_exists("user", $options)  ? $options["user"] : func_get_arg(1)) ??'';
+        $dbpwd = (key_exists("pwd", $options) ? $options["pwd"] : func_get_arg(2)) ?? '';
+        $port = (key_exists("port", $options) ?  $options["port"] : func_get_arg(3) ) ?? '';
         $dbname = (key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  igk_app()->getConfigs()->db_name;
 
         // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
@@ -848,7 +848,9 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         if (igk_db_is_resource($this->m_resource)) {
             if (igk_environment()->querydebug) {
-                igk_dev_wln("query:*** " . $query);
+                $of = Logger::offscreen();
+                if ($of)
+                    $of->print("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
                 igk_environment()->write_debug("<span>query &gt; </span><code type='sql'>'.$query.'</code>" );
             }

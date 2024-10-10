@@ -9,6 +9,7 @@ use Error;
 use IGK\Helper\Activator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Helpers\AnnotationHelper;
+use IGK\System\Html\Forms\FieldInfo;
 use IGK\System\Html\Forms\FormFieldInfo;
 use IGK\System\Html\IFormFieldContainer;
 use IGK\System\Http\Request; 
@@ -30,7 +31,7 @@ abstract class InspectorFormFieldValidationBase implements
      * @param Request $request 
      * @return bool|mixed 
      */
-    public function validateFromRequest(Request $request, array &$error = [])
+    public function validateFromRequest(Request $request, ?array &$error = [])
     {
         $data = (array)$request->getFormData();  
         return $this->validate($data, $error);
@@ -46,13 +47,14 @@ abstract class InspectorFormFieldValidationBase implements
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function validate(array $data, & $error){        
+    public function validate(array $data, ?array & $error=[]){        
         $fields = $this->getFields();
         $validations = [];
         foreach ($fields as $k => $s) {
             if (is_string($s)){
                 $d = new FormFieldInfo;
-                $d->id = $s;
+                $d->id = $s; 
+                $k = $s;
                 $s = $d;
             }else {
                 // + | convert to FormFieldInfo
@@ -83,9 +85,18 @@ abstract class InspectorFormFieldValidationBase implements
             foreach ($v_props_d as $k) {
                 $this->$k = igk_getv($g, $k);
             }
+            $this->onValidationComplete($data, $validations);
             return true;
         }
         return false;
+    }
+
+    /**
+     * on validateion complete 
+     * @return void 
+     */
+    protected function onValidationComplete($data, $validations){
+        // override to validate 
     }
 
      /**
@@ -106,13 +117,21 @@ abstract class InspectorFormFieldValidationBase implements
             if ($def){
                 $v_inf = igk_getv($def, $p->name);
             }
+            $v_output = []; 
             if (is_null($v_inf) && ($annotations = AnnotationHelper::GetAnnotations($p, $v_uses, [
                 FormField::class
-            ]))){
+            ], $v_output))){
                 if (($n = $annotations[0]) instanceof FormField){
                     $n->setInternalId($p->name);
                     $v_inf = $n;
                 }
+            } else {
+                $r = igk_getv($v_output, 'doc');
+                if ($r && $r->var){
+                    $type = explode('|', $r->var, 2)[0];  
+                    $v_inf = new FieldInfo;
+                    $v_inf->type = $type;
+                } 
             }
             if (is_null($v_inf)){
                 $v_filter_p[] = $p->name;

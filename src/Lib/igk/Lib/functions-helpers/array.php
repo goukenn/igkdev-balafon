@@ -372,6 +372,35 @@ if (!function_exists("igk_array_replace_key")) {
         $tab = $vtabcl;
     }
 }
+
+
+if (!function_exists("igk_array_replace_key_array")){
+    /**
+     * replace arrauy association 
+     * @param array $t 
+     * @param array $replace_assoc 
+     * @return array 
+     */
+    function igk_array_replace_key_array(array $t, array $replace_assoc){
+        $rt = [];
+        foreach(array_keys($t) as $p ){
+            $v = $t[$p];
+            if (!is_int($p)){
+                $n = $p;
+                if (key_exists($p, $replace_assoc)){
+                    $n = $replace_assoc[$p];
+                }
+                $rt[$n] = $v;
+
+            }else{
+                $rt[] = $v;
+            }
+        } 
+        return $rt;
+    }
+}
+
+
 if (!function_exists("igk_array_set")) {
     /**
      * append array keys
@@ -466,6 +495,9 @@ if (!function_exists("igk_array_to_obj")) {
             if (igk_count($tt) == 1) {
                 $t[$n] = $v;
             } else {
+                /**
+                 * @var mixed
+                 */
                 $g = null;
                 $nn = array_pop($tt);
                 foreach ($tt as $m) {

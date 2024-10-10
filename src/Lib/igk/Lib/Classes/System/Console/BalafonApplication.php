@@ -64,6 +64,36 @@ class BalafonApplication extends IGKApplicationBase
 
     public $environment;
 
+
+    /**
+     * initialize application modules 
+     * */ 
+    public static function InitModule($v_pdir, $conf, & $argv){
+        if (!preg_match("/--module:/", implode(' ', $argv))) {
+            $cdir = getcwd();
+            $gd = igk_get_packages_dir();
+            $module = igk_conf_get($conf, 'name') ?? $gd;// igk_sys_detect_project_controller($v_pdir);
+            if ($module)
+                $argv[] = "--module:" . $module;
+        }
+        igk_environment()->console = json_decode('{"type":"module"}');
+    }
+    /**
+     * init command project modules
+     * @param mixed $v_pdir 
+     * @param mixed $conf 
+     * @param mixed &$argv 
+     * @return void 
+     * @throws Exception 
+     */
+    public static function InitProject($v_pdir, $conf, & $argv){
+        if (!preg_match("/--controller:/", implode(' ', $argv))) {
+            $controller = igk_conf_get($conf, 'controller') ?? igk_sys_detect_project_controller($v_pdir);
+            if ($controller)
+                $argv[] = "--controller:" . $controller;
+        }
+        igk_environment()->console = json_decode('{"type":"project"}');
+    }
     /**
      * filter arguments list 
      * @param mixed $a 
@@ -73,7 +103,7 @@ class BalafonApplication extends IGKApplicationBase
     public static function FilterArgs($a)
     {
         if (strpos($a, "--wdir:") === 0) {
-            $g = explode(":", $a);
+            $g = explode(":", $a,2);
             if (is_dir($g[1]) || igk_io_createdir($g[1]))
                 chdir($g[1]);
             return null;

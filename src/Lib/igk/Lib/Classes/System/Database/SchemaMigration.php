@@ -21,6 +21,7 @@ use IGK\Database\DbColumnInfoPropertyConstants;
 use IGK\Database\DbModuleReferenceTable;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\Activator;
+use IGK\Helper\Database;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
 use IGK\System\Caches\DBCaches;
@@ -442,7 +443,7 @@ class SchemaMigration
         $tb = null;
 
         switch ($key) {
-            case DbSchemasConstants::OP_ADD_COLUMN: 
+            case DbSchemasConstants::OP_ADD_COLUMN: // + | on add column in migration
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 igk_is_debug() && igk_ilog("add column to :=> ".$tb);
                 if (!isset($tables[$tb])) {
@@ -451,15 +452,18 @@ class SchemaMigration
                     }
                 }
                 $tabcl = &$tables[$tb]->columnInfo;
-                $after = $item->after;
+                list ($prefix) = igk_extract($tables[$tb], 'prefix');
+                $after = $item->after ? Database::AutoPrefixColumn($item->after, $prefix) : null;
                 $keys = null;
                 foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
                     $cl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
+                    $v_clkey = Database::AutoPrefixColumn($cl->clName, $prefix);
                     if ($after) {
-                        $keys[$cl->clName] = $cl;
+                        $keys[$v_clkey] = $cl;
                     } else {
-                        $tabcl[$cl->clName] = $cl;
+                        $tabcl[$v_clkey] = $cl;
                     }
+                    $cl->clName = $v_clkey;
                 }
                 if ($keys) {
                     $index = array_search($after, array_keys($tabcl));

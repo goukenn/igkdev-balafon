@@ -20,7 +20,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
     var $desc = "sync:ftp clear session";
 
     public function exec($command)
-    {
+    { 
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
             return $c;
         }
@@ -39,7 +39,16 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             "sync.command.pinc"
         ], $token, "remove session");
         igk_io_w2file($script_install, $sb);
-        @ftp_put($h, $install = $pdir . "/rm_sessions.php", $script_install, FTP_BINARY);
+        $r = `php -l $script_install`;
+        if ($r && strstr($r , 'Parse error')){
+            Logger::danger("parsing error - ");
+            return -103;
+        }
+        $v_puts = @ftp_put($h, $install = $pdir . "/rm_sessions.php", $script_install, FTP_BINARY);
+        if (!$v_puts){
+            Logger::danger("failed to upload script");
+            return -102;
+        }
         if ($output = igk_curl_post_uri(
             $uri."/rm_sessions.php",
             [
@@ -52,12 +61,17 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
                 "install-token" => $token
             ]
         )){
+            igk_ob_clean();
             Logger::print("response: ");
             Logger::print($output);
+        } else {
+            Logger::danger("failed to exec"); 
         }
         unlink($script_install);
+        Logger::info('remove script');
         FtpHelper::RmFile($h, $install);
         ftp_close($h);
         error_clear_last();
+        Logger::print("done");
     }
 }

@@ -182,16 +182,7 @@ abstract class AppCommand {
             }
         } 
         return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 
-    }
-    /**
-     * create command argument
-     * @return static 
-     */
-    public static function Create(string $args){
-        $pb = null;// new self;
-
-        return $pb;
-    }
+    } 
     /**
      * execute command
      * @param mixed $args 
@@ -208,7 +199,7 @@ abstract class AppCommand {
      * help view
      * @return void 
      */
-    public function     help(){
+    public function help(){
         Logger::print("");        
         Logger::info($this->command. PHP_EOL);
         if ($d = $this->desc){

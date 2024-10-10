@@ -199,6 +199,10 @@ class IGKGD {
         }
         return null;
     }
+    /**
+     * render inline gd
+     * @return string 
+     */
     public function renderURL(){
         return "data:image/png;base64,".base64_encode(igk_ob_get_func(function (){ 
             $this->render();

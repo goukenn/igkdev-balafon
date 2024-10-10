@@ -212,7 +212,7 @@ trait DbColumnInfoTrait
 
   /**
    * use to mark a column in display chain 
-   * @var mixed
+   * @var ?bool
    */
   var $clDisplay;
 
@@ -239,4 +239,18 @@ trait DbColumnInfoTrait
    * @var ?bool
    */
   var $clIsDumpField;
+
+
+  /**
+   * use to configure the 
+   * @var ?IFormFieldDbOptions
+   */
+  var $clFormFieldsOptions;
+
+
+  /**
+   * 
+   * @var boolean trim exceed
+   */
+  var $clNoTrimExceed;
 }

@@ -33,6 +33,7 @@ use IGK\Controllers\Traits\AtricleManagerControllerExtensionTrait;
 use IGK\Controllers\Traits\ControllerDbExtensionTrait;
 use IGK\Controllers\Traits\ControllerRequestExtensionTrait;
 use IGK\Controllers\Traits\IOControllerExtensionTrait;
+use IGK\Database\DbConstants;
 use IGK\Database\DbSchemaLoadEntriesFromSchemaInfo;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\ActionHelper;
@@ -56,6 +57,7 @@ use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Http\PageNotFoundException;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\ViewLayout;
 use IGKConstants;
@@ -791,8 +793,7 @@ abstract class ControllerExtension
      */
     public static function resolveTableName(BaseController $ctrl, string $table)
     {
-        $ns = igk_db_get_table_name("%prefix%", $ctrl);
-
+        $ns = igk_db_get_table_name(DbConstants::PREFIX_KEY, $ctrl);
         $k = $table;
         $gs = !empty($ns) && strpos($k, $ns) === 0;
         $t =  $gs ? str_replace($ns, "", $k) : $k;
@@ -856,7 +857,6 @@ abstract class ControllerExtension
             if (!($ctrl instanceof IGlobalModelFileController) || !$ctrl->handleModelCreation($tb)) {
 
                 foreach ($tb as $v) {
-                    // remove prefix
                     $table = null;
                     $name = sysutil::GetModelTypeNameFromInfo($v, $table);
                     if (!empty($name)) {
@@ -867,7 +867,11 @@ abstract class ControllerExtension
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
                             Logger::info("generate db model class :=> " . $file);
-                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description, $v->prefix));
+                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, 
+                                    $v->description, 
+                                    $v->prefix,
+                                    $v->display
+                                ));
                         }
                     }
                 }
@@ -1673,7 +1677,7 @@ abstract class ControllerExtension
     /**
      * get model
      * @param BaseController $controller 
-     * @param string $model 
+     * @param string $model model name or class model 
      * @return ?ModelBase 
      */
     public static function model(BaseController $controller, string $model): ?ModelBase
@@ -1743,6 +1747,18 @@ abstract class ControllerExtension
         return $db;
     }
     /**
+     * get controller's definitions tables
+     * @param BaseController $controller 
+     * @return ?array 
+     */
+    public static function getDbDefinitionTables(BaseController $controller){
+        $tb = $controller->getDataTableDefinition(null);
+        if ($tb) {
+            $tb = $tb->tables;
+        }
+        return $tb;
+    }
+    /**
      * init database constant file
      */
     public static function initDbConstantFiles(BaseController $controller)
@@ -1753,10 +1769,7 @@ abstract class ControllerExtension
                 return;
         }
         $f = $controller->getDbConstantFile();
-        $tb = $controller->getDataTableDefinition(null);
-        if ($tb) {
-            $tb = $tb->tables;
-        }
+        $tb = self::getDbDefinitionTables($controller);
 
 
         $s = "<?php" . IGK_LF;
@@ -1775,7 +1788,7 @@ abstract class ControllerExtension
         }
         if ($tb != null) {
             ksort($tb);
-            $prefix = igk_db_get_table_name("%prefix%", $controller);
+            $prefix = igk_db_get_table_name( DbConstants::PREFIX_KEY, $controller);
             foreach (array_keys($tb) as $k) {
                 $n = strtoupper($k);
                 $n = preg_replace_callback(
@@ -2417,7 +2430,7 @@ abstract class ControllerExtension
         return null;
     }
 
-    public static function showError(BaseController $controller, string $message, string $title, $code = 400)
+    public static function showError(BaseController $controller, string $message, string $title, $code = RequestResponseCode::BadRequest)
     {
         $style = file_get_contents(IGK_LIB_DIR . "/Styles/errors/exceptions.css");
         $out = <<<HTML

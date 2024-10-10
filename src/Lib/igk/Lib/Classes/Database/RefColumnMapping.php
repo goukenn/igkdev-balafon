@@ -16,6 +16,10 @@ use Traversable;
 class RefColumnMapping implements IteratorAggregate{
     private $m_refColumns;
     private $m_data;
+    /**
+     * @param array $data 
+     * @param array $columns column mapping definition. array<{real_colum=>mapping_column}|column>
+     */
     public function __construct(array $data, array $columns){
         $this->m_data  = $data;
         $this->m_refColumns = $columns;
@@ -43,10 +47,10 @@ class RefColumnMapping implements IteratorAggregate{
             }else{
                 $tab = explode('.', $k);
                 $column_name = array_pop($tab);
-                $m[$column_name] = igk_getv($this->m_data, $v);
+                $m[$column_name] = igk_getv($this->m_data,  is_null($v) ? $column_name : $v);
             }
         }
-        return new ArrayIterator($m); // this->m_data);
+        return new ArrayIterator($m); 
     }
     public function __isset($name)
     {

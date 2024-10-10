@@ -22,7 +22,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  * @method static RouteActionHandler get(string $actionBaseClass, string $pattern, ?string|callable $controllerTaskClass)
  * @method static RouteActionHandler get(string $actionBaseClass, string $pattern)
  * @method static RouteHandler get($pattern, $controllerClass) register GET route and return RouteActionHandler
- * @method static RouteActionHandler post(string $actionBaseClass, string $pattern) register POST route and return a RouteActionHandler
+ * @method static RouteActionHandler post(string $actionBaseClass, ?string $pattern='/index' ) register POST route and return a RouteActionHandler
  * @method static RouteActionHandler options(string $actionBaseClass, string $pattern) register OPTION route and return a RouteActionHandler
  * @method static RouteActionHandler put(string $actionBaseClass, string $pattern) register PUT route and return a RouteActionHandler
  * @method static RouteActionHandler delete(string $actionBaseClass, string $pattern) register DELETE route and return a RouteActionHandler
@@ -183,6 +183,9 @@ class Route
         $verbs = explode('|', self::SUPPORT_VERBS);
 
         if (in_array($v = strtoupper($name), $verbs)) { 
+            if (count($arguments)==1){
+                array_push($arguments, '/index');
+            }
             $fc = static::RegisterAction(...$arguments);
             $fc->setVerb([$v]); 
             return $fc;

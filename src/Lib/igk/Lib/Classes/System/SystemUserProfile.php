@@ -77,9 +77,10 @@ abstract class SystemUserProfile implements IUserProfile
         if (static::class == __CLASS__)
             igk_die('not allowed to create user profile');
 
-
-        $c = Activator::CreateNewInstance(function () {
-            return new static;
+        
+        $c = Activator::CreateNewInstance(function () use ($userInfo) {
+            return static::_CreateClassInstance($userInfo->model());
+            //return new static;
         }, $userInfo->to_array());
         $c->m_profile = $userInfo;
         $c->m_model = $userInfo->model();
@@ -115,7 +116,7 @@ abstract class SystemUserProfile implements IUserProfile
         }
     }
     /**
-     * register a user profile with initial profile setting
+     * register a user profile with initial profile setting. bind to group or user 
      * @return mixed 
      */
     protected abstract function registerProfile();
