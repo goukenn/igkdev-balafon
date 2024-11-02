@@ -34,6 +34,6 @@ class DbUpdateControllerSchemaCommand extends AppExecCommand{
             'author'=>$this->getAuthor($command),
             'outputfile'=>$file
         ]);
-        Logger::success("Done");
+        Logger::success("update - done");
     }
 }

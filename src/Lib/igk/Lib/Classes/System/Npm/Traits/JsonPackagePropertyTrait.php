@@ -17,6 +17,10 @@ trait JsonPackagePropertyTrait{
     var $main;
     var $scripts;
     var $keywords;
+    /**
+     * author definition 
+     * @var ?string|object
+     */
     var $author;
     var $license;
     var $dependencies;
@@ -34,4 +38,10 @@ trait JsonPackagePropertyTrait{
      * @var ?bool
      */
     var $private;
+
+    /**
+     * configuration setting
+     * @var mixed
+     */
+    var $config;
 }

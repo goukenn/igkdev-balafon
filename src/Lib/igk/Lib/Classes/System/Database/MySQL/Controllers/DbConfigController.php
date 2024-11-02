@@ -2421,7 +2421,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                     });
                     igk_do_response($t); //->renderAJX();
                 } else {
-                    igk_set_header(404);
+                    igk_set_header(RequestResponseCode::NotFound);
                     igk_wln_e(__("no function to found!", $p));
                 }
             }

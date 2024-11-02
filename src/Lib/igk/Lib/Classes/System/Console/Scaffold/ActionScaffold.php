@@ -28,6 +28,9 @@ class ActionScaffold extends ScaffoldBase
         }
         $this->run($command, ...array_slice(func_get_args(), 1));
     }
+    /**
+     * show help
+     */
     public function showHelp($command)
     {
         Logger::print(App::Gets(App::BLUE_I, "params"));

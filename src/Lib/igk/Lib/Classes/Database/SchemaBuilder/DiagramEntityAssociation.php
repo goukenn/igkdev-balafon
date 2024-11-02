@@ -8,6 +8,7 @@
 namespace IGK\Database\SchemaBuilder;
 
 use IGK\Database\DbColumnInfo;
+use IGK\Database\DbConstants;
 use IGK\Database\IDbColumnInfo;
 use IGK\Helper\Activator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -274,7 +275,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     public static function LoadFromXMLSchema($loadSchemaObject)
     {
         $o = new self;
-        $o->table_prefix = "%prefix%";
+        $o->table_prefix = DbConstants::PREFIX_KEY;
         $v_resolv_kinks = [];
         if ($loadSchemaObject->tables) {
             // load entities

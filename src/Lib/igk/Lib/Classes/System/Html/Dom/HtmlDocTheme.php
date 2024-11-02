@@ -16,11 +16,13 @@ use IGK\Css\ICssResourceResolver;
 use IGK\Css\ICssStyleContainer;
 use IGK\Helper\SysUtils;
 use IGK\System\Html\Css\CssConstants;
+use IGK\System\Html\Css\CssMinifier;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKCssDefaultStyle;
+use IGKEnvironmentConstants;
 use IGKMedia;
 use IGKOb;
 use IGKObjectGetProperties;
@@ -39,6 +41,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     const DOC_THEME_KEYSTORAGE = "theme-storage";
     private $m_document;
     private $m_root_ref;
+
+    /**
+     * disable write of css header 
+     * @var ?bool
+     */
+    var $noHeader;
     /**
      * default theme
      * @var ?string
@@ -80,6 +88,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     private $m_charset;
     private $m_namespace;
+    /**
+     * store the entries importations
+     * @var mixed
+     */
+    private $m_imports;
 
     /**
      * inline theme resolution
@@ -87,7 +100,37 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     private $m_themingResolv;
 
+    private $m_includes;
 
+    public function & setIncludeFileListListener(& $array){
+        $g = & $this->m_includes;
+        $this->m_includes = & $array;
+        return $g;
+    }
+    public function & getIncludedFiles(){
+        return $this->m_includes;
+    }
+    /**
+     * 
+     * @param string $file 
+     * @return void 
+     */
+    public function include_once(string $file, $args=null){
+        if (is_null($this->m_includes)){
+            $this->m_includes = [];
+        }
+        if (($f = realpath($file)) && !key_exists($f, $this->m_includes)){
+            $this->m_includes[$f] = 1;
+            (function(){
+                extract(func_get_arg(1));
+                include(func_get_arg(0));
+            })($f, $args ?? $this->get_include_args());
+        }
+
+    }
+    protected function get_include_args(){
+        return igk_environment()->get(IGKEnvironmentConstants::CSS_UTIL_ARGS) ?? [];   
+    }
 
     /**
      * set theme colors
@@ -96,6 +139,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function setThemeColors(?array $theme_colors){
         $this->m_themeColors = $theme_colors;
+    }
+    public function getImports(){
+        return $this->m_imports;
     }
     /**
      * get theme color by name
@@ -120,6 +166,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
     public function getNamespace(){
         return $this->m_namespace;
+    }
+    public function import($uri){
+        if (null === $this->m_imports){
+            $this->m_imports = [];
+        }
+        $this->m_imports[$uri] = $uri;
+        return $this;
     }
 
     /**
@@ -165,8 +218,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function setThemeColor(string $color, string $value, $themeName='light', $def=null){
         $def = $def ?? $this->getdef();
-        $root = & $this->getRootReference();
-      
+        $root = & $this->getRootReference(); 
         $root['--'.$themeName.'-color-'.$color] = $value;
         
     }
@@ -208,8 +260,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     /**
      * initialize global theme definition
      */
-    public function initGlobalDefinition(){
-        if (!$this->getInitGlobal()){
+    public function initGlobalDefinition(bool $force=false){
+        if ($force || !$this->getInitGlobal()){
             igk_css_bind_sys_global_files($this);
             igk_css_load_theme($this);
             $this->m_initGlobal = true;
@@ -268,7 +320,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      */
     public function __construct(?HtmlItemBase $document=null, ?string $id=null, $type = "global")
     {
-        $this->m_id = $id;
+        $this->m_id = $id ?? igk_create_guid();
         $this->m_document = $document;
         $this->m_type = $type;
         $this->m_istemp = $type === false;
@@ -390,12 +442,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
             $systheme = $doc->getSysTheme() ??  igk_app()->getDoc()->getSysTheme();
         }
 
-        if ($this->m_charset){ 
+        if (!$this->noHeader  && $this->m_charset){ 
             $out .= sprintf('@charset %s;%s', $this->m_charset, "\n");
         }
         if ($this->m_namespace){ 
             $out .= sprintf('@namespace %s;%s', $this->m_namespace, "\n");
         }
+        if (!$this->noHeader && $this->m_imports){
+            $out.= CssUtils::RenderImport($this->m_imports);
+        }
+
         $builder = new \IGK\Css\CssThemeResolver();
         $builder->theme = $this;
         $builder->parent = $systheme;
@@ -487,12 +543,17 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $s = "";
         $tv = 0;
         $prefix = $this->prefix;
+        $css_minifier = new CssMinifier;
         if ($attr = $def->getAttributes()) {
             foreach ($attr as $k => $v) {
                 if (empty($v))
+                    continue;  
+                if (is_numeric($k) || empty($k)){
+
+                    $s.= $css_minifier->minify($v);
                     continue;
-                $kv = trim($builder->treatThemeValue($v, $themeexport));
-                 
+                }
+                $kv = trim($builder->treatThemeValue($v, $themeexport)); 
                 if (!empty($kv)){
                     if ($prefix){
                         $k = str_replace('.','.'.$prefix, $k);
@@ -874,18 +935,28 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
  
         $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
-        $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
+        // $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
+        $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $v_parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark("theme-export-def"); 
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
             
         if ($this->m_medias) {
-            $out.= CssUtils::RenderMedia($this->m_medias, $this, $systheme, $minfile, $el, $is_root);
+            $out.= CssUtils::RenderMedia($this->m_medias, $this, $parent ?? $systheme, $minfile, $el, $is_root);
            
         } 
-        if ($this->m_root_ref){
-            $root = $this->m_root_ref;
-            $out.= sprintf(':root{%s}', igk_array_key_map_implode($root));
+        $rtdef_root = array_merge(
+            CssUtils::GetRootPropsArray($cl = $this->getCl() ?? []),
+            CssUtils::GetRootPropsArray($props = $this->getProperties() ?? []), 
+            $this->m_root_ref ?? []);
+        
+        if ($rtdef_root){
+            ksort($rtdef_root);
+            if ($this->m_options?->rootListener){
+                $this->m_options->rootListener->store($rtdef_root);
+            }else{
+                $out.= sprintf(':root{%s}', igk_css_array_key_map_implode($rtdef_root));
+            }
         }
    
         ///  TODO : theming definitions .
@@ -1226,7 +1297,22 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         if ($key == "file") {
             igk_die(__METHOD__ . " offset is file");
         }
-        $this->def[$key] = $value;
+        $def = & $this->getDef();
+        if (is_null($key)){
+
+            if (is_null($value)){
+                unset($def[0]);
+                return;
+            }
+            $l = $def[0];
+            if ($l){
+                $value = $l.$value;
+                $def[''] = $value;
+            }else 
+                $def[] = $value;
+            return;
+        }
+        $def[$key] = $value;
     }
     ///<summary></summary>
     ///<param name="i"></param>

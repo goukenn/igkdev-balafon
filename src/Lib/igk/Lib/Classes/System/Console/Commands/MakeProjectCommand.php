@@ -34,6 +34,7 @@ use IGK\System\Http\Route;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
+use IGK\System\Services\IMakeProjectServiceProvider;
 use IGKConstants;
 use IGKEvents;
 
@@ -249,8 +250,7 @@ EOF;
         $bind[$dir . "/" . IGK_DATA_FOLDER . '/.htaccess'] = $no_access_callback;
         $bind[$dir . "/" . IGK_DATA_FOLDER . '/' . IGK_RES_FOLDER . '/.htaccess'] = $grant_access_callback;
 
-        $bind[$dir . "/" . IGK_DATA_FOLDER .
-            "/data.schema.xml"] = function ($file) use ($author, $dir) {
+        $bind[$dir . "/" . IGK_DATA_FOLDER . "/data.schema.xml"] = function ($file) use ($author, $dir) {
             $build = new SchemaBuilder();
             $build["version"] = "1.0";
             $build["author"] = $author;
@@ -328,6 +328,7 @@ EOF;
                 ]));
             igk_io_w2file($file, $builder->render());
         };
+        // 
         $bind[$dir . "/" . IGK_CONF_FOLDER . "/views.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
             $builder->uses(Route::class)
@@ -438,6 +439,22 @@ EOF;
                 ]);
         }
 
+        foreach(explode('|', 'dark|light') as $k){
+
+            $bind[$dir.'/'.IGK_STYLE_FOLDER.'/Themes/'.$k.'.theme.pcss'] = function($file){
+                igk_io_w2file($file, implode("\n", [
+                    "<?php",
+                    "// @desc: theme file ", 
+                    "/** @var array \$cl */"
+                ]));
+            };
+        }
+
+        // $project = igk_service()->get('make:project');
+        // if ($project instanceof IMakeProjectServiceProvider){
+        //     $project->makeProjectDefinition($bind);
+        // }
+
 
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
@@ -481,7 +498,7 @@ EOF;
         };
         // + | generate languages 
         foreach (R::GetSupportedLangs() as $l) {
-            $bind[$dir . "/Configs/Lang/lang." . $l . ".presx"] = $touch;
+            $bind[$dir . "/Configs/Lang/lang." . $l . IGK_LANG_FILE_EXTENSION] = $touch;
         }
 
     }

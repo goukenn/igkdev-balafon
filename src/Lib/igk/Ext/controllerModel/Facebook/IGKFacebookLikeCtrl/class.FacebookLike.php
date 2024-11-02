@@ -17,7 +17,7 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 	}
 	public static function GetAdditionalConfigInfo()
 	{
-		return array("clFacebookUri"=>igk_createAdditionalConfigInfo(array("clRequire"=>1)));
+		return array("clFacebookUri"=>igk_create_additional_config_info(array("clRequire"=>1)));
 	}
 	public static function SetAdditionalConfigInfo(& $t)
 	{

@@ -7,6 +7,8 @@
 
 namespace IGK\System\Console\Commands;
 
+use Exception;
+use Error;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppCommandConstant;
 use IGK\System\Console\AppConstant;
@@ -15,8 +17,13 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 use IGK\Helper\IO as IGKIO;
+use IGK\System\EntryClassResolution;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKConstants;
+use IGKException;
 use ReflectionClass;
+use ReflectionException;
+
 use function igk_resources_gets as __;
 
 class InitCommand extends AppExecCommand
@@ -27,6 +34,16 @@ class InitCommand extends AppExecCommand
 
     const BASECLASS_COMMAND = IGKConstants::BASECLASS_COMMAND;
 
+    /**
+     * 
+     * @param mixed $command 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Error 
+     */
     public function exec($command)
     {
         igk_set_timeout(0);
@@ -34,10 +51,11 @@ class InitCommand extends AppExecCommand
             igk_io_projectdir()
         ];
         \IGK\Helper\SysUtils::ClearCache();
+        $v_bserie = ltrim(EntryClassResolution::CommandEntryNS,'\\');
         $commands = [];
         $commands_list = [];
         $ctrls = igk_app()->getControllerManager()->getControllers();
-        $entry_cl = igk_uri(\System\Console\Commands::class);
+        $entry_cl = igk_uri($v_bserie);
         foreach ($t as $dir) {
             igk_is_debug() && Logger::info("init : ".$dir);
             foreach ($ctrls as $c) {
@@ -79,7 +97,7 @@ class InitCommand extends AppExecCommand
         $mod = igk_get_modules();
         if ($mod  && (count($mod) > 0)) {
             $base_cl =  igk_uri(self::BASECLASS_COMMAND)."/";
-            $system_cl_command = igk_uri(\Classes\System\Console\Commands::class);
+            $system_cl_command = igk_uri($v_bserie);
             foreach ($mod as $k => $v) {
                 $cmod = igk_get_module($k);
                 $ns = $cmod->config("entry_NS");
@@ -90,7 +108,8 @@ class InitCommand extends AppExecCommand
                         $commands_list = array_merge($commands_list, $td);
                     }
                 } else {
-                    if (($f = $cmod->getLibDir()) && is_dir($f)) {
+                
+                    if (($f = $cmod->getClassesDir()) && is_dir($f)) {
 
                         // get all php file that match the patter 
                         // $tns = [];
@@ -107,7 +126,9 @@ class InitCommand extends AppExecCommand
                         foreach ($files as $tf) {
                             $mf = substr($tf, $len);
                             $v = igk_regex_get("/\/(?P<name>(.+))Command\.php$/", "name", $mf);
-                            if (empty($v)) continue;
+                            if (empty($v)) 
+                            
+                            continue;
 
                             $classname = str_replace("/", "\\", ($ns ? $ns : "") . $base_cl . $v) . "Command";
                             if (isset($commands_list[$classname])){
@@ -116,6 +137,7 @@ class InitCommand extends AppExecCommand
                             }
                             require_once($tf); 
                             if (!class_exists($classname, false) || (igk_sys_reflect_class($classname))->isAbstract()) {
+                                 igk_is_debug() && Logger::warn("skip command : > ". $classname);
                                 continue;
                             }
                             $commands_list[$classname] = $tf;

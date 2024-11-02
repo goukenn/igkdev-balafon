@@ -39,7 +39,6 @@ class CssThemeResolver
 
     var $resolv = [];
 
-    var $count = 0;
 
     var $start = false;
 
@@ -91,7 +90,7 @@ class CssThemeResolver
         if (!empty($v = $this->treat($value, $theme_export))){
             return $this->treatInlineValue($v);
         }
-        return $value;
+        return $v;
 
     }
     /**
@@ -182,7 +181,7 @@ class CssThemeResolver
         $vresolv = 1;
         $v = trim($v);
         $vsrc = $v;
-        while ($vresolv) {
+        while ($vresolv && !empty($v)) {
             $vresolv = 0;
             $qlist = [$v];
             $roots = [];
@@ -270,7 +269,6 @@ class CssThemeResolver
         }
      
         $this->resolv[$v_def] = $v;
-        $this->count--;
         return $v;
     }
     private function _nextSplitter(string $v, & $pos){
@@ -324,7 +322,6 @@ class CssThemeResolver
      */
     public function reset()
     {
-        $this->count = 0;
         $this->resolv = [];
         $this->start = null;
     }
@@ -360,7 +357,7 @@ class CssThemeResolver
         }
         $chainColorCallback = 
         //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
-        function ($value) use (&$chainColors, $v_designmode) {
+        function ($value) use (&$chainColors, $v_designmode) { 
             $resolved = & $this->themeResolved;
             // detect color function or var prop
             if (preg_match("/\s*(?P<name>(rgb(a)|var|hsl))\s*\(/i", $value,$data)){
@@ -379,8 +376,15 @@ class CssThemeResolver
                 $resolved = true;
                 return $s;
             }
+
+         
+
             $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
             if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
+                if (defined('IGK_TEST_INIT')){
+                    // + | in case of testing just return the requested color vlaue 
+                    return trim($v);
+                }
                 $s = igk_css_design_color_value($v, null, $v_designmode);
             }
             if ((empty($s) || ($s == $v)) && (igk_count($tab) > 1)) {

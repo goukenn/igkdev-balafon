@@ -85,8 +85,8 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         return new DbLinkExpression($table, $column, $value, $columnkey);      
     }
     /**
-     * 
-     * @return SQLGrammar 
+     * get grammar 
+     * @return ?SQLGrammar 
      */
     public function getGrammar(){
         return $this->create_grammar() ?? die("grammar can't be found");

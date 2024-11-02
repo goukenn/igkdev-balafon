@@ -65,7 +65,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
             Logger::danger("macro name name required");
             return false;
         } 
-        if ($controller=='%sys%'){
+        if ($controller== self::SYS_CTRL_PLACEHOLDER){
             $controller = SysDbController::ctrl();
         }
         Logger::info("make macros ...".$controller);

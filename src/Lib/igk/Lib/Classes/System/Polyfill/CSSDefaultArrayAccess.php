@@ -30,10 +30,17 @@ trait CSSDefaultArrayAccess{
     * @param mixed $i
     */
     public function offsetGet(mixed $key):mixed{
-        if(!isset($this->_[self::PROPERTIES])){
+        $tab = & $this->_[self::PROPERTIES];
+
+        if(!isset($tab)){
             return null;
         }
-        return igk_getv($this->_[self::PROPERTIES], $key);
+        if (is_int($key) && $key === 0){ // auto added key is empty value
+            if (key_exists('', $tab)){
+                return $tab[''];
+            } 
+        }
+        return igk_getv($tab, $key);
     }
     ///<summary></summary>
     ///<param name="i"></param>
@@ -44,12 +51,12 @@ trait CSSDefaultArrayAccess{
     * @param ?string $v
     */
     public function offsetSet($i, $v):void{
-        $g=null;
-        if(!isset($this->_[self::PROPERTIES]) || !is_array($this->_[self::PROPERTIES])){
+        $g=null; $t_KEY = self::PROPERTIES;
+        if(!isset($this->_[$t_KEY]) || !is_array($this->_[$t_KEY])){
             $g = [];
-            $this->_[self::PROPERTIES] =  & $g;
+            $this->_[$t_KEY] =  & $g;
         }
-        $g= & $this->_[self::PROPERTIES];
+        $g= & $this->_[$t_KEY];
         $this->_bindProperties($g, $i, $v); 
     }
 

@@ -131,3 +131,16 @@ function igk_css_rm_comment(string $src){
     return $src;
 }
 
+if (!function_exists('igk_css_array_key_map_implode')){
+    function igk_css_array_key_map_implode($value){
+        return igk_array_key_map_implode(
+            $value,
+            $delimiter = ':', 
+            $separator = ';', 
+            $sub_start = '{', 
+            $sub_end = '}', 
+            $string_delimit = true, 
+            $empty_value='""'
+        );
+    }
+}

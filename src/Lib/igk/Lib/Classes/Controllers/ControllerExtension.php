@@ -33,6 +33,7 @@ use IGK\Controllers\Traits\AtricleManagerControllerExtensionTrait;
 use IGK\Controllers\Traits\ControllerDbExtensionTrait;
 use IGK\Controllers\Traits\ControllerRequestExtensionTrait;
 use IGK\Controllers\Traits\IOControllerExtensionTrait;
+use IGK\Database\DbConstants;
 use IGK\Database\DbSchemaLoadEntriesFromSchemaInfo;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\ActionHelper;
@@ -56,6 +57,7 @@ use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocumentNode;
 use IGK\System\Http\PageNotFoundException;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\ViewLayout;
 use IGKConstants;
@@ -91,6 +93,12 @@ abstract class ControllerExtension
 
     static $sm_instances_inclass = [];
 
+    /**
+     * extension to get language directory 
+     */
+    public static function getLangDir(BaseController $ctrl){
+        return Path::Combine($ctrl->getDeclaredDir(), 'Configs/Lang');
+    }
     public static function getViewLayout(BaseController $ctrl){
         $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
         if ($view_layout){
@@ -233,28 +241,7 @@ abstract class ControllerExtension
         return ($controller instanceof NotRegistrableControllerBase);
     }
 
-    /**
-     * bind style file 
-     * @param BaseController $ctrl 
-     * @param HtmlDocumentNode $doc 
-     * @param mixed $path path from style directectory
-     * @param bool $inline 
-     * @return void 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     */
-    public static function cssBindStyle(BaseController $ctrl, HtmlDocumentNode $doc, string $path, bool $inline = true)
-    {
-        $cfile =  Path::Combine($ctrl->getStylesDir(), $path);
-        if (Path::GetExistingFile($cfile, ['.pcss', '.css'])) {
-            igk_ctrl_bind_css_file($ctrl, $doc->getTheme(), $cfile, $inline);
-        }
-    }
+  
     #region ASSETS MANAGEMENT 
     /**
      * resolve assets . help by create a link to expose 
@@ -384,6 +371,17 @@ abstract class ControllerExtension
         }
         return $tab;
     }
+
+    /**
+     * check if the view exists
+     * @param BaseController $ctrl 
+     * @return bool 
+     */
+    public static function getIsViewExists(BaseController $ctrl, string $fname):bool{
+        $c= $ctrl->getViewFile($fname);
+        return $c && file_exists($c);
+    }
+
     /**
      * retreive the resolved asset forlder directory 
      * @param BaseController $ctrl 
@@ -414,13 +412,7 @@ abstract class ControllerExtension
     {
         if (file_exists($f = $controller->getViewDir() . "/.error/" . $code . IGK_VIEW_FILE_EXT)) {
             return $f;
-        }
-        // igk_wln_e(
-        //     __FILE__.":".__LINE__, 
-        //     "file: ".$f, 
-        //     igk_io_collapse_path($f),
-        //     igk_io_expand_path(igk_io_collapse_path($f))
-        // );
+        } 
         return null;
     }
     /**
@@ -791,8 +783,7 @@ abstract class ControllerExtension
      */
     public static function resolveTableName(BaseController $ctrl, string $table)
     {
-        $ns = igk_db_get_table_name("%prefix%", $ctrl);
-
+        $ns = igk_db_get_table_name(DbConstants::PREFIX_KEY, $ctrl);
         $k = $table;
         $gs = !empty($ns) && strpos($k, $ns) === 0;
         $t =  $gs ? str_replace($ns, "", $k) : $k;
@@ -856,7 +847,6 @@ abstract class ControllerExtension
             if (!($ctrl instanceof IGlobalModelFileController) || !$ctrl->handleModelCreation($tb)) {
 
                 foreach ($tb as $v) {
-                    // remove prefix
                     $table = null;
                     $name = sysutil::GetModelTypeNameFromInfo($v, $table);
                     if (!empty($name)) {
@@ -867,7 +857,11 @@ abstract class ControllerExtension
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
                             Logger::info("generate db model class :=> " . $file);
-                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, $v->description, $v->prefix));
+                            igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration($name, $table, $v, $ctrl, 
+                                    $v->description, 
+                                    $v->prefix,
+                                    $v->display
+                                ));
                         }
                     }
                 }
@@ -1673,7 +1667,7 @@ abstract class ControllerExtension
     /**
      * get model
      * @param BaseController $controller 
-     * @param string $model 
+     * @param string $model model name or class model 
      * @return ?ModelBase 
      */
     public static function model(BaseController $controller, string $model): ?ModelBase
@@ -1743,6 +1737,18 @@ abstract class ControllerExtension
         return $db;
     }
     /**
+     * get controller's definitions tables
+     * @param BaseController $controller 
+     * @return ?array 
+     */
+    public static function getDbDefinitionTables(BaseController $controller){
+        $tb = $controller->getDataTableDefinition(null);
+        if ($tb) {
+            $tb = $tb->tables;
+        }
+        return $tb;
+    }
+    /**
      * init database constant file
      */
     public static function initDbConstantFiles(BaseController $controller)
@@ -1753,10 +1759,7 @@ abstract class ControllerExtension
                 return;
         }
         $f = $controller->getDbConstantFile();
-        $tb = $controller->getDataTableDefinition(null);
-        if ($tb) {
-            $tb = $tb->tables;
-        }
+        $tb = self::getDbDefinitionTables($controller);
 
 
         $s = "<?php" . IGK_LF;
@@ -1775,7 +1778,7 @@ abstract class ControllerExtension
         }
         if ($tb != null) {
             ksort($tb);
-            $prefix = igk_db_get_table_name("%prefix%", $controller);
+            $prefix = igk_db_get_table_name( DbConstants::PREFIX_KEY, $controller);
             foreach (array_keys($tb) as $k) {
                 $n = strtoupper($k);
                 $n = preg_replace_callback(
@@ -1986,6 +1989,29 @@ abstract class ControllerExtension
                 $theme->prefix = $controller->getConfigs()->get('cssThemePrefix', '');
             }
             return igk_ctrl_bind_css_file($controller, $theme, $file, $cssRendering, 0);
+        }
+    }
+
+      /**
+     * bind style file 
+     * @param BaseController $ctrl 
+     * @param HtmlDocumentNode $doc 
+     * @param mixed $path path from style directectory
+     * @param bool $inline 
+     * @return void 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function cssBindStyle(BaseController $ctrl, HtmlDocumentNode $doc, string $path, bool $inline = true)
+    {
+        $cfile =  Path::Combine($ctrl->getStylesDir(), $path);
+        if (Path::GetExistingFile($cfile, ['.pcss', '.css'])) {
+           igk_ctrl_bind_css_file($ctrl, $doc->getTheme(), $cfile, $inline);
         }
     }
     /**
@@ -2417,7 +2443,7 @@ abstract class ControllerExtension
         return null;
     }
 
-    public static function showError(BaseController $controller, string $message, string $title, $code = 400)
+    public static function showError(BaseController $controller, string $message, string $title, $code = RequestResponseCode::BadRequest)
     {
         $style = file_get_contents(IGK_LIB_DIR . "/Styles/errors/exceptions.css");
         $out = <<<HTML

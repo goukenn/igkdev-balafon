@@ -163,7 +163,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function insertIfNotExists(\IGK\Models\ModelBase $model, array $condition, array $options = null, $update = false);
+    public abstract static function insertIfNotExists(\IGK\Models\ModelBase $model, array $conditions, array $options = null, $update = false);
     /**
      * extension methods 
      */

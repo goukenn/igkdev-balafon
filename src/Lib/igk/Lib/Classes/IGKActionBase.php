@@ -226,7 +226,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
      * parameter mixing handle fonction
-     * @param mixed $fname 
+     * @param mixed|BaseController|string $fname 
      * @param mixed $args 
      * @param int $exit 
      * @param int $flag 
@@ -487,9 +487,9 @@ abstract class IGKActionBase implements IActionProcessor
 
                 $_host = $object->getHost();
                 // + | --------------------------------------------------------------------
-                // + | force redirection before render comment
+                // + | FORCE REDIRECTION BEFORE RENDER
                 // + |
-                if (!empty($_host->redirect)){
+                if (!empty($_host->redirect)){ 
                     igk_navto($_host->redirect);
                 }
                 // + | --------------------------------------------------------------------
@@ -507,7 +507,6 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($host && ($host instanceof static)){
                     $host->_handleThrowable($ex);
                 }
-                igk_dev_wln_e("failed: ".$ex->getMessage());
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

@@ -15,6 +15,7 @@ use IGK\Css\CssThemeOptions;
 use IGK\Css\CssThemeRenderer;
 use IGK\Css\IGKCssColorHost;
 use IGK\Helper\ArrayUtils;
+use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -25,6 +26,7 @@ use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Http\CookieManager;
 use IGK\System\IO\Path;
+use IGK\System\Text\RegexMatcherContainer; 
 use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
@@ -42,6 +44,23 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
 abstract class CssUtils
 {
     private static $sm_treated_colors = [];
+
+    /**
+     * merge styles definition 
+     * @param mixed ...$args 
+     * @return string
+     */
+    public static function MergeStyleDefinition( ...$args ){
+        if (!is_array($args)){
+            $args  = [$args];
+        }
+        $m = StringUtility::DEFAULT_TRIM_CHAR.';';
+        $l =  implode(';', array_map(function($c)use($m){
+            return rtrim($c, $m);
+        }, array_filter($args)));
+        return $l;
+        
+    }
     public static function &GetTreatedColors()
     {
         if (is_null(self::$sm_treated_colors)) {
@@ -218,7 +237,9 @@ abstract class CssUtils
     /**
      * generate single theme value
      * @param BaseController $controller 
-     * @param string $theme 
+     * @param string $theme 'dark' | 'light' | 'both'
+     * @param bool $embedresource 
+     * @param string $prefix prefix all current theme 
      * @return string|false 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -228,8 +249,14 @@ abstract class CssUtils
      */
     public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME, bool $embedresource = false, ?string $prefix = '')
     {
+
+        if ($theme ==CssThemeOptions::BOTH_THEME_NAME){  
+            $theme = igk_environment()->get('default_theme', CssThemeOptions::DEFAULT_THEME_NAME); 
+            return self::GenCssWithThemeSupport($controller, $theme); 
+        } 
         $opt = new CssThemeOptions;
-        $opt->theme_name = $theme;
+        $opt->theme_name = '';
+        $opt->rootListener = new CssRootPropertyStorageListener;
         $theme = new HtmlDocTheme(null, "temp", "temporary");
         $systheme = igk_app()->getDoc()->getSysTheme();
         // set options before bind style
@@ -244,16 +271,38 @@ abstract class CssUtils
         if ($embedresource) {
             $resourceResolver = new EmbedResourceResolver();
         }
-        echo implode("\n", [
-            $systheme->get_css_def(true, true, $resourceResolver),
-            $theme->get_css_def(true, true, $resourceResolver)
-        ]);
+        $list = [$systheme, $theme];
+        $imports = [];
+        $sb= '';
+        $ch = '';
+        while(count($list)>0){
+            $q = array_shift($list);
+            $imports = array_merge($q->getImports() ?? [], $imports);
+            $q->noHeader = true; 
+            $sb .= $ch.$q->get_css_def(true, true, $resourceResolver);
+            $q->noHeader = false;
+            $ch="\n";
+        }
+        if ($imports){
+            echo self::RenderImport($imports); 
+        }
+        echo $sb;
+        echo "\n/* root definition */", $opt->rootListener->render();
         $r = ob_get_contents();
         ob_clean();
         $theme->setRenderOptions(null);
         return $r;
     }
-
+    /**
+     * 
+     * @param array $imports 
+     * @return string 
+     */
+    static function RenderImport(array $imports){
+        return implode(";\n", array_map(function($s){
+                return sprintf('@import "%s"', $s);
+            }, $imports)).";"; 
+    }
     /**
      * get theme by selecting primary theme
      * @param BaseController $controller 
@@ -267,16 +316,22 @@ abstract class CssUtils
      */
     public static function GenCssWithThemeSupport(BaseController $controller, string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME)
     {
+        // + | bind global theme to start 
         $systheme = igk_app()->getDoc()->getSysTheme();
         igk_css_bind_sys_global_files($systheme);
-        $def = [];
-        $def = array_merge($def, self::AppendDataTheme($controller, $systheme, $primaryTheme));
+        $def = []; 
+        $rootListener = new CssRootPropertyStorageListener;
+       
+        $def = array_merge($def, self::AppendDataTheme($controller, $systheme, $primaryTheme, false, $rootListener));
+        
         ob_start();
         echo "/* CSS theme */";
         echo implode(
             "\n",
             array_merge([
-                $systheme->get_css_def(true, true),
+               // "/* begin: - corecss */",
+                // $systheme->get_css_def(true, true),
+                //"/* end: - corecss */",
             ], $def)
         );
         $r = ob_get_contents();
@@ -328,11 +383,12 @@ abstract class CssUtils
         BaseController $controller,
         HtmlDocTheme $a_theme,
         string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME,
-        bool $theme_export = false
+        bool $theme_export = false,
+        $rootListener = null
     ) {
         if ($controller->getConfig('no_theme_support'))
             return;
-        $tdef = ['light', 'dark'];
+        $tdef = explode('|', CssConstants::SUPPORT_THEME);
         if ($list = $controller->getConfig('theme_lists')) {
             if (is_string($list)) {
                 $tdef = explode(',', $list);
@@ -342,22 +398,22 @@ abstract class CssUtils
                 return;
             }
         }
-        $def = [];
-
-        // $def[] = $theme->get_css_def(true, true);
-        ArrayUtils::PrependAfterSearch($tdef, $primaryTheme);
-
-        // $def[] = "/* theme {$primaryTheme} */"; 
-        $systheme = igk_app()->getDoc()->getSysTheme();
-        $minfile = true;
-        $tab = $a_theme->getdef()->getAttributes();
+        $def = []; 
+        ArrayUtils::PrependAfterSearch($tdef, $primaryTheme); 
+        $v_render_primary = false;
+        $tab = $a_theme->getdef()->getAttributes() ?? [];
         $medias = $a_theme->getMedias();
         //  ob_end_clean();
-        $v_render_primary = false;
 
         $opt = new CssThemeOptions;
         $opt->skips = ['rules', 'fonts'];
+        $opt->rootListener = $rootListener;
+        if ($v_opts = $a_theme->getRenderOptions()){
+            /// TODO: Missing root listener 
+            $v_opts->rootListener = $rootListener;
+        }
 
+        $v_theme = null;
         foreach ($tdef as $theme_name) {
             $s_medias = self::CloneMedia($medias);
             $opt->theme_name = $theme_name;
@@ -365,22 +421,20 @@ abstract class CssUtils
             $colors = $a_theme->getThemeColorsByName($theme_name);
 
             if (!$v_render_primary && $is_primaryTheme) {
-                $s = self::RenderPrimaryTheme($a_theme, $colors, true, $theme_export);
-
-                // bind primary color  
-
+                $s = self::RenderPrimaryTheme($a_theme, $colors, true, $theme_export); 
+                // bind primary color   
                 array_unshift($def, implode("\n", [
-                    "\n/* theme: primary */",
-                    $s, // $a_theme->get_css_def(true, $theme_export)
-                ]));
-
-                $v_render_primary = true;
-                //continue;
+                    "/* begin-theme: primary */",
+                    $s, 
+                    "/* end-theme: primary */"
+                ])); 
+                $v_render_primary = true; 
             }
-
+            $inc_files = $v_theme ? $v_theme->getIncludedFiles(): null;
             // load specific attached theme options... 
             $v_theme = new HtmlDocTheme(null, "temp", "temporary");
             $v_theme->replaceMediaList($s_medias);
+            $inc_files && $v_theme->setIncludeFileListListener($inc_files);
             // + | store theming color before binding so no need to override color in target definition 
             if ($colors) {
                 $v_theme->setColors($colors);
@@ -389,26 +443,42 @@ abstract class CssUtils
             $v_theme->setRenderOptions($opt);
             // + | load bind style with theme 
             $controller->bindCssStyle($v_theme, true);
+            $ctab = array_merge($v_theme->getDef()->getAttributes() ?? [], $tab);
             // } 
-            // render and bind media
-            self::MapMediaCssTheme(
+            // + | render and bind media
+             self::MapMediaCssTheme(
                 $v_theme,
                 $theme_name,
-                $tab,
+                $ctab,
                 $s_medias,
                 false
             );
-            // + | --------------------------------------------------------------------
-            // + | replace media 
-            // + |
-
-            //$v_theme->replaceMediaList($t_medias);
             $s = $v_theme->get_css_def(true, true);
             if (!empty($s)) {
                 $def[] = "\n/* theme: " . $theme_name . " */\n" . $s;
             }
         }
+        if ($rootListener)
+            $def[] = $rootListener->render();
         return $def;
+    }
+
+    public static function ExportColorAndProperties(BaseController $controller, $theme ){
+        $tdef = explode('|', CssConstants::SUPPORT_THEME);
+        $v_theme = null;
+        $colors = []; $props = [];
+        foreach ($tdef as $theme_name) {
+            
+            // $inc_files = $v_theme ? $v_theme->getIncludedFiles(): null; 
+            $v_theme = new HtmlDocTheme(null, "temp", "temporary"); 
+            // + | load bind style with theme 
+            $controller->bindCssStyle($v_theme, true);
+
+            $colors = array_merge($colors, $v_theme->getCl());
+            $props = array_merge($props, $v_theme->getProperties());
+            
+        }
+        return compact('colors','props');
     }
     /**
      * 
@@ -422,12 +492,11 @@ abstract class CssUtils
     {
         array_map(function ($v, $k) use (&$g, $lk, &$source_defs) {
             //remove brank definitions  
-            $v = CssUtils::RemoveNoTransformPropertyStyle($v);
+            $v = !empty($v) ? CssUtils::RemoveNoTransformPropertyStyle($v):$v;
             if (empty($v)) {
                 // + | --------------------------------------------------------------------
                 // + | no property found remove from global list
-                // + |
-
+                // + | 
                 $g[$k] = null;
                 return;
             }
@@ -436,19 +505,24 @@ abstract class CssUtils
     }
     /**
      * map media theme 
+     * @param HtmlDocTheme $theme
+     * @param string|'dark'|'light' $theme_name 
+     * @param ?array $tab definition to map 
+     * @param ?array $medias array of medias list
+     * @param bool $is_primary_theme 
      */
     public static function MapMediaCssTheme(
-        $g,
+        HtmlDocTheme $theme,
         string $theme_name,
-        $tab,
-        $medias,
-        bool $is_primary_theme
+        ?array $tab,
+        ?array $medias,
+        bool $is_primary_theme=false
     ) {
         $lk = sprintf(CssConstants::THEME_SELECTOR_FORMAT, $theme_name);
         if ($tab) {
-            self::MapThemeDefinition($lk, $tab, $g);
+            self::MapThemeDefinition($lk, $tab, $theme);
         }
-        self::MapTheme($medias, $is_primary_theme, $lk, true);
+        $medias && self::MapTheme($medias, $is_primary_theme, $lk, true);
     }
 
     /**
@@ -520,6 +594,9 @@ abstract class CssUtils
         $s = $gp;
         return $s;
     }
+    /**
+     * update array media properties 
+     * */
     public static function MapTheme(array $medias, bool $is_primary_theme, string $lk, bool $skip = false)
     {
         while (count($medias) > 0) {
@@ -550,56 +627,90 @@ abstract class CssUtils
      * @return string 
      */
     public static function RemoveTransformLitteralFrom(string $v)
-    {
-        $nv = '';
-        $min = false;
-        $offset = 0;
-
+    { 
         // + | --------------------------------------------------------------------
         // + | remove system transform and litteral 
+        // + | remove : {sys:...}
+        // + | 
         // + |
+        $container = new RegexMatcherContainer;
+        $container->begin('{', '}(\\s*;\\s*)?', 'litteral'); // - remove
+        $container->begin("(\"|')", "\\1", 'string');        // - leave
+        $container->begin("\\(", "\\)", 'parenthese');       // - leave
+        $container->match("\\s*(;|:)\\s*",'operator');
+        $container->match("\\s+",'white-space');
+        $lpos = 0;
 
-        while ($min === false) {
-            foreach (["'", '"', '{'] as $c) {
-                if (false !== ($c = strpos($v, $c, $offset))) {
-                    $min = ($min === false) ? $c : min($min, $c);
-                }
-            }
-            if ($min !== false) {
-                $nv = substr($v, 0, $min);
-                $ch = $v[$min];
-                $pos = $min;
-                switch ($ch) {
-                    case '{':
-                        while ($min > 0) {
-                            if ($nv[$min - 1] == ' ') {
-                                $min--;
-                                continue;
-                            }
-                            break;
-                        }
-                        $nv = rtrim($nv);
-                        igk_str_read_brank($v, $pos, '}', '{');
-                        $pos++;
-                        $nv .= ltrim(substr($v, $pos));
-
-                        $offset = $min;
-                        break;
-                    case '\'':
-                    case '"':
-                        # code...
-                        $nv .= igk_str_read_brank($v, $pos, $ch, $ch) .
-                            ltrim(substr($v, $pos + 1));
-                        $offset = $pos + 1;
-                        break;
-                }
-                $v = $nv;
-                $min = false;
-            } else {
+        $n = '';
+        $join = '';
+        $container->treat($v, function($g, $pos, $v)use(& $n, & $lpos, & $join){
+            switch($g->tokenID)
+            {
+                case 'operator':
+                    $n = trim($n).trim(substr($v, $lpos, $g->from-$lpos)).trim($g->value);
+                    $lpos = $pos;
+                    break;
+                case 'litteral':
+                case 'white-space': 
+                    // skip litteral - white space 
+                    $n = trim($n.substr($v, $lpos, $g->from-$lpos));
+                    if ($g->tokenID=='white-space'){
+                        $n .=' ';
+                    }else{
+                        $join = '';
+                    }
+                    $lpos = $pos;
                 break;
             }
-        }
-        return trim($v);
+        }); 
+        $n.= substr($v, $lpos); 
+        return trim($n);
+    
+        // $nv = '';
+        // $min = false;
+        // $offset = 0;
+
+        // while ($min === false) {
+        //     foreach (["'", '"', '{'] as $c) {
+        //         if (false !== ($c = strpos($v, $c, $offset))) {
+        //             $min = ($min === false) ? $c : min($min, $c);
+        //         }
+        //     }
+        //     if ($min !== false) {
+        //         $nv = substr($v, 0, $min);
+        //         $ch = $v[$min];
+        //         $pos = $min;
+        //         switch ($ch) {
+        //             case '{':
+        //                 while ($min > 0) {
+        //                     if ($nv[$min - 1] == ' ') {
+        //                         $min--;
+        //                         continue;
+        //                     }
+        //                     break;
+        //                 }
+        //                 $nv = rtrim($nv);
+        //                 igk_str_read_brank($v, $pos, '}', '{');
+        //                 $pos++;
+        //                 $nv .= ltrim(substr($v, $pos));
+
+        //                 $offset = $min;
+        //                 break;
+        //             case '\'':
+        //             case '"':
+        //                 # code...
+        //                 $nv .= igk_str_read_brank($v, $pos, $ch, $ch) .
+        //                     ltrim(substr($v, $pos + 1));
+        //                 $offset = $pos + 1;
+        //                 break;
+        //         }
+        //         $v = $nv;
+        //         $min = false;
+        //     } else {
+        //         break;
+        //     }
+        // }
+        // return trim($v);
     }
     /**
      * remove properties that not need transform for value  
@@ -611,33 +722,40 @@ abstract class CssUtils
         if (empty($v)) {
             return $v;
         }
+        $detector = new CssThemeValueDetector;
+        return $detector->treat($v);
+    }
+    /**
+     * get only branket definition symbold
+     * @param string $style 
+     * @return string 
+     */
+    public static function GetBranketOnlyStyle(string $style){
+        $container = new RegexMatcherContainer;
+        $container->match('\s*[\w\-]+\s*:\s*[^\[\];]+;\s*', 'exclude');
+        $container->begin('\[', '\](\\s*;\\s*)?', 'definition');
+        $container->begin("(\"|')", "\\1", 'string');
+        $ch = '';
+        $lpos = 0;
+        $container->treat($style, function($g, $pos, $data)use(& $lpos, & $ch){
+            switch ($g->tokenID) {
+                case 'exclude':
+                    $ch .= substr($data, $lpos, $g->from-$lpos);
+                    $lpos = $pos;
+                    break;
+                case 'definition':
+                    $end = igk_str_endwith(rtrim($g->value),';');
 
-        $v = self::RemoveTransformLitteralFrom($v);
-        $len = strlen($v);
-        $offset = 0;
-        $regex = '/\s*[\w\-]+\s*:\s*[^\[\];]+;\s*/';
-
-        while (($offset < $len) &&  ($pos = strpos($v, '[', $offset)) !== false) {
-            $g = substr($v, $offset, $pos - $offset);
-            $inner = igk_str_read_brank($v, $pos, ']', '[');
-
-            if (!empty($g) && (false !== strpos($g, ';'))) {
-                $g = preg_replace($regex, '', $g);
+                    $ch .= substr($data, $lpos, $g->from-$lpos).trim($g->value, '; ');
+                    if ($end){
+                        $ch.=';';
+                    }
+                    $lpos = $pos;
+                    break;  
             }
-            $v = substr($v, 0, $offset) . $g . $inner . substr($v, $pos + 1);
-            $offset = $offset + strlen($g . $inner) + 1;
-            $len = strlen($v);
-        }
-        if ($offset  < $len) {
-            // append extra ; if not end 
-            $g = substr($v, $offset);
-            if (false === strpos($g, ';')) {
-                $g .= ';';
-            }
-            $g = preg_replace($regex, '', $g);
-            $v = trim(substr($v, 0, $offset) . $g);
-        }
-        return trim($v);
+        });
+
+        return $ch;
     }
     /**
      * treat css detection 
@@ -647,8 +765,8 @@ abstract class CssUtils
         $v_ev = false;
         // + | ignore case 
         // + | value is empty or k alreay content lk theme or prefix value contain [litteral] to evaluate
-        // DECTECT ONLY STYLE WITH that have request transform 
-        $is_empty = empty($v);
+        // DECTECT ONLY STYLE WITH that have request transform  
+        $is_empty = empty($v);//IsGlobalExpression
         $theme_def = strpos($k, CssConstants::THEME_SELECTOR_PREFIX) !== false;
         $need_eval = !$is_empty && preg_match(IGK_CSS_TREAT_REGEX, $v);
 
@@ -844,6 +962,8 @@ abstract class CssUtils
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
         require_once __DIR__ . "/theme_functions.php";
 
+      
+
         $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
         $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
         $lg_screen = $theme->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
@@ -894,31 +1014,23 @@ abstract class CssUtils
         self::BindThemeFile($file, $render_options->theme_name, $args);
         $root = [];
         $theme->setRootReference($root);
+        ob_start();
         include($file);
-
-
-
+        $src = ob_get_contents();
+        ob_end_clean();  
+        if ($src){ 
+            //+ | inject css style - no render -  
+            $theme[] = $src;
+        } 
         igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);
-        // $cltab = &$theme->getCl();
-        // $cl = IGKCssColorHost::Create($cltab);
-        if (isset($root) && is_array($root)) {
-            $v_root = igk_getv($def, ":root", "");
-            $v_root = implode(";", array_map(
-                function ($a, $b) {
-                    igk_set_env_keys("sys://css/vars", $b, $a);
-                    return $b . ":" . $a;
-                },
-                $root,
-                array_keys($root)
-            ));
-            $def[":root"] = $v_root;
-            unset($v_root);
-        }
+        // + remove binding properties args
     }
+
+    static $old_theme;
     /**
      * priority to file that match the current theme style in theme folder 
-     * @param string $file 
-     * @param string $theme_name 
+     * @param string $file style files
+     * @param string $theme_name 'light'|'dark'
      * @param mixed $args 
      * @return void 
      */
@@ -926,8 +1038,8 @@ abstract class CssUtils
     {
         $rf = igk_io_basenamewithoutext($file);
         $v_dir = Path::Combine(dirname($file), IGK_THEMES_FOLDER);
-
-        foreach (['', $rf] as $tf) {
+        // + | fix list of theme file accorging to cibling styles file
+        foreach (['', $rf.'.'] as $tf) {
             $f = $v_dir . "/" . $tf . $theme_name . CssConstants::THEME_FILE_EXT;;
             if (file_exists($f)) {
                 igk_include_if_exists(
@@ -982,5 +1094,16 @@ abstract class CssUtils
         $tkeys = array_keys($keys);
         sort($tkeys);
         return $tkeys;
+    }
+
+    public static function GetRootPropsArray(array $list){
+         // only detected properties must be update as root definition 
+         $mk = [];
+         foreach(array_keys($list) as $k){
+             if (preg_match('/^--/',$k)){
+                 $mk[$k] = $list[$k];
+             }
+         }
+         return $mk;
     }
 }

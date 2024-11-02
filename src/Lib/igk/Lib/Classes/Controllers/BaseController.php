@@ -195,7 +195,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     // }
     ///<summary></summary>
     /**
-     * 
+     * rende view file
      */
     protected function _renderViewFile()
     {
@@ -379,8 +379,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $conf = $inc($conf);
             $def = Activator::CreateNewInstance(static::viewConfigClass(), $conf);
             $entry = $def->default_dir_entry;
-            if ($entry == $fname) {
-                ViewHelper::ForceDirEntry($this, $fname, $redirect_request);
+            if ($entry == $fname){
+                if(Request::getInstance()->method('GET')){
+                    ViewHelper::ForceDirEntry($this, $fname, $redirect_request);
+                }
             } else {
                 if (in_array($fname, $def->is_dir_entry)) {
                     ViewHelper::ForceDirEntry($this, $fname, $redirect_request);
@@ -439,14 +441,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             } catch (\Exception $ex) {
                 // + | handler failed or thro an exception. 
                 // + | method no present
-                if (igk_environment()->isDev()) {
-                    igk_dev_ilog(implode('|',[
-                        "exception raise : " . $ex->getMessage(),
-                        $ex->getFile(),
-                        $ex->getLine()
-                    ]));
+                if (igk_environment()->isDev()) { 
                     igk_set_header(500); 
-                    Logger::danger("[BLF] - path error: " . $ex->getMessage());
+                    Logger::danger("[BLF] - error - " . $ex->getMessage());
                     ExceptionUtils::ShowException($ex);
                     igk_exit();
                 }
@@ -1057,7 +1054,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if ($viewctx = $this->getEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY)) {
             $view_env_arg->viewcontext = $viewctx;
         }
-        if (igk_count($_REQUEST) > 0) {
+        if (igk_environment()->is('development') || igk_count($_REQUEST) > 0) {
             $view_env_arg->request = Request::getInstance();
         }
         if (!is_null($func_args = $this->getParam("func_get_args"))) {

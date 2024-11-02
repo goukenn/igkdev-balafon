@@ -25,7 +25,5 @@ class HtmlNoTagNode extends HtmlNode{
     public function getCanRenderTag(){ 
         return false;
     }    
-    public function getIsActive(){
-        
-    }
+    public function getIsActive(){}
 }

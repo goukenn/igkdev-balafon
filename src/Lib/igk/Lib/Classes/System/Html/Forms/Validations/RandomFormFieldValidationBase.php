@@ -13,7 +13,7 @@ use ReflectionException;
 
 ///<summary></summary>
 /**
-* 
+* use to build random field validation
 * @package IGK\System\Html\Forms\Validations
 * @author C.A.D. BONDJE DOUE
 */

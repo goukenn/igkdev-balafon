@@ -11,7 +11,10 @@ namespace IGK\Css;
 * @package IGK\System\Css
 */
 class CssThemeOptions{
-    const DEFAULT_THEME_NAME = "dark";
+    const DEFAULT_THEME_NAME = self::DARK_THEME_NAME;
+    const DARK_THEME_NAME = "dark";
+    const LIGTH_THEME_NAME = "light";
+    const BOTH_THEME_NAME = "both";
     /**
      * theme name
      * @var ?string
@@ -23,6 +26,11 @@ class CssThemeOptions{
      * @var ?array
      */
     var $skips;
+    /**
+     * 
+     * @var ?ICssStoreRootListener
+     */
+    var $rootListener;
     public function __construct()
     { 
     }

@@ -345,7 +345,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             }
             else{
                 igk_ilog("resource file not present: ".$f);
-                igk_set_header(404);
+                igk_set_header(RequestResponseCode::NotFound);
             }
             igk_exit();
             break;

@@ -5,6 +5,7 @@
 namespace IGK\System\Caches;
 
 use Exception;
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
@@ -12,6 +13,7 @@ use IGK\Database\DbSchemas;
 use IGK\Helper\Activator;
 use IGK\Helper\Utility;
 use IGK\System\Console\Logger;
+use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\SchemaMigrationInfo;
@@ -165,6 +167,7 @@ class DBCaches
     }
     /**
      * get table information
+     * @return ?SchemaMigrationInfo
      */
     public static function GetTableInfo(string $table, ?BaseController $controller = null)
     {
@@ -266,6 +269,9 @@ class DBCaches
                     $rdata = [];
                     if ($trdata) {
                         foreach ($trdata as $ctrl => $v) {
+                            if ($ctrl== ApplicationModuleController::class){
+                                $ctrl = SysDbController::class;
+                            }
                             if (!($gctrl = igk_getctrl($ctrl, false))) {
                                 continue;
                             }
@@ -428,6 +434,10 @@ class DBCaches
             // + | update data with table's row model reference info
             //
             $ref_def->tableRowReference = igk_array_object_refkey($ref_def->columnInfo, IGK_FD_NAME);
+        }
+        if (empty($ref_def->modelClass) && $ref_def->controller){
+            // + | retrieve the controller attaached
+            $ref_def->modelClass = IGKSysUtil::GetModelTypeName($ref_def->defTableName, $ref_def->controller);
         }
         $table_info = $ref_def;
         return $ref_def->tableRowReference;

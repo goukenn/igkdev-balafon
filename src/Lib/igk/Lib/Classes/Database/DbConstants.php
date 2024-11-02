@@ -14,4 +14,6 @@ abstract class DbConstants{
     const CALLBACK_OPTS = '@callback';
     const VARCHAR_DEFAULT_LENGTH=191;
     const URL_MAX_LENGTH = 255;
+    const COUNT_ALL_COLUMNS = 'Count(*)';
+    const PREFIX_KEY = '%prefix%';
 }

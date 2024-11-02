@@ -153,9 +153,9 @@ class session extends \IGKLibraryBase{
         // + | -----------------------------------------------------------
         // + | clear user session cookies
         // + |
-        setcookie(igk_sys_domain_name()."/".Cookies::USER_ID, null); 
+        setcookie(igk_sys_domain_name()."/".Cookies::USER_ID, ''); 
         if ($sess_id){
-            setcookie($sess_id, null);
+            setcookie($sess_id, '');
             unset($_COOKIE[$sess_id]);
         }
         $this->close(); 

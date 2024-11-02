@@ -10,6 +10,7 @@ namespace IGK\System\Console\Commands;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
+use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use \IGKControllerManagerObject;
@@ -85,13 +86,8 @@ class MakeFactoryCommand extends AppExecCommand
 
         $force = property_exists($command->options, "--force");
         $gen  = false ;
-        foreach ($bind as $n => $c) {
-            if (!file_exists($n) || $force) {
-                $c($n, $command);
-                Logger::success("generate : " . $n);
-                $gen = true;
-            }
-        }
+        Utility::MakeBindFiles($command, $bind, $force);
+      
         if ($gen){
             \IGK\Helper\SysUtils::ClearCache();
         }

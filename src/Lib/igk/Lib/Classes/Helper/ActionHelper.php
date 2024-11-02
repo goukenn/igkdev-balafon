@@ -558,6 +558,13 @@ abstract class ActionHelper
                         $tp = igk_array_last(explode('/', $fname));
                         if ($tp != IGK_DEFAULT) {
                             $_index = $tp;
+                        } else { 
+                            if (count($_t)==1){
+                                $n = $_t[0];
+                                if (method_exists($handler_class_name, $n)){
+                                    $_index = array_shift($_t);
+                                }
+                            }
                         }
                     }
                     $handlerArgs = [$_index];

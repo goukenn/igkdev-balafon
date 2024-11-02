@@ -702,7 +702,7 @@
 
 		<Migration>
 			<addColumn after="clupdate_at" table="%prefix%users">
-				<Column clName="clDeactivate_At" clNotNull="true" clType="DateTime"></Column>
+				<Column clName="clDeactivate_At" clNotNull="false" clType="DateTime" clDescription="user deactivated"></Column>
 			</addColumn>
 		</Migration>
 
@@ -714,7 +714,7 @@
 
 		<Migration>
 			<addColumn after="clDeactivate_At" table="%prefix%subdomains">
-				<Column clDefault="Now()" clName="clCreate_At" clNotNull="false" clType="DateTime"></Column>
+				<Column clDefault="Now()" clName="clCreate_At" clType="DateTime"></Column>
 
 				<Column clDefault="Now()" clInsertFunction="Now()" clName="clUpdate_At"
 					clNotNull="false" clType="DateTime" clUpdateFunction="Now()"></Column>
@@ -734,14 +734,6 @@
 				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="loglogs_Update_At"
 					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
 			</changeColumn>
-		</Migration>
-
-
-		<Migration> 
-			<dropColumn column="clprofile_ing" table="%prefix%users" />  
-			<addColumn after="clpicture" table="%prefix%users">
-				<Column clName="clprofile_ing" clType="text"></Column>  
-			</addColumn>
 		</Migration>
 	</Migrations>
 </data-schemas>

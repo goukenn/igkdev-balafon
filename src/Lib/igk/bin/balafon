@@ -7,37 +7,39 @@
 
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
+use IGK\System\Console\BalafonApplication;
+use IGK\System\Console\Commands\ClearCacheCommand;
 
-if (!version_compare(PHP_VERSION, "7.3", ">=")){
+if (!version_compare(PHP_VERSION, "7.3", ">=")) {
     die("mandory version required. 7.3<=");
 }
 
 require_once(__DIR__ . "/../igk_framework.php");
-require_once(IGK_LIB_CLASSES_DIR."/interfaces.php");
-require_once(IGK_LIB_CLASSES_DIR."/IGKObject.php");
-require_once(IGK_LIB_CLASSES_DIR."/IGKApplicationBase.php");
-require_once(IGK_LIB_CLASSES_DIR."/Resources/R.php");
-require_once(IGK_LIB_CLASSES_DIR."/System/Console/App.php");
-require_once(IGK_LIB_CLASSES_DIR."/System/Console/BalafonApplication.php");
-require_once(IGK_LIB_CLASSES_DIR."/System/Console/Logger.php");
-require_once(IGK_LIB_CLASSES_DIR."/System/Console/ConsoleLogger.php");
-require_once(IGK_LIB_CLASSES_DIR."/ApplicationFactory.php");
-require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironmentConstants.php");
-require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
-require_once(IGK_LIB_CLASSES_DIR."/Server.php");
+require_once(IGK_LIB_CLASSES_DIR . "/interfaces.php");
+require_once(IGK_LIB_CLASSES_DIR . "/IGKObject.php");
+require_once(IGK_LIB_CLASSES_DIR . "/IGKApplicationBase.php");
+require_once(IGK_LIB_CLASSES_DIR . "/Resources/R.php");
+require_once(IGK_LIB_CLASSES_DIR . "/System/Console/App.php");
+require_once(IGK_LIB_CLASSES_DIR . "/System/Console/BalafonApplication.php");
+require_once(IGK_LIB_CLASSES_DIR . "/System/Console/Logger.php");
+require_once(IGK_LIB_CLASSES_DIR . "/System/Console/ConsoleLogger.php");
+require_once(IGK_LIB_CLASSES_DIR . "/ApplicationFactory.php");
+require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php");
+require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php");
+require_once(IGK_LIB_CLASSES_DIR . "/Server.php");
 // loader
-require_once(IGK_LIB_CLASSES_DIR."/ApplicationLoader.php");
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/conf.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/environment.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/engine.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/reflection.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/debug.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/sys.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/io.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/string.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/db.php"); 
-require_once(IGK_LIB_DIR."/Lib/functions-helpers/docs.php"); 
-require_once(IGK_LIB_DIR."/igk_functions.php"); 
+require_once(IGK_LIB_CLASSES_DIR . "/ApplicationLoader.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/conf.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/environment.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/engine.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/reflection.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/debug.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/sys.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/io.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/string.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/db.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/docs.php");
+require_once(IGK_LIB_DIR . "/igk_functions.php");
 
 ignore_user_abort(false);
 $_SERVER["HTTP_USER_AGENT"] = "balafon - CLI";
@@ -49,26 +51,69 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
 // + | --------------------------------------------------------------------
 // + | check for command and working directory  
 // + |
-(function(& $argv){
-if (file_exists($cf = $_SERVER['PWD']."/balafon.config.json")){
-    $v_pdir =dirname($cf);
-    if ($conf = json_decode(file_get_contents($cf))){
-        // + | change workbench current working directory 
-        $wb = igk_conf_get($conf, "workbench/cwd") ?? getenv('IGK_WORKING_DIR');
-        if ($wb && is_dir($wb)){
-            chdir($wb);
-        } else if ($wb){
-            fwrite(STDERR, "missing configured worked directory");
+(function (&$argv) {
+    // start by filtering
+    $cwd = $_SERVER['PWD']; 
+    $argv = array_filter(array_map(BalafonApplication::class. "::FilterArgs", $argv));
+    $_filter = false;
+    if ($cwd != ($rcwd = getcwd())){
+        $_SERVER['PWD'] = $rcwd;
+        $_filter = true;
+    } 
+    foreach (
+        [
+            "/balafon.config.json" => [BalafonApplication::class, 'InitProject'],
+            "/balafon.module.json" => [BalafonApplication::class, 'InitModule']
+        ] as $k => $callable
+    ) {
+        if (file_exists($cf = $_SERVER['PWD'] . $k)) {
+            $v_pdir = dirname($cf);
+            if ($conf = json_decode(file_get_contents($cf))) {
+                 // + | change workbench current working directory 
+                $wb = igk_conf_get($conf, "workbench/cwd") ?? getenv('IGK_WORKING_DIR');
+                if ($wb && is_dir($wb)) {
+                    chdir($wb);
+                } else if ($wb) {
+                    fwrite(STDERR, "missing configured worked directory");
+                }
+                $callable($v_pdir, $conf, $argv);
+                set_include_path($v_pdir . ':' . get_include_path());
+                return;
+            }
         }
-        if(!preg_match("/--controller:/", implode(' ', $argv))){
-            $controller = igk_conf_get($conf, 'controller') ?? igk_sys_detect_project_controller($v_pdir);  
-            if ($controller)     
-                $argv[] = "--controller:".$controller;
-        }   
-        set_include_path($v_pdir.':'.get_include_path());
-    }    
-}
-})($argv); 
+    }
+    // + | --------------------------------------------------------------------
+    // + | so working dir fallback
+    // + | 
+    if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])){
+        if (is_dir($wdir)){ 
+            // add include path to path separator
+            set_include_path(get_include_path().PATH_SEPARATOR.$cwd);
+            $_SERVER['PWD'] = $wdir;
+            chdir($wdir);
+            $_SERVER['IGK_COMMAND_PWD'] = $cwd;
+        }
+    } 
+    // + | no reach fallback
+    if (file_exists($cf = $_SERVER['PWD'] . "/balafon.config.json")) {
+        $v_pdir = dirname($cf);
+        if ($conf = json_decode(file_get_contents($cf))) {
+            // + | change workbench current working directory 
+            $wb = igk_conf_get($conf, "workbench/cwd") ?? getenv('IGK_WORKING_DIR');
+            if ($wb && is_dir($wb)) {
+                chdir($wb);
+            } else if ($wb) {
+                fwrite(STDERR, "missing configured worked directory");
+            }
+            if (!preg_match("/--controller:/", implode(' ', $argv))) {
+                $controller = igk_conf_get($conf, 'controller') ?? igk_sys_detect_project_controller($v_pdir);
+                if ($controller)
+                    $argv[] = "--controller:" . $controller;
+            }
+            set_include_path($v_pdir .PATH_SEPARATOR. get_include_path());
+        }
+    }
+})($argv);
 
 /**
  * @var \IGK\System\Console\BalafonApplication $app 
@@ -81,15 +126,16 @@ $command = $app->getPrimaryCommand();
 // + | handle default
 // + |
 
-if (in_array("--debug", $argv)){
+if (in_array("--debug", $argv)) {
     $fc = $command["--debug"][0];
     $fc([], $command);
-}     
+}
+ 
 //--------------------------------------------------------------------------------
 // | Run the application
 // |
 $app->command = $command;
-$app->environment = igk_environment()->name(); 
+$app->environment = igk_environment()->name();
 // | run application
 // |
 $status = $app->run(__FILE__, false);

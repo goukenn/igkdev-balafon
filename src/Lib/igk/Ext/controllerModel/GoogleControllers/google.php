@@ -4,8 +4,9 @@
 // description: BALAFON google's utility function. fonts, some components
 // version: 1.0
 // annotation: none, vertical-bubble, bubble
-// default: //view
+// default: 
 
+use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
@@ -23,6 +24,7 @@ if (defined('GOOGLE_MODULE')) {
     require_once(__DIR__ . "/Lib/Classes/IGKGoogleCssUri.php");
     require_once(__DIR__ . "/Lib/Classes/IGKHrefListValue.php");
     require_once(__DIR__ . "/Lib/Classes/GoogleEvents.php");
+    require_once(__DIR__ . "/Lib/Classes/GoogleAPIEndPoints.php");
     define('GOOGLE_MODULE', 1);
     define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
     define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
@@ -93,6 +95,13 @@ if (defined('GOOGLE_MODULE')) {
         $n = $rp->replace($family);
         $theme->def[".google-" . $n] = "/* binding ext */ font-family: '{$family}', sans-serif;";
     }
+    /**
+     * 
+     * @param mixed $family 
+     * @param mixed $size 
+     * @return mixed 
+     * @throws Exception 
+     */
     function igk_google_get_font_sizes($family, $size = null)
     {
         if ($size === null) {
@@ -135,21 +144,25 @@ if (defined('GOOGLE_MODULE')) {
     {
         return igk_google_get_css_fontfile($family);
     }
-    ///<summary>get google uri form</summary>
-    /**
-     * get google uri form
-     */
-    function igk_google_font_api_uri($n = null, $size = null)
-    {
-
-        $s = "https://fonts.googleapis.com/css";
-        if ($n) {
-            $s .= "?family=" . str_replace(" ", "+", $n);
-            if ($size) {
-                $s .= ":" . str_replace(";", ",", $size);
+    if (!function_exists('igk_google_font_api_uri')) {
+        ///<summary>get google uri form</summary>
+        /**
+         * helper: get google uri form
+         * @param ?string $n name of the font 
+         * @param ?string $size name of the font 
+         * @return string uri
+         */
+        function igk_google_font_api_uri(?string $n = null, ?string $size = null)
+        {
+            $s =  GoogleAPIEndPoints::CssEndPoint;
+            if ($n) {
+                $s .= "?family=" . str_replace(" ", "+", $n);
+                if ($size) {
+                    $s .= ":" . str_replace(";", ",", $size);
+                }
             }
+            return $s;
         }
-        return $s;
     }
     ///<summary></summary>
     ///<param name="family"></param>
@@ -356,7 +369,7 @@ if (defined('GOOGLE_MODULE')) {
             $temp = tempnam(sys_get_temp_dir(), "fxip");
             foreach ($links as $v) {
                 $b = post_uri($v);
-                if ($zip == null) {
+                if ($zip === null) {
                     $zip = igk_zip_content($temp, basename($v), $b, 0);
                 } else {
                     $zip->addFromString(basename($v), $b);
@@ -423,7 +436,8 @@ EOF
          * 
          * @param mixed $t
          */
-        function igk_html_demo_google_line_waiter($t){
+        function igk_html_demo_google_line_waiter($t)
+        {
             $n = igk_html_node_google_line_waiter();
             $t->add($n);
             return $n;
@@ -540,25 +554,25 @@ EOF;
         return $n;
     }
 
-    function igk_google_init_css(){
-          //google - bind local style
-          if (!igk_get_env("google::init_global_style")) {
+    function igk_google_init_css()
+    {
+        //google - bind local style
+        if (!igk_get_env("google::init_global_style")) {
             igk_set_env("google::init_global_style", 1);
-            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss";
-            // igk_css_reg_global_style_file($f, null, null, 1); 
-
+            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss"; 
             $theme = ViewHelper::CurrentDocument()->getTheme();
-            igk_css_bind_file($theme, null, $f); 
+            igk_css_bind_file($theme, null, $f);
         }
     }
     ///<summary></summary>
     /**
      * 
      */
-    function igk_html_node_google_line_waiter(){
+    function igk_html_node_google_line_waiter()
+    {
         $n = igk_create_node();
         $n->setClass("igk-google-line-waiter");
-        igk_google_init_css(); 
+        igk_google_init_css();
         return $n;
     }
     ///<summary></summary>
@@ -659,7 +673,7 @@ EOF;
                                 if (file_exists($tf)) {
                                     igk_navto($uri);
                                 } else {
-                                    igk_set_header(404);
+                                    igk_set_header(RequestResponseCode::NotFound);
                                     igk_exit();
                                 }
                             }

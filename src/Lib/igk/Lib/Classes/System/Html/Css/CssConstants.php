@@ -18,4 +18,5 @@ class CssConstants{
     const THEME_FILE_EXT = ".theme.pcss";
     const THEME_SELECTOR_PREFIX = 'html[data-theme=';
     const THEME_SELECTOR_FORMAT = self::THEME_SELECTOR_PREFIX. "'%s'] ";
+    const SUPPORT_THEME = 'dark|light';
 }

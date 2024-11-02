@@ -1043,9 +1043,36 @@
             }
         });
     })();
-    // ------------------------------
-    // register media type 
-    // ------------------------------
+
+
+
+    // + | --------------------------------------------------------------------------
+    // + | cookies management
+    // + | 
+    (function () {
+        // on init before set the properties ste the properties cookies name readonly
+        let sC = null;
+        const appCookies = igk.cookieName || 'blf-c';
+        igk.system.createNS("igk.cookies", {
+            set(n, v) {
+                if (!sC) {
+                    let l = igk.web.getcookies(appCookies);
+                    if (l) {
+                        sC = JSON.parse(l) || {};
+                    } else {
+                        sC = {};
+                    }
+                }
+                sC[n] = v;
+                igk.web.setcookies(appCookies, JSON.stringify(sC), undefined, "/");
+                return sC;
+            }
+        });
+    })();
+
+    // + | --------------------------------------------------------------------------
+    // + | register media type 
+    // + |  
     (function () {
         const IGK_UNDEF = "undefined";
         const IGK_FUNC = "function";
@@ -1303,7 +1330,7 @@
                 console.debug('[BJS] -/!\v properties ' + item + ' not defined');
             }
         }
-
+        // + | retrieve document set theme 
         function _get_html_theme() {
             var d = document.getElementsByTagName('html')[0];
             return d.getAttribute('data-theme');
@@ -1501,7 +1528,6 @@
                             s.innerText = xhr.responseText;
                             document.head.appendChild(s);
                             m_chtheme = s;
-                            // igk.css.appendRule(xhr.responseText, 0);
                         }
                     }
                 });
@@ -1663,9 +1689,20 @@
                 return vendors;
             }
         });
-        // iniitilial ie events
-        igk.ready(function () {
+      
+        var e = {};
+        e.mediachanged = 1;
+        for (var s in e) {
+            e[s] = 'sys://events/' + s;
+        }
+        igk.system.createNS("igk.publisher.events", e);
+
+
+          // iniitilial ie events
+          igk.ready(function () {
             var B = igk.dom.body();
+            let cookies = igk.cookies; 
+
             if (igk.navigator.isFirefox() || igk.navigator.isChrome() || igk.navigator.isSafari()) {
                 // to get content of css style item must be added to document
                 B.add("div").setCss({ position: 'absolute', visibility: 'hidden', overflow: 'hidden', 'height': '0px', 'bottom': '0px' })
@@ -1697,8 +1734,16 @@
             // + | theme manage change theme detections
             // + | register to (prefers-color-scheme: dark)
             // + |
-            function __checkMediaTheme() {
-                const cTheme = _get_html_theme();
+            function __checkMediaTheme(){
+                // priority to meta name definition passed by application 
+                const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
+                let cTheme = _get_html_theme();
+                let _stheme = (meta_theme) ? meta_theme.getAttribute('content') : null;
+                if (_stheme && /\b(dark|light)\b/.test(_stheme) && (_stheme != cTheme)){
+                    //change the document theme specification to match data
+                    document.getElementsByTagName('html')[0].setAttribute('data-theme', _stheme);
+                    cTheme = _stheme;
+                }
                 let m = window.matchMedia('(prefers-color-scheme: dark)');
                 if (!cTheme) {
                     igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
@@ -1710,20 +1755,15 @@
 
             if (window.matchMedia) {
                 __checkMediaTheme();
-            }
-
-
+            } 
             B.addClass(m_c);
             __raiseMedia(m_c);
             igk.winui.reg_event(window, 'resize', __checkMedia);
         });
-        var e = {};
-        e.mediachanged = 1;
-        for (var s in e) {
-            e[s] = 'sys://events/' + s;
-        }
-        igk.system.createNS("igk.publisher.events", e);
     })();
+
+
+
     (function () {
         function igk_str_padEnd(l, v) {
             var hl = this.length;
@@ -5272,6 +5312,7 @@
     //---------------------------------------------------------------------------
     (function () {
         var m_item = {};
+        const _loader = igk.createNode('div');
         const _event= {
             onSvgItemLoaded: 'on-svg-items-list-loaded',
             onSvgSingleItemLoaded: 'on-svg-item-loaded',
@@ -5311,7 +5352,7 @@
             this.remove();
         };
         // svg list init svg list
-        function __init_svg_l() {
+        function __init_svg_l(){
             igk.dom.body().select(".igk-svg-lst").each_all(__initlist);
             _loader.raiseEvent(_event.onSvgItemLoaded);  
         }
@@ -5332,7 +5373,6 @@
                 console.error("[igk] - svg-lst-item <<" + n + ">> not found");
             } 
         };
-        const _loader = igk.createNode('div');
         const onSvgItemLoaded = _loader.addEvent(_event.onSvgItemLoaded, {});
         const onSvgSingleItemLoaded = _loader.addEvent(_event.onSvgSingleItemLoaded, {});
         igk.system.createNS('igk.control.svgLoader', {
@@ -6087,10 +6127,17 @@
                     }
                 }
             },
+            tel(e){
+                _handler.number(e, false);
+            },
+            pastetel(e){
+                _handler.pastenumber(e, false);
+            },
             integer(e) {
                 _handler.number(e, false);
             },
             pasteinteger(e) {
+                console.log("paste number");
                 _handler.pastenumber(e, false);
             }
         };
@@ -6112,7 +6159,7 @@
                 } else if (this.supportClass('integer')) {
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
-                } else if (this.supportClass('phone-number')) {
+                } else if (this.supportClass('phone-number')|| this.supportClass('tel')) {
                     if (this.o.value) {
                         this.o.value = this.o.value.replace(/[^0-9]/, "");
                     } 
@@ -6180,29 +6227,7 @@
         })
     })();
 
-
-    /// cookies management
-
-    (function () {
-        // on init before set the properties ste the properties cookies name readonly
-        let sC = null;
-        const appCookies = igk.cookieName || 'blf-c';
-        igk.system.createNS("igk.cookies", {
-            set(n, v) {
-                if (!sC) {
-                    let l = igk.web.getcookies(appCookies);
-                    if (l) {
-                        sC = JSON.parse(l) || {};
-                    } else {
-                        sC = {};
-                    }
-                }
-                sC[n] = v;
-                igk.web.setcookies(appCookies, JSON.stringify(sC), undefined, "/");
-                return sC;
-            }
-        });
-    })();
+   
     // igk.ctrl.bindAttribManager("igk-js-bind-select-to",function(n,v){
     // var s=null;
     // var q=this;

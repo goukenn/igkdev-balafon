@@ -6,19 +6,24 @@
 
 namespace IGK\Models\Caches;
 
+use IGK\Models\ModelBase;
+
 /**
  * chache model result
  * @package IGK\Models\Caches
  */
-class CacheModels{
+class CacheModels
+{
     static $sm_caches;
-    public static function & _GetCaches(){
-        if (self::$sm_caches == null){
+    public static function &_GetCaches()
+    {
+        if (self::$sm_caches == null) {
             self::$sm_caches = [];
         }
         return self::$sm_caches;
     }
-    public static function Get(string $key){
+    public static function Get(string $key)
+    {
         $_v = self::_GetCaches();
         return igk_getv($_v, $key);
     }
@@ -28,9 +33,10 @@ class CacheModels{
      * @param mixed $value 
      * @return void 
      */
-    public static function Register($key, $value){
-        $_v = & self::_GetCaches();
-        if ($value===null){
+    public static function Register($key, $value)
+    {
+        $_v = &self::_GetCaches();
+        if ($value === null) {
             unset($_v[$key]);
         }
         $_v[$key] = $value;
@@ -38,7 +44,19 @@ class CacheModels{
     /**
      * ClearModel Cache
      */
-    public static function Clear(){
+    public static function Clear()
+    {
         self::$sm_caches = [];
+    }
+    /**
+     * retrieve model cached key
+     * @param ModelBase $model 
+     * @param mixed $column 
+     * @param mixed $value 
+     * @return string 
+     */
+    public static function GetCacheKey(ModelBase $model, $column, $value): string
+    {
+        return  "cache://" . igk_uri(get_class($model) . "/" . $column . "/" . $value);
     }
 }

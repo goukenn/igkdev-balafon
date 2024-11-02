@@ -295,7 +295,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * how to display this model
-     * @return mixed 
+     * @return ?string 
      * @throws Exception 
      */
     public function display()
@@ -307,7 +307,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if (is_callable($fc = $cl::__callStatic("getMacro", ["display"]))) {
             return $fc($this);
         }
-        return $this->to_json();
+        return null;// $this->to_json();
     }
     /**
      * get reference primary key column
@@ -424,9 +424,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
 
     /**
      * 
-     * @param mixed $raw 
-     * @param int $mock 
-     * @param bool $unset unset marker definition
+     * @param mixed $raw row of data to update 
+     * @param bool $mock is a mocking definition 
+     * @param bool $unset unset unused property definition 
      * @return void 
      * @throws IGKException 
      * @throws Exception 
@@ -434,7 +434,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function __construct($raw = null, $mock = 0, $unset = false)
+    public function __construct($raw = null, $mock = 0, bool $unset = false)
     {
 
         $this->_initialize($raw, $mock, $unset);
@@ -456,7 +456,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     protected function _initialize($raw = null, $mock = 0, $unset = false)
     {
         $t =  $this->getTable();
-        // igk_wln("table : ".$t);
         $tableReference = null;
         $v_inf = DBCaches::GetColumnInfo($t, $this->getController(), $tableReference);
 
@@ -545,7 +544,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             }
         }
         if (igk_environment()->isDev()) {
-            if (!property_exists($this->raw, $name) && (strpos($name, "::") !== 0)) {
+            if ($name && !property_exists($this->raw, $name) && (strpos($name, "::") !== 0)) {
                 igk_die("property [" . static::class . "::$name] not present");
             }
         }
@@ -1039,5 +1038,13 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     public function __isset($name)
     {
         return isset($this->raw->$name);
+    }
+    /**
+     * check if column exists in raw definition
+     * @param string $name 
+     * @return bool 
+     */
+    public function columnExists(string $name){
+        return property_exists($this->raw, $name);
     }
 }

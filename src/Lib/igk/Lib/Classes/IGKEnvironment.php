@@ -7,9 +7,11 @@
 
 
 use IGK\Controllers\BaseController;
+use IGK\IGKEnvironmentServices;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Resources\R;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
 use Spatie\PhpUnitWatcher\Screens\Phpunit;
@@ -121,7 +123,14 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return $version;
     }
-
+    /**
+     * write to environment debug message 
+     * @param string $message 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function write_debug(string $message)
     {
         $d = &$this->createArray("debug_load");
@@ -822,5 +831,18 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             $data =  new ServerFakerInput($data);
         }
         igk_environment()->FakerInput = $data;
+    }
+
+    /**
+     * get environment exposed services
+     * @return IGKEnvironmentServices 
+     */
+    public function getServices(){
+        $r = igk_environment()->services;
+        if (!($r instanceof IGKEnvironmentServices)){
+            $r = new IGKEnvironmentServices;
+            igk_environment()->services = $r;
+        }
+        return $r;
     }
 }

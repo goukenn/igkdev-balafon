@@ -31,13 +31,21 @@ interface IDbQueryGrammar extends IGrammar {
      * @param mixed $inf 
      * @return ?string
      */
-    function createSelectQuery(string $table_name, array $condition, $options=null): ?string;
+    function createSelectQuery(string $table_name, ?array $condition, $options=null): ?string;
 
     /**
      * create and insert query
      * @return ?string 
      */
     function createInsertQuery(string $table_name, $values, $tableInfo= null):?string;
+
+    /**
+     * create update query
+     * @param string $table_name 
+     * @param mixed $values 
+     * @return mixed 
+     */
+    function createUpdateQuery(string $table_name, $values): ?string;
 
     /**
      * 

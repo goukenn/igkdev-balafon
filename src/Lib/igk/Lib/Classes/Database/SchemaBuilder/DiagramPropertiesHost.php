@@ -26,6 +26,8 @@ abstract class DiagramPropertiesHost{
     public function getLastProperty(){
         return $this->m_last;
     }
+    /**
+     *  */
     public function addProperties(?array $DiagramProperties ){
         $_key = IGK_FD_NAME;
         foreach(array_values($DiagramProperties) as $k){

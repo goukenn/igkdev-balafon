@@ -14,6 +14,8 @@
 */
 namespace IGK\Core\Ext\Google;
 // DIRECT RENDERINGuse IGKHtmlRelativeUriValueAttribute as IGKHtmlRelativeUriValueAttribute;
+
+use IGK\Helper\IO;
 use IGKIO ;
 use \IGKHtmlRelativeUriValueAttribute;
  
@@ -50,7 +52,7 @@ class IGKGoogleCssUri{
             if(IO::CreateDir($dir=dirname($f))){
                 $basename=basename($f);
                 igk_io_w2file($f=($dir."/notavailable.css"), "/* font not available for : {$basename} */", false);
-                $this->file=$f;
+                $this->m_file=$f;
             }
         }
         return (new IGKHtmlRelativeUriValueAttribute($f))->getValue();

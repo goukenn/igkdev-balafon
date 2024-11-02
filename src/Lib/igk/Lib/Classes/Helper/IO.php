@@ -25,17 +25,28 @@ use function igk_resources_gets as __;
  */
 class IO
 {
-   use IOSearchFileTrait;
+    use IOSearchFileTrait;
 
-    public static function ResolveFileExt($file, ?array $extensions = []){
+    /**
+     * get mimetype from buffer 
+     * @param string $buffer 
+     * @return string 
+     */
+    public static function MimeTypeFromBuffer(string $buffer)
+    {
+        $finfo = new \finfo(\FILEINFO_MIME_TYPE);
+        return $finfo->buffer($buffer);
+    }
+    public static function ResolveFileExt($file, ?array $extensions = [])
+    {
         $ext = igk_io_path_ext($file);
-        if (empty($text)){
+        if (empty($text)) {
             $ext = igk_getv($extensions, 0);
         }
-        $df = dirname($file)."/".igk_io_basenamewithoutext($file, $ext);
-        while(count($extensions)>0){
-            $q = ".".trim(array_shift($extensions), '.');
-            if (file_exists($file = $df.$q)){
+        $df = dirname($file) . "/" . igk_io_basenamewithoutext($file, $ext);
+        while (count($extensions) > 0) {
+            $q = "." . trim(array_shift($extensions), '.');
+            if (file_exists($file = $df . $q)) {
                 return $file;
             }
         }
@@ -48,17 +59,18 @@ class IO
      * @return bool 
      * @Exception 
      */
-    public static function CleanDir(string $dir):bool{
-        if ($hdir = @opendir($dir)){
+    public static function CleanDir(string $dir): bool
+    {
+        if ($hdir = @opendir($dir)) {
 
-            while(($m = readdir($hdir))!==false){
-                if (($m=='.') || $m == '..'){
+            while (($m = readdir($hdir)) !== false) {
+                if (($m == '.') || $m == '..') {
                     continue;
                 }
                 $c = Path::Combine($dir, $m);
-                if (is_dir($c)){
+                if (is_dir($c)) {
                     self::RmDir($c);
-                }else if (is_file($c)){
+                } else if (is_file($c)) {
                     @unlink($c);
                 }
             }
@@ -70,12 +82,13 @@ class IO
     /**
      * create a IgnoreHiddenDirAndFile 
      */
-    public static function IgnoreHiddenDirAndFileCallback(){
-        return function($f){
-            if (strpos(basename(dirname($f)), '.')===0){
+    public static function IgnoreHiddenDirAndFileCallback()
+    {
+        return function ($f) {
+            if (strpos(basename(dirname($f)), '.') === 0) {
                 return false;
             }
-            if (strpos(basename($f), '.')===0){
+            if (strpos(basename($f), '.') === 0) {
                 return false;
             }
             return true;
@@ -87,13 +100,30 @@ class IO
      * @return string|false|void 
      * @throws IGKException 
      */
-    public static function CreateTempDir(string $prefix){
+    public static function CreateTempDir(string $prefix)
+    {
         $tempdir = sys_get_temp_dir();
         $n = tempnam($tempdir, $prefix);
         @unlink($n);
-        if (self::CreateDir($n)){
+        if (self::CreateDir($n)) {
             return $n;
-        } 
+        }
+    }
+    /**
+     * helper: create a tempory file
+     * @param string $directory 
+     * @param string $ext 
+     * @param string $prefix 
+     * @return string 
+     * @throws Exception 
+     */
+    public static function CreateTempFile(string $directory, string $ext = '.tmp', string $prefix = '')
+    {
+        $file = tempnam($directory, $prefix);
+        if (!($file && ($ext && rename($file,  $tfile = $file . '.js')) && ($file = $tfile))) {
+            igk_die('failed to create ');
+        }
+        return $file;
     }
     /**
      * get a temp file name
@@ -101,7 +131,8 @@ class IO
      * @param null|string $tempdir 
      * @return string|false 
      */
-    public static function GetTempFile(string $prefix, ?string $tempdir=null){
+    public static function GetTempFile(string $prefix, ?string $tempdir = null)
+    {
         $tempdir = $tempdir ?? sys_get_temp_dir();
         $n = tempnam($tempdir, $prefix);
         return $n;
@@ -121,7 +152,7 @@ class IO
             return preg_match($pattern, basename($s));
         });
         if (count($files) > 0) {
-            usort($files, function($a, $b)use($pattern){
+            usort($files, function ($a, $b) use ($pattern) {
                 $va = igk_preg_match($pattern, basename($a), 'version');
                 $vb = igk_preg_match($pattern, basename($b), 'version');
                 return version_compare($vb, $va);
@@ -487,12 +518,12 @@ class IO
      */
     public static function GetCurrentRelativeUri($dir = IGK_STR_EMPTY, ?string $path = null)
     {
-        if (strpos($dir, "./") ===0){
+        if (strpos($dir, "./") === 0) {
             $dir = substr($dir, 2);
         }
         $rootdir = igk_io_rootdir();
         $bdir = igk_io_basedir();
-        if (empty($rootdir)){
+        if (empty($rootdir)) {
             return null;
         }
         if ($path === null) {
@@ -528,7 +559,7 @@ class IO
             }
             return $p . ltrim($dir, "/");
         }
-        return null;      
+        return null;
     }
     ///<summary>tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur</summary>
     /**
@@ -712,13 +743,13 @@ class IO
             };
         }
         $is_excludir_array = is_array($excludedir);
-        while (count($dirs)>0) {
+        while (count($dirs) > 0) {
             $q = array_pop($dirs);
             // use scan dir to order
-            $files = scandir($q);//, 2);
-            while(count($files)>0){
+            $files = scandir($q); //, 2);
+            while (count($files) > 0) {
                 $r = array_shift($files);
-                if (($r=='..') || ($r=='.')) continue;
+                if (($r == '..') || ($r == '.')) continue;
                 $f = $q . $sep . $r;
                 $mdata = 0;
                 if (!is_dir($f)) {
@@ -727,7 +758,7 @@ class IO
                         if ($mdata == -1) {
                             continue;
                         }
-                        if ($callback && !$callback($f)){
+                        if ($callback && !$callback($f)) {
                             continue;
                         }
                         $v_out[] = $f;
@@ -1051,13 +1082,26 @@ class IO
     ///<summary></summary>
     ///<param name="uri"></param>
     /**
-     * 
+     * check if this path exists and is abolutes path
      * @param mixed $uri
      */
     public static function IsAbsolutePath($uri)
     {
         $uri = igk_dir($uri);
         return file_exists($uri) && ($uri == igk_realpath($uri));
+    }
+    /**
+     * check if path is root path 
+     * @param string $path 
+     * @return bool 
+     */
+    public static function IsRootPath(string $path): bool
+    {
+        $_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
+        if ($_ISUNIX) {
+            return igk_str_startwith($path, '/');
+        }
+        return preg_match("/[a-z]:(\\|\/)/i", $path);
     }
     ///<summary></summary>
     ///<param name="dir"></param>
@@ -1081,7 +1125,7 @@ class IO
             closedir($hdir);
             return $empty;
         } else {
-            igk_debug_wln("warning:impossible d'ouvir le repertoire : " . $dir);
+            igk_debug_wln("warning:c'ant opend directory " . $dir);
         }
         return true;
     }
@@ -1327,5 +1371,4 @@ class IO
         }
         return $od;
     }
- 
 }

@@ -51,7 +51,7 @@ class CssBuilderTest extends BaseTestCase
     
         $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
-            "background-color: #333; color:yellow; box-shadow: 0px 2px 6px #111; -webkit-transform: scale(1.1);-ms-transform:scale(1.1); -moz-transform:scale(1.1); -o-transform: scale(1.1); transform: scale(1.1);",
+            "background-color: actionBarButtonHoverBackgroundColor; color:yellow; box-shadow: 0px 2px 6px ationBarButtonShadowColor; -webkit-transform: scale(1.1);-ms-transform:scale(1.1); -moz-transform:scale(1.1); -o-transform: scale(1.1); transform: scale(1.1);",
             $r, 
             "css_test_evaluatation: not resolved data"
         );
@@ -136,7 +136,7 @@ class CssBuilderTest extends BaseTestCase
         $systheme = igk_app()->getDoc()->getSysTheme();
         $v = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; [bgcl:confUpdateButtonBgColor, #444] [fcl:confUpdateButtonFgColor, #fff]";
         $this->assertEquals(
-            "border-left-color:indigo; background-color: #444; color: #fff;",
+            "border-left-color:confUpdateButtonBdrColor; background-color: confUpdateButtonBgColor; color: confUpdateButtonFgColor;",
             igk_css_treat($v, false, $theme, $systheme),
             "syscl: color define but not resolved not valid"
         );

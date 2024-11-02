@@ -9,6 +9,7 @@ namespace IGK\System\Http;
 use Exception;
 ///<summary>request exception</summary>
 class RequestException extends \IGKException{
+    protected $status;
  
     ///<summary>.ctr request constructor</summary>
     public function __construct($code, $message="", ?\Throwable $previous=null)

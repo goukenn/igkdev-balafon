@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Helper;
 
 use IGK\Helper\Utility;
+use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\Console\Logger;
 
 ///<summary></summary>
@@ -24,15 +25,9 @@ abstract class ConsoleUtility{
      * bind and make file 
      * @param array $bind 
      * @param mixed $command 
-     * @return void 
+     * @return bool 
      */
     static function MakeFiles(array $bind, $command, bool $force = false){
-    
-        foreach($bind as $n=>$c){
-            if ($force || !file_exists($n)){
-                $c($n, $command);
-                Logger::info("generate : ".$n);
-            }
-        } 
+        return CommandsUtility::MakeBindFiles($command, $bind, $force); 
     }
 }

@@ -9,6 +9,7 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
+use IGK\System\EntryClassResolution;
 
 if (!$force && !$controller->getCanInitDb()) {
     // igk_debug_wln("Can't init db ".$controller->Name. " ConfigUserConnected: ".igk_parsebool(igk_is_conf_connected()));
@@ -50,7 +51,7 @@ if (!$controller->getUseDataSchema()) {
         // + | BEFORE INIT - APPLICATION
         // + |
         $v_gcl =  \IGK\Database\DbInitManager::class;
-        if (!(($cl = $controller->resolveClass(IGKConstants::RESOLV_DATABASE_DBINIT_MANAGER_CLASS)) && class_exists($cl, false)
+        if (!(($cl = $controller->resolveClass(EntryClassResolution::DbInitManager)) && class_exists($cl, false)
             && is_subclass_of($cl, $v_gcl))) {
             $cl = $v_gcl; // \IGK\Database\DbInitManager::class;
         }

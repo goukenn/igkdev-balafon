@@ -12,6 +12,8 @@ namespace IGK\System;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class EntryClassResolution{
+    const IGK_TEST_NS = 'IGK\Tests';
+    const IGK='IGK';
     const DbSchemaBuilder = 'Database\InitDbSchemaBuilder';
     const DbMacrosDisplay = 'Database\Macros\Display';
     const DbClassMapping = 'Database\Mapping';
@@ -21,6 +23,10 @@ abstract class EntryClassResolution{
     const DbInitMacros = 'Database\InitMacros';
     const DbMigrations = 'Database\Migrations';
 
+    const ModelMappingNS = 'Database\Import';
+
+    const CommandEntryNS = '\System\Console\Commands';
+
     const Models = 'Models';
     const UserProfile = 'UserProfile';
     const Roles = 'Roles';
@@ -28,6 +34,13 @@ abstract class EntryClassResolution{
     const Actions = 'Actions';
 
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
+    const WinUI_Form_Validation = '/WinUI/FormValidations';
 
     const SysSyncProject = 'System\Console\Commands\SyncProject';
+    const ProjectProfilesClass = 'Profiles';
+    const AuthorizationClass = 'Authorizations';
+
+
+    const ResponseHandler = 'ResponseHandler';
+    const ActionBase = 'IGKActionBase';
 }

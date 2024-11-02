@@ -34,7 +34,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
     $_igk = igk_app();
     $doc = $_igk->Doc;
     if(!$doc){
-        igk_set_header(404);
+        igk_set_header(RequestResponseCode::NotFound);
         igk_wln("/* not found - document */");
         igk_exit();
     } 
@@ -145,7 +145,7 @@ IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($
         igk_exit();
     }
     else{
-        igk_set_header(404);
+        igk_set_header(RequestResponseCode::NotFound);
         if(igk_is_ajx_demand()){
             igk_wl("[BJS] - Entry Script directory not found :".$fc);
             igk_exit();
@@ -174,7 +174,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_MET
                 igk_io_render_res_file($file, $arg);
             }
             else{
-                igk_set_header(404);
+                igk_set_header(RequestResponseCode::NotFound);
             }
         }
         break;
@@ -224,7 +224,7 @@ IGKRoutes::Register("^/!/lib/(:path+)[%q%]", function($path, $version=null){
             igk_exit();
         }
     }
-    igk_set_header(404);
+    igk_set_header(RequestResponseCode::NotFound);
     igk_exit();
 }
 , 1);

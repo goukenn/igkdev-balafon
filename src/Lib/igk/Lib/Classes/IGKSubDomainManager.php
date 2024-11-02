@@ -237,7 +237,7 @@ final class IGKSubDomainManager extends IGKObject{
     }
     ///<summary>init domain server</summary>
     /**
-    * init domain server
+    * init domain server - operation 
     */
     public static function Init(){
         self::$sm_isSubDomain=false;

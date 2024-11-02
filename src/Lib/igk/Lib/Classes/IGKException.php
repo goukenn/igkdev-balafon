@@ -19,7 +19,6 @@ class IGKException extends \Exception implements Throwable{
     * @param mixed $code the default value is 500
     */
     public function __construct($msg, $code=500, ?\Throwable $throwable=null){
-        
         parent::__construct($msg, $code, $throwable);        
     }
     ///<summary>display value</summary>

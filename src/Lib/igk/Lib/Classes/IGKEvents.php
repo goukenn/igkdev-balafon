@@ -140,6 +140,12 @@ class IGKEvents extends IGKObject
      */
     const BUILD_ASSETS = 'build_assets';
 
+    /**
+     * command Hooks
+     */
+    const COMMAND_HELP_OPTIONS_HOOK = 'command:help/options';
+    const COMMAND_HELP_HOOK = 'command:help';
+
     
     const VIEWCOMPLETE = 0x1;
     private $m_methods;

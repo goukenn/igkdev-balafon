@@ -31,4 +31,8 @@ trait DbDataDefinitionTrait{
      * @var ?string
      */
     var $Prefix;
+
+    /**
+     * table column display name
+     */
 }

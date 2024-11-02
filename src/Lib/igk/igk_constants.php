@@ -11,8 +11,9 @@
 //----------------------------------------------------------------------------------------
 define("IGK_BALAFON_JS_VERSION", "4.6.0.0408");
 defined("IGK_FRAMEWORK") || define("IGK_FRAMEWORK", "IGKDEV-WFM");
-!defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", "19.0"); 
-!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.0917");
+!defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", "2024.0"); 
+!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.1102");
+define("IGK_CORE_VERSION", "20.0");
 define("IGK_AUTHOR", "C.A.D. BONDJE DOUE");
 define("IGK_AUTHOR_CONTACT", "bondje.doue@igkdev.com");
 define("IGK_AUTHOR_2", "R. TCHATCHO");
@@ -45,7 +46,7 @@ define('IGK_DB_SCHEMA', 'https://igkdev.com/schemas/balafon.db.schemas.xsd');
 define('IGK_AUTHOR_COMMUNITY_INFO',[
     "mail" => "mailto:" . IGK_AUTHOR_CONTACT,
     "linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",
-    "twitter" => "https://twitter.com/@IGKDEV",
+    "twitter" => "https://x.com/@CAD_BONDJE_DOUE",
     "facebook" => "https://facebook.com/IGKDEV",
     "github" => "https://github.com/goukenn",
     "youtube" => "https://www.youtube.com/channel/UC5qYUsVFf3Mbc8giPY5V-4A",

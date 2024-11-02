@@ -13,5 +13,8 @@ use IGK\System\Html\XML\XmlComment;
  * @package IGK\System\Html\Dom
  */
 class HtmlCommentNode extends XmlComment{ 
-    
+    public function __construct(?string $content=null){
+        parent::__construct();
+        $this->setContent($content);
+    }
 }

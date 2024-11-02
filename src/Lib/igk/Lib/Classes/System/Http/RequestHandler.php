@@ -221,7 +221,7 @@ class RequestHandler
                 return null;
             }
             if (!method_exists(get_class($ctrl), $f)) {
-                igk_set_header(404);
+                igk_set_header(RequestResponseCode::NotFound);
                 igk_show_error_doc(null, 4046, null, "method not exists [" . get_class($ctrl) . "::" . $f . "]");
                 igk_exit();
                 return false;
@@ -329,13 +329,12 @@ class RequestHandler
                 header("HTTP/1.0 404 Not Found");
                 igk_exit();
                 break;
-            case 403:
-              
+            case 403: 
                 igk_set_header($code);
                 igk_sys_show_error_doc($code);
                 igk_exit();
                 break;
-            case 404:
+            case RequestResponseCode::NotFound:
                 if (igk_getr("m") == "config") {
                     igk_navto("/Configs");
                     igk_exit();
@@ -405,7 +404,7 @@ class RequestHandler
         }
         try {
             if (!($p = igk_get_defaultwebpagectrl())) {
-                igk_set_header(404);
+                igk_set_header(RequestResponseCode::NotFound);
                 $file = $file = igk_env_file(igk_io_applicationdir() . "/" . IGK_INC_FOLDER . "/error.404");
                 if ($file && file_exists($file)) {
                     include($file);

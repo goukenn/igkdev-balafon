@@ -15,7 +15,7 @@ use function igk_resources_gets as __;
 
 class ErrorRequestResponse extends RequestResponse{
     var $type = "json";
-    var $code = 400;
+    var $code = RequestResponseCode::BadRequest;
     var $message;
     public function __construct($code, $message=null, $headers=null){
         $this->code = $code;

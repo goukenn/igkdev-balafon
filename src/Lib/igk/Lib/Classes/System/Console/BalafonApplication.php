@@ -64,6 +64,36 @@ class BalafonApplication extends IGKApplicationBase
 
     public $environment;
 
+
+    /**
+     * initialize application modules 
+     * */ 
+    public static function InitModule($v_pdir, $conf, & $argv){
+        if (!preg_match("/--module:/", implode(' ', $argv))) {
+            $cdir = getcwd();
+            $gd = igk_get_packages_dir();
+            $module = igk_conf_get($conf, 'name') ?? $gd;// igk_sys_detect_project_controller($v_pdir);
+            if ($module)
+                $argv[] = "--module:" . $module;
+        }
+        igk_environment()->console = json_decode('{"type":"module"}');
+    }
+    /**
+     * init command project modules
+     * @param mixed $v_pdir 
+     * @param mixed $conf 
+     * @param mixed &$argv 
+     * @return void 
+     * @throws Exception 
+     */
+    public static function InitProject($v_pdir, $conf, & $argv){
+        if (!preg_match("/--controller:/", implode(' ', $argv))) {
+            $controller = igk_conf_get($conf, 'controller') ?? igk_sys_detect_project_controller($v_pdir);
+            if ($controller)
+                $argv[] = "--controller:" . $controller;
+        }
+        igk_environment()->console = json_decode('{"type":"project"}');
+    }
     /**
      * filter arguments list 
      * @param mixed $a 
@@ -73,7 +103,7 @@ class BalafonApplication extends IGKApplicationBase
     public static function FilterArgs($a)
     {
         if (strpos($a, "--wdir:") === 0) {
-            $g = explode(":", $a);
+            $g = explode(":", $a,2);
             if (is_dir($g[1]) || igk_io_createdir($g[1]))
                 chdir($g[1]);
             return null;
@@ -478,7 +508,7 @@ class BalafonApplication extends IGKApplicationBase
                 ],
                 "make"
             ],
-            "--run" => [
+            '--run' => [
                 function ($v, $command = null) {
                     $command->exec = function ($command, ?string $file = null) {
                         if (empty($file)) {
@@ -502,7 +532,7 @@ class BalafonApplication extends IGKApplicationBase
                         $args->params = &$params;
                         $file = realpath($file) === false ? Path::ResolvePath($file) : $file;
                         try {
-                            if (file_exists($file)) { 
+                            if ($file && file_exists($file)) { 
                                 $result = SysUtils::Include($file, array_merge([
                                     "ctrl" => $ctrl,
                                     "user" => $user,
@@ -538,7 +568,16 @@ class BalafonApplication extends IGKApplicationBase
                 },
                 [
                     "desc" => __("run script by loading"),
-                    "help" => function () {
+                    "help" => function ($command , ?string $filename=null) {
+                        if ($filename && ($file = Path::ResolvePath($filename))){
+                            // initialize command 
+                            $fc = $command->app->command['--run'][0];
+                            $targs = func_get_args();
+                            $margs = array_merge([null], func_get_args());
+                            call_user_func_array($fc, array_merge([null], func_get_args()));
+                            // invoke the running
+                            return call_user_func_array($command->exec, $targs);
+                        }
                         Logger::info(implode(
                             "\n",
                             [

@@ -135,6 +135,10 @@ class Request implements IInjectable, IContentSecurityProvider
         if (!$b)
             return null;
         $file = (($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF);
+        
+        if (preg_match('/[~]/', $file)){
+            igk_die("request entry not allowed");
+        } 
         $dfile = implode("/", [rtrim(igk_io_rootdir(),"/"), ltrim($file, "/")]);
         if (!$dfile || !file_exists($dfile)){
             // // igk_ilog("entry request file is missing.");

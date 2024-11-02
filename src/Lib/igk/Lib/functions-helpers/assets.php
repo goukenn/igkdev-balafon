@@ -8,6 +8,13 @@
 use IGK\System\IO\Path;
 
 if (!function_exists('igk_get_asset_uri')){
+    /**
+     * asset uri
+     * @param mixed $dir 
+     * @param mixed $file 
+     * @return string 
+     * @throws Exception 
+     */
     function igk_get_asset_uri($dir, $file){
         $q = parse_url($file);         
         $path = $q['path']   ;
@@ -19,6 +26,14 @@ if (!function_exists('igk_get_asset_uri')){
     }
 }
 if (!function_exists('igk_load_temp_style_asset')){
+    /**
+     * 
+     * @param mixed $doc 
+     * @param mixed $ctrl 
+     * @param mixed $assets 
+     * @return void 
+     * @throws Exception 
+     */
     function igk_load_temp_style_asset($doc, $ctrl, $assets){
          
         $ctrl::resolveAssets(["/"]);        

@@ -15,6 +15,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils; 
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Rendering\IHtmlRederingCallback;
 use IGK\System\Http\IHeaderResponse;
 use IGKApp;
 use IGKException;
@@ -211,16 +212,17 @@ class HtmlRenderer
         $s = "";
         $reflect = [];
         $ln = $options->LF;
-        $engine = igk_getv($options, "Engine");
-        $tab_start = false;
+        $engine = igk_getv($options, "Engine"); 
         if ($options->header) {
             $s = self::_GetHeader($options->header);
             $options->header = null;
         }
         $filter = $options->filterListener;
- 
+        $close_ln = '';
+        $child_render = 0;
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
+                // |+ filter null items 
                 continue;
             }
             $tag = null;
@@ -232,11 +234,11 @@ class HtmlRenderer
                 $q = ["item" => $i, "close" => false];
             }
             if (!$q["close"]) {
-                if ($ln && ($options->Depth > 0) && !$tab_start) {
-                    $s .= self::GetTabStop($options);
-                    $tab_start = true;
-                }
-
+                $s.=$close_ln;
+                $close_ln='';
+                if (($ln && ($options->Depth > 0))) {
+                    $s .= self::GetTabStop($options); 
+                }  
                 if ($i instanceof HtmlItemBase) {
                     if ($filter && $filter($i)){
                         continue;
@@ -266,10 +268,8 @@ class HtmlRenderer
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
-                            // if (is_object($v_c)) {
-                            //     igk_dev_wln_e("object return", get_class($i), $v_c);
-                            // }
                             $s .=  $v_c . $ln;
+                            continue;
                         }
                         self::reduceDepth($options, self::reflect_class);
                         continue;
@@ -277,13 +277,15 @@ class HtmlRenderer
                 }
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
-                $havTag = !empty($tag);
-                $tab_start = false;
-                if (!$havTag) {
-                    self::reduceDepth($options, 'notagnode');
-                    $s = rtrim($s.$ln) . self::GetTabStop($options);
-                }
-
+                $havTag = !empty($tag); 
+                if ($i instanceof IHtmlRederingCallback ) 
+                    $i->beforeRenderCallback($options, ['output'=>& $s]);
+                 if (!$havTag && $ln) {
+                     $s = rtrim($s); 
+                     $close_ln = $ln;
+                    //  self::reduceDepth($options, 'notagnode');
+                    //  $q['next_depth'] = $options->Depth;
+                 }
                 if ($havTag) {
                     $s .= "<" . $tag . "";
                     // render attribute 
@@ -313,6 +315,8 @@ class HtmlRenderer
                 if ($havTag && $q["close_tag"]) {
                     $s = rtrim($s) . ">";
                 }
+                $q['child_render'] = strlen($s);
+
                 if (!empty($content) || is_numeric($content)) {
                     if (is_object($content)) {
                         $s .= HtmlRenderer::GetValue($content, $options);
@@ -334,14 +338,17 @@ class HtmlRenderer
                 }
             } else {
                 $tag = $q["tag"];
+                $child_render = $q["child_render"];
             }
             if (!empty($tag)) {
                 self::reduceDepth($options);
                 if ($q["close_tag"]) {
-                   
                     if ($ln){                        
                         if ($q["have_childs"]) {
-                            $s = rtrim($s).$ln;
+                            // + | determine child contains
+                            $ts = !empty(trim(substr($s,$q['child_render'])));
+                            if ($ts)
+                                $s = rtrim($s).$ln;
                             if($options->Depth > 0){
                                 $s.= self::GetTabStop($options);
                             }
@@ -352,6 +359,8 @@ class HtmlRenderer
                     $s .= "/>" . $ln;
                 }
             }
+            if ($i instanceof IHtmlRederingCallback ) 
+                $i->afterRenderCallback($options, ['output'=>& $s]);
         }
         return $s; // leave space after
     }

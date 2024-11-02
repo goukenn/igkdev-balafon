@@ -8,6 +8,7 @@
 namespace IGK\Actions;
 
 use IGK\System\Http\ErrorRequestResponse;
+use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponse;
 use Throwable;
 
@@ -35,7 +36,12 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         // + | --------------------------------------------------------------------
         // + | by default in ajx context and not null 
         // + | 
-        return  !is_null($response) || ($response instanceof RequestResponse);
+        if (Request::getInstance()->method('GET')){ 
+            if($response instanceof RequestResponse)
+                return true;
+            //return false;
+        }
+        return parent::_handleResponse($response);//!is_null($response) || ($response instanceof RequestResponse);
     }
     
     protected function _handleMethodNotFound($name)

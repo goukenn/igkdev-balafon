@@ -13,6 +13,7 @@
 
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
+use IGK\Database\DbConstants;
 use IGK\Database\DbSchemas;
 use IGK\Models\Groupauthorizations;
 use IGK\System\Console\Commands\Database\DbSchemaUtility;
@@ -416,7 +417,7 @@ if (!function_exists('igk_db_command_table')) {
             if (empty($q)) {
                 continue;
             }
-            $cf = '%prefix%' . $q;
+            $cf = DbConstants::PREFIX_KEY . $q;
             $tb = IGKSysUtil::DBGetTableName($cf, $controller);
             if (!isset($tables[$tb])) {
 
@@ -454,7 +455,7 @@ if (!function_exists('igk_db_command_column')) {
     function igk_db_command_column(BaseController $controller, string $table, string $columndef)
     {
         $search = [$table];
-        $sp = "%prefix%";
+        $sp = DbConstants::PREFIX_KEY;
         if (!igk_str_startwith($table, $sp)) {
             $search[] = $sp . $table;
         }

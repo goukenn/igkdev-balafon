@@ -11,6 +11,23 @@ use IGK\System\IO\StringBuilder;
 
 class ArrayUtils{
     /**
+     * self check array
+     * @param mixed $value 
+     * @return null|array 
+     */
+    public static function CheckArray($value){
+		if ($value && !is_array($value)){
+			return [$value];
+		}
+		return $value;
+	}
+    /**
+     * 
+     */
+    public static function MergeWith(array & $source, array $array_to_merge){
+        $source = array_merge($source, $array_to_merge ); 
+    }
+    /**
      * 
      * @param array $table 
      * @param mixed $property 
@@ -72,5 +89,45 @@ class ArrayUtils{
         }
         $sb->set(sprintf('[%s]',$s));
         return ''.$sb;
+    }
+
+    /**
+     * 
+     * @param array $array 
+     * @param string $filter_regex 
+     * @param bool $merging 
+     * @return array 
+     */
+    public static function MergeFilter(array $array, string $filter_regex, bool $merging=true){
+        $conf = $array;
+        $filter = $filter_regex; 
+        $tab = array_filter(array_map(
+            function($v, $i)use($filter){
+                if (preg_match($filter, $i)){
+                    return [$i=>$v];
+                }
+            },
+            $conf,
+            array_keys($conf),
+        ));
+        if ($merging){
+            if (($t = count($tab))>1)
+                $tab = array_merge(...$tab);
+            else if ($t==1){
+                $tab = array_shift($tab);
+            }
+        } 
+        return $tab;
+    }
+    /**
+     * append item not merge
+     * @param mixed &$array 
+     * @param array $items 
+     * @return void 
+     */
+    public static function AppendArrayItems(& $array, array $items){
+        foreach($items as $k){
+            $array[] = $k;
+        }
     }
 }

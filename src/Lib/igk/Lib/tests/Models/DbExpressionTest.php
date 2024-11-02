@@ -119,12 +119,18 @@ class DbExpressionTest extends BaseTestCase{
     }
     public function test_create_table_query(){
  
-        $gram = Table1Test::model()->getDataAdapter()->getGrammar(); 
+        $ad = Table1Test::model()->getDataAdapter();
+        $version = $ad->getVersion();
+        $query = version_compare($version, "8.0",  ">=") ?
+        "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;":
+        "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;"
+         ;
+
+        $gram = $ad->getGrammar(); 
         $tableinfo = igk_getv(Table1Test::model()->getModelDefinition(), "tableRowReference"); 
         $q = $gram->createTableQuery(Table1Test::table(), $tableinfo);      
-        $this->assertEquals(
-            "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;",
-            $q);
+        $this->assertEquals($query,
+           $q);
     }
 
     public function test_query_fetch_prepare(){

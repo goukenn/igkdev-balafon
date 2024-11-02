@@ -40,9 +40,9 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static array|Iterable|null formFields($edit=false, ?array $unsetKeys=null) macros function
  * @method static array formSelectData() macros function : form selection data
  * @method static void form_select_all() macros function
- * @method static void id() macros function
- * @method static void insert() macros function
- * @method static void insertOrUpdate() macros function
+ * @method static string id() macros function - get row identification. by default the auto_increment primary field.
+ * @method static mixed insert() macros function
+ * @method static mixed insertOrUpdate() macros function
  * @method static void last_error() macros function
  * @method static void last_id() macros function
  * @method static ?static last() return last instance function
@@ -73,6 +73,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static string get_insert_query() marcros helper insert query 
  * @method static ?static Get(string $column, mixed $value, $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static GetCache(string $column,mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
+ * @method static ?static cacheRow(where) macros function get row from defined value autoinsert
  * @method static ?static getv($array, $i) macros function convert class
  * @method static \IGK\System\Database\QueryBuilder with(string $table, ?string $propertyName=null) prepare command with table 
  * @method static array columnList(string|Closure|array $prefix=null, ?string $filter=null two) prepare columns list 

@@ -17,6 +17,7 @@ use ReflectionMethod;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Configuration\ApplicationConfigConstants;
+use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
@@ -128,7 +129,7 @@ class SysUtils{
      * @throws IGKException 
      */
     public static function GetControllerByName(string $ctrl, $throwex = 1){        
-        if ($ctrl == '%sys%'){
+        if ($ctrl == AppExecCommand::SYS_CTRL_PLACEHOLDER){
             return SysDbController::ctrl();
         }
         $ctrl = str_replace("/", "\\", $ctrl);  

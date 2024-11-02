@@ -29,6 +29,8 @@ final class HtmlMetaManager extends IGKObject{
     const META_KEYWORDS=self::META_AUTHOR + 0x3;
     const META_GENERATOR=self::META_AUTHOR + 0x5;
     const META_VIEWPORT=self::META_AUTHOR + 0x6;
+    const META_LASTUPDATE=self::META_AUTHOR + 0x7;
+    const META_COLOR_SCHEME=self::META_AUTHOR + 0x8;
     /**
      * single meta name
      * @var mixed
@@ -103,12 +105,17 @@ final class HtmlMetaManager extends IGKObject{
             "name"=>"viewport",
             self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
         );
+
+        $this->m_metas[self::META_LASTUPDATE]=array(
+            "name"=>"last-updated",
+            self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
+        );
     }
     ///<summary>add or set metaname</summary>
     ///<param name="name"></param>
     ///<param name="meta"></param>
     /**
-     * 
+     * register meta definition base 
      * @param string $name 
      * @param mixed $meta 
      * @return int 
@@ -116,6 +123,10 @@ final class HtmlMetaManager extends IGKObject{
      */
     public function addMeta(string $name, $meta){
         $bmeta=igk_getv($this->m_metas, $name);
+        // + | --------------------------------------------------------------------
+        // + | remove meta form definition or update the meta string
+        // + |
+        
         if($bmeta && ($bmeta !== $meta)){
             unset($this->m_metas[$name]);
         } 
@@ -252,6 +263,9 @@ final class HtmlMetaManager extends IGKObject{
     ///<param name="value"></param>
     public function setCopyright($value){
         $this->updateContent(self::META_COPYRIGHT, $value);
+    }
+    public function setLastUpdate($value){
+        $this->updateContent(self::META_LASTUPDATE, $value);
     }
     ///<summary></summary>
     ///<param name="value"></param>

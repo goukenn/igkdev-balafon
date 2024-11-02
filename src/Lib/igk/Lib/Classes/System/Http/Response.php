@@ -8,6 +8,7 @@
 
 namespace IGK\System\Http;
 
+use IGK\System\EntryClassResolution;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\IInjectable;
 use IGKException;
@@ -20,8 +21,9 @@ abstract class Response implements IResponse, IInjectable{
      */
     private $body;
 
-    public function getBody(){}
+    public function getBody(){return $this->body; }
     public function setBody($body){
+        $this->body = $body;
     }
 
     /**
@@ -32,7 +34,7 @@ abstract class Response implements IResponse, IInjectable{
      */
     public static function HandleResponse($r){
         $app = igk_app();
-        $handler = ($app ? $app->getService(\ResponseHandler::class) : null) ?? new ResponseHandler();
+        $handler = ($app ? $app->getService(EntryClassResolution::ResponseHandler) : null) ?? new ResponseHandler();
         return $handler->HandleReponse($r); 
     }
 }

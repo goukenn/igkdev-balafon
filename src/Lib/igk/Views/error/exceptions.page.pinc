@@ -8,16 +8,19 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Core\Ext\Google\GoogleAPIEndPoints;
+
+$end_point = GoogleAPIEndPoints::CssEndPoint;
 ?>
 <!DOCTYPE html >
 <html>
 <head>
 <title>{$r('title.fatalError')}</title>
 {$scripts}
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css?family=Material+Icons&display=swap" rel="stylesheet" />
+<link href="<? $end_point ?>?family=Roboto+Condensed&&display=swap" rel="stylesheet" />
+<link href="<? $end_point ?>?family=Roboto&display=swap" rel="stylesheet" />
+<link href="<? $end_point ?>?family=Roboto+Slab&display=swap" rel="stylesheet" />
+<link href="<? $end_point ?>?family=Material+Icons&display=swap" rel="stylesheet" />
 <style>
 html, body{
     padding:0px;

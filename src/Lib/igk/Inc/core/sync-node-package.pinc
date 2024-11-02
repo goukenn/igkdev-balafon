@@ -3,8 +3,13 @@
 
  
 if (!class_exists('Logger')){
+    /**
+     * define global sync Logger - to die with reponse
+     * @package 
+     */
     abstract class Logger{
         static function __callStatic($name, $arguments){
+            throw new \Exception('not allowed');
         }
         public static function danger($msg){
             $response = new InstallerResponse(); 

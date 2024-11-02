@@ -22,6 +22,7 @@ abstract class AppExecCommand extends AppCommand{
      * user category
      */
     const USER_CAT = 'users';
+    const SYS_CTRL_PLACEHOLDER = '%sys%';
     /**
      * get option values
      * @param mixed $command 
@@ -58,9 +59,11 @@ abstract class AppExecCommand extends AppCommand{
         return $this->m_colorizer ?? $this->m_colorizer = new Colorize;
         return new Colorize;
     }
-
-    public function __construct()
-    {
+    /**
+     * initialize command
+     * @return void 
+     */
+    public function __construct(){
         $this->handle = [$this, "exec"];
     }
     /**
@@ -123,7 +126,7 @@ abstract class AppExecCommand extends AppCommand{
      */
     protected function _dieController(?string $controller, bool $system=false){
 		if ($controller){
-			if ($controller != '%sys%'){
+			if ($controller != self::SYS_CTRL_PLACEHOLDER){
 				if ($ctrl = self::GetController($controller, false)){ 
 					return $ctrl;
 				}

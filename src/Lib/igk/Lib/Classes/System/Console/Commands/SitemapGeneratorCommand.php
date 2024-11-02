@@ -10,9 +10,12 @@ use Exception;
 use IGK\Controllers\BaseController; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\XML\XmlProcessor;
 use IGK\XML\XSDValidator;
 use IGKException;
+use ReflectionException;
 
 /**
  * use to generate sitemap on document 
@@ -77,10 +80,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
     public static function GenerateSiteMap(array $views, string $baseuri, array & $error = null){
         $options = (object)[
             "Indent"=>1,
-            "header"=>(new XmlProcessor("xml"))->setAttributes(["version"=>"1.0",
-                "encoding"=>"utf8",
-                "standalone"=>"yes"
-                ])->render()
+            "header"=>(new XmlProcessor("xml"))->setAttributes(["version"=>"1.0"])->render()
         ]; 
         $map = igk_create_xmlnode("urlset");
         $map["xmlns"] = "http://www.sitemaps.org/schemas/sitemap/0.9";
@@ -112,12 +112,23 @@ class SitemapGeneratorCommand extends AppExecCommand{
         return $s; 
     }
 
+    /**
+     * 
+     * @param array $indexes 
+     * @param string $baseuri 
+     * @param array|null &$error 
+     * @return int|null|string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GenerateSiteMapIndex(array $indexes, string $baseuri, array & $error = null){
         $options = (object)[
             "Indent"=>1,
-            "header"=>(new XmlProcessor("xml"))->setAttributes(["version"=>"1.0",
-                "encoding"=>"utf8",
-                "standalone"=>"yes"
+            "header"=>(new XmlProcessor("xml"))->setAttributes([
+                "version"=>"1.0"
                 ])->render()
         ]; 
         $map = igk_create_xmlnode("sitemapindex");
@@ -135,7 +146,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
             $u->loc()->Content = implode("/", [$base_uri, $p]);
             $u->lastmod()->Content = $mod; 
         }        
-        $s = $map->render($options);
+        $s = $map->render($options);     
         if (XSDValidator::ValidateSourceUri($s, \IGKConstants::SITEMAP_INDEX_VALIDATOR) === false){
             $error[] = "not a good validator";            
             return -1;

@@ -11,6 +11,7 @@ namespace IGK\System\Html\Dom;
 
 
 final class HtmlDoctype extends HtmlItemBase{
+    const HTML_DOCTYPE = '<!DOCTYPE html>';
     ///<summary></summary>
     ///<param name="value"></param>
     public function __construct($value){

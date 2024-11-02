@@ -5,6 +5,7 @@
 namespace IGK\System\Http\Helper;
 
 use IGK\System\Http\Request;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
 use IGKException;
 
@@ -53,4 +54,16 @@ class Response{
             "Access-Control-Allow-Credentials: ".$_cnf->get("access-control-allow-credentials", "true")
         ]; 
     }
+
+    /**
+     * get bad request response
+     * @return mixed 
+     */
+    public static function BadRequest(){
+        static $sm_bad_request;
+        if ($sm_bad_request===null){
+            $sm_bad_request = new WebResponse('bad request', RequestResponseCode::BadRequest);
+        } 
+        return $sm_bad_request;
+    } 
 }

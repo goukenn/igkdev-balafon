@@ -19,10 +19,13 @@ use IGK\System\IO\Path;
 */
 class BuildCssCommand extends AppExecCommand{
 	var $command='--project:build-css';
-	/* var $desc='desc'; */
-	/* var $options=[]; */
+	var $desc='css. generate project\'s style theme'; 
+	var $options=[
+		'-f:file'=>'file to parse'
+	]; 
 	var $category = "project-build";
-	public function exec($command, ?string $controller=null) {
+	var $usage = 'controller [file] [options]';
+	public function exec($command, ?string $controller=null, ?string $file=null) {
 		$ctrl = self::GetController($controller);
 		$dirs = [$ctrl->getViewDir(),$ctrl->getArticlesDir()];
 		$output = "dist";
@@ -32,9 +35,12 @@ class BuildCssCommand extends AppExecCommand{
 		$core = igk_css_doc_get_def(igk_app()->getDoc());
 		$source = CssParser::Parse($core);		
 		$detector->map($source->to_array());
-
+		$r = $file ?? igk_getv($command->options, '-f');
+		if (!is_file($r)){
+			igk_die('missing file');
+		}
 		// library to include :
-		 $g = file_get_contents("/Volumes/Data/wwwroot/core/Projects/WatchCssDemo/node_modules/bootstrap/dist/css/bootstrap.css");
+		 $g = file_get_contents($r); 
 		 $source = CssParser::Parse($g);		
 		 $detector->map($source->to_array());
  

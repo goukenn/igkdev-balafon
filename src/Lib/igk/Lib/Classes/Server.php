@@ -9,6 +9,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\IToArray;
 use IGK\System\DataArgs;
 use IGK\System\Security\Web\HeaderAccessObject;
+use IGKType;
 
 ///<summary>represent server management </summary>
 /**
@@ -204,9 +205,9 @@ final class Server implements IToArray{
         }
         return null;
     }
-    ///<summary></summary>
+    ///<summary>prpare server information</summary>
     /**
-    * 
+    * preparet server information 
     */
     public function prepareServerInfo(){
     
@@ -294,6 +295,11 @@ final class Server implements IToArray{
          // + | internal stus code
         $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
         $this->IS_WEBAPP = isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['DOCUMENT_ROOT']); 
+
+        // if (defined('__TEST_REQUEST_POST__')){
+         
+        //     igk_wln(__FILE__.":".__LINE__ , "prepare.....", $_SERVER['REQUEST_METHOD']);
+        // }
     }
     /**
      * check weather access control required

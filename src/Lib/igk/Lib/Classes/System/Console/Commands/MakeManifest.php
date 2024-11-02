@@ -16,6 +16,8 @@ use IGK\Actions\ActionBase;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
+use igk\System\Console\Commands\Utility;
+use IGK\System\EntryClassResolution;
 use \IGKControllerManagerObject;
  
 class MakeManifestCommand extends AppExecCommand{
@@ -37,7 +39,7 @@ class MakeManifestCommand extends AppExecCommand{
        
         Logger::info("make manifest ...");
         $author = $this->getAuthor($command);
-        $type = igk_str_ns(igk_getv($command->options, "--type", IGKActionBase::class));
+        $type = igk_str_ns(igk_getv($command->options, "--type", EntryClassResolution::ActionBase));
         $is_force = property_exists($command->options, "--force");
           
         $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
@@ -61,12 +63,7 @@ class MakeManifestCommand extends AppExecCommand{
         $bind[$dir."/manifest.json"] = function($file)use($info){               
             igk_io_w2file( $file,  json_encode($info->info, JSON_PRETTY_PRINT));// $builder->render());
         };
-        foreach($bind as $n=>$c){
-            if ($is_force || !file_exists($n)){
-                $c($n, $command);
-                Logger::info("generate : ".$n);
-            }
-        }
+        $gen = Utility::MakeBindFiles($command, $bind, $is_force); 
         \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }

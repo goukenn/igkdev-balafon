@@ -12,18 +12,20 @@ use IGK\System\Console\Logger;
 
 abstract class FileBuilderHelper
 {
-    public static function Build($data, $force = false, ?object $bind =null )
-    { 
+    public static function Build($data, $force = false, ?object $bind = null)
+    {
         foreach ($data as $n => $c) {
             if ($force || !file_exists($n)) {
-                if ($bind){
-                    $c = Closure::fromCallable($c)->bindTo($bind);
+                if ($c instanceof Closure) {
+                    if ($bind) {
+                        $c = Closure::fromCallable($c)->bindTo($bind);
+                    }
+                    $c($n);
+                }else{// just touch the file
+                    igk_io_w2file($n, '');
                 }
-                $c($n);
                 Logger::info("generate : " . $n);
             }
         }
-    } 
+    }
 }
-
-

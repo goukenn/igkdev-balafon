@@ -11,8 +11,13 @@
 use IGK\Css\CssSupport;
 use IGK\Css\ICssStyleContainer;
 use IGK\Css\ICssSupport;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\IToArray;
 
+/**
+ * default style definition .
+ * @package 
+ */
 final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleContainer, IToArray
 {
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
@@ -29,7 +34,8 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     const SET_FLAG = 19;
 
     /**
-     * @var bool 
+     * append same key attribute to merge the same property
+     * @var ?bool
      */
     var $noAppendDefinition;
 
@@ -53,6 +59,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
             unset($g[$defname]);
         }
     }
+    /**
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return $this 
+     */
     public function setStyleFlag(string $name, $value)
     {
         if (isset($this->_[self::SET_FLAG])) {
@@ -114,7 +126,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
             return;
         }
         $r = igk_getv($g, $i);
-        $s = $this->noAppendDefinition ? $v : trim($r ?? '').$v; 
+        $s = $this->noAppendDefinition || empty($r) ? $v :  CssUtils::MergeStyleDefinition($r, $v); 
         $g[$i]=$s; 
     }
     /**

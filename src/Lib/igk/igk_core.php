@@ -26,8 +26,7 @@ use IGK\System\IArrayKeyExists;
 use IGK\System\IO\Path;
 use IGK\System\Regex\RegexConstant;
 
-use function igk_resources_gets  as __;
-
+use function igk_resources_gets  as __; 
 
 ///<summary>shortcut to get server info</summary>
 /**
@@ -530,18 +529,21 @@ function igk_create_instance($class_name, &$obj, $callback)
 
 ///get basename without extension
 /**
+ * get basename without extension 
+ * @param string $fname
  */
-function igk_io_basenamewithoutext($file)
+function igk_io_basenamewithoutext(string $file)
 {
     return igk_io_remove_ext(basename($file));
 }
 ///<summary></summary>
 ///<param name="fname"></param>
 /**
- * 
- * @param mixed $fname
+ * filename extension
+ * @param string $fname
+ * @return ?string $fname
  */
-function igk_io_path_ext($fname)
+function igk_io_path_ext(string $fname)
 {
     if (empty($fname))
         return null;
@@ -1410,7 +1412,7 @@ function igk_io_basepath(string $dir, string $sep = DIRECTORY_SEPARATOR)
 /**
  * get path from base directory
  */
-function igk_io_basedir($dir = null)
+function igk_io_basedir(?string $dir = null)
 {
     return Path::getInstance()->basedir($dir);
 }
@@ -2017,7 +2019,7 @@ function igk_sys_reflect_class($cl)
     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
 }
 
-if (!function_exists('igk_sys_reflect_get_constants')){
+if (!function_exists('igk_sys_reflect_get_constants')) {
     /**
      * reflect class get constants
      * @param mixed $cl 
@@ -2025,7 +2027,8 @@ if (!function_exists('igk_sys_reflect_get_constants')){
      * @throws Exception 
      * @throws IGKException 
      */
-    function igk_sys_reflect_class_get_constants($cl){
+    function igk_sys_reflect_class_get_constants($cl)
+    {
         $ref = igk_sys_reflect_class($cl);
         return $ref->GetConstants();
     }
@@ -2076,7 +2079,7 @@ if (!function_exists('igk_io_workingdir')) {
             define($v_key, $dir = getcwd());
             return $dir;
         }
-        die("failed to found working directory " . getcwd());
+        igk_die("failed to found working directory " . getcwd());
     }
 }
 /**
@@ -2142,7 +2145,7 @@ function igk_default_ignore_lib($dir = null)
         IGK_GIT_FOLDER => 1,
         IGK_NODE_MODULE_FOLDER => 1,
         '.vscode' => 1,
-        'command-scripts'=>1
+        'command-scripts' => 1
     );
     if ($dir) {
         $keys = array_keys($tk);
@@ -2194,7 +2197,27 @@ if (!function_exists('igk_uri_base_path')) {
     }
 }
 
+if (!function_exists('igk_uri_base_uri')) {
 
+
+    /**
+     * retrieve base uri 
+     * @return string
+     */
+    function igk_uri_base_uri(string $url): string
+    {
+        $tp = parse_url($url);
+        $host = igk_getv($tp, 'host') ?? igk_die('missing host');
+        $p = [];
+        $p[] = igk_getv($tp, 'scheme') ?? 'https';
+        $p[] = '://';
+        $p[] = $host;
+        if ($port = igk_getv($tp, 'port')) {
+            $p[] = ":" . $port;
+        }
+        return implode('', $p);
+    }
+}
 
 ///<summary>check if $c is a framework callback object</summary>
 ///<param name="$c">the callback object to check</param>
@@ -2212,8 +2235,9 @@ function igk_is_callback_obj($c)
 ///<summary>call it to ignore a specific directory on javascript loading process</summary>
 ///<param name="dir">if dir is null or not an existing directory, return the current directory list</param>
 /**
- * call it to ignore a specific directory on javascript loading process
+ * call it to ignore a specific directory on javascript loading process.
  * @param mixed $dir if dir is null or not an existing directory, return the current directory list
+ * - use configuration files to ignore directory for loading process
  */
 function igk_sys_js_ignore($dir = null)
 {
@@ -2308,7 +2332,6 @@ function igk_set_header(int $code, $message = "", $headers = [])
 {
     if (igk_is_cmd() || headers_sent())
         return false;
-    // igk_wln_e('need ->headers', igk_is_cmd(),  headers_sent());
     static $fcall = null;
     if ($fcall === null)
         $fcall = 0;
@@ -2325,12 +2348,18 @@ function igk_set_header(int $code, $message = "", $headers = [])
     }
 
     igk_clear_header_list();
+    $v_secure = igk_configs()->force_secure_redirection;
     $msg = igk_get_header_status($code);
     $txt = "Status: {$code} $msg";
     if (!$fcall) {
         if ($new) {
             header($txt);
             header(IGK_FRAMEWORK . ":" . IGK_CODE_NAME . "-" . IGK_VERSION);
+            // + | -----------------------------------------------------------------
+            // + | for new security strict on https request demand 
+            // + |  
+            header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+            header('X-Content-Type-Options: nosniff');
         }
     } else {
         header($txt, 1, $code);
@@ -2482,7 +2511,7 @@ if (!function_exists('igk_get_object_public_vars')) {
 if (!function_exists('igk_sys_detect_project_controller')) {
     function igk_sys_detect_project_controller(string $project_dir)
     {
-        $dir = $project_dir; 
+        $dir = $project_dir;
         $s = [];
         if ($c = opendir($dir)) {
             while ($l = readdir($c)) {
@@ -2498,6 +2527,20 @@ if (!function_exists('igk_sys_detect_project_controller')) {
         }
         $project = array_shift($s);
         return $project;
-        
+    }
+}
+
+if (!function_exists('igk_clamp')) {
+
+    /**
+     * clamp value
+     * @param mixed $n 
+     * @param mixed $max 
+     * @param int $min 
+     * @return mixed 
+     */
+    function igk_clamp($n, $max, $min = 0)
+    {
+        return max(min($max, $n), $min);
     }
 }

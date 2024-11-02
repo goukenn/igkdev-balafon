@@ -41,18 +41,18 @@ abstract class IGKSysUtil
 
     /**
      * get model full type name 
-     * @param string $table table name to get 
+     * @param string $defined_table_name table name to get 
      * @param ?BaseController $controller controller in use to the model type name
      * @return string 
      */
-    public static function GetModelTypeName(string $t, ?BaseController $ctrl = null): string
+    public static function GetModelTypeName(string $defined_table_name, ?BaseController $ctrl = null): string
     {
         $_NS = "";
-        $t = preg_replace(IGKConstants::MODEL_TABLE_REGEX, "", $t);
+        $defined_table_name = preg_replace(IGKConstants::MODEL_TABLE_REGEX, "", $defined_table_name);
         if ($ctrl) {
             $_NS = $ctrl::ns(EntryClassResolution::Models) . "\\";
         }
-        $name = preg_replace("/\\s/", "_", $t);
+        $name = preg_replace("/\\s/", "_", $defined_table_name);
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $_NS . $name;
     }

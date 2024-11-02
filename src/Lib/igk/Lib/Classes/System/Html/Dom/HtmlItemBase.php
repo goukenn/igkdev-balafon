@@ -80,7 +80,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
     public function getPrefilterAttribute(): ?IHtmlPrefilterAttribute{
         return $this->getParam(self::PREFILTER_ATTRIBUTE);
-    }
+    } 
 
     /**
      * current node content
@@ -1058,7 +1058,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 return call_user_func_array([$this, $fc], $arguments);
             }
         }
-        if (igk_environment()->is('DEV')) {
+        if (igk_environment()->is('DEV')){
             igk_wln(__FILE__ . ":" . __LINE__,  get_class($this));
             igk_trace();
             igk_die("call_expression not allowed. " . $name);
@@ -1327,8 +1327,15 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         $tb = explode(':', $name);
         if (count($tb) == 1) {
-            // + | create a simple tag name
-            return new HtmlNode($name);
+            // + | -------------------------------------------------------
+            // + | concepts:html: create a simple tag name
+            // + | 
+            $b =  new HtmlNode($name);
+            if ($param){
+                list($content) = $param;
+                static::BindDefaultContent($b, $content);
+            }
+            return $b;
         } 
         // + | passing complex tag t_:code as exemple must be handle by the default - tag 
         if ($tag_creating == $name){
@@ -1339,6 +1346,23 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $t = static::CreateWebNode(...func_get_args());
         $tag_creating = null;
         return null;
+    }
+
+    /**
+     * bind default content accorgin to conent 
+     * @param mixed $node 
+     * @param mixed $content 
+     * @return void 
+     */
+    public static function BindDefaultContent($node, $content){
+        $b = $node;
+        if (is_string($content)){
+            $b->setContent($content);
+        } else if (is_array($content)){
+            $b->setAttributes($content); 
+        } else if ($content instanceof HtmlItemBase){
+            $b->add($content);
+        }
     }
     ///<summary> load file content .xphtml </summary>
     /**

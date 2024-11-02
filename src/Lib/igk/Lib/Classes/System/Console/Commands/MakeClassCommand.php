@@ -11,6 +11,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
 class MakeClassCommand extends AppExecCommand
@@ -20,7 +21,7 @@ class MakeClassCommand extends AppExecCommand
 
     var $category = "make";
 
-    var $desc = "make a new class";
+    var $desc = "make a new class. This is contextual command.";
 
     var $options = [
         "--controller:[ctrl]" => "controller that will own the class",
@@ -35,6 +36,7 @@ class MakeClassCommand extends AppExecCommand
     ];
     const TEST_CLASS = 'IGK\Tests';
     const CORE_NS="IGK";
+    var $usage="";
     private function _initCommand($command){
 
         $ctrl = igk_getv_nil($command->options, "--controller");
@@ -76,6 +78,9 @@ class MakeClassCommand extends AppExecCommand
         }
 
     }
+    /**
+     * exec command
+     */
     public function exec($command, $class_path = null)
     {
         if (empty($class_path)) {
@@ -86,6 +91,15 @@ class MakeClassCommand extends AppExecCommand
             Logger::danger("classPath can't be empty");
             return -1;
         }
+
+        $context = $command->app->getContext(); 
+        if ($context == 'module'){
+            //passing to module - 
+            $c = new ModuleMakeClassCommand;
+            $module = igk_getv($command->options, "--module");
+            return $c->exec($command, $module, $class_path );
+        }
+
         $ctrl = igk_getv_nil($command->options, "--controller");
         $extends = igk_getv($command->options, "--extends");
         $desc = igk_getv($command->options, "--desc");
@@ -147,14 +161,14 @@ class MakeClassCommand extends AppExecCommand
         }
         //if ($ctrl){
         if (($_ir = dirname($g)) != '.') {
-            $ns .= "/" . $_ir;
+            $ns = Path::Combine($ns, $_ir);
         }
         $ns = ltrim(str_replace("/", "\\", $ns), "\\");
         $fname = igk_dir($g);
         if (!preg_match('/\.php$/', $fname)) {
             $fname .= ".php";
         }
-        $file = $dir . "/" . $fname;
+        $file = Path::Combine( $dir , $fname);
         // Logger::success("output: " . igk_io_basedir());
         // Logger::success("output: " . $file);
         // Logger::success("output: " . getcwd());

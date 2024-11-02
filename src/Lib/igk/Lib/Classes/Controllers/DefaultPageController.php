@@ -116,7 +116,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
                 else{
                     if($xml){
                         ob_clean();
-                        igk_set_header(404);
+                        igk_set_header(RequestResponseCode::NotFound);
                         header("HTTP/1.0 404 Not Found");
                         $r=new XmlNode("result_evaluation_uri");
                         $r->add("error")->Content="IGK_ERR_FUNCNOTAVAILABLE";
@@ -162,7 +162,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     ///<summary></summary>
     public static function GetAdditionalConfigInfo(){
         return array(
-            "clDefaultPage"=>igk_createadditionalconfiginfo(array("clRequire"=>1, "clDefaultValue"=>"default")),
+            "clDefaultPage"=>igk_create_additional_config_info(array("clRequire"=>1, "clDefaultValue"=>"default")),
             IGK_CTRL_CNF_BASEURIPATTERN=>(object)[]
         );
     }

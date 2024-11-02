@@ -9,16 +9,23 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
+/**
+ * 
+ * @package 
+ */
 class FixLangCommand extends AppExecCommand{
     var $command = "--fix:lang";
     var $category = "Fixing";
     var $desc = "fix language file";
+    /**
+     * fix language 
+     */
     public function exec($command, $path=null)
     { 
         Logger::info("fix lang file");
         if (file_exists($f = realpath($path))){
             $ext = igk_io_path_ext($f);
-            if ($ext!="presx"){
+            if ('.'.$ext!= IGK_LANG_FILE_EXTENSION){
                 return -1;
             } 
 

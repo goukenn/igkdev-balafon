@@ -13,6 +13,7 @@ namespace IGK\Controllers;
 use IGK\Controllers\ILibaryController;
 use IGK\Helper\SysUtils;
 use IGK\System\Applications\ApplicationUserProfile;
+use IGK\System\EntryClassResolution;
 use IGK\System\SystemUserProfile;
 use IGKSession;
 use IIGKUriActionRegistrableController;
@@ -119,7 +120,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     ///<remark>in general you must load app environment setting and store it in $user->EnvParam["app:://Name/setting"]</remark>
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 
-            $cl = $this->resolveClass(\UserProfile::class);
+            $cl = $this->resolveClass(EntryClassResolution::UserProfile);
             if ($cl && class_exists($cl) && (is_subclass_of($cl, SystemUserProfile::class)))
             {
                 return $cl::Create($u, $this);

@@ -25,26 +25,18 @@ class RequestViewCommand extends AppExecCommand
     var $command = '--request:view';
 
     var $desc = 'request view call';
-
-    // var $options = [
-    //     "+ Server Request COMMAND"=>"",
-    //     ...DbCommandHelper::GetUsageCommandHelp(),
-    //     "+ DB Request COMMAND"=>"",
-    //     ...ServerCommandHelper::GetUsageCommandHelp(),
-    //     "--method:[TYPE]"=>"request method type. default is GET",
-    //     "--user:[ID]"=>"user id to use",
-    //     "--render:[ID]"=>"render default view",        
-    // ];
+  
     public function showOptions()
     {
         // + | ----------------------------------
         // + | merge - syntax available for php 8
         // + | ----------------------------------
         $opts = [
-             "--method:[TYPE]" => "request method type. default is GET",
+            "--method:[TYPE]" => "request method type. default is GET",
             "--user:[ID]" => "user id to use",
             "--render[:type]" => "render default view, (doc|body|head|view) default is view",
             "--ajx" => "enable ajx render mode",
+            "--json:[file]"=>"file to load as json data",
             "--content-type:[]" => "set render content type. default is 'text/html'",
             "--render-context:[]" => "set rendering context. default is XML",
             "--no-cache" => "disable view cache",
@@ -57,14 +49,7 @@ class RequestViewCommand extends AppExecCommand
         $this->options = $opts;
         parent::showOptions();
     }
-    public function showUsage()
-    {
-        parent::showUsage();
-        Logger::print(sprintf(
-            "%s controller [request] [options]",
-            App::Gets(App::BLUE, $this->command)
-        ));
-    }
+ 
     public function exec($command, $controller = null, ?string $request = null)
     {
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
@@ -73,8 +58,8 @@ class RequestViewCommand extends AppExecCommand
             return -1;
         }
         $path = ltrim(igk_uri($request ?? ''), '/');
-        $_SERVER['REQUEST_METHOD'] = igk_getv($command->options, '--method', 'GET');
-        $_SERVER['REQUEST_URI'] = '/' . $path; // igk_getv($command->options, '--method', 'GET');
+        $_SERVER['REQUEST_METHOD'] = strtoupper(igk_getv($command->options, '--method', 'GET'));
+        $_SERVER['REQUEST_URI'] = '/' . $path; 
         $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
         DbCommandHelper::Init($command);

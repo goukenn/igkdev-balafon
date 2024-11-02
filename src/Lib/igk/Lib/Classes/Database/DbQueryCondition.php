@@ -4,10 +4,11 @@
 // @date: 20220628 15:18:02
 namespace IGK\Database;
 
+use Exception;
 
 ///<summary></summary>
 /**
-* create a query condition 
+* create a query condition : will check that property exists before create chaining. 
 * @package IGK\Database
 */
 class DbQueryCondition{
@@ -44,6 +45,13 @@ class DbQueryCondition{
     public function to_array(){
         return $this->data;
     }
+    /**
+     * everery method call set the property 
+     * @param mixed $n 
+     * @param mixed $arguments 
+     * @return $this 
+     * @throws Exception 
+     */
     public function __call($n, $arguments){
         $this->__set($n, $arguments[0]);
         return $this;

@@ -6,14 +6,18 @@
 
 namespace IGK\System\Console\Commands;
 
+use Exception;
+use Error;
 use IGK\Helper\SysUtils;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Uri;
 use IGKException;
+use ReflectionException;
 
 ///<summary></summary>
 /**
@@ -24,7 +28,7 @@ class RequestUriViewCommand extends RequestViewCommand{
     var $command = '--request:uri';
 
     var $desc = 'request uri call'; 
- 
+    var $usage = 'controller request [options]';
     /**
      * 
      * @param mixed $command 
@@ -45,10 +49,19 @@ class RequestUriViewCommand extends RequestViewCommand{
         } 
         Logger::info('done');
     }
-
-    public function showUsage()
-    {
-    }
+ 
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $controller 
+     * @param null|string $request 
+     * @return int 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws Error 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function exec($command, $controller=null, ?string $request=null){
         return parent::exec($command, igk_configs()->default_controller, $controller);
     }

@@ -19,6 +19,7 @@ use IGK\System\Console\Commands\InitCommand;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGKEvents;
 use ReflectionClass;
 use ReflectionException;
 
@@ -182,16 +183,7 @@ abstract class AppCommand {
             }
         } 
         return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 
-    }
-    /**
-     * create command argument
-     * @return static 
-     */
-    public static function Create(string $args){
-        $pb = null;// new self;
-
-        return $pb;
-    }
+    } 
     /**
      * execute command
      * @param mixed $args 
@@ -208,7 +200,8 @@ abstract class AppCommand {
      * help view
      * @return void 
      */
-    public function     help(){
+    public function help(){
+        igk_hook(IGKEvents::COMMAND_HELP_HOOK, ['command'=>$this]);
         Logger::print("");        
         Logger::info($this->command. PHP_EOL);
         if ($d = $this->desc){
@@ -233,10 +226,13 @@ abstract class AppCommand {
      * @return void 
      */
     protected function showOptions(){
-        $opts = $this->options ;
+        $opts = $this->options ??[];
+        igk_hook(IGKEvents::COMMAND_HELP_OPTIONS_HOOK, ['command'=>$this, 'options'=> & $opts]);
+    ;
         if (!$opts){
             return ;
         }
+        ksort($opts);
         Logger::info("Options");
         foreach($opts as $k=>$v){
             if (empty($v) && (strpos($k, '+')===0)){
@@ -244,7 +240,19 @@ abstract class AppCommand {
                 Logger::print('');
                 continue;
             }
-            Logger::print( App::Gets(App::GREEN, $k). self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
+            $p = explode(':', $k, 2);
+            $oc = App::Gets(App::GREEN, array_shift($p));
+            if($p){
+                // + | set color help definition for command
+                $s = array_shift($p);
+                $cl = App::SHA_INDIGO;
+                if(preg_match("/\[.+\]/", $s)){
+                    $cl = App::GRAY;
+                }
+                $oc.=":".App::Gets($cl,  array_shift($p));
+            }
+
+            Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
         }
         Logger::print("");
     }

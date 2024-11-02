@@ -7,8 +7,10 @@
 namespace IGK\System\Html;
 
 use Closure;
+use Error;
 use Exception;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
@@ -38,11 +40,13 @@ class FormBuilder
         "password" => "password",
         "text" => "text",
         "date" => "date",
+        "datetime" => "datetime-local",
         "json" => "text",
         "radio" => "radio",
         "checkbox" => "checkbox",
         "file" => "file",
-        "hidden" => "hidden"
+        "hidden" => "hidden",
+        "datetime-local" => "datetime-local"
     ];
     private static $ResolvClass = [
         "float" => "igk-form-control number",
@@ -53,8 +57,28 @@ class FormBuilder
         "mail" => 'igk-form-control mail',
         "url" => 'igk-form-control url',
         "password" => 'igk-form-control password',
-        "email" => 'igk-form-control email'
+        "email" => 'igk-form-control email',
+        'datetime' => 'igk-form-control datetime',
+        'datetime-local' => 'igk-form-control datetime-local',
     ];
+
+    /**
+     * retrieve attribute args
+     * @param mixed $attr 
+     * @return mixed 
+     * @throws Exception 
+     */
+    private static function _GetAttribArgs($attr)
+    {
+        $key = null;
+        foreach (["attrs", "attribs", "attributes"] as $m) {
+            if (isset($attr[$m])) {
+                $key = $m;
+                break;
+            }
+        }
+        return $key ? igk_getv($attr, $key) : null;
+    }
     /**
      * build form fields
      * @param array $formFields 
@@ -141,6 +165,11 @@ class FormBuilder
             $_type = strtolower(isset($v["type"]) ? $v["type"] : "text");
             $_allow_empty = isset($v["allow_empty"]) ? $v["allow_empty"] : "";
             $_empty_value = isset($v["empty_value"]) ? $v["empty_value"] : "0";
+
+            // + | --------------------------------------------------------------------
+            // + | handle special type 
+            // + |
+
             if ($_type == "fieldset") {
                 if ($fieldset) {
                     $o .= "</fieldset>";
@@ -162,6 +191,17 @@ class FormBuilder
                 }
                 return;
             }
+
+            if (preg_match("/\\b(button|submit|reset)\\b/", $_type)) {
+
+                if (method_exists($this, $fc = 'build_' . $_type)) {
+                    $args = [&$o, $v];
+                    call_user_func_array([$this, $fc], $args);
+                }
+
+                return;
+            }
+
             // + | --------------------------------------------------------------------
             // + | build node
             // + |
@@ -269,7 +309,7 @@ class FormBuilder
                     }
                     $_tab = $this->_getSelectDataOptions($v_k_id, is_array($m_data) ? $m_data : null);
                     if ($_tab) {
-
+                        usort($_tab, [self::class, '_SelectSortBySorkByText']);
                         foreach ($_tab as $row) {
                             $o .= "<option ";
                             $o .= "value=\"{$row['i']}\" ";
@@ -436,6 +476,18 @@ class FormBuilder
     }
 
     /**
+     * 
+     * @param mixed $a 
+     * @param mixed $b 
+     * @return int 
+     * @throws Exception 
+     */
+    protected static function _SelectSortBySorkByText($a, $b)
+    {
+        return strcmp(igk_getv($a, 't'), igk_getv($b, 't'));
+    }
+
+    /**
      * get retrieve value data
      * @param mixed $value 
      * @param mixed $id 
@@ -484,5 +536,80 @@ class FormBuilder
             ];
         }
         return $list;
+    }
+
+    public function build_submit(string &$o, $attrib)
+    {
+        $_closed = false;
+        $o .= '<input type="submit" ';
+        $tm = ['class' => 'button submit primary'];
+
+        if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
+            if ($cl = igk_getv($arg, 'class')) {
+                $tm['class'] = array_unique(array_merge(
+                    explode(' ', $tm['class']),
+                    explode(' ', $cl)
+                ));
+                unset($arg['class']);
+            }
+            $tm = array_merge($tm, $arg);
+        }
+        self::_LoadAttributes($o, $tm);
+        // if ($_closed) {
+        //     $o .= "</button>";
+        // } else {
+            $o .= '/>';
+        // }
+    }
+
+    public function build_button(string &$o, $attrib)
+    {
+        $_closed = false;
+        $o .= '<input type="button" ';
+        $tm = ['class' => 'igk-form-control button primary'];
+        $tm['value'] = igk_getv($attrib, 'value');
+        if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
+            if ($cl = igk_getv($arg, 'class')) {
+                $tm['class'] = array_unique(array_merge(
+                    explode(' ', $tm['class']),
+                    explode(' ', $cl)
+                ));
+                unset($arg['class']);
+            }
+            $tm = array_merge($tm, $arg);
+        }
+        self::_LoadAttributes($o, $tm);
+        // if ($_closed) {
+        //     $o .= "</button>";
+        // } else {
+            $o .= '/>';
+        // }
+    }
+    /**
+     * load html definition attributes
+     * @param string &$o 
+     * @param mixed $tm 
+     * @return void 
+     * @throws Exception 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    private static function _LoadAttributes(string &$o, $tm)
+    {
+        $clprop = new HtmlCssClassValueAttribute();
+        foreach ($tm as $k => $v) {
+            if ($k == 'class') {
+                $clprop->setClasses($v);
+                continue;
+            }
+            $o .= $k . "=\"" . htmlentities($v) . "\" ";
+        }
+        $s = $clprop->getValue();
+        if ($s) {
+            $o .= 'class="' . $s . '"';
+        }
     }
 }

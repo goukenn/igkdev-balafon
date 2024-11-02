@@ -85,7 +85,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         $name = $this->escape_string($name);
         $g = $this->sendQuery(
             sprintf(
-                'SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\';',
+                'SELECT * FROM `%s`.`TABLE_CONSTRAINTS` where CONSTRAINT_NAME=\'' . $name . '\';',
                 self::DB_INFORMATION_SCHEMA
             )
         );
@@ -99,7 +99,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         $name = $this->escape_string($name);
         $g = $this->sendQuery(
             sprintf(
-                'SELECT * FROM %s.TABLE_CONSTRAINTS where CONSTRAINT_NAME=\'' . $name . '\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
+                'SELECT * FROM `%s`.`TABLE_CONSTRAINTS` where CONSTRAINT_NAME=\'' . $name . '\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
                 self::DB_INFORMATION_SCHEMA
             )
         );
@@ -206,7 +206,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                 );
             } else {
                 $query = sprintf(
-                    "SELECT * FROM %s.`TABLE_CONSTRAINTS` " .
+                    "SELECT * FROM `%s`.`TABLE_CONSTRAINTS` " .
                         "WHERE `TABLE_NAME`='$table' and `CONSTRAINT_SCHEMA`='$db';",
                     self::DB_INFORMATION_SCHEMA
                 );
@@ -249,7 +249,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         // do not select information schemas
         // $this->selectdb(self::DB_INFORMATION_SCHEMA);
         $query = sprintf(
-            "SELECT * FROM %s.TABLE_CONSTRAINTS " .
+            "SELECT * FROM `%s`.`TABLE_CONSTRAINTS` " .
                 "WHERE TABLE_NAME='$table' and CONSTRAINT_TYPE='UNIQUE' and CONSTRAINT_SCHEMA='$db' AND CONSTRAINT_NAME='$info'",
             self::DB_INFORMATION_SCHEMA
         );
@@ -290,10 +290,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
         $v_tkey_column_usage = self::DB_INFORMATION_SCHEMA . '.KEY_COLUMN_USAGE';
-        if ($referenced_column=='clGuid'){
-            echo 'pass';// false;
-        }
-
+         
         // + | get reverse foreign keys 
         $query = sprintf(
             implode('', [

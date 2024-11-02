@@ -198,7 +198,7 @@ if (!function_exists("igk_array_is_assoc_only")) {
      * get if an array is indexed
      */
     function igk_array_is_assoc_only($arr)
-    { 
+    {
         foreach (array_keys($arr) as $c) {
             if (is_numeric($c))
                 return false;
@@ -372,6 +372,35 @@ if (!function_exists("igk_array_replace_key")) {
         $tab = $vtabcl;
     }
 }
+
+
+if (!function_exists("igk_array_replace_key_array")) {
+    /**
+     * replace arrauy association 
+     * @param array $t 
+     * @param array $replace_assoc 
+     * @return array 
+     */
+    function igk_array_replace_key_array(array $t, array $replace_assoc)
+    {
+        $rt = [];
+        foreach (array_keys($t) as $p) {
+            $v = $t[$p];
+            if (!is_int($p)) {
+                $n = $p;
+                if (key_exists($p, $replace_assoc)) {
+                    $n = $replace_assoc[$p];
+                }
+                $rt[$n] = $v;
+            } else {
+                $rt[] = $v;
+            }
+        }
+        return $rt;
+    }
+}
+
+
 if (!function_exists("igk_array_set")) {
     /**
      * append array keys
@@ -466,6 +495,9 @@ if (!function_exists("igk_array_to_obj")) {
             if (igk_count($tt) == 1) {
                 $t[$n] = $v;
             } else {
+                /**
+                 * @var mixed
+                 */
                 $g = null;
                 $nn = array_pop($tt);
                 foreach ($tt as $m) {
@@ -554,7 +586,7 @@ if (!function_exists("igk_array_key_map_implode")) {
      * @param mixed $tab 
      * @return mixed 
      */
-    function igk_array_key_map_implode($tab, $delimiter = ':', $separator = ';', $sub_start = '{', $sub_end = '}', $string_delimit = true)
+    function igk_array_key_map_implode($tab, $delimiter = ':', $separator = ';', $sub_start = '{', $sub_end = '}', $string_delimit = true, string $empty_value="")
     {
         $sep = '';
         $delim = '';
@@ -575,34 +607,38 @@ if (!function_exists("igk_array_key_map_implode")) {
                 $k = array_shift($keys);
                 $v = $tab[$k];
                 $d = $delimiter;
-                if (is_object($v)) {
-                    if (method_exists($v, "to_array")) {
-                        $v = $v->to_array();
-                    } else {
-                        $v = (array)$v;
+                if (empty($v)) {
+                    $v = $empty_value;
+                } else {
+                    if (is_object($v)) {
+                        if (method_exists($v, "to_array")) {
+                            $v = $v->to_array();
+                        } else {
+                            $v = (array)$v;
+                        }
+                    } else if (is_callable($v) && ($v instanceof Closure)) {
+                        $v = $v();
                     }
-                } else if (is_callable($v) && ($v instanceof Closure)) {
-                    $v = $v();
-                }
-                if (is_array($v) && (count($v) == 1)) {
-                    if (is_numeric($sk = array_keys($v)[0])) {
-                        $v = $v[$sk];
+                    if (is_array($v) && (count($v) == 1)) {
+                        if (is_numeric($sk = array_keys($v)[0])) {
+                            $v = $v[$sk];
+                        }
                     }
-                }
-                if (is_numeric($k)) {
-                    $k = '';
-                    $d = '';
-                }
-                if (is_array($v)) {
-                    $s .= $sep . $delim . $k . $d . $sub_start;
-                    array_unshift($refs, ['keys' => $keys, 'tab' => $tab, 'sep' => $sep]);
-                    array_unshift($refs, ['keys' => array_keys($v), 'tab' => $v, 'sep' => '']);
-                    $sub = 1;
-                    $ss++;
-                    continue 2;
-                }
-                if ($string_delimit && (strpos($v, $delimiter) !== false)) {
-                    $v = '"' . $v . '"';
+                    if (is_numeric($k)) {
+                        $k = '';
+                        $d = '';
+                    }
+                    if (is_array($v)) {
+                        $s .= $sep . $delim . $k . $d . $sub_start;
+                        array_unshift($refs, ['keys' => $keys, 'tab' => $tab, 'sep' => $sep]);
+                        array_unshift($refs, ['keys' => array_keys($v), 'tab' => $v, 'sep' => '']);
+                        $sub = 1;
+                        $ss++;
+                        continue 2;
+                    }
+                    if ($string_delimit && (strpos($v, $delimiter) !== false)) {
+                        $v = '"' . $v . '"';
+                    }
                 }
                 $s .= $sep . $delim . sprintf('%s%s%s', $k, $d, $v);
                 $sep = $separator;

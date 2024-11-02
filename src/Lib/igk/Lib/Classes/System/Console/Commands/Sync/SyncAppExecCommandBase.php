@@ -27,6 +27,7 @@
 
 namespace IGK\System\Console\Commands\Sync;
 
+use com\igkdev\projects\AppBalafon\AppBalafonConstants;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -54,7 +55,9 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 
 
         if (!$sync) {
-            Logger::danger(sprintf("No %s available", self::SELF_KEY_CONFIG));
+            Logger::danger(sprintf("[%s] - No [%s] configuration setup", 
+                AppBalafonConstants::TAG,
+                self::SELF_KEY_CONFIG));
             return -100;
         }        
         $name = igk_getv($command->options, "--name"); 

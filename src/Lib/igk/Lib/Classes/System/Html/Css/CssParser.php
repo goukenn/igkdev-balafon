@@ -305,7 +305,7 @@ class CssParser implements ArrayAccess
                 case ';':
                     if (empty($rv = trim($rv)) && (strlen($rv) == 0)) {
                         if ($mode == 0) {
-                            igk_die("name is empty." . $rv);
+                            igk_die("[cssparser] - name is empty." . json_encode(compact("rv", "content" )));
                         }
                     }
                     if ($name) {

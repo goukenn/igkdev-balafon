@@ -19,8 +19,8 @@ abstract class IGKObjectGetProperties{
     * @return mixed 
     */
     public function __get($key){
-        if(method_exists($this, "get".$key)){
-            return call_user_func(array($this, "get".$key), null);
+        if(method_exists($this, $fc = "get".$key)){
+            return call_user_func([$this, $fc], null);
         }
     }
     ///<summary></summary>

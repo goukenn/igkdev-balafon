@@ -49,7 +49,7 @@ class BalafonFrameworkManager{
     }
     ///<summary></summary>
     /**
-    * 
+    * echo help message
     */
     public function help(){
         echo "help ";

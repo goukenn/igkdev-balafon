@@ -12,6 +12,8 @@ namespace IGK\System\Database;
 * Represente IGKNoDbConnection class
 */
 class NoDbConnection{
+    var $db_name;
+
     public function __toString()
     {
         return __CLASS__;
