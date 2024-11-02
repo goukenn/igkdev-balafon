@@ -5822,23 +5822,7 @@ Name:balafon.js
         }
     });
 
-    // ---------------------------------------------------------
-    // + | initialize
-    igk.ready(function() {
-        var n, b = igk.dom.body();
-        if (typeof(igk.navigator) == 'undefined') {
-            return;
-        }
-        n = igk.navigator;
-
-        if (n.isIE() && n.IEVersion() <= 11) {
-            b.addClass("ie-11-service"); // no support of css 3 setting
-        }
-        //
-        if (n.isSafari()) {
-            b.addClass("safari"); //.igk.dom.body();
-        }
-    });
+ 
     // ---------------------------------------------------------
     // publish lib entity
     // ---------------------------------------------------------
@@ -6106,7 +6090,7 @@ Name:balafon.js
     }, { desc: "igk utility fonctions" });
 
     // represent utility fonction
-    var prop_toextend = 0;
+    var prop_toextend;
     createNS("igk.fn", {
         getItemFunc: function(it, n, fallback) {
             if (n in it)
@@ -6299,8 +6283,9 @@ Name:balafon.js
         }
     }
     createNS("igk.system.colors", {
-        toFloatArray: function(n) { // convert expression color to float array of argb
-            var c = 0; // igk.system.colors[n.toLowerCase()];
+        toFloatArray: function(n) { 
+            // convert expression color to float array of argb
+            var c; // igk.system.colors[n.toLowerCase()];
             if (igk.isInteger(n)) {
                 // for number
                 c = "#" + n.toString(16);
@@ -6993,6 +6978,7 @@ Name:balafon.js
             return m;
         }
     });
+
     // method used for ajx form control
     createNS("igk.form.ajxform", {
         submit: function(frm) {
@@ -8187,7 +8173,7 @@ Name:balafon.js
         // special function to install font in balafon system
         installFont: function(a, uri) {
             var s = a.getAttribute('igk-font-name');
-            var uri = uri + '&n=' + s;
+            uri = uri + '&n=' + s;
             var frm = $igk(a).getParentForm();
             s = a.getAttribute("id");
             var top = a.offsetParent.scrollTop;
@@ -8218,7 +8204,7 @@ Name:balafon.js
 
 
     // ------------------------------------------------------------------------------------
-    // igk.winui NAME SPACE
+    // igk.winui
     // ------------------------------------------------------------------------------------
     // used to animate . callback must return 1 in oder to continue animation
     function igk_animate(callback) {
@@ -12473,7 +12459,7 @@ Name:balafon.js
     }, {
         desc: 'balafon utility functions namespace'
     });
-    //encapsulate event source for best handling behaviour
+    // encapsulate event source for best handling behaviour
     createNS("igk.winui.eventArgs", {
         progress: function(evt) {
             var q = this;
@@ -12855,6 +12841,27 @@ Name:balafon.js
             return null;
         }
     });
+
+
+       // + | ---------------------------------------------------------
+    // + | initialize
+    // + |
+    igk.ready(function() {
+        // in safari igk.dom.body 
+        var n, b = igk.dom.body();
+        if (typeof(igk.navigator) == 'undefined') {
+            return;
+        }
+        n = igk.navigator;
+
+        if (n.isIE() && n.IEVersion() <= 11) {
+            b.addClass("ie-11-service"); // no support of css 3 setting
+        }
+        //
+        if (n.isSafari()) {
+            b.addClass("safari"); 
+        }
+    }); 
     var _udef = 'undefined';
     // special functions
     ns_igk.__REFID__ = __version;

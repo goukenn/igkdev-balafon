@@ -8,6 +8,7 @@
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 use IGK\System\Console\BalafonApplication;
+use IGK\System\Console\Commands\ClearCacheCommand;
 
 if (!version_compare(PHP_VERSION, "7.3", ">=")) {
     die("mandory version required. 7.3<=");
@@ -85,9 +86,12 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
     // + | so working dir fallback
     // + | 
     if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])){
-        if (is_dir($wdir)){
+        if (is_dir($wdir)){ 
+            // add include path to path separator
+            set_include_path(get_include_path().PATH_SEPARATOR.$cwd);
             $_SERVER['PWD'] = $wdir;
             chdir($wdir);
+            $_SERVER['IGK_COMMAND_PWD'] = $cwd;
         }
     } 
     // + | no reach fallback
@@ -106,7 +110,7 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
                 if ($controller)
                     $argv[] = "--controller:" . $controller;
             }
-            set_include_path($v_pdir . ':' . get_include_path());
+            set_include_path($v_pdir .PATH_SEPARATOR. get_include_path());
         }
     }
 })($argv);
@@ -126,6 +130,7 @@ if (in_array("--debug", $argv)) {
     $fc = $command["--debug"][0];
     $fc([], $command);
 }
+ 
 //--------------------------------------------------------------------------------
 // | Run the application
 // |

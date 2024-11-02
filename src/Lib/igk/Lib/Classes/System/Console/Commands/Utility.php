@@ -16,7 +16,7 @@ use IGK\System\Console\Logger;
 
 ///<summary>command utility</summary>
 /**
- * command utility 
+ * command console utility Helper function 
  * @package igk\System\Console\Commands
  */
 abstract class Utility{
@@ -47,14 +47,29 @@ abstract class Utility{
      * @param mixed $command 
      * @param mixed $bind 
      * @param bool $is_force 
-     * @return void 
+     * @return bool
      */
-    public static function MakeBindFiles($command, $bind, $is_force=false){
+    public static function MakeBindFiles($command, $bind, $is_force=false):bool{
+        $gen =false;
         foreach($bind as $n=>$c){
             if ($is_force || !file_exists($n)){
-                $c($n, $command);
+                $gen = true;
+                if ($c instanceof Closure)
+                    $c($n, $command);
+                else{
+                    igk_io_w2file($n, '');
+                }
                 Logger::info("generate : ".$n);
             }
         }
+        return $gen;
+    }
+
+
+    public static function PackageJsonAuthor($command){
+        $name = $command->app->getAuthor();
+        $email = IGK_AUTHOR_CONTACT;
+
+        return (object)['email'=>$email, 'name'=>$name];
     }
 }

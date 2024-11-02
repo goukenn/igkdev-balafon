@@ -24,7 +24,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     */
     public static function GetAdditionalConfigInfo(){
         return array(
-            "clAppleIconUri"=>igk_createAdditionalConfigInfo(array("clRequire"=>1)),
+            "clAppleIconUri"=>igk_create_additional_config_info(array("clRequire"=>1)),
             "clAppleTouchIconType"=>new ExtraControllerProperty("select",
             array(
                 "apple-touch-icon"=>"apple-touch-icon",

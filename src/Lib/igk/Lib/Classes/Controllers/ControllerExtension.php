@@ -93,6 +93,12 @@ abstract class ControllerExtension
 
     static $sm_instances_inclass = [];
 
+    /**
+     * extension to get language directory 
+     */
+    public static function getLangDir(BaseController $ctrl){
+        return Path::Combine($ctrl->getDeclaredDir(), 'Configs/Lang');
+    }
     public static function getViewLayout(BaseController $ctrl){
         $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
         if ($view_layout){
@@ -235,28 +241,7 @@ abstract class ControllerExtension
         return ($controller instanceof NotRegistrableControllerBase);
     }
 
-    /**
-     * bind style file 
-     * @param BaseController $ctrl 
-     * @param HtmlDocumentNode $doc 
-     * @param mixed $path path from style directectory
-     * @param bool $inline 
-     * @return void 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     */
-    public static function cssBindStyle(BaseController $ctrl, HtmlDocumentNode $doc, string $path, bool $inline = true)
-    {
-        $cfile =  Path::Combine($ctrl->getStylesDir(), $path);
-        if (Path::GetExistingFile($cfile, ['.pcss', '.css'])) {
-            igk_ctrl_bind_css_file($ctrl, $doc->getTheme(), $cfile, $inline);
-        }
-    }
+  
     #region ASSETS MANAGEMENT 
     /**
      * resolve assets . help by create a link to expose 
@@ -386,6 +371,17 @@ abstract class ControllerExtension
         }
         return $tab;
     }
+
+    /**
+     * check if the view exists
+     * @param BaseController $ctrl 
+     * @return bool 
+     */
+    public static function getIsViewExists(BaseController $ctrl, string $fname):bool{
+        $c= $ctrl->getViewFile($fname);
+        return $c && file_exists($c);
+    }
+
     /**
      * retreive the resolved asset forlder directory 
      * @param BaseController $ctrl 
@@ -416,13 +412,7 @@ abstract class ControllerExtension
     {
         if (file_exists($f = $controller->getViewDir() . "/.error/" . $code . IGK_VIEW_FILE_EXT)) {
             return $f;
-        }
-        // igk_wln_e(
-        //     __FILE__.":".__LINE__, 
-        //     "file: ".$f, 
-        //     igk_io_collapse_path($f),
-        //     igk_io_expand_path(igk_io_collapse_path($f))
-        // );
+        } 
         return null;
     }
     /**
@@ -1999,6 +1989,29 @@ abstract class ControllerExtension
                 $theme->prefix = $controller->getConfigs()->get('cssThemePrefix', '');
             }
             return igk_ctrl_bind_css_file($controller, $theme, $file, $cssRendering, 0);
+        }
+    }
+
+      /**
+     * bind style file 
+     * @param BaseController $ctrl 
+     * @param HtmlDocumentNode $doc 
+     * @param mixed $path path from style directectory
+     * @param bool $inline 
+     * @return void 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function cssBindStyle(BaseController $ctrl, HtmlDocumentNode $doc, string $path, bool $inline = true)
+    {
+        $cfile =  Path::Combine($ctrl->getStylesDir(), $path);
+        if (Path::GetExistingFile($cfile, ['.pcss', '.css'])) {
+           igk_ctrl_bind_css_file($ctrl, $doc->getTheme(), $cfile, $inline);
         }
     }
     /**

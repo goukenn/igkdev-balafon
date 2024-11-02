@@ -12,7 +12,7 @@ class ControllerRequestNotFoundRequestResponse extends ControllerRequestResponse
     var $message;
     public function __construct($uri, $controller)
     {
-        $this->code = 404;
+        $this->code = RequestResponseCode::NotFound;
         parent::__construct($uri, $controller);
         
     }     

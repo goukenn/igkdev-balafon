@@ -17,7 +17,7 @@ trait AssetsActionTrait{
 		$dir = $this->getController()->getAssetsDir();
     
 		if (!$f || !file_exists($f = $dir."/".$f)){
-			igk_set_header(404); 
+			igk_set_header(RequestResponseCode::NotFound); 
 			igk_exit();
 		}
 		igk_header_content_file($f);

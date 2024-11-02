@@ -39,9 +39,9 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         if (Request::getInstance()->method('GET')){ 
             if($response instanceof RequestResponse)
                 return true;
-            return false;
+            //return false;
         }
-        return !is_null($response) || ($response instanceof RequestResponse);
+        return parent::_handleResponse($response);//!is_null($response) || ($response instanceof RequestResponse);
     }
     
     protected function _handleMethodNotFound($name)

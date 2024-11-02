@@ -447,7 +447,6 @@ class RouteHandler
             }
         }
         throw new RequestException(404, "api route not found");
-        // \IGK\System\Http\Response::HandleResponse( new ErrorRequestResponse(404) ) ;
     }
 
     /**

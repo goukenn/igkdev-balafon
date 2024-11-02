@@ -52,8 +52,7 @@ abstract class DomNodeBase extends IGKObject{
         $env = igk_environment();
         $g = $env->services->dom_node_creator ?? $env->services->dom_node_creator = new EnvironmentDomEngineCreator;
         if (is_subclass_of($class_name, DomCreatorNodeService::class )){
-            $o = new $class_name;
-
+            $o = new $class_name; 
             $key = self::CREATOR_PREFIX_KEY.$name; 
             $g->register($key, $o);
         }

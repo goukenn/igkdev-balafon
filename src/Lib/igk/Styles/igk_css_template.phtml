@@ -16,7 +16,6 @@
 
 use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
 use IGK\System\WinUI\LayoutRules;
-// igk_wln_e(__FILE__.":".__LINE__,  get_class($def));
 $pad1 = "8px";
 $pad2 = "10px";
 $pad22 = "20px";
@@ -209,7 +208,7 @@ $xlg_screen[".igk-fsl-xlg-1"] = "";
 $xxlg_screen[".igk-fsl-xxlgm-1"] = "";
 $def[".igk-collapse"] = "display:none;";
 $def["igk-js-msbox"] = " {sys:fit, igk-parentscroll, igk-powered-viewer, overflow-y-a}";
-$def[".igk-js-notify"] = "max-height:400px; overflow:auto";
+$def[".igk-js-notify"] = "max-height:400px; overflow:auto;";
 $def[".igk-js-notify-box .igk-js-notify"] = "max-height:400px; overflow:scroll;";
 $def[".igk-js-notify .content-z"] = "{sys:mg-w-a}"; 
 $def[".igk-body .err-403 .presentation a"] = "color:#cecece;";
@@ -1205,11 +1204,7 @@ foreach([2,4,8, 16,20,24,48] as $k){
 foreach([16,24,32,48,64] as $k){
     $def['.size-'.$k] = 'width:'.$k.'px; height:'.$k.'px;';
 }
-
-
-
-
-
+ 
 
 $sm_screen[".igk-body"]  = "font-size:16pt;";
 
@@ -1235,4 +1230,13 @@ include_once __DIR__.'/winui/session.pcss';
 include_once __DIR__.'/winui/controls.pcss';
 
 
-$def['html > body '] = 'color: #dde; background-color: #040816; important !;';
+// $def['html > body '] = 'color: #dde; background-color: #040816 important !;';
+
+$def['.no-device-container .igk-container'] = 
+$sm_screen['.no-device-container .igk-container'] =
+$xsm_screen['.no-device-container .igk-container'] = 
+$lg_screen['.no-device-container .igk-container'] =
+$xlg_screen['.no-device-container .igk-container'] =
+$xxlg_screen['.no-device-container .igk-container'] = 'width: var(--blf-container-page-width, auto);';
+
+$root['--blf-container-page-width']='';

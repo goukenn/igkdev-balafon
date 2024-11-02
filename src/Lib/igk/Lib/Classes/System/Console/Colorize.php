@@ -4,6 +4,7 @@
 // @date: 20240914 12:40:24
 namespace IGK\System\Console;
 
+use Exception;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKValidator;
 
@@ -26,16 +27,37 @@ class Colorize
      */
     var $colors;
 
-    public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null)
+    protected function _initRegexMatcherContainer(RegexMatcherContainer $match){
+        $match->begin("('|\")", "(?<!\\\\)\\1", "string");
+        $match->begin("#", "$", "comment");
+        $match->match("\\d+(\.\d+)?", "number");
+        $match->match("(\\{|\\[)", "marker");
+        $match->match("(\\}|\\])", "emarker");
+        $match->match("\b(null|true|false)\b", "words");
+    }
+    protected function _initColor():array{
+        return [
+            "email"=>"\e[38;2;71;100;244m",
+            "string"=>"\e[38;2;151;212;245m",
+            "uri"=>"\e[38;2;253;88;55m",
+            "comment"=>"\e[38;2;30;154;42m",
+            "secret"=>"\e[38;2;30;154;42m",
+        ];
+    }
+    /**
+     * 
+     * @param mixed $s 
+     * @param null|RegexMatcherContainer $match 
+     * @param mixed $filter 
+     * @return null|string 
+     * @throws Exception 
+     */
+    public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null):?string
     {
         if (is_null($match)) {
             $match = new RegexMatcherContainer;
-            $match->begin("('|\")", "(?<!\\\\)\\1", "string");
-            $match->begin("#", "$", "comment");
-            $match->match("\\d+(\.\d+)?", "number");
-            $match->match("(\\{|\\[)", "marker");
-            $match->match("(\\}|\\])", "emarker");
-            $match->match("\b(null|true|false)\b", "words");
+            $this->_initRegexMatcherContainer($match);
+          
         }
         $rp = [];
         $filter = $filter ?? $this->listener;
@@ -48,13 +70,7 @@ class Colorize
             }
             $c = null; 
             $v_t = [];
-            $v_colors = $this->colors ?? [
-                "email"=>"\e[38;2;71;100;244m",
-                "string"=>"\e[38;2;151;212;245m",
-                "uri"=>"\e[38;2;253;88;55m",
-                "comment"=>"\e[38;2;30;154;42m",
-                "secret"=>"\e[38;2;30;154;42m",
-            ];
+            $v_colors = $this->colors ?? $this->_initColor();
             if ($g->tokenID == 'number') {
                 $v_t[] = App::Gets(App::YELLOW, $g->value);
             } else {

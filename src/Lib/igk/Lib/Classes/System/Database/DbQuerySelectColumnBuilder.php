@@ -6,6 +6,7 @@ namespace IGK\System\Database;
 
 use Exception;
 use IGK\Database\DbExpression;
+use IGK\Database\DbQueryCondition;
 
 ///<summary></summary>
 /**
@@ -21,8 +22,8 @@ class DbQuerySelectColumnBuilder{
         foreach($this->m_tab as $k=>$v){
             $res[$k] = $v;
         }
-        foreach($this->m_uniques as $index => $tab){
-            $res[] = QueryCondition::Create($tab);
+        foreach($this->m_uniques as $tab){
+            $res[] = DbQueryCondition::Create($tab);
         } 
         if ($filter_null){
             $res = array_filter($res);

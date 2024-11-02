@@ -29,9 +29,17 @@ class JsonPackageValidator extends FormData{
 
         return [
             "author"=>function($n, $key, & $error){
-                if (is_object($n))
-                    return JsonPackageAuthorInfoValidator::ValidateData($n, null, $error);
-                return false;
+                if (is_object($n)){
+                    $rdata = JsonPackageAuthorInfoValidator::ValidateData($n, null, $error);
+                    if ($rdata){
+                        $f = igk_extract_obj($rdata, 'email|url|name');
+                        return $f;
+                    }
+                }
+                if (is_string($n)){
+                    return $n;
+                }
+                return null;
             },
             "scripts"=>function($n){
                 if (is_object($n))

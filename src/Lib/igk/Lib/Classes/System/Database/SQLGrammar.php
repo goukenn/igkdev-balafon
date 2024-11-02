@@ -43,16 +43,23 @@ use stdClass;
  */
 class SQLGrammar implements IDbQueryGrammar
 {
-
+    
     /**
      * 
      * @var IDataDriver
      */
     private $m_driver;
 
+    public function getVersion(){
+        return $this->getEngineVersion() ?? $this->getDriverVersion();
+    }
+    public function getDriverVersion(){
+        return $this->m_driver->getVersion();
+    }
+
     const FD_ID = "clId";
     const CALLBACK_OPTS = \IGK\Database\DbConstants::CALLBACK_OPTS;
-
+    const AND_OP = 'AND';
 
 
     /**
@@ -742,7 +749,7 @@ class SQLGrammar implements IDbQueryGrammar
         Logger::warn("rename columns .... " . $table);
         $adapter  = $this->m_driver;
         $q = null;
-        $version = $adapter->getVersion();
+        $version = $this->getVersion();
         if ($adapter->getType() == IGK_MYSQL_DATAADAPTER) {
             $q = "ALTER TABLE ";
             if (version_compare($version, '8.0', '>=')) {
@@ -972,7 +979,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function createUpdateQuery($tbname, $values, $condition = null, $tableInfo = null)
+    public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null):?string
     {
         if (is_null($values)) {
             igk_die(__("{0} [{1}] is null", __METHOD__, "value"));
@@ -1420,7 +1427,7 @@ class SQLGrammar implements IDbQueryGrammar
             if (!is_numeric($where) && is_string($where)) {
                 $sq .= $where;
             } else {
-                $operand = getv($options, "Operand", "AND");
+                $operand = getv($options, "Operand", self::AND_OP);
                 $sq .= static::GetCondString($this->m_driver, $where, $operand, $ad);
             }
             $sq = trim($sq);
@@ -1478,6 +1485,8 @@ class SQLGrammar implements IDbQueryGrammar
         if (is_object($tab) && ($tab instanceof \IGK\Database\DbQueryCondition)) {
             $op = $tab->operand;
             $tab = $tab->to_array();
+        } else if ($tab instanceof IDbWhereQueryCondition){
+            list($op, $tab)= $tab->getConditionInfo();
         }
 
         $qtab = [["tab" => $tab, "operator" => $op, "query" => &$query]];

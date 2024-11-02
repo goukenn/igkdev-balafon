@@ -54,8 +54,7 @@ class FaviconCommand extends AppExecCommand
 		};
 		if (file_exists($file)) {
 			$fcontent = file_get_contents($file);
-			$src = '';
-
+			$src = ''; 
 			switch($type)
 			{
 				case 'svg':

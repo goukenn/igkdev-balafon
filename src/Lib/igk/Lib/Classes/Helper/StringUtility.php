@@ -22,7 +22,18 @@ use ReflectionException;
 abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
 
+    /**
+     * get function name
+     * @param string $s 
+     * @return string 
+     */
+    public static function FuncName(string $s):string{
+        $s = preg_replace("/[^a-z_]/i", "_", $s);
+        $s = preg_replace("/_+/i", "_", $s);
+        return $s;
+    }
        /**
      * read line utility class 
      * @param string $content 

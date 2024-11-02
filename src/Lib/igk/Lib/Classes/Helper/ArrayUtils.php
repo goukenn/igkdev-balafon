@@ -11,6 +11,23 @@ use IGK\System\IO\StringBuilder;
 
 class ArrayUtils{
     /**
+     * self check array
+     * @param mixed $value 
+     * @return null|array 
+     */
+    public static function CheckArray($value){
+		if ($value && !is_array($value)){
+			return [$value];
+		}
+		return $value;
+	}
+    /**
+     * 
+     */
+    public static function MergeWith(array & $source, array $array_to_merge){
+        $source = array_merge($source, $array_to_merge ); 
+    }
+    /**
      * 
      * @param array $table 
      * @param mixed $property 

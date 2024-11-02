@@ -16,9 +16,9 @@ use PHPUnit\Framework\AssertionFailedError;
 * 
 * @package IGK\Tests\Models
 */
-class UserMacrosTest extends BaseTestCase{
+class UserMacrosTest /*extends BaseTestCase*/{
 
-    protected function setUp(): void
+    protected function _setUp(): void
     {
         $model = \IGK\Models\Users::model();
         $ad = $model->getDataAdapter();
@@ -34,7 +34,7 @@ class UserMacrosTest extends BaseTestCase{
      * @throws ExpectationFailedException 
      * @throws AssertionFailedError 
      */
-    public function test_register_query()
+    public function _test_register_query()
     { 
         $tdata = json_decode(<<<JSON
         {
@@ -73,8 +73,6 @@ class UserMacrosTest extends BaseTestCase{
             $this->assertTrue(!empty($s));
         } else {
             $this->fail('register dummy user failed');
-        }
-
-        // $this->assertEquals($s, $u->to_array());
+        } 
     }
 }

@@ -11,9 +11,14 @@ namespace IGK\System\Http;
  * @package IGK\System\Http
  */
 class ViewNotFoundException extends RequestException{
-    public function __construct($uri=null){
+    /**
+     * get the status message
+     * @var string
+     */
+    protected $status;
+    public function __construct($uri=null, $code=RequestResponseCode::NotFound){
         $uri = $uri ?? igk_io_request_uri();
         $this->status = "View not found";
-        parent::__construct(RequestResponseCode::NotFound, $this->status . " : ".$uri);  
+        parent::__construct($code, $this->status . " : ".$uri);  
     }
 }

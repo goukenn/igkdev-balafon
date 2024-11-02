@@ -24,7 +24,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
     public static function GetAdditionalConfigInfo(){
         return array(
             "clGoogleMapUrl",
-            igk_createAdditionalConfigInfo(array("clRequire"=>1))
+            igk_create_additional_config_info(array("clRequire"=>1))
         );
     }
     ///<summary></summary>

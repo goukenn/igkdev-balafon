@@ -40,7 +40,7 @@ abstract class ProjectDefaultAction extends ActionBase{
             }
             igk_do_response($response);
         } else {  
-            throw new RequestException(404);
+            throw new RequestException(RequestResponseCode::NotFound);
        }
     }
     public function __call($name, $args){

@@ -141,9 +141,15 @@ final class ApplicationModuleController extends BaseController{
         }
         return implode('/' , [dirname($this->getClassesDir()), IGK_TESTS_FOLDER]);
     }
+    /**
+     * get assets dir
+     * @return mixed 
+     * @throws Exception 
+     * @throws EnvironmentArrayException 
+     */
     public function getAssetsDir(){
         if ($fc=igk_getv($this->m_fclist, __FUNCTION__)){
-            return $this->__call(__FUNCTION__, []);
+            return $this->__call($fc, []);
         }
         return Path::Combine($this->getDeclaredDir(),"/Data/assets");
     }

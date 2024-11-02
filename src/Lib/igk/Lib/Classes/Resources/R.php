@@ -639,4 +639,19 @@ EOF;
         if(isset($_instance->m_langctrl[$ctrl->getName()]))
             unset($_instance->m_langctrl[$ctrl->getName()]);
     }
+
+    /**
+     * include language regex
+     * @param string $filename,
+     * @param array options
+     */
+    public static function IncludeLang(){
+        if (func_num_args()!=2){
+            igk_die("expected 2 argument");
+        }
+        extract((array)func_get_arg(1));
+        $l = & func_get_arg(1)->l;
+        include(func_get_arg(0));
+        return $l;
+    }
 }

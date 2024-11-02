@@ -195,7 +195,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     // }
     ///<summary></summary>
     /**
-     * 
+     * rende view file
      */
     protected function _renderViewFile()
     {

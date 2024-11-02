@@ -226,7 +226,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
      * parameter mixing handle fonction
-     * @param mixed $fname 
+     * @param mixed|BaseController|string $fname 
      * @param mixed $args 
      * @param int $exit 
      * @param int $flag 
@@ -507,7 +507,6 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($host && ($host instanceof static)){
                     $host->_handleThrowable($ex);
                 }
-                //igk_dev_wln_e(__FILE__.":".__LINE__ , "failed: ".$ex->getMessage());
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

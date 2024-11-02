@@ -46,17 +46,23 @@ class JsonPackage
         if (!($package = self::Load($file))) {
             return false;
         }
+        $this->mergeWithContent($package);
+    }
+
+    /**
+     * merge with content packages
+     */
+    public function mergeWithContent($package){
         $fields = ['dependencies', 'devDependencies'];
         while (count($fields) > 0) {
             $f = array_shift($fields);
-            if (!property_exists($this, $f)) {
+            if (!property_exists($this, $f) || !property_exists($package, $f) ) {
                 continue;
             }
 
             $g = (array)$this->$f;
             $t = (array)$package->$f;
             $kg = array_keys($g);
-            $r = [];
             while (count($kg) > 0) {
                 $k = array_shift($kg);
                 if (isset($t[$k])) {
@@ -75,8 +81,7 @@ class JsonPackage
                     }
                 }
             }
-            //$this->$f = (object)$r;
-        }
+        } 
     }
     /**
      * save the current definition
@@ -87,6 +92,7 @@ class JsonPackage
     public function save(string $file){
         $e = JSonEncodeOption::IgnoreEmpty();
         $e->ignore_null = true; 
+        $e->ignore_empty = true; 
         return igk_io_w2file($file, JSon::Encode($this, $e, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }

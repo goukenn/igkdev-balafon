@@ -122,5 +122,5 @@ class WebResponse extends RequestResponse{
             echo $s;
         }
         igk_exit();
-    }
+    } 
 }

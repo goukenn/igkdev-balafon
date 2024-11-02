@@ -89,6 +89,14 @@ class IGKApp extends IGKObject
             return $this;
         }
     }
+    /**
+     * retrieve application setting
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     public function getSettings(){
 
         $app_key = IGK_APP_SESSION_KEY;

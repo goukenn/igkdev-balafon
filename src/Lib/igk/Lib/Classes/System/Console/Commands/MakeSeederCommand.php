@@ -9,6 +9,7 @@ namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
+use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use \IGKControllerManagerObject;
@@ -66,15 +67,9 @@ class MakeSeederCommand extends AppExecCommand
 
 
         $force = property_exists($command->options, "--force");
-        foreach ($bind as $n => $c) {
-            if (!file_exists($n) || $force) {
-                $c($n, $command);
-                Logger::success("generate : " . $n);
-            }
-        }
-
+        Utility::MakeBindFiles($command, $bind, $force);
         \IGK\Helper\SysUtils::ClearCache();
-        Logger::success("done\n");
+        Logger::success("done");
     }
     public function help()
     {

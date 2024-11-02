@@ -9,6 +9,7 @@ namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
+use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use \IGKControllerManagerObject;
@@ -63,16 +64,7 @@ class MakeModelUtilityCommand extends AppExecCommand
                 ->desc("module utility " . $clname);
             igk_io_w2file($file,  $builder->render());
         };
-
-
-
-        foreach ($bind as $n => $c) {
-            if (!file_exists($n)) {
-                $c($n, $command);
-                Logger::success("generate : " . $n);
-            }
-        }
-
+        Utility::MakeBindFiles($command, $bind, false);
         \IGK\Helper\SysUtils::ClearCache();
         Logger::success("done\n");
     }

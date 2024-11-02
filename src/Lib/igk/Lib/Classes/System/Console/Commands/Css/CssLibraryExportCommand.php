@@ -1,6 +1,6 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: CssLibraryCommand.php
+// @file: CssLibraryExportCommand.php
 // @date: 20230509 11:00:37
 namespace IGK\System\Console\Commands\CssCommands;
 
@@ -15,13 +15,12 @@ use IGK\System\Html\Css\CssUtils;
 * genereate css library
 * @package IGK\System\Console\Commands\CssCommands
 */
-class CssLibraryCommand extends AppExecCommand{
+class CssLibraryExportCommand extends AppExecCommand{
 	var $command='--css:lib-export';
 	var $category = 'css';
-	var $desc = 'help export css class selection ';	
+	var $desc = 'help export css class selection from file';	
 	var $options=[];
-	var $usage = 'filename [options]';
-
+	var $usage = 'filename [options]'; 
 	/**
 	 * 
 	 */

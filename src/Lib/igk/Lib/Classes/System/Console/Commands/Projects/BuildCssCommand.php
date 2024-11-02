@@ -19,7 +19,7 @@ use IGK\System\IO\Path;
 */
 class BuildCssCommand extends AppExecCommand{
 	var $command='--project:build-css';
-	/* var $desc='desc'; */
+	var $desc='css. generate project\'s style theme'; 
 	var $options=[
 		'-f:file'=>'file to parse'
 	]; 

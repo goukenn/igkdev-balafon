@@ -573,6 +573,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         if (!IGKValidator::IsUri($file))
             $file = igk_dir($file);
         $t = $this->ScriptManager->getTempScripts();
+  
+
         if (!igk_getv($t, "temp")) {
             $t->temp = array();
         }
@@ -582,8 +584,14 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             $this->m_head->add($n);
             return $n;
         }
+        $uris = explode("?", $file, 2);
+        $file = array_shift($uris);
         if (is_file($file)) {
             $file = IGKResourceUriResolver::getInstance()->resolve($file);
+        }
+        if ($uris){
+            parse_str($uris[0], $out);
+            $query_args = array_merge($out, $query_args ?? []);
         }
         if ($query_args) {
             $file .= '?' . http_build_query($query_args);

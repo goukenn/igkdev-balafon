@@ -41,7 +41,7 @@ class MakeUtility {
             if ($v_langs = R::GetSupportedLangs()){
                 $v_fc_php_empty_file = MakeUtility::CreateEmptyScriptCallback();
                 foreach($v_langs as $k){
-                    $key = $dir."/Configs/Lang/lang.".$k.".presx";
+                    $key = $dir."/Configs/Lang/lang.".$k.IGK_LANG_FILE_EXTENSION;
                     if (!key_exists($key, $bind)){
                         $bind[$key] = $v_fc_php_empty_file;
                     }

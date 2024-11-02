@@ -5,6 +5,7 @@
 namespace IGK\System\Caches;
 
 use Exception;
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
@@ -12,6 +13,7 @@ use IGK\Database\DbSchemas;
 use IGK\Helper\Activator;
 use IGK\Helper\Utility;
 use IGK\System\Console\Logger;
+use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\SchemaMigrationInfo;
@@ -267,6 +269,9 @@ class DBCaches
                     $rdata = [];
                     if ($trdata) {
                         foreach ($trdata as $ctrl => $v) {
+                            if ($ctrl== ApplicationModuleController::class){
+                                $ctrl = SysDbController::class;
+                            }
                             if (!($gctrl = igk_getctrl($ctrl, false))) {
                                 continue;
                             }

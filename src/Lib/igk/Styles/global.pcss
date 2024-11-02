@@ -213,8 +213,11 @@ $def[".disptable"] = " display:table;";
 $def[".disptabr"] = " display: table-row;min-height:0px;";
 // + | --------------------------------------------------------------------
 // + | grid property 
-// + |
-$def[".dispgrid"] = $def['.grid']= "display: grid;";
+// + | 
+$def[".dispgrid"] =  
+$def[".grid"] = 
+$def[".igk-grid"] = "display: grid;";
+
 
 //-----------------------------------------------------------------
 //flex properties
@@ -270,9 +273,7 @@ $def[".nowrap-container > *"] = "{sys:no-wrap}";
 //-----------------------------------------------------------------
 //grid properties
 //-----------------------------------------------------------------
-$def[".dispgrid"] =  
-$def[".grid"] = 
-$def[".igk-grid"] = "display: -ms-grid; display: grid;";
+
 
 
 $def[".dispigrid"] =  
@@ -295,7 +296,7 @@ $def[".editstyle-ajx-form .cltextarea"] = "width:400px; height:300px;";
 
 $def[".igk-body"] = "";
 $def[".igk-error-body"]  = "{sys:no-padding,no-margin}";
-$def[".igk-ctrl-options"] = "{sys:dispb} text-align:left;vertical-align:bottom; margin:0px;";
+$def[".igk-ctrl-options"] = "{sys:dispb} text-align:left; margin:0px;";
 $def[".igk-ctrl-options ul"] = "{sys:dispi}";
 $def[".igk-ctrl-options ul li"] = "{sys:dispib} vertical-align:middle;";
 
@@ -377,7 +378,7 @@ $def[".fit-cover"] = "[fit:cover]";
 $def[".fit-page-h"] = "height: 100vh";
 
 
-$def[".igk-horizontal-separator"]="{sys:dispb} height:1px;  [bgcl:igk-hsep-bg] border-bottom: 1px solid [cl:igk-hsep-light, #eee]; margin-bottom:10px";
+$def[".igk-horizontal-separator"]="{sys:dispb} height:1px;  [bgcl:--igk-bgcl-hsep] border-bottom: 1px solid [cl:igk-hsep-light, #eee]; margin-bottom:10px";
 $def[".igk-powered"] = "display:block; position:fixed; background-color: [cl:poweredBgColor,#222]; color:[cl:poweredColor, white]; bottom:0px; z-index: 10000; font-size:12px; right:0px; border-radius:4px 0px 0px 0px; padding:4px 0px 0px 16px; ";
 $def[".igk-powered a"] = "color:white;";
 $def[".igk-powered a:visited,.igk-powered a:hover"] = "color:white;";
@@ -392,7 +393,7 @@ $def["code.dispib"] = "width:auto !important; vertical-align:middle;";
 $PTR[".".igk_css_str2class_name(IGK_SESSION_CTRL)] = "display:none;";
 
 $cl["igk-framebox-title-bgcl"]=
-$cl["igk-hsep-bg"] =
+$cl["--igk-bgcl-hsep"] =
 $cl["igk-notify-w-fcl"] =
 $cl["igk-notify-i-fcl"] =
 $cl["igk-cnf-add-prop-color"] =
@@ -400,7 +401,7 @@ $cl["igk-framebox-title-fcl"]
 = "transparent";
 
 $cl["igk-framebox-title-fcl"] = "transparent";
-$cl["igk-hsep-bg"] = "transparent";
+$cl["--igk-bgcl-hsep"] = "transparent";
 $cl["igk-cnf-add-prop-color"] = "transparent";
 $cl["configFocusAreaSelected"] = "red";
 $cl["breadcrumbsLinkHover"] = "red";

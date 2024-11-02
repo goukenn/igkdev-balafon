@@ -21,6 +21,7 @@ class XSDValidator
      */
     public static function ValidateSource(string $source, string $xsd, array & $error = null)
     {
+        // $source = preg_replace('/\<\?.+\?\>/m', '', $source);
         $dom = new DOMDocument;
         $dom->loadXml($source);
         if ($error !== null) {

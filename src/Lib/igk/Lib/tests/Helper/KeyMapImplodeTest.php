@@ -3,7 +3,7 @@
 // @file: KeyMapImplodeTest.php
 // @date: 20230307 11:59:11
 // phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/HelperFunctions/Array/KeyMapImplodeTest.php
-namespace IGK\Tests\HelperFunctions\Array;
+namespace IGK\Tests\Helper\Array;
 
 use IGK\Tests\BaseTestCase;
 

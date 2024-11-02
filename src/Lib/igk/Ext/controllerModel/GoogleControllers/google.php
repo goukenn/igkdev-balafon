@@ -559,9 +559,7 @@ EOF;
         //google - bind local style
         if (!igk_get_env("google::init_global_style")) {
             igk_set_env("google::init_global_style", 1);
-            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss";
-            // igk_css_reg_global_style_file($f, null, null, 1); 
-
+            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss"; 
             $theme = ViewHelper::CurrentDocument()->getTheme();
             igk_css_bind_file($theme, null, $f);
         }
@@ -675,7 +673,7 @@ EOF;
                                 if (file_exists($tf)) {
                                     igk_navto($uri);
                                 } else {
-                                    igk_set_header(404);
+                                    igk_set_header(RequestResponseCode::NotFound);
                                     igk_exit();
                                 }
                             }

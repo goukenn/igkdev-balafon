@@ -214,7 +214,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
                 return null;
             }
             if (!method_exists($ctrl, $f)) {
-                igk_set_header(404);
+                igk_set_header(RequestResponseCode::NotFound);
                 if (!igk_get_contents($ctrl, 404, ["method not found"])) {
                     igk_die("method not exists --- > [" . get_class($ctrl) . "::" . $f . "] " . $uri);
                 }

@@ -63,7 +63,7 @@ class Response{
         static $sm_bad_request;
         if ($sm_bad_request===null){
             $sm_bad_request = new WebResponse('bad request', RequestResponseCode::BadRequest);
-        }
+        } 
         return $sm_bad_request;
-    }
+    } 
 }

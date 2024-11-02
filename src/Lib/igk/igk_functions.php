@@ -75,8 +75,10 @@ use IGK\System\Html\Dom\HtmlCoreJSScriptsNode;
 use IGK\System\Html\Dom\SvgListNode;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlLoadingContextOptions;
+use IGK\System\Html\HtmlNodeTagExplosionDefinition;
 use IGK\System\Http\Cookies;
 use IGK\System\Http\RequestHandler;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\CSV\Helper\CSVHelper;
 use IGK\System\Regex\Replacement;
@@ -1674,22 +1676,17 @@ function igk_create_view_builder_option()
 ///<summary></summary>
 ///<param name="tab"></param>
 /**
- * 
+ * create additional project controller info 
  * @param mixed $tab 
  * @return \IGK\System\Project\Configurations\ConfigurationPropertyInfo
  */
-function igk_createadditionalconfiginfo($tab): \IGK\System\Project\Configurations\ConfigurationPropertyInfo
+function igk_create_additional_config_info($tab): \IGK\System\Project\Configurations\ConfigurationPropertyInfo
 {
     $o = Activator::CreateNewInstance(
         \IGK\System\Project\Configurations\ConfigurationPropertyInfo::class,
         $tab
     );
-    return $o;
-    // $o = new StdClass();
-    // $o->clType = igk_getv($tab, "clType");
-    // $o->clDefaultValue = igk_getv($tab, "clDefaultValue");
-    // $o->clRequire = igk_getv($tab, "clRequire");
-    // return $o;
+    return $o; 
 }
 ///<summary>create an article node</summary>
 /**
@@ -1745,6 +1742,26 @@ function igk_createloading_context($ctrl, ?array $raw = null): HtmlLoadingContex
 function igk_create_node($tagname = "div", $attributes = null, $index_or_args = null)
 {
     return HtmlNode::CreateWebNode($tagname, $attributes, $index_or_args);
+}
+
+/**
+ * create node argument helper
+ * @param string $tag tagname
+ * @param string $index_or_args variadic for writing
+ */
+function igk_create_node_arg(string $tagname='div', ...$index_or_args){
+    list($tagname,$id,$classes,$attr) = HtmlNodeTagExplosionDefinition::ExplodeTag($tagname);
+    $n= HtmlNode::CreateWebNode($tagname, null, $index_or_args);
+    if ($attr){
+        $n->setAttributes($attr);
+    }
+    if ($classes){
+        $n['class'] = $classes;
+    }
+    if ($id){
+        $n['id'] = $id;
+    }
+    return $n;
 }
 
 ///<summary></summary>
@@ -2351,6 +2368,10 @@ function igk_css_design_color_value($value, $gcl, $v_designmode)
     $b = igk_css_get_color_value($value, $gcl);
     return $b;
 }
+
+
+
+
 ///<summary></summary>
 /**
  * 
@@ -3034,9 +3055,14 @@ function igk_css_reg_font_package($fontname, $file, $document = null, $format = 
 ///<summary>register temporary global files</summary>
 /**
  * register temporary global files
+ * @param string $fname file to register
+ * @param ICssStyleContainer $theme the theme
+ * @param mixed $controller the controller 
+ * @param int $temp is temp
+ * @throws Exception real file require  
  */
 function igk_css_reg_global_style_file(
-    $fname,
+    string $fname,
     ?IGK\Css\ICssStyleContainer $theme = null,
     ?IGK\Controllers\BaseController $ctrl = null,
     $temp = 0
@@ -3083,7 +3109,7 @@ function igk_css_reg_global_style_file(
 ///<param name="theme" default="null"></param>
 ///<param name="ctrl" default="null"></param>
 /**
- * register global theme file
+ * shortcut: register global theme file
  * @param string $fname file to bind 
  * @param mixed $theme host
  * @param mixed $ctrl controller to use
@@ -3435,8 +3461,9 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                                 $sk = IGK_STR_EMPTY;
                                 foreach ($v_nn as $r) {
                                     $g = trim($r);
-                                    $sk .= igk_getv($syschain, $g) ?? $systheme->def["." . $g];
-                                    $chain[$g] = $sk;
+                                    $l = igk_getv($syschain, $g) ?? $systheme->def["." . $g];
+                                    $sk .= $l;
+                                    $chain[$g] = $l;
                                 }
                                 $sk = trim($sk);
                                 $v = str_replace($v_m, $sk, $v);
@@ -3498,12 +3525,11 @@ function &igk_css_get_treat_colors(?array $defColor = null)
 ///<param name="value"></param>
 ///<param name="defined" default="false"></param>
 /**
- * 
+ * treatt color 
  * @param mixed $colors 
- * @param mixed $value 
- * @param mixed $defined 
+ * @param mixed $value  
  */
-function igk_css_treatcolor(&$colors, $value, $defined = false)
+function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
 {
     
     if (is_object($value)) {
@@ -3512,7 +3538,7 @@ function igk_css_treatcolor(&$colors, $value, $defined = false)
     if (empty($value)) {
         return $value;
     }
-    
+    $v_ignore_global_color = defined('IGK_TEST_INIT');
     $tabpush = array();
     $q = $value; 
     $reg2 = '/{\s*(?P<name>[\w_-]+)\s*\}/i';
@@ -3525,7 +3551,7 @@ function igk_css_treatcolor(&$colors, $value, $defined = false)
     }
     while ($q) {
         if (isset($tabpush[$q])) {
-            if (IGKGlobalColor::IsGlobalColor($q)){
+            if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q)){
                 return $q;
             }
             $g = igk_css_invoke_color_request($q);
@@ -3541,10 +3567,10 @@ function igk_css_treatcolor(&$colors, $value, $defined = false)
         } else {
             if (($c = preg_match_all($reg2, $q, $match))) {
                 for ($i = 0; $i < $c; $i++) {
-                    $v_m = $match[0][$i];
-                    $type = $match['name'][$i];
+                    // $v_m = $match[0][$i];
+                    // $type = $match['name'][$i];
                     for ($i = 0; $i < $c; $i++) {
-                        $v_m = $match[0][$i];
+                        // $v_m = $match[0][$i];
                         $v_n = trim($match["name"][$i]);
                         $q = $v_n;
                     }
@@ -3559,7 +3585,7 @@ function igk_css_treatcolor(&$colors, $value, $defined = false)
             }
         }
     }
-    if (!empty($q) && IGKGlobalColor::IsGlobalColor($q)) {
+    if (!empty($q) && !$v_ignore_global_color &&  IGKGlobalColor::IsGlobalColor($q)) {
         // + | ---------------------------------------------------------
         // + | get registrated system color value - hex_color or webname
         // + |
@@ -6062,15 +6088,7 @@ function igk_db_user_groups($u)
             \IGK\Models\Usergroups::column("clId") => "usergroup_id"
         ])
         ->query();
-    return $o->getRows();
-    // igk_wln_e($o->getRows(), $o->getRows()[0]);
-
-    // igk_db_table_select_where(igk_db_get_table_name(IGK_TB_GROUPS));
-    // $o = array();
-    // foreach ($r as $v) {
-    //     $o[$v->clGroup_Id] = $g->Rows[$v->clGroup_Id]->clName;
-    // }
-    // return $o;
+    return $o->getRows(); 
 }
 ///<summary>Represente igk_db_util_init_row_script function</summary>
 ///<param name="table"></param>
@@ -6995,7 +7013,7 @@ function igk_error_page404($msg)
         $headers .= "<style>" . igk_io_read_allfile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/error404.css") . "</style>";
         $headers .= "<style>" . igk_io_read_allfile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/trace.css") . "</style>";
         $txtoptions = "$(-><-)";
-        igk_set_header(404);
+        igk_set_header(RequestResponseCode::NotFound);
         include($file);
         igk_exit();
     }
@@ -7141,7 +7159,7 @@ if (!function_exists('igk_explode')){
 }
 
 /**
- * extrac object variable as assoc array list
+ * extract object variable as assoc array list
  */
 function igk_extract_assoc($obj, $list){
     $p = [];
@@ -7155,6 +7173,23 @@ function igk_extract_assoc($obj, $list){
         $p[$k] = igk_getv($obj, $k, $d);
     }
     return $p;
+}
+
+if (!function_exists('igk_extract_obj')){
+    /**
+     * helper : extract an convert to std class 
+     * object 
+     */
+    function igk_extract_obj($obj, $list){
+        $r = igk_extract($obj, $list);
+        $obj = igk_createobj();
+        if (is_string($list)){
+            foreach(explode('|', $list) as $k){
+                $obj->{$k}= array_shift($r);
+            }
+        }
+        return $obj; 
+    }
 }
 
 ///<summary></summary>
@@ -8536,7 +8571,7 @@ function igk_get_envs()
 function igk_get_error($tag = null)
 {
     $tab = igk_get_env("sys://igk_set_error");
-    if ($tag != null) {
+    if ($tab  && ($tag != null)) {
         $o = array();
         foreach ($tab as $v) {
             if ($v["tag"] == $tag) {
@@ -11996,15 +12031,7 @@ function igk_html_get_system_uri($link, $option = null, $webapp = null)
         if (file_exists(Path::Combine($bdir, $link))) {
             return $link;
         }
-
-        // igk_wln_e("try ... \n".implode("\n", [$bdir, $webapp,  $sdir,
-        //     file_exists(Path::Combine($bdir, $link)),
-        //     file_exists(Path::Combine($sdir, $link)),
-        //     "webapp?".igk_is_webapp(),
-        //     "tf?" .$tf,
-        //     realpath($tf)
-        // ]
-        // ));
+ 
         $s = "";
         $k = explode("?", $link);
         if (file_exists($k[0])) {
@@ -13442,18 +13469,27 @@ function igk_include_view_file($ctrl, $file, $no_cache = false)
             igk_ilog("INC VIEW ERROR:::" . $ex->getMessage());
             $rp = realpath(igk_environment()->last($key));
             $src = $ex->getFile();
-            igk_wln_e(
+            $code = $ex->getCode(); 
+            if ($code){
+                igk_set_header($code);
+            }
+            igk_environment()->isDev() && igk_dev_wln_e(
+                implode("\n",["<html>",
+                "<head><title>Error  : ".$code."</title></head>",
+                "<body>",
                 "<h2>INC VIEW ERROR</h2>" . $rp,
                 "<div>" . $ex->getMessage() . "</div>",
                 $rp == $ex->getFile() ? $ex->getFile() . ":" . $ex->getLine() : '',
-                array_map(function ($e) use ($src) {
+                implode("<br />", array_map(function ($e) use ($src) {
                     $file = igk_getv($e, "file");
                     $line = igk_getv($e, "line");
                     if ($src == $file) {
                         return "__CACHE__:" . basename($file) . "." . $line;
                     }
                     return implode(":", [empty($file) ? null : igk_io_collapse_path($file) . ':' . $line]);
-                }, $ex->getTrace())
+                }, $ex->getTrace())),
+                "</body>",
+                "</html>"])
             );
         }
         ob_end_clean();
@@ -13964,7 +14000,7 @@ function igk_io_check_request_file($uri, $failedcallback = null)
         $bdir = igk_io_basedir();
         $dir = igk_dir(dirname(igk_io_basedir() . "/" . $c));
         if (($bdir != $dir) && is_dir($dir)) {
-            igk_set_header(404);
+            igk_set_header(RequestResponseCode::NotFound);
             if ($failedcallback) {
                 $failedcallback();
             }
@@ -14633,7 +14669,7 @@ if (!function_exists("igk_io_getdirs")) {
                         continue;
                     $lp = Path::Combine($sub, $s);
                     $gdir = Path::Combine($root, $lp);
-                    if (is_dir($gdir) && !$regex || $regex($lp)) {
+                    if (is_dir($gdir) && (!$regex || $regex($lp))) {
                         $out[] =  $gdir;
                         if ($recursive) {
                             $rdir[] = $gdir;
@@ -16319,11 +16355,7 @@ function igk_js_load_found_script($doc, $dirname)
  */
 function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype = 0)
 {
-    igk_die(__FUNCTION__);
-    // igk_trace();
-    // igk_wln_e("load script ....");
-    // return;
-
+    // igk_die(__FUNCTION__);
     $reskey = "sys://res_files";
     $dirname = igk_uri($dirname);
     $tab = igk_get_env($key = "sys://js/loaded_folder", array());
@@ -17209,10 +17241,6 @@ function igk_nav_session()
  */
 function igk_navto($uri, ?int $headerStatus = null)
 {
-    //  if (igk_environment()->isDev()){
-    //     igk_trace();
-    //     igk_wln_e("nav to ".$uri);
-    // }  
     if (!igk_is_webapp()) {
         return;
     }
@@ -17993,10 +18021,7 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
             $ext_regex = $view_handler->pattern; //"/\." . IGK_VIEW_FILE_EXT_REGEX . "$/";
             $exts = $view_handler->list; //"/\." . IGK_VIEW_FILE_EXT_REGEX . "$/";
             $found = false;
-            $cargs = [];
-            // igk_wln_e("bind .... ", $view_handler);
-            // igk_trace();
-            // exit;
+            $cargs = []; 
             while (!$found && (count($param) > 0)) {
                 $path = implode("/", $param);
                 $file = igk_dir($dir . "/" . $path);
@@ -18294,19 +18319,6 @@ function igk_print_stack_depth()
 function igk_push_env($n, $v)
 {
     return igk_environment()->push($n, $v);
-    // $IGK_ENV = igk_environment();
-    // if ($v == null) {
-    //     return;
-    // }
-    // $tab = igk_getv($IGK_ENV, $n, function () {
-    //     return array();
-    // });
-    // if (!is_array($tab)) {
-    //     igk_die("failed tab is not an array:" . $n, __FUNCTION__);
-    // }
-    // array_push($tab, $v);
-
-    // $IGK_ENV[$n] = $tab;
 }
 ///<summary></summary>
 ///<param name="name"></param>
@@ -19779,7 +19791,7 @@ function igk_show_code($obj)
  * @param mixed $redirect 
  * @param mixed $message 
  */
-function igk_show_error_doc($doc = null, $code = 404, $redirect = null, $message = null)
+function igk_show_error_doc($doc = null, $code = RequestResponseCode::NotFound, $redirect = null, $message = null)
 {
     if ($redirect == null)
         $redirect = igk_server()->REDIRECT_URL;
@@ -22556,7 +22568,7 @@ function igk_sys_env_enable_production_mode()
  */
 function igk_sys_error($error)
 {
-    igk_set_header(404);
+    igk_set_header(RequestResponseCode::NotFound);
     $r = new XmlNode("result");
     $r->add("error")->Content = $error;
     $r->add("msg")->Content = __(igk_get_error_key($error));
@@ -22915,7 +22927,7 @@ function igk_sys_handle_request($uri)
         $_SERVER['REDIRECT_QUERY_STRING'] = igk_getv($_SERVER, 'QUERY_STRING', 'GET');
         include(IGK_LIB_DIR . '/igk_redirection.php');
     }
-    igk_set_header(404);
+    igk_set_header(RequestResponseCode::NotFound);
     igk_wln('Bad request : ' . $uri);
     igk_wln_e('File not found: ' . $f, __FILE__ . ":" . __LINE__);
 }
@@ -23573,7 +23585,7 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
             $bbox->div()->addSectionTitle()->setClass("igk-danger")->Content = "/!\\ Forbiden";
             $bbox->div()->addNode("i")->Content = __("Access denied:") . " " . igk_io_fullpath2fulluri(igk_io_rootdir() . igk_io_request_uri());
             break;
-        case 404:
+        case RequestResponseCode::NotFound:
             $doc->Title = __("Error 404");
             break;
         case 5404:
@@ -25121,7 +25133,7 @@ function igk_view_bindfile($f, $bindinginfo, $target, $exit = 1)
                 $g($f, $bindinginfo, 404);
             } else {
                 $ac = igk_getv($bindinginfo, "action");
-                igk_set_header(404);
+                igk_set_header(RequestResponseCode::NotFound);
                 igk_wl("Oups!!!!! - Requested uri not found - " . $ac);
             }
             igk_exit();

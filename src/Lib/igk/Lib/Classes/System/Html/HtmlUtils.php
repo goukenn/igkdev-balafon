@@ -69,70 +69,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function ExplodeTag(string $tagname, $context = null): array
     {
-        return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);
-        // $id = null;
-        // $classes = null;
-        // $args = null;
-        // $name = null;
-        // igk_wln_e(__FILE__.":".__LINE__ , $tagname);
-
-        // if (strpos($tagname, '(') !== false) {
-        //     !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
-        //     // get args to setups
-        //     $start = $pos = strpos($tagname, '(');
-        //     $g = igk_str_read_brank($tagname, $pos, ')', '(');
-        //     $a = substr($g, 1, -1);
-        //     $args = igk_engine_get_attr_arg($a, $context);
-        //     $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
-        //     //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
-        // }
-        // if (strpos($tagname, '[') !== false) {
-        //     !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
-        //     // get args to setups
-        //     $start = $pos = strpos($tagname, '(');
-        //     $g = igk_str_read_brank($tagname, $pos, ')', '(');
-        //     $a = substr($g, 1, -1);
-        //     $args = igk_engine_get_attr_arg($a, $context);
-        
-
-        //     $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
-        //     //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
-        // }
-
-        // if (strpos($tagname, '#') !== false) {
-        //     $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)]+)/i", $tagname, $tab);
-        //     for ($i = 0; $i < $c; $i++) {
-        //         // get id last id and remove it from tag
-        //         $id = $tab['name'][$i];
-        //         $tagname = str_replace($tab[0][$i], '', $tagname);
-        //     }
-        // }
-        // if (($v_pos = strpos($tagname, '.')) !== false) {
-        //     $tclasses = [];
-        //     if ($c = preg_match_all("/\.(?P<name>[^\%\.\\s#\(\)]+)/i", $tagname, $tab)) {
-        //         for ($i = 0; $i < $c; $i++) {
-        //             // get id last id and remove it from tag
-        //             $tclasses[$tab['name'][$i]] = 1;
-        //             $tagname = str_replace($tab[0][$i], '', $tagname);
-        //         }
-        //     } else {
-        //         if (igk_environment()->isDev()) {
-        //             igk_die("not a valid class specification.");
-        //         }
-        //         $tagname = substr($tagname, $v_pos, 1);
-        //     }
-        //     $classes = implode(' ', array_keys($tclasses));
-        // }
-        // if (strpos($tagname, '%') !== false) {
-        //     $c = preg_match_all("/\%(?P<name>[^\.#\\s\(\)]+)/i", $tagname, $tab);
-        //     for ($i = 0; $i < $c; $i++) {
-        //         // get id last id and remove it from tag
-        //         $name = $tab['name'][$i];
-        //         $tagname = str_replace($tab[0][$i], '', $tagname);
-        //     }
-        // }
-
-        // return [trim($tagname), $id, $classes, $args, $name];
+        return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);       
     }
 
     /**

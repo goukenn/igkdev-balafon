@@ -324,6 +324,10 @@ abstract class ModelEntryExtension
          */
         $tab = [];
         $driver = $model->getDataAdapter();
+        if (!$driver){
+            igk_dev_wln_e('driver is null');
+            return null;
+        }
         $cl = get_class($model);
         if ($data = $driver->select($model->getTable(), $conditions, $options)) {
             $columns = ($options ? igk_getv($options, DbQueryOptions::PROP_COLUMNS) : null);

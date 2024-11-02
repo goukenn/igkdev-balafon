@@ -12,6 +12,8 @@ namespace IGK\System;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class EntryClassResolution{
+    const IGK_TEST_NS = 'IGK\Tests';
+    const IGK='IGK';
     const DbSchemaBuilder = 'Database\InitDbSchemaBuilder';
     const DbMacrosDisplay = 'Database\Macros\Display';
     const DbClassMapping = 'Database\Mapping';
@@ -40,4 +42,5 @@ abstract class EntryClassResolution{
 
 
     const ResponseHandler = 'ResponseHandler';
+    const ActionBase = 'IGKActionBase';
 }

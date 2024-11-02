@@ -1,20 +1,19 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @filename: CssCommand.php
+// @filename: CssDistCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
 
-namespace IGK\System\Console\Commands;
+namespace IGK\System\Console\Commands\Css;
 
 use IGK\System\Console\AppExecCommand;
-use IGK\System\Console\Logger;
-use SQLQueryUtils;
+use IGK\System\Console\Logger; 
 
 /**
  * get core style definition
  * @package IGK\System\Console\Commands
  */
-class CSSCommand extends AppExecCommand{
+class CssDistCommand extends AppExecCommand{
     var $command = "--css:dist";
     var $desc = "get core balafon css"; 
     var $category = "css";

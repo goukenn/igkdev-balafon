@@ -10,6 +10,7 @@ use Closure;
 use IGK\Helper\IO;
 use IGK\System\IO\Path as IGKPath;
 use IGK\helper\StringUtility;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Traits\ClassFileVersionLoaderTrait;
 use IGKEnvironment;
@@ -18,6 +19,7 @@ use IGKException;
 use ReflectionException;
 
 require_once IGK_LIB_CLASSES_DIR . '/System/Traits/ClassFileVersionLoaderTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/EntryClassResolution.php';
 require_once IGK_LIB_CLASSES_DIR . '/Server.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/IO/Path.php';
 
@@ -277,7 +279,7 @@ class ApplicationLoader
         if (is_string($classnames)) {
             $classnames = [$classnames];
         }
-        return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, \IGK::class);
+        return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, EntryClassResolution::IGK);
     }
 
     /**
@@ -310,7 +312,7 @@ class ApplicationLoader
             if (is_string($entryNS))
                 $entryNS = StringUtility::Uri($entryNS);
             else
-                $entryNS = \IGK::class;
+                $entryNS = EntryClassResolution::IGK;
         }
         if (!is_array($path)) {
             $path = [$path];
@@ -568,7 +570,7 @@ class ApplicationLoader
                 return str_replace("/", "\\", $p);
             };
             $dir = IGK_LIB_DIR . "/Lib/Tests/";
-            if (strpos($n, $ns = \IGK\Tests::class) === 0) {
+            if (strpos($n, $ns = EntryClassResolution::IGK_TEST_NS ) === 0) {
                 $cl = substr($n, strlen($ns) + 1);
                 $f = $fix_path($dir . $cl . ".php");
                 if (file_exists($f)) {

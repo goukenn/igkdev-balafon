@@ -122,4 +122,21 @@ class Replacement{
             return !preg_match($regex, $s, $tab, $flag);
         };
     }
+
+    /**
+     * bind with replacement data 
+     * @param string $template 
+     * @param mixed $replace_data 
+     * @return string 
+     */
+    public static function Bind(string $template, ?array $replace_data=null){
+        if (is_array($replace_data)) {
+			$rp = new Replacement;
+			foreach ($replace_data as $k => $v) {
+				$rp->add($k, $v);
+			}
+			$template = $rp->replace($template);
+		}
+        return $template;
+    }
 }

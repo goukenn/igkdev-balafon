@@ -6,6 +6,7 @@
 
 namespace IGK\System\IO;
 
+use Exception;
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
 use IGKException; 
@@ -120,6 +121,10 @@ class Path
     }
     public function prepareData()
     {
+        if (!defined('IGK_BASE_DIR')){
+            igk_trace();
+            igk_wln_e('please setup IGK_BASE_DIR before.');
+        }
         $v_is_webapp = igk_is_webapp();
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);
         $this->base_dir = str_helper::Uri(IGK_BASE_DIR);
@@ -319,7 +324,15 @@ class Path
 
         return $path;
     }
-    public function basepath($dir, $sep = DIRECTORY_SEPARATOR)
+    /**
+     * retreive an 
+     * @param ?string $dir 
+     * @param string $sep 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public function basepath(?string $dir, $sep = DIRECTORY_SEPARATOR)
     {
         $p = $this->realpath($dir);
         if (empty($p)) {
@@ -332,7 +345,6 @@ class Path
             return null;
         }
         if (is_link($dir)) {
-            // $g = igk_io_realpath($dir);
             return $this->baserelativepath(realpath($dir));
         }
         return $this->baserelativepath($p, null, $sep);
@@ -589,7 +601,7 @@ class Path
                 return null;
             }, explode( PATH_SEPARATOR, $include_pathlist)));
             if ($t){
-                $p = $t[0];
+                $p = array_shift($t);
             }
         }
         return $p;

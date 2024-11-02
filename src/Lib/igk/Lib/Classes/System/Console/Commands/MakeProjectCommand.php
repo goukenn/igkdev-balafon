@@ -498,7 +498,7 @@ EOF;
         };
         // + | generate languages 
         foreach (R::GetSupportedLangs() as $l) {
-            $bind[$dir . "/Configs/Lang/lang." . $l . ".presx"] = $touch;
+            $bind[$dir . "/Configs/Lang/lang." . $l . IGK_LANG_FILE_EXTENSION] = $touch;
         }
 
     }
