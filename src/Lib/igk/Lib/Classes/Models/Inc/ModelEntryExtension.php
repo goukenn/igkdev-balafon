@@ -10,9 +10,7 @@ use Closure;
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
-use IGK\Database\DbConstants;
 use IGK\Database\DbDisplayExpression;
-use IGK\Database\DbExpression;
 use IGK\Database\DbQueryCondition;
 use IGK\Database\DbQueryOptions;
 use IGK\System\Database\QueryBuilder;
@@ -22,7 +20,6 @@ use IGK\Database\IDbQueryResult;
 use IGK\Database\RefColumnMapping;
 use IGK\Helper\JSon;
 use IGK\Models\Caches\CacheModels;
-use IGK\System\Console\Commands\DbDropForeignKeysCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Models\Traits\ModelExtensionTrait;
 use IGK\System\Database\DbConditionExpressionBuilder;
@@ -1721,6 +1718,19 @@ abstract class ModelEntryExtension
 	{
 		$p = $model->primaryKey;
 		$r = $model::GetCache($p, $value);
-		return ($r ? $r->display() : null) ?? $r->{$p};
+		return $r ? ($r ? $r->display() : null) ?? $r->{$p} : null;
 	}
+
+    /**
+     * get column private field
+     * @param ModelBase $model 
+     * @return array<int|string, \IGK\Database\DbColumnInfo> 
+     * @throws IGKException 
+     */
+    public static function getColumnPrivateFields(ModelBase $model){
+        $v_column_info = $model->getTableColumnInfo();
+		return array_filter($v_column_info, function(\IGK\Database\DbColumnInfo $field){
+			return ($field->clModifier=='private');
+		});
+    }
 }

@@ -16,6 +16,10 @@
 
 use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
 use IGK\System\WinUI\LayoutRules;
+
+ 
+
+
 $pad1 = "8px";
 $pad2 = "10px";
 $pad22 = "20px";
@@ -323,7 +327,7 @@ $def[".igk-title"] = "font-size: 1.333em; padding:{$pad_title};";
 $def[".igk-header"] = "[sysbgcl:igk-header-bgcl] [sysfcl:igk-header-fcl] padding:{$pad1};";
 $def[".igk-horizontal-menu"] = "padding:0px;";
 $def[".igk-horizontal-menu li"] = "{sys:dispib}";
-$def[".igk-horizontal-menu li a"] = "{sys:dispb, nodecoration}";
+$def[".igk-horizontal-menu li a"] = "{sys:dispb, no-decoreation}";
 $def[".igk-horizontal-menu li:not(:first-child)"] = "margin-left:{$pad1};";
 $def[".igk-horizontal-menu .igk-selected-menuitem"] = "border-bottom : 2px solid red; ";
 $def[".igk-pagination"] = "{sys:dispflex} margin-left:auto; margin-right:auto; min-width: 200px;";
@@ -470,7 +474,7 @@ $def[".igk-table > tbody  th"] = "{sys:no-wrap};";
 $def[".igk-table.th-left > tbody  th"] = "{sys:alignl};";
 $def[".igk-table.th-right > tbody  th"] = "{sys:alignr};";
 $def[".igk-table > tbody > tr.alignl th"] = "text-align:left;";
-$def[".igk-table > tbody > tr:first-child > td, .igk-table > tbody > tr:first-child > th"] = "padding:8px;";
+$def[".igk-table > tbody > tr:first-child > th"] = "padding:8px;";
 $def[".igk-table > tbody > tr:not(:first-child) > td, .igk-table > tbody > tr:not(:first-child) > th"]
     = "border-top: none;";
 // $def[".igk-table tr td"] = "padding:{$pad1};";
@@ -1080,7 +1084,8 @@ $def[".igk-svg-host.svg-fill > svg"] = "{sys: fit}";
 /**
  * defined selection color 
  */
-$def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
+// $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
+$def["::selection"] = "[fcl:--igk-selection-color,#4361ee] [bgcl:--igk-selection-bg-color, transparent]";
 
 
 // + | ----------------------------------------------------------------------------------------

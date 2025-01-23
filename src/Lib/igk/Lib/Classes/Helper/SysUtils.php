@@ -132,10 +132,21 @@ class SysUtils{
         if ($ctrl == AppExecCommand::SYS_CTRL_PLACEHOLDER){
             return SysDbController::ctrl();
         }
+        $suffix = IGK_PROJECT_CTRL_SUFFIX;
         $ctrl = str_replace("/", "\\", $ctrl);  
-        return  (IGKApp::IsInit() && class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class) ) ?
-                $ctrl::ctrl() : 
-                igk_app()->getControllerManager()->getController($ctrl, $throwex);
+        $tb = [$ctrl];
+        if (!igk_str_endwith($ctrl, $suffix)){
+            $tb[] = $ctrl.$suffix;
+        }
+        if(IGKApp::IsInit()){
+            while(count($tb)>0){
+                $ctrl = array_shift($tb);
+                if (class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class)){
+                    return $ctrl::ctrl();
+                }
+            }
+        } 
+        return igk_app()->getControllerManager()->getController($ctrl, $throwex);
     }
     /**
      * get application module from entry file

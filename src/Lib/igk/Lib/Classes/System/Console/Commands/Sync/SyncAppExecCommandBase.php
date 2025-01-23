@@ -28,6 +28,7 @@
 namespace IGK\System\Console\Commands\Sync;
 
 use com\igkdev\projects\AppBalafon\AppBalafonConstants;
+use Exception;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -50,6 +51,13 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     const SITE_DIR = "site_dir";
     const HOME_DIR = "home_dir";
 
+    /**
+     * initialize setting 
+     * @param mixed $command 
+     * @param mixed &$setting 
+     * @return mixed 
+     * @throws Exception 
+     */
     protected function initSyncSetting($command, & $setting){
         $setting = null;
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 

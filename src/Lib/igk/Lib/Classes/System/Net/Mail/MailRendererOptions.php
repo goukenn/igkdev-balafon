@@ -5,6 +5,7 @@
 namespace IGK\System\Net\Mail;
 
 use IGK\System\Html\HtmlRendererOptions;
+use IGK\System\Html\HtmlRenderingContext;
 
 ///<summary></summary>
 /**
@@ -13,7 +14,7 @@ use IGK\System\Html\HtmlRendererOptions;
 */
 class MailRendererOptions extends HtmlRendererOptions{
     var $renderTheme;
-    var $Context = 'mail';
+    var $Context = HtmlRenderingContext::Mail;
     public function __construct()
     {        
     }

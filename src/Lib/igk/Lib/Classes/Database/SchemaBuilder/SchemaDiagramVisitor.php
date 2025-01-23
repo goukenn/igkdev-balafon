@@ -116,9 +116,7 @@ class SchemaDiagramVisitor extends DiagramVisitor
                             $props['table'],
                             $props['property']
                         );
-                        break;
-                        // case 'changeColumn':
-                        //     break;
+                        break; 
                     default:
                         throw new Exception('type not supported');
                         break;

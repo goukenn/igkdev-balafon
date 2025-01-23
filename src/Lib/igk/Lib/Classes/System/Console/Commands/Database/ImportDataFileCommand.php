@@ -35,9 +35,10 @@ class ImportDataFileCommand extends AppExecCommand{
 		$file = igk_getv($command->options, '-f') ?? igk_die('missing file');
 		$type = igk_getv($command->options, '-t');
 		$autoregister = property_exists($command->options, '--autoregister');
+		$entry = igk_getv($command->options, '--entry');
 		$model = $ctrl->model($model);
 		if ($model){
-			DbImportFile::Import($model, $file, $type, $autoregister);
+			DbImportFile::Import($model, $file, $type, $autoregister, $entry);
 			Logger::success('done');
 		}
 		else{

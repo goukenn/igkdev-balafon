@@ -993,4 +993,19 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return preg_match("#\<(?P<tagname>[\w][0-9_\-\w:]*)( (.+)?)?>#", $content);
     }
+
+    /**
+     * BindRows 
+     * @param mixed $table HtmlNode
+     * @param mixed $rows array of row
+     * @param bool $header 
+     * @return void 
+     */
+    public static function BindRow($table, $rows, $header=false){
+        $tr = $table->tr();
+        foreach ($rows as $r) {
+            $m = $header ? $tr->th() : $tr->td(); 
+            $m->Content = $r;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Community.php
-// @date: 20240922 19:45:48
+// @date: 20241109 07:41:06
 namespace IGK\Models;
 
 
@@ -31,4 +31,8 @@ class Community extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%community";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

@@ -131,4 +131,11 @@ interface IDataDriver{
      */
     function setForeignKeyCheck($flag);
 
+    /**
+     * in query builder retrieve column charset 
+     * @param string $charset 
+     * @return string 
+     */
+    function queryColumnCharset(string $charset):string;
+
 }

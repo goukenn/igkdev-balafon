@@ -22,8 +22,10 @@ class AddTempScriptTest extends BaseTestCase{
        
         $cn = $doc->addTempScript($file."?p=new_app");
         $n = $cn->render(); 
-        IO::IsAbsolutePath($file);
-        $this->assertEquals('<script language="javascript" src="./?p=new_app" type="text/javascript"></script>', $n);
+        $abs_path = IO::IsAbsolutePath($file);
+        $this->assertEquals(
+            '<script language="javascript" src="./?p=new_app" type="text/javascript"></script>', 
+            $n);
     
         unlink($file);
     }

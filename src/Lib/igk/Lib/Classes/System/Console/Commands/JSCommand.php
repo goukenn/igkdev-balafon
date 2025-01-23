@@ -20,6 +20,8 @@ class JSCommand extends AppExecCommand{
     ];
     public function exec($command)
     {   
-        Logger::print(igk_sys_balafon_js(null, property_exists($command->options, '--js-debug')));
+        $src = igk_sys_balafon_js(null, property_exists($command->options, '--js-debug'), true, false);
+       
+        Logger::print($src); 
     }   
 }

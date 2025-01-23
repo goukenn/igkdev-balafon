@@ -89,7 +89,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         ];
         return $ctn;
     }
-    public function test_regexmatch_detect_func()
+    public function test_regexmatch_detect_func_skip_trailing_close()
     {
         $s = implode("\n", [
             "a(){ info = {} } }"
@@ -97,7 +97,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ctn = $this->_regexDetectFuncData();
         $this->expectOutputString('a(){ info = {} }');
         $ctn->treat($s, function ($g) {
-            if ($g->parentInfo == null)
+            if ($g->getisRootCaptured())
                 echo $g->value;
         });
     }
@@ -109,7 +109,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ctn = $this->_regexDetectFuncData();
         $this->expectOutputString('a(){ info = \'{}\' }');
         $ctn->treat($s, function ($g) {
-            if ($g->parentInfo == null)
+            if ($g->getisRootCaptured())
                 echo $g->value;
         });
     }
@@ -141,7 +141,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ctn = $this->_regexDetectDeclareFuncData();
         $this->expectOutputString('a({x:string}): string;');
         $ctn->treat($s, function ($g) {
-            if ($g->parentInfo == null)
+            if ($g->getisRootCaptured())
                 echo $g->value;
         });
     }
@@ -192,13 +192,14 @@ class RegexMatcherContainerTest extends BaseTestCase
         ]));
         $pos = 0;
         $ctn->treat($s, function ($g, $next_pos, $data,) use (&$ch, &$pos) {
-            if ($g->parentInfo == null) {
+            if (($g->parentInfo == null) && ($g->tokenID!='__end:test__')){
                 echo $g->value . "\n";
                 RegexMatcherUtility::Skip($g, $next_pos, $data, $pos, $ch);
             }
-        });
+        }, '__end:test__');
         $ch .= substr($s, $pos);
-        echo trim($ch);
+        echo trim($ch); 
+
     }
 
     public function test_regexmatch_skip_glue()
@@ -251,8 +252,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         $this->expectOutputString("b", "mark-name");
 
         $ctn->treat($s, function($e){
-            echo $e->value;
+            if ($e->getisRootCaptured())
+                echo $e->value;
         });
+ 
     }
     public function test_regexmatch_startline_2(){
         $ctn = new RegexMatcherContainer;
@@ -261,7 +264,28 @@ class RegexMatcherContainerTest extends BaseTestCase
         $this->expectOutputString("ab", "mark-name");
 
         $ctn->treat($s, function($e){
-            echo $e->value;
+            if ($e->getisRootCaptured())
+                echo $e->value;
         });
     }
+    public function test_regexmatch_number_line(){
+        $container = new RegexMatcherContainer; 
+        $container->match('^\d+(?=\n)?', 'count'); 
+        $r = [];
+        $container->treat(implode("\n", range(1,6)), function($g, $next_pos)use(& $r){
+            $r[] = "capture : ".$next_pos.":".$g->tokenID.": ".$g->value;
+        });
+        $this->assertEquals('["capture : 1:count: 1","capture : 3:count: 2","capture : 5:count: 3","capture : 7:count: 4","capture : 9:count: 5","capture : 11:count: 6"]', json_encode($r)); 
+    }
+    public function test_regexmatch_empty_line(){
+        $container = new RegexMatcherContainer; 
+        $container = new RegexMatcherContainer; 
+        $container->match('^(?=\n)?', 'count'); 
+        $r = [];
+        $container->treat(str_repeat("\n", 6), function($g, $next_pos)use(& $r){
+            $r[] = ("> : ".$next_pos.":".$g->tokenID.": ".$g->value);
+        });   
+        $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', json_encode($r)); 
+    }
+
 }

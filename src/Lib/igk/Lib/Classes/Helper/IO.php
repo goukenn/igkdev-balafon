@@ -670,9 +670,9 @@ class IO
     ///<param name="filename"></param>
     /**
      * 
-     * @param mixed $filename
+     * @param string $filename
      */
-    public static function GetFileExt($filename)
+    public static function GetFileExt(string $filename)
     {
         $pathinfo = pathinfo($filename);
         try {
@@ -687,9 +687,9 @@ class IO
     ///<param name="filename"></param>
     /**
      * 
-     * @param mixed $filename
+     * @param string $filename
      */
-    public static function GetFileName($filename)
+    public static function GetFileName(string $filename)
     {
         $pathinfo = pathinfo($filename);
         $b = $pathinfo["basename"];

@@ -4,6 +4,7 @@
 // @date: 20230731 09:37:23
 namespace IGK\System;
 
+use IGK\System\Traits\PropertyObjectTrait;
 
 ///<summary></summary>
 /**
@@ -12,6 +13,7 @@ namespace IGK\System;
 */
 abstract class AnnotationBase implements IAnnotation{
     private $m_params;
+    use PropertyObjectTrait;
 
     /**
      * set parameter changed

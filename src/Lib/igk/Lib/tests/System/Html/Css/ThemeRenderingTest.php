@@ -182,7 +182,8 @@ class ThemeRenderingTest extends BaseTestCase{
                 '--igk-red'=>'yellow'
             ]
         ]);
-        $g = CssControllerStyleRenderer::RenderStyle(MockThemeRenderer::ctrl(), $theme); 
+        $ctrl = MockThemeRenderer::ctrl();
+        $g = CssControllerStyleRenderer::RenderStyle($ctrl, $theme); 
         ob_start();
         $g->render().''; 
         $s = ob_get_contents();
@@ -194,6 +195,5 @@ class ThemeRenderingTest extends BaseTestCase{
 }
 
 
-class MockThemeRenderer extends BaseController{
-
+class MockThemeRenderer extends BaseController{ 
 }

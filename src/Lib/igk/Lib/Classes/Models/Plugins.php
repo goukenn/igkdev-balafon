@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
-// @date: 20240922 19:45:48
+// @date: 20241109 07:41:07
 namespace IGK\Models;
 
 
@@ -37,4 +37,8 @@ class Plugins extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%plugins";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

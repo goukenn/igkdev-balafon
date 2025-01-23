@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Colors.php
-// @date: 20240922 19:45:48
+// @date: 20241109 07:41:06
 namespace IGK\Models;
 
 
@@ -31,4 +31,8 @@ class Colors extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%colors";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

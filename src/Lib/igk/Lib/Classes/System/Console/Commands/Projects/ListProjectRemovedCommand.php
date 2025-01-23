@@ -120,7 +120,7 @@ class ListProjectRemovedCommand extends AppExecCommand
 					break;
 				}
 			}
-			$g = $ctrl; //igk_getctrl('PrismaDemoController');
+			$g = $ctrl;
 
 			if ($g){
 				/// TODO: Project Installer

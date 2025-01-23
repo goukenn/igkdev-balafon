@@ -18,12 +18,12 @@ use IGK\Tests\BaseTestCase;
  */
 class ConfigurationReaderTest extends BaseTestCase {
     public function test_read_connexion_string(){
-        $connexion = "user=root, pwd=test, db_name=sample.db, charset=utf-8";
+        $connexion = "user=root, pwd=test, db_name=sample.db, charset=utf8";
         $obj = (object)[
             "user"=>"root",
             "pwd"=>"test",
             "db_name"=>"sample.db",
-            "charset"=>"utf-8"
+            "charset"=>"utf8"
         ];
         $reader = new ConfigurationReader;
         $config = (object)$reader->read($connexion);
@@ -35,12 +35,12 @@ class ConfigurationReaderTest extends BaseTestCase {
     }
 
     public function test_read_connexion_string_with_litteral(){
-        $connexion = "user=root, pwd='test,presentation', db_name=sample.db, charset=utf-8";
+        $connexion = "user=root, pwd='test,presentation', db_name=sample.db, charset=utf8";
         $obj = (object)[
             "user"=>"root",
             "pwd"=>"test,presentation",
             "db_name"=>"sample.db",
-            "charset"=>"utf-8"
+            "charset"=>"utf8"
         ];
         $reader = new ConfigurationReader;
         $config = (object)$reader->read($connexion);

@@ -36,14 +36,12 @@ function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, b
 {
     $ih = imagecreatefromstring($src);
     $W = imagesx($ih);
-    $H = imagesy($ih);
-    // igk_wln($W . " x ".$H);    
+    $H = imagesy($ih);  
     $ex = $w / $W;
     $ey = $h / $H;
     $ex = min($ex, $ey);
     $x = intval(ceil(((-$W * $ex) + $w) / 2.0));
-    $y = intval(ceil(((-$H * $ex) + $h) / 2.0));
-    // igk_wln("kjd ", $x , $y , $ex, $ey);
+    $y = intval(ceil(((-$H * $ex) + $h) / 2.0)); 
 
     $img = imagecreatetruecolor($w, $h);
     $black = imagecolorallocate($img, 0, 0, 0);
@@ -566,6 +564,9 @@ class IGKGD
      */
     public function rect($x, $y, $width, $height, $color_id, $fill = 0)
     {
+        if (is_object($color_id)){
+            $color_id = $this->_allocColor($color_id);
+        }
         if ($fill) {
             imagefilledrectangle($this->m_himg, $x, $y, $x + $width, $y + $height, $color_id);
         } else

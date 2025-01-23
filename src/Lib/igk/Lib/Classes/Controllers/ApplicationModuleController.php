@@ -248,7 +248,7 @@ final class ApplicationModuleController extends BaseController{
     ///<summary></summary>
     ///<param name="c" default="null"></param>
     /**
-    * 
+    * init module 
     * @param mixed $c the default value is null
     */
     private function _init($c=null){

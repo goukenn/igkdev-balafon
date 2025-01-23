@@ -4,6 +4,7 @@
 // @date: 20230120 12:02:06
 namespace IGK\Models\Traits;
 
+use IGK\Helper\Database;
 
 ///<summary></summary>
 /**
@@ -41,13 +42,15 @@ trait ModelTableConstantTrait{
      * @return void 
      */
     public static function InitData(){
-        $fc = 'InsertExtraFields';
+        $fc = Database::InsertExtraFieldsMethod;
         $cl = static::class;
         $model = $cl::$model;
+        $fn = $cl::$field_name;
         $init_fields = method_exists(static::class, $fc);
-        foreach($cl::GetConstants() as $ut){
+        $v_constants = $cl::GetConstants();
+        foreach($v_constants as $ut){
             $fields = [
-                $cl::$field_name=>$ut
+                $fn=>$ut
             ];
             if ($init_fields ){
                 $r = (object)['fields'=> & $fields];

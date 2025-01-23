@@ -253,4 +253,16 @@ trait DbColumnInfoTrait
    * @var boolean trim exceed
    */
   var $clNoTrimExceed;
+
+  /**
+   * modifier field
+   * @var ?string|'private'
+   */
+  var $clModifier;
+
+  /**
+   * set column definition charset 
+   * @var mixed
+   */
+  var $clCharset;
 }

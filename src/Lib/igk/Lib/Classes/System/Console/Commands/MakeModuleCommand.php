@@ -15,9 +15,11 @@ use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGK\System\Console\Commands\MakeUtility;
 use IGK\System\Configuration\CoreGeneration;
+use IGK\System\ConfigurationFile;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Modules\Helpers\Utility as modUtility;
 use IGK\Tests\BaseTestCase;
+use IGKConstants;
 
 use function igk_resources_gets as __; 
  
@@ -92,8 +94,8 @@ class MakeModuleCommand extends AppCommand{
                 igk_io_w2file($file, $builder->render());
             };
             $bind[$dir."/.global.php"] = Utility::TouchFileCallback("<?php \n", false); 
-            $bind[$dir."/".IGK_STYLE_FOLDER."/default.pcss"] = Utility::TouchFileCallback("<?php \n"); 
-            $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.js"] = Utility::TouchFileCallback("// default entry script \n"); 
+            $bind[$dir."/".IGK_STYLE_FOLDER."/".IGKConstants::DEFAULT_THEME_STYLE] = Utility::TouchFileCallback("<?php \n"); 
+            $bind[$dir."/".IGK_SCRIPT_FOLDER."/".ConfigurationFile::DEFAULT_MAINJS] = Utility::TouchFileCallback("// default entry script \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.bjs"] = Utility::TouchFileCallback("// default entry to be merge script \n"); 
 
             $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_CTRL_CONF_FILE] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_CNF_TAG)->render()); 

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Migrations.php
-// @date: 20240922 19:45:49
+// @date: 20241109 07:41:07
 namespace IGK\Models;
 
 
@@ -43,4 +43,8 @@ class Migrations extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%migrations";
+	/**
+	*override display key
+	*/
+	protected $display = "migration_name";
 }

@@ -72,9 +72,8 @@
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%configurations">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
-			clType="Int" clTypeLength="11"></Column>
-
-		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="130"></Column>
+			clType="Int" clTypeLength="11"></Column> 
+		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="130" clIsUnique="true"></Column>
 		<Column clName="clValue" clType="Text"></Column>
 		<Column clName="clDescription" clType="VarChar" clTypeLength="150"></Column>
 	</DataDefinition>
@@ -645,7 +644,8 @@
 			<changeColumn column="clPwd" table="%prefix%users">
 				<Column clHide="True" clInputType="password" clInsertFunction="IGK_PASSWD_ENCRYPT"
 					clName="clPwd" clNotNull="True" clType="VarChar" clTypeLength="200"
-					clUpdateFunction="IGK_PASSWD_ENCRYPT"></Column>
+					clUpdateFunction="IGK_PASSWD_ENCRYPT"
+					clModifier="private"></Column>
 			</changeColumn>
 		</Migration>
 

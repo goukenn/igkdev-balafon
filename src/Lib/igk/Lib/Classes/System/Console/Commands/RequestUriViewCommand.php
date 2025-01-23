@@ -39,7 +39,7 @@ class RequestUriViewCommand extends RequestViewCommand{
     public function doRequest($command, $path){ 
         igk_server()->SCRIPT_NAME = '/index.php';  
         RequestHandler::HandleRequestUri($path); 
-        if ($ctrl = igk_getctrl(igk_configs()->default_controller, false)){            
+        if ($ctrl = self::GetController(igk_configs()->default_controller, false)){            
             $g = new Uri($path);
             $path = $g->getPath();
             $_SERVER['REQUEST_URI'] = $g->getRequestUri();

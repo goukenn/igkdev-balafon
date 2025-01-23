@@ -75,6 +75,7 @@ class Activator
         if ($data instanceof $classame) {
             return $data;
         }
+      
         $args = [];
         if (is_array($data) || (is_object($data))) {
             // + | numberic value will be used as contructor argument
@@ -120,7 +121,21 @@ class Activator
                 }
             }
         }
+ 
+
         return $g;
+    }
+    /**
+     * 
+     * @param callable $callable 
+     * @param mixed $inf instance
+     * @param mixed $def definition
+     * @return void 
+     */
+    public static function InitPrivatePropety(callable $callable, $inf, $def){
+        if ($fc = $callable->bindTo($inf)){
+            $fc($def);
+        }
     }
     /**
      * bind value properties

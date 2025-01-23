@@ -7,9 +7,13 @@
 
 namespace IGK\System\Net;
 
+use Exception;
+use Error;
 use IGK\Helper\IO;
+use IGK\System\EntryClassResolution;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlRenderer;
+use IGKException;
 use IGKObject;
 use IIGKMailAttachmentContainer;
 
@@ -53,28 +57,62 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
 
 
     var $Base64Encoding = true;
-    public function getFromTitle(){
+    public function getFromTitle()
+    {
         return $this->m_fromTitle;
     }
-    public function setFromTitle(?string $title){
+    public function setFromTitle(?string $title)
+    {
         $this->m_fromTitle = $title;
     }
     public function getErrorMsg()
     {
         return $this->ErrorMsg;
     }
+    /**
+     * 
+     * @param array $definition 
+     * @return null|string 
+     * @throws Exception 
+     */
+    public static function MailFromArrayToString(array $definition): ?string
+    {
+        list($title, $mail) = igk_extract($definition, "title|mail");
+        if ($title && $mail) {
+            return "{$title} <{$mail}";
+        }
+        return $mail;
+    }
     ///<summary>send mail</summary>
     /**
-     * send mail
+     * send mail 
+     * - $from must match configs::mail_userauth
+     * - $from can be formed of "string = title<mail> | mail, string[] = "title","mail"
+     * @param string $to destination mail 
+     * @param null|string $subject subject 
+     * @param null|string $message message to send
+     * @param null|string $from source mail - 
+     * @param null|string $reply response to 
+     * @param mixed $attachement attachement definition 
+     * @param string|'text/html'|'text/plain' $type mail type 
+     * @param null|string $fromTitle 
+     * @param callable|null $init 
+     * @return int|bool 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws Error 
      */
-    public static function Mail(string $to, ?string $subject, ?string $message, 
+    public static function Mail(
+        string $to,
+        ?string $subject,
+        ?string $message,
         ?string $from = null,
-        ?string $reply = null, 
-        $attachement = null, 
-        string $type = "text/html", 
+        ?string $reply = null,
+        $attachement = null,
+        string $type = "text/html",
         ?string $fromTitle = null,
-        callable $init = null)
-    {
+        callable $init = null
+    ) {
         $mail = new static();
         if ($init) {
             $init($mail);
@@ -91,16 +129,36 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $mail->TextCharset = self::UTF8_CHARSET;
         $mail->setReplyTo($reply);
         $mail->setFromTitle($fromTitle);
-        if ($type != 'text/html'){
+        if ($type != 'text/html') {
             $mail->setTextMsg($message);
         }
         $mail->addTo($to);
         if (is_array($attachement)) {
-            foreach ($attachement as  $v) {
-                if (igk_reflection_class_extends($v, IGKMailAttachement::class)) {
+            // $cl = \IGK\System\Net\MailAttachement::class;
+            $cl = EntryClassResolution::MailAttachement;
+            class_exists($cl, true) || igk_die('missing class');
+            //include_once(IGK_LIB_CLASSES_DIR . '/System/Net/MailAttachement.php');
+            foreach ($attachement as $cid => $v) { 
+                $content_type = 'text/plain';
+                $name = null;
+                if (is_object($v) && igk_reflection_class_extends($v, $cl)) {
                     $mail->attach($v);
-                } else
-                    $mail->attachContent($v->Content, $v->ContentType, $v->CID);
+                } else {
+                    if (is_string($v)) {
+                        $content = $v;
+                    } else if (is_array($v)) {
+                        list($id, $content_type, $content, $name) = igk_extract($v, MailConstants::MAIL_ATTACHEMENT_ARRAY_OPTION_KEYS);
+                        $cid = $id ?? (is_numeric($cid) ? MailConstants::MAIL_CID_PREFIX . $cid : $cid);
+                    } else {
+                        $content = $v->Content;
+                        $content_type = $v->ContentType;
+                        $cid = $v->CID ?? $cid;
+                    }
+                    $attach = $mail->attachContent($content, $content_type, $cid);
+                    if ($name){
+                        $attach->Name = $name;
+                    }
+                }
             }
         }
         return $mail->sendMail();
@@ -121,7 +179,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
             // + | --------------------------------------------------------------------
             // + | configure system
             // + |
-            
+
             $this->m_useAuth = $app->Configs->mail_useauth;
             $this->m_smtphost = $app->Configs->mail_server;
             $this->m_user = $app->Configs->mail_user;
@@ -214,17 +272,16 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
             // + | --------------------------------------------------------------------
             // + | valid email from
             // + |
-            
+
             $from = $this->FROM;
             if ($from) {
                 if (!preg_match("/(\"(?<title>.*)\")?\<(?P<from>[^\^]+)\>/", $from, $t_tab)) {
                     $from = " <" . trim($from) . ">";
-                } else { 
-                    if (empty($this->m_fromTitle)){
+                } else {
+                    if (empty($this->m_fromTitle)) {
                         $this->m_fromTitle = $t_tab['title'];
                     }
-                    $from = '<'.$t_tab['from'].'>';
-
+                    $from = '<' . $t_tab['from'] . '>';
                 }
             } else {
                 // null reserved path
@@ -250,11 +307,11 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
                 return false;
             }
             $t  = "";
-            if ($this->m_fromTitle){
-                $t = 'From: "'.$this->m_fromTitle.'" '.$from.$lf;                
+            if ($this->m_fromTitle) {
+                $t = 'From: "' . $this->m_fromTitle . '" ' . $from . $lf;
             }
-            
-            fwrite($socket, $t.'Subject: ' . $subject . $lf . 'To: <' . implode('>, <', $this->m_to) . '>' . $lf . $headers . "\r\n\r\n" . $message . $lf);
+
+            fwrite($socket, $t . 'Subject: ' . $subject . $lf . 'To: <' . implode('>, <', $this->m_to) . '>' . $lf . $headers . "\r\n\r\n" . $message . $lf);
             fwrite($socket, "\r\n.\r\n");
             igk_debug_wln("END mail.");
             if (!$this->server_parse($socket, '250')) {
@@ -402,7 +459,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $attach->Content = $content;
         $attach->ContentType = $contentType;
         $attach->Type = "Content";
-        $attach->CID = $cid;
+        $attach->Name = $attach->CID = $cid;
         $this->m_files[] = $attach;
         return $attach;
     }
@@ -823,7 +880,8 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_title = $value;
     }
-    public function setMailAuthPassword(?string $password){
+    public function setMailAuthPassword(?string $password)
+    {
         $this->m_auth_password = $password;
     }
     ///<summary></summary>

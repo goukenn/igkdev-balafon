@@ -29,7 +29,7 @@ class ZipProjectCommand extends AppExecCommand{
             return -1;
         }
 
-        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");
             return false;

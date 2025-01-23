@@ -45,7 +45,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
     public function filterColumn($columninfo, $value): bool { 
         return false;
     }
-
+    /**
+     * create table format
+     * @param null|array $options 
+     * @return string 
+     */
     public function getCreateTableFormat(?array $options=null):string{
         return "CREATE TABLE IF NOT EXISTS %s;";
     }

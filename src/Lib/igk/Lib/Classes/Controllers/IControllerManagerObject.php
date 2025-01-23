@@ -42,4 +42,11 @@ interface IControllerManagerObject{
      * @return mixed 
      */
     function registerNamedController(string $name, BaseController $controller);
+
+    /**
+     * invoke pattern
+     * @param mixed $pattern 
+     * @return mixed 
+     */
+    function InvokePattern($pattern);
 }

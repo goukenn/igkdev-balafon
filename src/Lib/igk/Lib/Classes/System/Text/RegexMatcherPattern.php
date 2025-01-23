@@ -8,6 +8,7 @@ use ArrayAccess;
 use IGK\Helper\Activator;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
+use IGKObject;
 
 ///<summary></summary>
 /**
@@ -15,16 +16,44 @@ use IGKException;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-class RegexMatcherPattern implements ArrayAccess{
+class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer{
     use ArrayAccessSelfTrait;
+
     const MATCH_TYPE = 'match';
     const BEGIN_END_TYPE = 'begin/end';
+    const BEGIN_WHILE_TYPE = 'begin/while';
     var $type;
     var $tokenID;
     var $begin;
     var $end;
     var $match;
     var $refid;
+    var $while;
+
+    // public function getType(){
+    //     return $this->m_type;
+    // }
+    // public function setType($v){
+    //     $this->m_type = $v;
+    // }
+    /**
+     * 
+     * @var ?array
+     */
+    var $beginCaptures;
+
+    /**
+     * 
+     * @var ?array
+     */
+    var $endCaptures;
+     
+
+    /**
+     * array to captures before send to 
+     * @var ?array
+     */
+    var $captures;
     /**
      * 
      * @var null|Array|RegexMacherPattern[]
@@ -44,12 +73,19 @@ class RegexMatcherPattern implements ArrayAccess{
     {
         $this->m_matcher = $matcher;
     }
+    /**
+     * retrieve the matcher 
+     * @return mixed 
+     */
+    public function getMatcher(){
+        return $this->m_matcher;
+    }
 
     /**
      * create a new matcher page 
      * @return static 
      */
-    public function match(string $pattern, ?string $tokenId = null, $refid=null){
+    public function match(string $pattern, ?string $tokenId = null, $refid=null, ?array $patterns=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
             'type'=>self::MATCH_TYPE,
@@ -67,10 +103,30 @@ class RegexMatcherPattern implements ArrayAccess{
      * @return static 
      * @throws IGKException 
      */
-    public function begin(string $begin, string $end, ?string $tokenId = null, ?string $refid=null){
+    public function begin(string $begin, ?string $end=null, ?string $tokenId = null, ?string $refid=null, ?array $patterns=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
-            'type'=>self::MATCH_TYPE,
+            'type'=>self::BEGIN_END_TYPE,
+            'begin'=>$begin,
+            'end'=>$end,
+            'tokenID'=>$tokenId,
+            'refid'=>$refid
+        ]);
+    }
+    /**
+     * create a while definitions
+     * @param string $begin 
+     * @param null|string $end 
+     * @param null|string $tokenId 
+     * @param null|string $refid 
+     * @param null|array $pattern 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function while(string $begin, ?string $end=null, ?string $tokenId = null, ?string $refid=null, ?array $pattern=null){
+        return Activator::CreateNewInstance(static::class, [
+            $this->m_matcher,
+            'type'=>self::BEGIN_WHILE_TYPE,
             'begin'=>$begin,
             'end'=>$end,
             'tokenID'=>$tokenId,
@@ -91,5 +147,39 @@ class RegexMatcherPattern implements ArrayAccess{
             $escaped
         ];
         return $g;
+    }
+
+    /**
+     * append
+     * @param RegexMatcherPattern $c 
+     * @return void 
+     */
+    public function append(RegexMatcherPattern $c){
+
+        if($c->m_matcher === $this->m_matcher){
+            if (is_null($this->patterns))
+                $this->patterns = [];
+            if (array_search($c, $this->patterns)===false)
+            $this->patterns[] = $c;
+        }
+    }
+    /**
+     * get matching type depeing on value 
+     * @return string 
+     */
+    public static function GetMatcherType(RegexMatcherPattern $matcher){
+        list($begin, $while, $end, $match) = igk_extract($matcher, 'begin|while|end|match');
+        if ($match){
+            return self::MATCH_TYPE;
+        }
+        if ($begin){
+            if ($while){
+                return self::BEGIN_WHILE_TYPE;
+            }
+            return self::BEGIN_END_TYPE;
+        }
+        if ($end){
+            return self::BEGIN_END_TYPE; 
+        }
     }
 }

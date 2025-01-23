@@ -621,4 +621,12 @@ class ViewHelper
         $ctrl = $ctrl ?? self::CurrentCtrl(); 
         igk_css_bind_file($theme, $ctrl, null);
     }
+
+    /**
+     * in view context
+     * @return bool 
+     */
+    public static function InViewContext(){
+        return self::CurrentCtrl() && 1;
+    }
 }

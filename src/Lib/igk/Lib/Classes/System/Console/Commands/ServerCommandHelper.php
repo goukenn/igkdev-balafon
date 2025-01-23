@@ -17,7 +17,7 @@ use IGK\System\Uri;
 use IGKValidator;
 
 /**
- * db command helper
+ * server command helper
  * @package IGK\System\Console\Commands
  */
 abstract class ServerCommandHelper

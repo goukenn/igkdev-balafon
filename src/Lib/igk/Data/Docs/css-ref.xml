@@ -559,7 +559,7 @@
     <item name="no-vibility" />
     <item name="no-visible" />
     <item name="no-wrap" />
-    <item name="nodecoration" />
+    <item name="no-decoreation" />
     <item name="nomargin" />
     <item name="nopadding" />
     <item name="o" desc="used in xml rendering for = symbol" />

@@ -55,7 +55,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     {    
         require_once(__DIR__."/.InitDataSchemaController.pinc");
         $v_check =false;
-        if (!$ctrl  || (($v_check=true) && !($ctrl = igk_getctrl($ctrl, false)))){
+        if (!$ctrl  || (($v_check=true) && !($ctrl = self::GetController($ctrl, false)))){
             $v_check && Logger::warn('missing controller');
             $ctrl = new InitDataSchemaController();
         }

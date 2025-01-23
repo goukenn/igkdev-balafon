@@ -122,6 +122,12 @@ EOF);
 
         return $sb . '';
     }
+    /**
+     * 
+     * @param mixed $ad 
+     * @param string $table 
+     * @return string 
+     */
     public static function GetDatableCreateQuery($ad, string $table){
         $db_name = $ad->getDbName();
         $table_comment = null;

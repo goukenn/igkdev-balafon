@@ -48,8 +48,22 @@ class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
      * @var mixed
      */
     var $default; 
-    
 
+    /**
+     * max size
+     * @var mixed
+     */
+    var $maxSize;
+
+    /**
+     * 
+     */
+    var $multiple;
+    
+    /**
+     * mime type
+     */
+    var $accept;
     use FormFieldValidationInfoTrait; 
 
 }

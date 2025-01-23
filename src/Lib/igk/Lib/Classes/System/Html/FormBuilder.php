@@ -17,6 +17,9 @@ use IGKException;
 use ReflectionException;
 use IGK\System\Html\Forms\FormBuilderComponentTypes as formTypes;
 use IGK\System\Html\Forms\IFormInternalIDSupport;
+use IGK\System\Html\Validations\IFormFieldValidationStoreError;
+use IGK\System\Number;
+use IGKEnvironmentConstants;
 
 use function igk_resources_gets as __;
 
@@ -31,6 +34,8 @@ class FormBuilder
      * @var Closure|array|IFormBuilderDataSource
      */
     var $datasource;
+    const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
+
     static $ResolvType = [
         "number" => "text",
         "tel" => "text",
@@ -113,9 +118,10 @@ class FormBuilder
         $load_attr = function ($v, &$o) use ($get_attr_key,  $clprop) {
             $clprop->clear();
             $key = $get_attr_key($v);
-            $v_def_form_control = igk_environment()->get("css/default/controlstyle", "igk-form-control form-control");
+            $v_def_form_control = igk_environment()->get(self::ENV_CSS, "igk-form-control form-control");
             if ($key === null) {
-                //default engine form control
+                // + | 
+                // + |  default engine form control
                 $e = igk_get_selected_builder_engine();
                 if ($e) {
                     $o .= $e->initAttributes($key, $v, $clprop);
@@ -142,8 +148,12 @@ class FormBuilder
         };
         $bindValue = function (&$o, &$fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag) {
             $v_k_id = null;
+            $v_error = null;
             if ($v instanceof IFormInternalIDSupport) {
                 $v_k_id = $v->getInternalId();
+            }
+            if ($v instanceof IFormFieldValidationStoreError){
+                $v_error = $v->getError();
             }
             if (!is_array($v)) {
                 $v = (array)$v;
@@ -233,6 +243,9 @@ class FormBuilder
             }
             $_is_div = !preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type);
             $class_style = 'igk-form-group ' . $_type;
+            if ($v_error){
+                $class_style .= ' igk-danger';
+            }
             if ($_is_div) {
                 $o .= "<" . $tag . " ";
                 if ($_is_required) {
@@ -244,7 +257,7 @@ class FormBuilder
 
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
                 $g = HtmlUtils::GetFilteredAttributeString("label", array_merge([
-                    'class' => "igk-form-label"
+                    'class' => "igk-form-label" . ($v_error ? ' igk-text-danger error': '')
                 ], igk_getv($v, 'label_attribs') ?? []));
                 $c_id = ($t_id) ? "for='{$t_id}'" : "";
                 $o .= "<label {$c_id}$g>" . $label_text . "</label>";
@@ -253,7 +266,7 @@ class FormBuilder
                 case formTypes::Fieldset:
                     break;
                 case formTypes::Textarea:
-                    $o .= "<textarea{$_name}{$_id}";
+                    $o .= "<textarea{$_name}{$_id} ";
                     if (isset($v["placeholder"])) {
                         $o .= " placeholder=\"{$v["placeholder"]}\" ";
                     }
@@ -330,8 +343,9 @@ class FormBuilder
                 case formTypes::Text:
                 case formTypes::Hidden:
                 case formTypes::Password:
+                case formTypes::File:
                 default:
-
+                    $_activate = [];
                     // $_vt = "";
                     if (!empty($_value) || ($_value == "0")) {
                         $v['value'] = $_value;
@@ -339,6 +353,9 @@ class FormBuilder
                     // $_vt = "value=\"{$_value}\"";
                     $_otype = igk_getv($ResolvType, $_type, "text");
                     $def_type = igk_getv($ResolvClass, $_type, $_type);
+                    if ($v_error){
+                        $def_type .= ' +igk-danger';
+                    }
                     $o .= "<input";
                     $keys = ['id', 'value', 'maxLength', 'pattern', 'placeholder'];
                     if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])) {
@@ -346,12 +363,38 @@ class FormBuilder
                         $keys[] = 'checked';
                     }
                     $tattrib = ["name" => $k];
+
+                    if ($_type== formTypes::File) {
+
+                        // + | --------------------------------------------------------------------
+                        // + | treat file type
+                        // + |
+
+                        if ($accept = igk_getv($v, 'accept')) {
+                            $tattrib['accept'] = $accept;
+                        }
+                        if ($_a = igk_getv($v, 'maxSize')) {
+                            $v['maxLength'] =  Number::MemoryToBytes($_a); 
+                        }
+                        if ($_a = igk_getv($v, 'multiple')) {
+                            $_activate[] = 'multiple';
+                            $name = $tattrib['name'];
+                            if (igk_str_endwith($name, '[]')===false){
+                                $tattrib['name'] .='[]';
+                            }
+                        }
+                    }
+
+
                     foreach ($keys as $kk) {
                         $tattrib[strtolower($kk)] = igk_getv($v, $kk);
                     }
-                    if (!$no_place_holder && empty($tattrib['placeholder'])) {
-                        //igk_wln_e(get_defined_vars());
+                    $v_place_holder = igk_getv($tattrib, 'placeholder'); 
+                    if (!$no_place_holder && empty($v_place_holder)) {
                         $tattrib['placeholder'] = __($k);
+                    } else {
+                        // + | translate placeholder
+                        $tattrib['placeholder'] = $v_place_holder ? __($v_place_holder) : __($k); 
                     }
                     if (isset($v["attribs"]))
                         $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
@@ -378,20 +421,28 @@ class FormBuilder
                     }
                     $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
                     $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);
+                    if ($_activate){
+                        $o .= ' '.implode(" ", $_activate);
+
+                    }
                     $o .= "/>";
 
                     if (isset($v["tips"])) {
                         $o .= '<div class="tips">' . $v["tips"] . '</div>';
                     }
+                    unset($_activate);
                     break;
+            }
+            if ($v_error){
+                $o.= '<div class="error-tip">'.__($v_error).'</div>';
             }
             if ($_is_div) {
                 $o .= "</{$tag}>";
             }
         };
         $fieldset = 0;
-        foreach ($formFields as $k => $v) {
-
+        $error = null;
+        foreach ($formFields as $k => $v) { 
             if (is_integer($k)) {
                 if ($v == "-") {
                     // add separator
@@ -455,6 +506,9 @@ class FormBuilder
                 }
                 continue;
             }
+
+          
+
             $bindValue($o, $fieldset, $k, $v);
         }
         if ($fieldset) {

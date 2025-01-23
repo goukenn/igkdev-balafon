@@ -146,8 +146,18 @@ class Colorf extends IGKObject
             $this->m_R = $value;
     }
     ///<summary></summary>
+    /**
+     * convert to byte data 
+     */
     public function toByte()
     {
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A);
+    }
+    /**
+     * convert to webcolor 
+     * @return string 
+     */
+    public function toWebColor(){
+        return Color::FromFloat($this->R, $this->G, $this->B, $this->A)->toWebColor();
     }
 }

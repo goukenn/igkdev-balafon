@@ -23,6 +23,11 @@ class DbQueryCondition{
     public function set(?array $data){
         $this->data = $data;
     }
+    /**
+     * 
+     * @param mixed $obj 
+     * @return void 
+     */
     public function __construct($obj)
     {
         $this->row = $obj;
@@ -55,5 +60,11 @@ class DbQueryCondition{
     public function __call($n, $arguments){
         $this->__set($n, $arguments[0]);
         return $this;
+    }
+
+    public static function Create(array $list){
+        $s = new static((object)array_fill_keys (array_keys($list), null));
+        $s->data = $list; 
+        return $s;
     }
 }

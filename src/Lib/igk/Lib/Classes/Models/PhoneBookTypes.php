@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookTypes.php
-// @date: 20240922 19:45:49
+// @date: 20241109 07:41:07
 namespace IGK\Models;
 
 
@@ -48,4 +48,8 @@ class PhoneBookTypes extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphbt_Id";
+	/**
+	*override display key
+	*/
+	protected $display = "rcphbt_Name";
 }

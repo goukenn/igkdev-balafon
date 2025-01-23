@@ -183,13 +183,13 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $meta = $sm->getMetaById($id);
         if ($store) {
             if (!$meta) {
-                $meta = array_merge(['name'=>$id], $value);
+                $meta = array_merge(['name' => $id], $value);
             } else {
                 $meta = array_merge($meta, $value);
             }
-            $sm->addMeta($id, $meta); 
+            $sm->addMeta($id, $meta);
         } else {
-            if ($meta){
+            if ($meta) {
                 $meta->remove();
                 igk_wln("remove .... ");
             }
@@ -215,6 +215,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $sm->setAttribute($n, HtmlMetaManager::ATTR_CONTENT, $cl);
         return $this;
     }
+
+    /**
+     * get header color
+     */
     public function getHeaderColor()
     {
         if ($g = $this->getMetas()->getMetaById("theme-color")) {
@@ -555,7 +559,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     protected function registerHook()
     {
-        $v_cevent = array($this, 'setup_document');
+        // $v_cevent = array($this, 'setup_document');
         $v_func = function () {
             $this->setup_document();
         };
@@ -567,37 +571,42 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * load temp extra script file. must be called out of rendering context. /!\\ Before
      * @var string $file file or uri
+     * @var ?array $query_args extra args
      */
     public function addTempScript(string $file, ?array $query_args = null)
     {
+      
         if (!IGKValidator::IsUri($file))
             $file = igk_dir($file);
         $t = $this->ScriptManager->getTempScripts();
-  
+
 
         if (!igk_getv($t, "temp")) {
             $t->temp = array();
         }
-        if (isset($t->temp[$file])) {
-            $n = $t->temp[$file];
+        $uris = explode("?", $file, 2);
+        $kfile = $file = array_shift($uris);
+        if (is_file($file)) {
+            $kfile = IGKResourceUriResolver::getInstance()->resolve($file);
+        }
+
+        if (isset($t->temp[$kfile])) {
+            $n = $t->temp[$kfile];
             $n->setIsTemp($t);
             $this->m_head->add($n);
             return $n;
         }
-        $uris = explode("?", $file, 2);
-        $file = array_shift($uris);
-        if (is_file($file)) {
-            $file = IGKResourceUriResolver::getInstance()->resolve($file);
-        }
-        if ($uris){
+
+        if ($uris) {
             parse_str($uris[0], $out);
             $query_args = array_merge($out, $query_args ?? []);
         }
         if ($query_args) {
-            $file .= '?' . http_build_query($query_args);
+            // $file .= '?' . http_build_query($query_args);
+            $file = $kfile . '?' . http_build_query($query_args);
         }
         $sc = $this->m_head->addScript($file);
-        $t->temp[$file] = $sc;
+        $t->temp[$kfile] = $sc;
         $sc->setIsTemp($t);
         return $sc;
     }
@@ -765,6 +774,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->getMetas()->setKeywords($value);
         return $this;
     }
+    /**
+     * 
+     */
     public function setCanonical(?string $uri)
     {
         $v_tlinks = $this->getHead()->getElementsByTagName('link');

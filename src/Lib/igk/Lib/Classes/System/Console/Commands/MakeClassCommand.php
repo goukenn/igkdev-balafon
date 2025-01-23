@@ -129,7 +129,7 @@ class MakeClassCommand extends AppExecCommand
         } else {
             if (!empty($ctrl)) {
                 $ctrl_name = $ctrl;
-                if (!($ctrl = igk_getctrl($ctrl, false))){
+                if (!($ctrl = self::GetController($ctrl, false))){
                     igk_die("controller not found.".$ctrl_name);
                 }
                 $dir = $ctrl::classdir();

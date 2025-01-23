@@ -26,6 +26,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     const DELIMITER = '"';
     const SEPARATOR = ',';
 
+    public function queryColumnCharset(string $charset): string { 
+        return PHP_EOL;
+    }
+
     public function setForeignKeyCheck($flag) { }
 
     public function allowTypeLength(string $type, ?int $length = null): bool { 

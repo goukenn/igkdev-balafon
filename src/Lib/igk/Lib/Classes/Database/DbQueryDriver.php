@@ -36,6 +36,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     private $m_adapter;
     private $m_closeCallback;
     private $m_dbpwd;
+    private $m_charset;
     // private $m_dbselect;
     private $m_dbport; // store the port
     private $m_dbserver;
@@ -65,22 +66,44 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $this->m_noSelectDbErrorAutoClose = $value;
     }
 
-
+    /**
+     * get driver initialized db server 
+     * @return mixed 
+     */
     public function getServer()
     {
         return $this->m_dbserver;
     }
+    /**
+     * get driver initialized db user 
+     * @return mixed 
+     */
     public function getUser()
     {
         return $this->m_dbuser;
     }
+    /**
+     * get driver initialized port number
+     * @return mixed 
+     */
     public function getPort()
     {
         return $this->m_dbport;
     }
+    /**
+     * get driver initialized password
+     * @return mixed 
+     */
     public function getPwd()
     {
         return $this->m_dbpwd;
+    }
+    /**
+     * get initialize charset definition
+     * @return mixed 
+     */
+    public function getCharset(){
+        return $this->m_charset;
     }
 
     ///<summary>.ctr</summary>
@@ -223,6 +246,12 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 $this->m_isconnect = true;
                 $this->m_resource = $r;
                 $this->m_openCount = 1;
+                if ($this->m_adapter){
+                   // $this->setAdapter()
+                   if (($this->m_adapter instanceof IDataDriverCharsetSupport) && $this->m_charset){
+                    $this->m_adapter->set_charset($this->m_charset);
+                }
+                }
                 return true;
             } else {
                 $_error = __CLASS__ . "::Error : SERVER RESOURCE # ";
@@ -307,11 +336,13 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $driver_storage = [];
         }
         $name = "mysql"; 
+        $app_cnf = igk_app()->getConfigs();
         $dbserver = (key_exists("server", $options) ?   $options["server"] : func_get_arg(0)) ?? '';
         $dbuser = (key_exists("user", $options)  ? $options["user"] : func_get_arg(1)) ??'';
         $dbpwd = (key_exists("pwd", $options) ? $options["pwd"] : func_get_arg(2)) ?? '';
         $port = (key_exists("port", $options) ?  $options["port"] : func_get_arg(3) ) ?? '';
-        $dbname = (key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  igk_app()->getConfigs()->db_name;
+        $dbname = (key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  $app_cnf->db_name;
+        $dbcharset = (key_exists("dbcharset", $options) ? $options["charset"] : igk_getv(func_get_args(), 5)) ??  $app_cnf->db_charset;
 
         // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
         $cl = static::class;
@@ -322,11 +353,13 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $out->m_dbuser = trim($dbserver->user);
             $out->m_dbpwd = trim($dbserver->pwd);
             $out->m_dbport = $dbserver->port;
+            $out->m_charset = igk_getv($dbserver, 'charset');
         } else {
             $out->m_dbserver = trim($dbserver);
             $out->m_dbuser = trim($dbuser);
             $out->m_dbpwd = trim($dbpwd);
             $out->m_dbport = $port;
+            $out->m_charset = trim($dbcharset ??'');
         }
         try {
             $out->connect();
@@ -848,9 +881,9 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         if (igk_db_is_resource($this->m_resource)) {
             if (igk_environment()->querydebug) {
-                $of = Logger::offscreen();
-                if ($of)
-                    $of->print("query:*** " . $query);
+                // $of = Logger::offscreen();
+                // if ($of)
+                //     $of->print("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
                 igk_environment()->write_debug("<span>query &gt; </span><code type='sql'>'.$query.'</code>" );
             }
@@ -919,6 +952,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     public function setAdapter($o)
     {
         $this->m_adapter = $o;
+        
     }
     ///<summary></summary>
     ///<param name="v"></param>

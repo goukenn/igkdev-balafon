@@ -15,6 +15,12 @@ class CssThemeOptions{
     const DARK_THEME_NAME = "dark";
     const LIGTH_THEME_NAME = "light";
     const BOTH_THEME_NAME = "both";
+
+    /**
+     * is primary theme
+     * @var mixed
+     */
+    var $is_primary;
     /**
      * theme name
      * @var ?string

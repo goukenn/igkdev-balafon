@@ -4,6 +4,7 @@
 // @date: 20230802 20:49:12
 namespace IGK\System\Console\Commands;
 
+use IGK\Helper\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\InitBase;
@@ -28,8 +29,7 @@ class DbInitDataCommand extends AppExecCommand{
 
 		if ($action_name)
 		{
-			if (method_exists($cl, $action_name)){
-
+			if (method_exists($cl, $action_name)){ 
 				call_user_func_array([$cl, $action_name], [$ctrl]);
 				Logger::success('done');
 			}
@@ -37,9 +37,10 @@ class DbInitDataCommand extends AppExecCommand{
 				igk_die(sprintf('missing action name in %s', $cl));
 			}
 
-		} else 
-		{
-			call_user_func_array([$cl, InitBase::INIT_METHOD], [$ctrl]);
+		} else  {
+			Logger::info('initailize db. with [./InitBase]');
+			Database::InitData($ctrl);
+			// call_user_func_array([$cl, InitBase::INIT_METHOD], [$ctrl]);
 			Logger::success('done');
 
 		}

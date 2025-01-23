@@ -80,7 +80,7 @@ class MakeActionCommand extends AppExecCommand{
             "middlewire"=>MiddlewireActionBase::class
         ], strtolower($type), $type);
         
-        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");
             return false;

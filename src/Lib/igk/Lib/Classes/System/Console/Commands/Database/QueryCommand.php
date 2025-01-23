@@ -16,7 +16,7 @@ class QueryCommand extends AppExecCommand{
 	var $command='--db:query';
 	var $desc='model fetch query';
 	/* var $options=[]; */
-	/* var $category; */
+	var $category="sys:db";
 	var $usage = "model [controller] [options]";
 
 	public function exec($command, ?string $model=null, ?string $controller = null) {

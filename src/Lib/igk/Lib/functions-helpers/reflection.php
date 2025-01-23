@@ -12,12 +12,12 @@
 use Hamcrest\Type\IsObject;
 
 /**
- * 
+ * check for class exists
  * @param mixed $name 
  */
-function igk_reflection_class_exists($name)
+function igk_reflection_class_exists($name, $autoload= false)
 {
-    if (!class_exists($name, false)) {
+    if (!class_exists($name, $autoload)) {
         igk_trace();
         igk_die("class [{$name}] doesn't exists");
     }
@@ -26,8 +26,10 @@ function igk_reflection_class_exists($name)
 ///<summary>get if object or classname is type of $name or extends it</summary>
 /**
  * get if object or classname is type of $name or extends it
+ * @param mixed $objOrClassName
+ * @param string $name
  */
-function igk_reflection_class_extends($objOrClassName, $name)
+function igk_reflection_class_extends($objOrClassName, string $name)
 {
     igk_reflection_class_exists($name);
     if ($objOrClassName) {

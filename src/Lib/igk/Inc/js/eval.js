@@ -35,7 +35,7 @@
                     window.__igk_var_script_error = b;
                     var line = b;
                     if (line){
-                        console.log(line.substr(min(0, e.columnNumber-10),40)); 
+                        console.log(line.substr(Math.min(0, e.columnNumber-10),40)); 
                     }
 
                     // console.debug('message: ' + e.message, e.lineNumber + ":" + e.columnNumber);

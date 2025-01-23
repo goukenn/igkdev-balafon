@@ -214,6 +214,7 @@
         <xs:attribute name="clTypeLength" type="xs:nonNegativeInteger"></xs:attribute>
         <xs:attribute name="clUpdateFunction" type="xs:string"></xs:attribute>
         <xs:attribute name="clValidator" type="tboolean"></xs:attribute>
+        <xs:attribute name="clModifier" type="xs:string"></xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="tentries">

@@ -54,7 +54,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             [
                 "dir"=>$sess_dir,
                 "cmd"=>"clearsession",
-                "home_dir"=>$setting["home_dir"],
+                "home_dir"=>$setting[self::HOME_DIR],
             ],
             null,
             [

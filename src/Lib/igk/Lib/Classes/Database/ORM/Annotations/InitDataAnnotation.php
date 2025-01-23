@@ -30,16 +30,18 @@ class InitDataAnnotation extends AnnotationBase{
      */
     public static function InitData(BaseController $controller, bool $recursive=false){
         $_dir_classes = $controller->getClassesDir();
+		$_marked = [];
 		foreach(igk_io_getfiles($_dir_classes, "/\.php$/i", $recursive) as $f){
 			$n = igk_io_basenamewithoutext($f);
 			$cl = $controller->resolveClass($n);
-			if ($cl && class_exists($cl)){
+			if ($cl && class_exists($cl) && !isset($_marked[$cl])){
 				$ref = igk_sys_reflect_class($cl);
 				$annotations = AnnotationHelper::GetAnnotations($ref);
 				if ($annotations && igk_sys_reflect_is_support_trait($cl, ModelTableConstantTrait::class)){ 
 					foreach ($annotations as $a) {
 						if (($a instanceof InitDataAnnotation)) {
 							$cl::InitData();
+							$_marked[$cl] =1;
 						}
 					}
 				}

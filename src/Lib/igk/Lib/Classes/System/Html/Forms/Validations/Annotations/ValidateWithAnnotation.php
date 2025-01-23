@@ -30,7 +30,15 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * @var ?int
      */
     var $minLength;
+    /**
+     * 
+     * @var mixed
+     */
     var $pattern;
+    /**
+     * 
+     * @var string
+     */
     var $type;
      /**
      * field is required
@@ -44,6 +52,24 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * @var ?bool
      */
     var $allowNull;
+
+    /**
+     * file max size
+     * @var ?string
+     */
+    var $maxSize;
+
+    /**
+     * file accept
+     * @var ?string
+     */
+    var $accept;
+
+    /**
+     * multiple value
+     * @var ?bool
+     */
+    var $multiple;
 
     /**
      * get the attribute validator

@@ -27,4 +27,5 @@ abstract class FormBuilderComponentTypes{
     const Hidden = 'hidden';
     const Password = 'password';
     const Fieldset = 'fieldset';
+    const File = 'file';
 }

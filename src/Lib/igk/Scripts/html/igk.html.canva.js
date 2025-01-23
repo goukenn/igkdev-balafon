@@ -1,28 +1,26 @@
-/*
-file : igk.html.canva
-description : represent a canvas document manager to used in canva
-create: 22/07/2014
 
-*/
+// @file: igk.html.canva
+// @description: represent a canvas document manager to used in canva
+// @create: 22/07/2014
+// 
+
 "use strict";
-
 (function() {
     var static_canva;
     function _eval(src, apply, arg){
         return (new Function(src)).apply(apply, arg);
     };
-    var _sfigure = 0; //indicate a starting figure
+    // indicate a starting figure - 
+    var _sfigure = 0; 
     function __append_bezier(ctx,
         x1, y1,
         x2, y2,
         x3, y3) {
         ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
     }
-
     function gdip_near_zero(v) {
         return ((v >= -0.0001) && (v <= 0.0001));
     }
-
     function append_ellipse(ctx, x, y, width, height) {
         var rx = width / 2.0;
         var ry = height / 2.0;
@@ -32,7 +30,6 @@ create: 22/07/2014
         //const float C2 = 0.552285f;
         /* origin */
         cx.moveTo(cx + rx, cy);
-
         // __append(cx + rx, cy,
         // 0//enuGdiGraphicPathType.StartFigure
         // , false);
@@ -62,7 +59,6 @@ create: 22/07/2014
         // close the path 
         close_figure();
     };
-
     function __append_arcs(ctx, x, y, width, height, startAngle, sweepAngle) {
         var i;
         var drawn = 0;
@@ -98,7 +94,6 @@ create: 22/07/2014
             drawn += additional;
         }
     }
-
     function __append_arc(ctx, start, x, y, width, height, startAngle, endAngle) {
         var _2PI = (Math.PI * 2);
         var M_PI = 3.14159265358979323846;
@@ -146,14 +141,10 @@ create: 22/07/2014
             (cy + ry * sin_beta));
     }
     //canva utility function
-
     function __addArc(ctx, rc, starta, sweepa) {
-
         __append_arcs(ctx, rc.x, rc.y, rc.w, rc.h, starta, sweepa);
     };
-
     function __build_round_rec(ctx, rc, rounddef) {
-
         var vtl_dx = !rounddef ? 0.1 : Math.max(rounddef.topLeft.x * 2, 0.1);
         var vtl_dy = !rounddef ? 0.1 : Math.max(rounddef.topLeft.y * 2, 0.1);
         var vtr_dx = !rounddef ? 0.1 : Math.max(rounddef.topRight.x * 2, 0.1);
@@ -169,14 +160,12 @@ create: 22/07/2014
         __addArc(ctx, { x: rc.x, y: rc.y, w: vtl_dx, h: vtl_dy }, 180.0, 90.0);
         _sfigure = 0;
         ctx.lineTo(rc.x + rc.w - rounddef.topRight.x, rc.y);
-
         __addArc(ctx, {
             x: rc.x + rc.w - vtr_dx,
             y: rc.y,
             w: vtr_dx,
             h: vtr_dy
         }, -90.0, 90.0);
-
         ctx.lineTo(rc.x + rc.w, rc.y + rc.h - (vbr_dy / 2.0));
         __addArc(ctx, {
             x: rc.x + rc.w - vbr_dx,
@@ -184,7 +173,6 @@ create: 22/07/2014
             w: vbr_dx,
             h: vbr_dy
         }, 0.0, 90.0);
-
         ctx.lineTo(rc.x + (vbl_dx / 2.0), rc.y + rc.h);
         __addArc(ctx, {
             x: rc.x,
@@ -195,7 +183,6 @@ create: 22/07/2014
         ctx.lineTo(rc.x, rc.y + (vtl_dy / 2.0));
         ctx.closePath();
     };
-
     function _build_rec(ctx, x, y, w, h) {
         ctx.beginPath();
         ctx.moveTo(x, y);
@@ -204,7 +191,6 @@ create: 22/07/2014
         ctx.lineTo(x, y + h);
         ctx.closePath();
     };
-
     function _build_circle(ctx, c, r) {
         //@c:center
         //@r:radius
@@ -212,8 +198,6 @@ create: 22/07/2014
         ctx.arc(c.x, c.y, r, 0, Math.PI * 2, false);
         ctx.closePath();
     };
-
-
     igk.system.createNS("igk.html.canva", {
         canvaDocument: function() { //create a class. call this function with new operator
             igk.appendProperties(this, {
@@ -231,7 +215,6 @@ create: 22/07/2014
                 this.m_matrix = new igk.math.matrix3x3();
                 var self = this;
                 this.transform = function(v_context) {
-
                     var e = self.m_matrix.getElements();
                     v_context.setTransform(e[0], e[1], e[3], e[4], e[6], e[7]);
                 };
@@ -317,9 +300,7 @@ create: 22/07/2014
         },
         buildCircle: _build_circle,
         buildRect: _build_rec,
-        drawRoundRec: function(cx, rc, rounddef, close) {
-
-            //cx.strokeRect(rc.x, rc.y,rc.w,rc.h);
+        drawRoundRec: function(cx, rc, rounddef, close) { 
             __build_round_rec(cx, rc, rounddef);
             cx.stroke();
         },
@@ -342,17 +323,14 @@ create: 22/07/2014
             cx.moveTo(st.x, st.y);
             cx.lineTo(en.x, en.y);
             cx.stroke();
-
         },
         fillRoundRec: function(cx, rc, rounddef, close) {
-
             cx.beginPath();
             cx.moveTo(rc.x, rc.y);
             __addArc(cx, rc, 180, 270);
             if (close)
                 cx.closePath();
             cx.fill('evenodd');
-
         },
         drawArc: function(cx, rc, starta, sweepa) {
             __addArc(cx, rc, starta, sweepa);
@@ -362,7 +340,6 @@ create: 22/07/2014
             __addArc(cx, rc, starta, sweepa);
             cx.fill('eventodd');
         },
-
         loadObj: function(uri, callback) {
             igk.ajx.get(uri, null, function(xhr) {
                 if (this.isReady()) {
@@ -374,17 +351,12 @@ create: 22/07/2014
                     if (obj && obj.length == 1) {
                         callback(obj[0]);
                     }
-
                 }
             });
         }
-
     });
-
-
     var coph = null; //canva_obj_prop_host
     function __init_gkds_canva_obj() {
-
         var self = this;
         var a = this.getAttribute("igk-canva-gkds-obj-data");
         //this.setTransition("all 1s ease-in-out");
@@ -392,7 +364,6 @@ create: 22/07/2014
         var data = igk.JSON.parse(a);
         if (data) {
             this.setTransition(data.transition || "all 1s ease-in-out");
-
             igk.html.canva.loadObj(data.uri, function(o) {
                 // console.debug("load data");
                 if (typeof(o.length) == 'undefined') {
@@ -402,9 +373,6 @@ create: 22/07/2014
                     // c.o.width = igk.getNumber(self.getComputedStyle("width")); //o.w;
                     // c.o.height= igk.getNumber(self.getComputedStyle("height"));//o.h;
                     // self.add("div").setHtml("info");
-
-
-
                     var p = {
                         canva: c,
                         obj: o,
@@ -454,21 +422,18 @@ create: 22/07/2014
                             var q = this;
                             var w = this.canva.o.width;
                             var h = this.canva.o.height;
-
                             function __render() {
                                 ctx.clearRect(0, 0, w, h);
                                 if (data.init)
                                     data.init.apply(self, [ctx]);
                                 igk.html.canva.render_document_obj(ctx, q.obj);
                             };
-
                             function __transition(evt) {
                                 // console.debug("transitioneend");
                                 complete = true;
                                 q.rendering = false;
                                 self.unreg_event('transitionend', __transition);
                             };
-
                             // console.debug(self.getComputedStyle('color'));
                             // console.debug(self.getComputedStyle('color', ':hover'));
                             // console.debug(self.o.style);
@@ -478,7 +443,6 @@ create: 22/07/2014
                                 __render();
                             } else {
                                 var complete = false;
-
                                 self.reg_event('transitionend', __transition);
                                 igk.html.canva.animate(function(t) {
                                     // console.debug("render "+complete);
@@ -490,7 +454,6 @@ create: 22/07/2014
                             // console.debug(getComputedStyle(self.o)['transitionDuration']);
                         }
                     };
-
                     igk.appendProperties(self.data, {
                         "igk-canva-gkds-obj": p
                     });
@@ -501,24 +464,17 @@ create: 22/07/2014
                             setTimeout(function() { p.render(); }, 20);
                         } else
                             p.render();
-
                     });
                 }
-
-
                 // console.debug("check get element by id");
                 // console.debug(p.getElementById("Text_29145996"));
-
-
             });
-
         }
     }
     igk.system.createNS("igk.html.canva", {
         render_document_obj: function(ctx, obj) {
             //used to render a document on a canva context
             var v_ctx = ctx;
-
             for (var i = 0; i < obj.layers.length; i++) {
                 var l = obj.layers[i];
                 for (var j = 0; j < l.length; j++) { 
@@ -529,7 +485,6 @@ create: 22/07/2014
             }
         }
     });
-
     //register  class object
     igk.winui.initClassControl("igk-canva-gkds-obj", function() {
         __init_gkds_canva_obj.apply(this);

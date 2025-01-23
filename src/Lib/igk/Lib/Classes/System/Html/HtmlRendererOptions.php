@@ -8,16 +8,30 @@ use IGKException;
 
 ///<summary></summary>
 /**
-* 
-* @package IGK\System\Html
-*/
-class HtmlRendererOptions{
+ * 
+ * @package IGK\System\Html
+ */
+class HtmlRendererOptions
+{
     var $Source;
 
-    var $LF="";
- 
-    var $__sanitize = null;
+    var $LF = "";
 
+    /**
+     * engine use to render 
+     * @var ?IHtmlEngineRenderer
+     */
+    var $Engine;
+
+    /**
+     * use to mark renderer with sanitize rendering
+     * @var null|bool|int
+     */
+    var $sanitizeRendering = null;
+    /**
+     * invocation list deletegate
+     * @var mixed
+     */
     var $__invoke = null;
 
     /**
@@ -39,7 +53,7 @@ class HtmlRendererOptions{
      * is for ajx context 
      * @var bool
      */
-    var $AJX; 
+    var $AJX;
     /**
      * stop rendering 
      * @var bool
@@ -65,10 +79,10 @@ class HtmlRendererOptions{
     var $Attachement;
     var $StandAlone = 0;
     var $Cache;
-    var $CacheUri = 0 ;
-    
-    var $CacheUriLevel= 0;
-    
+    var $CacheUri = 0;
+
+    var $CacheUriLevel = 0;
+
     var $flag_no_attrib_escape;
 
     var $attribute_entity_escape;
@@ -117,7 +131,7 @@ class HtmlRendererOptions{
      * @var for aside items
      */
     var $aside;
- 
+
 
     private $m_properties;
 
@@ -128,8 +142,9 @@ class HtmlRendererOptions{
      * @param mixed $v 
      * @return void 
      */
-    public function __set($n, $v){ 
-        if (is_null($v)){
+    public function __set($n, $v)
+    {
+        if (is_null($v)) {
             unset($this->m_properties[$n]);
             return;
         }
@@ -141,17 +156,24 @@ class HtmlRendererOptions{
      * @return mixed 
      * @throws IGKException 
      */
-    public function __get($n){        
+    public function __get($n)
+    {
         return igk_getv($this->m_properties, $n);
     }
-    public function setRef($n, & $v){
-        $this->m_properties[$n] = & $v;
+    public function setRef($n, &$v)
+    {
+        $this->m_properties[$n] = &$v;
     }
-    public function & getRef($n){
+    public function &getRef($n)
+    {
         $rg = null;
-        if (isset($this->m_properties[$n])){
-            $rg = & $this->m_properties[$n];
+        if (isset($this->m_properties[$n])) {
+            $rg = &$this->m_properties[$n];
         }
         return $rg;
+    }
+
+    public function __isset($n){
+        return $this->m_properties && key_exists($n, $this->m_properties);
     }
 }

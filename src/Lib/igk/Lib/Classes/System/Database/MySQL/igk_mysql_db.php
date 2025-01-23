@@ -196,10 +196,10 @@ function igk_db_fetch_assoc($r){
 ///<summary></summary>
 ///<param name="query"></param>
 /**
- * 
+ * send db query
  * @param mixed $query
  */
-function igk_db_query($query, $res = null)
+function igk_db_query(string $query, $res = null)
 { 
     $g = DbQueryDriver::GetFunc("query");
     if (DbQueryDriver::Is("MySQLI")) { 

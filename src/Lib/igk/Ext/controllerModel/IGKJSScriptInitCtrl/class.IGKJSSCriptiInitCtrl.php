@@ -44,8 +44,9 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		if ($this->IsVisible)
 		{
+			$v_main_js = ScriptConfigData::GetControllerMainScript($this);
 			$this->m_script->Content  ="";
-			$v = $this->getArticleContent("default.js");
+			$v = $this->getArticleContent($v_main_js);
 			$this->m_script->Content =$v;
 			igk_app()->getDoc()->getBody()->add($this->m_script);
 		}

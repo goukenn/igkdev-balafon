@@ -37,7 +37,7 @@ abstract class DiagramHelper{
                             $n = $cinfo->prefix.$v_n;
                         }
                         if (!$n || !isset($cinfo->columnInfo[$n])){
-                            throw new IGKException("column not found");
+                            throw new IGKException("column  [{$n}] not found");
                         }
                         $v_n = $n;
                     }

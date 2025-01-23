@@ -34,7 +34,7 @@ class RequestViewCommand extends AppExecCommand
         $opts = [
             "--method:[TYPE]" => "request method type. default is GET",
             "--user:[ID]" => "user id to use",
-            "--render[:type]" => "render default view, (doc|body|head|view) default is view",
+            "--render:[:type]" => "render default view, (doc|body|head|view) default is view",
             "--ajx" => "enable ajx render mode",
             "--json:[file]"=>"file to load as json data",
             "--content-type:[]" => "set render content type. default is 'text/html'",
@@ -62,7 +62,7 @@ class RequestViewCommand extends AppExecCommand
         $_SERVER['REQUEST_URI'] = '/' . $path; 
         $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
-        DbCommandHelper::Init($command);
+        
         ServerCommandHelper::Init($command);
 
         $ctrl->register_autoload();

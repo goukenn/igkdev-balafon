@@ -23,7 +23,7 @@ class BuildCssCommand extends AppExecCommand{
 	var $options=[
 		'-f:file'=>'file to parse'
 	]; 
-	var $category = "project-build";
+	var $category = "project";
 	var $usage = 'controller [file] [options]';
 	public function exec($command, ?string $controller=null, ?string $file=null) {
 		$ctrl = self::GetController($controller);

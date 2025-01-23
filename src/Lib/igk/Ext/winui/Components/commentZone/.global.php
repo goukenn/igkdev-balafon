@@ -8,6 +8,7 @@
 //comment zone control
 
 use IGK\Resources\R;
+use IGK\System\IO\Path;
 
 igk_ctrl_zone_init(__FILE__);
 
@@ -93,8 +94,8 @@ function igk_comment_init($a,$b,$c){
 	if (igk_is_ajx_demand()){
 		igk_close_session();
 	}
-
-	igk_css_bind_wuistyle_file($c->Document, $CF->getStylesDir()."/default.pcss");
+	$path = Path::Combine($CF->getStylesDir(), IGKConstants::DEFAULT_THEME_STYLE);
+	igk_css_bind_wuistyle_file($c->Document, $path);
 	igk_js_bind_wuiscript($c->Document, $CF, ".commentZone.js", $a);
 	return 1;
 }

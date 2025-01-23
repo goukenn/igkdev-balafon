@@ -109,7 +109,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     }
     public function &getDeclaredRules()
     {
-        $trule = &$this->_[self::DECLARED_RULE];;
+        $trule = &$this->_[self::DECLARED_RULE];
         return $trule;
     }
     /**
@@ -235,11 +235,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     public function clear()
     {
 
-        if ($this->_) {
-            // $_color = null;
-            // if (isset($this->_[self::COLORS_RULE])){
-            //     $_color = & $this->_[self::COLORS_RULE];
-            // }
+        if ($this->_) { 
             $_state = igk_getv($this->_, self::SET_FLAG);
             $keys = array_keys($this->_);
             $to_reset = [
@@ -298,6 +294,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleCon
     {
         $g = &$this->prepareStorage(self::COLORS_RULE);
         return $g;
+    }
+    /**
+     * clear color rules
+     */
+    public function clearColors(){
+        unset($this->_[self::COLORS_RULE]);
     }
     ///<summary></summary>
     /**

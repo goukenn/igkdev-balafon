@@ -557,7 +557,11 @@ class BalafonApplication extends IGKApplicationBase
                                 sprintf("%s - ", $TAG) .
                                     implode(':', [
                                         $ex->getMessage() . " \nAt: " .
-                                        igk_getv($trace,  'file'),
+                                        sprintf('%s:%s', 
+                                            $ex->getFile(),
+                                            $ex->getLine()).
+                                        "\n".
+                                        igk_getv($trace,  'file'), 
                                         igk_getv($trace, 'line'),
                                     ])
                             );

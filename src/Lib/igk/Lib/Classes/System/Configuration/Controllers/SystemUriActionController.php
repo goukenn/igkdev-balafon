@@ -15,6 +15,7 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Models\Systemuri;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Http\RequestResponseCode;
 use IGKException;
 use IGKSystemUriActionPatternInfo;
 use IIGKUriActionListener;
@@ -152,6 +153,12 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function getUseDataSchema():bool{
         return false;
     }
+    /**
+     * @param string $uri
+     * @param mixed $params
+     * @param int|bool $redirection force redirection 
+     * @param int|bool $render render content
+     */
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
        
         $app = igk_app();
@@ -165,9 +172,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
                 throw $ex;
             }
             return true;
-        } else {
-            igk_dev_ilog(__METHOD__." not match. ".$uri);
-        }
+        } 
         return false;
     }
     ///<summary>get system uri actions routes</summary>

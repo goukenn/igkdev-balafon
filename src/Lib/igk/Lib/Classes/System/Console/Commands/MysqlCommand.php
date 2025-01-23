@@ -223,7 +223,7 @@ class MySQLCommand extends AppExecCommand
                     $l = $this;
                     igk_environment()->mysql_query_filter = 1;
                     $db->setSendDbQueryListener($l);
-                    if ($ctrl && ($c = igk_getctrl($ctrl, false))) {
+                    if ($ctrl && ($c = self::GetController($ctrl, false))) {
                         $c = [$c];
                     } else {
                         $c = igk_app()->getControllerManager()->getControllers();
@@ -283,7 +283,7 @@ class MySQLCommand extends AppExecCommand
              */
             $l = $this;
             $ad->setSendDbQueryListener($l);
-            if (!($ctrl && ($ctrl = igk_getctrl($ctrl, false)))) {
+            if (!($ctrl && ($ctrl = self::GetController($ctrl, false)))) {
                 return -1;
             }
             Logger::info("# preview create query");

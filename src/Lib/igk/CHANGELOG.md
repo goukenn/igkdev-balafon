@@ -1,6 +1,7 @@
 # BALAFON CORE - CHANGE LOG
 
-
+## [18.0.0.0123] - 2025-12-25
+- fix project css distribution 
 
 ## [18.0.0.0123] - 2024-02-08
 

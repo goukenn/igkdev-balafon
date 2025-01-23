@@ -324,8 +324,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @throws ReflectionException 
      */
     protected function getViewLoader()
-    {
-
+    { 
         if ($l = $this->getEnvParam(ControllerEnvParams::ViewLoader)) {
             return $l;
         }
@@ -469,6 +468,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;
+         
             $response = $this->getViewLoader()->include($file, $viewargs);
             igk_environment()->viewfile = null;
             set_include_path($bckdir);
@@ -636,9 +636,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function getPrimaryCssFile()
     {
-        // $prima_file = $this->getConfig("PrimaryStyle", "default.pcss");
-
-        return implode("/", [$this->getStylesDir(), "default.pcss"]); // $this->getConfig("PrimaryStyle", "default.pcss")]);
+        if ($prima_file = $this->getConfig("PrimaryStyle", IGKConstants::DEFAULT_THEME_STYLE)){
+            return Path::Combine($this->getStylesDir(), $prima_file);
+        }
+        return implode("/", [$this->getStylesDir(), IGKConstants::DEFAULT_THEME_STYLE]); 
     }
     ///<summary></summary>
     /**

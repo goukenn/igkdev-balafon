@@ -37,7 +37,7 @@ class ProjectCheckViewCommand extends AppExecCommand{
             return -1;
         }
         $controller = str_replace("/", "\\", $controller);
-        if (!($ctrl = igk_getctrl($controller, 0))){
+        if (!($ctrl = self::GetController($controller, 0))){
             Logger::danger("no controller found");
             return -2;
         }

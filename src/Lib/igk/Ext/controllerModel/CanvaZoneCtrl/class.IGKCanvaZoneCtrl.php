@@ -18,12 +18,7 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	private $m_canva;
 	public function __construct(){
 		parent::__construct();
-	}
-	protected function initComplete($context=null){
-		parent::initComplete();
-		igk_die("initialize canvas node js");
-		// igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
-	}
+	} 
 	public function getCanAddChild(){
 		return false;
 	}

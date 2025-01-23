@@ -5,17 +5,29 @@
 // @desc: 
 
 
-namespace IGK\System\Database\MySQL; 
+namespace IGK\System\Database\MySQL;
 
+use Exception;
 use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKConstants;
 use IGKException;
+use ReflectionException;
 
 /**
  * mysql query driver 
  */
 class DbQueryDriver extends DatabaseDbQueryDriver {
-
+    /**
+     * create a driver with the setting option 
+     * @param mixed $options 
+     * @param mixed &$error 
+     * @return static|null 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function Create($options=null, & $error = null ){
         $o = parent::Create($options, $error); 
         return $o;

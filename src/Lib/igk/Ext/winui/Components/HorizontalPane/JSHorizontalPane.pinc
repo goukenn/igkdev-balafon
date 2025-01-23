@@ -99,8 +99,7 @@ final class JSHorizontalPane extends IGKObject
 		//global register theme to document directry if this object is created
 		// igk_environment()->debug_msg = igk_app()->getDoc()->id();
 
-		igk_app()->getDoc()->getTheme()->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/default.pcss");
-		// igk_wln_e(__FILE__.":".__LINE__ ,  "die js pane ......",  igk_app()->getDoc()->getTheme()->getDef()->getBindTempFiles() );
+		igk_app()->getDoc()->getTheme()->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/".IGKConstants::DEFAULT_THEME_STYLE); 
 	}
 	/**
 	 * add page 

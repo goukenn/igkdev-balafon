@@ -1,5 +1,5 @@
 <?php
-// @file: IGKMailAttachement.php
+// @file: MailAttachement.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
@@ -9,8 +9,8 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\System\Net;
-
-use IGKObject;
+use IGKObject; 
+ 
 
 class MailAttachement extends IGKObject{
     private $m_content;
@@ -22,12 +22,12 @@ class MailAttachement extends IGKObject{
     }
     ///<summary></summary>
     public function getContent(){
-        return $this->m_Data;
+        return $this->m_content;
     }
     ///get data used
     public function getData(){
         if($this->Type == "Content")
-            return chunk_split(base64_encode($this->m_Data), 76, IGK_CLF);
+            return $this->m_content ? chunk_split(base64_encode($this->m_content), 76, IGK_CLF) : null;
         $data="";
         if(file_exists($this->Link))
             $data=igk_io_read_allfile($this->Link);

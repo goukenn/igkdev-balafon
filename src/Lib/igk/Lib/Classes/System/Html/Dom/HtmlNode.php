@@ -173,6 +173,26 @@ class HtmlNode extends HtmlItemBase
     use AccessibilityTrait;
 
     /**
+     * create and add node or return null
+     * @param string $tagname_selector 
+     * @param mixed $index_or_args 
+     * @return mixed|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public function n(string $tagname_selector, $index_or_args = null){
+        if ($this->getCanAddChilds()){
+            $index_or_args = $index_or_args ?? []; 
+            $node = igk_create_node_arg($tagname_selector, ...$index_or_args);
+            if ($node){
+                $this->add($node);
+                return $node;
+            }
+        }
+    }
+    /**
      * check if tag node name is a native element
      * @param string $tagname 
      * @return bool 
@@ -551,5 +571,16 @@ class HtmlNode extends HtmlItemBase
             $nlist = explode('|', self::NODE_LIST);
         }
         return $nlist;
+    }
+    /**
+     * because of 'add' prefix forcing addding address 
+     * @param mixed $indexOrArgs 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     */
+    public function address($index_content_or_args=null){
+        $n = new HtmlNode("address");
+        HtmlItemBase::BindDefaultContent($n, $index_content_or_args); 
+        return $this->_add($n); 
     }
 }

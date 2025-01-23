@@ -90,6 +90,8 @@ class MailConfigController extends ConfigControllerBase
 
         $app = igk_app();
         $to = igk_getr("clTestMail");
+        $msbox = igk_create_node();
+
         if (empty($subject = igk_getr("subject")))
             $subject = __("Mail test: {0}", $app->getConfigs()->website_domain);
         if (empty($msg = igk_getr("msg")))
@@ -112,9 +114,12 @@ class MailConfigController extends ConfigControllerBase
                 igk_notifyctrl("mail:notifyResponse")->addError(__("msg.mailnotsend") . " " . $mailctrl->ErrorMsg . " " . igk_debuggerview()->getMessage());
             }
         } else {
-            $this->msbox->addError("error ... " . $app->getConfigs()->mail_contact);
+            $msbox->addError("error ... " . $app->getConfigs()->mail_contact);
         }
-        igk_set_env("replace_uri", igk_io_request_uri_path()); 
+        igk_environment()->replace_uri = igk_io_baseuri().igk_io_request_uri_path(); 
+
+    
+        $this->msbox = $msbox;
     }
     ///<summary></summary>
     public function mail_update()
@@ -174,6 +179,7 @@ class MailConfigController extends ConfigControllerBase
             } else {
                 $n->addMsgr("msg.mailregistered");
                 igk_resetr();
+            
                 igk_db_insert_if_not_exists($this, $tb_maillist, array("clEmail" => $c));
             }
         }
@@ -312,13 +318,7 @@ EOF;
             ],
 
 
-        ]);
-        // $frm->div()->addSLabelInput("server", "text", $cnf->mail_server, $attribs);
-        // $frm->div()->addSLabelInput("baseFrom", "text", $cnf->mail_admin, $attribs);
-        // $frm->div()->addSLabelInput("port", "text", $cnf->mail_port, $attribs);
-        // $o=$frm->div()->addSLabelInput("useauth", "checkbox", $cnf->mail_useauth, $attribs);
-        // $o->input["value"]="1";
-        // $o->setclass("dispib")->setStyle("width: 32px;");
+        ]); 
 
         $secure_div = $frm->div()->setClass('section');
         $secure_div->div()->fields([
@@ -326,7 +326,7 @@ EOF;
                 'type' => 'checkbox',
                 'value' => '1',
                 'checked' => $cnf->mail_useauth,
-                'attribs' => array_merge($attribs,  ["class" => "fitw-a igk-form-control form-control dispb width-auto"]),
+                'attribs' => array_merge($attribs,  ["class" => "fitw-a dispb width-auto"]),
                 'label_text' => __('mail.Useauth')
             ],
             'port' => [
@@ -382,11 +382,12 @@ EOF;
         $frm["class"] = "+send-mail-form";
         $fs = $frm->add("fieldset");
         $fs["style"] = "padding: 15px; margin-left:-15px; margin-right: -15px; margin-bottom: 10px; border-bottom:none;";
+        // build form 
         $fs->add("legend")->setContent(__("Test send mail"));
         $frm->host(function ($f) {
             $dv = $f->div();
-            $dv->label()->Content = __("From");
-            $dv->addInput("from", "text", igk_configs()->mail_contact)->setClass("igk-form-control")->setAttribute("disabled", "true");
+            // $dv->label()->Content = __("From");
+            // $dv->addInput("from", "text", igk_configs()->mail_contact)->setClass("igk-form-control");//->setAttribute("disabled", "true");
             $f->div()->addSLabelInput("clTestMail", "text", igk_configs()->mail_testmail);
             $g = $f->div()->addSLabelInput("subject", "text", "");
             $g->input->setAttribute("placeholder", __("Subject"));
@@ -398,7 +399,7 @@ EOF;
             $dv->add("label")->Content = "&nbsp;";
             $dv->actionbar()->setClass("dispib")->addBtn("btn_testmail", __("Send"));
         });
-        if ($rp = igk_get_env("replace_uri")) {
+        if ($rp = igk_environment()->replace_uri) {
             $c->addObData(function () use ($rp) {
                 igk_ajx_replace_uri($rp);
             });

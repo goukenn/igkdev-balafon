@@ -47,7 +47,7 @@ class MakeFactoryCommand extends AppExecCommand
         Logger::info("make factory class ... " . $controller);
         $author = $this->getAuthor($command);
 
-        $ctrl = $ctrl ?? igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = $ctrl ?? self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl) {
             Logger::danger("controller $controller not found");
             return false;

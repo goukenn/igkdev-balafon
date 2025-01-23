@@ -359,11 +359,14 @@ if (!function_exists("igk_array_replace_key")) {
     ///<summary>function </summary>
     /**
      * function __desc__
+     * @return 
      */
     function igk_array_replace_key(array &$tab, $oldkey, $newkey, $value)
     {
         $keys = array_keys($tab);
-        $pos = array_search($oldkey, $keys);
+        if (false === ($pos = array_search($oldkey, $keys))){
+            return false;
+        }
         $keys[$pos] = $newkey;
         $vtabcl = array_slice($tab, 0, $pos);
         $vtabcl[] = $value;

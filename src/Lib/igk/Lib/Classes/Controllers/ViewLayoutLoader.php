@@ -99,6 +99,18 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         return $this->m_params ?? $this->m_params = igk_createobj();
     }
     /**
+     * check that layout is single view 
+     * @param string $file 
+     * @return bool
+     */
+    public function getLayoutIsSingleView(string $file){
+        $ctrl = $this->getController();
+        if ($param = $ctrl->layoutParam){
+            return $param->viewSingleView;
+        }
+        return false;
+    }
+    /**
      * include view file 
      * @param string $file 
      * @param null|array $args 
@@ -114,7 +126,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
         $response = null;
         $ctrl =  $this->controller;  
         $this->controller->setExtraArgs(["layout"=>$this]);
-        $v_main = $this->isMainLayout($file); 
+        $v_main = $this->isMainLayout($file) || $this->getLayoutIsSingleView($file); 
         $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view;
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
         

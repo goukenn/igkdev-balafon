@@ -1,4 +1,4 @@
-"use strict;";
+'use strict';
 (function(){
     //clone target and copy it to parent 
     igk.winui.initClassControl("igk-winui-clone-target", function(){

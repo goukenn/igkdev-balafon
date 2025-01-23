@@ -49,7 +49,7 @@ class ViewCompilerCommand extends AppExecCommand
         }
         $cache = property_exists($command->options, "--cache");
 
-        $ctrl = (is_null($ctrl) ? null : igk_getctrl($ctrl, false)) ?? SysDbController::ctrl();
+        $ctrl = (is_null($ctrl) ? null : self::GetController($ctrl, false)) ?? SysDbController::ctrl();
 
         $ctrl::register_autoload();
         $compiler = new ViewCompiler;

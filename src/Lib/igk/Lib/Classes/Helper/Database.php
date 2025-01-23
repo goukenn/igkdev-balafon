@@ -34,6 +34,9 @@ use function igk_resources_gets;
  */
 class Database
 {
+    // + | init data field constants 
+    const InsertExtraFieldsMethod = 'InsertExtraFields';
+
     static $sm_shared_info;
 
 
@@ -182,10 +185,10 @@ class Database
             // + | init data : 
             $recursive = false;
             if (isset($cl::$RecursiveInit)){
+                // | recursive initialize to load model recursivily
                 $recursive = igk_getv(get_class_vars($cl), 'RecursiveInit');
             } 
-            InitDataAnnotation::InitData($controller, $recursive); 
-            
+            InitDataAnnotation::InitData($controller, $recursive);  
             $call && $cl::Init($controller);
             return true;
         }

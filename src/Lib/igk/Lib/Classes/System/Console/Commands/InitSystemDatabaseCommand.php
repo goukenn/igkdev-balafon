@@ -23,6 +23,7 @@ class InitSystemDatabaseCommand extends AppExecCommand
 {
     var $command = "--dbsys:initdb";
     var $desc = 'init core system db';
+	var $category="sys:db";
 
     var $options = [
         '--force'=>'flag: force database initialisation model',

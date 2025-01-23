@@ -53,7 +53,7 @@ if (!$controller->getUseDataSchema()) {
         $v_gcl =  \IGK\Database\DbInitManager::class;
         if (!(($cl = $controller->resolveClass(EntryClassResolution::DbInitManager)) && class_exists($cl, false)
             && is_subclass_of($cl, $v_gcl))) {
-            $cl = $v_gcl; // \IGK\Database\DbInitManager::class;
+            $cl = $v_gcl;  
         }
         if ($cl) {
             (new $cl($controller))->init($controller);

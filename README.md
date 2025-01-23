@@ -75,5 +75,9 @@ passing parameters to layout
     + OPS update css dynamic file from controller
 
 
+- __module_refs
+
+just append to inject by class name definition 
+
 @ C.A.D BONDJE DOUE
 

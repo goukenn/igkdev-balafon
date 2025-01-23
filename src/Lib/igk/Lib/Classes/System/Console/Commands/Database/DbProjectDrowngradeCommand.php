@@ -21,7 +21,7 @@ class DbProjectDrowngradeCommand extends AppExecCommand{
 	var $command='--db:downgrade';
 	var $desc='downgrade project database';
 	/* var $options=[]; */
-	/* var $category; */
+	var $category = 'sys:db';
 	var $usage = 'controller [options]';
 	public function exec($command, ?string $controller=null) {
 		// get controller schema

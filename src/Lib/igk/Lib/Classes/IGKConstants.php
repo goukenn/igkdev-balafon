@@ -43,6 +43,7 @@ final class IGKConstants{
      * project configuration file
      */
     const PROJECT_CONF_FILE = 'balafon.config.json';
+    const MODULE_CONF_FILE = 'balafon.module.json';
 
     //+ | for project entry namespace definition
 
@@ -52,6 +53,11 @@ final class IGKConstants{
     // + to avoid inteliphense warning
     const NS_MACROS_CLASS = EntryClassResolution::DbMacros; 
     const DB_INIT_MANAGER = \IGK\Database\DbInitManager::class;
+
+
+
+    const DEFAULT_THEME_STYLE = 'default.pcss';
+    
     /**
      * get the core version 
      * @return string 

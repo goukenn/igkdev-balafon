@@ -591,7 +591,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * get current table column info info
-     * @return ?array key|columninfo 
+     * @return ?array<string, \IGK\Database\DbColumnInfo> 
      * @throws IGKException 
      */
     public function getTableColumnInfo(): ?array
@@ -1037,7 +1037,15 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     public function __isset($name)
     {
-        return isset($this->raw->$name);
+        if (isset($this->raw->$name)){
+            return true;
+        }
+
+        if ($prefix = $this->tablePrefix()){
+            $pname = DbUtility::TreatColumnName($name, $prefix);
+            return isset($this->raw->{$pname});
+        } 
+        return false;
     }
     /**
      * check if column exists in raw definition

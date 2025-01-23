@@ -113,8 +113,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     {
 
         $this->_ = [
-            self::MEDIA_ID =>
-            $this->getId()
+            self::MEDIA_ID => $this->getId()
         ];
         foreach ([
             self::DEFAULT_THEME => "def",
@@ -276,6 +275,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     private function setFlag($n, $v)
     {
         $this->_[$n] = $v;
+        return $this;
+    }
+    public function loadDef(array $def){
+        foreach($def as $k=>$v){
+            $this[$k]=$v;
+        }
         return $this;
     }
 }

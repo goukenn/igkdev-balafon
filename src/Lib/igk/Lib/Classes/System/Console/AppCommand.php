@@ -249,7 +249,7 @@ abstract class AppCommand {
                 if(preg_match("/\[.+\]/", $s)){
                     $cl = App::GRAY;
                 }
-                $oc.=":".App::Gets($cl,  array_shift($p));
+                $oc.=":".App::Gets($cl,  $s);
             }
 
             Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 

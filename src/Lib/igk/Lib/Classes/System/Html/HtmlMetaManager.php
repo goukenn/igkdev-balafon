@@ -105,11 +105,12 @@ final class HtmlMetaManager extends IGKObject{
             "name"=>"viewport",
             self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
         );
-
-        $this->m_metas[self::META_LASTUPDATE]=array(
-            "name"=>"last-updated",
-            self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
-        );
+        // + | last-updated page 
+        /// TODO: last-updated checked
+        // $this->m_metas[self::META_LASTUPDATE]=array(
+        //     "name"=>"last-updated",
+        //     self::ATTR_CONTENT=> null
+        // );
     }
     ///<summary>add or set metaname</summary>
     ///<param name="name"></param>

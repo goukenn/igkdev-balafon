@@ -841,7 +841,12 @@ final class HtmlReader extends IGKObject
         $pro_expr = "";
         $expr_attrib = false;
         $reader->m_selfClose = false; // detect that the attribute list is self closed
-
+        $fc_store_active = function(& $attribs, $v_n, $callback){
+            $attribs[$v_n] = true;
+            if ($callback) {
+                $callback($v_n, true);
+            }
+        };
 
         while (!$end && $reader->CanRead()) {
             $v_ch = $reader->m_text[$reader->m_offset];
@@ -983,12 +988,17 @@ final class HtmlReader extends IGKObject
                         if (is_numeric($v_ch) || !empty(trim($v_ch))) {
                             $v_n .= $v_ch;
                         } else {
-                            if (!empty($v_n)) {
-                                $attribs[$v_n] = true;
-                                if ($callback) {
-                                    $callback($v_n, true);
+                            if (!empty($v_n)) { // resolve attribute or activable attribute 
+                                // + | skip empty char 
+                                while(($reader->m_offset < $reader->m_length ) && !trim($v_ch)){
+                                    $reader->m_offset++;
+                                    $v_ch = $reader->m_text[$reader->m_offset];
                                 }
-                                $v_n = "";
+                                if ($v_ch!='='){
+                                    // + | store active attribute 
+                                    $fc_store_active($attribs, $v_n, $callback);
+                                    $v_n = '';
+                                } 
                             } else {
                                 $mode = 1;
                             }

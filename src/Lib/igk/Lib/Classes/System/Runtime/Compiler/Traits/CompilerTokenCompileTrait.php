@@ -18,9 +18,8 @@ trait CompilerTokenCompileTrait{
     var $options;
 
     public function compileSource(string $source): ?string
-    {
-        $this->parseToken($source);
-
+    { 
+        $this->parseToken($source); 
         return $this->mergeSourceCode();
     }
 

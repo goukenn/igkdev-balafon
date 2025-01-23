@@ -62,6 +62,9 @@ class HtmlRenderer
         self::InitRendererOption($o);
         return $o;
     }
+    /**
+     * 
+     */
     public static function InitRendererOption($o){
         $o->Cache = igk_sys_cache_require();
         if ($o->Cache) {
@@ -69,6 +72,17 @@ class HtmlRenderer
             $o->CacheUriLevel = explode("/", $o->CacheUri);
         }
     }
+    /**
+     * 
+     * @param mixed $o 
+     * @param mixed $options 
+     * @return mixed|void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GetValue($o, $options = null)
     {
         if ($o instanceof IHtmlGetValue) {
@@ -128,10 +142,13 @@ class HtmlRenderer
         $response->cache = !igk_environment()->no_cache && igk_configs()->allow_page_cache;
         $response->output();
     }
+    /**
+     * sanitize rendering option 
+     */
     public static function SanitizeOptions($options)
     {
-        if (!isset($options->__sanitize)) {
-            $options->__sanitize = 1;
+        if (!isset($options->sanitizeRendering)) {
+            $options->sanitizeRendering = 1;
         } else {
             return;
         }
@@ -173,6 +190,12 @@ class HtmlRenderer
         }
         return $s;
     }
+    /**
+     * update invoke method
+     * @param string $method 
+     * @param mixed $options 
+     * @return void 
+     */
     public static function UpdateInvoke(string $method, $options)
     {
         if (!isset($options->__invoke[$method])) {
@@ -212,7 +235,7 @@ class HtmlRenderer
         $s = "";
         $reflect = [];
         $ln = $options->LF;
-        $engine = igk_getv($options, "Engine"); 
+        $engine = $options->Engine; // igk_getv($options, "Engine");
         if ($options->header) {
             $s = self::_GetHeader($options->header);
             $options->header = null;
@@ -257,9 +280,12 @@ class HtmlRenderer
                 }
 
                 if ($engine) {
-                    $s .= $engine->render($i, $options);
-                    self::reduceDepth($options, 'engine');
-                    continue;
+                    $l = $engine->render($i, $options);
+                    if ($l){
+                        $s .= $l;
+                        self::reduceDepth($options, 'engine');
+                        continue;
+                    }
                 }
                 if ($options->Source !== $i) {
                     if (!isset($reflect[$cl = get_class($i)])) {
@@ -375,7 +401,7 @@ class HtmlRenderer
 
         if ($attribs) {
 
-            $g = $attribs["style"];
+            $v_old_style = $g = $attribs["style"];
             $cl = $attribs["class"];
             if (!empty($g)) {
                 $g = rtrim($g, ";") . "; ";
@@ -427,7 +453,7 @@ class HtmlRenderer
 
         $out = IGK_STR_EMPTY;
         igk_get_defined_ns($item, $out, $options);
-        if ($options && ($options->Context == "mail")) {
+        if ($options && ($options->Context == HtmlRenderingContext::Mail)) {
             self::MailThemeRendering($item, $attribs, $options);
         }
         if ($item->getHasAttributes()) {
@@ -472,8 +498,8 @@ class HtmlRenderer
         if (!igk_getv($options, 'PreserveAttribOrder')){
             if (!is_array($attrs)){
                 $attrs->sortKeys();
-               //  igk_dev_wln_e(__FILE__.":".__LINE__ , ' GetAttribute ::: not and array ', get_class($attrs));
-             
+
+                
             } else {
                 ksort($attrs);
             }

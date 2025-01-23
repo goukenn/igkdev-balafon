@@ -1,4 +1,4 @@
-"use strict;";
+'use strict';
 (function() {
     igk.winui.initClassControl("igk-cookie-warn", function() {
         var q = this;

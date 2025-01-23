@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookUserAssociations.php
-// @date: 20240922 19:45:49
+// @date: 20241109 07:41:07
 namespace IGK\Models;
 
 
@@ -46,6 +46,10 @@ class PhoneBookUserAssociations extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphb_usrphb_Id";
+	/**
+	*override display key
+	*/
+	protected $display = "rcphb_usrphb_UserGuid";
 	protected $unique_columns = array (
 	  0 => 
 	  array (

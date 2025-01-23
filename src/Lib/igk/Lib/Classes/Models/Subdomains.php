@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Subdomains.php
-// @date: 20240922 19:45:48
+// @date: 20241109 07:41:07
 namespace IGK\Models;
 
 
@@ -45,4 +45,8 @@ class Subdomains extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%subdomains";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

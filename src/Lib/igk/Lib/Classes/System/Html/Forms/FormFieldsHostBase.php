@@ -25,7 +25,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
      * @return array 
      * @throws IGKException 
      */
-    public function getFields(): array
+    public function getFields($context=null): array
     {
         //++ auto fields validation loading ... 
         $reflect = igk_sys_reflect_class(static::class);

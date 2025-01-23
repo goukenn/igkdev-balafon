@@ -50,6 +50,10 @@ abstract class DbCommandHelper
 
         return $tab;
     }
+    /**
+     * 
+     * @return array{-db_name: string, -db_user: string, -db_pwd: string, -db_server: string, -db_prefix: string, -db_driver: string, -db_port: string, -db_connexion_string: string} 
+     */
     public static function GetDbCommandsProperties()
     {
         return [
@@ -60,6 +64,7 @@ abstract class DbCommandHelper
             "-db_prefix" => "db_prefix",
             "-db_driver" => "db_driver",
             "-db_port" => "db_port",
+            "-db_charset"=>"db_charset",
             "-db_connexion_string" => "db_connexion_string",
         ];
     }
@@ -120,6 +125,12 @@ abstract class DbCommandHelper
                 ($env = getenv('IGK_MYSQL_DB_PWD'))
             ) {
                 $cnf->db_name = $env;
+            }
+            if (
+                !property_exists($command->options, '-db_charset') &&
+                ($env = getenv('IGK_MYSQL_DB_CHARSET'))
+            ) {
+                $cnf->db_charset = $env;
             }
         }
     }

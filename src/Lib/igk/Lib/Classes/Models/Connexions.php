@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connexions.php
-// @date: 20240922 19:45:49
+// @date: 20241109 07:41:07
 namespace IGK\Models;
 
 
@@ -46,4 +46,8 @@ class Connexions extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%connexions";
+	/**
+	*override display key
+	*/
+	protected $display = "clToken";
 }

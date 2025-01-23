@@ -14,9 +14,9 @@ use IGK\System\Console\AppExecCommand;
 */
 class RequestCurlCommand extends AppExecCommand{
 	var $command='--request:curl';
-	/* var $desc='desc'; */
+    var $desc='invoque with curl'; 
 	/* var $options=[]; */
-	/* var $category = ''; */
+    var $category = 'request'; 
 	var $usage = 'url'; 
 	public function exec($command, ?string $url=null) { 
 		empty($url) && igk_die('missing curl'); 

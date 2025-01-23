@@ -33,6 +33,13 @@ class DbQuerySelectColumnBuilder{
     public function addUnique($cl, $value){
         $this->m_tab[$cl] = $value;
     }
+    /**
+     * 
+     * @param mixed $index 
+     * @param mixed $cl 
+     * @param mixed $value 
+     * @return void 
+     */
     public function addUniqueColumn($index, $cl, $value ){
         if (!$index){
             $index = -1;

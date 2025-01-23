@@ -242,6 +242,8 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_sql;
     private $m_inTransaction = false;
 
+    public function queryColumnCharset(string $charset): string { return '';}
+
     public function allowTypeLength(string $type, ?int $length = null): bool { 
         return in_array($type, ['int','varchar']);
     }

@@ -304,7 +304,7 @@ EOF;
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 
 		$doc->addTempScript( __DIR__."/Scripts/igk.winui.horizontalScrollPane.js", ["v"=>IGK_VERSION])->activate('defer'); 
 		if (igk_environment()->isOPS()){ 
-			CssUtils::InjectStyleContent($doc, __DIR__."/Styles/default.pcss");	 
+			CssUtils::InjectStyleContent($doc, __DIR__."/Styles/".IGKConstants::DEFAULT_THEME_STYLE);	 
 		}
 	}
 }

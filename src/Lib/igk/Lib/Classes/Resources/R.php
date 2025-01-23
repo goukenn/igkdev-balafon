@@ -335,10 +335,7 @@ EOF;
     * @param mixed $ctrl
     * @param mixed $files the default value is null
     */
-    private static function LoadCtrlLang($ctrl, $files=null){
-
-
-        
+    public static function LoadCtrlLang($ctrl, $files=null){  
         if (!($ctrl instanceof BaseController)){
             return;
         }

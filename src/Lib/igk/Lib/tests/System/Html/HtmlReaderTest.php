@@ -255,4 +255,18 @@ igk_html_article_bind_content(
             $n->render()
         );
     }
+
+    public function test_load_activate_attribute_list(){
+        $src = 
+        implode("\n", ['<div sample',
+        '    = "44"',
+        '    X',
+        '    y>',
+        '    x</div>']);
+
+        $d = igk_create_node('p');
+$d->load($src);
+
+        $this->assertEquals('<p><div X="true" sample="44" y="true"> x</div></p>', $d->render());
+    }
 }

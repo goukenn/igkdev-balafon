@@ -496,23 +496,34 @@ class SchemaMigration
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 $cl = $item->column;
                 if (empty($cl)) {
-                    igk_dev_wln_e("column not defined");
-                    return;
+                    throw new \IGKException(" changeColumn migration [column] not defined");
                 }
                 if (empty($tb)) {
+                    throw new \IGKException(" changeColumn migration [table] not defined");
                     igk_dev_wln_e("table not defined ");
                     return;
                 }
-                $tabcl = &$tables[$tb]->columnInfo;
-                if (!isset($tabcl[$cl])) {
+                // full name check 
+                $v_tinf = $tables[$tb];
+                $v_prefix = $v_tinf->prefix;
+                $v_src_cl = $cl;
+                $tabcl = & $v_tinf->columnInfo;
+
+                if (!isset($tabcl[$cl]) && !isset($tabcl[$cl = $v_prefix.$cl])) {
                     igk_dev_wln_e("[schemap-migration] - change missing table column ", $cl);
                     return;
                 }
+                $v_real_cl = $cl;
                 $item->columnInfo = $tabcl[$cl];
-                foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
-                    $cl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
-                    igk_array_replace_key($tabcl, $item->column, $cl->clName, $cl);
-                }
+                $vv = igk_getv($c->getElementsByTagName(IGK_COLUMN_TAGNAME), 0);
+
+                // foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
+                    $v_ncl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
+                    if ($v_src_cl==$v_ncl->clName){
+                        $v_ncl->clName = $cl;
+                    }
+                    igk_array_replace_key($tabcl, $v_real_cl, $cl, $v_ncl);
+                // }
                 break;
             case DbSchemasConstants::OP_RENAME_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);

@@ -12,12 +12,14 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Resources\R;
 use IGK\System\Console\ServerFakerInput;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IHistoryEnvironmentProperty;
 use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
 use Spatie\PhpUnitWatcher\Screens\Phpunit;
 
 use function igk_getv as getv;
-
+ 
+require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
 
 ///<summary>use to manage Server Environment</summary>
 /**
@@ -40,7 +42,7 @@ use function igk_getv as getv;
  * @property bool $NoLogEval disable eval log - 
  * @property bool $NoConsoleLogger disable console logger - 
  */
-final class IGKEnvironment extends IGKEnvironmentConstants
+final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEnvironmentProperty
 {
     private static $sm_instance;
     private static $sm_states = [];
@@ -394,9 +396,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     ///<param name="var"></param>
     /**
      * 
-     * @param mixed $var
+     * @param string $var_name 
+     * @param mixed $default 
      */
-    public function &get($var, $default = null)
+    public function &get(string $var, $default = null)
     {
         $t = null;
         if (empty($var)) {

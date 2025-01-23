@@ -670,9 +670,10 @@ define('IGK_HTML_CLASS_NODE_FORMAT', "IGKHtml{0}Item");
 define('IGK_HTML_NODE_REGEX', "/^IGKHtml(?<name>(.)+)Item$/i");
 define('IGK_INIT_DB_METHOD', 'initDb');
 
+defined('IGK_PROJECT_CTRL_SUFFIX') || define('IGK_PROJECT_CTRL_SUFFIX', 'Controller');
 
 /**
- * configuration controller 
+ * configuration controller identification - to initialize
  */
 define('IGK_SYS_PAGE_CTRL', 'c_syspc');
 define('IGK_HUMAN_CTRL', 'c_sys_hc');

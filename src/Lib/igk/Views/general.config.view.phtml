@@ -12,20 +12,22 @@ use function igk_resources_gets as __;
  */
 
 $doc->Title=__("Global configurations");
-$doc->getTheme()->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
+$theme = $doc->getTheme();
+$theme->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
 if(file_exists($ftfile=IGK_LIB_DIR."/Default/R/Fonts/global.ttf")){
-    $doc->Theme->addFont("global", $ftfile);
+    $theme->addFont("global", $ftfile);
 }
 unset($ftfile);
 igk_google_addfont($doc, "Roboto");
 $t->clearChilds();
 $t["class"]="google-Roboto";
-$doc->head->addCssStyle("base", 0)->setAttribute("type", "text/css")->Content=<<<EOF
-@bg_color:transparent;
-body.igk-body{
-background-color:@bg_color;
-}
-EOF;
+// $doc->head->addCssStyle("base", 0)->setAttribute("type", "text/css")->Content=<<<EOF
+// @bg_color:transparent
+
+// body.igk-body{
+// background-color:@bg_color;
+// }
+// EOF;
 
 $bbox=$t->div();
 $bbox->setClass("overflow-y-a fith");
@@ -49,3 +51,4 @@ $r->addInput("btn.search", "submit")->setClass("dispn");
 $h=$bbox->div()->setId("vr")->setClass("overflow-y-a loc_l loc_b loc_r");
 $h->google_line_waiter();
 $h->addAJXUriLoader($ctrl->getUri("configure_search_ajx"));
+$h->div()->content = 'configure result.'.$ctrl->MainView;

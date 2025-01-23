@@ -34,6 +34,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
     private $m_errormsg;
     private $m_time;
     private static $sm_emptyResult;
+    /**
+     * db manager/driver of query 
+     * @var mixed 
+     */
     protected $m_dbManager;
     /**
      * in transaction

@@ -97,6 +97,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         }
         igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
             $fdir = igk_io_cacheddist_jsdir();
+            $dir = igk_getv($e->args, 'dir');
             $access = $fdir . "/.htaccess";
             if (!file_exists($access)) {
                 IO::CreateDir(dirname($access));
@@ -109,10 +110,11 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                     "</IfModule>"
                 )));
             }
-            $sdir = dirname($e->args["dir"]);
-            $core_res_regex = "/\.(json|xml|jpeg|png|svg)$/i";
-            if ($scripts = igk_environment()->get("ScriptFolder")) {
+            if ($dir && ($scripts = igk_environment()->get("ScriptFolder")))
+            {
+                $sdir = dirname($dir);
                 $lib_res = IGK_LIB_DIR . "/Scripts/";
+                $core_res_regex = "/\.(json|xml|jpeg|png|svg)$/i";
                 foreach ($scripts as $d) {
                     foreach (igk_io_getfiles($d, $core_res_regex) as $res) {
                         if (strpos($res, $lib_res) === 0) {

@@ -40,7 +40,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
             echo self::GenerateSiteMapIndex($indexes, $baseuri);
             return;
         }
-        if (!$ctrl  = igk_getctrl($controller, false)){
+        if (!$ctrl  = self::GetController($controller, false)){
             Logger::danger("controller not found");
             return -1;
         }

@@ -8,11 +8,14 @@
 namespace IGK\Tests\System\Html\Forms;
 
 use IGK\Helper\Activator;
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGK\System\Html\Forms\Validations\ConvertTypeValidator;
 use IGK\System\Html\Forms\Validations\ConvertTypeValidatorBase;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 use IGK\System\Html\Forms\Validations\FormValidation;
 use IGK\Tests\BaseTestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 class ValidationTest extends BaseTestCase
 {
@@ -246,12 +249,14 @@ class ValidationTest extends BaseTestCase
     public function test_file_validation(){
         $validation = new FormValidation();
         $validation->storage = false;
+        $r =  $validation->fields([
+            "x" => ["type" => "file", "required" => 1, "default" => null, "error" => "x not defined"]
+        ])->files(["x" => ["type"=>"text/octet-stream", "name"=>"myfile", "size"=>0, "default" => true]]);
+       $r = JSon::Encode($r, JSonEncodeOption::IgnoreEmpty());
 
         $this->assertEquals(
-            ["x"=>["name"=>"myfile", "size"=>0, "default" => true]],
-            $validation->fields([
-                "x" => ["type" => "file", "required" => 1, "default" => null, "error" => "x not defined"]
-            ])->files(["x" => ["name"=>"myfile", "size"=>0, "default" => true]]),
+'{"x":{"name":"myfile","type":"text/octet-stream","size":0}}',
+            $r,
             "test file validation "
         );  
     }

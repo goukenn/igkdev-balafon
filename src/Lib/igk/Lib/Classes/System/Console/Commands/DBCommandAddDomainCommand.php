@@ -40,7 +40,7 @@ class DBCommandAddDomainCommand extends AppExecCommand
             Logger::danger("controller is empty");
             return -2;
         }
-        if (!($ctrl = igk_getctrl($controller, false))) {
+        if (!($ctrl = self::GetController($controller, false))) {
             Logger::danger("controller not found");
             return -3;
         }

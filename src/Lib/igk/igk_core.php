@@ -24,6 +24,7 @@ use IGK\Server;
 
 use IGK\System\IArrayKeyExists;
 use IGK\System\IO\Path;
+use IGK\System\Number;
 use IGK\System\Regex\RegexConstant;
 
 use function igk_resources_gets  as __; 
@@ -377,7 +378,7 @@ function igk_getpv($array, $key, $default = null)
 
 
     //, $key, $n);
-    while ($array && (($q = array_shift($n)) || ($q === 0))) {
+    while ($array && (($q = array_shift($n)) || Number::IsZeroIndexNumber($q))) {
         $o = null;
         $ckey = $q;
         if (is_array($array) && isset($array[$q])) {
@@ -1259,6 +1260,9 @@ function igk_is_singlecore_app()
 function igk_hook($name, $args = array(), $options = null)
 {
     return IGKEvents::hook($name, $args, $options);
+}
+function igk_hook_clear($name){
+    IGKEvents::unreg_hook($name, null, true);
 }
 
 

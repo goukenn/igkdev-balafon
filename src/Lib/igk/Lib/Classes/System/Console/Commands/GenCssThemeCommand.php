@@ -33,7 +33,7 @@ class GenCssThemeCommand extends AppExecCommand{
     public function exec($command, $controller=null) {  
         $controller = $controller ?? SysDbController::ctrl();      
         is_null($controller) && igk_die("controller required");
-        if (!$ctrl  = igk_getctrl($controller, false)){
+        if (!$ctrl  = self::GetController($controller, false)){
             Logger::danger("controller not found");
             return -1;
         }

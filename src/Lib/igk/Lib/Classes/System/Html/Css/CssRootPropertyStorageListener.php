@@ -33,6 +33,7 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
      * @return string 
      */
     public function render(){
-        return sprintf(':root{%s}',igk_css_array_key_map_implode($this->m_roots)); 
+        return $this->m_roots ? 
+            sprintf(':root{%s}',igk_css_array_key_map_implode($this->m_roots)) : null; 
     }
 }

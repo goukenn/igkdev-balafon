@@ -52,9 +52,12 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
 // + | check for command and working directory  
 // + |
 (function (&$argv) {
+    require_once IGK_LIB_DIR.'/Lib/'.IGK_CLASSES_FOLDER.'/IGKConstants.php';
     // start by filtering
     $cwd = $_SERVER['PWD']; 
     $argv = array_filter(array_map(BalafonApplication::class. "::FilterArgs", $argv));
+    $proj_conf = '/'.IGKConstants::PROJECT_CONF_FILE;
+    $mod_conf = '/'.IGKConstants::MODULE_CONF_FILE;
     $_filter = false;
     if ($cwd != ($rcwd = getcwd())){
         $_SERVER['PWD'] = $rcwd;
@@ -62,8 +65,8 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
     } 
     foreach (
         [
-            "/balafon.config.json" => [BalafonApplication::class, 'InitProject'],
-            "/balafon.module.json" => [BalafonApplication::class, 'InitModule']
+            $proj_conf => [BalafonApplication::class, 'InitProject'],
+            $mod_conf => [BalafonApplication::class, 'InitModule']
         ] as $k => $callable
     ) {
         if (file_exists($cf = $_SERVER['PWD'] . $k)) {

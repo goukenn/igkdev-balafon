@@ -39,6 +39,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
 
     const MEDIA_KEY = "medias";
     const DOC_THEME_KEYSTORAGE = "theme-storage";
+    const INLINE_STYLE_KEY = "css://temp/rendering"; 
+    const GLOBAL_TYPE = 'global';
+    const TEMP_TYPE = 'temporary';
+
     private $m_document;
     private $m_root_ref;
 
@@ -222,6 +226,14 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $root['--'.$themeName.'-color-'.$color] = $value;
         
     }
+    /**
+     * clear root 
+     */
+    public function clearRoot(){
+        $root = & $this->getRootReference(); 
+        $root = [];
+        return $this;
+    }
     public function bindThemeColor(string $theme, ?array $colors){
         if (is_null($colors)){
             unset($this->m_bindThemeColor[$theme]);
@@ -286,7 +298,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     }
 
     use  ArrayAccessSelfTrait;
-    const INLINE_STYLE_KEY = "css://temp/rendering"; 
+  
     /**
      * parent of this theme
      * @var mixed
@@ -313,12 +325,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<param name="id"></param>
     ///<param name="type" default="global"></param>
     /**
-     * 
+     * referer to global type 
      * @param HtmlItemBase|null $document owner
      * @param string|id $id
      * @param string|false $type the default value is "global", if false the the is no need to initialize
      */
-    public function __construct(?HtmlItemBase $document=null, ?string $id=null, $type = "global")
+    public function __construct(?HtmlItemBase $document=null, ?string $id=null, $type = self::GLOBAL_TYPE)
     {
         $this->m_id = $id ?? igk_create_guid();
         $this->m_document = $document;
@@ -332,7 +344,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $c->m_istemp = true;
         return $c;
     }
-    public function getIsTemp()
+    /**
+     * 
+     */
+    public function getIsTemp():bool
     {
         return $this->m_istemp;
     }
@@ -342,10 +357,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
      * @exemple setColor(['indigo'=>'#323232'])  
      */
     public function setColors(array $color)
-    {
-        // if (is_string($color)) {
-        //     $color = explode('|', $color);
-        // }
+    { 
         $cl = &$this->getCl();
         $cl = array_unique(array_filter(array_merge($cl, $color)));
     }
@@ -931,7 +943,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         $doc = $doc ?? $this->m_document ?? igk_app()->getDoc();
         $v_parent = $parent ?? $this->parent;
         $this->m_themingResolv = false;
-
+        $v_opts = $this->m_options;
  
         $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
@@ -952,8 +964,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         
         if ($rtdef_root){
             ksort($rtdef_root);
-            if ($this->m_options?->rootListener){
-                $this->m_options->rootListener->store($rtdef_root);
+            if ($v_opts && $v_opts->rootListener){
+                $v_opts->rootListener->store($rtdef_root);
             }else{
                 $out.= sprintf(':root{%s}', igk_css_array_key_map_implode($rtdef_root));
             }
@@ -1532,5 +1544,14 @@ EOF;
     {    
         $this->setProperty($key, $value);
         return $this;
+    }
+
+    /**
+     * check for app is system theme
+     * @return bool
+     * @throws IGKException not initialize
+     */
+    public function isSystemTheme():bool{
+        return $this === igk_app()->getDoc()->getSysTheme();
     }
 }

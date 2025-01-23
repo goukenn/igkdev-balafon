@@ -43,7 +43,7 @@ final class IGKHtmlColorPickerItem extends HtmlNode
 ns_igk.readyinvoke('igk.winui.components.colorpicker.init');
 EOF;
 
-		include(dirname(__FILE__)."/Styles/default.pcss");
+		include(dirname(__FILE__)."/Styles/".IGKConstants::DEFAULT_THEME_STYLE);
 	}
 
 	public function initDemo($t){

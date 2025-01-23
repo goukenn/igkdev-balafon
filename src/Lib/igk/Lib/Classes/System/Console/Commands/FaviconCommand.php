@@ -42,7 +42,6 @@ class FaviconCommand extends AppExecCommand
 		if ($type=='png'){
 			$file = IGK_LIB_DIR . '/Data/R/svg/favicon.png';
 			echo 'data:image/png;base64,'.base64_encode(file_get_contents($file));
-			// echo file_get_contents($file);
 			return 0;
 		}
 		$file = IGK_LIB_DIR . '/Data/R/svg/favicon.svg';

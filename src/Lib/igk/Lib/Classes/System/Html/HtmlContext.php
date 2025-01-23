@@ -18,11 +18,7 @@ namespace IGK\System\Html;
  * represent rendering context constant;
  * @package IGK\System\Html
  */
-abstract class HtmlContext{
-    const Html="Html";
-    const XML="XML";
-    const AJX = "ajx";
-    const Mail = "mail";
+abstract class HtmlContext extends HtmlRenderingContext{ 
     /**
      * html tag that need to be closed with a closed tag
      */

@@ -43,4 +43,7 @@ abstract class EntryClassResolution{
 
     const ResponseHandler = 'ResponseHandler';
     const ActionBase = 'IGKActionBase';
+
+
+    const MailAttachement = '\IGK\System\Net\MailAttachement';
 }

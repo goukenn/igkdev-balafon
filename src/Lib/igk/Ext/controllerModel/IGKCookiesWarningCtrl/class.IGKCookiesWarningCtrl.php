@@ -8,15 +8,20 @@
 
 use IGK\Controllers\BaseController;
 
+/**
+ * controller use for cookie warning presentation.
+ * @package 
+ * @deprecated
+ */
 abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 	public function getCanAddChild(){return false;}
+	/**
+	 * warning initialize 
+	 */
 	protected function initComplete($context=null)
 	{
-		parent::initComplete($context);
-		igk_trace();
-		igk_exit();
-		igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
+		parent::initComplete($context); 
 		$clname = ".".strtolower($this->Name);
 		igk_css_regclass($clname, "{sys:posab,loct,fitw} overflow:hidden; min-height:32px; line-height:32px; text-align:center; vertical-align:middle; z-index:100; background-color:white;");
 		igk_css_regclass($clname." span","line-height:1; font-size:0.8em;  display:inline-block; vertical-align:middle; ");

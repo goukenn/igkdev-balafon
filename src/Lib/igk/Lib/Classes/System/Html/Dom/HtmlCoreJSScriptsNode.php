@@ -57,12 +57,13 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
         $bck_def = false;
         $bck_def = $options->Depth;
         $options->Depth = max(0, $options->Depth - 1);
+        $is_ops = igk_environment()->isOPS();
       
         $tabstop = HtmlRenderer::GetTabStop($options);
         $sb = new StringBuilder();
-        $script = self::GetCoreScriptContent($options, igk_environment()->isOPS());
+        $script = self::GetCoreScriptContent($options, $is_ops);
  
-        if (igk_environment()->isDev()) {
+        if (!$is_ops) {
             $sb->appendLine($tabstop."<!-- core scripts -->");
             $sb->appendLine($script);
             $sb->appendLine($tabstop."<!-- end:core scripts -->");  

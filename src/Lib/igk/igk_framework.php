@@ -30,6 +30,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/IToArray.php";
 require_once IGK_LIB_CLASSES_DIR . "/Server.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";  
 require_once IGK_LIB_CLASSES_DIR . "/System/Facades/Facade.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/Number.php";
 
 // $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
 // isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"]);

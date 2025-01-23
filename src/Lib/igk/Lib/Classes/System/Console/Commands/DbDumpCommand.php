@@ -44,7 +44,7 @@ class DbDumpCommand extends AppExecCommand{
     public function exec($command,  $ctrl=null, $file=null)
     {    
          
-        if (!$ctrl  || !($ctrl = igk_getctrl($ctrl))){
+        if (!$ctrl  || !($ctrl = self::GetController($ctrl))){
             Logger::danger("controller required");
             return -1;
         

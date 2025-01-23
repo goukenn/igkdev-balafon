@@ -19,7 +19,7 @@ margin:0;
 
 }
 .igk-mail-lnk-confirm{
-	{sys:dispb,fitw,nodecoration}
+	{sys:dispb,fitw,no-decoreation}
 	height:32px;
 	color:black;
 }

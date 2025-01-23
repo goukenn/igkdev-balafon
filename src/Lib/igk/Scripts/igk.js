@@ -15,18 +15,18 @@ Name:balafon.js
 // + | -------------------------------------------------------------------------------------
 // + | Core balafon.js definition
 // + | -------------------------------------------------------------------------------------
-(function(window) {
-    if ((typeof(window.igk) != 'undefined') && (window.igk.__REFID__)){
+(function (window) {
+    if ((typeof (window.igk) != 'undefined') && (window.igk.__REFID__)) {
         return;
     }
-    let _options = {debug:false};
+    let _options = { debug: false };
     let _sc = 0;
-    if (document.scripts && (_sc = document.scripts[document.scripts.length-1])){
+    if (document.scripts && (_sc = document.scripts[document.scripts.length - 1])) {
         var _location = _sc['src'];
-        if (_location && (new URL(_location)).pathname.endsWith('/igk.js')){
+        if (_location && (new URL(_location)).pathname.endsWith('/igk.js')) {
             _options.debug = true;
         }
-    } 
+    }
     // ----------------------------------------------------------------------------------------
     // defining namespace
     // ----------------------------------------------------------------------------------------
@@ -45,15 +45,15 @@ Name:balafon.js
     var sm_regEventContext = new Array();
     var m_attribs = {}; // attributes for declaring namespace type
     // class constant
-    var IGK_UNDEF = "undefined";
-    var IGK_FUNC = "function";
-    var IGK_CLASS = "class";
-    var IGK_OBJECT = "object"; 
+    const IGK_UNDEF = "undefined";
+    const IGK_FUNC = "function";
+    const IGK_CLASS = "class";
+    const IGK_OBJECT = "object";
     var __eventObjectManager = null;
-    var __libName = "BalafonJS";
-    var __version = "4.0.18.0705";
-    var __author = "C.A.D. BONDJE DOUE";
-    var __devscript = "igk.js";
+    const __libName = "BalafonJS";
+    const __version = "4.0.18.0705";
+    const __author = "C.A.D. BONDJE DOUE";
+    const __devscript = "igk.js";
     var __lang = [];
     var __initDocSetting = 0;
     var __scriptsEval = {};
@@ -95,12 +95,12 @@ Name:balafon.js
                 }
             }
         }
-        delete(__igk_settings["console"]);
+        delete (__igk_settings["console"]);
     };
-    if (typeof(window.console) == IGK_UNDEF) {
+    if (typeof (window.console) == IGK_UNDEF) {
         // alert("create console");
         window.console = {
-            error: function(m) {
+            error: function (m) {
                 __debug_z = __debug_z ? __debug_z : $igk("#debug-z").first();
                 if (__debug_z) {
                     __debug_z.add('div').addClass("igk-danger").setHtml(m);
@@ -114,9 +114,9 @@ Name:balafon.js
         };
         m_readyGlobalFunc.push(__init_console);
     }
-    if (typeof(console.debug) == IGK_UNDEF) {
+    if (typeof (console.debug) == IGK_UNDEF) {
         // alert("create debug");
-        console.debug = function(m) {
+        console.debug = function (m) {
             __debug_z = __debug_z ? __debug_z : $igk("#debug-z").first();
             if (__debug_z) {
                 __debug_z.add('div').addClass("igk-info").setHtml(m);
@@ -132,11 +132,11 @@ Name:balafon.js
             // }
         };
     }
-    (function() {
+    (function () {
         let c = window.navigator.userAgentData;
-        if (typeof(c) != IGK_UNDEF) {
+        if (typeof (c) != IGK_UNDEF) {
             __platform.osType = c.platform;
-            __platform.osAgent = c.brands.map(function(i) {
+            __platform.osAgent = c.brands.map(function (i) {
                 return i.brand + "/" + i.version + " ";
             }).join();
         } else {
@@ -193,15 +193,15 @@ Name:balafon.js
     igk_namespace.prototype = new igk_object();
 
     function igk_is_string(t) {
-        return typeof(t) == 'string';
+        return typeof (t) == 'string';
     };
 
     function igk_is_notdef(t) {
-        return typeof(t) == IGK_UNDEF;
+        return typeof (t) == IGK_UNDEF;
     };
 
     function igk_is_object(t) {
-        return typeof(t) == 'object';
+        return typeof (t) == 'object';
     };
     // register a component objet create by using tagname
     function igk_reg_tag_obj(n, p) {
@@ -237,7 +237,7 @@ Name:balafon.js
     };
 
     function igk_url(u) {
-        return new(function() {
+        return new (function () {
             this.uri = u;
         })();
     };
@@ -249,10 +249,10 @@ Name:balafon.js
     function igk_is_coers(uri) {
         var cu = window.URL || igk_url;
         var c = 0;
-        if (typeof(cu) == 'function') {
+        if (typeof (cu) == 'function') {
             c = new cu(uri);
         } else {
-            if (typeof(URL.createObjectURL) != 'function')
+            if (typeof (URL.createObjectURL) != 'function')
                 return -1;
             return 0;
         }
@@ -278,7 +278,7 @@ Name:balafon.js
         var _promise = new igk.system.Promise();
         // + detect coers uri
         if (igk_is_coers(uri)) {
-            igk.ajx.get(uri, null, function(xhr) {
+            igk.ajx.get(uri, null, function (xhr) {
                 if (this.isReady()) {
                     var _o = {
                         uri: uri,
@@ -291,11 +291,11 @@ Name:balafon.js
                 }
             });
             return _promise;
-        }; 
+        };
         if (/^file:\/\//.test(uri)) {
             // alert("loading from data file : "+uri);
             if (window.Fetch) {
-                Fetch(uri).then(function() {}).error(function() {});
+                Fetch(uri).then(function () { }).error(function () { });
             }
             /// Get from the file service 
             // setTimeout(function () {
@@ -323,7 +323,7 @@ Name:balafon.js
                 uri: uri,
                 "from": 'igk_io_getData',
             };
-            igk.ajx.get(uri, null, function(xhr) {
+            igk.ajx.get(uri, null, function (xhr) {
                 if (this.isReady()) {
                     _o.data = xhr.responseText;
                     // _o.data = _data;
@@ -353,7 +353,7 @@ Name:balafon.js
         } else
             ob.o.type = mimetype || "text/xml";
         ob.addClass("bdr-1");
-        ob.reg_event("load", function(evt) { 
+        ob.reg_event("load", function (evt) {
             var _o = {
                 uri: uri,
                 source: ob.o,
@@ -387,8 +387,8 @@ Name:balafon.js
                 }
             }
             _promise.resolve();
-            setTimeout(function() { ob.remove(); }, 100);
-        }).reg_event("error", function(evt) {
+            setTimeout(function () { ob.remove(); }, 100);
+        }).reg_event("error", function (evt) {
             ob.remove();
             var e = callback.error;
             if (__loaded || (igk.navigator.isFirefox() && igk.navigator.getFirefoxVersion() >= 50)
@@ -428,10 +428,10 @@ Name:balafon.js
         var q = {
             // selector: null,
             pattern: p,
-            getCount: function() {
+            getCount: function () {
                 return m_items.length;
             },
-            check: function(item, offset) {
+            check: function (item, offset) {
                 for (var i = offset; i < m_items.length; i++) {
                     var p = m_items[i];
                     switch (p[0]) {
@@ -453,7 +453,7 @@ Name:balafon.js
                 }
                 return !0;
             },
-            select: function(selector, item) { // select in expression
+            select: function (selector, item) { // select in expression
                 if (!item)
                     return null;
                 var pk = null;
@@ -489,7 +489,7 @@ Name:balafon.js
                             __select(pk);
                             continue;
                         case ' ': // select 
-                            while ((pk = pk.substring(1)) && (pk[0] == ' ')) {}
+                            while ((pk = pk.substring(1)) && (pk[0] == ' ')) { }
                             if (pk) {
                                 depth = !0;
                                 __select(pk);
@@ -603,7 +603,7 @@ Name:balafon.js
                         continue;
                     }
                     // /(([^: ]+)@){0,1}([^ ]+):([0-9]+):([0-9]+)/
-                    tdb[idx].replace(/([@ ]{0,1})([^ \(\)]+):([0-9]+):([0-9]+)/, function(x, b, u, l, c) {
+                    tdb[idx].replace(/([@ ]{0,1})([^ \(\)]+):([0-9]+):([0-9]+)/, function (x, b, u, l, c) {
                         var p = 0;
                         var _eval = 0;
                         var _cidx = -1;
@@ -723,7 +723,7 @@ Name:balafon.js
     };
 
     function igk_get_script_src() {
-        if (typeof(script_src_lnk) != IGK_UNDEF) {
+        if (typeof (script_src_lnk) != IGK_UNDEF) {
             return script_src_lnk;
         }
         var p = igk_getLastScript();
@@ -764,7 +764,7 @@ Name:balafon.js
             try {
                 var n = tab[i];
                 var txt = "<div class=\"dispb igk-bigger\">" + n + "=</div>";
-                if (typeof(item[n]) == IGK_FUNC) {
+                if (typeof (item[n]) == IGK_FUNC) {
                     func += "<li class=\"igk-col-lg-12-2\" >" + txt + "</li>";
                 } else
                     msg += "<li class=\"igk-col-lg-12-2\" >" + txt + "<pre class=\"dispb\" style='background-color:white;'>" + item[tab[i]] + "</pre>" + "</li>";
@@ -795,7 +795,7 @@ Name:balafon.js
         for (var i = 0; i < tab.length; i++) {
             try {
                 var n = tab[i];
-                if (typeof(item[n]) == IGK_FUNC) {
+                if (typeof (item[n]) == IGK_FUNC) {
                     func += "<li class=\"igk-col-lg-5-1\" >" + n + "</li>";
                 } else
                     msg += "<li class=\"igk-col-lg-5-1\" >" + n + "</li>";
@@ -872,11 +872,11 @@ Name:balafon.js
     }
 
     function igkJSError(msg) {
-        console.debug("igkJSError: " + typeof(this));
+        console.debug("igkJSError: " + typeof (this));
         this.name = "igkerror";
         this.message = msg;
         this.level = 1;
-        this.toString = function() { return this.message; };
+        this.toString = function () { return this.message; };
     }
 
     function __igksetAttribute(ns, n, v) {
@@ -906,53 +906,53 @@ Name:balafon.js
         var ps = "";
         var win = t;
         var _iswin = (t == window); // if not window adding property to object
-        if (typeof(win) == 'undefined') {
+        if (typeof (win) == 'undefined') {
             throw 'win is not defined';
         }
         var _fileSrc = (d && d.fileSrc) || igk_getCurrentScript().src;
         if ((_fileSrc == "") && (_iswin)) {
             _fileSrc = "@" + m_LibScript;
         }
-        this.build = function() {
+        this.build = function () {
             function __igksysNameSpace(n, ps) {
-                var m_type = new function() {
+                var m_type = new function () {
                     igk_appendProp(this, {
-                        getFullName: function() {
+                        getFullName: function () {
                             return n;
                         },
-                        toString: function() { return "class:igk:systemType"; }
+                        toString: function () { return "class:igk:systemType"; }
                     });
                 };
                 var tn = new igk_namespace();
                 var mps = ps;
                 var _hierarchie = {
-                    getParent: function() {
+                    getParent: function () {
                         if (mps)
                             return igk_get_namespace(mps);
                         return null;
                     }
                 };
-                igk_defineProperty(tn, "namespace", { get: function() { return n; }, set: function() { throw "not allowed"; } });
-                igk_defineProperty(tn, "type", { get: function() { return IGK_CLASS; } });
-                igk_defineProperty(tn, "fullname", { get: function() { return n; } });
-                igk_defineProperty(tn, "hierarchie", { get: function() { return _hierarchie; } });
+                igk_defineProperty(tn, "namespace", { get: function () { return n; }, set: function () { throw "not allowed"; } });
+                igk_defineProperty(tn, "type", { get: function () { return IGK_CLASS; } });
+                igk_defineProperty(tn, "fullname", { get: function () { return n; } });
+                igk_defineProperty(tn, "hierarchie", { get: function () { return _hierarchie; } });
                 igk_appendProp(tn, {
                     // namespace: n,
                     // type: IGK_CLASS,
                     // fullname: n,
                     // hierarchie:,
-                    getParent: function() {
+                    getParent: function () {
                         return this.hierarchie.getParent();
                     },
-                    getType: function() {
+                    getType: function () {
                         return m_type;
                     },
-                    toString: function() {
+                    toString: function () {
                         return "namespace[" + this.namespace + "]";
                     }
                 });
                 igk_defineProperty(tn, "__igk__", {
-                    get: function() {
+                    get: function () {
                         const p = {
                             "src": _fileSrc,
                             "attr": d,
@@ -970,7 +970,7 @@ Name:balafon.js
                 if (h > 0)
                     ns += ".";
                 ns += i;
-                (!(i in win) || (typeof(win[i]) == 'undefine') || b(win[i])) && (win[i] = __igksysNameSpace(ns, ps));
+                (!(i in win) || (typeof (win[i]) == 'undefine') || b(win[i])) && (win[i] = __igksysNameSpace(ns, ps));
                 win = win[i];
             }
             if (d) {
@@ -989,14 +989,14 @@ Name:balafon.js
     }
     // >@ create private namespace
     function createPNS(t, a, c, d, callback) {
-        if (!a || (typeof(a) != 'string'))
+        if (!a || (typeof (a) != 'string'))
             throw new igkJSError("[igk] - wrong argument: namespace " + a);
         var g = new igk_namespaceBuilder(t, a, c, d, callback);
         return g.build();
     }
     // convert string namespace to balafonJS object
     function igk_get_namespace(n, prop) {
-        if (typeof(n) != 'string')
+        if (typeof (n) != 'string')
             return null;
         var t = n.split(".");
         var def = prop || window;
@@ -1016,14 +1016,14 @@ Name:balafon.js
         }
     }
     // register console if not defined
-    if (typeof(console) == IGK_UNDEF) {
+    if (typeof (console) == IGK_UNDEF) {
         createNS("window", {
-            console: new(function() {
+            console: new (function () {
                 igk_appendProp(this, {
-                    write: function(msg) {
+                    write: function (msg) {
                         alert(msg);
                     },
-                    debug: function(m) {
+                    debug: function (m) {
                         // alert(m);
                     }
                 });
@@ -1031,9 +1031,9 @@ Name:balafon.js
         });
     }
     // register getComputedStyle if not defined
-    if (typeof(getComputedStyle) == IGK_UNDEF) {
+    if (typeof (getComputedStyle) == IGK_UNDEF) {
         createNS("window", {
-            getComputedStyle: function(item, selector) {
+            getComputedStyle: function (item, selector) {
                 if (!item) return null;
 
                 function __getstylev(i, p) {
@@ -1158,7 +1158,7 @@ Name:balafon.js
     function igk_getUnit(value) {
         var t = /([0-9]+(\.[0-9]+){0,1})(px|em|pt|cm|mm|rem|%)*$/.exec(value);
         if (t) {
-            if (typeof(t[3]) == igk.constants.undef) {
+            if (typeof (t[3]) == igk.constants.undef) {
                 return "px";
             }
             return t[3];
@@ -1299,7 +1299,7 @@ Name:balafon.js
         if (!target)
             return;
         try {
-            var s = typeof(Object.defineProperty);
+            var s = typeof (Object.defineProperty);
             if (s == 'function') {
                 // define property
                 var prop = {};
@@ -1318,7 +1318,7 @@ Name:balafon.js
                     property.nopropfunc.apply(target);
                 } else {
                     var t = {
-                        toString: function() { return "data"; }
+                        toString: function () { return "data"; }
                     };
                     target[name] = t; // function(){} property.get;
                 }
@@ -1329,7 +1329,7 @@ Name:balafon.js
             } else {
                 // work arround
                 var t = {
-                    toString: function() {
+                    toString: function () {
                         return property.get();
                     }
                 };
@@ -1340,7 +1340,7 @@ Name:balafon.js
     };
     // define numeration on object property with only get value
     function igk_defineGetValue(s) {
-        return function() {
+        return function () {
             return s
         };
     }
@@ -1359,25 +1359,34 @@ Name:balafon.js
                 igk_defineProperty(o, i, { get: igk_defineGetValue(t[i]) });
             }
         }
-        o.addEnum = function(i, v) {
+        o.name = function (rawValue) {
+            let tvalue = o.getValues();
+            for (let i in tvalue) {
+                if (tvalue[i] == rawValue) {
+                    return i;
+                }
+            }
+            return undefined;
+        };
+        o.addEnum = function (i, v) {
             t[i] = v;
         };
-        o.isEnum = function() {
+        o.isEnum = function () {
             return 1;
         };
-        o.isValuePresent = function(i) {
+        o.isValuePresent = function (i) {
             return i in t;
         };
-        o.getValues = function() {
+        o.getValues = function () {
             return t;
         };
-        o.getComboboxEnumValue = function() {
+        o.getComboboxEnumValue = function () {
             var t = this.getValues();
             var g = [];
             for (var i in t) {
                 g.push({ name: i, val: i });
             }
-            g.sort(function(a, b) {
+            g.sort(function (a, b) {
                 return a.name.localeCompare(b.name);
             });
             return g;
@@ -1386,7 +1395,7 @@ Name:balafon.js
     }
     // append property
     function igk_appendProp(t, e, override) {
-        override = typeof(override) == IGK_UNDEF ? !0 : override;
+        override = typeof (override) == IGK_UNDEF ? !0 : override;
         if (t && e) {
             for (var j in e) {
                 try {
@@ -1411,11 +1420,11 @@ Name:balafon.js
                 "if you want to register event please use 'igk_winui_reg_event instead'");
         }
         var item = null;
-        if (typeof(name) == "string") {
+        if (typeof (name) == "string") {
             // name or expression
             var e = $igk(document).select(name);
             return e;
-        } else if (typeof(name) == "igk.selector") {
+        } else if (typeof (name) == "igk.selector") {
             item = name;
         } else {
             item = name;
@@ -1494,7 +1503,7 @@ Name:balafon.js
             if (/^on/.test(s)) {
                 try {
                     msg += s + "=" + i[s] + space;
-                } catch (Exception) {}
+                } catch (Exception) { }
             }
         }
         if (element == null) {
@@ -1509,7 +1518,7 @@ Name:balafon.js
         for (var s in i) {
             try {
                 msg += s + "=" + i[s] + "<br />\n";
-            } catch (Exception) {}
+            } catch (Exception) { }
         }
         return msg;
     }
@@ -1517,8 +1526,8 @@ Name:balafon.js
     // utility function preload igk-img tag
     // 
     function igk_preload_image(node, async) {
-        if ((node == null) || (typeof(node.getElementsByTagName) == igk.constants.undef))
-            return; 
+        if ((node == null) || (typeof (node.getElementsByTagName) == igk.constants.undef))
+            return;
         function __preload() {
             var v_timg = node.getElementsByTagName("igk-img");
             if (!v_timg || (v_timg.length <= 0)) {
@@ -1535,18 +1544,18 @@ Name:balafon.js
             // create a preload obj
             var v_preload = {
                 // load image on document init
-                init: function(img, source) {
+                init: function (img, source) {
                     // source.parentNode.replaceChild(img,source);
-                    $igk(img).reg_event("load", function(evt) {
+                    $igk(img).reg_event("load", function (evt) {
                         if (source.parentNode)
                             source.parentNode.replaceChild(img, source);
                     });
                 },
-                replace: function(img, source) {
+                replace: function (img, source) {
                     if (source.parentNode)
                         source.parentNode.replaceChild(img, source);
                 },
-                copyAttribute: function(source, dest) {
+                copyAttribute: function (source, dest) {
                     for (var x = 0; x < source.attributes.length; x++) {
                         var j = source.attributes[x];
                         if (j.name == "src") continue;
@@ -1559,13 +1568,13 @@ Name:balafon.js
                 }
             };
             var i = 0, v_host = null;
-            for (; i < v_tab.length; i++) { 
+            for (; i < v_tab.length; i++) {
                 let w = v_tab[i].getAttribute('width');
                 let h = v_tab[i].getAttribute('height');
-                if (w || h){
+                if (w || h) {
                     $igk(v_tab[i]).setCss({
-                        width:w?w+'px':undefined,
-                        height:h?h+'px':undefined
+                        width: w ? w + 'px' : undefined,
+                        height: h ? h + 'px' : undefined
                     });
                     console.log('define size for place holder.', w, h);
                 }
@@ -1577,7 +1586,7 @@ Name:balafon.js
                     v_cimg.source = v_tab[i];
                     v_cimg.src = src;
                     v_host.o.appendChild(v_cimg);
-                    if (/^data:/.test(src)) { 
+                    if (/^data:/.test(src)) {
                         v_preload.copyAttribute(v_tab[i], v_cimg);
                         v_preload.replace(v_host.o, v_tab[i]);
                         v_host.addClass('loaded');
@@ -1598,14 +1607,14 @@ Name:balafon.js
                 }
             }
         }
-        __preload(); 
+        __preload();
     }
 
     /**
      * 
      */
     function igk_preload_anim_image(node) { // preload igk framework image element
-        if ((node == null) || (typeof(node.getElementsByTagName) == igk.constants.undef))
+        if ((node == null) || (typeof (node.getElementsByTagName) == igk.constants.undef))
             return;
         var v_timg = node.getElementsByTagName("igk-anim-img");
         if (v_timg.length <= 0)
@@ -1619,7 +1628,7 @@ Name:balafon.js
         var v_div = null;
         var v_cimg = null;
         var v_preload = {
-            replace: function(img, source) {
+            replace: function (img, source) {
                 try {
                     if (source.parentNode) {
                         source.parentNode.replaceChild(img.o, source);
@@ -1628,7 +1637,7 @@ Name:balafon.js
                     igk.winui.notify.showError("Error : " + ex + " " + img);
                 }
             },
-            copyAttribute: function(source, dest) {
+            copyAttribute: function (source, dest) {
                 for (var x = 0; x < source.attributes.length; x++) {
                     var j = source.attributes[x];
                     if (j.name == "src") continue;
@@ -1662,9 +1671,9 @@ Name:balafon.js
                 });
                 v_preload.copyAttribute(v_tab[i], v_cimg);
                 v_preload.replace(v_cimg, v_tab[i]);
-                $igk(v_cimg).reg_event("mouseover", function() { $igk(this).addClass("btnover").setCss({ backgroundPosition: -this.clientWidth + "px" }); });
-                $igk(v_cimg).reg_event("mouseleave", function() { $igk(this).rmClass("btnover").setCss({ backgroundPosition: "0px 0px" }); });
-                $igk(v_cimg).reg_event("mousedown", function() { $igk(this).addClass("btndown").setCss({ backgroundPosition: -(2 * this.clientWidth) + "px 0px" }); });
+                $igk(v_cimg).reg_event("mouseover", function () { $igk(this).addClass("btnover").setCss({ backgroundPosition: -this.clientWidth + "px" }); });
+                $igk(v_cimg).reg_event("mouseleave", function () { $igk(this).rmClass("btnover").setCss({ backgroundPosition: "0px 0px" }); });
+                $igk(v_cimg).reg_event("mousedown", function () { $igk(this).addClass("btndown").setCss({ backgroundPosition: -(2 * this.clientWidth) + "px 0px" }); });
             }
         }
     }
@@ -1733,8 +1742,8 @@ Name:balafon.js
     }
 
     function igk_isdefine(i, d) { // use with declared properties. if try to check that a variable is define use typeof(var) instead
-        if (typeof(i) == IGK_UNDEF) {
-            if (typeof(d) == IGK_UNDEF) {
+        if (typeof (i) == IGK_UNDEF) {
+            if (typeof (d) == IGK_UNDEF) {
                 return !1;
             }
             return d;
@@ -1795,7 +1804,7 @@ Name:balafon.js
     }
     // get parent by tag name
     function igk_getParentByTagName(e, tagname) {
-        if ((e == null) || (typeof(tagname) != "string"))
+        if ((e == null) || (typeof (tagname) != "string"))
             return null;
         if (e.parentNode == null) return null;
         if ((e.parentNode.tagName != null) && (e.parentNode.tagName.toLowerCase() == tagname.toLowerCase()))
@@ -1838,6 +1847,9 @@ Name:balafon.js
         return igk_getParentById(p, id);
     }
     // retrieve first child by tagname
+    /**
+     * get the first real node child
+     */
     function igk_getfirstchild(e, tag) {
         var c = [];
         var t = e.childNodes;
@@ -1888,7 +1900,7 @@ Name:balafon.js
         if (item == null) return !1;
         var t = proplist.split(' ');
         for (var s in t) {
-            if (typeof(item[t[s]]) !== IGK_UNDEF)
+            if (typeof (item[t[s]]) !== IGK_UNDEF)
                 return !0;
         }
         return !1;
@@ -1898,7 +1910,7 @@ Name:balafon.js
         if (item == null) return !1;
         var t = proplist.split(' ');
         for (var s in t) {
-            if (typeof(item[t[s]]) === IGK_UNDEF)
+            if (typeof (item[t[s]]) === IGK_UNDEF)
                 return !1;
         }
         return !0;
@@ -1934,23 +1946,23 @@ Name:balafon.js
     }
 
     function is_observe() {
-        return typeof(window.ResizeObserver) != 'undefined';
+        return typeof (window.ResizeObserver) != 'undefined';
     };
 
     function igk_init_powered(n) {
         // get parent node
         // var node = n || window.igk.getParentScriptByTagName('div');
         var node = $igk(n || window.igk.getParentScriptByTagName('div'));
-        igk.ready(function() {
+        igk.ready(function () {
             var q = $igk(".igk-powered-viewer").last();
-            if (!q){
+            if (!q) {
                 q = $igk('body').first().qselect('[igk-type=controller]');
                 let h = q.getHeight();
-                let p = q.getoffsetParent();  
+                let p = q.getoffsetParent();
                 q = null;
-            }  
-           
-            
+            }
+
+
             if (q) {
                 // is_observe() && (new ResizeObserver(_resizing)).observe(q.o);
                 // node.setCss({
@@ -2002,10 +2014,10 @@ Name:balafon.js
                 $igk(node).animate(animprop, animinfo);
             }
             var v_self = this;
-            v_self.toString = function() { return "igk_powered_manager"; };
+            v_self.toString = function () { return "igk_powered_manager"; };
             var m_eventContext = igk.winui.RegEventContext(this, $igk(this));
             if (m_eventContext) {
-                m_eventContext.reg_window("resize", function() { update_size(); });
+                m_eventContext.reg_window("resize", function () { update_size(); });
             };
             update_size();
 
@@ -2050,7 +2062,7 @@ Name:balafon.js
     };
     // init
     m_scriptTag = igk_getLastScript();
-    let fc_false = function() { return !1 };
+    let fc_false = function () { return !1 };
     // --------------------------------------------------
     // expose global function 
     // --------------------------------------------------
@@ -2060,7 +2072,7 @@ Name:balafon.js
     createNS("igk.ctrl", {}, { desc: "manage controller" });
     createNS("igk.system", {}, { desc: "global system igk js namespace" });
     createNS("igk.type", {}, { desc: "global igk js namespace" });
-    createNS("igk.JSON", (function() {
+    createNS("igk.JSON", (function () {
         var source = null;
         return {
             /**
@@ -2073,7 +2085,7 @@ Name:balafon.js
              * set the source
              * @param {*} src 
              */
-            setSource: function(src) {
+            setSource: function (src) {
                 source = src;
             },
             /**
@@ -2081,12 +2093,12 @@ Name:balafon.js
              * @param {*} js 
              * @param {*} target 
              */
-            parse: function(js, target) {
+            parse: function (js, target) {
                 var q = null;
                 source = target;
                 try {
-                    if ((js != null) && (typeof(js) == "string"))
-                        q = (new Function('source', 'return ' + js + '')).apply(0,[source]);
+                    if ((js != null) && (typeof (js) == "string"))
+                        q = (new Function('source', 'return ' + js + '')).apply(0, [source]);
                 } catch (ex) {
                     q = js;
                 }
@@ -2099,22 +2111,22 @@ Name:balafon.js
              * convert json object to string
              * @param {*} jsonobj 
              */
-            convertToString: function(jsonobj) {
-                if (typeof(JSON) != 'undefined' && JSON.stringify) {
+            convertToString: function (jsonobj) {
+                if (typeof (JSON) != 'undefined' && JSON.stringify) {
                     return JSON.stringify(jsonobj);
                 }
                 var r = "{";
                 var k = 0;
                 var prop = [];
                 for (var i in jsonobj) {
-                    if ((typeof(jsonobj[i]) == IGK_FUNC) ||
-                        (typeof(jsonobj[i]) == IGK_UNDEF)
+                    if ((typeof (jsonobj[i]) == IGK_FUNC) ||
+                        (typeof (jsonobj[i]) == IGK_UNDEF)
                     ) {
                         continue;
                     }
                     if (k > 0)
                         r += ",";
-                    if (typeof(jsonobj[i]) == "object") {
+                    if (typeof (jsonobj[i]) == "object") {
                         // treat data
                         prop.push(jsonobj[i]);
                         r += "\"" + i + "\": ";
@@ -2128,8 +2140,8 @@ Name:balafon.js
         };
     })(), { desc: "global namespace . JSON helper" });
     createNS("igk.navigator", {
-        isIE: function() { return false },
-        getLang: function() {
+        isIE: function () { return false },
+        getLang: function () {
             return 'fr';
         },
         isChrome: fc_false,
@@ -2149,7 +2161,7 @@ Name:balafon.js
         getDefinitionValue: igk_get_html_item_definition_value,
     }, { desc: "igk.html namespace. to manage dom element" });
     createNS("igk.html5", {}, { desc: "igk.html5 namespace" });
-    igk.log = function(msg, tag, t) {
+    igk.log = function (msg, tag, t) {
         if (!igk.DEBUG) {
             return;
         }
@@ -2170,7 +2182,7 @@ Name:balafon.js
         };
         tag = tag || 'BJS';
         if (fc) {
-            if (typeof(msg) == "string")
+            if (typeof (msg) == "string")
                 fc("[" + tag + "] - " + msg);
             else {
                 fc("[" + tag + "]");
@@ -2178,21 +2190,21 @@ Name:balafon.js
             }
         }
     };
-    igk.isObject = function (i){
-        return i && typeof(i) == 'object';
+    igk.isObject = function (i) {
+        return i && typeof (i) == 'object';
     };
     createNS("igk.log", {
-        debug: function(m) {
+        debug: function (m) {
             if (igk.DEBUG) {
                 igk.log(m);
             }
         },
-        error: function(m) {
+        error: function (m) {
             if (igk.DEBUG) {
                 console.error(m);
             }
         },
-        write: function(m) {
+        write: function (m) {
             /**
              * write log in html gobloa 
              */
@@ -2206,22 +2218,27 @@ Name:balafon.js
     // export navite io functions
     createNS("igk.system.io", {
         getdir: igk_getdir,
-        getlocationdir: function(inf) {
-            if (inf && ('location' in inf))
-                return igk_getdir(inf.location);
+        getlocationdir: function (inf) {
+            if (inf) {
+                let location = inf;
+                if (typeof (inf) == 'object') {
+                    ({ location } = inf);
+                }
+                return igk_getdir(location);
+            }
             return null;
         },
         getData: igk_io_getData,
-        getExtension: function(n) {
+        getExtension: function (n) {
             return n.split('.').pop();
         },
-        getLocation: function() {
+        getLocation: function () {
             return document.location.href;
         },
-        baseUri: function() {
+        baseUri: function () {
             var uri = "" + window.location;
             var t = "";
-            uri.replace(/^([^#;\?]+)/g, function(m, c, s) {
+            uri.replace(/^([^#;\?]+)/g, function (m, c, s) {
                 t = m;
             });
             while ((t.length > 0) && (t[t.length - 1] == "/")) {
@@ -2229,7 +2246,7 @@ Name:balafon.js
             }
             return t;
         },
-        baseUriDomain: function() {
+        baseUriDomain: function () {
             var port = "";
             var loc = window.location;
             var is_secure = (/^https/.test(loc.protocol));
@@ -2238,7 +2255,7 @@ Name:balafon.js
             }
             return loc.protocol + "//" + loc.hostname + port;
         },
-        rootUri: function() { // get uri location setup base base tag
+        rootUri: function () { // get uri location setup base base tag
             var t = document.head.getElementsByTagName("base");
             if (t.length == 0) {
                 var s = igk.getDocumentSetting();
@@ -2250,7 +2267,7 @@ Name:balafon.js
                 return document.baseURI || t[0].href;
             }
         },
-        URL: function(uri) {
+        URL: function (uri) {
             //construct a url object
             var _NS = igk.system.io;
             var src = uri;
@@ -2309,34 +2326,34 @@ Name:balafon.js
                 }
             }
             igk.appendProperties(this, {
-                toString: function() {
+                toString: function () {
                     return _opts.uri;
                 }
             });
-            igk.defineProperty(this, "relative", { get: function() { return _opts.relative; } });
-            igk.defineProperty(this, "isLocal", { get: function() { return _opts.isLocal; } });
-            igk.defineProperty(this, "uri", { get: function() { return _opts.uri; } });
-            igk.defineProperty(this, "request", { get: function() { return _opts.request; } });
+            igk.defineProperty(this, "relative", { get: function () { return _opts.relative; } });
+            igk.defineProperty(this, "isLocal", { get: function () { return _opts.isLocal; } });
+            igk.defineProperty(this, "uri", { get: function () { return _opts.uri; } });
+            igk.defineProperty(this, "request", { get: function () { return _opts.request; } });
         },
-        loadLangRes: function(uri, lang, callback, error) {
+        loadLangRes: function (uri, lang, callback, error) {
             var e = null;
             var _getRes = 0;
             var _chtml = igk.dom.html();
             var _lang = lang || (_chtml ? _chtml.getAttribute("lang") : null) || igk.navigator.getLang();
             var _loc = igk.system.io.getdir(uri);
             var _uri = igk.resources.getLangLocation(_loc, _lang);
-        
+
             // console.debug("loadLangRes"); 
             // error.apply(this);
             // return null;
             var _promise = {
-                then: function(callback) {
+                then: function (callback) {
                     this.__then = callback;
                 }
             };
             try {
                 if (igk.navigator.isSafari())
-                    throw ('safari not handle async - await');                
+                    throw ('safari not handle async - await');
                 (new Function(["_getRes = async function (){",
                     "var o=0; ",
                     "try{",
@@ -2350,9 +2367,9 @@ Name:balafon.js
                     "};"
                 ].join(" "))).apply();
             } catch (ex) {
-                _getRes = function() {
+                _getRes = function () {
                     if (!document.body) {
-                        igk.ajx.get(_uri, null, function(xhr) {
+                        igk.ajx.get(_uri, null, function (xhr) {
                             if (this.isReady()) {
                                 if (e.__then__) {
                                     e.__then__(JSON.parse(xhr.responseText));
@@ -2360,7 +2377,7 @@ Name:balafon.js
                             }
                         });
                     } else {
-                        igk.system.io.getData(_uri, function(o) {
+                        igk.system.io.getData(_uri, function (o) {
                             if (e.__then__ && o.data && o.data.length > 0)
                                 e.__then__(JSON.parse(o.data));
                             else if (e.__catch__)
@@ -2368,11 +2385,11 @@ Name:balafon.js
                         }, "application/json");
                     }
                     var e = {
-                        "then": function(t) {
+                        "then": function (t) {
                             this.__then__ = t;
                             return this;
                         },
-                        "catch": function(t) {
+                        "catch": function (t) {
                             this.__catch__ = t;
                             return this;
                         }
@@ -2380,15 +2397,15 @@ Name:balafon.js
                     return e;
                 }
             }
-            if (typeof(_getRes) != 'undefined') {
-                _getRes().then(function(o) {
+            if (typeof (_getRes) == 'function') {
+                _getRes().then(function (o) {
                     callback(o);
                     // var _res = o;
                     if (_promise.__then) {
                         _promise.__then();
                     }
                     // igk.winui.events.raise(_sysnode, "resLoaded");
-                }).catch(function(e) {
+                }).catch(function (e) {
                     console.debug(e);
                     console.error("[BJS] - there is an error : " + e +
                         "\nUri:" + _uri);
@@ -2416,8 +2433,8 @@ Name:balafon.js
             return _loc + '/Lang/res.' + t + '.json';
         },
     });
-    if (typeof(igk.resources.lang) == 'undefined') {
-        igk.resources.lang = function(n) {
+    if (typeof (igk.resources.lang) == 'undefined') {
+        igk.resources.lang = function (n) {
             if (n in igk.resources.lang) {
                 return igk.resources.lang[n];
             }
@@ -2431,63 +2448,63 @@ Name:balafon.js
         });
     }
     createNS("igk.system.Db", {
-        getIndexedDb: function() {
+        getIndexedDb: function () {
             return window.indexDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
         }
     });
 
     igk_defineProperty(_ENVIRONMENT, "DEV", {
-        get:function(){
+        get: function () {
             return DEBUG;
         }
     });
 
-    (function() {
-        igk.system.Promise = function() {
+    (function () {
+        igk.system.Promise = function () {
             var _t = [];
             var _e = [];
             this._t = _t;
             this._e = _e;
         };
         igk_appendProp(igk.system.Promise.prototype, {
-            resolve: function(args) {
+            resolve: function (args) {
                 for (var j = 0; j < this._t.length; j++) {
                     this._t[j].apply(this, args);
                 }
             },
-            reject: function(args) {
+            reject: function (args) {
                 for (var j = 0; j < this._e.length; j++) {
                     this._e[j].apply(this, args);
                 }
             },
-            then: function(callback) {
+            then: function (callback) {
                 this._t.push(callback);
                 return this;
             },
-            error: function(callback) {
+            error: function (callback) {
                 this._e.push(callback);
                 return this;
             }
         });
     })();
     // new function added for promise call usage
-    igk.system.promiseCall = function() {
+    igk.system.promiseCall = function () {
         var _p = {};
         return {
-            then: function(func) {
+            then: function (func) {
                 igk.appendChain(_p, 'then', func);
                 return this;
             },
-            error: function(func) {
+            error: function (func) {
                 igk.appendChain(_p, 'error', func);
                 return this;
             },
-            resolve: function() {
+            resolve: function () {
                 if ('then' in _p) {
                     _p.then();
                 }
             },
-            failed: function() {
+            failed: function () {
                 if ('error' in _p) {
                     _p.error();
                 }
@@ -2499,54 +2516,54 @@ Name:balafon.js
         /**
          * @param {string} s 
          */
-        getQueryOptions: function(s) { //retrive query options from string
+        getQueryOptions: function (s) { //retrive query options from string
             var e = {};
-            s.replace(/(;)?([^;]+)=([^;]+)/ig, function(m, t, n, v) {
+            s.replace(/(;)?([^;]+)=([^;]+)/ig, function (m, t, n, v) {
                 e[n] = v.trim();
             });
             return e;
         },
-        getDocumentSetting: function() {
+        getDocumentSetting: function () {
             return __initDocSetting;
         },
-        isInteger: function(n) {
+        isInteger: function (n) {
             var f = Number.isInteger || _is_integer;
             return f(n);
         },
-        invokeAsync: function(callback, args) {
+        invokeAsync: function (callback, args) {
             // custom async data call
-            return setTimeout(function() {
+            return setTimeout(function () {
                 callback.call(null, args);
             }, 1);
         },
-        isFunc: function(n) {
+        isFunc: function (n) {
             return n == 'function';
         },
-        configure: function(o) { // load configuration setting
+        configure: function (o) { // load configuration setting
             for (var i in o) {
-                if (typeof(o[i]) == 'function') continue;
+                if (typeof (o[i]) == 'function') continue;
                 __igk_settings[i] = o[i];
             }
         },
-        regex: function() { // get global regex list
+        regex: function () { // get global regex list
             return _rgx;
         },
-        getSettings: function() { return __igk_settings; },
+        getSettings: function () { return __igk_settings; },
         object: igk_object,
         is_notdef: igk_is_notdef,
         is_string: igk_is_string,
         is_object: igk_is_object,
         reg_tag_component: igk_reg_tag_obj,
         regEventContextByOwner: igk_getRegEventContextByOwner,
-        die: function(msg, code) {
+        die: function (msg, code) {
             throw code + " : " + msg;
         },
-        geti: function(t) {
+        geti: function (t) {
             if (t) return 1;
             return 0;
         },
         stop_event: igk_stop_event,
-        bool_parse: function(t) {
+        bool_parse: function (t) {
             if (igk_is_string(t)) {
                 var s = t.toLowerCase();
                 if ((s.length == 0) || (s == "false") || (s == "0"))
@@ -2560,9 +2577,9 @@ Name:balafon.js
     }, { desc: "global igk.object base class namespace" });
 
     igk_defineProperty(_NS, 'context', {
-        get(){
+        get() {
             return _context_;
-        },set(v){
+        }, set(v) {
             _context_ = v;
         }
     });
@@ -2575,12 +2592,12 @@ Name:balafon.js
         svg: "http://www.w3.org/2000/svg"
     });
     igk_defineProperty(_NS, "igk", {
-        get: function() {
+        get: function () {
             return "https://schemas.igkdev.com/balafonjs"
         }
     });
     createNS("igk.convert", {
-        toHtmlColor: function(i) {
+        toHtmlColor: function (i) {
             var c = igk.system.colorFromString(i);
             if (c)
                 return c.toHtml();
@@ -2590,7 +2607,7 @@ Name:balafon.js
     var __jsload = {};
     var __jstoload = {};
     createNS("igk.js", {
-        load: function(s) {
+        load: function (s) {
             if (s in __jsload)
                 return;
             var p = document.createElement("script");
@@ -2598,16 +2615,16 @@ Name:balafon.js
             p.type = "text/javascript";
             p.language = "javascript";
             p.async = true;
-            p.onerror = function() {
+            p.onerror = function () {
                 console.error("failed to load " + s);
                 $igk(p).remove();
-                delete(__jsload[s]);
+                delete (__jsload[s]);
                 e = 1;
             };
-            p.onload = function(e) {
+            p.onload = function (e) {
                 console.debug("laod complete " + p.readyState);
             };
-            igk.ajx.get(s, null, function(xhr) {
+            igk.ajx.get(s, null, function (xhr) {
                 if (this.isReady()) {
                     p.innerHTML = xhr.responseText;
                 }
@@ -2616,7 +2633,7 @@ Name:balafon.js
             // 		igk.dom.body().prepend(p);
             __jsload[s] = 1;
         },
-        require: function(scs, sync, host) {
+        require: function (scs, sync, host) {
             // @scs: scripts source array
             // @async: synchronize call :  true|false default is false. 
             var syncdata = 0;
@@ -2644,12 +2661,12 @@ Name:balafon.js
                 var sc = document.createElement("script");
                 sc.src = u;
                 def.e[u] = i;
-                sc.onload = (function(i, u) {
-                    return function() {
+                sc.onload = (function (i, u) {
+                    return function () {
                         syncdata.loaded++;
                         syncdata.files = igk.isDefine(syncdata.files, []);
                         syncdata.files.push(u);
-                        delete(def.e[u]);
+                        delete (def.e[u]);
                         i++;
                         if (i > scs.length - 1) {
                             __invoke();
@@ -2659,7 +2676,7 @@ Name:balafon.js
                         $igk(sc).remove();
                     };
                 })(i, u);
-                sc.onerror = function() {
+                sc.onerror = function () {
                     console.error("/!\\ failed:" + u);
                 };
                 document.head.appendChild(sc);
@@ -2675,7 +2692,7 @@ Name:balafon.js
             };
             var _scripts = [];
             var o = {
-                promise: function(callback, h) {
+                promise: function (callback, h) {
                     // @ success - callback
                     // @h the host parameter
                     prop.callback = callback;
@@ -2686,11 +2703,11 @@ Name:balafon.js
                     }
                     return this;
                 },
-                fail: function(callback) {
+                fail: function (callback) {
                     prop.failed = callback;
                     return this;
                 },
-                load: function(callback) {
+                load: function (callback) {
                     //called when a script is loaded 
                     prop.load = callback;
                     return this;
@@ -2698,7 +2715,7 @@ Name:balafon.js
             };
 
             function _loadinScript(u, type, index) {
-                return function(xhr) {
+                return function (xhr) {
                     if (this.isReady()) {
                         __jsload[u] = xhr.responseText;
                         try {
@@ -2709,7 +2726,7 @@ Name:balafon.js
                             if (prop.load) {
                                 prop.load(s);
                             }
-                            delete(def.e[u]);
+                            delete (def.e[u]);
                             def.c--;
                         } catch (ex) {
                             console.error("error loading : " + ex);
@@ -2738,19 +2755,19 @@ Name:balafon.js
                 sc.src = u;
                 def.e[u] = i;
                 def.c++;
-                sc.onload = (function(i, u) {
-                    return function() {
+                sc.onload = (function (i, u) {
+                    return function () {
                         if (prop.load) {
                             prop.load(sc);
                         }
-                        delete(def.e[u]);
+                        delete (def.e[u]);
                         def.c--;
                         if (def.c == 0) {
                             __invoke();
                         }
                     };
                 })(i, u);
-                sc.onerror = function() {
+                sc.onerror = function () {
                     console.error("/!\\ failed: " + u);
                     _fail();
                 };
@@ -2761,7 +2778,7 @@ Name:balafon.js
                 syncdata = {
                     loaded: 0,
                     skipped: 0,
-                    status: typeof(null)
+                    status: typeof (null)
                 };
                 for (var i = 0; i < scs.length; i++) {
                     if (!__jstoload[scs[i]])
@@ -2774,7 +2791,7 @@ Name:balafon.js
                 for (var i = 0; i < scs.length; i++) {
                     u = scs[i];
                     _type = null;
-                    if (typeof(u) == 'object') {
+                    if (typeof (u) == 'object') {
                         _type = u.type;
                         u = u.uri;
                     }
@@ -2793,24 +2810,24 @@ Name:balafon.js
             // promise object
             return o;
         },
-        getLoadedScript: function() {
+        getLoadedScript: function () {
             return __jsload;
         },
-        loadInlineScript: function() {
+        loadInlineScript: function () {
             var d = igk.getParentScript();
             var sc = $igk(igk.getCurrentScript());
             if (!d)
                 return;
             var l = [];
-            $igk(d).select('script').each_all(function() {
+            $igk(d).select('script').each_all(function () {
                 var s = this.o.src;
                 var r = this.getAttribute("reloaded");
                 if (s && (!(s in __jsload) || r)) {
                     if (r) {
                         l.push(s);
                         l[s] = null;
-                        delete(__jsload[s]);
-                        delete(__jstoload[s]);
+                        delete (__jsload[s]);
+                        delete (__jstoload[s]);
                     } else {
                         l.push(s);
                     }
@@ -2818,7 +2835,7 @@ Name:balafon.js
                 this.remove();
             });
             if (l.length > 0)
-                igk.js.require(l, true, d).promise(function() {
+                igk.js.require(l, true, d).promise(function () {
                     sc.remove();
                 });
         }
@@ -2826,7 +2843,7 @@ Name:balafon.js
     //store inline script to eval
     igk.scripts = {};
     igk.scripts["@injectlocation"] = "((typeof(getLocalScriptUri) !='undefined')?" + "getLocalScriptUri():" + "igk.system.io.getlocationdir(igk.getScriptLocation()))";
-    (function() {
+    (function () {
         // store global event
         createNS("igk.evts", {
             stop: igk.stop_event
@@ -2838,12 +2855,12 @@ Name:balafon.js
         ];
     })();
     createNS("igk.reflection", {
-        getFunctions: function(item) { // get an array of functions
+        getFunctions: function (item) { // get an array of functions
             if (!item)
                 return null;
             var r = [];
             for (var i in item) {
-                if (typeof(item[i]) == IGK_FUNC) {
+                if (typeof (item[i]) == IGK_FUNC) {
                     r.push(i);
                 }
             }
@@ -2860,18 +2877,18 @@ Name:balafon.js
         // }
         // return t;
         // },
-        getProperties: function(e) {
+        getProperties: function (e) {
             var t = [];
-            if (typeof(e) != IGK_UNDEF) {
-                if (typeof(e) == 'string') {
+            if (typeof (e) != IGK_UNDEF) {
+                if (typeof (e) == 'string') {
                     for (var i in e) {
-                        if (!igk.isInteger(i) && (typeof(e[i]) != "function")) {
+                        if (!igk.isInteger(i) && (typeof (e[i]) != "function")) {
                             t.push(i);
                         }
                     }
                 } else {
                     for (var i in e) {
-                        if (typeof(e[i]) != "function") {
+                        if (typeof (e[i]) != "function") {
                             t.push(i);
                         }
                     }
@@ -2884,8 +2901,8 @@ Name:balafon.js
         animate: igk_animate,
         cancelAnimate: igk_animate_cancel
     });
-    __nsigk = igk; 
-    window.$igk = function(n) {
+    __nsigk = igk;
+    window.$igk = function (n) {
         var m = __igk(n);
         if (m == null) {
             console.error('found - [' + n + ']');
@@ -2916,13 +2933,13 @@ Name:balafon.js
          * @returns 
          */
         isFunction(n) {
-            return typeof(n) == 'function';
+            return typeof (n) == 'function';
         },
         isObject(n) {
-            return typeof(n) == 'object';
+            return typeof (n) == 'object';
         },
         isString(n) {
-            return typeof(n) == 'string';
+            return typeof (n) == 'string';
         },
         /**
          * extends global node properties
@@ -2933,18 +2950,18 @@ Name:balafon.js
         }
     });
     // tiny mce require matchMedia. provide a match media
-    if (typeof(matchMedia) == 'undefined') {
-        window.matchMedia = function() {
+    if (typeof (matchMedia) == 'undefined') {
+        window.matchMedia = function () {
             return 0;
         };
     }
 
     // loader 
     igk_appendProp(igk.object.prototype, {
-        toString: function() {
+        toString: function () {
             return "igk.object";
         },
-        getType: function() {
+        getType: function () {
             return igk.object;
         }
     });
@@ -2958,12 +2975,12 @@ Name:balafon.js
     }
 
     function isUndef(d) {
-        return (d == "unknown") || (d == IGK_UNDEF) || (typeof(d) == IGK_UNDEF);
+        return (d == "unknown") || (d == IGK_UNDEF) || (typeof (d) == IGK_UNDEF);
     }
-    function isNumber(d){
-        return !isUndef(d) && typeof(d)=='number';
+    function isNumber(d) {
+        return !isUndef(d) && typeof (d) == 'number';
     }
-    var _FM_ = "BalafonJS";
+    const _FM_ = "BalafonJS";
 
     function __igk_nodeProperty(element) {
         var m_o = element;
@@ -2975,15 +2992,15 @@ Name:balafon.js
         var m_data = {};
         // define readonly property
         igk_defineProperty(this, "o", {
-            get: function() { return m_o; },
-            nopropfunc: function() { this.o = m_o; }
+            get: function () { return m_o; },
+            nopropfunc: function () { this.o = m_o; }
         });
         igk_defineProperty(this, "t", {
-            get: function() { return $igk(m_o.parentNode); },
-            nopropfunc: function() { this.t = $igk(m_o.parentNode); }
+            get: function () { return $igk(m_o.parentNode); },
+            nopropfunc: function () { this.t = $igk(m_o.parentNode); }
         });
         igk_defineProperty(this, "timeOutList", {
-            get: function() { return m_timeOutList; }
+            get: function () { return m_timeOutList; }
         });
         // used to store extra data
         // this.o=element;
@@ -2991,39 +3008,39 @@ Name:balafon.js
         createPNS(this, "fn", { // function utility
             o: element,
             igk: m_self,
-            vscrollWidth: function() { return this.o.offsetWidth - this.o.clientWidth; },
-            hscrollHeight: function() { return this.o.offsetHeight - this.o.clientHeight; },
-            hasVScrollBar: function() { // has vertical scrollbar
+            vscrollWidth: function () { return this.o.offsetWidth - this.o.clientWidth; },
+            hscrollHeight: function () { return this.o.offsetHeight - this.o.clientHeight; },
+            hasVScrollBar: function () { // has vertical scrollbar
                 var h = this.igk.getHeight();
                 // return (this.o.clientHeight > 0) && (this.o.scrollHeight > h);
                 return (this.o.clientHeight > 0) && (this.o.offsetHeight > h);
             },
-            hasHScrollBar: function() { // has horizontal scrollbar
+            hasHScrollBar: function () { // has horizontal scrollbar
                 var w = this.igk.getWidth();
                 // return (this.o.clientWidth > 0) && (this.o.scrollWidth > w);
                 return (this.o.clientWidth > 0) && (this.o.offsetWidth > w);
             }
         });
         createPNS(this, "data", {
-            contains: function(k) {
-                if (typeof(m_data[k]) != IGK_UNDEF)
+            contains: function (k) {
+                if (typeof (m_data[k]) != IGK_UNDEF)
                     return !0;
                 return !1;
             },
-            add: function(k, v) {
+            add: function (k, v) {
                 m_data[k] = v;
             },
-            remove: function(k) {
-                delete(m_data[k]);
+            remove: function (k) {
+                delete (m_data[k]);
             },
-            getData: function() {
+            getData: function () {
                 return m_data;
             }
         });
-        this.getUnregfunc = function() {
+        this.getUnregfunc = function () {
             return m_unregfuncs;
         };
-        this.getConf = function() {
+        this.getConf = function () {
             return m_config;
         };
         // 
@@ -3040,7 +3057,7 @@ Name:balafon.js
                 // -------------------------------
                 // EVENTS
                 // -------------------------------
-                raiseEventCreated: function(n) {
+                raiseEventCreated: function (n) {
                     var e = this.o[m_bE];
                     if (e) {
                         e.name = n;
@@ -3049,13 +3066,13 @@ Name:balafon.js
                         console.error("no event to raise : " + n);
                     }
                 },
-                postRegisterEvent: function(n, func) {
+                postRegisterEvent: function (n, func) {
                     if (!n || !func)
                         return;
                     if (n == "igk-eventcreated") {
                         this.reg_event(n, func);
                     } else {
-                        if (typeof(this.o[n]) == IGK_UNDEF) {
+                        if (typeof (this.o[n]) == IGK_UNDEF) {
                             var _b = this;
                             this.reg_event(m_bE, function _postevent(evt) {
                                 if (evt.name == n) {
@@ -3080,34 +3097,34 @@ Name:balafon.js
 
     function __extensionPrototype(tag) {
         this.ctag = tag;
-        igk_defineProperty(this, "tagName", { get: function() { return this.ctag } });
-        igk_defineProperty(this, "IsExtension", { get: function() { return true; } });
+        igk_defineProperty(this, "tagName", { get: function () { return this.ctag } });
+        igk_defineProperty(this, "IsExtension", { get: function () { return true; } });
         this.__proto__ = __igk_nodeProperty.prototype;
     }
     var __prop = __igk_nodeProperty.prototype;
     igk_appendProp(__prop, {
-        setConfig: function(k, v) {
+        setConfig: function (k, v) {
             this.getConf()[k] = v;
         },
-        getConfig: function(k) {
+        getConfig: function (k) {
             var m_config = this.getConf();
             return k in m_config ? m_config[k] : null;
         },
-        getConfigKeys: function() {
-                var t = [];
-                var m_config = this.getConf();
-                for (var i in m_config) {
-                    t.push(i);
-                }
-                return t;
+        getConfigKeys: function () {
+            var t = [];
+            var m_config = this.getConf();
+            for (var i in m_config) {
+                t.push(i);
             }
-            // -------------------------------
-            // -------------- SET PROPERTIES			
-            // -------------------------------
-            ,
-        toString: function() { return "igk_node_properties[" + this.o + "]"; },
-        get: function(s, d) {
-            if (typeof(d) == 'undefined') {
+            return t;
+        }
+        // -------------------------------
+        // -------------- SET PROPERTIES			
+        // -------------------------------
+        ,
+        toString: function () { return "igk_node_properties[" + this.o + "]"; },
+        get: function (s, d) {
+            if (typeof (d) == 'undefined') {
                 d = 0;
             }
             var _t = s.split('/');
@@ -3122,7 +3139,7 @@ Name:balafon.js
             }
             return _q[_t[i]] ? _q[_t[i]] : d;
         },
-        unregister: function() {
+        unregister: function () {
             // unregister functions. delete mecanism
             // unregevents 
             var m_unregfuncs = this.getUnregfunc();
@@ -3131,56 +3148,56 @@ Name:balafon.js
                 m_unregfuncs[i].apply(this);
             }
         },
-        getParentCtrl: function(func) {
+        getParentCtrl: function (func) {
             return $igk(igk.ctrl.getParentController(this.o));
         },
-        registerUnregCallback: function(func) { // register function that will be call on unreg mecanism
+        registerUnregCallback: function (func) { // register function that will be call on unreg mecanism
             if (func) {
                 m_unregfuncs.push(func);
             }
         },
         // -------------- DOM FUNCTIONS
-        add: function(t, properties) {
-            if (typeof(t) == "string") {
+        add: function (t, properties) {
+            if (typeof (t) == "string") {
                 var c = $igk(this.appendNChild(t));
                 c.setProperties(properties);
                 return c;
             }
             return this.appendChild(t);
         },
-        addText: function(s) {
+        addText: function (s) {
             var i = document.createTextNode(s);
             return this.add(i);
         },
-        addComment: function(txt) {
+        addComment: function (txt) {
             var i = document.createComment(txt);
             return this.add(i);
         },
-        addXml: function(tag) {
+        addXml: function (tag) {
             var _export = $igk(document.createElementNS(igk.namespace.XML, tag));
             this.add(_export);
             return _export;
         },
-        addNode: function(tag) {
+        addNode: function (tag) {
             var _export = document.createElementNS(this.o.namespaceURI, tag);
             this.o.appendChild(_export);
             return _export;
         },
-        isOnDocument: function() { // get if this node is present to document
+        isOnDocument: function () { // get if this node is present to document
             var q = 0;
             if (this.isSr())
                 return 0;
             q = this;
-            let b  = igk.dom.body().o;
+            let b = igk.dom.body().o;
             while ((q = q.o.parentNode) && (q != b)) {
                 // 
                 q = $igk(q);
             }
             return q == b;
         },
-        prepend: function(n) { // prepend child
+        prepend: function (n) { // prepend child
             var i = null;
-            if (typeof(n) == "string")
+            if (typeof (n) == "string")
                 i = igk.createNode(n);
             else i = $igk(n);
             if (i == null)
@@ -3193,7 +3210,7 @@ Name:balafon.js
             }
             return i;
         },
-        replace: function(i, by) {
+        replace: function (i, by) {
             if (!this.isSr()) {
                 this.o.replaceChild($igk(by).o, $igk(i).o);
             } else {
@@ -3201,7 +3218,7 @@ Name:balafon.js
             }
             return this;
         },
-        fullscreen: function() {
+        fullscreen: function () {
             if (!this.isSr()) {
                 var fc = igk.fn.getItemFunc(this.o, "requestFullScreen");
                 if (fc) {
@@ -3211,7 +3228,7 @@ Name:balafon.js
             }
             return this;
         },
-        addSpace: function() {
+        addSpace: function () {
             if (this.isSr()) {
                 this.each(this.addSpace, arguments);
             } else
@@ -3220,7 +3237,7 @@ Name:balafon.js
         },
         // style functions
         // -------------- STYLES FUNCTIONS
-        setOpacity: function(v) {
+        setOpacity: function (v) {
             if (this.isSr()) {
                 this.o.each(this.setOpacity, arguments);
                 return this;
@@ -3234,16 +3251,16 @@ Name:balafon.js
             }
             return this;
         },
-        setBoxShadow: function(offsetX, offsetY, blur, color) {
+        setBoxShadow: function (offsetX, offsetY, blur, color) {
             // mod,ie10,chrome
             this.o.style["boxShadow"] = offsetX + " " + offsetY + " " + blur + " " + color;
         },
-        setTextShadow: function(offsetX, offsetY, blur, color) {
+        setTextShadow: function (offsetX, offsetY, blur, color) {
             // mod,ie10,chrome
             this.o.style["textShadow"] = offsetX + " " + offsetY + " " + blur + " " + color;
         },
-        focus: function() { if (this.o.focus) this.o.focus(); },
-        click: function() {
+        focus: function () { if (this.o.focus) this.o.focus(); },
+        click: function () {
             if (this.o.click) {
                 this.o.click();
             } else {
@@ -3253,7 +3270,7 @@ Name:balafon.js
             }
             return this;
         },
-        clone: function() { // return a clone object of this node
+        clone: function () { // return a clone object of this node
             var cl = igk.createNode(this.o.tagName.toLowerCase(), this.o.namespaceURI);
             cl.copyAttributes(this);
             if (this.o.childNodes.length > 0) {
@@ -3267,7 +3284,7 @@ Name:balafon.js
             }
             return cl;
         },
-        copyAttributes: function(i) {
+        copyAttributes: function (i) {
             i = $igk(i);
             if ((i == null) || !i.o.hasAttributes || !i.o.attributes)
                 return;
@@ -3282,23 +3299,35 @@ Name:balafon.js
             }
             return this;
         },
-        each: function(func, args) {
+        /**
+         * call each method on selection result
+         * @param {()=>void} func 
+         * @param {*} args 
+         * @returns 
+         */
+        each: function (func, args) {
             if (this.o.each)
                 this.o.each(func, args);
             return this;
         },
-        each_all: function(func, args) {
+        /**
+         * class each_all method callback on selection result 
+         * @param {*} func 
+         * @param {*} args 
+         * @returns 
+         */
+        each_all: function (func, args) {
             if (this.o.each_all)
                 this.o.each_all(func, args);
             return this;
         },
-        getItemAt: function(index) {
+        getItemAt: function (index) {
             if (this.o.getItemAt) {
                 return this.o.getItemAt(index);
             }
             return null;
         },
-        index: function() { // get index of the element
+        index: function () { // get index of the element
             var k = 0;
             e = this.o;
             while (('previousCibling' in e) && ((e = e.previousCibling) != null)) {
@@ -3306,64 +3335,64 @@ Name:balafon.js
             }
             return k;
         },
-        first: function() { // get the first
+        first: function () { // get the first
             if (this.o.getItemAt) {
                 return this.o.getItemAt(0);
             }
             return null;
         },
-        last: function() { // get the last
+        last: function () { // get the last
             if (this.o.getItemAt) {
                 return this.o.getItemAt(this.o.getCount() - 1);
             }
             return null;
         },
-        found: function() { // get if selection get on on more items 
+        found: function () { // get if selection get on on more items 
             if (this.o.getItemAt) {
                 return this.o.getCount() > 0;
             }
             return !1;
         },
-        getNodeAt: function(index) {
+        getNodeAt: function (index) {
             if (this.o.getNodeAt) {
                 return this.o.getNodeAt(index);
             }
             return this.o.ChildNodes[index];
         },
-        getCount: function() {
+        getCount: function () {
             if (this.o.getCount)
                 return this.o.getCount();
             return 0;
         },
-        isSr: function() { // check if selector. the each method is define
+        isSr: function () { // check if selector. the each method is define
             if (this.o.each)
                 return !0;
             return !1;
         },
-        getChildCount: function() {
+        getChildCount: function () {
             if (this.o.childNodes) {
                 return this.o.childNodes.length;
             }
             return 0;
         },
-        timeOut: function(time, func) { // time out function class/ uses with animation callback
+        timeOut: function (time, func) { // time out function class/ uses with animation callback
             var q = this;
             var s = this.timeOutList.length;
-            var i = setTimeout(function() {
+            var i = setTimeout(function () {
                 func.apply(q);
                 q.timeOutList.pop(s);
             }, time);
             q.timeOutList.push(i);
             return this;
         },
-        clearTimeOut: function() {
+        clearTimeOut: function () {
             while (this.timeOutList.length > 0) {
                 clearTimeout(this.timeOutList[0]);
                 this.timeOutList.pop(0);
             }
             return this;
         },
-        on: function(method, func, useCapture) {
+        on: function (method, func, useCapture) {
             /**
             // sample: target.on('click', func) ; shortcut to reg_event
             // note : 
@@ -3376,18 +3405,18 @@ Name:balafon.js
                 return this;
             }
         },
-        waitInterval: function(duration, func) {
+        waitInterval: function (duration, func) {
             if (this.isSr()) {
                 this.o.waitInterval(duration, func);
             } else {
                 var q = this;
-                setTimeout(function() {
+                setTimeout(function () {
                     func.apply(q)
                 }, duration);
             }
             return this;
         },
-        css: function(value) {
+        css: function (value) {
             if (this.o.each) {
                 this.o.each(this.css, arguments);
                 return this;
@@ -3400,7 +3429,7 @@ Name:balafon.js
                 return !0;
             }
         },
-        getCssSelector: function() { // get style node selection
+        getCssSelector: function () { // get style node selection
             var o = 0;
             var cl = 0;
             o = this.o.tagName.toLowerCase();
@@ -3415,14 +3444,14 @@ Name:balafon.js
             }
             return o;
         },
-        getCssValue: function() {
+        getCssValue: function () {
             var o = "";
             var v, d;
             var prop = igk.css.getProperties();
             var q = this;
-            var check = typeof(window.getDefaultComputedStyle) == 'function' ? function(n, d) {
+            var check = typeof (window.getDefaultComputedStyle) == 'function' ? function (n, d) {
                 return window.getDefaultComputedStyle(q.o).getPropertyValue(n) != d;
-            } : function(n, d) {
+            } : function (n, d) {
                 var domStyle = igk.css.getDomStyle();
                 return (d != domStyle[n]);
             };
@@ -3435,7 +3464,7 @@ Name:balafon.js
             }
             return o;
         },
-        disablecontextmenu: function() {
+        disablecontextmenu: function () {
             if (this.isSr()) {
                 this.o.each(this.editable, arguments);
                 return this;
@@ -3444,7 +3473,7 @@ Name:balafon.js
             }
             return this;
         },
-        selectable: function(v) {
+        selectable: function (v) {
             if (this.isSr()) {
                 this.o.each(this.selectable, arguments);
                 return this;
@@ -3457,7 +3486,7 @@ Name:balafon.js
             }
             return this;
         },
-        editable: function(v) {
+        editable: function (v) {
             if (this.isSr()) {
                 this.o.each(this.editable, arguments);
                 return this;
@@ -3466,7 +3495,7 @@ Name:balafon.js
             }
             return this;
         },
-        autocorrect: function(v) {
+        autocorrect: function (v) {
             if (this.isSr()) {
                 this.o.each(this.autocorrect, arguments);
                 return this;
@@ -3475,7 +3504,7 @@ Name:balafon.js
             }
             return this;
         },
-        setCss: function(properties) {
+        setCss: function (properties) {
             if (this.isSr()) {
                 this.o.each(this.setCss, arguments);
                 return this;
@@ -3484,25 +3513,25 @@ Name:balafon.js
             }
             return this;
         },
-        height: function() {
+        height: function () {
             var h = this.getComputedStyle("height");
             return igk.getNumber(h, this.o, "height");
         },
-        width: function() {
+        width: function () {
             var h = this.getComputedStyle("width");
             return igk.getNumber(h, this.o, "width");
         },
         hasHCroll() {
             return (this.o.scrollTopMax || (this.o.scrollHeight - this.o.offsetHeight)) > 0;
         },
-        setCssAssert: function(c, p) // conditional css property
-            {
-                if (c) {
-                    this.setCss(p);
-                }
-                return this;
-            },
-        setProperties: function(properties) {
+        setCssAssert: function (c, p) // conditional css property
+        {
+            if (c) {
+                this.setCss(p);
+            }
+            return this;
+        },
+        setProperties: function (properties) {
             if (!properties) return this;
             if (this.isSr()) {
                 this.o.each(this.setProperties, arguments);
@@ -3517,33 +3546,33 @@ Name:balafon.js
             }
             return this;
         },
-        hide: function() {
+        hide: function () {
             this.setCss({ "display": "none" });
         },
-        show: function() {
+        show: function () {
             this.setCss({ "display": "inline-block" });
         },
-        fadein: function(interval, duration, opacityOrProperties, callback) {
+        fadein: function (interval, duration, opacityOrProperties, callback) {
             window.igk.animation.fadein(this.o, interval, duration, opacityOrProperties, callback);
             return this;
         },
-        fadeout: function(interval, duration, opacityOrProperties, callback) {
+        fadeout: function (interval, duration, opacityOrProperties, callback) {
             window.igk.animation.fadeout(this.o, interval, duration, opacityOrProperties, callback);
             return this;
         },
-        getoffsetParent: function() {
+        getoffsetParent: function () {
             if (this.isSr()) {
                 return this;
             }
             return $igk(igk.winui.GetRealOffsetParent(this.o));
         },
-        getscrollParent: function() {
+        getscrollParent: function () {
             if (this.isSr()) {
                 return this;
             }
             return $igk(igk.winui.GetRealScrollParent(this.o));
         },
-        appendProperties: function(properties, override) {
+        appendProperties: function (properties, override) {
             if (!properties)
                 return this;
             if (this.isSr()) {
@@ -3557,7 +3586,7 @@ Name:balafon.js
         // -------------------------------------------------------------
         // events
         // -------------------------------------------------------------
-        dispatchEvent: function(evt) {
+        dispatchEvent: function (evt) {
             if (this.o.dispatchEvent) {
                 this.o.dispatchEvent(evt);
             } else {
@@ -3566,7 +3595,7 @@ Name:balafon.js
                 }
             }
         },
-        raiseEvent: function(n, p, callback) {
+        raiseEvent: function (n, p, callback) {
             // raise custom event
             // n: event name
             // p: properties
@@ -3602,14 +3631,14 @@ Name:balafon.js
          * @param {*} n event name
          * @param {*} p event property {}|
          */
-        addEvent: function(n, p) {
+        addEvent: function (n, p) {
             // add custom event to property
             // n: name
             // p: propertie for the event 
             var q = this;
             if (!this.isSr()) {
                 var e = null;
-                if (typeof(Event) == IGK_FUNC) { // check if window object event exists
+                if (typeof (Event) == IGK_FUNC) { // check if window object event exists
                     var _init = {};
                     if (p.cancelable) {
                         _init.cancelable = true;
@@ -3649,7 +3678,7 @@ Name:balafon.js
             }
             return this;
         },
-        getParentBody: function() {
+        getParentBody: function () {
             if (this.isSr()) { return null; }
             var q = this.o;
             while (q && (q.tagName.toLowerCase() != "body")) {
@@ -3657,7 +3686,7 @@ Name:balafon.js
             }
             return q;
         },
-        disabled: function(d) {
+        disabled: function (d) {
             if (this.isSr()) {
                 this.o.each(this.disabled, arguments);
             } else {
@@ -3682,7 +3711,7 @@ Name:balafon.js
                     console.error("object.className is not a string (probably svg case) : " + t.o.className);
                     return ch;
                 }
-                var ucl = typeof(t.o.classList) != 'undefined';
+                var ucl = typeof (t.o.classList) != 'undefined';
                 for (var i = 0; i < tab.length; i++) {
                     k = igk_str_trim(tab[i]);
                     if ((k.length == 0) || st[k]) {
@@ -3716,7 +3745,7 @@ Name:balafon.js
                 var s = "";
                 var ucl = t.o.classList;
                 if (ucl) {
-                    tab.map(function(i) { ucl.remove(i); });
+                    tab.map(function (i) { ucl.remove(i); });
                     return 1;
                 }
                 for (var i = 0; i < g.length; i++) {
@@ -3736,21 +3765,23 @@ Name:balafon.js
                 return this;
             } else {
                 var tab = [];
-                if ((typeof(classname) === "string") && (classname.length > 0)) {
-                    var ch = false;
-                    if (typeof(this.o.className) == IGK_UNDEF) {
-                        this.o.className = classname;
-                        ch = true;
-                    } else {
-                        tab = classname.split(" ");
-                        ch = __appendClass(this, tab);
+                if ((typeof (classname) === "string")) {
+                    if (classname.length > 0) {
+                        var ch = false;
+                        if (typeof (this.o.className) == IGK_UNDEF) {
+                            this.o.className = classname;
+                            ch = true;
+                        } else {
+                            tab = classname.split(" ");
+                            ch = __appendClass(this, tab);
+                        }
                     }
                 } else {
                     var rm = [];
                     var s = "";
                     for (var i in classname) {
                         s = igk_str_trim(i);
-                        if (((typeof(classname[i]) == "function") && classname[i]()) ||
+                        if (((typeof (classname[i]) == "function") && classname[i]()) ||
                             classname[i]) {
                             tab.push(s);
                         } else {
@@ -3766,7 +3797,7 @@ Name:balafon.js
             return this;
         },
         // remove class 
-        rmClass: function(classname) {
+        rmClass: function (classname) {
             if (typeof classname === "string") {
                 classname = igk_str_trim(classname);
                 if (classname.length == 0) {
@@ -3787,7 +3818,7 @@ Name:balafon.js
                             //if(s == classname){
                             index = cur.indexOf(s);
                             if (index != -1) {
-                                delete(cur[index]);
+                                delete (cur[index]);
                             }
                         }
                         var h = igk_str_trim(cur.join(" "));
@@ -3802,7 +3833,7 @@ Name:balafon.js
             }
             return this;
         },
-        rmAllClass: function(rg) { // remove all class that match the pattern. space is used as separator
+        rmAllClass: function (rg) { // remove all class that match the pattern. space is used as separator
             if (typeof rg === "string") {
                 if (this.isSr()) {
                     this.o.each(this.rmClass, arguments);
@@ -3833,7 +3864,7 @@ Name:balafon.js
             return this;
         },
         // replace class
-        rpClass: function(oldcl, newcl) {
+        rpClass: function (oldcl, newcl) {
             if (typeof oldcl === "string") {
                 if (this.isSr()) {
                     this.o.each(this.rpClass, arguments);
@@ -3880,7 +3911,7 @@ Name:balafon.js
             }
             return !1;
         },
-        toggleClass: function(cl) {
+        toggleClass: function (cl) {
             if (this.isSr()) {
                 return !1;
             } else {
@@ -3892,14 +3923,19 @@ Name:balafon.js
             }
             return this;
         },
-        qselect: function(pattern) {
+        /**
+         * selector 
+         * @param {string} pattern css selector
+         * @returns 
+         */
+        qselect: function (pattern) {
             if (this.isSr()) {
                 return this.o.qselect(pattern);
             }
             // select with global 
             return igk.qselect(this.o, pattern);
         },
-        select: function(pattern) { // igk node utility selector
+        select: function (pattern) { // igk node utility selector
             // select with pattern					
             if (this.isSr()) {
                 return this.o.select(pattern);
@@ -3907,7 +3943,7 @@ Name:balafon.js
             // select with global 
             return igk.select(this.o, pattern);
         },
-        wait: function(t, func) {
+        wait: function (t, func) {
             // wait on the function
             // if (return 1: finish ) if return 0: continue to wait
             var q = this;
@@ -3919,22 +3955,22 @@ Name:balafon.js
             }
             setTimeout(_wait_callback, t);
         },
-        getForm: function() {
+        getForm: function () {
             if (this.o.form)
                 return this.o.form;
             return igk.getParentByTagName(this.o, "form");
         },
-        getAttributeCount: function() {
+        getAttributeCount: function () {
             if (this.o.attributes)
                 return this.o.attributes.length;
             return 0;
         },
-        replaceOwner: function(d) {
+        replaceOwner: function (d) {
             if (d) {
                 m_o = d;
             }
         },
-        replaceTagWith: function(nTagName) { // replace tag name
+        replaceTagWith: function (nTagName) { // replace tag name
             if (this.isSr()) {
                 this.o.each(this.replaceTagWith, arguments)
             } else {
@@ -3946,7 +3982,7 @@ Name:balafon.js
             }
             return this;
         },
-        view: function(p) {
+        view: function (p) {
             // make this element visible by scrolling to it
             if (this.isSr()) {
                 return this;
@@ -3958,7 +3994,7 @@ Name:balafon.js
             }
             return this;
         },
-        scroll: function(x, y) {
+        scroll: function (x, y) {
             // change scroll button
             this.o.scrollLeft = x;
             this.o.scrollTop = y;
@@ -3969,7 +4005,7 @@ Name:balafon.js
                 console.error("/!\\ scroll y not changed: " + this.o.scrollTop + "=>" + y);
             }
         },
-        animate: function(propertyToAnimate, animationProperty) { // used to animate this element
+        animate: function (propertyToAnimate, animationProperty) { // used to animate this element
             if (this.isSr()) {
                 this.each(this.animate, arguments);
             } else {
@@ -3977,17 +4013,17 @@ Name:balafon.js
             }
             return this;
         },
-        animateUpdate: function(animationProperty) {
+        animateUpdate: function (animationProperty) {
             igk.animation.animateUpdate(this.o, animationProperty);
             return this;
         },
-        scrollTo: function(t, property, callback) {
+        scrollTo: function (t, property, callback) {
             // igk[object].scrollTo:
             // >t : la cible contenue par cet élément
             // >property is an object { interval: @time ,duration: @time,speed : @speding,orientation : @orientation}
-            if ((t == null) || typeof(t) != 'object')
+            if ((t == null) || typeof (t) != 'object')
                 return;
-            if ((property == null) || (typeof(property) == IGK_UNDEF)) {
+            if ((property == null) || (typeof (property) == IGK_UNDEF)) {
                 property = {
                     duration: 500,
                     interval: 20,
@@ -4010,7 +4046,7 @@ Name:balafon.js
                 if (offsetParent == null) {
                     return null;
                 }
-                return new(function() {
+                return new (function () {
                     var q = this;
                     var orientation = "vertical";
                     var distance = 0;
@@ -4058,30 +4094,30 @@ Name:balafon.js
                     q.sign = sign;
                     q.target = t;
                     igk.appendProperties(this, {
-                        getTransform: function() {
+                        getTransform: function () {
                             if (orientation == "vertical")
                                 return "TranslateY(" + (-sign * distance) + "px)";
                             return "TranslateX(" + (-sign * distance) + "px)";
                         },
-                        getStartTransform: function() {
+                        getStartTransform: function () {
                             if (orientation == "vertical")
                                 return "TranslateY(" + startpos + "px)";
                             return "TranslateX(" + startpos + "px)";
                         },
-                        resetTransform: function() {
+                        resetTransform: function () {
                             if (orientation == "vertical")
                                 return "TranslateY(0px)";
                             return "TranslateX(0px)";
                         },
-                        getStartScroll: function() {
+                        getStartScroll: function () {
                             return startpos;
                         },
-                        X: function() {
+                        X: function () {
                             if (orientation == "horizontal")
                                 return startpos + (sign * distance);
                             return 0;
                         },
-                        Y: function() {
+                        Y: function () {
                             if (orientation == "vertical")
                                 return startpos + (sign * distance);
                             return 0;
@@ -4091,7 +4127,7 @@ Name:balafon.js
             };
 
             function __clearTransition() {
-                self.select('>>').each_all(function() {
+                self.select('>>').each_all(function () {
                     if (!this.o.nodeType || (this.o.nodeType != 1) || (this.o.tagName.toLowerCase() == 'script'))
                         return;
                     if (!this.o.style ||
@@ -4121,7 +4157,7 @@ Name:balafon.js
                 } else {
                     if (mout)
                         clearTimeout(mout);
-                    mout = setTimeout(function() {
+                    mout = setTimeout(function () {
                         if (counter > 0) {
                             __clearTransition();
                             counter = 0;
@@ -4140,7 +4176,7 @@ Name:balafon.js
                     }
                     counter = 0;
                     self.select('>>')
-                        .each_all(function() {
+                        .each_all(function () {
                             // increment counter if this content style
                             // check if this contain style property and is filtered
                             if (!this.o.nodeType || (this.o.nodeType != 1) || (this.o.tagName.toLowerCase() == 'script'))
@@ -4148,10 +4184,6 @@ Name:balafon.js
                             if (!this.o.style || (property.filter && property.filter(this))) {
                                 return;
                             }
-                            // if(this.getComputedStyle("display")=='none'){
-                            // no display does't recieve thransition end. non visible item . 
-                            // return;
-                            // }
                             counter++;
                             m_il.add(this);
                             this.reg_event("transitionend", __transition_end);
@@ -4181,7 +4213,7 @@ Name:balafon.js
                 this,
                 property.interval,
                 property.duration,
-                function() { // init
+                function () { // init
                     // store animation context
                     var self = this;
                     self.offsetParent = $igk(t).getscrollParent();
@@ -4218,7 +4250,7 @@ Name:balafon.js
                     // calculate the normal step						
                     self.distance = Math.abs(d);
                 },
-                function() { // update 
+                function () { // update 
                     var d = this.distance;
                     if (d == 0) {
                         return !0;
@@ -4250,7 +4282,7 @@ Name:balafon.js
                     }
                     return !end;
                 },
-                function() { // end
+                function () { // end
                     var v_o = this.getOwner();
                     if (m_anim && m_anim.__anim && m_anim.__anim.scrolling)
                         delete m_anim.__anim.scrolling;
@@ -4266,11 +4298,11 @@ Name:balafon.js
             return !0;
         },
         // return the first matching parent with tag name
-        getParentByTagName: function(tag) { return igk_getParentByTagName(this.o, tag); },
+        getParentByTagName: function (tag) { return igk_getParentByTagName(this.o, tag); },
         // return the first parent by id
-        getParentById: function(id) { return igk_getParentById(this.o, id); },
+        getParentById: function (id) { return igk_getParentById(this.o, id); },
         // T: function,remove element
-        remove: function() {
+        remove: function () {
             if (this.isSr()) {
                 this.o.each(this.remove, arguments);
                 // return this;
@@ -4281,12 +4313,12 @@ Name:balafon.js
             }
             return this;
         },
-        transEnd: function(n, t) {
+        transEnd: function (n, t) {
             var q = this;
 
             function __function_end(evt) {
                 if (evt.target == q.o) {
-                    if (typeof(n) == "function")
+                    if (typeof (n) == "function")
                         n.apply(q);
                     else {
                         if (n in q) {
@@ -4303,11 +4335,11 @@ Name:balafon.js
             }
             return q;
         },
-        loadStringAsHtml: function(s, evalscript) {
+        loadStringAsHtml: function (s, evalscript) {
             if (this.o.each) {
                 this.o.each(this.loadStringAsHtml, arguments);
             } else {
-                if (typeof(this.o.appendChild) != "undefined") {
+                if (typeof (this.o.appendChild) != "undefined") {
                     var m = igk.createNode("dummyNode");
                     m.setHtml(s);
                     if (m.o.childNodes.length == 1) {
@@ -4325,32 +4357,32 @@ Name:balafon.js
             }
             return this;
         },
-        istouchable: function() { // utility
-                if (
-                    (typeof(this.o.ontouchstart) != IGK_UNDEF) &&
-                    (typeof(this.o.ontouchend) != IGK_UNDEF) &&
-                    (typeof(this.o.ontouchmove) != IGK_UNDEF) &&
-                    (typeof(this.o.ontouchcancel) != IGK_UNDEF)
-                )
-                    return !0;
-                return !1;
-            }
-            // checking css properties 
-            ,
-        isCssSupportTransition: function() {
+        istouchable: function () { // utility
+            if (
+                (typeof (this.o.ontouchstart) != IGK_UNDEF) &&
+                (typeof (this.o.ontouchend) != IGK_UNDEF) &&
+                (typeof (this.o.ontouchmove) != IGK_UNDEF) &&
+                (typeof (this.o.ontouchcancel) != IGK_UNDEF)
+            )
+                return !0;
+            return !1;
+        }
+        // checking css properties 
+        ,
+        isCssSupportTransition: function () {
             return igk.fn.isItemSupport(this.o.style, ['transition', 'webkitTransition', 'msTransition', 'oTransition']);
         },
-        isCssSupportAnimation: function() {
+        isCssSupportAnimation: function () {
             return igk.fn.isItemSupport(this.o.style, ['animation', 'webkitAnimation', 'msAnimation', 'oTransition']); // igk_checkOnePropertyExists(this.o.style,"animation");
         },
-        setTransitionDelay: function(time) {
+        setTransitionDelay: function (time) {
             if (this.o.each) {
                 this.o.each(this.setTransitionDelay, arguments);
             } else
                 igk.css.setTransitionDelay(this, time);
             return this;
         },
-        setTransition: function(k) {
+        setTransition: function (k) {
             if (this.o.each) {
                 this.o.each(this.setTransition, arguments);
             } else
@@ -4376,7 +4408,7 @@ Name:balafon.js
             }
             return this;
         },
-        replaceBy: function(t) {
+        replaceBy: function (t) {
             if (this.o.each) {
                 this.o.each(this.replaceBy, arguments);
             } else {
@@ -4388,13 +4420,13 @@ Name:balafon.js
             }
             return this;
         },
-        clearAttributes: function() {
+        clearAttributes: function () {
             while (this.o.attributes.length > 0) {
                 this.o.removeAttribute(this.o.attributes[0].name);
             }
             return this;
         },
-        text: function() {
+        text: function () {
             if (this.o.each) {
                 this.o.each(this.text, arguments);
             } else {
@@ -4404,7 +4436,7 @@ Name:balafon.js
                 // return ("data" in this.o) ? this.o.data : null
             }
         },
-        setHtml: function(v, evalScript) { // set innerHTML  @v:text context ,@eval:bool true to evaluate . default is false
+        setHtml: function (v, evalScript) { // set innerHTML  @v:text context ,@eval:bool true to evaluate . default is false
             if (this.o.each) {
                 this.o.each(this.setHtml, arguments);
             } else {
@@ -4419,7 +4451,7 @@ Name:balafon.js
             }
             return this;
         },
-        getText: function() {
+        getText: function () {
             var s = "";
             if (this.o.innerHTML) {
                 s = igk.html.string(this.getHtml());
@@ -4429,10 +4461,10 @@ Name:balafon.js
         /**
          * get element text or 
          */
-        text: function() {
+        text: function () {
             return this.getHtml() || this.o.textContent;
         },
-        val: function() {
+        val: function () {
             if (this.o.each) {
                 this.o.each(this.setHtml, arguments);
             } else {
@@ -4446,12 +4478,12 @@ Name:balafon.js
             return this;
         },
         // get htmlcontent retreive all content
-        getHtml: function() {
+        getHtml: function () {
             var s = "";
             if (this.o.each) {
                 var fc = this;
                 var args = arguments;
-                this.o.each_all(function() {
+                this.o.each_all(function () {
                     s += fc.getHtml.apply(this, args);
                 });
             } else {
@@ -4459,14 +4491,14 @@ Name:balafon.js
             }
             return s;
         },
-        getOuterHtml: function() {
+        getOuterHtml: function () {
             if (this.o.outerHTML)
                 return this.o.outerHTML;
             var s = "";
             if (this.o.each) {
                 s += this.o.each(this.getOuterHtml, arguments);
             } else {
-                if (typeof(this.o.tagName) != IGK_UNDEF) {
+                if (typeof (this.o.tagName) != IGK_UNDEF) {
                     s = "<" + this.o.tagName;
                     if (this.o.hasAttributes) {
                         s += " ";
@@ -4489,7 +4521,7 @@ Name:balafon.js
             }
             return s;
         },
-        evalScript: function() {
+        evalScript: function () {
             if (this.o.each) {
                 this.o.each(this.evalScript, arguments);
             } else {
@@ -4500,14 +4532,14 @@ Name:balafon.js
         /**
          * init current node
          */
-        init: function() { // init the current node
+        init: function () { // init the current node
             if (this.o.each) {
                 this.o.each(this.init, arguments);
             } else
                 igk.ajx.fn.initnode(this.o);
             return this;
         },
-        render: function() {
+        render: function () {
             var s = "";
             if (this.o.each) {
                 s += this.o.each(this.renber, arguments);
@@ -4516,7 +4548,7 @@ Name:balafon.js
             }
             return s;
         },
-        getAllAttribs: function() { // return a string of all attribute of this node				
+        getAllAttribs: function () { // return a string of all attribute of this node				
             var msg = "";
             var attrs = null;
             if (this.o.attributes) {
@@ -4534,14 +4566,14 @@ Name:balafon.js
             }
             return msg;
         },
-        getParentNode: function() { return $igk(this.o.parentNode); },
-        getStyle: function(name) {
+        getParentNode: function () { return $igk(this.o.parentNode); },
+        getStyle: function (name) {
             if (!this.isSr()) {
                 return igk.css.getValue(this.o, name);
             }
             return "no-value";
         },
-        getComputedStyle: function(n, select) {
+        getComputedStyle: function (n, select) {
             //@n property to get
             //@select* : speudo class selector
             if (!this.isSr()) {
@@ -4557,10 +4589,10 @@ Name:balafon.js
             }
             return "no-value";
         },
-        getComputedEmSize(p, target){
+        getComputedEmSize(p, target) {
             return igk.css.getComputedEmSize(this, p, target);
         },
-        getComputedStylePropertyValue: function(n, select) {
+        getComputedStylePropertyValue: function (n, select) {
             //@n property to get
             //@select* : speudo class selector
             if (!this.isSr()) {
@@ -4574,50 +4606,50 @@ Name:balafon.js
             }
             return "no-value";
         },
-        setAttributes: function(properties) { if (!properties) return; for (var i in properties) { this.o.setAttribute(i, properties[i]); } return this; }
-            // set attributre set attribute as string value that will be interpreted
-            ,
-        setAttribute: function(name, value) { if (this.o.each) { this.o.each(this.setAttribute, arguments); } else this.o.setAttribute(name, value); return this; },
-        setAttributeAssert: function(condition, name, value) {
+        setAttributes: function (properties) { if (!properties) return; for (var i in properties) { this.o.setAttribute(i, properties[i]); } return this; }
+        // set attributre set attribute as string value that will be interpreted
+        ,
+        setAttribute: function (name, value) { if (this.o.each) { this.o.each(this.setAttribute, arguments); } else this.o.setAttribute(name, value); return this; },
+        setAttributeAssert: function (condition, name, value) {
             if (condition) {
                 this.setAttribute(name, value);
             }
             return this;
         },
-        setSize: function(w, h) {
-                if (h == null) h = w;
-                this.setCss({ "width": w, "height": h });
-                return this;
-            }
-            // -------------- GET PROPERTIES
-            ,
-        getAttribute: function(value) {
-            if (typeof(this.o.getAttribute) == 'function')
+        setSize: function (w, h) {
+            if (h == null) h = w;
+            this.setCss({ "width": w, "height": h });
+            return this;
+        }
+        // -------------- GET PROPERTIES
+        ,
+        getAttribute: function (value) {
+            if (typeof (this.o.getAttribute) == 'function')
                 return this.o.getAttribute(value);
             return null;
         },
-        getChildById: function(id) { return igk_getChildById(this.o, id); },
-        getChildsByAttr: function(properties) { return igk_getChildsByAttr(this.o, properties); },
-        getParent: function(tagname) { if (tagname) { return this.getParentByTagName(tagname); } return $igk(this.o.parentNode); },
-        getParentForm: function() { return this.getParentByTagName("form"); },
-        getPixel: function(propName, o) { // return a pixel value
+        getChildById: function (id) { return igk_getChildById(this.o, id); },
+        getChildsByAttr: function (properties) { return igk_getChildsByAttr(this.o, properties); },
+        getParent: function (tagname) { if (tagname) { return this.getParentByTagName(tagname); } return $igk(this.o.parentNode); },
+        getParentForm: function () { return this.getParentByTagName("form"); },
+        getPixel: function (propName, o) { // return a pixel value
             return igk.getPixel(this.getComputedStyle(propName), o || this.o, propName);
         },
-        appendChild: function(name) {
+        appendChild: function (name) {
             var item = null;
-            if (typeof(name) == "string") { item = document.getElementById(name); } else { item = name; }
+            if (typeof (name) == "string") { item = document.getElementById(name); } else { item = name; }
             if (item != null) {
                 var s = $igk(item);
                 this.o.appendChild(s.o);
                 return s;
             }
         },
-        appendNChild: function(tagname) {
+        appendNChild: function (tagname) {
             var item = this.createElement(tagname);
             this.appendChild(item);
             return item;
         },
-        insertBefore: function(item) {
+        insertBefore: function (item) {
             // this.o.insertBefore(i,j); 
             // @ item to add
             var p = 0;
@@ -4633,7 +4665,7 @@ Name:balafon.js
             }
             return this;
         },
-        insertAfter: function(item) { // insert item after the node
+        insertAfter: function (item) { // insert item after the node
             if (item && this.o.parentNode) {
                 if (this.o.parentNode.lastChild == this.o)
                     this.o.parentNode.appendChild(item);
@@ -4642,11 +4674,11 @@ Name:balafon.js
             }
             return this;
         },
-        firstChild: function() { return (this.o.firstChild) ? $igk(this.o.firstChild) : null; },
-        firstNode: function(type) {
+        firstChild: function () { return (this.o.firstChild) ? $igk(this.o.firstChild) : null; },
+        firstNode: function (type) {
             // get the first node element type math the requirement
             var r = null;
-            this.select('>>').each(function() {
+            this.select('>>').each(function () {
                 if (this.o.nodeType == type) {
                     r = this.o;
                     // cancel
@@ -4656,12 +4688,12 @@ Name:balafon.js
             });
             return r;
         },
-        prependChild: function(node) {
+        prependChild: function (node) {
             if (this.o.firstChild) this.o.insertBefore(node, this.o.firstChild);
             else { this.o.appendChild(node); }
         },
-        reg_event: function(method, func, opts) {
-            
+        reg_event: function (method, func, opts) {
+
             if (this.o.each) {
                 this.o.each(this.reg_event, arguments);
             } else {
@@ -4669,7 +4701,7 @@ Name:balafon.js
             }
             return this;
         },
-        unreg_event: function(method, func) {
+        unreg_event: function (method, func) {
             if (this.o.each) {
                 this.o.each(this.unreg_event, arguments);
             } else {
@@ -4677,7 +4709,7 @@ Name:balafon.js
             }
             return this;
         },
-        getOffsetScreenLocation: function(t) { // return the point 
+        getOffsetScreenLocation: function (t) { // return the point 
             var v1 = t.getScreenLocation();
             var v2 = { x: this.o.offsetLeft, y: this.o.offsetTop };
             var q = this.o.offsetParent;
@@ -4687,7 +4719,7 @@ Name:balafon.js
             var o = "horizontal";
             while (q && (q != igk.dom.body().o)) {
                 if (q == t.o) {
-                    if (t.o.offsetWidth < v2.x) {}
+                    if (t.o.offsetWidth < v2.x) { }
                     if (((v4.x == 0) && (v4.y != 0)) || (t.o.offsetHeight < v2.y)) {
                         o = "vertical";
                     }
@@ -4703,21 +4735,21 @@ Name:balafon.js
             return { orientation: o, x: v4.x, y: v4.y };
         }
     });
-    __prop.getElementsByTagName = function(tag) { if (this.o.getElementsByTagName) return this.o.getElementsByTagName(tag); };
+    __prop.getElementsByTagName = function (tag) { if (this.o.getElementsByTagName) return this.o.getElementsByTagName(tag); };
     // return the client width
-    __prop.getWidth = function() { return this.o.clientWidth; };
-    __prop.getglobalWidth = function() { return this.o.clientWidth + this.o.scrollWidth; };
-    __prop.getglobalHeight = function() { return this.o.cliclientHeight + this.o.scrollHeight; };
+    __prop.getWidth = function () { return this.o.clientWidth; };
+    __prop.getglobalWidth = function () { return this.o.clientWidth + this.o.scrollWidth; };
+    __prop.getglobalHeight = function () { return this.o.cliclientHeight + this.o.scrollHeight; };
     // return the client height
-    __prop.getHeight = function() { return this.o.clientHeight; };
-    __prop.getTop = function() { return this.getLocation().y; };
-    __prop.getLeft = function() { return this.getLocation().x; };
-    __prop.getSize = function() { return { w: this.getWidth(), h: this.getHeight(), toString: function() { return "w:" + this.w + " h:" + this.h; } }; };
+    __prop.getHeight = function () { return this.o.clientHeight; };
+    __prop.getTop = function () { return this.getLocation().y; };
+    __prop.getLeft = function () { return this.getLocation().x; };
+    __prop.getSize = function () { return { w: this.getWidth(), h: this.getHeight(), toString: function () { return "w:" + this.w + " h:" + this.h; } }; };
     // return the location of the host in global display
-    __prop.getLocation = function() { return igk.winui.GetScreenPosition(this.o); };
+    __prop.getLocation = function () { return igk.winui.GetScreenPosition(this.o); };
     // return the location of the host in client screen display
-    __prop.getScreenLocation = function() { return igk.winui.GetRealScreenPosition(this.o); };
-    __prop.getOffsetBounds = function() {
+    __prop.getScreenLocation = function () { return igk.winui.GetRealScreenPosition(this.o); };
+    __prop.getOffsetBounds = function () {
         var p = this;
         var real_size = { x: 0, y: 0, h: 0, w: 0 };
         for (var n = 0; n < p.o.childNodes.length; n++) {
@@ -4736,7 +4768,7 @@ Name:balafon.js
         return real_size;
     };
     // get the bounding visibility in client screen display
-    __prop.getBoundingClientRect = function() {
+    __prop.getBoundingClientRect = function () {
         // shortcut function
         var g = this.o.getBoundingClientRect ? this.o.getBoundingClientRect() : {
             x: 0,
@@ -4747,7 +4779,7 @@ Name:balafon.js
             top: 0,
             right: 0,
             bottom: 0,
-            toString: function() {
+            toString: function () {
                 "igk.boundingClientRect[]"
             }
         };
@@ -4757,7 +4789,7 @@ Name:balafon.js
         return g;
     };
     // get the screen bounding item
-    __prop.getScreenBounds = function() {
+    __prop.getScreenBounds = function () {
         var l = igk.winui.GetRealScreenPosition(this.o);
         var s = this.getSize();
         return {
@@ -4765,17 +4797,17 @@ Name:balafon.js
             y: l.y,
             w: s.w,
             h: s.h,
-            contains: function(x, y) {
+            contains: function (x, y) {
                 return (l.x <= x) && ((l.x + s.w) >= x) &&
                     (l.y <= y) && ((l.x + s.h) >= y);
             },
-            toString: function() { return "getScreenBounds[" + igk.system.stringProperties(this) + "]"; }
+            toString: function () { return "getScreenBounds[" + igk.system.stringProperties(this) + "]"; }
         };
     };
     // return true is item is visible in screen display
-    __prop.getisVisible = function() {
+    __prop.getisVisible = function () {
         var j = this;
-        if (!j.getpresentOnDocument()){
+        if (!j.getpresentOnDocument()) {
             return false;
         }
         var loc = j.getBoundingClientRect();
@@ -4788,7 +4820,7 @@ Name:balafon.js
         var vsb = ((loc.x >= 0) && (loc.x <= size.width) && (loc.y >= 0) && (loc.y <= size.height));
         return vsb;
     };
-    __prop.getpresentOnDocument = function(doc) {
+    __prop.getpresentOnDocument = function (doc) {
         // > get if this is present on document
         var j = this.o;
         var _doc = doc || document;
@@ -4797,26 +4829,26 @@ Name:balafon.js
         }
         return (j != null);
     };
-    __prop.getscrollLeft = function() { if (this.o.pageXOffset) { return this.o.pageXOffset; } else if (this.o.scrollLeft) return this.o.scrollLeft; return 0; };
-    __prop.getscrollTop = function() { if (this.o.pageYOffset) { return this.o.pageYOffset; } else if (this.o.scrollTop) return this.o.scrollTop; return 0; };
-    __prop.getscrollLocation = function(targetParent) { return igk.winui.GetScrollPosition(this.o, targetParent); };
-    __prop.getscrollMaxTop = function() {
+    __prop.getscrollLeft = function () { if (this.o.pageXOffset) { return this.o.pageXOffset; } else if (this.o.scrollLeft) return this.o.scrollLeft; return 0; };
+    __prop.getscrollTop = function () { if (this.o.pageYOffset) { return this.o.pageYOffset; } else if (this.o.scrollTop) return this.o.scrollTop; return 0; };
+    __prop.getscrollLocation = function (targetParent) { return igk.winui.GetScrollPosition(this.o, targetParent); };
+    __prop.getscrollMaxTop = function () {
         if (this.o.scrollTopMax) return this.o.scrollTopMax;
         else return this.o.offsetHeight;
     };
-    __prop.getscrollMaxLeft = function() {
+    __prop.getscrollMaxLeft = function () {
         if (this.o.scrollLeftMax) return this.o.scrollLeftMax;
         else return this.o.offsetWidth;
     };
     // -------------- WINDOW function
-    __prop.createElement = function(tagname) {
+    __prop.createElement = function (tagname) {
         if (this.o.namespaceURI == null) {
             var c = document.createElementNS(null, tagname);
             return c;
         }
         return igk.createNode(tagname, this.o.namespaceURI || igk.namespaces.xml);
     };
-    __prop.isChildOf = function(target) {
+    __prop.isChildOf = function (target) {
         var q = this.o.parentNode;
         while (q) {
             if (q == target)
@@ -4826,16 +4858,16 @@ Name:balafon.js
         return !1;
     };
     // -------------- ADDITIONAL FUNCTION	
-    __prop.collapse = function(property, callback) {
+    __prop.collapse = function (property, callback) {
         if (m_anim && m_anim.collapsing) {
             // stop scrolling of this item
             m_anim.collapsing.stop();
         }
         // create animation context
         var anim1 = igk.animation.init(this, property.interval, property.duration,
-            function() {},
-            function() {},
-            function() {
+            function () { },
+            function () { },
+            function () {
                 if (m_anim && m_anim.__anim && m_anim.__anim.collapsing)
                     delete m_anim.__anim.collapsing; // =null;
                 if (callback)
@@ -4847,15 +4879,15 @@ Name:balafon.js
         anim1.start();
         return !0;
     };
-    __prop.expand = function(property, callback) {
+    __prop.expand = function (property, callback) {
         if (m_anim && m_anim.expanding) {
             // stop scrolling of this item
             m_anim.expanding.stop();
         }
         var anim1 = igk.animation.init(this, property.interval, property.duration,
-            function() {},
-            function() {},
-            function() {
+            function () { },
+            function () { },
+            function () {
                 if (m_anim && m_anim.__anim && m_anim.__anim.expanding)
                     delete m_anim.__anim.expanding; // =null;
                 if (callback)
@@ -4882,7 +4914,7 @@ Name:balafon.js
         igk_appendProp(this, {
             fordoc: true,
             target: q,
-            unregister: function() {
+            unregister: function () {
                 document.documentElement.detachEvent('onpropertychange', __ecall);
             }
         });
@@ -4899,12 +4931,12 @@ Name:balafon.js
         var h = Object.getOwnPropertyDescriptor(o, n) || Object.getOwnPropertyDescriptor(o, n);
         var e = {};
         if (('get' in p) && ('get' in h)) {
-            e.get = function() {
+            e.get = function () {
                 return p.get.apply(this, [h.get]);
             };
         }
         if (('set' in p) && ('set' in h)) {
-            e.set = function(v) {
+            e.set = function (v) {
                 return p.set.apply(this, [v, h.set]);
             };
         }
@@ -4915,11 +4947,11 @@ Name:balafon.js
         DEBUG: false, // for debuging purpose		
         release: "17/01/15", // date of birth
         evaluating: false,
-        elog: function(msg, tag) { // login function 
+        elog: function (msg, tag) { // login function 
             tag = tag || _FM_;
             console.error("[" + (_FM_) + "]" + ":" + msg);
         },
-        createObj: function(s, d) {
+        createObj: function (s, d) {
             // createobject from string or array
             if (isUndef(d))
                 d = 0;
@@ -4933,7 +4965,9 @@ Name:balafon.js
         isUndef: isUndef,
         isNumber,
         initObj: igk_initobj,
-        createNode: function(tag, ns) {
+        // + | store environment global flags.
+        env: { flags: {} },
+        createNode: function (tag, ns) {
             if (!tag)
                 return 0;
             if (ns && document.createElementNS)
@@ -4941,7 +4975,7 @@ Name:balafon.js
             tag = tag.toLowerCase();
             return __igk(document.createElement(tag));
         },
-        createNSComponent: function(ns, classname) { // create component in namespace
+        createNSComponent: function (ns, classname) { // create component in namespace
             var lst = igk.winui.getClassList();
             var g = lst["ns://"] && lst["ns://"][ns] && lst["ns://"][ns][classname];
             if (g) {
@@ -4957,7 +4991,7 @@ Name:balafon.js
             }
             return null;
         },
-        createComponent: function(classname) {
+        createComponent: function (classname) {
             // create a control class component
             // usage sample : igk.createComponent("igk-ajx-uri-loader")
             // component must be first registrated with igk.winui.initClassControl
@@ -4976,24 +5010,24 @@ Name:balafon.js
             }
             return null;
         },
-        createText: function(s) {
+        createText: function (s) {
             return __igk(document.createTextNode(s));
         },
-        createHtml: function(s) {
+        createHtml: function (s) {
             var o = igk.createNode("div").setHtml("&nbsp;").o;
             return igk.createText(o.textContent);
         },
-        clearTimeout: function(timeout) {
+        clearTimeout: function (timeout) {
             window.clearTimeout(timeout);
         },
         evalScript: igk_eval,
-        typeofs: function(n) {
-            return typeof(n) == 'string';
+        typeofs: function (n) {
+            return typeof (n) == 'string';
         },
-        typeoff: function(n) {
-            return typeof(n) == 'function';
+        typeoff: function (n) {
+            return typeof (n) == 'function';
         },
-        loadScript: function(filename) {
+        loadScript: function (filename) {
             if (!filename) return;
             var uri = null;
             var p = m_scriptTag; // get the current script tag
@@ -5004,7 +5038,7 @@ Name:balafon.js
                 return;
             }
             // load the plugins js scripts
-            igk.ajx.get(uri, null, function(xhr) {
+            igk.ajx.get(uri, null, function (xhr) {
                 if (this.isReady()) {
                     var s = igk.createNode("script");
                     s.setAttribute("type", "text/javascript");
@@ -5015,7 +5049,7 @@ Name:balafon.js
             });
         },
         getScriptLocation: igk_getScriptLocation,
-        loadPlugins: function(plugins) {
+        loadPlugins: function (plugins) {
             // every plugin must be a comma separated string of name
             // exemple : animation,regex,info
             // and every folder that contain a plugins must have a plugin.js script at root
@@ -5033,7 +5067,7 @@ Name:balafon.js
             }
             for (var i = 0; i < t.length; i++) {
                 // load the plugins js scripts
-                igk.ajx.get(uri + "/" + t[i] + "/plugin.js", null, function(xhr) {
+                igk.ajx.get(uri + "/" + t[i] + "/plugin.js", null, function (xhr) {
                     if (this.isReady()) {
                         var s = igk.createNode("script");
                         s.setAttribute("type", "text/javascript");
@@ -5044,9 +5078,9 @@ Name:balafon.js
                 });
             }
         },
-        preload: function(u) {
+        preload: function (u) {
             // load the plugins js scripts
-            igk.ajx.get(u, null, function(xhr) {
+            igk.ajx.get(u, null, function (xhr) {
                 if (this.isReady()) {
                     var s = igk.createNode("script");
                     s.setAttribute("type", "text/javascript");
@@ -5058,17 +5092,17 @@ Name:balafon.js
                 }
             });
         },
-        canInvoke: function() {
-            return (window.external) && (('notify' in window.external) || (typeof(window.external.callFunc) != igk.constants.undef));
+        canInvoke: function () {
+            return (window.external) && (('notify' in window.external) || (typeof (window.external.callFunc) != igk.constants.undef));
             // return ('notify' in window.external) || window.external && (typeof (window.external.callFunc) != igk.constants.undef);
         },
-        invoke: function(method, params) { // used to invoke external script function	
+        invoke: function (method, params) { // used to invoke external script function	
             var n = 0;
             var fc = null;
             var _out = 0;
             var _json = { method: method };
             if (params) {
-                if (typeof(params) == 'object') {
+                if (typeof (params) == 'object') {
                     params = igk.JSON.convertToString(params);
                 }
                 _json.param = params;
@@ -5109,21 +5143,21 @@ Name:balafon.js
             "false": false,
             regex: igk_regex_constant()
         },
-        "selector_showlist": function(s) {
+        "selector_showlist": function (s) {
             var ss = "";
-            s.each(function() { ss += " " + this.o.tagName + ":" + this.o + "\n"; return !0; });
+            s.each(function () { ss += " " + this.o.tagName + ":" + this.o + "\n"; return !0; });
             // alert("Show selector list " + ss);
         },
         eval_all_script: igk_eval_all_script,
-        init_document: function(s) { //initialize document 		 
+        init_document: function (s) { //initialize document 		 
             if (igk.ctrl.init_controller) {
                 igk.ctrl.init_controller();
             } else {
-                $igk(igk.winui.events.global()).reg_event('igk_controller_ready', function() {
+                $igk(igk.winui.events.global()).reg_event('igk_controller_ready', function () {
                     igk.ctrl.init_controller();
                 });
             }
-            igk.ready(function() {
+            igk.ready(function () {
                 igk_preload_image(document);
                 igk_preload_anim_image(document);
             });
@@ -5131,27 +5165,27 @@ Name:balafon.js
             __applyPreloadDocument(document);
             __initDocSetting = s;
         },
-        alert: function(m, t) {
+        alert: function (m, t) {
             igk_show_notify_msg(t || 'alert', m);
         },
         console_debug: igk_console_debug,
         show_prop: igk_show_prop,
-        show_notify_prop: function(e) {
+        show_notify_prop: function (e) {
             igk.winui.notify.showMsg(igk.html.getDefinition(e));
         },
-        show_notify_prop_v: function(e) {
+        show_notify_prop_v: function (e) {
             igk.winui.notify.showMsg(igk.html.getDefinitionValue(e));
         },
         show_notify_msg: igk_show_notify_msg,
         show_notify_error: igk_show_notify_error,
-        get_v: function(o, k, d) {
+        get_v: function (o, k, d) {
             // * check return statement
             // o: object
             // k: the key to search
             // d: default value
-            if (typeof(o[k]) != IGK_UNDEF){
+            if (typeof (o[k]) != IGK_UNDEF) {
                 return o[k];
-            } else if (typeof(d) == IGK_UNDEF)
+            } else if (typeof (d) == IGK_UNDEF)
                 return null;
             return d;
         },
@@ -5159,12 +5193,12 @@ Name:balafon.js
         preload_image: igk_preload_image,
         show_event: igk_show_event,
         getParentScriptByTagName: igk_getParentScriptByTagName,
-        getParentScriptForm: function() { return igk_getParentScriptByTagName("form"); },
-        getElementsByTagName: function(e, tag) { return e.getElementsByTagName(tag); },
-        getParentScript: function() { return igk_getParentScriptByTagName(null); },
+        getParentScriptForm: function () { return igk_getParentScriptByTagName("form"); },
+        getElementsByTagName: function (e, tag) { return e.getElementsByTagName(tag); },
+        getParentScript: function () { return igk_getParentScriptByTagName(null); },
         getLastScript: igk_getLastScript,
         getCurrentScript: igk_getCurrentScript,
-        rmCurrentScript: function() {
+        rmCurrentScript: function () {
             var s = igk.getCurrentScript();
             if (s) {
                 $igk(s).remove();
@@ -5176,7 +5210,7 @@ Name:balafon.js
         appendProperties: igk_appendProp,
         defineProperty: igk_defineProperty,
         extendProperty: igk_extendProperty,
-        setProperty: function(o, n, v){
+        setProperty: function (o, n, v) {
             /**
              * define chain properties
              * 
@@ -5184,29 +5218,29 @@ Name:balafon.js
              * n: name "."
              * v: value to define
              */
-                var t = n.split(".");
-                var win = o;
-                if (win) {
-                    let k = t.pop();
-                    for (var i = 0; win && i < t.length; i++) {
-                        win = win[t[i]];
-                    }
-                    if (win && (typeof(win) == 'object')){
-                        win[k] = v;
-                        return win;
-                    }
+            var t = n.split(".");
+            var win = o;
+            if (win) {
+                let k = t.pop();
+                for (var i = 0; win && i < t.length; i++) {
+                    win = win[t[i]];
                 }
-                return null;            
+                if (win && (typeof (win) == 'object')) {
+                    win[k] = v;
+                    return win;
+                }
+            }
+            return null;
         },
         defineEnum: igk_defineEnum,
         checkOnePropertyExists: igk_checkOnePropertyExists,
         checkAllPropertyExists: igk_checkAllPropertyExists,
         callfunction: igk_callfunction,
-        appendChain: function(q, n, func) {
-            switch (typeof(q[n])) {
+        appendChain: function (q, n, func) {
+            switch (typeof (q[n])) {
                 case 'function':
                     var fc = q[n];
-                    q[n] = function() {
+                    q[n] = function () {
                         fc.apply(q, arguments);
                         func.apply(q, arguments);
                     };
@@ -5217,11 +5251,11 @@ Name:balafon.js
             }
             return 0;
         },
-        prependChain: function(q, n, func) {
-            switch (typeof(q[n])) {
+        prependChain: function (q, n, func) {
+            switch (typeof (q[n])) {
                 case 'function':
                     var fc = q[n];
-                    q[n] = function() {
+                    q[n] = function () {
                         func.apply(q, arguments);
                         fc.apply(q, arguments);
                     };
@@ -5232,25 +5266,25 @@ Name:balafon.js
             }
             return 0;
         },
-        pushFunction: function(f, fc) {
+        pushFunction: function (f, fc) {
             //utility function used push 
             var _s = f;
             if (_s == null)
                 return fc;
-            _s = function() {
+            _s = function () {
                 f.apply(this, arguments);
                 fc.apply(this, arguments);
             };
             return _s;
         },
-        check: function(item, pattern) {
+        check: function (item, pattern) {
             var m = igk_select_exp(pattern.substring(1));
             if (m.check(item, 0)) {
                 return !0;
             }
             return !1;
         },
-        qselect: function(item, pattern) { // with query selector
+        qselect: function (item, pattern) { // with query selector
             var v_sl = new igk.selector();
             if (item.querySelectorAll) {
                 var p = item.querySelectorAll(pattern);
@@ -5260,7 +5294,7 @@ Name:balafon.js
             }
             return $igk(v_sl);
         },
-        select: function(item, pattern) { 
+        select: function (item, pattern) {
             // + | selection in igk			
             var b = null;
             var v_sl = new igk.selector();
@@ -5361,7 +5395,7 @@ Name:balafon.js
             var s = null;
             var exp = null;
             var fid = false;
-            if (typeof(pattern) == "string") {
+            if (typeof (pattern) == "string") {
                 // special meaning
                 switch (pattern) {
                     case ">>":
@@ -5470,7 +5504,7 @@ Name:balafon.js
             // }	
             return $igk(v_sl);
         },
-        load: function(func) { // load function
+        load: function (func) { // load function
             if (func == null)
                 return;
             if (document.readyState == "loading") {
@@ -5479,37 +5513,37 @@ Name:balafon.js
                 func.apply(window);
             }
         },
-        is_readyRegister: function(func) {
+        is_readyRegister: function (func) {
             for (var i = 0; i < readyFunc.length; i++) {
                 if (func == readyFunc[i])
                     return !0;
             }
             return !1;
         },
-        readyCountFunc: function() {
+        readyCountFunc: function () {
             return readyFunc.length;
         },
-        readyGlobal: function(func) {
+        readyGlobal: function (func) {
             if (document.readyState == "complete") {
                 func.apply(document);
             } else { // store to call on ready complete
                 m_readyGlobalFunc[m_readyGlobalFunc.length] = func;
             }
         },
-        isdevelop: function() {
-            if (typeof(__isdev) == 'undefined') {
+        isdevelop: function () {
+            if (typeof (__isdev) == 'undefined') {
                 __isdev = igk.getScriptLocation().location.split('/').pop() == __devscript;
             }
             return __isdev;
         },
-        readyinvoke: function(n) { // call this function in script that have source content 
+        readyinvoke: function (n) { // call this function in script that have source content 
             //executing script name
             var s = igk_getCurrentScript();
             var t = igk.system.array.slice(arguments, 1);
-            igk.ready(function() {
+            igk.ready(function () {
                 // script :  readyinvoke
                 var ns = igk.system.getNS(n);
-                if (typeof(ns) == 'function') {
+                if (typeof (ns) == 'function') {
                     var bck = m_scriptNode;
                     m_scriptNode = s;
                     ns.apply(s, t);
@@ -5520,7 +5554,7 @@ Name:balafon.js
             });
         },
         isDefine: igk_isdefine,
-        onContentLoad: function(func, priority) {
+        onContentLoad: function (func, priority) {
             // register document load content
             // alert('on content load');
             // if (typeof(document.DOMContentLoad) == 'undefined'){
@@ -5535,9 +5569,9 @@ Name:balafon.js
             else
                 g.callback = [func];
             if (!g.isRegister) {
-                document.addEventListener('DOMContentLoaded', function(evt) {
+                document.addEventListener('DOMContentLoaded', function (evt) {
                     // sort list
-                    g.callback.sort(function(e, i) {
+                    g.callback.sort(function (e, i) {
                         var c = e.priority - i.priority;
                         if (c != 0)
                             c /= Math.abs(c);
@@ -5547,19 +5581,19 @@ Name:balafon.js
                         var fc = g.callback[i];
                         fc.fn.apply(document, [evt]);
                     }
-                    delete(window[k]);
+                    delete (window[k]);
                 });
                 g.isRegister = 1;
             }
         },
-        ready: function(func, sys, complete) {
+        ready: function (func, sys, complete) {
             // ready function
             // sys call by system
             function _async_call(e, document, i) {
                 //@i : name of the measurement function for 'warning duration violation' raise in chrome
                 // console.log("function : "+i);
                 // if (i=="f5")
-                setTimeout(function() {
+                setTimeout(function () {
                     e.apply(document, [i]);
                 }, 10);
             }
@@ -5605,7 +5639,7 @@ Name:balafon.js
                 // clear ready func				
                 readyFunc = [];
                 m_ready_calling = false;
-                if (complete){
+                if (complete) {
                     component.call();
                 }
             } else {
@@ -5617,7 +5651,7 @@ Name:balafon.js
                 }
             }
         },
-        unready: function(func) {
+        unready: function (func) {
             var s = [];
             for (var i = 0; i < readyFunc.length; i++) {
                 if (readyFunc[i] == func) {
@@ -5627,7 +5661,7 @@ Name:balafon.js
             }
             readyFunc = s;
         },
-        getElementsByAttribute: function(properties) {
+        getElementsByAttribute: function (properties) {
             if (!properties)
                 return null;
             var d = document.getElementsByTagName("*");
@@ -5642,20 +5676,26 @@ Name:balafon.js
             }
             return out;
         },
-        selector: function() {
+        selector: function () {
             // ------------------------------------------------------
             // selector element
             // ------------------------------------------------------
             var m_items = [];
             igk_appendProp(this, {
-                getCount: function() { return m_items.length; },
-                push: function(item) {
+                getCount: function () { return m_items.length; },
+                push: function (item) {
                     m_items.push(item);
                     this.length = this.getCount();
                 },
-                isSr: function() { return !0; }, // selector property
-                toString: function() { return "igk.selector[" + this.getCount() + "]"; },
-                each: function(func, args) {
+                isSr: function () { return !0; }, // selector property
+                toString: function () { return "igk.selector[" + this.getCount() + "]"; },
+                /**
+                 * stop loop on return false
+                 * @param {*} func 
+                 * @param {*} args 
+                 * @returns 
+                 */
+                each: function (func, args) {
                     args = args ? args : [];
                     for (var i = 0; i < this.getCount(); i++) {
                         if ((func) && func.apply && !func.apply($igk(m_items[i]), args)) {
@@ -5665,19 +5705,19 @@ Name:balafon.js
                     return this;
                 },
                 // call func in interval chain
-                waitInterval: function(duration, func) {
+                waitInterval: function (duration, func) {
                     function __func_waiter(i, func) {
                         var self = this;
                         igk_appendProp(this, {
                             next: null,
-                            wait: function() {
+                            wait: function () {
                                 func.apply(i, arguments);
                                 // var h=new __func_waiter(self.next,func);
                                 // h.timeout=setTimeout(h.wait,duration);
                                 if (self.next)
                                     self.next.start();
                             },
-                            start: function() {
+                            start: function () {
                                 this.timeout = setTimeout(this.wait, duration);
                             }
                         });
@@ -5699,11 +5739,11 @@ Name:balafon.js
                     }
                     return this;
                 },
-                each_all: function(func, args) {
+                each_all: function (func, args) {
                     // >@ call function in all element
                     if (func) {
                         // correct object expected in ie 8
-                        if (typeof(args) == IGK_UNDEF)
+                        if (typeof (args) == IGK_UNDEF)
                             args = [];
                         for (var i = 0; i < this.getCount(); i++) {
                             func.apply($igk(m_items[i]), args);
@@ -5711,25 +5751,25 @@ Name:balafon.js
                     }
                     return this;
                 },
-                getItemAt: function(index) {
+                getItemAt: function (index) {
                     if ((index >= 0) && (index < this.getCount()))
                         return $igk(m_items[index]);
                     return null;
                 },
-                getLastItem: function() {
+                getLastItem: function () {
                     var c = this.getCount();
                     return c > 0 ? this.getItemAt(c - 1) : null;
                 },
-                getFirstItem: function() {
+                getFirstItem: function () {
                     var c = this.getCount();
                     return c > 0 ? this.first() : null;
                 },
-                getNodeAt: function(index) {
+                getNodeAt: function (index) {
                     if ((index >= 0) && (index < this.getCount()))
                         return m_items[index];
                     return null;
                 },
-                isMatch: function(p, n) {
+                isMatch: function (p, n) {
                     // check if this property match
                     // @p:pattern
                     // @n:dom node			
@@ -5742,7 +5782,7 @@ Name:balafon.js
                     }
                     return !1;
                 },
-                select: function(pattern) {
+                select: function (pattern) {
                     // selector selection pattern		
                     var v_s = new igk.selector();
                     if (this.getCount() == 0) {
@@ -5758,33 +5798,33 @@ Name:balafon.js
                     }
                     return $igk(v_s);
                 },
-                load: function(g) { // load selector
+                load: function (g) { // load selector
                     if (g && g.isSr()) {
                         for (var j = 0; j < g.getCount(); j++) {
                             this.push(g.getNodeAt(j));
                         }
                     }
                 },
-                clear: function() {
+                clear: function () {
                     m_items = new Array();
                 },
-                first(){
+                first() {
                     return null;
                 }
             });
             igk.initprop(this);
         },
-        initprop: function(element) {
-            if (typeof(element.igk) == igk.constants.undef) {
+        initprop: function (element) {
+            if (typeof (element.igk) == igk.constants.undef) {
                 // build element igk property
-                (function() {
+                (function () {
                     this.igk = new __igk_nodeProperty(element);
                     this.igk.$ = window.igk;
                 }).apply(element);
             }
-            if (typeof(element.$) == igk.constants.undef) {
+            if (typeof (element.$) == igk.constants.undef) {
                 // build point to igkFramework
-                (function() {
+                (function () {
                     // this.$=function(){
                     // window.igk;
                     // return null;
@@ -5797,21 +5837,21 @@ Name:balafon.js
         getNumber: igk_getNumber, // expose get number function
         getUnit: igk_getUnit, // expose get unit
         getPixel: igk_getPixel // igk.getPixel
-            // toString: function(){
-            // return "namespace:igk";
-            // }// end tostring
+        // toString: function(){
+        // return "namespace:igk";
+        // }// end tostring
     });
     // igk exception
     igk_appendProp(igk, {
-        exception: function(msg) {
+        exception: function (msg) {
             this.name = "IGKException";
             this.level = "";
-            if (typeof(msg) == "string") {
+            if (typeof (msg) == "string") {
                 this.message = "Error:" + msg;
-            } else if (typeof(msg) == "object") {
+            } else if (typeof (msg) == "object") {
                 igk_appendProp(this, msg);
             }
-            this.toString = function() {
+            this.toString = function () {
                 return this.name + " : " + this.message;
             };
         }
@@ -5822,51 +5862,51 @@ Name:balafon.js
         }
     });
 
- 
+
     // ---------------------------------------------------------
     // publish lib entity
     // ---------------------------------------------------------
-    (function() {
+    (function () {
         var m_publisher = {};
         var m_staticReg = {};
-        var m_publisherobj = new function() {
+        var m_publisherobj = new function () {
             igk.appendProperties(this, {
-                toString: function() { return "publisher obj"; }
+                toString: function () { return "publisher obj"; }
             });
         };
         var m_cinf = {};
         // register function to publish. also used to register static function . call
         createNS("igk.publisher", {
-            createEventData: function(t, ctx) {
+            createEventData: function (t, ctx) {
                 return {
                     target: t,
                     context: ctx
                 };
             },
-            register: function(n, func) {
+            register: function (n, func) {
                 if (!n || !func)
                     return !1;
                 var e = null;
                 if (m_publisher[n]) {
                     e = m_publisher[n];
                 } else {
-                    e = { k: n, s: new igk.system.collections.list(), toString: function() { return "publisher-entity"; } };
+                    e = { k: n, s: new igk.system.collections.list(), toString: function () { return "publisher-entity"; } };
                     m_publisher[n] = e;
                 }
                 e.s.add(func);
             },
-            unregister: function(n, func) {
+            unregister: function (n, func) {
                 var e = m_publisher[n];
-                if (typeof(e) == IGK_UNDEF)
+                if (typeof (e) == IGK_UNDEF)
                     return;
                 e.s.remove(func);
                 if (e.s.getCount() == 0) {
-                    delete(m_publisher[n]);
+                    delete (m_publisher[n]);
                 }
             },
-            publish: function(n, prop) {
+            publish: function (n, prop) {
                 var e = m_publisher[n];
-                if (typeof(e) == IGK_UNDEF)
+                if (typeof (e) == IGK_UNDEF)
                     return;
                 // m_names.push(n);
                 // array copy
@@ -5884,7 +5924,7 @@ Name:balafon.js
                 }
                 // this.name = m_names.pop();
             },
-            getName: function(obj, ns, name) {
+            getName: function (obj, ns, name) {
                 if (obj instanceof igk.object) {
                     if (obj.type == "class") {
                         return name;
@@ -5896,12 +5936,12 @@ Name:balafon.js
                     }
                 }
             },
-            inheritFrom: function(src, parent) {
-                if ((typeof(src) == 'function') && (typeof(parent) == 'function')) {
+            inheritFrom: function (src, parent) {
+                if ((typeof (src) == 'function') && (typeof (parent) == 'function')) {
                     var p = new parent();
                     src.prototype = p;
                     src.prototype.$parent = p;
-                    src.prototype.$super = function(m) {
+                    src.prototype.$super = function (m) {
                         var r = arguments.length > 1 ? igk.system.array.slice(arguments, 1) : null;
                         this.$parent[m].apply(this, r);
                     };
@@ -5909,7 +5949,7 @@ Name:balafon.js
                 }
                 return !1;
             },
-            registerStatic: function(ns, name, func) {
+            registerStatic: function (ns, name, func) {
                 var fname = ns.namespace + "." + name;
                 if (m_staticReg[fname]) {
                     return;
@@ -5925,23 +5965,23 @@ Name:balafon.js
                 // m_staticReg[fname]=1;
                 // }
             },
-            createPublisherEvent: function(prop) {
+            createPublisherEvent: function (prop) {
                 var c = new igk.publisher.event();
                 igk.appendProperties(c, prop);
                 return c;
             },
-            event: function() {
+            event: function () {
                 igk.appendProperties(this, {
-                    toString: function() { return "publisher event"; }
+                    toString: function () { return "publisher event"; }
                 });
             },
-            getCount: function(n) {
+            getCount: function (n) {
                 // number of function list. -1 : no name
                 // -2 : no function
                 n = n || this.name;
                 if (!n) return -1;
                 var e = m_publisher[n];
-                if (typeof(e) == IGK_UNDEF)
+                if (typeof (e) == IGK_UNDEF)
                     return -2;
                 return e.s.getCount();
             }
@@ -5949,12 +5989,12 @@ Name:balafon.js
     })();
     var _js_version = -1;
     createNS("igk.os", {
-        destroysession: function(uri, callback) {
+        destroysession: function (uri, callback) {
             igk.ajx.send({
                 uri: uri,
                 method: 'DELETE',
                 contentType: 'application/json',
-                func: function(xhr) {
+                func: function (xhr) {
                     if (this.isReady()) {
                         if (callback) {
                             callback.apply(this, [xhr]);
@@ -5964,7 +6004,7 @@ Name:balafon.js
                 param: '{destroysession:1}'
             });
         },
-        javascriptVersion: function() {
+        javascriptVersion: function () {
             if (_js_version != -1)
                 return _js_version;
             var _body = igk.dom.body();
@@ -5987,9 +6027,9 @@ Name:balafon.js
             _js_version = _jver;
             return _js_version;
         },
-        checkupdate: function(uri) {
+        checkupdate: function (uri) {
             var q = $igk(igk.getParentScript());
-            (function() {
+            (function () {
                 igk.io.file.load(uri, {
                     error() {
                         q.remove();
@@ -6007,7 +6047,7 @@ Name:balafon.js
                 });
             })();
         },
-        update: function(u) {
+        update: function (u) {
             var w = $igk("#dialog.wait").first();
             if (w) {
                 var m = w.select(".msg").first().clone();
@@ -6019,8 +6059,8 @@ Name:balafon.js
                 );
                 igk.ajx.fn.initnode(m.o);
             }
-            igk.io.file.load(u, function(d) {
-                igk.winui.notify.close(function() {
+            igk.io.file.load(u, function (d) {
+                igk.winui.notify.close(function () {
                     var w = $igk("#dialog.os-complete").first();
                     if (w) {
                         // view notifyied dialog
@@ -6042,9 +6082,9 @@ Name:balafon.js
             });
         },
         // install os zip lib
-        install: function(f, msg) {
+        install: function (f, msg) {
             var q = igk.createNode("div");
-            ns_igk.ajx.postform(f, f.getAttribute('action'), function(xhr) {
+            ns_igk.ajx.postform(f, f.getAttribute('action'), function (xhr) {
                 if (this.isReady()) {
                     f.reset();
                     q.remove();
@@ -6057,33 +6097,33 @@ Name:balafon.js
         }
     });
     createNS("igk.features", {});
-    (function() {
+    (function () {
         var _passive = false;
         try {
             var opts = {};
             igk_defineProperty(opts, 'passive', {
-                get: function() {
+                get: function () {
                     _passive = true;
                 }
             });
             if (window.addEventListener) {
                 window.addEventListener('test', null, opts);
             }
-        } catch (e) {}
+        } catch (e) { }
         igk_defineProperty(igk.features, 'supportPassive', {
-            get: function() {
+            get: function () {
                 return _passive;
             }
         });
         igk_defineProperty(igk.features, 'supportBackgroundWorker', {
-            get: function() {
-                return typeof(window.Worker) !== 'undefined';
+            get: function () {
+                return typeof (window.Worker) !== 'undefined';
             }
         });
     })();
     createNS("igk.fn", {
-        isset: function(i) {
-            if ((i == null) || (typeof(i) == IGK_UNDEF))
+        isset: function (i) {
+            if ((i == null) || (typeof (i) == IGK_UNDEF))
                 return !1;
             return !0;
         }
@@ -6092,7 +6132,7 @@ Name:balafon.js
     // represent utility fonction
     var prop_toextend;
     createNS("igk.fn", {
-        getItemFunc: function(it, n, fallback) {
+        getItemFunc: function (it, n, fallback) {
             if (n in it)
                 return it[n];
             var c = "";
@@ -6104,10 +6144,10 @@ Name:balafon.js
             }
             return fallback;
         },
-        getWindowFunc: function(n, fallback) {
+        getWindowFunc: function (n, fallback) {
             return igk.fn.getItemFunc(window, n, fallback);
         },
-        isItemStyleSupport: function(item, name) {
+        isItemStyleSupport: function (item, name) {
             if (!item || !item.style)
                 return !1;
             var t = [name.toLowerCase()];
@@ -6118,26 +6158,26 @@ Name:balafon.js
             }
             return igk.fn.isItemSupport(item.style, t);
         },
-        isItemSupport: function(e, tab) {
+        isItemSupport: function (e, tab) {
             if (!e || !tab)
                 return !1;
             for (var i = 0; i < tab.length; i++) {
-                if (typeof(e[tab[i]]) != IGK_UNDEF)
+                if (typeof (e[tab[i]]) != IGK_UNDEF)
                     return !0;
             }
             return !1;
         },
-        isItemSupportAll: function(e, tab) {
+        isItemSupportAll: function (e, tab) {
             if (!e || !tab)
                 return !1;
             for (var i = 0; i < tab.length; i++) {
-                if (typeof(e[tab[i]]) == IGK_UNDEF)
+                if (typeof (e[tab[i]]) == IGK_UNDEF)
                     return !1;
             }
             return !0;
         },
-        getItemProperty: function(i, n) { // properties to extends
-            var g = prop_toextend || (function() {
+        getItemProperty: function (i, n) { // properties to extends
+            var g = prop_toextend || (function () {
                 return prop_toextend = {
                     isFullScreen: ["webkitIsFullScreen", "mozFullScreen"],
                     fullscreenElement: ["webkitFullScreenElement", "mozFullScreenElement"],
@@ -6173,7 +6213,7 @@ Name:balafon.js
     // utilisation $igk(document).isFullScreen
     function def_property(o, n) {
         igk_defineProperty($igk(o), n, {
-            get: function() { return o[igk.fn.getItemProperty(o, n)]; }
+            get: function () { return o[igk.fn.getItemProperty(o, n)]; }
         });
     }
     def_property(window.document, "isFullScreen");
@@ -6182,15 +6222,15 @@ Name:balafon.js
     // __init_doc_prope(igk.document);
     // for external management function
     createNS("igk.ext", {
-        call: function(name, p) {
+        call: function (name, p) {
             return igk.invoke(name, p);
         },
-        buildJSONData: function(t) {
+        buildJSONData: function (t) {
             // build json data from target
-            if ((t == null) || (typeof(t) == IGK_UNDEF))
+            if ((t == null) || (typeof (t) == IGK_UNDEF))
                 return "";
             var ob = {};
-            $igk(t).select(".dial-item").each_all(function() {
+            $igk(t).select(".dial-item").each_all(function () {
                 var id = this.getAttribute("id");
                 switch (this.o.tagName.toLowerCase()) {
                     case "select":
@@ -6219,8 +6259,8 @@ Name:balafon.js
     createNS("igk.system.colors", {}); // transparent: "Transparent", black: "#000", navy: "#00007F", darkblue: "#00008C", mediumblue: "#00C", blue: "#00F", darkgreen: "#006300", green: "#007F00", teal: "#007F7F", darkcyan: "#008C8C", deepskyblue: "#00BFFF", darkturquoise: "#00CED1", mediumspringgreen: "#00F999", lime: "#0F0", springgreen: "#00FF7F", aqua: "#0FF", cyan: "#0FF", midnightblue: "#191970", dodgerblue: "#1E8EFF", lightseagreen: "#21B2AA", forestgreen: "#218C21", seagreen: "#2D8C56", darkslategrey: "#2D4F4F", darkslategray: "#2D4F4F", limegreen: "#3C3", mediumseagreen: "#3DB270", turquoise: "#3FE0D1", royalblue: "#3F68E0", steelblue: "#4482B5", darkslateblue: "#473D8C", mediumturquoise: "#47D1CC", indigo: "#490082", darkolivegreen: "#546B2D", cadetblue: "#5E9EA0", cornflowerblue: "#6393ED", mediumaquamarine: "#6CA", dimgray: "#686868", dimgrey: "#686868", slateblue: "#6B59CC", olivedrab: "#6B8E23", slategrey: "#707F8E", slategray: "#707F8E", lightslategray: "#778799", lightslategrey: "#778799", mediumslateblue: "#7A68ED", lawngreen: "#7CFC00", chartreuse: "#7FFF00", aquamarine: "#7FFFD3", maroon: "#7F0000", purple: "#7F007F", olive: "#7F7F00", grey: "#7F7F7F", gray: "#7F7F7F", skyblue: "#87CEEA", lightskyblue: "#87CEF9", blueviolet: "#892BE2", darkred: "#8C0000", darkmagenta: "#8C008C", saddlebrown: "#8C4411", darkseagreen: "#8EBC8E", lightgreen: "#8EED8E", mediumpurple: "#9370D8", darkviolet: "#9300D3", palegreen: "#99F999", darkorchid: "#93C", yellowgreen: "#9C3", sienna: "#A0512D", brown: "#A52828", darkgrey: "#A8A8A8", darkgray: "#A8A8A8", lightblue: "#ADD8E5", greenyellow: "#ADFF2D", paleturquoise: "#AFEDED", lightsteelblue: "#AFC4DD", powderblue: "#AFE0E5", firebrick: "#B22121", darkgoldenrod: "#B7870A", mediumorchid: "#BA54D3", rosybrown: "#BC8E8E", darkkhaki: "#BCB76B", silver: "#BFBFBF", mediumvioletred: "#C61484", indianred: "#CC5B5B", peru: "#CC843F", chocolate: "#D1681E", tan: "#D1B58C", lightgrey: "#D3D3D3", lightgray: "#D3D3D3", palevioletred: "#D87093", thistle: "#D8BFD8", orchid: "#D870D6", goldenrod: "#D8A521", crimson: "#DB143D", gainsboro: "#DBDBDB", plum: "#DDA0DD", burlywood: "#DDB787", lightcyan: "#E0FFFF", lavender: "#E5E5F9", darksalmon: "#E8967A", violet: "#ED82ED", palegoldenrod: "#EDE8AA", lightcoral: "#EF7F7F", khaki: "#EFE58C", aliceblue: "#EFF7FF", honeydew: "#EFFFEF", azure: "#EFFFFF", sandybrown: "#F4A360", wheat: "#F4DDB2", beige: "#F4F4DB", whitesmoke: "#F4F4F4", mintcream: "#F4FFF9", ghostwhite: "#F7F7FF", salmon: "#F97F72", antiquewhite: "#F9EAD6", linen: "#F9EFE5", lightgoldenrodyellow: "#F9F9D1", oldlace: "#FCF4E5", red: "#F00", magenta: "#F0F", fuchsia: "#F0F", deeppink: "#FF1493", orangered: "#F40", tomato: "#FF6347", hotpink: "#FF68B5", coral: "#FF7F4F", darkorange: "#FF8C00", lightsalmon: "#FFA07A", orange: "#FFA500", lightpink: "#FFB5C1", pink: "#FFBFCC", gold: "#FFD600", peachpuff: "#FFD8BA", navajowhite: "#FFDDAD", moccasin: "#FFE2B5", bisque: "#FFE2C4", mistyrose: "#FFE2E0", blanchedalmond: "#FFEACC", papayawhip: "#FFEFD6", lavenderblush: "#FFEFF4", seashell: "#FFF4ED", cornsilk: "#FFF7DB", lemonchiffon: "#FFF9CC", floralwhite: "#FFF9EF", snow: "#FFF9F9", yellow: "#FF0", lightyellow: "#FFFFE0", ivory: "#FFFFEF", white: "#FFF" });
     for (var c in _colors) {
         igk_defineProperty(igk.system.colors, c, {
-            get: (function(c) {
-                return function() {
+            get: (function (c) {
+                return function () {
                     return _colors[c];
                 }
             })(c),
@@ -6229,7 +6269,7 @@ Name:balafon.js
         });
     }
     createNS("igk.Number", {
-        parseByte: function(i) {
+        parseByte: function (i) {
             if (i > 255)
                 return 255;
             if (i < 0)
@@ -6238,7 +6278,7 @@ Name:balafon.js
         }
     });
     createNS("igk.system.color", {
-        HSVtoColor: function(h, s, v) {
+        HSVtoColor: function (h, s, v) {
             // angle 
             var r, g, b;
             var c = v * s;
@@ -6283,7 +6323,7 @@ Name:balafon.js
         }
     }
     createNS("igk.system.colors", {
-        toFloatArray: function(n) { 
+        toFloatArray: function (n) {
             // convert expression color to float array of argb
             var c; // igk.system.colors[n.toLowerCase()];
             if (igk.isInteger(n)) {
@@ -6337,27 +6377,27 @@ Name:balafon.js
     });
 
     createNS("igk.char", {
-        isKeyCodeNumber: function(keyCode) {
+        isKeyCodeNumber: function (keyCode) {
             return (keyCode >= 46) && (keyCode < 69);
         },
-        isChar: function(key) {
+        isChar: function (key) {
             var t = /^[\w\d]$/.exec(key, true);
             return (t != null);
         },
-        isControl: function(keyCode) {
+        isControl: function (keyCode) {
             return (keyCode <= 40);
         }
     });
     createNS("igk.datetime", { // date time utility function
-        timeToMs: function(d) {
-            if (typeof(d) == 'string') {
+        timeToMs: function (d) {
+            if (typeof (d) == 'string') {
                 d = igk_str_trim(d);
                 if (igk.system.string.endWith(d, 's')) {
                     return parseInt(d.substr(0, d.length - 1) * 1000);
                 }
                 return parseInt(d) + "ms";
             }
-            if (typeof(d) == 'number') {
+            if (typeof (d) == 'number') {
                 return parseInt(d) + "ms";
             }
             return 0;
@@ -6377,7 +6417,7 @@ Name:balafon.js
         for (var i = 0; i < progIDs.length; i++) {
             try {
                 return new ActiveXObject(progIDs[i]);
-            } catch (e) {};
+            } catch (e) { };
         }
         return null;
     };
@@ -6385,41 +6425,41 @@ Name:balafon.js
     function __new_activeDocumentObject() {
         var d = __igk_get_activeXDocument();
         if (!d) return null;
-        return new(function(d) {
+        return new (function (d) {
             var m_d = d;
             // encapsulate propertye of created active document to be exposed
             igk_defineProperty(this, "async", {
-                get: function() { return m_d.async; },
-                set: function(v) { m_d.async = v; }
+                get: function () { return m_d.async; },
+                set: function (v) { m_d.async = v; }
             });
             igk_defineProperty(this, "readyState", {
-                get: function() { return m_d.readyState; }
+                get: function () { return m_d.readyState; }
             });
             igk_defineProperty(this, "firstChild", {
-                get: function() { return m_d; }
+                get: function () { return m_d; }
             });
             igk_appendProp(this, {
-                load: function(f) {
+                load: function (f) {
                     return m_d.load(f);
                 },
-                loadXML: function(s) {
+                loadXML: function (s) {
                     return m_d.loadXML(s);
                 },
                 onreadystatechange: null,
-                addEventListener: function(method, func, capture) {
+                addEventListener: function (method, func, capture) {
                     m_d["on" + method] = func;
                 },
-                removeEventListener: function(method, func) {
+                removeEventListener: function (method, func) {
                     m_d["on" + method] = null;
                 },
-                toString: function() { return "[object://igk:activeXDocument]"; }
+                toString: function () { return "[object://igk:activeXDocument]"; }
             });
         })(d);
     }
 
     function __dom_get_root(e) {
         var r = null;
-        $igk(e).select(">>").each(function() {
+        $igk(e).select(">>").each(function () {
             if (this.o.nodeType == 1) {
                 r = this.o;
                 return false;
@@ -6438,7 +6478,7 @@ Name:balafon.js
     var __html = 0;
     var __body = 0;
     createNS("igk.dom", { // dom utilities
-        body: function() {
+        body: function () {
             if (__body && __body.parentNode) {
                 return __body;
             }
@@ -6447,7 +6487,7 @@ Name:balafon.js
                 throw '[BJS] - body not yet loaded';
             return __body;
         },
-        html: function() {
+        html: function () {
             if (!__html) {
                 var c = document.getElementsByTagName('html');
                 if (c.length > 0)
@@ -6455,7 +6495,7 @@ Name:balafon.js
             }
             return __html;
         },
-        replaceTagWith: function(q, tag) {
+        replaceTagWith: function (q, tag) {
             // @q : node
             // @tag: the new tag
             var d = igk.createNode(tag);
@@ -6464,20 +6504,20 @@ Name:balafon.js
             igk.dom.replaceChild(q.o, d.o);
             return d;
         },
-        rectContains: function(domRect, x, y) {
+        rectContains: function (domRect, x, y) {
             // determine if domRect contains cursor location
             return ((x >= domRect.x) && (x <= domRect.right)) && ((y >= domRect.y) && (y <= domRect.bottom));
         },
-        createXMLDocument: function(tagName) {
+        createXMLDocument: function (tagName) {
             if (igk.navigator.$ActiveXObject()) {
                 return __igk_get_activeXDocument();
             }
             return igk.dom.createDocument(tagName || "xml");
         },
-        activeXDocument: function() {
+        activeXDocument: function () {
             return __new_activeDocumentObject();
         },
-        createDocument: function(t, ns) {
+        createDocument: function (t, ns) {
             t = t || "xml";
             var d = null;
             var m_cb = null;
@@ -6487,7 +6527,7 @@ Name:balafon.js
                 // if(typeof(document.implementation.createHTMLDocument) !=igk.constants.undef){
                 // d=document.implementation.createHTMLDocument('');
                 // }else 
-                if (typeof(document.implementation.createDocument) != igk.constants.undef) {
+                if (typeof (document.implementation.createDocument) != igk.constants.undef) {
                     // in ie createDocument create an XMLDocument object
                     d = document.implementation.createDocument(null, t, null);
                 }
@@ -6499,9 +6539,9 @@ Name:balafon.js
             }
             if (d) {
                 if (cs && !d.load) {
-                    d.load = function(l, callback) {
+                    d.load = function (l, callback) {
                         m_cb = callback;
-                        var fc = d.async ? function(xhr) {
+                        var fc = d.async ? function (xhr) {
                             // dispatch ready state
                             var e = document.createEvent("HTMLEvents"); // custom ready state
                             e.initEvent("readystatechange", false, false);
@@ -6526,14 +6566,12 @@ Name:balafon.js
                 } else if (d.load && d.async) {
                     var bfc = d.load;
                     // replace load function					
-                    d.load = function(l, callback) {
+                    d.load = function (l, callback) {
                         m_cb = callback;
                         bfc.apply(this, [l]);
                         return d;
                     };
-                    // __igk(d).reg_event("load",function(){
-                    // });
-                    __igk(d).reg_event("readystatechange", function() {
+                    __igk(d).reg_event("readystatechange", function () {
                         if (m_cb && ((d.readyState == "complete") || (d.readyState == 4))) {
                             m_cb();
                         }
@@ -6542,20 +6580,20 @@ Name:balafon.js
             }
             return d;
         },
-        getPropertiesTab: function(t) {
+        getPropertiesTab: function (t) {
             var o = [];
             for (var i in t) {
-                if (typeof(t[i]) == "function")
+                if (typeof (t[i]) == "function")
                     continue;
                 o[i] = t[i];
             }
             return o;
         },
-        compare: function(tab, t) {
+        compare: function (tab, t) {
             var o = [];
             var c = {};
             for (var i in t) {
-                if (typeof(t[i]) == "function")
+                if (typeof (t[i]) == "function")
                     continue;
                 o[i] = t[i];
                 if (tab[i] != o[i])
@@ -6563,11 +6601,11 @@ Name:balafon.js
             }
             return c;
         },
-        replaceChild: function(target, node) { // replace the "target" node with the requested "node"
+        replaceChild: function (target, node) { // replace the "target" node with the requested "node"
             if (target)
                 target.parentNode.replaceChild(node, target);
         },
-        copyAttributes: function(f, n, a) { // copy attribute
+        copyAttributes: function (f, n, a) { // copy attribute
             // f from node
             // n to node
             // a ignore attribute
@@ -6580,14 +6618,14 @@ Name:balafon.js
                     if ((a != null) && (a[j.name] == 1))
                         continue;
                     n.setAttribute(j.name, j.value);
-                } catch (Exception) {}
+                } catch (Exception) { }
             }
         },
-        transformXSL: function(xml, xsl) {
+        transformXSL: function (xml, xsl) {
             if (!xml || !xsl)
                 return null;
             var ex = null;
-            if (document.implementation && document.implementation.createDocument && (typeof(XSLTProcessor) != igk.constants.undef)) {
+            if (document.implementation && document.implementation.createDocument && (typeof (XSLTProcessor) != igk.constants.undef)) {
                 // navigator: sf,ch,fi
                 var xsltProcessor = new XSLTProcessor();
                 xsltProcessor.importStylesheet(xsl);
@@ -6618,7 +6656,7 @@ Name:balafon.js
             }
             return ex;
         },
-        transformXSLString: function(sxml, sxsl) {
+        transformXSLString: function (sxml, sxsl) {
             // return the document 
             var ex = null;
             if (igk.navigator.$ActiveXObject()) {
@@ -6664,14 +6702,14 @@ Name:balafon.js
             }
             return ex;
         },
-        transformXSLUri: function(u_xml, u_xsl, callback) {
+        transformXSLUri: function (u_xml, u_xsl, callback) {
             var doc = igk.dom.createDocument();
             var ex = null;
             if (callback) {
                 // use async strategie
                 doc.async = true;
                 doc.load && doc.load(u_xml,
-                    function(evt) {
+                    function (evt) {
                         var doc2 = igk.dom.createDocument();
                         doc2.async = false;
                         doc2.validateOnParse = false;
@@ -6690,7 +6728,7 @@ Name:balafon.js
                             ex = $igk(ex).replaceTagWith("html").o;
                             // igk.DEBUG=1;
                             // order is important
-                            $igk(ex).select(" igk-th,igk-td,igk-tr,igk-table").each(function() {
+                            $igk(ex).select(" igk-th,igk-td,igk-tr,igk-table").each(function () {
                                 this.replaceTagWith(this.o.tagName.substring(4).toLowerCase());
                                 return true;
                             });
@@ -6702,7 +6740,7 @@ Name:balafon.js
             } else {
                 doc.async = false;
                 doc.load && doc.load(u_xml,
-                    function(evt) {
+                    function (evt) {
                         var doc2 = igk.dom.createDocument();
                         doc2.async = false;
                         var xsl = doc2.load(u_xsl);
@@ -6712,7 +6750,7 @@ Name:balafon.js
                 return ex;
             }
         },
-        loadXML: function(s) {
+        loadXML: function (s) {
             var r = null;
             var _ch = igk.navigator.isChrome() || igk.navigator.isSafari();
             if (_ch) {
@@ -6724,17 +6762,17 @@ Name:balafon.js
                 if (r && r.tagName.toLowerCase() == "parsererror") {
                     return null;
                 }
-            } else { 
+            } else {
                 r = igk.dom.activeXDocument();
                 r.load(s);
             }
             return r;
         }
     });
-    (function() {
+    (function () {
         var m_xsltransform = []; // array of good transformation
         createNS("igk.dom.xslt", {
-            initTransform: function() {
+            initTransform: function () {
                 var p = $igk(igk.getParentScript());
                 if (!p) {
                     return;
@@ -6771,11 +6809,11 @@ Name:balafon.js
                             type: "xmltransform",
                             idx: m_xsltransform.length,
                             options: opts,
-                            initResult: function(callback) {
+                            initResult: function (callback) {
                                 callback(p);
                                 _callback = callback;
                             },
-                            reload: function(opts) {
+                            reload: function (opts) {
                                 console.debug("reload");
                                 console.debug(opts);
                                 var c = this.idx;
@@ -6802,7 +6840,7 @@ Name:balafon.js
             }
         });
         igk.appendProperties(igk.dom.xslt.initTransform, {
-            lastTransform: function() {
+            lastTransform: function () {
                 if (m_xsltransform.length > 0)
                     return m_xsltransform[m_xsltransform.length - 1];
                 return null;
@@ -6826,7 +6864,7 @@ Name:balafon.js
         }
         if (q && !q.isSr()) {
             return igk.ajx.fn.replace_content(q.o);
-        } 
+        }
         return null;
     };
 
@@ -6841,7 +6879,7 @@ Name:balafon.js
         }
     }
     createNS("igk.form", {
-        keypress_validate: function(i, event) {
+        keypress_validate: function (i, event) {
             var frm = null;
             if (event.keyCode == 13) {
                 event.preventDefault();
@@ -6851,7 +6889,7 @@ Name:balafon.js
             }
             return !0;
         },
-        submitonclick: function(l) {
+        submitonclick: function (l) {
             var q = window.igk.getParentByTagName(l, 'form');
             if (q) {
                 igk_form_submit(q);
@@ -6859,7 +6897,7 @@ Name:balafon.js
             }
             return !0;
         },
-        confirmLink: function(e, msg) {
+        confirmLink: function (e, msg) {
             var f = igk.getParentByTagName(e, 'form');
             if (f) {
                 if (confirm(msg)) {
@@ -6869,7 +6907,7 @@ Name:balafon.js
                 }
             }
         },
-        updateTarget: function(form, cibling) {
+        updateTarget: function (form, cibling) {
             // update the cibling object
             // >form : source form 
             // >cibling : object to update properties
@@ -6877,7 +6915,7 @@ Name:balafon.js
                 return;
             var q = form;
             for (var i in cibling) {
-                if (typeof(q[i]) != 'undefined' && (q[i].type != 'undefined')) {
+                if (typeof (q[i]) != 'undefined' && (q[i].type != 'undefined')) {
                     switch (q[i].type) {
                         case "checkbox":
                         case "radio":
@@ -6893,7 +6931,7 @@ Name:balafon.js
                 }
             }
         },
-        posturi: function(uri, method) {
+        posturi: function (uri, method) {
             var frm = igk.createNode("form");
             frm.setCss({ "display": "none" });
             igk.dom.body().appendChild(frm.o);
@@ -6901,7 +6939,7 @@ Name:balafon.js
             frm.o.action = uri;
             frm.o.submit();
         },
-        form_tojson: function(form) {
+        form_tojson: function (form) {
             if (!form)
                 return null;
             var p = [];
@@ -6914,7 +6952,7 @@ Name:balafon.js
                     continue;
                 if (igk.system.string.endWith(k, "[]")) {
                     k = igk.system.string.remove(k, k.length - 2, 2);
-                    if (typeof(p[k]) == "undefined") {
+                    if (typeof (p[k]) == "undefined") {
                         p[k] = [];
                     }
                 }
@@ -6927,7 +6965,7 @@ Name:balafon.js
                         }
                         if (p[k]) {
                             var m = p[k];
-                            if (typeof(m) != "string") {
+                            if (typeof (m) != "string") {
                                 m.push(vv);
                                 p[k] = m;
                             } else {
@@ -6944,7 +6982,7 @@ Name:balafon.js
                     default:
                         if (p[k]) {
                             var m = p[k];
-                            if (typeof(m) != "string") {
+                            if (typeof (m) != "string") {
                                 m.push(e.value);
                                 p[k] = m;
                             } else {
@@ -6972,7 +7010,7 @@ Name:balafon.js
             }
             return "{" + msg + "}";
         },
-        parse: function(frm) {
+        parse: function (frm) {
             var m = "";
             m = igk_get_form_posturi(frm);
             return m;
@@ -6981,9 +7019,9 @@ Name:balafon.js
 
     // method used for ajx form control
     createNS("igk.form.ajxform", {
-        submit: function(frm) {
+        submit: function (frm) {
             // var q = $igk(frm).getAttribute("igk:target");
-            ns_igk.ajx.postform(frm, igk_form_geturi(frm), function(xhr) {
+            ns_igk.ajx.postform(frm, igk_form_geturi(frm), function (xhr) {
                 if (this.isReady()) {
                     var v = $igk(frm).select(".response").first();
                     if (v) {
@@ -6998,7 +7036,7 @@ Name:balafon.js
     });
     // web utility functions
     createNS("igk.web", {
-        setcookies: function(name, value, exdays, path) {
+        setcookies: function (name, value, exdays, path) {
             var exdate = new Date();
             if (exdays)
                 exdate.setDate(exdate.getDate() + exdays);
@@ -7008,7 +7046,7 @@ Name:balafon.js
                 c_value += "; Path=" + path;
             document.cookie = name + "=" + c_value;
         },
-        getcookies: function(name) {
+        getcookies: function (name) {
             var c_value = document.cookie;
             var c_start = c_value.indexOf(" " + name + "=");
             if (c_start == -1) {
@@ -7026,10 +7064,10 @@ Name:balafon.js
             }
             return c_value;
         },
-        clearcookies: function() {
+        clearcookies: function () {
             document.cookie = null;
         },
-        rmcookies: function(name) {
+        rmcookies: function (name) {
             var s = document.cookie + "";
             var i = s.indexOf(name);
             if (i >= 0) {
@@ -7039,38 +7077,38 @@ Name:balafon.js
     });
     // web utility functions
     createNS("igk.web.storage", {
-        get: function(k, v) {
+        get: function (k, v) {
             if (window.sessionStorage) {
                 return window.sessionStorage[k] || v;
             }
         },
-        set: function(k, v) {
+        set: function (k, v) {
             if (window.sessionStorage) {
                 window.sessionStorage[k] = v;
             }
         },
-        getLocal: function(k, v) {
+        getLocal: function (k, v) {
             if (window.localStorage) {
                 return window.localStorage[k] || v;
             }
         },
-        storeLocal: function(k, v) {
+        storeLocal: function (k, v) {
             if (window.localStorage) {
                 window.localStorage[k] = v;
             }
         }
     });
-    (function() { // init system
-        if (typeof(Event) == IGK_UNDEF) {
+    (function () { // init system
+        if (typeof (Event) == IGK_UNDEF) {
             Event = {
                 prototype: {},
-                toString: function() {
+                toString: function () {
                     return "[object igk.event]";
                 }
             };
         }
-        if ((typeof(Event.prototype.preventDefault) == IGK_UNDEF)) {
-            Event.prototype.preventDefault = function() {};
+        if ((typeof (Event.prototype.preventDefault) == IGK_UNDEF)) {
+            Event.prototype.preventDefault = function () { };
         }
         return !0;
     })();
@@ -7132,6 +7170,7 @@ Name:balafon.js
             _m.initScript = v_script;
             _m.dir = u.substring(0, u.lastIndexOf("/"));
             m_moduleList[n] = _m;
+            m_module_info = _m;
         } else {
             if (igk_get_trace_info(_m, e, 1)) {
                 m_module_info = _m;
@@ -7178,15 +7217,15 @@ Name:balafon.js
         createExtensionProperty(p, ns, obj) {
             var prop = ns;
             var _n = igk_get_namespace(ns);
-           
-            if (typeof(_n) == "undefined") {
+
+            if (typeof (_n) == "undefined") {
                 _n = createNS(prop, {});
             }
-          
-            if (typeof(_n[p]) == "undefined") {
+
+            if (typeof (_n[p]) == "undefined") {
                 var ob = new __extensionPrototype(p);
                 igk_defineProperty(_n, p, {
-                    get: function() {
+                    get: function () {
                         return ob;
                     }
                 });
@@ -7201,16 +7240,16 @@ Name:balafon.js
          * @param {*} ob object
          */
 
-        defineOption(n, ob){
-            let op = igk.system.createNS(n,ob);            
+        defineOption(n, ob) {
+            let op = igk.system.createNS(n, ob);
             return op;
         },
-        stringProperties: function(o) {
+        stringProperties: function (o) {
             // stringify properties
             var m = "";
             var k = 0;
             for (var i in o) {
-                if (typeof(o[i]) == "function") continue;
+                if (typeof (o[i]) == "function") continue;
                 if (k == 1)
                     m += ",";
                 m += i + ":" + o[i];
@@ -7237,7 +7276,7 @@ Name:balafon.js
             return r;
         },
         isInherit(o, A) {
-            if (!o || (typeof(o) != 'object'))
+            if (!o || (typeof (o) != 'object'))
                 return false;
             var c = Object.getPrototypeOf(o);
             while (c) {
@@ -7250,9 +7289,17 @@ Name:balafon.js
             }
             return false;
         },
+        /**
+         * 
+         * @param {*} ns 
+         * @param {*} tn 
+         * @param {*} constructor 
+         * @param {*} opts 
+         * @returns 
+         */
         createClass(ns, tn, constructor, opts) {
             if (!igk.system.class) {
-                igk.system.class = function() {};
+                igk.system.class = function () { };
             }
             if (!constructor) {
                 console.error("createClass constructor required");
@@ -7260,7 +7307,7 @@ Name:balafon.js
             }
             // var tn = '';
             var p = null;
-            if (typeof(tn) == 'object') {
+            if (typeof (tn) == 'object') {
                 var g = tn;
                 tn = g.name;
                 p = g.parent;
@@ -7269,7 +7316,7 @@ Name:balafon.js
                 }
             }
             var fc = 0;
-            fc = function() {
+            fc = function () {
                 if (this == ns) {
                     throw (opts ? opts.msg : null) || igk.R.gets("<< new >> operator is require");
                 }
@@ -7279,13 +7326,13 @@ Name:balafon.js
                 constructor.apply(this, arguments);
                 //bind properties that apply to 
                 igk.appendProperties(this, {
-                    getTypeFullName: function() {
+                    getTypeFullName: function () {
                         return ns.fullname + "." + tn;
                     },
-                    getType: function() {
+                    getType: function () {
                         return tn;
                     },
-                    isInstanceOf: function(t) {
+                    isInstanceOf: function (t) {
                         return igk.system.isInherit(this, t);
                     }
                 });
@@ -7301,16 +7348,16 @@ Name:balafon.js
             fc.__source__ = 'class';
             fc.__name__ = tn;
             igk.defineProperty(fc, 'fullname', {
-                get: function() {
+                get: function () {
                     return ns.fullname + '.' + tn;
                 }
             });
             fc.__fullname__ = ns.fullname + '.' + tn;
-            if (typeof(p) == 'string') {
+            if (typeof (p) == 'string') {
                 var r = igk.system.getNS(p);
                 if (r == null) {
                     var bfc = fc;
-                    fc = function() {
+                    fc = function () {
                         var k = igk.system.getNS(p);
                         if (k) {
                             bfc.prototype = k;
@@ -7335,61 +7382,61 @@ Name:balafon.js
             igk.system.createNS(ns.fullname, {
                 tn: fc
             });
-            igk.defineProperty(fc, 'name', { get: function() { return tn; } });
+            igk.defineProperty(fc, 'name', { get: function () { return tn; } });
             ns[tn] = fc;
             return fc;
         },
-        createClassList: function(ns, e) {
+        createClassList: function (ns, e) {
             if (!ns)
                 return 0;
             var g = 0;
             for (var i in e) {
-                if (typeof(g = e[i]) == "function") {
+                if (typeof (g = e[i]) == "function") {
                     ns[i] = igk.system.createClass(ns, i, g);
                     // ns[i].__source__ = "class";
                 }
             }
         },
-        getClassList: function(ns) {
-            if (typeof(ns) == 'string')
+        getClassList: function (ns) {
+            if (typeof (ns) == 'string')
                 ns = igk.system.getNS(ns);
             var tab = [];
             for (var s in ns) {
-                if (typeof(ns[s]) == 'function' && (ts = ns[s].__source__) && (ts == 'class')) {
+                if (typeof (ns[s]) == 'function' && (ts = ns[s].__source__) && (ts == 'class')) {
                     tab.push({ name: s, ns: ns.fullname, func: ns[s] });
                 }
             }
             return tab;
         },
-        getBindFunctions: function(n) {
+        getBindFunctions: function (n) {
             var r = {};
-            if (typeof(n) == 'object') {
+            if (typeof (n) == 'object') {
                 for (var i in n) {
-                    if (typeof(n[i]) == 'function')
+                    if (typeof (n[i]) == 'function')
                         r[i] = n[i].bind(n);
                 }
             }
             return r;
         },
-        evalScript: function(item) {
+        evalScript: function (item) {
             if (item == null) return;
             var t = item.getElementsByTagName("script");
             for (var i = 0; i < t.length; i++) {
                 igk.evalScript(t[i].innerHTML, t[i].parentNode, t[i]);
             }
         },
-        toString: function() { return "igk.system"; },
+        toString: function () { return "igk.system"; },
         getNS: igk_get_namespace,
-        require: function(n) {
+        require: function (n) {
             var t = igk_get_namespace(n);
             if (!t)
                 throw new Error('namespace ' + n + ' not found');
             return t;
         },
-        include: function(u) {
+        include: function (u) {
             var src = null;
             // include script in expression
-            igk.ajx.post(u, null, function(xhr) {
+            igk.ajx.post(u, null, function (xhr) {
                 if (this.isReady()) {
                     src = xhr.responseText;
                     if (src)
@@ -7400,10 +7447,10 @@ Name:balafon.js
     });
     createNS("igk.system.diagnostic", {
         traceinfo: igk_get_trace_info, // module, error, level
-        debug: function(m) {
+        debug: function (m) {
             console.debug(m);
         },
-        assert: function(c, m) {
+        assert: function (c, m) {
             if (c)
                 console.assert(c, m);
         }
@@ -7415,7 +7462,7 @@ Name:balafon.js
         return t;
     };
     // igk.system.color management
-    (function() {
+    (function () {
         var _cnode = 0; //convertter node with css
         var S = igk.system;
         var _CNS = igk.system.color || {};
@@ -7426,7 +7473,7 @@ Name:balafon.js
             this.b = b;
             this.a = a ? a : 1.0;
             igk.appendProperties(this, {
-                toString: function() {
+                toString: function () {
                     var r = this.r;
                     var g = this.g;
                     var b = this.b;
@@ -7435,7 +7482,7 @@ Name:balafon.js
                         return "rgb(" + r + "," + g + "," + b + ")";
                     return "rgba(" + r + "," + g + "," + b + "," + a + ")";
                 },
-                toHtml: function() { // var decColor=b +(256 * g) +(65536 * r);
+                toHtml: function () { // var decColor=b +(256 * g) +(65536 * r);
                     var r = this.r;
                     var g = this.g;
                     var b = this.b;
@@ -7448,7 +7495,7 @@ Name:balafon.js
                             return "#000";
                     return "#" + decColor.toString(16).padStart(6, '0');
                 },
-                toColorf: function(p) {
+                toColorf: function (p) {
                     var _r = Math.round;
                     p = Math.pow(100, (p || 5));
                     return {
@@ -7458,8 +7505,8 @@ Name:balafon.js
                         b: _r((this.b / 255.0) * p) / p
                     };
                 },
-                toInt: function() { return (this.r << 16) + (this.g << 8) + this.b; },
-                getLuminance: function() {
+                toInt: function () { return (this.r << 16) + (this.g << 8) + this.b; },
+                getLuminance: function () {
                     var r, g, b, cl = this;
                     r = cl.r;
                     g = cl.g;
@@ -7471,10 +7518,10 @@ Name:balafon.js
         igk.appendProperties(__ColorClass, _CNS);
         igk.appendProperties(igk.system, {
             color: __ColorClass,
-            colorGetA: function(v) {
+            colorGetA: function (v) {
                 if (!v)
                     return 0;
-                if (typeof(v) == 'string') {
+                if (typeof (v) == 'string') {
                     if (v.toLowerCase() == "transparent") {
                         return 0;
                     }
@@ -7494,7 +7541,7 @@ Name:balafon.js
                 }
                 return 1;
             },
-            colorFromString: function(value) {
+            colorFromString: function (value) {
                 // @@@ static function get color from string
                 var r = 0;
                 var g = 0;
@@ -7557,10 +7604,10 @@ Name:balafon.js
                 }
                 return new igk.system.color(r, g, b, a);
             },
-            colorfFromString: function(value) {
+            colorfFromString: function (value) {
                 return igk.system.colorFromString(value).toColorf();
             },
-            hsl2rgb: function(h, l, v) {
+            hsl2rgb: function (h, l, v) {
                 if (!_cnode) {
                     _cnode = igk.createNode("div");
                     //chrome require node to be added
@@ -7570,14 +7617,14 @@ Name:balafon.js
                 _cnode.setCss({ backgroundColor: 'hsl(' + h + ',' + l + '%, ' + v + '%)' });
                 return S.colorFromString(_cnode.getComputedStyle('backgroundColor'));
             },
-            hsl2rgbf: function(h, l, v) {
+            hsl2rgbf: function (h, l, v) {
                 if (!_cnode) {
                     _cnode = igk.createNode("div");
                 }
                 _cnode.setCss({ backgroundColor: 'hsl(' + h + ',' + l + '%, ' + v + '%)' });
                 return S.colorfFromString(_cnode.getComputedStyle('backgroundColor'));
             },
-            rgb2hsl: function(r, g, b) {
+            rgb2hsl: function (r, g, b) {
                 var min;
                 var max;
                 var delta;
@@ -7625,10 +7672,10 @@ Name:balafon.js
     })();
     //date management
     createNS("igk.system.Date", {
-        format: function(date, format) {
+        format: function (date, format) {
             var _date = new Date(date);
             var s = format;
-            s = s.replace(/(Y|m|d|H|i|s)/g, function(m) {
+            s = s.replace(/(Y|m|d|H|i|s)/g, function (m) {
                 switch (m) {
                     case "Y":
                         return _date.getFullYear();
@@ -7650,13 +7697,25 @@ Name:balafon.js
             // " " + _s(_date.getHours()) + ":" + _s(_date.getMinutes()) + ":" + _s(_date.getSeconds());
         }
     });
+    function _baseUri() {
+        const { protocol, host } = document.location;
+        return protocol + "//" + host;
+    };
     // export module loading
     createNS("igk.system.module", {
-        load: function(n, callback) { // load script in module script async
+        /**
+         * load uri in current module
+         * @param {string} n 
+         * @param {(target_script: any)=>void} callback 
+         * @returns 
+         */
+        load: function (n, callback, base) { // load script in module script async
+
             var _m = m_module_info; // get current module info
             var _s = null;
-            if (!_m || !_m.dir)
+            if (!base && (!_m || !_m.dir))
                 return;
+            const _uri = (base ? _baseUri() : _m.dir) + n;
             // var _loaded 
             if (_m && !(n in m_module_loaded)) {
                 m_module_loaded[n] = 1;
@@ -7664,51 +7723,52 @@ Name:balafon.js
                 q.setAttribute("defer", 1);
                 if (document.head)
                     $igk(document.head).add(q);
-                q.reg_event("load", function(evt) {
+                q.reg_event("load", function (evt) {
                     if (callback) {
                         callback(q);
                     }
                 });
-                q.o.src = _m.dir + n;
+
+                q.o.src = _uri;
             }
         },
-        getFileUri: function(f) {
+        getFileUri: function (f) {
             if (igk.validator.isUri(f))
                 return f;
             var _m = m_module_info;
             return _m.dir + f;
         },
-        getModuleLocation: function() {
+        getModuleLocation: function () {
             return m_module_info ? m_module_info.dir : null;
         },
         getModule: igk_getModule
     });
-    igk.defineProperty(igk.system.module, "loadedModules", { get: function() { return m_module_loaded; } });
-    igk.defineProperty(igk.system.module, "currentModuleInfo", { get: function() { return m_module_info; } });
+    igk.defineProperty(igk.system.module, "loadedModules", { get: function () { return m_module_loaded; } });
+    igk.defineProperty(igk.system.module, "currentModuleInfo", { get: function () { return m_module_info; } });
     var _app_link = null;
     createNS("igk.system.apps", { // system application manager namespace
     });
-    igk.defineProperty(igk.system.apps, "link", { get: function() { return _app_link; } });
+    igk.defineProperty(igk.system.apps, "link", { get: function () { return _app_link; } });
     createNS("igk.system.styles", {
-        textShadow: function(x, y, offset, color) {
+        textShadow: function (x, y, offset, color) {
             this.x = x;
             this.y = y;
             this.offset = offset,
                 this.color = igk.system.createFromString(color);
-            this.toString = function() { return "igk.system.styles.textshadow"; };
+            this.toString = function () { return "igk.system.styles.textshadow"; };
         },
-        textShadowCreate: function(s) { // create a text shadow properties
+        textShadowCreate: function (s) { // create a text shadow properties
             if (s == "none") {
                 return new igk.system.styles.textShadow(0, 0, 0, "transparent");
             } else {
                 var tab = s.split(" ");
                 if (tab.length == 4) {
                     return new
-                    igk.system.styles.textShadow(
-                        igk.getNumber(tab[0]),
-                        igk.getNumber(tab[1]),
-                        igk.getNumber(tab[2]),
-                        tab[3]);
+                        igk.system.styles.textShadow(
+                            igk.getNumber(tab[0]),
+                            igk.getNumber(tab[1]),
+                            igk.getNumber(tab[2]),
+                            tab[3]);
                 }
                 return null;
             }
@@ -7716,25 +7776,25 @@ Name:balafon.js
     });
     var m_lastError;
     createNS("igk.error", {});
-    igk_defineProperty(igk.error, "lastError", { get: function() { return m_lastError; }, set: function(v) { m_lastError = v; } });
+    igk_defineProperty(igk.error, "lastError", { get: function () { return m_lastError; }, set: function (v) { m_lastError = v; } });
     createNS("igk.system.collections", {
-        list: function() { // list object
+        list: function () { // list object
             var m_list = [];
             igk.appendProperties(this, {
-                getCount: function() {
+                getCount: function () {
                     return m_list.length;
                 },
-                toString: function() { return "igk.system.collections.list#" + this.getCount() },
-                add: function(item) {
+                toString: function () { return "igk.system.collections.list#" + this.getCount() },
+                add: function (item) {
                     // if(item && !this.contains(item))
                     m_list.push(item);
                 },
-                clear: function() {
+                clear: function () {
                     if (this.getCount() > 0) {
                         m_list = [];
                     }
                 },
-                remove: function(item) {
+                remove: function (item) {
                     var cp = [];
                     var c = false;
                     for (var s = 0; s < m_list.length; s++) {
@@ -7746,7 +7806,7 @@ Name:balafon.js
                     m_list = cp;
                     return c;
                 },
-                removeAt: function(index) {
+                removeAt: function (index) {
                     // create a clone copy
                     var cp = [];
                     var c = false;
@@ -7758,7 +7818,7 @@ Name:balafon.js
                     m_list = cp;
                     return c;
                 },
-                indexOf: function(item) {
+                indexOf: function (item) {
                     if (!item)
                         return -1;
                     for (var i = 0; i < this.getCount(); i++) {
@@ -7768,19 +7828,19 @@ Name:balafon.js
                     }
                     return -1;
                 },
-                getItemAt: function(index) {
+                getItemAt: function (index) {
                     if ((index >= 0) && (index < this.getCount()))
                         return m_list[index];
                     return null;
                 },
-                to_array: function() {
+                to_array: function () {
                     var t = [];
                     for (var i = 0; i < this.getCount(); i++) {
                         t.push(m_list[i]);
                     }
                     return t;
                 },
-                contains: function(item) {
+                contains: function (item) {
                     if (!item)
                         return !1;
                     for (var i = 0; i < this.getCount(); i++) {
@@ -7790,7 +7850,7 @@ Name:balafon.js
                     }
                     return !1;
                 },
-                forEach: function(callback) {
+                forEach: function (callback) {
                     if (callback) {
                         var c = this.getCount();
                         for (var i = 0; i < c; i++) {
@@ -7801,26 +7861,26 @@ Name:balafon.js
                 }
             });
         },
-        dictionary: function() { // represent igk system dictionary
+        dictionary: function () { // represent igk system dictionary
             var m_keys = new igk.system.collections.list(); // keys list
             var m_values = new igk.system.collections.list(); // obj list
             var m_index = -1;
             var m_ck = null;
             var m_cv = null;
             igk.appendProperties(this, {
-                it: function() {
+                it: function () {
                     m_index = 0;
                     m_ck = null;
                     m_cv = null;
                 },
-                clear: function() {
+                clear: function () {
                     m_keys.clear();
                     m_values.clear();
                     m_ck = null;
                     m_cv = null;
                     m_index = 0;
                 },
-                moveNext: function() {
+                moveNext: function () {
                     if (m_index < this.getCount()) {
                         m_ck = m_keys.getItemAt(m_index);
                         m_cv = m_values.getItemAt(m_index);
@@ -7832,30 +7892,30 @@ Name:balafon.js
                         return !1;
                     }
                 },
-                getcurrentKey: function() { return m_ck; },
-                getcurrentValue: function() { return m_cv; },
-                toString: function() {
+                getcurrentKey: function () { return m_ck; },
+                getcurrentValue: function () { return m_cv; },
+                toString: function () {
                     return "igk.system.collections.dictionary#[count:" + this.getCount() + "]";
                 },
-                getKeys: function() { // return keys of the collection as an array
+                getKeys: function () { // return keys of the collection as an array
                     return m_keys.to_array();
                 },
-                getValues: function() { // return value of the collection as an array
+                getValues: function () { // return value of the collection as an array
                     return m_values.to_array();
                 },
-                containKey: function(key) {
+                containKey: function (key) {
                     return (m_keys.indexOf(key) != -1);
                 },
-                getItem: function(key) {
+                getItem: function (key) {
                     var i = m_keys.indexOf(key);
                     if (i == -1)
                         return null;
                     return m_values.getItemAt(i);
                 },
-                getCount: function() {
+                getCount: function () {
                     return m_keys.getCount();
                 },
-                add: function(key, value) {
+                add: function (key, value) {
                     if (!key) return;
                     var i = m_keys.indexOf(key);
                     if (i == -1) {
@@ -7863,7 +7923,7 @@ Name:balafon.js
                         m_values.add(value);
                     }
                 },
-                remove: function(key) {
+                remove: function (key) {
                     var i = m_keys.indexOf(key);
                     if (i != -1) {
                         m_keys.removeAt(i);
@@ -7876,7 +7936,7 @@ Name:balafon.js
         }
     });
     createNS("igk.system.array", { // array utility fonctions
-        isContain: function(t, u) {
+        isContain: function (t, u) {
             if (t) {
                 if (t.contains) { // firefox
                     return t.contains(u);
@@ -7889,22 +7949,22 @@ Name:balafon.js
             }
             return !1;
         },
-        slice: function(tab, startindex) {
+        slice: function (tab, startindex) {
             var v_otab = [];
             for (var i = startindex; i < tab.length; i++) {
                 v_otab.push(tab[i]);
             }
             return v_otab;
         },
-        sort: function(tab) {
+        sort: function (tab) {
             if (tab) {
                 if (tab && Array && Array.sort) {
                     return Array.sort(tab);
                 } else if (tab.sort) {
                     // implement a sort method function
-                    tab.sort(function(a, b) {
-                        var ta = typeof(a);
-                        var tb = typeof(b);
+                    tab.sort(function (a, b) {
+                        var ta = typeof (a);
+                        var tb = typeof (b);
                         if (ta == tb) {
                             switch (ta) {
                                 case 'number':
@@ -7935,7 +7995,7 @@ Name:balafon.js
         return evt;
     }
     createNS("igk.winui.events", { // utility events function
-        raise: function(t, n) { // raiseEvent
+        raise: function (t, n) { // raiseEvent
             // @t : target 
             // @n : event name 
             // extra: properties to append
@@ -7955,13 +8015,13 @@ Name:balafon.js
                     }
                     t.dispatchEvent(evt);
                     createNS("igk.Event", {
-                        createEvent: function(n) {
+                        createEvent: function (n) {
                             return new Event(n);
                         }
                     });
                 } catch (ex) {
                     createNS("igk.Event", {
-                        createEvent: function(n) {
+                        createEvent: function (n) {
                             return new _CustomEvent(n, null);
                         }
                     });
@@ -7974,16 +8034,16 @@ Name:balafon.js
             }
         },
         createEvent: _CustomEvent,
-        regKeyPress: function(fc) {
+        regKeyPress: function (fc) {
             igk_winui_reg_event(document, "keypress keyup", fc);
         },
-        unregKeyPress: function(fc) {
+        unregKeyPress: function (fc) {
             igk.winui.unreg_event(document, "keypress keyup", fc);
         },
         /**
          * return system global management event
          */
-        global: function() {
+        global: function () {
             if (!__global) {
                 __global = document.createElement('div');
                 $igk(__global).addEvent('igk_controller_ready', {});
@@ -7995,7 +8055,7 @@ Name:balafon.js
          * @param {*} item 
          * @param {*} n 
          */
-        clean: function(item, n) {
+        clean: function (item, n) {
             let w = $igk(item);
             let e = w.o[n];
             if (e && (e.constructor.name == 'Event')) {
@@ -8004,10 +8064,10 @@ Name:balafon.js
             }
         }
     });
-    (function() {
+    (function () {
         var maillink = null;
         createNS("igk.mail", {
-            sendmail: function(mail) {
+            sendmail: function (mail) {
                 if (maillink == null)
                     maillink = igk.createNode('a');
                 var a = maillink;
@@ -8017,7 +8077,7 @@ Name:balafon.js
             }
         });
     })();
-    (function() {
+    (function () {
         var m_iframes = [];
 
         function _get_loaded_text(item) {
@@ -8044,16 +8104,16 @@ Name:balafon.js
             return c;
         };
         createNS("igk.file", { // file utiility name space
-            getcontents: function(uri, callback, async) {
+            getcontents: function (uri, callback, async) {
                 if (uri == null)
                     return null;
                 // obtentions du contenu ne peut 
                 var c = "";
-                if (typeof(async) == IGK_UNDEF)
+                if (typeof (async) == IGK_UNDEF)
                     async = !0;
                 if (!async) {
                     // used ajx // in that case log is writed to console debug . 		
-                    igk.ajx.get(uri, null, function(xhr) {
+                    igk.ajx.get(uri, null, function (xhr) {
                         if (this.isReady()) {
                             callback.apply(window, [xhr.responseText]);
                         }
@@ -8065,7 +8125,7 @@ Name:balafon.js
                 q.addClass("no-vibility")
                     .setAttribute("src", uri)
                     .setAttribute("async", false)
-                    .reg_event("load", function(e) {
+                    .reg_event("load", function (e) {
                         wait = false;
                         e.preventDefault();
                         c = _get_loaded_text(q.o);
@@ -8090,29 +8150,29 @@ Name:balafon.js
     };
     createNS("igk.html.ctrl", {
         ctrl: __ctrl_ctr,
-        checkbox: new(function() {
+        checkbox: new (function () {
             __ctrl_ctr.apply(this);
             igk_appendProp(this, {
                 toggle: igk_check_all,
-                init: function(t, c) {
+                init: function (t, c) {
                     igk.html.ctrl.checkbox.toggle(t,
                         $igk(t).getParentByTagName('table'),
                         t.checked,
                         true,
                         c);
                 },
-                toString: function() { return "[igk.Obj igk.html.ctrl.checkbox]"; }
+                toString: function () { return "[igk.Obj igk.html.ctrl.checkbox]"; }
             });
         })(),
-        btn: new(function() {
+        btn: new (function () {
             igk_appendProp(this, {
-                toString: function() { return "[igk.Obj igk.html.ctrl.btn]"; }
+                toString: function () { return "[igk.Obj igk.html.ctrl.btn]"; }
             });
         })()
     });
     //STRING MANIPULATION
     createNS("igk.system.string", {
-        split: function(str, ch) {
+        split: function (str, ch) {
             var i = 0;
             var r = [];
             var w = "";
@@ -8129,7 +8189,7 @@ Name:balafon.js
             }
             return r;
         },
-        rmComment: function(s) { // remove comment
+        rmComment: function (s) { // remove comment
             var vi = s.substr(4); // remove comment
             return vi.substring(0, vi.length - 3);
         }
@@ -8139,7 +8199,7 @@ Name:balafon.js
     //----------------------------------------------------------------
     var _str_ = window.String.prototype;
     if (!_str_.padStart) {
-        _str_.padStart = function(n, s) {
+        _str_.padStart = function (n, s) {
             var g = "";
             while (this.length < n) {
                 n--;
@@ -8151,7 +8211,7 @@ Name:balafon.js
     createNS("igk.system.regex", {
         item_match_class: igk_item_match_class,
         item_inherit_class: igk_item_inherit_class,
-        split: function(pattern, v) {
+        split: function (pattern, v) {
             var q = new RegExp(pattern);
             var s = new RegExp("^(" + pattern + ")+$");
             if (igk.isUndef(v)) {
@@ -8171,13 +8231,13 @@ Name:balafon.js
     });
     createNS("igk.system.fonts", {
         // special function to install font in balafon system
-        installFont: function(a, uri) {
+        installFont: function (a, uri) {
             var s = a.getAttribute('igk-font-name');
             uri = uri + '&n=' + s;
             var frm = $igk(a).getParentForm();
             s = a.getAttribute("id");
             var top = a.offsetParent.scrollTop;
-            igk.ajx.get(uri, null, function(xhr) {
+            igk.ajx.get(uri, null, function (xhr) {
                 if (this.isReady()) {
                     var i = igk.createNode("dummy");
                     this.setResponseTo(i.o);
@@ -8190,7 +8250,7 @@ Name:balafon.js
                             // no parent
                             console.debug(";-) No parent found for " + frm);
                         }
-                        n.select("#" + s).each(function() {
+                        n.select("#" + s).each(function () {
                             this.o.offsetParent.scrollTop = top;
                             return !1;
                         });
@@ -8210,7 +8270,7 @@ Name:balafon.js
     function igk_animate(callback) {
         var animFrame = igk.animation.getAnimationFrame();
         var animObj = {
-            cancel: function() {
+            cancel: function () {
                 igk.html.canva.cancel(this.id);
             }
         };
@@ -8228,7 +8288,7 @@ Name:balafon.js
             }
         };
         // used to animated rendering scene
-        if (typeof(animFrame) == "undefined") {
+        if (typeof (animFrame) == "undefined") {
             __doCall();
         } else {
             animObj.id = animFrame(__runCall);
@@ -8250,7 +8310,7 @@ Name:balafon.js
         var m_ukey = null;
         var m_unreg = 0;
         igk.appendProperties(this, {
-            raise: function(item, method) { // raiseEvent created
+            raise: function (item, method) { // raiseEvent created
                 // dispatch event used for ie8 compatibility
                 if (!item)
                     return;
@@ -8269,8 +8329,8 @@ Name:balafon.js
                     }
                 }
             },
-            register: function(item, method, func) {
-                if (!item || !func || (typeof(func) != IGK_FUNC) || (m_key == item)) // last to avoid recursion
+            register: function (item, method, func) {
+                if (!item || !func || (typeof (func) != IGK_FUNC) || (m_key == item)) // last to avoid recursion
                     return;
                 m_key = item;
                 var i = m_obj.indexOf(item);
@@ -8297,7 +8357,7 @@ Name:balafon.js
                 }
                 m_key = null;
             },
-            unregister: function(item, method, func) {
+            unregister: function (item, method, func) {
                 if (m_unreg)
                     return
                 m_unreg = 1;
@@ -8316,7 +8376,7 @@ Name:balafon.js
                     var tab = dic.getValues();
                     if (method) {
                         // remove all method registrated
-                        if (typeof(func) == 'undefined') {
+                        if (typeof (func) == 'undefined') {
                             for (var t = 0; t < tab.length; t++) {
                                 if (tab[t].method == method) {
                                     var c = tab[t].funcs.to_array();
@@ -8359,12 +8419,12 @@ Name:balafon.js
                 m_unreg = 0;
                 m_ukey = null;
             },
-            toString: function() {
+            toString: function () {
                 return "igk.winui.eventObjectManager";
             },
-            unregister_child: function(q) {
+            unregister_child: function (q) {
                 if (q)
-                    $igk(q).select("*").each(function() {
+                    $igk(q).select("*").each(function () {
                         this.unregister();
                         return !0;
                     });
@@ -8374,42 +8434,42 @@ Name:balafon.js
     };
 
     function igk_winui_get_event_handler(method) {
-        if (typeof(this.eventRegister) == IGK_UNDEF) {
-            this.eventRegister = new function() {
+        if (typeof (this.eventRegister) == IGK_UNDEF) {
+            this.eventRegister = new function () {
                 this.m_manager = {};
                 igk.appendProperties(this, {
-                    getMethod: function(name) {
-                        if (typeof(this.m_manager[name]) != IGK_UNDEF) {
+                    getMethod: function (name) {
+                        if (typeof (this.m_manager[name]) != IGK_UNDEF) {
                             return this.m_manager[name];
                         }
                         return null;
                     },
-                    registerEvent: function(name, obj) {
-                        if (typeof(this.m_manager[name]) == IGK_UNDEF) {
+                    registerEvent: function (name, obj) {
+                        if (typeof (this.m_manager[name]) == IGK_UNDEF) {
                             this.m_manager[name] = obj;
                         }
                     },
-                    toString: function() {
+                    toString: function () {
                         return "method register ";
                     }
                 });
             };
             igk.system.createNS("igk.winui.events", {
                 register: this.eventRegister,
-                exceptionEvent: new(function() { // for manage exception method event
+                exceptionEvent: new (function () { // for manage exception method event
                     var m_t = {};
                     m_t["mouseleave"] = { replace: "mouseout" };
                     igk.appendProperties(this, {
-                        contain: function(m) {
-                            return typeof(m_t[m]) != IGK_UNDEF;
+                        contain: function (m) {
+                            return typeof (m_t[m]) != IGK_UNDEF;
                         },
-                        getMethod: function(m) {
-                            if (typeof(m_t[m]) != IGK_UNDEF) {
+                        getMethod: function (m) {
+                            if (typeof (m_t[m]) != IGK_UNDEF) {
                                 return m_t[m].replace;
                             }
                             return null;
                         },
-                        toString: function() {
+                        toString: function () {
                             return "[object igk.winui.events.exceptionEvent]";
                         }
                     });
@@ -8423,7 +8483,7 @@ Name:balafon.js
         if (item == null)
             return !1;
         // igk.debug.assert( method=="webkittransitionend","register please handle transitionend");
-        if (typeof(item[method]) == igk.constants.undef) {
+        if (typeof (item[method]) == igk.constants.undef) {
             if (item["on" + method] + "" == igk.constants.undef) {
                 var e = igk.winui.events.exceptionEvent;
                 if (e.contain(method)) {
@@ -8434,7 +8494,7 @@ Name:balafon.js
             }
         }
         if (item.addEventListener) {
-            var t = item.addEventListener(method, func, typeof(useCapture) == 'object' ? useCapture : false);
+            var t = item.addEventListener(method, func, typeof (useCapture) == 'object' ? useCapture : false);
             igk.winui.getEventObjectManager().register(item, method, func);
             return !0;
         } else if (item.attachEvent) {
@@ -8443,8 +8503,8 @@ Name:balafon.js
             }
             if (igk.navigator.IEVersion() == 7) {
                 // 
-                var ftp = function(evt) {
-                    evt.preventDefault = function() {};
+                var ftp = function (evt) {
+                    evt.preventDefault = function () { };
                     func.apply(item, [evt]);
                 };
                 item.attachEvent("on" + method, ftp);
@@ -8467,8 +8527,8 @@ Name:balafon.js
             return !0;
         } else {
             var m = item["on" + method];
-            if (typeof(m) == "function") {
-                item["on" + method] = function() {
+            if (typeof (m) == "function") {
+                item["on" + method] = function () {
                     m.apply(this, arguments);
                     func.apply(this, arguments);
                 }
@@ -8481,7 +8541,7 @@ Name:balafon.js
     };
 
     // winui class control management
-    (function() {
+    (function () {
         var m_class_control = [];
         var m_class_list = null;
         var m_init = 0;
@@ -8515,22 +8575,22 @@ Name:balafon.js
                 c.apply(q, [n, g.data]);
                 q.fn.isClassControl = 1; // mark as controller
                 q.fn.ControlName = n; // contorol name
-            } 
+            }
         };
         createNS("igk.winui", {
             getEventHandler: igk_winui_get_event_handler,
             reg_system_event: igk_winui_reg_system_event,
-            getEventObjectManager: function() {
+            getEventObjectManager: function () {
                 if (__eventObjectManager == null) {
                     __eventObjectManager = new igk_create_event_ojectManager();
                 }
                 return __eventObjectManager;
             },
-            reloadClassList: function() { // reload class list
+            reloadClassList: function () { // reload class list
                 m_class_list = null;
                 return igk.winui.getClassList();
             },
-            getClassList: function() {
+            getClassList: function () {
                 if (m_class_list != null)
                     return m_class_list;
                 var t = [];
@@ -8553,7 +8613,7 @@ Name:balafon.js
                 m_class_list = t;
                 return t;
             },
-            initClassObj: function(n) {
+            initClassObj: function (n) {
                 // n: dom node
                 igk_init_node_class_obj.apply(n);
             },
@@ -8561,7 +8621,7 @@ Name:balafon.js
              * init component by class name
              * @param {string} n unique class component name
              */
-            initClassControl: function(n, c, inf) {
+            initClassControl: function (n, c, inf) {
                 if (!m_init && igk.ctrl.registerReady) {
                     // register node ready class control
                     m_init = 1;
@@ -8583,7 +8643,7 @@ Name:balafon.js
                     m_rg = n;
                 } else
                     m_rg += n;
-                m_rcg = null; 
+                m_rcg = null;
             }
         });
 
@@ -8598,7 +8658,7 @@ Name:balafon.js
                     if (igk_item_match_class(b[i].n, c)) {
                         fc.apply($igk(c));
                     } else
-                        $igk(c).select("." + b[i].n).each(function() {
+                        $igk(c).select("." + b[i].n).each(function () {
                             fc.apply(this);
                             return !0;
                         });
@@ -8609,14 +8669,14 @@ Name:balafon.js
         // igk.ajx.fn.registerNodeReady(function(){igk_init_node_class_obj.apply(this); });
     })();
     igk_defineProperty(igk, 'version', {
-        get: function() { return __version; }
+        get: function () { return __version; }
     });
     igk_defineProperty(igk, 'author', {
-        get: function() { return __author; }
+        get: function () { return __author; }
     });
     // >namespace: igk.android
     createNS("igk.android", {
-        init: function(ds) {
+        init: function (ds) {
             if (igk.navigator.isAndroid()) {
                 igk.dom.body().addClass("igk-android");
                 var m = igk.createNode("meta");
@@ -8627,7 +8687,7 @@ Name:balafon.js
         }
     });
     // .msdialog object	
-    (function() {
+    (function () {
         var m_dlgx = []; // list of opened dialog
         var m_d = 0; // demand for showing a dialog
         function __setupview(div) {
@@ -8736,10 +8796,10 @@ Name:balafon.js
                 if (!this.data["ms-dialog-init"]) {
                     var q = this;
                     __setupview(q);
-                    q.select(".igk-btn-close").each(function() {
+                    q.select(".igk-btn-close").each(function () {
                         var a = this;
                         a.addClass("igk-btn igk-btn-close");
-                        a.reg_event("click", function(evt) {
+                        a.reg_event("click", function (evt) {
                             evt.stopPropagation();
                             evt.preventDefault();
                             __hide_dialog(q);
@@ -8762,27 +8822,27 @@ Name:balafon.js
         };
         // extend winui for winui dialog support
         createNS("igk.winui", {
-            showDialog: function(id) {
+            showDialog: function (id) {
                 var s = $igk(id);
                 if (s != null) {
                     __show_dialog(s);
                 }
             },
-            hideDialog: function(id) {
+            hideDialog: function (id) {
                 var s = $igk(id);
                 if (s != null) {
-                    s.each(function() {
+                    s.each(function () {
                         if (this.hide)
                             this.hide();
                     });
                 }
             },
-            showDialogUri: function(uri) {
+            showDialogUri: function (uri) {
                 if (m_d == 1) {
                     return;
                 }
                 m_d = 1;
-                igk.ajx.post(uri, null, function(xhr) {
+                igk.ajx.post(uri, null, function (xhr) {
                     if (this.isReady()) {
                         var n = igk.winui.createDialog();
                         n.add("div").setHtml(xhr.responseText);
@@ -8792,14 +8852,14 @@ Name:balafon.js
                     }
                 });
             },
-            createDialog: function(id, data) {
+            createDialog: function (id, data) {
                 var n = igk.createNode("div");
                 n.setAttribute("id", id);
                 n.addClass("igk-ms-dialog");
                 var a = n.add("a").setAttribute("href", "#")
                     .addClass("igk-btn-close");
                 a.setHtml(igk.R.btn_close);
-                a.on("click", function() {
+                a.on("click", function () {
                     n.remove();
                 });
                 n.data["ms-dialog-dispose"] = 1;
@@ -8812,7 +8872,7 @@ Name:balafon.js
         });
     })();
     // manage keyPress	- keyUp - define usage key code
-    (function() {
+    (function () {
         var _keyns = createNS("igk.winui.inputKeys", {});
         var _keys = {
             Enter: 13,
@@ -8824,7 +8884,7 @@ Name:balafon.js
         };
 
         function _defkey(k) {
-            return function() {
+            return function () {
                 return _keys[k];
             };
         };
@@ -8837,7 +8897,7 @@ Name:balafon.js
         }
         //register key event
         createNS("igk.winui", {
-            keyPress: function(event, code, callback) {
+            keyPress: function (event, code, callback) {
                 var c = _getCode(event);
                 if (c == code) {
                     callback(event);
@@ -8845,7 +8905,7 @@ Name:balafon.js
                     event.stopPropagation();
                 }
             },
-            keyUp: function(event, code, callback) {
+            keyUp: function (event, code, callback) {
                 var c = _getCode(event);
                 if (c == code) {
                     callback(event);
@@ -8856,14 +8916,14 @@ Name:balafon.js
         });
     })();
     // Manage printing service
-    (function() {
+    (function () {
         var m_ptrframe = null;
         createNS("igk.winui", {
-            openUrl: function(u, n, p) {
+            openUrl: function (u, n, p) {
                 var hwn = window.open(u, n, p);
                 return hwn;
             },
-            print: function(u) {
+            print: function (u) {
                 var _prf = document.domain + "::/prf";
                 var _n = (window[_prf] == null); // check for new window
                 var _wnd = window[_prf] || window.open(u, _prf, "fullscreen=0, toolbar=0,resizable=0,menubar=0,title=0, width=420, height=500, left=-9999, top=0");
@@ -8871,22 +8931,22 @@ Name:balafon.js
                 var _echain = null;
                 var _tchain = null;
                 var _P = {
-                    resolve: function() {},
-                    then: function(callback) {
+                    resolve: function () { },
+                    then: function (callback) {
                         if (_tchain == null)
                             _tchain = callback;
                         else
-                            _tchain = function() {
+                            _tchain = function () {
                                 _tchain.apply(_P);
                                 callback.apply(_P);
                             };
                         return this;
                     },
-                    error: function(callback) {
+                    error: function (callback) {
                         if (_echain == null)
                             _echain = callback;
                         else
-                            _echain = function() {
+                            _echain = function () {
                                 _echain.apply(_P);
                                 _echain.apply(_P);
                             };
@@ -8896,7 +8956,7 @@ Name:balafon.js
                 if (_wnd) {
                     try {
                         if (_n) {
-                            _el(_wnd, 'load', function() {
+                            _el(_wnd, 'load', function () {
                                 if (_wnd.hide)
                                     _wnd.hide();
                                 _wnd.print();
@@ -8914,11 +8974,11 @@ Name:balafon.js
                 }
                 return _P;
             },
-            printUrl: function(u) {
+            printUrl: function (u) {
                 // print url 
                 if (m_ptrframe == null) {
                     m_ptrframe = igk.createNode("iframe");
-                    m_ptrframe.reg_event("load", function() {
+                    m_ptrframe.reg_event("load", function () {
                         m_ptrframe.o.contentWindow.focus();
                         m_ptrframe.o.contentWindow.print();
                     });
@@ -8928,14 +8988,14 @@ Name:balafon.js
                 m_ptrframe.o["href"] = u;
                 m_ptrframe.o["src"] = u;
             },
-            confirm: function(t, m, callback) { // confirm dialog title message
+            confirm: function (t, m, callback) { // confirm dialog title message
                 var div = igk.createNode("div");
                 div.setCss({ maxWidth: "480px", margin: "auto" });
                 div.add("div").setHtml(m);
                 var b = div.add("div");
                 b.addClass("igk-action-bar igk-pull-right").setCss({ backgroundColor: "transparent" });
                 var btn = b.add("input").setAttributes({ type: 'button', value: 'confirm' }).addClass("igk-btn");
-                btn.reg_event("click", function(evt) {
+                btn.reg_event("click", function (evt) {
                     evt.preventDefault();
                     if (callback)
                         callback.apply(this, evt);
@@ -8946,10 +9006,10 @@ Name:balafon.js
         });
     })();
     // utily winui functions
-    (function() {
+    (function () {
         createNS("igk.winui", {
-            'click': function(u) {
-                return function(e) {
+            'click': function (u) {
+                return function (e) {
                     e.stopPropagation();
                     e.preventDefault();
                     var a = document.createElement("a");
@@ -8961,7 +9021,7 @@ Name:balafon.js
             }
         });
     })();
-    (function() { // mouse button utility
+    (function () { // mouse button utility
         var Left = 1;
         var Right = 2;
         var Middle = 3;
@@ -8979,7 +9039,7 @@ Name:balafon.js
             return None;
         };
         var tev = {};
-        tev["mousemove"] = function(e) {
+        tev["mousemove"] = function (e) {
             if ((e.buttons == e.button) && (e.button == 0)) {
                 return None;
             }
@@ -8993,16 +9053,16 @@ Name:balafon.js
             }
             return getButton(e.button);
         };
-        tev["mousedown"] = function(e) {
+        tev["mousedown"] = function (e) {
             return getButton(e.button);
         };
-        tev["mouseup"] = function(e) {
+        tev["mouseup"] = function (e) {
             if ((e.buttons == e.button) && (e.button == 0)) {
                 return Left;
             }
             return getButton(e.button);
         };
-        igk.winui.mouseButton = function(evt) {
+        igk.winui.mouseButton = function (evt) {
             //if (evt.buttons == 0)
             //return None;
             // for most browser
@@ -9032,21 +9092,21 @@ Name:balafon.js
             }
             return None;
         };
-        igk_defineProperty(igk.winui.mouseButton, "Left", { get: function() { return Left; } });
-        igk_defineProperty(igk.winui.mouseButton, "Right", { get: function() { return Right; } });
-        igk_defineProperty(igk.winui.mouseButton, "Middle", { get: function() { return Middle; } });
-        igk_defineProperty(igk.winui.mouseButton, "None", { get: function() { return None; } });
+        igk_defineProperty(igk.winui.mouseButton, "Left", { get: function () { return Left; } });
+        igk_defineProperty(igk.winui.mouseButton, "Right", { get: function () { return Right; } });
+        igk_defineProperty(igk.winui.mouseButton, "Middle", { get: function () { return Middle; } });
+        igk_defineProperty(igk.winui.mouseButton, "None", { get: function () { return None; } });
         // empty name space
         createNS("igk.winui.mouseButton", {});
         // event utilitiy
-        igk.winui.eventTarget = function(evt) {
+        igk.winui.eventTarget = function (evt) {
             if (evt.target)
                 return evt.target;
             if (evt.srcElement)
                 return evt.srcElement;
             return null;
         };
-        igk.winui.headDocument = function() {
+        igk.winui.headDocument = function () {
             if (document.head)
                 return document.head;
             document.head = document.getElementsByTagName("head")[0];
@@ -9054,13 +9114,13 @@ Name:balafon.js
         };
     })();
     // dialog manager
-    (function() {
+    (function () {
         var dialogs = [];
         var init = 0;
 
         function HDialog(d) {
             var self = this;
-            this.closeDialog = function() {
+            this.closeDialog = function () {
                 var q = 0;
                 while (q = dialogs.pop()) {
                     d.unreg_event(q.closeDialog);
@@ -9082,7 +9142,7 @@ Name:balafon.js
             }
         };
         igk.system.createNS("igk.winui.dialogs", {
-            register: function(d) {
+            register: function (d) {
                 var _d = new HDialog(d);
                 d.on("close", _d.closeDialog);
                 dialogs.push(d);
@@ -9091,29 +9151,29 @@ Name:balafon.js
                     init = 1;
                 }
             },
-            getlastDialog: function() {
+            getlastDialog: function () {
                 if (dialogs.length > 0) {
                     return dialogs[dialogs.length - 1];
                 }
                 return null;
             },
-            isOpen: function() {
+            isOpen: function () {
                 return dialogs.length > 0;
             }
         });
     })();
     // balafon form builder engine
-    (function() {
+    (function () {
         var engines = {};
         var default_e = null;
         igk.system.createNS("igk.winui.engine", {
-            register: function(n, o) {
+            register: function (n, o) {
                 engines[n] = o;
             },
-            setDefaultEngine: function(n) {
+            setDefaultEngine: function (n) {
                 default_e = n;
             },
-            getEngine: function(n, t, R) {
+            getEngine: function (n, t, R) {
                 //@R: asset manager for lang support
                 n = n || default_e;
                 var s = null;
@@ -9138,29 +9198,29 @@ Name:balafon.js
                 }
                 return null;
             },
-            getEngineNameList: function() {
+            getEngineNameList: function () {
                 var t = [];
                 for (var i in engines)
                     t.push(i);
                 t.sort();
                 return t;
             },
-            formBuilderEngine: function() {
+            formBuilderEngine: function () {
                 //form builder engine constructor
                 var host;
                 var R = null;
                 igk.defineProperty(this, "host", {
-                    get: function() {
+                    get: function () {
                         return host;
                     },
-                    set: function(v) {
+                    set: function (v) {
                         host = $igk(v);
                         if (host.o && !host.engine) {
                             host.engine = new hostEngine(this);
                         }
                     }
                 });
-                this.setAsset = function(r) {
+                this.setAsset = function (r) {
                     R = r;
                 };
 
@@ -9168,7 +9228,7 @@ Name:balafon.js
                     return (R ? R[id] : null) || id;
                 };
                 this.getRes = _getRes;
-                this.add = function(t) {
+                this.add = function (t) {
                     this.host.add(t);
                     return this;
                 };
@@ -9177,27 +9237,28 @@ Name:balafon.js
 
         function hostEngine() {
             var m_items = {};
-            this.getItem = function(n) {
+            this.getItem = function (n) {
                 if (n in m_items)
                     return m_items[n];
                 return null;
             };
-            this.register = function(n, h) {
+            this.register = function (n, h) {
                 m_items[n] = h;
             };
-            this.clear = function(n, h) {
+            this.clear = function (n, h) {
                 m_items = {};
             };
-            this.getFields = function() {
+            this.getFields = function () {
                 return m_items;
             };
         };
     })();
-    (function() {
+    (function () {
         var m_capture;
         var m_r = false;
         var m_event_capture = false;
         var m_bck = {};
+        var m_oldCaptureID = null;
 
         function __capturemouse(evt) {
             if (m_r) {
@@ -9206,7 +9267,7 @@ Name:balafon.js
             }
             if (m_capture && m_event_capture) {
                 var t = null;
-                if (typeof(evt.constructor) == 'function') {
+                if (typeof (evt.constructor) == 'function') {
                     t = new evt.constructor(evt.type, evt);
                 } else {
                     // ie mouse event
@@ -9225,13 +9286,22 @@ Name:balafon.js
             evt.stopPropagation();
             m_r = false;
         };
+        function _captureId(id) {
+            return id || (igk.navigator.isChrome() ? 1 : 0);
+        }
         // mouse capture definition : chrome do not implement capture specification
         igk.system.createNS("igk.winui.mouseCapture", {
-            getCapture: function() { //return the current capture object reference
+            getCapture: function () { //return the current capture object reference
                 return m_capture;
             },
-            setCapture: function(n, i) { // set the current capture reference
+            /**
+             * @param {*} target
+             * @param {*} id
+             */
+            setCapture: function (n, i) {
+                // set the current capture reference
                 // n: target node that handle and capture the mouse. exemple in colorpicker.js script
+                i = _captureId(i);
                 if ((n != null) && (m_capture != n)) {
                     m_capture = n;
                     let fc = n.setPointerCapture || n.setCapture;
@@ -9252,25 +9322,43 @@ Name:balafon.js
                     }
                 }
             },
-            releaseCapture: function(e) { // free capture
+            releaseCapture: function (e) { // free capture
+
                 if (!m_capture) {
                     return;
                 }
-                if (m_capture.setCapture) {
-                    if (m_capture.setPointerCapture) {
-                        m_capture.setPointerCapture(null);
-                    } else {
-                        if (m_capture.setCapture) {
-                            m_capture.setCapture(null);
+                try {
+                    // + | Note: in Google require capture id to be one
+                    let _id = _captureId(null);
+                    if (m_capture.setCapture) {
+                        if (m_capture.setPointerCapture) {
+                            m_capture.setPointerCapture(_id);
+                        } else {
+                            if (m_capture.setCapture) {
+                                m_capture.setCapture(_id);
+                            }
                         }
                     }
+
+                } catch {
+                    console.error("change the capture id to is---- ")
                 }
+
                 if (m_capture.releasePointerCapture) {
-                    m_capture.releasePointerCapture(e);
+                    let id = _captureId(m_oldCaptureID);
+                    try {
+                        m_capture.releasePointerCapture(id);
+                    }
+                    catch (ex) {
+                        console.error("failed to realese pointer capture.",
+                            (ex.message || ex),
+                            e, "for : ", id);
+                    }
                 } else {
                     if (document.releaseCapture)
                         document.releaseCapture();
                 }
+
                 if (m_event_capture) {
                     igk.winui.unreg_event(window, "mousemove", __capturemouse);
                     igk.winui.unreg_event(window, "mouseup", __capturemouse);
@@ -9283,19 +9371,19 @@ Name:balafon.js
             }
         })
     })();
-    (function() {
+    (function () {
         createNS("igk.winui.history", {
-            push: function(uri, data, t) {
-                if (typeof(window.history.pushState) == "function") {
+            push: function (uri, data, t) {
+                if (typeof (window.history.pushState) == "function") {
                     window.history.pushState(data, t, uri);
                 } else {
                     console.debug("no history state available");
                 }
             },
-            replace: function(uri, data) {
-                if (typeof(window.history.replaceState) == "function") {
+            replace: function (uri, data) {
+                if (typeof (window.history.replaceState) == "function") {
                     let p = new URL(uri);
-                    if (document.location.host == p.host){
+                    if (document.location.host == p.host) {
                         window.history.replaceState(data, null, uri);
                     }
                 } else {
@@ -9304,30 +9392,17 @@ Name:balafon.js
             }
         });
 
+        /**
+         * disable pop state
+         * @param {*} e 
+         */
         function __popstate(e) {
             e.preventDefault();
-            var u = 0;
-            if (e.state) { // safari pop that at first state
-                // if ( e.state.src=='balafonjs'){
-                // }else{
-                // u=e.state.uri;
-                // if(u){
-                // igk.ajx.get(u,null,igk.ajx.fn.append_to_body);
-                // }else{
-                // }
-            }
-            // else{
-            // u=(document.location.href+"").split('?')[0];
-            // if(u){
-            // u+="/default/goback";
-            // igk.ajx.get(u,null,igk.ajx.fn.append_to_body);
-            // }
-            // }
         };
-        if ('onpopstate' in window)
-            igk_winui_reg_event(window, "popstate", __popstate);
+        // if ('onpopstate' in window)
+        //     igk_winui_reg_event(window, "popstate", __popstate);
     })();
-    (function() {
+    (function () {
         // controller setting up
         var m_contextMenu;
 
@@ -9394,27 +9469,27 @@ Name:balafon.js
             igk.appendProperties(this, {
                 contextTarget: null,
                 contextCibling: null,
-                getTarget: function() { return m_target; },
-                load: function(d) {
+                getTarget: function () { return m_target; },
+                load: function (d) {
                     m_target.setHtml(null);
                     var dummy = igk.createNode("div");
                     dummy.setHtml(d);
                     __loadItemTo(m_target, dummy);
                 },
-                close: function() {
+                close: function () {
                     // unreg event
                     igk.winui.unreg_event(document, "click", __click);
                     igk.qselect(".overflow-y-a").unreg_event("scroll", __scroll);
                     var q = m_target;
                     m_target.addClass("igk-trans-all-200ms").setCss({ "opacity": 0.0 }).timeOut(400,
-                        function() {
+                        function () {
                             m_target.rmClass("igk-trans-all-200ms igk-show");
                             q.o.parentNode.removeChild(q.o);
                             q.clearTimeOut();
                         }
                     );
                 },
-                show: function(t, c, l) {
+                show: function (t, c, l) {
                     // t:context target
                     // c:cibling		
                     // l:location			
@@ -9426,7 +9501,7 @@ Name:balafon.js
                     m_target.addClass("posfix igk-show").setCss({
                         left: l.x + "px",
                         top: l.y + "px"
-                    }).addClass("igk-trans-all-200ms").setCss({ opacity: 1 }).timeOut(400, function() {
+                    }).addClass("igk-trans-all-200ms").setCss({ opacity: 1 }).timeOut(400, function () {
                         m_target.rmClass("igk-trans-all-200ms");
                     });
                     // register click 
@@ -9434,7 +9509,7 @@ Name:balafon.js
                     // register scroll
                     igk.qselect(".overflow-y-a").reg_event("scroll", __scroll);
                 },
-                toString: function() {
+                toString: function () {
                     return "igk.winui.contextmenu";
                 }
             });
@@ -9443,21 +9518,21 @@ Name:balafon.js
         m_contextMenu = new __ctr();
         // define global context menu property
         igk_defineProperty(igk.winui, 'contextMenu', {
-            get: function() { return m_contextMenu; },
-            nopropfunc: function() { this.contextMenu = m_contextMenu; }
+            get: function () { return m_contextMenu; },
+            nopropfunc: function () { this.contextMenu = m_contextMenu; }
         });
-        igk.winui.initClassControl("igk-context-menu", function() {
+        igk.winui.initClassControl("igk-context-menu", function () {
             // init all system class menu
             var id = $igk(this.getAttribute("igk:for"));
             if (!id)
                 return;
             var q = this;
             var v = 0;
-            q.close = function() {
+            q.close = function () {
                 igk.winui.unreg_event(document, "click", __q_click);
                 igk.qselect(".overflow-y-a").unreg_event("scroll", __q_scroll);
                 q.addClass("igk-trans-all-200ms").setCss({ "opacity": 0.0 }).timeOut(400,
-                    function() {
+                    function () {
                         q.rmClass("igk-trans-all-200ms igk-show");
                         // q.o.parentNode.removeChild(q.o);
                         q.clearTimeOut();
@@ -9473,15 +9548,15 @@ Name:balafon.js
             function __q_scroll(evt) {
                 q.close();
             };
-            q.show = function() {
-                q.addClass("posfix igk-show").addClass("igk-trans-all-200ms").setCss({ opacity: 1 }).timeOut(400, function() {
+            q.show = function () {
+                q.addClass("posfix igk-show").addClass("igk-trans-all-200ms").setCss({ opacity: 1 }).timeOut(400, function () {
                     q.rmClass("igk-trans-all-200ms");
                 });
                 // reg event
                 igk_winui_reg_event(document, "click", __q_click);
                 igk.qselect(".overflow-y-a").reg_event("scroll", __q_scroll);
             };
-            $igk(id).reg_event("click", function(evt) {
+            $igk(id).reg_event("click", function (evt) {
                 if (v == 0) {
                     q.show();
                     evt.preventDefault();
@@ -9493,19 +9568,19 @@ Name:balafon.js
     })();
     // notify item controller
     igk.system.createNS("igk.winui.notifyctrl", {
-        init: function(t) {
-            igk.ready(function() { new igk.winui.notifyctrl.run(t).start(); });
+        init: function (t) {
+            igk.ready(function () { new igk.winui.notifyctrl.run(t).start(); });
         },
-        run: function(target) {
+        run: function (target) {
             this.target = $igk(target);
             this.noautohide = this.target.getAttribute("igk-no-auto-hide");
             var q = this;
-            this.start = function() {
+            this.start = function () {
                 var self = this;
                 if (q.noautohide == 1)
                     return;
-                setTimeout(function() {
-                    igk.animation.fadeout(self.target.o, 20, 500, 1.0, function() {
+                setTimeout(function () {
+                    igk.animation.fadeout(self.target.o, 20, 500, 1.0, function () {
                         self.target.setCss({ "display": "none" }).remove();
                     });
                 }, 2000);
@@ -9513,29 +9588,29 @@ Name:balafon.js
         }
     });
     createNS("igk.winui.events", {
-        stopPropagation: function(e) {
+        stopPropagation: function (e) {
             if ((e != null) && (e.stopPropagation)) {
                 e.stopPropagation();
             }
         },
-        preventDefault: function(e) {
+        preventDefault: function (e) {
             if (e) {
                 if (e.preventDefault)
                     e.preventDefault();
                 // no preventDefault function found
             }
         },
-        cancelBehaviour: function(e) {
+        cancelBehaviour: function (e) {
             e.preventDefault();
             e.stopPropagation();
         }
     });
-    (function() {
+    (function () {
         var m = [];
         createNS("igk.winui.events.fn", { // utility event namespace 
-            handleKeypressExit: function(p) {
+            handleKeypressExit: function (p) {
                 m.push(p);
-                var fc = function(evt) {
+                var fc = function (evt) {
                     switch (evt.keyCode) {
                         case 27: // escape
                             console.debug("close frame");
@@ -9554,7 +9629,7 @@ Name:balafon.js
         });
     })();
     igk.winui.controlUtils = {
-        HasChildContainPoint: function(item, point) {
+        HasChildContainPoint: function (item, point) {
             // >item: DomNode
             // >item: offsets point
             var loc = igk.winui.GetRealScreenPosition(item);
@@ -9563,7 +9638,7 @@ Name:balafon.js
         }
     };
     createNS("igk.animation", {
-        init: function(o, interval, duration, initcallbackfunc, updatecallbackfunc, endcallbackfunc, properties) {
+        init: function (o, interval, duration, initcallbackfunc, updatecallbackfunc, endcallbackfunc, properties) {
             var m_timeout = null; // time out validate
             var m_updatecallback = null;
             var m_o = o;
@@ -9577,28 +9652,28 @@ Name:balafon.js
             var m_opupdate = null;
             // anim.init instance constructor
             function __animInstance() {
-                this.getOwner = function() { return m_o; };
-                this.getInterval = function() { return m_interval; };
-                this.getDuration = function() { return m_duration; };
-                this.getEllapsed = function() { return m_ellapsed; };
-                this.getStepfactor = function() {
+                this.getOwner = function () { return m_o; };
+                this.getInterval = function () { return m_interval; };
+                this.getDuration = function () { return m_duration; };
+                this.getEllapsed = function () { return m_ellapsed; };
+                this.getStepfactor = function () {
                     if (m_opupdate) {
                         var v_delta = Math.round(m_opupdate(m_ellapsed / m_duration) * 100) / 100;
                         return v_delta;
                     }
                     return this.getEllapsed() / this.getDuration();
                 };
-                this.start = function() {
+                this.start = function () {
                     m_initcallback.apply(this);
                     m_opupdate = igk.animation.getEffect(this.properties.effect, this.properties.effectmode);
                     this.update();
                 };
-                this.update = function() {
+                this.update = function () {
                     var self = this;
                     m_ellapsed += m_interval;
                     if ((m_ellapsed <= m_duration) && (m_updatecallback.apply(this))) {
                         // continue
-                        m_timeout = setTimeout(function() {
+                        m_timeout = setTimeout(function () {
                             self.update();
                         }, this.getInterval());
                     } else {
@@ -9606,45 +9681,45 @@ Name:balafon.js
                         m_endcallback.apply(this);
                     }
                 };
-                this.stop = function() {
+                this.stop = function () {
                     if (m_timeout) {
                         igk.clearTimeout(m_timeout);
                         m_timeout = null;
                     }
                     m_ellapsed = 0;
                 };
-                this.reset = function() {
+                this.reset = function () {
                     this.stop();
                     m_initcallback.apply(this);
                 };
-                this.toString = function() { return "igk.animation.instance"; };
+                this.toString = function () { return "igk.animation.instance"; };
             };
             return new __animInstance();
         },
-        InitBgAdorator: function(element, frequency, interval, fadeinterval, israndom, getimguri, defindex, updateuri) {
+        InitBgAdorator: function (element, frequency, interval, fadeinterval, israndom, getimguri, defindex, updateuri) {
             // alert(interval);
             // interval=3000;
             var q = new igk.animation.adorator(element, frequency, interval, fadeinterval, israndom);
             igk.ajx.get(getimguri, null,
-                function(xhr) {
+                function (xhr) {
                     if (this.isReady()) {
                         var d = igk.createNode('datas');
                         d.setHtml(xhr.responseText);
                         var tt = d.getElementsByTagName('igk-img');
-                        d.select('igk-img').each_all(function() {
+                        d.select('igk-img').each_all(function () {
                             q.add(this.getAttribute("src"));
                         });
                         // q.loadImages(tt);
-                        setTimeout(function() {
-                                q.start(function() { igk.ajx.get(updateuri + q.index, null, null); });
-                            },
+                        setTimeout(function () {
+                            q.start(function () { igk.ajx.get(updateuri + q.index, null, null); });
+                        },
                             400);
                     }
                 }
             );
         },
         // background image adorator
-        adorator: function(element, frequency, interval, fadeinterval, israndom) {
+        adorator: function (element, frequency, interval, fadeinterval, israndom) {
             if (element == null)
                 throw "element is null";
             this.element = element;
@@ -9658,7 +9733,7 @@ Name:balafon.js
             this.lasttimeout = null;
             this.defaultset = false;
             this.muststart = false;
-            this.setDefaultIndex = function(index) {
+            this.setDefaultIndex = function (index) {
                 if (this.images) {
                     if ((index >= 0) && (index < this.images.length)) {
                         this.index = index;
@@ -9666,8 +9741,8 @@ Name:balafon.js
                     this.defaultset = !0;
                 }
             };
-            this.toString = function() { return "igk.animation.adorator"; };
-            this._setStyle = function(e) {
+            this.toString = function () { return "igk.animation.adorator"; };
+            this._setStyle = function (e) {
                 e.style.width = "100%";
                 e.style.height = "100%";
                 // e.style.minHeight="768px";
@@ -9678,7 +9753,7 @@ Name:balafon.js
                 e.style.display = "block";
                 e.className = "igk-bgadorator-block";
             };
-            this.loadImages = function(imgs) {
+            this.loadImages = function (imgs) {
                 function __regimage(item, e) {
                     item._setStyle(e.o);
                     // igk.initprop(e.o);
@@ -9696,7 +9771,7 @@ Name:balafon.js
                                 igk.clearTimeout(self.loaded);
                             }
                             // recall function and check that all image are loaded completly
-                            self.loaded = setTimeout(function() { self.loadImages(timgs); }, 400);
+                            self.loaded = setTimeout(function () { self.loadImages(timgs); }, 400);
                             truncated = !0;
                             return;
                         }
@@ -9721,13 +9796,13 @@ Name:balafon.js
                     console.error("Some Image(s) truncated");
                 }
             };
-            this.add = function(uri) {
+            this.add = function (uri) {
                 var e = igk.createNode("img");
                 e.o.src = uri;
                 this._setStyle(e.o);
                 this.images[this.images.length] = e;
             };
-            this._init = function() {
+            this._init = function () {
                 if ((!this.images) && (this.images.length <= 0))
                     return;
                 var t = this.element.getElementsByTagName("img");
@@ -9740,7 +9815,7 @@ Name:balafon.js
                     igk.animation.fadein(e, this.frequency, this.fadeinterval);
                 }
             };
-            this.start = function(notifyfunction) {
+            this.start = function (notifyfunction) {
                 if ((!this.images) || (this.images.length <= 0)) {
                     this.notifyfunction = notifyfunction;
                     this.muststart = !0;
@@ -9778,10 +9853,10 @@ Name:balafon.js
                     igk.clearTimeout(this.lasttimeout);
                     this.lasttimeout = null;
                 }
-                this.lasttimeout = setTimeout(function() { self.update(); }, this.interval);
+                this.lasttimeout = setTimeout(function () { self.update(); }, this.interval);
                 this.muststart = false;
             };
-            this.update = function() {
+            this.update = function () {
                 var self = this;
                 var i = 0;
                 if (this.israndom) {
@@ -9795,7 +9870,7 @@ Name:balafon.js
                 // get image to replace
                 var e = this.element.getElementsByTagName("img")[0];
                 var img = null;
-                if (typeof(e) == IGK_UNDEF) {
+                if (typeof (e) == IGK_UNDEF) {
                     // backerror;
                 } else {
                     img = this.images[this.index];
@@ -9807,7 +9882,7 @@ Name:balafon.js
                             if (img)
                                 $igk(e).insertAfter(img);
                             if (e)
-                                igk.animation.fadeout(e, this.frequency, this.fadeinterval, 1, function() { if (e.parentNode) { e.parentNode.removeChild(e); } });
+                                igk.animation.fadeout(e, this.frequency, this.fadeinterval, 1, function () { if (e.parentNode) { e.parentNode.removeChild(e); } });
                             if (img)
                                 igk.animation.fadein(img, this.frequency, this.fadeinterval);
                         } catch (ex) {
@@ -9816,13 +9891,13 @@ Name:balafon.js
                                 "<p class=\"igk-trace\">" + ex.stack + "</p>");
                         }
                     }
-                    this.lasttimeout = setTimeout(function() { self.update(); }, this.interval);
+                    this.lasttimeout = setTimeout(function () { self.update(); }, this.interval);
                     if (this.notifyfunction) {
                         this.notifyfunction();
                     }
                 }
             };
-            this.stop = function() {
+            this.stop = function () {
                 if (this.lasttimeout) {
                     igk.clearTimeout(this.lasttimeout);
                     this.lasttimeout = null;
@@ -9832,24 +9907,24 @@ Name:balafon.js
         // init animation context 
         // >@@ style: fadein fadeout
         // every animation context must have a unique style name in order to be retreive or replace on the animation system
-        context: function(element, style, duration, updatetype) {
+        context: function (element, style, duration, updatetype) {
             if (element == null)
                 throw "Context failed : Operation Not Allowed element is null";
             // reg primary context. 
             function __regAnimationContext(context, item, style) {
                 var i = null;
-                if (typeof(item.igk.animationContext) == igk.constants.undef) {
+                if (typeof (item.igk.animationContext) == igk.constants.undef) {
                     // create a new object of the animation context
                     i = new __primarycontext(element, style);
                     // register new context
-                    item.igk.animationContext = new function() {
+                    item.igk.animationContext = new function () {
                         var m_contexts = [];
                         igk.appendProperties(this, {
-                            pushContext: function(style, context) {
+                            pushContext: function (style, context) {
                                 m_contexts[style] = context;
                             },
-                            getContext: function(style) {
-                                if (typeof(m_contexts[style]) == IGK_UNDEF) {
+                            getContext: function (style) {
+                                if (typeof (m_contexts[style]) == IGK_UNDEF) {
                                     return m_contexts[style];
                                 }
                                 return null;
@@ -9879,8 +9954,8 @@ Name:balafon.js
                 this.opacity = 1.0;
                 this.endopacity = 1.0;
                 this.callback = null;
-                this.toString = function() { return "igk.animation.context"; };
-                this.start = function() { // start animation function
+                this.toString = function () { return "igk.animation.context"; };
+                this.start = function () { // start animation function
                     switch (this.style) {
                         case "fadein":
                         case "fadeout":
@@ -9890,10 +9965,10 @@ Name:balafon.js
                     this.step = this.interval / this.duration;
                     var q = this;
                     if (this.updatetype == "timeout") {
-                        this.lasttimeout = setTimeout(function() { q.update(); }, this.interval);
+                        this.lasttimeout = setTimeout(function () { q.update(); }, this.interval);
                     } else {
                         // register interval function
-                        this.lasttimeout = setInterval(function() {
+                        this.lasttimeout = setInterval(function () {
                             q.update();
                             if (q.end) {
                                 clearInterval(this.lasttimeout);
@@ -9901,7 +9976,7 @@ Name:balafon.js
                         }, this.interval);
                     }
                 };
-                this.update = function() {
+                this.update = function () {
                     var end = false;
                     switch (this.style) {
                         case 'fadein':
@@ -9925,7 +10000,7 @@ Name:balafon.js
                         if (this.lasttimeout) {
                             igk.clearTimeout(this.lasttimeout);
                         }
-                        this.lasttimeout = setTimeout(function() { q.update(); }, this.interval);
+                        this.lasttimeout = setTimeout(function () { q.update(); }, this.interval);
                     } else {
                         this.stop();
                         if (this.callback) {
@@ -9933,7 +10008,7 @@ Name:balafon.js
                         }
                     }
                 };
-                this.stop = function() {
+                this.stop = function () {
                     if (this.updatetype == "timeout") {
                         if (this.lasttimeout) {
                             igk.clearTimeout(this.lasttimeout);
@@ -9949,20 +10024,20 @@ Name:balafon.js
             };;
             return __regAnimationContext(this, element, style);
         },
-        fadecontext: function(element, style, duration) {
+        fadecontext: function (element, style, duration) {
             if (element == null)
                 throw "Context failed : Operation Not Allowed element is null";
             igk.animation.context.apply(this, new Array(element, style, duration));
         },
         // >@@ static function
         // >@@ element,refresh interval ,duration of the effect,default opacity,fonction to call on complete
-        fadein: function(element, interval, duration, opacity, callback) {
+        fadein: function (element, interval, duration, opacity, callback) {
             if (element == null) return;
             var c = igk.animation.context($igk(element).o, 'fadein');
             c.stop();
             c.interval = interval;
             c.duration = duration ? duration : 1000;
-            if (typeof(opacity) == "object") {
+            if (typeof (opacity) == "object") {
                 c.opacity = opacity.from ? opacity.from : 0;
                 c.endopacity = opacity.to ? opacity.to : 1;
             } else {
@@ -9975,12 +10050,12 @@ Name:balafon.js
         },
         // >@@ static function
         // >@@ element ,refresh interval,duration of the effect,default opacity,call back function ,endopacity
-        fadeout: function(element, interval, duration, opacity, callback) {
+        fadeout: function (element, interval, duration, opacity, callback) {
             if (element == null)
                 return;
             var op = 1;
             var ep = 0;
-            if (typeof(opacity) == "object") {
+            if (typeof (opacity) == "object") {
                 op = opacity.from ? opacity.from : 1;
                 ep = opacity.to ? opacity.to : 0;
             } else {
@@ -10006,20 +10081,20 @@ Name:balafon.js
             c.start();
             return c;
         },
-        toString: function() {
+        toString: function () {
             return "igk.animation";
         },
-        autohide: function(item, startat) {
-            setTimeout(function() {
-                    igk.animation.fadeout(item, 20, 500, 1.0, function() {
-                        $igk(item).setCss({ "display": "none" });
-                        $igk(item).remove();
-                    });
-                },
+        autohide: function (item, startat) {
+            setTimeout(function () {
+                igk.animation.fadeout(item, 20, 500, 1.0, function () {
+                    $igk(item).setCss({ "display": "none" });
+                    $igk(item).remove();
+                });
+            },
                 startat);
         },
         // >@@ animate properties
-        animate: function(element, properties, animinfo) {
+        animate: function (element, properties, animinfo) {
             if (element == null) {
                 return;
             }
@@ -10042,7 +10117,7 @@ Name:balafon.js
             c.interval = animinfo ? (animinfo.interval ? animinfo.interval : 20) : 20;
             c.callback = animinfo ? (animinfo.complete || null) : null;
             c.updatecallback = animinfo ? (animinfo.update || null) : null;
-            var k = new function() {
+            var k = new function () {
                 this.time = 0; // maintain time
                 this.steps = new Array(); // step info of the moved item	
             };
@@ -10068,7 +10143,7 @@ Name:balafon.js
                                     r: (m.r - s.r), // *(c.interval/ c.duration),
                                     g: (m.g - s.g), // *(c.interval/ c.duration),
                                     b: (m.b - s.b), // *(c.interval/ c.duration)
-                                    toString: function() { return "(" + this.r + "," + this.g + "," + this.b + ")"; }
+                                    toString: function () { return "(" + this.r + "," + this.g + "," + this.b + ")"; }
                                 },
                                 start: s,
                                 end: m,
@@ -10093,7 +10168,7 @@ Name:balafon.js
                 }
             }
             // replace update
-            c.update = function() {
+            c.update = function () {
                 var q = this;
                 var end = false;
                 var v_delta = 0.0;
@@ -10104,7 +10179,7 @@ Name:balafon.js
                     if ((i == "length"))
                         continue;
                     var h = k.steps[i];
-                    if ((typeof(h.step) == 'undefined') || (h.step == 0))
+                    if ((typeof (h.step) == 'undefined') || (h.step == 0))
                         continue;
                     var item = {};
                     var v = 0;
@@ -10146,7 +10221,7 @@ Name:balafon.js
                         if (this.lasttimeout) {
                             igk.clearTimeout(this.lasttimeout);
                         }
-                        this.lasttimeout = setTimeout(function() { q.update(); }, this.interval);
+                        this.lasttimeout = setTimeout(function () { q.update(); }, this.interval);
                     }
                 } else {
                     // end ;								
@@ -10161,8 +10236,8 @@ Name:balafon.js
             c.start();
             return c;
         },
-        animateUpdate: function(element, animinfo) { // used to animate with a custom update function
-            if ((element == null) || (animinfo == null) || (typeof(animinfo.update) === IGK_UNDEF))
+        animateUpdate: function (element, animinfo) { // used to animate with a custom update function
+            if ((element == null) || (animinfo == null) || (typeof (animinfo.update) === IGK_UNDEF))
                 return;
             var contextname = igk_getv(animinfo, "context", 'animateUpdate');
             var v_animtype = igk_getv(animinfo, "animtype", 'timeout');
@@ -10172,11 +10247,11 @@ Name:balafon.js
             c.interval = animinfo ? (animinfo.interval ? animinfo.interval : 20) : 20;
             c.duration = v_duration;
             c.callback = animinfo ? animinfo.complete : null;
-            var k = new function() {
+            var k = new function () {
                 this.time = 0; // maintain time
             };
             // replace update
-            c.update = function() {
+            c.update = function () {
                 var q = this;
                 var end = false;
                 k.time += q.interval;
@@ -10185,7 +10260,7 @@ Name:balafon.js
                 if (!end) {
                     if (this.lasttimeout)
                         igk.clearTimeout(this.lasttimeout);
-                    this.lasttimeout = setTimeout(function() { q.update(); }, this.interval);
+                    this.lasttimeout = setTimeout(function () { q.update(); }, this.interval);
                 } else {
                     $igk(this.element).setCss(properties);
                     this.stop();
@@ -10197,10 +10272,10 @@ Name:balafon.js
             c.start();
             return c;
         },
-        getAnimationFrame: function() {
+        getAnimationFrame: function () {
             return igk.fn.getWindowFunc("requestAnimationFrame", __getAnimationFrame);
         },
-        getAnimationCancelFrame: function() {
+        getAnimationCancelFrame: function () {
             return igk.fn.getWindowFunc("cancelAnimationFrame", __cancelAnimationFrame);
         }
     });
@@ -10210,9 +10285,9 @@ Name:balafon.js
     function __getAnimationFrame(callback) {
         var currTime = new Date().getTime();
         var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-        var id = window.setTimeout(function() {
-                callback(currTime + timeToCall);
-            },
+        var id = window.setTimeout(function () {
+            callback(currTime + timeToCall);
+        },
             timeToCall);
         lastTime = currTime + timeToCall;
         return id;
@@ -10222,50 +10297,50 @@ Name:balafon.js
         window.clearTimeout(id);
     }
     igk_appendProp(igk.animation, {
-        effects: new function() {
+        effects: new function () {
             igk_appendProp(this, {
-                "linear": function(progress) {
+                "linear": function (progress) {
                     return progress;
                 },
-                "quad": function(progress) {
+                "quad": function (progress) {
                     return Math.pow(progress, 2);
                 },
-                "quint": function(progress) {
+                "quint": function (progress) {
                     return Math.pow(progress, 2);
                 },
-                "pow": function(progress, pow) {
+                "pow": function (progress, pow) {
                     return Math.pow(progress, pow || 2);
                 },
-                "circ": function(progress) {
+                "circ": function (progress) {
                     return 1 - Math.sin(Math.acos(progress));
                 },
-                "back": function(progress) {
+                "back": function (progress) {
                     return Math.pow(progress, 2) * ((1.5 + 1) * progress - 1.5);
                 },
-                "bounce": function(progress) {
+                "bounce": function (progress) {
                     for (var a = 0, b = 1, result; 1; a += b, b /= 2) {
                         if (progress >= (7 - 4 * a) / 11) {
                             return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2);
                         }
                     }
                 },
-                "makeEaseInOut": function(delta) {
-                    return function(progress) {
+                "makeEaseInOut": function (delta) {
+                    return function (progress) {
                         if (progress < .5)
                             return delta(2 * progress) / 2;
                         else
                             return (2 - delta(2 * (1 - progress))) / 2;
                     };
                 },
-                "makeEaseOut": function(delta) {
-                    return function(progress) {
+                "makeEaseOut": function (delta) {
+                    return function (progress) {
                         return 1 - delta(1 - progress);
                     };
                 },
-                toString: function() { return "igk.anmation.effects"; }
+                toString: function () { return "igk.anmation.effects"; }
             });
         },
-        getEffect: function(animeffect, animeffectmode) {
+        getEffect: function (animeffect, animeffectmode) {
             if (!animeffect)
                 animeffect = "linear";
             if (!animeffectmode)
@@ -10285,17 +10360,17 @@ Name:balafon.js
         }
     });
     createNS("igk.validator", {
-        isUri: function(s) {
+        isUri: function (s) {
             return /(http(s){0,1}|ftp|file):\/\/(.)+$/.test(s);
         },
-        toString: function() { return igk.validator.fullname; }
+        toString: function () { return igk.validator.fullname; }
     });
 
     function __ajx_initfunc(func) { // get ajx func request		
-        if (typeof(func) == 'string') {
+        if (typeof (func) == 'string') {
             var g = $igk(func);
             if (g.getCount() > 0) {
-                func = function(xhr) {
+                func = function (xhr) {
                     if (this.isReady()) {
                         g.setHtml(xhr.responseText).init();
                     }
@@ -10303,7 +10378,7 @@ Name:balafon.js
             }
         }
         func = func || igk.ajx.fn.replace_or_append_to_body;
-        return function(xhr) {
+        return function (xhr) {
             if (xhr.readyState == 2) {
                 if (xhr.status == 200) {
                     if (xhr.getResponseHeader("Content-Type").toLowerCase()
@@ -10326,11 +10401,11 @@ Name:balafon.js
                 igk.io.file.download(mime_type, cname, xhr.response);
                 return;
             }
-            if (typeof(func) == "function")
+            if (typeof (func) == "function")
                 func.apply(this, [xhr]);
         };
     };
-    (function() {
+    (function () {
         var m_ajx_monitorListener; // for monitoring
         var m_hxhr; // store xhr instance for the ready state change
         var sm_join = {};
@@ -10350,779 +10425,779 @@ Name:balafon.js
             m_exajxdata = 0;
         };
 
-        (function(){
+        (function () {
             var _ajx_info = {
-                initializer:null
+                initializer: null
             };
-        createNS("igk.ajx", {
-            bindHeader: function(p) { //bind properties to next ajx header
-                m_ajxhe = p;
-            },
-            bindExtraData: function(exdata) { // bind extra data that will be used for ajx request
-                //object property or null 
-                m_exajxdata = exdata;
-            },
-            setHeader: function(xhr) {
-                // ini ovh must be the minus sign
-                xhr.setRequestHeader("IGK-X-REQUESTED-WITH", "XMLHttpRequest");
-                if (m_ajxhe) {
-                    for (var m in m_ajxhe) {
-                        xhr.setRequestHeader(m, m_ajxhe[m]);
-                    }
-                    m_ajxhe = 0;
-                }
-            },
-            setMonitorListener: function(monitor) { // static func
-                m_ajx_monitorListener = monitor;
-            },
-            isMonitoring: function() { // static func
-                return m_ajx_monitorListener != null;
-            },
-            getCurrentXhr: function() {
-                return m_hxhr;
-            },
-            GetParentHost: function() {
-                return m_hxhr ? m_hxhr.source : null;
-            },
-            evalNode: function(n) { // evaluate only script content. not forcing file to download again and initialize
-                if (typeof(n) != "string") {
-                    if (n.tagName && n.tagName.toLowerCase() == "script") {
-                        var pn = n.parentNode ? n.parentNode : igk.dom.body().o;
-                        try {
-                            var v_script = $igk(n).getHtml();
-                            if (igk_str_trim(v_script).length > 0) {
-                                igk.evalScript(v_script, pn, n);
-                            }
-                            // remove useless
-                            if (n.getAttribute("autoremove"))
-                                $igk(n).remove();
-                        } catch (ex) {
-                            // for chrome disable code extension in some case.
-                            console.debug(ex);
+            createNS("igk.ajx", {
+                bindHeader: function (p) { //bind properties to next ajx header
+                    m_ajxhe = p;
+                },
+                bindExtraData: function (exdata) { // bind extra data that will be used for ajx request
+                    //object property or null 
+                    m_exajxdata = exdata;
+                },
+                setHeader: function (xhr) {
+                    // ini ovh must be the minus sign
+                    xhr.setRequestHeader("IGK-X-REQUESTED-WITH", "XMLHttpRequest");
+                    if (m_ajxhe) {
+                        for (var m in m_ajxhe) {
+                            xhr.setRequestHeader(m, m_ajxhe[m]);
                         }
-                    } else {
-                        igk_preload_image(n); // preload n
-                        // igk_eval_all_script(n);					
-                        var ct = $igk(n).select("script");
-                        ct.each(function() {
-                            var _t = this.getAttribute("type");
-                            if (_t == 'text/balafonjs') {
-                                __bindbalafonjs.apply(this);
-                            } else {
-                                if (_t in __scriptsEval) {
-                                    var fc = __scriptsEval[_t];
-                                    fc.apply(this);
-                                } else {
-                                    // + | eval  script 
-                                    igk_eval(this.getHtml(), this.o, this.o);
+                        m_ajxhe = 0;
+                    }
+                },
+                setMonitorListener: function (monitor) { // static func
+                    m_ajx_monitorListener = monitor;
+                },
+                isMonitoring: function () { // static func
+                    return m_ajx_monitorListener != null;
+                },
+                getCurrentXhr: function () {
+                    return m_hxhr;
+                },
+                GetParentHost: function () {
+                    return m_hxhr ? m_hxhr.source : null;
+                },
+                evalNode: function (n) { // evaluate only script content. not forcing file to download again and initialize
+                    if (typeof (n) != "string") {
+                        if (n.tagName && n.tagName.toLowerCase() == "script") {
+                            var pn = n.parentNode ? n.parentNode : igk.dom.body().o;
+                            try {
+                                var v_script = $igk(n).getHtml();
+                                if (igk_str_trim(v_script).length > 0) {
+                                    igk.evalScript(v_script, pn, n);
                                 }
+                                // remove useless
+                                if (n.getAttribute("autoremove"))
+                                    $igk(n).remove();
+                            } catch (ex) {
+                                // for chrome disable code extension in some case.
+                                console.debug(ex);
                             }
-                            return this;
+                        } else {
+                            igk_preload_image(n); // preload n
+                            // igk_eval_all_script(n);					
+                            var ct = $igk(n).select("script");
+                            ct.each(function () {
+                                var _t = this.getAttribute("type");
+                                if (_t == 'text/balafonjs') {
+                                    __bindbalafonjs.apply(this);
+                                } else {
+                                    if (_t in __scriptsEval) {
+                                        var fc = __scriptsEval[_t];
+                                        fc.apply(this);
+                                    } else {
+                                        // + | eval  script 
+                                        igk_eval(this.getHtml(), this.o, this.o);
+                                    }
+                                }
+                                return this;
+                            });
+                        }
+                    }
+                },
+                // replace entire body with the content of text	
+                replaceBody: function (text, unregister) {
+                    var c = window.igk.utils.getBodyContent(text);
+                    try {
+                        // igk_freeEventContext();		
+                        // igk.ctrl.clearAttribManager();
+                        if (unregister) {
+                            igk.winui.getEventObjectManager().unregister(document);
+                            igk.winui.getEventObjectManager().unregister(window);
+                            igk.winui.getEventObjectManager().unregister_child(igk.dom.body().o);
+                        }
+                        // clear body content
+                        igk.dom.body().setHtml("");
+                        // set the new content
+                        igk.dom.body().setHtml(c);
+                        // force call of ready on function
+                        // int body node
+                        igk.ajx.fn.initnode(igk.dom.body().o);
+                        // raise body replaced event
+                        igk.publisher.publish(igk.evts.dom[1], { evt: { text: text, target: igk.dom.body().o } });
+                        // igk.ready();
+                    } catch (ex) {
+                        igk.winui.notify.showErrorInfo("Javascript Exception", "replaceBody Evaluation failed <br />" + ex);
+                        console.error(ex);
+                    }
+                },
+                a_postResponse: function (a, parentTag) {
+                    window.igk.ajx.post(a.href, null, new window.igk.ajx.targetResponse(a, parentTag).update);
+                    return !1;
+                },
+                a_getResponse: function (a, parentTag) {
+                    window.igk.ajx.get(a.href, null, new window.igk.ajx.targetResponse(a, parentTag).update);
+                    return !1;
+                },
+                aposturi: function (uri, targetNodeId) { // post uri and set response to targetNodeId
+                    window.igk.ajx.post(uri, null, function (xhr) { if (this.isReady()) { this.setResponseTo(document.getElementById(targetNodeId), true); } });
+                },
+                ageturi: function (uri, targetNodeId) { // get uri and set response to targetnodeid
+                    var q = $igk(targetNodeId);
+                    if (q && uri) {
+                        igk.ajx.get(uri, null, function (xhr) {
+                            if (this.isReady()) {
+                                this.replaceResponseNode(q.o);
+                            }
                         });
                     }
-                }
-            },
-            // replace entire body with the content of text	
-            replaceBody: function(text, unregister) {
-                var c = window.igk.utils.getBodyContent(text);
-                try {
-                    // igk_freeEventContext();		
-                    // igk.ctrl.clearAttribManager();
-                    if (unregister) {
-                        igk.winui.getEventObjectManager().unregister(document);
-                        igk.winui.getEventObjectManager().unregister(window);
-                        igk.winui.getEventObjectManager().unregister_child(igk.dom.body().o);
+                },
+                // create a response node;
+                responseNode: function (nodeId) {
+                    var m_target = document.getElementById(nodeId);
+                    if (m_target) {
+                        window.igk.appendProperties(this, {
+                            "response": function (xhr) {
+                                if (this.isReady()) {
+                                    this.setResponseTo(m_target, true);
+                                }
+                            }
+                        });
                     }
-                    // clear body content
-                    igk.dom.body().setHtml("");
-                    // set the new content
-                    igk.dom.body().setHtml(c);
-                    // force call of ready on function
-                    // int body node
-                    igk.ajx.fn.initnode(igk.dom.body().o);
-                    // raise body replaced event
-                    igk.publisher.publish(igk.evts.dom[1], { evt: { text: text, target: igk.dom.body().o } });
-                    // igk.ready();
-                } catch (ex) {
-                    igk.winui.notify.showErrorInfo("Javascript Exception", "replaceBody Evaluation failed <br />" + ex);
-                    console.error(ex);
-                }
-            },
-            a_postResponse: function(a, parentTag) {
-                window.igk.ajx.post(a.href, null, new window.igk.ajx.targetResponse(a, parentTag).update);
-                return !1;
-            },
-            a_getResponse: function(a, parentTag) {
-                window.igk.ajx.get(a.href, null, new window.igk.ajx.targetResponse(a, parentTag).update);
-                return !1;
-            },
-            aposturi: function(uri, targetNodeId) { // post uri and set response to targetNodeId
-                window.igk.ajx.post(uri, null, function(xhr) { if (this.isReady()) { this.setResponseTo(document.getElementById(targetNodeId), true); } });
-            },
-            ageturi: function(uri, targetNodeId) { // get uri and set response to targetnodeid
-                var q = $igk(targetNodeId);
-                if (q && uri) {
-                    igk.ajx.get(uri, null, function(xhr) {
-                        if (this.isReady()) {
-                            this.replaceResponseNode(q.o);
+                },
+                getResponseNodeFunction: function (cibling, parentNodeTag) {
+                    var b = $igk(cibling).getParentByTagName(parentNodeTag);
+                    if (b) {
+                        return function (xhr) {
+                            if (this.isReady()) {
+                                this.setResponseTo(b);
+                            }
+                        };
+                    }
+                    return null;
+                },
+                // create a new response bodyset the response body
+                responseBody: function () {
+                    window.igk.appendProperties(this, {
+                        "response": function (xhr) {
+                            if (this.isReady()) {
+                                window.igk.ajx.replaceBody(xhr.responseText, true);
+                            }
                         }
                     });
-                }
-            },
-            // create a response node;
-            responseNode: function(nodeId) {
-                var m_target = document.getElementById(nodeId);
-                if (m_target) {
+                },
+                targetResponse: function (item, parentTag) { // object used to set response of ajx query
+                    var m_target = null;
+                    if (parentTag) {
+                        m_target = $igk(item).getParentByTagName(parentTag);
+                    } else
+                        m_target = item;
+                    if (m_target == null)
+                        return null;
                     window.igk.appendProperties(this, {
-                        "response": function(xhr) {
+                        update: function (xhr) {
+                            // update the response string
                             if (this.isReady()) {
                                 this.setResponseTo(m_target, true);
                             }
+                        },
+                        toString: function () {
+                            return "igk.ajx.targetResponse";
                         }
                     });
-                }
-            },
-            getResponseNodeFunction: function(cibling, parentNodeTag) {
-                var b = $igk(cibling).getParentByTagName(parentNodeTag);
-                if (b) {
-                    return function(xhr) {
-                        if (this.isReady()) {
-                            this.setResponseTo(b);
+                },
+                ajx: function (monitorlistener) { // ajx object
+                    var xhr = null;
+                    if (igk.isFunc(typeof (window.XMLHttpRequest))) //  Objet standard
+                    {
+                        xhr = new window.XMLHttpRequest(); //  Firefox,Safari,...
+                    } else {
+                        if (igk.navigator.$ActiveXObject()) //  Internet Explorer
+                        {
+                            try {
+                                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                            } catch (ex) {
+                                throw ("No Ajax Support");
+                            }
+                        }
+                    }
+                    if ((xhr == null) || (xhr.readyState + "" == igk.constants.undef)) {
+                        throw ("No Ajax Support");
+                    }
+                    this.xhr = xhr;
+                    this.saveState = false;
+                    this.uri = null;
+                    this.postargs = null;
+                    this.method = "GET";
+                    this.synchronize = false;
+                    this.noBlob = false; // true to disable file auto download
+                    this.setResponseMethod = function (method) { // instructions de traitement de la réponse 
+                        var q = this;
+                        if (method) {
+                            switch (typeof (method)) {
+                                case "function":
+                                    q.responseMethod = method;
+                                    q.xhr.onreadystatechange = function () {
+                                        // try{	
+                                        if (q.responseMethod) {
+                                            m_hxhr = q;
+                                            igk.context = 'xhr';
+                                            q.responseMethod(this);
+                                            m_hxhr = null;
+                                            igk.context = null;
+                                        }
+                                    };
+                                    break;
+                                case 'object':
+                                    var fc = method.complete ? function () { method.complete.apply(method, [q.xhr, method]); } : null;
+                                    q.xhr.onreadystatechange = null; // ,fc;
+                                    q.xhr.onload = fc;
+                                    q.xhr.onerror = method.error;
+                                    break;
+                            }
                         }
                     };
-                }
-                return null;
-            },
-            // create a new response bodyset the response body
-            responseBody: function() {
-                window.igk.appendProperties(this, {
-                    "response": function(xhr) {
-                        if (this.isReady()) {
-                            window.igk.ajx.replaceBody(xhr.responseText, true);
-                        }
-                    }
-                });
-            },
-            targetResponse: function(item, parentTag) { // object used to set response of ajx query
-                var m_target = null;
-                if (parentTag) {
-                    m_target = $igk(item).getParentByTagName(parentTag);
-                } else
-                    m_target = item;
-                if (m_target == null)
-                    return null;
-                window.igk.appendProperties(this, {
-                    update: function(xhr) {
-                        // update the response string
-                        if (this.isReady()) {
-                            this.setResponseTo(m_target, true);
-                        }
-                    },
-                    toString: function() {
-                        return "igk.ajx.targetResponse";
-                    }
-                });
-            },
-            ajx: function(monitorlistener) { // ajx object
-                var xhr = null;
-                if (igk.isFunc(typeof(window.XMLHttpRequest))) //  Objet standard
-                {
-                    xhr = new window.XMLHttpRequest(); //  Firefox,Safari,...
-                } else {
-                    if (igk.navigator.$ActiveXObject()) //  Internet Explorer
-                    {
-                        try {
-                            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                        } catch (ex) {
-                            throw ("No Ajax Support");
-                        }
-                    }
-                }
-                if ((xhr == null) || (xhr.readyState + "" == igk.constants.undef)) {
-                    throw ("No Ajax Support");
-                }
-                this.xhr = xhr;
-                this.saveState = false;
-                this.uri = null;
-                this.postargs = null;
-                this.method = "GET";
-                this.synchronize = false;
-                this.noBlob = false; // true to disable file auto download
-                this.setResponseMethod = function(method) { // instructions de traitement de la réponse 
-                    var q = this;
-                    if (method) {
-                        switch (typeof(method)) {
-                            case "function":
-                                q.responseMethod = method;
-                                q.xhr.onreadystatechange = function() {
-                                    // try{	
-                                    if (q.responseMethod) {
-                                        m_hxhr = q;
-                                        igk.context = 'xhr';
-                                        q.responseMethod(this);
-                                        m_hxhr = null;
-                                        igk.context = null;
-                                    } 
-                                };
-                                break;
-                            case 'object':
-                                var fc = method.complete ? function() { method.complete.apply(method, [q.xhr, method]); } : null;
-                                q.xhr.onreadystatechange = null; // ,fc;
-                                q.xhr.onload = fc; 
-                                q.xhr.onerror = method.error;
-                                break;
-                        }
-                    }
-                };
 
-                function __initheader() {
-                    // migration of apache request that name must not contains underscore or will be ignored
-                    igk.ajx.setHeader(this.xhr);
-                    if (!igk.isFunc(typeof(document.domain))) {
-                        this.xhr.setRequestHeader("IGK-FROM", "igkdev");
-                    }
-                };
-                this.send = function(method, url, postargs, sync) {
-                    this.uri = url;
-                    // igk.constants constant definition
-                    this.asynchronize = typeof(sync) == igk.constants.undef ? true : sync;
-                    this.postargs = postargs;
-                    this.method = method;
-                    this.xhr.open(method, url, this.asynchronize);
-                    if (this["ajx.xhr"]) {
-                        igk_appendProp(this.xhr, this["ajx.xhr"]);
-                    }
-                    __initheader.apply(this);
-                    if (postargs) {
-                        if (typeof(postargs) == "string") {
-                            // for url encoding
-                            this.xhr.setRequestHeader("Content-Type", this.contentType || "application/x-www-form-urlencoded;charset=iso-8859-1");                    
+                    function __initheader() {
+                        // migration of apache request that name must not contains underscore or will be ignored
+                        igk.ajx.setHeader(this.xhr);
+                        if (!igk.isFunc(typeof (document.domain))) {
+                            this.xhr.setRequestHeader("IGK-FROM", "igkdev");
                         }
-                    }
-                    if (monitorlistener) {
-                        this.xhr.onloadstart = monitorlistener.loadstart;
-                        this.xhr.onloadend = monitorlistener.loadend;
-                        this.xhr.onprogress = monitorlistener.loadprogress;
-                    }
-                    this.xhr.send(postargs);
-                };
-            },
-            postWebRequest: function(uri, action, param, func, headers, async, savestate, extradata) { // for service 
-                if (typeof(async) == igk.constants.undef)
-                    async = !0;
-                var ajx = new igk.ajx.ajx();
-                ajx.saveState = (savestate) ? true : false;
-                __ajx_setExtraData(ajx, extradata);
-                igk.appendProperties(ajx, {
-                    serviceResponse: function() {
-                        var d = document.createElementNS(igk.namespaces.xhtml, "dummy");
-                        $igk(d).setHtml(ajx.xhr.responseText);
-                        var r = $igk(d).select(action + "_result").first();
-                        if (r) {
-                            return r.o.innerHTML;
+                    };
+                    this.send = function (method, url, postargs, sync) {
+                        this.uri = url;
+                        // igk.constants constant definition
+                        this.asynchronize = typeof (sync) == igk.constants.undef ? true : sync;
+                        this.postargs = postargs;
+                        this.method = method;
+                        this.xhr.open(method, url, this.asynchronize);
+                        if (this["ajx.xhr"]) {
+                            igk_appendProp(this.xhr, this["ajx.xhr"]);
                         }
-                        return 0;
-                    }
-                });
-                ajx.setResponseMethod(__ajx_initfunc(func)); // || igk.ajx.fn.replace_or_append_to_body);
-                ajx.xhr.open("POST", uri, async);
-                // ajx.xhr.setRequestHeader("Content-Type", "text/html");
-                ajx.xhr.setRequestHeader("Content-Type", "text/plain");
-                igk.ajx.setHeader(ajx.xhr);
-                ajx.xhr.setRequestHeader("SOAPACTION", action);
-                // if (headers) {
-                // for (var i in headers) {
-                // ajx.xhr.setRequestHeader(i, headers[i]);
-                // }
-                // }
-                var v_params = ""; // params to send 		
-                for (var i in param) {
-                    v_params += "<" + i + ">" + param[i] + "</" + i + ">";
-                }
-                var v_body = "<" + action + ">" + v_params + "</" + action + ">";
-                // build packet to send
-                var packet = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body>' + v_body + '</soap:Body></soap:Envelope>';
-                ajx.xhr.send(packet);
-                return ajx;
-            },
-            post(uri, param, func, async, savestate, extradata) {
-                return igk.ajx.send(uri, 'POST', param, func, async, savestate, extradata);
-            },
-            apost(uri, param, func, savestate, extradata) {
-                return igk.ajx.post(uri, param, func, true, savestate, extradata);
-            },
-            get(uri, param, func, async, savestate, extradata) {
-                // extradata used to init ajx object
-                var ajx = new igk.ajx.ajx(m_ajx_monitorListener);
-                if (typeof(async) == igk.constants.undef)
-                    async = !0;
-                ajx.saveState = (savestate == igk.constants.undef) ? true : false;
-                __ajx_setExtraData(ajx, extradata);
-                ajx.setResponseMethod(__ajx_initfunc(func));
-                ajx.send("GET", uri, param, async);
-                return ajx;
-            },
-            aget(uri, param, func, extradata) {
-                return igk.ajx.get(uri, param, func, true, extradata);
-            },
-            join: function(n) {
-                if (n in sm_join) {
-                    sm_join[n].abort();
-                }
-                sm_join[n] = this;
-                return igk.ajx;
-            },
-            /**
-             * 
-             * @param {string|postOptions} uri uri 
-             * @param {string} method verbs to ask
-             * @param {*} param param to send
-             * @param {*} func 
-             * @param {*} async 
-             * @param {*} savestate 
-             * @param {*} extradata 
-             * @returns 
-             */
-            send(uri, method, param, func, async, savestate, extradata) {
-                if (typeof(async) == igk.constants.undef)
-                    async = !0;
-                var contentType = null;
-                if (typeof(uri) == 'object') {
-                    method = uri.method || method;
-                    param = uri.param || param;
-                    func = uri.func || func;
-                    contentType = uri.contentType || contentType;
-                    uri = uri.uri || uri;
-                }
-                var ajx = null;
-                try {
-                    ajx = new igk.ajx.ajx(m_ajx_monitorListener);
+                        __initheader.apply(this);
+                        if (postargs) {
+                            if (typeof (postargs) == "string") {
+                                // for url encoding
+                                this.xhr.setRequestHeader("Content-Type", this.contentType || "application/x-www-form-urlencoded;charset=iso-8859-1");
+                            }
+                        }
+                        if (monitorlistener) {
+                            this.xhr.onloadstart = monitorlistener.loadstart;
+                            this.xhr.onloadend = monitorlistener.loadend;
+                            this.xhr.onprogress = monitorlistener.loadprogress;
+                        }
+                        this.xhr.send(postargs);
+                    };
+                },
+                postWebRequest: function (uri, action, param, func, headers, async, savestate, extradata) { // for service 
+                    if (typeof (async) == igk.constants.undef)
+                        async = !0;
+                    var ajx = new igk.ajx.ajx();
                     ajx.saveState = (savestate) ? true : false;
-                    ajx.contentType = contentType;
+                    __ajx_setExtraData(ajx, extradata);
+                    igk.appendProperties(ajx, {
+                        serviceResponse: function () {
+                            var d = document.createElementNS(igk.namespaces.xhtml, "dummy");
+                            $igk(d).setHtml(ajx.xhr.responseText);
+                            var r = $igk(d).select(action + "_result").first();
+                            if (r) {
+                                return r.o.innerHTML;
+                            }
+                            return 0;
+                        }
+                    });
+                    ajx.setResponseMethod(__ajx_initfunc(func)); // || igk.ajx.fn.replace_or_append_to_body);
+                    ajx.xhr.open("POST", uri, async);
+                    // ajx.xhr.setRequestHeader("Content-Type", "text/html");
+                    ajx.xhr.setRequestHeader("Content-Type", "text/plain");
+                    igk.ajx.setHeader(ajx.xhr);
+                    ajx.xhr.setRequestHeader("SOAPACTION", action);
+                    // if (headers) {
+                    // for (var i in headers) {
+                    // ajx.xhr.setRequestHeader(i, headers[i]);
+                    // }
+                    // }
+                    var v_params = ""; // params to send 		
+                    for (var i in param) {
+                        v_params += "<" + i + ">" + param[i] + "</" + i + ">";
+                    }
+                    var v_body = "<" + action + ">" + v_params + "</" + action + ">";
+                    // build packet to send
+                    var packet = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body>' + v_body + '</soap:Body></soap:Envelope>';
+                    ajx.xhr.send(packet);
+                    return ajx;
+                },
+                post(uri, param, func, async, savestate, extradata) {
+                    return igk.ajx.send(uri, 'POST', param, func, async, savestate, extradata);
+                },
+                apost(uri, param, func, savestate, extradata) {
+                    return igk.ajx.post(uri, param, func, true, savestate, extradata);
+                },
+                get(uri, param, func, async, savestate, extradata) {
+                    // extradata used to init ajx object
+                    var ajx = new igk.ajx.ajx(m_ajx_monitorListener);
+                    if (typeof (async) == igk.constants.undef)
+                        async = !0;
+                    ajx.saveState = (savestate == igk.constants.undef) ? true : false;
                     __ajx_setExtraData(ajx, extradata);
                     ajx.setResponseMethod(__ajx_initfunc(func));
-                    // console.debug(ajx.contentType, param, ajx);
-                    ajx.send(method, uri, param, typeof(async) == igk.constants.undef ? !0 : async);
-                } catch (e) {
-                    igk.log.write("ajx log error : Error ::::: ");
-                    igk.show_notify_prop_v(e);
-                }
-                return ajx;
-            },
-            /**
-             * post form 
-             * @param {*} form form to that host post
-             * @param {*} uri uri target 
-             * @param {*} func callback function 
-             * @param {*} sync async call
-             * @param {*} callback metho to call after sending 
-             */
-            postform: function(form, uri, func, sync, callback) {
-                if (!form)
-                    return;
-                uri = uri || form.getAttribute("action");
-                var method = (form.getAttribute("method") || "POST").toUpperCase();
-                var msg = "";
-                var e = null;
-                var p = [];
-                var send = 0;
-                if (window.tinyMCE) { // to update the tinyMce before update
-                    window.tinyMCE.triggerSave();
-                }
-                var fc = method == "POST" ? igk.ajx.post : igk.ajx.get;
+                    ajx.send("GET", uri, param, async);
+                    return ajx;
+                },
+                aget(uri, param, func, extradata) {
+                    return igk.ajx.get(uri, param, func, true, extradata);
+                },
+                join: function (n) {
+                    if (n in sm_join) {
+                        sm_join[n].abort();
+                    }
+                    sm_join[n] = this;
+                    return igk.ajx;
+                },
+                /**
+                 * 
+                 * @param {string|postOptions} uri uri 
+                 * @param {string} method verbs to ask
+                 * @param {*} param param to send
+                 * @param {*} func 
+                 * @param {*} async 
+                 * @param {*} savestate 
+                 * @param {*} extradata 
+                 * @returns 
+                 */
+                send(uri, method, param, func, async, savestate, extradata) {
+                    if (typeof (async) == igk.constants.undef)
+                        async = !0;
+                    var contentType = null;
+                    if (typeof (uri) == 'object') {
+                        method = uri.method || method;
+                        param = uri.param || param;
+                        func = uri.func || func;
+                        contentType = uri.contentType || contentType;
+                        uri = uri.uri || uri;
+                    }
+                    var ajx = null;
+                    try {
+                        ajx = new igk.ajx.ajx(m_ajx_monitorListener);
+                        ajx.saveState = (savestate) ? true : false;
+                        ajx.contentType = contentType;
+                        __ajx_setExtraData(ajx, extradata);
+                        ajx.setResponseMethod(__ajx_initfunc(func));
+                        // console.debug(ajx.contentType, param, ajx);
+                        ajx.send(method, uri, param, typeof (async) == igk.constants.undef ? !0 : async);
+                    } catch (e) {
+                        igk.log.write("ajx log error : Error ::::: ");
+                        igk.show_notify_prop_v(e);
+                    }
+                    return ajx;
+                },
+                /**
+                 * post form 
+                 * @param {*} form form to that host post
+                 * @param {*} uri uri target 
+                 * @param {*} func callback function 
+                 * @param {*} sync async call
+                 * @param {*} callback metho to call after sending 
+                 */
+                postform: function (form, uri, func, sync, callback) {
+                    if (!form)
+                        return;
+                    uri = uri || form.getAttribute("action");
+                    var method = (form.getAttribute("method") || "POST").toUpperCase();
+                    var msg = "";
+                    var e = null;
+                    var p = [];
+                    var send = 0;
+                    if (window.tinyMCE) { // to update the tinyMce before update
+                        window.tinyMCE.triggerSave();
+                    }
+                    var fc = method == "POST" ? igk.ajx.post : igk.ajx.get;
 
-                function __appendForm(id, value) {
-                    if (p[id]) {
-                        var tab = p[id];
-                        if (igk_is_array(tab)) // array
-                        {
-                            tab.push(value);
-                        } else {
-                            var tt = [];
-                            tt.push(tab);
-                            tt.push(value);
-                            p[id] = tt;
-                        }
-                    } else
-                        p[id] = value;
-                }
-                // prepend waiter
-                if (igk.winui.lineWaiter) {
-                    var lw = igk.winui.lineWaiter.prependTo(form);
-                    var tf = func;
-                    $igk(form).select(".actions").addClass("dispn");
-                    func = function(xhr) {
-                        if (tf && (typeof(tf)=='function')) {
-                            tf.apply(this, [xhr]);
-                        } 
-                        if (this.isReady()) {
-                            lw.remove();
-                            $igk(form).select(".actions").rmClass("dispn");
-                        } else if (xhr.readyState == 4) {
-                            lw.remove();
-                        }
-                    };
-                }
-                if (window.FormData) {
-                    // if supporting FormData
-                    var frmData = null;
-                    var enctype = form.getAttribute("enctype");
-                    if (enctype == "application/json") {
-                        var obj = 0;
-                        var data = 0;
-                        if (obj = form.getAttribute("form-data")) {
-                            data = obj;
-                            if (typeof(data) == 'object')
-                                data = JSON.stringify(data);
-                        } else {
-                            obj = {};
-                            igk.winui.form.serialize(form, obj);
-                            data = JSON.stringify(obj);
-                        }
-                        igk.ajx.send({
-                            uri: uri,
-                            method: method,
-                            contentType: 'application/json',
-                            func: function(xhr) {
-                                if (this.isReady()) {
-                                    if (typeof(func) == "function") {
-                                        func.apply(this, [xhr]);
-                                    }
-                                }
-                            },
-                            param: data
-                        });
-                    } else {
-                        frmData = new FormData(form);
-                        if (window.event && window.event.submitter) {
-                            var i = window.event.submitter;
-                            var n = i.getAttribute("name");
-                            if (n) {
-                                frmData.append(n, i.getAttribute("value"));
+                    function __appendForm(id, value) {
+                        if (p[id]) {
+                            var tab = p[id];
+                            if (igk_is_array(tab)) // array
+                            {
+                                tab.push(value);
+                            } else {
+                                var tt = [];
+                                tt.push(tab);
+                                tt.push(value);
+                                p[id] = tt;
                             }
+                        } else
+                            p[id] = value;
+                    }
+                    // prepend waiter
+                    if (igk.winui.lineWaiter) {
+                        var lw = igk.winui.lineWaiter.prependTo(form);
+                        var tf = func;
+                        $igk(form).select(".actions").addClass("dispn");
+                        func = function (xhr) {
+                            if (tf && (typeof (tf) == 'function')) {
+                                tf.apply(this, [xhr]);
+                            }
+                            if (this.isReady()) {
+                                lw.remove();
+                                $igk(form).select(".actions").rmClass("dispn");
+                            } else if (xhr.readyState == 4) {
+                                lw.remove();
+                            }
+                        };
+                    }
+                    if (window.FormData) {
+                        // if supporting FormData
+                        var frmData = null;
+                        var enctype = form.getAttribute("enctype");
+                        if (enctype == "application/json") {
+                            var obj = 0;
+                            var data = 0;
+                            if (obj = form.getAttribute("form-data")) {
+                                data = obj;
+                                if (typeof (data) == 'object')
+                                    data = JSON.stringify(data);
+                            } else {
+                                obj = {};
+                                igk.winui.form.serialize(form, obj);
+                                data = JSON.stringify(obj);
+                            }
+                            igk.ajx.send({
+                                uri: uri,
+                                method: method,
+                                contentType: 'application/json',
+                                func: function (xhr) {
+                                    if (this.isReady()) {
+                                        if (typeof (func) == "function") {
+                                            func.apply(this, [xhr]);
+                                        }
+                                    }
+                                },
+                                param: data
+                            });
                         } else {
-                            form.querySelectorAll("input[type='submit']").forEach(function(i) {
+                            frmData = new FormData(form);
+                            if (window.event && window.event.submitter) {
+                                var i = window.event.submitter;
                                 var n = i.getAttribute("name");
                                 if (n) {
                                     frmData.append(n, i.getAttribute("value"));
                                 }
+                            } else {
+                                form.querySelectorAll("input[type='submit']").forEach(function (i) {
+                                    var n = i.getAttribute("name");
+                                    if (n) {
+                                        frmData.append(n, i.getAttribute("value"));
+                                    }
+                                });
+                            }
+                            // console.debug("send....form data", form.getAttribute("enctype") ,frmData, fc );
+                            if (enctype == "application/x-www-form-urlencoded") {
+                                //convert to encoding data
+                                frmData = encodeQueryFromData(frmData);
+                            }
+                            callback && callback({ type: 'frmdata', data: frmData });
+                            fc(uri, frmData, func, (sync == igk.constants.undef) ? sync : true, true, {
+                                contentType: "application/x-www-form-urlencoded",
+                                source: $igk(form) // setting the source of the current definition,
                             });
+                            send = 1;
                         }
-                        // console.debug("send....form data", form.getAttribute("enctype") ,frmData, fc );
-                        if (enctype == "application/x-www-form-urlencoded") {
-                            //convert to encoding data
-                            frmData = encodeQueryFromData(frmData);
+                    } else {
+                        for (var i = 0; i < form.length; i++) {
+                            e = form.elements[i];
+                            switch (e.type) {
+                                case "radio":
+                                case "checkbox":
+                                    if (e.checked) {
+                                        __appendForm(e.id, e.value);
+                                    }
+                                    break;
+                                case "file":
+                                    if (e.files.length > 0) {
+                                        frmData.append(e.id, e.files[0]);
+                                    }
+                                    break;
+                                default:
+                                    __appendForm(e.id, e.value);
+                                    break;
+                            }
                         }
-                        callback && callback({type:'frmdata', data:frmData});                        
-                        fc(uri, frmData, func, (sync == igk.constants.undef) ? sync : true, true, {
-                            contentType: "application/x-www-form-urlencoded",
-                            source: $igk(form) // setting the source of the current definition,
+                        e = 0;
+                        for (var i in p) {
+                            if (e != 0)
+                                msg += "&";
+                            if (igk_is_array(p[i])) {
+                                for (var t in p[i]) {
+                                    if (e != 0)
+                                        msg += "&";
+                                    msg += i + "=" + p[i][t];
+                                    e = 1;
+                                }
+                            } else
+                                msg += i + "=" + p[i];
+                            e = 1;
+                        }
+                        callback && callback({ type: 'msg', data: msg });
+                        fc(uri, msg, func, (sync == igk.constants.undef) ? sync : true, true, {
+                            source: form
                         });
                         send = 1;
                     }
-                } else {
-                    for (var i = 0; i < form.length; i++) {
-                        e = form.elements[i];
-                        switch (e.type) {
-                            case "radio":
-                            case "checkbox":
-                                if (e.checked) {
-                                    __appendForm(e.id, e.value);
-                                }
-                                break;
-                            case "file":
-                                if (e.files.length > 0) {
-                                    frmData.append(e.id, e.files[0]);
-                                }
-                                break;
-                            default:
-                                __appendForm(e.id, e.value);
-                                break;
-                        }
-                    }
-                    e = 0;
-                    for (var i in p) {
-                        if (e != 0)
-                            msg += "&";
-                        if (igk_is_array(p[i])) {
-                            for (var t in p[i]) {
-                                if (e != 0)
-                                    msg += "&";
-                                msg += i + "=" + p[i][t];
-                                e = 1;
-                            }
-                        } else
-                            msg += i + "=" + p[i];
-                        e = 1;
-                    }
-                    callback && callback({type:'msg', data:msg});
-                    fc(uri, msg, func, (sync == igk.constants.undef) ? sync : true, true, {
-                        source: form
-                    });
-                    send = 1;
-                }
 
-                return send;
-            },
-            asyncget: function(uri, param, mimetype) {
-                var Prom = window.Promise;
-                if (!Prom)
-                    return false;
-                try {
-                    var b = igk.dom.body(); // body document not found
-                } catch (ex) {
-                    //used ajx to get data
-                    var p = new Promise(function(r, j) {
-                        var fc = function(o) {
-                            r(o);
-                        };
-                        fc.error = function() {
-                            j('[BJS] failed to get : ' + uri);
-                        };
-                        igk.ajx.get(uri, null, function(xhr) {
-                            console.debug("for : " + xhr.status);
-                            if (this.isReady()) {
-                                fc(xhr.responseText);
-                            }
+                    return send;
+                },
+                asyncget: function (uri, param, mimetype) {
+                    var Prom = window.Promise;
+                    if (!Prom)
+                        return false;
+                    try {
+                        var b = igk.dom.body(); // body document not found
+                    } catch (ex) {
+                        //used ajx to get data
+                        var p = new Promise(function (r, j) {
+                            var fc = function (o) {
+                                r(o);
+                            };
+                            fc.error = function () {
+                                j('[BJS] failed to get : ' + uri);
+                            };
+                            igk.ajx.get(uri, null, function (xhr) {
+                                console.debug("for : " + xhr.status);
+                                if (this.isReady()) {
+                                    fc(xhr.responseText);
+                                }
+                            });
                         });
+                        return p;
+                    }
+                    //use ob to get data
+                    mimetype = mimetype || 'text/plain';
+                    var p = new Promise(function (r, j) {
+                        var fc = function (o) {
+                            r(o.data);
+                        };
+                        fc.error = function () {
+                            j(new Error('[BJS] - objdata failed: ' + uri + ', ' + mimetype));
+                        };
+                        igk.system.io.getData(uri, fc, mimetype);
                     });
                     return p;
-                }
-                //use ob to get data
-                mimetype = mimetype || 'text/plain';
-                var p = new Promise(function(r, j) {
-                    var fc = function(o) {
-                        r(o.data);
-                    };
-                    fc.error = function() {
-                        j(new Error('[BJS] - objdata failed: ' + uri + ', ' + mimetype));
-                    };
-                    igk.system.io.getData(uri, fc, mimetype);
-                });
-                return p;
-            },
-            /**
-             * upload file 
-             * @param {*} inputfile tagnode
-             * @param {*} uri where 
-             * @param {*} async async or not
-             * @param {*} responseCallback response finish
-             * @param {*} startcallBack start
-             * @param {*} progressCallback progress 
-             * @param {*} doneCallback done
-             */
-            uploadInputFile: function(inputfile, uri, async, responseCallback, startcallBack, progressCallback, doneCallback) {
-                const _ln = inputfile.files.length;
-                let _task = [];
-                let _max = _ln;
-                let _error_fc=null;
-                if (typeof(uri) == 'object'){
-                    _max = typeof(uri.max)!='undefined' ? uri.max : _max;
-                    _error_fc = uri.error;
-                    uri = uri.uri;
-                }
-                if (_ln > _max){
-                    if (_error_fc){
-                        _error_fc(uri, 'not allowed to upload more than {0} file(s).', _max);
+                },
+                /**
+                 * upload file 
+                 * @param {*} inputfile tagnode
+                 * @param {*} uri where 
+                 * @param {*} async async or not
+                 * @param {*} responseCallback response finish
+                 * @param {*} startcallBack start
+                 * @param {*} progressCallback progress 
+                 * @param {*} doneCallback done
+                 */
+                uploadInputFile: function (inputfile, uri, async, responseCallback, startcallBack, progressCallback, doneCallback) {
+                    const _ln = inputfile.files.length;
+                    let _task = [];
+                    let _max = _ln;
+                    let _error_fc = null;
+                    if (typeof (uri) == 'object') {
+                        _max = typeof (uri.max) != 'undefined' ? uri.max : _max;
+                        _error_fc = uri.error;
+                        uri = uri.uri;
                     }
-                    return;
-                }
-                if (_ln > 0){
-                    if (_ln ==1)
-                        return igk.ajx.uploadFile(null, inputfile.files[0], uri, async, responseCallback, startcallBack, progressCallback, doneCallback);
-                        
-                        let _min = Math.min(_max, _ln);
-                        for(let i = 0; i < _min; i++){
-                            _task.push( (function(i){
-                                const g = inputfile.files[i];
-                                let args = [i, g];
-                                return new Promise(function(resolve, reject){
-                                igk.ajx.uploadFile(null, g, uri, async, 
-                                        function(xhr){ 
-                                            if ((xhr.status >0) &&  (xhr.status != 200)){
-                                                reject(xhr)
-                                            }else{
-                                            // 
-                                            // console.log('data: ', xhr.status);
-                                            responseCallback.apply(this, [xhr, i, g]);
-                                            }
-                                        }, 
-                                        function(){
-                                            startcallBack.apply(this, args);
-                                        }
-                                        ,  function(){                                             
-                                            progressCallback.apply(this, args);
-                                        }, 
-                                    function(){                                   
-                                        doneCallback.apply(this, args); 
-                                        resolve(i, g);
-                                    });
-                            }); 
-                        })(i));
+                    if (_ln > _max) {
+                        if (_error_fc) {
+                            _error_fc(uri, 'not allowed to upload more than {0} file(s).', _max);
                         }
-                    return Promise.all(_task).then(function(){
-                        // console.log("all task complete");
-                    });
-                }
-            },
-            setUploadFileInitializer(fc){
-                _ajx_info.initializer = fc;
-            },
-            uploadFileInitializer(xhr){
-                let _fc = _ajx_info.initializer;
-                if (_fc){
-                    _fc(xhr);
-                }
-            },
-            /**
-             * 
-             * @param {*} osrc 
-             * @param {*} file 
-             * @param {*} uri 
-             * @param {*} async 
-             * @param {*} responseCallback 
-             * @param {*} startcallBack 
-             * @param {*} progressCallback 
-             * @param {*} doneCallback 
-             * @param {*} method 
-             */
-            uploadFile: function(osrc, file, uri, async, responseCallback, startcallBack, progressCallback, doneCallback, method) {
-                if (!file) {
-                    console.error("/!\\ file not define");
-                    return;
-                }
-                // method: blob or null
-                var bob = null;
-                var reader = null;
-                var v_ajx = new igk.ajx.ajx();
-                v_ajx.source = osrc;
-                var self = this;
-                var xhr = v_ajx.xhr;
-                var m = method ? method : 'blob';
-                responseCallback = responseCallback || igk.ajx.fn.replace_or_append_to_body;
-                if (igk.navigator.isIE() && igk.navigator.IEVersion()) {
-                    v_ajx.setResponseMethod(function(xhr) {
-                        if (this.isReady()) {
-                            // get file....
-                            igk.ajx.post(uri + '&ie=1', null, responseCallback);
-                        }
-                    });
-                } else {
-                    v_ajx.setResponseMethod(responseCallback);
-                }
-                // 
-                // var async=!0;// important to view progression .on chrome
-                xhr.open("POST", uri, async); // async);// devnull.php");
-                // return;
-                v_ajx.xhr.upload.onerror = function(evt) {
-                    igk.winui.notify.showErrorInfo(
-                        "Error",
-                        "/!\\ uploaded failed: " + uri + "<br />" +
-                        " " + evt);
-                    console.debug("Error : " + v_ajx.xhr.statusText);
-                    console.debug(v_ajx.xhr);
-                };
-                // async registration function
-                // v_ajx.xhr.onprogress=function(evt){
-                // };
-                // async registration function
-                if (async) {
-                    v_ajx.xhr.upload.onprogress = function(evt) {
-                        if (progressCallback) {
-                            progressCallback.apply(this, arguments);
-                        }
-                    };
-                    v_ajx.xhr.upload.onload = function(evt) {
-                        if (doneCallback) {
-                            doneCallback.apply(this, arguments);
-                        }
-                    };
-                    v_ajx.xhr.upload.onloadstart = function(evt) {
-                        if (startcallBack) {
-                            startcallBack.apply(this, arguments);
-                        }
-                    }
-                }
-                xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
-                xhr.setRequestHeader("Cache-Control", "no-cache");
-                // + | ajx context header
-                igk.ajx.setHeader(xhr);
-                xhr.setRequestHeader("IGK-UPLOADFILE", true);
-                xhr.setRequestHeader("IGK-FILE-NAME", file.name);
-                xhr.setRequestHeader("IGK-UP-FILE-SIZE", file.size); // file.file[0] size);
-                xhr.setRequestHeader("IGK-UP-FILE-TYPE", file.type);
-
-                igk.ajx.uploadFileInitializer(xhr);
-
-                // xhr.setRequestHeader("Content-Type","multipart/form-data");
-                // xhr.setRequestHeader("Content-Type","multipart/form-data;charset=utf-8; boundary=" + Math.random().toString().substr(2));
-                // for security reason need to pass Content-Type with proper content-type
-                var type = file.type;
-                // if (!type){
-                type = "application/octet-stream";
-                // }
-                xhr.setRequestHeader("Content-Type",
-                    type + "; charset=utf-8; boundary=" + Math.random().toString().substr(2));
-                //"Content-type","multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2));
-                var r = file;
-                var filer = false;
-                if (m != 'blob') {
-                    if (typeof(FileReader) != IGK_UNDEF)
-                        filer = new FileReader();
-                    if (!filer) {
                         return;
                     }
-                    // 1.
-                    reader = filer;
-                    // reader.onprogress = function (evt) {
-                    // 	console.debug("progress read");
-                    // };
-                    reader.onload = function(evt) {
-                        // igk.winui.notify.showMsg("<div class=\"igk-notify igk-notify-default\">"+ igk.html.getDefinition(xhr)+"</div>");
-                        var t = igk.winui.eventTarget(evt);
-                        if (xhr.sendAsBinary) // mod 
-                            xhr.sendAsBinary(t.result);
-                        else { // ie and other				
-                            xhr.send(t.result);
+                    if (_ln > 0) {
+                        if (_ln == 1)
+                            return igk.ajx.uploadFile(null, inputfile.files[0], uri, async, responseCallback, startcallBack, progressCallback, doneCallback);
+
+                        let _min = Math.min(_max, _ln);
+                        for (let i = 0; i < _min; i++) {
+                            _task.push((function (i) {
+                                const g = inputfile.files[i];
+                                let args = [i, g];
+                                return new Promise(function (resolve, reject) {
+                                    igk.ajx.uploadFile(null, g, uri, async,
+                                        function (xhr) {
+                                            if ((xhr.status > 0) && (xhr.status != 200)) {
+                                                reject(xhr)
+                                            } else {
+                                                // 
+                                                // console.log('data: ', xhr.status);
+                                                responseCallback.apply(this, [xhr, i, g]);
+                                            }
+                                        },
+                                        function () {
+                                            startcallBack.apply(this, args);
+                                        }
+                                        , function () {
+                                            progressCallback.apply(this, args);
+                                        },
+                                        function () {
+                                            doneCallback.apply(this, args);
+                                            resolve(i, g);
+                                        });
+                                });
+                            })(i));
                         }
+                        return Promise.all(_task).then(function () {
+                            // console.log("all task complete");
+                        });
+                    }
+                },
+                setUploadFileInitializer(fc) {
+                    _ajx_info.initializer = fc;
+                },
+                uploadFileInitializer(xhr) {
+                    let _fc = _ajx_info.initializer;
+                    if (_fc) {
+                        _fc(xhr);
+                    }
+                },
+                /**
+                 * 
+                 * @param {*} osrc 
+                 * @param {*} file 
+                 * @param {*} uri 
+                 * @param {*} async 
+                 * @param {*} responseCallback 
+                 * @param {*} startcallBack 
+                 * @param {*} progressCallback 
+                 * @param {*} doneCallback 
+                 * @param {*} method 
+                 */
+                uploadFile: function (osrc, file, uri, async, responseCallback, startcallBack, progressCallback, doneCallback, method) {
+                    if (!file) {
+                        console.error("/!\\ file not define");
+                        return;
+                    }
+                    // method: blob or null
+                    var bob = null;
+                    var reader = null;
+                    var v_ajx = new igk.ajx.ajx();
+                    v_ajx.source = osrc;
+                    var self = this;
+                    var xhr = v_ajx.xhr;
+                    var m = method ? method : 'blob';
+                    responseCallback = responseCallback || igk.ajx.fn.replace_or_append_to_body;
+                    if (igk.navigator.isIE() && igk.navigator.IEVersion()) {
+                        v_ajx.setResponseMethod(function (xhr) {
+                            if (this.isReady()) {
+                                // get file....
+                                igk.ajx.post(uri + '&ie=1', null, responseCallback);
+                            }
+                        });
+                    } else {
+                        v_ajx.setResponseMethod(responseCallback);
+                    }
+                    // 
+                    // var async=!0;// important to view progression .on chrome
+                    xhr.open("POST", uri, async); // async);// devnull.php");
+                    // return;
+                    v_ajx.xhr.upload.onerror = function (evt) {
+                        igk.winui.notify.showErrorInfo(
+                            "Error",
+                            "/!\\ uploaded failed: " + uri + "<br />" +
+                            " " + evt);
+                        console.debug("Error : " + v_ajx.xhr.statusText);
+                        console.debug(v_ajx.xhr);
                     };
-                    if (reader.readAsBinaryString)
-                        reader.readAsBinaryString(r);
-                    else
-                        reader.readAsText(r);
-                } else {
-                    if (r.slice) {
-                        bob = r.slice(0, file.size);
-                        // important to avoid
-                        try {
-                            xhr.send(bob);
-                        } catch (ex) {
-                            igk.winui.notify.showErrorInfo("JS Exception ", "" + ex);
+                    // async registration function
+                    // v_ajx.xhr.onprogress=function(evt){
+                    // };
+                    // async registration function
+                    if (async) {
+                        v_ajx.xhr.upload.onprogress = function (evt) {
+                            if (progressCallback) {
+                                progressCallback.apply(this, arguments);
+                            }
+                        };
+                        v_ajx.xhr.upload.onload = function (evt) {
+                            if (doneCallback) {
+                                doneCallback.apply(this, arguments);
+                            }
+                        };
+                        v_ajx.xhr.upload.onloadstart = function (evt) {
+                            if (startcallBack) {
+                                startcallBack.apply(this, arguments);
+                            }
                         }
                     }
-                }
-            },
-            load: function(f, callback) {
-                var async = 0;
-                var param = null;
-                var ajx = new igk.ajx.ajx();
-                ajx.saveState = 1;
-                ajx.setResponseMethod(callback); // func || igk.ajx.fn.replace_or_append_to_body);		
-                ajx.send("GET", f, param, async);
-                return ajx;
-            },
-            toString: function() { return "igk.ajx"; },
-            globalMonitorListener: function() {
-                // object		
-                igk.appendProperties(this, {
-                    loadstart: function(evt) { igk.publisher.publish('sys://ajx/loadstart', { evt: evt }); },
-                    loadend: function(evt) { igk.publisher.publish('sys://ajx/loadend', { evt: evt }); },
-                    loadprogress: function(evt) {
-                        igk.publisher.publish('sys://ajx/loadprogress', { evt: evt });
+                    xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
+                    xhr.setRequestHeader("Cache-Control", "no-cache");
+                    // + | ajx context header
+                    igk.ajx.setHeader(xhr);
+                    xhr.setRequestHeader("IGK-UPLOADFILE", true);
+                    xhr.setRequestHeader("IGK-FILE-NAME", file.name);
+                    xhr.setRequestHeader("IGK-UP-FILE-SIZE", file.size); // file.file[0] size);
+                    xhr.setRequestHeader("IGK-UP-FILE-TYPE", file.type);
+
+                    igk.ajx.uploadFileInitializer(xhr);
+
+                    // xhr.setRequestHeader("Content-Type","multipart/form-data");
+                    // xhr.setRequestHeader("Content-Type","multipart/form-data;charset=utf-8; boundary=" + Math.random().toString().substr(2));
+                    // for security reason need to pass Content-Type with proper content-type
+                    var type = file.type;
+                    // if (!type){
+                    type = "application/octet-stream";
+                    // }
+                    xhr.setRequestHeader("Content-Type",
+                        type + "; charset=utf-8; boundary=" + Math.random().toString().substr(2));
+                    //"Content-type","multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2));
+                    var r = file;
+                    var filer = false;
+                    if (m != 'blob') {
+                        if (typeof (FileReader) != IGK_UNDEF)
+                            filer = new FileReader();
+                        if (!filer) {
+                            return;
+                        }
+                        // 1.
+                        reader = filer;
+                        // reader.onprogress = function (evt) {
+                        // 	console.debug("progress read");
+                        // };
+                        reader.onload = function (evt) {
+                            // igk.winui.notify.showMsg("<div class=\"igk-notify igk-notify-default\">"+ igk.html.getDefinition(xhr)+"</div>");
+                            var t = igk.winui.eventTarget(evt);
+                            if (xhr.sendAsBinary) // mod 
+                                xhr.sendAsBinary(t.result);
+                            else { // ie and other				
+                                xhr.send(t.result);
+                            }
+                        };
+                        if (reader.readAsBinaryString)
+                            reader.readAsBinaryString(r);
+                        else
+                            reader.readAsText(r);
+                    } else {
+                        if (r.slice) {
+                            bob = r.slice(0, file.size);
+                            // important to avoid
+                            try {
+                                xhr.send(bob);
+                            } catch (ex) {
+                                igk.winui.notify.showErrorInfo("JS Exception ", "" + ex);
+                            }
+                        }
                     }
-                });
-            }
-        });
+                },
+                load: function (f, callback) {
+                    var async = 0;
+                    var param = null;
+                    var ajx = new igk.ajx.ajx();
+                    ajx.saveState = 1;
+                    ajx.setResponseMethod(callback); // func || igk.ajx.fn.replace_or_append_to_body);		
+                    ajx.send("GET", f, param, async);
+                    return ajx;
+                },
+                toString: function () { return "igk.ajx"; },
+                globalMonitorListener: function () {
+                    // object		
+                    igk.appendProperties(this, {
+                        loadstart: function (evt) { igk.publisher.publish('sys://ajx/loadstart', { evt: evt }); },
+                        loadend: function (evt) { igk.publisher.publish('sys://ajx/loadend', { evt: evt }); },
+                        loadprogress: function (evt) {
+                            igk.publisher.publish('sys://ajx/loadprogress', { evt: evt });
+                        }
+                    });
+                }
+            });
 
         })();
 
@@ -11139,12 +11214,12 @@ Name:balafon.js
             return s;
         };
         createNS("igk.ajx", {
-            fetch: function(uri, data) {
+            fetch: function (uri, data) {
                 if (!window.Promise) {
                     throw ("Promise not found - old browser");
                 }
-                var p = new Promise(function(resolv, reject) {
-                    igk.ajx.aget(uri, data, function(xhr) {
+                var p = new Promise(function (resolv, reject) {
+                    igk.ajx.aget(uri, data, function (xhr) {
                         if (this.isReady()) {
                             resolv.apply(xhr);
                         } else if (xhr.readyState == 4) {
@@ -11154,7 +11229,7 @@ Name:balafon.js
                 });
                 return p;
             },
-            postFormData: function(uri, data) {
+            postFormData: function (uri, data) {
                 var f = igk.dom.body().add("form");
                 f.setAttribute("action", uri);
                 f.setAttribute("method", "POST");
@@ -11162,14 +11237,14 @@ Name:balafon.js
                 for (var i in data) {
                     // console.debug(typeof(data[i]));
                     f.add("input").setAttribute("name", i)
-                        .setAttribute("value", (typeof(data[i]) == 'object') ? JSON.stringify(data[i]) : data[i]);
+                        .setAttribute("value", (typeof (data[i]) == 'object') ? JSON.stringify(data[i]) : data[i]);
                 }
                 f.o.submit();
             }
         });
         m_ajx_monitorListener = new igk.ajx.globalMonitorListener();
         igk_appendProp(igk.ajx.ajx.prototype, {
-            isReady: function() {
+            isReady: function () {
                 return (this.xhr.readyState == 4) && (this.xhr.status == 200);
                 // (
                 // (( this.xhr.readyState == 4) && (this.xhr.status == 200)) 
@@ -11177,21 +11252,21 @@ Name:balafon.js
                 // ((this.xhr.readyState == 4) && (this.xhr.status == 200) && (/^(OK|No Error)/.test(this.xhr.statusText) ))
                 // );
             },
-            json: function() {
+            json: function () {
                 // get json data
                 var r = this.xhr.responseText;
                 if (r) {
                     return JSON.parse(r);
                 }
             },
-            isFailed: function() {
+            isFailed: function () {
                 if ((this.xhr.readyState == 4))
                     return (this.xhr.status != 200);
                 return true;
             },
-            toString: function() { return "igk.ajx"; },
-            setResponseTo: function(q, unregister) { // q is node
-                if (q && (typeof(q.innerHTML) != IGK_UNDEF)) { // set response to node
+            toString: function () { return "igk.ajx"; },
+            setResponseTo: function (q, unregister) { // q is node
+                if (q && (typeof (q.innerHTML) != IGK_UNDEF)) { // set response to node
                     if (q == igk.dom.body().o) {
                         this.replaceBody();
                     } else {
@@ -11204,12 +11279,12 @@ Name:balafon.js
                     }
                 }
             },
-            replaceBody: function() {
+            replaceBody: function () {
                 igk.ajx.replaceBody(this.xhr.responseText, true);
             },
-            replaceResponseNode: function(node, preload) { // replaceNode ,preload document. default is true
+            replaceResponseNode: function (node, preload) { // replaceNode ,preload document. default is true
                 var i = igk.createNode("dummy");
-                var p = typeof(preload) == igk.constants.undef ? !0 : preload;
+                var p = typeof (preload) == igk.constants.undef ? !0 : preload;
                 var t = this.xhr.responseText;
                 // this.setResponseTo(i.o); 
                 i.setHtml(t);
@@ -11237,7 +11312,7 @@ Name:balafon.js
                     }
                 }
             },
-            appendResponseTo: function(q) {
+            appendResponseTo: function (q) {
                 var s = igk.createNode("dummy");
                 s.setHtml(this.xhr.responseText);
                 var f = s.o.firstChild;
@@ -11248,7 +11323,7 @@ Name:balafon.js
                     f = f.nextSibling;
                 }
             },
-            prependResponseTo: function(q) {
+            prependResponseTo: function (q) {
                 var s = igk.createNode("dummy");
                 s.o.innerHTML = this.xhr.responseText;
                 var m = q.o.firstChild;
@@ -11261,14 +11336,14 @@ Name:balafon.js
                     f = c;
                 }
             },
-            abort: function() {
+            abort: function () {
                 // abort xhr response
                 this.xhr.abort();
             }
         });
     })();
     createNS("igk.soap", {
-        query: function(data) {
+        query: function (data) {
             var ns = "http://schemas.xmlsoap.org/soap/envelope/";
             var r = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">';
             var g = igk.createNode("soap:Body", ns);
@@ -11286,7 +11361,7 @@ Name:balafon.js
             // <soap:Body><getCountry><name>abc</name></getCountry></soap:Body></soap:Envelope>
             r += g.o.outerHTML;
             r += "</soap:Envelope>";
-            igk.ajx.post(data.uri, r, function(xhr) {
+            igk.ajx.post(data.uri, r, function (xhr) {
                 if (this.isReady()) {
                     var q = igk.createNode("div");
                     q.setHtml(xhr.responseText);
@@ -11303,7 +11378,7 @@ Name:balafon.js
             });
         }
     }, { desc: "used to handle soap request" });
-    (function() {
+    (function () {
         var m_nodeReady = [];
         var m_initBeforeReady = [];
         /**
@@ -11328,7 +11403,7 @@ Name:balafon.js
         };
 
         function _initnode(c) {
-            if (!c){
+            if (!c) {
                 return;
             }
             _bready(c);
@@ -11349,30 +11424,30 @@ Name:balafon.js
             p.publish("sys://doc/changed", { target: c, context: 'initnode' });
         };
         createNS("igk.ajx.fn", {
-            none: function() {},
-            complete_ready: function(select) { // create a ready for a select node	
-                return function(xhr, q) {
+            none: function () { },
+            complete_ready: function (select) { // create a ready for a select node	
+                return function (xhr, q) {
                     var s = q.select(select).first();
                     if (s)
                         s.setHtml(xhr.responseText).init();
                 };
             },
-            postData: function(uri, n, t, m) {
+            postData: function (uri, n, t, m) {
                 if (uri in _postdata) {
                     _postdata[uri].abort();
                 }
                 var fc = null;
-                if (typeof(t) == 'string') {
+                if (typeof (t) == 'string') {
                     var g = $igk(t).first();
                     if (g)
                         fc = igk.ajx.fn.replace_content(g.o);
-                } else if (typeof(t) == 'function') {
+                } else if (typeof (t) == 'function') {
                     fc = t;
                 } else {
                     fc = igk.ajx.fn.replace_or_append_to_body;
                 }
                 var v = n.value;
-                if (typeof(v) == 'object')
+                if (typeof (v) == 'object')
                     v = igk.JSON.convertToString(v);
                 // method type
                 var _send = igk.ajx.post;
@@ -11381,23 +11456,23 @@ Name:balafon.js
                     _send = igk.ajx.get;
                     uri += ((uri.indexOf("?") == -1) ? "?" : "&") + _data;
                 }
-                g = _send(uri, _data, function(xhr) {
+                g = _send(uri, _data, function (xhr) {
                     if (this.isReady()) {
                         if (fc)
                             fc.apply(this, [xhr]);
-                        delete(_postdata[uri]);
+                        delete (_postdata[uri]);
                     }
                 });
                 _postdata[uri] = g;
             },
-            appendTo: function(t) {
-                return function(xhr) {
+            appendTo: function (t) {
+                return function (xhr) {
                     if (this.isReady()) {
                         igk.ajx.fn.append_to(xhr, t);
                     }
                 }
             },
-            scriptReplaceContent: function(m, u, t) {
+            scriptReplaceContent: function (m, u, t) {
                 var fc = igk.ajx.get;
                 if (m == "post")
                     fc = igk.ajx.post;
@@ -11418,32 +11493,32 @@ Name:balafon.js
                 }
                 fc.apply(window, [u, null, rp]);
             },
-            getfortarget: function(u, t) {
+            getfortarget: function (u, t) {
                 // u:uri
                 // t:target
                 if (!t)
                     return;
-                igk.ajx.get(u, null, function(xhr) {
+                igk.ajx.get(u, null, function (xhr) {
                     if (this.isReady()) {
                         this.setResponseTo(t);
                         igk.ajx.fn.initnode(t);
                     }
                 });
             },
-            replace_body: function(xhr) {
+            replace_body: function (xhr) {
                 if (this.isReady()) {
                     this.replaceBody();
                 }
             },
-            replace_node: function(host) { // get the replace node function
-                return function(xhr) {
+            replace_node: function (host) { // get the replace node function
+                return function (xhr) {
                     if (this.isReady()) {
                         this.replaceResponseNode(host, false);
                     }
                 }
             },
-            replace_content: function(host) {
-                return function(xhr) {
+            replace_content: function (host) {
+                return function (xhr) {
                     if (this.isReady()) {
                         // get body content
                         var g = igk.utils.getBodyContent(xhr.responseText, 1);
@@ -11456,8 +11531,8 @@ Name:balafon.js
                     }
                 };
             },
-            replace_or_append_to: function(t) {
-                return function(xhr) {
+            replace_or_append_to: function (t) {
+                return function (xhr) {
                     if (this.isReady()) {
                         // igk.dom.body().setHtml("");
                         var q = igk.createNode("dummy");
@@ -11492,7 +11567,7 @@ Name:balafon.js
                     }
                 };
             },
-            replace_or_append_to_body: function(xhr) {
+            replace_or_append_to_body: function (xhr) {
                 // replace_or_append_to_body
                 // console.debug("start data");
                 if (this.isReady()) {
@@ -11504,17 +11579,17 @@ Name:balafon.js
                     igk.ajx.fn.replace_or_append_to(igk.dom.body().o).apply(this, [xhr]);
                 }
             },
-            append_to_body: function(xhr) {
+            append_to_body: function (xhr) {
                 if (this.isReady()) {
                     igk.ajx.fn.append_to(xhr, igk.dom.body().o);
                 }
             },
-            prepend_to_body: function(xhr) {
+            prepend_to_body: function (xhr) {
                 if (this.isReady()) {
                     igk.ajx.fn.prepend_to(xhr, igk.dom.body().o);
                 }
             },
-            ctrl_replacement: function(c) {
+            ctrl_replacement: function (c) {
                 if (c && c.tagName && (c.tagName.toLowerCase() == 'igk:replace-ctrl')) {
                     var q = $igk(c);
                     var st = q.getAttribute("target");
@@ -11525,14 +11600,14 @@ Name:balafon.js
                         if (t) {
                             var s = q.select(">>");
                             if (s.getCount() == 1) {
-                                s.each(function() {
+                                s.each(function () {
                                     t.replaceBy(this);
                                     igk.ajx.fn.initnode(this.o);
                                     return !1;
                                 })
                             } else {
                                 var m = "";
-                                s.each(function() {
+                                s.each(function () {
                                     m += this.o.outerHTML;
                                     return !0;
                                 });
@@ -11548,7 +11623,7 @@ Name:balafon.js
                         }
                     }
                     // no target
-                    q.select(">>").each(function() {
+                    q.select(">>").each(function () {
                         // get first child node			
                         var g = $igk("#" + this.o.id).first();
                         if (g && (g.getAttribute('igk-type') == "controller")) {
@@ -11563,7 +11638,7 @@ Name:balafon.js
                 }
                 return !1;
             },
-            append_to: function(xhr, target) {
+            append_to: function (xhr, target) {
                 if (xhr.responseText.length > 0) {
                     var q = igk.createNode("div");
                     var txt = igk.utils.treatBodyContent(xhr.responseText);
@@ -11592,7 +11667,7 @@ Name:balafon.js
                 }
                 return null;
             },
-            prepend_to: function(xhr, t) {
+            prepend_to: function (xhr, t) {
                 if (xhr.responseText.length > 0) {
                     var q = igk.createNode("div");
                     q.setHtml(xhr.responseText);
@@ -11607,7 +11682,7 @@ Name:balafon.js
                     }
                 }
             },
-            nodeReady: function(c) {
+            nodeReady: function (c) {
                 if (c.tagName && /(no)?script/.test(c.tagName.toLowerCase()))
                     return;
                 if (m_nodeReady && (m_nodeReady.length > 0)) {
@@ -11616,15 +11691,15 @@ Name:balafon.js
                     }
                 }
             },
-            registerNodeReady: function(f) {
+            registerNodeReady: function (f) {
                 // 
                 // register callback function that will call at the end on igk.ajx.fn.initnode chain.
                 // remark: if you want to call on every node used igk.ctrl.registerReady
                 // 
-                if (typeof(f) == "function")
+                if (typeof (f) == "function")
                     m_nodeReady.push(f);
             },
-            unregisterNodeReady: function(f) {
+            unregisterNodeReady: function (f) {
                 var s = [];
                 for (var i = 0; i < m_nodeReady.length; i++) {
                     if (m_nodeReady[i] == func) {
@@ -11634,12 +11709,12 @@ Name:balafon.js
                 }
                 m_nodeReady = s;
             },
-            initBeforeReady: function(f) {
+            initBeforeReady: function (f) {
                 // register global function function that will be called when ever a node require to be ready
-                if (typeof(f) == "function")
+                if (typeof (f) == "function")
                     m_initBeforeReady.push(f);
             },
-            uninitBeforeReady: function(f) {
+            uninitBeforeReady: function (f) {
                 var c = [];
                 for (var i = 0; i < m_initBeforeReady.length; i++) {
                     if (m_initBeforeReady[i] == f) continue;
@@ -11647,14 +11722,14 @@ Name:balafon.js
                 }
                 m_initBeforeReady = c;
             },
-            initbody: function() { // init body and publish event system/bodychange
+            initbody: function () { // init body and publish event system/bodychange
                 igk.ajx.fn.initnode(igk.dom.body().o);
                 igk.publisher.publish("system/bodychange", { target: igk.dom.body().o });
             },
-            bindto: function(n, h) {
+            bindto: function (n, h) {
                 // >n:target node 
                 // >h:history link
-                return function(xhr) {
+                return function (xhr) {
                     if (this.isReady()) {
                         this.setResponseTo(n);
                         igk.ajx.fn.initnode(n.o);
@@ -11663,10 +11738,10 @@ Name:balafon.js
                     }
                 }
             },
-            initnode: function(c) { // initnode utility fonction. in ajx context. accept only dom tag node 
+            initnode: function (c) { // initnode utility fonction. in ajx context. accept only dom tag node 
                 if (!c)
                     return;
-                if (typeof(c.nodeType) == "undefined") {
+                if (typeof (c.nodeType) == "undefined") {
                     throw new Error("BAD dom node initialization ... element is not a node : " + c);
                 }
 
@@ -11674,7 +11749,7 @@ Name:balafon.js
                     this.c = n;
                     var q = this;
                     igk.appendProperties(this, {
-                        init: function() {
+                        init: function () {
                             // + -- -
                             // + because of the readyState will initialize all "component" on 'complete' no need to call init node
                             // + -- - 
@@ -11689,7 +11764,7 @@ Name:balafon.js
                 _initnode(c);
             },
             setHost(h) {
-                if (typeof(h) == 'string') {
+                if (typeof (h) == 'string') {
                     m_ajx_host = igk.dom.body().qselect(h);
                 } else {
                     m_ajx_host = h;
@@ -11733,19 +11808,19 @@ Name:balafon.js
     createNS("igk.utils", {
         getv: igk_getv,
         get_form_posturi: igk_get_form_posturi,
-        submit_fromenter: function(k, evt) {
+        submit_fromenter: function (k, evt) {
             if (evt.keyCode && (evt.keyCode == 13)) {
                 k.form.submit();
                 return !1;
             }
             return !0;
         },
-        treatBodyContent: function(txt) {
+        treatBodyContent: function (txt) {
             if (!txt)
                 throw ("/!\\ txt not define");
             return txt.replace(/(<\/?)body( .+?)?>/gi, '$1IGK-BODY$2>', txt);
         },
-        getBodyContent: function(text, bonly) {
+        getBodyContent: function (text, bonly) {
             var s = "";
             var t = igk.createNode("div");
             if (text) {
@@ -11767,7 +11842,7 @@ Name:balafon.js
         // private property
         _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
         // public method for encoding
-        encode: function(input) {
+        encode: function (input) {
             var output = "";
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
             var i = 0;
@@ -11792,7 +11867,7 @@ Name:balafon.js
             return output;
         },
         // public method for decoding
-        decode: function(input) {
+        decode: function (input) {
             var output = "";
             var chr1, chr2, chr3;
             var enc1, enc2, enc3, enc4;
@@ -11818,7 +11893,7 @@ Name:balafon.js
             return output;
         },
         // private method for UTF-8 encoding
-        _utf8_encode: function(string) {
+        _utf8_encode: function (string) {
             if (!string)
                 return null;
             string = string.replace(/\r\n/g, "\n");
@@ -11839,7 +11914,7 @@ Name:balafon.js
             return utftext;
         },
         // private method for UTF-8 decoding
-        _utf8_decode: function(utftext) {
+        _utf8_decode: function (utftext) {
             var string = "";
             var i = 0;
             var c = 0;
@@ -11869,9 +11944,9 @@ Name:balafon.js
         var obj = {
             uri: uri,
             interval: every,
-            doaction: function() {
+            doaction: function () {
                 var self = this;
-                igk.ajx.post(uri, null, function(xhr) {
+                igk.ajx.post(uri, null, function (xhr) {
                     if (this.isReady()) {
                         if (xhr.responseText.length > 0) {
                             var q = igk.createNode("data");
@@ -11886,7 +11961,7 @@ Name:balafon.js
                                     igk.dom.body().appendChild(t);
                                 }
                             }
-                            setTimeout(function() { self.doaction(); }, self.interval);
+                            setTimeout(function () { self.doaction(); }, self.interval);
                         }
                     }
                 });
@@ -11953,27 +12028,27 @@ Name:balafon.js
                 // m_preloadFunctions[name]=callback;
                 var c = {
                     funcs: [],
-                    funcCount: function() {
+                    funcCount: function () {
                         return this.funcs.length;
                     },
-                    apply: function(target) {
+                    apply: function (target) {
                         for (var i = 0; i < this.funcs.length; i++) {
                             this.funcs[i].apply(target);
                         }
                     },
-                    add: function(callback) {
+                    add: function (callback) {
                         if (callback) {
                             this.funcs.push(callback);
                         }
                     },
-                    remove: function(callback) {
+                    remove: function (callback) {
                         for (var i = 0; i < this.funcs.length; i++) {
                             if (callback == this.funcs[i]) {
                                 this.funcs.pop(this.funcs[i]);
                             }
                         }
                     },
-                    toString: function() {
+                    toString: function () {
                         return "functionRegister";
                     }
                 };
@@ -11992,15 +12067,15 @@ Name:balafon.js
     }
     // configuration menu management
     createNS("igk.configmenu", {
-        init: function(p) {
+        init: function (p) {
             var t = p.getElementsByTagName("a");
             var a = null;
             for (var i = 0; i < t.length; i++) {
                 a = t[i];
-                a.onclick = function() { return igk.configmenu.navigate(this, this.getAttribute('page')); };
+                a.onclick = function () { return igk.configmenu.navigate(this, this.getAttribute('page')); };
             }
         },
-        navigate: function(i, p) {
+        navigate: function (i, p) {
             var frm = igk.getParentById(i, 'form');
             if (frm == null) return;
             frm.action = i.href;
@@ -12019,7 +12094,7 @@ Name:balafon.js
 
     // page editor entity
     createNS("igk.winui.gui", {
-        rectangleSnippet: function(o) {
+        rectangleSnippet: function (o) {
             this.o = o;
             this.bound = new igk.math.rectangle(0, 0, 8, 8);
             this.view = igk.createNode("div");
@@ -12027,14 +12102,14 @@ Name:balafon.js
             $igk(this.view).setProperties({ "class": "dark_op90" });
             igk_setcss_bound(this.view, this.bound);
             this.o.view.appendChild(this.view);
-            this.setBound = function(rc) {
+            this.setBound = function (rc) {
                 this.bound = rc;
                 igk_setcss_bound(this.view, this.bound);
             }
         }
     });
     createNS("igk.winui.rectangleSelector", {
-        init: function(target) {
+        init: function (target) {
             if (!target)
                 return null;
             $igk(target).setCss({ "position": "absolute", "left": "0px", "top": "0px", "width": "400px", "height": "400px", "border": "1px dotted gray", "backgroundColor": "transparent", "zIndex": "500" });
@@ -12068,11 +12143,11 @@ Name:balafon.js
                 return m_snippets;
             }
             // igk.dom.body().appendChild(this.view);
-            return new function() {
+            return new function () {
                 this.view = target;
                 this.bound = m_bound;
                 this.update = __updatesize;
-                this.toString = function() { return "igk.winui.rectangleSelector"; };
+                this.toString = function () { return "igk.winui.rectangleSelector"; };
                 this.snippets = __initSippets(this);
                 this.update();
             };
@@ -12080,7 +12155,7 @@ Name:balafon.js
     });
     // for igk.css compatibility utility
     createNS("igk", {
-        css: new(function() {
+        css: new (function () {
             // var props = {};
             // var domProp = null;
             // var vendors = ['webkit', 'ms', 'o'];
@@ -12251,10 +12326,10 @@ Name:balafon.js
             // }
             // css utility properties
             igk.appendProperties(this, {
-                getProperties: function() {
+                getProperties: function () {
                     return props;
                 },
-                getDomStyle: function() {
+                getDomStyle: function () {
                     if (domProp == null) {
                         //generate
                         domProp = {};
@@ -12277,7 +12352,7 @@ Name:balafon.js
                 // 	// @n : the name of the property to get
                 // 	return __getStyleValue(stylelist, n);
                 // },
-                getValue: function(item, name) {
+                getValue: function (item, name) {
                     var tprops = this.getProperties();
                     var d = igk.createNode("div");
                     // for(var  i in tprops)
@@ -12422,7 +12497,7 @@ Name:balafon.js
     // register node mecanism 
     // ----------------------------------------------------------------------------------
     // manage tag component
-    const _ready_func = function() {
+    const _ready_func = function () {
         var t = this.tagName ? this.tagName.toLowerCase() : "";
         if (m_tag_obj[t] && m_tag_obj[t].func) {
             m_tag_obj[t].func.apply(this);
@@ -12432,7 +12507,7 @@ Name:balafon.js
     if (igk.ctrl.registerReady) {
         igk.ctrl.registerReady(_ready_func);
     } else {
-        $igk(igk.winui.events.global()).reg_event('igk_controller_ready', function() {
+        $igk(igk.winui.events.global()).reg_event('igk_controller_ready', function () {
             igk.ctrl.registerReady(_ready_func);
         });
     }
@@ -12441,17 +12516,17 @@ Name:balafon.js
     // ----------------------------------------------------------------------------
     // balafon js utility fonction
     // ----------------------------------------------------------------------------
-    var igk_rmScript = function() {
+    var igk_rmScript = function () {
         var c = igk_getCurrentScript();
         if (c && !c.src) {
             $igk(c).remove();
         }
     };
     createNS("igk.balafonjs.utils", {
-        closeDialog: function() {
+        closeDialog: function () {
             igk_rmScript();
         },
-        closeNotify: function(g) {
+        closeNotify: function (g) {
             igk.winui.notify.close();
             if (g)
                 igk_rmScript();
@@ -12461,13 +12536,13 @@ Name:balafon.js
     });
     // encapsulate event source for best handling behaviour
     createNS("igk.winui.eventArgs", {
-        progress: function(evt) {
+        progress: function (evt) {
             var q = this;
             var m_evt = evt;
             igk.appendProperties(this, {
-                getEventSource: function() { return m_evt; },
-                getTotalSize: function() { return m_evt.TotalSize; },
-                getUploadedSize: function() { return m_evt.position; }
+                getEventSource: function () { return m_evt; },
+                getTotalSize: function () { return m_evt.TotalSize; },
+                getUploadedSize: function () { return m_evt.position; }
             });
         }
     });
@@ -12477,7 +12552,7 @@ Name:balafon.js
     // uri: cibling uri
     // 
     // }
-    (function() {
+    (function () {
         var m_f = [];
         var m_i = null;
 
@@ -12494,7 +12569,7 @@ Name:balafon.js
 
         function fixscrollmanager(t, p, c) {
             var q = $igk(t);
-            $igk(c).reg_event("scroll", function(evt) {
+            $igk(c).reg_event("scroll", function (evt) {
                 if (p && p.update) {
                     p.update.apply(q, [{
                         parent: c,
@@ -12505,9 +12580,9 @@ Name:balafon.js
             return this;
         };
         createNS("igk.winui.fn.fixscroll", {
-            init: function(p) { // init with property {update:function}
+            init: function (p) { // init with property {update:function}
                 var q = igk.getParentScript();
-                igk.ready(function() {
+                igk.ready(function () {
                     if ((q == null) || igk.system.array.isContain(m_f, q)) {
                         return;
                     }
@@ -12523,30 +12598,30 @@ Name:balafon.js
     createNS("igk.storage", { // used to store shared data
     });
     createNS("igk.winui.fn", {
-        cancelEventArgs: function(evt) {
+        cancelEventArgs: function (evt) {
             evt.preventDefault();
             evt.stopPropagation();
             return !1;
         },
-        close_all_frames: function() {
+        close_all_frames: function () {
             if (igk.winui.notify.closeAlls)
                 igk.winui.notify.closeAlls();
-            igk.ready(function() {
+            igk.ready(function () {
                 var t = [];
-                igk.dom.body().select(".igk-notify-box").each_all(function() {
+                igk.dom.body().select(".igk-notify-box").each_all(function () {
                     var q = this;
                     q.remove();
                 });
             });
         },
-        isNodeVisible: function(n) {
+        isNodeVisible: function (n) {
             throw "not implement[isNodeVisible]";
         },
-        navigateTo: function(t, pr) {
+        navigateTo: function (t, pr) {
             var v_t = null;
-            return function() {
+            return function () {
                 var c = null;
-                if (typeof(t) == 'string') {
+                if (typeof (t) == 'string') {
                     c = $igk(t).first();
                 } else {
                     c = $igk(t);
@@ -12562,7 +12637,7 @@ Name:balafon.js
             };
         }
     });
-    (function() { // igk resources manager
+    (function () { // igk resources manager
         var keys = {};
         var m_lang = {
             fr: ['fr', 'fr-FR', 'fr-Be'],
@@ -12580,29 +12655,29 @@ Name:balafon.js
                     }
                     return s;
                 },
-                gets: function(k) {
+                gets: function (k) {
                     if (__lang[k]) {
                         return __lang[k];
                     }
                     return k;
                 },
-                format: function(n) {
+                format: function (n) {
                     var txt_ = n;
-                    if (/(string)/.test(typeof(_res[n])))
+                    if (/(string)/.test(typeof (_res[n])))
                         txt_ = _res[n];
                     if (arguments.length > 1) {
                         var tab = igk.system.array.slice(arguments, 1);
-                        txt_ = txt_.replace(/\{([0-9]+)\}/g, function(m, s) {
+                        txt_ = txt_.replace(/\{([0-9]+)\}/g, function (m, s) {
                             return tab[s];
                         });
                     }
                     //format string 
                     return txt_;
                 },
-                getLocation: function() {
+                getLocation: function () {
                     return loc;
                 },
-                "__": function(n) {
+                "__": function (n) {
                     if (n in igk.R) {
                         return igk.R[n];
                     }
@@ -12611,12 +12686,12 @@ Name:balafon.js
             });
         };
         igk.defineProperty(igk, 'R', {
-            get: function() {
+            get: function () {
                 return _res;
             }
         });
 
-        function _loadResource(loc, mime, opts) { 
+        function _loadResource(loc, mime, opts) {
 
             mime = mime || "text/plain";
             var _getRes = 0;
@@ -12626,7 +12701,7 @@ Name:balafon.js
                 "o  = o ? opts.then(o) : null;",
                 "return  o;",
                 "}catch(ex){",
-                " console.error('get resource failed: '+loc+ '\nMessage:'+ex.getMessage());",
+                " console.error('get resource failed: '+loc+ '\nMessage:'+(ex.message || ex));",
                 "}",
                 "return null;",
                 "};"
@@ -12636,19 +12711,19 @@ Name:balafon.js
                     throw ('safari not handle aync await');
                 (new Function(_src)).apply();
             } catch (ex) { // do not support async data 
-                _getRes = function() {
+                _getRes = function () {
                     var _ext = igk.navigator.isIE() ? ".ejson" : ".json"; // because of mime type        
                     var e = {
-                        "then": function(t) {
+                        "then": function (t) {
                             this.__then__ = t;
                             return this;
                         },
-                        "catch": function(t) {
+                        "catch": function (t) {
                             this.__catch__ = t;
                             return this;
                         }
                     };
-                    igk.system.io.getData(loc, function(o) {
+                    igk.system.io.getData(loc, function (o) {
                         if (e.__then__ && o.data && (o.data.length > 0)) {
                             e.__then__(opts.then(o.data));
                         } else if (e.__catch__) {
@@ -12658,51 +12733,51 @@ Name:balafon.js
                     return e;
                 };
             }
-            if (typeof(_getRes) != 'undefined') {
-                _getRes().then(function(o) {
+            if (typeof (_getRes) != 'undefined') {
+                _getRes().then(function (o) {
                     _res = o;
                     init_res();
-                })["catch"](function(e) {
+                })["catch"](function (e) {
                     var error = 1;
                     if (igk.log)
                         igk.log.write("[BJS] - " + e);
                 });
             }
         };
-        igk.ready(function() {
+        igk.ready(function () {
             var _lang = igk.dom.html().getAttribute("lang") || igk.navigator.getLang();
             //if windows application 
             // var _ext = ".json";
             var dir = igk.system.io.getlocationdir(igk.getScriptLocation());
-            if (!dir || (dir[0]!='/'))
+            if (!dir || (dir[0] != '/'))
                 return;
             // console.log('script location :', igk.getScriptLocation());
             var loc = igk.resources.getLangLocation(dir, _lang);
             if (igk.resources.lang[_lang]) {
                 init_res(igk.resources.lang[_lang], loc);
                 return;
-            } 
+            }
             var g = null;
             var _storage = window.localStorage;
-            if (typeof(_storage) != 'undefined')
+            if (typeof (_storage) != 'undefined')
                 g = _storage.getItem("lang/" + _lang); //store global language items
             if (g == null) {
                 _loadResource(loc, "text/json", {
-                    then: function(o) {
+                    then: function (o) {
                         if (_storage)
                             _storage.setItem("lang/" + _lang, o);
                         return igk.JSON.parse(o);
                     }
                 });
             } else {
-                igk.invokeAsync(function() {
+                igk.invokeAsync(function () {
                     _res = igk.JSON.parse(g);
                     init_res(_res, loc);
                 });
             }
         });
     })();
-    (function() {
+    (function () {
         function __sendFile(evt, target, async, update, startCallback, progressCallback, doneCallBack) {
             var p = target.getProperties();
             if (p.buzy) {
@@ -12714,7 +12789,7 @@ Name:balafon.js
                 var _m = _t;
                 p.total = _t;
                 p.current = 0;
-                var _r = function() {
+                var _r = function () {
                     _t--;
                     if (_t <= 0) {
                         p.buzy = null;
@@ -12726,7 +12801,7 @@ Name:balafon.js
                 };
                 for (var i = 0; i < _m; i++) {
                     if (target.support(evt.dataTransfer.files[i].type)) {
-                        igk.ajx.uploadFile(null, evt.dataTransfer.files[i], target.getUri(), async, update, startCallback, progressCallback, _r /*doneCallBack*/ );
+                        igk.ajx.uploadFile(null, evt.dataTransfer.files[i], target.getUri(), async, update, startCallback, progressCallback, _r /*doneCallBack*/);
                     } else {
                         //not supported to reduce the total of file upload
                         _t--;
@@ -12742,7 +12817,7 @@ Name:balafon.js
         // utility function for dropting file
         // 
         createNS("igk.winui.dragdrop.fn", {
-            upload_file: function(evt) { // upload file
+            upload_file: function (evt) { // upload file
                 evt.preventDefault();
                 evt.stopPropagation();
                 // important must stop propagation 
@@ -12752,18 +12827,21 @@ Name:balafon.js
             }
         });
     })();
- 
-    window.onbeforeunload = function(evt) {
+    // free 
+    const __freeEventContext = function () {
         if (igk_freeEventContext) {
             // free all context
             igk_freeEventContext();
         }
     };
 
-    function __global_ready() { 
+    function __global_ready() {
         if (document.readyState == "complete") {
             _context_ = "global_ready";
-            igk.ready(null, "readystatechange", (0,()=>_context_=null)()); 
+            igk.ready(null, "readystatechange", (0, () => _context_ = null)());
+
+            if ('onbeforeunload' in window)
+                igk_winui_reg_event(window, "onbeforeunload", __freeEventContext);
         }
     };
     igk_winui_reg_event(document, "readystatechange", __global_ready);
@@ -12787,17 +12865,17 @@ Name:balafon.js
     // + -------------------------------------------------------------------------------
     // + | init balafon js script on ready
     // + |
-    igk.ready(function() {
+    igk.ready(function () {
         var j = 0;
-        igk.dom.body().qselect("script[type='text/balafonjs']").each_all(function() {
+        igk.dom.body().qselect("script[type='text/balafonjs']").each_all(function () {
             __bindbalafonjs.apply(this);
             j++;
         });
     });
     // manage component
-    (function() {
+    (function () {
         var j = 0; // count number of component
-        __scriptsEval['text/balafon-component'] = function() {
+        __scriptsEval['text/balafon-component'] = function () {
             var p = $igk(this.o.parentNode);
             var src = '"use strict"; (function(){' + this.o.innerHTML + '}).apply(this);';
             p.component = new Object();
@@ -12808,9 +12886,9 @@ Name:balafon.js
         // + -------------------------------------------------------------------------------
         // + | init balafon js script on ready
         // + |
-        igk.ready(function() {
+        igk.ready(function () {
             var _initComponent = __scriptsEval['text/balafon-component'];
-            igk.dom.body().qselect("script[type='text/balafon-component']").each_all(function() {
+            igk.dom.body().qselect("script[type='text/balafon-component']").each_all(function () {
                 _initComponent.apply(this);
             });
         });
@@ -12833,7 +12911,7 @@ Name:balafon.js
                 if (name in g) {
                     return g[name];
                 }
-                if ((g.o.parentNode == null) || (typeof(g.o.parentNode) == 'undefined')) {
+                if ((g.o.parentNode == null) || (typeof (g.o.parentNode) == 'undefined')) {
                     break;
                 }
                 g = $igk(g.o.parentNode);
@@ -12843,13 +12921,13 @@ Name:balafon.js
     });
 
 
-       // + | ---------------------------------------------------------
+    // + | ---------------------------------------------------------
     // + | initialize
     // + |
-    igk.ready(function() {
+    igk.ready(function () {
         // in safari igk.dom.body 
         var n, b = igk.dom.body();
-        if (typeof(igk.navigator) == 'undefined') {
+        if (typeof (igk.navigator) == 'undefined') {
             return;
         }
         n = igk.navigator;
@@ -12859,12 +12937,12 @@ Name:balafon.js
         }
         //
         if (n.isSafari()) {
-            b.addClass("safari"); 
+            b.addClass("safari");
         }
-    }); 
+    });
     var _udef = 'undefined';
     // special functions
     ns_igk.__REFID__ = __version;
-    ns_igk._$exists = function(n) { return typeof(igk.system.getNS(n)) != _udef; };
+    ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };
 
 })(window);

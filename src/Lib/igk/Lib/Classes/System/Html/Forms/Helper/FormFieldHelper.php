@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Forms\Helper;
 
 use Exception;
+use IGK\System\Http\Request;
 use IGKException;
 use IGKValidator;
 
@@ -23,12 +24,14 @@ abstract class FormFieldHelper
      * @return mixed 
      * @throws Exception 
      */
-    public static function HandleSessionRequestArgs($obj=null){
-        $sess_form= igk_app()->session->{self::FORM_FIELD};
+    public static function HandleSessionRequestArgs($data = null, $obj = null)
+    {
+        $sess_form = igk_app()->session->{self::FORM_FIELD};
         if (!$sess_form)
             return null;
 
-        $request = $_REQUEST;
+        $request = (array)($data ?? $_REQUEST);
+
         $obj = self::HandleFormRequest($sess_form, $request, $obj);
         return $obj;
     }
@@ -36,8 +39,9 @@ abstract class FormFieldHelper
      * clear session from 
      * @return void 
      */
-    public static function ClearFormSession(){
-        igk_app()->session->{self::FORM_FIELD} = igk_createobj(); 
+    public static function ClearFormSession()
+    {
+        igk_app()->session->{self::FORM_FIELD} = igk_createobj();
     }
 
     /**
@@ -50,35 +54,51 @@ abstract class FormFieldHelper
      */
     public static function HandleFormRequest($sess_form_form, array $request_data = null, $obj = null)
     {
-        if (!is_object($sess_form_form)){
+        if (!is_object($sess_form_form)) {
             throw new IGKException("must be and object");
         }
         $keys = array_keys((array)$sess_form_form);
         $request_data = $request_data ?? $_REQUEST;
-        $found = false; 
- 
+        $found = false;
         foreach ($keys as $uid) {
             if (IGKValidator::IsGUID($uid) && (1 == igk_getv($request_data, $uid))) {
 
                 $info = igk_getv($sess_form_form, $uid);
                 if (is_null($obj)) {
                     $obj = igk_createobj();
-                } 
-
+                }
+                $v_is_support_files = Request::IsSupportFileRequest($request_data);
+                $tf = $v_is_support_files ? (array)$request_data[Request::FILES_FIELD] : null;
                 foreach ($info as $k => $t) {
-                    if (is_string($t)){
+                    if (is_string($t)) {
                         $t = json_decode($t);
                     }
                     list(, $name) = $t;
-                    $obj->{$name} = igk_getv($request_data, $k); 
-                    
+                    $obj->{$name} = ($tf && isset($tf[$k])) ? $tf[$k] :  igk_getv($request_data, $k);
                 }
                 $found = true;
-                unset($sess_form_form->$uid);
+                if (!self::EnvDisableSessionGuid()) {
+                    unset($sess_form_form->$uid);
+                }
                 break;
             }
         }
         return $found ? $obj : null;
+    }
+    
+    /**
+     * environment method
+     * @param null|bool $r 
+     * @return mixed 
+     */
+    public static function EnvDisableSessionGuid(?bool $r = null)
+    {  
+        $k = __CLASS__ . ":disable_session_guid";
+        if (0 === func_num_args()) {
+            return igk_environment()->get($k);
+        }
+        igk_environment()->set($k, $r);
+        return $r;
     }
 
     /**
@@ -107,7 +127,7 @@ abstract class FormFieldHelper
             }
             $nkey = igk_get_unique_identifier(3, $list) . str_pad($count, 3, "0", STR_PAD_LEFT);
             $v_tf = $formFields[$k];
-            if (is_object($v_tf)&& empty($v_tf->label_text)) {
+            if (is_object($v_tf) && empty($v_tf->label_text)) {
                 $v_tf->label_text = __($kn);
             }
             $nfields[$nkey] = $v_tf; // formFields[$k];

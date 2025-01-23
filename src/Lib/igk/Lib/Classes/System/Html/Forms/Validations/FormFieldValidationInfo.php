@@ -24,5 +24,10 @@ class FormFieldValidationInfo implements IFormValidationInfo{
      */
     var $validator;
     
+    /**
+     * source field
+     * @var mixed
+     */
+    var $field;
     use FormFieldValidationInfoTrait; 
 }

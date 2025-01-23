@@ -64,6 +64,7 @@ class SQLQueryUtils{
         $primkey="";
         $tinf=array();
         $defvalue=self::AllowedDefValue();
+        $tablecharset = '';
         foreach($columninfo as $v){
             if(($v == null) || !is_object($v)){
                 igk_die(__CLASS__." :::Error table column info is not an object error for ".$tbname);
@@ -106,6 +107,9 @@ class SQLQueryUtils{
             }
             else if($v->clNotNull){
                 $query .= "NOT NULL ";
+            }
+            if ($v->clCharset){
+                $query .= sprintf('CHARSET %s ', $v->clCharset);
             }
             if($v->clAutoIncrement){
                 $query .= DbQueryDriver::GetValue("auto_increment_word", $v, $tinf)." ";
@@ -200,6 +204,9 @@ class SQLQueryUtils{
             $query .= ' ENGINE=InnoDB';
         if(!empty($fautoindex)){
             $query .= " ". $fautoindex;
+        }
+        if (!empty($tablecharset)){
+            $query .= " CHARSET ".$tablecharset;
         }
         if($desc){
             $query .= " COMMENT='".igk_db_escape_string($desc)."' ";

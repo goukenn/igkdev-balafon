@@ -44,7 +44,24 @@ class BalafonCacheViewCompiler{
             $extra = igk_view_builder_extra($file, $option);
         }    
         $extra = empty($output) ?  trim($extra) : $extra; 
-        return $output . $src . $extra;
+        $f = self::TreatOuput($output . $src . $extra, $file, $args);
+        return $f;
+    }
+    /**
+     * 
+     * @param string $source 
+     * @param string $file 
+     * @param mixed $args 
+     * @return string|string[]|null 
+     */
+    public static function TreatOuput(string $source, string $file, $args = null){
+        $helper = preg_match("/\b__(FILE|DIR)__\b/", $source);
+        $source = preg_replace("/__FILE__/", "ViewHelper::File()", $source);
+        $source = preg_replace("/__DIR__/", "ViewHelper::DIR()", $source);
+        if ($helper && !(0 < preg_match("/use\s+IGK\\\\Helper\\\\ViewHelper\b\s*;/", $source, $tab))){
+            $source = implode("\n", ["<?php","use IGK\\Helper\\ViewHelper;","?>",$source]);
+        }
+        return $source;
     }
 
     /**
@@ -68,6 +85,10 @@ class BalafonCacheViewCompiler{
     public static function GetBindViewCompilerHandler(BaseController $controller){
 
         $__igk_attr__ = Closure::fromCallable(function($arr){
+            /**
+             * @var ViewHandler $q 
+             */
+            $q = $this;
 
             if (key_exists("class", $arr)){
                 $cl = trim($arr["class"] ?? "", '"');
@@ -88,8 +109,8 @@ class BalafonCacheViewCompiler{
                 $arr["class"] = implode(' ', array_filter(array_merge($tab, $carr)));
             }
         
-            $this->tab = array_merge($this->tab, $arr);
-            $this->attribBind = true;
+            $q->tab = array_merge($q->tab, $arr);
+            $q->attribBind = true;
         })->bindTo(ViewHandler::getInstance());
         
         $binding_args = get_defined_vars();

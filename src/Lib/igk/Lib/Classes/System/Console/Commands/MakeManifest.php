@@ -42,7 +42,7 @@ class MakeManifestCommand extends AppExecCommand{
         $type = igk_str_ns(igk_getv($command->options, "--type", EntryClassResolution::ActionBase));
         $is_force = property_exists($command->options, "--force");
           
-        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");
             return false;

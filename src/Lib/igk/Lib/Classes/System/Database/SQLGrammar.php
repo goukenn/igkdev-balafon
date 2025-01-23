@@ -374,6 +374,9 @@ class SQLGrammar implements IDbQueryGrammar
             $support ? 0 : null;
         $nocomment = 0;
         $length_regex = DbColumnInfo::TYPE_LENGTH_REGEX;
+
+
+     
         foreach ($columninfo as $k => $v) {
             if (($v == null) || !is_object($v)) {
                 fdie(__CLASS__ . " :::Error table column info is not an object error for " . $tablename);
@@ -391,7 +394,6 @@ class SQLGrammar implements IDbQueryGrammar
             }
             $v_type = $v->clType;
             if (preg_match($length_regex, $v_type, $tinfo)) {
-
                 if (!$v->clTypeLength || ($v->clTypeLength != $tinfo['size'])) {
                     $v->clTypeLength = intval($tinfo['size']);
                 }
@@ -454,6 +456,11 @@ class SQLGrammar implements IDbQueryGrammar
                     $fautoindex = $driver->getParam("auto_increment_word", $v, $tinf) . "={$idx} ";
                 }
             }
+
+            if ($v->clCharset){
+                $query .= $driver->queryColumnCharset($v->clCharset);
+            }
+
             $tb = true;
             if ($driver->supportDefaultValue($type) &&  (($v->clDefault) || ($v->clDefault === '0'))) {
                 $_ktype = strtoupper($type);

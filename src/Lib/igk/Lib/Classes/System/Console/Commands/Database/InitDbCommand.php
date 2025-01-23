@@ -39,7 +39,7 @@ class InitDbCommand extends AppExecCommand{
 			$ctrl = igk_getv($command->options,"--controller");
 		}
 		if (!empty($ctrl)) {
-			if (!($c = igk_getctrl($ctrl, false))) {
+			if (!($c = self::GetController($ctrl, false))) {
 				Logger::danger("no controller found: " . $ctrl);
 				return -1;
 			}

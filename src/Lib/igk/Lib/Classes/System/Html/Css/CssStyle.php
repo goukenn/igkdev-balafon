@@ -24,7 +24,7 @@ final class CssStyle extends IGKObject{
     ///<param name="v"></param>
     ///<param name="level"></param>
     ///<param name="source"></param>
-    public function Load($v, $level, $source){
+    public function load($v, $level, $source){
         $doc = igk_app()->getDoc();
         $v=igk_css_treat($v, false, $doc->getTheme(), $doc->getSysTheme());
         $tab=igk_str_explode(array(":", ";"), $v);

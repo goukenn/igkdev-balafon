@@ -57,4 +57,7 @@ abstract class IGKEnvironmentConstants{
      const ACC_ENV = "ACC";
      const MP1_ENV = "MP1";
      const MP2_ENV = "MP2";
+
+
+     const CSS_ENV_STYLE_KEY = 'css/default/controlstyle';
 }

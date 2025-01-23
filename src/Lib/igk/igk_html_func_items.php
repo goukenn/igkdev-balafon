@@ -3137,12 +3137,13 @@ if (!function_exists("igk_html_node_jsreplaceuri")) {
 	///<param name="uri"></param>
 	/**
 	 * create winui-jsreplaceuri
-	 * @param mixed $uri
+	 * @param string $uri
 	 */
-	function igk_html_node_jsreplaceuri($uri)
-	{
-		$n = igk_create_node("balafonJS");
-		$n->Content = "ns_igk.winui.history.replace('{$uri}', null);";
+	function igk_html_node_jsreplaceuri(string $uri)
+	{ 
+		$n = igk_create_node('balafonJS');
+		$n["autoremove"] = 1;
+		$n->Content = "ns_igk.winui.history.replace('{$uri}', null); ";
 		return $n;
 	}
 }
@@ -5943,6 +5944,23 @@ if (!function_exists('igk_html_node_listitem')) {
 		return $ul;
 	}
 }
+
+if (!function_exists('igk_html_node_flex')){
+    function igk_html_node_flex($tag='div'){
+        $n = igk_create_node($tag);
+        $n['class']='dispflex';
+        return $n;
+    }
+}
+
+if (!function_exists('igk_html_node_grid')){
+    function igk_html_node_flex($tag='div'){
+        $n = igk_create_node($tag);
+        $n['class']='dispgrid';
+        return $n;
+    }
+}
+
 
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlHeaderLinkHost.php";

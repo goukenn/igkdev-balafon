@@ -107,8 +107,8 @@ class FormValidation
         foreach ($this->_fields as $k => $data) {
             if (igk_getv($data, "type") == "file") { // filter files
                 $validator = new FileValidator();
-                $validator->fieldInfo = $data;
-                $validator->name = $k;
+                // $validator->fieldInfo = $data;
+                // $validator->name = $k;
                 $storage = new IGKObjStorage($data);
                 $storage->name = $k;
                 $v = igk_getv($filedata, $k);

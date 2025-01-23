@@ -23,7 +23,17 @@ class Request implements IInjectable, IContentSecurityProvider
 {
     use ContentSecurityManagementTrait;
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
-    
+    const FILES_FIELD = "\$files";
+
+    /**
+     * support form data file request
+     * @param mixed $data 
+     * @return bool 
+     */
+    public static function IsSupportFileRequest($data){
+        return isset( ((object)$data)->{self::FILES_FIELD});
+
+    }
     /**
      * 
      * @var self
@@ -92,9 +102,24 @@ class Request implements IInjectable, IContentSecurityProvider
         return $this->js_data;
     }
 
+    /**
+     * transform global request data request object
+     * @return object 
+     */
     public function getFormData(){
         $ob = (object)$_REQUEST;
+        if ($_FILES && (count($_FILES)>0)){
+            $ob->{self::FILES_FIELD} = $_FILES;
+        }
         return $ob;
+    }
+    /**
+     * 
+     * @param mixed $key 
+     * @return bool 
+     */
+    public function isset($key){
+        return isset($_REQUEST[$key]);
     }
   
     /**

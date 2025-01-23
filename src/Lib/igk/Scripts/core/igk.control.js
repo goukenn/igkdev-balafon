@@ -12,7 +12,7 @@
  */
 
 
-(function () {
+(function (){ 
     const BEFORESUBMIT_EVENT = 'igkFormBeforeSubmit';
     const _eval = function (src, apply, args) {
         return (new Function(src)).apply(apply, args);
@@ -1361,6 +1361,12 @@
                 }
                 return NaN;
             },
+            /**
+             * change doducment theme
+             * @param {*} n 
+             * @remark replaced with the next block definition
+             * @returns 
+             */
             changeDocumentTheme(n) {
                 var d = document.getElementsByTagName('html')[0];
                 if (typeof (n) == 'undefined') {
@@ -1371,8 +1377,7 @@
                     }
                 }
                 d.setAttribute('data-theme', n);
-                igk.cookies.set('theme_name', n);
-                igk.log(`>change cookie ${n}`);
+                igk.cookies.set('theme_name', n); 
                 return n;
             },
             getStyleSelectorList(index) {
@@ -1683,6 +1688,77 @@
                 }
             }
         });
+
+
+        // + | --------------------------------------------------------
+        // + | manage data-theme definition 
+        // + | 
+        (function(storageCallback){
+            const {THEME_KEY, saveItem, getItem } = (function(info){
+                if (typeof(info)=='function'){
+                    return {
+                        saveItem(m){  
+                            info({type:'save',value:m}); 
+                    },
+                    getItem(){
+                        return info({type:'get'});
+                    },
+                    THEME_KEY: th_n  
+                    };
+                }
+                let th_n = typeof(info) == 'string' ? info : 'theme';
+                return {
+                    saveItem(m){  
+                        localStorage.setItem(THEME_KEY, m);
+                    },
+                    getItem(){
+                        return localStorage.getItem(THEME_KEY);
+                    },
+                    THEME_KEY: th_n
+                }
+            })(storageCallback);
+           
+            function __setTheme(m){
+                let h = document.getElementsByTagName('html')[0];
+                h.setAttribute("data-theme", m);
+                saveItem(m);
+            }
+            function __updatemode(r){
+                return (e)=>{ 
+                    let m = (('dark' == r) && e.matches) || (('dark' != r) && !e.matches) ? 'dark' : 'light';
+                  __setTheme(m);
+                }
+            }
+            if ('matchMedia' in window){ 
+                let preferredTheme = getItem() || (function(){ 
+                    let stheme = _get_html_theme(); 
+                    if (!stheme){
+                        const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
+                        if ( meta_theme){
+                            stheme = meta_theme.getAttribute('content');
+                        }
+                    }
+                    return stheme;
+                })();
+                let tm = null;
+                let theme = 'dark';
+                ['light','dark'].forEach(m=>{
+                    let mode = window.matchMedia('(prefers-color-scheme: '+m+')'); 
+                    if ((preferredTheme && (m==preferredTheme)) || (!tm && mode.matches)){
+                        tm = mode;
+                        theme = m;
+                    } 
+                });
+                tm.addEventListener('change', __updatemode(theme));
+                __setTheme(theme);  
+                // replace set document theme. 
+                igk.css.changeDocumentTheme = __setTheme;
+            }
+        })();
+   
+
+
+
         igk.defineProperty(igk.css, "rule", { get: function () { return rule; } });
         igk.defineProperty(igk.css, "vendors", {
             get: function () {
@@ -1698,7 +1774,7 @@
         igk.system.createNS("igk.publisher.events", e);
 
 
-          // iniitilial ie events
+          // + | initilial ie events
           igk.ready(function () {
             var B = igk.dom.body();
             let cookies = igk.cookies; 
@@ -1734,28 +1810,28 @@
             // + | theme manage change theme detections
             // + | register to (prefers-color-scheme: dark)
             // + |
-            function __checkMediaTheme(){
-                // priority to meta name definition passed by application 
-                const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
-                let cTheme = _get_html_theme();
-                let _stheme = (meta_theme) ? meta_theme.getAttribute('content') : null;
-                if (_stheme && /\b(dark|light)\b/.test(_stheme) && (_stheme != cTheme)){
-                    //change the document theme specification to match data
-                    document.getElementsByTagName('html')[0].setAttribute('data-theme', _stheme);
-                    cTheme = _stheme;
-                }
-                let m = window.matchMedia('(prefers-color-scheme: dark)');
-                if (!cTheme) {
-                    igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
-                }
-                m.addEventListener('change', (e) => {
-                    igk.css.changeDocumentTheme(e.matches ? 'dark' : 'light');
-                });
-            };
+            // function __checkMediaTheme(){
+            //     // priority to meta name definition passed by application 
+            //     const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
+            //     let cTheme = _get_html_theme();
+            //     let _stheme = (meta_theme) ? meta_theme.getAttribute('content') : null;
+            //     if (_stheme && /\b(dark|light)\b/.test(_stheme) && (_stheme != cTheme)){
+            //         //change the document theme specification to match data
+            //         document.getElementsByTagName('html')[0].setAttribute('data-theme', _stheme);
+            //         cTheme = _stheme;
+            //     }
+            //     let m = window.matchMedia('(prefers-color-scheme: dark)');
+            //     if (!cTheme) {
+            //         igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
+            //     }
+            //     m.addEventListener('change', (e) => {
+            //         igk.css.changeDocumentTheme(e.matches ? 'dark' : 'light');
+            //     });
+            // };
 
-            if (window.matchMedia) {
-                __checkMediaTheme();
-            } 
+            // if (window.matchMedia) {
+            //     __checkMediaTheme();
+            // } 
             B.addClass(m_c);
             __raiseMedia(m_c);
             igk.winui.reg_event(window, 'resize', __checkMedia);
@@ -4390,6 +4466,7 @@
             }
         });
         igk.winui.initClassControl("igk-ajx-uri-loader", function () {
+           
             var u = this.getAttribute("igk:href");
             var a = this.getAttribute("igk:append");
             var self = this;
@@ -6887,8 +6964,7 @@
                     q.setCss({ height: r.getHeight() + "px" });
                 });
             }
-            // r.reg_event('resize',function(){
-            // });
+            
             // for(var s in r.o){
             // if(igk.system.string.startWith(s,'on'))
             // {

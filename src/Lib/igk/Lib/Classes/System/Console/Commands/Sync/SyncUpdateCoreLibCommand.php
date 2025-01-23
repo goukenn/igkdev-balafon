@@ -70,8 +70,8 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $script_install = igk_io_sys_tempnam("blfcore");
 
         unlink($temp_file);
-        Logger::info("temp file : " . $temp_file);
-        Logger::info("temp script :" . $script_install);
+        Logger::info("temp file: " . $temp_file);
+        Logger::info("temp script: " . $script_install);
         $sb = new StringBuilder();
         $token = date("Ymd") . rand(2, 85) . igk_create_guid();
         $sb->appendLine(implode("\n", [
@@ -124,8 +124,12 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         FtpHelper::RmFile($h, $install);
         ftp_close($h);
         if (($status = igk_curl_status()) == 200) {
-            Logger::info("curl response \n" . App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
+            Logger::info("curl response:\n");
+            if (igk_is_debug()){
+                echo json_encode($rep, JSON_PRETTY_PRINT| JSON_UNESCAPED_SLASHES), PHP_EOL;
+            }
+           //  App::Gets(App::BLUE, $response));
             if ($rep && !$rep->error) {
                 Logger::success("update core lib success");
                 if ($setting['site_uri']) {

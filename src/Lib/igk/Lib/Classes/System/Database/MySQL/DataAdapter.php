@@ -15,6 +15,7 @@ use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
+use IGK\Database\IDataDriverCharsetSupport;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
@@ -34,7 +35,8 @@ use function igk_getv as getv;
 /**
  * MySQL Data Adapter 
  */
-class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
+class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver,
+IDataDriverCharsetSupport
 {
     private $queryListener;
     private static $_initAdapter;
@@ -44,6 +46,17 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
 
+    /**
+     * expression of column charset
+     * @param string $charset 
+     * @return string
+     */
+    public function queryColumnCharset(string $charset): string{
+        if (in_array($charset, ['utf8mb4'])){
+            return sprintf('CHARSET %s ', $charset);
+        }
+        return null;
+    }
     /**
      * get date time format
      * @return string 
@@ -510,14 +523,15 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                 "server" => $cnf->db_server,
                 "user" => $cnf->db_user,
                 "pwd" => $cnf->db_pwd,
-                "port" => $cnf->db_port
+                "port" => $cnf->db_port,
+                "charset"=>$cnf->db_charset
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
                 Logger::danger("DB_ERROR: " . $error);
                 $s = new NoDbConnection();
             } else {
-                $s->setAdapter($this);
+                $s->setAdapter($this); 
             }
             return $s;
         }
@@ -570,7 +584,10 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return __CLASS__;
     }
-
+    /**
+     * get the driver charset
+     * @return null|string 
+     */
     public function get_charset()
     {
         $b = $this->m_dbManager->getResId();
@@ -579,7 +596,12 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return "";
     }
-    public function set_charset($charset = "utf-8")
+    /**
+     * set driver charset of the current execution query
+     * @param string|'utf-8'|'utf8mb4' $charset 
+     * @return bool|void 
+     */
+    public function set_charset($charset = "utf8")
     {
         $b = $this->m_dbManager->getResId();
         if ($b) {

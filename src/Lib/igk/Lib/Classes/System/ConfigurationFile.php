@@ -4,6 +4,7 @@
 // @date: 20240816 08:05:07
 namespace IGK\System;
 
+use IGKConstants;
 
 ///<summary></summary>
 /**
@@ -13,7 +14,7 @@ namespace IGK\System;
 */
 class ConfigurationFile{
     const DEFAULT_MAINJS = 'default.js';
-    const CONFIG_FILE ='balafon.config.json';
+    const CONFIG_FILE = IGKConstants::PROJECT_CONF_FILE;
     /**
      * name of the project 
      */
@@ -57,12 +58,28 @@ class ConfigurationFile{
      */
     var $workbench;
 
-
+    /**
+     * 
+     * @var mixed
+     */
     var $build;
 
+    /**
+     * 
+     * @var mixed
+     */
     var $exposedDir;
 
+    /**
+     * scripts configuration 
+     * @var mixed
+     */
+    var $scripts;
 
+    /**
+     * retrieve the main JS
+     * @return mixed 
+     */
     function getMainJS(){
         if ($this->mainJS){
             return $this->mainJS;

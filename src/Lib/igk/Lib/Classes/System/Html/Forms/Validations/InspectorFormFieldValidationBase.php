@@ -18,6 +18,8 @@ use IGKValidator;
 use ReflectionException;
 use ReflectionProperty;
 use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;
+use IGK\System\Html\IFormFieldOptions;
+use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 
 ///<summary>represent class that will define property required to inspect form field request</summary>
 /**
@@ -33,13 +35,19 @@ abstract class InspectorFormFieldValidationBase implements
      */
     public function validateFromRequest(Request $request, ?array &$error = [])
     {
+        // + | --------------------------------------------------------------------
+        // + | merge form data with $_REQUEST, $_POST, $_GET, $_FILES* 
+        // + |
         $data = (array)$request->getFormData();  
         return $this->validate($data, $error);
     }
+    protected function getValidationFields(){
+        return $this->getFields(__METHOD__);
+    }
     /**
      * core validation
-     * @param array $data 
-     * @param mixed $error 
+     * @param object|array $data data to validate
+     * @param array $error error definition  
      * @return bool 
      * @throws IGKException 
      * @throws Exception 
@@ -47,9 +55,10 @@ abstract class InspectorFormFieldValidationBase implements
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function validate(array $data, ?array & $error=[]){        
-        $fields = $this->getFields();
+    public function validate($data, ?array & $error=[]){        
+        $fields = $this->getValidationFields();
         $validations = [];
+        $v_fileRequest = [];
         foreach ($fields as $k => $s) {
             if (is_string($s)){
                 $d = new FormFieldInfo;
@@ -57,8 +66,12 @@ abstract class InspectorFormFieldValidationBase implements
                 $k = $s;
                 $s = $d;
             }else {
+                // + | 
                 // + | convert to FormFieldInfo
+                
+                $v_validator = is_object($s) && method_exists($s, 'getValidator') ?  $s->getValidator() : null;
                 $s = Activator::CreateNewInstance(FormFieldInfo::class, $s);
+                $s->validator = $v_validator;
             }
             if ($s instanceof FormFieldInfo) {
                 
@@ -66,6 +79,9 @@ abstract class InspectorFormFieldValidationBase implements
                     // convert to formFieldValidationInfo
                     $validations[$k] = Activator::CreateNewInstance(FormFieldValidationInfo::class, $s);
                 } else {
+                    if ($s->type == 'file'){
+                        $v_fileRequest[$k] = 1;
+                    }
                     // create a validation depending on type
                     $v_validator = FormFieldValidatorBase::Factory($s->type) ;                  
                     $v_v = new FormFieldValidationInfo;
@@ -76,10 +92,15 @@ abstract class InspectorFormFieldValidationBase implements
                     $v_v->error = $s->error;
                     $v_v->allowNull = $s->allowNull;
                     $v_v->allowEmpty = $s->allowEmpty;
+                    $v_v->field = $s;
                     $validations[$k] = $v_v; 
                 }
             }
         } 
+        if ($v_fileRequest && Request::IsSupportFileRequest($data)){
+            // support files
+            $data = new FormRequestWithFileValidationData($data);
+        }
         $v_props_d = igk_reflection_get_class_properties(static::class);  
         if ($data && ($g = IGKValidator::Validate($data, $validations, $error))) {
             foreach ($v_props_d as $k) {
@@ -88,6 +109,7 @@ abstract class InspectorFormFieldValidationBase implements
             $this->onValidationComplete($data, $validations);
             return true;
         }
+        FormEnvironmentProperties::validation_error($error);
         return false;
     }
 
@@ -107,6 +129,7 @@ abstract class InspectorFormFieldValidationBase implements
      * @throws IGKException 
      */
     static function GetFormDataFieldProperties(?string $class_name=null, ?array $def=null){
+        $v_errors = FormEnvironmentProperties::get_validation_error(); 
         $class_name = $class_name ?? static::class;
         $v_filter_p = [];
         $v_r = igk_sys_reflect_class($class_name);
@@ -132,6 +155,11 @@ abstract class InspectorFormFieldValidationBase implements
                     $v_inf = new FieldInfo;
                     $v_inf->type = $type;
                 } 
+            }
+            if ($v_errors){
+                $r = igk_getv($v_errors, $p->name);
+                if ($v_inf instanceof IFormFieldValidationStoreError)
+                    $v_inf->setError($r);
             }
             if (is_null($v_inf)){
                 $v_filter_p[] = $p->name;

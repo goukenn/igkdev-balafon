@@ -39,8 +39,9 @@ abstract class HttpUtility{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetExtensionFromContentType(string $mimetype){
-        return igk_getv([
+    public static function GetExtensionFromContentType(string $mimetype, $default='html'){
+        $mime_list = igk_environment()->mimetypes ?? [];
+        return igk_getv(array_merge([
             'image/png'=>'png',
             'image/jpeg'=>'jpg',
             'image/jpg'=>'jpg',
@@ -50,8 +51,7 @@ abstract class HttpUtility{
             'text/javascript'=>'js',
             'text/plain'=>'txt',
             'text/html'=>'html'
-
-        ],$mimetype,'.html');
+        ], $mime_list), $mimetype, $default);
     }
 
     /**

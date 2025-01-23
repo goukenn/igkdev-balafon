@@ -8,8 +8,10 @@ namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
+use IGK\Controllers\ViewLayoutLoader;
 use IGK\Helper\IO;
-use IGK\Server; 
+use IGK\Server;
+use IGK\System\Configuration\WinUI\ConfigurationPageViewLoader;
 use IGK\System\CronJob;
 use IGK\System\Html\Dom\HtmlConfigContentNode;
 use IGK\System\Html\Dom\HtmlConfigPageNode;
@@ -19,6 +21,7 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\IO\Path;
+use IGK\System\WinUI\IViewLayoutLoader;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKAppConfig;
 use IGKCssDefaultStyle;
@@ -62,7 +65,9 @@ final class ConfigureController extends BaseController implements IConfigControl
     protected function getDataSchemaFile(){
         return implode("/", [IGK_LIB_DIR,IGK_DATA_FOLDER, IGK_SCHEMA_FILENAME]); 
     }
-    
+    protected function createViewLoader():?IViewLayoutLoader{
+        return new ConfigurationPageViewLoader($this);
+    } 
     /**
      * configuration controller
      * @return object 
@@ -71,7 +76,13 @@ final class ConfigureController extends BaseController implements IConfigControl
         return (object)[];
     }
 
-   
+    // protected function getLayoutParam(){
+    //     return null;
+    // }
+//     protected function getMainView(){
+
+//         return $this->getEnvParam('MainView');
+//  }
     ///<summary></summary>
     ///<param name="n"></param>
     /**
@@ -79,11 +90,14 @@ final class ConfigureController extends BaseController implements IConfigControl
      * @param mixed $n
      */
     public function __get($n)
-    {
-        /// TASK: error when handle property on configuration
+    {   
+        if (in_array($n, ['MainView']) || method_exists($this, 'get'.ucfirst($n))){
+            $l = parent::__get($n);
+            return $l;
+        }
         if (igk_environment()->isDev()){
-            igk_trace();
-            igk_dev_wln_e("CallDirect Magic Property  : " . __CLASS__ . " try get [ {$n} ] ");
+            igk_trace(); 
+            igk_dev_wln_e("CallDirect Magic Property  Not allowed in configuration controller : " . __CLASS__ . " try get [ {$n} ] ");
         }
         return parent::__get($n);
     }
@@ -235,20 +249,7 @@ final class ConfigureController extends BaseController implements IConfigControl
         $app = igk_app();
         if ($app->getConfigs()->informAccessConnection) {
             $to = $app->getConfigs()->website_adminmail;
-            /// TODO: SEND MAIL CONFIG NOTIFICATION
-            // if ($to) {
-              
-            //     $d = new \IGK\System\Html\Mail\NotifyConnexionMailDocument($this); 
-            //     $opt = HtmlRenderer::CreateRenderOptions();
-            //     $opt->Context = "mail";
-            //     $opt->NoStoreRendering = 1; 
-            //     if (!igk_mail_sendmail($to, "no-reply@" . igk_configs()->website_domain, 
-            //     __("title.mail.adminnotifyconnexion_1", $app->getConfigs()->website_domain), $d->render($opt), null)) {
-            //         igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "message notification failed"]));
-            //     }
-            // } else {
-            //     igk_ilog(implode(" - ", [__FILE__ . ":" . __LINE__, "/!\\ Can't send mail notification"]));
-            // }
+            /// TODO: SEND MAIL CONFIG NOTIFICATION 
         }
     }
     ///<summary></summary>
@@ -657,7 +658,8 @@ final class ConfigureController extends BaseController implements IConfigControl
      */
     private function configure_settings_load_data($h, $rg = '/(.)*/')
     {
-        $tab = $h->addTable()->setClass("fitw")->setStyle("font-size:0.86em");
+        $tab = $h->tablehost()->addTable()
+        ->setClass("cnf-setting-tab");
 
         $mod = igk_get_modules();
         foreach ($mod as $c) {

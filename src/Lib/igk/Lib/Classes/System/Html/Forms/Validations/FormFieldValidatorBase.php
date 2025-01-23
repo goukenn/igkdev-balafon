@@ -30,6 +30,7 @@ abstract class FormFieldValidatorBase implements IFormValidator{
         $v_allow_null = false;
         $v_allow_empty = false;
         $v_output = null;
+        $v_field = null;
         $options = null;
         //+|filter option object        
         if ($value instanceof FormValidationParam){
@@ -47,13 +48,14 @@ abstract class FormFieldValidatorBase implements IFormValidator{
                 $v_is_require = igk_getv($targ, 4);
                 $v_allow_null = igk_getv($targ, 5);
                 $v_allow_empty = igk_bool_val( igk_getv($targ, 6));
+                $v_field =  igk_getv($targ, 7);
             }
             $options = new FormValidationParamOptions;
             $options->name = $v_name;
             $options->allowNull = $v_allow_null;
             $options->required = $v_is_require;
             $options->allowEmpty = $v_allow_empty;
-            $options->{FormFieldValidatorBase::FIELD_INFO_PROPERTY} = null;
+            $options->{FormFieldValidatorBase::FIELD_INFO_PROPERTY} = $v_field;
             $v_output = $this->_validate($value, $default, $error, $options);
         }
         return $v_output; 

@@ -6,6 +6,7 @@
 
 namespace IGK\System\Html\Dom;
 
+use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Traits\HostableItemTrait;
 
@@ -15,7 +16,7 @@ use IGK\System\Html\Traits\HostableItemTrait;
  */
 final class HtmlFormNode extends HtmlNode
 {
-    use HostableItemTrait; 
+    use HostableItemTrait;
     const URLEncoded = "application/x-www-form-urlencoded";
     private $bodydiv;
     private $footdiv;
@@ -24,7 +25,15 @@ final class HtmlFormNode extends HtmlNode
     private $m_nofoot;
     private $m_notitle;
     private $topdiv;
-    public function multipart(){
+    private $_max_file_size;
+    private $_max_upload_file;
+    private $_prevent_max_file_upload;
+    /**
+     * 
+     * @return $this 
+     */
+    public function multipart()
+    {
         $this['enctype'] = 'multipart/form-data';
         return $this;
     }
@@ -34,7 +43,7 @@ final class HtmlFormNode extends HtmlNode
      * 
      * @param mixed $o the default value is null
      */
-    protected function _acceptRender($options = null):bool
+    protected function _acceptRender($options = null): bool
     {
         $e = $this->topdiv->Content;
         $this->topdiv->setIsVisible(!empty($e) && !$this->m_notitle);
@@ -52,8 +61,13 @@ final class HtmlFormNode extends HtmlNode
     public function __construct($action = ".", $method = "POST", $notitle = false, $nofoot = true)
     {
         parent::__construct("form");
-        $this->Method = $method;
-        $this->Action = $action;
+        if (($action == '.') && (ViewHelper::InViewContext())) {
+            $ctrl = ViewHelper::CurrentCtrl();
+            $fname = ViewHelper::GetViewArgs('fname');
+            $action = $ctrl::uri($fname);
+        }
+        $this->method = $method;
+        $this->action = $action;
         $this->m_encType = true;
         $this->m_notitle = $notitle;
         $this->m_nofoot = $nofoot;
@@ -68,6 +82,39 @@ final class HtmlFormNode extends HtmlNode
 
         parent::_Add($this->m_definition);
     }
+    public function setMAX_FILE_SIZE($size)
+    {
+        return $this->_update_node($this->_max_file_size, $size,'MAX_FILE_SIZE');
+    }
+    public function setMAX_UPLOAD_FILE(?int $count=null){
+        return $this->_update_node($this->_max_upload_file, $count,'MAX_UPLOAD_FILE');
+    }
+    public function prevent_max_file_upload(){
+        $n = & $this->_prevent_max_file_upload;
+        if (!$n){
+            $n = igk_create_node_arg('div.form-prevent-max-upload');
+            $this->add($n);
+        }
+        return $n;
+    }
+    private function _update_node(& $prop, $value, $id){
+        $n = & $prop;
+        if ($value === null) {
+            $n && $n->remove();
+            $n = null;
+        } else {
+            if (!$n) { 
+                $n = igk_create_node('input')
+                ->setAttributes([
+                    'type' => 'hidden', 
+                    'id' => $id,
+                ]); 
+                $this->add($n);
+            }
+            $n['value'] = $value;
+        }
+        return $n;
+    }
     ///<summary></summary>
     ///<param name="item"></param>
     ///<param name="index" default="null"></param>
@@ -76,7 +123,7 @@ final class HtmlFormNode extends HtmlNode
      * @param mixed $item
      * @param mixed $index the default value is null
      */
-    protected function _Add($item, $index = null):bool
+    protected function _Add($item, $index = null): bool
     {
         return $this->bodydiv->_Add($item);
     }
@@ -285,5 +332,4 @@ final class HtmlFormNode extends HtmlNode
         $this->topdiv->Content = $value;
         return $this;
     }
-    
 }
