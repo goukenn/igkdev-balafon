@@ -1,0 +1,12 @@
+{
+    "required":{
+        "RegexContainer.js":[
+            "./RegexMatcherPattern.js",
+            "./RegexDetectionInfo.js"
+        ]
+    }, 
+    "ignore":[
+        "RegexContainer.d.js",
+        "RegexDetectionInfo.d.mjs"
+    ]
+}

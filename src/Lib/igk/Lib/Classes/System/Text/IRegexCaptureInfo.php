@@ -1,0 +1,21 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: IRegexCaptureInfo.php
+// @date: 20241106 11:44:37
+namespace IGK\System\Text;
+
+
+///<summary></summary>
+/**
+* 
+* @package IGK\System\Text
+* @author C.A.D. BONDJE DOUE
+* @property int $pos start position 
+* @property int $to end position
+* @property string $value original value
+* @property string $data treated value
+*/
+interface IRegexCaptureInfo{
+    function getisRoot():bool;
+    function getisRootCaptured():bool;
+}
