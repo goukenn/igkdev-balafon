@@ -830,12 +830,12 @@ final class HtmlReader extends IGKObject
     private static function _ReadAttributes(self $reader, &$v, &$attribs = [], $callback = null)
     {
         // start reading attribute name
-        $mode = 0;
+        $mode = 0; // mode :0 attribute
         $v_n = "";
         $v_v = "";
         $end = false;
         //$v_skip = false;
-        $protag = 0;
+        $protag = 0;   // + : 0=attribute,
         // $v_sv = "";
         //$escape = false;
         $pro_expr = "";
@@ -887,13 +887,12 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case "'":
-                case "\"":
-
+                case "\"": 
                     if ($mode == 0) {
                         igk_wln($attribs);
                         igk_die(
                             implode("\n", [
-                                "not valid attribute read not vaid: [$v] - {$v_n} - $mode " .
+                                __CLASS__." not valid attribute: [$v] - {$v_n} - $mode " .
                                     "offset : " . $reader->m_offset
                             ])
                         );
@@ -986,13 +985,13 @@ final class HtmlReader extends IGKObject
                 default:
                     if ($mode == 0) {
                         if (is_numeric($v_ch) || !empty(trim($v_ch))) {
-                            $v_n .= $v_ch;
+                            $v_n .= $v_ch; // + | red name 
                         } else {
-                            if (!empty($v_n)) { // resolve attribute or activable attribute 
+                            if (!empty($v_n)) { // + | resolve attribute or activable attribute 
                                 // + | skip empty char 
-                                while(($reader->m_offset < $reader->m_length ) && !trim($v_ch)){
+                                while(($reader->m_offset < $reader->m_length ) && 
+                                    !trim($v_ch = $reader->m_text[$reader->m_offset])){
                                     $reader->m_offset++;
-                                    $v_ch = $reader->m_text[$reader->m_offset];
                                 }
                                 if ($v_ch!='='){
                                     // + | store active attribute 
