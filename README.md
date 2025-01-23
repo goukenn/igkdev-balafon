@@ -1,5 +1,8 @@
 # Balafon
-Balafon php web framework
+
+- Balafon php web framework
+
+
 ## INSTALL
 prerequisites
 
@@ -79,5 +82,5 @@ passing parameters to layout
 
 just append to inject by class name definition 
 
+#### author
 @ C.A.D BONDJE DOUE
-
