@@ -1752,7 +1752,10 @@
                 tm.addEventListener('change', __updatemode(theme));
                 __setTheme(theme);  
                 // replace set document theme. 
-                igk.css.changeDocumentTheme = __setTheme;
+                igk.css.changeDocumentTheme = function(th){
+                    theme = th || (theme=='dark'?'light':'dark'); 
+                    __setTheme(theme);
+                };
             }
         })();
    
@@ -1807,31 +1810,6 @@
                     device: igk.css.getDevice()
                 });
             };
-            // + | theme manage change theme detections
-            // + | register to (prefers-color-scheme: dark)
-            // + |
-            // function __checkMediaTheme(){
-            //     // priority to meta name definition passed by application 
-            //     const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
-            //     let cTheme = _get_html_theme();
-            //     let _stheme = (meta_theme) ? meta_theme.getAttribute('content') : null;
-            //     if (_stheme && /\b(dark|light)\b/.test(_stheme) && (_stheme != cTheme)){
-            //         //change the document theme specification to match data
-            //         document.getElementsByTagName('html')[0].setAttribute('data-theme', _stheme);
-            //         cTheme = _stheme;
-            //     }
-            //     let m = window.matchMedia('(prefers-color-scheme: dark)');
-            //     if (!cTheme) {
-            //         igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
-            //     }
-            //     m.addEventListener('change', (e) => {
-            //         igk.css.changeDocumentTheme(e.matches ? 'dark' : 'light');
-            //     });
-            // };
-
-            // if (window.matchMedia) {
-            //     __checkMediaTheme();
-            // } 
             B.addClass(m_c);
             __raiseMedia(m_c);
             igk.winui.reg_event(window, 'resize', __checkMedia);

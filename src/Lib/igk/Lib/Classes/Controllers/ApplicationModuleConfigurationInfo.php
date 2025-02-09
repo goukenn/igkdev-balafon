@@ -8,7 +8,7 @@
 namespace IGK\Controllers;
 
 /**
- * 
+ * module configuration info
  */
 class ApplicationModuleConfigurationInfo{
     /**
@@ -20,4 +20,10 @@ class ApplicationModuleConfigurationInfo{
      * @var ?array 
      */
     var $plugins;
+
+    /**
+     * 
+     * @var ?bool
+     */
+    var $initDoc;
 }

@@ -13,8 +13,12 @@ class ServiceTest extends BaseTestCase{
         $srv = igk_app()->getService("ovh");        
         $this->assertEquals(
             null,
-            $srv, "service not found"
+            $srv, 
+            "service not found"
         );
+        /**
+         * register a service 
+         */
         IGKServices::Register("ovh", DummyService::class );
         $srv = igk_app()->getService("ovh");        
         $this->assertEquals(

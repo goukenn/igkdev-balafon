@@ -54,9 +54,9 @@ class IGKServices
     }
 
     /**
-     * register service
+     * register service.
      * @param string $serviceName 
-     * @param string $className 
+     * @param string $className a class that implement IAppService
      * @return void 
      * @throws IGKException 
      */
@@ -78,6 +78,7 @@ class IGKServices
                 }
             }
         }
+        return false;
     }
 }
 /*

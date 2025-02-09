@@ -33,6 +33,7 @@ class SelectCommand extends AppExecCommand
 		'--map:column=map,...' => 'map list column',
 		'--like:expression' => 'select with search expression.',
 		'--arg:[value]+' => 'argument for macros function',
+		'--pretty'=>'flag: pretty print json result'
 	];
 	var $category = 'db';
 	var $usage = '[controller] model[.macrosFunction] [options]';
@@ -50,6 +51,7 @@ class SelectCommand extends AppExecCommand
 		$columns = igk_getv($command->options, '--columns');
 		$like = igk_getv($command->options, '--like');
 		$map = igk_getv($command->options, '--map');
+		$pretty = property_exists($command->options, '--pretty');
 		if ($limit) {
 			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode($v_sep, $limit, 2));
 		}
@@ -114,7 +116,9 @@ class SelectCommand extends AppExecCommand
 			$map = $v_conf->read($map);
 			$g = DefaultMap::MapModelData($map, $g);
 		}
-		echo JSon::Encode($g, JSonEncodeOption::IgnoreEmpty()), PHP_EOL; // + |
+		$flag = $pretty ? JSON_PRETTY_PRINT : 0;
+
+		echo JSon::Encode($g, JSonEncodeOption::IgnoreEmpty(), $flag), PHP_EOL; // + |
 		igk_exit();
 	}
 	/**
@@ -123,10 +127,7 @@ class SelectCommand extends AppExecCommand
 	 * @return void 
 	 */
 	public static function PrintResult($g)
-	{
-
-
-
+	{ 
 		if ($g instanceof ModelBase) {
 			echo $g->to_json();
 			return;

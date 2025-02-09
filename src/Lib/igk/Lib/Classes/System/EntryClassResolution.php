@@ -46,4 +46,5 @@ abstract class EntryClassResolution{
 
 
     const MailAttachement = '\IGK\System\Net\MailAttachement';
+    const CreateValidatorInstance = 'CreateValidatorInstance';
 }

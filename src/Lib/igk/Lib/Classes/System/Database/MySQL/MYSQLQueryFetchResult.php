@@ -5,7 +5,9 @@
 // @desc: 
 
 namespace IGK\System\Database\MySQL;
- 
+
+use Exception;
+use IGK\Database\DbConstants;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;  
 use IGK\Database\DbQueryRowObj;
@@ -23,6 +25,11 @@ use ModelBase;
 */
 final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryResult, IDbQueryFetchResult{
     var $init;
+    /**
+     * get or define resources options
+     * @var mixed
+     */
+    var $options;
     private $m_query;
     private $m_rowcount;
     private $m_fieldcount;
@@ -164,15 +171,26 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     }
     
    
-
+    /**
+     * fetch result
+     * @return bool 
+     * @throws Exception 
+     */
     public function fetch():bool{
         //create and transform to db query row object
-        if ($this->m_rowdef = igk_db_fetch_assoc($this->m_result)){ 
+        $callback = $this->options ? igk_getv($this->options, DbConstants::CALLBACK_OPTS) : null;
+        $this->m_rowdef = null;
+        if ($v_tr = igk_db_fetch_assoc($this->m_result)){ 
+            $v_otr = DbQueryRowObj::Create($v_tr);
+            if ($callback){
+                $callback($v_otr);
+                $v_tr = $v_otr->to_array();
+            }
             if ($this->m_model){
                 $cl = $this->m_model;
-                $this->m_rowdef = new $cl($this->m_rowdef);
+                $this->m_rowdef = new $cl($v_tr);
             }else {
-                $this->m_rowdef = DbQueryRowObj::Create($this->m_rowdef);
+                $this->m_rowdef = $v_otr;
             }
         }
         return $this->m_rowdef !== null;
@@ -185,8 +203,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         if (!$this->init && $dbresult){
             $this->m_fieldcount= igk_db_num_fields($dbresult);
             $this->m_rowcount = igk_db_num_rows($dbresult);
-            $this->init = true;
-          
+            $this->init = true; 
         }
         igk_db_seek($dbresult, 0);
         $this->fetch(); 

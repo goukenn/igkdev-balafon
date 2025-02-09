@@ -161,13 +161,15 @@ abstract class ModelEntryExtension
         if (is_null($identifier)) {
             return null;
         }
-
+        
         $id = spl_object_id($identifier);
         if ($v = getv($caches, $id)) {
             return $v->_cache;
         }
         if ($model->is_mock()) {
-            $_obj = $model->select_row($conditions);
+            $primary = $model->getPrimaryKey();
+            $conditions = $conditions ?? [$primary=> $identifier->{$primary}];
+            $_obj = $model->select_row($conditions); 
         } else {
             $_obj = $model;
         }
@@ -1124,15 +1126,20 @@ abstract class ModelEntryExtension
         return $model->getTable() . $column;
     }
     /**
-     * build column name
+     * build column full name
      * @param ModelBase $model 
-     * @param mixed $column 
-     * @return void 
+     * @param string $column 
+     * @return string
      */
     public static function column(ModelBase $model, $column)
     {
         return static::table($model, $column);
     }
+    /**
+     * retrieve primary key 
+     * @param ModelBase $model 
+     * @return string 
+     */
     public static function primaryKey(ModelBase $model)
     {
         return $model->getPrimaryKey();

@@ -50,8 +50,10 @@ use IGK\System\ConfigurationFile;
 use IGK\System\Controllers\ControllerMethods;
 use IGK\System\Database\DbSchemaDefinitionAttributes;
 use IGK\System\Database\IDatabaseHost;
+use IGK\System\Database\IUserProfile;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
+use IGK\System\Database\SchemaMigrationListener;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\ResourceNotFoundException;
@@ -67,6 +69,7 @@ use IGKEvents;
 use IGKModuleListMigration;
 use IGKResourceUriResolver;
 use IGKSysUtil as sysutil;
+use IGKUserInfo;
 use IGKValidator;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -468,9 +471,20 @@ abstract class ControllerExtension
     {
         return (\IGK\Helper\SysUtils::GetSubDomainCtrl() === $ctrl) || (igk_get_defaultwebpagectrl() === $ctrl);
     }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param null|string $name_uri 
+     * @return null|string 
+     * @throws IGKException 
+     */
     public static function uri(BaseController $ctrl, ?string $name = "")
     {
-        return $ctrl->getAppUri($name ?? '');
+        $v_uri = $name ?? '';
+        if (strpos($v_uri, '@/')===0){
+            $v_uri = ltrim($v_uri, '@');
+        }
+        return $ctrl->getAppUri($v_uri ?? '');
     }
     public static function guid_name(BaseController $ctrl)
     {
@@ -688,10 +702,19 @@ abstract class ControllerExtension
                 $file = $ctrl->getDataSchemaFile();
                 $f = igk_db_load_data_schemas($file, $ctrl);
                 if ($m = igk_getv($f, "migrations")) {
+                    $listener = new SchemaMigrationListener();
+                    $listener->file = $file;
+                    $listener->controller = $ctrl;
+                    $listener->definition = $f;
                     $v_count = 0;
                     try {
+                        /**
+                         * update migration definition - then call upgrade
+                         */
                         foreach ($m as $t) {
+                            $t->migrationListener = $listener;
                             $t->upgrade();
+                            $t->migrationListener = null;
                             $v_count++;
                         }
                     } catch (Exception $ex) {
@@ -1339,12 +1362,6 @@ abstract class ControllerExtension
             $bclLastLogin = $user->clLastLogin;
             $user->clLastLogin = date(\IGKConstants::MYSQL_DATETIME_FORMAT);
             $user->save();
-            // $u = \IGK\Models\Users::update(
-            //     [
-            //         "clLastLogin" => $user->clLastLogin,
-            //     ],
-            //     ["clId" => $uid]
-            // );
             $server = igk_server();
             igk_hook(IGKEvents::HOOK_USER_LOGIN, [
                 "user" => $user,
@@ -1413,11 +1430,24 @@ abstract class ControllerExtension
         return self::getErrorViewFile($ctrl, $code);
     }
 
+    /**
+     * get store user session
+     * @param BaseController $controller 
+     * @param mixed $uid 
+     * @return IGKUserInfo|null|\IGK\Models\User
+   */
     public static function getUser(BaseController $controller, $uid = null)
     {
         $u = $uid === null ? igk_app()->session->getUser() :
             igk_get_user($uid);
         return $u;
+    }
+    /**
+     * get user profile
+     * @return null|IUserProfile 
+     */
+    public static function getUserProfile(BaseController $controller): ?IUserProfile{ 
+        return $controller->userProfile;
     }
     /**
      * get uri from base uri access
@@ -1442,17 +1472,20 @@ abstract class ControllerExtension
      */
     public static function checkUser(BaseController $controller, $nav = true, $uri = null)
     {
+        $u_model = \IGK\Models\Users::class;
+        $fd_guid = \IGK\Models\Users::FD_CL_GUID;
         $r = true;
+        $env = igk_environment();
         $u = igk_app()->session->getUser();
-        $ku = $controller->getUser();
+        $ku = $controller->getUserProfile();
         if (!$u && !$ku) {
-            if (igk_environment()->connecting) {
+            if ($env->connecting) {
                 return;
             }
-            igk_environment()->connecting = true;
+            $env->connecting = true;
             if (igk_environment()->isDev()) {
                 if ($ku = SysUtils::TryServerAutoConnect($controller)) {
-                    igk_environment()->connecting = null;
+                    $env->connecting = null;
                     return;
                 }
             }
@@ -1462,9 +1495,9 @@ abstract class ControllerExtension
         if ($ku == null) {
             if ($u != null) {
                 // check existance of the user
-                if (!is_null(\IGK\Models\Users::GetCache("clGuid", $u->clGuid))) {
+                if (!is_null($u_model::GetCache($fd_guid, $u->clGuid))) {
                     $pu = $controller->initUserFromSysUser($u);
-                    $controller->User = $pu;
+                    $controller->userProfile = $pu; 
                 } else {
                     $r = false;
                     if ($u) {
@@ -1484,12 +1517,7 @@ abstract class ControllerExtension
             if (!empty($m)) {
                 $s = "q=" . base64_encode($m);
                 $u .= ((strpos($u, "?") === false) ? "?" : "&") . $s;
-            }
-            // if (strlen($u)>50){
-            //     igk_trace();
-            //     igk_wln("uri i too long");
-            //     igk_wln_e("base request uri = ",$u, $m, base64_encode($m), $u);
-            // }        
+            }  
             igk_navto($u);
         }
         return $r;
@@ -1863,8 +1891,7 @@ abstract class ControllerExtension
     {
         // + | --------------------------------------------------------------------
         // + | GET DB TABLE DEFINITION EXTENSION
-        // + |
-
+        // + | 
         if (!($ctrl instanceof IDatabaseHost)) {
             return null;
         }

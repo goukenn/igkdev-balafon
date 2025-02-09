@@ -205,6 +205,7 @@ if (!function_exists('igk_str_encode_to_utf8')) {
     function igk_str_encode_to_utf8(?string $s, ?string $enc = null)
     {
         return mb_convert_encoding($s, 'UTF-8', $enc ?? mb_list_encodings());
+        // return mb_convert_encoding($s, 'ISO-8859-1', 'UTF-8');//$enc ?? mb_list_encodings());
     }
 }
 

@@ -28,5 +28,11 @@ class ApiResponse extends Response{
             "response"=>$data
         ];
     }
+    /**
+     * return an empty api response 
+     */
+    public static function EmptyJsonResponse(){
+        return new JsonResponse([], 204);
+    }
 
 }

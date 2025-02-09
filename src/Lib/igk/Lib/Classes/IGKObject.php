@@ -23,11 +23,7 @@ class IGKObject {
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
         }
         return null;
-    }
-    // public function __isset($key){
-    //     igk_trace(); 
-    //     return method_exists($this, "get".$key);
-    // }
+    } 
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="value"></param>

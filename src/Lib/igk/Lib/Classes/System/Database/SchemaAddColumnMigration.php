@@ -5,11 +5,13 @@
 // @date: 20210422 09:09:36
 namespace IGK\System\Database;
 
+use Exception;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
+use IGKException;
 
 /**
  * update migrations
@@ -49,6 +51,12 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $this->raw = (object)['table'=>$table, 'after'=>$after];
         $this->columns = [$column];
     }
+    /**
+     * 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     public function up(){ 
         $v_table = $this->table;
         $ctrl = $this->getMigration()->controller;
@@ -58,7 +66,8 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         if ($ref = DBCaches::GetTableInfo($tb)){
             $prefix = $ref->prefix;
         }
-        $after = Database::AutoPrefixColumn($after, $prefix);
+        if ($after)
+            $after = Database::AutoPrefixColumn($after, $prefix);
         
 
         foreach($this->columns as $cl){

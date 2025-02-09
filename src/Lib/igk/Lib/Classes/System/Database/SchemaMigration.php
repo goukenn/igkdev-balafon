@@ -7,6 +7,7 @@
 
 namespace IGK\System\Database;
 
+use Exception;
 use IDbGetTableReferenceHandler;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -37,20 +38,16 @@ use IGKModuleListMigration;
 use ReflectionException;
 
 /**
- * migration handler
+ * migration handler. use to update schema migration definition . 
  * @package IGK\System\Database
  */
 class SchemaMigration
 {
     use SchemaGenerationFieldTrait;
     var $node;
-
     var $reload;
-
     var $resovlname;
-
     var $table;
-
     var $tbrelations;
 
     /**
@@ -339,6 +336,18 @@ class SchemaMigration
                 break;
         }
     }
+    /**
+     * load required schema
+     * @param null|BaseController $p 
+     * @param mixed &$tab 
+     * @param mixed $argument 
+     * @param mixed &$load_schema 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     private static function _loadControllerRequireSchema(?BaseController $p, &$tab, $argument, &$load_schema)
     {
         if (is_null($argument)) {
@@ -472,12 +481,22 @@ class SchemaMigration
                 }
                 break;
             case DbSchemasConstants::OP_RM_COLUMN:
+                // + removeColumn migration 
 
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 if (key_exists($tb, $tables)) {
-                    $tabcl = &$tables[$tb]->columnInfo;
-                    $item->columnInfo = $tabcl[$item->column];
-                    unset($tabcl[$item->column]);
+                    $ctab = $tables[$tb];
+                    $tabcl = &$ctab->columnInfo;
+                    $nslist = [$item->column];
+                    if ($ctab->prefix)
+                        $nslist[] = $ctab->prefix.$item->column;
+                    while(count($nslist)>0){
+                        $qn = array_shift($nslist);
+                        if (igk_getv($tabcl, $qn)){
+                            unset($tabcl[$qn]); 
+                            break;
+                        } 
+                    }
                 } else {
                     $inf = DbSchemas::GetTableColumnInfo($tb);
                     if ($inf) {
@@ -486,8 +505,7 @@ class SchemaMigration
                             unset($inf[$item->column]);
                         }
                         break;
-                    }
-
+                    } 
                     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "table not present is schema tables definition");
                 }
                 break;

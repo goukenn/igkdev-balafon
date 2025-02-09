@@ -372,6 +372,13 @@ abstract class RootControllerBase extends IGKObject{
         }
         return $o;
     }
+    /**
+     * invoke and by pass acces function 
+     * @param mixed $instance 
+     * @param string $method 
+     * @param null|array $args 
+     * @return mixed 
+     */
     public static function Invoke($instance, string $method, ?array $args=null){
         if (is_null($args))
             $args = [];

@@ -102,12 +102,7 @@ abstract class UsersMacros {
             ->where(['clGuid'=>$mod->clGuid])
             ->distinct()
             ->columns([
-                Groups::column('*'),
-                // Groups::column('clId') => 'groupId',
-                // Groups::column('clName') => 'groupName',
-                // 'clLogin',
-                // 'clGuid',
-                // $mod->column('clId')
+                Groups::column('*')
             ]
             )->orderBy([Groups::column('clId')."|ASC"]) 
             ->execute(false);

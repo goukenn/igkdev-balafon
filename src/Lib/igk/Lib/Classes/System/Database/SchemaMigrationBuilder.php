@@ -283,6 +283,13 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         }
         $this->migration()->changeColumn($table, $column, $options);
     }
+    /**
+     * 
+     * @param mixed $table 
+     * @param mixed $colname 
+     * @param mixed $newname 
+     * @return $this 
+     */
     public function renameColumn($table, $colname, $newname)
     {
         if ($this->is_migration) {

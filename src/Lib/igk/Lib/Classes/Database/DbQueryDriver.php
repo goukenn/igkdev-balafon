@@ -878,16 +878,17 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @return resource|null 
      */
     public function sendQuery($query, $throwex = true, $options = null)
-    {
+    {   
+        $v_qdebug = igk_environment()->querydebug;
         if (igk_db_is_resource($this->m_resource)) {
-            if (igk_environment()->querydebug) {
+            if ($v_qdebug ) {
                 // $of = Logger::offscreen();
                 // if ($of)
                 //     $of->print("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
-                igk_environment()->write_debug("<span>query &gt; </span><code type='sql'>'.$query.'</code>" );
+                igk_environment()->write_debug("<span>query &gt; </span><code type=\"sql\">{$query}</code>" );
             }
-            if (igk_environment()->isOps() &&  igk_environment()->querydebug) {
+            if (igk_environment()->isOps() &&  $v_qdebug ) {
                 igk_ilog("send : " . $query);
             }
             $this->setLastQuery($query);

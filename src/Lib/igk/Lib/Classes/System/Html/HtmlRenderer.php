@@ -281,8 +281,11 @@ class HtmlRenderer
 
                 if ($engine) {
                     $l = $engine->render($i, $options);
-                    if ($l){
-                        $s .= $l;
+                    if ($l || ($skipEngineNode = igk_getv($options, 'skipEngineNode'))){
+                        if (isset($skipEngineNode) && $skipEngineNode){
+                            $options->skipRenderNode = false;
+                        }
+                        $s .= is_bool($l)? '' : $l;
                         self::reduceDepth($options, 'engine');
                         continue;
                     }

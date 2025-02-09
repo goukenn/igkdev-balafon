@@ -5,16 +5,16 @@
 namespace IGK\System\WinUI\Forms;
 
 use Closure;
-use IGK\Helper\Activator;
 use IGK\System\Data\IDataValidator;
 use IGK\System\Data\ObjectDataValidator;
+use IGK\System\EntryClassResolution;
 use IGK\System\Http\Request;
 use IGK\System\Traits\ActivableTrait;
 use IGK\System\WinUI\Forms\FormValidationData;
 
-///<summary></summary>
+///<summary>used to setup data for html's form</summary>
 /**
- * 
+ * used to setup data for html's form
  * @package IGK\System\WinUI\Forms
  */
 abstract class FormData
@@ -42,6 +42,12 @@ abstract class FormData
         $tab = $this->mergeSecure($ls, $tab);
         return $this->getDataValidatorMapper($tab);
     }
+    /**
+     * 
+     * @param mixed $var_tab 
+     * @param mixed $tab 
+     * @return array 
+     */
     protected function mergeSecure($var_tab, $tab)
     {
         $rtab = [];
@@ -54,6 +60,10 @@ abstract class FormData
         }
         return $rtab;
     }
+    /**
+     * get class reference used to get properties 
+     * @return string
+     */
     protected function getValidationClassReference()
     {
         return static::class;
@@ -108,7 +118,7 @@ abstract class FormData
         }
     }
     /**
-     * assoc of default custom value
+     * associative array of default custom value
      * @return null|array 
      */
     public function getDefaultValues(): ?array
@@ -149,29 +159,35 @@ abstract class FormData
      * validate data
      * @param mixed $data 
      * @param null $validator 
-     * @return false|mixed validated data or false 
+     * @return false|static|object validated data or false - static::class's properties only 
      */
     public static function ValidateData($data, ?object $validator = null, ?array &$errors = null)
     {
+        $validata_class = EntryClassResolution::CreateValidatorInstance;
         $validator = $validator ??
-            (method_exists(static::class, \CreateValidatorInstance::class) ?
-                call_user_func_array([static::class, \CreateValidatorInstance::class], []) : null) ??
+            (method_exists(static::class, $validata_class) ?
+                call_user_func_array([static::class, $validata_class], []) : null) ??
             new ObjectDataValidator();
+
+        /**
+         * @var {validate():null}|null $validator
+         */
 
         $e = new static;
         $validation_mapper = $e->getDataValidatorMapper();
-        $requestData = [];        
-        if ($validator->validate(
-            $data,
-            $validation_mapper->mapper,
-            $validation_mapper->defaultValues,
-            $validation_mapper->not_required,
-            $requestData,
-            $errors,
-            $validation_mapper->resolvKeys
-        )) {
-            return $requestData;
-        }
+        $requestData = [];
+        if ($validator instanceof IDataValidator)
+            if ($validator->validate(
+                $data,
+                $validation_mapper->mapper,
+                $validation_mapper->defaultValues,
+                $validation_mapper->not_required,
+                $requestData,
+                $errors,
+                $validation_mapper->resolvKeys
+            )) {
+                return $requestData;
+            }
         return false;
     }
 

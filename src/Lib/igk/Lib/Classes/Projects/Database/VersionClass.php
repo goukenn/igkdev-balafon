@@ -5,9 +5,9 @@
 namespace IGK\Projects\Database;
 
 
-///<summary></summary>
+///<summary>project database version storage </summary>
 /**
-* 
+* project database version storage 
 * @package IGK\Projects\Database
 */
 class VersionClass{

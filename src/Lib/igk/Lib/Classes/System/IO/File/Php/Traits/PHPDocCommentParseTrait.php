@@ -18,13 +18,16 @@ trait PHPDocCommentParseTrait{
      * @param ?PhpDocBlocReader $reader
      * @return PHPDocCommentParser 
      */
-    public static function ParsePhpDocComment(string $cm,  $reader=null, ?array $filter=null){
+    public static function ParsePhpDocComment(string $cm,  $reader=null, ?array $filter=null, $filterCallback=null, $handlerCallback=null){
         $c = trim(igk_str_rm_start($cm, "/**"));
         $c = rtrim(igk_str_rm_last($c, "*/"));
         $g = new self;
+        $g->setPropertyFilterListener($filterCallback);
+        $g->setPropertyHandlerListener($handlerCallback);
         $g->summary = '';
-        $g->m_reader = $reader;
-        $g->m_filter = $filter;
+        /// TODO: Remove filter property 
+        // $g->m_reader = $reader;
+        // $g->m_filter = $filter;
         $summary = false;
         $content = "";
         $name = "";

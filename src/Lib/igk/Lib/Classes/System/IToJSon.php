@@ -16,7 +16,7 @@ interface IToJSon{
      * 
      * @param mixed $option encoding option
      * @param int $flag json_encode flag
-     * @return mixed 
+     * @return false|string 
      */
     function to_json($option=null, int $flag=0); 
 }

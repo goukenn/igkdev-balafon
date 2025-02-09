@@ -8,6 +8,7 @@
 namespace IGK\Helper;
 
 use Error;
+use Exception;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGKApp;
@@ -19,6 +20,7 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Configuration\ApplicationConfigConstants;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Database\IUserProfile;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use TypeError;
@@ -43,13 +45,19 @@ class SysUtils{
             }
         }    
     }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return null|IUserProfile 
+     * @throws Exception 
+     */
     public static function TryServerAutoConnect(BaseController $ctrl){          
         $a = igk_server()->HTTP_USER_AGENT;
         $chek = igk_configs()->{ApplicationConfigConstants::allow_auto_connect_agents} ?? []; 
         if ( ($a && in_array($a, $chek))){ 
             if ($uid = igk_getv(igk_get_allheaders(), 'IGK_CURRENT_USER_ID')){           
                 if ($user = \IGK\Models\Users::Get('clId', $uid)){
-                    if ($r = $ctrl::login($user, null, false)){
+                    if ($ctrl::login($user, null, false)){
                         $user = $ctrl->getUser();
                         return $user;
                     }               
@@ -140,7 +148,7 @@ class SysUtils{
         }
         if(IGKApp::IsInit()){
             while(count($tb)>0){
-                $ctrl = array_shift($tb);
+                $ctrl = array_shift($tb); 
                 if (class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class)){
                     return $ctrl::ctrl();
                 }

@@ -61,7 +61,7 @@ use IGK\Models\ModelBase;
 * @method static array CreateUserApiResponseData() macros function
 * @method static void activate() macros function
 * @method static void addPhoneBookEntry($type,$value) macros function
-* @method static void auths() macros function
+* @method static mixed auths() macros function
 * @method static void bindToGroup(\IGK\Controllers\BaseController $ctrl,string $groupname) macros function
 * @method static void changePassword(string $newPassword) macros function
 * @method static void fullName() macros function

@@ -30,11 +30,8 @@ class MakeCommandCommand extends AppExecCommand
             "[controller] command",
             "{in :module-context:} command",
         ]);
-    }
-
-
-    public function exec($command, ?string $controller = null, ?string $command_name = null)
-    {
+    } 
+    public function exec($command, ?string $controller = null, ?string $command_name = null){
 
         $context = $command->app->getContext();
         if ($context == 'module') {
@@ -78,7 +75,7 @@ class MakeCommandCommand extends AppExecCommand
 
             $command_new = self::CreateOptionsCommandFrom($command);
             $command_new->options = (object)[
-                "--controller" => $ctrl->getName(),
+                "--controller" => $ctrl,
                 "--extends" => AppExecCommand::class,
                 "--defs" => $defs,
             ];

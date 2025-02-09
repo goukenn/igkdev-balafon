@@ -7,9 +7,9 @@ namespace IGK\System\Annotations;
 use IGK\System\AnnotationBase;
 use IGK\System\IAnnotation;
 
-///<summary></summary>
+///<summary>balafon's annotation for describe an annotation</summary>
 /**
-* balafon mark for annotation
+* balafon's annotation for describe an annotation
 * @package IGK\System\Annotations
 */
 class AnnotationInfo extends AnnotationBase implements IAnnotation{

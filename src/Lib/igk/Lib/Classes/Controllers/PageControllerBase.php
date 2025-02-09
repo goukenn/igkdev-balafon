@@ -28,8 +28,8 @@ abstract class PageControllerBase extends ControllerTypeBase
     implements IIGKUriActionRegistrableController, ILibaryController
 {
     const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
-    const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
     const PAGE_USER=self::PAGE_CONSTANT + 1;
+    const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
 
     ///<summary>init view</summary>
     /**
@@ -58,15 +58,8 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $n;
     }
-    ///<summary></summary>
-    /**
-     * 
-     * @return null|object application user info
-     */
-    public function getUser(){
-        $user = $this->getEnvParam(self::PAGE_USER); 
-        return $user;
-    }
+    
+    
     ///<summary></summary>
     protected function getUserDir(){
         if($u=$this->User)
@@ -134,25 +127,8 @@ abstract class PageControllerBase extends ControllerTypeBase
         $this->resetCurrentView();
         $c=$this->getAppUri();
         igk_navto($c);
-    }
-    
-    // ///<summary></summary>
-    // ///<param name="v"></param>
-    // public function set_output($v){
-    //     $s=$this->getEnvParam("_output");
-    //     if(!$s){
-    //         $s=$v;
-    //     }
-    //     else{
-    //         $s=$v;
-    //     }
-    //     $this->setEnvParam("_output", $s);
-    // }
-    ///<summary></summary>
-    ///<param name="user"></param>
-    protected function setUser($user){
-        $this->setEnvParam(self::PAGE_USER, $user);
-    }
+    } 
+   
     ///<summary></summary>
     protected function storeUserSettings(){
         $settings=$this->getUserSettings();

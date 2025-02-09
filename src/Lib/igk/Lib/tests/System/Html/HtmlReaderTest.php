@@ -18,14 +18,16 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 
-class HtmlReaderTest extends BaseTestCase{
+class HtmlReaderTest extends BaseTestCase
+{
 
 
-    public function test_html_missing_p_close(){
+    public function test_html_missing_p_close()
+    {
         // + | --------------------------------------------------------------------
         // + | p must be clause .... 
         // + | 
-        $n = igk_create_notagnode();   
+        $n = igk_create_notagnode();
         $n->load(<<<'HTML'
 <body>
     <div class="tm-cta3-content-wrapper">
@@ -52,28 +54,29 @@ HTML);
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
-    public function test_html_reading_attr_link_reading(){
-        $n = igk_create_notagnode();   
+    public function test_html_reading_attr_link_reading()
+    {
+        $n = igk_create_notagnode();
         $n->load('<a d-f_0="y:100%;" d-f_0_mask="u:t;y:100%;" d-f_1="e:power0.in;">link</a>');
         $this->assertEquals(
             '<a d-f_0="y:100%;" d-f_0_mask="u:t;y:100%;" d-f_1="e:power0.in;">link</a>',
             $n->render(),
             "read comment style not ok"
         );
-
     }
-    public function test_html_reading_style_comment(){
-        $n = igk_create_notagnode();        
+    public function test_html_reading_style_comment()
+    {
+        $n = igk_create_notagnode();
         $n->load("<style>/** Mega Menu CSS: fs **/</style>");
         $this->assertEquals(
             "<style>/** Mega Menu CSS: fs **/</style>",
             $n->render(),
             "read comment style not ok"
         );
-
     }
 
-    function test_read_php_processor(){
+    function test_read_php_processor()
+    {
         // + | T  
         $n = igk_create_notagnode();
         $n->load("<?php\n echo 'bonjour';");
@@ -83,10 +86,11 @@ HTML);
             "read content"
         );
     }
-    function test_read_php_processor_with_comment(){
+    function test_read_php_processor_with_comment()
+    {
         // + | T  
         $n = igk_create_notagnode();
- 
+
         // $src = file_get_contents(igk_io_projectdir()."/L81/Views/dashboard/settings.phtml");
         $src = "<?php\necho 'bonjour';\n//\"\n\necho 'sample';";
         $n->load($src);
@@ -94,7 +98,7 @@ HTML);
             "<?php\necho 'bonjour';\n//\"\n\necho 'sample';",
             $n->render(),
             "read content"
-        ); 
+        );
         $this->assertStringEndsNotWith("\"", $src,  "comment files must not end with \"");
     }
 
@@ -106,116 +110,132 @@ HTML);
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
-    public function test_loading_content(){
-        
+    public function test_loading_content()
+    {
+
         $n = igk_create_node("div");
         $n->Content = "item <b>sample</b> info";
         $this->assertEquals(
             "<div>item <b>sample</b> info</div>",
             $n->render()
-        ); 
+        );
     }
 
-    public function test_loading_attr_expression(){
+    public function test_loading_attr_expression()
+    {
         $n = igk_create_node("div");
         $n->load("<div><igk:attr-expression id='info' /><igk:usesvg igk:args='data' title='data'/></div>");
         $this->assertEquals(
             '<div><div id="info"><span title="data"></span></div></div>',
             $n->render(),
             "not resolved"
-        ); 
+        );
     }
 
-    public function test_bind_expression(){
+    public function test_bind_expression()
+    {
         $n = igk_create_node("div");
         $c = new \IGK\System\Html\HtmlBindingContextOptions();
-        $c->transformToEval = true;  
+        $c->transformToEval = true;
         $n->load('<<?= $x ?>>info</<?= $x ?>>', $c);
         $this->assertEquals(
             '<div><<?= $x ?>>info</<?= $x ?>></div>',
             $n->render(),
             "not resolved"
-        ); 
+        );
     }
-    public function test_bind_expression_block(){
+    public function test_bind_expression_block()
+    {
         $n = igk_create_node("div");
         $c = new \IGK\System\Html\HtmlBindingContextOptions();
-        $c->transformToEval = true;  
+        $c->transformToEval = true;
         $n->load('<block-<?= $x ?>>info</block-<?= $x ?>>', $c);
         $this->assertEquals(
             '<div><block-<?= $x ?>>info</block-<?= $x ?>></div>',
             $n->render(),
             "not resolved"
-        ); 
+        );
     }
-    public function test_bind_expression_block_middle(){
+    public function test_bind_expression_block_middle()
+    {
         $n = igk_create_node("div");
         $c = new \IGK\System\Html\HtmlBindingContextOptions();
-        $c->transformToEval = true;  
+        $c->transformToEval = true;
         $n->load('<block-<?= $x ?>-sample>info</block-<?= $x ?>-sample>', $c);
         $this->assertEquals(
             '<div><block-<?= $x ?>-sample>info</block-<?= $x ?>-sample></div>',
             $n->render(),
             "not resolved"
-        ); 
+        );
     }
 
-    public function test_read_encapsed_branck(){
+    public function test_read_encapsed_branck()
+    {
         $pos = 0;
-       
+
         $str = <<<'EOF'
 'alert("Êtes l'avis ?")'
 EOF;
-$this->assertEquals(
-    "'alert(\"Êtes l'avis ?\")'",
-   igk_str_read_brank($str, $pos, "'", "'",null,true, true, '"')
-);
+        $this->assertEquals(
+            "'alert(\"Êtes l'avis ?\")'",
+            igk_str_read_brank($str, $pos, "'", "'", null, true, true, '"')
+        );
     }
-    public function test_read_encapsed_string(){
-        $n = igk_create_notagnode(); 
+    public function test_read_encapsed_string()
+    {
+        $n = igk_create_notagnode();
         $n->Content = (<<<EOF
 <a onClick='alert("Êtes-vous sûr de bien vouloir supprimer l'avis ?")'  href='supprimer_avis.php?id=16563' class='blog_link'>Supprimer</a>
 EOF);
         $this->assertEquals(
             '<a class="blog_link" href="supprimer_avis.php?id=16563" onClick="alert(&quot;Êtes-vous sûr de bien vouloir supprimer l\'avis ?&quot;)">Supprimer</a>',
             $n->render()
-        ); 
+        );
     }
 
-    public function test_read_empty_ignore(){
+    public function test_read_empty_ignore()
+    {
         $n = igk_create_notagnode();
-        $ldcontext = igk_createloading_context(SysDbController::ctrl(), []); 
+        $ldcontext = igk_createloading_context(SysDbController::ctrl(), []);
         $ldcontext->engineNode = $n;
 
         $n->Content = (<<<EOF
 <p>{{ \$raw->experience }}</p>
-EOF);      
+EOF);
 
-igk_html_article_bind_content(
-    $n, "<p>{{ \$raw->experience }}=Sample for what</p>", true, 
-    $ldcontext, "__dummy__", SysDbController::ctrl(), (object)[null], false
-);
+        igk_html_article_bind_content(
+            $n,
+            "<p>{{ \$raw->experience }}=Sample for what</p>",
+            true,
+            $ldcontext,
+            "__dummy__",
+            SysDbController::ctrl(),
+            (object)[null],
+            false
+        );
 
         $this->assertEquals(
             '<p>{{ $raw->experience }}</p><p>=Sample for what</p>',
             $n->render()
         );
     }
-    public function test_load_activate_attribute(){
+    public function test_load_activate_attribute()
+    {
         $n = igk_create_notagnode();
-     
+
         $n->load("<script scoped></script>");
- $r  =  $n->getElementsByTagName('script')[0];
+        $r  =  $n->getElementsByTagName('script')[0];
         $this->assertEquals(
             1,
             count($r->getAttributes()->to_array())
         );
     }
-    public function test_load_activate_attribute_2(){
+    public function test_load_activate_attribute_2()
+    {
         $n = igk_create_notagnode();
-        
+
         $n->load("<script scoped/>");
- $r  =  $n->getElementsByTagName('script')[0];
+        $r  =  $n->getElementsByTagName('script')[0];
         $this->assertEquals(
             1,
             count($r->getAttributes()->to_array())
@@ -232,41 +252,64 @@ igk_html_article_bind_content(
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
-    public function test_read_comment_with_single_cote(){
+    public function test_read_comment_with_single_cote()
+    {
         // end with line feed on not line fied
         $t = "<code>// creation d'un noeud simple</code>";
-        $n = igk_create_notagnode(); 
-        $n->load($t); 
+        $n = igk_create_notagnode();
+        $n->load($t);
         $this->assertEquals(
             "<code>// creation d'un noeud simple</code>",
             $n->render()
         );
     }
-    public function test_read_comment_with_single_cote_2(){      
-        $t = implode("\n", 
-        [
-            "<code>// creation d'un noeud simple",
-            "\$x= ''; // <div>information : ok </div>",
-            "</code>"
-        ]);
-        $n = igk_create_notagnode(); 
-        $n->load($t); 
-        $this->assertEquals($t,
+    public function test_read_comment_with_single_cote_2()
+    {
+        $t = implode(
+            "\n",
+            [
+                "<code>// creation d'un noeud simple",
+                "\$x= ''; // <div>information : ok </div>",
+                "</code>"
+            ]
+        );
+        $n = igk_create_notagnode();
+        $n->load($t);
+        $this->assertEquals(
+            $t,
             $n->render()
         );
     }
 
-    public function test_load_activate_attribute_list(){
-        $src = 
-        implode("\n", ['<div sample',
-        '    = "44"',
-        '    X',
-        '    y>',
-        '    x</div>']);
+    public function test_load_activate_attribute_list()
+    {
+        $src =
+            implode("\n", [
+                '<div sample',
+                '    = "44"',
+                '    X',
+                '    y>',
+                '    x</div>'
+            ]);
 
         $d = igk_create_node('p');
-$d->load($src);
+        $d->load($src);
 
         $this->assertEquals('<p><div X="true" sample="44" y="true"> x</div></p>', $d->render());
+    }
+
+    public function test_reading_data()
+    {
+        $src = implode("\n", [
+            '<Column',
+            'clIsUnique ="false"',
+            'clAutoIncrement ',
+            'clIsPrimary',
+            '></Column>'
+        ]);
+        $d = igk_create_node('p');
+        $d->load($src);
+
+        $this->assertEquals('<p><Column clAutoIncrement="true" clIsPrimary="true" clIsUnique="false"></Column></p>', $d->render());
     }
 }

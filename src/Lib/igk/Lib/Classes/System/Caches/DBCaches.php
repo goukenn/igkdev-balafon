@@ -178,9 +178,10 @@ class DBCaches
         $c = igk_getv($v_i->m_tableInfo, $table);
         if ($controller && $c) {
             // + | --------------------------------------------------------------------
-            // + | check matching 
+            // + | check matching - controller - root module will be a sysdb model
             // + |
-            if ($controller != $c->controller) {
+            if (!($controller instanceof SysDbController) && 
+                ($controller != $c->controller)) {
                 igk_die("db retrieve but controller not match");
             }
         }

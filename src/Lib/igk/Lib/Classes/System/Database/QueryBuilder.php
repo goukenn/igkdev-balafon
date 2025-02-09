@@ -315,7 +315,7 @@ class QueryBuilder
                     ],
                     $tc = $this->model()->queryColumns()
                 );
-                $this->m_options[QueryOptions::GROUP_BY] = $tc; //['clGuid'.' '];
+                $this->m_options[QueryOptions::GROUP_BY] = $tc;
             }
         }
         return $this->m_model->get_query($this->m_conditions, $this->m_options);
@@ -343,7 +343,7 @@ class QueryBuilder
      * @return null|IGK\Database\IDbFetchResult 
      * @throws IGKException 
      */
-    public function query_fetch()
+    public function query_fetch($options=null)
     {
         // + | --------------------------------------------------------------------
         // + | create a db fetch result to handle with a foreach in case no need to load every data
@@ -351,11 +351,15 @@ class QueryBuilder
 
         $driver = $this->m_model->getDataAdapter();
         $query = $this->get_query();
+        $options = $options ?? $this->m_options;
+        $res = null;
         $res = $driver->createFetchResult($query, null, $this->m_model->getDataAdapter());
-        $options = $this->m_options;
-        $driver->sendQuery($query, false, array_merge($options ?? [], [
+        $options = array_merge($options ?? [], [
             IGKQueryResult::RESULTHANDLER => $res
-        ]));
+        ]);
+        $driver->sendQuery($query, false, $options);
+        unset($options[IGKQueryResult::RESULTHANDLER]);
+        $res->options = $options;
         return $res;
     }
     /**

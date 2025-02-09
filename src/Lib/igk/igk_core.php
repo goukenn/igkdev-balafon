@@ -275,6 +275,24 @@ if (!function_exists('igk_getv')) {
         return igk_getpv($array, array($key), $default);
     }
 }
+
+if (!function_exists('igk_in')){
+    /**
+     * check for key presence in object or array
+     * @param mixed $obj 
+     * @param mixed $key 
+     * @return bool 
+     */
+    function igk_in($obj, $key){
+        if (is_object($obj)){
+            return property_exists($obj, $key);
+        }
+        if (is_array($obj)){
+            return key_exists($key, $obj);
+        }
+        return false;
+    }
+}
 if (!function_exists('igk_getv_nil')) {
     ///<summary>helper : get value or nil if empty</summary>
     ///<param name="default"helper : get value or nil if empty</param>
@@ -1999,12 +2017,13 @@ function igk_sys_getdefaultctrlconf()
  * @param mixed $cl 
  * @return ?ReflectionClass 
  */
-function igk_sys_reflect_class($cl)
+function igk_sys_reflect_class($cl, & $reference=null)
 {
     static $reflection;
     if (is_null($reflection)) {
         $reflection = [];
     }
+    $reference = $reflection;
     if (is_null($cl)) {
         return null;
     }
@@ -2023,6 +2042,10 @@ function igk_sys_reflect_class($cl)
     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
 }
 
+function igk_sys_reflect_class_unset($cl){
+    igk_sys_reflect_class(null,$reference);
+    unset($reference[$cl->getName()]);
+}
 if (!function_exists('igk_sys_reflect_get_constants')) {
     /**
      * reflect class get constants
@@ -2378,7 +2401,6 @@ function igk_set_header(int $code, $message = "", $headers = [])
     // the last one set the code status
     header($msg, 1, $code);
     $fcall = 1;
-    // igk_wln_e(__FILE__.":".__LINE__ , headers_list());
 }
 
 ///<summary>bind my how header</summary>

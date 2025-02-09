@@ -14,8 +14,22 @@ use IGKException;
  */
 class SchemaBuilderMigration{
     var $controller;
+    /**
+     * listerner call after
+     * @var mixed
+     */
     var $listener;
+    /**
+     * 
+     * @var mixed
+     */
     private $items; 
+
+    /**
+     * migration info listener 
+     * @var ?IMi
+     */
+    var $migrationListener;
     /**
      * use method to add migrations data 
      * @param mixed $name 
@@ -39,6 +53,7 @@ class SchemaBuilderMigration{
     public function upgrade(){
         if (!$this->items)return false;
         foreach($this->items as $c){
+            // passing migration info listener 
             $c->up();
         }
         if ($this->listener){

@@ -121,6 +121,12 @@ class HtmlRendererOptions
     var $renderingContext;
 
     /**
+     * skip node read flag when rendering engine is use 
+     * @var ?bool
+     */
+    var $skipEngineNode;
+
+    /**
      * skip tags list
      * @var ?array|callable 
      */

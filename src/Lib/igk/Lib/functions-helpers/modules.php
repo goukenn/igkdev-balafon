@@ -1,8 +1,10 @@
 <?php
 
 use IGK\Controllers\ApplicationModuleController;
+use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
+use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 
@@ -48,6 +50,20 @@ function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
 {
     return igk_require_module($modulename, $init, $loadall, 0);
 }
+
+if (!function_exists('igk_get_loaded_modules')){
+
+    /**
+     * get loaded required modules 
+     * @return mixed 
+     */
+    function igk_get_loaded_modules(){
+        $modules = igk_environment()->require_modules();
+        return $modules;
+    }
+}
+
+
 ///<summary>represent require module</summary>
 /**
  * /**
@@ -65,6 +81,7 @@ function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
  */
 function igk_require_module(string $modulename, callable $init = null, $loadall = 1, $die = 1, $name = null)
 {
+    $v_mod_key = IGKEnvironmentConstants::MODULES;
     $IGK_ENV = igk_environment();
     $g = &igk_environment()->require_modules();
     $mkey = igk_uri(strtolower($modulename));
@@ -72,7 +89,6 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
     $v_init_doc_method = \IGK\Controllers\ApplicationModuleController::INIT_METHOD;
     // igk_trace();
     if (isset($g[$mkey])) {
-       // igk_wln('binding.... ', __FILE__.":".__LINE__ , $mkey, $v_init_on_view, ViewHelper::CurrentCtrl());
         $mod = $g[$mkey];
         igk_bind_module($mod, $name);
         if ($init) {
@@ -81,13 +97,11 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             $gdoc = $mod->getEnvParam($v_init_doc_method);
             if (is_null($gdoc)) {
                 $doc = ViewHelper::CurrentDocument();
-                $mod->initDoc($doc);
-                $mod->getEnvParam($v_init_doc_method, $doc);
+                igk_module_init_doc($mod, $doc); 
             }
         }
         return $mod;
-    }
-    // igk_environment()->write_debug("load module : " . $modulename);
+    } 
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
     if (!file_exists($dir)) {
         if ($die) {
@@ -103,7 +117,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
 
     // $expected_time = 0.05;
     // Benchmark::mark("loading::" . $modulename);
-    igk_push_env(IGKEnvironmentConstants::MODULES, $modulename);
+    igk_push_env($v_mod_key, $modulename);
     $f = 0;
     $ext_regex = "/(.)*\.php$/";
     $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
@@ -169,13 +183,13 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             $excludedir
         );
     }
-    igk_pop_env(IGKEnvironmentConstants::MODULES);
+    igk_pop_env($v_mod_key);
     $mod = igk_init_module($modulename, $init);
     $g[$mkey] = $mod;
+    // + | ::file : used to store list of file to  
     if (igk_count($f) > 0) {
         $g["::files"][$mkey] = $f;
-    }
-    // :: Benchmark::expect("loading::" . $modulename, $expected_time);
+    } 
     igk_bind_module($mod, $name);
     return $mod;
 }
@@ -228,12 +242,27 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
     if ($initialize) {
         $dc = igk_ctrl_current_doc();
         if (!$init && (method_exists($ob, $v_meth) || $ob->supportMethod($v_meth)) && $dc) {
-            $ob->initDoc($dc);
-            $ob->setEnvParam($v_meth, $dc);
+            igk_module_init_doc($ob, $dc);  
         } else if ($init) {
             $init($ob, $dc);
         }
         $v_init->register($path, $ob);
     }
     return $ob;
+}
+
+
+// because initDoc only need to be call on view loading only once to initialize the document 
+function igk_module_init_doc(ApplicationModuleController $module, $doc){
+    $mod = & igk_environment()->require_modules();
+    $v_k = '::initDoc';
+    if (!isset($mod[$v_k])){
+        $mod[$v_k] = [];
+    }
+    $nk = strtolower($module->getName());
+    if (!isset($mod[$v_k][$nk])){ 
+        call_user_func_array([$module, $fc = 'initDoc'], [$doc]); 
+        $mod[$v_k][$nk] = 1;
+        $module->setEnvParam($fc, $doc);
+    }
 }

@@ -7,7 +7,8 @@
 // @desc: diagram helper 
 
 namespace IGK\Database\SchemaBuilder;
- 
+
+use IGK\Helper\Database;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
 
@@ -33,9 +34,7 @@ abstract class DiagramHelper{
                     if (!isset($cinfo->columnInfo[$v_n])){
                         // try to resolve 
                         $n = null;
-                        if ($cinfo->prefix){
-                            $n = $cinfo->prefix.$v_n;
-                        }
+                        $n = Database::AutoPrefixColumn($v_n, $cinfo->prefix);
                         if (!$n || !isset($cinfo->columnInfo[$n])){
                             throw new IGKException("column  [{$n}] not found");
                         }

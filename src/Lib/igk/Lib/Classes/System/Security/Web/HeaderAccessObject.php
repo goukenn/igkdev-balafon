@@ -16,6 +16,7 @@ use IGKException;
 class HeaderAccessObject{ 
     use ActivableTrait;
     const AUTH_BEARER = 'Bearer';
+    const AUTH_BASIC = 'Basic';
 
     /**
      * auth ?demand
@@ -46,13 +47,20 @@ class HeaderAccessObject{
         return $g[0];
     }
     /**
-     * retreive bearead token 
+     * retreive bearer token 
      * @return mixed 
      * @throws IGKException 
+     * @remark bearer token list
      */
     public function getBearerToken(){
         $g = explode(' ', $this->authorization);
         if ($g[0] == self::AUTH_BEARER){
+            return trim(igk_getv($g, 1, ''));
+        }
+    }
+    public function getBasicToken(){
+        $g = explode(' ', $this->authorization);
+        if ($g[0] == self::AUTH_BASIC){
             return trim(igk_getv($g, 1, ''));
         }
     }

@@ -30,7 +30,7 @@ class Colorize
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match){
         $match->begin("('|\")", "(?<!\\\\)\\1", "string");
         $match->begin("#", "$", "comment");
-        $match->match("\\d+(\.\d+)?", "number");
+        $match->match("\\d+(\.\d+)?(b|f)?", "number");
         $match->match("(\\{|\\[)", "marker");
         $match->match("(\\}|\\])", "emarker");
         $match->match("\b(null|true|false)\b", "words");

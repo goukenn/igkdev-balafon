@@ -77,6 +77,13 @@ final class Server implements IToArray{
     public static function ServerAddress(){
         return self::getInstance()->SERVER_ADDR;
     }
+    /**
+     * check server is url  encoded data
+     * @return bool 
+     */
+    public function isURLEncoded(){
+        return $this->CONTENT_TYPE == 'application/x-www-form-urlencoded';
+    }
     ///<summary></summary>
     /**
     * 

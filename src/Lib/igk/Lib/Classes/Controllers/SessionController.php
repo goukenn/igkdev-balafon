@@ -148,6 +148,7 @@ final class SessionController extends BaseController{
  
         $n=igk_get_cookie_name(igk_sys_domain_name()."/".Cookies::USER_ID);
         $rs=igk_getv($_COOKIE, $n);
+        $v_user_ctrl = igk_getctrl(IGK_USER_CTRL);
         if(!empty($rs)){ 
             try {
                 $uid = igk_getv(explode(':', $rs), 0);
@@ -158,16 +159,13 @@ final class SessionController extends BaseController{
                 if($v && ($v->clValue == $d)){
                     $r=igk_get_user($uid);
                     if($r){
-                        igk_getctrl(IGK_USER_CTRL)->setUser($r);
+                        $v_user_ctrl->setUser($r);
                         igk_user_store_tokenid($r);
                     }
-                } else {
-                    
+                } else { 
                     unset($_COOKIE[$rs]);
-                    igk_getctrl(IGK_USER_CTRL)->setUser(null);
-                    igk_clear_cookie('uid');
-                    // igk_wln_e("token not found".$n, $_COOKIE, $rs, $_SESSION);
-
+                    $v_user_ctrl->setUser(null);
+                    igk_clear_cookie('uid');  
                 } 
             }
             catch(\Exception $db){

@@ -16,10 +16,15 @@ use IGK\System\Http\RouteActionHandler;
 use IGK\Actions\ActionBase;
 use IGK\Actions\Traits\Authenticator\BearerAuthenticatorTrait;
 use IGK\Helper\ActionHelper;
+use IGK\Helper\StringUtility;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\Http\Helper\Response;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\StatusCode;
+use IGK\System\IO\File\PHPDocCommentParser;
+use IGK\System\IO\StringBlockReader;
+use IGKEvents;
 use IGKException;
 use Reflection;
 use ReflectionException;
@@ -79,7 +84,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             $token = null;
 
             if (in_array(BearerAuthenticatorTrait::class,  class_uses($this)) || method_exists($this, 'getUserFromToken')) {
-
+                // retrieve user from token 
                 if ($app_user = $this->getUserFromToken(true, $token)) {
                     if ($u = $this->userProfileFromApplicationUser($app_user)) {
                         $u = $u->model();
@@ -144,11 +149,17 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             }
             $proc = ["_" . $method, ""];
             $handle = false;
+            $v_user = $this->currentUser();
             while ((count($proc) > 0) && (($f = array_shift($proc)) !== null)) {
                 if (in_array($name . $f, $m)) {
                     $name = $name . $f;
+                    $v_refmethod = new ReflectionMethod($this, $name);
+                    // + | check for route not security 
+                    if (!$v_user) {
+                        self::CheckMethodAccess($this, $v_refmethod);
+                    }  
                     $handle = true;
-                    $arguments =  Dispatcher::GetInjectArgs(new ReflectionMethod($this, $name), $arguments, []);
+                    $arguments =  Dispatcher::GetInjectArgs($v_refmethod, $arguments, []);
                     return $this->$name(...$arguments);
                 }
             }
@@ -172,9 +183,25 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             // + | --------------------------------------------------------------------
             // + | must use the route technique to validate the path
             // + | 
+            $ctrl = $this->getController();
             foreach ($routes as $v) {
                 if ($v->match($path, $method)) {
                     $redirect =  $v->getRedirectTo();
+                    $security = $v->getSecurity();
+                    if (!$user && $security) {
+                        $ack = (object)[
+                            'security' => $security,
+                            'access' => false,
+                            'controller' => $ctrl
+                        ];
+                        igk_hook(IGKEvents::HOOK_MIDDLEWARE_ACTION, $ack);
+                        if (!$ack->access) {
+                            throw new IGKException("User required security missing.", RequestResponseCode::Forbiden);
+                        }
+                        $ctrl->checkUser(false, null);
+
+                        $this->user = $user = Users::currentUser();
+                    }
                     if ($v->isUserRequired()) {
                         if (!$user) {
                             $m = "User required.";
@@ -235,6 +262,43 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments);
     }
+    private static function CheckMethodAccess($host, ReflectionMethod $v_refmethod)
+    {
+        if ($comment = $v_refmethod->getDocComment()) {
+            $p = PHPDocCommentParser::ParsePhpDocComment($comment);
+            if ($security = $p->security) { 
+                $reader = new StringBlockReader;
+                $reader->start = '(';
+                $reader->end = ')';  
+                $src =  $reader->read($security);
+                $args = StringUtility::ReadArgs($src); 
+
+                $ack = (object)[
+                    'security' => null,
+                    'access' => false,
+                    'controller' => $host->getController()
+                ];  
+                while(  !$ack->access  && (count($args)>0)){
+                    $t = array_shift($args);
+                    if (!is_array($t))
+                        $t = [$t];  
+                    foreach($t as $sec){
+                        $ack->security = $sec; 
+                        igk_hook(IGKEvents::HOOK_MIDDLEWARE_ACTION, $ack);
+                        if ($ack->access){
+                            break;
+                        }
+                    }
+                }
+                if (!$ack->access) {
+                    throw new IGKException("User required security missing.2", RequestResponseCode::Forbiden);
+                } 
+                return true;
+            } 
+        }  
+        return false;
+    }
+
     /**
      * redirect code 
      * @param mixed $url 

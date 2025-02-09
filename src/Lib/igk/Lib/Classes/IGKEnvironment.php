@@ -136,7 +136,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     public function write_debug(string $message)
     {
         $d = &$this->createArray("debug_load");
-        $d[] = "<span>" . (count($d) + 1) . "</span> " . $message;
+        $d[] = "<span class=\"debug-c\">" . (count($d) + 1) . "</span>" . $message;
     }
     /**
      * get peek environment context 
@@ -464,18 +464,26 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         return self::$sm_instance;
     }
 
-    public function is_mod_enabled($module)
+    /**
+     * is apache module enable 
+     * @param mixed $module 
+     * @return bool 
+     */
+    public function is_mod_enabled(string $module)
     {
         return igk_apache_module($module);
     }
-
+    /**
+     * environment required module 
+     * @return mixed 
+     */
     public function &require_modules()
     {
         $k = IGKEnvironmentConstants::REQUIRE_MODULES;
-        $v_k = &$this->get($k);
+        $v_k = & $this->get($k);
         if (!$v_k) {
             $v_k = [];
-            $this->m_envs[$k] = &$v_k;
+            $this->m_envs[$k] = & $v_k;
         }
         return $v_k;
     }

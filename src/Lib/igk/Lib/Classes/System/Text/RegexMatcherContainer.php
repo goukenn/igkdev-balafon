@@ -133,14 +133,13 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     /**
      * do end operation 
      * @param RegexTreatMatchInfo $info object info class 
-     * @param mixed $source 
+     * @param string $source 
      * @param int &$offset 
      * @return object|RegexMatcherCapture|void 
      * @throws Exception 
      */
-    public function end($info, $source, int &$offset = 0)
+    public function end($info, string $source, int &$offset = 0)
     {
-
         $e = $this->_treatEnd($info, $source, $offset);
         if ($e) {
             // + | --------------------------------------------------------------------
@@ -282,6 +281,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             $v_continue = false;
                             $r = $this->_handleComparedMatchItem($info, $compared_end, $offset, $v_continue);
                             if ($r) {
+                                // + | update match pattern value 
+                                $r->value = substr($source, $r->from, $r->to-$r->from);
                                 return $r;
                             }
                             // go back to current pos then check end 
@@ -514,12 +515,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 'tokenID' => $v_id,
                 'from' => $l->pos,
                 'to' => $n,
-                'value' => '',
+                'value' =>  null,
                 'beginCaptures' => $info->captures,
                 'endCaptures' => null,
                 'parentInfo' => $info
-            ]);
-            igk_die('not handle');
+            ]); 
         }
         $v_continue = true;
     }
@@ -578,6 +578,19 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $tab = [];
         $TLen = strlen($source);
         $next_line = $offset < $TLen ? strpos($source, "\n", $offset) : false;
+
+        if ($start_line && $end_line){
+            if ($offset==0){
+                $sline = substr($source, 0, $next_line);
+                if (preg_match($regex, $sline, $tab, PREG_OFFSET_CAPTURE, 0)) {
+                    // update offset
+                    self::_UpdateTabOffset($tab, $offset);
+                    $result[] = $tab;
+                }
+            }
+        }
+
+
         if ($start_line && ($offset < $TLen)) {
             // + | get next line  
             $coffset = $offset;
@@ -594,14 +607,16 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $coffset = $offset>0?$next_line: 1;
             $j = substr($source, $offset, abs($coffset - $offset));
             // check if continue line match 
+            $lc = false;
             if (!trim($j) && ($regex == self::REGEX_CONTINUES_EMPTY_LINE)){
                 $ln = $coffset; 
                 while(($pos = strpos($source,"\n",$ln)) && (preg_match($regex,substr($source, $offset, $pos-$offset)))){
                     $ln = $pos+1; 
                 }
                 $j = substr($source, $offset, $ln - $offset);  
+                $lc = true;
             }  
-            if (strlen($j) && preg_match($regex, $j, $tab, PREG_OFFSET_CAPTURE, 0)) {
+            if ( (!$lc || strlen($j)) && preg_match($regex, $j, $tab, PREG_OFFSET_CAPTURE, 0)) {
                 // update offset
                 self::_UpdateTabOffset($tab, $offset);
                 $result[] = $tab;
@@ -775,6 +790,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         while ($detect) {
             $detect = false;
             foreach ($m as $k) {
+                if (is_array($k)){
+                    // create an object
+                    $k = (object)$k;
+                }
                 if (!isset($k->type)){
                     $k->type = RegexMatcherUtility::GetPatternType($k); 
                 }
@@ -833,7 +852,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 return $r;
             }
             if ($next_line && ($toffset !== false)) {
-                $offset = $toffset + 1;
+                $offset = $toffset;// + 1;
                 $detect = $ln > $offset;
             } else
                 $offset = strlen($source);

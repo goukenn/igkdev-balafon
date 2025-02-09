@@ -523,15 +523,22 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             $g[$name]=$value;
         $this->{"REDIREC_TASK"}=$g;
     }
+    /**
+     * just logout 
+     * @return void 
+     */
+    public function logout(){
+        $this->setParam(self::SESS_USER_KEY, null);
+    }
     ///<summary></summary>
     ///<param name="user"></param>
     ///<param name="context"></param>
     /**
-    * 
+    * set user 
     * @param mixed $user
-    * @param mixed $context
+    * @param mixed $context require context only USER_CTRL can call this method
     */
-    public function setUser($user, $context){
+    public function setUser($user, $context){  
         $u=$this->getUser();
     
         if(($context !== null) && ($context == igk_getctrl(IGK_USER_CTRL))){

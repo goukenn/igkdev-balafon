@@ -227,6 +227,6 @@ class Route
      * @return mixed 
      */
     public static function user(): ?IUserProfile{
-        return self::$sm_controller ? self::$sm_controller->getUser() : null;
+        return self::$sm_controller ? self::$sm_controller->getUserProfile() : null;
     }
 }

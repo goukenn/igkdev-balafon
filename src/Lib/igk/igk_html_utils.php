@@ -44,16 +44,18 @@ if (!function_exists('igk_create_rnode')) {
 }
 ///<summary>pre render argument</summary>
 /**
- * pre tag direct print
+ * rendere pre tag direct print
  * @return void 
  */
 function igk_html_pre()
 {
-    echo "<pre>";
-    foreach (func_get_args() as $k) {
+    $tag='pre';
+    $tab = func_get_args();
+    echo "<{$tag}>";
+    foreach ($tab as $k) {
         print_r($k);
     }
-    echo "</pre>";
+    echo "</{$tag}>";
 }
 
 /**

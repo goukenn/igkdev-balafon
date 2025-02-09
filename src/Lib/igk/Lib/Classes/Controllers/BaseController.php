@@ -101,7 +101,8 @@ use function igk_resources_gets as __;
  * @method static bool getIsVisible() macros function
  * @method static void getRouteUri() macros functiong
  * @method static void getTestClassesDir() macros function
- * @method static ?\IGK\System\Database\IUserProfile getUser() macros function get controller user profile
+ * @method static ?\IGK\System\Database\IUserProfile getUser() macros function user model
+ * @method static ?\IGK\System\Database\IUserProfile getUserProfile() macros get use profile 
  * @method static void array getViewArgs() macros function
  * @method static string hookName() macros function get hook name
  * @method static void initDbConstantFiles() macros function

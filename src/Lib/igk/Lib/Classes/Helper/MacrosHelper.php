@@ -44,10 +44,13 @@ class MacrosHelper
                     $q = $this;
                     return self::GetAuth($q, $auths, $strict);                    
                 },
-                "currentUser"=>function()
-                {
+                /**
+                 * retrieve current user from cache .... 
+                 */
+                "currentUser"=>function(){
                     if ($u = igk_app()->session->getUser()){
-                        return \IGK\Models\Users::createFromCache($u, null);
+                        $l = \IGK\Models\Users::createFromCache($u, null); 
+                        return $l;
                     }
                     return null;
                 },
@@ -71,6 +74,9 @@ class MacrosHelper
      * @return bool 
      */
     private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
+        /**
+         * @var mixed $b
+         */
         /// MARK: auth users 
         // if (igk_environment()->isDev())
         //     return true;
@@ -94,10 +100,9 @@ class MacrosHelper
             $g = [];
             if ($q->clId !==null){
                 if ($b = $user->auths()) {
-                    // ::getUserAuths($q->clId)
                     foreach ($b as $t) {
                         $g[] = $t->name;
-                    } 
+                    }
                 }
                 $q->set($key, $g);
             } else 

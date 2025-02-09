@@ -34,6 +34,12 @@ class WebFileResponse extends RequestResponse{
      */
     var $content_type;
 
+    /**
+     * cache output 
+     * @var int?
+     */
+    var $cache;
+
     public function __construct(string $file, ?string $content_type=null)
     {
         $this->file = $file;
@@ -56,6 +62,14 @@ class WebFileResponse extends RequestResponse{
         if ($this->zip){
             $this->headers[] = "Content-Encoding: deflate";
         } 
+        if ($this->cache){
+            $second = $this->cache;
+            $ts = gmdate("D, d M Y H:i:s", time() + $second) . " GMT";
+            $this->headers[] = ("Expires: {$ts}");
+            $this->headers[] = ("Pragma: cache");
+            $this->headers[] = ("Cache-Control: max-age={$second}, public, immutable");
+        }
+
         if ($type = igk_io_path_ext($this->file)){
             // replace header from mime type 
             $mime = igk_header_mime();

@@ -921,7 +921,7 @@ IDataDriverCharsetSupport
                     if (!is_bool($r)) {
                         $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
                     } else {
-                        $v = $r;
+                        // $v = $r;
                         $r = new BooleanQueryResult($r, $query, $listener->getLastError());
                     }
                 }

@@ -15,10 +15,21 @@ use IGKHtmlCommentItem;
 
 /** @package  */
 abstract class SchemaMigrationItemBase{
-    private $migration;
+    private $m_migration;
     protected $raw;
-    protected $fill_properties;
+    protected $fill_properties; 
 
+    /**
+     * 
+     * @return ?ISchemaMigrationInfoListener 
+     */
+    public function getMigrationInfoListener(){
+        if ($mig = $this->getMigration()){
+            return $mig->migrationListener;
+        }
+        return null;
+
+    }
     public function __isset($name){
         return  property_exists($this->raw, $name);
     }
@@ -26,10 +37,10 @@ abstract class SchemaMigrationItemBase{
         return igk_getv($this->raw, $name);
     }
     public function getMigration(){
-        return $this->migration;
+        return $this->m_migration;
     }
     function __construct(SchemaBuilderMigration $migration){
-        $this->migration = $migration;
+        $this->m_migration = $migration;
     }
     public function load($node){  
         $this->raw = igk_get_robjs($this->fill_properties, 0, $node->getAttributes()->to_array());
@@ -40,9 +51,18 @@ abstract class SchemaMigrationItemBase{
         $this->loadChilds($tab);
         return $this;
     }
+    /**
+     * check for requiement 
+     * @return bool|mixed
+     * @throws \Exception on requirement failed
+     */
     protected function checkRequirement(){
-
     }
+    /**
+     * load children definition
+     * @param mixed $childs 
+     * @return void 
+     */
     protected function loadChilds($childs){
 
     }

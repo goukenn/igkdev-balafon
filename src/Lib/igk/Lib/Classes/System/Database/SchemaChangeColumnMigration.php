@@ -7,8 +7,13 @@
 
 namespace IGK\System\Database;
 
+use Exception;
 use IGK\Database\DbColumnInfo;
+use IGK\Database\DbSchemas;
 use IGK\Helper\Activator;
+use IGK\Helper\Database;
+use IGK\System\Caches\DBCaches;
+use IGK\System\Console\App;
 use IGK\System\Console\Logger;
 
 class SchemaChangeColumnMigration extends SchemaMigrationItemBase
@@ -18,6 +23,16 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
     var $columnInfo;
     private $columns;
 
+
+    public function __construct($migrations)
+    {
+        parent::__construct($migrations);
+    }
+    /**
+     * up migrate 
+     * @return void 
+     * @throws Exception 
+     */
     public function up()
     {
         if (!$this->columnInfo) {
@@ -28,25 +43,51 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             Logger::danger("missing target column");
             return;
         }
-        $table  = $this->table; 
+        $table  = $this->table;
+
         // if ('clUser_Id' == $this->columnInfo->clName){
         //     Logger::warn(__FILE__.":".__LINE__ . " change ... ");
         // }
-        Logger::info(sprintf('change column - %s.%s - tag: [%s]', $table, $this->columnInfo->clName, $this->tag));
+        Logger::info(App::Gets(APP::BLUE_B, '[ db: change column ] ') . sprintf(' - %s.%s - tag: [%s]', $table, $this->columnInfo->clName, $this->tag));
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
+        // $tinfo = DbSchemas::GetTableRowReference($tb, $ctrl);
+        $migration = $this->getMigration();
         $cinfo = $this->columns[0];
+
         if (empty($cinfo->clName))
             $cinfo->clName = $this->column;
 
         if (empty($cinfo->clName)) {
             igk_die('missconfiguration. change column migration missing column name ' . $tb);
         }
+        $v_column = $this->column;
+
+        if (($mig = $migration->migrationListener) instanceof ISchemaMigrationInfoListener){
+            // treat info 
+            // 
+            $v_defTable = $mig->getTableSchemaFileDefinition($tb);
+            $v_prefix = $v_defTable->prefix;
+            // 
+            $cinfo->clName = Database::AutoPrefixColumn($cinfo->clName, $v_prefix);
+            if($link = $cinfo->clLinkColumn){
+                $ltab = $mig->getTableSchemaFileDefinition($cinfo->clLinkType);
+
+
+                    $link = Database::AutoPrefixColumn( $link, $ltab->prefix); 
+                $cinfo->clLinkColumn = $link;
+            }
+            $v_column = Database::AutoPrefixColumn($v_column, $v_prefix);
+
+        }
+
+        // treat column info defintion ; cause of prefix attached to table 
+
 
         try {
-            if ($cinfo->clName != $this->column) {
+            if ($cinfo->clName != $v_column) {
                 // rename first 
-                $ctrl::db_rename_column($tb, $this->column, $cinfo->clName);
+                $ctrl::db_rename_column($tb, $v_column, $cinfo->clName);
             }
             $ctrl::db_change_column($tb, $cinfo);
         } catch (\Exception $ex) {
@@ -54,6 +95,10 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             Logger::danger($ex->getMessage());
         }
     }
+    /**
+     * down migrate
+     * @return void 
+     */
     public function down()
     {
         if (!$this->columnInfo)
@@ -63,6 +108,11 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
         $ctrl::db_change_column($tb, $this->columnInfo);
     }
 
+    /**
+     * load child definitions 
+     * @param mixed $childs 
+     * @return void 
+     */
     protected function loadChilds($childs)
     {
         $this->columns = [];

@@ -82,6 +82,7 @@ use IGK\System\Http\RequestHandler;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\CSV\Helper\CSVHelper;
+use IGK\System\IO\File\IniFile;
 use IGK\System\Regex\Replacement;
 
 
@@ -9006,10 +9007,10 @@ function igk_get_module_name(string $dir)
     }
     return null;
 }
-///<summary>retrieve the active installed module</summary>
+///<summary>shortcut: retrieve the active installed module</summary>
 ///<note>only module with module.json file in root folder.</note>
 /**
- * retrieve the active installed module.
+ * shortcut: retrieve the active installed module
  */
 function igk_get_modules()
 {
@@ -9605,8 +9606,7 @@ function igk_get_type($n)
  * 
  * @param mixed $uid 
  */
-function igk_get_user($uid, ?array $options = null)
-{
+function igk_get_user($uid, ?array $options = null){
     return IGK\Models\Users::select_row($uid, $options);
 }
 ///<summary></summary>
@@ -24817,8 +24817,12 @@ function igk_user_set_info($inf, $data, $uid = null, $cardinality = 0, $type = 1
     $v_n = $r->clCardinality;
     $v_kkt = array("clUserInfoType_Id" => $r->clId, "clUser_Id" => $u->clId);
     $model = \IGK\Models\UserInfos::model();
-    $v_q = $model::select_all($v_kkt); //
+    $_uinfo_table = $model->table();
+    $v_q = $model::select_all($v_kkt);  // return an array 
     $v_kkt["clValue"] = $data;
+
+
+
     switch ($r->clType) {
         case 1:
             if (!empty($r->clDataType)) {
@@ -24844,12 +24848,12 @@ function igk_user_set_info($inf, $data, $uid = null, $cardinality = 0, $type = 1
     switch ($v_n) {
         case 0:
             break;
-        case 1:
-            if ($v_q->RowCount > 0) {
-                if ($v_q->RowCount == 1) {
-                    $r = $v_q->getRowAtIndex(0);
+        case 1:  
+            if ($v_q && (($tc = count($v_q)) > 0)) {
+                if ($tc == 1) {
+                    $r = igk_getv($v_q, 0);  
                     $r->clValue = $data;
-                    igk_db_update($ctrl, igk_db_get_table_name(IGK_TB_USER_INFOS), $r);
+                    igk_db_update($ctrl,$_uinfo_table, $r);
                     return true;
                 } else
                     igk_log_write_i(__FUNCTION__, "DataBaseStructure Error : data will not be inserted");
@@ -24881,6 +24885,8 @@ function igk_user_store_tokenid($u)
 {
     if (igk_environment()->NO_SESSION)
         return;
+
+
     $id = igk_create_cref();
     setcookie(igk_get_cookie_name(igk_sys_domain_name() . "/" . Cookies::USER_ID), $u->clId . ":" . $id, time() + (86400 * 7), igk_get_cookie_path());
     igk_user_set_info("TOKENID", $id, 1, 1);
@@ -26261,5 +26267,48 @@ if (!function_exists('igk_template_create_ctrl')) {
     function igk_template_create_ctrl($n)
     {
         return null;
+    }
+}
+
+
+if (!function_exists('igk_load_env')) {
+    /** 
+     * load .env setting as init file 
+     * @param string $app_dir 
+     * @param ?string $mode environment mode
+     * @return array 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    function igk_load_env($app_dir = null, $mode = null)
+    {
+        $app_dir = $app_dir ?? igk_io_basedir();
+        if (is_null($mode)) {
+            $mode = igk_environment()->isDev() ? 'development' : 'production';
+        }
+        $dir = $app_dir;
+        $mode = [$mode, ''];
+        $config = [];
+        while ($dir) {
+            $load = false;
+            foreach ($mode as $m) {
+                $path = Path::Combine($dir, ".env") . ($m ? '.' . $m : '');
+                if (file_exists($path)) {
+                    $r = IniFile::LoadConfig($path);
+                    $config = array_merge($r->to_array(), $config);
+                    $load = true;
+                }
+            }
+            if ($load)
+                break;
+            $dir = dirname($dir);
+            if ($dir == '/') {
+                break;
+            }
+        }
+        foreach ($config as $k => $v) {
+            putenv(sprintf('%s=%s', $k, $v));
+        }
+        return $config;
     }
 }

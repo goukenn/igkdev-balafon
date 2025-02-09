@@ -6,10 +6,15 @@
 
 namespace IGK\Helper;
 
-use IGK\Actions\IActionRequestValidator;
+use Exception;
+use IGK\Actions\IActionRequestValidator; 
 use IGK\System\Http\IContentSecurityProvider;
-use IGK\System\Http\Request;
+use IGK\System\IToArray;
+use IGK\System\IToJSon;
+use IGK\System\Text\RegexMatcherContainer;
+use IGK\System\Traits\DynamicActivableTrait;
 use IGKException;
+use JsonSerializable;
 
 /**
  * 
@@ -17,6 +22,143 @@ use IGKException;
  */
 class Activator
 {
+    private static $sm_dyn_sources;
+    private static $sm_dyn_class;
+
+    /**
+     * register class source 
+     * @param string $interface 
+     * @return true|void 
+     */
+    private static function __GetClassSrc(string $interface){
+        if (is_null(self::$sm_dyn_sources)){
+            self::$sm_dyn_sources = [];
+        }
+        if (isset(self::$sm_dyn_sources[$interface])){
+            return true;
+        }
+        $nuclass = basename(igk_dir($interface)); 
+        $p = strtolower('___igk_dynamic_class_'.$nuclass);
+        if(is_null(self::$sm_dyn_class)){
+            self::$sm_dyn_class = [];
+        }
+        if (isset(self::$sm_dyn_class[$p])){
+            $p .= '_'.(self::$sm_dyn_class[$p]++);
+        }else{
+            self::$sm_dyn_class[$p] = 1;  
+        }
+
+        $dyn_trait = DynamicActivableTrait::class;
+        $ref = [];
+        $ref[] = JsonSerializable::class;
+        $ref[] = IToArray::class;
+        $ref[] = IToJSon::class;
+        $ref[] = $interface;
+      $ref = implode(", ", $ref );
+        $src = <<<EF
+?><?php
+final class {$p} implements {$ref}{
+    use {$dyn_trait};
+    public function __construct(& \$d){
+        \$this->data = \$d;
+    } 
+} 
+EF;
+        self::$sm_dyn_sources[$interface] = [$src, $p];
+        eval($src); 
+    }
+    /**
+     * 
+     * @param string $interface 
+     * @param mixed $resolver 
+     * @return object 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public static function CreateFromInterface(string $interface, $resolver=null){
+        $root = $g = igk_sys_reflect_class($interface);
+        $properties = [];
+        // create a container that will handle component 
+        $container = new RegexMatcherContainer;
+        $patterns = [
+            ["match"=>"(?i)\\$[a-z_][a-z0-9_]*\b", "tokenID"=>"name"],
+            ["match"=>"\b\w+(\s*\|\s*\w+)*\b", "tokenID"=>"type"],
+        ];
+        $container->begin('@property\\b', '$', 'prop-detect', null, $patterns);
+        $resolver = $resolver ?? function(){return null;};
+        
+        $v_handler =  function($comment) use($container, & $properties, $resolver){
+            $offset = 0;
+             /**
+             * @var ?string
+             */
+            $type = null;
+            /**
+             * @var ?string
+             */
+            $name = null;
+            while($g = $container->detect($comment, $offset)){ 
+               if( $e = $container->end($g, $comment, $offset)){
+                    switch($e->tokenID){
+                        case 'type':                   
+                            if (!$type){
+                                $type = $e->value;
+                            }
+                        break;
+                        case 'name':
+                            $name = $e->value;
+                            break;
+                        default:
+                        $properties[substr($name, 1)] = $resolver($type);
+                        $name = $type = null;
+                        break;
+                    }
+                    // Logger::print("sample : ".$e->tokenID . " value=[".$e->value.']');
+               }
+            }
+        };
+        $v_load = [];
+        $tq = [$g];
+        while(count($tq)>0){
+            $g = array_shift($tq);
+            if ($comment = $g->getDocComment()){ 
+                $v_handler($comment);
+            }
+            if ($g->isInterface()){
+                // 
+                foreach($g->getInterfaceNames() as $r){
+                    if (!isset($v_load[$r])){
+                        array_unshift($tq, igk_sys_reflect_class($r));
+                    }
+                }
+            } else {
+                $cv = get_class_vars($g->getName());
+                foreach($cv as $k=>$value){
+                    $properties[$k] = $value;
+                }
+                foreach($g->getInterfaceNames() as $r){
+                    if (!isset($v_load[$r])){
+                        array_unshift($tq, igk_sys_reflect_class($r));
+                    }
+                }
+                if($c = $g->getParentClass()){
+                    if (!isset($v_load[$c])){
+                        array_unshift($tq, igk_sys_reflect_class($c));
+                    } 
+                }
+            }
+        } 
+        ksort($properties);
+        if ($root->isInterface()){
+            $cl = $root->getName();
+            self::__GetClassSrc($cl);
+            if ($_dyn_cl =  igk_getv(self::$sm_dyn_sources[$cl], 1)){
+                return new $_dyn_cl($properties);
+            }
+        }
+
+        return (object)$properties;
+    }
     /**
      * use to get only public class variable. of the a class
      * @param mixed $class_name 

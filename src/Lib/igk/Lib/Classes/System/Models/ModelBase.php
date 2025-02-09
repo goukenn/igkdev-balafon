@@ -8,6 +8,7 @@ namespace IGK\System\Models;
 
 use ArrayAccess;
 use Closure;
+use Error;
 use Exception;
 use IGK\Actions\Dispatcher;
 use IGK\Controllers\BaseController;
@@ -453,6 +454,19 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             $this->controller = $tab[$tb]->referenceController;
         }
     }
+    /**
+     * initialize the model
+     * @param mixed $raw 
+     * @param int $mock 
+     * @param bool $unset 
+     * @return void 
+     * @throws IGKException 
+     * @throws Error 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function _initialize($raw = null, $mock = 0, $unset = false)
     {
         $t =  $this->getTable();

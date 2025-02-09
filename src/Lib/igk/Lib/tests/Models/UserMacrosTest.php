@@ -53,12 +53,7 @@ class UserMacrosTest /*extends BaseTestCase*/{
         $table =  $model->table();
         $info = $model->getTableColumnInfo();
 
-        // $query = $ad->getGrammar()->createInsertQuery($table, [
-        //     'clLogin'=>$tdata->email,
-        //     'clPwd'=>$tdata->password,
-        //     'clGuid'=>'',
-
-        // ], $info );
+        
         $c = igk_environment()->name();
         $query = null;
         $ts = $model::Register([

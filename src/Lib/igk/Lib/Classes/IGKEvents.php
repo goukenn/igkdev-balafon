@@ -145,6 +145,7 @@ class IGKEvents extends IGKObject
      */
     const COMMAND_HELP_OPTIONS_HOOK = 'command:help/options';
     const COMMAND_HELP_HOOK = 'command:help';
+    const HOOK_MIDDLEWARE_ACTION = 'MiddleWareAction';
 
     
     const VIEWCOMPLETE = 0x1;

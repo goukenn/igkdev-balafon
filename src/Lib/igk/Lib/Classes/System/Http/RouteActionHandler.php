@@ -20,7 +20,7 @@ use IGKException;
  * @package IGK\System\Http
  */
 class RouteActionHandler extends RouteHandler
-{
+{ 
     /**
      * store def access
      * @var mixed
@@ -65,6 +65,7 @@ class RouteActionHandler extends RouteHandler
         $this->type = $type;
         $this->verbs = is_string($verb) ? array_map("trim", explode(',', $verb)) : (is_array($verb) ? $verb : ['*']);
         $this->ajx = false;
+        $this->security = null;
     }
     /**
      * get request uri info

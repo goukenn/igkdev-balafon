@@ -69,6 +69,12 @@ abstract class IGKSysUtil
         }
         return null; 
     }
+    /**
+     * 
+     * @param mixed $data 
+     * @param mixed $prefix 
+     * @return string 
+     */
     public static function Encrypt($data, $prefix = null)
     {
         if ($prefix === null) {

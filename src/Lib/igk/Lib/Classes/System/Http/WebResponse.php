@@ -85,11 +85,8 @@ class WebResponse extends RequestResponse{
         
         ob_start();   
         $this->render();
-        $s = ob_get_clean(); 
-        /// TODO: disable gzip    
-    
-        $v_zip = $zip = 0;//igk_server()->accepts(["gzip"]);
-      // igk_wln_e("response ....");
+        $s = ob_get_clean();  
+        $v_zip = $zip = 0; 
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI

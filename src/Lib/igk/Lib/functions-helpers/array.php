@@ -19,6 +19,25 @@ if (!function_exists("igk_array_find_first")) {
     }
 }
 
+if (!function_exists('igk_array_pad')){
+    /**
+     * trucate array or append to max length
+     * @param mixed $array 
+     * @param int $length 
+     * @param mixed $default 
+     * @return mixed 
+     */
+    function igk_array_pad($array, int $length, $default=null){
+        if (count($array)>$length){
+            return array_slice($array, 0, $length);
+        }
+        while(count($array)<$length){
+            array_push($array, $default);
+        };
+        return $array;
+    }
+}
+
 if (!function_exists("igk_array_copy")) {
     ///<summary></summary>
     ///<param name="$c"></param>

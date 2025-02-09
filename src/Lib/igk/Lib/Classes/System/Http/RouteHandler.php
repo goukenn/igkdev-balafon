@@ -49,6 +49,12 @@ class RouteHandler
     protected $path;
 
     /**
+     * attach secutiry on route 
+     * @var null|'BasicAuth'|'BearerAuth'
+     */
+    protected $security;
+
+    /**
      * controller or route class handler
      */
     protected $controller;
@@ -152,6 +158,13 @@ class RouteHandler
     {
         $this->user = $user;
         return $this;
+    }
+    /**
+     * get the security
+     * @return null|'BasicAuth'|'BearerAuth' 
+     */
+    public function getSecurity(){
+        return $this->security;
     }
     /**
      * return the selected use
@@ -367,6 +380,11 @@ class RouteHandler
     {
         $this->auth = $name;
         $this->auth_requirement = $strict;
+        return $this;
+    }
+    public function security($name){
+        if (is_null($name) || in_array($name, ['BearerAuth','BasicAuth']))
+            $this->security = $name;
         return $this;
     }
     /**

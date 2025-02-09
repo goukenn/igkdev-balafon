@@ -12,8 +12,8 @@
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Server;
-use IGK\System\Http\RequestHandler; 
- 
+use IGK\System\Http\RequestHandler;
+use IGK\System\Http\RequestResponseCode;
 
 IGKRoutes::Register("^/favicon.ico[%q%]", function(){  
     igk_set_header(200, 

@@ -96,6 +96,8 @@ class MakeActionCommand extends AppExecCommand{
         if ((($pos = strrpos(strtolower($macroName), 'action'))>0) && (($pos+6)==strlen($macroName))){
             $macroName = substr($macroName,0, -6);
         }
+        $macroName = preg_replace("/[^a-z0-9\/]/i","", $macroName);
+
 
         $path = $macroName;
         $tcl =  explode("/", StringUtility::Uri($path ));

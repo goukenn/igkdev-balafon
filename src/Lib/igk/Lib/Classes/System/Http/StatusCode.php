@@ -4,17 +4,28 @@ namespace IGK\System\Http;
 // @author: C.A.D. BONDJE DOUE
 // @filename: StatusCode.php
 // @date: 20220311 08:32:47
-// @desc: 
+// @desc: store status code definitions 
 
+/**
+ * 
+ * @package IGK\System\Http
+ */
 class StatusCode
 {
+    const BAD_REQUEST = 400;
+    const UNAUTHORIZED = 401;
+    const FORBIDEN = 403;
 
     public static function GetStatus(int $code)
     {
         static $t = null;
         if ($t === null) {
             $protocol = igk_server()->SERVER_PROTOCOL ?? "HTTP/1.0";
-            $t = array(
+            $t = array( 
+                204 => "{$protocol} 204 No Content", 
+                301 => "{$protocol} 301 Move to new location",
+                302 => "{$protocol} 302 Found",
+                303 => "-",
                 400 => "{$protocol} 400 Bad request.",
                 401 => "{$protocol} 401 unauthorized",
                 402 => "{$protocol} 402 payement required",
@@ -34,13 +45,8 @@ class StatusCode
                 504 => "{$protocol} 504 Service not available",
                 505 => "{$protocol} 505 Version not supported"
             );
-        }
-        $defCodeMSG = igk_server()->SERVER_PROTOCOL ." 200 Ok";
-       // if(in_array("h2", explode(',', igk_server()->Upgrade ?? ""))){
-             $defCodeMSG = "HTTP/2.0 200 OK - ".igk_server()->SERVER_PROTOCOL ;
-        // }  
-        // igk_trace();
-        // igk_exit();
+        } 
+        $defCodeMSG = "HTTP/2.0 200 OK - ".igk_server()->SERVER_PROTOCOL ;        
         return igk_getv($t, $code, $defCodeMSG); 
     }
 }

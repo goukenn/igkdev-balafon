@@ -367,8 +367,9 @@ class IGKApp extends IGKObject
         }
         return 0;
     }
+    ///<summary>get application service by name</summary>
     /**
-     * get service 
+     * get application service by name 
      * @param string $serviceName 
      * @return ?IApplicationService|mixed service to return  
      */

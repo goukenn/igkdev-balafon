@@ -223,8 +223,16 @@ trait ControllerDbExtensionTrait{
             }
         }
     }
+    /**
+     * change column description 
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @param mixed $info 
+     * @return true|void 
+     */
     public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
+
         $ad = self::getDataAdapter($ctrl); 
         if ($ad->exist_column($table, $info->clName)) {
             // drop foreign key if column 

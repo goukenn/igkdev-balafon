@@ -518,11 +518,10 @@ class UsersConfigurationController extends ConfigControllerBase
     ///<summary></summary>
     ///<param name="u"></param>
     /**
-     * 
+     * store sessgin global user info
      * @param mixed $u
      */
-    public function setGlobalUser($u)
-    {
+    public function setGlobalUser($u){
         igk_app()->session->setUser($u, $this);
     }
     ///<summary></summary>
@@ -532,9 +531,8 @@ class UsersConfigurationController extends ConfigControllerBase
      * @param mixed $u
      */
     public function setUser($u)
-    {
-        if (is_object($u)) {
-            $tb = $this->getDataTableName();
+    { 
+        if (is_object($u)){ 
             //+ check that the current user exists
             $tu = ["clId" => $u->clId, "clLogin" => $u->clLogin];
             $k = Users::select_row($tu);
@@ -576,14 +574,16 @@ class UsersConfigurationController extends ConfigControllerBase
         if (!igk_sys_authorize('sys://auth/blockuser')) {
             igk_exit();
         }
-        $u = $this->getuser(igk_getr("id"));
+        $u = $this->getUser(igk_getr("id"));
         if ($u) {
             // too
             if ($u->clStatus == 1) {
                 $u->clStatus = 2;
             } else
                 $u->clStatus = 1;
-            $u->save();
+                if (method_exists($u, $fc='save')){
+                    call_user_func_array([$u, $fc], []);
+                }
             igk_notifyctrl(self::NOTIFY_KEY)->addSuccessr("msg.user.inforupdated");
             $this->View();
         }

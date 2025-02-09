@@ -543,8 +543,8 @@ class CssParser implements ArrayAccess
     {
 
         $res = [];
-        if ($all = $this["border"]) {
-        }
+        // if ($all = $this["border"]) {
+        // }
         if ($all = $this["border-color"]) {
             $res["left"]["color"] =
                 $res["right"]["color"] =
@@ -561,18 +561,16 @@ class CssParser implements ArrayAccess
         }
 
         foreach (["left", "top", "right", "bottom"] as $k) {
-            $gp = [];
+      
             if ($w = $this["border-" . $k . "-width"]) {
-                ${$k[0] . "w"} = $w;
-                $gp["width"] = $w;
+                $res[$k]['width'] = $w; 
             }
             if ($c = $this["border-" . $k . "-color"]) {
-                ${$k[0] . "c"} = $c;
-                $gp["color"] = $c;
+                $res[$k]['color'] = $c; 
             }
-            if ($gp) {
-                $res[$k] = (object)$gp;
-            }
+            // if ($gp) {
+            //     $res[$k] = (object)$gp;
+            // }
         }
         unset($k, $gp);
 

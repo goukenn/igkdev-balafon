@@ -8,12 +8,15 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Controllers\BaseController;
 use IGK\Models\Caches\CacheModels;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
+use IGK\System\Database\IUserProfile;
 use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
 
-class IGKUserInfo extends IGKObject implements IToArray{
+class IGKUserInfo extends IGKObject implements IToArray{ 
     const DB_INFO_KEY="sys://db/info";
     var $clId;
     var $clLogin;
@@ -24,6 +27,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
 
     ///<summary></summary>
     public function __construct(){    }
+ 
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="value"></param>
@@ -152,8 +156,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
         $key = CacheModels::GetCacheKey($model, Users::FD_CL_GUID, $this->clGuid);
         if ($o = CacheModels::Get($key)) {
             return $o;
-        }
-
+        } 
         return IGK\Models\Users::createFromCache($this, ['clGuid'=>$this->clGuid], []);
     }
 }

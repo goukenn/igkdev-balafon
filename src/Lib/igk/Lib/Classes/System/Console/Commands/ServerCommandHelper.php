@@ -48,7 +48,7 @@ abstract class ServerCommandHelper
     {
         $tab = self::GetDbCommandsProperties();
         $tab = array_fill_keys(array_keys($tab), null);
-
+        $tab['-srv_request'] = 'passing request argument';
         return $tab;
     }
     public static function Init($command)

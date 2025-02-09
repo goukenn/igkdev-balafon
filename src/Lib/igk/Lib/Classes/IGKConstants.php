@@ -57,6 +57,7 @@ final class IGKConstants{
 
 
     const DEFAULT_THEME_STYLE = 'default.pcss';
+    const ANNOTATION_SUFFIX = 'Annotation';
     
     /**
      * get the core version 

@@ -29,29 +29,30 @@ abstract class StringUtility
      * @param string $s 
      * @return string 
      */
-    public static function FuncName(string $s):string{
+    public static function FuncName(string $s): string
+    {
         $s = preg_replace("/[^a-z_]/i", "_", $s);
         $s = preg_replace("/_+/i", "_", $s);
         return $s;
     }
-       /**
+    /**
      * read line utility class 
      * @param string $content 
      * @param int $pos 
      * @return string 
      */
-    public static function ReadLine(string $content, int & $pos){
-        $lin = strpos($content,"\n", $pos);
+    public static function ReadLine(string $content, int &$pos)
+    {
+        $lin = strpos($content, "\n", $pos);
         $s = 0;
-        if (false === $lin){
+        if (false === $lin) {
             $s = substr($content, $pos);
             $pos = strlen($content);
-        }else{
-            $s = substr($content, $pos, $lin-$pos);
+        } else {
+            $s = substr($content, $pos, $lin - $pos);
             $pos = $lin;
         }
         return $s;
-
     }
 
     /**
@@ -59,23 +60,26 @@ abstract class StringUtility
      * @param string $condition 
      * @return string 
      */
-    public static function ReduceConditionBlock(string $condition){
+    public static function ReduceConditionBlock(string $condition)
+    {
         $g = $condition;
         $v_regex = "/[\(\)\s]/";
-        $g = preg_replace("/\s+/"," ", $g); // reduce white space
-        while (strpos($g,'(')===0){
+        $g = preg_replace("/\s+/", " ", $g); // reduce white space
+        while (strpos($g, '(') === 0) {
             $cpos = 0;
             $tg = trim(igk_str_rm_last(
                 igk_str_rm_start(
-                igk_str_read_brank($g, $cpos, ')','('), '('),
-            ')'));
+                    igk_str_read_brank($g, $cpos, ')', '('),
+                    '('
+                ),
+                ')'
+            ));
             $fg = preg_replace($v_regex, '', $g);
             $ffg = preg_replace($v_regex, '', $tg);
-            if ($fg!==$ffg){                                
+            if ($fg !== $ffg) {
                 break;
             }
             $g = $tg;
-
         }
         return $g;
     }
@@ -85,21 +89,22 @@ abstract class StringUtility
      * @param int $pos 
      * @return mixed 
      */
-    public static function ReadBrank(string $ln, int & $pos ){
+    public static function ReadBrank(string $ln, int &$pos)
+    {
         $ch = $ln[$pos];
-        switch($ch){
+        switch ($ch) {
             case "'":
             case '"':
                 $ch = igk_str_read_brank($ln, $pos, $ch, $ch);
                 break;
             case '{':
-                $ch = igk_str_read_brank($ln, $pos, '}','{');
+                $ch = igk_str_read_brank($ln, $pos, '}', '{');
                 break;
             case '(':
-                    $ch = igk_str_read_brank($ln, $pos, ')','(');
+                $ch = igk_str_read_brank($ln, $pos, ')', '(');
                 break;
             case '[':
-                $ch = igk_str_read_brank($ln, $pos, ']','[');
+                $ch = igk_str_read_brank($ln, $pos, ']', '[');
                 break;
         }
         return $ch;
@@ -135,7 +140,7 @@ abstract class StringUtility
     public static function GetSnakeKebab(string $haystack, ?bool $hiphen = false)
     {
         $s_out = '';
-        $haystack = preg_replace('/[^_a-z]/i','', $haystack);
+        $haystack = preg_replace('/[^_a-z]/i', '', $haystack);
         $ln = strlen($haystack);
         $letter = '_ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $pos = 0;
@@ -146,33 +151,32 @@ abstract class StringUtility
             $ch = $haystack[$pos];
             $in_split = false !== strpos($letter, $ch);
             if (!$m) {
-                if ($in_split) {                  
+                if ($in_split) {
                     if (!empty($word)) {
-                        $s_out .= $sep.ucfirst($word);
+                        $s_out .= $sep . ucfirst($word);
                         $word = '';
                         $sep = '_';
-                    } 
+                    }
                     $m = 1;
                 }
-            }else{
-                if(!$in_split){
+            } else {
+                if (!$in_split) {
                     $m = 0;
                 }
                 $ch = strtolower($ch);
             }
-            if ($ch=='_'){
+            if ($ch == '_') {
                 $ch = '';
             }
             $word .= $ch;
             $pos++;
         }
-        if($w = ucfirst(trim($word)))
-            $s_out .= $sep.$w;
-        if ($hiphen){
-            return str_replace('_','-', $s_out);
-
+        if ($w = ucfirst(trim($word)))
+            $s_out .= $sep . $w;
+        if ($hiphen) {
+            return str_replace('_', '-', $s_out);
         }
-        return $s_out; 
+        return $s_out;
     }
     /**
      * remove quote from string 
@@ -277,7 +281,7 @@ abstract class StringUtility
     }
     public static function RmSubString(string $str, $offset, int $length)
     {
-         return substr($str, 0, $offset) . substr($str, $offset + $length);
+        return substr($str, 0, $offset) . substr($str, $offset + $length);
     }
     /**
      * get camel class name
@@ -390,8 +394,8 @@ abstract class StringUtility
                 $index = $match["value"][$i];
                 if (is_numeric($index)) {
                     $index = intval($index);
-                    $a = igk_getv($args, $index);                    
-                    $s = str_replace($match[0][$i], HtmlUtils::GetValue($a) ?? '', $s);                    
+                    $a = igk_getv($args, $index);
+                    $s = str_replace($match[0][$i], HtmlUtils::GetValue($a) ?? '', $s);
                 }
             }
         }
@@ -530,19 +534,19 @@ abstract class StringUtility
                 case "'":
                 case '"':
                     $ps = self::StringValue(igk_str_read_brank($data, $pos, $ch, $ch, null, false, 1), $ch);
-                    if (!empty($k)){
+                    if (!empty($k)) {
                         $args[$k] = $ps;
-                    }else{
+                    } else {
                         $args[] = $ps;
                     }
                     $v = "";
                     $k = '';
                     break;
                 case $separator:
-                    if (!empty($v)){
-                        if (empty($k)){
+                    if (!empty($v)) {
+                        if (empty($k)) {
                             $args[] = $v;
-                        }else{
+                        } else {
                             $args[$k] = $v;
                         }
                     }
@@ -554,16 +558,45 @@ abstract class StringUtility
                     $v = '';
                     break;
                 default:
+                    // if support json string
+                    if ($ch == "{") {
+                        $b = igk_str_read_brank($data, $pos, '}', $ch);
+                        if ($tab = json_decode($b)) {
+                            if (!empty($k)) {
+                                $args[$k] = $tab;
+                            } else {
+                                $args[] = $tab;
+                            }
+                            $k = $v = '';
+                        } else {
+                            $v .= $b;
+                        }
+                        $ch = '';
+                    }
+                    if ($ch == "[") {
+                        // + support read array 
+                        $b = igk_str_read_brank($data, $pos, ']', $ch);
+                        // convert array to expression 
+                        if ($tab = json_decode($b)) {
+                            if (!empty($k)) {
+                                $args[$k] = $tab;
+                            } else {
+                                $args[] = $tab;
+                            }
+                            $k = $v = '';
+                        }
+                        $ch = '';
+                    }
                     $v .= $ch;
                     break;
             }
             $pos++;
         }
-        if (!empty($v)){
+        if (!empty($v)) {
             $v = trim($v);
             if (!empty($k))
                 $args[$k] = $v;
-            else 
+            else
                 $args[] = $v;
         }
         return $args;
@@ -678,12 +711,13 @@ abstract class StringUtility
      * @param mixed $tab 
      * @return string 
      */
-    public static function ArrayToEnvironment($tab):string{   
-       return implode("\n", array_filter(array_map(function($v,$k){
-            if (!$v){
+    public static function ArrayToEnvironment($tab): string
+    {
+        return implode("\n", array_filter(array_map(function ($v, $k) {
+            if (!$v) {
                 return null;
             }
-            return $k.'='.$v;
+            return $k . '=' . $v;
         }, $tab, array_keys($tab))));
     }
 
@@ -692,7 +726,8 @@ abstract class StringUtility
      * @param string $value 
      * @return string 
      */
-    public static function ConstantToCamelCaseClassName(string $value):string{
+    public static function ConstantToCamelCaseClassName(string $value): string
+    {
         return implode("", array_map("ucfirst", array_map("strtolower", explode("_", $value))));
     }
 }

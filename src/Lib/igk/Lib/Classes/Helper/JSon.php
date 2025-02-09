@@ -5,11 +5,19 @@
 namespace IGK\Helper;
 
 use Exception;
+use IGK\System\Helpers\AnnotationHelper;
+use IGK\System\IO\JSon\Annotations\JSonBindAsAnnotation;
+use IGK\System\IO\JSon\JSonBindAsException;
+use IGK\System\IO\JSon\JSonBindingValueOption;
+use IGK\System\IO\Path;
 use IGK\System\IToArrayResolver;
+use IGK\System\IToJSon;
 use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use JsonSerializable;
+use PhpParser\Node\Stmt\Continue_;
+use ReflectionClass;
 use stdClass;
 
 ///<summary></summary>
@@ -158,6 +166,8 @@ class JSon
         $root =  $root;
         $is_object = false;
         $tq = [['d' => $tv, 'keys' => $keys, 'c' => $c]];
+        list($allow_empty_array) = igk_extract($this->m_options, 'allow_key_assoc_empty_array');
+
         // $path = & $this->m_path;
         while (count($tq) > 0) {
             $q = array_shift($tq);
@@ -173,7 +183,8 @@ class JSon
                 }
                 $tv = igk_getv($v, $k);
                 if ((!is_bool($tv) && !is_numeric($tv)) && $this->m_options->ignore_empty && empty($tv)) {
-                    continue;
+                    if (!is_array($tv) || !$allow_empty_array)
+                        continue;
                 }
                 if (is_null($tv) && $this->m_options->ignore_null) {
                     continue;
@@ -252,6 +263,10 @@ class JSon
         } else if (!($options instanceof JSonEncodeOption)) {
             $options = Activator::CreateNewInstance(JSonEncodeOption::class, $options);
         }
+        if ($data instanceof IToJSon){
+            return $data->to_json($options, $encode);
+        }
+
         $e = new static;
         $e->m_options = $options;
         $e->m_data = $data;
@@ -298,5 +313,113 @@ class JSon
     public static function EncodeForHtmlAttribute($data, $encode_options, int $js_options = JSON_UNESCAPED_SLASHES)
     {
         return htmlentities(self::Encode($data, $encode_options));
+    }
+
+
+    /**
+     * bind object to data
+     * @param mixed $object_or_class 
+     * @param mixed $data 
+     * @return mixed 
+     * @throws JSonBindAsException missing required properties
+     * @remarks properties with JSonBindAsAnnotation will define requirement of binding data
+     */
+    public static function BindData($object_or_class, $data, $throw_error = true)
+    {
+        if (is_string($object_or_class) && class_exists($object_or_class)) {
+            $object_or_class = new $object_or_class();
+        }
+        if ($data) {
+            $tprop_class = [];
+            $tprop = [['o' => $object_or_class, 'd' => $data]];
+            // binding object option 
+            $options = Activator::CreateNewInstance(JSonBindingValueOption::class, [
+                'bindReference' => null,
+                'handle' => false,
+                'property' => null,
+                'source' => null
+            ]);
+            $options->bindReference = &$tprop;
+            while (count($tprop) > 0) {
+                $q = array_shift($tprop);
+                $obj = $q['o'];
+                $class_name = get_class($obj);
+                $v_use_annotation = ($class_name != \stdClass::class);
+                $ref =  $v_use_annotation ? igk_sys_reflect_class($class_name) ?? new ReflectionClass($class_name) : null;
+                $uses = $v_use_annotation ? AnnotationHelper::GetUses($class_name) : null;
+
+                if ($v_use_annotation){
+                    $options->resolveTypeListener = function ($type)use(& $uses, $ref ,$class_name){
+                        $v_reflect = $ref;
+                        if (!($NS = $v_reflect->getNamespaceName())){
+                            return $type;
+                        }
+
+                        $d = dirname($v_reflect->getFileName());
+                        $path = Path::Combine($d, $type.".php");
+                        if (file_exists($path)){
+                            include_once($path);
+                            return igk_ns_name($NS."\\".$type);
+                        }
+                    };
+                    $props = igk_getv($tprop_class, $class_name, function()use($class_name, $uses, & $tprop_class){ 
+                        $b = JSonBindAsAnnotation::GetJSonByAsProperties($class_name,$uses);
+                        $tprop_class[$class_name] = $b;
+                        return $b;
+                    });  
+                    $ld = $q['d'];
+                    foreach($props as $k=>$p){
+                        $v = igk_getv($ld, $k);
+                        if ($p->required && !igk_in($ld, $k)){
+                            if(!$throw_error) continue;
+                            throw new JSonBindAsException(sprintf('missing required properties [%s]', $k));
+                        }
+                        $options->handle = false;
+                        $options->property = $k;
+                        $options->source = $obj;
+                        $options->resolveTypeListener = 
+                        $v = $p->Convert($v, $options);
+                        if ($options->handle) {
+                            $options->handle = false;
+                        }
+                        $obj->{$k} = $v; 
+                    }
+ 
+                    continue;
+                }
+
+
+                foreach ($q['d'] as $k => $v) {
+                    if (!property_exists($obj, $k))
+                        continue;
+                    if ($ref) {
+                        // check for JSonDecodeAsAnnotation   
+                        if ($_a = AnnotationHelper::GetPropertyAnnotation($obj, $k, $uses)) {
+                            $c = igk_getv(array_filter($_a, function ($b) {
+                                return $b instanceof JSonBindAsAnnotation;
+                            }), 0);
+                            if ($c) {
+                                $options->handle = false;
+                                $options->property = $k;
+                                $options->source = $obj;
+                                $v = $c->Convert($v, $options);
+                                if ($options->handle) {
+                                    $options->handle = false;
+                                    $obj->{$k} = $v;
+                                    continue;
+                                }
+                            }
+                        }
+                    } else {
+                        if (is_object($v)) {
+                            array_unshift($tprop, ['o' => $v, 'd' => $v]);
+                        }
+                    }
+                    $obj->{$k} = $v;
+                }
+                $ref && igk_sys_reflect_class_unset($ref);
+            }
+        }
+        return $object_or_class;
     }
 }
