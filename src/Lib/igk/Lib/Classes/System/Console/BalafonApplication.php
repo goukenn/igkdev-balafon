@@ -632,7 +632,9 @@ class BalafonApplication extends IGKApplicationBase
                                 'app_dir' => igk_io_applicationdir(),
                                 'project_dir' => igk_io_projectdir(),
                                 'package_dir' => Path::getInstance()->getPackagesDir(),
-                                'module_dir' => Path::getInstance()->getModuleDir()
+                                'module_dir' => Path::getInstance()->getModuleDir(),
+                                'server_info'=>$_SERVER,
+                                'env'=>$_ENV
                             ];
                         } catch (\Exception $ex) {
                             echo "failed : " . $ex->getMessage();

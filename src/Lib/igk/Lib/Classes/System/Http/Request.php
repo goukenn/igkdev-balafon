@@ -6,7 +6,8 @@
 
 
 namespace IGK\System\Http;
- 
+
+use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Console\ServerFakerInput;
@@ -155,11 +156,17 @@ class Request implements IInjectable, IContentSecurityProvider
             self::$sm_instance = new self();
         return self::$sm_instance;
     }
+    /**
+     * 
+     * @return null|string 
+     * @throws Exception 
+     */
     public function requestEntry(){
-        $b = igk_server()->REQUEST_URI; 
+        $v_srv = igk_server();
+        $b = $v_srv->REQUEST_URI; 
         if (!$b)
             return null;
-        $file = (($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF);
+        $file = (($g = $v_srv->SCRIPT_NAME) ? $g : $v_srv->PHP_SELF);
         
         if (preg_match('/[~]/', $file)){
             igk_die("request entry not allowed");
@@ -168,7 +175,7 @@ class Request implements IInjectable, IContentSecurityProvider
         if (!$dfile || !file_exists($dfile)){
             // // igk_ilog("entry request file is missing.");
             // igk_trace(); 
-            igk_die("Misconfiguration: Entry request is missing. $dfile \n");
+            igk_die("Misconfiguration: Entry request is missing". $dfile ." - RequestURI : {$b} " .'\n');
         }
         $t = IGKString::Uri(dirname($file));
         $s = $b;

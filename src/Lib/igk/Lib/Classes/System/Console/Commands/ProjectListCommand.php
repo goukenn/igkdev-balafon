@@ -3,26 +3,21 @@
 // @filename: ProjectListCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Console\Commands;
-
 use ForemJobDashboardController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use IGK\System\Console\App;
 use IGKException;
-
 /**
  * list all project
  * @package IGK\System\Console\Commands
  */
 class ProjectListCommand extends AppExecCommand{
-
     var $command = "--project:list";
     var $category = "project";
     var $desc = "List installed project";
-    var $usage = 'fitler [options]';
-
+    var $usage = 'filter [options]';
     var $options = [];
     /**
      * extract 
@@ -32,9 +27,7 @@ class ProjectListCommand extends AppExecCommand{
      * @throws IGKException 
      */
     public function exec($command, $pattern =".+") { 
-   
         $ctrl = ForemJobDashboardController::ctrl(true);
-
         $c = igk_sys_get_projects_controllers(); 
         $t = [];
         foreach ($c as $m) {

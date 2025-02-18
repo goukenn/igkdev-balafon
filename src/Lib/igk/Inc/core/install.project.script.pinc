@@ -91,50 +91,6 @@ $v_projectInstaller = new ProjectInstaller($project_dir);
 $balafon = $corelib_dir . "/bin/balafon";
 $project_name = igk_getr('project_name');
 
-if (($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) {
-    $v_working_dir = igk_getr('working_dir') ?? InstallerHelper::LocateBaseDir($corelib_dir, 3); //.'/../../../../');
-    $envs = [
-        'IGK_WORKING_DIR' => $v_working_dir,
-        'IGK_PACKAGE_DIR' => $v_working_dir . '/application/Packages',
-        'IGK_MODULE_DIR' => $v_working_dir . '/application/Packages/Modules',
-        'IGK_APP_DIR' => $v_working_dir . '/application',
-        'IGK_PROJECT_DIR' => $v_working_dir . '/application/Projects'
-    ];
-
-    $pre = [];
-    foreach ($envs as $k => $v) {
-        $s = sprintf('%s=%s', $k, $v);
-        //putenv($s);
-        $pre[] = 'export ' . $s;
-    }
-    $pre = implode(';', $pre).";";
-    $cwd = getcwd();
-    chdir($v_working_dir);
-    $install_project_command = [
-        // '--clearcache',
-        '--version',
-        // '--db:initdb ' . $project_name.'Controller' 
-    ];
-    foreach($install_project_command as $install){
-        $v_cmd = $pre."{$php_cmd} {$balafon} {$install} 1>&1 2>&1; echo \"\n\"$?";
-        $r = (object)InstallerHelper::HandleBacktickCommand(`{$v_cmd}`);
-        if ($r->exit_code!=0){
-            $response->die(implode("\n", ['exec command failed :: ', 
-            $v_cmd, json_encode($r, JSON_UNESCAPED_SLASHES)]));
-        }
-    }
-    //echo 'v '. $v_working_dir. ' ; ' . file_exists($balafon) . PHP_EOL;
-    // update all relative action div
-    $c = $pre."{$php_cmd} '{$balafon}' --project:list --debug 1>&1 2>&1; echo \"\n\"$?";
-    $r = InstallerHelper::HandleBacktickCommand(`{$c}`);
-    // echo $c. PHP_EOL;
-    // //b$r = InstallerHelper::HandleBacktickCommand(`{$php_cmd} {$balafon} --command:init  1>&1 2>&1; echo "\n"$?`); 
-    echo json_encode($r, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    exit;
-    // echo ((object)$r)->output;
-    chdir($cwd);
-}
-
 
 function post_install(&$postinstall, $f, $v_projectInstaller)
 {
@@ -335,10 +291,53 @@ if (!$error && file_exists($pc = $project_dir . '/[post-publish].php')) {
 // chmod($corelib_dir."/bin/balafon", 0777);
 
 
-if ($php_cmd = InstallerHelper::GetPhpBinary()) {
-    // $r = InstallerHelper::HandleBacktickCommand(`{$php_cmd} {$balafon} --version 1>&1 2>&1; echo "\n"$?`); 
-    // echo json_encode($r, JSON_PRETTY_PRINT);
+
+if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) {
+    // TODO : update project
+    $v_working_dir = igk_getr('working_dir') ?? InstallerHelper::LocateBaseDir($corelib_dir, 3); //.'/../../../../');
+    $envs = [
+        'IGK_WORKING_DIR' => $v_working_dir,
+        'IGK_PACKAGE_DIR' => $v_working_dir . '/application/Packages',
+        'IGK_MODULE_DIR' => $v_working_dir . '/application/Packages/Modules',
+        'IGK_APP_DIR' => $v_working_dir . '/application',
+        'IGK_PROJECT_DIR' => $v_working_dir . '/application/Projects',
+        'REQUEST_URI'=>'', // + | empty because execution of a command require no uri access 
+    ];
+
+    $pre = [];
+    foreach ($envs as $k => $v) {
+        $s = sprintf('%s=%s', $k, $v);
+        //putenv($s);
+        $pre[] = 'export ' . $s;
+    }
+    $pre = implode(';', $pre).";";
+    $cwd = getcwd();
+    chdir($v_working_dir);
+    $install_project_command = [
+        // '--clearcache',
+        '--version --debug --report-error',
+        // '--db:initdb ' . $project_name.'Controller' 
+    ];
+    foreach($install_project_command as $install){
+        $v_cmd = $pre."{$php_cmd} {$balafon} {$install} 1>&1 2>&1; echo \"\n\"$?";
+        $r = (object)InstallerHelper::HandleBacktickCommand(`{$v_cmd}`);
+        if ($r->exit_code!=0){
+            $response->die(implode("\n", ['exec command failed :: ', 
+            $v_cmd, json_encode($r, JSON_UNESCAPED_SLASHES)]));
+        }
+    }
+    //echo 'v '. $v_working_dir. ' ; ' . file_exists($balafon) . PHP_EOL;
+    // update all relative action div
+    $c = $pre."{$php_cmd} '{$balafon}' --project:list --debug --report-error 1>&1 2>&1; echo \"\n\"$?";
+    $r = InstallerHelper::HandleBacktickCommand(`{$c}`);
+    // echo $c. PHP_EOL;
+    // //b$r = InstallerHelper::HandleBacktickCommand(`{$php_cmd} {$balafon} --command:init  1>&1 2>&1; echo "\n"$?`); 
+    echo json_encode($r, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit;
+    // echo ((object)$r)->output;
+    chdir($cwd);
 }
+
 
 igk_io_rmdir($v_sys_tempdir);
 
