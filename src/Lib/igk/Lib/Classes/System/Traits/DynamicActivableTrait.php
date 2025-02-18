@@ -26,7 +26,7 @@ trait DynamicActivableTrait{
      * to implement serialisation
      * @return mixed 
      */
-    public function jsonSerialize(){
+    public function _json_serialize(){
         return $this->data;
     }
     /**

@@ -615,6 +615,17 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER]);
     }
+    /**
+     * get configs directory 
+     * @return string 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
+    public function getConfigsDir(){
+        return Path::Combine($this->getDeclaredDir(), IGK_CONF_FOLDER);
+    }
     ///<summary>get view dir</summary>
     /**
      * get view dir
@@ -997,7 +1008,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $v_key = ApplicationModuleHelper::SYS_ENV_KEY;
         $v_modules = igk_get_env($v_key) ?? [];
         $v_cl = get_class($this);
-        if (isset($v_modules[$v_cl])){
+        if (isset($v_modules[$v_cl])){ 
             return;
         }
         $load = 1;
@@ -1011,6 +1022,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         } 
         $v_modules[$v_cl] = $load;
         igk_set_env($v_key, $v_modules);
+        return $data;
 
     }
     protected function _createViewEnvArgs()

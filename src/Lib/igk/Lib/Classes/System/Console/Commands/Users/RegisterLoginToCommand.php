@@ -30,9 +30,8 @@ class RegisterLoginToCommand extends AppExecCommand{
 		 $result = $ctrl->login($user);
 		 if (!$result){
 			Logger::danger("failed");
-			exit(-1);
+			return -1;
 		 }
 		 Logger::success('OK');
-		igk_exit();
 	}
 }

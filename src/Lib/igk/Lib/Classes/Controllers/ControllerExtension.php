@@ -82,7 +82,7 @@ require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
 
-
+ 
 ///<summary>controller macros extension</summary>
 /**
  * controller macros extension
@@ -478,14 +478,30 @@ abstract class ControllerExtension
      * @return null|string 
      * @throws IGKException 
      */
-    public static function uri(BaseController $ctrl, ?string $name = "")
+    public static function uri(BaseController $ctrl, ?string $name_uri = "")
     {
-        $v_uri = $name ?? '';
+        $v_uri = $name_uri ?? '';
         if (strpos($v_uri, '@/')===0){
             $v_uri = ltrim($v_uri, '@');
         }
         return $ctrl->getAppUri($v_uri ?? '');
     }
+    /**
+     * return base path 
+     * @param BaseController $ctrl 
+     * @param null|string $path 
+     * @return mixed|void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function uriPath(BaseController $ctrl, ?string $path= ''){
+        if ($h = self::uri($ctrl, $path)){
+            return igk_getv( parse_url($h),'path');
+        }
+    }
+    /**
+     * return guid name from controller 
+     */
     public static function guid_name(BaseController $ctrl)
     {
         static $guid;

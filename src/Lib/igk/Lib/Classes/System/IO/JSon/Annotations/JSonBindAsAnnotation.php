@@ -11,6 +11,7 @@ use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\IO\JSon\JSonBindToConverterBase;
 use IGK\System\IO\JSon\JSonObjClassConverter;
 use IGKException;
+use stdClass;
 
 ///<summary></summary>
 /**
@@ -157,12 +158,17 @@ class JSonBindAsAnnotation extends AnnotationBase
             }
             // convert to array of 
             if (!is_array($value)) {
-                $value = [$value];
+                $t = null;
+                if ($value instanceof stdClass){
+                    $t = (array)$value;
+                    if (!igk_array_is_assoc($t)){
+                        $t = null;
+                    }
+                }
+                $value = $t ?? [$value];
             }
             $ctype = self::_ResolveTypeWithListener($v_typeresolve, $converter, $ctype);
-
-          
-            // +handle convertion 
+            // + | handle convertion 
             if ($rc = self::ResolveConverter($converter, $ctype)) {
                 return array_filter(array_map(function ($i) use ($rc, $options) {
                     return $rc($i, $options);

@@ -41,6 +41,10 @@ abstract class SystemUserProfile implements IUserProfile
     {
     }
 
+    /**
+     * retrieve the controller 
+     * @return null|BaseController 
+     */
     public function getController(): ?BaseController {
         return $this->m_controller;
     }
@@ -86,6 +90,7 @@ abstract class SystemUserProfile implements IUserProfile
         $c->m_model = $userInfo->model();
         $c->m_controller = $controller;
         $c->registerProfile();
+        igk_wln_e(__FILE__.":".__LINE__ , 'profile created', $c);
         return $c;
     }
    

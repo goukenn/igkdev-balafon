@@ -29,7 +29,7 @@ if (!function_exists('igk_current_module')) {
                 if (isset($modules[$n])) {
                     return $modules[$n];
                 }
-                $tab = igk_get_modules();
+                $tab = igk_get_modules(); 
                 ksort($tab, SORT_FLAG_CASE | SORT_STRING);
                 foreach (array_keys($tab) as $k) {
                     if (strpos($n, $k) !== false) {
@@ -43,6 +43,8 @@ if (!function_exists('igk_current_module')) {
         }
     }
 }
+
+
 /**
  * include module helper
  */

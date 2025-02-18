@@ -4,13 +4,15 @@
 // @date: 20230129 13:34:47
 namespace IGK\System\Applications;
 
+use Exception;
 use IGK\Controllers\BaseController;
+use IGK\Helper\ViewHelper;
 use IGK\Models\ModelBase as ModelsModelBase;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
- 
+use IGKUserInfo;
 
 ///<summary></summary>
 /**
@@ -27,7 +29,11 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
     public function user(): ModelsModelBase {
         return $this->m_app_user;
      } 
-
+    /**
+     * use use info profile 
+     * @param mixed $userInfo 
+     * @return void 
+     */
     public function setUserInfo($userInfo) {
         $this->m_profile = $userInfo;
      }
@@ -46,9 +52,17 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
         return $this->m_user;
     }
 
-    public function __construct(Users $user) {
+    /**
+     * construct use model 
+     * @param Users $user 
+     * @return void 
+     * @throws Exception 
+     */
+    public function __construct(Users $user, BaseController $ctrl=null, ?IGKUserInfo $profile = null) {
         Users::IsMockInstance($user) && igk_die('mock instance not allowed');
         $this->m_user = $user; 
+        $this->m_controller = $ctrl || igk_current_ctrl();
+        $this->m_profile = $profile ?? $ctrl->getUser();
         parent::__construct();
     }
     /**

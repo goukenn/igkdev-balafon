@@ -27,7 +27,7 @@ function igk_api_free_session(){
     if(!igk_server_request_onlocal_server()){
         if(igk_getr("clClearS")){
             igk_app_destroy();
-            session_destroy();
+            igk_ilog( __FILE__.":".__LINE__ , 'destroy session ');session_destroy();
         }
     }
 }

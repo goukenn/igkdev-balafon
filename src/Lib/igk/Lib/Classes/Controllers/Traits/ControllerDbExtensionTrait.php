@@ -5,7 +5,6 @@
 namespace IGK\Controllers\Traits;
 
 use IGK\Controllers\BaseController;
-use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\DbUtilityHelper;
 use IGK\System\Console\Logger;

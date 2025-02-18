@@ -11,6 +11,7 @@ use IGK\Actions\IActionRequestValidator;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Traits\DynamicActivableTrait;
 use IGKException;
@@ -49,6 +50,7 @@ class Activator
         }
 
         $dyn_trait = DynamicActivableTrait::class;
+        $p_trait = JsonSerializableTrait::class;
         $ref = [];
         $ref[] = JsonSerializable::class;
         $ref[] = IToArray::class;
@@ -59,6 +61,7 @@ class Activator
 ?><?php
 final class {$p} implements {$ref}{
     use {$dyn_trait};
+    use {$p_trait};
     public function __construct(& \$d){
         \$this->data = \$d;
     } 

@@ -6574,6 +6574,7 @@ function igk_display($obj, $keyTab = null)
 ///<summary>enable display error</summary>
 /**
  * enable display error
+ * @var bool $a display 
  */
 function igk_display_error($a)
 {
@@ -7206,6 +7207,21 @@ if (!function_exists('igk_extract_obj')) {
             }
         }
         return $obj;
+    }
+}
+
+if (!function_exists('igk_extract_var')){
+    /**
+     * extract var 
+     * @var mixed $data object to extract
+     * @var string|string[] $list list of variable to extract 
+     * @return array assoc array of variable 
+     */
+    function igk_extract_var($data, $list){
+        return (function(){
+            extract((array)igk_extract_obj(func_get_arg(0), func_get_arg(1)));
+            return get_defined_vars();
+        })($data, $list);
     }
 }
 
@@ -9129,12 +9145,14 @@ function igk_get_ns_func($name)
 }
 ///<summary></summary>
 /**
+ * retrieve environment package directory
  * 
  */
 function igk_get_packages_dir()
 {
-    if (defined("IGK_PACKAGE_DIR"))
-        return constant('IGK_PACKAGE_DIR');
+    $c = 'IGK_PACKAGE_DIR';
+    if (defined($c))
+        return constant($c);
     if (defined("IGK_APP_DIR"))
         return igk_dir(IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
 }
@@ -16927,8 +16945,7 @@ function igk_load_classes($tab = [])
  * helper: load controllers 
  * @param mixed $dirname root directory 
  */
-function igk_loadcontroller(string $dirname)
-{
+function igk_loadcontroller(string $dirname){
     return igk_loadlib($dirname, ".php");
 }
 ///<summary></summary>
@@ -22719,8 +22736,7 @@ function igk_sys_get_mtime_uid()
 /**
  * helper: get projects 
  */
-function igk_sys_get_projects_controllers()
-{
+function igk_sys_get_projects_controllers(){
     return igk_app()->getControllerManager()->getUserControllers();
 }
 ///<summary></summary>

@@ -635,6 +635,7 @@ EOF;
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
     {  
+
         igk_sys_handle_uri();
     
         $page= $k =
@@ -648,6 +649,7 @@ EOF;
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc); 
         $this->_initRequiredModules();
         
+
         // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
             if (empty($u)){
@@ -812,12 +814,20 @@ EOF;
         $this->_initMacros();
         $this->_registerApp();
         $this->_registerAction();
+        if ($d = $this->forceSessionUris()){
+            igk_environment()->mergeSessionUri($d); 
+        } 
         if (!isset(self::$INIT)) {
             igk_reg_hook(IGK_EVENT_DROP_CTRL, "igk_app_ctrl_dropped_callback");
             self::$INIT = true;
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
     }
+    /**
+     * force session uris 
+     * @return ?array 
+     */
+    protected function forceSessionUris(){ return null; }
 
 
     ///<summary></summary>

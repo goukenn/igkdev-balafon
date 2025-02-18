@@ -129,8 +129,7 @@ if (!file_exists($corelib)) {
 }
 
 $install_dir = igk_getr("install_dir");
-// echo "HOME DEFINED ? ".isset($_SERVER["HOME"]).PHP_EOL;
-// echo "ftp home dir : ".$ftp_home_dir. " ".$install_dir. " ".$home . " ".realpath($ftp_home_dir);
+
  
 if ($install_dir)
     $install_dir = implode("/", array_filter([$home == '/' ? null : $home, trim($install_dir, "/")]));
@@ -193,6 +192,11 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
 if (!($install_dir = realpath($install_dir))) {
     $response->die("install_dir missing", 500);
 }
+
+
+
+
+
 $app_dir = igk_getr("app_dir");
 $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 @unlink($temp_dir);
@@ -252,6 +256,9 @@ if ($archive->open($corelib)) {
 } else {
     $response->die("can't open archive", 501);
 }
+
+
+
 $_vart = compact("error", "install_dir", "count_file", "author", "version", "appName", "steps");
 if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;

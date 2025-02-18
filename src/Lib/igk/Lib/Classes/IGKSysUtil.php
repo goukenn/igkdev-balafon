@@ -432,8 +432,13 @@ abstract class IGKSysUtil
         }
         return $t;
     }
-    public static function ConvertToPhpDocType($type)
-    {
+    /**
+     * 
+     * @param mixed $type 
+     * @return mixed 
+     * @throws Exception 
+     */
+    public static function ConvertToPhpDocType($type){
         if (is_null($type)){
             return 'string';
         }

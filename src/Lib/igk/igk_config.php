@@ -26,6 +26,11 @@ define('IGK_SYS_CONFIG_FILE', 1);
 define('IGK_NO_TRACELOG', 1);
 define('IGK_SYS_PROJECT_NS', "com\\igkdev\\projects");
 // + | --------------------------------------------------------------------
+// + | publish filename to execute in sync definition 
+// + |
+define('IGK_POST_PUBLISH_FILENAME','[post-publish]');
+define('IGK_PRE_PUBLISH_FILENAME','[pre-publish]');
+// + | --------------------------------------------------------------------
 // + | NO SUDMAIN SUPPORT
 // + |
 // define('IGK_NO_SUBDOMAIN' , 1);
@@ -260,7 +265,7 @@ define('IGK_USER_SETTING', 0xE00);
 //+ define('IGK_LOG_ERROR_FILE', '1');
 //+ define('IGK_LOG_FILE', '1');
 //+ define('IGK_MAIN_FILE', '1');
-//+ define('IGK_MODULE_DIR', '1');
+
 //+ define('IGK_MSQL', '1');
 //+ define('IGK_MSQL_DB_A', '1');
 //+ define('IGK_MYSQL_DATETIME_FORMAT', '1');

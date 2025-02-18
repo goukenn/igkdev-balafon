@@ -190,10 +190,18 @@ class Path
     {
         return $this->baseuri($this->css_path);
     }
+    /**
+     * retrieve setup system app directory
+     * @return ?string 
+     */
     public function getApplicationDir()
     {
         return $this->app_dir;
     }
+    /**
+     * retrieve setupe system class directory
+     * @return mixed 
+     */
     public function getClassDir()
     {
         return $this->class_dir;

@@ -26,7 +26,7 @@ final class SessionManagerController extends ConfigControllerBase{
     * Represente clearall function
     */
     public function clearall_ajx(){
-        session_destroy();
+        igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); session_destroy();
         igk_sess_write_close();
 		foreach(igk_get_all_session_files() as $k=>$f){
 			unlink($f);
@@ -137,6 +137,7 @@ final class SessionManagerController extends ConfigControllerBase{
         $b=igk_get_all_session_file_infos();
         $paginate=count($b) > $maxItem;
         $sess_id = session_id();
+        $table = $n->table();
         foreach($b as $k=>$o){
             $f = $o->file;
             $tr=$table->tr();

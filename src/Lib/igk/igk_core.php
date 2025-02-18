@@ -27,7 +27,7 @@ use IGK\System\IO\Path;
 use IGK\System\Number;
 use IGK\System\Regex\RegexConstant;
 
-use function igk_resources_gets  as __; 
+use function igk_resources_gets  as __;
 
 ///<summary>shortcut to get server info</summary>
 /**
@@ -38,14 +38,17 @@ function igk_server()
 {
     return Server::getInstance();
 }
-///<summary></summary>
-/**
- * shortcut get core environment 
- * @return IGKEnvironment environment
- */
-function igk_environment()
-{
-    return IGKEnvironment::getInstance();
+
+if (!function_exists('igk_environment')) {
+    ///<summary></summary>
+    /**
+     * shortcut get core environment 
+     * @return IGKEnvironment environment
+     */
+    function igk_environment()
+    {
+        return IGKEnvironment::getInstance();
+    }
 }
 
 ///<summary> encapsulate exit function. used for debugging purpose</summary>
@@ -54,8 +57,14 @@ function igk_environment()
  *  @throws Exception
  *  @endcode exit
  */
-function igk_exit($close = 1, $status = 0)
+function igk_exit(int $close = 1, int $status = 0)
 {
+
+    if (igk_is_debug()) {
+        igk_trace();
+        igk_wln_e("close exits.");
+    }
+
     if (igk_environment()->isAJXDemand) {
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
         igk_environment()->isAJXDemand = null;
@@ -276,18 +285,19 @@ if (!function_exists('igk_getv')) {
     }
 }
 
-if (!function_exists('igk_in')){
+if (!function_exists('igk_in')) {
     /**
      * check for key presence in object or array
      * @param mixed $obj 
      * @param mixed $key 
      * @return bool 
      */
-    function igk_in($obj, $key){
-        if (is_object($obj)){
+    function igk_in($obj, $key)
+    {
+        if (is_object($obj)) {
             return property_exists($obj, $key);
         }
-        if (is_array($obj)){
+        if (is_array($obj)) {
             return key_exists($key, $obj);
         }
         return false;
@@ -1279,7 +1289,8 @@ function igk_hook($name, $args = array(), $options = null)
 {
     return IGKEvents::hook($name, $args, $options);
 }
-function igk_hook_clear($name){
+function igk_hook_clear($name)
+{
     IGKEvents::unreg_hook($name, null, true);
 }
 
@@ -1685,23 +1696,35 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
         return null;
-    }
-
-    IGK\System\Diagnostics\Benchmark::mark(__FUNCTION__);
+    } 
+    // IGK\System\Diagnostics\Benchmark::mark(__FUNCTION__);
+    $v_env = igk_environment();
     $dir = $sdir;
-    $dirs = array($dir);
-    $files = array();
     $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
     $excludedir = $excludedir ?? array_merge(igk_get_env($excluded_key) ?? [], igk_default_ignore_lib());
-    $ln  = strlen($ext);
     if (!$excludedir)
         $excludedir = array();
     $m = &$excludedir;
-    igk_environment()->set($excluded_key,  $m);
+    $v_env->set($excluded_key,  $m); 
+    return igk_loadlib_dirs($dir, $ext, $excludedir); 
+}
+/**
+ * @var string $dirs list of root directory 
+ */
+function igk_loadlib_dirs(string $dir, string $ext = ".php", &$excludedir = null, $project=true)
+{
+    $files = [];
     $loadeds = [];
-    $root = false;
+    $root = true; 
+    $ln = null;
+    $extensions = explode("|", $ext); 
+    $dirs = [$dir];
     while (igk_count($dirs) > 0) {
-        $dir = realpath(array_shift($dirs));
+        $dir = array_shift($dirs);
+        if (is_null($ln)) {
+            $dir = realpath($dir);
+            $ln = strlen($dir);
+        }
         if (isset($excludedir[$dir]))
             continue;
         $hdir = @opendir($dir);
@@ -1709,33 +1732,32 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
             continue;
         $file = IGK_STR_EMPTY;
         // inlude .global.php first 
-        if (!$root && is_file($gdir = $dir . "/.global.php")) {
+        if (!$root && $project && is_file($gdir = $dir . "/.global.php")) {
             include_once($gdir);
             $files[] = igk_uri($gdir);
             $loadeds[$gdir] = 1;
-            if (isset(igk_environment()->{$excluded_key}[$dir])) {
+            if (isset($excludedir[$dir])) {
                 closedir($hdir);
                 continue;
             }
         }
-        $root = true;
-
         while ($fdir = readdir($hdir)) {
-            $excludedir = igk_environment()->{$excluded_key};
             if (($fdir == ".") || ($fdir == "..") || isset($excludedir[$fdir]))
                 continue;
             $file = $dir . DIRECTORY_SEPARATOR . $fdir;
             if (is_dir($file)) {
-                if (isset($excludedir[$file]) || ($fdir[0] == ".")) {
+                // + | exclude named directery
+                if (isset($excludedir[$file]) || ($fdir[0] == ".") || isset($excludedir[$fdir])) {
                     $excludedir[$file] = 1;
                     continue;
                 }
                 $dirs[] = $file;
             } else {
-                if (isset($loadeds[$file]))
+                if (isset($loadeds[$file]) || preg_match("/\[.+\]/", igk_io_basenamewithoutext($fdir)))
                     continue;
-                if (strstr($file, "." . IGK_DEFAULT_VIEW_EXT) || !strpos($file, $ext, -$ln))
-                    continue;
+                $t_ext = igk_io_path_ext($file);
+                if (!in_array('.'.$t_ext, $extensions))
+                    continue; 
                 include_once($file);
                 $files[] = igk_uri($file);
                 $loadeds[$file] = 1;
@@ -1745,6 +1767,7 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
         if (count($dirs) > 1) {
             sort($dirs);
         }
+        $root = false;
     }
     return $files;
 }
@@ -2017,7 +2040,7 @@ function igk_sys_getdefaultctrlconf()
  * @param mixed $cl 
  * @return ?ReflectionClass 
  */
-function igk_sys_reflect_class($cl, & $reference=null)
+function igk_sys_reflect_class($cl, &$reference = null)
 {
     static $reflection;
     if (is_null($reflection)) {
@@ -2042,8 +2065,9 @@ function igk_sys_reflect_class($cl, & $reference=null)
     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
 }
 
-function igk_sys_reflect_class_unset($cl){
-    igk_sys_reflect_class(null,$reference);
+function igk_sys_reflect_class_unset($cl)
+{
+    igk_sys_reflect_class(null, $reference);
     unset($reference[$cl->getName()]);
 }
 if (!function_exists('igk_sys_reflect_get_constants')) {
@@ -2158,7 +2182,21 @@ function igk_get_script_code($file, $start_line, $end_line = null)
  */
 function igk_default_ignore_lib($dir = null)
 {
-    $tk = array(
+    $tk = 
+    // defined('IGK_TEST_INIT') ? [
+    //     IGK_GIT_FOLDER => 1,
+    //     IGK_NODE_MODULE_FOLDER => 1,
+    //     '.vscode' => 1,
+    //     'command-scripts' => 1,
+    //     IGK_VIEW_FOLDER => 1,
+    //     IGK_CONTENT_FOLDER => 1,
+    //     IGK_SCRIPT_FOLDER => 1,
+    //     IGK_STYLE_FOLDER => 1,
+    //     IGK_ARTICLES_FOLDER => 1,
+    //     IGK_CGI_BIN_FOLDER => 1,
+    //     IGK_CONF_FOLDER => 1
+    // ]:
+    [
         IGK_LIB_FOLDER => 1,
         IGK_CONF_FOLDER => 1,
         IGK_DATA_FOLDER => 1,
@@ -2173,7 +2211,7 @@ function igk_default_ignore_lib($dir = null)
         IGK_NODE_MODULE_FOLDER => 1,
         '.vscode' => 1,
         'command-scripts' => 1
-    );
+    ];
     if ($dir) {
         $keys = array_keys($tk);
         foreach ($keys as $m) {
@@ -2183,14 +2221,17 @@ function igk_default_ignore_lib($dir = null)
     return $tk;
 }
 
-///<summary>convert system path to uri scheme</summary>
-/**
- * helper: shorcut string as uri path 
- * @param string $u path to convert
- * */
-function igk_uri(string $u): string
-{
-    return stringUtility::Uri($u);
+if (!function_exists('igk_uri')) {
+
+    ///<summary>convert system path to uri scheme</summary>
+    /**
+     * helper: shorcut string as uri path 
+     * @param string $u path to convert
+     * */
+    function igk_uri(string $u): string
+    {
+        return stringUtility::Uri($u);
+    }
 }
 
 if (!function_exists('igk_uri_path')) {
@@ -2322,7 +2363,12 @@ function igk_load_env_files($dirname, $tab = [IGK_INC_FOLDER, IGK_PROJECTS_FOLDE
     $bckdir = getcwd();
     chdir($dirname);
 
-    while (($s = array_shift($tab)) !== null) {
+    while (count($tab) > 0) {
+
+        $s = array_shift($tab);
+        if (empty($s))
+            continue;
+
         $dir = $s;
         if (!is_dir($s))
             $dir = $dirname . "/" . $s;
@@ -2568,5 +2614,16 @@ if (!function_exists('igk_clamp')) {
     function igk_clamp($n, $max, $min = 0)
     {
         return max(min($max, $n), $min);
+    }
+}
+
+
+if (!function_exists('igk_current_ctrl')) {
+    /**
+     * get environment core controller/project
+     */
+    function igk_current_ctrl()
+    {
+        return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
 }

@@ -133,16 +133,13 @@ class App
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot();
 
-        if (!file_exists(AppCommandConstant::GetCacheFile())) {
-            Logger::warn("missing cache files");
+        if (!file_exists($fc = AppCommandConstant::GetCacheFile())) {
+            Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
-            Logger::info("init command");
             $cmd = new InitCommand();
             $cmd->exec($v_cmd);
             unset($v_cmd);
-            Logger::success('init command.');
         }
-
         $command_args = AppCommand::GetCommands($app);
 
         if ($command_args) {

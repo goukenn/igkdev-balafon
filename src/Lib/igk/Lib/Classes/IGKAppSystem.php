@@ -194,11 +194,12 @@ class IGKAppSystem
     public static function LoadEnvironment(IGKApp $app)
     {
         if (!IGKSysCache::LoadCacheLibFiles()) {
-            \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
+            $k = 'loadlib_cache';
+            \IGK\System\Diagnostics\Benchmark::mark($k);
             $t_files = self::_LoadEnvFiles();
             igk_reglib($t_files);
             IGKSysCache::CacheLibFiles(true);
-            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 2.00);
+            \IGK\System\Diagnostics\Benchmark::expect($k, 2.00);
         }
         self::_InitControllerEnvironment($app);
     }

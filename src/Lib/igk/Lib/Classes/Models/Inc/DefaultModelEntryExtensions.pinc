@@ -81,7 +81,9 @@ Users::registerMacro("groups", function($user=null){
 Users::registerMacro("auth", MacrosHelper::auth());
 
 //+ | get current user helper 
-Users::registerMacro("currentUser", MacrosHelper::currentUser());
+Users::registerMacro('currentUser', MacrosHelper::currentUser());
+//+ | check user login 
+Users::registerMacro('checkLogin', MacrosHelper::checkLogin());
 
 
 // --------------------------------------------------------------

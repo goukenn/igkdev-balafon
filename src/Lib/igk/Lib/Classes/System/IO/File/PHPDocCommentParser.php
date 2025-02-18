@@ -6,6 +6,7 @@ namespace IGK\System\IO\File;
 
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -93,6 +94,13 @@ class PHPDocCommentParser extends PhpDocBlockBase{
         }   
         return $content;
     }
+    /**
+     * magic invoke for property missing call
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function __call($name, $arguments)
     {
         $g = null;

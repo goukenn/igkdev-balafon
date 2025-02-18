@@ -50,8 +50,20 @@ class SQLGrammar implements IDbQueryGrammar
      */
     private $m_driver;
 
+    /**
+     * 
+     * @return mixed 
+     */
     public function getVersion(){
         return $this->getEngineVersion() ?? $this->getDriverVersion();
+    }
+    /**
+     * retrieve engine version
+     * @return null 
+     * @throws Exception 
+     */
+    protected function getEngineVersion(){
+        return null;
     }
     public function getDriverVersion(){
         return $this->m_driver->getVersion();

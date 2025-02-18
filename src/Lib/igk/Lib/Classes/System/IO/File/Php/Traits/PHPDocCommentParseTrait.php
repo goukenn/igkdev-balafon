@@ -16,6 +16,9 @@ trait PHPDocCommentParseTrait{
      * parse php doc comment
      * @param string $cm 
      * @param ?PhpDocBlocReader $reader
+     * @param ?array $filter array of property to filter
+     * @param null|callable $filterCallback
+     * @param null|callable(string $name, mixed $definition, $parser):bool $handler handle extra properties
      * @return PHPDocCommentParser 
      */
     public static function ParsePhpDocComment(string $cm,  $reader=null, ?array $filter=null, $filterCallback=null, $handlerCallback=null){

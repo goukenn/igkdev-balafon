@@ -101,6 +101,12 @@ class SysUtils{
             igk_ilog($error_msg);
         }
     }
+    /**
+     * use to include file with extra args 
+     * @param string $arg0 file to include
+     * @param ?array $arg1 arguments to include 
+     * @return mixed 
+     */
     public static function Include(){
         if ((func_num_args()==2) && (is_array(func_get_arg(1)))){
             extract(func_get_arg(1));

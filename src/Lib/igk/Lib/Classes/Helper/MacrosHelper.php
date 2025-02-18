@@ -11,7 +11,7 @@
 //
 namespace IGK\Helper;
 
-use IGK\Models\Groupauthorizations;
+
 use IGK\Models\Users;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
@@ -37,29 +37,36 @@ class MacrosHelper
         if (self::$macros == null) {
             //init global macros function 
             self::$macros = [
-                "auth" => function ($auths, $strict = false) { 
+                'auth' => function ($auths, $strict = false) { 
                     /**
                      * @var \IGK\Models\Users $q 
                      */
                     $q = $this;
-                    return self::GetAuth($q, $auths, $strict);                    
+                    return self::_CheckAuth($q, $auths, $strict);                    
                 },
                 /**
                  * retrieve current user from cache .... 
                  */
-                "currentUser"=>function(){
+                'currentUser'=>function(){
                     if ($u = igk_app()->session->getUser()){
                         $l = \IGK\Models\Users::createFromCache($u, null); 
                         return $l;
                     }
                     return null;
                 },
-                "addUser2"=>function($data){
+                'addUser2'=>function($data){
                     /**
                      * @var \IGK\Models\Users $q 
                      */
                     $q = $this;
                     return self::AddUser($q, $data);
+                },
+                'checkLogin'=>function(string $login, string $pwd){
+                    $ctrl = igk_getctrl(IGK_USER_CTRL);
+                    if ($p = $ctrl->checkLogin($login, $pwd)){
+                        return $p;
+                    }
+                    return false;
                 }
             ];
         }
@@ -67,13 +74,13 @@ class MacrosHelper
     }
 
     /**
-     * get user auth 
+     * check user auth 
      * @param Users $user 
-     * @param mixed $auths 
+     * @param string|array $auths 
      * @param bool $strict 
      * @return bool 
      */
-    private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
+    private static function _CheckAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
         /**
          * @var mixed $b
          */
@@ -85,7 +92,8 @@ class MacrosHelper
          * */
         if ($user->is_mock()){
             return false;
-        }
+        }  
+
         $q = $user;
         $key = \IGK\Models\ModelBase::AuthKey;
         $is_auth = false;

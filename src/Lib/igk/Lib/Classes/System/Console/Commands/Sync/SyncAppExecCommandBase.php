@@ -32,10 +32,12 @@ use Exception;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
+use IGKException;
 
 abstract class SyncAppExecCommandBase extends AppExecCommand{
 
@@ -168,7 +170,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
         if (is_array($script)){
             $tab = array_filter(array_map(function($a)use($v_bdir){
-                if (is_file($f = $v_bdir.$a)){
+                if (file_exists($f = $a) || is_file($f = $v_bdir.$a)){
                     return $f;
                 }
                 return null;
@@ -178,7 +180,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             );
          
         }else{
-           
             $file  = $v_bdir.$script;
             if (!file_exists($file)){
                 return false;
@@ -199,7 +200,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $src = $rep->replace($src);
 
         $sb = new StringBuilder();
-        $token = date("Ymd") . rand(2, 85) . igk_create_guid();
+        $token = self::GenerateSyncCommandToken();
         $sb->appendLine(implode("\n", array_filter([
             "\$token = '" . $token . "';",
            $name ?  "\$archive= '" . $name . "';" : null,
@@ -211,7 +212,27 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $sb->appendLine("@unlink(__FILE__);");        
         return $sb."";
     }
+    /**
+     * generate sync command token-
+     * @return string 
+     */
+    protected static function GenerateSyncCommandToken(){
+        return base64_encode(date("Ymd") .'-'.rand(2, 85) . igk_create_guid());
+    }
 
+    protected function getMergedScripts(){
+        return [];
+    }
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $script 
+     * @param mixed $args 
+     * @return mixed|void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     protected function syncScriptCommand($command, $script, $args){
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;

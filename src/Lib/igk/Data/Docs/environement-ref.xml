@@ -1,0 +1,22 @@
+<environments-constants>
+    <env name="IGK_APP_DIR">
+        <description lang="fr"></description>
+        <description lang="en"></description>
+    </env>
+    <env name="IGK_MODULE_DIR">
+        <description lang="fr"></description>
+        <description lang="en"></description>
+    </env>
+    <env name="IGK_PACKAGE_DIR">
+        <description lang="fr"></description>
+        <description lang="en"></description>
+    </env>
+    <env name="IGK_PROJECT_DIR">
+        <description lang="fr"></description>
+        <description lang="en"></description>
+    </env>
+    <env name="IGK_WORKING_DIR">
+        <description lang="fr">declare le repertoire de travail</description>
+        <description lang="en">declare the start working directory</description>
+    </env>
+</environments-constants>

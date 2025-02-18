@@ -105,14 +105,18 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
     $q=0;
     $tab=is_array($dir) ? $dir: array($dir);
     $files = [];
-    while($q=array_pop($tab)){
+    while(count($tab)>0){
+        $q=array_pop($tab);
+        if (!$q){
+            continue;
+        }
         $hdir=opendir($q);
         if(is_resource($hdir)){
             while($d=readdir($hdir)){
-                if(($d == ".") || ($d == "..")){
+                $f=$q."/".$d;
+                if(($d == ".") || ($d == "..") || (($d[0]=='.') && is_dir($f)) || is_link($f)){
                     continue;
                 }
-                $f=$q."/".$d;
                 if(($regex !== null) && preg_match($regex, $f)){
                     continue;
                 }

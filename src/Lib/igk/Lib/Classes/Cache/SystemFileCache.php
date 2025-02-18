@@ -80,7 +80,7 @@ class SystemFileCache extends CommonCache{
    ///<summary></summary>
    public static function LoadCacheLibFiles(){
         $f= self::CacheFile();
-        $v=false;
+        $v= false;
         if(!defined("IGK_NO_CACHE_LIB") && file_exists($f)){
             //+ | clear lib cache
             if(self::CheckLibVersion()){

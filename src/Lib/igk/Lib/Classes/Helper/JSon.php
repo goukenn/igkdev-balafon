@@ -376,19 +376,15 @@ class JSon
                         }
                         $options->handle = false;
                         $options->property = $k;
-                        $options->source = $obj;
-                        $options->resolveTypeListener = 
+                        $options->source = $obj; 
                         $v = $p->Convert($v, $options);
                         if ($options->handle) {
                             $options->handle = false;
                         }
                         $obj->{$k} = $v; 
-                    }
- 
+                    } 
                     continue;
-                }
-
-
+                } 
                 foreach ($q['d'] as $k => $v) {
                     if (!property_exists($obj, $k))
                         continue;

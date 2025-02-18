@@ -11,17 +11,15 @@ use Exception;
 use Error;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppCommandConstant;
-use IGK\System\Console\AppConstant;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
-use IGK\Helper\IO as IGKIO;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IO\Path;
 use IGKConstants;
 use IGKException;
-use ReflectionClass;
 use ReflectionException;
 
 use function igk_resources_gets as __;
@@ -172,6 +170,7 @@ class InitCommand extends AppExecCommand
             $i = 1;
         }
         $defs .= PHP_EOL . "];";
+        $fc = AppCommandConstant::GetCacheFile();
         igk_is_debug() && Logger::info("load command > ");
         $author = $this->getAuthor($command);
         $builder = new PHPScriptBuilder();
@@ -179,8 +178,11 @@ class InitCommand extends AppExecCommand
             ->author($author)
             ->defs($defs)
             ->desc("command list cache");
-        igk_is_debug() && Logger::info("try write to file: > ".AppCommandConstant::GetCacheFile());
-        igk_io_w2file(AppCommandConstant::GetCacheFile(), $builder->render());
+        igk_is_debug() && Logger::info("try write to file: > ".$fc);
+        
+
+        igk_io_w2file($fc, $builder->render());
+        echo igk_io_projectdir()."\n";
         Logger::success(__("init command complete"));
     }
 }

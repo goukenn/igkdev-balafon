@@ -22,7 +22,7 @@ class BalafonCommand{
     public static function Exec(string $commandArgs){
         if (! ($b = OsShell::Where("balafon"))){
             $path = getenv('PATH');
-            putenv("PATH", $path.PATH_SEPARATOR.dirname(IGK_LIB_BIN));
+            putenv("PATH=". $path.PATH_SEPARATOR.dirname(IGK_LIB_BIN));
         }
         $c = new static();
         return $c->run($commandArgs);

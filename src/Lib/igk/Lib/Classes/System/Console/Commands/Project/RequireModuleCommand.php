@@ -15,7 +15,7 @@ use stdClass;
 */
 class RequireModuleCommand extends AppExecCommand{
 	var $command='--project:require';
-	var $desc='add required to required configuration'; 
+	var $desc='add required to project\'s controller configuration'; 
 	/* var $options=[]; */
 	var $category = 'project';
 	var $usage = 'controller module [options]';

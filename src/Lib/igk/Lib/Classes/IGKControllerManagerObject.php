@@ -17,17 +17,19 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\Cache\SystemFileCache as IGKSysCache;
 use IGK\Cache\SystemFileCache;
+use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Controllers\RootControllerBase;
 use IGK\Manager\IApplicationControllerManager;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Drawing\Color;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 use function igk_resources_gets as __;
  
 /**
- *  System Controllers Managers. store list of different controller table.
+ * System Controllers Managers. store list of different controller table.
  * @deprecated use ApplicationControllerManager instead
  */
 final class IGKControllerManagerObject extends IGKObject implements IApplicationControllerManager
@@ -110,7 +112,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             if (igk_environment()->isDev()) {
                 echo ( " BLF : failed to initialize class instance : $n"); 
                 igk_trace();
-                @session_destroy();
+                igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); @session_destroy();
                 //session controller make infinite loop
                 igk_exit();
             }

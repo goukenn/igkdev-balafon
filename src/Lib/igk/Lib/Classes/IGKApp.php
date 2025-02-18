@@ -284,19 +284,20 @@ class IGKApp extends IGKObject
      * @return void 
      */
     public static function StartEngine(IGKApplicationBase $app, $render = 1)
-    {              
+    {      
+        $_env = igk_environment();        
         // | --------------------------------------------------------------
         // | init environment
         // |
         if ( self::$sm_instance !=null){
             // igk_trace();
-            igk_die("App already started...");
+            igk_die("[App] already started...");
         }
-        igk_environment()->write_debug("StartEngine: ". igk_sys_request_time());
+        $_env->write_debug("StartEngine: ". igk_sys_request_time());
         self::$sm_instance = new self();
         self::$sm_instance->m_application = $app;
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
-        igk_environment()->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting); 
+        $_env->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting); 
         if (!$app->getNoEnvironment()){
             IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir(), self::$sm_instance);        
         }   

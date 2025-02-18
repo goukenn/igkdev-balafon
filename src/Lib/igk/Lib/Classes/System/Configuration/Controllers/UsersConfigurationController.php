@@ -111,22 +111,8 @@ class UsersConfigurationController extends ConfigControllerBase
         } else {
             $rm_me = 1;
         }
-        $condition = [];
-
-        if (!IGKValidator::IsEmail($log)) {
-            $condition[] = (object)[
-                "operand" => "OR",
-                "conditions" => [
-                    "clLogin" => $log,
-                    "clLogin" => $log . "@" . igk_configs()->website_domain
-                ]
-            ];
-        } else {
-            $condition['clLogin'] = $log;
-        }
-        $crypt_pwd = igk_encrypt($pwd);
-        $condition["clPwd"] = $crypt_pwd;
-        if ($r = Users::select_row($condition)) {
+        $condition = self::GetCheckCondition($log, $pwd); 
+        if ($r = Users::select_row($condition)){
             if ($r->clStatus == 1) {
                 igk_app()->session->lastLogin = $r->clLastLogin;
                 //+ | update the last login 
@@ -154,7 +140,8 @@ class UsersConfigurationController extends ConfigControllerBase
             if (!preg_match("/@(.)+$/i", $log)) {
                 $log = $log . "@" . igk_configs()->website_domain;
             }
-            $tab = ["clLogin" => $log, "clPwd" => $crypt_pwd];
+            $tab = self::GetCheckCondition($log, $pwd); 
+            // $tab = ["clLogin" => $log, "clPwd" => $crypt_pwd];
             $t = $e->searchEqual($tab);
             if ($t && is_object($t)) {
                 if ($t->clStatus == 1) {
@@ -172,6 +159,42 @@ class UsersConfigurationController extends ConfigControllerBase
             }
         } else {
             igk_notifyctrl("login")->addWarningr("warn.connection.db.failed");
+        }
+        return false;
+    }
+    /**
+     * 
+     * @param string $login 
+     * @param string $pwd 
+     * @return array 
+     */
+    public static function GetCheckCondition(string $login, string $pwd){
+        $condition = [];
+        if (!IGKValidator::IsEmail($login)) {
+            $condition[] = (object)[
+                "operand" => "OR",
+                "conditions" => [
+                    "clLogin" => $login,
+                    "clLogin" => $login . "@" . igk_configs()->website_domain
+                ]
+            ];
+        } else {
+            $condition['clLogin'] = $login;
+        }
+        $crypt_pwd = igk_encrypt($pwd);
+        $condition["clPwd"] = $crypt_pwd;
+        return $condition;
+    }
+    /**
+     * check login 
+     * @param string $login 
+     * @param string $pwd 
+     * @return Users|false 
+     */
+    public function checkLogin(string $login, string $pwd){
+        $condition = self::GetCheckCondition($login, $pwd);
+        if ($r = Users::select_row($condition)){
+            return $r;
         }
         return false;
     }
@@ -663,7 +686,7 @@ class UsersConfigurationController extends ConfigControllerBase
             $frm["autocomplete"] = "off";
             $frm->cref()->ajx(); // ["autocomplete"] = "off";
             $ul = $frm->add("ul");
-            igk_html_build_form($ul, array(
+            $frm->fields([
                 "clFirstName" => array("require" => 0),
                 "clLastName" => array("require" => 1),
                 "clLogin" => array("require" => 1, "attribs" => array("autocomplete" => "nope")),
@@ -678,7 +701,7 @@ class UsersConfigurationController extends ConfigControllerBase
                     "attribs" => array("autocomplete" => "off")
                 ),
                 "clLevel" => array("require" => 1, "attribs" => array("value" => "0"))
-            ));
+            ], $ul);
             $frm->addInput("confirm", "hidden", 1);
             $frm->addInput("conf", "hidden", 1);
             $frm->addHSep();

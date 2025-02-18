@@ -21,13 +21,8 @@ use IGKApp;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
-use ReflectionMethod;
-
-function rgtrim($v)
-{
-    igk_wln("render:" . $v);
-    return "-=" . $v;
-}
+use ReflectionMethod; 
+ 
 /**
  * represent base renderer engine
  * @package IGK\System\Html

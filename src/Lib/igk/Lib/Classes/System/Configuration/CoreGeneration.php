@@ -14,7 +14,8 @@ class CoreGeneration
         // 'require_once $_ENV["IGK_APP_DIR"]."/Lib/igk/Lib/Tests/autoload.php";'
         $doc = <<<'EOF'
 require_once (function ($name) {
-    // init environment    
+    // init environment   
+    $_key_app_dir = $name; 
     foreach (['IGK_BASE_DIR', 'IGK_TEST_CONTROLLER', 'IGK_APP_DIR'] as $m) {
         if (defined($m))
             continue;
@@ -25,7 +26,7 @@ require_once (function ($name) {
             }
         }
     }
-    if (!defined('IGK_APP_DIR')) {
+    if (!defined( $_key_app_dir )) {
         $resolv_path = function ($dir, $value) {
             $p = realpath($value);
             if (empty($p)) {
@@ -64,7 +65,7 @@ require_once (function ($name) {
                 }
             }
         }
-        !defined('IGK_APP_DIR') && define('IGK_APP_DIR', $bdir);
+        !defined( $name ) && define( $name, $bdir);
     }
     return constant($name);
 })('IGK_APP_DIR') . "/Lib/igk/Lib/Tests/autoload.php";

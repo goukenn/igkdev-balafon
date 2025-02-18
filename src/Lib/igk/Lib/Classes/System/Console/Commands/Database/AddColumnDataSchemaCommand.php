@@ -37,7 +37,7 @@ class AddColumnDataSchemaCommand extends AppExecCommand{
 			Logger::success(sprintf('%s: schema modified', $ctrl->getName()));
 		}else{
 			Logger::danger('failed.');
-			igk_exit(-1);
+			return -1;
 		} 
 	}
 } 

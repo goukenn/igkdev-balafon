@@ -7,11 +7,14 @@
 // @file: session.php
 namespace IGK\System\Library;
 
+use Closure;
 use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGK\System\Http\Cookies;
+use IGK\System\Http\JsonResponse;
 use IGK\System\IO\Path;
 use IGK\System\Http\RequestHeader;
+use IGK\System\Http\WebFileResponse;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
@@ -31,11 +34,12 @@ class session extends \IGKLibraryBase{
         
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function(){ 
             if ($this->canStartSession()){
-                igk_is_debug() && igk_dev_wln("session start.");
+                //igk_is_debug() && 
+                igk_ilog("session start.");
                 $this->start(); 
             } else {
                 igk_environment()->set('no_app_session', 1);
-                igk_environment()->isDev() && igk_ilog('session not start');
+                igk_environment()->isDev() && igk_ilog('run app without session');
             }
         },  IGKEvents::P_SESSION_PRIORITY);         
         return true;
@@ -51,9 +55,23 @@ class session extends \IGKLibraryBase{
         if (isset($_COOKIE[$cookie_name])){
             return true;
         }
-        
+        $v_uri =igk_io_request_uri(); 
+
         $p = igk_configs()->api_request_pattern ?? "\/api\/";
-        if (preg_match("/".$p."/", igk_io_request_uri())){ 
+        if ($uris = igk_environment()->session_uris){
+            // + | session uri treatment 
+            if (isset($uris[$v_uri])){
+                return true;
+            }
+            $cl = array_filter($uris, function($cf){ return $cf instanceof Closure; });
+            while(count($cl)){
+                $fc = array_shift($cl);
+                if ($fc($v_uri)){
+                    return true;
+                }
+            }
+        } 
+        if (preg_match("/".$p."/", $v_uri)){  
             return false;
         }
         return true;

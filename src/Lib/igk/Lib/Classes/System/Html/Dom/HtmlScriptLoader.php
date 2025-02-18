@@ -23,6 +23,7 @@ use IGKResourceUriResolver;
  */
 class HtmlScriptLoader
 {
+    use ScriptTrait;
 
     var $options;
 
@@ -179,7 +180,7 @@ class HtmlScriptLoader
                     case ".js";
                         $s .= IGK_START_COMMENT . "F: " . $F . "" . IGK_END_COMMENT . IGK_LF;
                         $ts = file_get_contents($f);
-                        $ts = ScriptTrait::TreatJSSource($f, $ts, $references);
+                        $ts = self::TreatJSSource($f, $ts, $references);
                         $s .= $ts;
                         break;
                     default:

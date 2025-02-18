@@ -57,23 +57,7 @@ if (in_array($c = $args[0], ['yarn', 'npm', 'exec'])){
     Logger::danger("missing yarn or npm");        
     return -1;
 }
-//  echo "cmd : ".$cmd;
-
-
-// if (property_exists($command->options, '--version')){
-//     $shell_command[] = '--version';
-// }
-// if (empty($shell_command = implode(' ', $shell_command))){
-//     Logger::danger('shell command require');
-// }
-// if ($o =  OsShell::ExecInWorkingDir( $cmd .' '.$shell_command." 1>&2 2>&2", igk_io_packagesdir() , $success=$this->command.'-complete')){
-//     if (igk_str_endwith($o, $success)){
-//         $o = igk_str_rm_last($o, $success);
-//     }
-//     Logger::print($o);
-// }
 $g = $c =  null; 
-
 $response->response(json_encode([
     'script'=>__FILE__,
     'os'=>PHP_OS,

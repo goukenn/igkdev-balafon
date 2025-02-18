@@ -21,7 +21,7 @@ function igk_cookies(){
 function igk_session_destroy()
 {
     if (session_id()) {
-        @session_destroy();
+        igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); @session_destroy();
     } 
 }
 

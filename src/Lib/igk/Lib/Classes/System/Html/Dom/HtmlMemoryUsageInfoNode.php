@@ -40,7 +40,7 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     */
     public function clear_component(){
         igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->DisposeAll();
-        session_destroy();
+        igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); session_destroy();
         igk_navtobaseuri();
     }
     ///<summary></summary>

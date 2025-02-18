@@ -22,7 +22,8 @@ class InstallerResponse
             "200" => "HTTP/1.0 200 OK",
             "404" => "HTTP/1.0 404 Not Found",
             "500" => "HTTP/1.0 500 Server misconfiguration",
-            "503" => "HTTP/1.0 500 Installer Directory is link",
+            "501" => "HTTP/1.0 501 missing-Server misconfiguration",
+            "503" => "HTTP/1.0 503 Installer Directory is link",
         ];
         $msg = $v_responses[$this->code];
         header($msg);

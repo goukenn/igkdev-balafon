@@ -26,6 +26,12 @@ use ReflectionException;
 /**
  * sync ftp project
  * @package IGK\System\Console\Commands
+ * - sysnc p roject 
+ * check for [pre-publish].php 
+ *      if exists run it in balafon context
+ * run install.project to the ftp server
+ * check for [post-publish].php of php server 
+ *      run it on balafon context 
  */
 class SyncProjectCommand extends SyncAppExecCommandBase
 {
@@ -92,17 +98,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
-        }
-
-
-
+        } 
 
         $exclude_file_extension = "vscode|balafon|DS_Store|gkds";
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
-            "");
-
-
+            ""); 
 
         if (is_null($project)) {
             Logger::danger("project name or controller is required");
@@ -150,9 +151,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     if ($cl  = $ctrl->resolveClass(EntryClassResolution::SysSyncProject)) {
                         $resolv_files = new $cl();
                     }
-                }
-
-
+                } 
                 SyncProjectSettings::InitProjectExcludeDir($pdir, $excludedir);
 
                 if ($this->use_zip) {
@@ -184,9 +183,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     $path_key = self::PROJECT_DIR;
                     if (is_null($setting[$path_key])) {
                         igk_die("[project_dir] is required");
-                    }
-
-
+                    }  
                     $g = ftp_nlist($h, $setting[$path_key]);
                     $o_dir = $setting[$path_key] . "/" . $project;
                     if (!in_array($project, $g)) {
@@ -377,12 +374,21 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         return $file;
     }
 
+    /**
+     * run install project tokens
+     * @param mixed &$token 
+     * @param mixed $name 
+     * @return false|string 
+     * @throws Exception 
+     */
     private function _getInstallScript(&$token, $name)
     {
+        
         return self::GetScriptInstall(
-            [
+            [  
+                IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
                 "installer-helper.pinc", // entry helper
-                "installer.helper.pinc", // class
+                "installer.helper.pinc", // intaller helper class 
                 'install.project.script.pinc'
             ],
             $token,
@@ -429,6 +435,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 "token" => $token,
                 "app_dir" => $setting["application_dir"],
                 "project_folder" => $project_name,
+                'project_name'=>$project_name,
                 "project_entry" => $project_entry,
                 "archive" => $name,
                 "home_dir" => igk_getv($setting, "home_dir")
@@ -447,7 +454,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         if (($status = igk_curl_status()) == 200) {
             Logger::info("curl response \n" . App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
-            if ($rep && !$rep->error) {
+            list($error) = igk_extract($rep ?? [], 'error'); 
+            if (!$error) {
                 Logger::success("install complete");
             }
         } else {

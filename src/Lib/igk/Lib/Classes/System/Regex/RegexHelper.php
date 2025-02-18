@@ -26,4 +26,8 @@ class RegexHelper{
         }
         return null;
     }
+    public static function Escape(string $value){
+        $value = str_replace("/","\\/", $value);
+        return $value;
+    }
 }

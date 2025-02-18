@@ -281,9 +281,37 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return $index;
     }
-
-
-    public function setArray($name, $key, $value)
+    /**
+     * merge uri session en venvironment
+     * @param array $uris 
+     * @return array new list of fored uri session  
+     */
+    public function mergeSessionUri(array $uris){
+        $tb = & $this->getRefArray('session_uris');
+        $tb = array_merge($tb, $uris);
+        return $tb; 
+    }
+    /**
+     * get registered array 
+     * @param string $key 
+     * @return mixed 
+     */
+    public function & getRefArray(string $key){
+        $tab = & $this->get($key);
+        if (is_null($tab)){
+            $tab = [];
+            $this->m_envs[$key] = & $tab;
+        }
+        return $tab;
+    }
+    /**
+     * store reference array
+     * @param mixed $name 
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return $this 
+     */
+    public function setArray(string $name, string $key, $value)
     {
         $tab = $this->get($name);
         if (!is_array($tab)) {
@@ -294,6 +322,14 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         $this->set($name,  $tab);
         return $this;
     }
+    /**
+     * retrieve array definition 
+     * @param mixed $name 
+     * @param mixed $key 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws Exception 
+     */
     public function getArray($name, $key, $default = null)
     {
         $b = $this->get($name);

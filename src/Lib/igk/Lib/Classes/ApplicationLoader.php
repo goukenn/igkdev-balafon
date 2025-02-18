@@ -529,14 +529,17 @@ class ApplicationLoader
         // + | mandatory constants protected base constant
         // + |         
         $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
-
-        if (!defined('IGK_APP_DIR')) {
+        $app_dir_key = 'IGK_APP_DIR';
+        if (!defined($app_dir_key)) {
             $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
-            define("IGK_APP_DIR", $dir);
+            define($app_dir_key, $dir);
         }
         if (!defined('IGK_BASE_DIR')) {
             define("IGK_BASE_DIR", $bdir);
         }
+        // + | -------------------------------------------------
+        // + | load environment 
+        // + | -------------------------------------------------
         if (!defined("IGK_PROJECT_DIR")) {
             $dir = !empty($dir = $srv->IGK_PROJECT_DIR) && is_dir($dir) ? $dir : StringUtility::Dir(IGK_APP_DIR . "/" . IGK_PROJECTS_FOLDER);
             define("IGK_PROJECT_DIR", $dir);
@@ -545,12 +548,13 @@ class ApplicationLoader
             if (!empty($dir = $srv->IGK_MODULE_DIR) && is_dir($dir))
                 define("IGK_MODULE_DIR", $dir);
         }
-        if (!defined("IGK_PACKAGE_DIR")) {
-            define("IGK_PACKAGE_DIR", IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
+        if (!defined($l = 'IGK_PACKAGE_DIR')) {
+            define($l ,!empty($dir= $srv->IGK_PACKAGE_DIR) && is_dir($dir) ? 
+            $dir: (IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER));
         }
 
-        if (!defined("IGK_MODULE_DIR")) {
-            define("IGK_MODULE_DIR", IGK_PACKAGE_DIR . "/" . IGK_MODULE_FOLDER);
+        if (!defined('IGK_MODULE_DIR')) {
+            define('IGK_MODULE_DIR', IGK_PACKAGE_DIR . "/" . IGK_MODULE_FOLDER);
         }
         if (defined('IGK_SESS_DIR') && (is_dir(IGK_SESS_DIR) || IO::CreateDir(IGK_SESS_DIR))) {
             ini_set("session.save_path", IGK_SESS_DIR);

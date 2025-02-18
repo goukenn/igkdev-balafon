@@ -79,10 +79,11 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ]));
 
         $src = PHPScriptBuilderUtility::MergeSource(
+            IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
             IGK_LIB_DIR . "/Inc/core/class.InstallerResponse.pinc",
-            IGK_LIB_DIR . "/Inc/core/install.script.pinc",
-            IGK_LIB_DIR . "/Inc/core/installer.helper.pinc"
-        );      
+            IGK_LIB_DIR . "/Inc/core/installer.helper.pinc",
+            IGK_LIB_DIR . "/Inc/core/install.script.pinc"
+        );       
         $sb->appendLine("?>" . $src);  
         $sb->appendLine("echo 'finish install';");
         $sb->appendLine("@unlink(__FILE__);");
@@ -125,12 +126,12 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ftp_close($h);
         if (($status = igk_curl_status()) == 200) {
             $rep = json_decode($response);
-            Logger::info("curl response:\n");
             if (igk_is_debug()){
+                Logger::info("curl response:\n");
                 echo json_encode($rep, JSON_PRETTY_PRINT| JSON_UNESCAPED_SLASHES), PHP_EOL;
             }
-           //  App::Gets(App::BLUE, $response));
-            if ($rep && !$rep->error) {
+            list($error)= igk_extract($rep ?? [], 'error'); 
+            if (!$error) {
                 Logger::success("update core lib success");
                 if ($setting['site_uri']) {
                     Logger::print('you can navigate to: ' . $setting['site_uri']);
@@ -143,15 +144,12 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
                         "--no-webconfig"=>igk_getv($command->options, "--no-webconfig") 
                         // "--admin-login" =>"set configuration login",
                         // "--admin-pwd"   =>"set configuration login",
-                    ]);
-
-                    return $exec_command->exec($new_command);
-                
-                
+                    ]); 
+                    return $exec_command->exec($new_command);  
                 }
             }
         } else {
-            Logger::danger("install script failed");
+            Logger::danger("Install balafon's corelib script failed.");
             Logger::info("status : " . $status);
             Logger::print(json_encode($response, JSON_UNESCAPED_SLASHES));
         }

@@ -239,7 +239,11 @@ final class AnnotationHelper
                         $v_loads[$cl] = self::GetAnnotationInfo($cl);
                     }
                     $info = $v_loads[$cl];
-                    if (in_array('method',  $info->support)|| in_array('*', $info->support)) {
+                    $port = $info->support ?? [];
+                    if (is_string($port)){
+                        $port = explode("|", $port); 
+                    }
+                    if (in_array('method',  $port)|| in_array('*', $port)) {
                         if (($info->count == 0) || ($info->multiple)) {
                             $r_annotations[] = $a;
                             $info->count++;

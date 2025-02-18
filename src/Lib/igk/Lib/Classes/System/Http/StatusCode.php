@@ -5,12 +5,12 @@ namespace IGK\System\Http;
 // @filename: StatusCode.php
 // @date: 20220311 08:32:47
 // @desc: store status code definitions 
-
+require_once __DIR__.'/RequestResponseCode.php';
 /**
  * 
  * @package IGK\System\Http
  */
-class StatusCode
+class StatusCode extends RequestResponseCode
 {
     const BAD_REQUEST = 400;
     const UNAUTHORIZED = 401;

@@ -118,7 +118,8 @@ abstract class PageControllerBase extends ControllerTypeBase
             {
                 return $cl::Create($u, $this);
             }
-            $u = new ApplicationUserProfile($u->model());
+            $profile = $this->getUser();// null;//\IGK\Models\Users::currentUser();
+            $u = new ApplicationUserProfile($u->model(), $this, $profile);
         }
         return $u;
     }

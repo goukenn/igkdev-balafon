@@ -7,6 +7,7 @@
 
 namespace IGK\Actions;
 
+use Exception;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
 use IGK\System\Http\RedirectRequestResponse;
@@ -157,7 +158,10 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                     // + | check for route not security 
                     if (!$v_user) {
                         self::CheckMethodAccess($this, $v_refmethod);
-                    }  
+                    } else {
+                        // + | 
+                        self::VerifMethodAccess($this, $v_refmethod, $v_user);
+                    }
                     $handle = true;
                     $arguments =  Dispatcher::GetInjectArgs($v_refmethod, $arguments, []);
                     return $this->$name(...$arguments);
@@ -262,40 +266,102 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         $route = Route::GetMatchAll();
         return $this->invoke($route, $arguments);
     }
-    private static function CheckMethodAccess($host, ReflectionMethod $v_refmethod)
+    private static function VerifMethodAccess($host, ReflectionMethod $v_refmethod, $user)
     {
-        if ($comment = $v_refmethod->getDocComment()) {
-            $p = PHPDocCommentParser::ParsePhpDocComment($comment);
-            if ($security = $p->security) { 
-                $reader = new StringBlockReader;
-                $reader->start = '(';
-                $reader->end = ')';  
-                $src =  $reader->read($security);
-                $args = StringUtility::ReadArgs($src); 
-
-                $ack = (object)[
-                    'security' => null,
-                    'access' => false,
-                    'controller' => $host->getController()
-                ];  
-                while(  !$ack->access  && (count($args)>0)){
-                    $t = array_shift($args);
-                    if (!is_array($t))
-                        $t = [$t];  
-                    foreach($t as $sec){
-                        $ack->security = $sec; 
-                        igk_hook(IGKEvents::HOOK_MIDDLEWARE_ACTION, $ack);
-                        if ($ack->access){
-                            break;
-                        }
+        if ($security = self::_ParseSecurity($v_refmethod)) {
+            $ctrl = $host->getController();
+            $reader = StringBlockReader::Annotation();
+            $src =  $reader->read($security);
+            $args = StringUtility::ReadArgs($src);
+            $ack = (object)[
+                'security' => null,
+                'access' => false,
+                'controller' => $ctrl,
+                'user' => $user
+            ];
+            while (!$ack->access  && (count($args) > 0)) {
+                $t = array_shift($args);
+                if (!is_array($t))
+                    $t = [$t];
+                foreach ($t as $sec) {
+                    $ack->security = $sec;
+                    igk_hook(IGKEvents::HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN, $ack);
+                    if ($ack->access) {
+                        break;
                     }
                 }
-                if (!$ack->access) {
-                    throw new IGKException("User required security missing.2", RequestResponseCode::Forbiden);
-                } 
+            }
+            if (!$ack->access) {
+                throw new IGKException("invalid token ", 500);
+            }
+        }
+    }
+    static function _ParseSecurity(ReflectionMethod $v_refmethod)
+    {
+        if ($comment = $v_refmethod->getDocComment()) {
+            $handler = function ($m, $d, $parser) use (&$auth) {
+                if ($m == 'auth') {
+                    if (is_string($d)) {
+                        $d = StringUtility::ReadArgs(StringBlockReader::Annotation()->read($d));
+                    } else {
+                        $d = StringUtility::ReadArgs(StringBlockReader::Annotation()->read(igk_getv($d, 0) ?? ''));
+                    }
+                    $auth = $d;
+                }
+                if (property_exists($parser, $m)) {
+                    return false;
+                }
                 return true;
-            } 
-        }  
+            };
+            $p = PHPDocCommentParser::ParsePhpDocComment($comment, null, null, null, $handler);
+            return $p->security;
+        }
+    }
+
+    /**
+     * check method access no user 
+     * @param mixed $host 
+     * @param ReflectionMethod $v_refmethod 
+     * @return never 
+     * @throws Exception 
+     */
+    private static function CheckMethodAccess($host, ReflectionMethod $v_refmethod)
+    { 
+        $auth = '';
+        $security = self::_ParseSecurity($v_refmethod);
+        if ($security) {
+            $ctrl = $host->getController();
+            $reader = StringBlockReader::Annotation();
+            $src =  $reader->read($security);
+            $args = StringUtility::ReadArgs($src);
+            $ack = (object)[
+                'security' => null,
+                'access' => false,
+                'controller' => $ctrl
+            ];
+            while (!$ack->access  && (count($args) > 0)) {
+                $t = array_shift($args);
+                if (!is_array($t))
+                    $t = [$t];
+                foreach ($t as $sec) {
+                    $ack->security = $sec;
+                    igk_hook(IGKEvents::HOOK_MIDDLEWARE_ACTION, $ack);
+                    if ($ack->access) {
+                        break;
+                    }
+                }
+            }
+
+            if (!$ack->access) {
+                throw new IGKException("Security issue. Missing User.", RequestResponseCode::Forbiden);
+            }
+            $ctrl->checkUser(false, false);
+            $userProfile = $ctrl->userProfile;
+            if ($auth && !$userProfile->auth($auth)) {
+                throw new IGKException("Security issue.", RequestResponseCode::Unauthorized);
+            }
+            return true;
+        }
         return false;
     }
 

@@ -133,6 +133,12 @@ if (in_array("--debug", $argv)) {
     $fc = $command["--debug"][0];
     $fc([], $command);
 }
+if (in_array('--report-error', $argv)){
+    // activate error reporting
+    ini_set('display_errors', 1);
+    error_reporting(-1);
+
+}
  
 //--------------------------------------------------------------------------------
 // | Run the application

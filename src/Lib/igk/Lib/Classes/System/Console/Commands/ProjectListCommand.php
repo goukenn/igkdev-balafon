@@ -6,9 +6,11 @@
 
 namespace IGK\System\Console\Commands;
 
+use ForemJobDashboardController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
-use IGK\System\Console\App;  
+use IGK\System\Console\App;
+use IGKException;
 
 /**
  * list all project
@@ -19,9 +21,20 @@ class ProjectListCommand extends AppExecCommand{
     var $command = "--project:list";
     var $category = "project";
     var $desc = "List installed project";
+    var $usage = 'fitler [options]';
 
+    var $options = [];
+    /**
+     * extract 
+     * @param mixed $command 
+     * @param string $pattern 
+     * @return void 
+     * @throws IGKException 
+     */
     public function exec($command, $pattern =".+") { 
    
+        $ctrl = ForemJobDashboardController::ctrl(true);
+
         $c = igk_sys_get_projects_controllers(); 
         $t = [];
         foreach ($c as $m) {

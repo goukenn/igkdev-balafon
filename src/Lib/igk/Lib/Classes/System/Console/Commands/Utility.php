@@ -13,6 +13,7 @@ use Closure;
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
+use IGKBacktickHelperCommandTrait;
 
 ///<summary>command utility</summary>
 /**
@@ -21,6 +22,16 @@ use IGK\System\Console\Logger;
  */
 abstract class Utility{
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
+    use IGKBacktickHelperCommandTrait;
+   
+ 
+    /**
+     * 
+     * @param mixed $opts 
+     * @param mixed $color_one 
+     * @param mixed $color_two 
+     * @return void 
+     */
     public static function PrintCommand($opts, $color_one=App::AQUA, $color_two = App::GREEN  ){
         foreach($opts as $k=>$v){
             if (empty($v) && (strpos($k, '+')===0)){

@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\BaseController;
+use IGK\Database\Helpers\AuthorizationHelper;
 use IGK\Models\Caches\CacheModels;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
@@ -48,9 +49,11 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * 
      * @param string|array $name 
      * @param bool $strict 
+     * @param ?BaseController $ctrl current - load controller
      * @return mixed 
      */
-    public function auth($name, $strict=false){   
+    public function auth($name, $strict=false, $ctrl=null){   
+        $name = AuthorizationHelper::Map($name, $ctrl);
         return $this->model()->auth($name, $strict);
     }
     ///<summary>Represente fullname function</summary>
@@ -58,11 +61,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
         return igk_user_fullname($this);
     }
     ///get all available authorisation for this user
-    public function getAuths(){
-        // if (igk_environment()->isDev()){
-        //     /// TASK: handle authorisation for all
-        //     return true;
-        // }
+    public function getAuths(){ 
         if($this->clId){
             $tab=array();
             $db=igk_db_table_select_where($this->usergrouptable, array(IGK_FD_USER_ID=>$this->clId));

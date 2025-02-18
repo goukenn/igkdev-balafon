@@ -50,7 +50,7 @@ class TerminalActionCommand{
 
         if (!function_exists('readline')){
             Logger::danger("require readline");
-            exit(-1);
+            return -1;
         } 
         do{
             $this->_clearLastErrors(); 
