@@ -868,6 +868,16 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return IGKMySQLQueryResult::CreateResult($this->_sendQuery("SELECT LAST_INSERT_ID()"));
     }
+    /**
+     * retrieve the last query 
+     * @return mixed|void 
+     */
+    public static function LastQuery(){
+        $g = igk_environment()->get(IGK_ENV_QUERY_LIST);
+        if ($g){
+            return array_pop($g);
+        }
+    }
     ///<summary></summary>
     ///<param name="query"></param>
     ///<param name="throwex" default="true"></param>

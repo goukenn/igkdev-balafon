@@ -114,11 +114,10 @@ abstract class PageControllerBase extends ControllerTypeBase
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 
             $cl = $this->resolveClass(EntryClassResolution::UserProfile);
-            if ($cl && class_exists($cl) && (is_subclass_of($cl, SystemUserProfile::class)))
-            {
+            if ($cl && class_exists($cl) && (is_subclass_of($cl, SystemUserProfile::class))){
                 return $cl::Create($u, $this);
             }
-            $profile = $this->getUser();// null;//\IGK\Models\Users::currentUser();
+            $profile = $this->getUser();
             $u = new ApplicationUserProfile($u->model(), $this, $profile);
         }
         return $u;

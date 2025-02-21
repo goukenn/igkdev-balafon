@@ -1540,6 +1540,56 @@ if (!function_exists('igk_html_conv2html')) {
 }
 
 
+if (!function_exists('igk_html_host')) {
+    /**
+     * host on child 
+     * @param string|IHtmlNode $p
+     * @param array $params list of parameter string(content)|attribute +@|HtmlNode
+     */
+    function igk_html_host($p, ...$params)
+    {
+        $root = null;
+        if (is_string($p)){
+            list($root, $last) = HtmlNodeTagExplosionDefinition::CreateNodes($p);
+            $p = $last;
+        }
+        $tp = [['n' => $p, 'p' => $params]];
+        $root = $root ?? $p;
+        while (count($tp) > 0) {
+            $q = array_shift($tp);
+            $p = $q['n'];
+            $params = $q['p']; 
+            foreach ($params as $n) {
+                if (is_callable($n))
+                    $n($p);
+                else if ($n instanceof HtmlItemBase) {
+                    $p->add($n);
+                } else if (is_string($n)) {
+                    $p->text($n);
+                } else if (is_array($n)) {
+                    if ($attr = igk_getv($n,$tk = '+@')){
+                        if (is_string($attr)){
+                            $p->text($attr);
+                        } else if (is_array($attr)){
+                            $p->setAttributes($attr);
+                        }
+                        unset($n[$tk]);
+                    }
+                    if (count($n)>0){
+                        $cn = igk_create_notagnode();
+                        $tp[] = ['n' => $cn, 'p' => $n];
+                        $p->add($cn);
+                    }
+
+                }
+            }
+        }
+        return $root;
+    }
+}
+
+
+
 
 igk_load_library("html_ob");
 igk_load_library("html_json");

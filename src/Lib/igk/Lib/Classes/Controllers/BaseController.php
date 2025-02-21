@@ -111,7 +111,13 @@ use function igk_resources_gets as __;
  * @method static void libdir() macros function
  * @method static object|\IGK\Database\DbSchemaLoadEntriesFromSchemaInfo loadDataAndNewEntriesFromSchemas() macros function load data and update the datable with entries
  * @method static mixed|\IGK\Database\IDbSchemaInfo loadDataFromSchemas() macros function load data from schema file. do not modify the database
- * @method static bool login(mixed $user, ?string $password, bool $nav=true, bool $rememberme=false) macros function. try login with the user
+ * @method static bool login(\IUserInfo|string $user, ?string $password, bool $nav=true, bool $rememberme=false) macros function. try login with the user
+ * ## params
+ *      - `$user` : user login or object info that describe a use connection
+ *      - `$password`: if $user is a string(user's login) this will be an user's password.
+ *      - `nav`: true to force redirection on success
+ *      - `rememberme`: true to store connexions - cookies 
+ * 
  * @method static void logout() macros function
  * @method static void migrate() macros function
  * @method static ?\IGK\Models\ModelBase model(string $modelName model name) macros function search for model by name. 

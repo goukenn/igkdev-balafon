@@ -7,27 +7,40 @@ namespace IGK\System\Html;
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Traits\HtmlNodeTagExplosionTrait;
 use IGK\System\IO\Configuration\ConfigurationReader;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 
 ///<summary></summary>
 /**
- * 
+ * explode tag definition 
  * @package IGK\System\Html
  */
 class HtmlNodeTagExplosionDefinition
 {
     use HtmlNodeTagExplosionTrait;
+
+    const split = '>';
+    // + | --------------------------------------------------------------------
+    // + | prefix definition 
+    // + |
+    
+    const identifier = '#';
+    const name = '%';
+    const classes='.';
     /**
      * 
      * @var HtmlNodeBuilder
      */
     var $builder;
 
-    // explode definition 
-    protected $split = ">";
+    /**
+     * explode definition 
+     */
+    protected $split = self::split;
 
     private static $sm_static;
 
@@ -285,5 +298,62 @@ class HtmlNodeTagExplosionDefinition
         $ln  = strlen($value);
         $pos = strpos($tagname, $value);
         $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos + $ln);
+    }
+
+    public static function CreateNodes(string $tag_def){
+        $ctn = new RegexMatcherContainer;
+        $ctn->appendStringDetection();
+        $ctn->match(self::split, 'split');
+        $offset = 0;
+        $rf = [];
+        $p = 0;
+        while($g = $ctn->detect($tag_def, $offset)){
+            if ($e = $ctn->end($g, $tag_def, $offset)){
+                if ($e->tokenID=='split'){
+                    $rf[] = trim(substr($tag_def, $p,  $e->from-$p));
+                    $p = $e->to;
+                }
+            }
+        }
+        if ($s = trim(substr($tag_def, $p)))
+            $rf[] = $s;
+        $root = $last = null;
+        while(count($rf)>0){
+            $q = array_shift($rf);
+            $n = self::CreateNodeArg($q);
+            if (is_null($root)){
+                $root = $last = $n;
+            }else {
+                if ($last){
+                    $last->add($n);
+                }
+                $last = $n;
+            }
+        }
+        return [$root, $last];
+    }
+
+    /**
+     * create node args 
+     * @param string $tagname 
+     * @param mixed ...$index_or_args 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function CreateNodeArg(string $tagname, ...$index_or_args){
+        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($tagname);
+        $n = HtmlNode::CreateWebNode($tagname, null, $index_or_args);
+        if ($attr) {
+            $n->setAttributes($attr);
+        }
+        if ($classes) {
+            $n['class'] = $classes;
+        }
+        if ($id) {
+            $n['id'] = $id;
+        }
+        return $n;
     }
 }

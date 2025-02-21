@@ -91,7 +91,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @param mixed $log display login
      * @param mixed $pwd clear pwd
      */
-    public function connect($log = null, $pwd = null)
+    public function connect(?string $log = null, ?string $pwd = null)
     {
         $u = igk_app()->session->User;
         if ($u !== null)

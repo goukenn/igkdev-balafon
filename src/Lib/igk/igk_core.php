@@ -58,13 +58,7 @@ if (!function_exists('igk_environment')) {
  *  @endcode exit
  */
 function igk_exit(int $close = 1, int $status = 0)
-{
-
-    if (igk_is_debug()) {
-        igk_trace();
-        igk_wln_e("close exits.");
-    }
-
+{ 
     if (igk_environment()->isAJXDemand) {
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
         igk_environment()->isAJXDemand = null;

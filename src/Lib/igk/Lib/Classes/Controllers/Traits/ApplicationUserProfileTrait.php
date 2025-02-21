@@ -93,8 +93,8 @@ trait ApplicationUserProfileTrait{
         $userInfo,
         string $profileClassName,
         coreModelBase $customModel,
-        $condition,
-        $newDefinition
+        array $condition,
+        ?callable $newDefinition
     ): ?ICustomUserProfile {
         if (!$profileClassName && !class_exists($profileClassName)) {
             return null;
@@ -121,9 +121,9 @@ trait ApplicationUserProfileTrait{
                 igk_die(__("failed to register current user"));
             }
             if ($row->isNew()){
-                $roles::InitRole($this, $coreuser );  
+                $roles::InitRole($this, $coreuser);  
             }
-            $m = $c->bindInfo($userInfo, $row );
+            $m = $c->bindInfo($userInfo, $row);
         }
         if ($m === null) {
             igk_notifyctrl()->addError(__("not a member"));

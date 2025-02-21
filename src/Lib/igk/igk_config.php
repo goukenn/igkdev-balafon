@@ -597,6 +597,7 @@ define('IGK_FD_ID', IGK_FIELD_PREFIX . 'Id');
 define('IGK_FD_NAME', IGK_FIELD_PREFIX . 'Name');
 define('IGK_FD_DESC', IGK_FIELD_PREFIX . 'Description');
 define('IGK_FD_TYPELEN', IGK_FIELD_PREFIX . 'TypeLength');
+define('IGK_FD_GUID', IGK_FIELD_PREFIX . 'Guid');
 define('IGK_FD_TYPE', IGK_FIELD_PREFIX . 'Type');
 define('IGK_FD_PASSWORD', IGK_FIELD_PREFIX . 'Pwd');
 define('IGK_FD_USER_ID', IGK_FIELD_PREFIX . 'User_Id');

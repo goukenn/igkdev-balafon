@@ -17,6 +17,13 @@ use IGK\System\Database\IUserProfile;
  */
 abstract class SystemUserProfile implements IUserProfile
 { 
+    const profileModelClass=null;
+    const initProjectDbUserMethod = 'initProjectDbUser';
+    /**
+     * 
+     * @var mixed
+     */
+    protected $m_projectUser;
     /**
      * resolved user info 
      * @var mixed
@@ -89,12 +96,51 @@ abstract class SystemUserProfile implements IUserProfile
         $c->m_profile = $userInfo;
         $c->m_model = $userInfo->model();
         $c->m_controller = $controller;
-        $c->registerProfile();
-        igk_wln_e(__FILE__.":".__LINE__ , 'profile created', $c);
+        $c->registerProfile(); 
         return $c;
     }
-   
+    /**
+     * 
+     */
+    protected static function _CreateClassInstance(Users $u) { 
+        $l = new static;
+        $v_user = null;
+        if ($model_class = static::profileModelClass){
+            if (method_exists($l, $fc = self::initProjectDbUserMethod)){
+                call_user_func_array([$l, $fc], [$u]);  
+            }else{
+                list($column, $prop) = $l->getdbCacheColumnList($model_class);
+                if (is_null($v_user = $model_class::GetCache($column, $u->{$prop}))){
+                    $v_user = $l->createNewProjectUser($u, $model_class);
+                }
+                ($l->m_projectUser = $v_user) || igk_die('failed to register project user');
+            }
+        } 
+        return $l;
 
+    }
+    /**
+     * 
+     * @param Users $user 
+     * @param string $model_class 
+     * @return mixed 
+     */
+    protected function createNewProjectUser(Users $user, string $model_class){
+        return $model_class::insertIfNotExists($user->to_array());
+    }
+    /**
+     * 
+     * @param mixed $smodel_class 
+     * @return (mixed|string)[] 
+     */
+    protected function getdbCacheColumnList($smodel_class){
+        $column = $smodel_class::FD_USER_ID;
+        $prop = IGK_FD_GUID;
+        return [
+            $column,
+            $prop
+        ];
+    }
     /**
      * get current user profile
      * @param mixed $ctrl 
