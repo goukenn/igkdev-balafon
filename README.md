@@ -54,12 +54,13 @@ passing parameters to layout
 
 ### Modules
 
-### PCSS Binding
 
 ### Article - Template - Binding
 
 
 ### Themes
+#### PCSS Binding
+#### .bcss file specification
 
 ### Data Adapter
 
