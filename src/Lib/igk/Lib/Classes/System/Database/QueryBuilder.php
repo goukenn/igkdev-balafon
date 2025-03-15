@@ -364,7 +364,7 @@ class QueryBuilder
     }
     /**
      * execute the current builded query
-     * @return bool|?IDbQueryResult result
+     * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
      * @throws IGKException 
      */
     public function execute($throwOnError = true, $options = null, $autoclose = false)

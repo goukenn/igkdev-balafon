@@ -3,10 +3,7 @@
 // @filename: MakeViewCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
@@ -19,14 +16,10 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\IO\FileHandler;
 use \IGKControllerManagerObject;
- 
 class MakeViewCommand extends AppExecCommand{
     var $command = "--make:view"; 
- 
     var $category = "make";
-
     var $desc  = "make new project's view";
-
     var $options = [
         "--controller:controller"=>"set controller to use",
         "--action"=>"enable action",
@@ -34,28 +27,36 @@ class MakeViewCommand extends AppExecCommand{
         "--force"=>"flag:force  file creation ",
         "--scaffold:[scaffoldtype]"=>"type of view to generate. default is null. or builder"
     ]; 
+    var $usage = "controller viewname | viewname [options]";
+    /**
+     * exec command. 
+     * controller viewname
+     */
     public function exec($command, $controller=null, $viewname=""){
-        $controller = $controller ?? igk_getv($command->options, "--controller");
+        $gctrl = igk_getv($command->options, "--controller");
+        $controller = $controller ?? $gctrl;
         if (empty($controller)){
             Logger::danger("controller required");
             return false;
-        } 
+        }  
         if (empty($viewname)){
-            Logger::danger("view name required");
-            return false;
+            if ($gctrl){
+                $viewname = $controller;
+                $controller = $gctrl;
+            }else{
+                Logger::danger("view name required");
+                return false;
+            }
         } 
         Logger::info("make view for ... ".$controller);
         $author = $this->getAuthor($command);
-                   
         $action = property_exists($command->options, "--action");
         $is_dir = property_exists($command->options, "--dir");
         $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
- 
         if (!$ctrl){
             Logger::danger("controller $controller not found");
             return false;
         }
-  
         $dir = $ctrl->getViewDir();
         if ($is_dir){
            $dir .=  "/$viewname";
@@ -67,17 +68,13 @@ class MakeViewCommand extends AppExecCommand{
         } else 
         {
             $handlers = FileHandler::GetViewContextFileHandlers();
-
             if ($handlers && !in_array('.'.$ext, array_keys($handlers))){
                 $viewname.='.phtml';
             }
-
         }
-
         $bind = [];
         $scaffold = igk_getv($command->options, '--scaffold');
         $force = property_exists($command->options, '--force');
-
         $bind[$dir."/{$viewname}"] = function($file)use($viewname, $author, $scaffold){  
             // TODO : FROM Scaffold generate the base document 
             $src = $this->getInitViewContent($viewname, $scaffold);
@@ -90,23 +87,17 @@ class MakeViewCommand extends AppExecCommand{
                 ->defs($src)
                 ->docs("view entry point")
                 ->file($fname)
-                ->desc(implode("\n",["", " @view: ".$viewname]));
+                ->desc(implode("\n",["", " @view: ".igk_io_basenamewithoutext($viewname)]));
                 igk_io_w2file( $file,  $builder->render());
             }else {
                 $src = '';
-                if(
-                $handler = FileHandler::GetFileHandlerFromExtenstion('.'.$ext)){
-
+                if($handler = FileHandler::GetFileHandlerFromExtenstion('.'.$ext)){ 
                     $src = $handler->initDefaultSource();
                 }
                 igk_io_w2file($file, $src);
             }
         };
-
-       
-
         ConsoleUtility::MakeFiles($bind, $command, $force);
-
         \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }
@@ -117,7 +108,6 @@ class MakeViewCommand extends AppExecCommand{
         Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " controller name [options]" );
         Logger::print("\n\n");
     }
-
     public function getInitViewContent(string $viewname, ?string $type=null):string{
         if ($type){
             if ($type == 'builder'){
@@ -130,7 +120,6 @@ class MakeViewCommand extends AppExecCommand{
                 igk_die('missing scaffold type');
             }
         }
-
         return  "\$t->div()->Content = 'View : $viewname';";        
     }
 }

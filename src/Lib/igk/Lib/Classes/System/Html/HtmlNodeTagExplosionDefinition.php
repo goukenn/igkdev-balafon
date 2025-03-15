@@ -4,6 +4,7 @@
 // @date: 20230328 13:47:42
 namespace IGK\System\Html;
 
+use Exception;
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -299,8 +300,16 @@ class HtmlNodeTagExplosionDefinition
         $pos = strpos($tagname, $value);
         $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos + $ln);
     }
-
-    public static function CreateNodes(string $tag_def){
+/**
+ * create node wwith date deifnition 
+ * @param string $tag_def 
+ * @return array 
+ * @throws IGKException 
+ * @throws Exception 
+ * @throws ArgumentTypeNotValidException 
+ * @throws ReflectionException 
+ */
+    public static function CreateNodes(string $tag_def, ...$args){
         $ctn = new RegexMatcherContainer;
         $ctn->appendStringDetection();
         $ctn->match(self::split, 'split');
@@ -320,7 +329,7 @@ class HtmlNodeTagExplosionDefinition
         $root = $last = null;
         while(count($rf)>0){
             $q = array_shift($rf);
-            $n = self::CreateNodeArg($q);
+            $n = self::CreateNodeArg($q, empty($rf)? $args : null);
             if (is_null($root)){
                 $root = $last = $n;
             }else {

@@ -2,15 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: ViewHelper.php
 // @date: 20220803 13:48:58
-// @desc: 
-
-//
 // @file: View.php
 // @desc: helper view description files
 // @author: C.A.D. BONDJE DOUE
 //
 namespace IGK\Helper;
-
 use Closure;
 use Exception;
 use IGK\Actions\ActionFormOptions;
@@ -35,7 +31,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use function igk_resources_gets as __;
-
 /**
  * view context helper class 
  * @package
@@ -46,10 +41,8 @@ use function igk_resources_gets as __;
 class ViewHelper
 {
     use IOSearchFileTrait;
-
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
-
     /**
      * get handler info
      * @return \IGK\System\Views\IViewHandlerInfo
@@ -119,9 +112,7 @@ class ViewHelper
             }
         };
     }
-
     private static function _GetIncArgs($args=null){
-
         if (is_null($args)|| empty($args))
             $args = self::GetViewArgs(); 
         else {
@@ -146,7 +137,6 @@ class ViewHelper
         }
         igk_die("inc [".$file."] file not found");        
     }
-
     /**
      * import view file
      * @param string $file 
@@ -204,7 +194,6 @@ class ViewHelper
         }
         $uri = $ctrl::getRouteUri($name);
         return $uri;
-
     }
     /**
      * include file
@@ -251,9 +240,7 @@ class ViewHelper
         if((func_num_args()>1) && (is_array(func_get_arg(1)))){
             extract(func_get_arg(1));
             $params = func_get_arg(1); 
-            
         } 
-
         extract(self::GetViewArgs(), EXTR_SKIP); 
         if (!isset($ctrl)){
             igk_die('$ctrl not found from GetViewArgs');
@@ -307,7 +294,6 @@ class ViewHelper
         })->bindTo($ctrl);
         return $g($file);
     }
-
     /**
      * get base uri path
      * @param BaseController $ctrl 
@@ -360,7 +346,6 @@ class ViewHelper
         $ruri = igk_io_baseuri() . igk_io_request_uri_path();// igk_getv(explode('?', igk_io_base_request_uri()), 0);
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
-        
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
             $g = igk_getv(parse_url(igk_io_request_uri()), 'path');
             $entry_is_dir = preg_match("/\/$/", $g) || ((strlen($g) > 0) && 
@@ -427,7 +412,6 @@ class ViewHelper
     public static function CurrentDocument(){
         return self::CurrentCtrl()->getCurrentDoc();
     }
-
     /**
      * retrieve view environment args definition
      * @param mixed $n 
@@ -450,7 +434,6 @@ class ViewHelper
     public static function RegisterArgs($t){
         igk_set_env(self::ARG_KEY, $t);
     } 
-
     /**
      * return variable passed on a top view.
      * @param ?string $param by passing null you ask to get all data
@@ -478,9 +461,7 @@ class ViewHelper
             return (array)igk_createobj_filter($tab, $filter_context);
         }
         return $tab;
-
     }
-  
     public static function GetUriHelper($fname){
         $ctrl = self::CurrentCtrl();
         return new ViewUriHelper($ctrl, $fname);
@@ -492,7 +473,6 @@ class ViewHelper
     public static function GetUserProfile(){
         return self::CurrentCtrl()->getUser(); 
     }
-
     public static function GetCheckUserProfile(bool $redirect, ?string $uri=null){
         $c = self::CurrentCtrl();
         return $c->checkUser($redirect, $uri) ? 
@@ -523,8 +503,6 @@ class ViewHelper
         $v_view_ext = $extension = IGK_DEFAULT_VIEW_EXT;
         $ext = $extension;
         $view_handler = igk_view_handler_info();
-
-      
         // igk_wln_e($view_handler);
         $v_ext_support = $view_handler->list;
         $ext_regex = $view_handler->pattern; 
@@ -535,7 +513,6 @@ class ViewHelper
             $ts = 1;
             $_views = array_filter(explode("/", $view));
             while ($ts && (count($_views) > 0) && ($f != $viewDir)) {
-               
                 if (preg_match($ext_regex, $f) && is_file($f)) {
                     return $f;
                 } else {
@@ -556,7 +533,6 @@ class ViewHelper
                             }
                         }
                     }
-
                     if (($bname != IGK_DEFAULT_VIEW_FILE) && (
                         file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
                         if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
@@ -621,7 +597,6 @@ class ViewHelper
         $ctrl = $ctrl ?? self::CurrentCtrl(); 
         igk_css_bind_file($theme, $ctrl, null);
     }
-
     /**
      * in view context
      * @return bool 

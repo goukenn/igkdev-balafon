@@ -8,6 +8,8 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\CallableConstants;
+
 final class IGKCssComponentStyle extends IGKObject{
     private $m_loadedStyles;
     ///.ctr
@@ -34,7 +36,7 @@ final class IGKCssComponentStyle extends IGKObject{
         }
         $c=igk_create_node("style");
         $c["type"]="text/css";
-        $c->setCallback("AcceptRender", igk_create_expression_callback(<<<EOF
+        $c->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, igk_create_expression_callback(<<<EOF
 
 if (igk_env_count('sys://rendering/'.\$file)>1)
 	return false;

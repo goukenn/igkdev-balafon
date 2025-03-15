@@ -15,6 +15,7 @@ use IGK\Models\Users;
 use IGK\Resources\R;
 use IGK\System\Configuration\ConfigurationFields;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\CallableConstants;
 use IGK\System\Html\Dom\Component\ActionGroupComponent;
 use IGK\System\Html\Dom\HtmlANode;
 use IGK\System\Html\Dom\HtmlAssertNode;
@@ -323,7 +324,7 @@ if (!function_exists("igk_html_node_a")) {
 		$a = new HtmlANode();
 		$a["href"] = $href;
 		$a->setIndex($index);
-		if ($attributes) {
+		if ($attributes && is_array($attributes)) {
 			$a->setAttributes($attributes);
 		}
 		if ($href != "#") {
@@ -687,7 +688,7 @@ if (!function_exists("igk_html_node_ajxreplacecontent")) {
 		$n = igk_create_notagnode();
 		$n->method = $method;
 		$n->uri = $uri;
-		$n->setCallback("AcceptRender", "igk_html_callback_replacecontent_acceptrender");
+		$n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_html_callback_replacecontent_acceptrender");
 		return $n;
 	}
 }
@@ -1631,17 +1632,7 @@ if (!function_exists("igk_html_node_containerRowCol")) {
 		return ["node" => $n];
 	}
 }
-if (!function_exists("igk_html_node_cookiewarning")) {
-	///<summary>create winui-contextmenu</summary>
-	/**
-	 * create winui-contextmenu
-	 */ // function igk_html_node_contextmenu()
-	// {
-	//     $n = igk_create_node();
-	//     $n["class"] = "igk-context-menu";
-	//     $n->setCallback("addItem", "igk_html_add_context_menu_item");
-	//     return $n;
-	// }
+if (!function_exists("igk_html_node_cookiewarning")) { 
 	///<summary>create winui-cookiewarning</summary>
 	///<param name="warnurl"></param>
 	/**
@@ -1780,7 +1771,7 @@ if (!function_exists("igk_html_node_ctrlview")) {
 	function igk_html_node_ctrlview($view, $ctrl, $params = null)
 	{
 		$n = igk_create_notagnode();
-		$n->setCallback("AcceptRender", "igk_html_callback_ctrlview_acceptrender");
+		$n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_html_callback_ctrlview_acceptrender");
 		$n->setParam("data", (object)array("view" => $view, "ctrl" => $ctrl, "params" => $params));
 		return $n;
 	}
@@ -2730,7 +2721,7 @@ if (!function_exists("igk_html_node_igkgloballangselector")) {
 		$gt = igk_configs()->default_lang;
 		$uri = \IGK\Helper\UriHelper::GetCmdAction(igk_sys_ctrl(), "changeLang_ajx");
 		$sl["onchange"] = " if (window.ns_igk){ ns_igk.ajx.get('{$uri}/'+this.value, null, ns_igk.ajx.fn.replace_or_append_to_body); } return false;";
-		$sl->setCallback('AcceptRender', igk_io_get_script(IGK_LIB_DIR . "/Inc/html/globallang_accept_render.pinc"));
+		$sl->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, igk_io_get_script(IGK_LIB_DIR . "/Inc/html/globallang_accept_render.pinc"));
 		return $dv;
 	}
 }
@@ -2743,7 +2734,7 @@ if (!function_exists("igk_html_node_igkglobalthemeselector")) {
 	{
 		$dv = igk_create_node("div");
 		$sl = $dv->addSelect("theme")->setClass("-igk-control -clselect");
-		$sl->setCallback('AcceptRender', "return igk_init_renderingtheme_callback(\$this); ");
+		$sl->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "return igk_init_renderingtheme_callback(\$this); ");
 		$uri = \IGK\Helper\UriHelper::GetCmdAction(igk_sys_ctrl(), "changeTheme");
 		$sl["onchange"] = " if (window.ns_igk) { ns_igk.css.changeTheme('{$uri}', this.value);} return false;";
 		return $dv;
@@ -2814,13 +2805,7 @@ if (!function_exists("igk_html_node_imglnk")) {
 	 */
 	function igk_html_node_imglnk()
 	{
-		return new \IGK\System\Html\Dom\HtmlImgLnkNode(...func_get_args());
-		// igk_wln_e(__FILE__.":".__LINE__, func_get_args());
-		// $n = igk_create_node("div");
-		// $n->img = $n->addImg();
-		// $n->setCallback("getAlt", "return \$this->img['alt'];");
-		// $n->setCallback("setAlt", "\$this->img['alt'] = \$value;");
-		// return $n;
+		return new \IGK\System\Html\Dom\HtmlImgLnkNode(...func_get_args()); 
 	}
 }
 if (!function_exists("igk_html_node_include")) {
@@ -3349,7 +3334,7 @@ if (!function_exists("igk_html_node_linkbtn")) {
 	{
 		$n = igk_create_node("a");
 		$img = $n->add("img");
-		$n->setCallback("AcceptRender", "igk_html_callback_alinktn");
+		$n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_html_callback_alinktn");
 		$n->setCallback(
 			"setUri",
 			<<<EOF
@@ -4144,7 +4129,7 @@ if (!function_exists("igk_html_node_renderingexpression")) {
 			return null;
 		$n = igk_create_notagnode();
 		$n->__callback = $callback;
-		$n->setCallback("AcceptRender", "igk_invoke_callback_obj(\$this, \$this->__callback,\$param);  return true;");
+		$n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_invoke_callback_obj(\$this, \$this->__callback,\$param);  return true;");
 		return $n;
 	}
 }
@@ -5351,7 +5336,7 @@ if (!function_exists("igk_html_node_viewcontent")) {
 	{
 		$d = igk_html_node_noTagNode();
 		$d->listener = $listener;
-		$d->setCallback("AcceptRender", "igk_html_viewContentAcceptRender");
+		$d->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_html_viewContentAcceptRender");
 		return $d;
 	}
 }

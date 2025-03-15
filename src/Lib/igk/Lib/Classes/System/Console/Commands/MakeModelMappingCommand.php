@@ -19,10 +19,14 @@ use IGK\System\IO\StringBuilder;
 */
 class MakeModelMappingCommand extends AppExecCommand{
 	var $command='--make:model-mapping';
-	var $desc='make model mapping'; 
+	var $desc='make a class to map a model'; 
 	var $options=[]; 
 	var $category = 'make';
+	var $usage = 'model controller [options]';
 
+	/**
+	 * location of sample . 
+	 */
 	public function exec($command, $model_name =null, $controller=null) {
 		$ctrl = self::ResolveController($command, $controller);
 		$model = $ctrl->model($model_name);
@@ -39,17 +43,23 @@ class MakeModelMappingCommand extends AppExecCommand{
 		$bind[$ctrl::classdir() . "/".$path. ".php"] = function ($file) use ($clname, $author, $ns) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);
+			$sb = new StringBuilder();
+			$sb->appendLine([
+				"public function map(ModelBase \$model){",
+				"	return parent::map(\$model);",
+				"}"
+			]);
             $builder->type("class")->name($clname)
                 ->author($author) 
                 ->doc("mapping")
                 ->file($fname)
                 ->namespace($ns)
+				->defs($sb.'')
                 ->extends(SysDbMapping::class)
                 ->desc("mapping " . $clname);
             igk_io_w2file($file,  $builder->render());
-        };
-
+        }; 
 		Utility::MakeBindFiles($command, $bind, false);
-		Logger::success("done\n");
+		Logger::success("done");
 	}
 }

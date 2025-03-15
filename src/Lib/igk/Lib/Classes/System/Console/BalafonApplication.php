@@ -188,7 +188,6 @@ class BalafonApplication extends IGKApplicationBase
         // + | because prefilter command line args
         global $argv, $argc;
 
-        $argv = array_filter(array_map(get_class($this) . "::FilterArgs", $argv));
         $argc = count($argv);
         $_SERVER["argv"] = $argv;
         $_SERVER["argc"] = $argc;

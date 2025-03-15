@@ -49,7 +49,7 @@ if (!function_exists('igk_create_rnode')) {
  */
 function igk_html_pre()
 {
-    $tag='pre';
+    $tag = 'pre';
     $tab = func_get_args();
     echo "<{$tag}>";
     foreach ($tab as $k) {
@@ -1497,20 +1497,20 @@ function igk_html_form_login_fields()
  * @return void 
  */
 function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieManager::agree, ?string $uri = null, ?string $id = "cookie-agree")
-{ 
+{
     if (!CookieManager::getInstance()->get($cookiename)) {
         $t->div()->setId($id)->container()->addSingleRowCol("fitw")->div()->setClass("cookie-warn alignm")
-        ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
-            $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
-                ->setClass('size-16')
-                ->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
-            $h->article(
-                $ctrl,
-                $article,
-                ["home_cookie" => $uri ?? $ctrl::uri("cookie-details")]
-            );
-            $h->script()->Content = "(a=igk.ctrl.cookie_agree) && a.init('#cookie-agree', '{$cookiename}');";
-        }, $ctrl, $article, $uri, $cookiename);
+            ->host(function ($h, $ctrl, $article, $uri, $cookiename) {
+                $h->span()->a("#")->setClass("dispib close-btn igk-btn")->usesvg("close-outline")
+                    ->setClass('size-16')
+                    ->on('click', "(a=igk.ctrl.cookie_agree) && igk.ctrl.cookie_agree.agree('all', '#cookie-agree', '{$cookiename}');");
+                $h->article(
+                    $ctrl,
+                    $article,
+                    ["home_cookie" => $uri ?? $ctrl::uri("cookie-details")]
+                );
+                $h->script()->Content = "(a=igk.ctrl.cookie_agree) && a.init('#cookie-agree', '{$cookiename}');";
+            }, $ctrl, $article, $uri, $cookiename);
     }
 }
 
@@ -1543,22 +1543,30 @@ if (!function_exists('igk_html_conv2html')) {
 if (!function_exists('igk_html_host')) {
     /**
      * host on child 
-     * @param string|IHtmlNode $p
+     * @param string|IHtmlNode|'@loop' $p
      * @param array $params list of parameter string(content)|attribute +@|HtmlNode
+     * @note: if $p == 'loop' parameter must be and required parameter must br an array
      */
     function igk_html_host($p, ...$params)
     {
-        $root = null;
-        if (is_string($p)){
-            list($root, $last) = HtmlNodeTagExplosionDefinition::CreateNodes($p);
-            $p = $last;
+        $root = $last = null;
+        if (is_string($p)) {
+            if ($p == '@loop') {
+                $last = $root = igk_create_notagnode();
+                $root->loop(...$params[0]);
+                $params = array_slice($params, 1);
+            } else {
+                $args = $params && is_array($params[0]) ? $params[0] : null;
+                list($root, $last) = HtmlNodeTagExplosionDefinition::CreateNodes($p, $args);
+                $p = $last;
+            }
         }
         $tp = [['n' => $p, 'p' => $params]];
         $root = $root ?? $p;
         while (count($tp) > 0) {
             $q = array_shift($tp);
             $p = $q['n'];
-            $params = $q['p']; 
+            $params = $q['p'];
             foreach ($params as $n) {
                 if (is_callable($n))
                     $n($p);
@@ -1567,20 +1575,19 @@ if (!function_exists('igk_html_host')) {
                 } else if (is_string($n)) {
                     $p->text($n);
                 } else if (is_array($n)) {
-                    if ($attr = igk_getv($n,$tk = '+@')){
-                        if (is_string($attr)){
+                    if ($attr = igk_getv($n, $tk = '+@')) {
+                        if (is_string($attr)) {
                             $p->text($attr);
-                        } else if (is_array($attr)){
+                        } else if (is_array($attr)) {
                             $p->setAttributes($attr);
                         }
                         unset($n[$tk]);
                     }
-                    if (count($n)>0){
+                    if (count($n) > 0) {
                         $cn = igk_create_notagnode();
                         $tp[] = ['n' => $cn, 'p' => $n];
                         $p->add($cn);
                     }
-
                 }
             }
         }
@@ -1588,6 +1595,33 @@ if (!function_exists('igk_html_host')) {
     }
 }
 
+
+if (!function_exists('igk_html_treat_indexOrArg')) {
+    /**
+     * helper : treat index or arr
+     * @param mixed $tab 
+     * @return array args=>[], attr=>[]
+     */
+    function igk_html_treat_indexOrArg($tab)
+    {
+        $args = [];
+        $attr = [];
+        if (is_array($tab)) {
+            $r = array_keys($tab);
+            while (count($r) > 0) {
+                $q = array_shift($r);
+                if (is_numeric($q)) {
+                    $args[] = $tab[$q];
+                } else {
+                    $attr[$q] = $tab[$q];
+                }
+            }
+        } else if (is_string($tab)) {
+            $args[] = $tab;
+        }
+        return compact('args', 'attr');
+    }
+}
 
 
 

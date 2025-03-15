@@ -58,6 +58,9 @@ class DbImportFile{
             return true;
         }
     }
+    /**
+     * s
+     */
     protected static function _HandleCsv(ModelBase $model, string $file){
         $data = [];
         $mapping = DbModelImporterMap::CreateFrom($model);

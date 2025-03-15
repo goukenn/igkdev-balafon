@@ -22,6 +22,7 @@ use IGK\Resources\R;
 use IGK\Server;
 use IGK\System\Configuration\ControllerConfigurationData;
 use IGK\System\Console\Logger;
+use IGK\System\Controllers\Helper\ViewModuleHelper;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\ResourceNotFoundException;
@@ -162,7 +163,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     const NO_ACTION_FLAG = 11;
 
     const VIEW_ARGS = IGK_VIEW_ARGS;
-    const VIEW_EXTRA_ARGS = VIEW_EXTRA_ARGS;
+    const VIEW_EXTRA_ARGS = IGK_VIEW_EXTRA_ARGS;
 
     /**
      * 
@@ -1057,7 +1058,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             return $t;
         }
         $view_env_arg = $this->_createViewEnvArgs();
-        $view_env_arg->modules = &igk_environment()->require_modules();
+        $view_env_arg->modules = new ViewModuleHelper(igk_environment()->require_modules());
         $c = $this->getEnvParam(self::VIEW_ARGS);
         $view_env_arg->t = $this->getTargetNode();
         $view_env_arg->ctrl = $this;
@@ -1101,25 +1102,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         R::RegLangCtrl($this);
         // + | --------------------------------------------------------------------
         // + | bind style
-        // + |
+        // + | 
+        $this->bindCssStyle();    
 
-        $this->bindCssStyle();
-
-        // + | --------------------------------------------------------------------
-        // + | bind modules with current document
-        // + |
-
-        // $modules = igk_environment()->getModulesManager()->getAutoloadModules();
-        // if ($modules && ($doc = $this->getCurrentDoc())) {
-        //     foreach ($modules as $mod) {
-        //         ModuleManager::InitDoc($doc, $mod);
-        //     }
-        // }
-        // igk_dev_wln('autoloads modules', $modules);
-
-        igk_hook(IGKEvents::HOOK_INIT_VIEW, ['ctrl'=>$this]);
-        // igk_trace(); 
-        // igk_dev_wln_e("autoload ...", __METHOD__);
+        igk_hook(IGKEvents::HOOK_INIT_VIEW, ['ctrl'=>$this]); 
     }
     ///<summary>set the flag</summary>
     /**

@@ -22,7 +22,7 @@ abstract class HtmlContext extends HtmlRenderingContext{
     /**
      * html tag that need to be closed with a closed tag
      */
-    const HtmlAutoCloseTag = "a|html|body|title|span|code|ul|li|ol|pre|p|button|video|audio|select|option|head|script|style|div|form|header|main|footer|frame|iframe|nav|tr|td|th|table|textarea|noscript|i|b|u";
+    const HtmlAutoCloseTag = "a|html|body|title|span|code|ul|li|ol|pre|p|button|video|audio|select|option|head|script|style|div|form|header|main|footer|frame|iframe|nav|tr|td|th|table|textarea|noscript|i|b|u|h1|h2|h3|h4|h5|h6";
     /**
      * html tag that denied a close tag
      */

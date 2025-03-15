@@ -58,6 +58,11 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
      */
     private $params; // 
     var $controller;
+
+    function __debugInfo()
+    {
+        return [];
+    }
     /**
      * .ctr
      * @param mixed $args item used to loop

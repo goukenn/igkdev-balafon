@@ -19,6 +19,9 @@ class LoadDumpCommand extends AppExecCommand{
     var $desc = "Load database dump file";
     var $category = "db";
 
+    /**
+     * 
+     */
     public function exec($command, $file=null) { 
 
         if (empty($file) || !file_exists($file)){
@@ -86,10 +89,11 @@ class LoadDumpCommand extends AppExecCommand{
             }
             $driver->setForeignKeyCheck(1);
         }
-        Logger::success("finish");
-
+        Logger::success("finish"); 
     }
-
+    /**
+     * - `help`
+     */
     public function help(){
         parent::help();
         Logger::print(Logger::TabSpace. " [options] file\n");

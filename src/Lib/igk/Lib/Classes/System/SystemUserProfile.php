@@ -1,16 +1,13 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SystemUserProfile.php
 // @date: 20220601 08:28:05
 // @desc: user profile
 namespace IGK\System;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
-
 /**
  * represent user profile
  * @package IGK\System
@@ -34,7 +31,6 @@ abstract class SystemUserProfile implements IUserProfile
      * @var mixed
      */
     protected $m_model;
-
     /**
      * get the controller 
      * @var mixed
@@ -47,7 +43,6 @@ abstract class SystemUserProfile implements IUserProfile
     protected function __construct()
     {
     }
-
     /**
      * retrieve the controller 
      * @return null|BaseController 
@@ -55,7 +50,6 @@ abstract class SystemUserProfile implements IUserProfile
     public function getController(): ?BaseController {
         return $this->m_controller;
     }
-
     /**
      * check auth 
      * @param array|string $type 
@@ -87,10 +81,8 @@ abstract class SystemUserProfile implements IUserProfile
         }
         if (static::class == __CLASS__)
             igk_die('not allowed to create user profile');
-
-        
-        $c = Activator::CreateNewInstance(function () use ($userInfo) {
-            return static::_CreateClassInstance($userInfo->model());
+        $c = Activator::CreateNewInstance(function () use ($userInfo, $controller) {
+            return static::_CreateClassInstance($userInfo->model(), $controller);
             //return new static;
         }, $userInfo->to_array());
         $c->m_profile = $userInfo;
@@ -117,7 +109,6 @@ abstract class SystemUserProfile implements IUserProfile
             }
         } 
         return $l;
-
     }
     /**
      * 

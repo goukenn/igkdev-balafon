@@ -7,6 +7,7 @@
 
 namespace IGK\System\Modules;
 
+use Exception;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -106,6 +107,12 @@ class ModuleManager
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
     }
+    /**
+     * 
+     * @return array 
+     * @throws Exception 
+     * @throws IGKException 
+     */
     private static function _InitModules(){
         $d = ApplicationModules::GetCacheFile();
         $modir = igk_get_module_dir();

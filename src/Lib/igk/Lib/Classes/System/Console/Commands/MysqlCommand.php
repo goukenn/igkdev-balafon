@@ -29,13 +29,13 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_DIR . "/api/.mysql.pinc";
 
 /**
- * 
+ * MySQL db management command
  * @package IGK\System\Console\Commands
  */
 class MySQLCommand extends AppExecCommand
 {
     var $command = "--db:mysql";
-    var $desc = "mysql db managment command";
+    var $desc = "mysql db management command";
     var $category = "db";
     const ACTIONS = 'query|clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
     
@@ -115,6 +115,13 @@ class MySQLCommand extends AppExecCommand
                     }
                     if ($filter){
                         Logger::info('filter : '.$filter);
+                    } else {
+                        if (function_exists('readline')){
+                            $c = readline('confirm you want to drop all tables ? (y|n)');
+                            if ($c=='n'){
+                                return -1;
+                            }
+                        }
                     }
                     return $this->drop_tables($db, $filter);
                 case 'restore-dump':

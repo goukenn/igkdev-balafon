@@ -194,7 +194,7 @@ define('IGK_XML_CREATOR_SKIP_ADD', 196);
 define('IGK_ENV_CONFIG_ENTRIES', 197);
 // application info : request uri
 define('IGK_APP_REQUEST_URI', 198);
-define('VIEW_EXTRA_ARGS', 199);
+define('IGK_VIEW_EXTRA_ARGS', 199);
 define('IGK_APP_INFO_TYPE', 200);
 
 // + | --------------------------------------------------------------------
@@ -427,7 +427,6 @@ define('IGK_LANG_FILE_EXTENSION', ".presx");
 // define('IGK_ATTACHDISPOSE_FLAG', IGK_NODE_FLAG + 16);
 // define('IGK_ATTACHCHILD_FLAG', IGK_NODE_FLAG + 17);
 // define('IGK_NSFC_FLAG', IGK_NODE_FLAG + 18);
-// define('IGK_CALLBACK_FLAG', IGK_NODE_FLAG + 19);
 // define('IGK_PARAMS_FLAG', IGK_NODE_FLAG + 20);
 // define('IGK_PARENT_FLAG', IGK_NODE_FLAG + 21);
 // define('IGK_CHILDS_FLAG', IGK_NODE_FLAG + 22);

@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 
 use IGK\Css\CssSupport;
+use IGK\Css\ICssAddRule;
 use IGK\Css\ICssStyleContainer;
 use IGK\Css\ICssSupport;
 use IGK\System\Html\Css\CssUtils;
@@ -18,7 +19,7 @@ use IGK\System\IToArray;
  * default style definition .
  * @package 
  */
-final class IGKCssDefaultStyle implements ICssSupport, ArrayAccess, ICssStyleContainer, IToArray
+final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess, ICssStyleContainer, IToArray
 {
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
     const COLORS_RULE = 5;

@@ -22,6 +22,7 @@ use IGKValidator;
  */
 abstract class ServerCommandHelper
 {
+ 
     //load command serve command
     public static function GetDbCommandsProperties()
     {

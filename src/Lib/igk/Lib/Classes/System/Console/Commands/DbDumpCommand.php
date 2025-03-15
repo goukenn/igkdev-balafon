@@ -27,7 +27,7 @@ use IGKNonVisibleControllerBase;
  */
 class DbDumpCommand extends AppExecCommand{
     var $command = "--db:dump";
-    var $desc = "dump controller db from schema"; 
+    var $desc = "dump controller database from schema definition"; 
     var $category = "db";
     var $options = [
         "controller"=>"controller to target",
@@ -97,13 +97,8 @@ class DbDumpCommand extends AppExecCommand{
                 $v_entries = $schema->getElementsByTagName(DbSchemas::ENTRIES_TAG);
                 if (!$v_entries){
                     $schema->add($entries);
-                } else {
-                    // $p = $v_entries[0]->getParentNode();
-                    // $v_entries[0]->remove();
-                    // $p->add($entries);
-                    $v_entries[0]->replaceWith($entries);
-
-                    // $entries[0]->replaceWith($entries);
+                } else { 
+                    $v_entries[0]->replaceWith($entries); 
                 }
             } else {
                 $schema = igk_create_xmlnode(IGK_SCHEMA_TAGNAME);

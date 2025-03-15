@@ -144,6 +144,8 @@ $def[".no-selection"] = "[resolv:user-select: none;]";
 $def[".no-contextmenu"] = "[resolv:user-select: none;] /*disable context menu*/";
 $def[".no-drag"] = "[resolv:user-select: none;]";
 $def[".no-outline"]="outline:none !important; outline-style:none;";
+// + | disable flex-shrink on item 
+$def[".no-shrink"] = 'flex-shrink: 0;';
 
 $def[".no-appearance"]="[resolv:appearance:none;]";
 
@@ -455,3 +457,10 @@ unset($v, $k,$c);
 
 
 $def["p.pre-line"] = "white-space: pre-line;";
+
+
+
+// + | define translucid property
+foreach([4, 8, 10, 20, 32] as $s){
+    $def['.translucid-'.$s] = sprintf('backdrop-filter: blur(%spx);', $s);
+}

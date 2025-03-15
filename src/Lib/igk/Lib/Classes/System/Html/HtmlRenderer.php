@@ -13,7 +13,7 @@ use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
-use IGK\System\Html\Css\CssUtils; 
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Rendering\IHtmlRederingCallback;
 use IGK\System\Http\IHeaderResponse;
@@ -21,8 +21,8 @@ use IGKApp;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
-use ReflectionMethod; 
- 
+use ReflectionMethod;
+
 /**
  * represent base renderer engine
  * @package IGK\System\Html
@@ -60,7 +60,8 @@ class HtmlRenderer
     /**
      * 
      */
-    public static function InitRendererOption($o){
+    public static function InitRendererOption($o)
+    {
         $o->Cache = igk_sys_cache_require();
         if ($o->Cache) {
             $o->CacheUri = base64_decode(igk_sys_cache_uri());
@@ -71,7 +72,7 @@ class HtmlRenderer
      * 
      * @param mixed $o 
      * @param mixed $options 
-     * @return mixed|void 
+     * @return ?string 
      * @throws IGKException 
      * @throws Exception 
      * @throws CssParserException 
@@ -86,6 +87,7 @@ class HtmlRenderer
         if ($o instanceof HtmlItemBase) {
             return $o->render($options);
         }
+        return null;
     }
     ///<summary>force to render global html document</summary>
     /**
@@ -199,6 +201,16 @@ class HtmlRenderer
             $options->__invoke[$method]++;
         }
     }
+    /**
+     * 
+     * @param mixed|string $o 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     private static function _GetHeader($o): ?string
     {
         if (is_string($o)) {
@@ -207,6 +219,7 @@ class HtmlRenderer
         if (is_object($o)) {
             return self::GetValue($o);
         }
+        return null;
     }
     private static function reduceDepth($options, $tag = null)
     {
@@ -252,17 +265,17 @@ class HtmlRenderer
                 $q = ["item" => $i, "close" => false];
             }
             if (!$q["close"]) {
-                $s.=$close_ln;
-                $close_ln='';
+                $s .= $close_ln;
+                $close_ln = '';
                 if (($ln && ($options->Depth > 0))) {
-                    $s .= self::GetTabStop($options); 
-                }  
+                    $s .= self::GetTabStop($options);
+                }
                 if ($i instanceof HtmlItemBase) {
-                    if ($filter && $filter($i)){
+                    if ($filter && $filter($i)) {
                         continue;
                     }
                     // + | check for visibility
-                    if ($options->skipTags && (in_array($i->getTagName(), $options->skipTags))){                        
+                    if ($options->skipTags && (in_array($i->getTagName(), $options->skipTags))) {
                         continue;
                     }
                     if (!$i->AcceptRender($options)) {
@@ -276,11 +289,11 @@ class HtmlRenderer
 
                 if ($engine) {
                     $l = $engine->render($i, $options);
-                    if ($l || ($skipEngineNode = igk_getv($options, 'skipEngineNode'))){
-                        if (isset($skipEngineNode) && $skipEngineNode){
+                    if ($l || ($skipEngineNode = igk_getv($options, 'skipEngineNode'))) {
+                        if (isset($skipEngineNode) && $skipEngineNode) {
                             $options->skipRenderNode = false;
                         }
-                        $s .= is_bool($l)? '' : $l;
+                        $s .= is_bool($l) ? '' : $l;
                         self::reduceDepth($options, 'engine');
                         continue;
                     }
@@ -301,15 +314,15 @@ class HtmlRenderer
                 }
                 $options->lastRendering = $i;
                 $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
-                $havTag = !empty($tag); 
-                if ($i instanceof IHtmlRederingCallback ) 
-                    $i->beforeRenderCallback($options, ['output'=>& $s]);
-                 if (!$havTag && $ln) {
-                     $s = rtrim($s); 
-                     $close_ln = $ln;
+                $havTag = !empty($tag);
+                if ($i instanceof IHtmlRederingCallback)
+                    $i->beforeRenderCallback($options, ['output' => &$s]);
+                if (!$havTag && $ln) {
+                    $s = rtrim($s);
+                    $close_ln = $ln;
                     //  self::reduceDepth($options, 'notagnode');
                     //  $q['next_depth'] = $options->Depth;
-                 }
+                }
                 if ($havTag) {
                     $s .= "<" . $tag . "";
                     // render attribute 
@@ -321,14 +334,14 @@ class HtmlRenderer
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);
 
-                
+
                 // + | --------------------------------------------------------------------
                 // + | aside array of node that might be render after the cibling node
                 // + |                
-                if (isset($options->aside)) { 
+                if (isset($options->aside)) {
                     $rf = array_reverse($options->aside);
                     $tab = array_merge($tab, $rf);
-                    unset($options->aside, $rf); 
+                    unset($options->aside, $rf);
                 }
                 $have_childs = $childs && (count($childs) > 0);
                 $have_content = $have_childs || !empty($content);
@@ -367,24 +380,24 @@ class HtmlRenderer
             if (!empty($tag)) {
                 self::reduceDepth($options);
                 if ($q["close_tag"]) {
-                    if ($ln){                        
+                    if ($ln) {
                         if ($q["have_childs"]) {
                             // + | determine child contains
-                            $ts = !empty(trim(substr($s,$q['child_render'])));
+                            $ts = !empty(trim(substr($s, $q['child_render'])));
                             if ($ts)
-                                $s = rtrim($s).$ln;
-                            if($options->Depth > 0){
-                                $s.= self::GetTabStop($options);
+                                $s = rtrim($s) . $ln;
+                            if ($options->Depth > 0) {
+                                $s .= self::GetTabStop($options);
                             }
                         }
-                    }  
+                    }
                     $s .=  "</" . $tag . ">" . $ln;
                 } else {
                     $s .= "/>" . $ln;
                 }
             }
-            if ($i instanceof IHtmlRederingCallback ) 
-                $i->afterRenderCallback($options, ['output'=>& $s]);
+            if ($i instanceof IHtmlRederingCallback)
+                $i->afterRenderCallback($options, ['output' => &$s]);
         }
         return $s; // leave space after
     }
@@ -493,28 +506,25 @@ class HtmlRenderer
         $encode_options = new JSonEncodeOption;
         $encode_options->ignore_empty = 1;
         $encode_options->ignore_null = 1;
-        if (!igk_getv($options, 'PreserveAttribOrder')){
-            if (!is_array($attrs)){
+        if (!igk_getv($options, 'PreserveAttribOrder')) {
+            if (!is_array($attrs)) {
                 $attrs->sortKeys();
-
-                
             } else {
                 ksort($attrs);
             }
         }
         foreach ($attrs as $k => $v) {
             if ((($k == "@activated") && is_array($v))
-             || ((is_numeric($k) && is_string($v) && ($v = [$v=>$v])))
-             )
-             { 
+                || ((is_numeric($k) && is_string($v) && ($v = [$v => $v])))
+            ) {
                 foreach ($v as $ak => $av) {
-                    if ($av && !isset($ac_keys[$k])){
-                        if (is_bool($av)){
-                            if ($av){
-                                $out .= $ak . "=\"".$av."\" ";     
+                    if ($av && !isset($ac_keys[$k])) {
+                        if (is_bool($av)) {
+                            if ($av) {
+                                $out .= $ak . "=\"" . $av . "\" ";
                             }
-                        }else{
-                            $out .= $ak . " ";  
+                        } else {
+                            $out .= $ak . " ";
                         }
                         $ac_keys[$k] = 1;
                     }
@@ -523,33 +533,35 @@ class HtmlRenderer
             }
             $v_is_obj = is_object($v);
             if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
-                $active.= $k. ' ';
-               
+                $active .= $k . ' ';
+
                 continue;
             }
- 
+
             if (is_array($v)) {
-                if (strpos($k,"igk:")===0){
+                if (strpos($k, "igk:") === 0) {
                     $v = json_encode($v);
-                 }else{
+                } else {
                     $v = JSon::EncodeForHtmlAttribute($v, $encode_options);
                 }
             }
             if ($v_is_obj && ($v instanceof HtmlExpressionAttribute))
                 $c = $v->getValue();
             else {
-              
+
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                     $v_cv = $v->getValue($options);
                     if ($v_cv instanceof IHtmlTemplateAttribute) {
-                        $vc = addslashes( json_encode(
-                            [$k, $v_cv->expression()])
+                        $vc = addslashes(
+                            json_encode(
+                                [$k, $v_cv->expression()]
+                            )
                         );
-                        $out .= 'igk:template-attr="'.$vc.'" ';
+                        $out .= 'igk:template-attr="' . $vc . '" ';
                     } else {
-                        if (is_object($v_cv )){
-                            $v_cv = "".$v_cv;
-                        } else if (is_array($v_cv)){
+                        if (is_object($v_cv)) {
+                            $v_cv = "" . $v_cv;
+                        } else if (is_array($v_cv)) {
                             igk_dev_wln_e("binding array to attributes", $v_cv);
                         }
                         if (!empty($v_cv) && is_string($v_cv)) {
@@ -557,25 +569,24 @@ class HtmlRenderer
                         }
                     }
                     continue;
-                } else if ($v_is_obj && ($v instanceof IHtmlAttributeHandler)){
+                } else if ($v_is_obj && ($v instanceof IHtmlAttributeHandler)) {
                     $out .= $v->getAttributeValue($k);
                     continue;
-                }                
-                else {
+                } else {
                     $c = static::GetStringAttribute($v, $options);
                 }
             }
             if (is_numeric($c) || !empty($c)) {
                 // + | check that it doesnt contains quotes
-                if (preg_match("/[\"]/", trim($c, " \""))){
+                if (preg_match("/[\"]/", trim($c, " \""))) {
                     $c = igk_str_surround(addslashes($c));
                 }
                 if ($options && !$v_is_obj  && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);
                 }
                 $usekey = true;
-                if ($v_is_obj  && is_object($v)){ 
-                    $usekey = method_exists($v, 'useAttribName') && $v->useAttribName(); 
+                if ($v_is_obj  && is_object($v)) {
+                    $usekey = method_exists($v, 'useAttribName') && $v->useAttribName();
                 }
                 if (!$usekey) {
                     $out .= $c . " ";
@@ -583,7 +594,7 @@ class HtmlRenderer
                     $out .= $k . "=" . $c . " ";
             }
         }
-        return trim(rtrim($out).' '.rtrim($active));
+        return trim(rtrim($out) . ' ' . rtrim($active));
     }
 
     /**
@@ -701,13 +712,13 @@ class HtmlRenderer
             return null;
         }
         if (is_string($v)) {
-            $v= stripslashes($v);
-            if ((strpos($v, "\"") !== false)||(strpos($v, "\'") !== false)) {
-                if(igk_getv($options, 'Context') ==HtmlContext::Html){
+            $v = stripslashes($v);
+            if ((strpos($v, "\"") !== false) || (strpos($v, "\'") !== false)) {
+                if (igk_getv($options, 'Context') == HtmlContext::Html) {
                     return igk_str_surround(HtmlUtils::EncodeAttribute($v), '"');
                 }
                 return $v;
-            } 
+            }
         }
         if (is_array($v)) {
             $v = JSon::Encode($v);
@@ -729,7 +740,7 @@ class HtmlRenderer
                     },
                     $v
                 );
-            }           
+            }
             $v = HtmlUtils::EncodeAttribute($v);
         } else {
             $v = str_replace("\"", "\\\"", $v);
@@ -763,6 +774,44 @@ class HtmlRenderer
             foreach ($childs as $k) {
                 $s .= self::Render($k, $options);
             }
+        }
+        return $s;
+    }
+
+    /**
+     * get inner text 
+     * @param HtmlItemBase $item 
+     * @param mixed $options 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetInneText(HtmlItemBase $item, $options = null): string
+    {
+        $s = "";
+        $rc_content = function (&$s, $item, $options) {
+            $content = $item->getContent();
+            if (!empty($content)) {
+                if (is_object($content)) {
+                    $s .= HtmlRenderer::GetValue($content, $options);
+                } else {
+                    $s .= $content;
+                }
+            }
+        };
+        $rc_content($s, $item, $options);
+        $childs = $item->getRenderedChilds($options);
+        while (count($childs) > 0) {
+            $q = array_shift($childs);
+            $rc_content($s, $q, $options);
+            $tchilds = $q->getRenderedChilds($options);
+            if (count($tchilds)>0){
+                array_reverse($tchilds);
+                array_unshift($childs, ...$tchilds);
+            } 
         }
         return $s;
     }

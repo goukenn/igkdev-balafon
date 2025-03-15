@@ -17,6 +17,7 @@ abstract class EntryClassResolution{
     const DbSchemaBuilder = 'Database\InitDbSchemaBuilder';
     const DbMacrosDisplay = 'Database\Macros\Display';
     const DbClassMapping = 'Database\Mapping';
+    const DbClassImport = 'Database\Import';
     const DbMacros = 'Database\Macros';
     const DbInitData = 'Database\InitData';
     const DbInitManager = 'Database\DbInitManager';
@@ -47,4 +48,10 @@ abstract class EntryClassResolution{
 
     const MailAttachement = '\IGK\System\Net\MailAttachement';
     const CreateValidatorInstance = 'CreateValidatorInstance';
+
+    // + | --------------------------------------------------------------------
+    // + | suffix
+    // + |
+    const ImportMappingSuffix = 'ImportMapping';
+    
 }

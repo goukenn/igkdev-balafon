@@ -110,7 +110,7 @@ class MakeProjectCommand extends AppExecCommand
             $defs .= "protected function getEntryNamespace(){ return \\{$e_ns}::class; }";
             $this->entryNamespace = $e_ns;
         } else {
-            $this->entryNamespace = $e_ns =  SysUtils::GetProjectEntryNamespace($dir);
+            $this->entryNamespace =  SysUtils::GetProjectEntryNamespace($dir);
         }
         IO::CreateDir(implode("/", [$dir, IGK_DATA_FOLDER, IGK_RES_FOLDER]));
         $bind = [];

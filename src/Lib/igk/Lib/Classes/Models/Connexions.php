@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connexions.php
-// @date: 20241109 07:41:07
+// @date: 20250222 15:58:34
 namespace IGK\Models;
 
 
@@ -30,8 +30,8 @@ use IGK\Models\ModelBase;
 * @method static string FD_CNX_UPDATE_AT() - `cnx_updateAt` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string|\IGK\Models\Users $clUser_Guid, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Guid, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
+* @method static ?self Add(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Connexions extends ModelBase{
 	const FD_CL_ID="clId";

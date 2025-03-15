@@ -227,6 +227,7 @@ abstract class HtmlUtils extends DomNodeBase
         if ($attrib->count() > 0) {
             return ' ' . HtmlRenderer::GetAttributeArrayToString($attrib, $options);
         }
+        return null;
     }
 
     /**
@@ -516,7 +517,7 @@ abstract class HtmlUtils extends DomNodeBase
         if ($context && is_string($context) && (preg_match("/(xml|xsl)/i", $context))) {
             $q = str_replace("&amp;", "&", $q);
         }
-        return $q;
+        return str_replace("\n", "\\n", $q);
     }
     ///<summary></summary>
     ///<param name="n"></param>

@@ -16,9 +16,11 @@ use IGK\System\Database\Import\DbImportFile;
 */
 class ImportDataFileCommand extends AppExecCommand{
 	var $command='--db:import';
-	var $desc='import data desc';
+	var $desc='import data from description file';
 	var $options=[
 		"-f:file"=>"file to import",
+		"--entry:"=>"set entry definition",
+		"--autoregister"=>"flag: autore register unknow entries"
 		// "-t:type"=>"force file as type json|csv"
 	];
 	var $category="db";
@@ -36,6 +38,8 @@ class ImportDataFileCommand extends AppExecCommand{
 		$type = igk_getv($command->options, '-t');
 		$autoregister = property_exists($command->options, '--autoregister');
 		$entry = igk_getv($command->options, '--entry');
+		self::BindUserCommand($ctrl, $command);
+		
 		$model = $ctrl->model($model);
 		if ($model){
 			DbImportFile::Import($model, $file, $type, $autoregister, $entry);

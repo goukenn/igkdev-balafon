@@ -8,6 +8,7 @@
 namespace  IGK\System\Console;
 
 use Error;
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\Commands\DbCommandHelper;
@@ -37,7 +38,24 @@ abstract class AppExecCommand extends AppCommand{
             }
         }
     }
- 
+    /**
+     * 
+     * @param mixed $ctrl 
+     * @param mixed $command 
+     * @param string $arg 
+     * @return void 
+     * @throws Exception 
+     */
+    public static function BindUserCommand($ctrl, $command, $arg='--user'){
+
+        if ($id = intval($uref = igk_getv($command->options, $arg))) {
+            self::BindUser($ctrl, $id);
+        }else if ($uref){
+            if ($g = igk_get_user_bylogin($uref)){
+                self::BindUser($ctrl, $g->clId);
+            }
+        }
+    }
     /**
      * check if has options set in command
      * @param mixed $command 

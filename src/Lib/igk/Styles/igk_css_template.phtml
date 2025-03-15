@@ -191,6 +191,7 @@ $def[".igk-black-border"] = "{sys:bdr-1}";
 for ($i = 0; $i < 5; $i++) {
     $t = 4 * (1 << $i);
     $def[".igk-pad-" . $t] = "padding:" . $t . "px;";
+    $def[".igk-gap-" . $t] = "gap:" . $t . "px;";
 }
 for ($i = 2; $i < 6; $i++) {
     $def[".fitw-" .
@@ -292,7 +293,7 @@ $def[".igk-lborder.pull-right"] = "height:auto; width:4px; {sys:loc_t, loc_b} le
 
 $def[".igk-bullet"] = "width:32px; height:32px; background-repeat:no-repeat;";
 $def[".igk-bullet.igk-active"] = "background-position:-32px 0px;";
-$theme->reg_keyFrames($def, "igk-progress-frame", " from {background-position: 0px 0; } to { background-position: 40px 0; }");
+$theme->registerKeyFrame($def, "igk-progress-frame", " from {background-position: 0px 0; } to { background-position: 40px 0; }");
 $def[".igk-progressbar"] = "{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] height:16px;";
 $def[".igk-progressbar:after"] = "display:inline-block; width: 0%; content: ' '; height:100%; background-color:[cl:progressBarCur, red];";
 $def[".igk-progressbar-cur"] = "height:16px; {sys:dispb} [sysbgcl:progressCursorBackground]";
@@ -945,6 +946,7 @@ foreach ([4, 10, 16, 20] as $pad) {
     $def[".marg-t-" . $pad] = "margin-top: {$pad}px;";
     $def[".marg-l-" . $pad] = "margin-left: {$pad}px;";
     $def[".marg-r-" . $pad] = "margin-right: {$pad}px;";
+    $def[".gap-" . $pad] = "gap: {$pad}px;";
 }
 $def[".igk-font-title-1"] = "font-family: 'Roboto', 'Helvetica', 'Arial' , sans-serif; font-size: 3em;font-weight: 200;";
 $def[".clcheckbox"] = "margin-right:{$pad_size};";
@@ -988,7 +990,7 @@ $def["select.igk-form-control"] = "cursor: pointer;";
 // animation notification
 $def[".igk-notify-host.anim-autohide"] = "[anim: 0.85s 1.5s 1 anim-autohide]";
 // define animation 
-$theme->reg_keyFrames($def, "anim-autohide", "from { opacity: 1.0; } to { opacity: 0; }");
+$theme->registerKeyFrame($def, "anim-autohide", "from { opacity: 1.0; } to { opacity: 0; }");
 
 
 

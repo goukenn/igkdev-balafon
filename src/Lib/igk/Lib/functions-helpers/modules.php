@@ -5,6 +5,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
 use IGK\System\Controllers\ApplicationModules;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 
@@ -18,6 +19,9 @@ if (!function_exists('igk_current_module')) {
      */
     function igk_current_module()
     {
+        $v_skey = 'module_resolution';
+        $v_env = igk_environment();
+
         list($file) = igk_sys_get_caller_file(1);
         if ($file) {
             $path = igk_io_collapse_path($file);
@@ -25,7 +29,7 @@ if (!function_exists('igk_current_module')) {
 
             if (strpos($path, $key) === 0) {
                 $n = substr($path, strlen($key) + 1);
-                $modules = igk_environment()->get("module_resolution") ?? [];
+                $modules = $v_env->get($v_skey) ?? [];
                 if (isset($modules[$n])) {
                     return $modules[$n];
                 }
@@ -35,7 +39,7 @@ if (!function_exists('igk_current_module')) {
                     if (strpos($n, $k) !== false) {
                         $mod = igk_get_module($k);
                         $modules[$n] = $mod;
-                        igk_environment()->set('module_resolution', $modules);
+                        $v_env->set($v_skey, $modules);
                         return $mod;
                     }
                 }
@@ -201,12 +205,13 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
  * @param null|string $name 
  * @return void 
  */
-function igk_bind_module($mod, ?string $name = null)
+function igk_bind_module($mod, ?string $name = null, ?BaseController $controller=null)
 {
-    if ($ctrl = \IGK\Helper\ViewHelper::CurrentCtrl()) {
-        $g = $ctrl->getEnvParam("modules") ?? [];
+    $v_key = IGKEnvironmentConstants::CtrlEnvParamModules;
+    if ($ctrl = $controller ?? \IGK\Helper\ViewHelper::CurrentCtrl()) {
+        $g = $ctrl->getEnvParam($v_key) ?? [];
         $g[$name] = $mod;
-        $ctrl->setEnvParam("modules", $g);
+        $ctrl->setEnvParam($v_key, $g); 
     }
 }
 

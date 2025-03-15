@@ -67,9 +67,7 @@ class RequestViewCommand extends AppExecCommand
 
         $ctrl->register_autoload();
 
-        if ($id = intval(igk_getv($command->options, '--user'))) {
-            self::BindUser($ctrl, $id);
-        }
+        self::BindUserCommand($ctrl, $command);
         $render = property_exists($command->options, '--render');
         if ($json = igk_getv($command->options, '--json')) {
             if (file_exists($json)) {

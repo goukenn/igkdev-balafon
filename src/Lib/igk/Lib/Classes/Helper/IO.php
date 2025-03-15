@@ -632,17 +632,17 @@ class IO
         }
         return $dirs;
     }
-    ///<summary></summary>
+    ///<summary>get directories</summary>
     ///<param name="dir"></param>
     ///<param name="match"></param>
     ///<param name="recursive" default="false"></param>
     /**
-     * 
-     * @param mixed $dir
-     * @param mixed $match
-     * @param mixed $recursive the default value is false
+     * get directories
+     * @param string $dir
+     * @param ?string $match
+     * @param bool $recursive the default value is false
      */
-    public static function GetDirs($dir, $match, $recursive = false)
+    public static function GetDirs(string $dir, ?string $match, bool $recursive = false)
     {
         if (is_dir($dir) === false)
             return null;
@@ -720,6 +720,7 @@ class IO
         $iscallable = is_callable($match);
         $ignore_hidden = false;
         $sep = '/';
+        $_include_match = null;
         $fc = function () {
             return false;
         };
@@ -738,13 +739,16 @@ class IO
                 return preg_match($match, $f);
             };
         } else if ($iscallable) {
-            $_include_match = function ($f) use ($match, &$excludedir) {
-                return $match($f, $excludedir);
+            $_include_match = function ($f, $type='file') use ($match, &$excludedir) {
+                return $match($f, $excludedir, $type);
             };
         }
         $is_excludir_array = is_array($excludedir);
         while (count($dirs) > 0) {
             $q = array_pop($dirs);
+            if (isset($excludedir[$q])){
+                continue;
+            }
             // use scan dir to order
             $files = scandir($q); //, 2);
             while (count($files) > 0) {
@@ -753,17 +757,29 @@ class IO
                 $f = $q . $sep . $r;
                 $mdata = 0;
                 if (!is_dir($f)) {
-                    if ($_include_match && $_include_match($f)) {
-                        //igk_debug_wln_e("call null ", $mdata===false, $is_match_nil, $match);
-                        if ($mdata == -1) {
-                            continue;
+                    if ($_include_match) {
+                        if ($_include_match($f)){
+                            if ($mdata == -1) {
+                                continue;
+                            }
+                            if ($callback && !$callback($f)) {
+                                continue;
+                            }
+                            $v_out[] = $f;
+                        } else {
+                            // 
+                            if (isset($excludedir[$q])){
+                                break;
+                            }
                         }
-                        if ($callback && !$callback($f)) {
-                            continue;
-                        }
-                        $v_out[] = $f;
                     }
                 } else {
+                    if ($_include_match && !$_include_match($f, 'dir')){                        
+                        if (isset($excludedir[$f])){
+                            continue;
+                        }
+                    }
+                    // for dir
                     if ($is_excludir_array && (key_exists($f, $excludedir) ||   key_exists($r, $excludedir))) {
                         continue;
                     }

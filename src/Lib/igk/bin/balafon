@@ -55,7 +55,8 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
     require_once IGK_LIB_DIR.'/Lib/'.IGK_CLASSES_FOLDER.'/IGKConstants.php';
     // start by filtering
     $cwd = $_SERVER['PWD']; 
-    $argv = array_filter(array_map(BalafonApplication::class. "::FilterArgs", $argv));
+    $r = array_map(BalafonApplication::class. "::FilterArgs", $argv);
+    $argv = array_filter($r, function($i){ return !is_null($i); });
     $proj_conf = '/'.IGKConstants::PROJECT_CONF_FILE;
     $mod_conf = '/'.IGKConstants::MODULE_CONF_FILE;
     $_filter = false;

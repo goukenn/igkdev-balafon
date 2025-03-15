@@ -12,6 +12,7 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Css\CssColorDef;
 use IGK\Css\CssThemeOptions;
+use IGK\Css\ICssAddRule;
 use IGK\Css\ICssResourceResolver;
 use IGK\Css\ICssStyleContainer;
 use IGK\Helper\SysUtils;
@@ -21,6 +22,7 @@ use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
+use IGK\System\IO\FileHandler;
 use IGKCssDefaultStyle;
 use IGKEnvironmentConstants;
 use IGKMedia;
@@ -34,7 +36,7 @@ use IGKException;
  * represent a document themes
  * @method ?array getTempFile() get tempory loading files
  */
-final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, ICssStyleContainer
+final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, ICssStyleContainer, ICssAddRule
 {   
 
     const MEDIA_KEY = "medias";
@@ -105,6 +107,44 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     private $m_themingResolv;
 
     private $m_includes;
+    /**
+     * register frame to current theme
+     * @param string $name 
+     * @param string $expression 
+     * @return void 
+     */
+    public function frame(string $name, string $expression){
+        return $this->registerKeyFrame($this, $name, $expression);
+    }
+
+    /**
+     * 
+     * @param string $filename 
+     * @return $this 
+     * @throws IGKException 
+     */
+    public function load(string $filename){        
+        $content = file_get_contents($filename);
+        $def = $this;
+        if($handler = FileHandler::GetFileHandlerFromExtenstion(sprintf('.%s', igk_io_path_ext($filename)))){
+            // handler must support context style views
+            $r = $handler->transform($content); 
+            $def[] = $r; 
+        }else{
+            $def[] = $content;
+        } 
+        return $this;
+    }
+    /**
+     * append rule
+     * @param string $name 
+     * @param string $expression 
+     * @return mixed 
+     */
+    public function addRule(string $name, string $expression) {
+        $v_def = $this->getdef();
+        return $v_def->addRule($name, $expression);
+     }
 
     public function & setIncludeFileListListener(& $array){
         $g = & $this->m_includes;
@@ -561,7 +601,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 if (empty($v))
                     continue;  
                 if (is_numeric($k) || empty($k)){
-
+                    // minifier only what is on {}
                     $s.= $css_minifier->minify($v);
                     continue;
                 }
@@ -1160,10 +1200,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
         }
         return $out;
     }
-    ///<summary></summary>
+    ///<summary>retrieve reference to definition</summary>
     ///<return refout="true"></return>
     /**
-     * get
+     * retrieve reference to definition
      * @return mixed|array|object definition
      */
     public function &getdef()
@@ -1353,12 +1393,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
     ///<param name="expression"></param>
     /**
      * 
-     * @param mixed $def
-     * @param mixed $name
-     * @param mixed $expression
+     * @param ICssAddRule $def
+     * @param string $name
+     * @param string $expression
      */
-    public function reg_keyFrames($def, $name, $expression)
-    {
+    public function registerKeyFrame(ICssAddRule $def, string $name, string $expression)
+    { 
         $def->addRule("@-webkit-keyframes " . $name, $expression);
         $def->addRule("@-moz-keyframes " . $name, $expression);
         // $def->addRule("@-ms-keyframes " . $name, $expression);

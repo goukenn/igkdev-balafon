@@ -60,4 +60,7 @@ abstract class IGKEnvironmentConstants{
 
 
      const CSS_ENV_STYLE_KEY = 'css/default/controlstyle';
+
+
+     const CtrlEnvParamModules = 'modules';
 }

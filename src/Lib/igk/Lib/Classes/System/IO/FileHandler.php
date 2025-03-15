@@ -29,6 +29,7 @@ abstract class FileHandler{
         if (is_null(self::$sm_handler)){
             self::$sm_handler = [];
         }
+        $tab_handler = [];
         $v_context = self::FILE_CONTEXT_GLOBAL; // 'global';
         $tab = explode('|', $extension,2);
         if (isset($tab[1])){

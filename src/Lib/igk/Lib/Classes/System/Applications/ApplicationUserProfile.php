@@ -60,8 +60,9 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      */
     public function __construct(Users $user, BaseController $ctrl=null, ?IGKUserInfo $profile = null) {
         Users::IsMockInstance($user) && igk_die('mock instance not allowed');
+        $ctrl = $ctrl ?? igk_current_ctrl();
         $this->m_user = $user; 
-        $this->m_controller = $ctrl || igk_current_ctrl();
+        $this->m_controller = $ctrl;
         $this->m_profile = $profile ?? $ctrl->getUser();
         parent::__construct();
     }
@@ -83,6 +84,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @return static 
      */
     protected static function _CreateClassInstance($user){
-        return new static($user);
+        return new static($user, ...array_slice(func_get_args(),1));
     }
 }

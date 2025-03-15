@@ -1752,7 +1752,14 @@ function igk_create_node($tagname = "div", $attributes = null, $index_or_args = 
  */
 function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
 {
+    $ps = null;
+    if ($index_or_args && is_array($index_or_args) && (count($index_or_args) == 1)){
+        $ps = igk_html_treat_indexOrArg($index_or_args[0]);
+        $index_or_args = $ps['args'];
+    }
     list($tagname, $id, $classes, $attr) = HtmlNodeTagExplosionDefinition::ExplodeTag($tagname);
+
+
     $n = HtmlNode::CreateWebNode($tagname, null, $index_or_args);
     if ($attr) {
         $n->setAttributes($attr);
@@ -1762,6 +1769,11 @@ function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
     }
     if ($id) {
         $n['id'] = $id;
+    }
+    if ($ps){
+        if ($attr = $ps['attr']){
+            $n->setAttributes($attr);
+        }
     }
     return $n;
 }

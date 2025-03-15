@@ -21,8 +21,8 @@ use IGK\System\Exceptions\NotImplementException;
  */
 class DbModelImporterMap
 {
-    const MappingClassSuffix = 'ImportMapping';
-    private $m_inserted;
+    const MappingClassSuffix = EntryClassResolution::ImportMappingSuffix;
+    protected $p_inserted;
     /**
      * autoregister link value
      * @var bool
@@ -63,7 +63,12 @@ class DbModelImporterMap
         }
         return new static($model);
     }
-
+    /**
+     * 
+     * @param string $field_name 
+     * @param null|callable $callable 
+     * @return void 
+     */
     public function addFieldListener(string $field_name, ?callable $callable)
     {
         if (is_null($callable)) {
@@ -79,17 +84,28 @@ class DbModelImporterMap
         $this->m_fieldListener = [];
         $this->m_resolved_values = [];
         $this->autoregister = false;
-        $this->m_inserted = 0;
+        $this->p_inserted = 0;
         $this->transformField = true;
     }
+    /**
+     * 
+     */
     public function __invoke($data)
     {
         $this->_onImportData((array)$data);
     }
+
+    /**
+     * 
+     * @param array $data 
+     * @return mixed raw
+     * @throws Exception 
+     */
     protected function _onImportData(array $data)
     {
         $cl = get_class($this->m_model);
         $tab = (array)$data;
+        $row = null;
         if ($this->m_fieldListener) {
             foreach ($this->m_fieldListener as $key => $value) {
                 if (key_exists($key, $tab)) {
@@ -113,15 +129,17 @@ class DbModelImporterMap
             }
         }
         try {
-            if ($row = $cl::insertIfNotExists($tab)) {
-                if ($row === true) {
-                    $irow = $cl::last();
-                    $this->_onRowInserted($irow);
-                    $this->m_inserted++;
+            if (!$this->_onLoadData($tab, $cl, $row)) {
+                if ($row = $cl::insertIfNotExists($tab)) {
+                    if ($row === true) {
+                        $irow = $cl::last();
+                        $this->_onRowInserted($irow);
+                        $this->p_inserted++;
+                    }
                 }
             }
         } catch (Exception $ex) {
-            if ($this->handleError){
+            if ($this->handleError) {
                 return null;
             }
             throw $ex;
@@ -129,12 +147,21 @@ class DbModelImporterMap
         return $row;
     }
     /**
-     * number of inserted db map 
+     * override this to handle 
+     * @param mixed $tab 
+     * @param mixed $model_classe 
+     * @return bool must return true to handle
+     */
+    protected function _onLoadData(array $data, string $model_classe, & $row):bool{
+        return false;
+    }
+    /**
+     * get number of inserted/exported db entries
      * @return int 
      */
     public function count()
     {
-        return $this->m_inserted;
+        return $this->p_inserted;
     }
     protected function _onRowInserted(ModelBase $model) {}
     /**
@@ -223,5 +250,14 @@ class DbModelImporterMap
     public function getResolvedValues()
     {
         return $this->m_resolved_values;
+    }
+
+    /**
+     * export structured model data 
+     * by default, select all model data
+     * @return array 
+     */
+    public function export(): array{
+        return $this->m_model->select_all();        
     }
 }

@@ -765,3 +765,22 @@ if (!function_exists('igk_array_dump_short')) {
         return $s;
     }
 }
+
+
+if (!function_exists('igk_array_order_by')) {
+    /**
+     * 
+     * @param string $property 
+     * @param mixed &$array 
+     * @return mixed 
+     */
+    function igk_array_order_by(string $property, &$array)
+    {
+        usort($array, function ($a, $b) use ($property) {
+            $aa = igk_getv($a, $property);
+            $ab = igk_getv($b, $property);
+            return $aa <=> $ab;
+        });
+        return $array;
+    }
+}

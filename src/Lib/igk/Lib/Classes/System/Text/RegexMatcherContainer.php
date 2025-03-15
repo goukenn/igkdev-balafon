@@ -124,7 +124,14 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     public function clear()
     {
         $this->m_matcher = [];
-        $this->m_references = [];
+        $this->m_references = []; 
+    }
+    public function resetTreatment(){
+
+        $this->m_pos = 0;
+        $this->m_last_info = null;
+        $this->m_parent = null;
+        $this->m_last_offset = null;
     }
     public function __construct()
     {

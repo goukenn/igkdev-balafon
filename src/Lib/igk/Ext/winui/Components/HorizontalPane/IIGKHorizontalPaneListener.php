@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * 
+ * @package 
+ */
+interface IIGKHorizontalPaneListener{
+
+}

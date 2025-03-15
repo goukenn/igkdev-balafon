@@ -31,6 +31,11 @@ class SysDbMapping extends ModelMappingBase{
     public function mapArray(array $arr){
         return array_map($this, $arr);
     }
+    /**
+     * map data 
+     * @param ModelBase $model
+     * @return object
+     */
     public function map(ModelBase $model){
         $this->m_info  = $this->m_info ?? $this->initInfoFromModel($model);        
         $prefix = $this->m_info['prefix'];
@@ -83,6 +88,9 @@ class SysDbMapping extends ModelMappingBase{
         $o->m_info = $o->initInfoFromModel($model);
         return $o;
     }
+    /**
+     * 
+     */
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();//->columns();
         $v_prefix = $v_tabInfo->prefix ?? 'cl';

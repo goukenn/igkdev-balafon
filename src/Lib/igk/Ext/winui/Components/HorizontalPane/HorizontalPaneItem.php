@@ -23,6 +23,7 @@ require_once __DIR__. "/HorizontalPaneManager.pinc";
 require_once __DIR__. "/HorizontalAnimType.pinc"; 
 require_once __DIR__. "/JSHorizontalPane.pinc"; 
 require_once __DIR__. "/HorizontalPage.pinc"; 
+require_once __DIR__. "/IIGKHorizontalPaneListener.php"; 
  
 
 ///<summary>external html item. Add to View</summary>

@@ -44,17 +44,13 @@ use ReflectionException;
  */
 abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 {
-    use  ArrayAccessSelfTrait;
-    // static $BasicMethod = array(
-    //     "AcceptRender"=>"_acceptRender",
-    //     "RenderComplete"=>"__RenderComplete"
-    // );
+    use  ArrayAccessSelfTrait; 
     const EVENTS = 0xa1;
     const ACTIVATE = 1;
     const ATTRIBS = 2;
     const ITERATOR = 3;
     const OWNER = 4;
-    const CALLBACK_SUFFIX = "Params";
+    const CALLBACK_SUFFIX = 'Params';
     const FLAG_INIT = IGK_NODETYPE_FLAG;
     const PREFILTER_ATTRIBUTE = 5;
     /**
@@ -755,8 +751,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<param name="o" ref="true"></param>
     /**
      * 
-     * @param mixed $name
-     * @param mixed * $o
+     * @param string $name
+     * @param mixed * $o reference object to pass 
      */
     protected final function evalCallback($name, &$o)
     {
@@ -1074,10 +1070,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<summary></summary>
     ///<param name="name"></param>
     /**
-     * 
-     * @param mixed $name
+     * is a callable function 
+     * @param string $name
+     * @return int|boolean
      */
-    protected final function iscallback($name)
+    protected final function iscallback(string $name)
     {
         $g = $this->getFlag(IGK_CALLBACK_FLAG);
         return $g ? isset($g[$name]) : 0;
@@ -1454,14 +1451,14 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<param name="n"></param>
     ///<param name="callable"></param>
     /**
-     * 
-     * @param mixed $n
-     * @param mixed $callable
+     * regist callback 
+     * @param string|'' $n callback name 
+     * @param callable|string $callable callable to call. expression to evaluate 
      */
-    public function setCallback($n, $callable)
+    public function setCallback(string $n, $callable)
     {
         $g = $this->getFlag(IGK_CALLBACK_FLAG);
-        $k = $n . "Params";
+        $k = $n . self::CALLBACK_SUFFIX;
         if ($callable == null) {
             unset($g[$n]);
             $this->setParam($k, null);
@@ -1474,8 +1471,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             if (!$g) {
                 $g = array();
             }
-        }
-
+        } 
         if (igk_count($g) == 0)
             $this->unsetFlag(IGK_CALLBACK_FLAG);
         else

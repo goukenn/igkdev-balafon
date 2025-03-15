@@ -1290,17 +1290,18 @@ abstract class ControllerExtension
      */
     public static function setExtraArgs(BaseController $ctrl, ?array $args = null)
     {
+        $c_lk = BaseController::VIEW_EXTRA_ARGS;
         if (is_null($args)) {
-            $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, null);
+            $ctrl->setEnvParam($c_lk, null);
             return;
-        }
-        $v = $ctrl->getEnvParam(BaseController::VIEW_EXTRA_ARGS);
+        } 
+        $v = $ctrl->getEnvParam($c_lk);
         if (!$v) {
             $v = $args;
         } else if (is_array($v)) {
             $v = array_merge($v, $args);
         }
-        $ctrl->setEnvParam(BaseController::VIEW_EXTRA_ARGS, $v);
+        $ctrl->setEnvParam($c_lk, $v);
     }
     /**
      * get extra args

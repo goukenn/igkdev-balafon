@@ -132,15 +132,15 @@ class IGKResourceUriResolver
             $s = preg_replace($rgx, '', $path);
             $n = $tab['name'];
             return Path::Combine(IGK_RES_FOLDER, igk_getv([
-                "lib"=>ResIdentifierConstants::LIBRARY,
-                "mod"=>ResIdentifierConstants::MODULE,
-                "modules"=>ResIdentifierConstants::MODULE,
-                "pkg"=>ResIdentifierConstants::PACKAGE,
-                "nodepackages"=>ResIdentifierConstants::NODE_PACKAGE,
-                "packages"=>ResIdentifierConstants::PACKAGE,
-                "prj"=>ResIdentifierConstants::PROJECT, 
-                "project"=>ResIdentifierConstants::PROJECT, 
-                "cache"=>ResIdentifierConstants::CACHE, 
+                'lib'=>ResIdentifierConstants::LIBRARY,
+                'mod'=>ResIdentifierConstants::MODULE,
+                'modules'=>ResIdentifierConstants::MODULE,
+                'pkg'=>ResIdentifierConstants::PACKAGE,
+                'nodepackages'=>ResIdentifierConstants::NODE_PACKAGE,
+                'packages'=>ResIdentifierConstants::PACKAGE,
+                'prj'=>ResIdentifierConstants::PROJECT, 
+                'project'=>ResIdentifierConstants::PROJECT, 
+                'cache'=>ResIdentifierConstants::CACHE, 
                 'app'=>ResIdentifierConstants::APP
             ], $n, function()use($n, $path){
                 igk_die("not found .... ".$n. " for [".$path."]");

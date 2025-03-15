@@ -11,6 +11,8 @@ use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use IGK\Helper\ViewHelper;
+use IGK\System\Html\CallableConstants;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Regex\Replacement;
 
 use function igk_resources_gets as __;
@@ -539,7 +541,7 @@ EOF,
         $n["class"] = "igk-gmaps";
         $srv = igk_getv(igk_get_services("google"), "googlemap");
         $mapuri = $srv("apiuri", null, (object)["Google" => (object)["ApiKey" => $apikey]]);
-        $n->setCallback("AcceptRender", "igk_google_jsmap_acceptrender_callback");
+        $n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_google_jsmap_acceptrender_callback");
         $mapjs =  IGKResourceUriResolver::getInstance()->resolve(dirname(__FILE__) . '/Scripts/igk.google.maps.js');
         $n->script()->Content = <<<EOF
 (function(q){
