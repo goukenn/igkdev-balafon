@@ -4,36 +4,36 @@
 
 
 ## INSTALL
-prerequisites
 
-```
-php7.3+ - Apache
+- requirement
 
-module php requis
-php-zip
-php-curl
-php-mysqli
-php-gd
-```
+-- `php7.3+` + `Apache`
 
-### For AAPACHE
-Apache serveur avec module rewrite
-```
-a2enmod rewrite
-a2enmod ssl
-a2enmod header
-```
+### php's required module
+- php-zip
+- php-curl
+- php-mysqli
+- php-gd
 
-### In DOCKER 
+
+### APACHE's required module 
+
+- a2enmod rewrite
+- a2enmod ssl
+- a2enmod header
+
+
+## Install DOCKER container
 
 ## Concepts
 
 ### Controllers
 
 ### Projects
+
 ### Views
 
-Views are ".phtml" files located in Project's Views folder. 
+Views are `.phtml` or `.bview` files located in Project's Views folder. 
 
 #### Views options
 
@@ -42,7 +42,6 @@ passing parameters to layout
 ```php
 //#{{% expression %}}
 ```
-
 
 ##### default expression
 
@@ -60,27 +59,11 @@ passing parameters to layout
 ### Article - Template - Binding
 
 
-## Data Adapter
-
-## FIX
-
-- 20242301
-
---- add range on loop node
---- fix bug
-
-- 20232109
-    + add model - map
-    + add CurlHttpClient session request support 
-    + remove igk_db_table_select_relationnal_where, igk_sys_srv_nocache_request, igk_html_validate_error 
-- 20220714
-    + add igk_css_request_ctrl global function 
-    + OPS update css dynamic file from controller
+### Themes
 
 
-- __module_refs
 
-just append to inject by class name definition 
+### Data Adapter
 
 #### author
 @ C.A.D BONDJE DOUE
