@@ -61,9 +61,7 @@ passing parameters to layout
 
 ### Themes
 
-
-
 ### Data Adapter
 
-#### author
+## author
 @ C.A.D BONDJE DOUE
