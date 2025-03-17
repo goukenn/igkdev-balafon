@@ -1556,8 +1556,10 @@ if (!function_exists('igk_html_host')) {
                 $root->loop(...$params[0]);
                 $params = array_slice($params, 1);
             } else {
-                $args = $params && is_array($params[0]) ? $params[0] : null;
-                list($root, $last) = HtmlNodeTagExplosionDefinition::CreateNodes($p, $args);
+                if ($args = $params && is_array($params[0]) ? $params[0] : null){
+                    $params = array_slice($params, 1);
+                } else $args = [];
+                list($root, $last) = HtmlNodeTagExplosionDefinition::CreateNodes($p, ...$args);
                 $p = $last;
             }
         }

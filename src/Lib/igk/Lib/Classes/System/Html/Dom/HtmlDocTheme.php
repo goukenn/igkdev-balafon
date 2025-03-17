@@ -603,6 +603,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements ArrayAccess, 
                 if (is_numeric($k) || empty($k)){
                     // minifier only what is on {}
                     $s.= $css_minifier->minify($v);
+                    $tv = $tv || !empty(trim($s));
                     continue;
                 }
                 $kv = trim($builder->treatThemeValue($v, $themeexport)); 

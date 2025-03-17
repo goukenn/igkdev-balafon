@@ -5,6 +5,8 @@
 // @desc: 
 
 use IGK\Css\CssThemeOptions;
+use IGK\Helper\Activator;
+use IGK\IGKHtmlDocFlagOption;
 use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Css\CssSession;
@@ -21,6 +23,7 @@ use IGK\System\Html\IHtmlDocumentHost;
 use IGK\System\Html\Metadatas\Traits\HtmlDocMetadataTrait;
 use IGK\System\Http\CookieManager;
 use IGK\System\Http\IHeaderResponse;
+
 
 /**
  * create core document
@@ -41,6 +44,24 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private $m_noIFrame;
     use HtmlDocMetadataTrait;
 
+    /**
+     * set flag option 
+     * @param mixed|IGKHtmlDocFlagOption $o 
+     * @return static 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public function setFlagOption($o)
+    {
+        if (($r = Activator::CreateNewInstance(IGKHtmlDocFlagOption::class, $o))
+            instanceof IGKHtmlDocFlagOption
+        ) {
+            foreach ($r as $k => $v) {
+                $this->{$k} = $v;
+            }
+        }
+        return $this;
+    }
     public function getnoIframe()
     {
         return $this->m_noIFrame;
@@ -575,7 +596,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     public function addTempScript(string $file, ?array $query_args = null)
     {
-      
+
         if (!IGKValidator::IsUri($file))
             $file = igk_dir($file);
         $t = $this->ScriptManager->getTempScripts();

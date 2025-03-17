@@ -461,6 +461,11 @@ $def["p.pre-line"] = "white-space: pre-line;";
 
 
 // + | define translucid property
+$def['.translucid']= "backdrop-filter: blur(10px);";
 foreach([4, 8, 10, 20, 32] as $s){
     $def['.translucid-'.$s] = sprintf('backdrop-filter: blur(%spx);', $s);
+}
+
+foreach([1,10,50, 100, 500] as $s){
+    $def['.z-index-'.$s] = sprintf('z-index:%s', $s);
 }

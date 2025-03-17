@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 */
 class CssMinifierTest extends BaseTestCase{
     public function test_cssminify_remove_whitespace(){
-        $css = 'body     { background-color:        white; color:indigo}'; 
+        $css = 'body     { background-color:        white; color:   indigo   }'; 
         $minifier = new CssMinifier;  
         $this->assertEquals('body{background-color:white;color:indigo}', 
         $minifier->minify($css));
@@ -41,5 +41,37 @@ class CssMinifierTest extends BaseTestCase{
         $minifier->preserveComment = false;
         $this->assertEquals('body{aspect-ratio:16 / 9}', 
         $minifier->minify($css)); 
+    }
+    function test_cssminity_function_call(){
+       
+        $css = ' body{width: calc(2em + 3px)   ; }'; 
+        $minifier = new CssMinifier;  
+        $minifier->preserveComment = false;
+        $this->assertEquals('body{width:calc(2em + 3px);}', 
+        $minifier->minify($css));
+    }
+    function test_cssminity_attribute(){
+       
+        $css = 'body  .color[   basic   ~= info    ] > d:first-child:not(.level) + .red{color:red;}'; 
+        $minifier = new CssMinifier;  
+        $minifier->preserveComment = false;
+        $this->assertEquals('body .color[basic~=info] > d:first-child:not(.level) + .red{color:red;}', 
+        $minifier->minify($css));
+    }
+    function test_cssminity_custom_property_speudo(){
+       
+        $css = 'body:hover div:first-child { color: red;}'; 
+        $minifier = new CssMinifier;  
+        $minifier->preserveComment = false;
+        $this->assertEquals('body:hover div:first-child{color:red;}', 
+        $minifier->minify($css));
+    }
+    function test_cssminity_important(){
+       
+        $css = 'div{background-color: indigo !important;}'; 
+        $minifier = new CssMinifier;  
+        $minifier->preserveComment = false;
+        $this->assertEquals('div{background-color:indigo !important;}', 
+        $minifier->minify($css));
     }
 }

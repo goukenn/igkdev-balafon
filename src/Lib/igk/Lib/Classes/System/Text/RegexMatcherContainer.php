@@ -504,7 +504,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             return;
         }
         $this->m_parent = $info;
-        if (empty($compared_end->value)) {
+        if (strlen($compared_end->value)==0) {
             // return the base definition 
             $info->endType = 'end';
             $offset = $l->pos;

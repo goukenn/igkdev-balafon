@@ -7325,7 +7325,8 @@ function igk_file_isnotincluded($file)
 ///<summary>flush data.</summary>
 ///<note>flush data cause the header to be send.</note>
 /**
- * flush data.
+ * helper: flush data.
+ * @return 
  */
 function igk_flush_data()
 {
@@ -14609,8 +14610,9 @@ function igk_io_get_full_entry_uri($ctrl, $params)
  */
 function igk_io_get_relative_currenturi(?string $uri = null): ?string
 {
-    if (!is_null($uri) && strpos($uri, '#') == 0)
+    if (!is_null($uri) && strpos($uri, '#') == 0){
         $uri = "./" . $uri;
+    }
     $page = igk_app()->getCurrentPageFolder();
     $t = null;
     if (strtolower($page) != IGK_HOME_PAGEFOLDER) {

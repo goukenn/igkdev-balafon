@@ -25,4 +25,6 @@ class RegexTreatMatchInfo{
     var $captures;
 
     var $parent;
+
+    var $endTreat;
 }

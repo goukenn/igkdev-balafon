@@ -5301,6 +5301,15 @@ Name:balafon.js
             if (!item || (pattern == null) || (pattern.length == 0) || /['`\[\]]/.exec(pattern)) {
                 return $igk(v_sl);
             }
+            var v_root_chain = pattern.split('>');
+            if (v_root_chain.length>1){
+                let c = document.querySelectorAll(pattern);
+                c.forEach(i=>{
+                    v_sl.push(i); 
+                }); 
+                return $igk(v_sl);
+            }
+
             // query selector detection
             var v_list = pattern.split(',');
             if (v_list.length > 1) {

@@ -964,6 +964,23 @@ $def[".igk-winui-combobox + ul"] = "background-color:#444; color: white";
 $def[".igk-winui-combobox + ul > li"] = "padding:4px;";
 
 
+foreach([
+    'b'=>'baseline', 
+'c'=>'center',
+'e'=>'end',
+'s'=>'start',
+'normal'=>'normal',
+'unsafe'=>'unsafe',
+'unset'=>'unset',
+'flex-start'=>'flex-start',
+'flex-end'=>'flex-end',
+'r'=>'revert',
+'rl'=>'revert-layer',
+'stretch'=>'stretch',
+'safe'=>'safe',
+'self-end'=>'self-end'
+] as $k=>$v)
+$def['.align-items-'.$k] = 'align-items: '.$v.';';
 
 
 
