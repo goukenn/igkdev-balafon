@@ -33,14 +33,15 @@ class CssMinifier
         $container = new RegexMatcherContainer;
         $patterns = [];
         $patterns[] = $container->begin("\\s*\/\*", '\*\/\\s*', 'comment')->last(); // ignore comment 
+        $patterns[] = $container->match('\\s*\\b(and|or)\\b\\s*', 'operator-litteral')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
         // priority to skip space
         $patterns[] = $container->match("\\s+(?=\\}|\\{)", 'skip-space')->last();
+        $patterns[] = $container->match("\\s*(:|;|,|\(|\)|\[|\])\\s*", 'glue')->last(); // 
+        $patterns[] = $container->match("\\s*(~|\*|\+|\!)=\\s*", 'glue-operator')->last(); // glue operator - remove space
         $patterns[] = $container->match("\\s+", 'skip')->last();
         $patterns[] = $container->match('\\s*(?:-)?(?:([0-9]+)?\.)?([0-9]+)(px|em|%|s|ms|rem|pt|pica|vh|vw|deg|rad|grad)?', 'dimension')->last(); // 
-        $patterns[] = $container->match("\\s*(~|\*|\+|\!)=\\s*", 'glue-operator')->last(); // glue operator - remove space
         $patterns[] = $container->match("\\s*(\/|\+|-|%|\*|>|~)\\s*", 'operator')->last(); // ignore multispace 
-        $patterns[] = $container->match("\\s*(:|;|,|\(|\)|\[|\])\\s*", 'glue')->last(); // 
         $patterns[] = $container->begin("(\"|')", '\\1')->last(); 
         $g = $container->begin('{', '}', 'block')->last();
 
@@ -61,12 +62,17 @@ class CssMinifier
                         }
                         break;
                     case 'operator':
+                    case 'operator-litteral':
                         $ch .= substr($data, $lpos, $g->from - $lpos) . sprintf(' %s ', trim($g->value));
+                        //if ($g->tokenID != 'operator-litteral')
                         $glueInf[] = 1; 
                         break;
                     case 'glue':
                     case 'glue-operator':
-                        $ch = rtrim($ch.substr($data, $lpos, $g->from - $lpos)).trim($g->value); 
+                        $ts = trim($g->value);
+                        $ch = rtrim($ch.substr($data, $lpos, $g->from - $lpos));
+                        if ($v_tp) $ch.= ' ';
+                        $ch.= trim($g->value); 
                         break;
                     case 'skip': 
                         // -----------------------------------------------------------------------------------------
