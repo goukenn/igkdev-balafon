@@ -17,7 +17,7 @@ namespace IGK\System\Shell;
 class OsShell {    
     private static $sm_commands = [
         "Unix"=>OsUnixCommand::class,
-        "Window"=>OsWinCommand::class
+        "Window"=>OsWindowCommand::class
     ];
     public static function ExecInWorkingDir(string $command, string $workingdir, ?string $success=null){
         $bck = getcwd();
