@@ -33,7 +33,8 @@ class CssMinifier
         $container = new RegexMatcherContainer;
         $patterns = [];
         $patterns[] = $container->begin("\\s*\/\*", '\*\/\\s*', 'comment')->last(); // ignore comment 
-        $patterns[] = $container->match('\\s*\\b(and|or)\\b\\s*', 'operator-litteral')->last(); // 
+        $patterns[] = $container->match(':(active|any-link|autofill|blank|checked|current|default|defined|dir|disabled|empty|enabled|first(-(child|of-type))?|focus|focus-visible|focus-within|fullscreen|future|has|host|host|host-context|hover|indeterminate|in-range|invalid|is|lang|last-child|last-of-type|left|link|local-link|modal|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|optional|out-of-range|past|paused|picture-in-picture|placeholder-shown|playing|read-only|read-write|required|right|root|scope|state|target|target-within|user-invalid|valid|visited|where)\\b', 'speudo-class')->last(); // 
+        $patterns[] = $container->match('\\s*\\b(and|or|not|only)\\b\\s*', 'operator-litteral')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
         // priority to skip space
         $patterns[] = $container->match("\\s+(?=\\}|\\{)", 'skip-space')->last();
@@ -114,7 +115,8 @@ class CssMinifier
                     case 'property':
                     case 'dimension':
                     case 'block': // block for child
-                        //$ch = rtrim($ch);
+                    case 'speudo-class':
+                        // + | just load data 
                         break;
                     default:
                         $g->value = '';
