@@ -230,7 +230,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         }
         // + | handle /configs
         $conf_path = self::GetConfigurationPath();
-        $actions["^{$conf_path}(\.php)?$"]=$ctrl->getUri("gotoconfig");
+        // $actions["^{$conf_path}(\.php)?$"]=$ctrl->getUri("gotoconfig");
         $conf_ctrl=igk_getconfigwebpagectrl();
         if($conf_ctrl){
             $actions["^{$conf_path}!Settings$"]=$conf_ctrl->getUri("configure_settings");

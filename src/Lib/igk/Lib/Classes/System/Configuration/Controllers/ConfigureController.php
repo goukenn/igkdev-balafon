@@ -20,6 +20,7 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
+use IGK\System\IO\InlineScriptLoader;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGK\System\WinUI\Menus\MenuItem;
@@ -1135,19 +1136,19 @@ EOF;
     }
     ///<summary></summary>
     /**
-     * 
+     * init view connexion amdinistration node 
      */
     private function initConnexionNode()
     {
-        igk_wln_e(__FILE__.":".__LINE__ , 'connexion mode');
+
         $bfrm = igk_create_notagnode();
         $igk_framename = IGK_FRAMEWORK;
         $igk_version = IGK_VERSION;
         $v_bmc_module = 'igk\\BMC';
         $doc = igk_app()->getDoc();
         $doc->title = sprintf("%s - [%s]",
-             __("get connect to Balafon admin dashboard"),
-                igk_configs()->website_domain
+            __("get connect to Balafon admin dashboard"),
+            igk_configs()->website_domain
         );
 
         if (function_exists('igk_google_addfont')){
@@ -1156,7 +1157,7 @@ EOF;
         if ($bmc = igk_require_module($v_bmc_module, null, 0, 0)) {
 
             $bmc->initDoc($doc);  
-            $doc->setHeaderColor("#4588fa");
+            $doc->setHeaderColor("#040816");
             $root = $bfrm->div()->setClass("disptable fit")->div();
             $root->setclass("disptabc alignm fitw");
 
@@ -1198,6 +1199,13 @@ EOF;
             $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", IGKValidator::IsIpAddress(igk_server()->SERVER_NAME) ? __("Home") :  igk_sys_domain_name());
             $root->div()->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
             $root->div()->setClass("alignc")->addIGKCopyright();
+
+            if (1 || igk_configs()->config_webauthn_required){
+                $js_loader = new InlineScriptLoader(IGK_LIB_DIR.'/Scripts/.inc/configs/web-authentication.js');
+                $frm->clearchilds();
+                $frm->script()->content = $js_loader->content();
+                $frm->noscript()->content = 'JS is required for authentication - Authentication required';
+            }
 
 
             return $bfrm;
@@ -1902,7 +1910,8 @@ EOF;
                     $theme->addTempFile($f);  
                 } 
                 if (!$this->getIsConnected()) {
-                    $v_conf_path = igk_io_basedir().igk_server()->getConfigurationPath();
+                    // $v_conf_path = igk_io_basedir().igk_server()->getConfigurationPath();
+                    $v_conf_path = igk_io_baseuri().igk_server()->getConfigurationPath();
                     igk_io_protect_request($v_conf_path);
                     $cnode = $this->initConnexionNode();
                     $t->addNotifyHost();
