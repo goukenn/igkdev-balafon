@@ -20,6 +20,9 @@ use IGKException;
 use IGKSystemUriActionPatternInfo;
 use IIGKUriActionListener;
 
+
+ 
+
 final class SystemUriActionController extends ConfigControllerBase implements IIGKUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
@@ -195,10 +198,29 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     }
     ///<summary></summary>
     public function gotoconfig(){ 
-        igk_navto("/Configs", 301);
+        $uri = self::GetConfigurationPath();
+        igk_navto($uri, 301);
+    }
+    static function GetConfigurationPath(){
+        static $conf_path;
+        if (is_null($conf_path)){
+
+            $conf_path = igk_app()->getConfigs()->get('configuration_access', IGK_CONF_PATH);  
+            self::_CheckConfPath($conf_path) || igk_die('configuration path is not valid');
+        }
+        return $conf_path;
+    
     }
     ///<summary></summary>
     public function init_wakeup(){    }
+    /**
+     * check configuration path
+     * @param string $path 
+     * @return true 
+     */
+    static function _CheckConfPath(string $path){
+        return preg_match("/^\/[a-z]+[a-z\-]*$/i", $path);
+    }
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
     private static function InitActionList($ctrl, & $route, $forceReload=false){
@@ -206,15 +228,17 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         if (!$forceReload && (defined("IGK_NO_WEB") || igk_is_cmd())){
             return $actions;
         }
-        $actions["^/config(\.php)?$"]=$ctrl->getUri("gotoconfig");
+        // + | handle /configs
+        $conf_path = self::GetConfigurationPath();
+        $actions["^{$conf_path}(\.php)?$"]=$ctrl->getUri("gotoconfig");
         $conf_ctrl=igk_getconfigwebpagectrl();
         if($conf_ctrl){
-            $actions["^/Configs!Settings$"]=$conf_ctrl->getUri("configure_settings");
+            $actions["^{$conf_path}!Settings$"]=$conf_ctrl->getUri("configure_settings");
             // igk_wln_e(__FILE__.":".__LINE__, "init action ... ");
             $t=igk_get_env("sys://configs/options");
             if($t){
                 foreach($t as $k=>$v){
-                    $actions["^/Configs!{$k}$"]=$conf_ctrl->getUri("configure&v=".$v);
+                    $actions["^{$conf_path}!{$k}$"]=$conf_ctrl->getUri("configure&v=".$v);
                 }
             }
             $actions["^/reconnect$"]=$conf_ctrl->getUri("reconnect");

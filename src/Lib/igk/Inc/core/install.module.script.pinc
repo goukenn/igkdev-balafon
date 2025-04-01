@@ -163,8 +163,9 @@ if (!class_exists(ZipArchive::class)) {
 if (!class_exists(SimpleXMLElement::class)) {
     $response->die("zip simple xml element not present", 500);
 }
+$steps[] = "check archive ".$archive;
 if (!file_exists($archive)) {
-    $response->die("missing archive", 500);
+    $response->die("module archive is missing.", 500);
 }
 
 $install_dir = igk_getr("install_dir");

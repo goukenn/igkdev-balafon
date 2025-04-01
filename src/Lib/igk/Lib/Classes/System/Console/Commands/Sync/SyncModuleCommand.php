@@ -133,8 +133,10 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
 
-        //updaload zip and install it 
+        //upload zip and install it 
         ftp_put($h, $lib =  $pdir . "/" . $name, $file, FTP_BINARY);
+        // + | sleep 
+        sleep(2);
         ftp_put($h, $install = $pdir . "/install_module.php", $script_install, FTP_BINARY);
         unlink($file);
         unlink($script_install);

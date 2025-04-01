@@ -6,7 +6,7 @@
 
 
 namespace IGK\System\Http;
- 
+
 use IGK\Controllers\BaseController;
 use IGK\Helper\SysUtils;
 use IGK\System\Database\IUserProfile;
@@ -27,9 +27,9 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  * @method static RouteActionHandler put(string $actionBaseClass, string $pattern) register PUT route and return a RouteActionHandler
  * @method static RouteActionHandler delete(string $actionBaseClass, string $pattern) register DELETE route and return a RouteActionHandler
  */
-class Route  
+class Route
 {
-     static $sm_controller;
+    static $sm_controller;
     /**
      * action register
      * @var array
@@ -63,16 +63,17 @@ class Route
 
     protected $controller = "";
 
-
+    /**
+     * route verbs supports
+     */
     const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";
 
-    protected function _access_OffsetSet($n, $v){
+    protected function _access_OffsetSet($n, $v)
+    {
         $this->path = $n;
         $this->controller = $v;
     }
-    protected function _access_OffsetGet($n){
-
-    }
+    protected function _access_OffsetGet($n) {}
 
     /**
      * load controller route route config files
@@ -82,11 +83,11 @@ class Route
     public static function LoadConfig(BaseController $controller)
     {
         if (file_exists($cf = $controller::configFile("routes"))) {
-            self::$sm_controller = $controller;  
+            self::$sm_controller = $controller;
             SysUtils::Include($cf, [
-                "ctrl"=>$controller,
-                "user"=>Route::user(),
-                "is_admin"=>0,
+                "ctrl" => $controller,
+                "user" => Route::user(),
+                "is_admin" => 0,
             ]);
         }
     }
@@ -121,17 +122,17 @@ class Route
      * retrieve all route collection
      * @return array  
      */
-    public static function GetRoutes(){
-        return array_filter(array_map(function($v){
-            if ($v instanceof RouteHandler){
-                if ($v->getType() == "controller"){
+    public static function GetRoutes()
+    {
+        return array_filter(array_map(function ($v) {
+            if ($v instanceof RouteHandler) {
+                if ($v->getType() == "controller") {
                     return $v;
                 }
-
             }
         }, self::$sm_routes));
     }
-  
+
 
     ///<summary>register action provider</summary>
     /**
@@ -141,53 +142,56 @@ class Route
      * @param string|array|callable $handleClass method or action
      * @return RouteActionHandler|RouteHandler 
      */
-    public static function RegisterAction(string $actionClass, string $path, $handleClass=null)
-    { 
+    public static function RegisterAction(string $actionClass, string $path, $handleClass = null)
+    {
         /**
          * two type of returned data. depend on argument
          */
-        if (is_subclass_of($path, BaseController::class)
-            && ($handleClass==null)){
+        if (
+            is_subclass_of($path, BaseController::class)
+            && ($handleClass == null)
+        ) {
             return self::RegisterRoute($actionClass, $path);
         }
 
         if (!isset(self::$sm_actions[$actionClass])) {
             self::$sm_actions[$actionClass] = [];
         }
-        $path = ltrim($path,"/");
+        $path = ltrim($path, "/");
         $c = new RouteActionHandler($path, $handleClass, $actionClass);
         self::$sm_actions[$actionClass][] = $c;
         self::$sm_forceresolv = 1;
         self::$sm_name_list = [];
         return $c;
     }
-    
+
     /**
      * register route
      * @param string $path entry path
      * @param string $controller controller in use
      * @return RouteHandler route handler
      */
-    public static function RegisterRoute(string $path, string $controller){
+    public static function RegisterRoute(string $path, string $controller)
+    {
         $c = new RouteHandler($path, $controller);
         self::$sm_routes[] = $c;
         return $c;
     }
     ///<summary>get action Provider</summary>
     public static function GetAction($actionClass)
-    { 
+    {
         return igk_getv(self::$sm_actions, $actionClass);
     }
     public static function __callStatic($name, $arguments)
     {
         $verbs = explode('|', self::SUPPORT_VERBS);
 
-        if (in_array($v = strtoupper($name), $verbs)) { 
-            if (count($arguments)==1){
+        if (in_array($v = strtoupper($name), $verbs)) {
+            if (count($arguments) == 1) {
                 array_push($arguments, '/index');
             }
             $fc = static::RegisterAction(...$arguments);
-            $fc->setVerb([$v]); 
+            $fc->setVerb([$v]);
             return $fc;
         }
         throw new IGKException("operation not allowed");
@@ -202,31 +206,32 @@ class Route
     public static function GetRouteByName($name, $classPath = null)
     {
         $actions = null;
-        if ($classPath!==null){            
-            if ($ac = igk_getv(self::$sm_actions, $classPath)){
+        if ($classPath !== null) {
+            if ($ac = igk_getv(self::$sm_actions, $classPath)) {
                 $actions = [$ac];
-            }else{
+            } else {
                 $actions = [];
             }
-        }else{
+        } else {
             //search in all actions
             $actions = self::$sm_actions;
         }
 
         foreach ($actions as $actions) {
-            foreach ($actions as $a) {                 
-                if ($name == $a->getName()) { 
-                        return $a; 
+            foreach ($actions as $a) {
+                if ($name == $a->getName()) {
+                    return $a;
                 }
             }
-        }       
+        }
         return null;
     }
     /**
      * get the current user
      * @return mixed 
      */
-    public static function user(): ?IUserProfile{
+    public static function user(): ?IUserProfile
+    {
         return self::$sm_controller ? self::$sm_controller->getUserProfile() : null;
     }
 }

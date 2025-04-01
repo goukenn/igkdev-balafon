@@ -19,17 +19,17 @@ class DbDropCommand extends AppExecCommand{
     public $category = "db";
     public $desc = "drop project's stored tables";
     public $usage = "controller";
-    public function exec($command, ?string $projectName=null)
+    public function exec($command, ?string $controller=null)
     { 
-        if (!$projectName){
+        if (!$controller){
             throw new IGKException('project required');
         }
         DbCommandHelper::Init($command);
-        if (!($c = SysUtils::GetControllerByName($projectName))) {
-            Logger::danger("no controller found: " . $projectName);
+        if (!($c = SysUtils::GetControllerByName($controller))) {
+            Logger::danger("no controller found: " . $controller);
             return -1;
         }
-        Logger::info(__("dropping project [{$projectName}]'s tables"));
+        Logger::info(__("dropping project [{$controller}]'s tables"));
         $c::dropDb(false, true);
         Logger::success(__("done"));
         return 0;

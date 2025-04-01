@@ -84,7 +84,7 @@ use IGK\System\Http\WebResponse;
 use IGK\System\IO\CSV\Helper\CSVHelper;
 use IGK\System\IO\File\IniFile;
 use IGK\System\Regex\Replacement;
-
+use IGK\System\Text\RegexMatcherContainer;
 
 ///<summary></summary>
 /**
@@ -1365,6 +1365,7 @@ function igk_config_php_index_content()
 {
     $index_file = "index.php";
     $date = date("Ymd m:i:s");
+    $conf_path = igk_server()->getConfigurationPath();
     $v = <<<ETF
 <?php
 // @file: index.php
@@ -1375,7 +1376,7 @@ function igk_config_php_index_content()
 if (!version_compare(PHP_VERSION, "7.3", ">=")){
     die("mandory version required. 7.3<=");
 }
-\$_SERVER["PHP_SELF"] = \$_SERVER["REDIRECT_URL"] = "/Configs";
+\$_SERVER["PHP_SELF"] = \$_SERVER["REDIRECT_URL"] = "{$conf_path}";
 \$_SERVER["REDIRECT_STATUS"] = "200";
 chdir("../");
 define("IGK_CONFIG_PAGE",1);
@@ -1753,7 +1754,7 @@ function igk_create_node($tagname = "div", $attributes = null, $index_or_args = 
 function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
 {
     $ps = null;
-    if ($index_or_args && is_array($index_or_args) && (count($index_or_args) == 1)){
+    if ($index_or_args && is_array($index_or_args) && (count($index_or_args) == 1)) {
         $ps = igk_html_treat_indexOrArg($index_or_args[0]);
         $index_or_args = $ps['args'];
     }
@@ -1770,8 +1771,8 @@ function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
     if ($id) {
         $n['id'] = $id;
     }
-    if ($ps){
-        if ($attr = $ps['attr']){
+    if ($ps) {
+        if ($attr = $ps['attr']) {
             $n->setAttributes($attr);
         }
     }
@@ -4216,7 +4217,8 @@ function igk_date_now($format = null)
 /**
  * return display date format 
  */
-function igk_date_display_date($date, $format=null){
+function igk_date_display_date($date, $format = null)
+{
     // manage system date format 
     $format = $format ?? igk_configs()->date_format ?? 'Y/m/d';
     return date_format(date_create($date), $format);
@@ -6712,7 +6714,7 @@ function igk_doc_is_global($doc)
  * @param null|string|array $folder  string|array the folder of target scripts
  */
 function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
-{ 
+{
     $options = "";
     $created = 0;
     $is_prod = igk_environment()->isOPS();
@@ -6723,21 +6725,21 @@ function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
         $mergescript = igk_getv($btab, "mergescript");
         $cachedir = igk_io_cacheddist_jsdir();
         if ($tag)
-        $cachedir .= "/{$tag}";
-    else
-        igk_die("tagname is required");
-    if ($is_prod) { 
-            if ($folder && !file_exists($cachegen = $cachedir . "/.cache")) {  
+            $cachedir .= "/{$tag}";
+        else
+            igk_die("tagname is required");
+        if ($is_prod) {
+            if ($folder && !file_exists($cachegen = $cachedir . "/.cache")) {
                 igk_cache_gen_cache($folder, $cachedir, $mergescript);
                 igk_io_w2file($cachegen, json_encode((object)array("date" => date("Ymd"), "tag" => $tag)));
                 igk_hook(IGKEvents::HOOK_CACHE_RES_CREATED, [
-                    "dir"=>dirname($cachegen)
+                    "dir" => dirname($cachegen)
                 ]);
                 $created = 1;
             }
         }
         if (is_callable($init)) {
-            $init($doc, $folder, $created); 
+            $init($doc, $folder, $created);
         }
         return;
     }
@@ -7222,15 +7224,16 @@ if (!function_exists('igk_extract_obj')) {
     }
 }
 
-if (!function_exists('igk_extract_var')){
+if (!function_exists('igk_extract_var')) {
     /**
      * extract var 
      * @var mixed $data object to extract
      * @var string|string[] $list list of variable to extract 
      * @return array assoc array of variable 
      */
-    function igk_extract_var($data, $list){
-        return (function(){
+    function igk_extract_var($data, $list)
+    {
+        return (function () {
             extract((array)igk_extract_obj(func_get_arg(0), func_get_arg(1)));
             return get_defined_vars();
         })($data, $list);
@@ -8320,7 +8323,7 @@ function igk_get_data_adapter($controllerOrAdpaterName, $throwException = false)
  */
 function igk_get_default_style()
 {
-    return igk_io_read_allfile(Path::Combine(IGK_LIB_DIR , "/Default/" . IGK_STYLE_FOLDER , IGKConstants::DEFAULT_THEME_STYLE));
+    return igk_io_read_allfile(Path::Combine(IGK_LIB_DIR, "/Default/" . IGK_STYLE_FOLDER, IGKConstants::DEFAULT_THEME_STYLE));
 }
 ///<summary>get default view content</summary>
 /**
@@ -8353,7 +8356,7 @@ function igk_get_defaultconfigdata()
         "db_pwd" => "",
         "db_server" => "localhost",
         "db_user" => "root",
-        "db_charset"=>"utf8",
+        "db_charset" => "utf8",
         "default_controller" => null,
         "mail_admin" => "administrator@igkdev.com",
         "mail_contact" => "info@igkdev.com",
@@ -8388,7 +8391,7 @@ function igk_get_defaultcron_data($file = "cronjob.php")
     $o .= "// @file: {$file}\n";
     $o .= "// @date: " . date("Ymd H:i:s") . "\n";
     $o .= "// @author: " . $author . "\n";
-    $o .= "// @license: " . "\n\n"; 
+    $o .= "// @license: " . "\n\n";
     $o .= "shell_exec(\"{$bal} --run:cron --wdir:{$rootdir}\");";
     return $o;
 }
@@ -9637,7 +9640,8 @@ function igk_get_type($n)
  * 
  * @param mixed $uid 
  */
-function igk_get_user($uid, ?array $options = null){
+function igk_get_user($uid, ?array $options = null)
+{
     return IGK\Models\Users::select_row($uid, $options);
 }
 ///<summary></summary>
@@ -12783,7 +12787,7 @@ function igk_html_rm_base_uri($v)
 function igk_html_save_doc_formail($doc, $file)
 {
     $opt = HtmlRenderer::CreateRenderOptions();
-    $opt->Context =HtmlRenderingContext::Mail;
+    $opt->Context = HtmlRenderingContext::Mail;
     $maildoc = IGKHtmlMailDoc::CreateFromDocument($doc);
     igk_io_save_file_as_utf8_wbom($file, $maildoc->render($opt), true);
 }
@@ -13623,7 +13627,7 @@ function igk_init_controller(IIGKControllerInitListener $listener)
     $listener->addSource(IGK_CONTENT_FOLDER . "/.htaccess", $denyaccess);
     $listener->addSource(IGK_LIB_FOLDER . "/.htaccess", $denyaccess);
     $listener->addSource(IGK_CONF_FOLDER . "/.htaccess", $denyaccess);
-    $listener->addSource(IGK_STYLE_FOLDER . "/".IGKConstants::DEFAULT_THEME_STYLE, igk_get_default_style(), false);
+    $listener->addSource(IGK_STYLE_FOLDER . "/" . IGKConstants::DEFAULT_THEME_STYLE, igk_get_default_style(), false);
 }
 ///<summary>init html basic method</summary>
 /**
@@ -14606,27 +14610,30 @@ function igk_io_get_full_entry_uri($ctrl, $params)
 ///<param name="uri" default="null"></param>
 /**
  * get current relative in case $uri match existing folder
- * @param mixed $uri 
+ * @param mixed $uri
+ * @return string|null 
  */
 function igk_io_get_relative_currenturi(?string $uri = null): ?string
 {
-    if (!is_null($uri) && strpos($uri, '#') == 0){
+    $t = null;
+    if (!is_null($uri) && strpos($uri, '#') == 0) {
         $uri = "./" . $uri;
     }
     $page = igk_app()->getCurrentPageFolder();
-    $t = null;
     if (strtolower($page) != IGK_HOME_PAGEFOLDER) {
         $t = ($uri) ? IGK_STR_EMPTY . ($page) . "/" . $uri : $page;
     } else {
-        if ($uri !== null)
+        if ($uri !== null){
             $t = $uri;
+        }
     }
     return $t;
 }
-///<summary>php://input data</summary>
+///<summary>helper: retrieve uploaded data</summary>
 /**
  * helper: retrieve uploaded data . \
  * environement : set RequestFakeJsonInput
+ * @param bool faker use fake data
  */
 function igk_io_get_uploaded_data(bool $usefaker = true)
 {
@@ -16389,7 +16396,7 @@ function igk_js_load_found_script($doc, $dirname)
     // $tdir = [$dirname];
     foreach (IO::GetFiles($dirname, '/\.js$/i') as $g) {
         $doc->addScript($g);
-    } 
+    }
     return true;
 }
 ///<summary>load javascript document from directory</summary>
@@ -16959,7 +16966,8 @@ function igk_load_classes($tab = [])
  * helper: load controllers 
  * @param mixed $dirname root directory 
  */
-function igk_loadcontroller(string $dirname){
+function igk_loadcontroller(string $dirname)
+{
     return igk_loadlib($dirname, ".php");
 }
 ///<summary></summary>
@@ -17728,7 +17736,7 @@ function igk_ob_get_func($callback, $args = [])
 {
     if (!empty($args) && !is_array($args))
         $args = [$args];
-    if (!is_array($args)){
+    if (!is_array($args)) {
         $args = [$args];
     }
 
@@ -17986,7 +17994,7 @@ function igk_pattern_matcher_matchcallback($m)
     switch (strtolower($n)) {
         case 'verbs':
             // + | add verbs specic support
-            $tm = "(?P<" . $n . ">(get|post|options|head|delete))";
+            $tm = "(?P<" . $n . ">(get|post|options|head|put|copy|patch|delete))";
             break;
         case "options":
             // $tm = "(?P<" . $n . ">([^;]+=([^;]+;?)+)";
@@ -18885,6 +18893,34 @@ function igk_regex_get($pattern, $key, $value, $index = 0)
         }
     }
     return null;
+}
+/**
+ * helper: read values form string 
+ * @param string $data
+ * @param string $value_delimiter
+ * @param string $definition_delimiter
+ * @return array<string,string> 
+ */
+function igk_regex_read_value(string $data, string $value_delimiter=':', $definition_delimiter=';'){
+    $container = new RegexMatcherContainer;
+    $container->match($value_delimiter, "value");
+    $container->match($definition_delimiter, "def");
+    $tab = [];
+    $lpos = 0;
+    $skey = [];
+    $container->treat($data, function ($g, &$int) use (&$lpos, &$tab, $data, &$skey) {
+        $s = substr($data, $lpos, $g->from - $lpos);
+        if ($g->tokenID == 'value') {
+            $skey[] = trim($s);
+        } else {
+            if ($skey) {
+                $tab[$skey[0]] = trim($s);
+            }
+            $skey = [];
+        }
+        $lpos = $int;
+    });
+    return $tab;
 }
 ///<summary>core auto register class</summary>
 ///<param name="func"></param>
@@ -21881,7 +21917,7 @@ function igk_svg_bind_name($name, $context = null)
  */
 function igk_svg_bind_svgs($doc, $dir = IGK_LIB_DIR . "/Data/R/svg/icons")
 {
-    igk_environment()->isDev() && igk_ilog('bind svgs : '.$dir);
+    igk_environment()->isDev() && igk_ilog('bind svgs : ' . $dir);
 
     //  $files = $doc->getTempFlag(__FUNCTION__, array());
     $g = $doc->body->addNodeCallback("svg-bind-all", function ($t) {
@@ -22196,13 +22232,13 @@ function igk_sys_balafon_js(?BaseController $controller = null, $debug = false, 
         }
         return $src;
     }
-    $src = HtmlCoreJSScriptsNode::GetCoreScriptInlineContent(null); 
+    $src = HtmlCoreJSScriptsNode::GetCoreScriptInlineContent(null);
     $const = "constant";
     $header = "//author: C.A.D. BONDJE DOUE" . IGK_LF;
     $header .= "//libname: balafon.js" . IGK_LF;
     $header .= "//version: {$const('IGK_BALAFON_JS_VERSION')}" . IGK_LF;
     $header .= "//copyright: igkdev @ 2013 - " . date('Y') . IGK_LF;
-    $header .= "//license: //igkdev.com/balafon/balafonjs/license" . IGK_LF;
+    $header .= "//license: igkdev.com/balafon/balafonjs/license" . IGK_LF;
     $header .= "//generate: " . date("Ymd H:i:s") . IGK_LF;
     $header .= "'use strict';";
     // $s = empty($c->data) ? "/* core script failed to load cache not provide. */" : $c->data; 
@@ -22210,6 +22246,12 @@ function igk_sys_balafon_js(?BaseController $controller = null, $debug = false, 
     if (ob_get_level() > 0)
         ob_clean();
     ob_start();
+
+    // + | $s = inject module reference settings globaly 
+    $s = sprintf('(function(window){%s})(window);', implode("\n", [
+        "const __module_refs = [];",
+        $s
+    ]));
     $src = "";
     if ($debug) {
         $src = $header . $s;
@@ -22362,10 +22404,11 @@ function igk_sys_config_view($file)
             igk_navto(igk_io_baseuri());
         }
     }
+    $v_conf_path = igk_server()->getConfigurationPath();
 
     if (!igk_environment()->IsWebApp() && ($p = igk_sys_getconfig("configuration_port")) && ($p != $_SERVER["SERVER_PORT"])) {
         if ($p == 443) {
-            $s = igk_secure_uri(igk_io_baseDomainUri(), true, false) . "/Configs";
+            $s = igk_secure_uri(igk_io_baseDomainUri(), true, false) . $v_conf_path;
         } else {
             $s = igk_io_baseDomainUri();
             igk_dev_wln_e("port : " . $p,  $_SERVER["SERVER_PORT"]);
@@ -22375,7 +22418,7 @@ function igk_sys_config_view($file)
     }
     $igk = igk_app();
     if (!$igk) {
-        igk_log_write_i("CONFIG", "No Instante found for configuration page");
+        igk_log_write_i("CONFIG", "No Instance found for configuration page");
         igk_exit();
     }
     try {
@@ -22405,7 +22448,7 @@ function igk_sys_config_view($file)
             $cnf->View();
         }
         if ($doc) {
-            $doc->setBaseUri(igk_io_baseuri() . "/Configs/");
+            $doc->setBaseUri(igk_io_baseuri() . "{$v_conf_path}/");
             $doc->Favicon = new IGKHtmlRelativeUriValueAttribute(IGK_LIB_DIR . "/Default/R/Img/cfavicon.ico");
             igk_set_session_redirection(null);
             igk_header_no_cache();
@@ -22750,7 +22793,8 @@ function igk_sys_get_mtime_uid()
 /**
  * helper: get projects 
  */
-function igk_sys_get_projects_controllers(){
+function igk_sys_get_projects_controllers()
+{
     return igk_app()->getControllerManager()->getUserControllers();
 }
 ///<summary></summary>
@@ -24878,12 +24922,12 @@ function igk_user_set_info($inf, $data, $uid = null, $cardinality = 0, $type = 1
     switch ($v_n) {
         case 0:
             break;
-        case 1:  
+        case 1:
             if ($v_q && (($tc = count($v_q)) > 0)) {
                 if ($tc == 1) {
-                    $r = igk_getv($v_q, 0);  
+                    $r = igk_getv($v_q, 0);
                     $r->clValue = $data;
-                    igk_db_update($ctrl,$_uinfo_table, $r);
+                    igk_db_update($ctrl, $_uinfo_table, $r);
                     return true;
                 } else
                     igk_log_write_i(__FUNCTION__, "DataBaseStructure Error : data will not be inserted");
@@ -25089,7 +25133,7 @@ function igk_val_unregparam($ctrl, $name)
 ///<summary></summary>
 ///<param name="regenerate"></param>
 /**
- * 
+ * validate session cref
  * @param mixed $regenerate 
  */
 function igk_valid_cref($regenerate = 0, $throwex = 0)

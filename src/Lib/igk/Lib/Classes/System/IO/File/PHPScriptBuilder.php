@@ -15,7 +15,7 @@ use IGKException;
  * @method self defs(string $content) set the containt definition
  * @method self uses(string|array $use) uses definition
  * @method self extends(string|array $class) if type is class mark extends
- * @method self author(string $auther) set author text
+ * @method self author(string $author) set author text
  * @method self namespace(string $namespace) define the namespace
  * @method self type(string $type) define the type. class|trait|interface|function
  * @method self name(?string $name) define the of type in case class|trait|interface
@@ -233,6 +233,20 @@ class PHPScriptBuilder
         }
 
         return "<?php\n" . $h . "\n" . $o;
+    }
+    /**
+     * get script file header
+     * @return string
+     */
+    public static function GenScriptFileHeader($options){
+        $l = igk_extract_var($options, 
+        'author|file|version|date|desc');
+        $tb = [];
+        foreach($l as $k=>$v){
+            if (!$v) continue;
+            $tb[] = "// @".$k.": ".$v;
+        }
+        return implode("\n", $tb);
     }
     private function _getHeaderMap(& $h,& $_uses)
     {

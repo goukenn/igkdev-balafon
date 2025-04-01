@@ -3,8 +3,7 @@
 // @filename: ProjectListCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-namespace IGK\System\Console\Commands;
-use ForemJobDashboardController;
+namespace IGK\System\Console\Commands; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use IGK\System\Console\App;
@@ -26,8 +25,7 @@ class ProjectListCommand extends AppExecCommand{
      * @return void 
      * @throws IGKException 
      */
-    public function exec($command, $pattern =".+") { 
-        $ctrl = ForemJobDashboardController::ctrl(true);
+    public function exec($command, $pattern =".+") {  
         $c = igk_sys_get_projects_controllers(); 
         $t = [];
         foreach ($c as $m) {

@@ -4,6 +4,7 @@
 // @date: 20230130 08:19:18
 namespace IGK\System\Security\Web;
 
+use Exception;
 use IGK\Helper\Activator; 
 use IGK\System\Traits\ActivableTrait;
 use IGKException;
@@ -31,8 +32,8 @@ class HeaderAccessObject{
     var $method;
 
     /**
-     * list of auth user 
-     * @var ?string
+     * header access 
+     * @var ?string * 
      */
     var $headers;
 
@@ -42,6 +43,10 @@ class HeaderAccessObject{
      */
     var $origin;
 
+    /**
+     * 
+     * @return string 
+     */
     public function getAuthType(){
         $g = explode(' ', $this->authorization);
         return $g[0];
@@ -58,6 +63,11 @@ class HeaderAccessObject{
             return trim(igk_getv($g, 1, ''));
         }
     }
+    /**
+     * 
+     * @return string|void 
+     * @throws Exception 
+     */
     public function getBasicToken(){
         $g = explode(' ', $this->authorization);
         if ($g[0] == self::AUTH_BASIC){

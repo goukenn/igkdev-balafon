@@ -42,6 +42,7 @@ class ImportDataFileCommand extends AppExecCommand{
 		
 		$model = $ctrl->model($model);
 		if ($model){
+			Logger::info('importing...');
 			DbImportFile::Import($model, $file, $type, $autoregister, $entry);
 			Logger::success('done');
 		}

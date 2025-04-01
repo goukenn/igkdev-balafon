@@ -21,6 +21,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 // use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
 // use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result;
+use IGK\Helper\Activator;
 use IGK\System\Database\Exceptions\MissingTableException;
 use IGK\System\Database\IDbSendQueryListener;
 
@@ -170,7 +171,11 @@ function igk_sql3lite_fetch_field($r, $requiretable=1){
 function igk_sql3lite_fetch_row($r){
     return $r->fetchArray(SQLITE3_NUM);
 }
-
+/**
+ * 
+ * @param mixed $r 
+ * @return mixed 
+ */
 function igk_sql3lite_fetch_assoc($r){
     return $r->fetchArray(SQLITE3_ASSOC);
 }
@@ -242,7 +247,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     private static $sm_sql;
     private $m_inTransaction = false;
 
-    public function queryColumnCharset(string $charset): string { return '';}
+    public function queryColumnCharset(string $charset): ?string { return '';}
 
     public function allowTypeLength(string $type, ?int $length = null): bool { 
         return in_array($type, ['int','varchar']);
@@ -579,14 +584,17 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         $primkey="";
         $tinf=array();
         $foreignkey="";
-        foreach($columninfo as  $v){
+        foreach($columninfo as $k=>$v){
             if(($v == null) || !is_object($v)){
                 igk_die(__CLASS__." ::: Error table column info is not an object error for ".$tbname);
             }
-            $primkey="noprimkey://".$v->clName;
+            $v_lname = igk_getv($v, 'clName') ?? 
+            (is_numeric($k) ? igk_die('missing column name'): $k );
+            $primkey="noprimkey://".$v_lname;
             if($tb)
                 $query .= ",";
-            $v_name=igk_db_escape_string($v->clName);
+            $v_name=igk_db_escape_string($v_lname);
+            $v = Activator::CreateNewInstance(DbColumnInfo::class, $v);
             $query .= "`".$v_name."` ";
             $type=igk_getev($v->clType, "Int");
             if((strtolower($type) == "int") && ($v->clLinkType || $v->clAutoIncrement)){

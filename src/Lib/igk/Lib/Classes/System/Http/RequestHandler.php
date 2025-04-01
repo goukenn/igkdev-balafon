@@ -145,11 +145,7 @@ class RequestHandler
      */
     public function handle_uri($u = null)
     {
-        // igk_trace();
-        // if (igk_env_count(__METHOD__)>2){
-        //     igk_exit();
-        // }
-        // igk_wln("in flow ", __METHOD__, igk_env_count(__METHOD__));
+        // igk_trace(); 
         if (igk_environment()->get("sys://notsystemurihandle")) {
             return;
         }
@@ -281,7 +277,7 @@ class RequestHandler
      */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
-        igk_environment()->write_debug("Redirect start : ".igk_sys_request_time()); 
+        // igk_environment()->write_debug("Redirect start : ".igk_sys_request_time()); 
         if (defined('IGK_REDIRECTION')) {
             die("already call redirection");
         }
@@ -301,16 +297,16 @@ class RequestHandler
             $server_info->$k = igk_getv($_SERVER, $k, $v);
         }
         extract($args);
-        // igk_wln_e("base jumpe", $defctrl);
+
         $app = igk_app();
-        // $code = igk_getv($_REQUEST, "__c", 902);
+
         $code = igk_getv($_REQUEST, "__c", 901);
         $query = $server_info->{'REQUEST_URI'};
         $redirect = $server_info->{'REDIRECT_URL'};
         $redirect_status = $server_info->{'REDIRECT_STATUS'};
         $r = $server_info->{'REDIRECT_REQUEST_METHOD'};
         igk_sys_handle_res($query);
-       // igk_wln_e("code", $code, $redirect, $redirect_status, $_SERVER);
+
         switch ($code) {
             case 901:
                 // default redirect request handle
@@ -336,7 +332,7 @@ class RequestHandler
                 break;
             case RequestResponseCode::NotFound:
                 if (igk_getr("m") == "config") {
-                    igk_navto("/Configs");
+                    igk_navto(igk_server()->getConfigurationPath());
                     igk_exit();
                 }
                 break;

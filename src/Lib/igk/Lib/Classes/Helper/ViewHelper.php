@@ -43,6 +43,45 @@ class ViewHelper
     use IOSearchFileTrait;
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
+    const PRIVATE_VIEW_ARG = 'view_sets';
+
+    /**
+     * register environment global variables
+     * @param mixed $name 
+     * @param mixed $value 
+     * @return bool
+     */
+    public static function Set($name, $value){
+        if ($current_ctrl = self::CurrentCtrl()){
+            igk_environment()->setArray($current_ctrl::name(self::PRIVATE_VIEW_ARG), $name, $value);
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws Exception 
+     */
+    public static function Get($name, $default=null){
+        if ($current_ctrl = self::CurrentCtrl()){
+            if ($t = igk_environment()->get($current_ctrl::name(self::PRIVATE_VIEW_ARG))){
+                return igk_getv($t, $name, $default);
+            }
+        }
+        return $default; 
+    }
+    /**
+     * get all current controller view sets
+     * @return mixed|void 
+     */
+    public static function Sets(){
+        if ($current_ctrl = self::CurrentCtrl()){
+            return igk_environment()->get($current_ctrl::name(self::PRIVATE_VIEW_ARG));
+        }
+    }
     /**
      * get handler info
      * @return \IGK\System\Views\IViewHandlerInfo

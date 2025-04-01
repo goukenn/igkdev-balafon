@@ -265,9 +265,9 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     }
     /**
      * redirect path uri
-     * @param mixed $requestHandler 
-     * @param mixed $path_info 
-     * @param mixed $_redirectArgs 
+     * @param \IGK\System\Http\RequestHandler $requestHandler 
+     * @param mixed|string $path_info 
+     * @param mixed|array $_redirectArgs 
      * @return void 
      * @throws IGKException 
      */

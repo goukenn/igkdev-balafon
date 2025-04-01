@@ -100,7 +100,7 @@ class IGKApp extends IGKObject
     public function getSettings(){
 
         $app_key = IGK_APP_SESSION_KEY;
-        $use_session = $this->getApplication()->lib("session");
+        $use_session = $this->getApplication()->lib('session');
         $v_bstart = null;        
         //$reset = 0;
         if ($this->m_settings && $use_session && isset($_SESSION) && (!isset($_SESSION[$app_key]) || ($_SESSION[$app_key] !==  $this->m_settings->getInfo())) ){
@@ -174,6 +174,7 @@ class IGKApp extends IGKObject
      ///<summary>get api current page folder</summary>
     /**
     * get api current page folder
+    * @return ?string
     */
     public function getCurrentPageFolder(){        
         $_is_phar=defined("IGK_PHAR_CONTEXT");

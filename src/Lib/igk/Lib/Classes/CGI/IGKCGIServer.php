@@ -6,8 +6,12 @@
 
  
 namespace IGK\CGI;
-use HtmlReader;
+use IGK\System\Html\HtmlReader;
 
+/**
+ * 
+ * @package IGK\CGI
+ */
 class IGKCGIServer
 {
     private static $smTempFile;

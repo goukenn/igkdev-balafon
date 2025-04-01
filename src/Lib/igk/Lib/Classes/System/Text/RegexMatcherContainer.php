@@ -278,7 +278,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $n = $v_current_offset  + strlen($tab[0][0]);
                         // + | if empty and offset not change then update to next 
                         if (empty($tab[0][0]) && !$v_skipped && ($v_current_offset == $offset)) {
-                            $offset++; // + | move forward to detect the real next end that match condition
+                            // $offset++; // + | move forward to detect the real next end that match condition
                             array_unshift($tabinfo, $info);
                             $skip = true;
                             continue 2;
@@ -975,7 +975,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     /**
      * treat text by passing captured segment to the callable.
      * @param string $src 
-     * @param callable(IRegexMatcherCapture, & int, & string ):void $callable 
+     * @param callable(IRegexMatcherCapture, & int, & string ):void|true $callable return true to skip
      * @return void 
      * @throws Exception 
      */

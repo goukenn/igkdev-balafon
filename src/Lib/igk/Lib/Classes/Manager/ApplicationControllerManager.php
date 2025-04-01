@@ -18,6 +18,7 @@ use IGKException;
 use IGK\Helper\StringUtility as str;
 use IGK\Helper\SysUtils;
 use IGK\System\Exceptions\NotImplementException;
+use IGK\System\Http\RequestResponseCode;
 
 /**
  * manage controller between session

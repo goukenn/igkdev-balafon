@@ -24,6 +24,7 @@ define("IGK_PLATEFORM_NAME", "BALAFON");
 define("IGK_RELEASE_DATE", "02/15/2024");
 define("IGK_START_DATE", "01/01/2013");
 defined("IGK_COPYRIGHT") || define("IGK_COPYRIGHT", "IGKDEV &copy; 2011-".date('Y')." all rights reserved");
+defined("IGK_CONF_PATH") || define("IGK_CONF_PATH", "/Configs");
 define("IGK_WEB_SITE", "https://www.igkdev.com");
 define("IGK_SCHEMA_NS", "https://schemas.igkdev.com/balafon");
 define("IGK_DOMAIN", "igkdev.com"); 

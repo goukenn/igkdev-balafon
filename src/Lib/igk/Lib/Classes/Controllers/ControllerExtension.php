@@ -82,7 +82,7 @@ require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
 
- 
+
 ///<summary>controller macros extension</summary>
 /**
  * controller macros extension
@@ -481,7 +481,7 @@ abstract class ControllerExtension
     public static function uri(BaseController $ctrl, ?string $name_uri = "")
     {
         $v_uri = $name_uri ?? '';
-        if (strpos($v_uri, '@/')===0){
+        if (strpos($v_uri, '@/') === 0) {
             $v_uri = ltrim($v_uri, '@');
         }
         return $ctrl->getAppUri($v_uri ?? '');
@@ -494,9 +494,10 @@ abstract class ControllerExtension
      * @throws IGKException 
      * @throws Exception 
      */
-    public static function uriPath(BaseController $ctrl, ?string $path= ''){
-        if ($h = self::uri($ctrl, $path)){
-            return igk_getv( parse_url($h),'path');
+    public static function uriPath(BaseController $ctrl, ?string $path = '')
+    {
+        if ($h = self::uri($ctrl, $path)) {
+            return igk_getv(parse_url($h), 'path');
         }
     }
     /**
@@ -1294,7 +1295,7 @@ abstract class ControllerExtension
         if (is_null($args)) {
             $ctrl->setEnvParam($c_lk, null);
             return;
-        } 
+        }
         $v = $ctrl->getEnvParam($c_lk);
         if (!$v) {
             $v = $args;
@@ -1452,7 +1453,7 @@ abstract class ControllerExtension
      * @param BaseController $controller 
      * @param mixed $uid 
      * @return IGKUserInfo|null|\IGK\Models\User
-   */
+     */
     public static function getUser(BaseController $controller, $uid = null)
     {
         $u = $uid === null ? igk_app()->session->getUser() :
@@ -1463,7 +1464,8 @@ abstract class ControllerExtension
      * get user profile
      * @return null|IUserProfile 
      */
-    public static function getUserProfile(BaseController $controller): ?IUserProfile{ 
+    public static function getUserProfile(BaseController $controller): ?IUserProfile
+    {
         return $controller->userProfile;
     }
     /**
@@ -1514,12 +1516,11 @@ abstract class ControllerExtension
                 // check existance of the user
                 if (!is_null($u_model::GetCache($fd_guid, $u->clGuid))) {
                     $pu = $controller->initUserFromSysUser($u);
-                    $controller->userProfile = $pu; 
+                    $controller->userProfile = $pu;
                 } else {
                     $r = false;
                     if ($u) {
-                        // provided user not exists in cache database 
-                        // igk_app()->session->setUser(null);
+                        // + | provided user not exists in cache database  
                         $controller::logout();
                         igk_exit();
                     }
@@ -1534,7 +1535,7 @@ abstract class ControllerExtension
             if (!empty($m)) {
                 $s = "q=" . base64_encode($m);
                 $u .= ((strpos($u, "?") === false) ? "?" : "&") . $s;
-            }  
+            }
             igk_navto($u);
         }
         return $r;
@@ -2574,7 +2575,7 @@ HTML;
     /**
      * extend get environment configuration 
      */
-    public static function envConfiguration(BaseController $controller, bool $reload=false)
+    public static function envConfiguration(BaseController $controller, bool $reload = false)
     {
         $v_key = $controller->name(ConfigurationFile::CONFIG_FILE);
         $e = igk_environment()->{$v_key};
@@ -2589,5 +2590,22 @@ HTML;
             $e && igk_environment()->set($v_key, $e);
         }
         return $e;
+    }
+    public function grantAccessWithCredentials(BaseController $ctrl)
+    {
+        $access = igk_server()->getAccessObject();
+        if (is_null($access))
+            igk_die('no credential founds');
+        else {
+            $token  = (($rbasic = ($access->getAuthType() == 'Basic')) ? $access->getBasicToken() : $access->getBearerToken());
+            $token_d = base64_decode($token);
+            $uuid = null;
+            list($username, $pwd) = explode(':', $token_d);
+            if (!$ctrl::login($username, $pwd, false)) {
+                igk_die('missing/invalid user credentials' . $pwd);
+            }
+            $ctrl->checkUser(false);
+            return true;
+        }
     }
 }

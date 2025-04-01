@@ -57,6 +57,30 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 		}
 		return $r;
 	}
+    /**
+     * auto inject or update the value 
+     * @param string $name 
+     * @param null|array $args 
+     * @return mixed|void 
+     * @throws Exception 
+     */
+    public function __call(string $name, ?array $args){
+      
+        if ($args && (($fc=igk_getv($args, 0)) instanceof Closure)){
+            return $this->updateProperty($name, $fc); 
+        }
+    }
+    /**
+     * update property 
+     * @param string $name 
+     * @param callable $callable 
+     * @return mixed 
+     */
+    public function updateProperty(string $name, callable $callable){
+        $c = $this->$name;
+        $c = $this->$name = $callable($c) ?? $c;
+        return $c;
+    }
     ///<summary></summary>
     ///<param name="key"></param>
     /**

@@ -155,6 +155,9 @@ abstract class AppCommand {
                         }
                     }else  {
                         if (!class_exists($ctrl,false)){
+                            if(!is_string($b)){
+                                igk_die("failed: ". json_encode($b));
+                            }
                             // if (file_exists(
                                 $b = igk_io_expand_path($b);
                             //  )){

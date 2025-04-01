@@ -126,18 +126,18 @@ $g = trim($v->getinnerHtml());
             "data: relative path not match 2");
     }
     function test_igk_html_get_system_uri(){
-
+        $v_access = '/Configs';
         $this->assertEquals(
-            "./Configs",
-            igk_html_get_system_uri("/Configs"),
+            ".{$v_access}",
+            igk_html_get_system_uri($v_access),
             "data:");
 
         igk_server()->REQUEST_URI = "/test/test/";
 
         
         $this->assertEquals(
-            igk_io_baseuri("/Configs"),
-            igk_html_get_system_uri("/Configs", (object)["StandAlone"=>true, "Context"=>"XML"]),
+            igk_io_baseuri($v_access),
+            igk_html_get_system_uri($v_access, (object)["StandAlone"=>true, "Context"=>"XML"]),
             "data: fulle paht not matching");
 
     }

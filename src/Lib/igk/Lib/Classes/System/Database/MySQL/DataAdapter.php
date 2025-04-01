@@ -49,9 +49,9 @@ IDataDriverCharsetSupport
     /**
      * expression of column charset
      * @param string $charset 
-     * @return string
+     * @return ?string
      */
-    public function queryColumnCharset(string $charset): string{
+    public function queryColumnCharset(string $charset): ?string{
         if (in_array($charset, ['utf8mb4'])){
             return sprintf('CHARSET %s ', $charset);
         }
@@ -951,7 +951,7 @@ IDataDriverCharsetSupport
     }
     /**
      * return version 
-     * @return mixed 
+     * @return string
      */
     public function getVersion(): string
     {

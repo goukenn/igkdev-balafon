@@ -15,23 +15,24 @@ use IGK\Tests\BaseTestCase;
 
 class StringUtilityTest extends BaseTestCase
 {
-    public function test_uri_start()
-    {
+    public function test_stringutility_uri_start()
+    {   
+        $buri = "https://local.com/Configs";
         $this->assertTrue(
-            StringUtility::UriStart("https://local.com/Configs", "https://local.com/Configs"),
+            StringUtility::UriStart( "$buri",  "{$buri}"),
             "not matching equal"
         );
         $this->assertFalse(
-            StringUtility::UriStart("https://local.com/Configs!Settings", "https://local.com/Configs"),
+            StringUtility::UriStart( "$buri!Settings",  "{$buri}"),
             "not matching base"
         );
         $this->assertTrue(
-            StringUtility::UriStart("https://local.com/Configs", "https://local.com/Configs/"),
+            StringUtility::UriStart( "$buri",  "{$buri}/"),
             "not matching equal"
         );
 
         $this->assertTrue(
-            StringUtility::UriStart("https://local.com/Configs/Sample/DAta", "https://local.com/Configs"),
+            StringUtility::UriStart( "{$buri}/Sample/DAta",  "$buri"),
             "not matching equal"
         );
         $this->assertTrue(

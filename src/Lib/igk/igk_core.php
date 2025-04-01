@@ -1806,6 +1806,17 @@ if (!function_exists('igk_getr')) {
         return igk_get_tab_value($_REQUEST, $key, $value);
     }
 }
+if (!function_exists('igk_getr_post')){
+    /**
+     * retrive post only parameter
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return mixed 
+     */
+    function igk_getr_post($key, $value=null){
+        return igk_get_tab_value($_POST, $key, $value);
+    }
+}
 
 ///<summary>get GET value</summary>
 /**
@@ -2176,20 +2187,7 @@ function igk_get_script_code($file, $start_line, $end_line = null)
  */
 function igk_default_ignore_lib($dir = null)
 {
-    $tk = 
-    // defined('IGK_TEST_INIT') ? [
-    //     IGK_GIT_FOLDER => 1,
-    //     IGK_NODE_MODULE_FOLDER => 1,
-    //     '.vscode' => 1,
-    //     'command-scripts' => 1,
-    //     IGK_VIEW_FOLDER => 1,
-    //     IGK_CONTENT_FOLDER => 1,
-    //     IGK_SCRIPT_FOLDER => 1,
-    //     IGK_STYLE_FOLDER => 1,
-    //     IGK_ARTICLES_FOLDER => 1,
-    //     IGK_CGI_BIN_FOLDER => 1,
-    //     IGK_CONF_FOLDER => 1
-    // ]:
+    $tk =  
     [
         IGK_LIB_FOLDER => 1,
         IGK_CONF_FOLDER => 1,
@@ -2204,7 +2202,8 @@ function igk_default_ignore_lib($dir = null)
         IGK_GIT_FOLDER => 1,
         IGK_NODE_MODULE_FOLDER => 1,
         '.vscode' => 1,
-        'command-scripts' => 1
+        'command-scripts' => 1,
+        'command-bin' => 1
     ];
     if ($dir) {
         $keys = array_keys($tk);
@@ -2434,11 +2433,11 @@ function igk_set_header(int $code, $message = "", $headers = [])
     igk_environment()->isDev() && header("srv-msg:" . $message);
     if ($headers) {
         // + | replace with setup header 
-        foreach ($headers as $k) {
-            header($k, true);
-        }
+        foreach ($headers as $m => $k) {
+            header($k, !is_numeric($m));
+        } 
     }
-    // the last one set the code status
+    // +| the last one set the code status
     header($msg, 1, $code);
     $fcall = 1;
 }

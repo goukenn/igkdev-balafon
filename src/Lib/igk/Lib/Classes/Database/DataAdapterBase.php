@@ -29,6 +29,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     protected static $LENGTHDATA = ["int","varchar","char", "decimal"];
 
     /**
+     * 
+     * @param string $tablename 
+     * @return mixed 
+     */
+    public function select_all(string $tablename){}
+    /**
      * get tor set the resolve link listener 
      * @var ?IDbResolveLinkListener
      */

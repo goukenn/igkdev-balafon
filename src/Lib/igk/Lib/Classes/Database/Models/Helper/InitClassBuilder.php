@@ -137,14 +137,7 @@ class InitClassBuilder
                         ])
                     );
                 $v_meth_link_canditate = null;
-                // register target method on 
-                // JobForemJobs::registerMacro("targetOnJobId", function(){
-                //     $cl = static::class;
-                //     return $cl::column(JobForemJobs::FD_JOB_ID);
-                // });
-
             }
-
             if ($cinfo->clIsPrimary || ($cinfo->clAutoIncrement)) {
                 if (!empty($key)) {
                     if (!is_array($key)) {

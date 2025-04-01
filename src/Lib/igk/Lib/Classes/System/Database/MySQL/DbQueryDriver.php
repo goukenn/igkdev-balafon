@@ -32,11 +32,15 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         $o = parent::Create($options, $error); 
         return $o;
     }    
-    public function getVersion(){
+    /**
+     * retrieve the version
+     * @return string 
+     */
+    public function getVersion():string{
         if ($this->m_resource){
             return $this->m_resource->server_info;
         }
-        return null;
+        return '-1';
     }
    
     /**

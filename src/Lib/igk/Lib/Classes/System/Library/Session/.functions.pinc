@@ -26,6 +26,12 @@ function igk_session_destroy()
 }
 
 if (!function_exists('igk_session_count')){
+    /**
+     * count number of opened session
+     * @return int 
+     * @throws Error 
+     * @throws Exception 
+     */
     function igk_session_count(){
        return count(igk_sys_get_all_openedsessionid(false));
     }

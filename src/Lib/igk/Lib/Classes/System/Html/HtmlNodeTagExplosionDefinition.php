@@ -329,7 +329,7 @@ class HtmlNodeTagExplosionDefinition
         $root = $last = null;
         while(count($rf)>0){
             $q = array_shift($rf);
-            $targ = empty($rf)? $args : null;
+            $targ = empty($rf)? $args : [];
             $n = self::CreateNodeArg($q, ...$targ);
             if (is_null($root)){
                 $root = $last = $n;

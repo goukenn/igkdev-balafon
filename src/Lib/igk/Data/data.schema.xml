@@ -219,7 +219,7 @@
 		<Column clColumnMemberIndex="1" clIsUniqueColumnMember="true" clLinkType="%prefix%groups"
 			clName="clGroup_Id" clNotNull="True" clType="Int"></Column>
 	</DataDefinition>
-	<DataDefinition Description="User's tables" TableName="%prefix%users">
+	<DataDefinition Description="User's tables" TableName="%prefix%users" Display="clLogin">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
 			clType="Int" clTypeLength="11"></Column>
 

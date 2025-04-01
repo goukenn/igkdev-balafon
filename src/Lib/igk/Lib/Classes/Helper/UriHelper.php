@@ -33,7 +33,7 @@ abstract class UriHelper{
                 case "base":
                 return igk_io_baseuri();
                 case "base_config":
-                return igk_io_baseuri()."/Configs/";
+                return igk_io_baseuri().igk_server()->getConfigurationPath()."/";
             }
             return $m;
         }

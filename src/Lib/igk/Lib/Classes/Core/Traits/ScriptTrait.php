@@ -4,12 +4,15 @@
 // @date: 20221202 15:22:19
 namespace IGK\Core\Traits;
 
+use Exception;
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlScriptLoader;
 use IGK\System\IO\IAssetManager;
 use IGK\System\IO\Path;
+use IGK\System\IO\StringBuilder;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
+use IGKException;
 use IGKValidator;
 
 ///<summary></summary>
@@ -91,9 +94,31 @@ trait ScriptTrait
             }
             $s = "";
         }
+        if (is_null($manager) && ($references)){
+            
+            $sb = new StringBuilder;
+            $r = 0;
+            $sb->appendLine('(function(){'); 
+            foreach($references as $id=>$s){
+                $sb->append(sprintf('__module_refs['.$r.']=%s;', HtmlScriptLoader::ImportContentAsModule( file_get_contents($id))));
+                $r++;
+            }
+            $sb->appendLine('})();');
+            $out = $sb.''.$out;
+            
+        }
+
         return $out;
     }
-
+    /**
+     * reate js source
+     * @param string $file 
+     * @param mixed $src 
+     * @param array &$reference 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     static function TreatJSSource(string $file, $src, &$reference = [])
     { 
         $dir = dirname($file);
@@ -114,7 +139,7 @@ trait ScriptTrait
         $l = $jscontainer->begin('(’)', '\\1', 'litteral-import');
 
         $url = null;
-
+    
         while ($g = $jscontainer->detect($src, $offset)) {
             if ($e = $jscontainer->end($g, $src, $offset)) {
               
@@ -135,8 +160,13 @@ trait ScriptTrait
                                 $reference[$url] = 1;
                             }
                             $inx = array_search($url, array_keys($reference));
-                            $ts = '__module_refs(' . intval($inx) . ');';
-                            $src = substr($src, 0, $e->from) . $ts . substr($src, $e->to); 
+                            // return imports module reference for production . 
+                            $gm = rtrim(substr($src, 0, $e->from));
+                            // if (igk_str_endwith($gm,'=')){
+
+                            // }
+                            $ts = sprintf('__module_refs[%s].apply(window);', $inx);
+                            $src = $gm . $ts . substr($src, $e->to); 
                             $offset = $e->from + strlen($ts) + 1;
                             $url = null; 
                         }

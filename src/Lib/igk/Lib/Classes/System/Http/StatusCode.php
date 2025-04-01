@@ -22,6 +22,7 @@ class StatusCode extends RequestResponseCode
         if ($t === null) {
             $protocol = igk_server()->SERVER_PROTOCOL ?? "HTTP/1.0";
             $t = array( 
+                202 => "{$protocol} 202 Accept with error", 
                 204 => "{$protocol} 204 No Content", 
                 301 => "{$protocol} 301 Move to new location",
                 302 => "{$protocol} 302 Found",

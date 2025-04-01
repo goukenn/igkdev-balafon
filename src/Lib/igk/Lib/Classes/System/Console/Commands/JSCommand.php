@@ -9,7 +9,10 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use SQLQueryUtils;
-
+/**
+ * create a core js distribution 
+ * @package IGK\System\Console\Commands
+ */
 class JSCommand extends AppExecCommand{
     var $command = "--js:dist";
     var $desc = "get core minified js"; 

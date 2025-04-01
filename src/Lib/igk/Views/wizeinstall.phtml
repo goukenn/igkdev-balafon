@@ -53,6 +53,7 @@ $fclist = array("install" => function () {
     }
     igk_hook("sys://event/check_wizeinstall", $o);
     $es = "::Error";
+    $v_conf_path = igk_server()->getConfigurationPath();
     if (!isset($o->$es) && !$e) {
         $app->Configs->admin_pwd = md5($o->cladminPassword);
         $app->Configs->website_domain = $o->cladminDomain;
@@ -65,7 +66,7 @@ $fclist = array("install" => function () {
         $app->Session->setParam("igk_wizeinstall", null);
         igk_ilog(__FILE__ . ":" . __LINE__, 'destroy session ');
         @session_destroy();
-        igk_navto(igk_io_baseUri("/Configs"));
+        igk_navto(igk_io_baseUri($v_conf_path));
         igk_exit();
     } else {
         igk_notifyctrl("wizeinstall")->addErrorr("e.wizecontains.error");
@@ -107,9 +108,9 @@ $dialog = $box->div()->setClass("dialog"); //->Content = "BASICS ";
 
 $title = $dialog->div()->setClass("dialog-title");
 $title->addSectionTitle(4)->Content = __("Install Wizard - BALAFON");
-
+$v_conf_path = igk_server()->getConfigurationPath();
 $frm = $dialog->addForm();
-$frm["action"] = igk_io_baseUri() . "/Configs/?wizeinstall=1";
+$frm["action"] = igk_io_baseUri() . $v_conf_path."?wizeinstall=1";
 $frm["method"] = "POST";
 
 $frm->addInput("install", "hidden", "1");
@@ -143,38 +144,7 @@ $dvr = $gr->addCol("igk-col-3-2 igk-sm-fitw igk-xsm-fitw")->div();
 $dvr->addQuote()->addSectionTitle(4)->Content = __("Licence");
 $dvr->addReadOnlyTextZone(igk_dir(IGK_LIB_DIR . "/license.txt"))->setStyle("height: 320px; font-size:0.88em;padding:10px; ");
 
-/*
 
-$box["igk:data"]="{closeBySubmit:1, noClose:1}";
-$box["class"]="no-close";
-$c=$box->addDialogBoxContent()->setStyle("background-color:#fdfdfd");
-$f=igk_dir(IGK_LIB_DIR."/license.txt");
-$dv=$c->addRow()->div();
-$dv->addNotifyHost("wizeinstall");
-$frm=$dv->addForm();
-$frm["action"]=igk_io_baseUri()."/Configs/?wizeinstall=1";
-$frm["method"]="POST";
-$frm->addInput("install", "hidden", 1);
-$frm->addInput("igk-winstall", "hidden", 1);
-$dv=$frm->div();
-$hpage=$dv->add($t->addNodeCallback("pageview", function($t){
-    return $t->addHorizontalPageView()->setId("pageview");
-}));
-$hpage->clearChilds();
-
-/*
-if(!$is_install){
-    $d=$hpage->div()->setId("welcome");
-    $d->addRow()->setStyle("margin:3em")->setClass("no-overflow")->article($conf_ctrl, "wizeinstall.welcome");
-    $d=$hpage->div()->setId("license");
-    $g=$d->div();
-    $gr=$g->addRow();
-    $gr->addCol("igk-col-3-1 igk-xsm-dispn igk-sm-dispn")->div()->addSvgSymbol("license_logo");
-    $dvr=$gr->addCol("igk-col-3-2 igk-sm-fitw igk-xsm-fitw")->div();
-    $dvr->addQuote()->addSectionTitle(4)->Content=R::gets("Licence");
-    $dvr->addReadOnlyTextZone($f)->setStyle("height: 320px; font-size:0.88em;padding:10px; ");
-}
-//*/
 $d = $hpage->div()->setId("admin");
 $g = $d->div();
 $gr = $g->addRow();

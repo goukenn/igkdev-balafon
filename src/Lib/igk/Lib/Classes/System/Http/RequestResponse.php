@@ -55,17 +55,24 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
     abstract function render();
 
+    protected function _allow_multiple_header_entry(string $header_name){
+        return in_array($header_name, ['Set-Cookie']);
+    }
     protected function _treat_header(){
         $tab = [];
         array_map(function($a) use (& $tab){
             $m = explode(":", $a);
+            if ($this->_allow_multiple_header_entry($m[0])){
+                $tab[] = $a;
+                return;
+            }
             if (count($m)>1){
                 $tab[$m[0]] = $a;
             }else{
                 $tab[$a]=$a;
             }
-        }, $this->headers);
-        $this->headers = array_values($tab);
+        }, $this->headers); 
+        $this->headers = array_values($tab); 
     }
     public function cache_output($second){
         $ts=gmdate("D, d M Y H:i:s", time() + $second). " GMT";

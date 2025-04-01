@@ -18,10 +18,16 @@ use IGK\System\IO\StringBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use ReflectionException;
+// + | --------------------------------------------------------------------
+// + | value delimiter ':' 
+// + | field delimiter ';'
+// + |
+
 
 /**
- * parse css litteral to object definition
+ * parse css litteral to object definition 
  * @package IGK\System\Html\Css
+ * @note delimiter : field delimiter ;
  * 
  */
 class CssParser implements ArrayAccess

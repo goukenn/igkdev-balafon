@@ -78,8 +78,9 @@ final class SubDomainController extends ConfigControllerBase
             $this->View();
             $s->add($this->getTargetNode());
 
+
             igk_ajx_replace_node($s, "#igk-cnf-content");
-            igk_ajx_replace_uri(igk_io_baseuri() . "/Configs/#!p=" . $this->getConfigPage());
+            igk_ajx_replace_uri(sprintf('%s%s', igk_io_baseuri(), igk_server()->getConfigurationPath()). "/#!p=" . $this->getConfigPage());
             igk_ajx_panel_dialog_close();
             igk_resetr();
         }
@@ -167,7 +168,7 @@ final class SubDomainController extends ConfigControllerBase
                 $msg = __("Failed to drop domain");
             }
             $this->_updateview();
-            igk_ajx_replace_uri(igk_io_baseuri() . "/Configs/#!p=" . $this->getConfigPage());
+            igk_ajx_replace_uri(sprintf('%s%s', igk_io_baseuri(), igk_server()->getConfigurationPath()). "#!p=" . $this->getConfigPage());
             igk_ajx_toast($msg, $type);
             igk_notifyctrl()->bind($msg, $type);
             igk_ajx_panel_dialog_close();

@@ -13,7 +13,9 @@ $b = StringUtility::Dir(__DIR__ . "/bin/balafon");
 if (!file_exists($b)) {
     die("balafon not found");
 }
-$is_cgi = strpos(igk_server()->GATEWAY_INTERFACE, "CGI/") === 0;
+$conf_path = '/Configs';
+$v_gateway = igk_server()->GATEWAY_INTERFACE ?? '';
+$is_cgi = strpos($v_gateway, "CGI/") === 0;
 if ($is_cgi) {
     echo "Content-Type: text/html;\r\n\r\n";
 }
@@ -30,13 +32,13 @@ if (!igk_is_function_disable("shell_exec")) {
     }
 
     if (!igk_is_cmd()) {
-        if (is_dir($install_dir . "/Configs")) {
+        if (is_dir($install_dir . $conf_path)) {
             if ($is_cgi) {
                 // + | run script as cgi              
-                echo "<script>document.location = '/Configs'; </script>";
+                echo "<script>document.location = '{$conf_path}'; </script>";
                 igk_exit();
             }
-            igk_navto("/Configs");
+            igk_navto($conf_path);
         } else {
             if ($is_cgi === 0) {
                 // + | run script as cgi

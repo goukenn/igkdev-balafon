@@ -184,9 +184,10 @@ class CurlHttpClient implements IHttpClient{
             $options[CURLOPT_FOLLOWLOCATION] = 1;
         }
         if ($this->session){
-            $this->m_session_file = $this->m_session_file ??  igk_io_tempfile('sess_');
-            $options[CURLOPT_COOKIESESSION] = true;
-            $options[CURLOPT_COOKIEFILE] = $this->m_session_file;
+            $f = $this->m_session_file = $this->m_session_file ??  igk_io_tempfile('sess_');
+            // $options[CURLOPT_COOKIESESSION] = true; 
+            $options[CURLOPT_COOKIEJAR] = 
+            $options[CURLOPT_COOKIEFILE] = $f;
             $options['session_id'] = $this->m_session_id;
             $options['session_name'] = $this->m_session_name;
         }

@@ -341,7 +341,7 @@ define('IGK_CSS_DEFAULT_STYLE_FUNC_KEY', 'sys://css/function/defaultStyle');
 // define('IGK_TODAY', date("Y-m-d"));
 define('IGK_DEFAULT_LANG_FOLDER', IGK_LIB_DIR . "/Default/Lang/");
 
-define('IGK_SESSION_FILE_PREFIX', 'blf_sess_');
+defined('IGK_SESSION_FILE_PREFIX') || define('IGK_SESSION_FILE_PREFIX', 'blf_sess_');
 defined('IGK_APP_SESSION_KEY') || define('IGK_APP_SESSION_KEY', 'igk');
 defined('IGK_DEFAULT_APP_COOKIE_NAME') || define('IGK_DEFAULT_APP_COOKIE_NAME', 'blf-c');
 define('IGK_LOG_SYS', 'BLF');
@@ -543,7 +543,7 @@ define('IGK_COLUMN_TAGNAME', 'Column');
 define('IGK_HTML_ITEMBASE_CLASS', \IGK\System\Html\Dom\HtmlItemBase::class);
 define('IGK_CONFIG_MODE', 'Configs');
 define('IGK_CONFIG_PAGEFOLDER', 'Configs');
-define('IGK_CONFIG_ROUTE', "/Configs");
+define('IGK_CONFIG_ROUTE', IGK_CONF_PATH);
 define('IGK_REG_ACTION_METH', "(/:function(/:params+|/)?|/)?");
 define('IGK_REG_ACTION_METH_OPTIONS', IGK_REG_ACTION_METH . "(;(:options))?");
 define('IGK_REG_ROUTE_PATTERN', "^(/)?(/:function(/|/:params+)?)?((;(:query))+)?");

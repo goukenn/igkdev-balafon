@@ -5,6 +5,7 @@
 // @desc: server info
 namespace IGK;
 use IGK\Helper\StringUtility;
+use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\IToArray; 
 use IGK\System\Security\Web\HeaderAccessObject; 
 ///<summary>represent server management </summary>
@@ -358,5 +359,14 @@ final class Server implements IToArray{
 			];
 		}
         return $finfo;
+    }
+    /**
+     * retrieve the configuration path
+     */
+    public function getConfigurationPath():string{
+        return SystemUriActionController::GetConfigurationPath();
+    }
+    public function getConfigurationSettingPath():string{
+        return sprintf('%s!settings', $this->getConfigurationPath());
     }
 }

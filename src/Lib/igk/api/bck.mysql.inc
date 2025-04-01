@@ -91,8 +91,7 @@ function get_relation($mysql, $tname, $clname,  $dbname=null){
 	
 	//restore db
 	$n = $mysql->selectdb($r);
-	// if ($tname == "tbigk_users_reference_models")
-		// igk_wln($h);
+ 
 	return $h->getRowAtIndex(0);	
 }
 function igk_api_get_columninfo($row, $v, $table_n, $mysql){

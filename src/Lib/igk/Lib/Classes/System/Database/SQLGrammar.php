@@ -597,7 +597,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $d 
      * @return null|string 
      */
-    public static function GetEnumQueryValueQueryString(string $d, $driver): ?String
+    public static function GetEnumQueryValueQueryString(string $d, $driver): ?string
     {
         if ($g = ConfigurationReader::ParseEnumLitteralValue($d)) {
             // get only value
@@ -608,6 +608,7 @@ class SQLGrammar implements IDbQueryGrammar
             }
             return implode(',', $t);
         }
+        return null;
     }
     /**
      * return null in case of foreign key exists in defined
@@ -1530,6 +1531,10 @@ class SQLGrammar implements IDbQueryGrammar
                     if (is_array($v) && count($v) == 2) {
                         $k = $v[0];
                         $v = $v[1];
+                    } else if (is_string($v)){
+                        $query .= $v;
+                        $t = 1;
+                        continue;
                     }
                 }
                 if (is_object($v)) {
@@ -2026,16 +2031,18 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-     * 
+     * create a join operation or failed
      * @param mixed $type 
      * @param mixed $a 
      * @param mixed $b 
-     * @return mixed 
+     * @return string 
+     * @throws \IGKException 
      */
     public function createJoinOperation($type, $a, $b): string
     {
         if (preg_match("/<|>|=/", $type))
             return sprintf("%s%s%s", $a, $type, $b);
-        igk_die("invalid join operator search");
+        igk_die("invalid join operator search:".$type);
+        return '';
     }
 }

@@ -165,13 +165,12 @@ function igk_db_is_resource($r)
 ///<summary></summary>
 ///<param name="r"></param>
 /**
- * 
+ * get number of fielse
  * @param mixed $r
  */
-function igk_db_num_fields($r)
-{
+function igk_db_num_fields($r){
     $g = DbQueryDriver::GetFunc("num_fields");
-    return $g($r);
+    return ($r && $g ) ? $g($r) : -1;
 }
 ///<summary></summary>
 ///<param name="r"></param>

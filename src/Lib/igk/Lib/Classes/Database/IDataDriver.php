@@ -134,8 +134,8 @@ interface IDataDriver{
     /**
      * in query builder retrieve column charset 
      * @param string $charset 
-     * @return string 
+     * @return ?string 
      */
-    function queryColumnCharset(string $charset):string;
+    function queryColumnCharset(string $charset):?string;
 
 }

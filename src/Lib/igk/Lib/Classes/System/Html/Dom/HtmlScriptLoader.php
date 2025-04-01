@@ -190,16 +190,16 @@ class HtmlScriptLoader
                 }
             };
         }
-     
+
         while ($q = array_shift($tab)) {
             $dir = $q[0];
             $tag = $q[1];
             if ($dir && key_exists($dir, $exclude_dir)) {
                 continue;
             }
-            
+
             $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir);
-            if (!$no_page_cache && file_exists($cache_path)) { 
+            if (!$no_page_cache && file_exists($cache_path)) {
                 ob_start();
                 include($cache_path);
                 $out .= ob_get_contents();
@@ -213,7 +213,7 @@ class HtmlScriptLoader
                 $dirs[] = $dir . "/system/ctrl/ctrl.js";
                 $exclude_dir += array_fill_keys($dirs, 1);
                 IO::GetFiles($dir, self::GetLoadingAssetRegex(), true, $exclude_dir, $resolverfc);
-            
+
                 // store references 
                 if ($references) {
                     $sb = new StringBuilder;
@@ -221,17 +221,9 @@ class HtmlScriptLoader
                     $id = 0;
                     foreach (array_keys($references) as $k) {
                         // do not end with single comment line break definition 
-                        $t .= sprintf('a[' . $id . ']= %s', implode("\n", [
-                            'function(){',
-                            'const module = {};',
-                            file_get_contents($k),
-                            'return {default: module.exports, ...module.exports};',
-                            '};'
-                        ]));
+                        $t .= sprintf('a[' . $id . ']= %s;', self::ImportContentAsModule(file_get_contents($k)));
                         $id++;
                     }
-                    // igk_header_set_contenttype('text');
-                    // igk_wln_e($t);
                     $sb->append(sprintf(
                         '(function(window){ const __module_refs = (()=>{%s; return (id)=>{return a[id].apply();};})(); %s})(window);',
                         $t,
@@ -260,6 +252,20 @@ class HtmlScriptLoader
             igk_wln_e(__FILE__ . ":" . __LINE__, 'error loading file twice', sprintf('%s', json_encode($tab, JSON_PRETTY_PRINT)), $out);
         }
         return $out;
+    }
+    /**
+     * import content as module 
+     * @param string $content script with module 
+     */
+    public static function ImportContentAsModule(string $content):string
+    {
+        return implode("\n", [
+            'function(){',
+            'const module = {};',
+            $content,
+            'return {default: module.exports, ...module.exports};',
+            '}'
+        ]);
     }
     /**
      * system loading accept regex 

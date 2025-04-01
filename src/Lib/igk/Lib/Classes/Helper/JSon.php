@@ -43,7 +43,10 @@ class JSon
      */
     protected $m_data;
 
-
+    /**
+     * 
+     * @var mixed
+     */
     protected $m_path;
 
 

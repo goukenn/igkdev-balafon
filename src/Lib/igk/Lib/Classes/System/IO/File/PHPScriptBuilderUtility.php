@@ -129,9 +129,12 @@ abstract class PHPScriptBuilderUtility
      * @param mixed $data 
      * @return string 
      */
-    public static function ExtractClassDefinition( $data, ?string $name=null){
+    public static function ExtractClassDefinition( $data, ?string $name=null, $options=null){
         $sb = new PhpScriptBuilder;
         $def = new StringBuilder;
+        if ($options){
+            $sb->no_header_comment = igk_getv($options, 'noHeader');
+        }
         $r = [];
         if (is_object($data)){
             $r = array_merge($r, array_filter(array_keys((array)$data), function($d){

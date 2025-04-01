@@ -1139,10 +1139,11 @@ EOF;
      */
     private function initConnexionNode()
     {
-   
+        igk_wln_e(__FILE__.":".__LINE__ , 'connexion mode');
         $bfrm = igk_create_notagnode();
         $igk_framename = IGK_FRAMEWORK;
         $igk_version = IGK_VERSION;
+        $v_bmc_module = 'igk\\BMC';
         $doc = igk_app()->getDoc();
         $doc->title = sprintf("%s - [%s]",
              __("get connect to Balafon admin dashboard"),
@@ -1152,7 +1153,7 @@ EOF;
         if (function_exists('igk_google_addfont')){
             igk_google_addfont($doc, "Roboto");
         }
-        if ($bmc = igk_require_module(\igk\BMC::class, null, 0, 0)) {
+        if ($bmc = igk_require_module($v_bmc_module, null, 0, 0)) {
 
             $bmc->initDoc($doc);  
             $doc->setHeaderColor("#4588fa");
@@ -1827,8 +1828,9 @@ EOF;
          * get configuration extra data
          * @return array 
          */
-        private static function GetConfigEntryData(){            
-            $s = "^/Configs(/:lang)?(" . IGK_REG_ACTION_METH_OPTIONS . ")?";
+        private static function GetConfigEntryData(){      
+            $v_conf_path = igk_server()->getConfigurationPath();      
+            $s = "^{$v_conf_path}(/:lang)?(" . IGK_REG_ACTION_METH_OPTIONS . ")?";
             $uri = igk_io_request_uri();
             $b = igk_sys_ac_create_pattern(null, $uri, $s);
             if ($b->matche($uri)) {
@@ -1899,9 +1901,9 @@ EOF;
                     $theme = $app->getDoc()->getTheme();
                     $theme->addTempFile($f);  
                 } 
-                 
                 if (!$this->getIsConnected()) {
-                    igk_io_protect_request(igk_io_baseuri() . "/Configs");
+                    $v_conf_path = igk_io_basedir().igk_server()->getConfigurationPath();
+                    igk_io_protect_request($v_conf_path);
                     $cnode = $this->initConnexionNode();
                     $t->addNotifyHost();
                     $t["class"] = "+con-start";
