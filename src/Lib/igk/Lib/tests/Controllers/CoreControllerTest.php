@@ -12,15 +12,13 @@ use IGK\Helper\IO;
 class CoreControllerTest extends ControllerBaseTestCase
 {
     static $sm_dir;
-    public function __construct()
-    {
-        $g = TestController::ctrl();
-        parent::__construct($g);
-    }
-    public function setup(): void
-    {        
+    public function setUp() : void{
+        $this->controller =  TestController::ctrl();
+        parent::setUp();
         $this->controller::setEnvParam("DeclaredDir", self::$sm_dir); 
     }
+ 
+   
     public static function setUpBeforeClass(): void
     {
         $sdir = sys_get_temp_dir()."/testController";     
