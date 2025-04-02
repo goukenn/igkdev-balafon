@@ -326,19 +326,26 @@ class HtmlNodeTagExplosionDefinition
         }
         if ($s = trim(substr($tag_def, $p)))
             $rf[] = $s;
-        $root = $last = null;
+        $root = $last = $parent = null;
+        // $bck_parent = igk_html_parent_node();
         while(count($rf)>0){
             $q = array_shift($rf);
             $targ = empty($rf)? $args : [];
+            if ($parent){
+                igk_html_push_node_parent($parent); 
+            }
             $n = self::CreateNodeArg($q, ...$targ);
             if (is_null($root)){
-                $root = $last = $n;
+                $root = $last = $parent = $n;
             }else {
                 if ($last){
                     $last->add($n);
                 }
                 $last = $n;
+                $parent = $n;
             }
+
+            igk_html_pop_node_parent();
         }
         return [$root, $last];
     }

@@ -169,7 +169,7 @@ $def[$page." .c-opts a"] = "{sys:dispib} margin: 4px; ";
 // config links
 $def[$page." a"] = "color:[cl:configLinkColor]; text-decoration:none;";
 $def[$page." a:hover"] = "color:[cl:configLinkColor];";
-$def[$page." .badge > a"] = "color: [cl:configPanelBoxBackgroundColor];";
+$def[$page." .badge > a"] = "color: [cl:--igk-cnf-link-color, #cecece];";
 $def[$page." .badge.git"] = "[bgcl:configGitBtnBackgroundColor] padding: 10px;";
 $def[$page." .igk-ctrl-additionnal-properties"] = "[bgcl:igk-cnf-add-prop-color] border: 1px dashed #7e7e7e;";
 $def[$page." .igk-cnf-content_submenu li"]= $btnstyle;
@@ -468,6 +468,9 @@ $def[$page." #c_ml .igk-form .content > div"] =  "display: flex;";
 $def[$page." #c_ml .igk-form .content > div > label"] =  "align-self: start; padding-top: 10px";
 $def[$page." .igk-btn .igk-ajx-pickfile:hover"] = "background-color:transparent !important; color:inherit;";
 $def[$page." .igk-btn.igk-btn-core-update" ] = "[bgcl:configButtonColor, #247397]";
+$def[$page." .igk-action-group .igk-btn"] = 
+$def[$page." .igk-action-group .igk-btn a"] = 
+"color: #cecece;";
 $def[$page." .igk-form-action .igk-btn"] = "border:none;";
 $def[".igk-notify-host .igk-panel"] = "border-radius: 5px;";
 $def[".igk-panel.igk-success"] = "background-color:[cl:successColor, #5cb094]; ";
@@ -518,3 +521,6 @@ $root['--igk-conf-login-form-bgcl'] = '';
 // + | --------------------------------------------------------------------
 // + | define colors 
 // + |
+
+
+$def['.igk-svg-host svg'] = 'width: 152px; height:152px; aspect-ration: 4 / 3; fill:indigo; accent: yellow;';

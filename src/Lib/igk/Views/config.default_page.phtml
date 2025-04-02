@@ -9,8 +9,10 @@
 // :domain info
 //TODO: CACHE TOOL
 
+use IGK\Helper\JSon;
 use IGK\Resources\R;
 use IGK\Server;
+use IGK\System\IO\InlineScriptLoader;
 
 use function igk_resources_gets as __;
 
@@ -87,7 +89,7 @@ if (igk_environment()->isDev() || ($domain == igk_server()->SERVER_NAME) || ($do
     $uform = $box->addPanelBox()->div();
     if (igk_io_basedir_is_root() && function_exists("zip_open")) {
         $cl = \IGK\System\Installers\BalafonInstaller::class;
-        $_ag = $uform->actiongroup()->setClass("flex-alignc");
+        $_ag = $uform->actiongroup()->setClass("update-group-flex-alignc");
         if (class_exists($cl)) {
             $uri = igk_register_temp_uri($cl);
 
@@ -102,24 +104,19 @@ if (igk_environment()->isDev() || ($domain == igk_server()->SERVER_NAME) || ($do
          * @var object $srv
          */
         if ($srv = igk_app()->getService("ovh")) {
-            $rd = $_ag->span()->setClass("badge igk-btn");
-            if ($srv->enable_firewall) {
-                $rd->a($srv->disable_firewall_uri())->Content = __("Disable Ovh firewall");
-            } else {
-                $rd->a($srv->enable_firewall_uri())->Content = __("Enable ovh firewall");
+            if ($srv->supportConfig()) {
+                $rd = $_ag->div()->setClass("igk-btn");
+                if ($srv->enable_firewall) {
+                    $rd->a($srv->disable_firewall_uri())->Content = __("Disable Ovh firewall");
+                } else {
+                    $rd->a($srv->enable_firewall_uri())->Content = __("Enable ovh firewall");
+                }
             }
         }
-
+        igk_hook("filter_config_actionbar", ["host" => $_ag]);
         //support
         igk_hook("filter_config_default_bar", ["host" => $uform]);
     }
-
-    /// TODO : Group button
-
-    $box->div()->groupbutton(function ($a) {
-        $a->button();
-        $a->button();
-    });
 }
 
 $div = $box->addPanelBox()->div();
@@ -145,6 +142,37 @@ igk_notify_sethost($frm->div(), "update_adminpwd");
 $frm->addSLabelInput("passadmin", "password", null, ["autocomplete" => "new-password"]);
 $frm->addBr();
 $frm->addBtn("btn.updateadminpwd", __("Update"));
+
+// renew
+
+if (igk_configs()->config_webauthn_required) {
+    $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
+
+$tbox = $box->addPanelBox()->setClass('wa-credentials')->setStyle('display:none');
+if (igk_configs()->webauth_serie_key) {
+    $tbox->addBtn("btn.updateadminpwd", __("Renew WebAuthentication"))->setClass('renew-webauth-btn');
+}
+$tbox->script()->content = $js_loader->content();
+$uri = igk_getconfigwebpagectrl()->getUri('webauthn-create-register');
+$tbox->script()->content = <<<JS
+(function(){
+    const p = \$igk('.wa-credentials').first(); 
+    igk.ready(function(){
+    if (navigator.credentials){
+        p.setCss({display:null});
+    }else{return;}
+\$igk('.renew-webauth-btn').each_all(function(){
+    this.on('click', async ()=>{
+        await igk.auth.webAuthn.register("{$uri}")
+    });
+});
+});
+})();
+JS;
+
+}
+
+
 $frm = $box->addPanelBox()->addForm();
 $frm["action"] = $ctrl->getUri("update_defaultlang");
 $frm->addHSep();

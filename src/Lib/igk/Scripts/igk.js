@@ -1956,18 +1956,18 @@ Name:balafon.js
     function igk_init_powered(n) {
         const ln = $igk(n);
         const bfirst = $igk('body').first();
-        let t = bfirst.qselect('.igk-parentscroll[igk-type=controller]').first() || 
+        let t = bfirst.qselect('.igk-parentscroll[igk-type=controller]').first() ||
             bfirst.qselect('.igk-powered-viewer').first() ||
             bfirst.qselect('.igk-parentscroll').first();
         if (t) {
             function _resizeInvoke() {
                 let alignl = ln.supportClass('alignl');
-                let offw = t.width() - t.o.clientWidth; 
+                let offw = t.width() - t.o.clientWidth;
                 if (!alignl) {
                     ln.setCss({
                         display: 'inline-block',
-                        left:null,
-                        right: 'calc(100vw - ' + (t.width() - offw)+ 'px)'
+                        left: null,
+                        right: 'calc(100vw - ' + (t.width() - offw) + 'px)'
                     });
                 } else {
                     ln.setCss({
@@ -1978,15 +1978,15 @@ Name:balafon.js
                 }
             }
             // controller node is a parent scroll items 
-            is_observe() && (new ResizeObserver(_resizeInvoke)).observe(t.o);        
+            is_observe() && (new ResizeObserver(_resizeInvoke)).observe(t.o);
             ln.setCss({
                 position: 'fixed',
                 display: 'inline-block'
             });
             _resizeInvoke();
             let bottom = t.getComputedStyle('padding-bottom');
-            let height = ln.getComputedStyle('height');  
-            t.setCss({paddingBottom: 'calc('+bottom +' + '+ height+')'});
+            let height = ln.getComputedStyle('height');
+            t.setCss({ paddingBottom: 'calc(' + bottom + ' + ' + height + ')' });
         }
         // console.log('init powered ', n, t);
         // get parent node
@@ -5337,13 +5337,15 @@ Name:balafon.js
             if (!item || (pattern == null) || (pattern.length == 0) || /['`\[\]]/.exec(pattern)) {
                 return $igk(v_sl);
             }
-            var v_root_chain = pattern.split('>');
-            if (v_root_chain.length > 1) {
-                let c = document.querySelectorAll(pattern);
-                c.forEach(i => {
-                    v_sl.push(i);
-                });
-                return $igk(v_sl);
+            if (pattern.indexOf('>>') == -1) {
+                var v_root_chain = pattern.split('>');
+                if (v_root_chain.length > 1) {
+                    let c = document.querySelectorAll(pattern);
+                    c.forEach(i => {
+                        v_sl.push(i);
+                    });
+                    return $igk(v_sl);
+                }
             }
 
             // query selector detection
