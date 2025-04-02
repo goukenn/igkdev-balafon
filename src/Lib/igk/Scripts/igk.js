@@ -1985,9 +1985,7 @@ Name:balafon.js
             });
             _resizeInvoke();
             let bottom = t.getComputedStyle('padding-bottom');
-            let height = ln.getComputedStyle('height');
-            console.log({bottom, height});
-
+            let height = ln.getComputedStyle('height');  
             t.setCss({paddingBottom: 'calc('+bottom +' + '+ height+')'});
         }
         // console.log('init powered ', n, t);

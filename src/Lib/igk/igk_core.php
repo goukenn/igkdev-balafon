@@ -2620,3 +2620,19 @@ if (!function_exists('igk_current_ctrl')) {
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
 }
+
+
+if (!function_exists('igk_sys_lib_filename')){
+    /**
+     * in production just return a collapsed file name
+     * @param string $file 
+     * @return string 
+     * @throws IGKException 
+     */
+    function igk_sys_lib_filename(string $file):string{
+        if (igk_environment()->isOPS()){
+            return igk_io_collapse_path($file);
+        }
+        return $file;
+    }
+}

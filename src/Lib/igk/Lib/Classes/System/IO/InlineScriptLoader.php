@@ -4,14 +4,9 @@
 // @date: 20250401 14:37:42
 namespace IGK\System\IO;
 
-if (!function_exists('igk_sys_lib_filename')){
-    function igk_sys_lib_filename(string $file):string{
-        if (igk_environment()->isOPS()){
-            return igk_io_collapse_path($file);
-        }
-        return $file;
-    }
-}
+use IGKException;
+
+
 ///<summary></summary>
 /**
 * 
