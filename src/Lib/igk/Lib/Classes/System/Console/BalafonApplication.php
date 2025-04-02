@@ -113,12 +113,13 @@ class BalafonApplication extends IGKApplicationBase
 
         if (strpos($a, "--env:") === 0) {
             // + | set environment mode
+            $v_envkey = 'IGK_ENVIRONMENT';
             $g = strtolower(trim(implode('', array_slice(explode(":", $a), 1))));
             if (in_array($g, ["production", "development", "test"])) {
                 // + | mark environment mode - priority to custom variable - fix environment mode 
-                defined('IGK_ENVIRONMENT') || define('IGK_ENVIRONMENT', $g);
+                defined( $v_envkey) || define( $v_envkey, $g);
                 // + |  set property mode 
-                $_SERVER['IGK_ENVIRONMENT'] = $g;
+                $_SERVER[$v_envkey] = $g;
                 igk_server()->prepareServerInfo();
                 igk_server()->ENVIRONMENT = $g;
                 $nev = igk_server()->ENVIRONMENT;

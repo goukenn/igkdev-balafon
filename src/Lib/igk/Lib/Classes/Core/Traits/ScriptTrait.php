@@ -165,7 +165,7 @@ trait ScriptTrait
                             // if (igk_str_endwith($gm,'=')){
 
                             // }
-                            $ts = sprintf('__module_refs[%s]?.apply(window);', $inx);
+                            $ts = sprintf('__module_refs[%s].apply(window);', $inx);
                             $src = $gm . $ts . substr($src, $e->to); 
                             $offset = $e->from + strlen($ts) + 1;
                             $url = null; 

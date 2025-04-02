@@ -13,6 +13,7 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Regex\Replacement;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
@@ -216,16 +217,25 @@ class HtmlScriptLoader
 
                 // store references 
                 if ($references) {
+
+
+
                     $sb = new StringBuilder;
-                    $t = 'const a = [];';
+                    $t = 'const a = __module_refs;';
                     $id = 0;
                     foreach (array_keys($references) as $k) {
                         // do not end with single comment line break definition 
                         $t .= sprintf('a[' . $id . ']= %s;', self::ImportContentAsModule(file_get_contents($k)));
                         $id++;
                     }
+                    // + | remove use strict 
+                    $rp = new Replacement;
+                    $rp->add('/(\'|")use\\s+strict(s)?\\s*(\\1)(;)?(\\s+)?/', '');
+                    $s = $rp->replace($s);
+
+                    $sb->append('\'use strict\';');
                     $sb->append(sprintf(
-                        '(function(window){ const __module_refs = (()=>{%s; return (id)=>{return a[id].apply();};})(); %s})(window);',
+                        '(function(window){ const __module_refs = []; (()=>{%s; return (id)=>{return a[id].apply();};})(); %s})(window);',
                         $t,
                         $s
                     ));
@@ -257,7 +267,7 @@ class HtmlScriptLoader
      * import content as module 
      * @param string $content script with module 
      */
-    public static function ImportContentAsModule(string $content):string
+    public static function ImportContentAsModule(string $content): string
     {
         return implode("\n", [
             'function(){',

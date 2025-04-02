@@ -258,8 +258,9 @@ final class Server implements IToArray{
         $this->IGK_CONTEXT=($t_=isset($this->HTTP_HOST)) ? "html": "cmd";
         $this->LF=$t_ ? "\n": "<br />";
         // + | environment setting mo
-        if(empty($this->ENVIRONMENT)){
-            $this->ENVIRONMENT= defined('IGK_ENVIRONMENT') ? constant('IGK_ENVIRONMENT') : "development";
+        $v_envkey = 'IGK_ENVIRONMENT';
+        if(empty($this->ENVIRONMENT) || defined($v_envkey)){ // force defined environment
+            $this->ENVIRONMENT= defined($v_envkey) ? constant($v_envkey) : "development";
         }
         if(!isset($this->WINDIR)){
             $this->WINDIR=($this->OS == "Windows_NT");

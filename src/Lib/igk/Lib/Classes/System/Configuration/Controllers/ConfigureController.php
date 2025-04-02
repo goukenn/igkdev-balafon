@@ -1125,7 +1125,7 @@ EOF;
         $doc = igk_app()->getDoc();
         $doc->title = sprintf(
             "%s - [%s]",
-            __("get connect to Balafon admin dashboard"),
+            __('Balafon - CPanel'),
             igk_configs()->website_domain
         );
         if (function_exists('igk_google_addfont')) {
@@ -1168,6 +1168,8 @@ EOF;
             $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", IGKValidator::IsIpAddress(igk_server()->SERVER_NAME) ? __("Home") :  igk_sys_domain_name());
             $root->div()->setClass('info')->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
             $root->footer()->setClass("footer alignc posab loc_l loc_b loc_r text-d-small")->addIGKCopyright();
+          
+
             if (1 || igk_configs()->config_webauthn_required) {
                 $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
                 $frm->clearchilds();
